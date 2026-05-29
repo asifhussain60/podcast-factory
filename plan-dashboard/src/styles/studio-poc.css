@@ -118,19 +118,64 @@
   background: color-mix(in srgb, var(--c-accent) 5%, transparent);
   border-radius: 3px;
 }
+/* Active paragraph: a glowing ring around JUST that block, persists while the caret is in it. */
 .studio-poc__editor .para-active {
-  background: color-mix(in srgb, var(--c-accent) 9%, transparent);
-  box-shadow: inset 2px 0 0 var(--c-accent);
-  border-radius: 3px;
+  background: color-mix(in srgb, var(--c-accent) 6%, transparent);
+  box-shadow: 0 0 0 1.5px var(--c-accent), 0 0 10px -2px color-mix(in srgb, var(--c-accent) 60%, transparent);
+  border-radius: 5px;
 }
 
-/* PER-PARAGRAPH TOKEN TAGS: coloured left border. */
-.studio-poc__editor .para-tagged { padding-left: 10px; margin-left: -13px; }
-.studio-poc__editor .tag-esoteric { box-shadow: inset 3px 0 0 #7c3aed; }
-.studio-poc__editor .tag-reality  { box-shadow: inset 3px 0 0 #0284c7; }
-.studio-poc__editor .tag-sharia   { box-shadow: inset 3px 0 0 #0f766e; }
-.studio-poc__editor .tag-delete   { box-shadow: inset 3px 0 0 #e11d48; }
-.studio-poc__editor .tag-improve  { box-shadow: inset 3px 0 0 #d97706; }
+/* Floating per-paragraph icon toolbar, anchored to the block's top-left corner. */
+.studio-poc__editor .sp-para-tools {
+  position: absolute;
+  top: -0.95em;
+  left: -2px;
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 8px;
+  background: var(--c-bg-card);
+  box-shadow: 0 2px 8px -3px rgba(0, 0, 0, 0.25);
+  z-index: 5;
+  user-select: none;
+}
+.studio-poc__editor .sp-para-tools--marks {
+  box-shadow: none;
+  background: transparent;
+  top: -0.85em;
+}
+.studio-poc__editor .sp-ptool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  font-size: 0.82rem;
+  line-height: 1;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: var(--c-bg-elev);
+  cursor: pointer;
+  filter: grayscale(0.45);
+  opacity: 0.78;
+}
+.studio-poc__editor .sp-para-tools--palette .sp-ptool:hover { opacity: 1; filter: none; transform: translateY(-1px); }
+.studio-poc__editor .sp-ptool.is-on { opacity: 1; filter: none; background: var(--c-bg-card); }
+.studio-poc__editor .sp-ptool.tag-esoteric.is-on { border-color: #7c3aed; }
+.studio-poc__editor .sp-ptool.tag-reality.is-on  { border-color: #0284c7; }
+.studio-poc__editor .sp-ptool.tag-sharia.is-on   { border-color: #0f766e; }
+.studio-poc__editor .sp-ptool.tag-delete.is-on   { border-color: #e11d48; }
+.studio-poc__editor .sp-ptool.tag-improve.is-on  { border-color: #d97706; }
+.studio-poc__editor .sp-para-tools--marks .sp-ptool { background: transparent; border: none; opacity: 1; filter: none; }
+
+/* Inspector tag key (legend). */
+.sp-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+.sp-legend-row { display: flex; align-items: center; gap: 8px; font-size: 0.84rem; color: var(--c-ink); }
+.sp-legend-icon { width: 1.3em; text-align: center; }
+
+/* PER-PARAGRAPH TOKEN TAGS are now shown as persistent ICONS at the block's top-left
+   (sp-para-tools--marks), not a coloured border — Asif prefers icon-based recognition. */
 
 /* Editor surface — editorial-modern, comfortable measure, font ~2px smaller. */
 .studio-poc__editor {
@@ -147,7 +192,14 @@
   outline: none;
   max-width: 72ch;
 }
-.studio-poc__editor .ProseMirror:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 4px; }
+/* No full-editor focus ring — the active-PARAGRAPH ring is the focus cue (FC fix). */
+.studio-poc__editor .ProseMirror:focus,
+.studio-poc__editor .ProseMirror:focus-visible { outline: none; }
+/* Block nodes are positioning contexts for the floating per-paragraph icon toolbar. */
+.studio-poc__editor .ProseMirror > p,
+.studio-poc__editor .ProseMirror > h2,
+.studio-poc__editor .ProseMirror > h3,
+.studio-poc__editor .ProseMirror > blockquote { position: relative; }
 .studio-poc__editor h1 { font-size: 1.6rem; }
 .studio-poc__editor h2 { font-size: 1.3rem; color: var(--c-accent); margin-top: 1.5em; }
 .studio-poc__editor blockquote {

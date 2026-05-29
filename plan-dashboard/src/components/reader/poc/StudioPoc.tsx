@@ -33,12 +33,13 @@ const MARKER_PATTERNS: { re: RegExp; cls: string; kind: string }[] = [
   { re: /Ihya Ulum al-Din|Kimiya al-Sa'ada|Jawahir al-Quran|Minhaj al-Abidin/g, cls: 'mk-term', kind: 'Work' },
 ];
 
+// Each tag carries a distinct ICON so the meaning is recognizable without memorizing colour.
 const TAGS = [
-  { id: 'esoteric', label: 'Esoteric' },
-  { id: 'reality', label: 'Reality' },
-  { id: 'sharia', label: 'Sharia' },
-  { id: 'delete', label: 'Delete' },
-  { id: 'improve', label: 'Improve' },
+  { id: 'esoteric', label: 'Esoteric', icon: '🔮' },
+  { id: 'reality', label: 'Reality', icon: '💎' },
+  { id: 'sharia', label: 'Sharia', icon: '⚖️' },
+  { id: 'delete', label: 'Delete', icon: '🗑️' },
+  { id: 'improve', label: 'Improve', icon: '✏️' },
 ];
 
 interface GlossaryEntry {
@@ -153,6 +154,9 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
   const paraTagsRef = useRef<Map<number, string[]>>(new Map()); // node index -> tag ids
   const arabicRef = useRef(false);                     // mirror of arabicOn for the plugin
   arabicRef.current = arabicOn;
+  // Index-based tag toggle, called from the floating per-paragraph icon toolbar (a PM widget
+  // built outside React). Held in a ref so the widget always calls the latest closure.
+  const tagFnRef = useRef<(idx: number, tagId: string) => void>(() => {});
 
   // Glossary -> word-boundary regex (longest first), reused by the overlay plugin.
   const glossarySorted = useMemo(
@@ -182,13 +186,43 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
                   let i = 0;
                   state.doc.forEach((node, offset) => {
                     const idx = i++;
-                    if (offset === activeTop) {
+                    const isActive = offset === activeTop;
+                    const t = tags.get(idx) || [];
+
+                    if (isActive) {
                       decos.push(Decoration.node(offset, offset + node.nodeSize, { class: 'para-active' }));
                     }
-                    // Token tag left-border.
-                    const t = tags.get(idx);
-                    if (t && t.length) {
+                    if (t.length) {
                       decos.push(Decoration.node(offset, offset + node.nodeSize, { class: `para-tagged tag-${t[0]}` }));
+                    }
+
+                    // Floating icon toolbar at the paragraph's top-left:
+                    //  - active paragraph -> full palette (all tags, assigned ones lit)
+                    //  - tagged but not active -> persistent marks (assigned icons only)
+                    if (isActive || t.length) {
+                      const palette = isActive;
+                      const shown = palette ? TAGS : TAGS.filter((tag) => t.includes(tag.id));
+                      decos.push(
+                        Decoration.widget(offset + 1, () => {
+                          const bar = document.createElement('div');
+                          bar.className = `sp-para-tools${palette ? ' sp-para-tools--palette' : ' sp-para-tools--marks'}`;
+                          bar.contentEditable = 'false';
+                          for (const tag of shown) {
+                            const b = document.createElement('button');
+                            b.type = 'button';
+                            b.className = `sp-ptool tag-${tag.id}${t.includes(tag.id) ? ' is-on' : ''}`;
+                            b.title = tag.label;
+                            b.textContent = tag.icon;
+                            b.addEventListener('mousedown', (ev) => {
+                              ev.preventDefault();
+                              ev.stopPropagation();
+                              tagFnRef.current(idx, tag.id);
+                            });
+                            bar.appendChild(b);
+                          }
+                          return bar;
+                        }, { side: -1, key: `tools-${idx}-${palette ? 'p' : 'm'}-${t.join(',')}` }),
+                      );
                     }
                     // FC-3 Word-level track changes vs the original snapshot.
                     const before = orig[idx];
@@ -290,17 +324,9 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
   let taggedCount = 0;
   paraTagsRef.current.forEach((t) => { if (t.length) taggedCount++; });
 
-  const tagCurrentParagraph = useCallback(
-    (tagId: string) => {
+  const tagByIdx = useCallback(
+    (idx: number, tagId: string) => {
       if (!editor) return;
-      const { from } = editor.state.selection;
-      let i = 0;
-      let idx = -1;
-      editor.state.doc.forEach((node, offset) => {
-        if (from >= offset && from <= offset + node.nodeSize) idx = i;
-        i++;
-      });
-      if (idx < 0) return;
       const map = paraTagsRef.current;
       const cur = map.get(idx) || [];
       map.set(idx, cur.includes(tagId) ? cur.filter((x) => x !== tagId) : [...cur, tagId]);
@@ -309,6 +335,7 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
     },
     [editor],
   );
+  tagFnRef.current = tagByIdx;
 
   const rawMarkers = scanMarkers(html.replace(/<[^>]+>/g, ' '));
   const seen = new Map<string, { kind: string; text: string; count: number }>();
@@ -347,20 +374,6 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
 
       <aside className="studio-poc__inspector" aria-label="Contextual inspector">
         <div className="sp-insp-block">
-          <h2 className="sp-insp-title">Inspector</h2>
-          {selection ? (
-            <blockquote className="sp-insp-sel">{selection}</blockquote>
-          ) : (
-            <dl className="sp-insp-meta">
-              <dt>Chapter</dt>
-              <dd>{chapterTitle}</dd>
-              <dt>Changes</dt>
-              <dd>{changedCount} edited · {taggedCount} tagged</dd>
-            </dl>
-          )}
-        </div>
-
-        <div className="sp-insp-block">
           <h3 className="sp-insp-sub">View</h3>
           <div className="sp-toolbar">
             <button
@@ -375,14 +388,31 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
         </div>
 
         <div className="sp-insp-block">
-          <h3 className="sp-insp-sub">Tag paragraph</h3>
-          <div className="sp-toolbar">
+          <h2 className="sp-insp-title">Inspector</h2>
+          {selection ? (
+            <blockquote className="sp-insp-sel">{selection}</blockquote>
+          ) : (
+            <dl className="sp-insp-meta">
+              <dt>Chapter</dt>
+              <dd>{chapterTitle}</dd>
+              <dt>Changes</dt>
+              <dd>{changedCount} edited · {taggedCount} tagged</dd>
+            </dl>
+          )}
+        </div>
+
+        {/* Tagging happens on the paragraph itself (floating icon row). This is just the key. */}
+        <div className="sp-insp-block">
+          <h3 className="sp-insp-sub">Tag key</h3>
+          <ul className="sp-legend">
             {TAGS.map((t) => (
-              <button key={t.id} type="button" className={`sp-tagbtn tag-${t.id}`} onClick={() => tagCurrentParagraph(t.id)}>
-                {t.label}
-              </button>
+              <li key={t.id} className={`sp-legend-row tag-${t.id}`}>
+                <span className="sp-legend-icon" aria-hidden>{t.icon}</span>
+                <span className="sp-legend-label">{t.label}</span>
+              </li>
             ))}
-          </div>
+          </ul>
+          <p className="sp-insp-hint">Click a paragraph → tap an icon above its top-left corner.</p>
         </div>
 
         <div className="sp-insp-block">
