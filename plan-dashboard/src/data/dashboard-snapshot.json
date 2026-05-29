@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-28T22:54:14.428Z",
-  "source_commit": "12b3ad3",
+  "generated_at": "2026-05-29T08:47:26.177Z",
+  "source_commit": "c36d76c",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,53 +783,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "12b3ad3",
-      "subject": "test(regression): fix authoring tests — read _authoring package not flat file",
+      "sha": "c36d76c",
+      "subject": "push",
       "date": "2026-05-28"
     },
     {
-      "sha": "48ed390",
-      "subject": "docs(handoff): session log 2026-05-28 — Wave I complete + Phase 06a/per-chapter-optimize wired",
+      "sha": "9fd4a42",
+      "subject": "feat(dashboard): show PEQ quality scores on book cards, chapter list, and reader",
       "date": "2026-05-28"
     },
     {
-      "sha": "c873238",
-      "subject": "feat(wave-i): wire Phase 06a and per-chapter-optimize into orchestrator execution paths",
+      "sha": "3277b89",
+      "subject": "fix(wave-k): calibrate Structure + Enrichment detectors to real chapter language",
       "date": "2026-05-28"
     },
     {
-      "sha": "b5999e4",
-      "subject": "feat(wave-i): implement all 8 steps — audio intake, noise routing, tradition-aware KB, source review gate, book review UI, phase optimizer",
+      "sha": "187aa5d",
+      "subject": "feat(wave-k): K1 — voice exemplar vectors built for both books",
       "date": "2026-05-28"
     },
     {
-      "sha": "2c51494",
-      "subject": "docs(handoff): session log 2026-05-28 — Wave K gate, rename completion, full site audit",
+      "sha": "7a5b4a7",
+      "subject": "docs(setup): fix infra/ path in bootstrap.md",
       "date": "2026-05-28"
     },
     {
-      "sha": "3a6755f",
-      "subject": "fix(plan-labels): rename Kashkole → Wisdom in all display-facing plan text",
+      "sha": "90dff85",
+      "subject": "refactor(infra): move setup-wisdom-db.sh to infra/",
       "date": "2026-05-28"
     },
     {
-      "sha": "c9faa6b",
-      "subject": "fix(quality-page): handle flat-dict baseline JSON format; guard allChapters reduce",
+      "sha": "d9431d9",
+      "subject": "feat(setup): add setup-wisdom-db.sh — one-command DB restore on any machine",
       "date": "2026-05-28"
     },
     {
-      "sha": "630ed68",
-      "subject": "feat(wave-k): add PEQ gate to convergence loop + 3 missing unit test files",
+      "sha": "3958fb2",
+      "subject": "fix(wave-j): source_library_queries — fix WITHOUT_ARRAY_WRAPPER + topic_search join",
       "date": "2026-05-28"
     },
     {
-      "sha": "7c9d4a5",
-      "subject": "fix: complete kashkole→wisdom rename — path regressions, suggested_slugs, class names, LLM prompt, dashboard snapshots",
+      "sha": "83a2da5",
+      "subject": "docs(handoff): session log 2026-05-28 — test fix + Wave J J0 complete",
       "date": "2026-05-28"
     },
     {
-      "sha": "522794c",
-      "subject": "feat(wave-k): implement PEQ quality scoring across both pipelines",
+      "sha": "041cfed",
+      "subject": "feat(wave-j): J0 — source library dual-interface server (MCP stdio + HTTP)",
       "date": "2026-05-28"
     }
   ],
