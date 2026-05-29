@@ -21,20 +21,26 @@ on disk and the teaching-sessions app needs a dump — you said you'll provide t
 Their per-source importers are deferred until they arrive; the engine already has the
 slots (see `SOURCES` in populate_corpus.py).
 
-**Active discussion (RD):** multi-source intake & reconciliation — Asif's two questions
-(unify multiple sources of one work early without losing concepts; compare the two Anwaar
-transcripts + engine routing). FOUR decisions converged + recorded in
-`_workspace/prompts/improvements/09-source-intake-decisions.md` (SI-1 spine+layered align;
-SI-2 hybrid engine-by-strength; SI-3 cheap-signal triage at the gate; SI-4 authority-ranked
-+ preserved + marked in the astro viewer). Full discussion restored at `08-source-intake-discussion.md`.
-THREE open items remain before RD is complete: phase-placement of unify+triage vs the existing
-halts; where the "source budget" renders in the astro viewer; spine-selection rule when >1
-source could claim authority. Resume by closing those, then write the plan entry.
+**RD COMPLETE (awaiting consolidation into a plan):** multi-source intake & reconciliation
++ the chapter-reader redesign. All decisions recorded:
+- `09-source-intake-decisions.md` — SI-1..SI-7: spine+layered alignment; hybrid engine-by-strength
+  (Gemini bulk / Claude judge / Azure targeted) for the Anwaar two-transcript compare; cheap-signal
+  source triage at an early human gate; authority-ranked reconciliation marked in the viewer;
+  early-halt placement reusing the gate mechanism; per-book in-context Intake Review panel;
+  deterministic spine selection + gate override.
+- `10-reader-redesign-decisions.md` — R-1..R-10: two modes (Read audience-grade / Studio review
+  cockpit); single contextual inspector; Read = canonical text + subtle verified markers + docked
+  audio + Arabic; divergences = inline indicator + side-by-side inspector; persistent synced audio;
+  explicit episode↔chapter mapping (Read=episode, Studio=chapter); Studio = the pipeline's single
+  human-review cockpit on **TipTap/ProseMirror** (+ jsdiff, floating-ui); FULL capability package
+  (minimap/heatmap, marking palette, diff, tracked edits + accept/reject AI, review-queue +
+  reviewed-state + one-click stage approval); desktop-only for now.
+- Full discussion: `08-source-intake-discussion.md`. Standing prefs: [[ui-max-surfacing]] (richest in-viewer; richer UI is the tiebreaker).
 
-**Next steps (pipeline):** (a) close the 3 open RD items, then write the plan entry for the
-intake/reconciliation work; OR (b) add the three corpus importers once sources land; OR
-(c) the blackbox annotation engine + corpus-verified reader popovers; OR (d) the in-pipeline
-knowledge phase (one chapter read → podcast framing + reader markers).
+**Next steps:** (a) **consolidate 09+10 into ONE plan.yaml wave (sub-steps) + snapshot, for Asif's
+approval before any code** — this is a real re-platforming of Studio onto TipTap + the intake/
+reconciliation pipeline work; OR (b) add the three corpus importers once sources land; OR (c) the
+blackbox annotation engine + corpus-verified reader popovers; OR (d) the in-pipeline knowledge phase.
 
 **Parked (resume anytime):**
 - *Site redesign* — 5 of 13 views built, 5 text-only and pending. Full audit + resume

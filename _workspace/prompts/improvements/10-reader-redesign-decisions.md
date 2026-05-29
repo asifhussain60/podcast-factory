@@ -21,12 +21,10 @@
 | **R-7 — Studio = the pipeline's single human-review cockpit.** | Not a reader with edit features bolted on — a purpose-built review workbench where ALL human review happens as raw source flows through the pipeline (source budget, divergence reconciliation, refined-source review, annotation, AI-assisted edits). Maximum tooling for fast scanning / marking / identifying / editing; richest-UI default ([[ui-max-surfacing]]). |
 | **R-8 — Engine: TipTap (ProseMirror) for Studio; Read stays static.** | ProseMirror decorations = non-destructive annotations / markers / divergence highlights; mature extensions for comments, suggestions/track-changes, marks, find-replace, keyboard nav; real transactions + undo/redo; collaboration-ready (y.js) later. React-island friendly. Read mode = fast server-rendered prose + audio player. Add `jsdiff` for side-by-side; keep `floating-ui`. Asif authorized installing libraries; prefers richer UI. |
 
-## Still open (reader) — bring next
-- **R-9 — Capability set** of the Studio workbench (scan/minimap/find, marking palette, side-by-side diff, tracked AI-suggestions, review-queue + per-paragraph reviewed-state + one-click stage approval). Proposed as a full package.
-- **R-10** — Mobile/responsive reflow (three-pane hides rails today).
-- (Lower priority from the audit: in-chapter search [partly R-9], citation/export, persistent margin notes, server-side edit history, selectable Quran translation.)
+| **R-9 — Studio capability set = FULL package.** | Scan: keyboard nav + document minimap/scrollbar heatmap (markers/divergences/unreviewed at a glance) + find-replace. Mark: one-keystroke marking palette (tag chips + reference markers), color-coded decorations, legend. Identify: side-by-side divergence diff (jsdiff, accept/reject per span) + inline verified reference markers. Edit: tracked inline suggestions (accept/reject, real undo/redo) + accept/reject AI rewrite (never auto-applied). Capture: contextual-inspector feedback hub + review-queue + per-paragraph reviewed-state + chapter progress + one-click stage approval (writes the gate flag). One coherent confidence-sweep cockpit. |
+| **R-10 — Mobile = DESKTOP-ONLY for now.** | Ship both modes desktop-first; defer all mobile/responsive optimization (incl. mobile-first Read polish). Studio's editorial tooling is the priority and is desktop-bound; revisit mobile Read later. (Deviation from the recommended Read-mobile-first split — Asif chose desktop-only.) |
 
-## Also still open (source-intake)
-- Spine-selection rule when multiple candidate "authoritative" sources exist (the last item from [09](09-source-intake-decisions.md)).
+## All reader points RESOLVED (R-1..R-10).
+Lower-priority audit items still unscheduled: citation/export, persistent margin notes, server-side edit history, selectable Quran translation. (In-chapter search is folded into R-9 find.)
 
-> After R-9 (+ R-10), consolidate 09 + 10 into a single plan.yaml entry + snapshot for approval (plan-first gate) before any code. This is a real re-platforming of Studio onto TipTap.
+> **Next: consolidate [09](09-source-intake-decisions.md) + this doc into a single plan.yaml entry + snapshot for approval (plan-first gate) before any code.** This is a real re-platforming of Studio onto TipTap + the intake/reconciliation pipeline work — scope it as a wave with sub-steps.
