@@ -1,35 +1,37 @@
 <!--
-  SINGLE LIVING SOURCE for "where the Podcast Factory Astro Site work stands."
-  The SessionStart hook (.claude/hooks/site-work-status.sh) injects this into every
-  new conversation so the next session inherits context with zero re-reminding (WC7e).
-  KEEP IT SHORT (a screen at most) and CURRENT — update the three fields below at the
-  end of any site-work session. Stale status is worse than none.
+  SINGLE LIVING SOURCE for "where the work stands." The SessionStart hook
+  (.claude/hooks/site-work-status.sh) injects this into every new conversation so
+  the next session inherits context with zero re-reminding (WC7e). KEEP IT SHORT and
+  CURRENT — update the fields at the end of any session. Stale status is worse than none.
 -->
-# Site work — current status
+# Current work — status
 
 **Last updated:** 2026-05-29
 
-**In progress:** Cortex standard hardening (WC7) — SHIPPED + pushed to `origin/develop`
-(commits up to `3a8f263`). Standard at `docs/standards/html-view-quality.md` + one-screen
-digest; deterministic lint gate (`npm run lint:views`) wired into pre-commit + prebuild;
-SessionStart continuity hook live. Astro scoped `<style>` accepted as DoD-compliant; only
-oversized blocks (>50 lines) flagged.
+**Active priority: the intelligence + podcast pipeline (Wisdom Corpus Program).**
+First step shipped — the corpus-population ENGINE, proven end-to-end on the on-disk
+wisdom/teaching material: tradition stamped on every atom (fatimid-ismaili), a
+source-agnostic tiered dedup engine (exact + near-duplicate → variants / human-review
+queue, non-destructive, idempotent), and a runner. Verified: 122 chapters → 628 atoms,
+tradition 628/628, idempotent re-run, 3 borderline review candidates, 0 false merges.
+Run `python3 scripts/podcast/intelligence/populate_corpus.py --verify-idempotent` to rebuild.
 
-**Last decision:** Astro scoped `<style>` blocks are DoD-compliant (compile to scoped
-external CSS) — gate flags only oversized page-stylesheets. Per-view redesigns + any
-shipped-view styling change are discussed ONE PAGE AT A TIME before touching anything.
+**Waiting on you:** the other three source databases. The Quran + scholarly DBs aren't
+on disk and the teaching-sessions app needs a dump — you said you'll provide them later.
+Their per-source importers are deferred until they arrive; the engine already has the
+slots (see `SOURCES` in populate_corpus.py).
 
-**Next step:** Burn down the remaining **51 lint warnings** toward `--strict`, page by page
-with approval. Suggested order: (1) extract the oversized `<style>` blocks on the 4
-architecture view pages (db-schema, intelligence, quality, system-map) into `src/styles/`;
-(2) author SVG a11y triples (2 view-page + 8 component SVGs); (3) remove `<svg>` width/height
-attrs on components with a render check; (4) NarrativeBase skip-link; (5) library/wisdom
-subpages (lowest priority — not architecture views). Run `npm run lint:views` for live state.
+**Next steps (pipeline):** (a) add the three importers once sources land — the main
+cross-source dedup payoff (~40% overlap collapse) proves out then; OR (b) move to the
+next program part — the blackbox annotation engine + corpus-verified reader popovers; OR
+(c) the in-pipeline knowledge phase (one chapter read → podcast framing + reader markers).
+
+**Parked (resume anytime):**
+- *Site redesign* — 5 of 13 views built, 5 text-only and pending. Full audit + resume
+  order: `_workspace/plan/site-view-audit.md`. Discuss each page before changing it.
+- *Lint backlog* — `npm run lint:views` → 51 non-blocking warnings toward `--strict`
+  (the gate already blocks new MUST violations). Burn-down order in the audit doc.
 
 ---
-
-*How to use: the rules for HOW views are built live in
-[docs/standards/html-view-quality-digest.md](../../docs/standards/html-view-quality-digest.md)
-(MUST card) and [the full standard](../../docs/standards/html-view-quality.md). WHAT each
-view shows is agreed per-page. Run `npm run lint:views` from `plan-dashboard/` to see the
-current conformance state.*
+*The HTML-view rules (HOW views are built) live in `docs/standards/html-view-quality-digest.md`
+(MUST card) + the full standard. WHAT each view shows is agreed per page.*
