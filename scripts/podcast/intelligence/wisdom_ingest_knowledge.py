@@ -49,6 +49,8 @@ TOPIC_MAP_PATH = (
 )
 MAX_CHUNK_WORDS = 600
 PASS_WARN = frozenset({"PASS", "WARN"})
+# D5: teaching material -> fatimid-ismaili (the corpus-wide canonical tradition value).
+WISDOM_TRADITION = "fatimid-ismaili"
 _SECTION_RE = re.compile(r"<!--\s*section\s+\d+\s*\(id=(\d+)[^>]*-->")
 _QURAN_REF_RE = re.compile(r"⟪quran\s+(\d+:\d+)⟫")
 _VERDICT_RE = re.compile(r"\*\*Verdict:\*\*\s*(PASS|WARN|FAIL)")
@@ -307,7 +309,7 @@ def _ingest_chapter_dir(
     for chunk in chunks:
         atom_id = f"doctrine:wisdom:{binder_id}:{chapter_id}:{chunk['chunk_index']}"
         body = json.dumps({
-            "tradition": "ismaili",
+            "tradition": WISDOM_TRADITION,
             "binder_id": binder_id,
             "binder_slug": binder_slug,
             "chapter_id": chapter_id,
@@ -320,9 +322,9 @@ def _ingest_chapter_dir(
         }, ensure_ascii=False)
         conn.execute(
             "INSERT OR REPLACE INTO atoms"
-            " (id, type, body, first_seen_book, first_seen_chapter, confidence)"
-            " VALUES (?, 'doctrine', ?, 'wisdom', ?, 1.0)",
-            (atom_id, body, chapter_slug),
+            " (id, type, body, tradition, first_seen_book, first_seen_chapter, confidence)"
+            " VALUES (?, 'doctrine', ?, ?, 'wisdom', ?, 1.0)",
+            (atom_id, body, WISDOM_TRADITION, chapter_slug),
         )
         for tag in chunk["topic_tags"]:
             conn.execute(

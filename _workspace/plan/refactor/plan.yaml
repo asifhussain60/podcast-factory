@@ -2510,9 +2510,19 @@ wisdom_corpus_program:
     - id: WC1
       name: Corpus population
       depends_on: [B]
-      execution_status: planned
+      execution_status: in_progress_2026_05_29
       authorization: tier_two
       cost_estimate_usd: low
+      approval_2026_05_29:
+        scope: "Asif approved building the corpus-population ENGINE now and proving it end-to-end on the on-disk wisdom/teaching material. The KQUR + KASHKOLE source DBs are NOT on disk and KSESSIONS needs a dump; Asif will provide all three later. Per-source importers for those three are DEFERRED until sources arrive."
+        increment:
+          - "Fix tradition stamping: write the atoms.tradition COLUMN (not just body JSON) = fatimid-ismaili for wisdom (D5). Acceptance: tradition set on every atom."
+          - "Build a source-agnostic tiered-dedup engine (D7): exact + near-duplicate (token Jaccard, blocked by topic tag); HIGH -> atoms_variants (recorded, non-destructive); BORDERLINE -> manual_review_queue with tier+score payload; idempotent (clears prior corpus_dedup rows). Destructive auto-merge deferred until the WC4 curation view exists."
+          - "Runner populate_corpus.py: migrations -> wisdom ingest_all -> dedup -> acceptance report (row counts, tradition coverage, dup tiers, idempotency)."
+          - "Regression test tests/test_corpus_dedup.py (synthetic exact/near/distinct atoms -> tier routing + idempotency)."
+        deferred_until_sources:
+          - "ingest_kqur.py (Quran), ingest_kashkole.py (scholarly, no-retranslate D8/D6), ingest_ksessions_dump.py (D17 idempotent dump path)."
+          - "Cross-source 40% overlap collapse (the main dedup payoff) — provable only once a 2nd source lands."
       key_steps:
         - "Ingest mappers: KASHKOLE topics -> external_corpora(scholarly)+corpus_chapters; KQUR Quran/hadith -> external_corpora(quran/hadith); teaching/sessions -> atoms(doctrine/term/citation)."
         - "Tiered dedup (D7) across + within sources; canonical-selection + reference links; borderline -> manual_review_queue."

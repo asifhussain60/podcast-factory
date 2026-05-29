@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T17:03:06.211Z",
-  "source_commit": "9931b25",
+  "generated_at": "2026-05-29T17:29:49.564Z",
+  "source_commit": "b69e4ba",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,26 @@
   ],
   "recent_commits": [
     {
+      "sha": "b69e4ba",
+      "subject": "docs: park site-view redesign audit (5 done, 2 partial, 5 pending)",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "c27a72d",
+      "subject": "WC7e: refresh site-work status (WC7 shipped; 51 lint warnings remain)",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "3a8f263",
+      "subject": "WC7c: accept Astro scoped <style> as DoD-compliant; flag only oversized blocks",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "64b399b",
+      "subject": "WC7: harden the Cortex HTML-view standard (advisory -> deterministic)",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "9931b25",
       "subject": "prompts: add open-topics continuation prompt",
       "date": "2026-05-29"
@@ -810,26 +830,6 @@
     {
       "sha": "e805cdf",
       "subject": "plan(WC6): record site-wide pass (WC6f) + quantify component-layer follow-on",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "b419620",
-      "subject": "site(WC6f): DoD attribute cleanup + audience badges across remaining views",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "87b4a55",
-      "subject": "site(WC6f): shared back-to-top chrome + Infrastructure full redesign",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "52d1cb3",
-      "subject": "site(WC6e): Overview front door redesign — augment with 4 diagrams (PASS / L2)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "3d82d0e",
-      "subject": "site(WC6d): shared diagram shell — theme-adapter, build-time Mermaid, audience badge",
       "date": "2026-05-29"
     }
   ],
