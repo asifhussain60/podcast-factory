@@ -761,3 +761,27 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 > The second recurring cost is re-explaining, in every fresh chat, which view is in progress and what was last agreed. We add an automatic note that fires at the start of each conversation and surfaces the current site-work state from a single living source, the same way the existing prompt reminder fires on relevant requests.
 >
 > *Value gained:* Asif stops spending cycles re-establishing context — each new conversation inherits where the last one left off, with no re-reminding.
+
+### 8. Bring many sources of one book together, and build the review cockpit where you work them
+
+> When a book arrives as several sources of the same content — an Arabic original, an English translation, a scholar's video, or for the Ismaili lectures two different transcriptions of the same audio — the pipeline should weave them into one clean text early, without losing any idea and without burning effort on what's redundant. We do that by choosing the most-authoritative source as the backbone and laying every other source alongside it as a labelled layer, lining them up cheaply (by headings, then meaning, then timestamps) and only spending real thinking where they disagree or where one fills a gap. Before any costly work begins, you see a one-screen "source budget" — how much each source overlaps, what it uniquely adds — and approve how much of each to process, so you're never surprised by wasted tokens. For the two transcriptions of an Urdu lecture, the cheaper engine does the bulk comparison, the strongest model judges the doctrinally delicate differences, and the paid translator is used only on the few broken spots. Where sources genuinely conflict, the original wins the clean reading but every alternative is kept and shown to you as a review mark — nothing is silently dropped or silently merged.
+
+> *Value gained:* every book, however messy its sources, becomes one faithful, fully-traceable text — with you in control of cost and never losing a concept.
+
+#### 8a. Prove the new editor engine on one real chapter before committing
+
+> The review experience will be rebuilt on a proper document-editor engine (the same kind that powers professional editorial tools), which is a real change of foundation. Before building the whole thing, we stand up a throwaway prototype on a single real chapter so you can feel how it handles — marking, highlighting, the side panel — and only proceed once you're happy with it.
+
+> *Value gained:* the biggest unknown is de-risked with an hour of work instead of discovered after a large build.
+
+#### 8b. Two reading modes — a clean Read, and a powerful Studio
+
+> The same chapter gains two faces: a calm, beautiful Read mode for consumption (the eventual public experience — just the text, gentle verified reference marks, an audio player, the Arabic toggle) and a Studio mode that is your full review cockpit. Everything you need to scan, mark, compare, and edit lives in Studio: a single side panel that changes to match whatever you've selected, a map of the whole chapter showing where the marks and unresolved items are, one-keystroke tagging, side-by-side comparison of how sources differ, edits captured as reviewable suggestions, AI help you accept or reject rather than have applied silently, and a running sense of what you've reviewed and what's left — ending in a single "approve this stage" action.
+
+> *Value gained:* all human review of the pipeline happens in one intuitive place, built to make your feedback fast and your control total.
+
+#### 8c. Connect audio and episodes to the text
+
+> The podcast audio gets a real player that follows you as you scroll and, where the timing data exists, highlights the words as they're spoken. Because an episode can span or split the book's chapters, we make that relationship explicit so the right audio, text, and review all line up. (Mobile is set aside for now — this is built desktop-first, where the review work happens.)
+
+> *Value gained:* you can listen and read together, and the episode you publish always maps cleanly back to the source you reviewed.

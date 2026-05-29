@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T17:29:49.564Z",
-  "source_commit": "b69e4ba",
+  "generated_at": "2026-05-29T18:32:11.207Z",
+  "source_commit": "a6d01df",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,53 +783,53 @@
   ],
   "recent_commits": [
     {
+      "sha": "a6d01df",
+      "subject": "docs: complete intake+reader RD (SI-1..7, R-1..10); ready to consolidate into a plan",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "5a147a5",
+      "subject": "docs: reader decisions R-4..R-8 (divergence view, audio, chapter/episode, Studio cockpit, TipTap engine)",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "7f6e38f",
+      "subject": "docs: reader-redesign decisions R-1..R-3 (two modes, contextual inspector, read mode)",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "29d8a24",
+      "subject": "docs: resolve halt-placement (SI-5) + source-budget UI (SI-6); open reader-redesign thread",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "6690073",
+      "subject": "WC7e: continuity status — multi-source intake RD (4 decisions, 3 open)",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "98c9e7c",
+      "subject": "docs: converged multi-source intake & reconciliation decisions (SI-1..SI-4)",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "3d1a440",
+      "subject": "docs: restore intelligence-pipeline source-intake discussion (Ayyuhal/Anwaar)",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "6d5fd8f",
+      "subject": "WC7e: point continuity status at the active pipeline work",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "ae0bf21",
+      "subject": "WC1: corpus-population engine, proven on wisdom material",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "b69e4ba",
       "subject": "docs: park site-view redesign audit (5 done, 2 partial, 5 pending)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "c27a72d",
-      "subject": "WC7e: refresh site-work status (WC7 shipped; 51 lint warnings remain)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "3a8f263",
-      "subject": "WC7c: accept Astro scoped <style> as DoD-compliant; flag only oversized blocks",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "64b399b",
-      "subject": "WC7: harden the Cortex HTML-view standard (advisory -> deterministic)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "9931b25",
-      "subject": "prompts: add open-topics continuation prompt",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "58cb158",
-      "subject": "plan(WC6): record 6-of-7 diagram-component rebuilds + updated follow-on",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "4593e62",
-      "subject": "site: Architecture — externalize PhaseSwimlaneDiagram static inline styles",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "8aaedb4",
-      "subject": "site: DB-Schema — externalize DbArchitecture inline styles to category classes",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "577b5ad",
-      "subject": "site: Security view — vertical diagrams + credentials table (3 components retired)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "e805cdf",
-      "subject": "plan(WC6): record site-wide pass (WC6f) + quantify component-layer follow-on",
       "date": "2026-05-29"
     }
   ],

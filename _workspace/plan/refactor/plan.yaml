@@ -2810,6 +2810,89 @@ wisdom_corpus_program:
         - "Enforcement is deterministic, not advisory: a MUST violation cannot be committed once the gate is flipped to blocking."
         - "Source of truth lives at docs/standards/; rule text exists in exactly one file; skill + agent reference by REQ-NNN."
         - "A new conversation inherits site-work state via SessionStart injection; no manual re-reminding."
+    - id: WC8
+      name: "Multi-source intake, reconciliation & the Studio review cockpit"
+      depends_on: [WC1]
+      execution_status: awaiting_approval_2026_05_29
+      authorization: tier_two
+      cost_estimate_usd: medium
+      rationale: >
+        Consolidates the converged RD on Asif's two questions (unify multiple sources of one
+        work early without losing concepts; compare the two Anwaar transcripts + engine routing)
+        AND the chapter-reader redesign into one wave. Decisions: SI-1..SI-7
+        (09-source-intake-decisions.md) + R-1..R-10 (10-reader-redesign-decisions.md); full
+        discussion 08-source-intake-discussion.md. The reader's Studio mode IS the human-review
+        surface every intake/reconciliation halt flows into, so pipeline + reader are one wave.
+        Real re-platforming of Studio onto TipTap (Asif authorized installing libraries; prefers
+        richer UI). Cortex HTML View standard applies to all view work. NO CODE until approved.
+      build_order: [WC8.0, "WC8.1+WC8.2+WC8.3+WC8.4 (intake/pipeline)", "WC8.5 (reader core, after WC8.0)", WC8.6, WC8.7]
+      sub_steps:
+        - id: WC8.0
+          name: "TipTap Studio proof-of-concept (de-risk FIRST; halt for feel-check)"
+          authorization: tier_two
+          key_steps:
+            - "Throwaway prototype: load one real chapter's canonical text into a TipTap (ProseMirror) instance as an Astro React island; render reference/annotation markers as decorations; minimal contextual inspector; floating-ui popovers."
+            - "Install: @tiptap/core + @tiptap/pm + @tiptap/starter-kit (+ react bindings), jsdiff. Keep floating-ui. External CSS only (DoD); editorial-modern theme."
+            - "HALT — Asif feel-checks the engine before the full build is authorized."
+          acceptance:
+            - "One chapter renders in TipTap with live marker decorations + a working inspector popover; zero inline styles; opens in the astro site dev server."
+            - "Asif approves the engine feel before WC8.5 proceeds."
+        - id: WC8.1
+          name: "Intake: canonical spine + layered alignment (SI-1, SI-7)"
+          key_steps:
+            - "In the Phase-04 intake branch (before Phase-05 noise-strip): pick the spine by deterministic priority (SI-7); attach each other source as a role-tagged layer keyed to the spine structure."
+            - "Cheap alignment ladder: headings → embeddings → timestamps. Reserve Claude (free) reasoning for gap-detection + divergence reconciliation only. Nothing discarded."
+          acceptance:
+            - "A multi-source book produces one spine + role-tagged aligned layers; every source preserved; alignment runs before noise-strip; LLM only on gaps/divergences."
+        - id: WC8.2
+          name: "Source triage + early review halt (SI-3, SI-5, SI-6)"
+          authorization: tier_two
+          key_steps:
+            - "Compute per-source overlap %, unique passages, divergence count from the alignment (no LLM)."
+            - "Recommend a per-source tier (full / gap-fill-only / skip-as-confirmatory); surface as a per-book Intake Review panel in the astro Studio (SI-6), reusing the approval-flag gate mechanism; fire as an EARLY halt before any costly pass (SI-5)."
+          acceptance:
+            - "Source-budget renders in the astro viewer; setting the approval flag releases the pipeline; the token gate sits before noise-strip/enrichment."
+        - id: WC8.3
+          name: "Anwaar two-transcript comparison — engine routing (SI-2)"
+          authorization: tier_two
+          key_steps:
+            - "Timestamp-align the Urdu-native (AI-enhanced) and direct-English transcripts (free)."
+            - "Gemini bulk divergence + technical-term-loss scan → Claude doctrinal-fidelity adjudication on flagged segments only → Azure Translator targeted re-translation of corrupted segments. Urdu-native = authoritative spine; direct-English = fluency cross-check layer."
+          acceptance:
+            - "Aligned diff produced; flagged segments adjudicated; Urdu-native set authoritative; metered (Azure) cost confined to flagged segments."
+        - id: WC8.4
+          name: "Reconciliation: authority-ranked, preserve-all, marked for review (SI-4)"
+          key_steps:
+            - "Authoritative source wins the canonical rendering; every divergence preserved as a tagged annotation; routine variation = enrichment; genuine/doctrinal conflicts emitted as review markers (never auto-resolved)."
+            - "Persist as the marker/annotation layer the Studio reads (ties to D10 + paragraph_annotations)."
+          acceptance:
+            - "One clean canonical text + a preserved, queryable divergence trail; conflicts surface as markers, not auto-merges."
+        - id: WC8.5
+          name: "Reader re-platform: Read + Studio on TipTap (R-1,R-2,R-3,R-4,R-8,R-9)"
+          authorization: tier_two
+          key_steps:
+            - "Two modes on the same chapter: Read (static server-rendered prose + subtle verified markers + Arabic toggle) and Studio (TipTap cockpit)."
+            - "Studio = single contextual inspector (selection-driven: chapter-level vs paragraph-level); FULL capability package (R-9): minimap/heatmap, one-keystroke marking palette, side-by-side divergence diff (jsdiff, accept/reject per span), tracked inline edits + accept/reject AI suggestions, review-queue + per-paragraph reviewed-state + chapter progress + one-click stage approval."
+            - "Divergences: inline margin indicator + side-by-side comparison in the inspector (R-4). External CSS/JS only; Cortex standard; gate via html-view-challenger."
+          acceptance:
+            - "Read mode pristine + audience-grade; Studio sweeps a chapter to completion (mark, diff, edit, approve) with reviewed-state tracking; zero inline styles; challenger PASS."
+        - id: WC8.6
+          name: "Audio + explicit episode↔chapter mapping (R-5, R-6)"
+          key_steps:
+            - "Formalize a one-episode↔one-or-more-chapters mapping; Read = episode-centric, Studio = chapter/source-centric."
+            - "Persistent docked audio player scoped to the chapter's episode; karaoke text-sync when timestamps exist, graceful plain player otherwise; both modes."
+          acceptance:
+            - "Audio plays + persists on scroll; text-sync where timestamps exist; episode↔chapter navigation works; degrades cleanly."
+        - id: WC8.7
+          name: "Consistency pass + desktop-only constraint (R-10)"
+          key_steps:
+            - "Desktop-first both modes; defer mobile/responsive (R-10). Cross-view consistency + html-view-challenger sweep on the new Studio/Read views."
+          acceptance:
+            - "Both modes ship desktop-first; challenger clean; no mobile work in scope."
+      acceptance:
+        - "TipTap PoC approved before full build (WC8.0 halt honoured)."
+        - "Multi-source books unify onto a spine, triage at an early in-viewer gate, reconcile with preserved+marked divergences; Anwaar transcripts compared via the SI-2 engine routing."
+        - "Studio is one TipTap cockpit where all human review happens (mark/diff/edit/approve) with reviewed-state + stage approval; Read mode stays audience-grade; Cortex/DoD clean."
   open_items_best_assumption:
     - "Table-level extraction mapping inferred from dumps (KASHKOLE TopicData*/SessionDoctrines/canvas.* excluded as plumbing)."
     - "Audit live regressions R5 (README) + R6 (publish script vs UI model) -> pipeline-debt; fixed during execution."
