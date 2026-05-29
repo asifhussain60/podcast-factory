@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T18:55:26.252Z",
-  "source_commit": "0b57dc9",
+  "generated_at": "2026-05-29T19:18:09.188Z",
+  "source_commit": "732f851",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,26 @@
   ],
   "recent_commits": [
     {
+      "sha": "732f851",
+      "subject": "continuity: Ayyuhal multi-format sources landed; ready for Slice 0",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "0720d8c",
+      "subject": "fixture(ayyuhal-walad): media policy — audio+video local/transient/deletable, only produced text committed",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "ff0160a",
+      "subject": "fixture(ayyuhal-walad): commit multi-format PDF sources + SOURCES manifest",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "1fee3c0",
+      "subject": "plan(WC8): unification = common-denominator core + attributed additions; holistic-review-per-wave cadence",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "0b57dc9",
       "subject": "plan(WC8): restructure into a co-development walking-skeleton on Ayyuhal (vertical slices)",
       "date": "2026-05-29"
@@ -810,26 +830,6 @@
     {
       "sha": "29d8a24",
       "subject": "docs: resolve halt-placement (SI-5) + source-budget UI (SI-6); open reader-redesign thread",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "6690073",
-      "subject": "WC7e: continuity status — multi-source intake RD (4 decisions, 3 open)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "98c9e7c",
-      "subject": "docs: converged multi-source intake & reconciliation decisions (SI-1..SI-4)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "3d1a440",
-      "subject": "docs: restore intelligence-pipeline source-intake discussion (Ayyuhal/Anwaar)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "6d5fd8f",
-      "subject": "WC7e: point continuity status at the active pipeline work",
       "date": "2026-05-29"
     }
   ],

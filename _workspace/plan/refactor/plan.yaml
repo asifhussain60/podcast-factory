@@ -2826,7 +2826,11 @@ wisdom_corpus_program:
         Real re-platforming of Studio onto TipTap (Asif authorized installing libraries; prefers
         richer UI). Cortex HTML View standard applies to all view work. NO CODE until approved.
       co_development_model:
-        approach: "WALKING SKELETON / vertical slices, NOT build-all-then-test (Asif 2026-05-29). Build each pipeline step together with the editor review-halt that reviews it, run it on the live fixture immediately, capture Asif's feedback in the editor, then deepen the next slice. Pipeline and Studio editor mature in lockstep."
+        approach: "WALKING SKELETON / vertical slices, NOT build-all-then-test (Asif 2026-05-29). Build each pipeline step together with the editor review-halt that reviews it AND the intelligence (corpus) capability it relies on; run on the live fixture immediately; capture Asif's feedback in the editor; then deepen the next slice. THREE entities mature in lockstep: PIPELINE (processing) + EDITOR (Studio review UI) + INTELLIGENCE (the wisdom corpus / knowledge layer)."
+        co_evolution_tracks:
+          pipeline: "Phase backbone: intake unify -> noise/refine -> reconcile -> knowledge-read -> author. The processing that transforms raw sources to podcast + reader artifacts."
+          editor: "Studio cockpit (TipTap): the human-review surface every pipeline halt flows into; grows the capability each slice's review needs."
+          intelligence: "The wisdom corpus + knowledge layer (waves WC1-WC5) — NOT a separate parallel build; each WC8 slice advances the corpus capability it uses. WC1 corpus engine already built. The blackbox verify/query seam (WC2), the knowledge-read phase (WC3), corpus growth + wisdom view (WC4), audio intake (WC5) are interleaved into the slices below."
         live_fixture: "ayyuhal-walad"
         fixture_facts:
           - "Run NON-DESTRUCTIVELY on a dedicated branch; new artifacts only (unified source, reconciliation markers, reader markers); NEVER regenerate or re-ship its episodes (honours DR-013; it is mid-pipeline ship-with-caution, not in published/)."
@@ -2840,7 +2844,14 @@ wisdom_corpus_program:
           - "Slice 4 (knowledge/corpus-read + halt): corpus-verified annotation markers reviewed in the editor."
           - "Slice 5+ (deepen): WC8.3 Anwaar engine routing (later fixture); WC8.5 full Studio capability package + WC8.6 audio/episode mapping layered in as each slice's review needs them; WC8.7 consistency + desktop-only."
         note: "WC8.0..WC8.7 below are the component WORK ITEMS; the slices above are the SEQUENCING that interleaves each with an editor halt on the live fixture. Each slice ends at a manual-review halt Asif resolves in the Studio editor before the next slice runs."
-        review_cadence: "HOLISTIC-REVIEW-PER-WAVE (Asif 2026-05-29): after each slice ships, step back and review ALL completed slices together, realigning the pipeline AND the UI before starting the next slice — so the two entities never drift apart. This is a mandatory gate between slices, not optional."
+        intelligence_thread:
+          - "Slice 0: foundation = the WC1 corpus engine (already built: populate/dedup/tradition) + expose ONE shared corpus query/verify access point (the seam WC2's blackbox becomes) that BOTH the pipeline and the editor call. All three entities wired to one corpus access from the start."
+          - "Slice 1 (intake): the unified source's references become corpus-verifiable candidates; corpus tradition-tags inform source role/authority (SI-7)."
+          - "Slice 2 (refine): the enhance step consults the corpus (verified references, glossary); noise decisions may use corpus signals."
+          - "Slice 3 (reconcile): the corpus helps adjudicate divergences (which rendering matches canonical/verified sources); corpus-verifiable conflicts resolve, the rest flag to the editor."
+          - "Slice 4 (knowledge): the WC3 knowledge-read phase proper — one chapter read -> corpus-verified markers + podcast framing; flagged citations feed BACK to grow the corpus (the compounding flywheel)."
+          - "Slice 5+: WC2 annotation-engine depth + WC4 wisdom-corpus view (curation/growth) + WC5 audio intake; corpus keeps compounding per book."
+        review_cadence: "HOLISTIC-REVIEW-PER-WAVE (Asif 2026-05-29): after each slice ships, step back and review ALL completed slices together, realigning ALL THREE entities — PIPELINE + EDITOR + INTELLIGENCE — before starting the next slice, so none drift apart. Mandatory gate between slices, not optional."
       build_order: ["Slice 0 (readiness)", "Slice 1 (intake+halt)", "Slice 2 (refine+halt)", "Slice 3 (reconcile+halt)", "Slice 4 (knowledge+halt)", "Slice 5+ (deepen: Anwaar engine, full Studio, audio)"]
       sub_steps:
         - id: WC8.0
