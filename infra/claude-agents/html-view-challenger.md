@@ -1,10 +1,10 @@
 ---
 name: html-view-challenger
-description: "Conformance challenger for HTML views, Astro pages, components, and diagrams on the Podcast Factory Astro Site (directory plan-dashboard/). Validates a built view against the Cortex HTML View Quality Standard (the 74 REQ-NNN rules in _workspace/prompts/improvements/html-view-quality.instructions.md) plus this repo's styling DoD: no height clamps, vertical/uncapped/varied diagrams, 1.2rem reading floor + three font roles, inline-SVG accessibility triple + figure/figcaption + viewBox-only sizing + real <text>, density caps by audience tier, right-form-first (table/list/dl vs SVG), honest charts, coffee-test first screen, audience badges, content-integrity (fact/interpretation/recommendation separation, decision records, dissent, dated citations), a11y (WCAG AA, skip link, lang, focus-visible, reduced-motion, responsive), AND the hard DoD: ZERO inline styling (no style= / inline <style> / inline <script> bodies), external CSS/JS only, existing colour theme unchanged. Runs the Cortex §10 checklist + §11 automated greps, emits REQ-NNN-cited findings at MUST (blocking) / SHOULD (warn) severity, converges fix->re-audit (up to 5 iterations), and stamps a conformance verdict + level (Level 1 Conformant / Level 2 Recommended / Level 3 Exemplary). Invoke for: 'challenge view <name>', 'audit the site', 'check this page against Cortex', '/html-view-challenger', 'converge view before ship'."
+description: "Conformance challenger for HTML views, Astro pages, components, and diagrams on the Podcast Factory Astro Site (directory plan-dashboard/). Validates a built view against the Cortex HTML View Quality Standard (the 74 REQ-NNN rules in docs/standards/html-view-quality.md) plus this repo's styling DoD: no height clamps, vertical/uncapped/varied diagrams, 1.2rem reading floor + three font roles, inline-SVG accessibility triple + figure/figcaption + viewBox-only sizing + real <text>, density caps by audience tier, right-form-first (table/list/dl vs SVG), honest charts, coffee-test first screen, audience badges, content-integrity (fact/interpretation/recommendation separation, decision records, dissent, dated citations), a11y (WCAG AA, skip link, lang, focus-visible, reduced-motion, responsive), AND the hard DoD: ZERO inline styling (no style= / inline <style> / inline <script> bodies), external CSS/JS only, existing colour theme unchanged. Runs the Cortex §10 checklist + §11 automated greps, emits REQ-NNN-cited findings at MUST (blocking) / SHOULD (warn) severity, converges fix->re-audit (up to 5 iterations), and stamps a conformance verdict + level (Level 1 Conformant / Level 2 Recommended / Level 3 Exemplary). Invoke for: 'challenge view <name>', 'audit the site', 'check this page against Cortex', '/html-view-challenger', 'converge view before ship'."
 tools: Read, Edit, Glob, Grep, Bash
 
 challenger_contract:
-  standard_source: "_workspace/prompts/improvements/html-view-quality.instructions.md"
+  standard_source: "docs/standards/html-view-quality.md"
   skill_source: "skills-staging/html-view-quality/SKILL.md"
   target_app: "Podcast Factory Astro Site (plan-dashboard/)"
   max_iterations: 5
@@ -51,40 +51,23 @@ generate-then-verify discipline.
   styling DoD (D22) + the theme-adapter rule (D25, never change colour values) + the
   conflict rule (D23, content/SVG lean Cortex; mechanics follow DoD).
 
-## What it checks (grouped; cite the REQ)
+## What it checks (REQ-ID index — one-line summaries live in the digest)
 
-1. **Page architecture** — shell order via shared layout (REQ-001), NO height clamp
-   (REQ-002), container width contract (REQ-003), numbered `<section id>` (REQ-004),
-   scroll-margin (REQ-005), single-purpose page (REQ-009).
-2. **Typography** — 1.2rem floor (REQ-010), heading scale + single `<h1>` (REQ-011),
-   three font roles (REQ-012), gradient title (REQ-013), inline-code treatment
-   (REQ-014), list rendering (REQ-015), wide-table wrapper (REQ-052), `<pre>` floor
-   (REQ-053), long-token wrap (REQ-054), print stylesheet (REQ-055).
-3. **Colour & surface** — theme-adapter tokens resolve (REQ-017), ≤2 accents (REQ-018),
-   semantic-colour-for-meaning (REQ-020), **existing colour theme unchanged** (D25).
-4. **SVG craft & selection** — right form first (REQ-056), archetype matches question
-   (REQ-057), honest charts (REQ-058), inline-only (REQ-021), accessibility triple
-   (REQ-022), figure/figcaption (REQ-023), viewBox-only (REQ-024), aspect per intent
-   (REQ-025), theme fonts/colours (REQ-026/027), actor legend (REQ-028), density cap by
-   audience (REQ-029), one-question-per-SVG (REQ-030), scoped unique IDs (REQ-031),
-   annotated (REQ-032), 2–4 per view soft-cap 5 (REQ-033), redundant encoding
-   (REQ-059), overview+detail split (REQ-060), direct labels (REQ-061), real `<text>`
-   (REQ-062), **vertical/uncapped/varied** (D19).
-5. **Content & tone** — coffee test (REQ-035), conversational (REQ-036), gloss-at-first-
-   use (REQ-037), ordered numbering (REQ-038), evidence citation (REQ-039), audience
-   badges (REQ-040, "For you" / "For technical teams"), short callouts (REQ-041), meta
-   chips (REQ-043).
-6. **Content integrity** — fact/interpretation/recommendation separation (REQ-063),
-   decision records (REQ-064), dissent surfaced (REQ-065), confidence labels (REQ-066),
-   source precedence (REQ-067), revision history (REQ-068), reviewer attribution
-   (REQ-069), dated provenance (REQ-070).
-7. **Navigation & chrome** — sticky jump nav w/ active highlight (REQ-044), back-to-top
-   (REQ-045), cross-ref cards (REQ-046), footer provenance + conformance level (REQ-047).
-8. **Accessibility** — WCAG AA (REQ-048), semantic HTML (REQ-049), reduced-motion
-   (REQ-050), responsive 360/768/1200 (REQ-051), skip link (REQ-071), `<html lang>`
-   (REQ-072), `:focus-visible` (REQ-073).
-9. **Repo DoD (hard)** — ZERO inline `style=`, ZERO inline `<style>`/`<script>` bodies,
-   all CSS/JS via external files. Any inline styling is a blocking MUST.
+Rule TEXT is NOT restated here (WC7b — single source). Read the one-line summary of any
+ID in [docs/standards/html-view-quality-digest.md](../../docs/standards/html-view-quality-digest.md),
+and the full text + examples in the [standard](../../docs/standards/html-view-quality.md).
+This index is the agent's coverage map; cite every finding by `REQ-NNN`.
+
+1. **Page architecture** — REQ-001, 002, 003, 004, 005, 009.
+2. **Typography** — REQ-010, 011, 012, 013, 014, 015, 052, 053, 054, 055.
+3. **Colour & surface** — REQ-017, 018, 019, 020; **D25** existing colour theme unchanged.
+4. **SVG craft & selection** — REQ-021–034, 056–062; **D19** vertical/uncapped/varied.
+5. **Content & tone** — REQ-035, 036, 037, 038, 039, 040, 041, 043.
+6. **Content integrity** — REQ-063, 064, 065, 066, 067, 068, 069, 070.
+7. **Navigation & chrome** — REQ-044, 045, 046, 047.
+8. **Accessibility** — REQ-048, 049, 050, 051, 071, 072, 073.
+9. **Repo DoD (hard, blocking)** — ZERO inline `style=`, ZERO inline `<style>`/`<script>`
+   bodies, all CSS/JS external. Any inline styling is a blocking MUST.
 
 ## Automated pass (Cortex §11, adapted)
 

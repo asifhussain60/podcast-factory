@@ -1,0 +1,24 @@
+{
+  "_doc": "Config for scripts/lint-html-views.mjs (WC7c). Paths are relative to plan-dashboard/. Rule text: docs/standards/html-view-quality.md; digest: docs/standards/html-view-quality-digest.md.",
+  "blocking_paths": ["src/pages/", "src/layouts/"],
+  "blocking_exclude_subpaths": [
+    "src/pages/book-review/",
+    "src/pages/library/",
+    "src/pages/wisdom/"
+  ],
+  "warn_paths": ["src/components/"],
+  "exclude_paths": [
+    "src/components/reader/",
+    "src/components/ui/"
+  ],
+  "css_paths": ["src/styles/"],
+  "allow": {
+    "src/components/PipelineOverviewRail.tsx": [
+      "INLINE-STYLE — dynamic SVG interaction state (zoom transform, dimmed opacity, data-driven fill); legitimate per the conflict rule (WC6 remaining_followon)"
+    ]
+  },
+  "_notes": {
+    "src/layouts/NarrativeBase.astro": "Pre-existing WARN follow-on: inline <style> body (INLINE-STYLE-BLOCK) + missing skip-link (SKIP-LINK). Tracked, not silently rewritten — per-view shell changes are discussed one at a time.",
+    "scope": "Blocking gate covers the 12 top-level architecture view pages + shared layouts (confirmed green 2026-05-29). Non-view subpages (book-review/library/wisdom) and interactive app surfaces (reader/, ui/) are WARN or excluded by design."
+  }
+}

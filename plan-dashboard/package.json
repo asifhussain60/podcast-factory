@@ -13,7 +13,9 @@
     "check": "astro check",
     "snapshot": "node scripts/regenerate-snapshots.mjs",
     "mermaid:render": "node scripts/render-mermaid.mjs",
-    "prebuild": "npm run mermaid:render"
+    "prebuild": "npm run mermaid:render && npm run lint:views",
+    "lint:views": "node scripts/lint-html-views.mjs",
+    "lint:views:strict": "node scripts/lint-html-views.mjs --strict"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

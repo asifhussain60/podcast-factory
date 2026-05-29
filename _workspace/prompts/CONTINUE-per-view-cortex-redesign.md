@@ -35,7 +35,7 @@ npm run snapshot` → my approval → build. Never open a PR (commit + push to `
 
 1. `skills-staging/html-view-quality/SKILL.md` — the craft contract + theme-adapter
    token map + conformance workflow.
-2. `_workspace/prompts/improvements/html-view-quality.instructions.md` — the full 74
+2. `docs/standards/html-view-quality.md` — the full 74
    `REQ-NNN` Cortex rules (cite by ID).
 3. `_workspace/prompts/improvements/07-site-redesign-spec.md` — the per-view diagram
    spec already drafted (every view, every diagram: type/audience/content).

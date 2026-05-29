@@ -38,7 +38,7 @@ push to `develop` directly).
 
 1. `skills-staging/html-view-quality/SKILL.md` — craft contract + theme-adapter token
    map + conformance workflow.
-2. `_workspace/prompts/improvements/html-view-quality.instructions.md` — full 74
+2. `docs/standards/html-view-quality.md` — full 74
    `REQ-NNN` Cortex rules (cite by ID).
 3. `_workspace/prompts/improvements/07-site-redesign-spec.md` — the per-view diagram
    spec (every view, every diagram: type/audience/content).

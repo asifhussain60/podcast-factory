@@ -9,7 +9,7 @@ description: >
   changes), and the conformance workflow gated by the html-view-challenger agent.
   TRIGGER: "build a view", "build/edit a page", "add/edit a diagram", "html", or
   anything touching plan-dashboard/. Canonical source of the full rule text:
-  _workspace/prompts/improvements/html-view-quality.instructions.md.
+  docs/standards/html-view-quality.md.
 ---
 
 # HTML View Quality — Podcast Factory Astro Site
@@ -17,7 +17,7 @@ description: >
 This skill is the operational contract for building and editing views on the
 **Podcast Factory Astro Site** (directory `plan-dashboard/`). It adapts the **Cortex
 HTML View Quality Standard v2.0.0** (the full 74 `REQ-NNN` rules live in
-`_workspace/prompts/improvements/html-view-quality.instructions.md` — read it for any
+`docs/standards/html-view-quality.md` — read it for any
 rule's exact text; cite findings by `REQ-NNN`, never by section).
 
 > **Hard precedence.** This skill is mandatory and implicit. If you are building or
@@ -92,31 +92,26 @@ Single-accent fallback for the gradient title (REQ-013): if only one accent read
 well, gradient from `--text-primary`→`--accent-primary`; never invent a second accent
 (REQ-018).
 
-## 3. The non-negotiables (the MUSTs you will be tempted to break)
+## 3. The non-negotiables
 
-- **No height clamp anywhere** (REQ-002): no `max-height`/`overflow:hidden|auto` on
-  `html/body/main/.container/section`. Page grows; only `.diagram-container`,
-  `.table-container`, and `<pre>` may scroll on overflow.
-- **Diagrams vertical, uncapped, varied** (D19 + REQ-025/057): top-to-bottom flow,
-  no height cap on SVG containers, rotate archetypes so no two adjacent views lead
-  with the same diagram type.
-- **1.2rem reading floor** (REQ-010) on all prose elements; three font roles only
-  (REQ-012); gradient page `<h1>` (REQ-013).
-- **SVG craft** (REQ-021–062): inline SVG only; accessibility triple
-  (`role="img"` + `aria-labelledby` + child `<title>`+`<desc>`); `<figure>` +
-  `<figcaption>`; `viewBox` only (no width/height attrs); real `<text>` never outlined
-  paths; one question per SVG; density cap by audience tier (L1=5 nodes … L4=20);
-  colour never the sole carrier (pair with label/shape); honest charts (zero baseline).
-- **Right form first** (REQ-056): tables for tabular data, `<ol>`/`<ul>` for flat
-  lists, `<dl>` for definitions — never drawn inside SVG.
-- **Coffee test** (REQ-035): first viewport ≤200 words, zero unexplained jargon, what
-  + why before how. Audience badges ("For you" conceptual / "For technical teams"
-  infra) per the site overhaul (D20).
-- **Content integrity** (REQ-063–070): separate fact / interpretation /
-  recommendation; full decision records; surface dissent; cite dated sources. The
-  architecture views encode real decisions (D1–D25) — render them honestly.
-- **A11y** (REQ-048–073): WCAG 2.1 AA contrast, semantic landmarks, skip link,
-  `<html lang>`, `:focus-visible`, `prefers-reduced-motion`, responsive 360/768/1200.
+The MUST-tier rules are NOT restated here — they live in exactly one short card,
+[docs/standards/html-view-quality-digest.md](../../docs/standards/html-view-quality-digest.md)
+(one line per rule, cited by `REQ-NNN`). Keep the digest in context while authoring;
+open the full [standard](../../docs/standards/html-view-quality.md) only for a rule's
+exact wording, examples, or its SHOULD/MAY siblings. This single-source rule is
+deliberate (WC7b) — duplicating rule text across the skill, the agent, and the standard
+is how the three drift apart.
+
+Three repo-specific deltas the digest flags but that bear repeating here because they
+are the ones most often broken on THIS site:
+
+- **D-DoD beats Cortex's inline guidance.** Where the standard says "inline JS" /
+  "re-assert the floor in an inline `<style>`", the repo DoD wins: external CSS/JS only,
+  ZERO inline styling. (Those Cortex lines assume a standalone `file://` doc; we ship Astro.)
+- **D-DIAGRAM.** Diagrams vertical (top→bottom), uncapped (no height clamp on SVG
+  containers), varied (no two adjacent views lead with the same archetype); Mermaid →
+  build-time inline SVG, never client-rendered (would break REQ-021/062).
+- **D-THEME.** Never change a `theme.css` colour value; add Cortex-token aliases only (§2).
 
 ## 4. Conformance workflow
 

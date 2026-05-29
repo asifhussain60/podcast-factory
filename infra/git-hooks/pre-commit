@@ -65,4 +65,25 @@ if [ "$fail" -ne 0 ]; then
     exit 1
 fi
 
+# Check 3 — HTML View Quality gate (WC7c).
+# Run the deterministic Cortex linter over staged Astro-site view/layout/style files.
+# Blocking-tier checks (inline style= on view pages, external SVG, <svg> w/h attrs,
+# <html lang> on layouts) are confirmed green repo-wide; a new MUST violation fails here.
+# Non-blocking warnings are advisory. Skips cleanly when node or the script is absent.
+view_files=$(printf '%s\n' "$staged_files" \
+    | grep -E '^plan-dashboard/src/.*\.(astro|tsx|css)$' || true)
+
+if [ -n "$view_files" ] && command -v node >/dev/null 2>&1 \
+        && [ -f plan-dashboard/scripts/lint-html-views.mjs ]; then
+    files_csv=$(printf '%s' "$view_files" | paste -sd, -)
+    if ! node plan-dashboard/scripts/lint-html-views.mjs --files "$files_csv" >&2; then
+        echo "" >&2
+        echo "pre-commit: html-view quality gate failed (Cortex MUST violation)." >&2
+        echo "pre-commit: fix the findings (see docs/standards/html-view-quality-digest.md)" >&2
+        echo "pre-commit: or add a justified reason to plan-dashboard/html-view-lint.config.json." >&2
+        echo "pre-commit: bypass requires explicit operator authorization (--no-verify)." >&2
+        exit 1
+    fi
+fi
+
 exit 0

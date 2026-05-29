@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T16:29:12.094Z",
-  "source_commit": "4593e62",
+  "generated_at": "2026-05-29T17:03:06.211Z",
+  "source_commit": "9931b25",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "9931b25",
+      "subject": "prompts: add open-topics continuation prompt",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "58cb158",
+      "subject": "plan(WC6): record 6-of-7 diagram-component rebuilds + updated follow-on",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "4593e62",
       "subject": "site: Architecture — externalize PhaseSwimlaneDiagram static inline styles",
       "date": "2026-05-29"
@@ -820,16 +830,6 @@
     {
       "sha": "3d82d0e",
       "subject": "site(WC6d): shared diagram shell — theme-adapter, build-time Mermaid, audience badge",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "6107457",
-      "subject": "config: wire plan-snapshot-regen PostToolUse hook + clear two 2026-05-29 drifts",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "2832236",
-      "subject": "cortex: adopt HTML View Quality Standard as skill + challenger; lock app naming",
       "date": "2026-05-29"
     }
   ],

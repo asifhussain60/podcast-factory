@@ -12,6 +12,18 @@
     ]
   },
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/site-work-status.sh",
+            "statusMessage": "Site-work continuity"
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "matcher": "",

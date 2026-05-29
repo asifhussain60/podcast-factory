@@ -727,3 +727,37 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 > With the design agreed on paper, the first real construction step is the groundwork every page will lean on: a thin translation layer so the borrowed quality-standard names point at the colours we already use (no colour changes), the ability to turn diagram definitions into pictures at build time so they ship as static images rather than running in the reader's browser, a small reusable "who is this for" badge, and the layout rules that let diagrams grow to full height instead of being boxed in. The diagram-rendering piece carries the only genuine unknowns, so it gets proven on a throwaway page and shown for approval before it's adopted. Once that shell exists, the Overview page is *augmented* rather than rebuilt — the existing hero, catalogue, and live metrics stay, and four diagrams are woven in: the whole system in one picture, the journey a book takes, how a single read produces two outputs, and a labelled "where to go next" set of links into every deeper view. The finished page is checked by the automated quality challenger before it counts as done.
 >
 > *Value gained:* the site gains a reusable diagram capability it has never had, the Overview becomes a true guided front door without losing the editorial polish already there, and every subsequent view inherits a compliant, theme-safe foundation instead of reinventing it.
+
+### 7. Harden the Cortex standard so it stops drifting and survives new conversations
+
+> The quality standard is already wired into the repo four ways — a skill, a checking agent, a prompt reminder, and the project notes — but every one of those is *advisory*: it asks the model to comply, and nothing physically stops a broken view from being saved. That is why views keep drifting no matter how often the rules are restated, and why each new chat costs cycles re-establishing where the work left off. This step converts the standard from "reminders we hope hold" into "gates that hold on their own."
+
+#### 7a. Move the standard to a stable, canonical home
+
+> The 74-rule standard currently lives in a scratch drafting folder, alongside throwaway prompt files, even though three other files now depend on it. We move it to a proper standards location and update the two files that point at it, while keeping all of its publishable scaffolding intact so it can still be shared to the journal repo or beyond.
+>
+> *Value gained:* the source of truth can no longer be mistaken for disposable work or swept up in cleanup, and the references that depend on it stop being one folder-tidy away from breaking.
+
+#### 7b. Keep the rules in exactly one place
+
+> Right now the rule text exists in three copies — the standard itself, a summary inside the skill, and a full re-listing inside the checking agent — so changing one rule means hunting through three files and they slowly disagree. We make the standard the only place the rules are written out; the skill and the agent keep only what is specific to them and refer to each rule by its number.
+>
+> *Value gained:* one edit updates a rule everywhere, and the slow drift between the standard and its own copies stops.
+
+#### 7c. Add an automatic check that refuses to save a broken view
+
+> This is the heart of the fix. The standard already lists the mechanical failures worth catching — inline styling, boxed-in diagrams, missing accessibility labels, and the like — but nothing runs them. We turn that list into a real check wired into the build and into the save step, so the most common violations make the save fail. It ships in warning-only mode first; we clean the current views until it runs clean, then switch it to blocking so a non-conformant view physically cannot be committed.
+>
+> *Value gained:* drift on the mechanical rules ends for good and without Asif in the loop — the tooling enforces what the reminders only requested.
+
+#### 7d. Keep a one-screen rule card the model can actually hold
+
+> The full standard is far too large to keep in working memory, so in practice it is rarely loaded and the model runs on a fuzzy recollection. We distil a one-screen card of just the hard rules, one line each, and point the reminder and the skill at that card; the full standard is opened only when a rule's exact wording is needed.
+>
+> *Value gained:* much cheaper context and *better* adherence — a short card gets followed where a giant document that never loads does not.
+
+#### 7e. Hand the next conversation its starting point automatically
+
+> The second recurring cost is re-explaining, in every fresh chat, which view is in progress and what was last agreed. We add an automatic note that fires at the start of each conversation and surfaces the current site-work state from a single living source, the same way the existing prompt reminder fires on relevant requests.
+>
+> *Value gained:* Asif stops spending cycles re-establishing context — each new conversation inherits where the last one left off, with no re-reminding.

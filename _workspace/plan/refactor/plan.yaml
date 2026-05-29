@@ -2605,7 +2605,7 @@ wisdom_corpus_program:
           mechanically gated, not asserted. Conflict rule (D23): blend both; content + SVG lean
           Cortex; delivery mechanics follow D22. Build this substrate FIRST within WC6, before
           authoring views. Ground-truth app = plan-dashboard/ (D25); audit 2026-05-29.
-        source_standard: "_workspace/prompts/improvements/html-view-quality.instructions.md"
+        source_standard: "docs/standards/html-view-quality.md"
         shipped_2026_05_29:
           - "WC6a skill built: skills-staging/html-view-quality/SKILL.md."
           - "WC6b agent built: infra/claude-agents/html-view-challenger.md + .github/agents/html-view-challenger.agent.md."
@@ -2735,6 +2735,71 @@ wisdom_corpus_program:
               name: "Stale YNAB MCP still enabled"
               finding: "settings.local.json lists 'ynab' under enabledMcpjsonServers despite the 'remove YNAB MCP' commit."
               fix: "Remove 'ynab' from enabledMcpjsonServers in settings.local.json."
+    - id: WC7
+      name: "Cortex standard hardening (anti-drift + continuity)"
+      depends_on: [WC6]
+      execution_status: shipped_2026_05_29
+      authorization: tier_one
+      cost_estimate_usd: zero
+      shipped_2026_05_29:
+        - "WC7a: standard moved _workspace/prompts/improvements/ -> docs/standards/html-view-quality.md (git mv); all 6 referencing files repathed (grep-clean)."
+        - "WC7b: rule text single-sourced — SKILL.md §3 + html-view-challenger 'What it checks' now cite REQ-NNN by ID, no restated text."
+        - "WC7c: deterministic gate plan-dashboard/scripts/lint-html-views.mjs + html-view-lint.config.json; npm run lint:views (+ :strict); wired into infra/git-hooks/pre-commit Check 3 + prebuild. Blocking tier green (errors=0); 67 non-blocking warnings tracked for --strict burn-down. Seeded-violation test confirms a view-page inline style= blocks commit."
+        - "WC7d: docs/standards/html-view-quality-digest.md (one-screen MUST card); hook + skill reference it as the in-context card."
+        - "WC7e: SessionStart hook .claude/hooks/site-work-status.sh injects _workspace/plan/site-work-status.md on startup/clear (silent on resume/compact); registered in .claude/settings.json."
+        - "CLAUDE.md Cortex bullet + memory cortex-html-view-standard updated to the new paths + enforcement."
+      rationale: >
+        WC6 integrated the HTML View Quality Standard across four advisory surfaces (skill,
+        challenger agent, prompt hook, CLAUDE.md/memory). All four are REMINDERS — compliance
+        still depends on the model choosing to comply in a busy context, so views keep drifting
+        and each new conversation re-pays the "where did we leave off" cost. WC7 converts
+        enforcement from advisory to deterministic: a lint gate that physically refuses MUST
+        violations, a session-start injection of current site-work state, plus source-of-truth
+        relocation/de-duplication so the rules stop drifting against their own copies.
+        Authorization tier_one (config + docs, zero LLM spend).
+      sub_tasks:
+        - id: WC7a
+          name: "Relocate the standard to a stable, canonical home"
+          decisions: [D25]
+          key_steps:
+            - "Move docs/standards/html-view-quality.md -> docs/standards/html-view-quality.md (git mv; keep portable frontmatter/license/versioning/governance intact)."
+            - "Update the two hard-coded path refs: SKILL.md + html-view-challenger.md (+ .github/agents stub) point at docs/standards/html-view-quality.md."
+            - "Update WC6.cortex_substrate.source_standard + challenger_contract.standard_source path strings."
+          acceptance:
+            - "Standard lives at docs/standards/html-view-quality.md; zero references to the old _workspace path remain (grep clean)."
+        - id: WC7b
+          name: "Collapse triple-copy into one source + thin pointers"
+          key_steps:
+            - "Standard is the ONLY place rule TEXT lives. SKILL.md keeps repo deltas (Astro mechanics, theme bridge, conflict rule) + cites REQ-NNN by ID, drops restated rule text."
+            - "html-view-challenger.md keeps auto-fix vs human-resolution categories + a compact REQ-ID index, drops the full grouped re-enumeration of all 74 rules."
+          acceptance:
+            - "A single rule-text change requires editing only docs/standards/html-view-quality.md; skill + agent reference by ID, not by copy."
+        - id: WC7c
+          name: "Deterministic lint gate (the anti-drift centerpiece)"
+          key_steps:
+            - "Wire the standard's §11 checks into a real script (plan-dashboard/scripts/lint-html-views.mjs): inline style=/inline <style>/<script> bodies, height clamps, external SVG refs, <svg> width/height attrs, accessibility triple, <html lang>, skip-link, 1.2rem floor."
+            - "Run it from npm (lint:views) + a pre-commit hook scoped to plan-dashboard/**; ship WARN-ONLY first, green the current views, THEN flip to blocking (non-zero exit on any MUST violation)."
+          acceptance:
+            - "lint:views runs green over current views in warn mode; after flip, a seeded inline-style violation makes the commit fail."
+        - id: WC7d
+          name: "One-screen MUST-only digest for cheap always-on context"
+          key_steps:
+            - "Author docs/standards/html-view-quality-digest.md: MUST rules only, one line each, cited by REQ-NNN; the full standard read only for a rule's exact text."
+            - "Point cortex-view-guard.sh + SKILL.md at the digest as the in-context reference; full standard remains the on-demand authority."
+          acceptance:
+            - "Digest fits one screen, lists every MUST by REQ-NNN; hook reminder references the digest path."
+        - id: WC7e
+          name: "Session-start injection of current site-work state (continuity)"
+          key_steps:
+            - "Add a SessionStart hook (sibling to cortex-view-guard.sh) that reads one living status line and injects 'where the site work stands' on every new conversation."
+            - "Maintain that status in a single canonical place (a one-block worklog) so the next session inherits context with zero re-reminding."
+          acceptance:
+            - "Opening a fresh conversation surfaces the current in-progress view + last-agreed decision + next step automatically, no user prompt."
+      build_order: [WC7a, WC7b, WC7c, WC7d, WC7e]
+      acceptance:
+        - "Enforcement is deterministic, not advisory: a MUST violation cannot be committed once the gate is flipped to blocking."
+        - "Source of truth lives at docs/standards/; rule text exists in exactly one file; skill + agent reference by REQ-NNN."
+        - "A new conversation inherits site-work state via SessionStart injection; no manual re-reminding."
   open_items_best_assumption:
     - "Table-level extraction mapping inferred from dumps (KASHKOLE TopicData*/SessionDoctrines/canvas.* excluded as plumbing)."
     - "Audit live regressions R5 (README) + R6 (publish script vs UI model) -> pipeline-debt; fixed during execution."
