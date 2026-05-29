@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T14:01:34.948Z",
-  "source_commit": "f34a812",
+  "generated_at": "2026-05-29T14:19:00.553Z",
+  "source_commit": "2832236",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "2832236",
+      "subject": "cortex: adopt HTML View Quality Standard as skill + challenger; lock app naming",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "f34a812",
       "subject": "prompts: reduce sprawl + add site-overhaul continuation prompt",
       "date": "2026-05-29"
@@ -825,11 +830,6 @@
     {
       "sha": "c36d76c",
       "subject": "push",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "9fd4a42",
-      "subject": "feat(dashboard): show PEQ quality scores on book cards, chapter list, and reader",
       "date": "2026-05-28"
     }
   ],

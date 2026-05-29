@@ -2651,6 +2651,25 @@ wisdom_corpus_program:
               - "html-view-challenger reports zero inline-styling MUST violations across plan-dashboard views + components."
               - "Existing colour theme + reader aesthetic visually unchanged (spot-check render)."
         build_order: [WC6a, WC6b, WC6c, "then existing WC6 view-build steps gated by html-view-challenger"]
+        config_drifts_2026_05_29:
+          status: in_progress
+          rationale: >
+            Two pre-existing workspace-config drifts surfaced alongside the 2026-05-29 Cortex
+            audit. Neither is pipeline content; both are tooling hygiene that should be clean
+            before per-view redesign begins. Authorization tier_one (config edits, zero LLM spend).
+          items:
+            - id: WC6-drift-1
+              name: "Snapshot-regen safety net not wired"
+              finding: >
+                CLAUDE.md + memory (plan-dashboard-snapshots-live) claim a PostToolUse hook
+                regenerates plan snapshots on edits to architecture.md / plan.md / plan.yaml /
+                pipeline-debt.md. Script .claude/hooks/plan-snapshot-regen.sh exists + is
+                executable but is NOT registered in .claude/settings.json (no PostToolUse block).
+              fix: "Register plan-snapshot-regen.sh as a PostToolUse hook matching Edit|Write|MultiEdit on the four plan paths, making reality match the documented contract."
+            - id: WC6-drift-2
+              name: "Stale YNAB MCP still enabled"
+              finding: "settings.local.json lists 'ynab' under enabledMcpjsonServers despite the 'remove YNAB MCP' commit."
+              fix: "Remove 'ynab' from enabledMcpjsonServers in settings.local.json."
   open_items_best_assumption:
     - "Table-level extraction mapping inferred from dumps (KASHKOLE TopicData*/SessionDoctrines/canvas.* excluded as plumbing)."
     - "Audit live regressions R5 (README) + R6 (publish script vs UI model) -> pipeline-debt; fixed during execution."
