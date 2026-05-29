@@ -73,6 +73,53 @@ const MarkerHighlight = Extension.create({
   },
 });
 
+// Surah name -> number (subset; expand to all 114 in the real build). Lets prose like
+// "Surah Az-Zalzalah, verses 7 to 8" become a hoverable 99:7 ref.
+const SURAH_MAP: Record<string, number> = {
+  'Al-Fatihah': 1, 'Al-Baqarah': 2, "Al-A'raf": 7, 'Al-Anfal': 8, 'At-Tawbah': 9,
+  'Yusuf': 12, 'Al-Isra': 17, 'Al-Kahf': 18, 'Maryam': 19, 'Ta-Ha': 20,
+  'Al-Muminun': 23, 'An-Nur': 24, 'Al-Furqan': 25, 'Luqman': 31, 'Ya-Sin': 36,
+  'Adh-Dhariyat': 51, 'Ar-Rahman': 55, 'Al-Hashr': 59, 'Al-Mulk': 67,
+  "Al-A'la": 87, 'Ash-Shams': 91, 'Az-Zalzalah': 99, 'Al-Asr': 103, 'Al-Ikhlas': 112,
+};
+const SURAH_VERSE_RE = /Surah ([A-Z][\w'’-]+),?\s+verses?\s+(\d+)/g;
+
+// Emit .ref-quran spans (data-surah/data-verse) so the reused QuranPopover shows the
+// verse + translation + audio on hover. Source today = /api/quran/verse; swaps to the
+// wisdom MCP/corpus per D13 once KQUR is ingested.
+const QuranRefs = Extension.create({
+  name: 'quranRefs',
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        key: new PluginKey('quranRefs'),
+        props: {
+          decorations(state) {
+            const decos: Decoration[] = [];
+            state.doc.descendants((node, pos) => {
+              if (!node.isText || !node.text) return;
+              SURAH_VERSE_RE.lastIndex = 0;
+              let m: RegExpExecArray | null;
+              while ((m = SURAH_VERSE_RE.exec(node.text))) {
+                const num = SURAH_MAP[m[1].replace(/’/g, "'")];
+                if (!num) continue;
+                decos.push(
+                  Decoration.inline(pos + m.index, pos + m.index + m[0].length, {
+                    class: 'ref-quran',
+                    'data-surah': String(num),
+                    'data-verse': m[2],
+                  }),
+                );
+              }
+            });
+            return DecorationSet.create(state.doc, decos);
+          },
+        },
+      }),
+    ];
+  },
+});
+
 interface Props {
   html: string;
   chapterTitle: string;
@@ -124,7 +171,7 @@ export default function StudioPoc({ html, chapterTitle }: Props) {
   );
 
   const editor = useEditor({
-    extensions: [StarterKit, MarkerHighlight, ChangeTracker],
+    extensions: [StarterKit, MarkerHighlight, QuranRefs, ChangeTracker],
     content: html,
     onCreate({ editor }) {
       const texts: string[] = [];

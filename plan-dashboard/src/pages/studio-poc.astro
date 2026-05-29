@@ -6,6 +6,7 @@
 import { readFileSync } from 'node:fs';
 import PocLayout from '../layouts/PocLayout.astro';
 import StudioPoc from '../components/reader/poc/StudioPoc.tsx';
+import QuranPopover from '../components/reader/QuranPopover.tsx';
 import { renderMarkdown } from '../lib/reader/markdown';
 
 const chapterUrl = new URL(
@@ -36,5 +37,10 @@ const chapterTitle = 'The Frame and the First Counsel';
 
   {loadError
     ? <p class="sp-error">Could not load the chapter: {loadError}</p>
-    : <StudioPoc client:only="react" html={html} chapterTitle={chapterTitle} />}
+    : (
+      <div class="prose-body">
+        <StudioPoc client:only="react" html={html} chapterTitle={chapterTitle} />
+        <QuranPopover client:only="react" />
+      </div>
+    )}
 </PocLayout>
