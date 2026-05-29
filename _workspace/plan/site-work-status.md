@@ -107,15 +107,26 @@ All agent-inline (no `claude -p`, no Claude tokens). Stage tabs all live at /stu
   reference DBs (Asif's deliverable). Tradition filter correctly BLOCKED injection (corpus=fatimid-
   ismaili, chapter=Ghazali Sunni-Sufi) — the safe intended behavior.
 
+**RECONCILE SLICE (Slice 3) DONE for ch01 (2026-05-29).** Tri-source aligned inline: Arabic
+original = authoritative SPINE (ch01 = OCR lines 13–191, before the Hatim story); the English
+academic edition is FAITHFUL (aligns counsel-by-counsel, each 'أيّها الولد' ↔ academic sections
+IV–XVII); the 2nd Arabic edition = attributed ADDITIONS (commentary). The Arabic spine carried
+**7 explicit Quran citations** the English prose embedded without numbers (18:11, 18:107, 19:59,
+7:179, 7:50, 17:79, 51:18) — all **VERIFIED** against the Quran source. So the knowledge stage
+went from 0 → **7 Quran-verified references**. Artifacts: `_stages/ch01.../reconcile-report.json`,
+updated `knowledge-report.json` + `augmented.md`. ch01 divergences: none material (clean alignment).
+
+**NUMBERED SLICES 0–4 NOW DONE for the ch01 vertical.** Remaining of the numbered set: **Slice 5+
+(Deepen)** — Anwaar engine routing, full Studio capability package, audio + episode↔chapter mapping,
+consistency pass. Plus the small Slice-0 phase-naming cleanup.
+
 **HONEST PENDING (not blockers, scoped work):**
-- Reconcile slice (Slice 3) DEFERRED: Core is single-source (English academic) + page-furniture-
-  stripped only; the real tri-source intersection (fold in the 2 Arabic editions, separate each
-  edition's commentary as attributed additions) is unbuilt. Denoise residue: inline footnote digits
-  ("Allah¹") remain in denoised (cleaned during normalize).
-- Reference verification needs the Quran + hadith DBs ingested (Asif providing).
-- Only ch01 processed; ch02–ch05 pending. Slide decks (mandatory output) not yet addressed.
-- intake_stage.py only OCRs (committed). Denoise/normalize/augment were inline agent transforms,
-  NOT yet productionized as scripts — fine for the walking skeleton; productionize when stable.
+- Hadith verification needs a hadith reference DB ingested (Asif providing). Quran now verifiable.
+- Reconcile done INLINE for ch01 (I read Arabic); scaling to all chapters/books = Gemini bulk +
+  Claude judgment (engine routing), not yet built as a script.
+- Only ch01 processed; ch02–ch05 pending (breadth). Slide decks (mandatory output) not yet addressed.
+- intake_stage.py only OCRs (committed/tracked). Denoise/normalize/reconcile/augment were inline
+  agent transforms (artifacts under content/drafts, local-only) — productionize as scripts when stable.
 
 **Parked (resume anytime):**
 - *Site redesign* — 5 of 13 views built, 5 text-only and pending. Full audit + resume
