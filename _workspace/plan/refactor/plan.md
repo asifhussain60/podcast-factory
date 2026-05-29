@@ -547,7 +547,7 @@ Wave J transforms the three SQL Server source databases into a live intelligence
 >
 > *Value gained:* All Quran verse lookups, term definitions, and topic searches complete locally in under 5 ms. Quran.com dependency eliminated for verse data. Gemini cost reduced by ~85–90% for term definitions. Mirror is portable to any machine.
 
-**Status: NOT STARTED**
+**Status: COMPLETED 2026-05-29.** `scripts/podcast/source_library_mirror.py` (mirror builder, 380 lines): 4 tables (`fts_quran`, `fts_topics`, `fts_sessions`, `term_index`), `--dry-run` + `--verify` flags, paginated extraction. `source_library_queries.py` updated: `quran_theme_search`, `topic_search`, `word_etymology` all try mirror first, fall back to SQL Server. 15 tests in `tests/test_source_library_mirror.py` — 317 total passing.
 
 ---
 

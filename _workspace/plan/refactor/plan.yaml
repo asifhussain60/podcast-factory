@@ -2088,7 +2088,13 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-j-offline-mirror"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed_2026_05_29
+        completed_notes: |
+          source_library_mirror.py (380 lines): 4 tables (fts_quran, fts_topics,
+          fts_sessions, term_index), paginated extraction, --dry-run + --verify.
+          source_library_queries.py updated: quran_theme_search, topic_search,
+          word_etymology all try mirror first, fall back to SQL Server.
+          15 tests in test_source_library_mirror.py — 317 total passing.
 
       - id: J2
         title: "Rewire the Astro editor's existing popover API routes to call the local server first"

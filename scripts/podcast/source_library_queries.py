@@ -23,6 +23,19 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from tools.source_extractor.db import query_json
 
+_mirror: object = None  # lazy-imported to avoid circular import
+
+
+def _get_mirror():
+    """Lazy-import the mirror module and return an open connection, or None."""
+    global _mirror
+    try:
+        import importlib
+        mod = importlib.import_module("scripts.podcast.source_library_mirror")
+        return mod.open_mirror()
+    except Exception:
+        return None
+
 
 # ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -71,11 +84,17 @@ FOR JSON PATH;
 
 
 def quran_theme_search(keyword: str, limit: int = 10) -> list[dict[str, Any]]:
-    """Search Quran verses by keyword (LIKE scan; FTS5 in J1).
+    """Search Quran verses by keyword.  Tries FTS5 mirror first; falls back to
+    LIKE scan on SQL Server.
 
-    Searches Pickthall and Asad translations.  Returns up to `limit` results,
-    each with keys: surah, ayat, arabic, pickthall, asad, phonetic.
+    Returns up to `limit` results, each with keys: surah, ayat, arabic,
+    pickthall, asad, phonetic.
     """
+    from scripts.podcast.source_library_mirror import fts_quran_search  # noqa: PLC0415
+    results = fts_quran_search(keyword, limit)
+    if results:
+        return results
+    # Fall back to SQL Server LIKE scan
     kw = _esc(keyword.strip())
     n = max(1, min(int(limit), 50))
     sql = f"""
@@ -96,11 +115,26 @@ FOR JSON PATH;
 
 
 def word_etymology(term: str) -> dict[str, Any]:
-    """Return root + derivatives for an Arabic term.
+    """Return root + derivatives for an Arabic term.  Checks term_index in the
+    local mirror first (sub-ms lookup); falls back to SQL Server on miss.
 
-    Searches Roots.RootTransliteration and Roots.MeaningEnglish.  Returns
-    {"root": {...}, "derivatives": [...]} or {"error": "..."}.
+    Returns {"root": {...}, "derivatives": [...]} or {"error": "..."}.
     """
+    from scripts.podcast.source_library_mirror import term_index_lookup  # noqa: PLC0415
+    cached = term_index_lookup(term)
+    if cached:
+        return {
+            "root": {
+                "root_arabic":     cached.get("arabic", ""),
+                "transliteration": cached.get("root", ""),
+                "meaning_en":      cached.get("definition", ""),
+                "meaning_ar":      cached.get("arabic", ""),
+                "definition":      cached.get("etymology", ""),
+            },
+            "derivatives": [],
+            "source": "mirror",
+        }
+    # Fall back to SQL Server
     t = _esc(term.strip())
     root_sql = f"""
 SELECT TOP 1
@@ -140,11 +174,17 @@ FOR JSON PATH;
 
 
 def topic_search(keyword: str, limit: int = 10) -> list[dict[str, Any]]:
-    """Search KASHKOLE topics by keyword (name search, LIKE; FTS5 in J1).
+    """Search KASHKOLE topics by keyword.  Tries FTS5 mirror first; falls back
+    to LIKE scan on SQL Server.
 
     Returns up to `limit` results, each with keys: topic_id, name, name_en,
-    description, binder, chapter, snippet (first 400 chars of topic text).
+    description, binder, chapter, snippet.
     """
+    from scripts.podcast.source_library_mirror import fts_topics_search  # noqa: PLC0415
+    results = fts_topics_search(keyword, limit)
+    if results:
+        return results
+    # Fall back to SQL Server LIKE scan
     kw = _esc(keyword.strip())
     n = max(1, min(int(limit), 50))
     sql = f"""

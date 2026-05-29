@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T08:47:26.177Z",
-  "source_commit": "c36d76c",
+  "generated_at": "2026-05-29T09:05:52.644Z",
+  "source_commit": "a04be15",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "a04be15",
+      "subject": "chore: regenerate plan-dashboard snapshots — source c36d76c",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "c36d76c",
       "subject": "push",
       "date": "2026-05-28"
@@ -825,11 +830,6 @@
     {
       "sha": "83a2da5",
       "subject": "docs(handoff): session log 2026-05-28 — test fix + Wave J J0 complete",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "041cfed",
-      "subject": "feat(wave-j): J0 — source library dual-interface server (MCP stdio + HTTP)",
       "date": "2026-05-28"
     }
   ],
