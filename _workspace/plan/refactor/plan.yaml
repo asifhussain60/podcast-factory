@@ -2650,7 +2650,41 @@ wisdom_corpus_program:
             acceptance:
               - "html-view-challenger reports zero inline-styling MUST violations across plan-dashboard views + components."
               - "Existing colour theme + reader aesthetic visually unchanged (spot-check render)."
-        build_order: [WC6a, WC6b, WC6c, "then existing WC6 view-build steps gated by html-view-challenger"]
+          - id: WC6d
+            name: "Shared diagram shell (build-once groundwork)"
+            decisions: [D19, D20, D25]
+            authorization: tier_one
+            cost_estimate_usd: zero
+            approved_design_2026_05_29: "design-on-paper approved by Asif; first concrete build step of the per-view redesign."
+            key_steps:
+              - "Theme-adapter block appended to theme.css: alias ~20 Cortex token names onto existing --c-* values + add 4 missing (--font-display/--font-mono/--glass-bg/--glass-border). ZERO existing colour values changed (this is the token half of WC6c, landed early because every view depends on it)."
+              - "Mermaid build-time integration: add mermaid dep + Mermaid.astro wrapper rendering to inline SVG at BUILD time (never client). Spike on a throwaway page; show Asif one rendered diagram before committing the integration (halt point)."
+              - "AudienceBadge component (For you / For technical teams / For both) with external CSS only."
+              - "Diagram-container classes in theme.css: vertical flow, no height cap, scroll only on .diagram-container overflow."
+            acceptance:
+              - "theme.css aliases resolve; npm run build clean; existing palette byte-identical."
+              - "One Mermaid diagram renders to inline SVG at build (spike screenshot shown to Asif)."
+              - "AudienceBadge + diagram-container classes external-only; html-view-challenger clean on the spike page."
+          - id: WC6e
+            name: "Overview front door redesign (AUGMENT, not replace)"
+            decisions: [D20]
+            authorization: tier_one
+            cost_estimate_usd: zero
+            approved_design_2026_05_29: >
+              Asif approved AUGMENT over replace: keep the existing hero / published-catalog /
+              intelligence cards / live metrics / six-waves history; weave in the four spec
+              diagrams (0.1 system map bespoke -> replaces hub; 0.2 book-journey Mermaid flowchart
+              TB -> leads the 8-step section with step text as companion; 0.3 one-read-two-outputs
+              Mermaid sequence -> new in Intelligence; 0.4 where-to-go-next bespoke index rail ->
+              replaces hub footer, links ALL drill-downs with audience labels). Label: For both.
+            key_steps:
+              - "Fix two existing DoD violations in scope: inline <script> snap-stamp in Base.astro + style={--spine-color} on catalog cards -> external."
+              - "Author/adapt the four diagrams per the augment map; vertical + uncapped; SVG a11y triple."
+              - "Gate through html-view-challenger to Level 1 (all MUSTs) before done; full-page screenshot per build methodology."
+            acceptance:
+              - "Overview passes html-view-challenger Level 1; coffee-test opening preserved; existing editorial content retained."
+              - "No duplicate diagram; WCAG AA contrast; full-page screenshot captured."
+        build_order: [WC6a, WC6b, WC6c, WC6d, WC6e, "then remaining WC6 view-build steps gated by html-view-challenger"]
         config_drifts_2026_05_29:
           status: in_progress
           rationale: >

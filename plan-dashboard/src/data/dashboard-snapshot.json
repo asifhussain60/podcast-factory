@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T14:19:00.553Z",
-  "source_commit": "2832236",
+  "generated_at": "2026-05-29T14:30:47.170Z",
+  "source_commit": "6107457",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "6107457",
+      "subject": "config: wire plan-snapshot-regen PostToolUse hook + clear two 2026-05-29 drifts",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "2832236",
       "subject": "cortex: adopt HTML View Quality Standard as skill + challenger; lock app naming",
       "date": "2026-05-29"
@@ -826,11 +831,6 @@
       "sha": "a04be15",
       "subject": "chore: regenerate plan-dashboard snapshots — source c36d76c",
       "date": "2026-05-29"
-    },
-    {
-      "sha": "c36d76c",
-      "subject": "push",
-      "date": "2026-05-28"
     }
   ],
   "metrics": {
