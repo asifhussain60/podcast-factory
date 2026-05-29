@@ -83,6 +83,24 @@ multi-source alignment = LLM. Asif approved the run; the producer build is the i
 **Metric note:** "% noise removed" is a Slice-2 (noise-strip / Denoised) number — not produced by
 intake. Tracking is wired; the value lands the first time the noise-strip stage runs.
 
+**INTAKE OCR DONE (2026-05-29).** `journal-docintel` upgraded F0→S0 (Asif ran the command;
+shared journal resource, so the tier change was his to make). `scripts/podcast/intake_stage.py`
+(Azure-only, NO `claude -p`) OCR'd all three PDFs → `_system/source/multi/ocr/{arabic,english,
+scholarly}.md`, cached + cost-tracked in `_system/cost-ledger.json` (**~$0.37 total**). Standing
+spend authorization + the NO-`claude -p` rule are in memory.
+
+**SOURCE MISLABELING (resolved, see `SOURCE-MAP-CORRECTION.md`).** Files are mislabeled:
+`arabic-original`=Arabic ✓, `english-superior`=**Arabic** (2nd commentary edition),
+`scholarly`=**English** (old academic translation, Roman-numeral sections I–XVII). So the set =
+two Arabic editions + one English academic translation, all DIFFERENT structures, and a different
+scheme from the prior run's 5 chapters.
+
+**NEXT — intake assembly (agent-inline reasoning, no spend):** align the heterogeneous-structure
+sources into the common-denominator CORE + map to the chapter scheme; write `_stages/<chapter>/
+source.md` + `core.md` so the Source/Core tabs light up. ch01 (framing letter + first counsel) is
+located in the English OCR around lines 1640–2400. This is content-aware boundary reasoning, not a
+mechanical split — the real Slice-1 work.
+
 **Parked (resume anytime):**
 - *Site redesign* — 5 of 13 views built, 5 text-only and pending. Full audit + resume
   order: `_workspace/plan/site-view-audit.md`. Discuss each page before changing it.
