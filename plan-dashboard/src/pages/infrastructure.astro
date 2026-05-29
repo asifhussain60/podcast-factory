@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
-import StackFlow from '../components/StackFlow.tsx';
+import AudienceBadge from '../components/AudienceBadge.astro';
+import InfraDeployment from '../components/InfraDeployment.astro';
+import Mermaid from '../components/Mermaid.astro';
 import InfraColumns from '../components/InfraColumns.tsx';
 import infra from '../data/infrastructure-snapshot.json';
 import { sumAllVendorCosts, sumAllVendorField } from '../lib/billing';
@@ -8,50 +10,61 @@ import { sumAllVendorCosts, sumAllVendorField } from '../lib/billing';
 const monthTotal   = sumAllVendorCosts(infra.vendors);
 const alltimeTotal = sumAllVendorField(infra.vendors, 'alltime_cost_usd');
 const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
+
+const creds = [
+  { key: 'ANTHROPIC_API_KEY',   storage: '.env file (git-ignored)', service: 'Anthropic API',              risk: 'managed',   note: 'Manual rotation, on suspicion.' },
+  { key: 'AZURE_SPEECH_KEY',    storage: '.env file (git-ignored)', service: 'Azure Speech',               risk: 'managed',   note: '90-day rotation recommended.' },
+  { key: 'AZURE_DOCINTEL_KEY',  storage: '.env file (git-ignored)', service: 'Azure Document Intelligence', risk: 'managed',   note: 'Same rotation as Speech.' },
+  { key: 'AZURE_TRANSLATOR_KEY',storage: '.env file (git-ignored)', service: 'Azure Translator',           risk: 'managed',   note: 'Shared or dedicated resource key.' },
+  { key: 'GITHUB_TOKEN',        storage: '.env file (git-ignored)', service: 'GitHub',                     risk: 'attention', note: 'PAT with repo-write scope — highest privilege here.' },
+  { key: '(browser cookie)',    storage: 'Browser session (no key on disk)', service: 'Google / NotebookLM', risk: 'low',     note: 'Human-only surface; nothing stored.' },
+];
+const riskClass = (r: string) => r === 'low' ? 'risk-low' : r === 'attention' ? 'risk-attention' : 'risk-managed';
+const riskLabel = (r: string) => r === 'low' ? 'Low' : r === 'attention' ? 'Attention' : 'Managed';
+
+const hotspots = [
+  { tag: 'SEC',  cls: 'hot-sec',  item: 'GitHub PAT has repo-write scope', detail: 'Highest-privilege secret on disk. Scope-limit or rotate to fine-grained token.' },
+  { tag: 'SEC',  cls: 'hot-sec',  item: 'No public-web fallback in the corpus', detail: 'Source authority is corpus-only; nothing reaches out to the open web at query time.' },
+  { tag: 'COST', cls: 'hot-cost', item: 'No hard per-book cost ceiling on Anthropic', detail: 'Watchdog caps runaway runs; a per-book hard cap would bound worst-case spend.' },
+  { tag: 'ARCH', cls: 'hot-arch', item: 'SQL Server reachable on LAN only', detail: 'Source Library Server mediates; the engine never holds SQL credentials.' },
+  { tag: 'ARCH', cls: 'hot-arch', item: 'mirror.db is gitignored, rebuildable', detail: 'Under 50 MB, auto-populated on first sync; safe to delete and regenerate.' },
+  { tag: 'OK',   cls: 'hot-ok',   item: 'All keys git-ignored, none in history', detail: 'Verified: no plaintext secret tracked in git.' },
+];
 ---
 <Base title="Infrastructure" active="infrastructure" section="architecture"
-     description="Overall infrastructure view — deployment topology, actor map, and database architecture for the podcast factory.">
+     description="Deployment topology, the access-layer transports, the ingest path, credentials, and per-service cost for the podcast factory.">
 
 <header class="page-hero">
   <div class="page-hero-inner">
     <span class="eyebrow">Infrastructure</span>
     <h1 class="page-hero-title">The full stack — where everything runs.</h1>
     <p class="page-hero-lede">
-      A book enters as a PDF on your machine. Five handoffs later, a finished podcast is live.
-      Every stage, every service, every data store shown below — from the Python engine on your laptop
-      to the three cloud vendors that power it.
+      A book enters as a PDF on your machine. Everything heavy runs locally; the factory only reaches
+      out to a handful of cloud services for AI reasoning, document reading, and publishing — and only
+      ever over an encrypted, key-authorised connection.
     </p>
   </div>
 </header>
 
-<section class="grid-3">
+<section class="grid-3" aria-label="What runs where, in plain terms">
   <div class="card card-tight infra-callout">
-    <div class="infra-callout-icon" style="color: var(--c-green)">&#x1F4BB;</div>
+    <div class="infra-callout-icon is-local"><i class="fa-solid fa-laptop-code" aria-hidden="true"></i></div>
     <strong>Runs on your laptop</strong>
-    <p class="small muted">Every script, every database, every draft — fully local. No cloud server holds your books. The factory only reaches out when it needs AI reasoning, document reading, or to publish finished work.</p>
+    <p class="small muted">Every script, database, and draft is fully local. No cloud server holds your books. The factory only reaches out when it needs AI reasoning, document reading, or to publish.</p>
   </div>
   <div class="card card-tight infra-callout">
-    <div class="infra-callout-icon" style="color: var(--c-amber)">&#x2601;</div>
+    <div class="infra-callout-icon is-cloud"><i class="fa-solid fa-cloud" aria-hidden="true"></i></div>
     <strong>Content goes to AI services</strong>
-    <p class="small muted">Book text and episode drafts are sent to Anthropic (for reasoning) and Azure (for reading PDFs). Both connections use encrypted HTTPS. You hold the keys — they stay in a local file that git ignores.</p>
+    <p class="small muted">Book text and drafts are sent to Anthropic (reasoning) and Azure (reading PDFs) over encrypted HTTPS. You hold the keys — they live in a local file that git ignores.</p>
   </div>
   <div class="card card-tight infra-callout">
-    <div class="infra-callout-icon" style="color: var(--c-accent)">&#x1F44D;</div>
+    <div class="infra-callout-icon is-gate"><i class="fa-solid fa-thumbs-up" aria-hidden="true"></i></div>
     <strong>You approve before anything ships</strong>
-    <p class="small muted">Two human review gates block the pipeline before expensive AI phases and before anything is published. Nothing is uploaded, posted, or sent without your explicit approval at each gate.</p>
+    <p class="small muted">Two human review gates block the pipeline before expensive AI phases and before publishing. Nothing is uploaded or posted without your explicit approval.</p>
   </div>
 </section>
 
-<section class="stack">
-  <h2>How a book becomes a podcast</h2>
-  <p>Drop in a book. Azure reads every page and translates it. Claude reasons through all the content.
-     NotebookLM voices the finished episodes. The labels between lanes name what moves across each handoff.</p>
-  <div class="stack-flow-frame">
-    <StackFlow />
-  </div>
-</section>
-
-<section class="grid-3">
+<section class="grid-3" aria-label="Cost summary">
   <div class="card metric">
     <span class="metric-label">This month, all services</span>
     <span class="metric-value">${monthTotal.toFixed(2)}</span>
@@ -72,353 +85,100 @@ const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
 <div class="l1-l2-boundary">
   <div class="l1-l2-boundary-inner">
     <span class="l1-l2-label">Technical detail below</span>
+    <AudienceBadge tier="teams" />
     <p class="l1-l2-sub">
-      The pipeline flow and vendor summary above are the complete executive picture.
-      Below: full deployment topology, the complete system actor map showing every service connection,
-      database architecture overview, and per-service cost drill-down.
+      Below: the deployment topology and trust boundaries, how the access layer is reached, the
+      knowledge-sync path, the credential map, an at-a-glance hotspots index, the database groups,
+      and the per-service cost drill-down.
     </p>
   </div>
 </div>
 
-<!-- ═══════════════════ 1. DEPLOYMENT TOPOLOGY ═══════════════════ -->
-<section class="stack" aria-label="Deployment topology diagram">
-  <h2>Deployment topology — where every component lives</h2>
-  <p>UML-style deployment diagram showing what runs locally, what calls out over HTTPS, and how each external service connects. Dashed lines denote trust-zone boundaries.</p>
+<!-- 5.1 Deployment topology -->
+<section class="stack" id="s-topology" aria-label="Deployment topology">
+  <h2>Deployment topology — what runs locally, what leaves the machine</h2>
+  <p>Two trust zones, stacked. Everything in the top zone runs on your machine; the boundary below is crossed only over an encrypted or local-network connection, each labelled with its protocol and how it is authorised.</p>
+  <InfraDeployment />
+</section>
 
-  <div class="topo-wrap">
-    <svg class="topo-svg" viewBox="0 0 960 620" xmlns="http://www.w3.org/2000/svg" role="img"
-         aria-label="Deployment topology: your machine on the left, external services on the right">
-      <defs>
-        <marker id="topo-ah"            viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#87827a"/></marker>
-        <marker id="topo-ah-azure"      viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#0078d4"/></marker>
-        <marker id="topo-ah-anthropic"  viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#cc785c"/></marker>
-        <marker id="topo-ah-nlm"        viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#4285f4"/></marker>
-        <marker id="topo-ah-github"     viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#1f2328"/></marker>
-        <marker id="topo-ah-rev-azure"  viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 Z" fill="#0078d4"/></marker>
-        <marker id="topo-ah-rev-anthropic" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 Z" fill="#cc785c"/></marker>
-        <filter id="topo-sh" x="-5%" y="-10%" width="115%" height="135%">
-          <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#1f1d18" flood-opacity="0.07"/>
-        </filter>
-        <linearGradient id="lg-machine" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#4a7c4a" stop-opacity="0.05"/>
-          <stop offset="1" stop-color="#4a7c4a" stop-opacity="0.02"/>
-        </linearGradient>
-      </defs>
+<!-- 5.2 Blackbox dual transport -->
+<section class="stack" id="s-transport" aria-label="Access-layer transports">
+  <h2>How the knowledge is reached — one query layer, two doors</h2>
+  <p>The Source Library Server exposes a single query layer through two transports: the pipeline's agents speak to it over a local process channel, and the reader's browser reaches it over local HTTP. Both hit the same code path; neither touches the network.</p>
+  <Mermaid
+    id="blackbox-transport"
+    title="The Source Library query layer reached two ways: pipeline agents over MCP stdio, and the reader's browser over HTTP on port 4390 — both resolving to one query layer that reads the local FTS5 mirror and, on the LAN, the SQL Server."
+    caption="One query layer, two transports — agents over stdio, the reader over localhost HTTP."
+  />
+</section>
 
-      <!-- YOUR MACHINE ZONE -->
-      <rect class="topo-zone topo-zone-machine" x="12" y="12" width="440" height="596" rx="10"
-            fill="url(#lg-machine)" stroke="#4a7c4a" stroke-dasharray="8 5" stroke-width="1.5"/>
-      <text class="topo-zone-label" x="232" y="34">YOUR MACHINE</text>
+<!-- 5.3 Ingest path -->
+<section class="stack" id="s-ingest" aria-label="Knowledge ingest path">
+  <h2>How new source knowledge is absorbed</h2>
+  <p>Dropping a lecture-transcript dump runs an idempotent ingest: anything already in the corpus is skipped, so re-running the same dump never duplicates content.</p>
+  <Mermaid
+    id="ksessions-ingest"
+    title="The ingest path: drop a dump, ingest and normalise, dedup against the corpus; new content is added, already-present content is skipped, both ending at the knowledge.db corpus — making re-runs idempotent."
+    caption="Idempotent by design — re-running a dump adds only what is genuinely new."
+  />
+</section>
 
-      <!-- Python Pipeline Engine -->
-      <rect class="topo-box" x="28" y="48" width="196" height="112" rx="7" filter="url(#topo-sh)"/>
-      <rect x="28" y="48" width="196" height="28" rx="7" fill="rgba(74,124,74,0.15)"/>
-      <rect x="28" y="64" width="196" height="12" fill="rgba(74,124,74,0.15)"/>
-      <text class="topo-box-title" x="126" y="65" text-anchor="middle">Python Pipeline Engine</text>
-      <text class="topo-box-sub"   x="126" y="80" text-anchor="middle">scripts/podcast/</text>
-      <text class="topo-svc" x="40" y="104">orchestrate_book.py</text>
-      <text class="topo-svc" x="40" y="120">extract_chapter.py</text>
-      <text class="topo-svc" x="40" y="136">build_episode_txt.py</text>
-      <text class="topo-svc" x="40" y="152">challenger + augmenter</text>
-
-      <!-- SQLite knowledge.db -->
-      <rect class="topo-box" x="240" y="48" width="196" height="96" rx="7" filter="url(#topo-sh)"/>
-      <rect x="240" y="48" width="196" height="28" rx="7" fill="rgba(184,134,11,0.15)"/>
-      <rect x="240" y="64" width="196" height="12" fill="rgba(184,134,11,0.15)"/>
-      <text class="topo-box-title" x="338" y="65" text-anchor="middle">knowledge.db</text>
-      <text class="topo-box-sub"   x="338" y="80" text-anchor="middle">SQLite · WAL mode</text>
-      <text class="topo-svc" x="252" y="104">16 SOLID-compliant tables</text>
-      <text class="topo-svc" x="252" y="120">Quran · Hadith · Doctrine atoms</text>
-      <text class="topo-svc" x="252" y="136">Arabic etymology (Wave 3)</text>
-
-      <!-- Astro Plan Dashboard -->
-      <rect class="topo-box" x="28" y="180" width="196" height="80" rx="7" filter="url(#topo-sh)"/>
-      <rect x="28" y="180" width="196" height="28" rx="7" fill="rgba(91,141,217,0.15)"/>
-      <rect x="28" y="196" width="196" height="12" fill="rgba(91,141,217,0.15)"/>
-      <text class="topo-box-title" x="126" y="197" text-anchor="middle">Astro Dashboard</text>
-      <text class="topo-box-sub"   x="126" y="212" text-anchor="middle">:4322 · read-only</text>
-      <text class="topo-svc" x="40" y="236">plan-dashboard/ snapshots</text>
-      <text class="topo-svc" x="40" y="252">plan, debt, bookshelf views</text>
-
-      <!-- content/ drafts & published -->
-      <rect class="topo-box" x="240" y="164" width="196" height="96" rx="7" filter="url(#topo-sh)"/>
-      <rect x="240" y="164" width="196" height="28" rx="7" fill="rgba(135,130,122,0.12)"/>
-      <rect x="240" y="180" width="196" height="12" fill="rgba(135,130,122,0.12)"/>
-      <text class="topo-box-title" x="338" y="181" text-anchor="middle">content/</text>
-      <text class="topo-box-sub"   x="338" y="196" text-anchor="middle">drafts/ + published/</text>
-      <text class="topo-svc" x="252" y="220">drafts/&lt;slug&gt;/ — in-flight</text>
-      <text class="topo-svc" x="252" y="236">published/books/&lt;slug&gt;/</text>
-      <text class="topo-svc" x="252" y="252">JSONL · TXT · m4a refs</text>
-
-      <!-- Orchestrator + Watchdog -->
-      <rect class="topo-box" x="28" y="280" width="408" height="64" rx="7" filter="url(#topo-sh)"/>
-      <rect x="28" y="280" width="408" height="28" rx="7" fill="rgba(124,58,237,0.1)"/>
-      <rect x="28" y="296" width="408" height="12" fill="rgba(124,58,237,0.1)"/>
-      <text class="topo-box-title" x="232" y="297" text-anchor="middle">Orchestrator + Watchdog (launchd)</text>
-      <text class="topo-svc" x="232" y="328" text-anchor="middle">Long-running orchestration · PID monitor · cost cap · auto-retry</text>
-
-      <!-- git + GitHub CLI -->
-      <rect class="topo-box" x="28" y="364" width="408" height="64" rx="7" filter="url(#topo-sh)"/>
-      <rect x="28" y="364" width="408" height="28" rx="7" fill="rgba(31,35,40,0.08)"/>
-      <rect x="28" y="380" width="408" height="12" fill="rgba(31,35,40,0.08)"/>
-      <text class="topo-box-title" x="232" y="381" text-anchor="middle">git + GitHub CLI</text>
-      <text class="topo-svc" x="232" y="412" text-anchor="middle">develop → book/&lt;slug&gt; → publish → merge · SSH push · PR gated to main</text>
-
-      <!-- You (operator) -->
-      <circle cx="232" cy="476" r="20" fill="var(--c-bg-card)" stroke="var(--c-rule)" stroke-width="1.5"/>
-      <text style="font: 16px serif; fill: var(--c-ink)" x="232" y="480" text-anchor="middle">You</text>
-      <text class="topo-box-sub" x="232" y="500" text-anchor="middle">Operator — 2 human gates</text>
-
-      <!-- Source Library Server -->
-      <rect class="topo-box" x="28" y="514" width="408" height="78" rx="7" filter="url(#topo-sh)"/>
-      <rect x="28" y="514" width="408" height="28" rx="7" fill="rgba(91,141,217,0.12)"/>
-      <rect x="28" y="530" width="408" height="12" fill="rgba(91,141,217,0.12)"/>
-      <text class="topo-box-title" x="232" y="531" text-anchor="middle">Source Library Server</text>
-      <text class="topo-box-sub"   x="232" y="546" text-anchor="middle">:4390 · MCP stdio (pipeline) + HTTP REST (reader)</text>
-      <text class="topo-svc" x="232" y="570" text-anchor="middle">scripts/mcp/source_library_server.py · FastAPI + MCP · SQLite mirror FTS5</text>
-      <text class="topo-svc" x="232" y="584" text-anchor="middle">quran_lookup · word_etymology · topic_search · session_style_fetch</text>
-
-      <!-- EXTERNAL SERVICES ZONE -->
-      <rect class="topo-zone" x="464" y="12" width="484" height="596" rx="10"
-            stroke="#87827a" stroke-dasharray="6 4" stroke-width="1.5" fill="rgba(135,130,122,0.025)"/>
-      <text class="topo-zone-label" x="706" y="34">EXTERNAL SERVICES</text>
-
-      <!-- Azure cluster -->
-      <rect x="478" y="46" width="220" height="148" rx="8" fill="rgba(0,120,212,0.05)" stroke="#0078d4" stroke-width="1.2"/>
-      <text class="topo-cluster-lbl" x="490" y="66" fill="#0078d4">Azure</text>
-      <rect class="topo-svc-box" x="490" y="72" width="94" height="44" rx="4"/>
-      <text class="topo-svc-title" x="537" y="93" text-anchor="middle">Doc Intelligence</text>
-      <text class="topo-svc-sub2"  x="537" y="107" text-anchor="middle">PDF → text</text>
-      <rect class="topo-svc-box" x="596" y="72" width="88" height="44" rx="4"/>
-      <text class="topo-svc-title" x="640" y="93" text-anchor="middle">Translator</text>
-      <text class="topo-svc-sub2"  x="640" y="107" text-anchor="middle">Arabic→EN</text>
-      <rect class="topo-svc-box" x="530" y="124" width="80" height="44" rx="4"/>
-      <text class="topo-svc-title" x="570" y="145" text-anchor="middle">Speech</text>
-      <text class="topo-svc-sub2"  x="570" y="159" text-anchor="middle">Phonetics</text>
-
-      <!-- Anthropic cluster -->
-      <rect x="710" y="46" width="224" height="148" rx="8" fill="rgba(204,120,92,0.05)" stroke="#cc785c" stroke-width="1.2"/>
-      <text class="topo-cluster-lbl" x="722" y="66" fill="#cc785c">Anthropic</text>
-      <rect class="topo-svc-box" x="722" y="72" width="200" height="36" rx="4"/>
-      <text class="topo-svc-title" x="822" y="93"  text-anchor="middle">Claude Opus 4.7</text>
-      <text class="topo-svc-sub2"  x="822" y="107" text-anchor="middle">Plan · Enrich · Audit</text>
-      <rect class="topo-svc-box" x="722" y="116" width="200" height="36" rx="4"/>
-      <text class="topo-svc-title" x="822" y="133" text-anchor="middle">Claude Sonnet</text>
-      <text class="topo-svc-sub2"  x="822" y="147" text-anchor="middle">Extract · Write framing</text>
-      <rect class="topo-svc-box" x="722" y="160" width="200" height="28" rx="4"/>
-      <text class="topo-svc-title" x="822" y="178" text-anchor="middle">Claude Haiku — cheap mechanical tasks</text>
-
-      <!-- NotebookLM -->
-      <rect x="478" y="214" width="220" height="80" rx="8" fill="rgba(66,133,244,0.05)" stroke="#4285f4" stroke-width="1.2"/>
-      <text class="topo-cluster-lbl" x="490" y="234" fill="#4285f4">NotebookLM</text>
-      <rect class="topo-svc-box" x="490" y="240" width="196" height="44" rx="4"/>
-      <text class="topo-svc-title" x="588" y="261" text-anchor="middle">Audio Overview</text>
-      <text class="topo-svc-sub2"  x="588" y="277" text-anchor="middle">Browser-only · manual upload by you</text>
-
-      <!-- GitHub remote -->
-      <rect x="710" y="214" width="224" height="80" rx="8" fill="rgba(31,35,40,0.05)" stroke="#1f2328" stroke-width="1.2"/>
-      <text class="topo-cluster-lbl" x="722" y="234">GitHub</text>
-      <rect class="topo-svc-box" x="722" y="240" width="200" height="44" rx="4"/>
-      <text class="topo-svc-title" x="822" y="261" text-anchor="middle">origin/develop + origin/main</text>
-      <text class="topo-svc-sub2"  x="822" y="277" text-anchor="middle">Content catalog · SSH push</text>
-
-      <!-- SQL Server LAN cluster -->
-      <rect x="478" y="314" width="456" height="100" rx="8" fill="rgba(91,141,217,0.05)" stroke="#5b8dd9" stroke-width="1.2" stroke-dasharray="5 3"/>
-      <text class="topo-cluster-lbl" x="490" y="334" fill="#5b8dd9">SQL Server · 192.168.1.158 · home network (LAN only)</text>
-      <rect class="topo-svc-box" x="490" y="340" width="130" height="64" rx="4"/>
-      <text class="topo-svc-title" x="555" y="363" text-anchor="middle">KQUR</text>
-      <text class="topo-svc-sub2"  x="555" y="377" text-anchor="middle">6,236 verses</text>
-      <text class="topo-svc-sub2"  x="555" y="391" text-anchor="middle">roots + etymology</text>
-      <rect class="topo-svc-box" x="630" y="340" width="140" height="64" rx="4"/>
-      <text class="topo-svc-title" x="700" y="363" text-anchor="middle">WISDOM</text>
-      <text class="topo-svc-sub2"  x="700" y="377" text-anchor="middle">corpus + glossary</text>
-      <text class="topo-svc-sub2"  x="700" y="391" text-anchor="middle">term index</text>
-      <rect class="topo-svc-box" x="780" y="340" width="142" height="64" rx="4"/>
-      <text class="topo-svc-title" x="851" y="363" text-anchor="middle">KSESSIONS</text>
-      <text class="topo-svc-sub2"  x="851" y="377" text-anchor="middle">343 transcripts</text>
-      <text class="topo-svc-sub2"  x="851" y="391" text-anchor="middle">FTS5 search</text>
-
-      <!-- ARROWS: engine to Azure (bidirectional) — arc above boxes through top corridor -->
-      <path class="topo-arr" stroke="#0078d4" d="M224,58 C310,30 446,30 478,60"
-            marker-end="url(#topo-ah-azure)" marker-start="url(#topo-ah-rev-azure)"/>
-      <text class="topo-proto" x="352" y="26">HTTPS REST</text>
-
-      <!-- engine to Anthropic (bidirectional) — arc high above boxes -->
-      <path class="topo-arr" stroke="#cc785c" d="M224,52 C340,16 590,16 710,80"
-            marker-end="url(#topo-ah-anthropic)" marker-start="url(#topo-ah-rev-anthropic)"/>
-      <text class="topo-proto" x="492" y="13">HTTPS REST</text>
-
-      <!-- content to NotebookLM (manual, dashed) -->
-      <path class="topo-arr" stroke="#4285f4" stroke-dasharray="7 5"
-            d="M436,220 C450,254 464,254 478,254"
-            marker-end="url(#topo-ah-nlm)"/>
-      <text class="topo-proto" x="445" y="242">Manual upload</text>
-
-      <!-- git to GitHub — arc below NotebookLM (y>294), then right to GitHub -->
-      <path class="topo-arr" stroke="#1f2328" d="M436,392 C560,392 560,310 710,264"
-            marker-end="url(#topo-ah-github)"/>
-      <text class="topo-proto" x="556" y="320">Git / SSH</text>
-
-      <!-- DB local read — dashed line in the 16px gap between boxes -->
-      <path fill="none" stroke="var(--c-rule)" stroke-width="1" stroke-dasharray="4 3"
-            d="M240,100 L224,100" marker-end="url(#topo-ah)"/>
-      <text class="topo-proto" x="215" y="95" text-anchor="end">file://</text>
-
-      <!-- Source Library Server → SQL Server LAN (bidirectional) -->
-      <path fill="none" stroke="#5b8dd9" stroke-width="1.5" stroke-dasharray="6 4"
-            d="M436,553 C450,553 464,364 478,364"
-            marker-end="url(#topo-ah-azure)" marker-start="url(#topo-ah-rev-azure)"/>
-      <text class="topo-proto" x="458" y="465">SQL / LAN</text>
-    </svg>
+<!-- 5.4 Credentials -->
+<section class="stack" id="s-credentials" aria-label="Credential and auth map">
+  <h2>Credentials — where every secret lives and what it authorises</h2>
+  <p>Every key is stored in a single git-ignored local file (or held only as a browser session). Risk is rated by privilege and exposure.</p>
+  <div class="infra-table-wrap">
+    <table class="infra-table">
+      <caption>Each row: the secret, where it lives, what it authorises, and its risk tier.</caption>
+      <thead>
+        <tr><th scope="col">Secret</th><th scope="col">Where it lives</th><th scope="col">Authorises</th><th scope="col">Risk</th><th scope="col">Note</th></tr>
+      </thead>
+      <tbody>
+        {creds.map((c) => (
+          <tr>
+            <td><code>{c.key}</code></td>
+            <td>{c.storage}</td>
+            <td>{c.service}</td>
+            <td><span class={`risk-pill ${riskClass(c.risk)}`}>{riskLabel(c.risk)}</span></td>
+            <td>{c.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </div>
 </section>
 
-<!-- ═══════════════════ 2. SYSTEM ACTOR MAP ═══════════════════ -->
-<section class="stack" aria-label="System actor map">
-  <h2>Every actor, every connection</h2>
-  <p>A scholarly book enters at the top. A published podcast exits at the bottom. Between them: four pipeline stages on your machine, four cloud services, and a growing knowledge store that makes each new book smarter than the last.</p>
-  <div class="map-wrap">
-    <svg class="actor-map" viewBox="0 0 820 614" xmlns="http://www.w3.org/2000/svg" role="img"
-         aria-label="Full system actor map">
-      <defs>
-        <marker id="ah"          viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#87827a"/></marker>
-        <marker id="ah-stage"    viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#d9d3c4"/></marker>
-        <marker id="ah-azure"    viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#0078d4"/></marker>
-        <marker id="ah-claude"   viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#cc785c"/></marker>
-        <marker id="ah-google"   viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#4285f4"/></marker>
-        <marker id="ah-nlm"      viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#1a73e8"/></marker>
-        <marker id="ah-gold"     viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#b8860b"/></marker>
-        <marker id="ah-rev-azure"  viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 Z" fill="#0078d4"/></marker>
-        <marker id="ah-rev-claude" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 Z" fill="#cc785c"/></marker>
-        <filter id="card-sh" x="-5%" y="-10%" width="110%" height="130%">
-          <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#1f1d18" flood-opacity="0.06"/>
-        </filter>
-      </defs>
-
-      <text class="col-lbl" x="249" y="16" text-anchor="middle">Your machine</text>
-      <text class="col-lbl" x="659" y="16" text-anchor="middle">External services</text>
-
-      <rect class="zone zone-machine"  x="8"   y="24" width="482" height="530" rx="8"/>
-      <rect class="zone zone-services" x="506" y="24" width="306" height="530" rx="8"/>
-
-      <!-- Inputs -->
-      <rect class="box-input" x="20"  y="36" width="150" height="52" rx="6" filter="url(#card-sh)"/>
-      <text class="input-title" x="95"  y="58" text-anchor="middle">Book PDF</text>
-      <text class="input-sub"   x="95"  y="76" text-anchor="middle">Scholarly Arabic text</text>
-      <rect class="box-input" x="180" y="36" width="150" height="52" rx="6" filter="url(#card-sh)"/>
-      <text class="input-title" x="255" y="58" text-anchor="middle">Audio / Lecture</text>
-      <text class="input-sub"   x="255" y="76" text-anchor="middle">Recordings, transcripts</text>
-
-      <path class="arr arr-input" d="M95,88  C95,96  244,96  244,102" marker-end="url(#ah)"/>
-      <path class="arr arr-input" d="M255,88 C255,96 244,96  244,102" marker-end="url(#ah)"/>
-
-      <!-- Stage 1 -->
-      <rect class="box-stage" x="20" y="102" width="452" height="66" rx="5" filter="url(#card-sh)"/>
-      <circle class="stage-dot" cx="44" cy="135" r="12"/>
-      <text class="stage-n" x="44" y="140" text-anchor="middle">1</text>
-      <text class="stage-title" x="70" y="124">Read &amp; Translate</text>
-      <text class="stage-desc"  x="70" y="142">Azure scans every page and translates Arabic to English.</text>
-      <text class="stage-time"  x="463" y="124">~10 min</text>
-      <path class="arr-stage" d="M244,168 V182" marker-end="url(#ah-stage)"/>
-
-      <!-- Stage 2 -->
-      <rect class="box-stage" x="20" y="182" width="452" height="66" rx="5" filter="url(#card-sh)"/>
-      <circle class="stage-dot" cx="44" cy="215" r="12"/>
-      <text class="stage-n" x="44" y="220" text-anchor="middle">2</text>
-      <text class="stage-title" x="70" y="204">Plan the Episodes</text>
-      <text class="stage-desc"  x="70" y="222">Claude reads the full book and maps chapters to episodes.</text>
-      <text class="stage-time"  x="463" y="204">~20 min</text>
-      <path class="arr-stage" d="M244,248 V262" marker-end="url(#ah-stage)"/>
-
-      <!-- Stage 3 -->
-      <rect class="box-stage" x="20" y="262" width="452" height="66" rx="5" filter="url(#card-sh)"/>
-      <circle class="stage-dot" cx="44" cy="295" r="12"/>
-      <text class="stage-n" x="44" y="300" text-anchor="middle">3</text>
-      <text class="stage-title" x="70" y="284">Write &amp; Challenge</text>
-      <text class="stage-desc"  x="70" y="302">Claude writes each chapter; a critic pass rejects weak output.</text>
-      <text class="stage-time"  x="463" y="284">~2 hrs</text>
-      <path class="arr-stage" d="M244,328 V342" marker-end="url(#ah-stage)"/>
-
-      <!-- Stage 4 -->
-      <rect class="box-stage" x="20" y="342" width="452" height="66" rx="5" filter="url(#card-sh)"/>
-      <circle class="stage-dot" cx="44" cy="375" r="12"/>
-      <text class="stage-n" x="44" y="380" text-anchor="middle">4</text>
-      <text class="stage-title" x="70" y="364">Audit &amp; Ship</text>
-      <text class="stage-desc"  x="70" y="382">Quality gates pass; the finished bundle ships to NotebookLM.</text>
-      <text class="stage-time"  x="463" y="364">~30 min</text>
-      <path class="arr-knowledge" d="M244,408 V422" marker-end="url(#ah-gold)"/>
-
-      <!-- Knowledge Store -->
-      <rect class="box-knowledge" x="20" y="422" width="452" height="118" rx="5" filter="url(#card-sh)"/>
-      <text class="know-title" x="246" y="450" text-anchor="middle">Knowledge Store</text>
-      <text class="know-desc"  x="246" y="470" text-anchor="middle">Quran verses and hadith extracted from every processed book.</text>
-      <text class="know-desc"  x="246" y="488" text-anchor="middle">Later books draw on this memory to enrich their own chapters.</text>
-      <text class="know-note"  x="246" y="508" text-anchor="middle">SQLite database, shared across all books.</text>
-      <text class="know-note"  x="246" y="524" text-anchor="middle">Grows richer with every book the factory processes.</text>
-
-      <!-- Azure cluster -->
-      <rect class="cluster cluster-azure" x="518" y="102" width="286" height="148" rx="6"/>
-      <text class="cluster-lbl lbl-azure" x="530" y="120">Azure</text>
-      <rect class="svc svc-azure" x="530" y="126" width="122" height="50" rx="4"/>
-      <text class="svc-title" x="591" y="149" text-anchor="middle">Doc Intelligence</text>
-      <text class="svc-sub"   x="591" y="167" text-anchor="middle">Reads Arabic PDFs</text>
-      <rect class="svc svc-azure" x="660" y="126" width="132" height="50" rx="4"/>
-      <text class="svc-title" x="726" y="149" text-anchor="middle">Translator</text>
-      <text class="svc-sub"   x="726" y="167" text-anchor="middle">Arabic → English</text>
-      <rect class="svc svc-azure" x="594" y="186" width="122" height="50" rx="4"/>
-      <text class="svc-title" x="655" y="209" text-anchor="middle">Speech</text>
-      <text class="svc-sub"   x="655" y="227" text-anchor="middle">Islamic name phonetics</text>
-
-      <!-- Anthropic cluster -->
-      <rect class="cluster cluster-claude" x="518" y="262" width="286" height="78" rx="6"/>
-      <text class="cluster-lbl lbl-claude" x="530" y="280">Anthropic</text>
-      <rect class="svc svc-claude" x="598" y="282" width="194" height="50" rx="4"/>
-      <text class="svc-title" x="695" y="305" text-anchor="middle">Claude</text>
-      <text class="svc-sub"   x="695" y="323" text-anchor="middle">Plans, writes, challenges quality</text>
-
-      <!-- Google cluster -->
-      <rect class="cluster cluster-google" x="518" y="352" width="286" height="78" rx="6"/>
-      <text class="cluster-lbl lbl-google" x="530" y="370">Google</text>
-      <rect class="svc svc-google" x="598" y="372" width="194" height="50" rx="4"/>
-      <text class="svc-title" x="695" y="395" text-anchor="middle">Gemini</text>
-      <text class="svc-sub"   x="695" y="413" text-anchor="middle">Independent quality audit</text>
-
-      <!-- NotebookLM cluster -->
-      <rect class="cluster cluster-nlm" x="518" y="442" width="286" height="78" rx="6"/>
-      <text class="cluster-lbl lbl-nlm" x="530" y="460">NotebookLM</text>
-      <rect class="svc svc-nlm" x="598" y="462" width="194" height="50" rx="4"/>
-      <text class="svc-title" x="695" y="485" text-anchor="middle">Audio Overview</text>
-      <text class="svc-sub"   x="695" y="503" text-anchor="middle">Turns the bundle into a podcast</text>
-
-      <!-- Published catalog bar -->
-      <rect class="box-output" x="8" y="566" width="804" height="36" rx="5"/>
-      <text class="output-title" x="410" y="589" text-anchor="middle">Published Catalog — episodes live</text>
-
-      <!-- Stage <-> Service arrows -->
-      <path class="arr arr-azure"  d="M472,135 C490,135 490,176 518,176" marker-end="url(#ah-azure)"  marker-start="url(#ah-rev-azure)"/>
-      <path class="arr arr-claude" d="M472,215 C490,215 490,301 518,301" marker-end="url(#ah-claude)" marker-start="url(#ah-rev-claude)"/>
-      <path class="arr arr-google" d="M472,295 C490,295 490,391 518,391" marker-end="url(#ah-google)"/>
-      <path class="arr arr-nlm"    d="M472,375 C490,375 490,481 518,481" marker-end="url(#ah-nlm)"/>
-      <path class="arr arr-nlm"    d="M695,520 C695,545 410,545 410,566" marker-end="url(#ah-nlm)"/>
-    </svg>
-  </div>
-
-  <div class="legend-grid">
-    <div class="legend-item"><span class="legend-dot ld-azure"></span><div><strong>Azure</strong> handles everything about the source text: scanning the PDF page by page, translating Arabic to English, and pronouncing Islamic names correctly.</div></div>
-    <div class="legend-item"><span class="legend-dot ld-claude"></span><div><strong>Anthropic / Claude</strong> does all the reasoning — planning episode structure, writing narrator framings, and reviewing quality. Every piece of generated text originates here.</div></div>
-    <div class="legend-item"><span class="legend-dot ld-google"></span><div><strong>Google / Gemini</strong> runs an independent quality audit — a second reader that has no stake in the output and catches issues Claude's own critic might miss.</div></div>
-    <div class="legend-item"><span class="legend-dot ld-nlm"></span><div><strong>NotebookLM</strong> takes the finished bundle and generates the podcast audio. You upload manually — nothing is sent to Google automatically from the pipeline.</div></div>
+<!-- Hotspots index -->
+<section class="stack" id="s-hotspots" aria-label="Hotspots index">
+  <h2>Hotspots index — security, cost, and architecture at a glance</h2>
+  <p>A standing punch-list for the technical reader: what to watch (security, cost), what is deliberately structured (architecture), and what is verified clean.</p>
+  <div class="infra-table-wrap">
+    <table class="infra-table">
+      <caption>Tagged SEC (security), COST, ARCH (architecture), or OK (verified).</caption>
+      <thead>
+        <tr><th scope="col">Tag</th><th scope="col">Item</th><th scope="col">Detail</th></tr>
+      </thead>
+      <tbody>
+        {hotspots.map((h) => (
+          <tr>
+            <td><span class={h.cls}>{h.tag}</span></td>
+            <td>{h.item}</td>
+            <td>{h.detail}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </div>
 </section>
 
-<!-- ═══════════════════ 3. DATABASE OVERVIEW ═══════════════════ -->
-<section class="stack" aria-label="Database architecture overview">
+<!-- Database groups -->
+<section class="stack" id="s-database" aria-label="Database architecture overview">
   <h2>Database architecture — what the knowledge store holds</h2>
   <p>Sixteen SOLID-compliant tables in a single SQLite database replace scattered JSONL files. Four logical groups, each with a distinct role. <a href="/db-schema">Explore the full schema →</a></p>
 
   <div class="db-overview-grid">
-    <div class="db-overview-group" style="--grp-color: #8b4513">
-      <div class="db-grp-header"><span class="db-grp-icon">⚙</span><strong>Core Pipeline</strong><span class="db-grp-count">6 tables</span></div>
+    <div class="db-overview-group grp-core">
+      <div class="db-grp-header"><span class="db-grp-icon" aria-hidden="true">⚙</span><strong>Core Pipeline</strong><span class="db-grp-count">6 tables</span></div>
       <ul class="db-grp-tables">
         <li><code>books</code> — one row per ingested source</li>
         <li><code>chapters</code> — each chapter with enrichment state</li>
@@ -428,8 +188,8 @@ const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
         <li><code>cost_ledger</code> — per-call LLM cost tracking</li>
       </ul>
     </div>
-    <div class="db-overview-group" style="--grp-color: #b8860b">
-      <div class="db-grp-header"><span class="db-grp-icon">📚</span><strong>Knowledge Store</strong><span class="db-grp-count">6 tables</span></div>
+    <div class="db-overview-group grp-know">
+      <div class="db-grp-header"><span class="db-grp-icon" aria-hidden="true">📚</span><strong>Knowledge Store</strong><span class="db-grp-count">6 tables</span></div>
       <ul class="db-grp-tables">
         <li><code>knowledge_atoms</code> — Quran / Hadith / Doctrine atoms</li>
         <li><code>atom_sources</code> — provenance join table</li>
@@ -439,25 +199,25 @@ const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
         <li><code>corpus_chapters</code> — per-chapter state machine</li>
       </ul>
     </div>
-    <div class="db-overview-group" style="--grp-color: #4a7c4a">
-      <div class="db-grp-header"><span class="db-grp-icon">⚖</span><strong>Quality Audit</strong><span class="db-grp-count">1 table</span></div>
+    <div class="db-overview-group grp-qual">
+      <div class="db-grp-header"><span class="db-grp-icon" aria-hidden="true">⚖</span><strong>Quality Audit</strong><span class="db-grp-count">1 table</span></div>
       <ul class="db-grp-tables">
-        <li><code>challenger_findings</code> — P0/P1/P2 findings per chapter, fix status, and iteration count</li>
+        <li><code>challenger_findings</code> — P0/P1/P2 findings per chapter, fix status, iteration count</li>
       </ul>
       <div class="db-grp-note">Challenger findings feed the convergence loop and the cross-book health scores in the Bookshelf.</div>
     </div>
-    <div class="db-overview-group" style="--grp-color: #5b8dd9">
-      <div class="db-grp-header"><span class="db-grp-icon">⚡</span><strong>Source Library Mirror</strong><span class="db-grp-count">4 tables</span><span class="db-grp-wave">Wave J</span></div>
+    <div class="db-overview-group grp-mirror">
+      <div class="db-grp-header"><span class="db-grp-icon" aria-hidden="true">⚡</span><strong>Source Library Mirror</strong><span class="db-grp-count">4 tables</span><span class="db-grp-wave">Wave J</span></div>
       <ul class="db-grp-tables">
-        <li><code>fts_quran</code> — FTS5: Arabic + Pickthall + Asad + Urdu full-text</li>
-        <li><code>fts_topics</code> — FTS5: Wisdom topic data full-text search</li>
+        <li><code>fts_quran</code> — FTS5: Arabic + Pickthall + Asad + Urdu</li>
+        <li><code>fts_topics</code> — FTS5: Wisdom topic data</li>
         <li><code>fts_sessions</code> — FTS5: 343 lecture transcripts</li>
-        <li><code>term_index</code> — unified term lookup with etymology, tradition, source</li>
+        <li><code>term_index</code> — unified term lookup w/ etymology, tradition, source</li>
       </ul>
-      <div class="db-grp-note">mirror.db — separate from knowledge.db. Gitignored, &lt;50 MB. Auto-populated from SQL Server on first sync. Zero token cost per lookup.</div>
+      <div class="db-grp-note">mirror.db — separate from knowledge.db. Gitignored, under 50 MB. Auto-populated from SQL Server on first sync. Zero token cost per lookup.</div>
     </div>
-    <div class="db-overview-group db-grp-future" style="--grp-color: #5b8dd9">
-      <div class="db-grp-header"><span class="db-grp-icon">🌿</span><strong>Etymology</strong><span class="db-grp-count">3 tables</span><span class="db-grp-wave">Wave 3</span></div>
+    <div class="db-overview-group grp-etym db-grp-future">
+      <div class="db-grp-header"><span class="db-grp-icon" aria-hidden="true">🌿</span><strong>Etymology</strong><span class="db-grp-count">3 tables</span><span class="db-grp-wave">Wave 3</span></div>
       <ul class="db-grp-tables">
         <li><code>arabic_roots</code> — Semitic roots with abjad sums</li>
         <li><code>word_etymologies</code> — morphological derivations</li>
@@ -468,114 +228,11 @@ const callsTotal   = sumAllVendorField(infra.vendors, 'calls_30d');
   </div>
 </section>
 
-<!-- ═══════════════════ 4. VENDOR COST DRILL-DOWN ═══════════════════ -->
-<section class="stack">
+<!-- Vendor cost drill-down -->
+<section class="stack" id="s-costs">
   <h2>Vendor cost breakdown</h2>
   <p>Per-service cost detail. Each vendor is rolled up above; expand here to see individual service calls.</p>
   <InfraColumns vendors={infra.vendors} client:load />
 </section>
 
 </Base>
-
-<style>
-  .infra-callout { display: flex; flex-direction: column; gap: 8px; }
-  .infra-callout-icon { font-size: 22px; }
-
-  .stack-flow-frame {
-    border: 1px solid var(--c-rule);
-    border-radius: var(--r-lg);
-    background: var(--c-bg-card);
-    padding: var(--sp-3) var(--sp-3) var(--sp-2);
-    overflow-x: auto;
-  }
-  :global(.svg-host), :global(.stack-flow) { display: block; width: 100%; min-width: 680px; }
-
-  /* ── Deployment topology ── */
-  .topo-wrap {
-    border: 1px solid var(--c-rule);
-    border-radius: var(--r-lg);
-    background: var(--c-bg-card);
-    padding: var(--sp-3);
-    overflow-x: auto;
-  }
-  .topo-svg { display: block; width: 100%; min-width: 700px; }
-  .topo-zone { fill: none; }
-  .topo-zone-label { font: 700 10px 'Lato', sans-serif; fill: var(--c-ink-muted); text-transform: uppercase; letter-spacing: 0.09em; }
-  .topo-box { fill: var(--c-bg-card); stroke: var(--c-rule); stroke-width: 1.2; }
-  .topo-box-title { font: 700 11.5px 'Lato', sans-serif; fill: var(--c-ink); }
-  .topo-box-sub   { font: 400 10px 'Lato', sans-serif; fill: var(--c-ink-muted); }
-  .topo-svc { font: 400 10px ui-monospace, 'SF Mono', monospace; fill: var(--c-ink-dim); }
-  .topo-cluster-lbl { font: 700 11px 'Lato', sans-serif; }
-  .topo-svc-box { fill: var(--c-bg); stroke: var(--c-rule); stroke-width: 1; }
-  .topo-svc-title { font: 600 11px 'Lato', sans-serif; fill: var(--c-ink); }
-  .topo-svc-sub2  { font: 400 9.5px 'Lato', sans-serif; fill: var(--c-ink-muted); }
-  .topo-arr { fill: none; stroke-width: 1.5; }
-  .topo-proto { font: 600 9.5px 'Lato', sans-serif; fill: var(--c-ink-muted); }
-
-  /* ── Actor map ── */
-  .map-wrap { border: 1px solid var(--c-rule); border-radius: var(--r-lg); background: var(--c-bg-card); padding: var(--sp-3); overflow-x: auto; }
-  .actor-map { display: block; width: 100%; min-width: 640px; }
-  .col-lbl { font: 700 11px 'Lato', sans-serif; fill: var(--c-ink-muted); text-transform: uppercase; letter-spacing: 0.08em; }
-  .zone { fill: rgba(247,244,238,0.5); stroke: var(--c-rule); stroke-width: 1.5; }
-  .zone-machine  { stroke: #4a7c4a; stroke-dasharray: 6 4; }
-  .zone-services { stroke: #87827a; stroke-dasharray: 5 3; }
-  .box-input { fill: var(--c-bg-card); stroke: var(--c-rule); stroke-width: 1.2; }
-  .input-title { font: 700 13px 'Lato', sans-serif; fill: var(--c-ink); }
-  .input-sub   { font: 11px 'Lato', sans-serif; fill: var(--c-ink-muted); }
-  .box-stage { fill: var(--c-bg-card); stroke: var(--c-rule); stroke-width: 1.5; }
-  .stage-dot { fill: var(--c-accent); }
-  .stage-n { font: 700 13px 'Lato', sans-serif; fill: white; }
-  .stage-title { font: 700 13px 'Lato', sans-serif; fill: var(--c-ink); }
-  .stage-desc  { font: 12px 'Lato', sans-serif; fill: var(--c-ink-dim); }
-  .stage-time  { font: 600 11px 'Lato', sans-serif; fill: var(--c-ink-muted); }
-  .arr { fill: none; stroke: #87827a; stroke-width: 1.5; }
-  .arr-input     { stroke: var(--c-rule); }
-  .arr-stage     { fill: none; stroke: #d9d3c4; stroke-width: 1.5; }
-  .arr-knowledge { fill: none; stroke: #b8860b; stroke-width: 1.5; }
-  .arr-azure  { stroke: #0078d4; stroke-width: 1.5; fill: none; }
-  .arr-claude { stroke: #cc785c; stroke-width: 1.5; fill: none; }
-  .arr-google { stroke: #4285f4; stroke-width: 1.5; fill: none; }
-  .arr-nlm    { stroke: #1a73e8; stroke-width: 1.5; fill: none; }
-  .box-knowledge { fill: rgba(184,134,11,0.06); stroke: rgba(184,134,11,0.4); stroke-width: 1.5; }
-  .know-title { font: 700 14px 'Lato', sans-serif; fill: #b8860b; }
-  .know-desc  { font: 12px 'Lato', sans-serif; fill: var(--c-ink-dim); }
-  .know-note  { font: 11px 'Lato', sans-serif; fill: var(--c-ink-muted); }
-  .box-output { fill: var(--c-green); fill-opacity: 0.1; stroke: var(--c-green); stroke-width: 1.5; }
-  .output-title { font: 700 14px 'Lato', sans-serif; fill: var(--c-green); }
-  .cluster { fill: none; stroke-width: 1.2; stroke-dasharray: 5 3; }
-  .cluster-azure  { stroke: #0078d4; fill: rgba(0,120,212,0.04); }
-  .cluster-claude { stroke: #cc785c; fill: rgba(204,120,92,0.04); }
-  .cluster-google { stroke: #4285f4; fill: rgba(66,133,244,0.04); }
-  .cluster-nlm    { stroke: #1a73e8; fill: rgba(26,115,232,0.04); }
-  .cluster-lbl { font: 700 11px 'Lato', sans-serif; fill: var(--c-ink-muted); }
-  .lbl-azure  { fill: #0078d4; } .lbl-claude { fill: #cc785c; }
-  .lbl-google { fill: #4285f4; } .lbl-nlm    { fill: #1a73e8; }
-  .svc { fill: var(--c-bg-card); stroke: var(--c-rule); stroke-width: 1; }
-  .svc-azure  { stroke: #0078d4; fill: rgba(0,120,212,0.04); }
-  .svc-claude { stroke: #cc785c; fill: rgba(204,120,92,0.04); }
-  .svc-google { stroke: #4285f4; fill: rgba(66,133,244,0.04); }
-  .svc-nlm    { stroke: #1a73e8; fill: rgba(26,115,232,0.04); }
-  .svc-title { font: 700 12px 'Lato', sans-serif; fill: var(--c-ink); }
-  .svc-sub   { font: 11px 'Lato', sans-serif; fill: var(--c-ink-muted); }
-  .legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); margin-top: var(--sp-4); }
-  @media (max-width: 640px) { .legend-grid { grid-template-columns: 1fr; } }
-  .legend-item { display: flex; gap: var(--sp-3); align-items: flex-start; font-size: var(--fs-sm); color: var(--c-ink-dim); }
-  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
-  .ld-azure  { background: #0078d4; } .ld-claude { background: #cc785c; }
-  .ld-google { background: #4285f4; } .ld-nlm    { background: #1a73e8; }
-
-  /* ── DB Overview ── */
-  .db-overview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--sp-4); margin-top: var(--sp-3); }
-  .db-overview-group { border: 1.5px solid var(--c-rule); border-radius: var(--r-lg); overflow: hidden; background: var(--c-bg-card); transition: border-color 0.2s; }
-  .db-overview-group:hover { border-color: var(--grp-color, var(--c-rule)); }
-  .db-grp-future { opacity: 0.7; border-style: dashed; }
-  .db-grp-header { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: color-mix(in oklab, var(--grp-color, #87827a) 8%, var(--c-bg-card)); border-bottom: 1.5px solid color-mix(in oklab, var(--grp-color, #87827a) 16%, var(--c-rule)); }
-  .db-grp-icon { font-size: 16px; }
-  .db-grp-header strong { font-size: 13px; color: var(--c-ink); flex: 1; }
-  .db-grp-count { font: 600 10px 'Lato', sans-serif; color: var(--grp-color); background: color-mix(in oklab, var(--grp-color) 10%, var(--c-bg-card)); border: 1px solid color-mix(in oklab, var(--grp-color) 25%, var(--c-rule)); padding: 1px 6px; border-radius: 999px; }
-  .db-grp-wave { font: 700 9px 'Lato', sans-serif; color: #0078d4; background: rgba(0,120,212,0.1); padding: 1px 6px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .db-grp-tables { list-style: none; margin: 0; padding: 10px 14px; display: flex; flex-direction: column; gap: 6px; }
-  .db-grp-tables li { font-size: 12px; color: var(--c-ink-dim); line-height: 1.4; }
-  .db-grp-tables code { font: 600 11.5px ui-monospace, 'SF Mono', monospace; color: var(--c-ink); background: var(--c-bg-sunken); padding: 0 4px; border-radius: 3px; }
-  .db-grp-note { margin: 0; padding: 8px 14px 10px; font-size: 11.5px; color: var(--c-ink-muted); background: var(--c-bg); border-top: 1px solid var(--c-rule); line-height: 1.5; }
-</style>

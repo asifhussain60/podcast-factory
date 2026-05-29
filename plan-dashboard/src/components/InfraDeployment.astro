@@ -1,0 +1,90 @@
+---
+/**
+ * InfraDeployment — Infrastructure diagram 5.1 ("Deployment topology").
+ * Bespoke VERTICAL SVG (Mermaid sprawls a 12-node 2D graph too wide): two
+ * stacked trust-zone bands — Your machine on top, External services below —
+ * with the data-leaves-the-machine boundary crossing in between. Connector
+ * labels carry protocol + auth (REQ: technical diagram standard).
+ *
+ * Static inline SVG, no client JS. All colour/type via .idep-* classes in
+ * theme.css; only geometry as attributes. viewBox-only, vertical, a11y triple.
+ */
+const W = 640;
+const H = 760;
+
+// Local zone boxes (2 columns)
+const localBand = { x: 16, y: 44, w: W - 32, h: 250 };
+const local = [
+  { label: 'Python pipeline engine', sub: 'scripts/podcast/', col: 0, row: 0 },
+  { label: 'knowledge.db', sub: 'SQLite · WAL', col: 1, row: 0 },
+  { label: 'Source Library Server', sub: ':4390 · MCP + HTTP', col: 0, row: 1 },
+  { label: 'Astro site', sub: ':4322 · read-only', col: 1, row: 1 },
+];
+// External zone boxes (managed = amber, lan = blue)
+const extBand = { x: 16, y: 470, w: W - 32, h: 270 };
+const ext = [
+  { label: 'Azure AI', sub: 'PDF · translate · speech', kind: 'managed', col: 0, row: 0 },
+  { label: 'Anthropic', sub: 'Claude Opus/Sonnet/Haiku', kind: 'managed', col: 1, row: 0 },
+  { label: 'Google', sub: 'Gemini audit', kind: 'managed', col: 2, row: 0 },
+  { label: 'NotebookLM', sub: 'browser · manual upload', kind: 'managed', col: 0, row: 1 },
+  { label: 'GitHub', sub: 'origin/develop + main', kind: 'managed', col: 1, row: 1 },
+  { label: 'SQL Server', sub: '192.168.1.158 · LAN', kind: 'lan', col: 2, row: 1 },
+];
+
+const colX2 = (col: number) => localBand.x + 20 + col * ((localBand.w - 40) / 2) + ((localBand.w - 40) / 4);
+const BW2 = (localBand.w - 60) / 2;
+const colX3 = (col: number) => extBand.x + 16 + col * ((extBand.w - 32) / 3) + ((extBand.w - 32) / 6);
+const BW3 = (extBand.w - 56) / 3;
+const BH = 64, RGAP = 18;
+const rowY = (band: {y:number}, row: number) => band.y + 34 + row * (BH + RGAP);
+
+const CX = W / 2;
+---
+<figure class="diagram-container idep" role="img" aria-labelledby="idep-title idep-desc">
+  <svg viewBox={`0 0 ${W} ${H}`} class="idep-svg" xmlns="http://www.w3.org/2000/svg">
+    <title id="idep-title">Deployment topology — what runs locally and what data leaves the machine</title>
+    <desc id="idep-desc">
+      Two stacked trust zones. The top zone is your machine: the Python pipeline engine, the
+      knowledge.db SQLite store, the Source Library Server on port 4390, and the read-only Astro
+      site on 4322. Below, the external-services zone holds Azure, Anthropic and Google (reached
+      over HTTPS with an API key), NotebookLM (browser, manual upload), GitHub (SSH), and the
+      home-network SQL Server reached over the LAN by the Source Library Server.
+    </desc>
+
+    <defs>
+      <marker id="idep-arrow" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+        <polygon points="0 0, 10 4, 0 8" class="idep-arrowhead" />
+      </marker>
+    </defs>
+
+    <!-- boundary-crossing arrow (machine -> external) -->
+    <line x1={CX} y1={localBand.y + localBand.h} x2={CX} y2={extBand.y} class="idep-edge" marker-end="url(#idep-arrow)" />
+    <text x={CX + 10} y={(localBand.y + localBand.h + extBand.y) / 2 + 4} class="idep-edge-label">HTTPS · API key (per service)</text>
+
+    <!-- LOCAL trust zone -->
+    <rect x={localBand.x} y={localBand.y} width={localBand.w} height={localBand.h} rx="10" class="idep-zone idep-zone-local" />
+    <text x={localBand.x + 12} y={localBand.y + 22} class="idep-zone-label idep-label-local">YOUR MACHINE — CONTROLLED ENVIRONMENT</text>
+    {local.map((b) => (
+      <g>
+        <rect x={colX2(b.col) - BW2 / 2} y={rowY(localBand, b.row)} width={BW2} height={BH} rx="6" class="idep-box idep-box-local" />
+        <text x={colX2(b.col)} y={rowY(localBand, b.row) + 27} text-anchor="middle" class="idep-box-title">{b.label}</text>
+        <text x={colX2(b.col)} y={rowY(localBand, b.row) + 46} text-anchor="middle" class="idep-box-sub">{b.sub}</text>
+      </g>
+    ))}
+
+    <!-- EXTERNAL trust zone -->
+    <rect x={extBand.x} y={extBand.y} width={extBand.w} height={extBand.h} rx="10" class="idep-zone idep-zone-ext" />
+    <text x={extBand.x + 12} y={extBand.y + 22} class="idep-zone-label idep-label-ext">EXTERNAL SERVICES — DATA LEAVES YOUR MACHINE</text>
+    {ext.map((b) => (
+      <g>
+        <rect x={colX3(b.col) - BW3 / 2} y={rowY(extBand, b.row)} width={BW3} height={BH} rx="6"
+              class={`idep-box ${b.kind === 'lan' ? 'idep-box-lan' : 'idep-box-managed'}`} />
+        <text x={colX3(b.col)} y={rowY(extBand, b.row) + 27} text-anchor="middle" class="idep-box-title">{b.label}</text>
+        <text x={colX3(b.col)} y={rowY(extBand, b.row) + 46} text-anchor="middle" class="idep-box-sub">{b.sub}</text>
+      </g>
+    ))}
+  </svg>
+  <figcaption class="diagram-figcaption">
+    Two trust zones, stacked: everything local on top; the boundary is crossed only over HTTPS, SSH, or the LAN. The SQL Server is reached on the home network by the Source Library Server, never directly by the engine.
+  </figcaption>
+</figure>
