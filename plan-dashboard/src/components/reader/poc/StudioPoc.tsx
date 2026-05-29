@@ -114,7 +114,8 @@ const QuranRefChips = Extension.create({
               while ((m = SURAH_VERSE_RE.exec(node.text))) {
                 const num = SURAH_MAP[m[1].replace(/’/g, "'")];
                 if (!num) continue;
-                const label = m[3] ? `${num}:${m[2]}–${m[3]}` : `${num}:${m[2]}`;
+                const verse = m[2];                       // capture per-match (closure-safe)
+                const label = m[3] ? `${num}:${verse}–${m[3]}` : `${num}:${verse}`;
                 const end = pos + m.index + m[0].length;
                 decos.push(
                   Decoration.widget(end, () => {
@@ -122,7 +123,7 @@ const QuranRefChips = Extension.create({
                     chip.className = 'ref-quran sp-vchip';
                     chip.textContent = label;
                     chip.setAttribute('data-surah', String(num));
-                    chip.setAttribute('data-verse', m![2]);
+                    chip.setAttribute('data-verse', verse);
                     return chip;
                   }, { side: 1 }),
                 );
@@ -269,9 +270,12 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
     },
   });
 
-  // Force a decoration recompute when Arabic mode flips.
+  // Force a decoration recompute when Arabic mode flips. Set the ref BEFORE dispatching
+  // (React state is async — the plugin reads arabicRef synchronously during the recompute).
   const toggleArabic = useCallback(() => {
-    setArabicOn((v) => !v);
+    const next = !arabicRef.current;
+    arabicRef.current = next;
+    setArabicOn(next);
     if (editor) editor.view.dispatch(editor.state.tr.setMeta('arabic', true));
   }, [editor]);
 
