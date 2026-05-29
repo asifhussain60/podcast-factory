@@ -127,3 +127,31 @@ Routes to the authoring/framing step (PIPELINE + PODCAST). Recorded as a standin
   (the prior thin ring hugged the text). Done in PoC.
 - **FC-12 icon row contrast + top separation** — its own surface/border and a real gap above so
   it never blends into the text behind it. Done in PoC.
+
+## Voice normalization — global house style (Asif, 2026-05-29)
+A new pipeline capability + its editor review surface, decided before building the Slice-0
+stage-aware write-back loop. Routes to PIPELINE (the stage) + INTELLIGENCE (the style guide +
+learning loop) + UI (the Normalized tab + diff).
+
+- **SN-1 House voice = editorial-modern, accessible.** The Stripe / MIT-Press register already
+  locked for the reader ([[podcast-reader-aesthetic]]): warm, clear, dignified, flowing; general
+  reader without dumbing down.
+- **SN-2 Latitude = moderate.** Reflow sentences, smooth transitions, unify tense/POV, fix
+  translationese — preserve ALL meaning. HARD RULE: Quran verses, hadith, and poetry are kept
+  VERBATIM; only the narration/exposition around them is normalized.
+- **SN-3 Application = auto-applied, spot-checked.** Runs automatically and emits a distinct
+  stage artifact; the Studio shows it as the Normalized tab beside Source with a diff = the
+  spot-check surface. Meaning-drift guards (because auto-applied interpretive rewrite on
+  doctrinal text is the risk point): (a) scripture verbatim, (b) source+diff tab always
+  available, (c) podcast-challenger doctrinal-fidelity check on the normalized stage, (d)
+  learning loop flags recurring risky rewrites. (Asif chose auto-applied over suggest-only;
+  these guards keep it safe without a per-paragraph gate.)
+- **SN-4 Consistency = ONE global house voice.** A single style guide the normalizer follows
+  and the learning loop refines, applied to every book / source / genre — the whole library
+  reads as one voice.
+- **SN-5 Placement = a stage between clean-core and augment.** Stage/tab order:
+  Source -> Denoised -> Core -> Normalized -> Augmented. Each is a tab in the Studio (the FC
+  stage-tabs ask). Tabs fill in as the slices produce each stage.
+- **SN-6 Input-adaptive, output-uniform.** The normalizer detects the incoming register
+  (classical translationese / third-person scholarly / lecture transcript / teaching story) and
+  maps each TO the single house voice.

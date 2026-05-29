@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T21:06:10.157Z",
-  "source_commit": "1db2fe2",
+  "generated_at": "2026-05-29T22:39:39.607Z",
+  "source_commit": "67ef665",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,53 +783,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "1db2fe2",
-      "subject": "WC8 Studio step 2: verse hover by reusing QuranPopover (no new lib)",
+      "sha": "67ef665",
+      "subject": "continuity(WC8): Slice-0 PoC feel-check passed; next = foundation (phase-naming, branch, write-back loop)",
       "date": "2026-05-29"
     },
     {
-      "sha": "f58cfa5",
-      "subject": "WC8 Studio step 1: port change-tracking redline + per-paragraph token tags onto TipTap",
+      "sha": "5a08c5c",
+      "subject": "WC8 PoC: controls panel to top; Inspector + Controls each a distinct bordered card",
       "date": "2026-05-29"
     },
     {
-      "sha": "68114ef",
-      "subject": "plan(WC8): record the learning loop as core principle (tiered auto/suggest)",
+      "sha": "786cf91",
+      "subject": "WC8 PoC: right-panel redesign (Inspector scroll + styled controls + switch) + popover hover persistence",
       "date": "2026-05-29"
     },
     {
-      "sha": "e858979",
-      "subject": "decision(reader): MUST-PRESERVE change-tracking redline + per-paragraph token tags from existing ChapterEditor",
+      "sha": "1b01d74",
+      "subject": "WC8 PoC: verse popover redesign — no cutoff, contained Arabic, high-contrast header",
       "date": "2026-05-29"
     },
     {
-      "sha": "789889d",
-      "subject": "WC8 PoC v3: viewer left/panel right, actions above markers, one Quran container (grouped markers)",
+      "sha": "af5af9b",
+      "subject": "WC8 PoC: selected-tag dark bg; compact tag key; text caret in active block; readable Arabic toggle; fix icon-row overlap + compound-word Arabic swaps",
       "date": "2026-05-29"
     },
     {
-      "sha": "3869251",
-      "subject": "WC8 Slice 0 PoC v2: floating sticky inspector w/ internal scroll, smaller font, deduped/scalable markers, minimal shell",
+      "sha": "dc6c7e6",
+      "subject": "WC8 PoC: dedicated golden verse popover (floating-ui), replacing the broken reused one",
       "date": "2026-05-29"
     },
     {
-      "sha": "f4ee72f",
-      "subject": "WC8 Slice 0: TipTap Studio proof-of-concept (feel-check) on a real Ayyuhal chapter",
+      "sha": "8dee3d5",
+      "subject": "WC8 PoC: verse chip REPLACES the reference phrase (non-destructive); fix popover hover when scrolled",
       "date": "2026-05-29"
     },
     {
-      "sha": "647c3bd",
-      "subject": "plan(WC8): thread intelligence as a third co-evolving entity through every slice",
+      "sha": "9cb0a6c",
+      "subject": "doc(WC8): round-3 feel-check — Arabic toggle full scope (FC-9) + visual fixes (FC-10..12)",
       "date": "2026-05-29"
     },
     {
-      "sha": "732f851",
-      "subject": "continuity: Ayyuhal multi-format sources landed; ready for Slice 0",
+      "sha": "4ca714b",
+      "subject": "WC8 PoC: pointer cursor on hover; dark/thick active border + padding + zoom; icon row contrast + top separation",
       "date": "2026-05-29"
     },
     {
-      "sha": "0720d8c",
-      "subject": "fixture(ayyuhal-walad): media policy — audio+video local/transient/deletable, only produced text committed",
+      "sha": "ff063f9",
+      "subject": "doc(WC8): round-2 feel-check — icon-first tagging, active-ring fix, visual-enhancement menu; PoC throwaway reaffirmed",
       "date": "2026-05-29"
     }
   ],

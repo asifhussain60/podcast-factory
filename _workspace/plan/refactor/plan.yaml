@@ -2934,6 +2934,24 @@ wisdom_corpus_program:
             - "Desktop-first both modes; defer mobile/responsive (R-10). Cross-view consistency + html-view-challenger sweep on the new Studio/Read views."
           acceptance:
             - "Both modes ship desktop-first; challenger clean; no mobile work in scope."
+        - id: WC8.8
+          name: "Voice normalization to a global house style (SN-1..SN-6)"
+          authorization: tier_two
+          design_2026_05_29: >
+            A pipeline stage that re-molds heterogeneous source registers (classical-Arabic
+            translationese, third-person scholarly, lecture transcript, teaching story) into ONE
+            global editorial-modern, accessible house voice. Input-adaptive (detects register),
+            output-uniform (single voice). Moderate latitude: reflow/smooth/unify tense+POV/fix
+            translationese, preserve all meaning. HARD RULE: Quran/hadith/poetry kept verbatim —
+            only narration/exposition is normalized. Decisions SN-1..SN-6 in
+            10-reader-redesign-decisions.md.
+          key_steps:
+            - "New stage between clean-core and augment. Stage/tab order: Source -> Denoised -> Core -> Normalized -> Augmented; each is a Studio tab (the FC stage-tabs ask), filling in as slices run."
+            - "Auto-applied (Asif), emitted as a distinct stage artifact + a diff vs Core for spot-check; NOT a per-paragraph gate."
+            - "Meaning-drift guards: scripture verbatim; source+diff tab always available; podcast-challenger doctrinal-fidelity check on the normalized stage; learning loop flags recurring risky rewrites."
+            - "ONE global house-voice style guide (INTELLIGENCE) the normalizer follows + the learning loop refines; applied to every book/source/genre."
+          acceptance:
+            - "A chapter in any source register reads in the single house voice; scripture verbatim; Source/Normalized tabs + diff present; challenger doctrinal-fidelity clean; style guide is global, not per-book."
       acceptance:
         - "TipTap PoC approved before full build (WC8.0 halt honoured)."
         - "Multi-source books unify onto a spine, triage at an early in-viewer gate, reconcile with preserved+marked divergences; Anwaar transcripts compared via the SI-2 engine routing."
