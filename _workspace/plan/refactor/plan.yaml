@@ -2840,6 +2840,7 @@ wisdom_corpus_program:
           - "Slice 4 (knowledge/corpus-read + halt): corpus-verified annotation markers reviewed in the editor."
           - "Slice 5+ (deepen): WC8.3 Anwaar engine routing (later fixture); WC8.5 full Studio capability package + WC8.6 audio/episode mapping layered in as each slice's review needs them; WC8.7 consistency + desktop-only."
         note: "WC8.0..WC8.7 below are the component WORK ITEMS; the slices above are the SEQUENCING that interleaves each with an editor halt on the live fixture. Each slice ends at a manual-review halt Asif resolves in the Studio editor before the next slice runs."
+        review_cadence: "HOLISTIC-REVIEW-PER-WAVE (Asif 2026-05-29): after each slice ships, step back and review ALL completed slices together, realigning the pipeline AND the UI before starting the next slice — so the two entities never drift apart. This is a mandatory gate between slices, not optional."
       build_order: ["Slice 0 (readiness)", "Slice 1 (intake+halt)", "Slice 2 (refine+halt)", "Slice 3 (reconcile+halt)", "Slice 4 (knowledge+halt)", "Slice 5+ (deepen: Anwaar engine, full Studio, audio)"]
       sub_steps:
         - id: WC8.0
@@ -2853,12 +2854,23 @@ wisdom_corpus_program:
             - "One chapter renders in TipTap with live marker decorations + a working inspector popover; zero inline styles; opens in the astro site dev server."
             - "Asif approves the engine feel before WC8.5 proceeds."
         - id: WC8.1
-          name: "Intake: canonical spine + layered alignment (SI-1, SI-7)"
+          name: "Intake: common-denominator core + attributed additions, then noise-strip + enhance (SI-1, SI-7)"
+          design_refinement_2026_05_29: >
+            Unification is SET OPERATIONS on content. (1) COMMON DENOMINATOR = the content
+            present across ALL sources = the authoritative core = the spine (SI-7 picks which
+            source's rendering is canonical for the core). (2) ADDITIONS = each source's SURPLUS
+            beyond the common core (narrator/explainer/translator commentary, elaboration,
+            examples, context) — kept as a distinct, source-and-role-tagged layer, never blurred
+            into the core. (3) THEN noise-strip (filler/repetition/asides that are neither core
+            nor valuable addition) and enhance (corpus-verified references, glossary). Output:
+            one core + clearly-attributed additions, de-noised and enhanced.
           key_steps:
-            - "In the Phase-04 intake branch (before Phase-05 noise-strip): pick the spine by deterministic priority (SI-7); attach each other source as a role-tagged layer keyed to the spine structure."
-            - "Cheap alignment ladder: headings → embeddings → timestamps. Reserve Claude (free) reasoning for gap-detection + divergence reconciliation only. Nothing discarded."
+            - "In the Phase-04 intake branch (before Phase-05 noise-strip): align all sources; compute the COMMON DENOMINATOR (intersection) as the core; SI-7 deterministic priority picks the canonical rendering of the core."
+            - "Capture each source's SURPLUS (content beyond the common core) as a role-tagged ADDITION layer (narrator / explainer / translator), attributed and distinct."
+            - "Cheap alignment ladder: headings → embeddings → timestamps. Reserve Claude (free) reasoning for computing the intersection boundary + gap/divergence reconciliation only. Nothing discarded."
+            - "THEN: noise-strip the assembled set (Phase-05 sub-step 1) and enhance (verified references, glossary). Single-source fixture: core = the one source; additions empty until inbox formats land."
           acceptance:
-            - "A multi-source book produces one spine + role-tagged aligned layers; every source preserved; alignment runs before noise-strip; LLM only on gaps/divergences."
+            - "A multi-source book yields a common-denominator CORE + attributed ADDITION layers (by source/role); every source preserved; intersection computed before noise-strip; LLM only on the intersection boundary + gaps/divergences; noise removed + enhancements applied after."
         - id: WC8.2
           name: "Source triage + early review halt (SI-3, SI-5, SI-6)"
           authorization: tier_two

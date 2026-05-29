@@ -37,10 +37,21 @@ slots (see `SOURCES` in populate_corpus.py).
   reviewed-state + one-click stage approval); desktop-only for now.
 - Full discussion: `08-source-intake-discussion.md`. Standing prefs: [[ui-max-surfacing]] (richest in-viewer; richer UI is the tiebreaker).
 
-**Next steps:** (a) **consolidate 09+10 into ONE plan.yaml wave (sub-steps) + snapshot, for Asif's
-approval before any code** — this is a real re-platforming of Studio onto TipTap + the intake/
-reconciliation pipeline work; OR (b) add the three corpus importers once sources land; OR (c) the
-blackbox annotation engine + corpus-verified reader popovers; OR (d) the in-pipeline knowledge phase.
+**APPROVED — co-development build on Ayyuhal Walad (plan.yaml WC8).** Walking-skeleton / vertical
+slices: each pipeline step built WITH the editor halt that reviews it, run non-destructively on
+ayyuhal-walad (own branch, new artifacts only, never re-ship), single-source first. Unification =
+common-denominator CORE + attributed ADDITION layers (narrator/explainer/translator), then
+noise-strip + enhance (SI-1 refinement). Cadence: **holistic review of ALL completed slices +
+pipeline↔UI realignment between every slice** (mandatory gate). Slices: 0 readiness (reconcile
+dual phase-naming, install TipTap+jsdiff, ayyuhal branch, editor↔halt write-back) → 1 intake+halt
+→ 2 refine+halt → 3 reconcile+halt → 4 knowledge+halt → 5+ deepen.
+
+**BLOCKED ON:** Asif dropping Ayyuhal's multi-format sources (mp3 + Arabic PDF + English translation)
+into `_workspace/inbox/` (confirmed NOT in repo/history — gitignored by design; single PDF only today).
+Single-source slices can start meanwhile.
+
+**First move when go:** Slice 0, starting with the TipTap proof-of-concept on one Ayyuhal chapter →
+HALT for Asif's feel-check → finish the foundation. No LLM spend in Slice 0.
 
 **Parked (resume anytime):**
 - *Site redesign* — 5 of 13 views built, 5 text-only and pending. Full audit + resume

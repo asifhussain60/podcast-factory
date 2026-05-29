@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T18:48:35.472Z",
-  "source_commit": "cb713cf",
+  "generated_at": "2026-05-29T18:55:26.252Z",
+  "source_commit": "0b57dc9",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "0b57dc9",
+      "subject": "plan(WC8): restructure into a co-development walking-skeleton on Ayyuhal (vertical slices)",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "cb713cf",
       "subject": "plan(WC8): consolidate intake+reconciliation+Studio-cockpit RD into one wave (awaiting approval)",
       "date": "2026-05-29"
@@ -825,11 +830,6 @@
     {
       "sha": "6d5fd8f",
       "subject": "WC7e: point continuity status at the active pipeline work",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "ae0bf21",
-      "subject": "WC1: corpus-population engine, proven on wisdom material",
       "date": "2026-05-29"
     }
   ],

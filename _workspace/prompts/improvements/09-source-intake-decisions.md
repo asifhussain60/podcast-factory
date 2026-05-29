@@ -28,6 +28,16 @@
 
 - **SI-7 — Spine selection = deterministic priority + gate override (RESOLVED).** Auto-pick the canonical spine by: (1) original-language primary text if present → (2) most-complete source-language primary transcript → (3) authoritative published translation → (4) commentary/derived. Chosen spine is shown and overridable at the source-budget halt (SI-5/SI-6). Obvious cases resolve automatically (Ayyuhal=Arabic, Anwaar=Urdu-native); genuine ties surface for human choice. Principle: authority = closest to the original work, in its original language, most complete, least derived.
 
+## SI-1 refinement (Asif 2026-05-29) — common denominator vs. additions
+Unification is set operations on content: the **common denominator** (content across ALL sources)
+= the authoritative CORE = the spine; each source's **surplus** beyond the core = a role-tagged
+ADDITION layer (narrator / explainer / translator), attributed and kept distinct — never blurred
+into the core. Noise-strip + enhance run AFTER the core+additions set exists. (Build: WC8.1.)
+
+## Build cadence (Asif 2026-05-29) — holistic-review-per-wave
+Co-develop pipeline + UI on Ayyuhal as vertical slices; after EACH slice, review ALL completed
+slices holistically and realign pipeline + UI before the next. Mandatory gate between slices.
+
 ## All source-intake points RESOLVED (SI-1..SI-7).
 Reader-redesign thread (the convergence UI for SI-4/SI-6) resolved separately in [10-reader-redesign-decisions.md](10-reader-redesign-decisions.md) (R-1..R-10).
 
