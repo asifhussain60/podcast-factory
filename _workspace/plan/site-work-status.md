@@ -64,10 +64,24 @@ switch; right panel = Controls card (top) + Inspector card (bordered, scroll). L
 screenshots; zero console errors. **Still terms-only Arabic** (full verse/hadith/poem swap = FC-9,
 waits on the unification slice's Arabic source layer).
 
-**NEXT (when go):** finish Slice 0 — the holistic review + the foundation pieces that aren't the
-PoC: reconcile dual phase-naming to one scheme, create the non-destructive ayyuhal test branch,
-and build the editor↔halt write-back loop (load a halted artifact, capture feedback, set the
-approval flag, resume). No LLM spend in Slice 0.
+**Slice-0 FOUNDATION COMPLETE (2026-05-29, branch `book/ayyuhal-walad`).** Built + verified
+(headless, zero errors): (1) stage tabs Source→Denoised→Core→Normalized→Augmented (Augmented live
+from the prior run; rest pending until slices produce them); (2) editor↔halt WRITE-BACK LOOP —
+per-stage approval at `_system/review/<chapter>.json` via `/api/studio/review`, "Approve <stage>"
+button + tab ✓, orchestrator reads it to resume; (3) per-stage METRICS tracking
+(`stage-metrics.json` + editor strip) incl. "% noise removed" (Denoised-vs-Source delta, fills
+when those stages exist); (4) global HOUSE-VOICE standard `docs/standards/house-voice.md` (WC8.8 /
+SN-1..SN-6). Library policy held: @tiptap + @floating-ui + jsdiff, no new JS libs.
+
+**BLOCKER for the intake run:** the new stage-PRODUCERS don't exist yet. `intake_book.py` /
+`ingest_source.py` produce the OLD architecture (final chapters), not the new `_stages/<chapter>/`
+artifacts the tabs read (no script references `_stages`). So "run Slice 1" = first BUILD the
+intake stage-producer (WC8.1: extract the 3 multi-format PDFs → align → common-denominator core →
+write `_stages/source.md` + `core.md`), THEN run it. Deterministic extraction = no spend;
+multi-source alignment = LLM. Asif approved the run; the producer build is the immediate next step.
+
+**Metric note:** "% noise removed" is a Slice-2 (noise-strip / Denoised) number — not produced by
+intake. Tracking is wired; the value lands the first time the noise-strip stage runs.
 
 **Parked (resume anytime):**
 - *Site redesign* — 5 of 13 views built, 5 text-only and pending. Full audit + resume
