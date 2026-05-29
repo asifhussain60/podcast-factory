@@ -110,3 +110,20 @@ Routes to the authoring/framing step (PIPELINE + PODCAST). Recorded as a standin
   6. Divergence margin glyph (⇄ "N sources differ") opening the side-by-side inspector (R-4).
   7. Per-paragraph reviewed-state toggle (one click marks a block reviewed; chapter progress bar).
   These route to WC8.5 (UI) + the knowledge/learning slices (data behind icons 3/4/6).
+
+### Feel-check round 3 (Asif, 2026-05-29)
+- **FC-9 Arabic toggle scope = ALL scripture/poetry, not just glossary terms.** Toggling Arabic
+  must also swap the **Quran verses, hadith, and poems** quoted in the chapter to their Arabic
+  script — not only inline terms (Ghazali, Quran, Surah…). This is the PAYOFF of the
+  multi-source unification (WC8.1): the **Arabic original is one of the sources**, aligned
+  segment-by-segment to the English, so each quoted passage carries its Arabic rendering as an
+  attributed layer. Quran/hadith Arabic also come VERIFIED from the corpus (INTELLIGENCE); poems
+  come from the aligned Arabic source captured at intake (PIPELINE). Routing: PIPELINE (intake
+  attaches Arabic per segment) + INTELLIGENCE (corpus supplies verified Quran/hadith Arabic) +
+  UI (toggle swaps term AND quote layers). **PoC status:** single-source English fixture + seed
+  glossary ⇒ terms-only today; full-quote swap activates once the Arabic source layer lands.
+- **FC-10 hover = pointer cursor** (signals "nothing selected yet"). Done in PoC.
+- **FC-11 active paragraph = dark thick border + padding + slight zoom** to stand off the page
+  (the prior thin ring hugged the text). Done in PoC.
+- **FC-12 icon row contrast + top separation** — its own surface/border and a real gap above so
+  it never blends into the text behind it. Done in PoC.
