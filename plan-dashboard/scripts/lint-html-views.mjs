@@ -82,9 +82,26 @@ const LINE_CHECKS = [
     re: /<(img[^>]+\.svg|object[^>]+\.svg|embed[^>]+\.svg)/i, msg: 'external SVG reference (inline the <svg>)' },
   { id: 'SVG-WH-ATTR',    REQ: 'REQ-024', blocking: true,  scope: 'code',
     re: /<svg\b[^>]*\s(width|height)\s*=/i, msg: 'width/height attr on <svg> (use viewBox only)' },
-  { id: 'INLINE-STYLE-BLOCK', REQ: 'D-DoD', blocking: false, scope: 'code',
-    re: /<style[\s>]/i, msg: 'inline <style> block (move to src/styles/*.css)' },
 ];
+
+// Astro/JSX scoped <style> blocks compile to scoped EXTERNAL CSS at build, so a small
+// one is idiomatic, not the runtime inline styling the DoD targets (Asif, 2026-05-29).
+// We accept scoped blocks and flag only OVERSIZED ones — a block bigger than the
+// threshold is a page-stylesheet inlined into the component and belongs in src/styles/
+// (the WC6 case). Threshold: config.style_block_max_lines (default 50).
+function scanStyleBlocks(src, maxLines) {
+  const out = [];
+  const re = /<style[^>]*>([\s\S]*?)<\/style>/g;
+  let m;
+  while ((m = re.exec(src))) {
+    const bodyLines = m[1].split('\n').filter((l) => l.trim()).length;
+    if (bodyLines > maxLines) {
+      const line = src.slice(0, m.index).split('\n').length;
+      out.push({ line, bodyLines });
+    }
+  }
+  return out;
+}
 
 // CSS height-clamp is selector-aware: REQ-002 forbids clamps ONLY on the page-growth
 // landmarks, never on cards/badges/progress-bars (where overflow:hidden is legitimate).
@@ -155,6 +172,15 @@ for (const rel of candidates) {
       }
     }
     continue;
+  }
+
+  if (!suppressed(rel, 'INLINE-STYLE-BLOCK')) {
+    const maxLines = config.style_block_max_lines ?? 50;
+    for (const hit of scanStyleBlocks(src, maxLines)) {
+      findings.push({ rel, line: hit.line, id: 'INLINE-STYLE-BLOCK', REQ: 'D-DoD',
+        sev: resolveSeverity(false),
+        msg: `oversized <style> block (${hit.bodyLines} lines > ${maxLines}) — move to src/styles/*.css`, src: '' });
+    }
   }
 
   const lines = src.split('\n');
