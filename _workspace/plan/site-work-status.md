@@ -52,8 +52,22 @@ English superior, scholarly) at `content/drafts/books/ayyuhal-walad/_system/sour
 from YouTube) — only pipeline-produced TEXT gets committed. Fixture now exercises the full common-denominator
 + attributed-additions design (Arabic core; English/scholarly/spoken = addition layers). Ready for Slice 0.
 
-**First move when go:** Slice 0, starting with the TipTap proof-of-concept on one Ayyuhal chapter →
-HALT for Asif's feel-check → finish the foundation. No LLM spend in Slice 0.
+**Slice-0 PoC feel-check — PASSED (2026-05-29).** The throwaway TipTap spike at `/studio-poc`
+converged through ~10 feedback rounds (FC-1..FC-12 + panel redesign, recorded in
+`_workspace/prompts/improvements/10-reader-redesign-decisions.md`). Now proven: verse refs →
+compact chapter:verse chip that REPLACES the phrase non-destructively (NotebookLM-safe) with a
+dedicated golden floating-ui popover (Amiri Arabic + serif English, size-capped, hover-persist);
+Word-level track changes (jsdiff); per-paragraph icon-tag palette + persistent marks (active ring,
+text caret, pointer-on-hover); Arabic-overlay toggle (glossary-driven, compound-word-safe) as a
+switch; right panel = Controls card (top) + Inspector card (bordered, scroll). Library policy held:
+@tiptap/* + @floating-ui/react + diff(jsdiff), no new JS libs. All verified via Playwright
+screenshots; zero console errors. **Still terms-only Arabic** (full verse/hadith/poem swap = FC-9,
+waits on the unification slice's Arabic source layer).
+
+**NEXT (when go):** finish Slice 0 — the holistic review + the foundation pieces that aren't the
+PoC: reconcile dual phase-naming to one scheme, create the non-destructive ayyuhal test branch,
+and build the editor↔halt write-back loop (load a halted artifact, capture feedback, set the
+approval flag, resume). No LLM spend in Slice 0.
 
 **Parked (resume anytime):**
 - *Site redesign* — 5 of 13 views built, 5 text-only and pending. Full audit + resume
