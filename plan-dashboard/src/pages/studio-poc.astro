@@ -6,7 +6,7 @@
 import { readFileSync } from 'node:fs';
 import PocLayout from '../layouts/PocLayout.astro';
 import StudioPoc from '../components/reader/poc/StudioPoc.tsx';
-import QuranPopover from '../components/reader/QuranPopover.tsx';
+import StudioVersePopover from '../components/reader/poc/StudioVersePopover.tsx';
 import { renderMarkdown } from '../lib/reader/markdown';
 import { loadGlossary } from '../lib/reader/glossary';
 
@@ -43,7 +43,7 @@ const glossary = await loadGlossary('ayyuhal-walad');
     : (
       <div class="prose-body">
         <StudioPoc client:only="react" html={html} chapterTitle={chapterTitle} glossary={glossary} />
-        <QuranPopover client:only="react" />
+        <StudioVersePopover client:only="react" />
       </div>
     )}
 </PocLayout>
