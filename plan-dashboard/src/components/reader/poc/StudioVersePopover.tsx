@@ -46,7 +46,7 @@ export default function StudioVersePopover() {
     open,
     placement: 'bottom-start',
     middleware: [
-      offset(10),
+      offset(6),
       flip({ padding: 12 }),
       shift({ padding: 12 }),
       // Never overflow the viewport — cap height to the space available and let the body scroll.
@@ -61,7 +61,7 @@ export default function StudioVersePopover() {
   });
 
   const cancelClose = () => { if (closeTimer.current) { window.clearTimeout(closeTimer.current); closeTimer.current = null; } };
-  const scheduleClose = () => { cancelClose(); closeTimer.current = window.setTimeout(() => setOpen(false), 360); };
+  const scheduleClose = () => { cancelClose(); closeTimer.current = window.setTimeout(() => setOpen(false), 450); };
 
   useEffect(() => {
     const root = document.querySelector('.prose-body');

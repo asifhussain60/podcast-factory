@@ -369,21 +369,8 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
       </main>
 
       <aside className="studio-poc__inspector" aria-label="Contextual inspector">
-        <div className="sp-insp-block">
-          <h3 className="sp-insp-sub">View</h3>
-          <div className="sp-toolbar">
-            <button
-              type="button"
-              className={`sp-tagbtn sp-arabic-btn ${arabicOn ? 'is-on' : ''}`}
-              aria-pressed={arabicOn}
-              onClick={toggleArabic}
-            >
-              <span lang="ar" dir="rtl">ع</span> Arabic script {arabicOn ? 'On' : 'Off'}
-            </button>
-          </div>
-        </div>
-
-        <div className="sp-insp-block">
+        {/* Inspector — fixed height, scrolls internally so the panel never grows. */}
+        <section className="sp-inspector">
           <h2 className="sp-insp-title">Inspector</h2>
           {selection ? (
             <blockquote className="sp-insp-sel">{selection}</blockquote>
@@ -395,39 +382,40 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
               <dd>{changedCount} edited · {taggedCount} tagged</dd>
             </dl>
           )}
-        </div>
-
-        {/* Tagging happens on the paragraph itself (floating icon row). This is just the key. */}
-        <div className="sp-insp-block">
-          <h3 className="sp-insp-sub">Tag key</h3>
-          <ul className="sp-legend">
-            {TAGS.map((t) => (
-              <li key={t.id} className={`sp-legend-row tag-${t.id}`}>
-                <span className="sp-legend-icon" aria-hidden>{t.icon}</span>
-                <span className="sp-legend-label">{t.label}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="sp-insp-hint">Click a paragraph → tap an icon above its top-left corner.</p>
-        </div>
-
-        <div className="sp-insp-block">
-          <h3 className="sp-insp-sub">Edit</h3>
-          <div className="sp-toolbar" role="toolbar" aria-label="Edit actions">
-            <button type="button" onClick={() => editor?.chain().focus().toggleBold().run()}>Bold</button>
-            <button type="button" onClick={() => editor?.chain().focus().toggleItalic().run()}>Italic</button>
-            <button type="button" onClick={() => editor?.chain().focus().toggleBlockquote().run()}>Quote</button>
-            <button type="button" onClick={() => editor?.chain().focus().undo().run()}>Undo</button>
-            <button type="button" onClick={() => editor?.chain().focus().redo().run()}>Redo</button>
+          <div className="sp-insp-markers">
+            <h3 className="sp-insp-sub">References</h3>
+            {renderGroup('Quran', group('Quran'), 'quran')}
+            {renderGroup('Hadith', group('Hadith'), 'hadith')}
+            {renderGroup('Works', group('Work'), 'work')}
           </div>
-        </div>
+        </section>
 
-        <div className="sp-insp-block sp-insp-block--markers">
-          <h3 className="sp-insp-sub">Markers</h3>
-          {renderGroup('Quran', group('Quran'), 'quran')}
-          {renderGroup('Hadith', group('Hadith'), 'hadith')}
-          {renderGroup('Works', group('Work'), 'work')}
-        </div>
+        {/* Controls — fixed, styled. Arabic as a switch + the edit toolbar. */}
+        <section className="sp-controls">
+          <div className="sp-control-row">
+            <span className="sp-control-label"><span lang="ar" dir="rtl">ع</span> Arabic script</span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={arabicOn}
+              className={`sp-switch ${arabicOn ? 'is-on' : ''}`}
+              onClick={toggleArabic}
+              title={arabicOn ? 'Hide Arabic script' : 'Show Arabic script'}
+            >
+              <span className="sp-switch-thumb" />
+            </button>
+          </div>
+          <div className="sp-edit">
+            <span className="sp-control-label">Edit</span>
+            <div className="sp-edit-row" role="toolbar" aria-label="Edit actions">
+              <button type="button" onClick={() => editor?.chain().focus().toggleBold().run()} title="Bold"><b>B</b></button>
+              <button type="button" onClick={() => editor?.chain().focus().toggleItalic().run()} title="Italic"><i>I</i></button>
+              <button type="button" onClick={() => editor?.chain().focus().toggleBlockquote().run()} title="Quote">”</button>
+              <button type="button" onClick={() => editor?.chain().focus().undo().run()} title="Undo">↺</button>
+              <button type="button" onClick={() => editor?.chain().focus().redo().run()} title="Redo">↻</button>
+            </div>
+          </div>
+        </section>
       </aside>
     </div>
   );

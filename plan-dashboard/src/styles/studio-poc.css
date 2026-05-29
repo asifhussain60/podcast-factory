@@ -39,8 +39,57 @@
   border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
   border-radius: 14px;
 }
-.sp-insp-block { flex: 0 0 auto; }
-.sp-insp-block--markers { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+/* Inspector: bounded height with internal scroll, so the whole panel fits without scrolling
+   and the controls below stay visible. */
+.sp-inspector {
+  flex: 0 1 auto;
+  height: clamp(220px, 46vh, 520px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.sp-insp-markers { display: flex; flex-direction: column; gap: 8px; }
+/* Controls: fixed, styled panel at the bottom (Arabic switch + edit toolbar). */
+.sp-controls {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
+  border-radius: 12px;
+}
+.sp-control-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.sp-control-label { font-size: 0.82rem; font-weight: 600; color: var(--c-ink); display: inline-flex; align-items: center; gap: 6px; }
+.sp-edit { display: flex; flex-direction: column; gap: 6px; }
+.sp-edit-row { display: flex; gap: 5px; }
+.sp-edit-row button {
+  flex: 1 1 0;
+  height: 32px;
+  font-size: 0.92rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--c-ink);
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+}
+.sp-edit-row button:hover { border-color: var(--c-accent); color: var(--c-accent); }
+/* Switch (Arabic toggle). */
+.sp-switch {
+  position: relative; width: 44px; height: 24px; flex: 0 0 auto;
+  border: none; border-radius: 999px; padding: 0; cursor: pointer;
+  background: color-mix(in srgb, var(--c-ink) 22%, transparent);
+  transition: background 0.15s ease;
+}
+.sp-switch.is-on { background: var(--c-accent); }
+.sp-switch-thumb {
+  position: absolute; top: 2px; left: 2px; width: 20px; height: 20px;
+  border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s ease;
+}
+.sp-switch.is-on .sp-switch-thumb { transform: translateX(20px); }
 
 .sp-insp-title { font-size: 1.05rem; font-weight: 700; color: var(--c-accent); margin: 0 0 4px; }
 .sp-insp-sub { font-size: 0.85rem; font-weight: 700; color: var(--c-ink); margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
@@ -275,6 +324,16 @@
   box-shadow: 0 18px 44px -12px rgba(40, 28, 8, 0.5), 0 6px 16px -8px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   font-family: var(--font-body, Georgia, serif);
+}
+/* Invisible bridge above + below the card so cursor transit chip->card never crosses a dead gap. */
+.sv-pop::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: -8px;
+  right: -8px;
+  height: 14px;
+  background: transparent;
 }
 /* High-contrast header: deep espresso ground, warm gold type, gold rule. */
 .sv-pop__head {
