@@ -42,6 +42,15 @@ Verse hover (Radix HoverCard + existing Quran detector + /api/quran/verse → wi
 per D13 + surah-name→number map) · click-to-jump + scrollbar minimap/heatmap · ⌘K palette
 (cmdk) + TipTap find/replace · PLUS the two MUST-PRESERVE capabilities above.
 
+## Learning loop (CORE PRINCIPLE, Asif 2026-05-29)
+Every manual enhancement (reference marks, paragraph tags, edits) is training signal: the
+intelligence learns it and the pipeline PRE-APPLIES it on the next chapter/book BEFORE Asif
+reviews — confirm/refine, never start blank. Chapter→chapter, book→book (flywheel). TIERED:
+deterministic (corpus-verified reference markers) AUTO-APPLIED; judgment (esoteric/reality/sharia
+tags, prose edits) PRE-MARKED as accept/reject suggestions, never silent (mirrors D12). Build
+implication: the editor EMITS actions as learnable signal; the pre-mark phase CONSUMES + applies
+tiered. See plan.yaml WC8.co_development_model.learning_loop + memory `learning-loop`.
+
 ## All reader points RESOLVED (R-1..R-10).
 Lower-priority audit items still unscheduled: citation/export, persistent margin notes, server-side edit history, selectable Quran translation. (In-chapter search is folded into R-9 find.)
 

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T19:18:09.188Z",
-  "source_commit": "732f851",
+  "generated_at": "2026-05-29T20:03:37.194Z",
+  "source_commit": "e858979",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,31 @@
   ],
   "recent_commits": [
     {
+      "sha": "e858979",
+      "subject": "decision(reader): MUST-PRESERVE change-tracking redline + per-paragraph token tags from existing ChapterEditor",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "789889d",
+      "subject": "WC8 PoC v3: viewer left/panel right, actions above markers, one Quran container (grouped markers)",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "3869251",
+      "subject": "WC8 Slice 0 PoC v2: floating sticky inspector w/ internal scroll, smaller font, deduped/scalable markers, minimal shell",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "f4ee72f",
+      "subject": "WC8 Slice 0: TipTap Studio proof-of-concept (feel-check) on a real Ayyuhal chapter",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "647c3bd",
+      "subject": "plan(WC8): thread intelligence as a third co-evolving entity through every slice",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "732f851",
       "subject": "continuity: Ayyuhal multi-format sources landed; ready for Slice 0",
       "date": "2026-05-29"
@@ -805,31 +830,6 @@
     {
       "sha": "0b57dc9",
       "subject": "plan(WC8): restructure into a co-development walking-skeleton on Ayyuhal (vertical slices)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "cb713cf",
-      "subject": "plan(WC8): consolidate intake+reconciliation+Studio-cockpit RD into one wave (awaiting approval)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "a6d01df",
-      "subject": "docs: complete intake+reader RD (SI-1..7, R-1..10); ready to consolidate into a plan",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "5a147a5",
-      "subject": "docs: reader decisions R-4..R-8 (divergence view, audio, chapter/episode, Studio cockpit, TipTap engine)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "7f6e38f",
-      "subject": "docs: reader-redesign decisions R-1..R-3 (two modes, contextual inspector, read mode)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "29d8a24",
-      "subject": "docs: resolve halt-placement (SI-5) + source-budget UI (SI-6); open reader-redesign thread",
       "date": "2026-05-29"
     }
   ],
