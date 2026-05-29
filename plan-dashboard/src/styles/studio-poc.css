@@ -110,39 +110,47 @@
   opacity: 0.75;
   margin: 0 1px;
 }
-/* FC-3 per-paragraph affordance: hover any paragraph; click highlights only the active one. */
+/* FC-3 per-paragraph affordance: hovering shows a pointer (signals "nothing selected yet"). */
 .studio-poc__editor .ProseMirror > p:hover,
 .studio-poc__editor .ProseMirror > h2:hover,
 .studio-poc__editor .ProseMirror > h3:hover,
 .studio-poc__editor .ProseMirror > blockquote:hover {
+  cursor: pointer;
   background: color-mix(in srgb, var(--c-accent) 5%, transparent);
-  border-radius: 3px;
+  border-radius: 4px;
 }
-/* Active paragraph: a glowing ring around JUST that block, persists while the caret is in it. */
+/* Active paragraph: dark thick border + breathing-room padding + a slight zoom so it lifts
+   off the page. Negative margins cancel the padding so siblings don't jump on toggle. */
 .studio-poc__editor .para-active {
-  background: color-mix(in srgb, var(--c-accent) 6%, transparent);
-  box-shadow: 0 0 0 1.5px var(--c-accent), 0 0 10px -2px color-mix(in srgb, var(--c-accent) 60%, transparent);
-  border-radius: 5px;
+  padding: 9px 16px;
+  margin: -9px -16px calc(1em - 9px) -16px;
+  background: var(--c-bg-card);
+  border: 2px solid color-mix(in srgb, var(--c-accent) 45%, var(--c-ink));
+  border-radius: 9px;
+  box-shadow: 0 10px 26px -10px rgba(0, 0, 0, 0.4);
+  transform: scale(1.012);
+  transform-origin: left center;
 }
 
-/* Floating per-paragraph icon toolbar, anchored to the block's top-left corner. */
+/* Floating per-paragraph icon toolbar, anchored ABOVE the block's top-left corner with a
+   clear gap + its own surface + border so it never blends into the text behind it. */
 .studio-poc__editor .sp-para-tools {
   position: absolute;
-  top: -0.95em;
-  left: -2px;
+  top: -1.9em;
+  left: -4px;
   display: inline-flex;
-  gap: 2px;
-  padding: 2px;
-  border-radius: 8px;
-  background: var(--c-bg-card);
-  box-shadow: 0 2px 8px -3px rgba(0, 0, 0, 0.25);
+  gap: 3px;
+  padding: 3px 5px;
+  border-radius: 9px;
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.18));
+  box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.32);
   z-index: 5;
   user-select: none;
 }
 .studio-poc__editor .sp-para-tools--marks {
-  box-shadow: none;
-  background: transparent;
-  top: -0.85em;
+  top: -1.7em;
+  padding: 2px 5px;
 }
 .studio-poc__editor .sp-ptool {
   display: inline-flex;
@@ -155,7 +163,7 @@
   line-height: 1;
   border: 1px solid transparent;
   border-radius: 6px;
-  background: var(--c-bg-elev);
+  background: var(--c-bg-card);
   cursor: pointer;
   filter: grayscale(0.45);
   opacity: 0.78;
