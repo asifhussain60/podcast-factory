@@ -72,7 +72,16 @@ interface Props {
 
 export default function StudioPoc({ html, chapterTitle }: Props) {
   const [selection, setSelection] = useState('');
-  const markers = scanMarkers(html.replace(/<[^>]+>/g, ' '));
+  const rawMarkers = scanMarkers(html.replace(/<[^>]+>/g, ' '));
+  // Dedupe repeats (the same surah/phrase recurs) so the list scales to 50+ cleanly.
+  const seen = new Map<string, { kind: string; text: string; count: number }>();
+  for (const m of rawMarkers) {
+    const key = `${m.kind}|${m.text}`;
+    const e = seen.get(key);
+    if (e) e.count += 1;
+    else seen.set(key, { ...m, count: 1 });
+  }
+  const markers = [...seen.values()];
 
   const editor = useEditor({
     extensions: [StarterKit, MarkerHighlight],
@@ -99,19 +108,20 @@ export default function StudioPoc({ html, chapterTitle }: Props) {
             <dl className="sp-insp-meta">
               <dt>Chapter</dt>
               <dd>{chapterTitle}</dd>
-              <dt>Detected markers</dt>
-              <dd>{markers.length}</dd>
+              <dt>Markers</dt>
+              <dd>{rawMarkers.length} ({markers.length} unique)</dd>
             </dl>
           )}
         </div>
 
-        <div className="sp-insp-block">
-          <h3 className="sp-insp-sub">Markers in this chapter</h3>
+        <div className="sp-insp-block sp-insp-block--markers">
+          <h3 className="sp-insp-sub">Markers ({markers.length})</h3>
           <ul className="sp-marker-list">
-            {markers.slice(0, 12).map((m, i) => (
+            {markers.map((m, i) => (
               <li key={i}>
                 <span className={`sp-chip sp-chip--${m.kind.toLowerCase()}`}>{m.kind}</span>
                 <span className="sp-marker-text">{m.text}</span>
+                {m.count > 1 && <span className="sp-marker-count">×{m.count}</span>}
               </li>
             ))}
           </ul>

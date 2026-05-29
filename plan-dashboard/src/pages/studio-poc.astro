@@ -4,10 +4,9 @@
 // Studio spike. External CSS imported (no inline styles — repo DoD). Run: npm run dev
 // then open /studio-poc.
 import { readFileSync } from 'node:fs';
-import Base from '../layouts/Base.astro';
+import PocLayout from '../layouts/PocLayout.astro';
 import StudioPoc from '../components/reader/poc/StudioPoc.tsx';
 import { renderMarkdown } from '../lib/reader/markdown';
-import '../styles/studio-poc.css';
 
 const chapterUrl = new URL(
   '../../../content/drafts/books/ayyuhal-walad/chapters/ch01-frame-and-first-counsel.txt',
@@ -26,18 +25,16 @@ const html = md ? renderMarkdown(md) : '';
 const chapterTitle = 'The Frame and the First Counsel';
 ---
 
-<Base title="Studio PoC — Ayyuhal Walad" description="WC8 Slice 0 editor-engine feel-check">
-  <header class="page-header">
-    <div class="container">
-      <h1 class="page-title">Studio editor — proof of concept</h1>
-      <p class="sp-subtitle">
-        A throwaway spike on a real chapter. Edit the prose (real undo/redo), watch the
-        reference markers, and select text to see the inspector follow you. Feel-check only.
-      </p>
-    </div>
+<PocLayout title="Studio PoC — Ayyuhal Walad">
+  <header class="sp-header">
+    <h1 class="sp-h1">Studio editor — proof of concept</h1>
+    <p class="sp-subtitle">
+      Throwaway spike on a real chapter — judge the engine feel: edit (real undo/redo),
+      the non-destructive markers, and the inspector following your selection.
+    </p>
   </header>
 
   {loadError
-    ? <p class="container sp-error">Could not load the chapter: {loadError}</p>
+    ? <p class="sp-error">Could not load the chapter: {loadError}</p>
     : <StudioPoc client:only="react" html={html} chapterTitle={chapterTitle} />}
-</Base>
+</PocLayout>

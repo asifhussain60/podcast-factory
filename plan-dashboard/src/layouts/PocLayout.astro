@@ -1,0 +1,20 @@
+---
+// PocLayout.astro — minimal shell for the WC8 Studio PoC. Loads theme tokens + the
+// PoC stylesheet only; NO site nav/footer/reader-chrome (those bleed into a feel-check).
+// External CSS only (repo DoD).
+import '../styles/theme.css';
+import '../styles/studio-poc.css';
+interface Props { title: string; }
+const { title } = Astro.props;
+---
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body class="poc-body">
+    <slot />
+  </body>
+</html>
