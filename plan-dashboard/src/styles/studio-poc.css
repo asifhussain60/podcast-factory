@@ -411,3 +411,21 @@
 .studio-poc__editor .sp-stage-note {
   font-size: 0.78rem; color: var(--c-ink-muted); font-style: italic; margin: -8px 0 14px;
 }
+
+/* WC8 write-back: stage approval. */
+.studio-poc__editor .sp-tab-ok { color: var(--c-green, #15803d); font-weight: 700; }
+.sp-approve {
+  width: 100%;
+  margin-top: 2px;
+  padding: 9px 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #fff;
+  background: var(--c-accent);
+  border: 1px solid var(--c-accent);
+  border-radius: 9px;
+}
+.sp-approve:hover:not(:disabled) { filter: brightness(1.06); }
+.sp-approve:disabled { cursor: default; }
+.sp-approve.is-done { color: var(--c-green, #15803d); background: color-mix(in srgb, var(--c-green, #16a34a) 14%, var(--c-bg-card)); border-color: color-mix(in srgb, var(--c-green, #16a34a) 45%, transparent); }

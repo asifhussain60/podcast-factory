@@ -9,6 +9,7 @@ import StudioPoc from '../components/reader/poc/StudioPoc.tsx';
 import StudioVersePopover from '../components/reader/poc/StudioVersePopover.tsx';
 import { renderMarkdown } from '../lib/reader/markdown';
 import { loadGlossary } from '../lib/reader/glossary';
+import { readReview } from '../lib/reader/stage-review';
 
 const SLUG = 'ayyuhal-walad';
 const CHAPTER = 'ch01-frame-and-first-counsel';
@@ -45,6 +46,8 @@ const stages = STAGE_DEFS.map((d) => {
 const loadError = stages.some((s) => s.available) ? '' : `No stage artifacts found for ${SLUG}/${CHAPTER}.`;
 // FC-4: Arabic-script overlay glossary (seed for the feel-check; Phase 0c bakes the real one).
 const glossary = await loadGlossary(SLUG);
+// WC8 write-back loop: per-stage approval state for this chapter.
+const review = readReview(SLUG, CHAPTER);
 ---
 
 <PocLayout title="Studio PoC — Ayyuhal Walad">
@@ -60,7 +63,7 @@ const glossary = await loadGlossary(SLUG);
     ? <p class="sp-error">Could not load the chapter: {loadError}</p>
     : (
       <div class="prose-body">
-        <StudioPoc client:only="react" stages={stages} chapterTitle={chapterTitle} glossary={glossary} />
+        <StudioPoc client:only="react" slug={SLUG} chapter={CHAPTER} stages={stages} chapterTitle={chapterTitle} glossary={glossary} reviewed={review.stages} />
         <StudioVersePopover client:only="react" />
       </div>
     )}

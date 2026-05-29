@@ -108,12 +108,15 @@ interface Stage {
 }
 
 interface Props {
+  slug: string;
+  chapter: string;
   stages: Stage[];
   chapterTitle: string;
   glossary?: GlossaryEntry[];
+  reviewed?: Record<string, { approved: boolean; approved_at?: string | null }>;
 }
 
-export default function StudioPoc({ stages, chapterTitle, glossary = [] }: Props) {
+export default function StudioPoc({ slug, chapter, stages, chapterTitle, glossary = [], reviewed = {} }: Props) {
   // Stage tabs (SN-5): the last AVAILABLE stage is the one under review (editable); upstream
   // stages are read-only comparison views. Tabs for not-yet-produced stages render disabled.
   const editableStageId = [...stages].reverse().find((s) => s.available)?.id ?? stages[0]?.id;
@@ -121,6 +124,26 @@ export default function StudioPoc({ stages, chapterTitle, glossary = [] }: Props
   const stage = stages.find((s) => s.id === stageId) ?? stages[0];
   const html = stage?.html ?? '';
   const isReadOnlyStage = stageId !== editableStageId;
+
+  // WC8 write-back loop: which stages are approved (seeded from disk, updated on approve).
+  const [approvedStages, setApprovedStages] = useState<Record<string, boolean>>(
+    () => Object.fromEntries(Object.entries(reviewed).map(([k, v]) => [k, !!v?.approved])),
+  );
+  const [saving, setSaving] = useState(false);
+  const approveStage = useCallback(async () => {
+    if (!stage) return;
+    setSaving(true);
+    try {
+      const res = await fetch('/api/studio/review', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, chapter, stage: stage.id, approved: true }),
+      });
+      if (res.ok) setApprovedStages((m) => ({ ...m, [stage.id]: true }));
+    } catch { /* surfaced by the unchanged button state */ } finally {
+      setSaving(false);
+    }
+  }, [slug, chapter, stage]);
 
   const [selection, setSelection] = useState('');
   const [arabicOn, setArabicOn] = useState(false);
@@ -405,10 +428,10 @@ export default function StudioPoc({ stages, chapterTitle, glossary = [] }: Props
               aria-selected={s.id === stageId}
               disabled={!s.available}
               className={`sp-tab${s.id === stageId ? ' is-active' : ''}${s.available ? '' : ' is-pending'}`}
-              title={s.available ? `${s.label} stage` : `Pending — produced by ${s.slice}`}
+              title={s.available ? `${s.label} stage${approvedStages[s.id] ? ' — approved' : ''}` : `Pending — produced by ${s.slice}`}
               onClick={() => s.available && setStageId(s.id)}
             >
-              {s.label}
+              {s.label}{approvedStages[s.id] && <span className="sp-tab-ok" aria-label="approved"> ✓</span>}
             </button>
           ))}
         </div>
@@ -444,6 +467,17 @@ export default function StudioPoc({ stages, chapterTitle, glossary = [] }: Props
               <button type="button" onClick={() => editor?.chain().focus().redo().run()} title="Redo">↻</button>
             </div>
           </div>
+          {/* WC8 write-back: approve the stage under review -> releases the pipeline halt. */}
+          {!isReadOnlyStage && stage && (
+            <button
+              type="button"
+              className={`sp-approve ${approvedStages[stage.id] ? 'is-done' : ''}`}
+              onClick={approveStage}
+              disabled={saving || approvedStages[stage.id]}
+            >
+              {approvedStages[stage.id] ? `✓ ${stage.label} approved` : saving ? 'Saving…' : `Approve ${stage.label} stage`}
+            </button>
+          )}
         </section>
 
         {/* Inspector — its own bordered card; bounded height, scrolls internally. */}
