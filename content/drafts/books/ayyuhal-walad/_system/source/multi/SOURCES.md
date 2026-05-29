@@ -15,17 +15,17 @@ lost and can be retrieved/restored on demand.
 | `pdf/ayyuhal-walad-scholarly.pdf` | 8.7 MB | Scholarly / commentary edition | Additions layer (explainer/commentary surplus) |
 | (existing) `../Ayyuhal-Walad.pdf` | — | The single PDF already in the pipeline pre-WC8 | Prior source of record |
 
-## NOT committed — raw lecture video (kept local)
+## Lecture media — LOCAL ONLY, never committed (Asif decision 2026-05-29)
 
 12 MP4 lectures, **~13 GB total**: *"Ghazali's Dear Beloved Son Explained — Shaykh Abdullah
-Misra"*, episodes 01–12. These are the **explainer/narrator** source (their value to the
-pipeline is the **audio**, for transcription — the video itself is not needed).
+Misra"*, episodes 01–12. The **explainer/narrator** source (the pipeline's value is the
+**audio**, for transcription).
 
-> **Why not in git:** every MP4 is 700 MB–1.5 GB; GitHub rejects files >100 MB on a normal
-> push, so raw video cannot live in plain git. Plan (pending Asif's decision): extract
-> speech audio with ffmpeg (free, local, lossless-for-purpose; ~13 GB → ~150 MB) and commit
-> the **audio** as the restorable transcription source; keep the raw MP4s local/external (or
-> git-LFS if full-video versioning is wanted).
+> **Policy:** the raw video and any extracted audio are **transient local build inputs** — kept
+> local, never committed (GitHub rejects >100 MB files anyway), and **deletable once the pipeline
+> is built**. They are restorable from YouTube. Only the **TEXT the pipeline produces** from them
+> (transcripts → refined source) is committed to git — that text is the durable, restorable
+> lecture artifact. Audio is extracted on demand with ffmpeg (free, local, no paid tokens).
 
 Episodes: 01 Introduction · 02 Prophetic Advice · 03 Actions and Intentions · 04 Beneficial
 Knowledge · 05 The Summary of Knowledge · 06 Four Essentials for the Seeker · 07 Recognizing
@@ -35,9 +35,9 @@ Things to Desist From · 11 Four Things to Desist From (Part 2) · 12 Four Thing
 Raw video currently at: `_workspace/inbox/youtube/` (gitignored). Source: YouTube.
 
 ## Restore
-The PDFs restore with the repo (`git checkout`). The lecture **audio** will restore from git
-once extracted + committed (see decision above). The raw 13 GB video is archival — re-download
-from YouTube or restore from Asif's local/iCloud archive if ever needed.
+The PDFs restore with the repo (`git checkout`). The lecture content restores as the committed
+**transcript/refined text** the pipeline produces. The raw 13 GB video + extracted audio are
+transient/local — re-download from YouTube (or Asif's local archive) if ever needed again.
 
 ## How these unify (WC8.1 design)
 - **Common denominator (core):** content shared across the Arabic original + English + scholarly
