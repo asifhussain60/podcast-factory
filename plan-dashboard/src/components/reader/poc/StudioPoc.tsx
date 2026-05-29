@@ -95,48 +95,9 @@ const SURAH_MAP: Record<string, number> = {
   'Adh-Dhariyat': 51, 'Ar-Rahman': 55, 'Al-Hashr': 59, 'Al-Mulk': 67,
   "Al-A'la": 87, 'Ash-Shams': 91, 'Az-Zalzalah': 99, 'Al-Asr': 103, 'Al-Ikhlas': 112,
 };
-// "Surah X, verses 7 to 8" | "Surah X, verse 110"
+// "Surah X, verses 7 to 8" | "Surah X, verse 110". The verse-ref chip that REPLACES this
+// phrase is built inside StudioDecos (so it can coordinate with the Arabic overlay).
 const SURAH_VERSE_RE = /Surah ([A-Z][\w'’-]+),?\s+verses?\s+(\d+)(?:\s*(?:to|–|-)\s*(\d+))?/g;
-
-// FC-1: append a compact chapter:verse CHIP after the reference (prose untouched).
-const QuranRefChips = Extension.create({
-  name: 'quranRefChips',
-  addProseMirrorPlugins() {
-    return [
-      new Plugin({
-        key: new PluginKey('quranRefChips'),
-        props: {
-          decorations(state) {
-            const decos: Decoration[] = [];
-            state.doc.descendants((node, pos) => {
-              if (!node.isText || !node.text) return;
-              SURAH_VERSE_RE.lastIndex = 0;
-              let m: RegExpExecArray | null;
-              while ((m = SURAH_VERSE_RE.exec(node.text))) {
-                const num = SURAH_MAP[m[1].replace(/’/g, "'")];
-                if (!num) continue;
-                const verse = m[2];                       // capture per-match (closure-safe)
-                const label = m[3] ? `${num}:${verse}–${m[3]}` : `${num}:${verse}`;
-                const end = pos + m.index + m[0].length;
-                decos.push(
-                  Decoration.widget(end, () => {
-                    const chip = document.createElement('span');
-                    chip.className = 'ref-quran sp-vchip';
-                    chip.textContent = label;
-                    chip.setAttribute('data-surah', String(num));
-                    chip.setAttribute('data-verse', verse);
-                    return chip;
-                  }, { side: 1 }),
-                );
-              }
-            });
-            return DecorationSet.create(state.doc, decos);
-          },
-        },
-      }),
-    ];
-  },
-});
 
 interface Props {
   html: string;
@@ -182,6 +143,38 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
                   // Active paragraph (FC-3): the top-level node holding the cursor.
                   const headPos = state.selection.$head;
                   const activeTop = headPos.depth >= 1 ? headPos.before(1) : -1;
+
+                  // FC-1: Quran verse refs REPLACE their phrase with a compact chip. The
+                  // underlying prose is NOT mutated (display:none decoration), so the
+                  // NotebookLM source still reads "Surah Al-Kahf, verse 110". Collect the
+                  // ranges so the Arabic overlay doesn't double-render inside them.
+                  const refRanges: [number, number][] = [];
+                  state.doc.descendants((tn, tpos) => {
+                    if (!tn.isText || !tn.text) return;
+                    SURAH_VERSE_RE.lastIndex = 0;
+                    let rm: RegExpExecArray | null;
+                    while ((rm = SURAH_VERSE_RE.exec(tn.text))) {
+                      const num = SURAH_MAP[rm[1].replace(/’/g, "'")];
+                      if (!num) continue;
+                      const verse = rm[2];
+                      const label = rm[3] ? `${num}:${verse}–${rm[3]}` : `${num}:${verse}`;
+                      const from = tpos + rm.index;
+                      const to = from + rm[0].length;
+                      refRanges.push([from, to]);
+                      decos.push(Decoration.inline(from, to, { class: 'ref-hidden' }));
+                      decos.push(
+                        Decoration.widget(from, () => {
+                          const chip = document.createElement('span');
+                          chip.className = 'ref-quran sp-vchip';
+                          chip.textContent = label;
+                          chip.setAttribute('data-surah', String(num));
+                          chip.setAttribute('data-verse', verse);
+                          return chip;
+                        }, { side: -1 }),
+                      );
+                    }
+                  });
+                  const inRef = (p: number) => refRanges.some(([a, b]) => p >= a && p < b);
 
                   let i = 0;
                   state.doc.forEach((node, offset) => {
@@ -261,6 +254,7 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
                           while ((mm = re.exec(child.text!))) {
                             const from = base + mm.index;
                             const to = from + mm[0].length;
+                            if (inRef(from)) continue; // verse-ref phrase is already replaced by a chip
                             decos.push(Decoration.inline(from, to, { class: 'ar-hidden' }));
                             const script = e.arabic_script;
                             decos.push(
@@ -289,7 +283,7 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
   );
 
   const editor = useEditor({
-    extensions: [StarterKit, MarkerHighlight, QuranRefChips, StudioDecos],
+    extensions: [StarterKit, MarkerHighlight, StudioDecos],
     content: html,
     onCreate({ editor }) {
       const texts: string[] = [];

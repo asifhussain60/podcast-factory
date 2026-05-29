@@ -221,24 +221,24 @@
 .mk-hadith { background: color-mix(in srgb, var(--c-gold, var(--c-amber)) 16%, transparent); box-shadow: inset 0 -2px 0 var(--c-gold, var(--c-amber)); }
 .mk-term { background: color-mix(in srgb, var(--c-accent-soft) 20%, transparent); }
 
-/* FC-1 compact chapter:verse chip (prose untouched; this is the hover target). */
+/* FC-1 compact chapter:verse chip — REPLACES the verse-reference phrase inline (the prose
+   underneath stays intact via .ref-hidden, so NotebookLM is unaffected). Hover target. */
+.studio-poc__editor .ref-hidden { display: none; }
 .studio-poc__editor .sp-vchip {
   display: inline-block;
   font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 0.62rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.35;
   letter-spacing: 0.02em;
-  vertical-align: super;
-  margin-left: 3px;
-  padding: 0 5px;
-  border-radius: 7px;
+  padding: 1px 8px;
+  border-radius: 8px;
   color: var(--c-bg, #fff);
   background: var(--c-accent);
   cursor: pointer;
   user-select: none;
 }
-.studio-poc__editor .sp-vchip:hover { filter: brightness(1.08); }
+.studio-poc__editor .sp-vchip:hover { filter: brightness(1.1); }
 
 /* FC-4 Arabic-script overlay (decoration-based; non-destructive). */
 .studio-poc__editor .ar-hidden { display: none; }
@@ -250,9 +250,10 @@
 }
 .sp-arabic-btn.is-on { color: var(--c-bg); background: var(--c-accent); border-color: var(--c-accent); }
 
-/* FC-1 fix: in the PoC layout the reused QuranPopover must float above the editor and
-   track the viewport anchor (the shared card is position:absolute + z-index:50). */
-.poc-body .popover-card { position: fixed; z-index: 9999; }
+/* FC-1: lift the reused QuranPopover above the editor. Keep its base position:absolute
+   (QuranPopover computes top/left in DOCUMENT coords with scrollY — switching to fixed
+   double-counts scroll and throws the card off-screen once the page is scrolled). */
+.poc-body .popover-card { z-index: 9999; }
 
 @media (max-width: 900px) {
   .studio-poc { grid-template-columns: 1fr; }
