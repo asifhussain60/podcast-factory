@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T15:44:01.627Z",
-  "source_commit": "3d82d0e",
+  "generated_at": "2026-05-29T16:12:48.630Z",
+  "source_commit": "b419620",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,21 @@
   ],
   "recent_commits": [
     {
+      "sha": "b419620",
+      "subject": "site(WC6f): DoD attribute cleanup + audience badges across remaining views",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "87b4a55",
+      "subject": "site(WC6f): shared back-to-top chrome + Infrastructure full redesign",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "52d1cb3",
+      "subject": "site(WC6e): Overview front door redesign — augment with 4 diagrams (PASS / L2)",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "3d82d0e",
       "subject": "site(WC6d): shared diagram shell — theme-adapter, build-time Mermaid, audience badge",
       "date": "2026-05-29"
@@ -815,21 +830,6 @@
     {
       "sha": "b463cb4",
       "subject": "docs: architecture-redesign convergence ledger + remove YNAB MCP",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "7b72313",
-      "subject": "fix: plan-dashboard launchd — resolve APP_DIR relative to script, not hardcoded path",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "fd31328",
-      "subject": "chore: session state — loop-intelligence prompt update, stats.json, annotation dirs",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "7d0db68",
-      "subject": "feat(wave-j): J1 — SQLite FTS5 mirror builder + mirror-first query fallback",
       "date": "2026-05-29"
     }
   ],

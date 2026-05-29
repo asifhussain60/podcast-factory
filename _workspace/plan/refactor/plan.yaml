@@ -2690,7 +2690,28 @@ wisdom_corpus_program:
             acceptance:
               - "Overview passes html-view-challenger Level 1; coffee-test opening preserved; existing editorial content retained."
               - "No duplicate diagram; WCAG AA contrast; full-page screenshot captured."
-        build_order: [WC6a, WC6b, WC6c, WC6d, WC6e, "then remaining WC6 view-build steps gated by html-view-challenger"]
+        build_order: [WC6a, WC6b, WC6c, WC6d, WC6e, WC6f, "then component-layer follow-on (see remaining_followon)"]
+        wc6f_site_wide_pass_2026_05_29:
+          status: shipped
+          authorization: "Asif: 'complete all the work... best well-thought-through recommendation' (autonomous)"
+          what_shipped:
+            - "Shared back-to-top chrome (external src/scripts/site-chrome.ts + .to-top); all views inherit (REQ-045)."
+            - "Infrastructure view fully rebuilt vertical + DoD-clean: bespoke InfraDeployment SVG (stacked trust zones), Mermaid blackbox-transport + ksessions-ingest, credentials + hotspots TABLES (right-form-first), DB groups, vendor costs; dropped redundant horizontal actor-map + StackFlow; 100-line inline <style> block + all inline style= removed."
+            - "DoD attribute cleanup across architecture/security/quality/intelligence: all inline style= attributes -> shared classes (.callout-ico, .u-mt-4, .pqw-N buckets, .status-chip-sp)."
+            - "Audience badges on ALL 11 view pages (overview, infrastructure, system-map, architecture, intelligence, db-schema, security, quality, annotation-ops, plan, dashboard)."
+          challenger_sweep_verdict: "challenger_version 1.0: 11/11 view PAGE LAYERS have ZERO hard inline-style= MUSTs; all global MUSTs (1.2rem floor, gradient H1, skip link, back-to-top, print, lang, focus-visible, reduced-motion) present + inherited; every view badged."
+        remaining_followon:
+          note: "Bounded, additive component-layer hardening; does NOT destabilize shipped views. Page layer is done."
+          component_inline_style_externalization:
+            occurrences: 50
+            components: [PhaseSwimlaneDiagram, PipelineOverviewRail, DbArchitecture, TrustBoundaryDFD, CredentialMap, PipelineSpine, NarrativeScroll, C4ContextDiagram, PlanDesign]
+          horizontal_diagram_vertical_rebuild_D19:
+            components: [PhaseSwimlaneDiagram, PipelineOverviewRail, DbArchitecture, TrustBoundaryDFD, CredentialMap, C4ContextDiagram, StackFlow]
+            note: "SpendChart excused (time-series chart, not a flow diagram)."
+          non_view_page_cleanup:
+            occurrences: 15
+            pages: ["book-review/[slug]", "library episode", "wisdom"]
+          reader_components: "Excluded by design (interactive app surfaces, not architecture views)."
         config_drifts_2026_05_29:
           status: in_progress
           rationale: >
