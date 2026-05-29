@@ -1,0 +1,93 @@
+/* studio-poc.css — WC8 Slice 0 PoC styling (external; no inline styles — repo DoD).
+   Maps onto existing theme tokens (--c-*); does NOT change the colour theme. */
+
+.sp-subtitle { font-size: 1.1rem; line-height: 1.6; color: var(--c-ink-muted); max-width: 70ch; }
+.sp-error { color: var(--c-red, #b91c1c); font-size: 1.05rem; }
+
+.studio-poc {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  width: 90%;
+  max-width: 1400px;
+  margin: 24px auto;
+  align-items: start;
+}
+
+/* Inspector (right-side panel content lives left here for the spike; follows selection). */
+.studio-poc__inspector {
+  position: sticky;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 18px;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+  border-radius: 14px;
+}
+.sp-insp-title { font-size: 1.2rem; font-weight: 700; color: var(--c-accent); margin: 0 0 6px; }
+.sp-insp-sub { font-size: 1rem; font-weight: 700; color: var(--c-ink); margin: 0 0 8px; }
+.sp-insp-hint { font-size: 0.95rem; color: var(--c-ink-muted); margin: 0 0 8px; }
+.sp-insp-sel {
+  font-size: 1.05rem; line-height: 1.6; color: var(--c-ink);
+  border-left: 3px solid var(--c-accent); padding: 6px 12px; margin: 0;
+  background: var(--c-bg-elev); border-radius: 0 8px 8px 0;
+}
+.sp-insp-meta { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; }
+.sp-insp-meta dt { font-size: 0.85rem; color: var(--c-ink-muted); }
+.sp-insp-meta dd { font-size: 0.95rem; color: var(--c-ink); margin: 0; }
+
+.sp-marker-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.sp-marker-list li { display: flex; align-items: baseline; gap: 8px; font-size: 0.95rem; }
+.sp-marker-text { color: var(--c-ink-dim); }
+.sp-chip {
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 2px 8px; border-radius: 10px; color: var(--c-bg);
+  background: var(--c-ink-muted); flex: 0 0 auto;
+}
+.sp-chip--quran { background: var(--c-accent); }
+.sp-chip--hadith { background: var(--c-gold, var(--c-amber)); }
+.sp-chip--work { background: var(--c-accent-soft); }
+
+.sp-toolbar { display: flex; flex-wrap: wrap; gap: 6px; }
+.sp-toolbar button {
+  font-size: 0.85rem; padding: 5px 12px; border-radius: 8px; cursor: pointer;
+  color: var(--c-ink); background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+}
+.sp-toolbar button:hover { border-color: var(--c-accent); color: var(--c-accent); }
+
+/* Editor surface — editorial-modern reading feel. */
+.studio-poc__editor {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
+  border-radius: 14px;
+  padding: 32px 40px;
+}
+.studio-poc__editor .ProseMirror {
+  font-family: var(--font-body, Georgia, serif);
+  font-size: 1.2rem;
+  line-height: 1.75;
+  color: var(--c-ink);
+  outline: none;
+}
+.studio-poc__editor .ProseMirror:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 4px; }
+.studio-poc__editor h1 { font-size: 1.85rem; }
+.studio-poc__editor h2 { font-size: 1.45rem; color: var(--c-accent); margin-top: 1.6em; }
+.studio-poc__editor blockquote {
+  border-left: 3px solid var(--c-accent-soft); padding-left: 16px; margin-left: 0;
+  color: var(--c-ink-dim); font-style: italic;
+}
+.studio-poc__editor p { margin: 0 0 1em; }
+
+/* Non-destructive markers (ProseMirror decorations). */
+.mk { border-radius: 3px; padding: 0 1px; }
+.mk-quran { background: color-mix(in srgb, var(--c-accent) 18%, transparent); box-shadow: inset 0 -2px 0 var(--c-accent); }
+.mk-hadith { background: color-mix(in srgb, var(--c-gold, var(--c-amber)) 18%, transparent); box-shadow: inset 0 -2px 0 var(--c-gold, var(--c-amber)); }
+.mk-term { background: color-mix(in srgb, var(--c-accent-soft) 22%, transparent); }
+
+@media (max-width: 900px) {
+  .studio-poc { grid-template-columns: 1fr; }
+  .studio-poc__inspector { position: static; }
+}
