@@ -21,7 +21,11 @@
 - **Azure** (the only metered cost) used sparingly — targeted re-translation only.
 - **Never a fixed script** for noise/divergence — the pipeline decides per-content when to invoke LLM vs Azure vs Gemini (Asif: "NEVER use any kind of fixed script… intelligent to know when to use" each).
 
-## Open / next (not yet decided)
-- Exact phase-placement of the unification + triage sub-steps inside Phase 04, and the relationship to the existing 06a + finalize halts (the audit's "two halts" contradiction).
-- Where the per-source alignment metrics + "source budget" render in the astro site (review-gate UI).
-- Spine-selection rule when multiple candidate "authoritative" sources exist (beyond Ayyuhal=Arabic, Anwaar=Urdu-native).
+## Open items — resolutions
+
+- **SI-5 — Halt placement (RESOLVED).** Unify (spine+layer alignment) runs as the last step of intake; the source-budget triage fires at a NEW EARLY approval halt right after it (before cleaning/enrichment), REUSING the existing approval-flag + astro-viewer gate mechanism. Three checkpoints, one mechanism, each a distinct question: (1) early source-budget gate — *what/how much to process*; (2) existing refined-source review — *is the cleaned English faithful before chapter design*; (3) existing finalize — *is the finished book shippable*. Resolves the audit's "two halts" contradiction (each halt has one non-overlapping job). Token gate sits where it has leverage (before spend).
+- **SI-6 — Source-budget UI (RESOLVED).** A per-book "Intake Review" panel INSIDE the book's workspace/reader view in the Podcast Factory Astro Site: one row per source (role, overlap %, unique passages, divergences, recommended tier, approve/override) + click-through to preview each layer; writes the gate flag; co-located with the SI-4 divergence markers. Mirrors the planned Wisdom Corpus curation view. Standing preference confirmed: **surface everything possible in the viewer** (memory: ui-max-surfacing) — default to the richest in-viewer option for any pipeline output/decision.
+
+## Still open
+- **Spine-selection rule** when multiple candidate "authoritative" sources exist (beyond Ayyuhal=Arabic, Anwaar=Urdu-native).
+- **Chapter-reader redesign** (NEW thread, Asif 2026-05-29) — folded into this discussion; the reader is the convergence surface for the Intake Review panel (SI-6), divergence markers (SI-4), and corpus-verified annotation markers (D10). Per-view redesign: discuss one page at a time, Cortex HTML standard applies, nothing changes until agreed.
