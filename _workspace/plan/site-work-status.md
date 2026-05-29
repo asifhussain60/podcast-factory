@@ -9,18 +9,22 @@
 
 **Last updated:** 2026-05-29
 
-**In progress:** Cortex standard hardening (WC7) — just completed: standard relocated to
-`docs/standards/html-view-quality.md`, rules de-duplicated to one source + a one-screen
-digest, a deterministic lint gate (`npm run lint:views`) wired into pre-commit + build,
-and this session-continuity hook.
+**In progress:** Cortex standard hardening (WC7) — SHIPPED + pushed to `origin/develop`
+(commits up to `3a8f263`). Standard at `docs/standards/html-view-quality.md` + one-screen
+digest; deterministic lint gate (`npm run lint:views`) wired into pre-commit + prebuild;
+SessionStart continuity hook live. Astro scoped `<style>` accepted as DoD-compliant; only
+oversized blocks (>50 lines) flagged.
 
-**Last decision:** Per-view redesigns (WC6 follow-on) are discussed with Asif ONE PAGE AT
-A TIME before any change. The lint gate's blocking tier covers the 12 view pages + layouts
-(currently green); `<style>`-block extraction, SVG a11y triples, and NarrativeBase's
-skip-link are tracked as non-blocking warnings, not silently rewritten.
+**Last decision:** Astro scoped `<style>` blocks are DoD-compliant (compile to scoped
+external CSS) — gate flags only oversized page-stylesheets. Per-view redesigns + any
+shipped-view styling change are discussed ONE PAGE AT A TIME before touching anything.
 
-**Next step:** Asif chooses the first view to redesign one-at-a-time, OR opts to burn down
-the lint warning backlog (`npm run lint:views` → 67 warnings) as a separate pass.
+**Next step:** Burn down the remaining **51 lint warnings** toward `--strict`, page by page
+with approval. Suggested order: (1) extract the oversized `<style>` blocks on the 4
+architecture view pages (db-schema, intelligence, quality, system-map) into `src/styles/`;
+(2) author SVG a11y triples (2 view-page + 8 component SVGs); (3) remove `<svg>` width/height
+attrs on components with a render check; (4) NarrativeBase skip-link; (5) library/wisdom
+subpages (lowest priority — not architecture views). Run `npm run lint:views` for live state.
 
 ---
 
