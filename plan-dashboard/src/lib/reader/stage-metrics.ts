@@ -73,8 +73,8 @@ export function writeMetricsLedger(slug: string, chapter: string, metrics: Stage
     chapter,
     measured_at: new Date().toISOString().replace(/\.\d+Z$/, 'Z'),
     stages: metrics,
-    // Convenience: the headline "% noise removed" (Denoised vs Source), when both exist.
-    noise_removed_pct: metrics.find((m) => m.id === 'denoised' && m.comparedTo === 'source')?.deltaPct ?? null,
+    // Convenience: the headline "% noise removed" (Denoised vs Core), when both exist.
+    noise_removed_pct: metrics.find((m) => m.id === 'denoised' && m.comparedTo === 'core')?.deltaPct ?? null,
   };
   mkdirSync(dirname(p), { recursive: true });
   writeFileSync(p, JSON.stringify(payload, null, 2), 'utf8');

@@ -457,7 +457,7 @@ export default function StudioPoc({ slug, chapter, stages, chapterTitle, glossar
               {delta !== null && priorLabel && (
                 <span className={`sp-metric-delta ${delta < 0 ? 'is-down' : delta > 0 ? 'is-up' : ''}`}>
                   {delta > 0 ? '+' : ''}{delta}% vs {priorLabel}
-                  {stageId === 'denoised' && delta < 0 && ` (${Math.abs(delta)}% noise removed)`}
+                  {stageId === 'denoised' && m.comparedTo === 'core' && delta < 0 && ` (${Math.abs(delta)}% noise removed)`}
                 </span>
               )}
             </div>

@@ -20,11 +20,13 @@ const chapterTitle = 'The Frame and the First Counsel';
 // text lives at content/drafts/books/<slug>/_stages/<chapter>/<id>.(md|txt); 'augmented' falls
 // back to the existing finished chapter. Stages that the slices haven't produced yet are 'pending'
 // — the tabs render them disabled and fill in as the pipeline runs. No LLM in Slice 0.
+// Canonical pipeline order (intake builds the Core, THEN noise is stripped):
+// Source -> Core -> Denoised -> Normalized -> Augmented.
 const STAGE_DEFS = [
   { id: 'source', label: 'Source', slice: 'Slice 1 (intake)' },
+  { id: 'core', label: 'Core', slice: 'Slice 1 (intake)' },
   { id: 'denoised', label: 'Denoised', slice: 'Slice 2 (noise-strip)' },
-  { id: 'core', label: 'Core', slice: 'Slice 3 (reconcile)' },
-  { id: 'normalized', label: 'Normalized', slice: 'WC8.8 (house voice)' },
+  { id: 'normalized', label: 'Normalized', slice: 'Normalize (house voice)' },
   { id: 'augmented', label: 'Augmented', slice: 'Slice 4 (knowledge)' },
 ];
 const base = new URL(`../../../content/drafts/books/${SLUG}/`, import.meta.url);
