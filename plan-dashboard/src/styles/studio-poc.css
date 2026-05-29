@@ -110,7 +110,7 @@
   opacity: 0.75;
   margin: 0 1px;
 }
-/* FC-3 per-paragraph affordance: hovering shows a pointer (signals "nothing selected yet"). */
+/* FC-3 per-paragraph affordance: hovering an IDLE block shows a pointer ("nothing selected"). */
 .studio-poc__editor .ProseMirror > p:hover,
 .studio-poc__editor .ProseMirror > h2:hover,
 .studio-poc__editor .ProseMirror > h3:hover,
@@ -119,11 +119,15 @@
   background: color-mix(in srgb, var(--c-accent) 5%, transparent);
   border-radius: 4px;
 }
-/* Active paragraph: dark thick border + breathing-room padding + a slight zoom so it lifts
-   off the page. Negative margins cancel the padding so siblings don't jump on toggle. */
-.studio-poc__editor .para-active {
+/* Tagged blocks reserve top room so their persistent icon marks sit ABOVE without overlap. */
+.studio-poc__editor .para-tagged { margin-top: 1.9em; }
+/* Active paragraph: dark thick border + padding + slight zoom; a text caret while editing;
+   extra top margin opens a gap so the floating icon row never collides with the line above. */
+.studio-poc__editor .para-active,
+.studio-poc__editor .para-active:hover {
+  cursor: text;
   padding: 9px 16px;
-  margin: -9px -16px calc(1em - 9px) -16px;
+  margin: 2em -16px calc(1em - 9px) -16px;
   background: var(--c-bg-card);
   border: 2px solid color-mix(in srgb, var(--c-accent) 45%, var(--c-ink));
   border-radius: 9px;
@@ -136,8 +140,8 @@
    clear gap + its own surface + border so it never blends into the text behind it. */
 .studio-poc__editor .sp-para-tools {
   position: absolute;
-  top: -1.9em;
-  left: -4px;
+  top: -1.85em;
+  left: -2px;
   display: inline-flex;
   gap: 3px;
   padding: 3px 5px;
@@ -147,10 +151,6 @@
   box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.32);
   z-index: 5;
   user-select: none;
-}
-.studio-poc__editor .sp-para-tools--marks {
-  top: -1.7em;
-  padding: 2px 5px;
 }
 .studio-poc__editor .sp-ptool {
   display: inline-flex;
@@ -165,22 +165,31 @@
   border-radius: 6px;
   background: var(--c-bg-card);
   cursor: pointer;
-  filter: grayscale(0.45);
-  opacity: 0.78;
+  filter: grayscale(0.5);
+  opacity: 0.7;
 }
 .studio-poc__editor .sp-para-tools--palette .sp-ptool:hover { opacity: 1; filter: none; transform: translateY(-1px); }
-.studio-poc__editor .sp-ptool.is-on { opacity: 1; filter: none; background: var(--c-bg-card); }
-.studio-poc__editor .sp-ptool.tag-esoteric.is-on { border-color: #7c3aed; }
-.studio-poc__editor .sp-ptool.tag-reality.is-on  { border-color: #0284c7; }
-.studio-poc__editor .sp-ptool.tag-sharia.is-on   { border-color: #0f766e; }
-.studio-poc__editor .sp-ptool.tag-delete.is-on   { border-color: #e11d48; }
-.studio-poc__editor .sp-ptool.tag-improve.is-on  { border-color: #d97706; }
-.studio-poc__editor .sp-para-tools--marks .sp-ptool { background: transparent; border: none; opacity: 1; filter: none; }
+/* Selected tag: DARK background so it reads as "on" at a glance, with its colour as a ring. */
+.studio-poc__editor .sp-ptool.is-on {
+  opacity: 1;
+  filter: none;
+  background: var(--c-ink, #2a2118);
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+.studio-poc__editor .sp-ptool.tag-esoteric.is-on { color: #a78bfa; }
+.studio-poc__editor .sp-ptool.tag-reality.is-on  { color: #38bdf8; }
+.studio-poc__editor .sp-ptool.tag-sharia.is-on   { color: #2dd4bf; }
+.studio-poc__editor .sp-ptool.tag-delete.is-on   { color: #fb7185; }
+.studio-poc__editor .sp-ptool.tag-improve.is-on  { color: #fbbf24; }
 
-/* Inspector tag key (legend). */
-.sp-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
-.sp-legend-row { display: flex; align-items: center; gap: 8px; font-size: 0.84rem; color: var(--c-ink); }
-.sp-legend-icon { width: 1.3em; text-align: center; }
+/* Inspector tag key (legend) — compact wrapping pills to save vertical space. */
+.sp-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 5px; }
+.sp-legend-row {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.72rem; color: var(--c-ink-dim);
+  background: var(--c-bg-elev); padding: 2px 7px 2px 5px; border-radius: 999px;
+}
+.sp-legend-icon { font-size: 0.82rem; line-height: 1; }
 
 /* PER-PARAGRAPH TOKEN TAGS are now shown as persistent ICONS at the block's top-left
    (sp-para-tools--marks), not a coloured border — Asif prefers icon-based recognition. */
@@ -248,7 +257,9 @@
   font-size: 1.18em;
   line-height: 1;
 }
-.sp-arabic-btn.is-on { color: var(--c-bg); background: var(--c-accent); border-color: var(--c-accent); }
+.sp-arabic-btn { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+.sp-arabic-btn.is-on,
+.sp-arabic-btn.is-on:hover { color: #fff; background: var(--c-accent); border-color: var(--c-accent); }
 
 /* FC-1: dedicated golden verse popover (StudioVersePopover). Opaque card, floating-ui
    positioned, beautiful Arabic (Amiri) + serif English. Self-contained --c-* tokens. */

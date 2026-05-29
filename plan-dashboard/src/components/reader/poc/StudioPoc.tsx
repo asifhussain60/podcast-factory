@@ -249,7 +249,9 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
                         if (!child.isText || !child.text) return;
                         const base = offset + 1 + childPos;
                         for (const e of glossarySorted) {
-                          const re = new RegExp(`\\b${e.phonetic.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'g');
+                          // Don't fire inside compounds/possessives: skip if adjacent to a
+                          // letter, hyphen, or apostrophe (so "al-Quran"/"Ghazali's" stay English).
+                          const re = new RegExp(`(?<![\\w-])${e.phonetic.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\w'’-])`, 'g');
                           let mm: RegExpExecArray | null;
                           while ((mm = re.exec(child.text!))) {
                             const from = base + mm.index;
