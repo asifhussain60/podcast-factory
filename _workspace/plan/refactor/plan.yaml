@@ -2465,5 +2465,121 @@ waves_ghj:
         execution_status: completed
 
 # ===========================================================================
+# WISDOM CORPUS PROGRAM — converged 2026-05-29 with Asif (design-convergence
+# session, decisions D1-D18). Additive section; does not alter curated waves
+# above. Surfacing into the SPA is part of the pending site-redesign (T4).
+# Status: AWAITING_APPROVAL (Asif approved authoring 2026-05-29; build gated).
+# ===========================================================================
+wisdom_corpus_program:
+  status: AWAITING_APPROVAL
+  converged_at: 2026-05-29
+  summary: >
+    Consolidate three source databases into the existing knowledge.db wisdom
+    corpus, drive corpus-verified annotations/markers into the reader+editor via
+    the MCP blackbox, and wire a single lean knowledge phase that feeds both
+    podcast framing and reader markers from one chapter read. Absorbs the prior
+    audio-intake/translation/review-gate/Gemini decisions so nothing decided is
+    invisible to the plan.
+  ground_truth_verified_2026_05_29:
+    - "Corpus DB exists: CONTENT/knowledge-base/knowledge.db (matches meta.doctrine.database)."
+    - "atoms table already has tradition field (audit R3/B2.1 already applied)."
+    - "external_corpora + corpus_chapters (KASHKOLE binder/ingestion/review cols) exist, EMPTY."
+    - "manual_review_queue exists (D7 dedup review reuses it)."
+    - "Annotation system live: paragraph_annotations/annotation_tags/paragraph_notes; 5 default tags = esoteric/reality/sharia/mark-for-deletion/mark-for-improvement."
+    - "Editor exists: plan-dashboard ChapterEditor.tsx + ParagraphAnnotationBar.tsx + api/annotations*.ts."
+  locked_decisions:
+    - {ref: D1,  decision: "Source lifecycle MIXED: KQUR+KASHKOLE frozen (one-time import); KSESSIONS active (re-sync)."}
+    - {ref: D2,  decision: "Canonical consolidated corpus; extract only podcast/intelligence-relevant content; aggressive dedup; retire sources. NOT lift-and-shift."}
+    - {ref: D3,  decision: "KSESSIONS kept as live authoring system-of-record; corpus re-syncs from it. KQUR+KASHKOLE deleted post-extraction."}
+    - {ref: D4,  decision: "Corpus engine = SQLite (knowledge.db). SQL Server/Docker dropped for corpus; KSESSIONS read only at sync time. Queries re-expressed in Python."}
+    - {ref: D5,  decision: "Single tradition; auto-stamp by source/content-type: teaching -> fatimid-ismaili, raw Quran/hadith -> universal. Per-record tradition field. universal = raw text only (P7)."}
+    - {ref: D6,  decision: "KQUR is canonical Quran; KASHKOLE HQ* duplicate dropped."}
+    - {ref: D7,  decision: "Tiered dedup: high-confidence auto-merge to one canonical (most complete/recent; others linked); borderline -> manual_review_queue; ambiguous never auto-merged. Exact + semantic detection."}
+    - {ref: D8,  decision: "KASHKOLE NOT retranslated (HARD): existing polished English ingested as-is; Urdu OCR preserved but never re-translated; bypasses Azure Translator."}
+    - {ref: D9,  decision: "Wisdom Corpus UI (deferred wave): rename Kashkole link; keep/delete curation; hosts D7 review queue."}
+    - {ref: D10, decision: "Markers = sidecar (<chapter>.annotations.json), position-keyed; MUST render in the chapter EDITOR with per-type visual treatment; integrates existing comment/tag UI."}
+    - {ref: D11, decision: "Annotation runs as a pipeline phase (regenerated on chapter change) + manual refresh action in editor."}
+    - {ref: D12, decision: "Auto-apply factual reference markers (quran/hadith/term/topic); interpretive tags (esoteric/reality/sharia) SUGGEST-ONLY, accept-to-apply, never auto."}
+    - {ref: D13, decision: "Add verify_and_classify blackbox tool; corpus FTS/lookup index in SQLite (no Docker, supersedes mirror.db); re-point reader popovers off quran.com/Gemini to corpus; corpus is SOLE authority, no public fallback (unverifiable=verified:false)."}
+    - {ref: D14, decision: "ONE knowledge phase after 0e, before existing 06a gate; one LLM read/chapter (cached when unchanged) -> one atom set -> two renderers (podcast framing + reader markers). Reuse 06a; conflicts surface to human; no auto-resolution. Resolves audit G2 phase numbering."}
+    - {ref: D15, decision: "Tradition-filtered injection; pilot end-to-end on ayyuhal-walad; default-on for all books only after pilot proves clean."}
+    - {ref: D16, decision: "Wisdom corpus IS knowledge.db (extend existing scaffolded tables), NOT a new separate file. Revises D2/D4 wording."}
+    - {ref: D17, decision: "KSESSIONS sync = dump-based idempotent re-ingest (Asif drops refreshed dump; dedup on re-run). No live connection/credentials."}
+    - {ref: D18, decision: "This plan absorbs prior audio-intake/translation/review-gate/Gemini ('Wave I') decisions as their own wave. Closes audit G1."}
+  waves:
+    - id: WC1
+      name: Corpus population
+      depends_on: [B]
+      execution_status: planned
+      authorization: tier_two
+      cost_estimate_usd: low
+      key_steps:
+        - "Ingest mappers: KASHKOLE topics -> external_corpora(scholarly)+corpus_chapters; KQUR Quran/hadith -> external_corpora(quran/hadith); teaching/sessions -> atoms(doctrine/term/citation)."
+        - "Tiered dedup (D7) across + within sources; canonical-selection + reference links; borderline -> manual_review_queue."
+        - "Tradition auto-stamp (D5). KASHKOLE no-retranslate (D8). Drop KASHKOLE HQ* (D6)."
+        - "Dump-based KSESSIONS re-ingest path (D17), idempotent."
+      acceptance:
+        - "external_corpora + corpus_chapters + atoms populated; row counts > 0; tradition set on every atom."
+        - "Re-running ingest produces no duplicates (idempotent)."
+        - "KQUR + KASHKOLE dumps retired after extraction; KSESSIONS retained."
+    - id: WC2
+      name: Blackbox + annotation engine
+      depends_on: [WC1]
+      execution_status: planned
+      authorization: tier_two
+      cost_estimate_usd: low
+      key_steps:
+        - "Add verify_and_classify(span,context) 7th blackbox tool; build SQLite FTS/lookup index (D13)."
+        - "Re-point QuranPopover/TermPopover off quran.com/Gemini to corpus (D13)."
+        - "Sidecar annotation format + render in ChapterEditor with per-type visual treatment (D10)."
+        - "Interpretive-tag suggestion surface (suggest-only, accept-to-apply) (D12)."
+      acceptance:
+        - "Popovers resolve from corpus; unverifiable spans render verified:false (no public fallback)."
+        - "Reference markers visible in editor; reuse paragraph_annotations/annotation_tags."
+    - id: WC3
+      name: Intelligence knowledge phase
+      depends_on: [WC2]
+      execution_status: planned
+      authorization: tier_two
+      cost_estimate_usd: medium
+      key_steps:
+        - "Insert one knowledge phase after 0e, before 06a in CANONICAL_PHASES (D14)."
+        - "One read/chapter (cache/skip unchanged) -> atoms -> two renderers (framing injection + sidecar markers)."
+        - "Tradition-filtered injection (D5/D15); conflicts -> 06a human gate (no auto-resolution)."
+      acceptance:
+        - "ayyuhal-walad pilot produces both episode framing and reader markers from one pass."
+        - "Conflicts surface at 06a; cost within cap; deterministic re-runs."
+    - id: WC4
+      name: Wisdom Corpus UI
+      depends_on: [WC1]
+      execution_status: planned
+      authorization: tier_two
+      cost_estimate_usd: low
+      key_steps:
+        - "Rename reader 'Kashkole' link -> 'Wisdom Corpus' (D9)."
+        - "Curation view: keep/delete over corpus records; surface corpus_chapters review/correction cols."
+        - "Host D7 dedup review/confirm queue (manual_review_queue)."
+      acceptance:
+        - "Asif can keep/delete corpus records and confirm/resolve dedup candidates from the UI."
+    - id: WC5
+      name: Audio intake + translation + gates (absorbed 'Wave I')
+      depends_on: [B]
+      execution_status: planned
+      authorization: tier_two
+      cost_estimate_usd: medium
+      key_steps:
+        - "Audio input_type branch; Turboscribe Urdu -> Azure Translator + ismaili-glossary.yml."
+        - "Urdu-on-absent-Arabic: Urdu working authority; Arabic terms preserved verbatim; phonetics mandatory."
+        - "Source Review Gate (06a) + Publish Review Gate; Gemini = consistency/teaching-quality, does not change meaning."
+        - "Incomplete books: slice from what exists; never block on completeness."
+      acceptance:
+        - "An Urdu audio lecture flows to episodes through the gates without re-translating done content."
+  open_items_best_assumption:
+    - "Table-level extraction mapping inferred from dumps (KASHKOLE TopicData*/SessionDoctrines/canvas.* excluded as plumbing)."
+    - "Audit live regressions R5 (README) + R6 (publish script vs UI model) -> pipeline-debt; fixed during execution."
+    - "anwar book unconfirmed; pilot = ayyuhal-walad regardless."
+  build_order: [WC1, "WC2+WC4 parallel", WC3, "WC5 parallel track"]
+
+# ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================

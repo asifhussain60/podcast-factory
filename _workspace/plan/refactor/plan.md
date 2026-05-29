@@ -665,3 +665,41 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 - **podcast-reader polish + Gemini AI integration** — tracked in [reader/polish-and-ai.md](../reader/polish-and-ai.md) after A1 moves it. Separate concern.
 - **The 12-task postprod-vacuum sub-plan currently in flight on `book/the-master-and-the-disciple`** — tracked in [postprod-vacuum-tasks.md](../postprod-vacuum-tasks.md). Folds into step E3.
 - **Live system metrics + per-book progress** — visible in the Wave D dashboard once D4 lands.
+
+---
+
+## Wisdom Corpus Program (converged 2026-05-29 — awaiting approval)
+
+> **One unified wisdom corpus, corpus-verified annotations rendered in the reader/editor, and a single lean knowledge step that deepens podcasts and marks up chapters from one read.** Converged with Asif across three design topics plus a holistic gap review (decisions D1–D18). Verified against the live repo: the corpus database, the annotation system, the editor, and the tradition firewall already exist — most of this is population and wiring, not greenfield. Full structured detail lives in `plan.yaml` under `wisdom_corpus_program`.
+
+### 1. Populate the wisdom corpus inside the existing knowledge database
+
+> Bring the three source databases into the wisdom corpus that already exists (`knowledge.db`): import the two finished sources once, keep the live sessions source synced by dropping a refreshed dump, and deduplicate aggressively so the 40%+ overlap collapses into one canonical copy per teaching. Keep the already-polished English untouched (never re-translate), and stamp every record with its tradition so nothing leaks across traditions.
+>
+> *Value gained:* One clean, deduplicated, tradition-aware corpus replaces three overlapping app databases — no duplication, no Docker, portable on any machine.
+
+### 2. Turn the blackbox into the annotation engine
+
+> Add a classify capability to the blackbox, build a fast in-database lookup index, and re-point the reader's popovers off the public web onto the corpus. Verified Quran/hadith/term/topic references render as markers directly in the chapter editor, where Asif can see and comment on them; the corpus is the sole authority and unverifiable spans are shown as unverified rather than guessed.
+>
+> *Value gained:* Deterministic, corpus-verified visual differentiation in the reader/editor — no live regex or LLM guessing, no reliance on outside sources.
+
+### 3. Wire one lean knowledge step into book processing
+
+> A single step runs after enrichment and before the existing review gate: it reads each chapter once, verifies its references against the corpus, and produces two outputs from that one read — deeper podcast framing and the reader's marker file. Injection is tradition-filtered, conflicts surface to the existing human gate, and it proves out on *Ayyuhal Walad* before going on by default.
+>
+> *Value gained:* The intelligence and podcast pipelines finally work hand-in-hand, with no duplicated extraction and no new approval gate.
+
+### 4. Redesign the Wisdom Corpus view (curation control)
+
+> Rename the reader's Kashkole link to "Wisdom Corpus" and give it a redesigned view where Asif keeps or deletes corpus records and confirms the borderline duplicate-merge candidates the dedup step flags.
+>
+> *Value gained:* Direct human control over what lives in the corpus, using review columns the database already has.
+
+### 5. Absorb the audio-intake / translation / review-gate program
+
+> Formalize the previously-converged-but-unwritten decisions for turning Urdu audio lectures into books: transcribe in Urdu, translate with a pinned Ismaili glossary, never re-translate finished content, pass through the two human review gates, and run the Gemini teaching-quality pass that aligns consistency without changing meaning.
+>
+> *Value gained:* A decided body of work stops being invisible to the plan, so no future session rebuilds or contradicts it.
+
+**Status: AWAITING APPROVAL.** Build order: corpus first, then the annotation engine and the Wisdom Corpus view in parallel, then the knowledge step; the audio-intake work runs as a parallel track. Visual surfacing of all of the above into the Astro site is the pending site-redesign discussion (T4).

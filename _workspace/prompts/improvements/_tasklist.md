@@ -27,7 +27,7 @@ The doc's closing **Plan Audit** lists 6 regression risks (R1–R6), 5 structura
 
 ## Topic queue (dependency order)
 
-### T1 — Wisdom corpus merge  ·  STATUS: 🔄 in discussion
+### T1 — Wisdom corpus merge  ·  STATUS: ✅ CONVERGED 2026-05-29 (D1–D9)
 Doc: `03-wisdom-corpus-merge.md`. Decide how KQUR/KASHKOLE/KSESSIONS become ONE deduplicated corpus.
 - [x] Q1.1 Source-app lifecycle — **ANSWERED 2026-05-29**: KQUR **frozen**, KASHKOLE **frozen**, KSESSIONS **ACTIVE / needs sync**. → one-time canonical import for KQUR + KASHKOLE; idempotent re-ingest (sync) path required for KSESSIONS only.
 - [x] Q1.2 Query logic — **ANSWERED via D4 2026-05-29**: re-express the ~6 useful queries in Python (no T-SQL stored procs carried forward); implied by SQLite choice. Blackbox already does this.
@@ -42,7 +42,7 @@ Doc: `03-wisdom-corpus-merge.md`. Decide how KQUR/KASHKOLE/KSESSIONS become ONE 
 
 **T1 STATUS: ✅ CONVERGED 2026-05-29.** Decisions D1–D6 locked. Remaining before plan entry: extraction-map detail (Q1.4, build-time) + dedup-strategy spec (40%+ overlap — to be detailed in doc 03, not a user decision). Plan.yaml/plan.md entry deferred until T2/T3 converge (they may add corpus requirements e.g. verify_and_classify / FTS index) — write all three plan entries holistically to avoid plan churn.
 
-### T2 — MCP blackbox → annotation + silent-marker engine  ·  STATUS: 🔄 in discussion
+### T2 — MCP blackbox → annotation + silent-marker engine  ·  STATUS: ✅ CONVERGED 2026-05-29 (D10–D13)
 Doc: `04-mcp-blackbox-annotation-engine.md`. Make the blackbox drive corpus-verified annotations into the reader.
 - [x] Q2.1 Marker storage — **ANSWERED (D10, 2026-05-29)**: SIDECAR (`<chapter>.annotations.json`, position-keyed). **Hard requirement**: markers must render visually IN the chapter EDITOR (already built) with distinct per-type visual treatment, so Asif can visually identify + comment on them easily. Editor is a first-class sidecar consumer, not just the read view; integrates with the existing comment/tag workflow.
 - [x] Q2.2 When annotation runs — **ANSWERED (D11, 2026-05-29)**: pipeline phase (auto, deterministic), regenerated on chapter-text change, PLUS a manual "refresh markers" action in the editor for after Asif's edits. Always-present, instant open, no per-read cost.
@@ -60,13 +60,29 @@ Doc: `05-intelligence-podcast-integration.md`. Wire extractor→librarian→augm
 
 ---
 
+### T4 — Complete podcast-factory Astro site redesign  ·  STATUS: 🔄 DISCUSS (before implementation)
+Asif (2026-05-29): overwhelmed reading dense text in the editor; wants the design understandable VISUALLY on the site. Requirements (HARD):
+- Update the appropriate existing views to reflect ALL the converged changes (D1–D18 + the 5-wave program) visually.
+- Use a VARIETY of diagram styles — simple flowcharts, UML diagrams, high-level/system diagrams — so it doesn't look like the same diagram repeated.
+- INFRASTRUCTURE ARCHITECTURE views exist and are meant for technical teams → add the relevant missing content there too.
+- **Always flow diagrams VERTICALLY, not horizontally.**
+- **No max-height limit on the SVG diagram containers** (let them grow).
+- Asif wants a full REDESIGN discussion FIRST (work-with-me: Claude states how it can help + what it will update per view) BEFORE any implementation.
+- Plan-first gate still applies: redesign → plan entry → snapshot → approval → build.
+- Decisions to log here: T4.1 diagram tech (Mermaid build-time→SVG? D3? hand-authored SVG?), T4.2 per-view content map, T4.3 audience split (Asif-facing conceptual vs technical-team infra), T4.4 information architecture / navigation.
+
 ## Straightforward items (await go-ahead, not blocking topics)
 
 ### S1 — Reader/site plan reconciliation  ·  STATUS: ⏳ ready
 Doc: `01`. Reader already in `plan-dashboard/`. Mark SPA wave COMPLETE; add "Reader⇄Wisdom" wave; regen snapshots.
 
-### S2 — YNAB removal + key rotation + memory flush + loop-ledger fix  ·  STATUS: ⏳ ready
-Doc: `02`. Remove YNAB MCP; ROTATE leaked key (treat as compromised); fix `project_podcast_reader.md` stale path; truncate duplicated `loop-intelligence.md` log.
+### S2 — YNAB removal + key rotation + memory flush + loop-ledger fix  ·  STATUS: 🔄 PARTLY DONE
+Doc: `02`.
+- [x] **YNAB MCP removed** 2026-05-29 — stripped from root `.mcp.json` (gitignored) AND `.vscode/mcp.json` (tracked, committed `b463cb4`). source-library MCP intact.
+- [x] Plaintext token confirmed **never tracked / never pushed** (gitignored file); redacted from doc 02; wiped from disk.
+- [ ] **Asif to ROTATE the YNAB token** in the YNAB account (hygiene — it sat in plaintext). Only Asif can do this.
+- [ ] Flush stale `project_podcast_reader.md` (reader is in `plan-dashboard/`, not a `podcast-reader/` dir).
+- [ ] Truncate duplicated `loop-intelligence.md` log (~100 dup lines).
 
 ### S3 — Ayyuhal Walad annotation prompt  ·  STATUS: ⏳ blocked on T1/T2
 Doc: `06`. Executable spec ready; runs once corpus + blackbox engine land. (`anwar` book does not exist — confirm typo vs real.)
@@ -101,3 +117,19 @@ Rename the "Kashkole" reader link → "Wisdom Corpus". Build a completely redesi
 - **2026-05-29 · D14 (T3 lean integration)** — ONE knowledge phase after enrich (0e), before the existing source-review gate (06a). One LLM read per chapter (cached/skipped if unchanged) → one verified-atom set → two free renderers (podcast-framing injection + reader-sidecar markers). Reuse 06a (no new gate); conflicts surface to human there (no auto-resolution). Anti-over-engineering: no second reader pass, defer similarity/model-version/embedding extras. Maps doc's invented phase numbers to real CANONICAL_PHASES (audit G2).
 - **2026-05-29 · D15 (T3 rollout)** — tradition-filtered injection (D5 firewall); pilot end-to-end on ayyuhal-walad; default-on for all books only after pilot proves clean.
 - **T3 ✅ CONVERGED 2026-05-29** (D14–D15). **ALL THREE DESIGN TOPICS CONVERGED.** Next per plan-first gate: write ONE holistic plan entry (T1+T2+T3 + deferred Wisdom Corpus UI wave) into plan.yaml/plan.md → regen dashboard snapshots → Asif approval → then (and only then) code.
+
+---
+
+## Gap-fill decisions (holistic plan review, 2026-05-29)
+- **D16 (REVISES D2/D4 wording)** — The wisdom corpus IS the existing `CONTENT/knowledge-base/knowledge.db`, NOT a new separate file. Verified live: it already has `external_corpora` (quran/hadith/scholarly registry), `corpus_chapters` (with KASHKOLE `binder_id/binder_slug`, `ingestion_status`, `needs_review`, `correction_notes` — review UI anticipated), `atoms` (type quran/hadith/term/citation/doctrine; **tradition field already present** → audit R3/B2.1 already applied), `atoms_sources`, `atoms_variants`, `manual_review_queue`, and a live annotation system (`paragraph_annotations`/`annotation_tags`/`paragraph_notes`). All corpus tables EMPTY (0 rows); annotation tables have data. The 5 default annotation_tags = esoteric/reality/sharia/mark-for-deletion/mark-for-improvement (exactly the screenshot). → Populate/extend, don't rebuild. D7 review queue = `manual_review_queue`. D10/D12 markers: reference markers from `atoms`; interpretive tags already = `annotation_tags`.
+
+- **D17 (KSESSIONS sync)** — dump-based idempotent re-ingest: Asif drops a refreshed KSESSIONS dump (like the existing `KSessions.sql`), corpus re-ingests + dedupes. No live DB connection, no credentials, machine-agnostic, repeatable. (NOT change-feed — over-engineered for the volume.)
+- **D18 (plan scope)** — the holistic plan ABSORBS the prior-converged audio-intake/translation/review-gate/Gemini work (the "Wave I" body) as its own wave, alongside corpus + annotation + intelligence-integration. One complete plan; closes audit G1 (Wave I invisible). Reconcile INTO existing `plan.yaml` (sections: `database`, `intelligence_layer`, `spa`, `waves`, `open_questions`), not a parallel plan.
+- **Verified facts (2026-05-29, grounding the plan):** (a) editor exists — `plan-dashboard/src/components/reader/ChapterEditor.tsx` + `ParagraphAnnotationBar.tsx` + `api/annotations*.ts`; D10 marker-render EXTENDS these, not greenfield. (b) plan.yaml is rich (`database`/`intelligence_layer`/`spa`/`open_questions` sections; waves A–E + `waves_ghj`). (c) atoms.tradition already present (audit R3 done).
+- **Remaining smaller gaps — proceeding on best assumption (Asif may correct):** (1) data-model mapping — KASHKOLE topics → `external_corpora` corpus_type `scholarly` + `corpus_chapters` (binder/chapter); teaching/sessions → `atoms` (doctrine/term/citation); Quran/hadith → corpus_type quran/hadith. (2) Audit live regressions R5/R6 → recorded as plan/debt items, fixed in execution phase (not under current no-code mode). (3) `anwar` book → still unconfirmed; pilot is `ayyuhal-walad` regardless. (4) Build order → T1 corpus → T2 blackbox+annotation → T3 intelligence phase → Wisdom Corpus UI; audio-intake wave parallel. (5) Pilot = ayyuhal-walad end-to-end after corpus populated.
+
+## Standing preferences (this repo)
+- **NO pull requests for podcast-factory.** Asif's personal project; never run `gh pr create` or offer to open a PR for this repo. Commit + push directly to `develop` (production releases to `main` still need Asif's explicit approval). The VS Code "Create PR" bar is NOT configurable to hide (confirmed 2026-05-29 via docs) — it is inert unless clicked; optional `/feedback` request to Anthropic for a `hidePRBar` setting. Mirrored to AI memory.
+
+## Session actions log
+- **2026-05-29** — Committed + pushed `b463cb4` to `origin/develop`: improvement docs + ledger, YNAB MCP removal, snapshot refresh, key redaction. No PR (per standing preference). Pre-flight security scan confirmed no secret entered git.

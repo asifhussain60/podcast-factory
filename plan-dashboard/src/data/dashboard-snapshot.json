@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T09:46:38.986Z",
-  "source_commit": "fd31328",
+  "generated_at": "2026-05-29T11:37:19.578Z",
+  "source_commit": "b463cb4",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,6 +783,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "b463cb4",
+      "subject": "docs: architecture-redesign convergence ledger + remove YNAB MCP",
+      "date": "2026-05-29"
+    },
+    {
+      "sha": "7b72313",
+      "subject": "fix: plan-dashboard launchd — resolve APP_DIR relative to script, not hardcoded path",
+      "date": "2026-05-29"
+    },
+    {
       "sha": "fd31328",
       "subject": "chore: session state — loop-intelligence prompt update, stats.json, annotation dirs",
       "date": "2026-05-29"
@@ -820,16 +830,6 @@
     {
       "sha": "7a5b4a7",
       "subject": "docs(setup): fix infra/ path in bootstrap.md",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "90dff85",
-      "subject": "refactor(infra): move setup-wisdom-db.sh to infra/",
-      "date": "2026-05-28"
-    },
-    {
-      "sha": "d9431d9",
-      "subject": "feat(setup): add setup-wisdom-db.sh — one-command DB restore on any machine",
       "date": "2026-05-28"
     }
   ],
