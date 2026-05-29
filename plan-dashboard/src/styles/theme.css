@@ -26,7 +26,7 @@
   --fs-label: 13px;  /* UI chrome only — pills, chips, status badges */
   --fs-2xs: 16px;
   --fs-sm:  16px;
-  --fs-base: 18px;
+  --fs-base: 19.2px;  /* 1.2rem reading floor (REQ-010) — raised from 18px site-wide 2026-05-29 */
   --fs-lg:   21px;
   --fs-xl:   26px;
   --fs-h3:   24px;
@@ -249,9 +249,15 @@ hr { border: 0; height: 1px; background: var(--c-rule); margin: var(--sp-6) 0; }
   font-weight: 900;
   letter-spacing: -0.02em;
   line-height: 1.1;
-  color: var(--c-ink);
   margin: 0;
   max-width: 18ch;
+  /* Gradient title (REQ-013) — restrained: mostly ink, easing to accent brown
+     at the tail. --c-ink fallback for engines without background-clip:text. */
+  color: var(--c-ink);
+  background: linear-gradient(115deg, var(--c-ink) 55%, var(--c-accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .page-hero-lede {
   font-size: var(--fs-lg);
@@ -2407,6 +2413,8 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .home-section-hub { border-top: none; }
 .home-section-eyebrow { margin-bottom: var(--sp-2); }
 .home-section-h2 { font-size: var(--fs-h2); margin-bottom: var(--sp-3); }
+.home-section-h3 { font-size: var(--fs-h3); margin: var(--sp-6) 0 var(--sp-2); }
+.home-hero-audience { margin: var(--sp-3) 0 0; }
 .home-section-lede {
   color: var(--c-ink-dim);
   font-size: var(--fs-lg);
@@ -2439,7 +2447,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   letter-spacing: -0.02em;
 }
 .pipeline-step h3 { font-size: var(--fs-base); font-weight: 700; margin: 0; }
-.pipeline-step p  { font-size: var(--fs-sm); color: var(--c-ink-dim); margin: 0; line-height: 1.55; }
+.pipeline-step p  { font-size: var(--fs-base); color: var(--c-ink-dim); margin: 0; line-height: 1.55; }
 
 /* Published catalog */
 .catalog-grid {
@@ -2464,6 +2472,12 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   flex-shrink: 0;
   align-self: stretch;
 }
+/* Spine colour cycle — set via class (no inline style on the card). */
+.catalog-card.spine-0 { --spine-color: var(--c-accent); }
+.catalog-card.spine-1 { --spine-color: var(--c-gold); }
+.catalog-card.spine-2 { --spine-color: var(--c-planner); }
+.catalog-card.spine-3 { --spine-color: var(--c-green); }
+.catalog-card.spine-4 { --spine-color: var(--c-amber); }
 .catalog-card-body  { flex: 1; display: flex; flex-direction: column; gap: var(--sp-2); }
 .catalog-card-title { font-size: var(--fs-h3); font-weight: 700; margin: 0; color: var(--c-ink); }
 .catalog-card-meta  { font-size: var(--fs-sm); color: var(--c-ink-muted); margin: 0; }
@@ -2497,7 +2511,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   color: var(--intel-color);
 }
 .intel-card h3 { font-size: var(--fs-base); font-weight: 700; margin: 0; }
-.intel-card p  { font-size: var(--fs-sm); color: var(--c-ink-dim); margin: 0; line-height: 1.6; }
+.intel-card p  { font-size: var(--fs-base); color: var(--c-ink-dim); margin: 0; line-height: 1.6; }
 
 /* Wave history timeline */
 .wave-history {
@@ -2530,7 +2544,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   border: 2px solid color-mix(in oklab, var(--c-accent) 28%, var(--c-rule));
 }
 .wave-content strong { font-size: var(--fs-base); color: var(--c-ink); display: block; margin-bottom: var(--sp-1); }
-.wave-content p { font-size: var(--fs-sm); color: var(--c-ink-dim); margin: 0; line-height: 1.6; }
+.wave-content p { font-size: var(--fs-base); color: var(--c-ink-dim); margin: 0; line-height: 1.6; }
 
 /* Responsive */
 @media (max-width: 1080px) {
@@ -2663,7 +2677,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 }
 .diagram-figcaption {
   font-family: var(--font-body);
-  font-size: var(--fs-sm);
+  font-size: var(--fs-base);
   color: var(--c-ink-muted);
   line-height: var(--lh-base);
   text-align: center;
@@ -2694,6 +2708,104 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Skip-to-content link (REQ-071) — first focusable element, visible on focus. */
+.skip-link {
+  position: absolute;
+  left: var(--sp-3);
+  top: -48px;
+  z-index: 1000;
+  padding: var(--sp-2) var(--sp-4);
+  background: var(--c-accent);
+  color: var(--c-bg-card);
+  font-family: var(--font-body);
+  font-weight: 700;
+  border-radius: var(--r-md);
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+.skip-link:focus { top: var(--sp-3); }
+@media (prefers-reduced-motion: reduce) { .skip-link { transition: none; } }
+
+/* Print stylesheet (REQ-055) — readable monochrome, no chrome. */
+@media print {
+  .topnav, .subnav-h, .skip-link, .foot { display: none; }
+  body { background: #fff; color: #000; }
+  .page-shell { padding: 0; }
+  .diagram-container { overflow: visible; }
+  a { color: #000; text-decoration: underline; }
+}
+
+/* ── OverviewSystemMap (diagram 0.1) — class-based SVG styling, WC6e ──── */
+.osm-svg { width: 100%; height: auto; max-width: 620px; margin: 0 auto; display: block; }
+.osm-card        { fill: var(--c-bg-card); stroke: var(--c-rule); stroke-width: 1.5; }
+.osm-card-accent { stroke: var(--c-accent); stroke-width: 2.5; }
+.osm-card-out    { stroke: var(--c-green); stroke-width: 2; }
+.osm-title       { fill: var(--c-ink); font-family: var(--font-body); font-weight: 700; font-size: 16px; }
+.osm-sub         { fill: var(--c-ink-muted); font-family: var(--font-body); font-size: 13px; }
+.osm-band        { fill: var(--c-ink-muted); font-family: var(--font-body); font-weight: 700; font-size: 12px; letter-spacing: 0.08em; }
+.osm-edge        { stroke: var(--c-ink-muted); stroke-width: 1.5; fill: none; opacity: 0.7; }
+.osm-arrowhead   { fill: var(--c-ink-muted); }
+
+/* ── OverviewIndexRail (diagram 0.4) — audience-labelled link grid, WC6e ── */
+.idx-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--sp-4);
+  margin: var(--sp-5) 0;
+}
+.idx-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-5);
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.idx-card:hover {
+  border-color: var(--c-accent);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+.idx-card:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+.idx-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+.idx-card-title {
+  font-family: var(--font-body);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--c-ink);
+}
+.idx-card-blurb {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink-dim);
+}
+.idx-card-go {
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--c-accent);
+  margin-top: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .idx-card { transition: none; }
+  .idx-card:hover { transform: none; }
 }
 
 /* ── Audience badge — WC6d / D20 ─────────────────────────────────────

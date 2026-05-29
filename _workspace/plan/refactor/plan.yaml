@@ -2670,6 +2670,12 @@ wisdom_corpus_program:
             decisions: [D20]
             authorization: tier_one
             cost_estimate_usd: zero
+            execution_status: shipped_2026_05_29
+            challenger_verdict: "PASS / L2-Recommended (challenger_version 1.0); all 3 MUST blockers resolved; WCAG AA holds on gradient title."
+            asif_decisions_2026_05_29:
+              - "Reading floor raised to 1.2rem site-wide (--fs-base 18px -> 19.2px); chrome stays at --fs-sm/--fs-label."
+              - "Restrained gradient page H1 adopted (ink -> accent at 100%), not a flat-with-deviation."
+              - "Deferred as separate site-wide chrome decisions (gap to L3, no MUST): per-page jump-nav (REQ-044), back-to-top (REQ-045), visible two-digit section markers. Section anchor ids added."
             approved_design_2026_05_29: >
               Asif approved AUGMENT over replace: keep the existing hero / published-catalog /
               intelligence cards / live metrics / six-waves history; weave in the four spec

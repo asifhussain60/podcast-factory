@@ -1,0 +1,104 @@
+---
+/**
+ * OverviewSystemMap — WC6e, Overview diagram 0.1 ("The whole system, one picture").
+ * Bespoke vertical system map: parallel Sources feed the Wisdom Corpus, reached
+ * through the Blackbox, consumed by the Pipeline, producing the Reader + Podcast.
+ *
+ * Static inline SVG (no client JS). All colour/typography comes from CSS classes
+ * in theme.css (.osm-*); only geometry lives as SVG attributes. viewBox-only,
+ * vertical flow, uncapped. Accessibility triple (role=img + <title> + <desc>).
+ */
+const W = 600;
+const H = 660;
+
+const sources = [
+  { label: 'Quran + etymology', x: 110 },
+  { label: '20-year knowledge anthology', x: 300 },
+  { label: '343 lecture transcripts', x: 490 },
+];
+const SRC_W = 172, SRC_H = 56, SRC_TOP = 44;
+const SRC_CY = SRC_TOP + SRC_H / 2;
+
+const stage = (top: number, h: number) => ({ top, h, cy: top + h / 2 });
+const corpus   = stage(168, 64);
+const blackbox = stage(288, 64);
+const pipeline = stage(408, 72);
+
+const outputs = [
+  { label: 'Reader', sub: 'read chapters + hover sources', x: 190 },
+  { label: 'Podcast', sub: 'NotebookLM episodes', x: 410 },
+];
+const OUT_W = 200, OUT_H = 60, OUT_TOP = 548;
+const OUT_CY = OUT_TOP + OUT_H / 2;
+
+const CX = W / 2;
+const STAGE_W = 320, STAGE_X = CX - STAGE_W / 2;
+---
+<figure class="diagram-container osm" role="img" aria-labelledby="osm-title osm-desc">
+  <svg viewBox={`0 0 ${W} ${H}`} class="osm-svg" xmlns="http://www.w3.org/2000/svg">
+    <title id="osm-title">The whole system in one picture</title>
+    <desc id="osm-desc">
+      Three sources — the Quran with etymology, a twenty-year knowledge anthology, and
+      343 lecture transcripts — feed a single Wisdom Corpus. The Corpus is reached through
+      the Blackbox access layer, which the Pipeline queries while producing each book. The
+      finished work flows to two places: the Reader and the Podcast episodes.
+    </desc>
+
+    <defs>
+      <marker id="osm-arrow" markerWidth="9" markerHeight="7" refX="7.5" refY="3.5" orient="auto">
+        <polygon points="0 0, 9 3.5, 0 7" class="osm-arrowhead" />
+      </marker>
+    </defs>
+
+    <!-- band label -->
+    <text x={8} y={24} class="osm-band">SOURCES — EXISTING KNOWLEDGE</text>
+
+    <!-- edges: each source down into the corpus -->
+    {sources.map((s) => (
+      <line x1={s.x} y1={SRC_TOP + SRC_H} x2={CX} y2={corpus.top} class="osm-edge" marker-end="url(#osm-arrow)" />
+    ))}
+    <!-- corpus -> blackbox -> pipeline -->
+    <line x1={CX} y1={corpus.top + corpus.h} x2={CX} y2={blackbox.top} class="osm-edge" marker-end="url(#osm-arrow)" />
+    <line x1={CX} y1={blackbox.top + blackbox.h} x2={CX} y2={pipeline.top} class="osm-edge" marker-end="url(#osm-arrow)" />
+    <!-- pipeline -> two outputs -->
+    {outputs.map((o) => (
+      <line x1={CX} y1={pipeline.top + pipeline.h} x2={o.x} y2={OUT_TOP} class="osm-edge" marker-end="url(#osm-arrow)" />
+    ))}
+
+    <!-- source cards -->
+    {sources.map((s) => (
+      <g>
+        <rect x={s.x - SRC_W / 2} y={SRC_TOP} width={SRC_W} height={SRC_H} rx="6" class="osm-card" />
+        <text x={s.x} y={SRC_CY + 5} text-anchor="middle" class="osm-sub">{s.label}</text>
+      </g>
+    ))}
+
+    <!-- Wisdom Corpus (the heart) -->
+    <rect x={STAGE_X} y={corpus.top} width={STAGE_W} height={corpus.h} rx="8" class="osm-card osm-card-accent" />
+    <text x={CX} y={corpus.cy - 4} text-anchor="middle" class="osm-title">Wisdom Corpus</text>
+    <text x={CX} y={corpus.cy + 15} text-anchor="middle" class="osm-sub">one shared knowledge base · knowledge.db</text>
+
+    <!-- Blackbox -->
+    <rect x={STAGE_X} y={blackbox.top} width={STAGE_W} height={blackbox.h} rx="8" class="osm-card" />
+    <text x={CX} y={blackbox.cy - 4} text-anchor="middle" class="osm-title">Blackbox</text>
+    <text x={CX} y={blackbox.cy + 15} text-anchor="middle" class="osm-sub">access layer · agents + browser, one query path</text>
+
+    <!-- Pipeline -->
+    <rect x={STAGE_X} y={pipeline.top} width={STAGE_W} height={pipeline.h} rx="8" class="osm-card" />
+    <text x={CX} y={pipeline.cy - 6} text-anchor="middle" class="osm-title">Pipeline</text>
+    <text x={CX} y={pipeline.cy + 14} text-anchor="middle" class="osm-sub">turns a book into a series</text>
+    <text x={CX} y={pipeline.cy + 30} text-anchor="middle" class="osm-sub">reads the Corpus during the knowledge phase</text>
+
+    <!-- output cards -->
+    {outputs.map((o) => (
+      <g>
+        <rect x={o.x - OUT_W / 2} y={OUT_TOP} width={OUT_W} height={OUT_H} rx="6" class="osm-card osm-card-out" />
+        <text x={o.x} y={OUT_CY - 3} text-anchor="middle" class="osm-title">{o.label}</text>
+        <text x={o.x} y={OUT_CY + 15} text-anchor="middle" class="osm-sub">{o.sub}</text>
+      </g>
+    ))}
+  </svg>
+  <figcaption class="diagram-figcaption">
+    Sources feed one Wisdom Corpus; the Pipeline reaches it through the Blackbox and produces both the Reader and the Podcast.
+  </figcaption>
+</figure>

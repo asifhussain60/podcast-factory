@@ -1,5 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
+import AudienceBadge from '../components/AudienceBadge.astro';
+import OverviewSystemMap from '../components/OverviewSystemMap.astro';
+import OverviewIndexRail from '../components/OverviewIndexRail.astro';
+import Mermaid from '../components/Mermaid.astro';
 import dashboard from '../data/dashboard-snapshot.json';
 import infra from '../data/infrastructure-snapshot.json';
 import { sumAllVendorCosts } from '../lib/billing';
@@ -11,7 +15,6 @@ const monthSpend = sumAllVendorCosts(infra.vendors ?? []);
 const shipped       = (dashboard.books_shipped ?? []) as Array<{slug: string, title: string, shipped: string, episodes: number}>;
 const waves         = (dashboard.waves ?? []) as Array<{id: string, name: string, plain: string}>;
 const totalEpisodes = shipped.reduce((s: number, b: any) => s + (b.episodes ?? 0), 0);
-const spineColors   = ['var(--c-accent)', 'var(--c-gold)', 'var(--c-planner)', 'var(--c-green)', 'var(--c-amber)'];
 ---
 <Base title="Overview" active="home" description="Turning centuries of Islamic scholarship into beautifully produced podcast series.">
 
@@ -24,6 +27,7 @@ const spineColors   = ['var(--c-accent)', 'var(--c-gold)', 'var(--c-planner)', '
       <div class="home-hero-text">
         <span class="eyebrow">Podcast Factory</span>
         <h1 class="page-hero-title home-h1">Centuries of Islamic scholarship.<br>Now in your ears.</h1>
+        <p class="home-hero-audience"><AudienceBadge tier="both" /></p>
         <p class="page-hero-lede">
           This factory takes scholarly Arabic manuscripts — some over a thousand years old —
           and turns them into beautifully produced podcast series. Every episode is verified,
@@ -102,30 +106,24 @@ const spineColors   = ['var(--c-accent)', 'var(--c-gold)', 'var(--c-planner)', '
        ══════════════════════════════════════════════════════════ -->
   <div class="home-body">
 
-    <!-- Navigate the factory -->
-    <section class="home-section home-section-hub">
-      <p class="eyebrow home-section-eyebrow">Navigate the factory</p>
-      <div class="hub-grid">
-        <a href="/architecture" class="hub-card path-architecture">
-          <div class="hub-icon-wrap"><i class="fa-solid fa-sitemap" aria-hidden="true"></i></div>
-          <h2>Architecture</h2>
-          <p>Understand the pipeline — how a book becomes a podcast, what each station does, and how the intelligence layer fits in.</p>
-          <span class="hub-enter">Explore pipeline, intelligence, infrastructure →</span>
-        </a>
-        <a href="/library" class="hub-card path-bookshelf">
-          <div class="hub-icon-wrap"><i class="fa-solid fa-book-open" aria-hidden="true"></i></div>
-          <h2>Bookshelf</h2>
-          <p>Browse every book and lecture in the catalog — drafts in progress and titles already published. Read chapters directly in the reader.</p>
-          <span class="hub-enter">Open library →</span>
-        </a>
-      </div>
+    <!-- 0.1 The whole system, one picture -->
+    <section class="home-section" id="s-system">
+      <p class="eyebrow home-section-eyebrow">The whole system</p>
+      <h2 class="home-section-h2">One picture, top to bottom</h2>
+      <p class="home-section-lede">Three sources of knowledge feed one shared library. The factory reaches that library through a single access layer while it works, and what it produces flows to two places — a reader you can browse and a podcast you can listen to.</p>
+      <OverviewSystemMap />
     </section>
 
     <!-- How it works -->
-    <section class="home-section">
+    <section class="home-section" id="s-pipeline">
       <p class="eyebrow home-section-eyebrow">The pipeline</p>
       <h2 class="home-section-h2">From PDF to podcast in eight steps</h2>
-      <p class="home-section-lede">Every book follows the same path. Here is how a centuries-old manuscript becomes an episode ready to play.</p>
+      <p class="home-section-lede">Every book follows the same path. Here is how a centuries-old manuscript becomes an episode ready to play — including the two points where a human reviews the work before it moves on.</p>
+      <Mermaid
+        id="book-journey"
+        title="The journey a book takes through the factory: intake, scan and polish, learn names, design episodes, enrich and verify, a source-review gate, write the narration, fifteen challenger quality checks, twelve publish gates, then finished episodes and annotated chapters. Two gates can send the work back to be redone."
+        caption="The path a book travels — with the two human review gates and the rewrite loops that keep quality high."
+      />
       <div class="pipeline-steps">
         <div class="pipeline-step">
           <span class="pipeline-step-num">01</span>
@@ -177,7 +175,7 @@ const spineColors   = ['var(--c-accent)', 'var(--c-gold)', 'var(--c-planner)', '
         <h2 class="home-section-h2">What's been published</h2>
         <div class="catalog-grid">
           {shipped.map((book: any, i: number) => (
-            <div class="catalog-card" style={`--spine-color: ${spineColors[i % spineColors.length]}`}>
+            <div class={`catalog-card spine-${i % 5}`}>
               <div class="catalog-card-spine"></div>
               <div class="catalog-card-body">
                 <h3 class="catalog-card-title">{book.title}</h3>
@@ -190,10 +188,17 @@ const spineColors   = ['var(--c-accent)', 'var(--c-gold)', 'var(--c-planner)', '
     )}
 
     <!-- Intelligence layer -->
-    <section class="home-section">
+    <section class="home-section" id="s-intelligence">
       <p class="eyebrow home-section-eyebrow">Intelligence</p>
       <h2 class="home-section-h2">How the factory learns over time</h2>
       <p class="home-section-lede">Every book processed teaches the factory something. Citations, names, and concepts accumulate in a shared knowledge library that every future book draws from automatically. And now — for the first time — that same knowledge is queryable live by both the authoring pipeline and the reader.</p>
+      <h3 class="home-section-h3">One read, two outputs</h3>
+      <p class="home-section-lede">The expensive part — reading and understanding a chapter — happens once. From that single read the factory produces both the podcast's conversational framing and the markers the reader uses to show verses and definitions. The chapter is never re-read.</p>
+      <Mermaid
+        id="one-read-two-outputs"
+        title="A sequence showing the knowledge phase reading a chapter once, extracting verses, terms, names and concepts, then producing two outputs from that single read: the podcast framing and the reader's verse and term markers."
+        caption="A single pass over each chapter feeds both the podcast and the reader — no duplicated work."
+      />
       <div class="intel-cards">
         <div class="intel-card intel-card-quran">
           <div class="intel-card-icon"><i class="fa-solid fa-star-and-crescent"></i></div>
@@ -260,6 +265,14 @@ const spineColors   = ['var(--c-accent)', 'var(--c-gold)', 'var(--c-planner)', '
         </div>
       </section>
     )}
+
+    <!-- 0.4 Where to go next -->
+    <section class="home-section" id="s-next">
+      <p class="eyebrow home-section-eyebrow">Where to go next</p>
+      <h2 class="home-section-h2">Explore any part in depth</h2>
+      <p class="home-section-lede">Each link goes to a focused view. The badge tells you who it is written for — the conceptual views for any reader, the technical views for engineers, and some useful to both.</p>
+      <OverviewIndexRail />
+    </section>
 
   </div>
 </Base>
