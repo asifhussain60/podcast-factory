@@ -241,10 +241,10 @@ export default function PhaseSwimlaneDiagram() {
   ];
 
   return (
-    <div ref={containerRef} className="swimlane-host" style={{ overflowX: 'auto', width: '100%' }}>
+    <div ref={containerRef} className="swimlane-host">
       <svg
         viewBox={`0 0 ${TOTAL_W} ${totalH}`}
-        style={{ width: '100%', minWidth: '760px', fontFamily: 'var(--font-body)', fontSize: '14px' }}
+        className="swimlane-svg"
         role="img"
         aria-label="Pipeline phase sequence swimlane — L3 detail view"
       >
@@ -272,7 +272,6 @@ export default function PhaseSwimlaneDiagram() {
             fontSize="12"
             fontWeight="600"
             letterSpacing="0.06em"
-            style={{ textTransform: 'uppercase' }}
           >
             {h.label.toUpperCase()}
           </text>
@@ -439,17 +438,7 @@ export default function PhaseSwimlaneDiagram() {
                   {/* Note */}
                   {row.note && (
                     <foreignObject x={xNote + 8} y={row.y + 4} width={COL_NOTE - 16} height={row.h - 8}>
-                      <div
-                        xmlns="http://www.w3.org/1999/xhtml"
-                        style={{
-                          fontSize: '12px',
-                          color: 'var(--c-ink-muted)',
-                          lineHeight: '1.4',
-                          display: 'flex',
-                          alignItems: 'center',
-                          height: '100%',
-                        }}
-                      >
+                      <div xmlns="http://www.w3.org/1999/xhtml" className="swim-note">
                         {row.note}
                       </div>
                     </foreignObject>
@@ -473,34 +462,12 @@ export default function PhaseSwimlaneDiagram() {
       </svg>
 
       {/* Legend */}
-      <div style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: '16px',
-        marginTop: '14px',
-        fontSize: '13px',
-        color: 'var(--c-ink-dim)',
-      }}>
-        <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ width: 28, height: 10, background: 'var(--c-tokens-low)', display: 'inline-block', borderRadius: 2 }} />
-          Low-cost LLM call
-        </span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ width: 28, height: 10, background: 'var(--c-tokens-mid)', display: 'inline-block', borderRadius: 2 }} />
-          Medium-cost
-        </span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ width: 28, height: 10, background: 'var(--c-tokens-high)', display: 'inline-block', borderRadius: 2 }} />
-          High-cost (Opus)
-        </span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ width: 28, height: 10, background: 'url(#future-stripe)', display: 'inline-block', borderRadius: 2, border: '1px dashed var(--c-amber)' }} />
-          Future-state phase (not yet shipped)
-        </span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ fontSize: '16px' }}>✋</span>
-          Human-halt gate
-        </span>
+      <div className="swim-legend">
+        <span className="swim-legend-item"><span className="swim-swatch swim-swatch--low" />Low-cost LLM call</span>
+        <span className="swim-legend-item"><span className="swim-swatch swim-swatch--mid" />Medium-cost</span>
+        <span className="swim-legend-item"><span className="swim-swatch swim-swatch--high" />High-cost (Opus)</span>
+        <span className="swim-legend-item"><span className="swim-swatch swim-swatch--future" />Future-state phase (not yet shipped)</span>
+        <span className="swim-legend-item"><span className="swim-gate-ico">✋</span>Human-halt gate</span>
       </div>
     </div>
   );

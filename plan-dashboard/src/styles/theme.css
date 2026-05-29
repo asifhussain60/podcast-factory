@@ -2957,3 +2957,16 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .pqw-95 { width: 95%; }
 .pqw-100 { width: 100%; }
 .status-chip-sp { margin-right: 6px; }
+
+/* ── PhaseSwimlaneDiagram — externalized static styles (WC6f follow-on) ── */
+.swimlane-host { overflow-x: auto; width: 100%; }
+.swimlane-svg { width: 100%; min-width: 760px; font-family: var(--font-body); font-size: 14px; }
+.swim-note { font-size: 12px; color: var(--c-ink-muted); line-height: 1.4; display: flex; align-items: center; height: 100%; }
+.swim-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; font-size: var(--fs-sm); color: var(--c-ink-dim); }
+.swim-legend-item { display: inline-flex; align-items: center; gap: 6px; }
+.swim-swatch { width: 28px; height: 10px; display: inline-block; border-radius: 2px; }
+.swim-swatch--low { background: var(--c-tokens-low, var(--c-green)); }
+.swim-swatch--mid { background: var(--c-tokens-mid, var(--c-amber)); }
+.swim-swatch--high { background: var(--c-tokens-high, var(--c-accent)); }
+.swim-swatch--future { background: repeating-linear-gradient(45deg, transparent, transparent 2px, color-mix(in oklab, var(--c-amber) 35%, transparent) 2px, color-mix(in oklab, var(--c-amber) 35%, transparent) 4px); border: 1px dashed var(--c-amber); }
+.swim-gate-ico { font-size: 16px; }
