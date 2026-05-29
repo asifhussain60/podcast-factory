@@ -17,7 +17,7 @@
 /* Two-pane layout. */
 .studio-poc {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 1fr 300px; /* viewer left, panel right (right-handed) */
   gap: 24px;
   width: 90%;
   max-width: 1400px;
@@ -53,6 +53,13 @@
 .sp-insp-meta { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; }
 .sp-insp-meta dt { font-size: 0.78rem; color: var(--c-ink-muted); }
 .sp-insp-meta dd { font-size: 0.85rem; color: var(--c-ink); margin: 0; }
+
+/* Marker groups (one container per kind, e.g. a single Quran container). */
+.sp-insp-block--markers { gap: 10px; }
+.sp-mgroup { display: flex; flex-direction: column; }
+.sp-mgroup + .sp-mgroup { margin-top: 8px; }
+.sp-mgroup-title { display: flex; align-items: center; gap: 6px; margin: 0 0 4px; }
+.sp-mgroup-count { font-size: 0.72rem; color: var(--c-ink-muted); }
 
 /* Marker list — the internally-scrolling region. */
 .sp-marker-list {

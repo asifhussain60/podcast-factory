@@ -92,8 +92,35 @@ export default function StudioPoc({ html, chapterTitle }: Props) {
     },
   });
 
+  const quran = markers.filter((m) => m.kind === 'Quran');
+  const hadith = markers.filter((m) => m.kind === 'Hadith');
+  const works = markers.filter((m) => m.kind === 'Work');
+
+  const renderGroup = (label: string, items: typeof markers, cls: string) =>
+    items.length > 0 && (
+      <div className="sp-mgroup">
+        <h4 className="sp-mgroup-title">
+          <span className={`sp-chip sp-chip--${cls}`}>{label}</span>
+          <span className="sp-mgroup-count">{items.length}</span>
+        </h4>
+        <ul className="sp-marker-list">
+          {items.map((m, i) => (
+            <li key={i}>
+              <span className="sp-marker-text">{m.text}</span>
+              {m.count > 1 && <span className="sp-marker-count">×{m.count}</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+
   return (
     <div className="studio-poc">
+      {/* Viewer LEFT (right-handed: panel on the right). */}
+      <main className="studio-poc__editor">
+        <EditorContent editor={editor} />
+      </main>
+
       <aside className="studio-poc__inspector" aria-label="Contextual inspector">
         <div className="sp-insp-block">
           <h2 className="sp-insp-title">Inspector</h2>
@@ -114,21 +141,9 @@ export default function StudioPoc({ html, chapterTitle }: Props) {
           )}
         </div>
 
-        <div className="sp-insp-block sp-insp-block--markers">
-          <h3 className="sp-insp-sub">Markers ({markers.length})</h3>
-          <ul className="sp-marker-list">
-            {markers.map((m, i) => (
-              <li key={i}>
-                <span className={`sp-chip sp-chip--${m.kind.toLowerCase()}`}>{m.kind}</span>
-                <span className="sp-marker-text">{m.text}</span>
-                {m.count > 1 && <span className="sp-marker-count">×{m.count}</span>}
-              </li>
-            ))}
-          </ul>
-        </div>
-
+        {/* Actions ABOVE markers; flex-wrap supports 10-15 buttons. */}
         <div className="sp-insp-block">
-          <h3 className="sp-insp-sub">Actions (demo)</h3>
+          <h3 className="sp-insp-sub">Actions</h3>
           <div className="sp-toolbar" role="toolbar" aria-label="Marking actions">
             <button type="button" onClick={() => editor?.chain().focus().toggleBold().run()}>Bold</button>
             <button type="button" onClick={() => editor?.chain().focus().toggleItalic().run()}>Italic</button>
@@ -137,11 +152,14 @@ export default function StudioPoc({ html, chapterTitle }: Props) {
             <button type="button" onClick={() => editor?.chain().focus().redo().run()}>Redo</button>
           </div>
         </div>
-      </aside>
 
-      <main className="studio-poc__editor">
-        <EditorContent editor={editor} />
-      </main>
+        <div className="sp-insp-block sp-insp-block--markers">
+          <h3 className="sp-insp-sub">Markers</h3>
+          {renderGroup('Quran', quran, 'quran')}
+          {renderGroup('Hadith', hadith, 'hadith')}
+          {renderGroup('Works', works, 'work')}
+        </div>
+      </aside>
     </div>
   );
 }
