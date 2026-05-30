@@ -2,16 +2,32 @@
  * EditorialCards — the Studio re-platform's editorial cockpit (WC8 Slice 5b).
  *
  * A vertical stack of editorial-decision cards (Name Resolution, Key Focus, Tone & Register,
- * Forbidden Terms, Required Elements, Audience Calibration). Decisions are canonical at BOOK
- * scope and overridable per CHAPTER. The cockpit follows the editor's chapter (via the
- * `studio:chapter-change` window event) and persists each card to /api/studio/editorial, which
- * the Slice-6 orchestrator reads to steer stage advancement.
+ * Forbidden Terms, Required Elements, Audience Calibration, Host Roles). Decisions are canonical
+ * at BOOK scope and overridable per CHAPTER.
  *
- * v1 is dependency-free: items reorder with up/down controls (dnd-kit sortable + cmdk corpus
- * search are the planned enhancement, layered later without changing this model). No Tailwind /
- * no inline styles — classes are defined in studio-poc.css (Cortex HTML-view standard).
+ * Slice 5b enhancement: list-kind cards (Key Focus, Forbidden Terms, Required Elements) use
+ * @dnd-kit/sortable drag-reorder (array order = priority). Key Focus also has a cmdk corpus
+ * search that appends doctrine atoms from knowledge.db via /api/studio/corpus-search.
+ *
+ * No Tailwind / no inline styles — classes defined in studio-poc.css (Cortex standard).
  */
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+  arrayMove,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { Command } from 'cmdk';
 
 type CardKind = 'list' | 'pairs' | 'choice';
 interface Pair { from: string; to: string }
@@ -158,7 +174,7 @@ function EditorialCard({
       <p className="ec-card-blurb">{def.blurb}</p>
 
       {def.kind === 'list' && (
-        <ListEditor items={draft.items ?? []} placeholder={def.placeholder}
+        <ListEditor defId={def.id} items={draft.items ?? []} placeholder={def.placeholder}
           onChange={(items) => setDraft({ ...draft, items })} />
       )}
       {def.kind === 'pairs' && (
@@ -197,27 +213,132 @@ function normalize(def: CardDef, d: CardValue): CardValue {
   return { preset: d.preset, notes: (d.notes ?? '').trim() };
 }
 
-function ListEditor({ items, placeholder, onChange }: { items: string[]; placeholder?: string; onChange: (v: string[]) => void }) {
+// Stable item IDs for dnd-kit (index is stable within a render; we only need uniqueness per render).
+function itemId(index: number) { return `item-${index}`; }
+
+function SortableItem({
+  id, value, placeholder, onChange, onRemove,
+}: {
+  id: string; value: string; placeholder?: string;
+  onChange: (v: string) => void; onRemove: () => void;
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
+  const style = { transform: CSS.Transform.toString(transform), transition };
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`ec-list-row${isDragging ? ' ec-list-row--dragging' : ''}`}
+    >
+      <span className="ec-drag-handle" {...attributes} {...listeners} aria-label="Drag to reorder">
+        ⠿
+      </span>
+      <input
+        className="ec-input"
+        value={value}
+        placeholder={placeholder}
+        onChange={(e) => onChange(e.target.value)}
+      />
+      <button className="ec-mini ec-mini--del" aria-label="Remove" onClick={onRemove}>×</button>
+    </div>
+  );
+}
+
+function CorpusSearch({ onSelect }: { onSelect: (text: string) => void }) {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<{ id: string; snippet: string }[]>([]);
+  const [loading, setLoading] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (query.length < 2) { setResults([]); return; }
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(async () => {
+      setLoading(true);
+      try {
+        const r = await fetch(`/api/studio/corpus-search?q=${encodeURIComponent(query)}`).then(x => x.json());
+        setResults(r.data?.results ?? []);
+      } catch { setResults([]); }
+      finally { setLoading(false); }
+    }, 300);
+  }, [query]);
+
+  return (
+    <Command className="ec-cmdk-wrap">
+      <Command.Input
+        className="ec-cmdk-input"
+        placeholder="Search corpus (e.g. knowledge, action)…"
+        value={query}
+        onValueChange={setQuery}
+      />
+      <Command.List className="ec-cmdk-list">
+        {loading && <Command.Empty className="ec-cmdk-empty">Searching…</Command.Empty>}
+        {!loading && query.length >= 2 && results.length === 0 && (
+          <Command.Empty className="ec-cmdk-empty">No doctrine atoms match "{query}"</Command.Empty>
+        )}
+        {results.map((r) => (
+          <Command.Item
+            key={r.id}
+            value={r.snippet}
+            className="ec-cmdk-item"
+            onSelect={() => { onSelect(r.snippet); setQuery(''); setResults([]); }}
+          >
+            {r.snippet.length > 100 ? r.snippet.slice(0, 100) + '…' : r.snippet}
+          </Command.Item>
+        ))}
+      </Command.List>
+    </Command>
+  );
+}
+
+function ListEditor({
+  defId, items, placeholder, onChange,
+}: {
+  defId?: string; items: string[]; placeholder?: string; onChange: (v: string[]) => void;
+}) {
+  const [showSearch, setShowSearch] = useState(false);
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
+  const ids = useMemo(() => items.map((_, i) => itemId(i)), [items.length]);
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const from = ids.indexOf(active.id as string);
+    const to = ids.indexOf(over.id as string);
+    if (from === -1 || to === -1) return;
+    onChange(arrayMove(items, from, to));
+  }
+
   const set = (i: number, v: string) => onChange(items.map((x, j) => (j === i ? v : x)));
-  const move = (i: number, dir: -1 | 1) => {
-    const j = i + dir;
-    if (j < 0 || j >= items.length) return;
-    const next = [...items];
-    [next[i], next[j]] = [next[j], next[i]];
-    onChange(next);
-  };
+
   return (
     <div className="ec-list">
-      {items.map((it, i) => (
-        <div className="ec-list-row" key={i}>
-          <input className="ec-input" value={it} placeholder={placeholder} onChange={(e) => set(i, e.target.value)} />
-          <div className="ec-list-ctl">
-            <button className="ec-mini" aria-label="Move up" disabled={i === 0} onClick={() => move(i, -1)}>↑</button>
-            <button className="ec-mini" aria-label="Move down" disabled={i === items.length - 1} onClick={() => move(i, 1)}>↓</button>
-            <button className="ec-mini ec-mini--del" aria-label="Remove" onClick={() => onChange(items.filter((_, j) => j !== i))}>×</button>
-          </div>
-        </div>
-      ))}
+      {defId === 'key_focus' && (
+        <>
+          <button className="ec-search-btn" onClick={() => setShowSearch(s => !s)}>
+            {showSearch ? 'Hide corpus search' : '🔍 Search corpus'}
+          </button>
+          {showSearch && (
+            <CorpusSearch
+              onSelect={(text) => { onChange([...items, text]); setShowSearch(false); }}
+            />
+          )}
+        </>
+      )}
+      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <SortableContext items={ids} strategy={verticalListSortingStrategy}>
+          {items.map((it, i) => (
+            <SortableItem
+              key={ids[i]}
+              id={ids[i]}
+              value={it}
+              placeholder={placeholder}
+              onChange={(v) => set(i, v)}
+              onRemove={() => onChange(items.filter((_, j) => j !== i))}
+            />
+          ))}
+        </SortableContext>
+      </DndContext>
       <button className="ec-add" onClick={() => onChange([...items, ''])}>+ Add</button>
     </div>
   );

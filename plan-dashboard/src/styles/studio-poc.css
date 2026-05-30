@@ -583,3 +583,84 @@
   .studio-shell { grid-template-columns: 1fr; }
   .ec-cockpit { position: static; max-height: none; }
 }
+
+/* ── Slice 5b: drag-reorder + corpus search (K6) ─────────────────── */
+
+/* Drag handle on list rows. */
+.ec-drag-handle {
+  display: flex;
+  align-items: center;
+  cursor: grab;
+  color: var(--c-ink-muted);
+  font-size: 1rem;
+  padding: 0 2px;
+  opacity: 0.55;
+  user-select: none;
+}
+.ec-drag-handle:active { cursor: grabbing; opacity: 1; }
+
+/* Visual feedback during a drag. */
+.ec-list-row--dragging {
+  opacity: 0.45;
+  background: color-mix(in srgb, var(--c-accent) 6%, var(--c-bg-card));
+  border-radius: 8px;
+}
+
+/* Corpus search toggle button (Key Focus). */
+.ec-search-btn {
+  height: 28px;
+  padding: 0 10px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  border-radius: 7px;
+  cursor: pointer;
+  color: var(--c-ink-muted);
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+  margin-bottom: 4px;
+}
+.ec-search-btn:hover { border-color: var(--c-accent); color: var(--c-accent); }
+
+/* cmdk Command palette (corpus search). */
+.ec-cmdk-wrap {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.18));
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+.ec-cmdk-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  font-size: 0.88rem;
+  font-family: inherit;
+  color: var(--c-ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+  outline: none;
+}
+.ec-cmdk-list {
+  max-height: 180px;
+  overflow-y: auto;
+}
+.ec-cmdk-empty {
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  color: var(--c-ink-muted);
+}
+.ec-cmdk-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--c-ink);
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+.ec-cmdk-item:hover,
+[data-selected='true'].ec-cmdk-item { background: color-mix(in srgb, var(--c-accent) 10%, transparent); }

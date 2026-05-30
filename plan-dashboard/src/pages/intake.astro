@@ -1,0 +1,26 @@
+---
+// intake.astro — WC8 Slice 6b: New Content intake page.
+// Mirrors studio.astro's structure. External CSS only (Cortex standard).
+// CARD_DEFS imported server-side and passed as a prop to keep editorial.ts
+// (which uses node:fs) out of the client bundle.
+import PocLayout from '../layouts/PocLayout.astro';
+import NewContentForm from '../components/intake/NewContentForm.tsx';
+import EditorialDefaults from '../components/intake/EditorialDefaults.tsx';
+import { CARD_DEFS } from '../lib/reader/editorial';
+import '../styles/intake.css';
+---
+
+<PocLayout title="New Content — Podcast Factory">
+  <header class="intake-header">
+    <h1 class="intake-h1">New content</h1>
+    <p class="intake-subtitle">
+      Scaffold a workshop folder for a new book, lecture, or article. Set canonical editorial
+      decisions, then ask Claude Code to run the intake pipeline.
+    </p>
+  </header>
+
+  <div class="intake-shell">
+    <NewContentForm client:only="react" />
+    <EditorialDefaults client:only="react" slug={null} cardDefs={CARD_DEFS} />
+  </div>
+</PocLayout>
