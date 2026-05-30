@@ -158,13 +158,13 @@
   opacity: 0.75;
   margin: 0 1px;
 }
-/* FC-3 per-paragraph affordance: hovering an IDLE block shows a pointer ("nothing selected").
-   Padding + matching negative margin keep the text position unchanged while the background
-   extends visually around it (same technique as para-active, smaller values). */
-.studio-poc__editor .ProseMirror > p:hover,
-.studio-poc__editor .ProseMirror > h2:hover,
-.studio-poc__editor .ProseMirror > h3:hover,
-.studio-poc__editor .ProseMirror > blockquote:hover {
+/* FC-3 per-paragraph affordance: hovering an IDLE (non-active) block shows a pointer.
+   :not(.para-active) guards ensure hover styles never override the active-paragraph ring.
+   Padding + matching negative margin keep text position unchanged while background extends. */
+.studio-poc__editor .ProseMirror > p:not(.para-active):hover,
+.studio-poc__editor .ProseMirror > h2:not(.para-active):hover,
+.studio-poc__editor .ProseMirror > h3:not(.para-active):hover,
+.studio-poc__editor .ProseMirror > blockquote:not(.para-active):hover {
   cursor: pointer;
   padding: 4px 10px;
   margin-left: -10px;

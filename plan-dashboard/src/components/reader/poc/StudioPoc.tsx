@@ -182,6 +182,7 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
   const originalRef = useRef<string[]>([]);            // original text per top-level node
   const paraTagsRef = useRef<Map<number, string[]>>(new Map()); // node index -> tag ids
   const arabicRef = useRef(false);                     // mirror of arabicOn for the plugin
+  const hasFocusRef = useRef(false);                   // tracks editor DOM focus for para-active
   const editorContainerRef = useRef<HTMLElement | null>(null);
   arabicRef.current = arabicOn;
   // Index-based tag toggle, called from the floating per-paragraph icon toolbar (a PM widget
@@ -209,9 +210,9 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
                   const tags = paraTagsRef.current;
                   const decos: Decoration[] = [];
 
-                  // Active paragraph (FC-3): the top-level node holding the cursor.
+                  // Active paragraph (FC-3): only highlight when editor has DOM focus.
                   const headPos = state.selection.$head;
-                  const activeTop = headPos.depth >= 1 ? headPos.before(1) : -1;
+                  const activeTop = hasFocusRef.current && headPos.depth >= 1 ? headPos.before(1) : -1;
 
                   // FC-1: Quran verse refs REPLACE their phrase with a compact chip. The
                   // underlying prose is NOT mutated (display:none decoration), so the
@@ -361,6 +362,16 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
       editor.state.doc.forEach((n) => texts.push(n.textContent));
       originalRef.current = texts;
     },
+    onFocus({ editor }) {
+      hasFocusRef.current = true;
+      // Dispatch an empty transaction so the decoration plugin re-evaluates.
+      editor.view.dispatch(editor.state.tr);
+    },
+    onBlur({ editor }) {
+      hasFocusRef.current = false;
+      setActiveParaIdx(null);
+      editor.view.dispatch(editor.state.tr);
+    },
     onUpdate() { refresh(); },
     onSelectionUpdate({ editor }) {
       const { from, to } = editor.state.selection;
@@ -380,13 +391,12 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
     },
   });
 
-  // Click outside the editor container → blur the editor so the active-paragraph highlight clears.
+  // Click outside the editor container → blur the editor DOM element.
+  // The onBlur callback above handles clearing hasFocusRef + dispatching the decoration update.
   useEffect(() => {
     const onMouseDown = (e: MouseEvent) => {
       if (editorContainerRef.current && !editorContainerRef.current.contains(e.target as Node)) {
-        editor?.commands.blur();
-        setActiveParaIdx(null);
-        refresh();
+        editor?.view.dom.blur();
       }
     };
     document.addEventListener('mousedown', onMouseDown);
