@@ -141,6 +141,7 @@ substantial builds (Studio re-platform, full audio job). Total Azure cost to dat
 - intake_stage.py only OCRs (committed/tracked). Denoise/normalize/reconcile/augment were inline
   agent transforms (artifacts under content/drafts, local-only) — productionize as scripts when stable.
 
+- **Slice 2-fix / K6-pre — BUILD (FIRST):** retrofix Arabic terminus technicus stripping in gemini_refine.py (tawil/wilaya/batin being replaced by English translations). Add TERMINUS TECHNICUS guard to both prompt blocks; load protect-list from glossary.yml per-run. Add SN-7 to house-voice standard. Add D6 to Challenger. Re-run denoise+normalize for all 5 Ayyuhal chapters (~$0.07). Must land before Slice 7.
 - **Wave K step K6 — BUILD:** add 5th PEQ axis (Interest, weight 0.15) + Challenger Category V (curiosity-building, challenge-defeat arcs, opening hook, modern relevance, no strawman). Also fix Voice axis stub (returns 0.0 — build KSESSIONS exemplar vectors). Authorized 2026-05-30. Prerequisite before Slice 7.
 - **Slice 5b — BUILD:** full Studio re-platform (replaces /studio-poc). 3-column layout; right panel = 6 stackable editorial cards (Name Resolution, Key Focus, Tone, Forbidden Terms, Required Elements, Audience Calibration). Book-level canonical + per-chapter override. New packages: dnd-kit (sortable), cmdk (corpus search). Authorized 2026-05-30.
 - **Slice 5c — BUILD:** Podcaster roles guardrail — Teacher/Student/Debater host dynamics. HOST_ROLE_CONTRACT in framing prompt; debater trigger field in HostRoles card (7th editorial card). Authorized 2026-05-30.

@@ -2504,6 +2504,65 @@ waves_ghj:
         cost_estimate_usd: 0
         execution_status: completed
 
+      - id: K6-pre
+        title: "Terminus technicus preservation rule — prevent Arabic doctrinal terms from being stripped during denoise/normalize"
+        authorized_by: "asif_2026-05-30"
+        authorized_note: >
+          Asif observed that the denoise and normalize stages remove Arabic terminology
+          entirely, substituting English translations that lose doctrinal precision.
+          tawil → 'esoteric interpretation', wilaya → 'sacred authority', batin stripped.
+          This is a defect in the Gemini prompt, not intended behaviour.
+        depends_on: [WC8-0-foundation]
+        priority: critical_before_slice_7
+        root_cause: |
+          gemini_refine.py's denoise + normalize prompt blocks have no protection for
+          terminus technicus — Arabic doctrinal terms with no English equivalent. The
+          prompt's 'house style' instruction treats them as vocabulary to translate rather
+          than terminology to preserve.
+        rule: |
+          R_TERMINUS_PRESERVE: Arabic doctrinal terminology (terminus technicus) is preserved
+          in phonetic form on EVERY occurrence. On the FIRST occurrence within an episode,
+          a brief English gloss follows in parentheses: tawil (the inner, esoteric meaning
+          of scripture). After first-use, the term stands alone. NEVER reduce to English
+          gloss only. This rule is orthogonal to R-PHONETICS-OUT: Arabic SCRIPT characters
+          (تأویل) are still stripped; the PHONETIC form (tawil) is preserved.
+        protect_list_source: "_system/glossary.yml per-book (injected into Gemini prompt at run time)"
+        deliverables:
+          rules_constant:
+            file: "scripts/podcast/_rules.py"
+            addition: "R_TERMINUS_PRESERVE = True  # Arabic phonetic forms never stripped; gloss on first use"
+          gemini_refine_fix:
+            file: "scripts/podcast/gemini_refine.py"
+            change: |
+              Both DENOISE_PROMPT and NORMALIZE_PROMPT gain a TERMINUS TECHNICUS block:
+              'The following terms are terminus technicus for this tradition. Preserve them
+              in phonetic form on every occurrence. On first occurrence append a brief
+              English gloss in parentheses. Never substitute with English translation only:
+              {protect_list}'. protect_list is loaded from _system/glossary.yml at run time.
+          house_voice_standard:
+            file: "docs/standards/house-voice.md"
+            addition: "SN-7 (new clause): Terminus Technicus Preservation — Arabic doctrinal terms are never translated away."
+          challenger_check:
+            file: "infra/claude-agents/podcast-challenger.md"
+            addition: "Category D, check D6 (P1): terminus technicus preservation — if >=3 glossary terms appear in source but zero phonetic-form instances appear in output, flag as P1."
+          retrofix:
+            action: "Re-run denoise + normalize for all 5 Ayyuhal Walad chapters with corrected prompt"
+            cost_usd: 0.07
+            scope: "Overwrites _stages/<ch>/denoised.md and normalized.md in place"
+            note: "augmented.md must also be regenerated since it derives from normalized"
+        acceptance:
+          - "gemini_refine.py DENOISE_PROMPT and NORMALIZE_PROMPT both contain TERMINUS TECHNICUS block"
+          - "protect_list loaded from _system/glossary.yml at run time"
+          - "house-voice.md contains SN-7 clause"
+          - "_rules.py has R_TERMINUS_PRESERVE constant"
+          - "podcast-challenger.md contains D6 check"
+          - "Ayyuhal ch01 normalized.md contains 'tawil' (phonetic) at least once"
+          - "test_terminus_preserve.py: >= 6 tests (term preserved, gloss on first-use only, English-only reduction blocked)"
+        authorization: tier_one
+        cost_estimate_usd: 0.07
+        execution_status: not_started
+        branch: "book/ayyuhal-walad"
+
       - id: K6
         title: "Add Interest & Challenge-Defeat scoring as a 5th PEQ axis + Challenger Category V"
         authorized_by: "asif_2026-05-30"

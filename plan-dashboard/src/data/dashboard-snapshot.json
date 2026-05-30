@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T10:49:55.434Z",
-  "source_commit": "308ca59",
+  "generated_at": "2026-05-30T10:54:48.828Z",
+  "source_commit": "e13515b",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -739,6 +739,17 @@
       ],
       "plain": "",
       "tools": []
+    },
+    {
+      "id": "K6-pre",
+      "title": "Terminus technicus preservation rule — prevent Arabic doctrinal terms from being stripped during denoise/normalize",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "WC8-0-foundation"
+      ],
+      "plain": "",
+      "tools": []
     }
   ],
   "waves": [
@@ -808,6 +819,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "e13515b",
+      "subject": "plan(WC8): add Slices 5b/5c/6b — editorial cockpit, host roles, new content intake",
+      "date": "2026-05-30"
+    },
+    {
       "sha": "308ca59",
       "subject": "plan(WC8/K6): add Interest & Challenge-Defeat as 5th PEQ axis + Challenger Category V",
       "date": "2026-05-30"
@@ -850,11 +866,6 @@
     {
       "sha": "6b35ede",
       "subject": "WC8.1 (A): Narrator tab in the Studio PoC — surfaces the attributed lecture-additions layer (additions-narrator.md) per chapter",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "3adbdcb",
-      "subject": "WC8.1 (A): narrator_additions.py — Gemini-clean lecture STT into the attributed narrator commentary layer (no claude -p, cost-tracked)",
       "date": "2026-05-29"
     }
   ],
