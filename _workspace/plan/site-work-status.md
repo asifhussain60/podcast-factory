@@ -142,6 +142,9 @@ substantial builds (Studio re-platform, full audio job). Total Azure cost to dat
   agent transforms (artifacts under content/drafts, local-only) — productionize as scripts when stable.
 
 - **Wave K step K6 — BUILD:** add 5th PEQ axis (Interest, weight 0.15) + Challenger Category V (curiosity-building, challenge-defeat arcs, opening hook, modern relevance, no strawman). Also fix Voice axis stub (returns 0.0 — build KSESSIONS exemplar vectors). Authorized 2026-05-30. Prerequisite before Slice 7.
+- **Slice 5b — BUILD:** full Studio re-platform (replaces /studio-poc). 3-column layout; right panel = 6 stackable editorial cards (Name Resolution, Key Focus, Tone, Forbidden Terms, Required Elements, Audience Calibration). Book-level canonical + per-chapter override. New packages: dnd-kit (sortable), cmdk (corpus search). Authorized 2026-05-30.
+- **Slice 5c — BUILD:** Podcaster roles guardrail — Teacher/Student/Debater host dynamics. HOST_ROLE_CONTRACT in framing prompt; debater trigger field in HostRoles card (7th editorial card). Authorized 2026-05-30.
+- **Slice 6b — BUILD:** New Content intake page (/new-content) — 3-step wizard: upload content, set book metadata, configure editorial defaults. Tier 2 on submit (triggers Azure intake). Authorized 2026-05-30.
 
 **Parked (resume anytime):**
 - *Site redesign* — 5 of 13 views built, 5 text-only and pending. Full audit + resume

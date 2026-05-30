@@ -673,6 +673,34 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 
 ---
 
+# Wave 8 Studio — Editorial Cockpit + New Content Intake
+
+*Authorized 2026-05-30. Branch: `book/ayyuhal-walad`. These three slices complete the WC8 re-platform that was deferred from Slice 5.*
+
+**Stack additions:** `@dnd-kit/core + @dnd-kit/sortable` (sortable Key Focus list; no existing alternative) and `cmdk` (command-palette corpus search). Everything else is already in the stack: Tailwind v4, Radix UI primitives, TipTap v3, @floating-ui/react, lucide-react, TanStack React Query.
+
+**Scope architecture:** editorial decisions are book-level canonical (written to `book/_system/editorial.json`) with per-chapter override (extends the existing `_system/review/<chapter>.json` write-back). Authoring prompts receive the merged result — chapters never need to repeat book-level decisions unless they override them.
+
+### WC8-5b. Full Studio re-platform — replace the PoC with a real editorial cockpit.
+
+> The throwaway `/studio-poc` PoC proved the mechanics (stage tabs, approve/write-back, verse popovers, Arabic toggle, track changes). The real Studio replaces it at `/studio` with a 3-column layout: left (chapter navigator + book/chapter scope toggle), center (TipTap editor + stage tabs + metrics; the **Approve Stage** button moves here as the primary action), and right (a stackable editorial card system). Six cards in the right panel: **Name Resolution** (NLP-extracted Arabic proper nouns and Islamic scholars — exact / pseudonym / generalize, book-scope with chapter override), **Key Focus** (sortable drag-to-reorder priority list with dnd-kit; cmdk command palette queries the wisdom corpus atoms directly — doctrine topics, Quran citations, hadith — and inserts selected items; conflict-check button validates against the tradition filter), **Tone & Register** (Reverent / Analytical / Urgent / Accessible — injects a concrete voice directive into the authoring prompt), **Forbidden Terms** (flat list seeded from the book-level anti-cliché DENY set; chapter-addable), **Required Elements** (Quran ayat and hadith atoms that must appear; absence = P1 in challenger), **Audience Calibration** (3-point slider Practitioner ↔ General Muslim ↔ Curious Outsider; maps to `glossing_strategy` in the framing prompt). Cards are individually collapsible and toggleable via a panel menu icon.
+>
+> *Value gained:* Prose instructions are replaced by structured decisions. Every editorial choice writes into the same `_system/review/<chapter>.json` structure and is consumed by the authoring prompts automatically — no copy-paste, no remembering what you typed last session.
+
+### WC8-5c. Podcaster roles guardrail — Teacher / Student / Debater host dynamics.
+
+> host_a = Teacher (always): authoritative, sources every claim, never speculates. host_b = Student (default): genuinely curious, asks forward-pulling questions, makes unexpected connections. host_b = Debater (triggered): when a contested claim is reached, host_b names a real modern objection with actual weight — then concedes after the Teacher defeats it with sourced argument. The "debater trigger" is a configurable text field in a new **Host Roles** editorial card (seventh card in the right panel): Asif types which claim should flip host_b from student to challenger in this chapter. This is encoded in the `HOST_ROLE_CONTRACT` block injected into the framing prompt and enforced by the challenger's Category V check V3 (updated to reference the trigger field, not just generic challenge-defeat presence).
+>
+> *Value gained:* The podcast stops feeling like a lecture with polite questions and starts having genuine intellectual tension. The trigger field lets you decide per chapter which claim is worth fighting over — giving the editor control over where the drama lands.
+
+### WC8-6b. New Content intake page — upload and configure pipeline from the UI.
+
+> A dedicated page at `/new-content` replaces the command-line intake flow. Three steps: **(1) Content Upload** — drag-drop or browse for PDF / audio files; URL field for YouTube or remote audio; shows detected format and estimated Azure processing cost. **(2) Book Metadata** — title, slug (auto-suggested), author, tradition (fatimid-ismaili / sunni / shia / sufi / universal), archetype (7 choices with one-line descriptions), source language. **(3) Editorial Defaults** — pre-fills the book-level `editorial.json` before the first chapter is processed: default audience, default tone, any known forbidden terms, initial focus priorities (cmdk corpus search available here too). Submit is Tier 2 (it triggers `intake_stage.py` and Azure OCR spend); configuration alone is Tier 0. On submit: creates `book/_system/editorial.json`, branches to `book/<slug>`, runs OCR, then redirects to `/studio?book=<slug>&chapter=ch01`.
+>
+> *Value gained:* A new book enters the pipeline with its editorial defaults already set. The first chapter you review in the Studio already knows the audience, the tone, and any terms you want to avoid — you're not starting from a blank slate every time.
+
+---
+
 ## What This Plan Excludes (by design)
 
 - **F-item operational backlog** (F4, F7, F11–F13, F22, F23, F25/F26, F29 still open) — tracked in [pipeline-debt.md](../debt/pipeline-debt.md) after A1 moves it. Pipeline-debt is the live operational backlog; this refactor plan is the architectural reshape. Don't merge the two.

@@ -2604,6 +2604,169 @@ waves_ghj:
         branch: "feature/wave-k-interest-scoring"
 
 # ===========================================================================
+# WAVE 8 STUDIO — editorial cockpit + new content intake
+# Authorized 2026-05-30. Branch: book/ayyuhal-walad (WC8 vertical).
+# Slices 5b, 5c, 6b — complement slices 5, 6, 7 in CONTINUATION-2026-05-30.md
+# ===========================================================================
+
+wave_8_studio:
+  authorized_by: asif_2026-05-30
+  status: not_started
+  branch: book/ayyuhal-walad
+  stack_additions:
+    - "@dnd-kit/core + @dnd-kit/sortable — drag-to-reorder for Key Focus panel (no existing alternative; ~25 KB)"
+    - "cmdk — command-palette corpus search for Key Focus and Name panels (~6 KB)"
+  stack_kept:
+    - "TipTap v3 + ProseMirror — editor core, no replacement"
+    - "@floating-ui/react — popovers/tooltips, already in use"
+    - "Radix UI primitives — headless components (add react-select, react-popover, react-scroll-area)"
+    - "Tailwind v4 — already in stack; shadcn/ui pattern available without adding the package"
+    - "lucide-react — icons, fully covered"
+    - "TanStack React Query — async corpus queries"
+  editorial_scope:
+    book_level: "book/_system/editorial.json — canonical name resolutions, forbidden terms, default tone, default audience"
+    chapter_level: "_system/review/<chapter>.json — extends the existing write-back loop; per-chapter overrides and focus priorities"
+    inheritance: "Chapter reads book canonical first, then applies chapter overrides. Authoring prompt receives merged result."
+
+  slices:
+
+    - id: WC8-5b
+      title: "Full Studio re-platform — editorial cockpit with stackable right-panel cards"
+      authorized_by: asif_2026-05-30
+      depends_on: [WC8-0-foundation]
+      layout:
+        left_column: "chapter navigator + stage selector + book/chapter scope toggle"
+        center_column: "TipTap editor + stage tabs + metrics strip; Approve Stage button moves here as primary action"
+        right_column: "stackable editorial cards (collapsible, toggleable via panel menu)"
+      editorial_cards:
+        name_resolution:
+          title: "Name Resolution"
+          scope: book_canonical_with_chapter_override
+          extraction: "NLP pass over chapter text — detects Arabic proper nouns, Islamic scholars, book/treatise titles, honorifics, non-English person references"
+          per_entry_options:
+            - "Exact — keep as detected"
+            - "Pseudonym — user types or selects replacement string"
+            - "Generalize — replace with role-based generic: 'the scholar' / 'the teacher' / 'the student' / 'the author'"
+          book_scope: "resolutions set here propagate to all chapters; chapter can add its own or override"
+          writeback: "book/_system/editorial.json + _system/review/<ch>.json"
+          note: "Authoring prompt receives substituted text, not raw names, so NotebookLM never sees unstated-decision names"
+        key_focus:
+          title: "Key Focus of Podcast"
+          scope: chapter_level_with_book_defaults
+          ui: "sortable drag-to-reorder list (dnd-kit); each item: focus text + weight (High/Medium/Low) + source (manual | corpus)"
+          corpus_search: "cmdk command palette queries wisdom corpus atoms (doctrine_topic_ids, quran citations, hadith atoms) by keyword; selected items added inline"
+          conflict_check: "button that validates selected themes against tradition filter — surfaces items the augmenter will block before running"
+          writeback: "maps to doctrine_topic_ids override in _system/review/<ch>.json; high-weight items injected first by Augmenter"
+        tone_register:
+          title: "Tone & Register"
+          scope: chapter_level_inherits_book_default
+          options: ["Reverent", "Analytical", "Urgent", "Accessible"]
+          effect: "injects a concrete voice directive into the authoring prompt (not a style rubric)"
+          writeback: "_system/review/<ch>.json"
+        forbidden_terms:
+          title: "Forbidden Terms"
+          scope: book_canonical_with_chapter_additions
+          ui: "flat list: term + reason + substitution (optional)"
+          seeded_from: "book-level anti-cliché DENY set in _anti_cliche.py"
+          effect: "merged into per-chapter authoring prompt blocklist; challenger Category U checks enforce absence"
+          writeback: "book/_system/editorial.json"
+        required_elements:
+          title: "Required Elements"
+          scope: chapter_level
+          items:
+            - "Quran ayat (pulled from quran-citations.json verified citations)"
+            - "Hadith references (from new hadith atoms, B5)"
+            - "Doctrine terms to define"
+          effect: "challenger Category A (citation authenticity) checks each item is present; absence = P1"
+          writeback: "_system/review/<ch>.json"
+        audience_calibration:
+          title: "Audience Calibration"
+          scope: chapter_level_inherits_book_default
+          ui: "3-point slider: Practitioner ↔ General Muslim ↔ Curious Outsider"
+          effect: "controls glossing_strategy in framing prompt + Enrichment axis weight in PEQ"
+          maps_to: "series-config.yaml audience_profile (existing field)"
+          writeback: "_system/review/<ch>.json"
+      deliverables:
+        - "plan-dashboard/src/components/reader/studio/StudioLayout.tsx (replaces StudioPoc.tsx)"
+        - "plan-dashboard/src/components/reader/studio/EditorialCard.tsx (collapsible card shell)"
+        - "plan-dashboard/src/components/reader/studio/cards/NameResolutionCard.tsx"
+        - "plan-dashboard/src/components/reader/studio/cards/KeyFocusCard.tsx"
+        - "plan-dashboard/src/components/reader/studio/cards/ToneCard.tsx"
+        - "plan-dashboard/src/components/reader/studio/cards/ForbiddenTermsCard.tsx"
+        - "plan-dashboard/src/components/reader/studio/cards/RequiredElementsCard.tsx"
+        - "plan-dashboard/src/components/reader/studio/cards/AudienceCalibrationCard.tsx"
+        - "plan-dashboard/src/pages/api/studio/editorial.ts (book-level editorial.json read/write)"
+        - "book/_system/editorial.json schema (new file per processed book)"
+      acceptance:
+        - "All 6 cards render collapsed by default; expand/collapse via header click"
+        - "Name extraction identifies >= 3 Arabic names from Ayyuhal Walad ch01 text"
+        - "Key Focus drag-to-reorder works; corpus search returns results from KASHKOLE"
+        - "Approve Stage button is in center column, not right panel"
+        - "Book-scope toggle in left column switches Name Resolution and Forbidden Terms to show all-chapter view"
+        - "All decisions persist via the existing /api/studio/review endpoint (extended for new fields)"
+      authorization: tier_one
+      cost_estimate_usd: 0
+
+    - id: WC8-5c
+      title: "Podcaster roles guardrail — Teacher/Student/Debater host dynamics"
+      authorized_by: asif_2026-05-30
+      depends_on: [WC8-5b]
+      description: |
+        host_a = Teacher (always): authoritative, sources all claims, never speculates.
+        host_b = Student (default): curious, asks forward-pulling questions, makes connections.
+        host_b = Debater (triggered): when a contested claim is reached, switches to naming a
+        modern objection with real weight, then concedes after the Teacher defeats it.
+        The "debater trigger" is a configurable field in the framing — Asif can specify
+        which claim(s) should trigger the mode switch per chapter.
+      deliverables:
+        - "scripts/podcast/_authoring.py: HOST_ROLE_CONTRACT block added to framing prompt"
+        - "infra/claude-agents/podcast-challenger.md: Category V check V3 updated to reference debater trigger field"
+        - "plan-dashboard/src/components/reader/studio/cards/HostRolesCard.tsx (new editorial card)"
+        - "HostRolesCard shows: host_a role (locked = Teacher); host_b default role; debater trigger text field; preview of mode-switch moment in the arc"
+      acceptance:
+        - "Framing prompt contains HOST_ROLE_CONTRACT block with Teacher/Student/Debater definitions"
+        - "Debater trigger field persists to _system/review/<ch>.json"
+        - "V3 check in podcast-challenger.md references the trigger field, not just generic challenge-defeat"
+        - "HostRolesCard renders as 7th editorial card, after AudienceCalibrationCard"
+      authorization: tier_one
+      cost_estimate_usd: 0
+
+    - id: WC8-6b
+      title: "New Content intake page — upload content and configure pipeline from the UI"
+      authorized_by: asif_2026-05-30
+      depends_on: [WC8-5b]
+      description: |
+        A dedicated page at /new-content that replaces the command-line intake flow.
+        Three sections:
+        (1) CONTENT UPLOAD: drag-drop or browse for PDF / audio files; URL field for
+        YouTube/remote audio links. Shows detected format and estimated processing cost.
+        (2) BOOK METADATA: title, slug (auto-suggested from title), author, tradition
+        (fatimid-ismaili / sunni / shia / sufi / universal), archetype selector (7 types),
+        language of source (Arabic / English / Urdu / Mixed).
+        (3) EDITORIAL DEFAULTS: pre-fill the book-level editorial.json before the first
+        chapter is processed — audience calibration, default tone, any known forbidden terms,
+        initial focus priorities (can be filled from corpus via cmdk at intake time).
+        Submit triggers intake_stage.py (OCR) and branches to book/<slug>.
+      layout: "Full-width, single-column wizard with 3 steps; breadcrumb progress indicator"
+      deliverables:
+        - "plan-dashboard/src/pages/new-content.astro (new page, linked from main nav)"
+        - "plan-dashboard/src/components/intake/ContentUpload.tsx"
+        - "plan-dashboard/src/components/intake/BookMetadata.tsx"
+        - "plan-dashboard/src/components/intake/EditorialDefaults.tsx (reuses editorial card components)"
+        - "plan-dashboard/src/pages/api/intake/submit.ts (triggers intake_stage.py, creates branch, writes editorial.json)"
+        - "plan-dashboard/src/pages/api/intake/detect-format.ts (returns detected format + cost estimate from file metadata)"
+      acceptance:
+        - "Page renders at /new-content with 3-step breadcrumb"
+        - "File upload accepts PDF; shows file name + estimated OCR cost"
+        - "Archetype selector shows all 7 archetypes with one-line descriptions"
+        - "Editorial defaults section includes Key Focus corpus search (cmdk)"
+        - "Submit creates book/_system/editorial.json with defaults before intake runs"
+        - "On submit, redirects to /studio?book=<slug>&chapter=ch01 after intake completes"
+      authorization: tier_two
+      cost_estimate_usd: 0
+      note: "Tier 2 because submit triggers intake_stage.py (Azure spend). Config only is Tier 0."
+
+# ===========================================================================
 # WISDOM CORPUS PROGRAM — converged 2026-05-29 with Asif (design-convergence
 # session, decisions D1-D18). Additive section; does not alter curated waves
 # above. Surfacing into the SPA is part of the pending site-redesign (T4).

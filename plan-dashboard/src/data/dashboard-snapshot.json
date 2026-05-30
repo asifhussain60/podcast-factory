@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T10:31:15.055Z",
-  "source_commit": "a2ace31",
+  "generated_at": "2026-05-30T10:49:55.434Z",
+  "source_commit": "308ca59",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -808,6 +808,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "308ca59",
+      "subject": "plan(WC8/K6): add Interest & Challenge-Defeat as 5th PEQ axis + Challenger Category V",
+      "date": "2026-05-30"
+    },
+    {
       "sha": "a2ace31",
       "subject": "plan(WC8): add Slice 4+ / Wave B5 — hadith, etymology, poetry atom ingestion from MCP",
       "date": "2026-05-30"
@@ -850,11 +855,6 @@
     {
       "sha": "3adbdcb",
       "subject": "WC8.1 (A): narrator_additions.py — Gemini-clean lecture STT into the attributed narrator commentary layer (no claude -p, cost-tracked)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "14bc253",
-      "subject": "WC8 (B): chapter switcher in the Studio PoC — all 5 chapters selectable, each with its 5 stages + metrics + approvals; tighten Gemini normalize prompt (no preamble leak)",
       "date": "2026-05-29"
     }
   ],
