@@ -120,10 +120,10 @@ updated `knowledge-report.json` + `augmented.md`. ch01 divergences: none materia
 
 **SLICE 5+ (Deepen) — PARTIAL (cannot be fully completed; multi-feature bucket).** Status per sub-item:
 - ✅ Episode↔chapter mapping (WC8.6 part): `_system/episode-chapter-map.json` (EP01–05 ↔ ch01–05, 1:1).
-- ✅ Audio intake PATH (WC8.6): ffmpeg installed (brew) + `scripts/podcast/transcribe_audio.py` (Azure
-  Speech fast-transcription, cost-tracked, NO claude -p). Proven on the ch01 lecture (180s → 2,461 chars
-  → `_stages/ch01.../additions-narrator.md`, $0.015). FULL 12-video transcription = authorized background
-  job (~hours, ~$3–12) when ready.
+- ✅ Audio intake (WC8.6) — **FULLY DONE**: ffmpeg + `transcribe_audio.py` + `transcribe_all_lectures.py`
+  (Azure Speech fast-transcription, cost-tracked, NO claude -p). **All 12 lectures transcribed** →
+  `_system/source/lectures/lec01..lec12.txt` (~730K chars, ~14.4 hours of the Shaykh's spoken
+  commentary = the narrator/explainer ADDITIONS layer). Transcription cost $4.31.
 - ⬜ Anwaar engine routing (WC8.3): BLOCKED — needs the Anwaar book (two transcripts), a different
   fixture we don't have. Impossible on Ayyuhal.
 - ⬜ Full Studio re-platform (WC8.5): MAJOR build (real Read + Studio modes; the throwaway PoC de-risked
@@ -131,7 +131,7 @@ updated `knowledge-report.json` + `augmented.md`. ch01 divergences: none materia
 - ⬜ Consistency pass (WC8.7): a sweep to run once the real views exist.
 
 So Slice 5+ is genuinely NOT fully completable now: 2 sub-items advanced, 1 blocked (Anwaar), 2 are
-substantial builds (Studio re-platform, full audio job). Total Azure cost to date: **$0.381**.
+substantial builds (Studio re-platform, full audio job). Total Azure cost to date: **$4.67** ($0.37 OCR + $4.31 transcription, 12 lectures).
 
 **HONEST PENDING (not blockers, scoped work):**
 - Hadith verification needs a hadith reference DB ingested (Asif providing). Quran now verifiable.
