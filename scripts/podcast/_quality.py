@@ -1,11 +1,12 @@
 """_quality.py — PEQ (Podcast Episode Quality) scoring contract.
 
-Canonical definition of the four-axis PEQ rubric used across both the podcast
+Canonical definition of the five-axis PEQ rubric used across both the podcast
 pipeline and the wisdom pipeline.  Every challenger, convergence loop, and
 quality gate imports from here — there is one formula, one threshold table.
 
-FORMULA
-    PEQ = 0.35 × Fidelity + 0.25 × Voice + 0.20 × Structure + 0.20 × Enrichment
+FORMULA (K6 — 5-axis)
+    PEQ = 0.30 × Fidelity + 0.20 × Voice + 0.18 × Structure
+          + 0.17 × Enrichment + 0.15 × Interest
 
 All axes are normalised 0–100 before weighting.  ``total`` is therefore also
 0–100.
@@ -22,6 +23,8 @@ AXES (deterministic, no live API calls)
                  pre-computed at baseline build time (K1).
     Structure  — rule-based arc checker against archetype spec.yml arc_rules.
     Enrichment — domain-term glossing ratio + Quran reference density.
+    Interest   — curiosity hooks, challenge-defeat arcs, modern relevance
+                 signals, and fair framing (no strawman). (K6)
 
 USAGE
     from _quality import PEQScore, score, verdict_from_total, PASS, WARN, FAIL
@@ -44,6 +47,7 @@ USAGE
 from __future__ import annotations
 
 import math
+import re
 from dataclasses import dataclass, field
 from typing import Sequence
 
@@ -60,15 +64,19 @@ THRESHOLD_WARN = 70
 
 
 # ---------------------------------------------------------------------------
-# Weights (must sum to 1.0)
+# Weights (must sum to 1.0) — K6: 5-axis formula
 # ---------------------------------------------------------------------------
 
-WEIGHT_FIDELITY   = 0.35
-WEIGHT_VOICE      = 0.25
-WEIGHT_STRUCTURE  = 0.20
-WEIGHT_ENRICHMENT = 0.20
+WEIGHT_FIDELITY   = 0.30
+WEIGHT_VOICE      = 0.20
+WEIGHT_STRUCTURE  = 0.18
+WEIGHT_ENRICHMENT = 0.17
+WEIGHT_INTEREST   = 0.15
 
-assert abs(WEIGHT_FIDELITY + WEIGHT_VOICE + WEIGHT_STRUCTURE + WEIGHT_ENRICHMENT - 1.0) < 1e-9
+assert abs(
+    WEIGHT_FIDELITY + WEIGHT_VOICE + WEIGHT_STRUCTURE
+    + WEIGHT_ENRICHMENT + WEIGHT_INTEREST - 1.0
+) < 1e-9
 
 
 # ---------------------------------------------------------------------------
@@ -83,6 +91,7 @@ class PEQScore:
     voice:      float   # 0–100
     structure:  float   # 0–100
     enrichment: float   # 0–100
+    interest:   float   # 0–100  (K6)
     total:      float   # 0–100  (weighted sum)
     verdict:    str     # PASS | WARN | FAIL
     notes:      list[str] = field(default_factory=list)
@@ -93,6 +102,7 @@ class PEQScore:
             "voice":      round(self.voice,       1),
             "structure":  round(self.structure,   1),
             "enrichment": round(self.enrichment,  1),
+            "interest":   round(self.interest,    1),
             "total":      round(self.total,       1),
             "verdict":    self.verdict,
             "notes":      self.notes,
@@ -103,10 +113,11 @@ class PEQScore:
         lines = [
             "| Axis | Weight | Score | Weighted |",
             "|---|---|---|---|",
-            f"| Fidelity   | 35% | {self.fidelity:.1f} | {self.fidelity * WEIGHT_FIDELITY:.1f} |",
-            f"| Voice      | 25% | {self.voice:.1f} | {self.voice * WEIGHT_VOICE:.1f} |",
-            f"| Structure  | 20% | {self.structure:.1f} | {self.structure * WEIGHT_STRUCTURE:.1f} |",
-            f"| Enrichment | 20% | {self.enrichment:.1f} | {self.enrichment * WEIGHT_ENRICHMENT:.1f} |",
+            f"| Fidelity   | 30% | {self.fidelity:.1f} | {self.fidelity * WEIGHT_FIDELITY:.1f} |",
+            f"| Voice      | 20% | {self.voice:.1f} | {self.voice * WEIGHT_VOICE:.1f} |",
+            f"| Structure  | 18% | {self.structure:.1f} | {self.structure * WEIGHT_STRUCTURE:.1f} |",
+            f"| Enrichment | 17% | {self.enrichment:.1f} | {self.enrichment * WEIGHT_ENRICHMENT:.1f} |",
+            f"| Interest   | 15% | {self.interest:.1f} | {self.interest * WEIGHT_INTEREST:.1f} |",
             f"| **Total**  | 100% | — | **{self.total:.1f}** |",
         ]
         return "\n".join(lines)
@@ -203,6 +214,69 @@ def _enrichment_score(
     return round(combined * 100.0, 2)
 
 
+def _interest_score(adapted_text: str) -> float:
+    """Curiosity hooks, challenge-defeat arcs, modern relevance, fair framing. (K6)
+
+    Four sub-signals, each 0–1, averaged and scaled to 100:
+      hook       — opening hook: rhetorical question or curiosity-building phrase in
+                   the first 20% of the text.
+      challenge  — challenge-defeat arc: a problem is raised AND a resolution appears.
+      relevance  — modern-relevance signal anywhere in the text.
+      fairness   — no strawman markers detected (absence = full credit).
+    """
+    if not adapted_text.strip():
+        return 0.0
+
+    words = adapted_text.split()
+    first_20 = " ".join(words[: max(int(len(words) * 0.20), 50)])
+
+    hook_pats = [
+        r"what (does|would|if|happens|kind of|makes|drives|compels)",
+        r"why (does|would|did|should|is|are|do|must)",
+        r"how (does|can|should|is|are|do|did)",
+        r"imagine (if|a world|that|for a moment)",
+        r"consider (this|the|what|a|that)",
+        r"the question (is|was|becomes|facing|at the heart)",
+        r"here'?s (the|a|what|why|how|something)",
+        r"(let'?s|let us) (begin|start|open|ask|explore|consider)",
+    ]
+    hook = 1.0 if any(re.search(p, first_20, re.I) for p in hook_pats) else 0.0
+
+    challenge_raise = [
+        r"\b(objection|challenge|difficulty|problem|paradox|tension|puzzle|obstacle)\b",
+        r"\b(one might (argue|say|object|think|wonder))\b",
+        r"\b(it (might|may|could) seem)\b",
+        r"\b(but (how|why|what|is this|does this|can))\b",
+    ]
+    challenge_resolve = [
+        r"\b(the answer (is|lies|comes|emerges))\b",
+        r"\b(in fact|actually|rather|instead|on the contrary)\b",
+        r"\b(resolves?|dissolves?|overcomes?|addresses?|answers? (this|that|the))\b",
+    ]
+    raised = any(re.search(p, adapted_text, re.I) for p in challenge_raise)
+    resolved = any(re.search(p, adapted_text, re.I) for p in challenge_resolve)
+    challenge = 1.0 if (raised and resolved) else (0.5 if raised else 0.0)
+
+    relevance_pats = [
+        r"\b(today|modern|contemporary|our (time|age|era|world|lives?))\b",
+        r"\b(we (find|see|live|face|encounter|grapple))\b",
+        r"\b(still (holds?|rings? true|matters?|applies?|speaks?))\b",
+        r"\b(resonates?|relevant|speaks? to|timeless)\b",
+        r"\b(in (our|this|any|every) (age|era|time|generation|society|context))\b",
+    ]
+    relevance = 1.0 if any(re.search(p, adapted_text, re.I) for p in relevance_pats) else 0.0
+
+    strawman_deny = [
+        r"\b(obviously|clearly (wrong|mistaken|misguided)|absurdly)\b",
+        r"\b(silly (argument|idea|notion|objection))\b",
+        r"\b(no (sane|reasonable|serious) person)\b",
+    ]
+    fairness = 0.0 if any(re.search(p, adapted_text, re.I) for p in strawman_deny) else 1.0
+
+    combined = (hook + challenge + relevance + fairness) / 4.0
+    return round(combined * 100.0, 2)
+
+
 # ---------------------------------------------------------------------------
 # Verdict helper
 # ---------------------------------------------------------------------------
@@ -244,6 +318,7 @@ def score(
     voice      = _voice_score(adapted_text, voice_exemplar_vector)
     structure  = _structure_score(arc_rules, arc_labels_found)
     enrichment = _enrichment_score(term_count, glossed_count, quran_ref_count, wc)
+    interest   = _interest_score(adapted_text)
 
     # If voice exemplar is not available, redistribute its weight to fidelity
     # so the total still reaches 100.
@@ -252,6 +327,7 @@ def score(
             (WEIGHT_FIDELITY + WEIGHT_VOICE) * fidelity
             + WEIGHT_STRUCTURE  * structure
             + WEIGHT_ENRICHMENT * enrichment
+            + WEIGHT_INTEREST   * interest
         )
         notes = ["voice axis unavailable — weight redistributed to fidelity"]
     else:
@@ -260,6 +336,7 @@ def score(
             + WEIGHT_VOICE    * voice
             + WEIGHT_STRUCTURE  * structure
             + WEIGHT_ENRICHMENT * enrichment
+            + WEIGHT_INTEREST   * interest
         )
         notes = []
 
@@ -269,6 +346,7 @@ def score(
         voice=voice,
         structure=structure,
         enrichment=enrichment,
+        interest=interest,
         total=total,
         verdict=verdict_from_total(total),
         notes=notes,

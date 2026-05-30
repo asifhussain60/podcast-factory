@@ -46,7 +46,7 @@ vs. substring list); the canonical data itself is plain Python literals.
 # The LLM-grade rubric extension (§3 religious literacy, §4 philosophical
 # rigor, §6 interfaith) lives in _workspace/prompts/gemini-bundle-auditor.md so both
 # auditors see it. See F30 / scholarly-rubric integration trail on develop.
-CHALLENGER_VERSION = "2.2"
+CHALLENGER_VERSION = "2.3"  # K6: Category V (Interest) + 5-axis PEQ
 
 # ─── R-HOST-ROLE-PARITY (P0 2026-05-24) — host roles are locked book-wide.
 # Host A is always the scholar/teacher. Host B is always the seeker/student/
@@ -428,3 +428,81 @@ R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED: bool = False
 # denoise+normalize Gemini prompts (gemini_refine.sn7_guard, protect-list from per-book
 # glossary.yml) and audited by podcast-challenger Category D check D6. Standard: house-voice.md §2b.
 R_TERMINUS_PRESERVE: bool = True
+
+# ─── Slice 5c — HOST_ROLE_CONTRACT (host dynamics guardrail) ─────────────────
+# The framing prompt injects this block verbatim to lock host dynamics for the
+# book. Three tiers: teacher/student (default), teacher/questioner (active probe),
+# scholar/debater (K1 Debater carve-out — Host B holds and defends a position).
+# Source: editorial.ts card `host_roles`; the framing builder reads the card
+# value and inserts HOST_ROLE_CONTRACT[preset] into the framing's Host dynamic
+# section. Challenger Category Q validates compliance (Q1–Q5).
+HOST_ROLE_CONTRACT: dict = {
+    "teacher_student": (
+        "HOST ROLES (locked book-wide — R-HOST-ROLE-PARITY): "
+        "Host A (male voice) is the SCHOLAR / TEACHER — explains, contextualises, illuminates. "
+        "Host B (female voice) is the STUDENT / SEEKER — receives, asks, reflects. "
+        "Host B never lectures or corrects Host A. Roles do not rotate across episodes."
+    ),
+    "teacher_questioner": (
+        "HOST ROLES (locked book-wide — R-HOST-ROLE-PARITY): "
+        "Host A (male voice) is the SCHOLAR / TEACHER — explains, contextualises, illuminates. "
+        "Host B (female voice) is the QUESTIONER — actively probes, presses for clarity, "
+        "surfaces tension in the argument. Host B may push back but does not hold an independent "
+        "position. Roles do not rotate across episodes."
+    ),
+    "scholar_debater": (
+        "HOST ROLES (locked book-wide — R-HOST-ROLE-PARITY): "
+        "Host A (male voice) is the SCHOLAR — defends the text's position with evidence. "
+        "Host B (female voice) is the DEBATER — holds and defends a contrary or sceptical "
+        "position drawn from the source. This is DEBATE format (K1 Debater carve-out): "
+        "Host B's position is source-grounded, not invented; she concedes only when Host A "
+        "produces a stronger textual argument. Roles do not rotate across episodes."
+    ),
+}
+# Default when no editorial card is set for this book.
+HOST_ROLE_CONTRACT_DEFAULT = "teacher_student"
+
+# ─── K6 — Interest axis (5th PEQ axis, weight 0.15) ─────────────────────────
+# Curiosity-building, challenge-defeat arcs, modern relevance, and fair framing
+# of opposing views. Deterministic signal detection (pattern matching); no live
+# API calls. Audited by podcast-challenger Category V (V1–V5).
+R_INTEREST_WEIGHT: float = 0.15   # Interest axis weight in PEQ formula
+
+# Phrases that signal a curiosity-building opening hook.
+R_INTEREST_HOOK_PATTERNS: list = [
+    r"what (does|would|if|happens|kind of|makes|drives|compels)",
+    r"why (does|would|did|should|is|are|do|must)",
+    r"how (does|can|should|is|are|do|did)",
+    r"imagine (if|a world|that|for a moment)",
+    r"consider (this|the|what|a|that)",
+    r"the question (is|was|becomes|facing|at the heart)",
+    r"here'?s (the|a|what|why|how|something)",
+    r"(let'?s|let us) (begin|start|open|ask|explore|consider)",
+]
+
+# Phrases that signal a challenge-defeat arc (problem raised then resolved).
+R_INTEREST_CHALLENGE_PATTERNS: list = [
+    r"\b(objection|challenge|difficulty|problem|paradox|tension|puzzle|obstacle)\b",
+    r"\b(one might (argue|say|object|think|wonder))\b",
+    r"\b(it (might|may|could) seem)\b",
+    r"\b(but (how|why|what|is this|does this|can))\b",
+    r"\b(the answer (is|lies|comes|emerges))\b",
+    r"\b(in fact|actually|but|rather|instead|on the contrary)\b",
+    r"\b(resolves?|dissolves?|overcomes?|addresses?|answers? (this|that|the))\b",
+]
+
+# Phrases that signal modern relevance (connecting doctrine to contemporary life).
+R_INTEREST_RELEVANCE_PATTERNS: list = [
+    r"\b(today|modern|contemporary|our (time|age|era|world|lives?))\b",
+    r"\b(we (find|see|live|face|encounter|grapple))\b",
+    r"\b(still (holds?|rings? true|matters?|applies?|speaks?))\b",
+    r"\b(resonates?|relevant|speaks? to|timeless)\b",
+    r"\b(in (our|this|any|every) (age|era|time|generation|society|context))\b",
+]
+
+# Strawman markers — phrases suggesting the opposing view was oversimplified.
+R_INTEREST_STRAWMAN_DENY: list = [
+    r"\b(obviously|clearly (wrong|mistaken|misguided)|absurdly)\b",
+    r"\b(silly (argument|idea|notion|objection))\b",
+    r"\b(no (sane|reasonable|serious) person)\b",
+]

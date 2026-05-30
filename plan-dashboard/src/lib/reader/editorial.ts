@@ -26,7 +26,8 @@ export type CardId =
   | 'tone_register'
   | 'forbidden_terms'
   | 'required_elements'
-  | 'audience_calibration';
+  | 'audience_calibration'
+  | 'host_roles';
 
 export type CardKind = 'list' | 'pairs' | 'choice';
 
@@ -60,7 +61,7 @@ export interface CardDef {
   placeholder?: string;
 }
 
-/** The six canonical editorial cards. Order is the default stack order (user-reorderable later). */
+/** The seven canonical editorial cards. Order is the default stack order (user-reorderable later). */
 export const CARD_DEFS: CardDef[] = [
   {
     id: 'name_resolution',
@@ -113,6 +114,18 @@ export const CARD_DEFS: CardDef[] = [
       { key: 'student', label: 'Student of the tradition (terms assumed)' },
       { key: 'specialist', label: 'Specialist (full technical register)' },
     ],
+  },
+  {
+    id: 'host_roles',
+    title: 'Host Roles',
+    kind: 'choice',
+    blurb: 'Host dynamic for this book. Host A = scholar/teacher (male voice). Host B = seeker/student/debater (female voice). Roles are locked book-wide (R-HOST-ROLE-PARITY). Use the notes field to declare the debater-trigger condition — the chapter/theme that elevates Host B from student to active challenger.',
+    presets: [
+      { key: 'teacher_student', label: 'Teacher / Student (default — Host B receives, asks)' },
+      { key: 'teacher_questioner', label: 'Teacher / Questioner (Host B probes more actively)' },
+      { key: 'scholar_debater', label: 'Scholar / Debater (Host B takes and defends a position)' },
+    ],
+    placeholder: 'Debater trigger: e.g. "chapters discussing free will vs determinism"',
   },
 ];
 

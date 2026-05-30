@@ -23,15 +23,13 @@ treatment; and the perfectly learned does not treat every sick person, but
 every one who will, he hopes, accept the treatment and the cure. And if
 the weakness is chronic or fatal, (and) incurable, then he will not labor to
 give medicine, for this is a waste of time.
-
 Then know that the sickness of ignorance is of four sorts, one curable
 and the others incurable. Of these which cannot be cured, is one whose question or objection arises from envy and hate, and every time you answer
 him with the best or clearest or plainest answer, that only increases his
 rage and envy. And the way is not to attempt an answer.
 One hopes for the removal of every enmity
 Except enmity arising from envy.
-So you must depart from him and leave him with his disease. Allah
-the Exalted said, "Withdraw from whoever turns away from our warn-
+So you must depart from him and leave him with his disease. Allah the Exalted said, "Withdraw from whoever turns away from our warn-
 ing and desires nothing except the present life." And the envious, both
 in all he says and in all he does, kindles in the sowing of his deed :
 as the Prophet said, Allah bless him and grant him peace, "Envy eats up
@@ -55,7 +53,6 @@ he is dull and cannot arrive at the truth of things. You must not attempt
 to answer him also, as the Prophet, Allah bless him and give him peace,
 said, "We, the company of the prophets have been commanded that we
 speak to the people according to their understanding."
-
 But the sickness which is curable is that of the intelligent and under-
 standing seeker of guidance, who is not overcome with envy and anger
 and the love of worldly vanities and wealth and honor, but is seeking the

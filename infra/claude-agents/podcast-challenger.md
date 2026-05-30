@@ -397,6 +397,22 @@ The v2.2 scholarly-conversation rubric supplements the existing Categories B (no
 
 **Six matched fixtures** live at [content/podcast/.skill/_learning/fixtures/](content/podcast/.skill/_learning/fixtures/): `ai_cliche/`, `faux_profundity/`, `premature_closure/`, `deep_dive_self_reference/`, `essentialism_external/`, `essentialism_internal_qualified/` (negative — must NOT trip stem patterns). Each has `input.txt` + `expected.json`.
 
+### Category V: Interest & engagement quality (P1) — added 2026-05-30 (K6)
+
+Validates that the adapted chapter text is written to hold a listener's attention: a curiosity-building opening hook, an identifiable challenge-defeat arc, at least one modern-relevance signal, and fair framing of opposing views (no strawman). All checks are deterministic pattern scans against `_rules.R_INTEREST_*` lists; no live API calls. Category V findings feed directly into the Interest axis (15%) of the PEQ score computed by `scripts/podcast/intelligence/challenger_scoring.py`.
+
+Mode dispatch: always runs on every chapter pass. Category V findings do NOT block shipping (all P1), but a chapter scoring < 50 on the Interest axis is flagged as a PEQ note for author attention.
+
+| ID | Check | Detection | Remediation |
+|---|---|---|---|
+| V1 | **Curiosity-building opening hook** — the first 20% of the chapter text contains at least one rhetorical question or curiosity phrase (e.g. "What does…", "Why would…", "Imagine that…", "Consider this…"). | Regex over `_rules.R_INTEREST_HOOK_PATTERNS` against the first 20% of adapted text. | Flag (P1); author adds a curiosity-building opener or reframes the existing one. |
+| V2 | **Challenge-defeat arc present** — the chapter both raises a difficulty or objection AND shows a resolution or answer. Half-credit when the challenge is raised but no resolution found. | Regex over `_rules.R_INTEREST_CHALLENGE_PATTERNS` (raise) + `_rules.R_INTEREST_CHALLENGE_PATTERNS` resolve subset against full text. | Flag (P1) when raised-only (no resolution); INFO when both present. |
+| V3 | **Modern-relevance signal** — the chapter contains at least one phrase connecting the doctrine to contemporary life ("today", "in our age", "still holds true", "resonates", etc.). | Regex over `_rules.R_INTEREST_RELEVANCE_PATTERNS`. | Flag (P1); author adds one brief bridging sentence connecting the point to the listener's world. |
+| V4 | **No strawman framing** — the chapter does not dismiss opposing views with absolutist language ("obviously wrong", "absurdly", "no sane person", "silly argument"). Absence = full credit. | Regex over `_rules.R_INTEREST_STRAWMAN_DENY`. | Flag (P1); author softens to a fair characterisation of the opposing position before defeating it. |
+| V5 | **Rhetorical question cadence** — at least one rhetorical question appears anywhere in the text (not just the opening), signalling that the chapter invites the listener to think rather than simply receive. | Regex for `\?` with preceding question-word (`what|why|how|when|where|who|which|can|could|would|should|is|are|does|did`). | Flag (P2) when absent — softest of the five signals; author may add or defer. |
+
+**Category V is never auto-fixed.** All five checks require authoring judgment about tone, framing, and rhetorical shape — deterministic insertion would corrupt voice. The PEQ Interest axis score is computed independently in `_quality.py` and does not depend on V-finding counts; it uses the same pattern lists for a continuous 0–100 score.
+
 ---
 
 ## SECTION 3 — Auto-fix vs flag rules
@@ -462,16 +478,17 @@ After loop:
  - Else → SHIP-READY verdict.
 ```
 
-**PEQ Scoring (Wave K, 2026-05-28):** After every inner loop pass, `scripts/podcast/intelligence/challenger_scoring.py` appends a `## PEQ Score` section to the sidecar report. The PEQ axes and weights are:
+**PEQ Scoring (Wave K / K6, 2026-05-30 — 5-axis):** After every inner loop pass, `scripts/podcast/intelligence/challenger_scoring.py` appends a `## PEQ Score` section to the sidecar report. The PEQ axes and weights are:
 
 | Axis | Weight | Threshold |
 |---|---|---|
-| Fidelity | 35% | Primary quality signal |
-| Voice | 25% | Scholar/seeker register |
-| Structure | 20% | Arc completeness |
-| Enrichment | 20% | Term glossing + citation density |
+| Fidelity | 30% | Primary quality signal |
+| Voice | 20% | Scholar/seeker register (redistributed to Fidelity when no exemplar available) |
+| Structure | 18% | Arc completeness |
+| Enrichment | 17% | Term glossing + citation density |
+| Interest | 15% | Curiosity hooks, challenge-defeat arcs, modern relevance, fair framing (K6) |
 
-Thresholds: **≥ 85 = PASS · 70–84 = WARN · < 70 = FAIL**. The outer convergence loop (`_convergence.py`) records `peq_total` per iteration; the orchestrator gates advancement on `peq_total ≥ 70`. PEQ scores are stored in the `quality_scores` table (schema: `scripts/podcast/schema/019_quality_scores.sql`).
+Thresholds: **≥ 85 = PASS · 70–84 = WARN · < 70 = FAIL**. The outer convergence loop (`_convergence.py`) records `peq_total` per iteration; the orchestrator gates advancement on `peq_total ≥ 70`. PEQ scores are stored in the `quality_scores` table (schema: `scripts/podcast/schema/019_quality_scores.sql`). The Interest axis is computed deterministically from `_quality._interest_score()` using the same pattern lists as Category V (V1–V4).
 
 **Category CS runs once per invocation at book scope** — invoke `python3 scripts/podcast/check_chapter_set.py <BOOK_DIR>` once (not per-iteration), parse the JSON output, and fold the findings into the report alongside the per-chapter findings. CS-findings are never auto-fixed, so re-running them per iteration adds no value.
 

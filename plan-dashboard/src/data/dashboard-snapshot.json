@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T14:15:06.817Z",
-  "source_commit": "db66c89f",
+  "generated_at": "2026-05-30T14:36:37.361Z",
+  "source_commit": "77be92b",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,53 +819,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "db66c89f",
+      "sha": "77be92b",
+      "subject": "feat(wave8/5b): Studio re-platform — editorial cockpit core (ship-ready)",
+      "date": "2026-05-30"
+    },
+    {
+      "sha": "db66c89",
       "subject": "plan(wave8/4+): split Slice 4+ — defer hadith/etymology ingest to pre-Slice-7",
       "date": "2026-05-30"
     },
     {
-      "sha": "a77315c1",
+      "sha": "a77315c",
       "subject": "feat(wave8/2-fix): SN-7 terminus-technicus guard — full K6-pre spec",
       "date": "2026-05-30"
     },
     {
-      "sha": "ab8f991c",
+      "sha": "ab8f991",
       "subject": "chore(wave8): relocate architect audit to reviews/reports, stamp approval provenance",
       "date": "2026-05-30"
     },
     {
-      "sha": "aecef990",
+      "sha": "aecef99",
       "subject": "fix(wave8): clear Phase 0.7 + Phase 1 start-blockers (vscode, extractor gemini, plan approval, section0 review)",
       "date": "2026-05-30"
     },
     {
-      "sha": "6ccefa46",
+      "sha": "6ccefa4",
       "subject": "chore: commit stage-metrics.json state",
       "date": "2026-05-30"
     },
     {
-      "sha": "459d4460",
+      "sha": "459d446",
       "subject": "chore(workspace): compress _workspace into 5 clean folders, lowercase filenames",
       "date": "2026-05-30"
     },
     {
-      "sha": "1273bb1b",
+      "sha": "1273bb1",
       "subject": "plan(dual-platform): add Phase 0.7 — Claude Code + VS Code/Copilot execution support",
       "date": "2026-05-30"
     },
     {
-      "sha": "448ef1ed",
+      "sha": "448ef1e",
       "subject": "audit(2026-05-30): full repo audit — architect + senior engineer review",
       "date": "2026-05-30"
     },
     {
-      "sha": "84edc004",
+      "sha": "84edc00",
       "subject": "chore: commit stage-metrics and knowledge.db state",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "227b51aa",
-      "subject": "plan(WC8/7b): add Video Timeline editor + tiered generation to video layer",
       "date": "2026-05-30"
     }
   ],

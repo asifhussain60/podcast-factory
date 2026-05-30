@@ -496,7 +496,97 @@
       "in_chars": 4775,
       "out_chars": 4283,
       "cost_usd": 0.00304
+    },
+    {
+      "ts": "2026-05-30T15:27:47.625434Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch01-frame-and-first-counsel",
+      "in_chars": 34525,
+      "out_chars": 2647,
+      "cost_usd": 0.00424
+    },
+    {
+      "ts": "2026-05-30T15:27:51.005833Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch01-frame-and-first-counsel",
+      "in_chars": 2723,
+      "out_chars": 2437,
+      "cost_usd": 0.00173
+    },
+    {
+      "ts": "2026-05-30T15:28:31.069526Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch02-hatim-eight-benefits",
+      "in_chars": 14461,
+      "out_chars": 9247,
+      "cost_usd": 0.00686
+    },
+    {
+      "ts": "2026-05-30T15:29:07.191593Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch02-hatim-eight-benefits",
+      "in_chars": 9320,
+      "out_chars": 8183,
+      "cost_usd": 0.00581
+    },
+    {
+      "ts": "2026-05-30T15:29:19.681699Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch03-the-path",
+      "in_chars": 2664,
+      "out_chars": 1054,
+      "cost_usd": 0.00086
+    },
+    {
+      "ts": "2026-05-30T15:29:29.545328Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch03-the-path",
+      "in_chars": 1115,
+      "out_chars": 1102,
+      "cost_usd": 0.00077
+    },
+    {
+      "ts": "2026-05-30T15:29:59.177610Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch04-four-cautions",
+      "in_chars": 15171,
+      "out_chars": 9828,
+      "cost_usd": 0.00728
+    },
+    {
+      "ts": "2026-05-30T15:30:33.373062Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch04-four-cautions",
+      "in_chars": 9894,
+      "out_chars": 9216,
+      "cost_usd": 0.0065
+    },
+    {
+      "ts": "2026-05-30T15:30:55.284152Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch05-method-and-closing-prayer",
+      "in_chars": 9778,
+      "out_chars": 4689,
+      "cost_usd": 0.00366
+    },
+    {
+      "ts": "2026-05-30T15:31:16.693511Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch05-method-and-closing-prayer",
+      "in_chars": 4767,
+      "out_chars": 4053,
+      "cost_usd": 0.00289
     }
   ],
-  "total_usd": 4.9212
+  "total_usd": 4.9618
 }
