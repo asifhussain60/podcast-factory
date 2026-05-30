@@ -664,3 +664,62 @@
 }
 .ec-cmdk-item:hover,
 [data-selected='true'].ec-cmdk-item { background: color-mix(in srgb, var(--c-accent) 10%, transparent); }
+
+/* ── Save & Approve + Discard + Comments (propose-back loop) ─────── */
+.sp-save-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sp-discard {
+  height: 30px;
+  padding: 0 12px;
+  font-size: 0.79rem;
+  font-weight: 600;
+  border-radius: 7px;
+  cursor: pointer;
+  color: var(--c-ink-muted);
+  background: transparent;
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.18));
+}
+.sp-discard:hover:not(:disabled) {
+  border-color: var(--c-red, #b91c1c);
+  color: var(--c-red, #b91c1c);
+}
+.sp-discard:disabled { opacity: 0.4; cursor: default; }
+.sp-save-error {
+  font-size: 0.78rem;
+  color: var(--c-red, #b91c1c);
+  margin: 4px 0 0;
+  line-height: 1.4;
+}
+.sp-comment-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 0 6px;
+  border-top: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
+}
+.sp-comment-label {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--c-ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.sp-comment-input {
+  font-size: 0.82rem;
+  font-family: inherit;
+  line-height: 1.45;
+  color: var(--c-ink);
+  background: var(--c-bg);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.18));
+  border-radius: 8px;
+  padding: 7px 9px;
+  resize: vertical;
+  outline: none;
+}
+.sp-comment-input:focus {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--c-accent) 18%, transparent);
+}

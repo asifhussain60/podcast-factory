@@ -161,20 +161,95 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chapIdx]);
   const [saving, setSaving] = useState(false);
-  const approveStage = useCallback(async () => {
-    if (!stage) return;
+  const [saveError, setSaveError] = useState('');
+
+  // Per-paragraph comments: index → text. Stored in a ref for the PM plugin,
+  // mirrored in state so the inspector panel re-renders.
+  const commentsRef = useRef<Map<number, string>>(new Map());
+  const [, setCommentsKey] = useState(0);
+  const refreshComments = () => setCommentsKey((k) => k + 1);
+
+  // Active paragraph index (inspector drives the comment textarea).
+  const [activeParaIdx, setActiveParaIdx] = useState<number | null>(null);
+
+  // Serialize ProseMirror doc to simple markdown (headings, blockquotes, paragraphs).
+  const serializeToMarkdown = useCallback((): string => {
+    if (!editor) return '';
+    const lines: string[] = [];
+    editor.state.doc.forEach((node) => {
+      const type = node.type.name;
+      const text = node.textContent;
+      if (type === 'heading') {
+        const level = node.attrs.level as number;
+        lines.push('#'.repeat(level) + ' ' + text);
+      } else if (type === 'blockquote') {
+        lines.push('> ' + text.split('\n').join('\n> '));
+      } else {
+        lines.push(text);
+      }
+      lines.push('');
+    });
+    return lines.join('\n').trimEnd() + '\n';
+  }, [editor]);
+
+  // Save content to disk, then mark stage approved.
+  const saveAndApprove = useCallback(async () => {
+    if (!stage || !editor) return;
     setSaving(true);
+    setSaveError('');
     try {
-      const res = await fetch('/api/studio/review', {
+      const content = serializeToMarkdown();
+      const comments = Object.fromEntries(
+        [...commentsRef.current.entries()]
+          .filter(([, v]) => v.trim())
+          .map(([k, v]) => [String(k), v.trim()]),
+      );
+
+      // 1. Write back to disk.
+      const saveRes = await fetch('/api/studio/save-stage', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, chapter, stage: stage.id, content, comments }),
+      });
+      if (!saveRes.ok) {
+        const err = await saveRes.json().catch(() => ({}));
+        setSaveError((err as {error?: string}).error ?? `Save failed (${saveRes.status})`);
+        return;
+      }
+
+      // 2. Mark stage approved.
+      const approveRes = await fetch('/api/studio/review', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ slug, chapter, stage: stage.id, approved: true }),
       });
-      if (res.ok) setApprovedStages((m) => ({ ...m, [stage.id]: true }));
-    } catch { /* surfaced by the unchanged button state */ } finally {
+      if (approveRes.ok) {
+        setApprovedStages((m) => ({ ...m, [stage.id]: true }));
+        // Reset the original snapshot so changedCount goes to 0 after save.
+        const texts: string[] = [];
+        editor.state.doc.forEach((n) => texts.push(n.textContent));
+        originalRef.current = texts;
+        refresh();
+      }
+    } catch (e) {
+      setSaveError(`Network error: ${String(e)}`);
+    } finally {
       setSaving(false);
     }
-  }, [slug, chapter, stage]);
+  }, [slug, chapter, stage, editor, serializeToMarkdown]);
+
+  // Discard all changes — reload the original stage content.
+  const discardChanges = useCallback(() => {
+    if (!editor || !stage) return;
+    editor.commands.setContent(stage.html);
+    const texts: string[] = [];
+    editor.state.doc.forEach((n) => texts.push(n.textContent));
+    originalRef.current = texts;
+    paraTagsRef.current = new Map();
+    commentsRef.current = new Map();
+    refreshComments();
+    refresh();
+  }, [editor, stage]);
 
   const [selection, setSelection] = useState('');
   const [arabicOn, setArabicOn] = useState(false);
@@ -366,6 +441,17 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
     onSelectionUpdate({ editor }) {
       const { from, to } = editor.state.selection;
       setSelection(editor.state.doc.textBetween(from, to, ' ').trim());
+      // Track active paragraph index for the comment panel.
+      const $head = editor.state.selection.$head;
+      let paraIdx = -1;
+      let i = 0;
+      editor.state.doc.forEach((_, offset) => {
+        const depth1Start = offset;
+        const depth1End = offset + (editor.state.doc.child(i)?.nodeSize ?? 0);
+        if ($head.pos >= depth1Start && $head.pos < depth1End) paraIdx = i;
+        i++;
+      });
+      setActiveParaIdx(paraIdx >= 0 ? paraIdx : null);
       refresh(); // re-evaluate active-paragraph decoration on caret moves
     },
   });
@@ -524,17 +610,34 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
               <button type="button" onClick={() => editor?.chain().focus().redo().run()} title="Redo">↻</button>
             </div>
           </div>
-          {/* WC8 write-back: approve the stage under review -> releases the pipeline halt. */}
+          {/* WC8 write-back: save edits to disk + approve the stage. */}
           {!isReadOnlyStage && stage && (
-            <button
-              type="button"
-              className={`sp-approve ${approvedStages[stage.id] ? 'is-done' : ''}`}
-              onClick={approveStage}
-              disabled={saving || approvedStages[stage.id]}
-            >
-              {approvedStages[stage.id] ? `✓ ${stage.label} approved` : saving ? 'Saving…' : `Approve ${stage.label} stage`}
-            </button>
+            <div className="sp-save-row">
+              <button
+                type="button"
+                className={`sp-approve ${approvedStages[stage.id] ? 'is-done' : ''}`}
+                onClick={saveAndApprove}
+                disabled={saving || approvedStages[stage.id]}
+              >
+                {approvedStages[stage.id]
+                  ? `✓ ${stage.label} saved & approved`
+                  : saving ? 'Saving…'
+                  : `Save & Approve ${stage.label}`}
+              </button>
+              {changedCount > 0 && !approvedStages[stage.id] && (
+                <button
+                  type="button"
+                  className="sp-discard"
+                  onClick={discardChanges}
+                  disabled={saving}
+                  title="Discard all edits and revert to original stage content"
+                >
+                  Discard {changedCount} change{changedCount !== 1 ? 's' : ''}
+                </button>
+              )}
+            </div>
           )}
+          {saveError && <p className="sp-save-error">{saveError}</p>}
         </section>
 
         {/* Inspector — its own bordered card; bounded height, scrolls internally. */}
@@ -548,8 +651,33 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
               <dd>{chapterTitle}</dd>
               <dt>Changes</dt>
               <dd>{changedCount} edited · {taggedCount} tagged</dd>
+              <dt>Comments</dt>
+              <dd>{commentsRef.current.size > 0 ? `${commentsRef.current.size} paragraph${commentsRef.current.size !== 1 ? 's' : ''}` : '—'}</dd>
             </dl>
           )}
+
+          {/* Per-paragraph comment: shown when cursor is inside a paragraph. */}
+          {activeParaIdx !== null && !isReadOnlyStage && (
+            <div className="sp-comment-panel">
+              <label className="sp-comment-label" htmlFor="sp-comment-input">
+                Comment on paragraph {activeParaIdx + 1}
+              </label>
+              <textarea
+                id="sp-comment-input"
+                className="sp-comment-input"
+                rows={3}
+                placeholder="Note for the pipeline (saved with stage)…"
+                value={commentsRef.current.get(activeParaIdx) ?? ''}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  if (v.trim()) commentsRef.current.set(activeParaIdx, v);
+                  else commentsRef.current.delete(activeParaIdx);
+                  refreshComments();
+                }}
+              />
+            </div>
+          )}
+
           <div className="sp-insp-markers">
             <h3 className="sp-insp-sub">References</h3>
             {renderGroup('Quran', group('Quran'), 'quran')}
