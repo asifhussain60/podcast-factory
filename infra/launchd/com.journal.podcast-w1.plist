@@ -38,13 +38,13 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/ahmac/homebrew/opt/python@3.14/bin/python3</string>
-        <string>/Users/ahmac/Code/Journal/scripts/podcast/run_wave.py</string>
+        <string>/opt/homebrew/bin/python3</string>
+        <string>/Users/ahussain/GitRepo/ASIF/podcast-factory/scripts/podcast/run_wave.py</string>
         <string>1</string>
     </array>
 
     <key>WorkingDirectory</key>
-    <string>/Users/ahmac/Code/Journal</string>
+    <string>/Users/ahussain/GitRepo/ASIF/podcast-factory</string>
 
     <!-- Run every 3600 seconds (1 hour). Adjust StartInterval to taste. -->
     <key>StartInterval</key>
@@ -56,15 +56,15 @@
 
     <!-- Log stdout + stderr separately so progress is easy to follow. -->
     <key>StandardOutPath</key>
-    <string>/Users/ahmac/Library/Logs/podcast-w1.log</string>
+    <string>/Users/ahussain/Library/Logs/podcast-w1.log</string>
     <key>StandardErrorPath</key>
-    <string>/Users/ahmac/Library/Logs/podcast-w1.err</string>
+    <string>/Users/ahussain/Library/Logs/podcast-w1.err</string>
 
     <!-- Inherit PATH + basic env from the user shell so claude/git/python work. -->
     <key>EnvironmentVariables</key>
     <dict>
         <key>PATH</key>
-        <string>/Users/ahmac/homebrew/bin:/Users/ahmac/homebrew/opt/python@3.14/bin:/usr/local/bin:/usr/bin:/bin</string>
+        <string>/opt/homebrew/bin:/opt/homebrew/opt/python@3.14/bin:/usr/local/bin:/usr/bin:/bin</string>
     </dict>
 
     <!-- Don't run on login; run only on the StartInterval cadence. -->
