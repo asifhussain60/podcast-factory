@@ -294,7 +294,7 @@ b. Mu'âz ( jla & dam )
 
 ---
 
-> **Wisdom enrichment:** This teaching echoes the modern understanding of the human brain, which identifies a "reptilian brain" as the lowest part, responsible for basic, reactive functions. Ghazali's counsel to transcend the "beast" within resonates with the spiritual imperative to rise above these primal instincts and cultivate the higher faculties of the soul, aligning with the "lofty birds" destined for the Garden.
+> **Wisdom enrichment:** A parallel counsel from the tradition notes that the soul has a hierarchy of faculties — the animal soul driven by appetite and anger, and the rational soul guided by intellect and the sacred law. Ghazali's repeated counsel to struggle against the lower self echoes the classical understanding that the soul's elevation depends on the higher faculty governing the lower, not on the lower faculty being simply suppressed.
 
 ## Section 12 — The Call to Action and Night Prayer
 
