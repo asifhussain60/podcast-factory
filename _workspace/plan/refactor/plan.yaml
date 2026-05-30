@@ -3719,6 +3719,36 @@ wc8_holistic_pipeline:
       outputs:
         - content/drafts/books/ayyuhal-walad/_system/editorial-audit/<chapter>.json
 
+    - id: WC8-H6
+      title: "Episode framings — 3 × NotebookLM Customize prompts"
+      status: done
+      completed_at: 2026-05-30
+      outputs:
+        - content/drafts/books/ayyuhal-walad/episodes/EP01-frame-and-the-problem-of-knowledge.txt
+        - content/drafts/books/ayyuhal-walad/episodes/EP02-the-disciplines-of-the-path.txt
+        - content/drafts/books/ayyuhal-walad/episodes/EP03-the-guiding-shaykh-and-final-counsels.txt
+
+    - id: WC8-H7
+      title: "Chapter contracts — 3 × WC8 YAML metadata files"
+      status: done
+      completed_at: 2026-05-30
+      outputs:
+        - content/drafts/books/ayyuhal-walad/chapter-contracts/wc8-frame-and-the-problem-of-knowledge.yml
+        - content/drafts/books/ayyuhal-walad/chapter-contracts/wc8-the-disciplines-of-the-path.yml
+        - content/drafts/books/ayyuhal-walad/chapter-contracts/wc8-the-guiding-shaykh-and-final-counsels.yml
+
+    - id: WC8-H8
+      title: "Slide decks — 3 × deck sources + 3 × framings (mandatory output)"
+      status: done
+      completed_at: 2026-05-30
+      outputs:
+        - content/drafts/books/ayyuhal-walad/slide-decks/ch01-wc8-deck-frame-and-the-problem-of-knowledge.txt
+        - content/drafts/books/ayyuhal-walad/slide-decks/ch01-wc8-framing-frame-and-the-problem-of-knowledge.md
+        - content/drafts/books/ayyuhal-walad/slide-decks/ch02-wc8-deck-the-disciplines-of-the-path.txt
+        - content/drafts/books/ayyuhal-walad/slide-decks/ch02-wc8-framing-the-disciplines-of-the-path.md
+        - content/drafts/books/ayyuhal-walad/slide-decks/ch03-wc8-deck-the-guiding-shaykh-and-final-counsels.txt
+        - content/drafts/books/ayyuhal-walad/slide-decks/ch03-wc8-framing-the-guiding-shaykh-and-final-counsels.md
+
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================

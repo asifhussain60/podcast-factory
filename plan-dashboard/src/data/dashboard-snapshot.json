@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T18:24:22.092Z",
-  "source_commit": "b09b1a9",
+  "generated_at": "2026-05-30T18:55:02.339Z",
+  "source_commit": "2c2f524",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,6 +819,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "2c2f524",
+      "subject": "feat(wave8/holistic): full-book pipeline + wisdom augmentation on Ayyuhal Walad",
+      "date": "2026-05-30"
+    },
+    {
       "sha": "b09b1a9",
       "subject": "feat(wave8/pipeline): new pipeline scripts + editor refactor + framework updates",
       "date": "2026-05-30"
@@ -861,11 +866,6 @@
     {
       "sha": "a77315c",
       "subject": "feat(wave8/2-fix): SN-7 terminus-technicus guard — full K6-pre spec",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "ab8f991",
-      "subject": "chore(wave8): relocate architect audit to reviews/reports, stamp approval provenance",
       "date": "2026-05-30"
     }
   ],
