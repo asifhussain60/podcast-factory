@@ -23,9 +23,9 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from _paths import REPO_ROOT  # noqa: E402
+from _paths import REPO_ROOT, resolve_content  # noqa: E402
 
-# Canonical stage order for Ayyuhal-Walad WC8 pipeline.
+# Canonical stage order for the WC8 bilingual pipeline (all books).
 # source → core: produced by intake_stage.py / agent (Azure OCR + alignment)
 # denoised:      produced by gemini_refine.py --mode denoise
 # normalized:    produced by gemini_refine.py --mode normalize
@@ -53,14 +53,13 @@ STAGE_ARTIFACTS: dict[str, str] = {
 
 def _review_path(slug: str, chapter: str) -> Path:
     return (
-        REPO_ROOT
-        / "content" / "drafts" / "books" / slug
+        resolve_content(slug)
         / "_system" / "review" / f"{chapter}.json"
     )
 
 
 def _stages_dir(slug: str, chapter: str) -> Path:
-    return REPO_ROOT / "content" / "drafts" / "books" / slug / "_stages" / chapter
+    return resolve_content(slug) / "_stages" / chapter
 
 
 # ---------------------------------------------------------------------------

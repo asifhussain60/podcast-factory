@@ -119,6 +119,20 @@ def find_content(slug: str) -> tuple[str, str, Path] | None:
     return None
 
 
+def resolve_content(slug: str) -> Path:
+    """Return the content directory for ``slug``, category-agnostic.
+
+    Calls ``find_content()`` and returns its path when the directory exists.
+    Falls back to the canonical drafts/books path (via ``content_dir()``)
+    when nothing is found on disk — suitable for write-time resolution.
+    Prefer this over hardcoding ``REPO_ROOT / "content" / "drafts" / "books" / slug``
+    so that non-books categories (letters, lectures, articles, etc.) resolve
+    correctly.
+    """
+    found = find_content(slug)
+    return found[2] if found else content_dir(slug)
+
+
 def iter_content(
     *,
     stage: str | None = None,

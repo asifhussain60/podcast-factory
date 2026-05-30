@@ -43,7 +43,7 @@ from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
-from _paths import REPO_ROOT  # noqa: E402
+from _paths import REPO_ROOT, resolve_content  # noqa: E402
 
 # Claude Sonnet pricing (approximate)
 C_IN  = 0.000_000_75   # $/char (~$3/M tokens, ~4 chars/token)
@@ -149,7 +149,7 @@ def _extract_section(unified_text: str, section_numbers: list[int]) -> str:
 
 
 def _log_cost(slug: str, entry: dict) -> None:
-    p = REPO_ROOT / "content" / "drafts" / "books" / slug / "_system" / "cost-ledger.json"
+    p = resolve_content(slug) / "_system" / "cost-ledger.json"
     led = json.loads(p.read_text()) if p.exists() else {"slug": slug, "entries": [], "total_usd": 0.0}
     led["entries"].append(entry)
     led["total_usd"] = round(sum(e.get("cost_usd", 0.0) for e in led["entries"]), 4)
@@ -157,7 +157,7 @@ def _log_cost(slug: str, entry: dict) -> None:
 
 
 def segment(slug: str, *, target_words: int = TARGET_WORDS_DEFAULT, dry_run: bool = False, force: bool = False) -> list[Path]:
-    book_dir = REPO_ROOT / "content" / "drafts" / "books" / slug
+    book_dir = resolve_content(slug)
     unified_path = book_dir / "_system" / "unified-book.md"
     out_dir = book_dir.parent.parent / "books" / slug / "chapters-wc8"  # same tree as chapters/
 
@@ -267,7 +267,7 @@ def main() -> None:
     print(f"Segment book — {args.slug} (target {args.target_words:,}w/episode)")
     paths = segment(args.slug, target_words=args.target_words, dry_run=args.dry_run, force=args.force)
 
-    ledger = REPO_ROOT / "content" / "drafts" / "books" / args.slug / "_system" / "cost-ledger.json"
+    ledger = resolve_content(args.slug) / "_system" / "cost-ledger.json"
     if ledger.exists():
         total = json.loads(ledger.read_text()).get("total_usd", 0.0)
         print(f"\nRunning total cost: ${total:.2f}")

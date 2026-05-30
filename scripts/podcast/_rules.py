@@ -480,16 +480,25 @@ R_INTEREST_HOOK_PATTERNS: list = [
     r"(let'?s|let us) (begin|start|open|ask|explore|consider)",
 ]
 
-# Phrases that signal a challenge-defeat arc (problem raised then resolved).
-R_INTEREST_CHALLENGE_PATTERNS: list = [
+# Challenge-defeat arc: problem-raising phrases (first half of the arc).
+R_INTEREST_CHALLENGE_RAISE_PATTERNS: list = [
     r"\b(objection|challenge|difficulty|problem|paradox|tension|puzzle|obstacle)\b",
     r"\b(one might (argue|say|object|think|wonder))\b",
     r"\b(it (might|may|could) seem)\b",
     r"\b(but (how|why|what|is this|does this|can))\b",
+]
+
+# Challenge-defeat arc: resolution phrases (second half of the arc).
+R_INTEREST_CHALLENGE_RESOLVE_PATTERNS: list = [
     r"\b(the answer (is|lies|comes|emerges))\b",
-    r"\b(in fact|actually|but|rather|instead|on the contrary)\b",
+    r"\b(in fact|actually|rather|instead|on the contrary)\b",
     r"\b(resolves?|dissolves?|overcomes?|addresses?|answers? (this|that|the))\b",
 ]
+
+# Combined list for callers that only need presence of any challenge pattern.
+R_INTEREST_CHALLENGE_PATTERNS: list = (
+    R_INTEREST_CHALLENGE_RAISE_PATTERNS + R_INTEREST_CHALLENGE_RESOLVE_PATTERNS
+)
 
 # Phrases that signal modern relevance (connecting doctrine to contemporary life).
 R_INTEREST_RELEVANCE_PATTERNS: list = [
@@ -501,8 +510,11 @@ R_INTEREST_RELEVANCE_PATTERNS: list = [
 ]
 
 # Strawman markers — phrases suggesting the opposing view was oversimplified.
+# Uses precise anchored patterns to avoid false positives (e.g. "obviously right").
 R_INTEREST_STRAWMAN_DENY: list = [
-    r"\b(obviously|clearly (wrong|mistaken|misguided)|absurdly)\b",
+    r"\bobviously (wrong|false|absurd|incorrect|mistaken)\b",
+    r"\bclearly (wrong|mistaken|misguided)\b",
+    r"\babsurdly\b",
     r"\b(silly (argument|idea|notion|objection))\b",
     r"\b(no (sane|reasonable|serious) person)\b",
 ]

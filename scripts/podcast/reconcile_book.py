@@ -37,7 +37,7 @@ from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
-from _paths import REPO_ROOT  # noqa: E402
+from _paths import REPO_ROOT, resolve_content  # noqa: E402
 
 PRICE_IN  = 0.000_000_1
 PRICE_OUT = 0.000_000_4
@@ -127,7 +127,7 @@ def _gemini(system: str, text: str, *, model: str = "gemini-2.5-flash") -> str:
 
 
 def _log_cost(slug: str, entry: dict) -> None:
-    p = REPO_ROOT / "content" / "drafts" / "books" / slug / "_system" / "cost-ledger.json"
+    p = resolve_content(slug) / "_system" / "cost-ledger.json"
     led = json.loads(p.read_text()) if p.exists() else {"slug": slug, "entries": [], "total_usd": 0.0}
     led["entries"].append(entry)
     led["total_usd"] = round(sum(e.get("cost_usd", 0.0) for e in led["entries"]), 4)
@@ -157,7 +157,7 @@ def _read_narrator_additions(book_dir: Path) -> str:
 
 
 def reconcile(slug: str, *, dry_run: bool = False, force: bool = False) -> Path:
-    book_dir = REPO_ROOT / "content" / "drafts" / "books" / slug
+    book_dir = resolve_content(slug)
     out_path = book_dir / "_system" / "unified-book.md"
     report_path = book_dir / "_system" / "reconcile-report.json"
 
@@ -232,7 +232,7 @@ def main() -> None:
     print(f"Reconcile book — {args.slug}")
     out = reconcile(args.slug, dry_run=args.dry_run, force=args.force)
 
-    ledger = REPO_ROOT / "content" / "drafts" / "books" / args.slug / "_system" / "cost-ledger.json"
+    ledger = resolve_content(args.slug) / "_system" / "cost-ledger.json"
     if ledger.exists():
         total = json.loads(ledger.read_text()).get("total_usd", 0.0)
         print(f"Running total cost: ${total:.2f}")

@@ -43,7 +43,7 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 
-from _paths import REPO_ROOT  # noqa: E402
+from _paths import REPO_ROOT, resolve_content  # noqa: E402
 from _quality import PEQScore, score as peq_score  # noqa: E402
 
 # ---------------------------------------------------------------------------
@@ -213,7 +213,7 @@ def _friendly_format(episode_format: str) -> str:
 
 def assemble_bundle(slug: str, *, run_score: bool = False, as_json: bool = False) -> int:
     """Validate bundle and emit the NotebookLM upload table."""
-    book_dir = REPO_ROOT / "content" / "drafts" / "books" / slug
+    book_dir = resolve_content(slug)
     if not book_dir.exists():
         print(f"ERROR: book directory not found: {book_dir}", file=sys.stderr)
         return 1
@@ -313,7 +313,7 @@ def assemble_bundle(slug: str, *, run_score: bool = False, as_json: bool = False
                   f"{p['interest']:>5.1f} {p['total']:>6.1f} {v_icon} {p['verdict']}")
 
     # NotebookLM upload table (mandatory format).
-    print(f"\nNOTEBOOKLM UPLOAD TABLE — *Ayyuhal Walad* (5 episodes)")
+    print(f"\nNOTEBOOKLM UPLOAD TABLE — {slug} ({len(rows)} episodes)")
     print(f"  Read the chapter SOURCE to NotebookLM; paste the FRAMING into Customize.")
     print()
     print(f"  {'EP':<5} {'Title':<38} {'Format':<11} {'NLM Format':<12} {'Length'}")

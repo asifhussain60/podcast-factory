@@ -37,7 +37,7 @@ from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
-from _paths import REPO_ROOT  # noqa: E402
+from _paths import REPO_ROOT, resolve_content  # noqa: E402
 
 PRICE_IN  = 0.000_000_1   # $/char Gemini Flash input
 PRICE_OUT = 0.000_000_4   # $/char output
@@ -140,7 +140,7 @@ def _gemini(system: str, text: str, *, model: str = "gemini-2.5-flash") -> str:
 
 
 def _log_cost(slug: str, entry: dict) -> None:
-    p = REPO_ROOT / "content" / "drafts" / "books" / slug / "_system" / "cost-ledger.json"
+    p = resolve_content(slug) / "_system" / "cost-ledger.json"
     led = json.loads(p.read_text()) if p.exists() else {"slug": slug, "entries": [], "total_usd": 0.0}
     led["entries"].append(entry)
     led["total_usd"] = round(sum(e.get("cost_usd", 0.0) for e in led["entries"]), 4)
@@ -149,7 +149,7 @@ def _log_cost(slug: str, entry: dict) -> None:
 
 def denoise_source(slug: str, source: str, *, force: bool = False) -> Path:
     """Denoise one source stream. Returns the output path."""
-    book_dir = REPO_ROOT / "content" / "drafts" / "books" / slug
+    book_dir = resolve_content(slug)
     in_path  = book_dir / "_system" / "source" / "multi" / "ocr" / f"{source}.md"
     out_dir  = book_dir / "_system" / "source" / "multi" / "denoised"
     out_path = out_dir / f"{source}.md"
@@ -202,7 +202,7 @@ def main() -> None:
         except FileNotFoundError as e:
             print(f"  [{source}] SKIP — {e}", file=sys.stderr)
 
-    ledger = REPO_ROOT / "content" / "drafts" / "books" / args.slug / "_system" / "cost-ledger.json"
+    ledger = resolve_content(args.slug) / "_system" / "cost-ledger.json"
     if ledger.exists():
         total = json.loads(ledger.read_text()).get("total_usd", 0.0)
         print(f"\nRunning total cost: ${total:.2f}")

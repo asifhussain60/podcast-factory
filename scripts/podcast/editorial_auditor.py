@@ -51,7 +51,7 @@ from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
-from _paths import REPO_ROOT  # noqa: E402
+from _paths import REPO_ROOT, resolve_content  # noqa: E402
 
 STAGE = "narrator"
 STAGE_FILE = "additions-narrator.md"
@@ -245,7 +245,7 @@ def audit_chapter(
     verbose: bool = False,
 ) -> dict:
     """Run the full audit on one chapter's narrator stage file. Returns the findings dict."""
-    book_dir = REPO_ROOT / "content" / "drafts" / "books" / slug
+    book_dir = resolve_content(slug)
     stage_path = book_dir / "_stages" / chapter / STAGE_FILE
 
     if not stage_path.exists():
@@ -360,7 +360,7 @@ def main() -> None:
     ap.add_argument("--json", action="store_true", dest="as_json", help="Emit summary as JSON (for API callers)")
     args = ap.parse_args()
 
-    book_dir = REPO_ROOT / "content" / "drafts" / "books" / args.slug
+    book_dir = resolve_content(args.slug)
     if not book_dir.exists():
         print(f"ERROR: book directory not found: {book_dir}", file=sys.stderr)
         sys.exit(1)

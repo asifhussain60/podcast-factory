@@ -50,6 +50,15 @@ import re
 from dataclasses import dataclass, field
 from typing import Sequence
 
+from _rules import (
+    R_INTEREST_WEIGHT,
+    R_INTEREST_HOOK_PATTERNS,
+    R_INTEREST_CHALLENGE_RAISE_PATTERNS,
+    R_INTEREST_CHALLENGE_RESOLVE_PATTERNS,
+    R_INTEREST_RELEVANCE_PATTERNS,
+    R_INTEREST_STRAWMAN_DENY,
+)
+
 # ---------------------------------------------------------------------------
 # Threshold constants
 # ---------------------------------------------------------------------------
@@ -70,7 +79,7 @@ WEIGHT_FIDELITY   = 0.30
 WEIGHT_VOICE      = 0.20
 WEIGHT_STRUCTURE  = 0.18
 WEIGHT_ENRICHMENT = 0.17
-WEIGHT_INTEREST   = 0.15
+WEIGHT_INTEREST   = R_INTEREST_WEIGHT  # authoritative value lives in _rules.py
 
 assert abs(
     WEIGHT_FIDELITY + WEIGHT_VOICE + WEIGHT_STRUCTURE
@@ -235,50 +244,15 @@ def _interest_score(adapted_text: str) -> float:
     words = adapted_text.split()
     first_20 = " ".join(words[: max(int(len(words) * 0.20), 50)])
 
-    hook_pats = [
-        r"what (does|would|if|happens|kind of|makes|drives|compels)",
-        r"why (does|would|did|should|is|are|do|must)",
-        r"how (does|can|should|is|are|do|did)",
-        r"imagine (if|a world|that|for a moment)",
-        r"consider (this|the|what|a|that)",
-        r"the question (is|was|becomes|facing|at the heart)",
-        r"here'?s (the|a|what|why|how|something)",
-        r"(let'?s|let us) (begin|start|open|ask|explore|consider)",
-    ]
-    hook = 1.0 if any(re.search(p, first_20, re.I) for p in hook_pats) else 0.0
+    hook = 1.0 if any(re.search(p, first_20, re.I) for p in R_INTEREST_HOOK_PATTERNS) else 0.0
 
-    challenge_raise = [
-        r"\b(objection|challenge|difficulty|problem|paradox|tension|puzzle|obstacle)\b",
-        r"\b(one might (argue|say|object|think|wonder))\b",
-        r"\b(it (might|may|could) seem)\b",
-        r"\b(but (how|why|what|is this|does this|can))\b",
-    ]
-    challenge_resolve = [
-        r"\b(the answer (is|lies|comes|emerges))\b",
-        r"\b(in fact|actually|rather|instead|on the contrary)\b",
-        r"\b(resolves?|dissolves?|overcomes?|addresses?|answers? (this|that|the))\b",
-    ]
-    raised = any(re.search(p, adapted_text, re.I) for p in challenge_raise)
-    resolved = any(re.search(p, adapted_text, re.I) for p in challenge_resolve)
+    raised = any(re.search(p, adapted_text, re.I) for p in R_INTEREST_CHALLENGE_RAISE_PATTERNS)
+    resolved = any(re.search(p, adapted_text, re.I) for p in R_INTEREST_CHALLENGE_RESOLVE_PATTERNS)
     challenge = 1.0 if (raised and resolved) else (0.5 if raised else 0.0)
 
-    relevance_pats = [
-        r"\b(today|modern|contemporary|our (time|age|era|world|lives?))\b",
-        r"\b(we (find|see|live|face|encounter|grapple))\b",
-        r"\b(still (holds?|rings? true|matters?|applies?|speaks?))\b",
-        r"\b(resonates?|relevant|speaks? to|timeless)\b",
-        r"\b(in (our|this|any|every) (age|era|time|generation|society|context))\b",
-    ]
-    relevance = 1.0 if any(re.search(p, adapted_text, re.I) for p in relevance_pats) else 0.0
+    relevance = 1.0 if any(re.search(p, adapted_text, re.I) for p in R_INTEREST_RELEVANCE_PATTERNS) else 0.0
 
-    strawman_deny = [
-        r"\bobviously (wrong|false|absurd|incorrect|mistaken)\b",
-        r"\bclearly (wrong|mistaken|misguided)\b",
-        r"\babsurdly\b",
-        r"\b(silly (argument|idea|notion|objection))\b",
-        r"\b(no (sane|reasonable|serious) person)\b",
-    ]
-    fairness = 0.0 if any(re.search(p, adapted_text, re.I) for p in strawman_deny) else 1.0
+    fairness = 0.0 if any(re.search(p, adapted_text, re.I) for p in R_INTEREST_STRAWMAN_DENY) else 1.0
 
     combined = (hook + challenge + relevance + fairness) / 4.0
     return round(combined * 100.0, 2)

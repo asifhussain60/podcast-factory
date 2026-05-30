@@ -56,7 +56,7 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 
-from _paths import REPO_ROOT  # noqa: E402
+from _paths import REPO_ROOT, resolve_content  # noqa: E402
 from _stage_gate import (  # noqa: E402
     STAGE_ORDER,
     awaiting_approval_stage,
@@ -74,7 +74,7 @@ SCRIPT_DIR = _HERE
 def _lecture_slugs_for(slug: str, chapter: str) -> list[str]:
     """Read lecture-chapter-map.json and return the lecture slugs for this chapter."""
     map_path = (
-        REPO_ROOT / "content" / "drafts" / "books" / slug
+        resolve_content(slug)
         / "_system" / "lecture-chapter-map.json"
     )
     if not map_path.exists():
@@ -214,7 +214,7 @@ def run_chapter(slug: str, chapter: str, *, dry_run: bool = False, as_json: bool
 
 def run_all(slug: str, *, dry_run: bool = False, as_json: bool = False) -> int:
     """Run the next stage for every chapter in the book, in order."""
-    book_dir = REPO_ROOT / "content" / "drafts" / "books" / slug
+    book_dir = resolve_content(slug)
     stages_root = book_dir / "_stages"
     if not stages_root.exists():
         print(f"No _stages directory found for {slug}", file=sys.stderr)
@@ -268,7 +268,7 @@ def main() -> None:
                     help="Emit result as JSON (for API callers)")
     args = ap.parse_args()
 
-    book_dir = REPO_ROOT / "content" / "drafts" / "books" / args.slug
+    book_dir = resolve_content(args.slug)
     if not book_dir.exists():
         print(f"Book directory not found: {book_dir}", file=sys.stderr)
         sys.exit(1)

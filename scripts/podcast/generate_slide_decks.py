@@ -42,7 +42,7 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 
-from _paths import REPO_ROOT  # noqa: E402
+from _paths import REPO_ROOT, resolve_content  # noqa: E402
 
 PRICE_IN = 0.000_000_1  # $/char Gemini 2.5 Flash input (approx)
 PRICE_OUT = 0.000_000_4  # $/char output
@@ -99,7 +99,7 @@ def _gemini(system: str, user: str, *, model: str = "gemini-2.5-flash") -> str:
 
 
 def _log_cost(slug: str, entry: dict) -> None:
-    p = REPO_ROOT / "content" / "drafts" / "books" / slug / "_system" / "cost-ledger.json"
+    p = resolve_content(slug) / "_system" / "cost-ledger.json"
     led = json.loads(p.read_text()) if p.exists() else {"slug": slug, "entries": [], "total_usd": 0.0}
     led["entries"].append(entry)
     led["total_usd"] = round(sum(e.get("cost_usd", 0.0) for e in led["entries"]), 4)
@@ -301,7 +301,7 @@ def main() -> None:
     ap.add_argument("--model", default="gemini-2.5-flash")
     args = ap.parse_args()
 
-    book_dir = REPO_ROOT / "content" / "drafts" / "books" / args.slug
+    book_dir = resolve_content(args.slug)
     if not book_dir.exists():
         print(f"ERROR: book directory not found: {book_dir}", file=sys.stderr)
         sys.exit(1)
