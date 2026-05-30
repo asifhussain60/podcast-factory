@@ -3404,5 +3404,154 @@ wisdom_corpus_program:
   build_order: [WC1, "WC2+WC4 parallel", WC3, "WC5 parallel track"]
 
 # ===========================================================================
+# DUAL-PLATFORM EXECUTION SUPPORT
+# Authorized 2026-05-30 (Asif). Phase 0.7 — runs before Phases 1-9.
+# Goal: every pipeline operation, agent, and skill executable identically
+# from Claude Code CLI AND from VS Code + GitHub Copilot.
+# ===========================================================================
+
+dual_platform:
+  authorized_by: asif_2026-05-30
+  principle: |
+    The canonical agent specs in infra/claude-agents/*.md are the single source
+    of truth. Neither platform duplicates them — both reference them via adapters.
+    Pipeline scripts (Python) are already environment-agnostic.
+    The gap is: discoverability in VS Code (tasks/launch), workspace context for
+    Copilot (copilot-instructions.md), and agent invocation metadata for Copilot
+    workspace participants (.github/agents/ stub headers).
+
+  scope_boundary: |
+    Full GitHub Copilot Extensions (OAuth, GitHub App, external API endpoint)
+    is OUT OF SCOPE — too much infrastructure for a personal repo.
+    The workspace-participant approach via .github/agents/ stubs gives 80% of
+    the value. Full extensions can be revisited if the repo becomes multi-user.
+
+  steps:
+
+    - id: DP-1
+      title: "VS Code workspace config — tasks, launch, extensions"
+      deliverables:
+        tasks_json:
+          path: ".vscode/tasks.json"
+          tasks:
+            - label: "Open Studio (dev server)"
+              command: "cd plan-dashboard && npm run dev"
+              group: ui
+            - label: "Run Intake (OCR)"
+              command: "python3 scripts/podcast/intake_stage.py ${input:bookSlug}"
+              group: pipeline
+            - label: "Run Denoise + Normalize"
+              command: "python3 scripts/podcast/gemini_refine.py ${input:bookSlug}"
+              group: pipeline
+            - label: "Sync Knowledge Corpus"
+              command: "python3 scripts/podcast/intelligence/populate_corpus.py"
+              group: intelligence
+            - label: "Run Pipeline Tests"
+              command: "pytest scripts/podcast/ -v"
+              group: test
+            - label: "Run Site Lint"
+              command: "cd plan-dashboard && npm run lint:views"
+              group: test
+            - label: "Build Podcast Bundle"
+              command: "python3 scripts/podcast/assemble_bundle.py ${input:bookSlug}"
+              group: pipeline
+            - label: "Generate Video Layer"
+              command: "python3 scripts/podcast/generate_video_layer.py ${input:bookSlug}"
+              group: pipeline
+            - label: "Push Branch"
+              command: "git push origin HEAD"
+              group: git
+        launch_json:
+          path: ".vscode/launch.json"
+          configurations:
+            - name: "Debug orchestrate_book.py"
+              program: "scripts/podcast/orchestrate_book.py"
+            - name: "Debug gemini_refine.py"
+              program: "scripts/podcast/gemini_refine.py"
+            - name: "Debug intake_stage.py"
+              program: "scripts/podcast/intake_stage.py"
+            - name: "Debug populate_corpus.py"
+              program: "scripts/podcast/intelligence/populate_corpus.py"
+            - name: "Debug generate_video_layer.py"
+              program: "scripts/podcast/generate_video_layer.py"
+        extensions_json:
+          path: ".vscode/extensions.json"
+          recommendations:
+            - "github.copilot"
+            - "github.copilot-chat"
+            - "ms-python.python"
+            - "ms-python.pylance"
+            - "astro-build.astro-vscode"
+            - "bradlc.vscode-tailwindcss"
+            - "redhat.vscode-yaml"
+            - "ms-vscode.vscode-typescript-next"
+      acceptance:
+        - "All 9 tasks visible in VS Code Command Palette under 'Tasks: Run Task'"
+        - "Debug 'orchestrate_book.py' launches with correct virtualenv"
+        - "extensions.json has 7 recommendations"
+      authorization: tier_zero
+
+    - id: DP-2
+      title: "GitHub Copilot workspace instructions — mirror CLAUDE.md for Copilot context"
+      deliverables:
+        copilot_instructions:
+          path: ".github/copilot-instructions.md"
+          sections:
+            - "What this repo does (podcast pipeline summary)"
+            - "Branch policy (book/<slug>, develop, main gate)"
+            - "Authorization tiers (T0/T1/T2) — same as CLAUDE.md"
+            - "Standing rules (no claude -p, no force-push, plan-first)"
+            - "Agent registry (links to infra/claude-agents/*.md specs)"
+            - "Content structure (content/books/<slug>/ after Phase 0.6 migration)"
+            - "Pipeline phase order (0a through finalize)"
+            - "Key files (orchestrator-state.json, editorial.json, _stages/)"
+          note: |
+            References infra/claude-agents/*.md specs — does NOT duplicate them.
+            Copilot Chat reads this file for workspace-level context on every session.
+      acceptance:
+        - ".github/copilot-instructions.md present and < 200 lines (focused, not a dump)"
+        - "File references infra/claude-agents/podcast-orchestrator.md and podcast-challenger.md"
+        - "Authorization tiers match CLAUDE.md word-for-word"
+      authorization: tier_zero
+
+    - id: DP-3
+      title: "Fix .github/agents/ stubs for Copilot workspace participant registration"
+      description: |
+        The 17 existing .github/agents/ stubs point to infra/claude-agents/ specs
+        but lack the Copilot-expected metadata block. Each stub needs a YAML
+        frontmatter header so Copilot registers them as @-invokable workspace
+        participants in Copilot Chat. Remove the 2 broken stubs (reconcile,
+        docs-updater per Phase 0 audit).
+      deliverables:
+        stub_header_format: |
+          ---
+          name: podcast-auditor
+          description: "Repo-level health audit for podcast-factory"
+          spec: infra/claude-agents/podcast-auditor.md
+          invocation: "@podcast-auditor"
+          ---
+        stubs_to_fix: 15  # 17 total - 2 deleted in Phase 0
+        stubs_to_delete: ["reconcile.agent.md", "docs-updater.agent.md"]
+      acceptance:
+        - "All 15 stubs have YAML frontmatter with name/description/spec/invocation"
+        - "2 broken stubs deleted"
+        - "@podcast-auditor, @podcast-challenger, @podcast-orchestrator visible as participants in Copilot Chat"
+      authorization: tier_zero
+
+  dual_platform_coding_standards:
+    all_new_code: |
+      Applies to every file written in Phases 5–12:
+      - TypeScript: all interfaces fully typed (no `any`); Copilot IntelliSense depends on this
+      - Python: all function signatures have PEP 484 type hints; Pylance picks these up
+      - No environment-specific paths hardcoded; use _paths.py (Python) and content-paths.ts (TS, Phase 11c)
+      - Agent specs in infra/claude-agents/ follow standard section order:
+        Purpose → When to invoke → Inputs → Process → Outputs → Acceptance
+        (Both platforms can parse this structure)
+    linting:
+      typescript: "npm run lint:views passes with zero findings"
+      python: "pylance in strict mode; ruff for linting"
+      agents: "each spec has all 6 standard sections"
+
+# ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================

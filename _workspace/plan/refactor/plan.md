@@ -713,6 +713,38 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 
 ---
 
+# Dual-Platform Execution Support
+
+*Authorized 2026-05-30. Runs as Phase 0.7 — before the existing Phase 1–9 build phases.*
+
+**Principle:** The canonical agent specs in `infra/claude-agents/` are the single source of truth. Both platforms reference them via adapters — neither duplicates them. Pipeline scripts (Python) are already environment-agnostic; the gap is discoverability and context injection.
+
+**Scope boundary:** Full GitHub Copilot Extensions (OAuth, GitHub App, external API) is explicitly out of scope. The workspace-participant approach via `.github/agents/` stubs gives 80% of the value without that infrastructure.
+
+### DP-1. VS Code workspace configuration — tasks, launch, and extension recommendations.
+
+> Three files under `.vscode/`: `tasks.json` (9 named tasks — Open Studio, Run Intake, Run Denoise+Normalize, Sync Knowledge Corpus, Run Pipeline Tests, Run Site Lint, Build Podcast Bundle, Generate Video Layer, Push Branch), `launch.json` (debug configurations for 5 critical pipeline scripts), and `extensions.json` (7 recommended extensions: GitHub Copilot, Copilot Chat, Python, Pylance, Astro, Tailwind CSS IntelliSense, YAML).
+>
+> *Value gained:* Any VS Code user can trigger any pipeline operation from the task palette without knowing the command. Pipeline bugs can be debugged with breakpoints, not print statements.
+
+### DP-2. Copilot workspace instructions — `.github/copilot-instructions.md`.
+
+> The Copilot equivalent of `CLAUDE.md` — under 200 lines, referencing canonical specs rather than duplicating them. Contains: repo purpose, branch policy, authorization tiers (T0/T1/T2 verbatim from CLAUDE.md), standing rules, agent registry links, content structure, pipeline phase order.
+>
+> *Value gained:* Copilot Chat sessions start with full project context. Same standing rules for both environments. Single source of truth in CLAUDE.md; Copilot file references it.
+
+### DP-3. Fix `.github/agents/` stubs for Copilot workspace participant registration.
+
+> Each of the 15 remaining stubs gets a YAML frontmatter block (`name`, `description`, `spec` path, `invocation` @-handle). Registers them as Copilot Chat workspace participants — `@podcast-auditor` in Copilot Chat reaches the same spec that Claude Code uses as a subagent.
+>
+> *Value gained:* Same agents, two invocation paths. No parallel maintenance.
+
+### Dual-platform coding standard (applies to all Phases 5–12)
+
+All new code: TypeScript fully typed (no `any`), Python with PEP 484 hints, no hardcoded paths, agent specs follow the 6-section structure both platforms can parse.
+
+---
+
 ## What This Plan Excludes (by design)
 
 - **F-item operational backlog** (F4, F7, F11–F13, F22, F23, F25/F26, F29 still open) — tracked in [pipeline-debt.md](../debt/pipeline-debt.md) after A1 moves it. Pipeline-debt is the live operational backlog; this refactor plan is the architectural reshape. Don't merge the two.

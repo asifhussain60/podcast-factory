@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T11:21:22.679Z",
-  "source_commit": "8a4448f",
+  "generated_at": "2026-05-30T11:43:37.476Z",
+  "source_commit": "448ef1e",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,6 +819,21 @@
   ],
   "recent_commits": [
     {
+      "sha": "448ef1e",
+      "subject": "audit(2026-05-30): full repo audit — architect + senior engineer review",
+      "date": "2026-05-30"
+    },
+    {
+      "sha": "84edc00",
+      "subject": "chore: commit stage-metrics and knowledge.db state",
+      "date": "2026-05-30"
+    },
+    {
+      "sha": "227b51a",
+      "subject": "plan(WC8/7b): add Video Timeline editor + tiered generation to video layer",
+      "date": "2026-05-30"
+    },
+    {
       "sha": "8a4448f",
       "subject": "plan(WC8): add Slice 7b — video visual layer (timed prompts + Imagen 3 auto-generation)",
       "date": "2026-05-30"
@@ -851,21 +866,6 @@
     {
       "sha": "2ff90c8",
       "subject": "doc(WC8): continuation prompt v3 — AUTONOMOUS Wave 8 build mandate + north-star (any content -> NotebookLM podcast); Ayyuhal Walad = test case, must end Wave 8 production-ready; stop only for major editor/pipeline forks, [D] publish, or blockers",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "f8029e1",
-      "subject": "doc(WC8): continuation prompt v2 — opens with senior-architect review directive (regressions/refactor/risks); finalized Wave 8 completion template (Status",
-      "date": "Slice"
-    },
-    {
-      "sha": "7a588f5",
-      "subject": "plan(WC8): add Slice 6 (productionization) + Slice 7 (output: podcast + slide decks) past Slice 5",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "66dabff",
-      "subject": "feat(WC8): commit the full Ayyuhal Walad pipeline artifacts — all 5 chapters, 6 layers",
       "date": "2026-05-30"
     }
   ],

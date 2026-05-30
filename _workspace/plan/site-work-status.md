@@ -137,6 +137,7 @@ substantial builds (Studio re-platform, full audio job). Total Azure cost to dat
 
 | Phase | Name | Key deliverables | Cost |
 |---|---|---|---|
+| **0.7** | Dual-platform setup | `.vscode/tasks.json` (9 tasks), `.vscode/launch.json` (5 debug configs), `.vscode/extensions.json`; `.github/copilot-instructions.md` (mirrors CLAUDE.md for Copilot); fix 15 `.github/agents/` stubs with Copilot YAML frontmatter; delete 2 broken stubs | $0 |
 | **1** | Plan repair + Tier-0 fixes | Register WC8-0-foundation in plan.yaml; fix extractor.py claude-p; set meta.yml tradition_affinity=sunni-sufi for Ayyuhal; fold wave_8_studio into waves: array; fix I0a/I0b status | $0 |
 | **2** | K6-pre: terminus protection + retrofix | R_TERMINUS_PRESERVE in _rules.py; TERMINUS guard in gemini_refine.py; SN-7 in house-voice.md; D6 in challenger; re-run denoise+normalize+augmented for 5 chapters | ~$0.07 |
 | **3** | B5: MCP corpus enrichment | ingest_mcp_corpus.py (hadith/etymology/poetry from KASHKOLE+KQUR); run ingest; build KSESSIONS voice exemplar vectors | ~$0 |
