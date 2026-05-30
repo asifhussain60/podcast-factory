@@ -1,5 +1,8 @@
 """Librarian — phase 0h step 2.
 
+# DEPRECATED — superseded by intelligence/librarian.py (Wave B DB-backed).
+# No production callers. Retained for reference only; delete in a future cleanup.
+
 Takes the Extractor's scratch JSONL, walks each atom against the canonical library,
 and writes back: merged library files + a human-readable merge report + (if any)
 conflicts to `content/knowledge-base/_conflicts/pending-review.jsonl`.

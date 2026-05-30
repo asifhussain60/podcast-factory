@@ -1,5 +1,9 @@
 """Extractor — phase 0h step 1.
 
+# DEPRECATED — superseded by intelligence/extractor.py (Wave B DB-backed).
+# No production callers. Retained for reference only; delete in a future cleanup.
+# Note: knowledge/_atom_schemas.py is still live (imported by intelligence/extractor.py).
+
 Reads audit-vetted chapter bundles from a book's `_system/episode-drafts/` and pulls
 out atoms (Wave 1: Quran + hadith only). Writes a per-book scratch JSONL file with no
 dedup. The Librarian handles dedup downstream.

@@ -1,5 +1,8 @@
 """Augmenter — query helper for future-book prompts.
 
+# DEPRECATED — superseded by intelligence/augmenter.py (Wave B DB-backed).
+# No production callers. Retained for reference only; delete in a future cleanup.
+
 Wave-B baseline implementation:
 - Scans chapter text for Quran/hadith citation patterns.
 - Looks up matching atoms from the local JSONL knowledge library.
