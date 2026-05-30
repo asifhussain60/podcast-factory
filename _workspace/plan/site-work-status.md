@@ -141,6 +141,8 @@ substantial builds (Studio re-platform, full audio job). Total Azure cost to dat
 - intake_stage.py only OCRs (committed/tracked). Denoise/normalize/reconcile/augment were inline
   agent transforms (artifacts under content/drafts, local-only) — productionize as scripts when stable.
 
+- **Wave K step K6 — BUILD:** add 5th PEQ axis (Interest, weight 0.15) + Challenger Category V (curiosity-building, challenge-defeat arcs, opening hook, modern relevance, no strawman). Also fix Voice axis stub (returns 0.0 — build KSESSIONS exemplar vectors). Authorized 2026-05-30. Prerequisite before Slice 7.
+
 **Parked (resume anytime):**
 - *Site redesign* — 5 of 13 views built, 5 text-only and pending. Full audit + resume
   order: `_workspace/plan/site-view-audit.md`. Discuss each page before changing it.

@@ -663,6 +663,14 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 
 **Status: COMPLETED**
 
+### K6. Add Interest & Challenge-Defeat scoring as a 5th PEQ axis and Challenger Category V.
+
+> The current 4-axis PEQ framework (Fidelity, Voice, Structure, Enrichment) measures correctness and completeness but has no listener-engagement dimension. Asif identified two patterns absent from scoring that define compelling Islamic scholarship: **(a) curiosity-building** — the host plants a question or surprising claim early, withholds the answer, and builds pressure before resolution; and **(b) challenge-defeat arcs** — a modern objection or rival belief is named explicitly, given real weight, then defeated with a sourced argument from the tradition. A chapter on a contested topic (wilāya, taʾwīl, cosmology, sharīʿa–ḥaqīqa) with zero challenge-defeat beats is too expository regardless of its fidelity score. K6 adds a 5th PEQ axis (Interest, weight 0.15, redistributing existing weights proportionally) and a new Challenger Category V with five checks (V1 hook present, V2 curiosity arc withholding, V3 challenge-defeat on contested topics, V4 modern relevance signal, V5 challenge not strawmanned). Also fixes the Voice axis, which currently returns 0.0 because no KSESSIONS style exemplar vectors have been built — K6 builds them from the existing lecture transcripts during the B5 ingest pass and caches them so _voice_score() has real data.
+>
+> *Value gained:* The podcast quality gate finally measures what listeners actually experience — not just whether the citations are right but whether the episode pulls them forward. Challenge-defeat arcs are what make ancient doctrine feel urgent to a modern ear; measuring their absence stops them from being silently omitted across all future books.
+
+**Status: NOT STARTED — authorized 2026-05-30**
+
 ---
 
 ## What This Plan Excludes (by design)

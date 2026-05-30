@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T10:26:14.710Z",
-  "source_commit": "2ff90c8",
+  "generated_at": "2026-05-30T10:31:15.055Z",
+  "source_commit": "a2ace31",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -726,6 +726,19 @@
       ],
       "plain": "",
       "tools": []
+    },
+    {
+      "id": "K6",
+      "title": "Add Interest & Challenge-Defeat scoring as a 5th PEQ axis + Challenger Category V",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2",
+        "K3",
+        "K5"
+      ],
+      "plain": "",
+      "tools": []
     }
   ],
   "waves": [
@@ -795,6 +808,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "a2ace31",
+      "subject": "plan(WC8): add Slice 4+ / Wave B5 — hadith, etymology, poetry atom ingestion from MCP",
+      "date": "2026-05-30"
+    },
+    {
       "sha": "2ff90c8",
       "subject": "doc(WC8): continuation prompt v3 — AUTONOMOUS Wave 8 build mandate + north-star (any content -> NotebookLM podcast); Ayyuhal Walad = test case, must end Wave 8 production-ready; stop only for major editor/pipeline forks, [D] publish, or blockers",
       "date": "2026-05-30"
@@ -837,11 +855,6 @@
     {
       "sha": "14bc253",
       "subject": "WC8 (B): chapter switcher in the Studio PoC — all 5 chapters selectable, each with its 5 stages + metrics + approvals; tighten Gemini normalize prompt (no preamble leak)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "5fac374",
-      "subject": "continuity(WC8): all 5 chapters have full 5-stage lineage; per-chapter Quran refs mapped+verified",
       "date": "2026-05-29"
     }
   ],

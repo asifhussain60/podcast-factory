@@ -107,7 +107,7 @@ the throwaway PoC, not the real Studio.
 | ⬜ | 4+ | Ingest hadith, etymology, and poetry atoms from the wisdom corpus MCP (KASHKOLE+KQUR) — removes the hadith-DB blocker, no external source needed. Fix `extractor.py` `claude -p` violation. | source-library MCP | ~$0 | — |
 | ◐ | 5 | Transcribe the 12 lectures and fold the Shaykh's commentary in as the Narrator layer (auto-clean). Pending: Studio re-platform, consistency. | Azure · Gemini · Copilot | ~$5.00 | $4.40 |
 | ⬜ | 6 | Close the loop so approving a stage in the editor advances the book — edits save back, orchestrator runs the next stage. | Copilot | ~$0 | — |
-| ⬜ | 7 | Assemble the chapters into the NotebookLM podcast bundle and the mandatory slide decks. | Gemini · Claude | ~$0.20 | — |
+| ⬜ | 7 | Assemble the chapters into the NotebookLM podcast bundle and the mandatory slide decks. Requires K6 (interest scoring) live before running so the challenger loop gates on engagement quality, not just fidelity. | Gemini · Claude | ~$0.20 | — |
 | 🔒 | D | **Mandatory — finalize halt + publish gate: review the clean assembled book once before it ships.** | | | |
 | | **Total** | **Wave 8 cost** | | **~$5.60** | **$4.80** |
 

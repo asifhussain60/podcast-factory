@@ -2504,6 +2504,105 @@ waves_ghj:
         cost_estimate_usd: 0
         execution_status: completed
 
+      - id: K6
+        title: "Add Interest & Challenge-Defeat scoring as a 5th PEQ axis + Challenger Category V"
+        authorized_by: "asif_2026-05-30"
+        authorized_note: >
+          Asif flagged that the existing podcast lacks curiosity-building and
+          challenge-defeat arcs. He confirmed scoring algorithms were designed
+          for this purpose but are not properly integrated. K6 closes this gap.
+        depends_on: [K2, K3, K5]
+        rationale: |
+          The current 4-axis PEQ (Fidelity, Voice, Structure, Enrichment) measures
+          correctness and completeness but not listener engagement. Two patterns
+          that make Islamic scholarship genuinely compelling are absent from scoring:
+
+          (1) CURIOSITY-BUILDING: the host plants a question or surprising claim early,
+          withholds the answer, and builds tension before resolution. Measured as
+          question-density (rhetorical ?s per 1000 words), hook latency (words before
+          first ?), and revelation-moment count (distinct "aha" beats in the arc).
+
+          (2) CHALLENGE-DEFEAT ARC: an objection from modern science or contemporary
+          belief is named explicitly, given real weight (not strawmanned), then
+          refuted with a sourced argument drawn from the tradition. Detection requires
+          identifying the proposal → challenge → refutation → settled-doctrine
+          four-beat pattern. A chapter with zero challenge-defeat beats on a
+          doctrinally contested topic is too expository.
+
+          Additional gaps identified in the same audit:
+          - Voice axis is STUBBED (returns 0.0; no KSessions style exemplars loaded).
+            K6 also builds the exemplar vectors from existing KSESSIONS transcripts.
+          - Opening hook quality: first 200 words must contain a hook question or
+            surprising claim — currently no gate.
+          - Modern relevance: "why does this matter today?" never measured.
+          - Emotional arc: intellectual journey is tracked (Structure); emotional
+            journey is not.
+        deliverables:
+          peq_axis_5:
+            file: "scripts/podcast/_quality.py"
+            function: "_interest_score(text, archetype) -> float"
+            inputs:
+              question_density: "rhetorical questions per 1000 words (target >= 3)"
+              hook_latency_words: "words before first hook question (target < 150)"
+              challenge_defeat_beats: "count of proposal-challenge-refutation-settlement arcs"
+              revelation_moments: "count of distinct 'aha' beats (new insight per section)"
+              modern_relevance_signals: "count of contemporary analogy / modern-science references"
+            weight: 0.15
+            weight_redistribution: "Fidelity=0.30, Voice=0.25, Structure=0.15, Enrichment=0.15, Interest=0.15"
+          voice_axis_fix:
+            file: "scripts/podcast/_quality.py + scripts/podcast/intelligence/ingest_mcp_corpus.py"
+            issue: "Voice axis _voice_score() returns 0.0 because no KSESSIONS exemplar vectors exist"
+            fix: "Build exemplar TF-IDF vectors from KSESSIONS transcripts during B5 ingest; cache to _system/voice-exemplars.pkl; _voice_score() loads on first call"
+          challenger_category_v:
+            file: "infra/claude-agents/podcast-challenger.md"
+            title: "Category V — Interest & Challenge-Defeat Quality"
+            checks:
+              V1:
+                name: "Hook question present in opening"
+                severity: P1
+                rule: "First 200 words must contain at least one rhetorical question or surprising claim. Absence = P1."
+              V2:
+                name: "Curiosity arc — answer withheld"
+                severity: P1
+                rule: "At least one question planted in the first half must be answered in the second half. Planting and answering in the same paragraph = fail."
+              V3:
+                name: "Challenge-defeat arc present on contested topics"
+                severity: P1
+                rule: "For any doctrinally contested claim (wilaya, tawil, cosmology, shariah-haqiqa), at least one explicit challenge (modern objection / rival interpretation) must be named and then defeated with sourced argument. Zero challenge-defeat beats on a contested topic = P1."
+              V4:
+                name: "Modern relevance signal"
+                severity: P2
+                rule: "At least one contemporary analogy, modern-science reference, or present-day parallel per episode. Pure historical exposition with zero present-day anchors = P2."
+              V5:
+                name: "Challenge is not strawmanned"
+                severity: P2
+                rule: "The objection named in V3 must be given real weight before defeat — not dismissed in one clause. Strawman challenge = P2."
+          authoring_prompt_additions:
+            file: "scripts/podcast/_authoring.py"
+            additions:
+              - "INTEREST CONTRACT block added to framing system prompt: requires hook question in first 200 words, one challenge-defeat arc on contested claims, one modern analogy per episode"
+              - "PEQ Interest axis weight and thresholds added to self-assessment block (K3)"
+          new_r_constants:
+            - "R_INTEREST_QUESTION_DENSITY_TARGET = 3.0  # per 1000 words"
+            - "R_INTEREST_HOOK_LATENCY_MAX_WORDS = 150"
+            - "R_INTEREST_CHALLENGE_DEFEAT_MIN = 1  # per contested chapter"
+            - "R_INTEREST_REVELATION_MOMENTS_TARGET = 3  # per episode"
+            - "R_INTEREST_AXIS_WEIGHT = 0.15"
+        acceptance:
+          - "_interest_score() implemented and returning 0-25 float"
+          - "PEQ total now sums 5 axes; weight redistribution sums to 1.0"
+          - "Category V checks V1-V5 present in podcast-challenger.md"
+          - "Framing prompt includes INTEREST CONTRACT block"
+          - "Voice exemplar vectors built from KSESSIONS; _voice_score() no longer returns 0.0"
+          - "test_interest_scoring.py: >= 10 unit tests covering hook-absent, challenge-present, modern-analogy, strawman"
+          - "test_peq_regression.py still green vs K1 baselines (old 4-axis scores unchanged; 5th axis additive)"
+          - "_rules.py: 5 new R_INTEREST_* constants present"
+          - "_quality.py and challenger_scoring.py both <= 600 lines (DR-005)"
+        authorization: tier_one
+        cost_estimate_usd: 0
+        execution_status: not_started
+        branch: "feature/wave-k-interest-scoring"
+
 # ===========================================================================
 # WISDOM CORPUS PROGRAM — converged 2026-05-29 with Asif (design-convergence
 # session, decisions D1-D18). Additive section; does not alter curated waves
