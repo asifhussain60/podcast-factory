@@ -117,17 +117,29 @@ interface StageMetric {
   comparedTo: string | null;
 }
 
-interface Props {
+interface Chapter {
   slug: string;
-  chapter: string;
+  title: string;
   stages: Stage[];
-  chapterTitle: string;
-  glossary?: GlossaryEntry[];
-  reviewed?: Record<string, { approved: boolean; approved_at?: string | null }>;
-  metrics?: StageMetric[];
+  metrics: StageMetric[];
+  reviewed: Record<string, { approved: boolean; approved_at?: string | null }>;
 }
 
-export default function StudioPoc({ slug, chapter, stages, chapterTitle, glossary = [], reviewed = {}, metrics = [] }: Props) {
+interface Props {
+  slug: string;
+  chapters: Chapter[];
+  glossary?: GlossaryEntry[];
+}
+
+export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
+  // B: chapter switcher — pick which chapter's stages the editor shows.
+  const [chapIdx, setChapIdx] = useState(0);
+  const chap = chapters[chapIdx] ?? chapters[0];
+  const stages = chap.stages;
+  const metrics = chap.metrics;
+  const chapter = chap.slug;
+  const chapterTitle = chap.title;
+
   // Stage tabs (SN-5): the last AVAILABLE stage is the one under review (editable); upstream
   // stages are read-only comparison views. Tabs for not-yet-produced stages render disabled.
   const editableStageId = [...stages].reverse().find((s) => s.available)?.id ?? stages[0]?.id;
@@ -138,8 +150,14 @@ export default function StudioPoc({ slug, chapter, stages, chapterTitle, glossar
 
   // WC8 write-back loop: which stages are approved (seeded from disk, updated on approve).
   const [approvedStages, setApprovedStages] = useState<Record<string, boolean>>(
-    () => Object.fromEntries(Object.entries(reviewed).map(([k, v]) => [k, !!v?.approved])),
+    () => Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, !!v?.approved])),
   );
+  // On chapter switch: reset to that chapter's editable stage + reload its approvals.
+  useEffect(() => {
+    setStageId([...chap.stages].reverse().find((s) => s.available)?.id ?? chap.stages[0]?.id);
+    setApprovedStages(Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, !!v?.approved])));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chapIdx]);
   const [saving, setSaving] = useState(false);
   const approveStage = useCallback(async () => {
     if (!stage) return;
@@ -362,7 +380,7 @@ export default function StudioPoc({ slug, chapter, stages, chapterTitle, glossar
     editor.setEditable(!isReadOnlyStage);
     refresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stageId, editor]);
+  }, [stageId, chapIdx, editor]);
 
   // Force a decoration recompute when Arabic mode flips. Set the ref BEFORE dispatching
   // (React state is async — the plugin reads arabicRef synchronously during the recompute).
@@ -429,7 +447,16 @@ export default function StudioPoc({ slug, chapter, stages, chapterTitle, glossar
   return (
     <div className="studio-poc">
       <main className="studio-poc__editor">
-        {/* Stage tabs (SN-5): Source -> Denoised -> Core -> Normalized -> Augmented. */}
+        {/* B: chapter switcher. */}
+        <div className="sp-chapsel">
+          <label htmlFor="sp-chap">Chapter</label>
+          <select id="sp-chap" value={chapIdx} onChange={(e) => setChapIdx(Number(e.target.value))}>
+            {chapters.map((c, i) => (
+              <option key={c.slug} value={i}>{i + 1}. {c.title}</option>
+            ))}
+          </select>
+        </div>
+        {/* Stage tabs (SN-5): Source -> Core -> Denoised -> Normalized -> Augmented. */}
         <div className="sp-tabs" role="tablist" aria-label="Pipeline stages">
           {stages.map((s) => (
             <button

@@ -13,15 +13,16 @@ import { readReview } from '../lib/reader/stage-review';
 import { buildStageMetrics, writeMetricsLedger } from '../lib/reader/stage-metrics';
 
 const SLUG = 'ayyuhal-walad';
-const CHAPTER = 'ch01-frame-and-first-counsel';
-const chapterTitle = 'The Frame and the First Counsel';
-
-// Stage-aware loader (SN-5): Source -> Denoised -> Core -> Normalized -> Augmented. Each stage's
-// text lives at content/drafts/books/<slug>/_stages/<chapter>/<id>.(md|txt); 'augmented' falls
-// back to the existing finished chapter. Stages that the slices haven't produced yet are 'pending'
-// — the tabs render them disabled and fill in as the pipeline runs. No LLM in Slice 0.
-// Canonical pipeline order (intake builds the Core, THEN noise is stripped):
-// Source -> Core -> Denoised -> Normalized -> Augmented.
+// All chapters (B: chapter switcher). Canonical stage order: Source -> Core -> Denoised ->
+// Normalized -> Augmented. Each stage's text lives at _stages/<chapter>/<id>.(md|txt);
+// 'augmented' falls back to the finished chapter. Pending stages render disabled.
+const CHAPTERS = [
+  { id: 'ch01-frame-and-first-counsel', title: 'The Frame and the First Counsel' },
+  { id: 'ch02-hatim-eight-benefits', title: "Hatim's Eight Benefits" },
+  { id: 'ch03-the-path', title: 'The Path' },
+  { id: 'ch04-four-cautions', title: 'The Four Cautions' },
+  { id: 'ch05-method-and-closing-prayer', title: 'Method & Closing Prayer' },
+];
 const STAGE_DEFS = [
   { id: 'source', label: 'Source', slice: 'Slice 1 (intake)' },
   { id: 'core', label: 'Core', slice: 'Slice 1 (intake)' },
@@ -33,31 +34,30 @@ const base = new URL(`../../../content/drafts/books/${SLUG}/`, import.meta.url);
 function readIfExists(url: URL): string | null {
   try { return readFileSync(url, 'utf8'); } catch { return null; }
 }
-function loadStageMd(id: string): string | null {
+function loadStageMd(chapter: string, id: string): string | null {
   for (const ext of ['md', 'txt']) {
-    const md = readIfExists(new URL(`_stages/${CHAPTER}/${id}.${ext}`, base));
+    const md = readIfExists(new URL(`_stages/${chapter}/${id}.${ext}`, base));
     if (md) return md;
   }
-  // Back-compat: the prior full run's finished chapter IS the augmented stage.
-  if (id === 'augmented') return readIfExists(new URL(`chapters/${CHAPTER}.txt`, base));
+  if (id === 'augmented') return readIfExists(new URL(`chapters/${chapter}.txt`, base));
   return null;
 }
-const stageTexts = STAGE_DEFS.map((d) => {
-  const md = loadStageMd(d.id);
-  return { ...d, available: !!md, text: md ?? '' };
+const chapters = CHAPTERS.map((c) => {
+  const stageTexts = STAGE_DEFS.map((d) => {
+    const md = loadStageMd(c.id, d.id);
+    return { ...d, available: !!md, text: md ?? '' };
+  });
+  const metrics = buildStageMetrics(stageTexts.map((s) => ({ id: s.id, available: s.available, text: s.text })));
+  writeMetricsLedger(SLUG, c.id, metrics);
+  const stages = stageTexts.map((s) => ({
+    id: s.id, label: s.label, slice: s.slice, available: s.available,
+    html: s.available ? renderMarkdown(s.text) : '',
+  }));
+  return { slug: c.id, title: c.title, stages, metrics, reviewed: readReview(SLUG, c.id).stages };
 });
-// Track per-stage metrics (incl. "% noise removed" = Denoised vs Source) + persist the ledger.
-const metrics = buildStageMetrics(stageTexts.map((s) => ({ id: s.id, available: s.available, text: s.text })));
-writeMetricsLedger(SLUG, CHAPTER, metrics);
-const stages = stageTexts.map((s) => ({
-  id: s.id, label: s.label, slice: s.slice, available: s.available,
-  html: s.available ? renderMarkdown(s.text) : '',
-}));
-const loadError = stages.some((s) => s.available) ? '' : `No stage artifacts found for ${SLUG}/${CHAPTER}.`;
+const loadError = chapters.some((c) => c.stages.some((s) => s.available)) ? '' : `No stage artifacts found for ${SLUG}.`;
 // FC-4: Arabic-script overlay glossary (seed for the feel-check; Phase 0c bakes the real one).
 const glossary = await loadGlossary(SLUG);
-// WC8 write-back loop: per-stage approval state for this chapter.
-const review = readReview(SLUG, CHAPTER);
 ---
 
 <PocLayout title="Studio PoC — Ayyuhal Walad">
@@ -73,7 +73,7 @@ const review = readReview(SLUG, CHAPTER);
     ? <p class="sp-error">Could not load the chapter: {loadError}</p>
     : (
       <div class="prose-body">
-        <StudioPoc client:only="react" slug={SLUG} chapter={CHAPTER} stages={stages} chapterTitle={chapterTitle} glossary={glossary} reviewed={review.stages} metrics={metrics} />
+        <StudioPoc client:only="react" slug={SLUG} chapters={chapters} glossary={glossary} />
         <StudioVersePopover client:only="react" />
       </div>
     )}

@@ -76,7 +76,11 @@ def main() -> int:
         src, dst, system = sd / "core.md", sd / "denoised.md", DENOISE_SYS
         title = f"# Denoised — {a.chapter} (apparatus stripped via Gemini)"
     else:
-        src, dst, system = sd / "denoised.md", sd / "normalized.md", (REPO_ROOT / "docs" / "standards" / "house-voice.md").read_text()
+        hv = (REPO_ROOT / "docs" / "standards" / "house-voice.md").read_text()
+        system = ("OUTPUT DISCIPLINE: return ONLY the re-voiced chapter text. No preamble, no "
+                  "'Here is...', no notes, no explanation, no headings about the task. Begin directly "
+                  "with the chapter's first words.\n\n" + hv)
+        src, dst = sd / "denoised.md", sd / "normalized.md"
         title = f"# Normalized — {a.chapter} (house voice via Gemini)"
     if not src.exists(): raise SystemExit(f"missing input {src}")
     text = src.read_text()

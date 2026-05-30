@@ -439,3 +439,12 @@
 .studio-poc__editor .sp-metric-delta { font-weight: 700; }
 .studio-poc__editor .sp-metric-delta.is-down { color: var(--c-green, #15803d); }
 .studio-poc__editor .sp-metric-delta.is-up { color: var(--c-accent); }
+
+/* B: chapter switcher. */
+.studio-poc__editor .sp-chapsel { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; }
+.studio-poc__editor .sp-chapsel label { font-family: var(--font-ui, system-ui, sans-serif); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-ink-muted); }
+.studio-poc__editor .sp-chapsel select {
+  font-family: var(--font-ui, system-ui, sans-serif); font-size: 0.9rem; font-weight: 600;
+  color: var(--c-ink); background: var(--c-bg-card); cursor: pointer;
+  border: 1px solid var(--c-rule, rgba(0,0,0,0.18)); border-radius: 8px; padding: 5px 10px;
+}
