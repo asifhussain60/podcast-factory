@@ -1,110 +1,107 @@
-# Continuation prompt — Ayyuhal Walad pipeline (WC8 walking skeleton)
+# Continuation prompt — Ayyuhal Walad pipeline (WC8) — for the next session
 
-**For:** the next Claude session. **Branch:** `book/ayyuhal-walad`. **Read** this + `site-work-status.md`
-first. **Standing rules:** never run `claude -p` from scripts (it drains Asif's Max tokens — Claude
-reasoning is the AGENT inline; bulk = Gemini; OCR/transcribe = Azure). Azure + Gemini spend is
-pre-authorized — track cost in `_system/cost-ledger.json`, never gate on asking.
+**Branch:** `book/ayyuhal-walad` (pushed to origin). **Read this + `site-work-status.md` first**
+(the SessionStart hook injects the latter automatically).
 
 ---
 
-## 1. What this is
+## 0. START HERE — holistic + systematic architectural review (DO THIS FIRST, before building)
 
-We're building the intelligence + podcast pipeline as a **walking skeleton** on **Ayyuhal Walad**
-(al-Ghazali's "O Beloved Son") — the **primary test case**. Three things mature in lockstep:
-**pipeline** (processing) + **editor** (the Studio review cockpit) + **intelligence** (the wisdom
-corpus). Each pipeline step is built with the editor halt that reviews it. Run non-destructively
-(new artifacts only; never re-ship the prior run).
+Before writing any new code, put on a **senior architect + engineer** hat and review ALL work done
+so far — across the earlier waves (WC1–WC7) AND the Wave 8 slices already shipped (0–5) — and answer,
+honestly and concretely:
 
-## 2. The plan structure — waves & slices
+1. **Is everything up to par?** Does each shipped slice actually meet its goal at production quality,
+   or did we accept "walking-skeleton" shortcuts that now need hardening?
+2. **Any regression?** Did later slices break or weaken earlier ones? (e.g. did the multi-chapter
+   refactor weaken the ch01 path; did the Gemini engine change outputs vs the inline ch01 pass; are
+   the editor's earlier features — verse popover, tagging, Arabic toggle, write-back — still intact
+   across the chapter switcher?) Run the headless checks; re-read the committed artifacts.
+3. **Refactoring opportunities?** Five one-off scripts (intake_stage, transcribe_audio,
+   transcribe_all_lectures, gemini_refine, narrator_additions) + inline transforms now exist parallel
+   to the OLD orchestrate_book phases. Where is the duplication? What should consolidate? Is the
+   `_stages/` convention the right seam, or should it merge with the existing phase outputs?
+4. **Enhancements?** What's the highest-leverage improvement to quality or reviewer experience?
+5. **Unseen risks** — be specific about:
+   - **Scalability:** does this survive a 30-chapter book? 50 books? (OCR page caps, Gemini context
+     limits, the inline-agent reconcile that doesn't scale, the editor loading ALL chapters server-side.)
+   - **Extensibility:** adding a new source type, a new stage, a new tradition — one-file change or
+     search-and-replace? (Check against the locked `extensibility-first` rule.)
+   - **Cost:** what's the per-book cost at scale (audio transcription dominated at $4.31/book)? Where
+     can engine-routing cut it? Is cost tracked end-to-end?
+   - **Correctness/doctrine:** the auto-applied normalize is interpretive on doctrinal text — are the
+     drift guards real? Is scripture truly verbatim? Did Gemini ever paraphrase a quote?
+6. **Cross-session memory:** is `site-work-status.md` + this doc enough for a cold start, or is state
+   leaking only into commit messages / local-only artifacts?
 
-**8 waves total (WC1–WC8).** WC1 (corpus engine) is done — 628 atoms, fatimid-ismaili tradition.
-**WC8 is the active wave**: multi-source intake + reconciliation + the Studio cockpit. WC2–WC7 are
-the surrounding intelligence/site waves (verify seam, knowledge-read, corpus view, audio, HTML-view
-standard) — interleaved into WC8's slices.
+Produce a short ranked findings list (severity-tagged) BEFORE proposing the next build. Use the
+`podcast-auditor` agent if helpful. Do NOT skip this — it is the explicit ask.
 
-**WC8 has 6 slices (0–5):**
-| Slice | Name | What it does |
-|---|---|---|
-| 0 | Foundation | editor, stage tabs, write-back loop, metrics, (phase-naming cleanup) |
-| 1 | Intake | OCR the sources → common-denominator Core + attributed additions |
-| 2 | Refine / noise-strip | strip apparatus/filler → Denoised (the "% noise removed") |
-| 3 | Reconciliation | align sources, pick authoritative rendering, mark divergences |
-| 4 | Knowledge | verify references vs the corpus + enrich → Augmented |
-| 5+ | Deepen | Anwaar engine (separate fixture), full Studio re-platform, audio+episode map, consistency |
+---
 
-**Plus an interleaved Normalize stage** (house voice, `docs/standards/house-voice.md`).
-**The per-chapter layer chain (6 layers):** Source → Core → Denoised → Normalized → Augmented → Narrator(additions).
+## 1. Standing rules (non-negotiable)
+- **NEVER** run `claude -p` from scripts (drained Asif's Max tokens once). Claude reasoning = the
+  AGENT inline; bulk = Gemini (keychain `gemini_api_key`); OCR/transcribe/translate = Azure.
+- Azure + Gemini spend pre-authorized; **track cost** in `_system/cost-ledger.json`, don't gate on asking.
+- Plan-first: nothing executes without a plan entry + snapshot + approval. No PRs (push to branch directly).
+- Response format: plain English, H2/H3, blockquote callouts, tables for tabular, alphabetized Next.
 
-## 3. COMPLETED (as of 2026-05-30, ~$4.80 Azure+Gemini, zero Claude tokens)
+## 2. Structure: 8 waves; Wave 8 active; now 8 slices (0–7)
+WC1 (corpus engine) ✅. The podcast pipeline CORE pre-existed. **Wave 8** builds the EDITOR + multi-source
+intake/reconciliation and threads intelligence through each slice. Slices: 0 foundation · 1 intake ·
+2 noise-strip · 3 reconcile · 4 knowledge · 5 deepen · **6 productionization (NEW)** · **7 output (NEW)**.
+Per-chapter layer chain: Source → Core → Denoised → Normalized → Augmented → Narrator(additions).
 
-- **Slice 0** ✅ — TipTap Studio editor at `/studio-poc`: chapter switcher (all 5 chapters), 6 stage
-  tabs, write-back loop (`/api/studio/review` → `_system/review/<ch>.json`), per-stage metrics,
-  golden verse popover, icon tagging, Arabic toggle. (Loose end: phase-naming cleanup.)
-- **Slice 1 (Intake)** ✅ — `intake_stage.py` OCR'd all 3 PDFs via Azure Doc Intelligence (S0).
-  Found the files are MISLABELED (2 Arabic + 1 English academic — see `SOURCE-MAP-CORRECTION.md`).
-- **Slice 2 (Noise-strip)** ✅ — via `gemini_refine.py` (robust; the regex denoiser was brittle).
-- **Slice 3 (Reconcile)** ✅ — Arabic original = spine; English academic = faithful; **20 Quran
-  citations recovered from the spine + ALL verified** (`quran-citations.json`).
-- **Normalize** ✅ — house voice via `gemini_refine.py`, all 5 chapters.
-- **Slice 4 (Knowledge)** ✅ — per-chapter Augmented + the 20 verified Quran refs bucketed to chapters.
-- **Slice 5 (partial)** ✅ episode↔chapter map; ✅ **all 12 lectures transcribed** (~14.4 h via Azure
-  Speech); ✅ **narrator-additions layer on all 5 chapters** (Gemini-cleaned, `narrator_additions.py`).
-- **Net:** all 5 chapters fully staged through 6 layers; navigable in the editor.
-- **Reusable scripts:** intake_stage, transcribe_audio, transcribe_all_lectures, gemini_refine,
-  narrator_additions (all Azure/Gemini, no claude -p).
+## 3. Completed (Ayyuhal Walad, ~$4.80, zero Claude tokens) — all committed + pushed
+Slices 0–4 + Normalize DONE for all 5 chapters; Slice 5 partial (episode map ✅, 12 lectures
+transcribed ✅, narrator-additions ✅; Studio re-platform/consistency/Anwaar remain). 20 Quran refs
+verified. Whole book navigable in `/studio-poc` (chapter switcher + 6 tabs). Artifacts in
+`content/drafts/books/ayyuhal-walad/_stages|_system`. Scripts in `scripts/podcast/`.
 
-## 4. REMAINING
-
-- **Hadith verification** — blocked on the hadith reference DB (Asif providing). Quran already verifiable.
-- **Slice 5 leftovers:** full Studio RE-PLATFORM (WC8.5 — the real Read+Studio modes; the `/studio-poc`
-  is a throwaway spike), consistency pass (WC8.7), Anwaar engine (WC8.3 — a DIFFERENT book, not Ayyuhal).
-- **Productionization** — fold the inline/script stages into the orchestrator as proper phases so a
-  book runs end-to-end and the editor's approvals actually DRIVE advancement (see §6).
-- **Output track** — assemble the processed text into the NotebookLM podcast bundle + the MANDATORY
-  slide decks.
-- **Slice-0 phase-naming cleanup** (small).
+## 4. Remaining
+Slice 5 leftovers (Studio re-platform WC8.5, consistency WC8.7, Anwaar WC8.3=different book);
+**Slice 6 productionization** (edit-save-back + orchestrator-watches-approvals — the thing that makes
+the editor actually DRIVE the pipeline); **Slice 7 output** (NotebookLM bundle + mandatory slide decks);
+hadith verification (awaiting Asif's hadith DB); Slice-0 phase-naming cleanup.
 
 ## 5. Mandatory human-review steps
+(1) PoC feel-check — ✅ done one-time. (2) Holistic-review-per-wave (between slices). (3) **Per-stage
+approval in the editor** — the recurring operational gate. (4) Finalize halt before publish. (5) Publish
++ develop→main gates (Tier 2). The one touched repeatedly to move a book forward is **#3**.
 
-The design has these mandatory human gates:
-1. **PoC feel-check** (WC8.0) — ✅ DONE (converged over ~12 rounds).
-2. **Holistic-review-per-wave** — between every slice, realign pipeline+editor+intelligence (gate).
-3. **Per-stage approval in the editor** (the write-back loop) — the recurring operational review:
-   approve each chapter's stage to release the pipeline. (5 chapters × the reviewable stages.)
-4. **Finalize halt** — review the clean version before publish.
-5. **Publish gate** (Tier 2 — always ask) and **develop→main** production gate (Tier 2).
+## 6. Editor readiness (honest)
+READY: switch all 5 chapters; view all 6 layers + diffs/metrics; edit/tag/Arabic/verse-popover; MARK
+stages approved (writes `_system/review/<ch>.json`). NOT YET: (a) no orchestrator consumes approvals →
+"approve → advance" not closed; (b) editor edits don't save back to the stage files; (c) it's the
+throwaway PoC, not the real Studio (WC8.5). → **Slice 6 closes (a) and (b).**
 
-So: ~2 standing design gates (2,3) recur per book; 1 was one-time (1); 2 are at ship time (4,5).
-The one you'll touch repeatedly to move a book forward is **#3 — per-stage approval in the editor.**
+---
 
-## 6. Is the editor ready for you to progress the book? — HONEST ANSWER
+## 7. Wave-8 completion view — FINALIZED RESPONSE TEMPLATE (Asif's target end-state)
+_This is the exact table format to render at Wave 8 completion. Columns:
+{completion} Status | Slice | Description | Service | Est Cost | Actual Cost | Goal._
 
-**Ready now (you can do these today at `/studio-poc`):**
-- Switch between all 5 chapters; view all 6 layers (Source→…→Narrator) and the diffs/metrics between them.
-- Read the house-voice Normalized text, the Augmented references, and the Shaykh's Narrator commentary.
-- Edit (TipTap), tag paragraphs (icon palette), toggle Arabic, hover verses (golden popover).
-- **Mark each stage "approved"** — this writes `_system/review/<chapter>.json`.
+### WAVE 8 of 8 — Multi-source Intake, Reconciliation & the Studio Cockpit  *(ACTIVE)*
+**Description:** Process a book from multiple raw sources into clean, normalized, reference-verified
+chapters, reviewed in the Studio editor — the walking skeleton on Ayyuhal Walad.
 
-**NOT ready yet (the gaps that stop true editor-driven pipeline progression):**
-1. **No orchestrator is watching the approvals.** This session's stages were produced by standalone
-   scripts, not an automated orchestrator loop. So "approve a stage → the book advances to the next
-   stage automatically" is **not closed**. The approval is recorded; nothing consumes it yet.
-2. **Editor edits don't save back** to the stage artifacts (edits are in-memory in the throwaway PoC).
-3. It's the **throwaway PoC**, not the real Studio (WC8.5) with the full capability package
-   (minimap/heatmap, side-by-side divergence diff, tracked edits + accept/reject AI, review-queue).
+**Overall progress:** `███████░░░` ~68%  (slices 0–4 + Normalize done; Slice 5 partial; 6–7 not started)
 
-**Bottom line:** the editor is ready for **review, markup, and approval of every layer of every
-chapter** — but to actually *drive the book forward through the pipeline from the editor*, two
-things must be built next: **(a) save editor edits back to the stage files, and (b) an orchestrator
-that watches `_system/review/<ch>.json` and runs the next stage when you approve.** That is the
-"productionization" item, and it is the single highest-leverage next step for editor-driven progress.
+| Status | Slice | Description | Service | Est Cost | Actual Cost | Goal |
+|---|---|---|---|---|---|---|
+| ✅ 100% | 0 | Foundation — editor, tabs, write-back, metrics | copilot | $0 | $0 | review cockpit every halt flows into |
+| ✅ 100% | 1 | Intake — OCR sources → Source + Core | azure | ~$0.40 | $0.37 | extract raw text + build the spine |
+| ✅ 100% | 2 | Noise-strip → Denoised | gemini | ~$0.05 | $0.02 | remove apparatus + filler |
+| ✅ 100% | 3 | Reconcile — align editions, mark divergences | claude · azure | ~$0.05 | $0 | authoritative core + 20 verified refs |
+| ✅ 100% | — | Normalize (house voice) | gemini | ~$0.05 | $0.03 | one editorial-modern voice |
+| ✅ 100% | 4 | Knowledge — verify refs + enrich → Augmented | claude | $0 | $0 | corpus/Quran-verified chapter |
+| ◐ 60% | 5 | Deepen — audio+narrator ✅ · Studio re-platform ⬜ · consistency ⬜ | azure · gemini · copilot | ~$5.00 | $4.40 | full layers + final cockpit |
+| ⬜ 0% | 6 | Productionization — edit-save-back + orchestrator watches approvals | copilot | ~$0 | — | approving a stage DRIVES the book forward |
+| ⬜ 0% | 7 | Output — NotebookLM podcast bundle + mandatory slide decks | gemini · claude | ~$0.20 | — | the audience deliverables |
 
-## 7. Where to pick up (recommended order)
+**Wave 8 total — Est ~$5.60 · Actual $4.80 to date.**
+**Service legend:** azure = OCR/transcribe/translate · gemini = bulk LLM · claude = agent reasoning inline · copilot = code/UI by the dev agent.
 
-1. **Productionize** the chain into the orchestrator + close the approve→advance + edit-save-back loop
-   (makes the editor actually drive the pipeline — answers the question above).
-2. **Output track** — podcast bundle + mandatory slide decks from the processed chapters.
-3. Ingest the **hadith DB** when Asif provides it → hadith verification.
-4. The **real Studio re-platform** (WC8.5) when ready.
-
-*Cost ledger: `content/drafts/books/ayyuhal-walad/_system/cost-ledger.json`. Editor: `cd plan-dashboard && npm run dev` → `/studio-poc`.*
+---
+*Editor: `cd plan-dashboard && npm run dev` → `/studio-poc`. Cost ledger:
+`content/drafts/books/ayyuhal-walad/_system/cost-ledger.json`.*
