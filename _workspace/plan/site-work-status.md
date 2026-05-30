@@ -6,7 +6,7 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-05-29
+**Last updated:** 2026-05-30
 
 **Active priority: the intelligence + podcast pipeline (Wisdom Corpus Program).**
 First step shipped — the corpus-population ENGINE, proven end-to-end on the on-disk
@@ -132,6 +132,15 @@ updated `knowledge-report.json` + `augmented.md`. ch01 divergences: none materia
 
 So Slice 5+ is genuinely NOT fully completable now: 2 sub-items advanced, 1 blocked (Anwaar), 2 are
 substantial builds (Studio re-platform, full audio job). Total Azure cost to date: **$4.67** ($0.37 OCR + $4.31 transcription, 12 lectures).
+
+**PHASES 6 (Python side) + 8 (output bundle + slides) DONE (2026-05-30):**
+- Phase 6 Python side: `_stage_gate.py` (review reader/writer module) + `stage_runner.py` (CLI that checks gate + runs next WC8 stage producer). Status command: `python3 scripts/podcast/stage_runner.py --slug ayyuhal-walad --status`. Copilot's "Run next stage" button calls this via subprocess.
+- Phase 8 (output): `assemble_bundle.py` (validates chapters/framings/slides, runs 5-axis PEQ, emits NotebookLM upload table) + `generate_slide_decks.py` (Gemini 2.5 Flash, thinking disabled, maxOutputTokens=8000, line-strip post-processing). All 5 slide decks produced. Total Azure+Gemini cost to date: **$5.75** ($0.37 OCR + $4.31 transcription + ~$0.07 retrofix/narrator + ~$0.03 slides). PEQ: EP1–4 WARN, EP5 FAIL (Interest axis low — closing prayer chapter has no modern-relevance signals). ch04 slide deck thin (260 words); slide challenger would flag.
+
+**PHASES 2-fix RETROFIX + 4 (K6) + 5c DONE (2026-05-30):**
+- Phase 2-fix retrofix: all 5 Ayyuhal chapters re-run through denoise+normalize with the SN-7 terminus guard live (~$0.04). Artifacts in `_stages/<ch>/{denoised,normalized}.md` are now guard-protected.
+- Phase 4 (K6 interest scoring): 5th PEQ axis added (`_quality.py` — weight 0.15, `_interest_score()` deterministic); weights rebalanced (Fidelity 30%, Voice 20%, Structure 18%, Enrichment 17%, Interest 15%); `R_INTEREST_*` constants + `HOST_ROLE_CONTRACT` + `HOST_ROLE_CONTRACT_DEFAULT` in `_rules.py`; Category V (V1–V5) added to challenger spec; `CHALLENGER_VERSION` bumped 2.2 → 2.3.
+- Phase 5c (host roles): `HOST_ROLE_CONTRACT` dict (3 presets: teacher/student, teacher/questioner, scholar/debater) in `_rules.py`; 7th editorial card `host_roles` added to `editorial.ts` (cockpit-visible, debater trigger in notes field).
 
 **AUTONOMOUS EXECUTION PLAN — 8 phases (recorded 2026-05-30, authorized by Asif):**
 

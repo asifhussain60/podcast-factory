@@ -134,6 +134,7 @@ _workspace/plan/operations/wave-chain-auth.json
 # dumps (backed up in Google Drive — re-importable as needed).
 _workspace/kashkole-ksessions/*.sql
 CONTENT/_shared/source-library/*.sql
+content/knowledge-base/*.db
 content/knowledge-base/*.db-shm
 content/knowledge-base/*.db-wal
 
