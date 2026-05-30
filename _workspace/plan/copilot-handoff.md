@@ -198,6 +198,12 @@ git pull --rebase origin book/ayyuhal-walad    # sync before work + before push
 Append a dated entry at the end of every session (newest at top): what changed, what's next,
 what's blocked. This is your across-session memory.
 
+### 2026-05-30 — Claude session (Slice 7 + editorial fixes)
+
+**F2 CSS ticket (editorial display, Studio editor):** The `editorial_auditor.py` finds `H1_STAGE_LABEL` headings as the first line of every `_stages/<ch>/additions-narrator.md` file. These headings are pipeline metadata (e.g. `# Narrator additions — ch01-frame-and-first-counsel (Shaykh Abdullah Misra, attributed commentary)`) and clutter the Studio editor. The `apply_editorial_fixes.py` script removes them from the `additions-narrator-clean.md` output files, which is the version the editor should load. **Copilot action needed:** ensure the Studio stage viewer (`plan-dashboard/src/...`) loads `additions-narrator-clean.md` when it exists, falling back to `additions-narrator.md`. If no selector exists yet, add it in the stage file resolver function in `plan-dashboard/src/lib/reader/source-render.ts` or the equivalent. This is a 5-line change — check if `clean` file exists, use it. No CSS change needed.
+
+**Other completed work:** Slice 7 bundle for Ayyuhal Walad shipped (3 EP framings + 3 chapter contracts + 3 × slide deck source + framing). All on `book/ayyuhal-walad` branch.
+
 ### 2026-05-30 — Claude session (Asif on Opus 4.8)
 
 Rewrote this handoff from its stale 2026-05-26 "Wave A / build core layer" state to current
