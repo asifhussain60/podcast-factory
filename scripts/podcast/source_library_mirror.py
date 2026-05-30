@@ -84,12 +84,13 @@ CREATE VIRTUAL TABLE IF NOT EXISTS fts_quran USING fts5(
 );
 
 CREATE VIRTUAL TABLE IF NOT EXISTS fts_topics USING fts5(
-    topic_id    UNINDEXED,
+    topic_id      UNINDEXED,
+    topic_type_id UNINDEXED,
     name,
     name_en,
     description,
-    binder      UNINDEXED,
-    chapter     UNINDEXED,
+    binder        UNINDEXED,
+    chapter       UNINDEXED,
     body_plain,
     tokenize = 'unicode61'
 );
@@ -149,6 +150,7 @@ FOR JSON PATH;
 _SQL_TOPICS = """
 SELECT
     t.TopicID                                    AS topic_id,
+    ISNULL(t.TopicTypeID, 0)                     AS topic_type_id,
     ISNULL(t.TopicName, '')                      AS name,
     ''                                            AS name_en,
     ISNULL(t.TopicDescription, '')               AS description,
@@ -308,13 +310,13 @@ def _build_fts_topics(conn: sqlite3.Connection) -> int:
     conn.execute("DELETE FROM fts_topics;")
     rows = _paginate("KASHKOLE", _SQL_TOPICS)
     conn.executemany(
-        "INSERT INTO fts_topics VALUES (?,?,?,?,?,?,?)",
+        "INSERT INTO fts_topics VALUES (?,?,?,?,?,?,?,?)",
         [
             (
-                r.get("topic_id"), r.get("name", ""),
-                r.get("name_en", ""), r.get("description", ""),
-                r.get("binder", ""), r.get("chapter", ""),
-                r.get("body_plain", ""),
+                r.get("topic_id"), r.get("topic_type_id", 0),
+                r.get("name", ""), r.get("name_en", ""),
+                r.get("description", ""), r.get("binder", ""),
+                r.get("chapter", ""), r.get("body_plain", ""),
             )
             for r in rows
         ],
@@ -399,16 +401,20 @@ def build_mirror(
 
     if dry_run:
         # Just report what SQL Server currently holds — no writes.
-        try:
-            quran_count = len(query_json("KQUR", _SQL_QURAN) or [])
-        except Exception:
-            quran_count = -1
-        return {
-            "fts_quran": quran_count,
-            "fts_topics": -1,
-            "fts_sessions": -1,
-            "term_index": -1,
-        }
+        counts: dict[str, int] = {}
+        for key, db, sql in [
+            ("fts_quran",    "KQUR",      "SELECT COUNT(*) AS n FROM QuranAyats FOR JSON PATH;"),
+            ("fts_hadith",   "KQUR",      "SELECT COUNT(*) AS n FROM Ahadees WHERE AhadeesArabic IS NOT NULL AND AhadeesArabic != '' AND IsDeleted=0 FOR JSON PATH;"),
+            ("fts_topics",   "KASHKOLE",  "SELECT COUNT(*) AS n FROM Topics FOR JSON PATH;"),
+            ("fts_sessions", "KSESSIONS", "SELECT COUNT(*) AS n FROM Sessions s JOIN SessionSummary ss ON ss.SessionId=s.SessionID WHERE ss.IsActive=1 FOR JSON PATH;"),
+            ("term_index",   "KQUR",      "SELECT COUNT(*) AS n FROM Roots FOR JSON PATH;"),
+        ]:
+            try:
+                rows = query_json(db, sql) or []
+                counts[key] = rows[0].get("n", 0) if rows else 0
+            except Exception:
+                counts[key] = -1
+        return counts
 
     target.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(str(target))
@@ -442,18 +448,11 @@ def verify_mirror(db_path: Path | None = None) -> dict[str, dict[str, int]]:
 
     conn = sqlite3.connect(str(target))
     mirror_counts = {
-        "fts_quran":    conn.execute(
-            "SELECT COUNT(*) FROM fts_quran"
-        ).fetchone()[0],
-        "fts_topics":   conn.execute(
-            "SELECT COUNT(*) FROM fts_topics"
-        ).fetchone()[0],
-        "fts_sessions": conn.execute(
-            "SELECT COUNT(*) FROM fts_sessions"
-        ).fetchone()[0],
-        "term_index":   conn.execute(
-            "SELECT COUNT(*) FROM term_index"
-        ).fetchone()[0],
+        "fts_quran":    conn.execute("SELECT COUNT(*) FROM fts_quran").fetchone()[0],
+        "fts_hadith":   conn.execute("SELECT COUNT(*) FROM fts_hadith").fetchone()[0],
+        "fts_topics":   conn.execute("SELECT COUNT(*) FROM fts_topics").fetchone()[0],
+        "fts_sessions": conn.execute("SELECT COUNT(*) FROM fts_sessions").fetchone()[0],
+        "term_index":   conn.execute("SELECT COUNT(*) FROM term_index").fetchone()[0],
     }
     conn.close()
 
@@ -461,6 +460,10 @@ def verify_mirror(db_path: Path | None = None) -> dict[str, dict[str, int]]:
     for table, db, sql in [
         ("fts_quran", "KQUR",
          "SELECT COUNT(*) AS n FROM QuranAyats FOR JSON PATH;"),
+        ("fts_hadith", "KQUR",
+         "SELECT COUNT(*) AS n FROM Ahadees "
+         "WHERE AhadeesArabic IS NOT NULL AND AhadeesArabic != '' AND IsDeleted=0 "
+         "FOR JSON PATH;"),
         ("fts_topics", "KASHKOLE",
          "SELECT COUNT(*) AS n FROM Topics FOR JSON PATH;"),
         ("fts_sessions", "KSESSIONS",

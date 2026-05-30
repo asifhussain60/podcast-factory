@@ -1,17 +1,24 @@
-"""source_library_queries.py — Wave J (J0): six canonical query functions.
+"""source_library_queries.py — Wave J (J0+J1): eight source-library query functions.
 
-All functions delegate to tools.source_extractor.db.query_json which routes
-queries through the local wisdom-mssql Docker container via sqlcmd.
-This module has no transport logic — it is shared by both the HTTP and MCP
-stdio transports in source_library_server.py.
+Mirror-primary architecture (J1): all functions try the local SQLite FTS5 mirror
+(content/knowledge-base/mirror.db) first; SQL Server via Docker/OrbStack is a
+fallback for cache misses and for rare targeted lookups (topic_get linked ayats).
 
-Six functions:
-    quran_lookup        — single verse by surah + ayat
-    quran_theme_search  — LIKE keyword search across translations (FTS5 in J1)
-    word_etymology      — root + derivatives from KQUR
-    topic_search        — LIKE search over KASHKOLE Topics
-    topic_get           — full topic record + ayats + glossary
-    session_style_fetch — style passages from KSESSIONS SessionSummary
+The mirror must be built before first use:
+    python3 scripts/podcast/source_library_mirror.py
+
+Refresh the mirror after SQL Server data changes (OrbStack must be running):
+    python3 scripts/podcast/source_library_mirror.py  # rebuilds in place
+
+Eight functions:
+    quran_lookup         — single verse by surah + ayat (mirror then SQL)
+    quran_theme_search   — FTS5 keyword search (mirror then SQL LIKE fallback)
+    word_etymology       — root + derivatives from KQUR (mirror then SQL)
+    topic_search         — FTS5 search over KASHKOLE topics (mirror then SQL)
+    topic_get            — full topic record + ayats + glossary (SQL, one targeted call)
+    session_style_fetch  — FTS5 teaching-session search (mirror then SQL LIKE fallback)
+    discover_hadith_schema — one-time helper: print KQUR.Ahadees column names
+    hadith_lookup        — FTS5 hadith search by English text (mirror then SQL)
 """
 from __future__ import annotations
 
@@ -22,20 +29,6 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from tools.source_extractor.db import query_json
-
-_mirror: object = None  # lazy-imported to avoid circular import
-
-
-def _get_mirror():
-    """Lazy-import the mirror module and return an open connection, or None."""
-    global _mirror
-    try:
-        import importlib
-        mod = importlib.import_module("scripts.podcast.source_library_mirror")
-        return mod.open_mirror()
-    except Exception:
-        return None
-
 
 # ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -134,8 +127,8 @@ def word_etymology(term: str) -> dict[str, Any]:
                 "root_arabic":     cached.get("arabic", ""),
                 "transliteration": cached.get("root", ""),
                 "meaning_en":      cached.get("definition", ""),
-                "meaning_ar":      cached.get("arabic", ""),
-                "definition":      cached.get("etymology", ""),
+                "meaning_ar":      cached.get("etymology", ""),  # MeaningArabic stored in etymology col
+                "definition":      cached.get("definition", ""),
             },
             "derivatives": [],
             "source": "mirror",
@@ -369,15 +362,16 @@ def hadith_lookup(text_en: str, limit: int = 3) -> list[dict[str, Any]]:
         n = max(1, min(int(limit), 20))
         sql = f"""
 SELECT TOP {n}
-    AhadeesID         AS hadith_id,
-    CollectionName    AS collection,
-    HadithNumber      AS hadith_num,
-    ArabicText        AS arabic,
-    EnglishText       AS english
+    AhadeesId                               AS hadith_id,
+    ISNULL(Subject, '')                     AS collection,
+    ISNULL(CAST(AhadeesId AS NVARCHAR), '') AS hadith_num,
+    ISNULL(AhadeesArabic, '')               AS arabic,
+    ISNULL(AhadeesEnglish, '')              AS english
 FROM Ahadees
-WHERE EnglishText LIKE '%{kw}%'
-  AND ArabicText IS NOT NULL AND ArabicText != ''
-ORDER BY AhadeesID
+WHERE AhadeesEnglish LIKE '%{kw}%'
+  AND AhadeesArabic IS NOT NULL AND AhadeesArabic != ''
+  AND IsDeleted = 0
+ORDER BY AhadeesId
 FOR JSON PATH;
 """
         rows = query_json("KQUR", sql) or []
