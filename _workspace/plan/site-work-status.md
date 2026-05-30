@@ -150,3 +150,16 @@ substantial builds (Studio re-platform, full audio job). Total Azure cost to dat
 ---
 *The HTML-view rules (HOW views are built) live in `docs/standards/html-view-quality-digest.md`
 (MUST card) + the full standard. WHAT each view shows is agreed per page.*
+
+**WHOLE BOOK STAGED through NORMALIZE (2026-05-29).** All 5 chapters now have Source → Core →
+Denoised → Normalized in `_stages/<ch>/`. Denoise+normalize done via the new **Gemini engine**
+(`scripts/podcast/gemini_refine.py`, REST, no claude -p, ~$0.013/ch) — replacing the brittle
+ch01 regex denoiser (it over-stripped ch02 → 289w; Gemini keeps full text). ch01 also has
+augmented + reconcile + knowledge + narrator audio; ch02–05 still need per-chapter knowledge/augmented.
+- **20 Quran citations verified** book-wide from the Arabic spine → `_system/quran-citations.json`
+  (all ✅ against the Quran source). This is the enrichment substrate for the knowledge stage.
+- ch03 ("the path") is THIN from the academic edition (498w core) — that edition is condensed; the
+  rich path/stations content lives in the lectures/appendix. Enrich ch03 from the 12 lecture
+  transcripts later.
+- Total Azure+Gemini cost to date: **$4.71** (OCR $0.37 + transcription $4.31 + Gemini refine ~$0.03).
+- Editor PoC still hardcoded to ch01; a chapter switcher would surface ch02–05 stages (small enhancement).
