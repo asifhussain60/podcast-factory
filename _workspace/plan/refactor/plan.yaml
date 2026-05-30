@@ -4,7 +4,7 @@
 
 meta:
   plan_id: pipeline-refactor
-  status: AWAITING_APPROVAL
+  status: APPROVED
   generated_at: 2026-05-26
   pre_wave_term: Mobilization
   branch_target: develop
@@ -32,8 +32,8 @@ meta:
       required: true
       strategy: "commit_or_discard_without_reprompt"
       note: "Always leave the branch with a clean working tree at end of execution pass."
-  approved_by: null
-  approved_at: null
+  approved_by: asif
+  approved_at: 2026-05-30
   authored_by: Claude Opus 4.7
   companion_files:
     architecture: ../architecture.md
@@ -2512,7 +2512,7 @@ waves_ghj:
           entirely, substituting English translations that lose doctrinal precision.
           tawil → 'esoteric interpretation', wilaya → 'sacred authority', batin stripped.
           This is a defect in the Gemini prompt, not intended behaviour.
-        depends_on: [WC8-0-foundation]
+        depends_on: [WC8.0]
         priority: critical_before_slice_7
         root_cause: |
           gemini_refine.py's denoise + normalize prompt blocks have no protection for
@@ -3551,6 +3551,40 @@ dual_platform:
       typescript: "npm run lint:views passes with zero findings"
       python: "pylance in strict mode; ruff for linting"
       agents: "each spec has all 6 standard sections"
+
+# ===========================================================================
+# PHASE 0.7 + PHASE 1 START-BLOCKER REMEDIATION — 2026-05-30
+# Pre-authorized by CONTINUATION-2026-05-30.md autonomy mandate.
+# ===========================================================================
+
+phase_07_start_blockers:
+  id: BLOCKER-2026-05-30
+  title: "Phase 0.7 + Phase 1 start-blocker remediation"
+  completed_at: 2026-05-30
+  branch: book/ayyuhal-walad
+  deliverables:
+    - id: BLOCKER-A
+      title: "Wave 8 §0 senior-architect review doc"
+      path: "_workspace/plan/wave8-section0-review.md"
+      verdict: GO
+      preconditions: ["extractor.py claude-p fix (BLOCKER-C)", "Slice 2-fix terminus technicus before Slice 7"]
+    - id: BLOCKER-B
+      title: "plan.yaml approval flip + dangling dep fix + this entry"
+      changes:
+        - "meta.status: AWAITING_APPROVAL -> APPROVED (line 7)"
+        - "meta.approved_by: null -> asif (line 35)"
+        - "meta.approved_at: null -> 2026-05-30 (line 36)"
+        - "WC8-0-foundation -> WC8.0 in depends_on (lines ~2515, ~2695)"
+    - id: BLOCKER-C
+      title: "extractor.py: replace claude -p caller with Gemini caller"
+      path: "scripts/podcast/intelligence/extractor.py"
+      model: "gemini-2.5-flash (mirrors gemini_refine.py)"
+    - id: BLOCKER-D
+      title: "Phase 0.7 VS Code workspace files"
+      paths:
+        - ".vscode/tasks.json (9 tasks, bookSlug input)"
+        - ".vscode/launch.json (5 debug configs)"
+        - ".vscode/extensions.json (8 recommendations)"
 
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)

@@ -873,3 +873,16 @@ All new code: TypeScript fully typed (no `any`), Python with PEP 484 hints, no h
 > The podcast audio gets a real player that follows you as you scroll and, where the timing data exists, highlights the words as they're spoken. Because an episode can span or split the book's chapters, we make that relationship explicit so the right audio, text, and review all line up. (Mobile is set aside for now — this is built desktop-first, where the review work happens.)
 
 > *Value gained:* you can listen and read together, and the episode you publish always maps cleanly back to the source you reviewed.
+
+---
+
+## Phase 0.7 — Start-blocker remediation (2026-05-30)
+
+Pre-authorized by the autonomy mandate in `CONTINUATION-2026-05-30.md`. Four blockers cleared before Wave 8 content work begins.
+
+**Deliverables:**
+
+- **BLOCKER-A** — `_workspace/plan/wave8-section0-review.md`: senior-architect §0 verdict drawing on the full repo audit (`_workspace/prompts/full-audit-2026-05-30.md`). Verdict: GO with two preconditions (extractor.py fix + Slice 2-fix terminus technicus guard before Slice 7).
+- **BLOCKER-B** — `plan.yaml` approval flip (`meta.status: APPROVED`, `approved_by: asif`, `approved_at: 2026-05-30`); dangling `WC8-0-foundation` dep references corrected to `WC8.0` (two sites); this plan entry added.
+- **BLOCKER-C** — `scripts/podcast/intelligence/extractor.py`: `_default_claude_caller` replaced with Gemini caller mirroring `gemini_refine.py` exactly (key resolution, `urllib.request` POST, cost tracking, same `gemini-2.5-flash` model). Violating `claude -p` call removed. Module docstring, `_CLAUDE_CMD` constant, and `LLMCaller` type alias updated to match.
+- **BLOCKER-D** — `.vscode/tasks.json` (9 tasks + `bookSlug` promptString input), `.vscode/launch.json` (5 Python debug configs), `.vscode/extensions.json` (8 recommendations). `.vscode/mcp.json` left untouched.

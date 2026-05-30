@@ -1,0 +1,111 @@
+{
+  "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "bookSlug",
+      "type": "promptString",
+      "description": "Book slug (e.g. ayyuhal-walad)"
+    }
+  ],
+  "tasks": [
+    {
+      "label": "Open Studio (dev server)",
+      "type": "shell",
+      "command": "cd plan-dashboard && npm run dev",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Intake (OCR)",
+      "type": "shell",
+      "command": "python3 scripts/podcast/intake_stage.py ${input:bookSlug}",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Denoise + Normalize",
+      "type": "shell",
+      "command": "python3 scripts/podcast/gemini_refine.py ${input:bookSlug}",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Sync Knowledge Corpus",
+      "type": "shell",
+      "command": "python3 scripts/podcast/intelligence/populate_corpus.py",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Pipeline Tests",
+      "type": "shell",
+      "command": "pytest scripts/podcast/ -v",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Site Lint",
+      "type": "shell",
+      "command": "cd plan-dashboard && npm run lint:views",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Podcast Bundle",
+      "type": "shell",
+      "command": "python3 scripts/podcast/assemble_bundle.py ${input:bookSlug}",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Generate Video Layer",
+      "type": "shell",
+      "command": "python3 scripts/podcast/generate_video_layer.py ${input:bookSlug}",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Push Branch",
+      "type": "shell",
+      "command": "git push origin HEAD",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

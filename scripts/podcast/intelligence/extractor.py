@@ -1,6 +1,6 @@
 """Intelligence layer — phase 0h step 1: Atom Extractor.
 
-Reads chapter `.txt` files, calls claude -p once per chapter to extract
+Reads chapter `.txt` files, calls Gemini once per chapter to extract
 Quran/hadith atoms as structured JSON, validates, and writes a per-book
 scratch JSONL. Librarian (step 2) deduplicates.
 
@@ -9,8 +9,10 @@ Authority: architecture.md §Intelligence Layer; plan.md Wave B, B1.
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
+import urllib.request
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
@@ -31,10 +33,12 @@ from _rules import (
 import _db
 
 SCRATCH_FILENAME = "knowledge-atoms-scratch.jsonl"
-_CLAUDE_CMD = "claude"
+_GEMINI_MODEL = "gemini-2.5-flash"
+# Gemini 2.5-flash list price (approx, USD per 1M tokens) — mirrors gemini_refine.py.
+_PRICE = {"in": 0.30 / 1e6, "out": 2.50 / 1e6}
 
 # Type alias: the LLM call function is injectable for testing.
-ClaudeCaller = Callable[[str], tuple[int, str, str]]
+LLMCaller = Callable[[str], tuple[int, str, str]]
 
 
 # ─── public result types ──────────────────────────────────────────────────────
@@ -79,25 +83,49 @@ CHAPTER TEXT:
 """
 
 
-def _default_claude_caller(prompt: str) -> tuple[int, str, str]:
-    """Shell out to `claude -p` and return (rc, stdout, cost_str)."""
-    argv = [_CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits",
-            "--output-format", "json", prompt]
+def _load_gemini_key() -> str:
+    """Resolve Gemini API key: env var first, then Mac Keychain. Mirrors gemini_refine.py."""
+    env = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    if env:
+        return env.strip()
+    r = subprocess.run(
+        ["security", "find-generic-password", "-s", "gemini_api_key",
+         "-a", os.environ.get("USER", ""), "-w"],
+        capture_output=True, text=True,
+    )
+    if r.returncode != 0:
+        raise SystemExit("gemini_api_key not found in env or keychain")
+    return r.stdout.strip()
+
+
+def _default_llm_caller(prompt: str) -> tuple[int, str, str]:
+    """Call Gemini and return (rc, stdout, cost_str). Mirrors gemini_refine.py exactly."""
+    system = (
+        "You are a scholarly citation extractor for Islamic texts. "
+        "Return only valid JSON as instructed."
+    )
+    url = (
+        f"https://generativelanguage.googleapis.com/v1beta/models/"
+        f"{_GEMINI_MODEL}:generateContent?key={_load_gemini_key()}"
+    )
+    body = json.dumps({
+        "system_instruction": {"parts": [{"text": system}]},
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"temperature": 0.1, "maxOutputTokens": 8192},
+    }).encode()
+    req = urllib.request.Request(
+        url, data=body,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
     try:
-        proc = subprocess.run(argv, capture_output=True, text=True, timeout=120)
-        rc, raw_stdout = proc.returncode, proc.stdout
-        try:
-            envelope = json.loads(raw_stdout)
-            stdout = envelope.get("result", raw_stdout)
-            cost_usd = float(envelope.get("cost_usd", 0.0))
-        except (json.JSONDecodeError, KeyError, TypeError):
-            stdout = raw_stdout
-            cost_usd = 0.0
-        return rc, stdout, str(cost_usd)
-    except FileNotFoundError:
-        return 1, "", "claude binary not found on PATH"
-    except subprocess.TimeoutExpired:
-        return 1, "", "timeout"
+        with urllib.request.urlopen(req, timeout=300) as resp:
+            d = json.loads(resp.read())
+        text = d["candidates"][0]["content"]["parts"][0]["text"]
+        cost_usd = round(len(prompt) / 4 * _PRICE["in"] + len(text) / 4 * _PRICE["out"], 5)
+        return 0, text, str(cost_usd)
+    except Exception as exc:  # noqa: BLE001
+        return 1, "", str(exc)
 
 
 # ─── atom builder helpers ─────────────────────────────────────────────────────
@@ -165,10 +193,10 @@ def extract_chapter(
     chapter_text: str,
     book_slug: str,
     *,
-    claude_caller: ClaudeCaller | None = None,
+    llm_caller: LLMCaller | None = None,
 ) -> ChapterExtractionResult:
     """Extract atoms from a single chapter's text using one LLM call."""
-    caller = claude_caller or _default_claude_caller
+    caller = llm_caller or _default_llm_caller
     prompt = _EXTRACTION_PROMPT_TMPL.format(
         chapter_slug=chapter_slug,
         book_slug=book_slug,
@@ -182,7 +210,7 @@ def extract_chapter(
         result.cost_usd = 0.0
 
     if rc != 0:
-        result.error = f"claude -p exited {rc}: {cost_str}"
+        result.error = f"Gemini call failed (rc={rc}): {cost_str}"
         return result
 
     # Parse JSON response
@@ -215,7 +243,7 @@ def extract_chapter(
 def extract_atoms_for_book(
     book_dir: Path,
     *,
-    claude_caller: ClaudeCaller | None = None,
+    llm_caller: LLMCaller | None = None,
 ) -> ExtractionSummary:
     """Extract atoms from all chapter .txt files; write scratch JSONL."""
     book_slug = book_dir.name
@@ -235,7 +263,7 @@ def extract_atoms_for_book(
 
             ch_result = extract_chapter(
                 chapter_slug, chapter_text, book_slug,
-                claude_caller=claude_caller,
+                llm_caller=llm_caller,
             )
             summary.chapters_processed += 1
             summary.total_cost_usd += ch_result.cost_usd
