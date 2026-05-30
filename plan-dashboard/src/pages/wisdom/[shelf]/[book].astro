@@ -58,7 +58,7 @@ const pageTitle = `${chapterEn?.en_title ?? m.book.name} · ${binderEn ?? m.shel
           <div class="kb-title-ur" lang="ur">{m.book.name}</div>
           <div class="kb-meta-row">
             <span class="kb-meta-badge">{m.shelf.prefix} · Chapter {m.book.id}</span>
-            <span class="kb-meta-badge">{m.manifest?.counts?.sections ?? bilingualParsed.sections.length} topics</span>
+            <span class="kb-meta-badge">{m.counts?.sections ?? bilingualParsed.sections.length} topics</span>
             <span class="kb-meta-badge kb-meta-stage">{m.stage}</span>
           </div>
         </div>

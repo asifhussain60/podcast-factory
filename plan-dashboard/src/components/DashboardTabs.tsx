@@ -9,7 +9,7 @@ interface Props {
   debt: Debt[];
   booksInFlight: BookInFlight[];
   booksShipped: BookShipped[];
-  recentCommits: RecentRecentCommit[];
+  recentCommits: RecentCommit[];
   burn30d: number[];
   phaseTime: Record<string, number>;
   convergeAvg: number;

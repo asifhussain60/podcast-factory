@@ -22,6 +22,7 @@ import StarterKit from '@tiptap/starter-kit';
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
+import type { Node as PMNode } from '@tiptap/pm/model';
 import { diffWords } from 'diff';
 
 // Inline reference markers kept for the inspector inventory + subtle in-text hinting.
@@ -185,6 +186,10 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
   const hasFocusRef = useRef(false);                   // tracks editor DOM focus for para-active
   const editorContainerRef = useRef<HTMLElement | null>(null);
   arabicRef.current = arabicOn;
+  // Aug-diff mode: compare Augmented text against Normalized to show what the pipeline added.
+  const showAugDiffRef = useRef(false);
+  const normTextsRef = useRef<string[]>([]);
+  const [showAugDiff, setShowAugDiff] = useState(false);
   // Index-based tag toggle, called from the floating per-paragraph icon toolbar (a PM widget
   // built outside React). Held in a ref so the widget always calls the latest closure.
   const tagFnRef = useRef<(idx: number, tagId: string) => void>(() => {});
@@ -288,21 +293,26 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
                       );
                     }
                     // FC-3 Word-level track changes vs the original snapshot.
-                    const before = orig[idx];
+                    // In aug-diff mode: diff current node against the Normalized paragraph
+                    // instead (showing what the augmentation pipeline added, not human edits).
+                    const augDiff = showAugDiffRef.current;
+                    const before = augDiff ? (normTextsRef.current[idx] ?? '') : orig[idx];
+                    const insClass = augDiff ? 'aug-ins' : 'tc-ins';
+                    const delClass = augDiff ? 'aug-del' : 'tc-del';
                     const after = node.textContent;
                     if (before !== undefined && before !== after) {
                       let cursor = offset + 1; // content start of a textblock
                       for (const part of diffWords(before, after)) {
                         const len = part.value.length;
                         if (part.added) {
-                          decos.push(Decoration.inline(cursor, cursor + len, { class: 'tc-ins' }));
+                          decos.push(Decoration.inline(cursor, cursor + len, { class: insClass }));
                           cursor += len;
                         } else if (part.removed) {
                           const text = part.value;
                           decos.push(
                             Decoration.widget(cursor, () => {
                               const del = document.createElement('span');
-                              del.className = 'tc-del';
+                              del.className = delClass;
                               del.textContent = text;
                               return del;
                             }, { side: -1 }),
@@ -417,13 +427,27 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stageId, chapIdx, editor]);
 
+  // Reset aug-diff and (re-)populate normTexts whenever the tab or chapter changes.
+  useEffect(() => {
+    showAugDiffRef.current = false;
+    setShowAugDiff(false);
+    const normStage = stages.find((s) => s.id === 'normalized');
+    normTextsRef.current = [];
+    if (normStage?.html) {
+      const div = document.createElement('div');
+      div.innerHTML = normStage.html;
+      normTextsRef.current = Array.from(div.children).map((el) => el.textContent ?? '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stageId, chapIdx]);
+
   // ── Serialize / save / discard — declared here so editor is in scope ────────
 
   // Walk a ProseMirror text node and emit its content with inline mark syntax preserved.
   // Handles italic (*), bold (**), bold+italic (***) — the only marks used in stage files.
-  const serializeInline = useCallback((node: Parameters<typeof editor.state.doc.forEach>[0]): string => {
+  const serializeInline = useCallback((node: PMNode): string => {
     let out = '';
-    node.forEach((child) => {
+    node.forEach((child: PMNode) => {
       if (!child.isText || !child.text) return;
       const text = child.text;
       const marks = child.marks.map((m) => m.type.name);
@@ -514,6 +538,15 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
     arabicRef.current = next;
     setArabicOn(next);
     if (editor) editor.view.dispatch(editor.state.tr.setMeta('arabic', true));
+  }, [editor]);
+
+  // Toggle augmentation diff (Normalized → Augmented word-level diff). Same ref-before-dispatch
+  // pattern as Arabic toggle so the decoration plugin sees the new value synchronously.
+  const toggleAugDiff = useCallback(() => {
+    const next = !showAugDiffRef.current;
+    showAugDiffRef.current = next;
+    setShowAugDiff(next);
+    if (editor) editor.view.dispatch(editor.state.tr.setMeta('augDiff', true));
   }, [editor]);
 
   let changedCount = 0;
@@ -618,6 +651,24 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
         {isReadOnlyStage && (
           <div className="sp-stage-note">Read-only — viewing the {stage?.label} stage for comparison.</div>
         )}
+        {stageId === 'augmented' && stages.find((s) => s.id === 'normalized')?.available && (
+          <div className="sp-augdiff-row">
+            <button
+              type="button"
+              className={`sp-augdiff-toggle${showAugDiff ? ' is-on' : ''}`}
+              onClick={toggleAugDiff}
+              title={showAugDiff ? 'Hide augmentation diff' : 'Highlight what the augmentation step added vs Normalized'}
+            >
+              {showAugDiff ? 'Hide augmentation diff' : 'Show augmentation diff'}
+            </button>
+            {showAugDiff && (
+              <span className="sp-augdiff-legend">
+                <span className="aug-ins sp-augdiff-swatch">added</span>
+                <span className="aug-del sp-augdiff-swatch">removed</span>
+              </span>
+            )}
+          </div>
+        )}
         <EditorContent editor={editor} />
       </main>
 
@@ -717,6 +768,11 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
 
           <div className="sp-insp-markers">
             <h3 className="sp-insp-sub">References</h3>
+            <ul className="sp-legend" aria-label="Inline highlight key">
+              <li className="sp-legend-row"><span className="sp-legend-dot sp-legend-dot--quran" />Quran chips</li>
+              <li className="sp-legend-row"><span className="sp-legend-dot sp-legend-dot--hadith" />Hadith</li>
+              <li className="sp-legend-row"><span className="sp-legend-dot sp-legend-dot--work" />al-Ghazali works</li>
+            </ul>
             {renderGroup('Quran', group('Quran'), 'quran')}
             {renderGroup('Hadith', group('Hadith'), 'hadith')}
             {renderGroup('Works', group('Work'), 'work')}
