@@ -171,3 +171,17 @@ benefits' verses), ch03 (5), ch04 (1), ch05 (0 — closing du'a). Each chapter h
 knowledge-report.json. Hadith still await a hadith DB. ch03 remains thin (condensed edition) —
 enrich from lectures. Total cost ~$4.71. Reusable scripts: intake_stage, transcribe_audio,
 transcribe_all_lectures, gemini_refine (all Azure/Gemini, no claude -p).
+
+**A + B DONE (2026-05-29).** B: chapter switcher in the Studio PoC — all 5 chapters selectable,
+each with its 6 tabs (Source→Core→Denoised→Normalized→Augmented→Narrator), metrics, approvals.
+A: every chapter now has an attributed NARRATOR-ADDITIONS layer (`additions-narrator.md`),
+Gemini-cleaned from the mapped lecture transcripts (`scripts/podcast/narrator_additions.py`,
+`lecture-chapter-map.json`): ch01 921w, ch02 2960w, ch03 963w (fixes the thin chapter), ch04
+1059w, ch05 1731w. Surfaced via the Narrator tab. Verified headless: all 5 chapters × 6 live tabs,
+zero errors. **Total Azure+Gemini cost: $4.80.** All processing Azure/Gemini — zero Claude tokens.
+
+**STATE: Ayyuhal Walad is fully processed + navigable.** 5 chapters × {source, core, denoised,
+normalized, augmented, narrator-additions} + 20 verified Quran refs + episode/lecture maps.
+Reusable scripts: intake_stage, transcribe_audio, transcribe_all_lectures, gemini_refine,
+narrator_additions. NEXT options: hadith DB (pending Asif) for hadith verification; the OUTPUT
+track (podcast bundle + mandatory slide decks); productionize the inline stages as orchestrator phases.
