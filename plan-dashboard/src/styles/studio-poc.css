@@ -280,8 +280,33 @@
 
 /* Non-destructive markers (ProseMirror decorations). */
 .mk { border-radius: 3px; padding: 0 1px; }
-.mk-hadith { background: color-mix(in srgb, var(--c-gold, var(--c-amber)) 16%, transparent); box-shadow: inset 0 -2px 0 var(--c-gold, var(--c-amber)); }
-.mk-term { background: color-mix(in srgb, var(--c-accent-soft) 20%, transparent); }
+.mk-hadith { background: color-mix(in srgb, var(--c-gold, var(--c-amber)) 10%, transparent); }
+.mk-term   { background: color-mix(in srgb, var(--c-accent-soft) 12%, transparent); }
+
+/* Source provenance chips — inline pills after the matched phrase. */
+.studio-poc__editor .mk-chip {
+  display: inline-block;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  padding: 1px 5px;
+  border-radius: 5px;
+  vertical-align: middle;
+  margin-left: 3px;
+  user-select: none;
+  cursor: default;
+}
+.studio-poc__editor .mk-chip--hadith {
+  color: #fff;
+  background: var(--c-gold, #d97706);
+}
+.studio-poc__editor .mk-chip--term {
+  color: #fff;
+  background: color-mix(in srgb, var(--c-accent) 70%, #334);
+}
 
 /* FC-1 compact chapter:verse chip — REPLACES the verse-reference phrase inline (the prose
    underneath stays intact via .ref-hidden, so NotebookLM is unaffected). Hover target. */

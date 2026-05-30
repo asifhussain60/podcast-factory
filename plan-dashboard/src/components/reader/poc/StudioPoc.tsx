@@ -25,13 +25,17 @@ import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import type { Node as PMNode } from '@tiptap/pm/model';
 import { diffWords } from 'diff';
 
-// Inline reference markers kept for the inspector inventory + subtle in-text hinting.
-// Quran verse refs are handled separately (FC-1 chip), so they are NOT highlighted here.
-const MARKER_PATTERNS: { re: RegExp; cls: string; kind: string }[] = [
-  { re: /Surah [A-Z][\w'-]+/g, cls: 'mk-quran', kind: 'Quran' },
-  { re: /verses? \d+(?:\s*(?:to|–|-)\s*\d+)?/gi, cls: 'mk-quran', kind: 'Quran' },
-  { re: /Prophet Muhammad|peace and blessings of Allah/gi, cls: 'mk-hadith', kind: 'Hadith' },
-  { re: /Ihya Ulum al-Din|Kimiya al-Sa'ada|Jawahir al-Quran|Minhaj al-Abidin/g, cls: 'mk-term', kind: 'Work' },
+// Inline reference markers: inspector inventory + inline chips for Hadith/Works.
+// Quran verse refs are handled separately as FC-1 chips, so mk-quran is skipped here.
+const MARKER_PATTERNS: { re: RegExp; cls: string; kind: string; chip?: string }[] = [
+  { re: /Surah [A-Z][\w'-]+/g,                  cls: 'mk-quran',  kind: 'Quran' },
+  { re: /verses? \d+(?:\s*(?:to|–|-)\s*\d+)?/gi, cls: 'mk-quran',  kind: 'Quran' },
+  { re: /Prophet Muhammad/gi,                     cls: 'mk-hadith', kind: 'Hadith', chip: 'Hadith' },
+  { re: /peace and blessings of Allah/gi,         cls: 'mk-hadith', kind: 'Hadith' },
+  { re: /Ihya(?:\s+Ulum\s+al-Din)?/g,             cls: 'mk-term',   kind: 'Work',   chip: 'Ihya' },
+  { re: /Kimiya(?:\s+al-Sa'?ada)?/g,              cls: 'mk-term',   kind: 'Work',   chip: 'Kimiya' },
+  { re: /Jawahir al-Quran/g,                      cls: 'mk-term',   kind: 'Work',   chip: 'Jawahir' },
+  { re: /Minhaj al-Abidin/g,                      cls: 'mk-term',   kind: 'Work',   chip: 'Minhaj' },
 ];
 
 // Each tag carries a distinct ICON so the meaning is recognizable without memorizing colour.
@@ -59,7 +63,7 @@ function scanMarkers(text: string): { kind: string; text: string }[] {
   return out;
 }
 
-// Hadith + Works inline highlight only (Quran verse refs become chips, see QuranRefs).
+// Hadith + Works: inline highlight + visible chip pill. Quran verse refs become FC-1 chips.
 const MarkerHighlight = Extension.create({
   name: 'markerHighlight',
   addProseMirrorPlugins() {
@@ -71,12 +75,27 @@ const MarkerHighlight = Extension.create({
             const decos: Decoration[] = [];
             state.doc.descendants((node, pos) => {
               if (!node.isText || !node.text) return;
-              for (const { re, cls } of MARKER_PATTERNS) {
-                if (cls === 'mk-quran') continue; // handled as chips
+              for (const { re, cls, chip } of MARKER_PATTERNS) {
+                if (cls === 'mk-quran') continue; // handled as FC-1 chips
                 re.lastIndex = 0;
                 let m: RegExpExecArray | null;
                 while ((m = re.exec(node.text))) {
-                  decos.push(Decoration.inline(pos + m.index, pos + m.index + m[0].length, { class: `mk ${cls}` }));
+                  const from = pos + m.index;
+                  const to   = from + m[0].length;
+                  decos.push(Decoration.inline(from, to, { class: `mk ${cls}` }));
+                  if (chip) {
+                    const label = chip;
+                    const kind  = cls.replace('mk-', '');
+                    decos.push(
+                      Decoration.widget(to, () => {
+                        const span = document.createElement('span');
+                        span.className = `mk-chip mk-chip--${kind}`;
+                        span.textContent = label;
+                        span.setAttribute('aria-label', label);
+                        return span;
+                      }, { side: 1, key: `mkchip-${from}` }),
+                    );
+                  }
                 }
               }
             });
