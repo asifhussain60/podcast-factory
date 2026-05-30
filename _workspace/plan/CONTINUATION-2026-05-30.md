@@ -71,7 +71,7 @@ transcribe_all_lectures, gemini_refine, narrator_additions.
   `orchestrate_book` (major-dent PIPELINE decision → STOP & present the design).
 - **Slice 7 (output)** — the NotebookLM podcast bundle (per-episode .txt + framings, per
   `feedback_notebooklm_instructions_format`) + the MANDATORY slide decks (`feedback_slide_decks_required`).
-- **Hadith verification** — blocked on the hadith DB (Asif).
+- **Hadith verification** — Slice 4+ (plan.yaml B5) extracts from KASHKOLE+KQUR via MCP; no external DB needed. Runs before Slice 7.
 - **[D] finalize + publish** — Tier-2, STOP & present.
 
 **Done = every chapter through every layer (done) + pipeline productionized + output (podcast bundle +
@@ -104,6 +104,7 @@ the throwaway PoC, not the real Studio.
 | ✅ | — | Re-voice into one editorial-modern house style (auto-applied; spot-check via diff). | Gemini | ~$0.05 | $0.03 |
 | ✅ | 4 | Verify the chapter's references against the corpus and enrich it into the Augmented layer. | Claude | $0 | $0 |
 | ⚠ | C | **Exception — only low-confidence references or suggested interpretive enrichments surface for your call.** | | | |
+| ⬜ | 4+ | Ingest hadith, etymology, and poetry atoms from the wisdom corpus MCP (KASHKOLE+KQUR) — removes the hadith-DB blocker, no external source needed. Fix `extractor.py` `claude -p` violation. | source-library MCP | ~$0 | — |
 | ◐ | 5 | Transcribe the 12 lectures and fold the Shaykh's commentary in as the Narrator layer (auto-clean). Pending: Studio re-platform, consistency. | Azure · Gemini · Copilot | ~$5.00 | $4.40 |
 | ⬜ | 6 | Close the loop so approving a stage in the editor advances the book — edits save back, orchestrator runs the next stage. | Copilot | ~$0 | — |
 | ⬜ | 7 | Assemble the chapters into the NotebookLM podcast bundle and the mandatory slide decks. | Gemini · Claude | ~$0.20 | — |

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T09:18:16.473Z",
-  "source_commit": "66dabff",
+  "generated_at": "2026-05-30T10:26:14.710Z",
+  "source_commit": "2ff90c8",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -176,6 +176,18 @@
         "Python",
         "Claude"
       ]
+    },
+    {
+      "id": "B5",
+      "wave": "B",
+      "title": "Ingest hadith, etymology, and classical Arabic poetry atoms from MCP source library",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "B0"
+      ],
+      "plain": "",
+      "tools": []
     },
     {
       "id": "C1",
@@ -783,6 +795,21 @@
   ],
   "recent_commits": [
     {
+      "sha": "2ff90c8",
+      "subject": "doc(WC8): continuation prompt v3 — AUTONOMOUS Wave 8 build mandate + north-star (any content -> NotebookLM podcast); Ayyuhal Walad = test case, must end Wave 8 production-ready; stop only for major editor/pipeline forks, [D] publish, or blockers",
+      "date": "2026-05-30"
+    },
+    {
+      "sha": "f8029e1",
+      "subject": "doc(WC8): continuation prompt v2 — opens with senior-architect review directive (regressions/refactor/risks); finalized Wave 8 completion template (Status",
+      "date": "Slice"
+    },
+    {
+      "sha": "7a588f5",
+      "subject": "plan(WC8): add Slice 6 (productionization) + Slice 7 (output: podcast + slide decks) past Slice 5",
+      "date": "2026-05-30"
+    },
+    {
       "sha": "66dabff",
       "subject": "feat(WC8): commit the full Ayyuhal Walad pipeline artifacts — all 5 chapters, 6 layers",
       "date": "2026-05-30"
@@ -815,21 +842,6 @@
     {
       "sha": "5fac374",
       "subject": "continuity(WC8): all 5 chapters have full 5-stage lineage; per-chapter Quran refs mapped+verified",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "585a5c6",
-      "subject": "continuity(WC8): whole book staged through normalize (Gemini engine); 20 Quran citations verified book-wide ($4.71)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "e7278f8",
-      "subject": "WC8: gemini_refine.py — robust denoise + house-voice normalize via Gemini (engine routing, no claude -p, cost-tracked)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "5a4ac86",
-      "subject": "continuity(WC8.6): all 12 lectures transcribed (~14.4h narrator layer, $4.31); audio sub-item fully done; total $4.67",
       "date": "2026-05-29"
     }
   ],

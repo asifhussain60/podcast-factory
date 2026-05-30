@@ -771,6 +771,46 @@ waves:
         cost_estimate_usd: 0
         authorization: *tier_one
 
+      - id: B5
+        title: "Ingest hadith, etymology, and classical Arabic poetry atoms from MCP source library"
+        authorized_by: "asif_2026-05-30"
+        authorized_note: >
+          Asif confirmed the wisdom corpus MCP (KASHKOLE + KQUR) is the data source.
+          Removes the standing hadith-DB blocker. No external DB required.
+        depends_on: [B0]
+        deliverables:
+          new_script:
+            path: "scripts/podcast/intelligence/ingest_mcp_corpus.py"
+            rule: "Azure/Gemini only — zero claude -p calls"
+          new_atom_types:
+            etymology:
+              canonical_id: "etymology:<root_transliteration>"
+              fields: [root_ar, root_transliteration, meaning_en, meaning_ar, definition, "derivatives[]"]
+              source: "KQUR Roots + Derivatives full table via word_etymology() MCP tool"
+            poetry:
+              canonical_id: "poetry:kashkole:<topic_id>"
+              fields: [title, poet, matn_ar, matn_en, tradition, genre]
+              genre_values: [manqabat, marsiya, qasida]
+              source: "KASHKOLE binder 5 (muntakhab-ashaar) + TopicTypeID 31 (manqabat praise poems)"
+          hadith_enrichment:
+            atom_id_pattern: "hadith:kashkole:<topic_id>"
+            sources:
+              - "KASHKOLE TopicTypeID 17 — Prophetic Hadith (14 topics)"
+              - "KASHKOLE TopicTypeID 23 — Hadith Commentary"
+            access: "topic_get() MCP tool, no direct DB required"
+          extractor_fix:
+            file: "scripts/podcast/intelligence/extractor.py"
+            issue: "_default_claude_caller() shells out to claude -p — hard NO-claude-p violation"
+            fix: "Replace with Gemini REST call, same pattern as gemini_refine.py"
+            tier: 0
+        unblocks:
+          - "Knowledge stage hadith verification — ch02-05 of Ayyuhal Walad and all future books"
+          - "Studio viewer Arabic etymology tooltips"
+          - "Classical poem citation annotation for books quoting Ghazali, Ibn Arabi, etc."
+        services: [source_library_mcp]
+        cost_estimate_usd: 0.01
+        authorization: *tier_one
+
 # ===========================================================================
 # WAVE C — Archetype Expansion
 # ===========================================================================

@@ -134,7 +134,7 @@ So Slice 5+ is genuinely NOT fully completable now: 2 sub-items advanced, 1 bloc
 substantial builds (Studio re-platform, full audio job). Total Azure cost to date: **$4.67** ($0.37 OCR + $4.31 transcription, 12 lectures).
 
 **HONEST PENDING (not blockers, scoped work):**
-- Hadith verification needs a hadith reference DB ingested (Asif providing). Quran now verifiable.
+- **Slice 4+ (plan B5) — BUILD:** ingest hadith/etymology/poetry atoms from MCP (KASHKOLE+KQUR). Zero external DB needed — data is in KASHKOLE already (14 hadith topics TypeID 17 + TypeID 23; binder 5 poetry; KQUR Roots etymology). Script: `ingest_mcp_corpus.py`. Also fix `extractor.py` `claude -p` call. Authorized 2026-05-30.
 - Reconcile done INLINE for ch01 (I read Arabic); scaling to all chapters/books = Gemini bulk +
   Claude judgment (engine routing), not yet built as a script.
 - Only ch01 processed; ch02–ch05 pending (breadth). Slide decks (mandatory output) not yet addressed.
