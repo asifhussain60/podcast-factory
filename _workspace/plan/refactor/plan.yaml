@@ -34,6 +34,7 @@ meta:
       note: "Always leave the branch with a clean working tree at end of execution pass."
   approved_by: asif
   approved_at: 2026-05-30
+  approval_provenance: "Autonomy mandate authored by Asif in _workspace/plan/CONTINUATION-2026-05-30.md (Authorized 2026-05-30); ratified in-session 2026-05-30."
   authored_by: Claude Opus 4.7
   companion_files:
     architecture: ../architecture.md

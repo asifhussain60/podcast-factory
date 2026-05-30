@@ -17,8 +17,8 @@ Naming convention: lowercase-kebab-case throughout. No SCREAMING_CASE filenames.
 - `plan/continuation-2026-05-30.md` — WC8 autonomous build mandate + wave-8 slice table
 - `plan/refactor/plan.yaml` — master roadmap (all waves A–K, WC8, dual-platform)
 - `plan/architecture.md` — timeless system design (read when conventions feel stale)
-- `prompts/full-audit-2026-05-30.md` — full repo audit findings + 12-phase to-do list
 - `prompts/intelligence-layer-spec.md` — locked design decisions D1–D15 for the intelligence layer
+- `reviews/reports/2026-05-30-full-repo-audit.md` — full repo architect audit + 12-phase to-do list
 
 ## Standing rules
 

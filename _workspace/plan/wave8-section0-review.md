@@ -2,7 +2,7 @@
 
 *Date: 2026-05-30. Reviewer: Claude Code (Sonnet 4.6) on behalf of the wave.*
 
-**Canonical §0 audit:** [`_workspace/prompts/full-audit-2026-05-30.md`](../prompts/full-audit-2026-05-30.md)
+**Canonical §0 audit:** [`_workspace/reviews/reports/2026-05-30-full-repo-audit.md`](../reviews/reports/2026-05-30-full-repo-audit.md)
 (Four-stream architect + senior-engineer review; all findings below are cited from that document.)
 
 ---

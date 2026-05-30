@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T12:21:38.722Z",
-  "source_commit": "6ccefa46",
+  "generated_at": "2026-05-30T12:34:12.009Z",
+  "source_commit": "aecef990",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,6 +819,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "aecef990",
+      "subject": "fix(wave8): clear Phase 0.7 + Phase 1 start-blockers (vscode, extractor gemini, plan approval, section0 review)",
+      "date": "2026-05-30"
+    },
+    {
       "sha": "6ccefa46",
       "subject": "chore: commit stage-metrics.json state",
       "date": "2026-05-30"
@@ -861,11 +866,6 @@
     {
       "sha": "8a9b7d43",
       "subject": "plan(WC8/K6-pre): add terminus technicus preservation rule — Arabic terms stripped by Gemini normalize",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "e13515b2",
-      "subject": "plan(WC8): add Slices 5b/5c/6b — editorial cockpit, host roles, new content intake",
       "date": "2026-05-30"
     }
   ],

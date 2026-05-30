@@ -233,7 +233,7 @@ These require answers before or during execution:
 | 0.5a | Archive `08-source-intake-discussion.md` to `_workspace/audit/_archive/2026-05-30/` |
 | 0.5b | Delete 8 stale workspace files (01, 02, 09 from improvements/; 3 from research/; wisdom-brief.md; architecture HTML) |
 | 0.5c | Archive `_workspace/prompts/luum-onboarding-bootstrap.md` (clarify first) |
-| 0.5d | Write this document as `11-full-audit-2026-05-30.md` (done: this file) |
+| 0.5d | This document is canonical at `_workspace/reviews/reports/2026-05-30-full-repo-audit.md` (relocated 2026-05-30 from `prompts/`) |
 
 ### Phase 0.6 — Content folder restructure (~1 hr code, ~30 min migration)
 | # | Task | Risk |
