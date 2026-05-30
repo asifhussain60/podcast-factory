@@ -29,14 +29,17 @@ const STAGE_DEFS = [
   { id: 'denoised', label: 'Denoised', slice: 'Slice 2 (noise-strip)' },
   { id: 'normalized', label: 'Normalized', slice: 'Normalize (house voice)' },
   { id: 'augmented', label: 'Augmented', slice: 'Slice 4 (knowledge)' },
+  { id: 'narrator', label: 'Narrator', slice: 'Lecture additions (Shaykh)' },
 ];
 const base = new URL(`../../../content/drafts/books/${SLUG}/`, import.meta.url);
 function readIfExists(url: URL): string | null {
   try { return readFileSync(url, 'utf8'); } catch { return null; }
 }
 function loadStageMd(chapter: string, id: string): string | null {
+  // The narrator-additions layer lives at additions-narrator.md.
+  const fileId = id === 'narrator' ? 'additions-narrator' : id;
   for (const ext of ['md', 'txt']) {
-    const md = readIfExists(new URL(`_stages/${chapter}/${id}.${ext}`, base));
+    const md = readIfExists(new URL(`_stages/${chapter}/${fileId}.${ext}`, base));
     if (md) return md;
   }
   if (id === 'augmented') return readIfExists(new URL(`chapters/${chapter}.txt`, base));
