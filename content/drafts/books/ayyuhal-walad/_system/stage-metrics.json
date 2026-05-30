@@ -1,7 +1,7 @@
 {
   "slug": "ayyuhal-walad",
   "chapter": "ch05-method-and-closing-prayer",
-  "measured_at": "2026-05-30T18:55:03Z",
+  "measured_at": "2026-05-30T21:17:34Z",
   "stages": [
     {
       "id": "source",
@@ -42,19 +42,19 @@
     {
       "id": "augmented",
       "available": true,
-      "words": 806,
-      "chars": 4741,
-      "sentences": 31,
-      "deltaPct": 15.6,
+      "words": 778,
+      "chars": 4565,
+      "sentences": 28,
+      "deltaPct": 11.6,
       "comparedTo": "normalized"
     },
     {
       "id": "narrator",
       "available": true,
-      "words": 1731,
-      "chars": 10855,
-      "sentences": 73,
-      "deltaPct": 114.8,
+      "words": 1704,
+      "chars": 10601,
+      "sentences": 71,
+      "deltaPct": 119,
       "comparedTo": "augmented"
     }
   ],
