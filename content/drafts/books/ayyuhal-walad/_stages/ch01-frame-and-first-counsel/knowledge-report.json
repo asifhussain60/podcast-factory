@@ -1,0 +1,65 @@
+{
+  "slug": "ayyuhal-walad",
+  "chapter": "ch01-frame-and-first-counsel",
+  "stage": "augmented",
+  "corpus_tradition": "fatimid-ismaili",
+  "chapter_tradition": "sunni-sufi (al-Ghazali)",
+  "cross_tradition_injection": "BLOCKED by tradition filter (correct)",
+  "quran_verified": 7,
+  "quran_refs": [
+    {
+      "key": "18:11",
+      "surah": "Al-Kahf",
+      "status": "verified",
+      "source": "quran.com via /api/quran/verse"
+    },
+    {
+      "key": "18:107",
+      "surah": "Al-Kahf",
+      "status": "verified",
+      "source": "quran.com"
+    },
+    {
+      "key": "19:59",
+      "surah": "Maryam",
+      "status": "verified",
+      "source": "quran.com"
+    },
+    {
+      "key": "7:179",
+      "surah": "Al-A'raf",
+      "status": "verified",
+      "source": "quran.com"
+    },
+    {
+      "key": "7:50",
+      "surah": "Al-A'raf",
+      "status": "verified",
+      "source": "quran.com"
+    },
+    {
+      "key": "17:79",
+      "surah": "Al-Isra",
+      "status": "verified",
+      "source": "quran.com"
+    },
+    {
+      "key": "51:18",
+      "surah": "Adh-Dhariyat",
+      "status": "verified",
+      "source": "quran.com"
+    }
+  ],
+  "hadith_pending": 5,
+  "hadith_refs": [
+    "sign Allah turned away \u2014 busying with the irrelevant",
+    "most-punished scholar unbenefited by knowledge",
+    "call yourself to account before you are called",
+    "three sounds Allah loves (adhan, Quran, dawn istighfar)",
+    "work for your world/hereafter/Allah/the Fire"
+  ],
+  "pending_ingestion": [
+    "hadith reference DB"
+  ],
+  "note": "Quran citations recovered from the Arabic spine (reconcile slice) + verified against the Quran source. Hadith await a hadith DB."
+}

@@ -25,11 +25,12 @@ from _paths import REPO_ROOT  # noqa: E402
 SPEECH_USD_PER_HOUR = 0.30  # Azure Standard STT (approx list)
 
 def extract_wav(video: Path, seconds: int | None) -> tuple[Path, float]:
-    tmp = Path(tempfile.gettempdir()) / f"transcribe-{uuid.uuid4().hex}.wav"
+    # Compact mono mp3 (Azure Speech accepts it) so full ~1h lectures upload small.
+    tmp = Path(tempfile.gettempdir()) / f"transcribe-{uuid.uuid4().hex}.mp3"
     cmd = ["ffmpeg", "-nostdin", "-i", str(video)]
     if seconds:
         cmd += ["-t", str(seconds)]
-    cmd += ["-ac", "1", "-ar", "16000", "-vn", "-y", str(tmp)]
+    cmd += ["-ac", "1", "-ar", "16000", "-codec:a", "libmp3lame", "-b:a", "48k", "-vn", "-y", str(tmp)]
     subprocess.run(cmd, check=True, capture_output=True)
     # duration in seconds
     probe = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
@@ -47,7 +48,7 @@ def transcribe(wav: Path) -> str:
         if filename: h += f'; filename="{filename}"'
         h += "\r\n" + (f"Content-Type: {ctype}\r\n" if ctype else "") + "\r\n"
         return h.encode() + content + b"\r\n"
-    body = (part("audio", wav.read_bytes(), filename=wav.name, ctype="audio/wav")
+    body = (part("audio", wav.read_bytes(), filename=wav.name, ctype="audio/mpeg")
             + part("definition", json.dumps({"locales": ["en-US"]}).encode(), ctype="application/json")
             + f"--{boundary}--\r\n".encode())
     req = urllib.request.Request(url, data=body, method="POST", headers={

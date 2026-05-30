@@ -1,0 +1,322 @@
+{
+  "slug": "ayyuhal-walad",
+  "entries": [
+    {
+      "ts": "2026-05-29T23:22:56.986378Z",
+      "op": "ocr",
+      "service": "azure-docintel-prebuilt-read",
+      "role": "arabic",
+      "pdf": "ayyuhal-walad-arabic-original.pdf",
+      "pages": 2,
+      "unit_usd": 0.0015,
+      "cost_usd": 0.003
+    },
+    {
+      "ts": "2026-05-29T23:23:40.227952Z",
+      "op": "ocr",
+      "service": "azure-docintel-prebuilt-read",
+      "role": "english",
+      "pdf": "ayyuhal-walad-english-superior.pdf",
+      "pages": 2,
+      "unit_usd": 0.0015,
+      "cost_usd": 0.003
+    },
+    {
+      "ts": "2026-05-29T23:28:58.003495Z",
+      "op": "ocr",
+      "service": "azure-docintel-prebuilt-read",
+      "role": "arabic",
+      "pdf": "ayyuhal-walad-arabic-original.pdf",
+      "pages": 15,
+      "unit_usd": 0.0015,
+      "cost_usd": 0.0225
+    },
+    {
+      "ts": "2026-05-29T23:29:11.211785Z",
+      "op": "ocr",
+      "service": "azure-docintel-prebuilt-read",
+      "role": "english",
+      "pdf": "ayyuhal-walad-english-superior.pdf",
+      "pages": 160,
+      "unit_usd": 0.0015,
+      "cost_usd": 0.24
+    },
+    {
+      "ts": "2026-05-29T23:29:27.163917Z",
+      "op": "ocr",
+      "service": "azure-docintel-prebuilt-read",
+      "role": "scholarly",
+      "pdf": "ayyuhal-walad-scholarly.pdf",
+      "pages": 65,
+      "unit_usd": 0.0015,
+      "cost_usd": 0.0975
+    },
+    {
+      "ts": "2026-05-29T23:57:48.781633Z",
+      "op": "transcribe",
+      "service": "azure-speech-fast",
+      "video": "1. 01 - Introduction - Ghazali's Dear Beloved Son Explained -  Shaykh Abdullah Misra.mp4",
+      "seconds": 180.0,
+      "unit_usd_per_hour": 0.3,
+      "cost_usd": 0.015
+    },
+    {
+      "ts": "2026-05-30T00:01:48.446300Z",
+      "op": "transcribe",
+      "service": "azure-speech-fast",
+      "video": "1. 01 - Introduction - Ghazali's Dear Beloved Son Explained -  Shaykh Abdullah Misra.mp4",
+      "seconds": 5098.8,
+      "unit_usd_per_hour": 0.3,
+      "cost_usd": 0.4249
+    },
+    {
+      "ts": "2026-05-30T00:02:29.135757Z",
+      "op": "transcribe",
+      "service": "azure-speech-fast",
+      "video": "2. 02 - Prophetic Advice - Ghazali's Dear Beloved Son Explained - Shaykh Abdullah Misra.mp4",
+      "seconds": 4191.7,
+      "unit_usd_per_hour": 0.3,
+      "cost_usd": 0.3493
+    },
+    {
+      "ts": "2026-05-30T00:03:07.444645Z",
+      "op": "transcribe",
+      "service": "azure-speech-fast",
+      "video": "3. 03 - Actions and Intentions - Ghazali's Dear Beloved Son Explained - Shaykh Abdullah Misra.mp4",
+      "seconds": 4302.7,
+      "unit_usd_per_hour": 0.3,
+      "cost_usd": 0.3586
+    },
+    {
+      "ts": "2026-05-30T00:03:52.787213Z",
+      "op": "transcribe",
+      "service": "azure-speech-fast",
+      "video": "4. 04 - Beneficial Knowledge - Ghazali's Dear Beloved Son Explained - Shaykh Abdullah Misra.mp4",
+      "seconds": 4799.7,
+      "unit_usd_per_hour": 0.3,
+      "cost_usd": 0.4
+    },
+    {
+      "ts": "2026-05-30T00:04:34.894072Z",
+      "op": "transcribe",
+      "service": "azure-speech-fast",
+      "video": "5. 05 - The Summary of Knowledge - Ghazali's Dear Beloved Son Explained - Shaykh Abdullah Misra.mp4",
+      "seconds": 4983.2,
+      "unit_usd_per_hour": 0.3,
+      "cost_usd": 0.4153
+    },
+    {
+      "ts": "2026-05-30T00:05:16.019476Z",
+      "op": "transcribe",
+      "service": "azure-speech-fast",
+      "video": "6. 06 - Four Essentials for the Seeker - Ghazali's Dear Beloved Son Explained - Shaykh Abdullah Misra.mp4",
+      "seconds": 3552.1,
+      "unit_usd_per_hour": 0.3,
+      "cost_usd": 0.296
+    },
+    {
+      "ts": "2026-05-30T00:05:56.490125Z",
+      "op": "transcribe",
+      "service": "azure-speech-fast",
+      "video": "7. 07 - Recognizing the True Spiritual Guide - Ghazali's Dear Beloved Son Explained - Sh Abdullah Misra.mp4",
+      "seconds": 4006.1,
+      "unit_usd_per_hour": 0.3,
+      "cost_usd": 0.3338
+    },
+    {
+      "ts": "2026-05-30T00:06:41.488151Z",
+      "op": "transcribe",
+      "service": "azure-speech-fast",
+      "video": "8. 08 - Adab with a Spiritual Guide - Ghazali's Dear Beloved Son Explained - Shaykh Abdullah Misra.mp4",
+      "seconds": 4173.5,
+      "unit_usd_per_hour": 0.3,
+      "cost_usd": 0.3478
+    },
+    {
+      "ts": "2026-05-30T00:07:22.964427Z",
+      "op": "transcribe",
+      "service": "azure-speech-fast",
+      "video": "9. 09 - Language of the Heart - Ghazali's Dear Beloved Son Explained - Shaykh Abdullah Misra.mp4",
+      "seconds": 3949.9,
+      "unit_usd_per_hour": 0.3,
+      "cost_usd": 0.3292
+    },
+    {
+      "ts": "2026-05-30T00:08:06.181218Z",
+      "op": "transcribe",
+      "service": "azure-speech-fast",
+      "video": "10. 10 - Four Things to Desist From - Ghazali's Dear Beloved Son Explained - Shaykh Abdullah Misra.mp4",
+      "seconds": 4021.8,
+      "unit_usd_per_hour": 0.3,
+      "cost_usd": 0.3352
+    },
+    {
+      "ts": "2026-05-30T00:08:43.713222Z",
+      "op": "transcribe",
+      "service": "azure-speech-fast",
+      "video": "11. 11 - Four Things to Desist From (Part 2) - Ghazali's Dear Beloved Son Explained - Sh. Abdullah Misra.mp4",
+      "seconds": 4290.3,
+      "unit_usd_per_hour": 0.3,
+      "cost_usd": 0.3575
+    },
+    {
+      "ts": "2026-05-30T00:09:22.796413Z",
+      "op": "transcribe",
+      "service": "azure-speech-fast",
+      "video": "12. 12 - Four Things to Do - Ghazali's Dear Beloved Son Explained - Shaykh Abdullah Misra.mp4",
+      "seconds": 4151.1,
+      "unit_usd_per_hour": 0.3,
+      "cost_usd": 0.3459
+    },
+    {
+      "ts": "2026-05-30T00:20:32.088516Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch02-hatim-eight-benefits",
+      "in_chars": 14461,
+      "out_chars": 9191,
+      "cost_usd": 0.00683
+    },
+    {
+      "ts": "2026-05-30T00:21:09.690479Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch02-hatim-eight-benefits",
+      "in_chars": 9264,
+      "out_chars": 8252,
+      "cost_usd": 0.00585
+    },
+    {
+      "ts": "2026-05-30T00:24:28.678792Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch03-the-path",
+      "in_chars": 2664,
+      "out_chars": 1056,
+      "cost_usd": 0.00086
+    },
+    {
+      "ts": "2026-05-30T00:24:42.777709Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch03-the-path",
+      "in_chars": 1117,
+      "out_chars": 1060,
+      "cost_usd": 0.00075
+    },
+    {
+      "ts": "2026-05-30T00:25:26.892439Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch04-four-cautions",
+      "in_chars": 15171,
+      "out_chars": 9828,
+      "cost_usd": 0.00728
+    },
+    {
+      "ts": "2026-05-30T00:26:09.190267Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch04-four-cautions",
+      "in_chars": 9894,
+      "out_chars": 8885,
+      "cost_usd": 0.0063
+    },
+    {
+      "ts": "2026-05-30T00:26:21.775560Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch05-method-and-closing-prayer",
+      "in_chars": 9778,
+      "out_chars": 4684,
+      "cost_usd": 0.00366
+    },
+    {
+      "ts": "2026-05-30T00:26:43.421002Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch05-method-and-closing-prayer",
+      "in_chars": 4762,
+      "out_chars": 4470,
+      "cost_usd": 0.00315
+    },
+    {
+      "ts": "2026-05-30T00:36:34.450884Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch05-method-and-closing-prayer",
+      "in_chars": 4762,
+      "out_chars": 4348,
+      "cost_usd": 0.00307
+    },
+    {
+      "ts": "2026-05-30T00:40:34.626204Z",
+      "op": "narrator-additions",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch03-the-path",
+      "lectures": [
+        "lec06-four-essentials-for-the-seeker",
+        "lec07-recognizing-the-true-spiritual-guide",
+        "lec08-adab-with-a-spiritual-guide",
+        "lec09-language-of-the-heart"
+      ],
+      "in_chars": 224262,
+      "out_chars": 6319,
+      "cost_usd": 0.02077
+    },
+    {
+      "ts": "2026-05-30T00:46:07.561156Z",
+      "op": "narrator-additions",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch01-frame-and-first-counsel",
+      "lectures": [
+        "lec01-introduction",
+        "lec02-prophetic-advice",
+        "lec03-actions-and-intentions",
+        "lec04-beneficial-knowledge",
+        "lec05-the-summary-of-knowledge"
+      ],
+      "in_chars": 332938,
+      "out_chars": 5633,
+      "cost_usd": 0.02849
+    },
+    {
+      "ts": "2026-05-30T00:47:37.469345Z",
+      "op": "narrator-additions",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch02-hatim-eight-benefits",
+      "lectures": [
+        "lec05-the-summary-of-knowledge"
+      ],
+      "in_chars": 71271,
+      "out_chars": 17422,
+      "cost_usd": 0.01623
+    },
+    {
+      "ts": "2026-05-30T00:49:41.569542Z",
+      "op": "narrator-additions",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch04-four-cautions",
+      "lectures": [
+        "lec10-four-things-to-desist-from",
+        "lec11-four-things-to-desist-from-part-2"
+      ],
+      "in_chars": 115083,
+      "out_chars": 6448,
+      "cost_usd": 0.01266
+    },
+    {
+      "ts": "2026-05-30T00:50:16.492790Z",
+      "op": "narrator-additions",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch05-method-and-closing-prayer",
+      "lectures": [
+        "lec12-four-things-to-do"
+      ],
+      "in_chars": 56809,
+      "out_chars": 10637,
+      "cost_usd": 0.01091
+    }
+  ],
+  "total_usd": 4.8013
+}

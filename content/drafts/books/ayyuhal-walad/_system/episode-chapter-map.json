@@ -1,0 +1,31 @@
+{
+  "slug": "ayyuhal-walad",
+  "note": "WC8.6 explicit episode<->chapter mapping. Read mode = episode-centric (assembled text + synced audio); Studio = chapter/source-centric. 1:1 here; the model supports one-episode<->many-chapters.",
+  "mapping": [
+    {
+      "episode": "EP01-frame-and-first-counsel",
+      "chapter": "ch01-frame-and-first-counsel",
+      "n": 1
+    },
+    {
+      "episode": "EP02-hatim-eight-benefits",
+      "chapter": "ch02-hatim-eight-benefits",
+      "n": 2
+    },
+    {
+      "episode": "EP03-the-path",
+      "chapter": "ch03-the-path",
+      "n": 3
+    },
+    {
+      "episode": "EP04-four-cautions",
+      "chapter": "ch04-four-cautions",
+      "n": 4
+    },
+    {
+      "episode": "EP05-method-and-closing-prayer",
+      "chapter": "ch05-method-and-closing-prayer",
+      "n": 5
+    }
+  ]
+}

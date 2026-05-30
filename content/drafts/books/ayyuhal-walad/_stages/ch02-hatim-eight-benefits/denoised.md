@@ -1,0 +1,144 @@
+# Denoised — ch02-hatim-eight-benefits (apparatus stripped via Gemini)
+
+O youth, if you know this tradition there is
+no need of further knowledge; and think upon another story, namely,
+that Hatim al-Asamm was among the friends of Shaqîq al-Balkhi,
+the mercy of Allah upon them both. and he (Shaqîq)
+asked him one day, and said : "These thirty years you have associated
+with me-what have you gained in them ?" He replied, "I have gained
+eight benefits from science and they suffice me with it, because I hope
+for my salvation and safety in them."
+And Shagîq said, "What are
+they ?" And Hâtim replied :
+"The first benefit is that I observed mankind and saw that everyone
+had a loved one and one passionately desired whom he loved and longed
+for; and certain of those loved accompanied him to the illness of death
+and others to the border of the tomb, then each returned and left him
+alone and lonely, and there did not enter with him into the tomb and
+comfort him in it; and I found it to be nothing else than good works, so I took this as
+my beloved, a light for me in my grave, and to comfort me in it
+and not leave me alone.
+"The second benefit is that I saw that mankind were following their
+lusts and hastening towards the desires of their souls, and I meditated on
+the saying of the Exalted-"But as for whoever has feared the majesty
+of his Lord, and has refrained his soul from lust, truly the Garden shall
+be his dwelling place." And I was convinced that the Qur'an was sincere
+truth and so I hastened to deny my soul and hurried to combat it and
+refuse it its passionate desires so that it become trained to obedience to
+Allah the Exalted, and it became tractable.
+"And the third benefit is that I saw that everyone of the people
+struggled to collect the vanities of the world, then he seized them, closing
+his hand upon them. So I reflected upon the saying of the Exalted,
+"What is with you vanishes, but what is with Allah abides." So I gave
+freely my worldly possessions for the face of Allah the Exalted and
+distributed them among the poor to be a treasure for me with Allah the
+Exalted.
+"The fourth benefit is that I saw that certain of mankind thought
+their honor and their glory to be in the multitude of their family and their
+kinsfolk and they were beguiled by them, while others considered this
+to be in their wealth of riches and the multitude of children
+and they boasted; and a portion reckoned glory to
+consist in seizing the riches of people by violence and oppressing them
+and shedding their blood; and a section believed that it lay in squander-
+ing riches and in dissipating them and in prodigality. And I meditated
+. upon the saying of the Exalted, "The most worthy of you in the sight of
+Allah is he who fears him most." So I chose reverent fear and was
+convinced that the Qur'an is sincere truth and their thoughts and reckon-
+ings were empty and fleeting.
+"The fifth benefit is that I saw that certain of the people censured
+one another and slandered one another and I saw that this arose from
+envy in the matter of riches and rank and knowledge, and I meditated
+upon the saying of the Exalted : "It is we who divide their substance
+among them in this world's life." And I knew that the division was
+from Allah the Exalted.
+"The sixth benefit is that I saw the people treat one another with
+enmity for a motive or purpose; and so I meditated upon the saying of
+the Exalted : "Truly Satan is your enemy; for an enemy then hold
+him." And so I knew that enmity was not permissible to any other
+than Satan.
+"The seventh benefit is that I saw that everyone struggled energet-
+ically and endeavored excessively to seek provisions and a means of living,
+from which he fell into doubt and forbidden things and debased himself
+and diminished his worth. And I meditated upon the saying of the
+Exalted : "There is no moving thing on earth whose nourishment
+dependeth not upon Allah." And so I knew that my provision depended
+on Allah and he had guaranteed it, so I busied myself in worshipping him,
+and cut off my covetousness of all else than He.
+"The eighth benefit is that I saw that everyone relied on some
+created thing, some on the dinar and dirhem, some on
+property, some on trade and craft, and some on a similar created thing.
+And I meditated upon the saying of the Exalted: "Truly whosoever
+putteth his trust in Allah, He will be sufficient. Truly Allah will attain
+his purpose. He has made for everything a fixed period." So I relied
+upon Allah and he is my sufficiency and an excellent guardian.
+And Shaqîq said, "Allah grant you success;
+O youth, you have perceived from these two words that
+you are not in need of multiplying knowledge, and now I will show you
+what is obligatory for the traveller in the path of truth. Know that it
+is indispensable for the traveller to have a shaykh as guide and tutor, to
+expel from him the evil qualities by his training and to replace them with
+an excellent character; and the meaning of training resembles the plowman who digs out the thorns and removes the wild plants to stimulate its growth and make it thrive
+perfectly, And it is
+necessary for the traveller to have a shaykh to train him and guide him
+to the path of Allah. And the sign of the shaykh who is fitted to be the
+substitute for the Prophet, upon him be blessing and peace, is that he be
+learned-not that every learned one is fitted for it; and I will show you
+certain indications in a general way so that not every one shall pretend
+he is. a learned guide. And we say, one who removes himself far from
+love of the world and love of rank, and has succeeded a discerning
+person who traces his successorship to the Lord of the apostles, and has.
+excelled in disciplining himself in scarcity of food and sleep and speech and.
+in abundance of prayer and alms and fasting, and who, in following the
+discerning shaykh, is making the good qualities of character his way of
+life, such as endurance and thanksgiving and trustfulness and conviction
+and generosity and contentment and tranquility of soul and. moderation.
+and humility and knowledge and veracity and modesty and trustworthi-
+ness and gravity and quietness and staidness and similar traits; and then
+he is light from the lights of the Prophet, upon him be blessing and'
+peace, and he is worthy to be imitated; but the presence of such as he is
+rare, more precious than red sulphur. And whomever fortune aids to
+find a shaykh such as we have mentioned, and the shaykh accepts him,
+he must honor him outwardly and inwardly.
+Now outward honor is that he should not dispute with him and not
+labor in argumentation with him, and should not multiply the supererogatory prayers
+in his presence, and should do what the shaykh commands him according.
+to. his capacity and his ability.
+But inner honor is that all he hears and accepts from him outwardly
+he should not deny inwardly, neither in deed nor in word, lest he be
+branded with hypocrisy; and if this be not possible, that he should
+desert his companionship until his inner life agrees with his outer; and he
+should guard against association with the evil man so that he may curtail
+the province of the Satans of the "jinn" and mankind from the court
+of his heart, and may be purified from the stain of Satanic filth; and at
+all events he will prefer poverty more than wealth.
+Then know that becoming a Sufi has two characteristics : uprightness
+with Allah the Exalted, and quietness with mankind; and whoever is
+upright, and improves his character among the people, and treats them
+with forbearance, he is a Sufi. And uprightness is that he offer the
+pleasures of his soul as a ransom for the sake of his soul; and goodness
+of conduct among men is that you do not burden people according to your
+own desire, but burden yourself according to their desire so long as they
+do not violate the sacred law.
+Then you asked me about devotion; it comprises three things; first,
+the careful observance of the command of the sacred law; second,
+satisfaction with decree and fate and the lot of Allah the Exalted;
+and third, forsaking pleasing yourself in order to seek the pleasure of
+Allah the Exalted.
+And you asked me about trust : it is that you seek to fortify your
+belief in Allah the Exalted as to what he has promised; that is, that you
+believe that what he has fated for you will come to you without fail,
+although anyone in the world endeavors to prevent it; and what is not
+written for you, you shall not attain, though all the world help you.
+And you asked me about sincerity : it is that all your works be
+done for Allah the Exalted, your heart not resting content with the
+praise of people nor despairing with their censure. Know that hypocrisy
+is born from exalting mankind and the cure is that you see them forced
+to labor under the decree (of Allah) and reckon them like inanimate
+objects in their inability to attain contentment and misery, in order to
+escape from hypocrisy in their sight; and as long as you reckon them as
+possessing power and free will, hypocrisy will not be far from you.
+
+O youth, the remainder of your questions-a portion are
+covered in my writings, so seek them there; and setting down others in
+writing is forbidden : work by what you know, there will be revealed to
+you what you do not know.
