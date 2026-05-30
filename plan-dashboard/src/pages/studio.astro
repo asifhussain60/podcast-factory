@@ -1,0 +1,90 @@
+---
+// studio.astro — WC8 Slice 5b: the Studio re-platform. Replaces the throwaway /studio-poc with
+// the real editorial cockpit: a left rail of editorial-decision cards (book canonical + per-chapter
+// override) beside the stage editor + inspector. Same chapter loader as the PoC; the cockpit
+// follows the editor via the `studio:chapter-change` event. External CSS only (Cortex standard).
+import { readFileSync } from 'node:fs';
+import PocLayout from '../layouts/PocLayout.astro';
+import StudioPoc from '../components/reader/poc/StudioPoc.tsx';
+import StudioVersePopover from '../components/reader/poc/StudioVersePopover.tsx';
+import EditorialCards from '../components/reader/poc/EditorialCards.tsx';
+import { renderMarkdown } from '../lib/reader/markdown';
+import { loadGlossary } from '../lib/reader/glossary';
+import { readReview } from '../lib/reader/stage-review';
+import { buildStageMetrics, writeMetricsLedger } from '../lib/reader/stage-metrics';
+import { CARD_DEFS } from '../lib/reader/editorial';
+
+const SLUG = 'ayyuhal-walad';
+const CHAPTERS = [
+  { id: 'ch01-frame-and-first-counsel', title: 'The Frame and the First Counsel' },
+  { id: 'ch02-hatim-eight-benefits', title: "Hatim's Eight Benefits" },
+  { id: 'ch03-the-path', title: 'The Path' },
+  { id: 'ch04-four-cautions', title: 'The Four Cautions' },
+  { id: 'ch05-method-and-closing-prayer', title: 'Method & Closing Prayer' },
+];
+const STAGE_DEFS = [
+  { id: 'source', label: 'Source', slice: 'Slice 1 (intake)' },
+  { id: 'core', label: 'Core', slice: 'Slice 1 (intake)' },
+  { id: 'denoised', label: 'Denoised', slice: 'Slice 2 (noise-strip)' },
+  { id: 'normalized', label: 'Normalized', slice: 'Normalize (house voice)' },
+  { id: 'augmented', label: 'Augmented', slice: 'Slice 4 (knowledge)' },
+  { id: 'narrator', label: 'Narrator', slice: 'Lecture additions (Shaykh)' },
+];
+const base = new URL(`../../../content/drafts/books/${SLUG}/`, import.meta.url);
+function readIfExists(url: URL): string | null {
+  try { return readFileSync(url, 'utf8'); } catch { return null; }
+}
+function loadStageMd(chapter: string, id: string): string | null {
+  // Narrator layer: prefer the editorially-cleaned file when it exists.
+  if (id === 'narrator') {
+    const clean = readIfExists(new URL(`_stages/${chapter}/additions-narrator-clean.md`, base));
+    if (clean) return clean;
+    return readIfExists(new URL(`_stages/${chapter}/additions-narrator.md`, base));
+  }
+  for (const ext of ['md', 'txt']) {
+    const md = readIfExists(new URL(`_stages/${chapter}/${id}.${ext}`, base));
+    if (md) return md;
+  }
+  if (id === 'augmented') return readIfExists(new URL(`chapters/${chapter}.txt`, base));
+  return null;
+}
+const chapters = CHAPTERS.map((c) => {
+  const stageTexts = STAGE_DEFS.map((d) => {
+    const md = loadStageMd(c.id, d.id);
+    return { ...d, available: !!md, text: md ?? '' };
+  });
+  const metrics = buildStageMetrics(stageTexts.map((s) => ({ id: s.id, available: s.available, text: s.text })));
+  writeMetricsLedger(SLUG, c.id, metrics);
+  const stages = stageTexts.map((s) => ({
+    id: s.id, label: s.label, slice: s.slice, available: s.available,
+    html: s.available ? renderMarkdown(s.text) : '',
+  }));
+  return { slug: c.id, title: c.title, stages, metrics, reviewed: readReview(SLUG, c.id).stages };
+});
+const loadError = chapters.some((c) => c.stages.some((s) => s.available)) ? '' : `No stage artifacts found for ${SLUG}.`;
+const glossary = await loadGlossary(SLUG);
+const cockpitChapters = CHAPTERS.map((c) => ({ id: c.id, title: c.title }));
+---
+
+<PocLayout title="Studio — Ayyuhal Walad">
+  <header class="sp-header">
+    <h1 class="sp-h1">Studio — editorial cockpit</h1>
+    <p class="sp-subtitle">
+      The review cockpit: steer the book's canonical editorial decisions on the left, edit and
+      approve each pipeline stage on the right. Override any decision per chapter; the cockpit
+      follows the chapter you are editing.
+    </p>
+  </header>
+
+  {loadError
+    ? <p class="sp-error">Could not load the chapter: {loadError}</p>
+    : (
+      <div class="studio-shell">
+        <EditorialCards client:only="react" slug={SLUG} chapters={cockpitChapters} cardDefs={CARD_DEFS} />
+        <div class="prose-body">
+          <StudioPoc client:only="react" slug={SLUG} chapters={chapters} glossary={glossary} />
+          <StudioVersePopover client:only="react" />
+        </div>
+      </div>
+    )}
+</PocLayout>

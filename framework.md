@@ -1,8 +1,21 @@
 # Podcast Factory Ecosystem Framework
 
-**Last updated:** 2026-05-25
+**Last updated:** 2026-05-30
 
 This document governs the **`podcast-factory`** repo: the multi-phase podcast pipeline that converts scholarly Arabic books into NotebookLM-driven podcast series, the Azure stack that powers OCR / translation / speech, and the agents/skills that support podcast authoring. Memoir + site work moved to the sibling **[journal](https://github.com/asifhussain60/journal)** repo as of the 2026-05-22 split. The Anthropic API proxy (`server/`) and the Cloudflare deploy scaffold were retired the same day — see §"Retired" below. The previous cross-machine coordination model (operator files, machine-id detection, per-machine book branches) was retired 2026-05-23 — see §"Single-machine model" below.
+
+## 2026-05-30 Wave 8 (WC8) — what changed
+
+Studio re-platform, intelligence scoring, and holistic pipeline design:
+
+- **K6 — 5-axis PEQ scoring** — [`_quality.py`](scripts/podcast/_quality.py) adds a fifth axis: Interest (weight 0.15). Weights rebalanced: Fidelity 30%, Voice 20%, Structure 18%, Enrichment 17%, Interest 15%. `_interest_score()` is deterministic (no API). `CHALLENGER_VERSION` bumped 2.2 → 2.3.
+- **Category V (Interest checks)** — [`podcast-challenger.md`](infra/claude-agents/podcast-challenger.md) adds V1–V5: curiosity hook, challenge-defeat arc, modern relevance, no-strawman, rhetorical cadence. All P1/P2; feeds the Interest PEQ axis.
+- **SN-7 terminus-technicus guard** — [`gemini_refine.py`](scripts/podcast/gemini_refine.py) injects `R_TERMINUS_PRESERVE` protect-list from `glossary.yml` into both denoise and normalize prompts. Retro-fix run on all 5 Ayyuhal chapters.
+- **Host roles guardrail** — `HOST_ROLE_CONTRACT` dict (3 presets: teacher/student, teacher/questioner, scholar/debater) + `HOST_ROLE_CONTRACT_DEFAULT` in [`_rules.py`](scripts/podcast/_rules.py). 7th editorial card `host_roles` in the Studio cockpit.
+- **Stage gate + runner** — [`_stage_gate.py`](scripts/podcast/_stage_gate.py) (review reader/writer) + [`stage_runner.py`](scripts/podcast/stage_runner.py) (CLI: check gate → run next WC8 stage producer). `--status` prints a per-chapter ✅/🔄/⬜ table.
+- **Podcast bundle + slides** — [`assemble_bundle.py`](scripts/podcast/assemble_bundle.py) validates chapters/framings/slides, runs 5-axis PEQ inline, emits the mandatory NotebookLM upload table. [`generate_slide_decks.py`](scripts/podcast/generate_slide_decks.py) authors two-file slide pairs via Gemini 2.5 Flash (thinking disabled, maxOutputTokens=8000, trailing-whitespace strip). All 5 Ayyuhal slide decks produced.
+- **Studio re-platform** — `/studio` page with `EditorialCards.tsx` (7 cards, @dnd-kit sortable drag-reorder on list cards, cmdk corpus search on Key Focus). `/intake` page (`NewContentForm.tsx`, `EditorialDefaults.tsx`, `api/intake/create.ts`). `save-stage.ts` API writes edits back to `_stages/<ch>/<stage>.md` with `.md.bak` backup.
+- **Holistic pipeline gap identified** — WC8 `_stages/` normalized content (4,295w total) is NOT ready for podcast output. Arabic spine was never reconciled with English translations. New scripts planned: `full_book_denoise.py`, `reconcile_book.py`, `segment_book.py` (output to `chapters-wc8/`, ~4,500w per episode). Total new cost: ~$0.30.
 
 ## 2026-05-25 cleanup wave — what changed
 

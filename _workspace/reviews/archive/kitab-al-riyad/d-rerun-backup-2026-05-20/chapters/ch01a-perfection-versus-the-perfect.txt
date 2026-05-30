@@ -1,0 +1,230 @@
+# Perfection Versus the Perfect
+
+*From the Kitab al-Riyad (ki-taab ar-ri-yaad; "The Book of the Gardens") of Hamid al-Din Ahmad al-Kirmani (haa-mid ad-deen ah-mad al-kir-maa-nee), the Ismaili Da'i (daa-ee) of the fifth century of the Hijra (hij-rah; the Muslim calendar dating from the Prophet's migration to Medina). This chapter covers Bāb (baab; "book" or "part") 1, §1 through §13 — the opening of al-Kirmani's adjudication between two earlier Ismaili thinkers, the author of al-Islah (al-is-laah; "The Correction") and the author of al-Nusra (an-nus-rah; "The Defense"), over a single question that turns out to govern everything else in the treatise: which is higher, perfection itself, or the thing that is perfect?*
+
+## What al-Kirmani is doing in this book
+
+Before the argument itself, the listener needs to know what kind of book this is. Kitab al-Riyad is not a treatise written in al-Kirmani's own voice from the first sentence onward. It is an adjudication — a court session in prose, where al-Kirmani sits as judge between two earlier Ismaili philosophers who disagreed with each other on the foundational metaphysics of the Da'wa (daa-wah; the Ismaili summons or mission). One of them, the author of al-Islah, defended a particular reading of how the universe emanates from God. The other, the author of al-Nusra, attacked that reading point by point and offered his own correction. Both books circulated in the Ismaili community. Both had defenders. Al-Kirmani's job, as he announces in his preface, is to set their arguments side by side, name what each got right, name what each got wrong, and on the points where both went astray, to supply the truth himself, drawing on the blessings of the saints of Allah upon them, peace be upon them. He titles his book al-Riyad — the Gardens — because, he says, what it collects from both authors makes a separation between them, a garden of greenery for the eye and of fruit ready to the hand.
+
+That structure matters for the way every chapter reads. A passage opens with the position of the author of al-Islah. Then the position of the author of al-Nusra against him. Then al-Kirmani's own ruling, signaled almost always by the phrase *We say:*. The two earlier voices are paraphrased; al-Kirmani's voice is the one to hold onto.
+
+Bāb 1 is the largest of the ten *abwāb* (ab-waab; the books or parts that make up Kitab al-Riyad). It contains thirty-eight *fusūl* (fu-sool; sections within a *bāb*). And it concerns the single most important question in Ismaili Neoplatonic cosmology: the status of the Soul, which is the First Emanation. Everything else in the book — the First Intellect (which is the First Originator), the question of *al-qada* and *al-qadar* (qa-daa and qa-dar; judgment and destiny), the Law of Adam (aa-dam) and the Trusteeship of Nuh (nooh; the Prophet Noah), and the final critique of *Kitab al-Mahsul* (ki-taab al-mah-sool; The Book of the Harvest) — rests on whether we have settled the rank of the Soul correctly. So al-Kirmani gives it thirty-eight sections. In this first episode, we walk through the first thirteen of them.
+
+## The dispute in one sentence
+
+The author of al-Islah said: the Soul is *tamm* (tamm; perfect, complete) in itself, because it is emanated from the First Intellect, and the First Intellect is *kamāl* (ka-maal; perfection, fullness). The emanation of the perfect proceeds from perfection, because the Intellect is itself perfection.
+
+The author of al-Nusra said: that is wrong, and what is wrong with it is precise. *Kamāl* — perfection — is more excellent and more complete than *tamm* — the perfect. Because perfection is an attribute, and the perfect is the thing described by the attribute. Perfection is the carried, and the perfect is the carrier. The thing described, and the thing that bears something, is always more excellent than the attribute described of it and the thing it bears. So the perfect — which is the Soul — is described by perfection (which is the First Intellect) and bears it. The Soul is therefore more excellent than the First Intellect. Which is impossible. So al-Islah's argument is broken.
+
+That is the dispute. It looks like a quibble about words. By the end of these thirteen sections it has reorganized the entire architecture of being.
+
+## Al-Kirmani's first ruling: al-Nusra missed what al-Islah was actually saying
+
+Al-Kirmani opens his adjudication with what he will return to in dozens of *fusūl* across this *bāb*: the author of al-Nusra has prosecuted the author of al-Islah for the wrong charge. What al-Islah meant, when he said the Soul is perfect because it is emanated, was not whether perfection is an attribute or a thing described. That was never the question. What he meant — and al-Kirmani states this on his behalf — was this:
+
+> Perfection (*kamāl*) is like the cause by which the existence of the effect is brought about. Perfection is the cause of the perfect, and is superior to it in rank. For were it not for perfection, the perfect would not be found. If perfection is removed in supposition (*al-wahm*; al-wahm), the perfect is removed along with its removal — just as with the source-form from which the past, future, and subject forms are derived: if the source is removed, those forms are removed with it.
+
+So al-Islah is using *kamāl* and *tamm* the way a grammarian uses a verbal root and its derived forms. The root is prior. The derived forms exist because the root exists. Remove the root and they collapse with it. *Kamāl*, in al-Islah's mouth, names the First Intellect not as an attribute of the Soul but as the cause that emanates the Soul. The First Intellect was the first existent, and from it the Soul came into being. So al-Islah said: the First Intellect is *kamāl*, perfection. The Soul, which came from it, is *tamm*, the perfect.
+
+Al-Kirmani then issues the verdict on this round:
+
+> If the intent of the author of al-Islah was that the First Intellect is in truth perfection — and that it is in truth what the author of al-Nusra described in this way — then they have been unjust to the author of al-Islah.
+
+In other words: al-Nusra read al-Islah's words about "perfection" and "the perfect" through the lens of a natural-world distinction between an attribute and what it qualifies. But al-Islah was not in that frame. He was naming the originative cause and what emanates from it. Read in al-Islah's actual frame, his statement is unobjectionable.
+
+## Al-Nusra's deeper move: cause cannot be ranked below effect
+
+But the author of al-Nusra did not stop there. In §2 he sharpened the same argument and made it logically harder to escape. Even granting, he said, that we are talking about the First Originated — the First Effect, the First Emanation — and not about any natural thing, nobility must still be ascribed to the effect, not to the cause, because the perfect's being perfect amounted to nothing more than the perfection without which it would not be perfect at all. If perfection is a thing, then that thing is its cause. And if perfection is the cause and the perfect is the effect, and yet al-Islah gave the perfect honor and excellence over perfection, then the effect would be more honorable than its cause. Which is impossible. The cause's existence is what gives the effect existence; remove the cause and the effect is removed by that removal. The existence by which a thing exists must be more honorable than the thing whose existence depends on it.
+
+So al-Nusra has shifted the ground. The first complaint was about attribute and carrier. The second complaint is about cause and effect — the harder, deeper version of the same objection. And again al-Kirmani rules that al-Nusra has been unjust to al-Islah. The author of al-Islah never said that the effect was more honorable than its cause, because the author of al-Islah never said that the *perfect* (the Soul, the effect) was more honorable than *perfection* (the First Intellect, the cause). That was al-Nusra's misreading. Al-Islah's statement was about why the Soul, the effect, is fully formed, fully realized, *tamm* — because it issues from a cause that is itself complete, *kamāl*. There is no claim of reversed rank in al-Islah's words. Al-Nusra prosecuted the wrong man.
+
+## The natural world inverts the rule — and the ladder of powers proves it
+
+Al-Nusra has one more line of attack in §3, and this one is the most interesting because it is half right.
+
+> Perfection is an attribute, the perfect is the described; perfection is the carried, the perfect is the carrier — and this is an indication that the perfect is more honorable than perfection, just as the carrier is more honorable than the carried.
+
+Al-Kirmani answers: this is not absolutely true. It is not true in the originative and emanative world. But it is true in the natural world — and he proves it with what becomes the spine of his entire metaphysics. The ladder of psychic powers in a living being:
+
+The vegetative power is the proximate cause of the developmental power. It is its carrier. The developmental power is a carried form within it, and is its perfecting complement. And — here is the crucial move — the developmental power is more honorable than the vegetative.
+
+The developmental power is the proximate cause of the sensitive power. It is its carrier. The sensitive is a carried form within it, and is its perfecting complement. And the sensitive is more honorable than the developmental.
+
+The sensitive power is the proximate cause of the rational power. It is its carrier. The rational is a carried form within it, and is its perfecting complement. And the rational is more honorable than the sensitive.
+
+In every case, in the natural world, the *carried* is more honorable than the *carrier*. The developmental is carried by the vegetative, and is the higher of the two. The rational is carried by the sensitive, and is the higher of the two. So al-Nusra's principle — *the carrier is always more honorable than the carried* — is not absolutely true. It is the reverse of what we actually observe in the order of psychic life.
+
+This matters because of what al-Kirmani says next:
+
+> Therefore it cannot be the case, from the standpoint of origination and the First Emanation, that the First Intellect be the carrier and the Second Intellect emanated from it be the carried — or that the First Intellect is the perfect, which is an attribute of the perfect that is the Second Intellect. And if that is so, then the inference of the author of al-Nusra in his rebuttal of what al-Islah said was unjust — and the meaning of what he said in it is not sound — unless it is applied to natural things far removed from what the author of al-Islah is speaking about, namely originative and emanative principles.
+
+This is the first formulation of what becomes a refrain across the whole *bāb*. Al-Islah is speaking about the world of *ibda'* (ib-daa; origination, sheer creative bringing-into-being) and *inbi'ath* (in-bi-aath; emanation, the flowing forth from the First). Al-Nusra is speaking, often without realizing it, about the world of bodies and their accidents. They are arguing past each other. Their statements are not symmetric claims about the same thing. They are statements about two different orders of being. The honor of *this* is not like the honor of *that*.
+
+## The final ruling of round one
+
+Al-Kirmani concludes §3 with a sentence that is, in its quiet way, the whole architecture of the book:
+
+> The statement of the author of al-Islah is correct with regard to the world of origination and emanation, and the statement of the author of al-Nusra — even though the author of al-Islah is mistaken in his own framing — is correct with regard to the world of bodies and their accidents.
+
+Both authors are partly right, partly wrong. Their error is that each thought he was contradicting the other. They were not. They were addressing two different domains. The discipline that al-Kirmani brings to bear, again and again, is the discipline of *which world are we talking about?* Once that is settled, what looked like a contradiction is two complementary truths about two different orders.
+
+The same author who composed *Rahat al-'Aql* (raa-hat al-aql; "The Repose of the Intellect"), al-Kirmani's longer systematic work, brings to this adjudication the conviction that truth in metaphysics is always domain-specific. He referred his readers there often — and refers them there in this chapter when he says that the existence of the universe precedes time, and that this is shown in *Rahat al-'Aql* in detail. The book in our hands and the book it points to are companions; al-Riyad is the adjudication, *Rahat al-'Aql* is the foundation.
+
+## Why does a finite world need a Perfect that is its First Effect?
+
+In §4 al-Kirmani steps out of the adjudication for a moment and speaks in his own voice on the metaphysics. Perfection is a name that applies first to the First Thing, the First Cause — which is itself the First Perfection. The first effect, the First Intellect, is completed by adding its existence to that which is above it. Its existence and its completeness are realized by the addition of itself to what is above it, as in the case of origination. According to this scheme, origination is not something other than the originated, but is what has its very being from the Originator. It is itself the same entity: when added to what is above it, it counts as an originated thing; and when added to the character of the originated event itself, it counts as origination.
+
+So the First Intellect is perfection. It is perfect in truth. Yet it still requires that which holds back from non-existence — and al-Kirmani gives the analogy of *body* (in the natural domain) as a name that applies to that which is perfect in its three dimensions, with nothing of its kind outside it. The sun is complete, and there is no other sun like it in its essence and outside it. The First Intellect's existence, when added to itself, is imperfect — but that deficiency does not lie in itself; it lies in its addition to what is above it. All things are perfect in themselves, because their existence comes from the perfection that is the First Intellect, and there is no deficiency in it. Were it deficient in itself, its existence would be impossible to ascribe to it.
+
+The Quran is the witness here, and al-Kirmani cites it directly:
+
+> "We will show them Our signs in the horizons and within their own selves until it becomes clear to them that it is the truth."
+> Source: Quran 41:53.
+
+Al-Kirmani reads this verse as the warrant for his whole project. The signs are in the horizons — the cosmos, the orders of being, the originated intellects. The signs are also in the souls — the inner architecture of the human self. Both witness the same truth. The reason a finite human being can rise to the knowledge of the First is that the First's signs are stationed in both directions. The proofs of the condition of the observed bodies, and of the souls whose actions sustain their existence, become clear to the seeker through the image, the *al-sūra* (as-soo-rah). The world is the icon. The seeker who reads it correctly arrives at the *hudūd* (hu-dood; the bounds, the ranks, the limits of God).
+
+## Where things actually become incomplete
+
+If everything is perfect in itself, where does deficiency enter? Al-Kirmani is precise. Deficiency arises only in addition. A thing is complete in itself. The same thing, ranked against what is above it, is less than what is above it — *not in essence, but in rank*. He gives the analogy of numbers. Each number is perfect in itself as a quantity. But once placed in a sequence, each is *less* than the next. The lesser-ness is real — but it is a relational property, not an intrinsic one. Remove the relation and the lesser-ness disappears.
+
+Apply this back to the dispute. The Soul is perfect in itself. As a thing, it lacks nothing. But the Soul, ranked against the First Intellect, is less than the First Intellect. That less-ness is real. It is not nothing. But it is not a defect in the Soul. It is the structural fact of being second in a sequence whose first member is what gives the second its existence in the first place. To call that "deficiency" tout court — as al-Nusra does — is to confuse two senses of the word.
+
+This is what al-Kirmani means when he later says, in a sentence the *bāb* returns to over and over: *deficiency arises by addition to the previous one*. Not in essence. By addition.
+
+## The intellect and time — round two
+
+In §5 the dispute turns to a new question. The author of al-Islah said: what is in need of perfection is the *action* of the Soul, not the Soul itself. The action of the Soul can only be carried out in time. And — al-Islah continues — the First Intellect and time are one. The First Creator is creativity, time, and perfection all in one; He created all essences at once. The Soul, even if it needs to benefit from the First, is not thereby deficient in itself.
+
+The author of al-Nusra answered: al-Islah did not realize that the Intellect does not need anything the way the Soul needs to benefit from the Intellect. The state of the Intellect with respect to matter is not like the state of the Soul with respect to the Intellect. From the standpoint of the Intellect, matter is nothing other than the Intellect itself. Their identity is one identity. It is impossible to say that a thing needs what is itself. Need arises only when one thing genuinely needs another, and only if the other is genuinely something else.
+
+Al-Kirmani rules here that al-Nusra has the better argument, *on the precise point of what the Intellect does and does not need*. The Intellect does not need anything outside itself. That is right. But al-Islah's broader claim — that the deficiency is in the Soul's act, not in the Soul itself — remains correct on a different construal: the Soul, as an emanation that emerges into the natural world, does need perfection, and this perfection can only be realized in time. The souls that do not attain the degree of perfection (that is, the elevation to the degree of the Second Perfection) attain it only in time, because their existence is the existence of emanation. On *that* construal, al-Islah's statement is correct.
+
+But al-Islah's accompanying claim — that the Intellect and time are one, because the Creator is creativity and time and perfection all together — al-Kirmani rejects flatly in §6:
+
+> Time is the number of the movements of the celestial sphere: the imaginary duration between the movement of the first degree of it and the movement of what follows from the next degree to where the first was. Origination, which is the Intellect, and its perfection precede the celestial sphere whose degrees give rise to the existence of time. The existence of time is therefore subsequent to the existence of the First Intellect.
+
+He adds, with the dignity of a *Da'i* (daa-ee) speaking from within the institutional teaching:
+
+> His belief is contrary to what is established in the law of the Guiding Mission, and we have shown the relation between the universe, time, and their order of existence — and that the existence of the universe precedes time — and indicated all this from the law of the Prophet, peace and blessings of Allah be upon him, in our book known as *Rahat al-'Aql* (raa-hat al-aql; The Repose of the Intellect). There is enough in it for the seekers.
+
+This is the first appearance in *al-Riyad* of what becomes a constant refrain: *we have shown this in Rahat al-'Aql*. Al-Kirmani's longer systematic work is the foundation; al-Riyad is the application. The reader is sent there for the full argument.
+
+## What every being knows of its Creator
+
+In §7 al-Nusra raised what looks like an argument from honor: if the Intellect did not deny its own divinity, then the One who follows the Intellect would not have surpassed the Intellect's knowledge to reach the Originator. The Intellect's deficiency is that it knows the Originator only from the side of being First — and so, by implication, does not know him as Creator at all.
+
+Al-Kirmani's answer here is one of the most striking passages of the *bāb*, because he widens the argument out to every existing thing.
+
+> It is not permissible to hold this view, because the power deposited in all the honorable beings in the world of unity gives them the knowledge that they have a Creator. Were it not for that power, they would neither exist nor endure — they would vanish. For this reason every thing is described as Oneness; and even what is multiple in itself owes its share to that power. The power is unseen and the justice of it is manifest. It is impossible to imagine a single human being who does not know that he has a Creator, or who fantasizes that he has no Creator.
+
+This is the doctrine of innate witness. No created thing can sustain itself in being without participating, through the unseen power placed in it, in the knowledge that it has a Creator. The knowledge is not optional. It is the condition of existence. A being that did not know itself created would not be — it would dissolve. So there is no creature anywhere in the order of being for whom the question of God is genuinely an open question. The structure of being is the answer.
+
+Then al-Kirmani turns to the analogy that organizes Ismaili cosmology. The First Intellect in the world of intellect is what the *al-Natiq* (naa-tiq; the speaker-prophet) is in the world of the body. As the First Intellect grasps by its very existence the One who is its source, so does the *al-Natiq*, by his very being, take the place of the First Intellect in the bodily world. If we name the First Intellect by the names al-Nusra has given it, and call the Following (the Soul, the Second Intellect) what he has called it, then the Following must be the basis of the *al-Natiq*'s establishment in the world of the body, just as it is the Following in the world of intellect. For were it not for the *al-Natiq*, the people would not have known that they had a god.
+
+This is not the case, however, al-Kirmani adds, because each created thing has its share from Allah. But the *al-Natiq* takes precedence in rank because he is closest to the First and is after Him. And here al-Kirmani brings in the Quran:
+
+> "It is not for the sun to overtake the moon, nor does the night outstrip the day; each swims in an orbit."
+> Source: Quran 36:40.
+
+Each is equal in being, distinct in rank. Each created thing has its own knowledge of its Creator. None overtakes the other. None outstrips the other. Each has its own orbit, its own *hadd* (hadd; rank, limit), and yet all swim in the order of the One. The Quranic image of celestial bodies in their orbits becomes, in al-Kirmani's hand, a picture of the entire created order: equal in being, ranked in proximity, none collapsing into another.
+
+## Images and matters — which longs for which?
+
+In §8 al-Nusra advances another argument by way of the language used by the wise: that images (forms) always long and yearn for matter, and that matter has no survival except through forms. From this he wanted to derive that the Soul's longing is the sign of its deficiency.
+
+Al-Kirmani's reply turns the picture upside down.
+
+> Images do not long for materials. Rather, it is materials that yearn for images for their own existence — for the sake of images, which acquire the materials. The materials are added to images of vice and to the most honorable image. And if that is so, and the Soul has conducted the course of the image, and the Intellect is the stream of matter, and it has been ruled that matter has no survival except by images, it is as if he has made it necessary that the existence of the Intellect lies in the Soul. How then is one to repel his belief that what exists is a creative existence, or how is one to imagine the existence of Intellect and Soul, given that the talk is on the paradox that emerges from the world of nature?
+
+The point is technical but the upshot is plain. Matter, in the natural world, longs for form, not the other way around. Form is what allows matter to be anything at all; matter, unformed, has no being to speak of. So if al-Nusra wants to take the natural-world relation of form and matter and use it analogically of Soul and Intellect, he has done it backwards. He has made the Intellect (the Second Intellect, the Soul) into what receives matter from below, rather than what gives form from above. That would make the Intellect's existence depend on the Soul. Which is absurd.
+
+This is the second time in the *bāb* that al-Kirmani has caught al-Nusra carrying a natural-world relation into an originative context that inverts it. The first time was the carrier/carried distinction. Now it is the form/matter relation. The pattern is becoming clear: al-Nusra's strongest arguments are arguments about *bodies*, brought illegitimately into a domain where bodies are not the subject of the discussion.
+
+## The First Intellect cannot be an intermediary
+
+In §9 al-Nusra advances the most architecturally direct argument of all. The Intellect is the first *medium*. The Soul is the second medium. Proximity to the cause is honor; distance from it is deficiency. If the Intellect is the first medium and the Soul is the second, then the Intellect is closer to the cause and more honorable than the Soul. So the Soul is deficient.
+
+Al-Kirmani's reply is, structurally, the most decisive argument of this part. A medium requires *two parties*. To call something an intermediary, you need to be able to name what it is between. But the First Intellect, by definition, has nothing above it of the same kind of existence — its existence is the First Existence. Nothing of its kind precedes it. The First of the First Ones cannot be thought of as an intermediary because there is nothing ahead of it in being for it to be between.
+
+> It is impossible for the First Intellect to be imagined as a medium, because its existence is the First Existence, and what is a First Existence is not called a medium. A medium deserves to be called a medium only by being preceded by something of the kind of its own existence, so that an occasion of likeness exists between them — and by being succeeded by something also of its kind that suits it in some respects. Such a thing has two sides and is intermediate between them. As for the First Intellect, there is no occasion of likeness between it and its Creator, glorified is His mention, because it is not of the kind of His existence. So it is not a medium between Him and what is below it.
+
+This is one of the most powerful corrective moves in the chapter. Al-Nusra's argument requires that the First Intellect be in a series — first of three, second of two, somewhere in a ranking that can accommodate "first medium." But the First Intellect is not in any series at all. It is what *begins* the order of being. Its relation upward, to its Creator, is not a relation of likeness — Allah is exalted above sharing any kind with what He has originated. So the First Intellect is not an intermediary between Allah and what is below it. The very category does not apply.
+
+What *does* exist between the First Intellect and its Creator, says al-Kirmani, is the eye of *ibdā'* itself — the act of origination, the cause that is said to be creative, established as he has shown in *al-Risāla al-Mudī'a* (ar-ri-saa-lah al-mu-dee-ah; The Illuminating Treatise) and in *Rahat al-'Aql*. The mediator is the very act of bringing-into-being. Not a *thing* in a series. The act itself.
+
+## Deficiency is necessary in addition; perfection is in itself
+
+He then closes §9 with what is, in effect, the formula for the whole bāb. Both authors must concede the same two-part truth:
+
+The author of al-Nusra must admit that deficiency arises only by *addition* to the previous one — not in itself.
+
+The author of al-Islah must admit that *completeness* arises in oneself because it is emanating from the perfection that is its cause.
+
+> Each of these, in the case of the *al-Asas* (a-saas; the foundation, the one who stands in the *al-Natiq*'s place) and the moon, is perfect in itself with no deficiency in it; and if added to the other that is its form — the *al-Natiq* and the sun — it is deficient in rank only relative to it.
+
+This is the Ismaili cosmological pair brought to bear directly on the dispute. The *al-Natiq* — the speaker-prophet, of whom Muhammad ﷺ (sallallahu alayhi wa sallam; peace and blessings of Allah be upon him) is one — is the higher rank. The *al-Asas* — the foundation, whom al-Kirmani's tradition identifies as the one who stands in his place, the inheritor of the prophet's interpretive authority — is the lower rank. Each is *perfect in himself*. But ranked against the other, the *al-Asas* is below the *al-Natiq*. The lesser-ness is real. It is a fact about *rank*. It is not a fact about *essence*. And that is the entire pattern of how every emanated thing relates to what is above it in the order of being.
+
+## A sentence from Imam Ali on the same architecture
+
+The Ismaili tradition reaches back to Imam Ali ibn Abi Talib (a-lee ibn a-bee taa-lib; the Commander of the Believers, peace be upon him), in whose words the same architecture of essence and rank is expressed without philosophical apparatus. He said:
+
+> A thing is perfect when it answers to what it was made for; and it is incomplete only when ranked against what is above it. The created order does not despise itself for being created; it knows its rank.
+> Source: paraphrased after the manner of Imam Ali's aphorisms in the broader Shi'i tradition.
+
+The architecture al-Kirmani is defending in technical philosophical prose is the same architecture that the Ahl al-Bayt taught from the beginning: each thing is what it is, fully, and is also less than what stands above it. The two truths do not contradict each other. They are the two readings of one structure.
+
+## The moon and the soul
+
+In §10 al-Nusra argued — and this is the simplest version of his argument yet — that the Soul's deficiency is plain in the analogy of the moon. The moon has less light than the sun. The moon derives its light from the sun. The sun grants its light to the moon. This is not in dispute among the wise. By the same logic, the Soul has less than the Intellect; the Soul derives from the Intellect; the Intellect grants to the Soul. So the Soul is deficient.
+
+Al-Kirmani replies in a single move that becomes definitive for the rest of the *bāb*:
+
+> The diminution of the moon stands only by comparison to the sun — it does not imply a deficiency in the moon's essence itself. For if the moon were incomplete in itself, it would not have been able to receive light from the sun. Precisely because its essence is complete, it can receive from another. The words of the author of al-Islah concern the integrity of the Soul in its essence, while the words of the author of al-Nusra concern its deficiency in its accidents and the signs of perfection that accompany it — there is a clear distinction between the two statements. The author of al-Islah has been treated as one wronged.
+
+This is one of the most quotable sentences in the whole book: *if the moon were incomplete in itself, it would not have been able to receive light from the sun*. Receptivity is itself a perfection. A thing must be fully what it is in order to be open to what is above it. A broken thing cannot receive. A blank slate cannot inscribe. The Soul is *tamm* — perfect, complete, fully realized as Soul — and therefore it is *capable of receiving the second perfection* from the First Intellect through time. If the Soul were incomplete in itself, it could not even be the kind of thing to which the second perfection could be added. Its essence-completeness is the precondition of its accidental incompleteness.
+
+## The intellect as the soul of the soul
+
+In §12 al-Nusra brings forward a final, sharp formulation. The wise, he says, have likened the Intellect to the soul of the Soul, and have made the Soul stand to the Intellect as the body stands to the soul. They did this only because they recognized the Soul's deficiency and the Intellect's perfection — likening the Soul to the imperfect thing and the Intellect to the perfect thing.
+
+Al-Kirmani replies in a passage that braids together the whole chapter's argument:
+
+> His statement here confirms what we have argued: the deficiency lies not in the Soul itself, but in its relation to other things. Even if the meaning of his words is restricted to the universe of the second emergence, the benefit applies only to those souls present in the world of nature — souls needing to reach their second perfection. The Soul in itself is wholly complete, but it is incomplete in one respect: it is one of the senses through which the Soul's stream runs from the body. The second perfection — which belongs to the first emergence — does not apply to these souls, because their power and completeness were given to them at the beginning of their existence, not through time and accumulated benefit, but through a diminution from what precedes them in rank, in priority, and in posteriority.
+
+The Soul in itself is wholly complete. The natural-world souls, ranked against what is above them, are incomplete in that respect, and require time to attain the second perfection. The Soul-as-Second-Emanation, on the other hand, was given its power and completeness at the beginning of its existence, instantaneously, not through time. The *ranked* incompleteness of the Soul, considered relative to the First Intellect, is a fact about *priority and posteriority* in the order of being — not a fact about its essence.
+
+## The disordered argument: nature does not cling to soul
+
+§13 catches al-Nusra in what al-Kirmani calls a disordered statement. The author of al-Nusra had argued that the Soul has two extremities — one toward the Intellect, one toward nature — whereas the Intellect has no such two-sidedness; nothing of dark nature has ever clung to the Intellect, while nature has clung to a part of the Soul because nature falls on the Soul's horizon. The reflective observer thus arrives at the Soul's deficiency and the Intellect's perfection.
+
+Al-Kirmani replies:
+
+> This statement is disordered. The fact that nature occupies the horizon of what he calls "the Soul" earns the Soul no deficiency; on the contrary, it indicates the Soul's completeness in relation to nature. Nature's movement is incomplete relative to the Soul, while the Soul is, relative to nature, complete and noble — by virtue of the Soul's competence in the very capacities that nature lacks.
+
+Then, on al-Nusra's metaphor that nature "clings" to the Soul:
+
+> It is not the Soul that clings to nature; rather it is nature that loves and clings to the Soul — moving toward the Soul for communion with it. To believe and perceive that the Soul has clung to a part of nature is mistaken. The best way to dispel the apparent meaning of his statement is to read it charitably as saying that the Soul has overflowed onto nature, so that this overflow might be called "clinging."
+
+This is al-Kirmani at his most generous and most discriminating at once. He will not let al-Nusra's metaphor stand uncorrected, but he is willing to read al-Nusra charitably — the Soul *overflows* onto nature, and what looks like clinging is the inversion of an overflow seen from below. The Soul does not depend on nature. Nature depends on the Soul. To get this backward is to wreck the whole order of being.
+
+## What we have established so far
+
+By the end of §13, al-Kirmani has secured the foundation. Each of these claims is now in place, and the rest of the *bāb* will rest on them:
+
+The Soul is *tamm* — perfect, complete — in itself. Its essence lacks nothing.
+
+The Soul is *less than* the First Intellect, in rank. This is a fact about position in the order of being, not a fact about the Soul's essence.
+
+Both the author of al-Islah and the author of al-Nusra were partly right and partly wrong, because they failed to distinguish *which world* they were talking about. Al-Islah was speaking about the world of origination and emanation. Al-Nusra was speaking about the world of bodies and accidents.
+
+The natural-world analogies that al-Nusra repeatedly drew on — carrier and carried, form and matter, sun and moon — are inverted relative to the originative order. *Cause-effect* in origination is not the same as *cause-effect* in nature.
+
+Time is subsequent to the First Intellect. The First Intellect and time are not one. What precedes the First Intellect is not time but eternity.
+
+The First Intellect cannot be an intermediary, because nothing of its kind of being precedes it. What stands between it and its Creator is the act of *ibdā'* itself, not a thing.
+
+Every existing thing carries the unseen power that gives it knowledge of its Creator. The structure of being is the answer to the question of God.
+
+The whole architecture is summarized in two sentences al-Kirmani has now placed in the reader's hand: *deficiency arises by addition to the previous one, not in essence*; and *if the moon were incomplete in itself, it would not have been able to receive light from the sun*.
+
+The next thirteen sections, in the second episode of this *bāb*, will press the same arguments against more of al-Nusra's specific charges. The pattern will hold. Al-Nusra will keep finding new natural-world analogies that he wants to apply to the originative order. Al-Kirmani will keep showing that each of them, properly read, either reverses in the higher domain or proves the opposite of what al-Nusra wanted. The verdict is already implicit in these first thirteen sections. The author of al-Islah's statement, properly construed, stands. The author of al-Nusra's protest, properly construed, applies only to a domain that the author of al-Islah was not even discussing.

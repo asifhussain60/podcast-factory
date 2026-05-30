@@ -1,0 +1,3 @@
+orchestrate_book: resume — slug=kitab-al-riyad
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean. Commit or stash first, then --resume.

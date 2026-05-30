@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T21:06:10.157Z",
-  "source_commit": "1db2fe2",
+  "generated_at": "2026-05-30T21:57:33.245Z",
+  "source_commit": "1e9a74b",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -176,6 +176,18 @@
         "Python",
         "Claude"
       ]
+    },
+    {
+      "id": "B5",
+      "wave": "B",
+      "title": "Ingest hadith, etymology, and classical Arabic poetry atoms from MCP source library",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "B0"
+      ],
+      "plain": "",
+      "tools": []
     },
     {
       "id": "C1",
@@ -714,6 +726,30 @@
       ],
       "plain": "",
       "tools": []
+    },
+    {
+      "id": "K6",
+      "title": "Add Interest & Challenge-Defeat scoring as a 5th PEQ axis + Challenger Category V",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2",
+        "K3",
+        "K5"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K6-pre",
+      "title": "Terminus technicus preservation rule — prevent Arabic doctrinal terms from being stripped during denoise/normalize",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "WC8.0"
+      ],
+      "plain": "",
+      "tools": []
     }
   ],
   "waves": [
@@ -783,54 +819,54 @@
   ],
   "recent_commits": [
     {
-      "sha": "1db2fe2",
-      "subject": "WC8 Studio step 2: verse hover by reusing QuranPopover (no new lib)",
-      "date": "2026-05-29"
+      "sha": "1e9a74b",
+      "subject": "fix(pipeline): close all audit regressions — C1/C2/H1-H4/M1/M5/L3",
+      "date": "2026-05-30"
     },
     {
-      "sha": "f58cfa5",
-      "subject": "WC8 Studio step 1: port change-tracking redline + per-paragraph token tags onto TipTap",
-      "date": "2026-05-29"
+      "sha": "a61ee64",
+      "subject": "chore(ayyuhal-walad): regenerate stage-metrics.json with stripped augmented prose",
+      "date": "2026-05-30"
     },
     {
-      "sha": "68114ef",
-      "subject": "plan(WC8): record the learning loop as core principle (tiered auto/suggest)",
-      "date": "2026-05-29"
+      "sha": "9513366",
+      "subject": "fix(studio-poc): strip augmented.md metadata block from editor + inspector summary",
+      "date": "2026-05-30"
     },
     {
-      "sha": "e858979",
-      "subject": "decision(reader): MUST-PRESERVE change-tracking redline + per-paragraph token tags from existing ChapterEditor",
-      "date": "2026-05-29"
+      "sha": "cf32d87",
+      "subject": "feat(studio-poc): Hadith + Works source provenance chips inline",
+      "date": "2026-05-30"
     },
     {
-      "sha": "789889d",
-      "subject": "WC8 PoC v3: viewer left/panel right, actions above markers, one Quran container (grouped markers)",
-      "date": "2026-05-29"
+      "sha": "135ed48",
+      "subject": "feat(studio-poc): augmentation diff toggle + reference legend; fix 60+ TS errors",
+      "date": "2026-05-30"
     },
     {
-      "sha": "3869251",
-      "subject": "WC8 Slice 0 PoC v2: floating sticky inspector w/ internal scroll, smaller font, deduped/scalable markers, minimal shell",
-      "date": "2026-05-29"
+      "sha": "2695b92",
+      "subject": "fix(studio-poc): consistent hover/active border + reliable click-outside deselect",
+      "date": "2026-05-30"
     },
     {
-      "sha": "f4ee72f",
-      "subject": "WC8 Slice 0: TipTap Studio proof-of-concept (feel-check) on a real Ayyuhal chapter",
-      "date": "2026-05-29"
+      "sha": "6fb46c2",
+      "subject": "fix(studio-poc): hover padding + click-outside deselect",
+      "date": "2026-05-30"
     },
     {
-      "sha": "647c3bd",
-      "subject": "plan(WC8): thread intelligence as a third co-evolving entity through every slice",
-      "date": "2026-05-29"
+      "sha": "acdb86e",
+      "subject": "fix(studio): prefer additions-narrator-clean.md in stage loader (F2 display fix)",
+      "date": "2026-05-30"
     },
     {
-      "sha": "732f851",
-      "subject": "continuity: Ayyuhal multi-format sources landed; ready for Slice 0",
-      "date": "2026-05-29"
+      "sha": "4b5d497",
+      "subject": "chore: update stage-metrics.json after editorial fixes run",
+      "date": "2026-05-30"
     },
     {
-      "sha": "0720d8c",
-      "subject": "fixture(ayyuhal-walad): media policy — audio+video local/transient/deletable, only produced text committed",
-      "date": "2026-05-29"
+      "sha": "f5f53ec",
+      "subject": "feat(wc8/editorial): apply_editorial_fixes.py + clean narrator stage files — ayyuhal-walad",
+      "date": "2026-05-30"
     }
   ],
   "metrics": {

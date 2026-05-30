@@ -438,7 +438,7 @@ export default function PhaseSwimlaneDiagram() {
                   {/* Note */}
                   {row.note && (
                     <foreignObject x={xNote + 8} y={row.y + 4} width={COL_NOTE - 16} height={row.h - 8}>
-                      <div xmlns="http://www.w3.org/1999/xhtml" className="swim-note">
+                      <div className="swim-note">
                         {row.note}
                       </div>
                     </foreignObject>

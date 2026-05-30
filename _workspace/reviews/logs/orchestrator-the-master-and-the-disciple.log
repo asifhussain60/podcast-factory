@@ -1,0 +1,983 @@
+  [watchdog] auto-spawning watch_orchestrator.sh for the-master-and-the-disciple
+  [watchdog] log: /Users/asifhussain/PROJECTS/podcast-factory/_workspace/logs/orchestrator-the-master-and-the-disciple.log
+  [watchdog] this process exits; watchdog owns the run from here.
+[watchdog 12:17:43Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 12:17:43Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 12:17:43Z] --- attempt 1/20 · phase=per-chapter · status=failed ---
+[watchdog 12:17:43Z] --- attempt 1/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:17:43Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:17:43Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:17:43Z] Waiting 30s before retry 2/20 ...
+[watchdog 12:17:43Z] Waiting 30s before retry 2/20 ...
+[watchdog 12:18:13Z] --- attempt 2/20 · phase=per-chapter · status=failed ---
+[watchdog 12:18:13Z] --- attempt 2/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:18:13Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:18:13Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:18:13Z] Waiting 30s before retry 3/20 ...
+[watchdog 12:18:13Z] Waiting 30s before retry 3/20 ...
+[watchdog 12:18:43Z] --- attempt 3/20 · phase=per-chapter · status=failed ---
+[watchdog 12:18:43Z] --- attempt 3/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:18:43Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:18:43Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:18:43Z] Waiting 30s before retry 4/20 ...
+[watchdog 12:18:43Z] Waiting 30s before retry 4/20 ...
+[watchdog 12:19:13Z] --- attempt 4/20 · phase=per-chapter · status=failed ---
+[watchdog 12:19:13Z] --- attempt 4/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.pyERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:19:13Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:19:13Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:19:13Z] Waiting 30s before retry 5/20 ...
+[watchdog 12:19:13Z] Waiting 30s before retry 5/20 ...
+[watchdog 12:19:43Z] --- attempt 5/20 · phase=per-chapter · status=failed ---
+[watchdog 12:19:43Z] --- attempt 5/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:19:43Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:19:43Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:19:43Z] Waiting 30s before retry 6/20 ...
+[watchdog 12:19:43Z] Waiting 30s before retry 6/20 ...
+[watchdog 12:20:14Z] --- attempt 6/20 · phase=per-chapter · status=failed ---
+[watchdog 12:20:14Z] --- attempt 6/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.pyERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:20:14Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:20:14Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:20:14Z] Waiting 30s before retry 7/20 ...
+[watchdog 12:20:14Z] Waiting 30s before retry 7/20 ...
+[watchdog 12:20:44Z] --- attempt 7/20 · phase=per-chapter · status=failed ---
+[watchdog 12:20:44Z] --- attempt 7/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:20:45Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:20:45Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:20:45Z] Waiting 30s before retry 8/20 ...
+[watchdog 12:20:45Z] Waiting 30s before retry 8/20 ...
+[watchdog 12:21:15Z] --- attempt 8/20 · phase=per-chapter · status=failed ---
+[watchdog 12:21:15Z] --- attempt 8/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:21:15Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:21:15Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:21:15Z] Waiting 30s before retry 9/20 ...
+[watchdog 12:21:15Z] Waiting 30s before retry 9/20 ...
+[watchdog 12:21:45Z] --- attempt 9/20 · phase=per-chapter · status=failed ---
+[watchdog 12:21:45Z] --- attempt 9/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.pyERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:21:45Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:21:45Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:21:45Z] Waiting 30s before retry 10/20 ...
+[watchdog 12:21:45Z] Waiting 30s before retry 10/20 ...
+[watchdog 12:22:15Z] --- attempt 10/20 · phase=per-chapter · status=failed ---
+[watchdog 12:22:15Z] --- attempt 10/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:22:15Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:22:15Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:22:15Z] Waiting 30s before retry 11/20 ...
+[watchdog 12:22:15Z] Waiting 30s before retry 11/20 ...
+[watchdog 12:22:45Z] --- attempt 11/20 · phase=per-chapter · status=failed ---
+[watchdog 12:22:45Z] --- attempt 11/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.pyERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:22:45Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:22:45Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:22:45Z] Waiting 30s before retry 12/20 ...
+[watchdog 12:22:45Z] Waiting 30s before retry 12/20 ...
+[watchdog 12:23:15Z] --- attempt 12/20 · phase=per-chapter · status=failed ---
+[watchdog 12:23:15Z] --- attempt 12/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.pyERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:23:15Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:23:15Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:23:15Z] Waiting 30s before retry 13/20 ...
+[watchdog 12:23:15Z] Waiting 30s before retry 13/20 ...
+[watchdog 12:23:45Z] --- attempt 13/20 · phase=per-chapter · status=failed ---
+[watchdog 12:23:45Z] --- attempt 13/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:23:45Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:23:45Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:23:45Z] Waiting 30s before retry 14/20 ...
+[watchdog 12:23:45Z] Waiting 30s before retry 14/20 ...
+[watchdog 12:24:16Z] --- attempt 14/20 · phase=per-chapter · status=failed ---
+[watchdog 12:24:16Z] --- attempt 14/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:24:16Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:24:16Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:24:16Z] Waiting 30s before retry 15/20 ...
+[watchdog 12:24:16Z] Waiting 30s before retry 15/20 ...
+[watchdog 12:24:46Z] --- attempt 15/20 · phase=per-chapter · status=failed ---
+[watchdog 12:24:46Z] --- attempt 15/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:24:46Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:24:46Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:24:46Z] Waiting 30s before retry 16/20 ...
+[watchdog 12:24:46Z] Waiting 30s before retry 16/20 ...
+[watchdog 12:25:16Z] --- attempt 16/20 · phase=per-chapter · status=failed ---
+[watchdog 12:25:16Z] --- attempt 16/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:25:16Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:25:16Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:25:16Z] Waiting 30s before retry 17/20 ...
+[watchdog 12:25:16Z] Waiting 30s before retry 17/20 ...
+[watchdog 12:25:46Z] --- attempt 17/20 · phase=per-chapter · status=failed ---
+[watchdog 12:25:46Z] --- attempt 17/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.pyERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:25:46Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:25:46Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:25:46Z] Waiting 30s before retry 18/20 ...
+[watchdog 12:25:46Z] Waiting 30s before retry 18/20 ...
+[watchdog 12:26:16Z] --- attempt 18/20 · phase=per-chapter · status=failed ---
+[watchdog 12:26:16Z] --- attempt 18/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:26:16Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:26:16Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:26:16Z] Waiting 30s before retry 19/20 ...
+[watchdog 12:26:16Z] Waiting 30s before retry 19/20 ...
+[watchdog 12:26:46Z] --- attempt 19/20 · phase=per-chapter · status=failed ---
+[watchdog 12:26:46Z] --- attempt 19/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.pyERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:26:46Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:26:46Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:26:46Z] Waiting 30s before retry 20/20 ...
+[watchdog 12:26:46Z] Waiting 30s before retry 20/20 ...
+[watchdog 12:27:16Z] --- attempt 20/20 · phase=per-chapter · status=failed ---
+[watchdog 12:27:16Z] --- attempt 20/20 · phase=per-chapter · status=failed ---
+ERROR: pre-flight FAILED:
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+  ?? _workspace/scratch/
+  ?? prompts/
+  ?? scripts/podcast/audit_bundle.py
+  ?? scripts/podcast/pack_bundle_for_gemini.py
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 12:27:17Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:27:17Z] orchestrator exited rc=1 · now phase=per-chapter status=failed
+[watchdog 12:27:17Z] === FATAL: the-master-and-the-disciple did not complete after 20 attempts. Manual review required. ===
+[watchdog 12:27:17Z] === FATAL: the-master-and-the-disciple did not complete after 20 attempts. Manual review required. ===
+  [watchdog] auto-spawning watch_orchestrator.sh for the-master-and-the-disciple
+  [watchdog] log: /Users/asifhussain/PROJECTS/podcast-factory/_workspace/logs/orchestrator-the-master-and-the-disciple.log
+  [watchdog] this process exits; watchdog owns the run from here.
+[watchdog 12:44:45Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 12:44:45Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 12:44:45Z] --- attempt 1/20 · phase=per-chapter · status=failed ---
+[watchdog 12:44:45Z] --- attempt 1/20 · phase=per-chapter · status=failed ---
+  [watchdog] auto-spawning watch_orchestrator.sh for the-master-and-the-disciple
+  [watchdog] log: /Users/asifhussain/PROJECTS/podcast-factory/_workspace/logs/orchestrator-the-master-and-the-disciple.log
+  [watchdog] this process exits; watchdog owns the run from here.
+[watchdog 13:06:27Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 13:06:27Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 13:06:27Z] --- attempt 1/20 · phase=per-chapter · status=running ---
+[watchdog 13:06:27Z] --- attempt 1/20 · phase=per-chapter · status=running ---
+[watchdog 13:06:27Z] Stale running state detected — using --retry-phase per-chapter
+[watchdog 13:06:27Z] Stale running state detected — using --retry-phase per-chapter
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  --retry-phase per-chapter: resetting status to 'pending'
+  last completed:  0g
+  current phase:   per-chapter  [pending]
+phase: per-chapter[father-revealed-and-the-faces-of-seeking] · already shipped, skipping
+phase: per-chapter[justice-monotheism-and-the-guardians] · already shipped, skipping
+phase: per-chapter[the-call-and-the-covenant] · already shipped, skipping
+phase: per-chapter[the-greater-shaykh-and-the-naming] · already shipped, skipping
+phase: per-chapter[will-command-and-the-seven] · extract → frame → build → converge
+  will-command-and-the-seven          SHIP-READY             iter=1 fix=0 P0=0 P1=0 P2=3
+phase: per-chapter[world-hereafter-and-the-right-of-wealth] · extract → frame → build → converge
+  world-hereafter-and-the-right-of-wealth SHIP-READY             iter=1 fix=0 P0=0 P1=0 P2=3
+phase: 0g · register series in registry.md
+phase: per-chapter-slides · slide-deck cohort authoring + slide-deck-challenger
+phase: per-chapter-slides[the-greater-shaykh-and-the-naming] · density gauge → author → challenge
+phase: per-chapter-slides[the-call-and-the-covenant] · density gauge → author → challenge
+phase: per-chapter-slides[justice-monotheism-and-the-guardians] · density gauge → author → challenge
+phase: per-chapter-slides[will-command-and-the-seven] · density gauge → author → challenge
+phase: per-chapter-slides[world-hereafter-and-the-right-of-wealth] · density gauge → author → challenge
+phase: per-chapter-slides[father-revealed-and-the-faces-of-seeking] · density gauge → author → challenge
+phase: finalize · run G1-G7 gates via validate_ship_ready.py
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  --retry-phase per-chapter: resetting status to 'pending'
+  last completed:  0g
+  current phase:   per-chapter  [pending]
+phase: per-chapter[father-revealed-and-the-faces-of-seeking] · already shipped, skipping
+phase: per-chapter[justice-monotheism-and-the-guardians] · already shipped, skipping
+phase: per-chapter[the-call-and-the-covenant] · already shipped, skipping
+phase: per-chapter[the-greater-shaykh-and-the-naming] · already shipped, skipping
+phase: per-chapter[will-command-and-the-seven] · extract → frame → build → converge
+  will-command-and-the-seven          SHIP-READY             iter=1 fix=0 P0=0 P1=0 P2=3
+phase: per-chapter[world-hereafter-and-the-right-of-wealth] · extract → frame → build → converge
+  world-hereafter-and-the-right-of-wealth SHIP-READY             iter=1 fix=0 P0=0 P1=0 P2=3
+phase: 0g · register series in registry.md
+phase: per-chapter-slides · slide-deck cohort authoring + slide-deck-challenger
+phase: per-chapter-slides[the-greater-shaykh-and-the-naming] · density gauge → author → challenge
+phase: per-chapter-slides[the-call-and-the-covenant] · density gauge → author → challenge
+phase: per-chapter-slides[justice-monotheism-and-the-guardians] · density gauge → author → challenge
+phase: per-chapter-slides[will-command-and-the-seven] · density gauge → author → challenge
+phase: per-chapter-slides[world-hereafter-and-the-right-of-wealth] · density gauge → author → challenge
+phase: per-chapter-slides[father-revealed-and-the-faces-of-seeking] · density gauge → author → challenge
+phase: finalize · run G1-G7 gates via validate_ship_ready.py
+Traceback (most recent call last):
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1879, in <module>
+Traceback (most recent call last):
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1879, in <module>
+    sys.exit(main())
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1872, in main
+    sys.exit(main())
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1872, in main
+    return run_resume(args)
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1684, in run_resume
+    return run_resume(args)
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1684, in run_resume
+    return _drive_per_chapter_and_after(book_dir)
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1476, in _drive_per_chapter_and_after
+    return _drive_per_chapter_and_after(book_dir)
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1476, in _drive_per_chapter_and_after
+    update_phase(book_dir, phase="finalize", status="running")
+    update_phase(book_dir, phase="finalize", status="running")
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/_progress.py", line 181, in update_phase
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/_progress.py", line 181, in update_phase
+    raise ValueError(f"unknown phase: {phase!r} (expected one of {PHASES})")
+    raise ValueError(f"unknown phase: {phase!r} (expected one of {PHASES})")
+ValueError: unknown phase: 'finalize' (expected one of ('pre-flight', 'branch', 'scaffold', '0a', '0b', '0c', '0d', '0e', '0f', '0g', 'per-chapter', 'per-chapter-slides', 'trainer', 'merge', 'done'))
+ValueError: unknown phase: 'finalize' (expected one of ('pre-flight', 'branch', 'scaffold', '0a', '0b', '0c', '0d', '0e', '0f', '0g', 'per-chapter', 'per-chapter-slides', 'trainer', 'merge', 'done'))
+[watchdog 16:46:47Z] orchestrator exited rc=1 · now phase=per-chapter-slides status=completed
+[watchdog 16:46:47Z] orchestrator exited rc=1 · now phase=per-chapter-slides status=completed
+[watchdog 16:46:47Z] === PRE-FLIGHT FAILURE (rc=1): working tree dirty or required config missing. ===
+[watchdog 16:46:47Z] === PRE-FLIGHT FAILURE (rc=1): working tree dirty or required config missing. ===
+[watchdog 16:46:47Z] Fix the issue (commit or stash untracked/modified files), then re-run:
+[watchdog 16:46:47Z] Fix the issue (commit or stash untracked/modified files), then re-run:
+[watchdog 16:46:47Z]   bash scripts/podcast/watch_orchestrator.sh the-master-and-the-disciple
+[watchdog 16:46:47Z]   bash scripts/podcast/watch_orchestrator.sh the-master-and-the-disciple
+[watchdog 17:15:34Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 17:15:34Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 17:15:34Z] --- attempt 1/20 · phase=per-chapter-slides · status=completed ---
+[watchdog 17:15:34Z] --- attempt 1/20 · phase=per-chapter-slides · status=completed ---
+ERROR: pre-flight FAILED:
+ERROR: pre-flight FAILED:
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+   D content/drafts/islr-mas-i/chapters/ch01-introduction.txt
+   D content/drafts/islr-mas-i/chapters/ch02-statistical-learning.txt
+   D content/drafts/islr-mas-i/chapters/ch03-linear-regression.txt
+   D content/drafts/islr-mas-i/chapters/ch04-classification.txt
+   D content/drafts/islr-mas-i/chapters/ch05-resampling.txt
+   D content/drafts/islr-mas-i/chapters/ch06-model-selection.txt
+   D content/drafts/islr-mas-i/chapters/ch07-nonlinear.txt
+ERROR:   · working tree not clean (non-runtime files modified or untracked). Commit or stash first, then --resume. Files:
+   M _workspace/plan/pipeline-debt.md
+   D content/drafts/islr-mas-i/chapters/ch01-introduction.txt
+   D content/drafts/islr-mas-i/chapters/ch02-statistical-learning.txt
+   D content/drafts/islr-mas-i/chapters/ch03-linear-regression.txt
+   D content/drafts/islr-mas-i/chapters/ch04-classification.txt
+   D content/drafts/islr-mas-i/chapters/ch05-resampling.txt
+   D content/drafts/islr-mas-i/chapters/ch06-model-selection.txt
+   D content/drafts/islr-mas-i/chapters/ch07-nonlinear.txt
+orchestrate_book: resume — slug=the-master-and-the-disciple
+orchestrate_book: resume — slug=the-master-and-the-disciple
+[watchdog 17:15:34Z] orchestrator exited rc=1 · now phase=per-chapter-slides status=completed
+[watchdog 17:15:34Z] orchestrator exited rc=1 · now phase=per-chapter-slides status=completed
+[watchdog 17:15:35Z] === PRE-FLIGHT FAILURE (rc=1): working tree dirty or required config missing. ===
+[watchdog 17:15:35Z] === PRE-FLIGHT FAILURE (rc=1): working tree dirty or required config missing. ===
+[watchdog 17:15:35Z] Fix the issue (commit or stash untracked/modified files), then re-run:
+[watchdog 17:15:35Z] Fix the issue (commit or stash untracked/modified files), then re-run:
+[watchdog 17:15:35Z]   bash scripts/podcast/watch_orchestrator.sh the-master-and-the-disciple
+[watchdog 17:15:35Z]   bash scripts/podcast/watch_orchestrator.sh the-master-and-the-disciple
+[watchdog 17:17:58Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 17:17:58Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 17:17:58Z] --- attempt 1/20 · phase=per-chapter-slides · status=completed ---
+[watchdog 17:17:58Z] --- attempt 1/20 · phase=per-chapter-slides · status=completed ---
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter-slides
+  current phase:   per-chapter-slides  [completed]
+
+  No automated action for current phase 'per-chapter-slides'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter-slides
+  current phase:   per-chapter-slides  [completed]
+
+  No automated action for current phase 'per-chapter-slides'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+[watchdog 17:17:58Z] orchestrator exited rc=3 · now phase=per-chapter-slides status=completed
+[watchdog 17:17:58Z] orchestrator exited rc=3 · now phase=per-chapter-slides status=completed
+[watchdog 17:17:58Z] Waiting 30s before retry 2/20 ...
+[watchdog 17:17:58Z] Waiting 30s before retry 2/20 ...
+[watchdog 17:18:28Z] --- attempt 2/20 · phase=per-chapter-slides · status=completed ---
+[watchdog 17:18:28Z] --- attempt 2/20 · phase=per-chapter-slides · status=completed ---
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter-slides
+  current phase:   per-chapter-slides  [completed]
+
+  No automated action for current phase 'per-chapter-slides'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter-slides
+  current phase:   per-chapter-slides  [completed]
+
+  No automated action for current phase 'per-chapter-slides'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+[watchdog 17:18:28Z] orchestrator exited rc=3 · now phase=per-chapter-slides status=completed
+[watchdog 17:18:28Z] orchestrator exited rc=3 · now phase=per-chapter-slides status=completed
+[watchdog 17:18:28Z] Waiting 30s before retry 3/20 ...
+[watchdog 17:18:28Z] Waiting 30s before retry 3/20 ...
+[watchdog 17:18:58Z] --- attempt 3/20 · phase=per-chapter-slides · status=completed ---
+[watchdog 17:18:58Z] --- attempt 3/20 · phase=per-chapter-slides · status=completed ---
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter-slides
+  current phase:   per-chapter-slides  [completed]
+
+  No automated action for current phase 'per-chapter-slides'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter-slides
+  current phase:   per-chapter-slides  [completed]
+
+  No automated action for current phase 'per-chapter-slides'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+[watchdog 17:18:59Z] orchestrator exited rc=3 · now phase=per-chapter-slides status=completed
+[watchdog 17:18:59Z] orchestrator exited rc=3 · now phase=per-chapter-slides status=completed
+[watchdog 17:18:59Z] Waiting 30s before retry 4/20 ...
+[watchdog 17:18:59Z] Waiting 30s before retry 4/20 ...
+[watchdog 17:19:29Z] --- attempt 4/20 · phase=per-chapter-slides · status=completed ---
+[watchdog 17:19:29Z] --- attempt 4/20 · phase=per-chapter-slides · status=completed ---
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter-slides
+  current phase:   per-chapter-slides  [completed]
+
+  No automated action for current phase 'per-chapter-slides'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter-slides
+  current phase:   per-chapter-slides  [completed]
+
+  No automated action for current phase 'per-chapter-slides'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+[watchdog 17:19:29Z] orchestrator exited rc=3 · now phase=per-chapter-slides status=completed
+[watchdog 17:19:29Z] orchestrator exited rc=3 · now phase=per-chapter-slides status=completed
+[watchdog 17:19:29Z] Waiting 30s before retry 5/20 ...
+[watchdog 17:19:29Z] Waiting 30s before retry 5/20 ...
+[watchdog 17:19:59Z] --- attempt 5/20 · phase=per-chapter-slides · status=completed ---
+[watchdog 17:19:59Z] --- attempt 5/20 · phase=per-chapter-slides · status=completed ---
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter-slides
+  current phase:   per-chapter-slides  [completed]
+
+  No automated action for current phase 'per-chapter-slides'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter-slides
+  current phase:   per-chapter-slides  [completed]
+
+  No automated action for current phase 'per-chapter-slides'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+[watchdog 17:19:59Z] orchestrator exited rc=3 · now phase=per-chapter-slides status=completed
+[watchdog 17:19:59Z] orchestrator exited rc=3 · now phase=per-chapter-slides status=completed
+[watchdog 17:19:59Z] Waiting 30s before retry 6/20 ...
+[watchdog 17:19:59Z] Waiting 30s before retry 6/20 ...
+[watchdog 17:20:29Z] --- attempt 6/20 · phase=per-chapter-slides · status=completed ---
+[watchdog 17:20:29Z] --- attempt 6/20 · phase=per-chapter-slides · status=completed ---
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter-slides
+  current phase:   per-chapter-slides  [completed]
+
+  No automated action for current phase 'per-chapter-slides'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter-slides
+  current phase:   per-chapter-slides  [completed]
+
+  No automated action for current phase 'per-chapter-slides'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+[watchdog 17:20:29Z] orchestrator exited rc=3 · now phase=per-chapter-slides status=completed
+[watchdog 17:20:29Z] orchestrator exited rc=3 · now phase=per-chapter-slides status=completed
+[watchdog 17:20:29Z] Waiting 30s before retry 7/20 ...
+[watchdog 17:20:29Z] Waiting 30s before retry 7/20 ...
+[watchdog 17:21:53Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 17:21:53Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 17:21:53Z] --- attempt 1/20 · phase=per-chapter-slides · status=completed ---
+[watchdog 17:21:53Z] --- attempt 1/20 · phase=per-chapter-slides · status=completed ---
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter-slides
+  current phase:   per-chapter-slides  [completed]
+Phase per-chapter-slides already completed — advancing to finalize.
+phase: per-chapter[father-revealed-and-the-faces-of-seeking] · already shipped, skipping
+phase: per-chapter[justice-monotheism-and-the-guardians] · already shipped, skipping
+phase: per-chapter[the-call-and-the-covenant] · already shipped, skipping
+phase: per-chapter[the-greater-shaykh-and-the-naming] · already shipped, skipping
+phase: per-chapter[will-command-and-the-seven] · already shipped, skipping
+phase: per-chapter[world-hereafter-and-the-right-of-wealth] · already shipped, skipping
+phase: 0g · register series in registry.md
+phase: per-chapter-slides · already completed/skipped, advancing to finalize
+phase: finalize · run G1-G7 gates via validate_ship_ready.py
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter-slides
+  current phase:   per-chapter-slides  [completed]
+Phase per-chapter-slides already completed — advancing to finalize.
+phase: per-chapter[father-revealed-and-the-faces-of-seeking] · already shipped, skipping
+phase: per-chapter[justice-monotheism-and-the-guardians] · already shipped, skipping
+phase: per-chapter[the-call-and-the-covenant] · already shipped, skipping
+phase: per-chapter[the-greater-shaykh-and-the-naming] · already shipped, skipping
+phase: per-chapter[will-command-and-the-seven] · already shipped, skipping
+phase: per-chapter[world-hereafter-and-the-right-of-wealth] · already shipped, skipping
+phase: 0g · register series in registry.md
+phase: per-chapter-slides · already completed/skipped, advancing to finalize
+phase: finalize · run G1-G7 gates via validate_ship_ready.py
+Traceback (most recent call last):
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1899, in <module>
+Traceback (most recent call last):
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1899, in <module>
+    sys.exit(main())
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1892, in main
+    sys.exit(main())
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1892, in main
+    return run_resume(args)
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1712, in run_resume
+    return run_resume(args)
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1712, in run_resume
+    return _drive_per_chapter_and_after(book_dir)
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1488, in _drive_per_chapter_and_after
+    return _drive_per_chapter_and_after(book_dir)
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/orchestrate_book.py", line 1488, in _drive_per_chapter_and_after
+    update_phase(book_dir, phase="finalize", status="running")
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/_progress.py", line 181, in update_phase
+    update_phase(book_dir, phase="finalize", status="running")
+  File "/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/_progress.py", line 181, in update_phase
+    raise ValueError(f"unknown phase: {phase!r} (expected one of {PHASES})")
+    raise ValueError(f"unknown phase: {phase!r} (expected one of {PHASES})")
+ValueError: unknown phase: 'finalize' (expected one of ('pre-flight', 'branch', 'scaffold', '0a', '0b', '0c', '0d', '0e', '0f', '0g', 'per-chapter', 'per-chapter-slides', 'trainer', 'merge', 'done'))
+ValueError: unknown phase: 'finalize' (expected one of ('pre-flight', 'branch', 'scaffold', '0a', '0b', '0c', '0d', '0e', '0f', '0g', 'per-chapter', 'per-chapter-slides', 'trainer', 'merge', 'done'))
+[watchdog 17:21:53Z] orchestrator exited rc=1 · now phase=0g status=completed
+[watchdog 17:21:53Z] orchestrator exited rc=1 · now phase=0g status=completed
+[watchdog 17:21:53Z] === PRE-FLIGHT FAILURE (rc=1): working tree dirty or required config missing. ===
+[watchdog 17:21:53Z] === PRE-FLIGHT FAILURE (rc=1): working tree dirty or required config missing. ===
+[watchdog 17:21:53Z] Fix the issue (commit or stash untracked/modified files), then re-run:
+[watchdog 17:21:53Z] Fix the issue (commit or stash untracked/modified files), then re-run:
+[watchdog 17:21:53Z]   bash scripts/podcast/watch_orchestrator.sh the-master-and-the-disciple
+[watchdog 17:21:53Z]   bash scripts/podcast/watch_orchestrator.sh the-master-and-the-disciple
+[watchdog 17:24:43Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 17:24:43Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 17:24:43Z] --- attempt 1/20 · phase=0g · status=completed ---
+[watchdog 17:24:43Z] --- attempt 1/20 · phase=0g · status=completed ---
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  0g
+  current phase:   0g  [completed]
+
+  No automated action for current phase '0g'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  0g
+  current phase:   0g  [completed]
+
+  No automated action for current phase '0g'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+[watchdog 17:24:43Z] orchestrator exited rc=3 · now phase=0g status=completed
+[watchdog 17:24:43Z] orchestrator exited rc=3 · now phase=0g status=completed
+[watchdog 17:24:43Z] Waiting 30s before retry 2/20 ...
+[watchdog 17:24:43Z] Waiting 30s before retry 2/20 ...
+[watchdog 17:25:13Z] --- attempt 2/20 · phase=0g · status=completed ---
+[watchdog 17:25:13Z] --- attempt 2/20 · phase=0g · status=completed ---
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  0g
+  current phase:   0g  [completed]
+
+  No automated action for current phase '0g'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  0g
+  current phase:   0g  [completed]
+
+  No automated action for current phase '0g'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+[watchdog 17:25:13Z] orchestrator exited rc=3 · now phase=0g status=completed
+[watchdog 17:25:13Z] orchestrator exited rc=3 · now phase=0g status=completed
+[watchdog 17:25:13Z] Waiting 30s before retry 3/20 ...
+[watchdog 17:25:13Z] Waiting 30s before retry 3/20 ...
+[watchdog 17:25:43Z] --- attempt 3/20 · phase=0g · status=completed ---
+[watchdog 17:25:43Z] --- attempt 3/20 · phase=0g · status=completed ---
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  0g
+  current phase:   0g  [completed]
+
+  No automated action for current phase '0g'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  0g
+  current phase:   0g  [completed]
+
+  No automated action for current phase '0g'. State file:
+    content/drafts/the-master-and-the-disciple/_system/orchestrator-state.json
+[watchdog 17:25:44Z] orchestrator exited rc=3 · now phase=0g status=completed
+[watchdog 17:25:44Z] orchestrator exited rc=3 · now phase=0g status=completed
+[watchdog 17:25:44Z] Waiting 30s before retry 4/20 ...
+[watchdog 17:25:44Z] Waiting 30s before retry 4/20 ...
+[watchdog 17:26:33Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 17:26:33Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 17:26:33Z] --- attempt 1/20 · phase=0g · status=completed ---
+[watchdog 17:26:33Z] --- attempt 1/20 · phase=0g · status=completed ---
+ERROR: finalize halt — at least one G1-G7 gate failed. Fix the cause, then re-invoke `orchestrate_book.py --resume`.
+ERROR: finalize halt — at least one G1-G7 gate failed. Fix the cause, then re-invoke `orchestrate_book.py --resume`.
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  0g
+  current phase:   0g  [completed]
+Phase 0g already completed — advancing to finalize.
+phase: per-chapter[father-revealed-and-the-faces-of-seeking] · already shipped, skipping
+phase: per-chapter[justice-monotheism-and-the-guardians] · already shipped, skipping
+phase: per-chapter[the-call-and-the-covenant] · already shipped, skipping
+phase: per-chapter[the-greater-shaykh-and-the-naming] · already shipped, skipping
+phase: per-chapter[will-command-and-the-seven] · already shipped, skipping
+phase: per-chapter[world-hereafter-and-the-right-of-wealth] · already shipped, skipping
+phase: 0g · already completed, skipping
+phase: per-chapter-slides · already completed/skipped, advancing to finalize
+phase: finalize · run G1-G7 gates via validate_ship_ready.py
+==> validate_ship_ready: the-master-and-the-disciple
+    workspace: content/drafts/the-master-and-the-disciple
+    target:    /Users/asifhussain/PROJECTS/podcast-factory/content/published/books/the-master-and-the-disciple (read-only check)
+
+=== Gates ===
+OK    [G1] 6 chapters + 6 episodes present
+OK    [G2] 6 chapter/episode pairs match
+OK    [G3] chapters 1..6 + episodes 1..6 purely sequential
+OK    [G4] P0=0 across 6 episodes (P1=23, warn-only)
+
+✗ BLOCKED — G5 state-shippable failed
+  Remediation: see the failing gate's reason above.
+
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  0g
+  current phase:   0g  [completed]
+Phase 0g already completed — advancing to finalize.
+phase: per-chapter[father-revealed-and-the-faces-of-seeking] · already shipped, skipping
+phase: per-chapter[justice-monotheism-and-the-guardians] · already shipped, skipping
+phase: per-chapter[the-call-and-the-covenant] · already shipped, skipping
+phase: per-chapter[the-greater-shaykh-and-the-naming] · already shipped, skipping
+phase: per-chapter[will-command-and-the-seven] · already shipped, skipping
+phase: per-chapter[world-hereafter-and-the-right-of-wealth] · already shipped, skipping
+phase: 0g · already completed, skipping
+phase: per-chapter-slides · already completed/skipped, advancing to finalize
+phase: finalize · run G1-G7 gates via validate_ship_ready.py
+==> validate_ship_ready: the-master-and-the-disciple
+    workspace: content/drafts/the-master-and-the-disciple
+    target:    /Users/asifhussain/PROJECTS/podcast-factory/content/published/books/the-master-and-the-disciple (read-only check)
+
+=== Gates ===
+OK    [G1] 6 chapters + 6 episodes present
+OK    [G2] 6 chapter/episode pairs match
+OK    [G3] chapters 1..6 + episodes 1..6 purely sequential
+OK    [G4] P0=0 across 6 episodes (P1=23, warn-only)
+
+✗ BLOCKED — G5 state-shippable failed
+  Remediation: see the failing gate's reason above.
+
+[watchdog 17:26:34Z] orchestrator exited rc=2 · now phase=finalize status=failed
+[watchdog 17:26:34Z] orchestrator exited rc=2 · now phase=finalize status=failed
+[watchdog 17:26:34Z] Waiting 30s before retry 2/20 ...
+[watchdog 17:26:34Z] Waiting 30s before retry 2/20 ...
+[watchdog 17:27:04Z] --- attempt 2/20 · phase=finalize · status=failed ---
+[watchdog 17:27:04Z] --- attempt 2/20 · phase=finalize · status=failed ---
+ERROR: finalize halt — at least one G1-G7 gate failed. Fix the cause, then re-invoke `orchestrate_book.py --resume`.
+ERROR: finalize halt — at least one G1-G7 gate failed. Fix the cause, then re-invoke `orchestrate_book.py --resume`.
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter
+  current phase:   finalize  [failed]
+phase: per-chapter[father-revealed-and-the-faces-of-seeking] · already shipped, skipping
+phase: per-chapter[justice-monotheism-and-the-guardians] · already shipped, skipping
+phase: per-chapter[the-call-and-the-covenant] · already shipped, skipping
+phase: per-chapter[the-greater-shaykh-and-the-naming] · already shipped, skipping
+phase: per-chapter[will-command-and-the-seven] · already shipped, skipping
+phase: per-chapter[world-hereafter-and-the-right-of-wealth] · already shipped, skipping
+phase: 0g · already completed, skipping
+phase: per-chapter-slides · already completed/skipped, advancing to finalize
+phase: finalize · run G1-G7 gates via validate_ship_ready.py
+==> validate_ship_ready: the-master-and-the-disciple
+    workspace: content/drafts/the-master-and-the-disciple
+    target:    /Users/asifhussain/PROJECTS/podcast-factory/content/published/books/the-master-and-the-disciple (read-only check)
+
+=== Gates ===
+OK    [G1] 6 chapters + 6 episodes present
+OK    [G2] 6 chapter/episode pairs match
+OK    [G3] chapters 1..6 + episodes 1..6 purely sequential
+OK    [G4] P0=0 across 6 episodes (P1=23, warn-only)
+
+✗ BLOCKED — G5 state-shippable failed
+  Remediation: see the failing gate's reason above.
+
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter
+  current phase:   finalize  [failed]
+phase: per-chapter[father-revealed-and-the-faces-of-seeking] · already shipped, skipping
+phase: per-chapter[justice-monotheism-and-the-guardians] · already shipped, skipping
+phase: per-chapter[the-call-and-the-covenant] · already shipped, skipping
+phase: per-chapter[the-greater-shaykh-and-the-naming] · already shipped, skipping
+phase: per-chapter[will-command-and-the-seven] · already shipped, skipping
+phase: per-chapter[world-hereafter-and-the-right-of-wealth] · already shipped, skipping
+phase: 0g · already completed, skipping
+phase: per-chapter-slides · already completed/skipped, advancing to finalize
+phase: finalize · run G1-G7 gates via validate_ship_ready.py
+==> validate_ship_ready: the-master-and-the-disciple
+    workspace: content/drafts/the-master-and-the-disciple
+    target:    /Users/asifhussain/PROJECTS/podcast-factory/content/published/books/the-master-and-the-disciple (read-only check)
+
+=== Gates ===
+OK    [G1] 6 chapters + 6 episodes present
+OK    [G2] 6 chapter/episode pairs match
+OK    [G3] chapters 1..6 + episodes 1..6 purely sequential
+OK    [G4] P0=0 across 6 episodes (P1=23, warn-only)
+
+✗ BLOCKED — G5 state-shippable failed
+  Remediation: see the failing gate's reason above.
+
+[watchdog 17:28:22Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 17:28:22Z] === watchdog start: the-master-and-the-disciple (max 20 retries, 30s backoff) ===
+[watchdog 17:28:22Z] --- attempt 1/20 · phase=finalize · status=failed ---
+[watchdog 17:28:22Z] --- attempt 1/20 · phase=finalize · status=failed ---
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter
+  current phase:   finalize  [failed]
+phase: per-chapter[father-revealed-and-the-faces-of-seeking] · already shipped, skipping
+phase: per-chapter[justice-monotheism-and-the-guardians] · already shipped, skipping
+phase: per-chapter[the-call-and-the-covenant] · already shipped, skipping
+phase: per-chapter[the-greater-shaykh-and-the-naming] · already shipped, skipping
+phase: per-chapter[will-command-and-the-seven] · already shipped, skipping
+phase: per-chapter[world-hereafter-and-the-right-of-wealth] · already shipped, skipping
+phase: 0g · already completed, skipping
+phase: per-chapter-slides · already completed/skipped, advancing to finalize
+phase: finalize · run G1-G7 gates via validate_ship_ready.py
+==> validate_ship_ready: the-master-and-the-disciple
+    workspace: content/drafts/the-master-and-the-disciple
+    target:    /Users/asifhussain/PROJECTS/podcast-factory/content/published/books/the-master-and-the-disciple (read-only check)
+
+=== Gates ===
+OK    [G1] 6 chapters + 6 episodes present
+OK    [G2] 6 chapter/episode pairs match
+OK    [G3] chapters 1..6 + episodes 1..6 purely sequential
+OK    [G4] P0=0 across 6 episodes (P1=23, warn-only)
+OK    [G5] state.json phase=finalize phase_status=running
+OK    [G6] target /Users/asifhussain/PROJECTS/podcast-factory/content/published/books/the-master-and-the-disciple doesn't exist; will create
+OK    [G7] challenger verdict=SHIP-READY, pipeline_mode='orchestrated'
+
+✓ SHIP-READY — all 7 gates passed for the-master-and-the-disciple; ready for publish
+
+  Next: human review in podcast-reader, then authorize
+        `python3 scripts/podcast/publish_to_library.py the-master-and-the-disciple`
+
+
+────────────────────────────────────────────────────────────────────────
+Phase finalize complete · halted for human review (SHIP-READY).
+
+Review the clean version in the podcast-reader app:
+  cd podcast-reader && npm run dev
+  open http://localhost:4321/develop/the-master-and-the-disciple/
+
+Optional: run A/B transcription analysis against reference MP3s if any:
+  python3 scripts/podcast/ab_compare_episode.py --book-dir /Users/asifhussain/PROJECTS/podcast-factory/content/drafts/the-master-and-the-disciple --episode EP##-<slug> --reference-transcript ...
+
+When satisfied, authorize publish + trainer + merge:
+  python3 scripts/podcast/orchestrate_book.py --resume the-master-and-the-disciple
+────────────────────────────────────────────────────────────────────────
+orchestrate_book: resume — slug=the-master-and-the-disciple
+  last completed:  per-chapter
+  current phase:   finalize  [failed]
+phase: per-chapter[father-revealed-and-the-faces-of-seeking] · already shipped, skipping
+phase: per-chapter[justice-monotheism-and-the-guardians] · already shipped, skipping
+phase: per-chapter[the-call-and-the-covenant] · already shipped, skipping
+phase: per-chapter[the-greater-shaykh-and-the-naming] · already shipped, skipping
+phase: per-chapter[will-command-and-the-seven] · already shipped, skipping
+phase: per-chapter[world-hereafter-and-the-right-of-wealth] · already shipped, skipping
+phase: 0g · already completed, skipping
+phase: per-chapter-slides · already completed/skipped, advancing to finalize
+phase: finalize · run G1-G7 gates via validate_ship_ready.py
+==> validate_ship_ready: the-master-and-the-disciple
+    workspace: content/drafts/the-master-and-the-disciple
+    target:    /Users/asifhussain/PROJECTS/podcast-factory/content/published/books/the-master-and-the-disciple (read-only check)
+
+=== Gates ===
+OK    [G1] 6 chapters + 6 episodes present
+OK    [G2] 6 chapter/episode pairs match
+OK    [G3] chapters 1..6 + episodes 1..6 purely sequential
+OK    [G4] P0=0 across 6 episodes (P1=23, warn-only)
+OK    [G5] state.json phase=finalize phase_status=running
+OK    [G6] target /Users/asifhussain/PROJECTS/podcast-factory/content/published/books/the-master-and-the-disciple doesn't exist; will create
+OK    [G7] challenger verdict=SHIP-READY, pipeline_mode='orchestrated'
+
+✓ SHIP-READY — all 7 gates passed for the-master-and-the-disciple; ready for publish
+
+  Next: human review in podcast-reader, then authorize
+        `python3 scripts/podcast/publish_to_library.py the-master-and-the-disciple`
+
+
+────────────────────────────────────────────────────────────────────────
+Phase finalize complete · halted for human review (SHIP-READY).
+
+Review the clean version in the podcast-reader app:
+  cd podcast-reader && npm run dev
+  open http://localhost:4321/develop/the-master-and-the-disciple/
+
+Optional: run A/B transcription analysis against reference MP3s if any:
+  python3 scripts/podcast/ab_compare_episode.py --book-dir /Users/asifhussain/PROJECTS/podcast-factory/content/drafts/the-master-and-the-disciple --episode EP##-<slug> --reference-transcript ...
+
+When satisfied, authorize publish + trainer + merge:
+  python3 scripts/podcast/orchestrate_book.py --resume the-master-and-the-disciple
+────────────────────────────────────────────────────────────────────────
+[watchdog 17:28:23Z] orchestrator exited rc=0 · now phase=finalize status=halted
+[watchdog 17:28:23Z] orchestrator exited rc=0 · now phase=finalize status=halted
+[watchdog 17:28:23Z] === COMPLETE: the-master-and-the-disciple reached finalize/halted ===
+[watchdog 17:28:23Z] === COMPLETE: the-master-and-the-disciple reached finalize/halted ===

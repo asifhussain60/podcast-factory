@@ -4,7 +4,7 @@
 
 meta:
   plan_id: pipeline-refactor
-  status: AWAITING_APPROVAL
+  status: APPROVED
   generated_at: 2026-05-26
   pre_wave_term: Mobilization
   branch_target: develop
@@ -32,8 +32,9 @@ meta:
       required: true
       strategy: "commit_or_discard_without_reprompt"
       note: "Always leave the branch with a clean working tree at end of execution pass."
-  approved_by: null
-  approved_at: null
+  approved_by: asif
+  approved_at: 2026-05-30
+  approval_provenance: "Autonomy mandate authored by Asif in _workspace/plan/CONTINUATION-2026-05-30.md (Authorized 2026-05-30); ratified in-session 2026-05-30."
   authored_by: Claude Opus 4.7
   companion_files:
     architecture: ../architecture.md
@@ -769,6 +770,46 @@ waves:
           - "Orchestrator resume picks up at 08a/08b/08c correctly"
           - "Heartbeat card shows new 08a/08b/08c lines with cost + atom counts"
         cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: B5
+        title: "Ingest hadith, etymology, and classical Arabic poetry atoms from MCP source library"
+        authorized_by: "asif_2026-05-30"
+        authorized_note: >
+          Asif confirmed the wisdom corpus MCP (KASHKOLE + KQUR) is the data source.
+          Removes the standing hadith-DB blocker. No external DB required.
+        depends_on: [B0]
+        deliverables:
+          new_script:
+            path: "scripts/podcast/intelligence/ingest_mcp_corpus.py"
+            rule: "Azure/Gemini only — zero claude -p calls"
+          new_atom_types:
+            etymology:
+              canonical_id: "etymology:<root_transliteration>"
+              fields: [root_ar, root_transliteration, meaning_en, meaning_ar, definition, "derivatives[]"]
+              source: "KQUR Roots + Derivatives full table via word_etymology() MCP tool"
+            poetry:
+              canonical_id: "poetry:kashkole:<topic_id>"
+              fields: [title, poet, matn_ar, matn_en, tradition, genre]
+              genre_values: [manqabat, marsiya, qasida]
+              source: "KASHKOLE binder 5 (muntakhab-ashaar) + TopicTypeID 31 (manqabat praise poems)"
+          hadith_enrichment:
+            atom_id_pattern: "hadith:kashkole:<topic_id>"
+            sources:
+              - "KASHKOLE TopicTypeID 17 — Prophetic Hadith (14 topics)"
+              - "KASHKOLE TopicTypeID 23 — Hadith Commentary"
+            access: "topic_get() MCP tool, no direct DB required"
+          extractor_fix:
+            file: "scripts/podcast/intelligence/extractor.py"
+            issue: "_default_claude_caller() shells out to claude -p — hard NO-claude-p violation"
+            fix: "Replace with Gemini REST call, same pattern as gemini_refine.py"
+            tier: 0
+        unblocks:
+          - "Knowledge stage hadith verification — ch02-05 of Ayyuhal Walad and all future books"
+          - "Studio viewer Arabic etymology tooltips"
+          - "Classical poem citation annotation for books quoting Ghazali, Ibn Arabi, etc."
+        services: [source_library_mcp]
+        cost_estimate_usd: 0.01
         authorization: *tier_one
 
 # ===========================================================================
@@ -2464,6 +2505,447 @@ waves_ghj:
         cost_estimate_usd: 0
         execution_status: completed
 
+      - id: K6-pre
+        title: "Terminus technicus preservation rule — prevent Arabic doctrinal terms from being stripped during denoise/normalize"
+        authorized_by: "asif_2026-05-30"
+        authorized_note: >
+          Asif observed that the denoise and normalize stages remove Arabic terminology
+          entirely, substituting English translations that lose doctrinal precision.
+          tawil → 'esoteric interpretation', wilaya → 'sacred authority', batin stripped.
+          This is a defect in the Gemini prompt, not intended behaviour.
+        depends_on: [WC8.0]
+        priority: critical_before_slice_7
+        root_cause: |
+          gemini_refine.py's denoise + normalize prompt blocks have no protection for
+          terminus technicus — Arabic doctrinal terms with no English equivalent. The
+          prompt's 'house style' instruction treats them as vocabulary to translate rather
+          than terminology to preserve.
+        rule: |
+          R_TERMINUS_PRESERVE: Arabic doctrinal terminology (terminus technicus) is preserved
+          in phonetic form on EVERY occurrence. On the FIRST occurrence within an episode,
+          a brief English gloss follows in parentheses: tawil (the inner, esoteric meaning
+          of scripture). After first-use, the term stands alone. NEVER reduce to English
+          gloss only. This rule is orthogonal to R-PHONETICS-OUT: Arabic SCRIPT characters
+          (تأویل) are still stripped; the PHONETIC form (tawil) is preserved.
+        protect_list_source: "_system/glossary.yml per-book (injected into Gemini prompt at run time)"
+        deliverables:
+          rules_constant:
+            file: "scripts/podcast/_rules.py"
+            addition: "R_TERMINUS_PRESERVE = True  # Arabic phonetic forms never stripped; gloss on first use"
+          gemini_refine_fix:
+            file: "scripts/podcast/gemini_refine.py"
+            change: |
+              Both DENOISE_PROMPT and NORMALIZE_PROMPT gain a TERMINUS TECHNICUS block:
+              'The following terms are terminus technicus for this tradition. Preserve them
+              in phonetic form on every occurrence. On first occurrence append a brief
+              English gloss in parentheses. Never substitute with English translation only:
+              {protect_list}'. protect_list is loaded from _system/glossary.yml at run time.
+          house_voice_standard:
+            file: "docs/standards/house-voice.md"
+            addition: "SN-7 (new clause): Terminus Technicus Preservation — Arabic doctrinal terms are never translated away."
+          challenger_check:
+            file: "infra/claude-agents/podcast-challenger.md"
+            addition: "Category D, check D6 (P1): terminus technicus preservation — if >=3 glossary terms appear in source but zero phonetic-form instances appear in output, flag as P1."
+          retrofix:
+            action: "Re-run denoise + normalize for all 5 Ayyuhal Walad chapters with corrected prompt"
+            cost_usd: 0.07
+            scope: "Overwrites _stages/<ch>/denoised.md and normalized.md in place"
+            note: "augmented.md must also be regenerated since it derives from normalized"
+        acceptance:
+          - "gemini_refine.py DENOISE_PROMPT and NORMALIZE_PROMPT both contain TERMINUS TECHNICUS block"
+          - "protect_list loaded from _system/glossary.yml at run time"
+          - "house-voice.md contains SN-7 clause"
+          - "_rules.py has R_TERMINUS_PRESERVE constant"
+          - "podcast-challenger.md contains D6 check"
+          - "Ayyuhal ch01 normalized.md contains 'tawil' (phonetic) at least once"
+          - "test_terminus_preserve.py: >= 6 tests (term preserved, gloss on first-use only, English-only reduction blocked)"
+        authorization: tier_one
+        cost_estimate_usd: 0.07
+        execution_status: completed
+        completed_at: "2026-05-30"
+        actual_cost_usd: 0.12
+        completion_note: >
+          Full spec landed: gemini_refine.sn7_guard + load_protect_terms (protect-list from
+          per-book _system/glossary.yml at run time, tradition-agnostic — NOT hardcoded);
+          DENOISE_SYS + normalize prompt both carry the guard; house-voice.md §2b SN-7 clause;
+          _rules.R_TERMINUS_PRESERVE = True; podcast-challenger.md Category D check D6;
+          tests/test_terminus_preserve.py (9 tests, all green). Retrofix re-ran denoise+normalize
+          on all 5 Ayyuhal chapters (~$0.12 incl. one corrected re-run after the guard direction
+          was fixed to honor R-PHONETICS-OUT — Arabic SCRIPT is stripped, the PHONETIC form
+          carries the term). HONEST FINDING: Ayyuhal Walad's BODY contains no terminus technicus —
+          it is a clean English translation; every Arabic fragment lived inside translator
+          footnotes (apparatus), correctly stripped at denoise. So acceptance row "ch01
+          normalized contains 'tawil'" is N/A for this book (the SN-7 first-use-gloss behaviour
+          is nonetheless visibly working: "Ihya Ulum al-Din (The Revival of the Religious
+          Sciences)"). The guard's real value is forward-looking for body-Arabic books (KASHKOLE
+          etc.). DEFERRED: augmented.md regeneration (derives from normalized) folds into Slice
+          4+ which rebuilds enrichment from the corpus MCP.
+        branch: "book/ayyuhal-walad"
+
+      - id: K6
+        title: "Add Interest & Challenge-Defeat scoring as a 5th PEQ axis + Challenger Category V"
+        authorized_by: "asif_2026-05-30"
+        authorized_note: >
+          Asif flagged that the existing podcast lacks curiosity-building and
+          challenge-defeat arcs. He confirmed scoring algorithms were designed
+          for this purpose but are not properly integrated. K6 closes this gap.
+        depends_on: [K2, K3, K5]
+        rationale: |
+          The current 4-axis PEQ (Fidelity, Voice, Structure, Enrichment) measures
+          correctness and completeness but not listener engagement. Two patterns
+          that make Islamic scholarship genuinely compelling are absent from scoring:
+
+          (1) CURIOSITY-BUILDING: the host plants a question or surprising claim early,
+          withholds the answer, and builds tension before resolution. Measured as
+          question-density (rhetorical ?s per 1000 words), hook latency (words before
+          first ?), and revelation-moment count (distinct "aha" beats in the arc).
+
+          (2) CHALLENGE-DEFEAT ARC: an objection from modern science or contemporary
+          belief is named explicitly, given real weight (not strawmanned), then
+          refuted with a sourced argument drawn from the tradition. Detection requires
+          identifying the proposal → challenge → refutation → settled-doctrine
+          four-beat pattern. A chapter with zero challenge-defeat beats on a
+          doctrinally contested topic is too expository.
+
+          Additional gaps identified in the same audit:
+          - Voice axis is STUBBED (returns 0.0; no KSessions style exemplars loaded).
+            K6 also builds the exemplar vectors from existing KSESSIONS transcripts.
+          - Opening hook quality: first 200 words must contain a hook question or
+            surprising claim — currently no gate.
+          - Modern relevance: "why does this matter today?" never measured.
+          - Emotional arc: intellectual journey is tracked (Structure); emotional
+            journey is not.
+        deliverables:
+          peq_axis_5:
+            file: "scripts/podcast/_quality.py"
+            function: "_interest_score(text, archetype) -> float"
+            inputs:
+              question_density: "rhetorical questions per 1000 words (target >= 3)"
+              hook_latency_words: "words before first hook question (target < 150)"
+              challenge_defeat_beats: "count of proposal-challenge-refutation-settlement arcs"
+              revelation_moments: "count of distinct 'aha' beats (new insight per section)"
+              modern_relevance_signals: "count of contemporary analogy / modern-science references"
+            weight: 0.15
+            weight_redistribution: "Fidelity=0.30, Voice=0.25, Structure=0.15, Enrichment=0.15, Interest=0.15"
+          voice_axis_fix:
+            file: "scripts/podcast/_quality.py + scripts/podcast/intelligence/ingest_mcp_corpus.py"
+            issue: "Voice axis _voice_score() returns 0.0 because no KSESSIONS exemplar vectors exist"
+            fix: "Build exemplar TF-IDF vectors from KSESSIONS transcripts during B5 ingest; cache to _system/voice-exemplars.pkl; _voice_score() loads on first call"
+          challenger_category_v:
+            file: "infra/claude-agents/podcast-challenger.md"
+            title: "Category V — Interest & Challenge-Defeat Quality"
+            checks:
+              V1:
+                name: "Hook question present in opening"
+                severity: P1
+                rule: "First 200 words must contain at least one rhetorical question or surprising claim. Absence = P1."
+              V2:
+                name: "Curiosity arc — answer withheld"
+                severity: P1
+                rule: "At least one question planted in the first half must be answered in the second half. Planting and answering in the same paragraph = fail."
+              V3:
+                name: "Challenge-defeat arc present on contested topics"
+                severity: P1
+                rule: "For any doctrinally contested claim (wilaya, tawil, cosmology, shariah-haqiqa), at least one explicit challenge (modern objection / rival interpretation) must be named and then defeated with sourced argument. Zero challenge-defeat beats on a contested topic = P1."
+              V4:
+                name: "Modern relevance signal"
+                severity: P2
+                rule: "At least one contemporary analogy, modern-science reference, or present-day parallel per episode. Pure historical exposition with zero present-day anchors = P2."
+              V5:
+                name: "Challenge is not strawmanned"
+                severity: P2
+                rule: "The objection named in V3 must be given real weight before defeat — not dismissed in one clause. Strawman challenge = P2."
+          authoring_prompt_additions:
+            file: "scripts/podcast/_authoring.py"
+            additions:
+              - "INTEREST CONTRACT block added to framing system prompt: requires hook question in first 200 words, one challenge-defeat arc on contested claims, one modern analogy per episode"
+              - "PEQ Interest axis weight and thresholds added to self-assessment block (K3)"
+          new_r_constants:
+            - "R_INTEREST_QUESTION_DENSITY_TARGET = 3.0  # per 1000 words"
+            - "R_INTEREST_HOOK_LATENCY_MAX_WORDS = 150"
+            - "R_INTEREST_CHALLENGE_DEFEAT_MIN = 1  # per contested chapter"
+            - "R_INTEREST_REVELATION_MOMENTS_TARGET = 3  # per episode"
+            - "R_INTEREST_AXIS_WEIGHT = 0.15"
+        acceptance:
+          - "_interest_score() implemented and returning 0-25 float"
+          - "PEQ total now sums 5 axes; weight redistribution sums to 1.0"
+          - "Category V checks V1-V5 present in podcast-challenger.md"
+          - "Framing prompt includes INTEREST CONTRACT block"
+          - "Voice exemplar vectors built from KSESSIONS; _voice_score() no longer returns 0.0"
+          - "test_interest_scoring.py: >= 10 unit tests covering hook-absent, challenge-present, modern-analogy, strawman"
+          - "test_peq_regression.py still green vs K1 baselines (old 4-axis scores unchanged; 5th axis additive)"
+          - "_rules.py: 5 new R_INTEREST_* constants present"
+          - "_quality.py and challenger_scoring.py both <= 600 lines (DR-005)"
+        authorization: tier_one
+        cost_estimate_usd: 0
+        execution_status: not_started
+        branch: "feature/wave-k-interest-scoring"
+
+# ===========================================================================
+# WAVE 8 STUDIO — editorial cockpit + new content intake
+# Authorized 2026-05-30. Branch: book/ayyuhal-walad (WC8 vertical).
+# Slices 5b, 5c, 6b — complement slices 5, 6, 7 in continuation-2026-05-30.md
+# ===========================================================================
+
+wave_8_studio:
+  authorized_by: asif_2026-05-30
+  status: not_started
+  branch: book/ayyuhal-walad
+  stack_additions:
+    - "@dnd-kit/core + @dnd-kit/sortable — drag-to-reorder for Key Focus panel (no existing alternative; ~25 KB)"
+    - "cmdk — command-palette corpus search for Key Focus and Name panels (~6 KB)"
+  stack_kept:
+    - "TipTap v3 + ProseMirror — editor core, no replacement"
+    - "@floating-ui/react — popovers/tooltips, already in use"
+    - "Radix UI primitives — headless components (add react-select, react-popover, react-scroll-area)"
+    - "Tailwind v4 — already in stack; shadcn/ui pattern available without adding the package"
+    - "lucide-react — icons, fully covered"
+    - "TanStack React Query — async corpus queries"
+  editorial_scope:
+    book_level: "book/_system/editorial.json — canonical name resolutions, forbidden terms, default tone, default audience"
+    chapter_level: "_system/review/<chapter>.json — extends the existing write-back loop; per-chapter overrides and focus priorities"
+    inheritance: "Chapter reads book canonical first, then applies chapter overrides. Authoring prompt receives merged result."
+
+  slices:
+
+    - id: WC8-5b
+      title: "Full Studio re-platform — editorial cockpit with stackable right-panel cards"
+      authorized_by: asif_2026-05-30
+      depends_on: [WC8-0-foundation]
+      layout:
+        left_column: "chapter navigator + stage selector + book/chapter scope toggle"
+        center_column: "TipTap editor + stage tabs + metrics strip; Approve Stage button moves here as primary action"
+        right_column: "stackable editorial cards (collapsible, toggleable via panel menu)"
+      editorial_cards:
+        name_resolution:
+          title: "Name Resolution"
+          scope: book_canonical_with_chapter_override
+          extraction: "NLP pass over chapter text — detects Arabic proper nouns, Islamic scholars, book/treatise titles, honorifics, non-English person references"
+          per_entry_options:
+            - "Exact — keep as detected"
+            - "Pseudonym — user types or selects replacement string"
+            - "Generalize — replace with role-based generic: 'the scholar' / 'the teacher' / 'the student' / 'the author'"
+          book_scope: "resolutions set here propagate to all chapters; chapter can add its own or override"
+          writeback: "book/_system/editorial.json + _system/review/<ch>.json"
+          note: "Authoring prompt receives substituted text, not raw names, so NotebookLM never sees unstated-decision names"
+        key_focus:
+          title: "Key Focus of Podcast"
+          scope: chapter_level_with_book_defaults
+          ui: "sortable drag-to-reorder list (dnd-kit); each item: focus text + weight (High/Medium/Low) + source (manual | corpus)"
+          corpus_search: "cmdk command palette queries wisdom corpus atoms (doctrine_topic_ids, quran citations, hadith atoms) by keyword; selected items added inline"
+          conflict_check: "button that validates selected themes against tradition filter — surfaces items the augmenter will block before running"
+          writeback: "maps to doctrine_topic_ids override in _system/review/<ch>.json; high-weight items injected first by Augmenter"
+        tone_register:
+          title: "Tone & Register"
+          scope: chapter_level_inherits_book_default
+          options: ["Reverent", "Analytical", "Urgent", "Accessible"]
+          effect: "injects a concrete voice directive into the authoring prompt (not a style rubric)"
+          writeback: "_system/review/<ch>.json"
+        forbidden_terms:
+          title: "Forbidden Terms"
+          scope: book_canonical_with_chapter_additions
+          ui: "flat list: term + reason + substitution (optional)"
+          seeded_from: "book-level anti-cliché DENY set in _anti_cliche.py"
+          effect: "merged into per-chapter authoring prompt blocklist; challenger Category U checks enforce absence"
+          writeback: "book/_system/editorial.json"
+        required_elements:
+          title: "Required Elements"
+          scope: chapter_level
+          items:
+            - "Quran ayat (pulled from quran-citations.json verified citations)"
+            - "Hadith references (from new hadith atoms, B5)"
+            - "Doctrine terms to define"
+          effect: "challenger Category A (citation authenticity) checks each item is present; absence = P1"
+          writeback: "_system/review/<ch>.json"
+        audience_calibration:
+          title: "Audience Calibration"
+          scope: chapter_level_inherits_book_default
+          ui: "3-point slider: Practitioner ↔ General Muslim ↔ Curious Outsider"
+          effect: "controls glossing_strategy in framing prompt + Enrichment axis weight in PEQ"
+          maps_to: "series-config.yaml audience_profile (existing field)"
+          writeback: "_system/review/<ch>.json"
+      deliverables:
+        - "plan-dashboard/src/components/reader/studio/StudioLayout.tsx (replaces StudioPoc.tsx)"
+        - "plan-dashboard/src/components/reader/studio/EditorialCard.tsx (collapsible card shell)"
+        - "plan-dashboard/src/components/reader/studio/cards/NameResolutionCard.tsx"
+        - "plan-dashboard/src/components/reader/studio/cards/KeyFocusCard.tsx"
+        - "plan-dashboard/src/components/reader/studio/cards/ToneCard.tsx"
+        - "plan-dashboard/src/components/reader/studio/cards/ForbiddenTermsCard.tsx"
+        - "plan-dashboard/src/components/reader/studio/cards/RequiredElementsCard.tsx"
+        - "plan-dashboard/src/components/reader/studio/cards/AudienceCalibrationCard.tsx"
+        - "plan-dashboard/src/pages/api/studio/editorial.ts (book-level editorial.json read/write)"
+        - "book/_system/editorial.json schema (new file per processed book)"
+      acceptance:
+        - "All 6 cards render collapsed by default; expand/collapse via header click"
+        - "Name extraction identifies >= 3 Arabic names from Ayyuhal Walad ch01 text"
+        - "Key Focus drag-to-reorder works; corpus search returns results from KASHKOLE"
+        - "Approve Stage button is in center column, not right panel"
+        - "Book-scope toggle in left column switches Name Resolution and Forbidden Terms to show all-chapter view"
+        - "All decisions persist via the existing /api/studio/review endpoint (extended for new fields)"
+      authorization: tier_one
+      cost_estimate_usd: 0
+      execution_status: in_progress
+      completed_at: "2026-05-30 (core)"
+      completion_note: >
+        CORE shipped + ui-reviewer ship-ready (build clean, lint:views errors=0). New /studio
+        page (supersedes throwaway /studio-poc, which stays as reference) with a 3-pane shell:
+        editorial cockpit rail + the existing editor/inspector. All 6 cards render and persist
+        book-canonical + per-chapter override. Deliverables landed:
+        plan-dashboard/src/lib/reader/editorial.ts (model + JSON persistence + override
+        resolution), src/pages/api/studio/editorial.ts (GET/POST + resolve),
+        src/components/reader/poc/EditorialCards.tsx (cockpit), studio.astro, studio-poc.css
+        (+135 lines, token-clean), content/drafts/books/ayyuhal-walad/_system/editorial/book.json
+        (seeded canonical decisions). Cockpit follows the editor via a `studio:chapter-change`
+        CustomEvent (1-line add to StudioPoc).
+        ARCHITECTURAL DIVERGENCE (best-judgment, north-star extensibility): used a GENERIC
+        card model keyed by `kind` ('list'|'pairs'|'choice') with one renderer per kind, NOT
+        the planned per-card component files (NameResolutionCard.tsx, etc.). Adding a card or a
+        new tradition's glossary is a CARD_DEFS data entry, not a new component. Persistence is
+        per-scope JSON files under _system/editorial/ (book.json + <chapter>.json), chosen over
+        a single editorial.json so the Slice-6 Python orchestrator reads them with stdlib json
+        (PyYAML is absent from the venv — discovered in Slice 4+).
+        DEFERRED (enhancement layer, not yet built): dnd-kit drag-reorder, cmdk corpus search,
+        NLP name-extraction, Key-Focus weight/source fields, conflict-check button, collapsible
+        card toggle, moving Approve into the center column. These extend the generic model
+        without replacing it. The cockpit SHAPE is a good review checkpoint for Asif.
+
+    - id: WC8-5c
+      title: "Podcaster roles guardrail — Teacher/Student/Debater host dynamics"
+      authorized_by: asif_2026-05-30
+      depends_on: [WC8-5b]
+      description: |
+        host_a = Teacher (always): authoritative, sources all claims, never speculates.
+        host_b = Student (default): curious, asks forward-pulling questions, makes connections.
+        host_b = Debater (triggered): when a contested claim is reached, switches to naming a
+        modern objection with real weight, then concedes after the Teacher defeats it.
+        The "debater trigger" is a configurable field in the framing — Asif can specify
+        which claim(s) should trigger the mode switch per chapter.
+      deliverables:
+        - "scripts/podcast/_authoring.py: HOST_ROLE_CONTRACT block added to framing prompt"
+        - "infra/claude-agents/podcast-challenger.md: Category V check V3 updated to reference debater trigger field"
+        - "plan-dashboard/src/components/reader/studio/cards/HostRolesCard.tsx (new editorial card)"
+        - "HostRolesCard shows: host_a role (locked = Teacher); host_b default role; debater trigger text field; preview of mode-switch moment in the arc"
+      acceptance:
+        - "Framing prompt contains HOST_ROLE_CONTRACT block with Teacher/Student/Debater definitions"
+        - "Debater trigger field persists to _system/review/<ch>.json"
+        - "V3 check in podcast-challenger.md references the trigger field, not just generic challenge-defeat"
+        - "HostRolesCard renders as 7th editorial card, after AudienceCalibrationCard"
+      authorization: tier_one
+      cost_estimate_usd: 0
+
+    - id: WC8-7b
+      title: "Video visual layer — timed image prompts + tiered image generation + Video Timeline editor in Studio"
+      authorized_by: asif_2026-05-30
+      depends_on: [WC8-5b]
+      artistic_control_ui:
+        location: "8th tab in Studio center column (alongside Source/Core/.../Narrator)"
+        timeline_view: "horizontal scroll of segment cards; each shows thumbnail, timestamp, visual type badge, prompt preview"
+        per_segment_controls:
+          - "Edit prompt (full textarea, editable inline)"
+          - "Change visual type (dropdown: scenery/quran_verse/hadith_text/flowchart/concept/portrait)"
+          - "Regenerate (tiered: Concept free / Fast preview $0.02 / Final $0.04)"
+          - "Replace (upload your own image)"
+          - "Merge ← → (combine adjacent segments; drag-to-merge pattern)"
+          - "Split (enter cut-point seconds; segment divides; second prompt auto-generated or manual)"
+        merge_semantics: "drag one segment onto adjacent → timestamps combine; winning image is the drop target"
+        split_semantics: "enter new cut_s; segment divides into two; each gets independent prompt and generation"
+        visual_type_re_detect: "when prompt edited manually, visual type re-inferred from new prompt text (user can override)"
+      generation_tiers:
+        concept:
+          cost: "$0"
+          how: "Gemini text generates vivid written description — evaluate composition before spending"
+          default: "pipeline auto-runs this for all segments on first generate_video_layer.py run"
+        fast_preview:
+          cost: "~$0.02/image"
+          model: "imagen-3.0-fast-generate-001"
+          use: "evaluate actual composition and tone; iterate quickly"
+        final:
+          cost: "~$0.04/image"
+          model: "imagen-3.0-generate-002"
+          use: "production quality; written to video-images/*.png"
+        generate_all_finals_button: "batch-generates final quality for all approved segments"
+      description: |
+        For each episode, generate a synchronized visual script: per-content-beat image
+        prompts with estimated timestamps, then auto-generate the images using Imagen 3.
+        Pipeline can't timestamp against the actual audio (NotebookLM generates that after
+        handoff), so timestamps are estimated from section word counts at 130 wpm dialogue
+        pace (~85-90% accurate; 1-2 cut adjustments per minute in any video editor).
+        Prompts are generated from the augmented.md content and framing beat structure,
+        not from the audio — this gives better doctrinal fidelity because we have the full
+        scholarly context at generation time.
+      script: "scripts/podcast/generate_video_layer.py"
+      inputs:
+        - "_stages/<ch>/augmented.md (content + term context)"
+        - "episodes/<ep>/00-framing.md (beat structure, arc, tensions)"
+        - "_system/quran-citations.json (verified citations for quran_verse type)"
+        - "_system/knowledge-report.json (hadith atoms for hadith_text type)"
+        - "_system/glossary.yml (Arabic terms for overlay text)"
+      visual_types:
+        scenery: "Historical Islamic settings (Nishapur, Baghdad, desert, library) — establishing and transition shots"
+        quran_verse: "Quran citation detected in beat → Arabic calligraphy style + phonetic overlay + English gloss"
+        hadith_text: "Hadith atom matched to beat → stylized text on textured background"
+        flowchart: "Numbered-list content (eight benefits, stations, doctrinal hierarchy) → clean diagram"
+        concept: "Abstract doctrinal idea (tawil=inner light; aql=first intellect; maad=return) → symbolic visual"
+        portrait: "Named scholar referenced → calligraphic or illustrated representation"
+      timestamp_method: "cumulative word-count / 130wpm per section; adjusted +10% for host preamble and intro music"
+      style_directive: "Consistent across episode: editorial illustration, warm amber/ochre palette, fine-line Islamic geometric border frame, scholarly aesthetic. NOT photorealistic. NOT generic stock art."
+      image_generation:
+        model: "imagen-3.0-generate-002 via @google/generative-ai (already in stack)"
+        output_format: "1920×1080 PNG"
+        naming: "<NN>_<visual_type>_<slug>.png (zero-padded sequence for video editor import)"
+        cost_per_image_usd: 0.04
+        images_per_episode: "8-12 (one per significant arc beat)"
+        total_cost_5_episodes_usd: 2.50
+      outputs:
+        per_episode:
+          - "episodes/<ep>/video-prompts.json — machine-readable; segment_id, visual_type, est_start_s, est_end_s, prompt_short, prompt_full, style_directive, overlay_text"
+          - "episodes/<ep>/video-prompts.md — human-readable storyboard for review; table of segment/timestamp/visual description"
+          - "episodes/<ep>/video-images/*.png — generated images, named by sequence and slug"
+      acceptance:
+        - "video-prompts.json present for all 5 Ayyuhal episodes"
+        - "At least one quran_verse type image present per episode where verified citations exist"
+        - "Timestamp estimates: est_start_s=0 for segment_id=1; final segment est_end_s within 10% of episode length estimate"
+        - "All images 1920×1080 PNG, no broken/missing files"
+        - "Style directive consistent (same string) across all segments of one episode"
+        - "video-prompts.md renders as readable storyboard"
+      authorization: tier_one
+      cost_estimate_usd: 2.50
+
+    - id: WC8-6b
+      title: "New Content intake page — upload content and configure pipeline from the UI"
+      authorized_by: asif_2026-05-30
+      depends_on: [WC8-5b]
+      description: |
+        A dedicated page at /new-content that replaces the command-line intake flow.
+        Three sections:
+        (1) CONTENT UPLOAD: drag-drop or browse for PDF / audio files; URL field for
+        YouTube/remote audio links. Shows detected format and estimated processing cost.
+        (2) BOOK METADATA: title, slug (auto-suggested from title), author, tradition
+        (fatimid-ismaili / sunni / shia / sufi / universal), archetype selector (7 types),
+        language of source (Arabic / English / Urdu / Mixed).
+        (3) EDITORIAL DEFAULTS: pre-fill the book-level editorial.json before the first
+        chapter is processed — audience calibration, default tone, any known forbidden terms,
+        initial focus priorities (can be filled from corpus via cmdk at intake time).
+        Submit triggers intake_stage.py (OCR) and branches to book/<slug>.
+      layout: "Full-width, single-column wizard with 3 steps; breadcrumb progress indicator"
+      deliverables:
+        - "plan-dashboard/src/pages/new-content.astro (new page, linked from main nav)"
+        - "plan-dashboard/src/components/intake/ContentUpload.tsx"
+        - "plan-dashboard/src/components/intake/BookMetadata.tsx"
+        - "plan-dashboard/src/components/intake/EditorialDefaults.tsx (reuses editorial card components)"
+        - "plan-dashboard/src/pages/api/intake/submit.ts (triggers intake_stage.py, creates branch, writes editorial.json)"
+        - "plan-dashboard/src/pages/api/intake/detect-format.ts (returns detected format + cost estimate from file metadata)"
+      acceptance:
+        - "Page renders at /new-content with 3-step breadcrumb"
+        - "File upload accepts PDF; shows file name + estimated OCR cost"
+        - "Archetype selector shows all 7 archetypes with one-line descriptions"
+        - "Editorial defaults section includes Key Focus corpus search (cmdk)"
+        - "Submit creates book/_system/editorial.json with defaults before intake runs"
+        - "On submit, redirects to /studio?book=<slug>&chapter=ch01 after intake completes"
+      authorization: tier_two
+      cost_estimate_usd: 0
+      note: "Tier 2 because submit triggers intake_stage.py (Azure spend). Config only is Tier 0."
+
 # ===========================================================================
 # WISDOM CORPUS PROGRAM — converged 2026-05-29 with Asif (design-convergence
 # session, decisions D1-D18). Additive section; does not alter curated waves
@@ -2842,7 +3324,9 @@ wisdom_corpus_program:
           - "Slice 2 (refine/noise + halt): noise-strip + refine reviewed in the editor (mark/edit); grow the Studio marking + tracked-edit capability here."
           - "Slice 3 (reconciliation + halt): WC8.4 divergence markers reviewed side-by-side in the inspector (rich once multi-source formats land)."
           - "Slice 4 (knowledge/corpus-read + halt): corpus-verified annotation markers reviewed in the editor."
-          - "Slice 5+ (deepen): WC8.3 Anwaar engine routing (later fixture); WC8.5 full Studio capability package + WC8.6 audio/episode mapping layered in as each slice's review needs them; WC8.7 consistency + desktop-only."
+          - "Slice 5+ (deepen): WC8.3 Anwaar engine routing (later fixture); WC8.5 full Studio capability package + WC8.6 audio/episode mapping layered in as each slice's review needs them; WC8.7 consistency + desktop-only. STATUS 2026-05-30: episode map + audio (12 lectures) + narrator-additions DONE on Ayyuhal; Studio re-platform + consistency + Anwaar remain."
+          - "Slice 6 (productionization — ADDED 2026-05-30, Asif): close the editor->pipeline loop. (a) Save editor edits back to the stage artifacts on disk; (b) an orchestrator that WATCHES _system/review/<chapter>.json and runs the next stage when a stage is approved; (c) reconcile the new script-based stage producers (intake_stage/gemini_refine/narrator_additions) with the existing orchestrate_book phases. Goal: approving a stage in the editor actually advances the book. This is what makes the editor 'ready' to drive the pipeline."
+          - "Slice 7 (output — ADDED 2026-05-30, Asif): from the processed chapters, assemble the NotebookLM podcast bundle (per-episode .txt + framings, per feedback_notebooklm_instructions_format) AND the MANDATORY slide decks (per feedback_slide_decks_required). Goal: turn the processed text into the actual audience deliverables."
         note: "WC8.0..WC8.7 below are the component WORK ITEMS; the slices above are the SEQUENCING that interleaves each with an editor halt on the live fixture. Each slice ends at a manual-review halt Asif resolves in the Studio editor before the next slice runs."
         intelligence_thread:
           - "Slice 0: foundation = the WC1 corpus engine (already built: populate/dedup/tradition) + expose ONE shared corpus query/verify access point (the seam WC2's blackbox becomes) that BOTH the pipeline and the editor call. All three entities wired to one corpus access from the start."
@@ -2854,7 +3338,7 @@ wisdom_corpus_program:
         review_cadence: "HOLISTIC-REVIEW-PER-WAVE (Asif 2026-05-29): after each slice ships, step back and review ALL completed slices together, realigning ALL THREE entities — PIPELINE + EDITOR + INTELLIGENCE — before starting the next slice, so none drift apart. Mandatory gate between slices, not optional."
         learning_loop: "CORE PRINCIPLE (Asif 2026-05-29). Every manual enhancement Asif makes in the Studio — reference marks, paragraph token tags, prose edits — is captured as TRAINING SIGNAL. The intelligence learns the patterns and the pipeline PRE-APPLIES them on the next chapter (and the next book) BEFORE Asif sees the content, so he confirms/refines pre-marked work instead of starting blank. Chapter 1 teaches chapter 2; book 1 teaches book 2 (compounding flywheel, extended from citations to ALL editorial judgment). TIERED PRESENTATION (locked): deterministic/verifiable actions (corpus-verified Quran/hadith reference markers) are AUTO-APPLIED (Asif just verifies); judgment actions (esoteric/reality/sharia tags, prose edits/rewrites) are PRE-MARKED as accept/reject SUGGESTIONS, never silently final. Mirrors D12 (factual auto / interpretive suggest-only). Implication for the build: the editor must EMIT manual actions as a learnable signal, and the knowledge/pre-mark phase must consume them + apply tiered."
         feel_check_feedback_2026_05_29: "First live feel-check of the Slice-0 TipTap PoC (FC-1..FC-5; full record in _workspace/prompts/improvements/10-reader-redesign-decisions.md). FC-1 (UI): verse hover CSS/z-index broken + replace the heavy gold Quran panel with a compact chapter:verse LABEL (e.g. 99:7-8) in small script styled like a chip + fixed minimal hover. FC-2 (UI+INTELLIGENCE): explain-or-remove the inspector marker list (it is the chapter's reference inventory / verification queue); the regex detector is interim, real detection = corpus lookup. FC-3 (UI+EDITOR): redline must be Microsoft-Word track-changes (jsdiff WORD-level insert/delete, NOT whole-paragraph green) + per-paragraph hover affordance + click selects only that paragraph + change stays visible off-cursor. FC-4 (UI+INTELLIGENCE+PIPELINE): Arabic toggle (reuse ArabicToggle.tsx + per-book glossary overlay) swaps Arabic-derived words to a clean modern Arabic webfont in a distinct colour, both Read + Studio. FC-5 (POLICY): LIBRARY FOOTPRINT FROZEN to @tiptap/* + @floating-ui/react + diff(jsdiff) (+ optional self-hosted Arabic font asset); DROP the previously-noted Radix HoverCard, DEFER cmdk; add no new JS libraries."
-      build_order: ["Slice 0 (readiness)", "Slice 1 (intake+halt)", "Slice 2 (refine+halt)", "Slice 3 (reconcile+halt)", "Slice 4 (knowledge+halt)", "Slice 5+ (deepen: Anwaar engine, full Studio, audio)"]
+      build_order: ["Slice 0 (readiness)", "Slice 1 (intake+halt)", "Slice 2 (refine+halt)", "Slice 3 (reconcile+halt)", "Slice 4 (knowledge+halt)", "Slice 5+ (deepen: Anwaar engine, full Studio, audio)", "Slice 6 (productionization)", "Slice 7 (output: podcast bundle + slide decks)"]
       sub_steps:
         - id: WC8.0
           name: "TipTap Studio proof-of-concept (de-risk FIRST; halt for feel-check)"
@@ -2934,6 +3418,24 @@ wisdom_corpus_program:
             - "Desktop-first both modes; defer mobile/responsive (R-10). Cross-view consistency + html-view-challenger sweep on the new Studio/Read views."
           acceptance:
             - "Both modes ship desktop-first; challenger clean; no mobile work in scope."
+        - id: WC8.8
+          name: "Voice normalization to a global house style (SN-1..SN-6)"
+          authorization: tier_two
+          design_2026_05_29: >
+            A pipeline stage that re-molds heterogeneous source registers (classical-Arabic
+            translationese, third-person scholarly, lecture transcript, teaching story) into ONE
+            global editorial-modern, accessible house voice. Input-adaptive (detects register),
+            output-uniform (single voice). Moderate latitude: reflow/smooth/unify tense+POV/fix
+            translationese, preserve all meaning. HARD RULE: Quran/hadith/poetry kept verbatim —
+            only narration/exposition is normalized. Decisions SN-1..SN-6 in
+            10-reader-redesign-decisions.md.
+          key_steps:
+            - "New stage between clean-core and augment. Stage/tab order: Source -> Denoised -> Core -> Normalized -> Augmented; each is a Studio tab (the FC stage-tabs ask), filling in as slices run."
+            - "Auto-applied (Asif), emitted as a distinct stage artifact + a diff vs Core for spot-check; NOT a per-paragraph gate."
+            - "Meaning-drift guards: scripture verbatim; source+diff tab always available; podcast-challenger doctrinal-fidelity check on the normalized stage; learning loop flags recurring risky rewrites."
+            - "ONE global house-voice style guide (INTELLIGENCE) the normalizer follows + the learning loop refines; applied to every book/source/genre."
+          acceptance:
+            - "A chapter in any source register reads in the single house voice; scripture verbatim; Source/Normalized tabs + diff present; challenger doctrinal-fidelity clean; style guide is global, not per-book."
       acceptance:
         - "TipTap PoC approved before full build (WC8.0 halt honoured)."
         - "Multi-source books unify onto a spine, triage at an early in-viewer gate, reconcile with preserved+marked divergences; Anwaar transcripts compared via the SI-2 engine routing."
@@ -2943,6 +3445,330 @@ wisdom_corpus_program:
     - "Audit live regressions R5 (README) + R6 (publish script vs UI model) -> pipeline-debt; fixed during execution."
     - "anwar book unconfirmed; pilot = ayyuhal-walad regardless."
   build_order: [WC1, "WC2+WC4 parallel", WC3, "WC5 parallel track"]
+
+# ===========================================================================
+# DUAL-PLATFORM EXECUTION SUPPORT
+# Authorized 2026-05-30 (Asif). Phase 0.7 — runs before Phases 1-9.
+# Goal: every pipeline operation, agent, and skill executable identically
+# from Claude Code CLI AND from VS Code + GitHub Copilot.
+# ===========================================================================
+
+dual_platform:
+  authorized_by: asif_2026-05-30
+  principle: |
+    The canonical agent specs in infra/claude-agents/*.md are the single source
+    of truth. Neither platform duplicates them — both reference them via adapters.
+    Pipeline scripts (Python) are already environment-agnostic.
+    The gap is: discoverability in VS Code (tasks/launch), workspace context for
+    Copilot (copilot-instructions.md), and agent invocation metadata for Copilot
+    workspace participants (.github/agents/ stub headers).
+
+  scope_boundary: |
+    Full GitHub Copilot Extensions (OAuth, GitHub App, external API endpoint)
+    is OUT OF SCOPE — too much infrastructure for a personal repo.
+    The workspace-participant approach via .github/agents/ stubs gives 80% of
+    the value. Full extensions can be revisited if the repo becomes multi-user.
+
+  steps:
+
+    - id: DP-1
+      title: "VS Code workspace config — tasks, launch, extensions"
+      deliverables:
+        tasks_json:
+          path: ".vscode/tasks.json"
+          tasks:
+            - label: "Open Studio (dev server)"
+              command: "cd plan-dashboard && npm run dev"
+              group: ui
+            - label: "Run Intake (OCR)"
+              command: "python3 scripts/podcast/intake_stage.py ${input:bookSlug}"
+              group: pipeline
+            - label: "Run Denoise + Normalize"
+              command: "python3 scripts/podcast/gemini_refine.py ${input:bookSlug}"
+              group: pipeline
+            - label: "Sync Knowledge Corpus"
+              command: "python3 scripts/podcast/intelligence/populate_corpus.py"
+              group: intelligence
+            - label: "Run Pipeline Tests"
+              command: "pytest scripts/podcast/ -v"
+              group: test
+            - label: "Run Site Lint"
+              command: "cd plan-dashboard && npm run lint:views"
+              group: test
+            - label: "Build Podcast Bundle"
+              command: "python3 scripts/podcast/assemble_bundle.py ${input:bookSlug}"
+              group: pipeline
+            - label: "Generate Video Layer"
+              command: "python3 scripts/podcast/generate_video_layer.py ${input:bookSlug}"
+              group: pipeline
+            - label: "Push Branch"
+              command: "git push origin HEAD"
+              group: git
+        launch_json:
+          path: ".vscode/launch.json"
+          configurations:
+            - name: "Debug orchestrate_book.py"
+              program: "scripts/podcast/orchestrate_book.py"
+            - name: "Debug gemini_refine.py"
+              program: "scripts/podcast/gemini_refine.py"
+            - name: "Debug intake_stage.py"
+              program: "scripts/podcast/intake_stage.py"
+            - name: "Debug populate_corpus.py"
+              program: "scripts/podcast/intelligence/populate_corpus.py"
+            - name: "Debug generate_video_layer.py"
+              program: "scripts/podcast/generate_video_layer.py"
+        extensions_json:
+          path: ".vscode/extensions.json"
+          recommendations:
+            - "github.copilot"
+            - "github.copilot-chat"
+            - "ms-python.python"
+            - "ms-python.pylance"
+            - "astro-build.astro-vscode"
+            - "bradlc.vscode-tailwindcss"
+            - "redhat.vscode-yaml"
+            - "ms-vscode.vscode-typescript-next"
+      acceptance:
+        - "All 9 tasks visible in VS Code Command Palette under 'Tasks: Run Task'"
+        - "Debug 'orchestrate_book.py' launches with correct virtualenv"
+        - "extensions.json has 7 recommendations"
+      authorization: tier_zero
+
+    - id: DP-2
+      title: "GitHub Copilot workspace instructions — mirror CLAUDE.md for Copilot context"
+      deliverables:
+        copilot_instructions:
+          path: ".github/copilot-instructions.md"
+          sections:
+            - "What this repo does (podcast pipeline summary)"
+            - "Branch policy (book/<slug>, develop, main gate)"
+            - "Authorization tiers (T0/T1/T2) — same as CLAUDE.md"
+            - "Standing rules (no claude -p, no force-push, plan-first)"
+            - "Agent registry (links to infra/claude-agents/*.md specs)"
+            - "Content structure (content/books/<slug>/ after Phase 0.6 migration)"
+            - "Pipeline phase order (0a through finalize)"
+            - "Key files (orchestrator-state.json, editorial.json, _stages/)"
+          note: |
+            References infra/claude-agents/*.md specs — does NOT duplicate them.
+            Copilot Chat reads this file for workspace-level context on every session.
+      acceptance:
+        - ".github/copilot-instructions.md present and < 200 lines (focused, not a dump)"
+        - "File references infra/claude-agents/podcast-orchestrator.md and podcast-challenger.md"
+        - "Authorization tiers match CLAUDE.md word-for-word"
+      authorization: tier_zero
+
+    - id: DP-3
+      title: "Fix .github/agents/ stubs for Copilot workspace participant registration"
+      description: |
+        The 17 existing .github/agents/ stubs point to infra/claude-agents/ specs
+        but lack the Copilot-expected metadata block. Each stub needs a YAML
+        frontmatter header so Copilot registers them as @-invokable workspace
+        participants in Copilot Chat. Remove the 2 broken stubs (reconcile,
+        docs-updater per Phase 0 audit).
+      deliverables:
+        stub_header_format: |
+          ---
+          name: podcast-auditor
+          description: "Repo-level health audit for podcast-factory"
+          spec: infra/claude-agents/podcast-auditor.md
+          invocation: "@podcast-auditor"
+          ---
+        stubs_to_fix: 15  # 17 total - 2 deleted in Phase 0
+        stubs_to_delete: ["reconcile.agent.md", "docs-updater.agent.md"]
+      acceptance:
+        - "All 15 stubs have YAML frontmatter with name/description/spec/invocation"
+        - "2 broken stubs deleted"
+        - "@podcast-auditor, @podcast-challenger, @podcast-orchestrator visible as participants in Copilot Chat"
+      authorization: tier_zero
+
+  dual_platform_coding_standards:
+    all_new_code: |
+      Applies to every file written in Phases 5–12:
+      - TypeScript: all interfaces fully typed (no `any`); Copilot IntelliSense depends on this
+      - Python: all function signatures have PEP 484 type hints; Pylance picks these up
+      - No environment-specific paths hardcoded; use _paths.py (Python) and content-paths.ts (TS, Phase 11c)
+      - Agent specs in infra/claude-agents/ follow standard section order:
+        Purpose → When to invoke → Inputs → Process → Outputs → Acceptance
+        (Both platforms can parse this structure)
+    linting:
+      typescript: "npm run lint:views passes with zero findings"
+      python: "pylance in strict mode; ruff for linting"
+      agents: "each spec has all 6 standard sections"
+
+# ===========================================================================
+# PHASE 0.7 + PHASE 1 START-BLOCKER REMEDIATION — 2026-05-30
+# Pre-authorized by CONTINUATION-2026-05-30.md autonomy mandate.
+# ===========================================================================
+
+phase_07_start_blockers:
+  id: BLOCKER-2026-05-30
+  title: "Phase 0.7 + Phase 1 start-blocker remediation"
+  completed_at: 2026-05-30
+  branch: book/ayyuhal-walad
+  deliverables:
+    - id: BLOCKER-A
+      title: "Wave 8 §0 senior-architect review doc"
+      path: "_workspace/plan/wave8-section0-review.md"
+      verdict: GO
+      preconditions: ["extractor.py claude-p fix (BLOCKER-C)", "Slice 2-fix terminus technicus before Slice 7"]
+    - id: BLOCKER-B
+      title: "plan.yaml approval flip + dangling dep fix + this entry"
+      changes:
+        - "meta.status: AWAITING_APPROVAL -> APPROVED (line 7)"
+        - "meta.approved_by: null -> asif (line 35)"
+        - "meta.approved_at: null -> 2026-05-30 (line 36)"
+        - "WC8-0-foundation -> WC8.0 in depends_on (lines ~2515, ~2695)"
+    - id: BLOCKER-C
+      title: "extractor.py: replace claude -p caller with Gemini caller"
+      path: "scripts/podcast/intelligence/extractor.py"
+      model: "gemini-2.5-flash (mirrors gemini_refine.py)"
+    - id: BLOCKER-D
+      title: "Phase 0.7 VS Code workspace files"
+      paths:
+        - ".vscode/tasks.json (9 tasks, bookSlug input)"
+        - ".vscode/launch.json (5 debug configs)"
+        - ".vscode/extensions.json (8 recommendations)"
+
+# ===========================================================================
+# WC8 HOLISTIC PIPELINE SCRIPTS — registered 2026-05-30
+# Authorized by CONTINUATION-2026-05-30.md autonomy mandate.
+# Branch: book/ayyuhal-walad
+# ===========================================================================
+
+wc8_holistic_pipeline:
+  id: WC8-HOLISTIC
+  title: "Holistic full-book pipeline — Ayyuhal Walad"
+  registered_at: 2026-05-30
+  branch: book/ayyuhal-walad
+  design_rationale: |
+    The per-chapter WC8 pipeline denoised the scholarly English edition and produced
+    only 4,295w total — because that edition is 92% translator apparatus. The holistic
+    pipeline processes all sources as unified full-book streams, reconciles them, augments
+    from the wisdom corpus, then re-segments into balanced ~4,500w episodes. Cost: ~$0.30.
+    Chapters land in chapters-wc8/ (Option A); existing v3.5 chapters/ preserved.
+  steps:
+    - id: WC8-H1
+      title: "full_book_denoise.py — denoise all 3 source streams as unified books"
+      path: scripts/podcast/full_book_denoise.py
+      status: built_committed
+      committed_at: b09b1a9
+      service: gemini-2.5-flash
+      cost_usd: ~0.104
+      outputs:
+        - content/drafts/books/ayyuhal-walad/_system/source/multi/denoised/arabic.md
+        - content/drafts/books/ayyuhal-walad/_system/source/multi/denoised/english.md
+        - content/drafts/books/ayyuhal-walad/_system/source/multi/denoised/scholarly.md
+
+    - id: WC8-H2
+      title: "reconcile_book.py — align 3 streams into unified-book.md against Arabic spine"
+      path: scripts/podcast/reconcile_book.py
+      status: built_committed
+      committed_at: b09b1a9
+      service: gemini-2.5-flash
+      cost_usd: ~0.044-0.10
+      outputs:
+        - content/drafts/books/ayyuhal-walad/_system/unified-book.md
+        - content/drafts/books/ayyuhal-walad/_system/reconcile-report.json
+
+    - id: WC8-H3
+      title: "augment_book.py — wisdom corpus enrichment of unified stream, book-level atom tracking"
+      path: scripts/podcast/augment_book.py
+      status: built_committed
+      committed_at: pending
+      service: gemini-2.5-flash
+      cost_usd: ~0.065
+      design_notes: |
+        Operates on unified-book.md (output of reconcile_book.py). Loads 628 atoms from
+        knowledge.db (all fatimid-ismaili). Gemini triages 581 untagged atoms as
+        universal_islamic vs tradition_specific (~$0.005). Per-section Gemini call selects
+        and integrates 0-2 safe atoms. Tracks used_atom_ids (no repeats within book).
+        tradition_adjacency from meta.yml: sunni-sufi + fatimid-ismaili OK for shared
+        Islamic wisdom (ethics, hadith, Quran) — Ismaili-specific doctrine blocked.
+        Writes unified-augmented.md + augmentation-ledger.json.
+        Forward-compatible: once B5 (ingest_mcp_corpus.py) runs, --force re-runs with
+        richer KASHKOLE/KQUR/KSESSIONS atoms automatically.
+      outputs:
+        - content/drafts/books/ayyuhal-walad/_system/unified-augmented.md
+        - content/drafts/books/ayyuhal-walad/_system/augmentation-ledger.json
+
+    - id: WC8-H4
+      title: "segment_book.py — Claude Sonnet single call for holistic episode segmentation"
+      path: scripts/podcast/segment_book.py
+      status: built_committed
+      committed_at: b09b1a9
+      updated_at: 2026-05-30
+      update_note: "Now prefers unified-augmented.md when present, falls back to unified-book.md"
+      service: claude-sonnet-4-6
+      cost_usd: ~0.097
+      outputs:
+        - content/drafts/books/ayyuhal-walad/chapters-wc8/chNN-<slug>.txt (5-7 episodes)
+        - content/drafts/books/ayyuhal-walad/_system/segment-report.json
+
+    - id: WC8-H5
+      title: "editorial_auditor.py — artifact pattern audit on narrator stage files"
+      path: scripts/podcast/editorial_auditor.py
+      status: built_committed
+      committed_at: pending
+      service: gemini-2.5-flash (judgment layer) + deterministic regex
+      cost_usd: ~0.01
+      design_notes: |
+        Two-layer detection: deterministic regex catches known artifact patterns
+        (italic provenance lines, H1 stage headings, biographical padding prologue).
+        Gemini judgment layer resolves ambiguous cases. Outputs per-chapter JSON
+        under _system/editorial-audit/. F1/F2/F3 fixes feed from these findings.
+      outputs:
+        - content/drafts/books/ayyuhal-walad/_system/editorial-audit/<chapter>.json
+
+    - id: WC8-H6
+      title: "Episode framings — 3 × NotebookLM Customize prompts"
+      status: done
+      completed_at: 2026-05-30
+      outputs:
+        - content/drafts/books/ayyuhal-walad/episodes/EP01-frame-and-the-problem-of-knowledge.txt
+        - content/drafts/books/ayyuhal-walad/episodes/EP02-the-disciplines-of-the-path.txt
+        - content/drafts/books/ayyuhal-walad/episodes/EP03-the-guiding-shaykh-and-final-counsels.txt
+
+    - id: WC8-H7
+      title: "Chapter contracts — 3 × WC8 YAML metadata files"
+      status: done
+      completed_at: 2026-05-30
+      outputs:
+        - content/drafts/books/ayyuhal-walad/chapter-contracts/wc8-frame-and-the-problem-of-knowledge.yml
+        - content/drafts/books/ayyuhal-walad/chapter-contracts/wc8-the-disciplines-of-the-path.yml
+        - content/drafts/books/ayyuhal-walad/chapter-contracts/wc8-the-guiding-shaykh-and-final-counsels.yml
+
+    - id: WC8-H8
+      title: "Slide decks — 3 × deck sources + 3 × framings (mandatory output)"
+      status: done
+      completed_at: 2026-05-30
+      outputs:
+        - content/drafts/books/ayyuhal-walad/slide-decks/ch01-wc8-deck-frame-and-the-problem-of-knowledge.txt
+        - content/drafts/books/ayyuhal-walad/slide-decks/ch01-wc8-framing-frame-and-the-problem-of-knowledge.md
+        - content/drafts/books/ayyuhal-walad/slide-decks/ch02-wc8-deck-the-disciplines-of-the-path.txt
+        - content/drafts/books/ayyuhal-walad/slide-decks/ch02-wc8-framing-the-disciplines-of-the-path.md
+        - content/drafts/books/ayyuhal-walad/slide-decks/ch03-wc8-deck-the-guiding-shaykh-and-final-counsels.txt
+        - content/drafts/books/ayyuhal-walad/slide-decks/ch03-wc8-framing-the-guiding-shaykh-and-final-counsels.md
+
+    - id: WC8-bilingual
+      title: "Bilingual content bake — KQUR lookup + Arabic OCR extraction → bilingual.json per chapter"
+      status: in_progress
+      authorized_by: asif_2026-05-30
+      branch: book/ayyuhal-walad
+      depends_on: [WC8-0-foundation]
+      description: >
+        Produces _stages/<ch>/bilingual.json for every processed chapter. Quran verses pulled
+        from KQUR (quran_lookup by surah:ayah → canonical Arabic with diacritics). Hadith matched
+        via KQUR Ahadees table (fts_hadith FTS5 mirror; schema discover step required first).
+        Full chapter Arabic text extracted from _system/source/multi/ocr/arabic.md using the
+        line range recorded in reconcile-report.json. Powers the Studio Arabic toggle beyond
+        glossary terms. Schema: [{id, type, en, ar, ref?, confidence}].
+      scripts:
+        - scripts/podcast/produce_bilingual.py        # per-chapter bake (new)
+        - scripts/podcast/source_library_mirror.py    # +fts_hadith table
+        - scripts/podcast/source_library_queries.py   # +hadith_lookup() + discover_hadith_schema()
+      outputs:
+        - content/drafts/books/ayyuhal-walad/_stages/<ch>/bilingual.json  # per chapter
+        - content/knowledge-base/mirror.db                                  # rebuilt with fts_hadith
 
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)

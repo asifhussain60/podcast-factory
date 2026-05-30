@@ -1,0 +1,11 @@
+orchestrate_book: resume — slug=kitab-al-riyad
+  last completed:  0e
+  current phase:   per-chapter  [halted]
+phase: per-chapter[motion-stillness-hyle-and-form] · already shipped, skipping
+phase: per-chapter[prophets-as-teachers-monotheism-and-the-ranks] · already shipped, skipping
+phase: per-chapter[qada-and-qadar-fate-and-destiny] · already shipped, skipping
+phase: per-chapter[soul-and-spirit-one-substance-or-two] · already shipped, skipping
+phase: per-chapter[soul-intellect-and-the-power-of-emanation] · extract → frame → build → converge
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+  soul-intellect-and-the-power-of-emanation FAILED                 iter=1 fix=0 P0=0 P1=0 P2=0
+ERROR: chapter soul-intellect-and-the-power-of-emanation failed; halting per-chapter loop.

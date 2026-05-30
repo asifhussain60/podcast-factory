@@ -392,7 +392,7 @@ import AudienceBadge from '../components/AudienceBadge.astro';
 /* =========================================================
    DATA — NODES
    ========================================================= */
-const NODES = {
+const NODES: Record<string, any> = {
   wisdom: {
     label: 'Wisdom Corpus', sublabel: '122 chapters · 17 binders',
     zone: 'source', icon: '📚',
@@ -687,7 +687,7 @@ const NODES = {
 /* =========================================================
    DATA — EDGES
    ========================================================= */
-const EDGES = [
+const EDGES: Array<Record<string, any>> = [
   { from:'wisdom', to:'b0', fp:'bottom', tp:'top', types:['doctrine'], style:'blocker', label:'adapted chapters' },
   { from:'books',    to:'b1', fp:'bottom', tp:'top', types:['quran','hadith'], style:'mixed',   label:'enriched text' },
   { from:'b0', to:'b2', fp:'bottom', tp:'top', types:['doctrine'], style:'blocker' },
@@ -706,18 +706,18 @@ const EDGES = [
    ========================================================= */
 const NS = 'http://www.w3.org/2000/svg';
 
-function portCoord(n, port) {
+function portCoord(n: Record<string, any>, port: string): { x: number; y: number } {
   const cx = n.x + n.w / 2, cy = n.y + n.h / 2;
   if (port === 'right')  return { x: n.x + n.w, y: cy };
   if (port === 'left')   return { x: n.x,        y: cy };
   if (port === 'bottom') return { x: cx,          y: n.y + n.h };
-  if (port === 'top')    return { x: cx,          y: n.y };
+  return { x: cx, y: n.y };
 }
 
 /* =========================================================
    ZONE BANDS
    ========================================================= */
-function renderZones(canvas) {
+function renderZones(canvas: HTMLElement) {
   const zones = [
     { label:'Sources',        cls:'zone-sources',    y:0,    h:210,  nodes:['wisdom','books'] },
     { label:'Ingestion',      cls:'zone-ingest',     y:210,  h:210,  nodes:['b0','b1'] },
@@ -742,7 +742,7 @@ function renderZones(canvas) {
 /* =========================================================
    NODES
    ========================================================= */
-function renderNodes(canvas) {
+function renderNodes(canvas: HTMLElement) {
   const zoneAccentColors = {
     source:'#4a7c4a', ingest:'#5b8dd9', merge:'#7c3aed',
     store:'#7c3aed', augment:'#c08020', consume:'#888',
@@ -758,8 +758,8 @@ function renderNodes(canvas) {
     el.dataset.atoms = (n.atoms || []).join(',');
     el.dataset.id = id;
 
-    const dots  = (n.atoms||[]).map(a => `<span class="atom-dot ${a}" aria-hidden="true"></span>`).join('');
-    const chips = (n.chips||[]).map(c => `<span class="node-chip ${c.cls}">${c.text}</span>`).join('');
+    const dots  = (n.atoms||[]).map((a: string) => `<span class="atom-dot ${a}" aria-hidden="true"></span>`).join('');
+    const chips = (n.chips||[]).map((c: {cls: string; text: string}) => `<span class="node-chip ${c.cls}">${c.text}</span>`).join('');
 
     el.innerHTML = `
       <div class="node-header">
@@ -783,7 +783,7 @@ function renderNodes(canvas) {
 /* =========================================================
    SVG EDGES
    ========================================================= */
-function renderEdges(canvas) {
+function renderEdges(canvas: HTMLElement) {
   const svg = document.createElementNS(NS, 'svg');
   svg.classList.add('diagram-svg');
   svg.setAttribute('id', 'edgeSvg');
@@ -828,7 +828,7 @@ function renderEdges(canvas) {
   defs.appendChild(glow);
 
   // Per-edge linearGradients
-  const zoneColors = {
+  const zoneColors: Record<string, string> = {
     source:'#4a7c4a', ingest:'#5b8dd9', merge:'#7c3aed',
     store:'#7c3aed', augment:'#c08020', consume:'#888', 'source-lib':'#5b8dd9',
   };
@@ -840,8 +840,8 @@ function renderEdges(canvas) {
     const grad = document.createElementNS(NS, 'linearGradient');
     grad.setAttribute('id', `eg${i}`);
     grad.setAttribute('gradientUnits', 'userSpaceOnUse');
-    grad.setAttribute('x1', from.x); grad.setAttribute('y1', from.y);
-    grad.setAttribute('x2', to.x);   grad.setAttribute('y2', to.y);
+    grad.setAttribute('x1', String(from.x)); grad.setAttribute('y1', String(from.y));
+    grad.setAttribute('x2', String(to.x));   grad.setAttribute('y2', String(to.y));
     const s1 = document.createElementNS(NS, 'stop');
     s1.setAttribute('offset', '0%');
     s1.setAttribute('stop-color', zoneColors[fn.zone] || '#888');
@@ -853,7 +853,7 @@ function renderEdges(canvas) {
   });
   svg.appendChild(defs);
 
-  const particleColors = {
+  const particleColors: Record<string, string> = {
     quran:'#4a7c4a', hadith:'#c9930a', doctrine:'#7c3aed', mixed:'#5b8dd9', blocker:'#c08020',
   };
 
@@ -873,7 +873,7 @@ function renderEdges(canvas) {
     const bg = document.createElementNS(NS, 'path');
     bg.setAttribute('d', d); bg.setAttribute('fill', 'none');
     bg.setAttribute('stroke', 'transparent'); bg.setAttribute('stroke-width', '14');
-    bg.dataset.idx = i; bg.dataset.types = (edge.types||[]).join(','); bg.dataset.style = style;
+    bg.dataset.idx = String(i); bg.dataset.types = (edge.types||[]).join(','); bg.dataset.style = style;
     svg.appendChild(bg);
 
     // The main edge path — with gradient stroke
@@ -886,7 +886,7 @@ function renderEdges(canvas) {
       path.setAttribute('stroke', `url(#eg${i})`);
       path.style.stroke = `url(#eg${i})`;
     }
-    path.dataset.idx   = i;
+    path.dataset.idx   = String(i);
     path.dataset.types = (edge.types||[]).join(',');
     path.dataset.style = style;
     svg.appendChild(path);
@@ -896,9 +896,9 @@ function renderEdges(canvas) {
       const mx = from.x + (to.x - from.x) * 0.5 + 12;
       const my = from.y + (to.y - from.y) * 0.5;
       const t  = document.createElementNS(NS, 'text');
-      t.setAttribute('x', mx); t.setAttribute('y', my);
+      t.setAttribute('x', String(mx)); t.setAttribute('y', String(my));
       t.setAttribute('text-anchor', 'middle'); t.setAttribute('class', 'edge-label');
-      t.dataset.idx = i; t.textContent = edge.label;
+      t.dataset.idx = String(i); t.textContent = edge.label;
       svg.appendChild(t);
     }
 
@@ -946,12 +946,12 @@ function renderEdges(canvas) {
 /* =========================================================
    DETAIL PANEL
    ========================================================= */
-function openDetail(id) {
+function openDetail(id: string) {
   const n = NODES[id]; if (!n || !n.detail) return;
   const d = n.detail;
 
-  const atomBadges = (n.atoms||[]).map(a => `<span class="atom-badge ${a}">● ${a}</span>`).join('');
-  const chipHTML   = (n.chips||[]).filter(c=>c.cls).map(c =>
+  const atomBadges = (n.atoms||[]).map((a: string) => `<span class="atom-badge ${a}">● ${a}</span>`).join('');
+  const chipHTML   = (n.chips||[]).filter((c: {cls: string; text: string}) => c.cls).map((c: {cls: string; text: string}) =>
     `<span class="status-chip status-chip-sp ${c.cls}">${c.text}</span>`
   ).join('');
 
@@ -959,7 +959,7 @@ function openDetail(id) {
     <div class="detail-section">
       <h3>Key facts</h3>
       <div class="detail-kv">
-        ${d.kv.map(r => `<div class="kv-row"><div class="k">${r.k}</div><div class="v">${r.v}</div></div>`).join('')}
+        ${d.kv.map((r: Record<string, string>) => `<div class="kv-row"><div class="k">${r.k}</div><div class="v">${r.v}</div></div>`).join('')}
       </div>
     </div>` : '';
 
@@ -969,7 +969,7 @@ function openDetail(id) {
       <pre class="detail-code">${d.cli.join('\n')}</pre>
     </div>` : '';
 
-  const sectHTML = (d.sections||[]).map(s => `
+  const sectHTML = (d.sections||[]).map((s: Record<string, any>) => `
     <div class="detail-section">
       <h3>${s.title}</h3>
       <div class="body">${s.body}</div>
@@ -1008,9 +1008,9 @@ function openDetail(id) {
       <span class="status-chip blocker">⛔ BLOCKER — OPEN</span>
     </div>` : '';
 
-  const overlay   = document.getElementById('detailOverlay');
-  const panel     = document.getElementById('detailPanel');
-  const detailEl  = document.getElementById('detailContent');
+  const overlay   = document.getElementById('detailOverlay') as HTMLElement;
+  const panel     = document.getElementById('detailPanel') as HTMLElement;
+  const detailEl  = document.getElementById('detailContent') as HTMLElement;
 
   detailEl.innerHTML = `
     <h2 id="detailHeading">${d.title}</h2>
@@ -1028,16 +1028,16 @@ function openDetail(id) {
 }
 
 function closeDetail() {
-  const overlay = document.getElementById('detailOverlay');
-  overlay.setAttribute('hidden', '');
-  overlay.setAttribute('aria-hidden', 'true');
+  const overlay = document.getElementById('detailOverlay') as HTMLElement;
+  overlay?.setAttribute('hidden', '');
+  overlay?.setAttribute('aria-hidden', 'true');
 }
 
 /* =========================================================
    FILTER LOGIC
    ========================================================= */
-document.getElementById('filterBar').addEventListener('click', e => {
-  const btn = e.target.closest('.filter-btn');
+document.getElementById('filterBar')?.addEventListener('click', e => {
+  const btn = (e.target as HTMLElement)?.closest('.filter-btn') as HTMLElement | null;
   if (!btn) return;
   document.querySelectorAll('.filter-btn').forEach(b => {
     b.classList.remove('active');
@@ -1045,13 +1045,13 @@ document.getElementById('filterBar').addEventListener('click', e => {
   });
   btn.classList.add('active');
   btn.setAttribute('aria-pressed', 'true');
-  applyFilter(btn.dataset.filter);
+  applyFilter(btn.dataset.filter ?? '');
 });
 
-function applyFilter(filter) {
-  const allEdges  = document.querySelectorAll('.edge-path');
-  const allNodes  = document.querySelectorAll('.dnode');
-  const allLabels = document.querySelectorAll('.edge-label');
+function applyFilter(filter: string) {
+  const allEdges  = document.querySelectorAll<HTMLElement>('.edge-path');
+  const allNodes  = document.querySelectorAll<HTMLElement>('.dnode');
+  const allLabels = document.querySelectorAll<HTMLElement>('.edge-label');
 
   if (filter === 'all') {
     allEdges.forEach(p  => p.classList.remove('dimmed'));
@@ -1073,7 +1073,7 @@ function applyFilter(filter) {
   });
 
   allLabels.forEach(l => {
-    const idx  = parseInt(l.dataset.idx, 10);
+    const idx  = parseInt(l.dataset.idx ?? '', 10);
     const edge = EDGES[idx];
     const keep = edge && (edge.types||[]).includes(filter);
     l.style.opacity = keep ? '' : '0.1';
@@ -1083,8 +1083,8 @@ function applyFilter(filter) {
 /* =========================================================
    CLOSE / KEYBOARD
    ========================================================= */
-document.getElementById('detailClose').addEventListener('click', closeDetail);
-document.getElementById('detailOverlay').addEventListener('click', e => {
+document.getElementById('detailClose')?.addEventListener('click', closeDetail);
+document.getElementById('detailOverlay')?.addEventListener('click', e => {
   if (e.target === document.getElementById('detailOverlay')) closeDetail();
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
@@ -1092,12 +1092,12 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(
 /* =========================================================
    TOOLTIP
    ========================================================= */
-const tooltip = document.getElementById('nodeTooltip');
-function showTooltip(id, el) {
+const tooltip = document.getElementById('nodeTooltip') as HTMLElement;
+function showTooltip(id: string, el: HTMLElement) {
   const n = NODES[id]; if (!n) return;
   tooltip.innerHTML = `<strong>${n.label}</strong>${n.tooltip ? n.tooltip : ''}`;
   const rect = el.getBoundingClientRect();
-  const wrapRect = document.querySelector('.diagram-wrap').getBoundingClientRect();
+  const wrapRect = (document.querySelector('.diagram-wrap') as HTMLElement).getBoundingClientRect();
   const tx = rect.left - wrapRect.left;
   const ty = rect.top  - wrapRect.top - 10;
   tooltip.style.left = `${tx}px`;
@@ -1114,14 +1114,16 @@ function hideTooltip() {
    ZOOM / PAN
    ========================================================= */
 let zoom = 1; const ZOOM_MIN = 0.35, ZOOM_MAX = 2.0, ZOOM_STEP = 0.15;
-const canvasEl = document.getElementById('canvas');
-const svgEl    = document.getElementById('edgeSvg');
+const canvasEl = document.getElementById('canvas') as HTMLElement;
+const svgEl    = document.getElementById('edgeSvg') as HTMLElement | null;
 
 function applyZoom() {
+  if (!canvasEl) return;
   canvasEl.style.transformOrigin = 'top center';
   canvasEl.style.transform = `scale(${zoom})`;
   if (svgEl) { svgEl.style.transformOrigin = 'top center'; svgEl.style.transform = `scale(${zoom})`; }
-  document.getElementById('zoomLevel').textContent = `${Math.round(zoom * 100)}%`;
+  const zoomLevelEl = document.getElementById('zoomLevel');
+  if (zoomLevelEl) zoomLevelEl.textContent = `${Math.round(zoom * 100)}%`;
 }
 document.getElementById('zoomIn')?.addEventListener('click', () => {
   zoom = Math.min(ZOOM_MAX, zoom + ZOOM_STEP); applyZoom();
@@ -1133,20 +1135,23 @@ document.getElementById('zoomReset')?.addEventListener('click', () => {
   zoom = 1; applyZoom();
 });
 // Ctrl+wheel to zoom
-document.querySelector('.diagram-wrap')?.addEventListener('wheel', e => {
-  if (!e.ctrlKey && !e.metaKey) return;
-  e.preventDefault();
-  zoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoom - e.deltaY * 0.001));
+document.querySelector('.diagram-wrap')?.addEventListener('wheel', (e: Event) => {
+  const we = e as WheelEvent;
+  if (!we.ctrlKey && !we.metaKey) return;
+  we.preventDefault();
+  zoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoom - we.deltaY * 0.001));
   applyZoom();
 }, { passive: false });
 
 /* =========================================================
    INIT
    ========================================================= */
-const canvas = document.getElementById('canvas');
-renderZones(canvas);
-renderNodes(canvas);
-renderEdges(canvas);
+const canvas = document.getElementById('canvas') as HTMLElement;
+if (canvas) {
+  renderZones(canvas);
+  renderNodes(canvas);
+  renderEdges(canvas);
+}
 </script>
 
 </Base>

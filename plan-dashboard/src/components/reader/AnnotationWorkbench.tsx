@@ -376,8 +376,8 @@ export default function AnnotationWorkbench({ book, chapterSlug, bookTitle }: Pr
     setQueue((prev) => [
       {
         id: `m-${Date.now()}`,
-        kind: 'marker',
-        scope: 'paragraph',
+        kind: 'marker' as const,
+        scope: 'paragraph' as const,
         paraIdx: activeParaIdx,
         paragraphPreview: activeParagraphText,
         actionType: data.added ? 'marker-added' : 'marker-removed',

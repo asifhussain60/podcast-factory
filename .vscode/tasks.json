@@ -1,0 +1,96 @@
+{
+  "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "bookSlug",
+      "type": "promptString",
+      "description": "Book slug (e.g. ayyuhal-walad)"
+    },
+    {
+      "id": "chapter",
+      "type": "promptString",
+      "description": "Chapter slug (e.g. ch01-frame-and-first-counsel)"
+    },
+    {
+      "id": "refineMode",
+      "type": "pickString",
+      "description": "gemini_refine stage",
+      "options": ["denoise", "normalize"],
+      "default": "denoise"
+    }
+  ],
+  "tasks": [
+    {
+      "label": "Open Studio (dev server)",
+      "type": "shell",
+      "command": "cd plan-dashboard && npm run dev",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "new" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Site Lint",
+      "type": "shell",
+      "command": "cd plan-dashboard && npm run lint:views",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Site (verify views)",
+      "type": "shell",
+      "command": "cd plan-dashboard && npm run build",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Regenerate Plan Snapshots",
+      "type": "shell",
+      "command": "cd plan-dashboard && npm run snapshot",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Intake (OCR)",
+      "type": "shell",
+      "command": "python3 scripts/podcast/intake_stage.py ${input:bookSlug}",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Denoise / Normalize (per chapter)",
+      "type": "shell",
+      "command": "python3 scripts/podcast/gemini_refine.py --slug ${input:bookSlug} --chapter ${input:chapter} --mode ${input:refineMode}",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Sync Knowledge Corpus",
+      "type": "shell",
+      "command": "python3 scripts/podcast/intelligence/populate_corpus.py",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Pipeline Tests",
+      "type": "shell",
+      "command": "python3 -m unittest discover -s scripts/podcast/tests -p 'test_*.py'",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Push Branch",
+      "type": "shell",
+      "command": "git push origin HEAD",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    }
+  ]
+}

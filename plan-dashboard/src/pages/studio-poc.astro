@@ -9,24 +9,91 @@ import StudioPoc from '../components/reader/poc/StudioPoc.tsx';
 import StudioVersePopover from '../components/reader/poc/StudioVersePopover.tsx';
 import { renderMarkdown } from '../lib/reader/markdown';
 import { loadGlossary } from '../lib/reader/glossary';
+import { readReview } from '../lib/reader/stage-review';
+import { buildStageMetrics, writeMetricsLedger } from '../lib/reader/stage-metrics';
 
-const chapterUrl = new URL(
-  '../../../content/drafts/books/ayyuhal-walad/chapters/ch01-frame-and-first-counsel.txt',
-  import.meta.url,
-);
-
-let md = '';
-let loadError = '';
-try {
-  md = readFileSync(chapterUrl, 'utf8');
-} catch (e) {
-  loadError = e instanceof Error ? e.message : String(e);
+const SLUG = 'ayyuhal-walad';
+// All chapters (B: chapter switcher). Canonical stage order: Source -> Core -> Denoised ->
+// Normalized -> Augmented. Each stage's text lives at _stages/<chapter>/<id>.(md|txt);
+// 'augmented' falls back to the finished chapter. Pending stages render disabled.
+const CHAPTERS = [
+  { id: 'ch01-frame-and-first-counsel', title: 'The Frame and the First Counsel' },
+  { id: 'ch02-hatim-eight-benefits', title: "Hatim's Eight Benefits" },
+  { id: 'ch03-the-path', title: 'The Path' },
+  { id: 'ch04-four-cautions', title: 'The Four Cautions' },
+  { id: 'ch05-method-and-closing-prayer', title: 'Method & Closing Prayer' },
+];
+const STAGE_DEFS = [
+  { id: 'source', label: 'Source', slice: 'Slice 1 (intake)' },
+  { id: 'core', label: 'Core', slice: 'Slice 1 (intake)' },
+  { id: 'denoised', label: 'Denoised', slice: 'Slice 2 (noise-strip)' },
+  { id: 'normalized', label: 'Normalized', slice: 'Normalize (house voice)' },
+  { id: 'augmented', label: 'Augmented', slice: 'Slice 4 (knowledge)' },
+  { id: 'narrator', label: 'Narrator', slice: 'Lecture additions (Shaykh)' },
+];
+const base = new URL(`../../../content/drafts/books/${SLUG}/`, import.meta.url);
+function readIfExists(url: URL): string | null {
+  try { return readFileSync(url, 'utf8'); } catch { return null; }
+}
+function loadStageMd(chapter: string, id: string): string | null {
+  // Narrator layer: prefer the editorially-cleaned file when it exists.
+  if (id === 'narrator') {
+    const clean = readIfExists(new URL(`_stages/${chapter}/additions-narrator-clean.md`, base));
+    if (clean) return clean;
+    return readIfExists(new URL(`_stages/${chapter}/additions-narrator.md`, base));
+  }
+  for (const ext of ['md', 'txt']) {
+    const md = readIfExists(new URL(`_stages/${chapter}/${id}.${ext}`, base));
+    if (md) return md;
+  }
+  if (id === 'augmented') return readIfExists(new URL(`chapters/${chapter}.txt`, base));
+  return null;
 }
 
-const html = md ? renderMarkdown(md) : '';
-const chapterTitle = 'The Frame and the First Counsel';
+// Strip the pipeline metadata block ("## References in this chapter …") that the
+// knowledge-augmentation agent appends to augmented.md. The block is internal scaffolding —
+// it never reaches NotebookLM (build_episode_txt.py reads from chapters/*.txt) — but it
+// pollutes the editor view and inflates the word-count delta vs Normalized.
+// Returns the clean prose and a one-line citation summary for the inspector.
+function stripAugmentedMeta(text: string): { prose: string; citationSummary: string | null } {
+  const idx = text.indexOf('\n## References in this chapter');
+  if (idx === -1) return { prose: text, citationSummary: null };
+  const prose = text.slice(0, idx).replace(/\n---\s*$/, '').trimEnd();
+  const meta  = text.slice(idx);
+  const quranVerified = (meta.match(/✅/g) || []).length;
+  const hadithPending = (meta.match(/⚠/g)  || []).length;
+  const parts: string[] = [];
+  if (quranVerified > 0) parts.push(`${quranVerified} Quran verified`);
+  parts.push(hadithPending > 0 ? `${hadithPending} Hadith pending` : 'Hadith: pending DB');
+  return { prose, citationSummary: parts.join(' · ') };
+}
+
+const chapters = CHAPTERS.map((c) => {
+  const stageTexts = STAGE_DEFS.map((d) => {
+    const raw = loadStageMd(c.id, d.id);
+    // Strip augmented metadata before metrics and rendering so word counts and
+    // the editor both reflect clean prose only.
+    let text = raw ?? '';
+    let augMeta: string | null = null;
+    if (d.id === 'augmented' && raw) {
+      const stripped = stripAugmentedMeta(raw);
+      text = stripped.prose;
+      augMeta = stripped.citationSummary;
+    }
+    return { ...d, available: !!raw, text, augMeta };
+  });
+  const metrics = buildStageMetrics(stageTexts.map((s) => ({ id: s.id, available: s.available, text: s.text })));
+  writeMetricsLedger(SLUG, c.id, metrics);
+  const stages = stageTexts.map((s) => ({
+    id: s.id, label: s.label, slice: s.slice, available: s.available,
+    html: s.available ? renderMarkdown(s.text) : '',
+    augMeta: s.augMeta ?? null,
+  }));
+  return { slug: c.id, title: c.title, stages, metrics, reviewed: readReview(SLUG, c.id).stages };
+});
+const loadError = chapters.some((c) => c.stages.some((s) => s.available)) ? '' : `No stage artifacts found for ${SLUG}.`;
 // FC-4: Arabic-script overlay glossary (seed for the feel-check; Phase 0c bakes the real one).
-const glossary = await loadGlossary('ayyuhal-walad');
+const glossary = await loadGlossary(SLUG);
 ---
 
 <PocLayout title="Studio PoC — Ayyuhal Walad">
@@ -42,7 +109,7 @@ const glossary = await loadGlossary('ayyuhal-walad');
     ? <p class="sp-error">Could not load the chapter: {loadError}</p>
     : (
       <div class="prose-body">
-        <StudioPoc client:only="react" html={html} chapterTitle={chapterTitle} glossary={glossary} />
+        <StudioPoc client:only="react" slug={SLUG} chapters={chapters} glossary={glossary} />
         <StudioVersePopover client:only="react" />
       </div>
     )}

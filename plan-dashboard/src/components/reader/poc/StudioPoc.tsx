@@ -16,21 +16,26 @@
  * Manual actions (edits, tags) are the learning-loop training signal. External CSS only.
  * Library policy frozen: @tiptap/* + @floating-ui/react + diff(jsdiff) — no new libs.
  */
-import { useState, useRef, useMemo, useCallback } from 'react';
+import { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
+import type { Node as PMNode } from '@tiptap/pm/model';
 import { diffWords } from 'diff';
 
-// Inline reference markers kept for the inspector inventory + subtle in-text hinting.
-// Quran verse refs are handled separately (FC-1 chip), so they are NOT highlighted here.
-const MARKER_PATTERNS: { re: RegExp; cls: string; kind: string }[] = [
-  { re: /Surah [A-Z][\w'-]+/g, cls: 'mk-quran', kind: 'Quran' },
-  { re: /verses? \d+(?:\s*(?:to|–|-)\s*\d+)?/gi, cls: 'mk-quran', kind: 'Quran' },
-  { re: /Prophet Muhammad|peace and blessings of Allah/gi, cls: 'mk-hadith', kind: 'Hadith' },
-  { re: /Ihya Ulum al-Din|Kimiya al-Sa'ada|Jawahir al-Quran|Minhaj al-Abidin/g, cls: 'mk-term', kind: 'Work' },
+// Inline reference markers: inspector inventory + inline chips for Hadith/Works.
+// Quran verse refs are handled separately as FC-1 chips, so mk-quran is skipped here.
+const MARKER_PATTERNS: { re: RegExp; cls: string; kind: string; chip?: string }[] = [
+  { re: /Surah [A-Z][\w'-]+/g,                  cls: 'mk-quran',  kind: 'Quran' },
+  { re: /verses? \d+(?:\s*(?:to|–|-)\s*\d+)?/gi, cls: 'mk-quran',  kind: 'Quran' },
+  { re: /Prophet Muhammad/gi,                     cls: 'mk-hadith', kind: 'Hadith', chip: 'Hadith' },
+  { re: /peace and blessings of Allah/gi,         cls: 'mk-hadith', kind: 'Hadith' },
+  { re: /Ihya(?:\s+Ulum\s+al-Din)?/g,             cls: 'mk-term',   kind: 'Work',   chip: 'Ihya' },
+  { re: /Kimiya(?:\s+al-Sa'?ada)?/g,              cls: 'mk-term',   kind: 'Work',   chip: 'Kimiya' },
+  { re: /Jawahir al-Quran/g,                      cls: 'mk-term',   kind: 'Work',   chip: 'Jawahir' },
+  { re: /Minhaj al-Abidin/g,                      cls: 'mk-term',   kind: 'Work',   chip: 'Minhaj' },
 ];
 
 // Each tag carries a distinct ICON so the meaning is recognizable without memorizing colour.
@@ -58,7 +63,7 @@ function scanMarkers(text: string): { kind: string; text: string }[] {
   return out;
 }
 
-// Hadith + Works inline highlight only (Quran verse refs become chips, see QuranRefs).
+// Hadith + Works: inline highlight + visible chip pill. Quran verse refs become FC-1 chips.
 const MarkerHighlight = Extension.create({
   name: 'markerHighlight',
   addProseMirrorPlugins() {
@@ -70,12 +75,27 @@ const MarkerHighlight = Extension.create({
             const decos: Decoration[] = [];
             state.doc.descendants((node, pos) => {
               if (!node.isText || !node.text) return;
-              for (const { re, cls } of MARKER_PATTERNS) {
-                if (cls === 'mk-quran') continue; // handled as chips
+              for (const { re, cls, chip } of MARKER_PATTERNS) {
+                if (cls === 'mk-quran') continue; // handled as FC-1 chips
                 re.lastIndex = 0;
                 let m: RegExpExecArray | null;
                 while ((m = re.exec(node.text))) {
-                  decos.push(Decoration.inline(pos + m.index, pos + m.index + m[0].length, { class: `mk ${cls}` }));
+                  const from = pos + m.index;
+                  const to   = from + m[0].length;
+                  decos.push(Decoration.inline(from, to, { class: `mk ${cls}` }));
+                  if (chip) {
+                    const label = chip;
+                    const kind  = cls.replace('mk-', '');
+                    decos.push(
+                      Decoration.widget(to, () => {
+                        const span = document.createElement('span');
+                        span.className = `mk-chip mk-chip--${kind}`;
+                        span.textContent = label;
+                        span.setAttribute('aria-label', label);
+                        return span;
+                      }, { side: 1, key: `mkchip-${from}` }),
+                    );
+                  }
                 }
               }
             });
@@ -99,13 +119,101 @@ const SURAH_MAP: Record<string, number> = {
 // phrase is built inside StudioDecos (so it can coordinate with the Arabic overlay).
 const SURAH_VERSE_RE = /Surah ([A-Z][\w'’-]+),?\s+verses?\s+(\d+)(?:\s*(?:to|–|-)\s*(\d+))?/g;
 
-interface Props {
+interface Stage {
+  id: string;
+  label: string;
+  slice: string;
+  available: boolean;
   html: string;
-  chapterTitle: string;
+  augMeta?: string | null;
+}
+
+interface StageMetric {
+  id: string;
+  available: boolean;
+  words: number;
+  chars: number;
+  sentences: number;
+  deltaPct: number | null;
+  comparedTo: string | null;
+}
+
+interface Chapter {
+  slug: string;
+  title: string;
+  stages: Stage[];
+  metrics: StageMetric[];
+  reviewed: Record<string, { approved: boolean; approved_at?: string | null }>;
+}
+
+interface Props {
+  slug: string;
+  chapters: Chapter[];
   glossary?: GlossaryEntry[];
 }
 
-export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) {
+export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
+  // B: chapter switcher — pick which chapter's stages the editor shows.
+  const [chapIdx, setChapIdx] = useState(0);
+  const chap = chapters[chapIdx] ?? chapters[0];
+  const stages = chap.stages;
+  const metrics = chap.metrics;
+  const chapter = chap.slug;
+  const chapterTitle = chap.title;
+
+  // Stage tabs (SN-5): the last AVAILABLE stage is the one under review (editable); upstream
+  // stages are read-only comparison views. Tabs for not-yet-produced stages render disabled.
+  const editableStageId = [...stages].reverse().find((s) => s.available)?.id ?? stages[0]?.id;
+  const [stageId, setStageId] = useState<string>(editableStageId);
+  const stage = stages.find((s) => s.id === stageId) ?? stages[0];
+  const html = stage?.html ?? '';
+  const isReadOnlyStage = stageId !== editableStageId;
+
+  // WC8 write-back loop: which stages are approved (seeded from disk, updated on approve).
+  const [approvedStages, setApprovedStages] = useState<Record<string, boolean>>(
+    () => Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, !!v?.approved])),
+  );
+  // On chapter switch: reset to that chapter's editable stage + reload its approvals, and tell
+  // the editorial cockpit (Slice 5b) to follow this chapter.
+  useEffect(() => {
+    setStageId([...chap.stages].reverse().find((s) => s.available)?.id ?? chap.stages[0]?.id);
+    setApprovedStages(Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, !!v?.approved])));
+    window.dispatchEvent(new CustomEvent('studio:chapter-change', { detail: { chapter: chap.slug } }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chapIdx]);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
+
+  // Per-paragraph comments: index → text. Stored in a ref for the PM plugin,
+  // mirrored in state so the inspector panel re-renders.
+  const commentsRef = useRef<Map<number, string>>(new Map());
+  const [, setCommentsKey] = useState(0);
+  const refreshComments = () => setCommentsKey((k) => k + 1);
+
+  // Active paragraph index (inspector drives the comment textarea).
+  const [activeParaIdx, setActiveParaIdx] = useState<number | null>(null);
+
+  // serializeToMarkdown / saveAndApprove / discardChanges declared after useEditor (below).
+
+  // "View all chapters" mode — combines every chapter's current-tab content in the editor.
+  // Dropdown is disabled; editor is read-only; Save/Approve hidden.
+  const [viewAll, setViewAll] = useState(false);
+
+  const buildCombinedHtml = useCallback(
+    (sid: string) =>
+      chapters
+        .map((ch, i) => {
+          const s =
+            ch.stages.find((st) => st.id === sid && st.available) ??
+            ch.stages.filter((st) => st.available).at(-1);
+          const body = s?.html ?? '<p><em>Stage not yet produced for this chapter.</em></p>';
+          const sep = i < chapters.length - 1 ? '<hr>' : '';
+          return `<h2>${ch.title}</h2>${body}${sep}`;
+        })
+        .join(''),
+    [chapters],
+  );
+
   const [selection, setSelection] = useState('');
   const [arabicOn, setArabicOn] = useState(false);
   const [, setTick] = useState(0);
@@ -114,7 +222,13 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
   const originalRef = useRef<string[]>([]);            // original text per top-level node
   const paraTagsRef = useRef<Map<number, string[]>>(new Map()); // node index -> tag ids
   const arabicRef = useRef(false);                     // mirror of arabicOn for the plugin
+  const hasFocusRef = useRef(false);                   // tracks editor DOM focus for para-active
+  const editorContainerRef = useRef<HTMLElement | null>(null);
   arabicRef.current = arabicOn;
+  // Aug-diff mode: compare Augmented text against Normalized to show what the pipeline added.
+  const showAugDiffRef = useRef(false);
+  const normTextsRef = useRef<string[]>([]);
+  const [showAugDiff, setShowAugDiff] = useState(false);
   // Index-based tag toggle, called from the floating per-paragraph icon toolbar (a PM widget
   // built outside React). Held in a ref so the widget always calls the latest closure.
   const tagFnRef = useRef<(idx: number, tagId: string) => void>(() => {});
@@ -140,9 +254,9 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
                   const tags = paraTagsRef.current;
                   const decos: Decoration[] = [];
 
-                  // Active paragraph (FC-3): the top-level node holding the cursor.
+                  // Active paragraph (FC-3): only highlight when editor has DOM focus.
                   const headPos = state.selection.$head;
-                  const activeTop = headPos.depth >= 1 ? headPos.before(1) : -1;
+                  const activeTop = hasFocusRef.current && headPos.depth >= 1 ? headPos.before(1) : -1;
 
                   // FC-1: Quran verse refs REPLACE their phrase with a compact chip. The
                   // underlying prose is NOT mutated (display:none decoration), so the
@@ -218,21 +332,26 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
                       );
                     }
                     // FC-3 Word-level track changes vs the original snapshot.
-                    const before = orig[idx];
+                    // In aug-diff mode: diff current node against the Normalized paragraph
+                    // instead (showing what the augmentation pipeline added, not human edits).
+                    const augDiff = showAugDiffRef.current;
+                    const before = augDiff ? (normTextsRef.current[idx] ?? '') : orig[idx];
+                    const insClass = augDiff ? 'aug-ins' : 'tc-ins';
+                    const delClass = augDiff ? 'aug-del' : 'tc-del';
                     const after = node.textContent;
                     if (before !== undefined && before !== after) {
                       let cursor = offset + 1; // content start of a textblock
                       for (const part of diffWords(before, after)) {
                         const len = part.value.length;
                         if (part.added) {
-                          decos.push(Decoration.inline(cursor, cursor + len, { class: 'tc-ins' }));
+                          decos.push(Decoration.inline(cursor, cursor + len, { class: insClass }));
                           cursor += len;
                         } else if (part.removed) {
                           const text = part.value;
                           decos.push(
                             Decoration.widget(cursor, () => {
                               const del = document.createElement('span');
-                              del.className = 'tc-del';
+                              del.className = delClass;
                               del.textContent = text;
                               return del;
                             }, { side: -1 }),
@@ -292,13 +411,171 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
       editor.state.doc.forEach((n) => texts.push(n.textContent));
       originalRef.current = texts;
     },
+    onFocus({ editor }) {
+      hasFocusRef.current = true;
+      // Dispatch an empty transaction so the decoration plugin re-evaluates.
+      editor.view.dispatch(editor.state.tr);
+    },
+    onBlur({ editor }) {
+      hasFocusRef.current = false;
+      setActiveParaIdx(null);
+      editor.view.dispatch(editor.state.tr);
+    },
     onUpdate() { refresh(); },
     onSelectionUpdate({ editor }) {
       const { from, to } = editor.state.selection;
       setSelection(editor.state.doc.textBetween(from, to, ' ').trim());
+      // Track active paragraph index for the comment panel.
+      const $head = editor.state.selection.$head;
+      let paraIdx = -1;
+      let i = 0;
+      editor.state.doc.forEach((_, offset) => {
+        const depth1Start = offset;
+        const depth1End = offset + (editor.state.doc.child(i)?.nodeSize ?? 0);
+        if ($head.pos >= depth1Start && $head.pos < depth1End) paraIdx = i;
+        i++;
+      });
+      setActiveParaIdx(paraIdx >= 0 ? paraIdx : null);
       refresh(); // re-evaluate active-paragraph decoration on caret moves
     },
   });
+
+  // Click outside the editor container → blur the editor DOM element.
+  // The onBlur callback above handles clearing hasFocusRef + dispatching the decoration update.
+  useEffect(() => {
+    const onMouseDown = (e: MouseEvent) => {
+      if (editorContainerRef.current && !editorContainerRef.current.contains(e.target as Node)) {
+        editor?.view.dom.blur();
+      }
+    };
+    document.addEventListener('mousedown', onMouseDown);
+    return () => document.removeEventListener('mousedown', onMouseDown);
+  }, [editor]);
+
+  // Switch the editor to the selected stage: load its text, re-snapshot redline originals,
+  // clear stage-specific tags, and make only the under-review stage editable (upstream = read-only).
+  useEffect(() => {
+    if (!editor || !stage) return;
+    if (viewAll) {
+      editor.commands.setContent(buildCombinedHtml(stageId));
+      originalRef.current = [];
+      paraTagsRef.current = new Map();
+      editor.setEditable(false);
+    } else {
+      editor.commands.setContent(stage.html);
+      const texts: string[] = [];
+      editor.state.doc.forEach((n) => texts.push(n.textContent));
+      originalRef.current = texts;
+      paraTagsRef.current = new Map();
+      editor.setEditable(!isReadOnlyStage);
+    }
+    refresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stageId, chapIdx, viewAll, editor]);
+
+  // Reset aug-diff and (re-)populate normTexts whenever the tab or chapter changes.
+  useEffect(() => {
+    showAugDiffRef.current = false;
+    setShowAugDiff(false);
+    const normStage = stages.find((s) => s.id === 'normalized');
+    normTextsRef.current = [];
+    if (normStage?.html) {
+      const div = document.createElement('div');
+      div.innerHTML = normStage.html;
+      normTextsRef.current = Array.from(div.children).map((el) => el.textContent ?? '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stageId, chapIdx]);
+
+  // ── Serialize / save / discard — declared here so editor is in scope ────────
+
+  // Walk a ProseMirror text node and emit its content with inline mark syntax preserved.
+  // Handles italic (*), bold (**), bold+italic (***) — the only marks used in stage files.
+  const serializeInline = useCallback((node: PMNode): string => {
+    let out = '';
+    node.forEach((child: PMNode) => {
+      if (!child.isText || !child.text) return;
+      const text = child.text;
+      const marks = child.marks.map((m) => m.type.name);
+      const isBold   = marks.includes('bold');
+      const isItalic = marks.includes('italic');
+      if (isBold && isItalic) out += `***${text}***`;
+      else if (isBold)        out += `**${text}**`;
+      else if (isItalic)      out += `*${text}*`;
+      else                    out += text;
+    });
+    return out;
+  }, [editor]);
+
+  const serializeToMarkdown = useCallback((): string => {
+    if (!editor) return '';
+    const lines: string[] = [];
+    editor.state.doc.forEach((node) => {
+      const type = node.type.name;
+      if (type === 'heading') {
+        const level = node.attrs.level as number;
+        lines.push('#'.repeat(level) + ' ' + serializeInline(node));
+      } else if (type === 'blockquote') {
+        lines.push('> ' + serializeInline(node).split('\n').join('\n> '));
+      } else {
+        lines.push(serializeInline(node));
+      }
+      lines.push('');
+    });
+    return lines.join('\n').trimEnd() + '\n';
+  }, [editor, serializeInline]);
+
+  const saveAndApprove = useCallback(async () => {
+    if (!stage || !editor) return;
+    setSaving(true);
+    setSaveError('');
+    try {
+      const content = serializeToMarkdown();
+      const comments = Object.fromEntries(
+        [...commentsRef.current.entries()]
+          .filter(([, v]) => v.trim())
+          .map(([k, v]) => [String(k), v.trim()]),
+      );
+      const saveRes = await fetch('/api/studio/save-stage', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, chapter, stage: stage.id, content, comments }),
+      });
+      if (!saveRes.ok) {
+        const err = await saveRes.json().catch(() => ({}));
+        setSaveError((err as { error?: string }).error ?? `Save failed (${saveRes.status})`);
+        return;
+      }
+      const approveRes = await fetch('/api/studio/review', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, chapter, stage: stage.id, approved: true }),
+      });
+      if (approveRes.ok) {
+        setApprovedStages((m) => ({ ...m, [stage.id]: true }));
+        const texts: string[] = [];
+        editor.state.doc.forEach((n) => texts.push(n.textContent));
+        originalRef.current = texts;
+        refresh();
+      }
+    } catch (e) {
+      setSaveError(`Network error: ${String(e)}`);
+    } finally {
+      setSaving(false);
+    }
+  }, [slug, chapter, stage, editor, serializeToMarkdown]);
+
+  const discardChanges = useCallback(() => {
+    if (!editor || !stage) return;
+    editor.commands.setContent(stage.html);
+    const texts: string[] = [];
+    editor.state.doc.forEach((n) => texts.push(n.textContent));
+    originalRef.current = texts;
+    paraTagsRef.current = new Map();
+    commentsRef.current = new Map();
+    refreshComments();
+    refresh();
+  }, [editor, stage]);
 
   // Force a decoration recompute when Arabic mode flips. Set the ref BEFORE dispatching
   // (React state is async — the plugin reads arabicRef synchronously during the recompute).
@@ -307,6 +584,15 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
     arabicRef.current = next;
     setArabicOn(next);
     if (editor) editor.view.dispatch(editor.state.tr.setMeta('arabic', true));
+  }, [editor]);
+
+  // Toggle augmentation diff (Normalized → Augmented word-level diff). Same ref-before-dispatch
+  // pattern as Arabic toggle so the decoration plugin sees the new value synchronously.
+  const toggleAugDiff = useCallback(() => {
+    const next = !showAugDiffRef.current;
+    showAugDiffRef.current = next;
+    setShowAugDiff(next);
+    if (editor) editor.view.dispatch(editor.state.tr.setMeta('augDiff', true));
   }, [editor]);
 
   let changedCount = 0;
@@ -364,7 +650,89 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
 
   return (
     <div className="studio-poc">
-      <main className="studio-poc__editor">
+      <main className="studio-poc__editor" ref={editorContainerRef}>
+        {/* B: chapter switcher + all-chapters view toggle. */}
+        <div className="sp-chapsel">
+          <label htmlFor="sp-chap">Chapter</label>
+          <select
+            id="sp-chap"
+            value={chapIdx}
+            disabled={viewAll}
+            onChange={(e) => setChapIdx(Number(e.target.value))}
+          >
+            {chapters.map((c, i) => (
+              <option key={c.slug} value={i}>{i + 1}. {c.title}</option>
+            ))}
+          </select>
+          <button
+            type="button"
+            className={`sp-viewall-btn${viewAll ? ' is-on' : ''}`}
+            onClick={() => setViewAll((v) => !v)}
+            title={viewAll ? 'Return to single-chapter view' : 'Combine all chapters in this tab'}
+          >
+            {viewAll ? '← Single chapter' : 'All chapters →'}
+          </button>
+        </div>
+        {/* Stage tabs (SN-5): Source -> Core -> Denoised -> Normalized -> Augmented. */}
+        <div className="sp-tabs" role="tablist" aria-label="Pipeline stages">
+          {stages.map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              role="tab"
+              aria-selected={s.id === stageId}
+              disabled={!s.available}
+              className={`sp-tab${s.id === stageId ? ' is-active' : ''}${s.available ? '' : ' is-pending'}`}
+              title={s.available ? `${s.label} stage${approvedStages[s.id] ? ' — approved' : ''}` : `Pending — produced by ${s.slice}`}
+              onClick={() => s.available && setStageId(s.id)}
+            >
+              {s.label}{approvedStages[s.id] && <span className="sp-tab-ok" aria-label="approved"> ✓</span>}
+            </button>
+          ))}
+        </div>
+        {!viewAll && (() => {
+          const m = metrics.find((x) => x.id === stageId);
+          if (!m || !m.available) return null;
+          const priorLabel = stages.find((s) => s.id === m.comparedTo)?.label;
+          const delta = m.deltaPct;
+          return (
+            <div className="sp-metrics">
+              <span>{m.words.toLocaleString()} words · {m.sentences.toLocaleString()} sentences</span>
+              {delta !== null && priorLabel && (
+                <span className={`sp-metric-delta ${delta < 0 ? 'is-down' : delta > 0 ? 'is-up' : ''}`}>
+                  {delta > 0 ? '+' : ''}{delta}% vs {priorLabel}
+                  {stageId === 'denoised' && m.comparedTo === 'core' && delta < 0 && ` (${Math.abs(delta)}% noise removed)`}
+                </span>
+              )}
+            </div>
+          );
+        })()}
+        {viewAll && (
+          <div className="sp-viewall-banner">
+            Showing all {chapters.length} chapters · {stages.find((s) => s.id === stageId)?.label ?? stageId} stage · read-only
+          </div>
+        )}
+        {!viewAll && isReadOnlyStage && (
+          <div className="sp-stage-note">Read-only — viewing the {stage?.label} stage for comparison.</div>
+        )}
+        {!viewAll && stageId === 'augmented' && stages.find((s) => s.id === 'normalized')?.available && (
+          <div className="sp-augdiff-row">
+            <button
+              type="button"
+              className={`sp-augdiff-toggle${showAugDiff ? ' is-on' : ''}`}
+              onClick={toggleAugDiff}
+              title={showAugDiff ? 'Hide augmentation diff' : 'Highlight what the augmentation step added vs Normalized'}
+            >
+              {showAugDiff ? 'Hide augmentation diff' : 'Show augmentation diff'}
+            </button>
+            {showAugDiff && (
+              <span className="sp-augdiff-legend">
+                <span className="aug-ins sp-augdiff-swatch">added</span>
+                <span className="aug-del sp-augdiff-swatch">removed</span>
+              </span>
+            )}
+          </div>
+        )}
         <EditorContent editor={editor} />
       </main>
 
@@ -394,6 +762,34 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
               <button type="button" onClick={() => editor?.chain().focus().redo().run()} title="Redo">↻</button>
             </div>
           </div>
+          {/* WC8 write-back: save edits to disk + approve the stage. Hidden in all-chapters view. */}
+          {!viewAll && !isReadOnlyStage && stage && (
+            <div className="sp-save-row">
+              <button
+                type="button"
+                className={`sp-approve ${approvedStages[stage.id] ? 'is-done' : ''}`}
+                onClick={saveAndApprove}
+                disabled={saving || approvedStages[stage.id]}
+              >
+                {approvedStages[stage.id]
+                  ? `✓ ${stage.label} saved & approved`
+                  : saving ? 'Saving…'
+                  : `Save & Approve ${stage.label}`}
+              </button>
+              {changedCount > 0 && !approvedStages[stage.id] && (
+                <button
+                  type="button"
+                  className="sp-discard"
+                  onClick={discardChanges}
+                  disabled={saving}
+                  title="Discard all edits and revert to original stage content"
+                >
+                  Discard {changedCount} change{changedCount !== 1 ? 's' : ''}
+                </button>
+              )}
+            </div>
+          )}
+          {saveError && <p className="sp-save-error">{saveError}</p>}
         </section>
 
         {/* Inspector — its own bordered card; bounded height, scrolls internally. */}
@@ -407,10 +803,45 @@ export default function StudioPoc({ html, chapterTitle, glossary = [] }: Props) 
               <dd>{chapterTitle}</dd>
               <dt>Changes</dt>
               <dd>{changedCount} edited · {taggedCount} tagged</dd>
+              <dt>Comments</dt>
+              <dd>{commentsRef.current.size > 0 ? `${commentsRef.current.size} paragraph${commentsRef.current.size !== 1 ? 's' : ''}` : '—'}</dd>
             </dl>
           )}
+
+          {/* Per-paragraph comment: shown when cursor is inside a paragraph. */}
+          {activeParaIdx !== null && !isReadOnlyStage && (
+            <div className="sp-comment-panel">
+              <label className="sp-comment-label" htmlFor="sp-comment-input">
+                Comment on paragraph {activeParaIdx + 1}
+              </label>
+              <textarea
+                id="sp-comment-input"
+                className="sp-comment-input"
+                rows={3}
+                placeholder="Note for the pipeline (saved with stage)…"
+                value={commentsRef.current.get(activeParaIdx) ?? ''}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  if (v.trim()) commentsRef.current.set(activeParaIdx, v);
+                  else commentsRef.current.delete(activeParaIdx);
+                  refreshComments();
+                }}
+              />
+            </div>
+          )}
+
           <div className="sp-insp-markers">
             <h3 className="sp-insp-sub">References</h3>
+            {stage?.augMeta && (
+              <p className="sp-aug-meta" title="Extracted from the augmented stage knowledge block">
+                {stage.augMeta}
+              </p>
+            )}
+            <ul className="sp-legend" aria-label="Inline highlight key">
+              <li className="sp-legend-row"><span className="sp-legend-dot sp-legend-dot--quran" />Quran chips</li>
+              <li className="sp-legend-row"><span className="sp-legend-dot sp-legend-dot--hadith" />Hadith</li>
+              <li className="sp-legend-row"><span className="sp-legend-dot sp-legend-dot--work" />al-Ghazali works</li>
+            </ul>
             {renderGroup('Quran', group('Quran'), 'quran')}
             {renderGroup('Hadith', group('Hadith'), 'hadith')}
             {renderGroup('Works', group('Work'), 'work')}

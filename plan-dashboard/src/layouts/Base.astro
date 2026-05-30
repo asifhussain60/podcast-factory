@@ -13,13 +13,18 @@ type ActivePage =
   | 'plan'
   | 'library'
   | 'wisdom'
-  | 'quality';
+  | 'quality'
+  | 'annotation-ops'
+  | 'studio-poc'
+  | 'studio'
+  | 'planner'
+  | 'system-map';
 
 interface Props {
   title: string;
   active: ActivePage;
   /** 'architecture' — enables the horizontal Architecture sub-nav strip. */
-  section?: 'architecture';
+  section?: 'architecture' | 'planner';
   description?: string;
 }
 

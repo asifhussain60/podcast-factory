@@ -1,0 +1,176 @@
+/* intake.css — /intake page styles (WC8 Slice 6b).
+   External CSS only (Cortex standard). Maps onto --c-* tokens; does NOT change the theme. */
+
+/* ── Page shell ─────────────────────────────────────────────────── */
+.intake-header {
+  width: 90%;
+  max-width: 860px;
+  margin: 28px auto 6px;
+}
+.intake-h1 {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin: 0 0 4px;
+}
+.intake-subtitle {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--c-ink-muted);
+  max-width: 68ch;
+  margin: 0;
+}
+.intake-shell {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  width: 90%;
+  max-width: 1200px;
+  margin: 18px auto 60px;
+  align-items: start;
+}
+@media (max-width: 800px) {
+  .intake-shell { grid-template-columns: 1fr; }
+}
+
+/* ── Form card ───────────────────────────────────────────────────── */
+.intake-card {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+  border-radius: 14px;
+  padding: 24px 26px;
+}
+.intake-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin: 0 0 18px;
+}
+.intake-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 16px;
+}
+.intake-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.intake-label span {
+  font-weight: 400;
+  color: var(--c-ink-muted);
+}
+.intake-input,
+.intake-select,
+.intake-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 11px;
+  font-size: 0.93rem;
+  line-height: 1.45;
+  color: var(--c-ink);
+  background: var(--c-bg);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.18));
+  border-radius: 8px;
+  outline: none;
+  font-family: inherit;
+}
+.intake-input:focus,
+.intake-select:focus,
+.intake-textarea:focus {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--c-accent) 20%, transparent);
+}
+.intake-input.error,
+.intake-select.error {
+  border-color: var(--c-red, #b91c1c);
+}
+.intake-textarea { resize: vertical; min-height: 72px; }
+.intake-hint {
+  font-size: 0.78rem;
+  color: var(--c-ink-muted);
+  line-height: 1.4;
+}
+.intake-error {
+  font-size: 0.82rem;
+  color: var(--c-red, #b91c1c);
+  margin-top: 2px;
+}
+.intake-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+.intake-btn {
+  height: 38px;
+  padding: 0 20px;
+  border-radius: 9px;
+  font-size: 0.93rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.12s;
+}
+.intake-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.intake-btn--primary {
+  background: var(--c-accent);
+  color: #fff;
+}
+.intake-btn--primary:hover:not(:disabled) { opacity: 0.88; }
+.intake-btn--ghost {
+  background: transparent;
+  color: var(--c-ink-muted);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.18));
+}
+.intake-btn--ghost:hover:not(:disabled) { border-color: var(--c-accent); color: var(--c-accent); }
+
+/* ── Success banner ──────────────────────────────────────────────── */
+.intake-success {
+  padding: 16px 20px;
+  background: color-mix(in srgb, var(--c-accent) 10%, var(--c-bg));
+  border: 1px solid color-mix(in srgb, var(--c-accent) 40%, transparent);
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.intake-success-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin: 0 0 4px;
+}
+.intake-success-path {
+  font-size: 0.82rem;
+  font-family: var(--font-mono, monospace);
+  color: var(--c-ink-muted);
+  word-break: break-all;
+}
+.intake-success-next {
+  font-size: 0.85rem;
+  color: var(--c-ink-muted);
+  margin: 8px 0 0;
+}
+
+/* ── Editorial defaults panel ─────────────────────────────────────── */
+.intake-editorial-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.intake-editorial-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--c-ink-muted);
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.intake-editorial-placeholder {
+  padding: 24px;
+  background: var(--c-bg-card);
+  border: 1px dashed var(--c-rule, rgba(0, 0, 0, 0.18));
+  border-radius: 14px;
+  text-align: center;
+  color: var(--c-ink-muted);
+  font-size: 0.88rem;
+}

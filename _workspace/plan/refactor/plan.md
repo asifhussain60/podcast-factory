@@ -196,6 +196,12 @@ Every wave now follows one non-negotiable closeout protocol:
 >
 > *Value gained:* Book N+1's authoring inherits Book N's verified Quran and hadith treatments AND relevant Wisdom doctrine atoms — with sources attached and only if Asif has explicitly configured which topic types are relevant. The `needs_review=0` gate ensures only chapters he has validated (or re-ingested clean after correction) reach podcast authoring. The `doctrine_topic_ids` opt-in prevents Ismaili-specific doctrine from contaminating books of other traditions. The default-disabled gate (G12 acceptance, see E4) prevents shipping a flywheel that doesn't change outputs.
 
+### B5. Ingest hadith, etymology, and classical Arabic poetry atoms from the MCP source library.
+
+> `scripts/podcast/intelligence/ingest_mcp_corpus.py` — a single ingestor that pulls three new atom types directly from the wisdom corpus MCP (KASHKOLE + KQUR) via `source_library_queries.py`, with zero LLM spend and zero `claude -p` calls. **Hadith**: KASHKOLE tags 14 topics as TopicTypeID 17 (Prophetic Hadith) and additional topics as type 23 (Hadith Commentary) — queried via `topic_get()` and stored as `hadith:kashkole:<topic_id>` atoms with text, collection attribution, and tradition. **Etymology**: KQUR holds a full Roots + Derivatives table covering all Arabic roots used in the corpus — bulk-dumped via `word_etymology()` and stored as `etymology:<root_transliteration>` atoms with Arabic root, meaning, grammar tags, and derivative forms. **Classical Arabic poetry**: KASHKOLE binder 5 (`muntakhab-ashaar` = selected poetry) and TopicTypeID 31 (manqabat praise poems) — extracted via `topic_get()` and stored as `poetry:kashkole:<topic_id>` atoms tagged by genre. Also fixes a critical violation in `extractor.py`: `_default_claude_caller()` currently shells out to `claude -p` — replaced with a Gemini REST call (same pattern as `gemini_refine.py`). The `claude -p` fix is Tier 0 (compliance, zero spend).
+>
+> *Value gained:* Removes the standing hadith blocker without waiting for an external database — the data has always been in KASHKOLE. The Augmenter (B3) gains two verified atom types; the knowledge stage can now annotate hadith references in Ayyuhal Walad ch02–ch05 and all future books. Etymology atoms power Studio viewer Arabic term tooltips. Poetry atoms let the knowledge stage recognize and annotate classical poem citations in books quoting Ghazali, Ibn Arabi, or the Ismaili marsiya tradition. The `claude -p` fix eliminates accidental Max-token drain from the extractor.
+
 ### B4. Wire the three new phases into `PHASE_ORDER`.
 
 > Add to `scripts/podcast/_phases.py` `Phase` enum: `ARCHETYPE_RESOLVE = "08a-archetype-resolve"`, `AUGMENTATION = "08b-augmentation"`, `KNOWLEDGE_EXTRACT = "08c-knowledge-extract"`. Wire handlers into `phases/{archetype_resolve, augmentation, knowledge_extract}.py`. Update `orchestrator-state.json` schema with new `phases.08a / 08b / 08c` sections. Conflict-halt interaction with phased-rollout: when `phased_rollout: true`, `08c-knowledge-extract` runs per-phase-boundary, not per-book; conflicts halt only that phase. Update `framework.md` phase table + `skills-staging/podcast/SKILL.md` + `podcast-challenger.md` Category catalog in the same PR per the standing docs-sweep rule.
@@ -657,6 +663,86 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 
 **Status: COMPLETED**
 
+### K6-pre. Preserve Arabic terminus technicus through denoise and normalize — retrofix + standing rule.
+
+> During denoise and normalize, the Gemini prompt has no protection for Arabic doctrinal terminology (*terminus technicus*). Terms like *tawil*, *wilaya*, *batin*, *zahir*, *aql*, *nafs*, *hudud* are being stripped or replaced with English translations that lose doctrinal precision — "tawil" becomes "esoteric interpretation," "batin" disappears. This is a prompt defect, not intended behaviour. The fix adds a `TERMINUS TECHNICUS` guard block to both the denoise and normalize prompt templates in `gemini_refine.py`: the block injects a protect-list loaded from the book's `_system/glossary.yml` at run time and instructs Gemini to preserve each term in phonetic form on every occurrence, appending a brief English gloss in parentheses on first use only. A new constant `R_TERMINUS_PRESERVE` is added to `_rules.py`. `docs/standards/house-voice.md` gains a new SN-7 clause making this a standing rule for all future books. The challenger gains a D6 check (P1): if three or more glossary terms appear in the source but zero phonetic-form instances appear in the output, it flags. After the prompt fix, all 5 Ayyuhal Walad chapters are re-run through denoise + normalize (~$0.07 total); augmented stages are also regenerated since they derive from normalized. This is distinct from `R-PHONETICS-OUT`, which correctly strips Arabic script characters (تأویل) because NotebookLM cannot pronounce them — the phonetic form `tawil` is preserved; the script form is not.
+>
+> *Value gained:* The podcast stops sounding like a philosophy lecture and starts sounding like Islamic scholarship. The vocabulary of the tradition — the terms that practitioners actually use — remains intact. An Ismaili or Sunni listener hears the tradition speaking in its own voice, not translated into generic spiritual language.
+
+### K6. Add Interest & Challenge-Defeat scoring as a 5th PEQ axis and Challenger Category V.
+
+> The current 4-axis PEQ framework (Fidelity, Voice, Structure, Enrichment) measures correctness and completeness but has no listener-engagement dimension. Asif identified two patterns absent from scoring that define compelling Islamic scholarship: **(a) curiosity-building** — the host plants a question or surprising claim early, withholds the answer, and builds pressure before resolution; and **(b) challenge-defeat arcs** — a modern objection or rival belief is named explicitly, given real weight, then defeated with a sourced argument from the tradition. A chapter on a contested topic (wilāya, taʾwīl, cosmology, sharīʿa–ḥaqīqa) with zero challenge-defeat beats is too expository regardless of its fidelity score. K6 adds a 5th PEQ axis (Interest, weight 0.15, redistributing existing weights proportionally) and a new Challenger Category V with five checks (V1 hook present, V2 curiosity arc withholding, V3 challenge-defeat on contested topics, V4 modern relevance signal, V5 challenge not strawmanned). Also fixes the Voice axis, which currently returns 0.0 because no KSESSIONS style exemplar vectors have been built — K6 builds them from the existing lecture transcripts during the B5 ingest pass and caches them so _voice_score() has real data.
+>
+> *Value gained:* The podcast quality gate finally measures what listeners actually experience — not just whether the citations are right but whether the episode pulls them forward. Challenge-defeat arcs are what make ancient doctrine feel urgent to a modern ear; measuring their absence stops them from being silently omitted across all future books.
+
+**Status: NOT STARTED — authorized 2026-05-30**
+
+---
+
+# Wave 8 Studio — Editorial Cockpit + New Content Intake
+
+*Authorized 2026-05-30. Branch: `book/ayyuhal-walad`. These three slices complete the WC8 re-platform that was deferred from Slice 5.*
+
+**Stack additions:** `@dnd-kit/core + @dnd-kit/sortable` (sortable Key Focus list; no existing alternative) and `cmdk` (command-palette corpus search). Everything else is already in the stack: Tailwind v4, Radix UI primitives, TipTap v3, @floating-ui/react, lucide-react, TanStack React Query.
+
+**Scope architecture:** editorial decisions are book-level canonical (written to `book/_system/editorial.json`) with per-chapter override (extends the existing `_system/review/<chapter>.json` write-back). Authoring prompts receive the merged result — chapters never need to repeat book-level decisions unless they override them.
+
+### WC8-5b. Full Studio re-platform — replace the PoC with a real editorial cockpit.
+
+> The throwaway `/studio-poc` PoC proved the mechanics (stage tabs, approve/write-back, verse popovers, Arabic toggle, track changes). The real Studio replaces it at `/studio` with a 3-column layout: left (chapter navigator + book/chapter scope toggle), center (TipTap editor + stage tabs + metrics; the **Approve Stage** button moves here as the primary action), and right (a stackable editorial card system). Six cards in the right panel: **Name Resolution** (NLP-extracted Arabic proper nouns and Islamic scholars — exact / pseudonym / generalize, book-scope with chapter override), **Key Focus** (sortable drag-to-reorder priority list with dnd-kit; cmdk command palette queries the wisdom corpus atoms directly — doctrine topics, Quran citations, hadith — and inserts selected items; conflict-check button validates against the tradition filter), **Tone & Register** (Reverent / Analytical / Urgent / Accessible — injects a concrete voice directive into the authoring prompt), **Forbidden Terms** (flat list seeded from the book-level anti-cliché DENY set; chapter-addable), **Required Elements** (Quran ayat and hadith atoms that must appear; absence = P1 in challenger), **Audience Calibration** (3-point slider Practitioner ↔ General Muslim ↔ Curious Outsider; maps to `glossing_strategy` in the framing prompt). Cards are individually collapsible and toggleable via a panel menu icon.
+>
+> *Value gained:* Prose instructions are replaced by structured decisions. Every editorial choice writes into the same `_system/review/<chapter>.json` structure and is consumed by the authoring prompts automatically — no copy-paste, no remembering what you typed last session.
+
+### WC8-5c. Podcaster roles guardrail — Teacher / Student / Debater host dynamics.
+
+> host_a = Teacher (always): authoritative, sources every claim, never speculates. host_b = Student (default): genuinely curious, asks forward-pulling questions, makes unexpected connections. host_b = Debater (triggered): when a contested claim is reached, host_b names a real modern objection with actual weight — then concedes after the Teacher defeats it with sourced argument. The "debater trigger" is a configurable text field in a new **Host Roles** editorial card (seventh card in the right panel): Asif types which claim should flip host_b from student to challenger in this chapter. This is encoded in the `HOST_ROLE_CONTRACT` block injected into the framing prompt and enforced by the challenger's Category V check V3 (updated to reference the trigger field, not just generic challenge-defeat presence).
+>
+> *Value gained:* The podcast stops feeling like a lecture with polite questions and starts having genuine intellectual tension. The trigger field lets you decide per chapter which claim is worth fighting over — giving the editor control over where the drama lands.
+
+### WC8-7b. Video visual layer — per-episode timed image prompts + auto-generated still images.
+
+> `scripts/podcast/generate_video_layer.py` — for each episode, reads the augmented content and the framing beat structure to produce a synchronized visual script. Each arc beat (hook, doctrinal point, challenge, resolution, closing) maps to one image prompt. Timestamps are estimated from cumulative word counts at 130 wpm dialogue pace — accurate to ~85–90%, meaning 1–2 cut adjustments per minute in any video editor. Six visual types: **scenery** (historical Islamic settings — libraries, Nishapur, desert), **quran_verse** (from the book's verified citations — Arabic calligraphy + phonetic + English gloss on a textured background), **hadith_text** (from hadith atoms in the knowledge stage), **flowchart** (for any numbered-list content: the eight benefits, stations of the path, doctrinal hierarchy), **concept** (abstract symbolic visuals for tawil, ʿaql, maʿād, wilāya), **portrait** (calligraphic scholar reference when a named author is discussed). All images share a consistent style directive: editorial illustration, warm amber/ochre palette, fine-line Islamic geometric border, scholarly aesthetic. Images are generated via Imagen 3 (`imagen-3.0-generate-002`) through the existing `@google/generative-ai` package already in the stack. Output per episode: `video-prompts.json` (machine-readable with timestamps — paste directly into a video editor's timeline), `video-prompts.md` (human-readable storyboard for review), and `video-images/*.png` (1920×1080 PNGs named by sequence for direct import). ~$0.04/image, ~10 images/episode, ~$2.50 for a 5-episode book.
+>
+> *Value gained:* The pipeline now produces a complete video production package — NotebookLM audio source, slide decks, AND a pre-cut still-image video track. You import audio + image folder into any video editor (CapCut, DaVinci Resolve, iMovie), align the first image to the audio start, and the timestamp estimates do the rest. A visual companion video for every episode, generated as part of the same walk-away run.
+
+### WC8-6b. New Content intake page — upload and configure pipeline from the UI.
+
+> A dedicated page at `/new-content` replaces the command-line intake flow. Three steps: **(1) Content Upload** — drag-drop or browse for PDF / audio files; URL field for YouTube or remote audio; shows detected format and estimated Azure processing cost. **(2) Book Metadata** — title, slug (auto-suggested), author, tradition (fatimid-ismaili / sunni / shia / sufi / universal), archetype (7 choices with one-line descriptions), source language. **(3) Editorial Defaults** — pre-fills the book-level `editorial.json` before the first chapter is processed: default audience, default tone, any known forbidden terms, initial focus priorities (cmdk corpus search available here too). Submit is Tier 2 (it triggers `intake_stage.py` and Azure OCR spend); configuration alone is Tier 0. On submit: creates `book/_system/editorial.json`, branches to `book/<slug>`, runs OCR, then redirects to `/studio?book=<slug>&chapter=ch01`.
+>
+> *Value gained:* A new book enters the pipeline with its editorial defaults already set. The first chapter you review in the Studio already knows the audience, the tone, and any terms you want to avoid — you're not starting from a blank slate every time.
+
+---
+
+# Dual-Platform Execution Support
+
+*Authorized 2026-05-30. Runs as Phase 0.7 — before the existing Phase 1–9 build phases.*
+
+**Principle:** The canonical agent specs in `infra/claude-agents/` are the single source of truth. Both platforms reference them via adapters — neither duplicates them. Pipeline scripts (Python) are already environment-agnostic; the gap is discoverability and context injection.
+
+**Scope boundary:** Full GitHub Copilot Extensions (OAuth, GitHub App, external API) is explicitly out of scope. The workspace-participant approach via `.github/agents/` stubs gives 80% of the value without that infrastructure.
+
+### DP-1. VS Code workspace configuration — tasks, launch, and extension recommendations.
+
+> Three files under `.vscode/`: `tasks.json` (9 named tasks — Open Studio, Run Intake, Run Denoise+Normalize, Sync Knowledge Corpus, Run Pipeline Tests, Run Site Lint, Build Podcast Bundle, Generate Video Layer, Push Branch), `launch.json` (debug configurations for 5 critical pipeline scripts), and `extensions.json` (7 recommended extensions: GitHub Copilot, Copilot Chat, Python, Pylance, Astro, Tailwind CSS IntelliSense, YAML).
+>
+> *Value gained:* Any VS Code user can trigger any pipeline operation from the task palette without knowing the command. Pipeline bugs can be debugged with breakpoints, not print statements.
+
+### DP-2. Copilot workspace instructions — `.github/copilot-instructions.md`.
+
+> The Copilot equivalent of `CLAUDE.md` — under 200 lines, referencing canonical specs rather than duplicating them. Contains: repo purpose, branch policy, authorization tiers (T0/T1/T2 verbatim from CLAUDE.md), standing rules, agent registry links, content structure, pipeline phase order.
+>
+> *Value gained:* Copilot Chat sessions start with full project context. Same standing rules for both environments. Single source of truth in CLAUDE.md; Copilot file references it.
+
+### DP-3. Fix `.github/agents/` stubs for Copilot workspace participant registration.
+
+> Each of the 15 remaining stubs gets a YAML frontmatter block (`name`, `description`, `spec` path, `invocation` @-handle). Registers them as Copilot Chat workspace participants — `@podcast-auditor` in Copilot Chat reaches the same spec that Claude Code uses as a subagent.
+>
+> *Value gained:* Same agents, two invocation paths. No parallel maintenance.
+
+### Dual-platform coding standard (applies to all Phases 5–12)
+
+All new code: TypeScript fully typed (no `any`), Python with PEP 484 hints, no hardcoded paths, agent specs follow the 6-section structure both platforms can parse.
+
 ---
 
 ## What This Plan Excludes (by design)
@@ -787,3 +873,16 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 > The podcast audio gets a real player that follows you as you scroll and, where the timing data exists, highlights the words as they're spoken. Because an episode can span or split the book's chapters, we make that relationship explicit so the right audio, text, and review all line up. (Mobile is set aside for now — this is built desktop-first, where the review work happens.)
 
 > *Value gained:* you can listen and read together, and the episode you publish always maps cleanly back to the source you reviewed.
+
+---
+
+## Phase 0.7 — Start-blocker remediation (2026-05-30)
+
+Pre-authorized by the autonomy mandate in `CONTINUATION-2026-05-30.md`. Four blockers cleared before Wave 8 content work begins.
+
+**Deliverables:**
+
+- **BLOCKER-A** — `_workspace/plan/wave8-section0-review.md`: senior-architect §0 verdict drawing on the full repo audit (`_workspace/reviews/reports/2026-05-30-full-repo-audit.md`). Verdict: GO with two preconditions (extractor.py fix + Slice 2-fix terminus technicus guard before Slice 7).
+- **BLOCKER-B** — `plan.yaml` approval flip (`meta.status: APPROVED`, `approved_by: asif`, `approved_at: 2026-05-30`); dangling `WC8-0-foundation` dep references corrected to `WC8.0` (two sites); this plan entry added.
+- **BLOCKER-C** — `scripts/podcast/intelligence/extractor.py`: `_default_claude_caller` replaced with Gemini caller mirroring `gemini_refine.py` exactly (key resolution, `urllib.request` POST, cost tracking, same `gemini-2.5-flash` model). Violating `claude -p` call removed. Module docstring, `_CLAUDE_CMD` constant, and `LLMCaller` type alias updated to match.
+- **BLOCKER-D** — `.vscode/tasks.json` (9 tasks + `bookSlug` promptString input), `.vscode/launch.json` (5 Python debug configs), `.vscode/extensions.json` (8 recommendations). `.vscode/mcp.json` left untouched.

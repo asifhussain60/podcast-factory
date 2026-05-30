@@ -1,0 +1,41 @@
+# Normalized — ch02-hatim-eight-benefits (house voice via Gemini)
+
+O youth, if you understand this tradition, you need no further knowledge. Consider another story: Hatim al-Asamm was among the companions of Shaqiq al-Balkhi, may Allah have mercy on them both. One day, Shaqiq asked him, "You have associated with me for thirty years—what have you gained?" Hatim replied, "I have gained eight benefits from knowledge, and they suffice me, for I hope for my salvation and safety through them."
+
+Shaqiq asked, "What are they?" Hatim replied:
+
+"First, I observed humanity and saw that everyone had a loved one whom they cherished and longed for. Some of these loved ones accompanied them to the illness of death, others to the edge of the grave. Then each returned, leaving them alone and lonely, never entering the tomb to comfort them. I found that nothing else would accompany a person but good deeds. So, I took good deeds as my beloved, to be a light for me in my grave, to comfort me in it, and never to leave me alone.
+
+"Second, I saw that humanity followed its desires and hastened toward the cravings of their souls. I reflected on the words of Allah, the Exalted: 'But as for whoever has feared the majesty of his Lord, and has refrained his soul from lust, truly the Garden shall be his dwelling place.' I was convinced that the Quran (the holy book of Islam) was the sincere truth. So, I hastened to deny my soul, combating and refusing its passionate desires, so that it would become trained to obey Allah, the Exalted, and thus become tractable.
+
+"Third, I saw that everyone struggled to collect worldly possessions, then seized them, closing their hand upon them. So, I reflected upon the words of Allah, the Exalted: 'What is with you vanishes, but what is with Allah abides.' I freely gave my worldly possessions for the sake of Allah, the Exalted, distributing them among the poor to be a treasure for me with Allah, the Exalted.
+
+"Fourth, I saw that some people believed their honor and glory lay in their large families and relatives, becoming deluded by them. Others considered it to be in their wealth and many children, and they boasted. A portion reckoned glory to consist in seizing people's riches by violence, oppressing them, and shedding their blood. Still others believed it lay in squandering wealth and being extravagant. I reflected upon the words of Allah, the Exalted: 'The most worthy of you in the sight of Allah is he who fears him most.' So, I chose reverent fear and was convinced that the Quran is the sincere truth, and their thoughts and reckonings were empty and fleeting.
+
+"Fifth, I saw that some people criticized and slandered one another. I saw that this arose from envy over wealth, rank, and knowledge. I reflected upon the words of Allah, the Exalted: 'It is We who divide their substance among them in this world's life.' And I knew that this division came from Allah, the Exalted.
+
+"Sixth, I saw people treat one another with enmity for various motives or purposes. So, I reflected upon the words of Allah, the Exalted: 'Truly Satan is your enemy; for an enemy then hold him.' And so, I knew that enmity was not permissible towards anyone other than Satan.
+
+"Seventh, I saw that everyone struggled energetically and endeavored excessively to seek provisions and a livelihood, often falling into doubt, forbidden acts, self-debasement, and diminished worth. I reflected upon the words of Allah, the Exalted: 'There is no moving thing on earth whose nourishment dependeth not upon Allah.' And so, I knew that my provision was guaranteed by Allah. I devoted myself to worshipping Him and cut off my covetousness for anything other than Him.
+
+"Eighth, I saw that everyone relied on some created thing: some on dinars and dirhams, some on property, some on trade and craft, and others on similar creations. I reflected upon the words of Allah, the Exalted: 'Truly whosoever putteth his trust in Allah, He will be sufficient. Truly Allah will attain his purpose. He has made for everything a fixed period.' So, I relied upon Allah, and He is sufficient for me and an excellent guardian."
+
+Shaqiq said, "Allah grant you success."
+
+O youth, you have understood from these words that you do not need to accumulate more knowledge. Now I will show you what is obligatory for those on the path of truth. Know that it is indispensable for the seeker to have a shaykh (spiritual guide) and tutor to remove evil qualities through training and replace them with excellent character. This training is like a plowman who digs out thorns and removes wild plants to stimulate growth and ensure perfect thriving.
+
+A seeker needs a shaykh to train and guide him on the path of Allah. The sign of a shaykh fit to succeed the Prophet (peace be upon him) is that he is learned—though not every learned person is fit. I will provide general indications so that not everyone may claim to be a learned guide. Such a shaykh is one who distances himself from worldly love and the love of rank, who has succeeded a discerning person whose lineage of succession traces back to the Lord of the apostles, and who has excelled in disciplining himself through scarcity of food, sleep, and speech, and through abundant prayer, charity, and fasting. By following a discerning shaykh, he embodies good character traits such as endurance, gratitude, trustworthiness, conviction, generosity, contentment, tranquility of soul, moderation, humility, knowledge, truthfulness, modesty, reliability, gravity, quietness, and steadfastness. Such a person is a light from the lights of the Prophet (peace be upon him) and is worthy of imitation. However, the presence of such a shaykh is rare, more precious than red sulfur. Whoever is fortunate enough to find such a shaykh, and is accepted by him, must honor him outwardly and inwardly.
+
+Outward honor means not disputing or arguing with him, not performing excessive supererogatory prayers in his presence, and obeying the shaykh's commands according to one's capacity and ability.
+
+Inner honor means not inwardly denying anything heard and outwardly accepted from the shaykh, neither in deed nor in word, to avoid hypocrisy. If this is not possible, one should leave his companionship until one's inner life aligns with the outer. One should also guard against associating with evil people to curtail the influence of jinn and human Satans from the heart's domain, and to be purified from Satanic filth. In all cases, one should prefer poverty over wealth.
+
+Then know that becoming a Sufi (an adherent of Islamic mysticism) has two characteristics: uprightness with Allah, the Exalted, and tranquility with humanity. Whoever is upright, improves their character among people, and treats them with forbearance, is a Sufi. Uprightness means sacrificing the pleasures of one's soul for the sake of the soul itself. Good conduct among people means not burdening them according to your desires, but burdening yourself according to theirs, as long as they do not violate sacred law.
+
+You asked about devotion: it comprises three things. First, careful observance of sacred law. Second, satisfaction with Allah's decree, fate, and lot. Third, forsaking self-pleasure to seek the pleasure of Allah, the Exalted.
+
+You asked about trust: it means strengthening your belief in Allah, the Exalted, regarding His promises. That is, believing that what He has fated for you will come without fail, even if the whole world tries to prevent it; and what is not decreed for you, you will not attain, even if the whole world helps you.
+
+You asked about sincerity: it means all your deeds are for Allah, the Exalted, your heart neither content with people's praise nor despairing from their censure. Hypocrisy is born from exalting humanity. The cure is to see people as compelled by Allah's decree, like inanimate objects in their inability to achieve contentment or misery, thereby escaping hypocrisy in their eyes. As long as you consider them to possess power and free will, hypocrisy will remain close to you.
+
+O youth, the rest of your questions are covered in my writings; seek them there. Setting others down in writing is forbidden. Work by what you know, and what you do not know will be revealed to you.
