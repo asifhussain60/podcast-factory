@@ -182,6 +182,7 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
   const originalRef = useRef<string[]>([]);            // original text per top-level node
   const paraTagsRef = useRef<Map<number, string[]>>(new Map()); // node index -> tag ids
   const arabicRef = useRef(false);                     // mirror of arabicOn for the plugin
+  const editorContainerRef = useRef<HTMLElement | null>(null);
   arabicRef.current = arabicOn;
   // Index-based tag toggle, called from the floating per-paragraph icon toolbar (a PM widget
   // built outside React). Held in a ref so the widget always calls the latest closure.
@@ -379,6 +380,19 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
     },
   });
 
+  // Click outside the editor container → blur the editor so the active-paragraph highlight clears.
+  useEffect(() => {
+    const onMouseDown = (e: MouseEvent) => {
+      if (editorContainerRef.current && !editorContainerRef.current.contains(e.target as Node)) {
+        editor?.commands.blur();
+        setActiveParaIdx(null);
+        refresh();
+      }
+    };
+    document.addEventListener('mousedown', onMouseDown);
+    return () => document.removeEventListener('mousedown', onMouseDown);
+  }, [editor]);
+
   // Switch the editor to the selected stage: load its text, re-snapshot redline originals,
   // clear stage-specific tags, and make only the under-review stage editable (upstream = read-only).
   useEffect(() => {
@@ -547,7 +561,7 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
 
   return (
     <div className="studio-poc">
-      <main className="studio-poc__editor">
+      <main className="studio-poc__editor" ref={editorContainerRef}>
         {/* B: chapter switcher. */}
         <div className="sp-chapsel">
           <label htmlFor="sp-chap">Chapter</label>
