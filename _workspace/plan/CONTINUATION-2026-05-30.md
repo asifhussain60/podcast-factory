@@ -120,3 +120,28 @@ the throwaway PoC, not the real Studio.
 *Editor: `cd plan-dashboard && npm run dev` → `/studio-poc`. Cost ledger:
 `content/drafts/books/ayyuhal-walad/_system/cost-ledger.json`. Goal restated: ANY content → NotebookLM-ready
 structures → audio podcast; Ayyuhal Walad must end Wave 8 production-ready.*
+
+---
+
+## PIPELINE GAP: full-book holistic segmentation (F6 + F7, recorded 2026-05-30)
+
+The WC8 _stages/ normalized content (4,295w total, 5 chapters) is NOT ready for podcast
+output. Root cause: pipeline used the English scholarly edition per-chapter without:
+  (a) the reconcile step (Arabic spine + English + scholarly aligned), and
+  (b) holistic re-segmentation after full-book processing.
+
+Architectural principle locked by Asif: chapter boundaries are created AFTER the full
+book is processed as a unified stream. Target: ~4,500w per episode for 25-30 min episodes.
+
+Full inventory: Arabic (5,194w) + English superior (31,388w) + Scholarly (33,475w) +
+12 lectures (136,258w) = 206,315w raw. After distillation: estimated ~22,500w for 5 episodes.
+
+Required scripts (new, none exist):
+  1. full_book_ingest.py  — all sources → clean full-book streams
+  2. full_book_denoise.py — single-stream denoise per source
+  3. reconcile_book.py   — align Arabic spine + layers + corpus enrichment
+  4. segment_book.py     — holistic equal-length episode segmentation (~4,500w)
+
+Current chapters/ (v3.5, ~14,099w) remain the podcast source until these are built.
+The editorial auditor agent applies to the new chapters produced by segment_book.py.
+

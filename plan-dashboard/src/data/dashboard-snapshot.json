@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T14:36:37.361Z",
-  "source_commit": "77be92b",
+  "generated_at": "2026-05-30T16:37:20.820Z",
+  "source_commit": "c4bed58",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,6 +819,31 @@
   ],
   "recent_commits": [
     {
+      "sha": "c4bed58",
+      "subject": "feat(wave8/editor): Save & Approve write-back, Discard, per-paragraph comments",
+      "date": "2026-05-30"
+    },
+    {
+      "sha": "92f64e9",
+      "subject": "feat(wave8/5b+6b): drag-reorder, corpus search, intake page",
+      "date": "2026-05-30"
+    },
+    {
+      "sha": "c903b4c",
+      "subject": "feat(wave8/6+8): stage gate + runner + podcast bundle + slide decks",
+      "date": "2026-05-30"
+    },
+    {
+      "sha": "ae4fa3a",
+      "subject": "feat(wave8/2fix+4+5c): terminus retrofix + K6 interest axis + host roles guardrail",
+      "date": "2026-05-30"
+    },
+    {
+      "sha": "2c67082",
+      "subject": "chore(dual-agent): install Claude+Copilot two-agent operating model",
+      "date": "2026-05-30"
+    },
+    {
       "sha": "77be92b",
       "subject": "feat(wave8/5b): Studio re-platform — editorial cockpit core (ship-ready)",
       "date": "2026-05-30"
@@ -841,31 +866,6 @@
     {
       "sha": "aecef99",
       "subject": "fix(wave8): clear Phase 0.7 + Phase 1 start-blockers (vscode, extractor gemini, plan approval, section0 review)",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "6ccefa4",
-      "subject": "chore: commit stage-metrics.json state",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "459d446",
-      "subject": "chore(workspace): compress _workspace into 5 clean folders, lowercase filenames",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "1273bb1",
-      "subject": "plan(dual-platform): add Phase 0.7 — Claude Code + VS Code/Copilot execution support",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "448ef1e",
-      "subject": "audit(2026-05-30): full repo audit — architect + senior engineer review",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "84edc00",
-      "subject": "chore: commit stage-metrics and knowledge.db state",
       "date": "2026-05-30"
     }
   ],

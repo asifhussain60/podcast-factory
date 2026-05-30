@@ -98,9 +98,17 @@ The split is **by directory**, because directory ≈ the skill each agent is bes
 
 ## YOUR WORK-PACKAGE (start here)
 
-Two parallel-safe tasks, both entirely inside `plan-dashboard/**`. Build them in this order.
+> **⚠ PACKAGES 1 AND 2 ARE DONE — built by Claude Code on 2026-05-30.**
+> Do NOT rebuild them. Both packages were completed in Claude's session when Asif asked Claude
+> to proceed rather than opening VS Code. Pull `book/ayyuhal-walad` and you will see the committed
+> work. Your lane is open for new work — see the session log at the bottom of this file.
 
-### Package 1 — Slice 6b: the "New Content" intake page
+### Package 1 — ✅ DONE (Claude Code, 2026-05-30)
+
+> `intake.astro`, `NewContentForm.tsx`, `EditorialDefaults.tsx`, `api/intake/create.ts`,
+> `intake.css` — all committed in `feat(wave8/5b+6b)`. Build verified clean. `/intake` live.
+
+~~### Package 1 — Slice 6b: the "New Content" intake page~~
 
 > A page where Asif starts a new book: drop/point at a source, set the slug + category, and fill
 > the **book-level editorial defaults** (reusing the cockpit cards) before the pipeline runs.
@@ -127,7 +135,12 @@ Two parallel-safe tasks, both entirely inside `plan-dashboard/**`. Build them in
 - **Contract note:** `meta.json` shape — coordinate via the session log; for now write
   `{ "slug", "category", "title", "created_at" }`. Claude wires the Python intake to read it.
 
-### Package 2 — Slice 5b enhancement layer (polish the cockpit you'll be reusing)
+### Package 2 — ✅ DONE (Claude Code, 2026-05-30)
+
+> `@dnd-kit/core + @dnd-kit/sortable + cmdk` installed. Drag-reorder on list cards, cmdk corpus
+> search on Key Focus, `api/studio/corpus-search.ts` — all committed in `feat(wave8/5b+6b)`.
+
+~~### Package 2 — Slice 5b enhancement layer (polish the cockpit you'll be reusing)~~
 
 > Layer the deferred niceties onto `EditorialCards.tsx` WITHOUT changing its persistence model
 > or the JSON schema.

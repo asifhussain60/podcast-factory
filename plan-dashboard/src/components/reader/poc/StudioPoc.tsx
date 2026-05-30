@@ -172,84 +172,7 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
   // Active paragraph index (inspector drives the comment textarea).
   const [activeParaIdx, setActiveParaIdx] = useState<number | null>(null);
 
-  // Serialize ProseMirror doc to simple markdown (headings, blockquotes, paragraphs).
-  const serializeToMarkdown = useCallback((): string => {
-    if (!editor) return '';
-    const lines: string[] = [];
-    editor.state.doc.forEach((node) => {
-      const type = node.type.name;
-      const text = node.textContent;
-      if (type === 'heading') {
-        const level = node.attrs.level as number;
-        lines.push('#'.repeat(level) + ' ' + text);
-      } else if (type === 'blockquote') {
-        lines.push('> ' + text.split('\n').join('\n> '));
-      } else {
-        lines.push(text);
-      }
-      lines.push('');
-    });
-    return lines.join('\n').trimEnd() + '\n';
-  }, [editor]);
-
-  // Save content to disk, then mark stage approved.
-  const saveAndApprove = useCallback(async () => {
-    if (!stage || !editor) return;
-    setSaving(true);
-    setSaveError('');
-    try {
-      const content = serializeToMarkdown();
-      const comments = Object.fromEntries(
-        [...commentsRef.current.entries()]
-          .filter(([, v]) => v.trim())
-          .map(([k, v]) => [String(k), v.trim()]),
-      );
-
-      // 1. Write back to disk.
-      const saveRes = await fetch('/api/studio/save-stage', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ slug, chapter, stage: stage.id, content, comments }),
-      });
-      if (!saveRes.ok) {
-        const err = await saveRes.json().catch(() => ({}));
-        setSaveError((err as {error?: string}).error ?? `Save failed (${saveRes.status})`);
-        return;
-      }
-
-      // 2. Mark stage approved.
-      const approveRes = await fetch('/api/studio/review', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ slug, chapter, stage: stage.id, approved: true }),
-      });
-      if (approveRes.ok) {
-        setApprovedStages((m) => ({ ...m, [stage.id]: true }));
-        // Reset the original snapshot so changedCount goes to 0 after save.
-        const texts: string[] = [];
-        editor.state.doc.forEach((n) => texts.push(n.textContent));
-        originalRef.current = texts;
-        refresh();
-      }
-    } catch (e) {
-      setSaveError(`Network error: ${String(e)}`);
-    } finally {
-      setSaving(false);
-    }
-  }, [slug, chapter, stage, editor, serializeToMarkdown]);
-
-  // Discard all changes — reload the original stage content.
-  const discardChanges = useCallback(() => {
-    if (!editor || !stage) return;
-    editor.commands.setContent(stage.html);
-    const texts: string[] = [];
-    editor.state.doc.forEach((n) => texts.push(n.textContent));
-    originalRef.current = texts;
-    paraTagsRef.current = new Map();
-    commentsRef.current = new Map();
-    refreshComments();
-    refresh();
-  }, [editor, stage]);
+  // serializeToMarkdown / saveAndApprove / discardChanges declared after useEditor (below).
 
   const [selection, setSelection] = useState('');
   const [arabicOn, setArabicOn] = useState(false);
@@ -469,6 +392,96 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
     refresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stageId, chapIdx, editor]);
+
+  // ── Serialize / save / discard — declared here so editor is in scope ────────
+
+  // Walk a ProseMirror text node and emit its content with inline mark syntax preserved.
+  // Handles italic (*), bold (**), bold+italic (***) — the only marks used in stage files.
+  const serializeInline = useCallback((node: Parameters<typeof editor.state.doc.forEach>[0]): string => {
+    let out = '';
+    node.forEach((child) => {
+      if (!child.isText || !child.text) return;
+      const text = child.text;
+      const marks = child.marks.map((m) => m.type.name);
+      const isBold   = marks.includes('bold');
+      const isItalic = marks.includes('italic');
+      if (isBold && isItalic) out += `***${text}***`;
+      else if (isBold)        out += `**${text}**`;
+      else if (isItalic)      out += `*${text}*`;
+      else                    out += text;
+    });
+    return out;
+  }, [editor]);
+
+  const serializeToMarkdown = useCallback((): string => {
+    if (!editor) return '';
+    const lines: string[] = [];
+    editor.state.doc.forEach((node) => {
+      const type = node.type.name;
+      if (type === 'heading') {
+        const level = node.attrs.level as number;
+        lines.push('#'.repeat(level) + ' ' + serializeInline(node));
+      } else if (type === 'blockquote') {
+        lines.push('> ' + serializeInline(node).split('\n').join('\n> '));
+      } else {
+        lines.push(serializeInline(node));
+      }
+      lines.push('');
+    });
+    return lines.join('\n').trimEnd() + '\n';
+  }, [editor, serializeInline]);
+
+  const saveAndApprove = useCallback(async () => {
+    if (!stage || !editor) return;
+    setSaving(true);
+    setSaveError('');
+    try {
+      const content = serializeToMarkdown();
+      const comments = Object.fromEntries(
+        [...commentsRef.current.entries()]
+          .filter(([, v]) => v.trim())
+          .map(([k, v]) => [String(k), v.trim()]),
+      );
+      const saveRes = await fetch('/api/studio/save-stage', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, chapter, stage: stage.id, content, comments }),
+      });
+      if (!saveRes.ok) {
+        const err = await saveRes.json().catch(() => ({}));
+        setSaveError((err as { error?: string }).error ?? `Save failed (${saveRes.status})`);
+        return;
+      }
+      const approveRes = await fetch('/api/studio/review', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, chapter, stage: stage.id, approved: true }),
+      });
+      if (approveRes.ok) {
+        setApprovedStages((m) => ({ ...m, [stage.id]: true }));
+        const texts: string[] = [];
+        editor.state.doc.forEach((n) => texts.push(n.textContent));
+        originalRef.current = texts;
+        refresh();
+      }
+    } catch (e) {
+      setSaveError(`Network error: ${String(e)}`);
+    } finally {
+      setSaving(false);
+    }
+  }, [slug, chapter, stage, editor, serializeToMarkdown]);
+
+  const discardChanges = useCallback(() => {
+    if (!editor || !stage) return;
+    editor.commands.setContent(stage.html);
+    const texts: string[] = [];
+    editor.state.doc.forEach((n) => texts.push(n.textContent));
+    originalRef.current = texts;
+    paraTagsRef.current = new Map();
+    commentsRef.current = new Map();
+    refreshComments();
+    refresh();
+  }, [editor, stage]);
 
   // Force a decoration recompute when Arabic mode flips. Set the ref BEFORE dispatching
   // (React state is async — the plugin reads arabicRef synchronously during the recompute).
