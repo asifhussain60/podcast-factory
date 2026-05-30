@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T22:39:39.607Z",
-  "source_commit": "67ef665",
+  "generated_at": "2026-05-30T09:18:16.473Z",
+  "source_commit": "66dabff",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -783,53 +783,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "67ef665",
-      "subject": "continuity(WC8): Slice-0 PoC feel-check passed; next = foundation (phase-naming, branch, write-back loop)",
+      "sha": "66dabff",
+      "subject": "feat(WC8): commit the full Ayyuhal Walad pipeline artifacts — all 5 chapters, 6 layers",
+      "date": "2026-05-30"
+    },
+    {
+      "sha": "9248c75",
+      "subject": "doc(WC8): continuation prompt — waves/slices, completed vs remaining, human-review gates, editor-readiness",
+      "date": "2026-05-30"
+    },
+    {
+      "sha": "14ddb4e",
+      "subject": "continuity(WC8): A+B done — chapter switcher + narrator-additions layer on all 5 chapters; book fully processed ($4.80)",
       "date": "2026-05-29"
     },
     {
-      "sha": "5a08c5c",
-      "subject": "WC8 PoC: controls panel to top; Inspector + Controls each a distinct bordered card",
+      "sha": "6b35ede",
+      "subject": "WC8.1 (A): Narrator tab in the Studio PoC — surfaces the attributed lecture-additions layer (additions-narrator.md) per chapter",
       "date": "2026-05-29"
     },
     {
-      "sha": "786cf91",
-      "subject": "WC8 PoC: right-panel redesign (Inspector scroll + styled controls + switch) + popover hover persistence",
+      "sha": "3adbdcb",
+      "subject": "WC8.1 (A): narrator_additions.py — Gemini-clean lecture STT into the attributed narrator commentary layer (no claude -p, cost-tracked)",
       "date": "2026-05-29"
     },
     {
-      "sha": "1b01d74",
-      "subject": "WC8 PoC: verse popover redesign — no cutoff, contained Arabic, high-contrast header",
+      "sha": "14bc253",
+      "subject": "WC8 (B): chapter switcher in the Studio PoC — all 5 chapters selectable, each with its 5 stages + metrics + approvals; tighten Gemini normalize prompt (no preamble leak)",
       "date": "2026-05-29"
     },
     {
-      "sha": "af5af9b",
-      "subject": "WC8 PoC: selected-tag dark bg; compact tag key; text caret in active block; readable Arabic toggle; fix icon-row overlap + compound-word Arabic swaps",
+      "sha": "5fac374",
+      "subject": "continuity(WC8): all 5 chapters have full 5-stage lineage; per-chapter Quran refs mapped+verified",
       "date": "2026-05-29"
     },
     {
-      "sha": "dc6c7e6",
-      "subject": "WC8 PoC: dedicated golden verse popover (floating-ui), replacing the broken reused one",
+      "sha": "585a5c6",
+      "subject": "continuity(WC8): whole book staged through normalize (Gemini engine); 20 Quran citations verified book-wide ($4.71)",
       "date": "2026-05-29"
     },
     {
-      "sha": "8dee3d5",
-      "subject": "WC8 PoC: verse chip REPLACES the reference phrase (non-destructive); fix popover hover when scrolled",
+      "sha": "e7278f8",
+      "subject": "WC8: gemini_refine.py — robust denoise + house-voice normalize via Gemini (engine routing, no claude -p, cost-tracked)",
       "date": "2026-05-29"
     },
     {
-      "sha": "9cb0a6c",
-      "subject": "doc(WC8): round-3 feel-check — Arabic toggle full scope (FC-9) + visual fixes (FC-10..12)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "4ca714b",
-      "subject": "WC8 PoC: pointer cursor on hover; dark/thick active border + padding + zoom; icon row contrast + top separation",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "ff063f9",
-      "subject": "doc(WC8): round-2 feel-check — icon-first tagging, active-ring fix, visual-enhancement menu; PoC throwaway reaffirmed",
+      "sha": "5a4ac86",
+      "subject": "continuity(WC8.6): all 12 lectures transcribed (~14.4h narrator layer, $4.31); audio sub-item fully done; total $4.67",
       "date": "2026-05-29"
     }
   ],
