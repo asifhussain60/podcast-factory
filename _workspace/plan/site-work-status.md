@@ -163,3 +163,11 @@ augmented + reconcile + knowledge + narrator audio; ch02–05 still need per-cha
   transcripts later.
 - Total Azure+Gemini cost to date: **$4.71** (OCR $0.37 + transcription $4.31 + Gemini refine ~$0.03).
 - Editor PoC still hardcoded to ch01; a chapter switcher would surface ch02–05 stages (small enhancement).
+
+**ALL 5 CHAPTERS — COMPLETE 5-STAGE LINEAGE (2026-05-29).** Every chapter now has Source → Core →
+Denoised → Normalized → Augmented in `_stages/<ch>/`. Per-chapter knowledge stage built: the 20
+verified Quran citations bucketed by Arabic-spine line-range → ch01 (frame), ch02 (5: the eight
+benefits' verses), ch03 (5), ch04 (1), ch05 (0 — closing du'a). Each chapter has augmented.md +
+knowledge-report.json. Hadith still await a hadith DB. ch03 remains thin (condensed edition) —
+enrich from lectures. Total cost ~$4.71. Reusable scripts: intake_stage, transcribe_audio,
+transcribe_all_lectures, gemini_refine (all Azure/Gemini, no claude -p).
