@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T11:16:55.275Z",
-  "source_commit": "0e81760",
+  "generated_at": "2026-05-30T11:21:22.679Z",
+  "source_commit": "8a4448f",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,6 +819,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "8a4448f",
+      "subject": "plan(WC8): add Slice 7b — video visual layer (timed prompts + Imagen 3 auto-generation)",
+      "date": "2026-05-30"
+    },
+    {
       "sha": "0e81760",
       "subject": "plan(WC8): record 8-phase autonomous execution plan",
       "date": "2026-05-30"
@@ -861,11 +866,6 @@
     {
       "sha": "66dabff",
       "subject": "feat(WC8): commit the full Ayyuhal Walad pipeline artifacts — all 5 chapters, 6 layers",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "9248c75",
-      "subject": "doc(WC8): continuation prompt — waves/slices, completed vs remaining, human-review gates, editor-readiness",
       "date": "2026-05-30"
     }
   ],

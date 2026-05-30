@@ -2791,9 +2791,36 @@ wave_8_studio:
       cost_estimate_usd: 0
 
     - id: WC8-7b
-      title: "Video visual layer — timed image prompts + auto-generated stills per episode"
+      title: "Video visual layer — timed image prompts + tiered image generation + Video Timeline editor in Studio"
       authorized_by: asif_2026-05-30
       depends_on: [WC8-5b]
+      artistic_control_ui:
+        location: "8th tab in Studio center column (alongside Source/Core/.../Narrator)"
+        timeline_view: "horizontal scroll of segment cards; each shows thumbnail, timestamp, visual type badge, prompt preview"
+        per_segment_controls:
+          - "Edit prompt (full textarea, editable inline)"
+          - "Change visual type (dropdown: scenery/quran_verse/hadith_text/flowchart/concept/portrait)"
+          - "Regenerate (tiered: Concept free / Fast preview $0.02 / Final $0.04)"
+          - "Replace (upload your own image)"
+          - "Merge ← → (combine adjacent segments; drag-to-merge pattern)"
+          - "Split (enter cut-point seconds; segment divides; second prompt auto-generated or manual)"
+        merge_semantics: "drag one segment onto adjacent → timestamps combine; winning image is the drop target"
+        split_semantics: "enter new cut_s; segment divides into two; each gets independent prompt and generation"
+        visual_type_re_detect: "when prompt edited manually, visual type re-inferred from new prompt text (user can override)"
+      generation_tiers:
+        concept:
+          cost: "$0"
+          how: "Gemini text generates vivid written description — evaluate composition before spending"
+          default: "pipeline auto-runs this for all segments on first generate_video_layer.py run"
+        fast_preview:
+          cost: "~$0.02/image"
+          model: "imagen-3.0-fast-generate-001"
+          use: "evaluate actual composition and tone; iterate quickly"
+        final:
+          cost: "~$0.04/image"
+          model: "imagen-3.0-generate-002"
+          use: "production quality; written to video-images/*.png"
+        generate_all_finals_button: "batch-generates final quality for all approved segments"
       description: |
         For each episode, generate a synchronized visual script: per-content-beat image
         prompts with estimated timestamps, then auto-generate the images using Imagen 3.
