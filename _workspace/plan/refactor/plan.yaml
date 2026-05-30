@@ -3749,6 +3749,27 @@ wc8_holistic_pipeline:
         - content/drafts/books/ayyuhal-walad/slide-decks/ch03-wc8-deck-the-guiding-shaykh-and-final-counsels.txt
         - content/drafts/books/ayyuhal-walad/slide-decks/ch03-wc8-framing-the-guiding-shaykh-and-final-counsels.md
 
+    - id: WC8-bilingual
+      title: "Bilingual content bake — KQUR lookup + Arabic OCR extraction → bilingual.json per chapter"
+      status: in_progress
+      authorized_by: asif_2026-05-30
+      branch: book/ayyuhal-walad
+      depends_on: [WC8-0-foundation]
+      description: >
+        Produces _stages/<ch>/bilingual.json for every processed chapter. Quran verses pulled
+        from KQUR (quran_lookup by surah:ayah → canonical Arabic with diacritics). Hadith matched
+        via KQUR Ahadees table (fts_hadith FTS5 mirror; schema discover step required first).
+        Full chapter Arabic text extracted from _system/source/multi/ocr/arabic.md using the
+        line range recorded in reconcile-report.json. Powers the Studio Arabic toggle beyond
+        glossary terms. Schema: [{id, type, en, ar, ref?, confidence}].
+      scripts:
+        - scripts/podcast/produce_bilingual.py        # per-chapter bake (new)
+        - scripts/podcast/source_library_mirror.py    # +fts_hadith table
+        - scripts/podcast/source_library_queries.py   # +hadith_lookup() + discover_hadith_schema()
+      outputs:
+        - content/drafts/books/ayyuhal-walad/_stages/<ch>/bilingual.json  # per chapter
+        - content/knowledge-base/mirror.db                                  # rebuilt with fts_hadith
+
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================

@@ -102,6 +102,17 @@ CREATE VIRTUAL TABLE IF NOT EXISTS fts_sessions USING fts5(
     tokenize = 'unicode61'
 );
 
+-- WC8-bilingual: hadith Arabic lookup — mirrors KQUR.Ahadees.
+-- Run discover_hadith_schema() once to confirm column names before rebuilding.
+CREATE VIRTUAL TABLE IF NOT EXISTS fts_hadith USING fts5(
+    hadith_id   UNINDEXED,
+    collection  UNINDEXED,
+    hadith_num  UNINDEXED,
+    arabic,
+    english,
+    tokenize = 'unicode61'
+);
+
 CREATE TABLE IF NOT EXISTS term_index (
     term        TEXT NOT NULL,
     arabic      TEXT DEFAULT '',
@@ -166,6 +177,26 @@ OFFSET {{offset}} ROWS FETCH NEXT {{batch}} ROWS ONLY
 FOR JSON PATH;
 """
 
+# WC8-bilingual: Hadith extraction from KQUR.Ahadees.
+# Column names are guesses based on KQUR naming conventions. Run the
+# discover_hadith_schema() function once (it prints actuals via SELECT TOP 1)
+# and update the aliases below if any differ.
+_SQL_HADITH_DISCOVER = "SELECT TOP 1 * FROM Ahadees FOR JSON PATH;"
+
+_SQL_HADITH = """
+SELECT
+    AhadeesID                               AS hadith_id,
+    ISNULL(CollectionName, '')              AS collection,
+    ISNULL(CAST(HadithNumber AS NVARCHAR), '') AS hadith_num,
+    ISNULL(ArabicText, '')                  AS arabic,
+    ISNULL(EnglishText, '')                 AS english
+FROM Ahadees
+WHERE ArabicText IS NOT NULL AND ArabicText != ''
+ORDER BY AhadeesID
+OFFSET {{offset}} ROWS FETCH NEXT {{batch}} ROWS ONLY
+FOR JSON PATH;
+"""
+
 # term_index from KQUR: Roots + Derivatives
 _SQL_KQUR_TERMS = """
 SELECT
@@ -201,6 +232,26 @@ FOR JSON PATH;
 """
 
 
+def discover_hadith_schema() -> list[str]:
+    """Return column names from KQUR.Ahadees (SELECT TOP 1 *).
+
+    Run this once before first mirror build to verify the column names
+    assumed in _SQL_HADITH are correct. Prints them to stdout; returns the list.
+    Fails gracefully if the DB is unreachable.
+    """
+    try:
+        rows = query_json("KQUR", _SQL_HADITH_DISCOVER) or []
+        if not rows:
+            print("[discover_hadith_schema] no rows returned — Ahadees may be empty")
+            return []
+        cols = list(rows[0].keys())
+        print("[discover_hadith_schema] Ahadees columns:", cols)
+        return cols
+    except Exception as exc:
+        print(f"[discover_hadith_schema] DB unreachable: {exc}")
+        return []
+
+
 # ── build steps ────────────────────────────────────────────────────────────
 
 def _build_fts_quran(conn: sqlite3.Connection) -> int:
@@ -214,6 +265,34 @@ def _build_fts_quran(conn: sqlite3.Connection) -> int:
                 r.get("surah"), r.get("ayat"),
                 r.get("arabic", ""), r.get("pickthall", ""),
                 r.get("asad", ""), r.get("urdu", ""), r.get("phonetic", ""),
+            )
+            for r in rows
+        ],
+    )
+    return len(rows)
+
+
+def _build_fts_hadith(conn: sqlite3.Connection) -> int:
+    """Populate fts_hadith from KQUR.Ahadees. Returns row count.
+
+    Fails gracefully with count=0 if the Ahadees column names in _SQL_HADITH
+    need updating — run discover_hadith_schema() first to confirm them.
+    """
+    conn.execute("DELETE FROM fts_hadith;")
+    try:
+        rows = _paginate("KQUR", _SQL_HADITH)
+    except Exception as exc:
+        print(f"[mirror] fts_hadith skipped — SQL error (run discover_hadith_schema): {exc}")
+        return 0
+    if not rows:
+        return 0
+    conn.executemany(
+        "INSERT INTO fts_hadith VALUES (?,?,?,?,?)",
+        [
+            (
+                r.get("hadith_id"), r.get("collection", ""),
+                r.get("hadith_num", ""), r.get("arabic", ""),
+                _strip_html(r.get("english", "")),
             )
             for r in rows
         ],
@@ -335,6 +414,7 @@ def build_mirror(
         conn.execute("BEGIN;")
         counts: dict[str, int] = {}
         counts["fts_quran"]   = _build_fts_quran(conn)
+        counts["fts_hadith"]  = _build_fts_hadith(conn)
         counts["fts_topics"]  = _build_fts_topics(conn)
         counts["fts_sessions"] = _build_fts_sessions(conn)
         counts["term_index"]  = _build_term_index(conn)

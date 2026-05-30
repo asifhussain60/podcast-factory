@@ -301,3 +301,71 @@ FOR JSON PATH;
             "passage": _strip_html(r.get("passage_html") or ""),
         })
     return out
+
+
+def discover_hadith_schema() -> list[str]:
+    """Print and return KQUR.Ahadees column names (SELECT TOP 1 *).
+
+    Run once before first mirror build to verify the column name guesses
+    in source_library_mirror._SQL_HADITH. Update those aliases if any differ.
+    """
+    from scripts.podcast.source_library_mirror import discover_hadith_schema as _disc  # noqa: PLC0415
+    return _disc()
+
+
+def hadith_lookup(text_en: str, limit: int = 3) -> list[dict[str, Any]]:
+    """Find hadith by English text similarity. Returns Arabic text when matched.
+
+    Tries FTS5 mirror (fts_hadith) first; falls back to SQL Server LIKE scan.
+    Each result: {hadith_id, collection, hadith_num, arabic, english, score}.
+    Returns [] when the mirror has no hadith yet (schema not confirmed) or on error.
+    """
+    try:
+        from scripts.podcast.source_library_mirror import open_mirror  # noqa: PLC0415
+        conn = open_mirror()
+        if conn is None:
+            raise RuntimeError("mirror not available")
+        n = max(1, min(int(limit), 20))
+        # Check if fts_hadith is populated
+        count = conn.execute("SELECT COUNT(*) FROM fts_hadith").fetchone()[0]
+        if count == 0:
+            raise RuntimeError("fts_hadith empty — run build_mirror() after confirming Ahadees schema")
+        q = text_en.replace('"', '""')[:200]
+        rows = conn.execute(
+            f"SELECT hadith_id, collection, hadith_num, arabic, english FROM fts_hadith WHERE fts_hadith MATCH ? LIMIT ?",
+            (q, n),
+        ).fetchall()
+        return [
+            {"hadith_id": r[0], "collection": r[1], "hadith_num": r[2],
+             "arabic": r[3], "english": r[4], "score": 1.0, "source": "mirror"}
+            for r in rows
+        ]
+    except Exception:
+        pass
+
+    # Fall back to SQL Server LIKE scan (only if column names have been confirmed)
+    try:
+        kw = _esc(text_en.strip()[:100])
+        n = max(1, min(int(limit), 20))
+        sql = f"""
+SELECT TOP {n}
+    AhadeesID         AS hadith_id,
+    CollectionName    AS collection,
+    HadithNumber      AS hadith_num,
+    ArabicText        AS arabic,
+    EnglishText       AS english
+FROM Ahadees
+WHERE EnglishText LIKE '%{kw}%'
+  AND ArabicText IS NOT NULL AND ArabicText != ''
+ORDER BY AhadeesID
+FOR JSON PATH;
+"""
+        rows = query_json("KQUR", sql) or []
+        return [
+            {"hadith_id": r.get("hadith_id"), "collection": r.get("collection", ""),
+             "hadith_num": r.get("hadith_num"), "arabic": r.get("arabic", ""),
+             "english": r.get("english", ""), "score": 0.7, "source": "sql_like"}
+            for r in rows
+        ]
+    except Exception:
+        return []
