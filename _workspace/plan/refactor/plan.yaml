@@ -2561,7 +2561,25 @@ waves_ghj:
           - "test_terminus_preserve.py: >= 6 tests (term preserved, gloss on first-use only, English-only reduction blocked)"
         authorization: tier_one
         cost_estimate_usd: 0.07
-        execution_status: not_started
+        execution_status: completed
+        completed_at: "2026-05-30"
+        actual_cost_usd: 0.12
+        completion_note: >
+          Full spec landed: gemini_refine.sn7_guard + load_protect_terms (protect-list from
+          per-book _system/glossary.yml at run time, tradition-agnostic — NOT hardcoded);
+          DENOISE_SYS + normalize prompt both carry the guard; house-voice.md §2b SN-7 clause;
+          _rules.R_TERMINUS_PRESERVE = True; podcast-challenger.md Category D check D6;
+          tests/test_terminus_preserve.py (9 tests, all green). Retrofix re-ran denoise+normalize
+          on all 5 Ayyuhal chapters (~$0.12 incl. one corrected re-run after the guard direction
+          was fixed to honor R-PHONETICS-OUT — Arabic SCRIPT is stripped, the PHONETIC form
+          carries the term). HONEST FINDING: Ayyuhal Walad's BODY contains no terminus technicus —
+          it is a clean English translation; every Arabic fragment lived inside translator
+          footnotes (apparatus), correctly stripped at denoise. So acceptance row "ch01
+          normalized contains 'tawil'" is N/A for this book (the SN-7 first-use-gloss behaviour
+          is nonetheless visibly working: "Ihya Ulum al-Din (The Revival of the Religious
+          Sciences)"). The guard's real value is forward-looking for body-Arabic books (KASHKOLE
+          etc.). DEFERRED: augmented.md regeneration (derives from normalized) folds into Slice
+          4+ which rebuilds enrichment from the corpus MCP.
         branch: "book/ayyuhal-walad"
 
       - id: K6

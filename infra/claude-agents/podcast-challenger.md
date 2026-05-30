@@ -172,6 +172,7 @@ If the user invokes without a book-slug, ask for one. Do not guess.
 | D3 | **Tradition-coherence over breadth** — citations cluster around the chapter's themes, not scatter random. | Map each citation to the chapter's named tensions (from the framing's "Central tensions" block). Citations not bound to a tension are weak. | Flag (P1). |
 | D4 | **No quote-stacking** — no three+ blockquotes on the same beat without integrating prose between them. | Count consecutive blockquotes; flag stacks ≥3 without intervening commentary of ≥30 words. | Flag (P1). |
 | D5 | **No `[CONTEXT NEEDED]` markers** — every gap is filled before ship. | Substring scan. | Flag (P0 actually — bump from P1 because shipping with unfilled context is a content fabrication risk). |
+| D6 | **Terminus technicus preserved** (`R_TERMINUS_PRESERVE`, SN-7) — doctrinal terms of art survive denoise/normalize in phonetic form, not flattened to English-only. | Read the book's `_system/glossary.yml` protect-list (`phonetic`/`transliteration` fields). If ≥3 glossary terms appear in the source/core but ZERO phonetic-form instances appear in the normalized/output text, the normalizer flattened them. | Flag (P1) — re-run `gemini_refine.py` denoise+normalize (the prompt carries the SN-7 guard) or adjust the glossary; do not hand-edit prose to inject terms. |
 
 ### Category E: Articulation & shape (P1)
 

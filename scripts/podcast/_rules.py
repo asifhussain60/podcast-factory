@@ -419,3 +419,12 @@ R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD_PER_BOOK: float = 10.00
 R_KNOWLEDGE_EXTRACTOR_CONFIDENCE_THRESHOLD: float = 0.70
 # Whether augmentation is enabled by default (must be explicitly turned on per book).
 R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED: bool = False
+
+# ─── SN-7 — Terminus-technicus preservation (Slice 2-fix / K6-pre) ─────────
+# A terminus technicus (precise doctrinal term: tawil, zuhd, farḍ ʿayn, …) is preserved in
+# PHONETIC form on every occurrence, with a brief English gloss permitted on first use only;
+# it is NEVER reduced to an English paraphrase. Orthogonal to R-PHONETICS-OUT: Arabic SCRIPT is
+# still stripped (TTS can't read it); the phonetic form carries the term. Enforced in the
+# denoise+normalize Gemini prompts (gemini_refine.sn7_guard, protect-list from per-book
+# glossary.yml) and audited by podcast-challenger Category D check D6. Standard: house-voice.md §2b.
+R_TERMINUS_PRESERVE: bool = True

@@ -23,6 +23,7 @@ treatment; and the perfectly learned does not treat every sick person, but
 every one who will, he hopes, accept the treatment and the cure. And if
 the weakness is chronic or fatal, (and) incurable, then he will not labor to
 give medicine, for this is a waste of time.
+
 Then know that the sickness of ignorance is of four sorts, one curable
 and the others incurable. Of these which cannot be cured, is one whose question or objection arises from envy and hate, and every time you answer
 him with the best or clearest or plainest answer, that only increases his
@@ -54,6 +55,7 @@ he is dull and cannot arrive at the truth of things. You must not attempt
 to answer him also, as the Prophet, Allah bless him and give him peace,
 said, "We, the company of the prophets have been commanded that we
 speak to the people according to their understanding."
+
 But the sickness which is curable is that of the intelligent and under-
 standing seeker of guidance, who is not overcome with envy and anger
 and the love of worldly vanities and wealth and honor, but is seeking the

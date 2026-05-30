@@ -27,6 +27,68 @@ from _paths import REPO_ROOT  # noqa: E402
 # Gemini 2.5-flash list price (approx, USD per 1M tokens).
 PRICE = {"in": 0.30 / 1e6, "out": 2.50 / 1e6}
 
+# ─── SN-7 Terminus-technicus preservation (R_TERMINUS_PRESERVE) ───────────────
+# house-voice.md §2b. The RULE is the standard; the protect-LIST is per-book, tradition-agnostic
+# data loaded from <book>/_system/glossary.yml at run time (NOT hardcoded — a Sufi treatise, a
+# Stoic letter, and a Vedanta commentary each carry their own terms of art). Orthogonal to
+# R-PHONETICS-OUT: Arabic SCRIPT (تأویل) is still stripped (TTS can't read it); the doctrinal
+# term is carried by its PHONETIC form (tawil), preserved on every occurrence, glossed once.
+
+def load_protect_terms(slug: str) -> list[str]:
+    """Phonetic + transliteration forms from the per-book glossary.yml (the protect-list).
+
+    No PyYAML dependency — mirrors fill_glossary_arabic.parse_glossary_yml's minimal parser.
+    Missing/empty glossary => empty list (guard states the general rule, no enumerated terms).
+    """
+    p = REPO_ROOT / "content" / "drafts" / "books" / slug / "_system" / "glossary.yml"
+    if not p.exists():
+        return []
+    terms: list[str] = []
+    in_entries = False
+    for raw in p.read_text(encoding="utf-8").splitlines():
+        if raw.startswith("#") or not raw.strip():
+            continue
+        if raw.startswith("entries:"):
+            in_entries = True
+            continue
+        if not in_entries:
+            continue
+        line = raw[4:] if raw.startswith("  - ") else (raw[4:] if raw.startswith("    ") else "")
+        if not line:
+            continue
+        k, _, v = line.partition(":")
+        if k.strip() in ("phonetic", "transliteration"):
+            v = v.strip()
+            if len(v) >= 2 and v[0] == '"' and v[-1] == '"':
+                v = v[1:-1]
+            if v:
+                terms.append(v)
+    # de-dupe, preserve order
+    seen: set[str] = set()
+    out: list[str] = []
+    for t in terms:
+        if t.lower() not in seen:
+            seen.add(t.lower())
+            out.append(t)
+    return out
+
+
+def sn7_guard(terms: list[str]) -> str:
+    """The SN-7 terminus-technicus guard, identical for both stages (R_TERMINUS_PRESERVE)."""
+    base = (
+      "TERMINUS-TECHNICUS GUARD (R_TERMINUS_PRESERVE, mandatory): a terminus technicus is a "
+      "precise doctrinal term, not stylistic vocabulary. Preserve every such term in its "
+      "PHONETIC (transliterated) form on EVERY occurrence; on the FIRST occurrence you MAY add "
+      "a brief English gloss in parentheses, e.g. 'tawil (the inner, esoteric meaning of "
+      "scripture)'. NEVER reduce a term to an English gloss only ('tawil' -> 'esoteric "
+      "interpretation' is FORBIDDEN). Arabic SCRIPT itself is stripped (the phonetic form "
+      "carries the term) — this is about the term's IDENTITY, not its script."
+    )
+    if terms:
+        base += " Known terms for this book (case/diacritic-insensitive): " + ", ".join(terms) + "."
+    return base
+
+
 DENOISE_SYS = (
   "You are a text-cleaning tool for a scholarly book. The input is an OCR'd academic edition of a "
   "classical Islamic treatise, with the treatise BODY interleaved with scholarly APPARATUS "
@@ -72,14 +134,16 @@ def main() -> int:
     ap.add_argument("--model", default="gemini-2.5-flash")
     a = ap.parse_args()
     sd = REPO_ROOT / "content" / "drafts" / "books" / a.slug / "_stages" / a.chapter
+    guard = sn7_guard(load_protect_terms(a.slug))  # SN-7 protect-list, per-book, run time
     if a.mode == "denoise":
-        src, dst, system = sd / "core.md", sd / "denoised.md", DENOISE_SYS
+        src, dst = sd / "core.md", sd / "denoised.md"
+        system = DENOISE_SYS + "\n\n" + guard
         title = f"# Denoised — {a.chapter} (apparatus stripped via Gemini)"
     else:
         hv = (REPO_ROOT / "docs" / "standards" / "house-voice.md").read_text()
         system = ("OUTPUT DISCIPLINE: return ONLY the re-voiced chapter text. No preamble, no "
                   "'Here is...', no notes, no explanation, no headings about the task. Begin directly "
-                  "with the chapter's first words.\n\n" + hv)
+                  "with the chapter's first words.\n\n" + hv + "\n\n" + guard)
         src, dst = sd / "denoised.md", sd / "normalized.md"
         title = f"# Normalized — {a.chapter} (house voice via Gemini)"
     if not src.exists(): raise SystemExit(f"missing input {src}")

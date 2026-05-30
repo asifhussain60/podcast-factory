@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T12:34:12.009Z",
-  "source_commit": "aecef990",
+  "generated_at": "2026-05-30T13:55:59.326Z",
+  "source_commit": "ab8f991c",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,6 +819,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "ab8f991c",
+      "subject": "chore(wave8): relocate architect audit to reviews/reports, stamp approval provenance",
+      "date": "2026-05-30"
+    },
+    {
       "sha": "aecef990",
       "subject": "fix(wave8): clear Phase 0.7 + Phase 1 start-blockers (vscode, extractor gemini, plan approval, section0 review)",
       "date": "2026-05-30"
@@ -861,11 +866,6 @@
     {
       "sha": "0e81760e",
       "subject": "plan(WC8): record 8-phase autonomous execution plan",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "8a9b7d43",
-      "subject": "plan(WC8/K6-pre): add terminus technicus preservation rule — Arabic terms stripped by Gemini normalize",
       "date": "2026-05-30"
     }
   ],

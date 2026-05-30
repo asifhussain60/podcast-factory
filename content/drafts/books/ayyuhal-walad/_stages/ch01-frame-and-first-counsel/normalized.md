@@ -1,135 +1,75 @@
-# Normalized — Ayyuhal Walad, ch01 (house voice: editorial-modern, scripture verbatim)
+# Normalized — ch01-frame-and-first-counsel (house voice via Gemini)
 
-_Re-voiced from the Denoised stage into the global house style. Narration modernized; the
-Prophet's sayings, the Quran, and the quoted poetry are preserved as quotations. Leaked
-footnote apparatus and inline reference digits removed in the re-voicing._
+In the name of Allah, the Compassionate, the Merciful.
 
-In the name of Allah, the Compassionate, the Merciful. Praise be to Allah, Lord of the worlds,
-and a good end to the God-fearing, and blessings upon his Prophet Muhammad and all his family.
+Praise be to Allah, Lord of the worlds, and may a good end be for the pious. Blessings upon His Prophet Muhammad and all his family.
 
-A certain advanced student spent years in the service of the teacher, the Imam, the ornament of
-religion and proof of Islam, Abu Hamid Muhammad ibn Muhammad al-Ghazali — may Allah have mercy
-upon him. He labored at learning until he had gathered the finest details of the sciences and
-mastered them. Then he began to wonder which of all he had studied would actually benefit him,
-and which he could safely leave behind — and he wrote to his teacher asking for counsel.
+It is said that a diligent student served zealously under the Shaykh, Imam, and Proof of Islam, Abu Hamid Muhammad ibn Muhammad al-Ghazali (may Allah have mercy on him). He dedicated himself to acquiring knowledge, mastering various sciences and cultivating spiritual virtues. One day, reflecting on his spiritual state, he thought: "I have studied many sciences and spent my life learning them. Now I must discern which knowledge will truly benefit me in the afterlife and bring comfort in my grave, and which will not, so I can abandon it." This echoed the saying of the Messenger of Allah (peace and blessings be upon him): "O Allah, I seek refuge in You from knowledge that does not benefit."
 
-This is the answer Ghazali sent.
+This thought lingered until he wrote to the esteemed Shaykh, the Proof of Islam, Muhammad al-Ghazali (may Allah have mercy on him), seeking a *fatwa* (legal opinion), asking questions, and requesting advice and prayers. He explained: "Although the Shaykh's writings, such as the *Ihya* (Revival of the Religious Sciences) and other works, contain the answers to my questions, my aim is for the Shaykh to write a concise guide for me, to keep throughout my life. I intend to act upon its teachings every day, if Allah the Exalted wills." Thus, the Shaykh (may Allah the Exalted have mercy on him) composed this epistle in response:
 
-Know, dear son, beloved and precious — may Allah keep you in his obedience and lead you in the
-path of those he loves — that true counsel is drawn from the message of the Prophet himself,
-peace be upon him. If his counsel has already reached you, what need have you of mine? And if it
-has not, then tell me: what have you actually gained in all these past years?
+In the name of Allah, the Compassionate, the Merciful.
 
-Of everything the Messenger of Allah, peace be upon him, advised his community, this is enough:
+Know, O beloved and precious youth—may Allah prolong your days in His obedience and guide you to the path of His loved ones—that true advice originates from the wellspring of the Messenger's message (peace and blessings be upon him). If you have already received guidance from it, what need do you have of my advice? And if not, then tell me what you have truly gained in these past years.
 
-> "The sign that Allah has turned away from a servant is that the servant busies himself with what
-> does not concern him. If a man lets an hour of his life pass in anything other than what he was
-> created for, his grief on the Day of Resurrection will rightly be long. And whoever reaches the
-> age of forty, and whose good does not outweigh his evil, let him prepare for the Fire."
+O youth, among the many counsels the Messenger of Allah (peace and blessings be upon him) gave his community is his saying: "The sign of Allah's withdrawal from His worshipper is his busying himself in what does not concern him; and if a man has passed an hour of his life in other than that for which he was created, it is certainly fitting that his grief should be prolonged, and whoever has reached (the age of) forty, and his good does not surpass his evil, let him prepare for the fire." This advice alone is sufficient for the people of the world.
 
-In that alone there is enough for anyone in the world.
+O youth, advice is easy to give, but difficult to accept, especially for those driven by desires, as forbidden things often hold a cherished place in their hearts. This is particularly true for those who pursue formal knowledge, focusing on intellectual refinement and worldly acclaim, believing that knowledge alone guarantees safety and salvation, and that they can dispense with action. This, however, is the belief of the philosophers. Yet, such a person fails to realize that if he acquires knowledge but does not act upon it, he will surely be held accountable. As the Messenger of Allah (peace and blessings be upon him) said: "The person most severely punished in the day of resurrection is the learned one whom Allah the Exalted does not benefit by reason of his knowledge." It is recounted that Junayd (may Allah have mercy on him) appeared in a dream after his death. When asked, "What is the news, O Abu al-Qasim?" he replied, "The explanations have perished, and the allusions have vanished. Nothing benefited us except the prostrations which we made in the middle of the night."
 
-The counsel is easy; the difficulty is in accepting it — because it tastes bitter to anyone ruled
-by appetite. This is hardest of all for the person chasing knowledge for its own sake, who imagines
-that learning by itself is his safety and salvation and that he need not act on it. That is the
-delusion of the philosophers. He does not grasp this much: that once he has knowledge, if he does
-not live by it, the case against him is sealed. As the Prophet, peace be upon him, said: "The person
-most severely punished on the Day of Resurrection is a scholar whom his knowledge did not benefit."
-It is told that Junayd was seen in a dream after his death and asked, "What news, Abu Qasim?" He
-answered: "All the explanations perished, all the fine allusions vanished. Nothing helped us except
-the prostrations we made in the depth of the night."
+O youth, do not be devoid of good deeds or spiritual states. Be certain that knowledge alone is not enough. Consider this parable: If a brave warrior in the wilderness wore ten Indian swords and other weapons, and a terrifying lion attacked him, do you think these weapons would protect him without him actively using and thrusting with them? Clearly, they would offer no defense without action. Similarly, even if a person reads and comprehends a hundred thousand scientific questions, they will not benefit him unless he acts upon them. Likewise, if someone suffers from fever and jaundice, the cure lies in oxymel and barley broth, but he will not recover unless he actually consumes them.
 
-Dear son, do not be bankrupt of works or empty of inner states. Knowledge alone strengthens no one's
-hand. Picture a brave warrior alone in the wilderness, carrying ten fine swords and other weapons,
-when a terrifying lion attacks him. Will the weapons turn the danger away if he never draws them and
-strikes? Obviously not — only acting saves him. It is exactly so with knowledge: a man may read and
-understand a hundred thousand questions of learning, yet none of it benefits him except by acting on
-it. Just as a man burning with fever is not cured by knowing the remedy, but only by taking it.
+Though thou measure two thousand rottles of wine,
+Unless thou drink, no thrill is thine.
 
-So long as you do not act, you gain no reward. It is told that a man of the Children of Israel
-worshipped Allah for seventy years. Allah wished to display him to the angels, and sent one to tell
-him that, for all that worship, he had not earned the Garden by it. When the angel delivered the
-message, the worshipper simply said, "We were created to worship him; what can we do but worship?"
-The angel returned and said, "My Lord, you know best what he said." And Allah said: "Since he did not
-turn away from us, we in our grace will not turn away from him. Bear witness, my angels, that I have
-forgiven him."
+Knowledge is the tree, and action is its fruit. Even if you study for a hundred years and collect a thousand books, you will not be prepared for the mercy of Allah the Exalted except through action, as Allah the Exalted says:
 
-The Messenger of Allah, peace be upon him, said: "Call yourself to account before you are called to
-account, and weigh your deeds before they are weighed."
+"And verily nothing (shall be reckoned) to man but that for which he made effort."
+"Whoever hopes to meet his Lord let him work a righteous work,"
+"A recompense according to what they have done"
+"A recompense according to what they have earned."
+"As for those who believed and do right things, there was for them the gardens of Paradise as an abode."
+"Except whoever turns and believes and does a good work;"
 
-How many nights have you stayed awake over your books, repeating your lessons and denying yourself
-sleep — and I do not know what for. If the aim was the things of this world, its vanities and honors,
-outdoing your rivals, then woe to you, and woe again. But if the aim was to bring the Prophet's way to
-life, to train your character, and to break the soul that drives you to evil — then blessed are you,
-and blessed again. As the poet said truly:
+Consider also this tradition: "Islam is built upon five (pillars): the witness that there is no God but Allah, and Mohammed is the Apostle of Allah; and the instituting of prayers; and the giving of alms; and the fast of Ramadan; and the pilgrimage to Mecca for everyone who is able to make the journey." Faith involves confession with the tongue, belief in the heart, and action with the limbs. The value of good deeds is immeasurable. While a worshipper may attain Paradise by the favor and grace of Allah the Exalted, this comes after he prepares himself through obedience and worship, for the mercy of Allah is near to the doer of good deeds.
 
-> Eyes kept awake for any face but yours are no gain,
-> and tears wept for any loss but you are all in vain.
+If it is argued that one attains it by faith alone, we reply: Yes, but when does he attain it? How many difficult ascents must he face before arriving! The first of these ascents is that of faith: will he escape the plunder of his faith or not? And when he arrives, he will be destitute. As Hasan said: On the Day of Resurrection, Allah the Exalted will say to His worshippers, "Enter into the Garden by my mercy and partake of it by your works."
 
-Dear son: live as you will — you will die. Love what you will — you will leave it. Do what you will —
-you will be repaid for it.
+O youth, as long as you do not act, you will not find. It is recounted that a man from the Children of Israel worshipped Allah the Exalted for seventy years. Allah the Exalted wished to reveal his state to the angels, so He sent an angel to inform him that despite his worship, he was not worthy of Paradise. When informed, the worshipper replied, "We were created for worship, and we can do nothing but worship Him." When the angel returned, he said, "O my God, You know best what he said." And Allah the Exalted replied, "Since he did not turn away, We, with Our grace, will not turn away from him. Bear witness, O My angels, that I have forgiven him."
 
-What have you gained from mastering theology, debate, medicine, poetry, astronomy, grammar, and the
-rest, except the squandering of your life? I swear by the Glorious One, I read in the gospel of Jesus —
-peace be upon our Prophet and upon him — that he said: "From the moment the dead man is laid on the bier
-until he is set down at the edge of the grave, Allah in his majesty will ask him forty questions. The
-first is: 'My servant, for years you kept yourself clean in the sight of people, and not for one hour in
-my sight — though every day I look into your heart. So I ask: this care you take for others, while you
-are wrapped in my gifts — are you deaf, are you heedless?'"
+The Messenger of Allah (peace and blessings be upon him) said: "Reckon before you are reckoned with, and weigh before you are weighed." And Ali (may Allah the Exalted be pleased with him) said, "Whoever believes he will reach Paradise without effort is merely wishing; and whoever believes he will arrive through great effort is truly striving." Hasan (may Allah have mercy on him) said, "Seeking the garden without working is a serious fault." He also said, "The sign of sincerity is in abandoning concern for the deed, not in abandoning the deed itself." And the Prophet (peace and blessings be upon him) said, "The shrewd man is whoever judges himself, and works for what is after death, and the stupid man is the one whose soul follows its passionate desires, and (vainly) longs for Allah the Exalted."
 
-Knowledge without action is madness, and action without knowledge cannot stand. Any learning that does
-not draw you away from disobedience today, and carry you toward obedience, will not save you from the
-Fire tomorrow. If you do not act today and mend your past, you will say on the Day of Resurrection,
-"Send us back, and we will do good, not what we used to do" — and it will be said to you: "You fool,
-you are coming from there."
+O youth, how many nights have you stayed awake, reviewing knowledge and poring over books, denying yourself sleep! I wonder what your purpose was in this. If your aim was to achieve worldly ends, secure its fleeting pleasures, gain its dignities, and surpass your peers, then woe to you, and again woe. But if your purpose was to revive the Prophet's Law (peace and blessings be upon him), to cultivate your character, and to subdue the soul that inclines to evil, then blessed are you, and again blessed. Truly spoke the one who said:
 
-If knowledge alone were enough for you, with no need to act, then the call would go out in vain — "Is
-there anyone who asks? Anyone who seeks forgiveness? Anyone who repents?"
+Wakefulness of eyes for other than thine own face is no gain
+And weeping of eyes for other than thine own loss is all vain.
 
-Rise and pray in the night, beyond what is required of you; at dawn the righteous are already seeking
-pardon. The Prophet, peace be upon him, said: "Three sounds Allah loves: the voice of one who calls to
-prayer, the voice of one who recites the Quran, and the voice of those who seek forgiveness in the early
-morning."
+O youth, live as you wish, but you are mortal! Love what you will, but you will leave it! Do what you will, but you will be rewarded accordingly!
 
-In the counsel of Luqman the Wise to his son: "My son, do not let the rooster be cleverer than you — he
-calls out at dawn while you lie sleeping." How well the poet spoke:
+O youth, what have you gained from acquiring knowledge in dogmatic theology, disputation, medicine, *diwans* (collections of poetry), astronomy, prosody, syntax, and morphology, except the squandering of your life? By the glory of the Possessor of Glory, I truly saw in the Gospel of Jesus (peace be upon our Prophet and him) that he said: "From the moment in which the dead is placed on the bier until he is placed on the edge of the tomb Allah the Exalted in His majesty will ask him forty questions; the first is, he will say: 'O my servant, you have purified (yourself in) the sight of mankind for years and not for one hour have you purified (yourself in) my sight, while every day I look in your heart; so I say, as for what you do for another, while you are encompassed by my good gifts, are you not deaf, unheeding?'"
 
-> The dove cooed in the dark of night
-> on a branch, frail, while I lay asleep.
-> I lied — for I swear, were I truly his lover,
-> not the doves alone, but I too would weep.
-> I think myself lovesick, desperately in love
-> with my Lord — yet I do not weep, though the animals weep.
+O youth, knowledge without action is madness, and action without knowledge is futility. Understand that any knowledge that does not steer you away from apostasy today and lead you to obedience will not save you from the fire of Hell tomorrow. If you do not act today and rectify your past days, you will say tomorrow on the Day of Resurrection, "Send us back, we will do good work other than what we were accustomed to do." And it will be said to you, "O foolish one, from there you came!"
 
-The substance of knowledge is to learn what obedience and worship are. Obedience and worship mean
-conforming to the law — in its commands and prohibitions, in word and in deed. Everything you say, do,
-or leave undone must follow the example of the Lawgiver. Fast on the wrong day and you have rebelled;
-pray in a garment wrongly taken and you have sinned, though it wears the shape of worship.
+O youth, let your energy be in the spirit, defeat in the soul, and death in the body. For your abode is the grave, and its inhabitants await you at every moment. Be careful, beware lest you arrive without provision for the journey. And Abu Bakr the Veracious (may Allah be pleased with him) said, "These bodies are a cage for birds, a stable for animals. So consider which you are: if you are among the lofty birds, then when you hear the call, return, fly, climbing upward until you perch in the highest towers of Paradise." As the Messenger of Allah (peace and blessings be upon him) said, "The throne of the Compassionate shook at the death of Sa'id bin Mu'adh, the pleasure of Allah upon him." And seek refuge in Allah if you are of the beasts, as Allah the Exalted said, "These are like the cattle, but they go more astray." Therefore, do not consider yourself safe from being moved from a corner of the court to the depths of the fire.
 
-So your word and your deed must agree with the law, for knowledge and work that do not follow the
-Lawgiver are a delusion. And do not be deceived by the ecstatic cries and loud exclamations of the
-Sufis. This road is walked by struggle — by cutting off the soul's appetites and killing its desires
-with the sword of discipline — not by loud cries and idle words. Know that a loose tongue and a heart
-veiled in heedlessness and appetite are the mark of ruin: if you do not put the lower self to death
-through sincere struggle, you will never bring your heart to life by the lights of knowledge.
+It is recounted that Hasan al-Basri (may Allah the Exalted have mercy on him) was offered a drink of cold water. As he took the cup, he fainted, and it fell from his hand. When he recovered, he was asked, "What happened, O Abu Sa'id?" He replied, "I remembered the longing of the people of the Fire when they say to the people of the Garden, 'Pour upon us from the water.' They will reply that Allah had forbidden these for the infidels."
 
-Some of the questions you asked me cannot be answered on paper or in speech. If you reach that state you
-will know them yourself; if you do not, knowing them is impossible — for they are known only by
-experience, and what is known by experience cannot be put into words, just as the sweetness of the sweet
-and the bitterness of the bitter can only be tasted, never described.
+O youth, if knowledge alone were sufficient for you, and you had no need for action, then Allah's calls—"Is there any who asks? Is there any who seeks forgiveness? Is there any who repents?"—would be without purpose. It is related that a group of the Companions (may Allah the Exalted be pleased with them all) mentioned Abdullah ibn Umar (may Allah be pleased with him) before the Messenger of Allah (peace and blessings be upon him). He said, "An excellent man he, if only he would pray at night." And he (peace and blessings be upon him) said to one of his Companions, "O so-and-so, do not sleep excessively at night, for much sleep leaves its owner poor on the Day of Resurrection."
 
-The questions that *can* be answered, I have set out in *The Revival of the Religious Sciences* and
-elsewhere; here I will point to a portion of them. For the traveler on the road of truth, seven things
-are needed. First, a sound conviction with no heresy in it. Second, a sincere repentance after which you
-do not return to sin. Third, settling matters with those you have wronged, so that no one is left with a
-claim against you. Fourth, learning enough of the sacred law to carry out Allah's commands — and then, of
-the knowledge of the hereafter, only as much as your salvation requires.
+O youth, "And awake at night to pray; for you" is a command. "And at dawn they were seeking pardon" is a praise. "And they who seek pardon at daybreak" is a remembrance. The Prophet (peace and blessings be upon him) said, "Three voices Allah the Exalted loves: the voice of the cock and the voice of one who reads the Quran, and the voice of those seeking forgiveness in the early morning." And Sufyan al-Thawri said: "Allah the Exalted has a breeze that blows at dawn, carrying invocations and petitions for forgiveness to the Supreme King." He also said, "When night begins, a herald cries from below the Throne, 'Arise! Let the worshippers arise!' And they arise and pray as much as Allah the Exalted wills. Then, at midnight, the herald cries, 'Arise! Let the fully devoted arise!' And they arise and pray until dawn. When dawn breaks, the herald cries, 'Arise! Let those asking forgiveness arise!' And they arise and seek forgiveness. And when day breaks, the herald cries, 'Arise! Let the heedless arise!' And they rise from their beds as the dead are resurrected from their graves."
 
-It is told that Shibli said: "I served four hundred teachers and read four thousand traditions. Then I
-chose a single tradition to act upon and let the rest go — for I reflected, and found my salvation in it,
-and saw that all the knowledge of the ancients and the moderns was contained in it, and I was content."
-And that tradition was the saying of the Messenger, peace be upon him, to one of his Companions:
+O youth, it is recounted in the testaments of Luqman the Wise to his son that he said, "O my son, do not let the rooster be more clever than you—it crows at dawn while you are sleeping!" Truly, he spoke well who said:
 
-> "Work for your world in proportion to your time in it; work for your hereafter in proportion to your
-> stay there; work for Allah in proportion to your need of him; and work to escape the Fire in proportion
-> to your endurance of it."
+The pigeon cooed in the darkness of night
+On a branch, in weakness, while I was asleep.
+I lied; for I swear that were I (His) loved
+Not the pigeons alone, but I too would weep;
+I think I am lovesick, excessively lovelorn
+For my Lord—but I weep not, though animals weep!
+
+O youth, the essence of knowledge is to understand obedience and worship. Know that obedience and worship mean conforming to the Divine Law in both commands and prohibitions, through your words and deeds. That is, everything you say, do, or omit must be in emulation of the Law-Giver. Thus, if you fast on a feast day or the days of *tashriq* (the three days following Eid al-Adha), you are rebellious. Or if you pray in a garment taken by force, though it has the outward form of worship, you still commit a sin.
+
+O youth, it is therefore essential that your words and deeds align with the Divine Law, for knowledge and action without emulating the Law-Giver are a delusion. And it is essential that you not be deceived by the ecstatic utterances and fervent cries of the Sufis, because traversing this path requires struggle, severing the soul's lusts, and slaying its desires with the sword of discipline, not through fervent cries and idle words. Know that a loose tongue and a veiled heart, filled with negligence and lust, are signs of misery. If you do not subdue the carnal soul with sincere struggle, you will not quicken your heart with the lights of knowledge.
+
+Understand that some of your questions cannot be answered in writing or speech. If you attain that state, you will know what they are; otherwise, knowing them is impossible. For they are known by experience, and whatever is known by experience cannot be described in words, just as the sweetness of the sweet or the bitterness of the bitter can only be known through experience. It is said that an impotent man wrote to a friend, "Tell me about the delight of sexual intercourse; what is it like?" His friend replied, "O so-and-so, I considered you only impotent, but now I know you are both impotent and foolish. This delight is known by experience; if you attain it, you will know it, and if not, it cannot be described in writing or speech."
+
+O youth, some of your questions are of this nature. The parts that can be answered we have mentioned in *Ihya Ulum al-Din* (The Revival of the Religious Sciences) and elsewhere. Here, we will mention a portion of them and point them out. First, a true conviction free from heresy. Second, sincere repentance, after which you do not return to sin. Third, the satisfaction of adversaries, so that no one retains a claim against you. Fourth, the acquisition of sufficient knowledge of the Divine Laws to perform the commands of Allah the Exalted; and then, from the sciences of future things, what is essential for salvation. It is recounted that Shibli (may Allah have mercy on him) said: "I served four hundred teachers and read four thousand traditions. From these, I selected a single tradition by which I acted, abandoning the others. I reflected deeply and found my salvation and safety within it, as all the knowledge of the ancients and moderns was encompassed by it, and I was content with it. And that was, that the Apostle (peace and blessings be upon him) said to one of his Companions, 'Work for your world according to your position in it, and work for your other world according to the length of your remaining in it; and work for Allah the Exalted according to your need of Him, and work for the fire according to your endurance it it.'"

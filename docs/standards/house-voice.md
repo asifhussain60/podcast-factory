@@ -1,4 +1,4 @@
-# House Voice — global style standard for voice normalization (WC8.8 / SN-1..SN-6)
+# House Voice — global style standard for voice normalization (WC8.8 / SN-1..SN-7)
 
 **Status:** locked 2026-05-29 (Asif). **Scope:** every book, every source, every genre in the
 podcast-factory corpus. The voice-normalization pipeline stage rewrites narration toward THIS
@@ -39,6 +39,29 @@ sermon cadence, and filler.
   Core stage is preserved. Normalization is re-voicing, not re-interpreting.
 - **No new content.** The normalizer does not add facts, examples, references, or commentary
   (that is the Augment stage's job, and it is attributed).
+
+## 2b. Terminus technicus preservation (SN-7 — hard rule, `R_TERMINUS_PRESERVE`)
+
+The drive toward an "accessible general-reader register" must NOT erase the tradition's own
+vocabulary. A *terminus technicus* — a precise doctrinal term such as *tawil*, *zuhd*, *maʿrifa*,
+*ikhlas*, *farḍ ʿayn* — is a concept, not a stylistic flourish, and is **never** flattened to a
+lossy English paraphrase ("*tawil*" → "esoteric interpretation" is forbidden).
+
+- **Preserve the PHONETIC form on every occurrence.** The term carries through in its
+  transliterated (phonetic) form. On the **first** occurrence within an episode you **may** add a
+  brief English gloss in parentheses — "*tawil* (the inner, esoteric meaning of scripture)" — and
+  thereafter the term stands alone. Reducing a term to an English gloss only is forbidden.
+- **Orthogonal to R-PHONETICS-OUT.** Arabic *script* (تأویل) is still stripped from
+  podcast-bound output — NotebookLM's TTS cannot read it; the *phonetic* form (*tawil*) is what
+  preserves the term. SN-7 protects the term's **identity**, not its script. (The reader UI
+  re-pairs script with phonetic via `glossary.yml`; that is a render-time overlay, not the
+  normalized prose.)
+
+> The protect-list is **per-book, tradition-agnostic data** loaded at run time from
+> `content/drafts/books/<slug>/_system/glossary.yml` (the `phonetic`/`transliteration` fields) —
+> see `gemini_refine.load_protect_terms`. A Sufi treatise, a Stoic letter, and a Vedanta
+> commentary each carry their own terms; the rule is the standard, the glossary is the data. An
+> empty/absent glossary degrades gracefully to the general rule with no enumerated terms.
 
 ## 3. Point of view & register mapping (SN-6)
 

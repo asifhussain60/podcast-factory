@@ -316,7 +316,187 @@
       "in_chars": 56809,
       "out_chars": 10637,
       "cost_usd": 0.01091
+    },
+    {
+      "ts": "2026-05-30T13:38:16.258890Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch01-frame-and-first-counsel",
+      "in_chars": 34525,
+      "out_chars": 17298,
+      "cost_usd": 0.0134
+    },
+    {
+      "ts": "2026-05-30T13:38:51.296024Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch02-hatim-eight-benefits",
+      "in_chars": 14461,
+      "out_chars": 9177,
+      "cost_usd": 0.00682
+    },
+    {
+      "ts": "2026-05-30T13:39:01.529063Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch03-the-path",
+      "in_chars": 2664,
+      "out_chars": 1054,
+      "cost_usd": 0.00086
+    },
+    {
+      "ts": "2026-05-30T13:39:44.034243Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch04-four-cautions",
+      "in_chars": 15171,
+      "out_chars": 9830,
+      "cost_usd": 0.00728
+    },
+    {
+      "ts": "2026-05-30T13:40:14.370894Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch05-method-and-closing-prayer",
+      "in_chars": 9778,
+      "out_chars": 4688,
+      "cost_usd": 0.00366
+    },
+    {
+      "ts": "2026-05-30T13:40:30.733408Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch01-frame-and-first-counsel",
+      "in_chars": 17374,
+      "out_chars": 16916,
+      "cost_usd": 0.01188
+    },
+    {
+      "ts": "2026-05-30T13:41:08.311423Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch02-hatim-eight-benefits",
+      "in_chars": 9250,
+      "out_chars": 8390,
+      "cost_usd": 0.00594
+    },
+    {
+      "ts": "2026-05-30T13:41:19.055348Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch03-the-path",
+      "in_chars": 1115,
+      "out_chars": 1036,
+      "cost_usd": 0.00073
+    },
+    {
+      "ts": "2026-05-30T13:41:59.470247Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch04-four-cautions",
+      "in_chars": 9896,
+      "out_chars": 8836,
+      "cost_usd": 0.00626
+    },
+    {
+      "ts": "2026-05-30T13:42:21.962579Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch05-method-and-closing-prayer",
+      "in_chars": 4766,
+      "out_chars": 4333,
+      "cost_usd": 0.00307
+    },
+    {
+      "ts": "2026-05-30T13:50:42.005509Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch01-frame-and-first-counsel",
+      "in_chars": 34525,
+      "out_chars": 17381,
+      "cost_usd": 0.01345
+    },
+    {
+      "ts": "2026-05-30T13:51:14.433557Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch02-hatim-eight-benefits",
+      "in_chars": 14461,
+      "out_chars": 9178,
+      "cost_usd": 0.00682
+    },
+    {
+      "ts": "2026-05-30T13:51:29.204209Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch03-the-path",
+      "in_chars": 2664,
+      "out_chars": 1061,
+      "cost_usd": 0.00086
+    },
+    {
+      "ts": "2026-05-30T13:51:59.661898Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch04-four-cautions",
+      "in_chars": 15171,
+      "out_chars": 9830,
+      "cost_usd": 0.00728
+    },
+    {
+      "ts": "2026-05-30T13:52:21.284912Z",
+      "op": "denoise",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch05-method-and-closing-prayer",
+      "in_chars": 9778,
+      "out_chars": 4697,
+      "cost_usd": 0.00367
+    },
+    {
+      "ts": "2026-05-30T13:53:19.152279Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch01-frame-and-first-counsel",
+      "in_chars": 17457,
+      "out_chars": 16645,
+      "cost_usd": 0.01171
+    },
+    {
+      "ts": "2026-05-30T13:53:55.692138Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch02-hatim-eight-benefits",
+      "in_chars": 9251,
+      "out_chars": 8224,
+      "cost_usd": 0.00583
+    },
+    {
+      "ts": "2026-05-30T13:54:04.682353Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch03-the-path",
+      "in_chars": 1122,
+      "out_chars": 1038,
+      "cost_usd": 0.00073
+    },
+    {
+      "ts": "2026-05-30T13:54:41.834002Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch04-four-cautions",
+      "in_chars": 9896,
+      "out_chars": 9364,
+      "cost_usd": 0.00659
+    },
+    {
+      "ts": "2026-05-30T13:55:03.148154Z",
+      "op": "normalize",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch05-method-and-closing-prayer",
+      "in_chars": 4775,
+      "out_chars": 4283,
+      "cost_usd": 0.00304
     }
   ],
-  "total_usd": 4.8013
+  "total_usd": 4.9212
 }
