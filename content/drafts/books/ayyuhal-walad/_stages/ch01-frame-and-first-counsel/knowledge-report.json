@@ -1,65 +1,137 @@
 {
   "slug": "ayyuhal-walad",
   "chapter": "ch01-frame-and-first-counsel",
-  "stage": "augmented",
-  "corpus_tradition": "fatimid-ismaili",
-  "chapter_tradition": "sunni-sufi (al-Ghazali)",
-  "cross_tradition_injection": "BLOCKED by tradition filter (correct)",
+  "stage": "knowledge-enriched",
+  "chapter_tradition": "sunni-sufi",
+  "enrichment_source": "mcp-mirror (KQUR + KASHKOLE, zero LLM calls)",
   "quran_verified": 7,
   "quran_refs": [
     {
-      "key": "18:11",
-      "surah": "Al-Kahf",
+      "ref": "18:11",
+      "surah_num": 18,
+      "ayat_num": 11,
+      "arabic": "‏فَضَرَبْنَا عَلَىٰٓ آذَانِهِمْ فِى ٱلْكَهْفِ سِنِينَ عَدَدًۭا ‎",
+      "pickthall": "Therefore We covered up their (sense of) hearing (causing them, to go in deep sleep) in the Cave for a number of years.",
+      "asad": "And thereupon We veiled their ears in the cave [9] for many a year, ",
+      "phonetic": "Fadarabna AAala athanihim fee alkahfi sineena AAadadan",
       "status": "verified",
-      "source": "quran.com via /api/quran/verse"
+      "source": "kqur-mirror"
     },
     {
-      "key": "18:107",
-      "surah": "Al-Kahf",
+      "ref": "18:107",
+      "surah_num": 18,
+      "ayat_num": 107,
+      "arabic": "‏إِنَّ ٱلَّذِينَ آمَنُوا۟ وَعَمِلُوا۟ ٱلصَّلِحَتِ كَانَتْ لَهُمْ جَنَّتُ ٱلْفِرْدَوْسِ نُزُلًا ‎",
+      "pickthall": "\"Verily! Those who believe (in the Oneness of Allah Islamic Monotheism) and do righteous deeds, shall have the Gardens of <I>Al-Firdaus </I>(the Paradise) for their entertainment.",
+      "asad": "[But,] verily, as for those who attain to faith and do righteous deeds - the gardens of paradise will be there to welcome them; ",
+      "phonetic": "Inna allatheena amanoo waAAamiloo alssalihati kanat lahum jannatu alfirdawsi nuzulan",
       "status": "verified",
-      "source": "quran.com"
+      "source": "kqur-mirror"
     },
     {
-      "key": "19:59",
-      "surah": "Maryam",
+      "ref": "19:59",
+      "surah_num": 19,
+      "ayat_num": 59,
+      "arabic": "‏ فَخَلَفَ مِنۢ بَعْدِهِمْ خَلْفٌ أَضَاعُوا۟ ٱلصَّلَوٰةَ وَٱتَّبَعُوا۟ ٱلشَّهَوَتِ ۖ فَسَوْفَ يَلْقَوْنَ غَيًّا ‎",
+      "pickthall": "Then, there has succeeded them a posterity who have given up <I>As-Salat</I> (the prayers) [i.e. made their <I>Salat</I> (prayers) to be lost, either by not offering them or by not offering them perfectly or by not offering them in their proper fixed times, etc.] and have followed lusts.<B></B> So they will be thrown in Hell.",
+      "asad": "Yet they were succeeded by generations [of people] who lost all [thought of] prayer and followed [but] their own lusts; and these will, in time, meet with utter disillusion. [45] ",
+      "phonetic": "Fakhalafa min baAAdihim khalfun adaAAoo alssalata waittabaAAoo alshshahawati fasawfa yalqawna ghayyan",
       "status": "verified",
-      "source": "quran.com"
+      "source": "kqur-mirror"
     },
     {
-      "key": "7:179",
-      "surah": "Al-A'raf",
+      "ref": "7:179",
+      "surah_num": 7,
+      "ayat_num": 179,
+      "arabic": "‏وَلَقَدْ ذَرَأْنَا لِجَهَنَّمَ كَثِيرًۭا مِّنَ ٱلْجِنِّ وَٱلْإِنسِ ۖ لَهُمْ قُلُوبٌۭ لَّا يَفْقَهُونَ بِهَا وَلَهُمْ أَعْيُنٌۭ لَّا يُبْصِرُونَ بِهَا وَلَهُمْ آذَانٌۭ لَّا يَسْمَعُونَ بِهَآ ۚ أُو۟لَٓئِكَ كَٱلْأَنْعَمِ بَلْ هُمْ أَضَلُّ ۚ أُو۟لَٓئِكَ هُمُ ٱلْغَفِلُونَ ‎",
+      "pickthall": "And We have certainly created for Hell many of the jinn and mankind. They have hearts with which they do not understand, they have eyes with which they do not see, and they have ears with which they do not hear. Those are like livestock; rather, they are more astray. It is they who are the heedless.",
+      "asad": "And most certainly have We destined for hell many of the invisible beings [143] and men who have hearts with which they fail to grasp the truth, and eyes with which they fail to see, and ears with which they fail to hear. They are like cattle -nay, they are even less conscious of the right way: [144] it is they, they who are the [truly] heedless! ",
+      "phonetic": "Walaqad tharana lijahannama katheeran mina aljinni waalinsi lahum quloobun la yafqahoona biha walahum aAAyunun la yubsiroona biha walahum athanun la yasmaAAoona biha olaika kaalanAAami bal hum adallu olaika humu alghafiloona",
       "status": "verified",
-      "source": "quran.com"
+      "source": "kqur-mirror"
     },
     {
-      "key": "7:50",
-      "surah": "Al-A'raf",
+      "ref": "7:50",
+      "surah_num": 7,
+      "ayat_num": 50,
+      "arabic": "‏وَنَادَىٰٓ أَصْحَبُ ٱلنَّارِ أَصْحَبَ ٱلْجَنَّةِ أَنْ أَفِيضُوا۟ عَلَيْنَا مِنَ ٱلْمَآءِ أَوْ مِمَّا رَزَقَكُمُ ٱللَّهُ ۚ قَالُوٓا۟ إِنَّ ٱللَّهَ حَرَّمَهُمَا عَلَى ٱلْكَفِرِينَ ‎",
+      "pickthall": "And the dwellers of the Fire will call to the dwellers of Paradise: \"Pour on us some water or anything that Allah has provided you with.\" They will say: \"Both (water and provision) Allah has forbidden to the disbelievers.\"",
+      "asad": "And the inmates of the fire will call out unto the inmates of paradise: \"Pour some water upon us, or some of the sustenance [of paradise] which God has provided for you!\" [The inmates of paradise] will reply: \"Verily, God has denied both to those who have denied the truth - ",
+      "phonetic": "Wanada ashabu alnari ashaba aljannati an afeedoo AAalayna mina almai aw mimma razaqakumu Allahu qaloo inna Allaha harramahuma AAala alkafireena",
       "status": "verified",
-      "source": "quran.com"
+      "source": "kqur-mirror"
     },
     {
-      "key": "17:79",
-      "surah": "Al-Isra",
+      "ref": "17:79",
+      "surah_num": 17,
+      "ayat_num": 79,
+      "arabic": "‏وَمِنَ ٱلَّيْلِ فَتَهَجَّدْ بِهِۦ نَافِلَةًۭ لَّكَ عَسَىٰٓ أَن يَبْعَثَكَ رَبُّكَ مَقَامًۭا مَّحْمُودًۭا ‎",
+      "pickthall": "And in some parts of the night (also) offer the <I>Salat</I> (prayer) with it (i.e. recite the Qur'an in the prayer), as an additional prayer (<I>Tahajjud </I>optional prayer <I>Nawafil</I>) for you (O Muhammad <TT>PBUH</TT>). It may be that your Lord will raise you to <I>Maqaman Mahmuda </I>(a station of praise and glory, i.e. the highest degree in Paradise!)<B></B>.",
+      "asad": "And rise from thy sleep and pray during part of the night [as well], as a free offering from thee, [97] and thy Sustainer may well raise thee to a glorious station [in the life to come]. ",
+      "phonetic": "Wamina allayli fatahajjad bihi nafilatan laka AAasa an yabAAathaka rabbuka maqaman mahmoodan",
       "status": "verified",
-      "source": "quran.com"
+      "source": "kqur-mirror"
     },
     {
-      "key": "51:18",
-      "surah": "Adh-Dhariyat",
+      "ref": "51:18",
+      "surah_num": 51,
+      "ayat_num": 18,
+      "arabic": "‏وَبِٱلْأَسْحَارِ هُمْ يَسْتَغْفِرُونَ ‎",
+      "pickthall": "And in the hours before dawn, they were (found) asking (Allah) for forgiveness,",
+      "asad": "and would pray for forgiveness from their innermost hearts; [11] ",
+      "phonetic": "Wabialashari hum yastaghfiroona",
       "status": "verified",
-      "source": "quran.com"
+      "source": "kqur-mirror"
     }
   ],
-  "hadith_pending": 5,
-  "hadith_refs": [
-    "sign Allah turned away \u2014 busying with the irrelevant",
-    "most-punished scholar unbenefited by knowledge",
-    "call yourself to account before you are called",
-    "three sounds Allah loves (adhan, Quran, dawn istighfar)",
-    "work for your world/hereafter/Allah/the Fire"
+  "etymology_terms": [
+    {
+      "term": "ilm",
+      "occurrences": 3,
+      "root_arabic": "علم",
+      "transliteration": "ilm",
+      "meaning_en": "knowledge",
+      "meaning_ar": "",
+      "derivatives_count": 3,
+      "source": "mirror"
+    },
+    {
+      "term": "nafs",
+      "occurrences": 1,
+      "root_arabic": "Ù†ÙØ³",
+      "transliteration": "nfs",
+      "meaning_en": "Soul",
+      "meaning_ar": "",
+      "derivatives_count": 0,
+      "source": "mirror"
+    }
   ],
-  "pending_ingestion": [
-    "hadith reference DB"
+  "doctrine_topics": [
+    {
+      "topic_id": 8,
+      "topic_type_id": null,
+      "name": "توحید اور اخلاص",
+      "binder": "توحید مبدع تعالی",
+      "chapter": "توحید کا تصور",
+      "matched_theme": "sincerity"
+    },
+    {
+      "topic_id": 707,
+      "topic_type_id": null,
+      "name": "Sincerity",
+      "binder": "منتخب علمی مضامین",
+      "chapter": "کتاب مصباح الشریعۃ",
+      "matched_theme": "sincerity"
+    },
+    {
+      "topic_id": 725,
+      "topic_type_id": null,
+      "name": "Evil Whispering",
+      "binder": "منتخب علمی مضامین",
+      "chapter": "کتاب مصباح الشریعۃ",
+      "matched_theme": "sincerity"
+    }
   ],
-  "note": "Quran citations recovered from the Arabic spine (reconcile slice) + verified against the Quran source. Hadith await a hadith DB."
+  "hadith_refs": [],
+  "hadith_note": "KQUR Ahadees are Ismaili tradition — not matched to Ghazali's Sunni Prophetic narrations.  Tradition filter correctly withholds injection."
 }

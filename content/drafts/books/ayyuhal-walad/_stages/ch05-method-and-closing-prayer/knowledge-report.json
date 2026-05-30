@@ -1,9 +1,69 @@
 {
   "slug": "ayyuhal-walad",
   "chapter": "ch05-method-and-closing-prayer",
+  "stage": "knowledge-enriched",
+  "chapter_tradition": "sunni-sufi",
+  "enrichment_source": "mcp-mirror (KQUR + KASHKOLE, zero LLM calls)",
   "quran_verified": 0,
   "quran_refs": [],
-  "pending": [
-    "hadith DB"
-  ]
+  "etymology_terms": [
+    {
+      "term": "ilm",
+      "occurrences": 5,
+      "root_arabic": "علم",
+      "transliteration": "ilm",
+      "meaning_en": "knowledge",
+      "meaning_ar": "",
+      "derivatives_count": 3,
+      "source": "mirror"
+    },
+    {
+      "term": "qalb",
+      "occurrences": 3,
+      "root_arabic": "Ù‚Ù„Ø¨",
+      "transliteration": "QBL",
+      "meaning_en": "heart",
+      "meaning_ar": "",
+      "derivatives_count": 0,
+      "source": "mirror"
+    },
+    {
+      "term": "nafs",
+      "occurrences": 3,
+      "root_arabic": "Ù†ÙØ³",
+      "transliteration": "nfs",
+      "meaning_en": "Soul",
+      "meaning_ar": "",
+      "derivatives_count": 0,
+      "source": "mirror"
+    }
+  ],
+  "doctrine_topics": [
+    {
+      "topic_id": 729,
+      "topic_type_id": null,
+      "name": "Opening The Prayer",
+      "binder": "منتخب علمی مضامین",
+      "chapter": "کتاب مصباح الشریعۃ",
+      "matched_theme": "prayer"
+    },
+    {
+      "topic_id": 730,
+      "topic_type_id": null,
+      "name": "Bowing In Prayer",
+      "binder": "منتخب علمی مضامین",
+      "chapter": "کتاب مصباح الشریعۃ",
+      "matched_theme": "prayer"
+    },
+    {
+      "topic_id": 731,
+      "topic_type_id": null,
+      "name": "Prostration In Prayer",
+      "binder": "منتخب علمی مضامین",
+      "chapter": "کتاب مصباح الشریعۃ",
+      "matched_theme": "prayer"
+    }
+  ],
+  "hadith_refs": [],
+  "hadith_note": "KQUR Ahadees are Ismaili tradition — not matched to Ghazali's Sunni Prophetic narrations.  Tradition filter correctly withholds injection."
 }

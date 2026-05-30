@@ -18,6 +18,17 @@ O Allah, truly I seek from thee of grace the most perfect, and of protection the
 
 ---
 
-## References in this chapter (knowledge stage)
+## References in this chapter (knowledge stage — MCP enriched)
 
-_No explicit Quran citations in the spine for this chapter (e.g. the closing is a supplication/du'a). Hadith await a hadith DB._
+
+**3 Islamic terms annotated** (KQUR Roots + Derivatives)
+
+- **ilm** (علم) — knowledge ×5
+- **qalb** (Ù‚Ù„Ø¨) — heart ×3
+- **nafs** (Ù†ÙØ³) — Soul ×3
+
+**3 KASHKOLE wisdom topics matched** (ethics/aphorism topics — tradition-adjacent)
+
+- [729] Opening The Prayer (binder: منتخب علمی مضامین, matched: prayer)
+- [730] Bowing In Prayer (binder: منتخب علمی مضامین, matched: prayer)
+- [731] Prostration In Prayer (binder: منتخب علمی مضامین, matched: prayer)

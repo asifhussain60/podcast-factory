@@ -1,15 +1,105 @@
 {
   "slug": "ayyuhal-walad",
   "chapter": "ch03-the-path",
+  "stage": "knowledge-enriched",
+  "chapter_tradition": "sunni-sufi",
+  "enrichment_source": "mcp-mirror (KQUR + KASHKOLE, zero LLM calls)",
   "quran_verified": 5,
   "quran_refs": [
-    "65:3",
-    "49:5",
-    "18:70",
-    "21:37",
-    "35:44"
+    {
+      "ref": "65:3",
+      "surah_num": 65,
+      "ayat_num": 3,
+      "arabic": "‏وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ ۚ وَمَن يَتَوَكَّلْ عَلَى ٱللَّهِ فَهُوَ حَسْبُهُۥٓ ۚ إِنَّ ٱللَّهَ بَلِغُ أَمْرِهِۦ ۚ قَدْ جَعَلَ ٱللَّهُ لِكُلِّ شَىْءٍۢ قَدْرًۭا ‎",
+      "pickthall": "And He will provide him from (sources) he never could imagine. And whosoever puts his trust in Allah, then He will suffice him. Verily, Allah will accomplish his purpose. Indeed Allah has set a measure for all things.",
+      "asad": "and provides for him in a manner beyond all expectation; [9] and for everyone who places his trust in God He [alone] is enough. Verily, God always attains to His purpose: [and] indeed, unto everything has God appointed its [term and] measure. ",
+      "phonetic": "Wayarzuqhu min haythu la yahtasibu waman yatawakkal AAala Allahi fahuwa hasbuhu inna Allaha balighu amrihi qad jaAAala Allahu likulli shayin qadran",
+      "status": "verified",
+      "source": "kqur-mirror"
+    },
+    {
+      "ref": "49:5",
+      "surah_num": 49,
+      "ayat_num": 5,
+      "arabic": "‏وَلَوْ أَنَّهُمْ صَبَرُوا۟ حَتَّىٰ تَخْرُجَ إِلَيْهِمْ لَكَانَ خَيْرًۭا لَّهُمْ ۚ وَٱللَّهُ غَفُورٌۭ رَّحِيمٌۭ ‎",
+      "pickthall": "And if they had patience till you could come out to them, it would have been better for them. And Allah is Oft-Forgiving, Most Merciful.",
+      "asad": "for, if they had the patience [to wait] until thou come forth to them [of thine own accord], it would be for their own good. Still, God is much forgiving, a dispenser of grace. ",
+      "phonetic": "Walaw annahum sabaroo hatta takhruja ilayhim lakana khayran lahum waAllahu ghafoorun raheemun",
+      "status": "verified",
+      "source": "kqur-mirror"
+    },
+    {
+      "ref": "18:70",
+      "surah_num": 18,
+      "ayat_num": 70,
+      "arabic": "‏قَالَ فَإِنِ ٱتَّبَعْتَنِى فَلَا تَسْـَٔلْنِى عَن شَىْءٍ حَتَّىٰٓ أُحْدِثَ لَكَ مِنْهُ ذِكْرًۭا ‎",
+      "pickthall": "He (Khidr) said: \"Then, if you follow me, ask me not about anything till I myself mention it to you.\"",
+      "asad": "Said [the sage]: \"Well, then, if thou art to follow me, do not question me about aught [that I may do] until I myself give thee an account thereof.\" ",
+      "phonetic": "Qala faini ittabaAAtanee fala tasalnee AAan shayin hatta ohditha laka minhu thikran",
+      "status": "verified",
+      "source": "kqur-mirror"
+    },
+    {
+      "ref": "21:37",
+      "surah_num": 21,
+      "ayat_num": 37,
+      "arabic": "‏خُلِقَ ٱلْإِنسَنُ مِنْ عَجَلٍۢ ۚ سَأُو۟رِيكُمْ آيَتِى فَلَا تَسْتَعْجِلُونِ ‎",
+      "pickthall": "Man is created of haste, I will show you My <I>Ayat</I> (torments, proofs, evidences, verses, lessons, signs, revelations, etc.).So ask Me not to hasten (them).",
+      "asad": "Man is a creature of haste; [49] [but in time] I shall make obvious to you [the truth of] My mes­sages: do not, then, ask Me to hasten [it]! [50] ",
+      "phonetic": "Khuliqa alinsanu min AAajalin saoreekum ayatee fala tastaAAjiloona",
+      "status": "verified",
+      "source": "kqur-mirror"
+    },
+    {
+      "ref": "35:44",
+      "surah_num": 35,
+      "ayat_num": 44,
+      "arabic": "‏أَوَلَمْ يَسِيرُوا۟ فِى ٱلْأَرْضِ فَيَنظُرُوا۟ كَيْفَ كَانَ عَقِبَةُ ٱلَّذِينَ مِن قَبْلِهِمْ وَكَانُوٓا۟ أَشَدَّ مِنْهُمْ قُوَّۚةًۭ وَمَا كَانَ ٱللَّهُ لِيُعْجِزَهُۥ مِن شَىْءٍۢ فِى ٱلسَّمَوَتِ وَلَا فِى ٱلْأَرْضِۚ إِنَّهُۥ كَانَ عَلِيمًۭا قَدِيرًۭا ‎",
+      "pickthall": "Have they not travelled in the land, and seen what was the end of those before them, and they were superior to them in power? Allah is not such that anything in the heavens or in the earth escapes Him. Verily, He is All&shy;Knowing, All&shy;Omnipotent.",
+      "asad": "Have they never journeyed about the earth and beheld what happened in the end to those [deniers of the truth] who lived before their time and were [so much] greater than they in power? And [do they not see that the will of] God can never be foiled by anything whatever in the heavens or on earth, since, verily, He is all-knowing, infinite in His power? ",
+      "phonetic": "Awalam yaseeroo fee alardi fayanthuroo kayfa kana AAaqibatu allatheena min qablihim wakanoo ashadda minhum quwwatan wama kana Allahu liyuAAjizahu min shayin fee alssamawati wala fee alardi innahu kana AAaleeman qadeeran",
+      "status": "verified",
+      "source": "kqur-mirror"
+    }
   ],
-  "pending": [
-    "hadith DB"
-  ]
+  "etymology_terms": [
+    {
+      "term": "qalb",
+      "occurrences": 1,
+      "root_arabic": "Ù‚Ù„Ø¨",
+      "transliteration": "QBL",
+      "meaning_en": "heart",
+      "meaning_ar": "",
+      "derivatives_count": 0,
+      "source": "mirror"
+    }
+  ],
+  "doctrine_topics": [
+    {
+      "topic_id": 8,
+      "topic_type_id": null,
+      "name": "توحید اور اخلاص",
+      "binder": "توحید مبدع تعالی",
+      "chapter": "توحید کا تصور",
+      "matched_theme": "path"
+    },
+    {
+      "topic_id": 725,
+      "topic_type_id": null,
+      "name": "Evil Whispering",
+      "binder": "منتخب علمی مضامین",
+      "chapter": "کتاب مصباح الشریعۃ",
+      "matched_theme": "path"
+    },
+    {
+      "topic_id": 1340,
+      "topic_type_id": null,
+      "name": "Master meets the slave",
+      "binder": "منتخب علمی مضامین",
+      "chapter": "کتاب العالم والغلام",
+      "matched_theme": "path"
+    }
+  ],
+  "hadith_refs": [],
+  "hadith_note": "KQUR Ahadees are Ismaili tradition — not matched to Ghazali's Sunni Prophetic narrations.  Tradition filter correctly withholds injection."
 }

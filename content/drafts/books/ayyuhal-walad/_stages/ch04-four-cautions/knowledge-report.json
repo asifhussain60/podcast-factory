@@ -1,11 +1,71 @@
 {
   "slug": "ayyuhal-walad",
   "chapter": "ch04-four-cautions",
+  "stage": "knowledge-enriched",
+  "chapter_tradition": "sunni-sufi",
+  "enrichment_source": "mcp-mirror (KQUR + KASHKOLE, zero LLM calls)",
   "quran_verified": 1,
   "quran_refs": [
-    "53:29"
+    {
+      "ref": "53:29",
+      "surah_num": 53,
+      "ayat_num": 29,
+      "arabic": "‏فَأَعْرِضْ عَن مَّن تَوَلَّىٰ عَن ذِكْرِنَا وَلَمْ يُرِدْ إِلَّا ٱلْحَيَوٰةَ ٱلدُّنْيَا ‎",
+      "pickthall": "Therefore withdraw (O Muhammad <TT>PBUH</TT>) from him who turns away from Our Reminder (this Quran) and desires nothing but the life of this world.",
+      "asad": "Avoid thou, therefore, those who turn away from all remembrance of Us and care for no more than the life of this world, ",
+      "phonetic": "FaaAArid AAan man tawalla AAan thikrina walam yurid illa alhayata alddunya",
+      "status": "verified",
+      "source": "kqur-mirror"
+    }
   ],
-  "pending": [
-    "hadith DB"
-  ]
+  "etymology_terms": [
+    {
+      "term": "qalb",
+      "occurrences": 4,
+      "root_arabic": "Ù‚Ù„Ø¨",
+      "transliteration": "QBL",
+      "meaning_en": "heart",
+      "meaning_ar": "",
+      "derivatives_count": 0,
+      "source": "mirror"
+    },
+    {
+      "term": "ilm",
+      "occurrences": 3,
+      "root_arabic": "علم",
+      "transliteration": "ilm",
+      "meaning_en": "knowledge",
+      "meaning_ar": "",
+      "derivatives_count": 3,
+      "source": "mirror"
+    }
+  ],
+  "doctrine_topics": [
+    {
+      "topic_id": 3567,
+      "topic_type_id": null,
+      "name": "Renouncing Desires",
+      "binder": "غزالی - کیمیائی السعادۃ",
+      "chapter": "Disciplining The Soul",
+      "matched_theme": "caution"
+    },
+    {
+      "topic_id": 3582,
+      "topic_type_id": null,
+      "name": "مالک اشتر کے نام خط",
+      "binder": "علی ابن ابی طالب علیہ السلام",
+      "chapter": "خطبہ کمیل کا تجزیہ",
+      "matched_theme": "caution"
+    },
+    {
+      "topic_id": 5691,
+      "topic_type_id": null,
+      "name": "ایاک نعبد و ایاک نستعین",
+      "binder": "Quranic Studies",
+      "chapter": "ایاک نعبد و الصراط",
+      "matched_theme": "caution"
+    }
+  ],
+  "hadith_refs": [],
+  "hadith_note": "KQUR Ahadees are Ismaili tradition — not matched to Ghazali's Sunni Prophetic narrations.  Tradition filter correctly withholds injection."
 }

@@ -36,12 +36,33 @@ Shaqiq said, "May Allah grant you success, O youth. You have understood from the
 
 ---
 
-## References in this chapter (knowledge stage)
+## References in this chapter (knowledge stage — MCP enriched)
 
-_**5 Quran citations verified** against the Quran source (recovered from the Arabic spine). Hadith await a hadith DB._
+**5 Quran citations verified** (Arabic text + Pickthall/Asad translations from KQUR mirror)
 
-- ✅ Quran 79:40
-- ✅ Quran 49:13
-- ✅ Quran 43:32
-- ✅ Quran 35:6
-- ✅ Quran 11:6
+- ✅ **79:40** — ‏وَأَمَّا مَنْ خَافَ مَقَامَ رَبِّهِۦ وَنَهَى ٱلنَّفْسَ عَنِ ٱلْهَوَىٰ ‎
+  - *Pickthall:* But as for him who feared standing before his Lord, and restrained himself from impure evil desires, and lusts.
+  - *Asad:* But unto him who shall have stood in fear of his Sustainer's Presence, and held back his inner self from base desires, 
+- ✅ **49:13** — ‏يَٓأَيُّهَا ٱلنَّاسُ إِنَّا خَلَقْنَكُم مِّن ذَكَرٍۢ وَأُنثَىٰ وَجَعَلْنَكُمْ شُعُوبًۭا وَقَبَآئِلَ لِتَعَارَفُوٓا۟ ۚ إِنَّ أَكْرَمَكُمْ عِندَ ٱللَّهِ أَتْقَىٰكُمْ ۚ إِنَّ ٱللَّهَ عَلِيمٌ خَبِيرٌۭ ‎
+  - *Pickthall:* O mankind! We have created you from a male and a female, and made you into nations and tribes, that you may know one another. Verily, the most honourable of you with Allah is that (believer) who has <
+  - *Asad:* O men! Behold, We have created you all out of a male and a female, [15] and have made you into nations and tribes, so that you might come to know one another. [16] Verily, the noblest of you in the si
+- ✅ **43:32** — ‏أَهُمْ يَقْسِمُونَ رَحْمَتَ رَبِّكَ ۚ نَحْنُ قَسَمْنَا بَيْنَهُم مَّعِيشَتَهُمْ فِى ٱلْحَيَوٰةِ ٱلدُّنْيَا ۚ وَرَفَعْنَا بَعْضَهُمْ فَوْقَ بَعْضٍۢ دَرَجَتٍۢ لِّيَتَّخِذَ بَعْضُهُم بَعْضًۭا سُخْرِيًّۭا ۗ وَرَحْمَتُ رَبِّكَ خَيْرٌۭ مِّمَّا يَجْمَعُونَ ‎
+  - *Pickthall:* Is it they who would portion out the Mercy of your Lord? It is We Who portion out between them their livelihood in this world, and We raised some of them above others in ranks, so that some may employ
+  - *Asad:* But is it they who distribute thy Sustainer’s grace? [Nay, as] it is We who distribute their means of livelihood among them in the life of this world, and raise some of them by degrees above others, t
+- ✅ **35:6** — ‏إِنَّ ٱلشَّيْطَنَ لَكُمْ عَدُوٌّۭ فَٱتَّخِذُوهُ عَدُوًّاۚ إِنَّمَا يَدْعُوا۟ حِزْبَهُۥ لِيَكُونُوا۟ مِنْ أَصْحَبِ ٱلسَّعِيرِ ‎
+  - *Pickthall:* Surely, <I>Shaitan</I> (Satan) is an enemy to you, so take (treat) him as an enemy. He only invites his <I>Hizb</I> (followers) that they may become the dwellers of the blazing Fire.
+  - *Asad:* Behold, Satan is a foe unto you: so treat him as a foe. He but calls on his followers to the end that they might find themselves among such as are des­tined for the blazing flame – 
+- ✅ **11:6** — ‏ وَمَا مِن دَآبَّةٍۢ فِى ٱلْأَرْضِ إِلَّا عَلَى ٱللَّهِ رِزْقُهَا وَيَعْلَمُ مُسْتَقَرَّهَا وَمُسْتَوْدَعَهَا ۚ كُلٌّۭ فِى كِتَبٍۢ مُّبِينٍۢ ‎
+  - *Pickthall:* And no (moving) living creature is there on earth but its provision is due from Allah. And He knows its dwelling place and its deposit (in the uterous, grave, etc.). all is in a Clear Book (<I>Al-Lauh
+  - *Asad:* And there is no living creature on earth but depends for its sustenance on God; and He knows its time-limit [on earth] and its resting-place [after death]: [9] all [this] is laid down in [His] clear d
+
+**2 Islamic terms annotated** (KQUR Roots + Derivatives)
+
+- **ilm** (علم) — knowledge ×5
+- **nafs** (Ù†ÙØ³) — Soul ×5
+
+**3 KASHKOLE wisdom topics matched** (ethics/aphorism topics — tradition-adjacent)
+
+- [1340] Master meets the slave (binder: منتخب علمی مضامین, matched: soul)
+- [1341] The outer and inner signs of Allah (binder: منتخب علمی مضامین, matched: soul)
+- [1343] Slaves return to his family (binder: منتخب علمی مضامین, matched: soul)

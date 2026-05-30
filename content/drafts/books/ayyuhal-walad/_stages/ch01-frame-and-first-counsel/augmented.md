@@ -136,24 +136,39 @@ And that tradition was the saying of the Messenger, peace be upon him, to one of
 
 ---
 
-## References in this chapter (knowledge stage)
+## References in this chapter (knowledge stage — MCP enriched)
 
-_**7 Quran citations verified** against the Quran source — recovered from the Arabic spine during reconciliation (the English prose embedded them without numbers). Hadith await a hadith reference DB. Tradition filter injected no cross-tradition doctrine (corpus=fatimid-ismaili, chapter=Sunni-Sufi) — correct._
+**7 Quran citations verified** (Arabic text + Pickthall/Asad translations from KQUR mirror)
 
-**Quran (verified ✅):**
-- ✅ Al-Kahf 18:11
-- ✅ Al-Kahf 18:107
-- ✅ Maryam 19:59
-- ✅ Al-A'raf 7:179
-- ✅ Al-A'raf 7:50
-- ✅ Al-Isra 17:79
-- ✅ Adh-Dhariyat 51:18
+- ✅ **18:11** — ‏فَضَرَبْنَا عَلَىٰٓ آذَانِهِمْ فِى ٱلْكَهْفِ سِنِينَ عَدَدًۭا ‎
+  - *Pickthall:* Therefore We covered up their (sense of) hearing (causing them, to go in deep sleep) in the Cave for a number of years.
+  - *Asad:* And thereupon We veiled their ears in the cave [9] for many a year, 
+- ✅ **18:107** — ‏إِنَّ ٱلَّذِينَ آمَنُوا۟ وَعَمِلُوا۟ ٱلصَّلِحَتِ كَانَتْ لَهُمْ جَنَّتُ ٱلْفِرْدَوْسِ نُزُلًا ‎
+  - *Pickthall:* "Verily! Those who believe (in the Oneness of Allah Islamic Monotheism) and do righteous deeds, shall have the Gardens of <I>Al-Firdaus </I>(the Paradise) for their entertainment.
+  - *Asad:* [But,] verily, as for those who attain to faith and do righteous deeds - the gardens of paradise will be there to welcome them; 
+- ✅ **19:59** — ‏ فَخَلَفَ مِنۢ بَعْدِهِمْ خَلْفٌ أَضَاعُوا۟ ٱلصَّلَوٰةَ وَٱتَّبَعُوا۟ ٱلشَّهَوَتِ ۖ فَسَوْفَ يَلْقَوْنَ غَيًّا ‎
+  - *Pickthall:* Then, there has succeeded them a posterity who have given up <I>As-Salat</I> (the prayers) [i.e. made their <I>Salat</I> (prayers) to be lost, either by not offering them or by not offering them perfe
+  - *Asad:* Yet they were succeeded by generations [of people] who lost all [thought of] prayer and followed [but] their own lusts; and these will, in time, meet with utter disillusion. [45] 
+- ✅ **7:179** — ‏وَلَقَدْ ذَرَأْنَا لِجَهَنَّمَ كَثِيرًۭا مِّنَ ٱلْجِنِّ وَٱلْإِنسِ ۖ لَهُمْ قُلُوبٌۭ لَّا يَفْقَهُونَ بِهَا وَلَهُمْ أَعْيُنٌۭ لَّا يُبْصِرُونَ بِهَا وَلَهُمْ آذَانٌۭ لَّا يَسْمَعُونَ بِهَآ ۚ أُو۟لَٓئِكَ كَٱلْأَنْعَمِ بَلْ هُمْ أَضَلُّ ۚ أُو۟لَٓئِكَ هُمُ ٱلْغَفِلُونَ ‎
+  - *Pickthall:* And We have certainly created for Hell many of the jinn and mankind. They have hearts with which they do not understand, they have eyes with which they do not see, and they have ears with which they d
+  - *Asad:* And most certainly have We destined for hell many of the invisible beings [143] and men who have hearts with which they fail to grasp the truth, and eyes with which they fail to see, and ears with whi
+- ✅ **7:50** — ‏وَنَادَىٰٓ أَصْحَبُ ٱلنَّارِ أَصْحَبَ ٱلْجَنَّةِ أَنْ أَفِيضُوا۟ عَلَيْنَا مِنَ ٱلْمَآءِ أَوْ مِمَّا رَزَقَكُمُ ٱللَّهُ ۚ قَالُوٓا۟ إِنَّ ٱللَّهَ حَرَّمَهُمَا عَلَى ٱلْكَفِرِينَ ‎
+  - *Pickthall:* And the dwellers of the Fire will call to the dwellers of Paradise: "Pour on us some water or anything that Allah has provided you with." They will say: "Both (water and provision) Allah has forbidden
+  - *Asad:* And the inmates of the fire will call out unto the inmates of paradise: "Pour some water upon us, or some of the sustenance [of paradise] which God has provided for you!" [The inmates of paradise] wil
+- ✅ **17:79** — ‏وَمِنَ ٱلَّيْلِ فَتَهَجَّدْ بِهِۦ نَافِلَةًۭ لَّكَ عَسَىٰٓ أَن يَبْعَثَكَ رَبُّكَ مَقَامًۭا مَّحْمُودًۭا ‎
+  - *Pickthall:* And in some parts of the night (also) offer the <I>Salat</I> (prayer) with it (i.e. recite the Qur'an in the prayer), as an additional prayer (<I>Tahajjud </I>optional prayer <I>Nawafil</I>) for you (
+  - *Asad:* And rise from thy sleep and pray during part of the night [as well], as a free offering from thee, [97] and thy Sustainer may well raise thee to a glorious station [in the life to come]. 
+- ✅ **51:18** — ‏وَبِٱلْأَسْحَارِ هُمْ يَسْتَغْفِرُونَ ‎
+  - *Pickthall:* And in the hours before dawn, they were (found) asking (Allah) for forgiveness,
+  - *Asad:* and would pray for forgiveness from their innermost hearts; [11] 
 
-**Hadith (⚠ pending hadith DB):**
-- ⚠ sign Allah turned away — busying with the irrelevant
-- ⚠ most-punished scholar unbenefited by knowledge
-- ⚠ call yourself to account before you are called
-- ⚠ three sounds Allah loves (adhan, Quran, dawn istighfar)
-- ⚠ work for your world/hereafter/Allah/the Fire
+**2 Islamic terms annotated** (KQUR Roots + Derivatives)
 
-**Works:** • al-Ghazali, *Ihya' Ulum al-Din* (named in-text).
+- **ilm** (علم) — knowledge ×3
+- **nafs** (Ù†ÙØ³) — Soul ×1
+
+**3 KASHKOLE wisdom topics matched** (ethics/aphorism topics — tradition-adjacent)
+
+- [8] توحید اور اخلاص (binder: توحید مبدع تعالی, matched: sincerity)
+- [707] Sincerity (binder: منتخب علمی مضامین, matched: sincerity)
+- [725] Evil Whispering (binder: منتخب علمی مضامین, matched: sincerity)

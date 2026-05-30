@@ -33,8 +33,21 @@ The fourth thing to avoid is accepting any gifts or presents from princes, even 
 
 ---
 
-## References in this chapter (knowledge stage)
+## References in this chapter (knowledge stage — MCP enriched)
 
-_**1 Quran citations verified** against the Quran source (recovered from the Arabic spine). Hadith await a hadith DB._
+**1 Quran citation verified** (Arabic text + Pickthall/Asad translations from KQUR mirror)
 
-- ✅ Quran 53:29
+- ✅ **53:29** — ‏فَأَعْرِضْ عَن مَّن تَوَلَّىٰ عَن ذِكْرِنَا وَلَمْ يُرِدْ إِلَّا ٱلْحَيَوٰةَ ٱلدُّنْيَا ‎
+  - *Pickthall:* Therefore withdraw (O Muhammad <TT>PBUH</TT>) from him who turns away from Our Reminder (this Quran) and desires nothing but the life of this world.
+  - *Asad:* Avoid thou, therefore, those who turn away from all remembrance of Us and care for no more than the life of this world, 
+
+**2 Islamic terms annotated** (KQUR Roots + Derivatives)
+
+- **qalb** (Ù‚Ù„Ø¨) — heart ×4
+- **ilm** (علم) — knowledge ×3
+
+**3 KASHKOLE wisdom topics matched** (ethics/aphorism topics — tradition-adjacent)
+
+- [3567] Renouncing Desires (binder: غزالی - کیمیائی السعادۃ, matched: caution)
+- [3582] مالک اشتر کے نام خط (binder: علی ابن ابی طالب علیہ السلام, matched: caution)
+- [5691] ایاک نعبد و ایاک نستعین (binder: Quranic Studies, matched: caution)

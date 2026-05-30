@@ -1,15 +1,115 @@
 {
   "slug": "ayyuhal-walad",
   "chapter": "ch02-hatim-eight-benefits",
+  "stage": "knowledge-enriched",
+  "chapter_tradition": "sunni-sufi",
+  "enrichment_source": "mcp-mirror (KQUR + KASHKOLE, zero LLM calls)",
   "quran_verified": 5,
   "quran_refs": [
-    "79:40",
-    "49:13",
-    "43:32",
-    "35:6",
-    "11:6"
+    {
+      "ref": "79:40",
+      "surah_num": 79,
+      "ayat_num": 40,
+      "arabic": "‏وَأَمَّا مَنْ خَافَ مَقَامَ رَبِّهِۦ وَنَهَى ٱلنَّفْسَ عَنِ ٱلْهَوَىٰ ‎",
+      "pickthall": "But as for him who feared standing before his Lord, and restrained himself from impure evil desires, and lusts.",
+      "asad": "But unto him who shall have stood in fear of his Sustainer's Presence, and held back his inner self from base desires, ",
+      "phonetic": "Waama man khafa maqama rabbihi wanaha alnnafsa AAani alhawa",
+      "status": "verified",
+      "source": "kqur-mirror"
+    },
+    {
+      "ref": "49:13",
+      "surah_num": 49,
+      "ayat_num": 13,
+      "arabic": "‏يَٓأَيُّهَا ٱلنَّاسُ إِنَّا خَلَقْنَكُم مِّن ذَكَرٍۢ وَأُنثَىٰ وَجَعَلْنَكُمْ شُعُوبًۭا وَقَبَآئِلَ لِتَعَارَفُوٓا۟ ۚ إِنَّ أَكْرَمَكُمْ عِندَ ٱللَّهِ أَتْقَىٰكُمْ ۚ إِنَّ ٱللَّهَ عَلِيمٌ خَبِيرٌۭ ‎",
+      "pickthall": "O mankind! We have created you from a male and a female, and made you into nations and tribes, that you may know one another. Verily, the most honourable of you with Allah is that (believer) who has <I>At-Taqwa</I> [i.e. one of the <I>Muttaqun</I> (pious - see V.2:2). Verily, Allah is All-Knowing, All-Aware.",
+      "asad": "O men! Behold, We have created you all out of a male and a female, [15] and have made you into nations and tribes, so that you might come to know one another. [16] Verily, the noblest of you in the sight of God is the one who is most deeply conscious of Him. Behold, God is all-knowing, all-aware. ",
+      "phonetic": "Ya ayyuha alnnasu inna khalaqnakum min thakarin waontha wajaAAalnakum shuAAooban waqabaila litaAAarafoo inna akramakum AAinda Allahi atqakum inna Allaha AAaleemun khabeerun",
+      "status": "verified",
+      "source": "kqur-mirror"
+    },
+    {
+      "ref": "43:32",
+      "surah_num": 43,
+      "ayat_num": 32,
+      "arabic": "‏أَهُمْ يَقْسِمُونَ رَحْمَتَ رَبِّكَ ۚ نَحْنُ قَسَمْنَا بَيْنَهُم مَّعِيشَتَهُمْ فِى ٱلْحَيَوٰةِ ٱلدُّنْيَا ۚ وَرَفَعْنَا بَعْضَهُمْ فَوْقَ بَعْضٍۢ دَرَجَتٍۢ لِّيَتَّخِذَ بَعْضُهُم بَعْضًۭا سُخْرِيًّۭا ۗ وَرَحْمَتُ رَبِّكَ خَيْرٌۭ مِّمَّا يَجْمَعُونَ ‎",
+      "pickthall": "Is it they who would portion out the Mercy of your Lord? It is We Who portion out between them their livelihood in this world, and We raised some of them above others in ranks, so that some may employ others in their work. But the Mercy (Paradise) of your Lord (O Muhammad <TT>PBUH</TT>) is better than the (wealth of this world) which they amass.",
+      "asad": "But is it they who distribute thy Sustainer’s grace? [Nay, as] it is We who distribute their means of livelihood among them in the life of this world, and raise some of them by degrees above others, to the end that they might avail themselves of one another’s help - [so, too, it is We who bestow gifts of the spirit upon whomever We will]: and this thy Sustainer’s grace is better than all [the worldly wealth] that they may amass. ",
+      "phonetic": "Ahum yaqsimoona rahmata rabbika nahnu qasamna baynahum maAAeeshatahum fee alhayati alddunya warafaAAna baAAdahum fawqa baAAdin darajatin liyattakhitha baAAduhum baAAdan sukhriyyan warahmatu rabbika khayrun mimma yajmaAAoona",
+      "status": "verified",
+      "source": "kqur-mirror"
+    },
+    {
+      "ref": "35:6",
+      "surah_num": 35,
+      "ayat_num": 6,
+      "arabic": "‏إِنَّ ٱلشَّيْطَنَ لَكُمْ عَدُوٌّۭ فَٱتَّخِذُوهُ عَدُوًّاۚ إِنَّمَا يَدْعُوا۟ حِزْبَهُۥ لِيَكُونُوا۟ مِنْ أَصْحَبِ ٱلسَّعِيرِ ‎",
+      "pickthall": "Surely, <I>Shaitan</I> (Satan) is an enemy to you, so take (treat) him as an enemy. He only invites his <I>Hizb</I> (followers) that they may become the dwellers of the blazing Fire.",
+      "asad": "Behold, Satan is a foe unto you: so treat him as a foe. He but calls on his followers to the end that they might find themselves among such as are des­tined for the blazing flame – ",
+      "phonetic": "Inna alshshaytana lakum AAaduwwun faittakhithoohu AAaduwwan innama yadAAoo hizbahu liyakoonoo min ashabi alssaAAeeri",
+      "status": "verified",
+      "source": "kqur-mirror"
+    },
+    {
+      "ref": "11:6",
+      "surah_num": 11,
+      "ayat_num": 6,
+      "arabic": "‏ وَمَا مِن دَآبَّةٍۢ فِى ٱلْأَرْضِ إِلَّا عَلَى ٱللَّهِ رِزْقُهَا وَيَعْلَمُ مُسْتَقَرَّهَا وَمُسْتَوْدَعَهَا ۚ كُلٌّۭ فِى كِتَبٍۢ مُّبِينٍۢ ‎",
+      "pickthall": "And no (moving) living creature is there on earth but its provision is due from Allah. And He knows its dwelling place and its deposit (in the uterous, grave, etc.). all is in a Clear Book (<I>Al-Lauh Al-Mahfuz </I>- the Book of Decrees with Allah).",
+      "asad": "And there is no living creature on earth but depends for its sustenance on God; and He knows its time-limit [on earth] and its resting-place [after death]: [9] all [this] is laid down in [His] clear decree. ",
+      "phonetic": "Wama min dabbatin fee alardi illa AAala Allahi rizquha wayaAAlamu mustaqarraha wamustawdaAAaha kullun fee kitabin mubeenin",
+      "status": "verified",
+      "source": "kqur-mirror"
+    }
   ],
-  "pending": [
-    "hadith DB"
-  ]
+  "etymology_terms": [
+    {
+      "term": "ilm",
+      "occurrences": 5,
+      "root_arabic": "علم",
+      "transliteration": "ilm",
+      "meaning_en": "knowledge",
+      "meaning_ar": "",
+      "derivatives_count": 3,
+      "source": "mirror"
+    },
+    {
+      "term": "nafs",
+      "occurrences": 5,
+      "root_arabic": "Ù†ÙØ³",
+      "transliteration": "nfs",
+      "meaning_en": "Soul",
+      "meaning_ar": "",
+      "derivatives_count": 0,
+      "source": "mirror"
+    }
+  ],
+  "doctrine_topics": [
+    {
+      "topic_id": 1340,
+      "topic_type_id": null,
+      "name": "Master meets the slave",
+      "binder": "منتخب علمی مضامین",
+      "chapter": "کتاب العالم والغلام",
+      "matched_theme": "soul"
+    },
+    {
+      "topic_id": 1341,
+      "topic_type_id": null,
+      "name": "The outer and inner signs of Allah",
+      "binder": "منتخب علمی مضامین",
+      "chapter": "کتاب العالم والغلام",
+      "matched_theme": "soul"
+    },
+    {
+      "topic_id": 1343,
+      "topic_type_id": null,
+      "name": "Slaves return to his family",
+      "binder": "منتخب علمی مضامین",
+      "chapter": "کتاب العالم والغلام",
+      "matched_theme": "soul"
+    }
+  ],
+  "hadith_refs": [],
+  "hadith_note": "KQUR Ahadees are Ismaili tradition — not matched to Ghazali's Sunni Prophetic narrations.  Tradition filter correctly withholds injection."
 }
