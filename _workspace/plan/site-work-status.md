@@ -133,6 +133,19 @@ updated `knowledge-report.json` + `augmented.md`. ch01 divergences: none materia
 So Slice 5+ is genuinely NOT fully completable now: 2 sub-items advanced, 1 blocked (Anwaar), 2 are
 substantial builds (Studio re-platform, full audio job). Total Azure cost to date: **$4.67** ($0.37 OCR + $4.31 transcription, 12 lectures).
 
+**AUTONOMOUS EXECUTION PLAN — 8 phases (recorded 2026-05-30, authorized by Asif):**
+
+| Phase | Name | Key deliverables | Cost |
+|---|---|---|---|
+| **1** | Plan repair + Tier-0 fixes | Register WC8-0-foundation in plan.yaml; fix extractor.py claude-p; set meta.yml tradition_affinity=sunni-sufi for Ayyuhal; fold wave_8_studio into waves: array; fix I0a/I0b status | $0 |
+| **2** | K6-pre: terminus protection + retrofix | R_TERMINUS_PRESERVE in _rules.py; TERMINUS guard in gemini_refine.py; SN-7 in house-voice.md; D6 in challenger; re-run denoise+normalize+augmented for 5 chapters | ~$0.07 |
+| **3** | B5: MCP corpus enrichment | ingest_mcp_corpus.py (hadith/etymology/poetry from KASHKOLE+KQUR); run ingest; build KSESSIONS voice exemplar vectors | ~$0 |
+| **4** | K6: interest + quality scoring | R_INTEREST_* constants; _interest_score() 5th PEQ axis; Category V V1–V5 in challenger; fix Voice axis; INTEREST CONTRACT in _authoring.py | $0 |
+| **5** | Studio re-platform (5b + 5c) | @dnd-kit + cmdk packages; 7 editorial cards; StudioLayout.tsx; /studio page; HOST_ROLE_CONTRACT; K1 Debater carve-out | $0 |
+| **6** | Pipeline productionization | Orchestrator reads _system/review/<ch>.json approvals; edit-save-back; "Run next stage" button | $0 |
+| **7** | New Content intake (6b) | /new-content wizard; intake API; editorial.json pre-fill | $0 |
+| **8** | Output: podcast bundle + slides | assemble_bundle.py; per-episode .txt + framings; slide decks; challenger convergence (5-axis); NotebookLM upload table | ~$0.20 |
+
 **HONEST PENDING (not blockers, scoped work):**
 - **Slice 4+ (plan B5) — BUILD:** ingest hadith/etymology/poetry atoms from MCP (KASHKOLE+KQUR). Zero external DB needed — data is in KASHKOLE already (14 hadith topics TypeID 17 + TypeID 23; binder 5 poetry; KQUR Roots etymology). Script: `ingest_mcp_corpus.py`. Also fix `extractor.py` `claude -p` call. Authorized 2026-05-30.
 - Reconcile done INLINE for ch01 (I read Arabic); scaling to all chapters/books = Gemini bulk +
