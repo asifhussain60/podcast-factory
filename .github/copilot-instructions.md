@@ -4,6 +4,25 @@ GitHub Copilot auto-loads this file as project-wide guidance. Read it at the sta
 
 ---
 
+## Two-agent model — YOU (Copilot) + Claude Code, in parallel (LOCKED 2026-05-30)
+
+This repo is worked by two agents at once. The split is **by directory** — stay in your lane and we never collide. (A regression audit on 2026-05-30 confirmed the boundary is safe *only if these rules hold*.)
+
+**You (Copilot) own `plan-dashboard/**`** — the Astro site: React/TSX, TipTap, CSS, the editorial cockpit, the New-Content intake page, the editor enhancement layer. `npm run dev` is your inner loop.
+
+**Claude owns everything else** — `scripts/podcast/**` (the Python pipeline), all prompts, `_rules.py`/`_doctrinal.py`, the `infra/claude-agents/*.md` specs, `docs/standards/*.md`, the plan (`_workspace/plan/refactor/plan.{yaml,md}`), and the three `plan-dashboard/src/data/*-snapshot.json` files.
+
+**Hard rules (the anti-regression contract):**
+1. **Do NOT edit Python, prompts, `_rules.py`, agent specs, the plan, or the snapshot JSONs.** They carry doctrinal + convergence-loop context you don't have, and the snapshot-regen hook does not fire for you — a plan edit by you leaves snapshots stale (a contract violation). If you think one is wrong, write it in your session log.
+2. **Run `npm run lint:views` before any commit that touches a view** — there is no git pre-commit hook in this clone and Claude's hooks (Cortex reminder, ui-reviewer, snapshot-regen) do NOT fire for you, so the gate is manual and on you.
+3. **The `_system/` JSON files are the editor↔pipeline API; Claude owns their schema.** Consume `editorial.ts` / `stage-review.ts` shapes — never fork a schema. Need a new field? Note it in the session log for Claude.
+4. **TS↔Python mirror files are a shared seam** — `src/lib/content-paths.ts`↔`_paths.py`, `peq-scores.ts`↔`_quality.py`+`challenger_scoring.py`. If you touch a mirror, say so in the log; never let it diverge from its Python source.
+5. **`git pull --rebase` before you start and before you push** — Claude commits pipeline work in parallel on the same branch.
+
+Coordination is async through `_workspace/plan/copilot-handoff.md`: Claude writes your tickets there; you read at session start and append a session log at the end. Claude's mirror of these rules is in `CLAUDE.md` (the "Two-agent operating model" standing rule).
+
+---
+
 ## What this repo is
 
 - A **podcast-authoring pipeline** driving scholarly Arabic books through Claude + Azure → NotebookLM Audio Overview episodes. Live state lives under `scripts/podcast/`, in-progress books under `content/drafts/<slug>/`, shipped books under `content/published/books/<slug>/`.
