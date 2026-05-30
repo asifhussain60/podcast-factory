@@ -1,29 +1,27 @@
-# `_workspace/` — tracked planning + setup + procedures
+# _workspace
 
-The repo's meta zone. Plan documents, response conventions, bootstrap runbooks, operational procedures. **No runtime code, no book content.** Runtime code lives under [`scripts/`](../scripts/); book content lives under [`content/`](../content/).
+Working surface for the podcast-factory project. Five folders, nothing else.
+Naming convention: lowercase-kebab-case throughout. No SCREAMING_CASE filenames.
 
-## Layout
-
-| Path | Purpose |
+| Folder | What lives here |
 |---|---|
-| [`plan/`](plan/) | Canonical planning surface. See [plan/README.md](plan/README.md) for the nested structure: `architecture.md` (timeless design + 13 ADRs), `refactor/` (the active 22-step roadmap), `conventions/` (response template + authoring rules), `debt/` (live F-item backlog), `operations/` (per-book ship checklist), `reader/`, `research/`, `view/`. |
-| [`runbooks/`](runbooks/) | Procedures used at intervals — [publish.md](runbooks/publish.md), [watchdog.md](runbooks/watchdog.md), [e2e-book.md](runbooks/e2e-book.md), [claude-code-bootstrap-prompt.md](runbooks/claude-code-bootstrap-prompt.md), [podcast-factory.code-workspace](runbooks/podcast-factory.code-workspace). |
-| [`setup/`](setup/) | One-time setup: [bootstrap.md](setup/bootstrap.md) for new Macs; [azure-stack.md](setup/azure-stack.md) for the full Azure resource reference. |
-| [`proposals/`](proposals/) | One-off design proposals awaiting decision. Currently: `operator-review-ai-features.html` (AI features for the operator-review surface). |
-| `audit/`, `logs/` | **Gitignored.** On-disk only — auditor outputs (`audit/`) and orchestrator runtime logs (`logs/`). Never committed; safe to delete locally. |
+| `inbox/` | Raw source material coming into the pipeline — PDFs, audio files, YouTube downloads. Transient: commit text pipeline outputs only; audio/video stay local. |
+| `plan/` | Master plan. `refactor/plan.yaml` + `refactor/plan.md` = canonical roadmap. `site-work-status.md` = live session-continuity doc (auto-injected at session start). `architecture.md` = timeless design reference. |
+| `prompts/` | Prompt templates, improvement specs, continuation starters. `continue-*.md` = session-bootstrap prompts for specific work tracks. |
+| `reviews/` | Audit reports, deployment reviews, orchestrator logs, historical archives. Read-only reference — nothing here drives active execution. |
+| `tests/` | PEQ baselines for KaR and M&D (regression floor). Test strategy backlog, case, and findings directories. |
 
-## Standing doctrine
+## Key files
 
-- **No file versions** anywhere in this repo. The git history IS the version log. See [DR-009 in plan/architecture.md](plan/architecture.md#decision-records-adrs).
-- **No root-level sprawl in `_workspace/`** — only `README.md` and a small set of typed subdirectories.
-- **Single-machine model** (since 2026-05-23). The earlier multi-machine coordination model (operator files, machine-id detection, book-queue mutex) is retired. The session-starter is [`scripts/start-session.sh`](../scripts/start-session.sh).
-- **Branch propagation** — `_workspace/` propagates via the standard merge flow (`<prefix>/<slug>` → `develop` → `main`). Per [DR-003](plan/architecture.md#decision-records-adrs), each piece of content runs on its own typed branch off `develop`.
+- `plan/site-work-status.md` — current work state (read this first in any new session)
+- `plan/continuation-2026-05-30.md` — WC8 autonomous build mandate + wave-8 slice table
+- `plan/refactor/plan.yaml` — master roadmap (all waves A–K, WC8, dual-platform)
+- `plan/architecture.md` — timeless system design (read when conventions feel stale)
+- `prompts/full-audit-2026-05-30.md` — full repo audit findings + 12-phase to-do list
+- `prompts/intelligence-layer-spec.md` — locked design decisions D1–D15 for the intelligence layer
 
-## What used to be here (deleted 2026-05-26)
+## Standing rules
 
-Folder consolidation removed 9 sprawl entries (see commit [4c92b2b](https://github.com/asifhussain60/podcast-factory/commit/4c92b2b)):
-
-- **Tracked deletes** — `_archive/` (28 files), `audit-reports/` (3 dated reports), `chats/` (3 prompts; retired studio-* multi-machine artifacts), `source-library/` (2,648 files / 98M rollout extracts), `lectures/` (8 files; canonical copy at `content/drafts/LECTURES/`), `tmp/` (2 one-shot files).
-- **On-disk deletes** — `raw/` (743M source PDFs; originals on Drive), `scratch/` (challenger work-in-progress), `orchestrator-logs/` (empty).
-
-Git history preserves every byte. Recover any file with `git show 4c92b2b~1:_workspace/<path>`.
+- No file version suffixes — git history is the version log (DR-009)
+- No root-level sprawl — only README.md and the five typed subdirectories above
+- Single-machine model since 2026-05-23; session-starter is `scripts/start-session.sh`

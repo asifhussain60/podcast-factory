@@ -1,0 +1,61 @@
+chapter_ref: ch02b-where-the-disputants-erred
+slug: where-the-disputants-erred
+source_type: book-chapter
+book_slug: kitab-al-riyad
+episode_number: 2
+source_chapter_ref: 1
+section_index: 2
+title: Where the Disputants Erred
+audience: Listeners who heard the opening of Bāb 1 (Episode 1) and now want to follow how al-Kirmani diagnoses each disputant's specific mistakes — including the rhetorical line one of them crosses by attaching his opponent to the heresy of Abu Bakr al-Razi.
+angle: faithful_exposition
+episode_format: deep_dive
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_custom: null
+debate: null
+length_target: extended
+key_tensions:
+  - "Al-Nusra's three-horned fork against al-Islah (deficiency from agent, matter, or both) collapses because diminution is in the receivers, not the received — wax softens, stone refuses, iron warms slowly, but the heat is one."
+  - "The al-Razi smear: al-Nusra crosses the line of legitimate critique by attaching al-Islah to Abu Bakr al-Razi's eternal-matter heresy; al-Kirmani refuses to dignify it but names the transgression."
+  - "Al-Nusra contradicts himself between al-Nusra and al-Ikhtisar — in one book the world is deficient, in the other the world is rich and perfect. Al-Kirmani lays the two books side by side."
+  - "Speaker and Foundation as the bodily image of Intellect and Soul: God commands obedience to the Foundation, and God does not command obedience to the essence-deficient — so the Foundation, like the Soul, is tamm in himself, less only in rank."
+  - "Action does not imply deficiency: the sun, the fire, the whales of the Sea of Oman, the dolphins that rescue drowning sailors all act for others, not for themselves. The perfect overflows; it does not transact."
+tone_constraints:
+  - No modernizations.
+  - The disputants' positions are paraphrased; al-Kirmani's verdict sentences are verbatim and should carry weight when quoted.
+  - Honorifics for the Prophet ﷺ, Imam Ali (AS), and the Imams are spelled out per Phase 0c rules at first occurrence only.
+  - When the Hadith al-Thaqalayn is quoted, it stays verbatim in al-Kirmani's rendering.
+  - Hold the gravity of an adjudication; the hosts are not amused by the Razi smear, and they say so.
+anchor_passages:
+  - "The sun's heat is accepted by objects that yield to it like wax, which softens; while other bodies refuse to accept it, such as stone and iron; and still others react only slowly. We have established by direct observation that the heat is one and the same; the discrepancy lies in the receivers, not in the heat itself."
+  - "I leave among you the two weighty things: the Book of Allah and my 'Itrah, a rope stretched from the sky to the earth — one end of it in the hand of Allah and one end in your hands. Hold fast to them and you will not go astray as long as you hold to them."
+  - "An action may proceed from an agent in such a way that what benefits is the object of the action, not the one who produced it. The evidence for this is that the heat from the fire is an act of the fire, yet this act does not return to the fire, nor does the fire gain any benefit or suffer any harm from it; rather the benefit and the harm reach whatever the heat acts upon."
+  - "Allah does not command obedience to the essence-deficient — therefore the Foundation is in the same position as the Speaker, ranked below him in degree but not in essence."
+adaptation_mode: faithful
+phonetic_overrides:
+  Abu Bakr al-Razi: a-boo bakr ar-raa-zee
+  Abu Zakariyya al-Razi: a-boo za-ka-riy-yaa ar-raa-zee
+  al-hayyūli: al-hay-yoo-lee
+  al-hayyūliyyāt: al-hay-yoo-liy-yaat
+  al-Ikhtisar: al-ikh-ti-saar
+  shari'a: sha-ree-ah
+  'Itrah: it-rah
+  ta'wīl: ta-weel
+  fawād: fa-waad
+  rak'ahs: ra-kahs
+  al-Qunūt: al-qu-noot
+  Umma: um-mah
+  Oman: o-maan
+  Rahat al-'Aql: raa-hat al-aql
+  al-Natiq: naa-tiq
+  al-Asas: a-saas
+  Ali ibn Abi Talib: a-lee ibn a-bee taa-lib
+show_notes:
+  blurb: "Across §14–§26 of Bāb 1, al-Kirmani moves from architecture to diagnosis. He defends al-Islah's core claim while pulling al-Nusra up sharply on three specific failures: a logical fork that collapses against the simple fact that one heat acts differently on wax and stone; a smear attaching al-Islah to the heresy of Abu Bakr al-Razi; and a self-contradiction between al-Nusra and al-Ikhtisar. Along the way he sets out the joint emanation of Soul and matter from the First Intellect's two proportions, ties the metaphysical scheme to the Hadith of the Two Weighty Things, and shows that the two rak'ahs of the dawn prayer are the bodily icon of the order of being."
+  related_episodes:
+    - ch01a-perfection-versus-the-perfect
+    - ch03c-the-soul-as-second-emanation
+  references:
+    - Quran 17:44
+    - "Hadith al-Thaqalayn (Hadith of the Two Weighty Things) — Muhammad ﷺ"
+    - "al-Ikhtisar (author of al-Nusra) — cited internally against al-Nusra"
+    - "Rahat al-'Aql (al-Kirmani) — pointed to throughout"

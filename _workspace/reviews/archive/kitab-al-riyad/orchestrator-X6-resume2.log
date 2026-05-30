@@ -1,0 +1,8 @@
+orchestrate_book: resume — slug=kitab-al-riyad
+  last completed:  0e
+  current phase:   per-chapter  [halted]
+phase: per-chapter[motion-stillness-hyle-and-form] · already shipped, skipping
+phase: per-chapter[prophets-as-teachers-monotheism-and-the-ranks] · extract → frame → build → converge
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+  prophets-as-teachers-monotheism-and-the-ranks FAILED                 iter=0 fix=0 P0=0 P1=0 P2=0
+ERROR: chapter prophets-as-teachers-monotheism-and-the-ranks failed; halting per-chapter loop.

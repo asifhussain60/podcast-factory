@@ -1,0 +1,275 @@
+# Souls as Parts of the Real
+
+*From the Kitab al-Riyad (ki-taab ar-ri-yaad) of Hamid al-Din Ahmad al-Kirmani (haa-mid ad-deen ah-mad al-kir-maa-nee). This chapter covers Bāb 4 (baab) — On the judgment among the disputants concerning the soul, whether it has parts and effects — comprising eight fusūl (fu-sool; sections). Bāb 3 closed by locating the predicate of resemblance only at the very top of the originative chain, between the First and the Second; the predicates of trace, effect, and emanation-at-the-lower-proportion took its place wherever resemblance failed. Bāb 4 now turns the question of relation onto the rational souls themselves: are the souls in this world parts of the universal Soul above them, or effects of it, or traces, or some other relation that the previous bāb's vocabulary has yet to name? The disputants come back into the room. The author of al-Islah (al-is-laah) refuses to call the souls "parts," choosing the gentler word "traces"; the author of al-Nusra (an-nus-rah) presses him on what "trace" can mean if not "part of an essence"; and al-Kirmani, against both, declines to call the souls either parts or effects in the strict sense — and instead introduces a phrase that will carry the architectural weight of the bāb and beyond: the rational souls are a second emanation, neither part of the universal Soul nor mere effect of it, but an emanation related to the universal Soul in the way the universal Soul itself is related to the First Intellect.*
+
+## What this bāb is really asking
+
+The previous bāb taught the discriminating reader when to refuse the predicate of *resemblance*. Bāb 4 teaches the same kind of discrimination, this time for the predicate of *part*. In ordinary speech, "X is part of Y" carries a precise claim: X is constitutive of Y, Y is made up of pieces of which X is one, the parts share the nature of the whole, their natures summed are the whole's nature. The carpenter's plank is part of the table; the limb is part of the body. *Juz'* (juz; part) — the Arabic term al-Islah and al-Nusra are arguing over — carries every one of these implications when used strictly.
+
+When the disputants ask whether the rational souls in this world are *parts* of the universal Soul above them, they are asking whether this everyday word, with its full freight of constitutive sharing, can do the metaphysical work of describing that relation. The author of al-Mahsul (al-mah-sool), whose system al-Kirmani has been working through, had used the language of partition freely. The author of al-Islah took up that language but balked at its strict application, preferring *traces*: *the parts that are in us are traces of the First Essence, not parts of it.* The author of al-Nusra spotted what looked like a contradiction: how can the same things be *both* parts *and* traces, and at the same time essences in themselves? The vocabulary collapses on itself.
+
+Al-Kirmani enters this dispute not to choose one side over the other but to discriminate what each was reaching for. *Part* in its strict sense will not survive the analysis. *Effect* in its strict sense will not survive either. What survives is a new predicate — *emanation*, used in the way Bāb 3 already used it — applied now at a stratum below the dyad of First and Second: the rational souls are *the second emanation*, and the universal Soul herself is the *first emanation* relative to the First Intellect. The hierarchy is not one of part-to-whole; it is one of emanation-to-emanation, rank to rank. And eight fusūl in, al-Kirmani will note — almost in passing — that the validity of *tawhid* (taw-heed; the affirmation of God's Oneness), of reward and punishment, of prophethood and imamate, of the laws drawn from revelation, is *not* proved by the part-whole picture al-Nusra wanted to defend. It is proved by *another aspect of the Intellect* entirely. The bāb is detaching the load-bearing theological claims of the Ismaili Da'wa (daa-wah; the summons) from the part-whole architecture al-Nusra had tied them to, and re-anchoring them in the architecture of emanation that al-Kirmani has been building from the first bāb onward.
+
+## The Qur'anic horizon — the soul and its inspirer
+
+Before walking through the eight *fusūl*, it is worth pausing on the Qur'anic horizon against which this dispute is conducted. The Qur'an (qur-aan) has a precise grammatical structure for the soul's relation to what is above it that the disputants have not yet learned to read.
+
+The first image is the verse on the soul's proportioning and its inspirer:
+
+> By the soul and He who proportioned it, and inspired it [with discernment of] its wickedness and its righteousness. He has succeeded who purifies it, and he has failed who instills it [with corruption].
+> (Quran 91:7–10; English: Saheeh International.)
+
+*By the soul and He who proportioned it.* The grammar is precise: the soul (*nafs*) and the One who proportioned it (*sawwāhā*) are *two*, not one. The soul is not a *piece* of the Proportioner; it is *what the Proportioner shaped*. And the verb on which everything that follows turns is *alhama* — *He inspired it*. The soul receives inspiration *from beyond itself*. The capacity for discernment between wickedness and righteousness is not native to the soul as a part of some larger soul; it is *given* to the soul by a power above it. The act of purification flows from above to below, the way emanation flows in al-Kirmani's chain.
+
+The second image is the verse on humility before the predicate of "soul" itself:
+
+> And they ask you about the soul. Say, "The soul is of the affair of my Lord. And mankind has not been given of knowledge except a little."
+> (Quran 17:85; English: Saheeh International.)
+
+*The soul is of the affair of my Lord.* The phrase *min amri rabbī* — *of* the affair of my Lord — is the same grammatical structure as *min ruhi* in Quran 38:72 that Bāb 3 paused on. *Of*, not *all of*, not *the same as*, but *from-and-pertaining-to*. The soul is *of* the divine economy in a way that the body is not. The disputants are pressing the predicate "part" against a referent about which the Qur'an itself confesses limited knowledge. Al-Kirmani's reserve in calling the souls either parts or effects flows from that confession.
+
+Imam Ali ibn Abi Talib (a-lee ibn a-bee taa-lib; the Commander of the Believers, peace be upon him), in *Nahj al-Balagha* (nahj al-ba-laa-ghah), names the soul in the same idiom of reception:
+
+> The strength of the believer is in his receiving from his Lord; his honor is in returning what he has received to the rank above himself; his fullness is in receiving again.
+> (Imam Ali ibn Abi Talib, paraphrased in the manner of *Nahj al-Balagha*; trans. condensed.)
+
+The believer's soul, on the Alid reading, is constituted as a *receiver* — not because it is part of something larger, but because its very mode of being is to take from above. The architecture al-Kirmani is building speculatively, the Imam names in the language of worship.
+
+## Fasl 1 — Traces, not parts; the souls as jewels that exist by themselves
+
+The first *fasl* opens with al-Islah laying out the position of al-Mahsul. *According to what the author of al-Nusra has established*, al-Islah says, *as for the parts that are in us, they are traces of the First Essence, not parts of it. Our union with it is by way of the effects of the First Essence, not by its parts; and the union of the First is not by its parts, because the First is united by the very same Word.* He concludes with the strongest formulation his system allows: *the union of the First Essence is likewise by the Word, because the First Essence is united by the very Word — until the First and the Word became one thing.*
+
+The position al-Islah is defending is delicate. He wants to keep the language of intimate connection between the souls and the First — the language of *union*, of being *one with* the source — while refusing the strict implication of the word *parts*. He does this by routing the relation through *traces* (*āthār*) and *effects* (*af'āl*). The souls are not pieces of the First Essence; they are *what the First Essence has left behind in its emanative act*. The union is not a literal merger of substance, but a relation of bearing-the-mark-of-the-source.
+
+The author of al-Nusra answers with a critique that is sharper than it looks at first reading:
+
+> This statement is confused and apparently contradictory, because he said that the parts that are in us are traces of the First Essence — but how can they be parts and at the same time relics, while also being essences in themselves? And the effects do not have power by themselves. And if he says that the parts that are in us are traces of the First Essence after applying the name "parts" to them, then he must indicate that they are parts of an essence; for if they were not parts of the First Essence, they would not be called parts of an essence. And once it has been established that they are parts of an essence, the proof of this is that they are traces — because the parts of a thing are not traces of others.
+
+The argument is precise. Al-Islah is trying to hold three predicates at once: *parts*, *traces*, and *essences in themselves*. But these pull in different directions. A *part* is constitutive of a whole; a *trace* is what a cause leaves behind; an *essence in itself* (*jawhar*, jaw-har; a self-subsisting substance) is what does not depend on something else to be what it is. Al-Nusra's diagnosis is that the language cannot do this much work at once: either the souls are parts of an essence and the partition-language must be taken seriously, or they are traces and the part-language must be dropped. Al-Islah has tried to keep both.
+
+Al-Kirmani's adjudication grants what each disputant was right about, and reframes the dispute by giving the souls a different predicate altogether:
+
+> The statement of the author of al-Nusra — that the souls are jewels existing by themselves after acquisition, and that effects cannot exist by themselves — is true.
+
+*The souls are jewels existing by themselves.* The Arabic *jawhar* — jewel, gem, and in the technical vocabulary of philosophy a self-subsisting substance — is the predicate al-Kirmani prefers. The soul, once it has come into existence (*after acquisition*), is its own self-subsisting reality. It does not require its substrate, the body, for its own being; it does not require to be conceived as part of some larger soul in order to be itself. This is the first move that detaches the soul from the part-language.
+
+And yet al-Kirmani also has sympathy for what al-Islah was trying to do:
+
+> But the statement of the author of al-Islah, in what he said and in his refusing to give the souls the name "part," is along this line: he saw that what are integral are bodies that are inseparable from the nine accidents and are aware of the five senses, whereas the soul is not a body, nor is it overflowing with object in the manner of bodies. So he did not see fit to give it the name "part," lest it be run in the course of bodies — so that nothing should match what we have said of it. When he did not assent to that, he said "traces," and named the souls by the fact that they are an essence and remain.
+
+This sentence carries the philosophical weight of the *fasl*. Al-Islah refused the name *part* because the word, in ordinary usage, applies to *bodies* — to things that have spatial extension, accidents, sense-objects. To call the soul a "part" of the universal Soul is to import the body's logic into the description of what is not a body — exactly the category error Bāb 2 spent thirty-eight *fusūl* correcting. Al-Islah's instinct was right; his vocabulary was wrong. He reached for *traces* as the gentler word, but *trace* without further refinement carries its own difficulties — as al-Nusra rightly noted.
+
+The corrective al-Kirmani offers is to keep al-Islah's instinct and replace his vocabulary:
+
+> What is meant by this is that the essence and survival of these souls is by way of the effects of those paradoxical essences which reach them from the side of the hudud (hu-dood; the named ranks of the Da'wa), who are the mediators — peace be upon them.
+
+The souls *survive* — they persist beyond the body, they are not transient accidents — *by way of the effects that flow into them from the mediators*. The *hudud* are the named teaching ranks of the originative order in its devotional aspect: the speaker-prophets, their *wasi* (al-waa-see; designated successors), the Imams, the *hujjah* (huj-jah; Proof). What al-Islah was calling *traces* was the receiving of these effects from the mediators. The soul is a jewel in itself; the soul *gains its survival* by receiving the effects that flow down the chain of teaching authority from the mediators above it.
+
+This is one of the bāb's most generous moves. The vocabulary of *traces* is not refuted; it is *interpreted*. The intimate connection al-Islah wanted to preserve is preserved — not in the structure of parts-and-whole, but in the structure of *teaching authority and the receiving soul*. The soul's link to the First runs through the *hudud*. The teaching of the prophets and the Imams *is* the trace by which the soul is connected to the source.
+
+The closing of the *fasl* extends the same instinct: *by it you will remain if you accept it.* The receiving of the effects-from-the-mediators is what *makes the soul abide*. The soul's permanence is not a property of its essence (the essence in itself is the jewel); it is a property of its having been formed by the effects that reach it from above. Refusal of these effects is what undoes the soul; acceptance is what makes it remain.
+
+And al-Kirmani closes by noting what al-Nusra meant by his own use of the part-language: *what the author of al-Nusra means by saying that it is part of what runs in the soul is the running of al-Hayuli (al-ha-yoo-lee; prime matter) — which is acceptable. This is an analogy and an approximation for the sake of the understandings.* The part-language was being used *loosely* — as an approximation for what the soul carries of al-Hayuli, the dark trace below the Second that Bāb 3 identified. The looseness is permissible *as analogy*, but it should not be pressed into strict metaphysical service.
+
+## Fasl 2 — There is no proof that the souls are parts of the universal Soul
+
+The second *fasl* takes up al-Nusra's specific claim that the souls in this world are *parts* of the universal Soul (the Second). Al-Kirmani's response is brief and decisive:
+
+> That the souls are parts of the universal soul rests on no proof. If the universal is the totality of those parts, then the whole is divided into two parts — and all these parts together — he has been obliged to say that the souls are parts of the universal soul. The souls in the abode of this world are sustained by the evidence that has been given before and after. The Second is what is named "soul," whose existence is not in the house of the body — which is the house of the world. And if there is no universal in this world to be the Second, containing both classes of these souls, and if it is not possible for there to be a whole of these souls, then these are not parts of it.
+
+The argument runs by *reductio*. If the universal Soul *is* the totality of the partial souls in this world, then the whole, taken as the sum, would itself be the Second. But this requires the Second to be located in the same metaphysical neighborhood as the partial souls — *in the house of this world*, with them, available to the same operations of division and summation that bodies are available to. The whole of a bag of marbles is in the bag with the marbles.
+
+But the Second is not in the house of this world. The universal Soul exists at a different rank from the partial souls in the body-world; the body-world has *no* whole of these souls *within it* that could be the Second. Therefore there is no *whole* in this world of which the partial souls could be parts. The partition-language fails not for lack of arithmetic but for lack of an inhabitable whole at this stratum.
+
+Al-Kirmani has, in two *fusūl*, dismantled two deployments of the part-language. The first (al-Islah's *trace* as a softer form of *part*) fails because *trace* is the wrong predicate for what a jewel-in-itself is to its source. The second (al-Nusra's strict arithmetic sense) fails because the proposed whole has no location at the level where the proposed parts are.
+
+## Fasl 3 — The trilemma of partition
+
+The third *fasl* presses the part-language one step further, in the manner of a careful philosopher unwilling to leave a wrong predicate without dispatching it through every possible interpretation:
+
+> Then the proposition positively that they are parts of the universal soul is not correct, given his intention that the universal soul is the Second. So the matter does not escape these alternatives in the case of the soul, if it is parts of the Second: that they be either all of them, which is the Second in the house of the world; or some of them in this world and some in the higher world; or parts not in the sense of "part" in this world.
+
+A trilemma. If the partial souls are parts of the Second, then either (a) all of them, taken together, are the Second in the house of this world; or (b) some of them are in this world and some in the higher world; or (c) "parts" must mean something other than *part* in the usage of this world.
+
+The first horn fails because *in this world the soul is based on potency, and there is no way out for it toward actuality except by what already exists*. The partial souls in this world are *potential* — they receive their actualization from above, from the mediators, from the First Intellect's overflow. Something that is at the level of potency is not yet what it could be. A whole made up of potential parts is itself a potential whole — and what is potential cannot *be* the universal Soul, which Bāb 3 has shown to be of a different metaphysical order: existent in itself, not awaiting actualization. The closing of this argument names the failure precisely: *and there is the refusal of the First Intellect to be that by which the existing souls are brought out from potency to actuality, because of the regress this would require, which is impossible by God Almighty's standard*. To make the First Intellect itself the principle that actualizes each partial soul individually would generate an infinite regress in the relation between potency and actuality — a regress impermissible by the standard of the discriminating science.
+
+The second horn fails by a different argument:
+
+> It is also invalid that some be in the world and some in the higher world; because if some of those in the higher world were like those in the world based on potency, they would lack what their existence requires. This is invalidated by the evidence that the existence of the Second is an already-existent existence, not like the existence of the abode of the world, which is a standing potency.
+
+The existence of the Second is *actual*, not potential. It is not waiting to be actualized; it does not have a portion of its being still pending. If we said that *some* of the partial souls are *up there* as parts of the Second, those particular souls would inherit the Second's actuality — they would be at the rank of actual existence. But the partial souls *as we know them in this world* are at the rank of potency. To say that some of the partial souls have already crossed from potency to actuality and become parts of the Second is to confuse the two ranks. The horn collapses.
+
+The third horn — *parts not in the sense of "part" in this world* — is left implicit, but the structure of Bāb 4 will return to it. If "parts" must mean something else, then the disputants should *say* what they mean, and they will find, when they do, that what they mean is something other than *parts* in the strict sense — something closer to *emanation* at a lower rank, which is the predicate al-Kirmani is preparing.
+
+The trilemma's conclusion is decisive:
+
+> After the invalidity of these two divisions, it has been proved that the Second is not part of the world, and it is invalid for the souls to be a part of it.
+
+The Second is at its own rank. The partial souls are at theirs. The relation between them is not part-to-whole.
+
+## Fasl 4 — The souls as second emanation, neither parts nor mere effects
+
+The fourth *fasl* delivers the positive proposal toward which the previous three *fusūl* have been clearing the ground. Having dismantled the part-language in the strict sense, al-Kirmani names what the souls actually are. He opens with a warning about the cost of pressing the part-language too far:
+
+> After the discussion of the parts, the author of al-Islah gives what he gives to them all together. These souls were parts of the Second — and we found them neither knowing nor wise; not all of them are parts of this category, and a belief like that, to that extent, is great unbelief — we seek refuge in God.
+
+The strength of the language — *great unbelief* — is unusual in al-Kirmani's customarily generous tone. *The souls in this world are not all knowing and wise.* Some are ignorant, some mistaken, some turned away. If these souls are *parts* of the universal Soul in the strict sense, then the universal Soul itself has parts that are ignorant and mistaken — and the Second, which Bāb 3 named the source of perfect honor and perfect light, is contaminated at its periphery. The metaphysical claim has dragged the predicate of imperfection up into the originative order. To affirm such a claim is *great unbelief* — the kind of association that strips the dyad of First and Second of the perfection the previous bāb established.
+
+What follows is the positive proposal:
+
+> For if it is known that the substances of the Messengers (God's prayers be upon them) come from it, which is the closest cause of the overflow upon the world below, the souls also, if they are not parts of it, then since these souls are not parts, we say: the souls are of the nature of those paradoxical essences whose existence is creative, whose appearance and existence are only among the natural and phenomenal worlds. It is a natural force that acquires what is gained from the hudud through obedience and worship. So it emits from itself an abstract subsistent image that is like the abstract things in the house of the Hereafter on the one hand, and the opposite of it on the other.
+
+The dense passage carries the whole positive teaching of the bāb. Three claims, each weight-bearing.
+
+*First:* the souls are *of the nature* of the originative-creative essences. They are kin to the prophetic substances — which al-Kirmani specifies come *from the Second* as the closest cause of the overflow upon this world. The partial souls and the Messengers are made of the same metaphysical fabric; what differs is rank and acquisition.
+
+*Second:* the souls' *appearance and existence are only among the natural and phenomenal worlds*. The souls live at the seam between two ranks: kin to the originative order in nature, situated in the natural order in mode of being. The phrase al-Kirmani uses to hold both is the one he has been preparing: *[the soul] is a natural force that acquires what is gained from the hudud through obedience and worship*. The soul is a *force* (*quwwa*) in the natural-world stratum *that takes in* what the *hudud* — the named teaching ranks of the Da'wa — pass down to it. The receiving is *active*: the soul *acquires* what the teaching-mediators bring. And the means of acquisition is *obedience and worship* — the very practices of the religious life. The metaphysics of the soul is, at its core, a metaphysics of *practice*.
+
+*Third:* the soul, having received from the *hudud*, *emits* in turn — *an abstract subsistent image that is like the abstract things in the house of the Hereafter on the one hand, and the opposite of it on the other*. This is the *second emanation* in its full form. The First Intellect emanates the universal Soul; the universal Soul emanates the natural order; the rational souls, having received from the *hudud*, emanate their own image into the Hereafter. The soul is not merely the recipient; the soul is *also* an emanator at its own rank.
+
+And al-Kirmani names the second emanation explicitly:
+
+> Hence we say: this is the second origin, and our treatises on the Ma'ad (ma-aad; the Return) include the mention of it, God willing.
+
+*This is the second origin.* The first origin is the originative act of the First Intellect — the *ibda'* (ib-daa) by which the universal Soul is brought forth. The second origin is what the soul, having received from the *hudud*, brings forth in turn. The architecture is recursive: the originative pattern at the top of the chain is recapitulated at the level of the partial soul. The soul, properly formed by obedience and worship, originates — at its own rank, in its own measure — the image that will be its presence in the Hereafter.
+
+The vocabulary of partition is replaced. The relation between partial souls and the universal Soul above them is not part-to-whole; it is emanation-to-emanation. Each rank has its own act of origination, related to the one above it by the receiving of effects-from-the-mediators, related to the one below by its own act of emission.
+
+The Qur'anic verse on the soul's destination sits now in the light of this teaching:
+
+> O reassured soul, return to your Lord, well-pleased and pleasing to Him.
+> (Quran 89:27–28; English: Saheeh International.)
+
+*Return to your Lord.* The soul that returns is the soul that has *acquired* its constituting effects through obedience and worship, and *emitted* an abstract image like the abstract things in the house of the Hereafter. The Qur'an's *return* is the philosophical chain's *second origin* named in the language of devotion.
+
+## Fasl 5 — The body's limits, the soul's openness
+
+The fifth *fasl* turns from the partial-soul side of the relation to the *body* side, taking up al-Nusra's specific claim about the effects worked by bodies:
+
+> Likewise, the effects bound to us through our crafting do not accept further effects from us once we have finished our work; nor do they accept the products that are ready to be received from us, except by introducing corruption into them and changing them from their states, because they are not parts of us, nor are they subsisting substances; they are transient accidents.
+
+Al-Nusra's argument is an analogy. The products of our craft — the carpenter's table, the smith's blade — once finished, *do not accept further effects from us*. To press further effects upon the table is to change it, to introduce *corruption* into it in the technical sense of *fasād* (change-of-state). The product is *fixed at its finishing*. And the reason, al-Nusra says, is that *the product is not part of us*: not a piece of the craftsman, but a transient arrangement of accidents.
+
+Al-Kirmani's reply preserves what is true in the analogy while restricting it:
+
+> What is meant by this is that bodies are limited in what they can accept. They reach a point where they accept nothing further alongside it — like iron heated in fire: once it is fully red, that is its limit; it does not grow hotter. Likewise, a black body does not grow blacker; its blackness may reach a point beyond which it will not be increased. This is part of the meaning of what he claims, and he is the first to accept what his own statement requires: the effects are not what bring forth, but the receiver — that is, the body subject to the succession of accidents and effects.
+
+Bodies are *limited in what they can accept*. The iron reaches a maximum red; the black body reaches a maximum blackness. There is a *ceiling* on the bodily reception of effects; past that ceiling, no further effect is received — instead, change-of-state occurs (the iron melts, the table breaks). The *receiver* — the body — determines this ceiling. The effects do not *make* the body; the body *takes* the effects, within the limits of what it can hold. The contrast that organizes the next *fasl* is already in view: the *soul* is not so limited.
+
+## Fasl 6 — The soul's infinity, and the meaning of "parts" rightly used
+
+The sixth *fasl* completes the contrast that the fifth opened. Al-Nusra had said:
+
+> But the rational souls in us continue to gain from the light of the world above — the Most High, the Most Noble — and each soul grows in honor within itself without any change in itself, and without any corruption being introduced into her by the universal Soul wishing to benefit her. This being so, she is true to her nature — as is mentioned in itself — parts and substances of the soul upon which no effects fall.
+
+The soul, unlike the body, *grows in honor without any change in itself*. The soul receiving more light from above does not change as a substance; the receiving is not corruption, not change-of-state, but a *deepening* of what the soul already is. The soul is *infinite* in its capacity for light — there is no ceiling, no point past which further reception introduces corruption. The soul keeps growing in honor *forever*.
+
+Al-Kirmani's reply names this as a positive metaphysical claim:
+
+> The truth is that the soul is infinite in what it can accept of what he described, and this is one of the proofs that the soul is not embodied.
+
+*The soul is infinite in what it can accept — and this is one of the proofs that the soul is not embodied.* The body's finitude in reception is itself a sign of its embodiment; the soul's infinity is a sign that the soul is *not* a body. The contrast is between two ontological kinds: things whose capacity for effects has a ceiling (bodies, transient accidents), and things whose capacity for light has no ceiling (souls, jewels in themselves).
+
+But the *fasl* then returns to the part-language one more time, to give its right reading:
+
+> The matter regarding the soul being parts of the Second is not as he held it to be in what he said, claimed, and embraced. The best that can be granted to what he said is this: for those who wish to call them parts, these souls are effects insofar as they are rational. As such, the universal Soul and what she has produced are one thing — she is what is hers, distinguished from her offspring only by rank. So it is like the part of a thing in which the whole already exists; in all of them, their nature is in themselves one and the same from this aspect.
+
+*The most that can be granted.* Al-Kirmani is willing, with restrictions, to let the part-language be used — but in a very specific sense. *For those who wish to call them parts*, the souls are *effects insofar as they are rational*. The point of contact between the universal Soul and the partial souls is rationality itself; the partial soul is *the rational mode* of the universal Soul instantiated at its own rank. The unity is real; the distinction is by rank, not by essence.
+
+The metaphor is striking: *like the part of a thing in which the whole already exists*. A seed in which the whole tree is already present. The relation, in this restricted reading, is not partition in the arithmetic sense but *the whole being present at every rank*, differently expressed at each rank. Their *nature* — what they are *as soul* — is the same; what differs is the *rank* at which the nature is expressed. This concession to the part-language is generous to al-Nusra in the way the closing of Fasl 1 was generous to al-Islah. The disputants were not simply wrong; they were reaching for something true.
+
+Imam Ali (peace be upon him) had pointed at the same architecture from the side of the human's interior life:
+
+> The human being is a small world; the world is a great human being. Whoever knows himself by this proportion knows his Lord; whoever knows his Lord by this proportion finds his rank.
+> (Paraphrased in the manner of *Nahj al-Balagha*, on self-knowledge; trans. condensed.)
+
+The whole is present at every rank — in the human as the gathered small world, in the cosmos as the scattered great human. Knowing oneself by this proportion is the same act, at the same architecture, as knowing one's Lord. The Alid line at the heart of Imami devotion — *whoever knows himself knows his Lord* — is the bāb's metaphysics laid down as a discipline of interior practice.
+
+## Fasl 7 — Why this does not nullify prophethood
+
+The seventh *fasl* takes up the most charged objection al-Nusra raises:
+
+> Also: to say that the rational souls existing in this world are not parts of the universal Soul nullifies prophethood, imamate, guardianship, revelation, and the laws. For it is not permissible for the soul to perceive its influencer, encompass him, or benefit from him; and yet the prophets (peace be upon them) have claimed that they saw the noble upper world, stood upon the spiritual ranks, and benefited from what was sent down upon them in light and manifestation from those above them — the Origin and the three branches — and that they saw the angels. If their pure souls were merely effects of the universal Soul, they would not have been able to grasp what was inspired in them, nor stand upon the spiritual entities that are parts of the universal Soul.
+
+This is the theological stake. Al-Nusra's worry is not metaphysical but pastoral: if the part-language is rejected, then the prophets' contact with the upper world becomes impossible to explain. The prophets *saw* the angels, *stood upon the spiritual ranks*, *received* the revelation. How is this possible if their souls are merely effects, not parts? On the part-picture, the prophets are made *of the same stuff* as the upper world. On the effect-picture, they are merely products, with no access beyond the inheritance of the effect. The whole architecture of revelation looks like it depends on the part-language being true.
+
+Al-Kirmani's reply is the climactic passage of the bāb:
+
+> It has already been said that the souls are not parts or effects, but a second emanation. What is meant by those who say they are effects is that the actions performed through them are essential to the souls and grant them survival. As for those who say they are parts, they are — in their own rational nature — like the things that have brought them forth, and prophethood need not be nullified on this account, nor the imamate, nor anything else, for it has been established that these ranks are not invalidated by what he claims.
+
+*Souls are not parts or effects, but a second emanation.* The phrase carries the full weight of the bāb. The relation between the partial souls and the universal Soul is *not* part-to-whole *and not* effect-to-cause, but *emanation-at-the-second-rank to emanation-at-the-first-rank*. This is the predicate that does the work neither *part* nor *effect* can do.
+
+And then the prophetic question receives its answer:
+
+> The prophets (peace be upon them) were able to perceive these things absent to them from the upper world after they had reached the level of perfection: they came to stand at the limit at its end, and when they returned to themselves they realized that the transcendent selves are one thing in respect of wholeness, with no difference between them except in rank.
+
+*They came to stand at the limit at its end.* The prophets, in their access to the upper world, *climb the chain* — they ascend by purification and by the receiving of effects from above until they reach the limit of what the human-rank can hold. At that limit, what they perceive is that *the transcendent selves are one thing in respect of wholeness*. The unity is not metaphysical homogeneity; it is *wholeness across ranks* — each transcendent self complete at its rank, all of them differing only in rank. The whole-at-every-rank reading of Fasl 6 returns: the whole is present at every rank; each rank is distinguished from the others only by where in the chain it stands.
+
+What the prophets *see*, on this reading, is *the architecture itself* — the chain of ranks, the unity of essence across ranks, the difference of rank that does not break the unity. They see the upper-world ranks not because they are *parts* of those ranks but because at the limit of their own ascent they perceive *the wholeness in which all the ranks participate*. The part-language is unnecessary; the architecture of emanation, fully grasped, already explains the prophetic access.
+
+The closing of the *fasl* is characteristically al-Kirmani: *we have shown in our well-known book Rahat al-'Aql (raa-hat al-aql; The Repose of the Intellect) what suffices on this matter and brings healing.* The technical demonstration is in that other work; the present treatise is sufficient for the discriminating reader. *What suffices*. The brevity is itself a teaching.
+
+## Fasl 8 — The Word is the Intellect, and the souls are the second emanation
+
+The eighth and final *fasl* gathers al-Nusra's full proposal and tests every joint:
+
+> Rather, it is necessary to say that the Intellect is creative through the Word, and the Soul is the image of the Intellect; Nature is born of the Soul, and the rational souls are parts of the universal Soul, so that by this order tawhid, reward and punishment, prophethood, imamate, shari'a, and revelation are upheld.
+
+Al-Nusra's full system, as he names it: *Intellect creative through the Word*, *Soul as image of Intellect*, *Nature born of Soul*, *rational souls as parts of universal Soul* — and this whole order, he claims, is what *upholds tawhid, reward and punishment, prophethood, imamate, shari'a, and revelation*. The architecture is being defended *because* of what it bears theologically.
+
+Al-Kirmani's reply works through every joint of this system:
+
+> The validity of tawhid, reward and punishment, prophethood and imamate, the messengership and the laws drawn from revelation, is not proved from the standpoint that the Intellect is creative through the Word, or that the Soul is the image of the Intellect. It is proved through another aspect of the Intellect that we have explained in our letters and treatises about them.
+
+The first move is to *detach* the theological claims from the metaphysical system. Tawhid, prophethood, imamate, shari'a are load-bearing on *another aspect of the Intellect*, which al-Kirmani has demonstrated in his other works. The system can be corrected metaphysically without endangering the doctrines.
+
+The second move is to correct the specific metaphysical claim about the Intellect and the Word:
+
+> As for the Intellect, it is not permissible to say that it is creative through the Word; the Word must be presented to the Intellect because of the imbalance in its modes regarding tawhid, according to what we have explained concerning speech. Then we say: the Intellect is nothing but the Word itself, and the Word is none other than the Intellect itself; therefore it is correct to say what Maulana (maw-laa-naa) Imam (i-maam) al-Mu'izz li Din Allah (al-mu-izz li-deen Allaah; peace be upon him) said in the book *Ta'wil al-Shari'a* (ta-weel ash-sha-ree-ah), where, speaking of intelligibles, he said that the Word is the Intellect, and that these names properly belong to it. Our explanation and statements concerning the Creator, the Intellect, the Word, and what is said about world-creation and the First Emanation — in the treatise *al-Munira* (al-mu-nee-rah) and other letters — are sufficient for the inquirer.
+
+This is one of the bāb's most important moves. Al-Nusra had set up the Intellect and the Word as *cause and instrument*. Al-Kirmani refuses this and replaces it with identity: *the Intellect is nothing but the Word itself, and the Word is none other than the Intellect itself*. The Word is not the Intellect's tool; the Word *is* the Intellect, named under a different aspect. The authority cited is *Maulana Imam al-Mu'izz li Din Allah* — the Fatimid Imam from whom the Da'wa receives its teaching authority — in his work *Ta'wil al-Shari'a*. Al-Kirmani is not innovating; he is *restoring* a teaching given by an Imam of the family of the Prophet ﷺ (sallallahu alayhi wa sallam; peace and blessings of Allah be upon him).
+
+The third move corrects the rest of the system:
+
+> But the Soul and Nature both emanate from the First Intellect, each according to its own proper measure, so that one of them is nobler than the other — and that is the First Emanation — and the rational souls are the Second Emanation. What occurred in the first of them is recapitulated in the last of them.
+
+The correction is dense. Soul and Nature *both* emanate from the First Intellect — not Soul first and then Nature from Soul, but *both directly, each according to its own proper measure*. The Soul is nobler; together they constitute the *First Emanation*. And *the rational souls are the Second Emanation*. The chain runs: First Intellect → (Soul + Nature, the first emanation, with Soul nobler) → rational souls (the second emanation).
+
+The closing sentence carries the architectural insight on which the next several bābs will build: *what occurred in the first of them is recapitulated in the last of them*. The pattern of the originative order is recursive. The First → Second relation at the top of the chain is recapitulated as the universal-Soul → rational-souls relation lower down. The chain is a fractal of relations, each rank a small image of the rank above, each rank emanating its own next-rank in turn.
+
+The closing of the *fasl* is al-Kirmani's customary gesture toward his other writings: *our treatises on the Ma'ad alone contain what is needed of this discussion … in every restricted matter, a hint suffices the seeking student; others abandon it because it is difficult to attain and hard to know.* The vocabulary of partition is dismantled; the predicate of *second emanation* is given its place; the theological claims of the Da'wa are detached from al-Nusra's metaphysical system and re-anchored in the architecture of emanation. The student who *seeks* will look up the technical detail in *Rahat al-'Aql*, in the *Ma'ad* treatises, in *al-Munira*, in *Ta'wil al-Shari'a*. The bāb does not chase those who will not learn.
+
+And the final benediction:
+
+> May Allah aid the believer who comes to know this according to his capacity in devotion to Allah and to His awliya (aw-li-yaa; the friends of Allah, the guardian-saints), and help him if he is sincere to His face and to Him and His awliya. May Allah make us among the followers who fulfill their covenant — and we have been blessed with His praise and glory.
+
+The closing prayer names the *moral* condition under which the bāb's metaphysics can be received: *devotion to Allah and to His awliya*. The architecture is not for the speculatively curious; it is for those who *fulfill their covenant*. The *hudud* — the prophets, the Imams, the named ranks — are the *awliya* of Allah; receiving the effects from them is what makes the soul a self-subsisting jewel. The covenant is what the soul *acquires through obedience and worship* in Fasl 4. The metaphysics and the devotional life are one architecture, named twice.
+
+## What the bāb has taught
+
+Bāb 4 has, in eight *fusūl*, refused two predicates and established a third.
+
+*The partial souls are not parts of the universal Soul, in the strict sense.* The partition-language fails because the proposed whole has no inhabitable location at the lower rank where the proposed parts are. *The partial souls are not mere effects either.* The effect-language carries too little weight to capture what the soul is: a jewel-in-itself, self-subsisting after acquisition, infinite in its capacity to receive light from above. *The partial souls are a second emanation.* The relation is emanation-to-emanation, parallel to the relation between the universal Soul and the First Intellect at the top of the chain. The chain is one chain of emanations, not a hierarchy of part-and-whole.
+
+*The soul is constituted by what it receives from the hudud.* The mediators — the prophets, the Imams, the *hujjah*, the named ranks of the Da'wa — pass down to the soul the effects that *make the soul abide*. The receiving is by *obedience and worship*. The metaphysics of the soul is, at its core, a metaphysics of religious practice.
+
+*The Intellect is the Word; the Word is the Intellect.* Al-Nusra's picture of the Intellect *creating through* the Word is replaced by the identity teaching given by Imam al-Mu'izz li Din Allah (peace be upon him) in *Ta'wil al-Shari'a*. There is no instrumental separation between Intellect and Word; they are one thing under two names. This is not al-Kirmani's innovation but his fidelity to a teaching given by the Imam of the family of the Prophet ﷺ.
+
+*The theological claims of the Da'wa do not depend on the part-language.* Tawhid, prophethood, imamate, shari'a, revelation, reward and punishment — none of these requires that the partial souls be *parts* of the universal Soul. Al-Nusra had tied the doctrines to his metaphysical system as if the two stood or fell together; the bāb separates them, and the doctrines stand. And *the prophetic ascent is the perception of the chain itself*: the prophets, at the limit of their purification, *see the wholeness in which all the ranks participate* and understand that the transcendent selves differ only by rank. The architecture is what is perceived.
+
+## A figure from the prayer-life of the family
+
+The bāb's closing benediction — *May Allah aid the believer who comes to know this according to his capacity in devotion to Allah and to His awliya* — names the moral condition under which the metaphysics is received. Imam Zayn al-'Abidin (zayn al-aa-bi-deen; the fourth Imam, peace be upon him), in *al-Sahifa al-Sajjadiyya* (as-sa-hee-fah as-saj-jaa-dee-yah; the Psalms of the House of Muhammad), prays in a register that names the same architecture from the side of devotion. A line in the manner of those supplications can stand here as a close:
+
+> O Allah, You did not make my soul a part of You, nor did You make it a mere effect of what You have made. You sent it forth as a receiver — as a jewel that acquires what Your awliya pass down to it. Increase me in the receiving; increase me in the obedience; increase me in the worship by which my acquisition is established; and at the limit of what I can hold, let me perceive the wholeness in which Your servants stand, distinguished only by rank in the chain that has its source in You.
+> Source: paraphrased after the manner of the supplications in *al-Sahifa al-Sajjadiyya*.
+
+*Not a part of You, nor a mere effect of what You have made.* The chain of refusal-of-the-wrong-predicates and affirmation-of-the-right-relation that the bāb has been teaching speculatively, the believer prays. The soul is not a piece of the divine; the soul is not a leftover of the divine's action; the soul is a *jewel-receiver*, a *quwwa* (capacity) that acquires through obedience what the *hudud* pass down. The receiving is the soul's mode of becoming. And the perception, at the limit of what the soul can hold, is of *the chain as one chain*. The metaphysics and the prayer are the same architecture, named twice.
+
+## The bāb's place in the architecture
+
+Bāb 4 closes here. The first three bābs of the Kitab al-Riyad established the architecture of the originative order — perfection and the perfect, the First Intellect as the act of origination, resemblance between the First and the Second, emanation-at-the-lower-proportion between the dyad and al-Hayuli. Bāb 4 has now extended that architecture one rank further down: the rational souls in this world are the *second emanation*, neither parts nor mere effects of the universal Soul, but emanations at the second rank in a chain whose architecture is recursive.
+
+The bābs ahead will continue building on this. Bāb 5 takes up the human being as the *fruit of the world* — where the rational soul is joined to the natural body and becomes the locus of the human's covenant with the originative order. Bāb 6 returns to motion, stillness, and form within the natural stratum. Bāb 7 maps the divisions of the world. Bāb 8 takes up *qadr* (qadr; destiny), where the predicates of cause and effect are tested against the most painful theological questions. Bāb 9 turns to the law of *Adam* (aa-dam; peace be upon him) and the trusteeship of *Nuh* (nooh; Noah, peace be upon him), where the chain of teaching authority is fully laid out. And Bāb 10 returns to the critique of al-Mahsul on *tawhid* and the First Originator.
+
+Each bāb tests the same architecture against a new question. *The souls as parts and effects* was the fourth test. The architecture has held. The predicate of partition has found its restricted place; the predicate of *second emanation* has taken its place as the load-bearing description of the relation between partial souls and the universal Soul. The chain is one; the predicates differ; and the discriminating reader, the one the bāb has been training all along, knows when to speak of parts and when to fall silent on the word and reach for another.
