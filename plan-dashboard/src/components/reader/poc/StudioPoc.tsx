@@ -152,10 +152,12 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
   const [approvedStages, setApprovedStages] = useState<Record<string, boolean>>(
     () => Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, !!v?.approved])),
   );
-  // On chapter switch: reset to that chapter's editable stage + reload its approvals.
+  // On chapter switch: reset to that chapter's editable stage + reload its approvals, and tell
+  // the editorial cockpit (Slice 5b) to follow this chapter.
   useEffect(() => {
     setStageId([...chap.stages].reverse().find((s) => s.available)?.id ?? chap.stages[0]?.id);
     setApprovedStages(Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, !!v?.approved])));
+    window.dispatchEvent(new CustomEvent('studio:chapter-change', { detail: { chapter: chap.slug } }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chapIdx]);
   const [saving, setSaving] = useState(false);

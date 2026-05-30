@@ -2784,6 +2784,30 @@ wave_8_studio:
         - "All decisions persist via the existing /api/studio/review endpoint (extended for new fields)"
       authorization: tier_one
       cost_estimate_usd: 0
+      execution_status: in_progress
+      completed_at: "2026-05-30 (core)"
+      completion_note: >
+        CORE shipped + ui-reviewer ship-ready (build clean, lint:views errors=0). New /studio
+        page (supersedes throwaway /studio-poc, which stays as reference) with a 3-pane shell:
+        editorial cockpit rail + the existing editor/inspector. All 6 cards render and persist
+        book-canonical + per-chapter override. Deliverables landed:
+        plan-dashboard/src/lib/reader/editorial.ts (model + JSON persistence + override
+        resolution), src/pages/api/studio/editorial.ts (GET/POST + resolve),
+        src/components/reader/poc/EditorialCards.tsx (cockpit), studio.astro, studio-poc.css
+        (+135 lines, token-clean), content/drafts/books/ayyuhal-walad/_system/editorial/book.json
+        (seeded canonical decisions). Cockpit follows the editor via a `studio:chapter-change`
+        CustomEvent (1-line add to StudioPoc).
+        ARCHITECTURAL DIVERGENCE (best-judgment, north-star extensibility): used a GENERIC
+        card model keyed by `kind` ('list'|'pairs'|'choice') with one renderer per kind, NOT
+        the planned per-card component files (NameResolutionCard.tsx, etc.). Adding a card or a
+        new tradition's glossary is a CARD_DEFS data entry, not a new component. Persistence is
+        per-scope JSON files under _system/editorial/ (book.json + <chapter>.json), chosen over
+        a single editorial.json so the Slice-6 Python orchestrator reads them with stdlib json
+        (PyYAML is absent from the venv — discovered in Slice 4+).
+        DEFERRED (enhancement layer, not yet built): dnd-kit drag-reorder, cmdk corpus search,
+        NLP name-extraction, Key-Focus weight/source fields, conflict-check button, collapsible
+        card toggle, moving Approve into the center column. These extend the generic model
+        without replacing it. The cockpit SHAPE is a good review checkpoint for Asif.
 
     - id: WC8-5c
       title: "Podcaster roles guardrail — Teacher/Student/Debater host dynamics"

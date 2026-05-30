@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T13:55:59.326Z",
-  "source_commit": "ab8f991c",
+  "generated_at": "2026-05-30T14:15:06.817Z",
+  "source_commit": "db66c89f",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,6 +819,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "db66c89f",
+      "subject": "plan(wave8/4+): split Slice 4+ — defer hadith/etymology ingest to pre-Slice-7",
+      "date": "2026-05-30"
+    },
+    {
+      "sha": "a77315c1",
+      "subject": "feat(wave8/2-fix): SN-7 terminus-technicus guard — full K6-pre spec",
+      "date": "2026-05-30"
+    },
+    {
       "sha": "ab8f991c",
       "subject": "chore(wave8): relocate architect audit to reviews/reports, stamp approval provenance",
       "date": "2026-05-30"
@@ -856,16 +866,6 @@
     {
       "sha": "227b51aa",
       "subject": "plan(WC8/7b): add Video Timeline editor + tiered generation to video layer",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "8a4448f7",
-      "subject": "plan(WC8): add Slice 7b — video visual layer (timed prompts + Imagen 3 auto-generation)",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "0e81760e",
-      "subject": "plan(WC8): record 8-phase autonomous execution plan",
       "date": "2026-05-30"
     }
   ],

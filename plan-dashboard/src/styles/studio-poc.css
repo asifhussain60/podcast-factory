@@ -448,3 +448,138 @@
   color: var(--c-ink); background: var(--c-bg-card); cursor: pointer;
   border: 1px solid var(--c-rule, rgba(0,0,0,0.18)); border-radius: 8px; padding: 5px 10px;
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   WC8 Slice 5b — Studio re-platform: 3-pane shell + editorial cockpit.
+   External CSS, existing --c-* tokens only (Cortex HTML-view standard).
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Shell: editorial cockpit (left rail) + the editor/inspector pane (right). */
+.studio-shell {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 24px;
+  width: 92%;
+  max-width: 1640px;
+  margin: 12px auto 48px;
+  align-items: start;
+}
+/* Inside the shell the editor pane keeps its own two-pane grid but fills the column. */
+.studio-shell .studio-poc { width: 100%; margin: 0; }
+
+/* Cockpit: a sticky rail that scrolls internally, like the inspector. */
+.ec-cockpit {
+  position: sticky;
+  top: 16px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+}
+.ec-head { display: flex; flex-direction: column; gap: 6px; }
+.ec-title { font-size: 1.05rem; font-weight: 700; color: var(--c-accent); margin: 0; }
+.ec-sub { font-size: 0.8rem; line-height: 1.45; color: var(--c-ink-muted); margin: 0; }
+.ec-scope { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--c-ink-muted); margin-top: 4px; }
+.ec-scope-sel {
+  width: 100%;
+  padding: 7px 9px;
+  font-size: 0.86rem;
+  color: var(--c-ink);
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+  border-radius: 8px;
+}
+.ec-loading { font-size: 0.82rem; color: var(--c-ink-muted); margin: 0; }
+
+.ec-stack { display: flex; flex-direction: column; gap: 12px; }
+
+.ec-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
+}
+.ec-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.ec-card-title { font-size: 0.92rem; font-weight: 700; color: var(--c-ink); margin: 0; }
+.ec-card-blurb { font-size: 0.76rem; line-height: 1.45; color: var(--c-ink-muted); margin: 0; }
+
+.ec-badge { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 2px 7px; border-radius: 999px; white-space: nowrap; }
+.ec-badge--ovr { color: var(--c-bg); background: var(--c-accent); }
+.ec-badge--inh { color: var(--c-ink-muted); background: color-mix(in srgb, var(--c-ink) 12%, transparent); }
+.ec-badge--unset { color: var(--c-ink-muted); border: 1px dashed var(--c-rule, rgba(0, 0, 0, 0.25)); }
+
+.ec-list { display: flex; flex-direction: column; gap: 6px; }
+.ec-list-row, .ec-pair-row { display: flex; align-items: center; gap: 6px; }
+.ec-pair-row .ec-input { flex: 1 1 0; min-width: 0; }
+.ec-arrow { color: var(--c-ink-muted); font-size: 0.9rem; }
+.ec-list-ctl { display: inline-flex; gap: 3px; }
+.ec-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 6px 8px;
+  font-size: 0.82rem;
+  color: var(--c-ink);
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+  border-radius: 7px;
+}
+.ec-input:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 1px; }
+.ec-mini {
+  width: 24px; height: 24px;
+  font-size: 0.85rem; line-height: 1;
+  color: var(--c-ink); background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15)); border-radius: 6px;
+  cursor: pointer;
+}
+.ec-mini:hover:not(:disabled) { border-color: var(--c-accent); color: var(--c-accent); }
+.ec-mini:disabled { opacity: 0.4; cursor: default; }
+.ec-mini--del:hover:not(:disabled) { border-color: var(--c-red, #b91c1c); color: var(--c-red, #b91c1c); }
+.ec-add {
+  align-self: flex-start;
+  padding: 5px 11px;
+  font-size: 0.78rem; font-weight: 600;
+  color: var(--c-accent); background: transparent;
+  border: 1px dashed var(--c-accent); border-radius: 7px;
+  cursor: pointer;
+}
+.ec-add:hover { background: var(--c-accent-soft, color-mix(in srgb, var(--c-accent) 12%, transparent)); }
+
+.ec-choice { display: flex; flex-direction: column; gap: 5px; }
+.ec-radio { display: flex; align-items: flex-start; gap: 7px; font-size: 0.82rem; color: var(--c-ink); line-height: 1.35; cursor: pointer; }
+.ec-radio input { margin-top: 2px; }
+.ec-notes {
+  margin-top: 4px;
+  min-height: 46px;
+  padding: 6px 8px;
+  font-size: 0.8rem; font-family: inherit;
+  color: var(--c-ink); background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15)); border-radius: 7px;
+  resize: vertical;
+}
+
+.ec-card-actions { display: flex; gap: 8px; margin-top: 2px; }
+.ec-btn {
+  padding: 6px 12px;
+  font-size: 0.79rem; font-weight: 600;
+  border-radius: 7px; cursor: pointer;
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+}
+.ec-btn:disabled { opacity: 0.55; cursor: default; }
+.ec-btn--save { color: var(--c-bg); background: var(--c-accent); border-color: var(--c-accent); }
+.ec-btn--save:hover:not(:disabled) { filter: brightness(1.06); }
+.ec-btn--reset { color: var(--c-ink-muted); background: var(--c-bg-card); }
+.ec-btn--reset:hover:not(:disabled) { border-color: var(--c-ink); color: var(--c-ink); }
+
+/* Narrow viewports: cockpit drops above the editor. */
+@media (max-width: 1100px) {
+  .studio-shell { grid-template-columns: 1fr; }
+  .ec-cockpit { position: static; max-height: none; }
+}
