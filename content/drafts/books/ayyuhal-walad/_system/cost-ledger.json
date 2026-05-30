@@ -586,7 +586,142 @@
       "in_chars": 4767,
       "out_chars": 4053,
       "cost_usd": 0.00289
+    },
+    {
+      "ts": "2026-05-30T15:53:17.655136Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch01-frame-and-first-counsel",
+      "in_chars": 33950,
+      "out_chars": 417310,
+      "cost_usd": 0.17032
+    },
+    {
+      "ts": "2026-05-30T15:53:48.211200Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch02-hatim-eight-benefits",
+      "in_chars": 27830,
+      "out_chars": 13741,
+      "cost_usd": 0.00828
+    },
+    {
+      "ts": "2026-05-30T15:54:08.400107Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch03-the-path",
+      "in_chars": 35170,
+      "out_chars": 10982,
+      "cost_usd": 0.00791
+    },
+    {
+      "ts": "2026-05-30T15:55:22.660691Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch04-four-cautions",
+      "in_chars": 31354,
+      "out_chars": 422798,
+      "cost_usd": 0.17226
+    },
+    {
+      "ts": "2026-05-30T15:56:05.545791Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch05-method-and-closing-prayer",
+      "in_chars": 29984,
+      "out_chars": 181299,
+      "cost_usd": 0.07551
+    },
+    {
+      "ts": "2026-05-30T15:58:11.779349Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch01-frame-and-first-counsel",
+      "in_chars": 33950,
+      "out_chars": 248392,
+      "cost_usd": 0.10275
+    },
+    {
+      "ts": "2026-05-30T15:58:43.518741Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch02-hatim-eight-benefits",
+      "in_chars": 27830,
+      "out_chars": 248157,
+      "cost_usd": 0.10204
+    },
+    {
+      "ts": "2026-05-30T15:58:58.151791Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch03-the-path",
+      "in_chars": 35170,
+      "out_chars": 11230,
+      "cost_usd": 0.00801
+    },
+    {
+      "ts": "2026-05-30T15:59:13.172863Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch04-four-cautions",
+      "in_chars": 31354,
+      "out_chars": 11560,
+      "cost_usd": 0.00776
+    },
+    {
+      "ts": "2026-05-30T15:59:46.571153Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch05-method-and-closing-prayer",
+      "in_chars": 29984,
+      "out_chars": 246355,
+      "cost_usd": 0.10154
+    },
+    {
+      "ts": "2026-05-30T16:01:05.969914Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch01-frame-and-first-counsel",
+      "in_chars": 33950,
+      "out_chars": 13147,
+      "cost_usd": 0.00865
+    },
+    {
+      "ts": "2026-05-30T16:01:23.279297Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch02-hatim-eight-benefits",
+      "in_chars": 27830,
+      "out_chars": 9598,
+      "cost_usd": 0.00662
+    },
+    {
+      "ts": "2026-05-30T16:01:35.935988Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch03-the-path",
+      "in_chars": 35170,
+      "out_chars": 9028,
+      "cost_usd": 0.00712
+    },
+    {
+      "ts": "2026-05-30T16:02:09.162656Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch04-four-cautions",
+      "in_chars": 31354,
+      "out_chars": 3743,
+      "cost_usd": 0.00463
+    },
+    {
+      "ts": "2026-05-30T16:02:21.986269Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch05-method-and-closing-prayer",
+      "in_chars": 29984,
+      "out_chars": 10538,
+      "cost_usd": 0.00722
     }
   ],
-  "total_usd": 4.9618
+  "total_usd": 5.7524
 }
