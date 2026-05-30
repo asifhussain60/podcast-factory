@@ -49,16 +49,45 @@ function loadStageMd(chapter: string, id: string): string | null {
   if (id === 'augmented') return readIfExists(new URL(`chapters/${chapter}.txt`, base));
   return null;
 }
+
+// Strip the pipeline metadata block ("## References in this chapter …") that the
+// knowledge-augmentation agent appends to augmented.md. The block is internal scaffolding —
+// it never reaches NotebookLM (build_episode_txt.py reads from chapters/*.txt) — but it
+// pollutes the editor view and inflates the word-count delta vs Normalized.
+// Returns the clean prose and a one-line citation summary for the inspector.
+function stripAugmentedMeta(text: string): { prose: string; citationSummary: string | null } {
+  const idx = text.indexOf('\n## References in this chapter');
+  if (idx === -1) return { prose: text, citationSummary: null };
+  const prose = text.slice(0, idx).replace(/\n---\s*$/, '').trimEnd();
+  const meta  = text.slice(idx);
+  const quranVerified = (meta.match(/✅/g) || []).length;
+  const hadithPending = (meta.match(/⚠/g)  || []).length;
+  const parts: string[] = [];
+  if (quranVerified > 0) parts.push(`${quranVerified} Quran verified`);
+  parts.push(hadithPending > 0 ? `${hadithPending} Hadith pending` : 'Hadith: pending DB');
+  return { prose, citationSummary: parts.join(' · ') };
+}
+
 const chapters = CHAPTERS.map((c) => {
   const stageTexts = STAGE_DEFS.map((d) => {
-    const md = loadStageMd(c.id, d.id);
-    return { ...d, available: !!md, text: md ?? '' };
+    const raw = loadStageMd(c.id, d.id);
+    // Strip augmented metadata before metrics and rendering so word counts and
+    // the editor both reflect clean prose only.
+    let text = raw ?? '';
+    let augMeta: string | null = null;
+    if (d.id === 'augmented' && raw) {
+      const stripped = stripAugmentedMeta(raw);
+      text = stripped.prose;
+      augMeta = stripped.citationSummary;
+    }
+    return { ...d, available: !!raw, text, augMeta };
   });
   const metrics = buildStageMetrics(stageTexts.map((s) => ({ id: s.id, available: s.available, text: s.text })));
   writeMetricsLedger(SLUG, c.id, metrics);
   const stages = stageTexts.map((s) => ({
     id: s.id, label: s.label, slice: s.slice, available: s.available,
     html: s.available ? renderMarkdown(s.text) : '',
+    augMeta: s.augMeta ?? null,
   }));
   return { slug: c.id, title: c.title, stages, metrics, reviewed: readReview(SLUG, c.id).stages };
 });

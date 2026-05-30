@@ -801,6 +801,19 @@
 }
 .sp-augdiff-swatch { padding: 1px 7px; border-radius: 4px; }
 
+/* Augmented stage citation summary — one-line knowledge-block digest in the inspector. */
+.sp-aug-meta {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.74rem;
+  color: var(--c-ink-muted);
+  margin: 0 0 8px;
+  padding: 4px 8px;
+  background: var(--c-bg-elev);
+  border-left: 2px solid var(--c-accent);
+  border-radius: 0 5px 5px 0;
+  line-height: 1.45;
+}
+
 /* Inspector legend: colored dot swatches keying the inline highlight types. */
 .sp-legend-dot {
   display: inline-block;

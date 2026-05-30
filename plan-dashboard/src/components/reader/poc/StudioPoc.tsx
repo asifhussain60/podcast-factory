@@ -125,6 +125,7 @@ interface Stage {
   slice: string;
   available: boolean;
   html: string;
+  augMeta?: string | null;
 }
 
 interface StageMetric {
@@ -787,6 +788,11 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
 
           <div className="sp-insp-markers">
             <h3 className="sp-insp-sub">References</h3>
+            {stage?.augMeta && (
+              <p className="sp-aug-meta" title="Extracted from the augmented stage knowledge block">
+                {stage.augMeta}
+              </p>
+            )}
             <ul className="sp-legend" aria-label="Inline highlight key">
               <li className="sp-legend-row"><span className="sp-legend-dot sp-legend-dot--quran" />Quran chips</li>
               <li className="sp-legend-row"><span className="sp-legend-dot sp-legend-dot--hadith" />Hadith</li>
