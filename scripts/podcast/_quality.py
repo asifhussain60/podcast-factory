@@ -46,7 +46,6 @@ USAGE
 
 from __future__ import annotations
 
-import math
 import re
 from dataclasses import dataclass, field
 from typing import Sequence
@@ -77,6 +76,18 @@ assert abs(
     WEIGHT_FIDELITY + WEIGHT_VOICE + WEIGHT_STRUCTURE
     + WEIGHT_ENRICHMENT + WEIGHT_INTEREST - 1.0
 ) < 1e-9
+
+# ---------------------------------------------------------------------------
+# Voice-scorer readiness flag
+# ---------------------------------------------------------------------------
+
+# Set to True only when the K2+ shared TF-IDF vocabulary has been built via
+# build_exemplar_vector() for at least one KSessions archetype. Until then,
+# _voice_score() returns 0.0 regardless of whether an exemplar vector is
+# supplied, and score() redistributes the Voice weight to Fidelity so the
+# total still reaches 100. Flipping this flag without the vocabulary built
+# causes meaningless ratio values to silently corrupt PEQ totals.
+_VOICE_SCORER_READY = False
 
 
 # ---------------------------------------------------------------------------
@@ -150,32 +161,26 @@ def _voice_score(
 ) -> float:
     """TF-IDF bigram cosine similarity vs KSessions exemplar vector.
 
-    Returns 0.0 when no exemplar vector is available (baseline not yet built).
-    A score of 0 is treated as 'not measured' in K0; the regression baseline
-    (K1) populates real vectors.  Until then, voice does not penalise chapters.
-    """
-    if voice_exemplar_vector is None:
-        return 0.0
+    Returns 0.0 when the scorer is not ready (``_VOICE_SCORER_READY = False``)
+    or no exemplar vector is available.  ``score()`` detects this and
+    redistributes the Voice weight to Fidelity so the total still reaches 100.
 
-    # Build a simple bigram frequency vector from the adapted text.
+    K2+ full implementation: load the shared TF-IDF vocabulary, build the
+    chapter bigram vector in that vocabulary's basis, compute cosine similarity
+    against the exemplar vector, then set ``_VOICE_SCORER_READY = True``.
+    """
+    if voice_exemplar_vector is None or not _VOICE_SCORER_READY:
+        return 0.0
+    # K2+: cosine similarity with shared vocabulary (not yet built).
+    # This branch is unreachable while _VOICE_SCORER_READY = False.
     tokens = adapted_text.lower().split()
     bigrams: dict[str, int] = {}
     for i in range(len(tokens) - 1):
         bg = tokens[i] + "_" + tokens[i + 1]
         bigrams[bg] = bigrams.get(bg, 0) + 1
-
-    # Cosine similarity between bigram vector and exemplar.
-    dot, mag_a, mag_b = 0.0, 0.0, 0.0
-    for j, ex_val in enumerate(voice_exemplar_vector):
-        # Exemplar is a dense vector; bigrams are sparse.
-        # Map position j to the j-th most frequent bigram in exemplar (placeholder).
-        mag_b += ex_val ** 2
-    mag_a = math.sqrt(sum(v ** 2 for v in bigrams.values())) or 1.0
-    mag_b = math.sqrt(mag_b) or 1.0
-    # Without a shared vocabulary index, return normalised length similarity.
-    # A full implementation (K2+) will load the shared TF-IDF vocabulary.
-    ratio = min(len(bigrams) / max(len(voice_exemplar_vector), 1), 1.0)
-    return round(ratio * 100.0, 2)
+    # TODO K2+: map bigrams to shared vocabulary positions, then compute dot
+    # product and cosine similarity. Until then return 0.0.
+    return 0.0
 
 
 def _structure_score(
@@ -267,7 +272,9 @@ def _interest_score(adapted_text: str) -> float:
     relevance = 1.0 if any(re.search(p, adapted_text, re.I) for p in relevance_pats) else 0.0
 
     strawman_deny = [
-        r"\b(obviously|clearly (wrong|mistaken|misguided)|absurdly)\b",
+        r"\bobviously (wrong|false|absurd|incorrect|mistaken)\b",
+        r"\bclearly (wrong|mistaken|misguided)\b",
+        r"\babsurdly\b",
         r"\b(silly (argument|idea|notion|objection))\b",
         r"\b(no (sane|reasonable|serious) person)\b",
     ]
@@ -320,9 +327,10 @@ def score(
     enrichment = _enrichment_score(term_count, glossed_count, quran_ref_count, wc)
     interest   = _interest_score(adapted_text)
 
-    # If voice exemplar is not available, redistribute its weight to fidelity
-    # so the total still reaches 100.
-    if voice_exemplar_vector is None:
+    # Redistribute Voice weight to Fidelity when the scorer is not ready or
+    # no exemplar vector was supplied, so the total still sums to 100.
+    _voice_unavailable = voice_exemplar_vector is None or not _VOICE_SCORER_READY
+    if _voice_unavailable:
         total = (
             (WEIGHT_FIDELITY + WEIGHT_VOICE) * fidelity
             + WEIGHT_STRUCTURE  * structure

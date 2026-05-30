@@ -14,15 +14,20 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _paths import REPO_ROOT  # noqa: E402
+from _paths import REPO_ROOT, content_dir  # noqa: E402
 
 INBOX = REPO_ROOT / "_workspace" / "inbox" / "youtube"
 
 def slug_for(name: str) -> str:
     m = re.search(r'\b(\d{2})\s*-\s*(.+?)\s*-\s*Ghazali', name)
     if not m:
-        m2 = re.match(r'\d+\.\s*(\d{2})', name); n = m2.group(1) if m2 else "00"
-        return f"lec{n}"
+        m2 = re.match(r'\d+\.\s*(\d{2})', name)
+        if m2:
+            return f"lec{m2.group(1)}"
+        # Use the sanitized filename as slug rather than a fixed "lec00" that
+        # would collide if multiple videos fail both patterns.
+        safe = re.sub(r'[^a-z0-9]+', '-', Path(name).stem.lower()).strip('-')[:60]
+        return f"lec-{safe}"
     n, title = m.group(1), m.group(2)
     t = re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
     return f"lec{n}-{t}"
@@ -31,7 +36,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--slug", required=True)
     a = ap.parse_args()
-    out_dir = REPO_ROOT / "content" / "drafts" / "books" / a.slug / "_system" / "source" / "lectures"
+    out_dir = content_dir(a.slug) / "_system" / "source" / "lectures"
     out_dir.mkdir(parents=True, exist_ok=True)
     videos = sorted(INBOX.glob("*.mp4"), key=lambda p: int(re.match(r'(\d+)\.', p.name).group(1)) if re.match(r'(\d+)\.', p.name) else 0)
     if not videos:

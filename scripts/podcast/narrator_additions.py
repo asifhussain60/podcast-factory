@@ -12,14 +12,12 @@ USAGE
 """
 from __future__ import annotations
 import argparse, json, os, subprocess, sys, urllib.request
-from datetime import datetime, timezone
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _paths import REPO_ROOT  # noqa: E402
-
-PRICE = {"in": 0.30 / 1e6, "out": 2.50 / 1e6}
+from _paths import REPO_ROOT, content_dir  # noqa: E402
+from _cost_ledger import append_gemini_cost  # noqa: E402
 SYS = (
   "You are cleaning a raw speech-to-text transcript of a spoken Islamic lecture by Shaykh Abdullah "
   "Misra explaining al-Ghazali's 'Ayyuhal Walad'. Turn it into coherent, readable COMMENTARY prose. "
@@ -48,19 +46,19 @@ def gemini(model: str, system: str, user: str) -> str:
         d = json.loads(r.read())
     return d["candidates"][0]["content"]["parts"][0]["text"]
 
-def log_cost(slug, entry):
-    p = REPO_ROOT / "content" / "drafts" / "books" / slug / "_system" / "cost-ledger.json"
-    led = json.loads(p.read_text()) if p.exists() else {"slug": slug, "entries": [], "total_usd": 0.0}
-    led["entries"].append(entry); led["total_usd"] = round(sum(e.get("cost_usd", 0.0) for e in led["entries"]), 4)
-    p.write_text(json.dumps(led, indent=2) + "\n")
-
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--slug", required=True); ap.add_argument("--chapter", required=True)
     ap.add_argument("--lectures", required=True, help="comma-separated lecture slugs")
     ap.add_argument("--model", default="gemini-2.5-flash")
+    ap.add_argument("--force", action="store_true", help="overwrite existing output (re-spends Gemini)")
     a = ap.parse_args()
-    lec_dir = REPO_ROOT / "content" / "drafts" / "books" / a.slug / "_system" / "source" / "lectures"
+    book = content_dir(a.slug)
+    dst = book / "_stages" / a.chapter / "additions-narrator.md"
+    if dst.exists() and not a.force:
+        print(f"[skip] {dst.name} already exists — use --force to re-run (re-spends Gemini).")
+        return 0
+    lec_dir = book / "_system" / "source" / "lectures"
     names = [n.strip() for n in a.lectures.split(",") if n.strip()]
     parts = []
     for n in names:
@@ -69,17 +67,14 @@ def main() -> int:
         parts.append(f"## {n}\n{f.read_text()}")
     raw = "\n\n".join(parts)
     out = gemini(a.model, SYS, raw)
-    dst = REPO_ROOT / "content" / "drafts" / "books" / a.slug / "_stages" / a.chapter / "additions-narrator.md"
     dst.parent.mkdir(parents=True, exist_ok=True)
     header = (f"# Narrator additions — {a.chapter} (Shaykh Abdullah Misra, attributed commentary)\n\n"
               f"_Cleaned from lecture transcript(s): {', '.join(names)}. This is the explainer's "
               f"commentary (an attributed ADDITION), distinct from the treatise core._\n\n")
     dst.write_text(header + out.strip() + "\n")
-    cost = round(len(raw)/4*PRICE["in"] + len(out)/4*PRICE["out"], 5)
-    log_cost(a.slug, {"ts": datetime.now(timezone.utc).isoformat().replace("+00:00","Z"), "op": "narrator-additions",
-                      "service": f"gemini/{a.model}", "chapter": a.chapter, "lectures": names,
-                      "in_chars": len(raw), "out_chars": len(out), "cost_usd": cost})
-    print(f"[narrator] {a.chapter}: {len(raw):,} -> {len(out):,} chars -> {dst.name}  (~${cost:.5f})")
+    append_gemini_cost(book, phase="wc8/narrator-additions", step=a.chapter,
+                       model=a.model, in_chars=len(raw), out_chars=len(out))
+    print(f"[narrator] {a.chapter}: {len(raw):,} -> {len(out):,} chars -> {dst.name}")
     return 0
 
 if __name__ == "__main__":

@@ -195,6 +195,25 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
 
   // serializeToMarkdown / saveAndApprove / discardChanges declared after useEditor (below).
 
+  // "View all chapters" mode — combines every chapter's current-tab content in the editor.
+  // Dropdown is disabled; editor is read-only; Save/Approve hidden.
+  const [viewAll, setViewAll] = useState(false);
+
+  const buildCombinedHtml = useCallback(
+    (sid: string) =>
+      chapters
+        .map((ch, i) => {
+          const s =
+            ch.stages.find((st) => st.id === sid && st.available) ??
+            ch.stages.filter((st) => st.available).at(-1);
+          const body = s?.html ?? '<p><em>Stage not yet produced for this chapter.</em></p>';
+          const sep = i < chapters.length - 1 ? '<hr>' : '';
+          return `<h2>${ch.title}</h2>${body}${sep}`;
+        })
+        .join(''),
+    [chapters],
+  );
+
   const [selection, setSelection] = useState('');
   const [arabicOn, setArabicOn] = useState(false);
   const [, setTick] = useState(0);
@@ -437,15 +456,22 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
   // clear stage-specific tags, and make only the under-review stage editable (upstream = read-only).
   useEffect(() => {
     if (!editor || !stage) return;
-    editor.commands.setContent(stage.html);
-    const texts: string[] = [];
-    editor.state.doc.forEach((n) => texts.push(n.textContent));
-    originalRef.current = texts;
-    paraTagsRef.current = new Map();
-    editor.setEditable(!isReadOnlyStage);
+    if (viewAll) {
+      editor.commands.setContent(buildCombinedHtml(stageId));
+      originalRef.current = [];
+      paraTagsRef.current = new Map();
+      editor.setEditable(false);
+    } else {
+      editor.commands.setContent(stage.html);
+      const texts: string[] = [];
+      editor.state.doc.forEach((n) => texts.push(n.textContent));
+      originalRef.current = texts;
+      paraTagsRef.current = new Map();
+      editor.setEditable(!isReadOnlyStage);
+    }
     refresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stageId, chapIdx, editor]);
+  }, [stageId, chapIdx, viewAll, editor]);
 
   // Reset aug-diff and (re-)populate normTexts whenever the tab or chapter changes.
   useEffect(() => {
@@ -625,14 +651,27 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
   return (
     <div className="studio-poc">
       <main className="studio-poc__editor" ref={editorContainerRef}>
-        {/* B: chapter switcher. */}
+        {/* B: chapter switcher + all-chapters view toggle. */}
         <div className="sp-chapsel">
           <label htmlFor="sp-chap">Chapter</label>
-          <select id="sp-chap" value={chapIdx} onChange={(e) => setChapIdx(Number(e.target.value))}>
+          <select
+            id="sp-chap"
+            value={chapIdx}
+            disabled={viewAll}
+            onChange={(e) => setChapIdx(Number(e.target.value))}
+          >
             {chapters.map((c, i) => (
               <option key={c.slug} value={i}>{i + 1}. {c.title}</option>
             ))}
           </select>
+          <button
+            type="button"
+            className={`sp-viewall-btn${viewAll ? ' is-on' : ''}`}
+            onClick={() => setViewAll((v) => !v)}
+            title={viewAll ? 'Return to single-chapter view' : 'Combine all chapters in this tab'}
+          >
+            {viewAll ? '← Single chapter' : 'All chapters →'}
+          </button>
         </div>
         {/* Stage tabs (SN-5): Source -> Core -> Denoised -> Normalized -> Augmented. */}
         <div className="sp-tabs" role="tablist" aria-label="Pipeline stages">
@@ -651,7 +690,7 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
             </button>
           ))}
         </div>
-        {(() => {
+        {!viewAll && (() => {
           const m = metrics.find((x) => x.id === stageId);
           if (!m || !m.available) return null;
           const priorLabel = stages.find((s) => s.id === m.comparedTo)?.label;
@@ -668,10 +707,15 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
             </div>
           );
         })()}
-        {isReadOnlyStage && (
+        {viewAll && (
+          <div className="sp-viewall-banner">
+            Showing all {chapters.length} chapters · {stages.find((s) => s.id === stageId)?.label ?? stageId} stage · read-only
+          </div>
+        )}
+        {!viewAll && isReadOnlyStage && (
           <div className="sp-stage-note">Read-only — viewing the {stage?.label} stage for comparison.</div>
         )}
-        {stageId === 'augmented' && stages.find((s) => s.id === 'normalized')?.available && (
+        {!viewAll && stageId === 'augmented' && stages.find((s) => s.id === 'normalized')?.available && (
           <div className="sp-augdiff-row">
             <button
               type="button"
@@ -718,8 +762,8 @@ export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
               <button type="button" onClick={() => editor?.chain().focus().redo().run()} title="Redo">↻</button>
             </div>
           </div>
-          {/* WC8 write-back: save edits to disk + approve the stage. */}
-          {!isReadOnlyStage && stage && (
+          {/* WC8 write-back: save edits to disk + approve the stage. Hidden in all-chapters view. */}
+          {!viewAll && !isReadOnlyStage && stage && (
             <div className="sp-save-row">
               <button
                 type="button"

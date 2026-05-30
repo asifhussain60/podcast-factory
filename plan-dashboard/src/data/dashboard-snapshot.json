@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T18:55:02.339Z",
-  "source_commit": "2c2f524",
+  "generated_at": "2026-05-30T21:57:33.245Z",
+  "source_commit": "1e9a74b",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,53 +819,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "2c2f524",
-      "subject": "feat(wave8/holistic): full-book pipeline + wisdom augmentation on Ayyuhal Walad",
+      "sha": "1e9a74b",
+      "subject": "fix(pipeline): close all audit regressions — C1/C2/H1-H4/M1/M5/L3",
       "date": "2026-05-30"
     },
     {
-      "sha": "b09b1a9",
-      "subject": "feat(wave8/pipeline): new pipeline scripts + editor refactor + framework updates",
+      "sha": "a61ee64",
+      "subject": "chore(ayyuhal-walad): regenerate stage-metrics.json with stripped augmented prose",
       "date": "2026-05-30"
     },
     {
-      "sha": "c4bed58",
-      "subject": "feat(wave8/editor): Save & Approve write-back, Discard, per-paragraph comments",
+      "sha": "9513366",
+      "subject": "fix(studio-poc): strip augmented.md metadata block from editor + inspector summary",
       "date": "2026-05-30"
     },
     {
-      "sha": "92f64e9",
-      "subject": "feat(wave8/5b+6b): drag-reorder, corpus search, intake page",
+      "sha": "cf32d87",
+      "subject": "feat(studio-poc): Hadith + Works source provenance chips inline",
       "date": "2026-05-30"
     },
     {
-      "sha": "c903b4c",
-      "subject": "feat(wave8/6+8): stage gate + runner + podcast bundle + slide decks",
+      "sha": "135ed48",
+      "subject": "feat(studio-poc): augmentation diff toggle + reference legend; fix 60+ TS errors",
       "date": "2026-05-30"
     },
     {
-      "sha": "ae4fa3a",
-      "subject": "feat(wave8/2fix+4+5c): terminus retrofix + K6 interest axis + host roles guardrail",
+      "sha": "2695b92",
+      "subject": "fix(studio-poc): consistent hover/active border + reliable click-outside deselect",
       "date": "2026-05-30"
     },
     {
-      "sha": "2c67082",
-      "subject": "chore(dual-agent): install Claude+Copilot two-agent operating model",
+      "sha": "6fb46c2",
+      "subject": "fix(studio-poc): hover padding + click-outside deselect",
       "date": "2026-05-30"
     },
     {
-      "sha": "77be92b",
-      "subject": "feat(wave8/5b): Studio re-platform — editorial cockpit core (ship-ready)",
+      "sha": "acdb86e",
+      "subject": "fix(studio): prefer additions-narrator-clean.md in stage loader (F2 display fix)",
       "date": "2026-05-30"
     },
     {
-      "sha": "db66c89",
-      "subject": "plan(wave8/4+): split Slice 4+ — defer hadith/etymology ingest to pre-Slice-7",
+      "sha": "4b5d497",
+      "subject": "chore: update stage-metrics.json after editorial fixes run",
       "date": "2026-05-30"
     },
     {
-      "sha": "a77315c",
-      "subject": "feat(wave8/2-fix): SN-7 terminus-technicus guard — full K6-pre spec",
+      "sha": "f5f53ec",
+      "subject": "feat(wc8/editorial): apply_editorial_fixes.py + clean narrator stage files — ayyuhal-walad",
       "date": "2026-05-30"
     }
   ],

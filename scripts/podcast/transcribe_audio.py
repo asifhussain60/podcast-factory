@@ -13,16 +13,14 @@ Cost is appended to the per-book ledger. `--seconds N` transcribes only the firs
 (cheap proof); omit for the full file.
 """
 from __future__ import annotations
-import argparse, json, subprocess, sys, tempfile, uuid, urllib.request
-from datetime import datetime, timezone
+import argparse, subprocess, sys, tempfile, uuid, urllib.request, json
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 import _azure  # noqa: E402
-from _paths import REPO_ROOT  # noqa: E402
-
-SPEECH_USD_PER_HOUR = 0.30  # Azure Standard STT (approx list)
+from _paths import REPO_ROOT, content_dir  # noqa: E402
+from _cost_ledger import append_azure_stt_cost  # noqa: E402
 
 def extract_wav(video: Path, seconds: int | None) -> tuple[Path, float]:
     # Compact mono mp3 (Azure Speech accepts it) so full ~1h lectures upload small.
@@ -58,13 +56,6 @@ def transcribe(wav: Path) -> str:
         d = json.loads(r.read())
     return " ".join(p.get("text", "") for p in d.get("combinedPhrases", []))
 
-def log_cost(slug: str, entry: dict) -> None:
-    p = REPO_ROOT / "content" / "drafts" / "books" / slug / "_system" / "cost-ledger.json"
-    led = json.loads(p.read_text()) if p.exists() else {"slug": slug, "entries": [], "total_usd": 0.0}
-    led["entries"].append(entry)
-    led["total_usd"] = round(sum(e.get("cost_usd", 0.0) for e in led["entries"]), 4)
-    p.parent.mkdir(parents=True, exist_ok=True); p.write_text(json.dumps(led, indent=2) + "\n")
-
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--slug", required=True); ap.add_argument("--video", required=True)
@@ -77,11 +68,9 @@ def main() -> int:
         wav.unlink(missing_ok=True)
     out = REPO_ROOT / a.out if not a.out.startswith("/") else Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True); out.write_text(text + "\n")
-    cost = round((dur / 3600.0) * SPEECH_USD_PER_HOUR, 4)
-    log_cost(a.slug, {"ts": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-                      "op": "transcribe", "service": "azure-speech-fast", "video": Path(a.video).name,
-                      "seconds": round(dur, 1), "unit_usd_per_hour": SPEECH_USD_PER_HOUR, "cost_usd": cost})
-    print(f"[done] {dur:.0f}s -> {len(text):,} chars -> {a.out}  (cost ${cost:.4f})")
+    append_azure_stt_cost(content_dir(a.slug), phase="wc8/transcribe",
+                          step=Path(a.video).name, duration_seconds=dur)
+    print(f"[done] {dur:.0f}s -> {len(text):,} chars -> {a.out}")
     return 0
 
 if __name__ == "__main__":
