@@ -135,6 +135,7 @@ _workspace/plan/operations/wave-chain-auth.json
 _workspace/kashkole-ksessions/*.sql
 CONTENT/_shared/source-library/*.sql
 content/knowledge-base/*.db
+!content/knowledge-base/mirror.db
 content/knowledge-base/*.db-shm
 content/knowledge-base/*.db-wal
 

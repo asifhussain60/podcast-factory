@@ -61,9 +61,15 @@ def _esc(value: str) -> str:
 def quran_lookup(surah: int, ayat: int) -> dict[str, Any]:
     """Return a single Quran verse by surah and ayat numbers.
 
+    Tries FTS5 mirror first (sub-ms); falls back to SQL Server on miss.
     Returns a dict with keys: surah, ayat, arabic, pickthall, asad, urdu,
     phonetic.  Returns {"error": "..."} if the verse is not found.
     """
+    from scripts.podcast.source_library_mirror import quran_ayat_lookup  # noqa: PLC0415
+    cached = quran_ayat_lookup(surah, ayat)
+    if cached:
+        return cached
+    # Fall back to SQL Server
     sql = f"""
 SELECT TOP 1
     SurahNumber        AS surah,
@@ -191,17 +197,19 @@ def topic_search(keyword: str, limit: int = 10) -> list[dict[str, Any]]:
 SELECT TOP {n}
     t.TopicID                          AS topic_id,
     t.TopicName                        AS name,
-    t.TopicNameEnglish                 AS name_en,
+    ''                                  AS name_en,
     t.TopicDescription                 AS description,
-    bct.BinderID                       AS binder_id,
-    bct.BinderName                     AS binder,
-    bct.ChapterName                    AS chapter,
-    LEFT(td.TopicUnicodeStripped, 400) AS snippet
+    ISNULL(b.BinderID, 0)              AS binder_id,
+    ISNULL(b.BinderName, '')           AS binder,
+    ISNULL(ch.ChapterName, '')         AS chapter,
+    LEFT(ISNULL(td.TopicUnicodeStripped, ''), 400) AS snippet
 FROM Topics t
 LEFT JOIN TopicDataUnicode td ON td.TopicID = t.TopicID
-LEFT JOIN BinderChapterTopics bct ON bct.TopicID = t.TopicID
-WHERE t.TopicName        LIKE '%{kw}%'
-   OR t.TopicNameEnglish LIKE '%{kw}%'
+LEFT JOIN ChapterTopics ct ON ct.TopicID = t.TopicID
+LEFT JOIN BinderChapters bc ON bc.ChapterID = ct.ChapterID
+LEFT JOIN Binders b ON b.BinderID = bc.BinderID
+LEFT JOIN Chapters ch ON ch.ChapterID = ct.ChapterID
+WHERE t.TopicName LIKE '%{kw}%'
 ORDER BY t.ViewCount DESC
 FOR JSON PATH;
 """
@@ -219,10 +227,10 @@ def topic_get(topic_id: int) -> dict[str, Any]:
 SELECT
     t.TopicID          AS topic_id,
     t.TopicName        AS name,
-    t.TopicNameEnglish AS name_en,
+    ''                  AS name_en,
     t.TopicDescription AS description,
-    td.TopicUnicode    AS body_arabic,
-    td.TopicUnicodeStripped AS body_plain
+    ISNULL(td.TopicUnicode, '')         AS body_arabic,
+    ISNULL(td.TopicUnicodeStripped, '') AS body_plain
 FROM Topics t
 LEFT JOIN TopicDataUnicode td ON td.TopicID = t.TopicID
 WHERE t.TopicID = {tid}
@@ -245,8 +253,7 @@ FOR JSON PATH;
     glossary_sql = f"""
 SELECT
     g.GlossaryID       AS glossary_id,
-    g.TermName         AS term,
-    g.TermDefinition   AS definition
+    g.TermName         AS term
 FROM TopicGlossaries tg
 JOIN Glossary g ON g.GlossaryID = tg.GlossaryID
 WHERE tg.TopicID = {tid}
@@ -267,10 +274,23 @@ def session_style_fetch(
 ) -> list[dict[str, Any]]:
     """Return style-reference passages from KSESSIONS that match a theme.
 
-    Searches SessionSummary.SessionContent (HTML, stripped) and
-    Sessions.SessionName.  Returns up to `limit` passages, each with keys:
+    Tries FTS5 mirror first; falls back to SQL Server LIKE scan.
+    Returns up to `limit` passages, each with keys:
     session_id, session_name, group_id, passage (plain text, HTML stripped).
     """
+    from scripts.podcast.source_library_mirror import fts_sessions_search  # noqa: PLC0415
+    mirror_rows = fts_sessions_search(theme, group_id, limit)
+    if mirror_rows:
+        return [
+            {
+                "session_id":   r.get("session_id"),
+                "session_name": r.get("session_name"),
+                "group_id":     r.get("group_id"),
+                "passage":      r.get("content", ""),
+            }
+            for r in mirror_rows
+        ]
+    # Fall back to SQL Server
     kw = _esc(theme.strip())
     n = max(1, min(int(limit), 20))
     group_clause = (
@@ -292,15 +312,15 @@ ORDER BY s.SessionDate DESC
 FOR JSON PATH;
 """
     rows = query_json("KSESSIONS", sql) or []
-    out = []
-    for r in rows:
-        out.append({
-            "session_id": r.get("session_id"),
+    return [
+        {
+            "session_id":   r.get("session_id"),
             "session_name": r.get("session_name"),
-            "group_id": r.get("group_id"),
-            "passage": _strip_html(r.get("passage_html") or ""),
-        })
-    return out
+            "group_id":     r.get("group_id"),
+            "passage":      _strip_html(r.get("passage_html") or ""),
+        }
+        for r in rows
+    ]
 
 
 def discover_hadith_schema() -> list[str]:

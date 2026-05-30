@@ -150,16 +150,19 @@ _SQL_TOPICS = """
 SELECT
     t.TopicID                                    AS topic_id,
     ISNULL(t.TopicName, '')                      AS name,
-    ISNULL(t.TopicNameEnglish, '')               AS name_en,
+    ''                                            AS name_en,
     ISNULL(t.TopicDescription, '')               AS description,
-    ISNULL(bct.BinderName, '')                   AS binder,
-    ISNULL(bct.ChapterName, '')                  AS chapter,
+    ISNULL(b.BinderName, '')                     AS binder,
+    ISNULL(ch.ChapterName, '')                   AS chapter,
     ISNULL(td.TopicUnicodeStripped, '')          AS body_plain
 FROM Topics t
 LEFT JOIN TopicDataUnicode td ON td.TopicID = t.TopicID
-LEFT JOIN BinderChapterTopics bct ON bct.TopicID = t.TopicID
+LEFT JOIN ChapterTopics ct ON ct.TopicID = t.TopicID
+LEFT JOIN BinderChapters bc ON bc.ChapterID = ct.ChapterID
+LEFT JOIN Binders b ON b.BinderID = bc.BinderID
+LEFT JOIN Chapters ch ON ch.ChapterID = ct.ChapterID
 ORDER BY t.TopicID
-OFFSET {{offset}} ROWS FETCH NEXT {{batch}} ROWS ONLY
+OFFSET {offset} ROWS FETCH NEXT {batch} ROWS ONLY
 FOR JSON PATH;
 """
 
@@ -173,7 +176,7 @@ FROM Sessions s
 JOIN SessionSummary ss ON ss.SessionId = s.SessionID
 WHERE ss.IsActive = 1
 ORDER BY s.SessionID
-OFFSET {{offset}} ROWS FETCH NEXT {{batch}} ROWS ONLY
+OFFSET {offset} ROWS FETCH NEXT {batch} ROWS ONLY
 FOR JSON PATH;
 """
 
@@ -185,15 +188,16 @@ _SQL_HADITH_DISCOVER = "SELECT TOP 1 * FROM Ahadees FOR JSON PATH;"
 
 _SQL_HADITH = """
 SELECT
-    AhadeesID                               AS hadith_id,
-    ISNULL(CollectionName, '')              AS collection,
-    ISNULL(CAST(HadithNumber AS NVARCHAR), '') AS hadith_num,
-    ISNULL(ArabicText, '')                  AS arabic,
-    ISNULL(EnglishText, '')                 AS english
+    AhadeesId                                   AS hadith_id,
+    ISNULL(Subject, '')                         AS collection,
+    ISNULL(CAST(AhadeesId AS NVARCHAR), '')     AS hadith_num,
+    ISNULL(AhadeesArabic, '')                   AS arabic,
+    ISNULL(AhadeesEnglish, '')                  AS english
 FROM Ahadees
-WHERE ArabicText IS NOT NULL AND ArabicText != ''
-ORDER BY AhadeesID
-OFFSET {{offset}} ROWS FETCH NEXT {{batch}} ROWS ONLY
+WHERE AhadeesArabic IS NOT NULL AND AhadeesArabic != ''
+  AND IsDeleted = 0
+ORDER BY AhadeesId
+OFFSET {offset} ROWS FETCH NEXT {batch} ROWS ONLY
 FOR JSON PATH;
 """
 
@@ -205,29 +209,28 @@ SELECT
     ISNULL(r.RootTransliteration, '')                AS root,
     ISNULL(d.Grammar, '')                            AS grammar_tag,
     ISNULL(d.MeaningEnglish, ISNULL(r.MeaningEnglish, '')) AS definition,
-    ISNULL(r.Definition, '')                         AS etymology
+    ISNULL(r.MeaningArabic, '')                      AS etymology
 FROM Roots r
 LEFT JOIN Derivatives d ON d.RootID = r.RootID
 WHERE r.RootTransliteration IS NOT NULL
 ORDER BY r.RootID, ISNULL(d.SortOrder, 0)
-OFFSET {{offset}} ROWS FETCH NEXT {{batch}} ROWS ONLY
+OFFSET {offset} ROWS FETCH NEXT {batch} ROWS ONLY
 FOR JSON PATH;
 """
 
-# term_index from KASHKOLE: Glossary + DeeniTermGroup
+# term_index from KASHKOLE: Glossary only (no definition or group column in schema)
 _SQL_KASHKOLE_TERMS = """
 SELECT
-    ISNULL(g.TermName, '')                   AS term,
-    ''                                        AS arabic,
-    ''                                        AS root,
-    ISNULL(dtg.GroupName, '')                AS grammar_tag,
-    ISNULL(g.TermDefinition, '')             AS definition,
-    ''                                        AS etymology
+    ISNULL(g.TermName, '')  AS term,
+    ''                       AS arabic,
+    ''                       AS root,
+    ''                       AS grammar_tag,
+    ''                       AS definition,
+    ''                       AS etymology
 FROM Glossary g
-LEFT JOIN DeeniTermGroup dtg ON dtg.GroupID = g.GroupID
 WHERE g.TermName IS NOT NULL AND g.TermName != ''
 ORDER BY g.GlossaryID
-OFFSET {{offset}} ROWS FETCH NEXT {{batch}} ROWS ONLY
+OFFSET {offset} ROWS FETCH NEXT {batch} ROWS ONLY
 FOR JSON PATH;
 """
 
@@ -535,6 +538,62 @@ def fts_topics_search(
             "FROM fts_topics WHERE fts_topics MATCH ? LIMIT ?",
             (f'"{kw_safe}"', n),
         ).fetchall()
+        return [dict(r) for r in rows]
+    except sqlite3.OperationalError:
+        return []
+    finally:
+        if own:
+            conn.close()
+
+
+def quran_ayat_lookup(
+    surah: int, ayat: int, conn: sqlite3.Connection | None = None
+) -> dict | None:
+    """Direct lookup of a single Quran verse by surah + ayat. Returns None if not found."""
+    own = conn is None
+    conn = conn or open_mirror()
+    if conn is None:
+        return None
+    try:
+        row = conn.execute(
+            "SELECT surah, ayat, arabic, pickthall, asad, urdu, phonetic "
+            "FROM fts_quran WHERE surah = ? AND ayat = ? LIMIT 1",
+            (int(surah), int(ayat)),
+        ).fetchone()
+        return dict(row) if row else None
+    except sqlite3.OperationalError:
+        return None
+    finally:
+        if own:
+            conn.close()
+
+
+def fts_sessions_search(
+    theme: str,
+    group_id: int | None = None,
+    limit: int = 4,
+    conn: sqlite3.Connection | None = None,
+) -> list[dict]:
+    """FTS5 search over fts_sessions by theme keyword. Returns [] if mirror unavailable."""
+    own = conn is None
+    conn = conn or open_mirror()
+    if conn is None:
+        return []
+    n = max(1, min(int(limit), 20))
+    kw_safe = theme.replace('"', '""')
+    try:
+        if group_id is not None:
+            rows = conn.execute(
+                "SELECT session_id, session_name, group_id, content "
+                "FROM fts_sessions WHERE fts_sessions MATCH ? AND group_id = ? LIMIT ?",
+                (f'"{kw_safe}"', int(group_id), n),
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                "SELECT session_id, session_name, group_id, content "
+                "FROM fts_sessions WHERE fts_sessions MATCH ? LIMIT ?",
+                (f'"{kw_safe}"', n),
+            ).fetchall()
         return [dict(r) for r in rows]
     except sqlite3.OperationalError:
         return []
