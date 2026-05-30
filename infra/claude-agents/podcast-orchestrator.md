@@ -83,7 +83,7 @@ These are the two outputs of Phase 0a–0e that benefit from human eyes — a ba
 
 - **Audience** — project-fixed default from the orchestrator config (listener profile is a property of the library, not the book).
 - **Angle** — project-fixed default from the orchestrator config (editorial stance is constant across the library).
-- **Host dynamic** — AI-selected per chapter from the canonical pair list in `content/podcast/.skill/handbook/two-host-framing.md` based on each chapter's content shape (curious_mind + patient_teacher · skeptic + advocate · etc.). The AI writes its selection + a one-line rationale per chapter.
+- **Host dynamic** — AI-selected per chapter from the canonical pair list in `_rules.py` (`HOST_ROLE_CONTRACT`) based on each chapter's content shape (curious_mind + patient_teacher · skeptic + advocate · etc.). The AI writes its selection + a one-line rationale per chapter.
 
 These three fields flow into each `chapter-contracts/<slug>.yml` automatically; the human is not asked about them. The Phase 0f gate is intentionally narrowed to the two items that vary across books and have downstream cost on a mis-call.
 
@@ -102,7 +102,7 @@ Same hard gates as initial. Plus: verify `_system/series-plan.md` is approved (f
 For each chapter listed in `series-plan.md`, in order:
 
 1. `extract_chapter.py` to scaffold the episode-draft folder
-2. **Author framing** via `_authoring.py author_framing` (LLM call producing `00-framing.md` from the Extended-tier template — see [content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md](../../content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md))
+2. **Author framing** via `_authoring.py author_framing` (LLM call producing `00-framing.md` from the Extended-tier template — framing rules defined in `_rules.py` and the framing Categories M/N/R in `infra/claude-agents/podcast-challenger.md`)
 3. `build_episode_txt.py` to compile the episode `.txt`
 4. **Convergence loop** — **max 3 outer iterations × 5 inner (challenger-internal) = 15 passes / chapter ceiling** (v2 reconciled cap; v1 used 5×5=25, which exceeded the $50 cost cap):
    - Invoke `podcast-challenger` with `subagent_type=podcast-challenger, prompt: "<book-slug> --chapter <slug>"`

@@ -1130,3 +1130,95 @@ This pattern makes podcast intelligence improvements **isolated to one folder**.
  - `.github/agents/podcast-challenger.agent.md` — semantic-quality reviewer; runs in a convergence loop (≤5 iterations per the v1.4 frontmatter `max_iterations: 5`; the orchestrator drives an outer re-invocation loop on top if P0 findings remain) before any bundle ships. Validates citation authenticity (Loop A), NotebookLM literalness (Loop B), phonetic coverage + substitution + name-aliasing (Loops C + J), enrichment depth (Loop D), articulation (Loop E), framing 4-part structure (Loop F), welcome opening + closing landing (Loop H), anti-repetition + no-irrelevant-background (Loop I), interruption avoidance (Loop K). Authority for the check catalog is the two normative rule files (`notebooklm-source-chapter-rules.md` + `notebooklm-customize-prompt-rules.md`). Writes `BOOK_DIR/_system/challenger-report.md`. **Required** between Phase 4 step 1 (quality gate) and step 2 (compile).
  - `.github/agents/journal-challenger.agent.md` — peer challenger for the `/journal` skill. Shares the same contract (`max_iterations: 3`, verdict states `SHIP-READY`/`SHIP-WITH-CAUTION`/`BLOCKED`) and the same shared Arabic references. Out-of-scope for podcast invocations; listed here only so authors know the symmetry exists.
 
+
+---
+
+## WC8 (Wave C8) — Stage Pipeline, Phase 8 Bundle, K6 Scoring, Host Roles
+
+> Added 2026-05-30 post-merge docs-sweep. Covers scripts, constants, and
+> behaviour introduced in the WC8 Wave 8 build (book/ayyuhal-walad → develop).
+
+### WC8 Stage Pipeline — Phase 6 tooling
+
+Two new scripts gate the editorial review loop and advance stages per chapter:
+
+- `_stage_gate.py` — stage definitions and gate logic. Defines `STAGE_ORDER`
+  (the 6-stage sequence: `source → core → denoised → normalized → augmented →
+  narrator`) and the per-stage artifact names (`STAGE_ARTIFACTS`). Provides
+  `_review_path()` and `_stages_dir()` used by the runner; also exports
+  `next_runnable_stage()`, `awaiting_approval_stage()`, and
+  `chapter_stage_summary()` for callers.
+
+- `stage_runner.py` — CLI driver for the stage pipeline. Runs the next pending
+  stage for one chapter (`--chapter`) or all chapters (`--all`). Prints a
+  status table (`--status`). Reads approval state from
+  `_system/review/<chapter>.json`. Used by the Copilot "Run next stage" button
+  (calls it as a subprocess). **Always call via `_paths.resolve_content(slug)`
+  — never hardcode `content/drafts/books/<slug>`.**
+
+### WC8 Output Bundle — Phase 8 tooling
+
+Two scripts assemble and render the final deliverable after all chapters have
+passed the stage pipeline:
+
+- `assemble_bundle.py` — validates that every chapter listed in
+  `_system/episode-map.json` has a chapter file, framing file, and slide deck;
+  runs PEQ scoring on each; emits the NotebookLM upload table to stdout. The
+  upload table header uses `slug` + episode count (never a hardcoded book
+  title). Entry point: `python3 scripts/podcast/assemble_bundle.py <slug>`.
+
+- `generate_slide_decks.py` — calls Gemini 2.5 Flash (thinking disabled,
+  `maxOutputTokens=8000`) to produce per-chapter slide-deck source
+  (`slides/<chapter>.md`). Applies line-strip post-processing to remove
+  Gemini preamble. Entry point:
+  `python3 scripts/podcast/generate_slide_decks.py <slug>`.
+
+### K6 — 5-Axis PEQ Formula
+
+The Podcast Episode Quality score has five axes since the WC8 K6 update.
+All weights are authoritative in `_rules.py`; `_quality.py` imports them.
+
+| Axis | Weight | Constant | What it measures |
+|---|---|---|---|
+| Fidelity | 30 % | `WEIGHT_FIDELITY` | Citation overlap (Jaccard vs TopicAyats) |
+| Voice | 20 % | `WEIGHT_VOICE` | TF-IDF bigram cosine vs KSessions exemplar |
+| Structure | 18 % | `WEIGHT_STRUCTURE` | Arc-rule coverage |
+| Enrichment | 17 % | `WEIGHT_ENRICHMENT` | Gloss ratio + Quran reference density |
+| Interest | 15 % | `R_INTEREST_WEIGHT` | Curiosity hooks, challenge-defeat arc, modern relevance, fair framing |
+
+The Interest axis (`_quality._interest_score()`) uses four sub-signals. All
+pattern lists are imported from `_rules.py` — **never inline them**:
+
+- `R_INTEREST_HOOK_PATTERNS` — opening curiosity phrases (first 20 % of text)
+- `R_INTEREST_CHALLENGE_RAISE_PATTERNS` — problem-raising phrases
+- `R_INTEREST_CHALLENGE_RESOLVE_PATTERNS` — resolution phrases (partial credit: 0.5 if only raise found)
+- `R_INTEREST_RELEVANCE_PATTERNS` — modern-relevance signals
+- `R_INTEREST_STRAWMAN_DENY` — strawman markers (absence = full fairness credit)
+
+The challenger's Category V checks also use these same constants from
+`_rules.py`. PEQ Interest score and Category V finding must agree; if they
+diverge the source of truth is `_rules.py`.
+
+### Host Roles Guardrail — `HOST_ROLE_CONTRACT`
+
+`_rules.py` defines `HOST_ROLE_CONTRACT`, a dict of three host-role presets
+available in the episode format system:
+
+| Preset key | Host A role | Host B role | Typical format |
+|---|---|---|---|
+| `teacher_student` | teacher | student | Deep Dive |
+| `teacher_questioner` | teacher | questioner | Deep Dive / Debate |
+| `scholar_debater` | scholar | debater | Debate |
+
+The 7th editorial card in the Studio cockpit (`host_roles` field in
+`editorial.ts`) exposes these presets to the reviewer. The `debater` trigger
+is surfaced via the notes field. The challenger enforces that the framing's
+host dynamic matches the contract — a mismatch is a Category V finding.
+
+### Path resolution — `resolve_content(slug)`
+
+All WC8 pipeline scripts use `_paths.resolve_content(slug)` instead of
+`REPO_ROOT / "content" / "drafts" / "books" / slug`. The function calls
+`find_content()` to locate the slug across all stage/category combinations
+and falls back to `content_dir(slug)` for new writes. This ensures letters,
+lectures, articles, and other non-book categories resolve correctly.

@@ -31,6 +31,7 @@ Every new piece of content is processed on its own typed branch off `develop`. T
 | `articles` | `article/` | `article/cross-tradition-method` |
 | `letters` | `letter/` | `letter/ayyuhal-walad` |
 | `interviews` | `interview/` | `interview/asif-with-amir` |
+| `asbaaq` | `asbaaq/` | `asbaaq/short-course-01` |
 | (unknown / unset) | `draft/` | `draft/some-unclassified-thing` |
 
 Source of truth for the prefix map: [scripts/podcast/_branching.py](scripts/podcast/_branching.py) — every script that computes a branch name imports `branch_name(category, slug)` from there. Never hardcode `book/<slug>` anywhere.
