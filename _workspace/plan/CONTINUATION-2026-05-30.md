@@ -112,8 +112,9 @@ the throwaway PoC, not the real Studio.
 | ⬜ | 6 | Close the loop so approving a stage in the editor advances the book — edits save back, orchestrator runs the next stage. | Copilot | ~$0 | — |
 | ⬜ | 6b | New Content intake page — upload raw content (PDF / audio / links), set book metadata and editorial defaults (tradition, archetype, audience, initial focus priorities), trigger the intake pipeline from the UI. | Copilot | ~$0 | — |
 | ⬜ | 7 | Assemble the chapters into the NotebookLM podcast bundle and the mandatory slide decks. Requires K6 (interest scoring) + 5b/5c (editorial cockpit + roles) before running. | Gemini · Claude | ~$0.20 | — |
+| ⬜ | 7b | Generate the video visual layer — per-episode timed image prompts (beat→visual_type→prompt→estimated_timestamp) + auto-generated images via Imagen 3. Outputs: video-prompts.json, video-prompts.md, video-images/*.png. Visual types: scenery, quran_verse, hadith_text, flowchart, concept, portrait. | Gemini text + Imagen 3 | ~$2.50 | — |
 | 🔒 | D | **Mandatory — finalize halt + publish gate: review the clean assembled book once before it ships.** | | | |
-| | **Total** | **Wave 8 cost** | | **~$5.60** | **$4.80** |
+| | **Total** | **Wave 8 cost** | | **~$8.30** | **$4.80** |
 
 ---
 *Editor: `cd plan-dashboard && npm run dev` → `/studio-poc`. Cost ledger:

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T10:54:48.828Z",
-  "source_commit": "e13515b",
+  "generated_at": "2026-05-30T11:16:55.275Z",
+  "source_commit": "0e81760",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,6 +819,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "0e81760",
+      "subject": "plan(WC8): record 8-phase autonomous execution plan",
+      "date": "2026-05-30"
+    },
+    {
+      "sha": "8a9b7d4",
+      "subject": "plan(WC8/K6-pre): add terminus technicus preservation rule — Arabic terms stripped by Gemini normalize",
+      "date": "2026-05-30"
+    },
+    {
       "sha": "e13515b",
       "subject": "plan(WC8): add Slices 5b/5c/6b — editorial cockpit, host roles, new content intake",
       "date": "2026-05-30"
@@ -857,16 +867,6 @@
       "sha": "9248c75",
       "subject": "doc(WC8): continuation prompt — waves/slices, completed vs remaining, human-review gates, editor-readiness",
       "date": "2026-05-30"
-    },
-    {
-      "sha": "14ddb4e",
-      "subject": "continuity(WC8): A+B done — chapter switcher + narrator-additions layer on all 5 chapters; book fully processed ($4.80)",
-      "date": "2026-05-29"
-    },
-    {
-      "sha": "6b35ede",
-      "subject": "WC8.1 (A): Narrator tab in the Studio PoC — surfaces the attributed lecture-additions layer (additions-narrator.md) per chapter",
-      "date": "2026-05-29"
     }
   ],
   "metrics": {

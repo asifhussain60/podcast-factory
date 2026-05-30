@@ -145,6 +145,7 @@ substantial builds (Studio re-platform, full audio job). Total Azure cost to dat
 | **6** | Pipeline productionization | Orchestrator reads _system/review/<ch>.json approvals; edit-save-back; "Run next stage" button | $0 |
 | **7** | New Content intake (6b) | /new-content wizard; intake API; editorial.json pre-fill | $0 |
 | **8** | Output: podcast bundle + slides | assemble_bundle.py; per-episode .txt + framings; slide decks; challenger convergence (5-axis); NotebookLM upload table | ~$0.20 |
+| **9** | Video visual layer | generate_video_layer.py — per-episode beat→image prompts with estimated timestamps; Gemini text for prompt authoring; Imagen 3 API for image generation; outputs video-prompts.json + video-prompts.md + video-images/*.png per episode | ~$1.50–$2.50 |
 
 **HONEST PENDING (not blockers, scoped work):**
 - **Slice 4+ (plan B5) — BUILD:** ingest hadith/etymology/poetry atoms from MCP (KASHKOLE+KQUR). Zero external DB needed — data is in KASHKOLE already (14 hadith topics TypeID 17 + TypeID 23; binder 5 poetry; KQUR Roots etymology). Script: `ingest_mcp_corpus.py`. Also fix `extractor.py` `claude -p` call. Authorized 2026-05-30.

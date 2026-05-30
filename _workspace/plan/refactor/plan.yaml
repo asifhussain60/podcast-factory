@@ -2790,6 +2790,57 @@ wave_8_studio:
       authorization: tier_one
       cost_estimate_usd: 0
 
+    - id: WC8-7b
+      title: "Video visual layer — timed image prompts + auto-generated stills per episode"
+      authorized_by: asif_2026-05-30
+      depends_on: [WC8-5b]
+      description: |
+        For each episode, generate a synchronized visual script: per-content-beat image
+        prompts with estimated timestamps, then auto-generate the images using Imagen 3.
+        Pipeline can't timestamp against the actual audio (NotebookLM generates that after
+        handoff), so timestamps are estimated from section word counts at 130 wpm dialogue
+        pace (~85-90% accurate; 1-2 cut adjustments per minute in any video editor).
+        Prompts are generated from the augmented.md content and framing beat structure,
+        not from the audio — this gives better doctrinal fidelity because we have the full
+        scholarly context at generation time.
+      script: "scripts/podcast/generate_video_layer.py"
+      inputs:
+        - "_stages/<ch>/augmented.md (content + term context)"
+        - "episodes/<ep>/00-framing.md (beat structure, arc, tensions)"
+        - "_system/quran-citations.json (verified citations for quran_verse type)"
+        - "_system/knowledge-report.json (hadith atoms for hadith_text type)"
+        - "_system/glossary.yml (Arabic terms for overlay text)"
+      visual_types:
+        scenery: "Historical Islamic settings (Nishapur, Baghdad, desert, library) — establishing and transition shots"
+        quran_verse: "Quran citation detected in beat → Arabic calligraphy style + phonetic overlay + English gloss"
+        hadith_text: "Hadith atom matched to beat → stylized text on textured background"
+        flowchart: "Numbered-list content (eight benefits, stations, doctrinal hierarchy) → clean diagram"
+        concept: "Abstract doctrinal idea (tawil=inner light; aql=first intellect; maad=return) → symbolic visual"
+        portrait: "Named scholar referenced → calligraphic or illustrated representation"
+      timestamp_method: "cumulative word-count / 130wpm per section; adjusted +10% for host preamble and intro music"
+      style_directive: "Consistent across episode: editorial illustration, warm amber/ochre palette, fine-line Islamic geometric border frame, scholarly aesthetic. NOT photorealistic. NOT generic stock art."
+      image_generation:
+        model: "imagen-3.0-generate-002 via @google/generative-ai (already in stack)"
+        output_format: "1920×1080 PNG"
+        naming: "<NN>_<visual_type>_<slug>.png (zero-padded sequence for video editor import)"
+        cost_per_image_usd: 0.04
+        images_per_episode: "8-12 (one per significant arc beat)"
+        total_cost_5_episodes_usd: 2.50
+      outputs:
+        per_episode:
+          - "episodes/<ep>/video-prompts.json — machine-readable; segment_id, visual_type, est_start_s, est_end_s, prompt_short, prompt_full, style_directive, overlay_text"
+          - "episodes/<ep>/video-prompts.md — human-readable storyboard for review; table of segment/timestamp/visual description"
+          - "episodes/<ep>/video-images/*.png — generated images, named by sequence and slug"
+      acceptance:
+        - "video-prompts.json present for all 5 Ayyuhal episodes"
+        - "At least one quran_verse type image present per episode where verified citations exist"
+        - "Timestamp estimates: est_start_s=0 for segment_id=1; final segment est_end_s within 10% of episode length estimate"
+        - "All images 1920×1080 PNG, no broken/missing files"
+        - "Style directive consistent (same string) across all segments of one episode"
+        - "video-prompts.md renders as readable storyboard"
+      authorization: tier_one
+      cost_estimate_usd: 2.50
+
     - id: WC8-6b
       title: "New Content intake page — upload content and configure pipeline from the UI"
       authorized_by: asif_2026-05-30
