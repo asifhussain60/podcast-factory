@@ -1,0 +1,70 @@
+{
+  "slug": "ayyuhal-walad",
+  "segmented_at": "2026-05-30T18:39:39.496635Z",
+  "target_words": 3900,
+  "total_episodes": 3,
+  "design_rationale": "After stripping 9,909w of Scherer 1933 dissertation apparatus from Section 1, the letter yields 11,728w \u2014 exactly 3 balanced episodes (~3,900w each). EP01 covers the opening frame through the soul's journey (S01-S11). EP02 covers the daily disciplines, the Sufi way, and Hatim al-Asamm (S12-S18). EP03 opens with the guiding shaykh and closes with the eight admonitions (S19-S24). All episodes exceed the 2,800w minimum floor. Segmentation performed agent-inline (no Anthropic API key required).",
+  "episodes": [
+    {
+      "number": 1,
+      "slug": "frame-and-the-problem-of-knowledge",
+      "title": "The Frame and the Problem of Knowledge",
+      "sections": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "theme": "The occasion of the letter \u2014 why knowledge without action is the soul's greatest trap",
+      "opening_tension": "A student who has mastered every science asks: which of this knowledge will help me in the grave?",
+      "closing_resolution": "The listener understands that knowledge divorced from action is a burden, not a gift, and that the soul's journey begins with this recognition.",
+      "word_count": 4456,
+      "file": "ch01-frame-and-the-problem-of-knowledge.txt"
+    },
+    {
+      "number": 2,
+      "slug": "the-disciplines-of-the-path",
+      "title": "The Disciplines of the Path",
+      "sections": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "theme": "The daily and nightly disciplines that transform abstract knowledge into lived submission",
+      "opening_tension": "Knowing the problem is not enough \u2014 what does the path actually require of the seeker day after day?",
+      "closing_resolution": "Hatim al-Asamm's eight benefits crystallise the whole argument: knowledge becomes benefit only through practice, patience, and surrender.",
+      "word_count": 3845,
+      "file": "ch02-the-disciplines-of-the-path.txt"
+    },
+    {
+      "number": 3,
+      "slug": "the-guiding-shaykh-and-final-counsels",
+      "title": "The Guiding Shaykh and the Final Counsels",
+      "sections": [
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ],
+      "theme": "The role of the living guide and the eight closing admonitions that seal Ghazali's counsel",
+      "opening_tension": "Can a seeker travel the path alone, or is a living guide indispensable?",
+      "closing_resolution": "Ghazali closes with eight precise admonitions \u2014 four to abandon, four to practice \u2014 sealing the letter with the counsel that cannot be written but must be lived.",
+      "word_count": 3448,
+      "file": "ch03-the-guiding-shaykh-and-final-counsels.txt"
+    }
+  ],
+  "cost_usd": 0.0
+}

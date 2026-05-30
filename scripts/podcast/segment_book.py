@@ -165,9 +165,15 @@ def segment(slug: str, *, target_words: int = TARGET_WORDS_DEFAULT, dry_run: boo
     out_dir = book_dir / "chapters-wc8"
     report_path = book_dir / "_system" / "segment-report.json"
 
-    if not unified_path.exists():
+    # Prefer augmented version if it exists (produced by augment_book.py).
+    augmented_path = book_dir / "_system" / "unified-augmented.md"
+    if augmented_path.exists():
+        unified_path = augmented_path
+        print(f"  Using unified-augmented.md (wisdom corpus enrichment applied)")
+    elif not unified_path.exists():
         raise FileNotFoundError(
-            f"unified-book.md not found at {unified_path}. Run reconcile_book.py first."
+            f"Neither unified-augmented.md nor unified-book.md found at {book_dir / '_system'}. "
+            "Run reconcile_book.py (and optionally augment_book.py) first."
         )
 
     if out_dir.exists() and list(out_dir.glob("ch*.txt")) and not force:

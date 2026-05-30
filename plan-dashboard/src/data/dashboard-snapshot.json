@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T16:37:20.820Z",
-  "source_commit": "c4bed58",
+  "generated_at": "2026-05-30T18:24:22.092Z",
+  "source_commit": "b09b1a9",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,6 +819,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "b09b1a9",
+      "subject": "feat(wave8/pipeline): new pipeline scripts + editor refactor + framework updates",
+      "date": "2026-05-30"
+    },
+    {
       "sha": "c4bed58",
       "subject": "feat(wave8/editor): Save & Approve write-back, Discard, per-paragraph comments",
       "date": "2026-05-30"
@@ -861,11 +866,6 @@
     {
       "sha": "ab8f991",
       "subject": "chore(wave8): relocate architect audit to reviews/reports, stamp approval provenance",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "aecef99",
-      "subject": "fix(wave8): clear Phase 0.7 + Phase 1 start-blockers (vscode, extractor gemini, plan approval, section0 review)",
       "date": "2026-05-30"
     }
   ],

@@ -3630,5 +3630,95 @@ phase_07_start_blockers:
         - ".vscode/extensions.json (8 recommendations)"
 
 # ===========================================================================
+# WC8 HOLISTIC PIPELINE SCRIPTS — registered 2026-05-30
+# Authorized by CONTINUATION-2026-05-30.md autonomy mandate.
+# Branch: book/ayyuhal-walad
+# ===========================================================================
+
+wc8_holistic_pipeline:
+  id: WC8-HOLISTIC
+  title: "Holistic full-book pipeline — Ayyuhal Walad"
+  registered_at: 2026-05-30
+  branch: book/ayyuhal-walad
+  design_rationale: |
+    The per-chapter WC8 pipeline denoised the scholarly English edition and produced
+    only 4,295w total — because that edition is 92% translator apparatus. The holistic
+    pipeline processes all sources as unified full-book streams, reconciles them, augments
+    from the wisdom corpus, then re-segments into balanced ~4,500w episodes. Cost: ~$0.30.
+    Chapters land in chapters-wc8/ (Option A); existing v3.5 chapters/ preserved.
+  steps:
+    - id: WC8-H1
+      title: "full_book_denoise.py — denoise all 3 source streams as unified books"
+      path: scripts/podcast/full_book_denoise.py
+      status: built_committed
+      committed_at: b09b1a9
+      service: gemini-2.5-flash
+      cost_usd: ~0.104
+      outputs:
+        - content/drafts/books/ayyuhal-walad/_system/source/multi/denoised/arabic.md
+        - content/drafts/books/ayyuhal-walad/_system/source/multi/denoised/english.md
+        - content/drafts/books/ayyuhal-walad/_system/source/multi/denoised/scholarly.md
+
+    - id: WC8-H2
+      title: "reconcile_book.py — align 3 streams into unified-book.md against Arabic spine"
+      path: scripts/podcast/reconcile_book.py
+      status: built_committed
+      committed_at: b09b1a9
+      service: gemini-2.5-flash
+      cost_usd: ~0.044-0.10
+      outputs:
+        - content/drafts/books/ayyuhal-walad/_system/unified-book.md
+        - content/drafts/books/ayyuhal-walad/_system/reconcile-report.json
+
+    - id: WC8-H3
+      title: "augment_book.py — wisdom corpus enrichment of unified stream, book-level atom tracking"
+      path: scripts/podcast/augment_book.py
+      status: built_committed
+      committed_at: pending
+      service: gemini-2.5-flash
+      cost_usd: ~0.065
+      design_notes: |
+        Operates on unified-book.md (output of reconcile_book.py). Loads 628 atoms from
+        knowledge.db (all fatimid-ismaili). Gemini triages 581 untagged atoms as
+        universal_islamic vs tradition_specific (~$0.005). Per-section Gemini call selects
+        and integrates 0-2 safe atoms. Tracks used_atom_ids (no repeats within book).
+        tradition_adjacency from meta.yml: sunni-sufi + fatimid-ismaili OK for shared
+        Islamic wisdom (ethics, hadith, Quran) — Ismaili-specific doctrine blocked.
+        Writes unified-augmented.md + augmentation-ledger.json.
+        Forward-compatible: once B5 (ingest_mcp_corpus.py) runs, --force re-runs with
+        richer KASHKOLE/KQUR/KSESSIONS atoms automatically.
+      outputs:
+        - content/drafts/books/ayyuhal-walad/_system/unified-augmented.md
+        - content/drafts/books/ayyuhal-walad/_system/augmentation-ledger.json
+
+    - id: WC8-H4
+      title: "segment_book.py — Claude Sonnet single call for holistic episode segmentation"
+      path: scripts/podcast/segment_book.py
+      status: built_committed
+      committed_at: b09b1a9
+      updated_at: 2026-05-30
+      update_note: "Now prefers unified-augmented.md when present, falls back to unified-book.md"
+      service: claude-sonnet-4-6
+      cost_usd: ~0.097
+      outputs:
+        - content/drafts/books/ayyuhal-walad/chapters-wc8/chNN-<slug>.txt (5-7 episodes)
+        - content/drafts/books/ayyuhal-walad/_system/segment-report.json
+
+    - id: WC8-H5
+      title: "editorial_auditor.py — artifact pattern audit on narrator stage files"
+      path: scripts/podcast/editorial_auditor.py
+      status: built_committed
+      committed_at: pending
+      service: gemini-2.5-flash (judgment layer) + deterministic regex
+      cost_usd: ~0.01
+      design_notes: |
+        Two-layer detection: deterministic regex catches known artifact patterns
+        (italic provenance lines, H1 stage headings, biographical padding prologue).
+        Gemini judgment layer resolves ambiguous cases. Outputs per-chapter JSON
+        under _system/editorial-audit/. F1/F2/F3 fixes feed from these findings.
+      outputs:
+        - content/drafts/books/ayyuhal-walad/_system/editorial-audit/<chapter>.json
+
+# ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================

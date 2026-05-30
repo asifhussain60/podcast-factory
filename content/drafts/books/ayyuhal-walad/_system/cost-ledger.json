@@ -721,7 +721,64 @@
       "in_chars": 29984,
       "out_chars": 10538,
       "cost_usd": 0.00722
+    },
+    {
+      "ts": "2026-05-30T18:25:15.014769Z",
+      "op": "full_book_denoise_arabic",
+      "service": "gemini/gemini-2.5-flash",
+      "in_chars": 27948,
+      "out_chars": 27526,
+      "cost_usd": 0.01381
+    },
+    {
+      "ts": "2026-05-30T18:26:45.963098Z",
+      "op": "full_book_denoise_english",
+      "service": "gemini/gemini-2.5-flash",
+      "in_chars": 187531,
+      "out_chars": 40794,
+      "cost_usd": 0.03507
+    },
+    {
+      "ts": "2026-05-30T18:28:58.327852Z",
+      "op": "full_book_denoise_scholarly",
+      "service": "gemini/gemini-2.5-flash",
+      "in_chars": 184855,
+      "out_chars": 109486,
+      "cost_usd": 0.06228
+    },
+    {
+      "ts": "2026-05-30T18:31:10.440638Z",
+      "op": "reconcile_book",
+      "service": "gemini/gemini-2.5-flash",
+      "in_chars": 178093,
+      "out_chars": 111085,
+      "cost_usd": 0.06224
+    },
+    {
+      "ts": "2026-05-30T18:34:01.970337Z",
+      "op": "augment_book",
+      "service": "gemini/gemini-2.5-flash",
+      "word_count_before": 20065,
+      "word_count_after": 14426,
+      "cost_usd": 0.1096
+    },
+    {
+      "ts": "2026-05-30T18:36:54.622192Z",
+      "op": "augment_book",
+      "service": "gemini/gemini-2.5-flash",
+      "word_count_before": 20065,
+      "word_count_after": 21644,
+      "cost_usd": 0.0806
+    },
+    {
+      "ts": "2026-05-30T18:39:39.497011Z",
+      "op": "segment_book",
+      "service": "claude/agent-inline",
+      "in_chars": 66694,
+      "out_chars": 0,
+      "cost_usd": 0.0,
+      "note": "Agent-inline segmentation (no API call; Max subscription)"
     }
   ],
-  "total_usd": 5.7524
+  "total_usd": 6.116
 }

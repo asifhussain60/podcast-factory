@@ -79,14 +79,25 @@ def _load_contract(book_dir: Path, chapter_slug: str) -> dict:
 
 
 def _resolve_chapter_file(book_dir: Path, chapter_slug: str) -> Path | None:
-    """Find the chapter source .txt file."""
+    """Find the chapter source .txt file. Prefers chapters-wc8/ (holistic pipeline) over chapters/."""
+    short_slug = chapter_slug.split("-", 1)[-1] if "-" in chapter_slug else chapter_slug
+
+    # Holistic pipeline output takes priority when it exists.
+    wc8_dir = book_dir / "chapters-wc8"
+    if wc8_dir.exists() and any(wc8_dir.glob("ch*.txt")):
+        exact = wc8_dir / f"{chapter_slug}.txt"
+        if exact.exists():
+            return exact
+        matches = list(wc8_dir.glob(f"ch*-{short_slug}.txt"))
+        if matches:
+            return matches[0]
+
     chapters_dir = book_dir / "chapters"
     # Exact match first.
     exact = chapters_dir / f"{chapter_slug}.txt"
     if exact.exists():
         return exact
     # Pattern match (chNN-<slug>.txt).
-    short_slug = chapter_slug.split("-", 1)[-1] if "-" in chapter_slug else chapter_slug
     matches = list(chapters_dir.glob(f"ch*-{short_slug}.txt"))
     return matches[0] if matches else None
 

@@ -1,31 +1,29 @@
 {
   "slug": "ayyuhal-walad",
-  "note": "WC8.6 explicit episode<->chapter mapping. Read mode = episode-centric (assembled text + synced audio); Studio = chapter/source-centric. 1:1 here; the model supports one-episode<->many-chapters.",
+  "note": "WC8 holistic pipeline — 3-episode structure from unified-augmented.md (24 sections → 3 balanced episodes). chapters-wc8/ contains the holistic output; v3.5 chapters/ preserved for reference.",
+  "pipeline": "wc8-holistic",
+  "source": "chapters-wc8",
   "mapping": [
     {
-      "episode": "EP01-frame-and-first-counsel",
-      "chapter": "ch01-frame-and-first-counsel",
-      "n": 1
+      "episode": "EP01-frame-and-the-problem-of-knowledge",
+      "chapter": "ch01-frame-and-the-problem-of-knowledge",
+      "n": 1,
+      "sections": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      "word_count": 4456
     },
     {
-      "episode": "EP02-hatim-eight-benefits",
-      "chapter": "ch02-hatim-eight-benefits",
-      "n": 2
+      "episode": "EP02-the-disciplines-of-the-path",
+      "chapter": "ch02-the-disciplines-of-the-path",
+      "n": 2,
+      "sections": [12, 13, 14, 15, 16, 17, 18],
+      "word_count": 3845
     },
     {
-      "episode": "EP03-the-path",
-      "chapter": "ch03-the-path",
-      "n": 3
-    },
-    {
-      "episode": "EP04-four-cautions",
-      "chapter": "ch04-four-cautions",
-      "n": 4
-    },
-    {
-      "episode": "EP05-method-and-closing-prayer",
-      "chapter": "ch05-method-and-closing-prayer",
-      "n": 5
+      "episode": "EP03-the-guiding-shaykh-and-final-counsels",
+      "chapter": "ch03-the-guiding-shaykh-and-final-counsels",
+      "n": 3,
+      "sections": [19, 20, 21, 22, 23, 24],
+      "word_count": 3448
     }
   ]
 }

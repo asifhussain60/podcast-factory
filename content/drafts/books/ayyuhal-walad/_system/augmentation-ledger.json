@@ -1,0 +1,377 @@
+{
+  "slug": "ayyuhal-walad",
+  "augmented_at": "2026-05-30T18:36:54.621350Z",
+  "total_atoms_in_corpus": 628,
+  "candidate_pool_size": 327,
+  "sections_enriched": 24,
+  "total_atoms_used": 24,
+  "unique_atom_ids": [
+    "doctrine:wisdom:19:123:3",
+    "doctrine:wisdom:23:38:2",
+    "doctrine:wisdom:23:38:8",
+    "doctrine:wisdom:23:70:3",
+    "doctrine:wisdom:27:14:1",
+    "doctrine:wisdom:27:14:2",
+    "doctrine:wisdom:28:149:10",
+    "doctrine:wisdom:28:149:3",
+    "doctrine:wisdom:32:139:4",
+    "doctrine:wisdom:32:139:6",
+    "doctrine:wisdom:34:163:10",
+    "doctrine:wisdom:34:163:3",
+    "doctrine:wisdom:34:163:9",
+    "doctrine:wisdom:34:164:4",
+    "doctrine:wisdom:34:164:5",
+    "doctrine:wisdom:34:164:6",
+    "doctrine:wisdom:34:164:9",
+    "doctrine:wisdom:34:166:1",
+    "doctrine:wisdom:34:167:2",
+    "doctrine:wisdom:35:177:2",
+    "doctrine:wisdom:35:177:6",
+    "doctrine:wisdom:35:177:7",
+    "doctrine:wisdom:36:173:1",
+    "doctrine:wisdom:36:175:7"
+  ],
+  "word_count_before": 20065,
+  "word_count_after": 21644,
+  "total_cost_usd": 0.0806,
+  "sections": [
+    {
+      "section": 1,
+      "title": "The Student's Inquiry",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:28:149:10",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00676
+    },
+    {
+      "section": 2,
+      "title": "The Value of Advice",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:35:177:6",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00122
+    },
+    {
+      "section": 3,
+      "title": "Signs of Divine Disfavor",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:36:173:1",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00124
+    },
+    {
+      "section": 4,
+      "title": "The Bitterness of Truth for the Soul",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:34:164:6",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.0013
+    },
+    {
+      "section": 5,
+      "title": "Knowledge Without Action is Futile",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:36:175:7",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00154
+    },
+    {
+      "section": 6,
+      "title": "The Necessity of Exertion",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:27:14:2",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00133
+    },
+    {
+      "section": 7,
+      "title": "The Intention Behind Seeking Knowledge",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:34:166:1",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00129
+    },
+    {
+      "section": 8,
+      "title": "The Three Realities of Life",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:27:14:1",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00114
+    },
+    {
+      "section": 9,
+      "title": "The Futility of Worldly Sciences",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:34:164:4",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00127
+    },
+    {
+      "section": 10,
+      "title": "Knowledge and Action: An Inseparable Pair",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:35:177:2",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00116
+    },
+    {
+      "section": 11,
+      "title": "The Soul's Journey and Provision",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:35:177:7",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00134
+    },
+    {
+      "section": 12,
+      "title": "The Call to Action and Night Prayer",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:23:70:3",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00125
+    },
+    {
+      "section": 13,
+      "title": "The Voices of Dawn",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:19:123:3",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00142
+    },
+    {
+      "section": 14,
+      "title": "Luqman's Admonition and the Lover's Lament",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:34:164:9",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00114
+    },
+    {
+      "section": 15,
+      "title": "The Essence of Obedience and Worship",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:32:139:4",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00118
+    },
+    {
+      "section": 16,
+      "title": "The True Path of Sufism",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:34:163:10",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.0014
+    },
+    {
+      "section": 17,
+      "title": "Four Essentials for the Seeker of Truth",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:28:149:3",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00131
+    },
+    {
+      "section": 18,
+      "title": "Hatim al-Asamm's Eight Benefits of Knowledge",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:34:163:3",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00178
+    },
+    {
+      "section": 19,
+      "title": "The Role of the Guiding Shaykh",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:34:167:2",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00176
+    },
+    {
+      "section": 20,
+      "title": "The Unwritten Knowledge",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:34:163:9",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00116
+    },
+    {
+      "section": 21,
+      "title": "The Tongue of the Heart and Patience",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:34:164:5",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00132
+    },
+    {
+      "section": 22,
+      "title": "The Sacrifice of the Spirit",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:23:38:2",
+          "tradition": "fatimid-ismaili",
+          "tags": [
+            "Moral Advice and Ethics"
+          ],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00117
+    },
+    {
+      "section": 23,
+      "title": "Eight Admonitions: Four to Avoid, Four to Do",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:32:139:6",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00158
+    },
+    {
+      "section": 24,
+      "title": "The Dangers of Preaching and Worldly Association",
+      "atoms_used": [
+        {
+          "atom_id": "doctrine:wisdom:23:38:8",
+          "tradition": "fatimid-ismaili",
+          "tags": [],
+          "first_seen_book": "wisdom",
+          "cross_book_reuse": false
+        }
+      ],
+      "cost_usd": 0.00133
+    }
+  ]
+}
