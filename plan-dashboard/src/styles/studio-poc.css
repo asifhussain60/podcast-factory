@@ -507,17 +507,23 @@
   margin-bottom: 6px;
 }
 
-/* h2 chapter separators injected by the all-chapters combined view. */
+/* h2 chapter banners injected by the all-chapters combined view. */
 .ProseMirror h2 {
   font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 1rem; font-weight: 700; letter-spacing: 0.01em;
-  color: var(--c-ink-muted); margin: 28px 0 10px;
-  padding-bottom: 6px; border-bottom: 1px solid var(--c-rule, rgba(0,0,0,0.1));
+  font-size: 1.05rem; font-weight: 700; letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin: 40px 0 18px;
+  padding: 10px 16px;
+  background: color-mix(in srgb, var(--c-accent) 9%, var(--c-bg-card));
+  border-left: 4px solid var(--c-accent);
+  border-radius: 0 8px 8px 0;
 }
-.ProseMirror h2:first-child { margin-top: 0; }
+.ProseMirror h2:first-child { margin-top: 4px; }
 .ProseMirror hr {
-  border: none; border-top: 2px solid var(--c-rule, rgba(0,0,0,0.1));
-  margin: 28px 0;
+  border: none;
+  border-top: 2px solid color-mix(in srgb, var(--c-accent) 20%, var(--c-rule, rgba(0,0,0,0.12)));
+  margin: 40px 0 0;
 }
 
 /* ───────────────────────────────────────────────────────────────────────────
