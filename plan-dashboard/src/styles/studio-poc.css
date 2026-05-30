@@ -478,6 +478,47 @@
   color: var(--c-ink); background: var(--c-bg-card); cursor: pointer;
   border: 1px solid var(--c-rule, rgba(0,0,0,0.18)); border-radius: 8px; padding: 5px 10px;
 }
+.studio-poc__editor .sp-chapsel select:disabled { opacity: 0.45; cursor: default; }
+
+/* All-chapters view toggle button. */
+.sp-viewall-btn {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.8rem; font-weight: 600;
+  padding: 5px 12px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--c-rule, rgba(0,0,0,0.18));
+  background: var(--c-bg-card); color: var(--c-ink-muted);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap; flex-shrink: 0;
+}
+.sp-viewall-btn:hover { color: var(--c-ink); }
+.sp-viewall-btn.is-on {
+  background: color-mix(in srgb, var(--c-accent) 12%, var(--c-bg-card));
+  color: var(--c-accent);
+  border-color: color-mix(in srgb, var(--c-accent) 40%, transparent);
+}
+
+/* Contextual banner shown in all-chapters mode. */
+.sp-viewall-banner {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.8rem; color: var(--c-ink-muted);
+  padding: 5px 10px; border-radius: 6px;
+  background: color-mix(in srgb, var(--c-accent) 8%, var(--c-bg-card));
+  border: 1px solid color-mix(in srgb, var(--c-accent) 25%, transparent);
+  margin-bottom: 6px;
+}
+
+/* h2 chapter separators injected by the all-chapters combined view. */
+.ProseMirror h2 {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 1rem; font-weight: 700; letter-spacing: 0.01em;
+  color: var(--c-ink-muted); margin: 28px 0 10px;
+  padding-bottom: 6px; border-bottom: 1px solid var(--c-rule, rgba(0,0,0,0.1));
+}
+.ProseMirror h2:first-child { margin-top: 0; }
+.ProseMirror hr {
+  border: none; border-top: 2px solid var(--c-rule, rgba(0,0,0,0.1));
+  margin: 28px 0;
+}
 
 /* ───────────────────────────────────────────────────────────────────────────
    WC8 Slice 5b — Studio re-platform: 3-pane shell + editorial cockpit.
