@@ -19,18 +19,14 @@ OUTPUTS
 from __future__ import annotations
 
 import argparse
-import json
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 import _azure  # noqa: E402
-from _paths import REPO_ROOT  # noqa: E402
-
-# Azure Document Intelligence prebuilt-read list price (first tier): USD per page.
-DOCINTEL_USD_PER_PAGE = 1.50 / 1000.0
+from _paths import REPO_ROOT, content_dir  # noqa: E402
+from _cost_ledger import append_azure_docintel_cost  # noqa: E402
 
 ROLE_PATTERNS = {
     "arabic": "*arabic*orig*",
@@ -39,30 +35,12 @@ ROLE_PATTERNS = {
 }
 
 
-def book_dir(slug: str) -> Path:
-    return REPO_ROOT / "content" / "drafts" / "books" / slug
-
-
 def find_pdf(slug: str, role: str) -> Path:
-    pdf_dir = book_dir(slug) / "_system" / "source" / "multi" / "pdf"
+    pdf_dir = content_dir(slug) / "_system" / "source" / "multi" / "pdf"
     matches = sorted(pdf_dir.glob(ROLE_PATTERNS[role]))
     if not matches:
         raise SystemExit(f"No PDF for role '{role}' in {pdf_dir} (pattern {ROLE_PATTERNS[role]})")
     return matches[0]
-
-
-def log_cost(slug: str, entry: dict) -> None:
-    p = book_dir(slug) / "_system" / "cost-ledger.json"
-    ledger = {"slug": slug, "entries": [], "total_usd": 0.0}
-    if p.exists():
-        try:
-            ledger = json.loads(p.read_text())
-        except Exception:
-            pass
-    ledger["entries"].append(entry)
-    ledger["total_usd"] = round(sum(e.get("cost_usd", 0.0) for e in ledger["entries"]), 4)
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps(ledger, indent=2) + "\n")
 
 
 def main() -> int:
@@ -72,7 +50,8 @@ def main() -> int:
     ap.add_argument("--force", action="store_true", help="re-OCR even if cached (re-spends)")
     args = ap.parse_args()
 
-    ocr_dir = book_dir(args.slug) / "_system" / "source" / "multi" / "ocr"
+    book = content_dir(args.slug)
+    ocr_dir = book / "_system" / "source" / "multi" / "ocr"
     ocr_dir.mkdir(parents=True, exist_ok=True)
     out = ocr_dir / f"{args.role}.md"
 
@@ -89,18 +68,8 @@ def main() -> int:
     md = _azure.docintel_pages_to_markdown(result)
     out.write_text(md)
 
-    cost = round(pages * DOCINTEL_USD_PER_PAGE, 4)
-    log_cost(args.slug, {
-        "ts": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-        "op": "ocr",
-        "service": "azure-docintel-prebuilt-read",
-        "role": args.role,
-        "pdf": pdf.name,
-        "pages": pages,
-        "unit_usd": DOCINTEL_USD_PER_PAGE,
-        "cost_usd": cost,
-    })
-    print(f"[done] {pages} pages, {len(md):,} chars -> {out.relative_to(REPO_ROOT)}  (cost ${cost:.4f})")
+    append_azure_docintel_cost(book, phase="wc8/ocr", step=args.role, pages=pages)
+    print(f"[done] {pages} pages, {len(md):,} chars -> {out.relative_to(REPO_ROOT)}")
     return 0
 
 

@@ -1,72 +1,70 @@
 #!/usr/bin/env python3
 """AI helper layer for the Operator Review Studio (P25.7).
 
-10 helper features, each delegating to `claude -p` subprocess. NO new API
-keys — reuses the operator's existing Claude CLI auth. Same architecture
-pattern as scripts/podcast/orchestrate_book.py.
+10 helper features, each delegating to Gemini REST API (NO claude -p).
+Uses the keychain `gemini_api_key` — same as every other WC8 script.
 
-  feature_id   model     trigger                   description
+  feature_id    trigger                   description
   ─────────────────────────────────────────────────────────────────────────
-  summarize    haiku     on-demand batch           1-line summary per page
-  diff-explain sonnet    hover                     why did the LLM change X?
-  arabic       sonnet    on-demand (cached fwd)    detect Arabic terms +
-                                                   cross-ref manifest
-  preflight    sonnet    Cmd-K                     scan whole book for issues
-  voice-shift  sonnet    on-demand                 flag author/voice changes
-  episode-plan opus      on-demand                 propose episode breakdown
-  suggest      sonnet    on-demand                 5-10 candidate flags
-  autocomplete haiku     200ms in textarea         ghost-text suggestions
-  categorize   haiku     passive on note change    route note to right section
-  range        haiku     pre-fill                  detect body start/end pages
+  summarize     on-demand batch           1-line summary per page
+  diff-explain  hover                     why did the LLM change X?
+  arabic        on-demand (cached fwd)    detect Arabic terms + cross-ref manifest
+  preflight     Cmd-K                     scan whole book for issues
+  voice-shift   on-demand                 flag author/voice changes
+  episode-plan  on-demand                 propose episode breakdown
+  suggest-flags on-demand                 5-10 candidate flags
+  autocomplete  200ms in textarea         ghost-text suggestions
+  categorize    passive on note change    route note to right section
+  content-range pre-fill                  detect body start/end pages
 
 Caching: per-source-signature (sha256 of refined-english.md) for the
 expensive whole-book features (summarize / arabic / voice-shift /
 preflight / episode-plan). Light features (autocomplete / categorize /
-range / diff-explain) are stateless.
+diff-explain / content-range) are stateless.
 
-Cost-ledger: every call writes an _cost_ledger row via the existing
-scripts/podcast/_cost_ledger.py module.
+Cost-ledger: every call writes a row via _cost_ledger.append_gemini_cost().
 
-Boundary: subprocess `claude -p` runs with --cwd locked to the book
-directory; refuses if path escapes worktree root.
+Boundary: book_dir is validated to be inside worktree_root before any
+file read or API call.
 """
 from __future__ import annotations
 
 import hashlib
 import json
+import os
 import subprocess
 import sys
 import time
+import urllib.request
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from _paths import REPO_ROOT
 from typing import Any
-
 
 # Add scripts/podcast to sys.path for sibling imports when run as module
 if str(Path(__file__).parent) not in sys.path:
     sys.path.insert(0, str(Path(__file__).parent))
 
+from _paths import REPO_ROOT  # noqa: E402
+
 try:
-    from _cost_ledger import CostRow, compute_cost_usd  # type: ignore
+    from _cost_ledger import append_gemini_cost  # type: ignore
 except ImportError:
-    CostRow = None  # type: ignore
-    def compute_cost_usd(*args, **kwargs) -> float:  # type: ignore
-        return 0.0
+    def append_gemini_cost(*args, **kwargs):  # type: ignore
+        pass
 
 
-# Model name → enum (the locked enum from podcast-blueprint)
+# All features use gemini-2.5-flash (text-analysis tasks, no vision needed)
 MODEL_FOR_FEATURE: dict[str, str] = {
-    "summarize": "claude-haiku-4-5-20251001",
-    "diff-explain": "claude-sonnet-4-6",
-    "arabic": "claude-sonnet-4-6",
-    "preflight": "claude-sonnet-4-6",
-    "voice-shift": "claude-sonnet-4-6",
-    "episode-plan": "claude-opus-4-7",
-    "suggest-flags": "claude-sonnet-4-6",
-    "autocomplete": "claude-haiku-4-5-20251001",
-    "categorize": "claude-haiku-4-5-20251001",
-    "content-range": "claude-haiku-4-5-20251001",
+    "summarize":     "gemini-2.5-flash",
+    "diff-explain":  "gemini-2.5-flash",
+    "arabic":        "gemini-2.5-flash",
+    "preflight":     "gemini-2.5-flash",
+    "voice-shift":   "gemini-2.5-flash",
+    "episode-plan":  "gemini-2.5-flash",
+    "suggest-flags": "gemini-2.5-flash",
+    "autocomplete":  "gemini-2.5-flash",
+    "categorize":    "gemini-2.5-flash",
+    "content-range": "gemini-2.5-flash",
 }
 
 # Estimated cost per call (used for budget enforcement before spawning)
@@ -192,60 +190,40 @@ def check_budget(book_dir: Path, feature: str) -> None:
         raise BudgetExceeded(feature=feature, requested=est, remaining=BOOK_AI_BUDGET_USD - spent)
 
 
-def append_cost_ledger(book_dir: Path, feature: str, model: str, cost_usd: float) -> None:
-    ledger = book_dir / "_system" / "cost-ledger.jsonl"
-    ledger.parent.mkdir(parents=True, exist_ok=True)
-    row = {
-        "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "phase": f"ai/{feature}",
-        "step": "review-studio",
-        "model": model,
-        "input_tokens": 0,
-        "output_tokens": 0,
-        "cache_read": 0,
-        "cache_create": 0,
-        "cost_usd": cost_usd,
-    }
-    with open(ledger, "a", encoding="utf-8") as f:
-        f.write(json.dumps(row, ensure_ascii=False) + "\n")
-
 
 # ---------------------------------------------------------------------------
-# Subprocess call to claude -p
+# Gemini REST call (replaces former claude -p subprocess)
 # ---------------------------------------------------------------------------
 
-def _spawn_claude(prompt: str, model: str, cwd: Path, timeout_sec: int = 120) -> str:
-    """Spawn claude -p with the given prompt. Return stdout text.
+def _load_gemini_key() -> str:
+    env = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    if env:
+        return env.strip()
+    r = subprocess.run(
+        ["security", "find-generic-password", "-s", "gemini_api_key",
+         "-a", os.environ.get("USER", ""), "-w"],
+        capture_output=True, text=True,
+    )
+    if r.returncode != 0:
+        raise RuntimeError("gemini_api_key not found in keychain — cannot call Studio AI features")
+    return r.stdout.strip()
 
-    Uses subprocess; sets cwd to the book directory; uses --permission-mode
-    acceptEdits but the prompt is structured to only write to its returned
-    JSON (no file edits expected).
-    """
-    cmd = [
-        "claude", "-p",
-        "--permission-mode", "acceptEdits",
-        "--model", model,
-        prompt,
-    ]
-    try:
-        result = subprocess.run(
-            cmd,
-            cwd=str(cwd),
-            capture_output=True,
-            text=True,
-            timeout=timeout_sec,
-        )
-    except FileNotFoundError as e:
-        raise RuntimeError(
-            "claude CLI not found on PATH. Operator must have Claude Code installed."
-        ) from e
-    except subprocess.TimeoutExpired as e:
-        raise RuntimeError(f"claude -p timed out after {timeout_sec}s") from e
-    if result.returncode != 0:
-        raise RuntimeError(
-            f"claude -p exited rc={result.returncode}: {result.stderr[:400]}"
-        )
-    return result.stdout
+
+def _call_gemini(prompt: str, model: str = "gemini-2.5-flash", timeout_sec: int = 120) -> str:
+    """Call Gemini generateContent endpoint. Returns the text response."""
+    key = _load_gemini_key()
+    url = (f"https://generativelanguage.googleapis.com/v1beta/models/{model}"
+           f":generateContent?key={key}")
+    body = json.dumps({
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"temperature": 0.3, "maxOutputTokens": 8000},
+    }).encode()
+    req = urllib.request.Request(
+        url, data=body, headers={"Content-Type": "application/json"}, method="POST"
+    )
+    with urllib.request.urlopen(req, timeout=timeout_sec) as r:
+        d = json.loads(r.read())
+    return d["candidates"][0]["content"]["parts"][0]["text"]
 
 
 def _extract_json(text: str) -> Any:
@@ -311,15 +289,15 @@ def run_feature(
 
     start = time.time()
     model = MODEL_FOR_FEATURE[feature]
-    prompt = _build_prompt(feature, book_dir, params)
+    prompt, in_chars = _build_prompt(feature, book_dir, params)
 
-    raw = _spawn_claude(prompt, model, book_dir)
+    raw = _call_gemini(prompt, model)
     payload = _extract_json(raw) if feature != "autocomplete" else {"completions": [s.strip() for s in raw.strip().split("\n") if s.strip()][:3]}
     elapsed = time.time() - start
+    out_chars = len(raw)
 
-    # Cost — actual would come from claude -p's stdout-usage; using estimate
-    cost_usd = EST_COST_USD.get(feature, 0.10)
-    append_cost_ledger(book_dir, feature, model, cost_usd)
+    append_gemini_cost(book_dir, phase=f"ai/{feature}", step="review-studio",
+                       model=model, in_chars=in_chars, out_chars=out_chars)
 
     if feature in CACHEABLE:
         _save_cache(book_dir, feature, source_signature, payload)
@@ -328,7 +306,7 @@ def run_feature(
         feature=feature,
         model=model,
         cached=False,
-        cost_usd=cost_usd,
+        cost_usd=EST_COST_USD.get(feature, 0.10),
         payload=payload,
         elapsed_sec=elapsed,
     )
@@ -338,33 +316,47 @@ def run_feature(
 # Prompt builders (one per feature)
 # ---------------------------------------------------------------------------
 
-def _build_prompt(feature: str, book_dir: Path, params: dict[str, Any]) -> str:
+def _read_optional(path: Path) -> str:
+    """Read a file; return empty string if missing (never raises)."""
+    try:
+        return path.read_text(encoding="utf-8")
+    except (FileNotFoundError, OSError):
+        return ""
+
+
+def _build_prompt(feature: str, book_dir: Path, params: dict[str, Any]) -> tuple[str, int]:
+    """Build the Gemini prompt for a feature. Returns (prompt_text, len(prompt_text))."""
     transcript_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
+    transcript_text = _read_optional(transcript_path)
+
     if feature == "summarize":
-        return _prompt_summarize(transcript_path)
-    if feature == "diff-explain":
-        return _prompt_diff_explain(params)
-    if feature == "arabic":
-        return _prompt_arabic(transcript_path)
-    if feature == "preflight":
-        return _prompt_preflight(transcript_path)
-    if feature == "voice-shift":
-        return _prompt_voice_shift(transcript_path)
-    if feature == "episode-plan":
-        return _prompt_episode_plan(transcript_path)
-    if feature == "suggest-flags":
-        return _prompt_suggest_flags(transcript_path)
-    if feature == "autocomplete":
-        return _prompt_autocomplete(params)
-    if feature == "categorize":
-        return _prompt_categorize(params)
-    if feature == "content-range":
-        return _prompt_content_range(transcript_path)
-    raise ValueError(f"no prompt builder for feature {feature}")
+        p = _prompt_summarize(transcript_text)
+    elif feature == "diff-explain":
+        p = _prompt_diff_explain(params)
+    elif feature == "arabic":
+        manifest_path = REPO_ROOT / "content" / "_shared" / "arabic" / "03-arabic-english-manifest.md"
+        p = _prompt_arabic(transcript_text, _read_optional(manifest_path))
+    elif feature == "preflight":
+        p = _prompt_preflight(transcript_text)
+    elif feature == "voice-shift":
+        p = _prompt_voice_shift(transcript_text)
+    elif feature == "episode-plan":
+        p = _prompt_episode_plan(transcript_text)
+    elif feature == "suggest-flags":
+        p = _prompt_suggest_flags(transcript_text)
+    elif feature == "autocomplete":
+        p = _prompt_autocomplete(params)
+    elif feature == "categorize":
+        p = _prompt_categorize(params)
+    elif feature == "content-range":
+        p = _prompt_content_range(transcript_text)
+    else:
+        raise ValueError(f"no prompt builder for feature {feature}")
+    return p, len(p)
 
 
-def _prompt_summarize(transcript: Path) -> str:
-    return f"""Read the English transcript at {transcript}. For each page boundary (marked with `<!-- page N -->` or similar), emit a one-sentence summary of what happens on that page. The summary should be specific enough that a reader can decide whether to dive into that page or skim past it.
+def _prompt_summarize(transcript_text: str) -> str:
+    return f"""The following is the English transcript of a scholarly book. For each page boundary (marked with `<!-- page N -->` or similar), emit a one-sentence summary of what happens on that page. The summary should be specific enough that a reader can decide whether to dive into that page or skim past it.
 
 Return ONLY a JSON array, no prose, no markdown fences:
 
@@ -374,7 +366,10 @@ Return ONLY a JSON array, no prose, no markdown fences:
   ...
 ]
 
-Keep each summary under 80 chars. Capture the SPECIFIC content (named concepts, doctrine introductions, voice shifts), not generic framings like 'the author continues to discuss...'."""
+Keep each summary under 80 chars. Capture the SPECIFIC content (named concepts, doctrine introductions, voice shifts), not generic framings like 'the author continues to discuss...'.
+
+TRANSCRIPT:
+{transcript_text}"""
 
 
 def _prompt_diff_explain(params: dict) -> str:
@@ -389,20 +384,25 @@ Return ONLY a JSON object:
 {{"explanation": "..."}}"""
 
 
-def _prompt_arabic(transcript: Path) -> str:
-    manifest = REPO_ROOT / "content" / "_shared" / "arabic" / "03-arabic-english-manifest.md"
-    return f"""Read {transcript}. Identify every transliterated Arabic term (e.g., daʿwa, jazāʾir, tawḥīd, ḥujja, Imām, fiṭra, etc.). For each unique term, return:
+def _prompt_arabic(transcript_text: str, manifest_text: str) -> str:
+    return f"""Read the transcript below. Identify every transliterated Arabic term (e.g., daʿwa, jazāʾir, tawḥīd, ḥujja, Imām, fiṭra, etc.). For each unique term, return:
 
 - term: the transliteration as it appears
-- canonical_form: the manifest form (if present in {manifest})
+- canonical_form: the manifest form (if present in the manifest below)
 - pages: array of page numbers where it occurs
 - manifest_match: true if found in manifest, false otherwise
 
-Return ONLY a JSON array, no prose, no markdown fences."""
+Return ONLY a JSON array, no prose, no markdown fences.
+
+MANIFEST:
+{manifest_text}
+
+TRANSCRIPT:
+{transcript_text}"""
 
 
-def _prompt_preflight(transcript: Path) -> str:
-    return f"""Scan {transcript} for likely operator-actionable issues: OCR scrambles, impossible word pairs, citation typos, voice ruptures, numeric inconsistencies. Be specific — quote the actual text.
+def _prompt_preflight(transcript_text: str) -> str:
+    return f"""Scan the transcript below for likely operator-actionable issues: OCR scrambles, impossible word pairs, citation typos, voice ruptures, numeric inconsistencies. Be specific — quote the actual text.
 
 Return ONLY a JSON array of findings:
 
@@ -410,11 +410,14 @@ Return ONLY a JSON array of findings:
   {{"page": N, "quote": "...", "issue_type": "ocr-scramble|impossible-pair|citation|voice-rupture|numeric", "confidence": 0.0-1.0, "suggestion": "what the operator should check"}}
 ]
 
-Limit to top 10 findings by confidence. Quote the exact text from the transcript."""
+Limit to top 10 findings by confidence. Quote the exact text from the transcript.
+
+TRANSCRIPT:
+{transcript_text}"""
 
 
-def _prompt_voice_shift(transcript: Path) -> str:
-    return f"""Read {transcript}. Identify passages where the prose voice noticeably shifts — tense changes, register changes, reportative→assertive ("they say" → "I affirm"), dialect drift, or signs of a second author/editor.
+def _prompt_voice_shift(transcript_text: str) -> str:
+    return f"""Read the transcript below. Identify passages where the prose voice noticeably shifts — tense changes, register changes, reportative→assertive ("they say" → "I affirm"), dialect drift, or signs of a second author/editor.
 
 Return ONLY a JSON array:
 
@@ -422,11 +425,14 @@ Return ONLY a JSON array:
   {{"page": N, "before_quote": "...", "after_quote": "...", "shift_type": "voice|register|tense|author", "confidence": 0.0-1.0, "note": "..."}}
 ]
 
-Quote ≤30 words for each before/after."""
+Quote ≤30 words for each before/after.
+
+TRANSCRIPT:
+{transcript_text}"""
 
 
-def _prompt_episode_plan(transcript: Path) -> str:
-    return f"""Read {transcript}. Propose an episode breakdown for a podcast series based on this book. Consider chapter structure, thematic units, density.
+def _prompt_episode_plan(transcript_text: str) -> str:
+    return f"""Read the transcript below. Propose an episode breakdown for a podcast series based on this book. Consider chapter structure, thematic units, density.
 
 Return ONLY a JSON object:
 
@@ -438,11 +444,14 @@ Return ONLY a JSON object:
   ]
 }}
 
-Typical: 4-8 episodes, 2000-4000 words each. Title should be evocative + accurate."""
+Typical: 4-8 episodes, 2000-4000 words each. Title should be evocative + accurate.
+
+TRANSCRIPT:
+{transcript_text}"""
 
 
-def _prompt_suggest_flags(transcript: Path) -> str:
-    return f"""Read {transcript}. Suggest 5-10 candidate "translation issue" flags the operator should review — passages where the English looks suspect or could benefit from clarification.
+def _prompt_suggest_flags(transcript_text: str) -> str:
+    return f"""Read the transcript below. Suggest 5-10 candidate "translation issue" flags the operator should review — passages where the English looks suspect or could benefit from clarification.
 
 Return ONLY a JSON array:
 
@@ -450,7 +459,10 @@ Return ONLY a JSON array:
   {{"page": N, "quote": "...", "reason": "1-sentence why this needs operator attention", "confidence": 0.0-1.0}}
 ]
 
-Quote ≤40 words. Sort by descending confidence."""
+Quote ≤40 words. Sort by descending confidence.
+
+TRANSCRIPT:
+{transcript_text}"""
 
 
 def _prompt_autocomplete(params: dict) -> str:
@@ -472,14 +484,23 @@ Which section best fits? Sections: translation, missing, glossary, pronunciation
 {{"section_id": "...", "confidence": 0.0-1.0, "reason": "1-sentence"}}"""
 
 
-def _prompt_content_range(transcript: Path) -> str:
-    return f"""Read the first 30 pages and last 30 pages of {transcript}. Identify:
+def _prompt_content_range(transcript_text: str) -> str:
+    words = transcript_text.split()
+    head = " ".join(words[:4000])
+    tail = " ".join(words[-4000:])
+    return f"""From the beginning and end of this transcript, identify:
 1. First page of body content (after preface/intro/TOC)
 2. Last page of body content (before index/biblio/errata)
 
 Return ONLY a JSON object:
 
-{{"body_starts_at_page": N, "body_ends_at_page": N, "rationale": "1-sentence"}}"""
+{{"body_starts_at_page": N, "body_ends_at_page": N, "rationale": "1-sentence"}}
+
+BEGINNING OF TRANSCRIPT:
+{head}
+
+END OF TRANSCRIPT:
+{tail}"""
 
 
 # ---------------------------------------------------------------------------

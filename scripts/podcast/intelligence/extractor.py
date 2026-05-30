@@ -272,6 +272,13 @@ def extract_atoms_for_book(
             if ch_result.error:
                 summary.errors.append(f"{chapter_slug}: {ch_result.error}")
 
+            if ch_result.cost_usd > R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD_PER_CHAPTER:
+                summary.errors.append(
+                    f"Per-chapter cost cap exceeded for {chapter_slug}: "
+                    f"${ch_result.cost_usd:.4f} > "
+                    f"${R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD_PER_CHAPTER:.4f}"
+                )
+
             for atom in ch_result.atoms:
                 # Stamp tradition from book meta if atom doesn't already have it
                 if "tradition" not in atom:

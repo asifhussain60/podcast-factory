@@ -115,6 +115,14 @@ AZURE_PRICING_USD: dict[str, float] = {
     "docintel_prebuilt_read_per_page": 0.0015,   # Doc Intelligence prebuilt-read
     "translator_text_per_char": 0.00001,         # Translator Text (S1 tier)
     "speech_neural_tts_per_char": 0.000016,      # Neural TTS standard voices
+    "speech_stt_per_second": 0.30 / 3600.0,     # Speech fast-transcription (Standard tier)
+}
+
+# WC8 (2026-05-30): Gemini pricing — USD per character (≈ 4 chars per token).
+# Source: Google AI Studio list pricing as of 2026-05.
+GEMINI_PRICING_USD: dict[str, dict[str, float]] = {
+    "gemini-2.5-flash": {"in_per_char": 0.30 / 1e6 / 4, "out_per_char": 2.50 / 1e6 / 4},
+    "gemini-2.5-pro":   {"in_per_char": 1.25 / 1e6 / 4, "out_per_char": 10.0 / 1e6 / 4},
 }
 
 
@@ -262,6 +270,93 @@ def append_cost_row(
     # PIPE_BUF (4 KiB) are atomic on POSIX, but JSON serialization can exceed
     # PIPE_BUF when token counts are large. The lock costs ~1 ms per emit
     # (negligible vs the LLM call that produced it).
+    import fcntl as _fcntl
+    ledger = book_dir / "_system" / "cost-ledger.jsonl"
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    with ledger.open("a", encoding="utf-8") as f:
+        _fcntl.flock(f.fileno(), _fcntl.LOCK_EX)
+        try:
+            f.write(json.dumps(asdict(row)) + "\n")
+            f.flush()
+        finally:
+            _fcntl.flock(f.fileno(), _fcntl.LOCK_UN)
+    return row
+
+
+def append_gemini_cost(
+    book_dir: Path,
+    *,
+    phase: str,
+    step: str,
+    model: str = "gemini-2.5-flash",
+    in_chars: int,
+    out_chars: int,
+    ts: str | None = None,
+) -> CostRow:
+    """WC8: append a cost row for a Gemini REST API call.
+
+    Cost is computed from character counts (≈ 4 chars per token) using
+    GEMINI_PRICING_USD. Stores ``in_chars`` in ``input_tokens`` and
+    ``out_chars`` in ``output_tokens`` so cost_ledger_summary.py can
+    surface Gemini spend alongside Claude and Azure rows.
+
+    Uses fcntl LOCK_EX so concurrent WC8 scripts (e.g.
+    transcribe_all_lectures spawning 12 parallel transcribe_audio calls)
+    never race on the same ledger file.
+    """
+    pricing = GEMINI_PRICING_USD.get(model, GEMINI_PRICING_USD["gemini-2.5-flash"])
+    cost = round(in_chars * pricing["in_per_char"] + out_chars * pricing["out_per_char"], 6)
+    row = CostRow(
+        ts=ts or _now_iso(),
+        phase=phase,
+        step=step,
+        model=model,
+        input_tokens=int(in_chars),
+        output_tokens=int(out_chars),
+        cache_read=0,
+        cache_create=0,
+        cost_usd=cost,
+    )
+    import fcntl as _fcntl
+    ledger = book_dir / "_system" / "cost-ledger.jsonl"
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    with ledger.open("a", encoding="utf-8") as f:
+        _fcntl.flock(f.fileno(), _fcntl.LOCK_EX)
+        try:
+            f.write(json.dumps(asdict(row)) + "\n")
+            f.flush()
+        finally:
+            _fcntl.flock(f.fileno(), _fcntl.LOCK_UN)
+    return row
+
+
+def append_azure_stt_cost(
+    book_dir: Path,
+    *,
+    phase: str,
+    step: str,
+    duration_seconds: float,
+    ts: str | None = None,
+) -> CostRow:
+    """WC8: append a cost row for an Azure Speech fast-transcription call.
+
+    Cost = duration_seconds * AZURE_PRICING_USD['speech_stt_per_second'].
+    Stores ``round(duration_seconds)`` in ``input_tokens`` so the ledger
+    carries the audio duration for audit purposes. Uses LOCK_EX so concurrent
+    transcription jobs don't race on the ledger.
+    """
+    cost = round(duration_seconds * AZURE_PRICING_USD["speech_stt_per_second"], 6)
+    row = CostRow(
+        ts=ts or _now_iso(),
+        phase=phase,
+        step=step,
+        model="azure-speech-stt-fast",
+        input_tokens=int(round(duration_seconds)),
+        output_tokens=0,
+        cache_read=0,
+        cache_create=0,
+        cost_usd=cost,
+    )
     import fcntl as _fcntl
     ledger = book_dir / "_system" / "cost-ledger.jsonl"
     ledger.parent.mkdir(parents=True, exist_ok=True)

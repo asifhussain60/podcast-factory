@@ -17,15 +17,12 @@ USAGE
 """
 from __future__ import annotations
 import argparse, json, os, subprocess, sys, urllib.request
-from datetime import datetime, timezone
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _paths import REPO_ROOT  # noqa: E402
-
-# Gemini 2.5-flash list price (approx, USD per 1M tokens).
-PRICE = {"in": 0.30 / 1e6, "out": 2.50 / 1e6}
+from _paths import REPO_ROOT, content_dir  # noqa: E402
+from _cost_ledger import append_gemini_cost  # noqa: E402
 
 # ─── SN-7 Terminus-technicus preservation (R_TERMINUS_PRESERVE) ───────────────
 # house-voice.md §2b. The RULE is the standard; the protect-LIST is per-book, tradition-agnostic
@@ -40,7 +37,7 @@ def load_protect_terms(slug: str) -> list[str]:
     No PyYAML dependency — mirrors fill_glossary_arabic.parse_glossary_yml's minimal parser.
     Missing/empty glossary => empty list (guard states the general rule, no enumerated terms).
     """
-    p = REPO_ROOT / "content" / "drafts" / "books" / slug / "_system" / "glossary.yml"
+    p = content_dir(slug) / "_system" / "glossary.yml"
     if not p.exists():
         return []
     terms: list[str] = []
@@ -121,19 +118,15 @@ def gemini(model: str, system: str, user: str) -> str:
         d = json.loads(r.read())
     return d["candidates"][0]["content"]["parts"][0]["text"]
 
-def log_cost(slug, entry):
-    p = REPO_ROOT / "content" / "drafts" / "books" / slug / "_system" / "cost-ledger.json"
-    led = json.loads(p.read_text()) if p.exists() else {"slug": slug, "entries": [], "total_usd": 0.0}
-    led["entries"].append(entry); led["total_usd"] = round(sum(e.get("cost_usd", 0.0) for e in led["entries"]), 4)
-    p.write_text(json.dumps(led, indent=2) + "\n")
-
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--slug", required=True); ap.add_argument("--chapter", required=True)
     ap.add_argument("--mode", required=True, choices=["denoise", "normalize"])
     ap.add_argument("--model", default="gemini-2.5-flash")
+    ap.add_argument("--force", action="store_true", help="overwrite existing output (re-spends Gemini)")
     a = ap.parse_args()
-    sd = REPO_ROOT / "content" / "drafts" / "books" / a.slug / "_stages" / a.chapter
+    book = content_dir(a.slug)
+    sd = book / "_stages" / a.chapter
     guard = sn7_guard(load_protect_terms(a.slug))  # SN-7 protect-list, per-book, run time
     if a.mode == "denoise":
         src, dst = sd / "core.md", sd / "denoised.md"
@@ -147,14 +140,15 @@ def main() -> int:
         src, dst = sd / "denoised.md", sd / "normalized.md"
         title = f"# Normalized — {a.chapter} (house voice via Gemini)"
     if not src.exists(): raise SystemExit(f"missing input {src}")
+    if dst.exists() and not a.force:
+        print(f"[skip] {dst.name} already exists — use --force to re-run (re-spends Gemini).")
+        return 0
     text = src.read_text()
     out = gemini(a.model, system, text)
     dst.write_text(title + "\n\n" + out.strip() + "\n")
-    cost = round(len(text)/4*PRICE["in"] + len(out)/4*PRICE["out"], 5)
-    log_cost(a.slug, {"ts": datetime.now(timezone.utc).isoformat().replace("+00:00","Z"), "op": a.mode,
-                      "service": f"gemini/{a.model}", "chapter": a.chapter,
-                      "in_chars": len(text), "out_chars": len(out), "cost_usd": cost})
-    print(f"[{a.mode}] {a.chapter}: {len(text):,} -> {len(out):,} chars -> {dst.name}  (~${cost:.5f})")
+    append_gemini_cost(book, phase=f"wc8/{a.mode}", step=a.chapter,
+                       model=a.model, in_chars=len(text), out_chars=len(out))
+    print(f"[{a.mode}] {a.chapter}: {len(text):,} -> {len(out):,} chars -> {dst.name}")
     return 0
 
 if __name__ == "__main__":
