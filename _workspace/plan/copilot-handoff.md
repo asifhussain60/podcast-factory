@@ -265,6 +265,17 @@ git pull --rebase origin book/ayyuhal-walad    # sync before work + before push
 Append a dated entry at the end of every session (newest at top): what changed, what's next,
 what's blocked. This is your across-session memory.
 
+### 2026-05-31 — Claude session (close-out: site consolidation + regression sweep) — CROSS-LANE + BACKLOG
+
+**Site consolidation (Claude touched `plan-dashboard/**` again, Asif-directed):**
+- Archived the throwaway `studio-poc.astro` route → `plan-dashboard/_archive/poc/`; removed `studio-poc` from `site-nav.ts`. `/studio` (the real editor) is unaffected — it shares the components.
+- Promoted the Concept Lens: `/corpus-mock` → **`/corpus`** ("Corpus Explorer"), added to the **Knowledge** subnav, dropped the MOCK framing (runs live on `_index/concepts.json`), hardened the index path to `import.meta.url` (cwd-independent). Workbench quick-action repointed to `/corpus`.
+- Verified: every view 200, `/studio-poc` 404, build errors=0/warns=0.
+
+**⚠ COSMETIC DEBT for Copilot (your lane — do NOT let Claude rename these):** the load-bearing PRODUCTION components still carry POC-era names/paths and are imported by the integrated `/studio` `/intake` `/workbench`: `components/reader/poc/{StudioPoc,EditorialCards,StudioVersePopover}.tsx`, `layouts/PocLayout.astro`, `styles/studio-poc.css`, `components/corpus-mock/CorpusExplorer.tsx`, `data/corpus-mock-sample.ts`. They are NOT POCs — renaming is a multi-importer refactor that's yours to do safely (rename `reader/poc/`→`reader/editor/`, `corpus-mock/`→`corpus/`, drop the `studio-poc.css` misnomer). Claude left them untouched to avoid breaking your workbench.
+
+**Post-merge auditor verdict: ZERO session-caused regressions** (ship gate green, TS↔Python path mirror in sync, schema consistent). Pre-existing **test-debt backlog** (separate pass — NOT Claude's session work, mostly Claude's lane to fix later): `terminus_preserve` (load_protect_terms API drift), `test_cost_ledger` (cost_usd fixture), `test_run_wave` (row parse), `e2e/test_full_pipeline` (phase 0f→06a), `test_intelligence_extractor` (claude_caller= signature), `test_peq_engine` (voice axis 0.0), `test_source_library_mirror` (mirror-absent behavior). Also: `tests/` + `scripts/podcast/tests/` collide on combined `pytest` collection (basename `_paths`) — run them as separate invocations, or add `tests/__init__.py` + `pytest.ini importmode=importlib`. Claude recovered 9 of the failures (fts_topics 8-col fixture; books/-layout assertion) this session.
+
 ### 2026-05-31 — Claude session (WC1 consolidation + corpus mock) — CROSS-LANE NOTICE
 
 **Heads-up for Copilot: Claude touched `plan-dashboard/**` this session** (normally your lane), at
