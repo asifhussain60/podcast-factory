@@ -17,7 +17,10 @@ sys.path.insert(0, str(REPO / "scripts" / "podcast"))
 
 from intelligence import concept_index as ci
 
-_SCHEMA = "CREATE TABLE atoms (id TEXT PRIMARY KEY, type TEXT, body TEXT, tradition TEXT);"
+_SCHEMA = (
+    "CREATE TABLE atoms (id TEXT PRIMARY KEY, type TEXT, body TEXT, tradition TEXT);"
+    "CREATE TABLE atom_topic_tags (atom_id TEXT, tag TEXT, PRIMARY KEY (atom_id, tag));"
+)
 
 
 def _conn():
@@ -70,6 +73,18 @@ class ConceptIndex(unittest.TestCase):
         b = ci.build_concepts(_conn())
         self.assertEqual(json.dumps(a, ensure_ascii=False, sort_keys=True),
                          json.dumps(b, ensure_ascii=False, sort_keys=True))
+
+    def test_topic_tags_become_concepts_and_map_doctrine(self):
+        c = _conn()
+        # tag the previously-unmapped doctrine atom (as tag_doctrine_concepts would)
+        c.execute("INSERT INTO atom_topic_tags VALUES ('doctrine:wisdom:1:1:0', 'mercy')")
+        c.commit()
+        idx = ci.build_concepts(c)
+        by_id = {x["id"]: x for x in idx["concepts"]}
+        self.assertIn("tag:mercy", by_id)
+        self.assertEqual(by_id["tag:mercy"]["by_type"], {"doctrine": 1})
+        self.assertEqual(idx["coverage"]["unmapped_by_type"].get("doctrine", 0), 0,
+                         "doctrine atom is now mapped via its tag")
 
 
 if __name__ == "__main__":

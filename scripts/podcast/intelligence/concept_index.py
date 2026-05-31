@@ -62,9 +62,16 @@ def build_concepts(conn) -> dict:
     # root -> concept accumulator
     roots: dict[str, dict] = {}
     themes: dict[str, dict] = {}
+    tags: dict[str, dict] = {}
     mapped: set[str] = set()
     unmapped_by_type: dict[str, int] = {}
     total = len(rows)
+
+    # atom_id -> [tags] (from atom_topic_tags; populated by tag_doctrine_concepts.py et al.)
+    tag_rows = conn.execute("SELECT atom_id, tag FROM atom_topic_tags").fetchall()
+    tags_by_atom: dict[str, list[str]] = {}
+    for tr in tag_rows:
+        tags_by_atom.setdefault(tr["atom_id"], []).append(tr["tag"])
 
     def root_bucket(root: str) -> dict:
         return roots.setdefault(root, {
@@ -78,52 +85,60 @@ def build_concepts(conn) -> dict:
         bucket["by_type"][row["type"]] = bucket["by_type"].get(row["type"], 0) + 1
         mapped.add(row["id"])
 
+    def tag_bucket(tag: str) -> dict:
+        return tags.setdefault(_slug(tag), {
+            "id": f"tag:{_slug(tag)}", "kind": "tag", "root": None,
+            "label": tag, "arabic": "", "translit": "", "definition": f"Atoms tagged “{tag}”.",
+            "synonyms": {tag}, "atom_ids": [], "by_type": {},
+        })
+
     for row in rows:
         body = _body(row)
         t = row["type"]
+
+        # tag-concepts: any atom carrying topic tags (e.g. doctrine after tag_doctrine_concepts)
+        for tag in tags_by_atom.get(row["id"], []):
+            add(tag_bucket(tag), row, body)
+
+        # root concepts (terms + etymology) — the Arabic-root spine
         if t == "term":
             root = (body.get("root") or "").strip().lower()  # normalise case so variants merge
-            if not root:
-                unmapped_by_type[t] = unmapped_by_type.get(t, 0) + 1
-                continue
-            b = root_bucket(root)
-            add(b, row, body)
-            if body.get("term"):
-                b["synonyms"].add(body["term"])
-            if body.get("arabic") and not b["arabic"]:
-                b["arabic"] = body["arabic"]
-            # longest definition wins as the concept gloss
-            d = (body.get("definition") or "").strip()
-            if len(d) > len(b["definition"]):
-                b["definition"] = d
+            if root:
+                b = root_bucket(root)
+                add(b, row, body)
+                if body.get("term"):
+                    b["synonyms"].add(body["term"])
+                if body.get("arabic") and not b["arabic"]:
+                    b["arabic"] = body["arabic"]
+                d = (body.get("definition") or "").strip()
+                if len(d) > len(b["definition"]):
+                    b["definition"] = d
         elif t == "etymology":
-            # root is the id suffix: etymology:<root>
             root = (row["id"].split(":", 1)[1] if ":" in row["id"] else "").strip().lower()
-            if not root:
-                unmapped_by_type[t] = unmapped_by_type.get(t, 0) + 1
-                continue
-            b = root_bucket(root)
-            add(b, row, body)
-            d = (body.get("text_en") or body.get("definition") or "").strip()
-            if d and len(b["definition"]) < 40:
-                b["definition"] = d[:200]
+            if root:
+                b = root_bucket(root)
+                add(b, row, body)
+                d = (body.get("text_en") or body.get("definition") or "").strip()
+                if d and len(b["definition"]) < 40:
+                    b["definition"] = d[:200]
         elif t == "hadith":
             theme = (body.get("collection") or "").strip()
-            if not theme:
-                unmapped_by_type[t] = unmapped_by_type.get(t, 0) + 1
-                continue
-            tb = themes.setdefault(_slug(theme), {
-                "id": f"theme:{_slug(theme)}", "kind": "theme", "root": None,
-                "label": theme, "arabic": "", "translit": "", "definition": f"Hadith on the theme of {theme}.",
-                "synonyms": set([theme]), "atom_ids": [], "by_type": {},
-            })
-            add(tb, row, body)
-        else:
-            unmapped_by_type[t] = unmapped_by_type.get(t, 0) + 1
+            if theme:
+                tb = themes.setdefault(_slug(theme), {
+                    "id": f"theme:{_slug(theme)}", "kind": "theme", "root": None,
+                    "label": theme, "arabic": "", "translit": "", "definition": f"Hadith on the theme of {theme}.",
+                    "synonyms": {theme}, "atom_ids": [], "by_type": {},
+                })
+                add(tb, row, body)
+
+    # unmapped = atoms that landed in no concept at all
+    for row in rows:
+        if row["id"] not in mapped:
+            unmapped_by_type[row["type"]] = unmapped_by_type.get(row["type"], 0) + 1
 
     # finalise labels + serialise sets
     concepts = []
-    for b in list(roots.values()) + list(themes.values()):
+    for b in list(roots.values()) + list(themes.values()) + list(tags.values()):
         if b["kind"] == "root":
             gloss = b["definition"] or next(iter(b["synonyms"]), b["root"])
             b["label"] = f"{b['root']} — {gloss}" if gloss else b["root"]
@@ -134,14 +149,15 @@ def build_concepts(conn) -> dict:
 
     return {
         "schema_version": SCHEMA_VERSION,
-        "generated_from": "knowledge.db (deterministic; term roots + etymology ids + hadith themes)",
+        "generated_from": "knowledge.db (deterministic; term roots + etymology ids + hadith themes + atom_topic_tags)",
         "concept_count": len(concepts),
+        "kinds": {"root": len(roots), "theme": len(themes), "tag": len(tags)},
         "coverage": {
             "total_atoms": total,
             "concept_mapped": len(mapped),
             "unmapped": total - len(mapped),
             "unmapped_by_type": unmapped_by_type,
-            "note": "Quran + doctrine carry no root/tag metadata yet — concept-enrichment is WC2 Part 2.",
+            "note": "Quran carries no root/tag metadata yet; doctrine becomes mapped once tag_doctrine_concepts runs.",
         },
         "concepts": concepts,
     }

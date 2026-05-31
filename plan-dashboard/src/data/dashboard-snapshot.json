@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-31T10:20:01.550Z",
-  "source_commit": "4d0653d6",
+  "generated_at": "2026-05-31T11:16:31.442Z",
+  "source_commit": "c8d920cd",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,6 +819,21 @@
   ],
   "recent_commits": [
     {
+      "sha": "c8d920cd",
+      "subject": "feat(WC2): concept-derivation engine + index (D19, Part 1)",
+      "date": "2026-05-31"
+    },
+    {
+      "sha": "65688b04",
+      "subject": "feat(WC1): apply mirror-primary consolidation to live knowledge.db (atoms 696->7036)",
+      "date": "2026-05-31"
+    },
+    {
+      "sha": "4bb2271e",
+      "subject": "plan(WC1/WC2): lock Concept Lens (D19) + concept-derivation foundation",
+      "date": "2026-05-31"
+    },
+    {
       "sha": "4d0653d6",
       "subject": "feat(WC1-mock): redesign /corpus-mock to concept-first \"Concept Lens\"",
       "date": "2026-05-31"
@@ -851,21 +866,6 @@
     {
       "sha": "16c220a0",
       "subject": "fix(intelligence/WC1): repair atoms.tradition column after migration 021 column-shift bug",
-      "date": "2026-05-31"
-    },
-    {
-      "sha": "f6394f84",
-      "subject": "policy(2026-05-31): LLM-agnostic operating model — retire two-agent lane lock + plan-first execution gate",
-      "date": "2026-05-31"
-    },
-    {
-      "sha": "1c8e158c",
-      "subject": "chore(session/2026-05-31 #2): verify G1 + WC8-5b are actually done",
-      "date": "2026-05-31"
-    },
-    {
-      "sha": "6f7c0187",
-      "subject": "chore(session/2026-05-31): holistic plan review — gaps, blockers, sequence",
       "date": "2026-05-31"
     }
   ],

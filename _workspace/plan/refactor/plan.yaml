@@ -3047,9 +3047,15 @@ wisdom_corpus_program:
     - id: WC2
       name: Blackbox + annotation engine
       depends_on: [WC1]
-      execution_status: planned
+      execution_status: in_progress_2026_05_31
       authorization: tier_two
       cost_estimate_usd: low
+      progress_2026_05_31:
+        part1_done: "concept_index.py (intelligence/) — deterministic derivation: ROOT concepts (term body.root + etymology id) + THEME concepts (hadith collection) + TAG concepts (atom_topic_tags). Emits content/knowledge-base/_index/concepts.json. Read-only over DB. Shipped c8d920cd. Coverage today: 79 concepts map 135/7036 atoms — terms+hadith only."
+        gap_found: "atom_topic_tags EMPTY; Quran (6236) + doctrine (628) carry no root/tag — 89% unmapped. Concept Lens can't surface them without an enrichment pass."
+        enrichment_decision: "Asif chose DOCTRINE-FIRST (LLM), Quran later (2026-05-31)."
+        part2_doctrine_tagger: "tag_doctrine_concepts.py (intelligence/) — Gemini-2.5-flash, batched (8/call), injectable caller, --dry-run, cost-capped ($5 default), idempotent INSERT OR IGNORE into atom_topic_tags. 628 candidates; est ~$0.10/run. BUILT + tested (mock caller); the RUN (Gemini spend + DB write) is gated — Asif runs it. After it runs, re-run concept_index.py so doctrine joins tag-concepts."
+        quran_deferred: "Quran->concept enrichment still open: deterministic KQUR per-word root import (Docker) vs LLM tagging. Decide after doctrine lands."
       key_steps:
         - "Concept index (D19, foundation): build a derived `concepts` layer over atoms — concept = {label_en, arabic, translit, root, synonyms[], definition} keyed primarily by the Arabic ROOT (the cross-source spine) and seeded from atom_topic_tags + term/etymology roots. Materialise as a table (concepts + concept_atoms join) or a rebuilt index JSON; concept membership = atoms sharing a root and/or a topic tag. Deterministic, rebuilt on Librarian run. This is what makes 'search a meaning, get all sources' work at 7k+ scale."
         - "verify_and_classify(span,context) 7th blackbox tool resolves a span to a CONCEPT first, then its atoms (D13 + D19); build SQLite FTS/lookup index."
