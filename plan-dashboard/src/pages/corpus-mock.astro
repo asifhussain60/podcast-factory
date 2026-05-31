@@ -1,4 +1,6 @@
 ---
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import Base from '../layouts/Base.astro';
 import CorpusExplorer from '../components/corpus-mock/CorpusExplorer.tsx';
 import {
@@ -8,6 +10,20 @@ import '../styles/corpus-mock.css';
 
 const byType = CORPUS_TOTALS.byType;
 const typeKeys = Object.keys(byType) as (keyof typeof byType)[];
+
+// Load the REAL derived concept index (content/knowledge-base/_index/concepts.json).
+// Falls back to the hardcoded sample inside the island if absent.
+let realConcepts: any[] | undefined;
+let realAtoms: any[] | undefined;
+let realCoverage: any;
+try {
+  const p = resolve(process.cwd(), '../content/knowledge-base/_index/concepts.json');
+  const idx = JSON.parse(readFileSync(p, 'utf-8'));
+  realConcepts = idx.concepts;
+  realAtoms = idx.atoms;
+  realCoverage = idx.coverage;
+} catch { /* sample fallback */ }
+const usingReal = Array.isArray(realConcepts) && realConcepts.length > 0;
 ---
 <Base
   title="Corpus Mock — Consolidated knowledge.db"
@@ -24,7 +40,9 @@ const typeKeys = Object.keys(byType) as (keyof typeof byType)[];
       are folded into one tradition-stamped corpus — and how you'll search it and pick atoms to augment a chapter.
       Review the shape here and flag deviations <strong>before</strong> we apply to the live database.
     </p>
-    <span class="cm-mockflag">● MOCK — hardcoded sample · live apply held for review · numbers are the verified temp-apply result</span>
+    {usingReal
+      ? <span class="cm-mockflag">● LIVE — wired to content/knowledge-base/_index/concepts.json · {realConcepts!.length} real concepts over {realCoverage?.concept_mapped ?? '—'} mapped atoms</span>
+      : <span class="cm-mockflag">● MOCK — hardcoded sample (concepts.json not found)</span>}
   </header>
 
   <!-- ============ CONSOLIDATED TOTALS ============ -->
@@ -102,7 +120,7 @@ const typeKeys = Object.keys(byType) as (keyof typeof byType)[];
   </section>
 
   <!-- ============ INTERACTIVE: SEARCH + AUGMENT ============ -->
-  <CorpusExplorer client:only="react" />
+  <CorpusExplorer client:only="react" concepts={realConcepts} atoms={realAtoms} />
 </div>
 
 </Base>

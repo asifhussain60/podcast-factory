@@ -15,7 +15,7 @@ import { Command } from 'cmdk';
 import { Plus, Check, Search, ChevronRight, BookOpen, Layers } from 'lucide-react';
 import { startTransition, useDeferredValue, useEffect, useMemo, useState } from 'react';
 import {
-  CONCEPTS, SAMPLE_ATOMS, SAMPLE_PROSE, CORPUS_TOTALS, atomsForConcept,
+  CONCEPTS, SAMPLE_ATOMS, SAMPLE_PROSE, CORPUS_TOTALS,
   type MockAtom, type AtomType, type Tradition, type Concept,
 } from '../../data/corpus-mock-sample';
 
@@ -30,6 +30,9 @@ interface Props {
   onSelectedAtomsChange?: (atoms: MockAtom[]) => void;
   prose?: ProseContext;
   bookTradition?: Tradition;
+  /** Real corpus data (from content/knowledge-base/_index/concepts.json). Falls back to the hardcoded sample. */
+  concepts?: Concept[];
+  atoms?: MockAtom[];
 }
 
 // Source groups, in display order. 'term'+'etymology' define the concept, so they lead.
@@ -42,18 +45,27 @@ const GROUPS: { type: AtomType; label: string }[] = [
   { type: 'poetry', label: 'Poetry' },
 ];
 
-function conceptAtomCount(c: Concept) { return atomsForConcept(c.id).length; }
+const CHIP_LIMIT = 40;  // max concept chips shown at once (783 real concepts → search to narrow)
+const ROW_LIMIT = 25;   // max atom rows per source group (large concepts stay calm; "+N more")
 
 export default function CorpusExplorer({
   selectedAtoms,
   onSelectedAtomsChange,
   prose,
   bookTradition = 'fatimid-ismaili',
+  concepts,
+  atoms,
 }: Props) {
+  // Real corpus data when supplied (783 concepts / 758 atoms), else the hardcoded sample.
+  const activeConcepts = concepts ?? CONCEPTS;
+  const activeAtoms = atoms ?? SAMPLE_ATOMS;
+  const atomsFor = (id: string) => activeAtoms.filter((a) => a.concepts.includes(id));
+  const countFor = (c: Concept) => (c as any).atom_count ?? atomsFor(c.id).length;
+
   const [db, setDb] = useState<any>(null);
   const [query, setQuery] = useState('');
   const [textHits, setTextHits] = useState<Set<string>>(new Set()); // atom ids matching free-text
-  const [conceptId, setConceptId] = useState<string>('mercy');
+  const [conceptId, setConceptId] = useState<string>(() => activeConcepts[0]?.id ?? 'mercy');
   const [typeFilter, setTypeFilter] = useState<Set<string>>(new Set());
   const [tradFilter, setTradFilter] = useState<Set<string>>(new Set());
   const [openGroups, setOpenGroups] = useState<Set<string>>(new Set());
@@ -78,10 +90,10 @@ export default function CorpusExplorer({
       const idx = await create({
         schema: { id: 'string', gloss: 'string', text_en: 'string', arabic: 'string', source_ref: 'string' },
       });
-      await insertMultiple(idx, SAMPLE_ATOMS as any);
+      await insertMultiple(idx, activeAtoms as any);
       setDb(idx);
     })();
-  }, []);
+  }, [activeAtoms]);
 
   useEffect(() => {
     (async () => {
@@ -94,16 +106,16 @@ export default function CorpusExplorer({
   // Concepts matching the query: by label/synonym/translit/arabic, OR by a free-text atom hit.
   const matchedConcepts = useMemo(() => {
     const q = deferredQuery.trim().toLowerCase();
-    if (!q) return CONCEPTS;
-    return CONCEPTS.filter((c) => {
-      const direct = [c.label, c.translit, c.arabic, c.root, ...c.synonyms].some((s) => s.toLowerCase().includes(q));
-      const viaAtom = atomsForConcept(c.id).some((a) => textHits.has(a.id));
+    if (!q) return activeConcepts;
+    return activeConcepts.filter((c) => {
+      const direct = [c.label, c.translit, c.arabic, c.root, ...(c.synonyms ?? [])].some((s) => (s ?? '').toLowerCase().includes(q));
+      const viaAtom = atomsFor(c.id).some((a) => textHits.has(a.id));
       return direct || viaAtom;
     });
-  }, [deferredQuery, textHits]);
+  }, [deferredQuery, textHits, activeConcepts]);
 
-  const concept = useMemo(() => CONCEPTS.find((c) => c.id === conceptId) || CONCEPTS[0], [conceptId]);
-  const conceptAtoms = useMemo(() => atomsForConcept(concept.id), [concept]);
+  const concept = useMemo(() => activeConcepts.find((c) => c.id === conceptId) || activeConcepts[0], [conceptId, activeConcepts]);
+  const conceptAtoms = useMemo(() => atomsFor(concept?.id ?? ''), [concept, activeAtoms]);
 
   // Reset refine + open the first non-empty group when the concept changes.
   useEffect(() => {
@@ -147,8 +159,9 @@ export default function CorpusExplorer({
         <h2><Search size={18} className="cm-h2-ico" /> Explore by concept</h2>
         <p className="sub">
           Search a meaning — <em>mercy, worship, knowledge…</em> — and see every related verse, hadith, term,
-          and teaching together, linked by Arabic root. Showing {CORPUS_TOTALS.sampleConcepts} sample concepts over
-          {' '}{CORPUS_TOTALS.sampleAtoms} atoms; production derives {CORPUS_TOTALS.conceptsInProduction} concepts over {CORPUS_TOTALS.atoms.toLocaleString()} atoms.
+          and teaching together, linked by Arabic root. {activeConcepts.length.toLocaleString()} concepts over
+          {' '}{activeAtoms.length.toLocaleString()} concept-mapped atoms (of {CORPUS_TOTALS.atoms.toLocaleString()} total in knowledge.db;
+          Quran is the remaining unmapped block).
         </p>
 
         <input
@@ -156,9 +169,9 @@ export default function CorpusExplorer({
           value={query} onChange={(e) => setQuery(e.target.value)} aria-label="Concept search"
         />
 
-        {/* concept chips (matched / browse) */}
+        {/* concept chips (matched / browse) — capped so 783 concepts don't overwhelm */}
         <div className="cm-conceptrow" role="listbox" aria-label="Concepts">
-          {matchedConcepts.map((c) => (
+          {matchedConcepts.slice(0, CHIP_LIMIT).map((c) => (
             <button
               key={c.id} role="option" aria-selected={c.id === concept.id}
               className={`cm-conceptchip ${c.id === concept.id ? 'active' : ''}`}
@@ -166,9 +179,11 @@ export default function CorpusExplorer({
             >
               <span className="lbl">{c.label}</span>
               <span className="ar">{c.arabic}</span>
-              <span className="cnt">{conceptAtomCount(c)}</span>
+              <span className="cnt">{countFor(c)}</span>
             </button>
           ))}
+          {matchedConcepts.length > CHIP_LIMIT &&
+            <span className="cm-morechips">+{matchedConcepts.length - CHIP_LIMIT} more — type to narrow</span>}
           {matchedConcepts.length === 0 && <p className="cm-empty">No concept matches “{query}”. Try a broader term.</p>}
         </div>
 
@@ -184,7 +199,7 @@ export default function CorpusExplorer({
             <p className="def">{concept.definition}</p>
             <div className="family">
               <span className="famlbl"><Layers size={12} /> root family</span>
-              {concept.family.map((f) => <span key={f} className="cm-tag">{f}</span>)}
+              {(concept.family ?? concept.synonyms ?? []).slice(0, 8).map((f) => <span key={f} className="cm-tag">{f}</span>)}
             </div>
             <div className="count">{conceptAtoms.length} atoms across {Object.keys(presentTypes).length} sources</div>
           </header>
@@ -219,7 +234,7 @@ export default function CorpusExplorer({
                   </button>
                   {open && (
                     <div className="cm-grpbody">
-                      {atoms.map((a) => (
+                      {atoms.slice(0, ROW_LIMIT).map((a) => (
                         <article key={a.id} className="cm-row">
                           <div className="g">{a.gloss}</div>
                           {a.arabic && a.arabic !== '—' && <div className="ar">{a.arabic}</div>}
@@ -232,6 +247,8 @@ export default function CorpusExplorer({
                           </div>
                         </article>
                       ))}
+                      {atoms.length > ROW_LIMIT &&
+                        <p className="cm-empty">+{atoms.length - ROW_LIMIT} more in this group — refine by tradition/type to narrow.</p>}
                     </div>
                   )}
                 </div>
@@ -263,7 +280,7 @@ export default function CorpusExplorer({
               <Command.Input placeholder="Type a meaning — mercy, worship, soul…" />
               <Command.List>
                 <Command.Empty>No atoms found.</Command.Empty>
-                {SAMPLE_ATOMS.map((a) => (
+                {activeAtoms.slice(0, 400).map((a) => (
                   <Command.Item key={a.id} value={`${a.gloss} ${a.text_en} ${a.concepts.join(' ')}`} onSelect={() => addAtom(a)}>
                     <span className={`cm-badge type-${a.type}`}>{a.type}</span>
                     <span className="grow">{a.gloss}</span>

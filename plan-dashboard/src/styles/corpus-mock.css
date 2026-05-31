@@ -96,6 +96,7 @@
 .cm-conceptchip .lbl { font-weight: 650; font-size: .85rem; }
 .cm-conceptchip .ar { font-size: .98rem; color: var(--c-ink-dim); }
 .cm-conceptchip .cnt { font-size: .7rem; color: var(--c-ink-muted); background: var(--c-bg-sunken); border-radius: 999px; padding: .05rem .42rem; font-variant-numeric: tabular-nums; }
+.cm-morechips { align-self: center; font-size: .76rem; color: var(--c-ink-muted); font-style: italic; padding: .2rem .4rem; }
 
 /* ---- the lens ---- */
 .cm-lens { background: var(--c-bg-card); border: 1px solid var(--c-rule); border-radius: var(--cm-radius); padding: 1.1rem 1.2rem; }

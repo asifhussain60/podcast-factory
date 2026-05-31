@@ -55,6 +55,36 @@ def _slug(s: str) -> str:
     return "".join(out).strip("-")
 
 
+def _atom_display(row, body: dict) -> dict:
+    """Project an atom into the English-meaning-first display shape the lens renders."""
+    t = row["type"]
+    tradition = body.get("tradition") or row["tradition"] or "universal"
+    if t == "quran":
+        s, a = body.get("surah"), body.get("ayat")
+        gloss = (body.get("pickthall") or body.get("asad") or "").strip()
+        return {"gloss": gloss, "source_ref": f"Q {s}:{a}", "arabic": body.get("arabic", ""), "corpus": "quran", "tradition": tradition}
+    if t == "hadith":
+        return {"gloss": (body.get("english") or body.get("text_en") or "").strip(),
+                "source_ref": f"hadith · {body.get('collection','')}".rstrip(' ·'),
+                "arabic": body.get("arabic", ""), "corpus": "hadith", "tradition": tradition}
+    if t == "term":
+        return {"gloss": (body.get("definition") or body.get("term") or "").strip(),
+                "source_ref": f"term · {body.get('term','')}".rstrip(' ·'),
+                "arabic": body.get("arabic", ""), "corpus": "quran", "tradition": tradition}
+    if t == "etymology":
+        return {"gloss": (body.get("text_en") or body.get("definition") or "")[:160].strip(),
+                "source_ref": f"root · {row['id'].split(':',1)[-1]}",
+                "arabic": body.get("arabic", ""), "corpus": "wisdom", "tradition": tradition}
+    if t == "doctrine":
+        txt = (body.get("text_en") or "").strip().lstrip("#").strip()
+        return {"gloss": txt.split("\n")[0][:160], "source_ref": f"wisdom · {body.get('chapter_slug','')}".rstrip(' ·'),
+                "arabic": "", "corpus": "wisdom", "tradition": tradition}
+    if t == "poetry":
+        return {"gloss": (body.get("text_en") or "")[:160].strip(), "source_ref": "poetry",
+                "arabic": body.get("arabic", ""), "corpus": "wisdom", "tradition": tradition}
+    return {"gloss": "", "source_ref": row["id"], "arabic": "", "corpus": "wisdom", "tradition": tradition}
+
+
 def build_concepts(conn) -> dict:
     """Derive concepts from existing atom metadata. Returns the full index dict."""
     rows = conn.execute("SELECT id, type, body, tradition FROM atoms").fetchall()
@@ -136,16 +166,34 @@ def build_concepts(conn) -> dict:
         if row["id"] not in mapped:
             unmapped_by_type[row["type"]] = unmapped_by_type.get(row["type"], 0) + 1
 
-    # finalise labels + serialise sets
+    # finalise labels + serialise sets; build atom_id -> [concept_ids]
     concepts = []
+    atom_concepts: dict[str, list[str]] = {}
     for b in list(roots.values()) + list(themes.values()) + list(tags.values()):
         if b["kind"] == "root":
             gloss = b["definition"] or next(iter(b["synonyms"]), b["root"])
             b["label"] = f"{b['root']} — {gloss}" if gloss else b["root"]
         b["synonyms"] = sorted(b["synonyms"])
         b["atom_count"] = len(b["atom_ids"])
+        for aid in b["atom_ids"]:
+            atom_concepts.setdefault(aid, []).append(b["id"])
         concepts.append(b)
     concepts.sort(key=lambda c: (-c["atom_count"], c["id"]))
+
+    # display records for every mapped atom (English-meaning-first), for the lens
+    atoms_out = []
+    for row in rows:
+        if row["id"] not in mapped:
+            continue
+        body = _body(row)
+        disp = _atom_display(row, body)
+        atoms_out.append({
+            "id": row["id"], "type": row["type"],
+            "concepts": atom_concepts.get(row["id"], []),
+            "root": (body.get("root") or "").strip().lower() or None,
+            "text_en": (body.get("text_en") or disp["gloss"])[:400],
+            **disp,
+        })
 
     return {
         "schema_version": SCHEMA_VERSION,
@@ -160,6 +208,7 @@ def build_concepts(conn) -> dict:
             "note": "Quran carries no root/tag metadata yet; doctrine becomes mapped once tag_doctrine_concepts runs.",
         },
         "concepts": concepts,
+        "atoms": atoms_out,
     }
 
 
