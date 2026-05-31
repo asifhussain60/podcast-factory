@@ -26,7 +26,13 @@ CREATE TABLE IF NOT EXISTS atoms_v21 (
     updated_at       TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
 );
 
-INSERT OR IGNORE INTO atoms_v21 SELECT * FROM atoms;
+INSERT OR IGNORE INTO atoms_v21
+    (id, type, body, first_seen_book, first_seen_chapter, first_seen_date,
+     confidence, tradition, created_at, updated_at)
+SELECT
+    id, type, body, first_seen_book, first_seen_chapter, first_seen_date,
+    confidence, tradition, created_at, updated_at
+FROM atoms;
 
 DROP TABLE atoms;
 ALTER TABLE atoms_v21 RENAME TO atoms;
