@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-31T09:35:10.359Z",
-  "source_commit": "2d4a83d5",
+  "generated_at": "2026-05-31T10:20:01.550Z",
+  "source_commit": "4d0653d6",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,6 +819,21 @@
   ],
   "recent_commits": [
     {
+      "sha": "4d0653d6",
+      "subject": "feat(WC1-mock): redesign /corpus-mock to concept-first \"Concept Lens\"",
+      "date": "2026-05-31"
+    },
+    {
+      "sha": "595455ac",
+      "subject": "feat(WC1-mock): /corpus-mock — consolidated knowledge.db data + query review page",
+      "date": "2026-05-31"
+    },
+    {
+      "sha": "d0069aee",
+      "subject": "feat(WC1): mirror-primary corpus importers (KQUR/KASHKOLE/KSESSIONS)",
+      "date": "2026-05-31"
+    },
+    {
       "sha": "2d4a83d5",
       "subject": "docs(coord): two-branch split — develop=DB consolidation, ui/site-enhancements=CSS/UX",
       "date": "2026-05-31"
@@ -852,21 +867,6 @@
       "sha": "6f7c0187",
       "subject": "chore(session/2026-05-31): holistic plan review — gaps, blockers, sequence",
       "date": "2026-05-31"
-    },
-    {
-      "sha": "96a30239",
-      "subject": "feat(knowledge/ayyuhal): MCP-enriched knowledge stage — 18 Quran refs + 10 etymology + 15 doctrine",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "1a8697cd",
-      "subject": "feat(knowledge/B5): MCP corpus ingest — 68 hadith/poetry/etymology atoms + central access module",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "fe9f3465",
-      "subject": "feat(knowledge): build SQLite mirror from KQUR/KASHKOLE/KSESSIONS — full OrbStack independence",
-      "date": "2026-05-30"
     }
   ],
   "metrics": {
