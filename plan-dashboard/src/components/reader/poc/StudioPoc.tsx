@@ -150,11 +150,12 @@ interface Props {
   slug: string;
   chapters: Chapter[];
   glossary?: GlossaryEntry[];
+  initialChapIdx?: number;
 }
 
-export default function StudioPoc({ slug, chapters, glossary = [] }: Props) {
+export default function StudioPoc({ slug, chapters, glossary = [], initialChapIdx = 0 }: Props) {
   // B: chapter switcher — pick which chapter's stages the editor shows.
-  const [chapIdx, setChapIdx] = useState(0);
+  const [chapIdx, setChapIdx] = useState(initialChapIdx);
   const chap = chapters[chapIdx] ?? chapters[0];
   const stages = chap.stages;
   const metrics = chap.metrics;

@@ -2,25 +2,12 @@
 import Base from '../../../../layouts/Base.astro';
 import ThreePane from '../../../../components/layout/ThreePane.astro';
 import GroupedTOC from '../../../../components/layout/GroupedTOC.astro';
-import ArabicToggle from '../../../../components/reader/ArabicToggle';
 import ReaderSettings from '../../../../components/reader/ReaderSettings';
-import ReaderControls from '../../../../components/reader/ReaderControls';
-import ChapterMiniTOC from '../../../../components/reader/ChapterMiniTOC';
-import ChapterInstructionPanel from '../../../../components/reader/ChapterInstructionPanel';
-import AskChapter from '../../../../components/reader/AskChapter';
-import TermPopover from '../../../../components/reader/TermPopover';
-import QuranPopover from '../../../../components/reader/QuranPopover';
-import SectionSummaries from '../../../../components/reader/SectionSummaries';
-import FloatingActions from '../../../../components/reader/FloatingActions';
-import ChapterEditor from '../../../../components/reader/ChapterEditor';
-import AnnotationWorkbench from '../../../../components/reader/AnnotationWorkbench';
-import { loadBookIndex, loadChapterSource } from '../../../../lib/reader/chapters';
-import { renderProseWithRefs } from '../../../../lib/reader/render-prose';
-import { loadGlossary, wrapPhoneticTokens } from '../../../../lib/reader/glossary';
-import { formatChapterForCopy } from '../../../../lib/reader/format-for-copy';
-import { findContent, slugToTitle, categoryLabel } from '../../../../lib/content-paths';
-import { getAllCategories } from '../../../../lib/reader/ref-categories';
-import { scoreChapter } from '../../../../lib/peq-scores';
+import StudioPoc from '../../../../components/reader/poc/StudioPoc.tsx';
+import StudioVersePopover from '../../../../components/reader/poc/StudioVersePopover.tsx';
+import { loadBookIndex } from '../../../../lib/reader/chapters';
+import { findContent, slugToTitle } from '../../../../lib/content-paths';
+import { loadBookWorkspace, AYYUHAL_WALAD_STAGE_DEFS } from '../../../../lib/reader/book-workspace';
 
 const slug = Astro.params.slug;
 const chapterSlug = Astro.params.chapter;
@@ -37,50 +24,18 @@ if (!index) return new Response(`Content "${slug}" has no chapters`, { status: 4
 const ch = index.chapters.find((c) => c.slug === chapterSlug);
 if (!ch) return new Response(`Chapter "${chapterSlug}" not found`, { status: 404 });
 
-const sourceText = await loadChapterSource(ch.filePath);
-const rendered = renderProseWithRefs(sourceText);
-const glossary = await loadGlossary(slug);
-const withGlossary = wrapPhoneticTokens(rendered.html, glossary);
-const copyText = formatChapterForCopy(sourceText, ch.title);
-
-const ordered = [...index.chapters].sort((a, b) => (a.numericId ?? 999) - (b.numericId ?? 999));
-const idx = ordered.findIndex((c) => c.slug === ch.slug);
-const prev = idx > 0 ? ordered[idx - 1] : null;
-const next = idx >= 0 && idx < ordered.length - 1 ? ordered[idx + 1] : null;
-
-const wordCount = sourceText.split(/\s+/).filter(Boolean).length;
-const readMinutes = Math.max(1, Math.round(wordCount / 220));
-
-// Build ref-category descriptors for the ReaderControls toolbar
-const categoryDescriptors = getAllCategories().map((c) => ({
-  id: c.id,
-  label: c.label,
-  glyph: c.glyph,
-  colorToken: c.colorToken,
-  shortcuts: c.shortcuts,
-  count: rendered.counts[c.id] ?? 0,
-}));
-
 const contentTitle = slugToTitle(slug);
-const pageTitle = `${ch.title} — ${contentTitle}`;
 
-// PEQ quality score for this chapter
-let archetypeSlug: string | null = null;
-try {
-  const { readFile } = await import('node:fs/promises');
-  const { join } = await import('node:path');
-  const metaText = await readFile(join(ref.dir, 'meta.yml'), 'utf-8');
-  const m = metaText.match(/^archetype\s*:\s*(\S+)/m);
-  archetypeSlug = m ? m[1] : null;
-} catch { /* no meta */ }
-const chapterScore = await scoreChapter(sourceText, archetypeSlug);
+const chapterDefs = index.chapters.map((c) => ({ id: c.slug, title: c.title }));
+const workspace = await loadBookWorkspace(slug, chapterDefs, AYYUHAL_WALAD_STAGE_DEFS);
+
+// Pre-select the chapter whose URL was requested
+const initialChapIdx = Math.max(0, workspace.chapters.findIndex((c) => c.slug === chapterSlug));
+
+const pageTitle = `${ch.title} — ${contentTitle}`;
 ---
 <Base title={pageTitle} active="library" description={`Chapter from ${contentTitle}`}>
   <script is:inline>
-    /* Mark the document as reader-page so chapter-viewer.css tokens take
-       over the body background + font for this route only. Apply saved
-       reader-settings BEFORE paint so the chosen theme/font/size/width
-       don't flash. */
     (function () {
       var h = document.documentElement;
       h.setAttribute('data-reader-page', '1');
@@ -96,11 +51,9 @@ const chapterScore = await scoreChapter(sourceText, archetypeSlug);
         if (s.editHighlight) h.setAttribute('data-edit-highlight', s.editHighlight);
         if (typeof s.size === 'number') h.style.setProperty('--reading-size', s.size + 'px');
         if (typeof s.lineHeight === 'number') h.style.setProperty('--reading-line-height', String(s.lineHeight));
-        document.body && document.body.setAttribute('data-arabic', s.arabicOverlay ? 'on' : 'off');
       } catch (_) {}
     })();
   </script>
-  <div class="reading-progress" aria-hidden="true"></div>
 
   <ThreePane
     bookSlug={slug}
@@ -112,154 +65,33 @@ const chapterScore = await scoreChapter(sourceText, archetypeSlug);
     showRail={true}
   >
     <Fragment slot="toc">
-      <GroupedTOC bookSlug={slug} index={index} currentChapter={ch.slug} />
+      {index && (
+        <GroupedTOC bookSlug={slug} index={index} currentChapter={ch.slug} />
+      )}
     </Fragment>
 
     <Fragment slot="header-actions">
-      <ArabicToggle client:load />
       <ReaderSettings client:load />
     </Fragment>
 
     <Fragment slot="rail">
-      <AnnotationWorkbench client:idle book={slug} chapterSlug={ch.slug} bookTitle={contentTitle} />
-      <ChapterMiniTOC client:idle />
-      <ChapterInstructionPanel client:idle />
-      <AskChapter client:idle book={slug} chapterTitle={ch.title} chapterText={sourceText} />
+      <!-- rail intentionally minimal — StudioPoc owns the inspector panels -->
     </Fragment>
 
     <section class="chapter-page">
-      <header class="chapter-header">
-        <p class="chapter-eyebrow">
-          {categoryLabel(ref.category)} chapter
-          {ch.numericId !== null && (
-            <span class="chapter-eyebrow-meta">· #{ch.numericId}</span>
-          )}
-          <span class="chapter-eyebrow-meta">· {wordCount.toLocaleString()} words · ~{readMinutes} min read</span>
-          {rendered.totalRefs > 0 && (
-            <span class="chapter-eyebrow-meta">· {rendered.totalRefs} reference{rendered.totalRefs === 1 ? '' : 's'}</span>
-          )}
-        </p>
-        <h1 class="chapter-title">{ch.title}</h1>
-        <hr class="gold-hairline-thin" />
-        <div class="chapter-peq-strip">
-          <span class={`chapter-peq-pill chapter-peq-${chapterScore.verdict.toLowerCase()}`}>
-            {chapterScore.total.toFixed(0)} — {chapterScore.verdict === 'PASS' ? 'Excellent' : chapterScore.verdict === 'WARN' ? 'Good' : 'Needs work'}
-          </span>
-          <span class="chapter-peq-axes">
-            <span title="Source accuracy">Accuracy {chapterScore.fidelity.toFixed(0)}</span>
-            <span class="chapter-peq-sep">·</span>
-            <span title="Writing style match">Style {chapterScore.voice.toFixed(0)}</span>
-            <span class="chapter-peq-sep">·</span>
-            <span title="Episode structure">Structure {chapterScore.structure.toFixed(0)}</span>
-            <span class="chapter-peq-sep">·</span>
-            <span title="Depth of explanation">Depth {chapterScore.enrichment.toFixed(0)}</span>
-          </span>
-        </div>
-      </header>
-
-      <div class="chapter-toolbar">
-        <ReaderControls client:load categories={categoryDescriptors} />
-      </div>
-
-      <article class="reading-column reading-column--medium">
-        <div class="prose-body" set:html={withGlossary}></div>
-      </article>
-
-      <nav class="chapter-nav">
-        {prev ? (
-          <a href={`/library/${slug}/chapter/${prev.slug}`} class="chapter-nav-link is-prev">
-            <span class="chapter-nav-label">← Previous · Ch{String(prev.numericId ?? '?').padStart(2, '0')}</span>
-            <span class="chapter-nav-title">{prev.title}</span>
-          </a>
-        ) : (<span class="chapter-nav-link is-disabled" />)}
-        {next ? (
-          <a href={`/library/${slug}/chapter/${next.slug}`} class="chapter-nav-link is-next">
-            <span class="chapter-nav-label">Next · Ch{String(next.numericId ?? '?').padStart(2, '0')} →</span>
-            <span class="chapter-nav-title">{next.title}</span>
-          </a>
-        ) : (<span class="chapter-nav-link is-disabled" />)}
-      </nav>
+      {workspace.loadError ? (
+        <p class="card-sub lib-empty-state">{workspace.loadError}</p>
+      ) : (
+        <StudioPoc
+          client:only="react"
+          slug={workspace.slug}
+          chapters={workspace.chapters}
+          glossary={workspace.glossary}
+          initialChapIdx={initialChapIdx}
+        />
+      )}
     </section>
 
-    <FloatingActions client:idle copyText={copyText} />
-    <TermPopover client:idle book={slug} />
-    <QuranPopover client:idle />
-    <SectionSummaries client:idle book={slug} />
-    <ChapterEditor client:idle book={slug} chapterSlug={ch.slug} chapterTitle={ch.title} sourceText={sourceText} />
+    <StudioVersePopover client:only="react" />
   </ThreePane>
-
-  <script>
-    (() => {
-      const root = document.documentElement;
-      // Keyboard shortcuts — j/k paragraph nav, gg top, G bottom, f focus, a Arabic
-      let lastG = 0;
-      document.addEventListener('keydown', (e) => {
-        const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
-        if (tag === 'input' || tag === 'textarea' || (e.target as HTMLElement)?.isContentEditable) return;
-        if (e.metaKey || e.ctrlKey || e.altKey) return;
-        const paras = Array.from(document.querySelectorAll('.prose-body > p, .prose-body > h2, .prose-body > h3')) as HTMLElement[];
-        const viewportMid = window.innerHeight * 0.3;
-        const currentIdx = paras.findIndex((p) => {
-          const r = p.getBoundingClientRect();
-          return r.top >= viewportMid - 50;
-        });
-        if (e.key === 'j') {
-          e.preventDefault();
-          const target = paras[Math.max(0, currentIdx)] ?? paras[0];
-          if (target) {
-            const nx = paras[paras.indexOf(target) + 1] ?? target;
-            nx.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        } else if (e.key === 'k') {
-          e.preventDefault();
-          const target = paras[Math.max(0, currentIdx)] ?? paras[0];
-          if (target) {
-            const px = paras[paras.indexOf(target) - 1] ?? target;
-            px.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        } else if (e.key === 'g') {
-          const now = Date.now();
-          if (now - lastG < 500) {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            lastG = 0;
-          } else { lastG = now; }
-        } else if (e.key === 'G') {
-          window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
-        } else if (e.key === 'f') {
-          const next = root.getAttribute('data-focus-mode') === 'on' ? 'off' : 'on';
-          root.setAttribute('data-focus-mode', next);
-        }
-      });
-    })();
-  </script>
 </Base>
-
-<style>
-  .chapter-peq-strip {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-top: 0.5rem;
-    flex-wrap: wrap;
-  }
-  .chapter-peq-pill {
-    display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 2px 0.5rem;
-    border-radius: 4px;
-    border: 1px solid currentColor;
-    white-space: nowrap;
-  }
-  .chapter-peq-pass { color: #22c55e; background: rgba(34,197,94,0.10); border-color: rgba(34,197,94,0.3); }
-  .chapter-peq-warn { color: #f59e0b; background: rgba(245,158,11,0.10); border-color: rgba(245,158,11,0.3); }
-  .chapter-peq-fail { color: #ef4444; background: rgba(239,68,68,0.10); border-color: rgba(239,68,68,0.3); }
-  .chapter-peq-axes {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.7rem;
-    color: var(--c-ink-muted, #888);
-  }
-  .chapter-peq-sep { opacity: 0.4; }
-</style>

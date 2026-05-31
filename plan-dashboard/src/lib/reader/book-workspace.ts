@@ -90,7 +90,7 @@ export async function loadBookWorkspace(
   chapterDefs: ChapterDef[],
   stageDefs: StageDef[],
 ): Promise<BookWorkspace> {
-  const base = new URL(`../../../../../content/drafts/books/${slug}/`, import.meta.url);
+  const base = new URL(`../../../../content/drafts/books/${slug}/`, import.meta.url);
 
   const chapters = chapterDefs.map((chapterDef) => {
     const stageTexts = stageDefs.map((stageDef) => {

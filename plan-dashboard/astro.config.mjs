@@ -11,6 +11,12 @@ export default defineConfig({
   devToolbar: { enabled: false },
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      // React 19 uses a conditional IIFE that Vite's CJS→ESM static analyser
+      // can't resolve without explicit pre-bundling — forces esbuild to process
+      // these packages and produce proper named ESM exports (e.g. createRoot).
+      include: ['react', 'react-dom', 'react-dom/client'],
+    },
     server: {
       fs: {
         allow: ['..', '../..'],
