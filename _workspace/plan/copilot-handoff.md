@@ -198,6 +198,37 @@ git pull --rebase origin book/ayyuhal-walad    # sync before work + before push
 Append a dated entry at the end of every session (newest at top): what changed, what's next,
 what's blocked. This is your across-session memory.
 
+### 2026-05-31 — Copilot session #2 (autonomous execution within lane)
+
+**Asif said:** "proceed with plan execution, red-green refactor cycle after each wave, only stop if you need UI review. Approve best recommendation unless it causes regression."
+
+**Baseline (red phase):** `npm run lint:views` = 0 errors / 52 warnings (all SHOULD-level, non-blocking). `npm run build` = clean (1.29s vite build, 12ms prerender).
+
+**Step 3 (G1 narrative homepage) — VERIFIED ALREADY DONE.** Earlier audit was wrong: there is no missing `narrative.astro` route. `src/pages/index.astro` already imports `NarrativeBase` layout + `NarrativeScroll` component — the homepage IS the cinematic narrative scroll. HTTP 200 confirmed against dev server. G1 should be marked `completed` in plan.yaml (Claude action).
+
+**Step 5 (WC8-5b enhancement layer) — VERIFIED ALREADY DONE.** Earlier audit was wrong: enhancement layer is fully wired. `EditorialCards.tsx` imports `@dnd-kit/core`, `@dnd-kit/sortable`, and `cmdk` with `useSortable`, `SortableContext`, and `Command.Input/List/Empty` all in use. `api/studio/corpus-search.ts` exists and returns 10 doctrine atoms for `?q=knowledge` (live curl test against dev server passed). WC8-5b should be marked `completed` (Claude action).
+
+**Side-finding — WC1 bug confirmed deeper:** Corpus-search response shows `"tradition": "fatimid-ismaili"` INSIDE the body JSON of every atom. The data exists; it's the SQL `tradition` COLUMN that's wrong (holds timestamps). Claude's fix is a one-time UPDATE: `UPDATE atoms SET tradition = json_extract(body, '$.tradition') WHERE type='doctrine'`.
+
+**Steps I cannot execute (Claude's lane — flagged for handoff):**
+- Step 1: WC1 atoms.tradition fix (Python/SQL)
+- Step 2: A+B YAML status update + snapshot regen
+- Step 4: J0 MCP dual-interface server build
+- Step 7: K6 Interest axis + voice exemplar
+- Step 8: WC2/WC3/WC4 chain (mixed but pipeline-first)
+- Step 9: Ayyuhal Walad G2 gate fix (episode-chapter map)
+- Step 10: H2 file splits
+- Step 11: H3 wave chain driver
+- Step 12: WC8-5c pipeline side
+
+**Steps blocked in my lane:**
+- Step 6 (J2 Astro popovers to local server) — blocked on Step 4 (J0). When Claude lands J0, I'll repoint `QuranPopover.tsx` and `TermPopover.tsx` from public sources to `http://localhost:4390/...`.
+- Step 13 (WC8-7b video layer) — needs Asif's explicit Tier-2 authorization first.
+
+**Green-phase result:** Lint still 0/52, build still clean (no code changes were needed — the work was already done). Commit closes out the audit + verification.
+
+**Next-session boot for Copilot:** Watch this log for Claude's J0 delivery announcement. Once `scripts/mcp/source_library_server.py` exists and serves on `:4390`, Step 6 (J2) becomes unblocked and is a ~2-hour change in `QuranPopover.tsx` + `TermPopover.tsx` + a new `lib/mcp-client.ts` shim.
+
 ### 2026-05-31 — Copilot session (holistic plan review + sequencing)
 
 **Purpose:** Asif asked for a full landscape review — stop random execution, find all gaps, sequence the work. No code was changed in this session; it was a read + audit pass against actual code, DB, and git log.
