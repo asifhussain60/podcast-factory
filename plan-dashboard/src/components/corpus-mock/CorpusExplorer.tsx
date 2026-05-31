@@ -1,105 +1,110 @@
 /**
- * CorpusExplorer.tsx — MOCK interactive explorer for the consolidated corpus.
+ * CorpusExplorer.tsx — MOCK "Concept Lens" explorer for the consolidated corpus.
  *
- * Two linked surfaces over the hardcoded sample (src/data/corpus-mock-sample.ts):
- *   1. Faceted full-text search — powered by Orama (@orama/orama), an in-memory
- *      full-text + facets engine. Facets: type · tradition · corpus · topic tag.
- *   2. Augmentation selection — a cmdk command palette to find + pick atoms, a
- *      selection tray, and a live preview of the "PRIOR DOCTRINAL CONTEXT" block
- *      injected into the prose, with the tradition firewall enforced.
+ * Concept-FIRST: you search/select a concept (English label + Arabic + translit +
+ * synonyms, e.g. "mercy"); the lens then aggregates ALL evidence across every source
+ * — definition + root family, then Quran / Hadith / Doctrine / Poetry as collapsible,
+ * counted groups. Atoms read English-meaning-first; the source coordinate (Q 2:255) is
+ * a small chip. Free-text (Orama) over atom bodies also surfaces the matching concepts.
  *
- * MOCK ONLY — client-side over ~17 sample atoms; production runs this against the
- * 7,036-atom knowledge.db (Orama index or SQLite FTS, server-side + virtualized).
+ * MOCK ONLY — client-side over ~25 sample atoms / 6 concepts. Production derives concepts
+ * from atom_topic_tags + Arabic roots over the 7,036-atom knowledge.db (server-side index).
  */
 import { create, insertMultiple, search } from '@orama/orama';
 import { Command } from 'cmdk';
-import { Plus, Check, X, Search, Filter } from 'lucide-react';
+import { Plus, Check, Search, ChevronRight, BookOpen, Layers } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import {
-  SAMPLE_ATOMS, SAMPLE_PROSE, CORPUS_TOTALS,
-  type MockAtom, type AtomType, type Tradition, type CorpusId,
+  CONCEPTS, SAMPLE_ATOMS, SAMPLE_PROSE, CORPUS_TOTALS, atomsForConcept,
+  type MockAtom, type AtomType, type Tradition, type Concept,
 } from '../../data/corpus-mock-sample';
 
 const BOOK_TRADITION: Tradition = 'fatimid-ismaili';
-// Tradition firewall (D5/D15): a book may only be augmented by same-tradition atoms
-// plus tradition-neutral 'universal' scripture. 'ismaili' is within the fatimid-ismaili family.
 const ELIGIBLE: Tradition[] = ['universal', 'fatimid-ismaili', 'ismaili'];
 
-const TYPE_ORDER: AtomType[] = ['quran', 'hadith', 'term', 'doctrine', 'etymology', 'poetry'];
-const TRAD_ORDER: Tradition[] = ['universal', 'fatimid-ismaili', 'ismaili'];
-const CORPUS_ORDER: CorpusId[] = ['quran', 'wisdom', 'hadith', 'ksessions'];
+// Source groups, in display order. 'term'+'etymology' define the concept, so they lead.
+const GROUPS: { type: AtomType; label: string }[] = [
+  { type: 'etymology', label: 'Etymology (root)' },
+  { type: 'term', label: 'Definitions & terms' },
+  { type: 'quran', label: 'Quran' },
+  { type: 'hadith', label: 'Hadith' },
+  { type: 'doctrine', label: 'Doctrine (wisdom)' },
+  { type: 'poetry', label: 'Poetry' },
+];
 
-type Facets = { type: Set<string>; tradition: Set<string>; corpus: Set<string>; tag: Set<string> };
-
-function emptyFacets(): Facets {
-  return { type: new Set(), tradition: new Set(), corpus: new Set(), tag: new Set() };
-}
+function conceptAtomCount(c: Concept) { return atomsForConcept(c.id).length; }
 
 export default function CorpusExplorer() {
   const [db, setDb] = useState<any>(null);
   const [query, setQuery] = useState('');
-  const [hits, setHits] = useState<MockAtom[]>(SAMPLE_ATOMS);
-  const [facets, setFacets] = useState<Facets>(emptyFacets);
+  const [textHits, setTextHits] = useState<Set<string>>(new Set()); // atom ids matching free-text
+  const [conceptId, setConceptId] = useState<string>('mercy');
+  const [typeFilter, setTypeFilter] = useState<Set<string>>(new Set());
+  const [tradFilter, setTradFilter] = useState<Set<string>>(new Set());
+  const [openGroups, setOpenGroups] = useState<Set<string>>(new Set());
   const [selected, setSelected] = useState<MockAtom[]>([]);
 
-  // Build the Orama index once.
+  // Orama index over atoms — full-text surfaces the concept(s) a phrase belongs to.
   useEffect(() => {
     (async () => {
       const idx = await create({
-        schema: {
-          // string/string[] so all are full-text searchable; faceting is done in JS.
-          id: 'string', title: 'string', text_en: 'string', arabic: 'string',
-          type: 'string', tradition: 'string', corpus: 'string', topic_tags: 'string[]',
-        },
+        schema: { id: 'string', gloss: 'string', text_en: 'string', arabic: 'string', source_ref: 'string' },
       });
       await insertMultiple(idx, SAMPLE_ATOMS as any);
       setDb(idx);
     })();
   }, []);
 
-  // Run the full-text query (Orama) whenever the query changes; facet filtering
-  // is applied in JS so per-facet counts stay visible regardless of selection.
   useEffect(() => {
     (async () => {
-      if (!db) return;
-      if (!query.trim()) { setHits(SAMPLE_ATOMS); return; }
-      const res = await search(db, { term: query, properties: ['title', 'text_en', 'arabic', 'topic_tags'], limit: 200, tolerance: 1 });
-      const ranked = res.hits.map((h: any) => h.document as MockAtom);
-      setHits(ranked);
+      if (!db || !query.trim()) { setTextHits(new Set()); return; }
+      const res = await search(db, { term: query, properties: ['gloss', 'text_en', 'arabic'], tolerance: 1, limit: 200 });
+      setTextHits(new Set(res.hits.map((h: any) => h.id)));
     })();
   }, [db, query]);
 
-  const passesFacets = (a: MockAtom) =>
-    (facets.type.size === 0 || facets.type.has(a.type)) &&
-    (facets.tradition.size === 0 || facets.tradition.has(a.tradition)) &&
-    (facets.corpus.size === 0 || facets.corpus.has(a.corpus)) &&
-    (facets.tag.size === 0 || a.topic_tags.some((t) => facets.tag.has(t)));
-
-  const filtered = useMemo(() => hits.filter(passesFacets), [hits, facets]);
-
-  // Facet counts computed over the text-search result set (before facet filtering).
-  const counts = useMemo(() => {
-    const c = { type: {} as Record<string, number>, tradition: {} as Record<string, number>, corpus: {} as Record<string, number>, tag: {} as Record<string, number> };
-    for (const a of hits) {
-      c.type[a.type] = (c.type[a.type] || 0) + 1;
-      c.tradition[a.tradition] = (c.tradition[a.tradition] || 0) + 1;
-      c.corpus[a.corpus] = (c.corpus[a.corpus] || 0) + 1;
-      for (const t of a.topic_tags) c.tag[t] = (c.tag[t] || 0) + 1;
-    }
-    return c;
-  }, [hits]);
-
-  const allTags = useMemo(() => Object.keys(counts.tag).sort((a, b) => counts.tag[b] - counts.tag[a]).slice(0, 12), [counts]);
-
-  const toggle = (group: keyof Facets, val: string) => {
-    setFacets((prev) => {
-      const next = { ...prev, [group]: new Set(prev[group]) } as Facets;
-      next[group].has(val) ? next[group].delete(val) : next[group].add(val);
-      return next;
+  // Concepts matching the query: by label/synonym/translit/arabic, OR by a free-text atom hit.
+  const matchedConcepts = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return CONCEPTS;
+    return CONCEPTS.filter((c) => {
+      const direct = [c.label, c.translit, c.arabic, c.root, ...c.synonyms].some((s) => s.toLowerCase().includes(q));
+      const viaAtom = atomsForConcept(c.id).some((a) => textHits.has(a.id));
+      return direct || viaAtom;
     });
-  };
-  const clearFacets = () => setFacets(emptyFacets());
-  const activeFacetCount = facets.type.size + facets.tradition.size + facets.corpus.size + facets.tag.size;
+  }, [query, textHits]);
+
+  const concept = useMemo(() => CONCEPTS.find((c) => c.id === conceptId) || CONCEPTS[0], [conceptId]);
+  const conceptAtoms = useMemo(() => atomsForConcept(concept.id), [concept]);
+
+  // Reset refine + open the first non-empty group when the concept changes.
+  useEffect(() => {
+    setTypeFilter(new Set());
+    setTradFilter(new Set());
+    const firstType = GROUPS.find((g) => conceptAtoms.some((a) => a.type === g.type))?.type;
+    setOpenGroups(firstType ? new Set([firstType]) : new Set());
+  }, [conceptId]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const visibleAtoms = conceptAtoms.filter((a) =>
+    (typeFilter.size === 0 || typeFilter.has(a.type)) &&
+    (tradFilter.size === 0 || tradFilter.has(a.tradition)));
+
+  const presentTypes = useMemo(() => {
+    const m: Record<string, number> = {};
+    for (const a of conceptAtoms) m[a.type] = (m[a.type] || 0) + 1;
+    return m;
+  }, [conceptAtoms]);
+  const presentTrads = useMemo(() => {
+    const m: Record<string, number> = {};
+    for (const a of conceptAtoms) m[a.tradition] = (m[a.tradition] || 0) + 1;
+    return m;
+  }, [conceptAtoms]);
+
+  const toggleSet = (setter: any) => (val: string) =>
+    setter((prev: Set<string>) => { const n = new Set(prev); n.has(val) ? n.delete(val) : n.add(val); return n; });
+  const toggleType = toggleSet(setTypeFilter);
+  const toggleTrad = toggleSet(setTradFilter);
+  const toggleGroup = (t: string) => setOpenGroups((prev) => { const n = new Set(prev); n.has(t) ? n.delete(t) : n.add(t); return n; });
 
   const isSelected = (id: string) => selected.some((s) => s.id === id);
   const addAtom = (a: MockAtom) => { if (!isSelected(a.id)) setSelected((s) => [...s, a]); };
@@ -107,67 +112,112 @@ export default function CorpusExplorer() {
 
   return (
     <>
-      {/* ============ SEARCH / FILTER EXPLORER ============ */}
+      {/* ============ CONCEPT LENS ============ */}
       <section className="cm-section">
-        <h2><Search size={18} className="cm-h2-ico" /> Search &amp; filter the corpus</h2>
+        <h2><Search size={18} className="cm-h2-ico" /> Explore by concept</h2>
         <p className="sub">
-          Full-text query (Orama, with typo tolerance) + faceted filters. Showing {CORPUS_TOTALS.sampleShown} sample atoms —
-          production queries the {CORPUS_TOTALS.atoms.toLocaleString()}-atom corpus the same way.
+          Search a meaning — <em>mercy, worship, knowledge…</em> — and see every related verse, hadith, term,
+          and teaching together, linked by Arabic root. Showing {CORPUS_TOTALS.sampleConcepts} sample concepts over
+          {' '}{CORPUS_TOTALS.sampleAtoms} atoms; production derives {CORPUS_TOTALS.conceptsInProduction} concepts over {CORPUS_TOTALS.atoms.toLocaleString()} atoms.
         </p>
 
-        <div className="cm-explorer">
-          <aside className="cm-facets">
-            <input
-              className="cm-search" placeholder="Search verses, teachings, terms…"
-              value={query} onChange={(e) => setQuery(e.target.value)} aria-label="Full-text search"
-            />
-            <div className="cm-facetbar">
-              <span className="lbl">
-                <Filter size={12} /> Facets {activeFacetCount > 0 && `(${activeFacetCount})`}
-              </span>
-              {activeFacetCount > 0 && <button className="cm-addbtn" onClick={clearFacets}>clear</button>}
-            </div>
+        <input
+          className="cm-search cm-search-lg" placeholder="Search a concept — mercy · raḥma · worship · ʿilm · soul …"
+          value={query} onChange={(e) => setQuery(e.target.value)} aria-label="Concept search"
+        />
 
-            <FacetGroup title="Type" group="type" order={TYPE_ORDER} counts={counts.type} facets={facets} toggle={toggle} swatch />
-            <FacetGroup title="Tradition" group="tradition" order={TRAD_ORDER} counts={counts.tradition} facets={facets} toggle={toggle} />
-            <FacetGroup title="Corpus" group="corpus" order={CORPUS_ORDER} counts={counts.corpus} facets={facets} toggle={toggle} />
-            <FacetGroup title="Topic tag" group="tag" order={allTags} counts={counts.tag} facets={facets} toggle={toggle} />
-          </aside>
+        {/* concept chips (matched / browse) */}
+        <div className="cm-conceptrow" role="listbox" aria-label="Concepts">
+          {matchedConcepts.map((c) => (
+            <button
+              key={c.id} role="option" aria-selected={c.id === concept.id}
+              className={`cm-conceptchip ${c.id === concept.id ? 'active' : ''}`}
+              onClick={() => setConceptId(c.id)}
+            >
+              <span className="lbl">{c.label}</span>
+              <span className="ar">{c.arabic}</span>
+              <span className="cnt">{conceptAtomCount(c)}</span>
+            </button>
+          ))}
+          {matchedConcepts.length === 0 && <p className="cm-empty">No concept matches “{query}”. Try a broader term.</p>}
+        </div>
 
-          <div>
-            <p className="cm-resultmeta">{filtered.length} {filtered.length === 1 ? 'atom' : 'atoms'}{query && <> matching “{query}”</>}</p>
-            <div className="cm-results">
-              {filtered.map((a) => (
-                <article key={a.id} className="cm-atom">
-                  <div className="top">
-                    <span className={`cm-badge type-${a.type}`}>{a.type}</span>
-                    <span className="cm-badge trad">{a.tradition}</span>
-                    <span className="title">{a.title}</span>
-                    <span className="id">{a.id}</span>
-                  </div>
-                  {a.arabic && a.arabic !== '—' && <div className="ar">{a.arabic}</div>}
-                  <div className="en">{a.text_en}</div>
-                  <div className="tags">
-                    {a.topic_tags.map((t) => <span key={t} className="cm-tag">#{t}</span>)}
-                    <button className={`cm-addbtn ${isSelected(a.id) ? 'added' : ''}`} onClick={() => addAtom(a)} disabled={isSelected(a.id)}>
-                      {isSelected(a.id) ? <><Check size={11} /> added</> : <><Plus size={11} /> augment</>}
-                    </button>
-                  </div>
-                </article>
-              ))}
-              {filtered.length === 0 && <p className="cm-empty">No atoms match. Loosen a facet or clear the query.</p>}
+        {/* the lens */}
+        <div className="cm-lens">
+          <header className="cm-lenshead">
+            <div className="title">
+              <h3>{concept.label}</h3>
+              <span className="ar">{concept.arabic}</span>
+              <span className="translit">{concept.translit}</span>
+              <span className="root">root {concept.root}</span>
             </div>
+            <p className="def">{concept.definition}</p>
+            <div className="family">
+              <span className="famlbl"><Layers size={12} /> root family</span>
+              {concept.family.map((f) => <span key={f} className="cm-tag">{f}</span>)}
+            </div>
+            <div className="count">{conceptAtoms.length} atoms across {Object.keys(presentTypes).length} sources</div>
+          </header>
+
+          {/* refine within the concept */}
+          <div className="cm-refine">
+            <span className="rlbl">Refine</span>
+            {GROUPS.filter((g) => presentTypes[g.type]).map((g) => (
+              <button key={g.type} className={`cm-pill type-${g.type} ${typeFilter.has(g.type) ? 'on' : ''}`} onClick={() => toggleType(g.type)}>
+                {g.label.split(' ')[0]} <span className="n">{presentTypes[g.type]}</span>
+              </button>
+            ))}
+            <span className="rsep" />
+            {(['universal', 'fatimid-ismaili', 'ismaili'] as Tradition[]).filter((t) => presentTrads[t]).map((t) => (
+              <button key={t} className={`cm-pill trad ${tradFilter.has(t) ? 'on' : ''}`} onClick={() => toggleTrad(t)}>{t} <span className="n">{presentTrads[t]}</span></button>
+            ))}
+          </div>
+
+          {/* collapsible source groups */}
+          <div className="cm-groups">
+            {GROUPS.map((g) => {
+              const atoms = visibleAtoms.filter((a) => a.type === g.type);
+              if (atoms.length === 0) return null;
+              const open = openGroups.has(g.type);
+              return (
+                <div className={`cm-grp ${open ? 'open' : ''}`} key={g.type}>
+                  <button className="cm-grphead" aria-expanded={open} onClick={() => toggleGroup(g.type)}>
+                    <ChevronRight size={15} className="chev" />
+                    <span className={`cm-badge type-${g.type}`}>{g.type}</span>
+                    <span className="gl">{g.label}</span>
+                    <span className="gc">{atoms.length}</span>
+                  </button>
+                  {open && (
+                    <div className="cm-grpbody">
+                      {atoms.map((a) => (
+                        <article key={a.id} className="cm-row">
+                          <div className="g">{a.gloss}</div>
+                          {a.arabic && a.arabic !== '—' && <div className="ar">{a.arabic}</div>}
+                          <div className="m">
+                            <span className="cm-chip">{a.source_ref}</span>
+                            <span className="cm-badge trad">{a.tradition}</span>
+                            <button className={`cm-addbtn ${isSelected(a.id) ? 'added' : ''}`} onClick={() => addAtom(a)} disabled={isSelected(a.id)}>
+                              {isSelected(a.id) ? <><Check size={11} /> added</> : <><Plus size={11} /> augment</>}
+                            </button>
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+            {visibleAtoms.length === 0 && <p className="cm-empty">No atoms match the current refine. Clear a filter.</p>}
           </div>
         </div>
       </section>
 
       {/* ============ AUGMENTATION SELECTION ============ */}
       <section className="cm-section">
-        <h2>Select atoms to augment the prose</h2>
+        <h2><BookOpen size={18} className="cm-h2-ico" /> Augment the prose with selected atoms</h2>
         <p className="sub">
-          Pick corpus atoms to inject as <code>[PRIOR DOCTRINAL CONTEXT]</code> behind a chapter paragraph. The tradition
-          firewall (D5) is enforced: this book is <strong>{BOOK_TRADITION}</strong>, so only <em>universal</em> scripture +
-          same-tradition teachings are eligible.
+          Atoms you add from any concept land here and inject as <code>[PRIOR DOCTRINAL CONTEXT]</code> behind a chapter
+          paragraph. The tradition firewall (D5) is enforced — this book is <strong>{BOOK_TRADITION}</strong>.
         </p>
 
         <div className="cm-aug">
@@ -178,15 +228,15 @@ export default function CorpusExplorer() {
           </div>
 
           <div className="cm-tray">
-            <h4>Find &amp; add atoms</h4>
+            <h4>Quick-add by meaning</h4>
             <Command className="cm-cmdk" label="Atom search">
-              <Command.Input placeholder="Type a theme — knowledge, soul, tawhid…" />
+              <Command.Input placeholder="Type a meaning — mercy, worship, soul…" />
               <Command.List>
                 <Command.Empty>No atoms found.</Command.Empty>
                 {SAMPLE_ATOMS.map((a) => (
-                  <Command.Item key={a.id} value={`${a.title} ${a.text_en} ${a.topic_tags.join(' ')}`} onSelect={() => addAtom(a)}>
+                  <Command.Item key={a.id} value={`${a.gloss} ${a.text_en} ${a.concepts.join(' ')}`} onSelect={() => addAtom(a)}>
                     <span className={`cm-badge type-${a.type}`}>{a.type}</span>
-                    <span className="grow">{a.title}</span>
+                    <span className="grow">{a.gloss}</span>
                     {isSelected(a.id) ? <Check size={13} color="var(--c-green)" /> : <Plus size={13} color="var(--c-ink-muted)" />}
                   </Command.Item>
                 ))}
@@ -194,15 +244,15 @@ export default function CorpusExplorer() {
             </Command>
 
             <div className="cm-selected">
-              {selected.length === 0 && <p className="cm-empty">No atoms selected yet. Add from search results or the palette above.</p>}
+              {selected.length === 0 && <p className="cm-empty">No atoms selected. Add from a concept lens or the palette.</p>}
               {selected.map((a) => {
                 const eligible = ELIGIBLE.includes(a.tradition);
                 return (
                   <div className="cm-selrow" key={a.id}>
                     <span className={`cm-badge type-${a.type}`}>{a.type}</span>
-                    <span>{a.title}</span>
-                    {!eligible && <span className="cm-badge trad blocked">blocked: {a.tradition}</span>}
-                    <button className="x" onClick={() => removeAtom(a.id)} aria-label={`Remove ${a.title}`}>×</button>
+                    <span className="grow">{a.gloss}</span>
+                    {!eligible && <span className="cm-badge trad blocked">blocked</span>}
+                    <button className="x" onClick={() => removeAtom(a.id)} aria-label={`Remove ${a.gloss}`}>×</button>
                   </div>
                 );
               })}
@@ -211,29 +261,6 @@ export default function CorpusExplorer() {
         </div>
       </section>
     </>
-  );
-}
-
-function FacetGroup(props: {
-  title: string; group: keyof Facets; order: string[];
-  counts: Record<string, number>; facets: Facets;
-  toggle: (g: keyof Facets, v: string) => void; swatch?: boolean;
-}) {
-  const { title, group, order, counts, facets, toggle, swatch } = props;
-  const opts = order.filter((o) => counts[o] !== undefined || facets[group].has(o));
-  if (opts.length === 0) return null;
-  return (
-    <div className="cm-facet">
-      <h4>{title}</h4>
-      {opts.map((o) => (
-        <label className="cm-facetopt" key={o}>
-          <input type="checkbox" checked={facets[group].has(o)} onChange={() => toggle(group, o)} />
-          {swatch && <span className={`swatch s-${o}`} />}
-          <span>{o}</span>
-          <span className="cnt">{counts[o] || 0}</span>
-        </label>
-      ))}
-    </div>
   );
 }
 
@@ -247,28 +274,27 @@ function AugPreview({ selected }: { selected: MockAtom[] }) {
         <div className="lbl">[PRIOR DOCTRINAL CONTEXT — corpus] · {eligible.length} atom{eligible.length !== 1 ? 's' : ''}</div>
         <ul>
           {eligible.map((a) => (
-            <li key={a.id}><strong>{a.title}</strong> ({a.type}/{a.tradition}) — {truncate(a.text_en, 90)}</li>
+            <li key={a.id}><strong>{a.gloss}</strong> <span className="src">({a.type} · {a.source_ref})</span></li>
           ))}
         </ul>
       </div>
       {blocked.length > 0 && (
-        <p className="cm-warn">⚠ {blocked.length} atom{blocked.length !== 1 ? 's' : ''} blocked by the tradition firewall and excluded from injection.</p>
+        <p className="cm-warn">⚠ {blocked.length} atom{blocked.length !== 1 ? 's' : ''} blocked by the tradition firewall and excluded.</p>
       )}
     </div>
   );
 }
 
-function truncate(s: string, n: number) { return s.length > n ? s.slice(0, n).trimEnd() + '…' : s; }
-
 function highlightProse(text: string, selected: MockAtom[]): string {
-  // Light-touch: bold any prose token that appears as a selected atom's topic tag.
-  const tags = new Set(selected.flatMap((a) => a.topic_tags.map((t) => t.toLowerCase())));
-  const keywords = ['knowledge', 'action', 'soul', 'lord', 'himself', 'ascends'];
+  const keys = new Set<string>();
+  for (const a of selected) for (const c of a.concepts) keys.add(c);
+  const map: Record<string, string[]> = {
+    knowledge: ['knowledge'], soul: ['soul', 'himself'], mercy: ['mercy'],
+    worship: ['worship'], oneness: ['Lord'], love: ['love'],
+  };
   let out = escapeHtml(text);
-  for (const k of keywords) {
-    if (tags.has(k) || selected.some((a) => a.text_en.toLowerCase().includes(k))) {
-      out = out.replace(new RegExp(`\\b(${k})\\b`, 'gi'), '<mark>$1</mark>');
-    }
+  for (const k of keys) for (const w of map[k] || []) {
+    out = out.replace(new RegExp(`\\b(${w})\\b`, 'gi'), '<mark>$1</mark>');
   }
   return out;
 }
