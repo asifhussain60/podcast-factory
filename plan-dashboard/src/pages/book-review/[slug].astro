@@ -80,13 +80,22 @@ const p2Warnings = (gate?.warnings ?? []).filter((w: any) => w.severity === 'P2'
     .approved-banner { background: #1a3a28; border: 1px solid #3fb950; border-radius: 8px; padding: 1rem 1.25rem; color: #3fb950; font-weight: 600; margin: 1rem 0; }
     .blocked-banner { background: #3a1a1a; border: 1px solid #f85149; border-radius: 8px; padding: 1rem 1.25rem; color: #f85149; font-weight: 600; margin: 1rem 0; }
     #approve-result { margin-top: 0.75rem; font-size: 0.875rem; }
+    .review-back { margin-bottom: 1rem; }
+    .warning-counts { display: inline-flex; gap: 0.5rem; flex-wrap: wrap; }
+    .warning-count-p0 { color: #f85149; }
+    .warning-count-p1 { color: #e3b341; }
+    .warning-count-p2 { color: #79c0ff; }
+    .warning-count-clean { color: #3fb950; }
+    .review-help { font-size: 0.875rem; color: #8b949e; margin-top: 0; }
+    .review-help-small { font-size: 0.75rem; color: #8b949e; margin-top: 0.75rem; }
+    .meta-val-error { color: #f85149; font-size: 0.8rem; }
     a { color: #79c0ff; text-decoration: none; }
     a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-  <div style="margin-bottom: 1rem;">
-    <a href="/dashboard">← Dashboard</a>
+  <div class="review-back">
+    <a href="/workbench">← Workspace</a>
   </div>
 
   <h1>Source Review Gate</h1>
@@ -129,11 +138,11 @@ const p2Warnings = (gate?.warnings ?? []).filter((w: any) => w.severity === 'P2'
         )}
         <div class="status-row">
           <span class="meta-key">Warnings</span>
-          <span class="meta-val">
-            {p0Warnings.length > 0 && <span style="color:#f85149">P0: {p0Warnings.length}</span>}
-            {p1Warnings.length > 0 && <span style="color:#e3b341; margin-left:0.5rem">P1: {p1Warnings.length}</span>}
-            {p2Warnings.length > 0 && <span style="color:#79c0ff; margin-left:0.5rem">P2: {p2Warnings.length}</span>}
-            {gate.warnings?.length === 0 && <span style="color:#3fb950">None — clean</span>}
+          <span class="meta-val warning-counts">
+            {p0Warnings.length > 0 && <span class="warning-count-p0">P0: {p0Warnings.length}</span>}
+            {p1Warnings.length > 0 && <span class="warning-count-p1">P1: {p1Warnings.length}</span>}
+            {p2Warnings.length > 0 && <span class="warning-count-p2">P2: {p2Warnings.length}</span>}
+            {gate.warnings?.length === 0 && <span class="warning-count-clean">None — clean</span>}
           </span>
         </div>
       </div>
@@ -170,7 +179,7 @@ const p2Warnings = (gate?.warnings ?? []).filter((w: any) => w.severity === 'P2'
       {!isApproved && (
         <div class="section">
           <h2>Approve for Pipeline</h2>
-          <p style="font-size:0.875rem; color:#8b949e; margin-top:0;">
+          <p class="review-help">
             After reviewing the findings above, click Approve to allow the pipeline
             to advance past Phase 06a into the series plan. This action is logged with a timestamp.
           </p>
@@ -183,7 +192,7 @@ const p2Warnings = (gate?.warnings ?? []).filter((w: any) => w.severity === 'P2'
             {p0Warnings.length > 0 ? 'Cannot approve — resolve P0 warnings first' : `Approve "${slug}" for pipeline`}
           </button>
           <div id="approve-result"></div>
-          <p style="font-size:0.75rem; color:#8b949e; margin-top: 0.75rem;">
+          <p class="review-help-small">
             CLI alternative: <code>python3 scripts/podcast/approve_book.py {slug}</code>
           </p>
         </div>
@@ -204,7 +213,7 @@ const p2Warnings = (gate?.warnings ?? []).filter((w: any) => w.severity === 'P2'
           {state.last_error && (
             <div class="status-row">
               <span class="meta-key">Last error</span>
-              <span class="meta-val" style="color:#f85149; font-size:0.8rem;">{state.last_error?.slice(0, 120)}</span>
+              <span class="meta-val meta-val-error">{state.last_error?.slice(0, 120)}</span>
             </div>
           )}
         </div>

@@ -79,7 +79,7 @@ locked_decisions:
   - {ref: DR-007, decision: "Augmenter default-disabled until G12 fires green"}
   - {ref: DR-008, decision: "Per-book scratch stays JSONL, not SQLite"}
   - {ref: DR-009, decision: "No version stamps in tracked files; pre-commit hook enforces"}
-  - {ref: DR-010, decision: "Astro for plan SPA + design tokens shared with podcast-reader"}
+  - {ref: DR-010, decision: "Astro for plan SPA + design tokens shared across the Podcast Factory Astro Site"}
   - {ref: DR-011, decision: "Cross-tradition guard via tradition_adjacency.yml"}
   - {ref: DR-012, decision: "Augmenter strips text_ar before injection"}
   - {ref: DR-013, decision: "Retroactive enhancements for shipped books = addendum-only"}
@@ -96,7 +96,6 @@ waves:
     execution_status: completed_2026_05_31
     execution_notes:
       - "COMPLETED (2026-05-31): All 7 Wave-A steps verified shipped during 2026-05-31 plan audit. Test suite 70/70 green. _db.py, _archetypes.py, intelligence/_anti_cliche.py, 22 schema migrations applied, archetype seeds on disk, contract tests passing."
-    execution_notes:
       - "A1 root cleanup completed: only README.md, architecture.md, and copilot-handoff.md remain at _workspace/plan root."
       - "A2 COMPLETE (2026-05-28): _db.py (415 lines, WAL-mode singleton + 7 repositories), _archetypes.py (190 lines, load/list/resolve), intelligence/_anti_cliche.py (4 denial frozensets), 16 schema files (001–016) applied to live knowledge.db, 7 archetype seeds on disk (scholarly-deep-dive, narrative-prose, aphorism-collection, socratic-dialogue, play-novel, lecture-series, encyclopedic-epistolary), 37 new tests passing (68 total)."
       - "A3 _doctrinal.py landed with passing tests."
@@ -1498,7 +1497,7 @@ open_questions:
     impact: HIGH
   - id: oq9
     status: RESOLVED
-    resolved_2026_05_26: "Astro confirmed — design tokens shared with podcast-reader/"
+    resolved_2026_05_26: "Astro confirmed — design tokens shared across the Podcast Factory Astro Site"
     impact: MEDIUM
 
   # ─── Still open; defaults recommended ───
@@ -1930,7 +1929,7 @@ waves_ghj:
           second gate (06a), so a dedicated Book Review view surfaces both gates
           in context: chapter list + warnings for the 06a gate; episode list +
           challenger findings for the finalize gate. An Approve button writes
-          approved=true to review-gate.json via the podcast-reader API. The CLI
+          approved=true to review-gate.json via the Podcast Factory Astro Site review API. The CLI
           fallback (approve_book.py) is required for non-UI workflows.
         deliverables:
           - "podcast-reader/src/pages/book-review/[slug].astro: unified review view"

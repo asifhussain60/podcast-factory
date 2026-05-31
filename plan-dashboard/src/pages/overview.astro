@@ -16,7 +16,7 @@ const shipped       = (dashboard.books_shipped ?? []) as Array<{slug: string, ti
 const waves         = (dashboard.waves ?? []) as Array<{id: string, name: string, plain: string}>;
 const totalEpisodes = shipped.reduce((s: number, b: any) => s + (b.episodes ?? 0), 0);
 ---
-<Base title="Overview" active="home" description="Turning centuries of Islamic scholarship into beautifully produced podcast series.">
+<Base title="Overview" active="overview" description="Turning centuries of Islamic scholarship into beautifully produced podcast series.">
 
   <!-- ═══════════════════════════════════════════════════════════
        HERO — story-led, magazine layout
@@ -46,7 +46,9 @@ const totalEpisodes = shipped.reduce((s: number, b: any) => s + (b.episodes ?? 0
 
       <div class="home-hero-visual" aria-hidden="true">
         <!-- SVG logo: open illuminated manuscript + rising sound waves -->
-        <svg viewBox="0 0 280 300" xmlns="http://www.w3.org/2000/svg" class="home-logo-svg" role="img" aria-label="Podcast Factory — manuscript to audio">
+        <svg viewBox="0 0 280 300" xmlns="http://www.w3.org/2000/svg" class="home-logo-svg" role="img" aria-labelledby="home-logo-title home-logo-desc">
+          <title id="home-logo-title">Podcast Factory manuscript to audio mark</title>
+          <desc id="home-logo-desc">An illuminated manuscript opening into sound waves to represent turning books into podcast audio.</desc>
           <!-- Decorative outer circle -->
           <circle cx="140" cy="158" r="128" fill="color-mix(in oklab, #8b4513 5%, #fffdf8)" stroke="#d9d3c4" stroke-width="1.5"/>
           <!-- Inner dashed ring -->

@@ -627,6 +627,14 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 }
 .vendor-tag-dot--muted { background: var(--c-ink-muted); }
 .vendor-tag-icon { font-size: 12px; opacity: 0.7; }
+.vendor-tag-dot--anthropic,
+.vendor-tag-icon--anthropic { color: var(--c-vendor-anthropic); background: var(--c-vendor-anthropic); }
+.vendor-tag-dot--azure,
+.vendor-tag-icon--azure { color: var(--c-vendor-azure); background: var(--c-vendor-azure); }
+.vendor-tag-dot--google,
+.vendor-tag-icon--google { color: var(--c-vendor-google); background: var(--c-vendor-google); }
+.vendor-tag-dot--internal,
+.vendor-tag-icon--internal { color: var(--c-ink-dim); background: var(--c-ink-dim); }
 
 .vendor-tag-anthropic {
   background: color-mix(in oklab, var(--c-vendor-anthropic) 10%, transparent);
@@ -1064,7 +1072,14 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   flex-shrink: 0;
   background: var(--dot-color, var(--c-ink-muted));  /* CSS custom property from inline style */
 }
-.svc-chip-pill i[style] { color: var(--dot-color, currentColor); }  /* icon color via CSS custom property */
+.svc-chip-dot.vendor-dot-anthropic,
+.svc-chip-icon.vendor-dot-anthropic { color: var(--c-vendor-anthropic); background: var(--c-vendor-anthropic); }
+.svc-chip-dot.vendor-dot-azure,
+.svc-chip-icon.vendor-dot-azure { color: var(--c-vendor-azure); background: var(--c-vendor-azure); }
+.svc-chip-dot.vendor-dot-google,
+.svc-chip-icon.vendor-dot-google { color: var(--c-vendor-google); background: var(--c-vendor-google); }
+.svc-chip-dot.vendor-dot-internal,
+.svc-chip-icon.vendor-dot-internal { color: var(--c-ink-dim); background: var(--c-ink-dim); }
 .svc-chip-label {
   font-size: var(--fs-sm);
   font-weight: 600;
@@ -1484,6 +1499,8 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .logo-bg-notebooklm { fill: #ffffff; stroke: var(--c-rule); stroke-width: 1; }
 .logo-mark-notebooklm { fill: none; stroke: var(--c-vendor-notebooklm); stroke-width: 1.8; stroke-linejoin: round; }
 .logo-spark { fill: var(--c-vendor-notebooklm); }
+.vendor-logo { display: inline-block; width: 36px; height: 36px; }
+.vendor-logo.is-lg { width: 40px; height: 40px; }
 
 .logo-bg-github { fill: var(--c-vendor-github); }
 .logo-mark-github { fill: #ffffff; }
@@ -2089,14 +2106,27 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 
 /* wave progress bar (used in wave-band header + planner sidebar) */
 .wave-prog-wrap { height: 4px; border-radius: 2px; background: var(--c-rule); overflow: hidden; margin-top: var(--sp-2); margin-bottom: var(--sp-3); }
-.wave-prog-fill {
-  height: 100%; border-radius: 2px; background: var(--c-planner);
-  transform-origin: left; transform: scaleX(0);
-  transition: transform 500ms ease-out;
+.wave-prog-bar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  appearance: none;
+  border: 0;
+  background: transparent;
 }
-.wave-prog-fill[data-animated="true"] { transform: scaleX(var(--fill-pct, 0.02)); }
-.wave-prog-fill.s-complete { background: var(--c-green); }
-.wave-prog-fill.s-future   { background: var(--c-rule-soft); }
+.wave-prog-bar::-webkit-progress-bar { background: transparent; }
+.wave-prog-bar::-webkit-progress-value {
+  background: var(--c-planner);
+  border-radius: 2px;
+  transition: width 500ms ease-out;
+}
+.wave-prog-bar::-moz-progress-bar {
+  background: var(--c-planner);
+  border-radius: 2px;
+  transition: width 500ms ease-out;
+}
+.wave-prog-bar.s-complete::-webkit-progress-value { background: var(--c-green); }
+.wave-prog-bar.s-complete::-moz-progress-bar { background: var(--c-green); }
 
 /* ── Planner sidebar ────────────────────────────────────────────── */
 

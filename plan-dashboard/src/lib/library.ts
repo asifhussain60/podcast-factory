@@ -6,7 +6,7 @@
  * can render. Read-only here; mutations go through src/lib/library-mutate.ts.
  */
 import { readdir, readFile, stat } from 'node:fs/promises';
-import { basename, extname, join } from 'node:path';
+import { extname, join } from 'node:path';
 import { scoreBook, verdictLabel } from './peq-scores';
 import {
   ACTIVE_CATEGORIES,

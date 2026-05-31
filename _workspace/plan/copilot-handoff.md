@@ -380,3 +380,31 @@ layer). Fixed `.vscode/tasks.json` (phantom `assemble_bundle.py`/`generate_video
 removed; `gemini_refine` args corrected; `pytest`→`unittest`). **Next for Copilot:** Package 1
 (intake page). **Next for Claude:** 5c pipeline side, then Slice-6 orchestrator design (stop for
 Asif). **Blocked:** hadith atom ingest (no hadith DB; PyYAML missing from venv).
+
+### 2026-05-31 — Copilot session #4 (operator workbench synthesis)
+
+**Purpose:** Asif asked for a holistic pass over the AI triage recommendations and for the Astro site to become a more sophisticated working tool for pipeline review, intelligence lookup, and augmentation planning.
+
+**What changed:** Built a new `/workbench` route in `plan-dashboard/` and exposed it in the top nav. The route uses a new shared live-workspace loader (`src/lib/reader/book-workspace.ts`) extracted from the Studio page, so both `/studio` and `/workbench` now read the same Ayyuhal Walad chapter/stage workspace. Added `src/components/workbench/OperatorWorkbench.tsx` + `src/styles/workbench.css`: a three-zone operator shell with four modes (pipeline review, editorial policy, knowledge lens, enrichment plan), shared chapter context, and a right-rail triage synthesis showing what was accepted vs rejected from the Gemini/ChatGPT direction.
+
+**Knowledge / augmentation wiring:** Refactored `src/components/corpus-mock/CorpusExplorer.tsx` so atom selection can be controlled externally. The workbench now keeps a persistent augmentation tray across mode switches and uses it to generate a concrete enrichment brief for the active chapter instead of isolating concept search on a mock-only page.
+
+**Validation:** `npm run lint:views` = errors 0 / warnings 52 (all pre-existing, non-blocking, elsewhere in the site). `npm run build` = green after reconciling a missing local dependency install; `npm install` in `plan-dashboard/` added the missing `@orama/orama` package to the local workspace and updated `package-lock.json`.
+
+**What the synthesis accepted:** hybrid Astro+React shell, three-zone operator layout, shared augmentation tray, contract-first server boundary. **What it rejected:** full framework rewrite, dark-navy palette reset, generic admin-dashboard treatment, and any database-aware client shortcut.
+
+**Next:** If Asif likes the shell direction, the next high-value step is to point the knowledge lens at live server data instead of the corpus mock sample and then decide whether `/workbench` should become the primary editorial entry point over time.
+
+**Blocked:** The `html-view-challenger` agent could not access workspace files in its subagent session, so no independent challenger verdict was produced. Mechanical local sweeps on the new files found no inline style/script usage or viewport-height clamps.
+
+### 2026-05-31 — Copilot session #5 (single-site nav + clean validation)
+
+**Purpose:** Finish the Astro-site consolidation pass: remove the remaining split-site language, make the top navigation read like one coherent product, and close the session with zero site lint warnings and a warning-free production build.
+
+**What changed:** Reworked the shared nav model in `plan-dashboard/src/lib/site-nav.ts` so the site reads as one product: `Home`, `Workspace`, `Library`, `Knowledge`, `Docs`. Added an overview subsection split between the cinematic home tour (`/`) and the operational overview page (`/overview`), renamed the old `System` section to `Docs`, and made the narrative home layout (`src/layouts/NarrativeBase.astro`) use the same top-level nav structure as the rest of the site. Cleaned visible stale wording: `book-review/[slug].astro` now routes back to Workspace instead of Dashboard, `annotation-ops.astro` now refers to the site snapshot flow, and the generated architecture snapshot prose now says `Podcast Factory Astro Site` / `reader section` instead of `podcast-reader`.
+
+**Plan + snapshot sync:** Updated `_workspace/plan/refactor/plan.md` and `_workspace/plan/refactor/plan.yaml` so the canonical DR-010 wording and the Wave-D shell language describe one Astro site rather than a plan SPA plus a separate reader. Fixed a real YAML defect while in there: Wave A had duplicate `execution_notes` keys; they are now merged under one key. Ran `cd plan-dashboard && npm run snapshot` twice in this session: once after the plan wording update and once after the YAML repair / snapshot-prose correction, so `src/data/{architecture,dashboard,infrastructure}-snapshot.json` are in sync with the current plan files.
+
+**Validation:** `cd plan-dashboard && npm run lint:views` is clean (`errors=0 warns=0`). `cd plan-dashboard && npm run build` is also clean after removing two unused `basename` imports in `src/lib/library.ts` and `src/lib/reader/chapters.ts`; the earlier Vite warnings are gone. File-scoped diagnostics on the nav files, plan files, and updated snapshot JSONs are all clean.
+
+**Net result:** The repo still has one single Astro app only: `plan-dashboard/`, the Podcast Factory Astro Site. The reader/editor/workbench/library/knowledge/docs surfaces are sections and routes inside that one site, not separate applications.

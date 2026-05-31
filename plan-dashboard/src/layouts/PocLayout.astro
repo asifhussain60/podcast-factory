@@ -5,8 +5,15 @@
 import '../styles/theme.css';
 import '../styles/chapter-viewer.css'; // global .ref-quran + .quran-popover-* card styles (reused)
 import '../styles/studio-poc.css';
-interface Props { title: string; }
-const { title } = Astro.props;
+import { TOP_NAV, getNavSection, getSubnavLinks } from '../lib/site-nav';
+import type { ActivePage } from '../lib/site-nav';
+interface Props {
+  title: string;
+  active: ActivePage;
+}
+const { title, active } = Astro.props;
+const navSection = getNavSection(active);
+const subnavLinks = getSubnavLinks(active);
 ---
 <!doctype html>
 <html lang="en" data-theme="light">
@@ -20,6 +27,39 @@ const { title } = Astro.props;
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
   </head>
   <body class="poc-body">
-    <slot />
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <nav class="topnav">
+      <div class="topnav-inner">
+        <a href="/" class="topnav-brand">Podcast Factory <small>Astro Site</small></a>
+        <div class="topnav-sections">
+          {TOP_NAV.map((item) => (
+            <a
+              href={item.href}
+              data-section={item.section}
+              class={`topnav-section${navSection === item.section ? ' is-active' : ''}`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+        <div class="topnav-spacer"></div>
+      </div>
+    </nav>
+
+    {subnavLinks.length > 0 && (
+      <nav class="subnav-h" aria-label={`${navSection} section`}>
+        <div class="subnav-h-inner">
+          {subnavLinks.map((item) => (
+            <a href={item.href} class={`subnav-h-link${item.pages.includes(active) ? ' is-active' : ''}`}>{item.label}</a>
+          ))}
+        </div>
+      </nav>
+    )}
+
+    <div class={`page-shell${subnavLinks.length > 0 ? ' has-arch-subnav' : ''}`}>
+      <main id="main-content" tabindex="-1">
+        <slot />
+      </main>
+    </div>
   </body>
 </html>

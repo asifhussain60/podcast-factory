@@ -13,6 +13,13 @@
   overflow-x: hidden;
 }
 
+.narrative-body {
+  background: #080c14;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
 /* Topnav — sticky warm parchment header, matches Architecture page */
 .narrative-topnav,
 .narrative-root .topnav {
@@ -114,6 +121,29 @@
   user-select: none;
   animation: particleDrift linear infinite;
 }
+
+.n-particle:nth-child(1) { left: 2%; font-size: 14px; animation-delay: 0s; animation-duration: 14s; }
+.n-particle:nth-child(2) { left: 6.5%; font-size: 19px; animation-delay: 1.3s; animation-duration: 16s; }
+.n-particle:nth-child(3) { left: 11%; font-size: 24px; animation-delay: 2.6s; animation-duration: 18s; }
+.n-particle:nth-child(4) { left: 15.5%; font-size: 29px; animation-delay: 3.9s; animation-duration: 20s; }
+.n-particle:nth-child(5) { left: 20%; font-size: 34px; animation-delay: 5.2s; animation-duration: 22s; }
+.n-particle:nth-child(6) { left: 24.5%; font-size: 14px; animation-delay: 6.5s; animation-duration: 24s; }
+.n-particle:nth-child(7) { left: 29%; font-size: 19px; animation-delay: 7.8s; animation-duration: 26s; }
+.n-particle:nth-child(8) { left: 33.5%; font-size: 24px; animation-delay: 9.1s; animation-duration: 28s; }
+.n-particle:nth-child(9) { left: 38%; font-size: 29px; animation-delay: 10.4s; animation-duration: 14s; }
+.n-particle:nth-child(10) { left: 42.5%; font-size: 34px; animation-delay: 11.7s; animation-duration: 16s; }
+.n-particle:nth-child(11) { left: 47%; font-size: 14px; animation-delay: 13s; animation-duration: 18s; }
+.n-particle:nth-child(12) { left: 51.5%; font-size: 19px; animation-delay: 0.3s; animation-duration: 20s; }
+.n-particle:nth-child(13) { left: 56%; font-size: 24px; animation-delay: 1.6s; animation-duration: 22s; }
+.n-particle:nth-child(14) { left: 60.5%; font-size: 29px; animation-delay: 2.9s; animation-duration: 24s; }
+.n-particle:nth-child(15) { left: 65%; font-size: 34px; animation-delay: 4.2s; animation-duration: 26s; }
+.n-particle:nth-child(16) { left: 69.5%; font-size: 14px; animation-delay: 5.5s; animation-duration: 28s; }
+.n-particle:nth-child(17) { left: 74%; font-size: 19px; animation-delay: 6.8s; animation-duration: 14s; }
+.n-particle:nth-child(18) { left: 78.5%; font-size: 24px; animation-delay: 8.1s; animation-duration: 16s; }
+.n-particle:nth-child(19) { left: 83%; font-size: 29px; animation-delay: 9.4s; animation-duration: 18s; }
+.n-particle:nth-child(20) { left: 87.5%; font-size: 34px; animation-delay: 10.7s; animation-duration: 20s; }
+.n-particle:nth-child(21) { left: 92%; font-size: 14px; animation-delay: 12s; animation-duration: 22s; }
+.n-particle:nth-child(22) { left: 96.5%; font-size: 19px; animation-delay: 13.3s; animation-duration: 24s; }
 
 @keyframes particleDrift {
   0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }

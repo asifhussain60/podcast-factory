@@ -4,7 +4,9 @@ interface Props { layers: Layer[]; }
 export default function LayerStack({ layers }: Props) {
   const W = 760, ROW = 64, H = layers.length * (ROW + 12) + 40;
   return (
-    <svg className="svg-host" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="The six layers, bottom to top">
+    <svg className="svg-host" viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="layer-stack-title layer-stack-desc">
+      <title id="layer-stack-title">The six layers, bottom to top</title>
+      <desc id="layer-stack-desc">A stacked diagram showing the six system layers from the bottom up.</desc>
       <defs>
         <marker id="arrow-up" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto" className="arrow-soft">
           <polygon points="0 6, 4 0, 8 6" />

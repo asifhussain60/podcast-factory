@@ -230,10 +230,10 @@ export default function PlanDesign({ roadmap, waves, waveEvents = [], loopState 
 
                 {/* Wave progress bar */}
                 <div className="wave-prog-wrap">
-                  <div
-                    className={`wave-prog-fill${allComplete ? ' s-complete' : ''}`}
-                    data-animated={animated ? 'true' : 'false'}
-                    style={{ '--fill-pct': Math.max(pct, 0.02) } as React.CSSProperties}
+                  <progress
+                    className={`wave-prog-bar${allComplete ? ' s-complete' : ''}`}
+                    value={animated ? Math.max(Math.round(pct * 100), 2) : 0}
+                    max={100}
                   />
                 </div>
 

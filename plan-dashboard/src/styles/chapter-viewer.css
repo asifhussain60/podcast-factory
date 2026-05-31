@@ -344,6 +344,7 @@ html[data-right-rail="collapsed"] .rail-pull-chevron { transform: rotate(180deg)
   border: 0;
   width: 64px;
 }
+.gold-hairline-thin.has-top-gap { margin-top: 20px; }
 .chapter-toolbar {
   display: flex;
   flex-wrap: wrap;

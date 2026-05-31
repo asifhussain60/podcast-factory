@@ -8,6 +8,7 @@
  * Layout: single horizontal rail; horizontally scrollable when narrow.
  */
 import { useState, useRef, useEffect, useCallback } from 'react';
+import '../styles/pipeline-overview-rail.css';
 
 interface Phase {
   id: string;
@@ -156,9 +157,11 @@ export default function PipelineOverviewRail({ phases }: Props) {
           style={{ transform: `scale(${zoom})`, transformOrigin: 'top left', display: 'block' }}
           width={svgW}
           height={SVG_H}
-          aria-label="Pipeline overview rail"
           role="img"
+          aria-labelledby="pipeline-overview-title pipeline-overview-desc"
         >
+          <title id="pipeline-overview-title">Pipeline overview rail</title>
+          <desc id="pipeline-overview-desc">A horizontal rail diagram showing each pipeline phase, how phases connect, and which external services they call.</desc>
           <defs>
             {/* Arrow marker */}
             <marker id="por-arr" viewBox="0 0 10 10" refX="8" refY="5"
@@ -368,71 +371,6 @@ export default function PipelineOverviewRail({ phases }: Props) {
           </div>
         );
       })()}
-
-      <style>{`
-        .por-wrap { --por-card-bg: var(--c-bg-card, #faf8f3); --por-border: var(--c-rule, #e8e3d8); }
-        .por-controls {
-          display: flex; align-items: center; justify-content: space-between;
-          margin-bottom: 10px; flex-wrap: wrap; gap: 8px;
-        }
-        .por-legend { display: flex; gap: 12px; flex-wrap: wrap; }
-        .por-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--c-ink-muted, #9b9485); }
-        .por-legend-dot { width: 9px; height: 9px; border-radius: 50%; }
-        .por-zoom-bar { display: flex; align-items: center; gap: 4px; }
-        .por-zoom-btn {
-          width: 26px; height: 26px; border: 1px solid var(--por-border);
-          background: var(--por-card-bg); border-radius: 5px;
-          color: var(--c-ink-dim, #6b6560); cursor: pointer; font-size: 14px; font-weight: 700;
-          display: flex; align-items: center; justify-content: center; font-family: inherit;
-        }
-        .por-zoom-btn:hover { background: var(--c-accent, #c08020); color: white; border-color: var(--c-accent, #c08020); }
-        .por-zoom-level { font-size: 11px; color: var(--c-ink-muted, #9b9485); min-width: 34px; text-align: center; }
-        .por-svg-frame {
-          border: 1px solid var(--por-border); border-radius: 10px;
-          background: var(--c-bg-elev, #f5f0e7); padding: 12px 12px 8px;
-          overflow-x: auto; overflow-y: visible;
-        }
-        .por-node:focus-visible { outline: none; }
-        .por-tooltip {
-          background: var(--por-card-bg); border: 1px solid var(--por-border);
-          border-radius: 7px; padding: 8px 10px;
-          box-shadow: 0 4px 14px rgba(0,0,0,0.12);
-          max-width: 200px;
-        }
-        .por-tooltip strong { display: block; font-size: 12px; color: var(--c-ink, #2c2a25); margin-bottom: 2px; }
-        .por-tooltip .por-tooltip-kind { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 4px; }
-        .por-tooltip p { font-size: 11px; color: var(--c-ink-muted, #9b9485); margin: 0; line-height: 1.45; }
-        .por-selected-strip {
-          margin-top: 10px; padding: 12px 16px;
-          background: var(--c-bg-card, #faf8f3);
-          border: 1.5px solid var(--por-border);
-          border-left-width: 4px;
-          border-radius: 8px;
-          animation: porStripIn 0.2s ease;
-        }
-        @keyframes porStripIn {
-          from { opacity: 0; transform: translateY(4px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        .por-strip-header { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
-        .por-strip-header strong { font-size: 13px; }
-        .por-strip-name { font-size: 13px; font-weight: 600; color: var(--c-ink, #2c2a25); }
-        .por-strip-kind { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
-        .por-strip-dur  { font-size: 11px; color: var(--c-ink-muted, #9b9485); margin-left: auto; }
-        .por-strip-close {
-          margin-left: auto; background: none; border: 1px solid var(--por-border);
-          border-radius: 4px; color: var(--c-ink-muted, #9b9485); cursor: pointer; font-size: 16px;
-          padding: 0 7px; line-height: 1.5; font-family: inherit;
-        }
-        .por-strip-close:hover { background: var(--c-bg-elev, #f5f0e7); }
-        .por-strip-plain { font-size: 12.5px; color: var(--c-ink-dim, #6b6560); line-height: 1.65; margin: 0 0 8px; }
-        .por-strip-modules { display: flex; gap: 6px; flex-wrap: wrap; }
-        .por-module-chip {
-          font-size: 10.5px; font-family: ui-monospace, 'SF Mono', monospace;
-          background: var(--c-bg-sunken, #ede8dc); color: var(--c-ink-dim, #6b6560);
-          padding: 2px 8px; border-radius: 999px; border: 1px solid var(--por-border);
-        }
-      `}</style>
     </div>
   );
 }

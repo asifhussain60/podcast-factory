@@ -13,14 +13,24 @@
 import { create, insertMultiple, search } from '@orama/orama';
 import { Command } from 'cmdk';
 import { Plus, Check, Search, ChevronRight, BookOpen, Layers } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { startTransition, useDeferredValue, useEffect, useMemo, useState } from 'react';
 import {
   CONCEPTS, SAMPLE_ATOMS, SAMPLE_PROSE, CORPUS_TOTALS, atomsForConcept,
   type MockAtom, type AtomType, type Tradition, type Concept,
 } from '../../data/corpus-mock-sample';
 
-const BOOK_TRADITION: Tradition = 'fatimid-ismaili';
-const ELIGIBLE: Tradition[] = ['universal', 'fatimid-ismaili', 'ismaili'];
+interface ProseContext {
+  book: string;
+  chapter: string;
+  paragraph: string;
+}
+
+interface Props {
+  selectedAtoms?: MockAtom[];
+  onSelectedAtomsChange?: (atoms: MockAtom[]) => void;
+  prose?: ProseContext;
+  bookTradition?: Tradition;
+}
 
 // Source groups, in display order. 'term'+'etymology' define the concept, so they lead.
 const GROUPS: { type: AtomType; label: string }[] = [
@@ -34,7 +44,12 @@ const GROUPS: { type: AtomType; label: string }[] = [
 
 function conceptAtomCount(c: Concept) { return atomsForConcept(c.id).length; }
 
-export default function CorpusExplorer() {
+export default function CorpusExplorer({
+  selectedAtoms,
+  onSelectedAtomsChange,
+  prose,
+  bookTradition = 'fatimid-ismaili',
+}: Props) {
   const [db, setDb] = useState<any>(null);
   const [query, setQuery] = useState('');
   const [textHits, setTextHits] = useState<Set<string>>(new Set()); // atom ids matching free-text
@@ -42,7 +57,20 @@ export default function CorpusExplorer() {
   const [typeFilter, setTypeFilter] = useState<Set<string>>(new Set());
   const [tradFilter, setTradFilter] = useState<Set<string>>(new Set());
   const [openGroups, setOpenGroups] = useState<Set<string>>(new Set());
-  const [selected, setSelected] = useState<MockAtom[]>([]);
+  const [internalSelected, setInternalSelected] = useState<MockAtom[]>([]);
+  const deferredQuery = useDeferredValue(query);
+  const selected = selectedAtoms ?? internalSelected;
+  const proseContext = prose ?? SAMPLE_PROSE;
+  const eligibleTraditions = useMemo(() => eligibleForBook(bookTradition), [bookTradition]);
+
+  function updateSelected(updater: (current: MockAtom[]) => MockAtom[]) {
+    const next = updater(selected);
+    if (onSelectedAtomsChange) {
+      onSelectedAtomsChange(next);
+      return;
+    }
+    setInternalSelected(next);
+  }
 
   // Orama index over atoms — full-text surfaces the concept(s) a phrase belongs to.
   useEffect(() => {
@@ -57,22 +85,22 @@ export default function CorpusExplorer() {
 
   useEffect(() => {
     (async () => {
-      if (!db || !query.trim()) { setTextHits(new Set()); return; }
-      const res = await search(db, { term: query, properties: ['gloss', 'text_en', 'arabic'], tolerance: 1, limit: 200 });
+      if (!db || !deferredQuery.trim()) { setTextHits(new Set()); return; }
+      const res = await search(db, { term: deferredQuery, properties: ['gloss', 'text_en', 'arabic'], tolerance: 1, limit: 200 });
       setTextHits(new Set(res.hits.map((h: any) => h.id)));
     })();
-  }, [db, query]);
+  }, [db, deferredQuery]);
 
   // Concepts matching the query: by label/synonym/translit/arabic, OR by a free-text atom hit.
   const matchedConcepts = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = deferredQuery.trim().toLowerCase();
     if (!q) return CONCEPTS;
     return CONCEPTS.filter((c) => {
       const direct = [c.label, c.translit, c.arabic, c.root, ...c.synonyms].some((s) => s.toLowerCase().includes(q));
       const viaAtom = atomsForConcept(c.id).some((a) => textHits.has(a.id));
       return direct || viaAtom;
     });
-  }, [query, textHits]);
+  }, [deferredQuery, textHits]);
 
   const concept = useMemo(() => CONCEPTS.find((c) => c.id === conceptId) || CONCEPTS[0], [conceptId]);
   const conceptAtoms = useMemo(() => atomsForConcept(concept.id), [concept]);
@@ -107,8 +135,10 @@ export default function CorpusExplorer() {
   const toggleGroup = (t: string) => setOpenGroups((prev) => { const n = new Set(prev); n.has(t) ? n.delete(t) : n.add(t); return n; });
 
   const isSelected = (id: string) => selected.some((s) => s.id === id);
-  const addAtom = (a: MockAtom) => { if (!isSelected(a.id)) setSelected((s) => [...s, a]); };
-  const removeAtom = (id: string) => setSelected((s) => s.filter((x) => x.id !== id));
+  const addAtom = (a: MockAtom) => {
+    if (!isSelected(a.id)) updateSelected((current) => [...current, a]);
+  };
+  const removeAtom = (id: string) => updateSelected((current) => current.filter((atom) => atom.id !== id));
 
   return (
     <>
@@ -132,7 +162,7 @@ export default function CorpusExplorer() {
             <button
               key={c.id} role="option" aria-selected={c.id === concept.id}
               className={`cm-conceptchip ${c.id === concept.id ? 'active' : ''}`}
-              onClick={() => setConceptId(c.id)}
+              onClick={() => startTransition(() => setConceptId(c.id))}
             >
               <span className="lbl">{c.label}</span>
               <span className="ar">{c.arabic}</span>
@@ -217,14 +247,14 @@ export default function CorpusExplorer() {
         <h2><BookOpen size={18} className="cm-h2-ico" /> Augment the prose with selected atoms</h2>
         <p className="sub">
           Atoms you add from any concept land here and inject as <code>[PRIOR DOCTRINAL CONTEXT]</code> behind a chapter
-          paragraph. The tradition firewall (D5) is enforced — this book is <strong>{BOOK_TRADITION}</strong>.
+          paragraph. The tradition firewall (D5) is enforced — this book is <strong>{bookTradition}</strong>.
         </p>
 
         <div className="cm-aug">
           <div className="cm-prose">
-            <div className="meta">{SAMPLE_PROSE.book} · {SAMPLE_PROSE.chapter}</div>
-            <p className="para" dangerouslySetInnerHTML={{ __html: highlightProse(SAMPLE_PROSE.paragraph, selected) }} />
-            <AugPreview selected={selected} />
+            <div className="meta">{proseContext.book} · {proseContext.chapter}</div>
+            <p className="para" dangerouslySetInnerHTML={{ __html: highlightProse(proseContext.paragraph, selected) }} />
+            <AugPreview selected={selected} eligibleTraditions={eligibleTraditions} />
           </div>
 
           <div className="cm-tray">
@@ -246,7 +276,7 @@ export default function CorpusExplorer() {
             <div className="cm-selected">
               {selected.length === 0 && <p className="cm-empty">No atoms selected. Add from a concept lens or the palette.</p>}
               {selected.map((a) => {
-                const eligible = ELIGIBLE.includes(a.tradition);
+                const eligible = eligibleTraditions.includes(a.tradition);
                 return (
                   <div className="cm-selrow" key={a.id}>
                     <span className={`cm-badge type-${a.type}`}>{a.type}</span>
@@ -264,9 +294,9 @@ export default function CorpusExplorer() {
   );
 }
 
-function AugPreview({ selected }: { selected: MockAtom[] }) {
-  const eligible = selected.filter((a) => ELIGIBLE.includes(a.tradition));
-  const blocked = selected.filter((a) => !ELIGIBLE.includes(a.tradition));
+function AugPreview({ selected, eligibleTraditions }: { selected: MockAtom[]; eligibleTraditions: Tradition[] }) {
+  const eligible = selected.filter((a) => eligibleTraditions.includes(a.tradition));
+  const blocked = selected.filter((a) => !eligibleTraditions.includes(a.tradition));
   if (selected.length === 0) return null;
   return (
     <div className="cm-preview">
@@ -301,4 +331,10 @@ function highlightProse(text: string, selected: MockAtom[]): string {
 
 function escapeHtml(s: string) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function eligibleForBook(bookTradition: Tradition): Tradition[] {
+  if (bookTradition === 'fatimid-ismaili') return ['universal', 'fatimid-ismaili', 'ismaili'];
+  if (bookTradition === 'ismaili') return ['universal', 'ismaili'];
+  return ['universal'];
 }

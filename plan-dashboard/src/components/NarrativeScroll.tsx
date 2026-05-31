@@ -12,11 +12,38 @@
  * always in sync.
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
+
+function NarrativeSvg({
+  titleId,
+  descId,
+  title,
+  desc,
+  children,
+}: {
+  titleId: string;
+  descId: string;
+  title: string;
+  desc: string;
+  children: ReactNode;
+}) {
+  return (
+    <svg
+      viewBox="0 0 340 240"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-labelledby={`${titleId} ${descId}`}
+    >
+      <title id={titleId}>{title}</title>
+      <desc id={descId}>{desc}</desc>
+      {children}
+    </svg>
+  );
+}
 
 // ── Visual SVG definitions — one per phase ───────────────────────
 
@@ -26,7 +53,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 function VisualReadBook() {
   return (
-    <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
+    <NarrativeSvg titleId="n-read-book-title" descId="n-read-book-desc" title="Read and scan source book" desc="A source document is scanned and converted into structured text.">
       <defs><style>{`
         @keyframes rb-sweep{0%,100%{transform:translateY(0)}50%{transform:translateY(140px)}}
         @keyframes rb-in{from{opacity:0}to{opacity:1}}
@@ -82,13 +109,13 @@ function VisualReadBook() {
         <rect x="200" y="168" width="88" height="8" rx="3" fill="white" opacity="0.2"/>
         <rect x="200" y="181" width="100" height="8" rx="3" fill="white" opacity="0.18"/>
       </g>
-    </svg>
+    </NarrativeSvg>
   );
 }
 
 function VisualPolishText() {
   return (
-    <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
+    <NarrativeSvg titleId="n-polish-title" descId="n-polish-desc" title="Polish and correct text" desc="Problem lines are corrected and approved into a clean version.">
       <defs><style>{`
         @keyframes pt-in{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
         @keyframes pt-badge{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
@@ -130,13 +157,13 @@ function VisualPolishText() {
           <text x="257" y="213" textAnchor="middle" fill="white" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">✓ CORRECTED</text>
         </g>
       </g>
-    </svg>
+    </NarrativeSvg>
   );
 }
 
 function VisualLearnNames() {
   return (
-    <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
+    <NarrativeSvg titleId="n-names-title" descId="n-names-desc" title="Learn names and terms" desc="Highlighted Arabic names are paired with phonetic guides.">
       <defs><style>{`
         @keyframes ln-glow{0%,100%{opacity:.7}50%{opacity:1}}
         @keyframes ln-card{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -184,13 +211,13 @@ function VisualLearnNames() {
           <text x="188" y={c.y+42} fill="#c9973a" fontSize="10.5" fontFamily="Inter,sans-serif" letterSpacing="0.5">{c.lat}</text>
         </g>
       ))}
-    </svg>
+    </NarrativeSvg>
   );
 }
 
 function VisualPlanEpisodes() {
   return (
-    <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
+    <NarrativeSvg titleId="n-plan-title" descId="n-plan-desc" title="Plan episode structure" desc="Book chapters are mapped into an episode sequence with pacing.">
       <defs><style>{`
         @keyframes pe-pop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
         .pe-e1{animation:pe-pop .35s .5s both}.pe-e2{animation:pe-pop .35s .85s both}
@@ -235,13 +262,13 @@ function VisualPlanEpisodes() {
           <text x="186" y={ep.y+36} fill="#c9973a" fontSize="9.5" fontFamily="Inter,sans-serif">{ep.title}</text>
         </g>
       ))}
-    </svg>
+    </NarrativeSvg>
   );
 }
 
 function VisualEnrich() {
   return (
-    <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
+    <NarrativeSvg titleId="n-enrich-title" descId="n-enrich-desc" title="Enrich chapter draft" desc="Core chapter text is expanded with contextual supporting material.">
       <defs><style>{`
         @keyframes en-left{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:translateX(0)}}
         @keyframes en-right{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
@@ -298,13 +325,13 @@ function VisualEnrich() {
         <line x1="222" y1="179" x2="230" y2="155" stroke="#f05555" strokeWidth="2" strokeDasharray="4 3"/>
         <circle cx="230" cy="179" r="5" fill="#f05555" className="en-dot"/>
       </g>
-    </svg>
+    </NarrativeSvg>
   );
 }
 
 function VisualOutsideKnowledge() {
   return (
-    <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
+    <NarrativeSvg titleId="n-knowledge-title" descId="n-knowledge-desc" title="Bring in outside knowledge" desc="External references and source knowledge are pulled into the pipeline.">
       <defs><style>{`
         @keyframes ok-in{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
         @keyframes ok-ck{0%{stroke-dashoffset:26}100%{stroke-dashoffset:0}}
@@ -354,13 +381,13 @@ function VisualOutsideKnowledge() {
             className={c.kls} fill="none" stroke={c.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
         </g>
       ))}
-    </svg>
+    </NarrativeSvg>
   );
 }
 
 function VisualCutPieces() {
   return (
-    <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
+    <NarrativeSvg titleId="n-cut-title" descId="n-cut-desc" title="Cut chapter into pieces" desc="A larger narrative is segmented into smaller structured parts.">
       <defs><style>{`
         @keyframes cp-cut{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
         @keyframes cp-drop{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
@@ -412,13 +439,13 @@ function VisualCutPieces() {
           ))}
         </g>
       ))}
-    </svg>
+    </NarrativeSvg>
   );
 }
 
 function VisualNarratorFraming() {
   return (
-    <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
+    <NarrativeSvg titleId="n-frame-title" descId="n-frame-desc" title="Add narrator framing" desc="A narrator layer wraps the content with opening and closing guidance.">
       <defs><style>{`
         @keyframes nf-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
         @keyframes nf-talk{0%,100%{opacity:0;transform:scale(.8)}25%,75%{opacity:1;transform:scale(1)}}
@@ -479,13 +506,13 @@ function VisualNarratorFraming() {
         <polygon points="252,214 260,220 252,220" fill="#5aabf0"/>
         <text x="223" y="214" textAnchor="middle" fill="white" fontSize="9.5" fontWeight="700" fontFamily="Inter,sans-serif">Agreed!</text>
       </g>
-    </svg>
+    </NarrativeSvg>
   );
 }
 
 function VisualSlides() {
   return (
-    <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
+    <NarrativeSvg titleId="n-slides-title" descId="n-slides-desc" title="Prepare slide deck" desc="Chapter material is transformed into a visual slide sequence.">
       <defs><style>{`
         @keyframes sl-pop{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
         .sl-s1{animation:sl-pop .4s .1s both}.sl-s2{animation:sl-pop .4s .5s both}
@@ -555,13 +582,13 @@ function VisualSlides() {
         ))}
         <text x="253" y="226" textAnchor="middle" fill="#38c9bf" fontSize="9" fontFamily="Inter,sans-serif" opacity="0.85">SLIDE TYPE 4</text>
       </g>
-    </svg>
+    </NarrativeSvg>
   );
 }
 
 function VisualAudit() {
   return (
-    <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
+    <NarrativeSvg titleId="n-audit-title" descId="n-audit-desc" title="Audit the final package" desc="Quality checks loop until the chapter package passes.">
       <defs><style>{`
         @keyframes au-ck{0%{stroke-dashoffset:28}100%{stroke-dashoffset:0}}
         @keyframes au-rect{0%,55%{fill:#1e0f00;stroke:#e8b430}100%{fill:#061a0c;stroke:#5ac87a}}
@@ -578,6 +605,7 @@ function VisualAudit() {
         .au-c5{animation:au-tick .35s 3.1s both;stroke-dasharray:28;stroke-dashoffset:28}
         .au-loop{animation:au-loop 2s .5s both;stroke-dasharray:340;stroke-dashoffset:340}
         .au-pass{animation:au-pass .5s 3.5s both;opacity:0}
+        .au-kick{opacity:0}
       `}</style></defs>
 
       <text x="14" y="18" fill="white" fontSize="13" fontWeight="700" fontFamily="Inter,sans-serif">QUALITY CHECKS</text>
@@ -608,7 +636,7 @@ function VisualAudit() {
           <circle cx="190" cy={item.y+17} r="12" fill="#e8b430" opacity="0.22" stroke="#e8b430" strokeWidth="2" className={item.rCls}/>
           <text x="190" y={item.y+22} textAnchor="middle" fill="#e8b430" fontSize="15" fontWeight="700" fontFamily="Inter,sans-serif" className={item.bCls}>!</text>
           <polyline points={`183,${item.y+17} 188,${item.y+22} 197,${item.y+11}`}
-            className={item.kCls} fill="none" stroke="#5ac87a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{opacity:0}}/>
+            className={`${item.kCls} au-kick`} fill="none" stroke="#5ac87a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
         </g>
       ))}
 
@@ -622,13 +650,13 @@ function VisualAudit() {
         <rect x="228" y="180" width="88" height="28" rx="14" fill="#5ac87a"/>
         <text x="272" y="198" textAnchor="middle" fill="white" fontSize="12" fontWeight="700" fontFamily="Inter,sans-serif">✓ PASSED</text>
       </g>
-    </svg>
+    </NarrativeSvg>
   );
 }
 
 function VisualShip() {
   return (
-    <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
+    <NarrativeSvg titleId="n-ship-title" descId="n-ship-desc" title="Ship the finished episode" desc="Draft materials move into a finished packaged podcast release.">
       <defs><style>{`
         @keyframes sh-fade{0%{opacity:1}100%{opacity:.2;transform:scale(.95)}}
         @keyframes sh-slide{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
@@ -685,7 +713,7 @@ function VisualShip() {
         <text x="285" y="89" textAnchor="middle" fill="#ffd700" fontSize="8" fontWeight="700" fontFamily="Inter,sans-serif" letterSpacing="1.5">FIED</text>
         <text x="285" y="68" textAnchor="middle" fill="#ffd700" fontSize="13">✦</text>
       </g>
-    </svg>
+    </NarrativeSvg>
   );
 }
 
@@ -926,7 +954,10 @@ export default function NarrativeScroll({ phases, shippedCount, episodeCount }: 
         <div className="narrative-hero-logo">
           <div className="logo-placeholder-ring">
             <svg className="logo-placeholder-inner-svg" viewBox="0 0 120 120"
-                 xmlns="http://www.w3.org/2000/svg">
+                 xmlns="http://www.w3.org/2000/svg" role="img"
+                 aria-labelledby="logo-placeholder-title logo-placeholder-desc">
+              <title id="logo-placeholder-title">Podcast factory logo placeholder</title>
+              <desc id="logo-placeholder-desc">A stylized factory outline with smokestacks and sound waves.</desc>
               {/* Factory silhouette */}
               <rect x="20" y="65" width="80" height="45" rx="2"
                 fill="none" stroke="rgba(201,151,58,0.7)" strokeWidth="1.5"/>
@@ -1103,23 +1134,12 @@ function ParticleField() {
     '⟡', '⊞', '◉', '⟣', '✣', '⊛', '◌', '⟢', '✤', '⊜',
   ];
 
-  const particles = Array.from({ length: 22 }, (_, i) => ({
-    symbol: symbols[i % symbols.length],
-    left:   `${(i * 4.5 + 2) % 98}%`,
-    delay:  `${(i * 1.3) % 14}s`,
-    duration: `${14 + (i % 8) * 2}s`,
-    size:   `${14 + (i % 5) * 5}px`,
-  }));
+  const particles = Array.from({ length: 22 }, (_, i) => symbols[i % symbols.length]);
 
   return (
     <div className="narrative-hero-particles" aria-hidden="true">
-      {particles.map((p, i) => (
-        <span key={i} className="n-particle" style={{
-          left: p.left,
-          fontSize: p.size,
-          animationDelay: p.delay,
-          animationDuration: p.duration,
-        }}>{p.symbol}</span>
+      {particles.map((symbol, i) => (
+        <span key={i} className="n-particle">{symbol}</span>
       ))}
     </div>
   );

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-31T10:20:01.576Z",
-  "source_commit": "4d0653d6",
+  "generated_at": "2026-05-31T11:39:19.188Z",
+  "source_commit": "42d5492",
   "generator": "podcast-planner agent",
   "phases": [
     {
@@ -75,7 +75,7 @@
       "name": "Source Review Gate",
       "kind": "gate",
       "agent": null,
-      "plain": "The pipeline halts. The astro site shows you every chapter, the noise-stripped log, vocabulary coverage warnings, and any structural gaps flagged by the pre-gate analysis. You read, edit source files directly in podcast-reader, come back and approve. Only when all warnings clear — or you override them with a reason — does the pipeline continue. No expensive phases run on content you haven't vetted.",
+      "plain": "The pipeline halts. The Podcast Factory Astro Site shows you every chapter, the noise-stripped log, vocabulary coverage warnings, and any structural gaps flagged by the pre-gate analysis. You review and edit in the reader section, then come back and approve. Only when all warnings clear — or you override them with a reason — does the pipeline continue. No expensive phases run on content you haven't vetted.",
       "duration_minutes": 0,
       "modules": [],
       "gate_type": "source_review",
@@ -545,8 +545,8 @@
     },
     {
       "id": "DR-010",
-      "title": "Astro for the plan SPA + design tokens shared with podcast-reader",
-      "plain": "Astro for the plan SPA + design tokens shared with podcast-reader"
+      "title": "Astro for the plan SPA + design tokens shared across the Podcast Factory Astro Site",
+      "plain": "Astro for the plan SPA + design tokens shared across the Podcast Factory Astro Site"
     },
     {
       "id": "DR-011",
