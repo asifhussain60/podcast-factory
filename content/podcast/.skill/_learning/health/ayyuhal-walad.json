@@ -1,13 +1,13 @@
 {
-  "ts": "2026-05-31T13:08Z",
+  "ts": "2026-05-31T13:20Z",
   "book": "ayyuhal-walad",
   "chapters_in_scope": 3,
-  "p0": 3,
-  "p1": 2,
-  "p2": 3,
-  "auto_fixes": 3,
-  "score": 0.0,
-  "badge": "Unstable",
-  "verdict": "BLOCKED",
+  "p0": 0,
+  "p1": 0,
+  "p2": 5,
+  "auto_fixes": 1,
+  "score": 0.9167,
+  "badge": "Healthy",
+  "verdict": "SHIP-WITH-CAUTION",
   "challenger_version": "2.3"
 }
