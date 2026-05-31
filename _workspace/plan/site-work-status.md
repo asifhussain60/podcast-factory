@@ -6,7 +6,7 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-05-30
+**Last updated:** 2026-05-31
 
 **Active priority: the intelligence + podcast pipeline (Wisdom Corpus Program).**
 First step shipped — the corpus-population ENGINE, proven end-to-end on the on-disk
@@ -157,8 +157,13 @@ substantial builds (Studio re-platform, full audio job). Total Azure cost to dat
 | **8** | Output: podcast bundle + slides | assemble_bundle.py; per-episode .txt + framings; slide decks; challenger convergence (5-axis); NotebookLM upload table | ~$0.20 |
 | **9** | Video visual layer | generate_video_layer.py — per-episode beat→image prompts with estimated timestamps; Gemini text for prompt authoring; Imagen 3 API for image generation; outputs video-prompts.json + video-prompts.md + video-images/*.png per episode | ~$1.50–$2.50 |
 
+**KNOWLEDGE MIRROR COMPLETE (2026-05-30, commit fe9f346).** SQLite FTS5 mirror built from all 3 SQL Server databases (KQUR/KASHKOLE/KSESSIONS) and committed at `content/knowledge-base/mirror.db` (33.8 MB). All 6 MCP source-library tools now resolve from the local mirror — OrbStack is a refresh-only dependency, no longer needed for daily pipeline work or MCP queries. Row counts: 6,236 Quran ayats, 47 hadith, 1,347 KASHKOLE topics, 606 teaching sessions, 58 etymology terms. MCP server registered in `.mcp.json`. SQL Server fallbacks remain for miss/refresh scenarios.
+
+**B5 COMPLETE (2026-05-30, commit 1a8697c).** 68 atoms ingested: 31 hadith (KASHKOLE TypeID 17+23), 2 poetry/manqabat (TypeID 31), 35 etymology roots+derivatives (KQUR). knowledge.db: 696 atoms total (628 doctrine + 68 new). Central pipeline access module `mcp_access.py` built with 6 augmentation patterns (verify_quran_citation, search_quran_by_concept, find_hadith, get_etymology, get_style_reference, get_doctrine_context). P0 hadith_lookup fallback fixed + 3 P1 audit findings resolved.
+
+**KNOWLEDGE ENRICHMENT WIRED (2026-05-30, commit 96a3023).** `stage_knowledge_enrich.py` runs all 5 Ayyuhal Walad chapters through 3-step MCP enrichment: 18 Quran refs verified (Arabic + Pickthall + Asad from KQUR mirror), 10 Arabic terms etymology-annotated, 15 KASHKOLE ethics/aphorism topics matched. All knowledge-report.json and augmented.md files updated. Zero LLM calls, $0 cost. Hadith tradition filter correctly blocks Ismaili hadith from injecting into Ghazali's Sunni-Sufi text. Script is book-agnostic — run on any future book with --slug.
+
 **HONEST PENDING (not blockers, scoped work):**
-- **Slice 4+ (plan B5) — BUILD:** ingest hadith/etymology/poetry atoms from MCP (KASHKOLE+KQUR). Zero external DB needed — data is in KASHKOLE already (14 hadith topics TypeID 17 + TypeID 23; binder 5 poetry; KQUR Roots etymology). Script: `ingest_mcp_corpus.py`. Also fix `extractor.py` `claude -p` call. Authorized 2026-05-30.
 - Reconcile done INLINE for ch01 (I read Arabic); scaling to all chapters/books = Gemini bulk +
   Claude judgment (engine routing), not yet built as a script.
 - Only ch01 processed; ch02–ch05 pending (breadth). Slide decks (mandatory output) not yet addressed.

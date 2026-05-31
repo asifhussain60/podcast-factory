@@ -198,6 +198,41 @@ git pull --rebase origin book/ayyuhal-walad    # sync before work + before push
 Append a dated entry at the end of every session (newest at top): what changed, what's next,
 what's blocked. This is your across-session memory.
 
+### 2026-05-31 — Copilot session (holistic plan review + sequencing)
+
+**Purpose:** Asif asked for a full landscape review — stop random execution, find all gaps, sequence the work. No code was changed in this session; it was a read + audit pass against actual code, DB, and git log.
+
+**Key findings (confirmed by code/DB/git, not plan.yaml claims):**
+
+- **Waves A + B YAML stale:** Both waves are fully shipped in code (696 atoms in `knowledge.db`, all foundation scripts present, 21 schema migrations, B0–B5 in git) but `execution_status` still says `in_progress`. Claude: update plan.yaml + run `npm run snapshot`.
+- **WC1 data bug (CRITICAL):** The 628 doctrine atoms have `tradition` column set to a timestamp string (e.g. `"2026-05-29T17:32:19Z"`) instead of `"fatimid-ismaili"`. Tradition-filtered injection will silently fail. Fix before WC2 or any enrichment run.
+- **K6 voice axis stubbed:** `_voice_score()` returns `0.0` unconditionally — no KSessions exemplar vectors built. All PEQ voice scores are meaningless until K6 ships.
+- **J0 (MCP server) missing:** `scripts/mcp/` is empty — dual-interface FastAPI+stdio server never built. Blocks J2, J3, J4, J5.
+- **H2 DR-005 violations active:** 8 files exceed 600L: `build_episode_txt.py` (1563), `extract_chapter.py` (1301), `tighten_source.py` (1051), `run_wave.py` (824), `_slide_convergence.py` (764), `source_library_mirror.py` (693), `_slide_authoring.py` (652), `publish_to_library.py` (627).
+- **Ayyuhal Walad G2 gate failure:** 3 orphan episodes from WC8 holistic restructure (5-chapter vs 3-episode). Publish blocked.
+- **G1 (narrative homepage) unconfirmed:** `NarrativeScroll.tsx` exists but no `narrative.astro` route in pages. Wave marked `in_progress_2026_05_27`. Quick verify needed.
+- **WC8 packages confirmed:** `intake.astro`, `NewContentForm.tsx`, `EditorialDefaults.tsx`, `corpus-search.ts` all exist. dnd-kit + cmdk installed.
+
+**Recommended sequence (sequenced, not random):**
+1. Fix WC1 `atoms.tradition` bug — Claude
+2. Update Waves A+B YAML to `completed` + snapshot — Claude
+3. Confirm/close G1 narrative page — quick check
+4. Build J0 MCP server — Claude (unlocks J2–J5)
+5. Complete WC8-5b enhancement layer acceptance — Copilot
+6. Wire J2 Astro popovers to local server — Copilot (after J0)
+7. K6 Interest axis + voice exemplar fix — Claude
+8. WC2 → WC3 → WC4 — annotation engine → knowledge phase → curation UI
+9. Fix Ayyuhal Walad G2 gate + publish — first book in catalog
+10. H2 file splits (8 oversized files) — parallel with #7–8
+11. H3 wave chain driver — after H2
+12. WC8-5c host roles guardrail — pipeline side first
+13. WC8-7b video layer — last, needs authorization
+
+**What Copilot should do at next session start:**
+- `git pull --rebase` (Claude will land WC1 fix + YAML updates)
+- Verify WC8-5b enhancement layer acceptance criteria (build + `lint:views`)
+- Watch this log for J0 delivery — J2 Astro rewiring follows immediately
+
 ### 2026-05-30 — Claude session (Slice 7 + editorial fixes)
 
 **F2 CSS ticket (editorial display, Studio editor):** The `editorial_auditor.py` finds `H1_STAGE_LABEL` headings as the first line of every `_stages/<ch>/additions-narrator.md` file. These headings are pipeline metadata (e.g. `# Narrator additions — ch01-frame-and-first-counsel (Shaykh Abdullah Misra, attributed commentary)`) and clutter the Studio editor. The `apply_editorial_fixes.py` script removes them from the `additions-narrator-clean.md` output files, which is the version the editor should load. **Copilot action needed:** ensure the Studio stage viewer (`plan-dashboard/src/...`) loads `additions-narrator-clean.md` when it exists, falling back to `additions-narrator.md`. If no selector exists yet, add it in the stage file resolver function in `plan-dashboard/src/lib/reader/source-render.ts` or the equivalent. This is a 5-line change — check if `clean` file exists, use it. No CSS change needed.
