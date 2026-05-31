@@ -30,10 +30,10 @@ def _make_mirror(db_path: Path) -> sqlite3.Connection:
     )
     # Topics: 2 sample topics
     conn.executemany(
-        "INSERT INTO fts_topics VALUES (?,?,?,?,?,?,?)",
+        "INSERT INTO fts_topics VALUES (?,?,?,?,?,?,?,?)",
         [
-            (1, "التأويل", "Tawil", "Esoteric interpretation", "Binder 1", "Ch 1", "The inner meaning of revelation"),
-            (2, "الحقيقة", "Haqiqa", "Spiritual reality", "Binder 1", "Ch 2", "The ultimate truth beyond the apparent"),
+            (1, 0, "التأويل", "Tawil", "Esoteric interpretation", "Binder 1", "Ch 1", "The inner meaning of revelation"),
+            (2, 0, "الحقيقة", "Haqiqa", "Spiritual reality", "Binder 1", "Ch 2", "The ultimate truth beyond the apparent"),
         ],
     )
     # Sessions: 1 sample

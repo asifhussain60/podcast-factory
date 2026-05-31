@@ -20,10 +20,13 @@ from _rules import ALLOWED_CATEGORIES   # noqa: E402
 
 class ResolveBookPathTests(unittest.TestCase):
 
-    def test_books_resolves_flat(self):
+    def test_books_resolves_nested(self):
+        # Post-2026-05-26 restructure: books live at content/drafts/books/<slug>,
+        # not the legacy flat content/drafts/<slug>.
         p = ob._resolve_book_path("books", "the-master-and-the-disciple")
         self.assertEqual(p.name, "the-master-and-the-disciple")
-        self.assertEqual(p.parent.name, "drafts")
+        self.assertEqual(p.parent.name, "books")
+        self.assertEqual(p.parent.parent.name, "drafts")
 
     def test_articles_resolves_nested(self):
         p = ob._resolve_book_path("articles", "some-essay")
