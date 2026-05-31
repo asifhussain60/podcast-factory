@@ -6,11 +6,12 @@ source_pdf: ../../../raw/Ayyuhal Walad.pdf
 pipeline:
   current_phase: partial-pre-orchestrator
   phase_status: no_state_file
-  chapters_with_contracts: 5
-  chapters_drafted: 5
-  episodes_authored: 5
-  transcripts: 3
-  audits: 1  # audit-EP02-hatim-eight-benefits.md
+  chapters_with_contracts: 3
+  chapters_drafted: 3
+  episodes_authored: 3
+  transcripts: 0
+  audits: 0
+  structure: wc8-holistic-3-episode  # adopted 2026-05-31; 5-episode original in _archive/5-episode-original/
 
 publication:
   status: draft

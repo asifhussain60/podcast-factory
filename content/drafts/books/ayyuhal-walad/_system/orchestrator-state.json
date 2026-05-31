@@ -11,30 +11,61 @@
   "pipeline_mode": "pre_orchestrator_authored",
   "reconstruction_note": "This state file was reconstructed on 2026-05-24 to make ayyuhal-walad trackable by the post-2026-05-23 orchestrator. Ayyuhal-walad was authored before the orchestrator existed (5 chapters + 5 contracts + 5 episodes + 3 transcripts + 1 audit, all already in content/drafts/ayyuhal-walad/). No phase timestamps are fabricated — only `last_completed_phase: per-chapter` is asserted from the artifacts on disk. See meta.yml for the original pre-orchestrator provenance. Mode label `pre_orchestrator_authored` is distinct from `non_orchestrated_mode_2` (the latter denotes a deliberate bypass; this denotes pre-existence).",
   "phases": {
-    "pre-flight": {"status": "skipped_pre_orchestrator"},
-    "branch":     {"status": "skipped_pre_orchestrator"},
-    "scaffold":   {"status": "completed", "note": "Manually scaffolded pre-orchestrator; see meta.yml provenance."},
-    "0a":         {"status": "skipped_pre_orchestrator", "note": "Source ingest predates orchestrator. Raw PDF at _workspace/raw/Ayyuhal Walad.pdf."},
-    "0b":         {"status": "skipped_pre_orchestrator"},
-    "0c":         {"status": "skipped_pre_orchestrator", "note": "_phonetics not regenerated; pronunciation.md authored manually."},
-    "0d":         {"status": "completed", "note": "5 chapter contracts authored under chapter-contracts/."},
-    "0e":         {"status": "completed", "note": "Per-chapter enrichment captured in enrichment-log.md."},
-    "0f":         {"status": "completed", "note": "Series plan present; episode list locked at 5."},
-    "0g":         {"status": "skipped_pre_orchestrator"},
+    "pre-flight": {
+      "status": "skipped_pre_orchestrator"
+    },
+    "branch": {
+      "status": "skipped_pre_orchestrator"
+    },
+    "scaffold": {
+      "status": "completed",
+      "note": "Manually scaffolded pre-orchestrator; see meta.yml provenance."
+    },
+    "0a": {
+      "status": "skipped_pre_orchestrator",
+      "note": "Source ingest predates orchestrator. Raw PDF at _workspace/raw/Ayyuhal Walad.pdf."
+    },
+    "0b": {
+      "status": "skipped_pre_orchestrator"
+    },
+    "0c": {
+      "status": "skipped_pre_orchestrator",
+      "note": "_phonetics not regenerated; pronunciation.md authored manually."
+    },
+    "0d": {
+      "status": "completed",
+      "note": "5 chapter contracts authored under chapter-contracts/."
+    },
+    "0e": {
+      "status": "completed",
+      "note": "Per-chapter enrichment captured in enrichment-log.md."
+    },
+    "0f": {
+      "status": "completed",
+      "note": "Series plan present; episode list locked at 5."
+    },
+    "0g": {
+      "status": "skipped_pre_orchestrator"
+    },
     "per-chapter": {
       "status": "completed",
-      "completion_note": "5 episodes authored, 3 transcripts captured. Challenger run produced SHIP-READY verdict (see _system/challenger-report.md and _system/health-trend.md).",
+      "completion_note": "3 episodes authored (WC8 holistic structure, adopted 2026-05-31). 5-episode original archived under _archive/5-episode-original/.",
       "completed_slugs": [
-        "frame-and-first-counsel",
-        "hatim-eight-benefits",
-        "the-path",
-        "four-cautions",
-        "method-and-closing-prayer"
+        "frame-and-the-problem-of-knowledge",
+        "the-disciplines-of-the-path",
+        "the-guiding-shaykh-and-final-counsels"
       ]
     },
-    "trainer": {"status": "skipped_pre_orchestrator"},
-    "merge":   {"status": "skipped_pre_orchestrator", "note": "Pre-orchestrator authoring committed directly to develop; no book branch existed."},
-    "done":    {"status": "completed"}
+    "trainer": {
+      "status": "skipped_pre_orchestrator"
+    },
+    "merge": {
+      "status": "skipped_pre_orchestrator",
+      "note": "Pre-orchestrator authoring committed directly to develop; no book branch existed."
+    },
+    "done": {
+      "status": "completed"
+    }
   },
   "cost": {
     "azure_usd": 0.0,
@@ -52,5 +83,6 @@
     "the-path",
     "four-cautions",
     "method-and-closing-prayer"
-  ]
+  ],
+  "structure": "wc8-holistic-3-episode"
 }
