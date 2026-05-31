@@ -1,0 +1,108 @@
+---
+import Base from '../layouts/Base.astro';
+import CorpusExplorer from '../components/corpus-mock/CorpusExplorer.tsx';
+import {
+  SCHEMA_GROUPS, CORPORA, TRADITIONS, CORPUS_TOTALS,
+} from '../data/corpus-mock-sample';
+import '../styles/corpus-mock.css';
+
+const byType = CORPUS_TOTALS.byType;
+const typeKeys = Object.keys(byType) as (keyof typeof byType)[];
+---
+<Base
+  title="Corpus Mock — Consolidated knowledge.db"
+  active="intelligence"
+  section="architecture"
+  description="MOCK: what the consolidated wisdom corpus (knowledge.db) looks like after the WC1 mirror-primary import, plus a faceted search + atom-augmentation UX to review before applying to the live DB.">
+
+<div class="cm">
+  <header class="cm-hero">
+    <span class="eyebrow">Architecture · Intelligence · WC1 review</span>
+    <h1>Consolidated Wisdom Corpus — data &amp; query mock</h1>
+    <p class="lede">
+      What <code>knowledge.db</code> looks like after the three source databases (KQUR · KASHKOLE · KSESSIONS)
+      are folded into one tradition-stamped corpus — and how you'll search it and pick atoms to augment a chapter.
+      Review the shape here and flag deviations <strong>before</strong> we apply to the live database.
+    </p>
+    <span class="cm-mockflag">● MOCK — hardcoded sample · live apply held for review · numbers are the verified temp-apply result</span>
+  </header>
+
+  <!-- ============ CONSOLIDATED TOTALS ============ -->
+  <section class="cm-section">
+    <h2>What consolidation produces</h2>
+    <p class="sub">Verified by a temp-copy apply of the WC1 importers — additive over the existing 696 atoms, fully idempotent.</p>
+    <div class="cm-stats">
+      <div class="cm-stat"><div class="n">{CORPUS_TOTALS.atoms.toLocaleString()}</div><div class="k">atoms (was 696)</div></div>
+      <div class="cm-stat"><div class="n">{CORPUS_TOTALS.externalCorpora}</div><div class="k">external corpora</div></div>
+      <div class="cm-stat"><div class="n">{CORPUS_TOTALS.corpusChapters}</div><div class="k">corpus chapters</div></div>
+      <div class="cm-stat"><div class="n">3</div><div class="k">traditions (firewalled)</div></div>
+    </div>
+    <div class="cm-stats">
+      {typeKeys.map((t) => (
+        <div class="cm-stat">
+          <div class="n"><span class={`cm-badge type-${t}`}>{t}</span></div>
+          <div class="k tight">{byType[t].toLocaleString()} atoms</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ============ SOURCE → CORPUS REGISTRY ============ -->
+  <section class="cm-section">
+    <h2>Source corpora (external_corpora)</h2>
+    <p class="sub">Each of the three databases becomes a registered corpus; the wisdom binder pipeline already seeded the 628 doctrine atoms.</p>
+    <div class="cm-grouprow">
+      {CORPORA.map((c) => (
+        <div class="cm-group">
+          <h3>{c.display_name}</h3>
+          <div class="cm-tablecard">
+            <div class="tn">{c.id}<span class="rows">{c.atom_count.toLocaleString()} atoms</span></div>
+            <div class="tp">type: {c.corpus_type}</div>
+            <div class="tc">source: {c.source}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ============ TRADITION FIREWALL ============ -->
+  <section class="cm-section">
+    <h2>Tradition firewall (D5)</h2>
+    <p class="sub">Every atom carries a tradition; injection is tradition-filtered so nothing leaks across traditions.</p>
+    <div class="cm-legend">
+      {TRADITIONS.map((t) => (
+        <div class={`cm-trad ${t.id}`}>
+          <div class="tt">{t.label}</div>
+          <div class="td">{t.note}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ============ SCHEMA MODEL ============ -->
+  <section class="cm-section">
+    <h2>The model in knowledge.db</h2>
+    <p class="sub">The corpus lives in the existing scaffolded tables — no new database file. Row counts are the post-consolidation totals.</p>
+    <div class="cm-grouprow">
+      {SCHEMA_GROUPS.map((g) => (
+        <div class={`cm-group ${g.accent}`}>
+          <h3>{g.group}</h3>
+          <div class="cm-table">
+            {g.tables.map((tbl) => (
+              <div class="cm-tablecard">
+                <div class="tn">{tbl.name}<span class="rows">{typeof tbl.rows === 'number' ? tbl.rows.toLocaleString() : tbl.rows} rows</span></div>
+                <div class="tp">{tbl.purpose}</div>
+                <div class="tc">{tbl.cols}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ============ INTERACTIVE: SEARCH + AUGMENT ============ -->
+  <CorpusExplorer client:only="react" />
+</div>
+
+</Base>

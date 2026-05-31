@@ -265,6 +265,28 @@ git pull --rebase origin book/ayyuhal-walad    # sync before work + before push
 Append a dated entry at the end of every session (newest at top): what changed, what's next,
 what's blocked. This is your across-session memory.
 
+### 2026-05-31 — Claude session (WC1 consolidation + corpus mock) — CROSS-LANE NOTICE
+
+**Heads-up for Copilot: Claude touched `plan-dashboard/**` this session** (normally your lane), at
+Asif's direct request, for a schema-validation MOCK tied to the WC1 corpus consolidation. New files,
+all additive — no edits to your existing components/pages, so a `git pull --rebase origin develop`
+should be conflict-free:
+- `src/pages/corpus-mock.astro`, `src/components/corpus-mock/CorpusExplorer.tsx`,
+  `src/data/corpus-mock-sample.ts`, `src/styles/corpus-mock.css` — the `/corpus-mock` review page.
+- **`package.json` + `package-lock.json`: added `@orama/orama` ^3.1.18** (in-memory full-text + facets
+  for the corpus search mock). Run `npm install` after you pull.
+- Cortex-clean: `lint:views` errors=0, `npm run build` green, Playwright smoke green (Orama runs in-browser, no console errors).
+
+These mock files are **schema-coupled to the consolidation (Claude's lane for this episode)** — if you
+want to evolve `/corpus-mock` into the real Wisdom Corpus view (WC4), coordinate here first; don't
+restyle them mid-consolidation. The DB-coupled 🔴 list in the parallel-work split above still holds.
+
+**Pipeline side (Claude's lane, FYI):** WC1 mirror-primary importers shipped on develop
+(`scripts/podcast/intelligence/ingest_{kqur,kashkole,ksessions_dump}.py` + `_mirror_corpus.py`,
+registered in `populate_corpus.SOURCES`). Verified on a temp DB copy: atoms 696→7036, tradition
+7036/7036, idempotent, existing preserved. **Live `knowledge.db` apply is HELD pending Asif's review
+of the mock.** PyYAML installed into `.venv`.
+
 ### 2026-05-31 — Copilot session #3 (UI/UX handoff brief for external redesign AI)
 
 **Purpose:** Asif asked for a holistic review of current develop-history direction, the in-motion plan, the Podcast Factory Astro Site, the Studio proof of concept, the real Studio shell, and the knowledge-driven future state so an external AI could be briefed for a serious redesign recommendation.

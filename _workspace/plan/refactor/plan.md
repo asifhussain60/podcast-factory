@@ -763,12 +763,16 @@ All new code: TypeScript fully typed (no `any`), Python with PEP 484 hints, no h
 > Bring the three source databases into the wisdom corpus that already exists (`knowledge.db`): import the two finished sources once, keep the live sessions source synced by dropping a refreshed dump, and deduplicate aggressively so the 40%+ overlap collapses into one canonical copy per teaching. Keep the already-polished English untouched (never re-translate), and stamp every record with its tradition so nothing leaks across traditions.
 >
 > *Value gained:* One clean, deduplicated, tradition-aware corpus replaces three overlapping app databases — no duplication, no Docker, portable on any machine.
+>
+> **Mirror-primary build authorized 2026-05-31 (Asif).** The 2026-05-29 plan deferred the per-source importers because the source DBs weren't on disk. They effectively are now: `content/knowledge-base/mirror.db` (the FTS5 mirror of KQUR/KASHKOLE/KSESSIONS) holds quran (6236), topics (1347), sessions (606), hadith (47) and a term index (58), plus `KSESSIONS.sql` sits in `_workspace/`. So the importers are un-deferred and built **mirror-primary (no Docker)**, additive and idempotent against the existing 696 atoms. KASHKOLE's Urdu topics are NOT re-translated (D8); the polished-English teachings already live as the 628 doctrine atoms. Full detail: `plan.yaml` → `wisdom_corpus_program.waves[WC1].update_2026_05_31_mirror_primary`.
 
 ### 2. Turn the blackbox into the annotation engine
 
 > Add a classify capability to the blackbox, build a fast in-database lookup index, and re-point the reader's popovers off the public web onto the corpus. Verified Quran/hadith/term/topic references render as markers directly in the chapter editor, where Asif can see and comment on them; the corpus is the sole authority and unverifiable spans are shown as unverified rather than guessed.
 >
 > *Value gained:* Deterministic, corpus-verified visual differentiation in the reader/editor — no live regex or LLM guessing, no reliance on outside sources.
+>
+> **Concept-first retrieval — the "Concept Lens" (D19, chosen 2026-05-31).** Reviewing the `/corpus-mock` page, Asif rejected searching by source coordinate (Q 1:2 is meaningless to a reader) in favour of searching by an English-**meaningful concept** (mercy/raḥma, worship/ʿibāda, knowledge/ʿilm). Selecting a concept aggregates every related verse, hadith, term, etymology, and teaching together — grouped by source, collapsible with counts, unified by the Arabic root, and refine-able by source/tradition — so the 7k-atom volume stays calm. WC2's lookup index must therefore derive a **concept layer** (concept = label + Arabic + root + synonyms + definition, keyed by root, seeded from topic tags + term/etymology roots), not just a flat atom FTS. UX proven in `/corpus-mock`; backing index spec in `plan.yaml` → `wisdom_corpus_program.waves[WC2]`.
 
 ### 3. Wire one lean knowledge step into book processing
 

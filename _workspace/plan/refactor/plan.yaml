@@ -2991,6 +2991,7 @@ wisdom_corpus_program:
     - {ref: D16, decision: "Wisdom corpus IS knowledge.db (extend existing scaffolded tables), NOT a new separate file. Revises D2/D4 wording."}
     - {ref: D17, decision: "KSESSIONS sync = dump-based idempotent re-ingest (Asif drops refreshed dump; dedup on re-run). No live connection/credentials."}
     - {ref: D18, decision: "This plan absorbs prior audio-intake/translation/review-gate/Gemini ('Wave I') decisions as their own wave. Closes audit G1."}
+    - {ref: D19, decision: "CONCEPT-FIRST retrieval (the 'Concept Lens', chosen by Asif 2026-05-31 after reviewing /corpus-mock). The searchable/selectable unit is an English-MEANINGFUL concept (mercy/raḥma, worship/ʿibāda, knowledge/ʿilm), NOT a source coordinate (Q 2:255). A concept = {English label, Arabic, transliteration, Arabic root, synonyms, definition} and aggregates evidence across ALL sources, grouped by source type, collapsible with counts. The Arabic root is the cross-source spine that unifies a concept's verses/hadith/terms/etymology. Atoms render English-meaning-first; the coordinate is a chip. Volume is controlled by concept-first entry + per-source collapse, NOT by paging a flat 7k-atom list. This supersedes the flat faceted-list UX in the first mock and sets the retrieval contract for WC2 (verify_and_classify + lookup index) and WC4 (Wisdom Corpus view)."}
   waves:
     - id: WC1
       name: Corpus population
@@ -3008,6 +3009,32 @@ wisdom_corpus_program:
         deferred_until_sources:
           - "ingest_kqur.py (Quran), ingest_kashkole.py (scholarly, no-retranslate D8/D6), ingest_ksessions_dump.py (D17 idempotent dump path)."
           - "Cross-source 40% overlap collapse (the main dedup payoff) — provable only once a 2nd source lands."
+      update_2026_05_31_mirror_primary:
+        authorized_by: asif
+        authorized_in_session: "2026-05-31 — Asif chose 'Mirror-primary (no Docker)' when asked how to build the corpus; parallel-work split (develop=this, ui/site-enhancements=CSS/UX)."
+        trigger: >
+          The 2026-05-29 'sources not on disk → defer importers' premise no longer holds. mirror.db is now
+          on disk (content/knowledge-base/mirror.db, 30MB FTS5 mirror of KQUR/KASHKOLE/KSESSIONS built earlier
+          by source_library_mirror.py): fts_quran 6236, fts_topics 1347, fts_sessions 606, fts_hadith 47,
+          term_index 58. KSESSIONS.sql (29MB) also present in _workspace/ for the D17 full-fidelity path later.
+        decision: >
+          Un-defer the per-source importers and build them MIRROR-PRIMARY — read content/knowledge-base/mirror.db,
+          no Docker — consistent with the machine-agnostic mandate (CLAUDE.md) and the J-wave mirror-primary
+          architecture (source_library_queries.py). Docker/SQL-Server full-fidelity re-extract stays available as
+          a later backfill but is NOT required for this increment.
+        scope:
+          - "Mirror-primary ingest mappers (English present → no translation): term_index → atoms(term); fts_quran → external_corpora(quran)+corpus_chapters(114 surahs)+atoms(quran); fts_hadith → external_corpora(hadith)+atoms(hadith)."
+          - "fts_topics (KASHKOLE, Urdu, name_en empty): NOT re-translated (D8 HARD). Registered as corpus_chapters reference only — the polished-English subset already lives as the 628 doctrine atoms from the wisdom-binder pipeline; no new doctrine atoms minted from raw Urdu."
+          - "fts_sessions (KSESSIONS, English): doctrine/citation atom candidates run through the D7 tiered-dedup engine vs existing doctrine atoms — HIGH → atoms_variants (non-destructive), BORDERLINE → manual_review_queue. No destructive auto-merge (deferred to WC4 curation view)."
+          - "Tradition auto-stamp (D5): quran/hadith → universal; terms → term_index.tradition; sessions → fatimid-ismaili."
+          - "All importers additive + idempotent (upsert by canonical id + content-hash dedup); --dry-run default, --apply to write; NEVER DELETE the existing 696 atoms; updates external_corpora.atom_count + last_synced; emits an acceptance report."
+        verified_2026_05_31:
+          - "atoms.tradition COLUMN already clean (628 fatimid-ismaili / 33 ismaili / 35 universal; zero timestamps) — the 2026-05-29 tradition-fix increment is already satisfied; no re-fix needed (supersedes the WC1 side-finding in copilot-handoff session log)."
+          - "external_corpora has 1 row (wisdom/Kashkole Corpus/628); corpus_chapters has 75 wisdom-chapter rows (the 2026-05-29 'EMPTY' ground-truth is now stale). Temp-copy apply verified: atoms 696→7036, corpora 1→4, corpus_chapters 75→371, tradition 7036/7036, idempotent re-run = 0 new rows, existing 696 preserved."
+      mock_review_2026_05_31:
+        status: "Importers BUILT + committed on develop (feat(WC1) d0069aee). Live knowledge.db apply HELD — awaiting Asif's explicit Tier-2 go-ahead (auto-mode classifier correctly blocked an unattended apply 2026-05-31)."
+        review_artifact: "/corpus-mock page (plan-dashboard) — hardcoded review mock of the consolidated data model + concept-first search + atom-augmentation UX. Verified by temp-copy apply; numbers are real."
+        outcome: "Asif chose the Concept Lens (D19). The atom DATA MODEL (quran-as-6236-atoms, terms, hadith additive, sessions=chapters-only, tradition firewall) was reviewed via the mock; no model change requested yet. Pending the live apply, then WC2 builds the real concept index per D19."
       key_steps:
         - "Ingest mappers: KASHKOLE topics -> external_corpora(scholarly)+corpus_chapters; KQUR Quran/hadith -> external_corpora(quran/hadith); teaching/sessions -> atoms(doctrine/term/citation)."
         - "Tiered dedup (D7) across + within sources; canonical-selection + reference links; borderline -> manual_review_queue."
@@ -3024,11 +3051,14 @@ wisdom_corpus_program:
       authorization: tier_two
       cost_estimate_usd: low
       key_steps:
-        - "Add verify_and_classify(span,context) 7th blackbox tool; build SQLite FTS/lookup index (D13)."
+        - "Concept index (D19, foundation): build a derived `concepts` layer over atoms — concept = {label_en, arabic, translit, root, synonyms[], definition} keyed primarily by the Arabic ROOT (the cross-source spine) and seeded from atom_topic_tags + term/etymology roots. Materialise as a table (concepts + concept_atoms join) or a rebuilt index JSON; concept membership = atoms sharing a root and/or a topic tag. Deterministic, rebuilt on Librarian run. This is what makes 'search a meaning, get all sources' work at 7k+ scale."
+        - "verify_and_classify(span,context) 7th blackbox tool resolves a span to a CONCEPT first, then its atoms (D13 + D19); build SQLite FTS/lookup index."
         - "Re-point QuranPopover/TermPopover off quran.com/Gemini to corpus (D13)."
         - "Sidecar annotation format + render in ChapterEditor with per-type visual treatment (D10)."
         - "Interpretive-tag suggestion surface (suggest-only, accept-to-apply) (D12)."
+      design_reference: "Concept Lens UX proven in /corpus-mock (plan-dashboard, 2026-05-31): concept search -> cross-source evidence grouped + collapsible, English-meaning-first, root-linked, refine-within-concept. WC2 builds the real backing index; WC4 surfaces curation over it."
       acceptance:
+        - "Concept index: 'mercy' (or root ر-ح-م) returns its Quran + hadith + term + etymology + doctrine atoms across sources; counts per source; tradition-filterable."
         - "Popovers resolve from corpus; unverifiable spans render verified:false (no public fallback)."
         - "Reference markers visible in editor; reuse paragraph_annotations/annotation_tags."
     - id: WC3
