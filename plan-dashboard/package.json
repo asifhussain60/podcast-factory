@@ -18,8 +18,8 @@
     "lint:views:strict": "node scripts/lint-html-views.mjs --strict"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/node": "^9.1.3",
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/node": "^10.1.2",
     "@astrojs/react": "^4.2.0",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
@@ -35,7 +35,7 @@
     "@tiptap/pm": "^3.23.6",
     "@tiptap/react": "^3.23.6",
     "@tiptap/starter-kit": "^3.23.6",
-    "astro": "^5.2.5",
+    "astro": "^6.4.2",
     "better-sqlite3": "^12.10.0",
     "cmdk": "^1.1.1",
     "d3": "^7.9.0",
@@ -46,7 +46,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwindcss": "^4.0.6",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vite": "^7.3.3"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",

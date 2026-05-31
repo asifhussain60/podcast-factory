@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.journal.podcast-w1</string>
+    <string>com.podcast-factory.pipeline-w1</string>
 
     <!--
         Walk-away mode for podcast pipeline Wave 1.
@@ -22,15 +22,15 @@
         halted until the operator addresses the gate.
 
         Install:
-            cp infra/launchd/com.journal.podcast-w1.plist \
+            cp infra/launchd/com.podcast-factory.pipeline-w1.plist \
                ~/Library/LaunchAgents/
-            launchctl load ~/Library/LaunchAgents/com.journal.podcast-w1.plist
+            launchctl load ~/Library/LaunchAgents/com.podcast-factory.pipeline-w1.plist
 
         Pause:
-            launchctl unload ~/Library/LaunchAgents/com.journal.podcast-w1.plist
+            launchctl unload ~/Library/LaunchAgents/com.podcast-factory.pipeline-w1.plist
 
         Fire once on demand:
-            launchctl start com.journal.podcast-w1
+            launchctl start com.podcast-factory.pipeline-w1
 
         Tail the log:
             tail -F ~/Library/Logs/podcast-w1.log
