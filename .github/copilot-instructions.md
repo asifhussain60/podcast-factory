@@ -1,25 +1,23 @@
-# Copilot instructions for the `podcast-factory` repo
+# Agent instructions for the `podcast-factory` repo
 
-GitHub Copilot auto-loads this file as project-wide guidance. Read it at the start of every Copilot Chat session. The companion deep brief is at [_workspace/plan/copilot-handoff.md](../_workspace/plan/copilot-handoff.md) — open and read it before touching anything; it carries the live execution state and the session log Copilot must append to before ending each session.
+This file is auto-loaded by GitHub Copilot Chat. The same instructions in `CLAUDE.md` apply to Claude Code / Claude Cowork / any other LLM driver. The companion live-state brief is at [_workspace/plan/copilot-handoff.md](../_workspace/plan/copilot-handoff.md) — open and read it before any substantive work; it carries the current execution state and the session log you must append to before ending the session.
 
 ---
 
-## Two-agent model — YOU (Copilot) + Claude Code, in parallel (LOCKED 2026-05-30)
+## LLM-agnostic operating model (LOCKED 2026-05-31)
 
-This repo is worked by two agents at once. The split is **by directory** — stay in your lane and we never collide. (A regression audit on 2026-05-30 confirmed the boundary is safe *only if these rules hold*.)
+This repo is **driver-agnostic**. Any LLM framework (Copilot, Claude Code, Cowork, future tools) operates under the same rules. There is **no directory ownership boundary** between agents — whichever agent is running can edit any file in the repo, Python or TypeScript or YAML, subject only to the Tier-2 list below and the quality gates.
 
-**You (Copilot) own `plan-dashboard/**`** — the Astro site: React/TSX, TipTap, CSS, the editorial cockpit, the New-Content intake page, the editor enhancement layer. `npm run dev` is your inner loop.
+**Core anti-regression rules — applied by whoever is at the keyboard:**
 
-**Claude owns everything else** — `scripts/podcast/**` (the Python pipeline), all prompts, `_rules.py`/`_doctrinal.py`, the `infra/claude-agents/*.md` specs, `docs/standards/*.md`, the plan (`_workspace/plan/refactor/plan.{yaml,md}`), and the three `plan-dashboard/src/data/*-snapshot.json` files.
+1. **Edit any file you need to** — Python pipeline, plan files, agent specs, dashboard components, snapshots. The 2026-05-30 lane boundary is retired; the new contract is quality-gate-based, not directory-based.
+2. **After any edit to `_workspace/plan/architecture.md`, `_workspace/plan/refactor/plan.{md,yaml}`, or `_workspace/plan/debt/pipeline-debt.md`** → run `cd plan-dashboard && npm run snapshot` in the same response, before commit. Stage the regenerated `plan-dashboard/src/data/*.json` alongside the plan edit. Stale snapshots are a contract violation.
+3. **Before any commit that touches an Astro page or view component** → run `cd plan-dashboard && npm run lint:views`. Errors block the commit; warnings are advisory.
+4. **TS↔Python mirror files** — `plan-dashboard/src/lib/content-paths.ts` ↔ `scripts/podcast/_paths.py`, and `peq-scores.ts` ↔ `_quality.py` + `challenger_scoring.py`. When you change one side, update the other in the same commit.
+5. **`git pull --rebase` before starting work and before pushing** — other agents (or other sessions of the same agent) may have committed in parallel.
+6. **The `_system/` JSON files are the editor↔pipeline API.** Schema lives in `plan-dashboard/src/types/editorial.ts` and `stage-review.ts`. Either side can evolve the schema; both sides must be updated atomically in the same commit, with a one-line schema-bump note in the commit message.
 
-**Hard rules (the anti-regression contract):**
-1. **Do NOT edit Python, prompts, `_rules.py`, agent specs, the plan, or the snapshot JSONs.** They carry doctrinal + convergence-loop context you don't have, and the snapshot-regen hook does not fire for you — a plan edit by you leaves snapshots stale (a contract violation). If you think one is wrong, write it in your session log.
-2. **Run `npm run lint:views` before any commit that touches a view** — there is no git pre-commit hook in this clone and Claude's hooks (Cortex reminder, ui-reviewer, snapshot-regen) do NOT fire for you, so the gate is manual and on you.
-3. **The `_system/` JSON files are the editor↔pipeline API; Claude owns their schema.** Consume `editorial.ts` / `stage-review.ts` shapes — never fork a schema. Need a new field? Note it in the session log for Claude.
-4. **TS↔Python mirror files are a shared seam** — `src/lib/content-paths.ts`↔`_paths.py`, `peq-scores.ts`↔`_quality.py`+`challenger_scoring.py`. If you touch a mirror, say so in the log; never let it diverge from its Python source.
-5. **`git pull --rebase` before you start and before you push** — Claude commits pipeline work in parallel on the same branch.
-
-Coordination is async through `_workspace/plan/copilot-handoff.md`: Claude writes your tickets there; you read at session start and append a session log at the end. Claude's mirror of these rules is in `CLAUDE.md` (the "Two-agent operating model" standing rule).
+The session log at the bottom of [copilot-handoff.md](../_workspace/plan/copilot-handoff.md) is the **across-session, across-agent memory**. Append a dated entry at the end of every session noting what changed, what's next, what's blocked.
 
 ---
 
@@ -90,41 +88,42 @@ Hard rules:
 - One horizontal rule, between the topical section and Next.
 - Recommended is always A. When B/C/D are complementary follow-ups that compose without regression risk, A is **"Do all of the below in sequence — B then C then D"** with one why-batching line.
 - Holistic selection: score every option against (1) project health, (2) architectural fit, (3) extensibility, (4) regression risk. **Always recommend the most thorough and architecturally complete approach as option A — never recommend a scoped-down or superficial alternative as the default unless the user explicitly requests a smaller scope.** Reduced regression risk justifies removing an option that would destabilize working code; it never justifies downgrading a thorough root fix to a partial symptom patch. REMOVE (don't demote) any option that destabilizes what's working.
-- Execution gate: no pipeline work, code change, or new feature executes without (1) a corresponding entry added to plan.md + plan.yaml, (2) `npm run snapshot` run to regenerate plan-dashboard views, and (3) Asif's explicit approval. This gate is non-negotiable regardless of authorization tier.
 
 Severity emojis when they add signal: 🟢 / 🟡 / 🔴 / ⚠. Optional, not mandatory.
+
+**Plan-tracking discipline (not an execution gate):** When you ship a new step (a wave/slice marker, a new pipeline phase, a new feature surface), update `plan.yaml` and `plan.md` in the same commit and regenerate snapshots. For small bug fixes, refactors, and verification work that fits inside an existing plan entry, just do the work and note it in the commit + session log — no plan entry needed first. The plan tracks what shipped, not what's about to ship.
 
 ---
 
 ## Authorization tiers
 
-Default discipline: "ask before each shared-state action." Three tiers govern relaxations:
+Default discipline: **bias to action on reversible work, ask only for genuinely destructive or expensive actions.**
 
-**Tier 0 — Just do it.**
-- File reads anywhere in this repo or the sibling `journal` repo
-- `git status`, `git diff`, `git log`, `gh pr view/list`
-- Dry-run inspection (`--dry-run`, `jq` over state files)
-- Spawning research-only investigation
-- Re-arming the heartbeat monitor after orchestrator resume/retry
+**Tier 0 — Just do it (no announcement needed).**
+- All file reads, `git status`/`diff`/`log`, dry-runs, `jq` inspection
+- Code edits anywhere in the repo (Python, TypeScript, YAML, markdown, configs)
+- Running tests (`unittest discover`, `npm run build`, `lint:views`)
+- Editing plan files + regenerating snapshots (run `npm run snapshot` in the same response)
+- Editing agent specs in `.github/agents/` or `infra/claude-agents/`
+- Spawning research-only subagents
 
-**Tier 1 — Do, then surface.**
+**Tier 1 — Do, then surface in the response.**
 - Commit to `develop`
 - Push `develop` to `origin`
-- `--retry-phase <phase>` on a book
-- Regenerating auto-generated state files
-- Plan-dashboard snapshot regen (mandatory side-effect of any canonical-plan-file edit)
+- `--retry-phase <phase>` on a book (recovering from stale `phase_status`)
+- Regenerating auto-generated state files (challenger reports, mangle maps, etc.)
 
-**Tier 2 — Always ask. One-line ask + single-sentence Next.**
+**Tier 2 — Always ask. One-line ask + single-sentence recommendation.**
 - First-time orchestrator launch on a new book (multi-hour LLM spend)
-- `publish_to_library.py <slug>` — copying from drafts to published
-- Opening / merging a `develop` → `main` PR
+- `publish_to_library.py <slug>` — copying from drafts to the audience-facing catalog
+- Opening / merging a `develop` → `main` PR (production release)
 - Force-push (any branch)
 - Deleting branches or tracked files
 - `--no-verify`, `--amend`, `git reset --hard`, `git clean -f`
 - Recreating retired surfaces (`server/`, `wrangler.toml`, `infra/cloudflare/`)
-- Reaching into the sibling `journal` repo
+- Reaching into the sibling `journal` repo's paths or scripts
 
-If Asif says "just do it" for a Tier 2 action, that one-shot authorizes that one action. It does NOT promote the action to Tier 1 for future sessions.
+If the user says "just do it" for a Tier 2 action, that one-shot authorizes that one action. It does NOT promote the action to Tier 1 for future sessions.
 
 ---
 
