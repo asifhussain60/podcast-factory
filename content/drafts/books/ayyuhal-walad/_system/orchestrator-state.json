@@ -8,7 +8,7 @@
   "last_completed_phase": "per-chapter",
   "next_phase": null,
   "last_error": null,
-  "pipeline_mode": "pre_orchestrator_authored",
+  "pipeline_mode": "orchestrated",
   "reconstruction_note": "This state file was reconstructed on 2026-05-24 to make ayyuhal-walad trackable by the post-2026-05-23 orchestrator. Ayyuhal-walad was authored before the orchestrator existed (5 chapters + 5 contracts + 5 episodes + 3 transcripts + 1 audit, all already in content/drafts/ayyuhal-walad/). No phase timestamps are fabricated — only `last_completed_phase: per-chapter` is asserted from the artifacts on disk. See meta.yml for the original pre-orchestrator provenance. Mode label `pre_orchestrator_authored` is distinct from `non_orchestrated_mode_2` (the latter denotes a deliberate bypass; this denotes pre-existence).",
   "phases": {
     "pre-flight": {
@@ -84,5 +84,6 @@
     "four-cautions",
     "method-and-closing-prayer"
   ],
-  "structure": "wc8-holistic-3-episode"
+  "structure": "wc8-holistic-3-episode",
+  "convergence_provenance": "Challenger convergence ran via the podcast-challenger agent on 2026-05-31 over the canonical WC8 3-episode set; verdict SHIP-WITH-CAUTION, health 0.92, P0=0 (see _system/challenger-report.md). pipeline_mode stamped orchestrated to reflect that a real convergence loop ran (the field is operator-managed; no pipeline code writes it). Authorized by Asif."
 }
