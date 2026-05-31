@@ -25,12 +25,23 @@ if str(_SCRIPTS) not in sys.path:
 
 from _db import get_connection, run_migrations
 
-from intelligence import dedup_corpus, wisdom_ingest_knowledge
+from intelligence import (
+    dedup_corpus,
+    ingest_kashkole,
+    ingest_kqur,
+    ingest_ksessions_dump,
+    wisdom_ingest_knowledge,
+)
 
 # Source importers, in run order. Each is (label, callable -> ingest summary).
-# Add ingest_kqur / ingest_kashkole / ingest_ksessions_dump here when built.
+# WC1 update_2026_05_31_mirror_primary: the KQUR/KASHKOLE/KSESSIONS importers are
+# now wired — they read content/knowledge-base/mirror.db (no Docker). Dedup +
+# acceptance run unchanged over the combined corpus.
 SOURCES = [
     ("wisdom (teaching material)", lambda dry: wisdom_ingest_knowledge.ingest_all(dry_run=dry)),
+    ("KQUR (Quran + terms)",       lambda dry: ingest_kqur.ingest_all(dry_run=dry)),
+    ("KASHKOLE (terms + hadith)",  lambda dry: ingest_kashkole.ingest_all(dry_run=dry)),
+    ("KSESSIONS (transcripts)",    lambda dry: ingest_ksessions_dump.ingest_all(dry_run=dry)),
 ]
 
 

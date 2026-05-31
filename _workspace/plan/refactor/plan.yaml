@@ -3008,6 +3008,28 @@ wisdom_corpus_program:
         deferred_until_sources:
           - "ingest_kqur.py (Quran), ingest_kashkole.py (scholarly, no-retranslate D8/D6), ingest_ksessions_dump.py (D17 idempotent dump path)."
           - "Cross-source 40% overlap collapse (the main dedup payoff) — provable only once a 2nd source lands."
+      update_2026_05_31_mirror_primary:
+        authorized_by: asif
+        authorized_in_session: "2026-05-31 — Asif chose 'Mirror-primary (no Docker)' when asked how to build the corpus; parallel-work split (develop=this, ui/site-enhancements=CSS/UX)."
+        trigger: >
+          The 2026-05-29 'sources not on disk → defer importers' premise no longer holds. mirror.db is now
+          on disk (content/knowledge-base/mirror.db, 30MB FTS5 mirror of KQUR/KASHKOLE/KSESSIONS built earlier
+          by source_library_mirror.py): fts_quran 6236, fts_topics 1347, fts_sessions 606, fts_hadith 47,
+          term_index 58. KSESSIONS.sql (29MB) also present in _workspace/ for the D17 full-fidelity path later.
+        decision: >
+          Un-defer the per-source importers and build them MIRROR-PRIMARY — read content/knowledge-base/mirror.db,
+          no Docker — consistent with the machine-agnostic mandate (CLAUDE.md) and the J-wave mirror-primary
+          architecture (source_library_queries.py). Docker/SQL-Server full-fidelity re-extract stays available as
+          a later backfill but is NOT required for this increment.
+        scope:
+          - "Mirror-primary ingest mappers (English present → no translation): term_index → atoms(term); fts_quran → external_corpora(quran)+corpus_chapters(114 surahs)+atoms(quran); fts_hadith → external_corpora(hadith)+atoms(hadith)."
+          - "fts_topics (KASHKOLE, Urdu, name_en empty): NOT re-translated (D8 HARD). Registered as corpus_chapters reference only — the polished-English subset already lives as the 628 doctrine atoms from the wisdom-binder pipeline; no new doctrine atoms minted from raw Urdu."
+          - "fts_sessions (KSESSIONS, English): doctrine/citation atom candidates run through the D7 tiered-dedup engine vs existing doctrine atoms — HIGH → atoms_variants (non-destructive), BORDERLINE → manual_review_queue. No destructive auto-merge (deferred to WC4 curation view)."
+          - "Tradition auto-stamp (D5): quran/hadith → universal; terms → term_index.tradition; sessions → fatimid-ismaili."
+          - "All importers additive + idempotent (upsert by canonical id + content-hash dedup); --dry-run default, --apply to write; NEVER DELETE the existing 696 atoms; updates external_corpora.atom_count + last_synced; emits an acceptance report."
+        verified_2026_05_31:
+          - "atoms.tradition COLUMN already clean (628 fatimid-ismaili / 33 ismaili / 35 universal; zero timestamps) — the 2026-05-29 tradition-fix increment is already satisfied; no re-fix needed (supersedes the WC1 side-finding in copilot-handoff session log)."
+          - "external_corpora has 1 row (wisdom/Kashkole Corpus/628); corpus_chapters has 75 wisdom-chapter rows (the 2026-05-29 'EMPTY' ground-truth is now stale). Temp-copy apply verified: atoms 696→7036, corpora 1→4, corpus_chapters 75→371, tradition 7036/7036, idempotent re-run = 0 new rows, existing 696 preserved."
       key_steps:
         - "Ingest mappers: KASHKOLE topics -> external_corpora(scholarly)+corpus_chapters; KQUR Quran/hadith -> external_corpora(quran/hadith); teaching/sessions -> atoms(doctrine/term/citation)."
         - "Tiered dedup (D7) across + within sources; canonical-selection + reference links; borderline -> manual_review_queue."

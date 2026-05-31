@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-31T09:16:02.308Z",
-  "source_commit": "16c220a",
+  "generated_at": "2026-05-31T09:35:10.359Z",
+  "source_commit": "2d4a83d5",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,53 +819,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "16c220a",
+      "sha": "2d4a83d5",
+      "subject": "docs(coord): two-branch split — develop=DB consolidation, ui/site-enhancements=CSS/UX",
+      "date": "2026-05-31"
+    },
+    {
+      "sha": "3ddcbaa6",
+      "subject": "chore(handoff): execution status snapshot for cross-machine resume",
+      "date": "2026-05-31"
+    },
+    {
+      "sha": "279a21e4",
+      "subject": "plan(2026-05-31): mark Waves A, B, G completed per audit findings",
+      "date": "2026-05-31"
+    },
+    {
+      "sha": "16c220a0",
       "subject": "fix(intelligence/WC1): repair atoms.tradition column after migration 021 column-shift bug",
       "date": "2026-05-31"
     },
     {
-      "sha": "f6394f8",
+      "sha": "f6394f84",
       "subject": "policy(2026-05-31): LLM-agnostic operating model — retire two-agent lane lock + plan-first execution gate",
       "date": "2026-05-31"
     },
     {
-      "sha": "1c8e158",
+      "sha": "1c8e158c",
       "subject": "chore(session/2026-05-31 #2): verify G1 + WC8-5b are actually done",
       "date": "2026-05-31"
     },
     {
-      "sha": "6f7c018",
+      "sha": "6f7c0187",
       "subject": "chore(session/2026-05-31): holistic plan review — gaps, blockers, sequence",
       "date": "2026-05-31"
     },
     {
-      "sha": "96a3023",
+      "sha": "96a30239",
       "subject": "feat(knowledge/ayyuhal): MCP-enriched knowledge stage — 18 Quran refs + 10 etymology + 15 doctrine",
       "date": "2026-05-30"
     },
     {
-      "sha": "1a8697c",
+      "sha": "1a8697cd",
       "subject": "feat(knowledge/B5): MCP corpus ingest — 68 hadith/poetry/etymology atoms + central access module",
       "date": "2026-05-30"
     },
     {
-      "sha": "fe9f346",
+      "sha": "fe9f3465",
       "subject": "feat(knowledge): build SQLite mirror from KQUR/KASHKOLE/KSESSIONS — full OrbStack independence",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "ae52975",
-      "subject": "chore(audit/P1-4): mark dead knowledge/ modules as deprecated",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "d913a21",
-      "subject": "docs(audit/P1+P2): SKILL.md WC8 section, orchestrator spec, framework, CLAUDE.md",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "124eb8b",
-      "subject": "fix(audit/P0+P1): dead code removal, interest-axis dedupe, path abstraction",
       "date": "2026-05-30"
     }
   ],

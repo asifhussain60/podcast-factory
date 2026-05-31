@@ -763,6 +763,8 @@ All new code: TypeScript fully typed (no `any`), Python with PEP 484 hints, no h
 > Bring the three source databases into the wisdom corpus that already exists (`knowledge.db`): import the two finished sources once, keep the live sessions source synced by dropping a refreshed dump, and deduplicate aggressively so the 40%+ overlap collapses into one canonical copy per teaching. Keep the already-polished English untouched (never re-translate), and stamp every record with its tradition so nothing leaks across traditions.
 >
 > *Value gained:* One clean, deduplicated, tradition-aware corpus replaces three overlapping app databases — no duplication, no Docker, portable on any machine.
+>
+> **Mirror-primary build authorized 2026-05-31 (Asif).** The 2026-05-29 plan deferred the per-source importers because the source DBs weren't on disk. They effectively are now: `content/knowledge-base/mirror.db` (the FTS5 mirror of KQUR/KASHKOLE/KSESSIONS) holds quran (6236), topics (1347), sessions (606), hadith (47) and a term index (58), plus `KSESSIONS.sql` sits in `_workspace/`. So the importers are un-deferred and built **mirror-primary (no Docker)**, additive and idempotent against the existing 696 atoms. KASHKOLE's Urdu topics are NOT re-translated (D8); the polished-English teachings already live as the 628 doctrine atoms. Full detail: `plan.yaml` → `wisdom_corpus_program.waves[WC1].update_2026_05_31_mirror_primary`.
 
 ### 2. Turn the blackbox into the annotation engine
 
