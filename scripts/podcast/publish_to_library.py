@@ -69,12 +69,26 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from _paths import REPO_ROOT
+from _paths import REPO_ROOT, find_content
 
 # 2026-05-23 restructure: workshop moved from _workspace/books/ to content/drafts/,
 # published catalog moved from out-of-repo library/ to in-repo content/published/.
 WORKSPACE = REPO_ROOT / "content" / "drafts"
 LIBRARY = REPO_ROOT / "content" / "published"
+
+
+def resolve_workspace(slug: str) -> Path:
+    """Resolve a book's drafts workspace, category-aware.
+
+    Post-2026-05-26 content lives at content/drafts/<category>/<slug> (e.g.
+    drafts/books/<slug>), not the flat drafts/<slug>. Delegate to _paths.find_content
+    (canonical drafts/<cat>/<slug> first, then legacy fallbacks) so the gate + publish
+    find the book regardless of category. Falls back to the legacy flat path.
+    """
+    found = find_content(slug)
+    if found:
+        return found[2]
+    return WORKSPACE / slug
 
 SHIPPABLE_STATUSES = {"shipped", "ship-ready", "ship-with-caution",
                       "ship-with-caution-approved", "halted_by_operator"}
@@ -440,7 +454,7 @@ def update_catalog(slug: str, episode_count: int, source_sha: str) -> None:
 
 
 def publish(slug: str, args: argparse.Namespace) -> int:
-    workspace = WORKSPACE / slug
+    workspace = resolve_workspace(slug)
     if not workspace.is_dir():
         print(f"publish_to_library: workspace not found: {workspace}",
               file=sys.stderr)

@@ -57,7 +57,7 @@ def main() -> int:
 
     import publish_to_library as P
 
-    workspace = P.WORKSPACE / args.slug
+    workspace = P.resolve_workspace(args.slug)
     if not workspace.is_dir():
         msg = f"workspace not found: {workspace}"
         if args.json:
