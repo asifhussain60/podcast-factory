@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-31T12:03:10.631Z",
-  "source_commit": "1d73aa33",
+  "generated_at": "2026-05-31T12:05:12.422Z",
+  "source_commit": "ea17ecb8",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,8 +819,18 @@
   ],
   "recent_commits": [
     {
+      "sha": "ea17ecb8",
+      "subject": "merge(ui/site-enhancements -> develop): operator workbench + single-site nav + CSS externalization",
+      "date": "2026-05-31"
+    },
+    {
       "sha": "1d73aa33",
       "subject": "feat(WC2): tag 623 doctrine atoms + rebuild concept index (coverage 135->758)",
+      "date": "2026-05-31"
+    },
+    {
+      "sha": "0283cf57",
+      "subject": "feat(site): unify operator workbench and single-site nav",
       "date": "2026-05-31"
     },
     {
@@ -839,6 +849,11 @@
       "date": "2026-05-31"
     },
     {
+      "sha": "42d5492d",
+      "subject": "Merge remote-tracking branch 'origin/develop' into ui/site-enhancements",
+      "date": "2026-05-31"
+    },
+    {
       "sha": "4bb2271e",
       "subject": "plan(WC1/WC2): lock Concept Lens (D19) + concept-derivation foundation",
       "date": "2026-05-31"
@@ -849,23 +864,8 @@
       "date": "2026-05-31"
     },
     {
-      "sha": "595455ac",
-      "subject": "feat(WC1-mock): /corpus-mock — consolidated knowledge.db data + query review page",
-      "date": "2026-05-31"
-    },
-    {
-      "sha": "d0069aee",
-      "subject": "feat(WC1): mirror-primary corpus importers (KQUR/KASHKOLE/KSESSIONS)",
-      "date": "2026-05-31"
-    },
-    {
-      "sha": "2d4a83d5",
-      "subject": "docs(coord): two-branch split — develop=DB consolidation, ui/site-enhancements=CSS/UX",
-      "date": "2026-05-31"
-    },
-    {
-      "sha": "3ddcbaa6",
-      "subject": "chore(handoff): execution status snapshot for cross-machine resume",
+      "sha": "4d812b17",
+      "subject": "AI Recommendations",
       "date": "2026-05-31"
     }
   ],

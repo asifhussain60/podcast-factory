@@ -2995,7 +2995,8 @@ wisdom_corpus_program:
     - id: WC1
       name: Corpus population
       depends_on: [B]
-      execution_status: in_progress_2026_05_29
+      execution_status: completed_2026_05_31
+      completion_note: "DONE 2026-05-31: mirror-primary importers shipped + applied to live knowledge.db (atoms 696->7036, tradition 7036/7036, idempotent, existing preserved). All 3 source DBs (KQUR/KASHKOLE/KSESSIONS) consolidated: Quran-as-atoms + doctrine + terms + hadith + sessions-as-chapters. Only the cross-source 40% dedup payoff remains latent until more overlap surfaces (non-blocking)."
       authorization: tier_two
       cost_estimate_usd: low
       approval_2026_05_29:
