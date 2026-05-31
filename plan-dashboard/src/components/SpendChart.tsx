@@ -6,7 +6,9 @@ export default function SpendChart({ values }: Props) {
   const max = Math.max(...values, 0.001);
   const barW = (W - PAD * 2) / values.length;
   return (
-    <svg className="svg-host spend-chart" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Last thirty days of combined spend">
+    <svg className="svg-host spend-chart" viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="spend-chart-title spend-chart-desc">
+      <title id="spend-chart-title">Last thirty days of combined spend</title>
+      <desc id="spend-chart-desc">A bar chart of combined spend across the last thirty days.</desc>
       <line className="edge" x1={PAD} y1={H - PAD} x2={W - PAD} y2={H - PAD} />
       <line className="edge" x1={PAD} y1={PAD} x2={PAD} y2={H - PAD} />
       {[0.25, 0.5, 0.75, 1].map((f, i) => {

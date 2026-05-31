@@ -6,7 +6,7 @@
  * truth the library index and the orchestrator use).
  */
 import { readFile, readdir, stat } from 'node:fs/promises';
-import { basename, join } from 'node:path';
+import { join } from 'node:path';
 import { load as yamlLoad } from 'js-yaml';
 
 import { findContent } from '../content-paths';

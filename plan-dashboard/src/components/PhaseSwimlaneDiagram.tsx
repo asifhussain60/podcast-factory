@@ -246,8 +246,10 @@ export default function PhaseSwimlaneDiagram() {
         viewBox={`0 0 ${TOTAL_W} ${totalH}`}
         className="swimlane-svg"
         role="img"
-        aria-label="Pipeline phase sequence swimlane — L3 detail view"
+        aria-labelledby="swimlane-title swimlane-desc"
       >
+        <title id="swimlane-title">Pipeline phase sequence swimlane</title>
+        <desc id="swimlane-desc">A phase-by-phase swimlane showing stations, services, models, cost tiers, and human review gates.</desc>
         <defs>
           <marker id="sl-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
             <polygon points="0 0, 8 3, 0 6" fill="var(--c-rule)" />

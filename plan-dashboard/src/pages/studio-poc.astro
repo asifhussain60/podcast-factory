@@ -5,7 +5,7 @@
 // then open /studio-poc.
 import { readFileSync } from 'node:fs';
 import PocLayout from '../layouts/PocLayout.astro';
-import StudioPoc from '../components/reader/poc/StudioPoc.tsx';
+import StudioPocApp from '../components/reader/poc/StudioPoc.tsx';
 import StudioVersePopover from '../components/reader/poc/StudioVersePopover.tsx';
 import { renderMarkdown } from '../lib/reader/markdown';
 import { loadGlossary } from '../lib/reader/glossary';
@@ -96,7 +96,7 @@ const loadError = chapters.some((c) => c.stages.some((s) => s.available)) ? '' :
 const glossary = await loadGlossary(SLUG);
 ---
 
-<PocLayout title="Studio PoC — Ayyuhal Walad">
+<PocLayout title="Studio PoC — Ayyuhal Walad" active="studio-poc">
   <header class="sp-header">
     <h1 class="sp-h1">Studio editor — proof of concept</h1>
     <p class="sp-subtitle">
@@ -109,7 +109,7 @@ const glossary = await loadGlossary(SLUG);
     ? <p class="sp-error">Could not load the chapter: {loadError}</p>
     : (
       <div class="prose-body">
-        <StudioPoc client:only="react" slug={SLUG} chapters={chapters} glossary={glossary} />
+        <StudioPocApp client:only="react" slug={SLUG} chapters={chapters} glossary={glossary} />
         <StudioVersePopover client:only="react" />
       </div>
     )}

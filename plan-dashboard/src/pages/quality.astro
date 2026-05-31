@@ -15,6 +15,7 @@ import Base from '../layouts/Base.astro';
 import AudienceBadge from '../components/AudienceBadge.astro';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import '../styles/quality.css';
 
 // ─── Load baseline data ────────────────────────────────────────────────────
 
@@ -354,4 +355,3 @@ function bar(value: number, max = 100) {
 .pq-verdict-badge.pq-pass { background: #dcfce7; color: #166534; }
 .pq-verdict-badge.pq-warn { background: #fef3c7; color: #92400e; }
 .pq-verdict-badge.pq-fail { background: #fee2e2; color: #991b1b; }
-</style>

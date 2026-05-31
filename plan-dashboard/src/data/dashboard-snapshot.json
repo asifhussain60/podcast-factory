@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-31T11:16:31.442Z",
-  "source_commit": "c8d920cd",
+  "generated_at": "2026-05-31T12:03:10.631Z",
+  "source_commit": "1d73aa33",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -453,7 +453,7 @@
       "id": "G1",
       "wave": "G",
       "title": "Cinematic narrative scroll homepage with GSAP ScrollTrigger",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [],
       "plain": "",
@@ -819,6 +819,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "1d73aa33",
+      "subject": "feat(WC2): tag 623 doctrine atoms + rebuild concept index (coverage 135->758)",
+      "date": "2026-05-31"
+    },
+    {
+      "sha": "dc1c3c85",
+      "subject": "feat(WC2): doctrine concept-tagger + tag-concept derivation (D19, Part 2 build)",
+      "date": "2026-05-31"
+    },
+    {
       "sha": "c8d920cd",
       "subject": "feat(WC2): concept-derivation engine + index (D19, Part 1)",
       "date": "2026-05-31"
@@ -856,16 +866,6 @@
     {
       "sha": "3ddcbaa6",
       "subject": "chore(handoff): execution status snapshot for cross-machine resume",
-      "date": "2026-05-31"
-    },
-    {
-      "sha": "279a21e4",
-      "subject": "plan(2026-05-31): mark Waves A, B, G completed per audit findings",
-      "date": "2026-05-31"
-    },
-    {
-      "sha": "16c220a0",
-      "subject": "fix(intelligence/WC1): repair atoms.tradition column after migration 021 column-shift bug",
       "date": "2026-05-31"
     }
   ],

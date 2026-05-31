@@ -1,53 +1,26 @@
 ---
 import '../styles/theme.css';
 import dash from '../data/dashboard-snapshot.json';
-
-type ActivePage =
-  | 'home'
-  | 'architecture'
-  | 'intelligence'
-  | 'infrastructure'
-  | 'db-schema'
-  | 'security'
-  | 'dashboard'
-  | 'plan'
-  | 'library'
-  | 'wisdom'
-  | 'quality'
-  | 'annotation-ops'
-  | 'studio-poc'
-  | 'studio'
-  | 'planner'
-  | 'system-map';
+import { TOP_NAV, getNavSection, getSubnavLinks } from '../lib/site-nav';
+import type { ActivePage } from '../lib/site-nav';
 
 interface Props {
   title: string;
   active: ActivePage;
-  /** 'architecture' — enables the horizontal Architecture sub-nav strip. */
-  section?: 'architecture' | 'planner';
+  section?: string;
   description?: string;
 }
 
-const { title, active, section, description } = Astro.props;
-
-const archPages: ActivePage[] = ['architecture', 'intelligence', 'infrastructure', 'db-schema', 'security'];
-
-const navSection =
-  active === 'library'       ? 'bookshelf'    :
-  active === 'wisdom'        ? 'wisdom'       :
-  active === 'quality'       ? 'quality'      :
-
-  archPages.includes(active) ? 'architecture' :
-  null;
-
-const hasArchSubnav = section === 'architecture';
+const { title, active, section: _section, description } = Astro.props;
+const navSection = getNavSection(active);
+const subnavLinks = getSubnavLinks(active);
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} — Podcast Factory Plan</title>
+    <title>{title} — Podcast Factory Astro Site</title>
     {description && <meta name="description" content={description} />}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
@@ -55,47 +28,33 @@ const hasArchSubnav = section === 'architecture';
     <a href="#main-content" class="skip-link">Skip to content</a>
     <nav class="topnav">
       <div class="topnav-inner">
-        <a href="/" class="topnav-brand">Podcast Factory <small>plan</small></a>
+        <a href="/" class="topnav-brand">Podcast Factory <small>Astro Site</small></a>
         <div class="topnav-sections">
-          <a href="/architecture"
-             data-section="architecture"
-             class={`topnav-section${navSection === 'architecture' ? ' is-active' : ''}`}>
-            Architecture
-          </a>
-          <a href="/library"
-             data-section="bookshelf"
-             class={`topnav-section${navSection === 'bookshelf' ? ' is-active' : ''}`}>
-            Bookshelf
-          </a>
-          <a href="/wisdom"
-             data-section="wisdom"
-             class={`topnav-section${navSection === 'wisdom' ? ' is-active' : ''}`}>
-            Wisdom
-          </a>
-          <a href="/quality"
-             data-section="quality"
-             class={`topnav-section${navSection === 'quality' ? ' is-active' : ''}`}>
-            Quality
-          </a>
-
+          {TOP_NAV.map((item) => (
+            <a
+              href={item.href}
+              data-section={item.section}
+              class={`topnav-section${navSection === item.section ? ' is-active' : ''}`}
+            >
+              {item.label}
+            </a>
+          ))}
         </div>
         <div class="topnav-spacer"></div>
       </div>
     </nav>
 
-    {hasArchSubnav && (
-      <nav class="subnav-h" aria-label="Architecture section">
+    {subnavLinks.length > 0 && (
+      <nav class="subnav-h" aria-label={`${navSection} section`}>
         <div class="subnav-h-inner">
-          <a href="/architecture"   class={`subnav-h-link${active === 'architecture'   ? ' is-active' : ''}`}>Pipeline</a>
-          <a href="/intelligence"   class={`subnav-h-link${active === 'intelligence'   ? ' is-active' : ''}`}>Intelligence</a>
-          <a href="/infrastructure" class={`subnav-h-link${active === 'infrastructure' ? ' is-active' : ''}`}>Infrastructure</a>
-          <a href="/db-schema"      class={`subnav-h-link${active === 'db-schema'      ? ' is-active' : ''}`}>Database</a>
-          <a href="/security"      class={`subnav-h-link${active === 'security'      ? ' is-active' : ''}`}>Security</a>
+          {subnavLinks.map((item) => (
+            <a href={item.href} class={`subnav-h-link${item.pages.includes(active) ? ' is-active' : ''}`}>{item.label}</a>
+          ))}
         </div>
       </nav>
     )}
 
-    <div class={`page-shell${hasArchSubnav ? ' has-arch-subnav' : ''}`}>
+    <div class={`page-shell${subnavLinks.length > 0 ? ' has-arch-subnav' : ''}`}>
 
       <main class="page" id="main-content" tabindex="-1">
         <slot />

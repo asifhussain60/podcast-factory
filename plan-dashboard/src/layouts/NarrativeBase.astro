@@ -11,6 +11,7 @@
  */
 import '../styles/theme.css';
 import '../styles/narrative.css';
+import { TOP_NAV } from '../lib/site-nav';
 
 interface Props {
   title: string;
@@ -28,26 +29,31 @@ const { title, description } = Astro.props;
     {description && <meta name="description" content={description} />}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
       crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-      /* Override body background for narrative pages */
-      html, body { background: #080c14; margin: 0; padding: 0; overflow-x: hidden; }
-    </style>
   </head>
   <body class="narrative-body">
+    <a href="#main-content" class="skip-link">Skip to content</a>
 
     <nav class="topnav narrative-topnav">
       <div class="topnav-inner">
-        <a href="/" class="topnav-brand">Podcast Factory</a>
+        <a href="/" class="topnav-brand">Podcast Factory <small>Astro Site</small></a>
         <div class="topnav-sections">
-          <a href="/architecture" class="topnav-section">Architecture</a>
-          <a href="/library"      class="topnav-section">Bookshelf</a>
-          <a href="/wisdom"     class="topnav-section">Wisdom</a>
+          {TOP_NAV.map((item) => (
+            <a
+              href={item.href}
+              data-section={item.section}
+              class={`topnav-section${item.section === 'overview' ? ' is-active' : ''}`}
+            >
+              {item.label}
+            </a>
+          ))}
         </div>
         <div class="topnav-spacer"></div>
       </div>
     </nav>
 
-    <slot />
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
 
   </body>
 </html>

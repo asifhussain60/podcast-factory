@@ -155,7 +155,7 @@ function ServiceChip({ chip, open, onToggle }: {
   open: boolean;
   onToggle: () => void;
 }) {
-  const meta = VENDOR_META[chip.vendor];
+  const vendorClass = `vendor-dot-${chip.vendor}`;
   return (
     <div className={`svc-chip vendor-${chip.vendor} ${open ? 'is-open' : ''}`}>
       <button
@@ -165,17 +165,17 @@ function ServiceChip({ chip, open, onToggle }: {
         onClick={onToggle}
         title={`${chip.label} — click for details`}
       >
-        <span className="svc-chip-dot" style={{ '--dot-color': meta.color } as React.CSSProperties} aria-hidden="true" />
+        <span className={`svc-chip-dot ${vendorClass}`} aria-hidden="true" />
         <span className="svc-chip-label">{chip.label}</span>
         <i className={`fa-solid fa-chevron-${open ? 'up' : 'down'} svc-chip-caret`} aria-hidden="true" />
       </button>
       {open && (
         <div className="svc-chip-popover" role="tooltip">
           <div className="svc-chip-pop-head">
-            <i className={`fa-solid fa-${chip.icon}`} aria-hidden="true" style={{ '--dot-color': meta.color } as React.CSSProperties} />
+            <i className={`fa-solid fa-${chip.icon} svc-chip-icon ${vendorClass}`} aria-hidden="true" />
             <div>
               <strong className="svc-chip-pop-title">{chip.label}</strong>
-              <span className="svc-chip-pop-wordmark">{meta.wordmark}</span>
+              <span className="svc-chip-pop-wordmark">{VENDOR_META[chip.vendor].wordmark}</span>
             </div>
           </div>
           {chip.sublabel && (
@@ -322,8 +322,8 @@ export default function PipelineSpine({ phases, modules, agents }: Props) {
                     <div className="vendor-tags">
                       {vendorTagsForChips(chips).map(({ vendor, wordmark }) => (
                         <span key={vendor} className={`vendor-tag vendor-tag-${vendor}`}>
-                          <span className="vendor-tag-dot" style={{ '--dot-color': VENDOR_META[vendor].color } as React.CSSProperties} aria-hidden="true" />
-                          <i className={`fa-brands fa-${vendor === 'anthropic' ? 'aws' : vendor === 'azure' ? 'microsoft' : 'google'} vendor-tag-icon`} aria-hidden="true" />
+                          <span className={`vendor-tag-dot vendor-tag-dot--${vendor}`} aria-hidden="true" />
+                          <i className={`fa-brands fa-${vendor === 'anthropic' ? 'aws' : vendor === 'azure' ? 'microsoft' : 'google'} vendor-tag-icon vendor-tag-icon--${vendor}`} aria-hidden="true" />
                           {wordmark}
                         </span>
                       ))}

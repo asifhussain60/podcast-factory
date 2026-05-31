@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import AudienceBadge from '../components/AudienceBadge.astro';
+import '../styles/system-map.css';
 ---
 
 <Base title="System Map" active="system-map" section="architecture" description="Every actor in the podcast factory and how they connect — from raw PDF to published episode.">
@@ -25,8 +26,10 @@ import AudienceBadge from '../components/AudienceBadge.astro';
         viewBox="0 0 820 760"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
-        aria-label="System actor map: inputs at the top feed into four pipeline stages on your machine (left), which call Azure, Anthropic Claude, Google Gemini, and NotebookLM (right) to produce published podcast episodes at the bottom"
+        aria-labelledby="system-map-title system-map-desc"
       >
+        <title id="system-map-title">Podcast Factory system map</title>
+        <desc id="system-map-desc">A system actor map showing source inputs, local pipeline stages, external services, the knowledge store, and the published catalog output.</desc>
         <defs>
           <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
             <path d="M0,1 L9,5 L0,9 Z" fill="#87827a"/>
@@ -278,154 +281,3 @@ import AudienceBadge from '../components/AudienceBadge.astro';
   </section>
 </Base>
 
-<style>
-  /* ── Container ── */
-  .map-wrap {
-    overflow-x: auto;
-    border: 1px solid var(--c-rule);
-    border-radius: var(--r-lg);
-    background: var(--c-bg-card);
-    padding: var(--sp-3);
-  }
-  .actor-map {
-    width: 100%;
-    min-width: 820px;
-    display: block;
-  }
-
-  /* ── Column headings ── */
-  .actor-map .col-lbl {
-    font: 700 11px 'Lato', sans-serif;
-    fill: var(--c-ink-muted);
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-  }
-
-  /* ── Zone borders ── */
-  .actor-map .zone {
-    stroke-width: 1.5;
-    stroke-dasharray: 6 3;
-  }
-  .actor-map .zone-machine  { fill: rgba(139,69,19,0.025); stroke: #8b4513; }
-  .actor-map .zone-services { fill: rgba(0,120,212,0.025);  stroke: #0078d4; }
-
-  /* ── Input boxes ── */
-  .actor-map .box-input {
-    fill: var(--c-bg-card);
-    stroke: var(--c-rule);
-    stroke-width: 1.5;
-  }
-  .actor-map .input-title { font: 700 14px 'Lato', sans-serif; fill: var(--c-ink); }
-  .actor-map .input-sub   { font: 11px 'Lato', sans-serif; fill: var(--c-ink-muted); }
-
-  /* ── Stage boxes ── */
-  .actor-map .box-stage {
-    fill: var(--c-bg-elev);
-    stroke: var(--c-accent);
-    stroke-width: 1.5;
-  }
-  .actor-map .stage-dot   { fill: var(--c-accent); }
-  .actor-map .stage-n     { font: 700 14px 'Lato', sans-serif; fill: white; }
-  .actor-map .stage-title { font: 700 14px 'Lato', sans-serif; fill: var(--c-ink); }
-  .actor-map .stage-desc  { font: 11px 'Lato', sans-serif; fill: var(--c-ink-dim); }
-  .actor-map .stage-time  { font: 11px 'Lato', sans-serif; fill: var(--c-ink-muted); text-anchor: end; }
-
-  /* ── Knowledge store ── */
-  .actor-map .box-knowledge {
-    fill: #fdfaf2;
-    stroke: var(--c-gold);
-    stroke-width: 1.5;
-    stroke-dasharray: 5 3;
-  }
-  .actor-map .know-title { font: 700 14px 'Lato', sans-serif; fill: var(--c-gold); }
-  .actor-map .know-desc  { font: 11px 'Lato', sans-serif; fill: var(--c-ink-dim); }
-  .actor-map .know-note  { font: 11px 'Lato', sans-serif; fill: var(--c-ink-muted); }
-
-  /* ── Service clusters ── */
-  .actor-map .cluster {
-    stroke-width: 1.2;
-    stroke-dasharray: 4 2;
-  }
-  .actor-map .cluster-azure  { fill: rgba(0,120,212,0.04);   stroke: #0078d4; }
-  .actor-map .cluster-claude { fill: rgba(204,120,92,0.04);  stroke: #cc785c; }
-  .actor-map .cluster-google { fill: rgba(66,133,244,0.04);  stroke: #4285f4; }
-  .actor-map .cluster-nlm    { fill: rgba(26,115,232,0.05);  stroke: #1a73e8; stroke-dasharray: none; }
-
-  .actor-map .cluster-lbl { font: 700 11px 'Lato', sans-serif; }
-  .actor-map .lbl-azure   { fill: #0078d4; }
-  .actor-map .lbl-claude  { fill: #cc785c; }
-  .actor-map .lbl-google  { fill: #4285f4; }
-  .actor-map .lbl-nlm     { fill: #1a73e8; }
-
-  /* ── Service boxes ── */
-  .actor-map .svc       { fill: white; stroke-width: 1; }
-  .actor-map .svc-azure  { stroke: #0078d4; }
-  .actor-map .svc-claude { stroke: #cc785c; }
-  .actor-map .svc-google { stroke: #4285f4; }
-  .actor-map .svc-nlm    { stroke: #1a73e8; }
-  .actor-map .svc-title  { font: 700 14px 'Lato', sans-serif; fill: var(--c-ink); }
-  .actor-map .svc-sub    { font: 11px 'Lato', sans-serif; fill: var(--c-ink-dim); }
-
-  /* ── Output box ── */
-  .actor-map .box-output {
-    fill: rgba(74,124,74,0.08);
-    stroke: var(--c-green);
-    stroke-width: 1.5;
-  }
-  .actor-map .output-title { font: 700 14px 'Lato', sans-serif; fill: var(--c-green); }
-
-  /* ── Arrows ── */
-  .actor-map .arr       { fill: none; stroke-width: 1.5; }
-  .actor-map .arr-stage { fill: none; stroke: var(--c-rule); stroke-width: 1.5; }
-  .actor-map .arr-knowledge { fill: none; stroke: var(--c-gold); stroke-width: 1.5; stroke-dasharray: 4 2; }
-  .actor-map .arr-input  { stroke: var(--c-ink-muted); }
-  .actor-map .arr-azure  { stroke: #0078d4; }
-  .actor-map .arr-claude { stroke: #cc785c; }
-  .actor-map .arr-google { stroke: #4285f4; }
-  .actor-map .arr-nlm    { stroke: #1a73e8; }
-  /* ── Source Library Server box ── */
-  .actor-map .box-source-lib {
-    fill: #f2f7ff;
-    stroke: #5b8dd9;
-    stroke-width: 1.5;
-    stroke-dasharray: 5 3;
-  }
-  .actor-map .src-lib-title { font: 700 14px 'Lato', sans-serif; fill: #5b8dd9; }
-  .actor-map .src-lib-sub   { font: 11px 'Lato', sans-serif; fill: var(--c-ink-dim); }
-  .actor-map .src-lib-edge-lbl { font: 600 10px 'Lato', sans-serif; fill: #b8860b; }
-
-  /* ── SQL Server cluster ── */
-  .actor-map .cluster-sqlsrv { fill: rgba(91,141,217,0.04); stroke: #5b8dd9; }
-  .actor-map .lbl-sqlsrv     { fill: #5b8dd9; }
-  .actor-map .svc-sqlsrv     { fill: white; stroke: #5b8dd9; }
-  .actor-map .arr-sqlsrv     { stroke: #5b8dd9; }
-  .actor-map .arr-src-lib-fallback { fill: none; stroke: #b8860b; stroke-width: 1.2; stroke-dasharray: 5 3; }
-  .legend-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--sp-5) var(--sp-7);
-  }
-  .legend-item {
-    display: flex;
-    gap: var(--sp-3);
-    align-items: flex-start;
-    font-size: var(--fs-sm);
-    line-height: 1.55;
-  }
-  .legend-dot {
-    flex-shrink: 0;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin-top: 5px;
-  }
-  .ld-azure  { background: #0078d4; }
-  .ld-claude { background: #cc785c; }
-  .ld-google { background: #4285f4; }
-  .ld-nlm    { background: #1a73e8; }
-  .ld-sqlsrv { background: #5b8dd9; }
-
-  @media (max-width: 680px) {
-    .legend-grid { grid-template-columns: 1fr; }
-  }
-</style>

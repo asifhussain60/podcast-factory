@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro';
+import OperatorWorkbench from '../components/workbench/OperatorWorkbench.tsx';
+import { CARD_DEFS } from '../lib/reader/editorial';
+import {
+  AYYUHAL_WALAD_CHAPTERS,
+  AYYUHAL_WALAD_SLUG,
+  AYYUHAL_WALAD_STAGE_DEFS,
+  loadBookWorkspace,
+} from '../lib/reader/book-workspace';
+import '../styles/corpus-mock.css';
+import '../styles/studio-poc.css';
+import '../styles/workbench.css';
+
+const workspace = await loadBookWorkspace(
+  AYYUHAL_WALAD_SLUG,
+  AYYUHAL_WALAD_CHAPTERS,
+  AYYUHAL_WALAD_STAGE_DEFS,
+);
+
+const recommendationSummary = {
+  accept: [
+    {
+      title: 'Hybrid Astro plus React shell',
+      reason: 'Keeps Astro as the server boundary and route system while making the operator flow feel continuous and stateful.',
+    },
+    {
+      title: 'Three-zone operator layout',
+      reason: 'A left rail, working canvas, and context inspector make the pipeline, intelligence, and augmentation steps usable in one screen.',
+    },
+    {
+      title: 'Shared augmentation tray',
+      reason: 'Knowledge selection is only valuable if it survives mode switches and feeds directly into editorial planning.',
+    },
+    {
+      title: 'Contract-first data flow',
+      reason: 'The UI still reads through established server contracts and book workspace files instead of inventing client-side shortcuts.',
+    },
+  ],
+  reject: [
+    {
+      title: 'Full framework rewrite',
+      reason: 'Replacing Astro or rebuilding the site as a pure SPA would destroy working contracts and add cost without solving the real UX problem.',
+    },
+    {
+      title: 'Dark navy visual reset',
+      reason: 'The repo already has an editorial theme with explicit token rules, so the fix is layout discipline and interaction design, not a palette replacement.',
+    },
+    {
+      title: 'Generic admin dashboard treatment',
+      reason: 'This product is a reading and editorial workbench, so the interface needs prose-friendly surfaces rather than generic enterprise chrome.',
+    },
+    {
+      title: 'Database-aware client logic',
+      reason: 'The UI should not learn SQLite structure directly. It can become more reactive without breaking that server boundary.',
+    },
+  ],
+};
+---
+
+<Base
+  title="Workbench"
+  active="workbench"
+  description="A unified operator shell for reviewing the live pipeline, exploring reusable knowledge, and planning augmentation in one place.">
+  <OperatorWorkbench
+    client:only="react"
+    slug={workspace.slug}
+    bookTitle="Ayyuhal Walad"
+    chapters={workspace.chapters}
+    chapterDefs={workspace.cockpitChapters}
+    cardDefs={CARD_DEFS}
+    recommendationSummary={recommendationSummary}
+  />
+</Base>
