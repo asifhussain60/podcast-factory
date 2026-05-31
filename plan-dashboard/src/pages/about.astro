@@ -1,0 +1,491 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/about.css';
+---
+<Base
+  title="About & Help"
+  active="about"
+  description="A plain-English guide to using the Podcast Factory Astro Site — what each section does, how to run the pipeline, and answers to common questions."
+>
+  <div class="about-page">
+
+    <!-- ════════════════════════════════════════════════════════════
+         HERO
+         ════════════════════════════════════════════════════════════ -->
+    <header class="about-hero">
+      <span class="about-hero-eyebrow">Podcast Factory Astro Site</span>
+      <h1 class="about-hero-h1">About &amp; Help</h1>
+      <p class="about-hero-lede">
+        This site is your operator dashboard for the Podcast Factory pipeline — the system
+        that turns scholarly Arabic books into professionally produced podcast series.
+        Everything you need to run the pipeline, review output, manage the knowledge base,
+        and track quality is here, all in one place.
+      </p>
+      <nav aria-label="Jump to section">
+        <ul class="about-jumplinks">
+          <li><a href="#s-what">What each section does</a></li>
+          <li><a href="#s-quickstart">Quick-start guide</a></li>
+          <li><a href="#s-faq">FAQ</a></li>
+        </ul>
+      </nav>
+    </header>
+
+
+    <!-- ════════════════════════════════════════════════════════════
+         SECTION 1 — What each section does
+         ════════════════════════════════════════════════════════════ -->
+    <section class="about-section" id="s-what" aria-labelledby="s-what-h2">
+      <span class="about-section-eyebrow">Navigation guide</span>
+      <h2 class="about-section-h2" id="s-what-h2">What each section does</h2>
+      <p class="about-section-intro">
+        The top navigation has five sections. Here is exactly what lives in each one and
+        when you would use it.
+      </p>
+      <div class="about-nav-cards">
+
+        <a href="/" class="about-nav-card">
+          <span class="about-nav-card-label">Home</span>
+          <p class="about-nav-card-title">Factory tour &amp; operations overview</p>
+          <p class="about-nav-card-body">
+            The entry point. "Factory tour" is a story-led introduction to the whole
+            system — great for orienting yourself or showing someone else how it works.
+            "Operations overview" gives you live counts: books in flight, open roadmap
+            steps, and estimated monthly spend.
+          </p>
+        </a>
+
+        <a href="/workbench" class="about-nav-card">
+          <span class="about-nav-card-label">Workspace</span>
+          <p class="about-nav-card-title">Day-to-day operator shell</p>
+          <p class="about-nav-card-body">
+            Where you do the actual work. The <strong>Workbench</strong> shows all
+            in-flight books and lets you review pipeline stages, approve checkpoints,
+            and trigger next steps. The <strong>Editor</strong> is for hands-on chapter
+            editing. <strong>New content</strong> starts a brand-new book through OCR
+            intake. <strong>Annotations</strong> manages doctrine and concept tags.
+          </p>
+        </a>
+
+        <a href="/library" class="about-nav-card">
+          <span class="about-nav-card-label">Library</span>
+          <p class="about-nav-card-title">Published book catalog</p>
+          <p class="about-nav-card-body">
+            Browse everything that has been shipped. Each book shows its episodes,
+            quality scores, and a reader view so you can see what the final output looks
+            like before uploading to NotebookLM.
+          </p>
+        </a>
+
+        <a href="/wisdom" class="about-nav-card">
+          <span class="about-nav-card-label">Knowledge</span>
+          <p class="about-nav-card-title">Wisdom corpus &amp; intelligence</p>
+          <p class="about-nav-card-body">
+            The shared knowledge base that the pipeline draws from. "Wisdom corpus"
+            lets you search and browse Islamic scholarly concepts, Quranic verses,
+            hadith, and key terms. "Corpus explorer" shows coverage statistics.
+            "Intelligence" shows how the pipeline enriches chapters with these atoms.
+          </p>
+        </a>
+
+        <a href="/architecture" class="about-nav-card">
+          <span class="about-nav-card-label">Docs</span>
+          <p class="about-nav-card-title">Technical documentation &amp; roadmap</p>
+          <p class="about-nav-card-body">
+            Deep technical reference. Pipeline architecture diagrams, infrastructure
+            layout, data models, security notes, quality metrics, and the active
+            development roadmap. Mostly useful when something breaks or you want to
+            understand how a specific phase works under the hood.
+          </p>
+        </a>
+
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════════════════════
+         SECTION 2 — Quick-start guide
+         ════════════════════════════════════════════════════════════ -->
+    <section class="about-section" id="s-quickstart" aria-labelledby="s-quickstart-h2">
+      <span class="about-section-eyebrow">Quick-start guide</span>
+      <h2 class="about-section-h2" id="s-quickstart-h2">How to use this site, step by step</h2>
+      <p class="about-section-intro">
+        A typical session — from opening a new book to uploading finished episodes to NotebookLM.
+      </p>
+
+      <div class="about-steps">
+
+        <div class="about-step">
+          <span class="about-step-num" aria-hidden="true">1</span>
+          <div class="about-step-content">
+            <h3 class="about-step-title">Check what's in flight</h3>
+            <p class="about-step-body">
+              Open the <a href="/workbench">Workbench</a>. The left panel shows every book
+              currently being processed. The coloured status badge tells you where it is:
+              green = pipeline running, amber = waiting for your review, red = something
+              failed and needs attention.
+            </p>
+            <p class="about-step-tip">
+              If no books are showing, nothing is running. Start a new book (step 2) or
+              check the <a href="/library">Library</a> to see what has already shipped.
+            </p>
+          </div>
+        </div>
+
+        <div class="about-step">
+          <span class="about-step-num" aria-hidden="true">2</span>
+          <div class="about-step-content">
+            <h3 class="about-step-title">Start a new book (intake)</h3>
+            <p class="about-step-body">
+              Go to <a href="/intake">Workspace → New content</a>. Drop the PDF here to run
+              OCR intake. The pipeline creates a draft folder, extracts all chapters, and
+              queues the book for processing. The first time takes a few minutes; after that
+              the orchestrator runs autonomously.
+            </p>
+            <p class="about-step-tip">
+              Starting intake on a new book is a <strong>Tier 2 action</strong> — it triggers
+              multi-hour LLM processing and costs real money. Make sure the PDF is the right
+              edition before you proceed.
+            </p>
+          </div>
+        </div>
+
+        <div class="about-step">
+          <span class="about-step-num" aria-hidden="true">3</span>
+          <div class="about-step-content">
+            <h3 class="about-step-title">Review the pipeline stages</h3>
+            <p class="about-step-body">
+              Back on the Workbench, click a book. The centre panel shows all pipeline stages:
+              Source → Denoised → Normalized → Augmented → Narrator. Each card is either
+              "Not produced yet" (hasn't run), amber (in progress), or shows a word count
+              and delta when complete. Click a stage card to open the Editor and read the
+              actual text.
+            </p>
+          </div>
+        </div>
+
+        <div class="about-step">
+          <span class="about-step-num" aria-hidden="true">4</span>
+          <div class="about-step-content">
+            <h3 class="about-step-title">Approve checkpoints</h3>
+            <p class="about-step-body">
+              The pipeline halts at certain review gates and waits for your approval before
+              spending more LLM tokens. The Workbench shows "N approved checkpoints" at the
+              top of the pipeline panel. Click <strong>Inspect corpus</strong> to check source
+              fidelity, then use the approve/reject controls to unblock the next phase.
+            </p>
+            <p class="about-step-tip">
+              The "What to inspect" box tells you exactly what to look at for each halt.
+              Follow it — it's generated from the challenger report for that checkpoint.
+            </p>
+          </div>
+        </div>
+
+        <div class="about-step">
+          <span class="about-step-num" aria-hidden="true">5</span>
+          <div class="about-step-content">
+            <h3 class="about-step-title">Search the knowledge base</h3>
+            <p class="about-step-body">
+              Go to <a href="/wisdom">Knowledge → Wisdom corpus</a> to look up Islamic scholarly
+              concepts, verify how a term or verse is being used in your current book, or find
+              related enrichment atoms. The pipeline draws from this corpus automatically, but
+              you can also search it manually to cross-check the output.
+            </p>
+          </div>
+        </div>
+
+        <div class="about-step">
+          <span class="about-step-num" aria-hidden="true">6</span>
+          <div class="about-step-content">
+            <h3 class="about-step-title">Browse the finished library</h3>
+            <p class="about-step-body">
+              Once a book passes all quality gates it moves to <a href="/library">Library</a>.
+              Here you can read the final episodes, check quality scores, and copy the episode
+              text that gets pasted into NotebookLM.
+            </p>
+            <p class="about-step-tip">
+              The Triage synthesis panel on the Workbench homepage shows what was kept vs.
+              rejected in the last editorial review — useful context before uploading to
+              NotebookLM.
+            </p>
+          </div>
+        </div>
+
+        <div class="about-step">
+          <span class="about-step-num" aria-hidden="true">7</span>
+          <div class="about-step-content">
+            <h3 class="about-step-title">Upload to NotebookLM</h3>
+            <p class="about-step-body">
+              Take the final episode text from the Library, paste it into the NotebookLM
+              "Customize" prompt box for that notebook, and upload the corresponding chapter
+              source file. The pipeline generates a per-episode table (format, length setting,
+              NotebookLM format) to make this step mechanical.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════════════════════
+         SECTION 3 — FAQ
+         ════════════════════════════════════════════════════════════ -->
+    <section class="about-section" id="s-faq" aria-labelledby="s-faq-h2">
+      <span class="about-section-eyebrow">Frequently asked questions</span>
+      <h2 class="about-section-h2" id="s-faq-h2">FAQ</h2>
+      <p class="about-section-intro">
+        Common questions about using the site and running the pipeline.
+        Type any word to filter.
+      </p>
+
+      <div class="about-faq-search-wrap">
+        <i class="fa-solid fa-magnifying-glass about-faq-search-icon" aria-hidden="true"></i>
+        <input
+          id="faq-search"
+          class="about-faq-search"
+          type="search"
+          placeholder="Filter questions…"
+          aria-label="Filter FAQ questions"
+          autocomplete="off"
+        />
+      </div>
+      <p class="about-faq-no-results" id="faq-no-results" aria-live="polite">
+        No questions match that search. Try a different word.
+      </p>
+
+      <div class="about-faq-list" id="faq-list" role="list">
+
+        <!-- ── Workbench ──────────────────────────────────────────────────── -->
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            What is the Workbench and why does it say "0 stages available"?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p>The Workbench is your main operator shell — it shows every book currently being processed and lets you move through pipeline stages. "0 stages available" means the pipeline hasn't produced any output for that chapter yet. Either the book is still in an early phase (OCR intake, denoising) or the orchestrator hasn't been started. Check the pipeline status badge next to the book title.</p>
+          </div>
+        </div>
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            What does "1 approved checkpoints" mean on the pipeline panel?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p>The pipeline pauses at certain gates and waits for you to confirm the output looks correct before it continues. Each confirmed halt is recorded as an "approved checkpoint". This protects you from the pipeline spending expensive LLM tokens on downstream work if something is wrong upstream. A low number (like 1) just means you haven't needed to intervene much — which is a good sign.</p>
+          </div>
+        </div>
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            What does "n/a" mean for Average enrichment lift?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p>Enrichment lift measures how much the augmentation phase expanded the raw source text — expressed as a percentage increase in words. "n/a" means the enrichment phase hasn't run yet for this book. Once Phase 0e (enrichment) completes, this number will fill in. A typical good lift is 15–40% depending on the book's density.</p>
+          </div>
+        </div>
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            What are the stage cards (Source, Denoised, Normalized, Augmented, Narrator)?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p><strong>Source</strong> — the raw OCR output exactly as extracted from the PDF. Unprocessed.</p>
+            <p><strong>Denoised</strong> — OCR noise removed: scanning artefacts, broken words, stray characters fixed.</p>
+            <p><strong>Normalized</strong> — Arabic text standardized: vowel marks, ligatures, and transliteration rules applied consistently.</p>
+            <p><strong>Augmented</strong> — the chapter enriched with knowledge-base context: Quranic references, hadith citations, scholarly commentary added.</p>
+            <p><strong>Narrator</strong> — the final podcast-ready episode script: augmented text rewritten into natural spoken English, ready for NotebookLM.</p>
+          </div>
+        </div>
+
+        <!-- ── Library ─────────────────────────────────────────────────────── -->
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            What's the difference between "drafts" and "Library"?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p>Books under <code>content/drafts/</code> are in-progress — the pipeline is still working on them and they show up in the Workbench. The <a href="/library">Library</a> only shows books that have passed all quality gates (G1–G7) and been formally published to <code>content/published/books/</code>. Publishing is a deliberate Tier 2 action — the pipeline never does it automatically without your sign-off.</p>
+          </div>
+        </div>
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            How do I know if a book is ready to publish?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p>The pipeline enters a <strong>finalize / halted</strong> state when it has completed all phases and is waiting for your publish review. In the Workbench you'll see the pipeline badge change to amber with a "ready for review" message. At that point you can browse the final episode text in the Library reader section, run any post-pipeline analyses you want, and then authorize publish when satisfied.</p>
+          </div>
+        </div>
+
+        <!-- ── Knowledge / corpus ─────────────────────────────────────────── -->
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            What is the Wisdom corpus and where does it come from?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p>The Wisdom corpus is a curated database of Islamic scholarly knowledge atoms: Quranic verses, hadith, concepts, key terms, and quotations. It lives under <code>content/knowledge-base/</code>. The pipeline extracts new atoms from each book it processes and merges them back into this shared library — so the corpus grows richer with every book. You can search and browse it at <a href="/wisdom">Knowledge → Wisdom corpus</a>.</p>
+          </div>
+        </div>
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            What is the Corpus explorer?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p>The <a href="/corpus">Corpus explorer</a> gives you coverage statistics — how many atoms have been extracted per book, how many are Quran vs. hadith vs. concepts, and how well the current book's chapters are covered. It's mainly useful for spotting gaps in enrichment or identifying books that contributed the most to the shared library.</p>
+          </div>
+        </div>
+
+        <!-- ── Pipeline & costs ───────────────────────────────────────────── -->
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            How much does running the pipeline cost?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p>It varies by book length and density. The orchestrator is designed to fit within a <strong>$50 cost cap per book</strong> for the full pipeline (15 max challenger passes per chapter). The <a href="/overview">Operations overview</a> shows your estimated current-month spend across all vendors (Anthropic, Azure, Google). Check that page before starting a new book to make sure you're within budget.</p>
+          </div>
+        </div>
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            What happens if the pipeline fails mid-way through a book?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p>The orchestrator saves state after every phase. If it fails, the Workbench status badge turns red and the error message shows in the Workbench's pipeline panel. You can resume from the last completed phase using <code>--resume &lt;slug&gt;</code> — you don't lose any work that was already done. For a stuck phase (status shows "running" but nothing is progressing), use <code>--retry-phase &lt;phase&gt;</code>.</p>
+          </div>
+        </div>
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            What are "quality gates" and why does the pipeline halt at them?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p>Quality gates (G1–G7) are checkpoints the <strong>podcast-publisher</strong> agent runs before moving content to the audience-facing catalog. Each gate checks something specific: G1 checks folder structure, G2 checks chapter/episode pairs exist, G4 checks the challenger found zero P0 (blocking) issues, G7 checks the convergence verdict is SHIP-READY or SHIP-WITH-CAUTION. All gates must pass before publishing. The pipeline halts before the publish step so you can review everything first.</p>
+          </div>
+        </div>
+
+        <!-- ── NotebookLM ──────────────────────────────────────────────────── -->
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            How do I use the finished episodes with NotebookLM?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p>For each episode you need two things: (1) the <strong>chapter source file</strong> (the augmented text) which you upload as a NotebookLM source document, and (2) the <strong>episode framing text</strong> which you paste into the NotebookLM "Customize" prompt box. The Library reader shows both. The pipeline also generates a per-episode upload table with the correct format and length settings for each episode — follow that table exactly for consistent output.</p>
+          </div>
+        </div>
+
+        <!-- ── Docs section ───────────────────────────────────────────────── -->
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            Where do I find the technical architecture and how the pipeline works?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p>The <a href="/architecture">Docs → Pipeline architecture</a> page has the full diagram and 6-layer module breakdown. <a href="/system-map">System map</a> shows how all the components connect. <a href="/infrastructure">Infrastructure</a> covers the Azure + Anthropic services. <a href="/quality">Quality</a> shows the scoring rubrics used by the challenger agents. These pages are auto-generated from the live codebase, so they always reflect the current state of the repo.</p>
+          </div>
+        </div>
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            What is the Roadmap page and should I edit it?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p>The <a href="/plan">Roadmap</a> shows the 22-step development plan (Waves A–E) and the live operational debt backlog. It's generated from <code>_workspace/plan/refactor/plan.yaml</code> and <code>_workspace/plan/debt/pipeline-debt.md</code>. You don't edit it directly in the UI — edit those source files and then run <code>npm run snapshot</code> to regenerate. The agents update this automatically when they complete a plan step.</p>
+          </div>
+        </div>
+
+        <!-- ── General ────────────────────────────────────────────────────── -->
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            What does "auto-regenerated by the podcast-planner agent" in the footer mean?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p>Most of the data powering this site (book counts, pipeline state, roadmap steps, cost estimates) comes from JSON snapshot files that the <strong>podcast-planner</strong> agent regenerates every time it completes a plan step. The footer timestamp tells you when those snapshots were last generated. If the data looks stale, run <code>cd plan-dashboard &amp;&amp; npm run snapshot</code> to refresh.</p>
+          </div>
+        </div>
+
+        <div class="about-faq-item" data-faq role="listitem">
+          <button class="about-faq-q" aria-expanded="false" type="button">
+            Where is the source code for this site?
+            <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
+          </button>
+          <div class="about-faq-a">
+            <p>The site lives at <code>plan-dashboard/</code> inside the <code>podcast-factory</code> repo. It's an Astro site — pages are in <code>plan-dashboard/src/pages/</code>, styles in <code>plan-dashboard/src/styles/</code>, and navigation configuration in <code>plan-dashboard/src/lib/site-nav.ts</code>. Run <code>cd plan-dashboard &amp;&amp; npm run dev</code> to start a local dev server at <code>localhost:4322</code>.</p>
+          </div>
+        </div>
+
+      </div><!-- /faq-list -->
+    </section>
+
+  </div><!-- /about-page -->
+</Base>
+
+<script>
+  // ── FAQ accordion ──────────────────────────────────────────────────────────
+  document.querySelectorAll<HTMLButtonElement>('.about-faq-q').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const panel = btn.nextElementSibling as HTMLElement | null;
+      if (!panel) return;
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      // Close all others
+      document.querySelectorAll<HTMLButtonElement>('.about-faq-q[aria-expanded="true"]').forEach((other) => {
+        if (other !== btn) {
+          other.setAttribute('aria-expanded', 'false');
+          const otherPanel = other.nextElementSibling as HTMLElement | null;
+          otherPanel?.classList.remove('is-open');
+        }
+      });
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      panel.classList.toggle('is-open', !isOpen);
+    });
+  });
+
+  // ── FAQ search filter ──────────────────────────────────────────────────────
+  const searchInput = document.getElementById('faq-search') as HTMLInputElement | null;
+  const noResults   = document.getElementById('faq-no-results') as HTMLElement | null;
+  const faqItems    = document.querySelectorAll<HTMLElement>('.about-faq-item[data-faq]');
+
+  searchInput?.addEventListener('input', () => {
+    const query = searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+
+    faqItems.forEach((item) => {
+      const text = item.textContent?.toLowerCase() ?? '';
+      const matches = query === '' || text.includes(query);
+      if (matches) {
+        item.removeAttribute('hidden');
+        visibleCount++;
+      } else {
+        item.setAttribute('hidden', '');
+        // Also close any open accordion inside a hidden item
+        const btn = item.querySelector<HTMLButtonElement>('.about-faq-q');
+        const panel = item.querySelector<HTMLElement>('.about-faq-a');
+        btn?.setAttribute('aria-expanded', 'false');
+        panel?.classList.remove('is-open');
+      }
+    });
+
+    if (noResults) {
+      noResults.classList.toggle('is-visible', visibleCount === 0 && query !== '');
+    }
+  });
+</script>

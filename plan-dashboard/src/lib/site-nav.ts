@@ -1,6 +1,7 @@
 export type ActivePage =
   | 'home'
   | 'overview'
+  | 'about'
   | 'architecture'
   | 'intelligence'
   | 'infrastructure'
@@ -39,6 +40,7 @@ export const SUBNAV: Record<NavSection, NavLink[]> = {
   overview: [
     { href: '/', label: 'Factory tour', pages: ['home'] },
     { href: '/overview', label: 'Operations overview', pages: ['overview'] },
+    { href: '/about', label: 'About & Help', pages: ['about'] },
   ],
   workspace: [
     { href: '/workbench', label: 'Workbench', pages: ['workbench'] },
