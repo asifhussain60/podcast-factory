@@ -1,62 +1,62 @@
 {
   "slug": "ayyuhal-walad",
   "chapter": "ch05-method-and-closing-prayer",
-  "measured_at": "2026-05-31T09:08:03Z",
+  "measured_at": "2026-05-31T14:31:28Z",
   "stages": [
     {
       "id": "source",
-      "available": true,
-      "words": 1791,
-      "chars": 9789,
-      "sentences": 84,
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
       "deltaPct": null,
       "comparedTo": null
     },
     {
       "id": "core",
-      "available": true,
-      "words": 1787,
-      "chars": 9770,
-      "sentences": 84,
-      "deltaPct": -0.2,
-      "comparedTo": "source"
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
     },
     {
       "id": "denoised",
-      "available": true,
-      "words": 873,
-      "chars": 4762,
-      "sentences": 12,
-      "deltaPct": -51.1,
-      "comparedTo": "core"
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
     },
     {
       "id": "normalized",
-      "available": true,
-      "words": 697,
-      "chars": 4114,
-      "sentences": 29,
-      "deltaPct": -20.2,
-      "comparedTo": "denoised"
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
     },
     {
       "id": "augmented",
-      "available": true,
-      "words": 778,
-      "chars": 4565,
-      "sentences": 28,
-      "deltaPct": 11.6,
-      "comparedTo": "normalized"
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
     },
     {
       "id": "narrator",
-      "available": true,
-      "words": 1704,
-      "chars": 10601,
-      "sentences": 71,
-      "deltaPct": 119,
-      "comparedTo": "augmented"
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
     }
   ],
-  "noise_removed_pct": -51.1
+  "noise_removed_pct": null
 }
