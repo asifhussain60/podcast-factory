@@ -1,0 +1,1632 @@
+{
+  "schema_version": 1,
+  "generated_from": "knowledge.db (deterministic; term roots + etymology ids + hadith themes)",
+  "concept_count": 79,
+  "coverage": {
+    "total_atoms": 7036,
+    "concept_mapped": 135,
+    "unmapped": 6901,
+    "unmapped_by_type": {
+      "doctrine": 628,
+      "hadith": 32,
+      "poetry": 2,
+      "quran": 6236,
+      "term": 3
+    },
+    "note": "Quran + doctrine carry no root/tag metadata yet — concept-enrichment is WC2 Part 2."
+  },
+  "concepts": [
+    {
+      "id": "root:ilah",
+      "kind": "root",
+      "root": "ilah",
+      "label": "ilah — Turn to in desperation",
+      "arabic": "يألأ",
+      "translit": "ilah",
+      "definition": "Turn to in desperation",
+      "synonyms": [
+        "ALAHA",
+        "ALIHA",
+        "WALAHA",
+        "WALIHA",
+        "YALAA"
+      ],
+      "atom_ids": [
+        "etymology:ilah",
+        "term:kqur:yalaa",
+        "term:kqur:alaha",
+        "term:kqur:walaha",
+        "term:kqur:aliha",
+        "term:kqur:waliha"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 5
+      },
+      "atom_count": 6
+    },
+    {
+      "id": "root:ans",
+      "kind": "root",
+      "root": "ans",
+      "label": "ans — Man (One who needs closeness)",
+      "arabic": "Ø¥Ù†Ø³Ø§Ù†",
+      "translit": "ans",
+      "definition": "Man (One who needs closeness)",
+      "synonyms": [
+        "ANEES",
+        "INSAAN",
+        "MANOOS"
+      ],
+      "atom_ids": [
+        "etymology:ans",
+        "term:kqur:insaan",
+        "term:kqur:manoos",
+        "term:kqur:anees"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 3
+      },
+      "atom_count": 4
+    },
+    {
+      "id": "root:ghafara",
+      "kind": "root",
+      "root": "ghafara",
+      "label": "ghafara — One who Forgives Immediately",
+      "arabic": "ØºØ§ÙØ±",
+      "translit": "ghafara",
+      "definition": "One who Forgives Immediately",
+      "synonyms": [
+        "GHAFFAR",
+        "GHAFIR",
+        "GHAFOOR"
+      ],
+      "atom_ids": [
+        "etymology:ghafara",
+        "term:kqur:ghafir",
+        "term:kqur:ghaffar",
+        "term:kqur:ghafoor"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 3
+      },
+      "atom_count": 4
+    },
+    {
+      "id": "root:ilm",
+      "kind": "root",
+      "root": "ilm",
+      "label": "ilm — One having knowledge, scholar",
+      "arabic": "عالم",
+      "translit": "ilm",
+      "definition": "One having knowledge, scholar",
+      "synonyms": [
+        "ALAM",
+        "ALEEM",
+        "ALIM"
+      ],
+      "atom_ids": [
+        "etymology:ilm",
+        "term:kqur:alim",
+        "term:kqur:alam",
+        "term:kqur:aleem"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 3
+      },
+      "atom_count": 4
+    },
+    {
+      "id": "root:naha",
+      "kind": "root",
+      "root": "naha",
+      "label": "naha — end, limit, finish",
+      "arabic": "Ù†Ù‡Ù‰",
+      "translit": "naha",
+      "definition": "end, limit, finish",
+      "synonyms": [
+        "AHNA",
+        "INTAHA",
+        "NAHA"
+      ],
+      "atom_ids": [
+        "etymology:naha",
+        "term:kqur:naha",
+        "term:kqur:intaha",
+        "term:kqur:ahna"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 3
+      },
+      "atom_count": 4
+    },
+    {
+      "id": "root:aql",
+      "kind": "root",
+      "root": "aql",
+      "label": "aql — binding chord",
+      "arabic": "عِقَال",
+      "translit": "aql",
+      "definition": "binding chord",
+      "synonyms": [
+        "AQAL",
+        "IQAAL"
+      ],
+      "atom_ids": [
+        "etymology:aql",
+        "term:kqur:iqaal",
+        "term:kqur:aqal"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 2
+      },
+      "atom_count": 3
+    },
+    {
+      "id": "root:dny",
+      "kind": "root",
+      "root": "dny",
+      "label": "dny — This life",
+      "arabic": "Ø£Ø¯Ù†Ù‰",
+      "translit": "dny",
+      "definition": "This life",
+      "synonyms": [
+        "ADNA",
+        "DUNIYA"
+      ],
+      "atom_ids": [
+        "etymology:dny",
+        "term:kqur:adna",
+        "term:kqur:duniya"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 2
+      },
+      "atom_count": 3
+    },
+    {
+      "id": "root:khyr",
+      "kind": "root",
+      "root": "khyr",
+      "label": "khyr — After life",
+      "arabic": "Ù…Ø¤Ø®Ø±",
+      "translit": "khyr",
+      "definition": "After life",
+      "synonyms": [
+        "AKHIRAH",
+        "MUAKHIR"
+      ],
+      "atom_ids": [
+        "etymology:khyr",
+        "term:kqur:muakhir",
+        "term:kqur:akhirah"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 2
+      },
+      "atom_count": 3
+    },
+    {
+      "id": "root:lwm",
+      "kind": "root",
+      "root": "lwm",
+      "label": "lwm — reproach, Blame",
+      "arabic": "Ù„ÙˆØ§Ù…Ø©",
+      "translit": "lwm",
+      "definition": "reproach, Blame",
+      "synonyms": [
+        "LAWWAMA",
+        "MALAMA"
+      ],
+      "atom_ids": [
+        "etymology:lwm",
+        "term:kqur:lawwama",
+        "term:kqur:malama"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 2
+      },
+      "atom_count": 3
+    },
+    {
+      "id": "root:qbl",
+      "kind": "root",
+      "root": "qbl",
+      "label": "qbl — Direction",
+      "arabic": "Ù‚Ø¨Ù„Ø©",
+      "translit": "qbl",
+      "definition": "Direction",
+      "synonyms": [
+        "QALB",
+        "QIBLA"
+      ],
+      "atom_ids": [
+        "etymology:qbl",
+        "term:kqur:qibla",
+        "term:kqur:qalb"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 2
+      },
+      "atom_count": 3
+    },
+    {
+      "id": "root:skn",
+      "kind": "root",
+      "root": "skn",
+      "label": "skn — Tranquility",
+      "arabic": "Ø³ÙƒÙˆÙ†",
+      "translit": "skn",
+      "definition": "Tranquility",
+      "synonyms": [
+        "SAKINA",
+        "SUKOON"
+      ],
+      "atom_ids": [
+        "etymology:skn",
+        "term:kqur:sukoon",
+        "term:kqur:sakina"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 2
+      },
+      "atom_count": 3
+    },
+    {
+      "id": "root:thkr",
+      "kind": "root",
+      "root": "thkr",
+      "label": "thkr — to remind, to mention",
+      "arabic": "ØªØ°ÙƒØ±Ø©",
+      "translit": "thkr",
+      "definition": "to remind, to mention",
+      "synonyms": [
+        "TAZKEER",
+        "TAZKIRAH"
+      ],
+      "atom_ids": [
+        "etymology:thkr",
+        "term:kqur:tazkirah",
+        "term:kqur:tazkeer"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 2
+      },
+      "atom_count": 3
+    },
+    {
+      "id": "root:tmn",
+      "kind": "root",
+      "root": "tmn",
+      "label": "tmn — tranquility, satisfaction",
+      "arabic": "Ø§Ø·Ù…Ø¦Ù†Ø§Ù†",
+      "translit": "tmn",
+      "definition": "tranquility, satisfaction",
+      "synonyms": [
+        "ITMINAAN",
+        "MUTMAIN"
+      ],
+      "atom_ids": [
+        "etymology:tmn",
+        "term:kqur:itminaan",
+        "term:kqur:mutmain"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 2
+      },
+      "atom_count": 3
+    },
+    {
+      "id": "root:ahd",
+      "kind": "root",
+      "root": "ahd",
+      "label": "ahd — To Unify",
+      "arabic": "ØªÙˆØ­ÙŠØ¯",
+      "translit": "ahd",
+      "definition": "To Unify",
+      "synonyms": [
+        "TAWHEED"
+      ],
+      "atom_ids": [
+        "etymology:ahd",
+        "term:kqur:tawheed"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:aqd",
+      "kind": "root",
+      "root": "aqd",
+      "label": "aqd — Creed",
+      "arabic": "Ø¹Ù‚ÙŠØ¯Ø©",
+      "translit": "aqd",
+      "definition": "Creed",
+      "synonyms": [
+        "AQEEDA"
+      ],
+      "atom_ids": [
+        "etymology:aqd",
+        "term:kqur:aqeeda"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:ay",
+      "kind": "root",
+      "root": "ay",
+      "label": "ay — Valuable, purposeful, Evidence, Distinct Sign",
+      "arabic": "آية",
+      "translit": "ay",
+      "definition": "Valuable, purposeful, Evidence, Distinct Sign",
+      "synonyms": [
+        "AYAH"
+      ],
+      "atom_ids": [
+        "etymology:ay",
+        "term:kqur:ayah"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:bas",
+      "kind": "root",
+      "root": "bas",
+      "label": "bas — To Rise, to be resurrected",
+      "arabic": "Ù…Ù†Ø¨Ø¹Ø«",
+      "translit": "bas",
+      "definition": "To Rise, to be resurrected",
+      "synonyms": [
+        "MUNBAIS"
+      ],
+      "atom_ids": [
+        "etymology:bas",
+        "term:kqur:munbais"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:bda",
+      "kind": "root",
+      "root": "bda",
+      "label": "bda — Originate, principle",
+      "arabic": "Ù…Ø¨Ø¯Ø£",
+      "translit": "bda",
+      "definition": "Originate, principle",
+      "synonyms": [
+        "MABDA"
+      ],
+      "atom_ids": [
+        "etymology:bda",
+        "term:kqur:mabda"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:dua",
+      "kind": "root",
+      "root": "dua",
+      "label": "dua — to invite",
+      "arabic": "Ø¯Ø¹ÙˆØ©",
+      "translit": "dua",
+      "definition": "to invite",
+      "synonyms": [
+        "DAWA"
+      ],
+      "atom_ids": [
+        "etymology:dua",
+        "term:kqur:dawa"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:his",
+      "kind": "root",
+      "root": "his",
+      "label": "his — Sensory Soul",
+      "arabic": "Ø­Ø³ÙŠØ©",
+      "translit": "his",
+      "definition": "Sensory Soul",
+      "synonyms": [
+        "HISSIYYAH"
+      ],
+      "atom_ids": [
+        "etymology:his",
+        "term:kqur:hissiyyah"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:jrd",
+      "kind": "root",
+      "root": "jrd",
+      "label": "jrd — To isolate, to peel away",
+      "arabic": "ØªØ¬Ø±ÙŠØ¯",
+      "translit": "jrd",
+      "definition": "To isolate, to peel away",
+      "synonyms": [
+        "TAJREED"
+      ],
+      "atom_ids": [
+        "etymology:jrd",
+        "term:kqur:tajreed"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:nfs",
+      "kind": "root",
+      "root": "nfs",
+      "label": "nfs — Soul",
+      "arabic": "Ù†ÙØ³",
+      "translit": "nfs",
+      "definition": "Soul",
+      "synonyms": [
+        "NAFS"
+      ],
+      "atom_ids": [
+        "etymology:nfs",
+        "term:kqur:nafs"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:nsy",
+      "kind": "root",
+      "root": "nsy",
+      "label": "nsy — To Forget",
+      "arabic": "Ù†Ø³ÙŠØ§Ù†",
+      "translit": "nsy",
+      "definition": "To Forget",
+      "synonyms": [
+        "NISYAAN"
+      ],
+      "atom_ids": [
+        "etymology:nsy",
+        "term:kqur:nisyaan"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:numoo",
+      "kind": "root",
+      "root": "numoo",
+      "label": "numoo — The ability to Grow",
+      "arabic": "Ù†Ø§Ù…ÙŠØ©",
+      "translit": "numoo",
+      "definition": "The ability to Grow",
+      "synonyms": [
+        "NAMIYAH"
+      ],
+      "atom_ids": [
+        "etymology:numoo",
+        "term:kqur:namiyah"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:nutq",
+      "kind": "root",
+      "root": "nutq",
+      "label": "nutq — The Rational Soul",
+      "arabic": "Ù†Ø§Ø·Ù‚Ø©",
+      "translit": "nutq",
+      "definition": "The Rational Soul",
+      "synonyms": [
+        "NATIQA"
+      ],
+      "atom_ids": [
+        "etymology:nutq",
+        "term:kqur:natiqa"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:nzh",
+      "kind": "root",
+      "root": "nzh",
+      "label": "nzh — To purify, to free",
+      "arabic": "ØªÙ†Ø²ÙŠÙ‡",
+      "translit": "nzh",
+      "definition": "To purify, to free",
+      "synonyms": [
+        "TANZEEH"
+      ],
+      "atom_ids": [
+        "etymology:nzh",
+        "term:kqur:tanzeeh"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:qra",
+      "kind": "root",
+      "root": "qra",
+      "label": "qra — To recite",
+      "arabic": "قرآن",
+      "translit": "qra",
+      "definition": "To recite",
+      "synonyms": [
+        "QURAN"
+      ],
+      "atom_ids": [
+        "etymology:qra",
+        "term:kqur:quran"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:qrr",
+      "kind": "root",
+      "root": "qrr",
+      "label": "qrr — Resolute, determined",
+      "arabic": "Ù…Ø³ØªÙ‚Ø±",
+      "translit": "qrr",
+      "definition": "Resolute, determined",
+      "synonyms": [
+        "MUSTAQAR"
+      ],
+      "atom_ids": [
+        "etymology:qrr",
+        "term:kqur:mustaqar"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:qry",
+      "kind": "root",
+      "root": "qry",
+      "label": "qry — Village",
+      "arabic": "Ù‚Ø±ÙŠØ©",
+      "translit": "qry",
+      "definition": "Village",
+      "synonyms": [
+        "QARYA"
+      ],
+      "atom_ids": [
+        "etymology:qry",
+        "term:kqur:qarya"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:rababun",
+      "kind": "root",
+      "root": "rababun",
+      "label": "rababun — Master",
+      "arabic": "Ø±Ø¨",
+      "translit": "rababun",
+      "definition": "Master",
+      "synonyms": [
+        "RABB"
+      ],
+      "atom_ids": [
+        "etymology:rababun",
+        "term:kqur:rabb"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:sabaha",
+      "kind": "root",
+      "root": "sabaha",
+      "label": "sabaha — Glorify",
+      "arabic": "Ø³Ø¨Ø­Ø§Ù†",
+      "translit": "sabaha",
+      "definition": "Glorify",
+      "synonyms": [
+        "SUBHANA"
+      ],
+      "atom_ids": [
+        "etymology:sabaha",
+        "term:kqur:subhana"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:sila",
+      "kind": "root",
+      "root": "sila",
+      "label": "sila — Connection",
+      "arabic": "ØµÙ„Ø§Ø©",
+      "translit": "sila",
+      "definition": "Connection",
+      "synonyms": [
+        "SALAT"
+      ],
+      "atom_ids": [
+        "etymology:sila",
+        "term:kqur:salat"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:ud",
+      "kind": "root",
+      "root": "ud",
+      "label": "ud — return",
+      "arabic": "Ù…Ø¹Ø§Ø¯",
+      "translit": "ud",
+      "definition": "return",
+      "synonyms": [
+        "MAAD"
+      ],
+      "atom_ids": [
+        "etymology:ud",
+        "term:kqur:maad"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:wda",
+      "kind": "root",
+      "root": "wda",
+      "label": "wda — The entrusted one",
+      "arabic": "Ù…Ø³ØªÙˆØ¯Ø¹",
+      "translit": "wda",
+      "definition": "The entrusted one",
+      "synonyms": [
+        "MUSTAWDA"
+      ],
+      "atom_ids": [
+        "etymology:wda",
+        "term:kqur:mustawda"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "root:wqf",
+      "kind": "root",
+      "root": "wqf",
+      "label": "wqf — To stop",
+      "arabic": "ÙˆÙ‚ÙˆÙ",
+      "translit": "wqf",
+      "definition": "To stop",
+      "synonyms": [
+        "WUQOOF"
+      ],
+      "atom_ids": [
+        "etymology:wqf",
+        "term:kqur:wuqoof"
+      ],
+      "by_type": {
+        "etymology": 1,
+        "term": 1
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "theme:intellect",
+      "kind": "theme",
+      "root": null,
+      "label": "intellect",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of intellect.",
+      "synonyms": [
+        "intellect"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:15",
+        "hadith:kashkole:48"
+      ],
+      "by_type": {
+        "hadith": 2
+      },
+      "atom_count": 2
+    },
+    {
+      "id": "theme:accountability",
+      "kind": "theme",
+      "root": null,
+      "label": "Accountability",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Accountability.",
+      "synonyms": [
+        "Accountability"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:42"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:accountability-deeds",
+      "kind": "theme",
+      "root": null,
+      "label": "Accountability, Deeds",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Accountability, Deeds.",
+      "synonyms": [
+        "Accountability, Deeds"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:129"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:all-children-of-adam-will-make-mistakes",
+      "kind": "theme",
+      "root": null,
+      "label": "All children of Adam will make mistakes",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of All children of Adam will make mistakes.",
+      "synonyms": [
+        "All children of Adam will make mistakes"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:45"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:allah-tawheed-khutba",
+      "kind": "theme",
+      "root": null,
+      "label": "allah tawheed khutba",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of allah tawheed khutba.",
+      "synonyms": [
+        "allah tawheed khutba"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:22"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:basmallah",
+      "kind": "theme",
+      "root": null,
+      "label": "basmallah",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of basmallah.",
+      "synonyms": [
+        "basmallah"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:39"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:character",
+      "kind": "theme",
+      "root": null,
+      "label": "Character",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Character.",
+      "synonyms": [
+        "Character"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:125"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:character-akhlaq",
+      "kind": "theme",
+      "root": null,
+      "label": "Character, Akhlaq",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Character, Akhlaq.",
+      "synonyms": [
+        "Character, Akhlaq"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:126"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:companions",
+      "kind": "theme",
+      "root": null,
+      "label": "Companions",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Companions.",
+      "synonyms": [
+        "Companions"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:131"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:conclusion",
+      "kind": "theme",
+      "root": null,
+      "label": "conclusion",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of conclusion.",
+      "synonyms": [
+        "conclusion"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:25"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:creation-of-adam",
+      "kind": "theme",
+      "root": null,
+      "label": "Creation of Adam",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Creation of Adam.",
+      "synonyms": [
+        "Creation of Adam"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:30"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:division-of-nation-in-70-sects",
+      "kind": "theme",
+      "root": null,
+      "label": "division of nation in 70 sects",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of division of nation in 70 sects.",
+      "synonyms": [
+        "division of nation in 70 sects"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:31"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:duniya-akhira-worldly-life-hereafter",
+      "kind": "theme",
+      "root": null,
+      "label": "Duniya, Akhira, Worldly Life, Hereafter",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Duniya, Akhira, Worldly Life, Hereafter.",
+      "synonyms": [
+        "Duniya, Akhira, Worldly Life, Hereafter"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:124"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:guidance-companions",
+      "kind": "theme",
+      "root": null,
+      "label": "Guidance, Companions",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Guidance, Companions.",
+      "synonyms": [
+        "Guidance, Companions"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:132"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:heart",
+      "kind": "theme",
+      "root": null,
+      "label": "Heart",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Heart.",
+      "synonyms": [
+        "Heart"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:44"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:human-potential-universe-macrocosm",
+      "kind": "theme",
+      "root": null,
+      "label": "Human Potential, Universe, Macrocosm",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Human Potential, Universe, Macrocosm.",
+      "synonyms": [
+        "Human Potential, Universe, Macrocosm"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:128"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:hussain",
+      "kind": "theme",
+      "root": null,
+      "label": "HUSSAIN",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of HUSSAIN.",
+      "synonyms": [
+        "HUSSAIN"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:13"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:i-am-in-the-opinion-of-my-slave",
+      "kind": "theme",
+      "root": null,
+      "label": "I am in the opinion of my slave",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of I am in the opinion of my slave.",
+      "synonyms": [
+        "I am in the opinion of my slave"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:47"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:imamat-and-wasayat",
+      "kind": "theme",
+      "root": null,
+      "label": "Imamat and wasayat",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Imamat and wasayat.",
+      "synonyms": [
+        "Imamat and wasayat"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:26"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:interpreter",
+      "kind": "theme",
+      "root": null,
+      "label": "Interpreter",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Interpreter.",
+      "synonyms": [
+        "Interpreter"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:28"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:islam-will-be-estranged-become-a-stranger",
+      "kind": "theme",
+      "root": null,
+      "label": "Islam will be estranged; become a stranger",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Islam will be estranged; become a stranger.",
+      "synonyms": [
+        "Islam will be estranged; become a stranger"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:49"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:killing-people",
+      "kind": "theme",
+      "root": null,
+      "label": "Killing people",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Killing people.",
+      "synonyms": [
+        "Killing people"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:35"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:knowledge-wealth",
+      "kind": "theme",
+      "root": null,
+      "label": "knowledge wealth",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of knowledge wealth.",
+      "synonyms": [
+        "knowledge wealth"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:20"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:love",
+      "kind": "theme",
+      "root": null,
+      "label": "Love",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Love.",
+      "synonyms": [
+        "Love"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:123"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:love-mercy-forgiveness",
+      "kind": "theme",
+      "root": null,
+      "label": "Love, Mercy, Forgiveness",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Love, Mercy, Forgiveness.",
+      "synonyms": [
+        "Love, Mercy, Forgiveness"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:130"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:mercy-shall-overcome-my-wrath",
+      "kind": "theme",
+      "root": null,
+      "label": "mercy shall overcome my wrath",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of mercy shall overcome my wrath.",
+      "synonyms": [
+        "mercy shall overcome my wrath"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:32"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:modesty-is-the-characteristic-of-islam",
+      "kind": "theme",
+      "root": null,
+      "label": "Modesty is the characteristic of Islam",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Modesty is the characteristic of Islam.",
+      "synonyms": [
+        "Modesty is the characteristic of Islam"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:43"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:need-for-allah",
+      "kind": "theme",
+      "root": null,
+      "label": "Need for allah",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Need for allah.",
+      "synonyms": [
+        "Need for allah"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:36"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:paradise-heaven",
+      "kind": "theme",
+      "root": null,
+      "label": "paradise, heaven",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of paradise, heaven.",
+      "synonyms": [
+        "paradise, heaven"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:23"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:paradise-heaven-and-hell",
+      "kind": "theme",
+      "root": null,
+      "label": "Paradise, heaven and hell",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Paradise, heaven and hell.",
+      "synonyms": [
+        "Paradise, heaven and hell"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:41"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:prayer",
+      "kind": "theme",
+      "root": null,
+      "label": "Prayer",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Prayer.",
+      "synonyms": [
+        "Prayer"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:127"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:reflection-on-allah",
+      "kind": "theme",
+      "root": null,
+      "label": "reflection on Allah",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of reflection on Allah.",
+      "synonyms": [
+        "reflection on Allah"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:16"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:satan",
+      "kind": "theme",
+      "root": null,
+      "label": "satan",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of satan.",
+      "synonyms": [
+        "satan"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:37"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:shirk-ant-black-night",
+      "kind": "theme",
+      "root": null,
+      "label": "shirk, ant, black night",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of shirk, ant, black night.",
+      "synonyms": [
+        "shirk, ant, black night"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:17"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:sins-that-fill-the-sky",
+      "kind": "theme",
+      "root": null,
+      "label": "sins that fill the sky",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of sins that fill the sky.",
+      "synonyms": [
+        "sins that fill the sky"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:46"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:soul",
+      "kind": "theme",
+      "root": null,
+      "label": "soul",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of soul.",
+      "synonyms": [
+        "soul"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:14"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:tajreed",
+      "kind": "theme",
+      "root": null,
+      "label": "Tajreed",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Tajreed.",
+      "synonyms": [
+        "Tajreed"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:33"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:tanzeeh",
+      "kind": "theme",
+      "root": null,
+      "label": "Tanzeeh",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Tanzeeh.",
+      "synonyms": [
+        "Tanzeeh"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:34"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:tawheed",
+      "kind": "theme",
+      "root": null,
+      "label": "tawheed",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of tawheed.",
+      "synonyms": [
+        "tawheed"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:18"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:tawheed-of-allah",
+      "kind": "theme",
+      "root": null,
+      "label": "Tawheed Of Allah",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Tawheed Of Allah.",
+      "synonyms": [
+        "Tawheed Of Allah"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:27"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:understanding-allah",
+      "kind": "theme",
+      "root": null,
+      "label": "understanding Allah",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of understanding Allah.",
+      "synonyms": [
+        "understanding Allah"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:19"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:unearth-buried-treasures",
+      "kind": "theme",
+      "root": null,
+      "label": "unearth buried treasures",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of unearth buried treasures.",
+      "synonyms": [
+        "unearth buried treasures"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:29"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:womb",
+      "kind": "theme",
+      "root": null,
+      "label": "womb",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of womb.",
+      "synonyms": [
+        "womb"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:38"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    },
+    {
+      "id": "theme:worship",
+      "kind": "theme",
+      "root": null,
+      "label": "Worship",
+      "arabic": "",
+      "translit": "",
+      "definition": "Hadith on the theme of Worship.",
+      "synonyms": [
+        "Worship"
+      ],
+      "atom_ids": [
+        "hadith:kashkole:40"
+      ],
+      "by_type": {
+        "hadith": 1
+      },
+      "atom_count": 1
+    }
+  ]
+}
