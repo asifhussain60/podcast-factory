@@ -84,3 +84,22 @@ podcast-post-publish:  ## Post-publication wrapper: (optional) transcribe → au
 	@test -n "$(BOOK_DIR)" || (echo "ERROR: set BOOK_DIR=..." >&2; exit 2)
 	@test -n "$(EP)"       || (echo "ERROR: set EP=EP##-slug" >&2; exit 2)
 	@python3 $(PODCAST_DIR)/post_publish.py "$(BOOK_DIR)" "$(EP)" $(if $(AUDIO),"$(AUDIO)",)
+
+# ── Astro site ──────────────────────────────────────────────────────────────
+
+SITE_PORT := 4322
+SITE_URL  := http://localhost:$(SITE_PORT)/library
+
+.PHONY: site
+site:  ## Kill any running dev server, restart it, and open the Library in your browser.
+	@echo "→ Stopping any process on port $(SITE_PORT)…"
+	@lsof -ti :$(SITE_PORT) | xargs kill -9 2>/dev/null || true
+	@echo "→ Starting Astro dev server…"
+	@cd plan-dashboard && npm run dev &
+	@echo "→ Waiting for server to be ready…"
+	@for i in $$(seq 1 20); do \
+		curl -s -o /dev/null http://localhost:$(SITE_PORT)/ && break; \
+		sleep 0.5; \
+	done
+	@echo "→ Opening $(SITE_URL)"
+	@open $(SITE_URL)

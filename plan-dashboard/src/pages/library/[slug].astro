@@ -34,7 +34,7 @@ function fileViewHref(relPath: string): string {
     <p class="card-sub lib-slug">{summary.ref.slug} · {categoryLabel(summary.category)}</p>
 
     <div class="lib-toolbar">
-      <a href={`#chapters`} class="lib-tab-link">Chapters · {summary.chapterCount}</a>
+      <a href={`#binders`} class="lib-tab-link">Binders · {summary.chapterCount}</a>
       <a href={`#episodes`} class="lib-tab-link">Episodes · {summary.episodeCount}</a>
       <a href={`#slide-decks`} class="lib-tab-link">Slide decks · {slideDecks.length}</a>
       <a href={`#audio`} class="lib-tab-link">Audio · {summary.audioCount}</a>
@@ -83,10 +83,10 @@ function fileViewHref(relPath: string): string {
     )}
   </section>
 
-  <section id="chapters" class="stack lib-section">
+  <section id="binders" class="stack lib-section">
     <header class="lib-section-head">
-      <h2>Chapters · {chapters.length}</h2>
-      <p class="card-sub">Authored chapters in <code>chapters/</code>.</p>
+      <h2>Binders · {chapters.length}</h2>
+      <p class="card-sub">Authored binders in <code>chapters/</code>.</p>
     </header>
     {chapters.length === 0 ? (
       <p class="card-sub">No chapters yet.</p>
