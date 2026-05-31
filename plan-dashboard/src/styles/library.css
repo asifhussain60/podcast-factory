@@ -96,6 +96,7 @@
   border-color: rgba(168, 50, 50, 0.4);
 }
 .lib-empty { border-style: dashed; }
+.lib-empty-state { padding: 2rem; }
 
 .lib-detail-head { gap: var(--sp-2); }
 .lib-breadcrumb {

@@ -81,7 +81,7 @@ const pageTitle = `${txtLabel} — ${contentTitle}`;
 
     <section class="chapter-page">
       {workspace.loadError ? (
-        <p class="card-sub" style="padding: 2rem;">{workspace.loadError}</p>
+        <p class="card-sub lib-empty-state">{workspace.loadError}</p>
       ) : (
         <StudioPoc client:only="react" slug={workspace.slug} chapters={workspace.chapters} glossary={workspace.glossary} />
       )}
