@@ -265,6 +265,18 @@ git pull --rebase origin book/ayyuhal-walad    # sync before work + before push
 Append a dated entry at the end of every session (newest at top): what changed, what's next,
 what's blocked. This is your across-session memory.
 
+### 2026-05-31 — Copilot session #3 (UI/UX handoff brief for external redesign AI)
+
+**Purpose:** Asif asked for a holistic review of current develop-history direction, the in-motion plan, the Podcast Factory Astro Site, the Studio proof of concept, the real Studio shell, and the knowledge-driven future state so an external AI could be briefed for a serious redesign recommendation.
+
+**What changed:** Created `_workspace/inbox/ai-triage/podcast-factory-ui-ux.md` from scratch. The note now captures: challenge-first audit of current capabilities, explanation of what the product is today, future-state operating model, current UI surfaces, the shared `knowledge.db` role across KQUR/KASHKOLE/KSESSIONS, manual-mode vs pipeline-mode expectations, architectural strengths/constraints, and explicit redesign do/don't guidance for ChatGPT/Gemini-level handoff.
+
+**Validation:** Target markdown file has no workspace diagnostics.
+
+**Next:** If Asif wants, this brief can now be used as the source prompt for a redesign-spec roundtrip with an external model, or expanded into a more implementation-ready information architecture and screen inventory.
+
+**Blocked:** None. No plan files or pipeline contracts were changed.
+
 ### 2026-05-31 — Copilot session #2 (autonomous execution within lane)
 
 **Asif said:** "proceed with plan execution, red-green refactor cycle after each wave, only stop if you need UI review. Approve best recommendation unless it causes regression."

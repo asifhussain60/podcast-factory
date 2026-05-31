@@ -31,9 +31,10 @@ interface CreateResult {
 
 interface Props {
   onCreated?: (result: CreateResult) => void;
+  onCleared?: () => void;
 }
 
-export default function NewContentForm({ onCreated }: Props) {
+export default function NewContentForm({ onCreated, onCleared }: Props) {
   const [slug, setSlug]           = useState('');
   const [category, setCategory]   = useState('books');
   const [title, setTitle]         = useState('');
@@ -89,6 +90,7 @@ export default function NewContentForm({ onCreated }: Props) {
     setCreated(null);
     setSlug(''); setCategory('books'); setTitle(''); setSourceHint('');
     setSlugError(''); setServerError('');
+    onCleared?.();
   }
 
   if (created) {
