@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-31T12:05:12.422Z",
-  "source_commit": "ea17ecb8",
+  "generated_at": "2026-05-31T15:29:47.425Z",
+  "source_commit": "04a8ad7",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,53 +819,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "ea17ecb8",
-      "subject": "merge(ui/site-enhancements -> develop): operator workbench + single-site nav + CSS externalization",
+      "sha": "04a8ad7",
+      "subject": "feat(site): add About & Help page with quick-start guide and searchable FAQ",
       "date": "2026-05-31"
     },
     {
-      "sha": "1d73aa33",
-      "subject": "feat(WC2): tag 623 doctrine atoms + rebuild concept index (coverage 135->758)",
+      "sha": "34fd28a",
+      "subject": "docs(handoff): close-out — site consolidation, poc-naming debt, auditor test-debt backlog",
       "date": "2026-05-31"
     },
     {
-      "sha": "0283cf57",
-      "subject": "feat(site): unify operator workbench and single-site nav",
+      "sha": "c1086cb",
+      "subject": "test: recover 9 pre-existing failures (fts_topics 8-col fixture; books/ layout assertion)",
       "date": "2026-05-31"
     },
     {
-      "sha": "dc1c3c85",
-      "subject": "feat(WC2): doctrine concept-tagger + tag-concept derivation (D19, Part 2 build)",
+      "sha": "1018065",
+      "subject": "refactor(site): archive studio-poc route, promote corpus-mock -> integrated /corpus",
       "date": "2026-05-31"
     },
     {
-      "sha": "c8d920cd",
-      "subject": "feat(WC2): concept-derivation engine + index (D19, Part 1)",
+      "sha": "d78a36c",
+      "subject": "chore(ayyuhal-walad): stamp pipeline_mode=orchestrated -> all ship gates green",
       "date": "2026-05-31"
     },
     {
-      "sha": "65688b04",
-      "subject": "feat(WC1): apply mirror-primary consolidation to live knowledge.db (atoms 696->7036)",
+      "sha": "f483d5a",
+      "subject": "fix(ayyuhal-walad): strip extraction apparatus from 3 chapters -> SHIP-WITH-CAUTION",
       "date": "2026-05-31"
     },
     {
-      "sha": "42d5492d",
-      "subject": "Merge remote-tracking branch 'origin/develop' into ui/site-enhancements",
+      "sha": "43cff5c",
+      "subject": "chore(ayyuhal-walad): fresh challenger convergence on WC8 3-set — verdict BLOCKED",
       "date": "2026-05-31"
     },
     {
-      "sha": "4bb2271e",
-      "subject": "plan(WC1/WC2): lock Concept Lens (D19) + concept-derivation foundation",
+      "sha": "4aad917",
+      "subject": "fix(publish): category-aware workspace resolution (content/drafts/<cat>/<slug>)",
       "date": "2026-05-31"
     },
     {
-      "sha": "4d0653d6",
-      "subject": "feat(WC1-mock): redesign /corpus-mock to concept-first \"Concept Lens\"",
+      "sha": "e64f3b3",
+      "subject": "content(ayyuhal-walad): adopt WC8 holistic 3-episode structure as canonical",
       "date": "2026-05-31"
     },
     {
-      "sha": "4d812b17",
-      "subject": "AI Recommendations",
+      "sha": "3dee77f",
+      "subject": "feat(WC2): wire Concept Lens to real concepts.json (783 concepts, 758 atoms)",
       "date": "2026-05-31"
     }
   ],

@@ -38,12 +38,11 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _paths import iter_content, REPO_ROOT  # noqa: E402
 
 DRAFTS = REPO_ROOT / "content" / "drafts"
 PUBLISHED = REPO_ROOT / "content" / "published" / "books"
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paths import iter_content  # noqa: E402  canonical content iterator, REPO_ROOT
 
 
 def _parse_since(spec: str | None) -> datetime | None:

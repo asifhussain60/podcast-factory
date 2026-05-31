@@ -118,5 +118,3 @@ export async function loadBookIndex(slug: string): Promise<BookIndex | null> {
 export async function loadChapterSource(filePath: string): Promise<string> {
   return readFile(filePath, 'utf-8');
 }
-
-export { basename };
