@@ -98,7 +98,7 @@ Name discipline. Use each long name in full once on first occurrence, then the s
 
 Honorific discipline. Every honorific is spoken in full English ("peace and blessings of Allah be upon him", "peace be upon him", "may Allah be pleased with him", "may Allah have mercy upon him") — never the typographic abbreviation. Each figure's honorific is spoken exactly once per episode, on the first mention. After that, name the figure by alias without the honorific.
 
-Do not read this guidance aloud. The phonetics above are for the voice model only.
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken. The phonetics are for the voice model only.
 
 ## Do not (forbidden vocabulary and framings)
 

@@ -1,115 +1,141 @@
 # Podcast Challenger Report
 
 **Book:** ayyuhal-walad
-**Run:** 2026-05-17 17:23 (challenger v1.4)
-**Scope:** per-book (5 chapters + 5 framings)
-**Iterations:** 1 (of 5 max)
-**Verdict:** SHIP-READY
+**Run:** 2026-05-31 (challenger v2.3)
+**Scope:** per-book (3 chapters + 3 framings) — WC8-holistic 3-episode set
+**Iterations:** 1 (of 5 max; intelligent-break — no auto-fixable findings remained after iter 1)
+**Verdict:** BLOCKED
 
-This is the third outer-loop invocation. The caller resolved the three residual P1 items from pass #2 via three protocol-level edits, not via content changes:
+> Supersedes the stale 2026-05-17 report, which described the now-archived
+> 5-episode layout. The 5-episode set under `_archive/5-episode-original/`
+> is out of scope and was ignored. This report covers the current canonical
+> 3-episode set only:
+>   1. frame-and-the-problem-of-knowledge
+>   2. the-disciplines-of-the-path
+>   3. the-guiding-shaykh-and-final-counsels
 
-1. **R-HONORIFIC-ONCE clarified to per-form semantics with a verbatim-quote (A4) exception** in `content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md`. The two contested lines (`chapters/ch03-the-path.txt:33` and `chapters/ch05-method-and-closing-prayer.txt:107`) are inside verbatim Ghazali blockquotes (line 33 is a verbatim Ghazali sentence about the perfected guide; line 107 is the closing supplication quoted in full). Both now exempt by rule.
-2. **E1 framing soft band raised from 200–1,000 to 200–2,000** in the challenger contract itself (`.github/agents/podcast-challenger.agent.md`), with the v3.5 ~600-word steering baseline named as the reason the prior cap predated current architecture. All five framings (1,639–1,966 words) fall well inside the new band.
-3. **`_system/editorial-notes.md` updated** with the per-form + verbatim-quote semantics, and with explicit acknowledgement that ch03:33 and ch05:107 are protected exceptions, not bugs.
+## Top line
 
-This pass re-read the two normative rule files and the agent contract first, then ran the full 30-check catalog against all 10 in-scope files. **Zero auto-fixes applied. Zero findings remain.** Build-script re-run on all 5 episodes confirms continued upload-readiness.
+The **three framings (episode customize prompts) are in good shape** — well-structured,
+four-part, concrete audience, named tensions, DENY blocks, name discipline, host
+dynamic, anti-repetition, no meta-prose leaks. Only one minor framing-side auto-fix
+was needed (read-aloud guard wording).
+
+The **three chapter SOURCE files are BLOCKED.** They are raw extraction artifacts,
+not NotebookLM-ready source. NotebookLM uploads the chapter file verbatim as the
+single source and will read every visible token aloud as content. These chapters
+still carry the full scholarly apparatus, structural scaffolding, and translator
+footnote runs. They must go back through the refine/enrich phase before upload.
+This is a re-authoring job, which is out of the challenger's deterministic
+auto-fix envelope (Section 3) — flagged, not patched.
 
 ## Auto-fixes applied (iteration-by-iteration)
 
 | Iter | Check | File | Action |
 |---|---|---|---|
-| — | — | — | (none — file set is already clean under the clarified contract) |
+| 1 | N4 | episodes/EP01-frame-and-the-problem-of-knowledge.txt | Aligned read-aloud guard to canonical "Do not read this prompt aloud." phrase |
+| 1 | N4 | episodes/EP02-the-disciplines-of-the-path.txt | Aligned read-aloud guard to canonical phrase |
+| 1 | N4 | episodes/EP03-the-guiding-shaykh-and-final-counsels.txt | Aligned read-aloud guard to canonical phrase |
 
-Convergence note (Section 4 step 6a): iteration 1 produced zero auto-fixes and zero new findings vs the post-edit baseline. Loop terminated after one iteration.
+No chapter auto-fixes were applied. The chapter-level findings below are all
+re-authoring decisions (apparatus stripping, footnote removal, header removal),
+which Section 3 forbids the challenger from performing mechanically. The
+em-dash (B5) and "the Ihya" (O2) hits live inside apparatus blocks that are
+themselves P0 deletion targets; patching them in isolation would churn text
+that must be rebuilt, so they are rolled into the parent P0 rather than auto-fixed.
 
 ## Findings requiring author resolution
 
 ### P0 (blocks ship)
 
-None.
+#### B1/B3 + R-NO-MANUSCRIPT-META: chapter SOURCE is raw extraction apparatus — applies to ALL THREE chapters
+- **Files:**
+  - `chapters/ch01-frame-and-the-problem-of-knowledge.txt`
+  - `chapters/ch02-the-disciplines-of-the-path.txt`
+  - `chapters/ch03-the-guiding-shaykh-and-final-counsels.txt`
+- **What NotebookLM would voice as content (per-file marker counts):**
+  - `**[GHAZALI — core text]**` section labels: ch01 x11, ch02 x7, ch03 x6
+  - `**[SCHOLARLY COMMENTARY]**` + `[COMMENTARY] ... [/COMMENTARY]` blocks: ch01 x10, ch02 x7, ch03 x4-5 — these are the translator's critical apparatus (footnote numbers, "I fail to find the source of this traditional saying", "Hammer-Purgstall renders this freely in his German translation", folio/MSS. collation notes, "homoeoteleuton", page references to Mishcât). This is precisely the translator-apparatus prose Category B4 forbids, presented as body text.
+  - `**[NARRATOR NOTE]**` empty-marker scaffolding: ch01 x11, ch02 x7, ch03 x5
+  - `> **Wisdom enrichment:**` labelled blocks: ch01 x11, ch02 x7, ch03 x6 — the enrichment label itself is meta-prose; NotebookLM will read "Wisdom enrichment" aloud.
+  - Header line `*Episode 1 of 3 — ayyuhal-walad*` / `*Episode 2 of 3*` / `*Episode 3 of 3*` plus the `*Sections: ... · N words*` line — a cross-episode + file-metadata self-reference at the top of every chapter (Category B2/B3). NotebookLM will voice "Episode 1 of 3, sections 1 through 11, 4,456 words."
+- **Why P0:** the chapter file is the upload-as-is SOURCE. Every one of these tokens becomes spoken audio. The conversation will be polluted with section labels, footnote apparatus, and editorial scaffolding.
+- **Suggested fix:** run the chapters back through the Phase 0e/0f refine+enrich step (or hand-author) to produce clean continuous prose: strip the bracketed section/role labels, delete the `[COMMENTARY]` apparatus entirely (it is translator-facing, not listener-facing), remove the `[NARRATOR NOTE]` markers, drop the top header metadata line, and fold the "Wisdom enrichment" content into the prose without the label (or remove it). Then re-run the challenger.
 
-### P1 (ship-with-caution)
+### P1 (ship-with-caution — but currently moot under the P0 block)
 
-None.
+#### A1: Quranic citation format — surah name without surah number — book-wide
+- **Files:** all three chapters (ch01 x10, ch02 x10, ch03 x5 occurrences).
+- **Context:** verses are cited as `(An-Najm: 38)`, `(Al-Kahf: 110)`, `(At-Tawbah: 82)`, etc. — surah NAME and verse, but no surah NUMBER. Category A1 wants `(Quran <Surah>:<Verse>)` or `(<Surah Name> <Surah>:<Verse>)`. The translator's footnotes DO carry the numeric form (e.g. "Qur'ân 53:40"), so the data exists in-file — it just lives in the apparatus that is being deleted.
+- **Suggested fix:** during the re-author pass, normalise each in-prose citation to `(Quran 53:38–39)` style (or the framing-declared lead-in form "The Quran, in Surah An-Najm, verse 38"), pulling the numbers from the footnotes before the footnotes are removed.
+
+#### O2: abbreviation "the Ihya" — book-wide (inside apparatus)
+- **Files:** ch02 (x2), ch03 (x3) — every occurrence is inside the `[COMMENTARY]` blocks ("Ghazali in the Ihya'", "Book IX of Quarter I of the Ihya'").
+- **Disposition:** these disappear when the apparatus is deleted (parent P0). If any reference to the work survives into the cleaned prose, expand to "Ihya Ulum al-Din" per R-NO-ABBREVIATION. Not auto-fixed (would churn doomed text).
 
 ### P2 (advisory)
 
-#### D4-adjacent: ch01:39–46 three consecutive Quranic blockquotes with minimal bridge prose
+- **Q2 (chapter-set):** two chapter titles exceed the 6-word soft target (7 words each): "The Frame and the Problem of Knowledge" and "The Guiding Shaykh and the Final Counsels". Under the 60-char hard cap; advisory only.
+- **B2 (mild):** the framing Opening directives instruct the hosts to announce "Episode 1 of 3" / "Episode 2 of 3" / "Episode 3, the close of the series". This is deliberate series-orientation steering (not the forbidden `EP##` form, so no build-gate violation), but it is a cross-episode reference the hosts will speak. Left as-is per author intent; flagged so the author can decide whether to soften to source-anchored phrasing.
 
-- **File:** `content/podcast/library/books/ayyuhal-walad/chapters/ch01-frame-and-first-counsel.txt:39-46`
-- **Context:** Three Quranic blockquotes (Az-Zalzalah 99:7-8, Al-Kahf 18:110, Al-Kahf 18:107) appear in sequence with only blank-line separation between them, no intervening commentary of 30+ words.
-- **Why not P1:** The chapter prose at line 37 ("He stacks the verses on each other so that none of them can be argued away") names this as Ghazali's deliberate rhetorical move. The stacking IS the argument. Bridge prose between the verses would dilute exactly the effect Ghazali is producing in his source. The framing's Focus 1 also instructs hosts to "walk the listener through the stacking of verses; do not flatten the rhetoric."
-- **Recommendation:** No change. Carried forward as P2 advisory; surfaced for completeness so the outer loop has a record that the stacking was noticed and accepted.
+### Note on chapter word-count (check_chapter_set Q4 reported P0)
+`check_chapter_set.py` flags all three chapters as over the declared `default_deep_dive`
+band (4485 / 3868 / 3472 words vs 1800–2800). This count is inflated by the
+apparatus that must be stripped. The true prose word count after the B1 P0 fix
+will be materially lower; the band-fit should be re-evaluated (or the contract
+length band relabelled) AFTER the re-author pass, not before. Recorded here as a
+downstream consequence of the parent P0, not an independent design failure.
+
+## Doctrinal (Category T)
+**CLEAN.** `assert_doctrinal_clean()` passes on all three chapters. Source tradition
+is `sunni-sufi` (per the contracts), so the Ismaili imam-lineage checks correctly do
+not fire. The Sunni footnote describing 'Ali as "fourth Caliph in the Sunnite list ...
+first legitimate successor per Shi'ite sects" is faithful to the source tradition and
+triggers no forbidden-phrase or attribution finding.
+
+## Framing integrity (Categories F/H/I/J/K/M/N/Q/R)
+All three framings PASS the deterministic framing-side checks:
+- Four-part structure, concrete audience, four named tensions each (F2/F3/F4)
+- `## Do not` DENY block with modernize + surprise vocabulary present (M1/M2)
+- Welcome + episode-summary opening (H1/H2); closing-landing directive (H3)
+- Anti-repetition (I1) + no-irrelevant-background (I2) clauses present
+- Name discipline block + aliases (J1); honorific-once discipline (O1 framing-side)
+- Conversation/interruption discipline + named filler vocabulary (K1/K2)
+- Pronunciation block in imperative `Pronounce "..."` form (N2); no legacy passive list
+- Read-aloud guard now canonical after the N4 auto-fix (N4)
+- No meta-prose substring tells, no `EP##` regex tells in framing body (B1/B2)
+
+## Transcript-empirical loops (M/N/O/P/Q/R transcript checks)
+INERT — no transcripts present (`transcripts/` holds only `_README.md`). These
+loops will activate when a NotebookLM transcript is dropped post-generation.
 
 ## Health metrics
 
-### Chapter file (SOURCE) — uploaded as-is to NotebookLM
-
-| Chapter | Words | Enrichment ratio (blockquote/total) | Tier diversity | Citation density | Phonetic gaps (inline) |
+| Chapter | Words (raw) | Apparatus markers | Inline phonetics | Doctrinal | NotebookLM-ready |
 |---|---|---|---|---|---|
-| ch01-frame-and-first-counsel | 3,042 | 21% | 4 tiers (Quran, hadith, Nahj al-Balagha, Sufi quote) | 11 cited | 0 |
-| ch02-hatim-eight-benefits | 2,561 | 40% | 4 tiers (Quran, hadith, Nahj al-Balagha + Ghurar al-Hikam, Ismaili farman) | 14 cited | 0 |
-| ch03-the-path | 3,049 | 14% | 4 tiers (Quran, hadith, Nahj al-Balagha + Ghurar al-Hikam, Ibn Ata Allah/Dhu'l-Nun Sufi) | 7 cited | 0 |
-| ch04-four-cautions | 2,738 | 13% | 4 tiers (Quran, hadith, Nahj al-Balagha + Ghurar al-Hikam, Hasan al-Basri) | 7 cited | 0 |
-| ch05-method-and-closing-prayer | 2,680 | 24% | 4 tiers (Quran, hadith, Nahj al-Balagha, Ismaili du'a tradition) | 9 cited | 0 |
+| ch01 | 4,485 | 53 (11 core + 10 commentary + 11 narrator + 11 enrichment + header) | 0 | clean | NO (P0) |
+| ch02 | 3,868 | 35 | 0 | clean | NO (P0) |
+| ch03 | 3,472 | 26 | 0 | clean | NO (P0) |
 
-All five chapters are within the soft band (1,500–4,500) and inside the sweet spot envelope. All enrichment ratios are well below the 60% cap.
-
-### Framing file → episode txt (CUSTOMIZE PROMPT) — pasted into NotebookLM Customize box
-
-| Episode | Framing words | Episode-txt words | Inside 200–2,000 soft band | Required v3.5 blocks |
+| Framing | Words | Band (200–3700) | Structure | NotebookLM-ready |
 |---|---|---|---|---|
-| EP01-frame-and-first-counsel | 1,966 | 1,908 | yes | all 9 present |
-| EP02-hatim-eight-benefits | 1,639 | 1,590 | yes | all 9 present |
-| EP03-the-path | 1,785 | 1,736 | yes | all 9 present |
-| EP04-four-cautions | 1,689 | 1,640 | yes | all 9 present |
-| EP05-method-and-closing-prayer | 1,816 | 1,767 | yes | all 9 present |
+| EP01 | 1,680 | in-band | 4-part complete | YES |
+| EP02 | 1,864 | in-band | 4-part complete | YES |
+| EP03 | 1,819 | in-band | 4-part complete | YES |
 
-Required v3.5 blocks audited per episode: (1) Opening directive with welcome + 2-3 sentence summary (R-WELCOME / H1+H2); (2) Pronunciation block in imperative form ending with "Do not read this guidance aloud" (R-PRONUNCIATION-IMPERATIVE / N2+N4); (3) Name discipline block (R-NAMEALIAS / J1); (4) Honorific discipline block; (5) `## Do not` DENY-modernize block (R-NOMODERNIZE / M1); (6) DENY-surprise block (R-NOSURPRISE / M2); (7) Anti-repetition clause (R-NOREPEAT / I1); (8) No-irrelevant-background clause (R-NOBACKGROUND / I2); (9) Conversation-discipline clause + final "Do not read this prompt aloud" line (R-NOINTERRUPT / K1 + R-NO-READ-PROMPT / F7).
+## Health score
 
-### Honorific audit per chapter (R-HONORIFIC-ONCE per-form semantics, A4 exception)
+P0=3  P1=2  P2=3  chapters=3  auto-fixes=3
+score = 1 − (3·1.0 + 2·0.2 + 3·0.05) / 3 = **−0.18** (🔴 BLOCKED)
 
-| Chapter | "peace and blessings be upon him" | "peace be upon him/her" | "may Allah have mercy upon him" | "may Allah be pleased with him/her" | (AS) inside attribution lines |
-|---|---|---|---|---|---|
-| ch01 | 1 (line 9, outside) | 1 (line 89, outside) | 1 (line 7, outside) | 0 | 1 (line 92, inside source attribution) |
-| ch02 | 1 (line 44, outside) | 1 (line 66, outside) | 1 (line 9, outside) | 0 | 1 (line 69, inside source attribution) |
-| ch03 | 1 outside (line 19) + **1 A4-exempt (line 33, inside verbatim Ghazali blockquote)** | 1 (line 79, outside) | 0 | 0 | 1 (line 82, inside source attribution) |
-| ch04 | 1 (line 25, outside) | 1 (line 47, outside) | 0 | 0 | 1 (line 107, inside source attribution) |
-| ch05 | 1 outside (line 21) + **1 A4-exempt (line 107, inside verbatim closing supplication)** | 1 (line 43, outside) | 0 | 1 (line 80, outside, for Aisha) | 1 (line 46, inside source attribution) |
-
-Every chapter: each honorific phrase form expanded at most once outside verbatim blockquotes. A4 exceptions documented in editorial-notes.md. (AS) occurrences appear only inside `> Source:` attribution lines, which are part of the structural citation format required by R-ATTRIBUTION/A1 for Imam Ali sayings.
-
-### Cross-cutting structural checks
-
-- HTML comments in chapters: 0
-- Cross-episode refs (`EP\d\d`, "previous episode", "earlier episode"): 0 in chapters
-- Em-dashes in chapter prose: 0 (one em-dash in `EP05-method-and-closing-prayer/00-framing.md:77`, inside an instructional line about the term `qudsi`; framings are processed silently by NotebookLM under R-NO-READ-PROMPT and Loop B5 scopes to chapter prose, so not flagged)
-- Inline phonetic parens (R-PHONETICS-OUT / N1): 0 in all chapters
-- Abbreviated work titles (`the Ihya`, `the Nahj`, `EI`, etc. — R-NO-ABBREVIATION / O2): 0 in chapters; all framings carry the canonical DENY clause
-- `[CONTEXT NEEDED]` / `[VERIFY CITATION]` markers: 0 across all files
-- Build-script structural validation: passes on all 5 episode builds
-
-### Extract Mode (Category G) and empirical-transcript audit (Category M/N/O)
-
-`chapter-contracts/` directory not present (book is authored, not Extract Mode) → Category G N/A.
-`transcripts/` contains only `_README.md`, no transcripts → Category M/N/O empirical-audit branches N/A. Loops M1, M2, N1, N2, N3, N4, O1, O2 (framing-side + chapter-side static checks) all pass independently.
+The negative score reflects three chapter-level P0s — the chapters are not yet
+SOURCE-ready. Once the apparatus is stripped and the chapters re-validated, the
+score will recover sharply (the framings are already clean).
 
 ## Verdict rationale
 
-The three residual P1 items from pass #2 (P1-1 honorific-in-verbatim-blockquote on ch03:33 + ch05:107, P1-2 framings outside 200–1,000 soft band, P1-5 per-form vs per-figure ambiguity) were all rule-level disagreements about how to interpret content that was structurally and authorially sound. The caller's three edits resolved the disagreements at the rule level: per-form is canonical, the verbatim-quote A4 exception is named explicitly, and the framing soft band was reset to match v3.5 architectural reality. Under the clarified contract, every check in the 30-item catalog passes. Zero P0, zero P1, one P2 advisory carried forward for transparency.
-
-All 5 episode bundles are upload-ready. Each episode's pair (chapter SOURCE + episode-txt CUSTOMIZE PROMPT) is byte-aligned with its framing via the most recent `build_episode_txt.py` run.
-
-## Upload steps (per episode)
-
-1. Upload `content/podcast/library/books/ayyuhal-walad/chapters/chNN-<slug>.txt` to NotebookLM as the single source for the notebook.
-2. Paste the contents of `content/podcast/library/books/ayyuhal-walad/episodes/EP##-<slug>.txt` into NotebookLM's *Customize* prompt box.
-3. Choose *Deep Dive* format, *Default* length, click *Generate*.
-
-| # | Chapter source | Episode customize-prompt |
-|---|---|---|
-| 1 | `chapters/ch01-frame-and-first-counsel.txt` | `episodes/EP01-frame-and-first-counsel.txt` |
-| 2 | `chapters/ch02-hatim-eight-benefits.txt` | `episodes/EP02-hatim-eight-benefits.txt` |
-| 3 | `chapters/ch03-the-path.txt` | `episodes/EP03-the-path.txt` |
-| 4 | `chapters/ch04-four-cautions.txt` | `episodes/EP04-four-cautions.txt` |
-| 5 | `chapters/ch05-method-and-closing-prayer.txt` | `episodes/EP05-method-and-closing-prayer.txt` |
+**BLOCKED.** Three unresolved P0 findings remain (one per chapter: SOURCE files are
+raw extraction apparatus). Per the convergence contract, P0s remaining → BLOCKED.
+The framings are ship-ready; the chapters require a re-author/refine pass that is
+outside the challenger's deterministic auto-fix scope. Re-invoke the challenger
+after the chapters are cleaned.

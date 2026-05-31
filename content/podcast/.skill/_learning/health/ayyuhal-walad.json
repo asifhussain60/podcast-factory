@@ -1,0 +1,13 @@
+{
+  "ts": "2026-05-31T13:08Z",
+  "book": "ayyuhal-walad",
+  "chapters_in_scope": 3,
+  "p0": 3,
+  "p1": 2,
+  "p2": 3,
+  "auto_fixes": 3,
+  "score": 0.0,
+  "badge": "Unstable",
+  "verdict": "BLOCKED",
+  "challenger_version": "2.3"
+}
