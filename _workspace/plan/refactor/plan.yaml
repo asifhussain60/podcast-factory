@@ -93,7 +93,9 @@ waves:
   - id: A
     name: Foundation
     parallel_with: []
-    execution_status: in_progress
+    execution_status: completed_2026_05_31
+    execution_notes:
+      - "COMPLETED (2026-05-31): All 7 Wave-A steps verified shipped during 2026-05-31 plan audit. Test suite 70/70 green. _db.py, _archetypes.py, intelligence/_anti_cliche.py, 22 schema migrations applied, archetype seeds on disk, contract tests passing."
     execution_notes:
       - "A1 root cleanup completed: only README.md, architecture.md, and copilot-handoff.md remain at _workspace/plan root."
       - "A2 COMPLETE (2026-05-28): _db.py (415 lines, WAL-mode singleton + 7 repositories), _archetypes.py (190 lines, load/list/resolve), intelligence/_anti_cliche.py (4 denial frozensets), 16 schema files (001–016) applied to live knowledge.db, 7 archetype seeds on disk (scholarly-deep-dive, narrative-prose, aphorism-collection, socratic-dialogue, play-novel, lecture-series, encyclopedic-epistolary), 37 new tests passing (68 total)."
@@ -533,10 +535,11 @@ waves:
 
   - id: B
     name: Intelligence Layer
-    execution_status: in_progress
+    execution_status: completed_2026_05_31
     parallel_with: [C]
     depends_on: [A]
     execution_notes:
+      - "COMPLETED (2026-05-31): B0-B5 all shipped. Final B5 commit 1a8697c (MCP corpus ingestion etymology+poetry). WC1 atoms.tradition column-shift bug found during 2026-05-31 audit + repaired via migration 022 (commit 16c220a) — 628 doctrine atoms now correctly tagged fatimid-ismaili."
       - "Pre-wave quality audit across prior waves completed; Wave A acceptance gates validated."
       - "Mandatory alignment inserted and resolved before Wave B: A6 agent-count acceptance updated from 16 to 17 to match canonical repository truth and installer output."
       - "Second mandatory alignment inserted and resolved before deeper B0 execution: schema layer expanded from 6 to 16 migration files to match Wave A contract; B0 code now has required corpus tables available."
@@ -1576,7 +1579,7 @@ waves_ghj:
     name: Narrative Homepage
     depends_on: []
     parallel_with: [F]
-    execution_status: in_progress_2026_05_27
+    execution_status: completed_2026_05_31
     steps:
       - id: G1
         title: "Cinematic narrative scroll homepage with GSAP ScrollTrigger"

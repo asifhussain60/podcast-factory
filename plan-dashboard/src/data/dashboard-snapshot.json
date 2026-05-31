@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-30T21:57:33.245Z",
-  "source_commit": "1e9a74b",
+  "generated_at": "2026-05-31T09:16:02.308Z",
+  "source_commit": "16c220a",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -819,53 +819,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "1e9a74b",
-      "subject": "fix(pipeline): close all audit regressions — C1/C2/H1-H4/M1/M5/L3",
+      "sha": "16c220a",
+      "subject": "fix(intelligence/WC1): repair atoms.tradition column after migration 021 column-shift bug",
+      "date": "2026-05-31"
+    },
+    {
+      "sha": "f6394f8",
+      "subject": "policy(2026-05-31): LLM-agnostic operating model — retire two-agent lane lock + plan-first execution gate",
+      "date": "2026-05-31"
+    },
+    {
+      "sha": "1c8e158",
+      "subject": "chore(session/2026-05-31 #2): verify G1 + WC8-5b are actually done",
+      "date": "2026-05-31"
+    },
+    {
+      "sha": "6f7c018",
+      "subject": "chore(session/2026-05-31): holistic plan review — gaps, blockers, sequence",
+      "date": "2026-05-31"
+    },
+    {
+      "sha": "96a3023",
+      "subject": "feat(knowledge/ayyuhal): MCP-enriched knowledge stage — 18 Quran refs + 10 etymology + 15 doctrine",
       "date": "2026-05-30"
     },
     {
-      "sha": "a61ee64",
-      "subject": "chore(ayyuhal-walad): regenerate stage-metrics.json with stripped augmented prose",
+      "sha": "1a8697c",
+      "subject": "feat(knowledge/B5): MCP corpus ingest — 68 hadith/poetry/etymology atoms + central access module",
       "date": "2026-05-30"
     },
     {
-      "sha": "9513366",
-      "subject": "fix(studio-poc): strip augmented.md metadata block from editor + inspector summary",
+      "sha": "fe9f346",
+      "subject": "feat(knowledge): build SQLite mirror from KQUR/KASHKOLE/KSESSIONS — full OrbStack independence",
       "date": "2026-05-30"
     },
     {
-      "sha": "cf32d87",
-      "subject": "feat(studio-poc): Hadith + Works source provenance chips inline",
+      "sha": "ae52975",
+      "subject": "chore(audit/P1-4): mark dead knowledge/ modules as deprecated",
       "date": "2026-05-30"
     },
     {
-      "sha": "135ed48",
-      "subject": "feat(studio-poc): augmentation diff toggle + reference legend; fix 60+ TS errors",
+      "sha": "d913a21",
+      "subject": "docs(audit/P1+P2): SKILL.md WC8 section, orchestrator spec, framework, CLAUDE.md",
       "date": "2026-05-30"
     },
     {
-      "sha": "2695b92",
-      "subject": "fix(studio-poc): consistent hover/active border + reliable click-outside deselect",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "6fb46c2",
-      "subject": "fix(studio-poc): hover padding + click-outside deselect",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "acdb86e",
-      "subject": "fix(studio): prefer additions-narrator-clean.md in stage loader (F2 display fix)",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "4b5d497",
-      "subject": "chore: update stage-metrics.json after editorial fixes run",
-      "date": "2026-05-30"
-    },
-    {
-      "sha": "f5f53ec",
-      "subject": "feat(wc8/editorial): apply_editorial_fixes.py + clean narrator stage files — ayyuhal-walad",
+      "sha": "124eb8b",
+      "subject": "fix(audit/P0+P1): dead code removal, interest-axis dedupe, path abstraction",
       "date": "2026-05-30"
     }
   ],
