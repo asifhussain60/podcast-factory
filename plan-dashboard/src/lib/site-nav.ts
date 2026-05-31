@@ -13,11 +13,11 @@ export type ActivePage =
   | 'wisdom'
   | 'quality'
   | 'annotation-ops'
-  | 'studio-poc'
   | 'studio'
   | 'planner'
   | 'system-map'
-  | 'intake';
+  | 'intake'
+  | 'corpus';
 
 export type NavSection = 'overview' | 'workspace' | 'library' | 'knowledge' | 'docs';
 
@@ -29,9 +29,9 @@ export interface NavLink {
 
 export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
   { href: '/', label: 'Home', section: 'overview', pages: ['home', 'overview'] },
-  { href: '/workbench', label: 'Workspace', section: 'workspace', pages: ['workbench', 'studio', 'studio-poc', 'intake', 'annotation-ops'] },
+  { href: '/workbench', label: 'Workspace', section: 'workspace', pages: ['workbench', 'studio', 'intake', 'annotation-ops'] },
   { href: '/library', label: 'Library', section: 'library', pages: ['library'] },
-  { href: '/wisdom', label: 'Knowledge', section: 'knowledge', pages: ['wisdom', 'intelligence'] },
+  { href: '/wisdom', label: 'Knowledge', section: 'knowledge', pages: ['wisdom', 'intelligence', 'corpus'] },
   { href: '/architecture', label: 'Docs', section: 'docs', pages: ['architecture', 'infrastructure', 'db-schema', 'security', 'system-map', 'quality', 'plan', 'dashboard', 'planner'] },
 ];
 
@@ -42,7 +42,7 @@ export const SUBNAV: Record<NavSection, NavLink[]> = {
   ],
   workspace: [
     { href: '/workbench', label: 'Workbench', pages: ['workbench'] },
-    { href: '/studio', label: 'Editor', pages: ['studio', 'studio-poc'] },
+    { href: '/studio', label: 'Editor', pages: ['studio'] },
     { href: '/intake', label: 'New content', pages: ['intake'] },
     { href: '/annotation-ops', label: 'Annotations', pages: ['annotation-ops'] },
   ],
@@ -51,6 +51,7 @@ export const SUBNAV: Record<NavSection, NavLink[]> = {
   ],
   knowledge: [
     { href: '/wisdom', label: 'Wisdom corpus', pages: ['wisdom'] },
+    { href: '/corpus', label: 'Corpus explorer', pages: ['corpus'] },
     { href: '/intelligence', label: 'Intelligence', pages: ['intelligence'] },
   ],
   docs: [

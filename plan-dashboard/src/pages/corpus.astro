@@ -1,6 +1,6 @@
 ---
 import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import Base from '../layouts/Base.astro';
 import CorpusExplorer from '../components/corpus-mock/CorpusExplorer.tsx';
 import {
@@ -11,13 +11,15 @@ import '../styles/corpus-mock.css';
 const byType = CORPUS_TOTALS.byType;
 const typeKeys = Object.keys(byType) as (keyof typeof byType)[];
 
-// Load the REAL derived concept index (content/knowledge-base/_index/concepts.json).
-// Falls back to the hardcoded sample inside the island if absent.
+// Load the derived concept index (content/knowledge-base/_index/concepts.json).
+// Resolve relative to THIS file (src/pages/corpus.astro -> repo root) so it works
+// regardless of cwd (dev, SSG build, or node-adapter SSR). Falls back to the
+// in-island sample if the index is absent.
 let realConcepts: any[] | undefined;
 let realAtoms: any[] | undefined;
 let realCoverage: any;
 try {
-  const p = resolve(process.cwd(), '../content/knowledge-base/_index/concepts.json');
+  const p = fileURLToPath(new URL('../../../content/knowledge-base/_index/concepts.json', import.meta.url));
   const idx = JSON.parse(readFileSync(p, 'utf-8'));
   realConcepts = idx.concepts;
   realAtoms = idx.atoms;
@@ -26,23 +28,22 @@ try {
 const usingReal = Array.isArray(realConcepts) && realConcepts.length > 0;
 ---
 <Base
-  title="Corpus Mock — Consolidated knowledge.db"
-  active="intelligence"
-  section="architecture"
-  description="MOCK: what the consolidated wisdom corpus (knowledge.db) looks like after the WC1 mirror-primary import, plus a faceted search + atom-augmentation UX to review before applying to the live DB.">
+  title="Corpus Explorer — Consolidated knowledge.db"
+  active="corpus"
+  section="knowledge"
+  description="Explore the consolidated wisdom corpus (knowledge.db): the data model, the tradition firewall, and a concept-first faceted search + atom-augmentation surface over the live concept index.">
 
 <div class="cm">
   <header class="cm-hero">
-    <span class="eyebrow">Architecture · Intelligence · WC1 review</span>
-    <h1>Consolidated Wisdom Corpus — data &amp; query mock</h1>
+    <span class="eyebrow">Knowledge · Corpus Explorer</span>
+    <h1>Consolidated Wisdom Corpus</h1>
     <p class="lede">
       What <code>knowledge.db</code> looks like after the three source databases (KQUR · KASHKOLE · KSESSIONS)
-      are folded into one tradition-stamped corpus — and how you'll search it and pick atoms to augment a chapter.
-      Review the shape here and flag deviations <strong>before</strong> we apply to the live database.
+      were folded into one tradition-stamped corpus — and how you search it concept-first and pick atoms to augment a chapter.
     </p>
     {usingReal
-      ? <span class="cm-mockflag">● LIVE — wired to content/knowledge-base/_index/concepts.json · {realConcepts!.length} real concepts over {realCoverage?.concept_mapped ?? '—'} mapped atoms</span>
-      : <span class="cm-mockflag">● MOCK — hardcoded sample (concepts.json not found)</span>}
+      ? <span class="cm-mockflag">● LIVE — {realConcepts!.length} concepts over {realCoverage?.concept_mapped ?? '—'} mapped atoms · content/knowledge-base/_index/concepts.json</span>
+      : <span class="cm-mockflag">● sample data — run scripts/podcast/intelligence/concept_index.py to generate the live index</span>}
   </header>
 
   <!-- ============ CONSOLIDATED TOTALS ============ -->

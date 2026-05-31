@@ -162,7 +162,7 @@ export default function OperatorWorkbench({
           <div className="wb-quick-actions">
             <a href="/studio">Open full studio</a>
             <a href="/intake">Start new content</a>
-            <a href="/corpus-mock">Inspect corpus mock</a>
+            <a href="/corpus">Inspect corpus</a>
           </div>
         </header>
 
