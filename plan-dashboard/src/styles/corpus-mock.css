@@ -1,0 +1,160 @@
+/* corpus-mock.css — MOCK: consolidated knowledge.db explorer.
+ * Cortex standard: external CSS only, Theme-Adapter Pattern onto existing --c-* tokens.
+ * No new palette — local semantic vars map onto the global theme so it adapts to light/dark.
+ */
+.cm {
+  --cm-quran: var(--c-green);
+  --cm-hadith: var(--c-gold);
+  --cm-term: var(--c-accent);
+  --cm-doctrine: var(--c-model-opus, var(--c-accent));
+  --cm-etymology: var(--c-amber);
+  --cm-poetry: var(--c-model-gemini, var(--c-gold));
+  --cm-universal: var(--c-green);
+  --cm-fatimid-ismaili: var(--c-accent);
+  --cm-ismaili: var(--c-gold);
+  --cm-gap: 1rem;
+  --cm-radius: 10px;
+  color: var(--c-ink);
+}
+
+/* ---- hero + mock banner ---- */
+.cm-hero { max-width: 70rem; margin: 0 auto 1.5rem; }
+.cm-hero h1 { font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.15; margin: .4rem 0; }
+.cm-hero .eyebrow { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--c-ink-muted); }
+.cm-hero .lede { color: var(--c-ink-dim); max-width: 60ch; }
+.cm-mockflag {
+  display: inline-flex; gap: .5rem; align-items: center; margin-top: .6rem;
+  padding: .35rem .7rem; border-radius: 999px; font-size: .78rem; font-weight: 600;
+  background: color-mix(in oklab, var(--c-amber) 16%, var(--c-bg-elev));
+  color: var(--c-amber); border: 1px solid color-mix(in oklab, var(--c-amber) 40%, transparent);
+}
+
+.cm-section { max-width: 76rem; margin: 0 auto 2.4rem; }
+.cm-section > h2 { font-size: 1.25rem; margin: 0 0 .25rem; }
+.cm-section > .sub { color: var(--c-ink-muted); font-size: .9rem; margin: 0 0 1rem; }
+
+/* ---- stat strip ---- */
+.cm-stats { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1rem 0; }
+.cm-stat {
+  flex: 1 1 8rem; background: var(--c-bg-card); border: 1px solid var(--c-rule);
+  border-radius: var(--cm-radius); padding: .7rem .9rem;
+}
+.cm-stat .n { font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.cm-stat .k { font-size: .74rem; color: var(--c-ink-muted); text-transform: uppercase; letter-spacing: .06em; }
+
+/* ---- schema groups ---- */
+.cm-grouprow { display: grid; gap: var(--cm-gap); grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
+.cm-group { background: var(--c-bg-card); border: 1px solid var(--c-rule); border-radius: var(--cm-radius); padding: 1rem; }
+.cm-group h3 { margin: 0 0 .6rem; font-size: .95rem; display: flex; align-items: center; gap: .5rem; }
+.cm-group h3::before { content: ""; width: .7rem; height: .7rem; border-radius: 3px; background: var(--c-accent); }
+.cm-group.knowledge h3::before { background: var(--c-accent); }
+.cm-group.quality h3::before { background: var(--c-gold); }
+.cm-table { display: grid; gap: .55rem; }
+.cm-tablecard { background: var(--c-bg-sunken); border: 1px solid var(--c-rule-soft); border-radius: 8px; padding: .55rem .7rem; }
+.cm-tablecard .tn { font-family: ui-monospace, monospace; font-weight: 600; font-size: .85rem; }
+.cm-tablecard .tn .rows { float: right; color: var(--c-ink-muted); font-weight: 400; font-size: .78rem; }
+.cm-tablecard .tp { color: var(--c-ink-dim); font-size: .82rem; margin: .2rem 0; }
+.cm-tablecard .tc { color: var(--c-ink-muted); font-size: .74rem; font-family: ui-monospace, monospace; }
+
+/* ---- tradition firewall legend ---- */
+.cm-legend { display: grid; gap: .5rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+.cm-trad { padding: .6rem .8rem; border-radius: 8px; border-left: 4px solid var(--c-rule); background: var(--c-bg-card); }
+.cm-trad.universal { border-left-color: var(--cm-universal); }
+.cm-trad.fatimid-ismaili { border-left-color: var(--cm-fatimid-ismaili); }
+.cm-trad.ismaili { border-left-color: var(--cm-ismaili); }
+.cm-trad .tt { font-family: ui-monospace, monospace; font-weight: 600; font-size: .85rem; }
+.cm-trad .td { color: var(--c-ink-dim); font-size: .8rem; }
+
+/* ---- explorer: facets + results ---- */
+.cm-explorer { display: grid; grid-template-columns: 15rem 1fr; gap: 1.2rem; align-items: start; }
+@media (max-width: 800px) { .cm-explorer { grid-template-columns: 1fr; } }
+
+.cm-search { width: 100%; box-sizing: border-box; padding: .65rem .8rem; font-size: .95rem;
+  border: 1px solid var(--c-rule); border-radius: 8px; background: var(--c-bg-elev); color: var(--c-ink); }
+.cm-search:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 1px; }
+
+.cm-facets { position: sticky; top: 1rem; display: grid; gap: 1rem; }
+.cm-facet h4 { margin: 0 0 .4rem; font-size: .78rem; text-transform: uppercase; letter-spacing: .07em; color: var(--c-ink-muted); }
+.cm-facetopt { display: flex; align-items: center; gap: .5rem; padding: .25rem .35rem; border-radius: 6px;
+  cursor: pointer; font-size: .85rem; }
+.cm-facetopt:hover { background: var(--c-bg-sunken); }
+.cm-facetopt input { accent-color: var(--c-accent); }
+.cm-facetopt .cnt { margin-left: auto; color: var(--c-ink-muted); font-variant-numeric: tabular-nums; font-size: .76rem; }
+.cm-facetopt .swatch { width: .6rem; height: .6rem; border-radius: 2px; }
+
+.cm-resultmeta { color: var(--c-ink-muted); font-size: .82rem; margin: 0 0 .6rem; }
+.cm-results { display: grid; gap: .6rem; }
+.cm-atom { background: var(--c-bg-card); border: 1px solid var(--c-rule); border-radius: var(--cm-radius);
+  padding: .75rem .9rem; display: grid; gap: .35rem; }
+.cm-atom .top { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; }
+.cm-atom .id { font-family: ui-monospace, monospace; font-size: .74rem; color: var(--c-ink-muted); margin-left: auto; }
+.cm-atom .title { font-weight: 650; font-size: .95rem; }
+.cm-atom .ar { font-size: 1.05rem; line-height: 1.7; direction: rtl; color: var(--c-ink); font-family: "Scheherazade New", serif; }
+.cm-atom .en { color: var(--c-ink-dim); font-size: .9rem; }
+.cm-atom .tags { display: flex; flex-wrap: wrap; gap: .3rem; }
+
+.cm-badge { font-size: .68rem; font-weight: 600; padding: .12rem .5rem; border-radius: 999px;
+  border: 1px solid transparent; text-transform: lowercase; letter-spacing: .02em; }
+.cm-badge.type-quran { color: var(--cm-quran); background: color-mix(in oklab, var(--cm-quran) 15%, transparent); }
+.cm-badge.type-hadith { color: var(--cm-hadith); background: color-mix(in oklab, var(--cm-hadith) 15%, transparent); }
+.cm-badge.type-term { color: var(--cm-term); background: color-mix(in oklab, var(--cm-term) 15%, transparent); }
+.cm-badge.type-doctrine { color: var(--cm-doctrine); background: color-mix(in oklab, var(--cm-doctrine) 15%, transparent); }
+.cm-badge.type-etymology { color: var(--cm-etymology); background: color-mix(in oklab, var(--cm-etymology) 15%, transparent); }
+.cm-badge.type-poetry { color: var(--cm-poetry); background: color-mix(in oklab, var(--cm-poetry) 15%, transparent); }
+.cm-badge.trad { border-color: var(--c-rule); color: var(--c-ink-muted); background: var(--c-bg-sunken); }
+.cm-tag { font-size: .7rem; color: var(--c-ink-muted); background: var(--c-bg-sunken);
+  border: 1px solid var(--c-rule-soft); border-radius: 999px; padding: .08rem .45rem; }
+
+.cm-addbtn { margin-left: .4rem; font-size: .72rem; padding: .2rem .55rem; border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--c-accent); color: var(--c-accent); background: transparent; }
+.cm-addbtn:hover { background: var(--c-accent-soft); }
+.cm-addbtn.added { background: var(--c-green); border-color: var(--c-green); color: var(--c-bg); cursor: default; }
+
+/* ---- augmentation panel ---- */
+.cm-aug { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; align-items: start; }
+@media (max-width: 860px) { .cm-aug { grid-template-columns: 1fr; } }
+.cm-prose { background: var(--c-bg-card); border: 1px solid var(--c-rule); border-radius: var(--cm-radius); padding: 1rem; }
+.cm-prose .meta { font-size: .76rem; color: var(--c-ink-muted); }
+.cm-prose .para { font-size: 1rem; line-height: 1.7; margin: .6rem 0; }
+.cm-prose .para mark { background: color-mix(in oklab, var(--c-accent) 22%, transparent); border-radius: 3px; padding: 0 .1em; }
+
+.cm-tray { background: var(--c-bg-card); border: 1px solid var(--c-rule); border-radius: var(--cm-radius); padding: 1rem; }
+.cm-tray h4 { margin: 0 0 .5rem; font-size: .9rem; }
+.cm-cmdk { border: 1px solid var(--c-rule); border-radius: 8px; overflow: hidden; background: var(--c-bg-elev); }
+.cm-cmdk [cmdk-input] { width: 100%; box-sizing: border-box; border: 0; border-bottom: 1px solid var(--c-rule);
+  padding: .6rem .8rem; font-size: .9rem; background: transparent; color: var(--c-ink); outline: none; }
+.cm-cmdk [cmdk-list] { max-height: 16rem; overflow: auto; padding: .3rem; }
+.cm-cmdk [cmdk-item] { display: flex; gap: .5rem; align-items: center; padding: .45rem .55rem; border-radius: 6px;
+  cursor: pointer; font-size: .85rem; }
+.cm-cmdk [cmdk-item][data-selected="true"] { background: var(--c-accent-soft); }
+.cm-cmdk [cmdk-empty] { padding: .8rem; color: var(--c-ink-muted); font-size: .85rem; }
+
+.cm-selected { display: grid; gap: .5rem; margin-top: .8rem; }
+.cm-selrow { display: flex; align-items: center; gap: .5rem; padding: .45rem .6rem; background: var(--c-bg-sunken);
+  border: 1px solid var(--c-rule-soft); border-radius: 8px; font-size: .82rem; }
+.cm-selrow .x { margin-left: auto; cursor: pointer; color: var(--c-ink-muted); border: 0; background: transparent; font-size: 1rem; }
+.cm-selrow .x:hover { color: var(--c-red); }
+.cm-empty { color: var(--c-ink-muted); font-size: .85rem; font-style: italic; }
+
+.cm-preview { margin-top: 1rem; }
+.cm-injected { border-left: 3px solid var(--c-accent); background: var(--c-bg-sunken); padding: .6rem .8rem;
+  border-radius: 0 8px 8px 0; font-size: .82rem; color: var(--c-ink-dim); }
+.cm-injected .lbl { font-family: ui-monospace, monospace; font-size: .7rem; color: var(--c-accent); text-transform: uppercase; letter-spacing: .06em; }
+.cm-injected ul { margin: .4rem 0 0; padding-left: 1.1rem; }
+.cm-warn { color: var(--c-amber); font-size: .78rem; margin-top: .5rem; }
+
+/* ---- utilities (replace inline styles; Cortex: no inline style=) ---- */
+.cm-h2-ico { vertical-align: -3px; }
+.cm-stat .k.tight { margin-top: .35rem; }
+.cm-facetbar { display: flex; justify-content: space-between; align-items: center; }
+.cm-facetbar .lbl { font-size: .74rem; color: var(--c-ink-muted); text-transform: uppercase;
+  letter-spacing: .07em; display: flex; gap: .3rem; align-items: center; }
+.cm-cmdk [cmdk-item] .grow { flex: 1; }
+.cm-badge.trad.blocked { color: var(--c-red); }
+.cm-facetopt .swatch { background: var(--c-rule); }
+.cm-facetopt .swatch.s-quran { background: var(--cm-quran); }
+.cm-facetopt .swatch.s-hadith { background: var(--cm-hadith); }
+.cm-facetopt .swatch.s-term { background: var(--cm-term); }
+.cm-facetopt .swatch.s-doctrine { background: var(--cm-doctrine); }
+.cm-facetopt .swatch.s-etymology { background: var(--cm-etymology); }
+.cm-facetopt .swatch.s-poetry { background: var(--cm-poetry); }
