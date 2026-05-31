@@ -12,6 +12,73 @@ of every session, append a session-log entry at the end of every session** (`/se
 
 ---
 
+## ⚡ ACTIVE PARALLEL-WORK SPLIT — read this FIRST (2026-05-31)
+
+> **This OVERRIDES the "work on `book/ayyuhal-walad`" branch note below for the duration of this
+> episode.** Two work-streams are running at once on two branches off `develop`:
+
+| Stream | Branch | Owner | Scope |
+|---|---|---|---|
+| Pipeline + **DB consolidation** | `develop` | Claude | All Python/pipeline work, incl. merging the **3 source databases into `knowledge.db`** (plan.md §"three source databases", line ~763). Schema + ingest + dedup. |
+| **Site presentation / UX** | `ui/site-enhancements` | UI agent (Asif/Copilot) | CSS + presentation-layer UX in `plan-dashboard/**`, EXCLUDING the DB-coupled files listed below. |
+
+**Why these don't collide:** the DB consolidation is entirely Python (`scripts/podcast/_db.py`,
+`scripts/wisdom/**`, `schema/*.sql`, `content/knowledge-base/*.db`). The Astro site reads the DB
+through a *small, fixed set* of files. As long as the UI stream stays out of those files (the
+🔴 list) and out of the plan/snapshots/mirrors, the two branches touch disjoint file sets and
+merge clean.
+
+### 🔴 DB-schema-coupled — UI stream MUST NOT touch while consolidation is in flight
+
+These read or describe the `knowledge.db` schema; the consolidation may add/alter tables, so
+Claude owns them this episode:
+
+- `plan-dashboard/src/lib/db/**` — [annotations.ts](../../plan-dashboard/src/lib/db/annotations.ts) opens `knowledge.db` (better-sqlite3).
+- `plan-dashboard/src/pages/api/**` — all server routes that query the DB (`annotations*.ts`,
+  `studio/corpus-search.ts`, etc.). Touch the **markup/CSS** these endpoints feed, never the route logic or its SQL.
+- `plan-dashboard/src/components/DbArchitecture.tsx` + `plan-dashboard/src/pages/db-schema.astro`
+  — the hardcoded 16-table schema visualization. Claude rewrites this when the schema changes;
+  do NOT restyle it this episode (guaranteed merge conflict).
+- DB-architecture **prose/diagram content** in `infrastructure.astro`, `OverviewSystemMap.astro`,
+  `InfraDeployment.astro` (the "16 tables / knowledge.db / mirror.db" descriptions). CSS-only
+  edits elsewhere on these pages are fine; don't edit the DB-description lines/nodes.
+
+### 🔴 Always-off-limits (standing two-agent rules — unchanged)
+
+- The 3 snapshot JSONs in `plan-dashboard/src/data/` + `npm run snapshot` (Claude-only).
+- TS↔Python mirrors: `content-paths.ts`, `peq-scores.ts`.
+- Everything outside `plan-dashboard/**` (Python, prompts, plan, standards, `CLAUDE.md`).
+
+### 🟢 SAFE & high-ROI for the UI stream — go for these
+
+Pure presentation; zero DB/schema coupling:
+
+- **All of `plan-dashboard/src/styles/**`** — `theme.css`, `chapter-viewer.css`, `intake.css`,
+  `narrative.css`, `studio-poc.css`. The `--c-*` token layer, spacing/typography scale, motion.
+  This is the safest, highest-visual-ROI surface. (Cortex rule: never change the *colour* theme.)
+- **Presentational components** that render already-fetched data (no DB/API contract change):
+  `Sparkline.tsx`, `SpendChart.tsx`, `AgentCard.tsx`, `AgentHoverBadge.tsx`, `VendorLogo.tsx`,
+  `LayerStack.tsx`, badges, and the layout/`ui/` components.
+- **UX states**: loading / empty / error / skeleton states, focus & keyboard nav, ARIA/a11y,
+  responsive + mobile breakpoints, hover/transition polish, reduced-motion support.
+- **Reader/Studio *visual* polish** (`components/reader/**`, `studio.astro` layout/CSS) — as long
+  as you don't change what an `/api/...` route returns or the `_system/` JSON shape it consumes.
+
+**Rule of thumb:** if your change only affects how existing data *looks or feels*, it's 🟢. If it
+changes *what data is fetched, the DB schema, a route's response, or a JSON contract*, stop and
+note it in the session log for Claude.
+
+### Merge protocol this episode
+
+- UI branch is cut from `develop` (carries these guidelines). **`git pull --rebase origin develop`
+  before you start and before you push** — `develop` moves as Claude lands consolidation commits.
+- UI stream commits scoped to `plan-dashboard/**` only; run `npm run lint:views` before each
+  view-touching commit (no hook fires on your branch).
+- Merge `ui/site-enhancements` → `develop` (`--no-ff`) only after a clean rebase + green
+  `lint:views`/`build`. Tier-2 merge authorization stays with Asif.
+
+---
+
 ## Where the project actually is (current — keep this honest)
 
 **Wave 8 (the "WC8" Studio + intake wave).** Waves A–E (foundation, intelligence layer,
