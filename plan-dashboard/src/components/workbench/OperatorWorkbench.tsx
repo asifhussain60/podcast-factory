@@ -14,6 +14,8 @@ interface Props {
   chapters: WorkspaceChapter[];
   chapterDefs: ChapterDef[];
   cardDefs: CardDef[];
+  /** Pre-select a chapter by slug — used by the Library→Studio deep-link (R-1). */
+  initialChapterId?: string;
 }
 
 const MODES: { id: Mode; label: string; icon: typeof FileSearch }[] = [
@@ -25,9 +27,12 @@ const MODES: { id: Mode; label: string; icon: typeof FileSearch }[] = [
 
 const BOOK_TRADITION: Tradition = 'fatimid-ismaili';
 
-export default function OperatorWorkbench({ slug, bookTitle, chapters, chapterDefs, cardDefs }: Props) {
+export default function OperatorWorkbench({ slug, bookTitle, chapters, chapterDefs, cardDefs, initialChapterId }: Props) {
   const [mode, setMode]           = useState<Mode>('review');
-  const [chapterId, setChapterId] = useState(chapters[0]?.slug ?? '');
+  const defaultChapter = initialChapterId && chapters.some((c) => c.slug === initialChapterId)
+    ? initialChapterId
+    : chapters[0]?.slug ?? '';
+  const [chapterId, setChapterId] = useState(defaultChapter);
   const [stageId, setStageId]     = useState(lastAvailableStageId(chapters[0]) ?? '');
   const [selectedAtoms, setSelectedAtoms] = useState<MockAtom[]>([]);
   const deferredAtoms = useDeferredValue(selectedAtoms);

@@ -44,6 +44,11 @@ const index = await loadBookIndex(slug);
 const chapterDefs = (index?.chapters ?? []).map((c) => ({ id: c.slug, title: c.title }));
 const workspace = await loadBookWorkspace(slug, chapterDefs, AYYUHAL_WALAD_STAGE_DEFS);
 
+// ?ch= param — deep-link from Library chapter reader (R-1 toggle).
+// Pre-selects the specific chapter in the cockpit on arrival.
+const chParam = Astro.url.searchParams.get('ch') ?? '';
+const initialChapterId = chapterDefs.find((c) => c.id === chParam)?.id ?? chapterDefs[0]?.id ?? '';
+
 // Review-gate (for the review step).
 let gate: { approved?: boolean; warnings?: { severity?: string; message?: string }[] } | null = null;
 if (stepParam === 'review') {
@@ -118,6 +123,7 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
           chapters={workspace.chapters}
           chapterDefs={workspace.cockpitChapters}
           cardDefs={CARD_DEFS}
+          initialChapterId={initialChapterId}
         />
       )}
     </div>
