@@ -6,7 +6,19 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-05-31
+**Last updated:** 2026-06-01
+
+**IN FLIGHT — site IA redesign (4 domains + sequential Studio).** Slice 1 shipped
+(commit 7b2910c): nav restructured to Studio / Library / Corpus / System; the content
+pipeline is now ONE book-aware sequential flow. `/studio` = book picker; `/studio/<slug>/<step>`
+= Intake → Source Review → Edit & Enrich → Publish, with a persistent book selector +
+live-status stepper (StudioSubnav). Old `/workbench` redirects to `/studio`; old
+single-book cockpit moved to the edit step. Driven by an earlier read-only site audit
+(34 surfaces mapped). Remaining slices: (2) Corpus domain regroup with the 3 DB sources
+as shelves; (3) Read/Studio mode toggle on the chapter reader (merge studio editor +
+library reader); (4) retire duplicates — library/new, annotation-ops-as-tool, dead
+dashboard; (5) fold intake-create into /studio/new. challenger PASS Level 1; lint clean.
+
 
 **Active priority: the intelligence + podcast pipeline (Wisdom Corpus Program).**
 First step shipped — the corpus-population ENGINE, proven end-to-end on the on-disk
