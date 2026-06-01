@@ -1,10 +1,33 @@
 slug: commuter-dcfsa
+chapter_ref: ch06-commuter-dcfsa
 pipeline: standard
 episode: EP03
-title: "The Benefits Hiding in Your Paycheck: Commuter and Dependent Care"
+episode_number: 3
+title: "Commuter Benefits and Dependent Care: Hidden Savings"
+source_type: book-chapter
+book_slug: healthequity
 episode_format: deep_dive
 word_count: 1519
 length_target: extended
-audience_profile: individual_consumer
+audience: "Working parents with childcare costs or daily commuters who have likely skipped over these benefits in their enrollment paperwork without realizing the size of the savings they are leaving behind."
+angle: personal_application
+host_dynamic: "curious_mind + patient_teacher"
+key_tensions:
+  - "Most people pay childcare and commuting costs with after-tax dollars when they don't have to"
+  - "The DCFSA limit jumped from $5,000 to $7,500 in 2026 — most people haven't heard this"
+  - "These benefits are genuinely easy to enroll in yet consistently the most ignored"
+tone_constraints:
+  - "The discovery frame: treat this as revealing something hiding in plain sight"
+  - "Concrete dollar savings — $2,250 on childcare, $1,200 on transit — make it specific"
+  - "No judgment about not knowing; the goal is to make action feel easy and obvious"
+anchor_passages: []
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: "Two of the most valuable benefits in your package are probably the ones you skipped past at enrollment. Commuter benefits and the Dependent Care FSA can together save a working parent thousands of dollars a year — and the 2026 DCFSA limit just jumped from $5,000 to $7,500."
+  related_episodes:
+    - hsa
+    - cobra
+  references: []
 source_tradition: consumer-finance-education
-host_dynamic: curious_mind_and_patient_teacher
+audience_profile: individual_consumer

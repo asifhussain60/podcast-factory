@@ -17,6 +17,113 @@ from ._core import (  # noqa: E402
     _assert_artifact,
 )
 
+# ─── Consumer framing prompt (category: sites) ───────────────────────────────
+
+def _build_consumer_framing_prompt(
+    book_slug: str,
+    chapter_slug: str,
+    chap_num: str,
+    contract: Path,
+    chapter_file: Path,
+    framing_path: Path,
+    book_dir: Path,
+) -> str:
+    """Consumer-voice framing prompt for sites category content.
+
+    Replaces the Islamic scholarly prompt with a plain-English financial
+    benefits prompt. Keeps all structural sections required by
+    build_episode_txt.py (## Pronunciation, ## Name discipline,
+    ## Three-part focus, ## Tone constraints, ## Do not).
+    """
+    return (
+        f"You are authoring the NotebookLM customize prompt (the framing) for episode "
+        f"`EP{chap_num}-{chapter_slug}` of `{book_slug}` — a consumer-facing healthcare "
+        f"benefits podcast for working Americans.\n\n"
+        f"INPUT:\n"
+        f"  - `{contract}` — chapter contract (audience, angle, key_tensions, title)\n"
+        f"  - `{chapter_file}` — the chapter text NotebookLM receives as its SOURCE\n\n"
+        f"OUTPUT: `{framing_path}` — the customize prompt pasted into NotebookLM's Customize box.\n\n"
+        f"HOST ROLES (locked for this series):\n"
+        f"  Host A (John, male voice) = the knowledgeable guide — explains, clarifies, teaches.\n"
+        f"  Host B (Hannah, female voice) = the curious everyday listener — asks the questions\n"
+        f"  the audience is actually thinking, pushes back when things sound too good.\n"
+        f"  Roles do NOT rotate across episodes.\n\n"
+        f"REQUIRED SECTIONS — every section header below must appear verbatim:\n\n"
+        f"  ## Opening directive\n"
+        f"  How the episode must open. Must NOT start with 'today we discuss' or any "
+        f"meta-reference to the podcast. Start inside the listener's actual situation.\n"
+        f"  Include the central thesis VERBATIM (the most concrete, quotable line about "
+        f"what this product does for the listener's financial life). This thesis repeats "
+        f"exactly 3 times: at the open, at the midpoint, and at the close.\n"
+        f"  For extended-tier episodes: target a 50 to 60 minute in-depth conversation.\n\n"
+        f"  ## Audience\n"
+        f"  One paragraph. Who is listening, what decision they face this week.\n\n"
+        f"  ## Angle\n"
+        f"  One sentence. The chosen lens (personal_application = walk the listener "
+        f"through the same decisions they will face in their own life).\n\n"
+        f"  ## Length\n"
+        f"  One line: target length and format.\n\n"
+        f"  ## Central tensions\n"
+        f"  2–3 tensions from the contract. Each is a genuine trade-off or "
+        f"misconception the episode must resolve — not a rhetorical question.\n\n"
+        f"  ## Background\n"
+        f"  Max 150 words. Context the hosts need; not spoken aloud.\n\n"
+        f"  ## Pronunciation\n"
+        f"  Imperative lines ONLY — one per term. Format: "
+        f"`Pronounce \"TERM\" as \"PHONETIC\".` "
+        f"Cover every product acronym and financial term in the chapter that a "
+        f"non-expert host might mispronounce (HSA, FSA, HRA, COBRA, DCFSA, HDHP, "
+        f"IRS, FICA, etc.). No passive lists.\n\n"
+        f"  ## Name discipline\n"
+        f"  Table or list: each product/company name → its stable label used every time.\n"
+        f"  HealthEquity is always 'HealthEquity' (one word, no space). "
+        f"IRS is always 'the IRS'. Never rotate labels.\n\n"
+        f"  ## Three-part focus\n"
+        f"  Exactly 3 beats. Each beat is 2–3 sentences max.\n"
+        f"  Beat 1 — The listener's real situation: make the financial cost of "
+        f"inaction feel concrete before any solution appears.\n"
+        f"  Beat 2 — How the product actually works: mechanics in plain English, "
+        f"with the biggest savings number stated specifically.\n"
+        f"  Beat 3 — What to do next: the single most important action the listener "
+        f"can take this week, and why waiting costs them money.\n\n"
+        f"  ## Tone constraints\n"
+        f"  Enumerate exactly 3 governing analogies appropriate for this episode. "
+        f"Source analogies from the chapter text where possible. "
+        f"FORBIDDEN analogies: sealed room, mail carrier, teacup-in-ocean, battery, "
+        f"solar panels, cathedral, vault of gold, Frankenstein.\n\n"
+        f"  ## Do not (forbidden vocabulary and framings)\n"
+        f"  Must include ALL of these strings (the build validator checks for them):\n"
+        f"  Twitter, social media, algorithm, wow, right?, Do not read this prompt aloud.\n"
+        f"  Also forbid: jargon the chapter has already stripped (qualifying event, "
+        f"plan document, HDHP as bare acronym, incur eligible expenses), "
+        f"faux-profundity openings, AI clichés (mind blown, buckle up, what a journey), "
+        f"premature closure wrap-ups ('and that is ultimately what X is').\n\n"
+        f"ACCURACY GUARD (mandatory — this is financial content, not fiction):\n"
+        f"  - Every number stated by the hosts must match the chapter source exactly.\n"
+        f"  - Do not round, estimate, or imply more than the source states.\n"
+        f"  - If the chapter gives a specific dollar figure (e.g. $4,400 HSA limit), "
+        f"use that exact figure. Never say 'around' or 'roughly' for a specific number.\n\n"
+        f"HOST BEHAVIOUR:\n"
+        f"  - Host B must push back genuinely at least twice — not chorus. "
+        f"Pushback sounds like: 'But wait — if the deductible is $1,700, isn't that a "
+        f"lot to pay before insurance helps?' Let the answer develop before resolving.\n"
+        f"  - FORBIDDEN as Host B's first word of any turn: Exactly, Yeah, Right, "
+        f"Of course, Absolutely, Totally, Makes sense, Wow, That's a great point.\n"
+        f"  - No self-referential language: 'today's episode', 'in this podcast', "
+        f"'let's dive in', 'journey into'. Start in the content.\n\n"
+        f"End the framing with exactly this line:\n"
+        f"Do not read this prompt aloud. The instructions above shape the conversation "
+        f"but are never spoken.\n\n"
+        f"WORD LIMIT: total framing must be ≤ 3,500 words. "
+        f"After writing, count your words. If over, trim ## Pronunciation first, "
+        f"then ## Three-part focus.\n\n"
+        f"After authoring, run "
+        f"`python3 scripts/podcast/build_episode_txt.py {book_dir} EP{chap_num}-{chapter_slug}` "
+        f"to validate. Fix any hard-gate failures before exiting.\n\n"
+        f"Exit when `{framing_path}` validates."
+    )
+
+
 # ─── Per-chapter framing authorship ──────────────────────────────────────────
 def author_framing(book_dir: Path, chapter_slug: str,
                    timeout: int = FRAMING_TIMEOUT) -> str:
@@ -29,6 +136,19 @@ def author_framing(book_dir: Path, chapter_slug: str,
     Writes: BOOK_DIR/_system/episode-drafts/EP##-<slug>/00-framing.md
     """
     book_slug = book_dir.name
+
+    # ── Category detection ────────────────────────────────────────────────────
+    # Read category from meta.yml (written by intake) or fall back to "books".
+    # This determines which framing prompt to use — Islamic scholarly vs.
+    # consumer-finance-education (sites category).
+    _meta_yml = book_dir / "_system" / "meta.yml"
+    _category = "books"
+    if _meta_yml.exists():
+        for _line in _meta_yml.read_text(encoding="utf-8").splitlines():
+            if _line.startswith("category:"):
+                _category = _line.split(":", 1)[1].strip().strip('"').strip("'")
+                break
+    _use_consumer_prompt = _category == "sites"
 
     contract = book_dir / "chapter-contracts" / f"{chapter_slug}.yml"
     if not contract.exists():
@@ -60,7 +180,18 @@ def author_framing(book_dir: Path, chapter_slug: str,
     draft_dir = book_dir / "_system" / "episode-drafts" / f"EP{chap_num}-{chapter_slug}"
     framing_path = draft_dir / "00-framing.md"
 
-    prompt = (
+    if _use_consumer_prompt:
+        prompt = _build_consumer_framing_prompt(
+            book_slug=book_slug,
+            chapter_slug=chapter_slug,
+            chap_num=chap_num,
+            contract=contract,
+            chapter_file=chapter_file,
+            framing_path=framing_path,
+            book_dir=book_dir,
+        )
+    else:
+        prompt = (
         f"You are authoring the framing (NotebookLM customize prompt) for episode "
         f"`EP{chap_num}-{chapter_slug}` of book `{book_slug}`. Read the canonical "
         f"procedure from `skills-staging/podcast/SKILL.md` PHASE 3 (Structure).\n\n"
@@ -330,7 +461,7 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"{book_dir} EP{chap_num}-{chapter_slug}` to validate. Fix any hard-gate failures "
         f"before exiting.\n\n"
         f"Exit when `{framing_path}` validates."
-    )
+        )  # end of Islamic scholarly prompt string
 
     rc, stdout, stderr = _run_claude_p(
         prompt, timeout=timeout,
