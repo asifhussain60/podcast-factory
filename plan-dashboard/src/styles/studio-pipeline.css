@@ -167,6 +167,16 @@
   gap: 1.25rem;
 }
 
+.studio-eyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-ink-muted);
+  margin-bottom: 0.35rem;
+}
+
 .studio-step-head h1 {
   margin: 0;
   font-size: clamp(1.5rem, 2vw, 2rem);

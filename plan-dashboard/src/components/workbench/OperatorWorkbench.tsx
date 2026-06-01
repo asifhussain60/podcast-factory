@@ -76,7 +76,7 @@ export default function OperatorWorkbench({ slug, bookTitle, chapters, chapterDe
         </div>
         <nav className="wb-quick-actions" aria-label="Quick links">
           <a href="/studio">All books</a>
-          <a href="/studio/new">New content</a>
+          <a href={`/library/${slug}`}>Read in Library</a>
           <a href="/corpus">Corpus</a>
         </nav>
       </header>
