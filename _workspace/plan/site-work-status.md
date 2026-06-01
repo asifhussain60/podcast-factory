@@ -22,11 +22,15 @@ reading" (was "workshop view"); Library detail has "Open in Studio"; Studio pick
 "Workshop" with a catalog link; cockpit links "Read in Library". Decision (Asif 2026-06-01):
 KEEP both Studio + Library top-nav — workshop vs catalog, justified by the drafts→published
 trajectory (Library becomes the audience-facing published catalog).
-ONLY REMAINING slice: (3) chapter-level Read/Studio dual-mode — the Library chapter page
-is currently the POC editor (from the earlier "replace chapter link with POC editor" task);
-turning it into one surface with a Read↔Studio toggle is the reader redesign governed by
-the R-1..R-10 decisions (_workspace/plan/.../10-reader-redesign-decisions.md). Left for a
-focused pass with Asif. challenger PASS Level 1; lint clean across all 4 domains.
+IA redesign COMPLETE — all structural slices shipped (commit 7f1f2bb):
+- Slice 3 (2026-06-01): Library chapter restored to Read mode (R-1/R-3: clean prose,
+  Arabic toggle, restrained markers, no editorial chrome). 'Studio →' button on every
+  chapter links to /studio/<slug>/edit?ch=<chapterSlug>; cockpit reads ?ch= and
+  pre-selects the chapter. Full Library↔Studio round-trip working.
+Next: WC8.5 — the full TipTap Studio rebuild (R-8/R-9: ProseMirror editor, word-level
+track-changes, divergence inspector, stage-approval gate, annotation pipeline). This is a
+separate wave scoped in plan.yaml. The chapter reader's 'Studio →' button already points
+at the right cockpit; WC8.5 just makes that cockpit richer.
 
 
 **Active priority: the intelligence + podcast pipeline (Wisdom Corpus Program).**
