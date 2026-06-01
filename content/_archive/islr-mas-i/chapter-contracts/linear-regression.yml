@@ -1,0 +1,63 @@
+# Chapter contract — ISL2 / MAS-I, Episode 03.
+# Phase 0d authored 2026-05-23. Mirrors introduction.yml schema; extends
+# tone_constraints with a positive-framed math-intuition rule per Asif's
+# 2026-05-23 directive. Source of beats + scope: _system/source/text/chapters-rationale.md §EP03.
+
+chapter_ref: ch03-linear-regression
+slug: linear-regression
+source_type: book-chapter
+book_slug: islr-mas-i
+episode_number: 3
+title: Linear Regression, Honestly
+audience: >
+  An actuarial student who has passed SOA Exams P and FM and is preparing
+  for MAS-I (Modern Actuarial Statistics I). Listening mode is a casual
+  walk — theory-heavy, qualitative, formulas referenced but never solved
+  aloud. The student has strong probability/calculus foundations and basic
+  regression exposure, but minimal machine-learning vocabulary.
+angle: personal_application
+episode_format: deep_dive
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_custom: null
+debate: null
+length_target: default_deep_dive
+
+key_tensions:
+  - "OLS is the line that minimizes total squared vertical distance to the points — that single picture is the entire intuition; the coefficient formulas are named, never derived."
+  - "Standard errors, t-statistics, p-values, R², and the F-statistic are the practitioner's instrument panel — each one answers a specific 'is this predictor (or this model) doing anything?' question."
+  - "Linear regression's eight failure modes (non-linearity, correlated errors, heteroscedasticity, outliers, high-leverage points, multicollinearity, plus the two qualitative-predictor pitfalls) are the practitioner's checklist — frame as 'how to spot each failure on the diagnostic plots'."
+
+tone_constraints:
+  - "No aloud calculations. No 'pause and try this'. No R code recitation."
+  - "Formulas are NAMED when they matter, never solved on air."
+  - "Every formula or quantitative claim gets an intuitive one-sentence scaffold the walking listener can hold without paper: what it computes, why it exists, and what the answer's shape (sign, magnitude, monotonicity) tells you. Lead with intuition, name the formula, never solve aloud. Symbols themselves are NOT recited (no 'sigma', no 'X-bar', no 'beta-hat') — the meaning behind the symbol is what carries."
+  - "Modern analogies are welcome (Netflix, Spotify, FICO, Kaggle conventions) — but only from the book's enrichment-whitelist.md Tier 2. No religious citations, ever."
+  - "No fake enthusiasm. No 'wow', 'fascinating', 'amazing'. The student is on a walk, not in a sales pitch."
+  - "Honor the textbook's own restraint — the authors deliberately do NOT lecture. Match that posture."
+  - "MAS-I scope is §3.1–§3.3 only plus the in-scope parts of §3.6 labs. §3.4 (Marketing Plan), §3.5 (LR vs KNN), and §3.7 (Exercises) are OMITTED. Insert explicit prose seams at each exclusion boundary — do not let the chapter narrate the 'Marketing Plan' case-study or the LR-vs-KNN comparison. Acceptable seam: 'ISL §3.4 walks the Marketing Plan example end-to-end and §3.5 compares linear regression against KNN — both are outside the MAS-I scope and we stop with the §3.3 diagnostic-checklist; if the listener wants the comparison, the chapter file is unchanged so they can read it directly.'"
+  - "No matrix algebra at all — multiple regression is described in coordinate-by-coordinate intuition; do NOT introduce X^T X, (X^T X)^{-1} X^T y, or any normal-equation form."
+
+anchor_passages:
+  - "OLS minimizes the residual sum of squares — the sum of squared vertical distances from each point to the fitted line."
+  - "The F-statistic tests whether ANY predictor is useful — its null hypothesis is that every coefficient is zero."
+  - "R² is the fraction of variance in Y explained by the predictors — it sits between 0 and 1."
+  - "VIF (variance inflation factor) values above 5 or 10 flag worrying multicollinearity."
+  - "The Advertising example — TV, radio, and newspaper budgets predicting sales — anchors the chapter and is preserved verbatim."
+
+adaptation_mode: bridge
+
+phonetic_overrides:
+  heteroscedasticity: "HET-er-oh-skuh-DAS-tih-see"
+  homoscedasticity: "HOH-moh-skuh-DAS-tih-see"
+  multicollinearity: "mull-tee-koh-lin-ee-AIR-ih-tee"
+  leverage: "LEV-er-ij"
+
+show_notes:
+  blurb: "Simple linear regression's coefficient story, the standard-error / t-statistic / p-value / R² / F-statistic instrument panel, multiple regression's variable-selection foreshadowing, and the eight failure modes every regression practitioner learns to spot. §3.4, §3.5, and §3.7 are out-of-scope and omitted."
+  related_episodes:
+    - "EP02 — establishes linear regression as the parametric ur-example."
+    - "EP04 — logistic regression extends the linear story to binary outcomes."
+    - "EP06 — variable selection and shrinkage answer the multicollinearity / many-predictors problem this episode foreshadows."
+  references:
+    - "James, G., Witten, D., Hastie, T., Tibshirani, R. — An Introduction to Statistical Learning, 2nd ed., Springer 2021, Chapter 3 (§3.1–§3.3 + in-scope §3.6 labs only)."
+    - "Hastie, T., Tibshirani, R., Friedman, J. — The Elements of Statistical Learning, 2nd ed., 2009, Chapter 3."

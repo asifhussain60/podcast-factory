@@ -5,10 +5,7 @@ pipeline processes. Shared across all books. Read by the **Augmenter** during fu
 books' enrichment, authoring, and challenger phases — so each new book walks in on the
 shoulders of prior treatments.
 
-> **Status — 2026-05-25**: scaffolded, awaiting Wave 1 implementation.
-> No atoms yet. First atoms arrive when the first book through the pipeline post-Wave-1
-> completes phase `0h-knowledge-extract` (slotted between the existing `0g` audit and
-> `finalize`).
+> **Status — 2026-05-31**: `knowledge.db` is live with 7,036 atoms. `mirror.db` holds the Kashkole FTS corpus (6,236 Quran rows + 1,347 topics). JSONL files are scaffolded but empty — `knowledge.db` is the canonical storage layer (see DR-001, DR-017 in `_workspace/plan/architecture.md`).
 
 ## Authoritative references
 
@@ -21,17 +18,27 @@ shoulders of prior treatments.
 ```
 content/knowledge-base/
 ├── README.md                       # this file
-├── quran.jsonl                     # Quran verse atoms (Wave 1)
-├── hadith.jsonl                    # Hadith atoms (Wave 1)
-├── quotes.jsonl                    # Quote atoms (Wave 2 — not yet created)
-├── etymology.jsonl                 # Etymology atoms (Wave 3 — not yet created)
-├── definitions.jsonl               # Definition atoms (Wave 2 — not yet created)
+├── knowledge.db                    # canonical SQLite — atoms, sources, variants, metadata
+├── mirror.db                       # Kashkole + Quran FTS corpus (read-only source mirror)
+├── quran.jsonl                     # JSONL export scratch — not the source of truth
+├── hadith.jsonl                    # JSONL export scratch — not the source of truth
 ├── _conflicts/
 │   └── pending-review.jsonl        # flagged conflicts halting phase 08b
 └── _index/
-    └── stats.json                  # counts, last-updated, top-cited
-    # _index/embeddings.faiss arrives in Wave 2
+    ├── stats.json                  # counts, last-updated, top-cited
+    ├── embeddings.faiss            # Wave 2 — DERIVED artifact, rebuilt from knowledge.db
+    └── id_map.json                 # Wave 2 — FAISS int index → atom id string
 ```
+
+### Vector index contract (Wave 2 — FAISS sidecar)
+
+`embeddings.faiss` is a **derived artifact**, never a source of truth. If it is absent or corrupted, run:
+
+```bash
+python3 scripts/podcast/knowledge/build_faiss_index.py
+```
+
+This reads all atoms from `knowledge.db`, calls `text-embedding-3-small` in batch, writes the FAISS index and `_index/id_map.json`. No data is lost — `knowledge.db` is always the rebuild source. The index is NOT committed to git by default (add to `.gitignore`); it is rebuilt on the target machine as part of environment setup.
 
 ## Atom format (JSONL — one atom per line)
 
@@ -52,7 +59,7 @@ Every atom shares a common envelope. The body differs per type.
 
 | Wave | Atom types | Dedup mechanism | Status |
 |------|-----------|-----------------|--------|
-| **Wave 1** | Quran, hadith | Canonical-id exact match | Awaiting implementation |
+| **Wave 1** | Quran, hadith | Canonical-id exact match | Live — 7,036 atoms in `knowledge.db` |
 | **Wave 2** | + Quotes, definitions | Embedding similarity (≥ 0.92) | Planned |
 | **Wave 3** | + Etymology | Root-keyed tree match | Planned |
 

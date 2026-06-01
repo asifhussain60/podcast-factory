@@ -1,0 +1,65 @@
+# Chapter contract — ISL2 / MAS-I, Episode 02.
+# Phase 0d authored 2026-05-23. Mirrors introduction.yml schema; extends
+# tone_constraints with a positive-framed math-intuition rule per Asif's
+# 2026-05-23 directive ("explain mathematical/quantitative formulas
+# intuitively enough to understand while passively listening").
+# Source of beats + scope: _system/source/text/chapters-rationale.md §EP02.
+
+chapter_ref: ch02-statistical-learning
+slug: statistical-learning
+source_type: book-chapter
+book_slug: islr-mas-i
+episode_number: 2
+title: Estimating f, Bias, and Variance
+audience: >
+  An actuarial student who has passed SOA Exams P and FM and is preparing
+  for MAS-I (Modern Actuarial Statistics I). Listening mode is a casual
+  walk — theory-heavy, qualitative, formulas referenced but never solved
+  aloud. The student has strong probability/calculus foundations and basic
+  regression exposure, but minimal machine-learning vocabulary.
+angle: personal_application
+episode_format: deep_dive
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_custom: null
+debate: null
+length_target: default_deep_dive
+
+key_tensions:
+  - "Y = f(X) + ε is the entire framework of the book — statistical learning is the disciplined search for f, with ε as the noise floor the listener can never beat."
+  - "Prediction and inference are distinct motivations that cascade into different model choices — flexible/opaque for prediction, restrictive/interpretable for inference."
+  - "The bias–variance trade-off is THE picture of the chapter and the spine of the next six episodes: rigid models are biased, flexible models are noisy, and the test-MSE U-curve names the sweet spot."
+
+tone_constraints:
+  - "No aloud calculations. No 'pause and try this'. No R code recitation."
+  - "Formulas are NAMED when they matter, never solved on air."
+  - "Every formula or quantitative claim gets an intuitive one-sentence scaffold the walking listener can hold without paper: what it computes, why it exists, and what the answer's shape (sign, magnitude, monotonicity) tells you. Lead with intuition, name the formula, never solve aloud. Symbols themselves are NOT recited (no 'sigma', no 'X-bar', no 'beta-hat') — the meaning behind the symbol is what carries."
+  - "Modern analogies are welcome (Netflix, Spotify, FICO, Kaggle conventions) — but only from the book's enrichment-whitelist.md Tier 2. No religious citations, ever."
+  - "No fake enthusiasm. No 'wow', 'fascinating', 'amazing'. The student is on a walk, not in a sales pitch."
+  - "Honor the textbook's own restraint — the authors deliberately do NOT lecture. Match that posture."
+  - "§2.2.3 (The Classification Setting) is OUT OF SCOPE for MAS-I and OMITTED. Insert an explicit prose seam at the exclusion boundary — do not let the chapter narration jump silently from §2.2.2 to §2.3. Acceptable seam: 'The chapter's next section applies the same bias–variance idea to classification — that material returns in Episode 4, so we'll stop here and hand off the picture as it stands for regression.'"
+
+anchor_passages:
+  - "Y = f(X) + ε"
+  - "Statistical learning refers to a set of approaches for estimating f."
+  - "The training MSE will fall monotonically as flexibility increases; the test MSE first falls then rises — the U-shape."
+  - "Var(ε) is the irreducible error — the noise floor the model can never beat."
+  - "The expected test MSE decomposes into bias squared, variance, and irreducible error."
+
+adaptation_mode: bridge
+
+phonetic_overrides:
+  parametric: "pair-ah-MET-rik"
+  non-parametric: "NON pair-ah-MET-rik"
+  KNN: "KAY NEAR-est NAY-burz"
+  kurtosis: "kur-TOH-sis"
+
+show_notes:
+  blurb: "The framework Y = f(X) + ε, the prediction-vs-inference fork, the parametric/non-parametric divide, and the U-shaped test-MSE curve that names the bias–variance sweet spot. §2.2.3 (classification) is held until Episode 4."
+  related_episodes:
+    - "EP01 — sets the toolkit shape this episode populates."
+    - "EP03 — linear regression as the parametric ur-example."
+    - "EP04 — the classification material §2.2.3 deferred."
+    - "EP05 — cross-validation operationalizes the test-MSE picture."
+  references:
+    - "James, G., Witten, D., Hastie, T., Tibshirani, R. — An Introduction to Statistical Learning, 2nd ed., Springer 2021, Chapter 2 (excluding §2.2.3)."
+    - "Hastie, T., Tibshirani, R., Friedman, J. — The Elements of Statistical Learning, 2nd ed., 2009, Chapters 2 and 7."

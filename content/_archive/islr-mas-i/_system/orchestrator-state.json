@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "book_slug": "islr-mas-i",
+  "category": "books",
+  "branch": "book/islr-mas-i",
+  "phase": "done",
+  "phase_status": "shipped",
+  "last_completed_phase": "merge",
+  "next_phase": null,
+  "last_error": null,
+  "pipeline_mode": "non_orchestrated_mode_2",
+  "reconstruction_note": "This state file was reconstructed on 2026-05-24 to conform ISLR's draft folder to the KaR canonical template. ISLR ran outside the orchestrator (Mode-2) on book/islr-mas-i (now deleted). Phase timestamps are inferred from _system/cost-ledger.jsonl, _system/cost-validation.json, and the coord commits on develop (4473f02 ts=2026-05-23T19:41:15Z, e64eb47 ts=2026-05-23T21:17:44Z). No phase log entry is fabricated — phases that Mode-2 did not exercise are marked status='skipped_mode_2'.",
+  "phases": {
+    "pre-flight": {
+      "status": "skipped_mode_2",
+      "note": "Mode-2 bypassed orchestrator pre-flight; ran ad-hoc on Mac Studio."
+    },
+    "branch": {
+      "status": "completed",
+      "ts_completed": "2026-05-23T19:41:15Z",
+      "note": "book/islr-mas-i claimed in coord commit 4473f02; branch deleted in 2026-05-23 restructure."
+    },
+    "scaffold": {
+      "status": "completed",
+      "ts_completed": "2026-05-21T00:00:00Z",
+      "book_dir": "content/drafts/islr-mas-i",
+      "note": "Pre-existing scaffolding from earlier session (EP01 pre-shipped 2026-05-21 at 1e3b7aa). Reused for ch2-7 pivot."
+    },
+    "0a": {
+      "status": "completed",
+      "note": "Source ingestion: ISL2_James_et_al_2021.pdf (born-digital, 612pp). See _system/source/ and _system/integration-analysis.md §6."
+    },
+    "0b": {
+      "status": "skipped_mode_2",
+      "note": "Phase 0b (refined-english) not produced in Mode-2; chapter txts authored directly from source PDF + integration-analysis."
+    },
+    "0c": {
+      "status": "skipped_mode_2",
+      "note": "Phonetics pool re-fueled into _system/jargon-glossary.md + pronunciation.md without Phase 0c run."
+    },
+    "0d": {
+      "status": "completed",
+      "ts_started": "2026-05-23T19:41:15Z",
+      "ts_completed": "2026-05-23T20:00:00Z",
+      "note": "Chapter contracts authored ch2-7 per coord commit 4473f02 scope. ch1 contract pre-existed from 2026-05-21 session."
+    },
+    "0e": {
+      "status": "skipped_mode_2",
+      "note": "Enrichment whitelist re-fueled into _system/enrichment-whitelist.md (Tier 1-4 secular/actuarial) without orchestrator 0e run."
+    },
+    "0f": {
+      "status": "completed",
+      "note": "Phase 0f gate pre-decided in _system/integration-analysis.md §6: Default Deep Dive, 7 eps with section exclusions, curious_mind + patient_teacher, intuition-first walk-listen for MAS-I exam student. No human-review halt — Mode-2 bypassed orchestrator gate."
+    },
+    "0g": {
+      "status": "skipped_mode_2"
+    },
+    "per-chapter": {
+      "status": "completed",
+      "ts_started": "2026-05-23T20:02:50Z",
+      "ts_completed": "2026-05-23T21:14:56Z",
+      "completion_note": "All 7 chapters authored in single Mode-2 session: ch01 (pre-shipped 2026-05-21 at 1e3b7aa), ch02-ch07 in this session per cost-validation.json (19 calls, $16.17 total, all claude-opus-4-7). Per-chapter convergence used pass-1 challenger only (no 3x5 outer/inner loop).",
+      "completed_slugs": [
+        "introduction",
+        "statistical-learning",
+        "linear-regression",
+        "classification",
+        "resampling",
+        "model-selection",
+        "nonlinear"
+      ]
+    },
+    "trainer": {
+      "status": "skipped_mode_2",
+      "note": "podcast-trainer did not run on ISLR; Mode-2 path bypasses trainer."
+    },
+    "merge": {
+      "status": "completed",
+      "ts_completed": "2026-05-23T21:17:44Z",
+      "note": "Series-complete commit e64eb47 on develop. EP01-EP07 shipped on book/islr-mas-i (now deleted; published artifacts subsequently lost in restructure — see meta.yml publication.publication_note)."
+    },
+    "done": {
+      "status": "completed",
+      "ts_completed": "2026-05-23T21:17:44Z"
+    }
+  },
+  "cost": {
+    "azure_usd": 0.0,
+    "anthropic_usd": 16.17,
+    "note": "Sourced from _system/cost-validation.json (19 calls, claude-opus-4-7, 724K input + 70.8K output tokens). Excludes EP01 (pre-2026-05-23 session, cost not captured)."
+  },
+  "wall_clock_sec": 4326,
+  "ts_started": "2026-05-23T20:02:50Z",
+  "ts_updated": "2026-05-24T00:00:00Z",
+  "challenger_version": "2.0",
+  "orchestrator_version": "1.2",
+  "completed_slugs": [
+    "introduction",
+    "statistical-learning",
+    "linear-regression",
+    "classification",
+    "resampling",
+    "model-selection",
+    "nonlinear"
+  ]
+}

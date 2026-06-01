@@ -1,0 +1,62 @@
+# Chapter contract — ISL2 / MAS-I, Episode 05.
+# Phase 0d authored 2026-05-23. Mirrors introduction.yml schema; extends
+# tone_constraints with a positive-framed math-intuition rule per Asif's
+# 2026-05-23 directive. Source of beats + scope: _system/source/text/chapters-rationale.md §EP05.
+
+chapter_ref: ch05-resampling
+slug: resampling
+source_type: book-chapter
+book_slug: islr-mas-i
+episode_number: 5
+title: Cross-Validation and the Bootstrap
+audience: >
+  An actuarial student who has passed SOA Exams P and FM and is preparing
+  for MAS-I (Modern Actuarial Statistics I). Listening mode is a casual
+  walk — theory-heavy, qualitative, formulas referenced but never solved
+  aloud. The student has strong probability/calculus foundations and basic
+  regression exposure, but minimal machine-learning vocabulary.
+angle: personal_application
+episode_format: deep_dive
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_custom: null
+debate: null
+length_target: default_deep_dive
+
+key_tensions:
+  - "You only ever have one dataset, but you need to estimate out-of-sample performance honestly — resampling is the discipline that lets you measure what you cannot directly observe."
+  - "LOOCV, k-fold, and the validation-set approach trade variance against computational cost — k=5 or k=10 is the practical sweet spot for the same reason most engineering compromises exist."
+  - "The bootstrap is the universal standard-error machine — it gives you the spread of any estimator without parametric assumptions, and it changed statistical inference in 1979."
+
+tone_constraints:
+  - "No aloud calculations. No 'pause and try this'. No R code recitation."
+  - "Formulas are NAMED when they matter, never solved on air."
+  - "Every formula or quantitative claim gets an intuitive one-sentence scaffold the walking listener can hold without paper: what it computes, why it exists, and what the answer's shape (sign, magnitude, monotonicity) tells you. Lead with intuition, name the formula, never solve aloud. Symbols themselves are NOT recited (no 'sigma', no 'X-bar', no 'beta-hat') — the meaning behind the symbol is what carries."
+  - "Modern analogies are welcome (Netflix, Spotify, FICO, Kaggle conventions) — but only from the book's enrichment-whitelist.md Tier 2. No religious citations, ever."
+  - "No fake enthusiasm. No 'wow', 'fascinating', 'amazing'. The student is on a walk, not in a sales pitch."
+  - "Honor the textbook's own restraint — the authors deliberately do NOT lecture. Match that posture."
+  - "Full chapter is in scope — no exclusions, no prose seams required."
+  - "The bootstrap algorithm is stated as 'resample your data WITH replacement n times, refit on each resample, look at the spread of the answers' — NO Monte Carlo math, NO sampling-distribution derivations."
+
+anchor_passages:
+  - "LOOCV is approximately unbiased but high-variance because the n training sets are nearly identical."
+  - "k = 5 and k = 10 are the conventional choices for k-fold cross-validation."
+  - "About 63% of observations appear in any given bootstrap sample — the rest are 'out of bag'."
+  - "Efron, 1979 — the bootstrap is the youngest fundamental tool in the chapter."
+  - "Kaggle competitions are the canonical modern home of held-out-test-set evaluation."
+
+adaptation_mode: bridge
+
+phonetic_overrides:
+  asymptotic: "a-simp-TOT-ik"
+  stochastic: "sto-KAS-tik"
+
+show_notes:
+  blurb: "The validation-set approach, leave-one-out CV, k-fold CV (and why k=5 or 10 wins), CV for classification, and the bootstrap as the universal standard-error machine. The conceptual spine of every honest model-evaluation conversation in the rest of the book."
+  related_episodes:
+    - "EP02 — operationalizes the test-MSE picture this episode taught."
+    - "EP06 — CV is how λ gets picked for ridge and the LASSO."
+    - "EP07 — CV is how the smoothing-spline penalty gets tuned."
+  references:
+    - "James, G., Witten, D., Hastie, T., Tibshirani, R. — An Introduction to Statistical Learning, 2nd ed., Springer 2021, Chapter 5."
+    - "Efron, B. — Bootstrap methods: another look at the jackknife, Annals of Statistics, 1979."
+    - "Efron, B., Hastie, T. — Computer Age Statistical Inference, 2016."

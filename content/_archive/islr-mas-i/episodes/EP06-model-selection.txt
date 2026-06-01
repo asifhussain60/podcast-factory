@@ -1,0 +1,146 @@
+# Framing: Episode 06: Selection and Regularization — Ridge, Lasso, PCR, PLS
+
+## Critical pronunciation + citation rules (read BEFORE generating)
+
+**Author names — apply explicitly on first occurrence:**
+ - "James, Witten, Hastie, Tibshirani" → name them as a set in the opening; "Hastie and Tibshirani" suffices for callbacks.
+ - "Tibshirani" → **TIB-shir-AH-nee**. He is one of the four ISL authors AND the author of the 1996 lasso paper — name that lineage when the lasso is introduced.
+ - "Hastie" → **HAY-stee**.
+
+**Method names commonly mispronounced — every one of these first appears in this episode:**
+ - "LASSO" → **LASS-oh**. One word, two syllables. Always say it; the spelled-out acronym is awkward. The textbook itself capitalizes "lasso" in some places and lowercases it in others; the spoken form is the same either way.
+ - "ridge regression" → **RIDJ ree-GRES-shun**. Two normal English words.
+ - "regularization" → **REG-yoo-lar-ih-ZAY-shun**. Five syllables, two stresses on REG and ZAY.
+ - "Akaike" (as in AIC) → **ah-kah-EE-keh**. Four syllables, Japanese origin. Stress on EE. Do NOT pronounce it like "a-KAY-key" or "a-KIKE-ee".
+ - "Bayesian" (as in BIC) → **BAY-zee-an**. Three syllables, stress on BAY.
+ - "Mallows's Cp" → **MAL-ohz SEE-pee**. The "Cp" portion is just the two letters spoken — "C" then "P". Use the possessive "Mallows's".
+ - "eigendecomposition" → **EYE-gen-dee-com-poh-ZISH-un**. Six syllables. Mentioned once in passing when PCR's mathematical underpinning is named.
+ - "AIC", "BIC", "PCR", "PLS" → spelled-out as letters. "A-I-C", "B-I-C", "P-C-R", "P-L-S".
+
+**Dataset names:**
+ - "Credit data" → say "Credit data set" — the textbook's running example for visualizing how ridge and the lasso shrink coefficients as lambda grows. Ten predictors including income, limit, rating, student.
+ - "Hitters data" → say "Hitters data set" — the textbook's baseball-salary example used in the labs for best subset, ridge, the lasso, PCR, and PLS. Predicts player salary from career statistics; 263 players after removing missing values; 19 predictors. THIS is the dataset that produces the "PLS test MSE 151,995" number.
+
+Citations of method anchors must be SPOKEN ("ridge regression", "the lasso", "best subset selection", "forward stepwise", "backward stepwise", "Mallows's Cp", "AIC", "BIC", "adjusted R-squared", "cross-validation", "principal components regression", "partial least squares", "the L1 penalty", "the L2 penalty", "shrinkage", "regularization", "the tuning parameter lambda"), not glossed.
+
+## Opening directive
+
+Open the episode with a brief welcome — one sentence — followed by a two-to-three sentence summary that names this book (*An Introduction to Statistical Learning*, second edition, 2021, by James, Witten, Hastie, and Tibshirani) and lands the central frame this conversation will hold: Chapter 6 is the chapter where the bias–variance dial of Chapter 2 finally gets a hand on it. Subset selection, shrinkage, and dimension reduction — three families of techniques for trading a little bias for a lot of variance reduction. The central image is a tuning dial, and cross-validation is the hand on the dial. Do not open with "today we'll discuss". Do not open with "in this episode". Open in the voice of two analysts genuinely glad the listener showed up for the sixth walk. The summary should make clear that this is the sixth of seven episodes covering Chapters 1 through 7 of ISL, the MAS-I-relevant subset, and that the last episode closed by promising the textbook would turn next to model selection — which is what this episode picks up.
+
+## Background
+
+This is Chapter 6 of a standard graduate textbook on statistical learning. It is the chapter that names the methods modern regression actually uses when the predictor list is long — when ordinary least squares is too eager and the analyst needs a principled way to constrain flexibility. Section 6.1 walks **subset selection**: best subset (consider all two-to-the-p models; conceptually clean, computationally infeasible past around p equals thirty), forward stepwise (greedily add one predictor at a time, p-squared model fits), backward stepwise (greedily drop one predictor at a time, requires n larger than p). Then the chapter's catalog of selection criteria for choosing among the candidate models: Mallows's Cp (training error plus a complexity penalty), AIC (essentially the same for normal-error linear models), BIC (same shape, harder penalty — grows with the log of n), adjusted R-squared (the friendly heuristic), and cross-validation (the assumption-free direct estimate). Section 6.2 walks the **shrinkage** methods: ridge regression (adds lambda times sum of squared coefficients; shrinks every coefficient toward zero but never to zero), and the lasso (adds lambda times sum of absolute values; shrinks AND snaps coefficients to exactly zero, producing automatic variable selection). Lambda is chosen by cross-validation. Section 6.3 walks **dimension reduction**: principal components regression (build leading principal components of X, regress on those — unsupervised) and partial least squares (build components that aim at Y from the start — supervised, but the supervised advantage usually washes out against added variance). Section 6.4 names the high-dimensional setting (p ≥ n) where ordinary least squares fails outright and these constrained methods become essential. Section 6.5 is the R lab. Section 6.6 is exercises.
+
+The full chapter is in scope for MAS-I; there are no exclusions and no prose seams are required. The R lab in §6.5 is referenced but not narrated — no code recitation.
+
+For the MAS-I-prep listener, this is the chapter most directly aligned with the syllabus's "model selection" block. Ridge and the lasso appear by name on the MAS-I outline. The Lasso paper — Tibshirani 1996 — is worth flagging as the historical anchor, because Tibshirani is one of the four authors of the textbook the listener is reading.
+
+## Audience
+
+The listener is an actuarial student who has passed SOA Exams P and FM and is preparing for MAS-I. They are quantitatively comfortable — calculus, probability, basic statistics, basic regression — but they have minimal exposure to the machine-learning vocabulary. They are listening on a walk. They are not taking notes. They are absorbing.
+
+Assume they understand random variables, expected values, variance, what a regression line is, what a hypothesis test is, the bias-variance trade-off as concept (named in EP02), least-squares linear regression with multiple predictors (built in EP03), and cross-validation as a procedure (built in EP05). Do NOT assume they know what a penalty term is, what L1 vs L2 means, what principal components analysis does, or how Mallows's Cp differs from BIC. Those concepts will be introduced here and will not need to be re-introduced — but the listener has heard "bias-variance" and "cross-validation" enough at this point that you can use those phrases without re-defining them.
+
+## Angle
+
+Intuition-first walk-listen. Chapter 6 is math-dense — penalties, criteria, components, eigendecompositions — and easy to drown the listener in symbols. The conversation must stay relaxed and image-driven. Every formula or quantitative claim gets an intuitive one-sentence scaffold the walking listener can hold without paper: what it computes, why it exists, and what the answer's shape — sign, magnitude, monotonicity — tells you. Lead with intuition, name the formula, never solve aloud. Symbols themselves are NOT recited (no "sigma", no "X-bar", no "beta-hat", no "lambda squared", no "n minus p minus one") — the meaning behind the symbol is what carries. The Greek letter lambda can be named because it IS the tuning dial that defines the chapter; but never recite the algebra around it.
+
+The angle is *personal application* in the sense that the listener is studying for an actual exam and will deploy these methods in actual actuarial work. When the lasso lands, the hosts can name that Tibshirani's 1996 paper is one of the most-cited papers in statistics, and that Tibshirani is one of the four textbook authors. When PCR vs PLS lands, the hosts can note the practical wash and that PLS is the chemometrics workhorse. The Kaggle reference belongs in this episode only lightly if at all — EP05 already played that anchor; EP06's natural anchor is the Tibshirani lineage.
+
+## Central tensions to reach
+
+There are three named tensions in this chapter, and the conversation must reach each one.
+
+First. Too many predictors over-fit; too few under-fit. Model selection is the principled middle path. The choice of selection criterion — Cp, AIC, BIC, adjusted R-squared, cross-validation — is itself a choice, and BIC will steer you toward parsimony while Cp and AIC will steer you toward retention. The student should leave understanding that there is no single right answer, only a defensible posture toward simplicity.
+
+Second. Ridge shrinks every coefficient toward zero but never to zero. The lasso produces exact zeros. Automatic variable selection is the difference between the L2 penalty (squared coefficient values) and the L1 penalty (absolute coefficient values), and it's why both methods still ship side by side. Ridge wins when many predictors contribute modestly; the lasso wins when a few predictors carry most of the signal. Cross-validation chooses lambda for both. The student should leave with the "shrink all the dials a little vs turn most of the dials all the way off" image firmly in mind.
+
+Third. PCR and PLS are dimension-reduction routes — the same regression problem, attacked by first summarizing the predictors. The order matters: PCR summarizes X first, then regresses; PLS builds components that already aim at Y. The supervised advantage of PLS sounds compelling and usually washes out in practice. The student should leave understanding that all four methods — ridge, lasso, PCR, PLS — are doing the same job (controlling variance by constraining flexibility) through different mechanisms, and that on a typical dataset their test errors land in the same neighborhood (the lab's Hitters numbers all cluster near each other, with PLS landing at 151,995, comparable to the others).
+
+## Host dynamic
+
+Curious Mind and Patient Teacher.
+
+Host A is the Curious Mind. An actuarial student or recent credentialed actuary who is one or two years into their data-science deepening. Warm, plain language, knows the probability/regression basics but is still building ML vocabulary. Surfaces the listener's questions live: *if we already have cross-validation, why bother with Cp or AIC at all?*, *what does "shrinks toward zero but never reaches zero" actually look like for a coefficient as I turn lambda up?*, *why does the lasso's absolute-value penalty force exact zeros when the squared one doesn't?*, *if PLS is supervised and PCR is unsupervised, why is it that PLS doesn't reliably beat PCR?* Not naive, not unguarded — sharp, curious, on a walk.
+
+Host B is the Patient Teacher. A senior actuary who has been working with statistical learning methods for a decade. Calm, precise, anchored in the textbook. Names trade-offs before naming methods. Quotes the textbook directly when discussing key beats. Admits when something is genuinely contested. Never lectures. Respects Host A as an equal interlocutor — a colleague-in-formation, not a student to be educated.
+
+Conversation discipline. Each host completes a thought before the other responds. No interjections like "yeah" or "right" or "exactly" inside the other host's sentence. No talking over. The other host may pick up the thread after a brief pause. Cadence is short-to-medium sentences — thinking out loud rhythm, not paragraphs being read. Plant at least one moment where one host introduces a passage or example the other has not led toward — the prepared-separately feel matters.
+
+## Tone constraints
+
+No false enthusiasm. The hosts should sound like they have read the chapter carefully and want to think out loud about it on a walk, not like they are selling it to anyone. Allow short sentences. Allow silences. Quote the textbook directly when discussing key beats; do not paraphrase the strongest lines.
+
+Walking-listen guardrail. The chapter is dense with named quantities — Cp, AIC, BIC, adjusted R-squared, the L1 penalty, the L2 penalty, the ridge objective, the lasso objective, the principal components, the PLS components. The hosts should NAME each and give the *intuitive scaffold* — what it computes, why it exists, what the shape of the answer tells you — but NEVER solve any formula aloud. Cp, AIC, BIC, and adjusted R-squared are described by their penalty *shapes* (BIC penalizes complexity harder than AIC; adjusted R-squared is the friendly heuristic), never by their algebraic formulas. Ridge and the lasso are described by the dial image (lambda turning up; ridge coefficients shrinking continuously, lasso coefficients shrinking and then snapping to zero one by one). The "diamond vs sphere" geometric argument for why the L1 penalty produces sparsity may be mentioned in ONE sentence — the takeaway is that the corners do the work — but do NOT attempt visual description beyond that. The walking listener cannot see a diamond. The textbook itself names these formulas and prints them without derivation; match that posture. Do not recite symbols ("sigma", "X-bar", "beta-hat", "n minus p minus one", "lambda squared", "one over n") — the meaning behind the symbol is what carries.
+
+Math vocabulary discipline. When using technical terms (best subset selection, forward stepwise, backward stepwise, Mallows's Cp, AIC, BIC, adjusted R-squared, training error, test error, shrinkage, regularization, the tuning parameter lambda, the L1 penalty, the L2 penalty, ridge regression, the lasso, sparsity, sparse model, variable selection, soft thresholding, principal components analysis, principal components regression, partial least squares, dimension reduction, high-dimensional, the curse of dimensionality, eigendecomposition), the FIRST use must include a brief in-line definition. After that, use the term naturally without re-defining. Trust the listener to remember.
+
+Positive-framed math intuition. Every formula or quantitative claim gets an intuitive one-sentence scaffold the walking listener can hold without paper: what it computes, why it exists, and what the answer's shape (sign, magnitude, monotonicity) tells you. Lead with intuition, name the formula, never solve aloud. This is the rule that gets the heaviest exercise in this chapter — every penalty, every criterion, every component construction gets the one-sentence intuitive scaffold treatment.
+
+Cadence. Short-to-medium sentences. Thinking-out-loud rhythm, not paragraphs being read. Pauses are allowed. The listener is on a walk; the air is between the sentences as much as in them.
+
+## Permission to disagree
+
+Yes, lightly. The textbook is candid that none of these methods universally dominates. Ridge vs lasso is genuinely an empirical question — the lasso wins on sparse problems, ridge wins on dense ones, and you don't know which you have until you check. PLS sounds like it should beat PCR (it's supervised; it uses the response) and in practice usually doesn't (the supervised reduction adds variance roughly equal to the bias it saves). A host may surface that BIC's preference for parsimony can over-shrink if your real problem has lots of small but real effects; a host may note that cross-validation isn't free (it costs k-times the compute and is noisy on small datasets). The textbook's candor is the model — name the trade-offs honestly, don't pick fights with the methods.
+
+## Three-part focus
+
+Focus 1. Why model selection matters; subset selection as the combinatorial baseline; the menu of selection criteria. Land the "too many predictors over-fit, too few under-fit, and we need a principled middle path" framing. Walk best subset selection as the conceptually clean two-to-the-p baseline that is computationally infeasible past around p equals thirty. Then forward stepwise (start empty, greedily add) and backward stepwise (start full, greedily drop) as the p-squared practical approximations. Then the criteria for choosing among candidate models: Mallows's Cp adds a complexity penalty proportional to the number of predictors, scaled by the noise variance — adjusts the training error upward by just enough to account for the optimism of having fit those predictors. AIC lands at essentially the same place for normal-error linear models. BIC has the same shape but the penalty grows with the log of n, so BIC consistently prefers smaller models than Cp or AIC. Adjusted R-squared is the friendly heuristic — ordinary R-squared with a correction that keeps it from rising automatically every time you add a predictor. And cross-validation is the assumption-free direct estimate the resampling chapter built — the preferred criterion when it's computationally feasible. Land the point that on the Hitters dataset, different criteria pick different but reasonable model sizes; cross-validation lands on a ten-variable model.
+
+Focus 2. Shrinkage — ridge and the lasso. The chapter's central image: a tuning dial called lambda. Ridge regression adds lambda times the sum of squared coefficients to the residual sum of squares, and as lambda grows every coefficient shrinks continuously toward zero but none of them ever reach exactly zero. Ridge keeps all predictors in the model, just turning down their volume. The standard practice is to standardize the predictors first, because the squared penalty treats large-scale predictors more harshly than small-scale ones. Then the lasso — same setup, but the penalty is lambda times the sum of *absolute values* of the coefficients (the L1 penalty instead of L2). The absolute-value shape has sharp corners at zero, and the optimization tends to land on those corners — so as lambda grows, the lasso shrinks coefficients AND snaps them to exactly zero, one by one. The lasso does shrinkage and variable selection in a single step. The diamond-vs-sphere geometric argument may be named in one sentence — the corners do the work — but no visual description beyond that. The intuitive contrast is the whole chapter: ridge turns all the dials down a little; the lasso turns most of the dials all the way off. Ridge wins when many predictors contribute modestly; the lasso wins when a few predictors carry most of the signal. Cross-validation chooses lambda for both. The historical anchor: the lasso came from Tibshirani's 1996 paper — Tibshirani is one of the four authors of the textbook the listener is reading — and that paper is among the most-cited in statistics. Lineage matters; land it in one sentence.
+
+Focus 3. Dimension reduction (PCR, PLS), the high-dimensional setting, and the closing seam. Pivot cleanly from "fit everything, shrink some" to "summarize the predictors first, then regress on the summaries." Principal components regression — build the leading principal components of the predictor matrix (the directions of greatest variance, found by an eigendecomposition; the mathematical machinery named, not derived) and regress on the first M of those. The hope: the directions in X with the most variance also carry the most information about Y. Sometimes that hope holds; sometimes not, because PCR builds the components without consulting Y. PLS is the supervised alternative — build components that aim at Y from the start, weighting each predictor by its correlation with the response. PLS sounds like it should beat PCR; in practice the textbook is candid that the supervised reduction adds variance roughly equal to the bias it saves, so the overall benefit is a wash. PLS is the chemometrics workhorse; for general regression, PCR and PLS perform comparably. The order matters — PCR summarizes X then regresses; PLS builds components that already aim at Y — but the practical winner is rarely clean. Then high dimensions: when p approaches or exceeds n, ordinary least squares fits the training data perfectly and predicts terribly. The methods of this chapter — forward stepwise, ridge, the lasso, PCR — work in high dimensions precisely because they constrain flexibility. On the Hitters lab, all four methods land in the same neighborhood; the PLS test MSE is 151,995, comparable to the others — name the concrete number once, then move on.
+
+Landing. Close on the seam to the next walk. Name that the textbook now turns to methods that drop the linear assumption itself — polynomial regression, splines, local regression, generalized additive models. Do not recap what was discussed. Do not say "so today we covered". The strongest closing is a single line about what the next walk will be about.
+
+## Pronunciation
+
+Pronounce "Tibshirani" as "TIB-shir-AH-nee". Say it as one fluent word. First occurrence in full; thereafter use the bare surname.
+Pronounce "Hastie" as "HAY-stee". Say it as one fluent word.
+Pronounce "LASSO" as "LASS-oh". One word, two syllables, stress on LASS. Always spoken; never spelled out.
+Pronounce "ridge regression" as "RIDJ ree-GRES-shun". Two normal English words.
+Pronounce "regularization" as "REG-yoo-lar-ih-ZAY-shun". Five syllables, two stresses on REG and ZAY.
+Pronounce "Akaike" as "ah-kah-EE-keh". Four syllables, stress on EE. Used when AIC's full name is introduced. After first mention, the acronym "A-I-C" suffices.
+Pronounce "Bayesian" as "BAY-zee-an". Three syllables, stress on BAY. Used when BIC's full name is introduced. After first mention, the acronym "B-I-C" suffices.
+Pronounce "Mallows's Cp" as "MAL-ohz SEE-pee". Possessive form, "Mallows's". The "Cp" portion is the letters spoken: "SEE-pee".
+Pronounce "eigendecomposition" as "EYE-gen-dee-com-poh-ZISH-un". Six syllables, stress on EYE and ZISH. Mentioned once when PCR's mathematical underpinning is named.
+Pronounce "AIC" as the letters "A-I-C".
+Pronounce "BIC" as the letters "B-I-C".
+Pronounce "PCR" as the letters "P-C-R".
+Pronounce "PLS" as the letters "P-L-S".
+Pronounce "Credit data set" as "KRED-it data set". Standard English.
+Pronounce "Hitters data set" as "HIT-erz data set". Standard English; the baseball team noun.
+Pronounce "Mallows" as "MAL-ohz". Two syllables, stress on MAL. The statistician Colin Mallows.
+
+Name discipline. Use each author's full last name on first reference; thereafter use the bare surname. The set is "James, Witten, Hastie, and Tibshirani" on the opening only; do not re-list all four after. Tibshirani is named again when the lasso is introduced (the 1996 paper is his).
+
+Do not read this guidance aloud. The phonetics above are for the voice model only.
+
+## Do not (forbidden vocabulary and framings)
+
+Do NOT cite the Quran, hadith, Imam Ali, or any religious source. ISL is a secular textbook; religious citations are out of scope. (This rule mirrors the inverse of every other book in the library — the constraint is genre-specific.)
+
+Do NOT modernize gratuitously. The chapter does NOT name social media platforms, AI hype cycles, or 2024-era news. The hosts do not mention any of: Twitter, X, social media, content creator, internet troll, reply guy, YouTube comment, TikTok, Instagram, livestream, screen time, notification, attention economy, 21st century, quote-tweet, hashtag, follower count, doomscroll, hot take, cognitive behavioral therapy, productivity framework, life hack, self-help, wellness, mindfulness app, dopamine hit, deep dive, in our modern world, modern digital lives, platforms like. Additionally not allowed for this textbook: ChatGPT, OpenAI, generative AI, prompt engineering, AGI, large language models, transformers, foundation models, Anthropic, Claude, GPT, AlphaFold, Stable Diffusion, Sora, Midjourney, NFT, blockchain, crypto, web3, metaverse. Do NOT use formal-essay transitions: Firstly, Secondly, Furthermore, In conclusion, Moving on to, To summarize, Lastly.
+
+**ISL2-specific exception to the canonical no-modernize list.** The word "algorithm" appears throughout ISL2 as a standard technical term (e.g., "the lasso algorithm", "the coordinate-descent algorithm"). It is NOT a social-media modernism in this context and is permitted when used in its textbook sense — referring to a computational procedure for fitting or estimating, not to a recommendation-engine ranking function. The hosts MAY say "algorithm" when discussing a method's computational procedure. They MUST NOT say it in the sense of "the TikTok algorithm" or "platform algorithm".
+
+Modern analogies are allowed but must come from the book's enrichment whitelist Tier 2: Netflix Prize (2006–2009), Spotify Discover Weekly, FICO credit scoring, Kaggle conventions, the 2008 financial crisis correlation breakdown, email spam filters (1990s–2000s), GAMs in insurance pricing. For this episode, the natural Tier 1 anchor — which carries more weight than any Tier 2 — is **Tibshirani's 1996 lasso paper**: name the lineage once when the lasso is introduced, note that Tibshirani is one of the four textbook authors and that the paper is among the most-cited in statistics. The Tier 2 Kaggle reference was the natural anchor for EP05 and should NOT recur as a recurring motif here; one Tier-2 mention is acceptable if it lands naturally (the lasso and cross-validation together being a Kaggle competitor's standard toolkit), but it is optional. The Tier 1 Tibshirani lineage is the priority.
+
+Do NOT perform surprise. Do not say: "wow", "that's so interesting", "fascinating", "amazing", "mind-blowing", "incredible", "right?", "exactly" as a one-word reaction, "no way". Do not gasp. Do not repeat the previous host's last word as a single-word reaction. Trust the listener to register the point without being told it's profound. (The word "exactly" remains permitted in its technical sense — "shrinks to exactly zero", "exactly the quantity you want" — what is forbidden is "Exactly!" as a reaction to the other host's sentence.)
+
+Do NOT lecture. The chapter does not lecture; the hosts must not either. Each beat is a thought, not a paragraph. The hosts ARE on a walk — short sentences, occasional pauses, conversational rhythm.
+
+Do NOT recite formulas. Name them (the ridge objective, the lasso objective, Mallows's Cp, AIC, BIC, adjusted R-squared, the L1 penalty, the L2 penalty, the principal component construction, the PLS direction construction) and give the intuitive scaffold for each, but never compute them aloud and never recite symbols. The walking listener cannot follow algebra. Do not say "sigma", "X-bar", "beta-hat", "lambda squared", "one over n", "n minus p minus one", "the sum from j equals one to p of beta-j squared", or any other symbol pronunciation. The Greek letter "lambda" is permitted as the name of the tuning parameter — that IS the dial — but do not recite any algebra surrounding it. The meaning behind every symbol is what carries.
+
+Do NOT describe Cp, AIC, BIC, or adjusted R-squared by their algebraic formulas. Describe them by their penalty SHAPES — BIC penalizes complexity harder than AIC because the BIC penalty grows with the log of the sample size; adjusted R-squared is the friendly heuristic that prevents the ordinary R-squared from rising automatically; Cp adjusts training error by an amount proportional to the number of predictors. The shape is the whole story on the walk.
+
+Do NOT attempt to describe the "diamond vs sphere" picture beyond ONE sentence. The lasso's constraint region has sharp corners at zero in every dimension; the optimization lands on those corners; that is why the L1 penalty produces exact zeros. Done. The walking listener cannot see a diamond. Do not say "imagine a circle and a diamond on a piece of paper" or any visual instruction.
+
+Do NOT walk through the §6.5 R lab. The lab is referenced but not narrated. Do NOT recite R function calls aloud — no `glmnet()`, no `cv.glmnet()`, no `pcr()`, no `plsr()`, no `regsubsets()`. A passing reference to "Tibshirani's own R package, glmnet" is acceptable once if it lands naturally, but no code recitation. The "test MSE 151,995" number from the PLS lab is the one concrete number from §6.5 that should appear — as a quick lab anchor, not a recitation of the surrounding R code.
+
+Do NOT introduce material from later chapters. Nonlinear methods, splines, GAMs are EP07's job; trees, bagging, boosting, random forests are beyond MAS-I scope and not covered in this series.
+
+Do NOT abbreviate the book's title to "ISL" repeatedly. Say *An Introduction to Statistical Learning* in full on the opening; thereafter "the textbook" or "the book" works. The acronym ISL can appear sparingly when contrasted with ESL.
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
+

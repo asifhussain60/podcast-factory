@@ -1,0 +1,52 @@
+# Chapter contract — ISL2 / MAS-I, Episode 01.
+# First chapter shipped under the secular-textbook bypass posture
+# (Phase 0a via pdftotext, no SHARED_ARABIC, secular enrichment pool).
+
+chapter_ref: ch01-introduction
+slug: introduction
+source_type: book-chapter
+book_slug: islr-mas-i
+episode_number: 1
+title: What Statistical Learning Actually Is
+audience: >
+  An actuarial student who has passed SOA Exams P and FM and is preparing
+  for MAS-I (Modern Actuarial Statistics I). Listening mode is a casual
+  walk — theory-heavy, qualitative, formulas referenced but never solved
+  aloud. The student has strong probability/calculus foundations and basic
+  regression exposure, but minimal machine-learning vocabulary.
+angle: personal_application
+episode_format: deep_dive
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_custom: null
+debate: null
+length_target: default_deep_dive
+
+key_tensions:
+  - "Statistical learning is a TOOLKIT, not a single method — the toolkit's organization (supervised vs unsupervised; regression vs classification) is the real lesson of Chapter 1, not any one formula."
+  - "Two-centuries-old methods (1800s least squares, 1936 LDA) sit alongside 1996 LASSO and modern ML because problems do not retire — the discipline accumulates rather than replaces."
+  - "The textbook deliberately suppresses matrix algebra; the student's job is to internalize trade-offs well enough to pick the right tool for a real problem, not to grind through proofs."
+
+tone_constraints:
+  - "No aloud calculations. No 'pause and try this'. No R code recitation."
+  - "Formulas are NAMED when they matter, never solved on air."
+  - "Modern analogies are welcome (Netflix, Spotify, FICO, Kaggle conventions) — but only from the book's enrichment-whitelist.md Tier 2. No religious citations, ever."
+  - "No fake enthusiasm. No 'wow', 'fascinating', 'amazing'. The student is on a walk, not in a sales pitch."
+  - "Honor the textbook's own restraint — the authors deliberately do NOT lecture. Match that posture."
+
+anchor_passages:
+  - "Statistical learning refers to a set of tools for making sense of complex datasets."
+  - "approximately 60% of the time [stock-market direction prediction over the 5-year Smarket period]"
+  - "6,830 gene expression measurements for each of 64 cancer cell lines"
+  - "ISL is based on the following four premises... [statistical learning] should not be viewed as a series of black boxes."
+  - "we have almost completely avoided the use of matrix algebra"
+
+adaptation_mode: bridge
+
+phonetic_overrides: {}
+
+show_notes:
+  blurb: "What statistical learning IS, the three motivating examples that anchor the supervised/unsupervised split (Wage, Smarket, NCI60), the two-century history that puts a 1936 method next to a 1996 one, and the notation you'll hear in every later episode."
+  related_episodes: []
+  references:
+    - "James, G., Witten, D., Hastie, T., Tibshirani, R. — An Introduction to Statistical Learning, 2nd ed., Springer 2021, Chapter 1."
+    - "Hastie, T., Tibshirani, R., Friedman, J. — The Elements of Statistical Learning, 2nd ed., 2009."

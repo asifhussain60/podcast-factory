@@ -546,7 +546,7 @@ Compact list of architectural decisions and why. Future Claude sessions and revi
 
 | ID | Decision | Why | Date |
 |---|---|---|---|
-| DR-001 | **SQLite + JSON1 for v1; Postgres + pgvector at Wave 2** | Mac portability beats infrastructure power for v1. Migration path via SQLAlchemy. | 2026-05-26 |
+| DR-001 | **SQLite + FAISS sidecar; Supabase pgvector only on remote-host deployment** | SQLite handles metadata for 100K+ atoms without contention (single-machine model). FAISS owns vectors as a sidecar artifact (`content/knowledge-base/_index/embeddings.faiss`), keyed by atom `id`, rebuilt from `knowledge.db` via `scripts/podcast/knowledge/build_faiss_index.py`. No network hop, fully offline-capable. Migrate to Supabase pgvector only if the podcast reader is scheduled for remote/edge hosting — that is the single flip condition, and it should be re-evaluated explicitly at that time. Original DR-001 assumed a future Postgres migration that was resolved as unnecessary on 2026-05-31. | 2026-05-31 |
 | DR-002 | **Tier-2 capstone NEVER reads chapter-scope material** | Recursion invariant. Tier-1 absorbs chapter corrections; tier-2 sees only tier-1. | 2026-05-26 |
 | DR-003 | **Per-content-type typed branch policy** | `book/`, `doc/`, `lecture/`, `article/`. Single prefix-map in `_branching.py`. | 2026-05-24 |
 | DR-004 | **Letter-suffix phase IDs (08a/08b/08c)** | Preserves numeric ordering for resume. Mirrors existing `11b-slide-decks`. | 2026-05-26 |
@@ -561,6 +561,7 @@ Compact list of architectural decisions and why. Future Claude sessions and revi
 | DR-013 | **Retroactive enhancements for shipped books = addendum-only** | Never re-run the pipeline against KaR, M&D, Ayyuhal Walad, etc. New episodes ship as addenda. | 2026-05-26 |
 | DR-014 | **Strategic-tactical agent split: steward composes, doesn't reimplement** | `project-steward` sits above the tactical agents (orchestrator, auditor, challenger, vacuum, etc.). It composes them by scope rather than duplicating their checks. Every recommendation is bound to a `reference/steward-source-corpus.md` entry; unsourced claims are flagged `[unsourced]`. Prevents agent-sprawl and keeps strategic prioritization out of pipeline scripts. | 2026-05-26 |
 | DR-016 | **Annotation output must persist as both queue and chapter handoff file** | Local queue keeps interaction fast; chapter JSON makes intent durable and machine-readable for assistant sessions and automation. | 2026-05-27 |
+| DR-017 | **FAISS sidecar pattern: vectors separate from metadata, rebuilt from SQLite** | The `atoms` table in `knowledge.db` is the source of truth. `_index/embeddings.faiss` is a derived artifact — never committed unless needed for perf. Rebuild contract: `scripts/podcast/knowledge/build_faiss_index.py` reads `knowledge.db`, calls the embedding API in batch, writes the FAISS index, writes `_index/id_map.json` (FAISS int → atom `id` string). If the index is corrupted or absent, rebuild from `knowledge.db` without any data loss. Embedding model: `text-embedding-3-small` (1536-dim). Similarity threshold: ≥0.92 merge, 0.80–0.92 flag for manual review. | 2026-05-31 |
 
 ---
 
