@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-05-31T15:29:47.425Z",
-  "source_commit": "04a8ad7",
-  "generator": "regenerate-snapshots.mjs",
+  "generated_at": "2026-06-01T17:57:33.071402+00:00",
+  "source_commit": "eb7368e0",
+  "generator": "regenerate-snapshots.py",
   "roadmap": [
     {
       "id": "A1",
@@ -11,7 +11,7 @@
       "tier": "T1",
       "depends_on": [],
       "last_touched": "2026-05-26",
-      "plain": "Reorganises the planning folder — removes old duplicate files and sets up the neat structure every other part of the plan points to. Think of it as clearing the desk before starting a big project.",
+      "plain": "Reorganises the planning folder \u2014 removes old duplicate files and sets up the neat structure every other part of the plan points to. Think of it as clearing the desk before starting a big project.",
       "tools": [
         "Git"
       ]
@@ -19,32 +19,34 @@
     {
       "id": "A2",
       "wave": "A",
-      "title": "Build the Core layer — _paths, _db, _archetypes, _anti_cliche",
+      "title": "Build the Core layer \u2014 _paths, _db, _archetypes, _anti_cliche",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A1"
       ],
-      "plain": "Creates the 16-table SOLID-compliant SQLite database that every later script reads from and writes to. Tables fall into four groups: core pipeline (books, chapters, episodes, phonetics, pipeline_runs, cost_ledger), knowledge intelligence (knowledge_atoms, atom_sources, atom_topic_tags, external_corpora, topic_type_taxonomy, corpus_chapters), quality (challenger_findings), and etymology (arabic_roots, word_etymologies, letter_profiles). Also establishes the central path registry (so nothing hard-codes where files live), seven database repositories (so no script ever calls sqlite3 directly), the archetype lookup, and the anti-cliché phrase lists. The corpus layer in particular is designed for independent per-chapter refinement — see B0.",
+      "plain": "Creates the 16-table SOLID-compliant SQLite database that every later script reads from and writes to. Tables fall into four groups: core pipeline (books, chapters, episodes, phonetics, pipeline_runs, cost_ledger), knowledge intelligence (knowledge_atoms, atom_sources, atom_topic_tags, external_corpora, topic_type_taxonomy, corpus_chapters), quality (challenger_findings), and etymology (arabic_roots, word_etymologies, letter_profiles). Also establishes the central path registry (so nothing hard-codes where files live), seven database repositories (so no script ever calls sqlite3 directly), the archetype lookup, and the anti-clich\u00e9 phrase lists. The corpus layer in particular is designed for independent per-chapter refinement \u2014 see B0.",
       "tools": [
         "Python",
         "SQLite"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "A3",
       "wave": "A",
-      "title": "Build the Domain layer — _doctrinal + tradition_adjacency.yml, _context_injection",
+      "title": "Build the Domain layer \u2014 _doctrinal + tradition_adjacency.yml, _context_injection",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A2"
       ],
-      "plain": "Adds the house-style guardrails. Tradition guard: books are primarily Ismaili (Fatimid Imams, progeny of Ali and Fatima). Sunni and Sufi citations are adjacent and acceptable, but a fast structural filter runs first — it rejects citations from clearly non-adjacent traditions using a config file. The deeper check (whether a citation quietly contradicts what the Ismaili author actually wrote) is handled by Claude during the enrichment step, not here. The author's voice always leads. Also adds: Imam name-style validator, shared citation formatter, and an authenticated Islamic source whitelist (al-islam.org, sunnah.com, islamweb.net and others confirmed at delivery).",
+      "plain": "Adds the house-style guardrails. Tradition guard: books are primarily Ismaili (Fatimid Imams, progeny of Ali and Fatima). Sunni and Sufi citations are adjacent and acceptable, but a fast structural filter runs first \u2014 it rejects citations from clearly non-adjacent traditions using a config file. The deeper check (whether a citation quietly contradicts what the Ismaili author actually wrote) is handled by Claude during the enrichment step, not here. The author's voice always leads. Also adds: Imam name-style validator, shared citation formatter, and an authenticated Islamic source whitelist (al-islam.org, sunnah.com, islamweb.net and others confirmed at delivery).",
       "tools": [
         "Python",
         "Claude"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "A4",
@@ -55,10 +57,11 @@
       "depends_on": [
         "A2"
       ],
-      "plain": "The pipeline's main script has grown to over 2 000 lines — too large to read or change safely. This step splits it into smaller specialist files, one per production station, each under the 600-line limit. Changes to one station no longer risk breaking another. Acceptance signal: any book currently in progress can resume from exactly where it stopped, with no manual fix required.",
+      "plain": "The pipeline's main script has grown to over 2 000 lines \u2014 too large to read or change safely. This step splits it into smaller specialist files, one per production station, each under the 600-line limit. Changes to one station no longer risk breaking another. Acceptance signal: any book currently in progress can resume from exactly where it stopped, with no manual fix required.",
       "tools": [
         "Python"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "A5",
@@ -69,50 +72,54 @@
       "depends_on": [
         "A1"
       ],
-      "plain": "Removes old 'Version: 2.3' style headers from source files and installs a guard that permanently rejects any future commit trying to add them. The guard catches both patterns: version labels inside file headers and version numbers embedded in filenames (e.g. spec-v3.md). An exclusion list handles any third-party files that legitimately carry version fields. The git log is the version record — we don't need numbers inside files or filenames.",
+      "plain": "Removes old 'Version: 2.3' style headers from source files and installs a guard that permanently rejects any future commit trying to add them. The guard catches both patterns: version labels inside file headers and version numbers embedded in filenames (e.g. spec-v3.md). An exclusion list handles any third-party files that legitimately carry version fields. The git log is the version record \u2014 we don't need numbers inside files or filenames.",
       "tools": [
         "Git",
         "Python"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "A6",
       "wave": "A",
-      "title": "Consolidate the agent sprawl — one canonical spec per agent, one installation path",
+      "title": "Consolidate the agent sprawl \u2014 one canonical spec per agent, one installation path",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A1"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "A7",
       "wave": "A",
-      "title": "Decouple all batch pipeline processing from the interactive Claude plan — dedicated API key with spend cap",
+      "title": "Decouple all batch pipeline processing from the interactive Claude plan \u2014 dedicated API key with spend cap",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A1"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "B0",
       "wave": "B",
-      "title": "Build the Wisdom corpus ingestion driver — independent chapter refinement",
+      "title": "Build the Wisdom corpus ingestion driver \u2014 independent chapter refinement",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A2"
       ],
-      "plain": "Seeds the intelligence library from the 75 PASS+WARN Wisdom chapters without going through the main pipeline. The key design: every chapter can be corrected and re-ingested independently. When Asif marks a chapter as needing correction, its atoms stay in the database (flagged for review) while he edits the source file. Re-running the driver on that chapter deletes only its old atoms and creates fresh ones from the corrected content — no other chapters are touched, no full pipeline re-run needed. A five-state progress tracker (pending → ingested → needs-correction → correction-draft → re-ingested) makes the editorial state visible. Ships before B1 so the knowledge database has live Wisdom doctrine atoms from day one.",
+      "plain": "Seeds the intelligence library from the 75 PASS+WARN Wisdom chapters without going through the main pipeline. The key design: every chapter can be corrected and re-ingested independently. When Asif marks a chapter as needing correction, its atoms stay in the database (flagged for review) while he edits the source file. Re-running the driver on that chapter deletes only its old atoms and creates fresh ones from the corrected content \u2014 no other chapters are touched, no full pipeline re-run needed. A five-state progress tracker (pending \u2192 ingested \u2192 needs-correction \u2192 correction-draft \u2192 re-ingested) makes the editorial state visible. Ships before B1 so the knowledge database has live Wisdom doctrine atoms from day one.",
       "tools": [
         "Python",
         "SQLite"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "B1",
@@ -123,12 +130,13 @@
       "depends_on": [
         "A5"
       ],
-      "plain": "Reads each processed chapter and pulls out knowledge atoms — the smallest verifiable facts: Quran verse references (surah, ayah, translation), hadith citations (narrator chain, text, grade), and key scholarly concepts. Wave 1 captures Quran + hadith only. Atoms are saved to a SQLite database in WAL mode so other scripts can read concurrently while a write is in progress.",
+      "plain": "Reads each processed chapter and pulls out knowledge atoms \u2014 the smallest verifiable facts: Quran verse references (surah, ayah, translation), hadith citations (narrator chain, text, grade), and key scholarly concepts. Wave 1 captures Quran + hadith only. Atoms are saved to a SQLite database in WAL mode so other scripts can read concurrently while a write is in progress.",
       "tools": [
         "Python",
         "Claude",
         "SQLite"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "B2",
@@ -139,11 +147,12 @@
       "depends_on": [
         "B1"
       ],
-      "plain": "The librarian: merges newly extracted atoms into the shared knowledge database after each book's enrichment run. On a conflict — same hadith reference, different wording from two books — it quarantines the conflict for Asif to resolve rather than silently overwriting. Accepted atoms are immutable. Wave 2 will extend this with embedding-based de-duplication so near-identical concepts from different wordings are recognised as the same.",
+      "plain": "The librarian: merges newly extracted atoms into the shared knowledge database after each book's enrichment run. On a conflict \u2014 same hadith reference, different wording from two books \u2014 it quarantines the conflict for Asif to resolve rather than silently overwriting. Accepted atoms are immutable. Wave 2 will extend this with embedding-based de-duplication so near-identical concepts from different wordings are recognised as the same.",
       "tools": [
         "Python",
         "SQLite"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "B3",
@@ -155,11 +164,12 @@
         "B2",
         "A3"
       ],
-      "plain": "The augmenter: queries the knowledge library during enrichment of a new chapter and injects verified citations — so every book inherits how previous books cited the same Quran verse or hadith, keeping style consistent across the catalog. Two safety rails: it stays disabled until a quality gate confirms the library is clean enough to trust, and it strips Arabic script from all injected atoms before they reach NotebookLM (which can't process Arabic text).",
+      "plain": "The augmenter: queries the knowledge library during enrichment of a new chapter and injects verified citations \u2014 so every book inherits how previous books cited the same Quran verse or hadith, keeping style consistent across the catalog. Two safety rails: it stays disabled until a quality gate confirms the library is clean enough to trust, and it strips Arabic script from all injected atoms before they reach NotebookLM (which can't process Arabic text).",
       "tools": [
         "Python",
         "Claude"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "B4",
@@ -171,11 +181,12 @@
         "B3",
         "A4"
       ],
-      "plain": "Wires extract → library → augment into the pipeline's enrichment phase so all three run in the correct sequence for every new book. Also connects the quality gate that controls when the augmenter is permitted to fire — it stays off until the library holds atoms from at least one complete book and the librarian reports zero unresolved conflicts.",
+      "plain": "Wires extract \u2192 library \u2192 augment into the pipeline's enrichment phase so all three run in the correct sequence for every new book. Also connects the quality gate that controls when the augmenter is permitted to fire \u2014 it stays off until the library holds atoms from at least one complete book and the librarian reports zero unresolved conflicts.",
       "tools": [
         "Python",
         "Claude"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "B5",
@@ -187,7 +198,8 @@
         "B0"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "C1",
@@ -202,7 +214,8 @@
       "tools": [
         "Python",
         "Claude"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "C2",
@@ -213,11 +226,12 @@
       "depends_on": [
         "A4"
       ],
-      "plain": "Builds a closing-chapter writer that produces a summary episode for any book, and for large encyclopedic works, a second deeper-distillation episode that draws only on the highest-insight moments — keeping chapter-level details out of the synthesis.",
+      "plain": "Builds a closing-chapter writer that produces a summary episode for any book, and for large encyclopedic works, a second deeper-distillation episode that draws only on the highest-insight moments \u2014 keeping chapter-level details out of the synthesis.",
       "tools": [
         "Python",
         "Claude"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "C3",
@@ -229,12 +243,13 @@
         "A4",
         "B4"
       ],
-      "plain": "For books that benefit from it, adds an optional step that surfaces contemporary research, recent scientific findings, and modern scholarly debates that connect to the book's ideas — and verifies every external link is real before it's used.",
+      "plain": "For books that benefit from it, adds an optional step that surfaces contemporary research, recent scientific findings, and modern scholarly debates that connect to the book's ideas \u2014 and verifies every external link is real before it's used.",
       "tools": [
         "Python",
         "Claude",
         "Azure"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "C4",
@@ -250,7 +265,8 @@
       "tools": [
         "Python",
         "Azure"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "C4.0",
@@ -261,11 +277,12 @@
       "depends_on": [
         "C1"
       ],
-      "plain": "Runs a small 2–3 chapter pilot through NotebookLM's slide-generation feature on one real book to see whether the output is consistent enough to enforce as a quality requirement. Costs roughly $30 and answers the question before committing to the full rollout.",
+      "plain": "Runs a small 2\u20133 chapter pilot through NotebookLM's slide-generation feature on one real book to see whether the output is consistent enough to enforce as a quality requirement. Costs roughly $30 and answers the question before committing to the full rollout.",
       "tools": [
         "NotebookLM",
         "Azure"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "C5",
@@ -276,11 +293,12 @@
       "depends_on": [
         "C1"
       ],
-      "plain": "For books with fifty or more planned episodes, introduces a staged-approval model — you review and sign off on one section before the next section starts processing. Prevents a compounding cost mistake from running silently across the entire work.",
+      "plain": "For books with fifty or more planned episodes, introduces a staged-approval model \u2014 you review and sign off on one section before the next section starts processing. Prevents a compounding cost mistake from running silently across the entire work.",
       "tools": [
         "Python",
         "Claude"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "D1",
@@ -291,12 +309,13 @@
       "depends_on": [
         "A1"
       ],
-      "plain": "Sets up the shared design tokens — colours, font sizes, spacing — and the dashboard app shell that all four views (overview, architecture, infrastructure, live progress) hang off. One place to change a colour and it updates everywhere.",
+      "plain": "Sets up the shared design tokens \u2014 colours, font sizes, spacing \u2014 and the dashboard app shell that all four views (overview, architecture, infrastructure, live progress) hang off. One place to change a colour and it updates everywhere.",
       "tools": [
         "Astro",
         "React",
         "CSS"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "D2",
@@ -311,7 +330,8 @@
       "tools": [
         "Astro",
         "React"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "D3",
@@ -326,7 +346,8 @@
       "tools": [
         "Astro",
         "React"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "D4",
@@ -342,7 +363,8 @@
         "Astro",
         "React",
         "Python"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "D5",
@@ -354,7 +376,8 @@
         "D2"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "D6",
@@ -366,7 +389,8 @@
         "D5"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "E1",
@@ -378,33 +402,35 @@
         "C1",
         "C2"
       ],
-      "plain": "Updates every previously-shipped book's configuration file to match the new unified format so they all behave consistently and can use the new quality-gate features — without re-processing any existing episodes.",
+      "plain": "Updates every previously-shipped book's configuration file to match the new unified format so they all behave consistently and can use the new quality-gate features \u2014 without re-processing any existing episodes.",
       "tools": [
         "Python",
         "SQLite"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "E2",
       "wave": "E",
-      "title": "KaR — tier-2 distillation addendum (no re-run)",
+      "title": "KaR \u2014 tier-2 distillation addendum (no re-run)",
       "status": "complete",
       "tier": "T2",
       "depends_on": [
         "E1",
         "C2"
       ],
-      "plain": "Creates a new closing episode for Kitab al-Riyad — a distillation of the deepest insights across all fourteen chapters — without re-running or altering any of the fourteen existing episodes already in the catalog.",
+      "plain": "Creates a new closing episode for Kitab al-Riyad \u2014 a distillation of the deepest insights across all fourteen chapters \u2014 without re-running or altering any of the fourteen existing episodes already in the catalog.",
       "tools": [
         "Python",
         "Claude",
         "NotebookLM"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "E3",
       "wave": "E",
-      "title": "M&D — EP00 preface addendum + vacuum + postprod-review (no re-run)",
+      "title": "M&D \u2014 EP00 preface addendum + vacuum + postprod-review (no re-run)",
       "status": "complete",
       "tier": "T2",
       "depends_on": [
@@ -416,7 +442,8 @@
         "Python",
         "Claude",
         "NotebookLM"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "E4",
@@ -433,7 +460,8 @@
       "plain": "Adds five new automatic checks to the publish gate: confirms the closing-chapter style matches the book type, verifies all diagrams meet quality standards, and ensures every human-review flag has been cleared before a book can ship.",
       "tools": [
         "Python"
-      ]
+      ],
+      "last_touched": null
     },
     {
       "id": "E5",
@@ -447,7 +475,73 @@
         "E4"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "CP1",
+      "wave": "CP",
+      "title": "Add content_profile field to series-config.yaml + _rules.py",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "A1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "CP2",
+      "wave": "CP",
+      "title": "Gate Arabic-specific assertions in build_episode_txt.py on content_profile",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "CP1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "CP3",
+      "wave": "CP",
+      "title": "Make phase 0c (phonetics) a no-op outside the islamic_scholarly profile",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "CP1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "CP4",
+      "wave": "CP",
+      "title": "Add consumer_finance enrichment stub under content/_shared/",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "CP1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "CP5",
+      "wave": "CP",
+      "title": "Extend challenger profile-gating to skip Islamic-specific rules for non-Islamic content",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "CP2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "G1",
@@ -457,29 +551,32 @@
       "tier": "T1",
       "depends_on": [],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "H1",
       "wave": "H",
-      "title": "Astro site SOLID/DRY refactor — extract shared types, constants, and utilities",
+      "title": "Astro site SOLID/DRY refactor \u2014 extract shared types, constants, and utilities",
       "status": "pending",
       "tier": "T1",
       "depends_on": [],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "H2",
       "wave": "H",
-      "title": "Pipeline code quality — split oversized scripts and eliminate duplication",
+      "title": "Pipeline code quality \u2014 split oversized scripts and eliminate duplication",
       "status": "pending",
       "tier": "T1",
       "depends_on": [
         "H1"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "H3",
@@ -491,17 +588,19 @@
         "H2"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "I0a",
       "wave": "I",
-      "title": "Retroactive noise annotation — AI pre-marks existing chapters; human reviews in reader UI",
+      "title": "Retroactive noise annotation \u2014 AI pre-marks existing chapters; human reviews in reader UI",
       "status": "complete",
       "tier": "T1",
       "depends_on": [],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "I0b",
@@ -513,46 +612,50 @@
         "I0a"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "I1",
       "wave": "I",
-      "title": "Audio intake — input_type branch in Phase 04 (pdf / audio-transcript / mixed)",
+      "title": "Audio intake \u2014 input_type branch in Phase 04 (pdf / audio-transcript / mixed)",
       "status": "complete",
       "tier": "T1",
       "depends_on": [],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "I2",
       "wave": "I",
-      "title": "Noise routing — two-pass: zero-cost rule pre-pass then Sonnet for ambiguous survivors only",
+      "title": "Noise routing \u2014 two-pass: zero-cost rule pre-pass then Sonnet for ambiguous survivors only",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
         "I1"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "I3",
       "wave": "I",
-      "title": "Tradition-aware knowledge base — tradition field on all atom types; B2.1 schema patch",
+      "title": "Tradition-aware knowledge base \u2014 tradition field on all atom types; B2.1 schema patch",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
         "I1"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "I4",
       "wave": "I",
-      "title": "Source Review Gate — Phase 06a (Haiku) before per-chapter authoring",
+      "title": "Source Review Gate \u2014 Phase 06a (Haiku) before per-chapter authoring",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -560,41 +663,45 @@
         "I3"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "I5",
       "wave": "I",
-      "title": "Book Review unified astro view — Source Review Gate (06a) + Publish Review Gate (finalize)",
+      "title": "Book Review unified astro view \u2014 Source Review Gate (06a) + Publish Review Gate (finalize)",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
         "I4"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "I6",
       "wave": "I",
-      "title": "Phase 11g per-chapter optimiser — Claude Sonnet after authoring, before 0g dual-auditor",
+      "title": "Phase 11g per-chapter optimiser \u2014 Claude Sonnet after authoring, before 0g dual-auditor",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
         "I4"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "J0",
       "wave": "J",
-      "title": "Build the dual-interface source library server — MCP stdio for the pipeline, HTTP for the Astro editor",
+      "title": "Build the dual-interface source library server \u2014 MCP stdio for the pipeline, HTTP for the Astro editor",
       "status": "pending",
       "tier": "T1",
       "depends_on": [],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "J1",
@@ -606,7 +713,8 @@
         "J0"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "J2",
@@ -619,7 +727,8 @@
         "J1"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "J3",
@@ -632,7 +741,8 @@
         "B3"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "J4",
@@ -645,7 +755,8 @@
         "I0b"
       ],
       "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     },
     {
       "id": "J5",
@@ -659,97 +770,8 @@
         "J2"
       ],
       "plain": "",
-      "tools": []
-    },
-    {
-      "id": "K0",
-      "title": "Define and publish the PEQ quality-scoring contract",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [],
-      "plain": "",
-      "tools": []
-    },
-    {
-      "id": "K1",
-      "title": "Snapshot regression baselines for kitab-al-riyad and the-master-and-the-disciple",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K0"
-      ],
-      "plain": "",
-      "tools": []
-    },
-    {
-      "id": "K2",
-      "title": "Replace challenger free-form verdict with PEQ-driven scoring in both pipelines",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K0",
-        "K1"
-      ],
-      "plain": "",
-      "tools": []
-    },
-    {
-      "id": "K3",
-      "title": "Wire PEQ scores into agent prompts and skill instructions for consistent quality framing",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K2"
-      ],
-      "plain": "",
-      "tools": []
-    },
-    {
-      "id": "K4",
-      "title": "Surface PEQ scores on the plan dashboard with per-chapter and per-book breakdowns",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K2"
-      ],
-      "plain": "",
-      "tools": []
-    },
-    {
-      "id": "K5",
-      "title": "Apply PEQ-gated quality checks to the wisdom pipeline retranslation and reingestion cycle",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K2",
-        "K3"
-      ],
-      "plain": "",
-      "tools": []
-    },
-    {
-      "id": "K6",
-      "title": "Add Interest & Challenge-Defeat scoring as a 5th PEQ axis + Challenger Category V",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K2",
-        "K3",
-        "K5"
-      ],
-      "plain": "",
-      "tools": []
-    },
-    {
-      "id": "K6-pre",
-      "title": "Terminus technicus preservation rule — prevent Arabic doctrinal terms from being stripped during denoise/normalize",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "WC8.0"
-      ],
-      "plain": "",
-      "tools": []
+      "tools": [],
+      "last_touched": null
     }
   ],
   "waves": [
@@ -761,7 +783,7 @@
     {
       "id": "B",
       "name": "Intelligence",
-      "plain": "Builds the factory's long-term memory: a knowledge database that accumulates verified Quran citations, hadith, and key concepts across every processed book — so each new book benefits from everything that came before."
+      "plain": "Builds the factory's long-term memory: a knowledge database that accumulates verified Quran citations, hadith, and key concepts across every processed book \u2014 so each new book benefits from everything that came before."
     },
     {
       "id": "C",
@@ -819,54 +841,54 @@
   ],
   "recent_commits": [
     {
-      "sha": "04a8ad7",
-      "subject": "feat(site): add About & Help page with quick-start guide and searchable FAQ",
-      "date": "2026-05-31"
+      "sha": "eb7368e0",
+      "subject": "feat(pipeline+healthequity): category-aware framing + 3 consumer episodes built",
+      "date": "2026-06-01"
     },
     {
-      "sha": "34fd28a",
-      "subject": "docs(handoff): close-out — site consolidation, poc-naming debt, auditor test-debt backlog",
-      "date": "2026-05-31"
+      "sha": "695957e0",
+      "subject": "fix(extract_chapter): accept all ALLOWED_CATEGORIES as valid root ancestors",
+      "date": "2026-06-01"
     },
     {
-      "sha": "c1086cb",
-      "subject": "test: recover 9 pre-existing failures (fts_topics 8-col fixture; books/ layout assertion)",
-      "date": "2026-05-31"
+      "sha": "bdfb0f5d",
+      "subject": "chore(healthequity): add chapter contracts for 3 pilot episodes",
+      "date": "2026-06-01"
     },
     {
-      "sha": "1018065",
-      "subject": "refactor(site): archive studio-poc route, promote corpus-mock -> integrated /corpus",
-      "date": "2026-05-31"
+      "sha": "cda6cae7",
+      "subject": "fix(watchdog): category-aware content path resolution",
+      "date": "2026-06-01"
     },
     {
-      "sha": "d78a36c",
-      "subject": "chore(ayyuhal-walad): stamp pipeline_mode=orchestrated -> all ship gates green",
-      "date": "2026-05-31"
+      "sha": "842d0326",
+      "subject": "fix(healthequity): move to canonical content/drafts/sites/ layout",
+      "date": "2026-06-01"
     },
     {
-      "sha": "f483d5a",
-      "subject": "fix(ayyuhal-walad): strip extraction apparatus from 3 chapters -> SHIP-WITH-CAUTION",
-      "date": "2026-05-31"
+      "sha": "5372fc66",
+      "subject": "chore(healthequity): scope pilot to 3 chapters, prep pipeline",
+      "date": "2026-06-01"
     },
     {
-      "sha": "43cff5c",
-      "subject": "chore(ayyuhal-walad): fresh challenger convergence on WC8 3-set — verdict BLOCKED",
-      "date": "2026-05-31"
+      "sha": "9020784e",
+      "subject": "feat(pipeline): add web-consumer-denoise mode to gemini_refine.py",
+      "date": "2026-06-01"
     },
     {
-      "sha": "4aad917",
-      "subject": "fix(publish): category-aware workspace resolution (content/drafts/<cat>/<slug>)",
-      "date": "2026-05-31"
+      "sha": "30ddef5a",
+      "subject": "feat(sites): add 'sites' category + healthequity intake",
+      "date": "2026-06-01"
     },
     {
-      "sha": "e64f3b3",
-      "subject": "content(ayyuhal-walad): adopt WC8 holistic 3-episode structure as canonical",
-      "date": "2026-05-31"
+      "sha": "77350b25",
+      "subject": "Merge branch 'refactor/wave-1' into develop",
+      "date": "2026-06-01"
     },
     {
-      "sha": "3dee77f",
-      "subject": "feat(WC2): wire Concept Lens to real concepts.json (783 concepts, 758 atoms)",
-      "date": "2026-05-31"
+      "sha": "cf92f675",
+      "subject": "feat(agents): update all agent files + launchd plist",
+      "date": "2026-05-30"
     }
   ],
   "metrics": {

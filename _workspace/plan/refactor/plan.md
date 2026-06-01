@@ -388,6 +388,42 @@ flowchart LR
 
 ---
 
+# Wave CP · Content-Profile Branching
+
+> **Pilot complete (2026-06-01):** healthequity — 3 consumer episodes built manually using the `sites` category. Proved the concept end-to-end. This wave formalises it. New category `explainers` (branch prefix `explainer/`) added to `_rules.py` + `_branching.py` in this session. The `consumer-explainer` archetype is registered in the plan. Steps CP1–CP5 remain pending — they implement the formal `content_profile` system.
+
+### CP1. Add `content_profile` to `series-config.yaml` and `_rules.py`.
+
+> Add a `content_profile` field (`islamic_scholarly`, `consumer_explainer`, `general_nonfiction`) to `series-config.yaml`. Default is `islamic_scholarly` so all existing books are unaffected without changes. A new `_content_profile.py` helper reads the field and exposes `resolve_content_profile(book_dir)` to all pipeline steps.
+
+**Status: NOT STARTED**
+
+### CP2. Gate Arabic-specific assertions in `build_episode_txt.py`.
+
+> `assert_no_arabic_transliteration`, `assert_no_arabic_surah_names`, and `assert_no_inline_phonetics` currently run unconditionally. Gate them on `content_profile == 'islamic_scholarly'`. Non-Islamic content skips them with a one-line INFO log. Islamic books are unchanged.
+
+**Status: NOT STARTED**
+
+### CP3. Make phase 0c (phonetics) a no-op outside `islamic_scholarly`.
+
+> Phase 0c writes an empty mangle-map and exits cleanly for non-Islamic profiles. Phase ordering is unchanged.
+
+**Status: NOT STARTED**
+
+### CP4. Add `consumer_explainer` enrichment stub.
+
+> Create `content/_shared/consumer_explainer/` with three files: `enrichment-sources.md` (regulatory refs, IRS publications, SHRM, statistics), `framing-guardrails.md` (accuracy, accessibility, compliance tone), `host-role-defaults.md`. Additive only; no existing files modified.
+
+**Status: NOT STARTED**
+
+### CP5. Extend challenger profile-gating.
+
+> Arabic name aliasing, citation-authenticity, and transmission-chain checks fire only for `islamic_scholarly`. Consumer-explainer accuracy rules fire for `consumer_explainer`.
+
+**Status: NOT STARTED**
+
+---
+
 # Wave G · Narrative Homepage
 
 ### G1. Build a cinematic narrative scroll homepage synchronized with the existing Architecture pipeline view.
