@@ -14,10 +14,13 @@ pipeline is now ONE book-aware sequential flow. `/studio` = book picker; `/studi
 = Intake → Source Review → Edit & Enrich → Publish, with a persistent book selector +
 live-status stepper (StudioSubnav). Old `/workbench` redirects to `/studio`; old
 single-book cockpit moved to the edit step. Driven by an earlier read-only site audit
-(34 surfaces mapped). Remaining slices: (2) Corpus domain regroup with the 3 DB sources
-as shelves; (3) Read/Studio mode toggle on the chapter reader (merge studio editor +
-library reader); (4) retire duplicates — library/new, annotation-ops-as-tool, dead
-dashboard; (5) fold intake-create into /studio/new. challenger PASS Level 1; lint clean.
+(34 surfaces mapped). Slice 2 shipped (commit ebf2ce8): Corpus regrouped to a true
+storehouse (Storehouse/Wisdom shelf/Data model); intelligence-diagram + annotations-doc
+moved to System; single create door /studio/new (intake + library/new redirect to it).
+ONLY REMAINING slice: (3) Read/Studio mode toggle on the chapter reader — merge the
+library chapter reader + the studio editor into one surface with a mode switch (per the
+R-1..R-10 reader-redesign decisions). This is the larger, riskier one; left for a focused
+pass with Asif's input. challenger PASS Level 1; lint clean across all 4 domains.
 
 
 **Active priority: the intelligence + podcast pipeline (Wisdom Corpus Program).**
