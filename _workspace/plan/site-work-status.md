@@ -17,10 +17,16 @@ single-book cockpit moved to the edit step. Driven by an earlier read-only site 
 (34 surfaces mapped). Slice 2 shipped (commit ebf2ce8): Corpus regrouped to a true
 storehouse (Storehouse/Wisdom shelf/Data model); intelligence-diagram + annotations-doc
 moved to System; single create door /studio/new (intake + library/new redirect to it).
-ONLY REMAINING slice: (3) Read/Studio mode toggle on the chapter reader — merge the
-library chapter reader + the studio editor into one surface with a mode switch (per the
-R-1..R-10 reader-redesign decisions). This is the larger, riskier one; left for a focused
-pass with Asif's input. challenger PASS Level 1; lint clean across all 4 domains.
+Studio⇄Library boundary sharpened (commit cc16d02): Library reframed as "Catalog &
+reading" (was "workshop view"); Library detail has "Open in Studio"; Studio picker is
+"Workshop" with a catalog link; cockpit links "Read in Library". Decision (Asif 2026-06-01):
+KEEP both Studio + Library top-nav — workshop vs catalog, justified by the drafts→published
+trajectory (Library becomes the audience-facing published catalog).
+ONLY REMAINING slice: (3) chapter-level Read/Studio dual-mode — the Library chapter page
+is currently the POC editor (from the earlier "replace chapter link with POC editor" task);
+turning it into one surface with a Read↔Studio toggle is the reader redesign governed by
+the R-1..R-10 decisions (_workspace/plan/.../10-reader-redesign-decisions.md). Left for a
+focused pass with Asif. challenger PASS Level 1; lint clean across all 4 domains.
 
 
 **Active priority: the intelligence + podcast pipeline (Wisdom Corpus Program).**
