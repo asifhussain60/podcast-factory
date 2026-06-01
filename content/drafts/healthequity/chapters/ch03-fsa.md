@@ -8,37 +8,67 @@ source_pages:
   - https://www.healthequity.com/library/fsa-8-things-to-know
   - https://www.healthequity.com/fsa-qme
   - https://www.healthequity.com/account-comparison
-word_count_estimate: 1250
+word_count_estimate: 1350
 ---
 
 # Flexible Spending Accounts: Spend Smarter, Save More
 
-Most people approach healthcare spending the same way they approach an unexpected car repair: reactively. The bill shows up, they figure out how to pay it, they move on. The money comes out of checking, out of savings, out of a credit card that will charge interest. There is no advance planning, no tax strategy, no system. The money just disappears.
+At some point this year, you will buy a box of allergy medication at the pharmacy. Or fill a prescription. Or pay for a dental cleaning. Or take your kid to the pediatrician and get a bill three weeks later. These are not extraordinary expenses. They're the background hum of life — the ordinary, recurring cost of staying healthy. Most people pay for them exactly the same way: they reach into their checking account, or tap a credit card, and the money disappears.
 
-A Flexible Spending Account, or FSA, is the most straightforward tool available to change that pattern. It is not complicated. It is not available only to high earners or people with complex financial situations. If your employer offers one — and the majority of medium and large employers do — an FSA is simply a decision to pay for your predictable healthcare expenses with pre-tax dollars instead of post-tax dollars. That one change, depending on your tax bracket, can save you 30 percent or more on every dollar you spend on eligible medical, dental, and vision care.
+Here's the thing nobody told you: a large portion of that money didn't have to go through your bank account at all. You could have paid for it with dollars you never paid income tax on. And the difference — depending on what you spend in a year and what tax bracket you're in — could easily be $500, $750, $1,000 or more in your pocket annually.
 
-HealthEquity describes the FSA with a reframe that is worth sitting with: don't think of it as money deducted from your paycheck — think of it as money added to your wallet. That reframe captures the genuine economic logic. When you contribute $2,500 to an FSA, you are not just setting money aside. You are converting that $2,500 into roughly $3,250 in purchasing power (assuming a 30 percent combined tax rate), because you are never paying the taxes you would otherwise owe on those dollars. The government, in effect, is subsidizing your healthcare spending.
+That's the Flexible Spending Account. It's not a complicated product. It's not available only to high earners or people with sophisticated financial situations. If your employer offers one — and the majority of medium and large employers do — it's simply a decision to pay for your predictable healthcare costs with pre-tax dollars instead of after-tax dollars. One decision, at benefits sign-up season each fall, that saves you real money every year you make it.
 
-The mechanics are simple. During your organization's open enrollment period — typically in the fall — you decide how much to contribute to your FSA for the coming plan year. Your employer then deducts that amount in equal installments from each paycheck throughout the year, before taxes are calculated. The funds accumulate in your account and are available to spend on any eligible medical expense through an FSA debit card, online bill pay, or direct reimbursement into your checking account.
+HealthEquity has a reframe for the FSA that's worth holding onto: don't think of it as money deducted from your paycheck — think of it as money added to your wallet. When you contribute $2,500 to an FSA, you're converting that $2,500 into roughly $3,250 in purchasing power at a 30 percent combined tax rate. The government was going to tax those dollars. You redirected them before that happened. The tax you didn't pay is now sitting in your account, ready to cover a copay or a pair of glasses.
 
-One feature of the FSA that catches many people pleasantly off guard is that the full annual election amount is available from day one of the plan year — not gradually, as the payroll deductions accumulate, but in its entirety, immediately. This is sometimes called "advance funding," and it is a meaningful benefit. If you elect $3,400 for the year and your child needs orthodontia in January, you have the full $3,400 available to spend even though you have only contributed a fraction of it through payroll. You are essentially getting an interest-free loan from yourself, paid back evenly over the year.
+---
 
-The contribution limit for the 2026 tax year is $3,400 per individual or family — an increase from the 2025 limit of $3,300. These limits apply to healthcare FSAs specifically. The IRS adjusts these amounts periodically, and HealthEquity publishes updated guidance each year through its blog and educational resources.
+**How it works**
 
-The list of eligible expenses for an FSA closely mirrors what is covered by an HSA: prescriptions, doctor's office visits, dental cleanings, dental braces and orthodontia, eye exams, prescription eyeglasses and contact lenses, eye surgery, hearing aids, acne medication, allergy medicines, crutches, motorized wheelchairs, ambulance services, flu shots, ibuprofen, over-the-counter medications, disposable face masks, sanitizing wipes, and much more. HealthEquity maintains a full searchable list of FSA-eligible products and services, and the FSA Store — available through HealthEquity's platform — allows members to purchase FSA-eligible items directly online, with the cost automatically drawn from their account.
+During benefits sign-up season (usually each fall), you decide how much to put into your FSA for the coming year. Your employer then deducts that amount in equal installments from each paycheck, before taxes are calculated. The funds go into your FSA and are available to spend on any eligible healthcare cost through an FSA debit card, online bill payment, or reimbursement directly to your bank account.
 
-There are differences between an FSA and an HSA that matter significantly for planning purposes. The most important is ownership. An FSA is not your account in the same way an HSA is. The FSA is employer-sponsored and, crucially, subject to the use-it-or-lose-it rule: funds that are not spent by the end of the plan year are forfeited back to your employer. This is the aspect of FSAs that generates the most anxiety and confusion, and it is why planning matters.
+The contribution limit for 2026 is $3,400 per person or family — up from $3,300 in 2025. To illustrate what that means in real dollar savings: if you spend $2,500 on healthcare over the course of the year — prescriptions, dental work, a few copays, new glasses — and you run that through an FSA at a 30 percent combined tax rate, you save $750. That's $750 you keep, in exchange for the same amount of spending you were going to do anyway.
 
-Two provisions exist to give members more flexibility at the plan year's end. The first is the carryover provision: depending on your employer's plan design, you may be able to carry over up to $660 of unused FSA funds from one plan year into the next. The second is the grace period: some employers offer a 2.5-month extension at the end of the plan year (so through March 15 if the plan year ends December 31) during which you can incur new expenses and pay for them with remaining FSA funds. These provisions are plan-specific — your employer chooses which, if either, to offer — so reading your open enrollment materials carefully is essential.
+One feature of the FSA that catches people off guard the first time they discover it: the full amount you choose to set aside for the year is available from day one — not built up gradually through payroll. This is called advance funding, and it's genuinely useful. If you set aside $3,400 for the year and your child needs braces in January, the full $3,400 is there to use even though only a small fraction has come out of your paychecks yet. You're essentially getting an interest-free advance from your employer, paid back evenly over the year through your payroll deductions.
 
-The limited election period is another distinction. Unlike commuter benefits (where you can change elections anytime) or HSA contributions (which can be adjusted throughout the year), FSA elections are generally locked in for the full plan year at open enrollment. The exceptions are qualifying life events: a change in employment status, a change in marital status, the birth or adoption of a child, a change in the number of dependents, or other events defined in your plan documents. If your life circumstances change significantly during the year, you may have a window to adjust your FSA election — but absent those qualifying events, your election stands.
+---
 
-This is why HealthEquity emphasizes strategic planning at enrollment time. The goal is to estimate your anticipated healthcare expenses for the coming year as accurately as possible — looking at what you spent last year, what procedures you know are coming (dental work, vision checkups, prescription refills), what your children or dependents are likely to need — and elect an amount you are confident you will spend. Many people find that even a conservative election of $1,500 to $2,000, covering predictable prescription costs and a few doctor visits, generates hundreds of dollars in tax savings with no risk of forfeiture.
+**What you can spend it on**
 
-HealthEquity also offers two specialized FSA variants worth knowing about. The Limited Purpose FSA, or LPFSA, is designed specifically to work alongside an HSA. Because HSA holders cannot contribute to a standard healthcare FSA, the LPFSA provides a way to use pre-tax dollars for dental and vision expenses while leaving the HSA for other medical costs. This pairing allows members to maximize tax savings across multiple categories simultaneously.
+The list of eligible expenses is broader than most people expect. It includes prescriptions, doctor's office visits, urgent care, emergency room costs, dental cleanings, fillings, braces and orthodontia, eye exams, prescription glasses, contact lenses, LASIK surgery, hearing aids, acne medication, allergy medicine, ibuprofen and over-the-counter medications, menstrual products, disposable masks, hand sanitizer, flu shots, and much more. HealthEquity maintains a searchable list, and the FSA Store — available through HealthEquity's platform — lets you buy eligible products online with the cost automatically drawn from your account.
 
-The Dependent Care FSA, or DCFSA, is covered in its own chapter in this series, but it is worth noting here that it operates entirely separately from the healthcare FSA — different contribution limits, different eligible expenses, and no impact on HSA eligibility. The two accounts address different kinds of financial strain: the healthcare FSA handles medical costs, and the DCFSA handles the cost of caring for children or other dependents.
+For most people, when they actually look at what they spent on healthcare last year — including the pharmacy runs, the copays, the dental checkup, the new pair of glasses — the total adds up faster than expected. That's money that could have been tax-free.
 
-The bottom line on FSAs is straightforward: if your employer offers one and you have any predictable healthcare expenses — which virtually everyone does — declining to participate is effectively leaving a tax benefit unclaimed. HealthEquity calculates that on $2,500 of healthcare spending at a 30 percent effective tax rate, the annual FSA tax savings amount to $750. That is money that belongs in your pocket. It takes fifteen minutes of planning at open enrollment and costs nothing beyond the contribution itself.
+---
 
-The FSA is not the most glamorous financial tool. It does not offer the investment potential of an HSA or the portability of a personal savings account. But for millions of Americans navigating the daily costs of healthcare — prescriptions, copays, glasses, dental cleanings — it is a practical, immediate, meaningful way to make those costs more manageable. And in a healthcare system where costs are rising year after year, manageable is not a small thing. Manageable is the difference between getting the care you need and putting it off one more month.
+**The use-it-or-lose-it rule — and how to manage around it**
+
+The most important difference between an FSA and an HSA is this: the FSA is not your account in the same way an HSA is. The FSA is employer-sponsored, and funds you don't spend by the end of the plan year are forfeited back to your employer. This is the part of the FSA that makes people nervous, and understandably so.
+
+Two provisions can soften this. The first is the carryover: depending on how your employer has designed the plan, you may be able to roll up to $660 of unused FSA funds into the next year. The second is the grace period: some employers extend the plan year by 2.5 months — meaning if your plan year ends December 31, you'd have until March 15 to spend remaining funds. These options are plan-specific — your employer chooses whether to offer them — so the most important step is checking your own benefits guide to understand which applies to you.
+
+The response to the use-it-or-lose-it rule isn't to avoid the FSA. It's to plan carefully at enrollment time. Look at what you actually spent on healthcare last year. Factor in any expenses you already know are coming — a dental procedure, a prescription you refill regularly, a vision checkup. Choose an amount you're confident you'll spend. Many people find that even a conservative $1,500 to $2,000 covers predictable costs and generates meaningful tax savings, with minimal forfeiture risk.
+
+The amount you choose for your FSA is generally locked in for the year once benefits sign-up season closes — unlike commuter benefits, which you can change anytime, or HSA contributions, which can be adjusted throughout the year. The exceptions are significant life changes: a job change, a change in your marital status, the birth or adoption of a child, or other similar major life events. If something major shifts in your life mid-year, you may have a window to adjust your contribution.
+
+---
+
+**The Limited Purpose FSA — a pairing most people don't know about**
+
+If you have an HSA, you can't contribute to a standard healthcare FSA at the same time — the rules don't allow it. But there's a version of the FSA designed specifically for HSA holders: the Limited Purpose FSA, or LPFSA.
+
+The LPFSA covers dental and vision expenses only — eyeglasses, contact lenses, eye exams, dental cleanings, orthodontia. It's designed to sit alongside your HSA, so you can use pre-tax FSA dollars for dental and vision while reserving your HSA for other medical costs. The pairing lets you maximize tax savings across more spending categories simultaneously, rather than routing everything through one account.
+
+If you have a high-deductible health plan with an HSA and your employer offers an LPFSA, using both is almost always worth it — especially if you have consistent dental or vision expenses. A $500 LPFSA contribution for glasses and two dental cleanings generates $150 in tax savings at a 30 percent rate. That's not a fortune, but it's money you were going to spend regardless.
+
+---
+
+**The bigger picture**
+
+The FSA doesn't have the retirement superpowers of the HSA. It doesn't carry forward indefinitely. It doesn't invest and compound over decades. It's a simpler, more immediate tool — and that's exactly what makes it the right fit for millions of people on traditional health plans who simply want a straightforward way to pay for predictable healthcare expenses with pre-tax dollars.
+
+The case for the FSA is not complicated: if you have predictable healthcare costs — and nearly everyone does — and your employer offers an FSA — and most do — not participating is leaving a tax benefit unclaimed. The only cost is about twenty minutes of planning during benefits sign-up season.
+
+$750 in annual savings on $2,500 of healthcare spending. That's a 30 percent discount on your prescriptions, your dental cleanings, your glasses, your copays. Not because prices went down, but because you stopped paying taxes on money you were already spending.
+
+In a healthcare system where costs rise year after year, a 30 percent discount on your own spending isn't a small thing. It's the kind of change that adds up quietly and meaningfully over time — if you make the decision.

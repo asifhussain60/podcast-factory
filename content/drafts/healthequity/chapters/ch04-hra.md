@@ -8,37 +8,77 @@ source_pages:
   - https://www.healthequity.com/account-comparison
   - https://blog.healthequity.com/key-changes-to-hsas-and-hras-in-2026-and-beyond
   - https://answers.healthequity.com/app/answers/detail/a_id/2892/
-word_count_estimate: 1150
+word_count_estimate: 1250
 ---
 
 # Health Reimbursement Arrangements: Your Employer's Gift to Your Health
 
-Imagine going to your benefits package at the start of the year and finding money waiting for you — money you did not put in, money that belongs to your employer but is earmarked entirely for your healthcare costs. You did not earn it through performance. You do not have to match it. You simply have to use it on eligible medical expenses, and then the tax-free reimbursements flow back to you.
+Imagine opening your benefits portal at the start of a new year and finding money already sitting there. Money you didn't put in. Money you didn't earn through a bonus or a performance review. Money that simply appeared — earmarked for your healthcare costs, ready to use the next time you have a deductible to meet or a copay to cover.
 
-That is the Health Reimbursement Arrangement, or HRA — and while it is the least well-known of the three major healthcare accounts, it may be the most straightforward benefit for the people who have access to one.
+That's not a fantasy. For millions of American workers, it's exactly what a Health Reimbursement Arrangement looks like.
 
-An HRA is an employer-sponsored account funded entirely by your employer to help you pay for certain out-of-pocket medical expenses. The key word is entirely. Unlike an FSA or an HSA, where employees make their own pre-tax contributions to build up the account balance, an HRA requires nothing from you financially. Your employer sets the annual reimbursement limit, determines which expenses are eligible, and deposits funds into the account on your behalf. When you incur an eligible expense, you submit a claim — typically by logging into HealthEquity's mobile app, snapping a photo of your receipt, and uploading it — and the reimbursement comes back to you tax-free.
+The HRA is the least talked-about account in the consumer health benefits world. When people discuss their benefits at work, the conversation usually goes straight to the health plan itself, or to the HSA, or maybe the FSA. The HRA rarely comes up. But if your employer offers one — and many do, especially if you're on a high-deductible health plan — it may be the single most financially straightforward benefit in your package. Because it asks nothing of you financially and gives you tax-free money back when you have eligible health costs.
 
-HealthEquity describes the HRA as "free money" for eligible healthcare expenses, and that framing is accurate. From the member's perspective, the HRA is a no-cost benefit that reduces the financial burden of healthcare by covering some or all of what your insurance plan does not. Common eligible expenses include deductibles, coinsurance, and copays — the out-of-pocket costs that pile up most quickly for working families. Depending on how your employer has designed the plan, the HRA may also cover prescription costs, dental care, vision care, and other medical expenses.
+No contribution required. No payroll deduction. No investment decisions. Your employer funds it. You spend it on eligible health costs. The reimbursement comes back to you tax-free.
 
-The administration experience through HealthEquity is designed to be simple. Members manage everything through either the HealthEquity Mobile app — rated 4.5 stars on the Apple App Store as of April 2025 — or the EZ Receipts Mobile app, rated 4.7 stars. Check your balance, review claim status, initiate reimbursements, and manage payments, all from your phone. The process of submitting a claim takes minutes: take a photo of the receipt, upload it, and wait for the funds to arrive in your bank account or by check.
+If that sounds too simple, it's because it essentially is.
 
-Ownership of the HRA works differently from ownership of an HSA, and this distinction matters when thinking about long-term planning. The HRA is an employer asset. If you leave your job, retire, or do not spend your entire balance before the end of the plan year, any remaining funds generally return to the employer. This is the fundamental trade-off of the HRA: you receive funds you did not contribute, but you do not carry them forward indefinitely the way you would with an HSA. For this reason, HRA holders benefit from actively monitoring their balance throughout the year and understanding what expenses are eligible under their specific plan design.
+---
 
-HealthEquity administers several distinct types of HRAs, each designed to serve a different employer context and employee population.
+**How the HRA works**
 
-The standard group HRA — sometimes simply called a Health Reimbursement Arrangement — is the most common configuration. It is paired with a group health plan and used to reimburse employees for deductibles, coinsurance, copays, and other defined out-of-pocket expenses. The employer sets the annual reimbursement limit, and employees submit claims as costs arise throughout the year. This type of HRA is widely offered by large and mid-sized employers as a way to make a high-deductible health plan more palatable: the employer offsets some of the higher deductible by funding an HRA that employees can draw on.
+Your employer sets the annual amount — maybe $500, maybe $1,500, maybe $2,000 for a family — and that money sits in your account, available to help cover the out-of-pocket costs your health plan doesn't pay. The most common uses are your deductible — the amount you pay before your insurance starts to cover costs — along with coinsurance (your share of the cost after you've met your deductible) and copays (a fixed amount you pay for a doctor's visit or prescription). These are the costs that pile up fastest when you're actually using your health coverage.
 
-The Individual Coverage HRA, or ICHRA, is a newer and increasingly popular arrangement introduced under federal rules in 2020. With an ICHRA, instead of providing employees with a group health plan, the employer gives each employee a defined amount of money through the HRA that the employee can use to purchase their own individual health insurance on the marketplace. This gives employees more flexibility to choose the coverage that works best for their specific health needs and family situation, while giving employers greater control over their benefits costs. HealthEquity's ICHRA platform is designed specifically to reimburse qualified medical insurance premiums — the monthly cost of the individual insurance plan — rather than out-of-pocket medical expenses directly.
+Depending on how your employer has set up your benefits, your HRA may also cover prescription costs, dental care, and vision care. Every employer structures their HRA differently, which is why the most important step with an HRA is the simple one: read your benefits guide and find out what yours covers.
 
-The Qualified Small Employer HRA, or QSEHRA, is designed for small businesses that want to help employees with healthcare costs but cannot afford or do not wish to offer a traditional group health plan. The QSEHRA allows small employers to offer a defined, tax-free healthcare benefit without the complexity and cost of sponsoring an insurance plan.
+When you have an eligible expense, the process is straightforward. You open the HealthEquity mobile app, take a photo of your receipt or Explanation of Benefits form, upload it, and submit the claim. Most reimbursements are fast — money either deposited directly into your bank account or sent by check. HealthEquity's mobile app carries a 4.5-star rating on the Apple App Store, and their companion app EZ Receipts is rated 4.7. The process takes minutes.
 
-The landscape of HRAs has expanded considerably since 2020, and HealthEquity's expertise across all these configurations makes it one of the most capable partners for employers trying to navigate the options. For employees, the variation across HRA types can be confusing — what is reimbursable in one colleague's plan may not be reimbursable in another's — which is why HealthEquity consistently emphasizes the importance of reviewing your own plan documents carefully.
+The money you receive back is tax-free. Because the HRA is funded by your employer — not by you — there are no payroll deduction implications. And because the reimbursements are for eligible health costs, they don't count as income. The financial math is clean: your employer reduces your out-of-pocket healthcare costs, and you don't pay tax on any of it.
 
-From a tax perspective, the HRA operates cleanly. Because the employer funds the account, there are no payroll deduction implications for employees. And because reimbursements for eligible medical expenses are considered tax-free distributions, the money you receive back is not counted as income. The combination of zero employee contribution and tax-free reimbursement makes the HRA one of the most straightforwardly beneficial workplace health benefits available, even if it is not one most employees spend much time thinking about.
+---
 
-One practical consideration for HRA holders: unlike an HSA, which can be opened and contributed to independently of your employer, the HRA exists only as long as your employer offers it and only in the form your employer has designed. This means the best approach to an HRA is to treat it as a use-it-this-year benefit. Know your balance at the start of the year. Know what expenses are covered. Plan your dental checkups, vision appointments, and other predictable medical costs with the HRA balance in mind. Use it proactively, because funds you leave unspent at year end do not come back to you.
+**The one thing you must understand: use it, don't lose it**
 
-For millions of Americans whose employers offer HRAs — often alongside HDHPs as a package — the HRA is a meaningful financial cushion. It does not ask you to plan a year in advance, manage investment decisions, or worry about contribution limits. It simply reduces the out-of-pocket cost of being a healthcare consumer. In a world where deductibles have risen sharply over the past decade and out-of-pocket maximums can reach tens of thousands of dollars for families, that cushion matters. It is the employer saying, in a concrete financial way: we know healthcare is expensive, and we are going to share some of that burden with you.
+Here's the critical difference between an HRA and an HSA: the HRA is not your account. It's money your employer owns that you have access to for healthcare spending. If you leave your job, retire, or simply don't spend your balance before the end of the plan year, any remaining funds generally go back to your employer.
 
-HealthEquity's role in that relationship is to make the administration effortless — to ensure that when a member needs to access funds, the process is fast, transparent, and reliable. The remarkable service the company is known for is nowhere more important than in moments when people are trying to navigate a healthcare bill while already managing the stress of illness, recovery, or a family member's medical needs. Getting the HRA reimbursement quickly and correctly is, in those moments, not a minor administrative function. It is part of the care itself.
+This is not a reason to be anxious about the HRA. It's a reason to treat it like the use-it-this-year benefit it is.
+
+Know your balance at the start of every plan year. Know what expenses your plan covers. Then plan around it deliberately. If your HRA covers dental expenses, schedule your cleanings and don't put them off. If it covers vision care, get that eye exam you've been postponing. If you have a deductible to meet early in the year, submit the claims promptly rather than letting them sit.
+
+The biggest mistake HRA holders make is not a complicated one. It's simple inattention — not knowing what's in the account, not knowing what it covers, and watching it expire at year end with money left on the table. That is genuinely free money going back to your employer because you forgot to use it.
+
+Set a reminder to check your balance in October. If you have funds remaining and haven't hit your deductible, start planning the healthcare spending you'd likely do anyway: the dental work you've been delaying, the prescription you've been refilling month by month, the vision checkup that's overdue. Use the benefit you were given.
+
+---
+
+**The different types of HRAs — what your employer might be offering**
+
+Not all HRAs are the same, and if you've changed employers or benefits packages recently, understanding the type matters.
+
+The most common is the standard group HRA, which sits alongside a group health plan and reimburses you for deductibles, coinsurance, copays, and defined out-of-pocket costs. This is the most widespread configuration — employers pairing a high-deductible health plan with an HRA to make the higher deductible more manageable for employees.
+
+The Individual Coverage HRA, introduced in 2020, works differently. Instead of providing a group health plan, your employer gives you a defined dollar amount through this HRA and you use it to purchase your own individual health insurance on the marketplace. This gives you more choice about which coverage fits your health needs and family situation, while giving your employer more predictable costs. HealthEquity's platform reimburses your individual insurance premiums — the monthly cost of your chosen health plan — rather than out-of-pocket medical expenses directly.
+
+The Qualified Small Employer HRA is designed for small businesses that can't afford to offer a traditional group health plan but still want to help employees manage healthcare costs. If you work for a small company, this may be how your employer provides healthcare support without running a full group insurance plan.
+
+The practical implication: what's covered by your HRA depends on which type your employer offers and how they've structured it. Your benefits guide is the authority. If anything is unclear, HealthEquity's member services team can tell you exactly what your specific plan covers.
+
+---
+
+**The HRA alongside your other benefits**
+
+The HRA often works best when you think of it alongside your other accounts rather than in isolation.
+
+If your employer offers both an HRA and a high-deductible plan with an HSA, you may be eligible to hold both — with the HRA structured to reimburse specific categories only, preserving your HSA eligibility. Some employers pair a "limited HRA" (covering dental and vision) with an HSA, giving you employer-funded dental and vision coverage while your HSA handles other medical costs. Others use the HRA specifically to cover the deductible, so the most painful upfront costs of the high-deductible plan are offset.
+
+If your employer offers an HRA and a standard FSA, those may be combinable as well — again, your benefits guide will clarify. The goal, in any combination, is to make sure every eligible dollar of employer contribution is being used before the plan year ends.
+
+---
+
+**The bigger picture**
+
+The HRA represents your employer saying, in a concrete financial way: we know healthcare is expensive, and we're going to help absorb some of that cost for you. It's not a dramatic benefit. It won't fund your retirement. It won't replace an HSA as a long-term savings vehicle. But for the working families who have access to one, it meaningfully reduces the out-of-pocket burden of being a healthcare consumer — without asking a single dollar from you in return.
+
+In a decade when employer health plan deductibles have more than doubled and out-of-pocket maximums have climbed to figures that would genuinely derail most household budgets, that cushion matters. Not as an abstract benefit design feature. As real money that covers a real bill during a year when real expenses came in higher than you'd planned.
+
+All you have to do is use it. Know what you have. Know what it covers. And don't let it expire without claiming what belongs to you.

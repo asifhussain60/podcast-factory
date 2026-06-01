@@ -26,7 +26,7 @@ This final chapter is about that argument — why engaging with your health bene
 
 **The problem health benefits were designed to solve**
 
-Healthcare in the United States is expensive in ways that are genuinely difficult to communicate. The average deductible for employer-sponsored health insurance has more than doubled over the past fifteen years. The average annual out-of-pocket maximum for a family on an employer plan can now exceed $17,000. A single emergency room visit for a non-life-threatening event — a broken wrist, a bad cut, a child's high fever that will not break — can generate a bill in the thousands of dollars even for fully insured people.
+Healthcare in the United States is expensive in ways that are genuinely difficult to communicate. The average deductible (the amount you pay before your insurance starts to cover costs) for employer-sponsored health insurance has more than doubled over the past fifteen years. The average annual out-of-pocket maximum for a family on an employer plan can now exceed $17,000. A single emergency room visit for a non-life-threatening event — a broken wrist, a bad cut, a child's high fever that will not break — can generate a bill in the thousands of dollars even for fully insured people.
 
 This financial exposure does measurable harm. Studies consistently show that Americans delay or skip care because of cost. They split prescriptions in half to make them last longer. They skip follow-up appointments. They avoid specialist visits. They put off dental care until a small problem becomes a large one. The out-of-pocket cost of healthcare is not an abstract policy problem — it is a daily behavioral reality that shapes whether people actually receive the care they need.
 
@@ -38,9 +38,9 @@ Consumer-directed health benefits — the HSA, the FSA, the HRA, the DCFSA, the 
 
 As of fiscal year 2025, HealthEquity administered 17 million accounts and held $32.1 billion in total HSA assets. The company served more than 120,000 employer organizations. Revenue reached $1.2 billion, up 20 percent in a single year. These are the statistics of a company that has moved from a niche custodian serving early adopters to a financial institution operating at a scale that affects a meaningful fraction of the American workforce.
 
-Behind those numbers are people. The 9.9 million individuals with HSA accounts have, between them, saved more than $32 billion that is specifically designated for healthcare costs — tax-free contributions, tax-free growth, tax-free withdrawals for qualified medical expenses. The 753,000 account holders who have invested their HSA funds are building retirement reserves that will cover the healthcare costs that represent one of the largest and least predictable expenses of later life. Every one of those accounts represents a person who decided — at open enrollment, or when a benefits advisor walked them through the options, or when they finally read the materials carefully enough to understand what they were being offered — to engage.
+Behind those numbers are people. The 9.9 million individuals with HSA accounts have, between them, saved more than $32 billion that is specifically designated for healthcare costs — tax-free contributions, tax-free growth, tax-free withdrawals for eligible health costs. The 753,000 account holders who have invested their HSA funds are building retirement reserves that will cover the healthcare costs that represent one of the largest and least predictable expenses of later life. Every one of those accounts represents a person who decided — at benefits sign-up season, or when a benefits advisor walked them through the options, or when they finally read the materials carefully enough to understand what they were being offered — to engage.
 
-The people who did not engage — who signed up for the high-deductible plan to save on premiums but never opened the HSA, or who enrolled in the FSA and then forfeited money because they did not plan their spending — lost real money. Not hypothetical money. Actual dollars that could have paid for their child's braces, their prescription, their annual physical.
+The people who did not engage — who signed up for the high-deductible health plan to save on premiums (the monthly cost of their health insurance) but never opened the HSA, or who enrolled in the FSA and then forfeited money because they did not plan their spending — lost real money. Not hypothetical money. Actual dollars that could have paid for their child's braces, their prescription, their annual physical.
 
 ---
 
@@ -48,15 +48,15 @@ The people who did not engage — who signed up for the high-deductible plan to 
 
 One of the things that becomes clear when you look at HealthEquity's full product portfolio together is that the accounts are not alternatives to each other. They are complementary instruments designed to address different categories of financial exposure.
 
-An HSA addresses the ongoing cost of medical care for people enrolled in high-deductible health plans — providing a triple-tax-advantaged account that can function simultaneously as a spending tool, an emergency fund, and a retirement vehicle.
+An HSA addresses the ongoing cost of medical care for people enrolled in high-deductible health plans — providing an account with three tax advantages, meaning you never pay income tax on the money you put in, the money it earns, or the money you take out for eligible health costs. It can function simultaneously as a spending tool, an emergency fund, and a retirement vehicle.
 
-An FSA provides immediate, no-investment-risk tax savings for people on traditional health plans, addressing predictable annual healthcare costs — copays, prescriptions, dental, vision — with a straightforward pre-tax election.
+An FSA provides immediate, no-investment-risk tax savings for people on traditional health plans, addressing predictable annual healthcare costs — copays, prescriptions, dental, vision — with a straightforward pre-tax amount you choose to set aside.
 
 An HRA provides employer-funded relief for the out-of-pocket costs that the health plan does not cover — a financial cushion that costs the employee nothing and reduces the hardship of high deductibles.
 
 A DCFSA addresses one of the most consistent financial stressors for working parents: the cost of caring for children or aging family members while maintaining employment. The 2026 contribution limit of $7,500 means that a working parent with significant childcare costs can shield $7,500 of that spending from income taxes, generating up to $2,250 or more in annual savings depending on their tax bracket.
 
-Commuter benefits address the often-invisible daily cost of getting to work — transit passes, parking fees — converting spending that was already happening into a pre-tax benefit that reduces taxable income with no additional financial commitment.
+Commuter benefits address the often-invisible daily cost of getting to work — transit passes, parking fees — converting spending that was already happening into a pre-tax benefit that reduces the income the IRS taxes with no additional financial commitment.
 
 For a working parent in a major metropolitan area — enrolled in an HSA-qualified plan, contributing to their HSA, running a DCFSA for childcare costs, and using commuter benefits for their subway pass and parking — the total annual tax savings across all three accounts can easily reach $4,000 to $6,000 per year. Compounded over a working career, with the HSA portion invested, the wealth effect is not trivial. It is retirement security. It is the difference between reaching age 65 with a meaningful healthcare fund and reaching it without one.
 
@@ -82,4 +82,4 @@ HealthEquity's entire educational infrastructure — its Learn center, its webin
 
 HealthEquity's founder, Stephen Neeleman, set out to connect health and wealth for Americans struggling to manage healthcare costs. Thirty years after that founding impulse, the company he built administers $32 billion in assets for 17 million people. The mission is not complete — there are still millions of Americans who have access to these tools and have not used them, and millions more who do not yet have access at all. But the argument that health benefits change lives is not a marketing claim. It is a statement of what happens, account by account, decision by decision, when people engage with what they have been given.
 
-The question worth asking, the next time open enrollment arrives, is not "should I sign up?" The question is: "How much am I leaving on the table if I don't?"
+The question worth asking, the next time benefits sign-up season arrives, is not "should I sign up?" The question is: "How much am I leaving on the table if I don't?"
