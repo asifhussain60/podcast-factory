@@ -1,0 +1,2 @@
+{"ts": "2026-06-01T21:52:54Z", "phase": "post-publish", "step": "transcribe/EP01-hsa-v2", "model": "azure-speech-neural-tts", "input_tokens": 19452, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.311232}
+{"ts": "2026-06-01T22:45:41Z", "phase": "post-publish", "step": "transcribe/EP01-hsa-v3", "model": "azure-speech-neural-tts", "input_tokens": 19926, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.318816}
