@@ -8,16 +8,17 @@ import StudioPoc from '../components/reader/poc/StudioPoc.tsx';
 import StudioVersePopover from '../components/reader/poc/StudioVersePopover.tsx';
 import EditorialCards from '../components/reader/poc/EditorialCards.tsx';
 import { CARD_DEFS } from '../lib/reader/editorial';
-import {
-  AYYUHAL_WALAD_CHAPTERS,
-  AYYUHAL_WALAD_SLUG,
-  AYYUHAL_WALAD_STAGE_DEFS,
-  loadBookWorkspace,
-} from '../lib/reader/book-workspace';
+import { AYYUHAL_WALAD_SLUG, AYYUHAL_WALAD_STAGE_DEFS, loadBookWorkspace } from '../lib/reader/book-workspace';
+import { loadBookIndex } from '../lib/reader/chapters';
+
+// Load real chapter list from disk instead of hardcoded stubs — ensures IDs
+// match the actual .txt files so the augmented-stage fallback can find them.
+const index = await loadBookIndex(AYYUHAL_WALAD_SLUG);
+const chapterDefs = (index?.chapters ?? []).map((c) => ({ id: c.slug, title: c.title }));
 
 const workspace = await loadBookWorkspace(
   AYYUHAL_WALAD_SLUG,
-  AYYUHAL_WALAD_CHAPTERS,
+  chapterDefs,
   AYYUHAL_WALAD_STAGE_DEFS,
 );
 ---
