@@ -2,12 +2,12 @@
   "slug": "healthequity",
   "category": "sites",
   "branch": "site/healthequity",
-  "phase": "0d",
+  "phase": "0f",
   "phase_status": "pending",
-  "last_completed_phase": "0c",
+  "last_completed_phase": "0e",
   "last_error": null,
   "created_at": "2026-06-01T00:00:00Z",
-  "updated_at": "2026-06-01T16:42:55.504662+00:00",
+  "updated_at": "2026-06-01T16:50:23.053628+00:00",
   "source_kind": "web-scrape",
   "source_url": "https://www.healthequity.com",
   "phases": {
@@ -24,10 +24,12 @@
       "note": "Phonetics N/A for English product content"
     },
     "0d": {
-      "status": "pending"
+      "status": "complete",
+      "note": "manual \u2014 3 pilot chapters pre-designed (ch02-hsa, ch05-cobra, ch06-commuter-dcfsa)"
     },
     "0e": {
-      "status": "pending"
+      "status": "complete",
+      "note": "manual \u2014 English web content, no citation enrichment needed for pilot"
     },
     "0f": {
       "status": "pending"
