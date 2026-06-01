@@ -37,10 +37,10 @@ export interface NavLink {
 }
 
 export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
-  { href: '/studio', label: 'Studio', section: 'studio', pages: ['studio', 'workbench', 'intake', 'annotation-ops'] },
+  { href: '/studio', label: 'Studio', section: 'studio', pages: ['studio', 'workbench', 'intake'] },
   { href: '/library', label: 'Library', section: 'library', pages: ['library'] },
-  { href: '/wisdom', label: 'Corpus', section: 'corpus', pages: ['wisdom', 'corpus', 'intelligence', 'db-schema'] },
-  { href: '/architecture', label: 'System', section: 'system', pages: ['architecture', 'system-map', 'infrastructure', 'security', 'quality', 'plan', 'dashboard', 'planner', 'overview', 'about'] },
+  { href: '/corpus', label: 'Corpus', section: 'corpus', pages: ['corpus', 'wisdom', 'db-schema'] },
+  { href: '/architecture', label: 'System', section: 'system', pages: ['architecture', 'intelligence', 'system-map', 'infrastructure', 'security', 'quality', 'plan', 'dashboard', 'planner', 'overview', 'about', 'annotation-ops'] },
 ];
 
 export const SUBNAV: Record<NavSection, NavLink[]> = {
@@ -49,19 +49,23 @@ export const SUBNAV: Record<NavSection, NavLink[]> = {
   studio: [],
   // Library is breadcrumb-driven (Catalog → Book → Chapter); no flat subnav.
   library: [],
+  // Corpus = the reference storehouse: the consolidated 3-source store, the
+  // live Wisdom shelf, and the store's data model. (The intelligence-pipeline
+  // diagram is "how it works" docs and lives under System.)
   corpus: [
-    { href: '/wisdom', label: 'Wisdom corpus', pages: ['wisdom'] },
-    { href: '/corpus', label: 'Corpus explorer', pages: ['corpus'] },
-    { href: '/intelligence', label: 'Intelligence', pages: ['intelligence'] },
+    { href: '/corpus', label: 'Storehouse', pages: ['corpus'] },
+    { href: '/wisdom', label: 'Wisdom shelf', pages: ['wisdom'] },
     { href: '/db-schema', label: 'Data model', pages: ['db-schema'] },
   ],
   system: [
     { href: '/architecture', label: 'Pipeline architecture', pages: ['architecture'] },
+    { href: '/intelligence', label: 'Intelligence pipeline', pages: ['intelligence'] },
     { href: '/system-map', label: 'System map', pages: ['system-map'] },
     { href: '/infrastructure', label: 'Infrastructure', pages: ['infrastructure'] },
     { href: '/security', label: 'Security', pages: ['security'] },
     { href: '/quality', label: 'Quality', pages: ['quality'] },
     { href: '/plan', label: 'Roadmap', pages: ['plan', 'dashboard', 'planner'] },
+    { href: '/annotation-ops', label: 'Annotations', pages: ['annotation-ops'] },
     { href: '/overview', label: 'Operations', pages: ['overview'] },
     { href: '/about', label: 'About & Help', pages: ['about'] },
   ],
