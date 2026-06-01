@@ -11,7 +11,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
-    "snapshot": "node scripts/regenerate-snapshots.mjs",
+    "snapshot": "node scripts/regenerate-snapshots.mjs || python3 scripts/regenerate-snapshots.py",
     "mermaid:render": "node scripts/render-mermaid.mjs",
     "prebuild": "npm run mermaid:render && npm run lint:views",
     "lint:views": "node scripts/lint-html-views.mjs",

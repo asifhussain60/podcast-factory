@@ -1,0 +1,100 @@
+---
+slug: ch02-hsa
+title: "Health Savings Accounts: The Triple Tax Advantage"
+source_pages:
+  - https://www.healthequity.com/learn/hsa
+  - https://www.healthequity.com/hsa
+  - https://blog.healthequity.com/irs-raises-2026-hsa-contribution-limits
+  - https://blog.healthequity.com/the-3-tax-advantages-of-hsas
+  - https://www.healthequity.com/library/why-you-should-consider-investing-your-hsa
+  - https://www.healthequity.com/hsa-qme
+word_count_estimate: 1600
+---
+
+# Health Savings Accounts: The Triple Tax Advantage
+
+Here's a scenario that plays out millions of times every fall during benefits sign-up season. You sit down with your employer's benefits materials. You see a health plan option described as a "high-deductible health plan" — and the word "high-deductible" stops you cold. You look at the deductible number, which is the amount you pay before insurance kicks in. It's $1,700, or $2,000, or more. You think: that's a lot of money I'd owe before insurance kicks in. So you go with the more familiar plan, pay the higher monthly premium (the monthly cost of your health insurance), and move on.
+
+What you probably didn't notice — because it was described in two sentences of fine print, if it was mentioned at all — is that the high-deductible plan came with access to a Health Savings Account. And that account, if you had used it the way it's designed to be used, would have been the most powerful savings tool you've ever had access to.
+
+Most people who have heard of HSAs think of them as a healthcare spending account — a way to set aside money before taxes and use it to pay doctor bills. That's accurate, but it's roughly like describing a Ferrari as "a way to get to the grocery store." It's technically true and almost completely misses the point. The HSA, used fully, is arguably the most tax-advantaged financial account available to working Americans today — meaning you never pay income tax on the money you put in, the money it earns, or the money you take out for eligible health costs. It beats a 401(k) on pure tax terms. It beats a Roth IRA. Nothing in the American tax code offers what it offers — and it's sitting in your benefits package, underfunded or entirely unopened, for millions of people right now.
+
+This chapter is going to explain exactly why. Not in the language of benefits administration, but in the language of what it actually means for your financial life.
+
+---
+
+**First: how the account works**
+
+To open an HSA, you need to be enrolled in a high-deductible health plan. In 2026, a plan qualifies as high-deductible if it has a minimum deductible of $1,700 for just you, or $3,400 if you're covering your family. The out-of-pocket maximum — the most you could ever owe in a year before insurance covers everything — is capped at $8,500 for yourself or $17,000 for a family.
+
+The trade-off with a high-deductible plan is real: you pay more before insurance starts covering costs. But these plans almost always have significantly lower monthly premiums than traditional plans. The strategy HealthEquity teaches is to take the difference in what you'd pay in monthly premiums between a traditional plan and the high-deductible option, and put that money directly into your HSA. Many people find that premium savings alone come close to covering typical out-of-pocket costs in an average year — and the HSA keeps growing for the years when healthcare expenses are heavier.
+
+The contribution limits for 2026 are $4,400 for just yourself, or $8,750 if you're covering a family. If you're 55 or older, you can add another $1,000 on top of that. You can contribute through pre-tax payroll deductions — meaning the money comes out before income taxes are calculated, lowering the amount of your paycheck that the IRS taxes. Or you can make a personal contribution at any point during the year, up until the tax filing deadline, and deduct it from your taxes.
+
+---
+
+**The triple tax advantage — and why it matters more than you think**
+
+Here is where the HSA separates itself from every other financial account.
+
+The first advantage: money you put into your HSA is never subject to federal income tax. In most states it's exempt from state income tax too. If you contribute $4,400 in a year and you're in a combined 30 percent tax bracket, you've effectively gotten $1,320 for free — money that would have gone to taxes, now sitting in your account working for you.
+
+The second advantage: your HSA balance grows completely tax-free. If you invest the money in your account — and more on why you should in a moment — your gains are never subject to capital gains tax. The interest, the dividends, the growth: none of it gets taxed, ever, as long as it stays in the account.
+
+The third advantage: when you spend HSA money on eligible health costs — a prescription, a dental cleaning, an eye exam, a hearing aid, a doctor's visit — not one dollar of that withdrawal is taxed either. You put it in without paying tax. It grew without paying tax. You took it out without paying tax.
+
+No other account in the American tax system does all three. A traditional 401(k) gives you the tax break when you put money in, but taxes every dollar when you take it out. A Roth IRA taxes you going in but not coming out — two advantages, not three. The HSA is the only account that gives you all three tiers of tax protection simultaneously, and it does it specifically for healthcare spending, which is one of the largest and least predictable expenses in most people's lives.
+
+To make this concrete: on $4,000 of annual medical spending — a realistic figure when you add up prescriptions, dental work, vision care, and a few doctor visits — someone in a 30 percent combined tax bracket saves $1,200 per year just through the HSA's tax treatment. Over a decade, that's $12,000 in tax savings before any investment growth. With investment growth, the number is much higher.
+
+---
+
+**The retirement angle — the part most people have never heard**
+
+Here is the piece of the HSA story that genuinely changes how people think about it.
+
+After age 65, you can use your HSA for anything. Not just healthcare. Anything. If you withdraw for a non-medical expense after 65, you pay regular income tax on it — exactly the same as withdrawing from a 401(k). But for medical expenses, even after 65, your withdrawals are completely tax-free.
+
+Think about what that means. You are building an account that, before 65, gives you tax-free access to healthcare costs. After 65, it gives you the same access as a 401(k) for general expenses — plus continued tax-free access for healthcare costs. It's a retirement account that doubles as the best healthcare-cost vehicle ever created, and it does so at the stage of life when healthcare costs are highest.
+
+Here's the math on saving $4,400 per year — the 2026 individual limit — and investing it at a 7 percent average annual return for 20 years. You'd end up with approximately $180,000. Every dollar of that is tax-free if you use it for healthcare. Every dollar was put in tax-free. Every dollar grew tax-free. That is the triple tax advantage working over time, and that's what HealthEquity means when it says the HSA is the most powerful consumer health benefit in existence.
+
+The HSA also has two advantages over a 401(k) that most financial conversations overlook entirely. First, HSA contributions made through payroll are also exempt from Social Security and Medicare taxes — something a 401(k) contribution doesn't give you. That's an extra 7.65 percent in savings on every dollar you contribute through payroll. Second, the HSA has no required withdrawals at any age. A 401(k) forces you to start taking money out at age 73. Your HSA can sit and compound indefinitely, without the IRS forcing distributions.
+
+The conclusion many financial experts have reached: if you have access to a high-deductible health plan with an HSA, you should be maxing the HSA before or alongside your 401(k) — not instead of it, but before it, because the tax math is simply better.
+
+---
+
+**What you can spend it on**
+
+The list of eligible health costs is more expansive than most people know. HealthEquity maintains a searchable version at healthequity.com/QME. It includes prescriptions, doctor's office fees, urgent care visits, emergency room costs, dental cleanings, braces, orthodontia, eye exams, eyeglasses, contact lenses, LASIK surgery, hearing aids, flu shots, immunizations, acne medication, allergy medicine, ibuprofen and other over-the-counter medications, menstrual products, birth control, breastfeeding supplies including breast pumps, face masks, hand sanitizer, sunscreen, and much more.
+
+The list was significantly expanded in 2020 and has continued to grow. For most people's day-to-day healthcare spending, the HSA covers it.
+
+---
+
+**The investment angle**
+
+HealthEquity makes it straightforward to invest your HSA balance through a lineup of low-cost Vanguard mutual funds, including index funds and target-date funds. The idea is simple: keep enough cash in the account to cover your near-term healthcare costs, and invest the rest. The invested portion grows tax-free and builds toward the long-term healthcare fund you're going to need.
+
+The members who have taken this step are building real financial reserves. As of fiscal year 2025, 753,000 HealthEquity members had investment portfolios in their HSAs — a number that grew 23 percent in a single year. That growth reflects a shift in how people are beginning to understand the HSA: not as a debit card for copays, but as a tax-advantaged investment vehicle with a specific purpose.
+
+---
+
+**What most people miss**
+
+The most common HSA mistake is treating it like a use-it-now account — spending every dollar the same year you contribute it, the way people treat an FSA. That approach captures one of the three tax advantages (tax-free contributions) and discards the other two (tax-free growth and tax-free withdrawals later in life).
+
+The more powerful approach is to pay healthcare costs out of pocket when you can afford to, let the HSA balance accumulate and invest, and reimburse yourself years later. The IRS doesn't set a deadline for reimbursements — if you pay a $200 dental bill today and keep the receipt, you can reimburse yourself from your HSA five years from now, after the account has grown. The reimbursement is still tax-free.
+
+Your HSA is also fully yours. It doesn't belong to your employer. It doesn't expire if you change jobs. It doesn't disappear at the end of the year. Whatever you put in is yours permanently, rolls over without limit, and follows you anywhere.
+
+---
+
+**The cost of not engaging**
+
+If you have access to a high-deductible health plan through your employer and you haven't opened an HSA — or you opened one but have been leaving it nearly empty — you are paying more in taxes than you have to, every single year. The tax advantage doesn't accumulate in the background waiting for you. It requires a decision during benefits sign-up season: choose the high-deductible plan, open the HSA, and start contributing.
+
+The people who made that decision ten or twenty years ago and have been consistently contributing and investing their HSA balances have accounts worth tens or hundreds of thousands of dollars — money that will cover the healthcare costs of retirement, completely tax-free. The people who made the other decision have a standard health plan and a zero balance in an account they never opened.
+
+The window is still open. The question is what you do with it.

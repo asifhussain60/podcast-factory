@@ -1360,6 +1360,113 @@ waves:
         cost_estimate_usd: 0
         authorization: *tier_one
 
+  - id: CP
+    name: Content-Profile Branching
+    execution_status: not_started
+    depends_on: [A]
+    pilot_completed: >
+      healthequity (2026-06-01): 3 consumer episodes built manually against the `sites` category.
+      Proved the concept — category-aware framing, phonetic/doctrinal skip paths, consumer tone.
+      This wave formalises what was done ad-hoc into a reusable, declared system.
+    note: >
+      Formalises the observation from the healthequity pilot: Islamic-scholarly
+      content and consumer/technical content need different behaviour at multiple
+      pipeline steps, but both rejoin the same backbone (build_episode_txt,
+      publish, ship). A `content_profile` field in series-config.yaml declares
+      which lane a book belongs to; each affected step reads it once and
+      configures itself accordingly. No step has a hardcoded category string.
+      Profiles: `islamic_scholarly` (default, all existing books), `consumer_explainer`
+      (healthequity and future explainers/ category content), `general_nonfiction` (future).
+      The `explainers` category (branch prefix `explainer/`) is the canonical home for
+      consumer guides, onboarding content, product docs, and system walkthroughs.
+    steps:
+
+      - id: CP1
+        title: "Add content_profile field to series-config.yaml + _rules.py"
+        depends_on: [A1]
+        deliverables:
+          rules_constant:
+            path: "scripts/podcast/_rules.py"
+            change: "Add CONTENT_PROFILES tuple: ('islamic_scholarly', 'consumer_finance', 'general_nonfiction')"
+          series_config_schema:
+            note: "Add optional content_profile field; default 'islamic_scholarly' so all existing books are unaffected"
+          helper:
+            path: "scripts/podcast/_content_profile.py"
+            exports: ["resolve_content_profile(book_dir: Path) -> str"]
+            behaviour: "reads series-config.yaml content_profile; falls back to 'islamic_scholarly' if absent"
+          backfill:
+            existing_islamic_books: "content_profile: islamic_scholarly (explicit)"
+            healthequity: "content_profile: consumer_finance"
+        acceptance:
+          - "resolve_content_profile() returns 'islamic_scholarly' for all existing books with no change to series-config.yaml"
+          - "healthequity returns 'consumer_finance'"
+          - "Unknown value raises ValueError with list of valid profiles"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: CP2
+        title: "Gate Arabic-specific assertions in build_episode_txt.py on content_profile"
+        depends_on: [CP1]
+        deliverables:
+          gated_assertions:
+            - assert_no_arabic_transliteration
+            - assert_no_arabic_surah_names
+            - assert_no_inline_phonetics
+          change: >
+            Each assertion reads content_profile via resolve_content_profile().
+            If profile != 'islamic_scholarly', assertion is skipped with a one-line
+            INFO log. No behaviour change for Islamic books.
+        acceptance:
+          - "build_episode_txt.py passes cleanly on healthequity episodes with no false-positive Arabic assertion errors"
+          - "Existing Islamic book (ayyuhal-walad) still fires all three assertions correctly"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: CP3
+        title: "Make phase 0c (phonetics) a no-op outside the islamic_scholarly profile"
+        depends_on: [CP1]
+        deliverables:
+          change: >
+            Phase 0c checks content_profile at entry. If not 'islamic_scholarly',
+            writes an empty mangle-map.md with a one-line explanation and exits
+            cleanly. Phase ordering is unchanged; 0c still runs and produces a file.
+        acceptance:
+          - "Phase 0c completes in < 1s for consumer_finance books"
+          - "Islamic books still produce a full mangle-map"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: CP4
+        title: "Add consumer_finance enrichment stub under content/_shared/"
+        depends_on: [CP1]
+        deliverables:
+          path: "content/_shared/consumer_finance/"
+          files:
+            - "enrichment-sources.md  # regulatory refs, IRS publications, SHRM, statistic sources"
+            - "framing-guardrails.md  # accuracy, accessibility, compliance tone rules"
+            - "host-role-defaults.md  # consumer-friendly host dynamic defaults"
+        note: "Additive only. No existing file is modified."
+        acceptance:
+          - "Directory exists with all three files populated"
+          - "Phase 0e references enrichment-sources.md for consumer_finance books"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
+      - id: CP5
+        title: "Extend challenger profile-gating to skip Islamic-specific rules for non-Islamic content"
+        depends_on: [CP2]
+        deliverables:
+          change: >
+            Challenger reads content_profile from series-config.yaml.
+            Arabic name aliasing, citation-authenticity, and transmission-chain
+            checks are wrapped in a profile guard: only fire for islamic_scholarly.
+            Consumer-finance accuracy rules fire for consumer_finance.
+        acceptance:
+          - "Challenger run on healthequity produces zero false-positive Arabic findings"
+          - "Challenger run on ayyuhal-walad still surfaces Arabic name aliasing + citation checks"
+        cost_estimate_usd: 0
+        authorization: *tier_one
+
 # ===========================================================================
 # CROSS-CUTTING REGISTRIES
 # ===========================================================================
@@ -1376,6 +1483,19 @@ archetypes:
     - {slug: encyclopedic-epistolary, capstone_default: full_brethren, augmentation_default: on, diagram_density: high, phased_rollout: true, books: [rasail-ikhwan-al-safa]}
     - {slug: narrative-prose, capstone_default: tbd, books: [], note: "placeholder for future novels"}
     - {slug: socratic-dialogue, alias_of: play-novel}
+    - slug: consumer-explainer
+      capstone_default: none
+      content_profile: consumer_explainer
+      category: explainers
+      note: >
+        Professional explainer content: consumer benefits guides, employee onboarding,
+        product walkthroughs, system explanations. Content comes from websites, PDFs,
+        internal docs, or product materials. Pilot: healthequity (sites category, 3 episodes,
+        completed 2026-06-01 — manual build, not full orchestrator run).
+        No Arabic pronunciation, no doctrinal checks, no Islamic scholarly framing.
+        Framing emphasises practical application, accessibility, and accuracy.
+      books: [healthequity]
+      status: pilot_complete
 
 database:
   reference: "see ../architecture.md §Data Architecture"

@@ -42,6 +42,8 @@ _CATEGORY_TO_PREFIX = {
     "letters":    "letter",
     "interviews": "interview",
     "asbaaq":     "sabaq",
+    "sites":      "site",
+    "explainers": "explainer",
 }
 
 # Fallback prefix when category is unknown, unset, or doesn't match the map.

@@ -1108,7 +1108,10 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
     # Defense-in-depth: confirm the resolved bucket_root really sits under one
     # of the canonical roots. A literal-path resolution outside these roots
     # would emit files in the wrong place; better to fail loud here.
-    valid_root_ancestors = {"library", "drafts", "books"}  # 'books' under published/
+    # Include all ALLOWED_CATEGORIES so non-books categories (sites, lectures,
+    # articles, etc.) at content/drafts/<category>/<slug>/chapters/ are accepted.
+    from _rules import ALLOWED_CATEGORIES as _CATS  # noqa: PLC0415
+    valid_root_ancestors = {"library", "drafts", "books"} | set(_CATS)
     if bucket_root.parent.name not in valid_root_ancestors:
         sys.exit(
             f"ERROR: resolved chapter is not under a canonical root.\n"
