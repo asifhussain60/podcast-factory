@@ -306,9 +306,9 @@ hr { border: 0; height: 1px; background: var(--c-rule); margin: var(--sp-6) 0; }
   white-space: nowrap;
 }
 .topnav-section:hover { color: var(--c-ink); text-decoration: none; }
-.topnav-section[data-section="architecture"].is-active { color: var(--c-accent);  border-bottom-color: var(--c-accent); }
-.topnav-section[data-section="bookshelf"].is-active    { color: var(--c-green);   border-bottom-color: var(--c-green); }
-.topnav-section[data-section="planner"].is-active      { color: var(--c-planner); border-bottom-color: var(--c-planner); }
+.topnav-section.is-active { color: var(--c-accent); border-bottom-color: var(--c-accent); }
+.topnav-section[data-section="library"].is-active { color: var(--c-green);   border-bottom-color: var(--c-green); }
+.topnav-section[data-section="corpus"].is-active   { color: var(--c-planner); border-bottom-color: var(--c-planner); }
 
 .topnav-spacer { flex: 1; }
 

@@ -14,6 +14,10 @@ interface Props {
 const { title, active, section: _section, description } = Astro.props;
 const navSection = getNavSection(active);
 const subnavLinks = getSubnavLinks(active);
+// A page can supply its own secondary nav via the `subnav` slot (e.g. the
+// Studio pipeline stepper). When present it fully replaces the generic subnav.
+const hasCustomSubnav = Astro.slots.has('subnav');
+const showShellSubnav = hasCustomSubnav || subnavLinks.length > 0;
 ---
 <!doctype html>
 <html lang="en">
@@ -44,7 +48,9 @@ const subnavLinks = getSubnavLinks(active);
       </div>
     </nav>
 
-    {subnavLinks.length > 0 && (
+    {hasCustomSubnav ? (
+      <slot name="subnav" />
+    ) : subnavLinks.length > 0 && (
       <nav class="subnav-h" aria-label={`${navSection} section`}>
         <div class="subnav-h-inner">
           {subnavLinks.map((item) => (
@@ -54,7 +60,7 @@ const subnavLinks = getSubnavLinks(active);
       </nav>
     )}
 
-    <div class={`page-shell${subnavLinks.length > 0 ? ' has-arch-subnav' : ''}`}>
+    <div class={`page-shell${showShellSubnav ? ' has-arch-subnav' : ''}`}>
 
       <main class="page" id="main-content" tabindex="-1">
         <slot />

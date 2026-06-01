@@ -1,33 +1,6 @@
 ---
-import Base from '../layouts/Base.astro';
-import OperatorWorkbench from '../components/workbench/OperatorWorkbench.tsx';
-import { CARD_DEFS } from '../lib/reader/editorial';
-import { AYYUHAL_WALAD_SLUG, AYYUHAL_WALAD_STAGE_DEFS, loadBookWorkspace } from '../lib/reader/book-workspace';
-import { loadBookIndex } from '../lib/reader/chapters';
-import { slugToTitle } from '../lib/content-paths';
-import '../styles/corpus-mock.css';
-import '../styles/studio-poc.css';
-import '../styles/workbench.css';
-
-// Load real chapter list from disk — keeps chapter IDs in sync with the actual
-// .txt files so the workspace loader can find stage content.
-const index = await loadBookIndex(AYYUHAL_WALAD_SLUG);
-const chapterDefs = (index?.chapters ?? []).map((c) => ({ id: c.slug, title: c.title }));
-
-const workspace = await loadBookWorkspace(AYYUHAL_WALAD_SLUG, chapterDefs, AYYUHAL_WALAD_STAGE_DEFS);
-const bookTitle = slugToTitle(AYYUHAL_WALAD_SLUG);
+// /workbench — retired surface. The operator cockpit is now the "Edit & Enrich"
+// step of the sequential Studio pipeline. Redirect to the Studio book picker so
+// the user selects a book first (no more hardcoded single book).
+return Astro.redirect('/studio');
 ---
-
-<Base
-  title="Workbench"
-  active="workbench"
-  description="Operator shell for pipeline review, editorial policy, knowledge lookup, and enrichment planning.">
-  <OperatorWorkbench
-    client:only="react"
-    slug={workspace.slug}
-    bookTitle={bookTitle}
-    chapters={workspace.chapters}
-    chapterDefs={workspace.cockpitChapters}
-    cardDefs={CARD_DEFS}
-  />
-</Base>

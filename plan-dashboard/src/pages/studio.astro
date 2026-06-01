@@ -1,47 +1,54 @@
 ---
-// studio.astro — WC8 Slice 5b: the Studio re-platform. Replaces the throwaway /studio-poc with
-// the real editorial cockpit: a left rail of editorial-decision cards (book canonical + per-chapter
-// override) beside the stage editor + inspector. Same chapter loader as the PoC; the cockpit
-// follows the editor via the `studio:chapter-change` event. External CSS only (Cortex standard).
-import PocLayout from '../layouts/PocLayout.astro';
-import StudioPoc from '../components/reader/poc/StudioPoc.tsx';
-import StudioVersePopover from '../components/reader/poc/StudioVersePopover.tsx';
-import EditorialCards from '../components/reader/poc/EditorialCards.tsx';
-import { CARD_DEFS } from '../lib/reader/editorial';
-import { AYYUHAL_WALAD_SLUG, AYYUHAL_WALAD_STAGE_DEFS, loadBookWorkspace } from '../lib/reader/book-workspace';
-import { loadBookIndex } from '../lib/reader/chapters';
+/**
+ * Studio landing — the book picker for the content pipeline.
+ *
+ * Pick the book you want to work on; each card shows pipeline progress and
+ * deep-links to that book's current step. "New content" starts a fresh book.
+ * (The old single-book editorial cockpit now lives at /studio/<slug>/edit.)
+ */
+import Base from '../layouts/Base.astro';
+import { listContent, slugToTitle } from '../lib/content-paths';
+import { loadStudioPipeline } from '../lib/reader/studio-pipeline';
+import '../styles/studio-pipeline.css';
 
-// Load real chapter list from disk instead of hardcoded stubs — ensures IDs
-// match the actual .txt files so the augmented-stage fallback can find them.
-const index = await loadBookIndex(AYYUHAL_WALAD_SLUG);
-const chapterDefs = (index?.chapters ?? []).map((c) => ({ id: c.slug, title: c.title }));
+const books = await listContent({ category: 'books' });
 
-const workspace = await loadBookWorkspace(
-  AYYUHAL_WALAD_SLUG,
-  chapterDefs,
-  AYYUHAL_WALAD_STAGE_DEFS,
+const cards = await Promise.all(
+  books.map(async (b) => {
+    const steps = await loadStudioPipeline(b.slug);
+    // Entry step: first blocked, else first active, else publish if all done, else intake.
+    const blocked = steps.find((s) => s.state === 'blocked');
+    const active = steps.find((s) => s.state === 'active');
+    const entry = blocked ?? active ?? (steps.every((s) => s.state === 'done') ? steps[3] : steps[0]);
+    return { slug: b.slug, title: slugToTitle(b.slug), steps, entry };
+  }),
 );
+cards.sort((a, b) => a.title.localeCompare(b.title));
 ---
+<Base title="Studio" active="studio" description="Pick a book to work on through the content pipeline.">
+  <div class="studio-picker">
+    <header class="studio-step-head">
+      <h1>Studio</h1>
+      <p>Pick a book to carry through the pipeline — intake, source review, edit &amp; enrich, publish. Each card opens at the book's current step.</p>
+    </header>
 
-<PocLayout title="Studio — Ayyuhal Walad" active="studio">
-  <header class="sp-header">
-    <h1 class="sp-h1">Studio — editorial cockpit</h1>
-    <p class="sp-subtitle">
-      The review cockpit: steer the book's canonical editorial decisions on the left, edit and
-      approve each pipeline stage on the right. Override any decision per chapter; the cockpit
-      follows the chapter you are editing.
-    </p>
-  </header>
+    <div class="studio-picker-grid">
+      {cards.map((c) => (
+        <a class="studio-picker-card" href={`/studio/${c.slug}/${c.entry.id}`}>
+          <h2>{c.title}</h2>
+          <span class="studio-picker-step">{c.entry.label} · {c.entry.detail}</span>
+          <div class="studio-picker-bar" aria-hidden="true">
+            {c.steps.map((s) => (
+              <span class={`studio-picker-seg${s.state === 'done' ? ' is-done' : s.state === 'active' ? ' is-active' : s.state === 'blocked' ? ' is-blocked' : ''}`}></span>
+            ))}
+          </div>
+        </a>
+      ))}
 
-  {workspace.loadError
-    ? <p class="sp-error">Could not load the chapter: {workspace.loadError}</p>
-    : (
-      <div class="studio-shell">
-        <EditorialCards client:only="react" slug={workspace.slug} chapters={workspace.cockpitChapters} cardDefs={CARD_DEFS} />
-        <div class="prose-body">
-          <StudioPoc client:only="react" slug={workspace.slug} chapters={workspace.chapters} glossary={workspace.glossary} />
-          <StudioVersePopover client:only="react" />
-        </div>
-      </div>
-    )}
-</PocLayout>
+      <a class="studio-picker-card studio-bookpick-new" href="/intake">
+        <h2><i class="fa-solid fa-plus" aria-hidden="true"></i> New content</h2>
+        <span class="studio-picker-step">Scaffold a new book, lecture, or article.</span>
+      </a>
+    </div>
+  </div>
+</Base>

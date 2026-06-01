@@ -1,0 +1,143 @@
+---
+/**
+ * Studio pipeline — one book, one step. The sequential content workflow:
+ *   /studio/<slug>/intake | review | edit | publish
+ *
+ * The book is in the URL (global selection); the StudioSubnav stepper carries
+ * the operator through the four steps with live status. Each step mounts the
+ * surface that owns that stage of the real pipeline.
+ */
+import Base from '../../../layouts/Base.astro';
+import StudioSubnav from '../../../components/studio/StudioSubnav.astro';
+import OperatorWorkbench from '../../../components/workbench/OperatorWorkbench.tsx';
+import EditorialCards from '../../../components/reader/poc/EditorialCards.tsx';
+import { CARD_DEFS } from '../../../lib/reader/editorial';
+import { loadBookIndex } from '../../../lib/reader/chapters';
+import { loadBookWorkspace, AYYUHAL_WALAD_STAGE_DEFS } from '../../../lib/reader/book-workspace';
+import { loadStudioPipeline, STUDIO_STEPS, type StepId } from '../../../lib/reader/studio-pipeline';
+import { findContent, listContent, slugToTitle } from '../../../lib/content-paths';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import '../../../styles/corpus-mock.css';
+import '../../../styles/studio-poc.css';
+import '../../../styles/workbench.css';
+import '../../../styles/studio-pipeline.css';
+
+const VALID_STEPS: StepId[] = STUDIO_STEPS.map((s) => s.id);
+
+const slug = Astro.params.slug!;
+const stepParam = Astro.params.step as StepId;
+
+const ref = await findContent(slug);
+if (!ref) return Astro.redirect('/studio');
+if (!VALID_STEPS.includes(stepParam)) return Astro.redirect(`/studio/${slug}/edit`);
+
+const bookTitle = slugToTitle(slug);
+const steps = await loadStudioPipeline(slug);
+
+// Book selector options — all books in the workshop.
+const allBooks = await listContent({ category: 'books' });
+const books = allBooks.map((b) => ({ slug: b.slug, title: slugToTitle(b.slug) }));
+
+// Shared loads for steps that need chapter data.
+const index = await loadBookIndex(slug);
+const chapterDefs = (index?.chapters ?? []).map((c) => ({ id: c.slug, title: c.title }));
+const workspace = await loadBookWorkspace(slug, chapterDefs, AYYUHAL_WALAD_STAGE_DEFS);
+
+// Review-gate (for the review step).
+let gate: { approved?: boolean; warnings?: { severity?: string; message?: string }[] } | null = null;
+if (stepParam === 'review') {
+  try {
+    gate = JSON.parse(await readFile(join(ref.dir, '_system', 'review-gate.json'), 'utf-8'));
+  } catch { gate = null; }
+}
+const p0 = (gate?.warnings ?? []).filter((w) => w?.severity === 'P0');
+const p1 = (gate?.warnings ?? []).filter((w) => w?.severity === 'P1');
+
+const stepMeta = STUDIO_STEPS.find((s) => s.id === stepParam)!;
+const pageTitle = `${stepMeta.label} — ${bookTitle}`;
+---
+<Base title={pageTitle} active="studio" description={`Studio · ${stepMeta.label} · ${bookTitle}`}>
+  <StudioSubnav slot="subnav" slug={slug} bookTitle={bookTitle} activeStep={stepParam} steps={steps} books={books} />
+
+  {/* ── Intake ──────────────────────────────────────────── */}
+  {stepParam === 'intake' && (
+    <div class="studio-step-body">
+      <header class="studio-step-head">
+        <h1>Intake — {bookTitle}</h1>
+        <p>{stepMeta.blurb} These editorial decisions steer how every later stage authors the book.</p>
+      </header>
+      <div class="studio-panel">
+        <h2>Editorial decisions</h2>
+        <EditorialCards client:only="react" slug={slug} chapters={workspace.cockpitChapters} cardDefs={CARD_DEFS} />
+      </div>
+    </div>
+  )}
+
+  {/* ── Source Review ───────────────────────────────────── */}
+  {stepParam === 'review' && (
+    <div class="studio-step-body">
+      <header class="studio-step-head">
+        <h1>Source Review — {bookTitle}</h1>
+        <p>{stepMeta.blurb}</p>
+      </header>
+      {gate ? (
+        <div class="studio-panel">
+          <p>
+            <span class={`studio-gate-pill ${gate.approved ? 'is-approved' : p0.length ? 'is-blocked' : 'is-pending'}`}>
+              {gate.approved ? 'Approved' : p0.length ? `${p0.length} blocking` : 'Awaiting approval'}
+            </span>
+          </p>
+          {p0.length > 0 && (
+            <ul>{p0.map((w) => <li>{w.message ?? 'P0 issue'}</li>)}</ul>
+          )}
+          {p1.length > 0 && (
+            <ul>{p1.map((w) => <li>{w.message ?? 'P1 note'}</li>)}</ul>
+          )}
+          {p0.length === 0 && p1.length === 0 && <p>No outstanding warnings.</p>}
+        </div>
+      ) : (
+        <div class="studio-panel">
+          <h2>No review gate yet</h2>
+          <p>The source review gate is produced in pipeline phase 06a. Once the orchestrator reaches that phase, the approval controls appear here.</p>
+        </div>
+      )}
+    </div>
+  )}
+
+  {/* ── Edit & Enrich (the merged cockpit) ──────────────── */}
+  {stepParam === 'edit' && (
+    <div class="studio-step-body">
+      {workspace.loadError ? (
+        <div class="studio-panel"><p>{workspace.loadError}</p></div>
+      ) : (
+        <OperatorWorkbench
+          client:only="react"
+          slug={workspace.slug}
+          bookTitle={bookTitle}
+          chapters={workspace.chapters}
+          chapterDefs={workspace.cockpitChapters}
+          cardDefs={CARD_DEFS}
+        />
+      )}
+    </div>
+  )}
+
+  {/* ── Publish ─────────────────────────────────────────── */}
+  {stepParam === 'publish' && (
+    <div class="studio-step-body">
+      <header class="studio-step-head">
+        <h1>Publish — {bookTitle}</h1>
+        <p>{stepMeta.blurb}</p>
+      </header>
+      <div class="studio-panel">
+        <h2>{steps[3].detail}</h2>
+        <p>
+          Publishing promotes the finalized book from the workshop to the published catalog.
+          It runs gates G1–G7 and is an explicit, reviewed step — start it from Claude Code with
+          the publisher once you are satisfied with the finalized version.
+        </p>
+      </div>
+    </div>
+  )}
+</Base>
