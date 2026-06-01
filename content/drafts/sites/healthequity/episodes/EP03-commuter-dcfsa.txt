@@ -32,24 +32,21 @@ Extended: target 50 to 60 minute in-depth conversation. Two-host walkthrough.
 
 Commuter benefits allow pre-tax payroll deductions to pay for eligible transit and parking costs. The 2026 IRS monthly limit is $340 per month for transit and $340 per month for parking — members with both can contribute up to $680 per month combined, or $8,160 per year. At a 30 percent effective tax rate, $340 per month in transit contributions saves $1,224 per year in taxes on money the listener was already spending. The Dependent Care FSA (DCFSA) covers the cost of caring for dependents — children under 13, a disabled spouse, or an elderly parent in day care — while the member works. The 2026 contribution limit is $7,500 for individuals and married couples filing jointly (up from $5,000 in 2025, driven by the 2025 One Big Beautiful Bill Act). HealthEquity administers both accounts and puts them alongside the HSA and FSA on a single platform.
 
-## Pronunciation
+## Name discipline — always use full words
 
-Pronounce "DCFSA" as "D-C-F-S-A" — five letters.
-Pronounce "FSA" as "F-S-A" — three letters.
-Pronounce "HealthEquity" as one word: "Health-Equity."
-Pronounce "IRS" as "I-R-S" — three letters.
-Pronounce "FICA" as "FY-kuh."
-Pronounce "vanpool" as "VAN-pool."
+Say every account name in full every time. Never abbreviate.
 
-## Name discipline
-
-| Term | Stable label |
+| Say this | Never say this |
 |---|---|
-| Dependent Care FSA | DCFSA (after first full mention) |
-| Commuter benefits | commuter benefits |
-| HealthEquity | HealthEquity |
-| The IRS | the IRS |
-| The 2025 One Big Beautiful Bill Act | "the 2025 law that raised the DCFSA limit" — do not try to say the full name on air |
+| Dependent Care Flexible Spending Account | DCFSA or D-C-F-S-A |
+| Flexible Spending Account | FSA or F-S-A |
+| Health Savings Account | HSA |
+| commuter benefits | commuter FSA or transit FSA |
+| HealthEquity | Health Equity (two words) |
+| the IRS | I-R-S (spelled) |
+| Social Security and Medicare taxes | FICA or FY-kuh |
+| vanpool | van pool (two words) |
+| the 2025 law that raised the Dependent Care Flexible Spending Account limit | the One Big Beautiful Bill Act — do not say the full bill name on air |
 
 Never rotate these labels.
 

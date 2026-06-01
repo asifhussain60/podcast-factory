@@ -32,23 +32,18 @@ Extended: target 50 to 60 minute in-depth conversation. Two-host walkthrough, no
 
 COBRA — the Consolidated Omnibus Budget Reconciliation Act, passed in 1985 — gives employees and covered family members the right to continue employer-sponsored health coverage for a set period after a life change ends it. Employers with 20 or more employees that maintain group health plans are required to offer it. For employee job loss or reduced hours: coverage continues for up to 18 months. For a spouse or dependent whose coverage ends due to death, divorce, or a child aging off the plan: up to 36 months. The participant pays the full premium plus a 2 percent administrative fee. HealthEquity administers COBRA on behalf of employers, managing notices, enrollment, billing, and compliance.
 
-## Pronunciation
+## Name discipline — always use full words
 
-Pronounce "COBRA" as "KOH-bruh" — the animal name, one word.
-Pronounce "HealthEquity" as one word: "Health-Equity."
-Pronounce "premium" as "PREE-mee-um" — the monthly cost of the health insurance.
-Pronounce "deductible" as "duh-DUCK-tih-bul."
-Pronounce "ICHRA" as "ICK-ruh" if it comes up — but prefer "individual coverage health reimbursement arrangement" on first mention.
-
-## Name discipline
-
-| Term | Stable label |
+| Say this | Never say this |
 |---|---|
-| COBRA | COBRA (after the full name on first mention) |
-| The Consolidated Omnibus Budget Reconciliation Act | "COBRA" — introduce the full name once, then "COBRA" every time |
-| Marketplace plans | marketplace plans (or "the Health Insurance Marketplace") |
-| HealthEquity | HealthEquity |
-| The IRS | the IRS |
+| COBRA | C-O-B-R-A (spell it out) or "cobra" (as a whisper) — say it as a normal word: KOH-bruh |
+| the Consolidated Omnibus Budget Reconciliation Act | only on the very first mention, then COBRA every time |
+| marketplace plans | the marketplace, the Health Insurance Marketplace |
+| HealthEquity | Health Equity (two words) |
+| the IRS | I-R-S (spelled) |
+| individual coverage health reimbursement arrangement | ICHRA — say the full words if it comes up |
+| deductible | say it naturally as a common English word — do not slow down or over-enunciate |
+| premium | say it naturally — the monthly cost of the health insurance |
 
 Never rotate these labels.
 

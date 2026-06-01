@@ -32,28 +32,24 @@ Extended: target 50 to 60 minute in-depth conversation. Two-host walkthrough, no
 
 HealthEquity is the largest non-bank HSA custodian in the United States. As of fiscal year 2025 they administer 9.9 million HSA accounts holding $32.1 billion in assets. The 2026 contribution limits are $4,400 for self-only coverage and $8,750 for family coverage, with an additional $1,000 catch-up for members 55 and older. To be eligible, the member must be enrolled in a high-deductible health plan — for 2026, a plan with a minimum deductible of $1,700 (self-only) or $3,400 (family) and a maximum out-of-pocket of $8,500 (self-only) or $17,000 (family).
 
-## Pronunciation
+## Name discipline — always use full words
 
-Pronounce "HSA" as "H-S-A" — three letters, never as a single word.
-Pronounce "HDHP" as "H-D-H-P." Better: say "high-deductible health plan" every time.
-Pronounce "IRA" as "I-R-A" — three letters.
-Pronounce "FICA" as "FY-kuh" — the taxes that fund Social Security and Medicare.
-Pronounce "HealthEquity" as one word: "Health-Equity."
-Pronounce "deductible" as "duh-DUCK-tih-bul."
-Pronounce "Vanguard" as "VAN-guard."
+Say every account name in full every time. Never abbreviate mid-conversation.
 
-## Name discipline
-
-| Term | Stable label |
+| Say this | Never say this |
 |---|---|
-| Health Savings Account | HSA (after first full mention) |
-| High-Deductible Health Plan | high-deductible health plan (spell out every time) |
-| HealthEquity | HealthEquity |
-| The IRS | the IRS |
-| 401(k) | 401(k) — spoken as "four-oh-one-K" |
-| Roth IRA | Roth IRA — spoken as "Roth I-R-A" |
+| Health Savings Account | HSA |
+| high-deductible health plan | HDHP or H-D-H-P |
+| individual retirement account | IRA |
+| Social Security and Medicare taxes | FICA |
+| Flexible Spending Account | FSA |
+| HealthEquity | Health Equity (two words) |
+| the IRS | I-R-S |
+| four-oh-one-K | 401K |
 
-Never rotate these labels. Same product, same name, every time.
+The word "deductible" — say it naturally as a normal English word. Do not slow it down or over-enunciate it.
+
+Never rotate these labels. Same account, same full name, every time.
 
 ## Three-part focus
 
