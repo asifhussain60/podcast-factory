@@ -4,9 +4,9 @@
   "branch": "site/claude-code",
   "content_type": "explainer-series",
   "pipeline_mode": "explainer_series",
-  "phase": "06a",
-  "phase_status": "awaiting_human_review",
-  "last_completed_phase": "0e",
+  "phase": "0f",
+  "phase_status": "running",
+  "last_completed_phase": "06a",
   "last_error": null,
   "phases": {
     "pre-flight": {
@@ -47,10 +47,14 @@
       "ts_completed": "2026-06-02T20:10:19Z"
     },
     "06a": {
-      "status": "halted",
+      "status": "completed",
       "ts_started": "2026-06-02T20:07:12Z",
-      "ts_completed": "2026-06-02T20:10:19Z",
+      "ts_completed": "2026-06-02T20:29:28Z",
       "gate_warnings": 1
+    },
+    "0f": {
+      "status": "running",
+      "ts_started": "2026-06-02T20:29:28Z"
     }
   },
   "source_language": "en",
@@ -79,8 +83,8 @@
       "source_file": "source/ep03-getting-started.md"
     }
   },
-  "next_phase": "06a",
-  "ts_updated": "2026-06-02T20:10:19Z",
+  "next_phase": "0f",
+  "ts_updated": "2026-06-02T20:29:28Z",
   "cost": {
     "azure_usd": 0.0,
     "anthropic_usd": 16.3412,
