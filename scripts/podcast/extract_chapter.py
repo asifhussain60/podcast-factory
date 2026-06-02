@@ -586,7 +586,8 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
     # was copy-pasted from another book without updating source_type.
     source_type = c.get("source_type")
     valid_source_types = {"book-chapter", "article", "document", "lecture",
-                          "interview", "letter"}
+                          "interview", "letter",
+                          "synthesized-explainer", "explainer-doc"}
     if source_type not in valid_source_types:
         sys.exit(f"ERROR: contract.source_type {source_type!r} not in {valid_source_types}.")
     # Map source_type → expected category folder (plural noun under library/).
@@ -597,6 +598,8 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
         "lecture":      "lectures",
         "interview":    "interviews",
         "letter":       "letters",
+        "synthesized-explainer": "explainers",
+        "explainer-doc": "explainers",
     }[source_type]
     # Post-restructure 2026-05-23: in-flight books live at content/drafts/<book>/
     # (NOT content/drafts/<category>/<book>/) and shipped books at

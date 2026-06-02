@@ -4,10 +4,14 @@
   "branch": "develop",
   "content_type": "explainer-series",
   "pipeline_mode": "explainer_series",
-  "phase": "0f",
-  "phase_status": "halted",
+  "phase": "per-chapter",
+  "phase_status": "failed",
   "last_completed_phase": "06a",
-  "last_error": null,
+  "last_error": {
+    "phase": "per-chapter",
+    "message": "3 chapter(s) failed: copilot-to-claude-code-mental-shift, first-session-walkthrough, how-claude-code-actually-works. 0 chapter(s) completed. Triage failures or raise per_chapter_cost_cap_usd and --resume.",
+    "ts": "2026-06-02T20:41:26Z"
+  },
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -57,6 +61,40 @@
       "ts_started": "2026-06-02T20:29:28Z",
       "ts_completed": "2026-06-02T20:32:07Z",
       "series_plan_path": "content/drafts/claude-code-training/_system/series-plan.md"
+    },
+    "per-chapter": {
+      "status": "failed",
+      "ts_started": "2026-06-02T20:41:26Z",
+      "completed_slugs": [],
+      "failed_slugs": [
+        "copilot-to-claude-code-mental-shift",
+        "first-session-walkthrough",
+        "how-claude-code-actually-works"
+      ],
+      "chapter_timings": {
+        "copilot-to-claude-code-mental-shift": {
+          "started_ts": "2026-06-02T20:41:26Z",
+          "completed_ts": "2026-06-02T20:41:26Z",
+          "duration_sec": 0.1,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
+        },
+        "first-session-walkthrough": {
+          "started_ts": "2026-06-02T20:41:26Z",
+          "completed_ts": "2026-06-02T20:41:26Z",
+          "duration_sec": 0.1,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
+        },
+        "how-claude-code-actually-works": {
+          "started_ts": "2026-06-02T20:41:26Z",
+          "completed_ts": "2026-06-02T20:41:26Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
+        }
+      },
+      "ts_completed": "2026-06-02T20:41:26Z"
     }
   },
   "source_language": "en",
@@ -65,28 +103,28 @@
   "episodes": {
     "ep01": {
       "slug": "ep01-claude-code-vs-copilot",
-      "title": "Claude Code vs GitHub Copilot \u2014 What's Different and Why It Matters",
+      "title": "Claude Code vs GitHub Copilot — What's Different and Why It Matters",
       "target_length_min": 20,
       "status": "source-ready",
       "source_file": "source/ep01-claude-code-vs-copilot.md"
     },
     "ep02": {
       "slug": "ep02-how-claude-code-works",
-      "title": "How Claude Code Actually Works \u2014 The Agentic Mental Model",
+      "title": "How Claude Code Actually Works — The Agentic Mental Model",
       "target_length_min": 20,
       "status": "source-ready",
       "source_file": "source/ep02-how-claude-code-works.md"
     },
     "ep03": {
       "slug": "ep03-getting-started",
-      "title": "Getting Up and Running with Claude Code \u2014 Your First Session",
+      "title": "Getting Up and Running with Claude Code — Your First Session",
       "target_length_min": 20,
       "status": "source-ready",
       "source_file": "source/ep03-getting-started.md"
     }
   },
   "next_phase": "0f",
-  "ts_updated": "2026-06-02T20:32:07Z",
+  "ts_updated": "2026-06-02T20:41:26Z",
   "cost": {
     "azure_usd": 0.0,
     "anthropic_usd": 16.3412,
