@@ -14,3 +14,5 @@
 {"ts": "2026-06-02T20:04:40Z", "phase": "0e", "step": "ch02-how-claude-code-actually-works", "model": "claude-opus-4-8", "input_tokens": 20, "output_tokens": 13485, "cache_read": 985615, "cache_create": 59907, "cost_usd": 1.20445125}
 {"ts": "2026-06-02T20:06:20Z", "phase": "0e", "step": "ch02-how-claude-code-actually-works", "model": "claude-opus-4-8", "input_tokens": 29, "output_tokens": 12294, "cache_read": 1995107, "cache_create": 97248, "cost_usd": 1.9128485}
 {"ts": "2026-06-02T20:07:11Z", "phase": "0e", "step": "ch03-first-session-walkthrough", "model": "claude-opus-4-8", "input_tokens": 28, "output_tokens": 15021, "cache_read": 1769105, "cache_create": 72308, "cost_usd": 1.7121425000000006}
+{"ts": "2026-06-02T20:07:38Z", "phase": "0e", "step": "ch02-how-claude-code-actually-works", "model": "claude-opus-4-8", "input_tokens": 18, "output_tokens": 16290, "cache_read": 909740, "cache_create": 85946, "cost_usd": 1.3993725}
+{"ts": "2026-06-02T20:07:55Z", "phase": "0e", "step": "ch03-first-session-walkthrough", "model": "claude-opus-4-8", "input_tokens": 23, "output_tokens": 11852, "cache_read": 1382059, "cache_create": 82471, "cost_usd": 1.50288825}
