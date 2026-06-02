@@ -1,7 +1,7 @@
 {
   "slug": "claude-code-training",
   "category": "explainers",
-  "branch": "site/claude-code",
+  "branch": "develop",
   "content_type": "explainer-series",
   "pipeline_mode": "explainer_series",
   "phase": "0f",
@@ -65,21 +65,21 @@
   "episodes": {
     "ep01": {
       "slug": "ep01-claude-code-vs-copilot",
-      "title": "Claude Code vs GitHub Copilot — What's Different and Why It Matters",
+      "title": "Claude Code vs GitHub Copilot \u2014 What's Different and Why It Matters",
       "target_length_min": 20,
       "status": "source-ready",
       "source_file": "source/ep01-claude-code-vs-copilot.md"
     },
     "ep02": {
       "slug": "ep02-how-claude-code-works",
-      "title": "How Claude Code Actually Works — The Agentic Mental Model",
+      "title": "How Claude Code Actually Works \u2014 The Agentic Mental Model",
       "target_length_min": 20,
       "status": "source-ready",
       "source_file": "source/ep02-how-claude-code-works.md"
     },
     "ep03": {
       "slug": "ep03-getting-started",
-      "title": "Getting Up and Running with Claude Code — Your First Session",
+      "title": "Getting Up and Running with Claude Code \u2014 Your First Session",
       "target_length_min": 20,
       "status": "source-ready",
       "source_file": "source/ep03-getting-started.md"
