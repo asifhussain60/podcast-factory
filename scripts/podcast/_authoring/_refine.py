@@ -22,7 +22,7 @@ from ._core import (  # noqa: E402
     SKIP_PHONETICS_CATEGORIES,
     _read_category,
 )
-from _chunking import ChunkingError, concat_outputs, run_windowed  # noqa: E402
+from _chunking import ChunkingError, concat_outputs, run_windowed, make_sdk_invoke_fn  # noqa: E402
 
 
 def build_phase_0b_window_prompt_technical(
@@ -164,6 +164,7 @@ def author_phase_0b(
 
     import os as _os
     _max_workers = int(_os.environ.get("PHASE_0B_MAX_WORKERS", "3"))
+    _model = _os.environ.get("PHASE_0B_MODEL", "claude-sonnet-4-6")
     log(f"  phase 0b · chunked refinement (parallel max_workers={_max_workers})")
     try:
         out_paths = run_windowed(
@@ -176,7 +177,9 @@ def author_phase_0b(
             log=lambda m: log(m),
             book_dir=book_dir,
             phase="0b",
+            model=_model,
             max_workers=_max_workers,
+            _invoke_fn=make_sdk_invoke_fn(_model),
         )
     except ChunkingError as e:
         raise AuthoringError(
@@ -279,6 +282,7 @@ def author_phase_0c(
 
     import os as _os
     _max_workers = int(_os.environ.get("PHASE_0C_MAX_WORKERS", "3"))
+    _model_0c = _os.environ.get("PHASE_0C_MODEL", "claude-sonnet-4-6")
     log(f"  phase 0c · chunked phonetic extraction (parallel max_workers={_max_workers})")
     try:
         out_paths = run_windowed(
@@ -291,7 +295,9 @@ def author_phase_0c(
             log=lambda m: log(m),
             book_dir=book_dir,
             phase="0c",
+            model=_model_0c,
             max_workers=_max_workers,
+            _invoke_fn=make_sdk_invoke_fn(_model_0c),
         )
     except ChunkingError as e:
         raise AuthoringError(

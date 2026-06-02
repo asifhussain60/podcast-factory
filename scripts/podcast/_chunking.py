@@ -69,6 +69,15 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, Iterator
 
+try:
+    import anthropic as _anthropic
+except ImportError:
+    _anthropic = None  # type: ignore[assignment]
+
+# Callable type for the SDK-based invocation path.
+# Signature: (instructions, body, timeout_secs) -> output_text
+InvokeFn = Callable[[str, str, int], str]
+
 CLAUDE_CMD = "claude"
 DEFAULT_TARGET_WORDS = 3000
 DEFAULT_OVERLAP_WORDS = 120
@@ -185,6 +194,59 @@ def iter_windows(
         yield final
 
 
+# ─── SDK invocation helpers (DR-015 / F38) ───────────────────────────────────
+
+# Lines matching these patterns are stripped from claude -p prompts before the
+# instructions are sent to the SDK — they instruct claude to read/write files,
+# which the API cannot do; Python handles file I/O directly instead.
+_FILE_IO_PATTERNS = (
+    re.compile(r"^INPUT\s.*$", re.MULTILINE),
+    re.compile(r"^OUTPUT\s.*$", re.MULTILINE),
+    re.compile(r"^Exit when\s.*$", re.MULTILINE | re.IGNORECASE),
+)
+
+
+def _strip_file_io_lines(prompt: str) -> str:
+    """Remove claude -p file-path directives from a prompt for SDK use."""
+    for pat in _FILE_IO_PATTERNS:
+        prompt = pat.sub("", prompt)
+    return re.sub(r"\n{3,}", "\n\n", prompt).strip()
+
+
+def make_sdk_invoke_fn(model: str, client: "_anthropic.Anthropic | None" = None) -> "InvokeFn":
+    """Return an InvokeFn that calls the Anthropic SDK directly.
+
+    The returned function takes (instructions, body, timeout_secs) and returns
+    the processed text. Pass as `_invoke_fn` to `run_windowed`.
+    """
+    if _anthropic is None:
+        raise ImportError("anthropic package required for SDK invocation; run: pip install anthropic")
+    _client = client or _anthropic.Anthropic()
+
+    def _invoke(instructions: str, body: str, timeout_secs: int) -> str:
+        clean_instructions = _strip_file_io_lines(instructions)
+        user_msg = (
+            f"{clean_instructions}\n\n"
+            f"<content>\n{body}\n</content>\n\n"
+            "Output ONLY the processed text. No preamble, no fences."
+        )
+        try:
+            msg = _client.messages.create(
+                model=model,
+                max_tokens=8192,
+                messages=[{"role": "user", "content": user_msg}],
+                timeout=float(timeout_secs),
+            )
+            return msg.content[0].text if msg.content else ""
+        except _anthropic.APITimeoutError:
+            return ""
+        except Exception as exc:  # noqa: BLE001
+            sys.stderr.write(f"[_chunking] SDK call failed: {exc!r}\n")
+            return ""
+
+    return _invoke
+
+
 # ─── per-window claude shellout ──────────────────────────────────────────────
 
 
@@ -228,8 +290,13 @@ def run_windowed(
     phase: str = "",
     model: str = "claude-opus-4-7",
     max_workers: int = 1,
+    _invoke_fn: "InvokeFn | None" = None,
 ) -> list[Path]:
-    """Drive `claude -p` once per window with checkpointing.
+    """Drive LLM calls once per window with checkpointing.
+
+    When `_invoke_fn` is provided (SDK path, DR-015), Python handles file I/O
+    and the callable receives (instructions, body, timeout_secs) -> text.
+    When `_invoke_fn` is None (legacy path), falls back to `claude -p` subprocess.
 
     Arguments:
       text                — full source text to chunk
@@ -298,6 +365,31 @@ def run_windowed(
         # Write the input chunk for provenance.
         _atomic_write(in_path, body)
         prompt = prompt_builder(body, idx, total, out_path)
+
+        # ── SDK path (DR-015 / F38) ──────────────────────────────────────────
+        if _invoke_fn is not None:
+            log(f"    win {idx:03d}/{total} · invoking SDK ({_word_count(body)} words in)")
+            output_text = _invoke_fn(prompt, body, timeout_per_window)
+            if not output_text:
+                with state_lock:
+                    failures.append((idx, "SDK returned empty output"))
+                log(f"    win {idx:03d}/{total} · FAILED (empty SDK response)")
+                return
+            _atomic_write(out_path, output_text)
+            if book_dir is not None:
+                try:
+                    from _cost_ledger import append_cost_row
+                    append_cost_row(
+                        book_dir, phase=phase or "(unspecified)",
+                        step=f"win-{idx:03d}", model=model,
+                        input_tokens=0, output_tokens=0,
+                    )
+                except Exception:  # noqa: BLE001
+                    pass
+            log(f"    win {idx:03d}/{total} · OK ({out_path.stat().st_size} bytes)")
+            return
+
+        # ── Legacy subprocess path (claude -p) — kept for backward compat ───
         log(f"    win {idx:03d}/{total} · invoking claude -p ({_word_count(body)} words in)")
         try:
             proc = subprocess.run(

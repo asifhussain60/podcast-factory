@@ -103,12 +103,16 @@ import argparse
 import hashlib
 import json
 import re
-import subprocess
 import sys
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
+
+try:
+    import anthropic as _anthropic
+except ImportError:
+    _anthropic = None  # type: ignore[assignment]
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[1]
@@ -361,33 +365,33 @@ def _coerce(v: str) -> Any:
         return v
 
 
-# --- claude -p invocation --------------------------------------------------
+# --- Anthropic SDK invocation (replaces claude -p, DR-015) ------------------
 
 def spawn_claude(prompt: str, model: str, cwd: Path, timeout_sec: int = 240) -> str:
-    cmd = [
-        "claude", "-p",
-        "--permission-mode", "acceptEdits",
-        "--model", model,
-        prompt,
-    ]
+    """Call the Anthropic SDK directly.
+
+    Replaces the former `subprocess.run(["claude", "-p", ...])` path (F38/DR-015).
+    Falls back to an empty string on any error so callers behave as before.
+    cwd is accepted for backward-compat signature but unused with the SDK.
+    """
+    if _anthropic is None:
+        sys.stderr.write("[tighten] error: 'anthropic' package not installed. "
+                         "Run: pip install anthropic\n")
+        return ""
     try:
-        result = subprocess.run(
-            cmd,
-            cwd=str(cwd),
-            capture_output=True,
-            text=True,
-            timeout=timeout_sec,
+        client = _anthropic.Anthropic()
+        msg = client.messages.create(
+            model=model,
+            max_tokens=8192,
+            messages=[{"role": "user", "content": prompt}],
+            timeout=float(timeout_sec),
         )
-    except FileNotFoundError:
-        sys.exit(
-            "[tighten] error: 'claude' CLI not found on PATH. Install Claude Code "
-            "and ensure 'claude --version' works before running this script."
-        )
-    except subprocess.TimeoutExpired:
+        return msg.content[0].text if msg.content else ""
+    except _anthropic.APITimeoutError:
         return ""
-    if result.returncode != 0:
+    except Exception as exc:  # noqa: BLE001
+        sys.stderr.write(f"[tighten] SDK call failed: {exc!r}\n")
         return ""
-    return result.stdout
 
 
 def extract_json(text: str) -> Any:
