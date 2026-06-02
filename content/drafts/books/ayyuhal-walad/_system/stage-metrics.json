@@ -1,7 +1,7 @@
 {
   "slug": "ayyuhal-walad",
-  "chapter": "ch05-method-and-closing-prayer",
-  "measured_at": "2026-05-31T19:24:32Z",
+  "chapter": "ch03-the-guiding-shaykh-and-final-counsels",
+  "measured_at": "2026-06-01T10:32:00Z",
   "stages": [
     {
       "id": "source",
@@ -41,10 +41,10 @@
     },
     {
       "id": "augmented",
-      "available": false,
-      "words": 0,
-      "chars": 0,
-      "sentences": 0,
+      "available": true,
+      "words": 2701,
+      "chars": 15175,
+      "sentences": 69,
       "deltaPct": null,
       "comparedTo": null
     },
