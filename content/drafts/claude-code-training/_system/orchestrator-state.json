@@ -5,7 +5,7 @@
   "content_type": "explainer-series",
   "pipeline_mode": "explainer_series",
   "phase": "0f",
-  "phase_status": "running",
+  "phase_status": "halted",
   "last_completed_phase": "06a",
   "last_error": null,
   "phases": {
@@ -53,8 +53,10 @@
       "gate_warnings": 1
     },
     "0f": {
-      "status": "running",
-      "ts_started": "2026-06-02T20:29:28Z"
+      "status": "halted",
+      "ts_started": "2026-06-02T20:29:28Z",
+      "ts_completed": "2026-06-02T20:32:07Z",
+      "series_plan_path": "content/drafts/claude-code-training/_system/series-plan.md"
     }
   },
   "source_language": "en",
@@ -84,7 +86,7 @@
     }
   },
   "next_phase": "0f",
-  "ts_updated": "2026-06-02T20:31:09Z",
+  "ts_updated": "2026-06-02T20:32:07Z",
   "cost": {
     "azure_usd": 0.0,
     "anthropic_usd": 16.3412,
