@@ -15,15 +15,69 @@ from ._core import (  # noqa: E402
     PHASE_0E_CHAPTER_TIMEOUT,
     _run_claude_p_with_retry,
     _compute_sc_timeout,
+    ARABIC_SCHOLARLY_CATEGORIES,
+    SKIP_ENRICHMENT_CATEGORIES,
+    _read_category,
 )
 from ._refine import _run  # noqa: E402
+
+
+def build_technical_enrichment_prompt(
+    book_slug: str,
+    chapter_file: "Path",
+) -> str:
+    """Phase 0e enrichment prompt for technical/developer content (explainers category).
+
+    Replaces the Islamic 7-tier source hierarchy with technical accuracy
+    verification: official documentation, version checks, real-world examples
+    from case studies, and practical developer gotchas.
+    """
+    return (
+        f"You are driving Phase 0e (Technical Accuracy Enrichment) of the /podcast skill "
+        f"on book-slug `{book_slug}`, **chapter `{chapter_file.stem}` only**.\n\n"
+        f"INPUT (the chapter file to enrich in place): `{chapter_file}`\n\n"
+        f"TASK — enrichment for technical developer content:\n"
+        f"  1. **Accuracy verification**: For every factual claim in the chapter (feature "
+        f"     capabilities, command syntax, pricing figures, performance benchmarks), "
+        f"     verify it is consistent with what the source document states. Flag and "
+        f"     correct any internal inconsistencies.\n"
+        f"  2. **Concrete examples**: Where the chapter makes an abstract claim, add a "
+        f"     short concrete before/after example if one can be derived from the source "
+        f"     material. Do NOT invent examples not grounded in the source.\n"
+        f"  3. **Practical gotchas**: If the chapter covers a workflow or tool, add a "
+        f"     brief 'common mistake' or 'first-week pitfall' note where the source "
+        f"     material gives evidence for one (e.g. API key override bug, context window "
+        f"     management, rate limit behaviour).\n"
+        f"  4. **Version specificity**: Where a feature is version-gated, ensure the "
+        f"     version number is stated explicitly (e.g. 'available since v2.1.59+').\n"
+        f"  5. **Developer voice**: Enrich in active developer voice. Prefer 'Run X to do Y' "
+        f"     over 'X can be used to do Y'.\n\n"
+        f"CONSTRAINTS:\n"
+        f"- Outside material ≤ 40% of THIS chapter's word count. The source content is "
+        f"  the spine — enrichment adds depth, not bulk.\n"
+        f"- Every added claim must be derivable from the source document. No hallucinated "
+        f"  features, no speculative future capabilities.\n"
+        f"- No Islamic content, no Arabic terms, no scholarly citations. This is developer "
+        f"  documentation.\n"
+        f"- Preserve all CLI commands, code blocks, and version numbers verbatim.\n"
+        f"- Do not apply honorific, personal-name substitution, or scriptural citation rules — "
+        f"  those belong to religious scholarly content, not technical documentation.\n\n"
+        f"OUTPUTS: `{chapter_file}` (enriched in place). No other files.\n\n"
+        f"Exit when `{chapter_file}` has been enriched."
+    )
 
 # ─── Phase 0e — Chapter enrichment ──────────────────────────────────────────
 def author_phase_0e(book_dir: Path,
                     timeout: int = DEFAULT_TIMEOUT,
                     chapter_timeout: int = PHASE_0E_CHAPTER_TIMEOUT,
-                    log=print) -> str:
-    """Enrich each chapter with citations from the seven-tier whitelist.
+                    log=print,
+                    category: str | None = None) -> str:
+    """Enrich each chapter with citations — routes to the correct strategy per category.
+
+    Islamic/scholarly categories: 7-tier Islamic hierarchy (Quran → Hadith → … → modern scholarship).
+    sites: SKIPPED — product documentation is authoritative; outside enrichment would be inaccurate.
+    explainers: technical accuracy enrichment (official docs verification, gotchas, version specificity).
+
 
     Implemented as a per-chapter loop so the LLM only enriches one chapter
     file per `claude -p` call. Idempotent: an enrichment-log.md row of the
@@ -38,6 +92,17 @@ def author_phase_0e(book_dir: Path,
     Writes: enriched BOOK_DIR/chapters/ch*.txt (in place)
             BOOK_DIR/_system/enrichment-log.md (per-chapter status)
     """
+    if category is None:
+        category = _read_category(book_dir)
+
+    # Sites category: authoritative product docs — outside enrichment would be inaccurate.
+    if category in SKIP_ENRICHMENT_CATEGORIES:
+        log(f"  phase 0e · SKIPPED (category={category!r} — source is already authoritative)")
+        return f"0e skipped: category={category!r} does not require enrichment"
+
+    _use_technical_enrichment = category not in ARABIC_SCHOLARLY_CATEGORIES
+    log(f"  phase 0e · category={category!r}, strategy={'technical' if _use_technical_enrichment else 'islamic-7-tier'}")
+
     import datetime as _dt
 
     book_slug = book_dir.name
@@ -79,7 +144,10 @@ def author_phase_0e(book_dir: Path,
             log(f"    {stem} · skip (already enriched)")
             continue
 
-        prompt = (
+        if _use_technical_enrichment:
+            prompt = build_technical_enrichment_prompt(book_slug, chapter_file)
+        else:
+            prompt = (
             f"You are driving Phase 0e (Chapter Enrichment from Outside Sources) of the "
             f"/podcast skill on book-slug `{book_slug}`, **chapter `{stem}` only**. Read "
             f"the canonical procedure from `skills-staging/podcast/SKILL.md` "

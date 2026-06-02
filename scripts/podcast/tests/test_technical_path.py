@@ -753,14 +753,13 @@ class TestNoiseRouter(unittest.TestCase):
         self.assertIn("doctrinal", prompt)
 
     def test_current_pass2_sonnet_has_spiritual_protection(self):
-        # GREEN today — documents that the current implementation DOES protect
-        # spiritual content (existing correct behaviour for books).
-        import inspect
+        # GREEN today — the books Sonnet system prompt protects spiritual content.
+        # After refactoring, this lives in _build_sonnet_system_for_category("books").
         sys.path.insert(0, str(SCRIPTS_PODCAST / "phases"))
-        from noise_router import _pass2_sonnet
-        src = inspect.getsource(_pass2_sonnet)
-        self.assertIn("spiritual", src)
-        self.assertIn("doctrinal", src)
+        from noise_router import _build_sonnet_system_for_category
+        prompt = _build_sonnet_system_for_category("books")
+        self.assertIn("spiritual", prompt)
+        self.assertIn("doctrinal", prompt)
 
 
 # ─────────────────────────────────────────────────────────────────────────────

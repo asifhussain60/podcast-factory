@@ -32,6 +32,70 @@ _ARABIC_RE = re.compile(
     r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff\ufb50-\ufdff\ufe70-\ufeff]"
 )
 
+# Categories that follow the Islamic/scholarly noise-routing logic.
+# Anything not in this set gets a category-appropriate Sonnet system prompt.
+_ARABIC_SCHOLARLY_CATEGORIES = frozenset({
+    "books", "letters", "lectures", "articles", "asbaaq", "documents", "interviews",
+})
+
+
+def _build_sonnet_system_for_category(category: str) -> str:
+    """Return the Pass-2 Sonnet system prompt appropriate for the content category.
+
+    Islamic/scholarly: protect spiritual, doctrinal, scriptural, philosophical content.
+    Technical/developer (explainers): protect code blocks, CLI commands, version numbers,
+        technical specifications, and official doc quotes.
+    Consumer/sites: protect product-specific financial claims and regulatory figures.
+    Default (unknown category): use the Islamic prompt (safe conservative fallback).
+    """
+    if category in _ARABIC_SCHOLARLY_CATEGORIES or category not in ("sites", "explainers"):
+        return (
+            "You are a scholarly text noise detector. Classify each paragraph:\n"
+            "- delete: pure padding, editorial filler, repetitive openers, biographical"
+            " preambles that add no doctrinal value\n"
+            "- improve: awkward phrasing but contains substantive content\n"
+            "- keep: substantive content that teaches something\n\n"
+            "IMPORTANT: Never mark for deletion any paragraph containing spiritual,"
+            " doctrinal, scriptural, or philosophical content.\n\n"
+            "Respond with JSON array: [{\"idx\": N, \"action\": \"keep|delete|improve\","
+            " \"confidence\": 0.0-1.0, \"reason\": \"...\"}]"
+        )
+
+    if category == "explainers":
+        return (
+            "You are a technical documentation noise detector. Classify each paragraph:\n"
+            "- delete: pure marketing filler, redundant disclaimers, repeated boilerplate,"
+            " meta-commentary about the document (e.g. 'this guide will walk you through')\n"
+            "- improve: awkward phrasing but contains useful technical information\n"
+            "- keep: technical content that informs a developer's understanding or actions\n\n"
+            "IMPORTANT: Never mark for deletion any paragraph containing:\n"
+            "  - Code examples, CLI commands, shell syntax, file paths\n"
+            "  - Version numbers, release dates, or feature availability information\n"
+            "  - Technical specifications, capability descriptions, or performance figures\n"
+            "  - Direct quotes from official documentation\n"
+            "  - Pricing, limits, or access requirements that affect a developer's decisions\n\n"
+            "Respond with JSON array: [{\"idx\": N, \"action\": \"keep|delete|improve\","
+            " \"confidence\": 0.0-1.0, \"reason\": \"...\"}]"
+        )
+
+    if category == "sites":
+        return (
+            "You are a consumer-facing product documentation noise detector. Classify each paragraph:\n"
+            "- delete: pure legal boilerplate, repetitive disclaimers, editorial filler,"
+            " bureaucratic preamble that adds no value to a working person\n"
+            "- improve: useful content buried in jargon or passive-voice compliance language\n"
+            "- keep: content that directly helps someone understand or use the product\n\n"
+            "IMPORTANT: Never mark for deletion any paragraph containing:\n"
+            "  - Specific dollar figures, contribution limits, or deadlines\n"
+            "  - Product feature descriptions or eligibility requirements\n"
+            "  - Action steps a person needs to take\n\n"
+            "Respond with JSON array: [{\"idx\": N, \"action\": \"keep|delete|improve\","
+            " \"confidence\": 0.0-1.0, \"reason\": \"...\"}]"
+        )
+
+    # Unreachable with current ALLOWED_CATEGORIES but safe fallback.
+    return _build_sonnet_system_for_category("books")
+
 
 @dataclass
 class ParagraphDecision:
@@ -69,7 +133,8 @@ def _pass1_rule(para: str) -> ParagraphDecision | None:
     return None
 
 
-def _pass2_sonnet(paragraphs: list[tuple[int, str]]) -> list[ParagraphDecision]:
+def _pass2_sonnet(paragraphs: list[tuple[int, str]],
+                  category: str = "books") -> list[ParagraphDecision]:
     """Ask Sonnet to evaluate ambiguous paragraphs."""
     if not paragraphs:
         return []
@@ -101,17 +166,7 @@ def _pass2_sonnet(paragraphs: list[tuple[int, str]]) -> list[ParagraphDecision]:
     client = anthropic.Anthropic(api_key=api_key)
     para_text = "\n\n".join(f"[{idx}] {text[:400]}" for idx, text in paragraphs)
 
-    system = (
-        "You are a scholarly text noise detector. Classify each paragraph:\n"
-        "- delete: pure padding, editorial filler, repetitive openers, biographical"
-        " preambles that add no doctrinal value\n"
-        "- improve: awkward phrasing but contains substantive content\n"
-        "- keep: substantive content that teaches something\n\n"
-        "IMPORTANT: Never mark for deletion any paragraph containing spiritual,"
-        " doctrinal, scriptural, or philosophical content.\n\n"
-        "Respond with JSON array: [{\"idx\": N, \"action\": \"keep|delete|improve\","
-        " \"confidence\": 0.0-1.0, \"reason\": \"...\"}]"
-    )
+    system = _build_sonnet_system_for_category(category)
 
     try:
         response = client.messages.create(
@@ -145,7 +200,8 @@ def _pass2_sonnet(paragraphs: list[tuple[int, str]]) -> list[ParagraphDecision]:
     return results
 
 
-def route_chapter(chapter_txt: Path, *, dry_run: bool = False) -> list[ParagraphDecision]:
+def route_chapter(chapter_txt: Path, *, dry_run: bool = False,
+                  category: str = "books") -> list[ParagraphDecision]:
     """Route all paragraphs of a chapter through the two-pass noise router."""
     text = chapter_txt.read_text(encoding="utf-8")
     paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
@@ -169,7 +225,7 @@ def route_chapter(chapter_txt: Path, *, dry_run: bool = False) -> list[Paragraph
 
     # Pass 2: Sonnet for ambiguous survivors
     if not dry_run and sonnet_queue:
-        sonnet_decisions = _pass2_sonnet(sonnet_queue)
+        sonnet_decisions = _pass2_sonnet(sonnet_queue, category=category)
         for d in sonnet_decisions:
             decisions.append(d)
     elif dry_run:
