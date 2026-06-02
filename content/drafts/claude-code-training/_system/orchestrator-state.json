@@ -5,8 +5,8 @@
   "content_type": "explainer-series",
   "pipeline_mode": "explainer_series",
   "phase": "0e",
-  "phase_status": "running",
-  "last_completed_phase": "0d",
+  "phase_status": "completed",
+  "last_completed_phase": "0e",
   "last_error": null,
   "phases": {
     "pre-flight": {
@@ -42,8 +42,9 @@
       "ts_completed": "2026-06-02T19:50:20Z"
     },
     "0e": {
-      "status": "running",
-      "ts_started": "2026-06-02T19:50:20Z"
+      "status": "completed",
+      "ts_started": "2026-06-02T19:50:20Z",
+      "ts_completed": "2026-06-02T20:07:11Z"
     }
   },
   "source_language": "en",
@@ -72,6 +73,11 @@
       "source_file": "source/ep03-getting-started.md"
     }
   },
-  "next_phase": "0e",
-  "ts_updated": "2026-06-02T19:50:20Z"
+  "next_phase": "06a",
+  "ts_updated": "2026-06-02T20:07:11Z",
+  "cost": {
+    "azure_usd": 0.0,
+    "anthropic_usd": 10.1124,
+    "slide_deck_usd": 0.0
+  }
 }
