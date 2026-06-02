@@ -140,12 +140,11 @@ The pipeline is **machine-agnostic**. Most work is done by Anthropic + Azure rem
 | Skill | Purpose |
 |---|---|
 | `skills-staging/clean-commit/` | Pre-commit / commit-quality discipline |
-| `skills-staging/cowork-brief/` | Refine raw request → compact instruction-paragraph |
 | `skills-staging/repo-surgeon/` | Holistic architecture audit, orphan cleanup |
-| `skills-staging/tell-me/` | Codebase tour / explainer skill |
-| `skills-staging/usage-auditor/` | Token / API usage audit |
 
 Each is an independent copy. Edits here do NOT cross-propagate to the sibling journal repo.
+
+**Removed 2026-06-02:** `cowork-brief`, `tell-me`, `usage-auditor` — ADLC/journal-repo tools with no invocation path in podcast-factory. Tombstoned in `docs/reference/skill-registry.md`.
 
 ---
 

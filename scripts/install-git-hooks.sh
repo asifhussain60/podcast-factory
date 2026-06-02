@@ -6,7 +6,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
-SRC_DIR="$REPO_ROOT/scripts/git-hooks"
+SRC_DIR="$REPO_ROOT/infra/git-hooks"
 DST_DIR="$REPO_ROOT/.git/hooks"
 
 if [ ! -d "$SRC_DIR" ]; then
