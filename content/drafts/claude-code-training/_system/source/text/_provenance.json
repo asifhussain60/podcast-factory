@@ -1,0 +1,27 @@
+{
+  "schema": "podcast.ingest-source-md/v1",
+  "generated_at": "2026-06-02T19:25:16.530990+00:00",
+  "book_slug": "claude-code-training",
+  "book_dir": "content/drafts/claude-code-training",
+  "category": "explainers",
+  "source_files": [
+    {
+      "name": "ep01-claude-code-vs-copilot.md",
+      "byte_size": 18863,
+      "word_count": 2881
+    },
+    {
+      "name": "ep02-how-claude-code-works.md",
+      "byte_size": 21782,
+      "word_count": 3340
+    },
+    {
+      "name": "ep03-getting-started.md",
+      "byte_size": 20845,
+      "word_count": 3112
+    }
+  ],
+  "total_word_count": 9333,
+  "azure_ocr": null,
+  "translator": null
+}
