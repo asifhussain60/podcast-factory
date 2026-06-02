@@ -86,7 +86,7 @@ Expect 5 PASS lines (Translator creds + Doc Intel creds + Translator live + Doc 
 
 ## Step 5.5 — Wire LLM APIs (Claude + Gemini)
 
-Anthropic Claude runs off the Max subscription (no API key on this Mac). Google Gemini needs an API key stored in keychain. Full reference: [infra/llm-apis/README.md](../../infra/llm-apis/README.md).
+Anthropic Claude runs off the Max subscription via `claude login` — no API key is needed for the main orchestrator pipeline. Google Gemini needs an API key stored in keychain. Full reference: [infra/llm-apis/README.md](../../infra/llm-apis/README.md).
 
 ```bash
 cd ~/PROJECTS/podcast-factory
@@ -95,6 +95,8 @@ bash infra/llm-apis/verify-llm-apis.sh      # Confirms both providers reachable
 ```
 
 To get the Gemini key value: open [aistudio.google.com/apikey](https://aistudio.google.com/apikey), find the `podcast-factory` row, click the copy icon.
+
+> **Note — `anthropic_api_key` keychain entry:** `scripts/podcast/segment_book.py` (a standalone segmentation utility, not called by the main orchestrator) falls back to a keychain entry named `anthropic_api_key` when `ANTHROPIC_API_KEY` env var is not set. If you plan to run `segment_book.py` directly, store your key: `security add-generic-password -s anthropic_api_key -a "$USER" -w`. The main `orchestrate_book.py` pipeline does NOT need this — it invokes the `claude` CLI which uses the Max subscription session.
 
 ## Step 5.7 — Set up the source library database (local knowledge corpus)
 

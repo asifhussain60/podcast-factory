@@ -1,6 +1,6 @@
 # Podcast — Ayyuhal Walad
 
-**Source:** *Ayyuhal Walad — My Dear Beloved Son (or Daughter)* by Imam Abu Hamid Muhammad al-Ghazali. English translation by Irfan Hasan, from the Urdu rendering of the Arabic original (compiled within *Majmu'a Rasail Imam Ghazali*). Original at [`_system/source/Ayyuhal-Walad.pdf`](computer:///Users/asifhussain/PROJECTS/journal/content/podcast/library/books/ayyuhal-walad/_system/source/Ayyuhal-Walad.pdf).
+**Source:** *Ayyuhal Walad — My Dear Beloved Son (or Daughter)* by Imam Abu Hamid Muhammad al-Ghazali. English translation by Irfan Hasan, from the Urdu rendering of the Arabic original (compiled within *Majmu'a Rasail Imam Ghazali*). Original at [`_system/source/Ayyuhal-Walad.pdf`](_system/source/Ayyuhal-Walad.pdf).
 
 **Slug:** `ayyuhal-walad` · **Episodes:** 5 (1:1 chapter↔episode mapping) · **Architecture:** v3.5 (chapter-as-source, phonetics in customize prompt only).
 
@@ -56,7 +56,7 @@ Fresh re-run, 2026-05-17. Prior workspace archived to `_archive/ayyuhal-walad-20
 
 ## Canonical references
 
-- Skill: [`skills-staging/podcast/SKILL.md`](computer:///Users/asifhussain/PROJECTS/journal/skills-staging/podcast/SKILL.md)
-- Challenger: [`.github/agents/podcast-challenger.agent.md`](computer:///Users/asifhussain/PROJECTS/journal/.github/agents/podcast-challenger.agent.md)
-- Cross-series episode index: [`content/podcast/.skill/registry.md`](computer:///Users/asifhussain/PROJECTS/journal/content/podcast/.skill/registry.md)
-- Shared Arabic / phonetics authority: [`content/_shared/arabic/`](computer:///Users/asifhussain/PROJECTS/journal/content/_shared/arabic/)
+- Skill: [`skills-staging/podcast/SKILL.md`](../../../../skills-staging/podcast/SKILL.md)
+- Challenger: [`.github/agents/podcast-challenger.agent.md`](../../../../.github/agents/podcast-challenger.agent.md)
+- Registry: [`_system/registry.md`](_system/registry.md)
+- Shared Arabic / phonetics authority: [`content/_shared/arabic/`](../../../../content/_shared/arabic/)

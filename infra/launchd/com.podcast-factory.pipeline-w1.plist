@@ -1,73 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  TEMPLATE — do NOT load this file directly.
+
+  Generate a machine-specific plist by running:
+      bash infra/launchd/install-pipeline-w1.sh install
+
+  That script resolves the repo root at runtime and writes a correctly-pathed
+  plist to ~/Library/LaunchAgents/ before loading it via launchctl.
+
+  Why: launchd plists do not support shell variable expansion, so any plist
+  stored in the repo must treat absolute paths as stale. The generator script
+  uses $(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd) to anchor everything to
+  the real clone location on this machine.
+-->
 <plist version="1.0">
 <dict>
     <key>Label</key>
     <string>com.podcast-factory.pipeline-w1</string>
 
-    <!--
-        Walk-away mode for podcast pipeline Wave 1.
-
-        Fires `python3 scripts/podcast/run_wave.py 1` once an hour.
-        The script is idempotent: if W1 is already DONE, exit 0; otherwise
-        it iterates the phase registry (scripts/podcast/phases/) running
-        unfinished phases until either:
-          • W1 fully completes (every acceptance row checked) → exit 2
-          • A phase halts at a human-review gate                → exit 3
-          • An error surfaces                                    → exit 1
-          • W1 done but P-9 invariant violated                   → exit 4
-
-        Exit codes are logged but launchd does NOT escalate on non-zero —
-        the next tick re-runs and either picks up where left off or stays
-        halted until the operator addresses the gate.
-
-        Install:
-            cp infra/launchd/com.podcast-factory.pipeline-w1.plist \
-               ~/Library/LaunchAgents/
-            launchctl load ~/Library/LaunchAgents/com.podcast-factory.pipeline-w1.plist
-
-        Pause:
-            launchctl unload ~/Library/LaunchAgents/com.podcast-factory.pipeline-w1.plist
-
-        Fire once on demand:
-            launchctl start com.podcast-factory.pipeline-w1
-
-        Tail the log:
-            tail -F ~/Library/Logs/podcast-w1.log
-    -->
-
     <key>ProgramArguments</key>
     <array>
-        <string>/opt/homebrew/bin/python3</string>
-        <string>/Users/ahussain/GitRepo/ASIF/podcast-factory/scripts/podcast/run_wave.py</string>
-        <string>1</string>
+        <string>GENERATED_AT_INSTALL_TIME</string>
     </array>
 
     <key>WorkingDirectory</key>
-    <string>/Users/ahussain/GitRepo/ASIF/podcast-factory</string>
+    <string>GENERATED_AT_INSTALL_TIME</string>
 
-    <!-- Run every 3600 seconds (1 hour). Adjust StartInterval to taste. -->
     <key>StartInterval</key>
     <integer>3600</integer>
 
-    <!-- Do NOT run more than one instance concurrently. -->
     <key>AbandonProcessGroup</key>
     <false/>
 
-    <!-- Log stdout + stderr separately so progress is easy to follow. -->
     <key>StandardOutPath</key>
-    <string>/Users/ahussain/Library/Logs/podcast-w1.log</string>
-    <key>StandardErrorPath</key>
-    <string>/Users/ahussain/Library/Logs/podcast-w1.err</string>
+    <string>GENERATED_AT_INSTALL_TIME</string>
 
-    <!-- Inherit PATH + basic env from the user shell so claude/git/python work. -->
+    <key>StandardErrorPath</key>
+    <string>GENERATED_AT_INSTALL_TIME</string>
+
     <key>EnvironmentVariables</key>
     <dict>
         <key>PATH</key>
-        <string>/opt/homebrew/bin:/opt/homebrew/opt/python@3.14/bin:/usr/local/bin:/usr/bin:/bin</string>
+        <string>/opt/homebrew/bin:/opt/homebrew/opt/python@3.11/bin:/usr/local/bin:/usr/bin:/bin</string>
     </dict>
 
-    <!-- Don't run on login; run only on the StartInterval cadence. -->
     <key>RunAtLoad</key>
     <false/>
 </dict>

@@ -36,7 +36,9 @@ Current library: `content/knowledge-base/quran.jsonl`, `hadith.jsonl` (may be ne
 Gate report at `_workspace/plan/wisdom-gate-report.md` lists 18 chapters with FAIL verdict. Re-adapt + re-challenge each:
 
 ```bash
-VENV=/Users/asifhussain/PROJECTS/podcast-factory/_workspace/source-library/.venv/bin/python
+# Anchor to the repo root — works on any machine/clone path
+REPO_ROOT=$(git -C "$(dirname "$0")" rev-parse --show-toplevel 2>/dev/null || pwd)
+VENV="${REPO_ROOT}/_workspace/source-library/.venv/bin/python"
 $VENV -m tools.content_translator adapt-auto wisdom --binder {N} --chapter {M}
 $VENV -m tools.content_translator challenge wisdom --binder {N} --chapter {M}
 ```
