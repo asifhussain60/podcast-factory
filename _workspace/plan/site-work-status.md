@@ -20,15 +20,11 @@
 - `astro check`: 0 errors (from prior session; not re-run this session)
 - `lint:views`: errors=0 warns=0 (from prior session)
 
-**OPEN DEBT (tracked, not blocking):**
-- **F38 tail** (LOW) — `_chunking.py` legacy `claude -p` fallback kept for test back-compat
-  (5 tests mock `subprocess.run`). Dead in production — all callers pass `_invoke_fn`.
-  Cleanup requires updating the 5 affected tests; deferred to a dedicated session.
-- **DR-005** — FULLY RETIRED. All files now under 600-line cap.
+**OPEN DEBT:**
+- None. F38 and DR-005 both fully retired as of 2026-06-02.
 
-**NEXT WORK (authorized, in order):**
-1. Wave K — authorize scope (discuss with Asif: Intelligence Pipeline Wave 2,
-   video visual layer, or Ayyuhal Walad run)
+**NEXT WORK:**
+- Wave K — scope TBD (discussing with Asif)
 
 **PARKED:**
 - Site redesign (IA complete; WC8.5 TipTap Studio rebuild deferred)
