@@ -1,6 +1,7 @@
 ---
 name: podcast-auditor
-description: Repo-level health audit for podcast-factory. Surfaces drift, regressions, gaps, and refactor opportunities across the operational surface (pipeline scripts, skill files, agent specs, plan docs). Identify-only in v1.0. Produces a structured report with severity-ranked findings.
+deprecated: "2026-06-02 — superseded by repo-surgeon --scope podcast (skills-staging/repo-surgeon/skill.md Pass 2b). Existing callers continue to work; migrate to: /repo-surgeon --scope podcast"
+description: "DEPRECATED: use repo-surgeon --scope podcast instead. Repo-level health audit for podcast-factory. Surfaces drift, regressions, gaps, and refactor opportunities across the operational surface (pipeline scripts, skill files, agent specs, plan docs). Identify-only in v1.0. Produces a structured report with severity-ranked findings."
 tools: Read, Bash, Grep, Glob
 auditor_contract:
   max_iterations: 1

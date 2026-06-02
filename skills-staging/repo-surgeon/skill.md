@@ -92,6 +92,7 @@ Pass 5: Plan Conformance      → v2 plan YAML/MD/HTML parity, intelligence-sour
 | `--root-only` | Shortcut: only Pass 1 Rule R1 (root hygiene). |
 | `--plan-only` | Shortcut: only Pass 5 (plan conformance + boundary + async-safety). |
 | `--plan-path <path>` | Override the default `_workspace/plan/refactor/plan.yaml` location (e.g., when reviewing a future second plan). |
+| `--scope podcast` | Run Pass 2b: Podcast Pipeline Probes (supersedes the standalone `podcast-auditor` agent). Covers the 13 probes across Efficiency / Accuracy / Scalability / Extensibility / Hygiene axes against `scripts/podcast/`. |
 
 ---
 
@@ -196,6 +197,38 @@ grep -rnE "readdirSync|glob\\.sync|require\\.context" --include='*.js' . 2>/dev/
 ```
 
 If ANY of the three returns a hit referencing this candidate, downgrade to "POSSIBLE ORPHAN — verify before deletion" / **P2**. `--fix` does NOT delete; operator review required. Only if all three are clean is the candidate a confirmed orphan at **P1**.
+
+---
+
+## Pass 2b: Podcast Pipeline Probes (`--scope podcast`)
+
+**Goal:** Surface drift, dead code, and regressions specific to `scripts/podcast/`. Runs in addition to Pass 2 when `--scope podcast` is passed. Supersedes the standalone `podcast-auditor` agent (deprecated 2026-06-02).
+
+**Scope:** `scripts/podcast/**/*.py`, `skills-staging/podcast/SKILL.md`, `.github/agents/*.agent.md`, `_workspace/plan/**/*.md`, `CLAUDE.md`.
+
+**Out of scope:** `plan-dashboard/` (Astro SPA), `infra/azure/` (deployment), `node_modules/`, `dist/`, sibling journal repo.
+
+**Probes (13 total across 5 axes):**
+
+| ID | Axis | Severity | What to detect |
+|---|---|---|---|
+| AU-E1 | Efficiency | P1 | **Dead code** — Python modules nothing imports, scripts no agent/phase invokes. Build call graph from `import` + subagent_type refs + `python3 scripts/podcast/X.py` calls across all `.md`/`.py` files. |
+| AU-E2 | Efficiency | P1 | **Duplicate scripts** — Overlapping responsibilities. Cluster by function-name overlap, docstring topic, read/write footprint. |
+| AU-E3 | Efficiency | P1 | **Validation duplication** — Same check in N>1 places (em-dash, HTML comments, META_PROSE_TELLS, word-count bands). |
+| AU-A1 | Accuracy | P0 | **Spec ↔ code drift** — Docs that reference paths/scripts/constants that no longer exist. Extract path-like strings from all `.md`; verify on disk. |
+| AU-A2 | Accuracy | P0 | **Version-constant drift** — `CHALLENGER_VERSION` in `_rules.py` vs frontmatter in `podcast-challenger.agent.md`; `SLIDE_DECK_CHALLENGER_VERSION` in `_rules.py` vs `slide-deck-challenger.agent.md`. |
+| AU-A3 | Accuracy | P0 | **Registry ↔ disk drift** — `_system/registry.md` rows whose Slug doesn't match any `chapters/ch##-<slug>.txt`; chapter files with no registry row. |
+| AU-S1 | Scalability | P1 | **Magic numbers** — ALL_CAPS integer/float literals that look like config but aren't (`MAX_OUTER_ITERATIONS`, `WORD_COUNT_FLOOR`, `COST_CAP_USD`). |
+| AU-S2 | Scalability | P0 | **Hardcoded absolute paths** — `/Users/` or `/home/` in Python source outside test fixtures / state-file provenance. |
+| AU-S3 | Scalability | P1 | **Cost-cap leakage** — New LLM/Azure calls that don't contribute to `orchestrator-state.json`'s cost dict. |
+| AU-X1 | Extensibility | P1 | **Hard-coded enums** — Category/status lists >3 elements appearing in >1 file that should be a registry. |
+| AU-X2 | Extensibility | P1 | **Missing plugin points** — Classes/functions with the same shape in N>1 places without a registration pattern. |
+| AU-X3 | Extensibility | P2 | **Convention drift** — Recent additions that don't match established naming/file-layout/invocation patterns. |
+| AU-H1 | Hygiene | P1 | **Workspace-root sprawl** — Files at any folder root not in vacuum's root-legit whitelist (vacuum.agent.md §9). Report with `delegate_to: vacuum`. |
+
+**Findings:** emit one JSONL record per finding to `content/podcast/.skill/_learning/findings.jsonl` with `source: "repo-surgeon/podcast"` and `finding_id` prefixed `AU`. Report written to `_workspace/audit-reports/<ISO>-podcast-probes.md`.
+
+**Verdict:** same as podcast-auditor — `healthy` (zero P0, ≤3 P1), `drift-detected` (≥1 P0 or ≥4 P1), `regression-detected` (≥3 P0).
 
 ---
 
