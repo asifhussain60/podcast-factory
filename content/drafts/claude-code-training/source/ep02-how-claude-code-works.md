@@ -15,6 +15,35 @@ Episode 1 told listeners *that* Claude Code is different. This episode explains 
 
 ---
 
+## PODCAST FORMAT GUIDANCE
+
+**Episode opening — use this to begin the episode:**
+> Welcome back to *Claude Code: From Copilot to Agentic AI*. In episode one we covered what Claude Code is and where it fits alongside Copilot. This episode goes one level deeper: how does it actually work? We're going to walk through the agentic loop, the tools that power it, how Claude Code remembers your project across sessions, and how you enforce rules that go beyond just asking nicely. By the end of this episode, you'll have the mental model you need to use Claude Code deliberately — not just experimentally.
+
+**Format:** Teacher-student dialogue, approximately 20 minutes.
+
+**Teacher (male voice):** Builds the agentic mental model from scratch, using concrete tool-by-tool explanations. His job this episode is to give the student an accurate working model — not "Claude Code is like Copilot but more," but something genuinely useful for understanding how to use it well.
+
+**Student (female voice):** She's listened to Episode 1. She understands the architectural difference conceptually. Now she wants the mechanics — how does it actually do what it does? Her questions this episode are "how does that actually work?", "what's the closest Copilot analogy for this?" and, at key moments, "so this is genuinely new territory — how do developers handle it?" She is engaged and building understanding actively, not being converted.
+
+**Narrative arc:** Start with the agentic loop (the engine), build through the tools that power it, arrive at CLAUDE.md as persistent memory, Hooks as the enforcement layer, and MCP as extensibility. End with the practical picture of what it costs to run and how to keep it manageable.
+
+**Student question hooks — plant these throughout:**
+- "So every time it reads a file, that costs tokens? How does that scale compared to Copilot's context window?"
+- "When you say it can run tests autonomously — what stops it from running in a loop indefinitely?"
+- "Copilot just works without any per-project setup. Why do I need CLAUDE.md? What's the tradeoff?"
+- "Hooks sound like real configuration work. Is this something most developers set up, or is it advanced?"
+- "Copilot also supports MCP now — is MCP still a meaningful differentiator for Claude Code?"
+
+**Where Claude Code has no direct Copilot analogy — frame these as "new capabilities to learn," not gaps in Copilot:**
+- CLAUDE.md: Copilot has no persistent project-level memory that travels across sessions. This is something to set up and maintain — it is effort, but it is also the reason Claude Code behaves consistently on your project over time.
+- Hooks: Copilot has no lifecycle enforcement layer. Hooks are genuinely new — they let you hard-block actions regardless of what the prompt says, which CLAUDE.md cannot do.
+- Sub-agents (Task tool): Copilot has specialized agents but no user-defined parallel sub-agent spawning within a task. This is advanced capability; don't oversell it for day-one use.
+
+**Tone note:** The student is honest about the learning curve and the teacher should be too. When something requires effort — Hooks configuration, CLAUDE.md maintenance, context window discipline — acknowledge it plainly and explain why it is worth the effort. Do not oversell. The student will trust the teacher more for being accurate about costs than for downplaying them.
+
+---
+
 ## PART 1 — THE AGENTIC LOOP
 
 ### What "Agentic" Means Structurally
@@ -80,13 +109,15 @@ From official security documentation:
 
 From permissions documentation: a fixed set of read-only commands — including `ls`, `cat`, `echo`, `pwd`, `head`, `tail`, `grep`, `find`, `wc`, `diff`, `stat`, `du`, `cd`, and read-only git forms — **execute without a permission prompt in every mode.** The set is not configurable.
 
-### Multi-Agent: Claude Can Spawn Sub-Agents
+### Multi-Agent: Claude Can Spawn Sub-Agents (What Claude Code Adds: Parallelism at Scale)
 
-The Task tool lets Claude spawn parallel sub-agents. "A lead agent coordinates the work, assigns subtasks, and merges results" — this is how Claude Code handles tasks too large for a single context window, like a 50,000-line migration.
+The Task tool lets Claude spawn parallel sub-agents. "A lead agent coordinates the work, assigns subtasks, and merges results" — this is how Claude Code handles tasks too large for a single context window, like a 50,000-line migration. This is advanced capability; the teacher should introduce it as a ceiling of what's possible, not a day-one feature to configure.
 
 ---
 
-## PART 3 — CLAUDE.md AND PERSISTENT MEMORY
+## PART 3 — CLAUDE.md AND PERSISTENT MEMORY (WHAT CLAUDE CODE ADDS: SESSION CONTINUITY)
+
+**[This is a clean teaching moment. The student will ask "why do I need this when Copilot just works?" The honest answer: Copilot's short context window means it has never carried project knowledge across sessions — it works from what's in your open tabs. Claude Code has a 1M-token context window and is explicitly designed to operate across your entire codebase — which means the responsibility of carrying your project conventions falls to you. CLAUDE.md is how you do that. Frame it as the natural consequence of having a bigger, more capable context: more power, more responsibility to direct it well.]**
 
 ### The Session Problem
 
@@ -162,7 +193,9 @@ Custom slash commands have been merged into the Skills system. A `SKILL.md` file
 
 ---
 
-## PART 5 — HOOKS: THE ENFORCEMENT LAYER
+## PART 5 — HOOKS: THE ENFORCEMENT LAYER (WHAT CLAUDE CODE ADDS: DETERMINISTIC CONTROL)
+
+**[This section introduces something genuinely new — not a gap in Copilot, but a capability class that doesn't exist in the inline completion model at all. The distinction to land clearly: CLAUDE.md is instruction — "please don't do X." A Hook is enforcement — "block any command matching X, regardless of what the prompt says." These are different in kind, not degree. The teacher should make this concrete with an example before going into the technical details. Something like: "If you want Claude to never run git push on a certain branch, CLAUDE.md is a reminder. A Hook is a lock."]**
 
 From official hooks documentation (`code.claude.com/docs/en/hooks`):
 

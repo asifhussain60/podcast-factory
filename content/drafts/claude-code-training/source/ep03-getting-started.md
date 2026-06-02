@@ -15,6 +15,32 @@ This is the hands-on episode. Listeners should finish it able to install, authen
 
 ---
 
+## PODCAST FORMAT GUIDANCE
+
+**Episode opening — use this to begin the episode:**
+> Welcome to the final episode of *Claude Code: From Copilot to Agentic AI*. In episodes one and two we covered what Claude Code is, where it fits alongside Copilot, and how its core mechanics work. This episode is the practical one. We're going to walk through installation, authentication, your first real session, and the ten things that will trip you up in your first week if nobody warns you. By the end, you'll have an action plan you can follow today.
+
+**Format:** Teacher-student dialogue, approximately 20 minutes.
+
+**Teacher (male voice):** In practical mode. This episode is a walkthrough. He's guided many Copilot users through the first session and knows exactly where the friction points are. He anticipates them before the student hits them — and when she does hit one, he validates it rather than dismissing it.
+
+**Student (female voice):** She's ready to try it. She has the mental model from Episodes 1 and 2 and wants to go from understanding to doing. Her questions this episode are practical: "what do I do first?", "what's going to feel strange coming from Copilot?", "what should I set up before I start on a real task?" Her energy is forward-moving — she is ready, not impatient.
+
+**Narrative arc:** Install → authenticate (with the API key gotcha) → first session → CLAUDE.md setup → the ten gotchas (this is where the episode earns its value). End with the day-one checklist as the student's concrete action plan.
+
+**Student question hooks — plant these throughout:**
+- "Do I need to uninstall Copilot first, or can they run at the same time?"
+- "I have ANTHROPIC_API_KEY set in my environment from another project — does that cause any issues?"
+- "I opened it and I'm looking at a terminal prompt. Where do I start? There are no suggestions appearing."
+- "It asked me for permission to edit a file. Copilot just edits automatically — is this normal behavior?"
+- "How do I know if the context window is getting full? Does it warn me before performance drops?"
+
+**The day-one checklist at the end should feel like the student's action plan** — the teacher walking her out the door with exactly what she needs to succeed in her first real session.
+
+**Tone note:** This episode's energy is practical and forward-looking. When the gotchas come up, the teacher validates each one as real friction — he does not dismiss or minimize. The student's Copilot intuitions are often correct for Copilot; the teacher's job is to redirect them accurately for Claude Code, not to make her feel wrong for having them.
+
+---
+
 ## PART 1 — PREREQUISITES
 
 From `code.claude.com/docs/en/setup`:
@@ -335,7 +361,7 @@ These are the ten friction points Copilot users consistently hit in their first 
 
 **3. Terminal-first paradigm.** Claude Code is terminal-first. The VS Code extension is a native panel (not inline), and the strongest experience is the CLI.
 
-**4. No native GitHub workflow integration.** Copilot is deeply embedded in GitHub: PR summaries, reviewer suggestions, commit messages in the web UI. Claude Code interacts with GitHub through standard git commands and the `gh` CLI. No native GitHub PR review from the web UI.
+**4. GitHub workflows use standard git and gh CLI, not native Copilot integrations.** Copilot is deeply embedded in GitHub's web UI — PR summaries, reviewer suggestions, commit messages all happen inside GitHub. Claude Code does the same things through standard git commands and the `gh` CLI. If you already know git and gh, the translation is direct: "summarize these changes" becomes a prompt, "create a PR" becomes a `gh pr create` call that Claude Code can make on your behalf. The experience is terminal-first rather than web-native, but the underlying capability is equivalent for most workflows.
 
 **5. Cost model difference.** Copilot is a flat subscription per seat. Claude Code on Pro/Max includes usage within plan limits. If you hit limits, the session pauses. Claude Code via Console API is pay-per-token with no soft rate limit.
 
