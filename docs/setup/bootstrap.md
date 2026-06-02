@@ -60,41 +60,56 @@ git log --oneline -5    # Sanity-check recent history
 
 The repo is flat (no worktrees container). Books in flight live under [`content/drafts/<slug>/`](../../content/drafts/); shipped books live under [`content/published/books/<slug>/`](../../content/published/books/).
 
-## Step 5 — Wire Azure (ONLY if this Mac drives Azure pipeline phases)
+## Step 4.5 — Install git hooks and Claude skills
 
-The pipeline uses three Azure services: Document Intelligence (OCR), Translator (ar→en + others), and Speech (audio transcription). Credentials live in the macOS Keychain so the scripts can find them without env vars or dotfiles.
+```bash
+cd ~/PROJECTS/podcast-factory
+
+# Enforce DR-009 (no version markers) + HTML-view quality gate on every commit:
+bash scripts/install-git-hooks.sh
+
+# Install Claude agent specs into .claude/agents/ (required for orchestrator, challenger, etc.):
+bash scripts/install-claude-skills.sh
+```
+
+Both scripts are idempotent — safe to re-run after pulling new hook or skill versions.
+
+## Step 5 — Wire Azure credentials (ONLY if this Mac drives pipeline phases)
+
+All credentials are stored in Azure Key Vault (`podcast-factory-vault`). A single command pulls everything into the local Keychain.
 
 ```bash
 cd ~/PROJECTS/podcast-factory/infra/azure
 az login
 az account set --subscription "Journal AI — primary"
-
-# One-time provisioning if the Azure resources don't exist yet:
-bash provision-azure.sh         # Idempotent; safe to re-run
-# Always:
-bash store-keychain-keys.sh     # Pulls keys/endpoints/regions into Keychain
+bash pull-secrets.sh
 ```
 
-Verify with the connectivity probe:
+`pull-secrets.sh` pulls all 14+ secrets (Translator, Document Intelligence, Speech, Storage, Gemini, Anthropic keys) from Key Vault into the local Keychain, then runs the connectivity test automatically.
 
+Expect the script to end with `pass 5  fail 0  ✓ Azure connectivity OK`.
+
+**First-time Azure provisioning only** (blank Azure subscription — not a new Mac):
 ```bash
-cd ~/PROJECTS/podcast-factory
-python3 scripts/podcast/test_azure_connectivity.py
+bash provision-azure.sh          # Creates all Azure resources
+bash store-keychain-keys.sh      # Local Keychain ← Azure
+bash migrate-to-keyvault.sh      # Key Vault ← local Keychain
 ```
 
-Expect 5 PASS lines (Translator creds + Doc Intel creds + Translator live + Doc Intel reachable + Speech creds). Speech is optional and prints `PASS (skipped)` if the credentials aren't yet provisioned — that's fine if you don't plan to transcribe audio yet.
+Full reference: [docs/setup/azure-stack.md](azure-stack.md).
 
 ## Step 5.5 — Wire LLM APIs (Claude + Gemini)
 
-Anthropic Claude runs off the Max subscription (no API key on this Mac). Google Gemini needs an API key stored in keychain. Full reference: [infra/llm-apis/README.md](../../infra/llm-apis/README.md).
+Anthropic Claude runs off the Max subscription (no API key needed on operator Macs — `claude login` in Step 3 covers it). Google Gemini and the Anthropic API key are already included in the Key Vault pull from Step 5.
+
+Verify both providers:
 
 ```bash
 cd ~/PROJECTS/podcast-factory
-bash infra/llm-apis/bootstrap-llm-apis.sh   # Prompts you to paste the Gemini key (silent)
-bash infra/llm-apis/verify-llm-apis.sh      # Confirms both providers reachable
+bash infra/llm-apis/verify-llm-apis.sh
 ```
 
-To get the Gemini key value: open [aistudio.google.com/apikey](https://aistudio.google.com/apikey), find the `podcast-factory` row, click the copy icon.
+Full reference: [infra/llm-apis/README.md](../../infra/llm-apis/README.md).
 
 ## Step 5.7 — Set up the source library database (local knowledge corpus)
 
