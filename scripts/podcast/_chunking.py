@@ -24,8 +24,8 @@ DESIGN
      suffix from the prior window for cross-window coherence.
 
   2. `run_windowed(...)` — checkpointed driver. For each window, writes
-     a `_chunks/<phase>/win-<NNN>.in.md` input, calls `claude -p` with a
-     caller-supplied prompt builder, writes the output to
+     a `_chunks/<phase>/win-<NNN>.in.md` input, calls the caller-supplied
+     `_invoke_fn` (SDK path, DR-015/F38), writes the output to
      `_chunks/<phase>/win-<NNN>.out.md`. Skips windows whose `.out.md`
      already exists and is non-empty (resume-safe). Returns the ordered
      list of output paths.
@@ -62,7 +62,6 @@ from __future__ import annotations
 
 import os
 import re
-import subprocess
 import sys
 import tempfile
 from dataclasses import dataclass
@@ -78,7 +77,6 @@ except ImportError:
 # Signature: (instructions, body, timeout_secs) -> output_text
 InvokeFn = Callable[[str, str, int], str]
 
-CLAUDE_CMD = "claude"
 DEFAULT_TARGET_WORDS = 3000
 DEFAULT_OVERLAP_WORDS = 120
 DEFAULT_WINDOW_TIMEOUT = 600   # 10 min per window — generous; small windows finish in ~1-2 min
@@ -290,13 +288,12 @@ def run_windowed(
     phase: str = "",
     model: str = "claude-opus-4-7",
     max_workers: int = 1,
-    _invoke_fn: "InvokeFn | None" = None,
+    _invoke_fn: "InvokeFn",
 ) -> list[Path]:
-    """Drive LLM calls once per window with checkpointing.
+    """Drive LLM calls once per window with checkpointing (SDK path, DR-015/F38).
 
-    When `_invoke_fn` is provided (SDK path, DR-015), Python handles file I/O
-    and the callable receives (instructions, body, timeout_secs) -> text.
-    When `_invoke_fn` is None (legacy path), falls back to `claude -p` subprocess.
+    Python handles file I/O; `_invoke_fn` receives (instructions, body, timeout_secs)
+    and returns the processed text string (empty string on failure).
 
     Arguments:
       text                — full source text to chunk
@@ -304,25 +301,19 @@ def run_windowed(
       prompt_builder      — callable(body, idx, total, out_path) → prompt string
       target_words        — words per window (default 3000)
       overlap_words       — context-overlap suffix from prior window (default 120)
-      timeout_per_window  — per-shellout timeout in seconds (default 600)
+      timeout_per_window  — per-window timeout in seconds passed to _invoke_fn (default 600)
       log                 — callable for progress logging (default print)
       book_dir            — (optional) book directory; if provided, appends a
                             cost-ledger row per window via `_cost_ledger` (P6.1).
       phase               — (optional) phase label for ledger rows (e.g., "0b").
       model               — model name label for ledger rows.
-      max_workers         — F34-second (2026-05-25): if > 1, runs window
-                            shellouts in a ThreadPoolExecutor of size
-                            max_workers; each thread runs claude -p
-                            synchronously but the pool processes multiple
-                            windows in parallel. Threads are I/O-bound
-                            (waiting for subprocess.run) so the GIL is
-                            released — true wall-clock speedup. cost-ledger
-                            and the failures list are protected by fcntl +
-                            Python lock respectively. Default 1 = prior
-                            sequential behavior.
+      max_workers         — if > 1, runs windows in a ThreadPoolExecutor. Threads
+                            are I/O-bound (waiting on the SDK); true wall-clock
+                            speedup. cost-ledger and failures list are protected by
+                            Python lock. Default 1 = sequential behavior.
 
     Returns the ordered list of out_path objects (one per window, in order).
-    Raises ChunkingError if the claude binary is missing or every window fails.
+    Raises ChunkingError if every window fails.
     """
     chunks_dir.mkdir(parents=True, exist_ok=True)
     windows = list(iter_windows(text, target_words=target_words, overlap_words=overlap_words))
@@ -360,111 +351,30 @@ def run_windowed(
     state_lock = _threading.Lock()
 
     def _process_window(idx: int, body: str, out_path: Path) -> None:
-        """Worker — runs one window. Safe to call in a thread."""
+        """Worker — runs one window via SDK path. Safe to call in a thread."""
         in_path = chunks_dir / f"win-{idx:03d}.in.md"
         # Write the input chunk for provenance.
         _atomic_write(in_path, body)
         prompt = prompt_builder(body, idx, total, out_path)
 
-        # ── SDK path (DR-015 / F38) ──────────────────────────────────────────
-        if _invoke_fn is not None:
-            log(f"    win {idx:03d}/{total} · invoking SDK ({_word_count(body)} words in)")
-            output_text = _invoke_fn(prompt, body, timeout_per_window)
-            if not output_text:
-                with state_lock:
-                    failures.append((idx, "SDK returned empty output"))
-                log(f"    win {idx:03d}/{total} · FAILED (empty SDK response)")
-                return
-            _atomic_write(out_path, output_text)
-            if book_dir is not None:
-                try:
-                    from _cost_ledger import append_cost_row
-                    append_cost_row(
-                        book_dir, phase=phase or "(unspecified)",
-                        step=f"win-{idx:03d}", model=model,
-                        input_tokens=0, output_tokens=0,
-                    )
-                except Exception:  # noqa: BLE001
-                    pass
-            log(f"    win {idx:03d}/{total} · OK ({out_path.stat().st_size} bytes)")
-            return
-
-        # ── Legacy subprocess path (claude -p) — kept for backward compat ───
-        log(f"    win {idx:03d}/{total} · invoking claude -p ({_word_count(body)} words in)")
-        try:
-            proc = subprocess.run(
-                [CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits", prompt],
-                capture_output=True,
-                text=True,
-                timeout=timeout_per_window,
-            )
-            rc = proc.returncode
-            stdout = proc.stdout or ""
-            stderr = proc.stderr or ""
-        except FileNotFoundError as e:
-            # CLAUDE_CMD missing is a fatal config error — fail fast.
+        log(f"    win {idx:03d}/{total} · invoking SDK ({_word_count(body)} words in)")
+        output_text = _invoke_fn(prompt, body, timeout_per_window)
+        if not output_text:
             with state_lock:
-                if not fatal_error:
-                    fatal_error.append(ChunkingError(
-                        f"`{CLAUDE_CMD}` not found on PATH.",
-                        manual_fallback="Install Claude Code CLI or add to PATH.",
-                    ))
+                failures.append((idx, "SDK returned empty output"))
+            log(f"    win {idx:03d}/{total} · FAILED (empty SDK response)")
             return
-        except subprocess.TimeoutExpired:
-            with state_lock:
-                failures.append((idx, f"timed out after {timeout_per_window}s"))
-            log(f"    win {idx:03d}/{total} · TIMEOUT")
-            return
-
-        # Cost-ledger append (already fcntl-LOCK_EX-protected per F34-second).
+        _atomic_write(out_path, output_text)
         if book_dir is not None:
             try:
-                from _cost_ledger import append_from_claude_p_stdout
-                append_from_claude_p_stdout(
-                    book_dir,
-                    phase=phase or "(unspecified)",
-                    step=f"win-{idx:03d}",
-                    model=model,
-                    stdout=stdout,
+                from _cost_ledger import append_cost_row
+                append_cost_row(
+                    book_dir, phase=phase or "(unspecified)",
+                    step=f"win-{idx:03d}", model=model,
+                    input_tokens=0, output_tokens=0,
                 )
-            except Exception as e:  # noqa: BLE001
-                sys.stderr.write(f"[run_windowed] cost-ledger append failed: {e!r}\n")
-
-        if rc != 0:
-            with state_lock:
-                failures.append(
-                    (idx,
-                     f"rc={rc}: stderr={stderr.strip()[:300]} | stdout={stdout.strip()[:300]}")
-                )
-            log(f"    win {idx:03d}/{total} · FAILED rc={rc}")
-            return
-
-        if not out_path.exists() or out_path.stat().st_size == 0:
-            # P5.1 failure class — fatal, not retryable.
-            with state_lock:
-                if not fatal_error:
-                    fatal_error.append(ChunkingError(
-                        (
-                            f"win {idx:03d}/{total} returned rc=0 but produced no artifact "
-                            f"at {out_path}. This is the P5.1 failure class — the LLM "
-                            f"call exited cleanly but did not write the expected file. "
-                            f"After --permission-mode acceptEdits, recurrence indicates "
-                            f"a content-filter refusal, quota hit, or prompt issue."
-                        ),
-                        manual_fallback=(
-                            f"1. Inspect the stdout/stderr attached to this error to "
-                            f"identify the refusal reason.\n"
-                            f"2. If the prompt needs adjusting, edit and resume.\n"
-                            f"3. If it's a transient quota issue, retry the same window.\n"
-                            f"4. Drive the window manually via the /podcast skill if needed; "
-                            f"place output as `{out_path.name}` then re-resume.\n"
-                            f"5. DO NOT silently advance past this error."
-                        ),
-                        stdout=stdout,
-                        stderr=stderr,
-                    ))
-            return
-
+            except Exception:  # noqa: BLE001
+                pass
         log(f"    win {idx:03d}/{total} · OK ({out_path.stat().st_size} bytes)")
 
     # Dispatch — sequential (max_workers==1) or parallel (>1).
