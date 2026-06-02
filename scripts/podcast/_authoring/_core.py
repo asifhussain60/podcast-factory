@@ -46,10 +46,10 @@ CLAUDE_CMD = "claude"
 
 # ─── Content-category routing ─────────────────────────────────────────────────
 # Single source of truth for which categories follow the Islamic/Arabic scholarly
-# pipeline vs. which need alternative paths.  Add new categories here as they
+# pipeline vs. which need alternative paths. Add new categories here as they
 # are introduced; never hard-code category strings in phase modules.
 
-# All categories whose content is Islamic/Arabic scholarly.  These run the full
+# All categories whose content is Islamic/Arabic scholarly. These run the full
 # pipeline: OCR→translate, Phase 0b (scholarly refinement), Phase 0c (Arabic
 # phonetics), Phase 0d (scholarly chapter design), Phase 0e (7-tier Islamic
 # enrichment), Islamic framing prompt, Islamic challenger rules.
@@ -70,8 +70,8 @@ SKIP_ENRICHMENT_CATEGORIES: frozenset[str] = frozenset({
     "sites",
 })
 
-# Categories that skip Phase 04 (OCR + Azure translation) — source text is
-# already in English (scraped web content, synthesized markdown, etc.).
+# Categories that skip Phase 0a (OCR + Azure translation) — source text is
+# already in English (scraped web content, synthesized markdown, pre-written docs).
 SKIP_OCR_CATEGORIES: frozenset[str] = frozenset({
     "sites", "explainers",
 })
@@ -88,10 +88,10 @@ def _read_category(book_dir: "Path") -> str:
     The default of "books" guarantees that existing Islamic content that
     pre-dates category stamping continues to use the correct path.
     """
+    import json as _json
     state_path = book_dir / "_system" / "orchestrator-state.json"
     if state_path.exists():
         try:
-            import json as _json
             state = _json.loads(state_path.read_text(encoding="utf-8"))
             cat = state.get("category", "").strip()
             if cat:
@@ -122,7 +122,7 @@ class AuthoringError(RuntimeError):
         self.stderr = stderr
 
 
-DEFAULT_MODEL_LABEL = "claude-opus-4-7"
+DEFAULT_MODEL_LABEL = "claude-opus-4-8"
 
 
 def _run_claude_p(
