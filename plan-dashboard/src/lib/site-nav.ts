@@ -18,7 +18,8 @@ export type ActivePage =
   | 'planner'
   | 'system-map'
   | 'intake'
-  | 'corpus';
+  | 'corpus'
+  | 'pipeline-paths';
 
 /**
  * Four domains (locked 2026-06-01 IA redesign):
@@ -40,7 +41,7 @@ export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
   { href: '/studio', label: 'Studio', section: 'studio', pages: ['studio', 'workbench', 'intake'] },
   { href: '/library', label: 'Library', section: 'library', pages: ['library'] },
   { href: '/corpus', label: 'Corpus', section: 'corpus', pages: ['corpus', 'wisdom', 'db-schema'] },
-  { href: '/architecture', label: 'System', section: 'system', pages: ['architecture', 'intelligence', 'system-map', 'infrastructure', 'security', 'quality', 'plan', 'dashboard', 'planner', 'overview', 'about', 'annotation-ops'] },
+  { href: '/architecture', label: 'System', section: 'system', pages: ['architecture', 'intelligence', 'system-map', 'infrastructure', 'security', 'quality', 'plan', 'dashboard', 'planner', 'overview', 'about', 'annotation-ops', 'pipeline-paths'] },
 ];
 
 export const SUBNAV: Record<NavSection, NavLink[]> = {
@@ -66,6 +67,7 @@ export const SUBNAV: Record<NavSection, NavLink[]> = {
     { href: '/quality', label: 'Quality', pages: ['quality'] },
     { href: '/plan', label: 'Roadmap', pages: ['plan', 'dashboard', 'planner'] },
     { href: '/annotation-ops', label: 'Annotations', pages: ['annotation-ops'] },
+    { href: '/pipeline-paths', label: 'Pipeline Paths', pages: ['pipeline-paths'] },
     { href: '/overview', label: 'Operations', pages: ['overview'] },
     { href: '/about', label: 'About & Help', pages: ['about'] },
   ],

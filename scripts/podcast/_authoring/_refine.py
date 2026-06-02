@@ -18,8 +18,64 @@ from ._core import (  # noqa: E402
     PHASE_0C_OVERLAP_WORDS,
     PHASE_0C_WINDOW_TIMEOUT,
     AuthoringError,
+    ARABIC_SCHOLARLY_CATEGORIES,
+    SKIP_PHONETICS_CATEGORIES,
+    _read_category,
 )
 from _chunking import ChunkingError, concat_outputs, run_windowed  # noqa: E402
+
+
+def build_phase_0b_window_prompt_technical(
+    book_slug: str,
+    idx: int,
+    total: int,
+    win_in: "Path",
+    win_out: "Path",
+) -> str:
+    """Phase 0b refinement prompt for technical/developer content (explainers category).
+
+    Replaces the Arabic-preservation constraint with technical-content
+    preservation rules: CLI commands, code blocks, version numbers, and
+    official documentation quotes must survive the refinement pass unchanged.
+    Marketing hyperbole and spec hedging are the noise targets.
+    """
+    return (
+        f"You are driving Phase 0b (Technical Content Refinement) of the /podcast skill on "
+        f"book-slug `{book_slug}`, **window {idx} of {total}**.\n\n"
+        f"INPUT  (read this window only): `{win_in}`\n"
+        f"OUTPUT (write the refined window here): `{win_out}`\n\n"
+        f"This is one window in a sequence — DO NOT add chapter headings, intros, "
+        f"summaries, or transitions. Refine only the prose in the INPUT file. If the "
+        f"input begins with a `<!-- context-overlap -->` block, that is tail context "
+        f"for continuity — DO NOT re-emit it in your output; resume cleanly after it.\n\n"
+        f"**Page-marker invariant (CRITICAL).** The INPUT may contain `<!-- page N -->` "
+        f"HTML comments. Preserve every one verbatim and in-place. Do NOT move, collapse, "
+        f"renumber, or omit them.\n\n"
+        f"REFINEMENT GOALS for technical content:\n"
+        f"- Strip marketing hyperbole: remove phrases like 'revolutionary', 'game-changing', "
+        f"  'paradigm-shifting', 'supercharge', 'unleash potential', 'seamlessly'.\n"
+        f"- Strip spec hedging: remove 'may', 'might', 'could potentially', 'in some cases' "
+        f"  when the source documentation states facts definitively.\n"
+        f"- Improve prose flow for audio: break run-on sentences, clarify pronoun references, "
+        f"  make clause order logical when read aloud.\n"
+        f"- Do NOT invent content not present in the INPUT — technical accuracy is mandatory.\n\n"
+        f"PRESERVATION RULES (must survive refinement unchanged):\n"
+        f"- **CLI commands and shell syntax** — preserve exactly: `claude --version`, "
+        f"  `npm install -g @anthropic-ai/claude-code`, `curl -fsSL ...`, etc.\n"
+        f"- **Code blocks** — preserve all ` ``` ` fenced blocks and inline `backtick` code verbatim.\n"
+        f"- **Version numbers** — preserve exactly: '4.6', '18.0', 'v1.99', '2026-05-24'.\n"
+        f"- **Official product names** — preserve capitalisation: 'Claude Code', 'GitHub Copilot', "
+        f"  'NotebookLM', 'VS Code', 'Model Context Protocol', 'MCP'.\n"
+        f"- **URL references and file paths** — preserve exactly.\n"
+        f"- **Direct quotes from official documentation** — preserve verbatim; mark with "
+        f"  attribution context if it helps clarity.\n"
+        f"- **Numeric claims** — preserve exact figures (token counts, percentages, dollar amounts); "
+        f"  do NOT round or approximate.\n\n"
+        f"Constraints:\n"
+        f"- Do NOT modify any file other than `{win_out}`.\n"
+        f"- Do NOT wrap output in code fences or add preamble like 'Here is the refined text:'.\n\n"
+        f"Exit when `{win_out}` is non-empty."
+    )
 
 
 def build_phase_0b_window_prompt(
@@ -71,8 +127,17 @@ def author_phase_0b(
     overlap_words: int = PHASE_0B_OVERLAP_WORDS,
     window_timeout: int = PHASE_0B_WINDOW_TIMEOUT,
     log=print,
+    category: str | None = None,
 ) -> str:
-    """Refine the Azure-translated raw extract into clean English prose — windowed."""
+    """Refine the source text — windowed. Routes to the correct prompt per category.
+
+    category=None → auto-detected from _system/orchestrator-state.json / meta.yml.
+    Islamic/scholarly categories: scholarly-tone refinement with Arabic preservation.
+    explainers: technical-denoise (strip marketing, preserve CLI/code/version numbers).
+    sites: web-consumer-denoise (strip legal jargon, re-voice for plain English).
+    """
+    if category is None:
+        category = _read_category(book_dir)
     book_slug = book_dir.name
     in_path = book_dir / "_system" / "source" / "text" / "raw-extract.md"
     out_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
@@ -87,8 +152,14 @@ def author_phase_0b(
 
     raw_text = in_path.read_text(encoding="utf-8")
 
+    _use_technical = category not in ARABIC_SCHOLARLY_CATEGORIES and category != "sites"
+    _prompt_label = "technical" if _use_technical else ("consumer" if category == "sites" else "scholarly")
+    log(f"  phase 0b · category={category!r}, prompt-variant={_prompt_label!r}")
+
     def _builder(body: str, idx: int, total: int, win_out: Path) -> str:
         win_in = win_out.with_suffix("").with_suffix(".in.md")
+        if _use_technical:
+            return build_phase_0b_window_prompt_technical(book_slug, idx, total, win_in, win_out)
         return build_phase_0b_window_prompt(book_slug, idx, total, win_in, win_out)
 
     import os as _os
@@ -147,8 +218,21 @@ def author_phase_0c(
     overlap_words: int = PHASE_0C_OVERLAP_WORDS,
     window_timeout: int = PHASE_0C_WINDOW_TIMEOUT,
     log=print,
+    category: str | None = None,
 ) -> str:
-    """Add phonetic transcription for every Arabic / non-English term — windowed."""
+    """Add phonetic transcription for Arabic / non-English terms — windowed.
+
+    SKIPPED for categories in SKIP_PHONETICS_CATEGORIES (sites, explainers).
+    These categories have no Arabic terms requiring phonetic guidance.
+    Returns a skip message without writing _phonetics.md.
+    """
+    if category is None:
+        category = _read_category(book_dir)
+
+    if category in SKIP_PHONETICS_CATEGORIES:
+        log(f"  phase 0c · SKIPPED (category={category!r} has no Arabic terms)")
+        return f"0c skipped: category={category!r} does not require Arabic phonetic extraction"
+
     book_slug = book_dir.name
     in_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
     out_path = book_dir / "_system" / "source" / "text" / "_phonetics.md"

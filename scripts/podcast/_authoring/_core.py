@@ -45,32 +45,34 @@ def _compute_sc_timeout(words: int) -> int:
 CLAUDE_CMD = "claude"
 
 # ─── Content-category routing ─────────────────────────────────────────────────
-# Single source of truth for which pipeline phases each category runs.
-# Consumers import these constants; never hardcode category strings in phase
-# modules. New categories: add to ALLOWED_CATEGORIES in _rules.py first, then
-# add skip entries here as needed.
+# Single source of truth for which categories follow the Islamic/Arabic scholarly
+# pipeline vs. which need alternative paths. Add new categories here as they
+# are introduced; never hard-code category strings in phase modules.
 
 # All categories whose content is Islamic/Arabic scholarly. These run the full
 # pipeline: OCR→translate, Phase 0b (scholarly refinement), Phase 0c (Arabic
 # phonetics), Phase 0d (scholarly chapter design), Phase 0e (7-tier Islamic
 # enrichment), Islamic framing prompt, Islamic challenger rules.
-ARABIC_SCHOLARLY_CATEGORIES: frozenset = frozenset({
+ARABIC_SCHOLARLY_CATEGORIES: frozenset[str] = frozenset({
     "books", "letters", "lectures", "articles", "asbaaq", "documents", "interviews",
 })
 
-# Categories that skip Phase 0c (Arabic phonetics) — no Arabic terms to extract.
-SKIP_PHONETICS_CATEGORIES: frozenset = frozenset({
+# Categories that skip Phase 0c (Arabic phonetics) entirely — no Arabic terms
+# to extract, no _phonetics.md output needed.
+SKIP_PHONETICS_CATEGORIES: frozenset[str] = frozenset({
     "sites", "explainers",
 })
 
-# Categories that skip Phase 0e (enrichment) — source is already authoritative.
-SKIP_ENRICHMENT_CATEGORIES: frozenset = frozenset({
+# Categories that skip Phase 0e (enrichment) — source material is already
+# authoritative (product docs, official technical docs) and outside enrichment
+# would introduce inaccuracy.
+SKIP_ENRICHMENT_CATEGORIES: frozenset[str] = frozenset({
     "sites",
 })
 
-# Categories that skip Phase 0a (OCR + Azure translation) — source is already
-# in English (scraped web content, synthesized markdown, pre-written docs).
-SKIP_OCR_CATEGORIES: frozenset = frozenset({
+# Categories that skip Phase 0a (OCR + Azure translation) — source text is
+# already in English (scraped web content, synthesized markdown, pre-written docs).
+SKIP_OCR_CATEGORIES: frozenset[str] = frozenset({
     "sites", "explainers",
 })
 
@@ -82,6 +84,9 @@ def _read_category(book_dir: "Path") -> str:
       1. _system/orchestrator-state.json  → "category" field
       2. _system/meta.yml                 → "category:" line
       3. Default: "books" (Islamic/scholarly path)
+
+    The default of "books" guarantees that existing Islamic content that
+    pre-dates category stamping continues to use the correct path.
     """
     import json as _json
     state_path = book_dir / "_system" / "orchestrator-state.json"

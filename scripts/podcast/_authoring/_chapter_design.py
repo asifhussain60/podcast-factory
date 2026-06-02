@@ -18,15 +18,48 @@ from ._core import (  # noqa: E402
     _run_claude_p_with_retry,
     _assert_artifact,
     _compute_sc_timeout,
+    ARABIC_SCHOLARLY_CATEGORIES,
+    SKIP_PHONETICS_CATEGORIES,
+    _read_category,
 )
 
 # ─── Phase 0d — Chapter design (map-reduce by source chapter) ────────────────
+def build_phase_0d_toc_prompt_technical(book_slug: str) -> str:
+    """Phase 0d TOC prompt for technical/developer content (explainers category).
+
+    Frames the segmentation task around developer learning arcs rather than
+    scholarly chapter structure. Does not reference _phonetics.md.
+    """
+    return (
+        f"You are driving Phase 0d STEP 1 (Episode Plan) of the /podcast skill on "
+        f"book-slug `{book_slug}`. This is technical developer content — not a scholarly "
+        f"book. Your task is to produce a JSON episode plan that groups the source "
+        f"material into logical developer learning episodes.\n\n"
+        f"EPISODE DESIGN PRINCIPLES for technical content:\n"
+        f"- Each episode answers ONE developer question (What is it? How does it work? "
+        f"  How do I use it?).\n"
+        f"- Episodes progress from orientation (What/Why) → mechanics (How it works) → "
+        f"  hands-on (How to do it). Listeners should be able to stop after any episode "
+        f"  with a complete mental model up to that point.\n"
+        f"- Target length: 15–25 minutes of audio (~1,800–3,500 words per episode).\n"
+        f"- Each episode should have exactly ONE central thesis the hosts return to "
+        f"  3 times (intro, midpoint, close).\n\n"
+        f"OUTPUT: valid JSON array, one object per episode:\n"
+        f'{{"slug": "kebab-case-slug", "title": "Episode title", '
+        f'"start_line": N, "end_line": N, "unit_mode": "chapter", '
+        f'"episode_count": 1, "central_question": "...", "central_thesis": "..."}}\n\n'
+        f"This is English-only content with no pronunciation-table requirements.\n"
+        f"Output ONLY the JSON array. No markdown, no prose, no code fences."
+    )
+
+
 def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                     unit_mode: str = "auto",
                     timeout: int = DEFAULT_TIMEOUT,
                     toc_timeout: int = PHASE_0D_TOC_TIMEOUT,
                     sc_timeout: int = PHASE_0D_SC_TIMEOUT,
-                    log=print) -> str:
+                    log=print,
+                    category: str | None = None) -> str:
     """Segment the refined source into meaningful, balanced **episode units**.
 
     Implemented as a 2-step map-reduce so the LLM never has to author the
@@ -73,11 +106,15 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             BOOK_DIR/_system/source/text/_chunks/0d/sc-NNN.{rationale,source-map}.md
             BOOK_DIR/_system/source/text/_chunks/0d/sc-NNN.done
     """
+    if category is None:
+        category = _read_category(book_dir)
+
     import json as _json
 
     book_slug = book_dir.name
     in_refined = book_dir / "_system" / "source" / "text" / "refined-english.md"
     in_phonetics = book_dir / "_system" / "source" / "text" / "_phonetics.md"
+    _needs_phonetics = category in ARABIC_SCHOLARLY_CATEGORIES
     out_rationale = book_dir / "_system" / "source" / "text" / "chapters-rationale.md"
     out_source_map = book_dir / "_system" / "source" / "text" / "source-chapter-map.md"
     chapters_dir = book_dir / "chapters"
@@ -91,13 +128,17 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             message=f"unit_mode must be one of chapter|section|auto (got {unit_mode!r})",
         )
 
-    for p in (in_refined, in_phonetics):
+    prereqs = [in_refined]
+    if _needs_phonetics:
+        prereqs.append(in_phonetics)
+    for p in prereqs:
         if not p.exists():
             raise AuthoringError(
                 phase="0d",
                 message=f"prerequisite missing: {p}",
                 manual_fallback="Run prior phases (0b, 0c) first.",
             )
+    log(f"  phase 0d · category={category!r}, phonetics-required={_needs_phonetics}")
 
     chunks_dir.mkdir(parents=True, exist_ok=True)
     chapters_dir.mkdir(parents=True, exist_ok=True)

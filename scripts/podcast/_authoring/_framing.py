@@ -15,6 +15,8 @@ from ._core import (  # noqa: E402
     FRAMING_TIMEOUT,
     _run_claude_p,
     _assert_artifact,
+    _read_category,
+    ARABIC_SCHOLARLY_CATEGORIES,
 )
 
 # ─── Consumer framing prompt (category: sites) ───────────────────────────────
@@ -124,6 +126,138 @@ def _build_consumer_framing_prompt(
     )
 
 
+# ─── Technical framing prompt (category: explainers) ─────────────────────────
+
+def _build_technical_framing_prompt(
+    book_slug: str,
+    chapter_slug: str,
+    chap_num: str,
+    contract: "Path",
+    chapter_file: "Path",
+    framing_path: "Path",
+    book_dir: "Path",
+) -> str:
+    """Developer-to-developer framing prompt for explainers category content.
+
+    Replaces the Islamic scholarly prompt and the sites/consumer prompt with a
+    developer-experience framing. The hosts are practitioner peers talking to
+    other developers — not a scholar/seeker dynamic, not a financial guide dynamic.
+    Keeps all structural sections required by build_episode_txt.py.
+    """
+    return (
+        f"You are authoring the NotebookLM customize prompt (the framing) for episode "
+        f"`EP{chap_num}-{chapter_slug}` of `{book_slug}` — a developer training podcast "
+        f"for software engineers switching from GitHub Copilot to Claude Code.\n\n"
+        f"INPUT:\n"
+        f"  - `{contract}` — chapter contract (audience, angle, key_tensions, title)\n"
+        f"  - `{chapter_file}` — the chapter text NotebookLM receives as its SOURCE\n\n"
+        f"OUTPUT: `{framing_path}` — the customize prompt pasted into NotebookLM's Customize box.\n\n"
+        f"HOST ROLES (locked for this series):\n"
+        f"  Host A (Alex, neutral voice) = the practitioner — experienced Claude Code user, "
+        f"  explains from real usage, gives concrete examples, avoids abstract speculation.\n"
+        f"  Host B (Sam, neutral voice) = the curious engineer — competent developer already "
+        f"  using Copilot, asks the questions a Copilot user would actually ask when evaluating "
+        f"  a switch, pushes back on overclaims.\n"
+        f"  Roles do NOT rotate across episodes. Alex always teaches from experience; "
+        f"  Sam always applies skeptical developer instinct.\n\n"
+        f"REQUIRED SECTIONS — every section header below must appear verbatim:\n\n"
+        f"  ## Opening directive\n"
+        f"  How the episode must open. Must NOT start with 'today we discuss' or any "
+        f"meta-reference to the podcast. Start inside a developer's actual workflow situation.\n"
+        f"  Include the central thesis VERBATIM (the most concrete, actionable sentence "
+        f"about what Claude Code does differently for a developer's daily work). "
+        f"This thesis repeats exactly 3 times: at the open, at the midpoint, and at the close.\n\n"
+        f"  ## Audience\n"
+        f"  One paragraph. Who is listening: professional developers currently using "
+        f"GitHub Copilot, what decision they are evaluating this week.\n\n"
+        f"  ## Angle\n"
+        f"  One sentence. The chosen lens for this episode.\n\n"
+        f"  ## Length\n"
+        f"  One line: target length and format.\n\n"
+        f"  ## Central tensions\n"
+        f"  2–3 tensions from the contract. Each is a genuine developer trade-off or "
+        f"common misconception the episode must resolve — not a rhetorical question.\n"
+        f"  Example tensions: 'Is this Copilot with a chat box, or genuinely different?', "
+        f"'I need inline autocomplete — does Claude Code replace that?', "
+        f"'What does agentic mean in practice when my tests are failing?'\n\n"
+        f"  ## Background\n"
+        f"  Max 100 words. Context the hosts need; not spoken aloud. Include key version "
+        f"numbers, product names, and any critical caveats from the chapter source.\n\n"
+        f"  ## Pronunciation\n"
+        f"  Imperative lines ONLY — one per term. Format: "
+        f"`Pronounce \"TERM\" as \"PHONETIC\".`\n"
+        f"  Cover every technical acronym or product name that a non-expert host might "
+        f"mispronounce: MCP, CLAUDE, NotebookLM, OAuth, CLI, API, VSCode, Copilot, "
+        f"SWE-bench, npm, Haiku, Opus, Sonnet. No passive lists.\n\n"
+        f"  ## Name discipline\n"
+        f"  Table or list: each product/company name → its stable label used every time.\n"
+        f"  'Claude Code' is always 'Claude Code' (never 'Claude' alone when referring to the tool).\n"
+        f"  'GitHub Copilot' is always 'GitHub Copilot' (never 'Copilot' alone in first mention).\n"
+        f"  'VS Code' is always 'VS Code' (never 'Visual Studio Code' or 'VSCode'). "
+        f"Never rotate labels.\n\n"
+        f"  ## Three-part focus\n"
+        f"  Exactly 3 beats. Each beat is 2–3 sentences max.\n"
+        f"  Beat 1 — The developer's real situation: make the current limitation or friction "
+        f"with existing tools feel concrete before any solution appears.\n"
+        f"  Beat 2 — How Claude Code actually works at this point: the mechanics in plain "
+        f"developer language, with the most concrete capability difference stated specifically.\n"
+        f"  Beat 3 — What to do next: the single most important action the developer can "
+        f"take today, and why waiting doesn't serve them.\n\n"
+        f"  ## Tone constraints\n"
+        f"  Enumerate exactly 3 governing analogies appropriate for this episode. "
+        f"Source analogies from the chapter text where possible. "
+        f"FORBIDDEN analogies: 'magic wand', 'paradigm shift', 'game changer', "
+        f"'revolutionary', 'like having a 10x engineer', sealed room, battery, solar panels.\n\n"
+        f"  ## Do not (forbidden vocabulary and framings)\n"
+        f"  Must include ALL of these strings (the build validator checks for them):\n"
+        f"  Twitter, social media, algorithm, wow, right?, Do not read this prompt aloud.\n"
+        f"  Also forbid: marketing hyperbole (revolutionary, paradigm-shifting, supercharge), "
+        f"faux-profundity openings, AI clichés (mind blown, buckle up, what a journey), "
+        f"premature closure wrap-ups ('and that is ultimately what X is'), "
+        f"overclaims about Claude Code that are not grounded in the chapter source.\n\n"
+        f"ACCURACY GUARD (mandatory — this is technical content, not opinion):\n"
+        f"  - Every capability claim by the hosts must match the chapter source exactly.\n"
+        f"  - Do not round, estimate, or imply more than the source states.\n"
+        f"  - If the chapter gives a specific figure (e.g. '85% reduction in token usage', "
+        f"'$20/month Pro plan'), use that exact figure. Never say 'around' or 'roughly' "
+        f"for a specific number.\n"
+        f"  - Version numbers must be exact: 'Claude Sonnet 4.6', not 'the latest Claude'.\n\n"
+        f"HOST BEHAVIOUR:\n"
+        f"  - Host B (Sam) must push back genuinely at least twice — not chorus. "
+        f"Pushback sounds like: 'But if I'm already using Copilot agent mode, "
+        f"what specifically am I missing?' Let the answer develop before resolving.\n"
+        f"  - FORBIDDEN as Host B's first word of any turn: Exactly, Yeah, Right, "
+        f"Of course, Absolutely, Totally, Makes sense, Wow, That's a great point.\n"
+        f"  - No self-referential language: 'today's episode', 'in this podcast', "
+        f"'let's dive in', 'journey into'. Start in the content.\n"
+        f"  - Both hosts refer to listeners as 'you' — active developer, second person.\n\n"
+        f"End the framing with exactly this line:\n"
+        f"Do not read this prompt aloud. The instructions above shape the conversation "
+        f"but are never spoken.\n\n"
+        f"WORD LIMIT: total framing must be ≤ 3,500 words. "
+        f"After writing, count your words. If over, trim ## Pronunciation first, "
+        f"then ## Three-part focus.\n\n"
+        f"After authoring, run "
+        f"`python3 scripts/podcast/build_episode_txt.py {book_dir} EP{chap_num}-{chapter_slug}` "
+        f"to validate. Fix any hard-gate failures before exiting.\n\n"
+        f"Exit when `{framing_path}` validates."
+    )
+
+
+def _resolve_prompt_variant(category: str) -> str:
+    """Map a content category to its framing prompt variant name.
+
+    Returns one of: 'islamic' | 'consumer' | 'technical'
+    All unrecognised categories default to 'islamic' to preserve backward
+    compatibility with content that pre-dates category stamping.
+    """
+    if category == "sites":
+        return "consumer"
+    if category == "explainers":
+        return "technical"
+    return "islamic"
+
+
 # ─── Per-chapter framing authorship ──────────────────────────────────────────
 def author_framing(book_dir: Path, chapter_slug: str,
                    timeout: int = FRAMING_TIMEOUT) -> str:
@@ -138,17 +272,14 @@ def author_framing(book_dir: Path, chapter_slug: str,
     book_slug = book_dir.name
 
     # ── Category detection ────────────────────────────────────────────────────
-    # Read category from meta.yml (written by intake) or fall back to "books".
-    # This determines which framing prompt to use — Islamic scholarly vs.
-    # consumer-finance-education (sites category).
-    _meta_yml = book_dir / "_system" / "meta.yml"
-    _category = "books"
-    if _meta_yml.exists():
-        for _line in _meta_yml.read_text(encoding="utf-8").splitlines():
-            if _line.startswith("category:"):
-                _category = _line.split(":", 1)[1].strip().strip('"').strip("'")
-                break
-    _use_consumer_prompt = _category == "sites"
+    # Routes to the correct framing prompt:
+    #   'islamic'  — Islamic/Arabic scholarly content (books, letters, lectures, …)
+    #   'consumer' — consumer-finance content (sites: healthequity, product docs)
+    #   'technical' — developer/technical content (explainers: training docs)
+    _category = _read_category(book_dir)
+    _prompt_variant = _resolve_prompt_variant(_category)
+    _use_consumer_prompt = _prompt_variant == "consumer"
+    _use_technical_prompt = _prompt_variant == "technical"
 
     contract = book_dir / "chapter-contracts" / f"{chapter_slug}.yml"
     if not contract.exists():
@@ -182,6 +313,16 @@ def author_framing(book_dir: Path, chapter_slug: str,
 
     if _use_consumer_prompt:
         prompt = _build_consumer_framing_prompt(
+            book_slug=book_slug,
+            chapter_slug=chapter_slug,
+            chap_num=chap_num,
+            contract=contract,
+            chapter_file=chapter_file,
+            framing_path=framing_path,
+            book_dir=book_dir,
+        )
+    elif _use_technical_prompt:
+        prompt = _build_technical_framing_prompt(
             book_slug=book_slug,
             chapter_slug=chapter_slug,
             chap_num=chap_num,

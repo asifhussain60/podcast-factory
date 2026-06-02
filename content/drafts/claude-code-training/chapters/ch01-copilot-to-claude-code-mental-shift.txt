@@ -1,0 +1,211 @@
+# Claude Code vs GitHub Copilot — What's Different and Why It Matters
+
+This chapter is the first of a three-part series for developers who already use GitHub Copilot in VS Code and want to understand where Claude Code fits in. It is not a pitch to switch tools and it is not a takedown of the IDE you already work in every day. The audience is a senior developer with two or more years of daily Copilot use, asking from a position of competence rather than frustration: what does Claude Code actually do, how is it built differently from what I already have, and is there a real reason to add a second tool to my workflow? The honest answer turns out to be more interesting than either a yes or a no, and the rest of this chapter walks toward it carefully.
+
+---
+
+**The starting point: shared ground, not a rivalry**
+
+Before anything else, it helps to name what this conversation is not. It is not the case that one of these tools is good and the other is bad. It is not the case that Copilot is a primitive autocomplete that Claude Code makes obsolete. It is not the case that a developer who has used Copilot daily for years has been doing it wrong. The Copilot model — inline suggestions accepted at the cursor, a chat panel for questions, an agent mode for multi-file changes — is a genuinely useful pattern that has made a lot of professional developers measurably faster at what they already do.
+
+The Copilot user is the right starting point for this discussion precisely because the experience of using Copilot well is the foundation that makes the architectural difference legible. If you have never used an AI coding assistant of any kind, the contrast between suggestion-based and agentic systems is harder to feel. If you have been accepting Copilot completions all day for the last two years, you have built up a strong intuition for what AI-assisted coding feels like when the AI is a passenger and you are the author. From that foundation, the question becomes a tractable one: what does it look like when the AI is not a passenger anymore?
+
+The honest framing is also this: Copilot is not standing still. Copilot's agent mode, released to general availability in early 2025, lets it generate, refactor, and deploy code across the files of any organization's codebase from a single prompt command. Copilot's cloud agent runs autonomously inside a GitHub Actions environment. Copilot Business and Pro users, as of February 2026, can select Anthropic's Claude Opus and Sonnet models as their underlying coding model. These are not small features — they are real agentic capability shipping inside the IDE that the audience already uses. So whatever the architectural difference between Copilot and Claude Code turns out to be, it has to be something more interesting than "one of them does multi-file edits and the other doesn't." Both of them do. That fact alone forces the conversation to a deeper layer.
+
+---
+
+**What each tool actually is — the official definitions**
+
+The clearest place to begin is with how each company describes its own product, because the language they choose reveals what they are optimizing for.
+
+Anthropic's documentation describes Claude Code in two near-identical sentences. The first, from `code.claude.com`: "Claude Code is an agentic coding tool that reads your codebase, edits files, runs commands, and integrates with your development tools. Available in your terminal, IDE, desktop app, and browser." The second, from `anthropic.com/product/claude-code`: "Claude Code is an agentic coding system that reads your codebase, makes changes across files, runs tests, and delivers committed code." The verbs are doing the work in both sentences — reads, edits, runs, integrates, makes changes, runs tests, delivers committed code. The product is described as an actor, not as a suggestion engine.
+
+GitHub describes Copilot differently. The headline definition from `docs.github.com` is that "GitHub Copilot transforms the developer experience by providing contextualized assistance throughout the software development lifecycle." The word "assistance" is doing the work there. GitHub goes on to call Copilot an "AI pair programmer" and a "suite of features" organized into three categories: assistive features, agentic features, and customization features. The framing is that Copilot is a set of capabilities woven into the developer's existing workflow — the developer is still doing the work, and Copilot is helping.
+
+These are not marketing differences. They are accurate descriptions of what each system is built to do. Claude Code is built around the project as the unit of work, with the goal being something the developer describes and Claude Code executes toward. Copilot is built around the developer at the keyboard, with the goal being to make the developer's existing keystrokes and questions faster and more informed. Both descriptions are honest, and the products fit their descriptions.
+
+To make Copilot concrete, it is worth naming the three distinct surfaces that the developer encounters. The first is inline suggestions: ghost text that appears as the developer types, drawing from the open tabs and surrounding code, accepted with Tab or dismissed by typing past it. This is the surface that defined Copilot for most of its users. The second is Copilot Chat: a chat interface inside the IDE for asking coding-related questions, available in three modes called Ask, Plan, and Agent — where Ask answers questions, Plan proposes a change for approval, and Agent makes multi-file autonomous changes inside the IDE. The third is the Copilot cloud agent: an autonomous environment that runs inside GitHub Actions, with a hard 59-minute cap per session, working only on repositories hosted on GitHub. These three surfaces are different products inside one subscription, and the experience of using Copilot well is partly about knowing which surface to reach for in any given moment.
+
+Claude Code, by contrast, is one surface with several places it can run. The terminal command `claude` is the primary interface — a CLI that you invoke in a project directory and then converse with about the project's code. The same engine is wrapped by an official VS Code extension that gives you a graphical interface, side-by-side diffs, and conversation history. The same engine runs in GitHub Actions and GitLab CI/CD jobs. The same engine can be embedded in a desktop app or accessed from the browser. The unit is one tool with several runtime homes, not several tools with different feature sets.
+
+---
+
+**The mental model shift — from suggest to execute**
+
+This is the section that has to land before the comparison tables make sense. Without this frame, every row in a feature table reads as a spec sheet. With it, the rows organize themselves around a single idea.
+
+Copilot's mental model is suggestion-based. You write code; Copilot suggests the next tokens, the next line, the next block. You remain the author at all times, and the AI is a fast, well-read passenger who hands you candidate keystrokes and waits for you to accept them. The rhythm is per-keystroke. You never leave your editor. Your subscription charges a flat monthly rate whether you accept five suggestions a day or five hundred. The cognitive loop is: you type, you read the suggestion, you accept or reject, you keep typing. That loop is fast and pleasant for the kind of work where you know roughly what you want to write and an AI completing the predictable parts saves you time and finger-fatigue.
+
+Claude Code's mental model is goal-based. You describe a goal — "migrate this module to async/await," "write tests for the payment service," "fix the failing auth tests, here are the failures" — and Claude Code plans an approach, executes it across multiple files, runs the tests, fixes failures, and iterates until the goal is reached or it hits a question it needs to ask you. The rhythm is per-task, not per-keystroke. A single task takes minutes for small ones and hours for large ones. You review results, not suggestions. The cognitive loop is: you describe a goal, you watch a plan emerge, you approve the plan if Claude Code is in plan mode, you review the diff and the test output, you accept or rollback. That loop is slower and more deliberate than per-keystroke autocomplete, and it is the right loop for work where the unit is "a thing I want done across the codebase," not "the next twelve characters."
+
+Anthropic's official documentation says it directly: "The developer sets the objective... Claude Code operates at the project level, reads the full codebase, plans an approach across multiple files, executes changes, runs tests, and iterates on failures." Every word of that sentence is doing work. Project level, not file level. Full codebase, not surrounding context. Plans, not predicts. Executes, not proposes. Iterates on failures, not waits for the developer to fix and re-prompt.
+
+The single sentence to say out loud to a Copilot user the first time is this: Claude Code has no inline completion. None. It does not suggest code as you type. This is not a feature gap that will be filled in a future release; it is a deliberate architectural choice. If the only thing you want from an AI coding tool is faster autocomplete while you write, Claude Code is the wrong tool. Say that without flinching, because honesty about that point earns trust for everything else.
+
+That clarity matters because it removes a confusion that wastes a lot of time. Developers who come to Claude Code expecting it to behave like Copilot with a different brand find themselves frustrated within ten minutes. Why is there no ghost text? Why am I being asked for permission before files change? Why is it taking so long? The answer is that the tool is designed for a different job. It is the wrong frame to evaluate it as a Copilot replacement. The right frame is to ask: what would I delegate if I could describe the goal in one sentence and review the diff at the end?
+
+The first-week pitfall maps directly onto this confusion. A developer opens `claude` in a project directory, stares at the prompt, and waits for the tool to start suggesting something — the same reflex that has been trained by two years of accepting ghost text in Copilot. Nothing appears, because nothing is supposed to appear. Type a goal in natural language — "list the files in this project and summarize what each does" — and press Enter. That is the input the tool is built around. The rhythm becomes legible inside ten minutes, but only once the muscle memory of waiting-for-completion is replaced with the muscle memory of stating-a-goal.
+
+There is a second first-week pitfall worth naming alongside the first. The default safety posture is to ask before each file write and each shell command — so the first time you hand Claude Code a goal like "fix the failing tests in `services/payments/`," the rhythm is not one autonomous run but a sequence of permission prompts: read this file, edit that file, run `pytest`, edit again. Approve them inline the first few sessions. Once you have watched the tool work and trust the shape of what it does, relax the permission policy for the command patterns that should not need a prompt every time. Anthropic's documentation is explicit that this posture is configurable; the default is conservative on purpose, and the configurability is what makes longer autonomous runs practical later.
+
+---
+
+**Enterprise evidence — what agentic work looks like at scale**
+
+The clearest indicator of where agentic execution helps is in the kind of work it has already done at named enterprises. Anthropic publishes case studies for several large-scale Claude Code deployments, and the patterns are consistent.
+
+Stripe used Claude Code to complete a 10,000-line migration from Scala to Java in four days. Ramp reported an 80 percent reduction in incident investigation time after building Claude Code into their on-call workflows. Wiz used Claude Code to migrate roughly 50,000 lines of Python to Go in approximately 20 hours. Rakuten reduced their feature delivery time from 24 working days to five working days per feature.
+
+These are not numbers about typing speed. They are numbers about the kind of work that requires reading a full codebase, understanding how the pieces fit together, planning a sequence of changes across many files, running the test suite, fixing failures, and iterating. That is the loop Claude Code is built around. It is not the kind of work that inline completion was designed to handle, and that is why these case studies illustrate the architectural difference cleanly rather than confusing it.
+
+It is worth being honest about what these numbers do and do not say. They do not say that any developer running Claude Code on their laptop will migrate 50,000 lines of code in 20 hours. They are reports of what large engineering teams accomplished when they put Claude Code into a well-scoped role with the appropriate tooling around it. What they do say is that the agentic loop scales to substantial codebases and that the tasks it handles are tasks where the alternative is weeks of human focus time. That is the shape of the problem Claude Code is built to solve, and the alternative tool for that problem is not Copilot — the alternative is human developer-weeks.
+
+---
+
+**The architectural difference, walked through carefully**
+
+With the mental model established, the feature comparison becomes legible. The differences cluster around six dimensions.
+
+The first is the primary interaction model. Copilot suggests; the developer accepts or rejects. Claude Code plans, executes, and iterates autonomously toward a goal. Both can do multi-file work — Copilot through agent mode, Claude Code natively — but the rhythm differs. Copilot's agent mode is initiated as a prompt and produces a multi-file change for review; Claude Code's default mode is to run a longer loop that includes reading files, calling tools, running tests, and making further changes based on what it observes.
+
+The second is context scope. Copilot's inline suggestions use the open tabs and surrounding code, with a context window that has grown over time but stays in the 32k-to-128k token range depending on the model. Claude Code reads the entire codebase as needed, with a context window that reaches up to one million tokens on the latest Anthropic models. The practical effect is that Claude Code can answer questions like "how does authentication actually flow through this service" by following the code paths, whereas Copilot answers from the files you happen to have open at the moment.
+
+The third is file access. Copilot's inline mode is read-only with respect to surrounding context — it suggests at the cursor and does not write to files on its own. Claude Code reads and writes files as part of its normal operation, with a default safety posture that asks for permission before each write or command unless the developer has configured otherwise. The permission model is not a token — it is the safety boundary that makes goal-directed execution acceptable.
+
+The fourth is command execution. Copilot can execute terminal commands only through agent mode, and even there the commands are typically suggested to the user for approval rather than executed fully autonomously. Claude Code has native shell access — it can run `npm test`, `pytest`, `git status`, `cargo build`, or any other command, observe the output, and decide what to do next based on what it sees. This is the difference between a tool that proposes a sequence of actions and a tool that performs them and reports back.
+
+The fifth is where it lives. Copilot lives inside the IDE — primarily VS Code, with JetBrains, Visual Studio, and Neovim as additional surfaces — and the IDE is where you spend nearly all of your interaction time. Claude Code lives in the terminal as its primary surface, with the VS Code extension as a wrapper on top. This matters because the terminal-first design enables behaviors that an IDE-coupled design can't easily reach: piping log output into Claude Code with `tail -200 app.log | claude -p "what's failing here"`, running it in CI/CD jobs, scheduling it as a routine that runs on Anthropic-managed infrastructure even when your computer is off. The `-p` flag is the move that makes the pipe work — it tells the `claude` CLI to run non-interactively, take stdin as the input, print the answer to stdout, and exit. The same flag is what lets Claude Code drop into a GitHub Actions step: a build job pipes its output through `claude -p` and captures the response, with no interactive session and no editor in the loop. Concretely: run `tail -200 app.log | claude -p "summarize the unique error patterns"` after a failing deploy and you get back a one-paragraph summary on stdout, ready to redirect to a file, post into a Slack webhook, or feed into the next step of a shell pipeline. The tool is built to be a citizen of the shell, not a destination you have to leave the shell to reach.
+
+The sixth is the interaction loop itself. Copilot is reactive — it waits for the cursor to move, the keystroke to land, the chat prompt to be submitted. Claude Code is goal-directed — once you have set a goal, it works toward completion, deciding what to do next based on what it has just observed. This is the actual architectural difference between an assistant and an agent. Both can be useful; they are not the same thing.
+
+---
+
+**Copilot agent mode — what changed in 2025**
+
+This is the place where the comparison gets sharper, because Copilot's agent mode is the feature that most resembles Claude Code's default behavior, and it is the feature most likely to make a Copilot user say: wait, doesn't Copilot already do this?
+
+GitHub announced Copilot's agent mode on February 6, 2025, and it shipped in VS Code v1.99 in March of that year. The official description is direct: "developers can generate, refactor and deploy code across the files of any organization's codebase with a single prompt command." Agent mode "enables Copilot to iterate on its own output as well as the results of that output to complete a user's entire request at once." That is recognizably an agentic loop. It plans, it edits, it iterates.
+
+The architectural distinction is not whether multi-file editing exists. It does, on both sides. The distinction lives in a few specific places. Copilot's agent mode runs inside the IDE and is bounded by the IDE's lifecycle — when you close VS Code, the agent stops. Claude Code can run in the IDE, but it can also run in a terminal session that outlives any editor, or in a CI/CD job that has no editor at all. Copilot's cloud agent extends agent-style autonomy outside the IDE but lives only inside GitHub Actions with a hard 59-minute cap per session. Claude Code has no equivalent session cap, and it runs anywhere a shell can run, on any git host, including local repositories that are not on GitHub at all. First-week pitfall for teams reaching for the cloud agent on a long migration: a 50,000-line refactor — the shape of work the Wiz case study describes Claude Code completing in roughly twenty hours — does not fit inside the 59-minute window, so either chunk the migration into windowed jobs or hand it to Claude Code where there is no session ceiling.
+
+Copilot's agent mode also retains a more cautious posture around terminal commands — the commands it wants to run are typically presented to the user for approval. This is a reasonable default, and Claude Code's default is similar (ask before running commands), but Claude Code's permission system can be relaxed for trusted workflows in ways that make longer autonomous runs practical. The two products converge toward similar capabilities and diverge in where they put the boundaries.
+
+The honest framing is that Copilot's agent mode is the right tool for agentic work that lives close to the editor, on GitHub-hosted code, in sessions that fit inside a developer's working session. Claude Code is the right tool for agentic work that lives in the terminal, runs in CI, scales past the 59-minute window, or wants to compose with shell pipelines and Unix tools. These are not the same shape of problem, even though both tools speak the language of "agent."
+
+---
+
+**The operational primitives Claude Code's loop runs on**
+
+The agentic loop is not a single feature. It sits on top of several primitives the chapter has named in passing but not yet pinned down, and a developer evaluating the tool deserves to see them as the engineering substrate they are.
+
+Hooks let you trigger actions at lifecycle points in a Claude Code run. Run the test suite after every file edit. Block any command matching `rm -rf` before it executes. Run a linter before every commit, and refuse the commit if it fails. The hook fires automatically — Claude Code does not have to reason its way into invoking it, which is exactly the point. Hooks are how you encode your team's safety and quality rules so the agent cannot accidentally route around them.
+
+Sub-agents let one Claude Code session spawn parallel agents that work on different parts of a task at the same time. A lead agent coordinates and assigns subtasks to specialized sub-agents. For a migration that spans dozens of files, the lead agent fans out the file-level work and reconciles the results — a shape that is genuinely hard to do from a single linear conversation, and trivial to do once sub-agents are a first-class primitive.
+
+Routines run Claude Code on Anthropic-managed infrastructure on a schedule, even when your computer is off. The nightly job that watches a repository for new issues and triages them. The weekly task that updates dependencies and runs the full test suite. The hourly check that grep's the production logs for new error signatures and summarizes anything novel. These are not workflows that fit inside an IDE — they require the agent to live somewhere durable, and routines are the surface for that.
+
+The checkpoint and rewind system automatically saves your code state before each change. If a multi-step task ends up somewhere you do not want, rewind to a previous checkpoint and try again. The conversation rewinds with the code, so the context is preserved and you can re-attempt with different instructions instead of starting over from a blank session. This is the safety net that makes long autonomous runs acceptable in practice — a bad path is recoverable in one command, not a manual git reset and a lost conversation.
+
+These primitives do not show up in the suggest-versus-execute table on their own, but they are what makes the execute side a real engineering substrate rather than a longer-running autocomplete. Anthropic publishes them in the official documentation, not as roadmap items but as the operational vocabulary the tool is built around.
+
+---
+
+**VS Code integration — Copilot is built in; Claude Code is layered on**
+
+A senior developer who uses VS Code as their primary editor will reasonably ask: if Claude Code is terminal-first, is this even practical for my workflow? The answer is yes, but it is worth understanding why and how.
+
+The official Claude Code VS Code extension — published as `anthropic.claude-code` and with over two million installs as of 2026 — gives you a graphical interface to Claude Code inside the editor you already use. Anthropic's documentation describes it as "the recommended way to use Claude Code in VS Code." What the extension adds over a terminal-only experience is real. You get side-by-side inline diffs that let you review proposed changes before accepting them. You can @-mention specific files with line ranges, so that a question like "look at this function in `services/auth.ts` lines 40–80 and tell me why it returns null" has a clean way to express itself. You get a plan mode where Claude Code proposes a plan and waits for your approval before making any changes — useful for non-trivial tasks where the steps matter. You get conversation history with search, multiple concurrent Claude conversations running in separate tabs, a UI for the checkpoint and rewind system, and the ability to bring terminal output into context with references like `@terminal:name` — point a question at the terminal pane where `pytest` just failed and ask "what's the root cause of this failure," and the extension feeds the actual output into the conversation instead of forcing copy-paste from one window to another.
+
+What the extension is not is a different product from the CLI. It is a graphical wrapper on the same engine. The capabilities you have in the terminal you also have in the extension. The capabilities you have in the extension you also have in the terminal, minus the visual conveniences. This is meaningfully different from Copilot, which is built into the IDE as a first-class extension tightly coupled with editor events like cursor movement, keypress, and file save. Copilot's tight coupling to the editor is part of what makes inline suggestions feel native — the suggestion-engine is reacting to the cursor in real time. Claude Code's loose coupling to the editor is part of what makes it portable to other surfaces — the engine doesn't depend on the editor to function.
+
+The practical effect for a VS Code user is that Claude Code does not displace the editor. Copilot's inline suggestions continue to work as they always have. The Claude Code extension adds a panel that you open when you have a task to delegate, and you ignore otherwise. The two extensions are independent — they do not interfere with each other, they do not compete for the same keypresses, they do not require any configuration to coexist. A developer can run both at the same time and feel each one doing its job.
+
+---
+
+**The capability map, in prose**
+
+A side-by-side capability comparison is useful, but the takeaway is not "look at the row that says one tool wins." The takeaway is that the capabilities map cleanly onto the architectural difference once you see it.
+
+Inline autocomplete while typing — Copilot has it as its defining feature; Claude Code does not have it at all. This is the cleanest contrast, and the one that should determine whether Claude Code can replace Copilot for a given developer's daily writing experience. The answer is that it cannot, because it was not built to.
+
+Chat and Q&A about code — both have it. Copilot's chat interface is integrated into the IDE; Claude Code's chat is a CLI prompt or the extension's chat panel. Both can answer questions about code, suggest fixes, explain unfamiliar functions, and reason about errors.
+
+Multi-file edits — both have it. Copilot does it through agent mode; Claude Code does it as the default mode of operation. The difference is which mode you have to opt into versus which mode is the resting state.
+
+Executing terminal commands — Claude Code does this natively, with permission requested by default. Copilot does this only in agent mode, and typically suggests the command to the user for approval rather than executing fully autonomously.
+
+Running tests autonomously — Claude Code runs tests, observes the output, decides whether to retry, fix, or surface the failure. Copilot's agent mode can run tests with the user's approval. The difference shows up most in longer-running tasks where you want the tool to keep going without checking back in every two minutes.
+
+Creating commits and pull requests — both can do this. Claude Code does it through native git commands. Copilot has deeper GitHub integration that includes PR summaries, code review suggestions, and issue assignment.
+
+CI/CD integration — Claude Code runs in GitHub Actions and GitLab CI/CD. Copilot's cloud agent runs in a GitHub Actions–powered environment with the 59-minute cap.
+
+Codebase context — Claude Code reads up to one million tokens, which is roughly an entire mid-sized codebase. Copilot operates with 32k to 128k tokens depending on the model. The gap matters for tasks that span many files; it matters less for tasks where the relevant code fits in a handful of open tabs.
+
+Model choice — Copilot supports Claude, GPT-4o, Gemini, xAI Grok, and Codex; Claude Code uses Claude exclusively. Multi-model flexibility is a Copilot advantage if your team values it. If you have already decided you want Claude as your coding model, that advantage matters less.
+
+Working outside GitHub — Claude Code works on any local repository hosted anywhere. Copilot's inline mode also works anywhere, but Copilot's cloud agent works only on GitHub-hosted repositories.
+
+Parallel agent teams — Claude Code has explicit sub-agent support; one lead agent coordinates and assigns subtasks to specialized agents. Copilot has specialized agents named Explore, Task, Review, and Plan.
+
+MCP tool integrations — both support the Model Context Protocol, which lets the tool connect to external systems like Jira, Slack, GitHub, and databases through an open, standardized interface. Claude Code's ecosystem has more than 300 published MCP servers as of 2026.
+
+PR and issue summarization — Copilot has native first-class support for this, including PR summaries written automatically and issues assigned to the cloud agent. Claude Code does this through git and `gh` commands, which is functional but less seamless than Copilot's GitHub-native experience.
+
+The capability map confirms what the architectural framing predicted. Copilot is stronger at the surface tightly coupled to the developer's writing experience and to GitHub-native workflows. Claude Code is stronger at the surface where the developer hands off a goal and the tool works toward completion across the codebase. There is no row where one wins on every dimension, and the rows where each one wins are not random — they are the rows that map onto what each tool was designed to do.
+
+---
+
+**Pricing — what each costs, and what you get**
+
+The pricing models are different enough that they are worth walking through carefully, because the math changes the answer for some teams.
+
+Claude Code is available through Anthropic's standard plans. The free tier does not include Claude Code access. The Pro plan is $20 per month month-to-month, $17 per month if billed annually, and it includes Claude Code. The Max plans — five times and twenty times Pro's usage allowance — are $100 and $200 per month respectively. The Team plan starts at $25 per seat per month for the standard tier and $125 per seat per month for the premium tier. All Claude subscription limits are shared across Claude on the web, Claude on mobile, and Claude Code — every prompt counts against the same pool. First-week gotcha worth pricing in: a long Claude.ai conversation about an architecture decision and a Claude Code session running a test loop in another terminal draw from the same Pro-plan ceiling, so a heavy chat day and a heavy agent day on the same plan can throttle each other. Pace them, or move sustained agent work onto a Max 5x or Max 20x plan where the ceiling is five or twenty times higher. When you exhaust the included usage, you can opt in to continue at standard API token rates rather than getting cut off, which keeps long sessions from hitting a wall mid-task. The opt-in is explicit: if you have not toggled API billing on in your Anthropic account, exhausting the pool stops the session rather than silently rolling over to per-token charges, which is the safe default but is also the surprise that catches first-week users in the middle of a long agent run.
+
+GitHub Copilot has a different structure. The free tier offers 2,000 inline completions per month and limited chat and agent capability. The Pro tier is $10 per month and includes unlimited inline completions plus 1,500 AI credits per month. The Pro+ tier is $39 per month with premium models and 7,000 AI credits. Copilot Business is $19 per seat per month with organization-level management and policy controls. Copilot Enterprise is $39 per seat per month with priority access to models and a larger credits pool. GitHub migrated to usage-based billing with "GitHub AI Credits" on June 1, 2026; agent mode operations and code review actions consume credits at metered rates. First-week gotcha for teams that budgeted a flat $39 per Pro+ seat in May 2026: agent mode runs now meter against the 7,000-credit monthly bucket and stop when it empties, so a heavy agent-mode week — exactly the kind a Copilot user reaches for after this chapter — can outrun what looked like a fixed cost the month before. Inline completions stay unlimited; only agent mode and code review draw from the credit pool.
+
+The practical comparison is that for a single developer who wants inline completion plus occasional agentic delegation, the combined cost of Copilot Pro plus Claude Pro is $30 per month, which is well inside what most professional developers spend on tooling. For a team, the Business or Enterprise tiers of Copilot plus a Claude Team subscription is the standard pattern at organizations that have adopted both. The cost decision is rarely the deciding factor at the individual level; it is more often a decision about which subscriptions the company is willing to standardize on.
+
+---
+
+**The landing point — these tools are complementary, not rival**
+
+This is the moment the chapter has been building toward, and it deserves to be stated plainly rather than implied.
+
+GitHub's Copilot cloud agent is built on Anthropic's Claude Agent SDK. This is published by GitHub itself in the official documentation at `docs.github.com/en/copilot/concepts/agents/anthropic-claude` — the cloud agent "leverages the Claude Agent SDK." As of February 2026, GitHub Copilot Business and Pro users can select Anthropic Claude — Opus 4.5, Opus 4.6, Sonnet 4.5, Sonnet 4.6 — as their underlying coding model within Copilot, using their existing Copilot subscription with no separate Claude subscription required.
+
+That fact is not a footnote. It is the clearest expression of what these two tools actually are relative to each other. The companies are not on opposing sides of an architectural divide; they are infrastructure partners. The question of "which tool should I use" was never the question that mapped to reality. The real question, the one the architectural difference has been pointing toward all along, is "which job."
+
+The job that inline completion does is genuinely different from the job that agentic task execution does. Inline completion serves the developer who is actively writing code and benefits from a fast, well-read suggestion engine that fills in predictable tokens. Agentic task execution serves the developer who has a goal that spans multiple files or multiple steps and benefits from delegating that goal to a system that can plan, execute, and iterate without supervision at every step. These are not the same job. A team that does both kinds of work — which is most teams — gets value from a tool that is excellent at each.
+
+The mainstream pattern at engineering teams that have adopted Claude Code while keeping Copilot is exactly this dual-tool setup. Copilot continues to handle the inline writing experience and the GitHub-native workflows. Claude Code handles the delegated tasks, the long-running migrations, the CI/CD automation, the cross-file refactors. The two tools do not compete for attention or keystrokes; they wait for the moment in the developer's day when each one is the right answer.
+
+Claude Code's absence of inline completion is the architectural decision that makes the complementarity clean. If Claude Code had inline completion, it would be competing with Copilot for the same surface and the same keystrokes, and the developer would have to choose. Because it does not, the surfaces stay separate, and the question of "which one" dissolves into "which one for this task." That is the actual takeaway of the chapter, and it is meant to land as clarity rather than surprise — the logical conclusion of everything the architectural walk-through has set up.
+
+---
+
+**Using both together — what the dual-tool workflow looks like in practice**
+
+The most useful thing this chapter can leave a developer with is a concrete picture of what a day looks like when both tools are in the workflow. The pattern is straightforward once the architectural difference is internalized.
+
+Copilot continues to handle the writing experience. When the developer is actively typing code in VS Code, Copilot's inline suggestions appear as they always have. Ghost text suggests the next few tokens or the next line; Tab accepts; typing past it dismisses it. The Copilot Chat panel is there when the developer has a question about the file in front of them or wants a quick explanation of an unfamiliar function. Copilot's PR summary writes the description when a pull request is opened. The familiar parts of the Copilot experience stay exactly as they were.
+
+Claude Code handles the delegated tasks. When the developer has a task that can be described as a goal — "fix the failing auth tests, here are the errors," "migrate this module from callbacks to async/await," "write tests for the payment service to bring coverage up to 80 percent," "find every place in the codebase that uses the deprecated `legacyAuth` function and refactor it to use `newAuth` instead" — that task gets handed to Claude Code. The developer opens the Claude Code panel in VS Code or runs `claude` in a terminal in the project directory, describes the goal, watches the plan, approves it, and reviews the result.
+
+The two sessions are independent. Copilot does not see what Claude Code is doing. Claude Code does not see Copilot's suggestions. They share access to the same files on disk, but they do not coordinate with each other or compete for the developer's attention. The developer's attention naturally allocates: when writing, the developer is engaged with the IDE and Copilot's suggestions; when waiting for Claude Code to complete a task, the developer is reviewing a diff or watching test output or moving on to another piece of work entirely.
+
+A useful mental rule for which tool to reach for: if the task is something you can describe in one sentence and review at the end, Claude Code is the right tool. If the task is something where you want to write the code yourself and have an AI fill in the predictable parts, Copilot is the right tool. There are tasks that fit both descriptions, and the developer's preference settles those — both are valid. The point is that the choice is between modes of working, not between vendors.
+
+A second useful pattern: Claude Code is the right tool when the work happens outside the editor. CI/CD jobs that run nightly cleanup, GitHub Actions workflows that respond to issue labels, terminal pipelines that grep through logs and ask Claude Code to interpret them — these are tasks where the IDE is not the right surface at all, and Claude Code's terminal-first design makes them natural. Copilot's cloud agent reaches some of this territory, but Claude Code's design assumes terminal-and-CI as a first-class environment from the start.
+
+---
+
+**What's ahead — episodes two and three**
+
+The question this series is answering is not "should I switch to Claude Code." That framing assumes a rivalry the underlying products do not have. The real question is: how do I learn to use this second tool well, given what I already know from Copilot?
+
+Episode two builds the mental model for Claude Code itself — the agentic loop that reads, plans, executes, and iterates; the tools available to it; the CLAUDE.md file that gives Claude Code project-specific context; the hooks that let you trigger actions at lifecycle points; the MCP servers that connect it to external systems; the permission model that decides what it can do on its own and what it has to ask about; and the cost model so you can predict what a session will spend. This is the chapter that explains how the engine works so that the next chapter, where you actually run it, makes sense as a sequence of intentional choices rather than as following instructions.
+
+Episode three is the hands-on session. Prerequisites, installation, authentication, the VS Code extension, your first real task. By the end of episode three, you will have completed a meaningful piece of work with Claude Code on your own codebase, you will know what the configuration looks like for your daily workflow, and you will know which of your existing tasks belong with Claude Code and which stay with Copilot. The arc of the three episodes is why, what, and how — and this first episode is the why, because the architectural framing is what makes the rest of the series fit together.
+
+The honest framing one more time: nothing in this episode argues that you should stop using Copilot, and nothing in this episode argues that you should use Claude Code for every task. The argument is that there is a category of work — agentic, goal-directed, multi-step, multi-file — that Claude Code is built for in a way that Copilot's surface is not, and that adding Claude Code to a Copilot-based workflow is additive rather than substitutive. Whether you choose to add it is a decision about your work, your team, and your taste. The framework for making that decision is what this episode has tried to leave you with.
