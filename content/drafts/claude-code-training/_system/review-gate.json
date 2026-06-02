@@ -1,0 +1,12 @@
+{
+  "phase": "06a",
+  "approved": false,
+  "warnings": [
+    {
+      "severity": "P2",
+      "message": "anthropic not installed — review skipped"
+    }
+  ],
+  "reviewed_at": "2026-06-02T20:07:12Z",
+  "approved_at": null
+}
