@@ -153,6 +153,11 @@ def run_resume(args: argparse.Namespace) -> int:
         _info("Phase 06a cleared — resuming to 0f series plan.")
         return _drive_authoring_through_0f(book_dir, title)
 
+    if current_phase == "0f" and current_status in ("pending", "failed"):
+        title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
+        _info("Phase 0f pending — writing series plan.")
+        return _drive_authoring_through_0f(book_dir, title)
+
     if current_phase == "0f" and current_status == "halted":
         plan = book_dir / "_system" / "series-plan.md"
         if not plan.exists() or plan.stat().st_size == 0:
