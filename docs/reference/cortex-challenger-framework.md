@@ -370,12 +370,12 @@ A skill's overlay declares which framework version it targets. The skill registr
 | Podcast | GOLD | 1.0 (in-place retrofit) | (in SKILL.md) |
 | Journal | SILVER (target after overlay applied) | 1.0 | `skill-overlays/journal-cortex-overlay.md` |
 | Refine | BRONZE (target after overlay applied) | 1.0 | `skill-overlays/refine-cortex-overlay.md` |
-| Tell-me | SILVER (target after overlay applied) | 1.0 | `skill-overlays/tell-me-cortex-overlay.md` |
 | Clean-commit | BRONZE (target after overlay applied) | 1.0 | `skill-overlays/clean-commit-cortex-overlay.md` |
 | css-theme-sync | SILVER (target after retrofit) | 1.0 | (in skill files) |
 | repo-surgeon | BRONZE (target after retrofit) | 1.0 | (in skill files) |
 | ui-modernizer | SILVER (target after retrofit) | 1.0 | (in skill files) |
-| usage-auditor | BRONZE (target after retrofit) | 1.0 | (in skill files) |
+| ~~Tell-me~~ | RETIRED 2026-06-02 | — | ADLC/journal tool, removed from podcast-factory |
+| ~~usage-auditor~~ | RETIRED 2026-06-02 | — | journal tool, removed from podcast-factory |
 
 Targets above represent the post-retrofit state. Until retrofits land, all skills except ADLC and CORTEX are at PRE-COMPLIANCE.
 

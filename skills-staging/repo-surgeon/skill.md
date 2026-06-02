@@ -48,7 +48,7 @@ Systematic, multi-pass reviews of the journal repo. Identify structural drift, d
 
 - CSS/theme audit (delegates to `css-theme-sync` / `ui-reviewer`)
 - Memoir content quality (that's `journal` skill)
-- Spend/budget (that's `usage-auditor`)
+- Spend/budget (out of scope; usage-auditor was removed 2026-06-02)
 
 ---
 

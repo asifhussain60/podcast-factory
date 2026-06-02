@@ -123,7 +123,7 @@ No `Math.random()`, `random.choice()`, `uuid.uuid4()` etc. in any deterministic 
 After every run (success, failure, or halt), the skill writes a run summary to:
 
 - `WORK_DIR/_challenger-report.yml` for skills that operate in a work directory (podcast, repo-surgeon multi-pass runs).
-- `_workspace/challenger-reports/<skill>-<run_id>.yml` for in-place skills (journal, css-theme-sync, ui-modernizer, usage-auditor, ui-reviewer agent).
+- `_workspace/challenger-reports/<skill>-<run_id>.yml` for in-place skills (journal, css-theme-sync, ui-modernizer, ui-reviewer agent).
 
 The summary follows the framework §3 schema exactly. The schema is canonical — no deviation.
 
