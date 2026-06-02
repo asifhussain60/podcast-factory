@@ -197,7 +197,12 @@ class SunnyDayE2ETests(unittest.TestCase):
              mock.patch.object(initial_driver, "phase_0f_write_series_plan",
                                self._mock_0f_write_series_plan), \
              mock.patch.object(initial_driver, "phase_git_commit",
-                               self._mock_git_commit):
+                               self._mock_git_commit), \
+             mock.patch.object(initial_driver, "run_source_review_gate",
+                               lambda bd: __import__(
+                                   "phases.source_review_gate",
+                                   fromlist=["ReviewGate"]
+                               ).ReviewGate(approved=True, warnings=[])):
             rc = initial_driver._drive_authoring_through_0f(
                 self.book_dir, "Tiny Test Book"
             )
@@ -320,6 +325,9 @@ class StateMachineOrderingTests(unittest.TestCase):
             plan.write_text("# plan\n")
             return plan
 
+        from phases.source_review_gate import ReviewGate
+        approved_gate = ReviewGate(approved=True, warnings=[])
+
         tmp_root = Path(self.tmp.name)
         with redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()), \
              mock.patch.object(initial_driver, "REPO_ROOT", tmp_root), \
@@ -331,18 +339,20 @@ class StateMachineOrderingTests(unittest.TestCase):
                 author_phase_0d=mock_phase,
                 author_phase_0e=mock_phase), \
              mock.patch.object(initial_driver, "phase_0f_write_series_plan", mock_series_plan), \
-             mock.patch.object(initial_driver, "phase_git_commit", lambda *a, **k: None):
+             mock.patch.object(initial_driver, "phase_git_commit", lambda *a, **k: None), \
+             mock.patch.object(initial_driver, "run_source_review_gate", lambda bd: approved_gate):
             initial_driver._drive_authoring_through_0f(self.book_dir, "Test")
 
         # Extract the phase identifiers in the order they were updated to "running" or "completed"
         seq = [(p, s) for p, s in self.phase_transitions if s in ("running", "completed", "halted")]
 
-        # Expected: 0b running → 0b completed → 0c running → 0c completed → 0d running → 0d completed → 0e running → 0e completed → 0f running → 0f halted
+        # Expected: 0b → 0c → 0d → 0e → 06a (approved, Wave I gate) → 0f halted
         expected = [
             ("0b", "running"), ("0b", "completed"),
             ("0c", "running"), ("0c", "completed"),
             ("0d", "running"), ("0d", "completed"),
             ("0e", "running"), ("0e", "completed"),
+            ("06a", "running"), ("06a", "completed"),
             ("0f", "running"), ("0f", "halted"),
         ]
         self.assertEqual(seq, expected)

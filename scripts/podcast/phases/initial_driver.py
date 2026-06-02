@@ -12,6 +12,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _paths import REPO_ROOT  # noqa: E402
 from _progress import initial_state, read_state, update_phase, write_state  # noqa: E402
+from _rules import CONSUMER_CATEGORIES  # noqa: E402
 from _authoring import AuthoringError, author_phase_0b, author_phase_0c, author_phase_0d, author_phase_0e  # noqa: E402
 from phases.preflight import preflight_initial  # noqa: E402
 from phases.scaffold import phase_branch, phase_scaffold, phase_0a_ingest, phase_git_commit  # noqa: E402
@@ -43,17 +44,25 @@ def _drive_authoring_through_0f(book_dir: Path, title: str) -> int:
     config = state.get("config", {})
     length_tier = config.get("length_tier", "extended")
     unit_mode = config.get("unit_mode", "auto")
+    category = config.get("category", "books")
+    _is_consumer = category in CONSUMER_CATEGORIES
 
     def _run_0b(bd: Path) -> None:
         author_phase_0b(bd, log=_info)
 
     def _run_0c(bd: Path) -> None:
+        if _is_consumer:
+            _info(f"phase 0c · skipped for category '{category}' (no Arabic transliteration needed)")
+            return
         author_phase_0c(bd, log=_info)
 
     def _run_0d(bd: Path) -> None:
         author_phase_0d(bd, length_tier=length_tier, unit_mode=unit_mode, log=_info)
 
     def _run_0e(bd: Path) -> None:
+        if _is_consumer:
+            _info(f"phase 0e · skipped for category '{category}' (no doctrinal enrichment for consumer content)")
+            return
         author_phase_0e(bd, log=_info)
 
     phase_map = [

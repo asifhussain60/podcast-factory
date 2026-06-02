@@ -114,6 +114,11 @@ ALLOWED_CATEGORIES = ("books", "articles", "documents", "lectures", "interviews"
 # system walkthroughs, consumer guides. `sites` continues to work for existing content;
 # `explainers` is the preferred category for new content of this type.
 
+# Categories that skip the phonetic pass (0c) and the doctrinal enrichment pass (0e).
+# Consumer/explainer content has no Arabic transliteration requirements and no
+# tradition-specific doctrinal context to inject.
+CONSUMER_CATEGORIES: frozenset[str] = frozenset({"sites", "explainers"})
+
 # ─── Learning substrate root (relative to repo root). Used by all four
 # learning scripts (aggregate, propose, test, health writer) and by the
 # challenger agent's report-writer to locate findings.jsonl + health/.
