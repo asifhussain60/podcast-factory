@@ -8,7 +8,7 @@ Hard rule: no `pip install` deps. Pure stdlib. Reasoning — these scripts run
 on every podcast-pipeline session start; making them survive a fresh checkout
 without a venv dance is worth the extra ~100 lines of urllib code.
 
-Keychain naming follows infra/azure/store-keychain-keys.sh exactly:
+Keychain naming follows infra/azure/pull-secrets.sh exactly:
     azure-<app>-translator-key1
     azure-<app>-translator-endpoint-text
     azure-<app>-translator-region
@@ -19,8 +19,8 @@ Keychain naming follows infra/azure/store-keychain-keys.sh exactly:
     azure-<app>-speech-endpoint
     azure-<app>-speech-region
 
-`<app>` defaults to "journal"; override with AZURE_APP_NAME env var if standing
-up a parallel stack (per docs/azure/setup.md app-portability section).
+`<app>` defaults to "podcast-factory"; override with AZURE_APP_NAME env var if
+standing up a parallel stack (per docs/azure/setup.md app-portability section).
 """
 
 from __future__ import annotations
@@ -35,7 +35,7 @@ import urllib.request
 from dataclasses import dataclass
 from typing import Any
 
-APP_NAME = os.environ.get("AZURE_APP_NAME", "journal")
+APP_NAME = os.environ.get("AZURE_APP_NAME", "podcast-factory")
 
 # Doc Intel: prebuilt-read on the stable 2023-07-31 API. The newer
 # /documentintelligence/ namespace exists from 2024-11-30 onward, but
@@ -141,7 +141,7 @@ def load_docintel_creds() -> DocIntelCreds:
     if missing:
         raise AzureCredsError(
             f"Document Intelligence credentials missing: {', '.join(missing)}. "
-            f"Run: cd infra/azure && ./store-keychain-keys.sh "
+            f"Run: cd infra/azure && bash pull-secrets.sh "
             f"(or export AZURE_DOCINTEL_ENDPOINT/KEY/REGION for CI)."
         )
     return DocIntelCreds(endpoint=endpoint.rstrip("/"), key=key, region=region)
@@ -155,7 +155,7 @@ def load_translator_creds() -> TranslatorCreds:
     if missing:
         raise AzureCredsError(
             f"Translator credentials missing: {', '.join(missing)}. "
-            f"Run: cd infra/azure && ./store-keychain-keys.sh "
+            f"Run: cd infra/azure && bash pull-secrets.sh "
             f"(or export AZURE_TRANSLATOR_ENDPOINT/KEY/REGION for CI)."
         )
     return TranslatorCreds(endpoint=endpoint.rstrip("/"), key=key, region=region)
@@ -169,7 +169,7 @@ def load_speech_creds() -> SpeechCreds:
     if missing:
         raise AzureCredsError(
             f"Speech credentials missing: {', '.join(missing)}. "
-            f"Run: cd infra/azure && ./store-keychain-keys.sh "
+            f"Run: cd infra/azure && bash pull-secrets.sh "
             f"(or export AZURE_SPEECH_ENDPOINT/KEY/REGION for CI)."
         )
     return SpeechCreds(endpoint=endpoint.rstrip("/"), key=key, region=region)
