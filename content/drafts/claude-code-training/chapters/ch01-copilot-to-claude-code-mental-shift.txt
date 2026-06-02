@@ -1,4 +1,4 @@
-# Claude Code vs GitHub Copilot — What's Different and Why It Matters
+# Claude Code vs Copilot — The Architectural Shift
 
 This chapter is the first of a three-part series for developers who already use GitHub Copilot in VS Code and want to understand where Claude Code fits in. It is not a pitch to switch tools and it is not a takedown of the IDE you already work in every day. The audience is a senior developer with two or more years of daily Copilot use, asking from a position of competence rather than frustration: what does Claude Code actually do, how is it built differently from what I already have, and is there a real reason to add a second tool to my workflow? The honest answer turns out to be more interesting than either a yes or a no, and the rest of this chapter walks toward it carefully.
 

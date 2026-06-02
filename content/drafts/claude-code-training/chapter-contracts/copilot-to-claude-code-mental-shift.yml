@@ -3,7 +3,7 @@ chapter_ref: ch01-copilot-to-claude-code-mental-shift
 pipeline: standard
 episode: EP01
 episode_number: 1
-title: "Claude Code vs GitHub Copilot — What's Different and Why It Matters"
+title: "Claude Code vs Copilot — The Architectural Shift"
 source_type: synthesized-explainer
 book_slug: claude-code-training
 episode_format: deep_dive
