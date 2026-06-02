@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-02T22:02:16.747Z",
-  "source_commit": "bd4459a",
+  "generated_at": "2026-06-02T22:11:25.474Z",
+  "source_commit": "55c1a86",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -931,6 +931,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "55c1a86",
+      "subject": "fix(quality-audit): resolve 7 test failures + add consumer category phase gates",
+      "date": "2026-06-02"
+    },
+    {
       "sha": "bd4459a",
       "subject": "chore(claude-code-training): add EP01 framing artifact",
       "date": "2026-06-02"
@@ -973,11 +978,6 @@
     {
       "sha": "47abc17",
       "subject": "feat(pipeline+plan): explainers category + Python snapshot + content-profile wave",
-      "date": "2026-06-01"
-    },
-    {
-      "sha": "eb7368e",
-      "subject": "feat(pipeline+healthequity): category-aware framing + 3 consumer episodes built",
       "date": "2026-06-01"
     }
   ],

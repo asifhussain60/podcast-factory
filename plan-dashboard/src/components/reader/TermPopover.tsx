@@ -6,13 +6,14 @@
  * Cached in localStorage (per book). No Tailwind utility classes.
  */
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { getTermDef, setTermDef } from '../../lib/reader/ai-cache';
 
 interface Def {
   definition?: string;
   etymology?: string;
   related?: string[];
+  source?: 'local' | 'gemini';
 }
 
 interface State {
@@ -31,6 +32,7 @@ interface Props { book: string; }
 
 export default function TermPopover({ book }: Props) {
   const [state, setState] = useState<State | null>(null);
+  const [etymExpanded, setEtymExpanded] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
   const hoverTimerRef = useRef<number | null>(null);
 
@@ -48,6 +50,7 @@ export default function TermPopover({ book }: Props) {
       const rect = span.getBoundingClientRect();
 
       const cached = getTermDef(book, phonetic) as Def | null;
+      setEtymExpanded(false);
       setState({ anchorRect: rect, phonetic, transliteration: tr, script, audio, context: ctxText, def: cached, loading: !cached });
 
       if (cached) return;
@@ -125,7 +128,7 @@ export default function TermPopover({ book }: Props) {
       aria-label={`Definition of ${state.phonetic}`}
     >
       <div className="popover-header">
-        <span>Glossary · via Gemini</span>
+        <span>Glossary · via {state.def?.source === 'local' ? 'local library' : 'Gemini'}</span>
         <button className="popover-close" onClick={() => setState(null)} aria-label="Close">✕</button>
       </div>
       <div className="popover-body">
@@ -153,7 +156,18 @@ export default function TermPopover({ book }: Props) {
           <p className="popover-definition">{state.def.definition}</p>
         )}
         {state.def?.etymology && (
-          <p className="popover-etymology">{state.def.etymology}</p>
+          <div className="popover-etymology-block">
+            <button
+              className="popover-etymology-toggle"
+              onClick={() => setEtymExpanded((v) => !v)}
+              aria-expanded={etymExpanded}
+            >
+              Etymology {etymExpanded ? '▴' : '▾'}
+            </button>
+            {etymExpanded && (
+              <p className="popover-etymology">{state.def.etymology}</p>
+            )}
+          </div>
         )}
         {state.def?.related && state.def.related.length > 0 && (
           <div className="popover-related">

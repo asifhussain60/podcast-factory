@@ -2194,7 +2194,12 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-j-mcp-server"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed_2026_05_28
+        completed_notes: |
+          source_library_server.py (320 lines): MCP stdio transport (JSON-RPC 2.0) +
+          FastAPI HTTP on port 4390. Six query functions: quran_lookup, quran_theme_search,
+          word_etymology, topic_search, topic_get, session_style_fetch. .mcp.json registered.
+          source_library_queries.py (385 lines): mirror-first queries with SQL Server fallback.
 
       - id: J1
         title: "Build the search-optimised SQLite mirror with FTS5 tables and a unified term index"
@@ -2312,7 +2317,19 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-j-astro-rewiring"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed_2026_06_02
+        completed_notes: |
+          localServerClient.ts: probe + typed helpers (fetchLocalVerse, fetchLocalTermDef,
+          fetchLocalEtymology, fetchLocalTopic). 300ms timeout, 60s re-probe interval.
+          verse.ts rewired: local-first (localhost:4390/quran/verse), quran.com fallback.
+          VerseData extended: asad_translation, urdu_translation, phonetic, source fields.
+          define-term.ts rewired: local-first (localhost:4390/term/define), Gemini fallback
+          when found:false or server unreachable. source field in response.
+          etymology.ts: new GET /api/quran/etymology?root=<str> route.
+          wisdom/topic.ts: new GET /api/wisdom/topic?id=<n> route (J5 TopicPopover consumer).
+          QuranPopover.tsx: asad_translation section, phonetic line, local/quran.com source label.
+          TermPopover.tsx: source label (local library vs Gemini), expandable etymology section.
+          lint:views errors=0 warns=0; astro check: 0 new errors introduced.
 
       - id: J3
         title: "Wire enrichment phase to use live verse lookups as a complete-coverage fallback"
