@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-02T22:33:56.920Z",
-  "source_commit": "5031f16",
+  "generated_at": "2026-06-02T22:38:21.783Z",
+  "source_commit": "39629c6",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -696,7 +696,7 @@
       "id": "J0",
       "wave": "J",
       "title": "Build the dual-interface source library server — MCP stdio for the pipeline, HTTP for the Astro editor",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [],
       "plain": "",
@@ -707,7 +707,7 @@
       "id": "J1",
       "wave": "J",
       "title": "Build the search-optimised SQLite mirror with FTS5 tables and a unified term index",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "J0"
@@ -720,7 +720,7 @@
       "id": "J2",
       "wave": "J",
       "title": "Rewire the Astro editor's existing popover API routes to call the local server first",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "J0",
@@ -734,7 +734,7 @@
       "id": "J3",
       "wave": "J",
       "title": "Wire enrichment phase to use live verse lookups as a complete-coverage fallback",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "J0",
@@ -748,7 +748,7 @@
       "id": "J4",
       "wave": "J",
       "title": "Wire style rewrite phase to pull live session samples matched to each chapter's themes",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "J0",
@@ -762,7 +762,7 @@
       "id": "J5",
       "wave": "J",
       "title": "Add Wisdom topic cross-reference popover to the live editor",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "J0",
@@ -931,6 +931,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "39629c6",
+      "subject": "feat(wave-j/J3-J5): live verse fallback, session style fetch, TopicPopover",
+      "date": "2026-06-02"
+    },
+    {
       "sha": "5031f16",
       "subject": "feat(wave-j/J2): local-first verse + term lookups — zero Gemini spend for known terms",
       "date": "2026-06-02"
@@ -973,11 +978,6 @@
     {
       "sha": "a897d40",
       "subject": "fix(healthequity): editorial fixes across all 3 chapters + rebuild episodes",
-      "date": "2026-06-01"
-    },
-    {
-      "sha": "19420bc",
-      "subject": "Merge branch 'site/healthequity' into develop",
       "date": "2026-06-01"
     }
   ],
