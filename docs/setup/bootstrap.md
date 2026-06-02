@@ -60,43 +60,37 @@ git log --oneline -5    # Sanity-check recent history
 
 The repo is flat (no worktrees container). Books in flight live under [`content/drafts/<slug>/`](../../content/drafts/); shipped books live under [`content/published/books/<slug>/`](../../content/published/books/).
 
-## Step 5 — Wire Azure (ONLY if this Mac drives Azure pipeline phases)
+## Step 5 — Wire Azure + all API keys (ONLY if this Mac drives pipeline phases)
 
-The pipeline uses three Azure services: Document Intelligence (OCR), Translator (ar→en + others), and Speech (audio transcription). Credentials live in the macOS Keychain so the scripts can find them without env vars or dotfiles.
-
-```bash
-cd ~/PROJECTS/podcast-factory/infra/azure
-az login
-az account set --subscription "Journal AI — primary"
-
-# One-time provisioning if the Azure resources don't exist yet:
-bash provision-azure.sh         # Idempotent; safe to re-run
-# Always:
-bash store-keychain-keys.sh     # Pulls keys/endpoints/regions into Keychain
-```
-
-Verify with the connectivity probe:
+All credentials — Azure services, Gemini, and Anthropic — are centralised in **Azure Key Vault** (`podcast-factory-vault`). A new machine needs only one command after `az login`:
 
 ```bash
-cd ~/PROJECTS/podcast-factory
-python3 scripts/podcast/test_azure_connectivity.py
+cd ~/Code/podcast-factory/infra/azure
+az login                   # One OAuth flow in browser — skip if already logged in
+bash pull-secrets.sh       # Pulls ALL secrets from Key Vault → local macOS Keychain
 ```
 
-Expect 5 PASS lines (Translator creds + Doc Intel creds + Translator live + Doc Intel reachable + Speech creds). Speech is optional and prints `PASS (skipped)` if the credentials aren't yet provisioned — that's fine if you don't plan to transcribe audio yet.
+`pull-secrets.sh` is idempotent — safe to re-run after key rotation. It ends by running `test_azure_connectivity.py` automatically; expect 5 PASS lines.
+
+> **First-time Azure provisioning** (only needed if you're setting up a brand-new Azure subscription or the resource group doesn't exist):
+> ```bash
+> az account set --subscription "Journal AI — primary"
+> bash provision-azure.sh        # Creates rg-journal-ai + all services (idempotent)
+> bash migrate-to-keyvault.sh    # Push current keychain → Key Vault (primary Mac only)
+> ```
 
 ## Step 5.5 — Wire LLM APIs (Claude + Gemini)
 
-Anthropic Claude runs off the Max subscription via `claude login` — no API key is needed for the main orchestrator pipeline. Google Gemini needs an API key stored in keychain. Full reference: [infra/llm-apis/README.md](../../infra/llm-apis/README.md).
+**Gemini** is already in Key Vault — `pull-secrets.sh` (Step 5) writes it to your keychain as `gemini_api_key` automatically. No separate step needed.
 
-```bash
-cd ~/PROJECTS/podcast-factory
-bash infra/llm-apis/bootstrap-llm-apis.sh   # Prompts you to paste the Gemini key (silent)
-bash infra/llm-apis/verify-llm-apis.sh      # Confirms both providers reachable
-```
+**Claude** runs off the Max subscription via `claude login` — no API key needed for the main orchestrator pipeline.
 
-To get the Gemini key value: open [aistudio.google.com/apikey](https://aistudio.google.com/apikey), find the `podcast-factory` row, click the copy icon.
-
-> **Note — `anthropic_api_key` keychain entry:** `scripts/podcast/segment_book.py` (a standalone segmentation utility, not called by the main orchestrator) falls back to a keychain entry named `anthropic_api_key` when `ANTHROPIC_API_KEY` env var is not set. If you plan to run `segment_book.py` directly, store your key: `security add-generic-password -s anthropic_api_key -a "$USER" -w`. The main `orchestrate_book.py` pipeline does NOT need this — it invokes the `claude` CLI which uses the Max subscription session.
+> **`anthropic_api_key` (optional):** `scripts/podcast/segment_book.py` (a standalone utility, not called by the main orchestrator) falls back to a keychain entry `anthropic_api_key`. If you plan to run it directly, add the key to Key Vault first on the primary Mac:
+> ```bash
+> security find-generic-password -s anthropic_api_key -w  # confirm it's in keychain
+> bash migrate-to-keyvault.sh                              # pushes it to Key Vault
+> ```
+> Then `pull-secrets.sh` will pick it up on every machine going forward.
 
 ## Step 5.7 — Set up the source library database (local knowledge corpus)
 

@@ -91,26 +91,23 @@ ENTRIES=()
   "storage-account"
 )
 
-echo "==> Pushing ${#ENTRIES[@]} secrets from Keychain → $KEYVAULT_NAME"
-
 PUSHED=0
 SKIPPED=0
 MISSING=0
 
-for entry in "${ENTRIES[@]}"; do
-  service="${PREFIX}-${entry}"
-  kv_name="${PREFIX}-${entry}"
-  # Key Vault secret names can't contain underscores; ours don't, but guard anyway.
-  kv_name="${kv_name//_/-}"
+# Generic push helper: keychain service name → Key Vault secret name
+push_entry() {
+  local keychain_service="$1"   # name used in macOS Keychain
+  local kv_name="$2"            # name to use in Key Vault (hyphens only)
 
-  # Read from Keychain
-  if ! local_value=$(security find-generic-password -s "$service" -w 2>/dev/null); then
-    echo "  MISS  $service (not in Keychain — skipping)"
+  local local_value
+  if ! local_value=$(security find-generic-password -s "$keychain_service" -w 2>/dev/null); then
+    echo "  MISS  $keychain_service (not in Keychain — skipping)"
     MISSING=$((MISSING + 1))
-    continue
+    return
   fi
 
-  # Compare with current Key Vault value, if any
+  local current_value
   current_value=$(az keyvault secret show \
     --vault-name "$KEYVAULT_NAME" --name "$kv_name" \
     --query value -o tsv 2>/dev/null || true)
@@ -118,10 +115,9 @@ for entry in "${ENTRIES[@]}"; do
   if [ "$current_value" = "$local_value" ]; then
     echo "  SAME  $kv_name (already up to date)"
     SKIPPED=$((SKIPPED + 1))
-    continue
+    return
   fi
 
-  # Push
   az keyvault secret set \
     --vault-name "$KEYVAULT_NAME" \
     --name "$kv_name" \
@@ -129,7 +125,20 @@ for entry in "${ENTRIES[@]}"; do
     --output none
   echo "  PUSH  $kv_name"
   PUSHED=$((PUSHED + 1))
+}
+
+# ── Azure service secrets (keychain name = KV name = azure-<app>-<suffix>) ──
+echo "==> Pushing ${#ENTRIES[@]} Azure service secrets → $KEYVAULT_NAME"
+for entry in "${ENTRIES[@]}"; do
+  kv_name="${PREFIX}-${entry}"
+  kv_name="${kv_name//_/-}"
+  push_entry "${PREFIX}-${entry}" "$kv_name"
 done
+
+# ── Non-Azure API keys (different keychain names; stored under llm-* in KV) ──
+echo "==> Pushing LLM API keys → $KEYVAULT_NAME"
+push_entry "gemini_api_key"     "llm-gemini-api-key"
+push_entry "anthropic_api_key"  "llm-anthropic-api-key"
 
 echo
 echo "Summary: pushed $PUSHED · unchanged $SKIPPED · missing $MISSING"

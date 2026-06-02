@@ -86,7 +86,16 @@ echo "    $RESOURCE_GROUP  →  OK"
 # --- Fetch keys to Keychain ------------------------------------------------
 echo
 echo "==> [4/7] Fetching API keys → macOS Keychain"
-"$SCRIPT_DIR/store-keychain-keys.sh"
+# shellcheck disable=SC1090
+source "$CONFIG_FILE"
+if [ "${ENABLE_KEYVAULT:-false}" = "true" ] && \
+   az keyvault show --name "${KEYVAULT_NAME:-}" --output none 2>/dev/null; then
+  echo "    Key Vault enabled — pulling from $KEYVAULT_NAME"
+  "$SCRIPT_DIR/pull-secrets.sh"
+else
+  echo "    Key Vault not enabled — fetching directly from Azure resources"
+  "$SCRIPT_DIR/store-keychain-keys.sh"
+fi
 
 # --- Verify whole stack ----------------------------------------------------
 echo
