@@ -1,0 +1,65 @@
+slug: claude-code-training
+title: "Claude Code: From Copilot to Agentic AI"
+subtitle: "A practical training series for developers switching from GitHub Copilot"
+content_type: explainer-series
+source_language: en
+pipeline_mode: explainer_series
+
+audience_profile:
+  description: "Professional software developers currently using GitHub Copilot in VSCode"
+  assumed_knowledge:
+    - "Comfortable with VSCode and its extension ecosystem"
+    - "Familiar with GitHub Copilot (inline suggestions, Copilot Chat)"
+    - "Understands basic terminal/CLI usage"
+    - "Works with git daily"
+  knowledge_gaps:
+    - "What 'agentic AI' means in practice"
+    - "How Claude Code differs architecturally from autocomplete tools"
+    - "Mental model shift from suggestion-acceptance to goal-delegation"
+    - "CLAUDE.md, hooks, MCP — Claude Code-specific concepts"
+
+series_format:
+  episode_count: 3
+  target_length_min: 20
+  host_dynamic: solo_expert
+  tone: practical_and_direct
+  no_fluff: true
+
+source_tradition: technical_documentation
+source_authority: primary_official_docs_only
+
+episodes:
+  - slug: ep01-claude-code-vs-copilot
+    title: "Claude Code vs GitHub Copilot — What's Different and Why It Matters"
+    order: 1
+    purpose: "Position Claude Code correctly. Audience knows Copilot deeply — use that as the anchor."
+    key_questions:
+      - "Is this Copilot with a different name?"
+      - "What does 'agentic' actually mean for my daily work?"
+      - "Should I switch or use both?"
+
+  - slug: ep02-how-claude-code-works
+    title: "How Claude Code Actually Works — The Agentic Mental Model"
+    order: 2
+    purpose: "Build the correct mental model before hands-on use. Saves frustration in episode 3."
+    key_questions:
+      - "What tools does it have?"
+      - "How does CLAUDE.md work?"
+      - "What are hooks and why do I need them?"
+
+  - slug: ep03-getting-started
+    title: "Getting Up and Running with Claude Code — Your First Session"
+    order: 3
+    purpose: "Hands-on. Leave the listener able to install, authenticate, and complete their first real task."
+    key_questions:
+      - "What do I actually type to install it?"
+      - "What's different for Copilot users on day one?"
+      - "What settings should I configure immediately?"
+
+notebooklm_settings:
+  format: conversational
+  host_style: two_hosts_discussing
+  avoid:
+    - speculation_about_future_features
+    - opinion_not_grounded_in_docs
+    - generic_ai_hype_language
