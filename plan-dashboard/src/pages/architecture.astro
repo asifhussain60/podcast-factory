@@ -95,8 +95,8 @@ import AudienceBadge from '../components/AudienceBadge.astro';
     </div>
   </section>
 
-  <section class="stack">
-    <h2>The pipeline as a timeline</h2>
+  <section id="s01-pipeline" class="stack">
+    <h2><span class="num">01</span> The pipeline as a timeline</h2>
     <p>
       Walk through every station a book passes through. The mini-rail keeps track of where you are.
       Each station shows what plugs in, which agent does the work, and what the agent knows and won't do.
@@ -127,8 +127,8 @@ import AudienceBadge from '../components/AudienceBadge.astro';
        L2 — ARCHITECT LAYER
   ═══════════════════════════════════════════════════════════════════ -->
 
-  <section class="stack" aria-label="L2 architect detail">
-    <h2>Future-state phase sequence — model &amp; cost annotation</h2>
+  <section id="s02-phases" class="stack" aria-label="L2 architect detail">
+    <h2><span class="num">02</span> Future-state phase sequence — model &amp; cost annotation</h2>
     <p>
       The swimlane below maps every planned station with the AI model it uses, the service it calls,
       and its token cost tier. Stations marked <strong>FUTURE</strong> are designed and tracked in the
@@ -140,8 +140,8 @@ import AudienceBadge from '../components/AudienceBadge.astro';
 
   <hr />
 
-  <section class="stack">
-    <h2>The six layers underneath</h2>
+  <section id="s03-layers" class="stack">
+    <h2><span class="num">03</span> The six layers underneath</h2>
     <p>
       The code itself is organized as six stacked layers. A layer can only call into the layers below it. This is
       what keeps the system testable and changeable — adding a new book kind, a new rule, or a new vendor never
@@ -152,8 +152,8 @@ import AudienceBadge from '../components/AudienceBadge.astro';
 
   <hr />
 
-  <section class="stack">
-    <h2>The book kinds we handle today</h2>
+  <section id="s04-book-kinds" class="stack">
+    <h2><span class="num">04</span> The book kinds we handle today</h2>
     <p>
       Each kind of book reads through the same pipeline but engages a different set of rules. New kinds are added by
       registering them — never by branching the pipeline code itself.
@@ -170,8 +170,8 @@ import AudienceBadge from '../components/AudienceBadge.astro';
 
   <hr />
 
-  <section class="stack">
-    <h2>The annotation-to-intelligence lane</h2>
+  <section id="s05-annotation" class="stack">
+    <h2><span class="num">05</span> The annotation-to-intelligence lane</h2>
     <p>
       The chapter reader now includes a right-hand annotation workspace built for one-handed review flow. It captures
       paragraph markers, autosaved notes, and queued AI instructions, then writes a durable chapter JSON handoff that

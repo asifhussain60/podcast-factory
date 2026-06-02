@@ -23,5 +23,57 @@ function initBackToTop(): void {
   onScroll();
 }
 
-if (document.readyState !== 'loading') initBackToTop();
-else document.addEventListener('DOMContentLoaded', initBackToTop);
+function initJumpNav(): void {
+  const nav = document.getElementById('jump-nav') as HTMLElement | null;
+  if (!nav) return;
+
+  const sections = Array.from(
+    document.querySelectorAll<HTMLElement>('main section[id]')
+  ).filter(s => /^s\d/.test(s.id));
+
+  if (sections.length < 2) { nav.hidden = true; return; }
+
+  const label = document.createElement('span');
+  label.className = 'jump-nav-label';
+  label.textContent = 'On this page';
+  nav.appendChild(label);
+
+  sections.forEach(s => {
+    const heading = s.querySelector('h2, h3');
+    const text = (heading?.textContent ?? s.id)
+      .replace(/^\d+\s*/, '').trim();
+    const a = document.createElement('a');
+    a.className = 'jump-nav-link';
+    a.href = `#${s.id}`;
+    a.textContent = text;
+    nav.appendChild(a);
+  });
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  nav.querySelectorAll<HTMLAnchorElement>('.jump-nav-link').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.getElementById(a.hash.slice(1));
+      target?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const link = nav.querySelector<HTMLAnchorElement>(`a[href="#${entry.target.id}"]`);
+      if (!link) return;
+      if (entry.isIntersecting) link.classList.add('is-active');
+      else link.classList.remove('is-active');
+    });
+  }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(s => observer.observe(s));
+}
+
+function init(): void {
+  initBackToTop();
+  initJumpNav();
+}
+
+if (document.readyState !== 'loading') init();
+else document.addEventListener('DOMContentLoaded', init);

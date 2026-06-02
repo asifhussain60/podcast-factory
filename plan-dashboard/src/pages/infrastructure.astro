@@ -95,15 +95,15 @@ const hotspots = [
 </div>
 
 <!-- 5.1 Deployment topology -->
-<section class="stack" id="s-topology" aria-label="Deployment topology">
-  <h2>Deployment topology — what runs locally, what leaves the machine</h2>
+<section class="stack" id="s01-topology" aria-label="Deployment topology">
+  <h2><span class="num">01</span> Deployment topology — what runs locally, what leaves the machine</h2>
   <p>Two trust zones, stacked. Everything in the top zone runs on your machine; the boundary below is crossed only over an encrypted or local-network connection, each labelled with its protocol and how it is authorised.</p>
   <InfraDeployment />
 </section>
 
 <!-- 5.2 Blackbox dual transport -->
-<section class="stack" id="s-transport" aria-label="Access-layer transports">
-  <h2>How the knowledge is reached — one query layer, two doors</h2>
+<section class="stack" id="s02-transport" aria-label="Access-layer transports">
+  <h2><span class="num">02</span> How the knowledge is reached — one query layer, two doors</h2>
   <p>The Source Library Server exposes a single query layer through two transports: the pipeline's agents speak to it over a local process channel, and the reader's browser reaches it over local HTTP. Both hit the same code path; neither touches the network.</p>
   <Mermaid
     id="blackbox-transport"
@@ -113,8 +113,8 @@ const hotspots = [
 </section>
 
 <!-- 5.3 Ingest path -->
-<section class="stack" id="s-ingest" aria-label="Knowledge ingest path">
-  <h2>How new source knowledge is absorbed</h2>
+<section class="stack" id="s03-ingest" aria-label="Knowledge ingest path">
+  <h2><span class="num">03</span> How new source knowledge is absorbed</h2>
   <p>Dropping a lecture-transcript dump runs an idempotent ingest: anything already in the corpus is skipped, so re-running the same dump never duplicates content.</p>
   <Mermaid
     id="ksessions-ingest"
@@ -124,8 +124,8 @@ const hotspots = [
 </section>
 
 <!-- 5.4 Credentials -->
-<section class="stack" id="s-credentials" aria-label="Credential and auth map">
-  <h2>Credentials — where every secret lives and what it authorises</h2>
+<section class="stack" id="s04-credentials" aria-label="Credential and auth map">
+  <h2><span class="num">04</span> Credentials — where every secret lives and what it authorises</h2>
   <p>Every key is stored in a single git-ignored local file (or held only as a browser session). Risk is rated by privilege and exposure.</p>
   <div class="infra-table-wrap" role="region" aria-label="Credentials table" tabindex="0">
     <table class="infra-table">
@@ -149,8 +149,8 @@ const hotspots = [
 </section>
 
 <!-- Hotspots index -->
-<section class="stack" id="s-hotspots" aria-label="Hotspots index">
-  <h2>Hotspots index — security, cost, and architecture at a glance</h2>
+<section class="stack" id="s05-hotspots" aria-label="Hotspots index">
+  <h2><span class="num">05</span> Hotspots index — security, cost, and architecture at a glance</h2>
   <p>A standing punch-list for the technical reader: what to watch (security, cost), what is deliberately structured (architecture), and what is verified clean.</p>
   <div class="infra-table-wrap" role="region" aria-label="Hotspots index table" tabindex="0">
     <table class="infra-table">
@@ -172,8 +172,8 @@ const hotspots = [
 </section>
 
 <!-- Database groups -->
-<section class="stack" id="s-database" aria-label="Database architecture overview">
-  <h2>Database architecture — what the knowledge store holds</h2>
+<section class="stack" id="s06-database" aria-label="Database architecture overview">
+  <h2><span class="num">06</span> Database architecture — what the knowledge store holds</h2>
   <p>Sixteen SOLID-compliant tables in a single SQLite database replace scattered JSONL files. Four logical groups, each with a distinct role. <a href="/db-schema">Explore the full schema →</a></p>
 
   <div class="db-overview-grid">
@@ -229,8 +229,8 @@ const hotspots = [
 </section>
 
 <!-- Vendor cost drill-down -->
-<section class="stack" id="s-costs">
-  <h2>Vendor cost breakdown</h2>
+<section class="stack" id="s07-costs">
+  <h2><span class="num">07</span> Vendor cost breakdown</h2>
   <p>Per-service cost detail. Each vendor is rolled up above; expand here to see individual service calls.</p>
   <InfraColumns vendors={infra.vendors} client:load />
 </section>

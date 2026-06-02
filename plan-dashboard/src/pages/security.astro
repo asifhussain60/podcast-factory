@@ -68,8 +68,8 @@ const riskLabel = (r: string) => r === 'low' ? 'Low' : r === 'attention' ? 'Atte
   </section>
 
   <!-- L1 Diagram: C4 Context — the big picture -->
-  <section class="stack">
-    <h2>The full picture — what connects to what</h2>
+  <section id="s01-overview" class="stack">
+    <h2><span class="num">01</span> The full picture — what connects to what</h2>
     <p>
       Five external services touch the factory. The diagram below names all five, what they do,
       and what channel the factory uses to reach each one. Everything inside the local zone
@@ -104,8 +104,8 @@ const riskLabel = (r: string) => r === 'low' ? 'Low' : r === 'attention' ? 'Atte
        References L1 diagram by label — never redraws it.
   ══════════════════════════════════════════════════════════════════ -->
 
-  <section class="stack" aria-label="L2 architect detail">
-    <h2>Container data flow &amp; trust boundaries</h2>
+  <section id="s02-trust" class="stack" aria-label="L2 architect detail">
+    <h2><span class="num">02</span> Container data flow &amp; trust boundaries</h2>
     <p>
       The C4 context diagram above shows the five external trust zones.
       This zooms in on the two containers inside the local boundary — the Python pipeline and
@@ -121,8 +121,8 @@ const riskLabel = (r: string) => r === 'low' ? 'Low' : r === 'attention' ? 'Atte
 
   <hr />
 
-  <section class="stack">
-    <h2>Where every credential lives</h2>
+  <section id="s03-credentials" class="stack">
+    <h2><span class="num">03</span> Where every credential lives</h2>
     <p>
       Four API keys are stored in a local <code>.env</code> file that git ignores.
       One service (Google / NotebookLM) requires no stored key — it runs through a browser session.
@@ -151,8 +151,8 @@ const riskLabel = (r: string) => r === 'low' ? 'Low' : r === 'attention' ? 'Atte
 
   <hr />
 
-  <section class="stack">
-    <h2>Hotspots — ranked by severity</h2>
+  <section id="s04-hotspots" class="stack">
+    <h2><span class="num">04</span> Hotspots — ranked by severity</h2>
     <p>
       Twenty items reviewed. Four categories: SEC (security surface), COST (financial exposure),
       ARCH (design concern), OK (verified and mitigated). Items marked SEC require active decisions.
@@ -281,8 +281,8 @@ const riskLabel = (r: string) => r === 'low' ? 'Low' : r === 'attention' ? 'Atte
 
   <hr />
 
-  <section class="stack">
-    <h2>Glossary</h2>
+  <section id="s05-glossary" class="stack">
+    <h2><span class="num">05</span> Glossary</h2>
     <p class="muted small">Domain terms used in this and the Pipeline view. Alphabetised.</p>
     <div class="grid-2">
       <div class="card card-tight">

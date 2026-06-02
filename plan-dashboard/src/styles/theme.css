@@ -2792,6 +2792,65 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .skip-link:focus { top: var(--sp-3); }
 @media (prefers-reduced-motion: reduce) { .skip-link { transition: none; } }
 
+/* ── Within-page jump nav (REQ-044) ──────────────────────────────────────── */
+/* Fixed right-side TOC, visible only on very wide viewports so it never
+   crowds the content column. JS (site-chrome.ts) populates it and uses
+   IntersectionObserver to track the active section. */
+.jump-nav {
+  display: none; /* JS shows it when ≥2 sections are found */
+  position: fixed;
+  top: 96px;
+  right: max(1rem, calc((100vw - var(--maxw-page)) / 2 - 14rem));
+  width: 13rem;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  padding: var(--sp-4) 0;
+  z-index: 30;
+}
+.jump-nav:not([hidden]) { display: flex; flex-direction: column; gap: var(--sp-1); }
+.jump-nav-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+  padding: 0 var(--sp-3) var(--sp-2);
+  border-bottom: 1px solid var(--c-rule);
+  margin-bottom: var(--sp-1);
+}
+.jump-nav-link {
+  font-size: var(--fs-sm);
+  color: var(--c-ink-dim);
+  text-decoration: none;
+  padding: var(--sp-1) var(--sp-3);
+  border-radius: var(--r-sm);
+  border-left: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  line-height: 1.35;
+}
+.jump-nav-link:hover { color: var(--c-ink); background: var(--c-bg-elev); }
+.jump-nav-link.is-active {
+  color: var(--c-accent);
+  border-left-color: var(--c-accent);
+  background: color-mix(in oklab, var(--c-accent) 8%, transparent);
+}
+/* Only render at viewports wide enough that it doesn't overlap content */
+@media (max-width: 1400px) { .jump-nav { display: none !important; } }
+@media print { .jump-nav { display: none !important; } }
+
+/* ── Section number marker (REQ-004) ─────────────────────────────────────── */
+/* <h2><span class="num">01</span> Section title</h2> */
+.num {
+  display: inline-block;
+  font-size: 0.75em;
+  font-weight: 700;
+  color: var(--c-ink-muted);
+  letter-spacing: 0.04em;
+  margin-right: 0.4em;
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+}
+
 /* Print stylesheet (REQ-055) — readable monochrome, no chrome. */
 @media print {
   .topnav, .subnav-h, .skip-link, .foot { display: none; }
