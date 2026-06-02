@@ -1,0 +1,62 @@
+slug: copilot-to-claude-code-mental-shift
+chapter_ref: ch01-copilot-to-claude-code-mental-shift
+pipeline: standard
+episode: EP01
+episode_number: 1
+title: "Claude Code vs GitHub Copilot — What's Different and Why It Matters"
+source_type: synthesized-explainer
+book_slug: claude-code-training
+episode_format: deep_dive
+format_rationale: "Chapter unfolds one position layer-by-layer (the suggest-vs-execute architectural distinction between Copilot and Claude Code) and lands on the complementary-tools conclusion. There is NO named opposing voice running through the chapter — the student is a curious-but-precise senior developer asking from competence, not an advocate for a rival position, and the teacher never argues against Copilot. Source's own format guidance explicitly labels this a teacher-student dialogue with no rivalry framing."
+essential: core
+essential_rationale: "Required opener for the three-part series — establishes the architectural framing (autocomplete vs. agentic) that episodes 2 and 3 depend on; removing it would leave the agentic mental-model build (EP02) and the hands-on session (EP03) without their motivating why."
+host_dynamic: "curious_mind + scholar_companion"
+host_dynamic_rationale: "Scholar_companion is the experienced Claude Code practitioner who has made the Copilot-to-Claude-Code transition himself and respects Copilot enough not to argue against it; curious_mind is the senior software developer with 2+ years of daily Copilot use, asking pointed questions from competence rather than ignorance, who wants to understand what Claude Code adds rather than be won over."
+word_count: 5791
+length_target: extended
+audience: "Senior software developers with two or more years of daily GitHub Copilot use in VS Code, technically fluent and asking from a position of competence rather than frustration — they want to understand what Claude Code adds to their existing workflow, not be sold on switching tools."
+angle: faithful_exposition
+key_tensions:
+  - "Copilot already does multi-file edits via agent mode, and its cloud agent runs on the Claude Agent SDK — what is the actual architectural difference worth caring about?"
+  - "The audience works entirely in VS Code; Claude Code is terminal-first — is the VS Code extension a workable bridge or a compromise?"
+  - "Claude Code has no inline completion at all, by deliberate design — how does the day-to-day writing experience change, and is the trade-off worth it for an existing Copilot user?"
+  - "If Copilot Business users can already pick Claude as their model, what does choosing Claude Code actually choose?"
+tone_constraints:
+  - "Practical and direct — no hype, no speculation about unreleased features, no opinion not grounded in official docs"
+  - "Respect Copilot — never frame it as a foil to argue against; acknowledge every Copilot strength before introducing an architectural difference"
+  - "Honest about Claude Code's limits — say plainly that it has no inline completion and that this is a deliberate architectural choice, not a gap"
+  - "Concrete and specific — name the official documentation source for every claim (code.claude.com, anthropic.com, docs.github.com), use real 2026 prices and model names"
+  - "Land the complementary-tools insight as clarity, not surprise — the logical conclusion of the architectural walk-through"
+anchor_passages:
+  - quote: "Claude Code is an agentic coding tool that reads your codebase, edits files, runs commands, and integrates with your development tools."
+    source: "code.claude.com (Anthropic official documentation)"
+    why: "Establishes Claude Code's self-description as an actor (reads, edits, runs, integrates) rather than a suggestion engine — the verbs carry the architectural claim."
+  - quote: "GitHub Copilot transforms the developer experience by providing contextualized assistance throughout the software development lifecycle."
+    source: "docs.github.com (GitHub official documentation)"
+    why: "Establishes Copilot's self-description as 'assistance' — the contrast with Claude Code's verbs is the cleanest expression of the architectural framing the episode is building toward."
+  - quote: "The developer sets the objective... Claude Code operates at the project level, reads the full codebase, plans an approach across multiple files, executes changes, runs tests, and iterates on failures."
+    source: "Anthropic official documentation"
+    why: "Single-sentence canonical description of the agentic loop — the mental-model shift in one paragraph."
+  - quote: "leverages the Claude Agent SDK."
+    source: "docs.github.com/en/copilot/concepts/agents/anthropic-claude"
+    why: "The infrastructure-partnership fact that turns the comparison from rivalry into job-allocation — the episode's landing insight rests on this."
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: "Three-part series on Claude Code for developers who use GitHub Copilot daily. Episode one walks through the architectural difference between suggestion-based and agentic coding tools — and lands on why the two are complementary rather than rival, with GitHub's own cloud agent running on the Claude Agent SDK."
+  related_episodes:
+    - how-claude-code-actually-works
+    - first-session-walkthrough
+  references:
+    - "Claude Code overview — code.claude.com/docs/en/overview"
+    - "Claude Code VS Code extension — code.claude.com/docs/en/vs-code"
+    - "Claude Code product page — anthropic.com/product/claude-code"
+    - "Claude pricing — claude.com/pricing"
+    - "GitHub Copilot features — docs.github.com/en/copilot/get-started/features"
+    - "GitHub Copilot plans — docs.github.com/en/copilot/get-started/plans"
+    - "Copilot cloud agent — docs.github.com/copilot/concepts/agents/coding-agent/about-coding-agent"
+    - "Anthropic Claude in GitHub Copilot — docs.github.com/en/copilot/concepts/agents/anthropic-claude"
+    - "Copilot agent mode press release — github.com/newsroom/press-releases/agent-mode"
+source_tradition: technical_documentation
+audience_profile: professional_developer
+thesis_relevance: "This chapter advances the book's central claim that Claude Code is a complementary agentic tool — additive to a Copilot-based workflow, not a replacement — by establishing the architectural distinction (suggest vs. execute, per-keystroke vs. per-task) that the suggestion-versus-agent framing rests on, and by surfacing the infrastructure-partnership fact that GitHub's cloud agent runs on the Claude Agent SDK so the listener exits the episode framing the choice as which-job rather than which-vendor."
