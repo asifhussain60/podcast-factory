@@ -4,8 +4,8 @@
   "branch": "site/claude-code",
   "content_type": "explainer-series",
   "pipeline_mode": "explainer_series",
-  "phase": "06a",
-  "phase_status": "awaiting_human_review",
+  "phase": "0e",
+  "phase_status": "completed",
   "last_completed_phase": "0e",
   "last_error": null,
   "phases": {
@@ -44,7 +44,7 @@
     "0e": {
       "status": "completed",
       "ts_started": "2026-06-02T19:50:20Z",
-      "ts_completed": "2026-06-02T20:09:15Z"
+      "ts_completed": "2026-06-02T20:10:19Z"
     },
     "06a": {
       "status": "halted",
@@ -80,7 +80,7 @@
     }
   },
   "next_phase": "06a",
-  "ts_updated": "2026-06-02T20:09:15Z",
+  "ts_updated": "2026-06-02T20:10:19Z",
   "cost": {
     "azure_usd": 0.0,
     "anthropic_usd": 16.3412,
