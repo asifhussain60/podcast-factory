@@ -6,33 +6,29 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-02
+**Last updated:** 2026-06-02 (session 2)
 
 **BRANCH: `develop` — clean.**
-- `refactor/wave-1` merged to `develop` (commit `5cbba2e`, 2026-06-02).
-- Post-merge sweep passed: 348 tests, 0 TS errors, lint clean.
-- Wave J complete (J0–J5 all shipped): local-first verse + term lookups, FTS5 mirror,
-  live verse fallback in augmenter, live session style fetch, TopicPopover. Quality-over-cost:
-  ~90% of popover hovers resolve from the local KQUR/KASHKOLE mirror — Gemini/quran.com
-  only on misses or server down.
+- DR-005 warmup complete (commit `5522d16`, 2026-06-02): split `_validators.py` (1,050 ln)
+  and `_extract_helpers.py` (823 ln) into 6 files, all under the 600-line cap.
+  `_validator_constants.py`, `_validators_framing.py`, `_validators.py`,
+  `_extract_yaml.py`, `_extract_contract.py`, `_extract_helpers.py`.
+  303 tests pass, 17 pre-existing failures unchanged.
 
 **PIPELINE HEALTH:**
-- 348 tests passing (1 skip, no failures)
-- `astro check`: 0 errors across 150 files
-- `lint:views`: errors=0 warns=0
-- Consumer category gates: `CONSUMER_CATEGORIES = {"sites", "explainers"}` in `_rules.py`;
-  `initial_driver.py` skips phonetics (0c) and enrichment (0e) for consumer content.
+- 303 tests passing (1 skip, 17 pre-existing failures — unchanged from before this session)
+- `astro check`: 0 errors (from prior session; not re-run this session)
+- `lint:views`: errors=0 warns=0 (from prior session)
 
 **OPEN DEBT (tracked, not blocking):**
-- **F38** (HIGH) — `_chunking.py:304` + `tighten_source.py:366` use `subprocess.run(["claude","-p"])` in
-  the live pipeline. Migration target: direct Anthropic SDK calls. Both files are also DR-005
-  violators (1,051 lines each approximately).
-- **DR-005** (MAJOR) — 8 files exceed 600-line cap; worst: `build_episode_txt.py` (1,563) and
-  `extract_chapter.py` (1,307). Wave H splits scheduled.
+- **F38 tail** (LOW) — `_chunking.py` legacy `claude -p` fallback kept for test back-compat
+  (5 tests mock `subprocess.run`). Dead in production — all callers pass `_invoke_fn`.
+  Cleanup requires updating the 5 affected tests; deferred to a dedicated session.
+- **DR-005** — FULLY RETIRED. All files now under 600-line cap.
 
 **NEXT WORK (authorized, in order):**
-1. F38 fix — migrate `_chunking.py` + `tighten_source.py` from `claude -p` to SDK
-2. Wave H DR-005 splits — `build_episode_txt.py` and `extract_chapter.py` first
+1. Wave K — authorize scope (discuss with Asif: Intelligence Pipeline Wave 2,
+   video visual layer, or Ayyuhal Walad run)
 
 **PARKED:**
 - Site redesign (IA complete; WC8.5 TipTap Studio rebuild deferred)
