@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-02T22:11:25.474Z",
-  "source_commit": "55c1a86",
+  "generated_at": "2026-06-02T22:33:56.920Z",
+  "source_commit": "5031f16",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -931,6 +931,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "5031f16",
+      "subject": "feat(wave-j/J2): local-first verse + term lookups — zero Gemini spend for known terms",
+      "date": "2026-06-02"
+    },
+    {
       "sha": "55c1a86",
       "subject": "fix(quality-audit): resolve 7 test failures + add consumer category phase gates",
       "date": "2026-06-02"
@@ -973,11 +978,6 @@
     {
       "sha": "19420bc",
       "subject": "Merge branch 'site/healthequity' into develop",
-      "date": "2026-06-01"
-    },
-    {
-      "sha": "47abc17",
-      "subject": "feat(pipeline+plan): explainers category + Python snapshot + content-profile wave",
       "date": "2026-06-01"
     }
   ],

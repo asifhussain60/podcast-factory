@@ -25,11 +25,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import _db
 from _rules import R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED
+from intelligence._local_server_client import quran_verse as _live_verse, topic_search as _live_topic_search
 
 # Maximum doctrine atoms injected per augmentation call
 _MAX_ATOMS_DEFAULT = 5
 # Strip Arabic Unicode range (U+0600–U+06FF and extended)
 _ARABIC_RE = re.compile(r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff\ufb50-\ufdff\ufe70-\ufeff]+")
+
+# Canonical Q-citation pattern: Q2:255 or unicode quran marker
+_QURAN_CITE_RE = re.compile(r"Q(\d+):(\d+)", re.IGNORECASE)
+# Topic marker template emitted when enable_topic_markers is true
+_TOPIC_MARKER_TMPL = '<span class="ref-topic" data-topic-id="{id}">{text}</span>'
 
 _PROMPT_BLOCK_HEADER = "[PRIOR DOCTRINAL CONTEXT — Kashkole corpus]"
 
@@ -76,6 +82,91 @@ def augment_episode_text(
 
     block = _build_context_block(atoms)
     return block + "\n\n" + episode_text
+
+
+def augment_chapter_text(
+    chapter_text: str,
+    book_dir: Path,
+    chapter_slug: str = "",
+    *,
+    mcp_log: Path | None = None,
+) -> str:
+    """J3: augment chapter text with live verse lookups for uncovered Q-citations.
+
+    Scans for Q<surah>:<ayat> citation patterns not already in the knowledge DB.
+    For each uncovered citation, calls localhost:4390/quran/verse as a live fallback.
+    Logs each live call to mcp_log (_system/mcp-calls.jsonl) when provided.
+
+    Gate: series.enable_live_quran_lookup must be True in meta.yml (default False).
+    Server unreachable -> logs a warning and continues unchanged (never crashes).
+    """
+    if not _live_quran_enabled(book_dir):
+        return chapter_text
+
+    citations = _QURAN_CITE_RE.findall(chapter_text)
+    if not citations:
+        return chapter_text
+
+    import time
+    additions: list[str] = []
+    for surah_str, ayat_str in citations:
+        surah, ayat = int(surah_str), int(ayat_str)
+        if _verse_in_db(surah, ayat):
+            continue
+        t0 = time.monotonic()
+        verse = _live_verse(surah, ayat)
+        latency_ms = int((time.monotonic() - t0) * 1000)
+        if verse and not verse.get("error"):
+            pickthall = verse.get("pickthall", "")
+            additions.append(f"[Q{surah}:{ayat}] {pickthall}")
+            if mcp_log:
+                _append_mcp_log(mcp_log, "quran_verse", {"surah": surah, "ayat": ayat},
+                                latency_ms=latency_ms, source="live", chapter=chapter_slug)
+        else:
+            if mcp_log:
+                _append_mcp_log(mcp_log, "quran_verse", {"surah": surah, "ayat": ayat},
+                                latency_ms=latency_ms, source="miss", chapter=chapter_slug)
+
+    if not additions:
+        return chapter_text
+    footer = "\n\n[LIVE VERSE CONTEXT]\n" + "\n".join(additions)
+    return chapter_text + footer
+
+
+def emit_topic_markers(
+    chapter_text: str,
+    book_dir: Path,
+    chapter_slug: str = "",
+) -> str:
+    """J5: replace topic keyword spans with interactive .ref-topic markers.
+
+    Searches the Wisdom topic database for the chapter's key terms and wraps
+    matching phrases with <span class="ref-topic" data-topic-id="N">...</span>.
+    Gate: series.enable_topic_markers must be True in meta.yml (default False).
+    Server unreachable -> returns original text unchanged.
+    """
+    if not _topic_markers_enabled(book_dir):
+        return chapter_text
+
+    tags = _book_tags(book_dir)
+    if not tags:
+        return chapter_text
+
+    marked = chapter_text
+    for tag in tags[:5]:
+        results = _live_topic_search(tag, limit=3)
+        for topic in results:
+            topic_id = topic.get("topic_id") or topic.get("id")
+            topic_name = topic.get("topic") or topic.get("name", "")
+            if not topic_id or not topic_name:
+                continue
+            if topic_name in marked and f'data-topic-id="{topic_id}"' not in marked:
+                marked = marked.replace(
+                    topic_name,
+                    _TOPIC_MARKER_TMPL.format(id=topic_id, text=topic_name),
+                    1,
+                )
+    return marked
 
 
 def fetch_atoms_for_tags(
@@ -188,6 +279,62 @@ def _build_context_block(atoms: list[dict]) -> str:
         lines.append(text_en)
         lines.append("")
     return "\n".join(lines).strip()
+
+
+def _live_quran_enabled(book_dir: Path) -> bool:
+    """Read enable_live_quran_lookup from meta.yml. Default: False."""
+    meta_path = book_dir / "meta.yml"
+    if not meta_path.exists():
+        return False
+    try:
+        import yaml  # type: ignore[import]
+        meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
+        return bool(meta.get("series", {}).get("enable_live_quran_lookup", False))
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def _topic_markers_enabled(book_dir: Path) -> bool:
+    """Read enable_topic_markers from meta.yml. Default: False."""
+    meta_path = book_dir / "meta.yml"
+    if not meta_path.exists():
+        return False
+    try:
+        import yaml  # type: ignore[import]
+        meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
+        return bool(meta.get("series", {}).get("enable_topic_markers", False))
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def _verse_in_db(surah: int, ayat: int) -> bool:
+    """Return True if a quran atom for this verse exists in the knowledge DB."""
+    try:
+        conn = _db.get_connection()
+        row = conn.execute(
+            "SELECT 1 FROM atoms WHERE type='quran' AND json_extract(body,'$.surah')=? AND json_extract(body,'$.ayat')=? LIMIT 1",
+            (surah, ayat),
+        ).fetchone()
+        return row is not None
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def _append_mcp_log(log_path: Path, tool: str, args: dict,
+                    *, latency_ms: int, source: str, chapter: str = "") -> None:
+    """Append a JSON line to _system/mcp-calls.jsonl."""
+    import datetime
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    entry = {
+        "ts": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "tool": tool,
+        "args": args,
+        "latency_ms": latency_ms,
+        "source": source,
+        "chapter": chapter,
+    }
+    with log_path.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
 
 
 # ─── CLI ──────────────────────────────────────────────────────────────────────

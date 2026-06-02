@@ -28,6 +28,7 @@ import ArabicToggle from '../../../../components/reader/ArabicToggle';
 import ReaderSettings from '../../../../components/reader/ReaderSettings';
 import TermPopover from '../../../../components/reader/TermPopover';
 import QuranPopover from '../../../../components/reader/QuranPopover';
+import TopicPopover from '../../../../components/reader/TopicPopover';
 import { loadBookIndex, loadChapterSource } from '../../../../lib/reader/chapters';
 import { renderProseWithRefs } from '../../../../lib/reader/render-prose';
 import { loadGlossary, wrapPhoneticTokens } from '../../../../lib/reader/glossary';
@@ -154,6 +155,7 @@ const studioHref = `/studio/${slug}/edit?ch=${encodeURIComponent(chapterSlug)}`;
 
     <TermPopover client:idle book={slug} />
     <QuranPopover client:idle />
+    <TopicPopover client:idle />
   </ThreePane>
 
   <script>
