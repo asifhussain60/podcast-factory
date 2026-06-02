@@ -18,7 +18,11 @@ interface VerseData {
   arabic: string;
   translation: string;
   translation_source: string;
+  asad_translation?: string;
+  urdu_translation?: string;
+  phonetic?: string;
   audio_url?: string | null;
+  source?: 'local' | 'quran.com';
 }
 
 interface State {
@@ -181,16 +185,25 @@ export default function QuranPopover() {
         {state.data && (
           <>
             <p className="quran-arabic" lang="ar" dir="rtl">{state.data.arabic}</p>
+            {state.data.phonetic && (
+              <p className="quran-phonetic">{state.data.phonetic}</p>
+            )}
             <div className="quran-translation">
               {state.data.translation}
               <span className="quran-translation-attr">— {state.data.translation_source}</span>
             </div>
+            {state.data.asad_translation && (
+              <div className="quran-translation quran-translation--asad">
+                {state.data.asad_translation}
+                <span className="quran-translation-attr">— Asad</span>
+              </div>
+            )}
           </>
         )}
       </div>
 
       <div className="quran-popover-footer">
-        <span>Quran.com</span>
+        <span>{state.data?.source === 'local' ? 'Local library' : 'Quran.com'}</span>
         <div className="quran-popover-footer-actions">
           {state.data?.audio_url && (
             <button

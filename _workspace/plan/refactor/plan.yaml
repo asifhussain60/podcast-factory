@@ -2102,7 +2102,7 @@ waves_ghj:
 
   - id: J
     name: Source Library — Dual-Interface Server and Live Editor Integration
-    execution_status: in_progress
+    execution_status: completed_2026_06_02
     parallel_with: []
     depends_on: [I]
     summary: |
@@ -2194,7 +2194,12 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-j-mcp-server"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed_2026_05_28
+        completed_notes: |
+          source_library_server.py (320 lines): MCP stdio transport (JSON-RPC 2.0) +
+          FastAPI HTTP on port 4390. Six query functions: quran_lookup, quran_theme_search,
+          word_etymology, topic_search, topic_get, session_style_fetch. .mcp.json registered.
+          source_library_queries.py (385 lines): mirror-first queries with SQL Server fallback.
 
       - id: J1
         title: "Build the search-optimised SQLite mirror with FTS5 tables and a unified term index"
@@ -2312,7 +2317,19 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-j-astro-rewiring"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed_2026_06_02
+        completed_notes: |
+          localServerClient.ts: probe + typed helpers (fetchLocalVerse, fetchLocalTermDef,
+          fetchLocalEtymology, fetchLocalTopic). 300ms timeout, 60s re-probe interval.
+          verse.ts rewired: local-first (localhost:4390/quran/verse), quran.com fallback.
+          VerseData extended: asad_translation, urdu_translation, phonetic, source fields.
+          define-term.ts rewired: local-first (localhost:4390/term/define), Gemini fallback
+          when found:false or server unreachable. source field in response.
+          etymology.ts: new GET /api/quran/etymology?root=<str> route.
+          wisdom/topic.ts: new GET /api/wisdom/topic?id=<n> route (J5 TopicPopover consumer).
+          QuranPopover.tsx: asad_translation section, phonetic line, local/quran.com source label.
+          TermPopover.tsx: source label (local library vs Gemini), expandable etymology section.
+          lint:views errors=0 warns=0; astro check: 0 new errors introduced.
 
       - id: J3
         title: "Wire enrichment phase to use live verse lookups as a complete-coverage fallback"
@@ -2346,7 +2363,14 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-j-enrichment-wiring"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed_2026_06_02
+        completed_notes: |
+          _local_server_client.py (60 lines): stdlib urllib, 300ms timeout, quran_verse,
+          session_style_fetch, topic_search, topic_get helpers. augmenter.py gains
+          augment_chapter_text() (live fallback on Q-citations not in DB) and
+          emit_topic_markers() (wrap matched topics with .ref-topic spans). Gates:
+          enable_live_quran_lookup and enable_topic_markers (both default false).
+          9 tests in test_augmenter_live_fallback.py — 306 total passing.
 
       - id: J4
         title: "Wire style rewrite phase to pull live session samples matched to each chapter's themes"
@@ -2376,7 +2400,10 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-j-style-wiring"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed_2026_06_02
+        completed_notes: |
+          rewrite_chapters.py: extract_chapter_themes() + _build_live_style_supplement().
+          Gate: enable_live_style_fetch (default false). 8 tests green.
 
       - id: J5
         title: "Add Wisdom topic cross-reference popover to the live editor"
@@ -2415,7 +2442,12 @@ waves_ghj:
         authorization: tier_one
         branch: "feature/wave-j-topic-popover"
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed_2026_06_02
+        completed_notes: |
+          TopicPopover.tsx (190 lines): .ref-topic event delegation, 320ms delay,
+          localStorage cache, dismiss on click/Esc, linked-ayats panel.
+          wisdom/search.ts: GET /api/wisdom/search route. TopicPopover mounted in
+          library chapter page. lint:views clean; 0 new TS errors.
 
   - wave: K
     title: "Quality Scoring + Pipeline Hardening"

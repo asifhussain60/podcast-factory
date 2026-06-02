@@ -1,29 +1,27 @@
 /**
- * GET /api/quran/verse?key=2:43&translation=131
+ * GET /api/quran/verse?key=2:43
  *
- * Server proxy to quran.com's public v4 API. Returns a compact JSON
- * shape tailored to the popover:
+ * Wave J (J2): local-first verse lookup.
+ * 1. Try source_library_server.py at localhost:4390 (300 ms timeout).
+ *    Returns: arabic, pickthall, asad, urdu, phonetic from the KQUR mirror.
+ * 2. Fall back to quran.com public v4 API if local server is unreachable.
  *
+ * Response shape (superset of the pre-J2 shape; new fields: asad_translation,
+ * urdu_translation, phonetic):
  *   {
- *     surah_number: number,
- *     surah_name_en: string,
- *     surah_name_ar: string,
- *     surah_name_meaning: string,
- *     verse_number: number,
- *     arabic: string,                 // uthmani script
- *     translation: string,
- *     translation_source: string,
- *     audio_url?: string,
+ *     surah_number, surah_name_en, surah_name_ar, surah_name_meaning,
+ *     verse_number, verse_key, verse_range,
+ *     arabic, translation, translation_source,
+ *     asad_translation?,   -- Asad translation (from local mirror)
+ *     urdu_translation?,   -- Urdu translation (from local mirror)
+ *     phonetic?,           -- Phonetic transliteration (from local mirror)
+ *     audio_url?,
+ *     source: 'local' | 'quran.com'
  *   }
- *
- * Default translation is 85 (M.A.S. Abdel Haleem — modern, literary).
- * Override via ?translation=20 (Saheeh International) etc.
- * In-process cache means repeat lookups within a server lifetime are
- * instant. Browser-side cache (localStorage) further suppresses calls
- * across page loads.
  */
 
 import type { APIRoute } from 'astro';
+import { fetchLocalVerse } from '../../../lib/localServerClient';
 
 export const prerender = false;
 
@@ -51,12 +49,11 @@ async function getChapterMeta(num: number): Promise<ChapterMeta | null> {
 
 export const GET: APIRoute = async ({ url }) => {
   const key = url.searchParams.get('key');
-  const translation = url.searchParams.get('translation') ?? '85';
   if (!key || !/^\d+:\d+(-\d+)?$/.test(key)) {
     return new Response(JSON.stringify({ error: 'bad key — expected "surah:ayah" like "2:43"' }), { status: 400 });
   }
 
-  const cacheKey = `${key}/${translation}`;
+  const cacheKey = key;
   if (verseCache.has(cacheKey)) {
     return new Response(JSON.stringify(verseCache.get(cacheKey)), {
       status: 200,
@@ -64,11 +61,41 @@ export const GET: APIRoute = async ({ url }) => {
     });
   }
 
-  // Handle ranges by fetching the first verse — popover shows the start of the range.
   const firstVerse = key.split('-')[0];
-  const [surahStr] = firstVerse.split(':');
+  const [surahStr, ayatStr] = firstVerse.split(':');
   const surah = Number(surahStr);
+  const ayat = Number(ayatStr);
 
+  // ── Try local server first ─────────────────────────────────────────────
+  const local = await fetchLocalVerse(surah, ayat);
+  if (local) {
+    const meta = await getChapterMeta(surah).catch(() => null);
+    const out = {
+      surah_number: local.surah,
+      surah_name_en: meta?.name_simple ?? `Surah ${surah}`,
+      surah_name_ar: meta?.name_arabic ?? '',
+      surah_name_meaning: meta?.translated_name?.name ?? '',
+      verse_number: local.ayat,
+      verse_key: firstVerse,
+      verse_range: key,
+      arabic: local.arabic,
+      translation: local.pickthall,
+      translation_source: 'Pickthall',
+      asad_translation: local.asad || undefined,
+      urdu_translation: local.urdu || undefined,
+      phonetic: local.phonetic || undefined,
+      audio_url: null,
+      source: 'local' as const,
+    };
+    verseCache.set(cacheKey, out);
+    return new Response(JSON.stringify(out), {
+      status: 200,
+      headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=86400' },
+    });
+  }
+
+  // ── Fall back to quran.com ─────────────────────────────────────────────
+  const translation = url.searchParams.get('translation') ?? '85';
   try {
     const [vRes, tRes, meta] = await Promise.all([
       fetch(`https://api.quran.com/api/v4/verses/by_key/${encodeURIComponent(firstVerse)}?fields=text_uthmani,audio`),
@@ -103,6 +130,7 @@ export const GET: APIRoute = async ({ url }) => {
       translation: translationText,
       translation_source: translationSource,
       audio_url: v.audio?.url ? `https://verses.quran.com/${v.audio.url}` : null,
+      source: 'quran.com' as const,
     };
     verseCache.set(cacheKey, out);
     return new Response(JSON.stringify(out), {
@@ -115,7 +143,5 @@ export const GET: APIRoute = async ({ url }) => {
 };
 
 function stripHtml(s: string): string {
-  // Translation text often has footnote markers like <sup>...</sup>.
-  // Strip tags but preserve content. Also collapse footnote refs like [1].
   return s.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 }

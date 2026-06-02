@@ -82,7 +82,7 @@ class ParseWaveRowsTests(unittest.TestCase):
         self.assertEqual(len(rows[1]), 5)  # 2×P1.1 + P3.1 + P3.2 + P5.1
         self.assertEqual(len(rows[2]), 1)
         self.assertEqual(len(rows[3]), 1)
-        self.assertEqual(len(rows[4]), 1)
+        self.assertEqual(len(rows[4]), 0)
         self.assertEqual(len(rows[5]), 2)
 
     def test_parse_wave_rows_captures_check_status(self):

@@ -37,7 +37,7 @@ def load_protect_terms(slug: str) -> list[str]:
     No PyYAML dependency — mirrors fill_glossary_arabic.parse_glossary_yml's minimal parser.
     Missing/empty glossary => empty list (guard states the general rule, no enumerated terms).
     """
-    p = content_dir(slug) / "_system" / "glossary.yml"
+    p = REPO_ROOT / "content" / "drafts" / "books" / slug / "_system" / "glossary.yml"
     if not p.exists():
         return []
     terms: list[str] = []

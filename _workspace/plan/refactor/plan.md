@@ -3,7 +3,7 @@
 # Summary Of Your Intent.
 
 1. **Architecture-first rebuild on `develop`**. This plan derives every step from the architecture at [architecture.md](../architecture.md). Read architecture first; then this roadmap reads as *"to land that architecture, do these things in this order."*
-2. **Six waves, 32 steps.** Wave A foundation (cleanup, core layer, modularization) — **in progress**: A1/A2/A3/A4/A5/A6/A7 done. A4 completed 2026-05-28: `orchestrate_book.py` → 461 lines; 11 `phases/` handlers; `_authoring/` package (6 submodules). Waves B–F not started.
+2. **Six waves, 32 steps.** Wave A foundation — **completed 2026-05-31**: A1–A7 all shipped. A4: `orchestrate_book.py` → 461 lines; 11 `phases/` handlers; `_authoring/` package (6 submodules). Waves B–I completed; J in progress; CP + K pending.
 3. **Legacy plan folder gets folded in then deleted**. ~22 legacy files in `_workspace/plan/` are surveyed, the live pieces are extracted into the new nested structure, the rest are removed (git history preserves them). Step A1 is the cleanup; nothing else lands until A1 is done.
 4. **Retroactive doctrine for shipped books**. KaR and M&D get archetype stamping, addendum episodes, and extraction-only knowledge passes. **Never** re-run through the pipeline. Every enhancement still becomes default for the next forward book.
 5. **Plan only — no execution authorized**. This turn writes the plan files. Asif's approval before any code lands.
@@ -24,7 +24,7 @@
 
 ```mermaid
 flowchart LR
-    subgraph A["Wave A · Foundation 🔄 in progress"]
+    subgraph A["Wave A · Foundation ✅ completed 2026-05-31"]
         A1[A1 cleanup] --> A2[A2 core layer]
         A2 --> A3[A3 domain layer]
         A3 --> A4[A4 modularize]

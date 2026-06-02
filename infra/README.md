@@ -61,7 +61,7 @@ Install with:
 bash scripts/install-git-hooks.sh
 ```
 
-The install script copies the hook into `.git/hooks/` — it is per-machine (not tracked by git). Re-run after pulling hook updates.
+The install script symlinks the hook into `.git/hooks/` — it is per-machine (not tracked by git). Re-run after pulling hook updates.
 
 ## launchd/ — background Wave 1 pipeline
 
@@ -87,9 +87,9 @@ Logs land at `~/Library/Logs/podcast-w1.log` and `~/Library/Logs/podcast-w1.err`
 
 Full documentation at [infra/llm-apis/README.md](llm-apis/README.md). Key facts:
 
-- **Claude**: Max subscription via `claude login` OAuth. Pipeline uses `claude -p` headless mode. No API key stored on operator Macs for the main orchestrator.
+- **Claude**: Max subscription via `claude login` OAuth. Pipeline uses `claude -p` headless mode. No API key stored on operator Macs.
 - **Gemini**: Paid-tier API key stored under keychain service `gemini_api_key`. Included in Key Vault — pulled automatically by `pull-secrets.sh`.
-- **Anthropic API key**: stored under `anthropic_api_key` in Key Vault. Used by standalone utilities. Pulled automatically by `pull-secrets.sh`.
+- **Anthropic API** (separate from Max subscription): key stored under `anthropic_api_key` in Key Vault. Used for direct API calls outside the pipeline.
 
 ## setup-wisdom-db.sh — local knowledge corpus
 
@@ -111,10 +111,10 @@ python3 scripts/podcast/source_library_server.py --register
 Troubleshooting:
 - `docker: command not found` → start OrbStack and retry
 - `container already exists` → idempotent; script skips creation
-- Dump files missing → copy from `CONTENT/_shared/source-library/` on another Mac or re-export from home server at `192.168.1.158`
+- Dump files missing → copy from `CONTENT/_shared/source-library/` on another Mac or re-export from home server
 
 ## claude-agents/ — canonical agent specifications
 
 18 agent spec files live here. This is the **single source of truth** for agent behavior. `.github/agents/` contains thin discovery stubs (≤15 lines) pointing into this directory. Agents are installed into `.claude/agents/` by `scripts/install-claude-skills.sh`.
 
-See [`infra/claude-agents/_README.md`](claude-agents/_README.md) for the full manifest and DR-014 stub-pattern decision.
+See `infra/claude-agents/_README.md` for the full manifest and DR-014 stub-pattern decision.

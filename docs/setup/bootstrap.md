@@ -74,37 +74,42 @@ bash scripts/install-claude-skills.sh
 
 Both scripts are idempotent — safe to re-run after pulling new hook or skill versions.
 
-## Step 5 — Wire Azure + all API keys (ONLY if this Mac drives pipeline phases)
+## Step 5 — Wire Azure credentials (ONLY if this Mac drives pipeline phases)
 
-All credentials — Azure services, Gemini, and Anthropic — are centralised in **Azure Key Vault** (`podcast-factory-vault`). A new machine needs only one command after `az login`:
+All credentials are stored in Azure Key Vault (`podcast-factory-vault`). A single command pulls everything into the local Keychain.
 
 ```bash
-cd ~/Code/podcast-factory/infra/azure
-az login                   # One OAuth flow in browser — skip if already logged in
-bash pull-secrets.sh       # Pulls ALL secrets from Key Vault → local macOS Keychain
+cd ~/PROJECTS/podcast-factory/infra/azure
+az login
+az account set --subscription "Journal AI — primary"
+bash pull-secrets.sh
 ```
 
-`pull-secrets.sh` is idempotent — safe to re-run after key rotation. It ends by running `test_azure_connectivity.py` automatically; expect 5 PASS lines.
+`pull-secrets.sh` pulls all 14+ secrets (Translator, Document Intelligence, Speech, Storage, Gemini, Anthropic keys) from Key Vault into the local Keychain, then runs the connectivity test automatically.
 
-> **First-time Azure provisioning** (only needed if you're setting up a brand-new Azure subscription or the resource group doesn't exist):
-> ```bash
-> az account set --subscription "Journal AI — primary"
-> bash provision-azure.sh        # Creates rg-journal-ai + all services (idempotent)
-> bash migrate-to-keyvault.sh    # Push current keychain → Key Vault (primary Mac only)
-> ```
+Expect the script to end with `pass 5  fail 0  ✓ Azure connectivity OK`.
+
+**First-time Azure provisioning only** (blank Azure subscription — not a new Mac):
+```bash
+bash provision-azure.sh          # Creates all Azure resources
+bash store-keychain-keys.sh      # Local Keychain ← Azure
+bash migrate-to-keyvault.sh      # Key Vault ← local Keychain
+```
+
+Full reference: [docs/setup/azure-stack.md](azure-stack.md).
 
 ## Step 5.5 — Wire LLM APIs (Claude + Gemini)
 
-**Gemini** is already in Key Vault — `pull-secrets.sh` (Step 5) writes it to your keychain as `gemini_api_key` automatically. No separate step needed.
+Anthropic Claude runs off the Max subscription (no API key needed on operator Macs — `claude login` in Step 3 covers it). Google Gemini and the Anthropic API key are already included in the Key Vault pull from Step 5.
 
-**Claude** runs off the Max subscription via `claude login` — no API key needed for the main orchestrator pipeline.
+Verify both providers:
 
-> **`anthropic_api_key` (optional):** `scripts/podcast/segment_book.py` (a standalone utility, not called by the main orchestrator) falls back to a keychain entry `anthropic_api_key`. If you plan to run it directly, add the key to Key Vault first on the primary Mac:
-> ```bash
-> security find-generic-password -s anthropic_api_key -w  # confirm it's in keychain
-> bash migrate-to-keyvault.sh                              # pushes it to Key Vault
-> ```
-> Then `pull-secrets.sh` will pick it up on every machine going forward.
+```bash
+cd ~/PROJECTS/podcast-factory
+bash infra/llm-apis/verify-llm-apis.sh
+```
+
+Full reference: [infra/llm-apis/README.md](../../infra/llm-apis/README.md).
 
 ## Step 5.7 — Set up the source library database (local knowledge corpus)
 

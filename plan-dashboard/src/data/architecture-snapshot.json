@@ -1,202 +1,5 @@
 {
-  "generated_at": "2026-06-02T11:11:47.250Z",
-  "source_commit": "2ec7941d",
-  "generator": "podcast-planner agent",
-  "phases": [
-    {
-      "id": "P0",
-      "name": "Read the book",
-      "kind": "mechanical",
-      "agent": null,
-      "plain": "Read the source — whatever form it arrives in. PDFs go through Azure Document Intelligence: every page recognised, Arabic script preserved, footnotes separated. Audio lectures go through Turboscribe in native-language mode, then Azure Translator with a tradition-specific glossary so technical terms like ta'wil and haqaiq reach the pipeline intact. Mixed sources run both paths and merge before the next station.",
-      "duration_minutes": 10,
-      "modules": [
-        "azure-document-intelligence",
-        "azure-translator",
-        "ismaili-glossary"
-      ],
-      "input_types": [
-        "pdf",
-        "audio-transcript",
-        "mixed"
-      ],
-      "services": [
-        {
-          "vendor": "azure",
-          "name": "Document Intelligence",
-          "path": "pdf"
-        },
-        {
-          "vendor": "azure",
-          "name": "Translator + Glossary",
-          "path": "audio-transcript"
-        }
-      ]
-    },
-    {
-      "id": "P1",
-      "name": "Strip the noise",
-      "kind": "hybrid",
-      "agent": null,
-      "plain": "Every source carries baggage — historical background, chains of narration, scholarly apparatus, lecture filler. A model-driven routing layer strips it intelligently: Haiku handles obvious structural patterns, Sonnet reviews ambiguous passages, Gemini handles tradition-specific idioms it knows well. Nothing is fixed-pattern. What survives is pure teaching content. A noise log is written so you can audit what was removed.",
-      "duration_minutes": 6,
-      "modules": [
-        "noise-router",
-        "doctrinal-rules"
-      ],
-      "model_routing": "Haiku → obvious | Sonnet → ambiguous | Gemini → tradition-specific"
-    },
-    {
-      "id": "P2",
-      "name": "Polish the text",
-      "kind": "agentic",
-      "agent": "polish-author",
-      "plain": "Clean and normalize the stripped text — fix OCR artefacts, align sentence breaks, standardize transliterations. Arabic-origin technical terms are preserved verbatim; the pipeline never attempts to translate ta'wil or haqaiq into paraphrases.",
-      "duration_minutes": 6,
-      "modules": [
-        "doctrinal-rules"
-      ]
-    },
-    {
-      "id": "P3",
-      "name": "Learn the names",
-      "kind": "hybrid",
-      "agent": "phonetic-author",
-      "plain": "Every preserved Arabic and Urdu term gets a pronunciation guide — mandatory for any book with Ismaili or Sufi vocabulary. The phonetics sidecar travels with every episode bundle so the narrator never guesses. Pre-gate analysis runs here too, checking that each chapter has a teachable core before the review gate opens.",
-      "duration_minutes": 12,
-      "modules": [
-        "phonetic-glossary",
-        "doctrinal-rules",
-        "pre-gate-analyzer"
-      ]
-    },
-    {
-      "id": "P3g",
-      "name": "Source Review Gate",
-      "kind": "gate",
-      "agent": null,
-      "plain": "The pipeline halts. The astro site shows you every chapter, the noise-stripped log, vocabulary coverage warnings, and any structural gaps flagged by the pre-gate analysis. You read, edit source files directly in podcast-reader, come back and approve. Only when all warnings clear — or you override them with a reason — does the pipeline continue. No expensive phases run on content you haven't vetted.",
-      "duration_minutes": 0,
-      "modules": [],
-      "gate_type": "source_review",
-      "gate_file": "_system/review-gate.json",
-      "protects": [
-        "P4",
-        "P5",
-        "P6",
-        "P7",
-        "P7g",
-        "P8",
-        "P9",
-        "P10"
-      ]
-    },
-    {
-      "id": "P4",
-      "name": "Plan the episodes",
-      "kind": "agentic",
-      "agent": "podcast-blueprint",
-      "plain": "Source chapters are pooled into a single de-structured corpus — chapter and section boundaries from the original are discarded. The blueprint agent classifies the book and re-slices the content into ~30-minute episodes governed by learning arc, not source organisation. Each episode must close a teaching loop: hook → core teaching → worked example → application → bridge to next episode.",
-      "duration_minutes": 20,
-      "modules": [
-        "archetype-registry",
-        "doctrinal-rules"
-      ]
-    },
-    {
-      "id": "P5",
-      "name": "Enrich with context",
-      "kind": "agentic",
-      "agent": "podcast-orchestrator",
-      "plain": "For each episode, gather supporting context the narrator will need. A tradition firewall governs what enters: Ismaili books only receive Ismaili-tradition atoms; Sunni books receive Sunni atoms; universal atoms (shared across traditions) are always available. The augmenter never injects content from a conflicting tradition without an explicit opt-in framing note.",
-      "duration_minutes": 18,
-      "modules": [
-        "context-injection",
-        "anti-cliche-registry",
-        "tradition-firewall"
-      ]
-    },
-    {
-      "id": "P6",
-      "name": "Bring in outside knowledge",
-      "kind": "agentic",
-      "agent": "podcast-orchestrator",
-      "plain": "The knowledge base — Quranic verses, hadith, and doctrinal atoms, all tagged by tradition — is queried for each episode. Missing citations are flagged and added to the knowledge base when verified, compounding accuracy across every future book. Incomplete books are processed from what exists; the intelligence layer supplements depth, never invents missing content.",
-      "duration_minutes": 15,
-      "modules": [
-        "augmenter",
-        "doctrinal-rules",
-        "knowledge-base"
-      ]
-    },
-    {
-      "id": "P7",
-      "name": "Cut the chapter pieces",
-      "kind": "mechanical",
-      "agent": null,
-      "plain": "Slice the approved, enriched content into self-contained bundles — one per episode — ready for NotebookLM upload. Each bundle carries the source text, pronunciation sidecar, and enrichment notes as a single package.",
-      "duration_minutes": 4,
-      "modules": []
-    },
-    {
-      "id": "P7f",
-      "name": "Write the narrator framing",
-      "kind": "agentic",
-      "agent": "podcast-orchestrator",
-      "plain": "Write the Customize-box briefing for each episode — the short instruction that tells the two AI hosts what to discuss, what to emphasise, what to avoid, and which host leads. Host roles are assigned consistently across the series; they never flip between episodes.",
-      "duration_minutes": 22,
-      "modules": [
-        "archetype-registry",
-        "anti-cliche-registry",
-        "doctrinal-rules"
-      ]
-    },
-    {
-      "id": "P7g",
-      "name": "Optimize for teaching",
-      "kind": "agentic",
-      "agent": null,
-      "plain": "Claude Sonnet reviews each authored chapter before the auditor sees it. Three checks: host-role consistency (roles never flip mid-series), teaching arc validation (hook → teaching → example → application → bridge), and NotebookLM format hygiene (no markdown artefacts, no over-long monologue paragraphs, no heading-driven narration). Sonnet is used — not Gemini — so Gemini remains a genuinely independent auditor in the next phase.",
-      "duration_minutes": 8,
-      "modules": [
-        "consistency-optimizer"
-      ],
-      "model": "claude-sonnet"
-    },
-    {
-      "id": "P8",
-      "name": "Design the slides",
-      "kind": "agentic",
-      "agent": "slide-deck-challenger",
-      "plain": "Author the visual deck for each episode — restating an idea, illustrating a passage literally, surfacing the structure with a diagram. Slides complement the audio without duplicating it.",
-      "duration_minutes": 25,
-      "modules": [
-        "slide-deck-challenger"
-      ]
-    },
-    {
-      "id": "P9",
-      "name": "Audit and converge",
-      "kind": "agentic",
-      "agent": "podcast-challenger",
-      "plain": "Two independent reviewers — Claude Challenger and Gemini second-opinion — read every bundle and framing. Gemini's independence is preserved because it did not touch the content in P7g. Loops until the book passes or a finding needs a human call. Up to five passes per chapter, fifteen across the full cycle.",
-      "duration_minutes": 30,
-      "modules": [
-        "challenger"
-      ]
-    },
-    {
-      "id": "P10",
-      "name": "Publish Review Gate",
-      "kind": "gate",
-      "agent": "podcast-publisher",
-      "plain": "The pipeline halts a second time. The same astro site view now shows the fully authored product: episode list, challenger findings, optimization summary, and the NotebookLM upload checklist. You cannot edit source here — changes go back to source files and re-run from the affected phase. When you approve, the book moves to the published catalog and the working branch merges back.",
-      "duration_minutes": 3,
-      "modules": [],
-      "gate_type": "publish_review",
-      "gate_file": "_system/review-gate.json"
-    }
-  ],
+  "phases": [],
   "agents": [
     {
       "id": "html-view-challenger",
@@ -204,7 +7,7 @@
       "role": "Conformance challenger for HTML views, Astro pages, components, and diagrams on ",
       "icon": "robot",
       "tone": "neutral",
-      "plain": "Conformance challenger for HTML views, Astro pages, components, and diagrams on the Podcast Factory Astro Site (directory plan-dashboard/). Validates a built view against the Cortex HTML View Quality Standard (the 74 REQ-NNN rules in _wo…",
+      "plain": "Conformance challenger for HTML views, Astro pages, components, and diagrams on the Podcast Factory Astro Site (directory plan-dashboard/). Validates a built view against the Cortex HTML View Quality Standard (the 74 REQ-NNN rules in doc\u2026",
       "what_it_knows": "See infra/claude-agents/html-view-challenger.md",
       "boundary_in": "",
       "boundary_out": "",
@@ -215,10 +18,10 @@
     {
       "id": "podcast-auditor",
       "name": "Podcast Auditor",
-      "role": "Repo-level health audit for podcast-factory",
+      "role": "DEPRECATED: use repo-surgeon --scope podcast instead",
       "icon": "robot",
       "tone": "neutral",
-      "plain": "Repo-level health audit for podcast-factory. Surfaces drift, regressions, gaps, and refactor opportunities across the operational surface (pipeline scripts, skill files, agent specs, plan docs). Identify-only in v1.0. Produces a structur…",
+      "plain": "DEPRECATED: use repo-surgeon --scope podcast instead. Repo-level health audit for podcast-factory. Surfaces drift, regressions, gaps, and refactor opportunities across the operational surface (pipeline scripts, skill files, agent specs, \u2026",
       "what_it_knows": "See infra/claude-agents/podcast-auditor.md",
       "boundary_in": "",
       "boundary_out": "",
@@ -228,39 +31,39 @@
     },
     {
       "id": "podcast-blueprint",
-      "name": "The Episode Planner",
-      "role": "Episode-structure designer",
-      "icon": "diagram-project",
-      "tone": "accent",
-      "plain": "Reads the polished book, classifies what kind of book it is, and decides how the chapters should map to episodes — which to merge, which to split, which to drop. The output is the episode list you approve at the one human checkpoint.",
-      "what_it_knows": "Five planning modes — tribunal arc, chronological, problem-solution, vignette grid, dialectical pairs. The archetype registry. The narrative-density signal that decides which mode to use.",
-      "boundary_in": "A polished book and the genre/audience defaults from the book config.",
-      "boundary_out": "A classification report and an episode-plan draft (titles, word-count targets, in series order).",
-      "does_not": "Cross book boundaries (one book at a time). Override the human's edits to the plan during the approval halt.",
-      "cost_profile": "$2–$6 per book.",
-      "failure_mode": "If classification confidence is low, falls back to chronological mode and flags the classification for human review."
+      "name": "Podcast Blueprint",
+      "role": "Content-aware episode-structure planner for the /podcast skill",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Content-aware episode-structure planner for the /podcast skill. Runs in slot 05.5-blueprint between the P22 transcript-review resume and 06-phonetics. Three layers: Layer 1 (Haiku-default scan/classify \u2192 classification.json with genre, d\u2026",
+      "what_it_knows": "See infra/claude-agents/podcast-blueprint.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
     },
     {
       "id": "podcast-challenger",
-      "name": "The Quality Reviewer",
-      "role": "Per-chapter quality auditor",
-      "icon": "magnifying-glass-chart",
-      "tone": "accent",
-      "plain": "Reads every episode bundle and every narrator framing the way a careful editor would. Catches citation errors, broken phonetics, accidental clichés, framing that contradicts the source, and anything else the static checks miss. Loops until the work converges — up to five passes per chapter, fifteen across the full convergence cycle.",
-      "what_it_knows": "The full doctrinal rule registry, the anti-cliché registry, the source bundle for the chapter under review, every prior finding on this book.",
-      "boundary_in": "A draft chapter bundle plus its framing.",
-      "boundary_out": "A ship-ready, ship-with-caution, or needs-rewrite verdict with severity-ranked findings.",
-      "does_not": "Edit the spec or the doctrine (the trainer does that). Block on issues the framing author already justified.",
-      "cost_profile": "$1.50–$4 per chapter per pass.",
-      "failure_mode": "After three convergence failures on the same finding, escalates to human review rather than spinning further."
+      "name": "Podcast Challenger",
+      "role": "Semantic-quality challenger for podcasted-book chapters (uploaded to NotebookLM ",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Semantic-quality challenger for podcasted-book chapters (uploaded to NotebookLM as the SOURCE) and framings/episode-txts (pasted into the NotebookLM Customize prompt box). Validates everything `build_episode_txt.py` cannot statically cat\u2026",
+      "what_it_knows": "See infra/claude-agents/podcast-challenger.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
     },
     {
       "id": "podcast-extract",
       "name": "Podcast Extract",
-      "role": "Narrow orchestrator for the single-chapter → NotebookLM bundle path",
+      "role": "Narrow orchestrator for the single-chapter \u2192 NotebookLM bundle path",
       "icon": "robot",
       "tone": "neutral",
-      "plain": "Narrow orchestrator for the single-chapter → NotebookLM bundle path. Resolves a chapter reference, ensures its contract exists (scaffolds a stub if absent), invokes scripts/podcast/extract_chapter.py, and returns the emitted bundle paths…",
+      "plain": "Narrow orchestrator for the single-chapter \u2192 NotebookLM bundle path. Resolves a chapter reference, ensures its contract exists (scaffolds a stub if absent), invokes scripts/podcast/extract_chapter.py, and returns the emitted bundle paths\u2026",
       "what_it_knows": "See infra/claude-agents/podcast-extract.md",
       "boundary_in": "",
       "boundary_out": "",
@@ -274,7 +77,7 @@
       "role": "Knowledge-extraction and dedup agent for phase 0h-knowledge-extract",
       "icon": "robot",
       "tone": "neutral",
-      "plain": "Knowledge-extraction and dedup agent for phase 0h-knowledge-extract. Reads enriched chapters from a book at the end of phase 08-enrichment, extracts atoms (Wave 1 = Quran verses + hadith only), and merges them into the canonical knowledg…",
+      "plain": "Knowledge-extraction and dedup agent for phase 0h-knowledge-extract. Reads enriched chapters from a book at the end of phase 08-enrichment, extracts atoms (Wave 1 = Quran verses + hadith only), and merges them into the canonical knowledg\u2026",
       "what_it_knows": "See infra/claude-agents/podcast-librarian.md",
       "boundary_in": "",
       "boundary_out": "",
@@ -284,53 +87,53 @@
     },
     {
       "id": "podcast-orchestrator",
-      "name": "The Pipeline Driver",
-      "role": "Autonomous book runner",
+      "name": "Podcast Orchestrator",
+      "role": "Autonomous book-to-NotebookLM pipeline driver for the /podcast skill",
       "icon": "robot",
-      "tone": "accent",
-      "plain": "The conductor. Walks a book from PDF intake all the way through to the published catalog, handing off to each station in turn and recovering from anything that breaks along the way. Hands-off for hours at a time — there is exactly one human checkpoint in its entire run, at the episode-plan review halt.",
-      "what_it_knows": "The full pipeline order, the cost ledger, the watchdog protocol, the orchestrator state file format, every other agent's invocation contract.",
-      "boundary_in": "A PDF in the inbox plus a one-line approval after the episode plan halts.",
-      "boundary_out": "A merged develop branch with the book in the published catalog and a per-book cost report.",
-      "does_not": "Validate quality (the challenger does that). Edit the design rules (the trainer does that). Skip the human checkpoint at episode-plan review.",
-      "cost_profile": "$25–$50 per book end to end, depending on length tier.",
-      "failure_mode": "Halts and surfaces the exact phase that failed. The watchdog separately detects hangs and force-restarts."
+      "tone": "neutral",
+      "plain": "Autonomous book-to-NotebookLM pipeline driver for the /podcast skill. Use when the user says 'run the book autonomously', 'orchestrate <book>', 'autopilot this PDF', 'process the whole book end to end', '/orchestrate-book', or drops a PD\u2026",
+      "what_it_knows": "See infra/claude-agents/podcast-orchestrator.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
     },
     {
       "id": "podcast-planner",
-      "name": "The Planner",
-      "role": "Plan auditor and builder",
-      "icon": "compass-drafting",
-      "tone": "accent",
-      "plain": "Two modes. Guardian mode reviews every proposed change to the plan files for regression risk — against architectural invariants, frozen shipped-book state, in-flight book interference, and brittleness anti-patterns — and pushes back in plain English before anything is written. Builder mode picks up an approved roadmap step and executes it end to end, running its own guardian self-check before touching a line.",
-      "what_it_knows": "The full architecture spec, the 23-step roadmap, the debt ledger, the cost ledger, the design protocol that governs every visible string on this dashboard.",
-      "boundary_in": "Either a proposed plan-file edit or an approved roadmap step ID.",
-      "boundary_out": "A verdict (Guardian) or a completed step plus a regenerated dashboard (Builder). Always regenerates the three snapshot files as a mandatory side-effect.",
-      "does_not": "Edit shipped-book content. Skip its own guardian self-check in Builder mode. Touch the sibling journal repo.",
-      "cost_profile": "$0.50–$2 per audit. $5–$25 per implementation step depending on scope.",
-      "failure_mode": "Blocks the change with a per-check breakdown and a concrete suggested rewrite."
+      "name": "Podcast Planner",
+      "role": "Two-mode planning agent for the podcast-factory refactor",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Two-mode planning agent for the podcast-factory refactor. GUARDIAN mode audits every proposed edit to `_workspace/plan/**` for regression risk against the live architecture, the current refactor roadmap, shipped-book frozen state, and br\u2026",
+      "what_it_knows": "See infra/claude-agents/podcast-planner.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
     },
     {
       "id": "podcast-publisher",
-      "name": "The Publisher",
-      "role": "Catalog promotion gate",
-      "icon": "rocket",
-      "tone": "accent",
-      "plain": "The thin agent that moves a finished book from the workshop into the public catalog. Refuses to publish unless seven readiness gates all pass — structure, episode pairing, sequential numbering, build cleanliness, state shippability, target wipe-safety, convergence verdict.",
-      "what_it_knows": "The seven gate checks. The catalog file layout. The destination wipe-safety rules.",
-      "boundary_in": "A book whose convergence loop has reported ship-ready or ship-with-caution on every chapter.",
-      "boundary_out": "A book moved from the drafts tree to the published tree, with a merge-ready branch.",
-      "does_not": "Publish anything in non-orchestrated mode without an explicit override flag. Re-publish a book that's already in the catalog.",
-      "cost_profile": "Effectively free — file moves and gate checks only.",
-      "failure_mode": "Halts on the first failing gate and surfaces the specific gate."
+      "name": "Podcast Publisher",
+      "role": "Move shipped content from content/drafts/<slug>/ to content/published/books/<slu",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Move shipped content from content/drafts/<slug>/ to content/published/books/<slug>/ after the convergence loop completes. Thin wrapper around scripts/podcast/publish_to_library.py. ALWAYS invoke when the user says \"publish <slug>\", \"ship\u2026",
+      "what_it_knows": "See infra/claude-agents/podcast-publisher.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
     },
     {
       "id": "podcast-trainer",
       "name": "Podcast Trainer",
-      "role": "Cross-book pattern learner for the /podcast skill — proposes targeted refinement",
+      "role": "Cross-book pattern learner for the /podcast skill \u2014 proposes targeted refinement",
       "icon": "robot",
       "tone": "neutral",
-      "plain": "Cross-book pattern learner for the /podcast skill — proposes targeted refinements to the podcast-challenger spec and podcast handbook based on patterns found in shipped book branches, but ONLY commits changes that pass a held-out regress…",
+      "plain": "Cross-book pattern learner for the /podcast skill \u2014 proposes targeted refinements to the podcast-challenger spec and podcast handbook based on patterns found in shipped book branches, but ONLY commits changes that pass a held-out regress\u2026",
       "what_it_knows": "See infra/claude-agents/podcast-trainer.md",
       "boundary_in": "",
       "boundary_out": "",
@@ -344,7 +147,7 @@
       "role": "Post-production audit for NotebookLM-generated audio episodes",
       "icon": "robot",
       "tone": "neutral",
-      "plain": "Post-production audit for NotebookLM-generated audio episodes. Consumes Turboscribe-produced transcripts of the downloaded m4a files and scores each against (a) the book's genre archetype and (b) the Dos/Don'ts protocol. Identifies drift…",
+      "plain": "Post-production audit for NotebookLM-generated audio episodes. Consumes Turboscribe-produced transcripts of the downloaded m4a files and scores each against (a) the book's genre archetype and (b) the Dos/Don'ts protocol. Identifies drift\u2026",
       "what_it_knows": "See infra/claude-agents/postprod-review.md",
       "boundary_in": "",
       "boundary_out": "",
@@ -358,7 +161,7 @@
       "role": "Project-stewardship agent",
       "icon": "robot",
       "tone": "neutral",
-      "plain": "Project-stewardship agent. Explicitly invoked via `/steward <scope>` — NOT autonomous. Plans and prioritizes work for the podcast-factory project by composing existing agents (`repo-surgeon`, `podcast-challenger`, `reconcile`, `podcast-a…",
+      "plain": "Project-stewardship agent. Explicitly invoked via `/steward <scope>` \u2014 NOT autonomous. Plans and prioritizes work for the podcast-factory project by composing existing agents (`repo-surgeon`, `podcast-challenger`, `reconcile`, `podcast-a\u2026",
       "what_it_knows": "See infra/claude-agents/project-steward.md",
       "boundary_in": "",
       "boundary_out": "",
@@ -372,7 +175,7 @@
       "role": "Reconciliation agent for architecture docs",
       "icon": "robot",
       "tone": "neutral",
-      "plain": "Reconciliation agent for architecture docs. Given (a) a file:// or https:// link to one of Asif's architecture HTML views and (b) a free-text change request, the agent first verifies whether the underlying skill/agent/script ALREADY impl…",
+      "plain": "Reconciliation agent for architecture docs. Given (a) a file:// or https:// link to one of Asif's architecture HTML views and (b) a free-text change request, the agent first verifies whether the underlying skill/agent/script ALREADY impl\u2026",
       "what_it_knows": "See infra/claude-agents/reconcile.md",
       "boundary_in": "",
       "boundary_out": "",
@@ -386,7 +189,7 @@
       "role": "Refines a raw user request into a single compact instruction-paragraph tuned for",
       "icon": "robot",
       "tone": "neutral",
-      "plain": "Refines a raw user request into a single compact instruction-paragraph tuned for Claude Opus 4.7 / Claude Code (VS Code) in the journal repo. Inventories the repo for anti-regression hints, distills the Operating Contract inline, and emi…",
+      "plain": "Refines a raw user request into a single compact instruction-paragraph tuned for Claude Opus 4.7 / Claude Code (VS Code) in the journal repo. Inventories the repo for anti-regression hints, distills the Operating Contract inline, and emi\u2026",
       "what_it_knows": "See infra/claude-agents/refine-prompt.md",
       "boundary_in": "",
       "boundary_out": "",
@@ -400,7 +203,7 @@
       "role": "Holistic repo architecture reviewer, regression hunter, plan-conformance auditor",
       "icon": "robot",
       "tone": "neutral",
-      "plain": "Holistic repo architecture reviewer, regression hunter, plan-conformance auditor, and cleanup enforcer. Runs five passes — Structure, Code, Architecture, Brittleness, Plan Conformance — then generates a repair plan and executes approved …",
+      "plain": "Holistic repo architecture reviewer, regression hunter, plan-conformance auditor, and cleanup enforcer. Runs five passes \u2014 Structure, Code, Architecture, Brittleness, Plan Conformance \u2014 then generates a repair plan and executes approved \u2026",
       "what_it_knows": "See infra/claude-agents/repo-surgeon.md",
       "boundary_in": "",
       "boundary_out": "",
@@ -410,17 +213,17 @@
     },
     {
       "id": "slide-deck-challenger",
-      "name": "The Slide Reviewer",
-      "role": "Visual-deck auditor",
-      "icon": "chalkboard-user",
-      "tone": "gold",
-      "plain": "The visual counterpart of the quality reviewer. Verifies that each slide either restates an idea cleanly, illustrates a passage literally, or surfaces structure with a useful diagram — and that the deck as a whole does not just echo the audio.",
-      "what_it_knows": "The deck-structure ladder, the visual-density threshold, the diagram-type discipline rules, the just-skip protocol.",
-      "boundary_in": "A draft slide bundle plus the corresponding chapter framing.",
-      "boundary_out": "A per-chapter verdict plus per-slide notes the worker re-authors against.",
-      "does_not": "Author the slides itself (a separate worker does the authoring). Force a deck when visual density is genuinely low.",
-      "cost_profile": "$0.80–$2 per chapter per pass.",
-      "failure_mode": "Surfaces a justified-skip verdict on low-density chapters instead of forcing slide creation."
+      "name": "Slide Deck Challenger",
+      "role": "Visual-quality challenger for podcasted-book slide-deck bundles (the deck source",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Visual-quality challenger for podcasted-book slide-deck bundles (the deck source uploaded to NotebookLM + the slide-framing pasted into the NotebookLM Customize prompt box). Validates everything the audio `podcast-challenger` cannot catc\u2026",
+      "what_it_knows": "See infra/claude-agents/slide-deck-challenger.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
     },
     {
       "id": "vacuum",
@@ -428,7 +231,7 @@
       "role": "Pipeline-aware folder hygiene and filename normalizer for podcast-factory books",
       "icon": "robot",
       "tone": "neutral",
-      "plain": "Pipeline-aware folder hygiene and filename normalizer for podcast-factory books. Executes targeted mutations against `content/drafts/<slug>/` and `content/published/books/<slug>/` — renames audio/transcript files to canonical `ch<NN>-<sl…",
+      "plain": "Pipeline-aware folder hygiene and filename normalizer for podcast-factory books. Executes targeted mutations against `content/drafts/<slug>/` and `content/published/books/<slug>/` \u2014 renames audio/transcript files to canonical `ch<NN>-<sl\u2026",
       "what_it_knows": "See infra/claude-agents/vacuum.md",
       "boundary_in": "",
       "boundary_out": "",
@@ -437,85 +240,12 @@
       "failure_mode": "surfaces error and halts"
     }
   ],
-  "modules": [
-    {
-      "id": "archetype-registry",
-      "name": "Book-kind recognizer",
-      "plain": "A small registry that knows the rules for each kind of book — a play-novel reads differently than a scholarly treatise. Adding support for a new kind of book means adding one entry here, never rewriting the pipeline."
-    },
-    {
-      "id": "doctrinal-rules",
-      "name": "House style guard",
-      "plain": "A collection of constraints that apply across every book — how the Imam is referred to, what tone the narrators adopt, what topics are out of bounds. Enforced at every station."
-    },
-    {
-      "id": "anti-cliche-registry",
-      "name": "Cliché blocker",
-      "plain": "A growing list of phrases and openings the system has learned to avoid — banal welcomes, overused metaphors, podcast clichés that flatten the source's voice."
-    },
-    {
-      "id": "context-injection",
-      "name": "Shared context",
-      "plain": "The single contract through which all background context flows into the narrator framings. One place to change what context the system passes around."
-    },
-    {
-      "id": "phonetic-glossary",
-      "name": "Pronunciation guide",
-      "plain": "A per-book mapping of every name and term in the book to its phonetic spelling — so the narrator says \"Ibn al-Walid\" the way the source intends, not the way English spelling suggests."
-    },
-    {
-      "id": "augmenter",
-      "name": "Outside-knowledge gatherer",
-      "plain": "Pulls modern research and cross-references that strengthen an episode without distorting the source — used carefully, off by default for sensitive books."
-    },
-    {
-      "id": "challenger",
-      "name": "Quality reviewer",
-      "plain": "Reads every episode bundle and every framing the way a careful editor would, flags problems by severity, and pushes them back for correction. Loops until convergence."
-    },
-    {
-      "id": "slide-deck-challenger",
-      "name": "Slide deck reviewer",
-      "plain": "The visual counterpart of the quality reviewer — checks every slide for restatement, literal illustration, structural value, and audio-deck divergence."
-    }
-  ],
-  "layers": [
-    {
-      "id": 1,
-      "name": "Foundation",
-      "plain": "Files everything else depends on: paths, the database, the rule registry, branch naming."
-    },
-    {
-      "id": 2,
-      "name": "House style",
-      "plain": "Doctrinal rules, the archetype registry, the cost ledger, the shared context contract."
-    },
-    {
-      "id": 3,
-      "name": "Intelligence",
-      "plain": "The extractor, the librarian, the augmenter — the parts that read, remember, and enrich."
-    },
-    {
-      "id": 4,
-      "name": "Authoring",
-      "plain": "The pieces that actually write framings, capstones, prefaces, augmentations."
-    },
-    {
-      "id": 5,
-      "name": "Stations",
-      "plain": "One file per pipeline station. Thin orchestration that calls the layers below."
-    },
-    {
-      "id": 6,
-      "name": "Driver",
-      "plain": "A single thin driver that walks the station order. Hands off to each station in turn."
-    }
-  ],
+  "layers": [],
   "adrs": [
     {
       "id": "DR-001",
-      "title": "SQLite first, Postgres later",
-      "plain": "Use a single-file database for now; defer the heavier setup until we actually need it."
+      "title": "SQLite + FAISS sidecar; Supabase pgvector only on remote-host deployment",
+      "plain": "SQLite + FAISS sidecar; Supabase pgvector only on remote-host deployment"
     },
     {
       "id": "DR-002",
@@ -534,8 +264,8 @@
     },
     {
       "id": "DR-005",
-      "title": "No file over six hundred lines",
-      "plain": "Hard line cap to keep modules small and readable. Triggers refactor when crossed."
+      "title": "Every `scripts/podcast/` file \u2264 600 lines",
+      "plain": "Every `scripts/podcast/` file \u2264 600 lines"
     },
     {
       "id": "DR-006",
@@ -554,13 +284,13 @@
     },
     {
       "id": "DR-009",
-      "title": "No file version stamps",
-      "plain": "Every file IS the current version. Git history is the version log. Pre-commit hook enforces."
+      "title": "No version stamps in tracked files",
+      "plain": "No version stamps in tracked files"
     },
     {
       "id": "DR-010",
-      "title": "Astro for the plan SPA + design tokens shared with podcast-reader",
-      "plain": "Astro for the plan SPA + design tokens shared with podcast-reader"
+      "title": "Astro for the plan SPA + design tokens shared across the Podcast Factory Astro Site",
+      "plain": "Astro for the plan SPA + design tokens shared across the Podcast Factory Astro Site"
     },
     {
       "id": "DR-011",
@@ -574,8 +304,8 @@
     },
     {
       "id": "DR-013",
-      "title": "Shipped books are frozen",
-      "plain": "Five books are already shipped. New improvements ship as addendum episodes, not as re-runs of the original."
+      "title": "Retroactive enhancements for shipped books = addendum-only",
+      "plain": "Retroactive enhancements for shipped books = addendum-only"
     },
     {
       "id": "DR-014",
@@ -593,31 +323,8 @@
       "plain": "FAISS sidecar pattern: vectors separate from metadata, rebuilt from SQLite"
     }
   ],
-  "archetypes": [
-    {
-      "id": "play-novel",
-      "books": [
-        "asaas-al-taveel"
-      ]
-    },
-    {
-      "id": "scholarly-treatise",
-      "books": [
-        "kitab-al-riyad",
-        "the-master-and-the-disciple"
-      ]
-    },
-    {
-      "id": "letter",
-      "books": [
-        "ayyuhal-walad"
-      ]
-    },
-    {
-      "id": "encyclopedic",
-      "books": [
-        "islr-mas-i"
-      ]
-    }
-  ]
+  "modules": [],
+  "archetypes": [],
+  "generated_at": "2026-06-02T22:43:06.090136+00:00",
+  "source_commit": "9e87a4f"
 }

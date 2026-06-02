@@ -51,7 +51,7 @@ Resolution priority in [scripts/podcast/_azure.py](../../scripts/podcast/_azure.
 | `azure-podcast-factory-storage-endpoint` | Storage |
 | `azure-podcast-factory-storage-account` | Storage |
 | `gemini_api_key` | Phase 0b (Gemini refine) |
-| `anthropic_api_key` | Standalone utilities + direct API calls |
+| `anthropic_api_key` | All Claude pipeline phases |
 
 All 14 entries above are stored in Key Vault (`podcast-factory-vault`) as of 2026-06-02. New Macs pull them all with one command — see bootstrap below.
 
@@ -136,7 +136,7 @@ Expect `pass 5  fail 0`.
 
 | Symptom | Cause / Fix |
 |---|---|
-| `Translator credentials missing` | `_azure.py` APP_NAME mismatch — keychain uses `azure-podcast-factory-*`; check `APP_NAME` defaults to `"podcast-factory"` in `_azure.py:38` |
+| `Translator credentials missing` | `_azure.py` APP_NAME mismatch — keychain uses `azure-podcast-factory-*`; if seeing this, check `APP_NAME` defaults to `"podcast-factory"` in `_azure.py:38` |
 | macOS prompts "Always Allow" on first key access | Choose Always Allow; subsequent reads are silent |
 | `verify-azure.sh` returns `Unauthorized` | Key rotated in Azure portal; re-run `store-keychain-keys.sh` then `migrate-to-keyvault.sh` |
 | `pull-secrets.sh` shows `MISS` for a secret | Secret not yet in Key Vault; run `migrate-to-keyvault.sh` on primary Mac |

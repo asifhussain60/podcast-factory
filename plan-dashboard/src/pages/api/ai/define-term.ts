@@ -1,16 +1,19 @@
 /**
  * POST /api/ai/define-term
  *
- * Body: { phonetic: string, transliteration?: string, arabic?: string, context?: string, book?: string }
- * Returns: { definition: string, etymology?: string, related?: string[] }
+ * Wave J (J2): local-first term definition.
+ * 1. Try source_library_server.py at localhost:4390 /term/define (300 ms timeout).
+ *    If found: true → return definition + etymology + related array. Zero Gemini spend.
+ *    If found: false → fall through to Gemini.
+ * 2. Fall back to Gemini Flash when local server is unreachable OR term not in mirror.
  *
- * Uses Gemini Flash. The client caches the response in localStorage so
- * repeat hovers cost nothing. Context is the surrounding sentence so
- * the model can disambiguate (e.g. "Hujjah" the rank vs the proof).
+ * Body: { phonetic: string, transliteration?: string, arabic?: string, context?: string, book?: string }
+ * Returns: { definition: string, etymology?: string, related?: string[], source: 'local'|'gemini' }
  */
 
 import type { APIRoute } from 'astro';
 import { generate, rateLimitCheck } from '../../../lib/reader/gemini-server';
+import { fetchLocalTermDef } from '../../../lib/localServerClient';
 
 export const prerender = false;
 
@@ -27,10 +30,26 @@ export const POST: APIRoute = async ({ request }) => {
       status: 429, headers: { 'content-type': 'application/json' },
     });
   }
+
   try {
     const { phonetic, transliteration, arabic, context, book } = await request.json();
     if (!phonetic) return new Response(JSON.stringify({ error: 'missing phonetic' }), { status: 400 });
 
+    // ── Try local mirror first ───────────────────────────────────────────
+    const local = await fetchLocalTermDef(phonetic);
+    if (local && local.found) {
+      return new Response(JSON.stringify({
+        definition: local.definition ?? '',
+        etymology: local.etymology,
+        related: local.related,
+        source: 'local',
+      }), {
+        status: 200,
+        headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },
+      });
+    }
+
+    // ── Fall back to Gemini Flash ────────────────────────────────────────
     const user = [
       `Term: ${phonetic}`,
       transliteration && transliteration !== phonetic ? `Transliteration: ${transliteration}` : '',
@@ -48,7 +67,6 @@ export const POST: APIRoute = async ({ request }) => {
       jsonMode: true,
     });
 
-    // Best-effort JSON parse; strip code fences if model included them.
     let parsed: any = {};
     try {
       const cleaned = text.replace(/^```json\s*|\s*```$/g, '').trim();
@@ -56,7 +74,7 @@ export const POST: APIRoute = async ({ request }) => {
     } catch {
       parsed = { definition: text };
     }
-    return new Response(JSON.stringify(parsed), {
+    return new Response(JSON.stringify({ ...parsed, source: 'gemini' }), {
       status: 200,
       headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },
     });
