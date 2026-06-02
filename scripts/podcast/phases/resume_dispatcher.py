@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _paths import REPO_ROOT  # noqa: E402
 from _progress import read_state, write_state, update_phase  # noqa: E402
 from phases.preflight import preflight_resume  # noqa: E402
-from phases.initial_driver import _drive_authoring_through_0f  # noqa: E402
+from phases.initial_driver import _drive_authoring_through_0f, _drive_source_ready_through_0f  # noqa: E402
 from phases.chapter_driver import _drive_per_chapter_and_after  # noqa: E402
 from phases.publish_driver import _drive_publish_through_done  # noqa: E402
 
@@ -124,6 +124,28 @@ def run_resume(args: argparse.Namespace) -> int:
         write_state(book_dir, state)
         _info(f"Phase {current_phase!r} human review approved — resuming.")
         current_status = "pending"
+
+    # ── source-ready: pre-written English sources (explainers, sites) ───────────
+    # Handles books whose source material was written directly as .md files rather
+    # than ingested from a PDF via Azure OCR. Category must be in SKIP_OCR_CATEGORIES.
+    if current_phase == "source-ready" and current_status in ("pending", "failed"):
+        category = state.get("category", "")
+        from _authoring._core import SKIP_OCR_CATEGORIES
+        if not category:
+            _err(
+                "orchestrator-state.json is missing 'category' field. "
+                "Add: \"category\": \"explainers\"  (or \"sites\") and retry."
+            )
+            return 2
+        if category not in SKIP_OCR_CATEGORIES:
+            _err(
+                f"phase 'source-ready' requires category in SKIP_OCR_CATEGORIES "
+                f"{sorted(SKIP_OCR_CATEGORIES)} (got {category!r}). "
+                f"For PDF-sourced books use the standard initial path."
+            )
+            return 2
+        _info(f"phase: source-ready · ingesting pre-written .md sources (category={category!r})")
+        return _drive_source_ready_through_0f(book_dir, state)
 
     # Phase 06a approved — drive into 0f.
     if current_phase == "06a" and current_status in ("pending", "failed"):

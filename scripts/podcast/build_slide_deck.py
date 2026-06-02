@@ -288,8 +288,15 @@ def validate_deck_source(
     deck_path: Path,
     audio_word_count: int,
     findings: list[str],
+    *,
+    _is_islamic: bool = True,
 ) -> int:
-    """Validate the deck-source .txt. Returns deck word count (0 on missing)."""
+    """Validate the deck-source .txt. Returns deck word count (0 on missing).
+
+    `_is_islamic` gates the Quranic attribution check — set False for
+    technical (explainers) or consumer (sites) content where Quranic
+    blockquotes are not expected and the check would produce false positives.
+    """
     if not deck_path.exists():
         findings.append(f"BUILD-SLIDE FAIL: deck source not found: {deck_path}")
         return 0
@@ -322,7 +329,8 @@ def validate_deck_source(
     check_html_comments(text, label, findings)
     check_meta_prose(text, label, findings)
     check_inline_phonetics(text, label, findings)
-    check_quranic_attributions(text, label, findings)
+    if _is_islamic:
+        check_quranic_attributions(text, label, findings)
 
     # Word count vs audio chapter band.
     wc = word_count(text)
@@ -476,8 +484,21 @@ def main(argv: list[str] | None = None) -> int:
 
     findings: list[str] = []
 
-    # 3. Validate.
-    deck_wc = validate_deck_source(deck_path, audio_wc, findings)
+    # 3. Validate — category-aware Quranic attribution check.
+    import json as _json
+    _state_path = book_dir / "_system" / "orchestrator-state.json"
+    _category = "books"
+    if _state_path.exists():
+        try:
+            _category = _json.loads(_state_path.read_text()).get("category", "books")
+        except Exception:  # noqa: BLE001
+            pass
+    _islamic_categories = frozenset({
+        "books", "letters", "lectures", "articles", "asbaaq", "documents", "interviews",
+    })
+    _is_islamic = _category in _islamic_categories
+
+    deck_wc = validate_deck_source(deck_path, audio_wc, findings, _is_islamic=_is_islamic)
     framing_wc = validate_framing(framing_path, findings)
 
     # 4. Emit.

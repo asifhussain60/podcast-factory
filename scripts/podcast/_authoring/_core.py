@@ -44,6 +44,66 @@ def _compute_sc_timeout(words: int) -> int:
 
 CLAUDE_CMD = "claude"
 
+# ─── Content-category routing ─────────────────────────────────────────────────
+# Single source of truth for which pipeline phases each category runs.
+# Consumers import these constants; never hardcode category strings in phase
+# modules. New categories: add to ALLOWED_CATEGORIES in _rules.py first, then
+# add skip entries here as needed.
+
+# All categories whose content is Islamic/Arabic scholarly. These run the full
+# pipeline: OCR→translate, Phase 0b (scholarly refinement), Phase 0c (Arabic
+# phonetics), Phase 0d (scholarly chapter design), Phase 0e (7-tier Islamic
+# enrichment), Islamic framing prompt, Islamic challenger rules.
+ARABIC_SCHOLARLY_CATEGORIES: frozenset = frozenset({
+    "books", "letters", "lectures", "articles", "asbaaq", "documents", "interviews",
+})
+
+# Categories that skip Phase 0c (Arabic phonetics) — no Arabic terms to extract.
+SKIP_PHONETICS_CATEGORIES: frozenset = frozenset({
+    "sites", "explainers",
+})
+
+# Categories that skip Phase 0e (enrichment) — source is already authoritative.
+SKIP_ENRICHMENT_CATEGORIES: frozenset = frozenset({
+    "sites",
+})
+
+# Categories that skip Phase 0a (OCR + Azure translation) — source is already
+# in English (scraped web content, synthesized markdown, pre-written docs).
+SKIP_OCR_CATEGORIES: frozenset = frozenset({
+    "sites", "explainers",
+})
+
+
+def _read_category(book_dir: "Path") -> str:
+    """Read the content category for a book, with graceful fallbacks.
+
+    Resolution order (first non-empty wins):
+      1. _system/orchestrator-state.json  → "category" field
+      2. _system/meta.yml                 → "category:" line
+      3. Default: "books" (Islamic/scholarly path)
+    """
+    import json as _json
+    state_path = book_dir / "_system" / "orchestrator-state.json"
+    if state_path.exists():
+        try:
+            state = _json.loads(state_path.read_text(encoding="utf-8"))
+            cat = state.get("category", "").strip()
+            if cat:
+                return cat.lower()
+        except Exception:  # noqa: BLE001
+            pass
+
+    meta_path = book_dir / "_system" / "meta.yml"
+    if meta_path.exists():
+        for line in meta_path.read_text(encoding="utf-8").splitlines():
+            if line.startswith("category:"):
+                cat = line.split(":", 1)[1].strip().strip('"').strip("'")
+                if cat:
+                    return cat.lower()
+
+    return "books"
+
 
 class AuthoringError(RuntimeError):
     """Raised when an LLM-authoring shellout fails to produce its declared artifact."""
@@ -57,7 +117,7 @@ class AuthoringError(RuntimeError):
         self.stderr = stderr
 
 
-DEFAULT_MODEL_LABEL = "claude-opus-4-7"
+DEFAULT_MODEL_LABEL = "claude-opus-4-8"
 
 
 def _run_claude_p(

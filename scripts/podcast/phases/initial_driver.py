@@ -15,6 +15,7 @@ from _progress import initial_state, read_state, update_phase, write_state  # no
 from _authoring import AuthoringError, author_phase_0b, author_phase_0c, author_phase_0d, author_phase_0e  # noqa: E402
 from phases.preflight import preflight_initial  # noqa: E402
 from phases.scaffold import phase_branch, phase_scaffold, phase_0a_ingest, phase_git_commit  # noqa: E402
+from phases.source_ingest import phase_0a_ingest_source_md  # noqa: E402
 from phases.series_plan import phase_0f_write_series_plan  # noqa: E402
 from phases.preflight import _run_chapter_set_check  # noqa: E402
 from phases.source_review_gate import run_source_review_gate  # noqa: E402
@@ -159,6 +160,64 @@ def _drive_authoring_through_0f(book_dir: Path, title: str) -> int:
     _info(f"  python3 scripts/podcast/orchestrate_book.py --resume {book_slug}")
     _info("─" * 72)
     return 0
+
+
+def _drive_source_ready_through_0f(book_dir: Path, state: dict) -> int:
+    """Drive pre-written source books (SKIP_OCR_CATEGORIES) from source-ready → 0f halt.
+
+    Called when phase='source-ready', phase_status='pending'|'failed'.
+    Runs Phase 0a (local .md ingest, no Azure) then hands off to
+    _drive_authoring_through_0f for 0b → 0d → 0e → 0f.
+
+    Branch and scaffold are assumed done — the book_dir already exists with
+    source/ populated. Only the pipeline processing phases run here.
+    """
+    book_slug = book_dir.name
+    category = state.get("category", "explainers")
+    title = _read_book_title_local(book_dir) or book_slug.replace("-", " ").title()
+
+    phases_done = {
+        p for p, blk in state.get("phases", {}).items()
+        if blk.get("status") == "completed"
+    }
+
+    # ── Mark branch + scaffold completed (done out-of-band for source-ready books)
+    for synthetic_phase in ("pre-flight", "branch", "scaffold"):
+        if synthetic_phase not in phases_done:
+            update_phase(book_dir, phase=synthetic_phase, status="completed")
+
+    # ── Phase 0a — local source-md ingest (no Azure) ──────────────────────
+    if "0a" not in phases_done:
+        _info(f"phase: 0a · ingesting pre-written .md sources from {book_slug}/source/")
+        update_phase(book_dir, phase="0a", status="running")
+        try:
+            phase_0a_ingest_source_md(book_dir, category, book_slug)
+        except RuntimeError as e:
+            update_phase(book_dir, phase="0a", status="failed", error=str(e))
+            _err(str(e))
+            return 2
+        update_phase(book_dir, phase="0a", status="completed")
+        phase_git_commit(book_dir, f"podcast({book_slug}): phase 0a source-md ingest")
+    else:
+        _info("phase: 0a · already completed (source-md ingest), skipping")
+
+    # ── Phases 0b → 0f (existing driver handles everything) ───────────────
+    # Category-aware routing in _refine, _chapter_design, _enrichment, _framing
+    # already handles 'explainers' and 'sites' correctly. 0c is automatically
+    # skipped via SKIP_PHONETICS_CATEGORIES in author_phase_0c.
+    return _drive_authoring_through_0f(book_dir, title)
+
+
+def _read_book_title_local(book_dir: Path) -> str | None:
+    """Best-effort title from BOOK_DIR/_README.md (mirrors resume_dispatcher)."""
+    readme = book_dir / "_README.md"
+    if not readme.exists():
+        return None
+    for line in readme.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if line.startswith("# Podcast — "):
+            return line[len("# Podcast — "):].strip()
+    return None
 
 
 def run_initial(args: argparse.Namespace) -> int:
