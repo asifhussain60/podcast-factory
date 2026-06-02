@@ -13,3 +13,4 @@ Per-chapter status. Rows with `ENRICHED` are checkpointed and skipped on resume.
 - ch03-first-session-walkthrough: ENRICHED at 2026-06-02 16:07:11 (in-place rewrite)
 - ch02-how-claude-code-actually-works: ENRICHED at 2026-06-02 16:07:38 (in-place rewrite)
 - ch03-first-session-walkthrough: ENRICHED at 2026-06-02 16:07:55 (in-place rewrite)
+- ch03-first-session-walkthrough: ENRICHED at 2026-06-02 16:09:15 (in-place rewrite)
