@@ -521,3 +521,36 @@ R_INTEREST_STRAWMAN_DENY: list = [
     r"\b(silly (argument|idea|notion|objection))\b",
     r"\b(no (sane|reasonable|serious) person)\b",
 ]
+
+# ─── Technical content challenger rules (category: explainers) ───────────────
+# Single source of truth for challenger rules specific to technical developer
+# content (explainers category). These parallel the Islamic challenger rules but
+# enforce technical accuracy rather than doctrinal fidelity.
+# NOTE: CHALLENGER_VERSION bump required when these are actively consumed by
+# the challenger scoring path (currently declared, not yet wired).
+
+# Code blocks must reproduce source exactly — no paraphrasing of code.
+R_TECH_CODE_VERBATIM: str = "R-TECH-CODE-VERBATIM"
+
+# CLI commands must match the source document exactly (no shorthand variants).
+# Wrong: `npm i -g claude`  Correct: `npm install -g @anthropic-ai/claude-code`
+R_TECH_CLI_EXACT: str = "R-TECH-CLI-EXACT"
+
+# Version numbers must be literal — no "the latest version" or "approximately".
+R_TECH_VERSION_LITERAL: str = "R-TECH-VERSION-LITERAL"
+
+# Acronyms must be expanded on first use within each episode.
+# Wrong: "Use MCP"  Correct: "Use MCP (Model Context Protocol)"
+R_TECH_ACRONYM_FIRST_USE: str = "R-TECH-ACRONYM-FIRST-USE"
+
+# No Islamic/doctrinal terminology in technical episodes (leakage detection).
+R_TECH_NO_DOCTRINAL: str = "R-TECH-NO-DOCTRINAL"
+
+# Canonical rule set for the technical challenger.
+TECHNICAL_RULE_SET: frozenset = frozenset({
+    R_TECH_CODE_VERBATIM,
+    R_TECH_CLI_EXACT,
+    R_TECH_VERSION_LITERAL,
+    R_TECH_ACRONYM_FIRST_USE,
+    R_TECH_NO_DOCTRINAL,
+})

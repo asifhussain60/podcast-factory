@@ -123,14 +123,14 @@ import '../styles/pipeline-paths.css';
             <tr>
               <td class="col-phase">
                 <span class="col-phase-num">04</span>
-                <span class="col-phase-name">ocr-translate</span>
+                <span class="col-phase-name">ocr-translate / source-ingest</span>
               </td>
-              <td class="col-desc">Azure OCR + Azure Translator</td>
-              <td class="col-category">Run — Arabic PDF → English</td>
-              <td class="col-category"><span class="bt-badge bt-skip">🔴 SKIP</span></td>
-              <td class="col-category"><span class="bt-badge bt-skip">🔴 SKIP</span></td>
-              <td class="col-branch"><span class="bt-badge bt-skip">🔴 SKIP</span></td>
-              <td class="col-status"><span class="st-note">Needs skip guard</span></td>
+              <td class="col-desc">Azure OCR + Translator (PDF) or local .md ingest (pre-written)</td>
+              <td class="col-category">Run — Arabic PDF → English via <code>ingest_source.py</code></td>
+              <td class="col-category"><code>phase_0a_ingest_source_md</code> — reads <code>source/*.md</code> → <code>raw-extract.md</code></td>
+              <td class="col-category"><code>phase_0a_ingest_source_md</code> — reads <code>source/*.md</code> → <code>raw-extract.md</code></td>
+              <td class="col-branch"><span class="bt-badge bt-skip">🔴 SKIP (OCR)</span> / <span class="bt-badge bt-shared">🟢 source-ingest</span></td>
+              <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
             <tr>
@@ -143,7 +143,7 @@ import '../styles/pipeline-paths.css';
               <td class="col-category">Strip legal/compliance jargon (web-consumer-denoise)</td>
               <td class="col-category">Strip marketing language, preserve CLI syntax + code blocks</td>
               <td class="col-branch"><span class="bt-badge bt-prompt">🟡 PROMPT</span></td>
-              <td class="col-status"><span class="st-missing">❌ Technical variant missing</span></td>
+              <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
             <tr>
@@ -156,7 +156,7 @@ import '../styles/pipeline-paths.css';
               <td class="col-category"><span class="bt-badge bt-skip">🔴 SKIP</span></td>
               <td class="col-category"><span class="bt-badge bt-skip">🔴 SKIP</span></td>
               <td class="col-branch"><span class="bt-badge bt-skip">🔴 SKIP</span></td>
-              <td class="col-status"><span class="st-missing">❌ No skip logic</span></td>
+              <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
             <tr>
@@ -169,7 +169,7 @@ import '../styles/pipeline-paths.css';
               <td class="col-category">Consumer topic structure</td>
               <td class="col-category">Technical episode arc, no phonetics</td>
               <td class="col-branch"><span class="bt-badge bt-prompt">🟡 PROMPT</span></td>
-              <td class="col-status"><span class="st-missing">❌ Hard-wired to <code>_phonetics.md</code></span></td>
+              <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
             <tr>
@@ -182,7 +182,7 @@ import '../styles/pipeline-paths.css';
               <td class="col-category"><span class="bt-badge bt-skip">🔴 SKIP</span></td>
               <td class="col-category">Official docs accuracy verification</td>
               <td class="col-branch"><span class="bt-badge bt-mixed">🟡 PROMPT + 🔴 SKIP</span></td>
-              <td class="col-status"><span class="st-missing">❌ Hardcodes <code>_shared/islam/</code></span></td>
+              <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
             <tr>
@@ -234,7 +234,7 @@ import '../styles/pipeline-paths.css';
               <td class="col-category">John/Hannah consumer hosts, financial walkthrough</td>
               <td class="col-category">Developer-to-developer hosts, CLI workflow, official-docs accuracy</td>
               <td class="col-branch"><span class="bt-badge bt-prompt">🟡 PROMPT</span></td>
-              <td class="col-status"><span class="st-partial">⚠️ Sites done; explainers falls to Islamic</span></td>
+              <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
             <tr>
@@ -258,9 +258,9 @@ import '../styles/pipeline-paths.css';
               <td class="col-desc">Semantic quality validation</td>
               <td class="col-category">Full Islamic rule set (R-NO-ARABIC-NAMES, R-HOST-ROLE-PARITY)</td>
               <td class="col-category">Consumer challenger rules</td>
-              <td class="col-category">Technical challenger rules</td>
+              <td class="col-category">Technical challenger rules (TECHNICAL_RULE_SET declared in <code>_rules.py</code>)</td>
               <td class="col-branch"><span class="bt-badge bt-rules">🔵 RULES</span></td>
-              <td class="col-status"><span class="st-partial">⚠️ Sites partial; explainers undefined</span></td>
+              <td class="col-status"><span class="st-partial">⚠️ Rules declared; not yet wired to scorer</span></td>
             </tr>
 
             <tr>
@@ -270,10 +270,10 @@ import '../styles/pipeline-paths.css';
               </td>
               <td class="col-desc">Optional slide deck generation</td>
               <td class="col-category">Islamic visual design</td>
-              <td class="col-category">Not extended</td>
-              <td class="col-category">Not extended</td>
+              <td class="col-category">Consumer: uses Islamic prompt (adequate for now)</td>
+              <td class="col-category">Technical: <code>_build_pair_prompt_technical</code> — CLI workflows, comparison tables, architecture flows</td>
               <td class="col-branch"><span class="bt-badge bt-prompt">🟡 PROMPT</span></td>
-              <td class="col-status"><span class="st-partial">⚠️ Islamic-only</span></td>
+              <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
             <tr>
