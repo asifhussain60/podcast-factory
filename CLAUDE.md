@@ -109,7 +109,7 @@ These are recoverable on disk so a fresh Claude session without memory state can
 - **Memoir + site moved to the sibling [journal](https://github.com/asifhussain60/journal) repo**: `content/babu-memoir/`, `site/`, `scripts/memoir/`, `scripts/site/`, `skills-staging/journal/`, `.github/agents/journal-*`, `skills-staging/css-theme-sync/`, `skills-staging/ui-modernizer/` — all moved, none remain here.
 - **Anthropic API proxy `server/` RETIRED**: the journal app no longer needs it; not migrated to journal either.
 - **Cloudflare deploy scaffold RETIRED**: `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/`, `docs/anthropic-api-setup.md`, `docs/proxy-setup.md` — all deleted; not migrated.
-- **Duplicated general-utility items** (`clean-commit`, `cowork-brief`, `repo-surgeon`, `tell-me`, `usage-auditor` skills + CORTEX/refine-prompt/reconcile/operating-contract agents + `content/_shared/arabic/` + `docs/reference/`): these stay here as INDEPENDENT copies; the journal repo has its own independent copies that evolve separately.
+- **Duplicated general-utility items** (`clean-commit`, `repo-surgeon` skills + CORTEX/refine-prompt/reconcile/operating-contract agents + `content/_shared/arabic/` + `docs/reference/`): these stay here as INDEPENDENT copies; the journal repo has its own independent copies that evolve separately. (`cowork-brief`, `tell-me`, `usage-auditor` were removed 2026-06-02 — they were ADLC/journal-repo tools with no use in podcast-factory.)
 
 ## What to do for a typical user request
 
