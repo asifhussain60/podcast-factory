@@ -128,7 +128,7 @@ const riskLabel = (r: string) => r === 'low' ? 'Low' : r === 'attention' ? 'Atte
       One service (Google / NotebookLM) requires no stored key — it runs through a browser session.
       The GitHub personal access token carries the highest privilege and is the primary rotation target.
     </p>
-    <div class="infra-table-wrap">
+    <div class="infra-table-wrap" role="region" aria-label="Credentials table" tabindex="0">
       <table class="infra-table">
         <caption>Each row: the secret, where it lives, what it authorises, and its risk tier.</caption>
         <thead>
@@ -157,7 +157,7 @@ const riskLabel = (r: string) => r === 'low' ? 'Low' : r === 'attention' ? 'Atte
       Twenty items reviewed. Four categories: SEC (security surface), COST (financial exposure),
       ARCH (design concern), OK (verified and mitigated). Items marked SEC require active decisions.
     </p>
-    <div class="security-hotspots">
+    <div class="security-hotspots" role="region" aria-label="Security hotspots table" tabindex="0">
       <table class="hotspots-table">
         <thead>
           <tr>
@@ -349,10 +349,4 @@ const riskLabel = (r: string) => r === 'low' ? 'Low' : r === 'attention' ? 'Atte
   </section>
 
 </Base>
-
-  <!-- ── Stat card colour variants ──────────────────────────────────── -->
-<style>
-  .card.s-green { border-left: 3px solid var(--c-green); }
-  .card.s-amber { border-left: 3px solid var(--c-amber); }
-</style>
 

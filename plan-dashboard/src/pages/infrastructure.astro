@@ -127,7 +127,7 @@ const hotspots = [
 <section class="stack" id="s-credentials" aria-label="Credential and auth map">
   <h2>Credentials — where every secret lives and what it authorises</h2>
   <p>Every key is stored in a single git-ignored local file (or held only as a browser session). Risk is rated by privilege and exposure.</p>
-  <div class="infra-table-wrap">
+  <div class="infra-table-wrap" role="region" aria-label="Credentials table" tabindex="0">
     <table class="infra-table">
       <caption>Each row: the secret, where it lives, what it authorises, and its risk tier.</caption>
       <thead>
@@ -152,7 +152,7 @@ const hotspots = [
 <section class="stack" id="s-hotspots" aria-label="Hotspots index">
   <h2>Hotspots index — security, cost, and architecture at a glance</h2>
   <p>A standing punch-list for the technical reader: what to watch (security, cost), what is deliberately structured (architecture), and what is verified clean.</p>
-  <div class="infra-table-wrap">
+  <div class="infra-table-wrap" role="region" aria-label="Hotspots index table" tabindex="0">
     <table class="infra-table">
       <caption>Tagged SEC (security), COST, ARCH (architecture), or OK (verified).</caption>
       <thead>

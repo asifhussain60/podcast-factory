@@ -147,7 +147,7 @@ function fileViewHref(relPath: string): string {
       <div class="lib-deck-grid">
         {slideDecks.map((deck) => (
           <div class="card card-tight stack">
-            <h4 class="card-title lib-deck-title">{deck.slug}</h4>
+            <h3 class="card-title lib-deck-title">{deck.slug}</h3>
             <div class="lib-deck-files">
               {deck.files.map((f) => (
                 <a class="lib-mini-link" href={fileViewHref(f.relPath)} target="_blank">{f.name}</a>

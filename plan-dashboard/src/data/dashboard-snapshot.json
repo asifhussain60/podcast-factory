@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-31T19:24:31.619Z",
-  "source_commit": "8333fcca",
+  "generated_at": "2026-06-02T11:11:47.217Z",
+  "source_commit": "2ec7941d",
   "generator": "regenerate-snapshots.mjs",
   "roadmap": [
     {
@@ -450,6 +450,66 @@
       "tools": []
     },
     {
+      "id": "CP1",
+      "wave": "CP",
+      "title": "Add content_profile field to series-config.yaml + _rules.py",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "A1"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "CP2",
+      "wave": "CP",
+      "title": "Gate Arabic-specific assertions in build_episode_txt.py on content_profile",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "CP1"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "CP3",
+      "wave": "CP",
+      "title": "Make phase 0c (phonetics) a no-op outside the islamic_scholarly profile",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "CP1"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "CP4",
+      "wave": "CP",
+      "title": "Add consumer_finance enrichment stub under content/_shared/",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "CP1"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "CP5",
+      "wave": "CP",
+      "title": "Extend challenger profile-gating to skip Islamic-specific rules for non-Islamic content",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "CP2"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
       "id": "G1",
       "wave": "G",
       "title": "Cinematic narrative scroll homepage with GSAP ScrollTrigger",
@@ -819,54 +879,54 @@
   ],
   "recent_commits": [
     {
-      "sha": "8333fcca",
-      "subject": "force push'",
-      "date": "2026-05-31"
+      "sha": "2ec7941d",
+      "subject": "archive: move islr-mas-i off the pipeline site",
+      "date": "2026-06-01"
     },
     {
-      "sha": "26509102",
-      "subject": "infra for Supa",
-      "date": "2026-05-31"
+      "sha": "98d44113",
+      "subject": "Revert \"fix(healthequity): editorial fixes across all 3 chapters + rebuild episodes\"",
+      "date": "2026-06-01"
     },
     {
-      "sha": "26f9de98",
-      "subject": "fix: launchd rename + Astro 5→6 security upgrade",
-      "date": "2026-05-31"
+      "sha": "a897d40f",
+      "subject": "fix(healthequity): editorial fixes across all 3 chapters + rebuild episodes",
+      "date": "2026-06-01"
     },
     {
-      "sha": "813b6cd3",
-      "subject": "fix: production-readiness sweep across all 7 repo areas",
-      "date": "2026-05-31"
+      "sha": "19420bc2",
+      "subject": "Merge branch 'site/healthequity' into develop",
+      "date": "2026-06-01"
     },
     {
-      "sha": "04a8ad7b",
-      "subject": "feat(site): add About & Help page with quick-start guide and searchable FAQ",
-      "date": "2026-05-31"
+      "sha": "47abc17a",
+      "subject": "feat(pipeline+plan): explainers category + Python snapshot + content-profile wave",
+      "date": "2026-06-01"
     },
     {
-      "sha": "34fd28a2",
-      "subject": "docs(handoff): close-out — site consolidation, poc-naming debt, auditor test-debt backlog",
-      "date": "2026-05-31"
+      "sha": "eb7368e0",
+      "subject": "feat(pipeline+healthequity): category-aware framing + 3 consumer episodes built",
+      "date": "2026-06-01"
     },
     {
-      "sha": "c1086cbd",
-      "subject": "test: recover 9 pre-existing failures (fts_topics 8-col fixture; books/ layout assertion)",
-      "date": "2026-05-31"
+      "sha": "695957e0",
+      "subject": "fix(extract_chapter): accept all ALLOWED_CATEGORIES as valid root ancestors",
+      "date": "2026-06-01"
     },
     {
-      "sha": "10180655",
-      "subject": "refactor(site): archive studio-poc route, promote corpus-mock -> integrated /corpus",
-      "date": "2026-05-31"
+      "sha": "bdfb0f5d",
+      "subject": "chore(healthequity): add chapter contracts for 3 pilot episodes",
+      "date": "2026-06-01"
     },
     {
-      "sha": "d78a36c1",
-      "subject": "chore(ayyuhal-walad): stamp pipeline_mode=orchestrated -> all ship gates green",
-      "date": "2026-05-31"
+      "sha": "cda6cae7",
+      "subject": "fix(watchdog): category-aware content path resolution",
+      "date": "2026-06-01"
     },
     {
-      "sha": "f483d5ab",
-      "subject": "fix(ayyuhal-walad): strip extraction apparatus from 3 chapters -> SHIP-WITH-CAUTION",
-      "date": "2026-05-31"
+      "sha": "842d0326",
+      "subject": "fix(healthequity): move to canonical content/drafts/sites/ layout",
+      "date": "2026-06-01"
     }
   ],
   "metrics": {
