@@ -4,8 +4,8 @@
   "branch": "site/claude-code",
   "content_type": "explainer-series",
   "pipeline_mode": "explainer_series",
-  "phase": "0d",
-  "phase_status": "completed",
+  "phase": "0e",
+  "phase_status": "running",
   "last_completed_phase": "0d",
   "last_error": null,
   "phases": {
@@ -40,6 +40,10 @@
       "status": "completed",
       "ts_started": "2026-06-02T19:27:54Z",
       "ts_completed": "2026-06-02T19:50:20Z"
+    },
+    "0e": {
+      "status": "running",
+      "ts_started": "2026-06-02T19:50:20Z"
     }
   },
   "source_language": "en",
