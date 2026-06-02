@@ -60,6 +60,20 @@ git log --oneline -5    # Sanity-check recent history
 
 The repo is flat (no worktrees container). Books in flight live under [`content/drafts/<slug>/`](../../content/drafts/); shipped books live under [`content/published/books/<slug>/`](../../content/published/books/).
 
+## Step 4.5 — Install git hooks and Claude skills
+
+```bash
+cd ~/PROJECTS/podcast-factory
+
+# Enforce DR-009 (no version markers) + HTML-view quality gate on every commit:
+bash scripts/install-git-hooks.sh
+
+# Install Claude agent specs into .claude/agents/ (required for orchestrator, challenger, etc.):
+bash scripts/install-claude-skills.sh
+```
+
+Both scripts are idempotent — safe to re-run after pulling new hook or skill versions.
+
 ## Step 5 — Wire Azure + all API keys (ONLY if this Mac drives pipeline phases)
 
 All credentials — Azure services, Gemini, and Anthropic — are centralised in **Azure Key Vault** (`podcast-factory-vault`). A new machine needs only one command after `az login`:
