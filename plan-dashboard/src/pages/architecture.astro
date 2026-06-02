@@ -6,6 +6,7 @@ import PhaseSwimlaneDiagram from '../components/PhaseSwimlaneDiagram.tsx';
 import PipelineOverviewRail from '../components/PipelineOverviewRail.tsx';
 import arch from '../data/architecture-snapshot.json';
 import AudienceBadge from '../components/AudienceBadge.astro';
+const archetypes = (arch.archetypes ?? []) as Array<{id: string; books: string[]}>;
 ---
 <Base title="Architecture" active="architecture" section="architecture">
 
@@ -159,9 +160,9 @@ import AudienceBadge from '../components/AudienceBadge.astro';
       registering them — never by branching the pipeline code itself.
     </p>
     <div class="grid-2">
-      {arch.archetypes.map((a) => (
+      {archetypes.map((a) => (
         <div class="card card-tight">
-          <strong>{a.id.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}</strong>
+          <strong>{a.id.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())}</strong>
           <p class="small muted">Books using this kind: {a.books.join(', ')}</p>
         </div>
       ))}

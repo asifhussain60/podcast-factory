@@ -240,6 +240,7 @@ def merge_dashboard():
         "generator": "regenerate-snapshots.py",
         "roadmap": roadmap,
         "books_in_flight": in_flight,
+        "books_shipped": existing.get("books_shipped", []),
         "recent_commits": recent_commits(),
         "wave_execution_events": recent_wave_events(),
     }

@@ -42,7 +42,8 @@ from pathlib import Path
 # Each entry: (input_usd_per_million, output_usd_per_million,
 #              cache_read_usd_per_million, cache_create_usd_per_million)
 PRICING_USD_PER_MILLION_TOKENS: dict[str, tuple[float, float, float, float]] = {
-    # Claude 4.x family (current as of 2026-05)
+    # Claude 4.x family (current as of 2026-06)
+    "claude-opus-4-8":     (15.00, 75.00, 1.50, 18.75),
     "claude-opus-4-7":     (15.00, 75.00, 1.50, 18.75),
     "claude-opus-4-6":     (15.00, 75.00, 1.50, 18.75),
     "claude-sonnet-4-6":   ( 3.00, 15.00, 0.30,  3.75),

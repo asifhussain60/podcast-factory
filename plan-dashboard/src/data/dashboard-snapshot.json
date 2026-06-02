@@ -699,8 +699,8 @@
   "waves": [],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-02T22:43:06.029318+00:00",
-  "source_commit": "9e87a4f",
+  "generated_at": "2026-06-02T22:46:57.542346+00:00",
+  "source_commit": "5cbba2e",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [
     {
@@ -713,6 +713,41 @@
     }
   ],
   "recent_commits": [
+    {
+      "sha": "5cbba2e",
+      "subject": "merge(refactor/wave-1): Wave J complete \u2014 local-first lookups + quality-over-cost pipeline",
+      "date": "2026-06-02"
+    },
+    {
+      "sha": "6f758f0",
+      "subject": "fix(astro): resolve 8 pre-existing TypeScript errors \u2014 0 errors remain",
+      "date": "2026-06-02"
+    },
+    {
+      "sha": "98efddf",
+      "subject": "chore(audit): promote Wave J to completed + track F38 claude-p debt",
+      "date": "2026-06-02"
+    },
+    {
+      "sha": "39629c6",
+      "subject": "feat(wave-j/J3-J5): live verse fallback, session style fetch, TopicPopover",
+      "date": "2026-06-02"
+    },
+    {
+      "sha": "5031f16",
+      "subject": "feat(wave-j/J2): local-first verse + term lookups \u2014 zero Gemini spend for known terms",
+      "date": "2026-06-02"
+    },
+    {
+      "sha": "55c1a86",
+      "subject": "fix(quality-audit): resolve 7 test failures + add consumer category phase gates",
+      "date": "2026-06-02"
+    },
+    {
+      "sha": "bd4459a",
+      "subject": "chore(claude-code-training): add EP01 framing artifact",
+      "date": "2026-06-02"
+    },
     {
       "sha": "9e87a4f",
       "subject": "fix(pipeline): support synthesized-explainer source_type + extract artifacts",
@@ -727,42 +762,8 @@
       "sha": "3400aab",
       "subject": "podcast(claude-code-training): update branch reference to develop",
       "date": "2026-06-02"
-    },
-    {
-      "sha": "7430e5c",
-      "subject": "merge(site/claude-code): claude-code-training pipeline run + fixes",
-      "date": "2026-06-02"
-    },
-    {
-      "sha": "7af7816",
-      "subject": "podcast(claude-code-training): remove stale watchdog.json",
-      "date": "2026-06-02"
-    },
-    {
-      "sha": "086187a",
-      "subject": "podcast(claude-code-training): phase 0f series plan written; awaiting human review",
-      "date": "2026-06-02"
-    },
-    {
-      "sha": "20266be",
-      "subject": "podcast(claude-code-training): 0f state update (resume in progress)",
-      "date": "2026-06-02"
-    },
-    {
-      "sha": "12562f4",
-      "subject": "fix(pipeline): handle 0f/pending in resume dispatcher",
-      "date": "2026-06-02"
-    },
-    {
-      "sha": "61b0163",
-      "subject": "podcast(claude-code-training): phase 06a completed, 0f series plan running",
-      "date": "2026-06-02"
-    },
-    {
-      "sha": "71768eb",
-      "subject": "podcast(claude-code-training): phase 06a source review gate approved",
-      "date": "2026-06-02"
     }
   ],
-  "wave_execution_events": []
+  "wave_execution_events": [],
+  "books_shipped": []
 }
