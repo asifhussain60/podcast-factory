@@ -355,20 +355,32 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                       const LEVEL_LABELS: Record<string, string> = {
                         general: 'General', advanced: 'Advanced', taveel: 'Taweel',
                         mamsool: 'Mamsool', mabda_maad: 'Origin & Return', haqaiq: 'Haqaiq',
+                        // Combination levels (Kashkole Lookup_levels IDs 8-10):
+                        taveel_haqaiq: 'Taweel + Haqaiq', general_taveel: 'General + Taweel',
+                        taveel_mabda_maad: 'Taweel + Origin',
                       };
+                      // Primary cycle (click): the 6 base rungs.
+                      // Extended cycle (Ctrl/Cmd+click): base + 3 combination levels.
+                      const BASE_LADDER = ['general', 'advanced', 'taveel', 'mamsool', 'mabda_maad', 'haqaiq'];
+                      const FULL_LADDER = [...BASE_LADDER, 'taveel_haqaiq', 'general_taveel', 'taveel_mabda_maad'];
                       decos.push(
                         Decoration.widget(offset + node.nodeSize - 1, () => {
                           const btn = document.createElement('button');
                           btn.type = 'button';
-                          btn.className = `sp-section-depth-btn${depthLevel ? ` sp-depth-${depthLevel}` : ' sp-depth-none'}`;
-                          btn.title = depthLevel ? `Section depth: ${LEVEL_LABELS[depthLevel] ?? depthLevel} (click to change)` : 'Set section depth';
-                          btn.textContent = depthLevel ? (LEVEL_LABELS[depthLevel] ?? depthLevel) : '∅ depth';
+                          const isCombination = depthLevel && !BASE_LADDER.includes(depthLevel);
+                          btn.className = `sp-section-depth-btn${depthLevel ? ` sp-depth-${depthLevel}` : ' sp-depth-none'}${isCombination ? ' sp-depth-combo' : ''}`;
+                          const label = depthLevel ? (LEVEL_LABELS[depthLevel] ?? depthLevel) : '∅ depth';
+                          btn.title = depthLevel
+                            ? `Depth: ${label} — click to cycle base levels; Ctrl+click for combination levels`
+                            : 'Set section depth (click to cycle; Ctrl+click for combination levels)';
+                          btn.textContent = label;
                           btn.contentEditable = 'false';
                           btn.addEventListener('mousedown', (ev) => {
                             ev.preventDefault(); ev.stopPropagation();
-                            const LADDER = ['general', 'advanced', 'taveel', 'mamsool', 'mabda_maad', 'haqaiq'];
-                            const curIdx = depthLevel ? LADDER.indexOf(depthLevel) : -1;
-                            const nextLevel = LADDER[(curIdx + 1) % LADDER.length];
+                            const useFullLadder = ev.ctrlKey || ev.metaKey;
+                            const ladder = useFullLadder ? FULL_LADDER : BASE_LADDER;
+                            const curIdx = depthLevel ? ladder.indexOf(depthLevel) : -1;
+                            const nextLevel = ladder[(curIdx + 1) % ladder.length];
                             saveSectionDepthRef.current(ord, sectionText, nextLevel);
                           });
                           return btn;

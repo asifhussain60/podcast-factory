@@ -1039,3 +1039,19 @@
 .studio-poc__editor .sp-depth-mamsool    { background: #fffde8; color: #7a5a00; border-color: #ddc870; }
 .studio-poc__editor .sp-depth-mabda_maad { background: #fde8f5; color: #8c0066; border-color: #dda0c8; }
 .studio-poc__editor .sp-depth-haqaiq     { background: #ffe8e8; color: #8a0000; border-color: #dd8080; }
+
+/* Combination levels (Kashkole IDs 8-10): diagonal gradient to show dual-nature. */
+.studio-poc__editor .sp-depth-combo {
+  background: repeating-linear-gradient(
+    45deg,
+    color-mix(in srgb, var(--c-accent) 8%, var(--c-bg-card)),
+    color-mix(in srgb, var(--c-accent) 8%, var(--c-bg-card)) 4px,
+    color-mix(in srgb, var(--c-accent) 16%, var(--c-bg-card)) 4px,
+    color-mix(in srgb, var(--c-accent) 16%, var(--c-bg-card)) 8px
+  );
+  color: var(--c-accent);
+  border-color: color-mix(in srgb, var(--c-accent) 40%, transparent);
+}
+.studio-poc__editor .sp-depth-taveel_haqaiq   { background: linear-gradient(90deg, #e8f5e8, #ffe8e8); color: #3a3a00; }
+.studio-poc__editor .sp-depth-general_taveel   { background: linear-gradient(90deg, #e8eeff, #e8f5e8); color: #1a3a1a; }
+.studio-poc__editor .sp-depth-taveel_mabda_maad { background: linear-gradient(90deg, #e8f5e8, #fde8f5); color: #3a003a; }

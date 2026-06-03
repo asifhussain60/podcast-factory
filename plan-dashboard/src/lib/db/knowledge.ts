@@ -227,7 +227,11 @@ export function dbTotals(): { total: number; byType: Record<string, number>; byT
 // Write operations (M-3) — writable connection
 // ---------------------------------------------------------------------------
 
-const ALLOWED_LEVELS = new Set(['general', 'advanced', 'taveel', 'mamsool', 'mabda_maad', 'haqaiq']);
+// Base 6-rung ladder + 3 Kashkole combination levels (Lookup_levels IDs 8-10).
+const ALLOWED_LEVELS = new Set([
+  'general', 'advanced', 'taveel', 'mamsool', 'mabda_maad', 'haqaiq',
+  'taveel_haqaiq', 'general_taveel', 'taveel_mabda_maad',
+]);
 const ALLOWED_TYPES = new Set(['quran', 'hadith', 'term', 'doctrine', 'etymology', 'poetry']);
 const ALLOWED_TRADITIONS = new Set(['universal', 'fatimid-ismaili', 'ismaili']);
 

@@ -238,6 +238,16 @@ def build(book_dir: Path, episode_id: str) -> None:
     chapter_file = find_chapter_by_slug(book_dir / "chapters", episode_slug)
     chapter_words = validate_chapter(chapter_file, extra_tells)
 
+    # 1b. Wave N: mint pipeline-guessed section depth assignments (non-blocking).
+    # Only runs for islamic_scholarly books (consumer profiles have no depth ladder).
+    # Human overrides are never overwritten. Silently skipped if DB is unavailable.
+    if is_islamic_scholarly(book_dir):
+        try:
+            from mint_section_depths import mint_section_depths_for_chapter
+            mint_section_depths_for_chapter(book_dir, chapter_file)
+        except Exception:
+            pass  # DB unavailable or chapter has no ## sections — non-fatal
+
     # 2. Build the customize-prompt-only episode txt.
     out_path = book_dir / "episodes" / f"{episode_id}.txt"
     framing_words = build_framing_episode_txt(framing_file, out_path, extra_tells)
