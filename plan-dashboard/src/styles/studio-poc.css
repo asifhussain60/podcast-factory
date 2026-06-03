@@ -1029,83 +1029,133 @@
 .sp-finalize-msg { font-size: 0.8rem; color: var(--c-ink-dim); margin-top: 0.4rem; }
 
 /* Wave N — depth picker popover (singleton, fixed-positioned, shown on badge click). */
+@keyframes spPopoverIn {
+  from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0px)  scale(1); }
+}
+
 .sp-depth-popover {
   position: fixed;
   z-index: 9000;
-  min-width: 248px;
+  min-width: 264px;
   background: var(--c-bg-card, #fff);
-  border: 1px solid var(--c-rule, rgba(0,0,0,0.1));
-  border-radius: 14px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.07);
-  padding: 12px;
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.03),
+    0 2px 4px rgba(0,0,0,0.05),
+    0 10px 28px -4px rgba(0,0,0,0.14),
+    0 28px 52px -8px rgba(0,0,0,0.16),
+    0 52px 84px -20px rgba(0,0,0,0.10);
+  padding: 14px;
   display: none;
   user-select: none;
 }
-.sp-depth-popover.is-open { display: block; }
+.sp-depth-popover.is-open {
+  display: block;
+  animation: spPopoverIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
 .sp-depth-popover__title {
   font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--c-ink-dim, #999);
+  color: var(--c-accent);
   margin-bottom: 10px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid color-mix(in srgb, var(--c-accent) 22%, var(--c-rule, rgba(0,0,0,0.08)));
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sp-depth-popover__title::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c-accent);
+  flex: 0 0 auto;
 }
 .sp-depth-popover__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 5px;
-}
-.sp-depth-popover__grid--tags {
-  grid-template-columns: 1fr 1fr;
-  gap: 5px;
-}
-.sp-depth-popover__sep {
-  border: none;
-  border-top: 1px solid var(--c-rule, rgba(0,0,0,0.08));
-  margin: 10px 0;
+  gap: 6px;
 }
 
-.sp-depth-popover__opt {
+/* In the picker: rich solid fills — fg token as background, white text. */
+.sp-depth-popover .sp-depth-popover__opt {
   display: block;
   width: 100%;
-  padding: 5px 10px;
-  border-radius: 999px;
+  padding: 9px 10px;
+  border-radius: 10px;
   border: 1px solid transparent;
   cursor: pointer;
   font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   text-align: center;
-  transition: filter 0.1s, transform 0.1s;
+  transition: filter 0.1s, transform 0.1s, box-shadow 0.1s;
 }
-.sp-depth-popover__opt:hover { filter: brightness(0.86); transform: translateY(-1px); }
-.sp-depth-popover__opt.is-active {
-  outline: 2px solid currentColor;
+.sp-depth-popover .sp-depth-popover__opt:hover {
+  filter: brightness(0.88);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.22);
+}
+.sp-depth-popover .sp-depth-popover__opt.is-active {
+  outline: 2.5px solid rgba(255,255,255,0.85);
   outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.22), 0 4px 12px rgba(0,0,0,0.28);
+  transform: scale(1.03);
+  filter: none;
 }
+/* Islamic scholarly depth levels — solid rich fills */
+.sp-depth-popover .sp-depth-narrative  { background: var(--c-depth-general-fg,  #1a3a8a); color: #fff; }
+.sp-depth-popover .sp-depth-sharia     { background: var(--c-depth-advanced-fg, #5a2da0); color: #fff; }
+.sp-depth-popover .sp-depth-esoteric   { background: var(--c-depth-taveel-fg,   #1a5c1a); color: #fff; }
+.sp-depth-popover .sp-depth-origins    { background: var(--c-depth-mabda-fg,    #8c0066); color: #fff; }
+.sp-depth-popover .sp-depth-reality    { background: var(--c-depth-haqaiq-fg,   #8a0000); color: #fff; }
+/* consumer_explainer / technical / fiction: use fg tones similarly */
+.sp-depth-popover .sp-depth-website     { background: var(--c-depth-site-website-fg,     #1565c0); color: #fff; }
+.sp-depth-popover .sp-depth-application { background: var(--c-depth-site-application-fg, #0d47a1); color: #fff; }
+.sp-depth-popover .sp-depth-platform    { background: var(--c-depth-site-platform-fg,    #4527a0); color: #fff; }
+.sp-depth-popover .sp-depth-api         { background: var(--c-depth-site-api-fg,         #283593); color: #fff; }
+.sp-depth-popover .sp-depth-coding       { background: var(--c-depth-tech-coding-fg,   #1b5e20); color: #fff; }
+.sp-depth-popover .sp-depth-agentic_ai   { background: var(--c-depth-tech-agentic-fg,  #4a148c); color: #fff; }
+.sp-depth-popover .sp-depth-architecture { background: var(--c-depth-tech-arch-fg,     #bf360c); color: #fff; }
+.sp-depth-popover .sp-depth-devops       { background: var(--c-depth-tech-devops-fg,   #263238); color: #fff; }
+.sp-depth-popover .sp-depth-security     { background: var(--c-depth-tech-security-fg, #b71c1c); color: #fff; }
+.sp-depth-popover .sp-depth-data_ml      { background: var(--c-depth-tech-data-fg,     #006064); color: #fff; }
+.sp-depth-popover .sp-depth-character   { background: var(--c-depth-fiction-character-fg, #f57f17); color: #fff; }
+.sp-depth-popover .sp-depth-theme       { background: var(--c-depth-fiction-theme-fg,     #880e4f); color: #fff; }
+.sp-depth-popover .sp-depth-world       { background: var(--c-depth-fiction-world-fg,     #33691e); color: #fff; }
+.sp-depth-popover .sp-depth-conflict    { background: var(--c-depth-fiction-conflict-fg,  #bf360c); color: #fff; }
+.sp-depth-popover .sp-depth-voice       { background: var(--c-depth-fiction-voice-fg,     #6a1b9a); color: #fff; }
+
 .sp-depth-popover__clear {
   display: block;
   width: 100%;
-  margin-top: 8px;
-  padding: 5px;
+  margin-top: 10px;
+  padding: 6px;
   background: none;
-  border: 1px dashed var(--c-rule, rgba(0,0,0,0.15));
-  border-radius: 7px;
+  border: 1px dashed color-mix(in srgb, var(--c-ink) 18%, transparent);
+  border-radius: 8px;
   cursor: pointer;
   font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--c-ink-dim, #aaa);
-  transition: background 0.12s, color 0.12s;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
 }
 .sp-depth-popover__clear:hover {
-  background: var(--c-bg-elev, #f5f5f5);
-  color: var(--c-ink-muted, #666);
+  background: color-mix(in srgb, var(--c-red, #e11d48) 8%, transparent);
+  color: var(--c-red, #e11d48);
+  border-color: color-mix(in srgb, var(--c-red, #e11d48) 38%, transparent);
 }
 
 /* Wave N — section-level depth markers (h2 inline badges, click to open picker). */
@@ -1179,47 +1229,158 @@
   user-select: none;
 }
 
-/* Option A — tag toggle buttons inside the picker popover */
-.sp-depth-popover__tag {
-  display: block;
-  width: 100%;
-  padding: 4px 8px;
+/* Section heading: separate tag picker trigger button */
+.studio-poc__editor .sp-section-tag-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-left: 2px;
+  padding: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
   border-radius: 6px;
-  border: 1px solid var(--c-rule, rgba(0,0,0,0.12));
   cursor: pointer;
-  font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  text-align: center;
-  background: var(--c-bg-elev, #f5f5f5);
-  color: var(--c-ink-muted, #666);
-  transition: background 0.1s, color 0.1s, border-color 0.1s;
+  color: var(--c-ink-muted);
+  background: transparent;
+  border: 1px dashed var(--c-rule, rgba(0,0,0,0.2));
+  user-select: none;
+  vertical-align: middle;
+  transition: background 0.12s, color 0.12s, border-color 0.12s, opacity 0.12s;
+  opacity: 0.55;
 }
-.sp-depth-popover__tag:hover { background: var(--c-bg-card); color: var(--c-ink); }
-.sp-depth-popover__tag.is-active {
-  background: var(--c-accent, #8b5c2a);
-  color: #fff;
-  border-color: var(--c-accent, #8b5c2a);
+.studio-poc__editor .sp-section-tag-btn:hover {
+  opacity: 1;
+  color: var(--c-ink);
+  border-style: solid;
+  border-color: var(--c-ink-muted);
+  background: var(--c-bg-elev);
+}
+.studio-poc__editor .sp-section-tag-btn.has-tags {
+  opacity: 1;
+  color: var(--c-accent);
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--c-accent) 40%, transparent);
+  background: color-mix(in srgb, var(--c-accent) 8%, transparent);
 }
 
-/* Option A — inline tag chips on section headings */
+/* Option A — inline tag chips on section headings: per-tag colors */
 .studio-poc__editor .sp-section-tag-chip {
   display: inline-flex;
   align-items: center;
   padding: 2px 7px;
-  border-radius: 999px;
+  border-radius: 5px;
   font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  background: var(--c-accent-subtle, rgba(139,92,42,0.12));
-  color: var(--c-accent, #8b5c2a);
-  border: 1px solid color-mix(in srgb, var(--c-accent, #8b5c2a) 30%, transparent);
   cursor: default;
+  border: 1px solid transparent;
 }
-/* Action tag variants */
-.studio-poc__editor .sp-tag-delete  { background: rgba(180,30,30,0.10); color: #b41e1e; border-color: rgba(180,30,30,0.25); }
-.studio-poc__editor .sp-tag-improve { background: rgba(30,100,180,0.10); color: #1e64b4; border-color: rgba(30,100,180,0.25); }
+.studio-poc__editor .sp-tag-esoteric  { background: rgba(124,58,237,0.12); color: #7c3aed; border-color: rgba(124,58,237,0.28); }
+.studio-poc__editor .sp-tag-reality   { background: rgba(2,132,199,0.12);  color: #0284c7; border-color: rgba(2,132,199,0.28); }
+.studio-poc__editor .sp-tag-sharia    { background: rgba(15,118,110,0.12); color: #0f766e; border-color: rgba(15,118,110,0.28); }
+.studio-poc__editor .sp-tag-narrative { background: rgba(217,119,6,0.12);  color: #d97706; border-color: rgba(217,119,6,0.28); }
+.studio-poc__editor .sp-tag-origins   { background: rgba(190,24,93,0.12);  color: #be185d; border-color: rgba(190,24,93,0.28); }
+.studio-poc__editor .sp-tag-delete    { background: rgba(225,29,72,0.12);  color: #e11d48; border-color: rgba(225,29,72,0.28); }
+.studio-poc__editor .sp-tag-improve   { background: rgba(79,70,229,0.12);  color: #4f46e5; border-color: rgba(79,70,229,0.28); }
+
+/* ── Separate tag picker popover (distinct from depth picker) ───────────── */
+.sp-tag-popover {
+  position: fixed;
+  z-index: 9001;
+  min-width: 240px;
+  background: var(--c-bg-card, #fff);
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.03),
+    0 2px 4px rgba(0,0,0,0.05),
+    0 10px 28px -4px rgba(0,0,0,0.14),
+    0 28px 52px -8px rgba(0,0,0,0.16);
+  padding: 12px;
+  display: none;
+  user-select: none;
+}
+.sp-tag-popover.is-open {
+  display: block;
+  animation: spPopoverIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.sp-tag-popover__group-title {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.57rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--c-rule, rgba(0,0,0,0.08));
+}
+.sp-tag-popover__group-title--workflow {
+  color: var(--c-red, #b91c1c);
+  border-bottom-color: color-mix(in srgb, var(--c-red, #b91c1c) 22%, transparent);
+}
+.sp-tag-popover__sep {
+  border: none;
+  border-top: 1px solid var(--c-rule, rgba(0,0,0,0.08));
+  margin: 10px 0;
+}
+.sp-tag-popover__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px;
+}
+.sp-tag-popover__grid--workflow {
+  grid-template-columns: 1fr 1fr;
+}
+.sp-tag-popover__tag {
+  display: block;
+  width: 100%;
+  padding: 7px 8px;
+  border-radius: 8px;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-align: center;
+  background: var(--c-bg-elev, #f5f5f5);
+  color: var(--c-ink-muted, #666);
+  transition: background 0.1s, color 0.1s, border-color 0.1s, transform 0.1s;
+}
+.sp-tag-popover__tag:hover { transform: translateY(-1px); }
+
+/* Content label tag colors */
+.sp-tag-popover__tag--esoteric { border-color: rgba(124,58,237,0.3);  color: #7c3aed; background: rgba(124,58,237,0.07); }
+.sp-tag-popover__tag--esoteric:hover { background: rgba(124,58,237,0.14); }
+.sp-tag-popover__tag--esoteric.is-active { background: #7c3aed; color: #fff; border-color: #7c3aed; }
+
+.sp-tag-popover__tag--reality { border-color: rgba(2,132,199,0.3);   color: #0284c7; background: rgba(2,132,199,0.07); }
+.sp-tag-popover__tag--reality:hover { background: rgba(2,132,199,0.14); }
+.sp-tag-popover__tag--reality.is-active { background: #0284c7; color: #fff; border-color: #0284c7; }
+
+.sp-tag-popover__tag--sharia { border-color: rgba(15,118,110,0.3);   color: #0f766e; background: rgba(15,118,110,0.07); }
+.sp-tag-popover__tag--sharia:hover { background: rgba(15,118,110,0.14); }
+.sp-tag-popover__tag--sharia.is-active { background: #0f766e; color: #fff; border-color: #0f766e; }
+
+.sp-tag-popover__tag--narrative { border-color: rgba(217,119,6,0.3);  color: #d97706; background: rgba(217,119,6,0.07); }
+.sp-tag-popover__tag--narrative:hover { background: rgba(217,119,6,0.14); }
+.sp-tag-popover__tag--narrative.is-active { background: #d97706; color: #fff; border-color: #d97706; }
+
+.sp-tag-popover__tag--origins { border-color: rgba(190,24,93,0.3);   color: #be185d; background: rgba(190,24,93,0.07); }
+.sp-tag-popover__tag--origins:hover { background: rgba(190,24,93,0.14); }
+.sp-tag-popover__tag--origins.is-active { background: #be185d; color: #fff; border-color: #be185d; }
+
+/* Editorial workflow flag colors */
+.sp-tag-popover__tag--delete { border-color: rgba(225,29,72,0.3);   color: #e11d48; background: rgba(225,29,72,0.07); }
+.sp-tag-popover__tag--delete:hover { background: rgba(225,29,72,0.14); }
+.sp-tag-popover__tag--delete.is-active { background: #e11d48; color: #fff; border-color: #e11d48; }
+
+.sp-tag-popover__tag--improve { border-color: rgba(79,70,229,0.3);  color: #4f46e5; background: rgba(79,70,229,0.07); }
+.sp-tag-popover__tag--improve:hover { background: rgba(79,70,229,0.14); }
+.sp-tag-popover__tag--improve.is-active { background: #4f46e5; color: #fff; border-color: #4f46e5; }

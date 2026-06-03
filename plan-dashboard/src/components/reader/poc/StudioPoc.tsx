@@ -249,71 +249,21 @@ function _buildDepthPicker(levels: readonly DepthLevel[]): HTMLDivElement {
   clearBtn.textContent = '∅ clear depth';
   pop.appendChild(clearBtn);
 
-  // ── Zone 2: editorial tags (multi-select) ─────────────────────────────────
-  const tagSep = document.createElement('hr');
-  tagSep.className = 'sp-depth-popover__sep';
-  pop.appendChild(tagSep);
-
-  const tagTitle = document.createElement('div');
-  tagTitle.className = 'sp-depth-popover__title';
-  tagTitle.textContent = 'Tags';
-  pop.appendChild(tagTitle);
-
-  const tagGrid = document.createElement('div');
-  tagGrid.className = 'sp-depth-popover__grid sp-depth-popover__grid--tags';
-  pop.appendChild(tagGrid);
-
-  for (const { id, label } of SECTION_TAGS) {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'sp-depth-popover__tag';
-    btn.setAttribute('data-section-tag', id);
-    btn.textContent = label;
-    tagGrid.appendChild(btn);
-  }
-
-  // ── Event handling ─────────────────────────────────────────────────────────
+  // ── Event handling (depth only — tags have their own picker) ──────────────
   pop.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
-
-    // Depth level click → save immediately and close
     const depthBtn = target.closest('[data-depth-level]') as HTMLElement | null;
     if (depthBtn) {
       const level = depthBtn.dataset.depthLevel;
-      // Tags are saved alongside; picker stays open so user can adjust tags first
-      // unless it's clear — in that case close immediately
       if (level !== undefined) {
         _dpSaveFn(_dpOrd, _dpSection, level, _dpCurrentTags);
         closeDepthPicker();
       }
-      return;
-    }
-
-    // Tag toggle click → toggle the tag in _dpCurrentTags, update visual, save
-    const tagBtn = target.closest('[data-section-tag]') as HTMLElement | null;
-    if (tagBtn) {
-      const tid = tagBtn.dataset.sectionTag!;
-      if (_dpCurrentTags.includes(tid)) {
-        _dpCurrentTags = _dpCurrentTags.filter((t) => t !== tid);
-      } else {
-        _dpCurrentTags = [..._dpCurrentTags, tid];
-      }
-      _syncTagButtons(pop);
-      // Save the current depth level + updated tags immediately (depth badge updates live)
-      const activeDepth = (pop.querySelector('.sp-depth-popover__opt.is-active') as HTMLElement | null)?.dataset.depthLevel ?? '';
-      if (activeDepth) _dpSaveFn(_dpOrd, _dpSection, activeDepth, _dpCurrentTags);
     }
   });
 
   document.body.appendChild(pop);
   return pop;
-}
-
-function _syncTagButtons(pop: HTMLDivElement): void {
-  pop.querySelectorAll('[data-section-tag]').forEach((el) => {
-    const tid = (el as HTMLElement).dataset.sectionTag!;
-    el.classList.toggle('is-active', _dpCurrentTags.includes(tid));
-  });
 }
 
 function closeDepthPicker() {
@@ -343,7 +293,6 @@ function openDepthPicker(
     const k = (el as HTMLElement).dataset.depthLevel;
     el.classList.toggle('is-active', !!k && k === currentLevel);
   });
-  _syncTagButtons(pop);
 
   const rect = anchorEl.getBoundingClientRect();
   const popW = 258;
@@ -362,6 +311,133 @@ function openDepthPicker(
   requestAnimationFrame(() => {
     document.addEventListener('mousedown', _dpOutside!, true);
     document.addEventListener('keydown',   _dpKey!,     true);
+  });
+}
+// ── Tag Picker (separate floating popover, distinct from depth picker) ───────
+const CONTENT_SECTION_TAGS = SECTION_TAGS.filter((t) => !['delete', 'improve'].includes(t.id));
+const WORKFLOW_SECTION_TAGS = SECTION_TAGS.filter((t) => ['delete', 'improve'].includes(t.id));
+
+let _tpEl: HTMLDivElement | null = null;
+let _tpSaveFn: SaveDepthFn = () => {};
+let _tpOrd = 0;
+let _tpSection = '';
+let _tpCurrentDepth = '';
+let _tpCurrentTags: string[] = [];
+let _tpOutside: ((e: MouseEvent) => void) | null = null;
+let _tpKey: ((e: KeyboardEvent) => void) | null = null;
+
+function _syncTpButtons(pop: HTMLDivElement): void {
+  pop.querySelectorAll('[data-section-tag]').forEach((el) => {
+    const tid = (el as HTMLElement).dataset.sectionTag!;
+    el.classList.toggle('is-active', _tpCurrentTags.includes(tid));
+  });
+}
+
+function _buildTagPicker(): HTMLDivElement {
+  const pop = document.createElement('div');
+  pop.className = 'sp-tag-popover';
+  pop.setAttribute('role', 'dialog');
+  pop.setAttribute('aria-label', 'Set section tags');
+
+  const contentTitle = document.createElement('div');
+  contentTitle.className = 'sp-tag-popover__group-title';
+  contentTitle.textContent = 'Content labels';
+  pop.appendChild(contentTitle);
+
+  const contentGrid = document.createElement('div');
+  contentGrid.className = 'sp-tag-popover__grid';
+  for (const { id, label } of CONTENT_SECTION_TAGS) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `sp-tag-popover__tag sp-tag-popover__tag--${id}`;
+    btn.setAttribute('data-section-tag', id);
+    btn.textContent = label;
+    contentGrid.appendChild(btn);
+  }
+  pop.appendChild(contentGrid);
+
+  const sep = document.createElement('hr');
+  sep.className = 'sp-tag-popover__sep';
+  pop.appendChild(sep);
+
+  const workflowTitle = document.createElement('div');
+  workflowTitle.className = 'sp-tag-popover__group-title sp-tag-popover__group-title--workflow';
+  workflowTitle.textContent = 'Editorial flags';
+  pop.appendChild(workflowTitle);
+
+  const workflowGrid = document.createElement('div');
+  workflowGrid.className = 'sp-tag-popover__grid sp-tag-popover__grid--workflow';
+  for (const { id, label } of WORKFLOW_SECTION_TAGS) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `sp-tag-popover__tag sp-tag-popover__tag--${id}`;
+    btn.setAttribute('data-section-tag', id);
+    btn.textContent = label;
+    workflowGrid.appendChild(btn);
+  }
+  pop.appendChild(workflowGrid);
+
+  pop.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const tagBtn = target.closest('[data-section-tag]') as HTMLElement | null;
+    if (tagBtn) {
+      const tid = tagBtn.dataset.sectionTag!;
+      if (_tpCurrentTags.includes(tid)) {
+        _tpCurrentTags = _tpCurrentTags.filter((t) => t !== tid);
+      } else {
+        _tpCurrentTags = [..._tpCurrentTags, tid];
+      }
+      _syncTpButtons(pop);
+      _tpSaveFn(_tpOrd, _tpSection, _tpCurrentDepth, _tpCurrentTags);
+    }
+  });
+
+  document.body.appendChild(pop);
+  return pop;
+}
+
+function closeTagPicker() {
+  _tpEl?.classList.remove('is-open');
+  if (_tpOutside) { document.removeEventListener('mousedown', _tpOutside, true); _tpOutside = null; }
+  if (_tpKey)     { document.removeEventListener('keydown',   _tpKey,     true); _tpKey = null; }
+}
+
+function openTagPicker(
+  anchorEl: HTMLElement,
+  saveFn: SaveDepthFn,
+  ord: number,
+  sectionText: string,
+  currentTags: string[],
+  currentDepth: string,
+) {
+  _tpSaveFn       = saveFn;
+  _tpOrd          = ord;
+  _tpSection      = sectionText;
+  _tpCurrentDepth = currentDepth;
+  _tpCurrentTags  = [...currentTags];
+
+  if (!_tpEl) _tpEl = _buildTagPicker();
+  const pop = _tpEl;
+
+  _syncTpButtons(pop);
+
+  const rect = anchorEl.getBoundingClientRect();
+  const popW = 244;
+  let left = rect.left;
+  if (left + popW > window.innerWidth - 8) left = window.innerWidth - popW - 8;
+  pop.style.top  = `${rect.bottom + 6}px`;
+  pop.style.left = `${Math.max(8, left)}px`;
+  pop.classList.add('is-open');
+
+  if (_tpOutside) document.removeEventListener('mousedown', _tpOutside, true);
+  if (_tpKey)     document.removeEventListener('keydown',   _tpKey,     true);
+
+  _tpOutside = (ev) => { if (!pop.contains(ev.target as Node) && ev.target !== anchorEl) closeTagPicker(); };
+  _tpKey     = (ev) => { if (ev.key === 'Escape') closeTagPicker(); };
+
+  requestAnimationFrame(() => {
+    document.addEventListener('mousedown', _tpOutside!, true);
+    document.addEventListener('keydown',   _tpKey!,     true);
   });
 }
 // ────────────────────────────────────────────────────────────────────────────
@@ -600,7 +676,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                           const label = depthLevel
                             ? (depthLevels.find((l) => l.key === depthLevel)?.label ?? depthLevel)
                             : '∅ depth';
-                          btn.title = `Depth: ${label} — click to change depth and tags`;
+                          btn.title = `Depth: ${label} — click to change`;
                           btn.textContent = label;
                           btn.addEventListener('mousedown', (ev) => {
                             ev.preventDefault(); ev.stopPropagation();
@@ -608,12 +684,24 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                           });
                           wrap.appendChild(btn);
 
-                          // Tag chips (inline, after depth badge)
+                          // Separate tag picker button
+                          const tagPickerBtn = document.createElement('button');
+                          tagPickerBtn.type = 'button';
+                          tagPickerBtn.className = `sp-section-tag-btn${secTags.length ? ' has-tags' : ''}`;
+                          tagPickerBtn.title = secTags.length ? `Tags: ${secTags.join(', ')} — click to edit` : 'Add section tags';
+                          tagPickerBtn.textContent = '#';
+                          tagPickerBtn.addEventListener('mousedown', (ev) => {
+                            ev.preventDefault(); ev.stopPropagation();
+                            openTagPicker(tagPickerBtn, saveSectionDepthRef.current, ord, sectionText, secTags, depthLevel ?? '');
+                          });
+                          wrap.appendChild(tagPickerBtn);
+
+                          // Tag chips (inline, display only)
                           for (const tid of secTags) {
                             const chip = document.createElement('span');
                             chip.className = `sp-section-tag-chip sp-tag-${tid}`;
                             chip.textContent = SECTION_TAGS.find((t) => t.id === tid)?.label ?? tid;
-                            chip.title = `Tag: ${tid} — click depth badge to edit`;
+                            chip.title = `Tag: ${tid}`;
                             wrap.appendChild(chip);
                           }
 
