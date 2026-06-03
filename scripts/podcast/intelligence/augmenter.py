@@ -368,8 +368,8 @@ def _book_content_level(book_dir: Path) -> str | None:
 
     None means the book is non-Islamic or unclassified — the augmenter applies
     NO content-level filter and behaves exactly as pre-Wave-L. A returned value
-    is one of CONTENT_LEVEL_LADDER (history/shariah/esoteric/realities); anything
-    else is normalized to None so a typo never silently over-restricts.
+    is one of CONTENT_LEVEL_LADDER (general/advanced/taveel/mamsool/mabda_maad/haqaiq);
+    anything else is normalized to None so a typo never silently over-restricts.
     """
     meta_path = book_dir / "meta.yml"
     if not meta_path.exists():

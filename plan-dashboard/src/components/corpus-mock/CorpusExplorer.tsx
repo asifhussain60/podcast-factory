@@ -58,9 +58,27 @@ export default function CorpusExplorer({
 }: Props) {
   // Real corpus data when supplied (783 concepts / 758 atoms), else the hardcoded sample.
   const activeConcepts = concepts ?? CONCEPTS;
-  const activeAtoms = atoms ?? SAMPLE_ATOMS;
+  const activeAtoms = localAtoms;
   const atomsFor = (id: string) => activeAtoms.filter((a) => a.concepts.includes(id));
   const countFor = (c: Concept) => (c as any).atom_count ?? atomsFor(c.id).length;
+
+  // M-3 — inline edit state.
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editText, setEditText] = useState('');
+  const [editLevel, setEditLevel] = useState('');
+  const [editSaving, setEditSaving] = useState(false);
+  const [editError, setEditError] = useState('');
+  const [localAtoms, setLocalAtoms] = useState<MockAtom[]>(() => atoms ?? SAMPLE_ATOMS);
+  const [showNewForm, setShowNewForm] = useState(false);
+  const [newText, setNewText] = useState('');
+  const [newType, setNewType] = useState<AtomType>('doctrine');
+  const [newTradition, setNewTradition] = useState<Tradition>('fatimid-ismaili');
+  const [newLevel, setNewLevel] = useState('');
+  const [newSaving, setNewSaving] = useState(false);
+  const [newError, setNewError] = useState('');
+
+  // Sync localAtoms when the atoms prop changes (SSR re-render).
+  useEffect(() => { if (atoms) setLocalAtoms(atoms); }, [atoms]);
 
   const [db, setDb] = useState<any>(null);
   const [query, setQuery] = useState('');
@@ -152,6 +170,49 @@ export default function CorpusExplorer({
   };
   const removeAtom = (id: string) => updateSelected((current) => current.filter((atom) => atom.id !== id));
 
+  // M-3: start editing an atom — seed form from current atom text.
+  const startEdit = (a: MockAtom) => {
+    setEditingId(a.id);
+    setEditText(a.text_en);
+    setEditLevel((a as any).content_level ?? '');
+    setEditError('');
+  };
+  const cancelEdit = () => { setEditingId(null); setEditError(''); };
+
+  const saveEdit = async (id: string) => {
+    setEditSaving(true); setEditError('');
+    try {
+      const res = await fetch('/api/corpus/atom', {
+        method: 'PATCH',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ id, text_en: editText, content_level: editLevel || null }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.ok) { setEditError(json.error ?? `Save failed (${res.status})`); return; }
+      // Update local atom list with the saved version.
+      setLocalAtoms((prev) => prev.map((a) => a.id === id ? { ...a, text_en: editText, content_level: editLevel || undefined } as MockAtom : a));
+      setEditingId(null);
+    } catch (e) { setEditError(String(e)); }
+    finally { setEditSaving(false); }
+  };
+
+  const saveNew = async () => {
+    if (!newText.trim()) { setNewError('Text is required'); return; }
+    setNewSaving(true); setNewError('');
+    try {
+      const res = await fetch('/api/corpus/atom', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ type: newType, text_en: newText, tradition: newTradition, content_level: newLevel || undefined }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.ok) { setNewError(json.error ?? `Create failed (${res.status})`); return; }
+      setLocalAtoms((prev) => [json.atom as MockAtom, ...prev]);
+      setShowNewForm(false); setNewText(''); setNewLevel('');
+    } catch (e) { setNewError(String(e)); }
+    finally { setNewSaving(false); }
+  };
+
   return (
     <>
       {/* ============ CONCEPT LENS ============ */}
@@ -218,6 +279,34 @@ export default function CorpusExplorer({
             ))}
           </div>
 
+          {/* M-3: New atom form + button */}
+          <div className="cm-newatom-bar">
+            <button className="cm-newatom-btn" onClick={() => setShowNewForm((v) => !v)}>
+              <Plus size={13} /> {showNewForm ? 'Cancel' : 'New atom'}
+            </button>
+          </div>
+          {showNewForm && (
+            <div className="cm-editform">
+              <div className="cm-editrow">
+                <select className="cm-editsel" value={newType} onChange={(e) => setNewType(e.target.value as AtomType)}>
+                  {['doctrine', 'term', 'hadith', 'etymology', 'poetry'].map((t) => <option key={t} value={t}>{t}</option>)}
+                </select>
+                <select className="cm-editsel" value={newTradition} onChange={(e) => setNewTradition(e.target.value as Tradition)}>
+                  {['universal', 'fatimid-ismaili', 'ismaili'].map((t) => <option key={t} value={t}>{t}</option>)}
+                </select>
+                <select className="cm-editsel" value={newLevel} onChange={(e) => setNewLevel(e.target.value)}>
+                  <option value="">— level —</option>
+                  {['general', 'advanced', 'taveel', 'mamsool', 'mabda_maad', 'haqaiq'].map((l) => <option key={l} value={l}>{l}</option>)}
+                </select>
+              </div>
+              <textarea className="cm-edittxt" rows={4} placeholder="Atom text (English)…" value={newText} onChange={(e) => setNewText(e.target.value)} />
+              <div className="cm-editactions">
+                <button className="cm-editbtn cm-editbtn--save" onClick={saveNew} disabled={newSaving}>{newSaving ? 'Creating…' : 'Create atom'}</button>
+                {newError && <span className="cm-editerr">{newError}</span>}
+              </div>
+            </div>
+          )}
+
           {/* collapsible source groups */}
           <div className="cm-groups">
             {GROUPS.map((g) => {
@@ -235,16 +324,35 @@ export default function CorpusExplorer({
                   {open && (
                     <div className="cm-grpbody">
                       {atoms.slice(0, ROW_LIMIT).map((a) => (
-                        <article key={a.id} className="cm-row">
-                          <div className="g">{a.gloss}</div>
-                          {a.arabic && a.arabic !== '—' && <div className="ar">{a.arabic}</div>}
-                          <div className="m">
-                            <span className="cm-chip">{a.source_ref}</span>
-                            <span className="cm-badge trad">{a.tradition}</span>
-                            <button className={`cm-addbtn ${isSelected(a.id) ? 'added' : ''}`} onClick={() => addAtom(a)} disabled={isSelected(a.id)}>
-                              {isSelected(a.id) ? <><Check size={11} /> added</> : <><Plus size={11} /> augment</>}
-                            </button>
-                          </div>
+                        <article key={a.id} className={`cm-row${editingId === a.id ? ' cm-row--editing' : ''}`}>
+                          {editingId === a.id ? (
+                            <div className="cm-editform">
+                              <textarea className="cm-edittxt" rows={4} value={editText} onChange={(e) => setEditText(e.target.value)} />
+                              <div className="cm-editrow">
+                                <select className="cm-editsel" value={editLevel} onChange={(e) => setEditLevel(e.target.value)}>
+                                  <option value="">— level —</option>
+                                  {['general', 'advanced', 'taveel', 'mamsool', 'mabda_maad', 'haqaiq'].map((l) => <option key={l} value={l}>{l}</option>)}
+                                </select>
+                                <button className="cm-editbtn cm-editbtn--save" onClick={() => saveEdit(a.id)} disabled={editSaving}>{editSaving ? 'Saving…' : 'Save'}</button>
+                                <button className="cm-editbtn" onClick={cancelEdit}>Cancel</button>
+                              </div>
+                              {editError && <span className="cm-editerr">{editError}</span>}
+                            </div>
+                          ) : (
+                            <>
+                              <div className="g">{a.gloss}</div>
+                              {a.arabic && a.arabic !== '—' && <div className="ar">{a.arabic}</div>}
+                              <div className="m">
+                                <span className="cm-chip">{a.source_ref}</span>
+                                <span className="cm-badge trad">{a.tradition}</span>
+                                {(a as any).content_level && <span className="cm-badge lvl">{(a as any).content_level}</span>}
+                                <button className="cm-editbtn cm-editbtn--pencil" onClick={() => startEdit(a)} title="Edit atom" aria-label={`Edit ${a.gloss}`}>✎</button>
+                                <button className={`cm-addbtn ${isSelected(a.id) ? 'added' : ''}`} onClick={() => addAtom(a)} disabled={isSelected(a.id)}>
+                                  {isSelected(a.id) ? <><Check size={11} /> added</> : <><Plus size={11} /> augment</>}
+                                </button>
+                              </div>
+                            </>
+                          )}
                         </article>
                       ))}
                       {atoms.length > ROW_LIMIT &&

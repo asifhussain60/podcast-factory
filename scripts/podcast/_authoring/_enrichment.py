@@ -25,13 +25,36 @@ from ._refine import _run  # noqa: E402
 def build_technical_enrichment_prompt(
     book_slug: str,
     chapter_file: "Path",
+    category: str = "",
 ) -> str:
-    """Phase 0e enrichment prompt for technical/developer content (explainers category).
+    """Phase 0e enrichment prompt for technical/developer content.
 
     Replaces the Islamic 7-tier source hierarchy with technical accuracy
     verification: official documentation, version checks, real-world examples
     from case studies, and practical developer gotchas.
+
+    Items 6–8 (editorial denoising, practical anchors, habit-mapping) are
+    gated to category='explainers' only — they are harmful for interview/article
+    categories where background and context are the content, not the noise.
     """
+    _explainer_items = (
+        f"  6. **Editorial denoising**: Identify any passage that explains the internal\n"
+        f"     implementation of a mechanism — kernel-level details, benchmark statistics,\n"
+        f"     release dates for a comparison tool, version-specific rollout timelines for\n"
+        f"     a third-party product — and convert it to its *practical outcome* for the\n"
+        f"     developer: what do they type, what do they see, what happens if they don't\n"
+        f"     act. Theory that serves no hands-on purpose should be cut, not trimmed.\n"
+        f"  7. **Practical anchors**: For every concept introduced (any H2-level section or\n"
+        f"     named feature), ensure at least one 'type this → see this' sequence exists:\n"
+        f"     a CLI command, a before/after code diff, or a session-step walkthrough.\n"
+        f"     If the source material supports it, include one sequence per concept.\n"
+        f"     If it does not, a concrete outcome sentence is the acceptable minimum.\n"
+        f"  8. **Habit-mapping for migration audiences**: If the chapter addresses developers\n"
+        f"     migrating from another tool, include at least one explicit 'old habit → new\n"
+        f"     habit' mapping per major workflow. Format: 'In [old tool] you [did X]; in\n"
+        f"     Claude Code you [describe Y].'\n"
+    ) if category == "explainers" else ""
+
     return (
         f"You are driving Phase 0e (Technical Accuracy Enrichment) of the /podcast skill "
         f"on book-slug `{book_slug}`, **chapter `{chapter_file.stem}` only**.\n\n"
@@ -51,7 +74,8 @@ def build_technical_enrichment_prompt(
         f"  4. **Version specificity**: Where a feature is version-gated, ensure the "
         f"     version number is stated explicitly (e.g. 'available since v2.1.59+').\n"
         f"  5. **Developer voice**: Enrich in active developer voice. Prefer 'Run X to do Y' "
-        f"     over 'X can be used to do Y'.\n\n"
+        f"     over 'X can be used to do Y'.\n"
+        + _explainer_items +
         f"CONSTRAINTS:\n"
         f"- Outside material ≤ 40% of THIS chapter's word count. The source content is "
         f"  the spine — enrichment adds depth, not bulk.\n"
@@ -145,7 +169,7 @@ def author_phase_0e(book_dir: Path,
             continue
 
         if _use_technical_enrichment:
-            prompt = build_technical_enrichment_prompt(book_slug, chapter_file)
+            prompt = build_technical_enrichment_prompt(book_slug, chapter_file, category=category or "")
         else:
             prompt = (
             f"You are driving Phase 0e (Chapter Enrichment from Outside Sources) of the "

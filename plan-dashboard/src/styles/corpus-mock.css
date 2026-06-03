@@ -171,3 +171,45 @@
 .cm-injected ul { margin: .4rem 0 0; padding-left: 1.1rem; }
 .cm-injected .src { color: var(--c-ink-muted); font-weight: 400; }
 .cm-warn { color: var(--c-amber); font-size: .78rem; margin-top: .5rem; }
+
+/* M-3 — inline edit affordances */
+.cm-newatom-bar { display: flex; margin: .5rem 0 .75rem; }
+.cm-newatom-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; font-size: .78rem; font-weight: 600; border-radius: 7px; cursor: pointer;
+  color: var(--c-accent); background: transparent;
+  border: 1px dashed var(--c-accent);
+}
+.cm-newatom-btn:hover { background: color-mix(in srgb, var(--c-accent) 8%, transparent); }
+.cm-editform { display: flex; flex-direction: column; gap: 6px; padding: 8px 0; }
+.cm-editrow { display: flex; gap: 5px; flex-wrap: wrap; }
+.cm-edittxt {
+  width: 100%; min-height: 72px; padding: 7px 9px;
+  font-size: .82rem; font-family: inherit; color: var(--c-ink); resize: vertical;
+  background: var(--c-bg-card); border: 1px solid var(--c-rule, rgba(0,0,0,.15)); border-radius: 7px;
+}
+.cm-edittxt:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 1px; }
+.cm-editsel {
+  padding: 5px 8px; font-size: .78rem; color: var(--c-ink);
+  background: var(--c-bg-card); border: 1px solid var(--c-rule, rgba(0,0,0,.15)); border-radius: 6px;
+}
+.cm-editactions { display: flex; align-items: center; gap: 6px; }
+.cm-editbtn {
+  padding: 4px 11px; font-size: .78rem; font-weight: 600; border-radius: 6px; cursor: pointer;
+  color: var(--c-ink-muted); background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0,0,0,.15));
+}
+.cm-editbtn:hover { border-color: var(--c-ink); color: var(--c-ink); }
+.cm-editbtn--save { color: var(--c-bg); background: var(--c-accent); border-color: var(--c-accent); }
+.cm-editbtn--save:hover { filter: brightness(1.06); }
+.cm-editbtn--save:disabled { opacity: .5; cursor: default; }
+.cm-editbtn--pencil {
+  padding: 2px 6px; font-size: .82rem; border-radius: 5px;
+  color: var(--c-ink-muted); background: transparent; border: 1px solid transparent;
+  opacity: 0; transition: opacity .1s;
+}
+.cm-row:hover .cm-editbtn--pencil { opacity: 1; border-color: var(--c-rule, rgba(0,0,0,.15)); }
+.cm-editbtn--pencil:hover { color: var(--c-accent); border-color: var(--c-accent); opacity: 1; }
+.cm-editerr { font-size: .74rem; color: var(--c-red, #b91c1c); }
+.cm-row--editing { background: color-mix(in srgb, var(--c-accent) 5%, var(--c-bg-card)); border-radius: 8px; padding: 6px 8px; }
+.cm-badge.lvl { background: color-mix(in srgb, var(--c-planner, #6c4ed4) 15%, transparent); color: var(--c-planner, #6c4ed4); }

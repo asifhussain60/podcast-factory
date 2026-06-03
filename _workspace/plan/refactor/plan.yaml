@@ -1360,9 +1360,97 @@ waves:
         cost_estimate_usd: 0
         authorization: *tier_one
 
+  # ===========================================================================
+  # WAVES G–M: shipped 2026-05-31 → 2026-06-03 (tracked in copilot-handoff.md
+  # and commit messages; summarised here for plan completeness)
+  # ===========================================================================
+
+  - id: G
+    name: Phase Runner Improvements + Orchestrator Hardening
+    execution_status: completed_2026_05_31
+    execution_notes:
+      - "Orchestrator resume bug documented (stale phase_status=running); workaround --retry-phase"
+      - "Phase per-chapter enhancements; F38 claude-p subprocess path removed"
+      - "DR-005: all scripts/podcast/ files ≤600 lines enforced (split _validators, _chunking, etc.)"
+
+  - id: H
+    name: Audio Intake + Noise Router + Azure Pipeline
+    execution_status: completed_2026_05_31
+    execution_notes:
+      - "H1: source_ingest + noise_router phases landed (audio intake path)"
+      - "H2: per-chapter watchdog + 3-layer self-healing architecture shipped"
+      - "Heartbeat re-arm (270s ScheduleWakeup) locked as Tier-0 mandatory rule"
+
+  - id: I
+    name: Intelligence Pipeline — Tradition-Aware KB + Source Review Gate
+    execution_status: completed_2026_05_28
+    execution_notes:
+      - "I1-I6: audio intake, FTS5 wisdom mirror, tradition-aware augmenter, Phase 11g gate"
+      - "Knowledge DB seeded: 7,200+ atoms (doctrine, terms, quotes, etymology)"
+      - "Augmenter wired into per-chapter pipeline (step 3.5)"
+
+  - id: J
+    name: Local-First Lookups + Dual-Interface Source Library Server
+    execution_status: completed_2026_06_02
+    execution_notes:
+      - "J0-J5: FTS5 mirror, local server client, Astro editor integration"
+      - "kashkole→wisdom rename across all surfaces"
+      - "Wave J complete per merge commit 5cbba2e"
+
+  - id: K
+    name: Knowledge Quality Pass — Terms, Quotes, Anti-Repetition
+    execution_status: completed_2026_06_02
+    execution_notes:
+      - "K1-K6: quote type + 622 term atoms; term+quote augmenter wired; CASCADE wipe fixed"
+      - "Cross-chapter anti-repetition ledger; augmentation-quality challenger"
+      - "351 tests green; 7,200+ DB atoms"
+
+  - id: L
+    name: Content-Level Gating + Category-W Augmentation + Quranic Etymology + Studio Editor
+    execution_status: completed_2026_06_03
+    execution_notes:
+      - "L-1/L-2: content_level column (4 rungs); augmenter gate on content_level"
+      - "L-3: atom categorization tool; 555 doctrine atoms categorized"
+      - "L-4: Quranic etymology weaving (spoken-form, capped, never spelled)"
+      - "L-5: cross-chapter anti-repetition ledger"
+      - "L-6: Category W augmentation-quality challenger + docs-sweep"
+      - "L-7: Studio intake ContentLevelSelector"
+      - "L-8: rich Studio editor — AI panel, Finalize, history tag, SQLite comments"
+      - "CONTENT_LEVEL_LADDER: 6 rungs (general→advanced→taveel→mamsool→mabda_maad→haqaiq)"
+      - "mabda_maad = Origin & Return (LOCKED); code ID mabda_maad; display Origin & Return"
+      - "Terminology: canonical term maratib; 026 SQL migration applying ladder"
+
+  - id: M
+    name: Inspector Declutter + Floating AI Toolbar + Corpus Workbench
+    execution_status: completed_2026_06_03
+    branch: feature/wave-m-inspector-corpus
+    design_doc: "~/.claude/plans/how-do-i-edit-robust-wigderson.md"
+    execution_notes:
+      - "Wave M prep shipped: explainer editorial brief, 6-level ladder propagated to all docs"
+      - "M-1 DONE: floating AI toolbar + inspector tab restructure (Details/Comment/AI/References) + scroll fix"
+      - "M-2 DONE: lib/db/knowledge.ts + /api/corpus/atoms GET + corpus.astro wired to live DB (988 non-Quran atoms)"
+      - "M-3 DONE: updateAtom/createAtom write functions + /api/corpus/atom PATCH+POST + CorpusExplorer inline edit+create UI"
+      - "RGR all slices: astro check 0 errors · lint:views clean · 392 tests green"
+    deferred:
+      - "Section-level depth markers: requires stable section IDs (not yet minted) — deferred to Wave N"
+      - "Lookup_levels SQLite import + full ladder verification — deferred to Wave N"
+    steps:
+      - id: M1
+        title: "Floating AI toolbar + inspector tab restructure + scroll fix"
+        execution_status: completed_2026_06_03
+        files: ["plan-dashboard/src/components/reader/poc/StudioPoc.tsx", "plan-dashboard/src/styles/studio-poc.css"]
+      - id: M2
+        title: "Wire CorpusExplorer to real DB data (read path)"
+        execution_status: completed_2026_06_03
+        files: ["plan-dashboard/src/lib/db/knowledge.ts", "plan-dashboard/src/pages/api/corpus/atoms.ts", "plan-dashboard/src/pages/corpus.astro"]
+      - id: M3
+        title: "Add edit + create to CorpusExplorer (write path)"
+        execution_status: completed_2026_06_03
+        files: ["plan-dashboard/src/lib/db/knowledge.ts", "plan-dashboard/src/pages/api/corpus/atom.ts", "plan-dashboard/src/components/corpus-mock/CorpusExplorer.tsx"]
+
   - id: CP
     name: Content-Profile Branching
-    execution_status: not_started
+    execution_status: partially_implemented_2026_06_01
     depends_on: [A]
     pilot_completed: >
       healthequity (2026-06-01): 3 consumer episodes built manually against the `sites` category.

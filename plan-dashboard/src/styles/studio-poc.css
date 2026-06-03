@@ -25,41 +25,88 @@
   align-items: start;
 }
 
-/* FLOATING inspector: pinned, capped to the viewport, scrolls INTERNALLY so the
-   marker list is always reachable and scales to 50+ without growing the page. */
+/* M-1 scroll fix: clear the full pinned stack (topnav 52px + studio subnav ~72px) + 1rem.
+   --pf-sticky-top is set here; override it in a parent if the stack height changes. */
+:root { --pf-sticky-top: 124px; }
+
+/* FLOATING inspector: pinned below the full sticky stack, scrolls INTERNALLY. */
 .studio-poc__inspector {
   position: sticky;
-  top: 16px;
-  max-height: calc(100vh - 32px);
+  top: calc(var(--pf-sticky-top) + 1rem);
+  max-height: calc(100vh - var(--pf-sticky-top) - 2rem);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
 }
-/* Inspector: its own bordered card; bounded height with internal scroll so the panel fits. */
-.sp-inspector {
-  flex: 0 1 auto;
-  height: clamp(220px, 44vh, 520px);
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 14px;
-  background: var(--c-bg-card);
-  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
-  border-radius: 12px;
-}
-.sp-insp-markers { display: flex; flex-direction: column; gap: 8px; }
-/* Controls: fixed, styled panel at the bottom (Arabic switch + edit toolbar). */
-.sp-controls {
+
+/* M-1 inspector restructure: one outer card, no nested boxes.
+   ─── Global action strip (slim, always visible) ─── */
+.sp-global-strip {
   flex: 0 0 auto;
   display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 14px;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+  border-radius: 10px;
+}
+/* Arabic toggle row inside the global strip. */
+.sp-global-arabic { display: inline-flex; align-items: center; gap: 7px; font-size: 0.82rem; font-weight: 600; color: var(--c-ink); }
+/* Separator dot between global strip actions. */
+.sp-strip-sep { flex: 0 0 auto; width: 1px; height: 20px; background: var(--c-rule, rgba(0,0,0,0.12)); }
+
+/* ─── Tabbed panel (Details · Comment · AI · References) ─── */
+.sp-panel-card {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+  border-radius: 10px;
+  overflow: hidden;
+}
+.sp-tab-bar {
+  flex: 0 0 auto;
+  display: flex;
+  border-bottom: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
+  background: var(--c-bg-elev);
+}
+.sp-tab-btn {
+  flex: 1 1 0;
+  padding: 8px 4px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--c-ink-muted);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: color 0.12s;
+  white-space: nowrap;
+}
+.sp-tab-btn:hover { color: var(--c-ink); }
+.sp-tab-btn.is-active { color: var(--c-accent); border-bottom-color: var(--c-accent); background: var(--c-bg-card); }
+.sp-tab-btn .sp-tab-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--c-accent); margin-left: 4px; vertical-align: middle; }
+.sp-tab-pane {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 12px 14px;
+  display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 14px;
-  background: var(--c-bg-elev);
-  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
-  border-radius: 12px;
 }
+
+/* Legacy compat: .sp-inspector used in places still */
+.sp-inspector { display: contents; }
+.sp-insp-markers { display: flex; flex-direction: column; gap: 8px; }
+/* Controls: kept for backwards compat (only sp-global-strip is used now) */
+.sp-controls { display: none; }
 .sp-control-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .sp-control-label { font-size: 0.82rem; font-weight: 600; color: var(--c-ink); display: inline-flex; align-items: center; gap: 6px; }
 .sp-edit { display: flex; flex-direction: column; gap: 6px; }
@@ -222,6 +269,50 @@
   opacity: 0.7;
 }
 .studio-poc__editor .sp-para-tools--palette .sp-ptool:hover { opacity: 1; filter: none; transform: translateY(-1px); }
+/* M-1 Save & Approve in the slim global strip: grows to fill available width. */
+.sp-approve.sp-approve--strip { flex: 1 1 auto; }
+
+/* M-1 AI action buttons in the per-paragraph floating toolbar (palette mode). */
+.studio-poc__editor .sp-ptool--ai {
+  font-size: 0.78rem;
+  width: auto;
+  padding: 0 8px;
+  gap: 3px;
+  color: var(--c-accent);
+  border-color: color-mix(in srgb, var(--c-accent) 35%, transparent);
+  background: color-mix(in srgb, var(--c-accent) 8%, var(--c-bg-elev));
+}
+.studio-poc__editor .sp-ptool--ai:hover { background: color-mix(in srgb, var(--c-accent) 15%, var(--c-bg-card)); opacity: 1; filter: none; }
+.studio-poc__editor .sp-para-tools--ai { gap: 4px; }
+
+/* M-1 inspector — Details tab tag buttons (inline row). */
+.sp-insp-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.sp-insp-tagbtn {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.74rem; padding: 3px 9px; border-radius: 7px; cursor: pointer;
+  color: var(--c-ink); background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+}
+.sp-insp-tagbtn:hover { border-color: var(--c-accent); }
+.sp-insp-tagbtn.is-on { background: var(--c-ink, #2a2118); color: #fff; border-color: transparent; }
+.sp-insp-tagbtn.tag-esoteric.is-on { background: #7c3aed; }
+.sp-insp-tagbtn.tag-reality.is-on  { background: #0284c7; }
+.sp-insp-tagbtn.tag-sharia.is-on   { background: #0f766e; }
+.sp-insp-tagbtn.tag-delete.is-on   { background: #e11d48; }
+.sp-insp-tagbtn.tag-improve.is-on  { background: #d97706; }
+.sp-insp-tagbtn.tag-history.is-on  { background: #92400e; }
+
+/* M-1 AI result area in the AI tab. */
+.sp-ai-tab-actions { display: flex; gap: 5px; flex-wrap: wrap; }
+.sp-ai-tab-btn {
+  padding: 5px 12px; font-size: 0.82rem; font-weight: 600;
+  border-radius: 7px; cursor: pointer;
+  color: var(--c-accent); background: color-mix(in srgb, var(--c-accent) 8%, var(--c-bg-card));
+  border: 1px solid color-mix(in srgb, var(--c-accent) 35%, transparent);
+}
+.sp-ai-tab-btn:hover { background: color-mix(in srgb, var(--c-accent) 15%, var(--c-bg-card)); }
+.sp-ai-tab-btn:disabled { opacity: 0.45; cursor: default; }
+
 /* Selected tag: DARK background so it reads as "on" at a glance, with its colour as a ring. */
 .studio-poc__editor .sp-ptool.is-on {
   opacity: 1;
@@ -412,7 +503,7 @@
 
 @media (max-width: 900px) {
   .studio-poc { grid-template-columns: 1fr; }
-  .studio-poc__inspector { position: static; max-height: none; }
+  .studio-poc__inspector { position: static; max-height: none; top: auto; }
 }
 
 /* Stage tabs (SN-5) — Source/Denoised/Core/Normalized/Augmented above the editor. */

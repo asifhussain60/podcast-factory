@@ -414,6 +414,21 @@ Mode dispatch: always runs on every chapter pass. Category V findings do NOT blo
 
 **Category V is never auto-fixed.** All five checks require authoring judgment about tone, framing, and rhetorical shape — deterministic insertion would corrupt voice. The PEQ Interest axis score is computed independently in `_quality.py` and does not depend on V-finding counts; it uses the same pattern lists for a continuous 0–100 score.
 
+### Category X: Technical depth balance — added 2026-06-03 (Wave M)
+
+*Dispatch guard: applies only when `category == "explainers"`. For all other categories emit `X-NO-PACK: skipped (category={category})` as an INFO line and skip this entire section.*
+
+Validates that explainer chapters are practical-first: theory is grounded in outcomes, every named feature has a hands-on sequence, and comparison-tool internals are absent. Findings sourced in `_rules.TECHNICAL_RULE_SET` (R-TECH-THEORY-CAP, R-TECH-WALKTHROUGH-PRESENT, R-TECH-NO-COMP-INTERNALS, R-TECH-HABIT-MAP).
+
+| ID | Severity | Check | Detection | Remediation |
+|---|---|---|---|---|
+| X1 | P1 | **Theory cap** (`R-TECH-THEORY-CAP`): ≥4 consecutive explanatory sentences with no CLI command, code block, or "type/see/run" pattern. | Sliding-window sentence scan per paragraph; flag the offending paragraph block. | Rewrite to lead with practical outcome; move explanation to supporting context after the example. |
+| X2 | P1 | **Walkthrough presence** (`R-TECH-WALKTHROUGH-PRESENT`): H2 section with ≥2 named features but zero hands-on sequence. | Section-level scan: count named features (capitalised nouns + product terms); count command/code anchors. | Add a session-step or CLI example grounded in source material; do not invent commands not present in the source. |
+| X3 | P1 | **No comparison-tool internals** (`R-TECH-NO-COMP-INTERNALS`): passage explaining internal mechanics, release history, pricing tiers, or benchmark stats of a tool that is NOT the subject of the chapter. | Keyword + named-entity scan for third-party product names followed by version, date, or percentage tokens. | Strip or replace with the practical implication for the developer ("this means you can…"). |
+| X4 | P2 | **Habit-mapping** (`R-TECH-HABIT-MAP`): chapter addresses a migration audience (detected via "developers who use X", "coming from X", "if you use X") but has zero explicit "old habit → new habit" phrase. | Detect migration signal; scan for "In [tool] you…; in [subject] you…" pattern. | Flag (advisory); add ≥1 mapping per major workflow. Does not block shipping. |
+
+Category X findings produce **SHIP-WITH-CAUTION** (not BLOCKED). X4 is P2 and advisory only. No P0 findings in this category.
+
 ---
 
 ## SECTION 3 — Auto-fix vs flag rules
