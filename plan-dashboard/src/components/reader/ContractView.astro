@@ -93,7 +93,7 @@ const metaChips = [
       <ul class="contract-quote-list">
         {rendered.anchorPassages.map((p) => (
           <li class="contract-quote">
-            <div class="prose-body" style="font-style: italic;" set:html={p.rendered.html} />
+            <div class="prose-body prose-body--quote" set:html={p.rendered.html} />
             {p.cite && (
               <div class="contract-quote-cite">— {p.cite}</div>
             )}
@@ -115,7 +115,7 @@ const metaChips = [
       {rendered.showNotesBullets.length > 0 && (
         <ul class="contract-show-notes-bullets">
           {rendered.showNotesBullets.map((b) => (
-            <li><div class="prose-body" style="display: inline;" set:html={b.html} /></li>
+            <li><div class="prose-body prose-body--inline" set:html={b.html} /></li>
           ))}
         </ul>
       )}

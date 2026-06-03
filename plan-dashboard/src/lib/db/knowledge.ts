@@ -227,10 +227,21 @@ export function dbTotals(): { total: number; byType: Record<string, number>; byT
 // Write operations (M-3) — writable connection
 // ---------------------------------------------------------------------------
 
-// Base 6-rung ladder + 3 Kashkole combination levels (Lookup_levels IDs 8-10).
-const ALLOWED_LEVELS = new Set([
+// Atom content_level — Kashkole 6-rung ladder; must stay stable for existing knowledge atoms.
+const ALLOWED_ATOM_LEVELS = new Set([
   'general', 'advanced', 'taveel', 'mamsool', 'mabda_maad', 'haqaiq',
-  'taveel_haqaiq', 'general_taveel', 'taveel_mabda_maad',
+]);
+
+// Section depth_level — per-content-profile vocabulary for Studio section annotations.
+const ALLOWED_DEPTH_LEVELS = new Set([
+  // islamic_scholarly
+  'narrative', 'sharia', 'esoteric', 'origins', 'reality',
+  // consumer_explainer (site)
+  'website', 'application', 'platform', 'api',
+  // technical
+  'coding', 'agentic_ai', 'architecture', 'devops', 'security', 'data_ml',
+  // fiction (narrative shared with islamic_scholarly)
+  'character', 'theme', 'world', 'conflict', 'voice',
 ]);
 const ALLOWED_TYPES = new Set(['quran', 'hadith', 'term', 'doctrine', 'etymology', 'poetry']);
 const ALLOWED_TRADITIONS = new Set(['universal', 'fatimid-ismaili', 'ismaili']);
@@ -251,7 +262,7 @@ export interface CreateAtomInput {
 
 export function updateAtom(id: string, input: UpdateAtomInput): LiveAtom {
   if (input.content_level !== undefined && input.content_level !== null
-    && !ALLOWED_LEVELS.has(input.content_level)) {
+    && !ALLOWED_ATOM_LEVELS.has(input.content_level)) {
     throw new Error(`Invalid content_level: ${input.content_level}`);
   }
   const db = getWriteDb();
@@ -285,7 +296,7 @@ export function createAtom(input: CreateAtomInput): LiveAtom {
   if (!ALLOWED_TYPES.has(input.type)) throw new Error(`Invalid type: ${input.type}`);
   if (!ALLOWED_TRADITIONS.has(input.tradition)) throw new Error(`Invalid tradition: ${input.tradition}`);
   if (!input.text_en.trim()) throw new Error('text_en must not be empty');
-  if (input.content_level && !ALLOWED_LEVELS.has(input.content_level)) {
+  if (input.content_level && !ALLOWED_ATOM_LEVELS.has(input.content_level)) {
     throw new Error(`Invalid content_level: ${input.content_level}`);
   }
   const db = getWriteDb();
@@ -333,7 +344,7 @@ export function upsertSectionDepth(
   depthLevel: string,
   source: 'pipeline' | 'human' = 'human',
 ): SectionDepth {
-  if (!ALLOWED_LEVELS.has(depthLevel)) throw new Error(`Invalid depth_level: ${depthLevel}`);
+  if (!ALLOWED_DEPTH_LEVELS.has(depthLevel)) throw new Error(`Invalid depth_level: ${depthLevel}`);
   const db = getWriteDb();
   db.prepare(`
     INSERT INTO section_depths (book_slug, chapter_id, section_ordinal, section_slug, depth_level, source)

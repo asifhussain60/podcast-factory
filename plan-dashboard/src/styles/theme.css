@@ -80,15 +80,34 @@
   --c-kind-hybrid:     #3d7a5a;  /* teal-green: mix of model + rules */
   --c-kind-gate:       #a0602d;  /* terracotta: human halt */
 
-  /* Kashkole depth-level badge tokens (Wave N — CONTENT_LEVEL_LADDER, 6 base rungs).
-     bg = badge background; fg = badge foreground text; bd = badge border.
-     Colours derived from Kashkole LevelColor / CategoryBackColor values. */
+  /* Depth-level badge tokens — bg = background; fg = foreground text; bd = border.
+     Islamic scholarly: colours derived from Kashkole LevelColor / CategoryBackColor values.
+     Other profiles: purpose-matched palettes. */
+  /* islamic_scholarly */
   --c-depth-general-bg:    #e8eeff;  --c-depth-general-fg:    #1a3a8a;  --c-depth-general-bd:    #b0c4de;
   --c-depth-advanced-bg:   #f0e8ff;  --c-depth-advanced-fg:   #5a2da0;  --c-depth-advanced-bd:   #c4aadd;
   --c-depth-taveel-bg:     #e8f5e8;  --c-depth-taveel-fg:     #1a5c1a;  --c-depth-taveel-bd:     #a0c8a0;
   --c-depth-mamsool-bg:    #fffde8;  --c-depth-mamsool-fg:    #7a5a00;  --c-depth-mamsool-bd:    #ddc870;
   --c-depth-mabda-bg:      #fde8f5;  --c-depth-mabda-fg:      #8c0066;  --c-depth-mabda-bd:      #dda0c8;
   --c-depth-haqaiq-bg:     #ffe8e8;  --c-depth-haqaiq-fg:     #8a0000;  --c-depth-haqaiq-bd:     #dd8080;
+  /* consumer_explainer (site layers) */
+  --c-depth-site-website-bg:      #e8f4fd;  --c-depth-site-website-fg:      #1565c0;  --c-depth-site-website-bd:      #90caf9;
+  --c-depth-site-application-bg:  #e3f2fd;  --c-depth-site-application-fg:  #0d47a1;  --c-depth-site-application-bd:  #64b5f6;
+  --c-depth-site-platform-bg:     #ede7f6;  --c-depth-site-platform-fg:     #4527a0;  --c-depth-site-platform-bd:     #9575cd;
+  --c-depth-site-api-bg:          #e8eaf6;  --c-depth-site-api-fg:          #283593;  --c-depth-site-api-bd:          #7986cb;
+  /* technical */
+  --c-depth-tech-coding-bg:       #e8f5e9;  --c-depth-tech-coding-fg:       #1b5e20;  --c-depth-tech-coding-bd:       #81c784;
+  --c-depth-tech-agentic-bg:      #f3e5f5;  --c-depth-tech-agentic-fg:      #4a148c;  --c-depth-tech-agentic-bd:      #ce93d8;
+  --c-depth-tech-arch-bg:         #fff3e0;  --c-depth-tech-arch-fg:         #bf360c;  --c-depth-tech-arch-bd:         #ffcc02;
+  --c-depth-tech-devops-bg:       #eceff1;  --c-depth-tech-devops-fg:       #263238;  --c-depth-tech-devops-bd:       #90a4ae;
+  --c-depth-tech-security-bg:     #ffebee;  --c-depth-tech-security-fg:     #b71c1c;  --c-depth-tech-security-bd:     #ef9a9a;
+  --c-depth-tech-data-bg:         #e0f7fa;  --c-depth-tech-data-fg:         #006064;  --c-depth-tech-data-bd:         #80deea;
+  /* fiction */
+  --c-depth-fiction-character-bg: #fff8e1;  --c-depth-fiction-character-fg: #f57f17;  --c-depth-fiction-character-bd: #ffe082;
+  --c-depth-fiction-theme-bg:     #fce4ec;  --c-depth-fiction-theme-fg:     #880e4f;  --c-depth-fiction-theme-bd:     #f48fb1;
+  --c-depth-fiction-world-bg:     #f1f8e9;  --c-depth-fiction-world-fg:     #33691e;  --c-depth-fiction-world-bd:     #aed581;
+  --c-depth-fiction-conflict-bg:  #fbe9e7;  --c-depth-fiction-conflict-fg:  #bf360c;  --c-depth-fiction-conflict-bd:  #ffab91;
+  --c-depth-fiction-voice-bg:     #f3e5f5;  --c-depth-fiction-voice-fg:     #6a1b9a;  --c-depth-fiction-voice-bd:     #ba68c8;
 
   /* Model tier colours (swimlane annotations) */
   --c-model-opus:    #5b2fa0;    /* deep purple: Opus (highest cost) */

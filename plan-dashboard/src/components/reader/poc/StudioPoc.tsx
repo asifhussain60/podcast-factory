@@ -152,9 +152,150 @@ interface Props {
   chapters: Chapter[];
   glossary?: GlossaryEntry[];
   initialChapIdx?: number;
+  contentProfile?: string;
 }
 
-export default function StudioPoc({ slug, chapters, glossary = [], initialChapIdx = 0 }: Props) {
+// ── Module-level depth picker singleton ─────────────────────────────────────
+// Placed outside the React component to avoid ref-timing issues; the decoration
+// plugin closure can call openDepthPicker() directly at any point after import.
+
+type SaveDepthFn = (ord: number, slug: string, level: string) => void;
+type DepthLevel = { readonly key: string; readonly label: string };
+
+const DEPTH_LEVELS_BY_PROFILE: Record<string, readonly DepthLevel[]> = {
+  islamic_scholarly: [
+    { key: 'narrative', label: 'Narrative' },
+    { key: 'sharia',    label: 'Sharia'    },
+    { key: 'esoteric',  label: 'Esoteric'  },
+    { key: 'origins',   label: 'Origins'   },
+    { key: 'reality',   label: 'Reality'   },
+  ],
+  consumer_explainer: [
+    { key: 'website',     label: 'Website'     },
+    { key: 'application', label: 'Application' },
+    { key: 'platform',    label: 'Platform'    },
+    { key: 'api',         label: 'API'         },
+  ],
+  technical: [
+    { key: 'coding',       label: 'Coding'       },
+    { key: 'agentic_ai',   label: 'Agentic AI'   },
+    { key: 'architecture', label: 'Architecture' },
+    { key: 'devops',       label: 'DevOps'       },
+    { key: 'security',     label: 'Security'     },
+    { key: 'data_ml',      label: 'Data / ML'    },
+  ],
+  fiction: [
+    { key: 'narrative',    label: 'Narrative'    },
+    { key: 'character',    label: 'Character'    },
+    { key: 'theme',        label: 'Theme'        },
+    { key: 'world',        label: 'World'        },
+    { key: 'conflict',     label: 'Conflict'     },
+    { key: 'voice',        label: 'Voice'        },
+  ],
+};
+const DEFAULT_DEPTH_PROFILE = 'islamic_scholarly';
+
+let _dpEl: HTMLDivElement | null = null;
+let _dpSaveFn: SaveDepthFn = () => {};
+let _dpOrd = 0;
+let _dpSection = '';
+let _dpOutside: ((e: MouseEvent) => void) | null = null;
+let _dpKey: ((e: KeyboardEvent) => void) | null = null;
+
+function _buildDepthPicker(levels: readonly DepthLevel[]): HTMLDivElement {
+  const pop = document.createElement('div');
+  pop.className = 'sp-depth-popover';
+  pop.setAttribute('role', 'dialog');
+  pop.setAttribute('aria-label', 'Set section depth level');
+
+  const title = document.createElement('div');
+  title.className = 'sp-depth-popover__title';
+  title.textContent = 'Depth level';
+  pop.appendChild(title);
+
+  const grid = document.createElement('div');
+  grid.className = 'sp-depth-popover__grid';
+  pop.appendChild(grid);
+
+  for (const { key, label } of levels) {
+    const opt = document.createElement('button');
+    opt.type = 'button';
+    opt.className = `sp-depth-popover__opt sp-depth-${key}`;
+    opt.setAttribute('data-depth-level', key);
+    opt.textContent = label;
+    grid.appendChild(opt);
+  }
+
+  const clearBtn = document.createElement('button');
+  clearBtn.type = 'button';
+  clearBtn.className = 'sp-depth-popover__clear';
+  clearBtn.setAttribute('data-depth-level', '');
+  clearBtn.textContent = '∅ clear depth';
+  pop.appendChild(clearBtn);
+
+  pop.addEventListener('click', (e) => {
+    const target = (e.target as HTMLElement).closest('[data-depth-level]') as HTMLElement | null;
+    if (!target) return;
+    const level = target.dataset.depthLevel;
+    if (level) _dpSaveFn(_dpOrd, _dpSection, level);
+    closeDepthPicker();
+  });
+
+  document.body.appendChild(pop);
+  return pop;
+}
+
+function closeDepthPicker() {
+  _dpEl?.classList.remove('is-open');
+  if (_dpOutside) { document.removeEventListener('mousedown', _dpOutside, true); _dpOutside = null; }
+  if (_dpKey)     { document.removeEventListener('keydown',   _dpKey,     true); _dpKey = null; }
+}
+
+function openDepthPicker(
+  anchorEl: HTMLElement,
+  saveFn: SaveDepthFn,
+  ord: number,
+  sectionText: string,
+  currentLevel: string | undefined,
+  levels: readonly DepthLevel[],
+) {
+  _dpSaveFn   = saveFn;
+  _dpOrd      = ord;
+  _dpSection  = sectionText;
+
+  if (!_dpEl) _dpEl = _buildDepthPicker(levels);
+  const pop = _dpEl;
+
+  pop.querySelectorAll('[data-depth-level]').forEach((el) => {
+    const k = (el as HTMLElement).dataset.depthLevel;
+    el.classList.toggle('is-active', !!k && k === currentLevel);
+  });
+
+  const rect = anchorEl.getBoundingClientRect();
+  const popW = 258;
+  let left = rect.left;
+  if (left + popW > window.innerWidth - 8) left = window.innerWidth - popW - 8;
+  pop.style.top  = `${rect.bottom + 6}px`;
+  pop.style.left = `${Math.max(8, left)}px`;
+  pop.classList.add('is-open');
+
+  if (_dpOutside) document.removeEventListener('mousedown', _dpOutside, true);
+  if (_dpKey)     document.removeEventListener('keydown',   _dpKey,     true);
+
+  _dpOutside = (ev) => { if (!pop.contains(ev.target as Node) && ev.target !== anchorEl) closeDepthPicker(); };
+  _dpKey     = (ev) => { if (ev.key === 'Escape') closeDepthPicker(); };
+
+  requestAnimationFrame(() => {
+    document.addEventListener('mousedown', _dpOutside!, true);
+    document.addEventListener('keydown',   _dpKey!,     true);
+  });
+}
+// ────────────────────────────────────────────────────────────────────────────
+
+export default function StudioPoc({ slug, chapters, glossary = [], initialChapIdx = 0, contentProfile }: Props) {
+  const depthLevels = DEPTH_LEVELS_BY_PROFILE[contentProfile ?? DEFAULT_DEPTH_PROFILE]
+    ?? DEPTH_LEVELS_BY_PROFILE[DEFAULT_DEPTH_PROFILE];
+
   // B: chapter switcher — pick which chapter's stages the editor shows.
   const [chapIdx, setChapIdx] = useState(initialChapIdx);
   const chap = chapters[chapIdx] ?? chapters[0];
@@ -220,17 +361,24 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug, chapter]);
 
+  // editorRef: stable ref to the editor instance so non-React callbacks (PM widgets)
+  // can dispatch transactions without capturing a stale `editor` closure.
+  const editorRef = useRef<ReturnType<typeof useEditor>>(null);
+
   // Persist a section depth change (human override).
-  const saveSectionDepth = useCallback((ordinal: number, slug_label: string, depthLevel: string) => {
-    setSectionDepths((prev) => ({ ...prev, [ordinal]: depthLevel }));
+  // Directly mutates sectionDepthsRef then dispatches a PM transaction so the
+  // decoration plugin recomputes immediately — setSectionDepths alone is not enough
+  // because React batching means the ref isn't updated until after the next render.
+  const saveSectionDepthRef = useRef<(ord: number, sectionSlug: string, level: string) => void>(() => {});
+  saveSectionDepthRef.current = (ordinal: number, slug_label: string, depthLevel: string) => {
+    sectionDepthsRef.current = { ...sectionDepthsRef.current, [ordinal]: depthLevel };
+    setSectionDepths({ ...sectionDepthsRef.current });
+    editorRef.current?.view.dispatch(editorRef.current.state.tr.setMeta('refreshDepth', true));
     fetch('/api/studio/section-depth', {
       method: 'PATCH', headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ book: slug, chapter, ordinal, slug: slug_label, depth_level: depthLevel }),
     }).catch(() => { /* non-blocking */ });
-  }, [slug, chapter]);
-  // Expose the saver to the PM plugin via ref.
-  const saveSectionDepthRef = useRef<(ord: number, sectionSlug: string, level: string) => void>(() => {});
-  saveSectionDepthRef.current = saveSectionDepth;
+  };
 
   // Wave L-8 — AI assist panel + Finalize state.
   const [aiBusy, setAiBusy] = useState(false);
@@ -352,36 +500,20 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                       const ord = sectionOrdinal++;
                       const depthLevel = sectionDepthsRef.current[ord];
                       const sectionText = node.textContent.slice(0, 60).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-                      const LEVEL_LABELS: Record<string, string> = {
-                        general: 'General', advanced: 'Advanced', taveel: 'Taweel',
-                        mamsool: 'Mamsool', mabda_maad: 'Origin & Return', haqaiq: 'Haqaiq',
-                        // Combination levels (Kashkole Lookup_levels IDs 8-10):
-                        taveel_haqaiq: 'Taweel + Haqaiq', general_taveel: 'General + Taweel',
-                        taveel_mabda_maad: 'Taweel + Origin',
-                      };
-                      // Primary cycle (click): the 6 base rungs.
-                      // Extended cycle (Ctrl/Cmd+click): base + 3 combination levels.
-                      const BASE_LADDER = ['general', 'advanced', 'taveel', 'mamsool', 'mabda_maad', 'haqaiq'];
-                      const FULL_LADDER = [...BASE_LADDER, 'taveel_haqaiq', 'general_taveel', 'taveel_mabda_maad'];
                       decos.push(
                         Decoration.widget(offset + node.nodeSize - 1, () => {
                           const btn = document.createElement('button');
                           btn.type = 'button';
-                          const isCombination = depthLevel && !BASE_LADDER.includes(depthLevel);
-                          btn.className = `sp-section-depth-btn${depthLevel ? ` sp-depth-${depthLevel}` : ' sp-depth-none'}${isCombination ? ' sp-depth-combo' : ''}`;
-                          const label = depthLevel ? (LEVEL_LABELS[depthLevel] ?? depthLevel) : '∅ depth';
-                          btn.title = depthLevel
-                            ? `Depth: ${label} — click to cycle base levels; Ctrl+click for combination levels`
-                            : 'Set section depth (click to cycle; Ctrl+click for combination levels)';
+                          btn.className = `sp-section-depth-btn${depthLevel ? ` sp-depth-${depthLevel}` : ' sp-depth-none'}`;
+                          const label = depthLevel
+                            ? (depthLevels.find((l) => l.key === depthLevel)?.label ?? depthLevel)
+                            : '∅ depth';
+                          btn.title = `Depth: ${label} — click to change`;
                           btn.textContent = label;
                           btn.contentEditable = 'false';
                           btn.addEventListener('mousedown', (ev) => {
                             ev.preventDefault(); ev.stopPropagation();
-                            const useFullLadder = ev.ctrlKey || ev.metaKey;
-                            const ladder = useFullLadder ? FULL_LADDER : BASE_LADDER;
-                            const curIdx = depthLevel ? ladder.indexOf(depthLevel) : -1;
-                            const nextLevel = ladder[(curIdx + 1) % ladder.length];
-                            saveSectionDepthRef.current(ord, sectionText, nextLevel);
+                            openDepthPicker(btn, saveSectionDepthRef.current, ord, sectionText, depthLevel, depthLevels);
                           });
                           return btn;
                         }, { side: 1, key: `sec-depth-${ord}-${depthLevel ?? 'none'}` }),
@@ -555,6 +687,9 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       refresh(); // re-evaluate active-paragraph decoration on caret moves
     },
   });
+
+  // Keep editorRef in sync so depth-save dispatch always has the live editor.
+  editorRef.current = editor;
 
   // Click outside the editor container → blur the editor DOM element.
   // The onBlur callback above handles clearing hasFocusRef + dispatching the decoration update.
@@ -743,7 +878,12 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       } else if (kind === 'research') {
         res = await fetch('/api/ai/research', {
           method: 'POST', headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ text, context: chapterTitle }),
+          body: JSON.stringify({
+            paragraphText: text,
+            instruction: 'Research this passage and provide scholarly context with web-sourced information.',
+            bookTitle: chapterTitle,
+            actionType: 'research',
+          }),
         });
       } else if (kind === 'autotag') {
         res = await fetch('/api/ai/claude', {
@@ -763,6 +903,11 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       } else if (kind === 'rewrite') {
         const opts = (json.data?.options ?? json.options ?? []) as string[];
         setAiResult(opts.map((o, i) => `${i + 1}. ${o}`).join('\n\n'));
+      } else if (kind === 'research') {
+        const body = json.fullText ?? json.prompt ?? '';
+        const sources = (json.sources as string[] | undefined) ?? [];
+        const sourced = sources.length ? `\n\nSources:\n${sources.map((s) => `• ${s}`).join('\n')}` : '';
+        setAiResult(body + sourced);
       } else {
         setAiResult(typeof json.data === 'string' ? json.data : JSON.stringify(json.data));
       }
