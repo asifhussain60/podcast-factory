@@ -24,7 +24,11 @@ from typing import Sequence
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import _db
-from _rules import R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED
+from _rules import (
+    R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED,
+    CONTENT_LEVEL_LADDER,
+    allowed_content_levels,
+)
 from intelligence._local_server_client import quran_verse as _live_verse, topic_search as _live_topic_search
 
 # Maximum doctrine atoms injected per augmentation call
@@ -92,6 +96,9 @@ def augment_episode_text(
         return episode_text
 
     book_tradition = tradition or _book_tradition(book_dir)
+    # Content-level gate (Wave L-2): None for non-Islamic / unclassified books,
+    # which preserves pre-Wave-L behavior (no level filter applied).
+    book_content_level = _book_content_level(book_dir)
 
     # 1. Doctrine atoms (tag-based)
     tags = list(topic_tags or []) or _book_tags(book_dir)
@@ -101,7 +108,8 @@ def augment_episode_text(
         # matched atom pool — prevents all episodes in one book seeing identical passages.
         ep_offset = _episode_offset(episode_slug, max_atoms)
         doc_atoms = _fetch_doctrine_atoms(
-            tags, max_atoms=max_atoms, tradition=book_tradition, offset=ep_offset
+            tags, max_atoms=max_atoms, tradition=book_tradition, offset=ep_offset,
+            content_level=book_content_level,
         )
         if doc_atoms:
             doctrine_block = _build_context_block(doc_atoms)
@@ -265,6 +273,28 @@ def _book_tags(book_dir: Path) -> list[str]:
         return []
 
 
+def _book_content_level(book_dir: Path) -> str | None:
+    """Read `content_level` from meta.yml. Default: None (no gate).
+
+    None means the book is non-Islamic or unclassified — the augmenter applies
+    NO content-level filter and behaves exactly as pre-Wave-L. A returned value
+    is one of CONTENT_LEVEL_LADDER (history/shariah/esoteric/realities); anything
+    else is normalized to None so a typo never silently over-restricts.
+    """
+    meta_path = book_dir / "meta.yml"
+    if not meta_path.exists():
+        return None
+    try:
+        import yaml  # type: ignore[import]
+        meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
+        level = meta.get("content_level")
+        if level in CONTENT_LEVEL_LADDER:
+            return str(level)
+        return None
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def _episode_offset(episode_slug: str, max_atoms: int) -> int:
     """Derive a deterministic per-episode OFFSET into the atom pool.
 
@@ -281,23 +311,54 @@ def _episode_offset(episode_slug: str, max_atoms: int) -> int:
     return ep_num * max_atoms
 
 
+def _content_level_clause(content_level: str | None) -> tuple[str, list[str]]:
+    """Build the cumulative-downward content-level SQL fragment + params (Wave L-2).
+
+    Returns ``("", [])`` when *content_level* is None/unknown — the caller then
+    applies NO content-level gate (non-Islamic / unclassified path, identical to
+    pre-Wave-L behavior).
+
+    When a level is given, returns a clause restricting doctrine atoms to the
+    book's level and everything below it, plus 'universal', plus NULL (so
+    uncategorized atoms still pass during the L-3 categorization transition):
+
+        AND (a.content_level IN (?, ?, ...) OR a.content_level IS NULL)
+
+    The params are the allowed ladder levels from `allowed_content_levels()`,
+    which already includes 'universal'.
+    """
+    allowed = allowed_content_levels(content_level)
+    if not allowed:
+        return "", []
+    placeholders = ",".join("?" * len(allowed))
+    clause = f"AND (a.content_level IN ({placeholders}) OR a.content_level IS NULL)"
+    return clause, list(allowed)
+
+
 def _fetch_doctrine_atoms(
     tags: list[str],
     *,
     max_atoms: int,
     tradition: str = "universal",
     offset: int = 0,
+    content_level: str | None = None,
 ) -> list[dict]:
     """Query DB for doctrine atoms tagged with any of the given tags.
 
     Filters by tradition: returns atoms where tradition = <tradition> OR
     tradition = 'universal'.  This prevents cross-tradition injection.
+
+    Filters by content_level (Wave L-2): when the book declares a content_level,
+    only doctrine atoms at or below that level (cumulative downward) plus
+    'universal' plus NULL are eligible. None => no content-level gate.
+
     offset: skip this many rows so different episodes get different passages.
     """
     if not tags:
         return []
     conn = _db.get_connection()
     placeholders = ",".join("?" * len(tags))
+    level_clause, level_params = _content_level_clause(content_level)
     rows = conn.execute(
         f"""
         SELECT DISTINCT a.id, a.body
@@ -305,11 +366,12 @@ def _fetch_doctrine_atoms(
         JOIN atom_topic_tags t ON t.atom_id = a.id
         WHERE a.type = 'doctrine'
           AND (a.tradition = ? OR a.tradition = 'universal')
+          {level_clause}
           AND t.tag IN ({placeholders})
         ORDER BY a.id
         LIMIT ? OFFSET ?
         """,
-        (tradition, *tags, max_atoms, offset),
+        (tradition, *level_params, *tags, max_atoms, offset),
     ).fetchall()
     result = []
     for atom_id, body_json in rows:

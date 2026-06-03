@@ -46,6 +46,7 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 from _paths import REPO_ROOT, resolve_content  # noqa: E402
+from _rules import allowed_content_levels  # noqa: E402  (Wave L-2 shared ladder)
 
 PRICE_IN  = 0.000_000_1   # $/char Gemini Flash input
 PRICE_OUT = 0.000_000_4   # $/char output
@@ -140,7 +141,7 @@ def _load_atoms() -> list[dict]:
     """Load all atoms from knowledge.db with their tags and text_en."""
     conn = sqlite3.connect(str(KB_PATH))
     rows = conn.execute(
-        "SELECT id, type, body, tradition, first_seen_book FROM atoms"
+        "SELECT id, type, body, tradition, first_seen_book, content_level FROM atoms"
     ).fetchall()
 
     tag_map: dict[str, list[str]] = {}
@@ -152,7 +153,7 @@ def _load_atoms() -> list[dict]:
     conn.close()
 
     atoms = []
-    for atom_id, atype, body_json, tradition, first_seen_book in rows:
+    for atom_id, atype, body_json, tradition, first_seen_book, content_level in rows:
         try:
             body = json.loads(body_json)
         except (json.JSONDecodeError, TypeError):
@@ -167,9 +168,52 @@ def _load_atoms() -> list[dict]:
             "text_en": text_en.strip(),
             "tradition": tradition,
             "first_seen_book": first_seen_book or "unknown",
+            "content_level": content_level,
             "tags": tags,
         })
     return atoms
+
+
+def _book_content_level(book_dir: Path) -> str | None:
+    """Read `content_level` from meta.yml. Default None (no gate).
+
+    Mirrors intelligence/augmenter.py::_book_content_level so the holistic
+    book-level path and the per-episode path share one ladder semantics.
+    """
+    meta_path = book_dir / "meta.yml"
+    if not meta_path.exists():
+        return None
+    try:
+        import yaml  # type: ignore[import]
+        meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
+        level = meta.get("content_level")
+        return str(level) if allowed_content_levels(level) else None
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _gate_doctrine_by_level(atoms: list[dict], content_level: str | None) -> list[dict]:
+    """Filter doctrine atoms to the book's content level (cumulative downward).
+
+    Only `doctrine` atoms are gated. Quran/Hadith/Term/Etymology/quote atoms are
+    universal resources and always pass. When *content_level* is None (non-Islamic
+    / unclassified book), NO gate is applied — identical to pre-Wave-L behavior.
+    Doctrine atoms with NULL content_level pass during the L-3 categorization
+    transition so there is no atom cliff.
+    """
+    allowed = allowed_content_levels(content_level)
+    if not allowed:
+        return atoms
+    allowed_set = set(allowed)
+    kept = []
+    for a in atoms:
+        if a.get("type") != "doctrine":
+            kept.append(a)
+            continue
+        lvl = a.get("content_level")
+        if lvl is None or lvl in allowed_set:
+            kept.append(a)
+    return kept
 
 
 def _keyword_score(text: str) -> int:
@@ -365,6 +409,15 @@ def augment(slug: str, *, dry_run: bool = False, force: bool = False) -> Path:
     print(f"  Loading wisdom corpus atoms from knowledge.db…", end="", flush=True)
     all_atoms = _load_atoms()
     print(f" {len(all_atoms)} atoms loaded")
+
+    # Content-level gate (Wave L-2): restrict doctrine atoms to the book's level
+    # (cumulative downward). None => non-Islamic / unclassified => no gate.
+    book_content_level = _book_content_level(book_dir)
+    if book_content_level:
+        before = len(all_atoms)
+        all_atoms = _gate_doctrine_by_level(all_atoms, book_content_level)
+        print(f"  Content-level gate '{book_content_level}': "
+              f"{before} → {len(all_atoms)} atoms (doctrine above level excluded)")
 
     # Separate: safe-tagged vs untagged vs tradition-specific
     safe_tagged  = [a for a in all_atoms if _is_safe_for_cross_tradition(a, allow_untagged=False)]
