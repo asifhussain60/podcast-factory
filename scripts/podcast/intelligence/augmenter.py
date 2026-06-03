@@ -33,6 +33,9 @@ from intelligence._local_server_client import quran_verse as _live_verse, topic_
 
 # Maximum doctrine atoms injected per augmentation call
 _MAX_ATOMS_DEFAULT = 5
+# Maximum etymology insights woven per chapter (Wave L-4). Hard cap — etymology is
+# rationed so each root-insight lands; the challenger (Category W) enforces this.
+_MAX_ETYMOLOGY_DEFAULT = 3
 # Trim atom text_en to this many chars — Kashkole atoms are full doctrinal chapters and
 # can exceed 6K chars each.  ~600 chars ≈ 90–100 words: enough to convey the central
 # teaching without flooding the NotebookLM customize-prompt.
@@ -126,7 +129,14 @@ def augment_episode_text(
     if quote_atoms:
         quote_block = _build_quote_block(quote_atoms)
 
-    parts = [p for p in (doctrine_block, term_block, quote_block) if p]
+    # 4. Etymology atoms (Wave L-4) — universal resource, never content-level-gated.
+    #    Conservative term match; capped at 3/chapter; spoken-form guidance only.
+    etym_block = ""
+    etym_atoms = _fetch_matching_etymology(episode_text, max_etymology=_MAX_ETYMOLOGY_DEFAULT)
+    if etym_atoms:
+        etym_block = _build_etymology_block(etym_atoms)
+
+    parts = [p for p in (doctrine_block, term_block, quote_block, etym_block) if p]
     if not parts:
         return episode_text
     return "\n\n".join(parts) + "\n\n" + episode_text
@@ -451,6 +461,95 @@ def _fetch_matching_quotes(
         if speaker in ep_lower:
             matched.append({"id": atom_id, "body": body})
     return matched[:max_quotes]
+
+
+def _fetch_matching_etymology(
+    episode_text: str,
+    max_etymology: int = _MAX_ETYMOLOGY_DEFAULT,
+) -> list[dict]:
+    """Return etymology atoms whose transliterated term/root appears in the text.
+
+    Conservative whole-word match (length >= _MIN_TERM_MATCH_LEN): an etymology
+    insight only fires when the actual Arabic term or root is genuinely present —
+    so augmentation enriches an EXISTING reference rather than being forced in.
+    Etymology atoms are universal (never content-level-gated). Capped at
+    *max_etymology* (default 3 per chapter), longest-term-first so the most
+    specific derivative wins. Atoms without a baked root_phonetic are skipped
+    (a spoken form is required — see fill_etymology_phonetics.py).
+    """
+    import re as _re
+    ep_lower = episode_text.lower()
+    conn = _db.get_connection()
+    rows = conn.execute("SELECT id, body FROM atoms WHERE type='etymology'").fetchall()
+    matched: list[tuple[int, dict]] = []
+    for atom_id, body_json in rows:
+        try:
+            body = json.loads(body_json)
+        except json.JSONDecodeError:
+            continue
+        if not body.get("root_phonetic"):
+            continue  # no spoken form yet — cannot weave correctly
+        # Candidate spoken terms: the root + every derivative transliteration.
+        terms = [body.get("root_transliteration", "")]
+        terms += [d.get("term", "") for d in body.get("derivatives", [])]
+        best_len = 0
+        for term in terms:
+            t = term.strip().lower()
+            if len(t) < _MIN_TERM_MATCH_LEN or t in _COMMON_ENGLISH_SKIP:
+                continue
+            if _re.search(rf"\b{_re.escape(t)}\b", ep_lower):
+                best_len = max(best_len, len(t))
+        if best_len:
+            matched.append((best_len, {"id": atom_id, "body": body}))
+    matched.sort(key=lambda x: -x[0])
+    return [m[1] for m in matched[:max_etymology]]
+
+
+_ETYMOLOGY_BLOCK_HEADER = (
+    "[ETYMOLOGY — OPTIONAL ROOT-INSIGHTS — weave AT MOST 3, only where one "
+    "genuinely deepens the concept being discussed; skip any that would feel "
+    "forced. Speak the root using the SPOKEN form given; NEVER spell out Arabic "
+    "letters and NEVER read Arabic script. VARY your phrasing each time — do not "
+    "repeat a template.]"
+)
+
+
+def _build_etymology_block(etymology_atoms: list[dict]) -> str:
+    """Format etymology atoms as spoken-root-insight guidance for NotebookLM.
+
+    Each line gives the derived word, its spoken form, the root + spoken form, the
+    root meaning, and a one-line conceptual bridge — everything a host needs to
+    say a natural "the root of X is Y, which means Z, so…" aside WITHOUT ever
+    spelling Arabic letters. Arabic script is stripped (DR-012 / spoken-only).
+    """
+    lines = [_ETYMOLOGY_BLOCK_HEADER, ""]
+    for item in etymology_atoms:
+        body = item.get("body", {})
+        root = _strip_arabic(body.get("root_transliteration", "")).strip()
+        root_phon = body.get("root_phonetic", "").strip()
+        root_meaning = _strip_arabic(body.get("meaning_en", "")).strip()
+        derivs = body.get("derivatives", []) or []
+        if not root or not root_phon or not root_meaning:
+            continue
+        # Pick the most specific derivative as the "surface word" the host links from.
+        surface = ""
+        for d in sorted(derivs, key=lambda d: -len(d.get("term", ""))):
+            term = _strip_arabic(d.get("term", "")).strip()
+            phon = d.get("phonetic", "").strip()
+            gloss = _strip_arabic(d.get("meaning_en", "")).strip()
+            if term and gloss:
+                surface = f'the word "{gloss}" ({term}, spoken "{phon}")' if phon \
+                    else f'the word "{gloss}" ({term})'
+                break
+        lead = surface or f'the term "{root}"'
+        lines.append(
+            f'- When {lead} arises, its root is {root} (spoken "{root_phon}"), '
+            f'meaning "{root_meaning}". Draw the link only if it illuminates the '
+            f'point — e.g. how "{root_meaning}" shades the meaning of the concept.'
+        )
+    if len(lines) <= 2:
+        return ""
+    return "\n".join(lines).strip()
 
 
 def _strip_arabic(text: str) -> str:
