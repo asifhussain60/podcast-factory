@@ -6,49 +6,59 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-03 (session 5 — autonomous execution of P1 + Wave CP + Wave N)
+**Last updated:** 2026-06-03 (session 6 — depth taxonomy + literary pipeline + combined annotation picker)
 
-**BRANCH: `develop` — active. Committed and pushed (3c5f3ea).**
+**BRANCH: `develop` — active. Committed and pushed (001f497).**
 
 **Session work completed:**
 
-P1 (type cleanup):
-  - MockAtom/AtomType/Tradition/CorpusId/Concept moved from corpus-mock-sample.ts
-    to lib/db/knowledge.ts; re-exported from mock file for backward compat.
+Depth level taxonomy (commit b4b8d79):
+  - StudioPoc: DEPTH_LEVELS_BY_PROFILE — 4 content-profile sets (islamic_scholarly/
+    consumer_explainer/technical/fiction); combo levels and Kashkole jargon removed.
+  - knowledge.ts: ALLOWED_LEVELS split → ALLOWED_ATOM_LEVELS (Kashkole, for atoms)
+    + ALLOWED_DEPTH_LEVELS (new Studio section codes). Fixes silent bug where removing
+    old codes would have broken atom write validation.
+  - [step].astro: reads content_profile from series-config.yaml, passes to StudioPoc.
+  - theme.css + studio-poc.css: new token groups and badge classes for all 4 profiles.
+  - ContractView.astro + chapter-viewer.css: DoD fix (inline styles → CSS classes).
 
-Wave CP (Content-Profile Branching) — all 5 steps:
-  - _rules.py: CONTENT_PROFILES tuple + ISLAMIC_SCHOLARLY_PROFILE constant
-  - _content_profile.py: resolve_content_profile() + is_islamic_scholarly()
-  - build_episode_txt.py: Arabic assertions gated on is_islamic_scholarly()
-  - _authoring/_refine.py: 0c also gated on content_profile (future-proof)
-  - healthequity series-config.yaml: content_profile: consumer_explainer
-  - content/_shared/consumer_explainer/: 3 enrichment stub files
-  - podcast-challenger.md: SECTION 0B content-profile gating table
-  - 9 new tests in test_content_profile.py
+Literary pipeline — Phase 1 pilot (commit 3101132):
+  - 3 Ayyuhal Walad chapters rewritten as first-person Ghazali literary nonfiction.
+  - _stages/ch0N-*/literary.md: Studio Literary tab source.
+  - chapters/literary/ch0N-*.txt: NotebookLM upload source (literary version preferred).
+  - book-workspace.ts: chapter IDs fixed to match actual files; Literary stage added.
+  - _validators.py: find_chapter_by_slug gains required=False for literary fallback.
+  - build_episode_txt.py: prefers chapters/literary/ when present.
 
-Wave N (Kashkole + Stable Section IDs + Studio Depth Markers) — all 3 steps:
-  - 027_lookup_levels.sql: imports 6 base rungs + 3 combos into knowledge.db
-  - 028_section_depths.sql: section_depths table (ordinal-keyed)
-  - knowledge.ts: getSectionDepths() + upsertSectionDepth() + getLookupLevels()
-  - /api/studio/section-depth: GET + PATCH
-  - StudioPoc.tsx: depth marker PM widget next to every h2 (click to cycle rungs)
-  - studio-poc.css: 6 depth-level colour classes
+Literary pipeline — Phase 2 + Option A (commit 001f497):
+  - _literary.py: Gemini 2.5 Pro script; per-book voice config from series-config.yaml;
+    idempotent via literary-log.md; writes both Studio + NotebookLM outputs.
+  - _phases.py: LITERARY = "08b-literary" (between ENRICHMENT and SERIES_PLAN).
+  - initial_driver.py: _run_literary() in phase_map after 0e enrichment.
+  - ayyuhal-walad series-config.yaml: literary block (author_first_person, Ghazali).
+  - Option A combined annotation picker: depth (single-select) + tags (multi-select)
+    in one popover. Tags: Esoteric/Reality/Sharia/Narrative/Origins/Delete/Improve.
+  - 030_section_tags.sql: section_tags column added to section_depths.
+  - section-depth API: PATCH accepts tags[]; GET returns section_tags.
+  - studio-poc.css: tag picker buttons + inline chip styles.
 
 **PIPELINE HEALTH:**
-- 401 tests passing (1 skip) — 9 new from Wave CP
+- Tests: not re-run this session (no Python logic changes to existing pipeline).
 - `astro check`: 0 errors
 - `lint:views`: errors=0 warns=0
 
 **OPEN DEBT:**
-- None. All waves complete.
+- Ayyuhal Walad: series-config.yaml literary block in place; literary chapters
+  written manually for 3 existing chapters. Phase 2 auto-runs for ALL future books.
+- knowledge.db 030 migration: applied live; schema/030_section_tags.sql tracks it.
+- plan-dashboard/knowledge.db: empty stale file (not the real DB path); should be
+  deleted or gitignored.
 
 **NEXT WORK:**
-- No immediate plan items. Next wave would require new design (Wave O).
-- Ayyuhal Walad pipeline: 5 chapters staged; waiting on hadith DB from Asif.
+- Validate Ayyuhal Walad literary chapters in Studio before uploading to NotebookLM.
 - Video visual layer (WC8.9, authorized, ~$2 cost).
-- section_depths: pipeline-side tooling to auto-assign depth levels in phase 0d
-  (currently only human override via Studio is supported; pipeline-guess source
-  requires phase 0d to emit section_id assignments — future Wave O item).
+- section_depths: pipeline-side auto-assignment in phase 0d (future Wave O).
+- Ayyuhal Walad: waiting on hadith DB from Asif (pipeline blocked on this).
 
 **PARKED:**
 - Same as before.
