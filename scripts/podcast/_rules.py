@@ -620,6 +620,22 @@ R_TECH_ACRONYM_FIRST_USE: str = "R-TECH-ACRONYM-FIRST-USE"
 # No Islamic/doctrinal terminology in technical episodes (leakage detection).
 R_TECH_NO_DOCTRINAL: str = "R-TECH-NO-DOCTRINAL"
 
+# ≥4 consecutive explanatory sentences with no CLI command, code block, or
+# "type/see/run" pattern — theory density is too high for an explainer.
+R_TECH_THEORY_CAP: str = "R-TECH-THEORY-CAP"
+
+# H2 section with ≥2 named features but zero hands-on sequence (CLI / diff /
+# session-step) — explainers must anchor every concept in a concrete action.
+R_TECH_WALKTHROUGH_PRESENT: str = "R-TECH-WALKTHROUGH-PRESENT"
+
+# Passage explaining internal mechanics, release history, pricing tiers, or
+# benchmark stats of a tool that is NOT the subject of the chapter.
+R_TECH_NO_COMP_INTERNALS: str = "R-TECH-NO-COMP-INTERNALS"
+
+# Chapter addresses a migration audience but has zero "old habit → new habit"
+# mapping. P2 (advisory) — does not block shipping.
+R_TECH_HABIT_MAP: str = "R-TECH-HABIT-MAP"
+
 # Canonical rule set for the technical challenger.
 TECHNICAL_RULE_SET: frozenset = frozenset({
     R_TECH_CODE_VERBATIM,
@@ -627,4 +643,8 @@ TECHNICAL_RULE_SET: frozenset = frozenset({
     R_TECH_VERSION_LITERAL,
     R_TECH_ACRONYM_FIRST_USE,
     R_TECH_NO_DOCTRINAL,
+    R_TECH_THEORY_CAP,
+    R_TECH_WALKTHROUGH_PRESENT,
+    R_TECH_NO_COMP_INTERNALS,
+    R_TECH_HABIT_MAP,
 })

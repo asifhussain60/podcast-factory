@@ -79,25 +79,25 @@ class TestW4W5W6(unittest.TestCase):
         return d
 
     def test_w4_content_level_leak(self):
-        book = self._book(level="esoteric",
+        book = self._book(level="taveel",
                           episodes={"ch01": {"atoms_injected": ["doctrine:real"]}})
         f = aug.check_w4_w5_content_and_existence(book, "ch01")
         self.assertTrue(any(x.check_id == "W4" and x.severity == "P0" for x in f))
 
     def test_w4_within_level_clean(self):
-        book = self._book(level="esoteric",
+        book = self._book(level="taveel",
                           episodes={"ch01": {"atoms_injected": ["doctrine:eso", "term:x"]}})
         f = aug.check_w4_w5_content_and_existence(book, "ch01")
         self.assertFalse(any(x.check_id == "W4" for x in f))
 
     def test_w5_fabricated_atom(self):
-        book = self._book(level="esoteric",
+        book = self._book(level="taveel",
                           episodes={"ch01": {"atoms_injected": ["doctrine:ghost"]}})
         f = aug.check_w4_w5_content_and_existence(book, "ch01")
         self.assertTrue(any(x.check_id == "W5" and x.severity == "P0" for x in f))
 
     def test_w6_cross_chapter_repeat(self):
-        book = self._book(level="esoteric", episodes={
+        book = self._book(level="taveel", episodes={
             "ch01": {"atoms_injected": ["doctrine:eso"]},
             "ch02": {"atoms_injected": ["doctrine:eso"]},
         })
@@ -105,7 +105,7 @@ class TestW4W5W6(unittest.TestCase):
         self.assertTrue(any(x.check_id == "W6" for x in f))
 
     def test_w6_no_repeat_clean(self):
-        book = self._book(level="esoteric", episodes={
+        book = self._book(level="taveel", episodes={
             "ch01": {"atoms_injected": ["doctrine:eso"]},
             "ch02": {"atoms_injected": ["doctrine:real"]},
         })

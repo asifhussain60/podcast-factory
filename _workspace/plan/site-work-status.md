@@ -6,31 +6,31 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-03 (session 3, continued ×2)
+**Last updated:** 2026-06-03 (session 4)
 
-**BRANCH: `develop` — clean.**
-- Wave K complete (commits `af2f8f9`, `2f7f6fa`, `9f16e9d`, 2026-06-03):
-  - B4 wired: augment_episode_text() in per-chapter pipeline (step 3.5)
-  - Ayyuhal Walad meta.yml: enable_knowledge_augmenter=true, tradition=fatimid-ismaili
-  - augmenter.py: 600-char atom truncation to avoid flooding NotebookLM prompt
-  - quote atom type added to schema, extractor prompt, and DB (migration 023)
-  - term atoms expanded 58→622 via regex scan of doctrine text (zero Gemini cost)
-  - 55 existing KQUR terms fixed: text_en populated from definition field
-  - Total DB atoms: 7,600
+**BRANCH: `feature/wave-m-inspector-corpus` — active (off develop `b791c00`).**
+- Wave L + Wave M prep committed to develop (`b791c00`):
+  - CONTENT_LEVEL_LADDER expanded to 6 rungs (general→advanced→taveel→mamsool→mabda_maad→haqaiq)
+  - Terminology locked: `mabda_maad` code ID; "Origin & Return" display label
+  - ContentLevelSelector.tsx, _rules.py, categorize_atoms.py, tests updated
 
 **PIPELINE HEALTH:**
-- 351 tests passing (1 skip)
+- 351 tests passing (1 skip) — from prior session; re-verify after Wave M M-1
 - `astro check`: 0 errors (from prior session)
 - `lint:views`: errors=0 warns=0 (from prior session)
 
 **OPEN DEBT:**
 - None.
 
-**NEXT WORK:**
-- Wave K + quality pass complete. Ayyuhal Walad episodes are augmented and
-  comparison-report saved. Next: discuss Wave L scope with Asif.
+**NEXT WORK (Wave M — in active design/implementation):**
+- Plan at `~/.claude/plans/how-do-i-edit-robust-wigderson.md`
+- M-1: Floating paragraph toolbar (AI-only) + section-level depth markers + inspector
+  declutter + scroll fix (StudioPoc.tsx, studio-poc.css — no new dependencies)
+- M-2: Wire CorpusExplorer to real DB data via new knowledge.ts + /api/corpus/atoms
+- M-3: Edit + create inline within CorpusExplorer
+- Open decisions: (1) Kashkole SQLite import + Lookup_levels verification
+  (2) Full 6→7-rung ladder from Lookup_levels (3) Section stable IDs
 
 **PARKED:**
-- Site redesign (IA complete; WC8.5 TipTap Studio rebuild deferred)
 - Ayyuhal Walad pipeline: 5 chapters fully staged; waiting on hadith DB from Asif
 - Video visual layer (WC8.9, authorized, ~$2 cost)
