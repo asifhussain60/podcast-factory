@@ -6,9 +6,9 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-03 (session 6 — depth taxonomy + literary pipeline + combined annotation picker)
+**Last updated:** 2026-06-03 (session 7 — depth picker redesign + tag picker separation)
 
-**BRANCH: `develop` — active. Committed and pushed (001f497).**
+**BRANCH: `develop` — active. Committed (f736717).**
 
 **Session work completed:**
 
@@ -53,6 +53,15 @@ Literary pipeline — Phase 2 + Option A (commit 001f497):
 - knowledge.db 030 migration: applied live; schema/030_section_tags.sql tracks it.
 - plan-dashboard/knowledge.db: empty stale file (not the real DB path); should be
   deleted or gitignored.
+
+**SESSION 7 WORK (commit f736717):**
+- Depth picker: multi-layer floating shadow, entry animation, rich solid-fill buttons
+  (fg tokens as backgrounds, white text), accent title, danger-tint clear button.
+- Tags separated: removed from depth picker; new sp-tag-popover with two groups
+  ("Content labels" purple/sky/teal/amber/rose; "Editorial flags" red/indigo).
+- sp-section-tag-btn (#) on every section heading, separate from depth badge.
+- Section tag chips: per-tag palette colors (not monochrome accent).
+- lint:views=0, astro check=0, TypeScript=0 errors.
 
 **NEXT WORK:**
 - Validate Ayyuhal Walad literary chapters in Studio before uploading to NotebookLM.
