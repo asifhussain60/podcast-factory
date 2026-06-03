@@ -27,9 +27,8 @@
 - None.
 
 **NEXT WORK:**
-- Wave K fully complete. Next: run Ayyuhal Walad through the per-chapter pipeline
-  to see all three augmentation blocks (doctrine + term + quote) in a live
-  challenger report. Or start Wave L (scope TBD).
+- Wave K + quality pass complete. Ayyuhal Walad episodes are augmented and
+  comparison-report saved. Next: discuss Wave L scope with Asif.
 
 **PARKED:**
 - Site redesign (IA complete; WC8.5 TipTap Studio rebuild deferred)
