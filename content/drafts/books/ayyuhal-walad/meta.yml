@@ -3,6 +3,22 @@ title: Ayyuhā al-Walad
 short_name: ayw
 source_pdf: ../../../raw/Ayyuhal Walad.pdf
 
+series:
+  enable_knowledge_augmenter: true
+
+# tradition_affinity: 'fatimid-ismaili' — all 628 doctrine atoms carry this label, including
+# the ethically-universal passages (sincerity, patience, soul, asceticism) that are safe for
+# Ghazali's register. The tag filter below is the cross-tradition guard: tags like 'imamate',
+# 'cosmology', and 'esoteric interpretation' are excluded; only broadly-Islamic spiritual tags
+# are listed.
+tradition_affinity: fatimid-ismaili
+knowledge_tags:
+  - ethics
+  - knowledge
+  - soul
+  - worship
+  - wisdom
+
 pipeline:
   current_phase: partial-pre-orchestrator
   phase_status: no_state_file

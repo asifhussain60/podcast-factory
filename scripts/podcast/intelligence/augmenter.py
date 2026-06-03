@@ -29,6 +29,10 @@ from intelligence._local_server_client import quran_verse as _live_verse, topic_
 
 # Maximum doctrine atoms injected per augmentation call
 _MAX_ATOMS_DEFAULT = 5
+# Trim atom text_en to this many chars — Kashkole atoms are full doctrinal chapters and
+# can exceed 6K chars each.  ~600 chars ≈ 90–100 words: enough to convey the central
+# teaching without flooding the NotebookLM customize-prompt.
+_MAX_ATOM_TEXT_CHARS = 600
 # Strip Arabic Unicode range (U+0600–U+06FF and extended)
 _ARABIC_RE = re.compile(r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff\ufb50-\ufdff\ufe70-\ufeff]+")
 
@@ -274,9 +278,12 @@ def _build_context_block(atoms: list[dict]) -> str:
         binder = body.get("binder_slug", "")
         chapter = body.get("chapter_slug", "")
         tags_label = f"{binder}, ch. {chapter}" if binder else ""
+        snippet = text_en[:_MAX_ATOM_TEXT_CHARS]
+        if len(text_en) > _MAX_ATOM_TEXT_CHARS:
+            snippet = snippet.rstrip() + " …"
         lines.append(f"Source: Kashkole — {tags_label}".rstrip(" —").rstrip())
         lines.append("---")
-        lines.append(text_en)
+        lines.append(snippet)
         lines.append("")
     return "\n".join(lines).strip()
 
