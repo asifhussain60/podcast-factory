@@ -105,5 +105,25 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
             notes=[f"build_episode_txt.py failed: rc={rc}: {err.strip()[:300]}"],
         )
 
+    # 3.5. Knowledge augmentation — prepend prior-doctrine context block when enabled.
+    # Gate: meta.yml series.enable_knowledge_augmenter must be True (default False).
+    # Books without that flag are untouched; tradition-match guard is inside the augmenter.
+    # Failure is non-fatal: the episode .txt remains as built.
+    augmentation_note: str | None = None
+    try:
+        from intelligence.augmenter import augment_episode_text as _augment  # noqa: PLC0415
+        episode_path = book_dir / "episodes" / f"{episode_id}.txt"
+        if episode_path.exists():
+            original = episode_path.read_text(encoding="utf-8")
+            augmented = _augment(original, book_dir)
+            if augmented != original:
+                episode_path.write_text(augmented, encoding="utf-8")
+                augmentation_note = "knowledge augmentation applied"
+    except Exception as _aug_err:  # noqa: BLE001
+        augmentation_note = f"knowledge augmentation skipped ({_aug_err})"
+
     # 4. Convergence loop.
-    return converge_chapter(book_dir, chapter_slug)
+    outcome = converge_chapter(book_dir, chapter_slug)
+    if augmentation_note:
+        outcome.notes.append(augmentation_note)
+    return outcome
