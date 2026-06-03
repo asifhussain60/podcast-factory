@@ -30,6 +30,7 @@ class Phase(StrEnum):
     PHONETICS       = "06-phonetics"
     CHAPTER_DESIGN  = "07-chapter-design"
     ENRICHMENT      = "08-enrichment"
+    LITERARY        = "08b-literary"   # literary transformation (Gemini); after enrichment, before series plan
     SERIES_PLAN     = "09-series-plan"
     REGISTER_SERIES = "10-register-series"
     PER_CHAPTER     = "11-per-chapter"

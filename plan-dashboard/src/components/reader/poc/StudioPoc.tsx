@@ -159,7 +159,7 @@ interface Props {
 // Placed outside the React component to avoid ref-timing issues; the decoration
 // plugin closure can call openDepthPicker() directly at any point after import.
 
-type SaveDepthFn = (ord: number, slug: string, level: string) => void;
+type SaveDepthFn = (ord: number, slug: string, level: string, tags: string[]) => void;
 type DepthLevel = { readonly key: string; readonly label: string };
 
 const DEPTH_LEVELS_BY_PROFILE: Record<string, readonly DepthLevel[]> = {
@@ -202,16 +202,32 @@ let _dpSection = '';
 let _dpOutside: ((e: MouseEvent) => void) | null = null;
 let _dpKey: ((e: KeyboardEvent) => void) | null = null;
 
+// Section-level editorial tags — same vocabulary as paragraph TAGS (minus icons)
+const SECTION_TAGS = [
+  { id: 'esoteric', label: 'Esoteric' },
+  { id: 'reality',  label: 'Reality'  },
+  { id: 'sharia',   label: 'Sharia'   },
+  { id: 'narrative', label: 'Narrative' },
+  { id: 'origins',  label: 'Origins'  },
+  { id: 'delete',   label: 'Delete'   },
+  { id: 'improve',  label: 'Improve'  },
+];
+
+// Active tag set is tracked in the picker's DOM dataset so it survives open/close cycles
+// without needing React state.
+let _dpCurrentTags: string[] = [];
+
 function _buildDepthPicker(levels: readonly DepthLevel[]): HTMLDivElement {
   const pop = document.createElement('div');
   pop.className = 'sp-depth-popover';
   pop.setAttribute('role', 'dialog');
-  pop.setAttribute('aria-label', 'Set section depth level');
+  pop.setAttribute('aria-label', 'Set section depth and tags');
 
-  const title = document.createElement('div');
-  title.className = 'sp-depth-popover__title';
-  title.textContent = 'Depth level';
-  pop.appendChild(title);
+  // ── Zone 1: depth level (single-select) ───────────────────────────────────
+  const depthTitle = document.createElement('div');
+  depthTitle.className = 'sp-depth-popover__title';
+  depthTitle.textContent = 'Depth level';
+  pop.appendChild(depthTitle);
 
   const grid = document.createElement('div');
   grid.className = 'sp-depth-popover__grid';
@@ -233,16 +249,71 @@ function _buildDepthPicker(levels: readonly DepthLevel[]): HTMLDivElement {
   clearBtn.textContent = '∅ clear depth';
   pop.appendChild(clearBtn);
 
+  // ── Zone 2: editorial tags (multi-select) ─────────────────────────────────
+  const tagSep = document.createElement('hr');
+  tagSep.className = 'sp-depth-popover__sep';
+  pop.appendChild(tagSep);
+
+  const tagTitle = document.createElement('div');
+  tagTitle.className = 'sp-depth-popover__title';
+  tagTitle.textContent = 'Tags';
+  pop.appendChild(tagTitle);
+
+  const tagGrid = document.createElement('div');
+  tagGrid.className = 'sp-depth-popover__grid sp-depth-popover__grid--tags';
+  pop.appendChild(tagGrid);
+
+  for (const { id, label } of SECTION_TAGS) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'sp-depth-popover__tag';
+    btn.setAttribute('data-section-tag', id);
+    btn.textContent = label;
+    tagGrid.appendChild(btn);
+  }
+
+  // ── Event handling ─────────────────────────────────────────────────────────
   pop.addEventListener('click', (e) => {
-    const target = (e.target as HTMLElement).closest('[data-depth-level]') as HTMLElement | null;
-    if (!target) return;
-    const level = target.dataset.depthLevel;
-    if (level) _dpSaveFn(_dpOrd, _dpSection, level);
-    closeDepthPicker();
+    const target = e.target as HTMLElement;
+
+    // Depth level click → save immediately and close
+    const depthBtn = target.closest('[data-depth-level]') as HTMLElement | null;
+    if (depthBtn) {
+      const level = depthBtn.dataset.depthLevel;
+      // Tags are saved alongside; picker stays open so user can adjust tags first
+      // unless it's clear — in that case close immediately
+      if (level !== undefined) {
+        _dpSaveFn(_dpOrd, _dpSection, level, _dpCurrentTags);
+        closeDepthPicker();
+      }
+      return;
+    }
+
+    // Tag toggle click → toggle the tag in _dpCurrentTags, update visual, save
+    const tagBtn = target.closest('[data-section-tag]') as HTMLElement | null;
+    if (tagBtn) {
+      const tid = tagBtn.dataset.sectionTag!;
+      if (_dpCurrentTags.includes(tid)) {
+        _dpCurrentTags = _dpCurrentTags.filter((t) => t !== tid);
+      } else {
+        _dpCurrentTags = [..._dpCurrentTags, tid];
+      }
+      _syncTagButtons(pop);
+      // Save the current depth level + updated tags immediately (depth badge updates live)
+      const activeDepth = (pop.querySelector('.sp-depth-popover__opt.is-active') as HTMLElement | null)?.dataset.depthLevel ?? '';
+      if (activeDepth) _dpSaveFn(_dpOrd, _dpSection, activeDepth, _dpCurrentTags);
+    }
   });
 
   document.body.appendChild(pop);
   return pop;
+}
+
+function _syncTagButtons(pop: HTMLDivElement): void {
+  pop.querySelectorAll('[data-section-tag]').forEach((el) => {
+    const tid = (el as HTMLElement).dataset.sectionTag!;
+    el.classList.toggle('is-active', _dpCurrentTags.includes(tid));
+  });
 }
 
 function closeDepthPicker() {
@@ -258,10 +329,12 @@ function openDepthPicker(
   sectionText: string,
   currentLevel: string | undefined,
   levels: readonly DepthLevel[],
+  currentTags: string[],
 ) {
-  _dpSaveFn   = saveFn;
-  _dpOrd      = ord;
-  _dpSection  = sectionText;
+  _dpSaveFn      = saveFn;
+  _dpOrd         = ord;
+  _dpSection     = sectionText;
+  _dpCurrentTags = [...currentTags];
 
   if (!_dpEl) _dpEl = _buildDepthPicker(levels);
   const pop = _dpEl;
@@ -270,6 +343,7 @@ function openDepthPicker(
     const k = (el as HTMLElement).dataset.depthLevel;
     el.classList.toggle('is-active', !!k && k === currentLevel);
   });
+  _syncTagButtons(pop);
 
   const rect = anchorEl.getBoundingClientRect();
   const popW = 258;
@@ -339,12 +413,16 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   // M-1 — Inspector tab state (Details · Comment · AI · References).
   const [inspectorTab, setInspectorTab] = useState<'details' | 'comment' | 'ai' | 'refs'>('details');
 
-  // Wave N — section-level depth markers (pipeline guesses, human corrects).
-  // Maps section ordinal (0-based h2 position) → depth_level code string.
+  // Option A — section-level depth + tags (pipeline guesses, human corrects).
+  // Maps section ordinal → depth_level code string.
   const [sectionDepths, setSectionDepths] = useState<Record<number, string>>({});
   const sectionDepthsRef = useRef<Record<number, string>>({});
   sectionDepthsRef.current = sectionDepths;
-  // Load section depths from the API when chapter changes.
+  // Maps section ordinal → string[] of section tag IDs.
+  const [sectionTagsMap, setSectionTagsMap] = useState<Record<number, string[]>>({});
+  const sectionTagsRef = useRef<Record<number, string[]>>({});
+  sectionTagsRef.current = sectionTagsMap;
+  // Load section depths + tags from the API when chapter changes.
   useEffect(() => {
     if (!slug || !chapter) return;
     let cancelled = false;
@@ -352,9 +430,14 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       .then((r) => r.ok ? r.json() : null)
       .then((json) => {
         if (cancelled || !json?.sections) return;
-        const map: Record<number, string> = {};
-        for (const s of json.sections) map[s.section_ordinal] = s.depth_level;
-        setSectionDepths(map);
+        const depthMap: Record<number, string> = {};
+        const tagsMap: Record<number, string[]> = {};
+        for (const s of json.sections) {
+          depthMap[s.section_ordinal] = s.depth_level;
+          tagsMap[s.section_ordinal] = Array.isArray(s.section_tags) ? s.section_tags : [];
+        }
+        setSectionDepths(depthMap);
+        setSectionTagsMap(tagsMap);
       })
       .catch(() => { /* offline-friendly */ });
     return () => { cancelled = true; };
@@ -369,14 +452,16 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   // Directly mutates sectionDepthsRef then dispatches a PM transaction so the
   // decoration plugin recomputes immediately — setSectionDepths alone is not enough
   // because React batching means the ref isn't updated until after the next render.
-  const saveSectionDepthRef = useRef<(ord: number, sectionSlug: string, level: string) => void>(() => {});
-  saveSectionDepthRef.current = (ordinal: number, slug_label: string, depthLevel: string) => {
+  const saveSectionDepthRef = useRef<SaveDepthFn>(() => {});
+  saveSectionDepthRef.current = (ordinal: number, slug_label: string, depthLevel: string, tags: string[]) => {
     sectionDepthsRef.current = { ...sectionDepthsRef.current, [ordinal]: depthLevel };
+    sectionTagsRef.current   = { ...sectionTagsRef.current,  [ordinal]: tags };
     setSectionDepths({ ...sectionDepthsRef.current });
+    setSectionTagsMap({ ...sectionTagsRef.current });
     editorRef.current?.view.dispatch(editorRef.current.state.tr.setMeta('refreshDepth', true));
     fetch('/api/studio/section-depth', {
       method: 'PATCH', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ book: slug, chapter, ordinal, slug: slug_label, depth_level: depthLevel }),
+      body: JSON.stringify({ book: slug, chapter, ordinal, slug: slug_label, depth_level: depthLevel, tags }),
     }).catch(() => { /* non-blocking */ });
   };
 
@@ -495,28 +580,45 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                     const isActive = offset === activeTop;
                     const t = tags.get(idx) || [];
 
-                    // Section-level depth marker — shown next to every h2 node.
+                    // Option A: section depth badge + tag chips next to every h2.
                     if (node.type.name === 'heading' && node.attrs.level === 2) {
                       const ord = sectionOrdinal++;
                       const depthLevel = sectionDepthsRef.current[ord];
+                      const secTags = sectionTagsRef.current[ord] ?? [];
                       const sectionText = node.textContent.slice(0, 60).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                      const tagKey = secTags.join(',');
                       decos.push(
                         Decoration.widget(offset + node.nodeSize - 1, () => {
+                          const wrap = document.createElement('span');
+                          wrap.className = 'sp-section-annotation';
+                          wrap.contentEditable = 'false';
+
+                          // Depth badge
                           const btn = document.createElement('button');
                           btn.type = 'button';
                           btn.className = `sp-section-depth-btn${depthLevel ? ` sp-depth-${depthLevel}` : ' sp-depth-none'}`;
                           const label = depthLevel
                             ? (depthLevels.find((l) => l.key === depthLevel)?.label ?? depthLevel)
                             : '∅ depth';
-                          btn.title = `Depth: ${label} — click to change`;
+                          btn.title = `Depth: ${label} — click to change depth and tags`;
                           btn.textContent = label;
-                          btn.contentEditable = 'false';
                           btn.addEventListener('mousedown', (ev) => {
                             ev.preventDefault(); ev.stopPropagation();
-                            openDepthPicker(btn, saveSectionDepthRef.current, ord, sectionText, depthLevel, depthLevels);
+                            openDepthPicker(btn, saveSectionDepthRef.current, ord, sectionText, depthLevel, depthLevels, secTags);
                           });
-                          return btn;
-                        }, { side: 1, key: `sec-depth-${ord}-${depthLevel ?? 'none'}` }),
+                          wrap.appendChild(btn);
+
+                          // Tag chips (inline, after depth badge)
+                          for (const tid of secTags) {
+                            const chip = document.createElement('span');
+                            chip.className = `sp-section-tag-chip sp-tag-${tid}`;
+                            chip.textContent = SECTION_TAGS.find((t) => t.id === tid)?.label ?? tid;
+                            chip.title = `Tag: ${tid} — click depth badge to edit`;
+                            wrap.appendChild(chip);
+                          }
+
+                          return wrap;
+                        }, { side: 1, key: `sec-annot-${ord}-${depthLevel ?? 'none'}-${tagKey}` }),
                       );
                     }
 

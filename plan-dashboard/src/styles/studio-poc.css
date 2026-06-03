@@ -1056,6 +1056,15 @@
   grid-template-columns: 1fr 1fr;
   gap: 5px;
 }
+.sp-depth-popover__grid--tags {
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+.sp-depth-popover__sep {
+  border: none;
+  border-top: 1px solid var(--c-rule, rgba(0,0,0,0.08));
+  margin: 10px 0;
+}
 
 .sp-depth-popover__opt {
   display: block;
@@ -1160,3 +1169,57 @@
 .studio-poc__editor .sp-depth-world     { background: var(--c-depth-fiction-world-bg);     color: var(--c-depth-fiction-world-fg);     border-color: var(--c-depth-fiction-world-bd); }
 .studio-poc__editor .sp-depth-conflict  { background: var(--c-depth-fiction-conflict-bg);  color: var(--c-depth-fiction-conflict-fg);  border-color: var(--c-depth-fiction-conflict-bd); }
 .studio-poc__editor .sp-depth-voice     { background: var(--c-depth-fiction-voice-bg);     color: var(--c-depth-fiction-voice-fg);     border-color: var(--c-depth-fiction-voice-bd); }
+
+/* Option A — section annotation wrapper (depth badge + tag chips inline) */
+.studio-poc__editor .sp-section-annotation {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  vertical-align: middle;
+  user-select: none;
+}
+
+/* Option A — tag toggle buttons inside the picker popover */
+.sp-depth-popover__tag {
+  display: block;
+  width: 100%;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--c-rule, rgba(0,0,0,0.12));
+  cursor: pointer;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+  background: var(--c-bg-elev, #f5f5f5);
+  color: var(--c-ink-muted, #666);
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+}
+.sp-depth-popover__tag:hover { background: var(--c-bg-card); color: var(--c-ink); }
+.sp-depth-popover__tag.is-active {
+  background: var(--c-accent, #8b5c2a);
+  color: #fff;
+  border-color: var(--c-accent, #8b5c2a);
+}
+
+/* Option A — inline tag chips on section headings */
+.studio-poc__editor .sp-section-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--c-accent-subtle, rgba(139,92,42,0.12));
+  color: var(--c-accent, #8b5c2a);
+  border: 1px solid color-mix(in srgb, var(--c-accent, #8b5c2a) 30%, transparent);
+  cursor: default;
+}
+/* Action tag variants */
+.studio-poc__editor .sp-tag-delete  { background: rgba(180,30,30,0.10); color: #b41e1e; border-color: rgba(180,30,30,0.25); }
+.studio-poc__editor .sp-tag-improve { background: rgba(30,100,180,0.10); color: #1e64b4; border-color: rgba(30,100,180,0.25); }

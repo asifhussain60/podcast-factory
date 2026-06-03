@@ -326,14 +326,24 @@ export interface SectionDepth {
   section_ordinal: number;
   section_slug: string;
   depth_level: string;
+  section_tags: string[];
   source: 'pipeline' | 'human';
+}
+
+type SectionDepthRow = Omit<SectionDepth, 'section_tags'> & { section_tags: string };
+
+function rowToSectionDepth(row: SectionDepthRow): SectionDepth {
+  let tags: string[] = [];
+  try { tags = JSON.parse(row.section_tags || '[]'); } catch { tags = []; }
+  return { ...row, section_tags: tags };
 }
 
 export function getSectionDepths(bookSlug: string, chapterId: string): SectionDepth[] {
   const db = getDb();
-  return db.prepare(
-    'SELECT section_ordinal, section_slug, depth_level, source FROM section_depths WHERE book_slug = ? AND chapter_id = ? ORDER BY section_ordinal',
-  ).all(bookSlug, chapterId) as SectionDepth[];
+  const rows = db.prepare(
+    'SELECT section_ordinal, section_slug, depth_level, section_tags, source FROM section_depths WHERE book_slug = ? AND chapter_id = ? ORDER BY section_ordinal',
+  ).all(bookSlug, chapterId) as SectionDepthRow[];
+  return rows.map(rowToSectionDepth);
 }
 
 export function upsertSectionDepth(
@@ -343,21 +353,24 @@ export function upsertSectionDepth(
   slug: string,
   depthLevel: string,
   source: 'pipeline' | 'human' = 'human',
+  tags: string[] = [],
 ): SectionDepth {
   if (!ALLOWED_DEPTH_LEVELS.has(depthLevel)) throw new Error(`Invalid depth_level: ${depthLevel}`);
+  const tagsJson = JSON.stringify(tags);
   const db = getWriteDb();
   db.prepare(`
-    INSERT INTO section_depths (book_slug, chapter_id, section_ordinal, section_slug, depth_level, source)
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO section_depths (book_slug, chapter_id, section_ordinal, section_slug, depth_level, section_tags, source)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(book_slug, chapter_id, section_ordinal)
     DO UPDATE SET section_slug = excluded.section_slug,
                   depth_level  = excluded.depth_level,
+                  section_tags = excluded.section_tags,
                   source       = excluded.source,
                   updated_at   = strftime('%Y-%m-%dT%H:%M:%SZ', 'now')
-  `).run(bookSlug, chapterId, ordinal, slug, depthLevel, source);
-  return db.prepare(
-    'SELECT section_ordinal, section_slug, depth_level, source FROM section_depths WHERE book_slug = ? AND chapter_id = ? AND section_ordinal = ?',
-  ).get(bookSlug, chapterId, ordinal) as SectionDepth;
+  `).run(bookSlug, chapterId, ordinal, slug, depthLevel, tagsJson, source);
+  return rowToSectionDepth(db.prepare(
+    'SELECT section_ordinal, section_slug, depth_level, section_tags, source FROM section_depths WHERE book_slug = ? AND chapter_id = ? AND section_ordinal = ?',
+  ).get(bookSlug, chapterId, ordinal) as SectionDepthRow);
 }
 
 // ---------------------------------------------------------------------------
