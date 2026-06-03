@@ -401,71 +401,6 @@
       "last_touched": null
     },
     {
-      "id": "CP1",
-      "wave": "CP",
-      "title": "Add content_profile field to series-config.yaml + _rules.py",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "A1"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "CP2",
-      "wave": "CP",
-      "title": "Gate Arabic-specific assertions in build_episode_txt.py on content_profile",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "CP1"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "CP3",
-      "wave": "CP",
-      "title": "Make phase 0c (phonetics) a no-op outside the islamic_scholarly profile",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "CP1"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "CP4",
-      "wave": "CP",
-      "title": "Add consumer_finance enrichment stub under content/_shared/",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "CP1"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "CP5",
-      "wave": "CP",
-      "title": "Extend challenger profile-gating to skip Islamic-specific rules for non-Islamic content",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "CP2"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
       "id": "G1",
       "wave": "G",
       "title": "Cinematic narrative scroll homepage with GSAP ScrollTrigger",
@@ -694,13 +629,111 @@
       "plain": "",
       "tools": [],
       "last_touched": null
+    },
+    {
+      "id": "M1",
+      "wave": "M",
+      "title": "Floating AI toolbar + inspector tab restructure + scroll fix",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "M2",
+      "wave": "M",
+      "title": "Wire CorpusExplorer to real DB data (read path)",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "M3",
+      "wave": "M",
+      "title": "Add edit + create to CorpusExplorer (write path)",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "CP1",
+      "wave": "CP",
+      "title": "Add content_profile field to series-config.yaml + _rules.py",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "A1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "CP2",
+      "wave": "CP",
+      "title": "Gate Arabic-specific assertions in build_episode_txt.py on content_profile",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "CP1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "CP3",
+      "wave": "CP",
+      "title": "Make phase 0c (phonetics) a no-op outside the islamic_scholarly profile",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "CP1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "CP4",
+      "wave": "CP",
+      "title": "Add consumer_finance enrichment stub under content/_shared/",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "CP1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "CP5",
+      "wave": "CP",
+      "title": "Extend challenger profile-gating to skip Islamic-specific rules for non-Islamic content",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "CP2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
     }
   ],
   "waves": [],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-03T15:00:40.459794+00:00",
-  "source_commit": "2ba547d",
+  "generated_at": "2026-06-03T19:29:23.131973+00:00",
+  "source_commit": "0780fb3",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [
     {
@@ -714,53 +747,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "2ba547d",
-      "subject": "feat(Wave L-8): rich Studio editor \u2014 AI panel, Finalize, history tag, SQLite comments",
+      "sha": "0780fb3",
+      "subject": "feat(M-3): inline edit + create within CorpusExplorer (write path)",
       "date": "2026-06-03"
     },
     {
-      "sha": "3c315bb",
-      "subject": "feat(Wave L-7): Studio intake content-level selector",
+      "sha": "f87a589",
+      "subject": "feat(M-2): wire CorpusExplorer to real DB data (read path)",
       "date": "2026-06-03"
     },
     {
-      "sha": "173f0c4",
-      "subject": "feat(Wave L-6): Category W augmentation-quality challenger + docs-sweep",
+      "sha": "1087535",
+      "subject": "feat(M-1): floating AI toolbar + inspector tab restructure + scroll fix",
       "date": "2026-06-03"
     },
     {
-      "sha": "6296617",
-      "subject": "feat(Wave L-5): cross-chapter anti-repetition ledger",
+      "sha": "edc3689",
+      "subject": "chore(healthequity): bring in unmerged content from site/healthequity branch",
       "date": "2026-06-03"
     },
     {
-      "sha": "4fd1719",
-      "subject": "feat(Wave L-4): Quranic etymology weaving (spoken-form, capped, never spelled)",
+      "sha": "3e764bb",
+      "subject": "fix(Wave M docs-sweep): 6-level ladder propagated to all docs + DB hardened",
       "date": "2026-06-03"
     },
     {
-      "sha": "7abd9c8",
-      "subject": "chore(Wave L-3): gitignore reproducible categorization artifacts",
+      "sha": "55a5381",
+      "subject": "feat(Wave M): practical-first editorial brief for explainer pipeline",
       "date": "2026-06-03"
     },
     {
-      "sha": "7d6b9d5",
-      "subject": "feat(Wave L-3): atom categorization tool + categorize 555 doctrine atoms",
+      "sha": "b791c00",
+      "subject": "chore(Wave M prep): 6-level Kashkole ladder + terminology locks",
       "date": "2026-06-03"
     },
     {
-      "sha": "ff1691d",
-      "subject": "feat(Wave L-1/L-2): content-level gating foundation + augmenter gate",
+      "sha": "5f4d6f5",
+      "subject": "chore(Wave L): gitignore augmenter .before-augment backups",
       "date": "2026-06-03"
     },
     {
-      "sha": "544950b",
-      "subject": "chore(snapshot): refresh dashboard-snapshot to current develop HEAD",
+      "sha": "3b22e30",
+      "subject": "merge(Wave L): category-gated augmentation + Quranic etymology + rich Studio editor",
       "date": "2026-06-03"
     },
     {
-      "sha": "073308e",
-      "subject": "fix(site): populate phases in architecture-snapshot \u2014 home page was blank",
+      "sha": "bdb2b7c",
+      "subject": "chore(Wave L): regenerate plan-dashboard snapshots at branch HEAD",
       "date": "2026-06-03"
     }
   ],
