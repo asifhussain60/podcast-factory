@@ -1,5 +1,17 @@
 {
-  "phases": [],
+  "phases": [
+    {"id": "P0",  "name": "Ingest & OCR",          "kind": "mechanical", "agent": null,                  "modules": [], "plain": "Enterprise-grade document intelligence reads every page — PDFs, DOCX, audio transcripts, web archives — with full layout awareness in around ten minutes.", "duration_minutes": 10},
+    {"id": "P1",  "name": "Refine Text",             "kind": "hybrid",     "agent": null,                  "modules": [], "plain": "Gemini normalizes and denoises the raw OCR output: misreads corrected, formatting normalized, sentence integrity restored.", "duration_minutes": 15},
+    {"id": "P2",  "name": "Phonetics & Glossary",    "kind": "agentic",    "agent": null,                  "modules": [], "plain": "Every person, place, institution, and technical term is identified and given a pronunciation guide written for human narrators and AI speech engines.", "duration_minutes": 20},
+    {"id": "P3",  "name": "Chapter Design",          "kind": "agentic",    "agent": null,                  "modules": [], "plain": "Episode boundaries are redrawn from the source chapters — merging, splitting, or dropping sections to balance duration, thematic unity, and narrative momentum.", "duration_minutes": 35},
+    {"id": "P4",  "name": "Enrich",                  "kind": "agentic",    "agent": null,                  "modules": [], "plain": "Supporting context is layered directly into each episode: who the figures are, why this moment matters, what came before and after.", "duration_minutes": 45},
+    {"id": "P5",  "name": "Knowledge Augment",       "kind": "agentic",    "agent": "podcast-librarian",   "modules": [], "plain": "Sourced material from the knowledge library — Quran verses, hadith, key terms — is injected only where it genuinely deepens an episode. Every item is traceable.", "duration_minutes": 30},
+    {"id": "P6",  "name": "Build Episode Bundles",   "kind": "mechanical", "agent": null,                  "modules": [], "plain": "Enriched content is precision-sliced into independent upload bundles, one per episode — source text, glossary, context notes — packaged for isolated generation.", "duration_minutes": 10},
+    {"id": "P7",  "name": "Author Framings",         "kind": "agentic",    "agent": null,                  "modules": [], "plain": "A carefully authored briefing is written for each episode, telling the two AI hosts what to emphasize, what register to adopt, and what to leave out.", "duration_minutes": 20},
+    {"id": "P8",  "name": "Slide Decks",             "kind": "agentic",    "agent": null,                  "modules": [], "plain": "Each episode receives a custom slide deck — diagrams, illustrations, charts — authored against a strict ruleset: no re-narrating the audio, every slide earns its place.", "duration_minutes": 25},
+    {"id": "P9",  "name": "Challenger Review",       "kind": "agentic",    "agent": "podcast-challenger",  "modules": [], "plain": "An automated reviewer applies a comprehensive quality framework. Problems are flagged, fixed, and re-reviewed in a loop up to fifteen times per episode.", "duration_minutes": 30},
+    {"id": "P10", "name": "Publish",                 "kind": "mechanical", "agent": "podcast-publisher",   "modules": [], "plain": "Once every episode passes the quality gate, the series moves from the workshop into the catalog. The production branch is merged and the series is ready to ship.", "duration_minutes": 5}
+  ],
   "agents": [
     {
       "id": "html-view-challenger",
@@ -325,6 +337,6 @@
   ],
   "modules": [],
   "archetypes": [],
-  "generated_at": "2026-06-02T22:46:57.580639+00:00",
-  "source_commit": "5cbba2e"
+  "generated_at": "2026-06-03T13:13:05.921228+00:00",
+  "source_commit": "cbe4979"
 }
