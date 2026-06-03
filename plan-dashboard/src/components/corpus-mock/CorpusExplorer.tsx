@@ -56,20 +56,20 @@ export default function CorpusExplorer({
   concepts,
   atoms,
 }: Props) {
-  // Real corpus data when supplied (783 concepts / 758 atoms), else the hardcoded sample.
-  const activeConcepts = concepts ?? CONCEPTS;
-  const activeAtoms = localAtoms;
-  const atomsFor = (id: string) => activeAtoms.filter((a) => a.concepts.includes(id));
-  const countFor = (c: Concept) => (c as any).atom_count ?? atomsFor(c.id).length;
-
-  // M-3 — inline edit state.
+  // M-3 — inline edit state (must be first — localAtoms is used by activeAtoms below).
+  const [localAtoms, setLocalAtoms] = useState<MockAtom[]>(() => atoms ?? SAMPLE_ATOMS);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editText, setEditText] = useState('');
   const [editLevel, setEditLevel] = useState('');
   const [editSaving, setEditSaving] = useState(false);
   const [editError, setEditError] = useState('');
-  const [localAtoms, setLocalAtoms] = useState<MockAtom[]>(() => atoms ?? SAMPLE_ATOMS);
   const [showNewForm, setShowNewForm] = useState(false);
+
+  // Real corpus data when supplied (783 concepts / 758 atoms), else the hardcoded sample.
+  const activeConcepts = concepts ?? CONCEPTS;
+  const activeAtoms = localAtoms;
+  const atomsFor = (id: string) => activeAtoms.filter((a) => a.concepts.includes(id));
+  const countFor = (c: Concept) => (c as any).atom_count ?? atomsFor(c.id).length;
   const [newText, setNewText] = useState('');
   const [newType, setNewType] = useState<AtomType>('doctrine');
   const [newTradition, setNewTradition] = useState<Tradition>('fatimid-ismaili');
