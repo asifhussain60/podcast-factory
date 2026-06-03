@@ -42,11 +42,9 @@ export interface BookWorkspace {
 export const AYYUHAL_WALAD_SLUG = 'ayyuhal-walad';
 
 export const AYYUHAL_WALAD_CHAPTERS: ChapterDef[] = [
-  { id: 'ch01-frame-and-first-counsel', title: 'The Frame and the First Counsel' },
-  { id: 'ch02-hatim-eight-benefits', title: "Hatim's Eight Benefits" },
-  { id: 'ch03-the-path', title: 'The Path' },
-  { id: 'ch04-four-cautions', title: 'The Four Cautions' },
-  { id: 'ch05-method-and-closing-prayer', title: 'Method & Closing Prayer' },
+  { id: 'ch01-frame-and-the-problem-of-knowledge', title: 'The Frame and the Problem of Knowledge' },
+  { id: 'ch02-the-disciplines-of-the-path', title: 'The Disciplines of the Path' },
+  { id: 'ch03-the-guiding-shaykh-and-final-counsels', title: 'The Guiding Shaykh and Final Counsels' },
 ];
 
 export const AYYUHAL_WALAD_STAGE_DEFS: StageDef[] = [
@@ -55,6 +53,7 @@ export const AYYUHAL_WALAD_STAGE_DEFS: StageDef[] = [
   { id: 'denoised', label: 'Denoised', slice: 'Slice 2 (noise-strip)' },
   { id: 'normalized', label: 'Normalized', slice: 'Normalize (house voice)' },
   { id: 'augmented', label: 'Augmented', slice: 'Slice 4 (knowledge)' },
+  { id: 'literary', label: 'Literary', slice: 'Literary transformation' },
   { id: 'narrator', label: 'Narrator', slice: 'Lecture additions (Shaykh)' },
 ];
 

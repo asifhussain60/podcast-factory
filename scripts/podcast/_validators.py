@@ -309,13 +309,16 @@ def assert_chapters_populated(book_dir: Path) -> list[Path]:
     return txt_files
 
 
-def find_chapter_by_slug(chapters_dir: Path, episode_slug: str) -> Path:
+def find_chapter_by_slug(chapters_dir: Path, episode_slug: str, required: bool = True) -> "Path | None":
     candidates = []
-    for f in sorted(chapters_dir.glob("*.txt")):
-        m = CH_PATTERN.match(f.name)
-        if m and m.group(2) == episode_slug:
-            candidates.append(f)
+    if chapters_dir.is_dir():
+        for f in sorted(chapters_dir.glob("*.txt")):
+            m = CH_PATTERN.match(f.name)
+            if m and m.group(2) == episode_slug:
+                candidates.append(f)
     if not candidates:
+        if not required:
+            return None
         existing = ", ".join(f.name for f in sorted(chapters_dir.glob("*.txt")))
         sys.exit(
             f"ERROR: no chapter file matches slug '{episode_slug}' in {chapters_dir}\n"
