@@ -145,6 +145,19 @@ ALLOWED_CATEGORIES = ("books", "articles", "documents", "lectures", "interviews"
 # tradition-specific doctrinal context to inject.
 CONSUMER_CATEGORIES: frozenset[str] = frozenset({"sites", "explainers"})
 
+# ─── Content-profile system (Wave CP) — declares how a book moves through the pipeline.
+# Every book declares `content_profile` in its series-config.yaml; missing field defaults
+# to `islamic_scholarly` so all existing books are unaffected. Profiles drive:
+#   - assertion gating in build_episode_txt.py (Arabic checks skipped for non-Islamic)
+#   - phase 0c phonetics (no-op for non-islamic_scholarly, already handled via CONSUMER_CATEGORIES)
+#   - challenger rule selection (only islamic_scholarly gets Arabic name/citation checks)
+CONTENT_PROFILES: tuple[str, ...] = (
+    "islamic_scholarly",   # default; all existing books; full pipeline including Arabic checks
+    "consumer_explainer",  # consumer/product/onboarding content; no Arabic assertions; phonetics skipped
+    "general_nonfiction",  # future: balanced non-fiction; selective enrichment only
+)
+ISLAMIC_SCHOLARLY_PROFILE = "islamic_scholarly"
+
 # ─── Content-level ladder (Wave M) — ISLAMIC scholarly books only. Single source
 # of truth for category-gated augmentation. A book declaring `content_level` in
 # meta.yml draws doctrine atoms ONLY at or below its own level (cumulative

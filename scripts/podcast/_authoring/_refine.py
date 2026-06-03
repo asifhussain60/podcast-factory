@@ -236,6 +236,14 @@ def author_phase_0c(
         log(f"  phase 0c · SKIPPED (category={category!r} has no Arabic terms)")
         return f"0c skipped: category={category!r} does not require Arabic phonetic extraction"
 
+    # Wave CP: also skip for non-Islamic content profiles even if category is not in
+    # SKIP_PHONETICS_CATEGORIES (future-proof for general_nonfiction, etc.).
+    from _content_profile import is_islamic_scholarly  # local import to avoid circularity
+    if not is_islamic_scholarly(book_dir):
+        profile = "non-islamic_scholarly"
+        log(f"  phase 0c · SKIPPED (content_profile={profile!r} has no Arabic terms)")
+        return f"0c skipped: content_profile={profile!r} does not require Arabic phonetic extraction"
+
     book_slug = book_dir.name
     in_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
     out_path = book_dir / "_system" / "source" / "text" / "_phonetics.md"

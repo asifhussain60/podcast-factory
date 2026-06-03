@@ -667,7 +667,7 @@
       "id": "CP1",
       "wave": "CP",
       "title": "Add content_profile field to series-config.yaml + _rules.py",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "A1"
@@ -680,7 +680,7 @@
       "id": "CP2",
       "wave": "CP",
       "title": "Gate Arabic-specific assertions in build_episode_txt.py on content_profile",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "CP1"
@@ -693,7 +693,7 @@
       "id": "CP3",
       "wave": "CP",
       "title": "Make phase 0c (phonetics) a no-op outside the islamic_scholarly profile",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "CP1"
@@ -706,7 +706,7 @@
       "id": "CP4",
       "wave": "CP",
       "title": "Add consumer_finance enrichment stub under content/_shared/",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "CP1"
@@ -719,7 +719,7 @@
       "id": "CP5",
       "wave": "CP",
       "title": "Extend challenger profile-gating to skip Islamic-specific rules for non-Islamic content",
-      "status": "pending",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [
         "CP2"
@@ -732,8 +732,8 @@
   "waves": [],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-03T19:29:23.131973+00:00",
-  "source_commit": "0780fb3",
+  "generated_at": "2026-06-03T19:56:28.539455+00:00",
+  "source_commit": "66900738",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [
     {
@@ -746,6 +746,31 @@
     }
   ],
   "recent_commits": [
+    {
+      "sha": "66900738",
+      "subject": "refactor(P1): move atom types from mock-sample to knowledge.ts",
+      "date": "2026-06-03"
+    },
+    {
+      "sha": "d595924",
+      "subject": "chore: update site-work-status \u2014 Wave M complete, Wave N pending",
+      "date": "2026-06-03"
+    },
+    {
+      "sha": "c66c7e3",
+      "subject": "fix(post-merge P0): move localAtoms useState above activeAtoms reference",
+      "date": "2026-06-03"
+    },
+    {
+      "sha": "4b247f4",
+      "subject": "merge(Wave M): inspector declutter + corpus workbench + DB read/write",
+      "date": "2026-06-03"
+    },
+    {
+      "sha": "4283219",
+      "subject": "chore(Wave M): mark complete + update snapshots + plan.yaml",
+      "date": "2026-06-03"
+    },
     {
       "sha": "0780fb3",
       "subject": "feat(M-3): inline edit + create within CorpusExplorer (write path)",
@@ -769,31 +794,6 @@
     {
       "sha": "3e764bb",
       "subject": "fix(Wave M docs-sweep): 6-level ladder propagated to all docs + DB hardened",
-      "date": "2026-06-03"
-    },
-    {
-      "sha": "55a5381",
-      "subject": "feat(Wave M): practical-first editorial brief for explainer pipeline",
-      "date": "2026-06-03"
-    },
-    {
-      "sha": "b791c00",
-      "subject": "chore(Wave M prep): 6-level Kashkole ladder + terminology locks",
-      "date": "2026-06-03"
-    },
-    {
-      "sha": "5f4d6f5",
-      "subject": "chore(Wave L): gitignore augmenter .before-augment backups",
-      "date": "2026-06-03"
-    },
-    {
-      "sha": "3b22e30",
-      "subject": "merge(Wave L): category-gated augmentation + Quranic etymology + rich Studio editor",
-      "date": "2026-06-03"
-    },
-    {
-      "sha": "bdb2b7c",
-      "subject": "chore(Wave L): regenerate plan-dashboard snapshots at branch HEAD",
       "date": "2026-06-03"
     }
   ],

@@ -92,6 +92,36 @@ The earlier authority list named 17 handbook + Arabic-reference files under `con
 You do NOT review:
 - Anything under `content/babu-memoir/` — memoir is out of scope per SKILL.md §9 (these belong to the journal skill).
 - The MP3 output of NotebookLM (only the upstream sources: chapters + framings).
+
+---
+
+## SECTION 0B — Content-profile gating (Wave CP)
+
+Before beginning any review pass, read `BOOK_DIR/_system/series-config.yaml` and extract the `content_profile` field. Default: `islamic_scholarly` if the field is absent.
+
+```
+resolve_content_profile(book_dir):
+  series-config.yaml → content_profile → default: islamic_scholarly
+```
+
+| Profile | Skip these check categories | Apply these additional rules |
+|---|---|---|
+| `islamic_scholarly` | (none — full check catalog applies) | All 30 checks |
+| `consumer_explainer` | A (citation discipline — Islamic-specific citations), C (phonetic coverage — Arabic transliteration), J (name aliasing — Arabic name policy), T (doctrinal accuracy — Islamic doctrine) | Consumer accuracy guardrails from `content/_shared/consumer_explainer/framing-guardrails.md` |
+| `general_nonfiction` | T (doctrinal accuracy only) | Standard academic citation checks |
+
+**For `consumer_explainer` books specifically:**
+- Skip A1–A6 (Authenticity): citation format, Islamic source tiers, tradition firewall — none apply.
+- Skip C1–C6 (Phonetic coverage): no Arabic transliteration in consumer explainer content.
+- Skip J1–J3 (Name discipline): Arabic name-aliasing policy does not apply.
+- Skip T (doctrinal accuracy): Islamic doctrine checks don't apply to consumer financial content.
+- Keep B (meta-prose tells), D (enrichment depth), E/F/G (structure/framing integrity), H/I/K/L/M/N/O (NotebookLM literalness, welcome, anti-repetition, interruption, filler checks).
+- ADD: verify each factual claim about tax treatment, eligibility, or dollar amounts can be traced to an authoritative source per `content/_shared/consumer_explainer/enrichment-sources.md`. Flag any unqualified "will save" or "you always" phrasing (P1).
+
+Log the detected profile at the top of every challenger report:
+```
+content_profile: consumer_explainer  ← detected from _system/series-config.yaml
+```
 - The `99-show-notes.md` apparatus and the optional `04-discussion-spine.md` enrichment (if present — slide pipeline reads it when available, but it does not flow to NotebookLM audio). The 02/03 scaffolds were retired 2026-05-25 (F30) and no longer exist in new bundles.
 
 ---

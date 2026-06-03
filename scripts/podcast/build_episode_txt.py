@@ -80,6 +80,9 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+# Wave CP: content-profile resolver for assertion gating.
+from _content_profile import is_islamic_scholarly
+
 # Re-export everything from _validators so existing callers that do
 #   `from build_episode_txt import X`
 # continue to work without modification.
@@ -130,12 +133,13 @@ def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -
     assert_doctrinal_clean(text, chapter_path)
     # R-NO-MANUSCRIPT-META (2026-05-21, X14) — P1 FLAG (warning, not hard fail).
     assert_chapter_no_manuscript_meta(text, chapter_path)
-    # F27 Tier 2.5 (2026-05-22) — TTS-safe enforcement. All P1 flags
-    # (warnings; doctrine drift from prompt-only rules is the M1 pattern
-    # these catch). Won't hard-fail re-emit of v3-era content.
-    assert_no_arabic_transliteration(text, chapter_path, role="chapter (SOURCE)")
-    assert_no_arabic_surah_names(text, chapter_path, role="chapter (SOURCE)")
-    assert_alqaab_only_established_or_paraphrased(text, chapter_path, role="chapter (SOURCE)")
+    # F27 Tier 2.5 (2026-05-22) — TTS-safe enforcement. All P1 flags. Wave CP: these
+    # assertions are Arabic/Islamic-specific; skip for non-Islamic profiles.
+    _book_dir = chapter_path.parent.parent  # chapters/ → book_dir
+    if is_islamic_scholarly(_book_dir):
+        assert_no_arabic_transliteration(text, chapter_path, role="chapter (SOURCE)")
+        assert_no_arabic_surah_names(text, chapter_path, role="chapter (SOURCE)")
+        assert_alqaab_only_established_or_paraphrased(text, chapter_path, role="chapter (SOURCE)")
     n = word_count(text)
     if n < CHAPTER_WORD_MIN_HARD or n > CHAPTER_WORD_MAX_HARD:
         sys.exit(
@@ -147,13 +151,22 @@ def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -
 
 
 def build_framing_episode_txt(framing_path: Path, out_path: Path,
-                              extra_tells: list[str] | None = None) -> int:
+                              extra_tells: list[str] | None = None,
+                              book_dir: Path | None = None) -> int:
     """Read the framing, strip upload-checklist + HTML comments, validate, write to
     out_path as the customize-prompt-only episode txt. Returns word count of the
-    final framing content."""
+    final framing content.
+
+    Wave CP: pass *book_dir* to enable content-profile gating; defaults to deriving
+    it from framing_path (episode-drafts/EP##-slug/ → _system/ → book_dir).
+    """
     raw = framing_path.read_text(encoding="utf-8")
     no_checklist = strip_upload_checklist(raw)
     cleaned = strip_html_comments(no_checklist).strip()
+
+    # Derive book_dir for content-profile lookup if not supplied.
+    _bdir = book_dir or framing_path.parent.parent.parent  # ep-draft-dir → _system → book
+    _islamic = is_islamic_scholarly(_bdir)
 
     # Re-validate cleaned framing for meta-prose tells (cross-episode refs, etc.).
     assert_no_meta_prose(cleaned, framing_path, "framing (CUSTOMIZE PROMPT)", extra_tells)
@@ -171,12 +184,14 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path,
     assert_framing_analogy_cap_declared(cleaned, framing_path)
     assert_framing_recurring_thesis_present(cleaned, framing_path, contract_anchor=None)
     # F27 Tier 2.5 (2026-05-22) — TTS-safe enforcement on framing.
-    assert_no_arabic_transliteration(cleaned, framing_path, role="framing (CUSTOMIZE PROMPT)")
+    # Wave CP: Arabic/Islamic-specific assertions skipped for non-Islamic profiles.
+    if _islamic:
+        assert_no_arabic_transliteration(cleaned, framing_path, role="framing (CUSTOMIZE PROMPT)")
+        assert_no_arabic_surah_names(cleaned, framing_path, role="framing (CUSTOMIZE PROMPT)")
+        assert_alqaab_only_established_or_paraphrased(cleaned, framing_path, role="framing (CUSTOMIZE PROMPT)")
     assert_framing_analogy_cap_strict(cleaned, framing_path)
     assert_framing_no_modern_artifacts(cleaned, framing_path)
     assert_framing_honorific_bounded_both_sides(cleaned, framing_path)
-    assert_no_arabic_surah_names(cleaned, framing_path, role="framing (CUSTOMIZE PROMPT)")
-    assert_alqaab_only_established_or_paraphrased(cleaned, framing_path, role="framing (CUSTOMIZE PROMPT)")
 
     n = word_count(cleaned)
     if n < FRAMING_WORD_MIN or n > FRAMING_WORD_MAX:

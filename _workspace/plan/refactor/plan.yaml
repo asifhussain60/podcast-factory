@@ -1450,7 +1450,7 @@ waves:
 
   - id: CP
     name: Content-Profile Branching
-    execution_status: partially_implemented_2026_06_01
+    execution_status: completed_2026_06_03
     depends_on: [A]
     pilot_completed: >
       healthequity (2026-06-01): 3 consumer episodes built manually against the `sites` category.
