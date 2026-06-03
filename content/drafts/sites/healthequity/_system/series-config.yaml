@@ -1,0 +1,16 @@
+# series-config.yaml — HealthEquity consumer explainer series
+# Wave CP: content_profile drives pipeline behaviour for non-Islamic content.
+
+content_profile: consumer_explainer
+
+audience_profile: general_consumer
+source_tradition: none
+episode_planning_mode: problem_solution
+
+# Host defaults for consumer-finance content
+host_dynamic:
+  host_a: expert_educator
+  host_b: curious_consumer
+
+# Wave CP: these books skip Arabic assertion checks and phonetic passes
+# automatically because content_profile = consumer_explainer.
