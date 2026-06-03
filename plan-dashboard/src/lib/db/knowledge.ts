@@ -1,9 +1,10 @@
 /**
  * Server-only SQLite helper for knowledge.db atoms.
  *
- * Opens content/knowledge-base/knowledge.db (shared with the pipeline) in
- * read-only mode for queries. The write path lives in /api/corpus/atom.ts
- * (M-3). All operations are synchronous (better-sqlite3).
+ * Opens content/knowledge-base/knowledge.db (shared with the pipeline).
+ * Read queries use a readonly connection; write operations (M-3) use a
+ * separate writable connection so reads are never blocked by writes.
+ * All operations are synchronous (better-sqlite3).
  *
  * NEVER imported from a browser bundle — only from /src/pages/* and /src/pages/api/*.
  */
@@ -18,12 +19,21 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DB_PATH = path.resolve(__dirname, '../../../../content/knowledge-base/knowledge.db');
 
 let _db: Database.Database | null = null;
+let _wdb: Database.Database | null = null;
 
 function getDb(): Database.Database {
   if (_db) return _db;
   _db = new Database(DB_PATH, { readonly: true });
   _db.pragma('journal_mode = WAL');
   return _db;
+}
+
+function getWriteDb(): Database.Database {
+  if (_wdb) return _wdb;
+  _wdb = new Database(DB_PATH);
+  _wdb.pragma('journal_mode = WAL');
+  _wdb.pragma('foreign_keys = ON');
+  return _wdb;
 }
 
 // ---------------------------------------------------------------------------
@@ -180,4 +190,84 @@ export function dbTotals(): { total: number; byType: Record<string, number>; byT
     byType: Object.fromEntries(byTypeRows.map((r) => [r.type, r.n])),
     byTradition: Object.fromEntries(byTradRows.map((r) => [r.tradition, r.n])),
   };
+}
+
+// ---------------------------------------------------------------------------
+// Write operations (M-3) — writable connection
+// ---------------------------------------------------------------------------
+
+const ALLOWED_LEVELS = new Set(['general', 'advanced', 'taveel', 'mamsool', 'mabda_maad', 'haqaiq']);
+const ALLOWED_TYPES = new Set(['quran', 'hadith', 'term', 'doctrine', 'etymology', 'poetry']);
+const ALLOWED_TRADITIONS = new Set(['universal', 'fatimid-ismaili', 'ismaili']);
+
+export interface UpdateAtomInput {
+  text_en?: string;
+  content_level?: string | null;
+  tags?: string[];
+}
+
+export interface CreateAtomInput {
+  type: string;
+  text_en: string;
+  tradition: string;
+  content_level?: string;
+  tags?: string[];
+}
+
+export function updateAtom(id: string, input: UpdateAtomInput): LiveAtom {
+  if (input.content_level !== undefined && input.content_level !== null
+    && !ALLOWED_LEVELS.has(input.content_level)) {
+    throw new Error(`Invalid content_level: ${input.content_level}`);
+  }
+  const db = getWriteDb();
+  const row = db.prepare(
+    'SELECT id, type, tradition, content_level, body FROM atoms WHERE id = ?',
+  ).get(id) as AtomRow | undefined;
+  if (!row) throw new Error(`Atom not found: ${id}`);
+
+  let body: Record<string, unknown> = {};
+  try { body = JSON.parse(row.body) as Record<string, unknown>; } catch { /* malformed */ }
+
+  db.transaction(() => {
+    if (input.text_en !== undefined) {
+      body.text_en = input.text_en;
+    }
+    if (input.tags !== undefined) {
+      body.topic_tags = input.tags;
+    }
+    db.prepare(
+      'UPDATE atoms SET body = ?, content_level = ?, updated_at = strftime(\'%Y-%m-%dT%H:%M:%SZ\', \'now\') WHERE id = ?',
+    ).run(JSON.stringify(body), input.content_level !== undefined ? input.content_level : row.content_level, id);
+  })();
+
+  const updated = db.prepare(
+    'SELECT id, type, tradition, content_level, body FROM atoms WHERE id = ?',
+  ).get(id) as AtomRow;
+  return rowToAtom(updated);
+}
+
+export function createAtom(input: CreateAtomInput): LiveAtom {
+  if (!ALLOWED_TYPES.has(input.type)) throw new Error(`Invalid type: ${input.type}`);
+  if (!ALLOWED_TRADITIONS.has(input.tradition)) throw new Error(`Invalid tradition: ${input.tradition}`);
+  if (!input.text_en.trim()) throw new Error('text_en must not be empty');
+  if (input.content_level && !ALLOWED_LEVELS.has(input.content_level)) {
+    throw new Error(`Invalid content_level: ${input.content_level}`);
+  }
+  const db = getWriteDb();
+  const id = `${input.type}:user:${Date.now()}`;
+  const body = {
+    text_en: input.text_en,
+    tradition: input.tradition,
+    topic_tags: input.tags ?? [],
+    binder_slug: 'user',
+    chapter_slug: '',
+  };
+  db.prepare(`
+    INSERT INTO atoms (id, type, tradition, content_level, body, confidence)
+    VALUES (?, ?, ?, ?, ?, 1.0)
+  `).run(id, input.type, input.tradition, input.content_level ?? null, JSON.stringify(body));
+  const row = db.prepare(
+    'SELECT id, type, tradition, content_level, body FROM atoms WHERE id = ?',
+  ).get(id) as AtomRow;
+  return rowToAtom(row);
 }
