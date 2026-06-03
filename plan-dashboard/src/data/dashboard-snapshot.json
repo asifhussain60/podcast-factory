@@ -699,8 +699,8 @@
   "waves": [],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-03T13:13:05.893615+00:00",
-  "source_commit": "cbe4979",
+  "generated_at": "2026-06-03T15:00:40.459794+00:00",
+  "source_commit": "2ba547d",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [
     {
@@ -714,53 +714,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "cbe4979",
-      "subject": "fix(site): repair 3 broken links left by redirect-stub deletion",
+      "sha": "2ba547d",
+      "subject": "feat(Wave L-8): rich Studio editor \u2014 AI panel, Finalize, history tag, SQLite comments",
       "date": "2026-06-03"
     },
     {
-      "sha": "f3c58a1",
-      "subject": "fix(site): route chapter clicks to Studio; delete 7 deprecated pages",
+      "sha": "3c315bb",
+      "subject": "feat(Wave L-7): Studio intake content-level selector",
       "date": "2026-06-03"
     },
     {
-      "sha": "983cb72",
-      "subject": "chore: update status \u2014 Wave K quality pass done, episodes augmented",
+      "sha": "173f0c4",
+      "subject": "feat(Wave L-6): Category W augmentation-quality challenger + docs-sweep",
       "date": "2026-06-03"
     },
     {
-      "sha": "85fd4b4",
-      "subject": "feat(Wave K): quality pass \u2014 wrapper cleanup, per-episode doctrine, Tier-1 terms only",
+      "sha": "6296617",
+      "subject": "feat(Wave L-5): cross-chapter anti-repetition ledger",
       "date": "2026-06-03"
     },
     {
-      "sha": "435a833",
-      "subject": "chore: update status \u2014 Wave K all gaps closed, 357 tests",
+      "sha": "4fd1719",
+      "subject": "feat(Wave L-4): Quranic etymology weaving (spoken-form, capped, never spelled)",
       "date": "2026-06-03"
     },
     {
-      "sha": "ba6427f",
-      "subject": "feat(Wave K): wire term+quote into augmenter; fix CASCADE wipe; repopulate tags",
+      "sha": "7abd9c8",
+      "subject": "chore(Wave L-3): gitignore reproducible categorization artifacts",
       "date": "2026-06-03"
     },
     {
-      "sha": "9367d0e",
-      "subject": "chore: update status \u2014 Wave K complete, 7600 DB atoms",
+      "sha": "7d6b9d5",
+      "subject": "feat(Wave L-3): atom categorization tool + categorize 555 doctrine atoms",
       "date": "2026-06-03"
     },
     {
-      "sha": "9f16e9d",
-      "subject": "feat(Wave K): add quote type + expand term atoms 58\u2192622 (zero API cost)",
+      "sha": "ff1691d",
+      "subject": "feat(Wave L-1/L-2): content-level gating foundation + augmenter gate",
       "date": "2026-06-03"
     },
     {
-      "sha": "6b45b59",
-      "subject": "chore: update status \u2014 B4 fully live, augmenter smoke-tested on Ayyuhal Walad",
+      "sha": "544950b",
+      "subject": "chore(snapshot): refresh dashboard-snapshot to current develop HEAD",
       "date": "2026-06-03"
     },
     {
-      "sha": "2f7f6fa",
-      "subject": "feat(B4): enable knowledge augmenter on Ayyuhal Walad + fix atom truncation",
+      "sha": "073308e",
+      "subject": "fix(site): populate phases in architecture-snapshot \u2014 home page was blank",
       "date": "2026-06-03"
     }
   ],
