@@ -7,8 +7,6 @@ export type ActivePage =
   | 'infrastructure'
   | 'db-schema'
   | 'security'
-  | 'dashboard'
-  | 'workbench'
   | 'plan'
   | 'library'
   | 'wisdom'
@@ -17,7 +15,6 @@ export type ActivePage =
   | 'studio'
   | 'planner'
   | 'system-map'
-  | 'intake'
   | 'corpus'
   | 'pipeline-paths';
 
@@ -38,10 +35,10 @@ export interface NavLink {
 }
 
 export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
-  { href: '/studio', label: 'Studio', section: 'studio', pages: ['studio', 'workbench', 'intake'] },
+  { href: '/studio', label: 'Studio', section: 'studio', pages: ['studio'] },
   { href: '/library', label: 'Library', section: 'library', pages: ['library'] },
   { href: '/corpus', label: 'Corpus', section: 'corpus', pages: ['corpus', 'wisdom', 'db-schema'] },
-  { href: '/architecture', label: 'System', section: 'system', pages: ['architecture', 'intelligence', 'system-map', 'infrastructure', 'security', 'quality', 'plan', 'dashboard', 'planner', 'overview', 'about', 'annotation-ops', 'pipeline-paths'] },
+  { href: '/architecture', label: 'System', section: 'system', pages: ['architecture', 'intelligence', 'system-map', 'infrastructure', 'security', 'quality', 'plan', 'planner', 'overview', 'about', 'annotation-ops', 'pipeline-paths'] },
 ];
 
 export const SUBNAV: Record<NavSection, NavLink[]> = {
@@ -65,7 +62,7 @@ export const SUBNAV: Record<NavSection, NavLink[]> = {
     { href: '/infrastructure', label: 'Infrastructure', pages: ['infrastructure'] },
     { href: '/security', label: 'Security', pages: ['security'] },
     { href: '/quality', label: 'Quality', pages: ['quality'] },
-    { href: '/plan', label: 'Roadmap', pages: ['plan', 'dashboard', 'planner'] },
+    { href: '/plan', label: 'Roadmap', pages: ['plan', 'planner'] },
     { href: '/annotation-ops', label: 'Annotations', pages: ['annotation-ops'] },
     { href: '/pipeline-paths', label: 'Pipeline Paths', pages: ['pipeline-paths'] },
     { href: '/overview', label: 'Operations', pages: ['overview'] },

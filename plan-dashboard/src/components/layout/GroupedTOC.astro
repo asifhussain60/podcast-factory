@@ -43,7 +43,7 @@ const orphans = index.episodes.filter((e) => !matchedEpSlugs.has(e.slug));
     return (
       <div class:list={['toc-card', cardActive && 'is-active', oddRow ? 'is-odd' : 'is-even']}>
         <a
-          href={`/library/${bookSlug}/chapter/${chapter.slug}`}
+          href={`/studio/${bookSlug}/edit?ch=${chapter.slug}`}
           class:list={['toc-row', 'toc-row-chapter', chActive && 'is-active']}
         >
           <Icon name="file-text" size={13} class="toc-row-icon" />
@@ -63,7 +63,7 @@ const orphans = index.episodes.filter((e) => !matchedEpSlugs.has(e.slug));
             const isActive = ep.slug === currentEpisode;
             return (
               <a
-                href={`/library/${bookSlug}/episode/${ep.slug}`}
+                href={`/library/${bookSlug}`}
                 class:list={['toc-row', 'toc-row-episode', isActive && 'is-active']}
               >
                 <Icon name="headphones" size={13} class="toc-row-icon" />
@@ -87,7 +87,7 @@ const orphans = index.episodes.filter((e) => !matchedEpSlugs.has(e.slug));
           const isActive = ep.slug === currentEpisode;
           return (
             <a
-              href={`/library/${bookSlug}/episode/${ep.slug}`}
+              href={`/library/${bookSlug}`}
               class:list={['toc-card', 'toc-row', 'toc-row-episode', 'is-orphan', isActive && 'is-active']}
             >
               <span class="toc-row-num">

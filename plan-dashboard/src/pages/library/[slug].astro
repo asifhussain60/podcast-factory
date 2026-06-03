@@ -97,7 +97,7 @@ function fileViewHref(relPath: string): string {
           const chapterSlug = f.name.replace(/\.(txt|md)$/i, '');
           const cs = chapterScoreMap.get(chapterSlug);
           return (
-            <a class="lib-file-row" href={`/library/${slugStr}/chapter/${chapterSlug}`}>
+            <a class="lib-file-row" href={`/studio/${slugStr}/edit?ch=${chapterSlug}`}>
               <span class="lib-file-name">{f.name}</span>
               <span class="lib-file-meta-row">
                 {cs && (
@@ -124,9 +124,8 @@ function fileViewHref(relPath: string): string {
     ) : (
       <div class="lib-file-list">
         {episodes.map((f) => {
-          const epSlug = f.name.replace(/\.(txt|md)$/i, '');
           return (
-            <a class="lib-file-row" href={`/library/${slugStr}/episode/${epSlug}`}>
+            <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
               <span class="lib-file-name">{f.name}</span>
               <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
             </a>
