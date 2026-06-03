@@ -39,10 +39,24 @@ _TIER2_RE = re.compile(
 )
 
 # Terms that are common English or markdown fragments — skip
+# Also skip plain English adjectives/adverbs that get italicised in the source
+# but are NOT Arabic technical terms (e.g. "complete", "content", "without").
+# Rule: a valid Islamic term must either (a) contain a diacritic/non-ASCII char,
+# (b) begin with "al-", or (c) be in a small explicit allow-set of short terms
+# that have no diacritics but are genuine Arabic loanwords.
 _SKIP_TERMS = {
     "the", "and", "for", "not", "but", "with", "also", "this", "that",
     "from", "upon", "into", "over", "under", "as", "at", "by", "in",
     "al-", "wa-", "or", "is", "it", "of",
+    # Common English words that appear italicised in Kashkole but are not terms
+    "complete", "perfect", "defective", "content", "without", "observe",
+    "knowledge", "power", "life", "faith", "truth", "heart", "soul",
+    "prayer", "fasting", "pilgrimage", "alms", "witness", "light",
+    "first", "second", "third", "two", "three", "seven", "eight",
+    "good", "evil", "right", "wrong", "great", "small", "high", "low",
+    "able", "above", "below", "before", "after", "indeed", "thus",
+    "divine", "sacred", "holy", "inner", "outer", "true", "false",
+    "special", "general", "natural", "spiritual", "physical", "moral",
 }
 
 # Max surrounding context chars (each side) for Tier 2 terms
@@ -118,7 +132,9 @@ def extract_terms(dry_run: bool = False) -> dict:
                 ctx = _surrounding_sentence(text, m.start(), m.end())
                 tier2[term] = {"term": term, "text_en": ctx, "source": "doctrine"}
 
-    candidates = {**tier1, **tier2}
+    # Only use Tier-1 (inline-defined) terms; Tier-2 context sentences are too noisy
+    # and frequently capture plain English words that appear italicised in the source.
+    candidates = {**tier1}
 
     # Build atom dicts and validate
     new_atoms: list[dict] = []

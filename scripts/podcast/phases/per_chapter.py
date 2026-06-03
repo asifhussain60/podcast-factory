@@ -115,7 +115,7 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
         episode_path = book_dir / "episodes" / f"{episode_id}.txt"
         if episode_path.exists():
             original = episode_path.read_text(encoding="utf-8")
-            augmented = _augment(original, book_dir)
+            augmented = _augment(original, book_dir, episode_slug=episode_id)
             if augmented != original:
                 episode_path.write_text(augmented, encoding="utf-8")
                 augmentation_note = "knowledge augmentation applied"

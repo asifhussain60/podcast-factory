@@ -35,6 +35,8 @@ _MAX_ATOMS_DEFAULT = 5
 _MAX_ATOM_TEXT_CHARS = 600
 # Strip Arabic Unicode range (U+0600–U+06FF and extended)
 _ARABIC_RE = re.compile(r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff\ufb50-\ufdff\ufe70-\ufeff]+")
+# Strip Kashkole markup wrappers: ⟪ar:...⟫, ⟪quran N:N⟫, ⟪ar-quote:...⟫
+_WRAPPER_RE = re.compile(r'⟪[^⟫]*⟫')
 
 # Canonical Q-citation pattern: Q2:255 or unicode quran marker
 _QURAN_CITE_RE = re.compile(r"Q(\d+):(\d+)", re.IGNORECASE)
@@ -46,6 +48,17 @@ _TERM_BLOCK_HEADER  = "[TERM GLOSSARY — Kashkole corpus]"
 _QUOTE_BLOCK_HEADER = "[ATTRIBUTED SAYINGS — Kashkole corpus]"
 # Minimum term-name length for keyword match — avoids false hits on very short roots
 _MIN_TERM_MATCH_LEN = 4
+# Common English words to skip in term keyword matching — they appear italicised in
+# Kashkole source but carry no Islamic technical meaning.
+_COMMON_ENGLISH_SKIP = frozenset({
+    "complete", "perfect", "defective", "content", "without", "observe",
+    "observation", "knowledge", "power", "life", "faith", "truth", "light",
+    "prayer", "fasting", "pilgrimage", "alms", "witness", "first", "second",
+    "third", "good", "evil", "right", "wrong", "great", "small", "high", "low",
+    "able", "above", "below", "before", "after", "indeed", "thus", "divine",
+    "sacred", "holy", "inner", "outer", "true", "false", "special", "general",
+    "natural", "spiritual", "physical", "moral", "pure", "perfect", "blessed",
+})
 
 
 # ─── public API ───────────────────────────────────────────────────────────────
@@ -57,6 +70,7 @@ def augment_episode_text(
     *,
     max_atoms: int = _MAX_ATOMS_DEFAULT,
     tradition: str | None = None,
+    episode_slug: str = "",
 ) -> str:
     """Prepend doctrine, term, and quote context blocks to episode text.
 
@@ -83,7 +97,12 @@ def augment_episode_text(
     tags = list(topic_tags or []) or _book_tags(book_dir)
     doctrine_block = ""
     if tags:
-        doc_atoms = _fetch_doctrine_atoms(tags, max_atoms=max_atoms, tradition=book_tradition)
+        # episode_slug-derived offset so each episode gets a different window into the
+        # matched atom pool — prevents all episodes in one book seeing identical passages.
+        ep_offset = _episode_offset(episode_slug, max_atoms)
+        doc_atoms = _fetch_doctrine_atoms(
+            tags, max_atoms=max_atoms, tradition=book_tradition, offset=ep_offset
+        )
         if doc_atoms:
             doctrine_block = _build_context_block(doc_atoms)
 
@@ -246,11 +265,34 @@ def _book_tags(book_dir: Path) -> list[str]:
         return []
 
 
-def _fetch_doctrine_atoms(tags: list[str], *, max_atoms: int, tradition: str = "universal") -> list[dict]:
+def _episode_offset(episode_slug: str, max_atoms: int) -> int:
+    """Derive a deterministic per-episode OFFSET into the atom pool.
+
+    Different episodes get different windows (EP01→offset 0, EP02→offset 5, etc.)
+    so each episode sees unique doctrine passages rather than the same top-N.
+    Falls back to 0 for empty slug.
+    """
+    if not episode_slug:
+        return 0
+    # Use first digit found in slug (EP01→1, EP02→2, ch03→3) or hash-based fallback
+    import re as _re
+    m = _re.search(r"\d+", episode_slug)
+    ep_num = (int(m.group()) - 1) if m else 0
+    return ep_num * max_atoms
+
+
+def _fetch_doctrine_atoms(
+    tags: list[str],
+    *,
+    max_atoms: int,
+    tradition: str = "universal",
+    offset: int = 0,
+) -> list[dict]:
     """Query DB for doctrine atoms tagged with any of the given tags.
 
     Filters by tradition: returns atoms where tradition = <tradition> OR
     tradition = 'universal'.  This prevents cross-tradition injection.
+    offset: skip this many rows so different episodes get different passages.
     """
     if not tags:
         return []
@@ -265,9 +307,9 @@ def _fetch_doctrine_atoms(tags: list[str], *, max_atoms: int, tradition: str = "
           AND (a.tradition = ? OR a.tradition = 'universal')
           AND t.tag IN ({placeholders})
         ORDER BY a.id
-        LIMIT ?
+        LIMIT ? OFFSET ?
         """,
-        (tradition, *tags, max_atoms),
+        (tradition, *tags, max_atoms, offset),
     ).fetchall()
     result = []
     for atom_id, body_json in rows:
@@ -308,6 +350,11 @@ def _fetch_matching_terms(
             continue
         if len(term_name) < _MIN_TERM_MATCH_LEN:
             continue
+        # Skip common English words that are not Arabic technical terms.
+        # These arrive as Tier-2 context captures when a word happens to be italicised
+        # in the doctrine source but carries no Islamic technical meaning.
+        if term_name in _COMMON_ENGLISH_SKIP:
+            continue
         if term_name in ep_lower:
             matched.append({"id": atom_id, "body": body})
     matched.sort(key=lambda x: -len(x["body"].get("term", "")))
@@ -345,7 +392,13 @@ def _fetch_matching_quotes(
 
 
 def _strip_arabic(text: str) -> str:
-    """Remove Arabic script runs from text (DR-012)."""
+    """Remove Arabic script runs and Kashkole markup wrappers from text (DR-012).
+
+    Two passes:
+      1. Strip ⟪...⟫ wrappers left by the Kashkole ingestion (e.g. ⟪ar:⟫, ⟪quran 2:255⟫).
+      2. Strip residual Arabic Unicode character runs.
+    """
+    text = _WRAPPER_RE.sub("", text)
     return _ARABIC_RE.sub("", text).strip()
 
 
