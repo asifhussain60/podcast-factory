@@ -195,6 +195,23 @@ const DEPTH_LEVELS_BY_PROFILE: Record<string, readonly DepthLevel[]> = {
 };
 const DEFAULT_DEPTH_PROFILE = 'islamic_scholarly';
 
+// Scroll lock: prevent body scroll while any picker is open.
+let _scrollLockCount = 0;
+let _savedBodyOverflow = '';
+function _lockScroll() {
+  if (_scrollLockCount++ === 0) {
+    _savedBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+  }
+}
+function _unlockScroll() {
+  if (--_scrollLockCount <= 0) {
+    _scrollLockCount = 0;
+    document.body.style.overflow = _savedBodyOverflow;
+    _savedBodyOverflow = '';
+  }
+}
+
 let _dpEl: HTMLDivElement | null = null;
 let _dpSaveFn: SaveDepthFn = () => {};
 let _dpOrd = 0;
@@ -267,9 +284,11 @@ function _buildDepthPicker(levels: readonly DepthLevel[]): HTMLDivElement {
 }
 
 function closeDepthPicker() {
-  _dpEl?.classList.remove('is-open');
+  if (!_dpEl?.classList.contains('is-open')) return;
+  _dpEl.classList.remove('is-open');
   if (_dpOutside) { document.removeEventListener('mousedown', _dpOutside, true); _dpOutside = null; }
   if (_dpKey)     { document.removeEventListener('keydown',   _dpKey,     true); _dpKey = null; }
+  _unlockScroll();
 }
 
 function openDepthPicker(
@@ -301,6 +320,7 @@ function openDepthPicker(
   pop.style.top  = `${rect.bottom + 6}px`;
   pop.style.left = `${Math.max(8, left)}px`;
   pop.classList.add('is-open');
+  _lockScroll();
 
   if (_dpOutside) document.removeEventListener('mousedown', _dpOutside, true);
   if (_dpKey)     document.removeEventListener('keydown',   _dpKey,     true);
@@ -397,9 +417,11 @@ function _buildTagPicker(): HTMLDivElement {
 }
 
 function closeTagPicker() {
-  _tpEl?.classList.remove('is-open');
+  if (!_tpEl?.classList.contains('is-open')) return;
+  _tpEl.classList.remove('is-open');
   if (_tpOutside) { document.removeEventListener('mousedown', _tpOutside, true); _tpOutside = null; }
   if (_tpKey)     { document.removeEventListener('keydown',   _tpKey,     true); _tpKey = null; }
+  _unlockScroll();
 }
 
 function openTagPicker(
@@ -428,6 +450,7 @@ function openTagPicker(
   pop.style.top  = `${rect.bottom + 6}px`;
   pop.style.left = `${Math.max(8, left)}px`;
   pop.classList.add('is-open');
+  _lockScroll();
 
   if (_tpOutside) document.removeEventListener('mousedown', _tpOutside, true);
   if (_tpKey)     document.removeEventListener('keydown',   _tpKey,     true);

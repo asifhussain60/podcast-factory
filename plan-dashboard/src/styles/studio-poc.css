@@ -208,8 +208,9 @@
 /* FC-3 per-paragraph affordance: hovering an IDLE (non-active) block shows a pointer.
    :not(.para-active) guards ensure hover styles never override the active-paragraph ring.
    Padding + matching negative margin keep text position unchanged while background extends. */
+/* h2 section headings are excluded — they have their own annotation controls (depth badge,
+   tag btn) and the padding/margin shift causes a layout jump on hover. */
 .studio-poc__editor .ProseMirror > p:not(.para-active):hover,
-.studio-poc__editor .ProseMirror > h2:not(.para-active):hover,
 .studio-poc__editor .ProseMirror > h3:not(.para-active):hover,
 .studio-poc__editor .ProseMirror > blockquote:not(.para-active):hover {
   cursor: pointer;
@@ -1106,34 +1107,34 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.22);
 }
 .sp-depth-popover .sp-depth-popover__opt.is-active {
-  outline: 2.5px solid rgba(255,255,255,0.85);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(0,0,0,0.22), 0 4px 12px rgba(0,0,0,0.28);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.9), 0 0 0 5px rgba(0,0,0,0.4);
   transform: scale(1.03);
-  filter: none;
+  filter: brightness(0.86);
+  outline: none;
 }
-/* Islamic scholarly depth levels — solid rich fills */
-.sp-depth-popover .sp-depth-narrative  { background: var(--c-depth-general-fg,  #1a3a8a); color: #fff; }
-.sp-depth-popover .sp-depth-sharia     { background: var(--c-depth-advanced-fg, #5a2da0); color: #fff; }
-.sp-depth-popover .sp-depth-esoteric   { background: var(--c-depth-taveel-fg,   #1a5c1a); color: #fff; }
-.sp-depth-popover .sp-depth-origins    { background: var(--c-depth-mabda-fg,    #8c0066); color: #fff; }
-.sp-depth-popover .sp-depth-reality    { background: var(--c-depth-haqaiq-fg,   #8a0000); color: #fff; }
-/* consumer_explainer / technical / fiction: use fg tones similarly */
-.sp-depth-popover .sp-depth-website     { background: var(--c-depth-site-website-fg,     #1565c0); color: #fff; }
-.sp-depth-popover .sp-depth-application { background: var(--c-depth-site-application-fg, #0d47a1); color: #fff; }
-.sp-depth-popover .sp-depth-platform    { background: var(--c-depth-site-platform-fg,    #4527a0); color: #fff; }
-.sp-depth-popover .sp-depth-api         { background: var(--c-depth-site-api-fg,         #283593); color: #fff; }
-.sp-depth-popover .sp-depth-coding       { background: var(--c-depth-tech-coding-fg,   #1b5e20); color: #fff; }
-.sp-depth-popover .sp-depth-agentic_ai   { background: var(--c-depth-tech-agentic-fg,  #4a148c); color: #fff; }
-.sp-depth-popover .sp-depth-architecture { background: var(--c-depth-tech-arch-fg,     #bf360c); color: #fff; }
-.sp-depth-popover .sp-depth-devops       { background: var(--c-depth-tech-devops-fg,   #263238); color: #fff; }
-.sp-depth-popover .sp-depth-security     { background: var(--c-depth-tech-security-fg, #b71c1c); color: #fff; }
-.sp-depth-popover .sp-depth-data_ml      { background: var(--c-depth-tech-data-fg,     #006064); color: #fff; }
-.sp-depth-popover .sp-depth-character   { background: var(--c-depth-fiction-character-fg, #f57f17); color: #fff; }
-.sp-depth-popover .sp-depth-theme       { background: var(--c-depth-fiction-theme-fg,     #880e4f); color: #fff; }
-.sp-depth-popover .sp-depth-world       { background: var(--c-depth-fiction-world-fg,     #33691e); color: #fff; }
-.sp-depth-popover .sp-depth-conflict    { background: var(--c-depth-fiction-conflict-fg,  #bf360c); color: #fff; }
-.sp-depth-popover .sp-depth-voice       { background: var(--c-depth-fiction-voice-fg,     #6a1b9a); color: #fff; }
+/* Islamic scholarly: 80% fg mixed with white → medium-saturation fills, AA-verified white text.
+   Lighter than the raw fg tokens while still clearly distinct and readable. */
+.sp-depth-popover .sp-depth-narrative  { background: color-mix(in srgb, var(--c-depth-general-fg,  #1a3a8a) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-sharia     { background: color-mix(in srgb, var(--c-depth-advanced-fg, #5a2da0) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-esoteric   { background: color-mix(in srgb, var(--c-depth-taveel-fg,   #1a5c1a) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-origins    { background: color-mix(in srgb, var(--c-depth-mabda-fg,    #8c0066) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-reality    { background: color-mix(in srgb, var(--c-depth-haqaiq-fg,   #8a0000) 80%, white); color: #fff; }
+/* consumer_explainer / technical / fiction: same 80% lightening formula */
+.sp-depth-popover .sp-depth-website     { background: color-mix(in srgb, var(--c-depth-site-website-fg,     #1565c0) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-application { background: color-mix(in srgb, var(--c-depth-site-application-fg, #0d47a1) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-platform    { background: color-mix(in srgb, var(--c-depth-site-platform-fg,    #4527a0) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-api         { background: color-mix(in srgb, var(--c-depth-site-api-fg,         #283593) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-coding       { background: color-mix(in srgb, var(--c-depth-tech-coding-fg,   #1b5e20) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-agentic_ai   { background: color-mix(in srgb, var(--c-depth-tech-agentic-fg,  #4a148c) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-architecture { background: color-mix(in srgb, var(--c-depth-tech-arch-fg,     #bf360c) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-devops       { background: color-mix(in srgb, var(--c-depth-tech-devops-fg,   #263238) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-security     { background: color-mix(in srgb, var(--c-depth-tech-security-fg, #b71c1c) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-data_ml      { background: color-mix(in srgb, var(--c-depth-tech-data-fg,     #006064) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-character   { background: color-mix(in srgb, var(--c-depth-fiction-character-fg, #f57f17) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-theme       { background: color-mix(in srgb, var(--c-depth-fiction-theme-fg,     #880e4f) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-world       { background: color-mix(in srgb, var(--c-depth-fiction-world-fg,     #33691e) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-conflict    { background: color-mix(in srgb, var(--c-depth-fiction-conflict-fg,  #bf360c) 80%, white); color: #fff; }
+.sp-depth-popover .sp-depth-voice       { background: color-mix(in srgb, var(--c-depth-fiction-voice-fg,     #6a1b9a) 80%, white); color: #fff; }
 
 .sp-depth-popover__clear {
   display: block;
