@@ -302,3 +302,66 @@ export function createAtom(input: CreateAtomInput): LiveAtom {
   ).get(id) as AtomRow;
   return rowToAtom(row);
 }
+
+// ---------------------------------------------------------------------------
+// Section depth operations (Wave N) — stable ordinal-based IDs per chapter
+// ---------------------------------------------------------------------------
+
+export interface SectionDepth {
+  section_ordinal: number;
+  section_slug: string;
+  depth_level: string;
+  source: 'pipeline' | 'human';
+}
+
+export function getSectionDepths(bookSlug: string, chapterId: string): SectionDepth[] {
+  const db = getDb();
+  return db.prepare(
+    'SELECT section_ordinal, section_slug, depth_level, source FROM section_depths WHERE book_slug = ? AND chapter_id = ? ORDER BY section_ordinal',
+  ).all(bookSlug, chapterId) as SectionDepth[];
+}
+
+export function upsertSectionDepth(
+  bookSlug: string,
+  chapterId: string,
+  ordinal: number,
+  slug: string,
+  depthLevel: string,
+  source: 'pipeline' | 'human' = 'human',
+): SectionDepth {
+  if (!ALLOWED_LEVELS.has(depthLevel)) throw new Error(`Invalid depth_level: ${depthLevel}`);
+  const db = getWriteDb();
+  db.prepare(`
+    INSERT INTO section_depths (book_slug, chapter_id, section_ordinal, section_slug, depth_level, source)
+    VALUES (?, ?, ?, ?, ?, ?)
+    ON CONFLICT(book_slug, chapter_id, section_ordinal)
+    DO UPDATE SET section_slug = excluded.section_slug,
+                  depth_level  = excluded.depth_level,
+                  source       = excluded.source,
+                  updated_at   = strftime('%Y-%m-%dT%H:%M:%SZ', 'now')
+  `).run(bookSlug, chapterId, ordinal, slug, depthLevel, source);
+  return db.prepare(
+    'SELECT section_ordinal, section_slug, depth_level, source FROM section_depths WHERE book_slug = ? AND chapter_id = ? AND section_ordinal = ?',
+  ).get(bookSlug, chapterId, ordinal) as SectionDepth;
+}
+
+// ---------------------------------------------------------------------------
+// Lookup levels (Wave N) — Kashkole provenance for the 6-rung ladder
+// ---------------------------------------------------------------------------
+
+export interface LookupLevel {
+  level_id: number;
+  level_name: string;
+  code_id: string | null;
+  ordering: number;
+  is_base_rung: boolean;
+  color_hex: string | null;
+}
+
+export function getLookupLevels(): LookupLevel[] {
+  const db = getDb();
+  const rows = db.prepare(
+    'SELECT level_id, level_name, code_id, ordering, is_base_rung, color_hex FROM lookup_levels ORDER BY ordering',
+  ).all() as (Omit<LookupLevel, 'is_base_rung'> & { is_base_rung: number })[];
+  return rows.map((r) => ({ ...r, is_base_rung: r.is_base_rung === 1 }));
+}

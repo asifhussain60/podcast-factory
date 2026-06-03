@@ -198,6 +198,40 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   // M-1 — Inspector tab state (Details · Comment · AI · References).
   const [inspectorTab, setInspectorTab] = useState<'details' | 'comment' | 'ai' | 'refs'>('details');
 
+  // Wave N — section-level depth markers (pipeline guesses, human corrects).
+  // Maps section ordinal (0-based h2 position) → depth_level code string.
+  const [sectionDepths, setSectionDepths] = useState<Record<number, string>>({});
+  const sectionDepthsRef = useRef<Record<number, string>>({});
+  sectionDepthsRef.current = sectionDepths;
+  // Load section depths from the API when chapter changes.
+  useEffect(() => {
+    if (!slug || !chapter) return;
+    let cancelled = false;
+    fetch(`/api/studio/section-depth?book=${encodeURIComponent(slug)}&chapter=${encodeURIComponent(chapter)}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((json) => {
+        if (cancelled || !json?.sections) return;
+        const map: Record<number, string> = {};
+        for (const s of json.sections) map[s.section_ordinal] = s.depth_level;
+        setSectionDepths(map);
+      })
+      .catch(() => { /* offline-friendly */ });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, chapter]);
+
+  // Persist a section depth change (human override).
+  const saveSectionDepth = useCallback((ordinal: number, slug_label: string, depthLevel: string) => {
+    setSectionDepths((prev) => ({ ...prev, [ordinal]: depthLevel }));
+    fetch('/api/studio/section-depth', {
+      method: 'PATCH', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ book: slug, chapter, ordinal, slug: slug_label, depth_level: depthLevel }),
+    }).catch(() => { /* non-blocking */ });
+  }, [slug, chapter]);
+  // Expose the saver to the PM plugin via ref.
+  const saveSectionDepthRef = useRef<(ord: number, sectionSlug: string, level: string) => void>(() => {});
+  saveSectionDepthRef.current = saveSectionDepth;
+
   // Wave L-8 — AI assist panel + Finalize state.
   const [aiBusy, setAiBusy] = useState(false);
   const [aiKind, setAiKind] = useState('');
@@ -305,11 +339,42 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                   });
                   const inRef = (p: number) => refRanges.some(([a, b]) => p >= a && p < b);
 
+                  // Wave N: track h2 ordinal (section index, 0-based) for depth markers.
+                  let sectionOrdinal = 0;
                   let i = 0;
                   state.doc.forEach((node, offset) => {
                     const idx = i++;
                     const isActive = offset === activeTop;
                     const t = tags.get(idx) || [];
+
+                    // Section-level depth marker — shown next to every h2 node.
+                    if (node.type.name === 'heading' && node.attrs.level === 2) {
+                      const ord = sectionOrdinal++;
+                      const depthLevel = sectionDepthsRef.current[ord];
+                      const sectionText = node.textContent.slice(0, 60).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                      const LEVEL_LABELS: Record<string, string> = {
+                        general: 'General', advanced: 'Advanced', taveel: 'Taweel',
+                        mamsool: 'Mamsool', mabda_maad: 'Origin & Return', haqaiq: 'Haqaiq',
+                      };
+                      decos.push(
+                        Decoration.widget(offset + node.nodeSize - 1, () => {
+                          const btn = document.createElement('button');
+                          btn.type = 'button';
+                          btn.className = `sp-section-depth-btn${depthLevel ? ` sp-depth-${depthLevel}` : ' sp-depth-none'}`;
+                          btn.title = depthLevel ? `Section depth: ${LEVEL_LABELS[depthLevel] ?? depthLevel} (click to change)` : 'Set section depth';
+                          btn.textContent = depthLevel ? (LEVEL_LABELS[depthLevel] ?? depthLevel) : '∅ depth';
+                          btn.contentEditable = 'false';
+                          btn.addEventListener('mousedown', (ev) => {
+                            ev.preventDefault(); ev.stopPropagation();
+                            const LADDER = ['general', 'advanced', 'taveel', 'mamsool', 'mabda_maad', 'haqaiq'];
+                            const curIdx = depthLevel ? LADDER.indexOf(depthLevel) : -1;
+                            const nextLevel = LADDER[(curIdx + 1) % LADDER.length];
+                            saveSectionDepthRef.current(ord, sectionText, nextLevel);
+                          });
+                          return btn;
+                        }, { side: 1, key: `sec-depth-${ord}-${depthLevel ?? 'none'}` }),
+                      );
+                    }
 
                     if (isActive) {
                       decos.push(Decoration.node(offset, offset + node.nodeSize, { class: 'para-active' }));

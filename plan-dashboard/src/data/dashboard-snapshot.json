@@ -664,6 +664,39 @@
       "last_touched": null
     },
     {
+      "id": "N1",
+      "wave": "N",
+      "title": "Import Lookup_levels from Kashkole SQL dump into knowledge.db",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "N2",
+      "wave": "N",
+      "title": "Stable section ID schema + GET/PATCH API + knowledge.ts helpers",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "N3",
+      "wave": "N",
+      "title": "Section depth markers in Studio editor (PM widget + CSS)",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
       "id": "CP1",
       "wave": "CP",
       "title": "Add content_profile field to series-config.yaml + _rules.py",
@@ -732,8 +765,8 @@
   "waves": [],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-03T19:56:28.539455+00:00",
-  "source_commit": "66900738",
+  "generated_at": "2026-06-03T20:00:47.751671+00:00",
+  "source_commit": "9e95887",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [
     {
@@ -746,6 +779,11 @@
     }
   ],
   "recent_commits": [
+    {
+      "sha": "9e95887",
+      "subject": "feat(Wave CP): content-profile branching \u2014 Islamic vs consumer pipeline lanes",
+      "date": "2026-06-03"
+    },
     {
       "sha": "66900738",
       "subject": "refactor(P1): move atom types from mock-sample to knowledge.ts",
@@ -789,11 +827,6 @@
     {
       "sha": "edc3689",
       "subject": "chore(healthequity): bring in unmerged content from site/healthequity branch",
-      "date": "2026-06-03"
-    },
-    {
-      "sha": "3e764bb",
-      "subject": "fix(Wave M docs-sweep): 6-level ladder propagated to all docs + DB hardened",
       "date": "2026-06-03"
     }
   ],

@@ -1431,9 +1431,9 @@ waves:
       - "M-2 DONE: lib/db/knowledge.ts + /api/corpus/atoms GET + corpus.astro wired to live DB (988 non-Quran atoms)"
       - "M-3 DONE: updateAtom/createAtom write functions + /api/corpus/atom PATCH+POST + CorpusExplorer inline edit+create UI"
       - "RGR all slices: astro check 0 errors · lint:views clean · 392 tests green"
-    deferred:
-      - "Section-level depth markers: requires stable section IDs (not yet minted) — deferred to Wave N"
-      - "Lookup_levels SQLite import + full ladder verification — deferred to Wave N"
+    deferred_resolved_in_wave_n:
+      - "Section-level depth markers: built in Wave N (ordinal-based stable IDs + PM widget + API)"
+      - "Lookup_levels SQLite import: migration 027 applied; ladder confirmed matching existing 6 rungs"
     steps:
       - id: M1
         title: "Floating AI toolbar + inspector tab restructure + scroll fix"
@@ -1447,6 +1447,27 @@ waves:
         title: "Add edit + create to CorpusExplorer (write path)"
         execution_status: completed_2026_06_03
         files: ["plan-dashboard/src/lib/db/knowledge.ts", "plan-dashboard/src/pages/api/corpus/atom.ts", "plan-dashboard/src/components/corpus-mock/CorpusExplorer.tsx"]
+
+  - id: N
+    name: Kashkole Lookup_levels + Stable Section IDs + Studio Depth Markers
+    execution_status: completed_2026_06_03
+    execution_notes:
+      - "N-1: migration 027_lookup_levels.sql — imports 6 base rungs + 3 combination levels into knowledge.db; confirms 6-rung CONTENT_LEVEL_LADDER exactly matches Kashkole Lookup_levels ordering"
+      - "N-2: migration 028_section_depths.sql — section_depths table (book_slug, chapter_id, section_ordinal, depth_level, source: pipeline|human); GET+PATCH API at /api/studio/section-depth; getSectionDepths/upsertSectionDepth in knowledge.ts"
+      - "N-3: StudioPoc section depth markers — PM decoration widget next to every h2; click cycles through 6-rung ladder; persisted to DB via PATCH; colour-coded badges per level"
+    steps:
+      - id: N1
+        title: "Import Lookup_levels from Kashkole SQL dump into knowledge.db"
+        execution_status: completed_2026_06_03
+        files: ["scripts/podcast/schema/027_lookup_levels.sql"]
+      - id: N2
+        title: "Stable section ID schema + GET/PATCH API + knowledge.ts helpers"
+        execution_status: completed_2026_06_03
+        files: ["scripts/podcast/schema/028_section_depths.sql", "plan-dashboard/src/pages/api/studio/section-depth.ts", "plan-dashboard/src/lib/db/knowledge.ts"]
+      - id: N3
+        title: "Section depth markers in Studio editor (PM widget + CSS)"
+        execution_status: completed_2026_06_03
+        files: ["plan-dashboard/src/components/reader/poc/StudioPoc.tsx", "plan-dashboard/src/styles/studio-poc.css"]
 
   - id: CP
     name: Content-Profile Branching
