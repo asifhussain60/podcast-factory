@@ -27,11 +27,9 @@
 - None.
 
 **NEXT WORK:**
-- Augmenter currently only queries doctrine atoms (tag-based). Wire term/quote
-  atoms into augment_episode_text() via keyword lookup so 622 terms can reach
-  productions (Wave K option C).
-- Or: run Ayyuhal Walad through a live chapter to see doctrine + term context
-  blocks in the challenger report end-to-end.
+- Wave K fully complete. Next: run Ayyuhal Walad through the per-chapter pipeline
+  to see all three augmentation blocks (doctrine + term + quote) in a live
+  challenger report. Or start Wave L (scope TBD).
 
 **PARKED:**
 - Site redesign (IA complete; WC8.5 TipTap Studio rebuild deferred)
