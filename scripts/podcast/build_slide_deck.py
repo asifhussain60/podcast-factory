@@ -493,10 +493,8 @@ def main(argv: list[str] | None = None) -> int:
             _category = _json.loads(_state_path.read_text()).get("category", "books")
         except Exception:  # noqa: BLE001
             pass
-    _islamic_categories = frozenset({
-        "books", "letters", "lectures", "articles", "asbaaq", "documents", "interviews",
-    })
-    _is_islamic = _category in _islamic_categories
+    from _content_profile import is_islamic_scholarly as _is_islamic_fn  # Wave CP: canonical check
+    _is_islamic = _is_islamic_fn(book_dir)
 
     deck_wc = validate_deck_source(deck_path, audio_wc, findings, _is_islamic=_is_islamic)
     framing_wc = validate_framing(framing_path, findings)

@@ -10,6 +10,8 @@ import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
+
+from _rules import ALLOWED_CATEGORIES  # F3: single source of truth for valid categories
 from typing import Any
 
 from _extract_yaml import load_yaml
@@ -244,7 +246,7 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
     try:
         parents = chapter.path.parents
         actual_category = parents[2].name
-        if actual_category in ("books", "articles", "documents", "lectures", "interviews", "letters"):
+        if actual_category in ALLOWED_CATEGORIES:
             if actual_category != expected_category:
                 sys.exit(
                     f"ERROR: contract.source_type {source_type!r} requires the chapter to live\n"

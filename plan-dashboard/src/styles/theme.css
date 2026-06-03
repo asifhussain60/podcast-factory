@@ -80,6 +80,16 @@
   --c-kind-hybrid:     #3d7a5a;  /* teal-green: mix of model + rules */
   --c-kind-gate:       #a0602d;  /* terracotta: human halt */
 
+  /* Kashkole depth-level badge tokens (Wave N — CONTENT_LEVEL_LADDER, 6 base rungs).
+     bg = badge background; fg = badge foreground text; bd = badge border.
+     Colours derived from Kashkole LevelColor / CategoryBackColor values. */
+  --c-depth-general-bg:    #e8eeff;  --c-depth-general-fg:    #1a3a8a;  --c-depth-general-bd:    #b0c4de;
+  --c-depth-advanced-bg:   #f0e8ff;  --c-depth-advanced-fg:   #5a2da0;  --c-depth-advanced-bd:   #c4aadd;
+  --c-depth-taveel-bg:     #e8f5e8;  --c-depth-taveel-fg:     #1a5c1a;  --c-depth-taveel-bd:     #a0c8a0;
+  --c-depth-mamsool-bg:    #fffde8;  --c-depth-mamsool-fg:    #7a5a00;  --c-depth-mamsool-bd:    #ddc870;
+  --c-depth-mabda-bg:      #fde8f5;  --c-depth-mabda-fg:      #8c0066;  --c-depth-mabda-bd:      #dda0c8;
+  --c-depth-haqaiq-bg:     #ffe8e8;  --c-depth-haqaiq-fg:     #8a0000;  --c-depth-haqaiq-bd:     #dd8080;
+
   /* Model tier colours (swimlane annotations) */
   --c-model-opus:    #5b2fa0;    /* deep purple: Opus (highest cost) */
   --c-model-sonnet:  #2952a0;    /* navy: Sonnet (mid-cost) */

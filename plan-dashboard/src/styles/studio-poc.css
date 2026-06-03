@@ -1033,12 +1033,12 @@
 }
 .studio-poc__editor .sp-section-depth-btn:hover { opacity: 1; }
 .studio-poc__editor .sp-depth-none { background: var(--c-bg-elev); color: var(--c-ink-muted); border-color: var(--c-rule, rgba(0,0,0,.15)); }
-.studio-poc__editor .sp-depth-general    { background: #e8eeff; color: #1a3a8a; border-color: #b0c4de; }
-.studio-poc__editor .sp-depth-advanced   { background: #f0e8ff; color: #5a2da0; border-color: #c4aadd; }
-.studio-poc__editor .sp-depth-taveel     { background: #e8f5e8; color: #1a5c1a; border-color: #a0c8a0; }
-.studio-poc__editor .sp-depth-mamsool    { background: #fffde8; color: #7a5a00; border-color: #ddc870; }
-.studio-poc__editor .sp-depth-mabda_maad { background: #fde8f5; color: #8c0066; border-color: #dda0c8; }
-.studio-poc__editor .sp-depth-haqaiq     { background: #ffe8e8; color: #8a0000; border-color: #dd8080; }
+.studio-poc__editor .sp-depth-general    { background: var(--c-depth-general-bg);  color: var(--c-depth-general-fg);  border-color: var(--c-depth-general-bd); }
+.studio-poc__editor .sp-depth-advanced   { background: var(--c-depth-advanced-bg); color: var(--c-depth-advanced-fg); border-color: var(--c-depth-advanced-bd); }
+.studio-poc__editor .sp-depth-taveel     { background: var(--c-depth-taveel-bg);   color: var(--c-depth-taveel-fg);   border-color: var(--c-depth-taveel-bd); }
+.studio-poc__editor .sp-depth-mamsool    { background: var(--c-depth-mamsool-bg);  color: var(--c-depth-mamsool-fg);  border-color: var(--c-depth-mamsool-bd); }
+.studio-poc__editor .sp-depth-mabda_maad { background: var(--c-depth-mabda-bg);   color: var(--c-depth-mabda-fg);   border-color: var(--c-depth-mabda-bd); }
+.studio-poc__editor .sp-depth-haqaiq     { background: var(--c-depth-haqaiq-bg);  color: var(--c-depth-haqaiq-fg);  border-color: var(--c-depth-haqaiq-bd); }
 
 /* Combination levels (Kashkole IDs 8-10): diagonal gradient to show dual-nature. */
 .studio-poc__editor .sp-depth-combo {
@@ -1052,6 +1052,6 @@
   color: var(--c-accent);
   border-color: color-mix(in srgb, var(--c-accent) 40%, transparent);
 }
-.studio-poc__editor .sp-depth-taveel_haqaiq   { background: linear-gradient(90deg, #e8f5e8, #ffe8e8); color: #3a3a00; }
-.studio-poc__editor .sp-depth-general_taveel   { background: linear-gradient(90deg, #e8eeff, #e8f5e8); color: #1a3a1a; }
-.studio-poc__editor .sp-depth-taveel_mabda_maad { background: linear-gradient(90deg, #e8f5e8, #fde8f5); color: #3a003a; }
+.studio-poc__editor .sp-depth-taveel_haqaiq   { background: linear-gradient(90deg, var(--c-depth-taveel-bg), var(--c-depth-haqaiq-bg)); color: #3a3a00; }
+.studio-poc__editor .sp-depth-general_taveel   { background: linear-gradient(90deg, var(--c-depth-general-bg), var(--c-depth-taveel-bg)); color: #1a3a1a; }
+.studio-poc__editor .sp-depth-taveel_mabda_maad { background: linear-gradient(90deg, var(--c-depth-taveel-bg), var(--c-depth-mabda-bg)); color: #3a003a; }
