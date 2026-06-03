@@ -14,10 +14,8 @@ import { create, insertMultiple, search } from '@orama/orama';
 import { Command } from 'cmdk';
 import { Plus, Check, Search, ChevronRight, BookOpen, Layers } from 'lucide-react';
 import { startTransition, useDeferredValue, useEffect, useMemo, useState } from 'react';
-import {
-  CONCEPTS, SAMPLE_ATOMS, SAMPLE_PROSE, CORPUS_TOTALS,
-  type MockAtom, type AtomType, type Tradition, type Concept,
-} from '../../data/corpus-mock-sample';
+import { CONCEPTS, SAMPLE_ATOMS, SAMPLE_PROSE, CORPUS_TOTALS } from '../../data/corpus-mock-sample';
+import type { MockAtom, AtomType, Tradition, Concept } from '../../lib/db/knowledge';
 
 interface ProseContext {
   book: string;

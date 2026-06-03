@@ -12,33 +12,11 @@
  * Full counts are the verified temp-apply result (atoms 696 -> 7036).
  */
 
-export type AtomType = 'quran' | 'hadith' | 'term' | 'doctrine' | 'etymology' | 'poetry';
-export type Tradition = 'universal' | 'fatimid-ismaili' | 'ismaili';
-export type CorpusId = 'quran' | 'hadith' | 'ksessions' | 'wisdom';
-
-export interface MockAtom {
-  id: string;
-  type: AtomType;
-  corpus: CorpusId;
-  tradition: Tradition;
-  gloss: string;          // English-MEANINGFUL headline (what you read first)
-  source_ref: string;     // the coordinate, shown as a small chip (Q 2:255, Bukhari, root ر-ح-م)
-  arabic?: string;
-  text_en: string;        // fuller searchable text
-  root?: string;          // Arabic root — the cross-source spine
-  concepts: string[];     // concept ids this atom belongs to
-}
-
-export interface Concept {
-  id: string;
-  label: string;          // English concept name
-  arabic: string;
-  translit: string;       // raḥma, ʿilm …
-  root: string;           // ر-ح-م
-  definition: string;     // one-line gloss (from the term/etymology)
-  synonyms: string[];     // search aliases (English + translit variants)
-  family: string[];       // related derived terms (root family)
-}
+// Type definitions live in lib/db/knowledge.ts (the canonical DB layer).
+// Import them here for use in the sample data below, then re-export for
+// existing consumers that import from corpus-mock-sample.
+import type { AtomType, Tradition, CorpusId, MockAtom, Concept } from '../lib/db/knowledge';
+export type { AtomType, Tradition, CorpusId, MockAtom, Concept };
 
 export const CORPUS_TOTALS = {
   atoms: 7036,

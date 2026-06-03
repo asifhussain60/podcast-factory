@@ -3,7 +3,7 @@ import { BookMarked, BrainCircuit, FileSearch, Sparkles } from 'lucide-react';
 import CorpusExplorer from '../corpus-mock/CorpusExplorer';
 import EditorialCards from '../reader/poc/EditorialCards';
 import type { CardDef } from '../../lib/reader/editorial';
-import type { MockAtom, Tradition } from '../../data/corpus-mock-sample';
+import type { MockAtom, Tradition } from '../../lib/db/knowledge';
 import type { ChapterDef, WorkspaceChapter } from '../../lib/reader/book-workspace';
 
 type Mode = 'review' | 'policy' | 'knowledge' | 'augment';

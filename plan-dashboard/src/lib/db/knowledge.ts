@@ -12,7 +12,38 @@
 import Database from 'better-sqlite3';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { MockAtom, AtomType, Tradition, CorpusId } from '../../data/corpus-mock-sample';
+
+// ---------------------------------------------------------------------------
+// Canonical atom types — authoritative here; re-exported by corpus-mock-sample
+// ---------------------------------------------------------------------------
+
+export type AtomType = 'quran' | 'hadith' | 'term' | 'doctrine' | 'etymology' | 'poetry';
+export type Tradition = 'universal' | 'fatimid-ismaili' | 'ismaili';
+export type CorpusId = 'quran' | 'hadith' | 'ksessions' | 'wisdom';
+
+export interface MockAtom {
+  id: string;
+  type: AtomType;
+  corpus: CorpusId;
+  tradition: Tradition;
+  gloss: string;
+  source_ref: string;
+  arabic?: string;
+  text_en: string;
+  root?: string;
+  concepts: string[];
+}
+
+export interface Concept {
+  id: string;
+  label: string;
+  arabic: string;
+  translit: string;
+  root: string;
+  definition: string;
+  synonyms: string[];
+  family: string[];
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // plan-dashboard/src/lib/db  →  ../../../../  →  repo root  →  content/...
