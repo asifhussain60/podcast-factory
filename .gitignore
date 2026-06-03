@@ -147,6 +147,15 @@ content/knowledge-base/categorize-review.json
 CONTENT/knowledge-base/categorize-report.json
 CONTENT/knowledge-base/categorize-review.json
 
+# Auto-generated pipeline metrics — reproducible from the DB, never committed.
+# (Both case variants for macOS APFS / git case-fold mismatch.)
+content/drafts/**/_system/stage-metrics.json
+CONTENT/drafts/**/_system/stage-metrics.json
+
+# Root-level package-lock.json (belongs only in plan-dashboard/; the root
+# package.json is metadata-only with no install dependencies).
+/package-lock.json
+
 # Pre-augmentation backups written by the augmenter before it rewrites episode
 # files — transient safety copies, never committed.
 **/.before-augment/
