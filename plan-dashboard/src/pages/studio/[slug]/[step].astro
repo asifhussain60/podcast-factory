@@ -11,6 +11,7 @@ import Base from '../../../layouts/Base.astro';
 import StudioSubnav from '../../../components/studio/StudioSubnav.astro';
 import OperatorWorkbench from '../../../components/workbench/OperatorWorkbench.tsx';
 import EditorialCards from '../../../components/reader/poc/EditorialCards.tsx';
+import ContentLevelSelector from '../../../components/studio/ContentLevelSelector.tsx';
 import { CARD_DEFS } from '../../../lib/reader/editorial';
 import { loadBookIndex } from '../../../lib/reader/chapters';
 import { loadBookWorkspace, AYYUHAL_WALAD_STAGE_DEFS } from '../../../lib/reader/book-workspace';
@@ -49,6 +50,19 @@ const workspace = await loadBookWorkspace(slug, chapterDefs, AYYUHAL_WALAD_STAGE
 const chParam = Astro.url.searchParams.get('ch') ?? '';
 const initialChapterId = chapterDefs.find((c) => c.id === chParam)?.id ?? chapterDefs[0]?.id ?? '';
 
+// Wave L-7 — content-level selector data. Read tradition_affinity + content_level
+// from meta.yml; the selector is shown ONLY for Islamic books (tradition_affinity set).
+let bookTradition = '';
+let bookContentLevel = '';
+try {
+  const metaRaw = await readFile(join(ref.dir, 'meta.yml'), 'utf-8');
+  const tradMatch = metaRaw.match(/^tradition_affinity:\s*(.+)$/m);
+  const levelMatch = metaRaw.match(/^content_level:\s*(.+)$/m);
+  bookTradition = tradMatch ? tradMatch[1].trim() : '';
+  bookContentLevel = levelMatch ? levelMatch[1].trim() : '';
+} catch { /* no meta.yml — selector hidden */ }
+const showContentLevel = bookTradition !== '' && bookTradition !== 'universal';
+
 // Review-gate (for the review step).
 let gate: { approved?: boolean; warnings?: { severity?: string; message?: string }[] } | null = null;
 if (stepParam === 'review') {
@@ -72,6 +86,17 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
         <h1>Intake — {bookTitle}</h1>
         <p>{stepMeta.blurb} These editorial decisions steer how every later stage authors the book.</p>
       </header>
+      {showContentLevel && (
+        <div class="studio-panel">
+          <h2>Content level</h2>
+          <p class="cl-intro">
+            Sets which wisdom-corpus teachings may enrich this book. A book draws
+            only from its own level and the levels below it — never above. Quran,
+            hadith, and etymology are always available regardless of level.
+          </p>
+          <ContentLevelSelector client:only="react" slug={slug} initial={bookContentLevel} />
+        </div>
+      )}
       <div class="studio-panel">
         <h2>Editorial decisions</h2>
         <EditorialCards client:only="react" slug={slug} chapters={workspace.cockpitChapters} cardDefs={CARD_DEFS} />
