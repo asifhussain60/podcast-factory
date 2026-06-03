@@ -6,26 +6,32 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-03 (session 3, continued)
+**Last updated:** 2026-06-03 (session 3, continued ×2)
 
 **BRANCH: `develop` — clean.**
-- Wave K / B4 complete (commit `af2f8f9`, 2026-06-03): wired `augment_episode_text()`
-  into per-chapter pipeline as step 3.5 (between build and converge). Gate is
-  `meta.yml series.enable_knowledge_augmenter` (default False) — all existing books
-  untouched. Tradition-match guard and error-recovery baked in. 3 new tests.
-  351 tests pass, 1 skip (was 303 last session).
+- Wave K complete (commits `af2f8f9`, `2f7f6fa`, `9f16e9d`, 2026-06-03):
+  - B4 wired: augment_episode_text() in per-chapter pipeline (step 3.5)
+  - Ayyuhal Walad meta.yml: enable_knowledge_augmenter=true, tradition=fatimid-ismaili
+  - augmenter.py: 600-char atom truncation to avoid flooding NotebookLM prompt
+  - quote atom type added to schema, extractor prompt, and DB (migration 023)
+  - term atoms expanded 58→622 via regex scan of doctrine text (zero Gemini cost)
+  - 55 existing KQUR terms fixed: text_en populated from definition field
+  - Total DB atoms: 7,600
 
 **PIPELINE HEALTH:**
-- 351 tests passing (1 skip, zero pre-existing failures regressed)
-- `astro check`: 0 errors (from prior session; not re-run this session)
+- 351 tests passing (1 skip)
+- `astro check`: 0 errors (from prior session)
 - `lint:views`: errors=0 warns=0 (from prior session)
 
 **OPEN DEBT:**
 - None.
 
 **NEXT WORK:**
-- Wave K continued: Option B (quote type + expand term extraction to 500+ atoms).
-  Augmenter is live on Ayyuhal Walad; next book run will inject Kashkole context.
+- Augmenter currently only queries doctrine atoms (tag-based). Wire term/quote
+  atoms into augment_episode_text() via keyword lookup so 622 terms can reach
+  productions (Wave K option C).
+- Or: run Ayyuhal Walad through a live chapter to see doctrine + term context
+  blocks in the challenger report end-to-end.
 
 **PARKED:**
 - Site redesign (IA complete; WC8.5 TipTap Studio rebuild deferred)
