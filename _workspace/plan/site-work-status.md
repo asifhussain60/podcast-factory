@@ -6,30 +6,33 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-03 (session 4)
+**Last updated:** 2026-06-03 (session 5)
 
-**BRANCH: `feature/wave-m-inspector-corpus` — active (off develop `b791c00`).**
-- Wave L + Wave M prep committed to develop (`b791c00`):
-  - CONTENT_LEVEL_LADDER expanded to 6 rungs (general→advanced→taveel→mamsool→mabda_maad→haqaiq)
-  - Terminology locked: `mabda_maad` code ID; "Origin & Return" display label
-  - ContentLevelSelector.tsx, _rules.py, categorize_atoms.py, tests updated
+**BRANCH: `develop` — active. Wave M merged and pushed (c66c7e3).**
+
+**Session work completed:**
+- All stale branches deleted (local + remote): feature/wave-l-category-augmentation,
+  book/ayyuhal-walad, ui/site-enhancements, refactor/wave-1, origin/refactor/wave-1,
+  origin/site/claude-code, origin/site/healthequity, origin/book/ayyuhal-walad
+- plan.yaml updated: waves G–M added with completed status; Wave CP status corrected
+- Healthequity content cherry-picked from orphaned branch (transcripts, Azure runbook, TTS PoC)
+- Wave M M-1: floating AI toolbar + inspector tabs (Details/Comment/AI/References) + scroll fix
+- Wave M M-2: lib/db/knowledge.ts + /api/corpus/atoms GET + corpus.astro live DB (988 atoms)
+- Wave M M-3: updateAtom/createAtom + /api/corpus/atom PATCH+POST + CorpusExplorer inline edit+create
+- Post-merge P0 fixed: localAtoms useState hoisted above activeAtoms reference
 
 **PIPELINE HEALTH:**
-- 351 tests passing (1 skip) — from prior session; re-verify after Wave M M-1
-- `astro check`: 0 errors (from prior session)
-- `lint:views`: errors=0 warns=0 (from prior session)
+- 392 tests passing (1 skip)
+- `astro check`: 0 errors
+- `lint:views`: errors=0 warns=0
 
 **OPEN DEBT:**
-- None.
+- P1 (low urgency): move MockAtom/AtomType/Tradition/CorpusId types from corpus-mock-sample into knowledge.ts — decouples live DB module from mock data file.
 
-**NEXT WORK (Wave M — in active design/implementation):**
-- Plan at `~/.claude/plans/how-do-i-edit-robust-wigderson.md`
-- M-1: Floating paragraph toolbar (AI-only) + section-level depth markers + inspector
-  declutter + scroll fix (StudioPoc.tsx, studio-poc.css — no new dependencies)
-- M-2: Wire CorpusExplorer to real DB data via new knowledge.ts + /api/corpus/atoms
-- M-3: Edit + create inline within CorpusExplorer
-- Open decisions: (1) Kashkole SQLite import + Lookup_levels verification
-  (2) Full 6→7-rung ladder from Lookup_levels (3) Section stable IDs
+**NEXT WORK (Wave N — not yet designed):**
+- Section-level depth markers (pipeline guesses, human corrects) — requires stable section IDs first
+- Lookup_levels SQLite import + canonical term verification + full 6→7-rung ladder
+- Wave CP formal implementation (content_profile field in series-config.yaml + pipeline gates)
 
 **PARKED:**
 - Ayyuhal Walad pipeline: 5 chapters fully staged; waiting on hadith DB from Asif
