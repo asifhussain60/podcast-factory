@@ -6,7 +6,7 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-03 (session 3)
+**Last updated:** 2026-06-03 (session 3, continued)
 
 **BRANCH: `develop` — clean.**
 - Wave K / B4 complete (commit `af2f8f9`, 2026-06-03): wired `augment_episode_text()`
@@ -24,9 +24,8 @@
 - None.
 
 **NEXT WORK:**
-- Wave K continued: Option B (quote type + expand term extraction to 500+ atoms) or
-  enable augmenter on a live book (add `enable_knowledge_augmenter: true` +
-  `knowledge_tags` + `tradition_affinity` to ayyuhal-walad meta.yml and smoke-test)
+- Wave K continued: Option B (quote type + expand term extraction to 500+ atoms).
+  Augmenter is live on Ayyuhal Walad; next book run will inject Kashkole context.
 
 **PARKED:**
 - Site redesign (IA complete; WC8.5 TipTap Studio rebuild deferred)
