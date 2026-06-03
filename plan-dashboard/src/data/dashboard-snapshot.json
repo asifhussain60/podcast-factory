@@ -699,8 +699,8 @@
   "waves": [],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-02T22:46:57.542346+00:00",
-  "source_commit": "5cbba2e",
+  "generated_at": "2026-06-03T13:13:05.893615+00:00",
+  "source_commit": "cbe4979",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [
     {
@@ -714,54 +714,54 @@
   ],
   "recent_commits": [
     {
-      "sha": "5cbba2e",
-      "subject": "merge(refactor/wave-1): Wave J complete \u2014 local-first lookups + quality-over-cost pipeline",
-      "date": "2026-06-02"
+      "sha": "cbe4979",
+      "subject": "fix(site): repair 3 broken links left by redirect-stub deletion",
+      "date": "2026-06-03"
     },
     {
-      "sha": "6f758f0",
-      "subject": "fix(astro): resolve 8 pre-existing TypeScript errors \u2014 0 errors remain",
-      "date": "2026-06-02"
+      "sha": "f3c58a1",
+      "subject": "fix(site): route chapter clicks to Studio; delete 7 deprecated pages",
+      "date": "2026-06-03"
     },
     {
-      "sha": "98efddf",
-      "subject": "chore(audit): promote Wave J to completed + track F38 claude-p debt",
-      "date": "2026-06-02"
+      "sha": "983cb72",
+      "subject": "chore: update status \u2014 Wave K quality pass done, episodes augmented",
+      "date": "2026-06-03"
     },
     {
-      "sha": "39629c6",
-      "subject": "feat(wave-j/J3-J5): live verse fallback, session style fetch, TopicPopover",
-      "date": "2026-06-02"
+      "sha": "85fd4b4",
+      "subject": "feat(Wave K): quality pass \u2014 wrapper cleanup, per-episode doctrine, Tier-1 terms only",
+      "date": "2026-06-03"
     },
     {
-      "sha": "5031f16",
-      "subject": "feat(wave-j/J2): local-first verse + term lookups \u2014 zero Gemini spend for known terms",
-      "date": "2026-06-02"
+      "sha": "435a833",
+      "subject": "chore: update status \u2014 Wave K all gaps closed, 357 tests",
+      "date": "2026-06-03"
     },
     {
-      "sha": "55c1a86",
-      "subject": "fix(quality-audit): resolve 7 test failures + add consumer category phase gates",
-      "date": "2026-06-02"
+      "sha": "ba6427f",
+      "subject": "feat(Wave K): wire term+quote into augmenter; fix CASCADE wipe; repopulate tags",
+      "date": "2026-06-03"
     },
     {
-      "sha": "bd4459a",
-      "subject": "chore(claude-code-training): add EP01 framing artifact",
-      "date": "2026-06-02"
+      "sha": "9367d0e",
+      "subject": "chore: update status \u2014 Wave K complete, 7600 DB atoms",
+      "date": "2026-06-03"
     },
     {
-      "sha": "9e87a4f",
-      "subject": "fix(pipeline): support synthesized-explainer source_type + extract artifacts",
-      "date": "2026-06-02"
+      "sha": "9f16e9d",
+      "subject": "feat(Wave K): add quote type + expand term atoms 58\u2192622 (zero API cost)",
+      "date": "2026-06-03"
     },
     {
-      "sha": "f70b53a",
-      "subject": "fix(content): shorten chapter titles to \u226460 chars (INVARIANT 6)",
-      "date": "2026-06-02"
+      "sha": "6b45b59",
+      "subject": "chore: update status \u2014 B4 fully live, augmenter smoke-tested on Ayyuhal Walad",
+      "date": "2026-06-03"
     },
     {
-      "sha": "3400aab",
-      "subject": "podcast(claude-code-training): update branch reference to develop",
-      "date": "2026-06-02"
+      "sha": "2f7f6fa",
+      "subject": "feat(B4): enable knowledge augmenter on Ayyuhal Walad + fix atom truncation",
+      "date": "2026-06-03"
     }
   ],
   "wave_execution_events": [],
