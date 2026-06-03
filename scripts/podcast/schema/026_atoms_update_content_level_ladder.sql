@@ -43,6 +43,16 @@ CREATE TABLE atoms_new (
                      ))
 );
 
+-- Defensive data migration: map any atoms still carrying old 4-level values to
+-- their nearest new-ladder equivalents before copying into the constrained table.
+-- These are no-ops on the production DB (no such rows exist there) but prevent
+-- a constraint-violation failure if this migration is ever run on a DB that was
+-- migrated through 025 before atoms were recategorised.
+UPDATE atoms SET content_level = 'general'  WHERE content_level = 'history';
+UPDATE atoms SET content_level = 'advanced' WHERE content_level = 'shariah';
+UPDATE atoms SET content_level = 'taveel'   WHERE content_level = 'esoteric';
+UPDATE atoms SET content_level = 'haqaiq'   WHERE content_level = 'realities';
+
 INSERT INTO atoms_new SELECT * FROM atoms;
 
 DROP TABLE atoms;

@@ -10,14 +10,17 @@ Category-gated augmentation for Islamic scholarly books, Quranic etymology weavi
 and a new challenger category. Non-Islamic books are unaffected (opt-in by `content_level`).
 
 - **Content-level gate (L-1/L-2)** — migration `025_atoms_add_content_level.sql` adds
-  `content_level` to atoms (history < shariah < esoteric < realities; `universal`
-  outside the ladder). [`_rules.py`](scripts/podcast/_rules.py) `allowed_content_levels()`
-  drives cumulative-downward selection in [`augmenter.py`](scripts/podcast/intelligence/augmenter.py)
+  `content_level` to atoms; Wave M migration `026_atoms_update_content_level_ladder.sql`
+  expands the CHECK to the 6-level Kashkole ladder (general → advanced → taveel → mamsool
+  → mabda_maad → haqaiq; `universal` outside the ladder, always eligible).
+  [`_rules.py`](scripts/podcast/_rules.py) `allowed_content_levels()` drives
+  cumulative-downward selection in [`augmenter.py`](scripts/podcast/intelligence/augmenter.py)
   `_fetch_doctrine_atoms` + mirrored in [`augment_book.py`](scripts/podcast/augment_book.py).
   Only doctrine is gated; Quran/Hadith/Term/Etymology are universal.
 - **Atom categorization (L-3)** — [`knowledge/categorize_atoms.py`](scripts/podcast/knowledge/categorize_atoms.py):
-  tag heuristic + Gemini Flash classified 555 doctrine atoms (esoteric 206, realities 195,
-  shariah 118, history 36; 73 below-threshold left NULL for review).
+  tag heuristic + Gemini Flash classified 555 doctrine atoms against the 6-level ladder
+  (taveel 206, haqaiq 195, advanced 118, general 36; 73 below-threshold left NULL for
+  review). Old 4-level names (esoteric/realities/shariah/history) remapped by migration 026.
 - **Etymology weaving (L-4)** — `_fetch_matching_etymology` + `_build_etymology_block`
   weave a SPOKEN root-insight (≤3/chapter, never spelling Arabic letters);
   [`knowledge/fill_etymology_phonetics.py`](scripts/podcast/knowledge/fill_etymology_phonetics.py)
