@@ -43,6 +43,7 @@ const TAGS = [
   { id: 'esoteric', label: 'Esoteric', icon: '🔮' },
   { id: 'reality', label: 'Reality', icon: '💎' },
   { id: 'sharia', label: 'Sharia', icon: '⚖️' },
+  { id: 'history', label: 'History', icon: '📜' },
   { id: 'delete', label: 'Delete', icon: '🗑️' },
   { id: 'improve', label: 'Improve', icon: '✏️' },
 ];
@@ -193,6 +194,13 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
 
   // Active paragraph index (inspector drives the comment textarea).
   const [activeParaIdx, setActiveParaIdx] = useState<number | null>(null);
+
+  // Wave L-8 — AI assist panel + Finalize state.
+  const [aiBusy, setAiBusy] = useState(false);
+  const [aiKind, setAiKind] = useState('');
+  const [aiResult, setAiResult] = useState('');
+  const [aiError, setAiError] = useState('');
+  const [finalizeMsg, setFinalizeMsg] = useState('');
 
   // serializeToMarkdown / saveAndApprove / discardChanges declared after useEditor (below).
 
@@ -596,6 +604,125 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     if (editor) editor.view.dispatch(editor.state.tr.setMeta('augDiff', true));
   }, [editor]);
 
+  // ── Wave L-8: AI assist + Finalize ──────────────────────────────────────
+  // Text of the paragraph at a given doc index (for AI actions on the selection).
+  const paragraphText = useCallback((idx: number): string => {
+    if (!editor) return '';
+    let i = 0;
+    let out = '';
+    editor.state.doc.forEach((n) => {
+      if (i === idx) out = n.textContent;
+      i++;
+    });
+    return out;
+  }, [editor]);
+
+  // Run an AI action on the active paragraph. `kind` selects the route + model.
+  const runAi = useCallback(async (kind: string) => {
+    if (activeParaIdx === null) return;
+    const text = paragraphText(activeParaIdx);
+    if (!text.trim()) return;
+    setAiBusy(true); setAiKind(kind); setAiResult(''); setAiError('');
+    try {
+      let res: Response;
+      if (kind === 'rewrite') {
+        res = await fetch('/api/ai/rewrite', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ text }),
+        });
+      } else if (kind === 'research') {
+        res = await fetch('/api/ai/research', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ text, context: chapterTitle }),
+        });
+      } else if (kind === 'autotag') {
+        res = await fetch('/api/ai/claude', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ task: 'categorise', text }),
+        });
+      } else {
+        setAiBusy(false); return;
+      }
+      const json = await res.json();
+      if (!res.ok || json.ok === false) {
+        setAiError(json.error ?? `Request failed (${res.status})`);
+      } else if (kind === 'autotag') {
+        const { tag, reason } = json.data ?? {};
+        setAiResult(`Suggested tag: ${tag}${reason ? ` — ${reason}` : ''}`);
+        if (tag && TAGS.some((t) => t.id === tag)) tagFnRef.current?.(activeParaIdx, tag);
+      } else if (kind === 'rewrite') {
+        const opts = (json.data?.options ?? json.options ?? []) as string[];
+        setAiResult(opts.map((o, i) => `${i + 1}. ${o}`).join('\n\n'));
+      } else {
+        setAiResult(typeof json.data === 'string' ? json.data : JSON.stringify(json.data));
+      }
+    } catch (e) {
+      setAiError(String(e));
+    } finally {
+      setAiBusy(false);
+    }
+  }, [activeParaIdx, paragraphText, chapterTitle]);
+
+  // Finalize: gather paragraphs + tags + comments → Claude brief → clipboard.
+  const finalize = useCallback(async () => {
+    if (!editor) return;
+    setFinalizeMsg('Generating brief…');
+    const paragraphs: { idx: number; text: string; tags: string[]; comment: string }[] = [];
+    let i = 0;
+    editor.state.doc.forEach((n) => {
+      const tags = paraTagsRef.current.get(i) ?? [];
+      const comment = commentsRef.current.get(i) ?? '';
+      if (tags.length || comment.trim()) {
+        paragraphs.push({ idx: i, text: n.textContent.slice(0, 400), tags, comment });
+      }
+      i++;
+    });
+    try {
+      const res = await fetch('/api/ai/claude', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ task: 'finalize', slug, chapter, paragraphs }),
+      });
+      const json = await res.json();
+      if (!res.ok || json.ok === false) {
+        setFinalizeMsg(`Failed: ${json.error ?? res.status}`);
+        return;
+      }
+      const brief = json.data?.brief ?? '';
+      await navigator.clipboard.writeText(brief);
+      setFinalizeMsg('Brief copied — paste into Claude Code IDE to continue.');
+    } catch (e) {
+      setFinalizeMsg(`Failed: ${String(e)}`);
+    }
+  }, [editor, slug, chapter]);
+
+  // Persist a paragraph comment to SQLite (annotations API) on blur.
+  const persistComment = useCallback((idx: number, note: string) => {
+    fetch('/api/annotations', {
+      method: 'PATCH', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ book: slug, chapter, paraIdx: idx, note }),
+    }).catch(() => { /* non-blocking; comment is also saved with the stage */ });
+  }, [slug, chapter]);
+
+  // Pre-load saved paragraph comments from SQLite when the chapter changes.
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/annotations?book=${encodeURIComponent(slug)}&chapter=${encodeURIComponent(chapter)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((json) => {
+        if (cancelled || !json) return;
+        const notes = json.data?.notes ?? json.notes ?? {};
+        for (const [idx, note] of Object.entries(notes)) {
+          if (typeof note === 'string' && note.trim()) {
+            commentsRef.current.set(Number(idx), note);
+          }
+        }
+        refreshComments();
+      })
+      .catch(() => { /* offline-friendly; stage-saved comments still load */ });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, chapter]);
+
   let changedCount = 0;
   if (editor) {
     let i = 0;
@@ -791,6 +918,16 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
             </div>
           )}
           {saveError && <p className="sp-save-error">{saveError}</p>}
+
+          {/* Wave L-8 — Finalize: hand off tagged/commented paragraphs to Claude Code. */}
+          {!viewAll && (
+            <div className="sp-finalize-row">
+              <button type="button" className="sp-finalize" onClick={finalize}>
+                ⎘ Finalize → copy brief
+              </button>
+              {finalizeMsg && <p className="sp-finalize-msg" aria-live="polite">{finalizeMsg}</p>}
+            </div>
+          )}
         </section>
 
         {/* Inspector — its own bordered card; bounded height, scrolls internally. */}
@@ -827,7 +964,26 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                   else commentsRef.current.delete(activeParaIdx);
                   refreshComments();
                 }}
+                onBlur={(e) => persistComment(activeParaIdx, e.target.value.trim())}
               />
+            </div>
+          )}
+
+          {/* Wave L-8 — AI assist on the active paragraph. */}
+          {activeParaIdx !== null && !isReadOnlyStage && (
+            <div className="sp-ai-panel">
+              <h3 className="sp-insp-sub">AI assist · paragraph {activeParaIdx + 1}</h3>
+              <div className="sp-ai-actions" role="toolbar" aria-label="AI actions">
+                <button type="button" className="sp-ai-btn" disabled={aiBusy}
+                  onClick={() => runAi('rewrite')}>↺ Rewrite</button>
+                <button type="button" className="sp-ai-btn" disabled={aiBusy}
+                  onClick={() => runAi('research')}>🔍 Research</button>
+                <button type="button" className="sp-ai-btn" disabled={aiBusy}
+                  onClick={() => runAi('autotag')}>🏷 Auto-tag</button>
+              </div>
+              {aiBusy && <p className="sp-ai-status">Working… ({aiKind})</p>}
+              {aiError && <p className="sp-ai-status sp-ai-status--error">{aiError}</p>}
+              {aiResult && <pre className="sp-ai-result">{aiResult}</pre>}
             </div>
           )}
 

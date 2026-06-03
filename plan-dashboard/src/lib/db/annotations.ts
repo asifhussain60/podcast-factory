@@ -35,8 +35,9 @@ const DEFAULT_TAGS: { label: string; color: string; icon: string; sort_order: nu
   { label: 'esoteric',             color: '#7c3aed', icon: 'Eye',               sort_order: 0 },
   { label: 'reality',              color: '#0284c7', icon: 'Globe',             sort_order: 1 },
   { label: 'sharia',               color: '#0f766e', icon: 'Scale',             sort_order: 2 },
-  { label: 'mark for deletion',    color: '#e11d48', icon: 'Trash2',            sort_order: 3 },
-  { label: 'mark for improvement', color: '#d97706', icon: 'Lightbulb',         sort_order: 4 },
+  { label: 'history',              color: '#b45309', icon: 'Scroll',            sort_order: 3 },
+  { label: 'mark for deletion',    color: '#e11d48', icon: 'Trash2',            sort_order: 4 },
+  { label: 'mark for improvement', color: '#d97706', icon: 'Lightbulb',         sort_order: 5 },
 ];
 
 function ensureTables(db: Database.Database): void {
