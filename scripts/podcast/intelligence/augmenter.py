@@ -42,6 +42,10 @@ _QURAN_CITE_RE = re.compile(r"Q(\d+):(\d+)", re.IGNORECASE)
 _TOPIC_MARKER_TMPL = '<span class="ref-topic" data-topic-id="{id}">{text}</span>'
 
 _PROMPT_BLOCK_HEADER = "[PRIOR DOCTRINAL CONTEXT — Kashkole corpus]"
+_TERM_BLOCK_HEADER  = "[TERM GLOSSARY — Kashkole corpus]"
+_QUOTE_BLOCK_HEADER = "[ATTRIBUTED SAYINGS — Kashkole corpus]"
+# Minimum term-name length for keyword match — avoids false hits on very short roots
+_MIN_TERM_MATCH_LEN = 4
 
 
 # ─── public API ───────────────────────────────────────────────────────────────
@@ -54,38 +58,51 @@ def augment_episode_text(
     max_atoms: int = _MAX_ATOMS_DEFAULT,
     tradition: str | None = None,
 ) -> str:
-    """Prepend a doctrine-context block to episode text.
+    """Prepend doctrine, term, and quote context blocks to episode text.
 
-    Returns the original text unchanged if:
-      - augmentation is disabled in meta.yml
-      - no matching atoms found in DB
-      - topic_tags is empty
+    Three parallel lookups (all gated on enable_knowledge_augmenter in meta.yml):
+      1. Doctrine atoms  — tag-based query against the book's knowledge_tags.
+      2. Term atoms      — keyword match: term names that appear in the episode text.
+      3. Quote atoms     — speaker keyword match: quotes whose speaker is named in the text.
+
+    Returns original text unchanged if the gate is off or all three lookups return empty.
 
     Args:
         episode_text: The framing/episode text to augment.
         book_dir:     `content/drafts/<slug>/` — used to read meta.yml.
-        topic_tags:   Tags to filter doctrine atoms by (from chapter meta or
-                      the book's series-config.yaml).  If None, falls back to
-                      book-level tags from meta.yml.
-        max_atoms:    Maximum doctrine atoms to inject.
-
-    Returns:
-        The (possibly augmented) episode text.
+        topic_tags:   Tags to filter doctrine atoms by.  If None, falls back to
+                      book-level knowledge_tags from meta.yml.
+        max_atoms:    Cap applied per lookup bucket (default 5 each).
     """
     if not _augmentation_enabled(book_dir):
         return episode_text
 
-    tags = list(topic_tags or []) or _book_tags(book_dir)
-    if not tags:
-        return episode_text
-
     book_tradition = tradition or _book_tradition(book_dir)
-    atoms = _fetch_doctrine_atoms(tags, max_atoms=max_atoms, tradition=book_tradition)
-    if not atoms:
-        return episode_text
 
-    block = _build_context_block(atoms)
-    return block + "\n\n" + episode_text
+    # 1. Doctrine atoms (tag-based)
+    tags = list(topic_tags or []) or _book_tags(book_dir)
+    doctrine_block = ""
+    if tags:
+        doc_atoms = _fetch_doctrine_atoms(tags, max_atoms=max_atoms, tradition=book_tradition)
+        if doc_atoms:
+            doctrine_block = _build_context_block(doc_atoms)
+
+    # 2. Term atoms (keyword match in episode text)
+    term_block = ""
+    term_atoms = _fetch_matching_terms(episode_text, book_tradition, max_terms=max_atoms)
+    if term_atoms:
+        term_block = _build_term_block(term_atoms)
+
+    # 3. Quote atoms (speaker keyword match)
+    quote_block = ""
+    quote_atoms = _fetch_matching_quotes(episode_text, book_tradition, max_quotes=max_atoms)
+    if quote_atoms:
+        quote_block = _build_quote_block(quote_atoms)
+
+    parts = [p for p in (doctrine_block, term_block, quote_block) if p]
+    if not parts:
+        return episode_text
+    return "\n\n".join(parts) + "\n\n" + episode_text
 
 
 def augment_chapter_text(
@@ -262,9 +279,112 @@ def _fetch_doctrine_atoms(tags: list[str], *, max_atoms: int, tradition: str = "
     return result
 
 
+def _fetch_matching_terms(
+    episode_text: str,
+    tradition: str,
+    max_terms: int,
+) -> list[dict]:
+    """Return term atoms whose `body.term` name appears verbatim in the episode text.
+
+    Case-insensitive; terms shorter than _MIN_TERM_MATCH_LEN chars are skipped to
+    reduce false positives on short Arabic roots. Results sorted by term length
+    (longest first) so more specific terms take priority over generic roots.
+    """
+    ep_lower = episode_text.lower()
+    conn = _db.get_connection()
+    rows = conn.execute(
+        "SELECT id, body FROM atoms WHERE type='term' AND (tradition=? OR tradition='universal')",
+        (tradition,),
+    ).fetchall()
+    matched: list[dict] = []
+    for atom_id, body_json in rows:
+        try:
+            body = json.loads(body_json)
+        except json.JSONDecodeError:
+            continue
+        term_name = body.get("term", "").lower().strip()
+        text_en = body.get("text_en", "").strip()
+        if not term_name or not text_en:
+            continue
+        if len(term_name) < _MIN_TERM_MATCH_LEN:
+            continue
+        if term_name in ep_lower:
+            matched.append({"id": atom_id, "body": body})
+    matched.sort(key=lambda x: -len(x["body"].get("term", "")))
+    return matched[:max_terms]
+
+
+def _fetch_matching_quotes(
+    episode_text: str,
+    tradition: str,
+    max_quotes: int,
+) -> list[dict]:
+    """Return quote atoms whose speaker name appears in the episode text.
+
+    Only used once quote atoms exist in the DB (currently 0; wired for future runs).
+    """
+    ep_lower = episode_text.lower()
+    conn = _db.get_connection()
+    rows = conn.execute(
+        "SELECT id, body FROM atoms WHERE type='quote' AND (tradition=? OR tradition='universal')",
+        (tradition,),
+    ).fetchall()
+    matched: list[dict] = []
+    for atom_id, body_json in rows:
+        try:
+            body = json.loads(body_json)
+        except json.JSONDecodeError:
+            continue
+        speaker = body.get("speaker", "").lower().strip()
+        text_en = body.get("text_en", "").strip()
+        if not speaker or not text_en:
+            continue
+        if speaker in ep_lower:
+            matched.append({"id": atom_id, "body": body})
+    return matched[:max_quotes]
+
+
 def _strip_arabic(text: str) -> str:
     """Remove Arabic script runs from text (DR-012)."""
     return _ARABIC_RE.sub("", text).strip()
+
+
+def _build_term_block(term_atoms: list[dict]) -> str:
+    """Format term atoms as a compact glossary injection block."""
+    lines = [_TERM_BLOCK_HEADER, ""]
+    for item in term_atoms:
+        body = item.get("body", {})
+        term = body.get("term", "").strip()
+        text_en = _strip_arabic(body.get("text_en", ""))
+        if not term or not text_en:
+            continue
+        snippet = text_en[:_MAX_ATOM_TEXT_CHARS]
+        if len(text_en) > _MAX_ATOM_TEXT_CHARS:
+            snippet = snippet.rstrip() + " …"
+        lines.append(f"*{term}*: {snippet}")
+    if len(lines) <= 2:
+        return ""
+    return "\n".join(lines).strip()
+
+
+def _build_quote_block(quote_atoms: list[dict]) -> str:
+    """Format attributed quote atoms as a prompt injection block."""
+    lines = [_QUOTE_BLOCK_HEADER, ""]
+    for item in quote_atoms:
+        body = item.get("body", {})
+        speaker = body.get("speaker", "").strip()
+        text_en = _strip_arabic(body.get("text_en", ""))
+        if not speaker or not text_en:
+            continue
+        snippet = text_en[:_MAX_ATOM_TEXT_CHARS]
+        if len(text_en) > _MAX_ATOM_TEXT_CHARS:
+            snippet = snippet.rstrip() + " …"
+        lines.append(f"{speaker}:")
+        lines.append(snippet)
+        lines.append("")
+    if len(lines) <= 2:
+        return ""
+    return "\n".join(lines).strip()
 
 
 def _build_context_block(atoms: list[dict]) -> str:

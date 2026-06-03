@@ -1,0 +1,25 @@
+-- 024_migration_fk_guard_note.sql
+-- Recovery migration: atom_topic_tags was wiped by migration 023's CASCADE.
+--
+-- ROOT CAUSE: atom_topic_tags has `REFERENCES atoms(id) ON DELETE CASCADE` and
+-- foreign_keys is ON.  Migration 023 used `DROP TABLE atoms` inside a transaction,
+-- which triggered the CASCADE and deleted all 2928 rows from atom_topic_tags.
+-- The rename-copy-drop pattern was correct but missed this cascade dependency.
+--
+-- FIX APPLIED: Re-ran tag_doctrine_concepts.py (Gemini-2.5-flash) to re-populate
+-- atom_topic_tags (~$0.08, 628 doctrine atoms, ~79 batches).
+--
+-- FUTURE MIGRATION RULE (enforced by this note in every subsequent migration):
+-- Any migration that touches the `atoms` table MUST include:
+--
+--   PRAGMA foreign_keys = OFF;  -- disable BEFORE BEGIN TRANSACTION
+--   BEGIN TRANSACTION;
+--   ... (rename-copy-drop) ...
+--   COMMIT;
+--   PRAGMA foreign_keys = ON;   -- re-enable AFTER COMMIT
+--
+-- This prevents CASCADE from clearing child tables during the copy-drop phase.
+-- See migrations 025+ for the canonical pattern.
+
+-- No schema changes needed; this is a documentation-only migration.
+SELECT 1;
