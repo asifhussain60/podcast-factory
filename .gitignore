@@ -147,6 +147,10 @@ content/knowledge-base/categorize-review.json
 CONTENT/knowledge-base/categorize-report.json
 CONTENT/knowledge-base/categorize-review.json
 
+# Pre-augmentation backups written by the augmenter before it rewrites episode
+# files — transient safety copies, never committed.
+**/.before-augment/
+
 # Python bytecode
 **/__pycache__/
 *.pyc
