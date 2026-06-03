@@ -873,3 +873,50 @@
 .sp-legend-dot--quran  { background: var(--c-accent); }
 .sp-legend-dot--hadith { background: var(--c-gold, var(--c-amber, #d97706)); }
 .sp-legend-dot--work   { background: var(--c-accent-soft, color-mix(in srgb, var(--c-accent) 40%, transparent)); }
+
+/* ── Wave L-8: AI assist panel + Finalize ──────────────────────────── */
+.sp-ai-panel {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--c-rule, var(--c-ink-muted));
+}
+.sp-ai-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0; }
+.sp-ai-btn {
+  font-size: 0.8rem;
+  padding: 0.3rem 0.6rem;
+  background: var(--c-bg-card);
+  color: var(--c-ink);
+  border: 1px solid var(--c-rule, var(--c-ink-muted));
+  border-radius: var(--radius-md, 0.375rem);
+  cursor: pointer;
+}
+.sp-ai-btn:hover:not(:disabled) { border-color: var(--c-accent); }
+.sp-ai-btn:disabled { opacity: 0.5; cursor: default; }
+.sp-ai-btn:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.sp-ai-status { font-size: 0.8rem; color: var(--c-ink-dim); margin: 0.25rem 0; }
+.sp-ai-status--error { color: var(--c-red, #e11d48); }
+.sp-ai-result {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  background: var(--c-bg-elev);
+  color: var(--c-ink);
+  padding: 0.6rem 0.7rem;
+  border-radius: var(--radius-md, 0.375rem);
+  max-height: 18rem;
+  overflow-y: auto;
+}
+.sp-finalize-row { margin-top: 0.75rem; }
+.sp-finalize {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 0.9rem;
+  background: var(--c-accent);
+  color: var(--c-bg);
+  border: none;
+  border-radius: var(--radius-md, 0.375rem);
+  cursor: pointer;
+}
+.sp-finalize:hover { filter: brightness(1.05); }
+.sp-finalize:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.sp-finalize-msg { font-size: 0.8rem; color: var(--c-ink-dim); margin-top: 0.4rem; }

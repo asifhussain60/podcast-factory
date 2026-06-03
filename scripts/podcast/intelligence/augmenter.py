@@ -24,11 +24,18 @@ from typing import Sequence
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import _db
-from _rules import R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED
+from _rules import (
+    R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED,
+    CONTENT_LEVEL_LADDER,
+    allowed_content_levels,
+)
 from intelligence._local_server_client import quran_verse as _live_verse, topic_search as _live_topic_search
 
 # Maximum doctrine atoms injected per augmentation call
 _MAX_ATOMS_DEFAULT = 5
+# Maximum etymology insights woven per chapter (Wave L-4). Hard cap — etymology is
+# rationed so each root-insight lands; the challenger (Category W) enforces this.
+_MAX_ETYMOLOGY_DEFAULT = 3
 # Trim atom text_en to this many chars — Kashkole atoms are full doctrinal chapters and
 # can exceed 6K chars each.  ~600 chars ≈ 90–100 words: enough to convey the central
 # teaching without flooding the NotebookLM customize-prompt.
@@ -71,27 +78,46 @@ def augment_episode_text(
     max_atoms: int = _MAX_ATOMS_DEFAULT,
     tradition: str | None = None,
     episode_slug: str = "",
+    record: bool = True,
 ) -> str:
-    """Prepend doctrine, term, and quote context blocks to episode text.
+    """Prepend doctrine, term, quote, and etymology context blocks to episode text.
 
-    Three parallel lookups (all gated on enable_knowledge_augmenter in meta.yml):
+    Four parallel lookups (all gated on enable_knowledge_augmenter in meta.yml):
       1. Doctrine atoms  — tag-based query against the book's knowledge_tags.
       2. Term atoms      — keyword match: term names that appear in the episode text.
       3. Quote atoms     — speaker keyword match: quotes whose speaker is named in the text.
+      4. Etymology atoms — root-insight match (universal; ≤3/chapter; spoken form).
 
-    Returns original text unchanged if the gate is off or all three lookups return empty.
+    Cross-chapter anti-repetition (Wave L-5): atoms injected into OTHER episodes of
+    this book (tracked in episode-augment-ledger.json) are excluded, so no atom
+    repeats across chapters in the same book/binder. After selection, the atoms
+    used by THIS episode are recorded to the ledger (unless record=False, used by
+    tests). Re-running one episode is idempotent (its own prior atoms aren't
+    excluded from itself).
+
+    Returns original text unchanged if the gate is off or all four lookups return empty.
 
     Args:
         episode_text: The framing/episode text to augment.
-        book_dir:     `content/drafts/<slug>/` — used to read meta.yml.
+        book_dir:     `content/drafts/<slug>/` — used to read meta.yml + ledger.
         topic_tags:   Tags to filter doctrine atoms by.  If None, falls back to
                       book-level knowledge_tags from meta.yml.
         max_atoms:    Cap applied per lookup bucket (default 5 each).
+        episode_slug: Identifies this episode in the anti-repetition ledger.
+        record:       When True (default) persist this episode's atoms to the ledger.
     """
     if not _augmentation_enabled(book_dir):
         return episode_text
 
     book_tradition = tradition or _book_tradition(book_dir)
+    # Content-level gate (Wave L-2): None for non-Islamic / unclassified books,
+    # which preserves pre-Wave-L behavior (no level filter applied).
+    book_content_level = _book_content_level(book_dir)
+    # Anti-repetition (Wave L-5): atoms already used by OTHER episodes of this book.
+    ledger = _load_episode_ledger(book_dir)
+    already_used = _atoms_used_in_other_episodes(ledger, episode_slug)
+
+    injected_ids: list[str] = []
 
     # 1. Doctrine atoms (tag-based)
     tags = list(topic_tags or []) or _book_tags(book_dir)
@@ -101,26 +127,44 @@ def augment_episode_text(
         # matched atom pool — prevents all episodes in one book seeing identical passages.
         ep_offset = _episode_offset(episode_slug, max_atoms)
         doc_atoms = _fetch_doctrine_atoms(
-            tags, max_atoms=max_atoms, tradition=book_tradition, offset=ep_offset
+            tags, max_atoms=max_atoms, tradition=book_tradition, offset=ep_offset,
+            content_level=book_content_level, exclude_atom_ids=already_used,
         )
         if doc_atoms:
             doctrine_block = _build_context_block(doc_atoms)
+            injected_ids += [a["id"] for a in doc_atoms]
 
     # 2. Term atoms (keyword match in episode text)
     term_block = ""
-    term_atoms = _fetch_matching_terms(episode_text, book_tradition, max_terms=max_atoms)
+    term_atoms = _fetch_matching_terms(episode_text, book_tradition, max_terms=max_atoms,
+                                       exclude_atom_ids=already_used)
     if term_atoms:
         term_block = _build_term_block(term_atoms)
+        injected_ids += [a["id"] for a in term_atoms]
 
     # 3. Quote atoms (speaker keyword match)
     quote_block = ""
-    quote_atoms = _fetch_matching_quotes(episode_text, book_tradition, max_quotes=max_atoms)
+    quote_atoms = _fetch_matching_quotes(episode_text, book_tradition, max_quotes=max_atoms,
+                                         exclude_atom_ids=already_used)
     if quote_atoms:
         quote_block = _build_quote_block(quote_atoms)
+        injected_ids += [a["id"] for a in quote_atoms]
 
-    parts = [p for p in (doctrine_block, term_block, quote_block) if p]
+    # 4. Etymology atoms (Wave L-4) — universal resource, never content-level-gated.
+    #    Conservative term match; capped at 3/chapter; spoken-form guidance only.
+    etym_block = ""
+    etym_atoms = _fetch_matching_etymology(episode_text, max_etymology=_MAX_ETYMOLOGY_DEFAULT,
+                                           exclude_atom_ids=already_used)
+    if etym_atoms:
+        etym_block = _build_etymology_block(etym_atoms)
+        injected_ids += [a["id"] for a in etym_atoms]
+
+    parts = [p for p in (doctrine_block, term_block, quote_block, etym_block) if p]
     if not parts:
         return episode_text
+
+    if record and injected_ids:
+        _record_episode_atoms(book_dir, episode_slug, injected_ids)
     return "\n\n".join(parts) + "\n\n" + episode_text
 
 
@@ -265,6 +309,82 @@ def _book_tags(book_dir: Path) -> list[str]:
         return []
 
 
+# ─── Cross-chapter anti-repetition ledger (Wave L-5) ────────────────────────
+# A dedicated episode-augmentation ledger, kept SEPARATE from the book-level
+# augmentation-ledger.json that augment_book.py fully overwrites with its own
+# schema. Sharing one file across the two augmentation paths would be fragile;
+# this file is owned solely by the per-episode augmenter.
+_EPISODE_LEDGER_NAME = "episode-augment-ledger.json"
+
+
+def _episode_ledger_path(book_dir: Path) -> Path:
+    return book_dir / "_system" / _EPISODE_LEDGER_NAME
+
+
+def _load_episode_ledger(book_dir: Path) -> dict:
+    """Load the per-episode augmentation ledger ({episodes: {slug: {...}}})."""
+    p = _episode_ledger_path(book_dir)
+    if not p.exists():
+        return {"episodes": {}}
+    try:
+        data = json.loads(p.read_text(encoding="utf-8"))
+        if isinstance(data, dict) and isinstance(data.get("episodes"), dict):
+            return data
+    except Exception:  # noqa: BLE001
+        pass
+    return {"episodes": {}}
+
+
+def _atoms_used_in_other_episodes(ledger: dict, current_slug: str) -> set[str]:
+    """Union of atom IDs injected into every episode EXCEPT current_slug.
+
+    Excluding the current episode keeps re-runs idempotent: re-augmenting EP02
+    does not exclude EP02's own prior atoms (which would drift the result), only
+    atoms claimed by EP01, EP03, … so nothing repeats across chapters.
+    """
+    used: set[str] = set()
+    for slug, entry in (ledger.get("episodes") or {}).items():
+        if slug == current_slug:
+            continue
+        used.update(entry.get("atoms_injected", []) or [])
+    return used
+
+
+def _record_episode_atoms(book_dir: Path, episode_slug: str, atom_ids: list[str]) -> None:
+    """Write/overwrite this episode's injected-atom list in the ledger."""
+    if not episode_slug:
+        return
+    ledger = _load_episode_ledger(book_dir)
+    ledger.setdefault("episodes", {})[episode_slug] = {
+        "atoms_injected": sorted(set(atom_ids)),
+    }
+    p = _episode_ledger_path(book_dir)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps(ledger, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+def _book_content_level(book_dir: Path) -> str | None:
+    """Read `content_level` from meta.yml. Default: None (no gate).
+
+    None means the book is non-Islamic or unclassified — the augmenter applies
+    NO content-level filter and behaves exactly as pre-Wave-L. A returned value
+    is one of CONTENT_LEVEL_LADDER (history/shariah/esoteric/realities); anything
+    else is normalized to None so a typo never silently over-restricts.
+    """
+    meta_path = book_dir / "meta.yml"
+    if not meta_path.exists():
+        return None
+    try:
+        import yaml  # type: ignore[import]
+        meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
+        level = meta.get("content_level")
+        if level in CONTENT_LEVEL_LADDER:
+            return str(level)
+        return None
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def _episode_offset(episode_slug: str, max_atoms: int) -> int:
     """Derive a deterministic per-episode OFFSET into the atom pool.
 
@@ -281,23 +401,60 @@ def _episode_offset(episode_slug: str, max_atoms: int) -> int:
     return ep_num * max_atoms
 
 
+def _content_level_clause(content_level: str | None) -> tuple[str, list[str]]:
+    """Build the cumulative-downward content-level SQL fragment + params (Wave L-2).
+
+    Returns ``("", [])`` when *content_level* is None/unknown — the caller then
+    applies NO content-level gate (non-Islamic / unclassified path, identical to
+    pre-Wave-L behavior).
+
+    When a level is given, returns a clause restricting doctrine atoms to the
+    book's level and everything below it, plus 'universal', plus NULL (so
+    uncategorized atoms still pass during the L-3 categorization transition):
+
+        AND (a.content_level IN (?, ?, ...) OR a.content_level IS NULL)
+
+    The params are the allowed ladder levels from `allowed_content_levels()`,
+    which already includes 'universal'.
+    """
+    allowed = allowed_content_levels(content_level)
+    if not allowed:
+        return "", []
+    placeholders = ",".join("?" * len(allowed))
+    clause = f"AND (a.content_level IN ({placeholders}) OR a.content_level IS NULL)"
+    return clause, list(allowed)
+
+
 def _fetch_doctrine_atoms(
     tags: list[str],
     *,
     max_atoms: int,
     tradition: str = "universal",
     offset: int = 0,
+    content_level: str | None = None,
+    exclude_atom_ids: set[str] | None = None,
 ) -> list[dict]:
     """Query DB for doctrine atoms tagged with any of the given tags.
 
     Filters by tradition: returns atoms where tradition = <tradition> OR
     tradition = 'universal'.  This prevents cross-tradition injection.
+
+    Filters by content_level (Wave L-2): when the book declares a content_level,
+    only doctrine atoms at or below that level (cumulative downward) plus
+    'universal' plus NULL are eligible. None => no content-level gate.
+
+    Excludes exclude_atom_ids (Wave L-5): atoms already injected into OTHER
+    episodes of the same book, so no doctrine atom repeats across chapters.
+
     offset: skip this many rows so different episodes get different passages.
     """
     if not tags:
         return []
     conn = _db.get_connection()
     placeholders = ",".join("?" * len(tags))
+    level_clause, level_params = _content_level_clause(content_level)
+    exclude = sorted(exclude_atom_ids or [])
+    exclude_clause = f"AND a.id NOT IN ({','.join('?' * len(exclude))})" if exclude else ""
     rows = conn.execute(
         f"""
         SELECT DISTINCT a.id, a.body
@@ -305,11 +462,13 @@ def _fetch_doctrine_atoms(
         JOIN atom_topic_tags t ON t.atom_id = a.id
         WHERE a.type = 'doctrine'
           AND (a.tradition = ? OR a.tradition = 'universal')
+          {level_clause}
+          {exclude_clause}
           AND t.tag IN ({placeholders})
         ORDER BY a.id
         LIMIT ? OFFSET ?
         """,
-        (tradition, *tags, max_atoms, offset),
+        (tradition, *level_params, *exclude, *tags, max_atoms, offset),
     ).fetchall()
     result = []
     for atom_id, body_json in rows:
@@ -325,14 +484,17 @@ def _fetch_matching_terms(
     episode_text: str,
     tradition: str,
     max_terms: int,
+    exclude_atom_ids: set[str] | None = None,
 ) -> list[dict]:
     """Return term atoms whose `body.term` name appears verbatim in the episode text.
 
     Case-insensitive; terms shorter than _MIN_TERM_MATCH_LEN chars are skipped to
     reduce false positives on short Arabic roots. Results sorted by term length
     (longest first) so more specific terms take priority over generic roots.
+    Excludes exclude_atom_ids (Wave L-5): no term atom repeats across chapters.
     """
     ep_lower = episode_text.lower()
+    exclude = exclude_atom_ids or set()
     conn = _db.get_connection()
     rows = conn.execute(
         "SELECT id, body FROM atoms WHERE type='term' AND (tradition=? OR tradition='universal')",
@@ -340,6 +502,8 @@ def _fetch_matching_terms(
     ).fetchall()
     matched: list[dict] = []
     for atom_id, body_json in rows:
+        if atom_id in exclude:
+            continue
         try:
             body = json.loads(body_json)
         except json.JSONDecodeError:
@@ -365,12 +529,15 @@ def _fetch_matching_quotes(
     episode_text: str,
     tradition: str,
     max_quotes: int,
+    exclude_atom_ids: set[str] | None = None,
 ) -> list[dict]:
     """Return quote atoms whose speaker name appears in the episode text.
 
     Only used once quote atoms exist in the DB (currently 0; wired for future runs).
+    Excludes exclude_atom_ids (Wave L-5): no quote atom repeats across chapters.
     """
     ep_lower = episode_text.lower()
+    exclude = exclude_atom_ids or set()
     conn = _db.get_connection()
     rows = conn.execute(
         "SELECT id, body FROM atoms WHERE type='quote' AND (tradition=? OR tradition='universal')",
@@ -378,6 +545,8 @@ def _fetch_matching_quotes(
     ).fetchall()
     matched: list[dict] = []
     for atom_id, body_json in rows:
+        if atom_id in exclude:
+            continue
         try:
             body = json.loads(body_json)
         except json.JSONDecodeError:
@@ -389,6 +558,100 @@ def _fetch_matching_quotes(
         if speaker in ep_lower:
             matched.append({"id": atom_id, "body": body})
     return matched[:max_quotes]
+
+
+def _fetch_matching_etymology(
+    episode_text: str,
+    max_etymology: int = _MAX_ETYMOLOGY_DEFAULT,
+    exclude_atom_ids: set[str] | None = None,
+) -> list[dict]:
+    """Return etymology atoms whose transliterated term/root appears in the text.
+
+    Conservative whole-word match (length >= _MIN_TERM_MATCH_LEN): an etymology
+    insight only fires when the actual Arabic term or root is genuinely present —
+    so augmentation enriches an EXISTING reference rather than being forced in.
+    Etymology atoms are universal (never content-level-gated). Capped at
+    *max_etymology* (default 3 per chapter), longest-term-first so the most
+    specific derivative wins. Atoms without a baked root_phonetic are skipped
+    (a spoken form is required — see fill_etymology_phonetics.py).
+    Excludes exclude_atom_ids (Wave L-5): no etymology repeats across chapters.
+    """
+    import re as _re
+    ep_lower = episode_text.lower()
+    exclude = exclude_atom_ids or set()
+    conn = _db.get_connection()
+    rows = conn.execute("SELECT id, body FROM atoms WHERE type='etymology'").fetchall()
+    matched: list[tuple[int, dict]] = []
+    for atom_id, body_json in rows:
+        if atom_id in exclude:
+            continue
+        try:
+            body = json.loads(body_json)
+        except json.JSONDecodeError:
+            continue
+        if not body.get("root_phonetic"):
+            continue  # no spoken form yet — cannot weave correctly
+        # Candidate spoken terms: the root + every derivative transliteration.
+        terms = [body.get("root_transliteration", "")]
+        terms += [d.get("term", "") for d in body.get("derivatives", [])]
+        best_len = 0
+        for term in terms:
+            t = term.strip().lower()
+            if len(t) < _MIN_TERM_MATCH_LEN or t in _COMMON_ENGLISH_SKIP:
+                continue
+            if _re.search(rf"\b{_re.escape(t)}\b", ep_lower):
+                best_len = max(best_len, len(t))
+        if best_len:
+            matched.append((best_len, {"id": atom_id, "body": body}))
+    matched.sort(key=lambda x: -x[0])
+    return [m[1] for m in matched[:max_etymology]]
+
+
+_ETYMOLOGY_BLOCK_HEADER = (
+    "[ETYMOLOGY — OPTIONAL ROOT-INSIGHTS — weave AT MOST 3, only where one "
+    "genuinely deepens the concept being discussed; skip any that would feel "
+    "forced. Speak the root using the SPOKEN form given; NEVER spell out Arabic "
+    "letters and NEVER read Arabic script. VARY your phrasing each time — do not "
+    "repeat a template.]"
+)
+
+
+def _build_etymology_block(etymology_atoms: list[dict]) -> str:
+    """Format etymology atoms as spoken-root-insight guidance for NotebookLM.
+
+    Each line gives the derived word, its spoken form, the root + spoken form, the
+    root meaning, and a one-line conceptual bridge — everything a host needs to
+    say a natural "the root of X is Y, which means Z, so…" aside WITHOUT ever
+    spelling Arabic letters. Arabic script is stripped (DR-012 / spoken-only).
+    """
+    lines = [_ETYMOLOGY_BLOCK_HEADER, ""]
+    for item in etymology_atoms:
+        body = item.get("body", {})
+        root = _strip_arabic(body.get("root_transliteration", "")).strip()
+        root_phon = body.get("root_phonetic", "").strip()
+        root_meaning = _strip_arabic(body.get("meaning_en", "")).strip()
+        derivs = body.get("derivatives", []) or []
+        if not root or not root_phon or not root_meaning:
+            continue
+        # Pick the most specific derivative as the "surface word" the host links from.
+        surface = ""
+        for d in sorted(derivs, key=lambda d: -len(d.get("term", ""))):
+            term = _strip_arabic(d.get("term", "")).strip()
+            phon = d.get("phonetic", "").strip()
+            gloss = _strip_arabic(d.get("meaning_en", "")).strip()
+            if term and gloss:
+                surface = f'the word "{gloss}" ({term}, spoken "{phon}")' if phon \
+                    else f'the word "{gloss}" ({term})'
+                break
+        lead = surface or f'the term "{root}"'
+        lines.append(
+            f'- When {lead} arises, its root is {root} (spoken "{root_phon}"), '
+            f'meaning "{root_meaning}". Draw the link only if it illuminates the '
+            f'point — e.g. how "{root_meaning}" shades the meaning of the concept.'
+        )
+    if len(lines) <= 2:
+        return ""
+    return "\n".join(lines).strip()
 
 
 def _strip_arabic(text: str) -> str:

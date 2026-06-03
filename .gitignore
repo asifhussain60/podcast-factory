@@ -139,6 +139,14 @@ content/knowledge-base/*.db
 content/knowledge-base/*.db-shm
 content/knowledge-base/*.db-wal
 
+# Wave L categorization run artifacts — reproducible via categorize_atoms.py;
+# the committed knowledge.db carries the source-of-truth content_level values.
+# (Both case variants listed for the macOS APFS / git case-fold mismatch.)
+content/knowledge-base/categorize-report.json
+content/knowledge-base/categorize-review.json
+CONTENT/knowledge-base/categorize-report.json
+CONTENT/knowledge-base/categorize-review.json
+
 # Python bytecode
 **/__pycache__/
 *.pyc

@@ -46,7 +46,33 @@ vs. substring list); the canonical data itself is plain Python literals.
 # The LLM-grade rubric extension (§3 religious literacy, §4 philosophical
 # rigor, §6 interfaith) lives in _workspace/prompts/gemini-bundle-auditor.md so both
 # auditors see it. See F30 / scholarly-rubric integration trail on develop.
-CHALLENGER_VERSION = "2.3"  # K6: Category V (Interest) + 5-axis PEQ
+CHALLENGER_VERSION = "2.4"  # Wave L: Category W (augmentation quality)
+
+# ─── Category W (Wave L) — augmentation-quality checks. Guards that knowledge
+# augmentation enriches genuine gaps naturally (never forced), respects the book's
+# content level, draws only real atoms, weaves etymology in spoken form (≤3/chapter,
+# never spelling Arabic letters), and never repeats an atom across chapters.
+# Implemented deterministically in _augmentation.py (W3–W6 mechanical; W1–W2 light
+# heuristic + agent judgment). Severities:
+#   W1 forced/no-gap augmentation     P1  (auto-revert the block)
+#   W2 unnatural / bolted-on phrasing P1  (auto-revert the block)
+#   W3 etymology cap/spoken-form      P1
+#   W4 doctrine atom above book level P0  (wrong-level leak — hard block)
+#   W5 fabricated atom (not in DB)    P0  (integrity — hard block)
+#   W6 atom repeated across chapters  P1
+R_AUGMENT_ETYMOLOGY_MAX_PER_CHAPTER = 3
+# Arabic Unicode ranges that must NEVER appear in an etymology spoken-form aside.
+R_AUGMENT_ARABIC_RANGES = (
+    (0x0600, 0x06FF), (0x0750, 0x077F), (0x08A0, 0x08FF),
+    (0xFB50, 0xFDFF), (0xFE70, 0xFEFF),
+)
+# Block-header substrings the challenger scans for in augmented episode text.
+R_AUGMENT_BLOCK_HEADERS = {
+    "doctrine": "[PRIOR DOCTRINAL CONTEXT",
+    "term": "[TERM GLOSSARY",
+    "quote": "[ATTRIBUTED SAYINGS",
+    "etymology": "[ETYMOLOGY",
+}
 
 # ─── R-HOST-ROLE-PARITY (P0 2026-05-24) — host roles are locked book-wide.
 # Host A is always the scholar/teacher. Host B is always the seeker/student/
@@ -118,6 +144,42 @@ ALLOWED_CATEGORIES = ("books", "articles", "documents", "lectures", "interviews"
 # Consumer/explainer content has no Arabic transliteration requirements and no
 # tradition-specific doctrinal context to inject.
 CONSUMER_CATEGORIES: frozenset[str] = frozenset({"sites", "explainers"})
+
+# ─── Content-level ladder (Wave L) — ISLAMIC scholarly books only. Single source
+# of truth for category-gated augmentation. A book declaring `content_level` in
+# meta.yml draws doctrine atoms ONLY at or below its own level (cumulative
+# downward), never above. Mirrors the spiritual hierarchy from most accessible
+# (history) to most metaphysical (realities = Haqaiq + Mabda Ma'ad, same rank).
+#
+# `universal` sits OUTSIDE the ladder — always eligible at every level. It is the
+# permanent value for Quran/Hadith/Term/Etymology atoms (universal resources,
+# never level-gated) and the eligible-everywhere marker for doctrine atoms.
+# NULL (absent) = non-Islamic book OR uncategorized atom: no gate applied.
+#
+# CONTENT_LEVEL_LADDER is ordered low→high; index = rank. allowed_content_levels()
+# returns {levels 0..rank(book_level)} for the cumulative-downward query clause.
+CONTENT_LEVEL_LADDER: tuple[str, ...] = ("history", "shariah", "esoteric", "realities")
+CONTENT_LEVELS: frozenset[str] = frozenset(CONTENT_LEVEL_LADDER) | {"universal"}
+
+
+def allowed_content_levels(book_level: str | None) -> list[str]:
+    """Return the doctrine-atom content levels a book at *book_level* may draw from.
+
+    Cumulative downward: a book at rank N is eligible for every ladder level at
+    or below N, plus 'universal'. Returns an empty list when *book_level* is None
+    or unrecognized (caller then applies NO content-level gate — the non-Islamic /
+    uncategorized path, preserving pre-Wave-L behavior).
+
+    Examples:
+        allowed_content_levels('esoteric')  -> ['history','shariah','esoteric','universal']
+        allowed_content_levels('realities') -> ['history','shariah','esoteric','realities','universal']
+        allowed_content_levels('history')   -> ['history','universal']
+        allowed_content_levels(None)         -> []
+    """
+    if not book_level or book_level not in CONTENT_LEVEL_LADDER:
+        return []
+    rank = CONTENT_LEVEL_LADDER.index(book_level)
+    return list(CONTENT_LEVEL_LADDER[: rank + 1]) + ["universal"]
 
 # ─── Learning substrate root (relative to repo root). Used by all four
 # learning scripts (aggregate, propose, test, health writer) and by the

@@ -18,6 +18,7 @@
     "lint:views:strict": "node scripts/lint-html-views.mjs --strict"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.100.1",
     "@astrojs/check": "^0.9.9",
     "@astrojs/node": "^10.1.2",
     "@astrojs/react": "^4.2.0",

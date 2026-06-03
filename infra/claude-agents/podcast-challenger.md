@@ -413,6 +413,23 @@ Mode dispatch: always runs on every chapter pass. Category V findings do NOT blo
 
 **Category V is never auto-fixed.** All five checks require authoring judgment about tone, framing, and rhetorical shape — deterministic insertion would corrupt voice. The PEQ Interest axis score is computed independently in `_quality.py` and does not depend on V-finding counts; it uses the same pattern lists for a continuous 0–100 score.
 
+### Category W: Augmentation quality (Wave L) — added 2026-06-03
+
+Validates that knowledge augmentation (the doctrine / term / quote / etymology context blocks that `scripts/podcast/intelligence/augmenter.py` prepends to episode text) **enriches genuine gaps naturally, respects the book's content level, draws only real atoms, weaves etymology in spoken form, and never repeats an atom across chapters.** W3–W6 are deterministic, implemented in [`scripts/podcast/_augmentation.py`](../../scripts/podcast/_augmentation.py) (mirrors Category T's `_doctrinal.py` shape: `AugmentationFinding` + per-check functions + `run_all`). W1–W2 are flagged heuristically there and judged semantically by this agent against the rubric below.
+
+Content-level gating is the spine: Islamic books declare `content_level` in `meta.yml` (history < shariah < esoteric < realities); a book draws doctrine atoms only at or below its own level (cumulative downward) plus `universal`/uncategorized. Quran/Hadith/Term/Etymology are universal resources — never level-gated. Authority: `_rules.allowed_content_levels()` + `R_AUGMENT_*`.
+
+| ID | Check | Detection | Severity / Remediation |
+|---|---|---|---|
+| W1 | **Augmentation fills a genuine gap** — an injected block clarifies a concept the source merely references, rather than padding. | Agent judgment; heuristic flags a block whose matched term is absent from the source body. | P1 — auto-revert the block (`_augmentation.revert_block`); augmenter re-runs excluding that atom via the ledger. |
+| W2 | **Reads natural, not bolted-on** — the enrichment flows as a host would actually say it; no forced "a parallel teaching notes…" scaffolding every time. | Agent judgment against the spoken-cadence rubric. | P1 — auto-revert + re-author. |
+| W3 | **Etymology discipline** — ≤ `R_AUGMENT_ETYMOLOGY_MAX_PER_CHAPTER` (3) per chapter; each aside carries a SPOKEN romanized form; NEVER spells Arabic letters / emits Arabic script. | Deterministic: `check_w3_etymology` counts bullets, scans for Arabic Unicode, requires a `spoken "…"` form. | P1 — drop the surplus/offending etymology aside. |
+| W4 | **Content-level integrity** — every injected doctrine atom is within the book's level band. | Deterministic: `check_w4_w5_content_and_existence` reads `episode-augment-ledger.json` + atom `content_level` from the DB. | **P0 — hard block.** A realities atom in an esoteric book is a doctrinal leak. |
+| W5 | **No fabricated atom** — every atom id in the ledger exists in `knowledge.db`. | Deterministic: DB existence check. | **P0 — hard block.** |
+| W6 | **No cross-chapter repeat** — no atom appears in two episodes' ledger entries for the same book. | Deterministic: `check_w6_no_cross_chapter_repeat` scans the ledger. | P1 — re-run augmentation for the later episode (the ledger already excludes prior atoms). |
+
+**W1/W2 auto-revert, W3/W6 advisory, W4/W5 block.** Because the augmenter already enforces the content-level gate and ledger-exclusion at selection time, a W4/W5/W6 finding at challenge time signals a hand-edit or stale ledger and is treated as an integrity failure (W4/W5) or a re-run trigger (W6). Category W participates in convergence through the standard verdict mechanism (any P0 → BLOCKED); it does not alter the continuous PEQ formula.
+
 ---
 
 ## SECTION 3 — Auto-fix vs flag rules
