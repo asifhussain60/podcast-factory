@@ -195,6 +195,9 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   // Active paragraph index (inspector drives the comment textarea).
   const [activeParaIdx, setActiveParaIdx] = useState<number | null>(null);
 
+  // M-1 — Inspector tab state (Details · Comment · AI · References).
+  const [inspectorTab, setInspectorTab] = useState<'details' | 'comment' | 'ai' | 'refs'>('details');
+
   // Wave L-8 — AI assist panel + Finalize state.
   const [aiBusy, setAiBusy] = useState(false);
   const [aiKind, setAiKind] = useState('');
@@ -241,6 +244,9 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   // Index-based tag toggle, called from the floating per-paragraph icon toolbar (a PM widget
   // built outside React). Held in a ref so the widget always calls the latest closure.
   const tagFnRef = useRef<(idx: number, tagId: string) => void>(() => {});
+  // M-1 — AI action ref: called from the per-paragraph floating toolbar's AI buttons.
+  // Accepts an optional paraIdx so the toolbar can pass the hovered paragraph directly.
+  const runAiFnRef = useRef<(kind: string, paraIdx?: number) => void>(() => {});
 
   // Glossary -> word-boundary regex (longest first), reused by the overlay plugin.
   const glossarySorted = useMemo(
@@ -313,31 +319,55 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                     }
 
                     // Floating icon toolbar at the paragraph's top-left:
-                    //  - active paragraph -> full palette (all tags, assigned ones lit)
+                    //  - active paragraph -> AI-action palette (M-1: Rewrite/Research/Auto-tag)
                     //  - tagged but not active -> persistent marks (assigned icons only)
                     if (isActive || t.length) {
                       const palette = isActive;
-                      const shown = palette ? TAGS : TAGS.filter((tag) => t.includes(tag.id));
                       decos.push(
                         Decoration.widget(offset + 1, () => {
                           const bar = document.createElement('div');
-                          bar.className = `sp-para-tools${palette ? ' sp-para-tools--palette' : ' sp-para-tools--marks'}`;
                           bar.contentEditable = 'false';
-                          for (const tag of shown) {
-                            const b = document.createElement('button');
-                            b.type = 'button';
-                            b.className = `sp-ptool tag-${tag.id}${t.includes(tag.id) ? ' is-on' : ''}`;
-                            b.title = tag.label;
-                            b.textContent = tag.icon;
-                            b.addEventListener('mousedown', (ev) => {
-                              ev.preventDefault();
-                              ev.stopPropagation();
-                              tagFnRef.current(idx, tag.id);
-                            });
-                            bar.appendChild(b);
+                          if (palette) {
+                            // M-1: AI actions only (tags move to inspector Details tab).
+                            bar.className = 'sp-para-tools sp-para-tools--palette sp-para-tools--ai';
+                            const AI_ACTIONS = [
+                              { kind: 'rewrite',  label: '↺', title: 'Rewrite paragraph' },
+                              { kind: 'research', label: '🔍', title: 'Research context' },
+                              { kind: 'autotag',  label: '🏷', title: 'Auto-tag paragraph' },
+                            ];
+                            for (const action of AI_ACTIONS) {
+                              const b = document.createElement('button');
+                              b.type = 'button';
+                              b.className = 'sp-ptool sp-ptool--ai';
+                              b.title = action.title;
+                              b.textContent = action.label;
+                              b.addEventListener('mousedown', (ev) => {
+                                ev.preventDefault();
+                                ev.stopPropagation();
+                                runAiFnRef.current(action.kind, idx);
+                              });
+                              bar.appendChild(b);
+                            }
+                          } else {
+                            // Marks mode: show assigned tag icons (visual-only, still toggleable).
+                            bar.className = 'sp-para-tools sp-para-tools--marks';
+                            const shown = TAGS.filter((tag) => t.includes(tag.id));
+                            for (const tag of shown) {
+                              const b = document.createElement('button');
+                              b.type = 'button';
+                              b.className = `sp-ptool tag-${tag.id} is-on`;
+                              b.title = `${tag.label} (click to remove)`;
+                              b.textContent = tag.icon;
+                              b.addEventListener('mousedown', (ev) => {
+                                ev.preventDefault();
+                                ev.stopPropagation();
+                                tagFnRef.current(idx, tag.id);
+                              });
+                              bar.appendChild(b);
+                            }
                           }
                           return bar;
-                        }, { side: -1, key: `tools-${idx}-${palette ? 'p' : 'm'}-${t.join(',')}` }),
+                        }, { side: -1, key: `tools-${idx}-${palette ? 'ai' : 'marks'}-${t.join(',')}` }),
                       );
                     }
                     // FC-3 Word-level track changes vs the original snapshot.
@@ -617,12 +647,15 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     return out;
   }, [editor]);
 
-  // Run an AI action on the active paragraph. `kind` selects the route + model.
-  const runAi = useCallback(async (kind: string) => {
-    if (activeParaIdx === null) return;
-    const text = paragraphText(activeParaIdx);
+  // Run an AI action on a paragraph. `kind` selects the route + model.
+  // M-1: accepts optional paraIdx for invocation from the PM floating toolbar widget.
+  const runAi = useCallback(async (kind: string, paraIdx?: number) => {
+    const idx = paraIdx ?? activeParaIdx;
+    if (idx === null || idx === undefined) return;
+    const text = paragraphText(idx);
     if (!text.trim()) return;
     setAiBusy(true); setAiKind(kind); setAiResult(''); setAiError('');
+    setInspectorTab('ai'); // auto-switch so result is visible immediately
     try {
       let res: Response;
       if (kind === 'rewrite') {
@@ -649,7 +682,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       } else if (kind === 'autotag') {
         const { tag, reason } = json.data ?? {};
         setAiResult(`Suggested tag: ${tag}${reason ? ` — ${reason}` : ''}`);
-        if (tag && TAGS.some((t) => t.id === tag)) tagFnRef.current?.(activeParaIdx, tag);
+        if (tag && TAGS.some((t) => t.id === tag)) tagFnRef.current?.(idx, tag);
       } else if (kind === 'rewrite') {
         const opts = (json.data?.options ?? json.options ?? []) as string[];
         setAiResult(opts.map((o, i) => `${i + 1}. ${o}`).join('\n\n'));
@@ -661,7 +694,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     } finally {
       setAiBusy(false);
     }
-  }, [activeParaIdx, paragraphText, chapterTitle]);
+  }, [activeParaIdx, paragraphText, chapterTitle, setInspectorTab]);
 
   // Finalize: gather paragraphs + tags + comments → Claude brief → clipboard.
   const finalize = useCallback(async () => {
@@ -746,6 +779,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     [editor],
   );
   tagFnRef.current = tagByIdx;
+  runAiFnRef.current = (kind: string, paraIdx?: number) => void runAi(kind, paraIdx);
 
   const rawMarkers = scanMarkers(html.replace(/<[^>]+>/g, ' '));
   const seen = new Map<string, { kind: string; text: string; count: number }>();
@@ -865,44 +899,34 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       </main>
 
       <aside className="studio-poc__inspector" aria-label="Contextual inspector">
-        {/* Controls — at the top, its own bordered card. Arabic as a switch + the edit toolbar. */}
-        <section className="sp-controls">
-          <div className="sp-control-row">
-            <span className="sp-control-label"><span lang="ar" dir="rtl">ع</span> Arabic script</span>
+        {/* M-1 — Slim global action strip: Arabic toggle · Save & Approve · Finalize */}
+        <div className="sp-global-strip">
+          <span className="sp-global-arabic">
+            <span lang="ar" dir="rtl">ع</span>
             <button
               type="button"
               role="switch"
               aria-checked={arabicOn}
-              className={`sp-switch ${arabicOn ? 'is-on' : ''}`}
+              className={`sp-arabic-btn${arabicOn ? ' is-on' : ''}`}
               onClick={toggleArabic}
               title={arabicOn ? 'Hide Arabic script' : 'Show Arabic script'}
             >
-              <span className="sp-switch-thumb" />
+              {arabicOn ? 'Arabic On' : 'Arabic'}
             </button>
-          </div>
-          <div className="sp-edit">
-            <span className="sp-control-label">Edit</span>
-            <div className="sp-edit-row" role="toolbar" aria-label="Edit actions">
-              <button type="button" onClick={() => editor?.chain().focus().toggleBold().run()} title="Bold"><b>B</b></button>
-              <button type="button" onClick={() => editor?.chain().focus().toggleItalic().run()} title="Italic"><i>I</i></button>
-              <button type="button" onClick={() => editor?.chain().focus().toggleBlockquote().run()} title="Quote">”</button>
-              <button type="button" onClick={() => editor?.chain().focus().undo().run()} title="Undo">↺</button>
-              <button type="button" onClick={() => editor?.chain().focus().redo().run()} title="Redo">↻</button>
-            </div>
-          </div>
-          {/* WC8 write-back: save edits to disk + approve the stage. Hidden in all-chapters view. */}
+          </span>
           {!viewAll && !isReadOnlyStage && stage && (
-            <div className="sp-save-row">
+            <>
+              <div className="sp-strip-sep" aria-hidden="true" />
               <button
                 type="button"
-                className={`sp-approve ${approvedStages[stage.id] ? 'is-done' : ''}`}
+                className={`sp-approve sp-approve--strip${approvedStages[stage.id] ? ' is-done' : ''}`}
                 onClick={saveAndApprove}
                 disabled={saving || approvedStages[stage.id]}
               >
                 {approvedStages[stage.id]
-                  ? `✓ ${stage.label} saved & approved`
+                  ? `✓ ${stage.label} approved`
                   : saving ? 'Saving…'
-                  : `Save & Approve ${stage.label}`}
+                  : `Save & Approve`}
               </button>
               {changedCount > 0 && !approvedStages[stage.id] && (
                 <button
@@ -910,100 +934,156 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                   className="sp-discard"
                   onClick={discardChanges}
                   disabled={saving}
-                  title="Discard all edits and revert to original stage content"
+                  title="Discard all edits and revert to original"
                 >
-                  Discard {changedCount} change{changedCount !== 1 ? 's' : ''}
+                  Discard
                 </button>
               )}
-            </div>
+            </>
           )}
-          {saveError && <p className="sp-save-error">{saveError}</p>}
-
-          {/* Wave L-8 — Finalize: hand off tagged/commented paragraphs to Claude Code. */}
           {!viewAll && (
-            <div className="sp-finalize-row">
-              <button type="button" className="sp-finalize" onClick={finalize}>
-                ⎘ Finalize → copy brief
+            <>
+              <div className="sp-strip-sep" aria-hidden="true" />
+              <button type="button" className="sp-finalize" onClick={finalize} title="Generate Claude brief from tagged paragraphs">
+                ⎘ Finalize
               </button>
-              {finalizeMsg && <p className="sp-finalize-msg" aria-live="polite">{finalizeMsg}</p>}
-            </div>
+            </>
           )}
-        </section>
+        </div>
+        {saveError && <p className="sp-save-error">{saveError}</p>}
+        {finalizeMsg && <p className="sp-finalize-msg" aria-live="polite">{finalizeMsg}</p>}
 
-        {/* Inspector — its own bordered card; bounded height, scrolls internally. */}
-        <section className="sp-inspector">
-          <h2 className="sp-insp-title">Inspector</h2>
-          {selection ? (
-            <blockquote className="sp-insp-sel">{selection}</blockquote>
-          ) : (
-            <dl className="sp-insp-meta">
-              <dt>Chapter</dt>
-              <dd>{chapterTitle}</dd>
-              <dt>Changes</dt>
-              <dd>{changedCount} edited · {taggedCount} tagged</dd>
-              <dt>Comments</dt>
-              <dd>{commentsRef.current.size > 0 ? `${commentsRef.current.size} paragraph${commentsRef.current.size !== 1 ? 's' : ''}` : '—'}</dd>
-            </dl>
-          )}
-
-          {/* Per-paragraph comment: shown when cursor is inside a paragraph. */}
-          {activeParaIdx !== null && !isReadOnlyStage && (
-            <div className="sp-comment-panel">
-              <label className="sp-comment-label" htmlFor="sp-comment-input">
-                Comment on paragraph {activeParaIdx + 1}
-              </label>
-              <textarea
-                id="sp-comment-input"
-                className="sp-comment-input"
-                rows={3}
-                placeholder="Note for the pipeline (saved with stage)…"
-                value={commentsRef.current.get(activeParaIdx) ?? ''}
-                onChange={(e) => {
-                  const v = e.target.value;
-                  if (v.trim()) commentsRef.current.set(activeParaIdx, v);
-                  else commentsRef.current.delete(activeParaIdx);
-                  refreshComments();
-                }}
-                onBlur={(e) => persistComment(activeParaIdx, e.target.value.trim())}
-              />
-            </div>
-          )}
-
-          {/* Wave L-8 — AI assist on the active paragraph. */}
-          {activeParaIdx !== null && !isReadOnlyStage && (
-            <div className="sp-ai-panel">
-              <h3 className="sp-insp-sub">AI assist · paragraph {activeParaIdx + 1}</h3>
-              <div className="sp-ai-actions" role="toolbar" aria-label="AI actions">
-                <button type="button" className="sp-ai-btn" disabled={aiBusy}
-                  onClick={() => runAi('rewrite')}>↺ Rewrite</button>
-                <button type="button" className="sp-ai-btn" disabled={aiBusy}
-                  onClick={() => runAi('research')}>🔍 Research</button>
-                <button type="button" className="sp-ai-btn" disabled={aiBusy}
-                  onClick={() => runAi('autotag')}>🏷 Auto-tag</button>
-              </div>
-              {aiBusy && <p className="sp-ai-status">Working… ({aiKind})</p>}
-              {aiError && <p className="sp-ai-status sp-ai-status--error">{aiError}</p>}
-              {aiResult && <pre className="sp-ai-result">{aiResult}</pre>}
-            </div>
-          )}
-
-          <div className="sp-insp-markers">
-            <h3 className="sp-insp-sub">References</h3>
-            {stage?.augMeta && (
-              <p className="sp-aug-meta" title="Extracted from the augmented stage knowledge block">
-                {stage.augMeta}
-              </p>
-            )}
-            <ul className="sp-legend" aria-label="Inline highlight key">
-              <li className="sp-legend-row"><span className="sp-legend-dot sp-legend-dot--quran" />Quran chips</li>
-              <li className="sp-legend-row"><span className="sp-legend-dot sp-legend-dot--hadith" />Hadith</li>
-              <li className="sp-legend-row"><span className="sp-legend-dot sp-legend-dot--work" />al-Ghazali works</li>
-            </ul>
-            {renderGroup('Quran', group('Quran'), 'quran')}
-            {renderGroup('Hadith', group('Hadith'), 'hadith')}
-            {renderGroup('Works', group('Work'), 'work')}
+        {/* M-1 — Tabbed panel: Details · Comment · AI · References */}
+        <div className="sp-panel-card">
+          <div className="sp-tab-bar" role="tablist" aria-label="Inspector tabs">
+            {(['details', 'comment', 'ai', 'refs'] as const).map((tab) => {
+              const labels: Record<string, string> = { details: 'Details', comment: 'Comment', ai: 'AI', refs: 'References' };
+              const hasDot = tab === 'ai' && (!!aiResult || aiBusy);
+              return (
+                <button
+                  key={tab}
+                  type="button"
+                  role="tab"
+                  aria-selected={inspectorTab === tab}
+                  className={`sp-tab-btn${inspectorTab === tab ? ' is-active' : ''}`}
+                  onClick={() => setInspectorTab(tab)}
+                >
+                  {labels[tab]}
+                  {hasDot && <span className="sp-tab-dot" aria-label="result ready" />}
+                </button>
+              );
+            })}
           </div>
-        </section>
+
+          <div className="sp-tab-pane">
+            {/* ── Details tab: chapter overview + tag buttons for active paragraph ── */}
+            {inspectorTab === 'details' && (
+              <>
+                {selection ? (
+                  <blockquote className="sp-insp-sel">{selection}</blockquote>
+                ) : (
+                  <dl className="sp-insp-meta">
+                    <dt>Chapter</dt>
+                    <dd>{chapterTitle}</dd>
+                    <dt>Changes</dt>
+                    <dd>{changedCount} edited · {taggedCount} tagged</dd>
+                    <dt>Comments</dt>
+                    <dd>{commentsRef.current.size > 0 ? `${commentsRef.current.size} paragraph${commentsRef.current.size !== 1 ? 's' : ''}` : '—'}</dd>
+                  </dl>
+                )}
+                {activeParaIdx !== null && !isReadOnlyStage && (
+                  <div>
+                    <p className="sp-insp-hint">Tags · paragraph {activeParaIdx + 1}</p>
+                    <div className="sp-insp-tags" role="toolbar" aria-label="Editorial tags">
+                      {TAGS.map((tag) => {
+                        const isOn = (paraTagsRef.current.get(activeParaIdx) ?? []).includes(tag.id);
+                        return (
+                          <button
+                            key={tag.id}
+                            type="button"
+                            className={`sp-insp-tagbtn tag-${tag.id}${isOn ? ' is-on' : ''}`}
+                            title={isOn ? `Remove ${tag.label}` : `Apply ${tag.label}`}
+                            onClick={() => tagByIdx(activeParaIdx, tag.id)}
+                          >
+                            {tag.icon} {tag.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* ── Comment tab: per-paragraph comment textarea ── */}
+            {inspectorTab === 'comment' && (
+              activeParaIdx !== null && !isReadOnlyStage ? (
+                <div className="sp-comment-panel">
+                  <label className="sp-comment-label" htmlFor="sp-comment-input">
+                    Comment on paragraph {activeParaIdx + 1}
+                  </label>
+                  <textarea
+                    id="sp-comment-input"
+                    className="sp-comment-input"
+                    rows={5}
+                    placeholder="Note for the pipeline (saved with stage)…"
+                    value={commentsRef.current.get(activeParaIdx) ?? ''}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      if (v.trim()) commentsRef.current.set(activeParaIdx, v);
+                      else commentsRef.current.delete(activeParaIdx);
+                      refreshComments();
+                    }}
+                    onBlur={(e) => persistComment(activeParaIdx, e.target.value.trim())}
+                  />
+                </div>
+              ) : (
+                <p className="sp-insp-hint">{isReadOnlyStage ? 'Read-only stage.' : 'Click a paragraph to add a comment.'}</p>
+              )
+            )}
+
+            {/* ── AI tab: results from Rewrite / Research / Auto-tag ── */}
+            {inspectorTab === 'ai' && (
+              <div className="sp-ai-panel">
+                {activeParaIdx !== null && !isReadOnlyStage && (
+                  <div className="sp-ai-tab-actions" role="toolbar" aria-label="AI actions">
+                    <button type="button" className="sp-ai-tab-btn" disabled={aiBusy}
+                      onClick={() => runAi('rewrite')}>↺ Rewrite</button>
+                    <button type="button" className="sp-ai-tab-btn" disabled={aiBusy}
+                      onClick={() => runAi('research')}>🔍 Research</button>
+                    <button type="button" className="sp-ai-tab-btn" disabled={aiBusy}
+                      onClick={() => runAi('autotag')}>🏷 Auto-tag</button>
+                  </div>
+                )}
+                {aiBusy && <p className="sp-ai-status">Working… ({aiKind})</p>}
+                {aiError && <p className="sp-ai-status sp-ai-status--error">{aiError}</p>}
+                {aiResult && <pre className="sp-ai-result">{aiResult}</pre>}
+                {!aiBusy && !aiResult && !aiError && (
+                  <p className="sp-insp-hint">Hover a paragraph and click ↺ 🔍 🏷 in the toolbar above it, or use the buttons here when a paragraph is selected.</p>
+                )}
+              </div>
+            )}
+
+            {/* ── References tab: inline markers by category ── */}
+            {inspectorTab === 'refs' && (
+              <div className="sp-insp-markers">
+                {stage?.augMeta && (
+                  <p className="sp-aug-meta" title="Extracted from the augmented stage knowledge block">
+                    {stage.augMeta}
+                  </p>
+                )}
+                <ul className="sp-legend" aria-label="Inline highlight key">
+                  <li className="sp-legend-row"><span className="sp-legend-dot sp-legend-dot--quran" />Quran chips</li>
+                  <li className="sp-legend-row"><span className="sp-legend-dot sp-legend-dot--hadith" />Hadith</li>
+                  <li className="sp-legend-row"><span className="sp-legend-dot sp-legend-dot--work" />al-Ghazali works</li>
+                </ul>
+                {renderGroup('Quran', group('Quran'), 'quran')}
+                {renderGroup('Hadith', group('Hadith'), 'hadith')}
+                {renderGroup('Works', group('Work'), 'work')}
+              </div>
+            )}
+          </div>
+        </div>
       </aside>
     </div>
   );
