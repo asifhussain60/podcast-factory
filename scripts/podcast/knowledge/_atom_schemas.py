@@ -58,7 +58,7 @@ class HadithBody(TypedDict, total=False):
 
 # ─── Top-level atom envelope ──────────────────────────────────────────────
 
-AtomType = Literal["quran", "hadith", "doctrine"]   # doctrine added Wave B
+AtomType = Literal["quran", "hadith", "doctrine", "quote", "term"]   # quote/term added Wave K
 
 
 class Atom(TypedDict, total=False):
@@ -82,6 +82,23 @@ class DoctrineBody(TypedDict, total=False):
     chapter_slug: str
     chunk_index: int
     quran_refs: list[str]   # e.g. ["2:255", "3:7"]
+
+
+# ─── Quote body (Wave K) ──────────────────────────────────────────────────
+
+class QuoteBody(TypedDict, total=False):
+    speaker: str       # e.g. "Imam Ali", "Imam al-Ghazali", "The Prophet"
+    text_en: str       # verbatim English text of the attributed saying
+    source: str        # book/chapter origin within the corpus
+
+
+# ─── Term body (Wave K) ───────────────────────────────────────────────────
+
+class TermBody(TypedDict, total=False):
+    term: str          # normalized term name (lowercase transliteration)
+    text_en: str       # English definition or context sentence
+    arabic: str        # Arabic script (optional)
+    source: str        # "doctrine" | "kqur" | etc.
 
 
 # ─── Canonical id helpers ─────────────────────────────────────────────────
@@ -108,13 +125,28 @@ def doctrine_canonical_id(binder_id: str, chapter_id: str, chunk_index: int) -> 
     return f"doctrine:wisdom:{binder_id}:{chapter_id}:{chunk_index}"
 
 
+def quote_canonical_id(speaker: str, text_en: str) -> str:
+    """Return `quote:<speaker-slug>:<sha256[:10]>`. Stable for the same speaker+text."""
+    speaker_slug = speaker.lower().replace(" ", "-").replace("'", "")
+    digest = hashlib.sha256(f"{speaker}:{text_en}".encode()).hexdigest()[:10]
+    return f"quote:{speaker_slug}:{digest}"
+
+
+def term_canonical_id(term: str) -> str:
+    """Return `term:doctrine:<normalized-term>`. Deduplicates on term name."""
+    normalized = term.lower().strip().replace(" ", "-").replace("ʿ", "").replace("ʾ", "")
+    return f"term:doctrine:{normalized}"
+
+
 # ─── Validation ───────────────────────────────────────────────────────────
 
 _REQUIRED_QURAN = {"surah", "ayah"}
 _REQUIRED_HADITH = {"collection", "text_en"}
 _REQUIRED_DOCTRINE = {"text_en"}
+_REQUIRED_QUOTE = {"speaker", "text_en"}
+_REQUIRED_TERM = {"term", "text_en"}
 
-_KNOWN_TYPES = {"quran", "hadith", "doctrine"}
+_KNOWN_TYPES = {"quran", "hadith", "doctrine", "quote", "term"}
 
 
 def validate_atom(atom: dict) -> None:
@@ -138,3 +170,11 @@ def validate_atom(atom: dict) -> None:
         missing = _REQUIRED_DOCTRINE - set(body)
         if missing:
             raise ValueError(f"Doctrine atom missing body fields: {missing}")
+    elif atom_type == "quote":
+        missing = _REQUIRED_QUOTE - set(body)
+        if missing:
+            raise ValueError(f"Quote atom missing body fields: {missing}")
+    elif atom_type == "term":
+        missing = _REQUIRED_TERM - set(body)
+        if missing:
+            raise ValueError(f"Term atom missing body fields: {missing}")

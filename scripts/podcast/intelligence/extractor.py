@@ -23,6 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from knowledge._atom_schemas import (
     quran_canonical_id,
     hadith_canonical_id,
+    quote_canonical_id,
     validate_atom,
 )
 from _rules import (
@@ -66,14 +67,24 @@ class ExtractionSummary:
 # ─── LLM helpers ─────────────────────────────────────────────────────────────
 
 _EXTRACTION_PROMPT_TMPL = """\
-You are a scholarly citation extractor for Islamic texts.
-Extract every EXPLICITLY cited Quran verse and every EXPLICITLY cited hadith from the text.
-Do NOT infer citations that are not explicitly stated.
+You are a scholarly citation and quote extractor for Islamic texts.
+
+Extract THREE things from the chapter:
+1. Every EXPLICITLY cited Quran verse (surah:ayah stated in text).
+2. Every EXPLICITLY cited hadith (collection + number stated in text).
+3. Every SHORT attributed quote — a verbatim saying attributed to a named person
+   (scholar, imam, companion, prophet).  Minimum 10 words, maximum 80 words.
+   Only include quotes that are directly attributed (e.g. "Imam Ali said:", "The Prophet stated:").
+   Do NOT include paraphrases, summaries, or unattributed statements.
 
 Return ONLY a JSON object:
-{{"atoms":[{{"type":"quran","surah":<int>,"ayah":<int>,"text_en":"<quoted text>","confidence":<0-1>}},{{"type":"hadith","collection":"<bukhari|muslim|tirmidhi|abu-dawud|nasai|ibn-majah|other>","number":<int|null>,"text_en":"<text>","grade":"<sahih|hasan|daif|unknown>","narrator":"<name|null>","confidence":<0-1>}}]}}
+{{"atoms":[
+  {{"type":"quran","surah":<int>,"ayah":<int>,"text_en":"<quoted text>","confidence":<0-1>}},
+  {{"type":"hadith","collection":"<bukhari|muslim|tirmidhi|abu-dawud|nasai|ibn-majah|other>","number":<int|null>,"text_en":"<text>","grade":"<sahih|hasan|daif|unknown>","narrator":"<name|null>","confidence":<0-1>}},
+  {{"type":"quote","speaker":"<full name or title>","text_en":"<verbatim attributed text>","confidence":<0-1>}}
+]}}
 
-If no citations: {{"atoms":[]}}. Return ONLY the JSON.
+If none found: {{"atoms":[]}}. Return ONLY the JSON.
 
 CHAPTER SLUG: {chapter_slug}
 BOOK SLUG: {book_slug}
@@ -167,6 +178,17 @@ def _build_atom(raw: dict, book_slug: str, chapter_slug: str,
                 "text_en": raw.get("text_en", ""),
                 "grade": raw.get("grade", "unknown"),
                 "narrator": raw.get("narrator"),
+            }
+        elif atom_type == "quote":
+            speaker = str(raw.get("speaker", "")).strip()
+            text_en = str(raw.get("text_en", "")).strip()
+            if not speaker or not text_en:
+                return None
+            atom_id = quote_canonical_id(speaker, text_en)
+            body = {
+                "speaker": speaker,
+                "text_en": text_en,
+                "source": f"{book_slug}/{chapter_slug}",
             }
         else:
             return None
