@@ -46,7 +46,33 @@ vs. substring list); the canonical data itself is plain Python literals.
 # The LLM-grade rubric extension (§3 religious literacy, §4 philosophical
 # rigor, §6 interfaith) lives in _workspace/prompts/gemini-bundle-auditor.md so both
 # auditors see it. See F30 / scholarly-rubric integration trail on develop.
-CHALLENGER_VERSION = "2.3"  # K6: Category V (Interest) + 5-axis PEQ
+CHALLENGER_VERSION = "2.4"  # Wave L: Category W (augmentation quality)
+
+# ─── Category W (Wave L) — augmentation-quality checks. Guards that knowledge
+# augmentation enriches genuine gaps naturally (never forced), respects the book's
+# content level, draws only real atoms, weaves etymology in spoken form (≤3/chapter,
+# never spelling Arabic letters), and never repeats an atom across chapters.
+# Implemented deterministically in _augmentation.py (W3–W6 mechanical; W1–W2 light
+# heuristic + agent judgment). Severities:
+#   W1 forced/no-gap augmentation     P1  (auto-revert the block)
+#   W2 unnatural / bolted-on phrasing P1  (auto-revert the block)
+#   W3 etymology cap/spoken-form      P1
+#   W4 doctrine atom above book level P0  (wrong-level leak — hard block)
+#   W5 fabricated atom (not in DB)    P0  (integrity — hard block)
+#   W6 atom repeated across chapters  P1
+R_AUGMENT_ETYMOLOGY_MAX_PER_CHAPTER = 3
+# Arabic Unicode ranges that must NEVER appear in an etymology spoken-form aside.
+R_AUGMENT_ARABIC_RANGES = (
+    (0x0600, 0x06FF), (0x0750, 0x077F), (0x08A0, 0x08FF),
+    (0xFB50, 0xFDFF), (0xFE70, 0xFEFF),
+)
+# Block-header substrings the challenger scans for in augmented episode text.
+R_AUGMENT_BLOCK_HEADERS = {
+    "doctrine": "[PRIOR DOCTRINAL CONTEXT",
+    "term": "[TERM GLOSSARY",
+    "quote": "[ATTRIBUTED SAYINGS",
+    "etymology": "[ETYMOLOGY",
+}
 
 # ─── R-HOST-ROLE-PARITY (P0 2026-05-24) — host roles are locked book-wide.
 # Host A is always the scholar/teacher. Host B is always the seeker/student/

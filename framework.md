@@ -4,6 +4,30 @@
 
 This document governs the **`podcast-factory`** repo: the multi-phase podcast pipeline that converts scholarly Arabic books into NotebookLM-driven podcast series, the Azure stack that powers OCR / translation / speech, and the agents/skills that support podcast authoring. Memoir + site work moved to the sibling **[journal](https://github.com/asifhussain60/journal)** repo as of the 2026-05-22 split. The Anthropic API proxy (`server/`) and the Cloudflare deploy scaffold were retired the same day — see §"Retired" below. The previous cross-machine coordination model (operator files, machine-id detection, per-machine book branches) was retired 2026-05-23 — see §"Single-machine model" below.
 
+## 2026-06-03 Wave L — content-level gating + etymology + augmentation challenger
+
+Category-gated augmentation for Islamic scholarly books, Quranic etymology weaving,
+and a new challenger category. Non-Islamic books are unaffected (opt-in by `content_level`).
+
+- **Content-level gate (L-1/L-2)** — migration `025_atoms_add_content_level.sql` adds
+  `content_level` to atoms (history < shariah < esoteric < realities; `universal`
+  outside the ladder). [`_rules.py`](scripts/podcast/_rules.py) `allowed_content_levels()`
+  drives cumulative-downward selection in [`augmenter.py`](scripts/podcast/intelligence/augmenter.py)
+  `_fetch_doctrine_atoms` + mirrored in [`augment_book.py`](scripts/podcast/augment_book.py).
+  Only doctrine is gated; Quran/Hadith/Term/Etymology are universal.
+- **Atom categorization (L-3)** — [`knowledge/categorize_atoms.py`](scripts/podcast/knowledge/categorize_atoms.py):
+  tag heuristic + Gemini Flash classified 555 doctrine atoms (esoteric 206, realities 195,
+  shariah 118, history 36; 73 below-threshold left NULL for review).
+- **Etymology weaving (L-4)** — `_fetch_matching_etymology` + `_build_etymology_block`
+  weave a SPOKEN root-insight (≤3/chapter, never spelling Arabic letters);
+  [`knowledge/fill_etymology_phonetics.py`](scripts/podcast/knowledge/fill_etymology_phonetics.py)
+  bakes house-style phonetics into the 35 etymology atoms.
+- **Anti-repetition (L-5)** — `episode-augment-ledger.json` excludes atoms used by other
+  episodes so none repeats across chapters of a book.
+- **Category W (L-6)** — [`_augmentation.py`](scripts/podcast/_augmentation.py) W1–W6:
+  genuine-gap (P1), natural (P1), etymology discipline (P1), content-level integrity (P0),
+  no-fabrication (P0), no-cross-chapter-repeat (P1). `CHALLENGER_VERSION` bumped 2.3 → 2.4.
+
 ## 2026-05-30 Wave 8 (WC8) — what changed
 
 Studio re-platform, intelligence scoring, and holistic pipeline design:
