@@ -63,7 +63,7 @@ const totalPublished = summaries.filter((s) => s.publicationStatus === 'publishe
 
   <section class="stack">
     <div class="library-actions">
-      <a href="/library/new" class="lib-btn lib-btn-primary">+ New content</a>
+      <a href="/studio/new" class="lib-btn lib-btn-primary">+ New content</a>
     </div>
   </section>
 
@@ -77,7 +77,7 @@ const totalPublished = summaries.filter((s) => s.publicationStatus === 'publishe
         </header>
         {items.length === 0 ? (
           <div class="card card-tight lib-empty">
-            <p class="card-sub">No {categoryHeading(cat).toLowerCase()} yet. Use <a href="/library/new">+ New content</a> to create the first one.</p>
+            <p class="card-sub">No {categoryHeading(cat).toLowerCase()} yet. Use <a href="/studio/new">+ New content</a> to create the first one.</p>
           </div>
         ) : (
           <div class="grid-3">
