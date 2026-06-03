@@ -145,11 +145,11 @@ ALLOWED_CATEGORIES = ("books", "articles", "documents", "lectures", "interviews"
 # tradition-specific doctrinal context to inject.
 CONSUMER_CATEGORIES: frozenset[str] = frozenset({"sites", "explainers"})
 
-# ─── Content-level ladder (Wave L) — ISLAMIC scholarly books only. Single source
+# ─── Content-level ladder (Wave M) — ISLAMIC scholarly books only. Single source
 # of truth for category-gated augmentation. A book declaring `content_level` in
 # meta.yml draws doctrine atoms ONLY at or below its own level (cumulative
-# downward), never above. Mirrors the spiritual hierarchy from most accessible
-# (history) to most metaphysical (realities = Haqaiq + Mabda Ma'ad, same rank).
+# downward), never above. Mirrors the Kashkole Lookup_levels spiritual hierarchy
+# from most accessible (general) to most metaphysical (haqaiq).
 #
 # `universal` sits OUTSIDE the ladder — always eligible at every level. It is the
 # permanent value for Quran/Hadith/Term/Etymology atoms (universal resources,
@@ -158,7 +158,14 @@ CONSUMER_CATEGORIES: frozenset[str] = frozenset({"sites", "explainers"})
 #
 # CONTENT_LEVEL_LADDER is ordered low→high; index = rank. allowed_content_levels()
 # returns {levels 0..rank(book_level)} for the cumulative-downward query clause.
-CONTENT_LEVEL_LADDER: tuple[str, ...] = ("history", "shariah", "esoteric", "realities")
+CONTENT_LEVEL_LADDER: tuple[str, ...] = (
+    "general",      # narrative / historical accounts
+    "advanced",     # advanced scholarly; legal analysis; formal exoteric commentary
+    "taveel",       # ta'wil: allegorical / esoteric interpretation (batin)
+    "mamsool",      # parables / exemplars: teaching the esoteric through analogy
+    "mabda_maad",   # origin-and-return: cosmological doctrine, cosmic intellects
+    "haqaiq",       # essential realities: eternal metaphysical truths (deepest)
+)
 CONTENT_LEVELS: frozenset[str] = frozenset(CONTENT_LEVEL_LADDER) | {"universal"}
 
 
@@ -171,10 +178,10 @@ def allowed_content_levels(book_level: str | None) -> list[str]:
     uncategorized path, preserving pre-Wave-L behavior).
 
     Examples:
-        allowed_content_levels('esoteric')  -> ['history','shariah','esoteric','universal']
-        allowed_content_levels('realities') -> ['history','shariah','esoteric','realities','universal']
-        allowed_content_levels('history')   -> ['history','universal']
-        allowed_content_levels(None)         -> []
+        allowed_content_levels('taveel')    -> ['general','advanced','taveel','universal']
+        allowed_content_levels('haqaiq')    -> ['general','advanced','taveel','mamsool','mabda_maad','haqaiq','universal']
+        allowed_content_levels('general')   -> ['general','universal']
+        allowed_content_levels(None)        -> []
     """
     if not book_level or book_level not in CONTENT_LEVEL_LADDER:
         return []

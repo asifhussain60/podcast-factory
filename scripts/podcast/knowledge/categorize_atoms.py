@@ -2,13 +2,15 @@
 """categorize_atoms.py — Wave L-3: assign content_level to doctrine atoms.
 
 Classifies each uncategorized (content_level IS NULL) doctrine atom into one of
-the four ladder levels so the Wave L-2 augmentation gate can restrict a book to
+the six ladder levels (Wave M) so the augmentation gate can restrict a book to
 its own level and below:
 
-    history   — biographical / historical accounts
-    shariah   — law, ritual practice, hadith-based rulings (exoteric / zahir)
-    esoteric  — Taveel / allegorical-spiritual interpretation (batin)
-    realities — Haqaiq + Mabda Ma'ad: cosmology, emanation, metaphysical truths
+    general   — biographical / historical accounts
+    advanced  — advanced scholarly; legal analysis; formal exoteric commentary
+    taveel    — ta'wil: allegorical / esoteric interpretation (batin)
+    mamsool   — parables / exemplars: teaching the esoteric through analogy
+    mabda_maad — origin-and-return: cosmological doctrine, cosmic intellects
+    haqaiq    — essential realities: eternal metaphysical truths (deepest)
 
 ONLY doctrine atoms are categorized. Quran / Hadith / Term / Etymology / quote
 atoms are universal resources and are left NULL (never level-gated).
@@ -58,19 +60,22 @@ PRICE_OUT = 0.000_000_4
 
 # ── Heuristic tag → level priors (zero-cost fast-path) ──────────────────────
 # Only STRONG, unambiguous tag signals. Anything not matched falls to Gemini.
-# Lower-in-ladder wins ties is NOT applied; instead the most-specific signal
-# (esoteric/realities markers) takes precedence because Fatimid-Ismaili doctrine
-# skews batin — a shariah-tagged atom that ALSO carries ta'wil is esoteric.
-_REALITIES_TAGS = frozenset({
+# Most-metaphysical signal wins ties: Fatimid-Ismaili doctrine skews batin — an
+# advanced-tagged atom that ALSO carries ta'wil is taveel, not advanced.
+_HAQAIQ_TAGS = frozenset({
     "cosmology", "creation", "emanation", "first intellect", "universal soul",
     "hyle", "primordial matter", "primordial bodies", "metaphysics",
     "spiritual realities", "divine realities", "hidden realities", "reality",
     "realities", "eschatology", "qiyama", "qa'im", "qaim", "qāʾim",
     "cosmic cycles", "cycles", "celestial spheres", "celestial motion",
-    "celestial bodies", "celestial influence", "emanation", "contingency",
+    "celestial bodies", "celestial influence", "contingency",
     "transmigration", "rebirth", "spiritual world", "abstraction",
 })
-_ESOTERIC_TAGS = frozenset({
+_MABDA_MAAD_TAGS = frozenset({
+    "mabda", "ma'ad", "mabda ma'ad", "origin and return", "origin", "return",
+    "beginning and end", "emanation cycle", "cosmic hierarchy",
+})
+_TAVEEL_TAGS = frozenset({
     "ta'wil", "tawil", "esoteric interpretation", "esoteric meaning",
     "esoteric knowledge", "esoteric exegesis", "esoteric", "zahir batin",
     "batin", "inner meaning", "inner reality", "inner dimension",
@@ -81,7 +86,7 @@ _ESOTERIC_TAGS = frozenset({
     "spiritual stations", "spiritual ascent", "interpretation",
     "inner self", "concealment", "taqiyya",
 })
-_SHARIAH_TAGS = frozenset({
+_ADVANCED_TAGS = frozenset({
     "sharia", "shari'a", "shariah", "ritual", "ritual law", "ritual purity",
     "prayer", "ablution", "ghusl", "wudu", "fasting", "ramadan", "hajj",
     "zakat", "charity", "alms", "worship", "obligatory prayer",
@@ -92,7 +97,7 @@ _SHARIAH_TAGS = frozenset({
     "adhan", "iqama", "qunut", "ruku", "prostration", "rak'ahs", "khushu",
     "fiqh", "obligation", "religious practice",
 })
-_HISTORY_TAGS = frozenset({
+_GENERAL_TAGS = frozenset({
     "history", "pre-islamic arabia", "migration", "biography", "geography",
     "qadi nu'man", "salman", "pre-existence", "spiritual eras",
     "revelation cycle", "prophetic cycle", "spiritual lineage",
@@ -148,20 +153,20 @@ def _gemini(system: str, user: str, *, model: str = "gemini-2.5-flash",
 def _heuristic_level(tags: list[str]) -> tuple[str, float] | None:
     """Return (level, confidence) when a strong tag signal exists, else None.
 
-    Precedence (Fatimid-Ismaili doctrine skews batin): realities > esoteric >
-    shariah > history. The most-metaphysical matched signal wins, because an
-    atom that discusses BOTH ritual and its inner meaning belongs to the higher
-    interpretive level it ultimately teaches.
+    Precedence (Fatimid-Ismaili doctrine skews batin): haqaiq > mabda_maad >
+    taveel > advanced > general. Most-metaphysical matched signal wins.
     """
     tset = {t.lower() for t in tags}
-    if tset & _REALITIES_TAGS:
-        return "realities", 0.88
-    if tset & _ESOTERIC_TAGS:
-        return "esoteric", 0.88
-    if tset & _SHARIAH_TAGS:
-        return "shariah", 0.86
-    if tset & _HISTORY_TAGS:
-        return "history", 0.86
+    if tset & _HAQAIQ_TAGS:
+        return "haqaiq", 0.88
+    if tset & _MABDA_MAAD_TAGS:
+        return "mabda_maad", 0.88
+    if tset & _TAVEEL_TAGS:
+        return "taveel", 0.88
+    if tset & _ADVANCED_TAGS:
+        return "advanced", 0.86
+    if tset & _GENERAL_TAGS:
+        return "general", 0.86
     return None
 
 
@@ -169,17 +174,21 @@ _RUBRIC = (
     "You classify a passage of Islamic (Fatimid-Ismaili tradition) doctrine into "
     "ONE spiritual-content level. The levels form a ladder from most accessible "
     "to most metaphysical:\n"
-    "  history   — biographical / historical accounts, lives of figures, eras.\n"
-    "  shariah   — outward (zahir) law, ritual practice, worship, hadith-based "
-    "rulings, the five pillars.\n"
-    "  esoteric  — inner (batin) allegorical interpretation, ta'wil, symbolism, "
-    "spiritual stations, the imamate's interpretive role, hidden meanings.\n"
-    "  realities — haqaiq: cosmology, emanation, the intellects and souls, "
-    "metaphysics of origin and return (mabda/ma'ad), eschatology of cycles.\n\n"
+    "  general    — biographical / historical accounts, lives of figures, eras.\n"
+    "  advanced   — advanced scholarly; outward (zahir) law, ritual practice,\n"
+    "               worship, hadith-based rulings, the five pillars, fiqh.\n"
+    "  taveel     — inner (batin) allegorical interpretation, ta'wil, symbolism,\n"
+    "               spiritual stations, the imamate's interpretive role.\n"
+    "  mamsool    — teaching the esoteric through parables and exemplars;\n"
+    "               'this is like…' illustrative stories with esoteric payoff.\n"
+    "  mabda_maad — origin-and-return cosmology: cosmic intellects and souls,\n"
+    "               emanation, eschatology of cycles, the celestial hierarchy.\n"
+    "  haqaiq     — essential realities: eternal metaphysical truths that\n"
+    "               transcend rational understanding; deepest esoteric level.\n\n"
     "Fatimid-Ismaili doctrine skews toward the inner levels. When a passage moves "
     "from an outward ritual to its hidden meaning, classify by the DEEPER level it "
     "ultimately teaches. Reply ONLY with strict JSON:\n"
-    '{"level":"history|shariah|esoteric|realities","confidence":0.0-1.0,'
+    '{"level":"general|advanced|taveel|mamsool|mabda_maad|haqaiq","confidence":0.0-1.0,'
     '"reason":"one short sentence"}'
 )
 

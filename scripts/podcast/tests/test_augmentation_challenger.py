@@ -59,9 +59,9 @@ class TestW4W5W6(unittest.TestCase):
         conn = _db.get_connection(db_path=cls.tmp)
         _db.run_migrations(db_path=cls.tmp)
         conn.execute("INSERT INTO atoms (id,type,body,tradition,content_level) "
-                     "VALUES ('doctrine:eso','doctrine','{}','universal','esoteric')")
+                     "VALUES ('doctrine:eso','doctrine','{}','universal','taveel')")
         conn.execute("INSERT INTO atoms (id,type,body,tradition,content_level) "
-                     "VALUES ('doctrine:real','doctrine','{}','universal','realities')")
+                     "VALUES ('doctrine:real','doctrine','{}','universal','haqaiq')")
         conn.execute("INSERT INTO atoms (id,type,body,tradition,content_level) "
                      "VALUES ('term:x','term','{}','universal',NULL)")
         conn.commit()

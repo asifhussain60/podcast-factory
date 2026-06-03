@@ -62,7 +62,7 @@ class TestDoctrineExclusion(unittest.TestCase):
         for i in range(5):
             conn.execute(
                 "INSERT INTO atoms (id, type, body, tradition, content_level) "
-                "VALUES (?, 'doctrine', ?, 'universal', 'esoteric')",
+                "VALUES (?, 'doctrine', ?, 'universal', 'taveel')",
                 (f"doctrine:d{i}", json.dumps({"text_en": f"teaching {i}"})),
             )
             conn.execute("INSERT INTO atom_topic_tags (atom_id, tag) VALUES (?, 'wisdom')",

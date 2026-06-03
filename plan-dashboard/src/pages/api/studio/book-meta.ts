@@ -1,9 +1,9 @@
 /**
  * book-meta.ts — POST /api/studio/book-meta
  *
- * Patches a single top-level field in a book's meta.yml. Wave L-7 uses it to set
- * `content_level` (history | shariah | esoteric | realities, or "" to clear) from
- * the Studio intake content-level selector.
+ * Patches a single top-level field in a book's meta.yml. Wave M uses it to set
+ * `content_level` (general | advanced | taveel | mamsool | mabda_maad | haqaiq, or "" to clear)
+ * from the Studio intake content-level selector.
  *
  * Body: { slug, field, value }
  *   field — currently only "content_level" is allowed (allowlist below).
@@ -22,9 +22,9 @@ export const prerender = false;
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-// Allowlisted single-field patches. content_level drives Wave L augmentation gating.
+// Allowlisted single-field patches. content_level drives Wave M augmentation gating.
 const FIELD_ALLOWED_VALUES: Record<string, Set<string>> = {
-  content_level: new Set(['history', 'shariah', 'esoteric', 'realities', '']),
+  content_level: new Set(['general', 'advanced', 'taveel', 'mamsool', 'mabda_maad', 'haqaiq', '']),
 };
 
 export const POST: APIRoute = async ({ request }) => {

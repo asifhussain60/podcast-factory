@@ -27,25 +27,27 @@ import augmenter  # noqa: E402
 class TestAllowedContentLevels(unittest.TestCase):
     def test_cumulative_downward(self):
         self.assertEqual(
-            _rules.allowed_content_levels("esoteric"),
-            ["history", "shariah", "esoteric", "universal"],
+            _rules.allowed_content_levels("taveel"),
+            ["general", "advanced", "taveel", "universal"],
         )
         self.assertEqual(
-            _rules.allowed_content_levels("realities"),
-            ["history", "shariah", "esoteric", "realities", "universal"],
+            _rules.allowed_content_levels("haqaiq"),
+            ["general", "advanced", "taveel", "mamsool", "mabda_maad", "haqaiq", "universal"],
         )
         self.assertEqual(
-            _rules.allowed_content_levels("shariah"),
-            ["history", "shariah", "universal"],
+            _rules.allowed_content_levels("advanced"),
+            ["general", "advanced", "universal"],
         )
         self.assertEqual(
-            _rules.allowed_content_levels("history"),
-            ["history", "universal"],
+            _rules.allowed_content_levels("general"),
+            ["general", "universal"],
         )
 
-    def test_esoteric_excludes_realities(self):
-        """The core safety property: an esoteric book never sees realities atoms."""
-        self.assertNotIn("realities", _rules.allowed_content_levels("esoteric"))
+    def test_taveel_excludes_deeper_levels(self):
+        """The core safety property: a taveel book never sees mabda_maad or haqaiq atoms."""
+        allowed = _rules.allowed_content_levels("taveel")
+        self.assertNotIn("mabda_maad", allowed)
+        self.assertNotIn("haqaiq", allowed)
 
     def test_none_and_unknown_return_empty(self):
         """Empty list => caller applies NO gate (non-Islamic / unclassified path)."""
@@ -56,7 +58,7 @@ class TestAllowedContentLevels(unittest.TestCase):
     def test_constants(self):
         self.assertEqual(
             _rules.CONTENT_LEVEL_LADDER,
-            ("history", "shariah", "esoteric", "realities"),
+            ("general", "advanced", "taveel", "mamsool", "mabda_maad", "haqaiq"),
         )
         self.assertIn("universal", _rules.CONTENT_LEVELS)
         for lvl in _rules.CONTENT_LEVEL_LADDER:
@@ -78,12 +80,12 @@ class TestBookContentLevelReader(unittest.TestCase):
         self.assertIsNone(augmenter._book_content_level(d))
 
     def test_valid_level(self):
-        d = self._book_dir("content_level: esoteric\n")
-        self.assertEqual(augmenter._book_content_level(d), "esoteric")
+        d = self._book_dir("content_level: taveel\n")
+        self.assertEqual(augmenter._book_content_level(d), "taveel")
 
     def test_typo_normalized_to_none(self):
         """A typo must never silently over-restrict — falls back to no-gate."""
-        d = self._book_dir("content_level: esoterics\n")  # note trailing 's'
+        d = self._book_dir("content_level: taveels\n")  # note trailing 's'
         self.assertIsNone(augmenter._book_content_level(d))
 
 
@@ -95,18 +97,20 @@ class TestContentLevelClause(unittest.TestCase):
         self.assertEqual(clause, "")
         self.assertEqual(params, [])
 
-    def test_esoteric_clause_includes_universal_and_null(self):
-        clause, params = augmenter._content_level_clause("esoteric")
+    def test_taveel_clause_includes_universal_and_null(self):
+        clause, params = augmenter._content_level_clause("taveel")
         self.assertIn("content_level", clause)
         self.assertIn("IS NULL", clause)
         # params carry exactly the allowed ladder levels (incl. universal)
-        self.assertEqual(set(params), {"history", "shariah", "esoteric", "universal"})
-        self.assertNotIn("realities", params)
+        self.assertEqual(set(params), {"general", "advanced", "taveel", "universal"})
+        self.assertNotIn("mabda_maad", params)
+        self.assertNotIn("haqaiq", params)
 
-    def test_realities_clause_includes_all(self):
-        clause, params = augmenter._content_level_clause("realities")
+    def test_haqaiq_clause_includes_all(self):
+        clause, params = augmenter._content_level_clause("haqaiq")
         self.assertEqual(
-            set(params), {"history", "shariah", "esoteric", "realities", "universal"}
+            set(params),
+            {"general", "advanced", "taveel", "mamsool", "mabda_maad", "haqaiq", "universal"},
         )
 
 
