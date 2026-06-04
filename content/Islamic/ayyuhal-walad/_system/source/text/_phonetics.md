@@ -1,178 +1,163 @@
-# Phonetics Index — Ayyuhal Walad (v3.5)
-
-**Architectural note (v3.5, 2026-05-17):** this index is the source-of-truth for which terms get an imperative `Pronounce "..." as "..."` line in each episode's `00-framing.md` `## Pronunciation` block (per R-PRONUNCIATION-IMPERATIVE). **No phonetic ever appears inline in a chapter file** (R-PHONETICS-OUT). The chapter ships transliteration only; the customize prompt teaches NotebookLM how to say it.
-
-**Lookup order:** SHARED_ARABIC manifest beats this index beats fresh draft. Every entry below either matches `content/_shared/arabic/03-arabic-english-manifest.md` exactly or has been drafted per `01-tts-pronunciation-key.md` rules.
-
----
-
-## Title and author
-
-| Term | Phonetic | Used in chapters |
-|---|---|---|
-| Ayyuhal Walad | **eye-yoo-hal waa-lad** | all |
-| Imam Abu Hamid Muhammad al-Ghazali | **i-maam a-boo haa-mid mu-ham-mad al-gha-zaa-lee** | ch01 (first mention; alias `Ghazali` thereafter) |
-| Ghazali (alias) | **gha-zaa-lee** | all |
-| Irfan Hasan (translator) | **ir-faan ha-san** | ch01 |
-| Majmu'a Rasail | **maj-moo-a ra-saa-il** | ch01 |
-
-## Honorifics — full spoken English forms
-
-| Typographic | Full spoken English (per R-HONORIFIC-ONCE: expand once per figure per chapter) |
-|---|---|
-| ﷺ / PBUH | **peace and blessings of Allah be upon him** |
-| (AS) | **peace be upon him** (or her, for a female figure) |
-| (RA), male Companion | **may Allah be pleased with him** |
-| (RA), female Companion | **may Allah be pleased with her** |
-| (RA), departed scholar/saint | **may Allah have mercy upon him** |
-| SWT | **Glorified and Exalted is He** |
-
-## Divine names
-
-| Term | Phonetic | Chapters |
-|---|---|---|
-| Allah | **Allaah** | all |
-| Allah Ta'ala | **Allaah ta-aa-laa** | all |
-
-## Quranic openers and devotional phrases
-
-| Term | Phonetic | Chapters |
-|---|---|---|
-| Bismillah | **bis-mil-laah** | ch01 |
-| Bismillah ir-Rahman ir-Raheem | **bis-mil-laah ir-rah-maan ir-ra-heem** | ch01 |
-| Inna lillahi wa inna ilayhi raji'oon | **in-naa lil-laa-hi wa in-naa i-lay-hi raa-ji-oon** | ch02 |
-| Alhamdulillah | **al-ham-du-lil-laah** | ch01 |
-
-## Core devotional vocabulary
-
-| Term | Phonetic | First chapter | Notes |
+| term | transliteration | phonetic | first-occurrence-snippet |
 |---|---|---|---|
-| Sunnah | **soon-nah** | ch01 | Geminated. |
-| Shari'ah / Sharee'ah | **sha-ree-ah** | ch01 | |
-| Hadith | **ha-deeth** | ch01 | |
-| Ahadith | **a-haa-deeth** | ch01 | Plural. |
-| Ummah | **um-mah** | (not used) | |
-| Quran | **qur-aan** | ch01 | Hyphen for hamza. |
-| Surah | **soo-rah** | (not used) | |
-| Salaat | **sa-laah** | ch05 | Source spells it *Salaat*; canonical is *Salah*. |
-| Tahajjud | **ta-haj-jud** | ch01 | |
-| Fajr | **fajr** | (not used) | |
-| Asr | **asr** | ch03 | |
-| Zakaat | **za-kaat** | ch01 | |
-| Hajj | **hajj** | ch01 | Geminated. |
-| Sufi | **soo-fee** | ch01, ch03, ch04 | |
-| Shaykh | **shaykh** | ch01, ch03 | Widely recognized English form kept. |
-
-## Technical Sufi terms (kept per substitution policy §3)
-
-| Term | Phonetic | First chapter | Notes |
-|---|---|---|---|
-| Tasawwuf | **ta-saw-wuf** | ch03 | Gloss on first use: "the Islamic mystical path; what English calls Sufism". Anti-mangling: never "tassel wolf" or "tasso wolf". |
-| Tawakkul | **ta-wak-kul** | ch03, ch05 | Gloss: "reliance on God after taking right action". |
-| Ikhlas | **ikh-laas** | ch03 | Gloss: "sincerity, performing acts purely for God's sake". |
-| Ihsan | **ih-saan** | ch03 | Gloss: "spiritual excellence; worshipping God as if seeing Him". |
-| Taqwa | **taq-waa** | ch02, ch03 | Gloss: "God-consciousness, watchful awareness of God's presence". |
-| Taqleed | **taq-leed** | (not used) | |
-| Ma'rifah / Ma'arifah | **maa-ri-fah** | ch01, ch03 | Gloss: "direct intimate knowledge of God". |
-| Mujahadah | **mu-jaa-ha-dah** | ch01, ch03 | Gloss: "intense inner spiritual struggle". |
-| Bid'a | **bid-ah** | ch01 | Gloss: "innovation outside established Quran and Sunnah". |
-| Fard al-ayn | **fard al-ayn** | ch05 | Gloss: "a personal obligation incumbent on every individual". |
-| Fard Kifaya | **fard ki-faa-yah** | ch01, ch05 | Gloss: "a communal obligation discharged on behalf of the community". |
-| Halal | **ha-laal** | ch01, ch03 | Widely recognized English borrowing. |
-| Haram | **ha-raam** | ch03 | Widely recognized English borrowing. |
-| Niyyah (intention) | substituted to **intention** in body | (substitution) | |
-| Riya | **ree-yaa** | ch03 | Gloss: "show off, ostentation". |
-| Iman | **ee-maan** | ch01 | Gloss: "faith". Substitution to **faith** preferred. |
-| Du'a | **du-aa** | ch05 | Gloss: "supplication". |
-| Murshid | **mur-shid** | ch03 | Gloss: "a perfected spiritual guide". |
-| Mureed / Mureeds | **mu-reed / mu-reeds** | ch03 | Gloss: "disciples, seekers under a guide". |
-| Bay'a | **bay-ah** | ch03 | Gloss: "oath of allegiance to a spiritual guide". |
-| Zuhd | substituted to **detachment** / **renunciation** in body | | |
-| Wara' | substituted to **scrupulousness** in body | | |
-| Sirat al-Mustaqeem | **si-raat al-mus-ta-qeem** | ch02 | Gloss: "the straight path". |
-
-## Substitution decisions (per `04-common-term-substitutions.md` §2)
-
-These appear in the source's Arabic form but are substituted to English in chapter body. Phonetic kept here only for the rare chapter framing where the Arabic surfaces.
-
-| Source spelling | Chapter substitution | Notes |
-|---|---|---|
-| Nafs | **lower soul** (default) / **the soul** (when contrasted with spirit) | Kept as `nafs` only when the source explicitly defines it as a technical term (ch01: "Intelligent is the one who subdued his/her *nafs*"). Gloss on first kept use. |
-| Shaytan / Satan | **Satan** | Default substitution. |
-| Ruh | **spirit** | |
-| Qalb | **heart** | |
-| Aql | **intellect** | |
-| Hawa | **lower desire** / **passion** | |
-| Dunya | **this world** / **worldly life** | |
-| Akhirah | **the Hereafter** / **the next life** | |
-| Jannah | **paradise** | |
-| Jahannam | **hell** | |
-| Qiyamah | **the Resurrection** / **the Day of Judgment** | |
-| Ilm | **knowledge** | |
-| Hikmah | **wisdom** | |
-| Sabr | **patience** | |
-| Shukr | **gratitude** | |
-| Malak / Malaa'ika | **angel** / **angels** | |
-| Zuhd | **detachment from the world** | |
-| Wara' | **scrupulousness** | |
-
-## Named figures in the source
-
-| Term | Phonetic | First chapter | Alias after first mention |
-|---|---|---|---|
-| Imam Abu Hamid Muhammad al-Ghazali | **i-maam a-boo haa-mid mu-ham-mad al-gha-zaa-lee** | ch01 | **Ghazali** |
-| Junaid al-Baghdadi | **joo-nayd al-bagh-daa-dee** | ch01 | **Junaid** |
-| Hasan al-Basri | **ha-san al-bas-ree** | ch01, ch04 | **Hasan al-Basri** (only two tokens after alias; keep) |
-| Sufyan al-Thawri | **suf-yaan ath-thaw-ree** | ch01 | **Sufyan** |
-| Shaqiq al-Balkhi | **sha-qeeq al-bal-khee** | ch02 | **Shaqeeq** (note: source spells *Shafeeq*; canonical is *Shaqiq*. Use canonical phonetic alias **Shaqeeq** per manifest.) |
-| Hatim bin Ism (al-Asamm) | **haa-tim ibn ism al-a-samm** | ch02 | **Haatim** |
-| Luqman | **luq-maan** | ch01 | **Luqman** |
-| Shibli | **shib-lee** | ch01 | **Shibli** |
-| Dhu'l-Nun al-Misri (source: Zun Noon Misri) | **thool-noon al-mis-ree** | ch03 | **Dhu'l-Nun**. Anti-mangling: never "shake stone noon mystery" or "zun NOON MIS-ree" inline. |
-| Abu Bakr al-Siddiq | **a-boo bakr as-sid-deeq** | ch01 | **Abu Bakr** |
-| Abdullah ibn Umar | **ab-dul-laah ib-noo-mar** | ch01 | **Abdullah ibn Umar** |
-| Sa'd ibn Mu'adh | **sad ib-noo-maaath** | ch01 | **Sa'd ibn Mu'adh** |
-| Aisha (Aisha Siddiqa) | **aa-i-shah** | ch05 | **Aisha** |
-| Prophet Isa (Jesus) | **prophet ee-saa** | ch01, ch04 | **Prophet Isa** |
-| Khidr (peace be upon him) | **khidr** | ch03 | **Khidr** |
-| Prophet Musa (Moses) | **prophet moo-saa** | ch03 | **Prophet Musa** |
-
-## Named works mentioned in source
-
-| Term | Phonetic | Chapters | Canonical form per R-NO-ABBREVIATION |
-|---|---|---|---|
-| Ihya Ulum al-Din (source: *Ahya al-Uloom ad-Deen*) | **ih-yaa oo-loom ad-deen** | ch01, ch04, ch05 | **Ihya Ulum al-Din** (never "the Ihya"). Gloss "Revival of the Religious Sciences" on first mention. |
-| Kimiya al-Sa'ada | **kee-mee-yaa as-sa-aa-dah** | ch01 | **Kimiya al-Sa'ada** (Alchemy of Happiness). |
-| Jawahir al-Quran | **ja-waa-hir al-qur-aan** | ch01 | **Jawahir al-Quran** (Gems of the Quran). |
-| Arba'in / Arba'een | **ar-ba-een** | ch01 | **Arba'in** (Forty Steps). |
-| Minhaj al-Abidin | **min-haaj al-aa-bi-deen** | ch01 | **Minhaj al-Abidin** (Path of Worshippers). |
-| Sahah Sitta (source variant) / Sahih Sitta | **sa-hah sit-tah** | ch05 | **Sahah Sitta** (preserve the source spelling). Gloss: "the six most authentic hadith collections". Never "Sahihayn". |
-| Ahl al-Bayt | **ahl al-bayt** | ch05 | "the family of the Prophet". |
-
-## Selected Quranic verse openers (transliterated by source)
-
-These will NOT be carried as transliterated lines in the chapter; the chapter ships the English translation only with citation. Kept here for the index.
-
-| Source transliteration | Phonetic | Citation |
-|---|---|---|
-| Wa anna laysa lil insani illa ma sa'a | **wa an-naa lay-sa lil in-saa-ni il-laa maa sa-aa** | Quran 53:39 |
-| Famun kana yarju liqaa-a Rabbihi fal-ya'mal amalan saliha | **fa-mun kaa-na yar-joo li-qaa-a rab-bi-hi fal-ya-mal a-ma-lan saa-li-han** | Quran 18:110 |
-| Innal lazina aamanu wa amilus salihaat | **in-nal la-thee-na aa-ma-noo wa a-mi-lus saa-li-haat** | Quran 18:107 |
-| Fadhkuruni adhkurkum | **fath-ku-roo-nee ath-kur-kum** | Quran 2:152 |
-| Laqad kana lakum fi rasulillahi uswatun hasanah | **la-qad kaa-na la-kum fi ra-soo-lil-laa-hi us-wa-tun ha-sa-nah** | Quran 33:21 |
-| Inna akramakum indallahi atqakum | **in-na ak-ra-ma-kum in-dal-laa-hi at-qaa-kum** | Quran 49:13 |
-| Wa man yatawakkal alallahi fa huwa hasbuh | **wa man ya-ta-wak-kal a-lal-laa-hi fa-hu-wa has-buh** | Quran 65:3 |
-
-## Anti-mangling notes (P0 from prior audit)
-
-These have a history of being mangled by NotebookLM TTS. Each appears in the customize prompt with an explicit "Do not say X" line:
-
-- **Tasawwuf** → must be one fluent word `ta-SAW-wuf`. NEVER "tassel wolf", "tasso wolf", "tasa wolf".
-- **Dhu'l-Nun al-Misri** (source: *Zun Noon Misri*) → `thool-noon al-mis-ree` or alias `Dhu'l-Nun`. NEVER "shake stone noon mystery" or letter-spelled.
-- **Nahj al-Balagha** → not used in this book, but if cited: `nahj al-ba-laa-ghah`. NEVER "Najah Balala" or "the Nahj".
-- **Ihya Ulum al-Din** → canonical full title every time per R-NO-ABBREVIATION. NEVER "the Ihya", "EI", "IUD".
-- **Mureed / Mureeds** → `mu-reed / mu-reeds`. Two-syllable, the `ee` is held.
-
----
-
-*Last updated 2026-05-17 (v3.5 re-run). All phonetics cross-checked against `content/_shared/arabic/03-arabic-english-manifest.md` § 1, 3, 4, 5, 8. Where the source spells a name differently from the manifest (`Zun Noon` vs `Dhu'l-Nun`; `Ahya` vs `Ihya`; `Shafeeq` vs `Shaqiq`), the chapter uses the canonical form per R-NO-ABBREVIATION / the manifest, with a one-time note in `editorial-notes.md`.*
+| أيها الولد | Ayyuhal Walad | AY-yu-hal WA-lad | "Imam Ghazali's Arabic Book *Ayyuhal Walad*" |
+| مجموعة رسائل | Majmu'a Rasail | maj-MOO-ah ra-SAH-il | "Three-Volume Collection of Short Books *Majmu'a Rasail Imam Ghazali*" |
+| أعوذ بالله من علم لا ينفع | A'auzu Billahi Min 'Ilm-il La Yanfa'au | a-OO-zu bil-LAH-hi min IL-mil la yan-FA-oo | "A'auzu Billahi Min 'Ilm-il La Yanfa'au" |
+| إحياء علوم الدين | Ihya al-Ulum ad-Din | ih-YAH al-oo-LOOM ad-DEEN | "*Ihya al-Ulum ad-Din* (Revival of the Knowledge of the Path to God)" |
+| كيمياء السعادة | Kimiya as-Sa'ada | kee-mee-YAH as-sa-AH-dah | "*Kimiya as-Sa'ada* (Alchemy of Ultimate Success and Happiness)" |
+| جواهر القرآن | Jawahir ul-Quran | ja-WAH-hir ul-qur-AAN | "*Jawahir ul-Quran* (Priceless Gems of the Holy Quran)" |
+| أربعون | Arba'een | ar-ba-EEN | "*Arba'een* (Forty Steps)" |
+| منهاج العابدين إلى جنة رب العالمين | Minhaj ul-'Abideen ila Jannatu Rabbul 'Alamin | min-HAAJ ul-aa-bi-DEEN i-la jan-NA-tu rab-bul aa-la-MEEN | "*Minhaj ul-'Abideen ila Jannatu Rabbul 'Alamin*" |
+| أحاديث | Ahadith | a-HA-deeth | "foundation of all counsel rests upon his Ahadith (traditions)" |
+| سنة | Sunnah | SUN-nah | "his Ahadith and Sunnah (outward character and conduct)" |
+| رحمة الله عليه | Rahmatullahi Alayhe | rah-ma-tul-LAH-hi a-LAY-hi | "Imam Ghazali (Rahmatullahi Alayhe [RA])" |
+| علامة إعراض الله عن العبد | 'Alamatu I'radil Allahi 'Anil 'Abdi Ishtighaluhu Bima La Ya'nehe | a-LAA-ma-tu i-RAA-dil al-LAH-hi a-nil AB-di ish-ti-GHAA-lu-hu bi-ma la yaa-NEE-hi | "'Alamatu I'radil Allahi 'Anil 'Abdi Ishtighaluhu Bima La Ya'nehe" |
+| من جاوز الأربعين سنة | Mun Jaawazal Arba'eena Sinatu Wa Lam Yughlab Khayruhu 'Ala Sharrihi Fal Yatajahhaza Ilan Nar | mun jaa-wa-ZAL ar-ba-EE-na si-NA-tu wa lam YUGH-lab KHAY-ru-hu a-la SHAR-ri-hi fal ya-ta-jah-HA-za i-lan NAAR | "Mun Jaawazal Arba'eena Sinatu Wa Lam Yughlab Khayruhu" |
+| إن أشد الناس عذاباً | Inna Ashaddan Nasi 'Azaban Yawmal Qiyamati 'Alimun Lam Yanfa'hul Allahu Bi 'Ilmihi | in-na ASH-sha-dan NAA-si a-ZAA-ban yaw-mal qi-YAA-ma-ti AA-li-mun lam yan-FA-hul al-LAH-hu bi IL-mi-hi | "Inna Ashaddan Nasi 'Azaban Yawmal Qiyamati" |
+| إشارات | Isharaat | i-sha-RAAT | "All discourses and spiritual signs (Isharaat) turned out to be of no avail" |
+| ركعات | Rak'at | RAK-at | "certain cycles (Rak'at) of prayer I had performed" |
+| تهجد | Tahajjud | ta-HAJ-jud | "during the Tahajjud (the third portion of the night)" |
+| شريعة | Shari'ah | sha-REE-ah | "do not deprive yourself of good deeds, do not neglect the knowledge of outward matters (Shari'ah)" |
+| فقه | Fiqh | FIQH | "hundred thousand points of jurisprudence (Fiqh)" |
+| وأن ليس للإنسان إلا ما سعى | Wa Anna Laysa Lil Insani Illa Ma Sa'a | wa AN-na LAY-sa lil in-SAA-ni il-la ma SA-a | "Wa Anna Laysa Lil Insani Illa Ma Sa'a" |
+| فمن يعمل مثقال ذرة خيراً يره | Faman Ya'mal Mithqala Zarratin Khayran Yarahu | fa-man YA-mal MITH-qa-la zar-RA-tin KHY-ran ya-RAH-hu | "Faman Ya'mal Mithqala Zarratin Khayran Yarahu" |
+| فمن كان يرجو لقاء ربه | Faman Kana Yarjul Liqa'a Rabbihi Fal Ya'mal 'Amalan Salihan | fa-man KAA-na YAR-ju li-QAA-a RAB-bi-hi fal YA-mal a-MA-lan SAA-li-han | "Faman Kana Yarjul Liqa'a Rabbihi Fal Ya'mal 'Amalan Salihan" |
+| إن الذين آمنوا وعملوا الصالحات | Innal Ladhina Amanu Wa 'Amilus Salihati Kanat Lahum Jannatul Firdawsi | in-nal la-DHEE-na aa-MA-nu wa a-MI-lus saa-li-HAA-ti kaa-nat la-hum jan-NA-tul fir-DAW-si | "Innal Ladhina Amanu Wa 'Amilus Salihati Kanat Lahum Jannatul Firdawsi" |
+| إلا من تاب وآمن وعمل صالحاً | Illa Man Taba Wa Amana Wa 'Amila 'Amalan Salihan | il-la man TAA-ba wa aa-MA-na wa a-MI-la a-MA-lan SAA-li-han | "Illa Man Taba Wa Amana Wa 'Amila 'Amalan Salihan" |
+| بني الإسلام على خمس | Buniyal Islamu 'Ala Khams | bu-ni-YAL is-LAA-mu a-la KHAMS | "Buniyal Islamu 'Ala Khams" |
+| شهادة | Shahadatu | sha-HAA-da-tu | "Shahadatu An La Ilaha IllAllahu" |
+| صلاة | Salat | sa-LAAT | "to establish regular prayers (Salat)" |
+| زكاة | Zakat | za-KAAT | "to pay the Zakat (obligatory charity)" |
+| رمضان | Ramadan | ra-ma-DAAN | "to fast during the holy month of Ramadan" |
+| حج | Hajj | HAJJ | "to perform Hajj (pilgrimage to the House of God)" |
+| إيمان | Iman | ee-MAAN | "Al Imanu Iqraarun Bil Lisani Wa Tasdiqun Bil Janani Wa 'Amalun Bil Arkani" |
+| الإيمان إقرار باللسان | Al Imanu Iqraarun Bil Lisani Wa Tasdiqun Bil Janani Wa 'Amalun Bil Arkani | al ee-MAA-nu iq-RAA-run bil li-SAA-ni wa tas-DEE-qun bil ja-NAA-ni wa a-MA-lun bil ar-KAA-ni | "Al Imanu Iqraarun Bil Lisani Wa Tasdiqun Bil Janani Wa 'Amalun Bil Arkani" |
+| إن رحمة الله قريب من المحسنين | Inna Rahmata Allahi Qaribun Minal Muhsinin | in-na rah-MA-tal al-LAH-hi QA-ri-bun mi-nal muh-si-NEEN | "Inna Rahmata Allahi Qaribun Minal Muhsinin" |
+| اشهدوا يا ملائكتي | Ishhadu Ya Mala'ikati Anni Qad Ghafartu Lahu | ish-HA-du ya ma-LAA-i-ka-ti an-ni qad gha-FAR-tu la-HU | "Ishhadu Ya Mala'ikati Anni Qad Ghafartu Lahu" |
+| حاسبوا قبل أن تحاسبوا | Hasibu Qabla An Tuhasabu Wa Zinu Qabla An Tuzanu | haa-SI-bu QAB-la an tu-HAA-sa-bu wa ZI-nu QAB-la an tu-ZAA-nu | "Hasibu Qabla An Tuhasabu Wa Zinu Qabla An Tuzanu" |
+| من ظن أنه بدون الجهد يصل | Man Zanna Annahu Bidunl Juhdi Yasilu Fahuwa Mutmanniun | man ZAN-na an-NA-hu bi-DU-nil JUH-di ya-SI-lu fa-HU-wa mut-man-ni-OON | "Man Zanna Annahu Bidunl Juhdi Yasilu Fahuwa Mutmanniun" |
+| طلب الجنة بلا عمل | Talabul Jannati Bila 'Amalin Zambun Minaz Zunub | ta-LA-bul jan-NA-ti bi-la a-MA-lin ZAM-bun mi-naz zu-NOOB | "Talabul Jannati Bila 'Amalin Zambun Minaz Zunub" |
+| الحقيقة | Al Haqiqatu Terkul Mulahazatil 'Amali La Terkul 'Amal | al ha-QEE-qa-tu TER-kul mu-la-ha-ZA-til a-MA-li la TER-kul a-MAL | "Al Haqiqatu Terkul Mulahazatil 'Amali La Terkul 'Amal" |
+| الكيس من دان نفسه | Al Kayyisu Man Dana Nafsahu Wa 'Amila Lima Ba'dal Mawt | al KAY-yi-su man DAA-na naf-SA-hu wa a-MI-la li-ma BA-dal MAWT | "Al Kayyisu Man Dana Nafsahu Wa 'Amila Lima Ba'dal Mawt" |
+| نفس | Nafs | NAFS | "subdues his or her nafs (lower self)" |
+| فويل لك ثم ويل لك | Fawaylun Laka Thumma Waylun Lak | fa-WAY-lun LA-ka thum-ma WAY-lun LAK | "Fawaylun Laka Thumma Waylun Lak" |
+| فطوبى لك ثم طوبى لك | Fatuba Laka Thumma Tuba Laka | fa-TOO-ba LA-ka thum-ma TOO-ba LA-ka | "Fatuba Laka Thumma Tuba Laka" |
+| دين | Deen | DEEN | "to establish and strengthen within yourself — and then within others — the Path to God (*Deen*)" |
+| عش ما شئت فإنك ميت | 'Ishu Ma Shay'ta Fa Innaka Mayyeytu | i-SHU ma SHAY-ta fa in-NA-ka MAY-yi-tu | "'Ishu Ma Shay'ta Fa Innaka Mayyeytu" |
+| علم الكلام | Ilmul Kalaam | il-mul ka-LAAM | "theology (*Ilmul Kalaam*)" |
+| علم الأخلاق | Ilmul Ikhlaq | il-mul ikh-LAAQ | "ethics (*Ilmul Ikhlaq*)" |
+| علم الطب | Ilmut Tib | il-mut TIBB | "medicine (*Ilmut Tib*)" |
+| نجوم | Nujoom | nu-JOOM | "astrology (*Nujoom*)" |
+| إنجيل | Injil | in-JEEL | "I have read in the Gospel (*Injil*) of Prophet Isa" |
+| عبدي قد طهرت منظر الخلق | 'Abdi Qad Tahherta Munzaral Khalqi Sineena Fahul Tahherta Munzari Sa'atun | AB-di qad tah-HAR-ta mun-ZA-ral KHAL-qi si-NEE-na fa-hul tah-HAR-ta mun-ZA-ri SAA-a-tun | "'Abdi Qad Tahherta Munzaral Khalqi Sineena Fahul Tahherta Munzari Sa'atun" |
+| عبدي ما تصنع بغيري | 'Abdi Ma Tasna'u Bighairi Wa Anta Majfufum Bikhairi | AB-di ma tas-NA-u bi-GHAY-ri wa AN-ta maj-FOO-fum bi-KHAY-ri | "'Abdi Ma Tasna'u Bighairi Wa Anta Majfufum Bikhairi" |
+| فارجعنا نعمل صالحاً | Ferje'yna Na'mal Saaliha | fer-ji-NAA na-MAL saa-LI-ha | "Ferje'yna Na'mal Saaliha" |
+| هذه الأجساد | Hazihil Ajsaadu Qafasut Tuyouri | ha-ZI-hil aj-SAA-du qa-FA-sut tu-YOO-ri | "Hazihil Ajsaadu Qafasut Tuyouri Awo Astabalud Dawab" |
+| ارجعي إلى ربك | Irji'I ila Rabbika | ir-JI-ee i-la RAB-bi-ka | "when you hear '*Irji'I ila Rabbika!*'" |
+| اهتز عرش الرحمن | Ihtuzza 'Arshur Rahmaani Limauti Sa'adibne Muadh | ih-TUZ-za AR-shur rah-MAA-ni li-MAW-ti SA-a-dib-ne MU-aadh | "Ihtuzza 'Arshur Rahmaani Limauti Sa'adibne Muadh" |
+| أولئك كالأنعام | Uulaaika Kal An'aami Bal Hum Adallu | oo-LAA-i-ka kal an-AA-mi bal hum a-DAL-lu | "Uulaaika Kal An'aami Bal Hum Adallu" |
+| زاوية | zawiya | ZAA-wi-ya | "from the place of the *zawiya* (spiritual retreat)" |
+| هاوية | hawiya | HAA-wi-ya | "straight to the place of *hawiya* (the abyss of Hell)" |
+| ذكرت أمنية أهل النار | Zakartu Umniyyata Ahlin Naari Heena Yaquluna | za-KAR-tu um-niy-YA-ta AH-lin NAA-ri HEE-na ya-QOO-lu-na | "Zakartu Umniyyata Ahlin Naari Heena Yaquluna" |
+| هل من تائب | Hul Min Ta ibin Hul Min Sa ilin Hul Min Mustaghfirin | hul min TAA-i-bin hul min SAA-i-lin hul min mus-TAGH-fi-REEN | "Hul Min Ta ibin Hul Min Sa ilin Hul Min Mustaghfirin" |
+| كانوا قليلاً من الليل | Kanu Qaleelum Minal Laili Ma Yahja'oon | kaa-nu qa-LEE-lum mi-nal LAY-li ma yah-ja-OON | "Kanu Qaleelum Minal Laili Ma Yahja'oon" |
+| نعم الرجل هو | Nay'mur Rajula Huwa Lau Kana Yusalli Bil Laili | nay-MUR ra-JU-la HU-wa law KAA-na yu-SAL-li bil LAY-li | "Nay'mur Rajula Huwa Lau Kana Yusalli Bil Laili" |
+| لا تكثرن النوم بالليل | La Takthirin Nauma Bil Laili | la tak-THI-rin NAW-ma bil LAY-li | "La Takthirin Nauma Bil Laili Fainna Kathratan Naumi Bil Laili" |
+| ومن الليل فتهجد به | Waminal Laili Fatahajjad Bihi Nafilatal Laka | wa-mi-nal LAY-li fa-ta-HAJ-jad bi-HI naa-fi-la-TAL LA-ka | "Waminal Laili Fatahajjad Bihi Nafilatal Laka" |
+| وبالأسحار يستغفرون | Wa Bil Ashaarihum Yustaghfiroon | wa bil ash-AA-ri-hum yus-tagh-fi-ROON | "Wa Bil Ashaarihum Yustaghfiroon" |
+| والمستغفرين بالأسحار | Wul Mustaghfireena Bil Ashaari | wul mus-tagh-fi-REE-na bil ash-AA-ri | "Wul Mustaghfireena Bil Ashaari" |
+| سحر | sahr | SAHR | "continuing in prayer until the time of *sahr*" |
+| إن الله تعالى خلق ريحاً | Inna Allaha Ta'ala Khalaqa Reehun Tahabbu Waqtal Ashaari | in-na al-LAH-ha ta-AA-la KHA-la-qa REE-hun ta-HAB-bu waq-tal ash-AA-ri | "Inna Allaha Ta'ala Khalaqa Reehun Tahabbu Waqtal Ashaari" |
+| توفيق | tawfiq | taw-FEEQ | "Those whom Allah has granted *tawfiq* — divine enablement" |
+| يا بني لا تكونن الديك أكيس منك | Ya Buneyya La Takununnad Deeka Akyas Minka | ya bu-NAY-ya la ta-ku-NUN-nad DEE-ka AK-yas MIN-ka | "Ya Buneyya La Takununnad Deeku Akyas Minka" |
+| بدعة | bid'a | BID-ah | "conviction of fear of Allah…not become involved in innovation (bid'a)" |
+| معرفة | Ma'arifah | ma-aa-ri-FAH | "Ma'arifah — deep intimate knowledge and recognition of God" |
+| توبة نصوح | Taubatun Nasuh | taw-BA-tun na-SOOH | "true and complete repentance (Taubatun Nasuh)" |
+| تقوى | Taqwa | TAQ-wa | "I adopted Taqwa — pious reverence, consciousness, awe, and fear of Allah" |
+| إنا لله وإنا إليه راجعون | Inna Lillahi Wa Inna Ilaeyhe Raji'oon | in-na lil-LAH-hi wa in-na i-LAY-hi raa-ji-OON | "Inna Lillahi Wa Inna Ilaeyhe Raji'oon" |
+| فرض كفاية | Fard Kifayah | FARD ki-FAA-yah | "studying and acquiring knowledge beyond one's personal obligation is Fard Kifayah" |
+| مريد | mureed | mu-REED | "mureeds — disciples who seek spiritual elevation" |
+| عمل للدنيا بقدر مقامك فيها | 'Aymal Lid Dunya Be Qadre Maqamika Feeha | ay-MAL lid DUN-ya be QAD-re ma-QAA-mi-ka FEE-ha | "'Aymal Lid Dunya Be Qadre Maqamika Feeha" |
+| وأما من خاف مقام ربه | Wa Amma Mun Khafa Maqama Rabbihi Wa Nahun Nafsa 'Anil Hawa | wa AM-ma mun KHA-fa ma-QAA-ma RAB-bi-hi wa NA-hun NAF-sa a-nil HA-wa | "Wa Amma Mun Khafa Maqama Rabbihi Wa Nahun Nafsa 'Anil Hawa Fa Innal Jannata Heyal Mawa" |
+| ما عندكم ينفد | Ma 'Indakum Yanfadu Wa Ma 'IndAllahi Baaqin | ma in-DA-kum yan-FA-du wa ma in-dal-LAH-hi BAA-qin | "Ma 'Indakum Yanfadu Wa Ma 'IndAllahi Baaqin" |
+| إن أكرمكم عند الله أتقاكم | Inna Akramakum 'IndAllahi Atqakum | in-na ak-RA-ma-kum in-dal-LAH-hi AT-qa-kum | "Inna Akramakum 'IndAllahi Atqakum" |
+| نحن قسمنا بينهم معيشتهم | Nahnu Qasumna Baeynahum Ma'eeshatahum Fil Hayatid Dunya | nah-nu qa-SUM-na bay-NA-hum ma-ee-sha-TA-hum fil ha-YAA-tid DUN-ya | "Nahnu Qasumna Baeynahum Ma'eeshatahum Fil Hayatid Dunya" |
+| إن الشيطان لكم عدو | Innash Shaytana Lakum 'Aduwwun Fettakhizuhu 'Aduwwa | in-nash shay-TAA-na la-kum a-DUW-wun fat-ta-KHI-zu-hu a-DUW-wa | "Innash Shaytana Lakum 'Aduwwun Fettakhizuhu 'Aduwwa" |
+| شيطان | Shaytan | shay-TAAN | "I regarded Satan alone as my enemy" |
+| صراط المستقيم | Sirat al-Mustaqeem | si-RAAT al-mus-ta-QEEM | "the correct way — the Sirat al-Mustaqeem, the straight path" |
+| ألم أعهد إليكم يا بني آدم | Alam A'had Ilaeykum Ya Bani Aadama Al La Ta'budush Shaytana | a-lam AA-had i-LAY-kum ya ba-NI AA-da-ma al-la ta-bu-DUSH shay-TAA-na | "Alam A'had Ilaeykum Ya Bani Aadama Al La Ta'budush Shaytana" |
+| مجاهدة | mujahadah | mu-JAA-ha-dah | "traveled through earnest effort and *mujahadah* — intense inner spiritual struggle" |
+| صوفي | Sufi | SOO-fee | "False Sufis — those who claim the station of Sufism" |
+| تصوف | Tasawwuf | ta-SAW-wuf | "Reality of Tasawwuf (Spiritual Struggle)" |
+| عشق | Ishq | ISHQ | "For Ishq — intense love — is another name for love" |
+| ذوق | Zauq | ZAWQ | "the fervent desire to seek what one loves (Zauq)" |
+| دعاء | Du'a | DU-aa | "A Supplication (Du'a) that May Always Be Recited" |
+| عصر | Asr | ASR | "after the Asr (late afternoon) prayer before sunset" |
+| فجر | Fajr | FAJ-r | "after the Fajr (dawn) prayer before the sun has risen" |
+| أثيم | athim | aa-THEEM | "that person is called *athim* (a sinner)" |
+| فاسق | fasiq | FAA-siq | "and *fasiq* (a transgressor)" |
+| حلال | halal | ha-LAAL | "it is therefore *halal* (permissible)" |
+| إخلاص | Ikhlas | ikh-LAAS | "Reality of Sincerity to God (Ikhlas)" |
+| توكل | Tawakkul | ta-WAK-kul | "Reality of Reliance on God (Tawakkul)" |
+| الشيخ | Shaykh | shaykh | "Shaykh Shafeeq al-Balkhi, may Allah shower His mercy upon him" |
+| الحلال | Halal | ha-LAAL | "many do not even distinguish between the Halal — what is permissible" |
+| الحرام | Haram | ha-RAAM | "and the Haram — what is forbidden" |
+| التوفيق | Tawfeeq | taw-FEEQ | "may Allah grant you His Tawfeeq — that is, may He enable you to perform righteous deeds" |
+| التوراة | Tawrat | taw-RAAT | "I have seen in the Tawrat (Torah)" |
+| الإنجيل | Injil | in-JEEL | "the Injil (Gospel of the Prophet Jesus)" |
+| الزبور | Zabur | za-BOOR | "the Zabur (Psalms)" |
+| شيخ الكامل | Shaykh al-Kamil | shaykh al-KAA-mil | "he or she should have a Shaykh al-Kamil — a perfected spiritual guide" |
+| مرشد الكامل | Murshid al-Kamil | mur-SHID al-KAA-mil | "the traveler on the Path of Allah has no remedy or solution except through a Murshid al-Kamil" |
+| البيعة | Bay'a | bay-AH | "has taken Bay'a — a solemn covenant with Allah" |
+| الرياضة | Riazat | ri-YA-zat | "must have undergone all manner of Riazat and Mujahada" |
+| المجاهدة | Mujahada | mu-JAA-ha-da | "all manner of Riazat and Mujahada — spiritual struggles and disciplines" |
+| المريد | Mureed | mu-REED | "has admitted him or her among his disciples (Mureeds)" |
+| النفس | Nafs | nafs | "guards against the deceptions of the Nafs: the lower self" |
+| الجن | Jinn | jinn | "This Satanic company may come from among humankind or from among the Jinn" |
+| التصوف | Tasawwuf | ta-SAW-wuf | "You have asked: what is Tasawwuf?" |
+| الشريعة | Shari'ah | sha-REE-ah | "he or she should be acting in accordance with the Shari'ah" |
+| الصوفي | Sufi | SOO-fee | "is rightly called a Sufi — and this is the correct application of the term" |
+| التوكل | Tawakkul | ta-WAK-kul | "what is reliance on God — Tawakkul?" |
+| الإخلاص | Ikhlas | ikh-LAAS | "what is sincerity to God — Ikhlas?" |
+| الرياء | Riya | ri-YAA | "Your heart should not lean toward impressing people — Riya" |
+| الصراط المستقيم | Sirat al-Mustaqeem | si-RAAT al-mus-ta-QEEM | "who is genuinely seeking the right path of guidance (Sirat al-Mustaqeem)" |
+| الواجب | Wajib | WAA-jib | "To answer the questions of such a person is therefore not merely permissible — it is obligatory (Wajib)" |
+| الفاسق | Fasiq | FAA-siq | "Allah, the Exalted, is angered when any transgressor (Fasiq) or oppressor (Zalim) is praised" |
+| الظالم | Zalim | ZAA-lim | "any transgressor (Fasiq) or oppressor (Zalim) is praised" |
+| الدين | Deen | deen | "causes great damage and corruption in the Deen — the path to God" |
+| الأمر بالمعروف والنهي عن المنكر | 'Amr bil Ma'roof Wa Nahi 'Anil Munkar | amr bil ma-ROOF wa NAH-yi a-nil MUN-kar | "distort the meaning of commanding the right and forbidding the evil ('Amr bil Ma'roof Wa Nahi 'Anil Munkar)" |
+| المنبر | Minbar | MIN-bar | "remove such a preacher from the pulpit (Minbar)" |
+| الفساد | Fasad | fa-SAAD | "Such people spread a corruption (Fasad) in religion" |
+| الإيمان | Iman | ee-MAAN | "My slave's faith (Iman) is never complete" |
+| الأحكم الحاكمين | Ahkamul Hakimeen | ah-KA-mul haa-ki-MEEN | "the gaze of the Supreme Ruler — Ahkamul Hakimeen — rests upon your heart" |
+| فرض العين | Fard al-'ayn | fard al-AYN | "such knowledge is personally obligatory, Fard al-'ayn, upon every Muslim" |
+| الأزواج المطهرات | Azwaj al-Mutahharat | az-WAAJ al-mu-tah-ha-RAAT | "did not set aside provisions for all of his wives, the Azwaj al-Mutahharat" |
+| أمهات المؤمنين | Ummahatil Mu'mineen | um-ma-HAA-til mum-i-NEEN | "the Ummahatil Mu'mineen, the Mothers of the Believers" |
+| عائشة الصديقة | 'Aisha Siddiqa | aa-I-sha sid-DEE-qa | "Among them was 'Aisha Siddiqa, may Allah be pleased with her" |
+| الدعاء | Du'a | du-AH | "do not forget me in your supplications, your Du'a" |
+| الأحاديث | Ahadith | a-haa-DEETH | "Seek out supplications in the books of Ahadith" |
+| الصحاح الستة | Sahah Sitta | si-HAAH sit-TA | "particularly in the Sahah Sitta, the six most authenticated collections" |
+| أهل البيت | Ahl al-Bayt | ahl al-BAYT | "supplications have reached us through the Ahl al-Bayt, the family of the Prophet" |
+| الصلاة | Salaat | sa-LAAT | "Recite the following supplication, in particular, after every Salaat, every prayer" |
+| الملك | Al-Malik | al-MA-lik | "This book comes to an end with the help of Al-Malik, the Absolute Sovereign" |
+| الوهاب | Al-Wahhab | al-wah-HAAB | "and Al-Wahhab, the Giver of all" |
+| يا عزيز | Ya Aziz | yaa a-ZEEZ | "O You the Victorious One, Ya Aziz" |
+| يا غفار | Ya Ghaffar | yaa ghaf-FAAR | "O You the Forgiving One, Ya Ghaffar" |
+| يا كريم | Ya Kareem | yaa ka-REEM | "O You the Generous One, Ya Kareem" |
+| يا ستار | Ya Sattar | yaa sat-TAAR | "O You the Coverer of Faults, Ya Sattar" |
+| يا حليم | Ya Haleem | yaa ha-LEEM | "O You the Forbearing One, Ya Haleem" |
+| يا جبار | Ya Jabbar | yaa jab-BAAR | "O You the Compeller, Ya Jabbar" |
+| يا عظيم | Ya Azeem | yaa a-ZEEM | "O You the Magnificent One, Ya Azeem" |
+| يا قهار | Ya Qahhar | yaa qah-HAAR | "O You Who Subdues all things, Ya Qahhar" |
+| يا رحمن | Ya Rahman | yaa rah-MAAN | "O You the Compassionate One in this world, Ya Rahman" |
+| يا رحيم | Ya Raheem | yaa ra-HEEM | "O You the Merciful One in the life hereafter, Ya Raheem" |
+| يا أرحم الراحمين | Ya Arhamu ar-Rahimeen | yaa ar-HA-mu ar-raa-hi-MEEN | "O You the Greatest of the Merciful, Ya Arhamu ar-Rahimeen" |
+| رب العالمين | Rabb ul-'Alameen | rabb ul-aa-la-MEEN | "All praise belongs solely to Allah, the Lord of all the Universes, Rabb ul-'Alameen" |
+| الحشر | Hashr | hashr | "the fearsome spectacle of accountability on the plain of Hashr" |
+| الميزان | Mizan | mi-ZAAN | "the weighing of deeds in the Mizan — the mighty scale" |
+| الصراط | Sirat | si-RAAT | "the crossing of the bridge called Sirat — a bridge over Hell" |
+| ملك الموت | Malik ul-Maut | MAA-lik ul-MAWT | "the awe-inspiring appearance of the Angel of Death (Malik ul-Maut)" |
+| منكر ونكير | Munkar and Nakir | MUN-kar wa na-KEER | "the questioning in the grave by Munkar and Nakir" |
+| الخضر | Khidr | KHI-dr | "Accept the counsel of Khidr (peace be upon him)" |
+| زن نون مصري | Zun Noon Misri | zun-NOON mis-REE | "Shaykh Zun Noon Misri (may Allah shower His mercy upon him) said" |
+| الحذر | Al-Hazr | al-HAZ-r | "the owner of the house will cry out urgently: Al-Hazr! Al-Hazr!" |

@@ -4,3 +4,5 @@
 {"ts": "2026-06-04T16:06:57Z", "phase": "0b", "step": "win-006", "model": "claude-sonnet-4-6", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
 {"ts": "2026-06-04T16:07:36Z", "phase": "0b", "step": "win-004", "model": "claude-sonnet-4-6", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
 {"ts": "2026-06-04T16:07:37Z", "phase": "0b", "step": "win-005", "model": "claude-sonnet-4-6", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
+{"ts": "2026-06-04T16:17:26Z", "phase": "0c", "step": "win-002", "model": "claude-sonnet-4-6", "input_tokens": 10507, "output_tokens": 2829, "cache_read": 0, "cache_create": 0, "cost_usd": 0.073956}
+{"ts": "2026-06-04T16:18:58Z", "phase": "0c", "step": "win-001", "model": "claude-sonnet-4-6", "input_tokens": 13048, "output_tokens": 7131, "cache_read": 0, "cache_create": 0, "cost_usd": 0.146109}
