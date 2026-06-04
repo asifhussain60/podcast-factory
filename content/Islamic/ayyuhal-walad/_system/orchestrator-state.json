@@ -4,7 +4,7 @@
   "category": "books",
   "branch": "develop",
   "phase": "0c",
-  "phase_status": "completed",
+  "phase_status": "halted",
   "last_completed_phase": "0c",
   "next_phase": "0d",
   "last_error": null,
