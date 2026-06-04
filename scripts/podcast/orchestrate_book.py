@@ -446,18 +446,13 @@ def _maybe_relaunch_under_watchdog(slug: str) -> None:
 def main() -> int:
     args = build_parser().parse_args()
 
-    # Deterministic credentials: hydrate ANTHROPIC_API_KEY + GEMINI_API_KEY from
-    # the Azure Key Vault resolver so every in-process phase, spawned subprocess,
-    # and `claude -p` call uses the vault key on any machine (no keychain needed).
-    try:
-        from _secrets import hydrate_env
-        _cred = hydrate_env()
-        if any(v == "MISSING" for v in _cred.values()):
-            _err(f"credential hydration incomplete: {_cred} — run `az login`.")
-        else:
-            _info(f"credentials: {_cred} (Azure Key Vault)")
-    except Exception as _e:  # noqa: BLE001
-        _err(f"credential hydration failed: {_e}")
+    # COST POLICY (2026-06-04): the flat-rate Claude Max subscription is the
+    # pipeline's primary engine and must be MAXIMIZED — `claude -p` phases run on
+    # Max (see _authoring/_core._run_claude_p, which strips API-key env from the
+    # child). The metered Anthropic + Gemini API keys are resolved ON DEMAND, only
+    # by the call sites that need them (the SDK windowed-refinement path + Gemini
+    # tasks), via _secrets — NEVER pre-loaded into the environment, so they can't
+    # accidentally divert claude -p off Max.
 
     if args.status:
         return run_status(args)

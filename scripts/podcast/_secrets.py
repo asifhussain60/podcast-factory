@@ -125,26 +125,12 @@ def get_gemini_key() -> str:
     return val
 
 
-def hydrate_env() -> dict[str, str]:
-    """Populate ANTHROPIC_API_KEY + GEMINI_API_KEY in os.environ from the vault
-    resolver chain, so EVERY credential consumer — in-process loaders, spawned
-    python subprocesses, AND `claude -p` — deterministically uses the vault key on
-    any machine, with no keychain dependency. Call once at a process entry point;
-    descendants inherit the populated env. Idempotent. Returns {name: source}.
-    """
-    scrub_conflicting_anthropic_env()
-    out: dict[str, str] = {}
-    for env_name, getter in (("ANTHROPIC_API_KEY", get_anthropic_key),
-                             ("GEMINI_API_KEY", get_gemini_key)):
-        if os.environ.get(env_name):       # already a real, non-empty value
-            out[env_name] = "env"
-            continue
-        try:
-            os.environ[env_name] = getter()
-            out[env_name] = "vault"
-        except RuntimeError:
-            out[env_name] = "MISSING"
-    return out
+# NOTE (cost policy 2026-06-04): there is deliberately NO hydrate_env() that
+# pre-loads ANTHROPIC_API_KEY into the process environment. Doing so would divert
+# `claude -p` off the flat-rate Claude Max subscription onto the metered API — a P0
+# cost violation. Claude reasoning is maximized on Max via `claude -p`; the paid
+# Anthropic/Gemini keys are pulled ON DEMAND by get_anthropic_key()/get_gemini_key()
+# only at the SDK/Gemini call sites that structurally need them.
 
 
 # Scrub the conflicting empty Anthropic env vars on import, so any module that

@@ -5,6 +5,7 @@ _assert_artifact so the per-phase modules can import from here.
 """
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -144,6 +145,14 @@ def _run_claude_p(
     if model_flag:
         argv.extend(["--model", model_flag])
     argv.append(prompt)
+    # P0 COST POLICY (2026-06-04): `claude -p` MUST use the flat-rate Claude Max
+    # subscription, NEVER the metered Anthropic API. Strip any API-key env from the
+    # child so the Claude CLI authenticates via the Max / OAuth session. The paid
+    # Anthropic API key is reserved for the SDK paths that structurally require it
+    # (0b/0c windowed refinement) — "API only when needed".
+    child_env = dict(os.environ)
+    for _v in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN"):
+        child_env.pop(_v, None)
     try:
         proc = subprocess.run(
             argv,
@@ -151,6 +160,7 @@ def _run_claude_p(
             capture_output=True,
             text=True,
             timeout=timeout,
+            env=child_env,
         )
         rc, raw_stdout, stderr = proc.returncode, proc.stdout, proc.stderr
         if book_dir is not None:
