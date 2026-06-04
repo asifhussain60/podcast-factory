@@ -189,8 +189,8 @@ const archetypes = (arch.archetypes ?? []) as Array<{id: string; books: string[]
 
   <hr />
 
-  <section class="stack">
-    <h2>The Source Library layer — zero-cost live intelligence</h2>
+  <section id="s06-source-library" class="stack">
+    <h2><span class="num">06</span> The Source Library layer — zero-cost live intelligence</h2>
     <p>
       A local server (Python + FastAPI, port 4390) exposes three SQL Server databases as a unified query layer.
       The same server speaks two protocols: MCP stdio for pipeline agents and plain HTTP for the reader.
@@ -235,8 +235,8 @@ const archetypes = (arch.archetypes ?? []) as Array<{id: string; books: string[]
 
   <hr />
 
-  <section class="stack">
-    <h2>The non-negotiables</h2>
+  <section id="s07-non-negotiables" class="stack">
+    <h2><span class="num">07</span> The non-negotiables</h2>
     <p>The handful of design decisions that everything else respects.</p>
     <div class="grid-2">
       {arch.adrs.map((d) => (

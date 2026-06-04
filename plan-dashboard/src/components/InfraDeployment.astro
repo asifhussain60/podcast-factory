@@ -40,8 +40,8 @@ const rowY = (band: {y:number}, row: number) => band.y + 34 + row * (BH + RGAP);
 
 const CX = W / 2;
 ---
-<figure class="diagram-container idep" role="img" aria-labelledby="idep-title idep-desc">
-  <svg viewBox={`0 0 ${W} ${H}`} class="idep-svg" xmlns="http://www.w3.org/2000/svg">
+<figure class="diagram-container idep">
+  <svg viewBox={`0 0 ${W} ${H}`} class="idep-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="idep-title idep-desc">
     <title id="idep-title">Deployment topology — what runs locally and what data leaves the machine</title>
     <desc id="idep-desc">
       Two stacked trust zones. The top zone is your machine: the Python pipeline engine, the

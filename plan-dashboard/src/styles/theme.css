@@ -478,6 +478,10 @@ hr { border: 0; height: 1px; background: var(--c-rule); margin: var(--sp-6) 0; }
 .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-5); }
 .stack { display: flex; flex-direction: column; gap: var(--sp-4); }
 .stack-tight { display: flex; flex-direction: column; gap: var(--sp-2); }
+/* REQ-005: anchored numbered sections must clear the sticky nav when jump-nav or
+   a hash scrolls to them — otherwise the <h2> lands under the bar. Matches the
+   .station-section offset (88px). */
+:where(section[id], .stack[id]) { scroll-margin-top: 88px; }
 .row { display: flex; align-items: center; gap: var(--sp-3); }
 .row-between { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); }
 
