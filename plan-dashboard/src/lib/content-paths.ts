@@ -13,7 +13,7 @@
  * still resolved as a fallback so a partial migration cannot break the reader.
  */
 import { readdir, stat, readFile } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
+import { existsSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join, resolve } from 'node:path';
 
@@ -103,6 +103,33 @@ function resolveBucket(bucket?: Bucket, category?: Category | string): Bucket {
   if (bucket) return bucket;
   if (category) return CATEGORY_TO_BUCKET[String(category).toLowerCase()] ?? 'Islamic';
   return 'Islamic';
+}
+
+function isDirSync(p: string): boolean {
+  try { return statSync(p).isDirectory(); } catch { return false; }
+}
+
+/**
+ * Synchronous sibling of findContent: return the on-disk directory for `slug`,
+ * or null. Mirrors the bucket-first + legacy-fallback resolution of findContent
+ * (and _paths.find_content). Exists for the synchronous Studio loaders that must
+ * not hardcode the old content/drafts/books path (which the 2026-06-04 restructure
+ * removed). Prefer the async findContent in async contexts.
+ */
+export function findContentDirSync(slug: string): string | null {
+  for (const bucket of BUCKETS) {
+    const dir = join(bucketRoot(bucket), slug);
+    if (isDirSync(dir)) return dir;
+  }
+  for (const stage of ['drafts', 'published'] as Stage[]) {
+    for (const cat of ALLOWED_CATEGORIES) {
+      const dir = join(legacyStageRoot(stage), cat, slug);
+      if (isDirSync(dir)) return dir;
+    }
+    const flat = join(legacyStageRoot(stage), slug);
+    if (!(ALLOWED_CATEGORIES as readonly string[]).includes(slug) && isDirSync(flat)) return flat;
+  }
+  return null;
 }
 
 /**

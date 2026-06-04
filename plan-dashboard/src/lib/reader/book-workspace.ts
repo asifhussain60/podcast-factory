@@ -1,8 +1,19 @@
 import { readFileSync, readdirSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
+import { join } from 'node:path';
 import { renderMarkdown } from './markdown';
 import { loadGlossary } from './glossary';
 import { readReview } from './stage-review';
 import { buildStageMetrics, writeMetricsLedger, type StageMetric } from './stage-metrics';
+import { findContentDirSync, getRepoRoot } from '../content-paths';
+
+/** file:// base URL for a book's dir, resolved via the type-first resolver
+ * (Islamic-bucket fallback). Trailing slash so `new URL('chapters/x', base)`
+ * resolves under the book dir. Replaces the old hardcoded content/drafts/books path. */
+function bookBaseUrl(slug: string): URL {
+  const dir = findContentDirSync(slug) ?? join(getRepoRoot(), 'content', 'Islamic', slug);
+  return pathToFileURL(dir.endsWith('/') ? dir : dir + '/');
+}
 
 export interface ChapterDef {
   id: string;
@@ -105,7 +116,7 @@ function listSubdirs(dir: URL): string[] {
  * chapter list is read from the stage subdirectories. Returns [] when none.
  */
 export function discoverArchivedLineages(slug: string): Lineage[] {
-  const archiveBase = new URL(`../../../../content/drafts/books/${slug}/_archive/`, import.meta.url);
+  const archiveBase = new URL('_archive/', bookBaseUrl(slug));
   const lineages: Lineage[] = [];
   for (const name of listSubdirs(archiveBase)) {
     const stagesUrl = new URL(`${name}/_stages/`, archiveBase);
@@ -166,7 +177,7 @@ export async function loadBookWorkspace(
   opts: LoadWorkspaceOpts = {},
 ): Promise<BookWorkspace> {
   const { stageRoot = '_stages', writeLedger = true } = opts;
-  const base = new URL(`../../../../content/drafts/books/${slug}/`, import.meta.url);
+  const base = bookBaseUrl(slug);
 
   const chapters = chapterDefs.map((chapterDef) => {
     const stageTexts = stageDefs.map((stageDef) => {

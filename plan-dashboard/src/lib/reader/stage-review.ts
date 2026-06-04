@@ -11,11 +11,12 @@
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-
-const REPO_ROOT = join(new URL(import.meta.url).pathname, '../../../../../');
+import { findContentDirSync, getRepoRoot } from '../content-paths';
 
 function reviewPath(slug: string, chapter: string): string {
-  return join(REPO_ROOT, 'content', 'drafts', 'books', slug, '_system', 'review', `${chapter}.json`);
+  // Resolve via the type-first resolver; fall back to the canonical Islamic path.
+  const dir = findContentDirSync(slug) ?? join(getRepoRoot(), 'content', 'Islamic', slug);
+  return join(dir, '_system', 'review', `${chapter}.json`);
 }
 
 export interface StageReview {

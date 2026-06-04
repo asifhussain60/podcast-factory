@@ -13,8 +13,7 @@
  */
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-
-const REPO_ROOT = join(new URL(import.meta.url).pathname, '../../../../../');
+import { findContentDirSync, getRepoRoot } from '../content-paths';
 
 export interface StageCounts {
   words: number;
@@ -67,7 +66,8 @@ export function buildStageMetrics(
 }
 
 export function writeMetricsLedger(slug: string, chapter: string, metrics: StageMetric[]): void {
-  const p = join(REPO_ROOT, 'content', 'drafts', 'books', slug, '_system', 'stage-metrics.json');
+  const dir = findContentDirSync(slug) ?? join(getRepoRoot(), 'content', 'Islamic', slug);
+  const p = join(dir, '_system', 'stage-metrics.json');
   const payload = {
     slug,
     chapter,
