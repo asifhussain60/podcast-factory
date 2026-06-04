@@ -23,6 +23,30 @@ CHAPTER_DEAD_ZONE_MAX = 5500
 FRAMING_WORD_MIN = 150
 FRAMING_WORD_MAX = 3700
 
+# ─── Per-episode density ceiling (over-cramming brake, 2026-06-04) ────────────
+# Max words an episode may carry before it counts as "over-crammed" — too many
+# distinct teachings for one focused listen. Profile-aware: dense doctrinal
+# content caps tighter than narrative (whose "extended" episodes can run long
+# precisely because they're low-density). Phase 0d halts-and-surfaces above the
+# ceiling rather than shipping a marathon episode. (Root-causes the case where
+# Ayyuhal Walad's 8,955-word episodes packed ~24 teachings each.)
+EPISODE_DENSITY_CEILING_DENSE = 6000       # Arabic-scholarly / doctrinal
+EPISODE_DENSITY_CEILING_NARRATIVE = 9500   # narrative / consumer (the extended ceiling)
+
+
+def episode_overcrammed(words: int, episode_count: int, ceiling: int) -> int:
+    """Density-brake check (pure). Given a source chapter's word count, how many
+    episodes it currently maps to, and the per-episode density ceiling, return:
+      0  — not over-crammed (per-episode words ≤ ceiling), OR
+      N  — the minimum episode_count this chapter SHOULD use (≥2) so each episode
+           lands at/under the ceiling.
+    """
+    eps = max(1, int(episode_count))
+    per_episode = int(words) // eps
+    if per_episode <= ceiling:
+        return 0
+    return max(2, -(-int(words) // ceiling))  # ceil division
+
 # ─── Regex patterns ──────────────────────────────────────────────────────────
 EP_PATTERN = re.compile(r"^EP(\d+)-(.+)$")
 CH_PATTERN = re.compile(r"^ch(\d+)[a-z]?-(.+)\.txt$")

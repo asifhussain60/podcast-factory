@@ -22,6 +22,11 @@ from ._core import (  # noqa: E402
     SKIP_PHONETICS_CATEGORIES,
     _read_category,
 )
+from _validator_constants import (  # noqa: E402
+    EPISODE_DENSITY_CEILING_DENSE,
+    EPISODE_DENSITY_CEILING_NARRATIVE,
+    episode_overcrammed,
+)
 
 # ─── Phase 0d — Chapter design (map-reduce by source chapter) ────────────────
 def build_phase_0d_toc_prompt_technical(book_slug: str) -> str:
@@ -162,11 +167,16 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             "compliance per resulting episode."
         ),
         "auto": (
-            "UNIT MODE: **auto** — for each source chapter, decide individually: "
-            "if its word count is within ±50% of the tier band midpoint, set "
-            "unit_mode='chapter' (episode_count=1). If it exceeds 1.5× the tier band's upper "
-            "bound, set unit_mode='sections' and pick episode_count so each resulting episode "
-            "lands inside the band. Aim for all episodes within ~30% of each other."
+            "UNIT MODE: **auto** — for each source chapter, decide individually. Segment by "
+            "COGNITIVE LOAD, not just word count: one episode should carry ONE coherent "
+            "teaching cluster a listener can absorb. Set unit_mode='chapter' (episode_count=1) "
+            "ONLY when the chapter is within ±50% of the tier band midpoint AND holds one "
+            "coherent cluster. Set unit_mode='sections' (episode_count>=2, each landing inside "
+            "the band) when EITHER its word count exceeds the tier band's UPPER BOUND, OR it "
+            "packs many distinct teachings — substantive doctrinal units, NOT examples, proofs, "
+            "or restatements of the same point. A chapter with, say, eight admonitions or a "
+            "dozen distinct lessons is several episodes, not one marathon. Aim for all episodes "
+            "within ~30% of each other."
         ),
     }[unit_mode]
 
@@ -297,6 +307,41 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         )
 
     refined_lines = in_refined.read_text(encoding="utf-8").splitlines()
+
+    # ── Density guardrail — the over-cramming brake (2026-06-04) ──────────────
+    # A plan whose episodes land far above the per-episode density ceiling is
+    # over-crammed: too many distinct teachings for one focused listen. Halt and
+    # name the required split rather than ship a marathon episode. Profile-aware
+    # — Arabic-scholarly/doctrinal caps tighter than narrative/consumer.
+    density_ceiling = (EPISODE_DENSITY_CEILING_DENSE
+                       if category in ARABIC_SCHOLARLY_CATEGORIES
+                       else EPISODE_DENSITY_CEILING_NARRATIVE)
+    overcrammed: list[str] = []
+    for sc in source_chapters:
+        try:
+            a, b = int(sc["start_line"]), int(sc["end_line"])
+            ep_count = int(sc.get("episode_count", 1))
+        except (KeyError, ValueError, TypeError):
+            continue
+        words = len("\n".join(refined_lines[max(0, a - 1):b]).split())
+        need = episode_overcrammed(words, ep_count, density_ceiling)
+        if need:
+            overcrammed.append(
+                f"sc {sc.get('sc_index', '?')} "
+                f"({str(sc.get('source_title', '?'))[:40]}): {words}w over {ep_count} "
+                f"episode(s) = {words // max(1, ep_count)}w/episode > {density_ceiling}w "
+                f"ceiling — split into >= {need} episodes")
+    if overcrammed:
+        raise AuthoringError(
+            phase="0d-toc",
+            message=("Phase 0d segmentation is over-crammed — too many teachings per episode "
+                     f"(ceiling {density_ceiling}w/episode for category '{category}'):\n  "
+                     + "\n  ".join(overcrammed)),
+            manual_fallback=(
+                f"Edit `{toc_path}`: raise episode_count (unit_mode='sections') for the flagged "
+                f"source chapter(s), re-cutting at thematic seams so each episode is ONE coherent "
+                f"teaching cluster, then retry Phase 0d (--resume --retry-phase 0d)."),
+        )
 
     # ── STEP 2: per-source-chapter loop ──────────────────────────────────────
     log(f"  phase 0d · step 2/3 · per-source-chapter loop ({len(source_chapters)} chapters)")
