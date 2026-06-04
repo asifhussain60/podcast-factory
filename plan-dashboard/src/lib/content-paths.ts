@@ -2,27 +2,35 @@
  * content-paths.ts — TypeScript mirror of scripts/podcast/_paths.py.
  *
  * Single source of truth for content paths in the Podcast Factory Astro Site.
- * Mirrors scripts/podcast/_paths.py — update both (Python + this file)
- * together when the on-disk layout changes. Maps (stage, category, slug) → dir.
+ * Mirrors scripts/podcast/_paths.py — update both (Python + this file) together
+ * when the on-disk layout changes.
  *
- * LAYOUT (locked 2026-05-26):
- *   content/<stage>/<category>/<slug>/
- *     stage    ∈ {drafts, published}
- *     category ∈ ALLOWED_CATEGORIES
- *     slug     — kebab-case
+ * LAYOUT (type-first, locked 2026-06-04):
+ *   content/<Bucket>/<slug>/        Bucket ∈ {Islamic, Technical, Fiction, Guides}
+ *   content/_system/                cross-cutting plumbing (shared/archive/knowledge-base/podcast/catalog)
+ * Draft-vs-published is a `status` field in <slug>/_system/orchestrator-state.json
+ * (default 'draft'), NOT a folder. Legacy content/<stage>/<category>/<slug>/ is
+ * still resolved as a fallback so a partial migration cannot break the reader.
  */
-import { readdir, stat } from 'node:fs/promises';
+import { readdir, stat, readFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join, resolve } from 'node:path';
 
 // Derive repo root from this file's location: src/lib/ → ../../ → repo root.
-// Works regardless of machine or clone path, with no env var required.
 const DEFAULT_REPO_ROOT = resolve(fileURLToPath(import.meta.url), '..', '..', '..', '..');
 
 export function getRepoRoot(): string {
   return process.env.PODCAST_FACTORY_ROOT ?? DEFAULT_REPO_ROOT;
 }
 
+// ── Type-first buckets (2026-06-04) ──────────────────────────────────────────
+export const BUCKETS = ['Islamic', 'Technical', 'Fiction', 'Guides'] as const;
+export type Bucket = (typeof BUCKETS)[number];
+
+export type Status = 'draft' | 'published' | 'archived';
+
+// ── Legacy category axis (retained for the optional kind tag + fallback scan) ─
 export type Stage = 'drafts' | 'published';
 
 export const ALLOWED_CATEGORIES = [
@@ -37,37 +45,37 @@ export const ALLOWED_CATEGORIES = [
 
 export type Category = (typeof ALLOWED_CATEGORIES)[number];
 
-/** Categories currently active for content creation. Other categories in
- * ALLOWED_CATEGORIES exist in the schema but are not yet surfaced to the user. */
+/** Categories currently active for content creation. */
 export const ACTIVE_CATEGORIES: readonly Category[] = ['books', 'lectures', 'asbaaq'];
 
+/** Legacy category → bucket, for transitional callers passing a category. */
+const CATEGORY_TO_BUCKET: Record<string, Bucket> = {
+  books: 'Islamic', lectures: 'Islamic', letters: 'Islamic',
+  asbaaq: 'Islamic', interviews: 'Islamic', articles: 'Islamic',
+  documents: 'Islamic', sites: 'Guides', explainers: 'Guides',
+};
+
 export interface ContentRef {
-  stage: Stage;
-  category: Category;
+  bucket: Bucket;
+  status: Status;
   slug: string;
   dir: string;
+  /** @deprecated legacy axis — derived for back-compat (status→stage). */
+  stage: Stage;
+  /** @deprecated legacy axis — best-effort during transition. */
+  category: Category;
 }
 
-function stageRoot(stage: Stage): string {
+function bucketRoot(bucket: Bucket): string {
+  return join(getRepoRoot(), 'content', bucket);
+}
+
+function legacyStageRoot(stage: Stage): string {
   return join(getRepoRoot(), 'content', stage);
 }
 
-export function contentDir(slug: string, stage: Stage = 'drafts', category: Category = 'books'): string {
-  if (!slug || slug.includes('/')) {
-    throw new Error(`content-paths: invalid slug ${JSON.stringify(slug)}`);
-  }
-  if (!ALLOWED_CATEGORIES.includes(category)) {
-    throw new Error(`content-paths: unknown category ${JSON.stringify(category)}`);
-  }
-  return join(stageRoot(stage), category, slug);
-}
-
-export function categoryRoot(category: Category, stage: Stage = 'drafts'): string {
-  return join(stageRoot(stage), category);
-}
-
-export function archiveRoot(): string {
-  return join(getRepoRoot(), 'content', '_archive');
+function statusToStage(status: Status): Stage {
+  return status === 'published' ? 'published' : 'drafts';
 }
 
 async function isDir(p: string): Promise<boolean> {
@@ -79,31 +87,114 @@ async function isDir(p: string): Promise<boolean> {
   }
 }
 
-export async function findContent(slug: string): Promise<ContentRef | null> {
-  for (const cat of ALLOWED_CATEGORIES) {
-    const p = join(stageRoot('drafts'), cat, slug);
-    if (await isDir(p)) return { stage: 'drafts', category: cat, slug, dir: p };
+/** Read the publication status from a book dir's orchestrator-state.json. */
+export async function statusOf(dir: string): Promise<Status> {
+  try {
+    const raw = await readFile(join(dir, '_system', 'orchestrator-state.json'), 'utf-8');
+    const s = JSON.parse(raw).status;
+    if (s === 'draft' || s === 'published' || s === 'archived') return s;
+  } catch {
+    /* fall through */
   }
-  // Legacy flat fallback (drafts/<slug>/ from pre-2026-05-26 layout)
-  const flat = join(stageRoot('drafts'), slug);
+  return 'draft';
+}
+
+function resolveBucket(bucket?: Bucket, category?: Category | string): Bucket {
+  if (bucket) return bucket;
+  if (category) return CATEGORY_TO_BUCKET[String(category).toLowerCase()] ?? 'Islamic';
+  return 'Islamic';
+}
+
+/**
+ * Canonical directory for a piece of content: content/<Bucket>/<slug>.
+ * Back-compat signature: the 2nd arg may be a Bucket (preferred) or a legacy
+ * Stage (ignored); a category maps to a bucket. Does NOT check existence.
+ */
+export function contentDir(slug: string, bucketOrStage?: Bucket | Stage, category?: Category): string {
+  if (!slug || slug.includes('/')) {
+    throw new Error(`content-paths: invalid slug ${JSON.stringify(slug)}`);
+  }
+  const maybeBucket = (BUCKETS as readonly string[]).includes(bucketOrStage as string)
+    ? (bucketOrStage as Bucket)
+    : undefined;
+  return join(bucketRoot(resolveBucket(maybeBucket, category)), slug);
+}
+
+export function bucketDir(bucket: Bucket): string {
+  return bucketRoot(bucket);
+}
+
+/** Legacy: content/<stage>/<category>. Retained for transitional callers. */
+export function categoryRoot(category: Category, stage: Stage = 'drafts'): string {
+  return join(legacyStageRoot(stage), category);
+}
+
+export function archiveRoot(): string {
+  const next = join(getRepoRoot(), 'content', '_system', 'archive');
+  return existsSync(next) ? next : join(getRepoRoot(), 'content', '_archive');
+}
+
+export async function findContent(slug: string): Promise<ContentRef | null> {
+  // Type-first (preferred).
+  for (const bucket of BUCKETS) {
+    const dir = join(bucketRoot(bucket), slug);
+    if (await isDir(dir)) {
+      const status = await statusOf(dir);
+      return { bucket, status, slug, dir, stage: statusToStage(status), category: 'books' };
+    }
+  }
+  // Legacy: drafts/<cat>/<slug>, then published/<cat>/<slug>.
+  for (const stage of ['drafts', 'published'] as Stage[]) {
+    for (const cat of ALLOWED_CATEGORIES) {
+      const dir = join(legacyStageRoot(stage), cat, slug);
+      if (await isDir(dir)) {
+        return { bucket: CATEGORY_TO_BUCKET[cat] ?? 'Islamic', status: statusFromStage(stage), slug, dir, stage, category: cat };
+      }
+    }
+  }
+  // Legacy flat fallback (drafts/<slug>/).
+  const flat = join(legacyStageRoot('drafts'), slug);
   if (
     !(ALLOWED_CATEGORIES as readonly string[]).includes(slug) &&
     slug !== 'BOOKS' && slug !== 'LECTURES' &&
     (await isDir(flat))
   ) {
-    return { stage: 'drafts', category: 'books', slug, dir: flat };
+    return { bucket: 'Islamic', status: 'draft', slug, dir: flat, stage: 'drafts', category: 'books' };
   }
   return null;
 }
 
-export async function listContent(opts: { stage?: Stage; category?: Category } = {}): Promise<ContentRef[]> {
-  const stages: Stage[] = ['drafts']; // single source of truth — all content lives in drafts/
-  const cats: readonly Category[] = opts.category ? [opts.category] : ALLOWED_CATEGORIES;
+function statusFromStage(stage: Stage): Status {
+  return stage === 'published' ? 'published' : 'draft';
+}
+
+export async function listContent(opts: { bucket?: Bucket; stage?: Stage; category?: Category } = {}): Promise<ContentRef[]> {
   const seen = new Set<string>();
   const out: ContentRef[] = [];
+  const buckets: readonly Bucket[] = opts.bucket ? [opts.bucket] : BUCKETS;
 
-  for (const stage of stages) {
-    const sr = stageRoot(stage);
+  // Type-first.
+  for (const bucket of buckets) {
+    const br = bucketRoot(bucket);
+    if (!(await isDir(br))) continue;
+    let entries: string[];
+    try { entries = await readdir(br); } catch { continue; }
+    for (const slug of entries.sort()) {
+      if (slug.startsWith('.') || slug.startsWith('_')) continue;
+      const dir = join(br, slug);
+      if (!(await isDir(dir))) continue;
+      if (seen.has(dir)) continue;
+      seen.add(dir);
+      const status = await statusOf(dir);
+      out.push({ bucket, status, slug, dir, stage: statusToStage(status), category: 'books' });
+    }
+  }
+
+  // Legacy fallback (only when not filtering to a specific new bucket).
+  if (opts.bucket) return out;
+  const cats: readonly Category[] = opts.category ? [opts.category] : ALLOWED_CATEGORIES;
+  for (const stage of ['drafts', 'published'] as Stage[]) {
+    const sr = legacyStageRoot(stage);
     if (!(await isDir(sr))) continue;
     for (const cat of cats) {
       const catDir = join(sr, cat);
@@ -116,7 +207,7 @@ export async function listContent(opts: { stage?: Stage; category?: Category } =
         if (!(await isDir(dir))) continue;
         if (seen.has(dir)) continue;
         seen.add(dir);
-        out.push({ stage, category: cat, slug, dir });
+        out.push({ bucket: CATEGORY_TO_BUCKET[cat] ?? 'Islamic', status: statusFromStage(stage), slug, dir, stage, category: cat });
       }
     }
     if (stage === 'drafts' && (opts.category === undefined || opts.category === 'books')) {
@@ -130,7 +221,7 @@ export async function listContent(opts: { stage?: Stage; category?: Category } =
         if (!(await isDir(dir))) continue;
         if (seen.has(dir)) continue;
         seen.add(dir);
-        out.push({ stage, category: 'books', slug: name, dir });
+        out.push({ bucket: 'Islamic', status: 'draft', slug: name, dir, stage: 'drafts', category: 'books' });
       }
     }
   }

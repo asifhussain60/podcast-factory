@@ -1,87 +1,142 @@
 """_paths.py — canonical filesystem path resolver for podcast-factory content.
 
-Single source of truth for mapping (stage, category, slug) → directory. All
-other scripts MUST call into this module instead of building paths from
-string literals like ``content/drafts/<slug>/``. This is the seam that lets
-the on-disk layout evolve without search-and-replace through 20+ scripts.
+Single source of truth for mapping content → directory. All other scripts MUST
+call into this module instead of building paths from string literals like
+``content/drafts/<slug>/``. This is the seam that lets the on-disk layout evolve
+without search-and-replace through 20+ scripts.
 
-LAYOUT (locked 2026-05-26):
+LAYOUT (type-first, locked 2026-06-04):
 
     content/
-      drafts/
-        books/<slug>/
-        lectures/<slug>/
-        asbaaq/<slug>/
-        ... (other categories from _rules.ALLOWED_CATEGORIES)
-      published/
-        books/<slug>/
-        lectures/<slug>/
-        asbaaq/<slug>/
-        ...
-      _shared/
-      _archive/<date>/<slug>/   (soft-deletes land here, recoverable)
+      Islamic/<slug>/          ← scholarly religious texts
+      Technical/<slug>/        ← developer / engineering material
+      Fiction/<slug>/          ← stories
+      Guides/<slug>/           ← plain-language general-audience content
+      _system/                 ← cross-cutting pipeline plumbing
+        shared/                  (was content/_shared)
+        archive/<date>/<slug>/   (soft-deletes; was content/_archive)
+        knowledge-base/
+        podcast/
+        catalog/                 (was content/published/_meta + archetypes)
 
-The category subfolder always matches the singular/plural form used in
-``_rules.ALLOWED_CATEGORIES`` (plural: ``books``, ``lectures``, ``asbaaq``).
+The top-level **bucket** is the content TYPE and derives from a book's
+``content_profile`` (see _rules.bucket_for_profile). Draft-vs-published is no
+longer a folder — it is a ``status`` field in each book's
+``_system/orchestrator-state.json`` (default ``draft``), read via status_of().
 
-LEGACY (pre-2026-05-26): some content lived flat at ``content/drafts/<slug>/``
-or in an orphan nested tree ``content/drafts/BOOKS/<slug>/``. ``find_content()``
-will fall back to those if the canonical path is missing, so a partial
-migration cannot silently break readers. New writes ALWAYS use the canonical
-layout.
+LEGACY (pre-2026-06-04): content lived at ``content/drafts/<category>/<slug>/``
+and ``content/published/<category>/<slug>/`` (and older flat / BOOKS variants).
+``find_content()`` / ``iter_content()`` still resolve those so a partial
+migration cannot silently break readers. New writes ALWAYS use the type-first
+layout. Back-compat: ``content_dir()`` still accepts the old ``stage=`` /
+``category=`` kwargs and maps them onto a bucket, so existing callers keep working.
 """
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from typing import Iterable
 
-from _rules import ALLOWED_CATEGORIES
+from _rules import ALLOWED_CATEGORIES, BUCKETS, bucket_for_profile
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CONTENT_ROOT = REPO_ROOT / "content"
+
+# Type-first plumbing root (2026-06-04).
+SYSTEM_ROOT = CONTENT_ROOT / "_system"
+
+# Shared/archive resolve to the new _system location once it exists, else the
+# legacy top-level folders — so the resolver is correct before AND after the move.
+_NEW_SHARED = SYSTEM_ROOT / "shared"
+_NEW_ARCHIVE = SYSTEM_ROOT / "archive"
+_LEGACY_SHARED = CONTENT_ROOT / "_shared"
+_LEGACY_ARCHIVE = CONTENT_ROOT / "_archive"
+SHARED_ROOT = _NEW_SHARED if _NEW_SHARED.is_dir() else _LEGACY_SHARED
+ARCHIVE_ROOT = _NEW_ARCHIVE if _NEW_ARCHIVE.is_dir() else _LEGACY_ARCHIVE
+
+# Legacy stage roots — fallback resolution only; never a write target for new content.
 DRAFTS_ROOT = CONTENT_ROOT / "drafts"
 PUBLISHED_ROOT = CONTENT_ROOT / "published"
-SHARED_ROOT = CONTENT_ROOT / "_shared"
-ARCHIVE_ROOT = CONTENT_ROOT / "_archive"
 
+# Deprecated; retained so old importers don't crash.
 STAGES = ("drafts", "published")
+STATUSES = ("draft", "published", "archived")
+
+# Legacy category → bucket, for back-compat callers that still pass a category.
+# The authoritative bucket comes from a book's content_profile; this table only
+# serves transitional callers (scaffold/preflight) that pass category=.
+_CATEGORY_TO_BUCKET: dict[str, str] = {
+    "books": "Islamic", "lectures": "Islamic", "letters": "Islamic",
+    "asbaaq": "Islamic", "interviews": "Islamic", "articles": "Islamic",
+    "documents": "Islamic", "sites": "Guides", "explainers": "Guides",
+}
 
 
-def _stage_root(stage: str) -> Path:
-    if stage == "drafts":
-        return DRAFTS_ROOT
-    if stage == "published":
-        return PUBLISHED_ROOT
-    raise ValueError(f"_paths: unknown stage {stage!r} (expected one of {STAGES})")
+def _validate_bucket(bucket: str) -> str:
+    if bucket not in BUCKETS:
+        raise ValueError(f"_paths: unknown bucket {bucket!r} (expected one of {BUCKETS})")
+    return bucket
 
 
-def _validate_category(category: str) -> str:
-    cat = (category or "").strip().lower()
-    if cat not in ALLOWED_CATEGORIES:
-        raise ValueError(
-            f"_paths: unknown category {category!r} "
-            f"(expected one of {ALLOWED_CATEGORIES})"
-        )
-    return cat
+def _resolve_bucket(*, bucket: str | None, profile: str | None, category: str | None) -> str:
+    """Pick the bucket from the most specific signal available. Defaults to Islamic."""
+    if bucket:
+        return _validate_bucket(bucket)
+    if profile:
+        return bucket_for_profile(profile)
+    if category:
+        return _CATEGORY_TO_BUCKET.get(category.strip().lower(), "Islamic")
+    return "Islamic"
 
 
-def content_dir(slug: str, *, stage: str = "drafts", category: str = "books") -> Path:
-    """Return the canonical directory for a piece of content.
+def status_of(book_dir: Path) -> str:
+    """Read the publication status from a book's orchestrator-state.json.
 
-    Does NOT check that the directory exists — call ``find_content()`` if
-    you need to handle the legacy-layout fallback. Use this for writes and
-    for newly-created content where the canonical path is what you want.
+    Returns ``draft`` when the file or field is absent — the safe default that
+    keeps un-flagged content out of the published catalog.
+    """
+    state = book_dir / "_system" / "orchestrator-state.json"
+    if not state.is_file():
+        return "draft"
+    try:
+        data = json.loads(state.read_text(encoding="utf-8"))
+    except Exception:
+        return "draft"
+    s = data.get("status")
+    return s if s in STATUSES else "draft"
+
+
+def content_dir(
+    slug: str,
+    *,
+    bucket: str | None = None,
+    profile: str | None = None,
+    category: str | None = None,
+    stage: str | None = None,   # deprecated; accepted + ignored for back-compat
+) -> Path:
+    """Return the canonical directory for a piece of content: content/<Bucket>/<slug>.
+
+    Does NOT check existence — use ``find_content()`` for the legacy-layout
+    fallback. Prefer passing ``bucket=`` (or ``profile=``); ``category=`` is mapped
+    to a bucket for transitional callers, and ``stage=`` is ignored (draft/published
+    is now a status field, not a folder).
     """
     if not slug or "/" in slug:
         raise ValueError(f"_paths: invalid slug {slug!r}")
-    return _stage_root(stage) / _validate_category(category) / slug
+    b = _resolve_bucket(bucket=bucket, profile=profile, category=category)
+    return CONTENT_ROOT / b / slug
 
 
-def drafts_root() -> Path:
+def bucket_dir(bucket: str) -> Path:
+    """Return content/<Bucket> for a known bucket."""
+    return CONTENT_ROOT / _validate_bucket(bucket)
+
+
+def drafts_root() -> Path:        # deprecated (legacy layout)
     return DRAFTS_ROOT
 
 
-def published_root() -> Path:
+def published_root() -> Path:     # deprecated (legacy layout)
     return PUBLISHED_ROOT
 
 
@@ -89,30 +144,37 @@ def archive_root() -> Path:
     return ARCHIVE_ROOT
 
 
-def category_root(category: str, *, stage: str = "drafts") -> Path:
-    """Return the directory that holds all <stage>/<category>/* slugs."""
-    return _stage_root(stage) / _validate_category(category)
+def category_root(category: str, *, stage: str = "drafts") -> Path:  # deprecated
+    """Legacy: content/<stage>/<category>. Retained for transitional callers."""
+    root = PUBLISHED_ROOT if stage == "published" else DRAFTS_ROOT
+    return root / category
 
 
 def find_content(slug: str) -> tuple[str, str, Path] | None:
-    """Locate ``slug`` across all (stage, category) combinations.
+    """Locate ``slug`` on disk.
 
-    Returns ``(stage, category, path)`` for the first matching directory,
-    or ``None`` if not found. Search order: canonical first
-    (drafts/<cat>/<slug>, published/<cat>/<slug>), then legacy fallbacks
-    (drafts/<slug>, drafts/BOOKS/<slug>).
+    Returns ``(status_or_stage, bucket_or_category, path)`` for the first match,
+    or ``None``. Search order: type-first layout (``content/<Bucket>/<slug>``,
+    first element is the book's ``status``), then legacy fallbacks
+    (``drafts/<cat>``, ``published/<cat>``, flat ``drafts/<slug>``,
+    ``drafts/BOOKS/<slug>`` — first element is the legacy ``stage``).
     """
-    # Canonical (preferred): drafts/<cat>/<slug>, then published/<cat>/<slug>
-    for stage in STAGES:
+    # Type-first (preferred).
+    for b in BUCKETS:
+        p = CONTENT_ROOT / b / slug
+        if p.is_dir():
+            return (status_of(p), b, p)
+    # Legacy: drafts/<cat>/<slug>, then published/<cat>/<slug>.
+    for st, st_root in (("drafts", DRAFTS_ROOT), ("published", PUBLISHED_ROOT)):
         for cat in ALLOWED_CATEGORIES:
-            p = _stage_root(stage) / cat / slug
+            p = st_root / cat / slug
             if p.is_dir():
-                return (stage, cat, p)
-    # Legacy: flat drafts/<slug>
+                return (st, cat, p)
+    # Legacy: flat drafts/<slug>.
     flat = DRAFTS_ROOT / slug
     if flat.is_dir() and slug not in ALLOWED_CATEGORIES and slug != "BOOKS":
         return ("drafts", "books", flat)
-    # Legacy: nested orphan drafts/BOOKS/<slug>
+    # Legacy: nested orphan drafts/BOOKS/<slug>.
     nested = DRAFTS_ROOT / "BOOKS" / slug
     if nested.is_dir():
         return ("drafts", "books", nested)
@@ -120,14 +182,10 @@ def find_content(slug: str) -> tuple[str, str, Path] | None:
 
 
 def resolve_content(slug: str) -> Path:
-    """Return the content directory for ``slug``, category-agnostic.
+    """Return the content directory for ``slug``, bucket-agnostic.
 
-    Calls ``find_content()`` and returns its path when the directory exists.
-    Falls back to the canonical drafts/books path (via ``content_dir()``)
-    when nothing is found on disk — suitable for write-time resolution.
-    Prefer this over hardcoding ``REPO_ROOT / "content" / "drafts" / "books" / slug``
-    so that non-books categories (letters, lectures, articles, etc.) resolve
-    correctly.
+    Uses ``find_content()`` when the directory exists; otherwise falls back to the
+    canonical type-first path (Islamic bucket) for write-time resolution.
     """
     found = find_content(slug)
     return found[2] if found else content_dir(slug)
@@ -135,43 +193,61 @@ def resolve_content(slug: str) -> Path:
 
 def iter_content(
     *,
-    stage: str | None = None,
-    category: str | None = None,
+    bucket: str | None = None,
+    stage: str | None = None,      # deprecated alias for legacy callers
+    category: str | None = None,   # deprecated (legacy layout filter)
 ) -> Iterable[tuple[str, str, Path]]:
-    """Yield every (stage, category, dir) currently on disk.
+    """Yield every ``(status_or_stage, bucket_or_category, dir)`` on disk.
 
-    Honors the canonical layout AND the legacy flat layout (so a partial
-    migration still surfaces everything). Skips hidden directories and
-    skips slug names that collide with category names.
+    Honors the type-first layout AND the legacy drafts/published layout so a
+    partial migration still surfaces everything. Skips hidden / ``_``-prefixed dirs.
+    The ``stage`` kwarg is accepted for back-compat but ignored for the type-first
+    scan (status is per-book, not a tree).
     """
+    seen: set[Path] = set()
+    buckets = (bucket,) if bucket else BUCKETS
+
+    # Type-first.
+    for b in buckets:
+        b_root = CONTENT_ROOT / b
+        if not b_root.is_dir():
+            continue
+        for child in sorted(b_root.iterdir()):
+            if not child.is_dir() or child.name.startswith(("_", ".")):
+                continue
+            if child.resolve() in seen:
+                continue
+            seen.add(child.resolve())
+            yield (status_of(child), b, child)
+
+    # Legacy fallback (only when not filtering to a specific new bucket).
+    if bucket:
+        return
     stages = (stage,) if stage else STAGES
     cats = (category,) if category else ALLOWED_CATEGORIES
-    seen: set[Path] = set()
-
     for st in stages:
-        st_root = _stage_root(st)
+        st_root = PUBLISHED_ROOT if st == "published" else DRAFTS_ROOT
         if not st_root.is_dir():
             continue
-        # Canonical: <stage>/<cat>/<slug>
         for cat in cats:
             cat_dir = st_root / cat
             if not cat_dir.is_dir():
                 continue
             for child in sorted(cat_dir.iterdir()):
-                if not child.is_dir() or child.name.startswith("_") or child.name.startswith("."):
+                if not child.is_dir() or child.name.startswith(("_", ".")):
                     continue
                 if child.resolve() in seen:
                     continue
                 seen.add(child.resolve())
                 yield (st, cat, child)
-        # Legacy: <stage>/<slug> (flat books only)
-        if st == "drafts" and (category in (None, "books")):
+        # Legacy flat drafts/<slug>.
+        if st == "drafts" and category in (None, "books"):
             for child in sorted(st_root.iterdir()):
                 if not child.is_dir():
                     continue
                 if child.name in ALLOWED_CATEGORIES or child.name == "BOOKS":
                     continue
-                if child.name.startswith("_") or child.name.startswith("."):
+                if child.name.startswith(("_", ".")):
                     continue
                 if child.resolve() in seen:
                     continue
@@ -180,11 +256,7 @@ def iter_content(
 
 
 def relative_to_repo(path: Path) -> str:
-    """Return ``path`` as a forward-slash POSIX string relative to repo root.
-
-    Useful for runtime-prefix stamping into orchestrator-state.json and for
-    log messages, where consistent string form matters across platforms.
-    """
+    """Return ``path`` as a forward-slash POSIX string relative to repo root."""
     try:
         return path.resolve().relative_to(REPO_ROOT).as_posix()
     except ValueError:
