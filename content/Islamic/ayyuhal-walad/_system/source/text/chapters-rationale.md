@@ -1,45 +1,8 @@
-# Chapters Rationale — Ayyuhal Walad (v3.5 re-run)
+## Source chapter 1 — Introduction of the Book + Imam Ghazali's Response to the Letter
 
-## Source shape
+`ch01-the-disciples-letter-and-the-reply.txt` — Source chapter 1 of *Ayyuhal Walad* is the editor's brief "Introduction of the Book" (a 328-word framing of the disciple's letter and its question — *which branches of knowledge will benefit me on the Day of Judgment?*) paired with the long opening movement of Imam al-Ghazali's reply, "Imam Ghazali's Response to the Letter" (5,962 words running from the salutation through the threshold of the Hatim Ism vignette). The two sub-units make narrative sense only paired: the editor's introduction sets up the question; the Imam's response *is* the answer, and any episode that broke the unit would either start without the question (orphaning the answer) or end without the answer (orphaning the question). The combined 6,290-word source slice fits well inside the extended-tier band (5,500–9,500 words) at the midpoint, so a single episode is the correct unit-mode. The episode walks the Imam's source-order intact — the framing narrative → the salutation and counter-question → the Prophet's ﷺ two warnings → the verdict on the scholar most severely punished → Junaid Baghdadi (RA) seen in a dream → the two parables (warrior with the swords; sick man with the medicine) → the Quranic chain on striving (Q 53:39 + the abrogation-objection-proof chain Q 99:7–8, 18:110) → the architecture of Islam (the Five) and Iman (tongue/heart/limb) → the Mercy-versus-deeds correction → the Israelite-and-angel vignette → the chorus of saints (the Father of Imams; Hasan al-Basri RA; one of the intimate friends of Allah; the Prophet ﷺ on the Kayyis and the Ahmaq) → the *Fawaylun Laka / Fatuba Laka* hinge at the level of intention → the forty casket-questions from the Injil → the daily address of Allah to the heart → the *Ferje'yna Na'mal Saaliha* cry and its answer → Abu Bakr al-Siddiq's bodies-as-cages-or-stables formula → Hasan al-Basri (RA) collapsing over the cold drink → the dawn call *Hul Min Ta ibin* → the architecture of the four announcements of the night → the Quranic commandment of Tahajjud upon the Prophet ﷺ → Luqman's testament on the rooster → the dove's poem → the worship-as-obedience definition with the Eid-fast and forbidden-time corollaries → the discipline of *mujahadah* and the warning against the false Sufis → the matter of *Ishq* and *Zauq* that cannot be written → the four conditions of the seeker → Shibli's confession that of four thousand Ahadith he had adopted only one (and the hadith of fourfold calibration) → the *Fard Kifayah* lemma of sufficiency → the threshold of Shaykh Shafeeq al-Balkhi's question to Hatim Ism. The chapter is held in deep_dive format because there is no sustained named opposition running through it — the Imam is unfolding a single doctrine (knowledge-without-action) layer by layer, with quoted authorities entering as witnesses, not as opposing voices. The cliffhanger at Shaykh Shafeeq al-Balkhi's question is the deliberate close — the eight benefits recited by Hatim Ism are the work of the next source chapter and would dilute this chapter's diagnostic spine if smuggled into the close. The thesis-relevance is direct: the central claim of the whole book is established here in its sharpest form, and every later chapter unfolds the practical regimen that flows from this diagnosis.
 
-The English translation by Irfan Hasan from the Urdu rendering of the Arabic original. A 29-page (one cover page) treatise with a TOC of 25 entries, which collapse into 22 distinct body sections (three TOC entries are paragraphs nested inside parent sections, not standalone units).
+## Source chapter 2 — Hatim's Benefits + Spiritual Guide & Realities + Eight Admonitions + Closing Supplication
 
-The published structure is uneven by design — Ghazali wrote a letter, not a treatise. Some "sections" are 200 words (e.g., *Reality of Servitude to God*). Others run 4,000+ words (the opening response). Promoting them 1:1 to NotebookLM episodes would produce a dozen wildly unbalanced 200-to-4,500-word bundles. **Phase 0d re-segments by thematic units, not by translator section breaks.**
+`ch02-the-practical-rule-of-life.txt` — Source chapter 2 of *Ayyuhal Walad* covers the entire practical regimen Imam al-Ghazali (RA) hands the disciple: Hatim Ism (RA)'s eight benefits walked one by one in the same literary form (observation → Quranic anchor → decision of the will → ratification), Shaykh Shafeeq al-Balkhi (RA)'s closing verdict that the four heavenly Books all teach these eight, the resumption of conditions five through seven of the seeker, the qualities and chain of the perfected guide and the disciple's outward/inward etiquettes, the four doctrinal definitions (*Tasawwuf*, servitude, *Tawakkul*, *Ikhlas*), the Khidr-counsel transition, the eight closing admonitions (four restraints — debate, preaching, the company of the affluent and rulers, accepting gifts from rulers; four actions — the inverted-servant test, the loved-for-self test, study-as-if-a-week-to-live, do-not-stockpile-more-than-a-year), and the long closing supplication. Single-episode (deep_dive): the source is monological exposition by the Imam, with the Hatim/Shafeeq dialogue functioning as master-disciple ratification rather than named opposition (no sustained named-opposition-with-dialogue running through the chapter; the format is curious_mind + scholar_companion walking a single unfolding doctrine — the structure of a life that follows from the diagnosis the opening chapter delivered). The whole closing arc of the book hangs together as one practical regimen and must not be split: the eight benefits, the seven conditions, the four definitions, and the eight admonitions are different registers of the same argument, and the closing supplication seals the book. Length tier: extended (~9,450 words), inside the 5,500–9,500 band, expansion ratio ~1.14× from the 8,280-word source — tight because the source itself is dense and the literary form of the eight benefits and eight admonitions is preserved as repetition rather than paraphrased away.
 
-## Episode plan (5 episodes, all ~2,500–3,500 enriched words)
-
-| EP / chapter | Source sections | Title | Refined target |
-|---|---|---|---|
-| EP01 / ch01 | 1 + 2 | The Frame and the First Counsel | ~3,300 |
-| EP02 / ch02 | 3 | Haatim's Eight Benefits | ~2,800 |
-| EP03 / ch03 | 4–11 | The Path of the Seeker | ~3,000 |
-| EP04 / ch04 | 12–16 | The Four Cautions | ~3,200 |
-| EP05 / ch05 | 17–22 | The Method of Living and the Closing Prayer | ~2,900 |
-
-### EP01 — The Frame and the First Counsel (sections 1 + 2)
-
-The introduction (a former student writes to Ghazali asking which knowledge will actually save him) and Ghazali's response form one argumentative arc: knowledge without action does not save you. Ghazali piles five Quranic verses on each other, narrates the Junaid dream, the lion-and-medicine analogies, the angel-and-worshipper exchange, the Day-of-Judgment first-question, the tahajjud passage with the dove poetry, and lands on the four conditions of the seeker plus Shibli's hadith — all one unbroken pressure-build on the same theme. Splitting it loses the rhetorical structure Ghazali himself built.
-
-### EP02 — Haatim's Eight Benefits (section 3)
-
-A self-contained vignette. Shaqeeq al-Balkhi has been teaching Haatim for thirty-three years and asks what he has learned. Haatim gives eight numbered benefits, each anchored in a Quranic verse. The structure is enumerative; the unit is clean; the rhythm is its own.
-
-### EP03 — The Path of the Seeker (sections 4–11)
-
-Eight short translator sections (Qualities of a Spiritual Guide, Obedience, Outer Etiquettes, Inner Etiquettes, Reality of Tasawwuf, Reality of Servitude, Reality of Tawakkul, Reality of Ikhlas) belong together. Each one is 150–400 raw words. Run as separate episodes they would each starve NotebookLM. Run together they are the inner architecture Ghazali builds for the seeker: who you sit at the feet of, what you owe them, and what the four inner stations (Tasawwuf, servitude, reliance, sincerity) look like once you start walking.
-
-### EP04 — The Four Cautions (sections 12–16)
-
-The "Eight Admonitions" chapter splits into two halves: things-not-to-do (four) and things-to-do (four). The first four cautions — about debate, preaching, staying away from rulers, and not accepting their gifts — form one rhetorical unit; Ghazali spends most of his cautions-energy on preaching, with the four categories of patients folded inside. EP04 carries the cautions; EP05 carries the methods.
-
-### EP05 — The Method of Living and the Closing Prayer (sections 17–22)
-
-The four methods (relating to God, relating to people, the obligation to study, not stockpiling food) plus the closing supplication. A natural unit: how one lives once the cautions are absorbed, and the du'a Ghazali writes for the student to carry with him.
-
-## Deviation from raw section count
-
-22 source sections → 5 designed chapters. Most-merged: EP03 (eight sections into one chapter). No source content is dropped; everything in the source's body appears in one of the five chapters, condensed where the source repeats itself and re-articulated where the translation is rough.
-
-## Provenance
-
-This 5-chapter plan was carried over from the prior workspace (`_archive/ayyuhal-walad-2026-05-17/`) where it converged through Asif's review. The v3.5 re-run preserves the segmentation; only the chapter prose, framings, and customize prompts are re-authored to satisfy R-PHONETICS-OUT (no inline phonetics in chapter files), R-HONORIFIC-ONCE, R-NO-ABBREVIATION, R-PRONUNCIATION-IMPERATIVE, R-NOMODERNIZE, R-NOSURPRISE, and R-NO-READ-PROMPT.
