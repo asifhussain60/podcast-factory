@@ -6,62 +6,40 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-03 (session 7 — depth picker redesign + tag picker separation)
+**Last updated:** 2026-06-03 (session 8 — Studio comprehensive UI/UX redesign)
 
-**BRANCH: `develop` — active. Committed (f736717).**
+**BRANCH: `develop` — active. Committed (12b16cd).**
 
-**Session work completed:**
+**Session work completed (session 8 — commits bfe5da6, c33c20b, 12b16cd):**
 
-Depth level taxonomy (commit b4b8d79):
-  - StudioPoc: DEPTH_LEVELS_BY_PROFILE — 4 content-profile sets (islamic_scholarly/
-    consumer_explainer/technical/fiction); combo levels and Kashkole jargon removed.
-  - knowledge.ts: ALLOWED_LEVELS split → ALLOWED_ATOM_LEVELS (Kashkole, for atoms)
-    + ALLOWED_DEPTH_LEVELS (new Studio section codes). Fixes silent bug where removing
-    old codes would have broken atom write validation.
-  - [step].astro: reads content_profile from series-config.yaml, passes to StudioPoc.
-  - theme.css + studio-poc.css: new token groups and badge classes for all 4 profiles.
-  - ContractView.astro + chapter-viewer.css: DoD fix (inline styles → CSS classes).
-
-Literary pipeline — Phase 1 pilot (commit 3101132):
-  - 3 Ayyuhal Walad chapters rewritten as first-person Ghazali literary nonfiction.
-  - _stages/ch0N-*/literary.md: Studio Literary tab source.
-  - chapters/literary/ch0N-*.txt: NotebookLM upload source (literary version preferred).
-  - book-workspace.ts: chapter IDs fixed to match actual files; Literary stage added.
-  - _validators.py: find_chapter_by_slug gains required=False for literary fallback.
-  - build_episode_txt.py: prefers chapters/literary/ when present.
-
-Literary pipeline — Phase 2 + Option A (commit 001f497):
-  - _literary.py: Gemini 2.5 Pro script; per-book voice config from series-config.yaml;
-    idempotent via literary-log.md; writes both Studio + NotebookLM outputs.
-  - _phases.py: LITERARY = "08b-literary" (between ENRICHMENT and SERIES_PLAN).
-  - initial_driver.py: _run_literary() in phase_map after 0e enrichment.
-  - ayyuhal-walad series-config.yaml: literary block (author_first_person, Ghazali).
-  - Option A combined annotation picker: depth (single-select) + tags (multi-select)
-    in one popover. Tags: Esoteric/Reality/Sharia/Narrative/Origins/Delete/Improve.
-  - 030_section_tags.sql: section_tags column added to section_depths.
-  - section-depth API: PATCH accepts tags[]; GET returns section_tags.
-  - studio-poc.css: tag picker buttons + inline chip styles.
+Studio comprehensive UI/UX redesign:
+  - Layout: grid 1fr 300px → 1fr 420px; container 90%/1400px → 94%/1600px.
+  - Tab bar: flat underline → segmented card tabs with per-tab accent tints
+    (amber=Details, blue=Comment, brown=AI, green=References); data-tab attribute.
+  - Depth badges: light pastel → solid colored pills (80% fg token formula, white text).
+  - Finalize: filled-accent → ghost/outline (secondary to Save & Approve).
+  - AI panel: rewrite results → numbered option cards with Apply → button;
+    JSON-in-string fallback bug fixed; research/autotag → styled div (not pre).
+  - Section-level editing model: activeSectionOrdinal state + ref; sectionText();
+    runAi() uses full section text; applySection() replaces section body.
+  - AI toolbar moved from per-paragraph to h2 of active section.
+  - section-active applied to h2 (unbroken accent bar) + paragraphs (warm tint).
+  - Per-paragraph hover bg-flash removed; cursor:pointer only.
+  - Edit button (✏ Edit) on every section heading — dim at rest, active on h2 hover;
+    click moves cursor to section body + focuses editor.
+  - Section card: margin-bottom: 0 + padding-bottom on p.section-active (no gaps);
+    box-shadow: inset 3px accent bar + 1.5px perimeter outline + 12px left glow.
+  - Global paragraph margin reduced: 1em → 0.65em.
 
 **PIPELINE HEALTH:**
-- Tests: not re-run this session (no Python logic changes to existing pipeline).
+- Tests: not run this session (no Python changes).
 - `astro check`: 0 errors
 - `lint:views`: errors=0 warns=0
 
 **OPEN DEBT:**
-- Ayyuhal Walad: series-config.yaml literary block in place; literary chapters
-  written manually for 3 existing chapters. Phase 2 auto-runs for ALL future books.
-- knowledge.db 030 migration: applied live; schema/030_section_tags.sql tracks it.
-- plan-dashboard/knowledge.db: empty stale file (not the real DB path); should be
-  deleted or gitignored.
-
-**SESSION 7 WORK (commit f736717):**
-- Depth picker: multi-layer floating shadow, entry animation, rich solid-fill buttons
-  (fg tokens as backgrounds, white text), accent title, danger-tint clear button.
-- Tags separated: removed from depth picker; new sp-tag-popover with two groups
-  ("Content labels" purple/sky/teal/amber/rose; "Editorial flags" red/indigo).
-- sp-section-tag-btn (#) on every section heading, separate from depth badge.
-- Section tag chips: per-tag palette colors (not monochrome accent).
-- lint:views=0, astro check=0, TypeScript=0 errors.
+- Ayyuhal Walad: literary chapters written for 3 chapters manually.
+- knowledge.db 030 migration: applied live.
+- plan-dashboard/knowledge.db: empty stale file — should be deleted or gitignored.
 
 **NEXT WORK:**
 - Validate Ayyuhal Walad literary chapters in Studio before uploading to NotebookLM.
