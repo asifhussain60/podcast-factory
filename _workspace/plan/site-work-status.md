@@ -6,9 +6,37 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-04 (session 9 — production-readiness sweep, pipeline + site)
+**Last updated:** 2026-06-04 (session 10 — Studio transformation timeline + dashboard)
 
-**BRANCH: `develop` — active. Committed (8773be7).**
+**BRANCH: `develop` — active. Committed (4200b64).**
+
+**Session work completed (session 10 — 2 commits 711088c → 4200b64):**
+
+Studio "Edit & Enrich" now shows the full content-transformation journey + an
+in-context metrics dashboard (Asif request: "see the entire pipeline flow and
+the modifications at each step"). NO site redesign — built additively on the
+in-flight three-pane rebuild after self-review caught that a restructure would
+fight the existing author's design + that the real symptom was a data-filter.
+
+  - 711088c (checkpoint): committed the uncommitted in-flight three-pane Studio
+    rebuild as a restore point (verified green first: check/lint/build + 512 py
+    tests). Removed superseded reader components.
+  - 4200b64 (feature): left rail now renders the whole stage chain up to the
+    editable Review (uncaptured stages = muted non-interactive "not captured"
+    rungs) + plain-English role badges; collapsible "Transformation" dashboard
+    band (words-per-stage SVG bar chart + 3 headline chips: % noise removed,
+    words augmented, wisdom integrated — all from stage-metrics +
+    augmentation-ledger; honest "not captured" when absent) + a what-each-stage
+    -did <dl> legend; per-stage header card (name+role+tool+metric) replacing
+    the plain read-only note.
+  - New: stage-roles.ts, enrichment-ledger.ts, TransformationDashboard.tsx,
+    StageBarChart.tsx, transformation-dashboard.css. No theme/colour change, no
+    Python change, no new deps.
+  - html-view-challenger: PASS / Level 1 Conformant. Auto-fixed one real bug it
+    caught (chart text inherited global .svg-host 19.2px → qualified .sbc-*).
+  - Plan file: ~/.claude/plans/adding-to-my-previous-distributed-glacier.md.
+
+**Earlier — session 9 (production-readiness sweep). BRANCH: `develop`, 8773be7.**
 
 **Session work completed (session 9 — 6 commits a723620 → 8773be7):**
 
