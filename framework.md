@@ -69,34 +69,37 @@ For the line-by-line F-item map see [_workspace/plan/pipeline-debt.md](_workspac
 
 ## Content tree
 
-Post-2026-05-23 restructure (one flat repo, content container with drafts + published children):
+Type-first layout (2026-06-04): every item lives at `content/<Bucket>/<slug>/`. `draft`/`published`/`archived` is a `status` field on `_system/orchestrator-state.json` (mirrored to `publication.status` in `meta.yml`), NOT a folder. Bucket is derived from the content profile via `bucket_for_profile()` in [scripts/podcast/_rules.py](scripts/podcast/_rules.py); the resolver is [scripts/podcast/_paths.py](scripts/podcast/_paths.py) (TS mirror [plan-dashboard/src/lib/content-paths.ts](plan-dashboard/src/lib/content-paths.ts)), which scans buckets first and falls back to the legacy `drafts/`/`published/` layout so a partial migration never breaks readers.
 
 ```
 podcast-factory/
 ├── content/                                        ← CONTENT CONTAINER
-│   ├── drafts/                                     ← WORKSHOP (was: _workspace/books/ + per-branch content/podcast/library/books/)
-│   │   └── <slug>/                                 ← per-book in-progress state
+│   ├── Islamic/                                     ← BUCKET (scholarly Islamic texts/lectures)
+│   │   └── <slug>/                                  ← per-book state (any status)
 │   │       ├── _system/
-│   │       │   ├── orchestrator-state.json
+│   │       │   ├── orchestrator-state.json           ← carries `status: draft|published|archived`
 │   │       │   ├── challenger-report.md
 │   │       │   ├── series-plan.md
 │   │       │   └── …
 │   │       ├── chapter-contracts/
-│   │       ├── chapters/                           ← TTS-safe source per chapter
+│   │       ├── chapters/                            ← TTS-safe source per chapter
 │   │       ├── episodes/
 │   │       ├── transcripts/
-│   │       ├── m4a/                                ← rendered audio (when present)
-│   │       ├── slide-decks/                        ← internal slide artifacts
-│   │       └── meta.yml                            ← book-level state + provenance
+│   │       ├── m4a/ (or audio/)                     ← rendered audio (gitignored, on disk only)
+│   │       ├── slide-decks/                         ← internal slide artifacts
+│   │       └── _system/meta.yml                     ← book-level state + provenance (publication.status)
+│   ├── Technical/                                   ← BUCKET (e.g. claude-code-training)
+│   │   └── <slug>/ …
+│   ├── Fiction/                                     ← BUCKET (e.g. journey-to-the-west)
+│   │   └── <slug>/ …
+│   ├── Guides/                                      ← BUCKET (e.g. healthequity)
+│   │   └── <slug>/ …
 │   │
-│   └── published/                                  ← PUBLISHED CATALOG (was: library/, read-only by convention)
-│       ├── _meta/catalog.md                        ← auto-generated cross-book index
-│       ├── archetypes/                             ← cross-book reference (e.g., islamic-scholastic-text.md)
-│       ├── books/<slug>/                           ← shipped per-book outputs
-│       │   ├── index.md                            ← book metadata
-│       │   ├── transcript/                         ← polished NotebookLM SOURCE per chapter
-│       │   └── podcasts/                           ← episode bundles organized by series
-│       └── {articles,documents,interviews,lectures,letters}/
+│   ├── published/                                   ← cross-book reference ONLY (no per-book folders)
+│   │   ├── _meta/catalog.md                         ← auto-generated cross-book index
+│   │   └── archetypes/                              ← cross-book reference (e.g., islamic-scholastic-text.md)
+│   ├── knowledge-base/                              ← canonical extracted-knowledge library
+│   └── _shared/arabic/                              ← independent copy of cross-utility data (journal has its own)
 │
 └── _workspace/                                     ← operational docs only (NO books/ here anymore)
     ├── plan/                                       ← response template + design plans + proposals
@@ -104,17 +107,9 @@ podcast-factory/
     ├── orchestrator-logs/
     ├── runbooks/                                   ← incl. repo-split.md historical reference
     └── _archive/, audit/, chats/, proposals/
-└── content/
-    ├── _shared/arabic/                   ← independent copy of cross-utility data (journal has its own)
-    └── podcast/
-        ├── _README.md
-        └── .skill/                       ← handbook + _learning substrate
-            ├── ROADMAP.md
-            ├── handbook/                 ← book-agnostic skill refs + templates
-            └── _learning/                ← cross-book pattern learning substrate
 ```
 
-Promotion from workspace → library is one-way and explicit via `scripts/podcast/publish_to_library.py`; manual edits to `content/published/` are CI-checked.
+Publishing is a one-way, explicit status flip via `scripts/podcast/publish_to_library.py` (it writes `status=published` in place; it does NOT copy folders).
 
 ---
 
@@ -130,7 +125,7 @@ The canonical source-of-truth for every agent is [infra/claude-agents/](infra/cl
 | `podcast-challenger` | [infra/claude-agents/podcast-challenger.md](infra/claude-agents/podcast-challenger.md) | Semantic-quality review (convergence loop ≤5 iterations before any bundle ships) |
 | `slide-deck-challenger` | [infra/claude-agents/slide-deck-challenger.md](infra/claude-agents/slide-deck-challenger.md) | Visual-quality challenger for slide-deck bundles |
 | `podcast-extract` | [infra/claude-agents/podcast-extract.md](infra/claude-agents/podcast-extract.md) | Single-chapter → NotebookLM bundle fast path |
-| `podcast-publisher` | [infra/claude-agents/podcast-publisher.md](infra/claude-agents/podcast-publisher.md) | Move shipped content from drafts/ to published/books/ (gates G1–G7) |
+| `podcast-publisher` | [infra/claude-agents/podcast-publisher.md](infra/claude-agents/podcast-publisher.md) | Flip a finalized book's `status` draft→published in place (gates G1–G5+G7; G6 obsolete) |
 | `podcast-trainer` | [infra/claude-agents/podcast-trainer.md](infra/claude-agents/podcast-trainer.md) | Cross-book pattern learner; refines podcast-challenger + handbook with regression gates |
 | `refine-prompt` | [infra/claude-agents/refine-prompt.md](infra/claude-agents/refine-prompt.md) | Refines a raw request into one compact instruction-paragraph |
 
@@ -142,7 +137,7 @@ Retired 2026-05-23: `podcast-operator` (multi-machine "where am I, what's next?"
 
 **Purpose:** Convert scholarly Arabic books into NotebookLM Audio Overview podcast series.
 
-**Owns:** `content/drafts/<slug>/` (orchestrator state + chapter contracts + chapters + episode drafts + transcripts), with promotion to `content/published/books/<slug>/` (shipped) via `publish_to_library.py`.
+**Owns:** `content/<Bucket>/<slug>/` (orchestrator state + chapter contracts + chapters + episode drafts + transcripts); shipping is a `status` draft→published flip in place via `publish_to_library.py` (no folder move).
 
 **Reads:** sources Asif provides + [scripts/podcast/_rules.py](scripts/podcast/_rules.py) (Python rule modules — canonical authority) + [infra/claude-agents/podcast-challenger.md](infra/claude-agents/podcast-challenger.md) (per-Category check definitions) + `content/_shared/arabic/` + `content/_shared/islam/` (read-only). The prior `content/podcast/.skill/handbook/` tree was retired 2026-05-23; its conceptual content lives in the code authority above.
 
@@ -156,7 +151,7 @@ Retired 2026-05-23: `podcast-operator` (multi-machine "where am I, what's next?"
 
 The pipeline is **machine-agnostic**. Most work is done by Anthropic + Azure remotely (LLM calls, OCR, translation, speech), so the host machine carries no special-snowflake configuration. The repo runs the same way on any Mac with `python3`, `git`, and the Azure stack credentials (per [docs/setup/azure-stack.md](docs/setup/azure-stack.md)).
 
-- **Per-content branches (locked 2026-05-24).** Every new piece of content (book, document, lecture, article, letter, interview, or generic draft) is processed on its own typed branch off `develop`. The branch name is `<prefix>/<full-slug>` where `<prefix>` derives from the content's `category` field via [scripts/podcast/_branching.py](scripts/podcast/_branching.py): `book/`, `doc/`, `lecture/`, `article/`, `letter/`, `interview/`, `asbaaq/`, or `draft/` (fallback). Slugs are always full kebab-case (never abbreviated). Branches merge back to `develop` only after `podcast-publisher` ships the artifacts to `content/published/`.
+- **Per-content branches (locked 2026-06-04, reverting the typed-prefix model).** Every new piece of content is processed on its own branch off `develop`, named the **bare full kebab-cased slug** (no typed prefix) via [scripts/podcast/_branching.py](scripts/podcast/_branching.py) — `branch_name()` now returns the slug alone and ignores `category`; the old `book/`/`lecture/`/`letter/`… prefixes are retired (`branch_prefix()` kept deprecated for back-compat). Slugs are always full kebab-case (never abbreviated). Branches merge back to `develop` only after `podcast-publisher` flips the item's `status` to `published`.
 - **No per-machine coordination.** The earlier two-machine model (operator files, `~/.machine-id` detection, book-queue mutex, coordination-protocol §15) was retired 2026-05-23. The cross-machine assignment layer is gone; content branches now serve only as isolation, not as work assignment.
 - **`scripts/start-session.sh`** is the simplified session bootstrap — fetches origin, fast-forwards develop, surfaces in-flight content branches + next-action commands.
 
