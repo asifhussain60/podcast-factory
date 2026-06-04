@@ -9,18 +9,18 @@
 }
 
 /* Slim header (no site chrome). */
-.sp-header { width: 90%; max-width: 1400px; margin: 22px auto 6px; }
+.sp-header { width: 94%; max-width: 1600px; margin: 22px auto 6px; }
 .sp-h1 { font-size: 1.55rem; font-weight: 700; color: var(--c-ink); margin: 0 0 4px; }
 .sp-subtitle { font-size: 0.92rem; line-height: 1.55; color: var(--c-ink-muted); max-width: 72ch; margin: 0; }
-.sp-error { width: 90%; max-width: 1400px; margin: 24px auto; color: var(--c-red, #b91c1c); font-size: 1rem; }
+.sp-error { width: 94%; max-width: 1600px; margin: 24px auto; color: var(--c-red, #b91c1c); font-size: 1rem; }
 
 /* Two-pane layout. */
 .studio-poc {
   display: grid;
-  grid-template-columns: 1fr 300px; /* viewer left, panel right (right-handed) */
+  grid-template-columns: 1fr 420px;
   gap: 24px;
-  width: 90%;
-  max-width: 1400px;
+  width: 94%;
+  max-width: 1600px;
   margin: 12px auto 48px;
   align-items: start;
 }
@@ -71,32 +71,45 @@
 .sp-tab-bar {
   flex: 0 0 auto;
   display: flex;
-  border-bottom: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
+  gap: 3px;
+  padding: 4px;
   background: var(--c-bg-elev);
+  border-bottom: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
 }
 .sp-tab-btn {
   flex: 1 1 0;
-  padding: 8px 4px;
+  padding: 7px 8px;
   font-family: var(--font-ui, system-ui, sans-serif);
   font-size: 0.74rem;
   font-weight: 600;
   color: var(--c-ink-muted);
   background: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
   cursor: pointer;
   letter-spacing: 0.02em;
-  transition: color 0.12s;
   white-space: nowrap;
+  transition: color 0.12s, background 0.12s, border-color 0.12s, box-shadow 0.12s;
 }
-.sp-tab-btn:hover { color: var(--c-ink); }
-.sp-tab-btn.is-active { color: var(--c-accent); border-bottom-color: var(--c-accent); background: var(--c-bg-card); }
+.sp-tab-btn:hover { color: var(--c-ink); background: color-mix(in srgb, var(--c-ink) 4%, transparent); }
+.sp-tab-btn.is-active {
+  color: var(--c-ink);
+  font-weight: 700;
+  background: var(--c-bg-card);
+  border-color: var(--c-rule, rgba(0, 0, 0, 0.12));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 1px 2px rgba(31, 29, 24, 0.04), 0 4px 12px -4px rgba(31, 29, 24, 0.10);
+}
+.sp-tab-btn[data-tab="details"].is-active { color: var(--c-amber, #c08020); border-color: color-mix(in srgb, var(--c-amber, #c08020) 35%, var(--c-rule, rgba(0,0,0,0.12))); background: color-mix(in srgb, var(--c-amber, #c08020) 7%, var(--c-bg-card)); }
+.sp-tab-btn[data-tab="comment"].is-active { color: var(--c-planner, #1a5c8a); border-color: color-mix(in srgb, var(--c-planner, #1a5c8a) 35%, var(--c-rule, rgba(0,0,0,0.12))); background: color-mix(in srgb, var(--c-planner, #1a5c8a) 7%, var(--c-bg-card)); }
+.sp-tab-btn[data-tab="ai"].is-active { color: var(--c-accent); border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-rule, rgba(0,0,0,0.12))); background: color-mix(in srgb, var(--c-accent) 7%, var(--c-bg-card)); }
+.sp-tab-btn[data-tab="refs"].is-active { color: var(--c-green, #4a7c4a); border-color: color-mix(in srgb, var(--c-green, #4a7c4a) 35%, var(--c-rule, rgba(0,0,0,0.12))); background: color-mix(in srgb, var(--c-green, #4a7c4a) 7%, var(--c-bg-card)); }
 .sp-tab-btn .sp-tab-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--c-accent); margin-left: 4px; vertical-align: middle; }
+.sp-tab-btn[data-tab="ai"].is-active .sp-tab-dot { background: var(--c-amber, #c08020); }
 .sp-tab-pane {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
-  padding: 12px 14px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -205,14 +218,13 @@
   opacity: 0.75;
   margin: 0 1px;
 }
-/* FC-3 per-paragraph affordance: hovering an IDLE (non-active) block shows a pointer.
-   :not(.para-active) guards ensure hover styles never override the active-paragraph ring.
+/* FC-3 per-paragraph affordance: hovering an IDLE (non-active/section) block shows a pointer.
+   Guards ensure hover styles never override active-section or active-paragraph ring.
    Padding + matching negative margin keep text position unchanged while background extends. */
-/* h2 section headings are excluded — they have their own annotation controls (depth badge,
-   tag btn) and the padding/margin shift causes a layout jump on hover. */
-.studio-poc__editor .ProseMirror > p:not(.para-active):hover,
-.studio-poc__editor .ProseMirror > h3:not(.para-active):hover,
-.studio-poc__editor .ProseMirror > blockquote:not(.para-active):hover {
+/* h2 section headings are excluded — they have their own annotation controls. */
+.studio-poc__editor .ProseMirror > p:not(.para-active):not(.section-active):hover,
+.studio-poc__editor .ProseMirror > h3:not(.para-active):not(.section-active):hover,
+.studio-poc__editor .ProseMirror > blockquote:not(.para-active):not(.section-active):hover {
   cursor: pointer;
   padding: 4px 10px;
   margin-left: -10px;
@@ -222,8 +234,7 @@
 }
 /* Tagged blocks reserve top room so their persistent icon marks sit ABOVE without overlap. */
 .studio-poc__editor .para-tagged { margin-top: 1.9em; }
-/* Active paragraph: dark thick border + padding + slight zoom; a text caret while editing;
-   extra top margin opens a gap so the floating icon row never collides with the line above. */
+/* Active paragraph: kept for backwards-compat; section-active is the primary unit now. */
 .studio-poc__editor .para-active,
 .studio-poc__editor .para-active:hover {
   cursor: text;
@@ -237,12 +248,23 @@
   transform-origin: left center;
 }
 
+/* Section-active: entire section (all paragraphs) highlighted as a unit.
+   Subtle left border + warm tint; no padding shift so layout is stable. */
+.studio-poc__editor .ProseMirror > *.section-active {
+  background: color-mix(in srgb, var(--c-accent) 5%, transparent);
+  border-left: 3px solid color-mix(in srgb, var(--c-accent) 55%, transparent);
+  padding-left: 12px;
+  border-radius: 0 4px 4px 0;
+  cursor: text;
+}
+
 /* Floating per-paragraph icon toolbar, anchored ABOVE the block's top-left corner with a
    clear gap + its own surface + border so it never blends into the text behind it. */
 .studio-poc__editor .sp-para-tools {
   position: absolute;
   top: -1.85em;
-  left: -2px;
+  left: auto;
+  right: -2px;
   display: inline-flex;
   gap: 3px;
   padding: 3px 5px;
@@ -1003,29 +1025,66 @@
 .sp-ai-btn:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
 .sp-ai-status { font-size: 0.8rem; color: var(--c-ink-dim); margin: 0.25rem 0; }
 .sp-ai-status--error { color: var(--c-red, #e11d48); }
+/* Plain-text AI result (research / autotag) — div, not pre. */
 .sp-ai-result {
+  font-family: var(--font-body, Georgia, serif);
   font-size: 0.82rem;
-  line-height: 1.5;
+  line-height: 1.6;
   white-space: pre-wrap;
   background: var(--c-bg-elev);
   color: var(--c-ink);
-  padding: 0.6rem 0.7rem;
-  border-radius: var(--radius-md, 0.375rem);
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
   max-height: 18rem;
   overflow-y: auto;
 }
+/* Rewrite option cards. */
+.sp-ai-options { display: flex; flex-direction: column; gap: 8px; }
+.sp-ai-option-card {
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  gap: 8px;
+  align-items: start;
+  padding: 10px 12px;
+  border-radius: 9px;
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+.sp-ai-option-card:hover { border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-rule, rgba(0,0,0,0.12))); box-shadow: 0 2px 8px -4px rgba(0, 0, 0, 0.18); }
+.sp-ai-option-num { font-family: var(--font-ui, system-ui, sans-serif); font-size: 0.72rem; font-weight: 800; color: var(--c-ink-muted); line-height: 1.6; }
+.sp-ai-option-text { font-family: var(--font-body, Georgia, serif); font-size: 0.82rem; line-height: 1.6; color: var(--c-ink); margin: 0; }
+.sp-ai-option-apply {
+  flex: 0 0 auto;
+  align-self: flex-end;
+  padding: 4px 10px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--c-accent);
+  background: color-mix(in srgb, var(--c-accent) 10%, var(--c-bg-card));
+  border: 1px solid color-mix(in srgb, var(--c-accent) 40%, transparent);
+  transition: background 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+.sp-ai-option-apply:hover:not(:disabled) { background: color-mix(in srgb, var(--c-accent) 18%, var(--c-bg-card)); border-color: var(--c-accent); }
+.sp-ai-option-apply:disabled { opacity: 0.4; cursor: default; }
 .sp-finalize-row { margin-top: 0.75rem; }
 .sp-finalize {
-  font-size: 0.85rem;
+  font-size: 0.79rem;
   font-weight: 600;
-  padding: 0.45rem 0.9rem;
-  background: var(--c-accent);
-  color: var(--c-bg);
-  border: none;
+  padding: 7px 11px;
+  background: var(--c-bg-elev);
+  color: var(--c-ink);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
   border-radius: var(--radius-md, 0.375rem);
   cursor: pointer;
+  transition: border-color 0.12s, color 0.12s;
 }
-.sp-finalize:hover { filter: brightness(1.05); }
+.sp-finalize:hover { border-color: var(--c-accent); color: var(--c-accent); }
 .sp-finalize:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
 .sp-finalize-msg { font-size: 0.8rem; color: var(--c-ink-dim); margin-top: 0.4rem; }
 
@@ -1193,33 +1252,33 @@
 }
 .studio-poc__editor .sp-depth-none { background: var(--c-bg-elev); color: var(--c-ink-muted); border-color: var(--c-rule, rgba(0,0,0,.15)); }
 
-/* islamic_scholarly depth levels */
-.studio-poc__editor .sp-depth-narrative { background: var(--c-depth-general-bg);  color: var(--c-depth-general-fg);  border-color: var(--c-depth-general-bd); }
-.studio-poc__editor .sp-depth-sharia    { background: var(--c-depth-advanced-bg); color: var(--c-depth-advanced-fg); border-color: var(--c-depth-advanced-bd); }
-.studio-poc__editor .sp-depth-esoteric  { background: var(--c-depth-taveel-bg);   color: var(--c-depth-taveel-fg);   border-color: var(--c-depth-taveel-bd); }
-.studio-poc__editor .sp-depth-origins   { background: var(--c-depth-mabda-bg);    color: var(--c-depth-mabda-fg);    border-color: var(--c-depth-mabda-bd); }
-.studio-poc__editor .sp-depth-reality   { background: var(--c-depth-haqaiq-bg);   color: var(--c-depth-haqaiq-fg);   border-color: var(--c-depth-haqaiq-bd); }
+/* islamic_scholarly depth levels — solid fill (fg at 80% → white), white text for contrast. */
+.studio-poc__editor .sp-depth-narrative { background: color-mix(in srgb, var(--c-depth-general-fg,  #1a3a8a) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-sharia    { background: color-mix(in srgb, var(--c-depth-advanced-fg, #5a2da0) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-esoteric  { background: color-mix(in srgb, var(--c-depth-taveel-fg,   #1a5c1a) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-origins   { background: color-mix(in srgb, var(--c-depth-mabda-fg,    #8c0066) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-reality   { background: color-mix(in srgb, var(--c-depth-haqaiq-fg,   #8a0000) 80%, white); color: #fff; border-color: transparent; }
 
 /* consumer_explainer (site) depth levels */
-.studio-poc__editor .sp-depth-website     { background: var(--c-depth-site-website-bg);     color: var(--c-depth-site-website-fg);     border-color: var(--c-depth-site-website-bd); }
-.studio-poc__editor .sp-depth-application { background: var(--c-depth-site-application-bg); color: var(--c-depth-site-application-fg); border-color: var(--c-depth-site-application-bd); }
-.studio-poc__editor .sp-depth-platform    { background: var(--c-depth-site-platform-bg);    color: var(--c-depth-site-platform-fg);    border-color: var(--c-depth-site-platform-bd); }
-.studio-poc__editor .sp-depth-api         { background: var(--c-depth-site-api-bg);         color: var(--c-depth-site-api-fg);         border-color: var(--c-depth-site-api-bd); }
+.studio-poc__editor .sp-depth-website     { background: color-mix(in srgb, var(--c-depth-site-website-fg,     #1565c0) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-application { background: color-mix(in srgb, var(--c-depth-site-application-fg, #0d47a1) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-platform    { background: color-mix(in srgb, var(--c-depth-site-platform-fg,    #4527a0) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-api         { background: color-mix(in srgb, var(--c-depth-site-api-fg,         #283593) 80%, white); color: #fff; border-color: transparent; }
 
 /* technical depth levels */
-.studio-poc__editor .sp-depth-coding       { background: var(--c-depth-tech-coding-bg);   color: var(--c-depth-tech-coding-fg);   border-color: var(--c-depth-tech-coding-bd); }
-.studio-poc__editor .sp-depth-agentic_ai   { background: var(--c-depth-tech-agentic-bg);  color: var(--c-depth-tech-agentic-fg);  border-color: var(--c-depth-tech-agentic-bd); }
-.studio-poc__editor .sp-depth-architecture { background: var(--c-depth-tech-arch-bg);     color: var(--c-depth-tech-arch-fg);     border-color: var(--c-depth-tech-arch-bd); }
-.studio-poc__editor .sp-depth-devops       { background: var(--c-depth-tech-devops-bg);   color: var(--c-depth-tech-devops-fg);   border-color: var(--c-depth-tech-devops-bd); }
-.studio-poc__editor .sp-depth-security     { background: var(--c-depth-tech-security-bg); color: var(--c-depth-tech-security-fg); border-color: var(--c-depth-tech-security-bd); }
-.studio-poc__editor .sp-depth-data_ml      { background: var(--c-depth-tech-data-bg);     color: var(--c-depth-tech-data-fg);     border-color: var(--c-depth-tech-data-bd); }
+.studio-poc__editor .sp-depth-coding       { background: color-mix(in srgb, var(--c-depth-tech-coding-fg,   #1b5e20) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-agentic_ai   { background: color-mix(in srgb, var(--c-depth-tech-agentic-fg,  #4a148c) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-architecture { background: color-mix(in srgb, var(--c-depth-tech-arch-fg,     #bf360c) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-devops       { background: color-mix(in srgb, var(--c-depth-tech-devops-fg,   #263238) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-security     { background: color-mix(in srgb, var(--c-depth-tech-security-fg, #b71c1c) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-data_ml      { background: color-mix(in srgb, var(--c-depth-tech-data-fg,     #006064) 80%, white); color: #fff; border-color: transparent; }
 
-/* fiction depth levels (narrative shared with islamic_scholarly) */
-.studio-poc__editor .sp-depth-character { background: var(--c-depth-fiction-character-bg); color: var(--c-depth-fiction-character-fg); border-color: var(--c-depth-fiction-character-bd); }
-.studio-poc__editor .sp-depth-theme     { background: var(--c-depth-fiction-theme-bg);     color: var(--c-depth-fiction-theme-fg);     border-color: var(--c-depth-fiction-theme-bd); }
-.studio-poc__editor .sp-depth-world     { background: var(--c-depth-fiction-world-bg);     color: var(--c-depth-fiction-world-fg);     border-color: var(--c-depth-fiction-world-bd); }
-.studio-poc__editor .sp-depth-conflict  { background: var(--c-depth-fiction-conflict-bg);  color: var(--c-depth-fiction-conflict-fg);  border-color: var(--c-depth-fiction-conflict-bd); }
-.studio-poc__editor .sp-depth-voice     { background: var(--c-depth-fiction-voice-bg);     color: var(--c-depth-fiction-voice-fg);     border-color: var(--c-depth-fiction-voice-bd); }
+/* fiction depth levels */
+.studio-poc__editor .sp-depth-character { background: color-mix(in srgb, var(--c-depth-fiction-character-fg, #f57f17) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-theme     { background: color-mix(in srgb, var(--c-depth-fiction-theme-fg,     #880e4f) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-world     { background: color-mix(in srgb, var(--c-depth-fiction-world-fg,     #33691e) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-conflict  { background: color-mix(in srgb, var(--c-depth-fiction-conflict-fg,  #bf360c) 80%, white); color: #fff; border-color: transparent; }
+.studio-poc__editor .sp-depth-voice     { background: color-mix(in srgb, var(--c-depth-fiction-voice-fg,     #6a1b9a) 80%, white); color: #fff; border-color: transparent; }
 
 /* Option A — section annotation wrapper (depth badge + tag chips inline) */
 .studio-poc__editor .sp-section-annotation {

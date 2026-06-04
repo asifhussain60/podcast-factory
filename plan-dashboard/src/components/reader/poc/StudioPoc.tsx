@@ -506,8 +506,12 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   const [, setCommentsKey] = useState(0);
   const refreshComments = () => setCommentsKey((k) => k + 1);
 
-  // Active paragraph index (inspector drives the comment textarea).
+  // Active paragraph index (inspector drives the comment textarea + tag panel).
   const [activeParaIdx, setActiveParaIdx] = useState<number | null>(null);
+  // Active section ordinal (0-based h2 index) — drives AI actions and section highlight.
+  const [activeSectionOrdinal, setActiveSectionOrdinal] = useState<number | null>(null);
+  const activeSectionOrdinalRef = useRef<number | null>(null);
+  activeSectionOrdinalRef.current = activeSectionOrdinal;
 
   // M-1 — Inspector tab state (Details · Comment · AI · References).
   const [inspectorTab, setInspectorTab] = useState<'details' | 'comment' | 'ai' | 'refs'>('details');
@@ -567,7 +571,8 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   // Wave L-8 — AI assist panel + Finalize state.
   const [aiBusy, setAiBusy] = useState(false);
   const [aiKind, setAiKind] = useState('');
-  const [aiResult, setAiResult] = useState('');
+  const [aiResult, setAiResult] = useState('');       // research / autotag plain text
+  const [aiOptions, setAiOptions] = useState<string[]>([]);  // rewrite option cards
   const [aiError, setAiError] = useState('');
   const [finalizeMsg, setFinalizeMsg] = useState('');
 
@@ -610,9 +615,8 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   // Index-based tag toggle, called from the floating per-paragraph icon toolbar (a PM widget
   // built outside React). Held in a ref so the widget always calls the latest closure.
   const tagFnRef = useRef<(idx: number, tagId: string) => void>(() => {});
-  // M-1 — AI action ref: called from the per-paragraph floating toolbar's AI buttons.
-  // Accepts an optional paraIdx so the toolbar can pass the hovered paragraph directly.
-  const runAiFnRef = useRef<(kind: string, paraIdx?: number) => void>(() => {});
+  // Section-level AI action ref: called from the section h2 floating toolbar.
+  const runAiFnRef = useRef<(kind: string) => void>(() => {});
 
   // Glossary -> word-boundary regex (longest first), reused by the overlay plugin.
   const glossarySorted = useMemo(
@@ -635,9 +639,8 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                   const tags = paraTagsRef.current;
                   const decos: Decoration[] = [];
 
-                  // Active paragraph (FC-3): only highlight when editor has DOM focus.
-                  const headPos = state.selection.$head;
-                  const activeTop = hasFocusRef.current && headPos.depth >= 1 ? headPos.before(1) : -1;
+                  // Section-level activation: read from ref (updated synchronously in onSelectionUpdate).
+                  const activeSec = hasFocusRef.current ? activeSectionOrdinalRef.current : null;
 
                   // FC-1: Quran verse refs REPLACE their phrase with a compact chip. The
                   // underlying prose is NOT mutated (display:none decoration), so the
@@ -673,18 +676,19 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
 
                   // Wave N: track h2 ordinal (section index, 0-based) for depth markers.
                   let sectionOrdinal = 0;
+                  let currentSectionIdx = -1; // ordinal of the section paragraphs currently belong to
                   let i = 0;
                   state.doc.forEach((node, offset) => {
                     const idx = i++;
-                    const isActive = offset === activeTop;
                     const t = tags.get(idx) || [];
 
                     // Option A: section depth badge + tag chips next to every h2.
                     if (node.type.name === 'heading' && node.attrs.level === 2) {
                       const ord = sectionOrdinal++;
+                      currentSectionIdx = ord; // paragraphs following this h2 belong to section `ord`
                       const depthLevel = sectionDepthsRef.current[ord];
                       const secTags = sectionTagsRef.current[ord] ?? [];
-                      const sectionText = node.textContent.slice(0, 60).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                      const sectionSlug = node.textContent.slice(0, 60).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
                       const tagKey = secTags.join(',');
                       decos.push(
                         Decoration.widget(offset + node.nodeSize - 1, () => {
@@ -703,7 +707,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                           btn.textContent = label;
                           btn.addEventListener('mousedown', (ev) => {
                             ev.preventDefault(); ev.stopPropagation();
-                            openDepthPicker(btn, saveSectionDepthRef.current, ord, sectionText, depthLevel, depthLevels, secTags);
+                            openDepthPicker(btn, saveSectionDepthRef.current, ord, sectionSlug, depthLevel, depthLevels, secTags);
                           });
                           wrap.appendChild(btn);
 
@@ -715,7 +719,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                           tagPickerBtn.textContent = '#';
                           tagPickerBtn.addEventListener('mousedown', (ev) => {
                             ev.preventDefault(); ev.stopPropagation();
-                            openTagPicker(tagPickerBtn, saveSectionDepthRef.current, ord, sectionText, secTags, depthLevel ?? '');
+                            openTagPicker(tagPickerBtn, saveSectionDepthRef.current, ord, sectionSlug, secTags, depthLevel ?? '');
                           });
                           wrap.appendChild(tagPickerBtn);
 
@@ -731,31 +735,18 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                           return wrap;
                         }, { side: 1, key: `sec-annot-${ord}-${depthLevel ?? 'none'}-${tagKey}` }),
                       );
-                    }
 
-                    if (isActive) {
-                      decos.push(Decoration.node(offset, offset + node.nodeSize, { class: 'para-active' }));
-                    }
-                    if (t.length) {
-                      decos.push(Decoration.node(offset, offset + node.nodeSize, { class: `para-tagged tag-${t[0]}` }));
-                    }
-
-                    // Floating icon toolbar at the paragraph's top-left:
-                    //  - active paragraph -> AI-action palette (M-1: Rewrite/Research/Auto-tag)
-                    //  - tagged but not active -> persistent marks (assigned icons only)
-                    if (isActive || t.length) {
-                      const palette = isActive;
-                      decos.push(
-                        Decoration.widget(offset + 1, () => {
-                          const bar = document.createElement('div');
-                          bar.contentEditable = 'false';
-                          if (palette) {
-                            // M-1: AI actions only (tags move to inspector Details tab).
+                      // AI toolbar on active section's h2 (right-aligned, above heading).
+                      if (activeSec === ord) {
+                        decos.push(
+                          Decoration.widget(offset + 1, () => {
+                            const bar = document.createElement('div');
+                            bar.contentEditable = 'false';
                             bar.className = 'sp-para-tools sp-para-tools--palette sp-para-tools--ai';
                             const AI_ACTIONS = [
-                              { kind: 'rewrite',  label: '↺', title: 'Rewrite paragraph' },
+                              { kind: 'rewrite',  label: '↺', title: 'Rewrite section' },
                               { kind: 'research', label: '🔍', title: 'Research context' },
-                              { kind: 'autotag',  label: '🏷', title: 'Auto-tag paragraph' },
+                              { kind: 'autotag',  label: '🏷', title: 'Auto-tag section' },
                             ];
                             for (const action of AI_ACTIONS) {
                               const b = document.createElement('button');
@@ -764,32 +755,45 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                               b.title = action.title;
                               b.textContent = action.label;
                               b.addEventListener('mousedown', (ev) => {
-                                ev.preventDefault();
-                                ev.stopPropagation();
-                                runAiFnRef.current(action.kind, idx);
+                                ev.preventDefault(); ev.stopPropagation();
+                                runAiFnRef.current(action.kind);
                               });
                               bar.appendChild(b);
                             }
-                          } else {
-                            // Marks mode: show assigned tag icons (visual-only, still toggleable).
-                            bar.className = 'sp-para-tools sp-para-tools--marks';
-                            const shown = TAGS.filter((tag) => t.includes(tag.id));
-                            for (const tag of shown) {
-                              const b = document.createElement('button');
-                              b.type = 'button';
-                              b.className = `sp-ptool tag-${tag.id} is-on`;
-                              b.title = `${tag.label} (click to remove)`;
-                              b.textContent = tag.icon;
-                              b.addEventListener('mousedown', (ev) => {
-                                ev.preventDefault();
-                                ev.stopPropagation();
-                                tagFnRef.current(idx, tag.id);
-                              });
-                              bar.appendChild(b);
-                            }
+                            return bar;
+                          }, { side: -1, key: `sec-tools-${ord}` }),
+                        );
+                      }
+                    }
+
+                    // Section-active highlight: all non-heading nodes in the active section.
+                    if (activeSec !== null && currentSectionIdx === activeSec && node.type.name !== 'heading') {
+                      decos.push(Decoration.node(offset, offset + node.nodeSize, { class: 'section-active' }));
+                    }
+
+                    // Tagged paragraphs: marks toolbar only (tag icons, toggleable).
+                    if (t.length) {
+                      decos.push(Decoration.node(offset, offset + node.nodeSize, { class: `para-tagged tag-${t[0]}` }));
+                      decos.push(
+                        Decoration.widget(offset + 1, () => {
+                          const bar = document.createElement('div');
+                          bar.contentEditable = 'false';
+                          bar.className = 'sp-para-tools sp-para-tools--marks';
+                          const shown = TAGS.filter((tag) => t.includes(tag.id));
+                          for (const tag of shown) {
+                            const b = document.createElement('button');
+                            b.type = 'button';
+                            b.className = `sp-ptool tag-${tag.id} is-on`;
+                            b.title = `${tag.label} (click to remove)`;
+                            b.textContent = tag.icon;
+                            b.addEventListener('mousedown', (ev) => {
+                              ev.preventDefault(); ev.stopPropagation();
+                              tagFnRef.current(idx, tag.id);
+                            });
+                            bar.appendChild(b);
                           }
                           return bar;
-                        }, { side: -1, key: `tools-${idx}-${palette ? 'ai' : 'marks'}-${t.join(',')}` }),
+                        }, { side: -1, key: `tools-${idx}-marks-${t.join(',')}` }),
                       );
                     }
                     // FC-3 Word-level track changes vs the original snapshot.
@@ -880,24 +884,34 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     onBlur({ editor }) {
       hasFocusRef.current = false;
       setActiveParaIdx(null);
+      activeSectionOrdinalRef.current = null;
+      setActiveSectionOrdinal(null);
       editor.view.dispatch(editor.state.tr);
     },
     onUpdate() { refresh(); },
     onSelectionUpdate({ editor }) {
       const { from, to } = editor.state.selection;
       setSelection(editor.state.doc.textBetween(from, to, ' ').trim());
-      // Track active paragraph index for the comment panel.
+      // Track active paragraph index (for comment/tag panels) and active section ordinal (for AI).
       const $head = editor.state.selection.$head;
       let paraIdx = -1;
+      let secOrd = -1;
+      let curSec = -1;
       let i = 0;
-      editor.state.doc.forEach((_, offset) => {
-        const depth1Start = offset;
+      editor.state.doc.forEach((node, offset) => {
+        if (node.type.name === 'heading' && node.attrs.level === 2) curSec++;
         const depth1End = offset + (editor.state.doc.child(i)?.nodeSize ?? 0);
-        if ($head.pos >= depth1Start && $head.pos < depth1End) paraIdx = i;
+        if ($head.pos >= offset && $head.pos < depth1End) {
+          paraIdx = i;
+          secOrd = curSec;
+        }
         i++;
       });
+      const newSecOrd = secOrd >= 0 ? secOrd : null;
+      activeSectionOrdinalRef.current = newSecOrd; // update ref immediately so the plugin sees it
+      setActiveSectionOrdinal(newSecOrd);
       setActiveParaIdx(paraIdx >= 0 ? paraIdx : null);
-      refresh(); // re-evaluate active-paragraph decoration on caret moves
+      refresh(); // re-evaluate section decoration on caret moves
     },
   });
 
@@ -1060,7 +1074,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   }, [editor]);
 
   // ── Wave L-8: AI assist + Finalize ──────────────────────────────────────
-  // Text of the paragraph at a given doc index (for AI actions on the selection).
+  // Text of the paragraph at a given doc index (kept for finalize/compat).
   const paragraphText = useCallback((idx: number): string => {
     if (!editor) return '';
     let i = 0;
@@ -1072,14 +1086,26 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     return out;
   }, [editor]);
 
-  // Run an AI action on a paragraph. `kind` selects the route + model.
-  // M-1: accepts optional paraIdx for invocation from the PM floating toolbar widget.
-  const runAi = useCallback(async (kind: string, paraIdx?: number) => {
-    const idx = paraIdx ?? activeParaIdx;
-    if (idx === null || idx === undefined) return;
-    const text = paragraphText(idx);
+  // All text (heading + paragraphs) of a section, joined by double newline.
+  const sectionText = useCallback((ordinal: number | null): string => {
+    if (!editor || ordinal === null) return '';
+    const parts: string[] = [];
+    let curSec = -1;
+    editor.state.doc.forEach((node) => {
+      if (node.type.name === 'heading' && node.attrs.level === 2) curSec++;
+      if (curSec === ordinal) {
+        const t = node.textContent.trim();
+        if (t) parts.push(t);
+      }
+    });
+    return parts.join('\n\n');
+  }, [editor]);
+
+  // Run an AI action on the active section. `kind` selects the route + model.
+  const runAi = useCallback(async (kind: string) => {
+    const text = sectionText(activeSectionOrdinal);
     if (!text.trim()) return;
-    setAiBusy(true); setAiKind(kind); setAiResult(''); setAiError('');
+    setAiBusy(true); setAiKind(kind); setAiResult(''); setAiOptions([]); setAiError('');
     setInspectorTab('ai'); // auto-switch so result is visible immediately
     try {
       let res: Response;
@@ -1112,10 +1138,16 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       } else if (kind === 'autotag') {
         const { tag, reason } = json.data ?? {};
         setAiResult(`Suggested tag: ${tag}${reason ? ` — ${reason}` : ''}`);
-        if (tag && TAGS.some((t) => t.id === tag)) tagFnRef.current?.(idx, tag);
       } else if (kind === 'rewrite') {
-        const opts = (json.data?.options ?? json.options ?? []) as string[];
-        setAiResult(opts.map((o, i) => `${i + 1}. ${o}`).join('\n\n'));
+        let opts = (json.data?.options ?? json.options ?? []) as string[];
+        // Fallback fix: if opts[0] is a raw JSON string (from API error path), re-parse it.
+        if (opts.length === 1 && typeof opts[0] === 'string' && opts[0].trimStart().startsWith('{')) {
+          try {
+            const inner = JSON.parse(opts[0]) as { options?: string[] };
+            if (Array.isArray(inner.options) && inner.options.length > 0) opts = inner.options;
+          } catch { /* keep opts as-is */ }
+        }
+        setAiOptions(opts.slice(0, 3).map((o) => String(o).trim()));
       } else if (kind === 'research') {
         const body = json.fullText ?? json.prompt ?? '';
         const sources = (json.sources as string[] | undefined) ?? [];
@@ -1129,7 +1161,36 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     } finally {
       setAiBusy(false);
     }
-  }, [activeParaIdx, paragraphText, chapterTitle, setInspectorTab]);
+  }, [activeSectionOrdinal, sectionText, chapterTitle, setInspectorTab]);
+
+  // Apply a rewrite option to the active section: replaces all body paragraphs.
+  const applySection = useCallback((newText: string) => {
+    if (!editor || activeSectionOrdinal === null) return;
+    let bodyFrom = -1;
+    let bodyTo = editor.state.doc.content.size;
+    let curSec = -1;
+    let foundSection = false;
+    editor.state.doc.forEach((node, offset) => {
+      if (node.type.name === 'heading' && node.attrs.level === 2) {
+        curSec++;
+        if (curSec === activeSectionOrdinal) {
+          bodyFrom = offset + node.nodeSize;
+          foundSection = true;
+        } else if (foundSection) {
+          bodyTo = offset;
+          foundSection = false;
+        }
+      }
+    });
+    if (bodyFrom < 0) return;
+    const schema = editor.state.schema;
+    const paragraphs = newText.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+    const nodes = paragraphs.length > 0
+      ? paragraphs.map((p) => schema.nodes.paragraph.create(null, schema.text(p)))
+      : [schema.nodes.paragraph.create()];
+    editor.view.dispatch(editor.state.tr.replaceWith(bodyFrom, bodyTo, nodes));
+    refresh();
+  }, [editor, activeSectionOrdinal]);
 
   // Finalize: gather paragraphs + tags + comments → Claude brief → clipboard.
   const finalize = useCallback(async () => {
@@ -1214,7 +1275,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     [editor],
   );
   tagFnRef.current = tagByIdx;
-  runAiFnRef.current = (kind: string, paraIdx?: number) => void runAi(kind, paraIdx);
+  runAiFnRef.current = (kind: string) => void runAi(kind);
 
   const rawMarkers = scanMarkers(html.replace(/<[^>]+>/g, ' '));
   const seen = new Map<string, { kind: string; text: string; count: number }>();
@@ -1393,13 +1454,14 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
           <div className="sp-tab-bar" role="tablist" aria-label="Inspector tabs">
             {(['details', 'comment', 'ai', 'refs'] as const).map((tab) => {
               const labels: Record<string, string> = { details: 'Details', comment: 'Comment', ai: 'AI', refs: 'References' };
-              const hasDot = tab === 'ai' && (!!aiResult || aiBusy);
+              const hasDot = tab === 'ai' && (!!aiResult || aiOptions.length > 0 || aiBusy);
               return (
                 <button
                   key={tab}
                   type="button"
                   role="tab"
                   aria-selected={inspectorTab === tab}
+                  data-tab={tab}
                   className={`sp-tab-btn${inspectorTab === tab ? ' is-active' : ''}`}
                   onClick={() => setInspectorTab(tab)}
                 >
@@ -1477,10 +1539,10 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
               )
             )}
 
-            {/* ── AI tab: results from Rewrite / Research / Auto-tag ── */}
+            {/* ── AI tab: section-level Rewrite / Research / Auto-tag ── */}
             {inspectorTab === 'ai' && (
               <div className="sp-ai-panel">
-                {activeParaIdx !== null && !isReadOnlyStage && (
+                {activeSectionOrdinal !== null && !isReadOnlyStage && (
                   <div className="sp-ai-tab-actions" role="toolbar" aria-label="AI actions">
                     <button type="button" className="sp-ai-tab-btn" disabled={aiBusy}
                       onClick={() => runAi('rewrite')}>↺ Rewrite</button>
@@ -1492,9 +1554,30 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                 )}
                 {aiBusy && <p className="sp-ai-status">Working… ({aiKind})</p>}
                 {aiError && <p className="sp-ai-status sp-ai-status--error">{aiError}</p>}
-                {aiResult && <pre className="sp-ai-result">{aiResult}</pre>}
-                {!aiBusy && !aiResult && !aiError && (
-                  <p className="sp-insp-hint">Hover a paragraph and click ↺ 🔍 🏷 in the toolbar above it, or use the buttons here when a paragraph is selected.</p>
+                {/* Rewrite option cards — each with an Apply button */}
+                {aiOptions.length > 0 && (
+                  <div className="sp-ai-options">
+                    {aiOptions.map((opt, i) => (
+                      <div key={i} className="sp-ai-option-card">
+                        <span className="sp-ai-option-num">{i + 1}</span>
+                        <p className="sp-ai-option-text">{opt}</p>
+                        <button
+                          type="button"
+                          className="sp-ai-option-apply"
+                          onClick={() => applySection(opt)}
+                          disabled={activeSectionOrdinal === null}
+                          title="Replace section body with this rewrite"
+                        >
+                          Apply →
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {/* Research / autotag plain-text result */}
+                {aiResult && <div className="sp-ai-result">{aiResult}</div>}
+                {!aiBusy && aiOptions.length === 0 && !aiResult && !aiError && (
+                  <p className="sp-insp-hint">Click into a section, then use the buttons above — or click ↺ 🔍 🏷 in the toolbar that appears above the section heading.</p>
                 )}
               </div>
             )}
