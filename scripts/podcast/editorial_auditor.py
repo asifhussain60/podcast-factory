@@ -112,17 +112,10 @@ BIO_MIN_PARAS = 2  # need at least this many consecutive bio paras to flag the b
 # ── Gemini judge (Layer 2) ────────────────────────────────────────────────────
 
 def _gemini_key() -> str:
-    env = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-    if env:
-        return env.strip()
-    r = subprocess.run(
-        ["security", "find-generic-password", "-s", "gemini_api_key",
-         "-a", os.environ.get("USER", ""), "-w"],
-        capture_output=True, text=True,
-    )
-    if r.returncode != 0:
-        raise SystemExit("gemini_api_key not in keychain — cannot run LLM judgment")
-    return r.stdout.strip()
+    # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
+    from _secrets import get_gemini_key
+    return get_gemini_key()
+
 
 
 def _gemini_judge(paragraph: str) -> str:

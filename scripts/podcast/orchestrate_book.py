@@ -446,6 +446,19 @@ def _maybe_relaunch_under_watchdog(slug: str) -> None:
 def main() -> int:
     args = build_parser().parse_args()
 
+    # Deterministic credentials: hydrate ANTHROPIC_API_KEY + GEMINI_API_KEY from
+    # the Azure Key Vault resolver so every in-process phase, spawned subprocess,
+    # and `claude -p` call uses the vault key on any machine (no keychain needed).
+    try:
+        from _secrets import hydrate_env
+        _cred = hydrate_env()
+        if any(v == "MISSING" for v in _cred.values()):
+            _err(f"credential hydration incomplete: {_cred} — run `az login`.")
+        else:
+            _info(f"credentials: {_cred} (Azure Key Vault)")
+    except Exception as _e:  # noqa: BLE001
+        _err(f"credential hydration failed: {_e}")
+
     if args.status:
         return run_status(args)
 

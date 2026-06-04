@@ -89,23 +89,10 @@ Aim for 5–7 episodes. Prioritise coherence over perfect word-count balance —
 
 
 def _load_claude_key() -> str:
-    """Claude uses the Max subscription via `claude login` — no separate API key in keychain."""
-    env = os.environ.get("ANTHROPIC_API_KEY")
-    if env:
-        return env.strip()
-    # The Max subscription runs via `claude` CLI; if an API key is needed for direct calls,
-    # it should be in the keychain as 'anthropic_api_key'
-    r = subprocess.run(
-        ["security", "find-generic-password", "-s", "anthropic_api_key",
-         "-a", os.environ.get("USER", ""), "-w"],
-        capture_output=True, text=True,
-    )
-    if r.returncode != 0:
-        raise SystemExit(
-            "No ANTHROPIC_API_KEY env var and anthropic_api_key not in keychain.\n"
-            "Set ANTHROPIC_API_KEY or add it to keychain to use Claude Sonnet for segmentation."
-        )
-    return r.stdout.strip()
+    # Vault-deterministic (llm-anthropic-api-key).
+    from _secrets import get_anthropic_key
+    return get_anthropic_key()
+
 
 
 def _claude_segment(unified_text: str, target_words: int) -> dict:

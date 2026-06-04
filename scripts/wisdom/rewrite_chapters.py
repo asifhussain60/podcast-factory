@@ -135,7 +135,8 @@ def _call_sonnet(original: str, style_guide: str) -> str:
     except ImportError:
         raise RuntimeError("anthropic package not installed. Run: pip install anthropic")
 
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    from _secrets import get_anthropic_key  # vault-deterministic
+    api_key = get_anthropic_key()
     if not api_key:
         raise RuntimeError("ANTHROPIC_API_KEY not set.")
 

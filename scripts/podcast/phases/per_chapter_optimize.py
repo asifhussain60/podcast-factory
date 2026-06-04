@@ -125,7 +125,8 @@ def _call_sonnet_optimize(episode_text: str, chapter_id: str) -> list[OptimizeFi
     except ImportError:
         return []
 
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    from _secrets import get_anthropic_key  # vault-deterministic
+    api_key = get_anthropic_key()
     if not api_key:
         return []
 

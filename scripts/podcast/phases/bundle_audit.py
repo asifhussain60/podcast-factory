@@ -30,15 +30,12 @@ def _err(msg: str) -> None:
 
 
 def _gemini_key_available() -> bool:
-    """Check whether Gemini API key exists in macOS keychain."""
+    from _secrets import get_gemini_key
     try:
-        proc = subprocess.run(
-            ["security", "find-generic-password", "-s", "gemini_api_key"],
-            capture_output=True, text=True, timeout=5,
-        )
-        return proc.returncode == 0
-    except (FileNotFoundError, subprocess.TimeoutExpired, OSError):
+        return bool(get_gemini_key())
+    except Exception:
         return False
+
 
 
 def phase_0g_audit_bundles(book_dir: Path, chapter_slugs: list[str]) -> dict:

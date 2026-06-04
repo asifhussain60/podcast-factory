@@ -58,30 +58,10 @@ def _load_gem_prompt() -> str:
 
 
 def _load_api_key() -> str:
-    """Read the Gemini API key from macOS keychain.
+    # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
+    from _secrets import get_gemini_key
+    return get_gemini_key()
 
-    Mirrors the Azure-key pattern used elsewhere in this repo — no env vars,
-    no .env files. The key lives in keychain under service=`gemini_api_key`.
-    """
-    env_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-    if env_key:
-        return env_key.strip()
-    user = os.environ.get("USER", "")
-    try:
-        result = subprocess.run(
-            ["security", "find-generic-password", "-s", KEYCHAIN_SERVICE, "-a", user, "-w"],
-            capture_output=True,
-            text=True,
-            check=False,
-        )
-    except FileNotFoundError as exc:
-        raise AuditError("`security` CLI not found. Are you on macOS?") from exc
-    if result.returncode != 0:
-        raise AuditError(
-            f"Could not read keychain entry service={KEYCHAIN_SERVICE} account={user}. "
-            f"Add it with: security add-generic-password -s {KEYCHAIN_SERVICE} -a $USER -w <key>"
-        )
-    return result.stdout.strip()
 
 
 def _pack_bundle_inline(bundle_dir: Path) -> Path:

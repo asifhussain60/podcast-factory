@@ -123,7 +123,8 @@ def _call_haiku_review(summary: str) -> dict:
             "notes": "Source review skipped: anthropic package not available.",
         }
 
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    from _secrets import get_anthropic_key  # vault-deterministic
+    api_key = get_anthropic_key()
     if not api_key:
         return {
             "warnings": [{"severity": "P2", "message": "ANTHROPIC_API_KEY not set — review skipped"}],
