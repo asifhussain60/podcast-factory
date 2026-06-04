@@ -160,6 +160,9 @@
   --radius-md: var(--r-md);
   --radius-lg: var(--r-lg);
   --font-sans: var(--font-body);
+  /* --font-ui resolves site-wide (the reader-page scope overrides it where a
+     distinct UI face is wanted); keeps Studio chrome on the body sans. */
+  --font-ui: var(--font-body);
   /* ADDED (were MISSING). --font-display kept = body font to preserve the
      current Lato headings; switching headings to a serif is a deliberate
      design choice to discuss with Asif, not a silent adapter change. */

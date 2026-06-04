@@ -358,3 +358,55 @@
     flex-direction: column;
   }
 }
+
+/* ── Companion reading edition (Branch B) — its own zone above the pipeline ── */
+.st-deliverable {
+  padding-bottom: 0.85rem;
+  margin-bottom: 0.85rem;
+  border-bottom: 1px solid var(--c-rule);
+}
+.st-book-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.6rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--c-ink);
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule-soft);
+  font-family: var(--font-ui, inherit);
+}
+.st-book-link:hover {
+  background: var(--c-bg-sunken);
+  border-color: var(--c-rule);
+}
+.st-book-link:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+.st-book-glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  color: var(--c-accent);
+}
+.st-book-glyph svg {
+  inline-size: 18px;
+  block-size: 18px;
+}
+.st-book-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.st-book-label {
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--c-ink);
+}
+.st-book-meta {
+  font-size: 0.8rem;
+  color: var(--c-ink-dim);
+}
