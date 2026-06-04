@@ -67,6 +67,12 @@ class CostRow:
     cache_read: int
     cache_create: int
     cost_usd: float
+    # 2026-06-04: billing engine. "max" = flat-rate Claude Max via `claude -p`
+    # (cost_usd is NOTIONAL — covered by the subscription, $0 marginal). "api" =
+    # metered Anthropic SDK / Gemini / Azure (cost_usd is REAL spend). Lets the
+    # cost report separate flat-rate Max usage from real money. Defaulted so older
+    # rows (written before this field) deserialize cleanly.
+    engine: str = "api"
 
 
 def compute_cost_usd(
@@ -239,6 +245,7 @@ def append_cost_row(
     cache_read: int = 0,
     cache_create: int = 0,
     ts: str | None = None,
+    engine: str = "api",
 ) -> CostRow:
     """Append a single row to <book_dir>/_system/cost-ledger.jsonl.
 
@@ -264,6 +271,7 @@ def append_cost_row(
         cache_read=int(cache_read),
         cache_create=int(cache_create),
         cost_usd=cost,
+        engine=engine,
     )
     # F34-second (2026-05-25): fcntl LOCK_EX critical section around append.
     # When run_windowed runs with max_workers > 1, parallel threads append
@@ -480,6 +488,7 @@ def append_from_claude_p_stdout(
             cache_read=int(usage["cache_read"]),
             cache_create=int(usage["cache_create"]),
             cost_usd=float(usage["cost_usd"]),
+            engine="max",  # claude -p runs on the flat-rate Max subscription
         )
         ledger_path = book_dir / "_system" / "cost-ledger.jsonl"
         ledger_path.parent.mkdir(parents=True, exist_ok=True)
@@ -497,4 +506,5 @@ def append_from_claude_p_stdout(
         cache_read=usage["cache_read"],
         cache_create=usage["cache_create"],
         ts=ts,
+        engine="max",  # claude -p runs on the flat-rate Max subscription
     )
