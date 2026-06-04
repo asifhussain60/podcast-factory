@@ -1,0 +1,71 @@
+{
+  "slug": "the-master-and-the-disciple",
+  "chapter": "ch06-justice-monotheism-and-the-guardians",
+  "measured_at": "2026-06-04T14:01:31Z",
+  "stages": [
+    {
+      "id": "source",
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
+    },
+    {
+      "id": "core",
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
+    },
+    {
+      "id": "denoised",
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
+    },
+    {
+      "id": "normalized",
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
+    },
+    {
+      "id": "augmented",
+      "available": true,
+      "words": 11029,
+      "chars": 61681,
+      "sentences": 496,
+      "deltaPct": null,
+      "comparedTo": null
+    },
+    {
+      "id": "literary",
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
+    },
+    {
+      "id": "narrator",
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
+    }
+  ],
+  "noise_removed_pct": null
+}

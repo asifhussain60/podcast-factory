@@ -10,7 +10,7 @@
   "last_error": null,
   "scheduled_launch": {
     "scheduled_at": "2026-05-22T10:00:00Z",
-    "scheduled_for": "06:00 EDT 2026-05-22 (rescheduled from 18:01 EDT 2026-05-21 to stagger heavy LLM phases per coord-protocol §8; Air is actively running KaR Phase 0g — avoid Anthropic-quota contention by deferring asaas to morning)",
+    "scheduled_for": "06:00 EDT 2026-05-22 (rescheduled from 18:01 EDT 2026-05-21 to stagger heavy LLM phases per coord-protocol \u00a78; Air is actively running KaR Phase 0g \u2014 avoid Anthropic-quota contention by deferring asaas to morning)",
     "scheduled_by": "claude-on-mac-studio-primary",
     "launch_command": "python3 scripts/podcast/orchestrate_book.py --resume asaas-al-taveel",
     "at_job_id": 2,
@@ -21,8 +21,8 @@
     "halted_at": "2026-05-20T15:30:00Z",
     "halted_by": "claude-on-mac-studio-primary (manual; P22.impl unshipped)",
     "resolved_at": "2026-05-21T13:50:00Z",
-    "resolved_by": "claude-on-mac-studio-primary (Asif approved Option A 2026-05-21; §§1-8 defaults accepted; pp. 19-27 anchors restored via semantic-alignment splice; content-range.md emitted)",
-    "operator_action_completed": "§§1-8 review approved with defaults: §2=A (win-003 splice), §3-§6 pre-seeds, §7 body 33-368, §8 Option I (resume now)",
+    "resolved_by": "claude-on-mac-studio-primary (Asif approved Option A 2026-05-21; \u00a7\u00a71-8 defaults accepted; pp. 19-27 anchors restored via semantic-alignment splice; content-range.md emitted)",
+    "operator_action_completed": "\u00a7\u00a71-8 review approved with defaults: \u00a72=A (win-003 splice), \u00a73-\u00a76 pre-seeds, \u00a77 body 33-368, \u00a78 Option I (resume now)",
     "resume_command": "python3 scripts/podcast/orchestrate_book.py --resume asaas-al-taveel"
   },
   "phases": {
@@ -90,5 +90,6 @@
     "length_tier": "extended",
     "unit_mode": "auto"
   },
-  "pipeline_mode": "orchestrated"
+  "pipeline_mode": "orchestrated",
+  "status": "draft"
 }

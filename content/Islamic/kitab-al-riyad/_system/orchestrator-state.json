@@ -133,5 +133,6 @@
     "tawhid-and-the-critique-of-al-mahsul",
     "book-summary"
   ],
-  "pipeline_mode": "orchestrated"
+  "pipeline_mode": "orchestrated",
+  "status": "draft"
 }

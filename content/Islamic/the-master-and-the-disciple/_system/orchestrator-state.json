@@ -176,5 +176,6 @@
       "slide_challenger_verdict": "SHIP-READY",
       "note": "Full deck-authoring path 2026-05-26: 19 slides across 5 diagram types (comparison matrix, contrast pair, hierarchy tree, annotated structure, process flow). Probe-7 finding 2026-05-26 routed to authoring; Slide Deck Challenger verified SHIP-READY on first pass with all 11 applicable probes passing. Chapter satisfies the book's corpus-level slide-deck mandate."
     }
-  }
+  },
+  "status": "draft"
 }

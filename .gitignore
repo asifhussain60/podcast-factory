@@ -93,6 +93,18 @@ content/drafts/**/*.wav
 content/drafts/**/*.m4a
 content/drafts/**/*.mp4
 content/drafts/**/*.mov
+
+# Post-2026-06-04 type-first layout: content lives at content/<Bucket>/<slug>/.
+# Per-book audio (raw input + NotebookLM renders) stays OUT of git at ANY bucket
+# path — same small-repo policy as above. (The old content/drafts/** rules are
+# kept for history/back-compat.)
+content/**/mp3/
+content/**/m4a/
+content/**/*.mp3
+content/**/*.wav
+content/**/*.m4a
+content/**/*.mp4
+content/**/*.mov
 _workspace/**/*.zip
 _workspace/**/*.llc
 _workspace/**/*.pdf

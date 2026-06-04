@@ -1,0 +1,11 @@
+slug: journey-to-the-west
+title: "Journey to the West (西遊記)"
+author: "Wu Cheng'en"
+language: zh
+source_language: zh
+content_profile: fiction
+genre: classical-novel
+# Source: Project Gutenberg eBook #23962 (《西遊記》), original Classical Chinese.
+# STAGED ONLY — not yet processed. Fiction end-to-end pipeline wiring + a
+# Chinese→English translation path + a chapter-scope decision (the novel is 100
+# chapters) are a separate future effort. See _system/STAGED-NOT-PROCESSED.md.
