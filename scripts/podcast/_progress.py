@@ -140,8 +140,7 @@ def initial_state(book_slug: str, category: str) -> dict[str, Any]:
     except Exception:
         challenger_version = "unknown"
 
-    # Branch naming is category-typed (book/, doc/, lecture/, article/, etc.;
-    # `draft/` for unclassified). See scripts/podcast/_branching.py for policy.
+    # Branch is the bare slug — one branch per item (2026-06-04). See _branching.py.
     from _branching import branch_name as _branch_name   # noqa: E402
 
     return {
@@ -149,6 +148,11 @@ def initial_state(book_slug: str, category: str) -> dict[str, Any]:
         "book_slug": book_slug,
         "category": category,
         "branch": _branch_name(category, book_slug),
+        # Publication status (2026-06-04): draft|published|archived. Replaces the
+        # drafts/published FOLDER split — publish_to_library.py flips this to
+        # 'published' after gates pass. Default draft keeps un-shipped content
+        # out of the audience catalog.
+        "status": "draft",
         "phase": "pre-flight",
         "phase_status": "running",
         "last_completed_phase": None,

@@ -2,26 +2,19 @@
 
 Single source of truth for how content branches are named off `develop`.
 
-POLICY (locked 2026-05-24, reversing the 2026-05-23 single-branch model):
+POLICY (locked 2026-06-04, reverting to a single-branch-per-item model):
 
-  Every new piece of content is processed on its own typed branch off
-  develop. The branch is created at intake time and merged back to develop
-  ONLY after publish completes. The prefix is determined by the content's
-  `category` field (see _rules.ALLOWED_CATEGORIES).
+  Every piece of content is processed on ONE branch named after its slug —
+  no typed prefix. The entire pipeline runs on that branch, which merges back
+  to develop after publish so develop ALWAYS holds the latest, holistic content.
 
   Branch naming:
 
-      book/<full-slug>        — for books
-      doc/<full-slug>         — for documents
-      lecture/<full-slug>     — for audio lectures
-      article/<full-slug>     — for articles
-      letter/<full-slug>      — for letters
-      interview/<full-slug>   — for interviews
-      sabaq/<full-slug>       — for an Urdu lesson (one of the asbaaq)
-      draft/<full-slug>       — fallback when category is unknown/unset
+      <full-slug>             — e.g. `ayyuhal-walad`, `kitab-al-riyad`
 
   Slugs are ALWAYS the full kebab-cased name. Never abbreviate.
-  Example: `book/kitab-al-riyad`, NEVER `book/KaR`.
+  (Pre-2026-06-04 branches used a category prefix — `book/<slug>`, `lecture/<slug>`.
+  `branch_prefix()` is retained for back-compat but is no longer used in names.)
 
 Consumers:
   - scripts/podcast/orchestrate_book.py   — branch creation + state stamp
@@ -52,21 +45,22 @@ _CATEGORY_TO_PREFIX = {
 _FALLBACK_PREFIX = "draft"
 
 
-def branch_prefix(category: str | None) -> str:
-    """Return the branch prefix for a category. Unknown/missing → 'draft'."""
+def branch_prefix(category: str | None) -> str:  # deprecated (kept for back-compat)
+    """Legacy category→prefix lookup. No longer used in branch names (2026-06-04)."""
     if not category:
         return _FALLBACK_PREFIX
     return _CATEGORY_TO_PREFIX.get(category.strip().lower(), _FALLBACK_PREFIX)
 
 
 def branch_name(category: str | None, slug: str) -> str:
-    """Return the full branch name '<prefix>/<slug>'.
+    """Return the branch name — the bare slug (one branch per item, 2026-06-04).
 
-    Slug must already be kebab-cased and is used verbatim — this function
-    does NOT validate or abbreviate. Pass the full slug always.
+    The ``category`` arg is accepted for back-compat with existing callers but is
+    ignored: branches are now named after the slug alone. Slug must already be
+    kebab-cased and is used verbatim — no validation or abbreviation.
     """
     if not slug:
         raise ValueError("branch_name: slug must be non-empty")
     if "/" in slug:
         raise ValueError(f"branch_name: slug must not contain '/' (got {slug!r})")
-    return f"{branch_prefix(category)}/{slug}"
+    return slug

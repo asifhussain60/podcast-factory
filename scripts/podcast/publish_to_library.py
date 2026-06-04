@@ -459,20 +459,24 @@ def update_catalog(slug: str, episode_count: int, source_sha: str) -> None:
 
 
 def publish(slug: str, args: argparse.Namespace) -> int:
+    """Publish = flip the book's status to 'published' in place (2026-06-04).
+
+    The drafts/published FOLDER split is gone — content lives once at
+    content/<Bucket>/<slug>/ and 'publishing' sets status=published in
+    orchestrator-state.json after gates pass. No second tree is copied.
+    """
     workspace = resolve_workspace(slug)
     if not workspace.is_dir():
         print(f"publish_to_library: workspace not found: {workspace}",
               file=sys.stderr)
         return 2
-    target = LIBRARY / "books" / slug
 
     _info(f"==> publish_to_library: {slug}")
     _info(f"    workspace: {workspace.relative_to(REPO_ROOT)}")
-    _info(f"    target:    {target}")
+    _info(f"    model:     status-flag (type-first layout; no second tree)")
     _info(f"    mode:      "
           f"{'dry-run' if args.dry_run else 'live'}"
           f"{', strict' if args.strict else ''}"
-          f"{', no-wipe' if args.no_wipe else ''}"
           f"{', force' if args.force else ''}")
     _info("")
     _info("=== Gates ===")
@@ -489,16 +493,15 @@ def publish(slug: str, args: argparse.Namespace) -> int:
         return 1
     if not gate_g5_state(workspace, args.force):
         return 1
-    if not gate_g6_target(target, args.no_wipe):
-        return 1
+    # G6 (target wipe-safety) is obsolete in the status-flag model — no published/
+    # tree is created or wiped. gate_g6_target() is retained for the test suite.
+    _info("[G6]  n/a — status-flag model writes no published/ tree")
     if not gate_g7_challenger_convergence(workspace, args.allow_mode_2):
         return 1
 
     _info("")
     _info("=== Plan ===")
-    _info(f"    would copy {len(chapters)} chapter(s) → {target}/chapters/")
-    _info(f"    would copy {len(episodes)} episode(s) → {target}/episodes/")
-    _info(f"    would write {target}/README.md")
+    _info(f"    would set status=published on {slug} ({len(episodes)} episode(s)) in place")
     _info(f"    would update catalog row for {slug}")
 
     if args.dry_run:
@@ -506,63 +509,27 @@ def publish(slug: str, args: argparse.Namespace) -> int:
         _info("==> DRY RUN: no files written. All gates passed.")
         return 0
 
-    # Live publish
+    # Live publish — flip the status flag; no copy.
     _info("")
     _info("=== Publishing ===")
-    if target.exists() and not args.no_wipe:
-        shutil.rmtree(target)
-        _info(f"    wiped: {target}")
-    target.mkdir(parents=True, exist_ok=True)
-    (target / "chapters").mkdir(exist_ok=True)
-    (target / "episodes").mkdir(exist_ok=True)
-
-    for chap in chapters:
-        shutil.copy2(chap, target / "chapters" / chap.name)
-    _info(f"    copied {len(chapters)} chapter(s)")
-    for ep in episodes:
-        shutil.copy2(ep, target / "episodes" / ep.name)
-    _info(f"    copied {len(episodes)} episode(s)")
-
-    # 2026-05-25 enhancement: ship the per-chapter show-notes apparatus too.
-    # 99-show-notes.md lives in drafts/<slug>/_system/episode-drafts/EP##-<slug>/
-    # and IS what listener-facing library readers (the Podcast Factory Astro Site) display
-    # alongside the episode. Previously these stayed in drafts only, which made
-    # the polish work invisible to the audience. Now each EP## ships its
-    # show-notes file as published/books/<slug>/show-notes/EP##-<slug>.md.
-    # Silent-skip per chapter when no show-notes file exists (back-compat).
-    show_notes_count = 0
-    drafts_dir = workspace / "_system" / "episode-drafts"
-    if drafts_dir.is_dir():
-        sn_target = target / "show-notes"
-        sn_target.mkdir(exist_ok=True)
-        for ep in episodes:
-            ep_stem = ep.stem  # EP01-the-call-and-the-covenant
-            sn_src = drafts_dir / ep_stem / "99-show-notes.md"
-            if sn_src.exists():
-                shutil.copy2(sn_src, sn_target / f"{ep_stem}.md")
-                show_notes_count += 1
-        if show_notes_count:
-            _info(f"    copied {show_notes_count} show-notes file(s)")
-
-    sha = git_sha()
-    branch = git_branch()
-    readme = render_readme(slug, chapters, episodes, sha, branch)
-    (target / "README.md").write_text(readme)
-    _info(f"    wrote README.md")
-
-    update_catalog(slug, len(episodes), sha)
-
-    # 2026-05-28: write publication.status: published to the draft meta.yml.
-    # The astro site reads publication.status from meta.yml in the drafts tree;
-    # it no longer scans the published/ directory. Without this write, the UI
-    # shows the book as "Draft" even after a successful publish.
+    _mark_published_status(workspace)
+    _info(f"    status → published in orchestrator-state.json")
+    # Keep the meta.yml publication.status write — the astro site reads it.
     _update_meta_publication_status(workspace)
+    update_catalog(slug, len(episodes), git_sha())
 
     _info("")
-    _info(f"==> DONE. Published {len(episodes)} episode(s) for {slug} "
-          f"to {target}.")
-    _info(f"    Inspect: open '{target}/README.md'")
+    _info(f"==> DONE. Marked {slug} published ({len(episodes)} episode(s)) in place.")
     return 0
+
+
+def _mark_published_status(workspace: Path) -> None:
+    """Set status=published (+ published_at) in the book's orchestrator-state.json."""
+    from _progress import read_state, write_state
+    state = read_state(workspace) or {}
+    state["status"] = "published"
+    state["published_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    write_state(workspace, state)
 
 
 def _update_meta_publication_status(workspace: Path) -> None:

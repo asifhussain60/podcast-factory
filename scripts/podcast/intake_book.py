@@ -33,9 +33,9 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from _paths import REPO_ROOT
+from _paths import REPO_ROOT, content_dir
 
-WORKSPACE_BOOKS = REPO_ROOT / "content" / "drafts"
+WORKSPACE_BOOKS = REPO_ROOT / "content" / "drafts"  # deprecated (legacy flat layout)
 RAW_DIR = REPO_ROOT.parent.parent / "raw"  # podcast-factory/raw/, outside the worktree
 
 SKELETON_DIRS = ["_source", "_system", "chapters", "episodes", "episode-drafts"]
@@ -116,7 +116,7 @@ def _intake_from_pdf(
             f"(looked under {RAW_DIR}, cwd, and repo root)"
         )
 
-    book_dir = WORKSPACE_BOOKS / slug
+    book_dir = content_dir(slug, category=category)
     _info(f"==> Creating workspace at {book_dir.relative_to(REPO_ROOT)}")
     _create_skeleton(book_dir, force)
     _info(f"    Skeleton dirs: {', '.join(SKELETON_DIRS)}")
@@ -136,6 +136,7 @@ def _intake_from_pdf(
         "last_completed_phase": None,
         "last_error": None,
         "category": category,
+        "status": "draft",
         "started": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "phases": {},
@@ -245,7 +246,7 @@ def _intake_from_bundle(
 
     category = category_override or suggested_category or "lectures"
 
-    book_dir = WORKSPACE_BOOKS / slug
+    book_dir = content_dir(slug, category=category)
     _info(f"==> Bundle intake")
     _info(f"    bundle: {bundle_dir}")
     _info(f"    slug:   {slug}")
@@ -301,6 +302,7 @@ def _intake_from_bundle(
         "last_completed_phase": "0a",
         "last_error": last_error,
         "category": category,
+        "status": "draft",
         "started": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "phases": {
@@ -359,7 +361,7 @@ def _intake_from_audio_transcript(
     if not src.exists():
         _die(f"transcript not found: {transcript_path}")
 
-    book_dir = WORKSPACE_BOOKS / slug
+    book_dir = content_dir(slug, category=category)
     _info(f"==> Creating workspace at {book_dir.relative_to(REPO_ROOT)}")
     _create_skeleton(book_dir, force)
     _info(f"    Skeleton dirs: {', '.join(SKELETON_DIRS)}")
@@ -394,6 +396,7 @@ def _intake_from_audio_transcript(
         "last_completed_phase": "0a",
         "last_error": None,
         "category": category,
+        "status": "draft",
         "started": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "phases": {

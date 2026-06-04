@@ -112,10 +112,11 @@ class TestCategoryRouting(unittest.TestCase):
         self.assertEqual(_branching.branch_prefix("explainers"), "explainer")
 
     def test_explainers_branch_name(self):
-        # GREEN today
+        # 2026-06-04: branch is the bare slug (one branch per item); the category
+        # arg is accepted but ignored. branch_prefix() is retained separately.
         self.assertEqual(
             _branching.branch_name("explainers", "claude-code-training"),
-            "explainer/claude-code-training",
+            "claude-code-training",
         )
 
     def test_sites_branch_prefix_unchanged(self):
