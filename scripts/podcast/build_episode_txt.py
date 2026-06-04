@@ -250,7 +250,7 @@ def build(book_dir: Path, episode_id: str, check_only: bool = False) -> None:
     # (chapters/{slug}.txt). The modern-prose revoice is a SEPARATE deliverable —
     # the companion book under book/ — and must NEVER be uploaded to NotebookLM:
     # the audio is grounded in the author's own voice. See framework.md
-    # "Branch A vs Branch B". (Reversed 2026-06-04: the builder previously
+    # "podcast path vs PDF path". (Reversed 2026-06-04: the builder previously
     # preferred chapters/literary/, which fed the revoice to NotebookLM — backwards.)
     assert_chapters_populated(book_dir)
     chapter_file = find_chapter_by_slug(book_dir / "chapters", episode_slug)

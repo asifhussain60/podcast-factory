@@ -76,7 +76,7 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
 
     # 0literary (per-chapter revoice) retired from the active flow 2026-06-04:
     # nothing consumes chapters/literary/ after the build_episode_txt wiring fix,
-    # and the revoice now lives in Branch B (the companion book). The symbol stays
+    # and the revoice now lives in PDF path (the companion book). The symbol stays
     # in _progress.PHASES (state-file back-compat) and the _literary.py helpers
     # stay (reused by _book_compose).
     phase_map = [

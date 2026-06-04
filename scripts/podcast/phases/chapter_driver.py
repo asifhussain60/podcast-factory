@@ -289,7 +289,7 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         update_phase(book_dir, phase="per-chapter-slides", status="skipped",
                      extras={"reason": "enable_slide_decks=false"})
 
-    # Branch B — companion book (gated by series.enable_book_branch, non-blocking).
+    # PDF path — companion book (gated by series.enable_book_branch, non-blocking).
     # Runs BEFORE the finalize halt so the book and the podcast are reviewed together;
     # a book-branch failure never aborts the podcast ship.
     from phases.book_driver import _drive_book_branch

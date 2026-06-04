@@ -399,7 +399,7 @@ class StateMachineOrderingTests(unittest.TestCase):
         seq = [(p, s) for p, s in self.phase_transitions if s in ("running", "completed", "halted")]
 
         # Expected: 0b → 0c → 0d → 0e → 06a (approved, Wave I gate) → 0f halted
-        # (0literary retired from the active flow 2026-06-04 — revoice is Branch B now)
+        # (0literary retired from the active flow 2026-06-04 — revoice is PDF path now)
         expected = [
             ("0b", "running"), ("0b", "completed"),
             ("0c", "running"), ("0c", "completed"),

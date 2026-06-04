@@ -3,8 +3,8 @@
 (chapters/<slug>.txt), never the Branch-B revoice (chapters/literary/<slug>.txt).
 
 Guards the 2026-06-04 wiring fix in build_episode_txt.build() that dropped the
-`chapters/literary` preference — Branch A (author voice) feeds NotebookLM; the
-revoice is a separate deliverable (the companion book, Branch B).
+`chapters/literary` preference — podcast path (author voice) feeds NotebookLM; the
+revoice is a separate deliverable (the companion book, PDF path).
 """
 from __future__ import annotations
 

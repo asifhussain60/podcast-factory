@@ -1,5 +1,5 @@
 /**
- * book.ts — loader for the companion reading edition (Branch B).
+ * book.ts — loader for the companion reading edition (PDF path).
  *
  * Reads content/<Bucket>/<slug>/book/book.md and projects it into a renderable
  * shape for the Studio Book view. Mirrors the pattern of loadBookIndex in

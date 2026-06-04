@@ -234,7 +234,7 @@ def run_resume(args: argparse.Namespace) -> int:
         return _drive_per_chapter_and_after(book_dir)
 
     if current_phase in ("0book-design", "0book-compose", "0book-render"):
-        _info(f"Phase {current_phase} (Branch B book) — re-entering the per-chapter driver; "
+        _info(f"Phase {current_phase} (PDF path book) — re-entering the per-chapter driver; "
               f"the book phases are idempotent and resume before finalize.")
         return _drive_per_chapter_and_after(book_dir)
 

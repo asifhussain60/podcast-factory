@@ -2,7 +2,7 @@
 
 Re-segments a book's refined source into the chapter structure of a polished
 modern reading edition — its OWN chapter count / boundaries / titles + a preface,
-INDEPENDENT of the podcast episode cuts (Branch B, not Branch A). Emits
+INDEPENDENT of the podcast episode cuts (PDF path, not podcast path). Emits
 BOOK_DIR/book/book-toc.json.
 
 One Opus pass via `claude -p` (flat-rate Max). Idempotent: skips if book-toc.json

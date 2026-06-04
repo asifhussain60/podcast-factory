@@ -1,4 +1,4 @@
-"""phases/book_driver.py — _drive_book_branch (Branch B).
+"""phases/book_driver.py — _drive_book_branch (PDF path).
 
 Runs the companion-book phases (0book-design → 0book-compose → 0book-render)
 during authoring, BEFORE the finalize halt, so the book is reviewable alongside
