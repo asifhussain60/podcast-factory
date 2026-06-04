@@ -123,7 +123,7 @@ def _load_gemini_key() -> str:
     r = subprocess.run(
         ["security", "find-generic-password", "-s", "gemini_api_key",
          "-a", os.environ.get("USER", ""), "-w"],
-        capture_output=True, text=True,
+        capture_output=True, text=True, timeout=10,
     )
     if r.returncode != 0:
         raise RuntimeError("gemini_api_key not found in keychain")

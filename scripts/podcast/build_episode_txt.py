@@ -152,10 +152,15 @@ def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -
 
 def build_framing_episode_txt(framing_path: Path, out_path: Path,
                               extra_tells: list[str] | None = None,
-                              book_dir: Path | None = None) -> int:
+                              book_dir: Path | None = None,
+                              write: bool = True) -> int:
     """Read the framing, strip upload-checklist + HTML comments, validate, write to
     out_path as the customize-prompt-only episode txt. Returns word count of the
     final framing content.
+
+    When *write* is False, all validation still runs (so flags are surfaced) but
+    out_path is left untouched — used by the publish G4 gate in --dry-run so the
+    gate is provably read-only.
 
     Wave CP: pass *book_dir* to enable content-profile gating; defaults to deriving
     it from framing_path (episode-drafts/EP##-slug/ → _system/ → book_dir).
@@ -201,12 +206,19 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path,
             f"See infra/claude-agents/podcast-challenger.md (Categories C, D, E for word-count + structure) §5."
         )
 
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(cleaned + "\n", encoding="utf-8")
+    if write:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(cleaned + "\n", encoding="utf-8")
     return n
 
 
-def build(book_dir: Path, episode_id: str) -> None:
+def build(book_dir: Path, episode_id: str, check_only: bool = False) -> None:
+    """Validate an episode and write its customize-prompt txt.
+
+    When *check_only* is True, run every validation/flag check but write nothing
+    to disk (no episode txt, no section-depth mint) so callers like the publish
+    G4 gate can validate during a --dry-run without mutating source files.
+    """
     book_dir = book_dir.resolve()
     if not book_dir.is_dir():
         sys.exit(f"ERROR: BOOK_DIR is not a directory: {book_dir}")
@@ -244,7 +256,7 @@ def build(book_dir: Path, episode_id: str) -> None:
     # 1b. Wave N: mint pipeline-guessed section depth assignments (non-blocking).
     # Only runs for islamic_scholarly books (consumer profiles have no depth ladder).
     # Human overrides are never overwritten. Silently skipped if DB is unavailable.
-    if is_islamic_scholarly(book_dir):
+    if is_islamic_scholarly(book_dir) and not check_only:
         try:
             from mint_section_depths import mint_section_depths_for_chapter
             mint_section_depths_for_chapter(book_dir, chapter_file)
@@ -253,7 +265,9 @@ def build(book_dir: Path, episode_id: str) -> None:
 
     # 2. Build the customize-prompt-only episode txt.
     out_path = book_dir / "episodes" / f"{episode_id}.txt"
-    framing_words = build_framing_episode_txt(framing_file, out_path, extra_tells)
+    framing_words = build_framing_episode_txt(
+        framing_file, out_path, extra_tells, write=not check_only
+    )
 
     # 3. F25 (2026-05-23): apparatus-table check on 99-show-notes.md when present.
     # Silent skip when the file doesn't exist — F25 show-notes-generation
@@ -286,11 +300,16 @@ def build(book_dir: Path, episode_id: str) -> None:
             f"to ≥{CHAPTER_DEAD_ZONE_MAX}."
         )
 
+    _wrote_line = (
+        f"Checked episode (CUSTOMIZE PROMPT): {out_path} (--check, not written)\n"
+        if check_only else
+        f"Wrote episode (CUSTOMIZE PROMPT): {out_path}\n"
+    )
     print(
         f"Validated chapter (SOURCE): {chapter_file}\n"
         f"  {chapter_words} words — uploaded as-is to NotebookLM\n"
         f"\n"
-        f"Wrote episode (CUSTOMIZE PROMPT): {out_path}\n"
+        f"{_wrote_line}"
         f"  {framing_words} words — paste into NotebookLM's Customize prompt box\n"
         f"\n"
         f"To upload:\n"
@@ -303,6 +322,8 @@ def build(book_dir: Path, episode_id: str) -> None:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        sys.exit("Usage: build_episode_txt.py <BOOK_DIR> <EP##-slug>")
-    build(Path(sys.argv[1]), sys.argv[2])
+    _args = [a for a in sys.argv[1:] if a != "--check"]
+    _check = "--check" in sys.argv[1:]
+    if len(_args) != 2:
+        sys.exit("Usage: build_episode_txt.py <BOOK_DIR> <EP##-slug> [--check]")
+    build(Path(_args[0]), _args[1], check_only=_check)

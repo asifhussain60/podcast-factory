@@ -196,8 +196,19 @@ def _phase_boundary_gate(
 # ─── tiny utilities ──────────────────────────────────────────────────────────
 
 
-def _run(cmd: list[str], *, cwd: Path | None = None) -> tuple[int, str, str]:
-    proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
+def _run(cmd: list[str], *, cwd: Path | None = None,
+         timeout: int = 120) -> tuple[int, str, str]:
+    """Run a short, bounded command (git, etc.). NOT for long-running LLM phases —
+    those are driven by run_wave/chapter_driver and supervised by the watchdog.
+    On timeout, returns a non-zero rc + stderr instead of hanging forever.
+    """
+    try:
+        proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True,
+                              timeout=timeout)
+    except subprocess.TimeoutExpired as e:
+        return 124, (e.stdout or ""), (
+            f"{(e.stderr or '')}\ncommand timed out after {timeout}s: {' '.join(cmd)}"
+        )
     return proc.returncode, proc.stdout, proc.stderr
 
 
@@ -439,7 +450,18 @@ def main() -> int:
     if args.resume:
         slug_for_lock = args.resume
     elif args.pdf_path:
-        slug_for_lock = args.slug or derive_slug(Path(args.pdf_path).resolve())
+        pdf = Path(args.pdf_path).expanduser().resolve()
+        if not pdf.is_file():
+            _err(f"source not found (or not a file): {args.pdf_path}")
+            return 1
+        slug_for_lock = args.slug or derive_slug(pdf)
+        if not SLUG_RE.match(slug_for_lock):
+            _err(
+                f"invalid slug {slug_for_lock!r} "
+                f"(derived from {pdf.name!r}). Must be lowercase-kebab-case "
+                f"(a-z, 0-9, hyphens). Pass an explicit --slug."
+            )
+            return 1
     else:
         _err("either <pdf-path> (initial) or --resume <slug> or --status <slug> is required")
         return 1

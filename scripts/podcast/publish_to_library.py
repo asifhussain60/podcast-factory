@@ -199,18 +199,23 @@ def gate_g3_sequential(chapters: list[Path], episodes: list[Path]) -> bool:
 
 
 def gate_g4_build_clean(workspace: Path, slug: str,
-                        episodes: list[Path], strict: bool) -> bool:
+                        episodes: list[Path], strict: bool,
+                        dry_run: bool = False) -> bool:
     builder = REPO_ROOT / "scripts" / "podcast" / "build_episode_txt.py"
     if not builder.exists():
         _warn(f"build_episode_txt.py not found at {builder}; skipping G4")
         return True
     book_dir = workspace.relative_to(REPO_ROOT)
+    # In --dry-run the gate must be read-only: pass --check so the builder
+    # validates and surfaces flags without rewriting episodes/*.txt or minting
+    # section depths. Live publish keeps the rebuild-then-write behavior.
+    build_cmd_tail = ["--check"] if dry_run else []
     p0_total = 0
     p1_total = 0
     for ep in episodes:
         ep_id = ep.stem  # EP01-the-perfect-and-the-perfection-of-the-soul
         r = subprocess.run(
-            ["python3", str(builder), str(book_dir), ep_id],
+            ["python3", str(builder), str(book_dir), ep_id, *build_cmd_tail],
             cwd=REPO_ROOT, capture_output=True, text=True,
         )
         p0 = len(re.findall(r"^FLAG \(P0\)", r.stdout + r.stderr, re.MULTILINE))
@@ -479,7 +484,8 @@ def publish(slug: str, args: argparse.Namespace) -> int:
         return 1
     if not gate_g3_sequential(chapters, episodes):
         return 1
-    if not gate_g4_build_clean(workspace, slug, episodes, args.strict):
+    if not gate_g4_build_clean(workspace, slug, episodes, args.strict,
+                               dry_run=args.dry_run):
         return 1
     if not gate_g5_state(workspace, args.force):
         return 1

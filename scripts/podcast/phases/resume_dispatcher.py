@@ -10,7 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _paths import REPO_ROOT  # noqa: E402
-from _progress import read_state, write_state, update_phase  # noqa: E402
+from _progress import read_state, write_state, update_phase, is_phase_stale, STALE_RUNNING_SEC  # noqa: E402
 from phases.preflight import preflight_resume  # noqa: E402
 from phases.initial_driver import _drive_authoring_through_0f, _drive_source_ready_through_0f  # noqa: E402
 from phases.chapter_driver import _drive_per_chapter_and_after  # noqa: E402
@@ -96,6 +96,25 @@ def run_resume(args: argparse.Namespace) -> int:
 
     _info(f"  last completed:  {last or '(none)'}")
     _info(f"  current phase:   {current_phase}  [{current_status}]")
+
+    # Stale-resume auto-recovery: an unclean shutdown freezes phase_status at
+    # "running", which the early-phase handlers (0a/0f/06a) refuse to re-enter,
+    # deadlocking --resume. If the running state is older than the staleness
+    # threshold it belongs to a dead process (the book lock guards against a
+    # genuinely concurrent run), so downgrade to "failed" — the same recovery
+    # the shell watchdog performs via --retry-phase — and persist it so the
+    # existing per-phase resume handlers pick it up.
+    if is_phase_stale(state):
+        _info(
+            f"  stale 'running' state detected (older than {STALE_RUNNING_SEC}s) "
+            f"— auto-recovering: downgrading {current_phase!r} to 'failed'."
+        )
+        state["phase_status"] = "failed"
+        block = state.get("phases", {}).get(current_phase)
+        if isinstance(block, dict) and block.get("status") == "running":
+            block["status"] = "failed"
+        write_state(book_dir, state)
+        current_status = "failed"
 
     # 2026-05-28 R4 guard: any phase halted at a human-review gate must not be
     # re-entered by the hourly launchd tick.  The Source Review Gate (Phase 06a,
