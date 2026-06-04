@@ -106,21 +106,18 @@ def _read_keychain(service: str) -> str | None:
 
 
 def _resolve(suffix: str, env_name: str) -> str | None:
-    """Resolve a single credential: env var (CI) → keychain → Azure Key Vault.
+    """Resolve a single credential: env var (CI override) → Azure Key Vault.
 
-    The Key Vault tier (added 2026-06-04) means a machine with only `az login`
-    and no populated keychain still resolves every Azure credential — the vault
-    secret name matches the keychain service name (azure-<app>-<suffix>).
+    DETERMINISTIC-TO-VAULT (2026-06-04): the macOS-keychain tier was removed so a
+    drifted keychain cache can never shadow the vault. The vault secret name equals
+    the former keychain service name (azure-<app>-<suffix>); the vault is the single
+    source of truth on every machine.
     """
     if env_name in os.environ and os.environ[env_name]:
         return os.environ[env_name]
-    service = f"azure-{APP_NAME}-{suffix}"
-    val = _read_keychain(service)
-    if val:
-        return val
     try:
         from _secrets import keyvault_secret
-        return keyvault_secret(service)
+        return keyvault_secret(f"azure-{APP_NAME}-{suffix}")
     except Exception:
         return None
 

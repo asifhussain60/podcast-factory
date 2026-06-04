@@ -46,34 +46,24 @@ def keyvault_secret(kv_name: str) -> str | None:
     return r.stdout.strip() or None
 
 
-def _keychain(service: str) -> str | None:
-    try:
-        r = subprocess.run(
-            ["security", "find-generic-password", "-s", service, "-w"],
-            capture_output=True, text=True, timeout=10,
-        )
-    except (FileNotFoundError, subprocess.TimeoutExpired):
-        return None
-    if r.returncode != 0:
-        return None
-    return r.stdout.strip() or None
-
-
 @functools.lru_cache(maxsize=256)
 def resolve_secret(
     env: tuple[str, ...] = (),
-    keychain: str | None = None,
     vault: str | None = None,
 ) -> str | None:
-    """Resolve one secret: env var(s) → keychain → Azure Key Vault. None if absent."""
+    """Resolve one secret: env var(s) → Azure Key Vault. None if absent.
+
+    DETERMINISTIC-TO-VAULT (2026-06-04): the macOS-keychain tier was removed. A
+    keychain cache could drift from the vault and shadow it, making resolution
+    machine-dependent. Now the Azure Key Vault is the single source of truth on
+    every machine; env vars remain ONLY as an explicit CI/override escape hatch
+    (an empty env value — e.g. the Claude-desktop ANTHROPIC_API_KEY="" — is
+    skipped, so it never shadows the vault).
+    """
     for name in env:
         val = os.environ.get(name)
         if val:
             return val.strip()
-    if keychain:
-        val = _keychain(keychain)
-        if val:
-            return val
     if vault:
         val = keyvault_secret(vault)
         if val:
@@ -96,31 +86,23 @@ def scrub_conflicting_anthropic_env() -> None:
 
 def get_anthropic_key() -> str:
     scrub_conflicting_anthropic_env()
-    val = resolve_secret(
-        env=("ANTHROPIC_API_KEY",),
-        keychain="anthropic_api_key",
-        vault="llm-anthropic-api-key",
-    )
+    val = resolve_secret(env=("ANTHROPIC_API_KEY",), vault="llm-anthropic-api-key")
     if not val:
         raise RuntimeError(
-            "Anthropic API key not found. Checked env ANTHROPIC_API_KEY, keychain "
-            "'anthropic_api_key', and Key Vault secret 'llm-anthropic-api-key'. "
-            "Run `az login` or `cd infra/azure && bash pull-secrets.sh`."
+            "Anthropic API key not found. Checked env ANTHROPIC_API_KEY and Key Vault "
+            "secret 'llm-anthropic-api-key'. Run `az login` (the vault is the source "
+            "of truth). NOTE: this key is for the SDK refinement path only — claude -p "
+            "uses the flat-rate Max subscription, not this key."
         )
     return val
 
 
 def get_gemini_key() -> str:
-    val = resolve_secret(
-        env=("GEMINI_API_KEY", "GOOGLE_API_KEY"),
-        keychain="gemini_api_key",
-        vault="llm-gemini-api-key",
-    )
+    val = resolve_secret(env=("GEMINI_API_KEY", "GOOGLE_API_KEY"), vault="llm-gemini-api-key")
     if not val:
         raise RuntimeError(
-            "Gemini API key not found. Checked env GEMINI_API_KEY/GOOGLE_API_KEY, "
-            "keychain 'gemini_api_key', and Key Vault secret 'llm-gemini-api-key'. "
-            "Run `az login` or `cd infra/azure && bash pull-secrets.sh`."
+            "Gemini API key not found. Checked env GEMINI_API_KEY/GOOGLE_API_KEY and Key "
+            "Vault secret 'llm-gemini-api-key'. Run `az login` (the vault is the source of truth)."
         )
     return val
 
