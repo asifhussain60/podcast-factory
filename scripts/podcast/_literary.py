@@ -181,6 +181,9 @@ SCENES AND IMAGERY
 STRUCTURE
 Preserve every section heading exactly as it appears (## Section N — Title). Rewrite only the prose within each section. Do not add section headings that are not in the source, and do not remove any.
 
+PRESERVE EVERYTHING INSTRUCTIVE
+You have full freedom to re-voice and re-order for flow, but drop NOTHING the reader is meant to learn: every teaching, argument, example, named person, and citation (Quranic verse, hadith, line reference) in the source must survive in your rewrite. Re-voice a quotation into the narrator's voice if you wish, but do not omit its substance or its reference.
+
 ARGUMENT
 Let the argument emerge through engagement with specific things — a story Ghazali tells, a verse he cites, an image he uses — and open outward from there. Think Montaigne: the particular becomes the universal, never the other way around.
 
@@ -241,6 +244,48 @@ def _chapter_id_from_path(chapter_path: Path) -> str:
     return chapter_path.stem  # e.g. "ch01-frame-and-the-problem-of-knowledge"
 
 
+# ── No-teaching-lost guardrail ───────────────────────────────────────────────
+
+def teaching_loss_findings(source_text: str, output_text: str) -> list[str]:
+    """Deterministic check that the revoice dropped nothing instructive.
+
+    Pure function (no LLM, no I/O). Returns a list of P1 finding strings — empty
+    means clean. Three high-confidence checks: (1) every source ``## `` section
+    heading survives verbatim, (2) no large word-count drop (>40%), (3) verse-style
+    citation refs (e.g. ``2:255``) are not largely dropped. Conservative thresholds
+    to avoid false positives on legitimate reflow.
+    """
+    findings: list[str] = []
+
+    for h in dict.fromkeys(re.findall(r"^##\s+.+$", source_text, re.M)):
+        if h.strip() not in output_text:
+            findings.append(f"P1 missing section heading: {h.strip()[:80]!r}")
+
+    sw, ow = len(source_text.split()), len(output_text.split())
+    if sw >= 200 and ow < 0.6 * sw:
+        pct = 100 * ow // max(sw, 1)
+        findings.append(f"P1 large length drop: {sw}->{ow} words ({pct}% of source — possible content loss)")
+
+    src_refs = set(re.findall(r"\b\d{1,3}:\d{1,3}\b", source_text))
+    if src_refs:
+        kept = sum(1 for r in src_refs if r in output_text)
+        if kept < len(src_refs) * 0.5:
+            findings.append(
+                f"P1 citation refs dropped: only {kept}/{len(src_refs)} verse-style "
+                f"references ({', '.join(sorted(src_refs)[:5])}…) survived")
+    return findings
+
+
+def _log_guardrail(book_dir: Path, stem: str, findings: list[str]) -> None:
+    """Append guardrail findings for a chapter to literary-log.md (no silent pass)."""
+    log = _log_path(book_dir)
+    log.parent.mkdir(parents=True, exist_ok=True)
+    with log.open("a", encoding="utf-8") as f:
+        f.write(f"- {stem}: GUARDRAIL — {len(findings)} finding(s):\n")
+        for fnd in findings:
+            f.write(f"    - {fnd}\n")
+
+
 # ── Main transform ───────────────────────────────────────────────────────────
 
 def author_literary_phase(
@@ -296,6 +341,17 @@ def author_literary_phase(
         (literary_dir / f"{stem}.txt").write_text(literary_text, encoding="utf-8")
 
         out_words = len(literary_text.split())
+
+        # No-teaching-lost guardrail: surface (do not silently pass) any sign the
+        # rewrite dropped a section, a large chunk of text, or its citations.
+        findings = teaching_loss_findings(chapter_text, literary_text)
+        if findings:
+            _log_guardrail(book_dir, stem, findings)
+            log(f"  {stem}: ⚠ guardrail flagged {len(findings)} possible teaching-loss issue(s) "
+                f"(logged to literary-log.md) — review before shipping")
+            for fnd in findings:
+                log(f"      · {fnd}")
+
         log(f"  {stem}: DONE — {out_words} words written")
         _mark_done(book_dir, stem)
 
