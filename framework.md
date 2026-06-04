@@ -67,6 +67,17 @@ For the line-by-line F-item map see [_workspace/plan/pipeline-debt.md](_workspac
 
 ---
 
+## Branch A vs Branch B — two deliverables per book
+
+Every book produces **two** deliverables on the same branch, in the same `content/<Bucket>/<slug>/` folder:
+
+- **Branch A — the podcast.** The final-reviewed, enriched per-chapter text in the **original author's voice** (`chapters/chNN-<slug>.txt`) is the SOLE NotebookLM source, one chapter → one episode. Gated by `podcast-challenger` (audio) + `slide-deck-challenger` (decks). [build_episode_txt.py](scripts/podcast/build_episode_txt.py) always selects the author-voice chapter — never `chapters/literary/` (wiring fixed 2026-06-04; regression-guarded by `scripts/podcast/tests/test_episode_source_wiring.py`).
+- **Branch B — the companion book.** Phases `0book-design → 0book-compose → 0book-render` (gated by `series.enable_book_branch`, NON-blocking on the podcast ship, run before the finalize halt so both deliverables are reviewed together) re-segment the source into a book-craft chapter structure, revoice it into modern author-first-person prose with Arabic scripture (script + English beneath) and plain transliteration ([scripts/podcast/_translit.py](scripts/podcast/_translit.py) ↔ [plan-dashboard/src/lib/translit.ts](plan-dashboard/src/lib/translit.ts)), and render `book/book.pdf` (Playwright) + the in-site reader view (`/studio/<slug>/book`). Gated by `book-challenger`. The revoice — formerly the retired per-chapter `0literary` step — lives here and NEVER feeds NotebookLM.
+
+Phases live in [scripts/podcast/_progress.py](scripts/podcast/_progress.py) `PHASES`; the book driver is [scripts/podcast/phases/book_driver.py](scripts/podcast/phases/book_driver.py).
+
+---
+
 ## Content tree
 
 Type-first layout (2026-06-04): every item lives at `content/<Bucket>/<slug>/`. `draft`/`published`/`archived` is a `status` field on `_system/orchestrator-state.json` (mirrored to `publication.status` in `meta.yml`), NOT a folder. Bucket is derived from the content profile via `bucket_for_profile()` in [scripts/podcast/_rules.py](scripts/podcast/_rules.py); the resolver is [scripts/podcast/_paths.py](scripts/podcast/_paths.py) (TS mirror [plan-dashboard/src/lib/content-paths.ts](plan-dashboard/src/lib/content-paths.ts)), which scans buckets first and falls back to the legacy `drafts/`/`published/` layout so a partial migration never breaks readers.
@@ -124,6 +135,7 @@ The canonical source-of-truth for every agent is [infra/claude-agents/](infra/cl
 | `podcast-blueprint` | [infra/claude-agents/podcast-blueprint.md](infra/claude-agents/podcast-blueprint.md) | Content-aware episode-structure planner (slot 05.5-blueprint) |
 | `podcast-challenger` | [infra/claude-agents/podcast-challenger.md](infra/claude-agents/podcast-challenger.md) | Semantic-quality review (convergence loop ≤5 iterations before any bundle ships) |
 | `slide-deck-challenger` | [infra/claude-agents/slide-deck-challenger.md](infra/claude-agents/slide-deck-challenger.md) | Visual-quality challenger for slide-deck bundles |
+| `book-challenger` | [infra/claude-agents/book-challenger.md](infra/claude-agents/book-challenger.md) | Semantic-quality challenger for the companion reading edition (Branch B `book.md`) — Arabic-script accuracy, no-teaching-lost, voice consistency |
 | `podcast-extract` | [infra/claude-agents/podcast-extract.md](infra/claude-agents/podcast-extract.md) | Single-chapter → NotebookLM bundle fast path |
 | `podcast-publisher` | [infra/claude-agents/podcast-publisher.md](infra/claude-agents/podcast-publisher.md) | Flip a finalized book's `status` draft→published in place (gates G1–G5+G7; G6 obsolete) |
 | `podcast-trainer` | [infra/claude-agents/podcast-trainer.md](infra/claude-agents/podcast-trainer.md) | Cross-book pattern learner; refines podcast-challenger + handbook with regression gates |

@@ -472,6 +472,18 @@ If the source is a single chapter or article (not a PDF, not multi-chapter), ski
 
 After Phase 0g, every planned episode runs Phases 1–4 below. Phase 1 intake for each episode is shortcut: most fields are inherited from the series intake; only per-episode overrides are surfaced. Phases 2–4 run normally per episode.
 
+### PHASE 0book — COMPANION READING EDITION (Branch B, optional, gated)
+
+Distinct from the podcast (Branch A). When `series.enable_book_branch` is true, after the per-chapter work and BEFORE the finalize halt, three phases produce a companion **book** — a PDF + an in-site reader view — a peer deliverable to the podcast that NEVER becomes a NotebookLM source:
+
+- **`0book-design`** ([_authoring/_book_design.py](../../scripts/podcast/_authoring/_book_design.py)) — re-segments `refined-english.md` into a book-craft chapter structure (its OWN count/boundaries/titles + a preface, independent of the podcast episode cuts) → `book/book-toc.json`.
+- **`0book-compose`** ([_book_compose.py](../../scripts/podcast/_book_compose.py)) — revoices each chapter into modern author-first-person prose: Arabic quotations rendered as vowelled SCRIPT with the English translation beneath, faithful (no abridgement, no teaching lost), plain transliteration folded by `_translit` → `book/book.md`. Independent enrichment is pluggable, pending a tradition-appropriate corpus.
+- **`0book-render`** ([build_book_pdf.py](../../scripts/podcast/build_book_pdf.py)) — renders `book.md` to `book/book.pdf` via Playwright (one-time `npx playwright install chromium`) + the reader view at `/studio/<slug>/book`.
+
+NON-blocking (a book failure never sinks the podcast ship); gated by the **`book-challenger`** agent (whole-book voice consistency, verbatim-quote survival, **Arabic-script accuracy**, no-teaching-lost, segmentation sanity). Driver: [phases/book_driver.py](../../scripts/podcast/phases/book_driver.py).
+
+> **Branch boundary (locked 2026-06-04):** `chapters/chNN-<slug>.txt` (author voice) is the SOLE NotebookLM source. The book revoice lives only under `book/` and never feeds NotebookLM. The old per-chapter `0literary` step is retired.
+
 ============================================================
 SECTION 2: EPISODE WORKFLOW — PRIMARY MODE
 ============================================================
