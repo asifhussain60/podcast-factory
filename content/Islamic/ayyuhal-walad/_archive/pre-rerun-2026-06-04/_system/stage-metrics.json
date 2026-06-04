@@ -1,0 +1,71 @@
+{
+  "slug": "ayyuhal-walad",
+  "chapter": "ch03-the-guiding-shaykh-and-final-counsels",
+  "measured_at": "2026-06-04T13:08:05Z",
+  "stages": [
+    {
+      "id": "source",
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
+    },
+    {
+      "id": "core",
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
+    },
+    {
+      "id": "denoised",
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
+    },
+    {
+      "id": "normalized",
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
+    },
+    {
+      "id": "augmented",
+      "available": true,
+      "words": 2701,
+      "chars": 15175,
+      "sentences": 69,
+      "deltaPct": null,
+      "comparedTo": null
+    },
+    {
+      "id": "literary",
+      "available": true,
+      "words": 2229,
+      "chars": 12719,
+      "sentences": 136,
+      "deltaPct": -17.5,
+      "comparedTo": "augmented"
+    },
+    {
+      "id": "narrator",
+      "available": false,
+      "words": 0,
+      "chars": 0,
+      "sentences": 0,
+      "deltaPct": null,
+      "comparedTo": null
+    }
+  ],
+  "noise_removed_pct": null
+}
