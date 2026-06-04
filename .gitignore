@@ -105,8 +105,6 @@ content/**/*.wav
 content/**/*.m4a
 content/**/*.mp4
 content/**/*.mov
-# Generated reading-edition PDF (0book-render rebuilds it from book/book.md).
-content/**/book/*.pdf
 _workspace/**/*.zip
 _workspace/**/*.llc
 _workspace/**/*.pdf
