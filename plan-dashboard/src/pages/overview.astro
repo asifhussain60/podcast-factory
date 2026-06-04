@@ -45,7 +45,14 @@ const totalEpisodes = shipped.reduce((s: number, b: any) => s + (b.episodes ?? 0
       </div>
 
       <div class="home-hero-visual">
-        <!-- SVG logo: open illuminated manuscript + rising sound waves -->
+        <!-- SVG logo: open illuminated manuscript + rising sound waves.
+             REQ-027 documented decorative exception: the literal hexes below
+             (#8b4513 manuscript brown, #d2b48c tan, #b8860b gold leaf, #fffdf8
+             parchment, #d9d3c4 edge) are bespoke illuminated-manuscript ornament
+             colours, NOT functional theme colours. They are intentionally not
+             mapped to the --c-* tokens — gold-leaf ornament is not an accent
+             token, and forcing the mapping would be dishonest token usage and
+             risk regressing this hand-tuned mark. Scoped to this single logo. -->
         <svg viewBox="0 0 280 300" xmlns="http://www.w3.org/2000/svg" class="home-logo-svg" role="img" aria-labelledby="home-logo-title home-logo-desc">
           <title id="home-logo-title">Podcast Factory manuscript to audio mark</title>
           <desc id="home-logo-desc">An illuminated manuscript opening into sound waves to represent turning books into podcast audio.</desc>

@@ -50,9 +50,10 @@ EXIT CODES
   2   — runtime error during a phase (state.json carries the details)
   3   — halted at LLM-authoring boundary; manual --resume after /podcast
 
-DOES NOT MODIFY anything outside `_workspace/<category>/<slug>/`
-and `_workspace/Books/`. Git operations are limited to the active book
-branch; never pushes to main; never force-pushes.
+DOES NOT MODIFY anything outside `content/drafts/<category>/<slug>/`
+(the source PDF is supplied as an arbitrary path arg and copied in). Git
+operations are limited to the active book branch; never pushes to main;
+never force-pushes.
 
 ARCHITECTURE NOTE (A4 split)
 
@@ -365,7 +366,7 @@ def build_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "Examples:\n"
-            "  Initial:  orchestrate-book _workspace/Books/foo.pdf --slug foo --category books\n"
+            "  Initial:  orchestrate-book path/to/foo.pdf --slug foo --category books\n"
             "  Resume:   orchestrate-book --resume foo\n"
             "  Status:   orchestrate-book --status foo\n"
         ),

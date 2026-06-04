@@ -84,7 +84,30 @@ async function main() {
   await new Promise((r) => server.listen(0, '127.0.0.1', r));
   const { port } = server.address();
 
-  const browser = await chromium.launch();
+  let browser;
+  try {
+    browser = await chromium.launch();
+  } catch (err) {
+    // Graceful degrade: a missing Playwright chromium binary must NOT hard-fail
+    // the whole build. Reuse any cached SVGs; warn about any that can't be made.
+    const missing = files.filter(
+      (f) => !existsSync(path.join(OUT_DIR, `${path.basename(f, '.mmd')}.svg`)),
+    );
+    const firstLine = String(err.message || err).split('\n')[0];
+    console.warn(`mermaid: chromium unavailable — ${firstLine}`);
+    if (missing.length === 0) {
+      console.warn(
+        `  reusing ${files.length} cached SVG(s). Run \`npx playwright install chromium\` to re-render.`,
+      );
+    } else {
+      console.warn(
+        `  ${missing.length} diagram(s) have no cached SVG and will be missing: ` +
+        `${missing.join(', ')}. Run \`npx playwright install chromium\` then rebuild.`,
+      );
+    }
+    server.close();
+    return; // exit 0 — build proceeds
+  }
   const page = await browser.newPage();
   page.on('pageerror', (e) => console.error('  [pageerror]', e.message));
   page.on('console', (m) => { if (m.type() === 'error') console.error('  [console]', m.text()); });
