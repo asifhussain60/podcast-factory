@@ -278,6 +278,114 @@ def _log_guardrail(book_dir: Path, stem: str, findings: list[str]) -> None:
             f.write(f"    - {fnd}\n")
 
 
+# ── Section-chunked revoice (faithfulness over whole-chapter abridgement) ─────
+
+def _split_chapter(text: str) -> tuple[str, str, list[tuple[str, str]]]:
+    """Split a chapter into (title_line, preamble_body, [(heading, body), ...]).
+
+    title_line  — a leading single-`#` chapter title, preserved verbatim.
+    preamble    — prose before the first `## ` section.
+    sections    — (verbatim `## ` heading, body) pairs.
+    """
+    lines = text.split("\n")
+    title = ""
+    start = 0
+    for i, ln in enumerate(lines):
+        if ln.strip():
+            if re.match(r"^#\s+", ln):
+                title, start = ln.strip(), i + 1
+            break
+    preamble: list[str] = []
+    sections: list[tuple[str, str]] = []
+    head: str | None = None
+    body: list[str] = []
+    for ln in lines[start:]:
+        if re.match(r"^##\s+", ln):
+            if head is not None:
+                sections.append((head, "\n".join(body).strip()))
+            head, body = ln.strip(), []
+        elif head is None:
+            preamble.append(ln)
+        else:
+            body.append(ln)
+    if head is not None:
+        sections.append((head, "\n".join(body).strip()))
+    return title, "\n".join(preamble).strip(), sections
+
+
+def _build_section_prompt(body: str, config: dict[str, str]) -> str:
+    voice_key = config.get("narrator_voice", "author_first_person")
+    scene_key = config.get("scene_source", "text_only")
+    narrator = config.get("narrator_subject", "the author")
+    addressee = config.get("addressee", "the reader")
+    voice_instr = _VOICE_INSTRUCTIONS.get(voice_key, _VOICE_INSTRUCTIONS["author_first_person"]).format(
+        narrator_subject=narrator, addressee=addressee)
+    scene_instr = _SCENE_SOURCE_INSTRUCTIONS.get(scene_key, _SCENE_SOURCE_INSTRUCTIONS["text_only"])
+    return f"""You are re-voicing ONE passage of a scholarly or translated text into contemporary literary nonfiction.
+
+NARRATOR VOICE
+{voice_instr}
+
+SCENES AND IMAGERY
+{scene_instr}
+
+ABSOLUTE FAITHFULNESS
+Re-voice EVERY sentence of this passage. Preserve every teaching, argument, example, named person, and citation (verse / hadith / line reference). You may improve flow and phrasing, but you must NOT summarize, condense, omit, or shorten. The output must be approximately the SAME LENGTH as the source passage — never shorter.
+
+REGISTER
+Contemporary literary English. No archaic diction. No meta-commentary ("in this passage…"). Write the thing, not about the thing.
+
+OUTPUT
+Return ONLY the re-voiced prose for this passage. Do NOT add a heading (it is supplied separately). No preamble, no fences.
+
+SOURCE PASSAGE
+{body}"""
+
+
+def _revoice_chunk(body: str, config: dict[str, str], log, label: str) -> str:
+    """Revoice one passage; retry once if the model abridged it (came back short)."""
+    if not body.strip():
+        return ""
+    src_words = len(body.split())
+    prompt = _build_section_prompt(body, config)
+    out = _call_gemini(prompt).strip()
+    if src_words >= 150 and len(out.split()) < 0.7 * src_words:
+        log(f"      {label}: short ({len(out.split())}/{src_words}w) — retry (anti-abridge)")
+        retry = _call_gemini(
+            prompt + "\n\nYOUR PREVIOUS ATTEMPT WAS TOO SHORT — it summarized. Re-voice the FULL "
+            "passage sentence by sentence; omit nothing; the output must be about the same length "
+            "as the source."
+        ).strip()
+        if len(retry.split()) > len(out.split()):
+            out = retry
+    return out
+
+
+def _revoice_chapter(chapter_text: str, config: dict[str, str], log, stem: str) -> str:
+    """Section-by-section revoice: each source section preserved + re-voiced in
+    isolation so the model cannot abridge across the chapter. Headings re-added
+    verbatim. Falls back to a whole-chapter revoice (with retry) when there are
+    no `## ` sections."""
+    title, preamble, sections = _split_chapter(chapter_text)
+    if not sections:
+        whole = _revoice_chunk(chapter_text, config, log, stem)
+        if title and not whole.lstrip().startswith("#"):
+            whole = f"{title}\n\n{whole}"
+        return whole.strip()
+    log(f"    {stem}: {len(sections)} section(s) · revoicing per section")
+    parts: list[str] = []
+    if title:
+        parts.append(title)
+    if preamble:
+        parts.append(_revoice_chunk(preamble, config, log, f"{stem}·intro"))
+    for i, (head, body) in enumerate(sections, 1):
+        parts.append(head)
+        rv = _revoice_chunk(body, config, log, f"{stem}·§{i}/{len(sections)}")
+        if rv:
+            parts.append(rv)
+    return "\n\n".join(p for p in parts if p).strip()
+
+
 # ── Main transform ───────────────────────────────────────────────────────────
 
 def author_literary_phase(
@@ -304,21 +412,14 @@ def author_literary_phase(
 
         chapter_text = chapter_path.read_text(encoding="utf-8").strip()
         word_count = len(chapter_text.split())
-        log(f"  {stem}: {word_count} words → building literary version …")
-
-        prompt = _build_prompt(chapter_text, config)
+        log(f"  {stem}: {word_count} words → building literary version (section-chunked) …")
 
         if dry_run:
-            log(f"  [dry-run] prompt length: {len(prompt)} chars — no API call made")
+            _t, _p, _secs = _split_chapter(chapter_text)
+            log(f"  [dry-run] {stem}: {len(_secs)} section(s) — no API call made")
             continue
 
-        literary_text = _call_gemini(prompt)
-
-        # Ensure the chapter title heading is preserved if the model strips it
-        if not literary_text.strip().startswith("#"):
-            title_match = re.match(r"^(#[^\n]+)", chapter_text)
-            if title_match:
-                literary_text = title_match.group(1) + "\n\n" + literary_text.strip()
+        literary_text = _revoice_chapter(chapter_text, config, log, stem)
 
         chapter_id = _chapter_id_from_path(chapter_path)
 
