@@ -219,7 +219,13 @@ def make_sdk_invoke_fn(model: str, client: "_anthropic.Anthropic | None" = None)
     """
     if _anthropic is None:
         raise ImportError("anthropic package required for SDK invocation; run: pip install anthropic")
-    _client = client or _anthropic.Anthropic()
+    if client is not None:
+        _client = client
+    else:
+        # Source the key via the central resolver (env → keychain → Azure Key Vault)
+        # so 0b/0c work on any machine with `az login`, even with no keychain entry.
+        from _secrets import get_anthropic_key
+        _client = _anthropic.Anthropic(api_key=get_anthropic_key())
 
     def _invoke(instructions: str, body: str, timeout_secs: int) -> str:
         clean_instructions = _strip_file_io_lines(instructions)

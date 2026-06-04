@@ -91,17 +91,9 @@ _GEMINI_TIMEOUT = 300  # seconds; literary rewrites are longer than analysis tas
 
 
 def _load_gemini_key() -> str:
-    env = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-    if env:
-        return env.strip()
-    r = subprocess.run(
-        ["security", "find-generic-password", "-s", "gemini_api_key",
-         "-a", os.environ.get("USER", ""), "-w"],
-        capture_output=True, text=True, timeout=10,
-    )
-    if r.returncode != 0:
-        raise RuntimeError("gemini_api_key not found in keychain")
-    return r.stdout.strip()
+    # Central resolver: env → keychain → Azure Key Vault (llm-gemini-api-key).
+    from _secrets import get_gemini_key
+    return get_gemini_key()
 
 
 def _call_gemini(prompt: str) -> str:

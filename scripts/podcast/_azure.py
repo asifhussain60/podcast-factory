@@ -106,10 +106,23 @@ def _read_keychain(service: str) -> str | None:
 
 
 def _resolve(suffix: str, env_name: str) -> str | None:
-    """Resolve a single credential. Env var wins (for CI); Keychain is fallback."""
+    """Resolve a single credential: env var (CI) → keychain → Azure Key Vault.
+
+    The Key Vault tier (added 2026-06-04) means a machine with only `az login`
+    and no populated keychain still resolves every Azure credential — the vault
+    secret name matches the keychain service name (azure-<app>-<suffix>).
+    """
     if env_name in os.environ and os.environ[env_name]:
         return os.environ[env_name]
-    return _read_keychain(f"azure-{APP_NAME}-{suffix}")
+    service = f"azure-{APP_NAME}-{suffix}"
+    val = _read_keychain(service)
+    if val:
+        return val
+    try:
+        from _secrets import keyvault_secret
+        return keyvault_secret(service)
+    except Exception:
+        return None
 
 
 @dataclass(frozen=True)
