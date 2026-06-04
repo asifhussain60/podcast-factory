@@ -4,12 +4,12 @@
   "category": "books",
   "branch": "develop",
   "phase": "0literary",
-  "phase_status": "completed",
-  "last_completed_phase": "0literary",
-  "next_phase": "06a",
+  "phase_status": "pending",
+  "last_completed_phase": "0e",
+  "next_phase": "0literary",
   "last_error": null,
   "pipeline_mode": "orchestrated",
-  "reconstruction_note": "This state file was reconstructed on 2026-05-24 to make ayyuhal-walad trackable by the post-2026-05-23 orchestrator. Ayyuhal-walad was authored before the orchestrator existed (5 chapters + 5 contracts + 5 episodes + 3 transcripts + 1 audit, all already in content/drafts/ayyuhal-walad/). No phase timestamps are fabricated — only `last_completed_phase: per-chapter` is asserted from the artifacts on disk. See meta.yml for the original pre-orchestrator provenance. Mode label `pre_orchestrator_authored` is distinct from `non_orchestrated_mode_2` (the latter denotes a deliberate bypass; this denotes pre-existence).",
+  "reconstruction_note": "This state file was reconstructed on 2026-05-24 to make ayyuhal-walad trackable by the post-2026-05-23 orchestrator. Ayyuhal-walad was authored before the orchestrator existed (5 chapters + 5 contracts + 5 episodes + 3 transcripts + 1 audit, all already in content/drafts/ayyuhal-walad/). No phase timestamps are fabricated \u2014 only `last_completed_phase: per-chapter` is asserted from the artifacts on disk. See meta.yml for the original pre-orchestrator provenance. Mode label `pre_orchestrator_authored` is distinct from `non_orchestrated_mode_2` (the latter denotes a deliberate bypass; this denotes pre-existence).",
   "phases": {
     "pre-flight": {
       "status": "completed"
@@ -44,9 +44,7 @@
       "ts_completed": "2026-06-04T17:30:40Z"
     },
     "0literary": {
-      "status": "completed",
-      "ts_started": "2026-06-04T17:48:24Z",
-      "ts_completed": "2026-06-04T17:50:54Z"
+      "status": "pending"
     },
     "06a": {
       "status": "pending"
