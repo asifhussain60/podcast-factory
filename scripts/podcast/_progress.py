@@ -53,7 +53,10 @@ from typing import Any
 ORCHESTRATOR_VERSION = "1.2"  # 2026-05-19: chunked 0b/0c + unit_mode (chapter|section|auto) + --retry-phase
 SCHEMA_VERSION = 1
 
-# Phase identifiers in canonical order — keep in sync with orchestrate_book.py.
+# Phase identifiers in canonical order. THIS TUPLE IS THE SINGLE SOURCE OF TRUTH
+# for the orchestrator phase sequence — orchestrate_book.CANONICAL_PHASES and the
+# resume dispatcher both import it (do not re-declare a parallel list anywhere).
+# Every phase id passed to update_phase() MUST appear here or it raises ValueError.
 PHASES = (
     "pre-flight",
     "branch",
@@ -63,6 +66,7 @@ PHASES = (
     "0c",       # Arabic phonetic pass (LLM)
     "0d",       # Chapter design (LLM)
     "0e",       # Enrichment (LLM)
+    "0literary",  # 08b literary transformation (Gemini); after enrichment, emitted by initial_driver
     "06a",      # Wave I — source review gate (human approval before series plan)
     "0f",       # Series plan halt (deterministic write + human gate)
     "0g",       # Register series (deterministic)
@@ -70,6 +74,7 @@ PHASES = (
     "per-chapter-optimize",  # Wave I — Sonnet arc/format check per chapter
     "per-chapter-slides",  # optional; gated by series.enable_slide_decks. Per-chapter slide-deck authoring + slide-deck-challenger convergence. Skipped (status="skipped") when flag is false.
     "finalize",     # G1-G7 quality gates + human review halt before publish
+    "publish",      # copy drafts → published/ catalog (publish_driver)
     "trainer",
     "merge",
     "done",

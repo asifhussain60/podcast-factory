@@ -88,6 +88,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _progress import (  # noqa: E402
     ORCHESTRATOR_VERSION,
+    PHASES,
     initial_state,
     read_state,
     render_status,
@@ -149,16 +150,9 @@ from phases.publish_driver import _drive_publish_through_done  # noqa: F401,E402
 from phases.initial_driver import run_initial, _drive_authoring_through_0f  # noqa: F401,E402
 
 # Canonical phase order — used by run_resume and pinned by regression test.
-CANONICAL_PHASES: tuple[str, ...] = (
-    "pre-flight", "branch", "scaffold",
-    "0a", "0b", "0c", "0d", "0e",
-    "06a",
-    "0f", "0g",
-    "per-chapter",
-    "per-chapter-optimize",
-    "per-chapter-slides",
-    "finalize", "publish", "trainer", "merge", "done",
-)
+# Single source of truth lives in _progress.PHASES — alias it here so existing
+# references keep working without maintaining a parallel (drift-prone) copy.
+CANONICAL_PHASES: tuple[str, ...] = PHASES
 
 # 2026-05-26 restructure: canonical layout is content/<stage>/<category>/<slug>/
 LIBRARY_ROOT = REPO_ROOT / "content" / "drafts"

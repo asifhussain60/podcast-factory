@@ -10,7 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _paths import REPO_ROOT  # noqa: E402
-from _progress import read_state, write_state, update_phase, is_phase_stale, STALE_RUNNING_SEC  # noqa: E402
+from _progress import read_state, write_state, update_phase, is_phase_stale, STALE_RUNNING_SEC, PHASES  # noqa: E402
 from phases.preflight import preflight_resume  # noqa: E402
 from phases.initial_driver import _drive_authoring_through_0f, _drive_source_ready_through_0f  # noqa: E402
 from phases.chapter_driver import _drive_per_chapter_and_after  # noqa: E402
@@ -80,13 +80,9 @@ def run_resume(args: argparse.Namespace) -> int:
                     _info(f"  --retry-phase: clearing downstream {later} (was completed)")
                     lb["status"] = "pending"
                     lb.pop("ts_completed", None)
-        canonical = ("pre-flight", "branch", "scaffold", "0a", "0b", "0c", "0d", "0e",
-                     "06a", "0f", "0g", "per-chapter", "per-chapter-optimize",
-                     "per-chapter-slides", "finalize",
-                     "publish", "trainer", "merge", "done")
-        if retry_phase in canonical:
-            i = canonical.index(retry_phase)
-            state["last_completed_phase"] = canonical[i - 1] if i > 0 else None
+        if retry_phase in PHASES:
+            i = PHASES.index(retry_phase)
+            state["last_completed_phase"] = PHASES[i - 1] if i > 0 else None
         write_state(book_dir, state)
         state = read_state(book_dir) or state
 

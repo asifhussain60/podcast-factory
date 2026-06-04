@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
-"""Tests for scripts/podcast/_phases.py (P5.4 deliverable).
+"""Drift guard for the canonical orchestrator phase registry.
 
-Verifies the constants module's contract per podcast-plan.yaml P5.4 acceptance.
+The single source of truth is ``_progress.PHASES``. This test guards against the
+three failure modes that previously coexisted in the codebase:
+
+  1. Parallel hardcoded phase lists drifting apart (orchestrate_book.CANONICAL_PHASES,
+     the resume dispatcher, _phases.py all used to re-declare their own copy).
+  2. A driver emitting a phase id that update_phase() doesn't recognise — which
+     raises ValueError mid-run (this is exactly what hid the missing '0literary'
+     and 'publish' entries until the e2e suite caught them).
+  3. update_phase() silently accepting an unknown phase name.
 """
 from __future__ import annotations
 
@@ -13,64 +21,67 @@ SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
 import _phases  # noqa: E402
+import _progress  # noqa: E402
+import orchestrate_book  # noqa: E402
 
 
-class PhaseEnumTests(unittest.TestCase):
-    def test_phase_is_strenum(self):
-        # Reference StrEnum via _phases at test-run time, not at import time —
-        # if some other test reloads _phases, the StrEnum polyfill class gets
-        # rebuilt and a captured-at-import reference would no longer match
-        # Phase's new base class.
-        self.assertTrue(issubclass(_phases.Phase, _phases.StrEnum))
+# Phase ids that drivers pass to update_phase(). Each MUST be in the registry or
+# the orchestrator crashes when that phase runs.
+DRIVER_EMITTED_PHASES = (
+    "pre-flight", "branch", "scaffold",
+    "0a", "0b", "0c", "0d", "0e", "0literary",
+    "06a", "0f", "0g",
+    "per-chapter", "per-chapter-optimize", "per-chapter-slides",
+    "finalize", "publish", "trainer", "merge", "done",
+)
 
-    def test_phase_has_15_values(self):
-        # 14 base phases + 11b-slide-decks (optional; gated by series.enable_slide_decks).
-        # Updated 2026-05-23 — original test was authored when 11b-slide-decks
-        # didn't yet exist; the phase was added but the test counter was missed.
-        self.assertEqual(len(list(_phases.Phase)), 15)
 
-    def test_phase_order_matches_canonical_sequence(self):
-        expected = (
-            "01-preflight",
-            "02-branch",
-            "03-scaffold",
-            "04-ocr-translate",
-            "05-refine-english",
-            "06-phonetics",
-            "07-chapter-design",
-            "08-enrichment",
-            "09-series-plan",
-            "10-register-series",
-            "11-per-chapter",
-            "11b-slide-decks",
-            "12-trainer",
-            "13-merge",
-            "14-done",
-        )
-        self.assertEqual(tuple(p.value for p in _phases.Phase), expected)
+class PhaseRegistryTests(unittest.TestCase):
+    def test_single_source_of_truth(self):
+        # orchestrate_book aliases the registry; _phases re-exports it. All three
+        # views must be the identical object/sequence — no parallel copies.
+        self.assertEqual(orchestrate_book.CANONICAL_PHASES, _progress.PHASES)
+        self.assertEqual(_phases.PHASE_ORDER, _progress.PHASES)
 
-    def test_phase_order_constant_matches_enum(self):
-        self.assertEqual(_phases.PHASE_ORDER, tuple(_phases.Phase))
+    def test_no_duplicate_phases(self):
+        self.assertEqual(len(_progress.PHASES), len(set(_progress.PHASES)))
 
-    def test_phase_string_resolution(self):
-        self.assertIs(_phases.Phase("05-refine-english"), _phases.Phase.REFINE_ENG)
-        self.assertIs(_phases.Phase("12-trainer"), _phases.Phase.TRAINER)
+    def test_every_driver_emitted_phase_is_registered(self):
+        missing = [p for p in DRIVER_EMITTED_PHASES if p not in _progress.PHASES]
+        self.assertEqual(missing, [], f"phases emitted by drivers but absent from PHASES: {missing}")
 
-    def test_unknown_name_raises(self):
-        """Single execution path — no LEGACY_ALIAS, no resolve() indirection."""
-        with self.assertRaises(ValueError):
-            _phases.Phase("0b")  # legacy name; rejected
-        with self.assertRaises(ValueError):
-            _phases.Phase("nonexistent")
+    def test_update_phase_accepts_every_registered_phase(self):
+        # update_phase() validates the phase name against PHASES; every entry must pass.
+        import tempfile
+        import json
+        with tempfile.TemporaryDirectory() as d:
+            book_dir = Path(d)
+            (book_dir / "_system").mkdir()
+            _progress.write_state(book_dir, _progress.initial_state("t", "books"))
+            for phase in _progress.PHASES:
+                try:
+                    _progress.update_phase(book_dir, phase=phase, status="running")
+                except ValueError as e:  # pragma: no cover - failure path
+                    self.fail(f"update_phase rejected registered phase {phase!r}: {e}")
 
-    def test_module_has_zero_side_effects_on_import(self):
-        """Importing must not write files or hit network. (Implicit — re-import
-        and verify nothing changed on the filesystem.)"""
-        import importlib
-        before_mtime = Path(_phases.__file__).stat().st_mtime
-        importlib.reload(_phases)
-        after_mtime = Path(_phases.__file__).stat().st_mtime
-        self.assertEqual(before_mtime, after_mtime)
+    def test_update_phase_rejects_unknown_phase(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            book_dir = Path(d)
+            (book_dir / "_system").mkdir()
+            _progress.write_state(book_dir, _progress.initial_state("t", "books"))
+            with self.assertRaises(ValueError):
+                _progress.update_phase(book_dir, phase="definitely-not-a-phase", status="running")
+
+    def test_key_phase_ordering(self):
+        # Anchors that downstream logic and humans rely on, in order.
+        order = list(_progress.PHASES)
+        self.assertLess(order.index("0e"), order.index("0literary"))
+        self.assertLess(order.index("0literary"), order.index("0f"))
+        self.assertLess(order.index("finalize"), order.index("publish"))
+        self.assertLess(order.index("publish"), order.index("trainer"))
+        self.assertEqual(order[0], "pre-flight")
+        self.assertEqual(order[-1], "done")
 
 
 if __name__ == "__main__":
