@@ -239,18 +239,25 @@
   transform-origin: left center;
 }
 
-/* Section-active: h2 carries the single unbroken accent bar; body nodes get warm tint only.
-   Border on h2 only avoids per-paragraph fragments caused by paragraph margin gaps. */
-.studio-poc__editor .ProseMirror > h2.section-active {
-  border-left: 3px solid var(--c-accent);
-  padding-left: 12px;
+/* Section-active: unified warm card with continuous left accent bar + perimeter glow.
+   All nodes share the same box-shadow so the outline is unbroken when elements are flush.
+   Paragraphs swap margin-bottom for padding-bottom so backgrounds flow without white gaps. */
+.studio-poc__editor .ProseMirror > h2.section-active,
+.studio-poc__editor .ProseMirror > p.section-active,
+.studio-poc__editor .ProseMirror > blockquote.section-active {
+  background: color-mix(in srgb, var(--c-accent) 9%, var(--c-bg-card));
+  box-shadow:
+    inset 3px 0 0 var(--c-accent),
+    0 0 0 1.5px color-mix(in srgb, var(--c-accent) 28%, transparent),
+    -12px 0 24px -6px color-mix(in srgb, var(--c-accent) 45%, transparent);
   margin-left: -12px;
+  padding-left: 12px;
   cursor: text;
 }
 .studio-poc__editor .ProseMirror > p.section-active,
 .studio-poc__editor .ProseMirror > blockquote.section-active {
-  background: color-mix(in srgb, var(--c-accent) 6%, transparent);
-  cursor: text;
+  margin-bottom: 0;
+  padding-bottom: 0.75em;
 }
 
 /* Floating per-paragraph icon toolbar, anchored ABOVE the block's top-left corner with a
@@ -401,7 +408,7 @@
   border-left: 3px solid var(--c-accent-soft); padding-left: 14px; margin-left: 0;
   color: var(--c-ink-dim); font-style: italic;
 }
-.studio-poc__editor p { margin: 0 0 1em; }
+.studio-poc__editor p { margin: 0 0 0.65em; }
 
 /* Non-destructive markers (ProseMirror decorations). */
 .mk { border-radius: 3px; padding: 0 1px; }
