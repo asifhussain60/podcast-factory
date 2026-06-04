@@ -59,6 +59,7 @@ def run_resume(args: argparse.Namespace) -> int:
         _err("state file missing despite pre-flight pass — abort")
         return 2
 
+    stop_after = getattr(args, "stop_after", None)
     retry_phase = getattr(args, "retry_phase", None)
     if retry_phase:
         if retry_phase not in state.get("phases", {}):
@@ -166,12 +167,12 @@ def run_resume(args: argparse.Namespace) -> int:
     if current_phase == "06a" and current_status in ("pending", "failed"):
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         _info("Phase 06a cleared — resuming to 0f series plan.")
-        return _drive_authoring_through_0f(book_dir, title)
+        return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
 
     if current_phase == "0f" and current_status in ("pending", "failed"):
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         _info("Phase 0f pending — writing series plan.")
-        return _drive_authoring_through_0f(book_dir, title)
+        return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
 
     if current_phase == "0f" and current_status == "halted":
         plan = book_dir / "_system" / "series-plan.md"
@@ -209,14 +210,14 @@ def run_resume(args: argparse.Namespace) -> int:
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         return _drive_authoring_through_0f(book_dir, title)
 
-    if current_phase in ("0b", "0c", "0d", "0e") and current_status in ("failed", "halted", "pending"):
+    if current_phase in ("0b", "0c", "0d", "0e", "0literary") and current_status in ("failed", "halted", "pending"):
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         _info(f"resuming LLM-authoring phases from {current_phase} (status={current_status})")
-        return _drive_authoring_through_0f(book_dir, title)
+        return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
 
-    if last in ("0a",) or (last in ("0b", "0c", "0d", "0e") and current_status == "completed"):
+    if last in ("0a",) or (last in ("0b", "0c", "0d", "0e", "0literary") and current_status == "completed"):
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
-        return _drive_authoring_through_0f(book_dir, title)
+        return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
 
     if current_phase == "per-chapter" and current_status in (
         "failed", "halted", "running", "pending"

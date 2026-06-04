@@ -39,8 +39,16 @@ def derive_slug(pdf_path: Path) -> str:
     return re.sub(r"-+", "-", s)
 
 
-def _drive_authoring_through_0f(book_dir: Path, title: str) -> int:
-    """Run Phases 0b → 0c → 0d → 0e → 0f-halt. Used by run_initial AND --resume."""
+def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | None = None) -> int:
+    """Run Phases 0b → 0c → 0d → 0e → 0literary → 06a → 0f-halt. Used by run_initial AND --resume.
+
+    When *stop_after* names an authoring phase (0b/0c/0d/0e/0literary), the driver
+    halts cleanly the moment that phase completes — the phase block stays
+    ``completed`` while the top-level ``phase_status`` is set to ``halted`` so the
+    dispatcher re-enters here on the next ``--resume`` and skips the already-done
+    phase. This powers per-step manual review without bypassing state-tracking or
+    commits. Default (None) preserves the run-to-next-gate behaviour.
+    """
     book_slug = book_dir.name
     state = read_state(book_dir) or {}
     config = state.get("config", {})
@@ -104,6 +112,22 @@ def _drive_authoring_through_0f(book_dir: Path, title: str) -> int:
 
         if phase_id == "0d":
             _run_chapter_set_check(book_dir, log=_info)
+
+        # Per-step review: halt cleanly after the requested phase. The block stays
+        # 'completed' (set above); we only flip the top-level phase_status to
+        # 'halted' so the dispatcher re-enters and skips this phase next resume.
+        if stop_after and phase_id == stop_after:
+            raw_state = read_state(book_dir) or {}
+            raw_state["phase_status"] = "halted"
+            write_state(book_dir, raw_state)
+            _info("")
+            _info("─" * 72)
+            _info(f"Phase {phase_id} complete · halted (--stop-after {stop_after}).")
+            _info("  Review this transformation, then resume the next phase, e.g.:")
+            _info(f"    python3 scripts/podcast/orchestrate_book.py --resume {book_slug} --stop-after <next-phase>")
+            _info("  (omit --stop-after to run forward to the next review gate)")
+            _info("─" * 72)
+            return 0
 
     # Phase 06a — source review gate (Wave I). Runs after 0e, before 0f.
     _06a_done = "06a" in completed

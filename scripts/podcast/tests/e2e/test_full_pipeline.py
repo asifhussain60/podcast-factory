@@ -280,6 +280,52 @@ class SunnyDayE2ETests(unittest.TestCase):
             "no 'NO ARTIFACT' log line should appear — P5.2 hardening would have raised"
         )
 
+    def test_stop_after_halts_after_named_phase(self):
+        """--stop-after 0c halts the moment 0c completes; 0d/0e/0f never run.
+
+        Locks the per-step review cadence: the stopped phase block stays
+        'completed' while the top-level phase_status flips to 'halted', so the
+        dispatcher re-enters and skips it on the next resume.
+        """
+        stdout_buf, stderr_buf = io.StringIO(), io.StringIO()
+        tmp_root = Path(self.tmp.name)
+        with redirect_stdout(stdout_buf), redirect_stderr(stderr_buf), \
+             mock.patch.object(initial_driver, "REPO_ROOT", tmp_root), \
+             mock.patch.multiple(
+                initial_driver,
+                author_phase_0b=self._mock_0b,
+                author_phase_0c=self._mock_0c,
+                author_phase_0d=self._mock_0d,
+                author_phase_0e=self._mock_0e,
+                author_literary_phase=self._mock_literary), \
+             mock.patch.object(initial_driver, "phase_0f_write_series_plan",
+                               self._mock_0f_write_series_plan), \
+             mock.patch.object(initial_driver, "phase_git_commit",
+                               self._mock_git_commit), \
+             mock.patch.object(initial_driver, "run_source_review_gate",
+                               lambda bd: __import__(
+                                   "phases.source_review_gate",
+                                   fromlist=["ReviewGate"]
+                               ).ReviewGate(approved=True, warnings=[])):
+            rc = initial_driver._drive_authoring_through_0f(
+                self.book_dir, "Tiny Test Book", stop_after="0c"
+            )
+
+        self.assertEqual(rc, 0, "stop-after halt should return 0 (clean)")
+        state = _progress.read_state(self.book_dir)
+        self.assertEqual(state["phases"]["0b"]["status"], "completed")
+        self.assertEqual(state["phases"]["0c"]["status"], "completed",
+                         "stopped phase block stays 'completed' so resume skips it")
+        self.assertEqual(state["phase"], "0c")
+        self.assertEqual(state["phase_status"], "halted",
+                         "top-level status flips to 'halted' after --stop-after")
+        # 0d/0e never ran; 0f never reached.
+        self.assertEqual(state["phases"].get("0d", {}).get("status", "pending"), "pending")
+        self.assertFalse(
+            (self.book_dir / "_system" / "series-plan.md").exists(),
+            "0f series plan must NOT be written when halted early via --stop-after"
+        )
+
 
 class StateMachineOrderingTests(unittest.TestCase):
     """Tighter assertion: phase update-order is the canonical 0b → 0c → 0d → 0e → 0f.

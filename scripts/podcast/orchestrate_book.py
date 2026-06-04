@@ -391,6 +391,13 @@ def build_parser() -> argparse.ArgumentParser:
                        "(used with --resume) reset the named phase's status to 'pending' "
                        "and re-run it. Example: --resume foo --retry-phase 0b"
                    ))
+    p.add_argument("--stop-after", metavar="PHASE_ID", default=None,
+                   help=(
+                       "(used with --resume) run forward through the authoring phases and "
+                       "halt cleanly AFTER the named phase completes, instead of continuing "
+                       "to the next review gate. Enables per-step review of one transformation "
+                       "at a time. Example: --resume foo --stop-after 0b"
+                   ))
     p.add_argument("--length-tier", default="extended",
                    choices=("default_deep_dive", "longer", "extended"),
                    help=(
