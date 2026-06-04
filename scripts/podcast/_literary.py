@@ -30,40 +30,14 @@ import sys
 import urllib.request
 from pathlib import Path
 
-# ── Default voice config per content_profile ────────────────────────────────
+from _rules import literary_voice_for_profile
+from _content_profile import resolve_content_profile
 
-_PROFILE_DEFAULTS: dict[str, dict[str, str]] = {
-    "islamic_scholarly": {
-        "narrator_voice":   "author_first_person",
-        "narrator_subject": "the author",
-        "addressee":        "the reader",
-        "scene_source":     "text_only",
-    },
-    "consumer_explainer": {
-        "narrator_voice":   "contemporary_narrator",
-        "narrator_subject": "a guide",
-        "addressee":        "you",
-        "scene_source":     "text_only",
-    },
-    "general_nonfiction": {
-        "narrator_voice":   "scholarly_essayist",
-        "narrator_subject": "the author",
-        "addressee":        "the reader",
-        "scene_source":     "text_only",
-    },
-    "technical": {
-        "narrator_voice":   "peer_expert",
-        "narrator_subject": "a senior practitioner",
-        "addressee":        "a fellow developer",
-        "scene_source":     "text_only",
-    },
-    "fiction": {
-        "narrator_voice":   "narrative_voice",
-        "narrator_subject": "the narrator",
-        "addressee":        "the reader",
-        "scene_source":     "text_only",
-    },
-}
+# ── Default voice config per content_profile ────────────────────────────────
+# Voice DEFAULTS now live in the single content-type registry (_rules.
+# CONTENT_TYPE_REGISTRY); this module reads them via literary_voice_for_profile()
+# so the literary voice and the rest of the pipeline can never disagree about a
+# profile again. The voice INSTRUCTION TEXT below stays here — it is prompt-internal.
 
 _VOICE_INSTRUCTIONS: dict[str, str] = {
     "author_first_person": (
@@ -151,18 +125,11 @@ def _call_gemini(prompt: str) -> str:
 
 # ── Config loading ───────────────────────────────────────────────────────────
 
-def _read_content_profile(book_dir: Path) -> str:
-    cfg = book_dir / "_system" / "series-config.yaml"
-    if cfg.exists():
-        m = re.search(r"^content_profile:\s*(\S+)", cfg.read_text(encoding="utf-8"), re.M)
-        if m:
-            return m.group(1)
-    return "islamic_scholarly"
-
-
 def _read_literary_config(book_dir: Path) -> dict[str, str]:
-    profile = _read_content_profile(book_dir)
-    config = dict(_PROFILE_DEFAULTS.get(profile, _PROFILE_DEFAULTS["islamic_scholarly"]))
+    # Use the validated resolver (not a raw regex) so the literary voice agrees
+    # with challenger/assertion routing about this book's profile.
+    profile = resolve_content_profile(book_dir)
+    config = literary_voice_for_profile(profile)
 
     cfg_path = book_dir / "_system" / "series-config.yaml"
     if cfg_path.exists():

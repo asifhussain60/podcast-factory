@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from pathlib import Path
 
 """Canonical rule data shared across the podcast scripts.
@@ -151,12 +152,103 @@ CONSUMER_CATEGORIES: frozenset[str] = frozenset({"sites", "explainers"})
 #   - assertion gating in build_episode_txt.py (Arabic checks skipped for non-Islamic)
 #   - phase 0c phonetics (no-op for non-islamic_scholarly, already handled via CONSUMER_CATEGORIES)
 #   - challenger rule selection (only islamic_scholarly gets Arabic name/citation checks)
-CONTENT_PROFILES: tuple[str, ...] = (
-    "islamic_scholarly",   # default; all existing books; full pipeline including Arabic checks
-    "consumer_explainer",  # consumer/product/onboarding content; no Arabic assertions; phonetics skipped
-    "general_nonfiction",  # future: balanced non-fiction; selective enrichment only
-)
+# ─── Content-type registry (2026-06-04, Wave: content/ type-first layout) ──────
+# SINGLE SOURCE OF TRUTH for what a content type is: its canonical profile key
+# (stored as `content_profile` in series-config.yaml), the top-level `bucket`
+# folder it lives under (content/<bucket>/<slug>/), which pipeline phases it
+# skips, and its literary (revoice) voice defaults. Adding a content type = one
+# entry here. Two ORTHOGONAL axes used to be conflated:
+#   • the legacy `category` (books/lectures/sites/…) — still used for the optional
+#     book-vs-lecture metadata tag, and retained in ALLOWED_CATEGORIES for intake.
+#   • the content TYPE / profile — what actually drives routing + voice + bucket.
+# This registry is the profile axis. _paths.py maps profile→bucket via bucket_for_profile().
+@dataclass(frozen=True)
+class ContentType:
+    profile: str          # canonical content_profile key (series-config.yaml)
+    bucket: str           # top-level folder under content/ (type-first layout)
+    skip_phonetics: bool  # skip Phase 0c (Arabic phonetic pass)
+    skip_enrichment: bool # skip Phase 0e (doctrinal enrichment)
+    skip_ocr: bool        # skip Phase 0a Azure OCR (source already digital English/text)
+    literary_voice: dict  # revoice defaults consumed by _literary.py
+
+
+CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
+    "islamic_scholarly": ContentType(
+        profile="islamic_scholarly", bucket="Islamic",
+        skip_phonetics=False, skip_enrichment=False, skip_ocr=False,
+        literary_voice={
+            "narrator_voice": "author_first_person",
+            "narrator_subject": "the author",
+            "addressee": "the reader",
+            "scene_source": "text_only",
+        },
+    ),
+    "technical": ContentType(
+        profile="technical", bucket="Technical",
+        skip_phonetics=True, skip_enrichment=True, skip_ocr=True,
+        literary_voice={
+            "narrator_voice": "peer_expert",
+            "narrator_subject": "a senior practitioner",
+            "addressee": "a fellow developer",
+            "scene_source": "text_only",
+        },
+    ),
+    "fiction": ContentType(
+        profile="fiction", bucket="Fiction",
+        skip_phonetics=True, skip_enrichment=True, skip_ocr=False,
+        literary_voice={
+            "narrator_voice": "narrative_voice",
+            "narrator_subject": "the narrator",
+            "addressee": "the reader",
+            "scene_source": "text_only",
+        },
+    ),
+    "consumer_explainer": ContentType(
+        profile="consumer_explainer", bucket="Guides",
+        skip_phonetics=True, skip_enrichment=True, skip_ocr=True,
+        literary_voice={
+            "narrator_voice": "contemporary_narrator",
+            "narrator_subject": "a guide",
+            "addressee": "you",
+            "scene_source": "text_only",
+        },
+    ),
+    "general_nonfiction": ContentType(
+        profile="general_nonfiction", bucket="Guides",
+        skip_phonetics=True, skip_enrichment=False, skip_ocr=False,
+        literary_voice={
+            "narrator_voice": "scholarly_essayist",
+            "narrator_subject": "the author",
+            "addressee": "the reader",
+            "scene_source": "text_only",
+        },
+    ),
+}
+
+# Ordered top-level bucket folders under content/ (type-first layout, 2026-06-04).
+BUCKETS: tuple[str, ...] = ("Islamic", "Technical", "Fiction", "Guides")
+
+# CONTENT_PROFILES is now DERIVED from the registry (was a hand-maintained tuple
+# of 3; technical + fiction are now first-class). Order: registry insertion order.
+CONTENT_PROFILES: tuple[str, ...] = tuple(CONTENT_TYPE_REGISTRY)
 ISLAMIC_SCHOLARLY_PROFILE = "islamic_scholarly"
+
+
+def bucket_for_profile(profile: str | None) -> str:
+    """Map a content_profile to its top-level bucket folder. Defaults to Islamic.
+
+    The bucket is the type-first folder (content/<bucket>/<slug>/). Unknown or
+    absent profiles fall back to Islamic — the historical default that keeps every
+    pre-existing book on the full scholarly pipeline.
+    """
+    ct = CONTENT_TYPE_REGISTRY.get(profile or "")
+    return ct.bucket if ct else "Islamic"
+
+
+def literary_voice_for_profile(profile: str | None) -> dict:
+    """Revoice voice defaults for a profile (used by _literary.py). Islamic fallback."""
+    ct = CONTENT_TYPE_REGISTRY.get(profile or "") or CONTENT_TYPE_REGISTRY[ISLAMIC_SCHOLARLY_PROFILE]
+    return dict(ct.literary_voice)
 
 # ─── Content-level ladder (Wave M) — ISLAMIC scholarly books only. Single source
 # of truth for category-gated augmentation. A book declaring `content_level` in
