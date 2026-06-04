@@ -765,8 +765,8 @@
   "waves": [],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-03T20:00:47.751671+00:00",
-  "source_commit": "9e95887",
+  "generated_at": "2026-06-04T09:25:58.869636+00:00",
+  "source_commit": "74f7dd5",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [
     {
@@ -780,53 +780,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "9e95887",
-      "subject": "feat(Wave CP): content-profile branching \u2014 Islamic vs consumer pipeline lanes",
+      "sha": "74f7dd5",
+      "subject": "chore: update site-work-status \u2014 session 8 (Studio UI/UX redesign)",
       "date": "2026-06-03"
     },
     {
-      "sha": "66900738",
-      "subject": "refactor(P1): move atom types from mock-sample to knowledge.ts",
+      "sha": "12b16cd",
+      "subject": "fix(studio): unified section card \u2014 continuous background + glow border",
       "date": "2026-06-03"
     },
     {
-      "sha": "d595924",
-      "subject": "chore: update site-work-status \u2014 Wave M complete, Wave N pending",
+      "sha": "c33c20b",
+      "subject": "fix(studio): unbroken section border + Edit button on section headings",
       "date": "2026-06-03"
     },
     {
-      "sha": "c66c7e3",
-      "subject": "fix(post-merge P0): move localAtoms useState above activeAtoms reference",
+      "sha": "bfe5da6",
+      "subject": "feat(studio): section-level editing + comprehensive UI redesign",
       "date": "2026-06-03"
     },
     {
-      "sha": "4b247f4",
-      "subject": "merge(Wave M): inspector declutter + corpus workbench + DB read/write",
+      "sha": "b6cec54",
+      "subject": "fix(studio): depth picker \u2014 hover shift, lighter colors, scroll lock",
       "date": "2026-06-03"
     },
     {
-      "sha": "4283219",
-      "subject": "chore(Wave M): mark complete + update snapshots + plan.yaml",
+      "sha": "b41c206",
+      "subject": "chore: update site-work-status \u2014 session 7 (depth redesign + tag picker separation)",
       "date": "2026-06-03"
     },
     {
-      "sha": "0780fb3",
-      "subject": "feat(M-3): inline edit + create within CorpusExplorer (write path)",
+      "sha": "f736717",
+      "subject": "feat(studio): redesign depth picker + separate tag picker",
       "date": "2026-06-03"
     },
     {
-      "sha": "f87a589",
-      "subject": "feat(M-2): wire CorpusExplorer to real DB data (read path)",
+      "sha": "a98804a",
+      "subject": "chore: update site-work-status \u2014 session 6 (depth taxonomy + literary + annotation picker)",
       "date": "2026-06-03"
     },
     {
-      "sha": "1087535",
-      "subject": "feat(M-1): floating AI toolbar + inspector tab restructure + scroll fix",
+      "sha": "001f497",
+      "subject": "feat(literary+annotation): Phase 2 literary pipeline + Option A section annotation picker",
       "date": "2026-06-03"
     },
     {
-      "sha": "edc3689",
-      "subject": "chore(healthequity): bring in unmerged content from site/healthequity branch",
+      "sha": "3101132",
+      "subject": "feat(literary): pilot literary pipeline stage \u2014 Ayyuhal Walad (3 chapters)",
       "date": "2026-06-03"
     }
   ],

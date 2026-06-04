@@ -139,6 +139,11 @@ content/knowledge-base/*.db
 content/knowledge-base/*.db-shm
 content/knowledge-base/*.db-wal
 
+# Astro site dev-time SQLite mirror — generated locally, never committed.
+plan-dashboard/knowledge.db
+plan-dashboard/knowledge.db-shm
+plan-dashboard/knowledge.db-wal
+
 # Wave L categorization run artifacts — reproducible via categorize_atoms.py;
 # the committed knowledge.db carries the source-of-truth content_level values.
 # (Both case variants listed for the macOS APFS / git case-fold mismatch.)
