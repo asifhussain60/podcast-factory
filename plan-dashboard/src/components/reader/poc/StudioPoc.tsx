@@ -732,6 +732,31 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                             wrap.appendChild(chip);
                           }
 
+                          // Edit button: moves cursor into section body, activates section-level editing.
+                          const editBtn = document.createElement('button');
+                          editBtn.type = 'button';
+                          editBtn.className = 'sp-section-edit-btn';
+                          editBtn.textContent = '✏ Edit';
+                          editBtn.title = 'Click to edit this section';
+                          editBtn.addEventListener('mousedown', (ev) => {
+                            ev.preventDefault(); ev.stopPropagation();
+                            const ed = editorRef.current;
+                            if (!ed) return;
+                            let bodyStart = -1;
+                            let sec = -1;
+                            ed.state.doc.forEach((n, o) => {
+                              if (n.type.name === 'heading' && n.attrs.level === 2) {
+                                sec++;
+                                if (sec === ord) bodyStart = o + n.nodeSize;
+                              }
+                            });
+                            if (bodyStart >= 0) {
+                              ed.commands.setTextSelection(bodyStart + 1);
+                              ed.view.focus();
+                            }
+                          });
+                          wrap.appendChild(editBtn);
+
                           return wrap;
                         }, { side: 1, key: `sec-annot-${ord}-${depthLevel ?? 'none'}-${tagKey}` }),
                       );
@@ -766,8 +791,8 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                       }
                     }
 
-                    // Section-active highlight: all non-heading nodes in the active section.
-                    if (activeSec !== null && currentSectionIdx === activeSec && node.type.name !== 'heading') {
+                    // Section-active: h2 gets accent border via CSS; paragraphs get warm tint.
+                    if (activeSec !== null && currentSectionIdx === activeSec) {
                       decos.push(Decoration.node(offset, offset + node.nodeSize, { class: 'section-active' }));
                     }
 

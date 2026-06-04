@@ -218,20 +218,11 @@
   opacity: 0.75;
   margin: 0 1px;
 }
-/* FC-3 per-paragraph affordance: hovering an IDLE (non-active/section) block shows a pointer.
-   Guards ensure hover styles never override active-section or active-paragraph ring.
-   Padding + matching negative margin keep text position unchanged while background extends. */
-/* h2 section headings are excluded — they have their own annotation controls. */
-.studio-poc__editor .ProseMirror > p:not(.para-active):not(.section-active):hover,
-.studio-poc__editor .ProseMirror > h3:not(.para-active):not(.section-active):hover,
-.studio-poc__editor .ProseMirror > blockquote:not(.para-active):not(.section-active):hover {
-  cursor: pointer;
-  padding: 4px 10px;
-  margin-left: -10px;
-  margin-right: -10px;
-  background: color-mix(in srgb, var(--c-accent) 5%, transparent);
-  border-radius: 4px;
-}
+/* Per-paragraph hover removed — sections are the editing unit; hovering individual
+   paragraphs was confusing and fragmented. Cursor change only on clickable blocks. */
+.studio-poc__editor .ProseMirror > p:hover,
+.studio-poc__editor .ProseMirror > h3:hover,
+.studio-poc__editor .ProseMirror > blockquote:hover { cursor: pointer; }
 /* Tagged blocks reserve top room so their persistent icon marks sit ABOVE without overlap. */
 .studio-poc__editor .para-tagged { margin-top: 1.9em; }
 /* Active paragraph: kept for backwards-compat; section-active is the primary unit now. */
@@ -248,13 +239,17 @@
   transform-origin: left center;
 }
 
-/* Section-active: entire section (all paragraphs) highlighted as a unit.
-   Subtle left border + warm tint; no padding shift so layout is stable. */
-.studio-poc__editor .ProseMirror > *.section-active {
-  background: color-mix(in srgb, var(--c-accent) 5%, transparent);
-  border-left: 3px solid color-mix(in srgb, var(--c-accent) 55%, transparent);
+/* Section-active: h2 carries the single unbroken accent bar; body nodes get warm tint only.
+   Border on h2 only avoids per-paragraph fragments caused by paragraph margin gaps. */
+.studio-poc__editor .ProseMirror > h2.section-active {
+  border-left: 3px solid var(--c-accent);
   padding-left: 12px;
-  border-radius: 0 4px 4px 0;
+  margin-left: -12px;
+  cursor: text;
+}
+.studio-poc__editor .ProseMirror > p.section-active,
+.studio-poc__editor .ProseMirror > blockquote.section-active {
+  background: color-mix(in srgb, var(--c-accent) 6%, transparent);
   cursor: text;
 }
 
@@ -1323,6 +1318,34 @@
   border-style: solid;
   border-color: color-mix(in srgb, var(--c-accent) 40%, transparent);
   background: color-mix(in srgb, var(--c-accent) 8%, transparent);
+}
+
+/* Edit button on section heading: dim at rest, vivid on h2 hover, activates section. */
+.studio-poc__editor .sp-section-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  color: var(--c-ink-muted);
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+  user-select: none;
+  vertical-align: middle;
+  margin-left: 4px;
+  opacity: 0.3;
+  transition: opacity 0.15s, background 0.12s, color 0.12s, border-color 0.12s;
+}
+.studio-poc__editor h2:hover .sp-section-edit-btn { opacity: 1; }
+.studio-poc__editor .sp-section-edit-btn:hover {
+  background: var(--c-accent);
+  color: #fff;
+  border-color: var(--c-accent);
+  opacity: 1;
 }
 
 /* Option A — inline tag chips on section headings: per-tag colors */
