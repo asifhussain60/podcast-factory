@@ -4,12 +4,12 @@
   "category": "books",
   "branch": "develop",
   "phase": "0b",
-  "phase_status": "pending",
-  "last_completed_phase": "0a",
-  "next_phase": "0b",
+  "phase_status": "completed",
+  "last_completed_phase": "0b",
+  "next_phase": "0c",
   "last_error": null,
   "pipeline_mode": "orchestrated",
-  "reconstruction_note": "This state file was reconstructed on 2026-05-24 to make ayyuhal-walad trackable by the post-2026-05-23 orchestrator. Ayyuhal-walad was authored before the orchestrator existed (5 chapters + 5 contracts + 5 episodes + 3 transcripts + 1 audit, all already in content/drafts/ayyuhal-walad/). No phase timestamps are fabricated \u2014 only `last_completed_phase: per-chapter` is asserted from the artifacts on disk. See meta.yml for the original pre-orchestrator provenance. Mode label `pre_orchestrator_authored` is distinct from `non_orchestrated_mode_2` (the latter denotes a deliberate bypass; this denotes pre-existence).",
+  "reconstruction_note": "This state file was reconstructed on 2026-05-24 to make ayyuhal-walad trackable by the post-2026-05-23 orchestrator. Ayyuhal-walad was authored before the orchestrator existed (5 chapters + 5 contracts + 5 episodes + 3 transcripts + 1 audit, all already in content/drafts/ayyuhal-walad/). No phase timestamps are fabricated — only `last_completed_phase: per-chapter` is asserted from the artifacts on disk. See meta.yml for the original pre-orchestrator provenance. Mode label `pre_orchestrator_authored` is distinct from `non_orchestrated_mode_2` (the latter denotes a deliberate bypass; this denotes pre-existence).",
   "phases": {
     "pre-flight": {
       "status": "completed"
@@ -24,7 +24,9 @@
       "status": "completed"
     },
     "0b": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-06-04T16:04:32Z",
+      "ts_completed": "2026-06-04T16:07:37Z"
     },
     "0c": {
       "status": "pending"
@@ -79,7 +81,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-21T00:00:00Z",
-  "ts_updated": "2026-05-24T00:00:00Z",
+  "ts_updated": "2026-06-04T16:07:37Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.2",
   "completed_slugs": [
