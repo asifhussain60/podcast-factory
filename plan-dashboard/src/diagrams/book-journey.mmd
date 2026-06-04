@@ -1,0 +1,13 @@
+flowchart TB
+  A[PDF or audio intake] --> B[Scan & polish the text]
+  B --> C[Learn every name<br/>phonetics pass]
+  C --> D[Design the episodes]
+  D --> E[Enrich with context<br/>+ verify every citation]
+  E --> F{Source review gate}
+  F -->|pass| G[Write the narration]
+  F -->|needs work| D
+  G --> H[Challenger: 15 quality checks]
+  H -->|fail| G
+  H -->|pass| I{Publish gates}
+  I -->|all 12 pass| J[Episodes + annotated chapters]
+  I -->|blocked| G

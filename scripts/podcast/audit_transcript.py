@@ -44,6 +44,7 @@ from __future__ import annotations
 import re
 import sys
 from pathlib import Path
+from _paths import REPO_ROOT
 from collections import Counter
 
 # Canonical rule lists live in _rules.py. (The prior mirror in
@@ -69,7 +70,6 @@ from _rules import (
 AUDIT_TRANSCRIPT_VERSION = "1.2"
 
 # Repo root resolution: this script lives at <repo>/scripts/podcast/.
-REPO_ROOT = Path(__file__).resolve().parents[2]
 
 FORBIDDEN_ABBREVIATIONS = abbreviations_for_audit()
 

@@ -1,0 +1,64 @@
+slug: first-session-walkthrough
+chapter_ref: ch03-first-session-walkthrough
+pipeline: standard
+episode: EP03
+episode_number: 3
+title: "Getting Started with Claude Code — First Session"
+source_type: synthesized-explainer
+book_slug: claude-code-training
+episode_format: deep_dive
+format_rationale: "Chapter unfolds one position layer-by-layer — the hands-on install-and-run walkthrough — across twelve sequential practical sections (prerequisites, installation, authentication, VS Code integration, first session, day-one workflows, undoing and recovery, CLAUDE.md setup, the ten Copilot gotchas, command reference, configuration, day-one checklist). There is NO named opposing voice running through the chapter; the Copilot contrast is the recurring anchor the teacher uses to validate the listener's existing intuitions and redirect them accurately for Claude Code, not a foil being argued against. The source's own format guidance explicitly labels this a teacher-student dialogue where the teacher anticipates the friction points and validates them rather than dismissing them — single-position practical exposition, not a contested proposition."
+essential: core
+essential_rationale: "Practice capstone of the why/what/how arc — episodes one and two build the architectural framing and mental model; this episode is the hands-on session that lets the developer convert that understanding into a working installation, an authenticated session, a refined CLAUDE.md, and the ten-gotcha awareness that prevents week-one abandonment; removing it would leave the listener with a mental model but no path to practice."
+host_dynamic: "curious_mind + scholar_companion"
+host_dynamic_rationale: "Scholar_companion is the experienced Claude Code practitioner who has guided many Copilot users through the first session and knows exactly where the friction points are — he anticipates them before the student hits them and validates each one as real friction rather than dismissing; curious_mind is the senior software developer with two-plus years of daily Copilot use who has internalized episodes one and two and is ready to go from understanding to doing — her question hooks are practical ('do I uninstall Copilot first?', 'I have ANTHROPIC_API_KEY set already — does that cause issues?', 'I am looking at a terminal prompt with no suggestions — where do I start?', 'how do I know if the context window is getting full?'), and her energy is forward-moving rather than impatient."
+word_count: 8238
+length_target: extended
+audience: "Senior software developers with two or more years of daily GitHub Copilot use in VS Code who have heard episodes one and two and accept both the suggest-versus-execute architectural framing and the agentic-loop mental model — now they want the action plan: how to install Claude Code today, how to authenticate without falling into the ANTHROPIC_API_KEY per-token-billing trap, what their first real session should look like, how to generate and refine a CLAUDE.md, and which ten friction points will trip them up in their first week if nobody warns them."
+angle: faithful_exposition
+key_tensions:
+  - "Copilot's instant Tab-to-accept rhythm versus Claude Code's per-edit permission prompts in default mode — does the safety design feel like productive friction or like slowness, and what is the right mode to adopt when, with what review compensation (git diff after acceptEdits)?"
+  - "The ANTHROPIC_API_KEY precedence trap — a single forgotten environment variable from another project silently puts the developer on per-token API billing instead of subscription credentials; how do you make this gotcha land hard enough that the listener actually checks before their first paid session?"
+  - "VS Code panel versus terminal-first CLI — Claude Code's strongest experience is the CLI but the audience lives in VS Code; is the panel a workable bridge or a compromise, and which work belongs in which surface?"
+  - "Context-window management as the developer's job rather than the tool's — Copilot manages context invisibly; Claude Code expects the developer to /clear between unrelated tasks, scope exploration in plan mode, and use sub-agents for large investigations; how do you name this responsibility plainly without making it sound like a burden?"
+tone_constraints:
+  - "Practical and forward-looking — this is the action-plan episode, not the conceptual one; every section should leave the listener with a concrete move they can run today"
+  - "Validate every gotcha as real friction — the teacher does not dismiss or minimize; the student's Copilot intuitions are often correct for Copilot, and the teacher's job is to redirect them accurately for Claude Code, not to make her feel wrong for having them"
+  - "Honest about effort — the API-key check, the per-edit permission rhythm, the CLAUDE.md curation, the context-window discipline all require real attention; name the effort plainly and explain why each move pays off rather than minimizing it"
+  - "Use Copilot as the recurring anchor — 'Copilot does X automatically; Claude Code expects the developer to do Y' — without ever framing Copilot as a foil to argue against"
+  - "Cite the official documentation source for every practical claim (code.claude.com/docs/en/setup, code.claude.com/docs/en/authentication, code.claude.com/docs/en/memory, code.claude.com/docs/en/permission-modes, code.claude.com/docs/en/best-practices, support.anthropic.com), use real 2026 commands and file paths"
+anchor_passages:
+  - quote: "Claude Code reads your project files as needed. You don't have to manually add context."
+    source: "code.claude.com/docs/en/quickstart (Anthropic official documentation)"
+    why: "Single-sentence statement that reframes the day-one session for a Copilot-fluent developer — the contrast with Copilot's open-tabs-only context model is the architectural fact the first-session walkthrough rests on."
+  - quote: "If ANTHROPIC_API_KEY is set in your environment — common for developers who use the API directly — it takes precedence over your subscription and causes per-token API charges. Run unset ANTHROPIC_API_KEY to use subscription credentials instead."
+    source: "code.claude.com/docs/en/authentication (Anthropic official documentation paraphrased)"
+    why: "The most expensive new-user mistake in the entire chapter — a developer can run their first month on what they think is their subscription and get an API invoice for hundreds of dollars; the verbatim guidance to unset the variable is the action that prevents the billing surprise."
+  - quote: "Claude automatically snapshots files before each change so a checkpoint can restore them. Checkpoints persist across sessions, so you can close your terminal and still rewind later."
+    source: "code.claude.com/docs/en/best-practices (Anthropic official documentation)"
+    why: "The recovery safety net for a Copilot-fluent developer feeling cautious about handing agentic tools real edit access — names the persistence guarantee in plain language and makes the rewind affordance trustworthy."
+  - quote: "Run /init to generate a starting CLAUDE.md automatically. Claude analyzes your codebase and creates a file with build commands, test instructions, and project conventions it discovers."
+    source: "code.claude.com/docs/en/memory (Anthropic official documentation)"
+    why: "The single most useful day-one move for a developer who has just installed Claude Code — converts the abstract 'CLAUDE.md is your persistent project memory' framing of episode two into a one-command action that produces a structured starting point to refine."
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: "Three-part series on Claude Code for developers who use GitHub Copilot daily. Episode three is the hands-on walkthrough — prerequisites, installation via the native installer, authentication and the ANTHROPIC_API_KEY trap that silently puts new users on per-token billing, the VS Code extension surface, the first real session against your own codebase, day-one workflows for understanding an unfamiliar codebase and making changes, the recovery affordances (Esc, /rewind, /clear, git as safety net), generating and refining CLAUDE.md with /init, the ten specific friction points Copilot users hit in their first week, the command reference worth memorizing, the starter settings file, and a nine-step day-one checklist."
+  related_episodes:
+    - copilot-to-claude-code-mental-shift
+    - how-claude-code-actually-works
+  references:
+    - "Advanced setup — code.claude.com/docs/en/setup"
+    - "Quickstart — code.claude.com/docs/en/quickstart"
+    - "Authentication — code.claude.com/docs/en/authentication"
+    - "Use Claude Code in VS Code — code.claude.com/docs/en/vs-code"
+    - "How Claude remembers your project — code.claude.com/docs/en/memory"
+    - "Claude Code configuration / settings — code.claude.com/docs/en/settings"
+    - "Best practices for Claude Code — code.claude.com/docs/en/best-practices"
+    - "Common workflows — code.claude.com/docs/en/common-workflows"
+    - "Choose a permission mode — code.claude.com/docs/en/permission-modes"
+    - "Commands — code.claude.com/docs/en/commands"
+    - "Claude Code plan access — support.anthropic.com/en/articles/11145838"
+source_tradition: technical_documentation
+audience_profile: professional_developer
+thesis_relevance: "This chapter advances the book's central claim that Claude Code is a complementary agentic tool — additive to a Copilot-based workflow, not a replacement — by giving the listener the concrete day-one path from installed to productive: the native-installer move, the ANTHROPIC_API_KEY-precedence fix that prevents accidental per-token billing, the /init move that turns episode two's CLAUDE.md framing into a one-command starting point, the permission-mode rhythm that resolves the per-edit-prompt friction without abandoning the safety design, and the ten-gotcha awareness that prevents week-one abandonment — so the listener exits the series with both the architectural understanding (EP01), the mechanical mental model (EP02), and an action plan they can run this afternoon (EP03) to put the complementary-tools thesis into practice in their own workflow."

@@ -1,0 +1,29 @@
+{
+  "slug": "ayyuhal-walad",
+  "note": "Thematic lecture->chapter map (12 lectures, finer-grained than the 5 chapters). The Shaykh's spoken commentary = the attributed narrator-additions layer.",
+  "map": {
+    "ch01-frame-and-first-counsel": [
+      "lec01-introduction",
+      "lec02-prophetic-advice",
+      "lec03-actions-and-intentions",
+      "lec04-beneficial-knowledge",
+      "lec05-the-summary-of-knowledge"
+    ],
+    "ch02-hatim-eight-benefits": [
+      "lec05-the-summary-of-knowledge"
+    ],
+    "ch03-the-path": [
+      "lec06-four-essentials-for-the-seeker",
+      "lec07-recognizing-the-true-spiritual-guide",
+      "lec08-adab-with-a-spiritual-guide",
+      "lec09-language-of-the-heart"
+    ],
+    "ch04-four-cautions": [
+      "lec10-four-things-to-desist-from",
+      "lec11-four-things-to-desist-from-part-2"
+    ],
+    "ch05-method-and-closing-prayer": [
+      "lec12-four-things-to-do"
+    ]
+  }
+}

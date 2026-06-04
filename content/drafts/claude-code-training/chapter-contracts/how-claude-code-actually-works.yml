@@ -1,0 +1,65 @@
+slug: how-claude-code-actually-works
+chapter_ref: ch02-how-claude-code-actually-works
+pipeline: standard
+episode: EP02
+episode_number: 2
+title: "How Claude Code Actually Works — The Agentic Mental Model"
+source_type: synthesized-explainer
+book_slug: claude-code-training
+episode_format: deep_dive
+format_rationale: "Chapter unfolds one position layer-by-layer — the agentic mental model — across eight sequential mechanism sections (loop, tools, CLAUDE.md, slash commands, hooks, MCP, permissions, cost). There is NO named opposing voice running through the chapter; the Copilot contrast is a recurring anchor used by the teacher to make Claude Code's mechanics legible to a Copilot-fluent listener, not a foil being argued against. The source's own format guidance explicitly labels this a teacher-student dialogue where the student is engaged and building understanding actively, not being converted."
+essential: core
+essential_rationale: "Middle leg of the three-part why/what/how arc — establishes the working mental model (loop + tools + memory + enforcement + extensibility + permissions + cost) that the hands-on session in EP03 depends on; removing it would leave EP03 reading as instruction-following rather than as putting an internalized model into practice."
+host_dynamic: "curious_mind + scholar_companion"
+host_dynamic_rationale: "Scholar_companion is the experienced Claude Code practitioner who builds the agentic mental model from scratch using concrete tool-by-tool explanations; curious_mind is the senior software developer with two-plus years of daily Copilot use who has listened to EP01, accepts the architectural framing, and now wants the mechanics — her question hooks are 'how does that actually work?', 'what's the closest Copilot analogy?', and at key moments 'so this is genuinely new territory — how do developers handle it?'"
+word_count: 7675
+length_target: extended
+audience: "Senior software developers with two or more years of daily GitHub Copilot use in VS Code who have heard episode one and accept the suggest-versus-execute framing — now they want the working mental model: how the agentic loop runs, what the built-in tools do, how CLAUDE.md and auto memory persist project knowledge, how Hooks differ from CLAUDE.md, what MCP buys them, how the permission model and sandbox bound risk, and what a session actually costs."
+angle: faithful_exposition
+key_tensions:
+  - "Per-tool-call token consumption versus Copilot's flat-subscription model — does the agentic loop scale economically, and what is the right framing for cost when the unit of work is task completion rather than text prediction?"
+  - "CLAUDE.md is real maintenance work that Copilot users have never had to do — is the persistent-project-memory capability worth the responsibility of curating it, and how should a team think about that trade-off?"
+  - "Hooks are deterministic enforcement, CLAUDE.md is instruction, the permission system is access control — three mechanisms that all sound like 'tell Claude what to do'; what is the actual division of labor and when does each one belong?"
+  - "Sub-agents via the Task tool are an advanced capability that can scale to 50,000-line migrations — but introducing them on day one risks oversell; how do you present the ceiling without making the floor feel inadequate?"
+tone_constraints:
+  - "Practical and direct — no hype, no speculation about unreleased features, no opinion not grounded in official Anthropic or GitHub documentation"
+  - "Honest about effort — CLAUDE.md maintenance, Hooks configuration, context-window discipline all require real work; name the effort plainly and explain why it is worth it rather than minimizing it"
+  - "Use Copilot as a recurring anchor — 'Copilot does X at the token level; Claude Code does Y at the tool level' — without ever framing Copilot as a foil to argue against"
+  - "Frame capabilities Copilot has no analog for (CLAUDE.md, Hooks, user-spawned sub-agents) as new things to learn, not as gaps in Copilot"
+  - "Cite the official documentation source for every architectural claim (code.claude.com/docs/en/..., anthropic.com/engineering/..., docs.github.com)"
+anchor_passages:
+  - quote: "Claude Code is an agentic coding tool that reads your codebase, edits files, runs commands, and integrates with your development tools."
+    source: "code.claude.com (Anthropic official documentation)"
+    why: "Single-sentence self-description that establishes the agentic-loop architectural claim — the verbs (reads, edits, runs, integrates) carry the mental model the chapter is building."
+  - quote: "Each Claude Code session begins with a fresh context window. Two mechanisms carry knowledge across sessions: CLAUDE.md files (instructions you write) and auto memory (notes Claude writes itself)."
+    source: "code.claude.com/docs/en/memory (Anthropic official documentation)"
+    why: "Names the session problem and the two-mechanism solution in one passage — the whole motivation for CLAUDE.md and auto-memory in the listener's hands."
+  - quote: "Instructions in your prompt or CLAUDE.md shape what Claude tries to do, but they don't change what Claude Code allows. To grant or revoke access, use /permissions, the rules described here, a permission mode, or a PreToolUse hook."
+    source: "code.claude.com/docs/en/security (Anthropic official documentation)"
+    why: "Cleanest expression of the instruction-versus-enforcement distinction — answers the most common early-adoption question (can CLAUDE.md grant permissions?) with an unambiguous no and routes the listener to the right mechanism."
+  - quote: "Hooks are user-defined shell commands, HTTP endpoints, or LLM prompts that execute automatically at specific points in Claude Code's lifecycle. They allow users to inspect events, take action, and optionally return decisions that control behavior."
+    source: "code.claude.com/docs/en/hooks (Anthropic official documentation)"
+    why: "Defines the enforcement layer in its own terms — the passage that makes 'block any rm -rf before it runs' a configurable reality rather than an aspiration."
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: "Three-part series on Claude Code for developers who use GitHub Copilot daily. Episode two builds the agentic mental model — the while(tool_call) loop, the built-in tool kit, CLAUDE.md as persistent project memory, slash commands and Skills, Hooks as the deterministic enforcement layer, MCP for external systems, the permission model and OS-level sandboxing, and the per-token cost model that follows from running tasks instead of completing keystrokes."
+  related_episodes:
+    - copilot-to-claude-code-mental-shift
+    - first-session-walkthrough
+  references:
+    - "Claude Code overview — code.claude.com/docs/en/overview"
+    - "Claude Code memory / CLAUDE.md — code.claude.com/docs/en/memory"
+    - "Claude Code hooks — code.claude.com/docs/en/hooks"
+    - "Claude Code commands reference — code.claude.com/docs/en/commands"
+    - "Claude Code MCP docs — code.claude.com/docs/en/mcp"
+    - "Claude Code security — code.claude.com/docs/en/security"
+    - "Claude Code permissions — code.claude.com/docs/en/permissions"
+    - "Introducing MCP — anthropic.com/news/model-context-protocol"
+    - "Claude Code auto mode — anthropic.com/engineering/claude-code-auto-mode"
+    - "Claude Code sandboxing — anthropic.com/engineering/claude-code-sandboxing"
+    - "Advanced tool use — anthropic.com/engineering/advanced-tool-use"
+    - "Framework for safe and trustworthy agents — anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents"
+source_tradition: technical_documentation
+audience_profile: professional_developer
+thesis_relevance: "This chapter advances the book's central claim that Claude Code is a complementary agentic tool — additive to a Copilot-based workflow, not a replacement — by giving the listener the working mechanical model (loop, tools, persistent memory, enforcement, extensibility, permissions, cost) that makes goal-directed delegation a deliberate choice rather than a leap of faith, so that when episode three walks the same listener through their first session the install-and-run experience reads as putting an internalized architecture into practice."

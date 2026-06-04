@@ -1,0 +1,139 @@
+---
+/**
+ * Wisdom bilingual chapter view — dual panel (English | Urdu).
+ */
+import Base from '../../../layouts/Base.astro';
+import Icon from '../../../components/ui/Icon.astro';
+import { findChapter, loadChapterMarkdown, loadChapterMarkdownEnglish, discoverBundles } from '../../../lib/reader/source-extractor';
+import { parseBilingual } from '../../../lib/reader/bilingual-sections';
+import { getBinderEnglish, getChapterEnglish } from '../../../lib/reader/decisions';
+import '../../../styles/wisdom.css';
+
+const { shelf, book } = Astro.params;
+if (!shelf || !book) return new Response('Missing params', { status: 400 });
+
+const chapter = await findChapter('wisdom', shelf, book);
+if (!chapter) return new Response(`Chapter not found: wisdom/${shelf}/${book}`, { status: 404 });
+
+const m = chapter.manifest;
+const binderId = m.shelf.id;
+const chapterId = m.book.id;
+
+const rawMd = await loadChapterMarkdown(chapter);
+
+const [bilingualParsed, binderEn, chapterEn] = await Promise.all([
+  parseBilingual(binderId, chapterId, rawMd),
+  getBinderEnglish(m.shelf.name),
+  getChapterEnglish(binderId, chapterId),
+]);
+
+const all = await discoverBundles();
+const shelfGroup = all
+  .find((s) => s.source === 'wisdom')
+  ?.shelves.find((sh) => sh.shelfSlug === shelf);
+const siblings = shelfGroup?.chapters ?? [];
+const idx = siblings.findIndex((c) => c.bookSlug === book);
+const prev = idx > 0 ? siblings[idx - 1] : null;
+const next = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
+const prevEn = prev ? await getChapterEnglish(prev.manifest.shelf.id, prev.manifest.book.id) : null;
+const nextEn = next ? await getChapterEnglish(next.manifest.shelf.id, next.manifest.book.id) : null;
+
+const pageTitle = `${chapterEn?.en_title ?? m.book.name} · ${binderEn ?? m.shelf.name} · Wisdom`;
+---
+<Base title={pageTitle} active="wisdom" description={`Wisdom chapter: ${m.book.name}`}>
+  <header class="kb-header">
+    <div class="kb-header-inner">
+      <nav class="kb-breadcrumb">
+        <a href="/library">Library</a>
+        <Icon name="chevron-right" size={11} />
+        <a href="/wisdom">Wisdom</a>
+        <Icon name="chevron-right" size={11} />
+        <span class="kb-breadcrumb-shelf">{binderEn ?? m.shelf.name}</span>
+      </nav>
+
+      <div class="kb-title-row">
+        <div>
+          {chapterEn?.en_title && (
+            <h1 class="kb-title-en">{chapterEn.en_title}</h1>
+          )}
+          <div class="kb-title-ur" lang="ur">{m.book.name}</div>
+          <div class="kb-meta-row">
+            <span class="kb-meta-badge">{m.shelf.prefix} · Chapter {m.book.id}</span>
+            <span class="kb-meta-badge">{m.counts?.sections ?? bilingualParsed.sections.length} topics</span>
+            <span class="kb-meta-badge kb-meta-stage">{m.stage}</span>
+          </div>
+        </div>
+
+        <div class="kb-view-toggle">
+          <button id="btn-both" class="kb-toggle-btn is-active" data-mode="both">Both</button>
+          <button id="btn-en" class="kb-toggle-btn" data-mode="english-only">English</button>
+          <button id="btn-ur" class="kb-toggle-btn" data-mode="urdu-only">Urdu</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="bilingual-grid" id="bilingual-grid" data-mode="both">
+    <!-- Column headers -->
+    <div class="panel-col-head en-col-head">English</div>
+    <div class="panel-col-head ur-col-head">اردو</div>
+
+    {bilingualParsed.sections.map((sec) => (
+      <div class="topic-row" data-topic-id={sec.topicId}>
+        <!-- English panel -->
+        <div class="topic-en">
+          <div class="topic-label-en">
+            {sec.englishTitle ? (
+              <>
+                <span class="topic-label-text">{sec.englishTitle}</span>
+                {sec.englishConfidence && (
+                  <span class="topic-conf">
+                    {sec.englishConfidence === 'high' ? '★★★' : sec.englishConfidence === 'medium' ? '★★' : '★'}
+                  </span>
+                )}
+              </>
+            ) : (
+              <span class="topic-label-pending">English title pending</span>
+            )}
+          </div>
+          <div class="se-prose" set:html={sec.bodyHtml} />
+        </div>
+
+        <!-- Urdu panel -->
+        <div class="topic-ur">
+          <div class="topic-label-ur" lang="ur">{sec.urduLabel}</div>
+          <div class="se-prose ur-prose" set:html={sec.bodyHtml} />
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Prev / next navigation -->
+  <nav class="chapter-nav chapter-nav--wisdom">
+    {prev ? (
+      <a href={`/wisdom/${shelf}/${prev.bookSlug}`} class="chapter-nav-link is-prev">
+        <span class="chapter-nav-label">← Previous</span>
+        <span class="chapter-nav-title">{prevEn?.en_title ?? prev.manifest.book.name}</span>
+      </a>
+    ) : (<span class="chapter-nav-link is-disabled" />)}
+    {next ? (
+      <a href={`/wisdom/${shelf}/${next.bookSlug}`} class="chapter-nav-link is-next">
+        <span class="chapter-nav-label">Next →</span>
+        <span class="chapter-nav-title">{nextEn?.en_title ?? next.manifest.book.name}</span>
+      </a>
+    ) : (<span class="chapter-nav-link is-disabled" />)}
+  </nav>
+</Base>
+
+<script>
+  const grid = document.getElementById('bilingual-grid')!;
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.kb-toggle-btn');
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const mode = btn.dataset.mode ?? 'both';
+      grid.setAttribute('data-mode', mode);
+      buttons.forEach((b) => b.classList.toggle('is-active', b === btn));
+    });
+  });
+</script>
+

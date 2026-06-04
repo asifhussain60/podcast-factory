@@ -1,0 +1,25 @@
+---
+/**
+ * AudienceBadge — WC6d / D20.
+ * Marks who a view (or section) is written for, per the site overhaul's
+ * audience gradient. Static, no client JS. Styling lives in theme.css
+ * (.audience-badge); colour is paired with a label + icon so hue is never
+ * the sole carrier (Cortex REQ-031).
+ */
+type Tier = 'you' | 'teams' | 'both';
+interface Props {
+  tier: Tier;
+  class?: string;
+}
+const { tier, class: extra } = Astro.props;
+
+const MAP: Record<Tier, { label: string; icon: string }> = {
+  you:   { label: 'For you',            icon: 'fa-solid fa-user' },
+  teams: { label: 'For technical teams', icon: 'fa-solid fa-screwdriver-wrench' },
+  both:  { label: 'For both',           icon: 'fa-solid fa-users' },
+};
+const { label, icon } = MAP[tier];
+---
+<span class={`audience-badge is-${tier}${extra ? ' ' + extra : ''}`}>
+  <i class={icon} aria-hidden="true"></i>{label}
+</span>

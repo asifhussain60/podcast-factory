@@ -1,0 +1,41 @@
+orchestrate_book: resume — slug=kitab-al-riyad
+  last completed:  0d
+  current phase:   0e  [failed]
+resuming LLM-authoring phases from 0e (status=failed)
+phase: 0b · already completed, skipping
+phase: 0c · already completed, skipping
+phase: 0d · already completed, skipping
+phase: 0e · phase 0e enrichment (LLM shellout)
+  phase 0e · per-chapter loop (15 chapters, 12 already enriched)
+    ch01a-the-four-da-is-and-the-debate · skip (already enriched)
+    ch02b-the-structure-of-al-riyad-and-the-manuscript · skip (already enriched)
+    ch03a-the-perfect-and-the-perfection-of-the-soul · skip (already enriched)
+    ch04b-soul-intellect-and-the-power-of-emanation · skip (already enriched)
+    ch05c-the-soul-in-time-and-the-rejoinder-to-al-nusra · skip (already enriched)
+    ch06-the-intellect-as-the-first-creation · skip (already enriched)
+    ch07-soul-and-spirit-one-substance-or-two · skip (already enriched)
+    ch08-souls-as-parts-or-traces · skip (already enriched)
+    ch09-the-human-as-fruit-of-the-worlds · skip (already enriched)
+    ch10-motion-stillness-hyle-and-form · skip (already enriched)
+    ch11-the-sections-of-the-world · skip (already enriched)
+    ch12-qada-and-qadar-fate-and-destiny · skip (already enriched)
+    ch13a-the-shariah-of-adam-and-the-first-speaker · enriching
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    ch13a-the-shariah-of-adam-and-the-first-speaker · OK
+    ch14b-prophets-as-teachers-monotheism-and-the-ranks · enriching
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    ch14b-prophets-as-teachers-monotheism-and-the-ranks · OK
+    ch15-tawhid-and-the-critique-of-al-mahsul · enriching
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    ch15-tawhid-and-the-critique-of-al-mahsul · OK
+phase: 0f · assembling series-plan.md for human review
+
+────────────────────────────────────────────────────────────────────────
+Phase 0f complete · halted for human review.
+
+Review the series plan:
+  content/drafts/kitab-al-riyad/_system/series-plan.md
+
+Resume when approved:
+  python3 scripts/podcast/orchestrate_book.py --resume kitab-al-riyad
+────────────────────────────────────────────────────────────────────────

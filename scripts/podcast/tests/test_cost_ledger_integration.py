@@ -109,7 +109,7 @@ class AuthoringRunClaudePIntegrationTests(unittest.TestCase):
 
 
 class ChunkingRunWindowedIntegrationTests(unittest.TestCase):
-    """`_chunking.run_windowed(book_dir=..., phase=...)` appends one row per window."""
+    """`_chunking.run_windowed(book_dir=..., phase=...)` appends one ledger row per window (SDK path)."""
 
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -123,57 +123,49 @@ class ChunkingRunWindowedIntegrationTests(unittest.TestCase):
         return f"chunk {idx}/{total}"
 
     def test_book_dir_provided_writes_per_window(self):
-        """Each window writes one ledger row, phase=0b."""
+        """Each window via SDK path writes one ledger row with phase=0b."""
         windows_seen = []
 
-        def fake_run(cmd, **_kw):
-            # Simulate successful artifact write by extracting out_path from prompt
-            existing = sorted(self.chunks.glob("win-*.in.md"))
-            idx = len(existing)
-            out_path = self.chunks / f"win-{idx:03d}.out.md"
-            out_path.write_text(f"WINDOW {idx} OUTPUT")
-            windows_seen.append(idx)
-            return mock.MagicMock(returncode=0, stdout=CANNED_STDOUT, stderr="")
+        def good_invoke(instructions, body, timeout):
+            windows_seen.append(len(windows_seen))
+            return f"WINDOW {len(windows_seen)} OUTPUT"
 
-        with mock.patch.object(_chunking.subprocess, "run", side_effect=fake_run):
-            _chunking.run_windowed(
-                text="word " * 100,
-                chunks_dir=self.chunks,
-                prompt_builder=self._prompt_builder,
-                target_words=3000,
-                overlap_words=0,
-                log=lambda _: None,
-                book_dir=self.book,
-                phase="0b",
-            )
+        _chunking.run_windowed(
+            text="word " * 100,
+            chunks_dir=self.chunks,
+            prompt_builder=self._prompt_builder,
+            target_words=3000,
+            overlap_words=0,
+            log=lambda _: None,
+            book_dir=self.book,
+            phase="0b",
+            _invoke_fn=good_invoke,
+        )
 
         ledger = self.book / "_system" / "cost-ledger.jsonl"
         self.assertTrue(ledger.exists())
         rows = [json.loads(l) for l in ledger.read_text().splitlines()]
-        # At least one row written (matching the number of windows actually invoked)
         self.assertEqual(len(rows), len(windows_seen))
         for row in rows:
             self.assertEqual(row["phase"], "0b")
             self.assertTrue(row["step"].startswith("win-"))
-            self.assertEqual(row["input_tokens"], 1500)
+            # SDK path writes 0; actual tokens tracked by the API response object
+            self.assertEqual(row["input_tokens"], 0)
 
     def test_no_book_dir_means_no_ledger(self):
         """Back-compat — run_windowed without book_dir writes no ledger."""
-        def fake_run(cmd, **_kw):
-            existing = sorted(self.chunks.glob("win-*.in.md"))
-            idx = len(existing)
-            (self.chunks / f"win-{idx:03d}.out.md").write_text("ok")
-            return mock.MagicMock(returncode=0, stdout=CANNED_STDOUT, stderr="")
+        def good_invoke(instructions, body, timeout):
+            return "ok"
 
-        with mock.patch.object(_chunking.subprocess, "run", side_effect=fake_run):
-            _chunking.run_windowed(
-                text="word " * 100,
-                chunks_dir=self.chunks,
-                prompt_builder=self._prompt_builder,
-                target_words=3000,
-                overlap_words=0,
-                log=lambda _: None,
-            )
+        _chunking.run_windowed(
+            text="word " * 100,
+            chunks_dir=self.chunks,
+            prompt_builder=self._prompt_builder,
+            target_words=3000,
+            overlap_words=0,
+            log=lambda _: None,
+            _invoke_fn=good_invoke,
+        )
         ledger = self.book / "_system" / "cost-ledger.jsonl"
         self.assertFalse(ledger.exists())
 

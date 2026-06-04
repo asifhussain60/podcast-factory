@@ -109,6 +109,6 @@ echo "  - new book:        python3 scripts/podcast/orchestrate_book.py <pdf>  (i
 echo "  - resume book:     bash scripts/podcast/watch_orchestrator.sh <slug>"
 echo "  - check a book:    python3 scripts/podcast/orchestrate_book.py --status <slug>"
 echo "  - publish a book:  python3 scripts/podcast/publish_to_library.py <slug> --dry-run"
-echo "  - run reader:      cd podcast-reader && npm run dev"
+echo "  - run the site:    cd plan-dashboard && npm run dev"
 
 exit 0

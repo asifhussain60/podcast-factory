@@ -1,0 +1,14 @@
+flowchart TB
+  subgraph TRUST["Trust boundary — your machine"]
+    direction TB
+    PIPE["Python pipeline"]
+    SITE["Astro review site"]
+    CORP[("Wisdom Corpus<br/>only source of truth")]
+    PIPE -->|"reads"| CORP
+    SITE -->|"reads"| CORP
+  end
+  PIPE -->|"HTTPS · API key<br/>authorised egress only"| EXT["External AI + GitHub"]
+  classDef local fill:#fffdf8,stroke:#4a7c4a,stroke-width:1.5px;
+  classDef ext fill:#fffdf8,stroke:#a83232,stroke-width:1.5px;
+  class PIPE,SITE,CORP local;
+  class EXT ext;

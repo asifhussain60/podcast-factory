@@ -1,0 +1,12 @@
+slug: ayyuhal-walad
+title: "Ayyuhal Walad (O Student)"
+author: "Imam al-Ghazali"
+tradition: sunni-sufi
+tradition_adjacency:
+  - sunni-sufi
+  - fatimid-ismaili   # shared Islamic wisdom (ethics, Quran, hadith) — safe for augmentation
+# Ismaili-specific doctrine (Batin, Imamate, tawil, Daaim al-Tahara) is NOT adjacent — blocked.
+language: en
+source_language: ar
+genre: epistolary-counsel
+pipeline_mode: wc8-holistic

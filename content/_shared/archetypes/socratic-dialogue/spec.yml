@@ -1,0 +1,53 @@
+# Archetype spec — Socratic Dialogue
+# An alias of the play-novel archetype applied specifically to texts written
+# in the Socratic (question-and-answer) method: one figure poses questions,
+# the other expounds doctrine. Common in Ismaili ta'wil literature and
+# classical Islamic philosophy.
+
+archetype_id: socratic-dialogue
+display_name: Socratic Dialogue (Question-and-Answer)
+genre_tags: [dialogue, socratic, question-answer, ta-wil, philosophical]
+
+# ── Detection heuristics ─────────────────────────────────────────────────────
+genre_signals:
+  - alternating Q&A structure across the full text
+  - one interlocutor consistently in the questioner role
+  - answers build on each other toward a doctrinal conclusion
+  - absence of scene setting or stage direction prose
+
+# ── required_fields — these keys MUST be present in every book meta.yml ─────
+required_fields:
+  - archetype_id           # confirms archetype was applied
+  - questioner_role        # name or role of the questioner figure
+  - respondent_role        # name or role of the answering figure
+  - doctrinal_endpoint     # what doctrine the dialogue converges on
+  - source_tradition       # e.g. "ismaili_orthodox", "mu'tazili"
+
+# ── TTS engineering rules ────────────────────────────────────────────────────
+tts_rules:
+  speaker_labels: replace_with_stable_english_role_label
+  arabic_technical_terms: gloss_on_first_occurrence_then_english_form
+  long_doctrinal_answers: do_not_interrupt_with_host_commentary
+  repetition_of_question_in_answer: condense_to_single_statement
+
+# ── Podcast-authoring doctrine ───────────────────────────────────────────────
+authoring_doctrine:
+  framing_mode: dialogue_guide
+  host_dynamic: questioner_and_respondent
+  episode_structure: inquiry_arc  # open question → doctrinal explication → deepened question
+  capstone_mode: synthesis_debate  # hosts inhabit the dialogue's final convergence point
+  cross_tier_citations: required  # Socratic dialogue in this tradition is citation-dense
+
+# ── Challenger categories active for this archetype ─────────────────────────
+challenger_categories_active:
+  - J  # name aliasing — questioner/respondent must use stable labels
+  - A  # citations — doctrinal claims require tracing
+  - C  # pronunciation of Arabic philosophical terms
+  - R  # register — must preserve the inquiry register throughout
+
+# ── Anti-patterns (see anti-patterns.md for full catalog) ───────────────────
+anti_patterns_summary:
+  - hosts summarising the Q&A instead of inhabiting the inquiry
+  - questioner role and respondent role conflated mid-episode
+  - episode ending before the doctrinal answer is fully delivered
+  - treating the questioner as naive rather than a skilled interlocutor

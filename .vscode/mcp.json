@@ -1,19 +1,4 @@
 {
-  "inputs": [
-    {
-      "id": "ynab-api-key",
-      "type": "promptString",
-      "description": "YNAB Personal Access Token",
-      "password": true
-    }
-  ],
-  "servers": {
-    "ynab": {
-      "command": "uvx",
-      "args": ["mcp-ynab"],
-      "env": {
-        "YNAB_API_KEY": "${input:ynab-api-key}"
-      }
-    }
-  }
+  "inputs": [],
+  "servers": {}
 }

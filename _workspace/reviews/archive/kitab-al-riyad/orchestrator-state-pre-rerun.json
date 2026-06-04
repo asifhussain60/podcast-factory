@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "book_slug": "kitab-al-riyad",
+  "category": "books",
+  "branch": "book/kitab-al-riyad",
+  "phase": "0e",
+  "phase_status": "pending",
+  "last_completed_phase": "0d",
+  "next_phase": "0e",
+  "last_error": null,
+  "phases": {
+    "pre-flight": {
+      "status": "completed",
+      "ts_completed": "2026-05-18T22:51:13Z"
+    },
+    "branch": {
+      "status": "completed",
+      "ts_completed": "2026-05-18T22:51:13Z"
+    },
+    "scaffold": {
+      "status": "completed",
+      "ts_completed": "2026-05-18T22:51:13Z",
+      "book_dir": "content/drafts/kitab-al-riyad"
+    },
+    "0a": {
+      "status": "completed",
+      "ts_completed": "2026-05-18T22:51:13Z"
+    },
+    "0b": {
+      "status": "completed",
+      "ts_started": "2026-05-19T17:34:33Z",
+      "ts_completed": "2026-05-19T19:06:50Z"
+    },
+    "0c": {
+      "status": "completed",
+      "ts_started": "2026-05-19T19:06:50Z",
+      "ts_completed": "2026-05-19T21:56:45Z"
+    },
+    "0d": {
+      "status": "completed",
+      "ts_started": "2026-05-19T21:56:45Z",
+      "ts_completed": "2026-05-20T10:02:59Z",
+      "completion_note": "Step 1/3 (chapters-rationale.md) and step 2/3 (chapter segmentation) closed manually after the orchestrator's repeated 1200s LLM-timeouts on sc-009/sc-010. All 13 episodes authored across 10 sc chunks (sc-001 split into 3 episodes; sc-009 into 2; sc-002 through sc-008 + sc-010 single-episode). All .done markers present in _chunks/0d/. Chapter contracts present for every chapter. Resume manually proceeds to Phase 0e."
+    },
+    "0e": {
+      "status": "pending"
+    },
+    "0f": {
+      "status": "pending"
+    },
+    "0g": {
+      "status": "pending"
+    },
+    "per-chapter": {
+      "status": "pending"
+    },
+    "trainer": {
+      "status": "pending"
+    },
+    "merge": {
+      "status": "pending"
+    },
+    "done": {
+      "status": "pending"
+    }
+  },
+  "cost": {
+    "azure_usd": 0.0,
+    "anthropic_usd": 0.0
+  },
+  "wall_clock_sec": 0,
+  "ts_started": "2026-05-18T22:51:13Z",
+  "ts_updated": "2026-05-20T10:02:59Z",
+  "challenger_version": "2.0",
+  "orchestrator_version": "1.1"
+}

@@ -1,0 +1,199 @@
+# The First Intellect, the First Originator
+
+*From the Kitab al-Riyad (ki-taab ar-ri-yaad) of Hamid al-Din Ahmad al-Kirmani (haa-mid ad-deen ah-mad al-kir-maa-nee). This chapter covers Bāb 2 (baab) — On the First Intellect, the First Originator — comprising nine fusūl (fu-sool; sections). The question that organizes the entire bāb has the look of a metaphysical fine-point: do motion and rest apply to the First Intellect and the Soul? Al-Islah (al-is-laah) said yes — that the two are effects shared between the First and the Second. Al-Nusra (an-nus-rah) said no — that motion belongs to soul and rest to intellect, since motion arises from need and the intellect needs nothing. Al-Kirmani's adjudication takes the question apart and uses it to lay out, more positively than anywhere else in the first half of the book, what the First Intellect actually is — not a body, not a mover, not a thing that rests, but the very act in which origination resides, behind which there is only God.*
+
+## What this bāb is really asking
+
+The motion-and-rest debate looks at first like a piece of cosmological book-keeping. The two disputants are arguing about which of two abstract attributes — *haraka* (motion) and *sukun* (rest) — properly applies to which member of the originative dyad. The framing of the dispute is geometrical: are motion and rest *shared* between the First Intellect and the Soul? If so, in what mode — by potentiality or by actuality? If not shared, which goes where? Al-Islah's answer is one symmetry; al-Nusra's answer is another.
+
+But the question only looks like book-keeping. Read across the nine fusūl, what the dispute really tries to settle is the *kind* of being the First Intellect is. If motion and rest apply, then the First Intellect is something *like* a body — something with states it can be in, something that admits change of place or change of disposition. If motion and rest do not apply, then the First Intellect is *not* that kind of being at all. It is something more primary than bodies — the *ibda'* (ib-daa; origination) from which bodies and their motions arise.
+
+This is why al-Kirmani's adjudication in this *bāb* turns into one of his most positive statements about what the First Intellect *is*. The dispute, in his hands, becomes the occasion for a small but precise metaphysics of the originator. The First Intellect, he will argue, *is the very act of origination*. Behind it stands only *al-Bari* (al-baa-ree; the Originator, Allah the Almighty). Nothing precedes the First Intellect in existence. It is not a body, so motion does not apply to it. It is not corporeal, so rest in the bodily sense does not apply to it. To ascribe either to it is to mistake what kind of thing one is talking about — to fold the originative order back into the natural order, to confuse *ibda'* with *haraka*.
+
+## Fasl 1 — Al-Islah's symmetry, and the geometric impossibility of it
+
+The chapter opens with al-Islah's formula. *Motion and rest are two effects that the First and the Second share in common.* When the First was originated, the act of origination produced in it two effects necessarily — because origination and the originated are two, even though they can be understood as one essence. These two effects exist in the First *by potentiality*. Then the Second is emanated from the First, and in the Second the two effects exist *by actuality*. One of the two effects, says al-Islah, is *motion* — higher than the other, which is *rest*. The First is higher than the Second; and *the motion of the first is what benefits the second of all the essences in general, and the rest of the second is what receives the benefit of the first*.
+
+The formula is neat. It is also, says al-Kirmani, geometrically impossible. To say that motion and rest are in the First by potentiality and in the Second by actuality is to say that the First is *at rest by actuality and moving by potentiality* — moving and resting in itself by potentiality — while the Second is *moving by actuality, moving and resting in it by potentiality, and at rest by actuality*. The same item turns up on both sides of the same column, in mutually canceling modes. *This is impossible in several respects.* The arithmetic of al-Islah's symmetry doesn't work out.
+
+But the deeper problem is not arithmetic. Al-Nusra was on the right scent when he said that the intellect is not in need, and therefore does not move. Al-Kirmani agrees with that part of al-Nusra's reply. *Motion, in all its varieties, is only found in natural bodies.* The first and second intellects are *not bodies* — they are non-corporeal beings, beings of the *al-jirmani* (al-jir-maa-nee; the celestial order, the world above the natural bodies) only in the most metaphorical of senses, and certainly not in the sense that would let them either move or stand still.
+
+The proof, in al-Kirmani's compact form, is this: the body must be a substance, and the need of either of them — the First Intellect or the Soul — for the other in order to exist would prevent its existence from being from God Almighty *as the first existent*. For what exists from God is the *first* existent in itself, and is nothing other than the very act of which it is the first existent. The Almighty and Most Great — *His same act has one subject, not two*. If the existence of one of them were not the first existence, it would have to be preceded in existence by another, in which case it would be a thing preceded in existence by another. *Nothing precedes the First Intellect in its existence.* The First Intellect is the very act in which origination resides; behind it, there is only God, the Creator, the Almighty, whose existence is indicated. *Since it is excluded that anything precedes it in existence, it is invalidated that it should be a body. If it is invalidated that it should be a body, and there is no motion except where there is a body, the intellect has no motion. And if it is, then the statement of al-Islah is also nullified — namely, that the intellect moves by potentiality.*
+
+The first *fasl* therefore lays the foundation of the entire *bāb*: *the First Intellect is not a body; motion and rest belong to bodies; therefore the First Intellect neither moves nor rests*. Everything that follows is the working-out of this single insight against the various forms in which al-Islah and al-Nusra try to misplace motion or rest somewhere in the originative order.
+
+## What origination *is* — a Qur'anic and Alid pause
+
+Before going further, it is worth pausing on what *ibda'* — origination — actually names in the al-Kirmani tradition. The word does not mean making one thing into another, the way a craftsman makes a chair from wood. It does not mean assembling parts. It does not mean motion-toward-completion. It names the act of bringing something into being where there had been *literally nothing* — no matter, no form, no prior subject, no instrument. The Qur'an's term for this act is *kun fa-yakun*:
+
+> Surely, when He intends a thing, His Command is, "Be," and it is.
+> (Quran 36:82; English: Saheeh International.)
+
+There is no interval here, no process, no traversal. The verse names a *single* act — *kun* (kun; "Be") — and the existence of the thing follows that act without anything that could be called movement coming between the speaking of the word and the existing of what is spoken. This is the picture al-Kirmani is defending in *Bāb 2*. The First Intellect is the *first thing* into which *kun fa-yakun* discharges. Asking whether the First Intellect *moves* is asking the wrong question about the wrong stratum of being. The First Intellect is what *kun* produces — not what *kun* moves.
+
+Imam Ali ibn Abi Talib (a-lee ibn a-bee taa-lib; the Commander of the Believers, peace be upon him), in the first sermon of *Nahj al-Balagha*, names this directly:
+
+> All praise belongs to Allah, whose praise is not attained by the orators, whose blessings cannot be counted by the counters, and whose right cannot be discharged by those who exert themselves. The first step in His religion is to know Him; the perfection of knowing Him is to assent to Him; the perfection of assent to Him is to declare His Oneness; the perfection of His Oneness is to be sincere to Him; and the perfection of sincerity to Him is to deny attributes of Him, because every attribute is a testimony that it is other than that to which it has been attributed, and every such thing other than Him is a testimony that He is other than it. So whoever describes Allah, has compared Him to something else; whoever compares Him to something else, has regarded Him as two; whoever regards Him as two, has fragmented Him; whoever has fragmented Him, has been ignorant of Him.
+> (Imam Ali ibn Abi Talib, *Nahj al-Balagha*, Sermon 1, "On the Creation of the World and the Birth of Adam"; trans. Sayyid Ali Reza, slight modernizations.)
+
+To deny attributes of God is not to deny anything that *belongs* to Him. It is to deny the *application of finite categories* to the One from whom finitude takes its rise. The same instinct, exercised one stratum down, will protect the First Intellect from being mistaken for the kind of thing that moves and rests. *Motion* and *rest* are attributes of bodies. The First Intellect, like its Originator (in this respect only — al-Kirmani is *not* identifying them), is *not* the kind of thing to which such attributes apply.
+
+## Fasl 2 — Origination and the Originator are *two*, not one whole
+
+The second *fasl* takes up an oddity in al-Islah's framing. Al-Islah had said that origination and the originator, even though they are two, *may be understood as one essence, which is the whole*. Al-Kirmani spots the trap. If origination (the act) and the originator (the agent) are one whole, then a series of category errors follow — among them the inversion that *origination is the originator, and the originator is origination*, as though there were no real distinction between the act and the agent.
+
+The correction in al-Kirmani's hand:
+
+> Origination and originator are two — one of them is origination itself, and the other is the originator itself. They are one only when added to that whose existence began through being his act, and through being the same act. If added to itself, however, it is the principle, namely that it is an object of another whose existence is from it.
+
+The act and the agent are united *in respect of the thing produced*: the thing exists *as the same act* of the agent. But the act and the agent are not numerically one. They are two — and the distinction matters because it is what keeps *al-Bari* (the Originator) distinct from the *first thing originated* (the First Intellect). If origination and originator collapsed into one whole, then the First Intellect could be confused with the agent of the First Intellect — a slide directly into associating something with God in the very act of monotheism. This is why al-Kirmani is careful here. The two-ness of act and agent is what protects *tawhid* (taw-heed; the affirmation of God's Oneness) at the very first step of the originative chain.
+
+## Fasl 3 — The honor problem
+
+The third *fasl* presses the absurdity of al-Islah's symmetry from another angle. If motion and rest are in the First Intellect *by potentiality* and in the Second *by actuality*, then *the ruling of the Second would have to be more honorable than that of the First*, because *the ruling of what is in actuality is, in honor, not like the ruling of what is by potentiality*. Actuality outranks potentiality; that is the standing rule of every philosophical tradition al-Kirmani is in conversation with. *And it is impossible for the Second to surpass the First in honor.*
+
+The error in al-Islah's framing comes from importing a category that belongs *later in existence* into a place earlier in existence than the category itself. What al-Islah described — motion and rest, potentiality and actuality — are *qualities of that which comes later in existence, which requires action for its outward manifestation, and that which already exists*. They are *natural-world* categories. The First Intellect is *purely intellectual*; so too is the Second; and what follows them in the chain of overflowing intellects is also pure intellect. *It is not permissible to believe that what necessarily exists from the House of Origination is specialized in matters that lie outside the higher limits.*
+
+This is the recurring move al-Kirmani makes in every *bāb*: *each thing in its rank, each category in its proper domain*. The categories of the natural world — motion, rest, potentiality, actuality, before-and-after as temporal markers — *do not climb* into the *ibda'* register. To force them up there produces only nonsense, like the nonsense that the Second is more honorable than the First because it has by actuality what the First has only by potentiality.
+
+The hadith of the Prophet (peace and blessings of Allah be upon him) on the Pen — *the first thing God created was the Pen, then He said to it: Write* — names the same picture from another side. The Pen is the *al-Qalam* (al-qa-lam; one of the Ismaili names for the First Intellect). It does not write because it has been *moved*. It writes because *kun* has been spoken to it and what it inscribes is the existing of the things below it. The Pen's *writing* is the First Intellect's *being*. There is no motion-toward; there is only the act and what the act produces.
+
+> The first thing Allah created was the Pen, and He said to it: Write. The Pen said: My Lord, what shall I write? He said: Write the decree of all things until the Hour comes to pass.
+> (Hadith reported by Abu Dawud, *Sunan*, no. 4700; cf. Tirmidhi 2155; classical chain.)
+
+## Fasl 4 — "Power learned from the intellect, in matter and form"
+
+The fourth *fasl* takes up al-Islah's specific formula about how motion and rest reach the natural world: *they are effects of the soul by the power learned from the intellect, in matter and form*.
+
+The reading al-Kirmani settles on is benign. What the formula *means* — taken in the best light — is that the bodies which exist in matter and form are moved by the natural power present within them, *which derives from what is outside*: from the First and Second intellects, the motion of longing toward what is above. The form is the body's *mover*; that the form should itself be *movable* is impossible (which is why the body, made of matter and form, can move while the form remains stable). This is what is meant by "learned from the intellect" — that the existence of the form *is from the intellect*. *It is correct in this manner, and it is the better of the two ascriptions.*
+
+So al-Islah's formula is *not wrong* on the natural-world reading, where the soul's natural-power-from-the-intellect drives matter and form into the actual motions and rests of bodies. It is wrong only when its terms are stretched to apply to the soul and intellect *themselves*, as though the universal Soul moves with the same motion the embodied soul moves with, or as though the universal Intellect rests with the same rest a stone rests with. The same recurring discrimination: *take the words as natural-world claims, and they are right; take them as originative-order claims, and they are wrong*. This is the verdict al-Kirmani has been reaching across every *fasl* of *bāb* 1, and now of *bāb* 2.
+
+## Fasl 5 — Motion to the soul, rest to the intellect — but not in the originative order
+
+The fifth *fasl* takes up al-Nusra's alternative: *motion belongs to the soul and rest to the intellect, so it is not permissible to believe that these exist within those transcendent limits*. Al-Nusra wants to keep motion and rest out of the originative order; he is right to want this. But the way he tries to do it — by giving motion to the universal Soul and rest to the universal Intellect — still places motion and rest *somewhere* in that order, and that is the mistake.
+
+Al-Kirmani's adjudication is precise:
+
+> The world of origination is the totality of before and after, and the pure intellects, which are the highest paradoxical substances of all things, are above any object of supposition that could be ascribed to them — whether motion or rest. For motion in what moves is that in which the thing in which it resides is something other than it, and possesses an existence of its own.
+
+The argument is geometric. *Motion* requires that the thing in which it resides be *other than itself*. If motion is in X, then there is something in X that is *not* X — namely, the motion itself, as a possession that exists in its own right. This is unproblematic for bodies: the moving stone is one thing, and *the motion of the moving stone* is another thing, an attribute the stone possesses. But it is *impossible* for the universal Soul. *Where existence of self exists in the presence of different things, the self is deficient and in need.* The universal Soul, called by al-Islah "soul," from the world of origination, *is specialized in perfection and completeness*. That which is in no way deficient and in no way in need *cannot be different in itself*. If nothing other than itself can be in it, then it cannot be moved.
+
+The same argument applies to the second half. *Motion is that in which the thing in which it is located moves away from its first state to a subsequent state, whether in the self or in its states.* The Soul-as-Successor, whose existence is eternal by way of origination from the Second, is intellectual. *And if it is eternal, then it is impossible for it to be transferred from the state in which it is found first.* Therefore motion cannot be in it.
+
+*To speak of rest is like speaking of motion.* The same proof works at the same stratum. The First Intellect has no rest; nor does the Second, which is called "soul," have motion. What al-Nusra was *trying* to say — and what is true on the version al-Kirmani sets out — is that motion and rest are specialized in the world of body and its contents, where they are among the *causes of natural perfection*. They are not in what is specific to the House of Origination. Al-Nusra reached the right conclusion by the wrong path; al-Islah reached the wrong conclusion by the wrong path. The point al-Kirmani is teaching, slowly across both *bāb* 1 and *bāb* 2, is that the *path* matters as much as the *destination*. A correct conclusion arrived at by the wrong domain-discrimination will fail at the next question.
+
+Al-Kirmani points the reader, as he does at every difficult turn, to his major work:
+
+> We have explained in our well-known book *Rahat al-'Aql* (raa-hat al-aql; The Repose of the Intellect) that motion and rest are specialized in the world of body and its contents, because they are among the causes of its perfection, not in what is specific to the House of Origination.
+
+And he closes the *fasl* with what is by now the familiar prayer:
+
+> May God ennoble his standing, and may He gather them and us together with our pure followers, God's prayers be upon them all.
+
+The argument is sharp; the heart is unfailingly generous. Even when correcting al-Nusra on what he calls a confusion, al-Kirmani prays for his standing.
+
+The image Imam Ali (peace be upon him) used in *Nahj al-Balagha* — that Allah originated without movement, without instrument, without time — names the same principle from the side of the Originator:
+
+> Praise be to Allah, who… originated things without preceding image and created them without prior model. He brought them into existence by His might and dispersed them by His will, without need for arranging, without help from any contrivance, without exercise of any thought, and without exemption from any pretext.
+> (Imam Ali ibn Abi Talib, *Nahj al-Balagha*, Sermon 1; trans. Sayyid Ali Reza, condensed.)
+
+*Without need for arranging, without help from any contrivance, without exercise of any thought.* The originative act is not a process. It is not a sequence of states. It is not a *motion*. It is the act in which the very possibility of states and motions takes its rise. To ascribe motion to the First Intellect — the first thing produced by that act — would be to repeat at one remove the category-mistake that the great sermon is correcting at its source.
+
+## Fasl 6 — The motion of the heavens, the motion of the speaker-prophet
+
+The sixth *fasl* turns to the question of *whether motion ever exists in the natural world without need*. Al-Nusra had argued, in his summary, that motion arises from need; al-Kirmani has agreed with this when the question is about the *originative* order (because the originative order has no need at all). But he now wants to qualify it for the natural order itself.
+
+> In every instance where need is invoked for what he mentioned, the movement in question is in a natural thing — as one of the causes of its perfection, like the motion of the heavens, which does not move because of need in itself for something it lacked at the moment of its origination, but rather because that motion *is* its perfection.
+
+The heavens move not because they *need* anything they do not have. They move because *moving* is their *kamāl* (ka-maal; perfection). A heaven that did not move would not be a heaven that lacked something; it would not be a heaven *at all*. The motion is constitutive. The Qur'an captures this in the famous verse of the swimming spheres:
+
+> It is He who created the night and the day, the sun and the moon — each in an orbit swimming.
+> (Quran 21:33; English: Saheeh International.)
+
+*Each in an orbit, swimming.* The verb is the verb of fish in water: *yasbahūn*, *they swim*. The heavens are not pushed; they are not dragged; they swim. Their swimming is what they *are*. To ask whether the sun *needs* to move is to ask the wrong question of the wrong stratum. The sun is the kind of thing whose motion is its perfection — its *being-itself*, not its lack.
+
+The same point holds for the speaker-prophet. The Prophet ﷺ (sallallahu alayhi wa sallam; peace and blessings of Allah be upon him) was already perfect when he was raised up; his striving to gather people to worship, his exertion in the matters of governance, the long walk of his prophetic mission — these are *not* motions arising from a deficiency in him. They are *among the perfections that necessarily belong to him, because by them something proper to him is brought about after he has attained perfection — namely, his rising to the rank of prophetic utterance — even though he already exists*.
+
+So the motion of the heavens, the motion of the Speaker-Prophet, the motions of the natural-world things — these can be motions *of perfection*, not motions *of deficiency*. Al-Nusra's claim that motion-for-need is the only motion is *not verified* in this absolute form. His ruling is correct about *some* natural things — the ones where need is in fact inseparable from them — but it is not correct about all natural motions, and it is certainly not correct about the originative order, where motion does not apply at all.
+
+This is a small concession with a large consequence. It rescues the motion of the heavens and the motion of the prophets from being categorized alongside the motion of a hungry animal. The heavens swim because that is the kind of being they are; the prophet walks because that is the kind of being he is. *Need* is a different category from *perfecting motion*. Both are forms of motion in the natural world. Neither belongs in the originative world.
+
+## Fasl 7 — The overflow that reaches every rank
+
+The seventh *fasl* is the most consequential of the *bāb* for the structure of the *Da'wa* (daa-wah; the Ismaili summons). Al-Nusra had argued, by way of summary, that *what he holds concerning the soul, other than that some…* — and the rest is the picture: the Prophet stands alone in receiving the blessings of the world of *al-Quds* (al-quds; Holiness); the blessings reach him; they stop with him; they do not flow onward to the *wali* (wa-lee; the Guardian, the spiritual successor) and his followers; the Prophet communicates nothing of them to anyone.
+
+Al-Kirmani sees the consequence of this picture clearly, and names it: it would be *plainly invalid*. Because if the *wali* received nothing, *the wali (peace be upon him) would be made doubtful in his perfection and merit, and his standing in the place of the Prophet (peace and blessings be upon him) and his family, and the obedience due to him, would also be cast into doubt and suspicion. From this it would follow that it is not permissible to give credence to the speaker-prophet, nor to the guardian, nor to the* hujjah (huj-jah; the Proof, a rank in the Ismaili hierarchy of teaching authority), *nor to the* hudud (hu-dood; the limits, the named ranks of teaching authority in the *Da'wa*).
+
+The whole hierarchical structure of the Ismaili *Da'wa* would collapse if al-Nusra's picture were correct. The Prophet would be cosmically alone; the guardians and the proofs and the limits would all be irrelevant; nothing would have any standing in the spiritual hierarchy below him. Al-Kirmani's reply restores the structure:
+
+> The blessings overflow from the side of every rank. The reason that those blessings by which perfection is attained do not reach every being, and that the hudud do not hold them, is the incapacity of the receivers to accept them — corresponding to the strength of the one who is able to receive. Some receive the blessings in full; some receive only part of them. Some are by nature unteachable; some are compassionate teachers; some are willing learners.
+
+*The blessings overflow from every rank.* The hierarchy is not a series of valves that close. It is a chain in which every link is itself a source — overflowing into the link below — proportioned to the capacity of what stands below to receive. If a receiver does not receive, it is *not* because the giver above has not given. It is because the receiver lacks the capacity. *It is not permissible to limit the hudud in such a way as to withhold the benefit of the benefactor, so long as the receiver is entitled to it when it is willed for him.*
+
+The hadith of the Prophet ﷺ that al-Kirmani then quotes is striking, and not the obvious choice. He uses the Prophet's prohibition against the killing of children — a directive of obvious literal force — as a *figure* for the prohibition against locking away spiritual wealth from those it is meant for:
+
+> Do not kill your children for fear of want.
+> (Quran 17:31; English: Saheeh International. Also a hadith on the same theme.)
+
+To kill one's children for fear of want is to deny them the *wealth of their being* — their right to exist, their right to grow into what they are. *Whoever did so has sinned and overstepped his station and fallen from the rank of the virtuous.* If this is the verdict on *bodily* wealth, then *how then can it be permissible to lock away the spiritual wealth — which is to say the sciences and the radiant blessings — from their rightful owners, when the Prophet ﷺ commanded that such wealth be paid over to them*, as he said:
+
+> And test the orphans until they reach the age of marriage. Then if you perceive in them sound judgment, release their property to them; and do not consume it excessively or quickly, anticipating that they will grow up.
+> (Quran 4:6; English: Saheeh International.)
+
+To withhold the spiritual wealth from those who are ready for it is the same sin as withholding orphaned wealth from those who have come of age. The blessings overflow. But they reach only those *who deserve them, and only by report from those properly situated, in the manner explained in the hermeneutic letters and the Basran (bas-ran) and Baghdadi (bagh-daa-dee) majalis (ma-jaa-lis; teaching sessions, councils)*.
+
+This is the structural heart of *bāb* 2 from the standpoint of the *Da'wa*. The First Intellect overflows into the Second; the Second into the natural-world souls; the Prophet into the Imam; the Imam into the *hujjah*; the *hujjah* into the *Da'i* (daa-ee; the missionary, the summoner); each link into the next link, *proportioned to the capacity of what is below to receive*. The *bāb* about the First Intellect, in this *fasl*, becomes a *bāb* about the entire structure of teaching authority. Every rank is a source, and the *Da'wa* is the orderly channel through which the originative overflow reaches the souls it was always meant to reach.
+
+## Fasl 8 — The intellect as the ocean that encompasses
+
+The eighth *fasl* offers one of the most beautiful figures of the entire *bāb*. Al-Nusra had argued that the difference between the Intellect and the Soul is the difference between *encompassing* and *moving*. *Action is the essence of encompassing — it surrounds things — and this is not the condition of what is moveable, for the moveable does not surround things; rather it stands in need of something to abide in a state of stillness, so that by its stillness it may encompass*. When al-Nusra was looking for the right image, he reached for the ocean:
+
+> An ocean gathers things while remaining itself unmoved and surrounds them — whoever encompasses what he obtains, gaining from its light and virtues — we know that the intellect is utterly still and that no notion of movement attaches to it; whereas the soul only moves in order to reach the threshold of the intellect, and then to abide there, and it does not move in order to surround.
+
+The figure is brilliant. The ocean does not *go* anywhere. The ocean *is* the place where everything that swims in it lives, where rivers end, where ships find their course. The ocean encompasses by *being where it is*. The intellect, on al-Nusra's image, is exactly this: a still vastness that surrounds and supplies, while the soul is the fish or the river that finds its rest by reaching the ocean. *The soul thus moves a movement of subsisting that comes to rest by drawing benefit from the one that is settled.*
+
+Al-Kirmani receives the image generously. He then qualifies it with the care that distinguishes the originative order from the natural order one more time:
+
+> It might be said that the intellect is not moving with respect to what does not endure, and not that the intellect, if it is not moving, must therefore be at rest in the way of bodies (which are not free from being either at rest or in motion), because its existence is not like the existence of bodies that are never free from these. The arguments already given are sufficient, and they indicate that movement and stillness do not properly apply to it.
+
+The ocean image *works* as a figure — for the soul reaching its rest in the intellect. But the figure must not be pressed into saying that the intellect is *at rest* in the way that a body is at rest. The intellect is not "moving" because it is *not the kind of thing* to which the motion-or-rest contrast applies. *Its existence is not like the existence of bodies that are never free from these.* The ocean rests; the intellect is *above* the dyad of rest-and-motion altogether. Al-Nusra's image, taken as a figure, is illuminating; taken as a metaphysical claim, it carries the same buried mistake al-Kirmani has been correcting from *fasl* 1: the use of natural-world categories where originative-order categories belong.
+
+The qualifying point is also why the conclusion al-Nusra draws — that *so long as the soul is in motion, it does not encompass anything and does not attain virtues* — is, as al-Kirmani puts it, *not a sound meaning, however the case is parsed*. The Soul of which al-Islah speaks is not "in motion" in the way al-Nusra's natural-soul-in-the-body is in motion. *Souls residing in the house of nature acquire only by being moveable and embodied, employing the senses, deductions, and utilizations, and the matter exists at the establishing of the evidence for it.* That is the natural soul. *The Soul-as-Successor is not differentiated from the Second in the manner we have indicated; nor does it apply to what is not differentiated.* The category does not climb.
+
+## Fasl 9 — The two readings of "soul moving in a movement of subsisting"
+
+The ninth and closing *fasl* of the *bāb* is short, decisive, and gracious — exactly the kind of close al-Kirmani favours. Al-Nusra had said: *the soul is moving in a movement of subsisting which comes to rest by drawing benefit from the one that is at rest*. Al-Kirmani's verdict on this sentence is split:
+
+> He spoke truthfully when he gave a meaning to this; he spoke falsely on the face of what he says.
+
+The sentence is true *if* "soul" is read as *the natural souls*. *In which case it is said that the soul is moving, because the natural souls, which exist in potency, move toward acquisition; and his calling it "a movement of subsisting" is correct because such acquisition leads them into subsistence. His saying that "it comes to rest by drawing benefit" is correct, because by acquiring and drawing benefit and hunting down knowledge — virtues both in knowledge and in action — the soul goes out of potency into actuality. As for the one with whom it comes to rest, he is the one from whom the soul already takes its being.* On this reading, al-Nusra is *right*.
+
+But on the face value — as a claim about the universal Soul and the universal Intellect — the sentence is *false*. *The Second is not a moving thing, and the intellect is not a resting thing in the sense in which we apply rest to bodies; they have no need of movement, stillness, and the rest.*
+
+The recurring formula one more time: *take this as a statement about natural-world souls, and it is correct; take it as a statement about the Soul-as-Successor and the First Intellect, and it is incorrect*. The discriminating reader, the student of the *Da'wa*, learns to *hold both readings* and to know in any given sentence which one is in play. To collapse the two — to read about the universal Soul as though it were the soul in your own body, or to read about the soul in your own body as though it were the universal Soul — is the move that produces every confusion the *bāb* has been correcting from *fasl* 1.
+
+And the closing sentence of *bāb* 2 — and indeed of this chapter — is the prayer that gives the entire metaphysical apparatus its purpose:
+
+> One ought, then, to occupy oneself with knowing the levels of the hudud, so that the matter of perception is not confused — for things grasped only through their accidents lead to corruption of the essences of souls. God is the light of our intellects by means of these hudud, and we are made happy by following the pure stages of the divine sciences and the treasuries of the lights of al-Quds — may God's prayers be upon them.
+
+*God is the light of our intellects by means of these hudud.* The hierarchical structure of teaching authority — the *Da'wa* with its named ranks — is not an institutional flourish on top of a metaphysical doctrine. It *is* the way the originative overflow reaches the intellects that need it. Without the *hudud*, perception is corrupted, because the soul left to grasp things only through their *accidents* — through motion, rest, time, space, the categories of the natural world — will mistake those for the *essences* of things that lie in the originative order. *The hudud are the light of the intellect.* The First Intellect overflows into the Second; the Second into the Foundation's call; the Foundation's call into the *hujjah* and the *Da'i*; and the *Da'i* into the soul that is ready to receive. Each rank a source. Each soul illumined at its own level by the light overflowing from above.
+
+This is what the dispute about motion and rest, when pressed, was really *about*. Not whether one cosmological attribute belongs to the First or the Second. Rather: *what kind of being can give rise to the natural world*? Answer: *not a being that moves and not a being that rests*. The originator is the *act of origination*, and that act is not a motion. The First Intellect is the *first existence of that act*, and that existence is not a motion. The Second is the *first overflow of that act*, and that overflow is not a motion either, although the natural-world souls into which the overflow descends *do* move and rest and acquire and forget. Each thing in its rank. Each category in its place. And above all, the *hudud* — the orderly channel by which the light of the originative act reaches us at all.
+
+## A sentence from the family
+
+The architecture al-Kirmani has laid out — *the First Intellect as the act of origination; the Second as the first overflow; motion and rest belonging only to the natural-world things that receive the overflow; the* hudud *as the orderly channel by which the overflow reaches us* — is rendered in a sentence often associated with the supplications of Imam Zayn al-'Abidin (zayn al-aa-bi-deen; the fourth Imam, peace be upon him), the great-grandson of the Prophet ﷺ:
+
+> O Allah, you do not need to move toward what you create, and you do not need to rest from what you have created; rather, you create as you are, in your unchanging being, and your light reaches us through those whom you have established as channels of your reaching.
+> Source: paraphrased after the manner of the supplications in *al-Sahifa al-Sajjadiyya* (the Psalms of the House of Muhammad).
+
+*You create as you are, in your unchanging being.* The originator does not move to create. The First Intellect does not move to overflow. The Second does not move to give. *Each is what it is, fully* — and the overflow happens *because* each is what it is, fully, not *despite* it. The natural-world soul, by contrast, *must move* in order to receive what overflows; for the natural-world soul is in *potency* and only becomes itself by acquiring what it does not yet have.
+
+## The book the *bāb* belongs to
+
+*Bāb* 2 closes here. The brief nine *fusūl* have done their work: motion and rest are placed firmly in the natural-world stratum; the First Intellect and the Soul are placed firmly above that stratum; the two disputants have each been corrected — al-Islah on his potentiality-and-actuality symmetry, al-Nusra on his motion-to-soul and rest-to-intellect alternative; the *hudud* have been named as the channel of the originative overflow; and the closing prayer has placed the entire metaphysical apparatus in the service of the illumination that no apparatus can produce on its own.
+
+The *bāb*s ahead take up the natural questions that follow. *Bāb* 3 examines soul and spirit — whether they resemble the First. *Bāb* 4 takes up souls as parts and effects of the larger order. *Bāb* 5 considers the human being as the fruit of the world. *Bāb* 6 returns to motion, stillness, and form, but now within the natural-world stratum where they properly belong. Each *bāb* will sit on the architecture that *bāb* 1 and now *bāb* 2 have established together: *each thing in its rank, each category in its proper domain, the originative order distinguished from the natural order, and the* hudud *as the orderly channel by which the light of the First reaches the souls below*.
+
+The First Intellect is the first originator. It does not move; it does not rest; it *is* — and from its being, all the rest of being takes its rise.

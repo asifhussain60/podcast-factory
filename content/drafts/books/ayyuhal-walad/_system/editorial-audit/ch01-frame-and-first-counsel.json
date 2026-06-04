@@ -1,0 +1,59 @@
+{
+  "slug": "ayyuhal-walad",
+  "chapter": "ch01-frame-and-first-counsel",
+  "stage": "narrator",
+  "audited_at": "2026-05-30T18:40:28Z",
+  "findings": [
+    {
+      "id": "EA-001",
+      "paragraph_index": 0,
+      "action": "suppress",
+      "confidence": "high",
+      "reason": "Stage heading — redundant with editor stage tab; not content.",
+      "pattern": "H1_STAGE_LABEL",
+      "condensed_replacement": null
+    },
+    {
+      "id": "EA-002",
+      "paragraph_index": 1,
+      "action": "suppress",
+      "confidence": "high",
+      "reason": "Pipeline metadata artifact — provenance comment not intended for the reader.",
+      "pattern": "METADATA_ITALIC",
+      "condensed_replacement": null
+    },
+    {
+      "id": "EA-003",
+      "paragraph_index": 3,
+      "action": "consolidate",
+      "confidence": "medium",
+      "reason": "Biographical background — 3 consecutive paragraphs (P3–P5); condense to 1 para before substantive commentary.",
+      "pattern": "BIO_INTRO_BLOCK",
+      "condensed_replacement": "Imam al-Ghazali — Hujjat al-Islam born 450 AH — was one of the most influential scholars in Islamic history, whose written legacy continues to shape Islamic spirituality. This letter is among his most personal works."
+    },
+    {
+      "id": "EA-004",
+      "paragraph_index": 4,
+      "action": "consolidate",
+      "confidence": "medium",
+      "reason": "Biographical background — 3 consecutive paragraphs (P3–P5); condense to 1 para before substantive commentary.",
+      "pattern": "BIO_INTRO_BLOCK",
+      "condensed_replacement": "(see first paragraph of block)"
+    },
+    {
+      "id": "EA-005",
+      "paragraph_index": 5,
+      "action": "consolidate",
+      "confidence": "medium",
+      "reason": "Biographical background — 3 consecutive paragraphs (P3–P5); condense to 1 para before substantive commentary.",
+      "pattern": "BIO_INTRO_BLOCK",
+      "condensed_replacement": "(see first paragraph of block)"
+    }
+  ],
+  "pipeline_gap": false,
+  "summary": {
+    "suppress": 2,
+    "consolidate": 3,
+    "pipeline_gap_words": null
+  }
+}

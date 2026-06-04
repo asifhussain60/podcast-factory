@@ -1,0 +1,18 @@
+---
+import NarrativeBase from "../layouts/NarrativeBase.astro";
+import NarrativeScroll from "../components/NarrativeScroll";
+import arch from "../data/architecture-snapshot.json";
+import dashboard from "../data/dashboard-snapshot.json";
+
+const shipped = (dashboard.books_shipped ?? []) as Array<{episodes: number}>;
+const episodeCount = shipped.reduce((s: number, b) => s + (b.episodes ?? 0), 0);
+const shippedCount = shipped.length;
+---
+<NarrativeBase title="Podcast Factory" description="From Content To Conversation — any source material, beautifully produced as a podcast series.">
+  <NarrativeScroll
+    phases={arch.phases as any}
+    shippedCount={shippedCount}
+    episodeCount={episodeCount}
+    client:load
+  />
+</NarrativeBase>

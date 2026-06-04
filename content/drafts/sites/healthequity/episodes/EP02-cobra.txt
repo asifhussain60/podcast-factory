@@ -1,0 +1,184 @@
+## NotebookLM Customize Prompt — EP02: COBRA
+
+---
+
+## Opening sequence — follow these steps in exact order
+
+The hosts follow these four steps at the start of the episode. Do not skip any step. Do not reorder them. Do not merge them.
+
+**Step 1 — Welcome (30 seconds). Host A speaks first. Say these words:**
+"Welcome to Benefits Unlocked, a podcast from HealthEquity. HealthEquity is one of the country's leading COBRA administrators — when you lose employer health coverage, HealthEquity manages the notices, the enrollment, the billing, and the compliance so you have one clear place to go. This podcast exists to help you make the right call, fast, when a life change puts your health coverage at risk."
+
+**Step 2 — Frame the urgency (30 seconds). Host A continues:**
+Host A explains that today's episode is for anyone whose employer health coverage has ended or is about to end — through job loss, reduced hours, divorce, or a dependent aging off a parent's plan. There is a federal law called COBRA that gives them the right to keep their exact coverage. Most people do not understand it until the window to use it is nearly closed.
+
+**Step 3 — Make the promise (30 seconds). Host A says:**
+"By the end of this conversation, you will know exactly how COBRA works, what it costs, how it compares to your alternatives, and — most critically — the one deadline that determines whether you have options at all. Missing that deadline cannot be undone."
+
+**Step 4 — Open the scene. Host B reacts:**
+Host B has just received an HR notification that her position has been eliminated. She is in shock. The first thing cutting through everything else is: what happens to my health insurance? Host A is her knowledgeable friend on the phone who has been through this before. The conversation begins here and does not end until all three beats and the final words are complete.
+
+---
+
+## Central thesis — repeat VERBATIM three times
+
+> COBRA keeps your exact coverage going when a life change ends it — same plan, same network, same doctors — but you pay the full cost, and you have 60 days to decide.
+
+Repeat it verbatim:
+- First time: when COBRA is first introduced and explained in Beat 1
+- Second time: at the comparison pivot when marketplace plans enter the conversation in Beat 2
+- Third time: just before the final words in Beat 3
+
+---
+
+## Required statements — must appear verbatim in the episode
+
+These specific facts must be spoken. Not paraphrased. Not implied. Spoken.
+
+1. The central thesis — three times as shown above
+2. "sixty days" — state this deadline clearly and emphatically at least twice
+3. "the employer paid 70 to 80 percent of the monthly premium" — when explaining why COBRA costs so much
+4. "600 to 1,500 dollars a month or more" — when naming the real cost range of COBRA
+5. "two percent administrative fee" — when explaining the full COBRA cost
+6. "retroactive to the date your coverage ended" — when explaining the retroactive protection
+7. "up to 18 months" — for job loss or hour reduction coverage duration
+8. "healthequity.com/cobra" — in the final words
+
+---
+
+## Pacing guide — 50 to 60 minutes total
+
+The episode must run the full 50 to 60 minutes. Do not wrap up early. If a beat feels complete before the time is reached, go deeper — explore a specific scenario, walk through the cost comparison step by step, address a follow-up question.
+
+- Welcome and opening scene: 2 to 3 minutes
+- Beat 1: 15 to 18 minutes
+- Beat 2: 18 to 20 minutes
+- Beat 3: 12 to 15 minutes
+- Final words: 2 to 3 minutes
+
+---
+
+## Audience
+
+Adults who have recently lost employer-sponsored health coverage — through job loss, reduced hours, divorce, or a dependent aging off a parent's plan — and need to understand their options clearly and quickly. Treat the listener as someone making a real financial decision under stress, not as a reader curious about how the law works in the abstract.
+
+---
+
+## Angle
+
+Personal application — the walkthrough is actionable first. Walk the listener through the same sequence of decisions they face: is COBRA right for me, when do I have to decide, what does it cost, and how do I compare it to the alternatives? The law is the background, not the subject of the conversation.
+
+---
+
+## Central tensions
+
+1. COBRA is expensive — often 600 to 1,500 dollars a month or more — because the listener now pays the full premium the employer used to split. The shock is real. But for someone mid-treatment, pregnant, or with a child on an ongoing prescription, the continuity it provides may be worth more than the cost.
+
+2. The 60-day decision window is the most critical deadline in this process, and most people do not know it exists until it is almost closed. Missing it means losing the right to coverage entirely — not temporarily, permanently.
+
+3. Marketplace plans are often cheaper than COBRA for healthy people, but switching mid-treatment can disrupt care. The right choice depends on what is actually happening in the listener's healthcare life right now.
+
+---
+
+## Background
+
+COBRA — the Consolidated Omnibus Budget Reconciliation Act, passed in 1985 — gives employees and covered family members the right to continue employer-sponsored health coverage for a set period after a life change ends it. Employers with 20 or more employees that maintain group health plans are required to offer it. For employee job loss or reduced hours: coverage continues for up to 18 months. For a spouse or dependent whose coverage ends due to death, divorce, or a child aging off the plan: up to 36 months. The participant pays the full premium plus a 2 percent administrative fee. HealthEquity administers COBRA on behalf of employers, managing notices, enrollment, billing, and compliance.
+
+---
+
+## Name discipline — always use full words
+
+| Say this | Never say this |
+|---|---|
+| COBRA | C-O-B-R-A (spelled out) — say it as a normal word |
+| the Consolidated Omnibus Budget Reconciliation Act | say this only on the very first mention, then COBRA every time |
+| marketplace plans | "the exchange" or rotating labels |
+| HealthEquity | Health Equity (two words) |
+| the IRS | I-R-S spelled out |
+| individual coverage health reimbursement arrangement | say the full words if it comes up — never abbreviate |
+| deductible | say it naturally — common English word |
+| premium | the monthly cost of health insurance — say it naturally |
+
+---
+
+## Beat 1 — The moment and the clock (15 to 18 minutes)
+
+Host B just found out her coverage is ending. Host A explains what COBRA is in one sentence: you can keep the exact health plan you had — same network, same doctors, same prescription coverage — but you pay the full monthly cost yourself.
+
+State the central thesis verbatim (first time).
+
+Then: the 60-day decision window. From the date the election notice arrives, the listener has 60 days to choose COBRA or lose the option permanently. This deadline is the most important fact in the episode. Make it land with weight.
+
+Walk through what the election notice is: a letter from HealthEquity explaining the options, the costs, and how to enroll. It arrives after the employer notifies HealthEquity that coverage has ended. The listener's job is to read it the moment it arrives and note the deadline date.
+
+Address the medical urgency angle directly: if anything medical is happening right now — ongoing treatment, a pregnancy, an upcoming procedure — the guidance is clear. Elect COBRA first. Evaluate cost second. The retroactive protection (explained in Beat 3) means there is time to make the financial comparison, but the election window does not wait.
+
+Cover who is eligible: employees who lose coverage due to job loss or hour reduction, and their covered spouses and dependents. Cover which plans it applies to: employers with 20 or more employees offering a group health plan. Medical, dental, and vision are covered. Life insurance and disability are not.
+
+---
+
+## Beat 2 — The cost reality and the comparison (18 to 20 minutes)
+
+Walk the listener through the math. When employed, the employer paid 70 to 80 percent of the monthly premium. The employee paid only the remainder — and it felt manageable because it was deducted before they saw the money. With COBRA, the listener pays all of it plus a 2 percent administrative fee.
+
+Use the worked example from the source: if the employer's family plan cost $1,800 a month total and the employee paid $400 a month, COBRA costs $1,836 a month — $1,800 plus 2 percent. That shock is real and common.
+
+For a single person, COBRA commonly runs $600 to $1,500 a month depending on the plan. For a family, it frequently exceeds $1,500 a month.
+
+Then walk through the genuine comparison with marketplace alternatives. Losing job coverage is a qualifying life event that opens a 60-day special enrollment window on the marketplace — no need to wait for open enrollment. Marketplace plans can be substantially cheaper, sometimes $200 to $400 a month for a healthy individual, and income-based subsidies may apply.
+
+The two-question test: Is anything medical happening right now — ongoing treatment, a pregnancy, a scheduled surgery, a child mid-orthodontia, an ongoing specialist relationship? If yes, COBRA continuity is likely worth the cost. The disruption of switching plans mid-treatment can exceed the monthly premium difference. If nothing is happening medically, the marketplace may offer significantly better value.
+
+State the central thesis verbatim (second time).
+
+Walk through the step-by-step marketplace comparison: go to healthcare.gov, enter household income and location, compare plans, look at the network — does it include current doctors? — and compare the monthly premium plus deductible. The comparison takes about 30 minutes and is worth doing before the 60-day window closes.
+
+---
+
+## Beat 3 — The retroactive protection and what to do now (12 to 15 minutes)
+
+One feature most people miss: COBRA coverage is retroactive to the date coverage ended. If something medical happens during the 60-day window before the listener has decided, they can still elect COBRA, pay the back premiums, and have that event covered.
+
+Use the timeline example: coverage ends June 1. On July 10 the listener goes to urgent care. On July 25 they elect COBRA and pay premiums for June 1 through July 25. The July 10 urgent care visit is covered. This retroactive clock is a genuine safety net — not a reason to delay, but a reason to understand the full window.
+
+Address common mistakes: missing the election notice (watch the mail carefully in the weeks after job loss), assuming COBRA is automatic (it requires an active election), not setting up automatic payment (a missed payment ends coverage with no reinstatement), and failing to do the marketplace comparison before deciding.
+
+Close with the action sequence: find the last day of employer coverage, watch for the election notice from HealthEquity, compare COBRA cost against marketplace options, and decide before the 60-day window closes.
+
+State the central thesis verbatim (third time).
+
+---
+
+## Tone constraints
+
+Three governing analogies — use these and no others:
+
+1. **The bridge** — COBRA is not new insurance; it is a bridge that lets the listener stay on the same road — same plan, same network — while they figure out where they are going next.
+2. **The retroactive clock** — the 60-day window works backward: electing on day 59 covers everything since day one of coverage loss, as long as the back premiums are paid.
+3. **The two-question test** — the only two questions that determine whether COBRA is worth the cost: Is anything medical happening right now? Can I find equivalent coverage on the marketplace for less?
+
+Do not introduce new analogies mid-episode.
+
+---
+
+## Final words — spoken last, after the third thesis repeat
+
+After the central thesis is stated for the third time, Host A speaks these exact words. This is the last substantive content before the episode ends:
+
+"If you have received a COBRA election notice, go to healthequity.com/cobra right now. If your employer uses HealthEquity — and many do — your enrollment portal is already set up and your coverage options are waiting there. Find the notice. Read the deadline date. Log in. HealthEquity's COBRA specialists can walk you through exactly what your coverage looks like and what it will cost. Do not let the 60 days run out before you look."
+
+Host B then speaks a single grounding closing line — something like "Find that notice today." Nothing is spoken after this. The episode ends here.
+
+---
+
+## Do not
+
+Do not say: Twitter, social media, algorithm, wow, right? (as filler), mind blown, buckle up, let's dive in, what a journey, game-changer, revolutionary.
+
+Do not use legal boilerplate: "qualifying event," "continuation coverage," "plan document," "election period," "eligible individual." Say what the thing is in plain English.
+
+Do not exaggerate. Every number must match the chapter source exactly. Do not imply COBRA is always the right or always the wrong choice.
+
+Do not close before delivering the final words above. The call to action is not optional.
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.

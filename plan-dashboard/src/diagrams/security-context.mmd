@@ -1,0 +1,8 @@
+flowchart TB
+  YOU["You — operator"] -->|"approves 2 gates"| SYS["Podcast Factory pipeline"]
+  SYS -->|"file / stdio · no network"| CORP[("Wisdom Corpus<br/>local · authoritative<br/>no public-web fallback")]
+  SYS -->|"HTTPS / SSH · authorised egress only"| EXT["External services<br/>Azure · Anthropic · Google<br/>GitHub · NotebookLM"]
+  classDef local fill:#fffdf8,stroke:#4a7c4a,stroke-width:1.5px;
+  classDef ext fill:#fffdf8,stroke:#c08020,stroke-width:1.5px;
+  class YOU,SYS,CORP local;
+  class EXT ext;

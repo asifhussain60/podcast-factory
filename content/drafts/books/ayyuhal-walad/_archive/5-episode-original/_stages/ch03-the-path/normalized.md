@@ -1,0 +1,5 @@
+# Normalized — ch03-the-path (house voice via Gemini)
+
+My dear youth, from this day forward, ask me about what troubles you, but only with the language of the heart. As Allah says in the Quran, "and had they waited patiently until you came forth to them, it had been better for them." Heed the counsel of Khidr, peace be upon our Prophet and upon him: "And do not ask me about anything until I mention it unto you." Do not rush the time when truth will be revealed to you. Recall the verse, "I will show you my signs so do not be in a hurry." Therefore, do not question me before the appointed time. Understand that you will only reach that time through spiritual journeying. "Have they not travelled through the earth, and seen?"
+
+My dear youth, by Allah, if you embark on this journey, you will witness wonders at every stage. Devote your spirit wholeheartedly, for the essence of this path lies in the abundant application of your spirit. As Dhu 'l-Nun al-Misri, may Allah have mercy on him, told one of his students: "If you are able to give your spirit without reserve, come; and if not, then do not busy yourself with superficial spiritual practices."

@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "github.copilot",
+    "github.copilot-chat",
+    "ms-python.python",
+    "ms-python.pylance",
+    "astro-build.astro-vscode",
+    "bradlc.vscode-tailwindcss",
+    "redhat.vscode-yaml",
+    "ms-vscode.vscode-typescript-next"
+  ]
+}

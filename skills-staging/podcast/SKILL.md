@@ -39,11 +39,13 @@ Treat any reference below to a `content/podcast/.skill/handbook/*` path as advis
 - **Tradition-pack registry** (F31 foundation) — books declare `source_tradition` in series-config.yaml. Build gate at `assert_doctrinal_clean` skips Islamic doctrinal checks with `T-NO-PACK` info line when no pack exists at `content/_shared/<tradition>/`. Aliases ismaili/shia/sunni/twelver/sufi → islam.
 - **Episode-format enum** (F32 foundation) — `EPISODE_FORMAT_ALLOWED` now has 7 values (added walkthrough, monologue, interview, recap, narrative). `EPISODE_FORMAT_FULLY_WIRED = (deep_dive, debate)` — formats outside this set are accepted but emit a P1 best-effort warning.
 - **Scholarly-rubric v2.2** — `CHALLENGER_VERSION = "2.2"`. Five new R-* rule families: `R-NO-AI-CLICHE`, `R-NO-FAUX-PROFUNDITY-OPENING`, `R-NO-PREMATURE-CLOSURE`, `R-NO-DEEP-DIVE-SELF-REFERENCE`, `R-NO-ESSENTIALISM-EXTERNAL`. Inlined into both auditor prompts. Tradition-precedence: locked TTS-safety doctrine (F20/F24/F27/F29) wins over scholarly-rubric on conflict.
+- **Scholarly-rubric v2.3** — `CHALLENGER_VERSION = "2.3"`. Added K6 (Interest axis): Category V (V1–V5) with `R_INTEREST_WEIGHT = 0.15`. The PEQ scoring formula is now 5-axis (Precision + Enrichment + Quality + Doctrine + Interest). SN-7 (terminus-technicus preservation) added as a pre-K6 Slice 2 fix.
+- **Wave L — Category W (augmentation quality)** — `CHALLENGER_VERSION = "2.4"`. Content-level gating for Islamic books (general → advanced → taveel → mamsool → mabda_maad → haqaiq; cumulative downward; doctrine-only — Quran/Hadith/Etymology are universal). Wave M expanded the ladder from 4 to 6 levels sourced from Kashkole `dbo.Lookup_levels`; migration `026_atoms_update_content_level_ladder.sql` enforces the new CHECK. Category W (W1–W6) in [`_augmentation.py`](../../scripts/podcast/_augmentation.py): genuine-gap (P1), natural (P1), etymology discipline ≤3/chapter spoken-not-spelled (P1), content-level integrity (P0), no-fabrication (P0), no-cross-chapter-repeat (P1). Etymology woven as spoken root-insight; `episode-augment-ledger.json` enforces no atom repeats across chapters. Opt-in by `content_level` in meta.yml — non-Islamic books unaffected.
 - **Editorial frontmatter exclusion + thesis_relevance** — Phase 0d author prompt now EXCLUDES editor's intros/translator's prefaces from the episode array; each chapter contract requires `thesis_relevance` connecting the chapter to the book's central thesis.
 - **Concurrency-safe ledgers** — fcntl LOCK_EX on findings.jsonl + cost-ledger.jsonl. Safe for N-parallel writers (e.g., the new Phase 0b/0c parallel windows).
 - **Azure cost tracking** — `_cost_ledger.append_azure_{docintel,translator,speech}_cost` helpers wired at all four Azure callsites. Per-book cost-ledger.jsonl now captures Azure spend alongside LLM spend.
 
-Authority files for these additions: [_workspace/plan/pipeline-debt.md](../../_workspace/plan/pipeline-debt.md) F1/F4/F11/F12/F23/F30-F37, [_rules.py:CHALLENGER_VERSION](../../scripts/podcast/_rules.py), [framework.md §"2026-05-25 cleanup wave"](../../framework.md), [_workspace/runbooks/e2e-book.md](../../_workspace/runbooks/e2e-book.md) (intake → publish), [_workspace/runbooks/publish.md](../../_workspace/runbooks/publish.md) (G1-G7 gates), [_workspace/runbooks/watchdog.md](../../_workspace/runbooks/watchdog.md) (three-layer self-healing).
+Authority files for these additions: [_workspace/plan/pipeline-debt.md](../../_workspace/plan/pipeline-debt.md) F1/F4/F11/F12/F23/F30-F37, [_rules.py:CHALLENGER_VERSION](../../scripts/podcast/_rules.py), [framework.md §"2026-05-25 cleanup wave"](../../framework.md), [docs/runbooks/e2e-book.md](../../docs/runbooks/e2e-book.md) (intake → publish), [docs/runbooks/publish.md](../../docs/runbooks/publish.md) (G1-G7 gates), [docs/runbooks/watchdog.md](../../docs/runbooks/watchdog.md) (three-layer self-healing).
 
 ============================================================
 SECTION 0: THE MISSION CONSTANT — GOVERNS EVERY EPISODE
@@ -568,7 +570,7 @@ Goal: validate the chapter + framing pair, emit the customize-prompt-only episod
 
 > **Two operating modes — pick one.**
 > - **Conversational mode (this skill, `/podcast`).** Phase-by-phase, human-in-loop. The skill prompts; you respond; the skill advances. This is what the rest of this section describes.
-> - **Autonomous mode (`podcast-orchestrator` agent).** Drop a PDF in `_workspace/Books/` and say "orchestrate it." The orchestrator drives Phases 0a–0e autonomously, halts at the Phase 0f gate for review of the **chapter list + length tier only** (audience / angle / host_dynamic are config defaults + AI-selected), then on `--resume` drives the per-chapter convergence loop (3 outer × 5 inner = 15 max passes) and the post-book `podcast-trainer` pass. The two modes share every script and every handbook file; the only difference is who fires the phase transitions. Full spec in [`docs/architecture/index.html#phases`](../../docs/architecture/index.html#phases); canonical agent at [`.github/agents/podcast-orchestrator.agent.md`](../../.github/agents/podcast-orchestrator.agent.md).
+> - **Autonomous mode (`podcast-orchestrator` agent).** Point the orchestrator at a source PDF (any path; it ingests into `content/drafts/<category>/<slug>/`) and say "orchestrate it." The orchestrator drives Phases 0a–0e autonomously, halts at the Phase 0f gate for review of the **chapter list + length tier only** (audience / angle / host_dynamic are config defaults + AI-selected), then on `--resume` drives the per-chapter convergence loop (3 outer × 5 inner = 15 max passes) and the post-book `podcast-trainer` pass. The two modes share every script and every handbook file; the only difference is who fires the phase transitions. Full spec in [`_workspace/plan/architecture.md`](../../_workspace/plan/architecture.md); canonical agent at [`.github/agents/podcast-orchestrator.agent.md`](../../.github/agents/podcast-orchestrator.agent.md).
 
 **The two-file deliverable model (architecture v3.4):**
 
@@ -611,6 +613,17 @@ The chapter file IS the source. The build script does NOT transform it; it only 
  The episode txt is regenerated on every refinement pass; the chapter file and the framing file remain the editing surfaces.
 
  3. **HARD GATE — Run the podcast-challenger to SHIP-READY in an outer convergence loop.** The build script is a structural gate. The challenger is the semantic-quality gate — citation authenticity, phonetic coverage drift, enrichment depth, framing 4-part integrity, NotebookLM literalness. Until this gate yields `SHIP-READY` (or an explicit stall surface), Steps 4–8 below MUST NOT execute and the producing agent MUST NOT emit any human-facing "work complete" signal.
+
+ **PEQ quality axes (Wave K — appended to every challenger report):**
+
+ | Axis | Weight | What it measures |
+ |---|---|---|
+ | Fidelity | 35% | Source citations present and correctly paraphrased |
+ | Voice | 25% | Scholar/seeker register (both hosts distinct) |
+ | Structure | 20% | Open hook · three beats · close arc present |
+ | Enrichment | 20% | Arabic terms glossed; Quranic refs cited |
+
+ Thresholds: **≥ 85 = PASS · 70–84 = WARN · < 70 = FAIL**. A chapter with PEQ < 70 is treated as BLOCKED even if the CORTEX verdict is SHIP-WITH-CAUTION. PEQ scores are stored in the `quality_scores` table; fleet trends are visible at `/quality` in the plan dashboard.
 
  **Invocation (one of these, in priority order):**
  - **Preferred** (when invokable as a subagent in the current Claude Code session): `Agent` tool with `subagent_type=podcast-challenger`, prompt `<book-slug>`.
@@ -1118,4 +1131,96 @@ This pattern makes podcast intelligence improvements **isolated to one folder**.
 ### Agents:
  - `.github/agents/podcast-challenger.agent.md` — semantic-quality reviewer; runs in a convergence loop (≤5 iterations per the v1.4 frontmatter `max_iterations: 5`; the orchestrator drives an outer re-invocation loop on top if P0 findings remain) before any bundle ships. Validates citation authenticity (Loop A), NotebookLM literalness (Loop B), phonetic coverage + substitution + name-aliasing (Loops C + J), enrichment depth (Loop D), articulation (Loop E), framing 4-part structure (Loop F), welcome opening + closing landing (Loop H), anti-repetition + no-irrelevant-background (Loop I), interruption avoidance (Loop K). Authority for the check catalog is the two normative rule files (`notebooklm-source-chapter-rules.md` + `notebooklm-customize-prompt-rules.md`). Writes `BOOK_DIR/_system/challenger-report.md`. **Required** between Phase 4 step 1 (quality gate) and step 2 (compile).
  - `.github/agents/journal-challenger.agent.md` — peer challenger for the `/journal` skill. Shares the same contract (`max_iterations: 3`, verdict states `SHIP-READY`/`SHIP-WITH-CAUTION`/`BLOCKED`) and the same shared Arabic references. Out-of-scope for podcast invocations; listed here only so authors know the symmetry exists.
- - `.github/agents/reconcile.agent.md` — **DELEGATE TO THIS AGENT** when Asif points at a `docs/architecture/podcast-*.html` view and says it is wrong, stale, or should also support X. Triggers: any pasted `file:///.../docs/architecture/*.html` URL paired with a change request; phrases "fix this view", "docs and code disagree", "this should also support X", "pipeline is wrong about Y", or "/reconcile". The agent fixes the code FIRST (skill → handbook → scripts) with zero regression, THEN updates the HTML to match. Do not attempt the reconciliation inline — the agent enforces a specific phase order this skill is not designed to carry.
+
+
+---
+
+## WC8 (Wave C8) — Stage Pipeline, Phase 8 Bundle, K6 Scoring, Host Roles
+
+> Added 2026-05-30 post-merge docs-sweep. Covers scripts, constants, and
+> behaviour introduced in the WC8 Wave 8 build (book/ayyuhal-walad → develop).
+
+### WC8 Stage Pipeline — Phase 6 tooling
+
+Two new scripts gate the editorial review loop and advance stages per chapter:
+
+- `_stage_gate.py` — stage definitions and gate logic. Defines `STAGE_ORDER`
+  (the 6-stage sequence: `source → core → denoised → normalized → augmented →
+  narrator`) and the per-stage artifact names (`STAGE_ARTIFACTS`). Provides
+  `_review_path()` and `_stages_dir()` used by the runner; also exports
+  `next_runnable_stage()`, `awaiting_approval_stage()`, and
+  `chapter_stage_summary()` for callers.
+
+- `stage_runner.py` — CLI driver for the stage pipeline. Runs the next pending
+  stage for one chapter (`--chapter`) or all chapters (`--all`). Prints a
+  status table (`--status`). Reads approval state from
+  `_system/review/<chapter>.json`. Used by the Copilot "Run next stage" button
+  (calls it as a subprocess). **Always call via `_paths.resolve_content(slug)`
+  — never hardcode `content/drafts/books/<slug>`.**
+
+### WC8 Output Bundle — Phase 8 tooling
+
+Two scripts assemble and render the final deliverable after all chapters have
+passed the stage pipeline:
+
+- `assemble_bundle.py` — validates that every chapter listed in
+  `_system/episode-map.json` has a chapter file, framing file, and slide deck;
+  runs PEQ scoring on each; emits the NotebookLM upload table to stdout. The
+  upload table header uses `slug` + episode count (never a hardcoded book
+  title). Entry point: `python3 scripts/podcast/assemble_bundle.py <slug>`.
+
+- `generate_slide_decks.py` — calls Gemini 2.5 Flash (thinking disabled,
+  `maxOutputTokens=8000`) to produce per-chapter slide-deck source
+  (`slides/<chapter>.md`). Applies line-strip post-processing to remove
+  Gemini preamble. Entry point:
+  `python3 scripts/podcast/generate_slide_decks.py <slug>`.
+
+### K6 — 5-Axis PEQ Formula
+
+The Podcast Episode Quality score has five axes since the WC8 K6 update.
+All weights are authoritative in `_rules.py`; `_quality.py` imports them.
+
+| Axis | Weight | Constant | What it measures |
+|---|---|---|---|
+| Fidelity | 30 % | `WEIGHT_FIDELITY` | Citation overlap (Jaccard vs TopicAyats) |
+| Voice | 20 % | `WEIGHT_VOICE` | TF-IDF bigram cosine vs KSessions exemplar |
+| Structure | 18 % | `WEIGHT_STRUCTURE` | Arc-rule coverage |
+| Enrichment | 17 % | `WEIGHT_ENRICHMENT` | Gloss ratio + Quran reference density |
+| Interest | 15 % | `R_INTEREST_WEIGHT` | Curiosity hooks, challenge-defeat arc, modern relevance, fair framing |
+
+The Interest axis (`_quality._interest_score()`) uses four sub-signals. All
+pattern lists are imported from `_rules.py` — **never inline them**:
+
+- `R_INTEREST_HOOK_PATTERNS` — opening curiosity phrases (first 20 % of text)
+- `R_INTEREST_CHALLENGE_RAISE_PATTERNS` — problem-raising phrases
+- `R_INTEREST_CHALLENGE_RESOLVE_PATTERNS` — resolution phrases (partial credit: 0.5 if only raise found)
+- `R_INTEREST_RELEVANCE_PATTERNS` — modern-relevance signals
+- `R_INTEREST_STRAWMAN_DENY` — strawman markers (absence = full fairness credit)
+
+The challenger's Category V checks also use these same constants from
+`_rules.py`. PEQ Interest score and Category V finding must agree; if they
+diverge the source of truth is `_rules.py`.
+
+### Host Roles Guardrail — `HOST_ROLE_CONTRACT`
+
+`_rules.py` defines `HOST_ROLE_CONTRACT`, a dict of three host-role presets
+available in the episode format system:
+
+| Preset key | Host A role | Host B role | Typical format |
+|---|---|---|---|
+| `teacher_student` | teacher | student | Deep Dive |
+| `teacher_questioner` | teacher | questioner | Deep Dive / Debate |
+| `scholar_debater` | scholar | debater | Debate |
+
+The 7th editorial card in the Studio cockpit (`host_roles` field in
+`editorial.ts`) exposes these presets to the reviewer. The `debater` trigger
+is surfaced via the notes field. The challenger enforces that the framing's
+host dynamic matches the contract — a mismatch is a Category V finding.
+
+### Path resolution — `resolve_content(slug)`
+
+All WC8 pipeline scripts use `_paths.resolve_content(slug)` instead of
+`REPO_ROOT / "content" / "drafts" / "books" / slug`. The function calls
+`find_content()` to locate the slug across all stage/category combinations
+and falls back to `content_dir(slug)` for new writes. This ensures letters,
+lectures, articles, and other non-book categories resolve correctly.

@@ -67,6 +67,7 @@ class ChapterOutcome:
     p0_remaining: int
     p1_remaining: int
     p2_remaining: int
+    peq_total: float | None = None   # last PEQ total recorded; None if not scored
     notes: list[str] = field(default_factory=list)
 
 
@@ -241,8 +242,30 @@ def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
         outcome.p0_remaining = p0
         outcome.p1_remaining = p1
         outcome.p2_remaining = p2
+
+        # Extract PEQ total from report for recording and gate enforcement.
+        peq_m = re.search(
+            r'\|\s*\*\*Total\*\*\s*\|\s*100%\s*\|\s*—\s*\|\s*\*\*(\d+(?:\.\d+)?)\*\*',
+            report.read_text(encoding="utf-8") if report.exists() else "",
+        )
+        if peq_m:
+            outcome.peq_total = float(peq_m.group(1))
+
+        # K2: PEQ gate — enforce FAIL floor before any ship decision.
+        # A chapter with peq_total < 70 is treated as BLOCKED regardless of
+        # what the challenger verdict string says, so the fixer can act on
+        # the enrichment / fidelity / structure gaps that drove the low score.
+        if outcome.peq_total is not None and outcome.peq_total < 70.0:
+            outcome.notes.append(
+                f"iter {outer}: PEQ gate FAIL — total {outcome.peq_total:.1f} < 70; "
+                f"overriding verdict {verdict!r} → BLOCKED"
+            )
+            verdict = "BLOCKED"
+            p0 = p0 or 1  # ensure the fixer loop below is entered
+
         outcome.notes.append(
             f"iter {outer}: verdict={verdict} P0={p0} P1={p1} P2={p2}"
+            + (f" PEQ={outcome.peq_total:.1f}" if outcome.peq_total is not None else "")
         )
 
         # F11: record the best verdict seen so far for timeout-fallback above.

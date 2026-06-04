@@ -1,0 +1,2 @@
+# Dua'im-ul-Islam - Prayer
+*Source: KASHKOLE, Binder 28 (Draft), Chapter 126. 1 topics. Language: ur.*<!-- section 1 (id=1426, raw_sort=1): جنرل -->If the prayer is not completed, then the number of prayers will have to be completed in the future by severe conditions and methods. This is not a deterrent under any circumstances. The negligence of the beneficiary becomes a problem for the beneficiaries, so they continue to insist on praying constantly.

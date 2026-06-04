@@ -1,0 +1,10 @@
+<!-- section 1 (id=1426, raw_sort=1): جنرل -->
+## General
+
+Prayer (ṣalāt) stands among the daʿāʾim (the pillars) of the faith, and its obligation does not lapse with neglect. When the worshipper fails to complete the appointed cycle, the missed prayers must be discharged later, often under conditions far more onerous than those that attended their original time. The duty does not dissolve; it merely accumulates. Yet this prospect of arduous later compensation rarely operates as a deterrent: the soul that grows slack in the present moment does not readily reckon with what its negligence is silently storing up for the future.
+
+The matter cuts deeper still. The one who neglects the prayer is, in the first instance, the one who stands to benefit from it; the act is undertaken for the worshipper's own perfection, not for any need on the part of the Originator (Mubdiʿ Taʿālā). When the beneficiary is also the negligent party, the loss redoubles. What was meant to draw the soul toward its kamāl awwal (its primary perfection) is forfeited by the very person whom its observance would have elevated. For this reason the duʿāt (the Summoners) of the daʿwa (the summons) press constantly upon their adherents the necessity of unbroken adherence to the prayer, refusing to allow familiarity or fatigue to soften its claim.[^cite-1]
+
+It follows that perseverance in ṣalāt is not a matter of formal compliance alone. Its rhythm shapes the worshipper's interior life, binds the moments of the day to a remembrance that would otherwise dissipate, and keeps open the channel through which the descending grace of the higher ranks meets the ascending intention of the lower. To let the prayer fall is to let that channel narrow; to restore it through qaḍāʾ (the making-up of what was missed) is to acknowledge that the channel, however constricted, must never be allowed to close.
+
+[^cite-1]: See Qāḍī al-Nuʿmān, *Daʿāʾim al-Islām*, Kitāb al-Ṣalāt, on the obligation to make up (qaḍāʾ) prayers that have been missed and on the standing imperative that the duʿāt instruct the faithful in their constancy.

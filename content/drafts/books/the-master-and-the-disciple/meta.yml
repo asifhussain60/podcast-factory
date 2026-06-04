@@ -1,0 +1,40 @@
+slug: the-master-and-the-disciple
+title: The Master and the Disciple
+short_name: master-disciple
+archetype: socratic-dialogue
+original_title: Kitāb al-ʿĀlim wa-l-Ghulām
+source_pdf: ../../../raw/Kitaab_Al-aalim_wal_Ghulam_Chapters/
+source_audio: ../../../raw/Kitaab_Al-aalim_wal_Ghulam_Chapters/Podcast/00 - The Master And The Disciple.mp3
+
+pipeline:
+  current_phase: 0c
+  next_phase: 0d
+  chapters_drafted: 8
+  chapters_with_contracts: 0
+  episodes_shipped: 0
+  episodes_with_audio: 6
+
+publication:
+  status: draft
+  shipped_via: scripts/podcast/publish_to_library.py
+  publication_target: ../../published/books/the-master-and-the-disciple/
+
+provenance:
+  canonical_source_branch: develop
+  canonical_source_commit: 62b488bc18272f98b852e37187a692e5e24b8d4e
+  canonical_source_path: content/podcast/library/books/the-master-and-the-disciple/
+  restored_via: git checkout 62b488b -- content/podcast/library/books/the-master-and-the-disciple/
+  note: |
+    Restored from origin/develop@62b488b after the earlier reshape was lost
+    in the container-layout teardown. THEN reshaped into the consistent
+    template on 2026-05-23 as part of Phase E of the systematic restructure:
+      - book-images/ → _system/source/images/ (95 PNGs)
+      - Ch-NN .txt/.md → chapters/chNN-<slug>.md (8 files, slug-cased)
+      - _notebooklm/ → notebooklm/ (7 top + 8 scaffolding)
+      - Final Review Report.md → audits/final-review-report.md
+      - Source and Editorial Notes.md → _system/source/notes/source-and-editorial-notes.md
+      - refined-english.md assembled from chapters/ at _system/source/text/
+      - All other workshop folders (chapter-contracts, episodes, framings,
+        transcripts) added as empty placeholders ready for Phase 0d.
+  reshape_date: 2026-05-23
+  reshape_method: manual reshape into agreed template (matches other books' shape)

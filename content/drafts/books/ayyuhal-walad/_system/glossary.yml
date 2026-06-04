@@ -1,0 +1,30 @@
+# glossary.yml — Arabic-script overlay (phonetic <-> Arabic script).
+# SEED for the WC8 Slice-0 feel-check ONLY: a handful of high-confidence terms so the
+# Arabic toggle is demonstrable. The real glossary is baked in Phase 0c (_bake_glossary
+# in _authoring.py) / build_glossary.py + fill_glossary_arabic.py and will be far larger.
+entries:
+  - phonetic: Ghazali
+    transliteration: al-Ghazali
+    arabic_script: الغزالي
+    audio_phonetic: ghazali
+    first_seen_snippet: "Ghazali calls this the special delusion"
+  - phonetic: Quran
+    transliteration: Qur'an
+    arabic_script: القرآن
+    audio_phonetic: quran
+    first_seen_snippet: "The Quran, in Surah"
+  - phonetic: Surah
+    transliteration: Surah
+    arabic_script: سورة
+    audio_phonetic: surah
+    first_seen_snippet: "in Surah Az-Zalzalah"
+  - phonetic: Allah
+    transliteration: Allah
+    arabic_script: الله
+    audio_phonetic: allah
+    first_seen_snippet: "peace and blessings of Allah"
+  - phonetic: Ihya
+    transliteration: Ihya
+    arabic_script: إحياء
+    audio_phonetic: ihya
+    first_seen_snippet: "Ihya Ulum al-Din"

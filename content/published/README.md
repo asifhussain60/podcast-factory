@@ -1,33 +1,36 @@
-# `library/` — shipped catalog
+# `content/published/` — reference metadata only (2026-05-28)
 
-Top-level read-only catalog of prod-grade podcast artifacts. Every file under
-`library/` has either passed a challenger verdict (`SHIP-READY`, or an
-operator-approved `SHIP-WITH-CAUTION`) or is curated metadata (catalog,
-cover art) added post-ship.
+> **IMPORTANT:** Content no longer lives here. All book content lives
+> exclusively in `content/drafts/<category>/<slug>/`. Publication status
+> is tracked via the `publication.status` field in each book's `meta.yml`.
+> The `drafts/` path is a pipeline stage name — it holds ALL content
+> regardless of whether a book is draft or published.
 
-## Invariants
+## Why this directory still exists
 
-1. **Auto-populated only.** The single supported writer is
-   [`scripts/podcast/publish_to_library.py`](../scripts/podcast/publish_to_library.py),
-   which promotes shipped episodes from `_workspace/books/<slug>/` into the
-   per-book layout below. Pipeline scripts NEVER write directly to `library/`.
-2. **CI-enforced.** [`.github/workflows/library-readonly.yml`](../.github/workflows/library-readonly.yml)
-   fails any PR commit that touches `library/` unless either:
-   - the commit subject starts with `ship: ` (the convention `publish_to_library.py`
-     prints in its commit hints), or
-   - the commit body contains the literal `[library-manual-edit]` marker (the
-     escape hatch for one-off manual overrides — e.g. dropping cover art).
-3. **One-way.** Promotion is `_workspace/ → library/`. Nothing flows back.
-4. **Idempotent re-ship.** Re-running `publish_to_library.py` adds or updates the
-   requested episodes; it does not delete anything from `library/`.
+This directory retains:
+- `_meta/` — auto-generated cross-book catalog index
+- `archetypes/` — cross-book archetype reference files
 
-## Layout
+These are NOT per-book content and have no equivalent in `drafts/`.
 
-```
-library/
-├── _meta/
-│   └── catalog.md             ← auto-generated cross-book index
-├── archetypes/                ← cross-book reference (not per-book; hoisted in Phase 9.5)
+## How publication status works
+
+Set `publication.status: published` in a book's
+`content/drafts/<category>/<slug>/meta.yml` to mark it published.
+The astro site badge and all pipeline gates read this field.
+
+`publish_to_library.py` writes this field in place — it does NOT copy
+files to this directory. The file-copy model was retired 2026-05-28.
+
+## Legacy note
+
+Prior to 2026-05-28, this directory held full copies of shipped books
+under `books/` and `lectures/` subdirectories. Those were deleted as part
+of the single-content-source-of-truth refactor (commit 8b16dad3).
+Any reference to `content/published/books/` or `content/published/lectures/`
+in code or documentation is stale and should be updated to
+`content/drafts/<category>/<slug>/`.
 └── books/<slug>/
     ├── index.md               ← book metadata (auto-generated; manual edits discouraged)
     ├── cover.{jpg,png}        ← optional manual asset; drop post-ship if curated

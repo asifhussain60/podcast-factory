@@ -53,7 +53,10 @@ from typing import Any
 ORCHESTRATOR_VERSION = "1.2"  # 2026-05-19: chunked 0b/0c + unit_mode (chapter|section|auto) + --retry-phase
 SCHEMA_VERSION = 1
 
-# Phase identifiers in canonical order — keep in sync with orchestrate_book.py.
+# Phase identifiers in canonical order. THIS TUPLE IS THE SINGLE SOURCE OF TRUTH
+# for the orchestrator phase sequence — orchestrate_book.CANONICAL_PHASES and the
+# resume dispatcher both import it (do not re-declare a parallel list anywhere).
+# Every phase id passed to update_phase() MUST appear here or it raises ValueError.
 PHASES = (
     "pre-flight",
     "branch",
@@ -63,11 +66,15 @@ PHASES = (
     "0c",       # Arabic phonetic pass (LLM)
     "0d",       # Chapter design (LLM)
     "0e",       # Enrichment (LLM)
+    "0literary",  # 08b literary transformation (Gemini); after enrichment, emitted by initial_driver
+    "06a",      # Wave I — source review gate (human approval before series plan)
     "0f",       # Series plan halt (deterministic write + human gate)
     "0g",       # Register series (deterministic)
     "per-chapter",  # iterated across the chapter list on --resume
+    "per-chapter-optimize",  # Wave I — Sonnet arc/format check per chapter
     "per-chapter-slides",  # optional; gated by series.enable_slide_decks. Per-chapter slide-deck authoring + slide-deck-challenger convergence. Skipped (status="skipped") when flag is false.
     "finalize",     # G1-G7 quality gates + human review halt before publish
+    "publish",      # copy drafts → published/ catalog (publish_driver)
     "trainer",
     "merge",
     "done",
@@ -76,6 +83,35 @@ PHASES = (
 
 def _utc_now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+# Stale-resume threshold. A phase_status="running" older than this almost
+# certainly belongs to a crashed/killed orchestrator (no live process updates
+# its state on resume — the book lock guards against a genuinely concurrent
+# run). Generous on purpose: legitimate in-process phases never reach --resume.
+STALE_RUNNING_SEC = 900
+
+
+def is_phase_stale(state: dict[str, Any], max_age_sec: int = STALE_RUNNING_SEC) -> bool:
+    """True when phase_status is 'running' but ts_updated is older than max_age_sec.
+
+    Used by the resume path to auto-recover the documented orchestrator-resume
+    bug: an unclean shutdown freezes state at 'running', which the early-phase
+    handlers refuse to re-enter. Detecting staleness lets us downgrade to
+    'failed' so the existing per-phase resume handlers pick it up — the same
+    recovery the shell watchdog performs via --retry-phase.
+    """
+    if state.get("phase_status") != "running":
+        return False
+    ts = state.get("ts_updated") or ""
+    try:
+        # Stored as "...Z"; treat as UTC.
+        updated = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+    except (ValueError, AttributeError):
+        # Unparseable timestamp on a 'running' state → treat as stale.
+        return True
+    age = (datetime.now(timezone.utc) - updated).total_seconds()
+    return age > max_age_sec
 
 
 def state_path(book_dir: Path) -> Path:
@@ -143,7 +179,9 @@ def write_state(book_dir: Path, state: dict[str, Any]) -> Path:
     """
     p = state_path(book_dir)
     p.parent.mkdir(parents=True, exist_ok=True)
-    state["ts_updated"] = _utc_now()
+    # Don't mutate the caller's dict — stamp a copy. (A shallow copy is enough:
+    # we only replace the top-level ts_updated key, never nested values.)
+    state = {**state, "ts_updated": _utc_now()}
 
     # tmpfile in the same directory so rename is atomic on the same filesystem.
     tmp_fd, tmp_path = tempfile.mkstemp(

@@ -1,0 +1,11 @@
+flowchart TB
+  D["Drop a KSESSIONS dump"] --> I["Ingest + normalise"]
+  I --> DD{"Seen before?<br/>dedup vs corpus"}
+  DD -->|"new"| ADD["Add to corpus"]
+  DD -->|"already present"| SKIP["Skip — idempotent"]
+  ADD --> C[("knowledge.db corpus")]
+  SKIP --> C
+  classDef step fill:#fffdf8,stroke:#4a7c4a,stroke-width:1.5px;
+  classDef gate fill:#fffdf8,stroke:#c08020,stroke-width:1.5px;
+  class D,I,ADD,SKIP,C step;
+  class DD gate;

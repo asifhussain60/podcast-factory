@@ -78,12 +78,12 @@ class UsageParsingTests(unittest.TestCase):
 
     def test_missing_fields_default_to_zero(self):
         u = _cost_ledger.parse_usage_from_stdout("no usage data here")
-        self.assertEqual(u, {"input": 0, "output": 0, "cache_read": 0, "cache_create": 0})
+        self.assertEqual(u, {"input": 0, "output": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0})
 
     def test_empty_stdout_returns_zeros(self):
         self.assertEqual(
             _cost_ledger.parse_usage_from_stdout(""),
-            {"input": 0, "output": 0, "cache_read": 0, "cache_create": 0},
+            {"input": 0, "output": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0},
         )
 
     def test_never_raises_on_garbage(self):

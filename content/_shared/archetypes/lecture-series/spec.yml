@@ -1,0 +1,52 @@
+# Archetype spec — Lecture-Series
+# A text that is a transcribed or composed sequence of oral lectures,
+# classroom sessions, or structured discourse delivered in a teaching
+# register (Arabic: dars / muhadara / khutba-series / halqa).
+
+archetype_id: lecture-series
+display_name: Lecture-Series (Oral Teaching Register)
+genre_tags: [oral, pedagogical, sequential, classroom, discourse]
+
+# ── Detection heuristics ─────────────────────────────────────────────────────
+genre_signals:
+  - numbered or titled lectures / sessions as structural units
+  - second-person address to an implied audience ("consider", "recall", "note")
+  - pedagogical recap patterns ("as we established", "building on last session")
+  - question-and-answer blocks or student-question callouts
+
+# ── required_fields — these keys MUST be present in every book meta.yml ─────
+required_fields:
+  - archetype_id           # confirms archetype was applied
+  - lecture_count          # total number of sessions / lectures
+  - delivery_register      # e.g. "academic", "devotional", "public_sermon"
+  - recap_density          # low | medium | high — how much prior-session recap
+  - audience_assumed       # e.g. "seminary students", "general educated public"
+
+# ── TTS engineering rules ────────────────────────────────────────────────────
+tts_rules:
+  direct_address_to_audience: preserve_as_hosts_address_listener
+  arabic_technical_terms: gloss_on_first_occurrence_then_english_form
+  numbered_lecture_headers: read_as_episode_title_card
+  cross_reference_to_prior_lecture: paraphrase_without_lecture_number
+
+# ── Podcast-authoring doctrine ───────────────────────────────────────────────
+authoring_doctrine:
+  framing_mode: teacher_explainer
+  host_dynamic: expert_and_curious_learner
+  episode_structure: lesson_arc  # concept intro → worked example → takeaway
+  capstone_mode: knowledge_synthesis  # final episode surveys full arc of teaching
+  cross_tier_citations: encouraged  # lectures often weave Quran + hadith densely
+
+# ── Challenger categories active for this archetype ─────────────────────────
+challenger_categories_active:
+  - A  # citations — must be traceable to specific lecture references
+  - C  # pronunciation — Arabic terms heavy in this genre
+  - N  # phonetic-as-content — do not render Arabic pronunciation guides aloud
+  - O  # honorifics — Prophet/Imam names appear frequently
+
+# ── Anti-patterns (see anti-patterns.md for full catalog) ───────────────────
+anti_patterns_summary:
+  - episode ends mid-argument without a pedagogical landing
+  - recap of prior episodes exceeds 20% of episode content
+  - audience direct-address dropped (kills the oral register)
+  - lecture numbering exposed in TTS ("Lecture 4 of 12" is not a title card)

@@ -1,0 +1,124 @@
+# Ismaili Islamic terminology glossary
+# Used by the audio-intake path for phonetic hints and glossing.
+# Format: term (Arabic transliteration) → gloss + phonetic guide
+---
+terms:
+  - term: "ta'wil"
+    arabic: "تأويل"
+    gloss: "esoteric interpretation; uncovering the inner meaning of scriptural text"
+    phonetic: "tah-WEEL"
+    category: hermeneutics
+
+  - term: "tanzil"
+    arabic: "تنزيل"
+    gloss: "the revealed letter of scripture; exoteric text as received"
+    phonetic: "tan-ZEEL"
+    category: hermeneutics
+
+  - term: "haqaiq"
+    arabic: "حقائق"
+    gloss: "spiritual realities; the deepest metaphysical truths"
+    phonetic: "hah-KAH-iq"
+    category: metaphysics
+
+  - term: "daqaiq"
+    arabic: "دقائق"
+    gloss: "subtle realities; fine distinctions within spiritual knowledge"
+    phonetic: "dah-KAH-iq"
+    category: metaphysics
+
+  - term: "Imam"
+    arabic: "إمام"
+    gloss: "the living guide and interpreter of divine knowledge in the Ismaili tradition"
+    phonetic: "ih-MAAM"
+    category: leadership
+
+  - term: "da'wa"
+    arabic: "دعوة"
+    gloss: "the mission; the Ismaili intellectual and spiritual teaching network"
+    phonetic: "DAH-wah"
+    category: institution
+
+  - term: "da'i"
+    arabic: "داعي"
+    gloss: "the missionary-teacher; one who carries the da'wa"
+    phonetic: "DAH-ee"
+    category: institution
+
+  - term: "batin"
+    arabic: "باطن"
+    gloss: "the inner, hidden dimension of meaning"
+    phonetic: "BAH-tin"
+    category: hermeneutics
+
+  - term: "zahir"
+    arabic: "ظاهر"
+    gloss: "the outer, manifest dimension of meaning"
+    phonetic: "ZAH-hir"
+    category: hermeneutics
+
+  - term: "ta'lim"
+    arabic: "تعليم"
+    gloss: "authoritative teaching; knowledge transmitted through the Imam"
+    phonetic: "tah-LEEM"
+    category: epistemology
+
+  - term: "aql"
+    arabic: "عقل"
+    gloss: "intellect; the First Intellect in Ismaili cosmology"
+    phonetic: "AHK-l"
+    category: cosmology
+
+  - term: "nafs"
+    arabic: "نفس"
+    gloss: "soul; the Universal Soul in Ismaili cosmology"
+    phonetic: "NAFS"
+    category: cosmology
+
+  - term: "hudud"
+    arabic: "حدود"
+    gloss: "hierarchical ranks in the spiritual order; the Ismaili hierarchy"
+    phonetic: "hoo-DOOD"
+    category: institution
+
+  - term: "asas"
+    arabic: "أساس"
+    gloss: "the foundation; the first interpreter appointed by a prophet"
+    phonetic: "ah-SAAS"
+    category: institution
+
+  - term: "natiq"
+    arabic: "ناطق"
+    gloss: "the speaking prophet; the prophet who brings a new dispensation"
+    phonetic: "NAH-tiq"
+    category: prophetology
+
+  - term: "samit"
+    arabic: "صامت"
+    gloss: "the silent one; the Imam who guards the esoteric teaching"
+    phonetic: "SAH-mit"
+    category: prophetology
+
+  - term: "hujja"
+    arabic: "حجة"
+    gloss: "proof; the Imam's representative at the highest rank of the hierarchy"
+    phonetic: "HOO-jah"
+    category: institution
+
+  - term: "qiyama"
+    arabic: "قيامة"
+    gloss: "resurrection; in Ismaili thought, also refers to the unveiling of ta'wil"
+    phonetic: "qi-YAH-mah"
+    category: eschatology
+
+  - term: "Ikhwan al-Safa"
+    arabic: "إخوان الصفاء"
+    gloss: "Brethren of Purity; 10th-century encyclopedists whose work influenced Ismaili thought"
+    phonetic: "ikh-WAAN al-sa-FAA"
+    category: historical-group
+
+  - term: "Fatimid"
+    arabic: "فاطمي"
+    gloss: "relating to the Fatimid caliphate (909–1171 CE), the Ismaili political dynasty"
+    phonetic: "FAH-tih-mid"
+    category: historical-group

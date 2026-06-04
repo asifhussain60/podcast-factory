@@ -528,14 +528,27 @@ def run_slide_convergence(
 
     spine = _discussion_spine_path(book_dir, slug)
     if spine is None:
-        raise AuthoringError(
-            phase=f"slide-convergence/{slug}",
-            message=f"no discussion-spine for slug {slug!r}",
-            manual_fallback=(
-                "Author the discussion spine (Phase 2 framing draft) before "
-                "running slide convergence."
-            ),
+        # Spine pre-condition not met. Record a clean BLOCKED result with an
+        # explicit reason instead of raising — the caller (orchestrator) can
+        # then surface the chapter for upstream remediation without trapping
+        # an exception. Missing spine is an infrastructure gap, NOT a
+        # content-grounded skip; do not fake a justified-skip here.
+        outcome = ConvergenceResult(
+            verdict="BLOCKED",
+            iterations=0,
+            deck_path=None,
+            framing_path=None,
+            report_path=None,
+            findings=[],
+            notes=[
+                f"no discussion-spine for slug {slug!r}; cannot compute density",
+                "manual_fallback: author the discussion spine (Phase 2 framing draft) "
+                "before re-running slide convergence",
+            ],
         )
+        _record_state(book_dir, slug, phase_status="stalled",
+                      iterations=0, verdict="BLOCKED")
+        return outcome
 
     deck_path = book_dir / "slide-decks" / f"{ch}-deck-{slug}.txt"
     framing_path = book_dir / "slide-decks" / f"{ch}-framing-{slug}.md"
@@ -565,34 +578,56 @@ def run_slide_convergence(
                           iterations=0, verdict="BLOCKED")
             return outcome
 
-        # Probe-7-only Challenger pass.
-        try:
-            r_path = _invoke_slide_challenger(book_dir, slug)
-            verdict, findings = _parse_verdict(r_path)
-            outcome.findings = findings
-            outcome.notes.append(
-                f"Probe-7 verification: verdict={verdict} findings={len(findings)}"
-            )
-            if verdict == "SHIP-READY":
-                _update_registry_status(book_dir, slug,
-                                        slide_deck_status="not-needed",
-                                        challenger_status="pass")
-            else:
-                # Justification rejected — escalate to a normal authoring loop
-                # rather than silently shipping a bad skip.
-                outcome.verdict = "BLOCKED"
+        # Probe-7-only Challenger pass. Retry once on AuthoringError before
+        # escalating to BLOCKED — distinguishes "challenger crashed" (transient,
+        # worth retrying) from "challenger ran and rejected the justification"
+        # (terminal, no retry helps). Without this retry, a single transient
+        # crash silently produces a BLOCKED verdict on a chapter whose
+        # justification was already substantive enough to pass.
+        max_challenger_attempts = 2
+        last_attempt_error: AuthoringError | None = None
+        for attempt in range(1, max_challenger_attempts + 1):
+            try:
+                r_path = _invoke_slide_challenger(book_dir, slug)
+                verdict, findings = _parse_verdict(r_path)
+                outcome.findings = findings
                 outcome.notes.append(
-                    "Probe-7 rejected justification; SKIPPED escalated to BLOCKED"
+                    f"Probe-7 verification (attempt {attempt}): "
+                    f"verdict={verdict} findings={len(findings)}"
                 )
-                _record_state(book_dir, slug, phase_status="stalled",
-                              iterations=0, verdict="BLOCKED")
-                return outcome
-        except AuthoringError as e:
-            outcome.notes.append(f"Probe-7 challenger invocation failed: {e}")
+                if verdict == "SHIP-READY":
+                    _update_registry_status(book_dir, slug,
+                                            slide_deck_status="not-needed",
+                                            challenger_status="pass")
+                else:
+                    # Challenger RAN and rejected the justification — terminal.
+                    # No retry helps; escalate to BLOCKED.
+                    outcome.verdict = "BLOCKED"
+                    outcome.notes.append(
+                        "Probe-7 rejected justification; SKIPPED escalated to BLOCKED"
+                    )
+                    _record_state(book_dir, slug, phase_status="stalled",
+                                  iterations=0, verdict="BLOCKED")
+                last_attempt_error = None
+                break  # exit retry loop on success-or-rejection (both terminal)
+            except AuthoringError as e:
+                last_attempt_error = e
+                outcome.notes.append(
+                    f"Probe-7 challenger invocation failed (attempt {attempt}): {e}"
+                )
+                # Retry on transient failure; final attempt falls through below.
+                continue
+
+        if last_attempt_error is not None:
+            # All retry attempts raised AuthoringError — challenger never produced
+            # a verdict. Surface the explicit reason rather than a generic BLOCKED.
             outcome.verdict = "BLOCKED"
+            outcome.notes.append(
+                f"Probe-7 challenger could not be invoked after "
+                f"{max_challenger_attempts} attempts; manual re-invocation required"
+            )
             _record_state(book_dir, slug, phase_status="stalled",
                           iterations=0, verdict="BLOCKED")
-            return outcome
 
         return outcome
 

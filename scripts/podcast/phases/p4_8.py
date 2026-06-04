@@ -21,9 +21,12 @@ DISAMBIG_PLAN = REPO_ROOT / "_workspace" / "plan" / "numeric-symbolic-disambigua
 def is_done(repo_root: Path | None = None) -> bool:
     if repo_root is None:
         repo_root = REPO_ROOT
-    yaml_text = (repo_root / "_workspace" / "plan" / "podcast-plan.yaml").read_text()
-    plan_text = (repo_root / "_workspace" / "plan" / "numeric-symbolic-disambiguation-plan.md").read_text()
-
+    yaml_path = repo_root / "_workspace" / "plan" / "podcast-plan.yaml"
+    plan_path = repo_root / "_workspace" / "plan" / "numeric-symbolic-disambiguation-plan.md"
+    if not yaml_path.exists() or not plan_path.exists():
+        return False
+    yaml_text = yaml_path.read_text()
+    plan_text = plan_path.read_text()
     yaml_ok = (
         "consult_before_any_edit:" in yaml_text
         and "numeric-symbolic-disambiguation.md" in yaml_text

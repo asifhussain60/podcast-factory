@@ -6,7 +6,8 @@ Three pieces:
 - `augmenter`   — query helper for injecting prior atoms into future-book prompts
 
 Authority:
-- Spec: `_workspace/plan/intelligence-pipeline-wave1-spec.md`
+- Spec: `_workspace/plan/architecture.md` (Intelligence Layer section)
+        + `_workspace/plan/refactor/plan.md` (Wave B)
 - Agent: `.github/agents/podcast-librarian.agent.md`
 - Library: `content/knowledge-base/`
 - Visual overview: `_workspace/plan/view/intelligence-pipeline.html`

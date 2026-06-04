@@ -1,0 +1,11 @@
+sequenceDiagram
+    participant C as A chapter
+    participant K as Knowledge phase
+    participant F as Podcast framing
+    participant R as Reader markers
+    K->>C: read once
+    C-->>K: text + structure + citations
+    Note over K: extract verses, terms,<br/>names, concepts
+    K->>F: author the conversational framing
+    K->>R: emit verse + term markers
+    Note over F,R: one read, two outputs —<br/>the chapter is never re-read

@@ -219,7 +219,7 @@ def write_provenance(
             "kind": "sql",
             "name": meta.source_name,
             "db": db_name,
-            "container": "kashkole-mssql",
+            "container": "wisdom-mssql",
         },
         "book_slug": meta.book_slug,
         "book_dir": str(paths.root),

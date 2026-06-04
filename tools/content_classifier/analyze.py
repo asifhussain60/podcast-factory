@@ -15,7 +15,7 @@ Read-only. Computes:
     in which topics).
   - Chapter-name signals to feed retitle proposal.
 
-Outputs JSON at _workspace/plan/kashkole-taxonomy-r1-analysis.json.
+Outputs JSON at _workspace/plan/wisdom-taxonomy-r1-analysis.json.
 The proposal document is composed in a separate step from that JSON.
 """
 from __future__ import annotations
@@ -34,7 +34,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT))
 from tools.source_extractor.db import query_json
 
-EXTRACT_ROOT = REPO_ROOT / "_workspace" / "kashkole-ksessions" / "extracted" / "kashkole"
+EXTRACT_ROOT = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "extracted" / "wisdom"
 OUT_DIR = REPO_ROOT / "_workspace" / "plan"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -345,13 +345,13 @@ def main() -> None:
 
     out = {
         "version": 1,
-        "kashkole_topic_count": len(topics),
+        "wisdom_topic_count": len(topics),
         "images": image_analysis,
         "topic_content": content_analysis,
         "quran_citations": quran_analysis,
         "chapters": chapter_meta,
     }
-    out_path = OUT_DIR / "kashkole-taxonomy-r1-analysis.json"
+    out_path = OUT_DIR / "wisdom-taxonomy-r1-analysis.json"
     out_path.write_text(json.dumps(out, ensure_ascii=False, indent=2),
                          encoding="utf-8")
     print(f"\nWrote {out_path}", file=sys.stderr)

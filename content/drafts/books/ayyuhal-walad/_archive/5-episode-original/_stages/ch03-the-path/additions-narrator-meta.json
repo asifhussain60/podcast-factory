@@ -1,0 +1,19 @@
+{
+  "chapter": "ch03-the-path",
+  "stage": "narrator",
+  "applied_at": "2026-05-30T19:02:21Z",
+  "findings_applied": 2,
+  "suppressed": [
+    {
+      "paragraph_index": 0,
+      "pattern": "H1_STAGE_LABEL",
+      "original_text": "# Narrator additions — ch03-the-path (Shaykh Abdullah Misra, attributed commentary)"
+    },
+    {
+      "paragraph_index": 1,
+      "pattern": "METADATA_ITALIC",
+      "original_text": "_Cleaned from lecture transcript(s): lec06-four-essentials-for-the-seeker, lec07-recognizing-the-true-spiritual-guide, lec08-adab-with-a-spiritual-guide, lec09-language-of-the-heart. This is the explainer's commentary (an attributed ADDITION), distinct from the treatise core._"
+    }
+  ],
+  "consolidate_blocks": []
+}

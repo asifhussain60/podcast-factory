@@ -43,7 +43,7 @@ import subprocess
 import sys
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 # Ensure sibling imports work
 if str(Path(__file__).parent) not in sys.path:
@@ -53,7 +53,7 @@ try:
     from fastapi import FastAPI, HTTPException, Query, Request
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.responses import StreamingResponse, JSONResponse
-    from pydantic import BaseModel
+    from pydantic import BaseModel, Field
 except ImportError:
     print("FastAPI not installed. Run: pip install fastapi uvicorn", file=sys.stderr)
     raise
@@ -174,8 +174,8 @@ class PronunciationRowIn(BaseModel):
 
 
 class ContentRangeIn(BaseModel):
-    body_starts_at_page: int | None = None
-    body_ends_at_page: int | None = None
+    body_starts_at_page: Optional[int] = None
+    body_ends_at_page: Optional[int] = None
 
 
 class AISuggestionIn(BaseModel):
@@ -195,13 +195,13 @@ class ReviewIn(BaseModel):
     glossary: list[GlossaryRowIn] = []
     pronunciation: list[PronunciationRowIn] = []
     free_form_comments: str = ""
-    content_range: ContentRangeIn = ContentRangeIn()
+    content_range: ContentRangeIn = Field(default_factory=ContentRangeIn)
     approved: bool = False
     ai_suggestions: list[AISuggestionIn] = []
 
 
 class ApprovePayload(BaseModel):
-    commit_message: str | None = None
+    commit_message: Optional[str] = None
     mode: str = "fire"  # 'fire' | 'copy'
 
 

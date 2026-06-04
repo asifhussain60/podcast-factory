@@ -1,16 +1,55 @@
 # Podcast Factory Ecosystem Framework
 
-**Version:** 4.1 (2026-05-25 cleanup wave — F30 dual-auditor + scholarly-rubric v2.2 + ~28 pipeline-debt items closed)
-**Last updated:** 2026-05-25
+**Last updated:** 2026-05-30
 
 This document governs the **`podcast-factory`** repo: the multi-phase podcast pipeline that converts scholarly Arabic books into NotebookLM-driven podcast series, the Azure stack that powers OCR / translation / speech, and the agents/skills that support podcast authoring. Memoir + site work moved to the sibling **[journal](https://github.com/asifhussain60/journal)** repo as of the 2026-05-22 split. The Anthropic API proxy (`server/`) and the Cloudflare deploy scaffold were retired the same day — see §"Retired" below. The previous cross-machine coordination model (operator files, machine-id detection, per-machine book branches) was retired 2026-05-23 — see §"Single-machine model" below.
+
+## 2026-06-03 Wave L — content-level gating + etymology + augmentation challenger
+
+Category-gated augmentation for Islamic scholarly books, Quranic etymology weaving,
+and a new challenger category. Non-Islamic books are unaffected (opt-in by `content_level`).
+
+- **Content-level gate (L-1/L-2)** — migration `025_atoms_add_content_level.sql` adds
+  `content_level` to atoms; Wave M migration `026_atoms_update_content_level_ladder.sql`
+  expands the CHECK to the 6-level Kashkole ladder (general → advanced → taveel → mamsool
+  → mabda_maad → haqaiq; `universal` outside the ladder, always eligible).
+  [`_rules.py`](scripts/podcast/_rules.py) `allowed_content_levels()` drives
+  cumulative-downward selection in [`augmenter.py`](scripts/podcast/intelligence/augmenter.py)
+  `_fetch_doctrine_atoms` + mirrored in [`augment_book.py`](scripts/podcast/augment_book.py).
+  Only doctrine is gated; Quran/Hadith/Term/Etymology are universal.
+- **Atom categorization (L-3)** — [`knowledge/categorize_atoms.py`](scripts/podcast/knowledge/categorize_atoms.py):
+  tag heuristic + Gemini Flash classified 555 doctrine atoms against the 6-level ladder
+  (taveel 206, haqaiq 195, advanced 118, general 36; 73 below-threshold left NULL for
+  review). Old 4-level names (esoteric/realities/shariah/history) remapped by migration 026.
+- **Etymology weaving (L-4)** — `_fetch_matching_etymology` + `_build_etymology_block`
+  weave a SPOKEN root-insight (≤3/chapter, never spelling Arabic letters);
+  [`knowledge/fill_etymology_phonetics.py`](scripts/podcast/knowledge/fill_etymology_phonetics.py)
+  bakes house-style phonetics into the 35 etymology atoms.
+- **Anti-repetition (L-5)** — `episode-augment-ledger.json` excludes atoms used by other
+  episodes so none repeats across chapters of a book.
+- **Category W (L-6)** — [`_augmentation.py`](scripts/podcast/_augmentation.py) W1–W6:
+  genuine-gap (P1), natural (P1), etymology discipline (P1), content-level integrity (P0),
+  no-fabrication (P0), no-cross-chapter-repeat (P1). `CHALLENGER_VERSION` bumped 2.3 → 2.4.
+
+## 2026-05-30 Wave 8 (WC8) — what changed
+
+Studio re-platform, intelligence scoring, and holistic pipeline design:
+
+- **K6 — 5-axis PEQ scoring** — [`_quality.py`](scripts/podcast/_quality.py) adds a fifth axis: Interest (weight 0.15). Weights rebalanced: Fidelity 30%, Voice 20%, Structure 18%, Enrichment 17%, Interest 15%. `_interest_score()` is deterministic (no API). `CHALLENGER_VERSION` bumped 2.2 → 2.3.
+- **Category V (Interest checks)** — [`podcast-challenger.md`](infra/claude-agents/podcast-challenger.md) adds V1–V5: curiosity hook, challenge-defeat arc, modern relevance, no-strawman, rhetorical cadence. All P1/P2; feeds the Interest PEQ axis.
+- **SN-7 terminus-technicus guard** — [`gemini_refine.py`](scripts/podcast/gemini_refine.py) injects `R_TERMINUS_PRESERVE` protect-list from `glossary.yml` into both denoise and normalize prompts. Retro-fix run on all 5 Ayyuhal chapters.
+- **Host roles guardrail** — `HOST_ROLE_CONTRACT` dict (3 presets: teacher/student, teacher/questioner, scholar/debater) + `HOST_ROLE_CONTRACT_DEFAULT` in [`_rules.py`](scripts/podcast/_rules.py). 7th editorial card `host_roles` in the Studio cockpit.
+- **Stage gate + runner** — [`_stage_gate.py`](scripts/podcast/_stage_gate.py) (review reader/writer) + [`stage_runner.py`](scripts/podcast/stage_runner.py) (CLI: check gate → run next WC8 stage producer). `--status` prints a per-chapter ✅/🔄/⬜ table.
+- **Podcast bundle + slides** — [`assemble_bundle.py`](scripts/podcast/assemble_bundle.py) validates chapters/framings/slides, runs 5-axis PEQ inline, emits the mandatory NotebookLM upload table. [`generate_slide_decks.py`](scripts/podcast/generate_slide_decks.py) authors two-file slide pairs via Gemini 2.5 Flash (thinking disabled, maxOutputTokens=8000, trailing-whitespace strip). All 5 Ayyuhal slide decks produced.
+- **Studio re-platform** — `/studio` page with `EditorialCards.tsx` (7 cards, @dnd-kit sortable drag-reorder on list cards, cmdk corpus search on Key Focus). `/intake` page (`NewContentForm.tsx`, `EditorialDefaults.tsx`, `api/intake/create.ts`). `save-stage.ts` API writes edits back to `_stages/<ch>/<stage>.md` with `.md.bak` backup.
+- **Holistic pipeline gap identified** — WC8 `_stages/` normalized content (4,295w total) is NOT ready for podcast output. Arabic spine was never reconciled with English translations. New scripts planned: `full_book_denoise.py`, `reconcile_book.py`, `segment_book.py` (output to `chapters-wc8/`, ~4,500w per episode). Total new cost: ~$0.30.
 
 ## 2026-05-25 cleanup wave — what changed
 
 A single-day cleanup arc closed ~28 pipeline-debt F-items, shipped the scholarly-conversation rubric v2.2, retired unused scaffolds (02/03/04), consolidated branches to one-per-active-book, and landed foundational layers for the multi-day F31/F32/F34 refactors. Operator-visible additions:
 
 - **Phase 0g dual-auditor** ([orchestrate_book.py:phase_0g_audit_bundles](scripts/podcast/orchestrate_book.py)) runs `audit_bundle.py` + `audit_bundle_gemini.py` in parallel against every per-chapter NotebookLM bundle. Reports at `BOOK_DIR/audits/<EP-slug>.audit.{claude,gemini}.md`.
-- **Scholarly-rubric v2.2** — [_rules.py:CHALLENGER_VERSION](scripts/podcast/_rules.py) bumped 2.1 → 2.2. Five new R-* rule families inlined into [prompts/gemini-bundle-auditor.md §4](prompts/gemini-bundle-auditor.md). Six matched fixtures at [_learning/fixtures/](content/podcast/.skill/_learning/fixtures/).
+- **Scholarly-rubric v2.2** — [_rules.py:CHALLENGER_VERSION](scripts/podcast/_rules.py) bumped 2.1 → 2.2. Five new R-* rule families inlined into [_workspace/prompts/gemini-bundle-auditor.md §4](_workspace/prompts/gemini-bundle-auditor.md). Six matched fixtures at [_learning/fixtures/](content/podcast/.skill/_learning/fixtures/).
 - **Per-chapter loop hardening** in [orchestrate_book.py:_drive_per_chapter_and_after](scripts/podcast/orchestrate_book.py): F33-second graceful-degrade (`failed_slugs` set; continue on failed chapter); F35-second `per_chapter_cost_cap_usd` series-plan flag (default $5); F37 `chapter_timings` per slug; F12 `_resolve_episode_id()` reads `contract.episode_number`.
 - **Convergence robustness** — F11 preserves prior SHIP verdicts when later-iteration challenger times out ([_convergence.py](scripts/podcast/_convergence.py)).
 - **Framing word-cap guard** — F1 compression re-author before build gate ([_authoring.py:author_framing](scripts/podcast/_authoring.py)).
@@ -93,10 +132,9 @@ The canonical source-of-truth for every agent is [infra/claude-agents/](infra/cl
 | `podcast-extract` | [infra/claude-agents/podcast-extract.md](infra/claude-agents/podcast-extract.md) | Single-chapter → NotebookLM bundle fast path |
 | `podcast-publisher` | [infra/claude-agents/podcast-publisher.md](infra/claude-agents/podcast-publisher.md) | Move shipped content from drafts/ to published/books/ (gates G1–G7) |
 | `podcast-trainer` | [infra/claude-agents/podcast-trainer.md](infra/claude-agents/podcast-trainer.md) | Cross-book pattern learner; refines podcast-challenger + handbook with regression gates |
-| `docs-updater` | [infra/claude-agents/docs-updater.md](infra/claude-agents/docs-updater.md) | Regenerate `docs/architecture/index.html` from repo truth |
 | `refine-prompt` | [infra/claude-agents/refine-prompt.md](infra/claude-agents/refine-prompt.md) | Refines a raw request into one compact instruction-paragraph |
 
-Retired 2026-05-23: `podcast-operator` (multi-machine "where am I, what's next?" entry — no longer needed in single-machine model). Lingering wrappers under `.github/agents/` for `CORTEX`, `reconcile`, `repo-surgeon`, and `operating-contract` predate the 2026-05-23 canonical-direction flip and are mirrored without an `infra/` counterpart; they survive for backwards-compatibility with older session prompts.
+Retired 2026-05-23: `podcast-operator` (multi-machine "where am I, what's next?" entry — no longer needed in single-machine model). Retired 2026-05-28: `docs-updater` + `reconcile` (both targeted `docs/architecture/index.html` which has been deleted — architecture documentation now lives in `_workspace/plan/architecture.md` and the Astro site). Lingering wrappers under `.github/agents/` for `CORTEX`, `repo-surgeon`, and `operating-contract` predate the 2026-05-23 canonical-direction flip and are mirrored without an `infra/` counterpart; they survive for backwards-compatibility with older session prompts.
 
 ---
 
@@ -116,9 +154,9 @@ Retired 2026-05-23: `podcast-operator` (multi-machine "where am I, what's next?"
 
 ## Single-machine model
 
-The pipeline is **machine-agnostic**. Most work is done by Anthropic + Azure remotely (LLM calls, OCR, translation, speech), so the host machine carries no special-snowflake configuration. The repo runs the same way on any Mac with `python3`, `git`, and the Azure stack credentials (per [_workspace/setup/azure-stack.md](_workspace/setup/azure-stack.md)).
+The pipeline is **machine-agnostic**. Most work is done by Anthropic + Azure remotely (LLM calls, OCR, translation, speech), so the host machine carries no special-snowflake configuration. The repo runs the same way on any Mac with `python3`, `git`, and the Azure stack credentials (per [docs/setup/azure-stack.md](docs/setup/azure-stack.md)).
 
-- **Per-content branches (locked 2026-05-24).** Every new piece of content (book, document, lecture, article, letter, interview, or generic draft) is processed on its own typed branch off `develop`. The branch name is `<prefix>/<full-slug>` where `<prefix>` derives from the content's `category` field via [scripts/podcast/_branching.py](scripts/podcast/_branching.py): `book/`, `doc/`, `lecture/`, `article/`, `letter/`, `interview/`, or `draft/` (fallback). Slugs are always full kebab-case (never abbreviated). Branches merge back to `develop` only after `podcast-publisher` ships the artifacts to `content/published/`.
+- **Per-content branches (locked 2026-05-24).** Every new piece of content (book, document, lecture, article, letter, interview, or generic draft) is processed on its own typed branch off `develop`. The branch name is `<prefix>/<full-slug>` where `<prefix>` derives from the content's `category` field via [scripts/podcast/_branching.py](scripts/podcast/_branching.py): `book/`, `doc/`, `lecture/`, `article/`, `letter/`, `interview/`, `asbaaq/`, or `draft/` (fallback). Slugs are always full kebab-case (never abbreviated). Branches merge back to `develop` only after `podcast-publisher` ships the artifacts to `content/published/`.
 - **No per-machine coordination.** The earlier two-machine model (operator files, `~/.machine-id` detection, book-queue mutex, coordination-protocol §15) was retired 2026-05-23. The cross-machine assignment layer is gone; content branches now serve only as isolation, not as work assignment.
 - **`scripts/start-session.sh`** is the simplified session bootstrap — fetches origin, fast-forwards develop, surfaces in-flight content branches + next-action commands.
 
@@ -129,12 +167,11 @@ The pipeline is **machine-agnostic**. Most work is done by Anthropic + Azure rem
 | Skill | Purpose |
 |---|---|
 | `skills-staging/clean-commit/` | Pre-commit / commit-quality discipline |
-| `skills-staging/cowork-brief/` | Refine raw request → compact instruction-paragraph |
 | `skills-staging/repo-surgeon/` | Holistic architecture audit, orphan cleanup |
-| `skills-staging/tell-me/` | Codebase tour / explainer skill |
-| `skills-staging/usage-auditor/` | Token / API usage audit |
 
 Each is an independent copy. Edits here do NOT cross-propagate to the sibling journal repo.
+
+**Removed 2026-06-02:** `cowork-brief`, `tell-me`, `usage-auditor` — ADLC/journal-repo tools with no invocation path in podcast-factory. Tombstoned in `docs/reference/skill-registry.md`.
 
 ---
 
@@ -169,4 +206,4 @@ Azure resources retain the original `journal-*` naming convention (resource grou
 - **No emojis in code or commits** unless explicitly invited.
 - **Status emojis (🟢 🟡 🔴 ⚠) in responses** per the 4-part response template (canonical at `_workspace/plan/response-template.md`).
 - **Markdown links for files and commits** — `[name](path)` and `[abc1234](https://github.com/asifhussain60/podcast-factory/commit/abc1234)`.
-- **Per-book ownership** — one book is owned by one machine at a time (see `_workspace/plan/book-queue.md`). Don't touch a book that's not on your machine's branch.
+- **Per-content branches** — every piece of content runs on its own typed branch off develop. Multiple books may be in-flight simultaneously; isolation is via branches, not machine ownership.

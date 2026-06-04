@@ -1,0 +1,68 @@
+{
+  "ch01-the-call-and-the-covenant": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 1.5,
+    "total": 73.6,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch02-will-command-and-the-seven": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 3.0,
+    "total": 73.9,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch03-world-hereafter-and-the-right-of-wealth": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 2.3,
+    "total": 73.8,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch04-the-greater-shaykh-and-the-naming": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 5.6,
+    "total": 74.4,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch05-father-revealed-and-the-faces-of-seeking": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 66.7,
+    "enrichment": 3.7,
+    "total": 74.1,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch06-justice-monotheism-and-the-guardians": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "structure": 33.3,
+    "enrichment": 3.3,
+    "total": 67.3,
+    "verdict": "FAIL",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  }
+}

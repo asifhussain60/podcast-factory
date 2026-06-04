@@ -1,0 +1,215 @@
+# COBRA Administration: Bridging the Gap in Health Coverage
+
+The call or the email comes, and then there's that hour afterward where you're trying to process what just happened. You lost your job. Or your hours got cut below full-time. Or the company was acquired and your position eliminated. Whatever the exact words were, the outcome is the same: your employment is ending, and a question arrives fast — within a day or two, sometimes sooner — that cuts through everything else.
+
+What happens to my health insurance?
+
+If you've been covered under your employer's health plan — covering yourself, or your spouse, your kids — that coverage doesn't continue automatically. It ends with your employment. And the gap between "last day of health coverage from your job" and "enrolled in something new" can be weeks or months, during which you're either uninsured or scrambling to figure out your options.
+
+That gap is exactly what COBRA is designed to bridge.
+
+---
+
+**What COBRA is, in plain English**
+
+The Consolidated Omnibus Budget Reconciliation Act — passed in 1985, and the source of the COBRA name — gives you and your covered family members the right to keep your existing health coverage from your job for a set time after a life change causes you to lose it.
+
+The key word is continue. COBRA isn't new insurance. It's the exact same plan you had — same network, same coverage, same doctors, same prescription coverage, same benefits. If your employer's plan covered your ongoing treatment for a chronic condition, your COBRA coverage covers the same treatment. If your kids are in the middle of orthodontia, it continues without interruption. If you're pregnant, you don't have to find a new OB and navigate a new plan mid-pregnancy.
+
+COBRA applies if your employer has 20 or more employees and offers a group health plan. It covers medical, dental, and vision plans — not life insurance or disability.
+
+The life changes that make you eligible for COBRA as an employee are losing your job, whether you quit or were let go (but not if you were fired for serious workplace misconduct), or if your work hours are cut so much that you lose coverage. For your spouse and children, other life changes that make them eligible include your death, divorce or legal separation, you becoming eligible for Medicare, or — for children — when they're no longer considered dependents on your plan (usually when they turn 26).
+
+---
+
+**The most important deadline you'll face: 60 days**
+
+When you lose coverage, your employer needs to tell HealthEquity, who will then send you an election notice — that's a letter explaining your COBRA options, what it will cost, and how to sign up. From the date of that letter, you have 60 days to decide if you want to choose COBRA coverage.
+
+Sixty days. That is the most important deadline in this entire process.
+
+If you don't act within those 60 days, the option is gone. You can't go back and choose COBRA coverage after that window closes. This is a firm deadline, and missing it means you lose the chance to keep your coverage entirely.
+
+The good news: you don't have to sign up immediately to be protected. As long as you choose it within the 60-day window, your coverage will be effective retroactively to the date it ended. So if you lose coverage on June 1, you have until July 31 to decide. If you choose on July 20, your coverage is treated as continuous from June 1 — any medical expenses you had between June 1 and July 20 are covered, once you've paid the premiums for that time.
+
+This retroactive protection matters most if something medical happens to you during the decision window. If you end up in urgent care in week three of deliberating, you can still choose COBRA, pay the back premiums, and have that visit covered. The practical guidance: if anything medical is happening in your life — ongoing treatment, an upcoming procedure, a pregnancy — choose COBRA promptly rather than waiting out the window.
+
+---
+
+**A worked family cost scenario: understanding what COBRA actually costs**
+
+The cost of COBRA is the single most important piece of information to understand before making any decision. Most people are caught off guard because during employment, they only see their share of the premium — the portion deducted from their paycheck. They don't see the employer's larger contribution, which disappears the moment employment ends.
+
+Here is a concrete example that illustrates the scale of the shift.
+
+Suppose your employer's family health plan costs $1,800 per month in total premiums. Your employer pays $1,400 of that — a 78 percent employer contribution, which is typical for many mid-sized employers. You pay $400 per month through payroll deduction. That $400 is what you see. That $400 is what feels like the cost of your health insurance.
+
+When your employment ends and you elect COBRA, the math changes completely. You now pay the full $1,800 — plus the federal law's permitted administrative fee of two percent, which is $36. Your total monthly COBRA cost is $1,836.
+
+You have gone from $400 per month to $1,836 per month. That is a $1,436 monthly increase — not because COBRA is expensive insurance, but because you are now paying the full cost of the coverage your employer was substantially subsidizing.
+
+Over six months of COBRA family coverage, that's $11,016. Over twelve months, $22,032. These numbers are real, they are common, and they are the reason a prompt comparison with marketplace alternatives is so important.
+
+The retroactive coverage detail matters a great deal in the family scenario. If a family member has a medical event during the 60-day election window — a child's broken arm, a parent's hospital visit — you can elect COBRA retroactively and pay the back premiums for coverage that was always there, waiting for you to activate it. For a family with children, this protection is especially valuable, because children tend to have unpredictable medical needs that don't consult the calendar of your job loss.
+
+---
+
+**A detailed retroactive coverage timeline**
+
+Understanding how retroactive COBRA coverage works in practice can help you make a more confident decision during what is already a stressful period. Here is a specific timeline to illustrate it.
+
+June 1: Your employment ends. Your health coverage through your employer terminates at the end of this day (or, in many plans, at the end of the month of June 30 — check your specific plan document).
+
+June 15: HealthEquity mails your COBRA election notice. This starts the 60-day clock.
+
+July 10: Your child breaks a wrist at soccer practice. You go to the urgent care clinic and the emergency room. Total bills: $2,400.
+
+July 25: You decide to elect COBRA. You submit your election form and pay the premiums for June and July — two months at $1,836, totaling $3,672.
+
+Result: your coverage is treated as continuous from June 1 (or June 30, depending on your plan's termination date). The $2,400 in July 10 medical bills is processed under your COBRA coverage exactly as it would have been processed under your employer plan. You owe only your deductible and cost-sharing, not the full bill.
+
+The net math: you paid $3,672 in back premiums and had $2,400 in claims covered. Whether that's a good deal depends on what you would have paid on a marketplace plan during the same period — but the point is that the retroactive coverage was real, available, and activated by your election even 44 days after the coverage lapsed.
+
+What happens if COBRA coverage lapses due to a missed payment? This is a different scenario, and a significantly worse one. If you elect COBRA, begin coverage, and then miss a premium payment past the 30-day grace period the law provides, your COBRA coverage terminates — and it terminates retroactively to the date of the missed payment. There is no reinstatement. You would need to enroll in a marketplace plan, but any claims between the termination date and your new coverage start date would be uncovered.
+
+This is the most painful COBRA administrative failure: people who elect and begin coverage, assume they are protected, and then miss a payment while dealing with the chaos of unemployment. Setting up automatic payments through HealthEquity's billing system is the single most important administrative step after electing COBRA.
+
+---
+
+**The cost reality, and how to think about it**
+
+Here's the thing most people are not prepared for: COBRA is expensive.
+
+When you were working, your employer was probably paying 70 to 80 percent of the monthly cost of your health insurance. You were paying the rest through your paycheck, and it felt manageable because it was taken out before you even saw the money. With COBRA, you pay the full monthly cost — your share plus what your employer used to pay — plus a 2 percent administrative fee.
+
+That math can produce monthly bills of $600, $800, $1,200, $1,500 or more, depending on your plan and whether you're covering just yourself or a family. The first time people see that number, it's often a genuine shock.
+
+So before you choose COBRA, it's worth doing a real comparison with the alternatives.
+
+The main alternative is a plan from the federal health insurance marketplace (healthcare.gov or your state's version). Losing your job's health coverage is a life change that gives you a 60-day window to sign up for a marketplace plan — you don't have to wait for the yearly benefits sign-up season. Marketplace plans come in a range of price points, and depending on your household income, you may qualify for subsidies that significantly reduce the monthly cost.
+
+The financial calculation works roughly like this:
+
+If you're healthy, not currently in treatment, and your healthcare needs are relatively routine, a marketplace plan may be significantly cheaper than COBRA — sometimes by hundreds of dollars per month. Over 6 or 12 months, that difference adds up fast.
+
+If you are in the middle of treatment — chemotherapy, physical therapy, an ongoing prescription that your current plan covers well, a pregnancy, a scheduled surgery — COBRA's ability to keep your coverage going without interruption is likely worth the higher monthly cost. Switching plans mid-treatment can mean changing doctors, having to pay a new deductible (the amount you pay before insurance kicks in), dealing with gaps in coverage, or losing access to a specialist you've been seeing. The disruption cost can exceed the monthly cost.
+
+If your family is enrolled and different family members have different ongoing medical needs, the calculation gets more complicated. Running through the comparison carefully is worth an hour of your time.
+
+---
+
+**A step-by-step marketplace comparison walkthrough**
+
+Comparing COBRA to a marketplace plan is not difficult, but it requires gathering a few specific numbers. Here is the sequence.
+
+Step one: Get your exact COBRA monthly cost from HealthEquity's election notice. This is the full premium plus the two percent administrative fee. For a family plan, this may be $1,836 or more. For a self-only plan, $500 to $900 is common depending on the employer's plan.
+
+Step two: Go to healthcare.gov (or your state's exchange if your state runs its own). You will need your ZIP code, household size, and estimated annual income for the current year. Use your post-job income — not your income from employment — since subsidies are calculated on projected income.
+
+Step three: Compare at least three plan tiers: Bronze (lowest premium, highest deductible — the amount you pay before insurance starts covering costs), Silver (moderate premium, moderate deductible), and Gold (higher premium, lower deductible). Bronze plans are cheapest on paper but expose you to higher out-of-pocket costs if you actually need care. Silver plans are the most common choice and also unlock cost-sharing reduction subsidies if your income qualifies.
+
+Step four: Check whether your current doctors are in-network on the marketplace plans you're considering. This is the step most people skip, and skipping it is the source of one of the most common post-enrollment regrets. A plan that seems cheaper but takes your primary care doctor out of network — or excludes the specialist managing your chronic condition — may cost far more in disruption than the monthly savings suggest.
+
+Step five: Compare the total cost of COBRA versus marketplace across your expected 60-day window and the following 12 months. If you'll likely find new employment in two to three months and your new employer will offer coverage, a shorter-term COBRA bridge may make sense even at a higher monthly cost.
+
+HealthEquity's COBRA administration platform is designed to give you clear information about your options and costs. COBRA specialists are available to walk you through what your coverage looks like, what you'd pay, and what the transition process involves. This isn't a decision you should make based on the number alone.
+
+---
+
+**Common COBRA mistakes — and how to avoid them**
+
+The complexity of COBRA's rules creates a predictable set of mistakes that people make during an already stressful transition. Understanding them in advance is the best protection.
+
+Mistake one: missing the election notice. Your employer is required to notify HealthEquity within a specific timeframe after a qualifying life change like losing your job. HealthEquity then has 14 days to send you the election notice. That notice can be mailed to your home address or sent digitally, depending on your employer's setup. If you have recently moved, your last employer may have an outdated address, and the notice could be misdelivered. After your employment ends, proactively contact HealthEquity to confirm your notice has been sent and to verify your contact information on file.
+
+Mistake two: assuming COBRA is automatic. COBRA is not automatic. The coverage does not start until you affirmatively elect it — by signing and returning the election form within 60 days. Some people lose their jobs and assume their health coverage is simply continuing while they figure out next steps. It is not. The coverage has ended. The 60-day clock is running. If you haven't submitted an election form, you are uninsured.
+
+Mistake three: not setting up automatic payments. After electing COBRA, you become responsible for your own premium payments on a monthly schedule. Unlike the payroll deduction system you were used to — where the money was taken automatically before you saw it — COBRA billing comes to you as an invoice. People in the middle of a job search, or managing family stress during unemployment, can easily miss a payment. The law provides a 30-day grace period, but once that grace period expires and the payment still hasn't arrived, coverage terminates. Set up automatic payment through HealthEquity's platform on the day you elect COBRA, not later.
+
+Mistake four: waiting too long to compare alternatives. Many people intend to compare COBRA and marketplace options, but delay starting until week five or six of the 60-day window. By then, they're rushed, may not do a thorough comparison, and sometimes miss the window entirely or elect COBRA without realizing a significantly cheaper marketplace option was available. Start the comparison in week one.
+
+Mistake five: not electing retroactively when something medical happens. If you experience a medical event during your 60-day window and assume you're uninsured, you may pay a large bill out of pocket — and then later discover you could have elected COBRA retroactively and had the cost covered. If anything medical happens during your election window, elect COBRA, pay the back premiums, and let the claim be processed under your coverage.
+
+---
+
+**The coverage timeline**
+
+For employees losing coverage due to a job loss or hour reduction, COBRA coverage can last up to 18 months. For spouses and dependent children who lose coverage due to the covered employee's death, a divorce, the employee becoming eligible for Medicare, or a child aging out of the plan, coverage can extend up to 36 months.
+
+If you're on COBRA and become disabled during the first 60 days of coverage, you might be able to extend it from 18 to 29 months. These are the federal minimums; some states have their own laws that require longer periods, so your specific situation might offer more time than the federal baseline.
+
+---
+
+**What to do, in order, right now**
+
+If you've just lost your job or are about to, here's the sequence that matters:
+
+One — find out your last day of health coverage from your job. It's often the last day of the month in which you leave. Know this date.
+
+Two — watch for the COBRA letter from HealthEquity. It will come in the mail or digitally, within a specific time after a life change like losing your job, getting divorced, or having a baby. Read it carefully. Note the deadline.
+
+Three — compare COBRA monthly costs against marketplace plan options. Go to healthcare.gov or your state exchange, enter your household income and location, and see what's available. Get real numbers before deciding.
+
+Four — if you have any active medical situations — ongoing treatment, a scheduled procedure, a pregnancy — weigh the value of continuous COBRA coverage heavily. The known cost of continuing your current plan may be worth more than the savings of switching.
+
+Five — choose within 60 days. Even if you're still deciding between COBRA and a marketplace plan, if you're leaning toward COBRA, don't let the deadline slip.
+
+Six — if you choose COBRA, set up automatic payments for your monthly cost on the same day you elect. Late or missed payments can result in your coverage ending — HealthEquity's billing system handles this, but it's your responsibility to stay current.
+
+---
+
+**Special situations: COBRA and a Health Savings Account**
+
+One question that arises frequently for people who were enrolled in a high-deductible health plan with a Health Savings Account before losing their job: what happens to the Health Savings Account during COBRA?
+
+The Health Savings Account itself is completely unaffected by your job loss or your COBRA election. The account belongs to you — it's not an employer benefit that ends with employment. The balance remains yours, continues to grow tax-free, and can be used at any time for eligible medical expenses. You can reimburse yourself for any qualified health expense from your Health Savings Account balance regardless of what health insurance you are currently carrying.
+
+The question of new contributions is more nuanced. To contribute new money to a Health Savings Account, you must be enrolled in a qualifying high-deductible health plan. If you elect COBRA to continue your prior employer's high-deductible health plan, and that plan still meets the IRS's requirements for a qualifying high-deductible plan, you can continue making Health Savings Account contributions while on COBRA — up to the annual limits of $4,400 for self-only or $8,750 for family coverage. If you switch to a marketplace plan that is not a qualifying high-deductible plan, new contributions stop. The existing balance is unaffected.
+
+One practical strategy for people in the 60-day decision window: if you're leaning toward electing COBRA specifically because your prior plan was a high-deductible plan and you want to keep contributing to your Health Savings Account, factor that into the comparison. The ability to keep contributing — and keep building the triple-tax-advantaged balance — has real long-term financial value that doesn't show up directly in the monthly premium comparison.
+
+You can also use your Health Savings Account balance to pay COBRA premiums. This is an often-overlooked feature: once you are no longer enrolled in an employer-sponsored plan, you can withdraw Health Savings Account funds tax-free to pay continuation coverage premiums, including COBRA. This makes the Health Savings Account a useful bridge resource during the transition, covering premiums without creating a taxable event.
+
+---
+
+**What state continuation coverage adds to your options**
+
+Federal COBRA applies to employers with 20 or more employees. If your employer has fewer than 20 employees, federal COBRA does not apply — but many states have their own continuation coverage laws, sometimes called mini-COBRA, that extend similar rights to employees at smaller companies.
+
+These state programs vary significantly. Some states require continuation coverage for employers with as few as two employees. The duration may differ from the 18 or 36 months offered under federal COBRA — some states provide shorter periods, some provide longer, and the premiums are calculated using similar rules (full premium plus administrative fee). If you work for a smaller employer and assume COBRA doesn't apply to you, it's worth checking your state's rules before concluding you have no continuation rights.
+
+HealthEquity's COBRA specialists can help identify whether state continuation coverage applies to your situation, and what the practical differences are between state and federal continuation coverage in terms of cost, duration, and plan equivalency.
+
+---
+
+**For the employer side of the relationship**
+
+COBRA rules are genuinely complex for employers — they have strict deadlines for sending out required notices, eligibility rules can have tricky situations, and keeping records is a big job. HealthEquity manages the full administration for employers: creating and sending out required notices, processing choices, managing billing, collecting monthly payments, and handling payments to health plan carriers. Employers who combine COBRA management with their other HealthEquity benefits get a single point of contact and a complete record for making sure everything is handled correctly.
+
+But this employer-side complexity is secondary to what matters for you in the moment you've just lost your job. What matters is: you have rights, you have a window, and you have options. Understanding them quickly is the most important financial and healthcare decision you'll face in the weeks ahead.
+
+The bridge COBRA provides between one coverage situation and the next needs to hold. HealthEquity's platform is designed to make sure it does — clearly, quickly, and without process failures that leave you unprotected when you need coverage most.
+
+---
+
+**How HealthEquity's platform works for COBRA administration**
+
+HealthEquity manages COBRA administration for thousands of employers across the country, which means the platform behind your COBRA election and billing is built on experience with millions of qualifying life events. Understanding how the platform operates on your behalf helps demystify a process that often feels opaque and bureaucratic.
+
+When your employment ends, your employer reports the qualifying life event to HealthEquity — typically within 30 days. HealthEquity then generates and delivers your election notice within the required timeframe. That notice contains your specific COBRA costs (calculated based on your plan's full premium), your exact deadline, and detailed instructions for how to elect coverage.
+
+If you choose to elect COBRA, you submit your election through HealthEquity's platform — online, by mail, or by phone with a specialist. HealthEquity confirms your election, activates your coverage retroactively to the date coverage lapsed, and sets up your billing account. From that point, you receive monthly invoices and have access to HealthEquity's billing portal to make payments, view payment history, and set up automatic payments.
+
+One important operational note: HealthEquity collects your COBRA premiums and remits them to your former employer's health plan carrier on your behalf. This means your claim processing and network access remain with the original carrier — HealthEquity handles the administration and billing, not the insurance itself. If you have questions about claims or coverage during your COBRA period, contact both HealthEquity (for billing and administration questions) and the health plan carrier (for coverage and claim questions).
+
+HealthEquity's member support team includes COBRA specialists who handle questions about election windows, payment status, qualifying life events, and coverage continuation. These are not general benefits representatives reading from a script — they work specifically on the COBRA administration function and can answer detailed questions about your specific situation, your plan's provisions, and the interaction between your COBRA coverage and other benefits you may be managing.
+
+For employees who are in the midst of complex situations — a pregnancy spanning the job loss, mid-treatment for a serious condition, or a family with multiple dependents at different stages of coverage eligibility — a 20-minute call with a HealthEquity COBRA specialist before making your election decision is time well spent.
+
+---
+
+**Getting started with HealthEquity**
+
+HealthEquity administers COBRA benefits for employers of all sizes, giving departing employees a clear, centralized platform to understand their rights, elect coverage, and manage billing. If your employer uses HealthEquity for benefits administration, your COBRA election notice will come from HealthEquity, and all subsequent account management happens through healthequity.com or the HealthEquity mobile app.
+
+If you have received a COBRA election notice and have questions about your options, HealthEquity's COBRA specialists are available by phone and through the platform. The 60-day window is short. The decision is consequential. Start the comparison early, understand your costs, and make the choice that gives your family continuous, uninterrupted health coverage through whatever comes next.

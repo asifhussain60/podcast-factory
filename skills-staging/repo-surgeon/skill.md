@@ -19,12 +19,12 @@ Before any action, read in order:
 2. `reference/skill-bootstrap.md` — the shared SECTION 0 contract
 3. `reference/skill-registry.md` — file ownership table
 4. This file (SKILL.md) end-to-end.
-5. **`_workspace/plan/podcast-plan.yaml`** — the v2 podcast plan (added 2026-05-19). Specifically:
+5. **`_workspace/plan/refactor/plan.yaml`** — the v2 podcast plan (added 2026-05-19). Specifically:
    - `meta.scope_in` / `meta.scope_out` — the contracted boundaries Pass 5 enforces.
    - `intelligence_sources` — files agents must consult before edits; Pass 5 L3 verifies existence.
    - `async_safety` — wait-banner format + pre-edit checklist; Pass 5 L6 honors.
    - `phases[]` — phase ids that Pass 5 L7 cross-checks against the HTML view.
-6. **`_workspace/plan/acceptance-criteria.md`** (if present) — the master checklist Pass 5 L10 syncs against the YAML.
+6. **`_workspace/plan/operations/per-book-ship-checklist.md`** (if present) — the master checklist Pass 5 L10 syncs against the YAML.
 
 Severity is **P0 / P1 / P2 / P3** per bootstrap §2. Legacy labels (Critical / High / Medium / Low) map: Critical → P0, High → P1, Medium → P2, Low → P3. See "Severity tier mapping" below for per-pass examples.
 
@@ -48,7 +48,7 @@ Systematic, multi-pass reviews of the journal repo. Identify structural drift, d
 
 - CSS/theme audit (delegates to `css-theme-sync` / `ui-reviewer`)
 - Memoir content quality (that's `journal` skill)
-- Spend/budget (that's `usage-auditor`)
+- Spend/budget (out of scope; usage-auditor was removed 2026-06-02)
 
 ---
 
@@ -91,7 +91,8 @@ Pass 5: Plan Conformance      → v2 plan YAML/MD/HTML parity, intelligence-sour
 | `--pass <1-5>` | Run only one pass. |
 | `--root-only` | Shortcut: only Pass 1 Rule R1 (root hygiene). |
 | `--plan-only` | Shortcut: only Pass 5 (plan conformance + boundary + async-safety). |
-| `--plan-path <path>` | Override the default `_workspace/plan/podcast-plan.yaml` location (e.g., when reviewing a future second plan). |
+| `--plan-path <path>` | Override the default `_workspace/plan/refactor/plan.yaml` location (e.g., when reviewing a future second plan). |
+| `--scope podcast` | Run Pass 2b: Podcast Pipeline Probes (supersedes the standalone `podcast-auditor` agent). Covers the 13 probes across Efficiency / Accuracy / Scalability / Extensibility / Hygiene axes against `scripts/podcast/`. |
 
 ---
 
@@ -199,6 +200,38 @@ If ANY of the three returns a hit referencing this candidate, downgrade to "POSS
 
 ---
 
+## Pass 2b: Podcast Pipeline Probes (`--scope podcast`)
+
+**Goal:** Surface drift, dead code, and regressions specific to `scripts/podcast/`. Runs in addition to Pass 2 when `--scope podcast` is passed. Supersedes the standalone `podcast-auditor` agent (deprecated 2026-06-02).
+
+**Scope:** `scripts/podcast/**/*.py`, `skills-staging/podcast/SKILL.md`, `.github/agents/*.agent.md`, `_workspace/plan/**/*.md`, `CLAUDE.md`.
+
+**Out of scope:** `plan-dashboard/` (Astro SPA), `infra/azure/` (deployment), `node_modules/`, `dist/`, sibling journal repo.
+
+**Probes (13 total across 5 axes):**
+
+| ID | Axis | Severity | What to detect |
+|---|---|---|---|
+| AU-E1 | Efficiency | P1 | **Dead code** — Python modules nothing imports, scripts no agent/phase invokes. Build call graph from `import` + subagent_type refs + `python3 scripts/podcast/X.py` calls across all `.md`/`.py` files. |
+| AU-E2 | Efficiency | P1 | **Duplicate scripts** — Overlapping responsibilities. Cluster by function-name overlap, docstring topic, read/write footprint. |
+| AU-E3 | Efficiency | P1 | **Validation duplication** — Same check in N>1 places (em-dash, HTML comments, META_PROSE_TELLS, word-count bands). |
+| AU-A1 | Accuracy | P0 | **Spec ↔ code drift** — Docs that reference paths/scripts/constants that no longer exist. Extract path-like strings from all `.md`; verify on disk. |
+| AU-A2 | Accuracy | P0 | **Version-constant drift** — `CHALLENGER_VERSION` in `_rules.py` vs frontmatter in `podcast-challenger.agent.md`; `SLIDE_DECK_CHALLENGER_VERSION` in `_rules.py` vs `slide-deck-challenger.agent.md`. |
+| AU-A3 | Accuracy | P0 | **Registry ↔ disk drift** — `_system/registry.md` rows whose Slug doesn't match any `chapters/ch##-<slug>.txt`; chapter files with no registry row. |
+| AU-S1 | Scalability | P1 | **Magic numbers** — ALL_CAPS integer/float literals that look like config but aren't (`MAX_OUTER_ITERATIONS`, `WORD_COUNT_FLOOR`, `COST_CAP_USD`). |
+| AU-S2 | Scalability | P0 | **Hardcoded absolute paths** — `/Users/` or `/home/` in Python source outside test fixtures / state-file provenance. |
+| AU-S3 | Scalability | P1 | **Cost-cap leakage** — New LLM/Azure calls that don't contribute to `orchestrator-state.json`'s cost dict. |
+| AU-X1 | Extensibility | P1 | **Hard-coded enums** — Category/status lists >3 elements appearing in >1 file that should be a registry. |
+| AU-X2 | Extensibility | P1 | **Missing plugin points** — Classes/functions with the same shape in N>1 places without a registration pattern. |
+| AU-X3 | Extensibility | P2 | **Convention drift** — Recent additions that don't match established naming/file-layout/invocation patterns. |
+| AU-H1 | Hygiene | P1 | **Workspace-root sprawl** — Files at any folder root not in vacuum's root-legit whitelist (vacuum.agent.md §9). Report with `delegate_to: vacuum`. |
+
+**Findings:** emit one JSONL record per finding to `content/podcast/.skill/_learning/findings.jsonl` with `source: "repo-surgeon/podcast"` and `finding_id` prefixed `AU`. Report written to `_workspace/audit-reports/<ISO>-podcast-probes.md`.
+
+**Verdict:** same as podcast-auditor — `healthy` (zero P0, ≤3 P1), `drift-detected` (≥1 P0 or ≥4 P1), `regression-detected` (≥3 P0).
+
+---
+
 ## Pass 3: Architecture Auditor
 
 **Goal:** Enforce App/Cowork split, skill registry completeness, governance alignment.
@@ -295,27 +328,27 @@ grep -rnE 'trips/|trip-edit|trip-planner|dayone|FloatingChat|LogModule|InsertEve
 
 ## Pass 5: Plan Conformance
 
-**Goal:** The phased plan at `_workspace/plan/podcast-plan.yaml` must remain (a) parseable, (b) internally consistent across YAML / README.md / view/index.html / research/findings.md, (c) grounded in actual repo paths (no broken `intelligence_sources`), (d) honored by the active orchestrator state (`async_safety` rules upheld), and (e) aligned with the boundary contract (podcast never writes to journal/clinical/quote libraries).
+**Goal:** The phased plan at `_workspace/plan/refactor/plan.yaml` must remain (a) parseable, (b) internally consistent across YAML / README.md / view/index.html / research/findings.md, (c) grounded in actual repo paths (no broken `intelligence_sources`), (d) honored by the active orchestrator state (`async_safety` rules upheld), and (e) aligned with the boundary contract (podcast never writes to journal/clinical/quote libraries).
 
 ### Rules
 
 | ID | Rule | Action |
 |---|---|---|
-| L1 | **YAML parses cleanly** — `ruby -r yaml -e "YAML.load_file('_workspace/plan/podcast-plan.yaml')"` exits 0; or `python3 -c "import yaml; yaml.safe_load(open('…'))"` if PyYAML installed. | Report syntax error with line/column; halt before fix. |
+| L1 | **YAML parses cleanly** — `ruby -r yaml -e "YAML.load_file('_workspace/plan/refactor/plan.yaml')"` exits 0; or `python3 -c "import yaml; yaml.safe_load(open('…'))"` if PyYAML installed. | Report syntax error with line/column; halt before fix. |
 | L2 | **Phase list reachable** — every phase referenced in `done_when` exists in `phases[].id`; every `depends_on` entry resolves to a real phase. | Flag dangling refs; suggest insertion or removal. |
 | L3 | **`intelligence_sources` paths exist** — each `path:` under `intelligence_sources.podcast.consult_before_any_edit` / `journal.consult_before_any_edit` / `cross_cutting` resolves to an extant file. Exceptions: paths containing `<book>` (template variable), paths containing `*` (glob), and paths whose `staleness_signal` declares them as a forward deliverable (literal match: `deliverable`, `created in`, `to be created`). | Flag missing paths; offer plausible-replacement suggestions from `git log` filename history. |
 | L4 | **Scope contracts honored** — no file inside `meta.scope_in` patterns imports from any file inside `meta.scope_out` patterns. | Run AST + grep check (see procedure below); flag any cross-import as **P0**. |
 | L5 | **Boundary contract (podcast → journal)** — under `scripts/podcast/**`, no `open(...,'w')` / `open(...,'a')` / `pathlib.Path(...).write_*` / shutil.copy* targets `content/babu-memoir/**`, `content/_shared/**`, `scripts/memoir/**`, or `scripts/site/**`. Reads of `content/_shared/arabic/**` are allowed (READ-ONLY exception). | Flag any write target as **P0**; the only allowed cross-skill write is `BOOK_DIR/_system/episode-drafts/EP##-*/proposed-library-entries.md`. |
 | L6 | **Async-safety state** — if any `orchestrator-state.json` shows `phase_status: running` with `ts_updated` within the last 5 minutes, AND a `pgrep -fl 'orchestrate_book\|claude -p\|extract_chapter\|build_episode'` returns non-empty, emit the wait-banner from `meta.async_safety.wait_banner_format` and HALT all subsequent passes that would touch the active book directory. | Halt + emit banner; do not fix. |
-| L7 | **HTML/YAML parity** — every phase id in `_workspace/plan/podcast-plan.yaml` `phases[].id` must appear in at least one file under `_workspace/plan/view/*.html` (the view system is split — `index.html` is the landing/capability surface; `phased-plan.html` is the canonical phase content; `acceptance-criteria.html` and `podcast-capabilities.html` are role-specific surfaces). | Flag any phase id missing from EVERY view HTML as **P2**. |
+| L7 | **HTML/YAML parity** — every phase id in `_workspace/plan/refactor/plan.yaml` `phases[].id` must appear in at least one file under `_workspace/plan/view/*.html` (the view system is split — `index.html` is the landing/capability surface; `phased-plan.html` is the canonical phase content; `acceptance-criteria.html` and `podcast-capabilities.html` are role-specific surfaces). | Flag any phase id missing from EVERY view HTML as **P2**. |
 | L8 | **Broken-ref audit after legacy-file cleanup** — for every basename listed under `meta.legacy_cleanup_basenames` (if present), every remaining mention in the repo must occur within 80 characters of one of the literal substrings: `deleted`, `retired`, `RETIRED`, `DELETED`, `closed`. | Flag unannotated mentions as **P1**. |
-| L9 | **HTML view freshness** — `_workspace/plan/view/index.html` mtime older than `_workspace/plan/podcast-plan.yaml` mtime → flag for re-render. (Best-effort check; the HTML is hand-edited, so age alone is not destructive; tag as **P3 advisory**.) | Flag. |
-| L10 | **Acceptance-criteria sync** — if `_workspace/plan/acceptance-criteria.md` exists, every ID mentioned on a checkbox row must resolve to one of: (a) a current phase id (`phases[].id`), (b) a current task id (`phases[].tasks[].id`), (c) an open-question id (`open_questions[].id`), (d) a risk id (`risks[].id`), (e) a legacy id retained for v2→v3 traceability (`phases[].legacy_id`, `phases[].tasks[].legacy_id`, or any key/value in `meta.legacy_id_map`). | Flag drift between checklist and canonical plan as **P1**. |
+| L9 | **HTML view freshness** — `_workspace/plan/view/index.html` mtime older than `_workspace/plan/refactor/plan.yaml` mtime → flag for re-render. (Best-effort check; the HTML is hand-edited, so age alone is not destructive; tag as **P3 advisory**.) | Flag. |
+| L10 | **Acceptance-criteria sync** — if `_workspace/plan/operations/per-book-ship-checklist.md` exists, every ID mentioned on a checkbox row must resolve to one of: (a) a current phase id (`phases[].id`), (b) a current task id (`phases[].tasks[].id`), (c) an open-question id (`open_questions[].id`), (d) a risk id (`risks[].id`), (e) a legacy id retained for v2→v3 traceability (`phases[].legacy_id`, `phases[].tasks[].legacy_id`, or any key/value in `meta.legacy_id_map`). | Flag drift between checklist and canonical plan as **P1**. |
 
 ### Procedure
 
 ```bash
-PLAN="_workspace/plan/podcast-plan.yaml"
+PLAN="_workspace/plan/refactor/plan.yaml"
 
 # L1: YAML lint
 ruby -r yaml -e "YAML.load_file('$PLAN'); puts 'OK'" 2>&1
@@ -394,7 +427,7 @@ end
 "
 
 # L10: acceptance-criteria sync (when file exists) — includes legacy_id mappings
-[ -f _workspace/plan/acceptance-criteria.md ] && \
+[ -f _workspace/plan/operations/per-book-ship-checklist.md ] && \
   ruby -r yaml -e "
   d=YAML.load_file('$PLAN')
   ids = (d['phases']||[]).flat_map{|p| [p['id'], p['legacy_id']] + ((p['tasks']||[]).flat_map{|t| [t['id'], t['legacy_id']]})}.compact.flat_map{|x| x.is_a?(String) ? [x] : []}.to_set
@@ -403,11 +436,11 @@ end
   legacy_map = d.dig('meta','legacy_id_map') || {}
   ids.merge(legacy_map.keys.map(&:to_s))
   ids.merge(legacy_map.values.map(&:to_s))
-  File.foreach('_workspace/plan/acceptance-criteria.md').with_index(1) do |line, n|
+  File.foreach('_workspace/plan/operations/per-book-ship-checklist.md').with_index(1) do |line, n|
     next unless line =~ /^\\s*-\\s*\\[/
     refs = line.scan(/\\b([PQR]\\d+[a-z]?(?:\\.\\d+)?)\\b/).flatten
     next if refs.empty?
-    refs.each{|r| ids.include?(r) || puts(\"acceptance-criteria.md:#{n} references unknown id: #{r}\")}
+    refs.each{|r| ids.include?(r) || puts(\"per-book-ship-checklist.md:#{n} references unknown id: #{r}\")}
   end
   "
 ```
@@ -415,7 +448,7 @@ end
 ### When to invoke Pass 5
 
 - Before every commit on `plan/*` branches.
-- After every merge into `develop` that touches `_workspace/plan/**`, `scripts/podcast/**`, or `docs/architecture/podcast-*.html`.
+- After every merge into `develop` that touches `_workspace/plan/**` or `scripts/podcast/**`.
 - After any legacy-file cleanup commit (verifies broken refs are annotated).
 - Before invoking the orchestrator (verifies async-safety + boundary).
 
@@ -444,7 +477,7 @@ end
 | Pass 5 | Async-safety violation while orchestrator running | **P0** (halt) |
 | Pass 5 | `intelligence_sources` path missing in repo | **P1** |
 | Pass 5 | HTML view missing a phase id from YAML | **P2** |
-| Pass 5 | `acceptance-criteria.md` references unknown id | **P1** |
+| Pass 5 | `per-book-ship-checklist.md` references unknown id | **P1** |
 | Pass 5 | Unannotated reference to a deleted legacy basename | **P1** |
 | Pass 5 | HTML view mtime older than YAML mtime | **P3** advisory |
 

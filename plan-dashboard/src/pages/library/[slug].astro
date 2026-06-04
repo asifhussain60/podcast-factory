@@ -1,0 +1,228 @@
+---
+import Base from '../../layouts/Base.astro';
+import { loadDetail, formatBytes, formatModified, categoryLabel } from '../../lib/library';
+import { scoreBook, verdictLabel } from '../../lib/peq-scores';
+import '../../styles/library.css';
+
+const slug = Astro.params.slug;
+if (!slug) return Astro.redirect('/library');
+const detail = await loadDetail(slug);
+if (!detail) return Astro.redirect('/library');
+const slugStr: string = slug;
+
+const { summary, meta, chapters, episodes, slideDecks, audio, audits, sourceFiles, glossary, state } = detail;
+
+const archetype = meta['archetype'] ?? null;
+const bookScore = await scoreBook(summary.ref.dir, archetype);
+const chapterScoreMap = new Map(bookScore?.chapters.map((c) => [c.slug, c.scores]) ?? []);
+
+function fileViewHref(relPath: string): string {
+  return `/api/library/file?slug=${encodeURIComponent(slugStr)}&path=${encodeURIComponent(relPath)}`;
+}
+---
+<Base title={summary.title} active="library" description={`${categoryLabel(summary.category)} — ${summary.title}`}>
+  <header class="stack lib-detail-head">
+    <div class="lib-breadcrumb">
+      <a href="/library">Library</a>
+      <span class="lib-sep">›</span>
+      <span>{categoryLabel(summary.category)}</span>
+    </div>
+    <div class="lib-title-row">
+      <h1>{summary.title}</h1>
+      <span class={`lib-badge lib-badge-${summary.publicationStatus === 'published' ? 'published' : 'drafts'}`}>{summary.publicationStatus === 'published' ? 'Published' : 'Draft'}</span>
+      <a class="lib-studio-link" href={`/studio/${slugStr}/edit`}>Open in Studio <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
+    <p class="card-sub lib-slug">{summary.ref.slug} · {categoryLabel(summary.category)}</p>
+
+    <div class="lib-toolbar">
+      <a href={`#binders`} class="lib-tab-link">Binders · {summary.chapterCount}</a>
+      <a href={`#episodes`} class="lib-tab-link">Episodes · {summary.episodeCount}</a>
+      <a href={`#slide-decks`} class="lib-tab-link">Slide decks · {slideDecks.length}</a>
+      <a href={`#audio`} class="lib-tab-link">Audio · {summary.audioCount}</a>
+      <a href={`#audits`} class="lib-tab-link">Audits · {audits.length}</a>
+      <a href={`#source`} class="lib-tab-link">Source · {sourceFiles.length}</a>
+      <a href={`#meta`} class="lib-tab-link">Meta</a>
+    </div>
+
+    {bookScore && (
+      <div class="lib-peq-summary">
+        <span class="lib-peq-label">Quality score</span>
+        <span class={`lib-score-pill lib-score-${bookScore.avg >= 85 ? 'pass' : bookScore.avg >= 70 ? 'warn' : 'fail'}`}>
+          {bookScore.avg.toFixed(1)} avg — {verdictLabel(bookScore.avg >= 85 ? 'PASS' : bookScore.avg >= 70 ? 'WARN' : 'FAIL')}
+        </span>
+        <span class="lib-peq-breakdown">
+          {bookScore.passCount > 0 && <span class="lib-peq-stat lib-peq-pass">{bookScore.passCount} excellent</span>}
+          {bookScore.warnCount > 0 && <span class="lib-peq-stat lib-peq-warn">{bookScore.warnCount} good</span>}
+          {bookScore.failCount > 0 && <span class="lib-peq-stat lib-peq-fail">{bookScore.failCount} needs work</span>}
+        </span>
+      </div>
+    )}
+  </header>
+
+  <section id="meta" class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Metadata</h2>
+      <p class="card-sub">From <code>meta.yml</code> — edit inline below.</p>
+    </header>
+    {summary.hasMeta ? (
+      <form class="card stack lib-meta-form" data-slug={slug}>
+        {Object.entries(meta).slice(0, 16).map(([k, v]) => (
+          <label class="lib-field">
+            <span class="lib-field-label">{k}</span>
+            <input class="lib-field-input" type="text" name={k} value={v} readonly />
+          </label>
+        ))}
+        <p class="card-sub">Read-only in v1 — editable in the next iteration.</p>
+      </form>
+    ) : (
+      <p class="card-sub">No <code>meta.yml</code> on disk.</p>
+    )}
+    {state.exists && (
+      <div class="card card-tight">
+        <p class="card-sub"><strong>Pipeline state:</strong> phase = <code>{state.phase ?? '—'}</code> · status = <code>{state.phaseStatus ?? '—'}</code> · last completed = <code>{state.lastCompleted ?? '—'}</code></p>
+      </div>
+    )}
+  </section>
+
+  <section id="binders" class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Binders · {chapters.length}</h2>
+      <p class="card-sub">Authored binders in <code>chapters/</code>.</p>
+    </header>
+    {chapters.length === 0 ? (
+      <p class="card-sub">No chapters yet.</p>
+    ) : (
+      <div class="lib-file-list">
+        {chapters.map((f) => {
+          const chapterSlug = f.name.replace(/\.(txt|md)$/i, '');
+          const cs = chapterScoreMap.get(chapterSlug);
+          return (
+            <a class="lib-file-row" href={`/studio/${slugStr}/edit?ch=${chapterSlug}`}>
+              <span class="lib-file-name">{f.name}</span>
+              <span class="lib-file-meta-row">
+                {cs && (
+                  <span class={`lib-score-pill lib-score-${cs.verdict.toLowerCase()}`} title={`Source accuracy: ${cs.fidelity.toFixed(0)}  Style: ${cs.voice.toFixed(0)}  Structure: ${cs.structure.toFixed(0)}  Depth: ${cs.enrichment.toFixed(0)}`}>
+                    {cs.total.toFixed(0)}
+                  </span>
+                )}
+                <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+              </span>
+            </a>
+          );
+        })}
+      </div>
+    )}
+  </section>
+
+  <section id="episodes" class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Episodes · {episodes.length}</h2>
+      <p class="card-sub">NotebookLM framings in <code>episodes/</code>.</p>
+    </header>
+    {episodes.length === 0 ? (
+      <p class="card-sub">No episodes yet.</p>
+    ) : (
+      <div class="lib-file-list">
+        {episodes.map((f) => {
+          return (
+            <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
+              <span class="lib-file-name">{f.name}</span>
+              <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+            </a>
+          );
+        })}
+      </div>
+    )}
+  </section>
+
+  <section id="slide-decks" class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Slide decks · {slideDecks.length}</h2>
+      <p class="card-sub">One folder per chapter under <code>_system/slide-decks/</code>.</p>
+    </header>
+    {slideDecks.length === 0 ? (
+      <p class="card-sub">No slide decks yet.</p>
+    ) : (
+      <div class="lib-deck-grid">
+        {slideDecks.map((deck) => (
+          <div class="card card-tight stack">
+            <h3 class="card-title lib-deck-title">{deck.slug}</h3>
+            <div class="lib-deck-files">
+              {deck.files.map((f) => (
+                <a class="lib-mini-link" href={fileViewHref(f.relPath)} target="_blank">{f.name}</a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section id="audio" class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Audio · {summary.audioCount}</h2>
+      <p class="card-sub">NotebookLM Audio Overview downloads in <code>m4a/</code>. Audio is gitignored.</p>
+    </header>
+    {audio.length === 0 ? (
+      <p class="card-sub">No audio files yet.</p>
+    ) : (
+      <div class="lib-file-list">
+        {audio.map((f) => (
+          <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
+            <span class="lib-file-name">{f.name}</span>
+            <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section id="audits" class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Audits · {audits.length}</h2>
+      <p class="card-sub">Challenger reports + postprod-review findings.</p>
+    </header>
+    {audits.length === 0 ? (
+      <p class="card-sub">No audits yet.</p>
+    ) : (
+      <div class="lib-file-list">
+        {audits.map((f) => (
+          <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
+            <span class="lib-file-name">{f.name}</span>
+            <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section id="source" class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Source · {sourceFiles.length}</h2>
+      <p class="card-sub">Refined English, phonetics, raw extract, source-toc — under <code>_system/source/text/</code>.</p>
+    </header>
+    {sourceFiles.length === 0 ? (
+      <p class="card-sub">No source files yet.</p>
+    ) : (
+      <div class="lib-file-list">
+        {sourceFiles.map((f) => (
+          <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
+            <span class="lib-file-name">{f.name}</span>
+            <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section class="stack lib-section">
+    <header class="lib-section-head">
+      <h2>Danger zone</h2>
+      <p class="card-sub">Soft-deletes this piece of content to <code>content/_archive/&lt;date&gt;/{summary.ref.slug}/</code>. Reversible.</p>
+    </header>
+    <form method="POST" action={`/api/library/${summary.ref.slug}/archive`}>
+      <button type="submit" class="lib-btn lib-btn-danger" onclick="return confirm('Archive this piece of content?')">Archive</button>
+    </form>
+  </section>
+</Base>
+

@@ -59,13 +59,13 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from _paths import REPO_ROOT
 
 # Local imports — _azure.py is the credential + REST adapter.
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 import _azure  # noqa: E402
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 LIBRARY_DIR = REPO_ROOT / "content" / "drafts"
 
 from _rules import ALLOWED_CATEGORIES  # centralized 2026-05-23 per AU-X1-001 (audit report)

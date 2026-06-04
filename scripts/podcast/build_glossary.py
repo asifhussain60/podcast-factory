@@ -9,7 +9,7 @@ NotebookLM Customize prompt can steer host pronunciation. The chapters
 uploaded to NotebookLM are phonetic-only by design (R-PHONETICS-OUT)
 and never contain Arabic script.
 
-For the podcast-reader app, however, we want to render the *original*
+For the Podcast Factory Astro Site (the reader section), however, we want to render the *original*
 Arabic script alongside the phonetic form, on a header toggle. This
 script materializes a per-book `glossary.yml` that the reader consumes:
 each row pairs the phonetic form used in chapters with the Arabic

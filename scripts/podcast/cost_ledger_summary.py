@@ -22,8 +22,8 @@ import json
 import sys
 from collections import defaultdict
 from pathlib import Path
+from _paths import REPO_ROOT
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 BOOKS_DIR = REPO_ROOT / "content" / "drafts"
 
 

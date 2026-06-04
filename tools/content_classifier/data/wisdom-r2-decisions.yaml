@@ -1,0 +1,381 @@
+# KAHSKOLE Round 2 taxonomy decisions — partial (small binders) — generated 2026-05-24
+#
+# Topic-level retitles. Round 2 partial: covers 9 of 19 binders (the smaller ones)
+# = 235 of 1,337 topics. Remaining 10 binders (1, 6, 8, 19, 23, 24, 26, 28, 34, 35)
+# = 1,102 topics are scaffolded with `pending: true` markers and queued for a
+# subsequent session with fresh context budget.
+#
+# Format: one entry per topic, keyed by (binder_id, chapter_id, topic_id).
+# Bundles remain byte-faithful; this file overlays an editorial-translation
+# layer that the adaptation pipeline reads at intake time.
+#
+# Confidence:
+#   high   — well-established Arabic/Ismaili term, English gloss uncontroversial
+#   medium — interpretive choice in translation
+#   low    — source name is sparse/ambiguous; gloss may need revision
+
+version: 1
+approved_at: null   # set when batch is approved
+generated_by: "tools/content_classifier"
+batch: "round-2-partial-small-binders"
+covered_binders: [5, 12, 16, 18, 25, 27, 29, 32, 36]
+deferred_binders: [1, 6, 8, 19, 23, 24, 26, 28, 34, 35]
+
+topic_retitles:
+
+  # ===========================================================================
+  # BINDER 5 — Selected Devotional Poetry (24 topics)
+  # ===========================================================================
+
+  # Chapter 50 — Manāqib (Praise Poems) for the Family of the Prophet
+  - { binder_id: 5, chapter_id: 50, topic_id: 3536, source: "عبادت",                                            en_title: "ʿIbāda — On Worship", confidence: medium }
+  - { binder_id: 5, chapter_id: 50, topic_id: 3555, source: "غالب کے اشعار علی کی شان میں",                     en_title: "Ghalib's Verses in Praise of ʿAlī", confidence: high }
+  - { binder_id: 5, chapter_id: 50, topic_id: 317,  source: "Madh-E-Abbas Madh-E-Haider Hai",                   en_title: "Madḥ-e ʿAbbās, Madḥ-e Ḥaydar Hai — Praise of ʿAbbās Is Praise of Ḥaydar (ʿAlī)", confidence: high }
+  - { binder_id: 5, chapter_id: 50, topic_id: 318,  source: "Main Hoon Abbas-E-Ali",                            en_title: "Main Hūn ʿAbbās-e ʿAlī — I Am ʿAbbās of ʿAlī (marsiya)", confidence: high }
+  - { binder_id: 5, chapter_id: 50, topic_id: 319,  source: "Main Hussain Hoon",                                en_title: "Main Ḥusayn Hūn — I Am Ḥusayn (marsiya)", confidence: high }
+  - { binder_id: 5, chapter_id: 50, topic_id: 325,  source: "Hazrat Abbas-E-Namdar",                            en_title: "Ḥaḍrat ʿAbbās-e Nāmdār — Ḥaḍrat ʿAbbās the Renowned (marsiya)", confidence: high }
+  - { binder_id: 5, chapter_id: 50, topic_id: 331,  source: "Waqif-E-Martaba-E-Aal-E-Payambar Na Mila",         en_title: "Wāqif-e Martaba-e Āl-e Payambar Na Milā — None Knew the Rank of the Prophet's Family", confidence: high }
+  - { binder_id: 5, chapter_id: 50, topic_id: 340,  source: "Khallaq-E-Karbala Maula Hussain Hai",              en_title: "Khallāq-e Karbalā Mawlā Ḥusayn Hai — The Creator of Karbalāʾ Is Mawlā Ḥusayn", confidence: high }
+  - { binder_id: 5, chapter_id: 50, topic_id: 328,  source: "Ghar Fatima Zehra Ka Ajab Shan Ka Ghar Hai",       en_title: "Ghar Fāṭima Zahrā Kā ʿAjab Shān Kā Ghar Hai — The House of Fāṭima Zahrā Is a House of Wondrous Glory", confidence: high }
+
+  # Chapter 13 — Arabic Poetic Compositions on the Ahl al-Bayt
+  - { binder_id: 5, chapter_id: 13, topic_id: 342, source: "Amar Ibn-E-A'as Poem For Ali",                      en_title: "ʿAmr ibn al-ʿĀṣ's Poem in Praise of ʿAlī", confidence: high }
+  - { binder_id: 5, chapter_id: 13, topic_id: 343, source: "Extemporary Poem By Farazdaq",                      en_title: "Al-Farazdaq's Extemporaneous Qaṣīda on Imam Zayn al-ʿĀbidīn", confidence: high }
+  - { binder_id: 5, chapter_id: 13, topic_id: 344, source: "Khutba Of Imam Ali Zainulabideen",                  en_title: "The Khuṭba of Imam ʿAlī Zayn al-ʿĀbidīn at Damascus", confidence: high }
+  - { binder_id: 5, chapter_id: 13, topic_id: 345, source: "Reply Of Maulana Qambar",                           en_title: "Mawlānā Qambar's Reply (in Praise of His Master ʿAlī)", confidence: high }
+  - { binder_id: 5, chapter_id: 13, topic_id: 346, source: "Naseeruddin Tusi's Poem For Ali",                   en_title: "Naṣīr al-Dīn Ṭūsī's Poem in Praise of ʿAlī", confidence: high }
+
+  # Chapter 12 — Elegies and Marsiya for Imam Husayn
+  - { binder_id: 5, chapter_id: 12, topic_id: 333,  source: "Nanhe Se Mujahid Ali Asghar",                       en_title: "Nanhe Se Mujāhid ʿAlī Aṣghar — The Tiny Mujāhid ʿAlī Aṣghar (marsiya for the Infant of Karbalāʾ)", confidence: high }
+  - { binder_id: 5, chapter_id: 12, topic_id: 1355, source: "ائے حسین",                                          en_title: "Ay Ḥusayn — O Ḥusayn! (Urdu marsiya, fully extracted)", confidence: high }
+  - { binder_id: 5, chapter_id: 12, topic_id: 334,  source: "Salaam Aye Khatm-E-Kaar-E-Nubuwat As-Salaam",       en_title: "Salām Aye Khatm-e Kār-e Nubuwwat as-Salām — Salutation: 'Peace, O Seal of the Work of Prophethood'", confidence: high }
+  - { binder_id: 5, chapter_id: 12, topic_id: 335,  source: "Fasana Hussain Ka",                                 en_title: "Afsāna Ḥusayn Kā — The Tale of Ḥusayn (marsiya)", confidence: high }
+  - { binder_id: 5, chapter_id: 12, topic_id: 336,  source: "Hamraz Yeh Fasana-E-Aah-O-Fughan Na Pooch",         en_title: "Hamrāz Yih Afsāna-e Āh-o-Fughān Na Pūch — Confidant, Do Not Ask About This Tale of Grief", confidence: high }
+  - { binder_id: 5, chapter_id: 12, topic_id: 337,  source: "Imam Hussain Ke Bachpan Ke Do Mo'jize",             en_title: "Two Miracles from the Childhood of Imam Ḥusayn", confidence: high }
+  - { binder_id: 5, chapter_id: 12, topic_id: 338,  source: "Salam-E-Aakhir (Imam Hussain)",                     en_title: "Salām-e Ākhir — The Final Salutation to Imam Ḥusayn", confidence: high }
+  - { binder_id: 5, chapter_id: 12, topic_id: 341,  source: "Marhaba Sayyad-E-Abrar Hussain Ibn-E-Ali",          en_title: "Marḥabā Sayyid-e Abrār Ḥusayn ibn ʿAlī — Welcome, Master of the Pious, Ḥusayn son of ʿAlī", confidence: high }
+  - { binder_id: 5, chapter_id: 12, topic_id: 511,  source: "Mehzar-E-Qatl-E-Hussain",                           en_title: "Maḥḍar-e Qatl-e Ḥusayn — The Scene of the Martyrdom of Ḥusayn", confidence: high }
+  - { binder_id: 5, chapter_id: 12, topic_id: 651,  source: "Main Rahoon Ya Na Rahoon",                          en_title: "Main Rahūn Yā Na Rahūn — Whether I Remain or Not", confidence: high }
+
+  # ===========================================================================
+  # BINDER 12 — Lives and Episodes of the Duʿāt and Their Ranks (7 topics)
+  # ===========================================================================
+
+  # Chapter 36 — Ḥudūd Kibār — The Greater Hierarchs
+  - { binder_id: 12, chapter_id: 36,  topic_id: 671,  source: "مالک بن حارث الاشتر النخعی",                        en_title: "Mālik ibn al-Ḥārith al-Ashtar al-Nakhaʿī — Companion-General of Imam ʿAlī", confidence: high }
+  - { binder_id: 12, chapter_id: 36,  topic_id: 672,  source: "اویث قرنی",                                          en_title: "Uways al-Qaranī — The Yemeni Devotee of the Prophet", confidence: high }
+  - { binder_id: 12, chapter_id: 36,  topic_id: 1201, source: "سیدنا مؤید الشیرازی اعلی اللہ قدسہ",                  en_title: "Sayyidnā al-Muʾayyad al-Shīrāzī (may God elevate his rank) — Fatimid Chief Daʿwa Officer", confidence: high }
+  - { binder_id: 12, chapter_id: 36,  topic_id: 1202, source: "امام مستنصر کے نام سیدنا مؤید کے اشعار اور امام کا جواب", en_title: "Al-Muʾayyad's Verses to Imam al-Mustanṣir bi-Llāh and the Imam's Reply", confidence: high }
+  - { binder_id: 12, chapter_id: 36,  topic_id: 799,  source: "شھداء کربلا کے اسمآء حسنی",                          en_title: "The Beautiful Names of the Martyrs of Karbalāʾ", confidence: high }
+  # Chapter 138 — Sīrat al-Manāṣib
+  - { binder_id: 12, chapter_id: 138, topic_id: 3556, source: "سیرت",                                              en_title: "Sīra (Biographical Sketches) — placeholder section in source", confidence: low }
+  # Chapter 143 — Personalities
+  - { binder_id: 12, chapter_id: 143, topic_id: 3586, source: "نانا ملا شفقت حسین صاحب",                            en_title: "Nānā Mullā Shafqat Ḥusayn Ṣāḥib — A Personal Tribute (placeholder section in source)", confidence: medium }
+
+  # ===========================================================================
+  # BINDER 16 — Collection of Selected Supplications (Duʿāʾ) (14 topics)
+  # ===========================================================================
+
+  # Chapter 41 — Duʿāʾ wa-Munājāt
+  - { binder_id: 16, chapter_id: 41, topic_id: 832, source: "Dua Isteftah (Imam Jaffar Al-Sadiq)",         en_title: "Duʿāʾ al-Istiftāḥ (attributed to Imam Jaʿfar al-Ṣādiq) — The Opening Supplication", confidence: high }
+  - { binder_id: 16, chapter_id: 41, topic_id: 831, source: "Dua Tanveer Al-Qalb",                         en_title: "Duʿāʾ Tanwīr al-Qalb — Supplication for the Illumination of the Heart", confidence: high }
+  - { binder_id: 16, chapter_id: 41, topic_id: 830, source: "Talabe Afu Wal Maghfirah (Imam Ali Zainul Abideen)", en_title: "Ṭalab al-ʿAfw wa-l-Maghfira (Imam Zayn al-ʿĀbidīn) — Seeking Pardon and Forgiveness", confidence: high }
+  - { binder_id: 16, chapter_id: 41, topic_id: 850, source: "Dua Hayaat Qaaf",                             en_title: "Duʿāʾ Ḥayāt-Qāf — The Supplication of 'Living Qāf'", confidence: medium }
+  - { binder_id: 16, chapter_id: 41, topic_id: 847, source: "Talab Ilm Wal Hafiza",                        en_title: "Ṭalab al-ʿIlm wa-l-Ḥāfiẓa — Supplication for Knowledge and Memory", confidence: high }
+  - { binder_id: 16, chapter_id: 41, topic_id: 848, source: "Dua Farj (By Nabi Pbuh)",                     en_title: "Duʿāʾ al-Faraj (attributed to the Prophet) — Supplication for Relief from Distress", confidence: high }
+  - { binder_id: 16, chapter_id: 41, topic_id: 849, source: "Dua Of Syedna Abul Barkaat",                  en_title: "The Supplication of Sayyidnā Abū al-Barakāt", confidence: high }
+
+  # Chapter 42 — Duʿāʾs Recited After Fajr
+  - { binder_id: 16, chapter_id: 42, topic_id: 836, source: "Dua-E-Raatib",                                en_title: "Duʿāʾ-e Rātib — The Daily-Recitation Supplication", confidence: high }
+  - { binder_id: 16, chapter_id: 42, topic_id: 845, source: "Dua-E-Hajaat",                                en_title: "Duʿāʾ-e Ḥājāt — Supplication for Needs", confidence: high }
+  - { binder_id: 16, chapter_id: 42, topic_id: 842, source: "F A J A R",                                   en_title: "Fajr — Pre-Dawn Supplications", confidence: high }
+
+  # Chapter 44 — Ten Daily Duʿāʾs
+  - { binder_id: 16, chapter_id: 44, topic_id: 843, source: "Sunday",    en_title: "Sunday — Duʿāʾs for the Day", confidence: high }
+  - { binder_id: 16, chapter_id: 44, topic_id: 844, source: "Monday",    en_title: "Monday — Duʿāʾs for the Day", confidence: high }
+  - { binder_id: 16, chapter_id: 44, topic_id: 846, source: "Tuesday",   en_title: "Tuesday — Duʿāʾs for the Day", confidence: high }
+  - { binder_id: 16, chapter_id: 44, topic_id: 851, source: "Wednesday", en_title: "Wednesday — Duʿāʾs for the Day", confidence: high }
+
+  # ===========================================================================
+  # BINDER 18 — Inner Realities of the Qurʾānic Prophet Stories (26 topics)
+  # ===========================================================================
+
+  # Chapter 131 — The Speaker-Prophets
+  - { binder_id: 18, chapter_id: 131, topic_id: 1470, source: "صاحب شریعت رسول",                     en_title: "The Messenger as Bearer of Sharīʿa (Ṣāḥib Sharīʿa Rasūl)", confidence: high }
+  - { binder_id: 18, chapter_id: 131, topic_id: 1477, source: "پیدائش عالم کی ۴ علتیں",                en_title: "The Four Causes of the World's Coming-Into-Being", confidence: high }
+  - { binder_id: 18, chapter_id: 131, topic_id: 1481, source: "شیطان کا انسان پر غالب ہونے اور اس کو گمراہ کرنے کا راز:", en_title: "The Secret of Shayṭān's Power Over Humans and How He Leads Them Astray", confidence: high }
+  - { binder_id: 18, chapter_id: 131, topic_id: 1482, source: "گنہ گار اور نافرمانوں کی ۳ قسمیں",      en_title: "The Three Categories of Sinners and the Disobedient", confidence: high }
+  - { binder_id: 18, chapter_id: 131, topic_id: 1483, source: "داؤد نبی کا حکیمانہ قول",              en_title: "A Wise Saying of the Prophet Dāwūd (David)", confidence: high }
+
+  # Chapter 147 — Outer Events
+  - { binder_id: 18, chapter_id: 147, topic_id: 4626, source: "بسم",                                    en_title: "Bism — (Placeholder fragment in source)", confidence: low }
+
+  # Chapter 52 — The Story of Ādam
+  - { binder_id: 18, chapter_id: 52, topic_id: 1478, source: "آدم علیہ السلام کا ظاہری قصہ",            en_title: "The Outer Story (Ẓāhir) of Ādam, Peace Be Upon Him", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 1465, source: "آدم صفی اللہ علیہ السلام",                en_title: "Ādam Ṣafīy Allāh — God's Chosen One", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 1480, source: "آدم کی جنت",                              en_title: "The Garden of Ādam (the Janna in Which He Was Placed)", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 1459, source: "ملائکہ کا امتحان",                        en_title: "The Test of the Angels (Q2:30–33)", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 1479, source: "وأعلم ما تبدون و ماکنتم تکتمون کی تفسیر",  en_title: "Exegesis of 'I Know What You Reveal and What You Conceal' (Q2:33)", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 1468, source: "ملائکہ کا استغفار",                       en_title: "The Angels' Seeking of Forgiveness", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 1476, source: "ملائکہ سے غلظی کیسے ممکن ہے؟",            en_title: "How Can Error Be Possible from the Angels?", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 1469, source: "ابلیس کی تکبری اور انکار",                en_title: "Iblīs's Arrogance and Refusal", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 1460, source: "حوا کی پیدائش اور ازدواج",                en_title: "The Creation of Ḥawwāʾ (Eve) and the First Marriage", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 1461, source: "ابلیس کا اللہ کو چیلنج",                  en_title: "Iblīs's Challenge to God", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 460,  source: "شیطان مقابلے پر آگیا ہے",                  en_title: "Shayṭān Has Come into the Open Confrontation", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 1467, source: "آدم کا فریب کھانا",                        en_title: "Ādam's Being Deceived (Eating from the Forbidden Tree)", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 886,  source: "آدم کا جنت سے نکالا جانا",                 en_title: "Ādam's Expulsion from the Garden", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 1462, source: "آدم اور حوا کا استغفار",                  en_title: "Ādam and Ḥawwāʾ's Repentance", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 1463, source: "جنت سے زمین پر اتارا جانا",              en_title: "The Descent from the Garden to the Earth", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 1464, source: "قابیل کا حسد اور ھابیل کی شھادت",        en_title: "Qābīl's Envy and Hābīl's Martyrdom (Cain and Abel)", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 1466, source: "آدم : بسم اللہ کے ممثول",                en_title: "Ādam as Symbolic Embodiment (Mamthūl) of the Bismillāh", confidence: high }
+  - { binder_id: 18, chapter_id: 52, topic_id: 1471, source: "اللہ کی رحمت  سے مایوسی گناہ ہے",         en_title: "Despair of God's Mercy Is a Sin (Quranic Principle)", confidence: high }
+
+  # Chapter 137 — The Story of ʿĪsā
+  - { binder_id: 18, chapter_id: 137, topic_id: 3540, source: "مولانا علی اور حضرت عیسی کا تقابلہ",     en_title: "A Comparison of Mawlānā ʿAlī and Prophet ʿĪsā (Jesus)", confidence: high }
+
+  # Chapter 168 — Nūḥ
+  - { binder_id: 18, chapter_id: 168, topic_id: 5741, source: "Nooh",                                   en_title: "Nūḥ (Noah) — The Prophet of the Flood", confidence: high }
+
+  # ===========================================================================
+  # BINDER 25 — Daʿāʾim al-Islām: Ṭahāra (Purity) (42 topics)
+  # ===========================================================================
+
+  # Chapter 88 — Traditions on Ṭahāra
+  - { binder_id: 25, chapter_id: 88, topic_id: 1223, source: "سوتے ہوئے کو نیند سے جگانا",              en_title: "Waking One Who Is Asleep — The Prophetic Tradition", confidence: high }
+  - { binder_id: 25, chapter_id: 88, topic_id: 1224, source: "زمین کے سوراخوں میں پیشاب نہ کرنا",       en_title: "The Prohibition Against Urinating into Holes in the Earth", confidence: high }
+  - { binder_id: 25, chapter_id: 88, topic_id: 1225, source: "قائد الغر المحجلین",                      en_title: "Qāʾid al-Ghurr al-Muḥajjalīn — Leader of the Radiantly-Marked (epithet of ʿAlī)", confidence: high }
+  - { binder_id: 25, chapter_id: 88, topic_id: 1226, source: "تین چیزوں میں ملائکہ کا جھگڑا",            en_title: "The Three Things Over Which the Angels Disputed", confidence: high }
+  - { binder_id: 25, chapter_id: 88, topic_id: 1227, source: "رسول اللہ کا بلی کو پانی پلانا",          en_title: "The Prophet's Giving Water to a Cat", confidence: high }
+
+  # Chapter 89 — Discourse on Ṭahāra
+  - { binder_id: 25, chapter_id: 89, topic_id: 1228, source: " طہارت کا بیان",                          en_title: "An Account of Ṭahāra (Ritual Purity)", confidence: high }
+  - { binder_id: 25, chapter_id: 89, topic_id: 1346, source: "کامل وضو: ہر رکن کو ۳ مرتبہ دہرانا",     en_title: "The Perfect Wuḍūʾ — Repeating Each Limb Three Times", confidence: high }
+  - { binder_id: 25, chapter_id: 89, topic_id: 1229, source: "وضو کے ارکان اور ان کی ترتیب",           en_title: "The Pillars of Wuḍūʾ and Their Sequence", confidence: high }
+  - { binder_id: 25, chapter_id: 89, topic_id: 1230, source: "وضو کے ۷ فرائض اور ۱۲ سنتیں",            en_title: "The 7 Obligatory and 12 Sunna Acts of Wuḍūʾ", confidence: high }
+  - { binder_id: 25, chapter_id: 89, topic_id: 1231, source: "پاک پانی سے طہارت",                       en_title: "Achieving Purity Through Clean Water", confidence: high }
+  - { binder_id: 25, chapter_id: 89, topic_id: 1327, source: "پانی، ڈول اور برتن",                      en_title: "Water, Buckets, and Vessels (Practical Rules)", confidence: high }
+  - { binder_id: 25, chapter_id: 89, topic_id: 1232, source: "انما یرید اللہ لیذھب عنکم الرجس اھل البیت و یطھرکم تطھیرا", en_title: "Exegesis of the Verse of Purification (Q33:33) — 'God Wishes to Remove All Impurity from You, O People of the House'", confidence: high }
+  - { binder_id: 25, chapter_id: 89, topic_id: 1234, source: "آسمان، زمین اور پاک پانی",                en_title: "The Heavens, the Earth, and Pure Water (Their Cosmological Relation)", confidence: high }
+  - { binder_id: 25, chapter_id: 89, topic_id: 1235, source: "بادل اور بارش",                           en_title: "Clouds and Rain (in the Ṭahāra Discussion)", confidence: high }
+  - { binder_id: 25, chapter_id: 89, topic_id: 1236, source: "دھونے اور مسح کا فرق",                    en_title: "The Difference Between Washing (Ghasl) and Wiping (Masḥ)", confidence: high }
+  - { binder_id: 25, chapter_id: 89, topic_id: 1237, source: "پگڑی اور موزوں پر مسح",                   en_title: "Wiping Over the Turban and Socks", confidence: high }
+  - { binder_id: 25, chapter_id: 89, topic_id: 1238, source: "مٹی سے تیمم",                              en_title: "Tayammum — Dry Ablution with Earth", confidence: high }
+
+  # Chapter 90 — Purification from Najāsa
+  - { binder_id: 25, chapter_id: 90, topic_id: 1241, source: "کافرین و مشرکین کی نجاست",                en_title: "The Najāsa (Impurity) of the Disbelievers and Polytheists", confidence: high }
+  - { binder_id: 25, chapter_id: 90, topic_id: 1242, source: "بول و براز اور نیند",                     en_title: "Urine, Excrement, and Sleep (as Sources of Impurity)", confidence: high }
+  - { binder_id: 25, chapter_id: 90, topic_id: 1240, source: "نجاستوں کا اصل: امھات معاصی",             en_title: "The Root of Impurities — the Mothers of Sins (Ummahāt al-Maʿāṣī)", confidence: high }
+  - { binder_id: 25, chapter_id: 90, topic_id: 1239, source: "نجاست سے پاکی",                            en_title: "Purification from Najāsa (Procedural Rules)", confidence: high }
+  - { binder_id: 25, chapter_id: 90, topic_id: 1243, source: "بیت الخلا",                                en_title: "The Lavatory (Bayt al-Khalāʾ)", confidence: high }
+  - { binder_id: 25, chapter_id: 90, topic_id: 1244, source: "بیت الخلا کے ۱۲ آداب",                    en_title: "The Twelve Etiquettes of the Lavatory", confidence: high }
+  - { binder_id: 25, chapter_id: 90, topic_id: 816,  source: "امت محمدی کے مجوسی",                      en_title: "The Magians of Muḥammad's Community (a Cautionary Discussion)", confidence: high }
+
+  # Chapter 91 — Inner Meaning of the Pillars of Wuḍūʾ
+  - { binder_id: 25, chapter_id: 91, topic_id: 1245, source: "استنجا کی تاویل",                          en_title: "Taʾwīl of Istinjāʾ — Esoteric Exegesis of Personal Cleansing", confidence: high }
+  - { binder_id: 25, chapter_id: 91, topic_id: 1246, source: "ہاتھوں کو دھونے کی تاویل",                en_title: "Taʾwīl of Washing the Hands", confidence: high }
+  - { binder_id: 25, chapter_id: 91, topic_id: 1247, source: "نیت کی تاویل",                            en_title: "Taʾwīl of Intention (Niyya) in Wuḍūʾ", confidence: high }
+  - { binder_id: 25, chapter_id: 91, topic_id: 1248, source: "کلی اور مسواک کی تاویل",                  en_title: "Taʾwīl of Mouth-Rinsing and Use of the Miswāk", confidence: high }
+  - { binder_id: 25, chapter_id: 91, topic_id: 1249, source: "ناک میں پانی کی تاویل",                   en_title: "Taʾwīl of Rinsing Water Through the Nose", confidence: high }
+  - { binder_id: 25, chapter_id: 91, topic_id: 1250, source: "چہرہ دھونے کی تاویل",                     en_title: "Taʾwīl of Washing the Face", confidence: high }
+  - { binder_id: 25, chapter_id: 91, topic_id: 1328, source: "چہرے کے پانچ حواس",                       en_title: "The Five Senses of the Face (in the Taʾwīl)", confidence: high }
+  - { binder_id: 25, chapter_id: 91, topic_id: 1251, source: "ہاتھوں کو کوہنیوں تک دھونا",              en_title: "Washing the Hands Up to the Elbows", confidence: high }
+  - { binder_id: 25, chapter_id: 91, topic_id: 1252, source: "سر، کان اور گردن کا مسح",                 en_title: "Wiping the Head, Ears, and Neck", confidence: high }
+  - { binder_id: 25, chapter_id: 91, topic_id: 1329, source: "جنت کی خوشبو اور ندا",                    en_title: "The Fragrance and Call of the Garden", confidence: high }
+  - { binder_id: 25, chapter_id: 91, topic_id: 1253, source: "دونوں پیروں کا مسح",                       en_title: "Wiping Both Feet (the Fātimid Position)", confidence: high }
+
+  # Chapter 92 — Discourse on Ghusl
+  - { binder_id: 25, chapter_id: 92, topic_id: 1254, source: "غسل کا بیان",                              en_title: "An Account of Ghusl (Ritual Bathing)", confidence: high }
+  - { binder_id: 25, chapter_id: 92, topic_id: 1255, source: "طہارت : یوم الجمعۃ",                       en_title: "Ṭahāra on the Day of Friday Congregational Prayer", confidence: high }
+  - { binder_id: 25, chapter_id: 92, topic_id: 1256, source: "غسل الجنابۃ و الاحتلام",                  en_title: "Ghusl al-Janāba and Iḥtilām (Major Ritual Bathing and Wet Dreams)", confidence: high }
+  - { binder_id: 25, chapter_id: 92, topic_id: 1257, source: "وضو اور غسل کا پانی",                       en_title: "The Water for Wuḍūʾ and Ghusl", confidence: high }
+  - { binder_id: 25, chapter_id: 92, topic_id: 1330, source: "عالم اسلام و ایمان کی نیکیاں",            en_title: "The Virtues of the Worlds of Islām and Īmān (Symbolism)", confidence: high }
+  - { binder_id: 25, chapter_id: 92, topic_id: 1258, source: "عورت کا حیض اور غسل حیض",                 en_title: "Menstruation and the Ghusl al-Ḥayḍ", confidence: high }
+  - { binder_id: 25, chapter_id: 92, topic_id: 1450, source: "حیض کیوں پیدا ہوا؟",                       en_title: "Why Was Menstruation Created? (Symbolic Explanation)", confidence: high }
+
+  # ===========================================================================
+  # BINDER 27 — Ādāb and Noble Character (40 topics)
+  # ===========================================================================
+
+  # Chapter 56 — Kitāb Waṣāyā Iblīs
+  - { binder_id: 27, chapter_id: 56, topic_id: 949,  source: "ظاہر پرستی بھترین ہتھیار ہے",              en_title: "Outwardism (Ẓāhir-Parastī) Is the Best Weapon (of Iblīs)", confidence: high }
+  - { binder_id: 27, chapter_id: 56, topic_id: 950,  source: "تصور اور حقیقت",                            en_title: "Imagination and Reality", confidence: high }
+  - { binder_id: 27, chapter_id: 56, topic_id: 951,  source: "انسان انست لینے والا جانور ہے",            en_title: "The Human Is an Animal That Takes Comfort (in Habits)", confidence: high }
+  - { binder_id: 27, chapter_id: 56, topic_id: 1037, source: "سیدھی اور صاف بات",                         en_title: "Plain and Straight Speech (a Maxim)", confidence: high }
+
+  # Chapter 14 — Sayings on Ādāb
+  - { binder_id: 27, chapter_id: 14, topic_id: 349,  source: "رسول اللہ کی علی کو وصیتیں",                en_title: "The Prophet's Counsels to ʿAlī (Waṣāyā)", confidence: high }
+  - { binder_id: 27, chapter_id: 14, topic_id: 1365, source: "اقوال زریں",                                en_title: "Aqwāl Zarrīn — Golden Sayings", confidence: high }
+  - { binder_id: 27, chapter_id: 14, topic_id: 351,  source: "اخوت اور غیبت",                             en_title: "Brotherhood (Ukhuwwa) and Backbiting (Ghība)", confidence: high }
+  - { binder_id: 27, chapter_id: 14, topic_id: 352,  source: "احکام خداوندی",                             en_title: "Divine Commandments (Aḥkām Khudāwandī)", confidence: high }
+  - { binder_id: 27, chapter_id: 14, topic_id: 347,  source: "اچھے انسان کی پہچان",                       en_title: "The Marks of a Good Person", confidence: high }
+  - { binder_id: 27, chapter_id: 14, topic_id: 350,  source: "حقوق والدین اور حقوق العباد",               en_title: "The Rights of Parents and the Rights of Servants of God (Ḥuqūq al-ʿIbād)", confidence: high }
+  - { binder_id: 27, chapter_id: 14, topic_id: 362,  source: "استغفار اور اسے طلب کرنے کا طریقۃ",         en_title: "Istighfār — Seeking Forgiveness and Its Method", confidence: high }
+  - { binder_id: 27, chapter_id: 14, topic_id: 356,  source: "دو چیزیں ایسی ہیں",                          en_title: "Two Things… (a maxim)", confidence: medium }
+  - { binder_id: 27, chapter_id: 14, topic_id: 1366, source: "رسول اللہ سے سوالات اور ان کے جوابات",       en_title: "Questions to the Prophet and His Answers", confidence: high }
+  - { binder_id: 27, chapter_id: 14, topic_id: 359,  source: "امھات معاصی : کبر حسد حرص",                 en_title: "The Mothers of Sins — Pride (Kibr), Envy (Ḥasad), and Greed (Ḥirṣ)", confidence: high }
+  - { binder_id: 27, chapter_id: 14, topic_id: 577,  source: "صدقہ",                                       en_title: "Ṣadaqa — Charity", confidence: high }
+  - { binder_id: 27, chapter_id: 14, topic_id: 578,  source: "عقل مند انسان کی پہچان",                     en_title: "The Marks of a Person of Intellect (ʿAql)", confidence: high }
+  - { binder_id: 27, chapter_id: 14, topic_id: 2533, source: "حضرت اسحق صاحب سے سوالات و جوابات",          en_title: "Q&A with Ḥaḍrat Isḥāq Ṣāḥib", confidence: high }
+
+  # Chapter 17 — Treatises Related to Wilāya
+  - { binder_id: 27, chapter_id: 17, topic_id: 462,  source: "عہد شریف نامہ",                              en_title: "The Noble Oath-Letter (ʿAhd Sharīf Nāma)", confidence: high }
+  - { binder_id: 27, chapter_id: 17, topic_id: 465,  source: "کوفہ چھوڑتے ہوئے اہل کوفہ کو عبد اللہ ابن مسعود کا پیغام", en_title: "ʿAbdullāh ibn Masʿūd's Message to the People of Kūfa on Leaving the City", confidence: high }
+  - { binder_id: 27, chapter_id: 17, topic_id: 1362, source: "ایک رند لاؤ بالی کا حال",                    en_title: "The State of an Unbridled Wayfarer (a parable)", confidence: medium }
+  - { binder_id: 27, chapter_id: 17, topic_id: 539,  source: "پیغمبر کی وحی کی تصدیق",                     en_title: "Confirmation of the Prophet's Revelation", confidence: high }
+  - { binder_id: 27, chapter_id: 17, topic_id: 537,  source: "یقین کامل",                                  en_title: "Complete Certainty (Yaqīn Kāmil)", confidence: high }
+  - { binder_id: 27, chapter_id: 17, topic_id: 579,  source: "منافق اور مرتد",                             en_title: "The Hypocrite (Munāfiq) and the Apostate (Murtadd)", confidence: high }
+  - { binder_id: 27, chapter_id: 17, topic_id: 1363, source: "اللہ تعالی کی رحمت",                         en_title: "The Mercy of God Most High", confidence: high }
+  - { binder_id: 27, chapter_id: 17, topic_id: 480,  source: "انسان اشرف المخلوقات ہے",                    en_title: "The Human Is Ashraf al-Makhlūqāt — The Noblest of Creatures", confidence: high }
+  - { binder_id: 27, chapter_id: 17, topic_id: 471,  source: "تشت، شھد اور بال",                           en_title: "The Basin, the Honey, and the Hair (a parable)", confidence: medium }
+  - { binder_id: 27, chapter_id: 17, topic_id: 479,  source: "زبان کی عظمت و حفاظت",                       en_title: "The Greatness of the Tongue and Guarding It", confidence: high }
+  - { binder_id: 27, chapter_id: 17, topic_id: 464,  source: "اسما بنت یزید انصاری کا سوال",                en_title: "The Question of Asmāʾ bint Yazīd al-Anṣārī (to the Prophet)", confidence: high }
+  - { binder_id: 27, chapter_id: 17, topic_id: 472,  source: "علامات ظھور امام مہدی علیہ السلام",          en_title: "The Signs of the Manifestation of Imam al-Mahdī, Peace Be Upon Him", confidence: high }
+  - { binder_id: 27, chapter_id: 17, topic_id: 1200, source: "عید اور شخصیت مہدی علیہ السلام",            en_title: "ʿĪd and the Person of Imam al-Mahdī, Peace Be Upon Him", confidence: high }
+
+  # Chapter 127 — Aqwāl al-Ḥikma
+  - { binder_id: 27, chapter_id: 127, topic_id: 1439, source: "اقوال اہل بیت",                              en_title: "Aqwāl Ahl al-Bayt — Sayings of the Prophet's Family", confidence: high }
+  - { binder_id: 27, chapter_id: 127, topic_id: 3557, source: "اقوال علی علیہ السلام",                      en_title: "Aqwāl ʿAlī, Peace Be Upon Him", confidence: high }
+  - { binder_id: 27, chapter_id: 127, topic_id: 1456, source: "غیر مستحق پر خرچ کرنا",                       en_title: "Spending on the Undeserving (cautionary maxim)", confidence: high }
+  - { binder_id: 27, chapter_id: 127, topic_id: 3589, source: "صبر",                                         en_title: "Ṣabr — Patience (a saying)", confidence: high }
+
+  # Chapter 128 — Ḍarb al-Ḥikam
+  - { binder_id: 27, chapter_id: 128, topic_id: 1448, source: "دیگر اقوال حکمت",                            en_title: "Further Sayings of Wisdom", confidence: high }
+  - { binder_id: 27, chapter_id: 128, topic_id: 3541, source: "اربعۃ جواہر فی جسم بنی أٓدم",                en_title: "Arbaʿa Jawāhir fī Jism Banī Ādam — The Four Jewels in the Body of the Children of Ādam", confidence: high }
+  - { binder_id: 27, chapter_id: 128, topic_id: 1451, source: "القلب ثلاثہ",                                en_title: "Al-Qalb Thalātha — The Heart Is of Three Kinds", confidence: high }
+  - { binder_id: 27, chapter_id: 128, topic_id: 1447, source: "عارف باللہ لبیب",                            en_title: "ʿĀrif Billāh Labīb — The God-Conscious Sage of Discernment", confidence: high }
+  - { binder_id: 27, chapter_id: 128, topic_id: 3576, source: "مولاتنا فاطمۃ کو دفناتے ہوئے علی کے اشعار",   en_title: "ʿAlī's Verses at the Burial of Mawlātnā Fāṭima", confidence: high }
+
+  # Chapter 140 — Episodes from the Sīra
+  - { binder_id: 27, chapter_id: 140, topic_id: 3574, source: "طفیل بن عامر کا اسلام",                       en_title: "The Conversion of Ṭufayl ibn ʿĀmir", confidence: high }
+
+  # ===========================================================================
+  # BINDER 29 — Daʿāʾim al-Islām: Ṣawm (Fasting) (43 topics)
+  # ===========================================================================
+
+  # Chapter 133 — Discourse on Ṣawm
+  - { binder_id: 29, chapter_id: 133, topic_id: 2490, source: "ظاہری و باطنی روزہ",                          en_title: "Outer and Inner Fasting (Ẓāhirī o Bāṭinī Rūza)", confidence: high }
+  - { binder_id: 29, chapter_id: 133, topic_id: 3543, source: "چاند دیکھ کر افطار کرنے کی روایت",            en_title: "The Tradition of Breaking the Fast on Sighting the Moon", confidence: high }
+  - { binder_id: 29, chapter_id: 133, topic_id: 2491, source: "شھر الرمضان علی ہیں",                          en_title: "Shahr Ramaḍān Is ʿAlī (the Esoteric Identification)", confidence: high }
+  - { binder_id: 29, chapter_id: 133, topic_id: 2492, source: "سال کا نواں مہینہ: اساس",                     en_title: "The Ninth Month of the Year — The Asās (Foundation, i.e., Imam ʿAlī)", confidence: high }
+  - { binder_id: 29, chapter_id: 133, topic_id: 2493, source: "سال کا نواں مہینہ: ممثول رسول اللہ",          en_title: "The Ninth Month as the Symbolic Embodiment (Mamthūl) of the Prophet", confidence: high }
+  - { binder_id: 29, chapter_id: 133, topic_id: 2494, source: "تیس دن کے ممثولات",                            en_title: "The Symbolic Embodiments (Mamthūlāt) of the Thirty Days", confidence: high }
+  - { binder_id: 29, chapter_id: 133, topic_id: 2496, source: "دینی شمس و قمر",                              en_title: "The Religious Sun and Moon (Shams and Qamar of the Dīn)", confidence: high }
+  - { binder_id: 29, chapter_id: 133, topic_id: 2497, source: "ایک روزے کا کفارہ ۶۰ روزے",                   en_title: "The Expiation of One Broken Fast Is Sixty Fasts", confidence: high }
+  - { binder_id: 29, chapter_id: 133, topic_id: 2498, source: "تین داھیکے",                                  en_title: "The Three Decades (Daḥīka) of Ramaḍān", confidence: high }
+
+  # Chapter 134 — Al-Kawākib al-Durriyya
+  - { binder_id: 29, chapter_id: 134, topic_id: 2499, source: "شھر رمضان کی برکات",                          en_title: "The Blessings (Barakāt) of the Month of Ramaḍān", confidence: high }
+  - { binder_id: 29, chapter_id: 134, topic_id: 2500, source: "رزق اور عمر کی تقسیمات",                      en_title: "The Apportionment of Sustenance (Rizq) and Life-Span (ʿUmr)", confidence: high }
+  - { binder_id: 29, chapter_id: 134, topic_id: 2501, source: "شھر اللّٰہ میں ایک نیکی کا ثواب",              en_title: "The Reward of a Single Good Deed in Shahrullāh", confidence: high }
+  - { binder_id: 29, chapter_id: 134, topic_id: 2502, source: "شھر اللہ میں افتار کروانے کا ثواب",           en_title: "The Reward of Hosting an Ifṭār in Shahrullāh", confidence: high }
+  - { binder_id: 29, chapter_id: 134, topic_id: 2503, source: "شھر اللہ کے ۳۰ دن اور راتیں",                  en_title: "The Thirty Days and Nights of Shahrullāh", confidence: high }
+  - { binder_id: 29, chapter_id: 134, topic_id: 2504, source: "شھر اللہ کے ۳ داھیکے",                         en_title: "The Three Decades of Shahrullāh — Mercy, Forgiveness, Liberation from Fire", confidence: high }
+  - { binder_id: 29, chapter_id: 134, topic_id: 2505, source: "ثلاثۃ سفرا : ۳ داھیکے",                       en_title: "Thalāthat Sufarāʾ — The Three 'Envoys' of the Three Decades", confidence: high }
+  - { binder_id: 29, chapter_id: 134, topic_id: 2506, source: "شھر اللّٰہ میں مغفرت کی اہمیت",                en_title: "The Importance of Maghfira (Forgiveness) in Shahrullāh", confidence: high }
+  - { binder_id: 29, chapter_id: 134, topic_id: 2507, source: "تین چیزیں اللہ خوشنودی سے ہیں",                en_title: "Three Things That Bring God's Pleasure", confidence: high }
+  - { binder_id: 29, chapter_id: 134, topic_id: 2508, source: "رسول اﷲ کا بستر اور کمر بند",                  en_title: "The Prophet's Bedding and Waistband (in Ramaḍān)", confidence: high }
+  - { binder_id: 29, chapter_id: 134, topic_id: 2509, source: "یا أم ابیھا",                                  en_title: "Yā Umma Abīhā — 'O Mother of Her Father' (Fāṭima's Epithet)", confidence: high }
+
+  # Chapter 135 — Layālī al-Fāḍila
+  - { binder_id: 29, chapter_id: 135, topic_id: 2510, source: "شھر اللہ کی ۴ مبارک راتیں",                    en_title: "The Four Blessed Nights of Shahrullāh", confidence: high }
+  - { binder_id: 29, chapter_id: 135, topic_id: 2511, source: "شھر اللّٰہ کی ۱۷ ویں رات",                     en_title: "The Seventeenth Night of Shahrullāh", confidence: high }
+  - { binder_id: 29, chapter_id: 135, topic_id: 2512, source: "شھر اللّٰہ کی ۱۹ ویں رات",                     en_title: "The Nineteenth Night of Shahrullāh", confidence: high }
+  - { binder_id: 29, chapter_id: 135, topic_id: 2513, source: "شھر اللّٰہ کی ۲۱ ویں رات",                     en_title: "The Twenty-First Night of Shahrullāh", confidence: high }
+  - { binder_id: 29, chapter_id: 135, topic_id: 2514, source: "شھر اللّٰہ کی ۲۳ ویں رات",                     en_title: "The Twenty-Third Night of Shahrullāh", confidence: high }
+  - { binder_id: 29, chapter_id: 135, topic_id: 2515, source: "عین عظمیۃ کی چار عظیم حجتیں",                  en_title: "The Four Great Proofs (Ḥujaj) of the ʿAyn ʿAẓīma", confidence: high }
+  - { binder_id: 29, chapter_id: 135, topic_id: 2516, source: "چار حجت عظمیٰ کی تدبیرات",                     en_title: "The Tadbīrāt (Administrations) of the Four Supreme Ḥujjas", confidence: high }
+  - { binder_id: 29, chapter_id: 135, topic_id: 2517, source: "علی اور فاطمۃ کا ناسوت خاص",                    en_title: "The Special Nāsūt of ʿAlī and Fāṭima", confidence: high }
+  - { binder_id: 29, chapter_id: 135, topic_id: 2518, source: "استخلاف قبۃ المحمدیۃ",                          en_title: "The Succession of the Muḥammadan Cupola (Qubba Muḥammadiyya)", confidence: high }
+  - { binder_id: 29, chapter_id: 135, topic_id: 2519, source: "مولاتنا فاطمۃ : مجمعالأوصیاء",                  en_title: "Mawlātnā Fāṭima as Majmaʿ al-Awṣiyāʾ — The Convergence of the Awṣiyāʾ", confidence: high }
+  - { binder_id: 29, chapter_id: 135, topic_id: 2520, source: "مولاتنا فاطمۃ : لیلۃ المبارکۃ",                  en_title: "Mawlātnā Fāṭima as Laylat al-Mubāraka — The Blessed Night", confidence: high }
+  - { binder_id: 29, chapter_id: 135, topic_id: 2521, source: "لیلۃ القدر الکبریٰ",                            en_title: "Laylat al-Qadr al-Kubrā — The Great Night of Decree", confidence: high }
+
+  # Chapter 136 — The Two ʿĪd Prayers
+  - { binder_id: 29, chapter_id: 136, topic_id: 2522, source: "صلواۃ الوداع (ناموں کی رات)",                   en_title: "Ṣalāt al-Wadāʿ — The Farewell Prayer (the Night of Names)", confidence: high }
+  - { binder_id: 29, chapter_id: 136, topic_id: 2523, source: "سال کی ۴ مبارک راتیں",                          en_title: "The Four Blessed Nights of the Year", confidence: high }
+  - { binder_id: 29, chapter_id: 136, topic_id: 2524, source: "یوم العیدین",                                    en_title: "Yawm al-ʿĪdayn — The Day of the Two ʿĪds", confidence: high }
+  - { binder_id: 29, chapter_id: 136, topic_id: 2525, source: "رسول کیوں عید کی نماز کے بعد مختلف راستہ سے پلٹتے تھے؟", en_title: "Why Did the Prophet Return from ʿĪd Prayer by a Different Route?", confidence: high }
+  - { binder_id: 29, chapter_id: 136, topic_id: 2526, source: "عید کی نماز چھت اور گھر میں نہ پڑھنے کی وجہ",   en_title: "Why ʿĪd Prayer Is Not Performed on a Rooftop or Inside a House", confidence: high }
+  - { binder_id: 29, chapter_id: 136, topic_id: 2527, source: "صلوۃ العید الفتر",                              en_title: "Ṣalāt ʿĪd al-Fiṭr — The Prayer of the Festival of Fast-Breaking", confidence: high }
+  - { binder_id: 29, chapter_id: 136, topic_id: 2528, source: "صلوۃ العید الضحیٰ",                             en_title: "Ṣalāt ʿĪd al-Aḍḥā — The Prayer of the Festival of Sacrifice", confidence: high }
+  - { binder_id: 29, chapter_id: 136, topic_id: 2529, source: "صلوۃ العیدین کی تکبیریں اور قنوت",              en_title: "The Takbīrs and Qunūt of the Two ʿĪd Prayers", confidence: high }
+  - { binder_id: 29, chapter_id: 136, topic_id: 2530, source: "کیوں پانچ کے بغیر نماز نہیں",                   en_title: "Why Prayer Is Not Valid Without Five (the Symbolic Five)", confidence: high }
+  - { binder_id: 29, chapter_id: 136, topic_id: 2531, source: "مسافر",                                          en_title: "The Traveller (Rules of Ṣalāt al-Musāfir)", confidence: high }
+  - { binder_id: 29, chapter_id: 136, topic_id: 2532, source: "عید : پلٹ کر آنا",                              en_title: "ʿĪd as a Return — The Spiritual Significance of 'Coming Back'", confidence: high }
+
+  # ===========================================================================
+  # BINDER 32 — Al-Ghazālī, Kīmiyāʾ al-Saʿāda (15 topics)
+  # ===========================================================================
+
+  # Chapter 139 — Disciplining the Soul
+  - { binder_id: 32, chapter_id: 139, topic_id: 3558, source: "Introduction",                                  en_title: "Introduction — Al-Ghazālī on the Discipline of the Soul", confidence: high }
+  - { binder_id: 32, chapter_id: 139, topic_id: 3559, source: "Merit Of Good Character",                       en_title: "The Merit of Good Character (Faḍīlat al-Khulq al-Ḥasan)", confidence: high }
+  - { binder_id: 32, chapter_id: 139, topic_id: 3560, source: "What Is Good And Bad Character",                en_title: "Defining Good and Bad Character", confidence: high }
+  - { binder_id: 32, chapter_id: 139, topic_id: 3561, source: "Can character be changed?",                     en_title: "Can Character Be Changed? — Al-Ghazālī's Argument", confidence: high }
+  - { binder_id: 32, chapter_id: 139, topic_id: 3562, source: "How can good character be acquired?",           en_title: "How Good Character Can Be Acquired", confidence: high }
+  - { binder_id: 32, chapter_id: 139, topic_id: 3563, source: "Methods of refining character",                 en_title: "Methods for Refining Character", confidence: high }
+  - { binder_id: 32, chapter_id: 139, topic_id: 3564, source: "Symptoms of the disease of heart and its restoration", en_title: "Symptoms of the Diseases of the Heart and Their Restoration", confidence: high }
+  - { binder_id: 32, chapter_id: 139, topic_id: 3565, source: "How can we identify the faults of our soul?",   en_title: "How to Identify the Faults of One's Own Soul", confidence: high }
+  - { binder_id: 32, chapter_id: 139, topic_id: 3567, source: "Renouncing Desires",                            en_title: "Renouncing the Desires (Tark al-Shahawāt)", confidence: high }
+  - { binder_id: 32, chapter_id: 139, topic_id: 3568, source: "Taming the soul",                               en_title: "Taming the Soul (Riyāḍat al-Nafs)", confidence: high }
+  - { binder_id: 32, chapter_id: 139, topic_id: 3569, source: "Examples of Good Character",                    en_title: "Examples of Good Character (from the Prophets and Saints)", confidence: high }
+  - { binder_id: 32, chapter_id: 139, topic_id: 3572, source: "Struggling On The Path Of Discipline",          en_title: "Struggling on the Path of Discipline (Mujāhadat al-Nafs)", confidence: high }
+
+  # Chapter 146 — Controlling Appetite
+  - { binder_id: 32, chapter_id: 146, topic_id: 3614, source: "Virtue and Spiritual Reward of Hunger ",        en_title: "The Virtue and Spiritual Reward of Hunger (Faḍīlat al-Jūʿ)", confidence: high }
+  - { binder_id: 32, chapter_id: 146, topic_id: 3615, source: "Benefits of Hunger and the Afflictions of Satiety", en_title: "The Benefits of Hunger and the Afflictions of Satiety", confidence: high }
+  - { binder_id: 32, chapter_id: 146, topic_id: 4616, source: "Examples Of Saints",                            en_title: "Examples of the Saints (in the Discipline of Hunger)", confidence: high }
+
+  # ===========================================================================
+  # BINDER 36 — Islām, Īmān, Iḥsān (24 topics)
+  # ===========================================================================
+
+  # Chapter 174 — SALAAMS (cross-ref of A.3.2)
+  - { binder_id: 36, chapter_id: 174, topic_id: 5681, source: "الحمد للہ خالق الوجود من العدم",                  en_title: "Al-Ḥamdu lillāh Khāliq al-Wujūd min al-ʿAdam — Praise to God, Creator of Being from Nothingness (Salutation)", confidence: high }
+  - { binder_id: 36, chapter_id: 174, topic_id: 5680, source: "لا یبلغ مدحتہ القائلون ",                        en_title: "Lā Yablugh Madḥatahu al-Qāʾilūn — 'No Praisers Can Attain His Praise' (Salutation)", confidence: high }
+  - { binder_id: 36, chapter_id: 174, topic_id: 5679, source: "الحمد للہ الذی لہ ملک السموات والارض یحی و یمیت", en_title: "Al-Ḥamdu lillāh alladhī Lahu Mulk al-Samawāt wa-l-Arḍ Yuḥyī wa-Yumīt — 'Praise to God who has the Kingdom of the Heavens and Earth, Who gives life and death' (Salutation)", confidence: high }
+  - { binder_id: 36, chapter_id: 174, topic_id: 5683, source: "الحمد للہِ صَانِعِ الخَلقِ عَلی أکمَلِ نِظَام",    en_title: "Al-Ḥamdu lillāh Ṣāniʿ al-Khalq ʿalā Akmal Niẓām — 'Praise to God, Maker of Creation in the Most Perfect Order' (Salutation)", confidence: high }
+
+  # Chapter 173 — Introduction
+  - { binder_id: 36, chapter_id: 173, topic_id: 5767, source: "ADAB & 10 Foundations",                          en_title: "Ādāb and the Ten Foundations — Introduction", confidence: high }
+
+  # Chapter 175 — The Three Levels: Islām, Īmān, Iḥsān
+  - { binder_id: 36, chapter_id: 175, topic_id: 5768, source: "Islam as an experience",                         en_title: "Islām as an Experience (Phenomenology of Submission)", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 5769, source: "Linguistic Meaning of ISLAM",                    en_title: "The Linguistic Meaning of Islām", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 5770, source: "Pillars Of ISLAM",                               en_title: "The Pillars (Arkān) of Islām", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 5772, source: "Linguistic menaing of IMAAN",                    en_title: "The Linguistic Meaning of Īmān", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 5774, source: "Witnessing of the heart",                        en_title: "Witnessing of the Heart (Tasdīq bi-l-Qalb)", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 5775, source: "Articulation of the tongue",                     en_title: "Articulation of the Tongue (Iqrār bi-l-Lisān)", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 5777, source: "Action with the limbs",                          en_title: "Action with the Limbs (ʿAmal bi-l-Jawāriḥ)", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 5778, source: "COMPLETE REVIEW",                                en_title: "Complete Review — Synthesis of Heart, Tongue, and Limbs", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 5771, source: "Tree and Root Structure",                        en_title: "The Tree-and-Root Structure of Faith", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 5783, source: "3 Levels Of Existence",                          en_title: "The Three Levels of Existence (Mubdaʿ, Lāhūt, Nāsūt)", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 5785, source: "3 levels Of Knowledge",                          en_title: "The Three Levels of Knowledge (ʿIlm al-Yaqīn, ʿAyn al-Yaqīn, Ḥaqq al-Yaqīn)", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 5787, source: "Taveel examples",                                en_title: "Worked Examples of Taʾwīl (Esoteric Exegesis)", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 5790, source: "Review of ISLAM",                                en_title: "Review of Islām", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 5792, source: "Review of IMAN",                                 en_title: "Review of Īmān", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 6794, source: "Review of Pillars",                              en_title: "Review of the Pillars", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 5773, source: "One who says LA ILAH enters paradise",           en_title: "Whoever Says 'Lā Ilāha illā Allāh' Enters the Garden (the Hadith)", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 6797, source: "Childish vs Childlike",                          en_title: "Childish Versus Childlike — Distinguishing Immaturity from Innocence", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 6798, source: "TAVEEL OF SURAH TEEN",                           en_title: "Taʾwīl of Sūrat al-Tīn (Q95)", confidence: high }
+  - { binder_id: 36, chapter_id: 175, topic_id: 6796, source: "Friendship and love",                            en_title: "Friendship and Love (in the Iḥsān Mode)", confidence: high }
+
+# ===========================================================================
+# Deferred binders — scaffolded with `pending: true` so the next session
+# fills in 1,102 remaining topic retitles. See _workspace/plan/wisdom-r2-handoff.md.
+# ===========================================================================
+
+deferred:
+  # Each entry below is a (binder, chapter) reference; topics will be
+  # enumerated and titled in the next session.
+  - { binder_id: 1,  pending_topic_count: 156 }   # philosophical core — Sciences of Origin and Return
+  - { binder_id: 6,  pending_topic_count: 144 }   # ʿAlī ibn Abī Ṭālib
+  - { binder_id: 8,  pending_topic_count: 138 }   # Taʾwīl of the Divine Words
+  - { binder_id: 19, pending_topic_count: 87 }    # Wilāya
+  - { binder_id: 23, pending_topic_count: 214 }   # Selected Scholarly Treatises (largest)
+  - { binder_id: 24, pending_topic_count: 79 }    # Tawḥīd
+  - { binder_id: 26, pending_topic_count: 75 }    # Ṣalāt
+  - { binder_id: 28, pending_topic_count: 75 }    # Drafts and Miscellaneous
+  - { binder_id: 34, pending_topic_count: 84 }    # Qurʾānic Studies
+  - { binder_id: 35, pending_topic_count: 18 }    # The Wise Reminder
+  # Total deferred: 1,070 topics (cross-check vs the inventory)

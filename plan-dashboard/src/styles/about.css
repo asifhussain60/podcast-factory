@@ -1,0 +1,362 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   About & Help page — Podcast Factory Astro Site
+   External CSS only. Uses existing --c-* tokens. No inline styles permitted.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Page shell ─────────────────────────────────────────────────────────────── */
+.about-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+}
+
+/* ── Hero ────────────────────────────────────────────────────────────────────── */
+.about-hero {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--c-rule);
+}
+.about-hero-eyebrow {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.about-hero-h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--c-ink);
+  line-height: 1.2;
+  margin: 0 0 0.75rem;
+}
+.about-hero-lede {
+  font-size: 1.15rem;
+  color: var(--c-ink-dim);
+  line-height: 1.7;
+  max-width: 640px;
+  margin: 0 0 1.5rem;
+}
+
+/* Jump-links bar */
+.about-jumplinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.about-jumplinks a {
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  border-radius: 2rem;
+  background: var(--c-bg-sunken);
+  color: var(--c-ink-dim);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid var(--c-rule);
+  transition: background 0.15s, color 0.15s;
+}
+.about-jumplinks a:hover,
+.about-jumplinks a:focus-visible {
+  background: var(--c-accent);
+  color: #fff;
+  border-color: var(--c-accent);
+  outline: none;
+}
+
+/* ── Section titles ──────────────────────────────────────────────────────────── */
+.about-section {
+  margin-bottom: 3.5rem;
+}
+.about-section-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-accent-soft);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.about-section-h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin: 0 0 0.5rem;
+  scroll-margin-top: 80px; /* clear sticky topnav */
+}
+.about-section-intro {
+  font-size: 1rem;
+  color: var(--c-ink-dim);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  max-width: 680px;
+}
+
+/* ── Nav section cards ───────────────────────────────────────────────────────── */
+.about-nav-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+.about-nav-card {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: 8px;
+  padding: 1.25rem 1.25rem 1rem;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  display: block;
+}
+.about-nav-card:hover,
+.about-nav-card:focus-visible {
+  border-color: var(--c-accent-soft);
+  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.08);
+  outline: none;
+}
+.about-nav-card-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin-bottom: 0.4rem;
+  display: block;
+}
+.about-nav-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin: 0 0 0.4rem;
+}
+.about-nav-card-body {
+  font-size: 0.9rem;
+  color: var(--c-ink-dim);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Step-by-step guide ──────────────────────────────────────────────────────── */
+.about-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-left: 2px solid var(--c-rule-soft);
+  margin-left: 1.2rem;
+}
+.about-step {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0 1rem;
+  padding-bottom: 1.75rem;
+  position: relative;
+}
+.about-step:last-child {
+  padding-bottom: 0;
+}
+.about-step-num {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--c-accent);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: -1.1rem;
+  margin-top: 0;
+  position: relative;
+  z-index: 1;
+}
+.about-step-content {
+  padding-top: 0.1rem;
+}
+.about-step-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin: 0 0 0.3rem;
+}
+.about-step-body {
+  font-size: 0.92rem;
+  color: var(--c-ink-dim);
+  line-height: 1.65;
+  margin: 0;
+}
+.about-step-body a {
+  color: var(--c-accent);
+  text-underline-offset: 2px;
+}
+.about-step-tip {
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--c-bg-sunken);
+  border-left: 3px solid var(--c-gold);
+  border-radius: 0 4px 4px 0;
+  font-size: 0.85rem;
+  color: var(--c-ink-dim);
+  line-height: 1.55;
+}
+
+/* ── FAQ ─────────────────────────────────────────────────────────────────────── */
+.about-faq-search-wrap {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.about-faq-search-icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--c-ink-muted);
+  pointer-events: none;
+  font-size: 0.9rem;
+}
+.about-faq-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.65rem 1rem 0.65rem 2.5rem;
+  border: 1px solid var(--c-rule);
+  border-radius: 6px;
+  background: var(--c-bg-elev);
+  color: var(--c-ink);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+.about-faq-search:focus {
+  outline: none;
+  border-color: var(--c-accent-soft);
+  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.12);
+}
+.about-faq-search::placeholder {
+  color: var(--c-ink-muted);
+}
+.about-faq-no-results {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--c-ink-muted);
+  font-size: 0.95rem;
+  display: none;
+  background: var(--c-bg-sunken);
+  border-radius: 6px;
+}
+.about-faq-no-results.is-visible {
+  display: block;
+}
+
+.about-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--c-rule);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.about-faq-item {
+  border-bottom: 1px solid var(--c-rule-soft);
+}
+.about-faq-item:last-child {
+  border-bottom: none;
+}
+.about-faq-item[hidden] {
+  display: none;
+}
+.about-faq-q {
+  width: 100%;
+  text-align: left;
+  background: var(--c-bg-card);
+  border: none;
+  padding: 1rem 1.25rem;
+  font-size: 0.97rem;
+  font-weight: 600;
+  color: var(--c-ink);
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: background 0.15s;
+}
+.about-faq-q:hover,
+.about-faq-q:focus-visible {
+  background: var(--c-bg-sunken);
+  outline: none;
+}
+.about-faq-q[aria-expanded="true"] {
+  background: color-mix(in oklab, var(--c-accent) 6%, var(--c-bg-card));
+  color: var(--c-accent);
+}
+.about-faq-q-icon {
+  font-size: 0.8rem;
+  color: var(--c-ink-muted);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.about-faq-q[aria-expanded="true"] .about-faq-q-icon {
+  transform: rotate(180deg);
+  color: var(--c-accent);
+}
+.about-faq-a {
+  background: var(--c-bg-elev);
+  padding: 0 1.25rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease, padding 0.2s ease;
+}
+.about-faq-a.is-open {
+  max-height: 600px;
+  padding: 0.85rem 1.25rem 1.1rem;
+}
+.about-faq-a p {
+  margin: 0 0 0.6rem;
+  font-size: 0.92rem;
+  color: var(--c-ink-dim);
+  line-height: 1.65;
+}
+.about-faq-a p:last-child {
+  margin-bottom: 0;
+}
+.about-faq-a a {
+  color: var(--c-accent);
+  text-underline-offset: 2px;
+}
+.about-faq-a code {
+  background: var(--c-bg-sunken);
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+  font-size: 0.87em;
+  color: var(--c-ink);
+}
+
+/* ── Keyboard shortcut chips ─────────────────────────────────────────────────── */
+.about-kbd {
+  display: inline-block;
+  padding: 0.1em 0.45em;
+  background: var(--c-bg-sunken);
+  border: 1px solid var(--c-rule);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-family: monospace;
+  color: var(--c-ink);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .about-hero-h1 {
+    font-size: 1.75rem;
+  }
+  .about-nav-cards {
+    grid-template-columns: 1fr;
+  }
+}

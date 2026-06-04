@@ -1,0 +1,284 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Pipeline Paths page — Podcast Factory Astro Site
+   External CSS only. Uses existing --c-* tokens. No inline styles permitted.
+   REQ-010: All reading text uses --fs-base (1.2rem floor).
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Page shell ──────────────────────────────────────────────────────────────── */
+
+.pp-page {
+  max-width: var(--maxw-page);
+  margin: 0 auto;
+  padding: 0 var(--sp-5) var(--sp-8);
+}
+
+/* ── Hero (REQ-013 gradient h1 via .page-hero + .page-hero-title) ─────────────
+   Uses existing Base layout classes — no extra hero CSS needed.               */
+
+/* ── Jump nav (REQ-044 — the Base layout renders #jump-nav; site-chrome.ts
+   wires it up from section[id] elements; no extra CSS needed here) ──────────── */
+
+/* ── Sections (REQ-004: unique ids via s01-/s02- prefixes in HTML) ───────────── */
+
+.pp-section {
+  margin-bottom: var(--sp-8);
+  scroll-margin-top: 80px;
+}
+
+.pp-section-intro {
+  font-size: var(--fs-base);
+  color: var(--c-ink-dim);
+  line-height: var(--lh-base);
+  max-width: 860px;
+  margin: 0 0 var(--sp-5) 0;
+}
+
+/* ── Branch-type badges ───────────────────────────────────────────────────────
+   REQ-059: colour is never the sole carrier — paired with text label.
+   REQ-010: font-size matches the label scale (16px = --fs-sm).               */
+
+.bt-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--r-md);
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.bt-shared {
+  background: color-mix(in oklab, var(--c-green) 16%, transparent);
+  color: var(--c-green);
+  border: 1px solid color-mix(in oklab, var(--c-green) 28%, transparent);
+}
+
+.bt-prompt {
+  background: color-mix(in oklab, var(--c-amber) 16%, transparent);
+  color: var(--c-amber);
+  border: 1px solid color-mix(in oklab, var(--c-amber) 28%, transparent);
+}
+
+.bt-rules {
+  background: color-mix(in oklab, var(--c-planner) 14%, transparent);
+  color: var(--c-planner);
+  border: 1px solid color-mix(in oklab, var(--c-planner) 28%, transparent);
+}
+
+.bt-skip {
+  background: color-mix(in oklab, var(--c-red) 14%, transparent);
+  color: var(--c-red);
+  border: 1px solid color-mix(in oklab, var(--c-red) 24%, transparent);
+}
+
+.bt-partial {
+  background: color-mix(in oklab, var(--c-gold) 14%, transparent);
+  color: var(--c-gold);
+  border: 1px solid color-mix(in oklab, var(--c-gold) 26%, transparent);
+}
+
+.bt-mixed {
+  background: color-mix(in oklab, var(--c-ink-muted) 12%, transparent);
+  color: var(--c-ink-dim);
+  border: 1px solid var(--c-rule);
+}
+
+/* ── Status badges ────────────────────────────────────────────────────────────── */
+
+.st-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-label);
+  font-weight: 700;
+  color: var(--c-green);
+  white-space: nowrap;
+}
+
+.st-missing {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-label);
+  font-weight: 700;
+  color: var(--c-red);
+  white-space: nowrap;
+}
+
+.st-partial {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-label);
+  font-weight: 700;
+  color: var(--c-gold);
+  white-space: nowrap;
+}
+
+.st-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: var(--c-ink-muted);
+  white-space: nowrap;
+}
+
+/* ── Table (REQ-052: scrollable .table-container; REQ-010: ≥1.2rem text) ─────── */
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.pp-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  font-size: var(--fs-base);
+  background: var(--c-bg-card);
+}
+
+.pp-table th {
+  text-align: left;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--c-bg-sunken);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--c-ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--c-rule);
+  white-space: nowrap;
+}
+
+.pp-table td {
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-base);
+  color: var(--c-ink);
+  line-height: 1.45;
+  border-bottom: 1px solid var(--c-rule-soft);
+  vertical-align: top;
+}
+
+.pp-table tr:last-child td {
+  border-bottom: none;
+}
+
+.pp-table tr:hover td {
+  background: color-mix(in oklab, var(--c-bg-sunken) 60%, transparent);
+}
+
+.pp-table .col-phase {
+  min-width: 180px;
+  font-weight: 700;
+}
+
+.pp-table .col-phase-num {
+  display: block;
+  font-size: var(--fs-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-accent);
+  margin-bottom: 2px;
+}
+
+.pp-table .col-phase-name {
+  font-size: var(--fs-base);
+  font-weight: 700;
+  color: var(--c-ink);
+}
+
+.pp-table .col-desc {
+  min-width: 180px;
+  color: var(--c-ink-dim);
+}
+
+.pp-table .col-category {
+  min-width: 160px;
+  font-size: var(--fs-sm);
+  color: var(--c-ink-dim);
+}
+
+.pp-table .col-branch {
+  min-width: 140px;
+}
+
+.pp-table .col-status {
+  min-width: 140px;
+}
+
+/* ── Legend bar ───────────────────────────────────────────────────────────────── */
+
+.pp-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--c-bg-sunken);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-sm);
+}
+
+.pp-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--c-ink-dim);
+  font-weight: 600;
+}
+
+/* ── Swimlane SVG container (REQ-021, REQ-023, REQ-024) ─────────────────────────
+   No height clamp — REQ-002 / D-DIAGRAM.                                       */
+
+.pp-swimlane-wrap {
+  width: 100%;
+}
+
+.diagram-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.diagram-container svg {
+  display: block;
+  width: 100%;
+}
+
+.diagram-container figcaption {
+  margin-top: var(--sp-3);
+  font-size: var(--fs-sm);
+  color: var(--c-ink-muted);
+  text-align: center;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ── Responsive (REQ-051) ─────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .pp-page {
+    padding: 0 var(--sp-4) var(--sp-7);
+  }
+
+  .pp-legend {
+    gap: var(--sp-2);
+  }
+}
+
+@media (max-width: 480px) {
+  .pp-page {
+    padding: 0 var(--sp-3) var(--sp-6);
+  }
+}

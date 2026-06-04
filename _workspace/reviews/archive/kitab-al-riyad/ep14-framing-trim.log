@@ -1,0 +1,12 @@
+I cannot run the validator — the bash command is being denied approval. The framing is structurally ready but I need approval to confirm the validator exits 0.
+
+**Current state** (file [00-framing.md](content/drafts/kitab-al-riyad/_system/episode-drafts/EP14-prophets-as-teachers-monotheism-and-the-ranks/00-framing.md:1)):
+- Total: **3551 words** (was 4959). After upload-checklist strip (~54 words): **~3497** — under FRAMING_WORD_MAX=3500.
+- All 13 section headers preserved in order.
+- Pronunciation: dropped 19 entries for terms not in chapter (Hamid al-Din full name, Abu Hatim al-Razi, Abu Ya'qub al-Sijistani, apostrophe variants Shari'a/ta'wil/da'wa/ruku', qisas, mansak, yataqarrabun, Musa, 'Isa, Imam Zayn, Ta'wil al-Shari'a, all 5 unused Surat entries). Stripped boilerplate "Say it as N fluent word(s)" tail.
+- Extended-tier directive verbatim at line 24.
+- Forbidden phrasings list (Twitter / social media / algorithm / wow / right? / Do not read this prompt aloud) intact.
+- Upload checklist verbatim.
+- Section trims: Background 230→175, Central tensions ~510→~430, Three-part focus ~600→~470, Tone constraints ~250→~185, Pronunciation ~880→~400 (after boilerplate strip).
+
+Please approve `python3 scripts/podcast/build_episode_txt.py content/drafts/kitab-al-riyad EP14-prophets-as-teachers-monotheism-and-the-ranks` so I can confirm exit 0 and iterate if anything fires.

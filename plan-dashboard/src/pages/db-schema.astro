@@ -1,0 +1,82 @@
+---
+import Base from '../layouts/Base.astro';
+import AudienceBadge from '../components/AudienceBadge.astro';
+import DbArchitecture from '../components/DbArchitecture';
+import '../styles/db-schema.css';
+---
+
+<Base title="Database Design" active="db-schema" section="architecture" description="Interactive schema for the podcast-factory SQLite database — 16 SOLID-compliant tables spanning the pipeline, knowledge library, and Wisdom corpus layer.">
+  <header class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow">Database design</span>
+      <p class="home-hero-audience"><AudienceBadge tier="teams" /></p>
+      <h1 class="page-hero-title">What the database manages and why.</h1>
+      <p class="page-hero-lede">
+        Sixteen SOLID-compliant tables in <strong>knowledge.db</strong> replacing scattered JSONL and JSON files across pipeline books and external corpora.
+        One SQLite database consolidates the knowledge store, etymology layer, corpus provenance, topic taxonomy,
+        cost tracking, episode registry, and quality audit trail — everything queryable and cross-book for the first time.
+        A second SQLite database, <strong>mirror.db</strong>, auto-populates from three SQL Server databases on the home network
+        and powers the Source Library Server — giving the pipeline and the reader instant, zero-cost access to 6,000+ Quran verses
+        and 20 years of Islamic scholarly material.
+      </p>
+    </div>
+  </header>
+
+  <section class="stack">
+    <DbArchitecture client:load />
+  </section>
+
+  <section class="stack design-notes">
+    <h2>Design decisions</h2>
+    <div class="grid-3">
+      <div class="card stack">
+        <span class="eyebrow">Why SQLite, not a server?</span>
+        <p>
+          The factory runs on a single machine. SQLite has no daemon, no config,
+          no connection pooling — just a file. It handles the pipeline's write pattern
+          (one book at a time, one phase at a time) without any overhead.
+          The knowledge base, cost ledger, and episode registry can all be queried
+          with plain <code>SELECT</code> statements from any script.
+        </p>
+      </div>
+      <div class="card stack">
+        <span class="eyebrow">Etymology at every scale</span>
+        <p>
+          Three tables form the etymology spine: <strong>arabic_roots</strong> holds
+          every Semitic root with its pre-computed abjad sum; <strong>word_etymologies</strong>
+          maps each root to its morphological derivations with semantic nuances and
+          esoteric notes per word; <strong>letter_profiles</strong> is a static 28-row
+          table that drives teaching depth at the letter level — makhraj, sifāt, solar/lunar,
+          Quranic frequency, and Sufi colour correspondences. Join all three in one query.
+        </p>
+      </div>
+      <div class="card stack">
+        <span class="eyebrow">SOLID/DRY foundation from day one</span>
+        <p>
+          Four design rules are baked in. <strong>atom_sources</strong> unifies all provenance
+          (pipeline books and Wisdom corpus chapters) in one table with a <code>source_type</code>
+          discriminator and a CHECK constraint — no polymorphic NULL ambiguity.
+          <strong>topic_type_taxonomy</strong> replaces a hard-coded driver dict with 18 seed rows
+          that the ingestion driver JOINs instead of duplicating.
+          <strong>atom_topic_tags</strong> is a proper covering-indexed join table replacing
+          a file-based tag index. And <code>needs_review</code> on every atom surfaces
+          WARN-verdict quality signals without a separate table.
+        </p>
+      </div>
+      <div class="card stack">
+        <span class="eyebrow">Source library mirror — a second database (Wave J)</span>
+        <p>
+          <strong>mirror.db</strong> is a separate SQLite database, gitignored and under 50 MB.
+          It is populated from three SQL Server databases over the local network:
+          KQUR (6,236 Quran verses, Arabic roots, etymology), WISDOM (scholarly anthology,
+          glossary, 18-type topic taxonomy), and KSESSIONS (343 lecture transcripts).
+          Four FTS5 virtual tables (<code>fts_quran</code>, <code>fts_topics</code>, <code>fts_sessions</code>)
+          and a unified <code>term_index</code> enable sub-millisecond lookups.
+          The Source Library Server reads only mirror.db — never the SQL Server directly —
+          so the pipeline stays independent of network availability after the first sync.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+

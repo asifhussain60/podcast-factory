@@ -1,0 +1,301 @@
+#!/usr/bin/env python3
+"""
+asif-deploy — one-command static site / SPA publisher to Cloudflare Pages.
+
+Publishes a directory of HTML/JS/CSS assets to one of two Cloudflare Pages
+projects:
+
+  --public   (default)  → asif-studio          → <slug>.asif-studio.pages.dev
+  --private             → asif-studio-private  → <slug>.asif-studio-private.pages.dev
+                                                 (gated by Cloudflare Access SSO)
+
+The "slug" becomes the Cloudflare Pages branch name, which Cloudflare uses to
+generate a unique preview URL per deploy. Same slug = same URL on next deploy
+(replaces in place). New slug = new URL.
+
+USAGE
+  asif-deploy <dir>                          # publish dir, slug = basename(dir)
+  asif-deploy <dir> --slug my-demo           # publish with explicit slug
+  asif-deploy <dir> --private                # SSO-gated deploy
+  asif-deploy <dir> --slug x --json          # machine-readable output for AI
+  asif-deploy <dir> --dry-run                # print what would happen, don't deploy
+  asif-deploy --list                         # list recent deploys (both projects)
+  asif-deploy --doctor                       # verify install + auth
+
+EXIT CODES
+  0  success
+  2  bad arguments / missing dir
+  3  prerequisite missing (wrangler not installed / not logged in)
+  4  deploy failed (wrangler returned non-zero)
+
+ENV
+  ASIF_DEPLOY_PUBLIC_PROJECT   override public project name (default: asif-studio)
+  ASIF_DEPLOY_PRIVATE_PROJECT  override private project name (default: asif-studio-private)
+  ASIF_DEPLOY_PUBLIC_DOMAIN    override URL suffix for public (default: <project>.pages.dev)
+  ASIF_DEPLOY_PRIVATE_DOMAIN   override URL suffix for private
+  CLOUDFLARE_API_TOKEN         used by wrangler if set; otherwise wrangler uses OAuth login
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+from typing import Optional
+
+VERSION = "0.1.0"
+
+DEFAULTS = {
+    "public_project": "asif-studio",
+    "private_project": "asif-studio-private",
+    "public_domain": None,   # derived from project name
+    "private_domain": None,  # derived from project name
+}
+
+
+def env(key: str, fallback: str) -> str:
+    return os.environ.get(key) or fallback
+
+
+def public_project() -> str:
+    return env("ASIF_DEPLOY_PUBLIC_PROJECT", DEFAULTS["public_project"])
+
+
+def private_project() -> str:
+    return env("ASIF_DEPLOY_PRIVATE_PROJECT", DEFAULTS["private_project"])
+
+
+def public_domain_for(project: str) -> str:
+    return env("ASIF_DEPLOY_PUBLIC_DOMAIN", f"{project}.pages.dev")
+
+
+def private_domain_for(project: str) -> str:
+    return env("ASIF_DEPLOY_PRIVATE_DOMAIN", f"{project}.pages.dev")
+
+
+SLUG_RE = re.compile(r"[^a-z0-9-]+")
+
+
+def normalize_slug(raw: str) -> str:
+    """Cloudflare Pages branch names: lowercase alnum + hyphen, <= 28 chars."""
+    s = raw.strip().lower().replace("_", "-").replace(" ", "-")
+    s = SLUG_RE.sub("-", s)
+    s = re.sub(r"-+", "-", s).strip("-")
+    if not s:
+        raise SystemExit("Cannot derive a valid slug from input. Pass --slug explicitly.")
+    return s[:28].rstrip("-")
+
+
+def which(name: str) -> Optional[str]:
+    return shutil.which(name)
+
+
+def doctor() -> int:
+    issues: list[str] = []
+    wrangler = which("wrangler")
+    if not wrangler:
+        issues.append(
+            "wrangler not on PATH. Install:  npm i -g wrangler   "
+            "(or: brew install cloudflare-wrangler)"
+        )
+    else:
+        try:
+            v = subprocess.run(
+                [wrangler, "--version"], capture_output=True, text=True, timeout=10
+            )
+            print(f"wrangler:      {wrangler}  ({v.stdout.strip()})")
+        except Exception as e:
+            issues.append(f"wrangler present but `--version` failed: {e}")
+
+    if not which("node"):
+        issues.append("node not on PATH (wrangler needs it).")
+
+    # Check login state
+    if wrangler:
+        try:
+            who = subprocess.run(
+                [wrangler, "whoami"], capture_output=True, text=True, timeout=15
+            )
+            if who.returncode != 0:
+                issues.append("wrangler not logged in. Run:  wrangler login")
+            else:
+                first_line = who.stdout.strip().splitlines()[:3]
+                print("wrangler auth:", " | ".join(first_line))
+        except Exception as e:
+            issues.append(f"`wrangler whoami` failed: {e}")
+
+    print(f"public project:  {public_project()}  →  https://{public_domain_for(public_project())}")
+    print(f"private project: {private_project()}  →  https://{private_domain_for(private_project())}")
+
+    if issues:
+        print("\nIssues:")
+        for i in issues:
+            print(f"  - {i}")
+        return 3
+    print("\nAll checks passed. Ready to deploy.")
+    return 0
+
+
+def list_deploys() -> int:
+    wrangler = which("wrangler") or sys.exit("wrangler not found. Run: asif-deploy --doctor")
+    for project in (public_project(), private_project()):
+        print(f"\n=== {project} ===")
+        r = subprocess.run(
+            [wrangler, "pages", "deployment", "list", "--project-name", project],
+            capture_output=False,
+        )
+        if r.returncode != 0:
+            print(f"(could not list {project} — project may not exist yet)")
+    return 0
+
+
+def deploy(
+    src: Path,
+    slug: str,
+    private: bool,
+    dry_run: bool,
+    as_json: bool,
+    commit_message: Optional[str],
+) -> int:
+    wrangler = which("wrangler")
+    if not wrangler and not dry_run:
+        msg = "wrangler not installed. Run:  npm i -g wrangler"
+        if as_json:
+            print(json.dumps({"ok": False, "error": msg}))
+        else:
+            print(msg, file=sys.stderr)
+        return 3
+    wrangler_cmd = wrangler or "wrangler"  # placeholder for dry-run plan
+
+    project = private_project() if private else public_project()
+    domain = (private_domain_for if private else public_domain_for)(project)
+    url = f"https://{slug}.{domain}"
+
+    cmd = [
+        wrangler_cmd, "pages", "deploy", str(src),
+        "--project-name", project,
+        "--branch", slug,
+    ]
+    if commit_message:
+        cmd += ["--commit-message", commit_message]
+
+    if dry_run:
+        plan = {
+            "ok": True,
+            "dry_run": True,
+            "project": project,
+            "slug": slug,
+            "url": url,
+            "gated": private,
+            "command": cmd,
+            "source_dir": str(src.resolve()),
+            "file_count": sum(1 for _ in src.rglob("*") if _.is_file()),
+        }
+        print(json.dumps(plan, indent=2) if as_json else
+              f"[dry-run] would deploy {src} → {url}\n  command: {' '.join(cmd)}")
+        return 0
+
+    if not as_json:
+        print(f"→ deploying {src} to {project} (branch={slug}) …")
+
+    proc = subprocess.run(cmd, capture_output=as_json, text=True)
+    if proc.returncode != 0:
+        out = {
+            "ok": False,
+            "error": "wrangler deploy failed",
+            "exit_code": proc.returncode,
+            "stderr": (proc.stderr or "")[-2000:] if as_json else None,
+        }
+        if as_json:
+            print(json.dumps(out))
+        else:
+            print("Deploy failed. See wrangler output above.", file=sys.stderr)
+        return 4
+
+    result = {
+        "ok": True,
+        "project": project,
+        "slug": slug,
+        "url": url,
+        "gated": private,
+        "share": (
+            f"Public URL: {url}" if not private
+            else f"SSO-gated URL: {url}  (sign in with allowlisted Google/GitHub account)"
+        ),
+    }
+    if as_json:
+        print(json.dumps(result, indent=2))
+    else:
+        print(f"\n✓ deployed: {url}")
+        if private:
+            print("  (gated by Cloudflare Access — only allowlisted users can view)")
+    return 0
+
+
+def build_parser() -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(
+        prog="asif-deploy",
+        description="Publish a folder of HTML/SPA assets to asif-studio on Cloudflare Pages.",
+    )
+    p.add_argument("source", nargs="?", help="Directory to deploy (contains index.html).")
+    p.add_argument("--slug", help="URL slug / Cloudflare branch name. Default: basename of source dir.")
+    p.add_argument("--private", action="store_true",
+                   help="Deploy to SSO-gated project (asif-studio-private).")
+    p.add_argument("--public", action="store_true",
+                   help="Deploy to public project (asif-studio). Default if neither flag given.")
+    p.add_argument("--dry-run", action="store_true",
+                   help="Print what would happen without calling wrangler.")
+    p.add_argument("--json", action="store_true",
+                   help="Emit machine-readable JSON (for AI/CI consumption).")
+    p.add_argument("--message", "-m",
+                   help="Commit message attached to the deploy (shows in Cloudflare dashboard).")
+    p.add_argument("--list", action="store_true",
+                   help="List recent deploys across both projects, then exit.")
+    p.add_argument("--doctor", action="store_true",
+                   help="Verify wrangler + auth, then exit.")
+    p.add_argument("--version", action="version", version=f"asif-deploy {VERSION}")
+    return p
+
+
+def main(argv: Optional[list[str]] = None) -> int:
+    args = build_parser().parse_args(argv)
+
+    if args.doctor:
+        return doctor()
+    if args.list:
+        return list_deploys()
+
+    if not args.source:
+        print("error: source directory required (or use --doctor / --list)", file=sys.stderr)
+        return 2
+
+    if args.public and args.private:
+        print("error: --public and --private are mutually exclusive", file=sys.stderr)
+        return 2
+
+    src = Path(args.source).expanduser().resolve()
+    if not src.exists() or not src.is_dir():
+        print(f"error: {src} is not a directory", file=sys.stderr)
+        return 2
+    if not (src / "index.html").exists():
+        print(f"warning: {src}/index.html not found — Cloudflare will still deploy but "
+              "the root URL will 404.", file=sys.stderr)
+
+    slug = normalize_slug(args.slug or src.name)
+    return deploy(
+        src=src,
+        slug=slug,
+        private=bool(args.private),
+        dry_run=bool(args.dry_run),
+        as_json=bool(args.json),
+        commit_message=args.message,
+    )
+
+
+if __name__ == "__main__":
+    sys.exit(main())

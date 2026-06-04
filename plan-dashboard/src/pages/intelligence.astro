@@ -1,0 +1,838 @@
+---
+import Base from '../layouts/Base.astro';
+import AudienceBadge from '../components/AudienceBadge.astro';
+import '../styles/intelligence.css';
+---
+<Base title="Intelligence Pipeline" active="intelligence" section="architecture"
+     description="Exploded interactive diagram of the intelligence pipeline — from source corpora through extraction, deduplication, and storage, to augmentation of every chapter the factory writes.">
+
+<div class="intel-page">
+
+<header class="intel-header">
+  <span class="eyebrow">Architecture · Intelligence Pipeline</span>
+  <p class="home-hero-audience"><AudienceBadge tier="both" /></p>
+  <h1 class="intel-hero-h1">How the Knowledge Brain Works</h1>
+  <p class="intel-hero-lede">
+    An interactive map of the full intelligence pipeline — from source corpora through extraction,
+    deduplication, and storage, to augmentation of every chapter the factory writes.
+    <strong>Click any node</strong> for the full spec. Use the filters to trace each atom type.
+  </p>
+</header>
+
+<div class="intel-body">
+  <section aria-labelledby="diagram-title">
+    <h2 id="diagram-title" class="sr-only">Interactive pipeline diagram</h2>
+
+    <div class="filter-bar" id="filterBar" role="toolbar" aria-label="Atom type filter">
+      <span class="filter-label">Highlight flow:</span>
+      <button class="filter-btn active" data-filter="all"      aria-pressed="true">All flows</button>
+      <button class="filter-btn f-quran"    data-filter="quran"    aria-pressed="false">● Quran atoms</button>
+      <button class="filter-btn f-hadith"   data-filter="hadith"   aria-pressed="false">● Hadith atoms</button>
+      <button class="filter-btn f-doctrine" data-filter="doctrine" aria-pressed="false">● Doctrine atoms</button>
+      <button class="filter-btn f-source-lib" data-filter="source-lib" aria-pressed="false">● Source Library</button>
+    </div>
+
+    <div class="zoom-controls" role="group" aria-label="Diagram zoom controls">
+      <button class="zoom-btn" id="zoomIn"    aria-label="Zoom in">+</button>
+      <span   class="zoom-level" id="zoomLevel">100%</span>
+      <button class="zoom-btn" id="zoomOut"   aria-label="Zoom out">−</button>
+      <span   class="zoom-sep" aria-hidden="true"></span>
+      <button class="zoom-btn" id="zoomReset" aria-label="Reset zoom" title="Reset zoom">⌂</button>
+    </div>
+
+    <div class="diagram-wrap">
+      <div class="diagram-canvas" id="canvas" aria-label="Intelligence pipeline diagram"></div>
+      <div class="node-tooltip" id="nodeTooltip" aria-hidden="true"></div>
+    </div>
+
+    <div class="legend-bar" aria-label="Diagram legend">
+      <div class="legend-item"><span class="legend-line quran"></span> Quran atom flow</div>
+      <div class="legend-item"><span class="legend-line hadith"></span> Hadith atom flow</div>
+      <div class="legend-item"><span class="legend-line doctrine"></span> Doctrine atom flow</div>
+      <div class="legend-item"><span class="legend-line mixed"></span> All types combined</div>
+      <div class="legend-item"><span class="legend-line blocker"></span> Blocked — pending discussion</div>
+      <div class="legend-item"><span class="legend-line disabled"></span> Default-disabled (DR-007)</div>
+      <div class="legend-item"><span class="live-dot" aria-hidden="true"></span> Click any node for details</div>
+    </div>
+  </section>
+</div>
+
+</div><!-- /intel-page -->
+
+<!-- ===================================================== DETAIL PANEL -->
+<div class="detail-overlay intel-page" id="detailOverlay" hidden aria-hidden="true">
+  <div class="detail-panel" id="detailPanel" role="dialog" aria-modal="true"
+       aria-labelledby="detailHeading" tabindex="-1">
+    <button class="detail-close" id="detailClose" aria-label="Close detail panel">×</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+
+<script>
+/* =========================================================
+   DATA — NODES
+   ========================================================= */
+const NODES: Record<string, any> = {
+  wisdom: {
+    label: 'Wisdom Corpus', sublabel: '122 chapters · 17 binders',
+    zone: 'source', icon: '📚',
+    x: 80, y: 35, w: 230, h: 145,
+    atoms: ['doctrine'],
+    chips: [],
+    tooltip: 'Ismaili scholarly corpus — the doctrine substrate. Not produced as a podcast; seeds the knowledge library.',
+    detail: {
+      title: 'Wisdom Corpus', zone: 'Source corpus · doctrine substrate',
+      desc: '122 chapters of adapted Ismaili scholarly text across 17 thematic binders. Not produced as a podcast — it seeds the intelligence library with doctrinal knowledge atoms that enrich every future pipeline book.',
+      kv: [
+        { k: 'Total chapters', v: '122' }, { k: 'Binders', v: '17' },
+        { k: 'Verdict: PASS',  v: '9'   }, { k: 'Verdict: WARN',  v: '66' },
+        { k: 'Verdict: FAIL',  v: '18'  }, { k: 'Unchallenged',   v: '29' },
+        { k: 'Ready to ingest', v: '75 (PASS + WARN)' },
+        { k: 'Topic types', v: '18 (from topic-type-map.json)' },
+      ],
+      atoms: ['doctrine','quran','hadith'],
+      blocker: true,
+      sections: [
+        { title: 'Refinement state machine',
+          body: 'Each chapter tracks five states:<br><code>pending → ingested → needs_correction → correction_draft → re_ingested</code>.<br>Correcting one chapter never touches any other chapter\'s atoms.' },
+        { title: 'Topic taxonomy (18 types)',
+          body: 'Taʾwīl, Kalam, Ethics, Jurisprudence, Hadith commentary, Quranic exegesis, Wilāya, Bāṭin knowledge, Ḥudūd/Daʿwa hierarchy, Aphorisms, Poetry/Manqabat, Virtues, Terminology, History, and 4 more. Each chapter receives 1–4 topic type tags that drive Augmenter scoring.' },
+      ]
+    }
+  },
+
+  books: {
+    label: 'Pipeline Books', sublabel: '6 shipped + queue',
+    zone: 'source', icon: '🎙',
+    x: 590, y: 40, w: 230, h: 120,
+    atoms: ['quran','hadith'],
+    chips: [],
+    tooltip: 'Every production book contributes atoms. The Extractor reads enriched chapter text — never audio scripts.',
+    detail: {
+      title: 'Pipeline Books', zone: 'Source · production output',
+      desc: 'Every book the pipeline processes is also a source of knowledge atoms. The Extractor (B1) reads the enriched chapter text after Phase 08-enrichment.',
+      kv: [
+        { k: 'Shipped', v: 'KaR, M&D, Ayyuhā al-Walad, ISLR Mas-I, Asāsāt al-Taʾwīl' },
+        { k: 'Next in queue', v: 'Kunooz al-Ḥikma, Rasāʾil (52 epistles)' },
+        { k: 'Source path', v: 'BOOK_DIR/chapters/<ch-slug>.txt' },
+        { k: 'NOT source', v: 'Audio scripts (framing.txt, episode.txt)' },
+        { k: 'Cost cap', v: '$0.10/chapter · $10/book' },
+        { k: 'Confidence gate', v: 'confidence < 0.7 → manual review queue' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+    }
+  },
+
+  b0: {
+    label: 'B0 — Wisdom Driver', sublabel: 'Standalone batch ingest',
+    zone: 'ingest', icon: '⚙',
+    x: 80, y: 245, w: 230, h: 145,
+    atoms: ['doctrine'],
+    chips: [{ text: '⛔ BLOCKED', cls: 'blocker' }, { text: 'Tier 1', cls: 'tier1' }],
+    tooltip: 'Batch driver for seeding the library from 75 Wisdom chapters. Not a pipeline phase — runs standalone.',
+    detail: {
+      title: 'B0 — Wisdom Ingest Driver', zone: 'Ingestion · standalone batch driver',
+      desc: 'A standalone batch tool (not a pipeline phase) that ingests all PASS+WARN Wisdom chapters into the knowledge library. Idempotent per chapter — re-running on a corrected chapter deletes its old atoms and re-ingests clean.',
+      kv: [
+        { k: 'File', v: '_drivers/wisdom_ingest_knowledge.py' },
+        { k: 'Max lines', v: '400' },
+        { k: 'LLM calls', v: 'None' },
+        { k: 'Authorization', v: 'Tier 1' },
+        { k: 'Idempotent', v: 'Yes — per chapter' },
+        { k: 'Seeds', v: 'external_corpora + topic_type_taxonomy (18 rows)' },
+        { k: 'Chunks size', v: '≤ 600 words per doctrine chunk' },
+        { k: 'Chunk boundary', v: '<!-- section N --> markers' },
+      ],
+      atoms: ['doctrine','quran','hadith'],
+      blocker: true,
+      cli: [
+        'python wisdom_ingest.py                  # all PASS+WARN chapters',
+        'python wisdom_ingest.py --chapter <slug> # single chapter',
+        'python wisdom_ingest.py --re-ingest       # correction cycle',
+        'python wisdom_ingest.py --dry-run         # preview, no writes',
+        'python wisdom_ingest.py --status          # 122-row state table',
+        'python wisdom_ingest.py --force <slug>    # override FAIL verdict',
+      ],
+      sections: [
+        { title: '⛔ BLOCKER — must discuss before this runs',
+          body: 'Before B0 ingests, evaluate whether to use ChatGPT or Gemini to further enrich the adapted Wisdom chapter text first.<br><br>Three paths: <strong>(a)</strong> ingest as-is; <strong>(b)</strong> enrich PASS+WARN chapters first then ingest; <strong>(c)</strong> post-hoc annotation on already-ingested atoms. Impacts doctrinal atom depth and Augmenter output quality.' },
+        { title: 'WARN handling',
+          body: 'WARN-verdict chapters ingest with <code>needs_review=1</code>. Their atoms enter the library but the Augmenter silently skips them. After Asif corrects and re-ingests the chapter clean, the flag drops to 0.' },
+      ]
+    }
+  },
+
+  b1: {
+    label: 'B1 — Extractor', sublabel: 'Claude Sonnet · structured output',
+    zone: 'ingest', icon: '🔍',
+    x: 590, y: 250, w: 230, h: 130,
+    atoms: ['quran','hadith'],
+    chips: [{ text: 'Tier 1', cls: 'tier1' }],
+    tooltip: 'One Claude Sonnet structured-output call per chapter. Confidence < 0.7 atoms go to manual review queue.',
+    detail: {
+      title: 'B1 — Extractor', zone: 'Ingestion · LLM extraction',
+      desc: 'One Claude Sonnet structured-output call per chapter with a strict JSON schema. Reads enriched chapter source text (never audio scripts). Writes atom candidates to a per-book scratch JSONL file.',
+      kv: [
+        { k: 'File', v: 'intelligence/extractor.py' },
+        { k: 'Max lines', v: '300' },
+        { k: 'Model', v: 'Claude Sonnet (structured output)' },
+        { k: 'Cost cap', v: '$0.10/chapter · $10.00/book' },
+        { k: 'Confidence gate', v: '0.7 (below → manual review queue)' },
+        { k: 'Output', v: '_system/knowledge-atoms-scratch.jsonl' },
+        { k: 'Authorization', v: 'Tier 1' },
+        { k: 'Phase', v: '08c-knowledge-extract' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+    }
+  },
+
+  b2: {
+    label: 'B2 — Librarian', sublabel: 'Dedup · merge · provenance',
+    zone: 'merge', icon: '📖',
+    x: 335, y: 440, w: 230, h: 120,
+    atoms: ['quran','hadith','doctrine'],
+    chips: [],
+    tooltip: 'Deduplicates and merges atoms from both sources. Four outcomes: new, duplicate, variant, or conflict.',
+    detail: {
+      title: 'B2 — Librarian', zone: 'Merge · deduplication layer',
+      desc: 'Deduplicates and merges atom candidates from both ingest paths into the shared knowledge library. Idempotent per canonical_id. Tracks full provenance (which book, which chapter, which phase added each atom).',
+      kv: [
+        { k: 'File', v: 'intelligence/librarian.py' },
+        { k: 'Max lines', v: '350' },
+        { k: 'Dedup key', v: 'canonical_id (verse ref or hadith key)' },
+        { k: 'Idempotent', v: 'Yes — per canonical_id' },
+        { k: 'Conflict path', v: 'manual_review_queue table' },
+        { k: 'Phase', v: '08c-knowledge-extract (tail step)' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+      mergeOutcomes: true,
+    }
+  },
+
+  db: {
+    label: 'knowledge.db', sublabel: 'SQLite · 16 tables · WAL mode',
+    zone: 'store', icon: '🗄',
+    x: 195, y: 620, w: 510, h: 180,
+    atoms: ['quran','hadith','doctrine'],
+    chips: [],
+    tooltip: 'The canonical knowledge library — 16 SOLID-compliant tables, WAL mode, JSON1 for body_json queries.',
+    detail: {
+      title: 'knowledge.db', zone: 'Store · canonical knowledge library',
+      desc: 'The single source of truth for all knowledge atoms. 16 SOLID-compliant tables across 4 groups. SQLite WAL mode for concurrent reads. 3 etymology tables reserved for Wave 3 (empty until then).',
+      kv: [
+        { k: 'Path', v: 'content/knowledge-base/knowledge.db' },
+        { k: 'Mode', v: 'SQLite WAL (write-ahead log)' },
+        { k: 'Tables', v: '16 across 4 groups' },
+        { k: 'Wave 2 path', v: 'Postgres + pgvector (SQLAlchemy swap in _db.py)' },
+        { k: 'JSON extension', v: 'SQLite JSON1 for body_json queries' },
+        { k: 'Access pattern', v: '7 repository functions in _db.py only' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+      tableGroups: true,
+      sections: [
+        { title: 'needs_review gate',
+          body: 'Atoms from WARN-verdict Wisdom chapters enter the DB with <code>needs_review=1</code>. The Augmenter applies a hard <code>WHERE needs_review=0</code> on both lookup paths. Only after Asif corrects and re-ingests the source chapter clean does the flag clear.' },
+        { title: 'Wave 3 tables (Etymology)',
+          body: '3 of the 16 tables are reserved for Wave 3: <code>arabic_roots</code>, <code>word_etymologies</code>, <code>letter_profiles</code>. Migrations create them now; they stay empty until Wave 3.' },
+      ]
+    }
+  },
+
+  b3: {
+    label: 'B3 — Augmenter', sublabel: 'Default disabled · DR-007',
+    zone: 'augment', icon: '✦',
+    x: 280, y: 840, w: 340, h: 155,
+    atoms: ['quran','hadith','doctrine'],
+    chips: [{ text: 'Default OFF', cls: 'disabled' }],
+    tooltip: 'Queries the library and injects relevant atoms into prompts. Default disabled until Gate G12 fires green.',
+    detail: {
+      title: 'B3 — Augmenter', zone: 'Output · prompt injection',
+      desc: 'The consumer interface to the knowledge library. Queries for relevant atoms and formats them as injection blocks for Claude prompts. Default disabled (DR-007) — flips on globally only after Gate G12 confirms the first A/B acceptance pair.',
+      kv: [
+        { k: 'File', v: 'intelligence/augmenter.py' },
+        { k: 'Max lines', v: '250' },
+        { k: 'Default state', v: 'Disabled (R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED = False)' },
+        { k: 'Max atoms', v: '5 per call' },
+        { k: 'Max tokens', v: '800 (challenger budget)' },
+        { k: 'needs_review gate', v: '= 0 required on all paths' },
+        { k: 'Doctrine opt-in', v: 'doctrine_topic_ids list in meta.yml' },
+        { k: 'Enable gate', v: 'G12 — first A/B pair accepted' },
+        { k: 'Self-exclusion', v: 'A book cannot cite itself as prior doctrine' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+      sections: [
+        { title: 'Two independent lookup paths',
+          body: '<strong>Path 1 — Quran + Hadith:</strong> Regex-scan chapter text for citation patterns → exact canonical-ID lookup. Always executes.<br><br><strong>Path 2 — Doctrine:</strong> Only executes when <code>doctrine_topic_ids</code> is non-empty in meta.yml. Prevents Wisdom doctrine leaking into non-Ismaili books.' },
+        { title: 'Three consumer token budgets',
+          body: '<strong>08-enrichment:</strong> 200 tokens — hint level.<br><strong>11-authoring:</strong> 500 tokens — full prior treatment.<br><strong>Challenger/0g-audit:</strong> 800 tokens — complete cross-book context.' },
+      ]
+    }
+  },
+
+  enrich: {
+    label: '08-Enrichment', sublabel: '200 tokens · hint level',
+    zone: 'consume', icon: '📝',
+    x: 50, y: 1040, w: 220, h: 85,
+    atoms: ['quran','hadith','doctrine'],
+    chips: [],
+    detail: {
+      title: '08-Enrichment Phase', zone: 'Consumer · hint level · Phase 08',
+      desc: 'The earliest pipeline point where knowledge atoms influence output. At 200 tokens, the injection is hint-level — providing cross-book scholarly context without overwhelming the enrichment prompt.',
+      kv: [
+        { k: 'Token budget', v: '200' }, { k: 'Injection depth', v: 'Hint level' },
+        { k: 'Phase', v: '08-enrichment' }, { k: 'Active when', v: 'Augmenter enabled (post G12)' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+    }
+  },
+
+  author: {
+    label: '11-Per-Chapter', sublabel: '500 tokens · full context',
+    zone: 'consume', icon: '✍',
+    x: 340, y: 1040, w: 220, h: 85,
+    atoms: ['quran','hadith','doctrine'],
+    chips: [],
+    detail: {
+      title: '11-Per-Chapter Authoring', zone: 'Consumer · full context · Phase 11',
+      desc: 'The main chapter authoring phase. At 500 tokens, atom injection provides full prior doctrinal treatment. Output: framing.txt and episode.txt for NotebookLM.',
+      kv: [
+        { k: 'Token budget', v: '500' }, { k: 'Injection depth', v: 'Full prior treatment' },
+        { k: 'Phase', v: '11-per-chapter' }, { k: 'Output', v: 'framing.txt + episode.txt' },
+        { k: 'Active when', v: 'Augmenter enabled (post G12)' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+    }
+  },
+
+  challenger: {
+    label: 'Challenger', sublabel: '800 tokens · cross-book',
+    zone: 'consume', icon: '⚖',
+    x: 630, y: 1040, w: 220, h: 85,
+    atoms: ['quran','hadith','doctrine'],
+    chips: [],
+    detail: {
+      title: 'Challenger / 0g-Audit', zone: 'Consumer · quality gate · G12 path',
+      desc: 'The AI challenger and audit phase use the largest token budget (800). Gate G12 uses this path: once the challenger confirms at least one augmented atom improved output quality in an A/B pair, the Augmenter switches on globally.',
+      kv: [
+        { k: 'Token budget', v: '800' }, { k: 'Injection depth', v: 'Complete cross-book context' },
+        { k: 'Phases', v: '0g-audit + podcast-challenger agent' },
+        { k: 'G12 role', v: 'First confirmed A/B acceptance → enables Augmenter globally' },
+        { k: 'Active when', v: 'Augmenter enabled (post G12)' },
+      ],
+      atoms: ['quran','hadith','doctrine'],
+    }
+  },
+
+  source_lib_server: {
+    label: 'Source Library Server', sublabel: 'MCP + HTTP · port 4390 · zero token cost',
+    zone: 'source-lib', icon: '⚡',
+    x: 120, y: 1290, w: 300, h: 100,
+    atoms: ['quran'],
+    chips: ['Wave J'],
+    detail: {
+      title: 'Source Library Server · Wave J', zone: 'Source Library · local · zero cost',
+      desc: 'A local Python server (FastAPI + MCP stdio) that answers verse and term queries instantly from a local SQLite mirror. The pipeline calls it via MCP to do live Quran lookups during enrichment; the Astro reader calls it via HTTP for hover panels. No AI model invoked — sub-millisecond responses, zero token spend.',
+      kv: [
+        { k: 'Protocol A', v: 'MCP stdio — pipeline agents' },
+        { k: 'Protocol B', v: 'HTTP REST :4390 — Astro reader' },
+        { k: 'Functions', v: 'quran_lookup · word_etymology · topic_search · session_style_fetch' },
+        { k: 'Data source', v: 'SQLite mirror.db (FTS5 tables from SQL Server)' },
+        { k: 'Token cost', v: 'Zero — no AI calls' },
+      ],
+      atoms: ['quran'],
+      sections: [{ title: 'Wave J integration', body: 'Registered in .mcp.json. The enrichment phase checks this server first before calling Gemini, reducing external AI calls by ~90% for verse lookups.' }],
+    }
+  },
+
+  term_index: {
+    label: 'Term Index', sublabel: 'unified arabic · root · etymology · tradition',
+    zone: 'source-lib', icon: '📖',
+    x: 500, y: 1290, w: 280, h: 100,
+    atoms: ['quran'],
+    chips: ['Wave J'],
+    detail: {
+      title: 'Term Index table · Wave J', zone: 'Source Library · mirror.db',
+      desc: 'A single lookup table in mirror.db that unifies Arabic roots (from the KQUR Quran database) with glossary terms (from WISDOM). A reader hover on any Arabic term checks here first; only on a miss does it fall back to Gemini. Columns: phonetic, arabic, root, grammar_tag, definition, etymology, tradition, source, related.',
+      kv: [
+        { k: 'Rows', v: '~15,000 (roots + glossary + derived terms)' },
+        { k: 'Sources', v: 'KQUR roots + WISDOM DeeniTermGroup + Glossary' },
+        { k: 'FTS5 coverage', v: 'fts_quran · fts_topics · fts_sessions' },
+        { k: 'Fallback triggers', v: 'Cache miss OR missing etymology field' },
+      ],
+      atoms: ['quran'],
+    }
+  },
+};
+
+/* =========================================================
+   DATA — EDGES
+   ========================================================= */
+const EDGES: Array<Record<string, any>> = [
+  { from:'wisdom', to:'b0', fp:'bottom', tp:'top', types:['doctrine'], style:'blocker', label:'adapted chapters' },
+  { from:'books',    to:'b1', fp:'bottom', tp:'top', types:['quran','hadith'], style:'mixed',   label:'enriched text' },
+  { from:'b0', to:'b2', fp:'bottom', tp:'top', types:['doctrine'], style:'blocker' },
+  { from:'b1', to:'b2', fp:'bottom', tp:'top', types:['quran','hadith'], style:'mixed' },
+  { from:'b2', to:'db', fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'mixed' },
+  { from:'db', to:'b3', fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'mixed', label:'needs_review=0' },
+  { from:'b3', to:'enrich',            fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'disabled', label:'200 tok' },
+  { from:'b3', to:'author',            fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'disabled', label:'500 tok' },
+  { from:'b3', to:'challenger',        fp:'bottom', tp:'top', types:['quran','hadith','doctrine'], style:'disabled', label:'800 tok' },
+  { from:'enrich', to:'source_lib_server', fp:'bottom', tp:'top', types:['quran'], style:'mixed', label:'live fallback' },
+  { from:'source_lib_server', to:'term_index', fp:'right', tp:'left', types:['quran'], style:'mixed' },
+];
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+const NS = 'http://www.w3.org/2000/svg';
+
+function portCoord(n: Record<string, any>, port: string): { x: number; y: number } {
+  const cx = n.x + n.w / 2, cy = n.y + n.h / 2;
+  if (port === 'right')  return { x: n.x + n.w, y: cy };
+  if (port === 'left')   return { x: n.x,        y: cy };
+  if (port === 'bottom') return { x: cx,          y: n.y + n.h };
+  return { x: cx, y: n.y };
+}
+
+/* =========================================================
+   ZONE BANDS
+   ========================================================= */
+function renderZones(canvas: HTMLElement) {
+  const zones = [
+    { label:'Sources',        cls:'zone-sources',    y:0,    h:210,  nodes:['wisdom','books'] },
+    { label:'Ingestion',      cls:'zone-ingest',     y:210,  h:210,  nodes:['b0','b1'] },
+    { label:'Merge',          cls:'zone-merge',      y:420,  h:180,  nodes:['b2'] },
+    { label:'Store',          cls:'zone-store',      y:600,  h:220,  nodes:['db'] },
+    { label:'Augmentation',   cls:'zone-augment',    y:820,  h:200,  nodes:['b3'] },
+    { label:'Consumers',      cls:'zone-consumers',  y:1020, h:240,  nodes:['enrich','author','challenger'] },
+    { label:'Source Library', cls:'zone-source-lib', y:1260, h:200,  nodes:['source_lib_server','term_index'] },
+  ];
+  zones.forEach(z => {
+    const band = document.createElement('div');
+    band.className = `zone-band ${z.cls}`;
+    band.style.cssText = `top:${z.y}px;height:${z.h}px;`;
+    const lbl = document.createElement('div');
+    lbl.className = 'zone-band-label';
+    lbl.textContent = z.label;
+    band.appendChild(lbl);
+    canvas.appendChild(band);
+  });
+}
+
+/* =========================================================
+   NODES
+   ========================================================= */
+function renderNodes(canvas: HTMLElement) {
+  const zoneAccentColors = {
+    source:'#4a7c4a', ingest:'#5b8dd9', merge:'#7c3aed',
+    store:'#7c3aed', augment:'#c08020', consume:'#888',
+  };
+  Object.entries(NODES).forEach(([id, n], idx) => {
+    const el = document.createElement('div');
+    el.className = `dnode zone-${n.zone}`;
+    el.id = `node-${id}`;
+    el.style.cssText = `left:${n.x}px;top:${n.y}px;width:${n.w}px;min-height:${n.h}px;animation-delay:${Math.min(idx*0.05,0.3)}s`;
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('role', 'button');
+    el.setAttribute('aria-label', `${n.label} — click for details`);
+    el.dataset.atoms = (n.atoms || []).join(',');
+    el.dataset.id = id;
+
+    const dots  = (n.atoms||[]).map((a: string) => `<span class="atom-dot ${a}" aria-hidden="true"></span>`).join('');
+    const chips = (n.chips||[]).map((c: {cls: string; text: string}) => `<span class="node-chip ${c.cls}">${c.text}</span>`).join('');
+
+    el.innerHTML = `
+      <div class="node-header">
+        <div class="node-icon" aria-hidden="true">${n.icon}</div>
+        <div class="node-label">${n.label}</div>
+        <div class="node-sublabel">${n.sublabel}</div>
+      </div>
+      <div class="node-body">
+        <div class="atom-dots" aria-label="Atom types">${dots}</div>
+        <div>${chips}</div>
+      </div>`;
+
+    el.addEventListener('click',      () => openDetail(id));
+    el.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); openDetail(id); } });
+    el.addEventListener('mouseenter', e => showTooltip(id, el));
+    el.addEventListener('mouseleave',   () => hideTooltip());
+    canvas.appendChild(el);
+  });
+}
+
+/* =========================================================
+   SVG EDGES
+   ========================================================= */
+function renderEdges(canvas: HTMLElement) {
+  const svg = document.createElementNS(NS, 'svg');
+  svg.classList.add('diagram-svg');
+  svg.setAttribute('id', 'edgeSvg');
+  svg.setAttribute('aria-hidden', 'true');
+
+  const defs = document.createElementNS(NS, 'defs');
+
+  // Arrow markers
+  const markerDefs = [
+    { id:'arr-quran',    fill:'var(--green)' },
+    { id:'arr-hadith',   fill:'#c9930a' },
+    { id:'arr-doctrine', fill:'var(--purple)' },
+    { id:'arr-mixed',    fill:'#5b8dd9' },
+    { id:'arr-blocker',  fill:'var(--orange)' },
+    { id:'arr-disabled', fill:'#888' },
+  ];
+  markerDefs.forEach(({ id, fill }) => {
+    const m = document.createElementNS(NS, 'marker');
+    m.setAttribute('id', id);
+    m.setAttribute('viewBox', '0 0 10 10');
+    m.setAttribute('refX', '9'); m.setAttribute('refY', '5');
+    m.setAttribute('markerWidth', '6'); m.setAttribute('markerHeight', '6');
+    m.setAttribute('orient', 'auto-start-reverse');
+    const p = document.createElementNS(NS, 'path');
+    p.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z');
+    p.setAttribute('fill', fill);
+    m.appendChild(p); defs.appendChild(m);
+  });
+
+  // Glow filter for particles
+  const glow = document.createElementNS(NS, 'filter');
+  glow.setAttribute('id', 'particle-glow');
+  glow.setAttribute('x', '-30%'); glow.setAttribute('y', '-30%');
+  glow.setAttribute('width', '160%'); glow.setAttribute('height', '160%');
+  const fe = document.createElementNS(NS, 'feGaussianBlur');
+  fe.setAttribute('stdDeviation', '2.5'); fe.setAttribute('result', 'blur');
+  const feMerge = document.createElementNS(NS, 'feMerge');
+  const m1 = document.createElementNS(NS, 'feMergeNode'); m1.setAttribute('in', 'blur');
+  const m2 = document.createElementNS(NS, 'feMergeNode'); m2.setAttribute('in', 'SourceGraphic');
+  feMerge.appendChild(m1); feMerge.appendChild(m2);
+  glow.appendChild(fe); glow.appendChild(feMerge);
+  defs.appendChild(glow);
+
+  // Per-edge linearGradients
+  const zoneColors: Record<string, string> = {
+    source:'#4a7c4a', ingest:'#5b8dd9', merge:'#7c3aed',
+    store:'#7c3aed', augment:'#c08020', consume:'#888', 'source-lib':'#5b8dd9',
+  };
+  EDGES.forEach((edge, i) => {
+    const fn = NODES[edge.from], tn = NODES[edge.to];
+    if (!fn || !tn) return;
+    const from = portCoord(fn, edge.fp || 'right');
+    const to   = portCoord(tn, edge.tp || 'left');
+    const grad = document.createElementNS(NS, 'linearGradient');
+    grad.setAttribute('id', `eg${i}`);
+    grad.setAttribute('gradientUnits', 'userSpaceOnUse');
+    grad.setAttribute('x1', String(from.x)); grad.setAttribute('y1', String(from.y));
+    grad.setAttribute('x2', String(to.x));   grad.setAttribute('y2', String(to.y));
+    const s1 = document.createElementNS(NS, 'stop');
+    s1.setAttribute('offset', '0%');
+    s1.setAttribute('stop-color', zoneColors[fn.zone] || '#888');
+    const s2 = document.createElementNS(NS, 'stop');
+    s2.setAttribute('offset', '100%');
+    s2.setAttribute('stop-color', zoneColors[tn.zone] || '#888');
+    grad.appendChild(s1); grad.appendChild(s2);
+    defs.appendChild(grad);
+  });
+  svg.appendChild(defs);
+
+  const particleColors: Record<string, string> = {
+    quran:'#4a7c4a', hadith:'#c9930a', doctrine:'#7c3aed', mixed:'#5b8dd9', blocker:'#c08020',
+  };
+
+  EDGES.forEach((edge, i) => {
+    const fn = NODES[edge.from], tn = NODES[edge.to];
+    if (!fn || !tn) return;
+
+    const from = portCoord(fn, edge.fp || 'right');
+    const to   = portCoord(tn, edge.tp || 'left');
+    const dy   = to.y - from.y;
+    const cp1y = from.y + dy * 0.5;
+    const cp2y = to.y   - dy * 0.5;
+    const d    = `M ${from.x} ${from.y} C ${from.x} ${cp1y} ${to.x} ${cp2y} ${to.x} ${to.y}`;
+    const style = edge.style || 'mixed';
+
+    // Wide invisible hit-area
+    const bg = document.createElementNS(NS, 'path');
+    bg.setAttribute('d', d); bg.setAttribute('fill', 'none');
+    bg.setAttribute('stroke', 'transparent'); bg.setAttribute('stroke-width', '14');
+    bg.dataset.idx = String(i); bg.dataset.types = (edge.types||[]).join(','); bg.dataset.style = style;
+    svg.appendChild(bg);
+
+    // The main edge path — with gradient stroke
+    const path = document.createElementNS(NS, 'path');
+    path.setAttribute('id', `edge-path-${i}`);
+    path.setAttribute('d', d);
+    path.setAttribute('class', `edge-path t-${style} flowing`);
+    path.setAttribute('marker-end', `url(#arr-${style})`);
+    if (style !== 'blocker' && style !== 'disabled') {
+      path.setAttribute('stroke', `url(#eg${i})`);
+      path.style.stroke = `url(#eg${i})`;
+    }
+    path.dataset.idx   = String(i);
+    path.dataset.types = (edge.types||[]).join(',');
+    path.dataset.style = style;
+    svg.appendChild(path);
+
+    // Edge label
+    if (edge.label) {
+      const mx = from.x + (to.x - from.x) * 0.5 + 12;
+      const my = from.y + (to.y - from.y) * 0.5;
+      const t  = document.createElementNS(NS, 'text');
+      t.setAttribute('x', String(mx)); t.setAttribute('y', String(my));
+      t.setAttribute('text-anchor', 'middle'); t.setAttribute('class', 'edge-label');
+      t.dataset.idx = String(i); t.textContent = edge.label;
+      svg.appendChild(t);
+    }
+
+    // Animated particles (skip disabled)
+    if (style !== 'disabled') {
+      const pColor = particleColors[style] || particleColors[(edge.types||[])[0]] || '#888';
+      const dur    = style === 'blocker' ? '4s' : '2.8s';
+      for (let p = 0; p < 2; p++) {
+        const circle = document.createElementNS(NS, 'circle');
+        circle.setAttribute('r', style === 'blocker' ? '4.5' : '3.5');
+        circle.setAttribute('fill', pColor);
+        circle.setAttribute('class', 'edge-particle');
+        circle.setAttribute('filter', 'url(#particle-glow)');
+
+        const motion = document.createElementNS(NS, 'animateMotion');
+        motion.setAttribute('dur', dur);
+        motion.setAttribute('begin', `${i * 0.3 + p * (parseFloat(dur) * 0.5)}s`);
+        motion.setAttribute('repeatCount', 'indefinite');
+        motion.setAttribute('rotate', 'auto');
+        motion.setAttribute('calcMode', 'spline');
+        motion.setAttribute('keyTimes', '0;1');
+        motion.setAttribute('keySplines', '0.4 0 0.6 1');
+        const mpath = document.createElementNS(NS, 'mpath');
+        mpath.setAttribute('href', `#edge-path-${i}`);
+        motion.appendChild(mpath);
+
+        const fadeIn = document.createElementNS(NS, 'animate');
+        fadeIn.setAttribute('attributeName', 'opacity');
+        fadeIn.setAttribute('values', '0;0;1;1;0;0');
+        fadeIn.setAttribute('keyTimes', '0;0.05;0.15;0.85;0.95;1');
+        fadeIn.setAttribute('dur', dur);
+        fadeIn.setAttribute('begin', `${i * 0.3 + p * (parseFloat(dur) * 0.5)}s`);
+        fadeIn.setAttribute('repeatCount', 'indefinite');
+
+        circle.appendChild(motion);
+        circle.appendChild(fadeIn);
+        svg.appendChild(circle);
+      }
+    }
+  });
+
+  canvas.appendChild(svg);
+}
+
+/* =========================================================
+   DETAIL PANEL
+   ========================================================= */
+function openDetail(id: string) {
+  const n = NODES[id]; if (!n || !n.detail) return;
+  const d = n.detail;
+
+  const atomBadges = (n.atoms||[]).map((a: string) => `<span class="atom-badge ${a}">● ${a}</span>`).join('');
+  const chipHTML   = (n.chips||[]).filter((c: {cls: string; text: string}) => c.cls).map((c: {cls: string; text: string}) =>
+    `<span class="status-chip status-chip-sp ${c.cls}">${c.text}</span>`
+  ).join('');
+
+  const kvHTML = d.kv ? `
+    <div class="detail-section">
+      <h3>Key facts</h3>
+      <div class="detail-kv">
+        ${d.kv.map((r: Record<string, string>) => `<div class="kv-row"><div class="k">${r.k}</div><div class="v">${r.v}</div></div>`).join('')}
+      </div>
+    </div>` : '';
+
+  const cliHTML = d.cli ? `
+    <div class="detail-section">
+      <h3>CLI</h3>
+      <pre class="detail-code">${d.cli.join('\n')}</pre>
+    </div>` : '';
+
+  const sectHTML = (d.sections||[]).map((s: Record<string, any>) => `
+    <div class="detail-section">
+      <h3>${s.title}</h3>
+      <div class="body">${s.body}</div>
+    </div>`).join('');
+
+  const mergeHTML = d.mergeOutcomes ? `
+    <div class="detail-section">
+      <h3>Four merge outcomes</h3>
+      <table class="outcome-table">
+        <thead><tr><th>Outcome</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td>new</td><td>INSERT into knowledge_atoms + new atom_sources row</td></tr>
+          <tr><td>duplicate</td><td>Existing row unchanged; INSERT new atom_sources provenance row</td></tr>
+          <tr><td>variant</td><td>Same canonical ID, different text_en — INSERT new knowledge_atoms row with variant marker</td></tr>
+          <tr><td>conflict</td><td>Differing text_ar or hadith grade — write to manual_review_queue and halt phase</td></tr>
+        </tbody>
+      </table>
+    </div>` : '';
+
+  const tableGroupHTML = d.tableGroups ? `
+    <div class="detail-section">
+      <h3>Table groups</h3>
+      <table class="outcome-table">
+        <thead><tr><th>Group</th><th>Tables (count)</th></tr></thead>
+        <tbody>
+          <tr><td>Core (6)</td><td>books, chapters, episodes, phonetics, pipeline_runs, cost_ledger</td></tr>
+          <tr><td>Knowledge (6)</td><td>knowledge_atoms, atom_sources, atom_topic_tags, external_corpora, topic_type_taxonomy, corpus_chapters</td></tr>
+          <tr><td>Quality (1)</td><td>challenger_findings</td></tr>
+          <tr><td>Etymology (3)</td><td>arabic_roots, word_etymologies, letter_profiles</td></tr>
+        </tbody>
+      </table>
+    </div>` : '';
+
+  const blockerHTML = d.blocker ? `
+    <div class="intel-blocker-row">
+      <span class="status-chip blocker">⛔ BLOCKER — OPEN</span>
+    </div>` : '';
+
+  const overlay   = document.getElementById('detailOverlay') as HTMLElement;
+  const panel     = document.getElementById('detailPanel') as HTMLElement;
+  const detailEl  = document.getElementById('detailContent') as HTMLElement;
+
+  detailEl.innerHTML = `
+    <h2 id="detailHeading">${d.title}</h2>
+    <div class="detail-zone-label">${d.zone}</div>
+    ${blockerHTML}
+    ${chipHTML ? `<div class="intel-chips-row">${chipHTML}</div>` : ''}
+    <div class="detail-atom-badges">${atomBadges}</div>
+    <p class="detail-desc">${d.desc}</p>
+    ${kvHTML}${mergeHTML}${tableGroupHTML}${cliHTML}${sectHTML}
+  `;
+
+  overlay.removeAttribute('hidden');
+  overlay.setAttribute('aria-hidden', 'false');
+  panel.focus();
+}
+
+function closeDetail() {
+  const overlay = document.getElementById('detailOverlay') as HTMLElement;
+  overlay?.setAttribute('hidden', '');
+  overlay?.setAttribute('aria-hidden', 'true');
+}
+
+/* =========================================================
+   FILTER LOGIC
+   ========================================================= */
+document.getElementById('filterBar')?.addEventListener('click', e => {
+  const btn = (e.target as HTMLElement)?.closest('.filter-btn') as HTMLElement | null;
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-pressed', 'false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
+  applyFilter(btn.dataset.filter ?? '');
+});
+
+function applyFilter(filter: string) {
+  const allEdges  = document.querySelectorAll<HTMLElement>('.edge-path');
+  const allNodes  = document.querySelectorAll<HTMLElement>('.dnode');
+  const allLabels = document.querySelectorAll<HTMLElement>('.edge-label');
+
+  if (filter === 'all') {
+    allEdges.forEach(p  => p.classList.remove('dimmed'));
+    allNodes.forEach(n  => n.classList.remove('dimmed'));
+    allLabels.forEach(l => { l.style.opacity = ''; });
+    return;
+  }
+
+  allEdges.forEach(p => {
+    const types = (p.dataset.types || '').split(',');
+    const style = p.dataset.style || '';
+    const keep  = types.includes(filter) || style === 'blocker';
+    p.classList.toggle('dimmed', !keep);
+  });
+
+  allNodes.forEach(n => {
+    const atoms = (n.dataset.atoms || '').split(',');
+    n.classList.toggle('dimmed', !atoms.includes(filter));
+  });
+
+  allLabels.forEach(l => {
+    const idx  = parseInt(l.dataset.idx ?? '', 10);
+    const edge = EDGES[idx];
+    const keep = edge && (edge.types||[]).includes(filter);
+    l.style.opacity = keep ? '' : '0.1';
+  });
+}
+
+/* =========================================================
+   CLOSE / KEYBOARD
+   ========================================================= */
+document.getElementById('detailClose')?.addEventListener('click', closeDetail);
+document.getElementById('detailOverlay')?.addEventListener('click', e => {
+  if (e.target === document.getElementById('detailOverlay')) closeDetail();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+
+/* =========================================================
+   TOOLTIP
+   ========================================================= */
+const tooltip = document.getElementById('nodeTooltip') as HTMLElement;
+function showTooltip(id: string, el: HTMLElement) {
+  const n = NODES[id]; if (!n) return;
+  tooltip.innerHTML = `<strong>${n.label}</strong>${n.tooltip ? n.tooltip : ''}`;
+  const rect = el.getBoundingClientRect();
+  const wrapRect = (document.querySelector('.diagram-wrap') as HTMLElement).getBoundingClientRect();
+  const tx = rect.left - wrapRect.left;
+  const ty = rect.top  - wrapRect.top - 10;
+  tooltip.style.left = `${tx}px`;
+  tooltip.style.top  = `${ty - tooltip.offsetHeight || ty - 60}px`;
+  tooltip.classList.add('visible');
+  tooltip.removeAttribute('aria-hidden');
+}
+function hideTooltip() {
+  tooltip.classList.remove('visible');
+  tooltip.setAttribute('aria-hidden', 'true');
+}
+
+/* =========================================================
+   ZOOM / PAN
+   ========================================================= */
+let zoom = 1; const ZOOM_MIN = 0.35, ZOOM_MAX = 2.0, ZOOM_STEP = 0.15;
+const canvasEl = document.getElementById('canvas') as HTMLElement;
+const svgEl    = document.getElementById('edgeSvg') as HTMLElement | null;
+
+function applyZoom() {
+  if (!canvasEl) return;
+  canvasEl.style.transformOrigin = 'top center';
+  canvasEl.style.transform = `scale(${zoom})`;
+  if (svgEl) { svgEl.style.transformOrigin = 'top center'; svgEl.style.transform = `scale(${zoom})`; }
+  const zoomLevelEl = document.getElementById('zoomLevel');
+  if (zoomLevelEl) zoomLevelEl.textContent = `${Math.round(zoom * 100)}%`;
+}
+document.getElementById('zoomIn')?.addEventListener('click', () => {
+  zoom = Math.min(ZOOM_MAX, zoom + ZOOM_STEP); applyZoom();
+});
+document.getElementById('zoomOut')?.addEventListener('click', () => {
+  zoom = Math.max(ZOOM_MIN, zoom - ZOOM_STEP); applyZoom();
+});
+document.getElementById('zoomReset')?.addEventListener('click', () => {
+  zoom = 1; applyZoom();
+});
+// Ctrl+wheel to zoom
+document.querySelector('.diagram-wrap')?.addEventListener('wheel', (e: Event) => {
+  const we = e as WheelEvent;
+  if (!we.ctrlKey && !we.metaKey) return;
+  we.preventDefault();
+  zoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoom - we.deltaY * 0.001));
+  applyZoom();
+}, { passive: false });
+
+/* =========================================================
+   INIT
+   ========================================================= */
+const canvas = document.getElementById('canvas') as HTMLElement;
+if (canvas) {
+  renderZones(canvas);
+  renderNodes(canvas);
+  renderEdges(canvas);
+}
+</script>
+
+</Base>

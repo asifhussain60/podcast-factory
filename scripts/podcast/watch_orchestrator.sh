@@ -33,8 +33,41 @@ done
 REPO_ROOT="$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
 PYTHON=/usr/bin/python3
 ORCH="$REPO_ROOT/scripts/podcast/orchestrate_book.py"
-STATE="$REPO_ROOT/content/drafts/$SLUG/_system/orchestrator-state.json"
-SENTINEL="$REPO_ROOT/content/drafts/$SLUG/_system/watchdog.json"
+
+# Resolve state file path via _paths.find_content() so non-books categories
+# (sites, lectures, articles, etc.) are found at their canonical location
+# content/drafts/<category>/<slug>/ rather than the legacy flat path.
+_CONTENT_DIR=$(cd "$REPO_ROOT" && $PYTHON - <<'PYEOF' 2>/dev/null
+import sys, os
+sys.path.insert(0, 'scripts/podcast')
+from _paths import find_content
+slug = os.environ.get('_WD_SLUG', '')
+r = find_content(slug)
+if r:
+    print(r[2])
+PYEOF
+)
+export _WD_SLUG="$SLUG"
+_CONTENT_DIR=$(cd "$REPO_ROOT" && _WD_SLUG="$SLUG" $PYTHON - <<'PYEOF' 2>/dev/null
+import sys, os
+sys.path.insert(0, 'scripts/podcast')
+from _paths import find_content
+slug = os.environ.get('_WD_SLUG', '')
+r = find_content(slug)
+if r:
+    print(r[2])
+PYEOF
+)
+
+if [[ -n "$_CONTENT_DIR" ]]; then
+    STATE="$_CONTENT_DIR/_system/orchestrator-state.json"
+    SENTINEL="$_CONTENT_DIR/_system/watchdog.json"
+else
+    # Fallback: legacy flat path (books category, pre-2026-05-26 layout)
+    STATE="$REPO_ROOT/content/drafts/$SLUG/_system/orchestrator-state.json"
+    SENTINEL="$REPO_ROOT/content/drafts/$SLUG/_system/watchdog.json"
+fi
+
 LOG_DIR="$REPO_ROOT/_workspace/logs"
 LOG="$LOG_DIR/orchestrator-$SLUG.log"
 

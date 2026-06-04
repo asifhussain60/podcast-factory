@@ -1,0 +1,146 @@
+---
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import Base from '../layouts/Base.astro';
+import CorpusExplorer from '../components/corpus-mock/CorpusExplorer.tsx';
+import {
+  SCHEMA_GROUPS, CORPORA, TRADITIONS, CORPUS_TOTALS,
+} from '../data/corpus-mock-sample';
+import { listAtoms, dbTotals } from '../lib/db/knowledge';
+import '../styles/corpus-mock.css';
+
+// M-2: Load atoms directly from knowledge.db (non-Quran, first 1,000 for the explorer).
+// Fall back to the pre-generated JSON index if the DB is unreachable.
+let liveAtoms: any[] | undefined;
+let liveTotals: { total: number; byType: Record<string, number>; byTradition: Record<string, number> } | undefined;
+try {
+  const result = listAtoms({ includeQuran: false, pageSize: 1000 });
+  liveAtoms = result.atoms;
+  liveTotals = dbTotals();
+} catch { /* DB unreachable — will fall through to JSON index below */ }
+
+// Load concept metadata from the pre-generated index (concept labels + Arabic + synonyms).
+// Atom bodies come from the DB above; concepts come from the index (concept_index.py output).
+let realConcepts: any[] | undefined;
+let realAtoms: any[] | undefined;
+let realCoverage: any;
+try {
+  const p = fileURLToPath(new URL('../../../content/knowledge-base/_index/concepts.json', import.meta.url));
+  const idx = JSON.parse(readFileSync(p, 'utf-8'));
+  realConcepts = idx.concepts;
+  // Use JSON-index atoms only as fallback when DB is unreachable.
+  if (!liveAtoms) realAtoms = idx.atoms;
+  realCoverage = idx.coverage;
+} catch { /* sample fallback */ }
+
+// Prefer live DB atoms; fall back to JSON-index atoms; fall back to mock (handled in island).
+const finalAtoms = liveAtoms ?? realAtoms;
+const usingLive = Array.isArray(liveAtoms) && liveAtoms.length > 0;
+const usingReal = usingLive || (Array.isArray(realConcepts) && realConcepts.length > 0);
+
+// Live type counts (M-2): use DB totals when available, else mock constants.
+const byType = liveTotals?.byType ?? (CORPUS_TOTALS.byType as Record<string, number>);
+const typeKeys = Object.keys(byType);
+---
+<Base
+  title="Corpus Explorer — Consolidated knowledge.db"
+  active="corpus"
+  section="knowledge"
+  description="Explore the consolidated wisdom corpus (knowledge.db): the data model, the tradition firewall, and a concept-first faceted search + atom-augmentation surface over the live concept index.">
+
+<div class="cm">
+  <header class="cm-hero">
+    <span class="eyebrow">Knowledge · Corpus Explorer</span>
+    <h1>Consolidated Wisdom Corpus</h1>
+    <p class="lede">
+      What <code>knowledge.db</code> looks like after the three source databases (KQUR · KASHKOLE · KSESSIONS)
+      were folded into one tradition-stamped corpus — and how you search it concept-first and pick atoms to augment a chapter.
+    </p>
+    {usingLive
+      ? <span class="cm-mockflag">● LIVE DB — {(liveTotals?.total ?? 0).toLocaleString()} atoms in knowledge.db · {(realConcepts?.length ?? 0)} concepts from _index</span>
+      : usingReal
+        ? <span class="cm-mockflag">● LIVE index — {realConcepts!.length} concepts over {realCoverage?.concept_mapped ?? '—'} mapped atoms · concepts.json</span>
+        : <span class="cm-mockflag">● sample data — run scripts/podcast/intelligence/concept_index.py to generate the live index</span>}
+  </header>
+
+  <!-- ============ CONSOLIDATED TOTALS ============ -->
+  <section class="cm-section">
+    <h2>What consolidation produces</h2>
+    <p class="sub">Verified by a temp-copy apply of the WC1 importers — additive over the existing 696 atoms, fully idempotent.</p>
+    <div class="cm-stats">
+      <div class="cm-stat"><div class="n">{(liveTotals?.total ?? CORPUS_TOTALS.atoms).toLocaleString()}</div><div class="k">atoms in knowledge.db</div></div>
+      <div class="cm-stat"><div class="n">{CORPUS_TOTALS.externalCorpora}</div><div class="k">external corpora</div></div>
+      <div class="cm-stat"><div class="n">{CORPUS_TOTALS.corpusChapters}</div><div class="k">corpus chapters</div></div>
+      <div class="cm-stat"><div class="n">3</div><div class="k">traditions (firewalled)</div></div>
+    </div>
+    <div class="cm-stats">
+      {typeKeys.map((t) => (
+        <div class="cm-stat">
+          <div class="n"><span class={`cm-badge type-${t}`}>{t}</span></div>
+          <div class="k tight">{byType[t].toLocaleString()} atoms</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ============ SOURCE → CORPUS REGISTRY ============ -->
+  <section class="cm-section">
+    <h2>Source corpora (external_corpora)</h2>
+    <p class="sub">Each of the three databases becomes a registered corpus; the wisdom binder pipeline already seeded the 628 doctrine atoms.</p>
+    <div class="cm-grouprow">
+      {CORPORA.map((c) => (
+        <div class="cm-group">
+          <h3>{c.display_name}</h3>
+          <div class="cm-tablecard">
+            <div class="tn">{c.id}<span class="rows">{c.atom_count.toLocaleString()} atoms</span></div>
+            <div class="tp">type: {c.corpus_type}</div>
+            <div class="tc">source: {c.source}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ============ TRADITION FIREWALL ============ -->
+  <section class="cm-section">
+    <h2>Tradition firewall (D5)</h2>
+    <p class="sub">Every atom carries a tradition; injection is tradition-filtered so nothing leaks across traditions.</p>
+    <div class="cm-legend">
+      {TRADITIONS.map((t) => (
+        <div class={`cm-trad ${t.id}`}>
+          <div class="tt">{t.label}</div>
+          <div class="td">{t.note}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ============ SCHEMA MODEL ============ -->
+  <section class="cm-section">
+    <h2>The model in knowledge.db</h2>
+    <p class="sub">The corpus lives in the existing scaffolded tables — no new database file. Row counts are the post-consolidation totals.</p>
+    <div class="cm-grouprow">
+      {SCHEMA_GROUPS.map((g) => (
+        <div class={`cm-group ${g.accent}`}>
+          <h3>{g.group}</h3>
+          <div class="cm-table">
+            {g.tables.map((tbl) => (
+              <div class="cm-tablecard">
+                <div class="tn">{tbl.name}<span class="rows">{typeof tbl.rows === 'number' ? tbl.rows.toLocaleString() : tbl.rows} rows</span></div>
+                <div class="tp">{tbl.purpose}</div>
+                <div class="tc">{tbl.cols}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ============ INTERACTIVE: SEARCH + AUGMENT ============ -->
+  <!-- M-2: finalAtoms = live DB atoms (non-Quran, up to 1,000) with content_level; -->
+  <!--       realConcepts = concept metadata from _index/concepts.json.             -->
+  <CorpusExplorer client:only="react" concepts={realConcepts} atoms={finalAtoms} />
+</div>
+
+</Base>

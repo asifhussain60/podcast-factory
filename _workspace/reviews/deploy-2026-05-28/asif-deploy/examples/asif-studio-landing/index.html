@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ASIF Studio</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --panel: #171a21;
+      --text: #f4f4f5;
+      --muted: #a1a1aa;
+      --line: #2a2f3a;
+      --accent: #f59e0b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(245, 158, 11, 0.14), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(251, 191, 36, 0.08), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 32px;
+    }
+    main {
+      width: min(960px, 100%);
+      background: rgba(23, 26, 33, 0.88);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: clamp(28px, 5vw, 56px);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.32);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fde68a;
+      background: rgba(245, 158, 11, 0.08);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: clamp(40px, 7vw, 84px);
+      line-height: 0.95;
+      margin: 0 0 20px;
+      letter-spacing: -0.06em;
+    }
+    p {
+      color: var(--muted);
+      font-size: clamp(17px, 2.2vw, 22px);
+      line-height: 1.6;
+      max-width: 760px;
+      margin: 0 0 32px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 36px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 20px;
+      background: rgba(255,255,255,0.03);
+    }
+    .card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+    .card span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    code {
+      color: #fde68a;
+      background: rgba(245, 158, 11, 0.08);
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+    @media (max-width: 760px) {
+      body { padding: 18px; }
+      main { border-radius: 22px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="badge">ASIF Studio · Cloudflare Pages</div>
+    <h1>Rich HTML previews, hosted cleanly.</h1>
+    <p>
+      This is the landing page for <strong>asif-studio</strong>, a reusable Cloudflare Pages space
+      for hosting generated HTML pages, proposals, demos, walkthroughs, and visual artifacts.
+    </p>
+    <p>
+      Future pages can be added as folders, for example:
+      <code>/salty-lamps/</code>, <code>/proposals/</code>, or <code>/demos/</code>.
+    </p>
+
+    <section class="grid" aria-label="ASIF Studio uses">
+      <div class="card">
+        <strong>Proposals</strong>
+        <span>Executive-ready HTML proposals and client-facing summaries.</span>
+      </div>
+      <div class="card">
+        <strong>Previews</strong>
+        <span>Mobile-friendly rendered pages for review before final delivery.</span>
+      </div>
+      <div class="card">
+        <strong>Artifacts</strong>
+        <span>Reusable generated outputs from CORTEX and ASIF workflows.</span>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

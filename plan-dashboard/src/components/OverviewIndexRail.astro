@@ -1,0 +1,38 @@
+---
+/**
+ * OverviewIndexRail — WC6e, Overview diagram 0.4 ("Where to go next").
+ * Audience-labelled links into every drill-down view. Navigation is links, so
+ * this is an HTML list (Cortex REQ-056 right-form-first), NOT a drawn SVG.
+ * Styling external (.idx-* in theme.css); zero inline style.
+ */
+import AudienceBadge from './AudienceBadge.astro';
+
+type Tier = 'you' | 'teams' | 'both';
+interface Dest { href: string; title: string; blurb: string; tier: Tier; }
+
+const destinations: Dest[] = [
+  { href: '/system-map',     title: 'System map',     tier: 'both',  blurb: 'How the corpus, access layer, pipeline and reader fit together.' },
+  { href: '/architecture',   title: 'Architecture',   tier: 'both',  blurb: 'How a book becomes a podcast, station by station.' },
+  { href: '/intelligence',   title: 'Intelligence',   tier: 'both',  blurb: 'How the factory learns and reuses knowledge across books.' },
+  { href: '/quality',        title: 'Quality',        tier: 'both',  blurb: 'The two review gates and the per-episode scoring.' },
+  { href: '/annotation-ops', title: 'Annotation',     tier: 'both',  blurb: 'How verse and term markers are generated and reviewed.' },
+  { href: '/infrastructure', title: 'Infrastructure', tier: 'teams', blurb: 'Where everything runs and which services it depends on.' },
+  { href: '/db-schema',      title: 'Database',       tier: 'teams', blurb: 'The knowledge-base entity model and atom lifecycle.' },
+  { href: '/security',       title: 'Security',       tier: 'teams', blurb: 'Trust boundaries, the tradition firewall, secret handling.' },
+  { href: '/plan',           title: 'Plan',           tier: 'you',   blurb: 'The roadmap and how the waves of work depend on each other.' },
+  { href: '/wisdom',         title: 'Wisdom Corpus',  tier: 'you',   blurb: 'Browse and curate the shared knowledge base.' },
+  { href: '/library',        title: 'Bookshelf',      tier: 'you',   blurb: 'Read every published and in-progress book in the reader.' },
+];
+---
+<nav class="idx-grid" aria-label="Where to go next">
+  {destinations.map((d) => (
+    <a href={d.href} class="idx-card">
+      <span class="idx-card-head">
+        <span class="idx-card-title">{d.title}</span>
+        <AudienceBadge tier={d.tier} />
+      </span>
+      <span class="idx-card-blurb">{d.blurb}</span>
+      <span class="idx-card-go" aria-hidden="true">Open →</span>
+    </a>
+  ))}
+</nav>

@@ -44,9 +44,35 @@ vs. substring list); the canonical data itself is plain Python literals.
 # tradition-conditional R-NO-ESSENTIALISM-EXTERNAL (active only when
 # series-config.yaml.source_tradition != the episode's subject tradition).
 # The LLM-grade rubric extension (§3 religious literacy, §4 philosophical
-# rigor, §6 interfaith) lives in prompts/gemini-bundle-auditor.md so both
+# rigor, §6 interfaith) lives in _workspace/prompts/gemini-bundle-auditor.md so both
 # auditors see it. See F30 / scholarly-rubric integration trail on develop.
-CHALLENGER_VERSION = "2.2"
+CHALLENGER_VERSION = "2.4"  # Wave L: Category W (augmentation quality)
+
+# ─── Category W (Wave L) — augmentation-quality checks. Guards that knowledge
+# augmentation enriches genuine gaps naturally (never forced), respects the book's
+# content level, draws only real atoms, weaves etymology in spoken form (≤3/chapter,
+# never spelling Arabic letters), and never repeats an atom across chapters.
+# Implemented deterministically in _augmentation.py (W3–W6 mechanical; W1–W2 light
+# heuristic + agent judgment). Severities:
+#   W1 forced/no-gap augmentation     P1  (auto-revert the block)
+#   W2 unnatural / bolted-on phrasing P1  (auto-revert the block)
+#   W3 etymology cap/spoken-form      P1
+#   W4 doctrine atom above book level P0  (wrong-level leak — hard block)
+#   W5 fabricated atom (not in DB)    P0  (integrity — hard block)
+#   W6 atom repeated across chapters  P1
+R_AUGMENT_ETYMOLOGY_MAX_PER_CHAPTER = 3
+# Arabic Unicode ranges that must NEVER appear in an etymology spoken-form aside.
+R_AUGMENT_ARABIC_RANGES = (
+    (0x0600, 0x06FF), (0x0750, 0x077F), (0x08A0, 0x08FF),
+    (0xFB50, 0xFDFF), (0xFE70, 0xFEFF),
+)
+# Block-header substrings the challenger scans for in augmented episode text.
+R_AUGMENT_BLOCK_HEADERS = {
+    "doctrine": "[PRIOR DOCTRINAL CONTEXT",
+    "term": "[TERM GLOSSARY",
+    "quote": "[ATTRIBUTED SAYINGS",
+    "etymology": "[ETYMOLOGY",
+}
 
 # ─── R-HOST-ROLE-PARITY (P0 2026-05-24) — host roles are locked book-wide.
 # Host A is always the scholar/teacher. Host B is always the seeker/student/
@@ -109,7 +135,71 @@ SLIDE_DECK_CHALLENGER_VERSION = "1.0"
 # scaffold_book.py, ingest_source.py, audit_page_markers.py per AU-X1-001 in
 # audit report 2026-05-23-204940. Consumers now `from _rules import ALLOWED_CATEGORIES`.
 # Tuple chosen for immutability + argparse `choices=` compatibility.
-ALLOWED_CATEGORIES = ("books", "articles", "documents", "lectures", "interviews", "letters")
+ALLOWED_CATEGORIES = ("books", "articles", "documents", "lectures", "interviews", "letters", "asbaaq", "sites", "explainers")
+# `explainers` — professional / consumer explainer content: employee onboarding, product docs,
+# system walkthroughs, consumer guides. `sites` continues to work for existing content;
+# `explainers` is the preferred category for new content of this type.
+
+# Categories that skip the phonetic pass (0c) and the doctrinal enrichment pass (0e).
+# Consumer/explainer content has no Arabic transliteration requirements and no
+# tradition-specific doctrinal context to inject.
+CONSUMER_CATEGORIES: frozenset[str] = frozenset({"sites", "explainers"})
+
+# ─── Content-profile system (Wave CP) — declares how a book moves through the pipeline.
+# Every book declares `content_profile` in its series-config.yaml; missing field defaults
+# to `islamic_scholarly` so all existing books are unaffected. Profiles drive:
+#   - assertion gating in build_episode_txt.py (Arabic checks skipped for non-Islamic)
+#   - phase 0c phonetics (no-op for non-islamic_scholarly, already handled via CONSUMER_CATEGORIES)
+#   - challenger rule selection (only islamic_scholarly gets Arabic name/citation checks)
+CONTENT_PROFILES: tuple[str, ...] = (
+    "islamic_scholarly",   # default; all existing books; full pipeline including Arabic checks
+    "consumer_explainer",  # consumer/product/onboarding content; no Arabic assertions; phonetics skipped
+    "general_nonfiction",  # future: balanced non-fiction; selective enrichment only
+)
+ISLAMIC_SCHOLARLY_PROFILE = "islamic_scholarly"
+
+# ─── Content-level ladder (Wave M) — ISLAMIC scholarly books only. Single source
+# of truth for category-gated augmentation. A book declaring `content_level` in
+# meta.yml draws doctrine atoms ONLY at or below its own level (cumulative
+# downward), never above. Mirrors the Kashkole Lookup_levels spiritual hierarchy
+# from most accessible (general) to most metaphysical (haqaiq).
+#
+# `universal` sits OUTSIDE the ladder — always eligible at every level. It is the
+# permanent value for Quran/Hadith/Term/Etymology atoms (universal resources,
+# never level-gated) and the eligible-everywhere marker for doctrine atoms.
+# NULL (absent) = non-Islamic book OR uncategorized atom: no gate applied.
+#
+# CONTENT_LEVEL_LADDER is ordered low→high; index = rank. allowed_content_levels()
+# returns {levels 0..rank(book_level)} for the cumulative-downward query clause.
+CONTENT_LEVEL_LADDER: tuple[str, ...] = (
+    "general",      # narrative / historical accounts
+    "advanced",     # advanced scholarly; legal analysis; formal exoteric commentary
+    "taveel",       # ta'wil: allegorical / esoteric interpretation (batin)
+    "mamsool",      # parables / exemplars: teaching the esoteric through analogy
+    "mabda_maad",   # origin-and-return: cosmological doctrine, cosmic intellects
+    "haqaiq",       # essential realities: eternal metaphysical truths (deepest)
+)
+CONTENT_LEVELS: frozenset[str] = frozenset(CONTENT_LEVEL_LADDER) | {"universal"}
+
+
+def allowed_content_levels(book_level: str | None) -> list[str]:
+    """Return the doctrine-atom content levels a book at *book_level* may draw from.
+
+    Cumulative downward: a book at rank N is eligible for every ladder level at
+    or below N, plus 'universal'. Returns an empty list when *book_level* is None
+    or unrecognized (caller then applies NO content-level gate — the non-Islamic /
+    uncategorized path, preserving pre-Wave-L behavior).
+
+    Examples:
+        allowed_content_levels('taveel')    -> ['general','advanced','taveel','universal']
+        allowed_content_levels('haqaiq')    -> ['general','advanced','taveel','mamsool','mabda_maad','haqaiq','universal']
+        allowed_content_levels('general')   -> ['general','universal']
+        allowed_content_levels(None)        -> []
+    """
+    if not book_level or book_level not in CONTENT_LEVEL_LADDER:
+        return []
+    rank = CONTENT_LEVEL_LADDER.index(book_level)
+    return list(CONTENT_LEVEL_LADDER[: rank + 1]) + ["universal"]
 
 # ─── Learning substrate root (relative to repo root). Used by all four
 # learning scripts (aggregate, propose, test, health writer) and by the
@@ -213,11 +303,11 @@ AI_CLICHE_DENY = [
 # `## Opening` section and to the first paragraph of any chapter file.
 FAUX_PROFUNDITY_OPENING_PATTERNS = [
     r"can we find meaning",
-    r"what does it (truly )?mean to be human",
+    r"what (?:does it (?:truly )?mean|it truly means) to be human",
     r"what does this (truly )?say about",
     r"is there meaning (in|to)",
     r"in a world where",
-    r"in an (?:age|era) (?:of|where)",
+    r"in an (?:age|era)\b",
     r"have you ever (?:wondered|stopped to)",
     r"imagine (?:a world|for a moment)",
     r"picture this[:.]",
@@ -229,7 +319,7 @@ FAUX_PROFUNDITY_OPENING_PATTERNS = [
 # landings of 04-discussion-spine.md. Permitted closing: "we didn't settle
 # this — here's where the live disagreement sits".
 PREMATURE_CLOSURE_PATTERNS = [
-    r"and that(?:'s| is)(?:,| )?\s*ultimately(?:,)?\s*what",
+    r"and that(?:,\s*ultimately,\s*is\s+|(?:'s| is)(?:,| )?\s*ultimately(?:,)?\s*)what",
     r"what (?:the soul|the self|truth|reality|god|allah|the divine) (?:really|truly) is",
     r"the (?:answer|key) (?:turns out to be|is|lies in)",
     r"so (?:in the end|ultimately|at last),?\s*we (?:see|find|understand)",
@@ -386,3 +476,188 @@ def abbreviations_for_build() -> dict[str, str]:
                 pat = rf"\b{a}\b"
             out[pat] = f"{a} (use full title '{full}')"
     return out
+
+
+# ─── Wave I — Noise routing constants ────────────────────────────────────
+# Protected categories: paragraphs matching these are NEVER offered to either
+# noise-routing pass. They are exempt from deletion candidates entirely.
+R_NOISE_PROTECTED_CATEGORIES: frozenset[str] = frozenset({
+    "esoteric", "reality", "quran", "hadith", "poetry", "sharia",
+    "ta_wil", "haqaiq", "daqaiq",
+})
+
+# Structural noise patterns for Pass 1 (zero-cost rule pre-pass).
+# Each tuple: (compiled pattern, reason label).
+import re as _re
+R_NOISE_RULE_PATTERNS: list[tuple] = [
+    (_re.compile(r"^(In the name of|Bismillah|As-salamu|Assalamu)", _re.I),     "greeting-opener"),
+    (_re.compile(r"where (this|the) (chapter|session|lecture) (picks up|continues)", _re.I), "editorial-pickup"),
+    (_re.compile(r"^(Dear (brothers|sisters)|Dear (brothers and sisters))", _re.I), "lecture-greeting"),
+    (_re.compile(r"^(Thank you|Thanks be to (God|Allah)|We thank)", _re.I),     "boilerplate-thanks"),
+    (_re.compile(r"(as we (discussed|mentioned|covered) (in the )?(previous|last))", _re.I), "recap-reference"),
+    (_re.compile(r"^(To (recap|summarise|summarize)|To put it another way)", _re.I), "redundant-recap"),
+    (_re.compile(r"\[Narrator.*?preamble\]|\[Editorial.*?note\]", _re.I),       "editorial-preamble"),
+]
+
+# ─── Wave B — Intelligence layer budget constants ─────────────────────────
+# These are read by intelligence/extractor.py and intelligence/augmenter.py.
+# Max per-chapter cost for the atom extractor (Claude Sonnet structured call).
+R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD_PER_CHAPTER: float = 0.10
+# Max per-book total cost for the atom extractor.
+R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD_PER_BOOK: float = 10.00
+# Confidence threshold below which an extracted atom goes to manual review.
+R_KNOWLEDGE_EXTRACTOR_CONFIDENCE_THRESHOLD: float = 0.70
+# Whether augmentation is enabled by default (must be explicitly turned on per book).
+R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED: bool = False
+
+# ─── SN-7 — Terminus-technicus preservation (Slice 2-fix / K6-pre) ─────────
+# A terminus technicus (precise doctrinal term: tawil, zuhd, farḍ ʿayn, …) is preserved in
+# PHONETIC form on every occurrence, with a brief English gloss permitted on first use only;
+# it is NEVER reduced to an English paraphrase. Orthogonal to R-PHONETICS-OUT: Arabic SCRIPT is
+# still stripped (TTS can't read it); the phonetic form carries the term. Enforced in the
+# denoise+normalize Gemini prompts (gemini_refine.sn7_guard, protect-list from per-book
+# glossary.yml) and audited by podcast-challenger Category D check D6. Standard: house-voice.md §2b.
+R_TERMINUS_PRESERVE: bool = True
+
+# ─── Slice 5c — HOST_ROLE_CONTRACT (host dynamics guardrail) ─────────────────
+# The framing prompt injects this block verbatim to lock host dynamics for the
+# book. Three tiers: teacher/student (default), teacher/questioner (active probe),
+# scholar/debater (K1 Debater carve-out — Host B holds and defends a position).
+# Source: editorial.ts card `host_roles`; the framing builder reads the card
+# value and inserts HOST_ROLE_CONTRACT[preset] into the framing's Host dynamic
+# section. Challenger Category Q validates compliance (Q1–Q5).
+HOST_ROLE_CONTRACT: dict = {
+    "teacher_student": (
+        "HOST ROLES (locked book-wide — R-HOST-ROLE-PARITY): "
+        "Host A (male voice) is the SCHOLAR / TEACHER — explains, contextualises, illuminates. "
+        "Host B (female voice) is the STUDENT / SEEKER — receives, asks, reflects. "
+        "Host B never lectures or corrects Host A. Roles do not rotate across episodes."
+    ),
+    "teacher_questioner": (
+        "HOST ROLES (locked book-wide — R-HOST-ROLE-PARITY): "
+        "Host A (male voice) is the SCHOLAR / TEACHER — explains, contextualises, illuminates. "
+        "Host B (female voice) is the QUESTIONER — actively probes, presses for clarity, "
+        "surfaces tension in the argument. Host B may push back but does not hold an independent "
+        "position. Roles do not rotate across episodes."
+    ),
+    "scholar_debater": (
+        "HOST ROLES (locked book-wide — R-HOST-ROLE-PARITY): "
+        "Host A (male voice) is the SCHOLAR — defends the text's position with evidence. "
+        "Host B (female voice) is the DEBATER — holds and defends a contrary or sceptical "
+        "position drawn from the source. This is DEBATE format (K1 Debater carve-out): "
+        "Host B's position is source-grounded, not invented; she concedes only when Host A "
+        "produces a stronger textual argument. Roles do not rotate across episodes."
+    ),
+}
+# Default when no editorial card is set for this book.
+HOST_ROLE_CONTRACT_DEFAULT = "teacher_student"
+
+# ─── K6 — Interest axis (5th PEQ axis, weight 0.15) ─────────────────────────
+# Curiosity-building, challenge-defeat arcs, modern relevance, and fair framing
+# of opposing views. Deterministic signal detection (pattern matching); no live
+# API calls. Audited by podcast-challenger Category V (V1–V5).
+R_INTEREST_WEIGHT: float = 0.15   # Interest axis weight in PEQ formula
+
+# Phrases that signal a curiosity-building opening hook.
+R_INTEREST_HOOK_PATTERNS: list = [
+    r"what (does|would|if|happens|kind of|makes|drives|compels)",
+    r"why (does|would|did|should|is|are|do|must)",
+    r"how (does|can|should|is|are|do|did)",
+    r"imagine (if|a world|that|for a moment)",
+    r"consider (this|the|what|a|that)",
+    r"the question (is|was|becomes|facing|at the heart)",
+    r"here'?s (the|a|what|why|how|something)",
+    r"(let'?s|let us) (begin|start|open|ask|explore|consider)",
+]
+
+# Challenge-defeat arc: problem-raising phrases (first half of the arc).
+R_INTEREST_CHALLENGE_RAISE_PATTERNS: list = [
+    r"\b(objection|challenge|difficulty|problem|paradox|tension|puzzle|obstacle)\b",
+    r"\b(one might (argue|say|object|think|wonder))\b",
+    r"\b(it (might|may|could) seem)\b",
+    r"\b(but (how|why|what|is this|does this|can))\b",
+]
+
+# Challenge-defeat arc: resolution phrases (second half of the arc).
+R_INTEREST_CHALLENGE_RESOLVE_PATTERNS: list = [
+    r"\b(the answer (is|lies|comes|emerges))\b",
+    r"\b(in fact|actually|rather|instead|on the contrary)\b",
+    r"\b(resolves?|dissolves?|overcomes?|addresses?|answers? (this|that|the))\b",
+]
+
+# Combined list for callers that only need presence of any challenge pattern.
+R_INTEREST_CHALLENGE_PATTERNS: list = (
+    R_INTEREST_CHALLENGE_RAISE_PATTERNS + R_INTEREST_CHALLENGE_RESOLVE_PATTERNS
+)
+
+# Phrases that signal modern relevance (connecting doctrine to contemporary life).
+R_INTEREST_RELEVANCE_PATTERNS: list = [
+    r"\b(today|modern|contemporary|our (time|age|era|world|lives?))\b",
+    r"\b(we (find|see|live|face|encounter|grapple))\b",
+    r"\b(still (holds?|rings? true|matters?|applies?|speaks?))\b",
+    r"\b(resonates?|relevant|speaks? to|timeless)\b",
+    r"\b(in (our|this|any|every) (age|era|time|generation|society|context))\b",
+]
+
+# Strawman markers — phrases suggesting the opposing view was oversimplified.
+# Uses precise anchored patterns to avoid false positives (e.g. "obviously right").
+R_INTEREST_STRAWMAN_DENY: list = [
+    r"\bobviously (wrong|false|absurd|incorrect|mistaken)\b",
+    r"\bclearly (wrong|mistaken|misguided)\b",
+    r"\babsurdly\b",
+    r"\b(silly (argument|idea|notion|objection))\b",
+    r"\b(no (sane|reasonable|serious) person)\b",
+]
+
+# ─── Technical content challenger rules (category: explainers) ───────────────
+# Single source of truth for challenger rules specific to technical developer
+# content (explainers category). These parallel the Islamic challenger rules but
+# enforce technical accuracy rather than doctrinal fidelity.
+# NOTE: CHALLENGER_VERSION bump required when these are actively consumed by
+# the challenger scoring path (currently declared, not yet wired).
+
+# Code blocks must reproduce source exactly — no paraphrasing of code.
+R_TECH_CODE_VERBATIM: str = "R-TECH-CODE-VERBATIM"
+
+# CLI commands must match the source document exactly (no shorthand variants).
+# Wrong: `npm i -g claude`  Correct: `npm install -g @anthropic-ai/claude-code`
+R_TECH_CLI_EXACT: str = "R-TECH-CLI-EXACT"
+
+# Version numbers must be literal — no "the latest version" or "approximately".
+R_TECH_VERSION_LITERAL: str = "R-TECH-VERSION-LITERAL"
+
+# Acronyms must be expanded on first use within each episode.
+# Wrong: "Use MCP"  Correct: "Use MCP (Model Context Protocol)"
+R_TECH_ACRONYM_FIRST_USE: str = "R-TECH-ACRONYM-FIRST-USE"
+
+# No Islamic/doctrinal terminology in technical episodes (leakage detection).
+R_TECH_NO_DOCTRINAL: str = "R-TECH-NO-DOCTRINAL"
+
+# ≥4 consecutive explanatory sentences with no CLI command, code block, or
+# "type/see/run" pattern — theory density is too high for an explainer.
+R_TECH_THEORY_CAP: str = "R-TECH-THEORY-CAP"
+
+# H2 section with ≥2 named features but zero hands-on sequence (CLI / diff /
+# session-step) — explainers must anchor every concept in a concrete action.
+R_TECH_WALKTHROUGH_PRESENT: str = "R-TECH-WALKTHROUGH-PRESENT"
+
+# Passage explaining internal mechanics, release history, pricing tiers, or
+# benchmark stats of a tool that is NOT the subject of the chapter.
+R_TECH_NO_COMP_INTERNALS: str = "R-TECH-NO-COMP-INTERNALS"
+
+# Chapter addresses a migration audience but has zero "old habit → new habit"
+# mapping. P2 (advisory) — does not block shipping.
+R_TECH_HABIT_MAP: str = "R-TECH-HABIT-MAP"
+
+# Canonical rule set for the technical challenger.
+TECHNICAL_RULE_SET: frozenset = frozenset({
+    R_TECH_CODE_VERBATIM,
+    R_TECH_CLI_EXACT,
+    R_TECH_VERSION_LITERAL,
+    R_TECH_ACRONYM_FIRST_USE,
+    R_TECH_NO_DOCTRINAL,
+    R_TECH_THEORY_CAP,
+    R_TECH_WALKTHROUGH_PRESENT,
+    R_TECH_NO_COMP_INTERNALS,
+    R_TECH_HABIT_MAP,
+})

@@ -1,0 +1,44 @@
+{
+  "slug": "ayyuhal-walad",
+  "scope": "book",
+  "cards": {
+    "name_resolution": {
+      "pairs": [
+        { "from": "al-Ghazali", "to": "Ghazali" },
+        { "from": "Qur'an", "to": "Quran" },
+        { "from": "Ihya Ulum al-Din", "to": "Ihya Ulum al-Din (The Revival of the Religious Sciences)" }
+      ]
+    },
+    "key_focus": {
+      "items": [
+        "Knowledge that is not acted upon becomes evidence against you",
+        "Sincerity of intention is the measure of every deed",
+        "The nearness of death and the shortness of the road",
+        "Counsel is easy; acting on it is the hard and bitter part"
+      ]
+    },
+    "tone_register": {
+      "preset": "editorial_modern",
+      "notes": "Warm, dignified, flowing — the Stripe/MIT Press register (house-voice SN-1). A letter from a teacher to a beloved student; second-person address is native to this source."
+    },
+    "forbidden_terms": {
+      "items": [
+        "esoteric interpretation (use the term of art if the source gives one)",
+        "sermon cadence / hype / academic hedging"
+      ]
+    },
+    "required_elements": {
+      "items": [
+        "Quran and hadith quotations preserved verbatim",
+        "The Junayd dream (only the night prostrations helped)",
+        "The closing supplication, preserved in full",
+        "Any terminus technicus glossed once on first use, then kept (SN-7)"
+      ]
+    },
+    "audience_calibration": {
+      "preset": "general_intelligent",
+      "notes": "Intelligent general reader; nothing dumbed down, no insider vocabulary assumed (house-voice SN-1)."
+    }
+  },
+  "updated_at": "2026-05-30T00:00:00Z"
+}

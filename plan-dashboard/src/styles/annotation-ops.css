@@ -1,0 +1,38 @@
+.ops-flow {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+  gap: 10px;
+  align-items: stretch;
+}
+.ops-node {
+  border: 1px solid var(--c-rule);
+  border-radius: 12px;
+  background: var(--c-bg-card);
+  padding: 14px;
+}
+.ops-node h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  color: var(--c-ink);
+}
+.ops-node p {
+  margin: 0;
+  color: var(--c-ink-muted);
+  line-height: 1.5;
+}
+.ops-arrow {
+  display: grid;
+  place-items: center;
+  color: var(--c-ink-muted);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+@media (max-width: 1100px) {
+  .ops-flow {
+    grid-template-columns: 1fr;
+  }
+  .ops-arrow {
+    transform: rotate(90deg);
+    margin: -4px 0;
+  }
+}

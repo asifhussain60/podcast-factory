@@ -9,10 +9,10 @@ Adding a new phase:
      is_done(), execute() per `phases/_base.py`.
   2. Append it to REGISTRY in this file under its owning wave.
   3. Land its scripts/podcast/<deliverable> + tests in the same commit.
-  4. Add acceptance-criteria.md rows if not already present.
+  4. Add per-book-ship-checklist.md rows if not already present.
 
 The wave dispatcher's autonomous loop is fully deterministic given the
-state of (a) the filesystem, (b) acceptance-criteria.md row checkboxes.
+state of (a) the filesystem, (b) per-book-ship-checklist.md row checkboxes.
 """
 from __future__ import annotations
 
@@ -21,10 +21,14 @@ from typing import Callable
 from ._base import PhaseResult
 from . import (
     p1_1, p1_2,
+    p2_3, p2_4_wave2,
     p2_2, p2_4,
+    p3_1, p3_2, p3_3, p3_4, p3_5,
     p4_1, p4_2, p4_3, p4_4, p4_7, p4_8,
     p5_4, p6_1, p6_2,
-    p11_1,
+    pw4_1, pw4_2, pw4_3,
+    pw5_1, pw5_2, pw5_3,
+    pw6_1, pw6_2, pw6_3,
     dor_halts,
 )
 
@@ -64,12 +68,32 @@ REGISTRY: dict[int, list] = {
         dor_halts.p6_3,   # soft/hard cost caps (waits on P7 heartbeat)
         dor_halts.p6_4,   # trainer cost-ledger hook (agent-file edit)
     ],
-    2: [],
-    3: [],
-    4: [
-        p11_1,   # multi-mac decision doc (already shipped; auto-marks)
+    2: [
+        p2_3,
+        p2_4_wave2,
     ],
-    5: [],
+    3: [
+        p3_1,
+        p3_2,
+        p3_3,
+        p3_4,
+        p3_5,
+    ],
+    4: [
+        pw4_1,   # design-system tokens + SPA shell
+        pw4_2,   # backbone visualization + live dashboard
+        pw4_3,   # annotation intelligence lane
+    ],
+    5: [
+        pw5_1,   # migrate_meta_yml — retroactive enhancement flow
+        pw5_2,   # validate_ship_ready G8-G12 — extended publish gates
+        pw5_3,   # promotion_lane — self-learning spec promotion
+    ],
+    6: [
+        pw6_1,   # anti-patterns.md for all 3 archetype directories
+        pw6_2,   # exemplar.md for all 3 archetype directories
+        pw6_3,   # encyclopedic-epistolary spec — 7 Rasāʾil meta fields
+    ],
 }
 
 

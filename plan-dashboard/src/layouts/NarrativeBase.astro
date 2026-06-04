@@ -1,0 +1,64 @@
+---
+/**
+ * NarrativeBase.astro
+ *
+ * Minimal layout for the cinematic narrative scroll homepage.
+ * No page-shell wrapper, no padding container — the narrative
+ * component owns the full viewport directly.
+ *
+ * The topnav renders over the dark content via CSS in narrative.css
+ * (fixed position, dark background, gold brand color).
+ */
+import '../styles/theme.css';
+import '../styles/narrative.css';
+import { TOP_NAV } from '../lib/site-nav';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} — Podcast Factory</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body class="narrative-body">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <nav class="topnav narrative-topnav">
+      <div class="topnav-inner">
+        <a href="/" class="topnav-brand">Podcast Factory <small>Astro Site</small></a>
+        <div class="topnav-sections">
+          {TOP_NAV.map((item) => (
+            <a
+              href={item.href}
+              data-section={item.section}
+              class="topnav-section"
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+        <div class="topnav-spacer"></div>
+      </div>
+    </nav>
+
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+
+    <button id="to-top" class="to-top" type="button" aria-label="Back to top">
+      <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+    </button>
+    <script>import '../scripts/site-chrome.ts';</script>
+
+  </body>
+</html>

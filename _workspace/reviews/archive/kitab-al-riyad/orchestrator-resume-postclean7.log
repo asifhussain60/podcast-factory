@@ -1,0 +1,12 @@
+orchestrate_book: resume — slug=kitab-al-riyad
+  last completed:  0e
+  current phase:   per-chapter  [halted]
+phase: per-chapter[motion-stillness-hyle-and-form] · already shipped, skipping
+phase: per-chapter[prophets-as-teachers-monotheism-and-the-ranks] · already shipped, skipping
+phase: per-chapter[qada-and-qadar-fate-and-destiny] · already shipped, skipping
+phase: per-chapter[soul-and-spirit-one-substance-or-two] · extract → frame → build → converge
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+  soul-and-spirit-one-substance-or-two FAILED                 iter=2 fix=1 P0=0 P1=3 P2=3
+ERROR: chapter soul-and-spirit-one-substance-or-two failed; halting per-chapter loop.

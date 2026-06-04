@@ -1,0 +1,43 @@
+orchestrate_book: resume — slug=kitab-al-riyad
+  --retry-phase 0d: resetting status to 'pending'
+  --retry-phase: clearing downstream 0e (was completed)
+  last completed:  0c
+  current phase:   0d  [pending]
+resuming LLM-authoring phases from 0d (status=pending)
+phase: 0b · already completed, skipping
+phase: 0c · already completed, skipping
+phase: 0d · phase 0d chapter design (tier=extended, unit=auto) (LLM shellout)
+  phase 0d · step 1/3 · TOC + segmentation plan
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+  phase 0d · step 2/3 · per-source-chapter loop (11 chapters)
+    sc 001/11 · authoring (2 ep, 13026 src words) · `Editor's Introduction (Aref Tamer)`
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    sc 001/11 · OK
+    sc 002/11 · authoring (3 ep, 23417 src words) · `Chapter 1: On the Perfection of the Soul (38 sub-c`
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    sc 002/11 · OK
+    sc 003/11 · authoring (1 ep, 3624 src words) · `Chapter 2: On the Intellect, the First Creation (9`
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    sc 003/11 · OK
+    sc 004/11 · authoring (1 ep, 2695 src words) · `Chapter 3: Are the Soul and the Spirit One? (6 sub`
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    sc 004/11 · OK
+    sc 005/11 · authoring (1 ep, 2605 src words) · `Chapter 4: Are Souls Parts of the First Truths? (8`
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    sc 005/11 · OK
+    sc 006/11 · authoring (1 ep, 2616 src words) · `Chapter 5: Human Beings as the Fruit of the World `
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    sc 006/11 · OK
+    sc 007/11 · authoring (1 ep, 2322 src words) · `Chapter 6: Motion, Stillness, Hyle, and Form (9 su`
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    sc 007/11 · OK
+    sc 008/11 · authoring (1 ep, 3679 src words) · `Chapter 7: The Sections of the World (7 sub-chapte`
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    sc 008/11 · OK
+    sc 009/11 · authoring (1 ep, 8340 src words) · `Chapter 8: On Qada and Qadar — Fate and Destiny (2`
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    sc 009/11 · OK
+    sc 010/11 · authoring (2 ep, 14235 src words) · `Chapter 9: The Law of Adam and the Wilayah of Noah`
+ERROR: phase 0d failed: LLM call timed out after 1200s.
+ERROR: manual fallback:
+ERROR:   Resume manually via /podcast and `--resume` the orchestrator.

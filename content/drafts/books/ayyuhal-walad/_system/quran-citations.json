@@ -1,0 +1,108 @@
+{
+  "slug": "ayyuhal-walad",
+  "source": "arabic-original spine",
+  "total": 20,
+  "verified": 20,
+  "citations": [
+    {
+      "key": "53:38",
+      "surah_ar": "النجم",
+      "verified": true
+    },
+    {
+      "key": "18:11",
+      "surah_ar": "الكهف",
+      "verified": true
+    },
+    {
+      "key": "18:107",
+      "surah_ar": "الكهف",
+      "verified": true
+    },
+    {
+      "key": "19:59",
+      "surah_ar": "مريم",
+      "verified": true
+    },
+    {
+      "key": "7:179",
+      "surah_ar": "الاعراف",
+      "verified": true
+    },
+    {
+      "key": "7:50",
+      "surah_ar": "الاعراف",
+      "verified": true
+    },
+    {
+      "key": "17:79",
+      "surah_ar": "الاسراء",
+      "verified": true
+    },
+    {
+      "key": "51:18",
+      "surah_ar": "الذاريات",
+      "verified": true
+    },
+    {
+      "key": "79:40",
+      "surah_ar": "النازعات",
+      "verified": true
+    },
+    {
+      "key": "16:96",
+      "surah_ar": "النحل",
+      "verified": true
+    },
+    {
+      "key": "49:13",
+      "surah_ar": "الحجرات",
+      "verified": true
+    },
+    {
+      "key": "43:32",
+      "surah_ar": "الزخرف",
+      "verified": true
+    },
+    {
+      "key": "35:6",
+      "surah_ar": "فاطر",
+      "verified": true
+    },
+    {
+      "key": "11:6",
+      "surah_ar": "هود",
+      "verified": true
+    },
+    {
+      "key": "65:3",
+      "surah_ar": "الطلاق",
+      "verified": true
+    },
+    {
+      "key": "49:5",
+      "surah_ar": "الحجرات",
+      "verified": true
+    },
+    {
+      "key": "18:70",
+      "surah_ar": "الكهف",
+      "verified": true
+    },
+    {
+      "key": "21:37",
+      "surah_ar": "الأنبياء",
+      "verified": true
+    },
+    {
+      "key": "35:44",
+      "surah_ar": "فاطر",
+      "verified": true
+    },
+    {
+      "key": "53:29",
+      "surah_ar": "النجم",
+      "verified": true
+    }
+  ]
+}

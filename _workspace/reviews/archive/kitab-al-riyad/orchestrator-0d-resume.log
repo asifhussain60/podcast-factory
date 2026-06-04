@@ -1,0 +1,68 @@
+orchestrate_book: resume — slug=kitab-al-riyad
+  last completed:  0c
+  current phase:   0d  [failed]
+resuming LLM-authoring phases from 0d (status=failed)
+phase: 0b · already completed, skipping
+phase: 0c · already completed, skipping
+phase: 0d · phase 0d chapter design (tier=extended, unit=auto) (LLM shellout)
+  phase 0d · step 1/3 · TOC + segmentation plan
+    skip toc (already on disk: source-toc.json)
+  phase 0d · step 2/3 · per-source-chapter loop (11 chapters)
+    sc 001/11 · skip (done)
+    sc 002/11 · skip (done)
+    sc 003/11 · skip (done)
+    sc 004/11 · skip (done)
+    sc 005/11 · skip (done)
+    sc 006/11 · skip (done)
+    sc 007/11 · skip (done)
+    sc 008/11 · skip (done)
+    sc 009/11 · skip (done)
+    sc 010/11 · authoring (2 ep, 14235 src words) · `Chapter 9: The Law of Adam and the Wilayah of Noah`
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    sc 010/11 · OK
+    sc 011/11 · authoring (1 ep, 6584 src words) · `Chapter 10: Tawhid and the First Creator — Critiqu`
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    sc 011/11 · OK
+  phase 0d · step 3/3 · stitch rationale + source-map
+phase: 0e · phase 0e enrichment (LLM shellout)
+  phase 0e · per-chapter loop (15 chapters, 0 already enriched)
+    ch01a-the-four-da-is-and-the-debate · enriching
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    ch01a-the-four-da-is-and-the-debate · OK
+    ch02b-the-structure-of-al-riyad-and-the-manuscript · enriching
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    ch02b-the-structure-of-al-riyad-and-the-manuscript · OK
+    ch03a-the-perfect-and-the-perfection-of-the-soul · enriching
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    ch03a-the-perfect-and-the-perfection-of-the-soul · OK
+    ch04b-soul-intellect-and-the-power-of-emanation · enriching
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    ch04b-soul-intellect-and-the-power-of-emanation · OK
+    ch05c-the-soul-in-time-and-the-rejoinder-to-al-nusra · enriching
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    ch05c-the-soul-in-time-and-the-rejoinder-to-al-nusra · OK
+    ch06-the-intellect-as-the-first-creation · enriching
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    ch06-the-intellect-as-the-first-creation · OK
+    ch07-soul-and-spirit-one-substance-or-two · enriching
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    ch07-soul-and-spirit-one-substance-or-two · OK
+    ch08-souls-as-parts-or-traces · enriching
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    ch08-souls-as-parts-or-traces · OK
+    ch09-the-human-as-fruit-of-the-worlds · enriching
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    ch09-the-human-as-fruit-of-the-worlds · OK
+    ch10-motion-stillness-hyle-and-form · enriching
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    ch10-motion-stillness-hyle-and-form · OK
+    ch11-the-sections-of-the-world · enriching
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    ch11-the-sections-of-the-world · OK
+    ch12-qada-and-qadar-fate-and-destiny · enriching
+[_run_claude_p] cost-ledger append failed: AttributeError("module 'datetime' has no attribute 'UTC'")
+    ch12-qada-and-qadar-fate-and-destiny · OK
+    ch13a-the-shariah-of-adam-and-the-first-speaker · enriching
+ERROR: phase 0e failed: LLM call timed out after 900s.
+ERROR: manual fallback:
+ERROR:   Resume manually via /podcast and `--resume` the orchestrator.

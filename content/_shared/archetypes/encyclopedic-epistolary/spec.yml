@@ -1,0 +1,68 @@
+# Archetype spec — Encyclopedic-Epistolary
+# A text that combines encyclopedic depth (exhaustive coverage of a
+# topic domain) with an epistolary frame (structured as letters, responses,
+# treatises addressed to a named or implied recipient). Classic example:
+# Ikhwan al-Safa Rasa'il; also Imam Ghazali's Ihya-adjacent letters,
+# or Ibn Hazm's Tawq al-Hamama as a hybrid specimen.
+
+archetype_id: encyclopedic-epistolary
+display_name: Encyclopedic-Epistolary
+genre_tags: [encyclopedic, epistolary, letter-form, treatise, exhaustive-survey]
+
+# ── Detection heuristics ─────────────────────────────────────────────────────
+genre_signals:
+  - letter salutation / closing formulae as structural bookends
+  - exhaustive enumeration (numbered categories, "the Nth reason is...")
+  - direct address to a named recipient alongside impersonal encyclopedic prose
+  - cross-domain scope (a single "letter" may cover cosmology + ethics + music)
+
+# ── required_fields — these keys MUST be present in every book meta.yml ─────
+required_fields:
+  - archetype_id           # confirms archetype was applied
+  - epistolary_frame       # "letter" | "treatise" | "rasa'ila" | "response"
+  - recipient_profile      # who the text addresses (real, fictional, or generic)
+  - domain_breadth         # narrow | medium | encyclopedic
+  - enumeration_density    # low | medium | high — how many numbered lists
+
+# ── TTS engineering rules ────────────────────────────────────────────────────
+tts_rules:
+  salutation_formulae: read_as_opening_address_then_drop_for_subsequent_letters
+  enumerated_lists: collapse_to_prose_summary_over_5_items
+  arabic_domain_terms: gloss_once_then_english_form_throughout
+  cross_domain_pivots: mark_with_host_transition_sentence
+
+# ── Podcast-authoring doctrine ───────────────────────────────────────────────
+authoring_doctrine:
+  framing_mode: guided_survey
+  host_dynamic: co_explorers   # neither is the "teacher"; both discover together
+  episode_structure: domain_arc  # one domain per episode; letter frame as wrapper
+  capstone_mode: cross_domain_synthesis  # final episode maps all domains to one insight
+  cross_tier_citations: high   # encyclopedic texts saturate all four citation tiers
+
+# ── Challenger categories active for this archetype ─────────────────────────
+challenger_categories_active:
+  - A  # citations — exhaustive texts have dense citation stacks
+  - C  # pronunciation — domain vocabulary spans many languages
+  - J  # name aliasing — recipient and author names recur across entire series
+  - M  # modernization — epistolary register must not slip into modern idiom
+
+# ── Anti-patterns (see anti-patterns.md for full catalog) ───────────────────
+anti_patterns_summary:
+  - one episode trying to cover more than one encyclopedic domain
+  - enumerated lists read aloud verbatim (>5 items kills listener engagement)
+  - recipient frame dropped entirely (loses the epistolary character)
+  - hosts failing to surface the unifying insight that ties domains together
+
+# ── Rasāʾil-specific meta.yml fields (required for Ikhwan al-Safa intake) ────
+rasail_meta_fields:
+  archetype_id: encyclopedic-epistolary
+  epistle_count: 52                      # total epistles in main corpus (+ 2 supplements)
+  part_map:
+    part-1-mathematical: {epistles: 14, diagram_density: high}
+    part-2-natural:       {epistles: 17, diagram_density: high}
+    part-3-psychological: {epistles: 10, diagram_density: medium}
+    part-4-theological:   {epistles: 11, diagram_density: high}
+  augmentation_enabled: true             # default ON for this archetype
+  diagram_density: high                  # default HIGH for Rasāʾil
+  phased_rollout: true                   # mandatory for series of this size
+  capstone_mode: full_brethren           # final episode synthesizes all four parts

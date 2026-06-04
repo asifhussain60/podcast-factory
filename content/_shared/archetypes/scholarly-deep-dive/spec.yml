@@ -1,0 +1,51 @@
+# Archetype spec — Scholarly Deep Dive
+# A text written as systematic scholarly exposition — thematic chapters,
+# structured argumentation, dense citation apparatus, and an intended
+# readership of educated specialists or serious students.
+
+archetype_id: scholarly-deep-dive
+display_name: Scholarly Deep Dive (Academic Exposition)
+genre_tags: [scholarly, expository, systematic, academic, citation-heavy]
+
+# ── Detection heuristics ─────────────────────────────────────────────────────
+genre_signals:
+  - thematic chapter structure with formal headings
+  - recurring citation apparatus (isnad, footnotes, or inline references)
+  - sustained argumentation across multiple paragraphs before a conclusion
+  - technical terminology introduced and defined rather than assumed
+
+# ── required_fields — these keys MUST be present in every book meta.yml ─────
+required_fields:
+  - archetype_id           # confirms archetype was applied
+  - citation_density       # low | medium | high
+  - argument_mode          # e.g. "linear", "dialectical", "thematic-clusters"
+  - source_tradition       # e.g. "ismaili_orthodox", "sunni_classical"
+
+# ── TTS engineering rules ────────────────────────────────────────────────────
+tts_rules:
+  arabic_technical_terms: gloss_on_first_occurrence_then_english_form
+  citation_apparatus: summarise_as_attributed_claim_not_raw_reference
+  numbered_sections: do_not_read_section_numbers_aloud
+  long_hadith_chains: condense_to_attribution_and_text
+
+# ── Podcast-authoring doctrine ───────────────────────────────────────────────
+authoring_doctrine:
+  framing_mode: analytical_guide
+  host_dynamic: expert_and_interlocutor
+  episode_structure: argument_arc  # claim → evidence → implication → question
+  capstone_mode: synthesis_assessment  # final episode evaluates the work's place in tradition
+  cross_tier_citations: required  # scholarly texts demand traceable Quran + hadith + scholarly
+
+# ── Challenger categories active for this archetype ─────────────────────────
+challenger_categories_active:
+  - A  # citations — must be authentic and traceable
+  - B  # enrichment depth — shallow summaries blocked
+  - C  # pronunciation of Arabic technical terms
+  - O  # honorifics — frequent in scholarly tradition
+
+# ── Anti-patterns (see anti-patterns.md for full catalog) ───────────────────
+anti_patterns_summary:
+  - hosts summarising argument without engaging its logic
+  - citations rendered as raw footnote numbers without attribution
+  - episode ending without addressing the chapter's central claim
+  - scholarly register dropped into casual explanation mid-episode

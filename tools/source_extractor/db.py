@@ -1,4 +1,4 @@
-"""Thin wrapper around `docker exec sqlcmd` for the kashkole-mssql container.
+"""Thin wrapper around `docker exec sqlcmd` for the wisdom-mssql container.
 
 We use FOR JSON PATH on the SQL Server side so multi-row results with
 nvarchar(max) HTML payloads come back cleanly without TSV/quote heartburn.
@@ -7,7 +7,7 @@ sqlcmd writes its output to /tmp inside the container; we cat it back.
 from __future__ import annotations
 import json, subprocess, uuid
 
-CONTAINER = "kashkole-mssql"
+CONTAINER = "wisdom-mssql"
 PASSWORD = "Kashkole_Local_2026!"
 
 

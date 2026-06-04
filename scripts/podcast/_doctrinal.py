@@ -26,8 +26,8 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from pathlib import Path
+from _paths import REPO_ROOT
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 # F31 (2026-05-25): tradition-pack registry. The original pipeline pinned
 # `ISLAM_DATA = content/_shared/islam/`; that single hardcoded path silently
 # no-ops the doctrinal gates for non-Islamic books and risks false-positives

@@ -1,0 +1,48 @@
+slug: ayyuhal-walad
+title: Ayyuhā al-Walad
+short_name: ayw
+source_pdf: ../../../raw/Ayyuhal Walad.pdf
+
+series:
+  enable_knowledge_augmenter: true
+
+# tradition_affinity: 'fatimid-ismaili' — all 628 doctrine atoms carry this label, including
+# the ethically-universal passages (sincerity, patience, soul, asceticism) that are safe for
+# Ghazali's register. The tag filter below is the cross-tradition guard: tags like 'imamate',
+# 'cosmology', and 'esoteric interpretation' are excluded; only broadly-Islamic spiritual tags
+# are listed.
+tradition_affinity: fatimid-ismaili
+knowledge_tags:
+  - ethics
+  - knowledge
+  - soul
+  - worship
+  - wisdom
+
+pipeline:
+  current_phase: partial-pre-orchestrator
+  phase_status: no_state_file
+  chapters_with_contracts: 3
+  chapters_drafted: 3
+  episodes_authored: 3
+  transcripts: 0
+  audits: 0
+  structure: wc8-holistic-3-episode  # adopted 2026-05-31; 5-episode original in _archive/5-episode-original/
+
+publication:
+  status: draft
+  shipped_via: scripts/podcast/publish_to_library.py
+  publication_target: ../../published/books/ayyuhal-walad/
+
+provenance:
+  canonical_source_branch: book/asaas-al-taveel
+  canonical_source_commit: 3a35aa749bc3c7420317974ad1557750f87a2291
+  canonical_source_path: content/podcast/library/books/ayyuhal-walad/
+  note: |
+    Identical 724K/45-file copies exist on all 4 worktrees (main, book-asaas,
+    book-kar, book-islr) — no canonical-source ambiguity. Copied from
+    book-asaas. No orchestrator-state.json exists for this book; partial
+    artifacts (chapters, contracts, episodes, transcripts) appear to have
+    been authored outside the orchestrator flow.
+  reshape_date: 2026-05-23
+  reshape_method: rsync from book-asaas worktree to meta-root books/

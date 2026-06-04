@@ -69,12 +69,26 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from _paths import REPO_ROOT, find_content
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 # 2026-05-23 restructure: workshop moved from _workspace/books/ to content/drafts/,
 # published catalog moved from out-of-repo library/ to in-repo content/published/.
 WORKSPACE = REPO_ROOT / "content" / "drafts"
 LIBRARY = REPO_ROOT / "content" / "published"
+
+
+def resolve_workspace(slug: str) -> Path:
+    """Resolve a book's drafts workspace, category-aware.
+
+    Post-2026-05-26 content lives at content/drafts/<category>/<slug> (e.g.
+    drafts/books/<slug>), not the flat drafts/<slug>. Delegate to _paths.find_content
+    (canonical drafts/<cat>/<slug> first, then legacy fallbacks) so the gate + publish
+    find the book regardless of category. Falls back to the legacy flat path.
+    """
+    found = find_content(slug)
+    if found:
+        return found[2]
+    return WORKSPACE / slug
 
 SHIPPABLE_STATUSES = {"shipped", "ship-ready", "ship-with-caution",
                       "ship-with-caution-approved", "halted_by_operator"}
@@ -185,18 +199,23 @@ def gate_g3_sequential(chapters: list[Path], episodes: list[Path]) -> bool:
 
 
 def gate_g4_build_clean(workspace: Path, slug: str,
-                        episodes: list[Path], strict: bool) -> bool:
+                        episodes: list[Path], strict: bool,
+                        dry_run: bool = False) -> bool:
     builder = REPO_ROOT / "scripts" / "podcast" / "build_episode_txt.py"
     if not builder.exists():
         _warn(f"build_episode_txt.py not found at {builder}; skipping G4")
         return True
     book_dir = workspace.relative_to(REPO_ROOT)
+    # In --dry-run the gate must be read-only: pass --check so the builder
+    # validates and surfaces flags without rewriting episodes/*.txt or minting
+    # section depths. Live publish keeps the rebuild-then-write behavior.
+    build_cmd_tail = ["--check"] if dry_run else []
     p0_total = 0
     p1_total = 0
     for ep in episodes:
         ep_id = ep.stem  # EP01-the-perfect-and-the-perfection-of-the-soul
         r = subprocess.run(
-            ["python3", str(builder), str(book_dir), ep_id],
+            ["python3", str(builder), str(book_dir), ep_id, *build_cmd_tail],
             cwd=REPO_ROOT, capture_output=True, text=True,
         )
         p0 = len(re.findall(r"^FLAG \(P0\)", r.stdout + r.stderr, re.MULTILINE))
@@ -440,7 +459,7 @@ def update_catalog(slug: str, episode_count: int, source_sha: str) -> None:
 
 
 def publish(slug: str, args: argparse.Namespace) -> int:
-    workspace = WORKSPACE / slug
+    workspace = resolve_workspace(slug)
     if not workspace.is_dir():
         print(f"publish_to_library: workspace not found: {workspace}",
               file=sys.stderr)
@@ -465,7 +484,8 @@ def publish(slug: str, args: argparse.Namespace) -> int:
         return 1
     if not gate_g3_sequential(chapters, episodes):
         return 1
-    if not gate_g4_build_clean(workspace, slug, episodes, args.strict):
+    if not gate_g4_build_clean(workspace, slug, episodes, args.strict,
+                               dry_run=args.dry_run):
         return 1
     if not gate_g5_state(workspace, args.force):
         return 1
@@ -505,7 +525,7 @@ def publish(slug: str, args: argparse.Namespace) -> int:
 
     # 2026-05-25 enhancement: ship the per-chapter show-notes apparatus too.
     # 99-show-notes.md lives in drafts/<slug>/_system/episode-drafts/EP##-<slug>/
-    # and IS what listener-facing library readers (podcast-reader) display
+    # and IS what listener-facing library readers (the Podcast Factory Astro Site) display
     # alongside the episode. Previously these stayed in drafts only, which made
     # the polish work invisible to the audience. Now each EP## ships its
     # show-notes file as published/books/<slug>/show-notes/EP##-<slug>.md.
@@ -532,11 +552,64 @@ def publish(slug: str, args: argparse.Namespace) -> int:
 
     update_catalog(slug, len(episodes), sha)
 
+    # 2026-05-28: write publication.status: published to the draft meta.yml.
+    # The astro site reads publication.status from meta.yml in the drafts tree;
+    # it no longer scans the published/ directory. Without this write, the UI
+    # shows the book as "Draft" even after a successful publish.
+    _update_meta_publication_status(workspace)
+
     _info("")
     _info(f"==> DONE. Published {len(episodes)} episode(s) for {slug} "
           f"to {target}.")
     _info(f"    Inspect: open '{target}/README.md'")
     return 0
+
+
+def _update_meta_publication_status(workspace: Path) -> None:
+    """Write publication.status: published into workspace/meta.yml.
+
+    Uses a simple regex replace to avoid a PyYAML dependency.  Handles three
+    forms that may appear in existing meta.yml files:
+
+      publication:
+        status: draft          ← replace value
+        status: in_progress    ← replace value
+
+      # publication block entirely absent ← append it
+
+    Logs the outcome so callers can see it in publish output.
+    """
+    meta_path = workspace / "meta.yml"
+    if not meta_path.exists():
+        _warn(f"meta.yml not found at {meta_path}; publication.status not written")
+        return
+
+    text = meta_path.read_text()
+
+    # Pattern: existing 'status:' line inside a 'publication:' block
+    status_pattern = re.compile(
+        r"(^publication:\s*\n(?:[ \t]+\S[^\n]*\n)*?[ \t]+status:\s*)\S+",
+        re.MULTILINE,
+    )
+    if status_pattern.search(text):
+        updated = status_pattern.sub(r"\g<1>published", text)
+    elif "publication:" in text:
+        # publication block present but no status line — inject it
+        updated = re.sub(
+            r"(^publication:[ \t]*\n)",
+            r"\1  status: published\n",
+            text,
+            flags=re.MULTILINE,
+        )
+    else:
+        # No publication block at all — append one
+        updated = text.rstrip("\n") + "\npublication:\n  status: published\n"
+
+    if updated != text:
+        meta_path.write_text(updated)
+        _info(f"    meta.yml: publication.status → published")
+    else:
+        _warn(f"    meta.yml: publication.status already published or pattern unmatched")
 
 
 def main() -> int:

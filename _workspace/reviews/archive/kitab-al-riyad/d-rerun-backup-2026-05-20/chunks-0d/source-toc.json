@@ -1,0 +1,139 @@
+{
+  "length_tier": "extended",
+  "unit_mode_input": "auto",
+  "source_chapters": [
+    {
+      "sc_index": 1,
+      "source_title": "Bāb 1 — On the Soul, the First Emanation (38 fusūl)",
+      "start_line": 495,
+      "end_line": 1279,
+      "word_count": 19702,
+      "unit_mode": "sections",
+      "episode_count": 3,
+      "episodes": [
+        { "ep_num": 1, "episode_slug": "perfection-versus-the-perfect", "section_index": 1 },
+        { "ep_num": 2, "episode_slug": "where-the-disputants-erred", "section_index": 2 },
+        { "ep_num": 3, "episode_slug": "the-soul-as-second-emanation", "section_index": 3 }
+      ],
+      "split_reason": "19,702w is 2.07x the extended upper bound (9,500); 3 eps land at ~6,567w each, comfortably mid-band. Thematic seams: setup of the kamal/tamm distinction (fusūl 1-13), critique of both disputants (fusūl 14-26), final synthesis on soul's status (fusūl 27-38)."
+    },
+    {
+      "sc_index": 2,
+      "source_title": "Bāb 2 — On the First Intellect, the First Originator (9 fusūl)",
+      "start_line": 1280,
+      "end_line": 1411,
+      "word_count": 3730,
+      "unit_mode": "chapter",
+      "episode_count": 1,
+      "episodes": [
+        { "ep_num": 4, "episode_slug": "first-intellect-as-originator", "section_index": null }
+      ],
+      "split_reason": "3,730w is below tier band but within 1.5x range; fits as single short episode (no thematic seam justifies further fragmentation)."
+    },
+    {
+      "sc_index": 3,
+      "source_title": "Bāb 3 — On Soul and Spirit, and Whether They Resemble the First (6 fusūl)",
+      "start_line": 1412,
+      "end_line": 1532,
+      "word_count": 2762,
+      "unit_mode": "chapter",
+      "episode_count": 1,
+      "episodes": [
+        { "ep_num": 5, "episode_slug": "soul-spirit-and-the-first", "section_index": null }
+      ],
+      "split_reason": "2,762w is below tier band; short coherent unit on a single question."
+    },
+    {
+      "sc_index": 4,
+      "source_title": "Bāb 4 — On Souls as Parts and Effects (8 fusūl)",
+      "start_line": 1533,
+      "end_line": 1652,
+      "word_count": 2671,
+      "unit_mode": "chapter",
+      "episode_count": 1,
+      "episodes": [
+        { "ep_num": 6, "episode_slug": "souls-as-parts-of-the-real", "section_index": null }
+      ],
+      "split_reason": "2,671w is below tier band; tightly focused on partial-vs-universal souls."
+    },
+    {
+      "sc_index": 5,
+      "source_title": "Bāb 5 — That the Human Being Is the Fruit of the World (7 fusūl)",
+      "start_line": 1653,
+      "end_line": 1770,
+      "word_count": 2655,
+      "unit_mode": "chapter",
+      "episode_count": 1,
+      "episodes": [
+        { "ep_num": 7, "episode_slug": "human-as-fruit-of-the-world", "section_index": null }
+      ],
+      "split_reason": "2,655w is below tier band; single anthropological argument."
+    },
+    {
+      "sc_index": 6,
+      "source_title": "Bāb 6 — On Motion, Stillness, and Form (9 fusūl)",
+      "start_line": 1771,
+      "end_line": 1900,
+      "word_count": 2340,
+      "unit_mode": "chapter",
+      "episode_count": 1,
+      "episodes": [
+        { "ep_num": 8, "episode_slug": "motion-stillness-form-and-image", "section_index": null }
+      ],
+      "split_reason": "2,340w is below tier band; cohesive treatment of cosmological dyads."
+    },
+    {
+      "sc_index": 7,
+      "source_title": "Bāb 7 — On the Divisions of the World (7 fusūl)",
+      "start_line": 1901,
+      "end_line": 2036,
+      "word_count": 3823,
+      "unit_mode": "chapter",
+      "episode_count": 1,
+      "episodes": [
+        { "ep_num": 9, "episode_slug": "divisions-of-the-world", "section_index": null }
+      ],
+      "split_reason": "3,823w is below tier band but coherent as a single episode on human-as-microcosm and the four-jewel cosmology."
+    },
+    {
+      "sc_index": 8,
+      "source_title": "Bāb 8 — On Qadr and Destiny (24 fusūl)",
+      "start_line": 2037,
+      "end_line": 2391,
+      "word_count": 8376,
+      "unit_mode": "chapter",
+      "episode_count": 1,
+      "episodes": [
+        { "ep_num": 10, "episode_slug": "qadr-and-the-shape-of-destiny", "section_index": null }
+      ],
+      "split_reason": "8,376w sits squarely in the tier band (5,500–9,500); ideal single episode."
+    },
+    {
+      "sc_index": 9,
+      "source_title": "Bāb 9 — On the Law of Adam and the Trusteeship of Noah (33 fusūl)",
+      "start_line": 2392,
+      "end_line": 2899,
+      "word_count": 14299,
+      "unit_mode": "sections",
+      "episode_count": 2,
+      "episodes": [
+        { "ep_num": 11, "episode_slug": "adams-law-and-the-prophetic-cycle", "section_index": 1 },
+        { "ep_num": 12, "episode_slug": "noahs-trust-and-the-great-resurrection", "section_index": 2 }
+      ],
+      "split_reason": "14,299w narrowly exceeds 1.5x upper bound (14,250); splits cleanly at fasl 17 — natural seam between Adam's law and the speaker-prophets (fusūl 1-16) and Noah's role, the Qā'im, and the Great Resurrection (fusūl 17-33). Each episode lands at ~7,150w, mid-band."
+    },
+    {
+      "sc_index": 10,
+      "source_title": "Bāb 10 — Critique of al-Mahsul on Tawhid and the First Originator (16 fusūl)",
+      "start_line": 2900,
+      "end_line": 3128,
+      "word_count": 6748,
+      "unit_mode": "chapter",
+      "episode_count": 1,
+      "episodes": [
+        { "ep_num": 13, "episode_slug": "al-mahsul-corrected", "section_index": null }
+      ],
+      "split_reason": "6,748w sits in the tier band; al-Kirmani's closing critique of al-Mahsul belongs together as one finale episode."
+    }
+  ]
+}

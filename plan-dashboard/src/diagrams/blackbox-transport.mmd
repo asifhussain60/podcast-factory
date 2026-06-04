@@ -1,0 +1,10 @@
+flowchart TB
+  AG["Pipeline agents"] -->|"MCP · stdio · none"| QL
+  BR["Reader in the browser"] -->|"HTTP · :4390 · localhost"| QL
+  QL["Source Library query layer<br/>FastAPI + MCP · one code path"]
+  QL -->|"local read"| MIR[("mirror.db<br/>FTS5")]
+  QL -->|"SQL · LAN"| SQL[("SQL Server<br/>KQUR · WISDOM · KSESSIONS")]
+  classDef local fill:#fffdf8,stroke:#4a7c4a,stroke-width:1.5px;
+  classDef lan fill:#fffdf8,stroke:#1a5c8a,stroke-width:1.5px;
+  class AG,BR,QL,MIR local;
+  class SQL lan;

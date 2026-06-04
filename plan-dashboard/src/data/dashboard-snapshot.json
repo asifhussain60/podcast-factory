@@ -1,0 +1,835 @@
+{
+  "roadmap": [
+    {
+      "id": "A1",
+      "wave": "A",
+      "title": "Clean the legacy plan folder and stand up the nested structure",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "A2",
+      "wave": "A",
+      "title": "Build the Core layer \u2014 _paths, _db, _archetypes, _anti_cliche",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "A1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "A3",
+      "wave": "A",
+      "title": "Build the Domain layer \u2014 _doctrinal + tradition_adjacency.yml, _context_injection",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "A2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "A4",
+      "wave": "A",
+      "title": "Modularize orchestrate_book.py and _authoring.py",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "A2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "A5",
+      "wave": "A",
+      "title": "Strip version stamps + add the pre-commit guard",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "A1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "A6",
+      "wave": "A",
+      "title": "Consolidate the agent sprawl \u2014 one canonical spec per agent, one installation path",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "A1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "A7",
+      "wave": "A",
+      "title": "Decouple all batch pipeline processing from the interactive Claude plan \u2014 dedicated API key with spend cap",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "A1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "B0",
+      "wave": "B",
+      "title": "Build the Wisdom corpus ingestion driver \u2014 independent chapter refinement",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "A2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "B1",
+      "wave": "B",
+      "title": "Build the Extractor",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "A5"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "B2",
+      "wave": "B",
+      "title": "Build the Librarian",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "B1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "B3",
+      "wave": "B",
+      "title": "Build the Augmenter",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "B2",
+        "A3"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "B4",
+      "wave": "B",
+      "title": "Wire 08a/08b/08c into PHASE_ORDER + state.json schema",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "B3",
+        "A4"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "B5",
+      "wave": "B",
+      "title": "Ingest hadith, etymology, and classical Arabic poetry atoms from MCP source library",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "B0"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "C1",
+      "wave": "C",
+      "title": "Land archetype specs for PLAY-NOVEL, LECTURE-SERIES, ENCYCLOPEDIC-EPISTOLARY",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "A2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "C2",
+      "wave": "C",
+      "title": "Build the multi-tier capstone authoring module",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "A4"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "C3",
+      "wave": "C",
+      "title": "Build the 08b modern-research augmentation phase",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "A4",
+        "B4"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "C4",
+      "wave": "C",
+      "title": "MANUAL-REVIEW markers + canonical-form pre-filter + rich-diagram classifier",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "A2",
+        "C4.0"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "C4.0",
+      "wave": "C",
+      "title": "NotebookLM diagram-capability pilot (PRE-C4 gate; per oq7 resolution)",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "C1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "C5",
+      "wave": "C",
+      "title": "Phased rollout + Tier-2 cost gates for large-scale books",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "C1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "D1",
+      "wave": "D",
+      "title": "Standardise the existing dashboard design tokens so the podcast reader shares the same visual style",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "A1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "D2",
+      "wave": "D",
+      "title": "Verify and patch the navigation so every planned section is reachable",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "D1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "D3",
+      "wave": "D",
+      "title": "Add an interactive factory-floor view showing each processing stage and book type",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "D2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "D4",
+      "wave": "D",
+      "title": "Complete the live progress section so it shows books in flight, costs, and roadmap status",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "D2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "D5",
+      "wave": "D",
+      "title": "Replace floating annotation UI with a right-hand annotation workspace and durable AI handoff",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "D2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "D6",
+      "wave": "D",
+      "title": "Teach planner + site-sync to auto-detect annotation architecture gaps and generate missing views",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "D5"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "E1",
+      "wave": "E",
+      "title": "Migrate every meta.yml to the unified schema",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "C1",
+        "C2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "E2",
+      "wave": "E",
+      "title": "KaR \u2014 tier-2 distillation addendum (no re-run)",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "E1",
+        "C2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "E3",
+      "wave": "E",
+      "title": "M&D \u2014 EP00 preface addendum + vacuum + postprod-review (no re-run)",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "E1",
+        "C1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "E4",
+      "wave": "E",
+      "title": "Extend publish gate with G8-G12 + activate G12 acceptance",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "B3",
+        "C2",
+        "C4",
+        "E1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "E5",
+      "wave": "E",
+      "title": "Automate planner UI resilience + launcher lifecycle quality gates",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "D4",
+        "D6",
+        "E4"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "G1",
+      "wave": "G",
+      "title": "Cinematic narrative scroll homepage with GSAP ScrollTrigger",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "H1",
+      "wave": "H",
+      "title": "Astro site SOLID/DRY refactor \u2014 extract shared types, constants, and utilities",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "H2",
+      "wave": "H",
+      "title": "Pipeline code quality \u2014 split oversized scripts and eliminate duplication",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "H1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "H3",
+      "wave": "H",
+      "title": "Cross-wave autonomous execution chain driver",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "H2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I0a",
+      "wave": "I",
+      "title": "Retroactive noise annotation \u2014 AI pre-marks existing chapters; human reviews in reader UI",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I0b",
+      "wave": "I",
+      "title": "Style rewrite pass -- AI rewrites surviving content in Asif's teaching voice",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "I0a"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I1",
+      "wave": "I",
+      "title": "Audio intake \u2014 input_type branch in Phase 04 (pdf / audio-transcript / mixed)",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I2",
+      "wave": "I",
+      "title": "Noise routing \u2014 two-pass: zero-cost rule pre-pass then Sonnet for ambiguous survivors only",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "I1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I3",
+      "wave": "I",
+      "title": "Tradition-aware knowledge base \u2014 tradition field on all atom types; B2.1 schema patch",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "I1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I4",
+      "wave": "I",
+      "title": "Source Review Gate \u2014 Phase 06a (Haiku) before per-chapter authoring",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "I2",
+        "I3"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I5",
+      "wave": "I",
+      "title": "Book Review unified astro view \u2014 Source Review Gate (06a) + Publish Review Gate (finalize)",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "I4"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I6",
+      "wave": "I",
+      "title": "Phase 11g per-chapter optimiser \u2014 Claude Sonnet after authoring, before 0g dual-auditor",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "I4"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "J0",
+      "wave": "J",
+      "title": "Build the dual-interface source library server \u2014 MCP stdio for the pipeline, HTTP for the Astro editor",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "J1",
+      "wave": "J",
+      "title": "Build the search-optimised SQLite mirror with FTS5 tables and a unified term index",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "J0"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "J2",
+      "wave": "J",
+      "title": "Rewire the Astro editor's existing popover API routes to call the local server first",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "J0",
+        "J1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "J3",
+      "wave": "J",
+      "title": "Wire enrichment phase to use live verse lookups as a complete-coverage fallback",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "J0",
+        "B3"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "J4",
+      "wave": "J",
+      "title": "Wire style rewrite phase to pull live session samples matched to each chapter's themes",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "J0",
+        "I0b"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "J5",
+      "wave": "J",
+      "title": "Add Wisdom topic cross-reference popover to the live editor",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "J0",
+        "J1",
+        "J2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "M1",
+      "wave": "M",
+      "title": "Floating AI toolbar + inspector tab restructure + scroll fix",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "M2",
+      "wave": "M",
+      "title": "Wire CorpusExplorer to real DB data (read path)",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "M3",
+      "wave": "M",
+      "title": "Add edit + create to CorpusExplorer (write path)",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "N1",
+      "wave": "N",
+      "title": "Import Lookup_levels from Kashkole SQL dump into knowledge.db",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "N2",
+      "wave": "N",
+      "title": "Stable section ID schema + GET/PATCH API + knowledge.ts helpers",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "N3",
+      "wave": "N",
+      "title": "Section depth markers in Studio editor (PM widget + CSS)",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "CP1",
+      "wave": "CP",
+      "title": "Add content_profile field to series-config.yaml + _rules.py",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "A1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "CP2",
+      "wave": "CP",
+      "title": "Gate Arabic-specific assertions in build_episode_txt.py on content_profile",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "CP1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "CP3",
+      "wave": "CP",
+      "title": "Make phase 0c (phonetics) a no-op outside the islamic_scholarly profile",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "CP1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "CP4",
+      "wave": "CP",
+      "title": "Add consumer_finance enrichment stub under content/_shared/",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "CP1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "CP5",
+      "wave": "CP",
+      "title": "Extend challenger profile-gating to skip Islamic-specific rules for non-Islamic content",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "CP2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    }
+  ],
+  "waves": [],
+  "debt": [],
+  "metrics": {},
+  "generated_at": "2026-06-04T09:25:58.869636+00:00",
+  "source_commit": "74f7dd5",
+  "generator": "regenerate-snapshots.py",
+  "books_in_flight": [
+    {
+      "slug": "claude-code-training",
+      "title": "claude-code-training",
+      "phase": "per-chapter",
+      "phase_status": "failed",
+      "cost_to_date_usd": 0,
+      "kind": "unknown"
+    }
+  ],
+  "recent_commits": [
+    {
+      "sha": "74f7dd5",
+      "subject": "chore: update site-work-status \u2014 session 8 (Studio UI/UX redesign)",
+      "date": "2026-06-03"
+    },
+    {
+      "sha": "12b16cd",
+      "subject": "fix(studio): unified section card \u2014 continuous background + glow border",
+      "date": "2026-06-03"
+    },
+    {
+      "sha": "c33c20b",
+      "subject": "fix(studio): unbroken section border + Edit button on section headings",
+      "date": "2026-06-03"
+    },
+    {
+      "sha": "bfe5da6",
+      "subject": "feat(studio): section-level editing + comprehensive UI redesign",
+      "date": "2026-06-03"
+    },
+    {
+      "sha": "b6cec54",
+      "subject": "fix(studio): depth picker \u2014 hover shift, lighter colors, scroll lock",
+      "date": "2026-06-03"
+    },
+    {
+      "sha": "b41c206",
+      "subject": "chore: update site-work-status \u2014 session 7 (depth redesign + tag picker separation)",
+      "date": "2026-06-03"
+    },
+    {
+      "sha": "f736717",
+      "subject": "feat(studio): redesign depth picker + separate tag picker",
+      "date": "2026-06-03"
+    },
+    {
+      "sha": "a98804a",
+      "subject": "chore: update site-work-status \u2014 session 6 (depth taxonomy + literary + annotation picker)",
+      "date": "2026-06-03"
+    },
+    {
+      "sha": "001f497",
+      "subject": "feat(literary+annotation): Phase 2 literary pipeline + Option A section annotation picker",
+      "date": "2026-06-03"
+    },
+    {
+      "sha": "3101132",
+      "subject": "feat(literary): pilot literary pipeline stage \u2014 Ayyuhal Walad (3 chapters)",
+      "date": "2026-06-03"
+    }
+  ],
+  "wave_execution_events": [],
+  "books_shipped": []
+}

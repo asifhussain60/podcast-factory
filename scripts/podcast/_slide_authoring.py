@@ -289,6 +289,104 @@ def _build_pair_prompt(
     )
 
 
+def _build_pair_prompt_technical(
+    *,
+    book_slug: str,
+    slug: str,
+    chap_num: str,
+    chapter_file: Path,
+    spine_path: Path | None,
+    deck_path: Path,
+    framing_path: Path,
+    audio_words: int,
+    extra_constraints: str = "",
+) -> str:
+    """Build the heredoc prompt for technical/developer content (explainers category).
+
+    Replaces the Islamic scholarly version with developer-audience visual design:
+    CLI workflow diagrams, comparison tables, architecture flows, code-first structures.
+    No Arabic calligraphy directives, no spiritual imagery, no doctrinal constraints.
+    """
+    spine_clause = (
+        f"  - `{spine_path}` (the discussion-spine — every [VISUAL CANDIDATE] beat should map "
+        f"to a structure in the deck source)\n"
+        if spine_path is not None and spine_path.exists()
+        else "  - (no discussion-spine present for this episode — derive visual moments "
+        f"from the audio chapter alone)\n"
+    )
+
+    constraints_block = ""
+    if extra_constraints.strip():
+        constraints_block = (
+            "\n\nADDITIONAL CONSTRAINTS (from prior validation failure — fix these):\n"
+            f"{extra_constraints.strip()}\n"
+        )
+
+    deck_lo = max(2000, int(audio_words * 0.5))
+    deck_hi = max(deck_lo + 500, audio_words)
+
+    return (
+        f"You are authoring the slide-deck PAIR for episode `EP{chap_num}-{slug}` "
+        f"of technical series `{book_slug}`. The audience is professional software developers. "
+        f"The pair is one SOURCE file + one CUSTOMIZE PROMPT file, "
+        f"both landing in `{deck_path.parent}/`.\n\n"
+        f"AUTHORITIES (read these first — they govern shape and rules):\n"
+        f"  - `{REFERENCE_FORMAT}` (deliverable shape — what each file contains)\n"
+        f"  - `{REFERENCE_PATTERNS}` (diagram taxonomy — comparison matrix, contrast pair, "
+        f"process flow, feature table, decision tree, architecture flow)\n"
+        f"  - `{REFERENCE_STEERING}` (steering phrases — pick 3-5 for the framing's "
+        f"`## Steering Phrases`)\n\n"
+        f"INPUT:\n"
+        f"  - `{chapter_file}` (the audio chapter — {audio_words} words; this is the "
+        f"SOURCE content to re-render structurally)\n"
+        f"{spine_clause}"
+        f"\nOUTPUTS (write EXACTLY these two files — no others):\n"
+        f"  - `{deck_path}` (the SLIDE-DECK SOURCE — `.txt`, NotebookLM-uploadable)\n"
+        f"  - `{framing_path}` (the SLIDE CUSTOMIZE PROMPT — `.md`, NotebookLM-pasteable)\n\n"
+        f"DECK SOURCE rules (`{deck_path.name}`):\n"
+        f"- H1: the episode title (same as the audio chapter's H1).\n"
+        f"- H2: the audio chapter's major sections (preserved verbatim).\n"
+        f"- Within each H2, body is STRUCTURES: comparison tables, CLI workflow steps, "
+        f"feature matrices, architecture flows, before/after contrast columns. "
+        f"NO prose paragraphs longer than 100 words.\n"
+        f"- Every structural moment matches a named diagram type from the patterns taxonomy.\n"
+        f"- Word count target: {deck_lo}-{deck_hi} (50-100% of audio chapter's {audio_words}; "
+        f"hard floor 2,000). If you cannot reach 2,000 words structurally, STOP and emit a "
+        f"justified-skip explanation — do not write a thin deck source.\n"
+        f"- Contrast columns use `Column A:` / `Column B:` PREFIX LINES (not side-by-side "
+        f"markdown columns — NotebookLM parses sequential text better).\n"
+        f"- CLI commands and code blocks must be verbatim from the source — no paraphrasing.\n"
+        f"- Version numbers and product names must be exact (no 'the latest version').\n"
+        f"- Acronyms used in structures must be expanded on first use in the deck source.\n"
+        f"- No em dashes (use commas or restructure). No emojis.\n"
+        f"- Every concept present in the audio chapter must appear (restructured) in the deck; "
+        f"the deck is a RE-PRESENTATION, not a SUMMARY.\n\n"
+        f"FRAMING rules (`{framing_path.name}`):\n"
+        f"- 150-250 words total.\n"
+        f"- H1 (one line; file-label — NotebookLM users skip this line when pasting).\n"
+        f"- Required H2 sections, in this order:\n"
+        f"  1. `## Audience` — professional software developers (be specific about their level).\n"
+        f"  2. `## Core Principle` — restate the audio-vs-slide division of labor in 1-2 sentences.\n"
+        f"  3. `## Visual Priorities` — 2-4 specific technical visual moments (CLI workflows, "
+        f"comparison tables, architecture diagrams) matching structures in the deck source.\n"
+        f"  4. `## Prohibited Patterns` — explicit list: no literal-text slides, no audio-restatement, "
+        f"no spiritual or doctrinal imagery, no bullet-list-as-diagram, no vague 'modern' metaphors.\n"
+        f"  5. `## Steering Phrases` — 3-5 phrases drawn from `{REFERENCE_STEERING.name}`.\n\n"
+        f"AFTER WRITING both files, print on stdout (one per line):\n"
+        f"  DECK: {deck_path}\n"
+        f"  FRAMING: {framing_path}\n"
+        f"  DECK_WORDS: <integer>\n"
+        f"  FRAMING_WORDS: <integer>\n\n"
+        f"Constraints (hard):\n"
+        f"- Do NOT modify any file other than `{deck_path}` and `{framing_path}`.\n"
+        f"- Do NOT touch the audio chapter at `{chapter_file}` or any file under `chapters/`, "
+        f"`chapter-contracts/`, or `_system/episode-drafts/` (read-only for this task).\n"
+        f"- Do NOT wrap outputs in code fences or add preamble.\n"
+        f"{constraints_block}"
+        f"\nExit when both files exist and are non-empty."
+    )
+
+
 def _parse_stdout_counts(stdout: str) -> tuple[int, int]:
     """Parse `DECK_WORDS:` and `FRAMING_WORDS:` from the LLM's stdout, if present.
 
@@ -404,9 +502,21 @@ def author_deck_pair(
     last_stderr = ""
     last_findings: list[str] = []
 
+    # ── Category-aware prompt routing ─────────────────────────────────────
+    # Islamic/scholarly → Islamic visual design (_build_pair_prompt)
+    # Technical/explainers → developer-audience visual design (_build_pair_prompt_technical)
+    # Sites/consumer → Islamic prompt (no dedicated variant yet; adequate for consumer finance)
+    from _authoring._core import _read_category, ARABIC_SCHOLARLY_CATEGORIES
+    _category = _read_category(book_dir)
+    _prompt_builder = (
+        _build_pair_prompt_technical
+        if _category not in ARABIC_SCHOLARLY_CATEGORIES and _category == "explainers"
+        else _build_pair_prompt
+    )
+
     while attempts <= (MAX_AUTHORING_RETRIES if retry_on_validation_fail else 0):
         attempts += 1
-        prompt = _build_pair_prompt(
+        prompt = _prompt_builder(
             book_slug=book_slug,
             slug=slug,
             chap_num=chap_num,

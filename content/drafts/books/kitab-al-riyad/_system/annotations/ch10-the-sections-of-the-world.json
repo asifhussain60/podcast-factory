@@ -1,0 +1,612 @@
+{
+  "chapter": "ch10-the-sections-of-the-world",
+  "paragraphs": 101,
+  "annotations": [
+    {
+      "para_idx": 0,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 1,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 2,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 3,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 4,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 5,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 6,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 7,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 8,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 9,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 10,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 11,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 12,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 13,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 14,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 15,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 16,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 17,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 18,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 19,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 20,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 21,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 22,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 23,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 24,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 25,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 26,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 27,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 28,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 29,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 30,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 31,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 32,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 33,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 34,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 35,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 36,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 37,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 38,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 39,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 40,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 41,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 42,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 43,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 44,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 45,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 46,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 47,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 48,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 49,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 50,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 51,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 52,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 53,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 54,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 55,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 56,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 57,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 58,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 59,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 60,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 61,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 62,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 63,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 64,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 65,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 66,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 67,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 68,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 69,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 70,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 71,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 72,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 73,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 74,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 75,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 76,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 77,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 78,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 79,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 80,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 81,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 82,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 83,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 84,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 85,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 86,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 87,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 88,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 89,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 90,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 91,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 92,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 93,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 94,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 95,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 96,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 97,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 98,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 99,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    },
+    {
+      "para_idx": 100,
+      "tag": "mark-for-improvement",
+      "confidence": 0.5,
+      "note": "dry-run stub"
+    }
+  ]
+}

@@ -56,7 +56,7 @@ class ChunkingErrorKwargsTests(unittest.TestCase):
 
 
 class ChunkingArtifactValidationTests(unittest.TestCase):
-    """run_windowed — the P5.1 failure class is now fatal, not silent."""
+    """run_windowed — SDK path: empty response raises, non-empty response succeeds."""
 
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -68,82 +68,58 @@ class ChunkingArtifactValidationTests(unittest.TestCase):
     def _prompt_builder(self, body, idx, total, out_path):
         return f"chunk {idx}/{total}"
 
-    def _make_proc(self, rc: int, stdout: str = "", stderr: str = "", *, write_path: Path | None = None):
-        """Build a CompletedProcess that optionally writes a file to simulate
-        a successful (or unsuccessful) artifact-producing run."""
-        if write_path is not None:
-            write_path.write_text("WINDOW OUTPUT")
-        return mock.MagicMock(returncode=rc, stdout=stdout, stderr=stderr)
+    def test_sdk_empty_response_raises_fatal(self):
+        """SDK path: _invoke_fn returns empty → ChunkingError raised (P5.1 equivalent)."""
+        def empty_invoke(instructions, body, timeout):
+            return ""
 
-    def test_rc_zero_no_artifact_raises_fatal(self):
-        """The P5.1 failure mode: rc=0 + no file written → must RAISE, not continue."""
-        # Mock subprocess.run so the first (and only) window returns rc=0 but
-        # does NOT write the expected out file.
-        def fake_run(cmd, **_):
-            return self._make_proc(
-                rc=0,
-                stdout="I cannot help with that request.",
-                stderr="",
-            )
-
-        with mock.patch.object(_chunking.subprocess, "run", side_effect=fake_run):
-            with self.assertRaises(_chunking.ChunkingError) as cm:
-                _chunking.run_windowed(
-                    text="word " * 100,
-                    chunks_dir=self.chunks_dir,
-                    prompt_builder=self._prompt_builder,
-                    target_words=3000,
-                    overlap_words=0,
-                    log=lambda _msg: None,
-                )
-
-        err = cm.exception
-        self.assertIn("rc=0 but produced no artifact", str(err))
-        self.assertIn("P5.1 failure class", str(err))
-        self.assertEqual(err.stdout, "I cannot help with that request.")
-        self.assertIn("DO NOT silently advance", err.manual_fallback)
-
-    def test_rc_nonzero_all_fail_raises_with_summary(self):
-        """When EVERY window has rc != 0, ChunkingError raises with the summary."""
-        def fake_run(cmd, **_):
-            return self._make_proc(rc=1, stdout="bad-stdout", stderr="bad-stderr")
-
-        with mock.patch.object(_chunking.subprocess, "run", side_effect=fake_run):
-            with self.assertRaises(_chunking.ChunkingError) as cm:
-                _chunking.run_windowed(
-                    text="word " * 100,
-                    chunks_dir=self.chunks_dir,
-                    prompt_builder=self._prompt_builder,
-                    target_words=3000,
-                    overlap_words=0,
-                    log=lambda _msg: None,
-                )
-        # The summary message captures the failure trail; the rc!=0 path
-        # now appends BOTH stdout and stderr to the failure record (P5.2).
-        msg = str(cm.exception)
-        self.assertIn("all 1 windows failed", msg)
-        # The captured failure record format includes "stderr=" and "stdout=".
-        self.assertIn("stderr=", msg)
-        self.assertIn("stdout=", msg)
-
-    def test_rc_zero_with_artifact_succeeds_silently(self):
-        """Happy path — rc=0 AND the artifact is written → no exception."""
-        def fake_run(cmd, **_):
-            # Determine which window we're on from the chunks_dir contents
-            existing = sorted(self.chunks_dir.glob("win-*.in.md"))
-            idx = len(existing)
-            out_path = self.chunks_dir / f"win-{idx:03d}.out.md"
-            return self._make_proc(rc=0, stdout="ok", stderr="", write_path=out_path)
-
-        with mock.patch.object(_chunking.subprocess, "run", side_effect=fake_run):
-            paths = _chunking.run_windowed(
+        with self.assertRaises(_chunking.ChunkingError) as cm:
+            _chunking.run_windowed(
                 text="word " * 100,
                 chunks_dir=self.chunks_dir,
                 prompt_builder=self._prompt_builder,
                 target_words=3000,
                 overlap_words=0,
                 log=lambda _msg: None,
+                _invoke_fn=empty_invoke,
             )
+
+        msg = str(cm.exception)
+        self.assertIn("all 1 windows failed", msg)
+        self.assertIn("SDK returned empty", msg)
+
+    def test_all_sdk_failures_raise_with_summary(self):
+        """When every window's _invoke_fn returns empty, ChunkingError summarizes failures."""
+        def always_fail(instructions, body, timeout):
+            return ""
+
+        with self.assertRaises(_chunking.ChunkingError) as cm:
+            _chunking.run_windowed(
+                text="word " * 100,
+                chunks_dir=self.chunks_dir,
+                prompt_builder=self._prompt_builder,
+                target_words=3000,
+                overlap_words=0,
+                log=lambda _msg: None,
+                _invoke_fn=always_fail,
+            )
+        msg = str(cm.exception)
+        self.assertIn("all 1 windows failed", msg)
+
+    def test_sdk_success_returns_paths(self):
+        """Happy path — _invoke_fn returns text → file written → paths returned."""
+        def good_invoke(instructions, body, timeout):
+            return "WINDOW OUTPUT"
+
+        paths = _chunking.run_windowed(
+            text="word " * 100,
+            chunks_dir=self.chunks_dir,
+            prompt_builder=self._prompt_builder,
+            target_words=3000,
+            overlap_words=0,
+            log=lambda _msg: None,
+            _invoke_fn=good_invoke,
+        )
         self.assertEqual(len(paths), 1)
         self.assertTrue(paths[0].exists())
 

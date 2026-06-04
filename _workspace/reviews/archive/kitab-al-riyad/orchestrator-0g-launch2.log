@@ -1,0 +1,6 @@
+orchestrate_book: resume — slug=kitab-al-riyad
+  last completed:  0e
+  current phase:   per-chapter  [pending]
+
+  No automated action for current phase 'per-chapter'. State file:
+    content/drafts/kitab-al-riyad/_system/orchestrator-state.json

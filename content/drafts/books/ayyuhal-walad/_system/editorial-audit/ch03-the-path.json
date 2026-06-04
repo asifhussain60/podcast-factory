@@ -1,0 +1,32 @@
+{
+  "slug": "ayyuhal-walad",
+  "chapter": "ch03-the-path",
+  "stage": "narrator",
+  "audited_at": "2026-05-30T18:40:28Z",
+  "findings": [
+    {
+      "id": "EA-001",
+      "paragraph_index": 0,
+      "action": "suppress",
+      "confidence": "high",
+      "reason": "Stage heading — redundant with editor stage tab; not content.",
+      "pattern": "H1_STAGE_LABEL",
+      "condensed_replacement": null
+    },
+    {
+      "id": "EA-002",
+      "paragraph_index": 1,
+      "action": "suppress",
+      "confidence": "high",
+      "reason": "Pipeline metadata artifact — provenance comment not intended for the reader.",
+      "pattern": "METADATA_ITALIC",
+      "condensed_replacement": null
+    }
+  ],
+  "pipeline_gap": true,
+  "summary": {
+    "suppress": 2,
+    "consolidate": 0,
+    "pipeline_gap_words": 209
+  }
+}
