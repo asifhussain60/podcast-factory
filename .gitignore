@@ -168,6 +168,11 @@ CONTENT/knowledge-base/categorize-review.json
 # (Both case variants for macOS APFS / git case-fold mismatch.)
 content/drafts/**/_system/stage-metrics.json
 CONTENT/drafts/**/_system/stage-metrics.json
+# Post-2026-06-04 type-first layout: the Studio reader rewrites stage-metrics.json
+# on every load and the cost summary writes cost-validation.json — derived, never
+# source-of-truth, must not dirty the tree at ANY bucket path.
+content/**/_system/stage-metrics.json
+content/**/_system/cost-validation.json
 
 # Root-level package-lock.json (belongs only in plan-dashboard/; the root
 # package.json is metadata-only with no install dependencies).
