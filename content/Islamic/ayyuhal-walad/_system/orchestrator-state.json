@@ -3,10 +3,10 @@
   "book_slug": "ayyuhal-walad",
   "category": "books",
   "branch": "develop",
-  "phase": "0d",
-  "phase_status": "halted",
-  "last_completed_phase": "0d",
-  "next_phase": "0e",
+  "phase": "0e",
+  "phase_status": "completed",
+  "last_completed_phase": "0e",
+  "next_phase": "0literary",
   "last_error": null,
   "pipeline_mode": "orchestrated",
   "reconstruction_note": "This state file was reconstructed on 2026-05-24 to make ayyuhal-walad trackable by the post-2026-05-23 orchestrator. Ayyuhal-walad was authored before the orchestrator existed (5 chapters + 5 contracts + 5 episodes + 3 transcripts + 1 audit, all already in content/drafts/ayyuhal-walad/). No phase timestamps are fabricated — only `last_completed_phase: per-chapter` is asserted from the artifacts on disk. See meta.yml for the original pre-orchestrator provenance. Mode label `pre_orchestrator_authored` is distinct from `non_orchestrated_mode_2` (the latter denotes a deliberate bypass; this denotes pre-existence).",
@@ -39,7 +39,9 @@
       "ts_completed": "2026-06-04T17:13:08Z"
     },
     "0e": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-06-04T17:19:25Z",
+      "ts_completed": "2026-06-04T17:30:40Z"
     },
     "0literary": {
       "status": "pending"
@@ -85,7 +87,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-21T00:00:00Z",
-  "ts_updated": "2026-06-04T17:13:08Z",
+  "ts_updated": "2026-06-04T17:30:40Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.2",
   "completed_slugs": [
