@@ -1,0 +1,6 @@
+- ch01-the-disciples-letter-and-the-reply: GUARDRAIL — 3 finding(s):
+    - P1 missing section heading: '## Where this chapter picks up'
+    - P1 missing section heading: "## The author's opening counsel — and the first piercing question"
+    - P1 large length drop: 8488->3886 words (45% of source — possible content loss)
+- ch01-the-disciples-letter-and-the-reply: DONE at 2026-06-04T17:49:31Z
+- ch02-the-practical-rule-of-life: DONE at 2026-06-04T17:50:54Z
