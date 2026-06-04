@@ -18,9 +18,14 @@ interface Props {
   activeStep: StepId;
   steps: StudioStep[];
   books: BookOption[];
+  /** When true, render only the book picker + current-step label — the full
+   *  horizontal stepper is suppressed because the page carries the pipeline
+   *  timeline elsewhere (the Edit page's left rail). */
+  compact?: boolean;
 }
 
-const { slug, bookTitle, activeStep, steps, books } = Astro.props;
+const { slug, bookTitle, activeStep, steps, books, compact = false } = Astro.props;
+const activeLabel = steps.find((s) => s.id === activeStep)?.label ?? '';
 
 const STATE_ICON: Record<string, string> = {
   done: 'fa-circle-check',
@@ -51,19 +56,26 @@ const STATE_ICON: Record<string, string> = {
       </div>
     </details>
 
-    <ol class="studio-stepper">
-      {steps.map((step, i) => (
-        <li class={`studio-step state-${step.state}${step.id === activeStep ? ' is-active' : ''}`}>
-          <a href={`/studio/${slug}/${step.id}`} class="studio-step-link" aria-current={step.id === activeStep ? 'step' : undefined}>
-            <span class="studio-step-icon"><i class={`fa-solid ${STATE_ICON[step.state]}`} aria-hidden="true"></i></span>
-            <span class="studio-step-copy">
-              <span class="studio-step-num">Step {i + 1}</span>
-              <span class="studio-step-label">{step.label}</span>
-              <span class="studio-step-detail">{step.detail}</span>
-            </span>
-          </a>
-        </li>
-      ))}
-    </ol>
+    {compact ? (
+      <span class="studio-subnav-current">
+        <i class="fa-solid fa-circle-dot" aria-hidden="true"></i>
+        {activeLabel}
+      </span>
+    ) : (
+      <ol class="studio-stepper">
+        {steps.map((step, i) => (
+          <li class={`studio-step state-${step.state}${step.id === activeStep ? ' is-active' : ''}`}>
+            <a href={`/studio/${slug}/${step.id}`} class="studio-step-link" aria-current={step.id === activeStep ? 'step' : undefined}>
+              <span class="studio-step-icon"><i class={`fa-solid ${STATE_ICON[step.state]}`} aria-hidden="true"></i></span>
+              <span class="studio-step-copy">
+                <span class="studio-step-num">Step {i + 1}</span>
+                <span class="studio-step-label">{step.label}</span>
+                <span class="studio-step-detail">{step.detail}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    )}
   </div>
 </nav>

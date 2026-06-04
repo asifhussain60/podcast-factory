@@ -15,13 +15,14 @@ import ContentLevelSelector from '../../../components/studio/ContentLevelSelecto
 import StudioPoc from '../../../components/reader/poc/StudioPoc.tsx';
 import { CARD_DEFS } from '../../../lib/reader/editorial';
 import { loadBookIndex } from '../../../lib/reader/chapters';
-import { loadBookWorkspace, AYYUHAL_WALAD_STAGE_DEFS } from '../../../lib/reader/book-workspace';
+import { loadBookWorkspace, discoverArchivedLineages, STAGE_DEFS } from '../../../lib/reader/book-workspace';
 import { loadStudioPipeline, STUDIO_STEPS, type StepId } from '../../../lib/reader/studio-pipeline';
 import { findContent, listContent, slugToTitle } from '../../../lib/content-paths';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import '../../../styles/corpus-mock.css';
 import '../../../styles/studio-poc.css';
+import '../../../styles/stage-timeline.css';
 import '../../../styles/workbench.css';
 import '../../../styles/studio-pipeline.css';
 
@@ -44,7 +45,22 @@ const books = allBooks.map((b) => ({ slug: b.slug, title: slugToTitle(b.slug) })
 // Shared loads for steps that need chapter data.
 const index = await loadBookIndex(slug);
 const chapterDefs = (index?.chapters ?? []).map((c) => ({ id: c.slug, title: c.title }));
-const workspace = await loadBookWorkspace(slug, chapterDefs, AYYUHAL_WALAD_STAGE_DEFS);
+const workspace = await loadBookWorkspace(slug, chapterDefs, STAGE_DEFS);
+
+// View-only progression lineages: any archived full-stage run for this book
+// (e.g. an earlier episode structure). Loaded with writeLedger:false so they
+// never clobber the live book's stage-metrics.json.
+const archivedLineages = discoverArchivedLineages(slug);
+const archivedWorkspaces = await Promise.all(
+  archivedLineages.map((ln) =>
+    loadBookWorkspace(slug, ln.chapters, STAGE_DEFS, { stageRoot: ln.stageRoot, writeLedger: false }),
+  ),
+);
+const progressionArchives = archivedLineages.map((ln, i) => ({
+  id: ln.id,
+  label: ln.label,
+  chapters: archivedWorkspaces[i].chapters,
+}));
 
 // ?ch= param — deep-link from Library chapter reader (R-1 toggle).
 // Pre-selects the specific chapter in the cockpit on arrival.
@@ -91,7 +107,7 @@ const stepMeta = STUDIO_STEPS.find((s) => s.id === stepParam)!;
 const pageTitle = `${stepMeta.label} — ${bookTitle}`;
 ---
 <Base title={pageTitle} active="studio" description={`Studio · ${stepMeta.label} · ${bookTitle}`}>
-  <StudioSubnav slot="subnav" slug={slug} bookTitle={bookTitle} activeStep={stepParam} steps={steps} books={books} />
+  <StudioSubnav slot="subnav" slug={slug} bookTitle={bookTitle} activeStep={stepParam} steps={steps} books={books} compact={stepParam === 'edit'} />
 
   {/* ── Intake ──────────────────────────────────────────── */}
   {stepParam === 'intake' && (
@@ -151,7 +167,7 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
 
   {/* ── Edit & Enrich (the merged cockpit) ──────────────── */}
   {stepParam === 'edit' && (
-    <div class="studio-step-body">
+    <div class="studio-step-body studio-step-body--wide">
       {workspace.loadError ? (
         <div class="studio-panel"><p>{workspace.loadError}</p></div>
       ) : editView === 'workbench' ? (
@@ -183,6 +199,9 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
             glossary={workspace.glossary}
             initialChapIdx={initialChapIdx}
             contentProfile={contentProfile}
+            archivedLineages={progressionArchives}
+            pipelineSteps={steps}
+            activeStep={stepParam}
           />
         </>
       )}

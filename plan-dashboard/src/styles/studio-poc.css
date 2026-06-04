@@ -14,15 +14,24 @@
 .sp-subtitle { font-size: 0.92rem; line-height: 1.55; color: var(--c-ink-muted); max-width: 72ch; margin: 0; }
 .sp-error { width: 94%; max-width: 1600px; margin: 24px auto; color: var(--c-red, #b91c1c); font-size: 1rem; }
 
-/* Two-pane layout. */
+/* Three-pane layout: timeline rail · editor (dominant) · inspector.
+   Full-width — the centre reading panel takes all space the two slim side
+   panels don't need. minmax(0,1fr) on the centre lets it shrink instead of
+   forcing horizontal overflow (the inspector-clipping bug). */
 .studio-poc {
   display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 24px;
-  width: 94%;
-  max-width: 1600px;
-  margin: 12px auto 48px;
+  grid-template-columns: minmax(188px, 208px) minmax(0, 1fr) minmax(320px, 352px);
+  gap: 20px;
+  width: 100%;
+  max-width: none;
+  margin: 4px 0 32px;
   align-items: start;
+}
+@media (max-width: 1280px) {
+  .studio-poc { grid-template-columns: 188px minmax(0, 1fr) 320px; gap: 16px; }
+}
+@media (max-width: 1100px) {
+  .studio-poc { grid-template-columns: 1fr; }
 }
 
 /* M-1 scroll fix: clear the full pinned stack (topnav 52px + studio subnav ~72px) + 1rem.
@@ -82,7 +91,9 @@
   font-family: var(--font-ui, system-ui, sans-serif);
   font-size: 0.74rem;
   font-weight: 600;
-  color: var(--c-ink-muted);
+  /* --c-ink-dim (not --c-ink-muted): the REDESIGN block shrinks tabs to 0.625rem (12px),
+     below the WCAG AA large-text threshold — inactive tab labels need 4.5:1 (REQ-048). */
+  color: var(--c-ink-dim);
   background: transparent;
   border: 1px solid transparent;
   border-radius: 4px;
@@ -152,7 +163,9 @@
 
 .sp-insp-title { font-size: 1.05rem; font-weight: 700; color: var(--c-accent); margin: 0 0 4px; }
 .sp-insp-sub { font-size: 0.85rem; font-weight: 700; color: var(--c-ink); margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
-.sp-insp-hint { font-size: 0.8rem; color: var(--c-ink-muted); margin: 0 0 6px; }
+/* --c-ink-dim (not --c-ink-muted): the REDESIGN block shrinks this to 0.625rem (12px),
+   below the WCAG AA large-text threshold, so it needs the 4.5:1 ink-dim (REQ-048). */
+.sp-insp-hint { font-size: 0.8rem; color: var(--c-ink-dim); margin: 0 0 6px; }
 .sp-insp-sel {
   font-size: 0.92rem; line-height: 1.55; color: var(--c-ink);
   border-left: 3px solid var(--c-accent); padding: 5px 10px; margin: 0;
@@ -388,11 +401,13 @@
 }
 .studio-poc__editor .ProseMirror {
   font-family: var(--font-body, Georgia, serif);
-  font-size: 1.08rem;
-  line-height: 1.7;
+  font-size: 1rem;               /* 19.2px — denser than prior 1.08rem, held at
+                                    the theme-independent reading floor (REQ-010). */
+  line-height: 1.72;
   color: var(--c-ink);
   outline: none;
-  max-width: 72ch;
+  max-width: 74ch;
+  margin-inline: auto;           /* centre the measure in the now-wide column */
 }
 /* No full-editor focus ring — the active-PARAGRAPH ring is the focus cue (FC fix). */
 .studio-poc__editor .ProseMirror:focus,
@@ -542,7 +557,10 @@
 .sv-pop__open { color: #a9851a; font-weight: 700; text-decoration: none; }
 .sv-pop__open:hover { text-decoration: underline; }
 
-@media (max-width: 900px) {
+/* De-stick the inspector at the SAME breakpoint the grid collapses to one
+   column (1100px). Below that it's stacked full-width, so a sticky+max-height
+   clamp would pin it oddly mid-scroll (REQ-051). */
+@media (max-width: 1100px) {
   .studio-poc { grid-template-columns: 1fr; }
   .studio-poc__inspector { position: static; max-height: none; top: auto; }
 }
@@ -572,7 +590,9 @@
 .studio-poc__editor .sp-tab.is-pending { cursor: not-allowed; font-style: italic; opacity: 0.45; }
 .studio-poc__editor .sp-stage-note {
   font-size: 0.78rem; color: var(--c-ink-muted); font-style: italic; margin: -8px 0 14px;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
 }
+.studio-poc__editor .sp-stage-note .sp-augdiff-toggle { font-style: normal; }
 
 /* WC8 write-back: stage approval. */
 .studio-poc__editor .sp-tab-ok { color: var(--c-green, #15803d); font-weight: 700; }
@@ -596,7 +616,9 @@
 .studio-poc__editor .sp-metrics {
   display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline;
   font-family: var(--font-ui, system-ui, sans-serif); font-size: 0.78rem;
-  color: var(--c-ink-muted); margin: -10px 0 16px;
+  /* --c-ink-dim (not --c-ink-muted): ~15px is below the WCAG AA large-text
+     threshold; the header metrics line needs 4.5:1 (REQ-048). */
+  color: var(--c-ink-dim); margin: -10px 0 16px;
 }
 .studio-poc__editor .sp-metric-delta { font-weight: 700; }
 .studio-poc__editor .sp-metric-delta.is-down { color: var(--c-green, #15803d); }
@@ -1474,3 +1496,69 @@
 .sp-tag-popover__tag--improve { border-color: rgba(79,70,229,0.3);  color: #4f46e5; background: rgba(79,70,229,0.07); }
 .sp-tag-popover__tag--improve:hover { background: rgba(79,70,229,0.14); }
 .sp-tag-popover__tag--improve.is-active { background: #4f46e5; color: #fff; border-color: #4f46e5; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   REDESIGN 2026-06-04 — full-width cockpit · dominant reading panel ·
+   12px side-panel chrome · single "Publish". External CSS, --c-* tokens only,
+   colour theme unchanged (Cortex HTML-view standard).
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Consolidated editor header: chapter picker · metrics · finalize ── */
+.studio-poc__editor .sp-editor-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 0 0 14px;
+}
+/* Reset the legacy stacked-row margins now that these sit inline in the header. */
+.studio-poc__editor .sp-editor-head .sp-chapsel { margin: 0; }
+.studio-poc__editor .sp-editor-head .sp-metrics { margin: 0; }
+/* Finalize chapter — the chapter-level finalize, moved out of the version rail
+   so the word "Publish" exists exactly once (the top pipeline step). Outlined,
+   not a heavy solid block, so it reads as a chapter action, not THE publish. */
+.studio-poc__editor .sp-finalize-chapter {
+  margin-left: auto;
+  flex: 0 0 auto;
+  padding: 6px 14px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--c-accent);
+  background: color-mix(in srgb, var(--c-accent) 9%, var(--c-bg-card));
+  border: 1px solid color-mix(in srgb, var(--c-accent) 45%, transparent);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.studio-poc__editor .sp-finalize-chapter:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--c-accent) 16%, var(--c-bg-card));
+  border-color: var(--c-accent);
+}
+.studio-poc__editor .sp-finalize-chapter:disabled { opacity: 0.5; cursor: default; }
+.studio-poc__editor .sp-finalize-chapter.is-done {
+  color: var(--c-green, #15803d);
+  background: color-mix(in srgb, var(--c-green, #16a34a) 12%, var(--c-bg-card));
+  border-color: color-mix(in srgb, var(--c-green, #16a34a) 45%, transparent);
+}
+
+/* ── Inspector: 12px chrome scale + tighter spacing (Asif).
+   Root font is 19.2px (theme runs at 120%), so 0.625rem = 12.0px exactly.
+   Primary text (selection, finalize) sits a touch above for hierarchy. ── */
+.studio-poc__inspector { gap: 8px; }
+.sp-global-strip { padding: 8px 10px; gap: 6px; }
+.sp-global-arabic { font-size: 0.65rem; }
+.sp-approve.sp-approve--strip { font-size: 0.7rem; padding: 7px 10px; }
+.sp-finalize { font-size: 0.65rem; }
+.sp-tab-bar { padding: 3px; }
+.sp-tab-btn { font-size: 0.625rem; padding: 6px 5px; }
+.sp-tab-pane { padding: 11px 12px; gap: 10px; }
+.sp-insp-meta { grid-template-columns: auto 1fr; gap: 4px 10px; }
+.sp-insp-meta dt { font-size: 0.625rem; }
+.sp-insp-meta dd { font-size: 0.68rem; }
+.sp-insp-hint { font-size: 0.625rem; }
+.sp-insp-sel { font-size: 0.7rem; }
+.sp-insp-tags { gap: 5px; }
+.sp-insp-tagbtn { font-size: 0.62rem; padding: 3px 8px; }
+.sp-marker-list li { font-size: 0.65rem; }
+.sp-legend-row { font-size: 0.62rem; }

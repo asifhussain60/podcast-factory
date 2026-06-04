@@ -1,7 +1,7 @@
 {
   "slug": "ayyuhal-walad",
   "chapter": "ch03-the-guiding-shaykh-and-final-counsels",
-  "measured_at": "2026-06-03T18:05:43Z",
+  "measured_at": "2026-06-04T13:08:05Z",
   "stages": [
     {
       "id": "source",
@@ -47,6 +47,15 @@
       "sentences": 69,
       "deltaPct": null,
       "comparedTo": null
+    },
+    {
+      "id": "literary",
+      "available": true,
+      "words": 2229,
+      "chars": 12719,
+      "sentences": 136,
+      "deltaPct": -17.5,
+      "comparedTo": "augmented"
     },
     {
       "id": "narrator",

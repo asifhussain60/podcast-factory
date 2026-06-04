@@ -145,6 +145,25 @@ interface Chapter {
   stages: Stage[];
   metrics: StageMetric[];
   reviewed: Record<string, { approved: boolean; approved_at?: string | null }>;
+  finalized?: { at: string } | null;
+}
+
+/** A coherent stage set under one root. 'current' is the live rebuild; archived
+ *  lineages (earlier full-stage runs) are view-only and never editable. */
+export interface Lineage {
+  id: string;
+  label: string;
+  chapters: Chapter[];
+}
+
+/** A pipeline phase (Intake → Source Review → Edit & Enrich → Publish), shown
+ *  as the top tier of the left rail so the rail is the single pipeline timeline
+ *  (the top horizontal stepper is suppressed on the Edit page). */
+interface PipelineStep {
+  id: string;
+  label: string;
+  state: string;   // 'done' | 'active' | 'pending' | 'blocked'
+  detail: string;
 }
 
 interface Props {
@@ -153,6 +172,12 @@ interface Props {
   glossary?: GlossaryEntry[];
   initialChapIdx?: number;
   contentProfile?: string;
+  /** Archived view-only stage lineages (e.g. an earlier episode structure). */
+  archivedLineages?: Lineage[];
+  /** Pipeline phases for the left-rail timeline. */
+  pipelineSteps?: PipelineStep[];
+  /** The phase this page represents (the rail expands its versions here). */
+  activeStep?: string;
 }
 
 // ── Module-level depth picker singleton ─────────────────────────────────────
@@ -465,38 +490,60 @@ function openTagPicker(
 }
 // ────────────────────────────────────────────────────────────────────────────
 
-export default function StudioPoc({ slug, chapters, glossary = [], initialChapIdx = 0, contentProfile }: Props) {
+export default function StudioPoc({ slug, chapters, glossary = [], initialChapIdx = 0, contentProfile, archivedLineages = [], pipelineSteps = [], activeStep = 'edit' }: Props) {
   const depthLevels = DEPTH_LEVELS_BY_PROFILE[contentProfile ?? DEFAULT_DEPTH_PROFILE]
     ?? DEPTH_LEVELS_BY_PROFILE[DEFAULT_DEPTH_PROFILE];
 
+  // Lineage = a coherent stage set. 'current' is the live rebuild; archived
+  // lineages (earlier full-stage runs) are view-only. The timeline rail swaps
+  // between them; archived lineages are never editable.
+  const lineages = useMemo<Lineage[]>(
+    () => [{ id: 'current', label: 'Current rebuild', chapters }, ...archivedLineages],
+    [chapters, archivedLineages],
+  );
+  const [activeLineageId, setActiveLineageId] = useState('current');
+  const activeLineage = lineages.find((l) => l.id === activeLineageId) ?? lineages[0];
+  const isArchivedView = activeLineage.id !== 'current';
+  const viewChapters = activeLineage.chapters;
+
   // B: chapter switcher — pick which chapter's stages the editor shows.
   const [chapIdx, setChapIdx] = useState(initialChapIdx);
-  const chap = chapters[chapIdx] ?? chapters[0];
+  const chap = viewChapters[chapIdx] ?? viewChapters[0];
   const stages = chap.stages;
   const metrics = chap.metrics;
   const chapter = chap.slug;
   const chapterTitle = chap.title;
 
-  // Stage tabs (SN-5): the last AVAILABLE stage is the one under review (editable); upstream
-  // stages are read-only comparison views. Tabs for not-yet-produced stages render disabled.
+  // The timeline's top step ("Review") is the last AVAILABLE stage — the one under
+  // human review (editable); every older stage is a read-only comparison view.
+  // Archived lineages are wholly read-only.
   const editableStageId = [...stages].reverse().find((s) => s.available)?.id ?? stages[0]?.id;
   const [stageId, setStageId] = useState<string>(editableStageId);
   const stage = stages.find((s) => s.id === stageId) ?? stages[0];
   const html = stage?.html ?? '';
-  const isReadOnlyStage = stageId !== editableStageId;
+  const isReadOnlyStage = stageId !== editableStageId || isArchivedView;
+
+  // Switch lineage: reset to its first chapter (chapter boundaries differ between lineages).
+  const switchLineage = useCallback((id: string) => {
+    setActiveLineageId(id);
+    setChapIdx(0);
+  }, []);
 
   // WC8 write-back loop: which stages are approved (seeded from disk, updated on approve).
   const [approvedStages, setApprovedStages] = useState<Record<string, boolean>>(
     () => Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, !!v?.approved])),
   );
-  // On chapter switch: reset to that chapter's editable stage + reload its approvals, and tell
-  // the editorial cockpit (Slice 5b) to follow this chapter.
+  // Chapter-level finalize flag (Publish button). Seeded from disk, updated on finalize.
+  const [finalized, setFinalized] = useState<{ at: string } | null>(chap.finalized ?? null);
+  // On chapter/lineage switch: reset to that chapter's editable stage + reload approvals +
+  // finalize flag, and tell the editorial cockpit (Slice 5b) to follow this chapter.
   useEffect(() => {
     setStageId([...chap.stages].reverse().find((s) => s.available)?.id ?? chap.stages[0]?.id);
     setApprovedStages(Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, !!v?.approved])));
+    setFinalized(chap.finalized ?? null);
     window.dispatchEvent(new CustomEvent('studio:chapter-change', { detail: { chapter: chap.slug } }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chapIdx]);
+  }, [chapIdx, activeLineageId]);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
 
@@ -584,17 +631,17 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
 
   const buildCombinedHtml = useCallback(
     (sid: string) =>
-      chapters
+      viewChapters
         .map((ch, i) => {
           const s =
             ch.stages.find((st) => st.id === sid && st.available) ??
             ch.stages.filter((st) => st.available).at(-1);
           const body = s?.html ?? '<p><em>Stage not yet produced for this chapter.</em></p>';
-          const sep = i < chapters.length - 1 ? '<hr>' : '';
+          const sep = i < viewChapters.length - 1 ? '<hr>' : '';
           return `<h2>${ch.title}</h2>${body}${sep}`;
         })
         .join(''),
-    [chapters],
+    [viewChapters],
   );
 
   const [selection, setSelection] = useState('');
@@ -607,11 +654,15 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   const arabicRef = useRef(false);                     // mirror of arabicOn for the plugin
   const hasFocusRef = useRef(false);                   // tracks editor DOM focus for para-active
   const editorContainerRef = useRef<HTMLElement | null>(null);
+  const railRef = useRef<HTMLElement | null>(null);        // left pipeline rail
+  const inspectorRef = useRef<HTMLElement | null>(null);   // right inspector (height-matched to rail)
   arabicRef.current = arabicOn;
-  // Aug-diff mode: compare Augmented text against Normalized to show what the pipeline added.
-  const showAugDiffRef = useRef(false);
-  const normTextsRef = useRef<string[]>([]);
-  const [showAugDiff, setShowAugDiff] = useState(false);
+  // Per-stage diff: when a read-only step is selected, the decoration plugin can diff each
+  // paragraph against the PREVIOUS stage's text (prevStageTextsRef) instead of the human-edit
+  // original — so "Show changes from {prev stage}" highlights what THAT step changed.
+  const showPrevDiffRef = useRef(false);
+  const prevStageTextsRef = useRef<string[]>([]);
+  const [showPrevDiff, setShowPrevDiff] = useState(false);
   // Index-based tag toggle, called from the floating per-paragraph icon toolbar (a PM widget
   // built outside React). Held in a ref so the widget always calls the latest closure.
   const tagFnRef = useRef<(idx: number, tagId: string) => void>(() => {});
@@ -822,12 +873,12 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                       );
                     }
                     // FC-3 Word-level track changes vs the original snapshot.
-                    // In aug-diff mode: diff current node against the Normalized paragraph
-                    // instead (showing what the augmentation pipeline added, not human edits).
-                    const augDiff = showAugDiffRef.current;
-                    const before = augDiff ? (normTextsRef.current[idx] ?? '') : orig[idx];
-                    const insClass = augDiff ? 'aug-ins' : 'tc-ins';
-                    const delClass = augDiff ? 'aug-del' : 'tc-del';
+                    // In prev-stage-diff mode: diff current node against the PREVIOUS stage's
+                    // paragraph instead (showing what THIS step changed, not human edits).
+                    const prevDiff = showPrevDiffRef.current;
+                    const before = prevDiff ? (prevStageTextsRef.current[idx] ?? '') : orig[idx];
+                    const insClass = prevDiff ? 'aug-ins' : 'tc-ins';
+                    const delClass = prevDiff ? 'aug-del' : 'tc-del';
                     const after = node.textContent;
                     if (before !== undefined && before !== after) {
                       let cursor = offset + 1; // content start of a textblock
@@ -955,6 +1006,28 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     return () => document.removeEventListener('mousedown', onMouseDown);
   }, [editor]);
 
+  // Match the right inspector's height to the left pipeline rail so the two side
+  // panels are balanced. The rail height is dynamic (version count, lineage
+  // switch), so a ResizeObserver keeps them in sync. Side-by-side only — when the
+  // grid collapses to one column (≤1100px) the height is released to natural flow.
+  useEffect(() => {
+    const rail = railRef.current;
+    const insp = inspectorRef.current;
+    if (!rail || !insp) return;
+    const sync = () => {
+      if (window.matchMedia('(max-width: 1100px)').matches) {
+        insp.style.height = '';
+      } else {
+        insp.style.height = `${rail.offsetHeight}px`;
+      }
+    };
+    sync();
+    const ro = new ResizeObserver(sync);
+    ro.observe(rail);
+    window.addEventListener('resize', sync);
+    return () => { ro.disconnect(); window.removeEventListener('resize', sync); };
+  }, []);
+
   // Switch the editor to the selected stage: load its text, re-snapshot redline originals,
   // clear stage-specific tags, and make only the under-review stage editable (upstream = read-only).
   useEffect(() => {
@@ -974,21 +1047,30 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     }
     refresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stageId, chapIdx, viewAll, editor]);
+  }, [stageId, chapIdx, activeLineageId, viewAll, editor]);
 
-  // Reset aug-diff and (re-)populate normTexts whenever the tab or chapter changes.
+  // (Re-)populate the previous-stage diff baseline whenever the selected step / chapter /
+  // lineage changes, and set a sensible default for the "show changes" toggle: ON for a
+  // read-only step with a moderate delta, OFF for the editable step or a huge compression
+  // (a near-total rewrite would just be a wall of strikethrough).
   useEffect(() => {
-    showAugDiffRef.current = false;
-    setShowAugDiff(false);
-    const normStage = stages.find((s) => s.id === 'normalized');
-    normTextsRef.current = [];
-    if (normStage?.html) {
-      const div = document.createElement('div');
-      div.innerHTML = normStage.html;
-      normTextsRef.current = Array.from(div.children).map((el) => el.textContent ?? '');
+    const m = metrics.find((x) => x.id === stageId);
+    const prevId = m?.comparedTo ?? null;
+    prevStageTextsRef.current = [];
+    if (prevId) {
+      const prevStage = stages.find((s) => s.id === prevId);
+      if (prevStage?.html) {
+        const div = document.createElement('div');
+        div.innerHTML = prevStage.html;
+        prevStageTextsRef.current = Array.from(div.children).map((el) => el.textContent ?? '');
+      }
     }
+    const big = m?.deltaPct != null && Math.abs(m.deltaPct) >= 60;
+    const next = isReadOnlyStage && !!prevId && !big;
+    showPrevDiffRef.current = next;
+    setShowPrevDiff(next);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stageId, chapIdx]);
+  }, [stageId, chapIdx, activeLineageId]);
 
   // ── Serialize / save / discard — declared here so editor is in scope ────────
 
@@ -1089,13 +1171,13 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     if (editor) editor.view.dispatch(editor.state.tr.setMeta('arabic', true));
   }, [editor]);
 
-  // Toggle augmentation diff (Normalized → Augmented word-level diff). Same ref-before-dispatch
-  // pattern as Arabic toggle so the decoration plugin sees the new value synchronously.
-  const toggleAugDiff = useCallback(() => {
-    const next = !showAugDiffRef.current;
-    showAugDiffRef.current = next;
-    setShowAugDiff(next);
-    if (editor) editor.view.dispatch(editor.state.tr.setMeta('augDiff', true));
+  // Toggle the "changes from previous stage" redline (read-only steps). Ref-before-dispatch
+  // so the decoration plugin sees the new value synchronously during the recompute.
+  const togglePrevDiff = useCallback(() => {
+    const next = !showPrevDiffRef.current;
+    showPrevDiffRef.current = next;
+    setShowPrevDiff(next);
+    if (editor) editor.view.dispatch(editor.state.tr.setMeta('prevDiff', true));
   }, [editor]);
 
   // ── Wave L-8: AI assist + Finalize ──────────────────────────────────────
@@ -1249,6 +1331,27 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     }
   }, [editor, slug, chapter]);
 
+  // Publish = mark THIS chapter finalized (reuses the per-chapter review JSON via
+  // POST /api/studio/review {finalize}). Reversible. Disabled in archived view.
+  const [publishing, setPublishing] = useState(false);
+  const toggleFinalized = useCallback(async () => {
+    if (isArchivedView) return;
+    const next = finalized ? false : true;
+    setPublishing(true);
+    try {
+      const res = await fetch('/api/studio/review', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, chapter, finalize: next }),
+      });
+      if (res.ok) {
+        const json = await res.json().catch(() => ({}));
+        setFinalized(next ? (json?.data?.finalized ?? { at: new Date().toISOString() }) : null);
+      }
+    } catch { /* non-blocking */ } finally {
+      setPublishing(false);
+    }
+  }, [slug, chapter, finalized, isArchivedView]);
+
   // Persist a paragraph comment to SQLite (annotations API) on blur.
   const persistComment = useCallback((idx: number, note: string) => {
     fetch('/api/annotations', {
@@ -1331,95 +1434,197 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       </div>
     );
 
+  // Timeline rail items: available stages, latest at top (Review), descending into older steps.
+  const railStages = [...stages].filter((s) => s.available).reverse();
+
+  // Pipeline phases for the rail's spine. Fallback to a lone "Edit" node so the
+  // rail still renders if phases weren't supplied.
+  const phases: PipelineStep[] = pipelineSteps.length
+    ? pipelineSteps
+    : [{ id: 'edit', label: 'Edit & Enrich', state: 'active', detail: '' }];
+
   return (
     <div className="studio-poc">
+      {/* Left rail: TWO clean modules — (1) the book-level pipeline spine
+          (Intake → … → Publish, contiguous, never interrupted), then (2) this
+          chapter's draft versions as a separate module. Different granularities,
+          not interleaved. */}
+      <nav className="st-rail" aria-label="Pipeline timeline" ref={railRef}>
+        <div className="st-rail-head">
+          <span className="st-rail-eyebrow">Pipeline</span>
+        </div>
+
+        <ol className="st-phases">
+          {phases.map((step) => {
+            const isCurrent = step.id === activeStep;
+            const glyph = step.state === 'done' ? '✓' : step.state === 'blocked' ? '!' : '';
+            return (
+              <li key={step.id} className={`st-phase st-phase--${step.state}${isCurrent ? ' is-current' : ''}`}>
+                <a
+                  className="st-phase-link"
+                  href={`/studio/${slug}/${step.id}`}
+                  aria-current={isCurrent ? 'page' : undefined}
+                  title={`${step.label}${step.detail ? ` — ${step.detail}` : ''}`}
+                >
+                  <span className="st-phase-dot" aria-hidden="true">{glyph}</span>
+                  <span className="st-phase-text">
+                    <span className="st-phase-label">{step.label}</span>
+                    {step.detail && <span className="st-phase-detail">{step.detail}</span>}
+                  </span>
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+
+        <div className="st-versions-module">
+          <div className="st-versions-head">Versions · this chapter</div>
+          <ol className="st-list">
+            {railStages.map((s) => {
+              const isTop = s.id === editableStageId && !isArchivedView;
+              const m = metrics.find((x) => x.id === s.id);
+              const active = s.id === stageId;
+              return (
+                <li key={s.id} className={`st-item${active ? ' is-active' : ''}${isTop ? ' is-editable' : ' is-readonly'}`}>
+                  <button
+                    type="button"
+                    className="st-link"
+                    aria-current={active ? 'step' : undefined}
+                    onClick={() => setStageId(s.id)}
+                    title={isTop ? 'Review — the editable version' : `${s.label} — click to view (read-only)`}
+                  >
+                    <span className="st-dot" aria-hidden="true" />
+                    <span className="st-text">
+                      <span className="st-label">
+                        {isTop ? 'Review' : s.label}
+                        {isTop && <span className="st-edit-flag">editable</span>}
+                      </span>
+                      {m && (
+                        <span className="st-meta">
+                          {m.words.toLocaleString()} words
+                          {m.deltaPct !== null && (
+                            <span className={`st-delta ${m.deltaPct < 0 ? 'is-down' : m.deltaPct > 0 ? 'is-up' : ''}`}>
+                              {m.deltaPct > 0 ? '+' : ''}{m.deltaPct}%
+                            </span>
+                          )}
+                        </span>
+                      )}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ol>
+
+          {archivedLineages.length > 0 && (
+            <div className="st-lineage">
+              {isArchivedView ? (
+                <>
+                  <button type="button" className="st-lineage-btn" onClick={() => switchLineage('current')}>
+                    ← Current rebuild
+                  </button>
+                  <p className="st-lineage-note">{activeLineage.label} · view only</p>
+                </>
+              ) : (
+                <button type="button" className="st-lineage-btn" onClick={() => switchLineage(archivedLineages[0].id)}>
+                  View archived journey →
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      </nav>
+
       <main className="studio-poc__editor" ref={editorContainerRef}>
-        {/* B: chapter switcher + all-chapters view toggle. */}
-        <div className="sp-chapsel">
-          <label htmlFor="sp-chap">Chapter</label>
-          <select
-            id="sp-chap"
-            value={chapIdx}
-            disabled={viewAll}
-            onChange={(e) => setChapIdx(Number(e.target.value))}
-          >
-            {chapters.map((c, i) => (
-              <option key={c.slug} value={i}>{i + 1}. {c.title}</option>
-            ))}
-          </select>
-          <button
-            type="button"
-            className={`sp-viewall-btn${viewAll ? ' is-on' : ''}`}
-            onClick={() => setViewAll((v) => !v)}
-            title={viewAll ? 'Return to single-chapter view' : 'Combine all chapters in this tab'}
-          >
-            {viewAll ? '← Single chapter' : 'All chapters →'}
-          </button>
-        </div>
-        {/* Stage tabs (SN-5): Source -> Core -> Denoised -> Normalized -> Augmented. */}
-        <div className="sp-tabs" role="tablist" aria-label="Pipeline stages">
-          {stages.map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              role="tab"
-              aria-selected={s.id === stageId}
-              disabled={!s.available}
-              className={`sp-tab${s.id === stageId ? ' is-active' : ''}${s.available ? '' : ' is-pending'}`}
-              title={s.available ? `${s.label} stage${approvedStages[s.id] ? ' — approved' : ''}` : `Pending — produced by ${s.slice}`}
-              onClick={() => s.available && setStageId(s.id)}
+        {/* Consolidated editor header: chapter switcher · metrics · finalize. */}
+        <div className="sp-editor-head">
+          <div className="sp-chapsel">
+            <label htmlFor="sp-chap">Chapter</label>
+            <select
+              id="sp-chap"
+              value={chapIdx}
+              disabled={viewAll}
+              onChange={(e) => setChapIdx(Number(e.target.value))}
             >
-              {s.label}{approvedStages[s.id] && <span className="sp-tab-ok" aria-label="approved"> ✓</span>}
+              {viewChapters.map((c, i) => (
+                <option key={c.slug} value={i}>{i + 1}. {c.title}</option>
+              ))}
+            </select>
+            <button
+              type="button"
+              className={`sp-viewall-btn${viewAll ? ' is-on' : ''}`}
+              onClick={() => setViewAll((v) => !v)}
+              title={viewAll ? 'Return to single-chapter view' : 'Combine all chapters in this tab'}
+            >
+              {viewAll ? '← Single chapter' : 'All chapters →'}
             </button>
-          ))}
+          </div>
+          {!viewAll && (() => {
+            const m = metrics.find((x) => x.id === stageId);
+            if (!m || !m.available) return null;
+            const priorLabel = stages.find((s) => s.id === m.comparedTo)?.label;
+            const delta = m.deltaPct;
+            return (
+              <div className="sp-metrics">
+                <span>{m.words.toLocaleString()} words · {m.sentences.toLocaleString()} sentences</span>
+                {delta !== null && priorLabel && (
+                  <span className={`sp-metric-delta ${delta < 0 ? 'is-down' : delta > 0 ? 'is-up' : ''}`}>
+                    {delta > 0 ? '+' : ''}{delta}% vs {priorLabel}
+                    {stageId === 'denoised' && m.comparedTo === 'core' && delta < 0 && ` (${Math.abs(delta)}% noise removed)`}
+                  </span>
+                )}
+              </div>
+            );
+          })()}
+          {!viewAll && !isArchivedView && (
+            <button
+              type="button"
+              className={`sp-finalize-chapter${finalized ? ' is-done' : ''}`}
+              onClick={toggleFinalized}
+              disabled={publishing}
+              title={finalized ? 'Chapter finalized — click to unlock' : 'Mark this chapter finalized'}
+            >
+              {finalized ? '✓ Finalized' : publishing ? 'Finalizing…' : 'Finalize chapter'}
+            </button>
+          )}
         </div>
-        {!viewAll && (() => {
+        {viewAll && (
+          <div className="sp-viewall-banner">
+            Showing all {viewChapters.length} chapters · {stages.find((s) => s.id === stageId)?.label ?? stageId} stage · read-only
+          </div>
+        )}
+        {!viewAll && isReadOnlyStage && (() => {
           const m = metrics.find((x) => x.id === stageId);
-          if (!m || !m.available) return null;
-          const priorLabel = stages.find((s) => s.id === m.comparedTo)?.label;
-          const delta = m.deltaPct;
+          const prevLabel = stages.find((s) => s.id === m?.comparedTo)?.label;
           return (
-            <div className="sp-metrics">
-              <span>{m.words.toLocaleString()} words · {m.sentences.toLocaleString()} sentences</span>
-              {delta !== null && priorLabel && (
-                <span className={`sp-metric-delta ${delta < 0 ? 'is-down' : delta > 0 ? 'is-up' : ''}`}>
-                  {delta > 0 ? '+' : ''}{delta}% vs {priorLabel}
-                  {stageId === 'denoised' && m.comparedTo === 'core' && delta < 0 && ` (${Math.abs(delta)}% noise removed)`}
+            <div className="sp-stage-note">
+              <span>
+                Read-only — viewing the {stage?.id === editableStageId && !isArchivedView ? 'Review' : stage?.label} stage
+                {isArchivedView ? ` · ${activeLineage.label}` : ' for comparison'}.
+              </span>
+              {prevLabel && (
+                <button
+                  type="button"
+                  className={`sp-augdiff-toggle${showPrevDiff ? ' is-on' : ''}`}
+                  onClick={togglePrevDiff}
+                  title={showPrevDiff ? 'Hide the changes' : `Highlight what changed from ${prevLabel}`}
+                >
+                  {showPrevDiff ? 'Hide changes' : `Show changes from ${prevLabel}`}
+                </button>
+              )}
+              {showPrevDiff && (
+                <span className="sp-augdiff-legend">
+                  <span className="aug-ins sp-augdiff-swatch">added</span>
+                  <span className="aug-del sp-augdiff-swatch">removed</span>
                 </span>
               )}
             </div>
           );
         })()}
-        {viewAll && (
-          <div className="sp-viewall-banner">
-            Showing all {chapters.length} chapters · {stages.find((s) => s.id === stageId)?.label ?? stageId} stage · read-only
-          </div>
-        )}
-        {!viewAll && isReadOnlyStage && (
-          <div className="sp-stage-note">Read-only — viewing the {stage?.label} stage for comparison.</div>
-        )}
-        {!viewAll && stageId === 'augmented' && stages.find((s) => s.id === 'normalized')?.available && (
-          <div className="sp-augdiff-row">
-            <button
-              type="button"
-              className={`sp-augdiff-toggle${showAugDiff ? ' is-on' : ''}`}
-              onClick={toggleAugDiff}
-              title={showAugDiff ? 'Hide augmentation diff' : 'Highlight what the augmentation step added vs Normalized'}
-            >
-              {showAugDiff ? 'Hide augmentation diff' : 'Show augmentation diff'}
-            </button>
-            {showAugDiff && (
-              <span className="sp-augdiff-legend">
-                <span className="aug-ins sp-augdiff-swatch">added</span>
-                <span className="aug-del sp-augdiff-swatch">removed</span>
-              </span>
-            )}
-          </div>
-        )}
         <EditorContent editor={editor} />
       </main>
 
-      <aside className="studio-poc__inspector" aria-label="Contextual inspector">
+      <aside className="studio-poc__inspector" aria-label="Contextual inspector" ref={inspectorRef}>
         {/* M-1 — Slim global action strip: Arabic toggle · Save & Approve · Finalize */}
         <div className="sp-global-strip">
           <span className="sp-global-arabic">
@@ -1462,11 +1667,11 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
               )}
             </>
           )}
-          {!viewAll && (
+          {!viewAll && !isArchivedView && (
             <>
               <div className="sp-strip-sep" aria-hidden="true" />
               <button type="button" className="sp-finalize" onClick={finalize} title="Generate Claude brief from tagged paragraphs">
-                ⎘ Finalize
+                ⎘ Brief
               </button>
             </>
           )}
@@ -1485,6 +1690,8 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                   key={tab}
                   type="button"
                   role="tab"
+                  id={`sp-tab-${tab}`}
+                  aria-controls="sp-tab-panel"
                   aria-selected={inspectorTab === tab}
                   data-tab={tab}
                   className={`sp-tab-btn${inspectorTab === tab ? ' is-active' : ''}`}
@@ -1497,7 +1704,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
             })}
           </div>
 
-          <div className="sp-tab-pane">
+          <div className="sp-tab-pane" role="tabpanel" id="sp-tab-panel" aria-labelledby={`sp-tab-${inspectorTab}`} tabIndex={0}>
             {/* ── Details tab: chapter overview + tag buttons for active paragraph ── */}
             {inspectorTab === 'details' && (
               <>

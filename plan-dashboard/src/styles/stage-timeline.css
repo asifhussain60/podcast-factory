@@ -1,0 +1,315 @@
+/* stage-timeline.css — left-rail pipeline timeline for the Studio editor (StudioPoc).
+   External styles only; maps onto existing theme tokens (--c-*) and font roles
+   (--font-display / --font-body / --font-ui). Adapts the proven rail idiom
+   (dot + connector + active state) without overloading the pipeline-spine
+   `.rail-*` classes (which carry node-kind semantics). Colour theme unchanged. */
+
+.st-rail {
+  position: sticky;
+  top: calc(var(--pf-sticky-top) + 1rem);
+  max-height: calc(100vh - var(--pf-sticky-top) - 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--radius-lg, 12px);
+  box-shadow: var(--shadow-card);
+  overflow-y: auto;
+}
+
+/* Rail header — labels the rail as VERSION history (distinct from the top
+   pipeline-phase stepper). Replaces the old in-rail "Publish" button, which
+   collided with the top bar's Publish step; finalize now lives in the editor
+   header as "Finalize chapter". */
+.st-rail-head {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 0 2px 8px;
+  border-bottom: 1px solid var(--c-rule-soft, var(--c-rule));
+}
+/* Root font is 19.2px (theme 120%): 0.625rem = 12.0px (Asif's 12px chrome). */
+.st-rail-eyebrow {
+  font-family: var(--font-ui, var(--font-sans, sans-serif));
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-ink);
+}
+.st-rail-sub {
+  font-family: var(--font-ui, var(--font-sans, sans-serif));
+  font-size: 0.6rem;
+  /* --c-ink-dim (not --c-ink-muted) clears WCAG AA 4.5:1 at this ~11.5px size (REQ-048). */
+  color: var(--c-ink-dim);
+}
+
+/* ── Phase tier: the four pipeline stages as a vertical timeline ──────────
+   This replaces the top horizontal stepper on the Edit page — the rail is now
+   the single pipeline timeline. Phases NAVIGATE (anchor → page); the nested
+   versions SWAP content in place (buttons). */
+.st-phases {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.st-phase { position: relative; }
+
+/* Continuous connector running down the gutter through every phase dot. */
+.st-phase:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 30px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--c-rule-soft, var(--c-rule));
+  z-index: 0;
+}
+
+.st-phase-link {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md, 8px);
+  text-decoration: none;
+  color: var(--c-ink);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.st-phase-link:hover { background: var(--c-bg-elev); border-color: var(--c-rule-soft, var(--c-rule)); }
+.st-phase-link:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+/* Current phase: a left accent bar, not a filled box (Asif disliked the box). */
+.st-phase.is-current > .st-phase-link {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: inset 3px 0 0 var(--c-accent);
+  border-radius: 0 var(--radius-md, 8px) var(--radius-md, 8px) 0;
+}
+
+/* Status dot — mirrors the old stepper icons (done check / active ring /
+   pending hollow / blocked). Opaque background so it masks the connector. */
+.st-phase-dot {
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-bg-card);
+  border: 2px solid var(--c-rule);
+  color: var(--c-ink-muted);
+  font-family: var(--font-ui, var(--font-sans, sans-serif));
+  font-size: 0.66rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.st-phase--done .st-phase-dot { background: var(--c-green, #15803d); border-color: var(--c-green, #15803d); color: #fff; }
+.st-phase--pending .st-phase-dot { background: var(--c-bg-elev); }
+.st-phase--blocked .st-phase-dot { background: var(--c-amber, #c08020); border-color: var(--c-amber, #c08020); color: #fff; }
+.st-phase.is-current .st-phase-dot,
+.st-phase--active .st-phase-dot {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: var(--c-bg-card);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-accent) 16%, transparent);
+}
+
+.st-phase-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; padding-top: 2px; }
+.st-phase-label {
+  font-family: var(--font-ui, var(--font-sans, sans-serif));
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--c-ink);
+}
+.st-phase--pending .st-phase-label { color: var(--c-ink-dim); }
+/* No fill now → label sits on the card background, where --c-accent clears AA
+   (~7:1, accent-on-card confirmed 6.98:1). */
+.st-phase.is-current .st-phase-label { color: var(--c-accent); }
+.st-phase-detail {
+  font-family: var(--font-ui, var(--font-sans, sans-serif));
+  font-size: 0.6rem;
+  line-height: 1.25;
+  color: var(--c-ink-dim);
+}
+
+/* Versions MODULE — a separate block below the pipeline spine (NOT interleaved
+   between phases). Different granularity: book-level phases above, this chapter's
+   draft versions here. A divider + header keep the two cleanly distinct. */
+.st-versions-module {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+  padding-top: 10px;
+  /* +5px so the smaller version dots (12px) share the same centre line as the
+     larger phase dots (22px) above — one clean vertical spine for the whole rail. */
+  padding-left: 5px;
+  border-top: 1px solid var(--c-rule-soft, var(--c-rule));
+}
+.st-versions-head {
+  font-family: var(--font-ui, var(--font-sans, sans-serif));
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  /* --c-ink-dim (8.7:1) not --c-ink-muted (3.8:1) — clears AA at this ~11.1px bold size (REQ-048). */
+  color: var(--c-ink-dim);
+  padding: 0 0 2px;
+}
+
+/* Timeline list (versions). */
+.st-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.st-item { position: relative; }
+
+/* Connector line linking consecutive dots. */
+.st-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 26px;
+  bottom: 2px;
+  width: 2px;
+  background: var(--c-rule-soft, var(--c-rule));
+  z-index: 0;
+}
+
+.st-link {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  width: 100%;
+  text-align: left;
+  padding: 7px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md, 8px);
+  background: transparent;
+  color: var(--c-ink-dim);
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.st-link:hover { background: var(--c-bg-elev); border-color: var(--c-rule-soft, var(--c-rule)); }
+.st-link:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+
+/* Small version bullet (was a numbered circle — the numbers echoed the top
+   "Step 1/2" stepper; a bullet reads as a version marker, not a step). */
+.st-dot {
+  flex: 0 0 12px;
+  width: 12px;
+  height: 12px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--c-bg-elev);
+  border: 2px solid var(--c-rule);
+}
+
+.st-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.st-label {
+  font-family: var(--font-ui, var(--font-sans, sans-serif));
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--c-ink);
+}
+/* The ONE editable stage (Review) — a small accent pill so it's unmistakable
+   which row edits; every other row is view-only. */
+.st-edit-flag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  font-family: var(--font-ui, var(--font-sans, sans-serif));
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-bg-card);
+  background: var(--c-accent);
+  border-radius: 999px;
+  vertical-align: middle;
+}
+.st-meta {
+  display: flex;
+  gap: 7px;
+  align-items: baseline;
+  font-family: var(--font-ui, var(--font-sans, sans-serif));
+  font-size: 0.62rem;
+  /* --c-ink-dim (not --c-ink-muted) clears WCAG AA 4.5:1 for this small chrome text. */
+  color: var(--c-ink-dim);
+}
+/* Secondary metadata — lighter weight so the coloured % reads as a footnote,
+   not an alarm (the delta is also shown in the centre metrics strip). */
+.st-delta { font-weight: 500; color: var(--c-ink-dim); }
+.st-delta.is-down { color: var(--c-green, var(--c-accent)); }
+.st-delta.is-up { color: var(--c-amber, var(--c-accent)); }
+
+/* Active (currently-shown) version: left accent bar, not a filled box. */
+.st-item.is-active .st-link {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: inset 3px 0 0 var(--c-accent);
+  border-radius: 0 var(--radius-md, 8px) var(--radius-md, 8px) 0;
+}
+.st-item.is-active .st-dot {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-accent) 16%, transparent);
+}
+.st-item.is-active .st-label { font-weight: 700; color: var(--c-accent); }
+/* The editable (Review) step's dot reads as the live one. */
+.st-item.is-editable .st-dot { border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-rule)); }
+
+/* Lineage switch (current ⇄ archived journey) — sits in the versions module. */
+.st-lineage {
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--c-rule-soft, var(--c-rule));
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.st-lineage-btn {
+  border: 1px solid var(--c-rule);
+  border-radius: var(--radius-sm, 6px);
+  background: var(--c-bg-card);
+  color: var(--c-ink-dim);
+  font-family: var(--font-ui, var(--font-sans, sans-serif));
+  font-size: 0.66rem;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+.st-lineage-btn:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.st-lineage-note {
+  margin: 0;
+  font-family: var(--font-ui, var(--font-sans, sans-serif));
+  font-size: 0.6rem;
+  /* --c-ink-dim (not --c-ink-muted) clears WCAG AA 4.5:1 at this ~11.5px size (REQ-048). */
+  color: var(--c-ink-dim);
+}
+
+/* Stack the rail above the editor on narrow viewports. */
+@media (max-width: 1100px) {
+  .st-rail {
+    position: static;
+    max-height: none;
+    flex-direction: column;
+  }
+}

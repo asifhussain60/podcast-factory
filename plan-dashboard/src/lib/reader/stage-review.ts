@@ -27,17 +27,30 @@ export interface ChapterReview {
   slug: string;
   chapter: string;
   stages: Record<string, StageReview>;
+  /** Chapter-level finalize flag (the Studio "Publish" action). null when not finalized. */
+  finalized?: { at: string } | null;
 }
 
 export function readReview(slug: string, chapter: string): ChapterReview {
   const p = reviewPath(slug, chapter);
-  if (!existsSync(p)) return { slug, chapter, stages: {} };
+  if (!existsSync(p)) return { slug, chapter, stages: {}, finalized: null };
   try {
     const parsed = JSON.parse(readFileSync(p, 'utf8')) as ChapterReview;
-    return { slug, chapter, stages: parsed.stages ?? {} };
+    return { slug, chapter, stages: parsed.stages ?? {}, finalized: parsed.finalized ?? null };
   } catch {
-    return { slug, chapter, stages: {} };
+    return { slug, chapter, stages: {}, finalized: null };
   }
+}
+
+/** Mark (or clear) the chapter-level finalize flag, preserving per-stage review state. */
+export function setChapterFinalized(slug: string, chapter: string, finalized: boolean): ChapterReview {
+  const review = readReview(slug, chapter);
+  const now = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+  review.finalized = finalized ? { at: now } : null;
+  const p = reviewPath(slug, chapter);
+  mkdirSync(dirname(p), { recursive: true });
+  writeFileSync(p, JSON.stringify(review, null, 2), 'utf8');
+  return review;
 }
 
 export function setStageReview(
