@@ -12,6 +12,8 @@
  * for Phase 2 to do.
  */
 
+import { simplifyTransliteration } from '../translit';
+
 function escapeHtml(s: string): string {
   // Don't escape apostrophes — they're safe in HTML text content and inside
   // double-quoted attributes. Escaping them as &#39; breaks downstream
@@ -43,7 +45,9 @@ function renderInline(text: string): string {
 type ListKind = 'ul' | 'ol' | null;
 
 export function renderMarkdown(input: string): string {
-  const lines = input.replace(/\r\n/g, '\n').split('\n');
+  // Fold scholarly Arabic transliteration to plain English for display
+  // (Kīmiyāʾ al-Saʿāda → Kimiya al-Sa'ada). Arabic script is left untouched.
+  const lines = simplifyTransliteration(input).replace(/\r\n/g, '\n').split('\n');
   const out: string[] = [];
   let paraBuffer: string[] = [];
   let quoteBuffer: string[] = [];

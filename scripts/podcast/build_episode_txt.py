@@ -246,11 +246,14 @@ def build(book_dir: Path, episode_id: str, check_only: bool = False) -> None:
     extra_tells = load_book_meta_prose_tells(book_dir)
 
     # 1. Validate the chapter (uploaded as-is to NotebookLM as the SOURCE).
-    # Prefer the literary version when present (chapters/literary/{slug}.txt);
-    # fall back to the augmented chapter (chapters/{slug}.txt).
+    # NotebookLM's source is ALWAYS the author-voice enriched chapter
+    # (chapters/{slug}.txt). The modern-prose revoice is a SEPARATE deliverable —
+    # the companion book under book/ — and must NEVER be uploaded to NotebookLM:
+    # the audio is grounded in the author's own voice. See framework.md
+    # "Branch A vs Branch B". (Reversed 2026-06-04: the builder previously
+    # preferred chapters/literary/, which fed the revoice to NotebookLM — backwards.)
     assert_chapters_populated(book_dir)
-    literary_candidate = find_chapter_by_slug(book_dir / "chapters" / "literary", episode_slug, required=False)
-    chapter_file = literary_candidate or find_chapter_by_slug(book_dir / "chapters", episode_slug)
+    chapter_file = find_chapter_by_slug(book_dir / "chapters", episode_slug)
     chapter_words = validate_chapter(chapter_file, extra_tells)
 
     # 1b. Wave N: mint pipeline-guessed section depth assignments (non-blocking).

@@ -10,6 +10,7 @@ import { join } from 'node:path';
 import { load as yamlLoad } from 'js-yaml';
 
 import { findContent } from '../content-paths';
+import { simplifyTransliteration } from '../translit';
 
 export interface BookChapter {
   slug: string;              // 'ch01-the-perfect-and-the-perfection-of-the-soul'
@@ -61,7 +62,7 @@ async function discoverChapters(root: string): Promise<BookChapter[]> {
       const m = buf.match(/^#\s+(.+)$/m);
       if (m) title = m[1].trim();
     } catch { /* noop */ }
-    out.push({ slug, numericId, title, filePath, bytes });
+    out.push({ slug, numericId, title: simplifyTransliteration(title), filePath, bytes });
   }
   return out.sort((a, b) => (a.numericId ?? 999) - (b.numericId ?? 999));
 }
