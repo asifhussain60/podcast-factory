@@ -16,6 +16,7 @@ import StudioPoc from '../../../components/reader/poc/StudioPoc.tsx';
 import { CARD_DEFS } from '../../../lib/reader/editorial';
 import { loadBookIndex } from '../../../lib/reader/chapters';
 import { loadBookWorkspace, discoverArchivedLineages, STAGE_DEFS } from '../../../lib/reader/book-workspace';
+import { loadEnrichment } from '../../../lib/reader/enrichment-ledger';
 import { loadStudioPipeline, STUDIO_STEPS, type StepId } from '../../../lib/reader/studio-pipeline';
 import { findContent, listContent, slugToTitle } from '../../../lib/content-paths';
 import { readFile } from 'node:fs/promises';
@@ -23,6 +24,7 @@ import { join } from 'node:path';
 import '../../../styles/corpus-mock.css';
 import '../../../styles/studio-poc.css';
 import '../../../styles/stage-timeline.css';
+import '../../../styles/transformation-dashboard.css';
 import '../../../styles/workbench.css';
 import '../../../styles/studio-pipeline.css';
 
@@ -46,6 +48,8 @@ const books = allBooks.map((b) => ({ slug: b.slug, title: slugToTitle(b.slug) })
 const index = await loadBookIndex(slug);
 const chapterDefs = (index?.chapters ?? []).map((c) => ({ id: c.slug, title: c.title }));
 const workspace = await loadBookWorkspace(slug, chapterDefs, STAGE_DEFS);
+// Book-level enrichment summary (Phase 0e) for the transformation dashboard.
+const enrichment = loadEnrichment(slug);
 
 // View-only progression lineages: any archived full-stage run for this book
 // (e.g. an earlier episode structure). Loaded with writeLedger:false so they
@@ -202,6 +206,8 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
             archivedLineages={progressionArchives}
             pipelineSteps={steps}
             activeStep={stepParam}
+            enrichment={enrichment}
+            glossaryCount={workspace.glossary.length}
           />
         </>
       )}

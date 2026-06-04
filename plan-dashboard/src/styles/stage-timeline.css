@@ -305,6 +305,51 @@
   color: var(--c-ink-dim);
 }
 
+/* Role badge — the plain-English transformation each stage performs (e.g.
+   "Noise stripped", "Wisdom woven in"). Text stays --c-ink-dim (AA-safe at this
+   chrome size); the stage KIND is carried by a coloured left border, so colour is
+   never the sole signal (REQ-059). Kind tokens are the existing swimlane colours. */
+.st-role {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px 1px 5px;
+  font-family: var(--font-ui, var(--font-sans, sans-serif));
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--c-ink-dim);
+  background: var(--c-bg-sunken, var(--c-bg-elev));
+  border-left: 3px solid var(--c-rule);
+  border-radius: 3px;
+  vertical-align: middle;
+}
+.st-role--mechanical { border-left-color: var(--c-kind-mechanical, var(--c-rule)); }
+.st-role--agentic    { border-left-color: var(--c-kind-agentic, var(--c-accent)); }
+.st-role--hybrid     { border-left-color: var(--c-kind-hybrid, var(--c-green)); }
+.st-role--gate       { border-left-color: var(--c-kind-gate, var(--c-amber)); }
+
+/* Uncaptured stage — present in the pipeline but not written for this run. A
+   muted, non-interactive rung so the full journey reads top-to-bottom without
+   offering a click that would show empty text. */
+.st-link.is-static { cursor: default; }
+.st-item.is-uncaptured .st-label { color: var(--c-ink-dim); font-weight: 500; }
+.st-item.is-uncaptured .st-dot {
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--c-rule);
+}
+.st-item.is-uncaptured .st-meta { font-style: italic; }
+
+/* One-line pointer to the archived journey when intermediate stages are missing. */
+.st-uncaptured-hint {
+  margin: 4px 0 0;
+  padding: 0 2px;
+  font-family: var(--font-ui, var(--font-sans, sans-serif));
+  font-size: 0.6rem;
+  line-height: 1.35;
+  color: var(--c-ink-dim);
+}
+
 /* Stack the rail above the editor on narrow viewports. */
 @media (max-width: 1100px) {
   .st-rail {

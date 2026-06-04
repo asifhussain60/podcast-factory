@@ -588,11 +588,58 @@
 .studio-poc__editor .sp-tab:hover:not(:disabled) { color: var(--c-ink); }
 .studio-poc__editor .sp-tab.is-active { color: var(--c-accent); border-bottom-color: var(--c-accent); }
 .studio-poc__editor .sp-tab.is-pending { cursor: not-allowed; font-style: italic; opacity: 0.45; }
-.studio-poc__editor .sp-stage-note {
-  font-size: 0.78rem; color: var(--c-ink-muted); font-style: italic; margin: -8px 0 14px;
+/* Per-stage header card — what THIS stage did, above the chapter text. Carries
+   the stage name, its plain-English role, the tool that performed it, and the
+   headline metric. The stage KIND is a coloured left border (colour never the
+   sole signal — the role text states it too). Theme tokens only. */
+.studio-poc__editor .sp-stage-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 9px 12px;
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule-soft, var(--c-rule));
+  border-left: 4px solid var(--c-rule);
+  border-radius: var(--radius-md, 8px);
+}
+.studio-poc__editor .sp-stage-card--mechanical { border-left-color: var(--c-kind-mechanical, var(--c-rule)); }
+.studio-poc__editor .sp-stage-card--agentic    { border-left-color: var(--c-kind-agentic, var(--c-accent)); }
+.studio-poc__editor .sp-stage-card--hybrid     { border-left-color: var(--c-kind-hybrid, var(--c-green)); }
+.studio-poc__editor .sp-stage-card--gate       { border-left-color: var(--c-kind-gate, var(--c-amber)); }
+.studio-poc__editor .sp-stage-card-main {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px;
+}
+.studio-poc__editor .sp-stage-card-name {
+  font-family: var(--font-display, var(--font-sans, sans-serif));
+  font-size: 0.95rem; font-weight: 700; color: var(--c-ink);
+}
+.studio-poc__editor .sp-stage-card-role {
+  padding: 1px 7px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.62rem; font-weight: 600; letter-spacing: 0.02em;
+  color: var(--c-ink-dim); background: var(--c-bg-sunken, var(--c-bg-card));
+  border-radius: 999px;
+}
+.studio-poc__editor .sp-stage-card-tool {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.72rem; color: var(--c-ink-muted);
+}
+.studio-poc__editor .sp-stage-card-flag {
+  padding: 1px 7px; border-radius: 999px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.58rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase;
+}
+.studio-poc__editor .sp-stage-card-flag.is-editable { color: var(--c-bg-card); background: var(--c-accent); }
+.studio-poc__editor .sp-stage-card-flag.is-readonly { color: var(--c-ink-dim); background: var(--c-bg-sunken, var(--c-bg-card)); }
+.studio-poc__editor .sp-stage-card-metric {
+  margin-left: auto;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.74rem; font-weight: 700; color: var(--c-ink-dim);
+}
+.studio-poc__editor .sp-stage-card-diff {
   display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
 }
-.studio-poc__editor .sp-stage-note .sp-augdiff-toggle { font-style: normal; }
 
 /* WC8 write-back: stage approval. */
 .studio-poc__editor .sp-tab-ok { color: var(--c-green, #15803d); font-weight: 700; }

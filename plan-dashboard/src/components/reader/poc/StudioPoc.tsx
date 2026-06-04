@@ -24,6 +24,9 @@ import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import type { Node as PMNode } from '@tiptap/pm/model';
 import { diffWords } from 'diff';
+import { stageRole } from '../../../lib/reader/stage-roles';
+import type { EnrichmentSummary } from '../../../lib/reader/enrichment-ledger';
+import TransformationDashboard from './TransformationDashboard';
 
 // Inline reference markers: inspector inventory + inline chips for Hadith/Works.
 // Quran verse refs are handled separately as FC-1 chips, so mk-quran is skipped here.
@@ -178,6 +181,10 @@ interface Props {
   pipelineSteps?: PipelineStep[];
   /** The phase this page represents (the rail expands its versions here). */
   activeStep?: string;
+  /** Book-level enrichment summary for the transformation dashboard. */
+  enrichment?: EnrichmentSummary | null;
+  /** Count of Arabic-overlay glossary terms (transformation dashboard footnote). */
+  glossaryCount?: number;
 }
 
 // ── Module-level depth picker singleton ─────────────────────────────────────
@@ -490,7 +497,7 @@ function openTagPicker(
 }
 // ────────────────────────────────────────────────────────────────────────────
 
-export default function StudioPoc({ slug, chapters, glossary = [], initialChapIdx = 0, contentProfile, archivedLineages = [], pipelineSteps = [], activeStep = 'edit' }: Props) {
+export default function StudioPoc({ slug, chapters, glossary = [], initialChapIdx = 0, contentProfile, archivedLineages = [], pipelineSteps = [], activeStep = 'edit', enrichment = null, glossaryCount = 0 }: Props) {
   const depthLevels = DEPTH_LEVELS_BY_PROFILE[contentProfile ?? DEFAULT_DEPTH_PROFILE]
     ?? DEPTH_LEVELS_BY_PROFILE[DEFAULT_DEPTH_PROFILE];
 
@@ -1434,8 +1441,14 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       </div>
     );
 
-  // Timeline rail items: available stages, latest at top (Review), descending into older steps.
-  const railStages = [...stages].filter((s) => s.available).reverse();
+  // Timeline rail items: the full transformation chain UP TO the editable Review
+  // (latest at top, descending into older steps). Uncaptured intermediate stages
+  // are shown muted + non-interactive so the whole journey is visible even when a
+  // run didn't write every stage. Stages AFTER the editable top (e.g. narrator
+  // not yet run) are omitted — they're not part of "the journey that led here".
+  const editableIdx = stages.findIndex((s) => s.id === editableStageId);
+  const railStages = stages.slice(0, editableIdx >= 0 ? editableIdx + 1 : stages.length).reverse();
+  const hasUncaptured = railStages.some((s) => !s.available);
 
   // Pipeline phases for the rail's spine. Fallback to a lone "Edit" node so the
   // rail still renders if phases weren't supplied.
@@ -1478,12 +1491,36 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
         </ol>
 
         <div className="st-versions-module">
-          <div className="st-versions-head">Versions · this chapter</div>
+          <div className="st-versions-head">Transformation · this chapter</div>
           <ol className="st-list">
             {railStages.map((s) => {
               const isTop = s.id === editableStageId && !isArchivedView;
               const m = metrics.find((x) => x.id === s.id);
               const active = s.id === stageId;
+              const role = stageRole(s.id);
+              const badge = role.role ? (
+                <span className={`st-role st-role--${role.kind}`}>{role.role}</span>
+              ) : null;
+
+              // Uncaptured stage: a muted, non-interactive rung so the full
+              // journey is visible without offering a click that shows empty text.
+              if (!s.available) {
+                return (
+                  <li key={s.id} className="st-item is-uncaptured">
+                    <span className="st-link is-static">
+                      <span className="st-dot" aria-hidden="true" />
+                      <span className="st-text">
+                        <span className="st-label">
+                          {s.label}
+                          {badge}
+                        </span>
+                        <span className="st-meta">not captured in this run</span>
+                      </span>
+                    </span>
+                  </li>
+                );
+              }
+
               return (
                 <li key={s.id} className={`st-item${active ? ' is-active' : ''}${isTop ? ' is-editable' : ' is-readonly'}`}>
                   <button
@@ -1497,6 +1534,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                     <span className="st-text">
                       <span className="st-label">
                         {isTop ? 'Review' : s.label}
+                        {badge}
                         {isTop && <span className="st-edit-flag">editable</span>}
                       </span>
                       {m && (
@@ -1515,6 +1553,11 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
               );
             })}
           </ol>
+          {hasUncaptured && !isArchivedView && archivedLineages.length > 0 && (
+            <p className="st-uncaptured-hint">
+              Earlier stages weren't kept for this run — open the archived journey below to see the full chain.
+            </p>
+          )}
 
           {archivedLineages.length > 0 && (
             <div className="st-lineage">
@@ -1588,35 +1631,66 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
             </button>
           )}
         </div>
+        {!viewAll && (
+          <TransformationDashboard
+            chapterTitle={chap.title}
+            stages={stages}
+            metrics={metrics}
+            enrichment={enrichment}
+            glossaryCount={glossaryCount}
+          />
+        )}
         {viewAll && (
           <div className="sp-viewall-banner">
             Showing all {viewChapters.length} chapters · {stages.find((s) => s.id === stageId)?.label ?? stageId} stage · read-only
           </div>
         )}
-        {!viewAll && isReadOnlyStage && (() => {
+        {!viewAll && stage && (() => {
           const m = metrics.find((x) => x.id === stageId);
           const prevLabel = stages.find((s) => s.id === m?.comparedTo)?.label;
+          const role = stageRole(stage.id);
+          const isReviewTop = stage.id === editableStageId && !isArchivedView;
+          const displayName = isReviewTop ? 'Review' : stage.label;
+          const delta = m?.deltaPct ?? null;
+          let metricText: string | null = null;
+          if (m?.available && delta !== null && prevLabel) {
+            metricText =
+              stage.id === 'denoised' && m.comparedTo === 'core' && delta < 0
+                ? `${Math.abs(delta)}% noise removed`
+                : `${delta > 0 ? '+' : ''}${delta}% vs ${prevLabel}`;
+          }
           return (
-            <div className="sp-stage-note">
-              <span>
-                Read-only — viewing the {stage?.id === editableStageId && !isArchivedView ? 'Review' : stage?.label} stage
-                {isArchivedView ? ` · ${activeLineage.label}` : ' for comparison'}.
-              </span>
-              {prevLabel && (
-                <button
-                  type="button"
-                  className={`sp-augdiff-toggle${showPrevDiff ? ' is-on' : ''}`}
-                  onClick={togglePrevDiff}
-                  title={showPrevDiff ? 'Hide the changes' : `Highlight what changed from ${prevLabel}`}
-                >
-                  {showPrevDiff ? 'Hide changes' : `Show changes from ${prevLabel}`}
-                </button>
-              )}
-              {showPrevDiff && (
-                <span className="sp-augdiff-legend">
-                  <span className="aug-ins sp-augdiff-swatch">added</span>
-                  <span className="aug-del sp-augdiff-swatch">removed</span>
-                </span>
+            <div className={`sp-stage-card sp-stage-card--${role.kind}`}>
+              <div className="sp-stage-card-main">
+                <span className="sp-stage-card-name">{displayName}</span>
+                {role.role && <span className={`sp-stage-card-role sp-stage-card-role--${role.kind}`}>{role.role}</span>}
+                {role.tool && <span className="sp-stage-card-tool">{role.tool}</span>}
+                {isReviewTop ? (
+                  <span className="sp-stage-card-flag is-editable">editable</span>
+                ) : (
+                  <span className="sp-stage-card-flag is-readonly">
+                    read-only{isArchivedView ? ` · ${activeLineage.label}` : ''}
+                  </span>
+                )}
+                {metricText && <span className="sp-stage-card-metric">{metricText}</span>}
+              </div>
+              {isReadOnlyStage && prevLabel && (
+                <div className="sp-stage-card-diff">
+                  <button
+                    type="button"
+                    className={`sp-augdiff-toggle${showPrevDiff ? ' is-on' : ''}`}
+                    onClick={togglePrevDiff}
+                    title={showPrevDiff ? 'Hide the changes' : `Highlight what changed from ${prevLabel}`}
+                  >
+                    {showPrevDiff ? 'Hide changes' : `Show changes from ${prevLabel}`}
+                  </button>
+                  {showPrevDiff && (
+                    <span className="sp-augdiff-legend">
+                      <span className="aug-ins sp-augdiff-swatch">added</span>
+                      <span className="aug-del sp-augdiff-swatch">removed</span>
+                    </span>
+                  )}
+                </div>
               )}
             </div>
           );
