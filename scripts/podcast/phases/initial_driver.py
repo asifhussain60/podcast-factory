@@ -14,7 +14,6 @@ from _paths import REPO_ROOT  # noqa: E402
 from _progress import initial_state, read_state, update_phase, write_state  # noqa: E402
 from _rules import CONSUMER_CATEGORIES  # noqa: E402
 from _authoring import AuthoringError, author_phase_0b, author_phase_0c, author_phase_0d, author_phase_0e  # noqa: E402
-from _literary import author_literary_phase  # noqa: E402
 from phases.preflight import preflight_initial  # noqa: E402
 from phases.scaffold import phase_branch, phase_scaffold, phase_0a_ingest, phase_git_commit  # noqa: E402
 from phases.source_ingest import phase_0a_ingest_source_md  # noqa: E402
@@ -40,9 +39,9 @@ def derive_slug(pdf_path: Path) -> str:
 
 
 def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | None = None) -> int:
-    """Run Phases 0b → 0c → 0d → 0e → 0literary → 06a → 0f-halt. Used by run_initial AND --resume.
+    """Run Phases 0b → 0c → 0d → 0e → 06a → 0f-halt. Used by run_initial AND --resume.
 
-    When *stop_after* names an authoring phase (0b/0c/0d/0e/0literary), the driver
+    When *stop_after* names an authoring phase (0b/0c/0d/0e), the driver
     halts cleanly the moment that phase completes — the phase block stays
     ``completed`` while the top-level ``phase_status`` is set to ``halted`` so the
     dispatcher re-enters here on the next ``--resume`` and skips the already-done
@@ -75,15 +74,16 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
             return
         author_phase_0e(bd, log=_info)
 
-    def _run_literary(bd: Path) -> None:
-        author_literary_phase(bd, log=_info)
-
+    # 0literary (per-chapter revoice) retired from the active flow 2026-06-04:
+    # nothing consumes chapters/literary/ after the build_episode_txt wiring fix,
+    # and the revoice now lives in Branch B (the companion book). The symbol stays
+    # in _progress.PHASES (state-file back-compat) and the _literary.py helpers
+    # stay (reused by _book_compose).
     phase_map = [
         ("0b", _run_0b, "phase 0b English refinement (chunked)"),
         ("0c", _run_0c, "phase 0c phonetic pass (chunked)"),
         ("0d", _run_0d, f"phase 0d chapter design (tier={length_tier}, unit={unit_mode})"),
         ("0e", _run_0e, "phase 0e enrichment"),
-        ("0literary", _run_literary, "phase 08b literary transformation (Gemini)"),
     ]
     completed = {
         p for p, blk in state.get("phases", {}).items()
