@@ -6,9 +6,9 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-05 (session 14 — full pipeline audit + P1 fixes + test suite green)
+**Last updated:** 2026-06-05 (session 14 — full pipeline audit + P1 fixes + test suite green + P2 plan.yaml update)
 
-**BRANCH: `ayyuhal-walad` — active. Committed (f1e64cc).**
+**BRANCH: `ayyuhal-walad` — active. Committed (9052119).**
 
 **Session work completed (session 14 — 1 commit f1e64cc):**
 
