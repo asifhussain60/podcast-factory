@@ -6,9 +6,27 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-05 (session 12 — pronunciation bug fix + video layer redesign + AW regeneration)
+**Last updated:** 2026-06-05 (session 13 — 0book-illustrate: teaching diagrams in PDF reading edition)
 
-**BRANCH: `ayyuhal-walad` — active. Committed (0bcd27e).**
+**BRANCH: `ayyuhal-walad` — active. Committed (29faf2f).**
+
+**Session work completed (session 13 — 1 commit 29faf2f):**
+
+New `0book-illustrate` pipeline phase: LLM-generated teaching diagrams (flowchart/
+mindmap/graph) embedded in the PDF reading edition. Claude analyses each chapter,
+identifies philosophical concepts that benefit from visual structure, writes Mermaid
+DSL, renders SVG via the existing Playwright renderer (already themed to editorial-
+modern palette), and injects `<figure class="book-diagram">` blocks into
+`book-illustrated.md`. The PDF renderer picks them up automatically.
+
+  - `_progress.py`: added "0book-illustrate" to PHASES
+  - `_book_illustrate.py`: new module (section split, LLM call, render, inject)
+  - `render-mermaid.mjs`: `--book-dir=<path>` mode for book diagram rendering
+  - `render-book-pdf.mjs`: HTML block pass-through + figure/figcaption CSS
+  - `build_book_pdf.py`: prefers `book-illustrated.md` over `book.md` when present
+  - `phases/book_driver.py`: wires illustrate between compose and render (non-blocking)
+  - Ayyuhal Walad: 14 diagrams across 8 chapters; book.pdf 544KB / 70 pages.
+  - Tests: 460 passed, 1 skipped.
 
 **Session work completed (session 11 — 1 commit 0bcd27e):**
 
