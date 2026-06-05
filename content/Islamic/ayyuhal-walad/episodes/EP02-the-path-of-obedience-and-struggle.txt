@@ -24,17 +24,21 @@ Forbidden openers: "Welcome to our…", "Welcome back", "in this episode", "toda
 
 ## Pronunciation
 
-Pronounce "Ghazali" as "gha-ZAH-lee". Substitute *the master*.
-Pronounce "Tahajjud" as "ta-HAJ-jud". Substitute *the pre-dawn voluntary prayer*.
-Pronounce "sahr" as "SAHR". Substitute *the last blessed portion of the night*.
-Pronounce "Shari'ah" as "sha-REE-ah". Substitute *the Prophetic frame*.
-Pronounce "mujahadah" as "mu-JAA-ha-dah". Substitute *inner spiritual struggle*.
-Pronounce "nafs" as "NAFS". Substitute *the lower self*.
-Pronounce "ma'rifah" as "ma-aa-ri-FAH". Substitute *the intimate knowledge of God*.
-Pronounce "bid'a" as "BID-ah". Substitute *innovation*.
-Pronounce "athim" as "aa-THEEM". Substitute *sinner*.
-Pronounce "fasiq" as "FAA-siq". Substitute *transgressor*.
-Pronounce "Sufi" as "SOO-fee", "Eid" as "EED", "Fajr" as "FAJ-r".
+Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic back-to-back. For terms marked "substitute": use the English phrase and skip the Arabic term entirely.
+
+- Ghazali: gha-ZAH-lee — substitute *the master*
+- Tahajjud: ta-HAJ-jud — substitute *the pre-dawn voluntary prayer*
+- sahr: substitute *the last blessed portion of the night*
+- Shari'ah: sha-REE-ah — substitute *the Prophetic frame*
+- mujahadah: mu-JAA-ha-dah — substitute *inner spiritual struggle*
+- nafs: substitute *the lower self*
+- ma'rifah: ma-aa-ri-FAH — substitute *the intimate knowledge of God*
+- bid'a: BID-ah — substitute *innovation*
+- athim: aa-THEEM — substitute *sinner*
+- fasiq: FAA-siq — substitute *transgressor*
+- Sufi: SOO-fee
+- Eid: EED
+- Fajr: FAJ-r
 
 ## Three-part focus
 

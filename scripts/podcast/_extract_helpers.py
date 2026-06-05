@@ -81,9 +81,9 @@ def _render_framing_deep_dive(c: Contract, chapter: ResolvedChapter, ep_num: int
     if phonetics:
         rows = "".join(f"  - **{term}** — {respelling}\n" for term, respelling in phonetics.items())
         pronunciation_block = (
-            "Speak every term below using the respelling and gloss in parentheses. "
-            "On first appearance per episode, pair the term with its brief gloss; on subsequent "
-            "appearances, the term alone is fine.\n\n"
+            "For each term below: say it ONCE using the phonetic form given — never say the "
+            "original spelling and the phonetic form back-to-back. If a Substitute is listed, "
+            "use the English substitute and skip the Arabic term entirely.\n\n"
             f"{rows}"
         )
     else:
@@ -186,8 +186,9 @@ def _render_framing_debate(c: Contract, chapter: ResolvedChapter, ep_num: int) -
     if phonetics:
         rows = "".join(f"  - **{term}** — {respelling}\n" for term, respelling in phonetics.items())
         pronunciation_block = (
-            "Speak every term below using the respelling and gloss in parentheses. "
-            f"On first appearance, pair the term with its brief gloss.\n\n{rows}"
+            "For each term below: say it ONCE using the phonetic form given — never say the "
+            "original spelling and the phonetic form back-to-back. If a Substitute is listed, "
+            f"use the English substitute and skip the Arabic term entirely.\n\n{rows}"
         )
     else:
         pronunciation_block = (
