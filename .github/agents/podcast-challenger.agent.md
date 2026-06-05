@@ -2,7 +2,6 @@
 name: podcast-challenger
 description: "Semantic-quality challenger for podcasted-book chapters (uploaded to NotebookLM as the SOURCE) and framings/episode-txts (pasted into the NotebookLM Customize prompt box). Validates everything `build_episode_txt.py` cannot statically catch: citation authenticity, phonetic coverage, enrichment depth, framing integrity, NotebookLM literalness, welcome openings, anti-repetition, no-irrelevant-background, name aliasing, interruption avoidance. Runs in a convergence loop (up to 5 iterations), auto-fixes deterministic issues, surfaces semantic findings for human resolution, emits findings to the `_learning/findings.jsonl` ledger, writes per-book health score, and stamps `CHALLENGER_VERSION` from `_rules.py` into every report. Book-agnostic: caller supplies `<book-slug>`. Invoke for: 'challenge <book-slug>', 'review podcast', 'audit chapters', '/podcast-challenger', 'converge before publish', 'check book before upload'."
 tools: Read, Edit, Glob, Grep, Bash
-model: opus
 
 # Canonical challenger contract (peer with.github/agents/journal-challenger.agent.md)
 challenger_contract:
@@ -93,6 +92,36 @@ The earlier authority list named 17 handbook + Arabic-reference files under `con
 You do NOT review:
 - Anything under `content/babu-memoir/` — memoir is out of scope per SKILL.md §9 (these belong to the journal skill).
 - The MP3 output of NotebookLM (only the upstream sources: chapters + framings).
+
+---
+
+## SECTION 0B — Content-profile gating (Wave CP)
+
+Before beginning any review pass, read `BOOK_DIR/_system/series-config.yaml` and extract the `content_profile` field. Default: `islamic_scholarly` if the field is absent.
+
+```
+resolve_content_profile(book_dir):
+  series-config.yaml → content_profile → default: islamic_scholarly
+```
+
+| Profile | Skip these check categories | Apply these additional rules |
+|---|---|---|
+| `islamic_scholarly` | (none — full check catalog applies) | All 30 checks |
+| `consumer_explainer` | A (citation discipline — Islamic-specific citations), C (phonetic coverage — Arabic transliteration), J (name aliasing — Arabic name policy), T (doctrinal accuracy — Islamic doctrine) | Consumer accuracy guardrails from `content/_shared/consumer_explainer/framing-guardrails.md` |
+| `general_nonfiction` | T (doctrinal accuracy only) | Standard academic citation checks |
+
+**For `consumer_explainer` books specifically:**
+- Skip A1–A6 (Authenticity): citation format, Islamic source tiers, tradition firewall — none apply.
+- Skip C1–C6 (Phonetic coverage): no Arabic transliteration in consumer explainer content.
+- Skip J1–J3 (Name discipline): Arabic name-aliasing policy does not apply.
+- Skip T (doctrinal accuracy): Islamic doctrine checks don't apply to consumer financial content.
+- Keep B (meta-prose tells), D (enrichment depth), E/F/G (structure/framing integrity), H/I/K/L/M/N/O (NotebookLM literalness, welcome, anti-repetition, interruption, filler checks).
+- ADD: verify each factual claim about tax treatment, eligibility, or dollar amounts can be traced to an authoritative source per `content/_shared/consumer_explainer/enrichment-sources.md`. Flag any unqualified "will save" or "you always" phrasing (P1).
+
+Log the detected profile at the top of every challenger report:
+```
+content_profile: consumer_explainer  ← detected from _system/series-config.yaml
+```
 - The `99-show-notes.md` apparatus and the optional `04-discussion-spine.md` enrichment (if present — slide pipeline reads it when available, but it does not flow to NotebookLM audio). The 02/03 scaffolds were retired 2026-05-25 (F30) and no longer exist in new bundles.
 
 ---
@@ -414,20 +443,22 @@ Mode dispatch: always runs on every chapter pass. Category V findings do NOT blo
 
 **Category V is never auto-fixed.** All five checks require authoring judgment about tone, framing, and rhetorical shape — deterministic insertion would corrupt voice. The PEQ Interest axis score is computed independently in `_quality.py` and does not depend on V-finding counts; it uses the same pattern lists for a continuous 0–100 score.
 
-### Category X: Technical depth balance — added 2026-06-03 (Wave M)
+### Category W: Augmentation quality (Wave L) — added 2026-06-03
 
-*Dispatch guard: applies only when `category == "explainers"`. For all other categories emit `X-NO-PACK: skipped (category={category})` as an INFO line and skip this entire section.*
+Validates that knowledge augmentation (the doctrine / term / quote / etymology context blocks that `scripts/podcast/intelligence/augmenter.py` prepends to episode text) **enriches genuine gaps naturally, respects the book's content level, draws only real atoms, weaves etymology in spoken form, and never repeats an atom across chapters.** W3–W6 are deterministic, implemented in [`scripts/podcast/_augmentation.py`](../../scripts/podcast/_augmentation.py) (mirrors Category T's `_doctrinal.py` shape: `AugmentationFinding` + per-check functions + `run_all`). W1–W2 are flagged heuristically there and judged semantically by this agent against the rubric below.
 
-Validates that explainer chapters are practical-first: theory is grounded in outcomes, every named feature has a hands-on sequence, and comparison-tool internals are absent. Findings sourced in `_rules.TECHNICAL_RULE_SET` (R-TECH-THEORY-CAP, R-TECH-WALKTHROUGH-PRESENT, R-TECH-NO-COMP-INTERNALS, R-TECH-HABIT-MAP).
+Content-level gating is the spine: Islamic books declare `content_level` in `meta.yml` using the 6-level Kashkole ladder (general → advanced → taveel → mamsool → mabda_maad → haqaiq); a book draws doctrine atoms only at or below its own level (cumulative downward) plus `universal`/uncategorized. Quran/Hadith/Term/Etymology are universal resources — never level-gated. Authority: `_rules.allowed_content_levels()` + `R_AUGMENT_*`. Schema enforced by migration `026_atoms_update_content_level_ladder.sql`.
 
-| ID | Severity | Check | Detection | Remediation |
-|---|---|---|---|---|
-| X1 | P1 | **Theory cap** (`R-TECH-THEORY-CAP`): ≥4 consecutive explanatory sentences with no CLI command, code block, or "type/see/run" pattern. | Sliding-window sentence scan per paragraph; flag the offending paragraph block. | Rewrite to lead with practical outcome; move explanation to supporting context after the example. |
-| X2 | P1 | **Walkthrough presence** (`R-TECH-WALKTHROUGH-PRESENT`): H2 section with ≥2 named features but zero hands-on sequence. | Section-level scan: count named features (capitalised nouns + product terms); count command/code anchors. | Add a session-step or CLI example grounded in source material; do not invent commands not present in the source. |
-| X3 | P1 | **No comparison-tool internals** (`R-TECH-NO-COMP-INTERNALS`): passage explaining internal mechanics, release history, pricing tiers, or benchmark stats of a tool that is NOT the subject of the chapter. | Keyword + named-entity scan for third-party product names followed by version, date, or percentage tokens. | Strip or replace with the practical implication for the developer ("this means you can…"). |
-| X4 | P2 | **Habit-mapping** (`R-TECH-HABIT-MAP`): chapter addresses a migration audience (detected via "developers who use X", "coming from X", "if you use X") but has zero explicit "old habit → new habit" phrase. | Detect migration signal; scan for "In [tool] you…; in [subject] you…" pattern. | Flag (advisory); add ≥1 mapping per major workflow. Does not block shipping. |
+| ID | Check | Detection | Severity / Remediation |
+|---|---|---|---|
+| W1 | **Augmentation fills a genuine gap** — an injected block clarifies a concept the source merely references, rather than padding. | Agent judgment; heuristic flags a block whose matched term is absent from the source body. | P1 — auto-revert the block (`_augmentation.revert_block`); augmenter re-runs excluding that atom via the ledger. |
+| W2 | **Reads natural, not bolted-on** — the enrichment flows as a host would actually say it; no forced "a parallel teaching notes…" scaffolding every time. | Agent judgment against the spoken-cadence rubric. | P1 — auto-revert + re-author. |
+| W3 | **Etymology discipline** — ≤ `R_AUGMENT_ETYMOLOGY_MAX_PER_CHAPTER` (3) per chapter; each aside carries a SPOKEN romanized form; NEVER spells Arabic letters / emits Arabic script. | Deterministic: `check_w3_etymology` counts bullets, scans for Arabic Unicode, requires a `spoken "…"` form. | P1 — drop the surplus/offending etymology aside. |
+| W4 | **Content-level integrity** — every injected doctrine atom is within the book's level band. | Deterministic: `check_w4_w5_content_and_existence` reads `episode-augment-ledger.json` + atom `content_level` from the DB. | **P0 — hard block.** A `haqaiq` atom in a `taveel` book is a doctrinal leak. |
+| W5 | **No fabricated atom** — every atom id in the ledger exists in `knowledge.db`. | Deterministic: DB existence check. | **P0 — hard block.** |
+| W6 | **No cross-chapter repeat** — no atom appears in two episodes' ledger entries for the same book. | Deterministic: `check_w6_no_cross_chapter_repeat` scans the ledger. | P1 — re-run augmentation for the later episode (the ledger already excludes prior atoms). |
 
-Category X findings produce **SHIP-WITH-CAUTION** (not BLOCKED). X4 is P2 and advisory only. No P0 findings in this category.
+**W1/W2 auto-revert, W3/W6 advisory, W4/W5 block.** Because the augmenter already enforces the content-level gate and ledger-exclusion at selection time, a W4/W5/W6 finding at challenge time signals a hand-edit or stale ledger and is treated as an integrity failure (W4/W5) or a re-run trigger (W6). Category W participates in convergence through the standard verdict mechanism (any P0 → BLOCKED); it does not alter the continuous PEQ formula.
 
 ---
 
@@ -544,7 +575,7 @@ Always write the sidecar report (Section 6) — even on a clean run, the report 
 ### P0 (blocks ship)
 
 #### A1: Citation discipline — missing surah:verse in an EP source quote
-- **File:** _workspace/books/<book-slug>/chapters/ch##-<slug>.txt:LINE
+- **File:** content/drafts/<slug>/chapters/ch##-<slug>.txt:LINE
 - **Context:** blockquote of Quranic verse with English translation but no `(Quran X:Y)` citation line.
 - **Suggested fix:** Identify the verse, add citation on the line below the quote per enrichment-sources.md §2 format.
 
