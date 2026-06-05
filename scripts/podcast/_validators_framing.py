@@ -99,6 +99,23 @@ def assert_framing_pronunciation_imperative(content: str, file_path: Path) -> No
             f"  This instruction prevents NotebookLM from reading the term twice."
         )
 
+    # ── 3b. Require at least one bullet-list entry (- term: phonetic) ───────────
+    # The anti-doubling instruction alone is not enough — the block must also
+    # carry at least one bullet entry so there is actual pronunciation guidance.
+    # A block with only the instruction line and no entries passes the instruction
+    # check but gives NotebookLM nothing to work with.
+    _has_bullet = re.search(r"^\s*-\s+\S", block, re.MULTILINE)
+    _has_do_not_voice = re.search(r"(?i)do\s+not\s+voice", block)
+    if not _has_bullet and not _has_do_not_voice:
+        sys.exit(
+            f"ERROR: framing's `## Pronunciation` block has the anti-doubling instruction\n"
+            f"  but no pronunciation entries or 'Do not voice' directive.\n"
+            f"  File: {file_path}\n"
+            f"  R-PRONUNCIATION-IMPERATIVE: add at least one bullet entry:\n"
+            f"    - TermA: phonetic-A\n"
+            f"    - TermB: substitute *English gloss*"
+        )
+
     # ── 4. P1 flag: trivial uppercase-only respellings ────────────────────────
     for lm in TRIVIAL_UPPERCASE_RESPELLING_RE.finditer(block):
         term = lm.group(1).strip()

@@ -177,49 +177,33 @@ Top-level schema:
 
 # ─── Category routing ────────────────────────────────────────────────────────
 
-def _is_video_enabled(book_dir: Path) -> bool:
-    """Return True only when enable_video: true is set in series-config.yaml.
-
-    Defaults to False — video generation is opt-in per book. Set
-    enable_video: true in _system/series-config.yaml to enable.
-    """
+def _read_series_config(book_dir: Path) -> dict:
+    """Load _system/series-config.yaml for this book. Returns {} on any failure."""
     cfg_path = book_dir / "_system" / "series-config.yaml"
     if not cfg_path.exists():
-        return False
+        return {}
     try:
         import yaml
-    except ImportError:
-        return False
-    try:
-        cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
+        return yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
     except Exception:
-        return False
-    return bool(cfg.get("enable_video", False))
+        return {}
+
+
+def _is_video_enabled(book_dir: Path) -> bool:
+    """Return True only when enable_video: true in series-config.yaml (opt-in)."""
+    return bool(_read_series_config(book_dir).get("enable_video", False))
 
 
 def _read_video_style(book_dir: Path) -> str:
-    """Read video_style from series-config.yaml.
+    """Return video_style from series-config.yaml (teaching_hybrid | scenic | technical).
 
-    Returns one of: teaching_hybrid | scenic | technical.
     Falls back by content_profile when video_style is not set:
       islamic_scholarly → teaching_hybrid
       everything else   → scenic
     """
-    cfg_path = book_dir / "_system" / "series-config.yaml"
-    if not cfg_path.exists():
-        return "scenic"
-    try:
-        import yaml
-    except ImportError:
-        return "scenic"
-    try:
-        cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
-    except Exception:
-        return "scenic"
-
+    cfg = _read_series_config(book_dir)
     if "video_style" in cfg:
         return str(cfg["video_style"]).strip().lower()
-
     profile = str(cfg.get("content_profile", "")).strip().lower()
     if "islamic_scholarly" in profile or "scholarly" in profile:
         return "teaching_hybrid"
@@ -525,7 +509,7 @@ def _generate_images(
             print(f"    {filename} already exists, skipping")
             continue
 
-        prompt = f"{seg.get('prompt_full', '')}. {seg.get('style_directive', STYLE_DIRECTIVE)}"
+        prompt = f"{seg.get('prompt_full', '')}. {seg.get('style_directive', _SCENIC_STYLE)}"
         overlay = seg.get("overlay_text", "")
         if overlay:
             prompt += f" Text overlay reads: \"{overlay}\"."

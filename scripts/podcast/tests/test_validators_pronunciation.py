@@ -144,6 +144,29 @@ def test_genuine_respelling_no_p1_flag(capsys):
     assert "R-PRONUNCIATION-TRIVIAL" not in captured.err
 
 
+# ─── bullet-list format required ─────────────────────────────────────────────
+
+def test_instruction_without_any_bullet_exits():
+    """Anti-doubling instruction present but no bullet entries → must be rejected."""
+    content = _wrap(
+        "Say each term ONCE using its phonetic form. "
+        "Never say the original spelling and the phonetic form back-to-back.\n\n"
+        "Consult the source glossary for all terms.\n"
+    )
+    with pytest.raises(SystemExit, match="no pronunciation entries"):
+        assert_framing_pronunciation_imperative(content, Path("test.txt"))
+
+
+def test_do_not_voice_paragraph_accepted_without_bullets():
+    """A 'Do not voice' paragraph substitutes for bullet list (valid for some episodes)."""
+    content = _wrap(
+        "Say each term ONCE using its phonetic form. "
+        "Never say the original spelling and the phonetic form back-to-back.\n\n"
+        "Do not voice Arabic personal names. Use the stable English labels.\n"
+    )
+    assert_framing_pronunciation_imperative(content, Path("test.txt"))
+
+
 # ─── no-read-aloud guard ──────────────────────────────────────────────────────
 
 def test_missing_no_read_aloud_guard_exits():
