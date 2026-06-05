@@ -22,6 +22,10 @@ const SRC_DIR    = path.join(ROOT, 'src', 'diagrams');
 const OUT_DIR    = path.join(ROOT, 'src', 'generated', 'mermaid');
 const MERMAID_JS = path.join(ROOT, 'node_modules', 'mermaid', 'dist', 'mermaid.min.js');
 
+// --book-dir=<path>: render book/_diagrams/*.mmd in place (SVG alongside .mmd).
+const _bookDirArg = process.argv.find((a) => a.startsWith('--book-dir='));
+const BOOK_DIR = _bookDirArg ? _bookDirArg.split('=').slice(1).join('=') : null;
+
 // Theme variables mapped to the editorial-modern palette (theme.css). Mermaid
 // bakes colours into the SVG, so we pass the literal hex values the theme uses;
 // the colour theme itself is never changed.
@@ -39,13 +43,17 @@ const THEME_VARIABLES = {
 };
 
 async function main() {
-  if (!existsSync(SRC_DIR)) {
-    console.error(`no diagrams dir at ${SRC_DIR} — nothing to render`);
+  // In book-dir mode, read/write from the book's _diagrams/ folder (SVG alongside .mmd).
+  const srcDir = BOOK_DIR ? path.join(BOOK_DIR, 'book', '_diagrams') : SRC_DIR;
+  const outDir = BOOK_DIR ? path.join(BOOK_DIR, 'book', '_diagrams') : OUT_DIR;
+
+  if (!existsSync(srcDir)) {
+    console.error(`no diagrams dir at ${srcDir} — nothing to render`);
     process.exit(0);
   }
-  await mkdir(OUT_DIR, { recursive: true });
+  await mkdir(outDir, { recursive: true });
 
-  const files = (await readdir(SRC_DIR)).filter((f) => f.endsWith('.mmd'));
+  const files = (await readdir(srcDir)).filter((f) => f.endsWith('.mmd'));
   if (files.length === 0) {
     console.log('no .mmd files found');
     return;
@@ -91,7 +99,7 @@ async function main() {
     // Graceful degrade: a missing Playwright chromium binary must NOT hard-fail
     // the whole build. Reuse any cached SVGs; warn about any that can't be made.
     const missing = files.filter(
-      (f) => !existsSync(path.join(OUT_DIR, `${path.basename(f, '.mmd')}.svg`)),
+      (f) => !existsSync(path.join(outDir, `${path.basename(f, '.mmd')}.svg`)),
     );
     const firstLine = String(err.message || err).split('\n')[0];
     console.warn(`mermaid: chromium unavailable — ${firstLine}`);
@@ -118,7 +126,7 @@ async function main() {
   let ok = 0;
   for (const file of files) {
     const id = path.basename(file, '.mmd');
-    const def = await readFile(path.join(SRC_DIR, file), 'utf8');
+    const def = await readFile(path.join(srcDir, file), 'utf8');
     try {
       let svg = await page.evaluate(
         ([gid, gdef]) => window.__renderMermaid('m_' + gid, gdef),
@@ -131,7 +139,7 @@ async function main() {
       svg = svg.replace(/(<svg\b[^>]*?)\s+width="[^"]*"/, '$1')
                .replace(/(<svg\b[^>]*?)\s+height="[^"]*"/, '$1')
                .replace(/(<svg\b[^>]*?)\s+style="[^"]*"/, '$1');
-      await writeFile(path.join(OUT_DIR, `${id}.svg`), svg, 'utf8');
+      await writeFile(path.join(outDir, `${id}.svg`), svg, 'utf8');
       console.log(`  rendered ${id}.svg (${svg.length} bytes)`);
       ok++;
     } catch (err) {

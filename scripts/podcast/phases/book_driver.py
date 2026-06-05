@@ -16,9 +16,10 @@ from _progress import update_phase  # noqa: E402
 from _authoring import AuthoringError  # noqa: E402
 from _authoring._book_design import author_phase_book_design  # noqa: E402
 from _book_compose import author_phase_book_compose  # noqa: E402
+from _book_illustrate import author_phase_book_illustrate  # noqa: E402
 from phases.scaffold import phase_git_commit  # noqa: E402
 
-_BOOK_PHASES = ("0book-design", "0book-compose", "0book-render")
+_BOOK_PHASES = ("0book-design", "0book-compose", "0book-illustrate", "0book-render")
 
 
 def _info(msg: str) -> None:
@@ -76,6 +77,19 @@ def _drive_book_branch(book_dir: Path) -> int:
         return 0
     update_phase(book_dir, phase="0book-compose", status="completed")
     phase_git_commit(book_dir, f"book({slug}): 0book-compose — book.md")
+
+    # 0book-illustrate: teaching diagrams -> book-illustrated.md (non-blocking on failure)
+    update_phase(book_dir, phase="0book-illustrate", status="running")
+    try:
+        author_phase_book_illustrate(book_dir, log=_info)
+    except AuthoringError as e:
+        update_phase(book_dir, phase="0book-illustrate", status="failed", error=str(e),
+                     extras={"manual_fallback": e.manual_fallback})
+        _err(f"0book-illustrate failed (non-blocking): {e}")
+        # Continue to render even without illustrations — book.md still renders fine.
+    else:
+        update_phase(book_dir, phase="0book-illustrate", status="completed")
+        phase_git_commit(book_dir, f"book({slug}): 0book-illustrate — book-illustrated.md")
 
     # 0book-render (PDF + reader HTML) — task 5 module; degrade gracefully until present.
     update_phase(book_dir, phase="0book-render", status="running")

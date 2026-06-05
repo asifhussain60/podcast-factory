@@ -28,19 +28,24 @@ _INSTALL_HINT = ("Run `npx playwright install chromium` in plan-dashboard/ "
                  "(one-time browser download), then re-run 0book-render.")
 
 
-def build_book(book_dir: Path, *, log=print) -> Path:
+def build_book(book_dir: Path, *, log=print, book_md: Path | None = None) -> Path:
     book_dir = Path(book_dir).resolve()
-    book_md = book_dir / "book" / "book.md"
+    # Prefer book-illustrated.md (from 0book-illustrate) when present; fall back to book.md.
+    if book_md is None:
+        illustrated = book_dir / "book" / "book-illustrated.md"
+        book_md = illustrated if illustrated.exists() else book_dir / "book" / "book.md"
+    book_md = Path(book_md)
     if not book_md.exists():
         raise AuthoringError(
             phase="0book-render",
-            message=f"missing {book_md} — run 0book-compose first.",
+            message=f"missing {book_md} — run 0book-compose (and 0book-illustrate) first.",
             manual_fallback="python3 _book_compose.py <BOOK_DIR>")
     out_pdf = book_dir / "book" / "book.pdf"
+    src_label = book_md.name
 
-    log(f"    0book-render: {book_dir.name}: book.md -> book.pdf (Playwright)")
+    log(f"    0book-render: {book_dir.name}: {src_label} -> book.pdf (Playwright)")
     proc = subprocess.run(
-        ["node", str(_RENDER_SCRIPT), str(book_md), str(out_pdf), str(_THEME_CSS)],
+        ["node", str(_RENDER_SCRIPT), str(book_md.resolve()), str(out_pdf), str(_THEME_CSS)],
         cwd=_DASHBOARD, capture_output=True, text=True)
     if proc.returncode == 3:
         raise AuthoringError(

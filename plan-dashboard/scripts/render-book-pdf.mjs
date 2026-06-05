@@ -33,12 +33,13 @@ function renderInline(text) {
   return s;
 }
 /** Minimal renderer matching markdown.ts behaviour for book.md (headings,
- *  paragraphs, and blockquotes split on blank lines → Arabic over English). */
+ *  paragraphs, blockquotes, and raw HTML blocks like <figure class="book-diagram">). */
 function renderMd(md) {
   const lines = md.replace(/\r\n/g, '\n').split('\n');
   const out = [];
   let para = [];
   let quote = [];
+  let inHtmlBlock = false;
   const flushPara = () => { if (para.length) { out.push(`<p>${renderInline(para.join(' '))}</p>`); para = []; } };
   const flushQuote = () => {
     if (!quote.length) return;
@@ -49,6 +50,18 @@ function renderMd(md) {
     quote = [];
   };
   for (const line of lines) {
+    // Raw HTML block pass-through: <figure class="book-diagram">...</figure>
+    if (inHtmlBlock) {
+      out.push(line);
+      if (line.trimEnd().toLowerCase() === '</figure>') inHtmlBlock = false;
+      continue;
+    }
+    if (line.trimStart().toLowerCase().startsWith('<figure')) {
+      flushPara(); flushQuote();
+      out.push(line);
+      inHtmlBlock = !line.includes('</figure>');
+      continue;
+    }
     const h = line.match(/^(#{1,6})\s+(.+)$/);
     if (h) { flushPara(); flushQuote(); out.push(`<h${h[1].length}>${renderInline(h[2])}</h${h[1].length}>`); continue; }
     const q = line.match(/^>\s?(.*)$/);
@@ -94,6 +107,10 @@ async function main() {
       background: var(--c-bg-card, #fffdf8); page-break-inside: avoid; }
     blockquote p { margin: 0.3rem 0; }
     blockquote p:first-child { font-size: 1.3rem; line-height: 1.85; }
+    figure.book-diagram { margin: 2em auto; max-width: 88%; page-break-inside: avoid; text-align: center; }
+    figure.book-diagram svg { width: 100%; height: auto; max-height: 380px; display: block; margin: 0 auto; }
+    figcaption { margin-top: 0.5em; font-size: 0.82rem; color: var(--c-ink-muted, #87827a);
+      font-style: italic; font-family: var(--font-ui, system-ui, sans-serif); text-align: center; }
   </style></head><body>
     <section class="title-page"><p class="eyebrow">Reading edition</p><h1>${escapeHtml(title)}</h1></section>
     ${renderMd(body)}

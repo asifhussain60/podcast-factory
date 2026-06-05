@@ -75,7 +75,8 @@ PHASES = (
     "per-chapter-slides",  # optional; gated by series.enable_slide_decks. Per-chapter slide-deck authoring + slide-deck-challenger convergence. Skipped (status="skipped") when flag is false.
     "0book-design",   # PDF path — book-craft re-segmentation -> book/book-toc.json (gated by series.enable_book_branch)
     "0book-compose",  # PDF path — whole-book revoice -> book/book.md (modern author voice, Arabic script + English)
-    "0book-render",   # PDF path — book.md -> reader HTML + book/book.pdf (Playwright); non-blocking on the podcast ship
+    "0book-illustrate",  # PDF path — teaching diagrams injected -> book/book-illustrated.md
+    "0book-render",   # PDF path — book-illustrated.md (or book.md) -> book.pdf (Playwright); non-blocking on the podcast ship
     "finalize",     # G1-G7 quality gates + human review halt before publish (reviews BOTH deliverables)
     "publish",      # copy drafts → published/ catalog (publish_driver)
     "trainer",
