@@ -102,6 +102,20 @@
   ],
   "agents": [
     {
+      "id": "book-challenger",
+      "name": "Book Challenger",
+      "role": "Semantic-quality challenger for the companion reading edition (PDF path \u2014 `BOOK_",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Semantic-quality challenger for the companion reading edition (PDF path \u2014 `BOOK_DIR/book/book.md` + `book/book-toc.json`). Validates everything the deterministic compose step cannot statically catch: no-teaching-lost across the whole boo\u2026",
+      "what_it_knows": "See infra/claude-agents/book-challenger.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
+    {
       "id": "html-view-challenger",
       "name": "Html View Challenger",
       "role": "Conformance challenger for HTML views, Astro pages, components, and diagrams on ",
@@ -425,6 +439,6 @@
   ],
   "modules": [],
   "archetypes": [],
-  "generated_at": "2026-06-04T09:25:58.898479+00:00",
-  "source_commit": "74f7dd5"
+  "generated_at": "2026-06-05T14:21:04.722969+00:00",
+  "source_commit": "9c7c198"
 }

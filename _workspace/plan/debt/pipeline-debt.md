@@ -37,23 +37,27 @@ Genuine remaining P0 framework work is now narrower than the older view suggeste
 
 ### Open items grouped by pipeline location (replaces flat F1-F29 list)
 
+*Last reconciled: 2026-06-05 (holistic review + F25 generation + PEQ voice-axis fixes shipped)*
+
 | Location | Open item | Priority | Notes |
 |---|---|---|---|
 | **Phase 0d** | F4 — editorial-intro chapters reach the pipeline | P2 | KaR ch01a dropped manually; F23 is broader fix |
 | **Phase 0d** | F23 — no book-thesis coherence check | P1 | NEW from Q1 finding; ~half-day implementation |
-| **Phase 0d** | F26 — name-aliases.yml schema v2 | P1 | enables F23/F25 auto-emit per-book |
+| **Phase 0d** | F26 — name-aliases.yml schema v2 full spec | P1 | `category` override field added 2026-06-05; remaining fields (`original_transliteration`, `first_use_anchor`) are P1 enhancement |
 | **Phase 0e** | F13 — inline phonetic parens leak | P1 | observed only in some chapters; prompt strengthening needed |
-| **Phase 0e** | F24 — alqaab functional-paraphrase | P0 | doctrine drafted; prompt patch pending |
-| **Phase 0e** | F29 — Arabic surah names in chapter prose | P0 | doctrine drafted; chapter rewrite needed for KaR + Phase 0e prompt patch |
-| **Phase 0g** | F17 — R-ANALOGY-CAP under-enforced | P0 | M1 confirmed 3x; needs validator-twin (F27) |
-| **Phase 0g + handbook** | v4-revised propagation | P0 | stable-role labels + source-image carve-out + bounded honorifics + literal pushback patterns + 6 prompt updates pending in `_authoring.py:author_framing()` |
-| **build_episode_txt.py** | F27 — Tier 2.5 validator burst (8 functions) | P0 | drafts ready in `f27-validator-drafts.md`; paste pending |
-| **build_episode_txt.py** | F25 — show-notes apparatus-table schema | P0 | validator + Phase 0g format change |
 | **Orchestrator** | F11 — iter-1-ships + iter-2-timeout = false-failure | P1 | observed 4+ times in KaR; needs heartbeat-age check |
 | **Orchestrator** | F12 — episode IDs from filename digits | P1 | gaps after chapter drops; KaR has missing EP01, EP02 (ch01a/ch02b dropped) |
 | **Orchestrator** | F7 — no cost projection | P2 | low impact; nice-to-have |
 | **Validator regex** | F9 — R-PHONETICS-OUT remaining patterns audit | P2 | pattern #1 fixed; rest untested |
 | **Ops** | F28 — backward-compat decision | DECIDED | Asif: re-emit all KaR episodes under v4-revised doctrine |
+
+**Closed since last reconciliation (2026-06-05):**
+- ~~F24 (alqaab prompt)~~ — CLOSED: landed in v4-revised propagation (23009eb)
+- ~~F17 (analogy-cap)~~ — CLOSED: F27 #3 validator covers it (3631bc0)
+- ~~F29 (surah names)~~ — CLOSED: Phase 0e prompt LANDED (23009eb); KaR rewrites deferred (shipped content, low ROI)
+- ~~v4-revised propagation~~ — CLOSED: all 6 prompt updates landed (23009eb); verified
+- ~~F27 (Tier 2.5 validators)~~ — CLOSED: all 8 validators shipped (3631bc0)
+- ~~F25 (apparatus-table generation)~~ — CLOSED 2026-06-05: `render_show_notes()` now emits `## Name and Title Preservation Table` from name-aliases.yml; `category` field (F26 minimal) added to KaR; PEQ two stale test failures also fixed
 
 ### Closed / validated (lessons that are now framework default)
 

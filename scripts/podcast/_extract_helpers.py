@@ -374,6 +374,50 @@ def render_discussion_spine(c: Contract, chapter: ResolvedChapter) -> str:
 """
 
 
+def _build_apparatus_table(book_dir: Path) -> str:
+    """Build the ## Name and Title Preservation Table section from name-aliases.yml.
+
+    Returns an empty string when name-aliases.yml is absent (defensive).
+    """
+    aliases_path = book_dir / "_system" / "name-aliases.yml"
+    if not aliases_path.exists():
+        return ""
+    try:
+        data = load_yaml(aliases_path.read_text(encoding="utf-8"))
+    except Exception:
+        return ""
+    if not isinstance(data, dict):
+        return ""
+
+    rows: list[tuple[str, str, str, str, str]] = []  # (orig, category, written, audio_label, first_use)
+    for section_key, category_label in (("figures", "Person"), ("book_titles", "Book Title"), ("concept_words", "Concept Term")):
+        section = data.get(section_key) or {}
+        if not isinstance(section, dict):
+            continue
+        for _key, entry in section.items():
+            if not isinstance(entry, dict):
+                continue
+            first_mention = entry.get("first_mention") or ""
+            rotation = entry.get("rotation") or []
+            audio_label = rotation[0] if rotation else "—"
+            # Derive transliteration from the start of first_mention (up to first comma).
+            orig_part = first_mention.split(",")[0].strip() if first_mention else "—"
+            category = entry.get("category") or category_label
+            rows.append((orig_part, category, first_mention or "—", audio_label, "first mention"))
+
+    if not rows:
+        return ""
+
+    header = "## Name and Title Preservation Table\n\n"
+    table_header = "| Original / Transliteration | Category | Written Form | Audio Label | First Audio Use |\n"
+    separator    = "|---|---|---|---|---|\n"
+    table_rows = "".join(
+        f"| {orig} | {cat} | {written} | {audio} | {first} |\n"
+        for orig, cat, written, audio, first in rows
+    )
+    return header + table_header + separator + table_rows
+
+
 def render_show_notes(c: Contract, chapter: ResolvedChapter, ep_num: int) -> str:
     sn = c.get("show_notes") or {}
     blurb = sn.get("blurb") or "[LLM-FILL — 1–2 sentence episode description]"
@@ -383,6 +427,12 @@ def render_show_notes(c: Contract, chapter: ResolvedChapter, ep_num: int) -> str
     none_line = "  - [none]" + "\n"
     related_block = fmt_list(related) if related else none_line
     refs_block = fmt_list(refs) if refs else none_line
+
+    # F25: apparatus table — derive book_dir from chapter path (chapters/ is one level below book root).
+    book_dir = chapter.path.parents[1]
+    apparatus_section = _build_apparatus_table(book_dir)
+    apparatus_block = f"\n{apparatus_section}\n" if apparatus_section else ""
+
     return f"""# Show notes — EP{ep_num:02d}
 
 **Title:** {title}
@@ -390,7 +440,7 @@ def render_show_notes(c: Contract, chapter: ResolvedChapter, ep_num: int) -> str
 **Blurb:** {blurb}
 
 **Length estimate:** see contract.length_target ({c.get('length_target')})
-
+{apparatus_block}
 ## Related episodes
 
 {related_block}

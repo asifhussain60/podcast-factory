@@ -765,69 +765,60 @@
   "waves": [],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-04T09:25:58.869636+00:00",
-  "source_commit": "74f7dd5",
+  "generated_at": "2026-06-05T14:21:04.692520+00:00",
+  "source_commit": "9c7c198",
   "generator": "regenerate-snapshots.py",
-  "books_in_flight": [
-    {
-      "slug": "claude-code-training",
-      "title": "claude-code-training",
-      "phase": "per-chapter",
-      "phase_status": "failed",
-      "cost_to_date_usd": 0,
-      "kind": "unknown"
-    }
-  ],
+  "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "74f7dd5",
-      "subject": "chore: update site-work-status \u2014 session 8 (Studio UI/UX redesign)",
-      "date": "2026-06-03"
+      "sha": "9c7c198",
+      "subject": "chore: move health-trend.md to canonical path + gitignore stale drafts stub",
+      "date": "2026-06-05"
     },
     {
-      "sha": "12b16cd",
-      "subject": "fix(studio): unified section card \u2014 continuous background + glow border",
-      "date": "2026-06-03"
+      "sha": "fc47240",
+      "subject": "fix(pipeline): P0 \u2014 enforce NotebookLM 4,500-char Customize box limit",
+      "date": "2026-06-05"
     },
     {
-      "sha": "c33c20b",
-      "subject": "fix(studio): unbroken section border + Edit button on section headings",
-      "date": "2026-06-03"
+      "sha": "7095170",
+      "subject": "feat(pipeline): auto-print NotebookLM upload table at finalize halt",
+      "date": "2026-06-05"
     },
     {
-      "sha": "bfe5da6",
-      "subject": "feat(studio): section-level editing + comprehensive UI redesign",
-      "date": "2026-06-03"
+      "sha": "466701c",
+      "subject": "feat(ayyuhal-walad): finalize 4 episodes \u2014 teaching-first chapters, welcome/close convention",
+      "date": "2026-06-05"
     },
     {
-      "sha": "b6cec54",
-      "subject": "fix(studio): depth picker \u2014 hover shift, lighter colors, scroll lock",
-      "date": "2026-06-03"
+      "sha": "90218a4",
+      "subject": "feat(ayyuhal-walad): author 4 teaching-focused episode framings + clean re-segmented chapters",
+      "date": "2026-06-05"
     },
     {
-      "sha": "b41c206",
-      "subject": "chore: update site-work-status \u2014 session 7 (depth redesign + tag picker separation)",
-      "date": "2026-06-03"
+      "sha": "c29a012",
+      "subject": "feat(ayyuhal-walad): re-segment podcast into 4 right-sized episodes (density brake)",
+      "date": "2026-06-04"
     },
     {
-      "sha": "f736717",
-      "subject": "feat(studio): redesign depth picker + separate tag picker",
-      "date": "2026-06-03"
+      "sha": "062988f",
+      "subject": "docs(nomenclature): rename Branch A/B \u2192 \"podcast path\" / \"PDF path\"",
+      "date": "2026-06-04"
     },
     {
-      "sha": "a98804a",
-      "subject": "chore: update site-work-status \u2014 session 6 (depth taxonomy + literary + annotation picker)",
-      "date": "2026-06-03"
+      "sha": "2bf5c2e",
+      "subject": "fix(0d): density brake \u2014 stop Phase 0d over-cramming chapters",
+      "date": "2026-06-04"
     },
     {
-      "sha": "001f497",
-      "subject": "feat(literary+annotation): Phase 2 literary pipeline + Option A section annotation picker",
-      "date": "2026-06-03"
+      "sha": "d82564b",
+      "subject": "chore(ayyuhal-walad): book-challenger run \u2014 SHIP-READY (Arabic verified clean)",
+      "date": "2026-06-04"
     },
     {
-      "sha": "3101132",
-      "subject": "feat(literary): pilot literary pipeline stage \u2014 Ayyuhal Walad (3 chapters)",
-      "date": "2026-06-03"
+      "sha": "197d2ac",
+      "subject": "docs(book-branch): document Branch A vs B, 0book-* phases, book-challenger",
+      "date": "2026-06-04"
     }
   ],
   "wave_execution_events": [],

@@ -8,7 +8,10 @@
 #   <key>:
 #     first_mention: "<Arabic + English appositive — used ONCE>"
 #     rotation: ["alias 1", "alias 2", "alias 3", "alias 4"]
+#     category: (optional — overrides section default for apparatus table; e.g. "Imam", "Caliph")
 #     notes: (optional context)
+#
+# Section defaults for apparatus table (F25): figures→Person, book_titles→Book Title, concept_words→Concept Term
 #
 # The framing-gen step reads this file and embeds the relevant rotation set
 # into each chapter's framing under `## Name discipline`. Hosts rotate
@@ -52,6 +55,7 @@ figures:
 
   imam-ali:
     first_mention: "Imam Ali ibn Abi Talib, the Commander of the Faithful and cousin of the Prophet (peace be upon him)"
+    category: "Imam"
     rotation:
       - "the Commander of the Faithful"
       - "the cousin of the Prophet"
@@ -63,6 +67,7 @@ figures:
 
   imam-al-muizz:
     first_mention: "Imam al-Mu'izz li-Din Allah, the fourth Fatimid caliph"
+    category: "Imam / Caliph"
     rotation:
       - "the Fatimid caliph"
       - "the Imam of the chain"
@@ -71,6 +76,7 @@ figures:
 
   imam-zayn:
     first_mention: "Imam Ali Zayn al-Abidin, the fourth Imam, son of Imam Husayn"
+    category: "Imam"
     rotation:
       - "Imam Zayn"
       - "the fourth Imam"

@@ -107,34 +107,46 @@ _VOICE_SCORER_READY = False
 class PEQScore:
     """Immutable result of a PEQ scoring pass on one chapter."""
 
-    fidelity:   float   # 0–100
-    voice:      float   # 0–100
-    structure:  float   # 0–100
-    enrichment: float   # 0–100
-    interest:   float   # 0–100  (K6)
-    total:      float   # 0–100  (weighted sum)
-    verdict:    str     # PASS | WARN | FAIL
-    notes:      list[str] = field(default_factory=list)
+    fidelity:        float   # 0–100
+    voice:           float   # 0–100 (0.0 when voice_available=False)
+    structure:       float   # 0–100
+    enrichment:      float   # 0–100
+    interest:        float   # 0–100  (K6)
+    total:           float   # 0–100  (weighted sum)
+    verdict:         str     # PASS | WARN | FAIL
+    voice_available: bool    = True   # False when _VOICE_SCORER_READY=False; weight → Fidelity
+    notes:           list[str] = field(default_factory=list)
 
     def as_dict(self) -> dict:
         return {
-            "fidelity":   round(self.fidelity,   1),
-            "voice":      round(self.voice,       1),
-            "structure":  round(self.structure,   1),
-            "enrichment": round(self.enrichment,  1),
-            "interest":   round(self.interest,    1),
-            "total":      round(self.total,       1),
-            "verdict":    self.verdict,
-            "notes":      self.notes,
+            "fidelity":        round(self.fidelity,   1),
+            "voice":           round(self.voice,       1),
+            "voice_available": self.voice_available,
+            "structure":       round(self.structure,   1),
+            "enrichment":      round(self.enrichment,  1),
+            "interest":        round(self.interest,    1),
+            "total":           round(self.total,       1),
+            "verdict":         self.verdict,
+            "notes":           self.notes,
         }
 
     def markdown_table(self) -> str:
         """Return a compact Markdown table for embedding in challenger reports."""
+        if self.voice_available:
+            voice_score_cell    = f"{self.voice:.1f}"
+            voice_weighted_cell = f"{self.voice * WEIGHT_VOICE:.1f}"
+            fidelity_weight_label = "30%"
+            fidelity_weighted   = self.fidelity * WEIGHT_FIDELITY
+        else:
+            voice_score_cell    = "N/A"
+            voice_weighted_cell = "→Fidelity"
+            fidelity_weight_label = "50% (incl. Voice)"
+            fidelity_weighted   = self.fidelity * (WEIGHT_FIDELITY + WEIGHT_VOICE)
         lines = [
             "| Axis | Weight | Score | Weighted |",
             "|---|---|---|---|",
-            f"| Fidelity   | 30% | {self.fidelity:.1f} | {self.fidelity * WEIGHT_FIDELITY:.1f} |",
-            f"| Voice      | 20% | {self.voice:.1f} | {self.voice * WEIGHT_VOICE:.1f} |",
+            f"| Fidelity   | {fidelity_weight_label} | {self.fidelity:.1f} | {fidelity_weighted:.1f} |",
+            f"| Voice      | 20% | {voice_score_cell} | {voice_weighted_cell} |",
             f"| Structure  | 18% | {self.structure:.1f} | {self.structure * WEIGHT_STRUCTURE:.1f} |",
             f"| Enrichment | 17% | {self.enrichment:.1f} | {self.enrichment * WEIGHT_ENRICHMENT:.1f} |",
             f"| Interest   | 15% | {self.interest:.1f} | {self.interest * WEIGHT_INTEREST:.1f} |",
@@ -331,5 +343,6 @@ def score(
         interest=interest,
         total=total,
         verdict=verdict_from_total(total),
+        voice_available=not _voice_unavailable,
         notes=notes,
     )
