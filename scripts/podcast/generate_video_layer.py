@@ -124,7 +124,7 @@ Slide types and their content fields:
   quote_slide      content: {text, speaker}
   scenic_break     content: {}                            ← background only, no text
 
-Rules for slides:
+Rules for slides (read carefully — every rule prevents a real production defect):
   - Open with a title_slide.
   - Immediately follow any named list in the chapter with a numbered_list slide.
   - Use verse_slide for every Quran verse explicitly quoted in the text.
@@ -133,6 +133,24 @@ Rules for slides:
   - Use scenic_break for major section transitions.
   - Spread slides evenly — do not cluster everything at the start.
   - Every slide must carry est_start_s, est_end_s, overlay_text (≤10 words), prompt_short.
+
+  HARD RULES — violations cause production defects:
+  - verse_slide "text" field must contain the ENGLISH TRANSLATION only. Never put Arabic
+    phonetics or transliteration in the text field. Use the attribution field for the source.
+  - A recurring spine quote (the episode's thesis sentence) appears AT MOST TWICE:
+    once as the second slide (s02) and once as the final slide. Never repeat it mid-episode.
+  - Never place two consecutive title_slides. If you need a section header, use a
+    quote_slide or scenic_break instead of another title_slide.
+  - scenic_break must use the same background_id as the slides immediately surrounding it —
+    never jump back to the opening background mid-episode.
+  - numbered_list items: maximum 8 per slide. If a list has more than 8 items (e.g. 11
+    Divine Names), split into two numbered_list slides with clear sub-titles.
+  - concept_slide: one concept per slide. Never combine two concepts in a single entry
+    (e.g. "Al-Malik & Al-Wahhab" is two slides). The phonetic field is required; if a term
+    has no standard phonetic, leave it empty ("") but the definition must be substantive.
+  - concept_slide is for established Islamic terms only — not for paraphrases of episode
+    themes or narrator observations. If you cannot provide a phonetic and a concise
+    definition, use a quote_slide instead.
 
 Return ONLY valid JSON — no markdown fences, no commentary outside the object.
 Top-level schema:
