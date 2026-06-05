@@ -4071,5 +4071,69 @@ wc8_holistic_pipeline:
         - content/knowledge-base/mirror.db                                  # rebuilt with fts_hadith
 
 # ===========================================================================
+# Waves O + PH — PDF Reading Edition + Pipeline Hardening (session 13-14)
+# ===========================================================================
+
+waves_o_ph:
+
+  - id: O
+    name: "PDF Reading Edition — 0book-illustrate Phase + BUG-SLIDE-001"
+    execution_status: completed_2026_06_05
+    depends_on: [A, CP]
+    note: |
+      New 0book-illustrate pipeline phase: Claude analyses each H2 section of
+      book.md, identifies philosophical concepts warranting a teaching diagram,
+      generates Mermaid DSL, renders SVG via the Playwright renderer, and injects
+      figure.book-diagram blocks into book-illustrated.md. The PDF renderer picks
+      them up automatically. Also fixes BUG-SLIDE-001 (per-chapter-slides never
+      triggered for manually-processed books).
+    steps:
+      - id: O1
+        title: "BUG-SLIDE-001 — per-chapter-slides trigger fix for manually-processed books"
+        status: completed
+        committed_at: b54471f
+        deliverables:
+          - phases/book_driver.py — wires per-chapter-slides correctly after book branch detected
+      - id: O2
+        title: "_book_illustrate.py + render-mermaid.mjs book-dir mode + phases wiring"
+        status: completed
+        committed_at: 29faf2f
+        deliverables:
+          - scripts/podcast/_book_illustrate.py (new)
+          - plan-dashboard/scripts/render-mermaid.mjs — --book-dir mode added
+          - plan-dashboard/scripts/render-book-pdf.mjs — HTML block pass-through + figure CSS
+          - scripts/podcast/build_book_pdf.py — prefers book-illustrated.md over book.md
+          - scripts/podcast/phases/book_driver.py — 0book-illustrate wired between compose and render
+          - scripts/podcast/_progress.py — 0book-illustrate added to PHASES
+        output: Ayyuhal Walad — 14 diagrams across 8 chapters; book.pdf 544 KB / 70 pages
+      - id: O3
+        title: "build_book_pdf.py — Google Drive copy feature committed"
+        status: completed
+        committed_at: f1e64cc
+
+  - id: PH
+    name: "Pipeline Hardening — Audit, P1 Fix, Test Suite Green (21 to 0)"
+    execution_status: completed_2026_06_05
+    depends_on: [O]
+    note: |
+      Five-pass repo-surgeon audit. One genuine P1 fixed (_book_illustrate.py
+      per-section exception boundary). Test suite: 21 pre-existing failures to 0.
+      Root cause of test failures: sys.modules["_paths"] stub leaked from
+      test_waves_chain.py into the full suite — fixed with save/restore around
+      exec_module. Also: claude_caller to llm_caller rename in extractor tests,
+      phase pin updated to check _progress.PHASES directly, moved function imports
+      corrected in regression tests, source_library_mirror tests patched for local DB.
+    steps:
+      - id: PH1
+        title: "_book_illustrate.py — per-section try/except for LLM resilience"
+        status: completed
+        committed_at: f1e64cc
+      - id: PH2
+        title: "Test suite — 21 pre-existing failures cleared to 0"
+        status: completed
+        committed_at: f1e64cc
+        tests: "321 passed, 1 skipped, 0 failed"
+
+# ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================
