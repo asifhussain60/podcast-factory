@@ -177,6 +177,26 @@ Top-level schema:
 
 # ─── Category routing ────────────────────────────────────────────────────────
 
+def _is_video_enabled(book_dir: Path) -> bool:
+    """Return True only when enable_video: true is set in series-config.yaml.
+
+    Defaults to False — video generation is opt-in per book. Set
+    enable_video: true in _system/series-config.yaml to enable.
+    """
+    cfg_path = book_dir / "_system" / "series-config.yaml"
+    if not cfg_path.exists():
+        return False
+    try:
+        import yaml
+    except ImportError:
+        return False
+    try:
+        cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return False
+    return bool(cfg.get("enable_video", False))
+
+
 def _read_video_style(book_dir: Path) -> str:
     """Read video_style from series-config.yaml.
 
@@ -559,6 +579,11 @@ def main(argv: list[str] | None = None) -> int:
     book_dir = content_dir(args.slug)
     if not book_dir.exists():
         sys.exit(f"ERROR: book directory not found for slug '{args.slug}'")
+
+    if not _is_video_enabled(book_dir):
+        print(f"\nVideo generation is disabled for '{args.slug}'.")
+        print(f"  To enable: set  enable_video: true  in _system/series-config.yaml")
+        return 0
 
     video_style = _read_video_style(book_dir)
 

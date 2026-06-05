@@ -59,6 +59,19 @@ MIN_SLIDE_DURATION_S = 5.0   # never show an image for less than this
 MIN_KEYWORD_LEN      = 4     # ignore short tokens as search keywords
 
 
+def _video_enabled(book_dir: Path) -> bool:
+    """Return True only when enable_video: true in series-config.yaml (opt-in)."""
+    cfg_path = book_dir / "_system" / "series-config.yaml"
+    if not cfg_path.exists():
+        return False
+    try:
+        import yaml
+        cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
+        return bool(cfg.get("enable_video", False))
+    except Exception:
+        return False
+
+
 # ─── ffmpeg helpers ────────────────────────────────────────────────────────────
 
 def _require_ffmpeg() -> None:
@@ -301,6 +314,11 @@ def main(argv: list[str] | None = None) -> int:
     book_dir = content_dir(args.slug)
     if not book_dir.exists():
         sys.exit(f"ERROR: book directory not found for slug '{args.slug}'")
+
+    if not _video_enabled(book_dir):
+        print(f"\nVideo generation is disabled for '{args.slug}'.")
+        print(f"  To enable: set  enable_video: true  in _system/series-config.yaml")
+        return 0
 
     episodes = _discover_episodes(book_dir, args.episode)
     if not episodes:
