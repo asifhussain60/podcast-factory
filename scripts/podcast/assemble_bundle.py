@@ -50,11 +50,36 @@ from _quality import PEQScore, score as peq_score  # noqa: E402
 # Episode-chapter discovery
 # ---------------------------------------------------------------------------
 
+def _derive_episode_map_from_chapters(book_dir: Path) -> list[dict]:
+    """Fallback: build mapping from chapters/ when episode-chapter-map.json is absent."""
+    import re as _re
+    chapters_dir = book_dir / "chapters"
+    if not chapters_dir.exists():
+        return []
+    pattern = _re.compile(r"^(ch(\d+)[a-z]?)-(.+)\.txt$")
+    entries = []
+    for f in sorted(chapters_dir.glob("ch*.txt")):
+        m = pattern.match(f.name)
+        if m:
+            entries.append({"chapter": m.group(1) + "-" + m.group(3),
+                            "n": int(m.group(2))})
+    if entries:
+        p = book_dir / "_system" / "episode-chapter-map.json"
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(json.dumps({"mapping": entries}, indent=2) + "\n",
+                     encoding="utf-8")
+    return entries
+
+
 def _load_episode_map(book_dir: Path) -> list[dict]:
-    """Load episode↔chapter mapping from episode-chapter-map.json."""
+    """Load episode↔chapter mapping from episode-chapter-map.json.
+
+    Falls back to auto-derivation from chapters/ when the JSON is missing
+    (common for books that were partially processed outside the orchestrator).
+    """
     p = book_dir / "_system" / "episode-chapter-map.json"
     if not p.exists():
-        return []
+        return _derive_episode_map_from_chapters(book_dir)
     data = json.loads(p.read_text(encoding="utf-8"))
     return data.get("mapping", [])
 
