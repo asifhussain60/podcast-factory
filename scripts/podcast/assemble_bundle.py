@@ -196,7 +196,7 @@ def _nlm_length(framing_path: Path | None) -> str:
     if framing_path is None or not framing_path.exists():
         return "Default"
     wc = len(framing_path.read_text(encoding="utf-8").split())
-    return "Long" if wc > 3_500 else "Default"
+    return "Long" if wc > 3_300 else "Default"
 
 
 def _friendly_format(episode_format: str) -> str:
