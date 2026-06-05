@@ -6,9 +6,26 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-04 (session 10 — Studio transformation timeline + dashboard)
+**Last updated:** 2026-06-05 (session 11 — holistic review + F25 apparatus table + PEQ voice-axis fixes)
 
-**BRANCH: `develop` — active. Committed (4200b64).**
+**BRANCH: `ayyuhal-walad` — active. Committed (0bcd27e).**
+
+**Session work completed (session 11 — 1 commit 0bcd27e):**
+
+Holistic review (read-only survey via 3 parallel Explore agents), then critical
+review of pipeline + site strategy. Two genuine gaps found and closed:
+
+  - F25 apparatus table: `render_show_notes()` in `_extract_helpers.py` now reads
+    `name-aliases.yml` and emits `## Name and Title Preservation Table` with one
+    row per figure/book_title/concept_word. Category derived from YAML section
+    (Person/Book Title/Concept Term) with optional `category` override field.
+    KaR name-aliases.yml: added `category` override for three Imam figures (F26 minimal).
+  - PEQ voice-axis: added `voice_available: bool` to `PEQScore`; `markdown_table()`
+    now shows "N/A (→Fidelity)" / "50% (incl. Voice)" when voice scorer not ready,
+    instead of a misleading 0.0 row. Fixed 2 pre-existing test failures (stale
+    weight comment + voice scorer predating `_VOICE_SCORER_READY = False`).
+  - pipeline-debt.md: open-items table reconciled — F25/F27/F24/F17/F29/v4-revised
+    all marked CLOSED; F26 downgraded to P1 followup.
 
 **Session work completed (session 10 — 2 commits 711088c → 4200b64):**
 
