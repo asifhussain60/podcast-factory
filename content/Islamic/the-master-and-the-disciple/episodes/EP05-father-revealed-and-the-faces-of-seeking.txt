@@ -87,26 +87,26 @@ The dialogue book under discussion was authored in tenth-century Yemen. Through 
 
 ## Pronunciation
 
-The chapter is rich with terms drawn from Arabic. Each pronunciation directive below corresponds to a term that ACTUALLY APPEARS in the body of this chapter. Speak each term in fluent single units, not letter-by-letter.
+Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
 
-Pronounce "Sharia" as "sha-REE-ah". Say it as one fluent word.
-Pronounce "Sunnah" as "SOON-nah". Say it as one fluent word.
-Pronounce "Qur'an" as "qur-AAN". Say it as one fluent word.
-Pronounce "hadiths" as "ha-DEETHS". Say it as one fluent word.
-Pronounce "zakat" as "za-KAAT". Say it as one fluent word.
-Pronounce "Allah" as "ahl-LAH". Say it as one fluent word.
-Pronounce "da'wa" as "DAH-wah". Say it as one fluent word.
-Pronounce "shaykh" as "SHAYKH". Say it as one fluent word.
-Pronounce "batin" as "BAA-tin". Say it as one fluent word.
-Pronounce "zahir" as "ZAA-hir". Say it as one fluent word.
-Pronounce "ta'wil" as "ta-WEEL". Say it as one fluent word.
-Pronounce "hawl" as "HAWL". Say it as one fluent word.
-Pronounce "quwwa" as "KOO-wah". Say it as one fluent word.
-Pronounce "hujja" as "HOOJ-ja". Say it as one fluent word.
-Pronounce "bab" as "BAAB". Say it as one fluent word.
-Pronounce "taqiyya" as "ta-KEE-yah". Say it as one fluent word.
-Pronounce "sakina" as "sa-KEE-nah". Say it as one fluent word.
-Pronounce "al-urwa al-wuthqa" as "al-OOR-wah al-WUTH-qa". Say it as a single fluent phrase.
+- Sharia: sha-REE-ah
+- Sunnah: SOON-nah
+- Qur'an: qur-AAN
+- hadiths: ha-DEETHS
+- zakat: za-KAAT
+- Allah: ahl-LAH
+- da'wa: DAH-wah
+- shaykh: shay-KH
+- batin: BAA-tin
+- zahir: ZAA-hir
+- ta'wil: ta-WEEL
+- quwwa: KOO-wah
+- hujja: HOOJ-ja
+- bab: BAAB
+- taqiyya: ta-KEE-yah
+- sakina: sa-KEE-nah
+- al-urwa al-wuthqa: al-OOR-wah al-WUTH-qa
+
 Do not voice the Arabic personal names of the figures. Use the English labels in ## Stable role-labels every time.
 Do not voice Arabic surah-names. Refer to surahs by English meaning — *the chapter on the Cow*, *the chapter on the Family of Imran*, *the chapter on Light*, *the chapter on the Poets* — or lead with the verse's content.
 

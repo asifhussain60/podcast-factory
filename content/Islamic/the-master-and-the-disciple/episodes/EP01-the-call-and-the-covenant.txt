@@ -81,10 +81,10 @@ The book under discussion is a tenth-century dialogue treatise composed in early
 
 ## Pronunciation
 
-Each pronunciation directive below corresponds to a term that ACTUALLY APPEARS in the body of this chapter. Speak each term as one fluent unit, not letter-by-letter.
+Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
 
-Pronounce "Quran" as "qur-AAN". Say it as one fluent word.
-Pronounce "Sinai" as "SEE-nigh". Say it as one fluent word.
+- Quran: qur-AAN
+- Sinai: SEE-nigh
 
 Do not voice Arabic personal names. The Master, the disciple, the disciple's father, and the tenth-century author are all referred to by the stable English labels in `## Stable role-labels`. Do not voice Arabic surah names; refer to surahs by their English meaning (*the chapter on Abraham*, *the chapter on Livestock*, *the chapter on the family of Imran*) or lead with the verse's content.
 

@@ -136,10 +136,31 @@ HONORIFIC_PHRASES = [_compile_honorific(p) for p in _HONORIFICS_RAW
                      if p.startswith(r"\(") or p == "ﷺ"]
 
 # ─── R-PRONUNCIATION-IMPERATIVE (framing) ────────────────────────────────────
-PRONUNCIATION_LINE_OK = re.compile(r"^\s*(Pronounce\s+\"|Do not\s+|Say\s+)", re.MULTILINE)
+# Old passive-list format (asterisk-bold style) — always was bad.
 LEGACY_PASSIVE_PRONUNCIATION = re.compile(
     r"^\s*[-*]?\s*\*[A-Za-z'`\-\s]+\*\s*[:\-]\s*[A-Za-z][\w\-\s]+$",
     re.MULTILINE,
+)
+
+# "Pronounce X as Y" format — causes NotebookLM to say the term twice (R-PRONUNCIATION-DOUBLE).
+# This was the previous "imperative" standard but was empirically the root cause of
+# the double-read bug ("tahajjud, Tahajjud") first identified in Ayyuhal Walad audio.
+PRONOUNCE_AS_DOUBLE_RE = re.compile(
+    r'^\s*(?:-\s+)?Pronounce\s+(?:"[^"]+"|\*[^*]+\*)\s+as\s+["\']',
+    re.MULTILINE,
+)
+
+# Trivial uppercase respelling: "- term: TERM" where the two differ only by case.
+# Adds no phonetic value; P1 flag (not hard fail when anti-doubling instruction present).
+TRIVIAL_UPPERCASE_RESPELLING_RE = re.compile(
+    r"^\s*-\s+([\w'`\-\s]{2,30}):\s+([A-Z][A-Z'\-\s]{1,30})$",
+    re.MULTILINE,
+)
+
+# Required anti-doubling instruction marker in the Pronunciation block.
+ANTI_DOUBLING_INSTRUCTION_RE = re.compile(
+    r"(?i)(say\s+each\s+term\s+once|say\s+it\s+once|never\s+say\s+(?:the\s+)?(?:original|both)|"
+    r"do\s+not\s+(?:repeat|say\s+both)|once.*phonetic|phonetic.*once)",
 )
 
 # ─── R-NOMODERNIZE / R-NOSURPRISE / R-NO-READ-PROMPT (framing) ───────────────

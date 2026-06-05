@@ -12,6 +12,9 @@ from pathlib import Path
 
 from _validator_constants import (
     LEGACY_PASSIVE_PRONUNCIATION,
+    PRONOUNCE_AS_DOUBLE_RE,
+    TRIVIAL_UPPERCASE_RESPELLING_RE,
+    ANTI_DOUBLING_INSTRUCTION_RE,
     REQUIRED_FRAMING_DO_NOT_PHRASES,
     FORBIDDEN_ANALOGY_KEYWORDS,
     FORBIDDEN_MODERN_KEYWORDS,
@@ -23,18 +26,35 @@ from _validator_constants import (
 
 
 def assert_framing_pronunciation_imperative(content: str, file_path: Path) -> None:
-    """R-PRONUNCIATION-IMPERATIVE: every Pronunciation line uses imperative form."""
+    """R-PRONUNCIATION-IMPERATIVE / R-PRONUNCIATION-DOUBLE: validate the Pronunciation block.
+
+    Requires:
+      - A `## Pronunciation` section exists.
+      - The section does NOT use the legacy passive-list asterisk-bold pattern.
+      - The section does NOT use `Pronounce "X" as "Y"` — this format causes NotebookLM
+        to say the term twice (the double-read bug; root-caused in Ayyuhal Walad 2026-06-05).
+      - The section DOES carry an anti-doubling instruction ("Say each term ONCE …
+        Never say the original spelling and the phonetic form back-to-back.").
+      - The "Do not read this prompt aloud" guard is present anywhere in the framing.
+
+    P1 flags (non-blocking):
+      - Trivial uppercase-only respellings (e.g. `nafs: NAFS`) that add no phonetic value.
+    """
     m = re.search(r"^##\s+Pronunciation\b.*?$([\s\S]*?)(?=^##\s+|\Z)", content, re.MULTILINE)
     if not m:
         sys.exit(
             f"ERROR: framing (CUSTOMIZE PROMPT) is missing a `## Pronunciation` section.\n"
             f"  File: {file_path}\n"
-            f"  R-PRONUNCIATION-IMPERATIVE: every framing must carry a Pronunciation\n"
-            f"  block of imperative directives (`Pronounce \"Term\" as \"phonetic\".`).\n"
-            f"  See scripts/podcast/_rules.py (rules R-PRONUNCIATION-IMPERATIVE, R-NOMODERNIZE, etc.)\n"
-            f"  R-PRONUNCIATION-IMPERATIVE."
+            f"  R-PRONUNCIATION-IMPERATIVE: every framing must carry a Pronunciation block.\n"
+            f"  Required format:\n"
+            f"    Say each term ONCE using its phonetic form. Never say the original spelling\n"
+            f"    and the phonetic form back-to-back.\n\n"
+            f"    - TermA: phonetic-A\n"
+            f"    - TermB: phonetic-B"
         )
     block = m.group(1)
+
+    # ── 1. Reject legacy passive-list (asterisk-bold) pattern ─────────────────
     legacy = LEGACY_PASSIVE_PRONUNCIATION.findall(block)
     if legacy:
         sample = "\n".join(f"    {line.strip()[:100]}" for line in legacy[:5])
@@ -42,23 +62,64 @@ def assert_framing_pronunciation_imperative(content: str, file_path: Path) -> No
             f"ERROR: framing's `## Pronunciation` block uses the legacy passive-list pattern.\n"
             f"  File: {file_path}\n"
             f"  Offending lines (first 5):\n{sample}\n\n"
-            f"  R-PRONUNCIATION-IMPERATIVE: rewrite as `Pronounce \"Term\" as \"phonetic\".`\n"
+            f"  R-PRONUNCIATION-IMPERATIVE: rewrite using the bullet format:\n"
+            f"    Say each term ONCE using its phonetic form. Never say the original spelling\n"
+            f"    and the phonetic form back-to-back.\n\n"
+            f"    - TermA: phonetic-A\n"
             f"  The passive list does not change NotebookLM voice-model behavior — empirically\n"
             f"  hosts said 'tassel wolf' for *Tasawwuf* across three episodes."
         )
-    pronounce_re = re.compile(r'^\s*(?:-\s+)?Pronounce\s+(?:"[^"]+"|\*[^*]+\*)\s+as\s+["\']', re.MULTILINE)
-    if not pronounce_re.search(block):
+
+    # ── 2. Reject "Pronounce X as Y" format — causes TTS double-read ──────────
+    bad_lines = PRONOUNCE_AS_DOUBLE_RE.findall(block)
+    if bad_lines:
+        sample = "\n".join(f"    {ln.strip()[:120]}" for ln in bad_lines[:5])
         sys.exit(
-            f"ERROR: framing's `## Pronunciation` block has no imperative\n"
-            f"  `Pronounce \"Term\" as \"phonetic\".` (or italic-form `Pronounce *Term* as \"phonetic\".`) lines.\n"
+            f"ERROR: framing's `## Pronunciation` block uses the `Pronounce \"X\" as \"Y\"` format.\n"
             f"  File: {file_path}\n"
-            f"  See R-PRONUNCIATION-IMPERATIVE."
+            f"  Offending lines (first 5):\n{sample}\n\n"
+            f"  R-PRONUNCIATION-DOUBLE: this format causes NotebookLM to say the term AND its\n"
+            f"  respelling back-to-back (e.g. \"tahajjud, Tahajjud\"). Replace with:\n\n"
+            f"    Say each term ONCE using its phonetic form. Never say the original spelling\n"
+            f"    and the phonetic form back-to-back.\n\n"
+            f"    - TermA: phonetic-A\n"
+            f"    - TermB: phonetic-B  (or: substitute *English gloss*)\n\n"
+            f"  For substitute-only terms (no phonetic guidance needed), write:\n"
+            f"    - nafs: substitute *the lower self*"
         )
+
+    # ── 3. Require anti-doubling instruction ──────────────────────────────────
+    if not ANTI_DOUBLING_INSTRUCTION_RE.search(block):
+        sys.exit(
+            f"ERROR: framing's `## Pronunciation` block is missing the anti-doubling instruction.\n"
+            f"  File: {file_path}\n"
+            f"  R-PRONUNCIATION-IMPERATIVE: the block must open with:\n"
+            f"    Say each term ONCE using its phonetic form. Never say the original spelling\n"
+            f"    and the phonetic form back-to-back.\n"
+            f"  This instruction prevents NotebookLM from reading the term twice."
+        )
+
+    # ── 4. P1 flag: trivial uppercase-only respellings ────────────────────────
+    for lm in TRIVIAL_UPPERCASE_RESPELLING_RE.finditer(block):
+        term = lm.group(1).strip()
+        phon = lm.group(2).strip()
+        if (term.lower().replace("-", "").replace(" ", "").replace("'", "") ==
+                phon.lower().replace("-", "").replace(" ", "").replace("'", "")):
+            _flag_p1(
+                "R-PRONUNCIATION-TRIVIAL",
+                file_path,
+                f"`{term}: {phon}` is a trivial uppercase respelling — it adds no phonetic value. "
+                f"Either provide a genuine respelling (e.g. `{term}: {term.lower()}-STRESSED`) "
+                f"or drop the entry entirely.",
+            )
+
+    # ── 5. No-read-aloud guard ────────────────────────────────────────────────
     if "Do not read this guidance aloud" not in content and "Do not read this prompt aloud" not in content:
         sys.exit(
             f"ERROR: framing missing the no-read-aloud guard.\n"
             f"  File: {file_path}\n"
-            f"  R-NO-READ-PROMPT: framing must end with `Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.`"
+            f"  R-NO-READ-PROMPT: framing must end with:\n"
+            f"  `Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.`"
         )
 
 

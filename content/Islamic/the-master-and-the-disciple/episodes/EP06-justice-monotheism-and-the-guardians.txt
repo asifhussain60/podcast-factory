@@ -87,31 +87,30 @@ The dialogue book under discussion was authored in tenth-century Yemen. Through 
 
 ## Pronunciation
 
-Each pronunciation directive below corresponds to a term that ACTUALLY APPEARS in the body of this chapter. Speak each term in fluent single units, not letter-by-letter.
+Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
 
-Pronounce "Allah" as "ahl-LAH". Say it as one fluent word.
-Pronounce "Sharia" as "sha-REE-ah". Say it as one fluent word.
-Pronounce "Sunnah" as "SOON-nah". Say it as one fluent word.
-Pronounce "Qur'an" as "qur-AAN". Say it as one fluent word.
-Pronounce "zakat" as "za-KAAT". Say it as one fluent word.
-Pronounce "hadiths" as "ha-DEETHS". Say it as one fluent word.
-Pronounce "alif" as "AH-lif". Say it as one fluent word.
-Pronounce "da'wa" as "DAH-wah". Say it as one fluent word.
-Pronounce "nāṭiq" as "NAA-tiq". Say it as one fluent word.
-Pronounce "waṣī" as "wa-SEE". Say it as one fluent word.
-Pronounce "ta'wīl" as "ta-WEEL". Say it as one fluent word.
-Pronounce "Shu'ayb" as "shoo-AYB". Say it as one fluent word.
-Pronounce "Talut" as "taa-LOOT". Say it as one fluent word.
-Pronounce "Taqiyya" as "ta-KEE-yah". Say it as one fluent word.
-Pronounce "ta'zir" as "tah-ZEER". Say it as one fluent word.
-Pronounce "awliyāʾ" as "aw-lee-YAA". Say it as one fluent word.
-Pronounce "Muhajirun" as "moo-haa-jih-ROON". Say it as one fluent word.
-Pronounce "umma" as "OOM-mah". Say it as one fluent word.
-Pronounce "Shaykh" as "SHAYKH". Say it as one fluent word.
-Pronounce "hawl" as "HAWL". Say it as one fluent word.
-Pronounce "quwwa" as "KOO-wah". Say it as one fluent word.
-Pronounce "hujja" as "HOOJ-ja". Say it as one fluent word.
-Pronounce "bāb" as "BAAB". Say it as one fluent word.
+- Allah: ahl-LAH
+- Sharia: sha-REE-ah
+- Sunnah: SOON-nah
+- Qur'an: qur-AAN
+- zakat: za-KAAT
+- hadiths: ha-DEETHS
+- alif: AH-lif
+- da'wa: DAH-wah
+- nāṭiq: NAA-tiq
+- waṣī: wa-SEE
+- ta'wīl: ta-WEEL
+- Shu'ayb: shoo-AYB
+- Talut: taa-LOOT
+- Taqiyya: ta-KEE-yah
+- ta'zir: tah-ZEER
+- awliyāʾ: aw-lee-YAA
+- Muhajirun: moo-haa-jih-ROON
+- umma: OOM-mah
+- Shaykh: shay-KH
+- quwwa: KOO-wah
+- hujja: HOOJ-ja
+- bāb: BAAB
 
 Do not voice the Arabic personal names of figures. Use the English labels in ## Stable role-labels every time.
 
