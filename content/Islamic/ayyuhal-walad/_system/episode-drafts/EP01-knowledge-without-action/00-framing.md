@@ -2,15 +2,17 @@
 
 ## Opening directive
 
-Open in the middle of the question, not with a greeting and not with a self-announcement. Target a 50 to 60 minute in-depth conversation that lets a sustained spiritual diagnosis breathe. The first words a listener hears should land the thesis as a single sentence in the scholar's voice: **Knowledge alone, without righteous deeds, will not benefit you on the Day of Judgment.** That sentence is the spine of this episode. It returns twice more, verbatim, at the pivot moment of the discussion and at the close.
+Open with a brief, warm welcome — one or two sentences — in the seeker's voice. The welcome must (a) greet the listener simply, (b) name the work and its author in plain English — Imam al-Ghazali's letter to his student, the one called *O Beloved Son* — and (c) preview, in a single particular sentence, the actual teaching this episode pursues: that knowledge a scholar acquires and never acts on may be the very thing he is most severely judged for. Author the welcome fresh; do not copy the example. Forbidden hollow openers: "Welcome to our…", "Welcome back", "Welcome to today", "in this episode", "today we'll discuss", "today we will discuss". Target a 50 to 60 minute in-depth conversation that lets a sustained spiritual diagnosis breathe.
 
-Do not use the phrases "today's episode", "let's get into it", "let's get started", or anything that points at the conversation as a vehicle. Get into the material in the first breath. The seeker's voice opens by naming the work and the question the disciple put to its author: of all the sciences a master has spent decades teaching me, which will actually save me, and which is so much weight to put down? That question is the doorway. Step through it.
+Immediately after the welcome, the scholar's voice lands the spine sentence verbatim: **Knowledge alone, without righteous deeds, will not benefit you on the Day of Judgment.** That sentence is the spine of this episode. It returns twice more, verbatim, at the pivot moment of the discussion and at the close.
+
+Do not use the phrases "today's episode", "let's get into it", "let's get started", or anything else that points at the conversation as a vehicle. Get into the material in the first breath after the welcome. The seeker then names the question the disciple put to his master: of all the sciences a master has spent decades teaching me, which will actually save me on the Day of Judgment, and which are so much weight I should put down? That question is the doorway. Step through it.
 
 ## Audience
 
-Thoughtful adult readers approaching Imam al-Ghazali's short letter — addressed to a long-time student — for the first time. Most listeners will not know that this letter is a reply to a real disciple who, after many years of study under the master, wrote asking which of the many sciences he had been taught would actually benefit him in the grave and on the Day of Judgment, and which were of no benefit so that he might leave them alone. The disciple had already read the master's larger works on the revival of religious knowledge, on the alchemy of ultimate happiness, on the precious gems of the Quran, on the forty foundations, and on the path of the worshippers. He did not need another book. He needed something he could continually study and consistently act upon.
+Thoughtful adult readers approaching the master's short letter to his student for the first time. The letter is the master's reply to a disciple who, after years of study, wrote asking which of the sciences he had been taught would actually save him on the Day of Judgment. He did not need another book; he needed something he could continually study and consistently act upon.
 
-The episode walks the opening half of the master's reply, which is the diagnosis. A practical cure exists in the rest of the book, but this is not that episode; this episode shows the disease. The audience should leave understanding that the verdict is sharpest precisely against the scholar — not against the ignorant, not against the openly disobedient, but against the one who knew and did not do.
+This episode walks the opening half of the reply — the diagnosis. The cure belongs to the rest of the book; this episode shows the disease. The audience should leave understanding that the verdict is sharpest precisely against the scholar — not the ignorant, not the openly disobedient, but the one who knew and did not do.
 
 ## Length
 
@@ -64,11 +66,11 @@ This is the pivot point of the episode. Here the scholar restates the spine sent
 
 Beat 10: the worshipper and the angel. A man among the Children of Israel worshipped with great devotion; the angel was sent to test him with the message that his worship was not accepted and that he would go to Hell. The worshipper did not protest or bargain. He answered that the One who created him for worship is the Owner of all things and the All-Powerful, and that his duty is to serve no matter what. The angel returned to the Presence; the verdict came back as forgiveness in full. Let the seeker draw the architecture: the dream of the great master of the inner path shows that what is *taught* alone weighs nothing; the worshipper-and-the-angel story shows that what is *acted upon* — even against apparent divine refusal — is its own justification.
 
-Beat 11: the Prophetic hinge — *take account of yourselves before you are taken to account, and weigh your deeds before your deeds are weighed.* This is the seam between the diagnosis the episode has presented and the cure the rest of the book will give. Behind this hinge the scholar names three closing witnesses, briefly: the Commander of the Faithful, who said a person who thinks he will reach Paradise without striving is self-deluded and a person who thinks he will reach Paradise through striving alone is merely exhausting himself; the early Basran teacher, who said that to desire Paradise without good deeds is itself a sin among the sins; another intimate of God, who said one should act without admiring one's own actions but never abandon them even at the risk of self-admiration.
+Beat 11: the Prophetic hinge — *take account of yourselves before you are taken to account, and weigh your deeds before they are weighed.* The scholar then names three witnesses briefly: the Commander of the Faithful, that the one who thinks Paradise comes without striving is self-deluded and the one who thinks Paradise comes through striving alone is merely exhausting himself; the early Basran teacher, that to desire Paradise without good deeds is a sin among the sins; another intimate of God, that one should act without admiring one's own actions but never abandon them.
 
-Beat 12 — the landing. End here. Do not pre-announce the cure. Do not promise what the next material will hold. End on the image the master ends on: the lion is coming, the swords are in the hand, and whether the arm will swing is the open question the listener must carry away. The scholar restates the spine sentence one final time, verbatim, as the last full sentence of the episode: **Knowledge alone, without righteous deeds, will not benefit you on the Day of Judgment.**
+Beat 12 — the landing. End here. Do not pre-announce the cure. Do not promise what any other material will hold. End on the image the master ends on: the lion is coming, the swords are in the hand, and whether the arm will swing is the open question the listener must carry away. The scholar restates the spine sentence one final time, verbatim, as the last full sentence of the doctrinal walk: **Knowledge alone, without righteous deeds, will not benefit you on the Day of Judgment.**
 
-Let the question hang. Do not resolve it.
+Then — and only then — the seeker turns the verdict toward the listener's own life with a single thought-provoking reflective question, grounded specifically in this chapter's teaching. Not a vague faux-profundity ("what does it truly mean to live?"), not a tidy resolution ("and that, ultimately, is what salvation is"). A real question rooted in the diagnosis: which piece of what the listener already knows has she been quietly refusing to act on, which prescription is sitting on her shelf unswallowed, and what is the smallest specific deed — the equivalent of Junaid's few cycles of pre-dawn prayer — that she could begin to actually do this week. Author the reflective close fresh from this chapter; do not copy the example. Let the question hang. Do not resolve it.
 
 ## Tone constraints
 
@@ -96,9 +98,9 @@ Pronounce "Ghazali" as "gha-ZAH-lee". Say it as one fluent word, the stress on t
 
 Pronounce "Tahajjud" as "ta-HAJ-jud". Say it as one fluent word. Where possible substitute "the pre-dawn voluntary prayer".
 
-Pronounce "Junaid" as "JU-nayd". Say it as one fluent word. Where possible substitute "the great master of the inner path".
+Pronounce "Junaid" as "JU-nayd". Where possible substitute "the great master of the inner path".
 
-Pronounce "Hasan al-Basri" as "HA-san al-BAS-ree". Say it as one fluent word per name. Where possible substitute "the early Basran teacher".
+Pronounce "Hasan al-Basri" as "HA-san al-BAS-ree". Where possible substitute "the early Basran teacher".
 
 Pronounce "Iman" as "ee-MAAN". Say it as one fluent word. Where possible substitute "faith".
 
