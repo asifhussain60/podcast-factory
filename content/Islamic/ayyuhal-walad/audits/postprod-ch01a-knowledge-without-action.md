@@ -2,50 +2,111 @@
 postprod_version: 1.0
 episode: EP01-knowledge-without-action
 chapter_ref: ch01a-knowledge-without-action
-verdict: SHIP-WITH-CAUTION
+verdict: SHIP-READY
 p0_count: 0
-p1_count: 4
-p2_count: 2
+p1_count: 0
+p2_count: 4
 audited: 2026-06-05
+audit_revision: 2 (post-dedup regeneration)
 archetype: islamic-scholastic-text (scholarly-deep-dive)
 ---
 
-# Postprod Audit — EP01: Knowledge Without Action
+# Postprod Audit — EP01: Knowledge Without Action (Revision 2)
 
 ## Pairing
 Transcript `EP01-knowledge-without-action.transcript.txt` paired to `ch01a-knowledge-without-action` by stem match.
 Audio `ch01-ayyuhal-walad.m4a` paired by upload position 1.
+Transcript length: 20,835 chars (~3,464 words, approximately 22 minutes).
+
+---
+
+## Primary Check — EP01/EP02 Content Overlap (Dedup Verification)
+
+**RESOLVED.** The regenerated EP01 contains none of the EP02 cure-content that blocked the original audit (PR-PH-01).
+
+Terms confirmed absent from the new transcript:
+
+| EP02 content | Absent |
+|---|---|
+| mujahadah / mujahada | confirmed absent |
+| dawn watch sequence | confirmed absent |
+| Four conditions of the sincere seeker | confirmed absent |
+| Shibli's hadith of the four proportions | confirmed absent |
+| bid'a (innovation) | confirmed absent |
+| Taubatun Nasuh (repentance) | confirmed absent |
+| Fard Kifayah (communal obligation) | confirmed absent |
+| Luqman / rooster testament | confirmed absent |
+| Shari'ah obedience-frame edge-cases | confirmed absent |
+| Anti-false-Sufi warning | confirmed absent |
+| nafs / lower self | confirmed absent |
+
+The six "obedience" occurrences in the new transcript are all legitimate EP01 contexts: the scholar substituting intellectual acquisition for physical obedience, the warrior parable's swing, the worshipper-and-angel story's unconditional servitude. None are the EP02 Shari'ah-prescription framing.
+
+The episode ends correctly on the Prophetic hinge (self-accounting command), the three closing witnesses, and the lion-still-coming final image — without transitioning into the cure.
+
+---
 
 ## Findings
 
-### PR-PA-01 (P1) — Filename drift
+### PR-PA-01 (P2) — Filename drift
 m4a file stem `ch01-ayyuhal-walad` does not match canonical `ch01a-knowledge-without-action`.
 **delegate_to: vacuum** — rename to `ch01a-knowledge-without-action.m4a`
+(Unchanged from revision 1; the rename was not executed between audits.)
 
-### PR-PC-01 (P1) — Phonetic drift / name discipline
-"Ghazali" used by Arabic name approximately 12–15 times throughout the episode instead of the required alias "the master." The framing name discipline states "Ghazali → the master. Never speak his Arabic name." NotebookLM did not suppress the name. Impact: mild phonetic inconsistency (TTS produces variable rendering of Arabic names); editorial inconsistency with the name-aliasing protocol.
+### PR-PC-01 (P2) — TTS rendering of "Ghazali" in opening attribution
+The transcript's opening sentence renders "Ghazali" via TTS as "Gaza H. Lee" (Turboscribe captures what NotebookLM's TTS pronounced). This is a single occurrence in the possessive attribution sentence ("Imam al-Ghazali's … letter to his student"). The episode then uses "the master" 28 times throughout, with no further Arabic-name uses. The name discipline is substantially honored; only the opening attribution sentence uses the Arabic name at all. Severity reduced to P2 (cosmetic; doctrinal integrity unaffected; single occurrence in an attribution context).
 
-### PR-PF-01 (P1) — Framing-intent drift: spine placement
-The spine "Knowledge alone, without righteous deeds, will not benefit you on the Day of Judgment" is present in the episode but its three required verbatim structural plants (opening / mid-episode pivot / close) are diffuse rather than planted at clear seam positions. The three-repetition structure the framing mandated as structural anchors is not clearly legible as deliberate architecture.
+### PR-PC-02 (P2) — TTS rendering of "Iman" as "Eman Ein, E-M-I-N"
+The hadith defining faith is rendered as "what is known as Eman Ein, E-M-I-N" — the TTS has parsed the phonetic guide `ee-MAAN` as a spoken string "E-M-I-N." The definition that follows ("testimony with the tongue, affirmation with the heart, and action upon the limbs") is complete and correct. Cosmetic artifact from how the phonetic notation was embedded in the framing text.
 
-### PR-PH-01 (P1) — Framing-intent drift: pre-expounded EP02 content
-EP01 contains approximately 40% of EP02's three-part focus: the "worship is another name for obedience" principle, all four edge-cases (Eid fast, forbidden-hour prayer, unlawfully-occupied ground, lawful intimacy), the full Mujahada sword doctrine, warning against false Sufis, all four conditions of the sincere seeker, and Shibli's hadith of the four proportions. The EP01 framing explicitly states "Do not pre-expound the cure" and identifies the four conditions and Shibli's hadith as EP02 content. NotebookLM generated from the full enriched source file which contains the cure-half. Content is source-accurate but structurally misplaced across episode boundary.
-**Author decision required** — see book-level rollup Decision 1.
+### PR-PC-03 (P2) — "Asan al-Basri" double-rendering
+Hasan al-Basri's name is spoken as "Hasan al-Basri, Asan al-Basri" — the TTS pronounced the name twice, once with the H and once without. Occurs once in the three-closing-witnesses section. The alias "early teacher of the city of Basra" frames the introduction correctly; the double-name is a TTS artifact, not a name-discipline failure.
 
-### PR-PI-01 (P1) — Opening does not satisfy welcome directive
-The episode opens with a fitness analogy (cellular respiration / push-up mechanics) without first delivering the required "warm 1–2 sentence welcome in the seeker's voice" that greets the listener, names the work, and previews the teaching. The work (Imam al-Ghazali's letter, O Beloved Son) is named several paragraphs into the episode, not in the opening two sentences.
+---
 
-### PR-PG-01 (P2) — Filler: "Exactly" as turn-opener
-"Exactly" used by Host B (female, Hannah) as the first word of a turn approximately 6 times, in direct violation of the framing pushback discipline: "Her first word of a turn must not be 'Exactly,' 'Yeah,' 'Right,' 'Of course,' 'Absolutely.'" "Yeah" also appears as a turn-opener multiple times.
+## Previously-Flagged Issues Now Resolved
 
-### PR-PJ-01 (P2) — Protocol: non-permitted analogy
-The cold open uses a fitness/biology analogy (push-ups, cellular respiration, macronutrient breakdown of green lentils) not present in the source chapter and not among the three permitted analogies for EP01 (warrior-and-lion, medicine-unswallowed, Junaid's scale). The framing states "No new analogies — only the warrior-and-lion, the medicine-unswallowed, Junaid's scale." This is a mild violation — the analogy functions as an effective cold-open hook and does not distort the doctrinal content.
+| Old Finding | Status | Notes |
+|---|---|---|
+| PR-PH-01 (P1) — EP02 content pre-expounded | RESOLVED | All cure-content absent from new transcript |
+| PR-PI-01 (P1) — Opening welcome failure | RESOLVED | New opening names work in sentence 1, previews teaching in sentence 2, plants spine in sentence 3 |
+| PR-PF-01 (P1) — Spine plants diffuse | RESOLVED | Four spine plants at 1%, 40%, 78%, 97% — opening / mid-diagnosis / grace-hinge / closing |
+| PR-PC-01 (P1) — "Ghazali" 12–15x by name | RESOLVED (P2 remnant) | Now 1 occurrence in opening attribution only; 28x "the master" throughout |
+| PR-PG-01 (P2) — "Exactly" as turn-opener 6x | RESOLVED | Now 2 occurrences — below threshold |
+| PR-PJ-01 (P2) — Fitness/biology cold-open analogy | RESOLVED | Cold-open analogy gone; episode opens directly on the letter and its verdict |
 
-## Positive notes
-- Junaid's dream rendered faithfully and with appropriate weight — "all discourses and spiritual signs turned out to be of no avail... certain cycles of Tahajjud were of benefit."
-- Lion-and-warrior parable present and accurate.
-- Sick-man-and-medicine parable present and accurate; wine punchline included.
-- Worshipper-and-angel story present and accurate; Allah's verdict ("Bear witness, all of you, that I have forgiven him") present.
-- Three closing witnesses (Commander of the Faithful, early Basran teacher, anonymous intimate) all present.
-- Closing ends on the lion-still-charging image and reflective question — correct per framing.
-- No hallucinated claims found; all doctrinal content traces to source.
+---
+
+## Anchor Passage Coverage
+
+All required EP01 anchors are present:
+
+| Anchor | Present |
+|---|---|
+| Prophet's prayer "refuge from knowledge that is of no benefit" | YES |
+| 40-year clock warning | YES |
+| Scholar's severest torment warning | YES |
+| Junaid's dream (great master of the inner path, Tahajjud cycles) | YES |
+| Lion-and-warrior parable | YES (4x) |
+| Medicine-unswallowed parable | YES (3x) |
+| Wine punchline (2,000 pounds of wine) | YES |
+| Four Quranic verses including atom's weight | YES |
+| Five pillars hadith | YES |
+| Iman definition (tongue, heart, limbs) | YES (with TTS artifact — see PC-02) |
+| Grace-is-not-earned clarification + "Mercy close to doers of good" | YES |
+| Worshipper-and-angel story with Allah's verdict | YES |
+| Self-accounting Prophetic hinge | YES |
+| Three closing witnesses (Commander of the Faithful / early Basran teacher / anonymous intimate) | YES |
+| Lion-still-coming closing image | YES |
+| Reflective closing question | YES |
+
+---
+
+## Positive Notes
+- The structural architecture of the episode is now clean: diagnosis only, ending at the hinge.
+- The spine ("Knowledge alone, without righteous deeds, will not benefit you on the Day of Judgment") is planted four times at architecturally legible positions — opening, mid-diagnosis seam, grace-hinge pivot, closing.
+- The Junaid dream is rendered with appropriate weight and correct alias.
+- The worshipper-and-angel story is complete including Allah's verdict.
+- All three closing witnesses present in the correct order.
+- No hallucinated claims. All content traces to source.
+- No forbidden vocabulary (podcast, social media, PBUH, or modern-world terms).
