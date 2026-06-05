@@ -110,6 +110,36 @@ These are recoverable on disk so a fresh Claude session without memory state can
 3. If the user is asking about a specific book's state, read its `content/<Bucket>/<slug>/_system/orchestrator-state.json` via the `jq` command above (use the `content/*/<slug>/…` glob if you don't know the bucket).
 4. Respond in the 4-part response template. No custom section labels.
 
+## Video layer standing rules (LOCKED 2026-06-05)
+
+**Category-driven video style** — read from `_system/series-config.yaml` (`video_style` field).
+Never default to scenic for Islamic scholarly content; never invent a category.
+
+| content_profile | video_style | What gets generated |
+|---|---|---|
+| `islamic_scholarly` | `teaching_hybrid` | Pillow text slides (title/verse/hadith/numbered_list/concept) over Imagen3 darkened backgrounds |
+| fiction / narrative | `scenic` | Imagen3 atmospheric images only (original v1 approach) |
+| technical | `technical` | Graphviz/Mermaid diagrams (deferred — falls back to scenic until built) |
+
+**Teaching-hybrid pipeline** (LOCKED):
+1. `generate_video_layer.py` reads `video_style` from `series-config.yaml`.
+2. Gemini Flash generates a slide manifest (`video-prompts.json`) with `"mode": "teaching_hybrid"`, `"backgrounds"` (3–5 Imagen3 prompts), and `"slides"` (25–40 teaching slide defs).
+3. Imagen3 generates background images (atmospheric, NOT full-detail scenic) into `video-images/`.
+4. `render_slides.py` overlays Pillow text (title/verse/numbered_list/concept) on darkened backgrounds.
+5. `stitch_video.py` reads the manifest's `slides` array and stitches with equal-duration timing.
+
+**Stitching timing rule** (LOCKED): `stitch_video.py` always uses equal-duration splits (`actual_duration / n_slides`). Never scale unequal storyboard estimates — that caused the "last image for 8 minutes" bug. Keyword-based sync is deferred until VTT-format transcripts are available.
+
+**Regeneration order** (LOCKED — follow this sequence exactly):
+1. `rm -rf content/*/<slug>/episodes/EP*/video-images/` (delete old images)
+2. `rm content/*/<slug>/episodes/EP*/video-prompts.json` (delete old manifests)
+3. `python3 scripts/podcast/generate_video_layer.py <slug> --confirm` (generate new)
+4. Regenerate audio in NotebookLM (upload updated framing, download new `.m4a`)
+5. Drop new `.m4a` files into `content/*/<slug>/m4a/`
+6. `python3 scripts/podcast/stitch_video.py <slug> --force` (stitch new images + audio)
+
+**Pronunciation bug — permanent guard** (LOCKED 2026-06-05): `build_episode_txt.py` rejects any framing using `Pronounce "X" as "Y"` format (R-PRONUNCIATION-DOUBLE). The correct format is `- term: phonetic` with an explicit "say ONCE" anti-doubling instruction. See `_validators_framing.py::assert_framing_pronunciation_imperative`.
+
 ## Conventions baseline
 
 - **Auto-mode authorization** lets you act on small mechanical steps without asking; **halt-and-surface** for anything destructive or LLM-spending beyond the auto-mode envelope.
