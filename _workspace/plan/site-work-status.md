@@ -6,9 +6,31 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-05 (session 13 — 0book-illustrate: teaching diagrams in PDF reading edition)
+**Last updated:** 2026-06-05 (session 14 — full pipeline audit + P1 fixes + test suite green)
 
-**BRANCH: `ayyuhal-walad` — active. Committed (29faf2f).**
+**BRANCH: `ayyuhal-walad` — active. Committed (f1e64cc).**
+
+**Session work completed (session 14 — 1 commit f1e64cc):**
+
+Full five-pass repo-surgeon audit + P1 fixes + test suite green (21→0 failures).
+
+  - `_book_illustrate.py`: per-section try/except around the LLM call so a
+    single Gemini timeout/crash skips that section instead of aborting the phase.
+  - `build_book_pdf.py`: committed the uncommitted session-13 Google Drive copy
+    feature (was in working tree, never committed).
+  - Test suite: 21 pre-existing failures resolved to 0:
+    - `test_waves_chain.py`: _paths stub leaked into full suite via `sys.modules`
+      — fixed with save/restore around `exec_module`.
+    - `test_systemic_fixes.py`: phase pin updated (PHASES moved to `_progress.py`),
+      HOST_A_ROLES_SCHOLAR checked in `_validators.py`, `_is_rule_example_line`
+      import corrected to `_validator_constants`.
+    - `test_intelligence_extractor.py`: `claude_caller` → `llm_caller` param rename.
+    - `test_source_library_mirror.py`: mock `open_mirror` for no-mirror path tests.
+  - Tests: 321 passed, 1 skipped.
+
+Audit confirmed the following were ALREADY fixed (auditor false positives):
+  - `build_book_pdf.py` preference for `book-illustrated.md` — present since session 13.
+  - `publish_to_library.py --dry-run` mutation — fixed in session 9 (Wave 1, b435df3).
 
 **Session work completed (session 13 — 1 commit 29faf2f):**
 
