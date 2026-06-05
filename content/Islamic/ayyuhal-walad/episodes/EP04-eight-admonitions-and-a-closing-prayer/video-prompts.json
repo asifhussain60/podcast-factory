@@ -1,0 +1,122 @@
+[
+  {
+    "segment_id": "s01",
+    "visual_type": "flowchart",
+    "est_start_s": 0,
+    "est_end_s": 150,
+    "prompt_short": "Eight Admonitions: Refuse and Take Up",
+    "prompt_full": "A stylized flowchart illustrating 'Eight Admonitions' with two main branches: 'Four Things to Refuse' and 'Four Things to Take Up'. The overall aesthetic should be scholarly and reflective, emphasizing the balance of actions and inactions for spiritual integrity, set against a warm amber/ochre palette.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Eight Admonitions"
+  },
+  {
+    "segment_id": "s02",
+    "visual_type": "concept",
+    "est_start_s": 150,
+    "est_end_s": 300,
+    "prompt_short": "Harms of Religious Debate",
+    "prompt_full": "An abstract illustration depicting the internal turmoil and negative emotions such as jealousy, arrogance, and resentment associated with religious debate driven by ego. Contrast this with a subtle, serene light representing the pure intention of seeking truth privately, without desire for human applause.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Refuse Religious Debate"
+  },
+  {
+    "segment_id": "s03",
+    "visual_type": "flowchart",
+    "est_start_s": 300,
+    "est_end_s": 450,
+    "prompt_short": "Four Kinds of Questioners",
+    "prompt_full": "A flowchart illustrating four distinct paths or branches, each representing a type of questioner: the jealous, the foolish, the simple-minded, and the genuine seeker. Only one path, the genuine seeker, leads to a clear, illuminated destination, while the others are obscured or lead to dead ends. Include the Quranic verse as an overlay.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Turn away from the jealous one. (Quran 53:29)"
+  },
+  {
+    "segment_id": "s04",
+    "visual_type": "quran_verse",
+    "est_start_s": 450,
+    "est_end_s": 600,
+    "prompt_short": "Jesus's Admonition to His Soul",
+    "prompt_full": "Calligraphic rendering of the Quranic quote attributed to Jesus, peace be upon him, in elegant Arabic script with a subtle English gloss overlay. The background should evoke a sense of ancient wisdom and spiritual introspection, perhaps a quiet study space or a desert landscape at dawn.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "First admonish your own soul."
+  },
+  {
+    "segment_id": "s05",
+    "visual_type": "concept",
+    "est_start_s": 600,
+    "est_end_s": 750,
+    "prompt_short": "Sermon's Urgency: The Flood Analogy",
+    "prompt_full": "A powerful conceptual illustration depicting a person urgently warning others of an impending flood, with water rising rapidly. The scene conveys immediate danger and the necessity of direct, unembellished communication, contrasting with ornate, decorative elements that are being swept away, symbolizing the true purpose of a sermon.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "The Urgency of Truth"
+  },
+  {
+    "segment_id": "s06",
+    "visual_type": "hadith_text",
+    "est_start_s": 750,
+    "est_end_s": 900,
+    "prompt_short": "Allah's Anger at Praising Oppressors",
+    "prompt_full": "Stylized text on parchment, presenting the hadith: 'Verily, Allah, the Exalted, is angered when any transgressor or oppressor is praised; and whoever prays for a long life for an oppressor has, in effect, expressed a desire that sin be perpetuated upon the earth.' The background subtly suggests the opulence of a ruler's court contrasted with the stark truth of divine displeasure.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Allah is angered when oppressors are praised."
+  },
+  {
+    "segment_id": "s07",
+    "visual_type": "flowchart",
+    "est_start_s": 900,
+    "est_end_s": 1050,
+    "prompt_short": "Four Things to Actively Take Up",
+    "prompt_full": "A stylized flowchart, mirroring the opening segment, but now focusing on 'Four Things to Take Up'. The visual should convey a sense of positive action, growth, and inner discipline, perhaps with paths leading upwards or towards a central light, emphasizing the active pursuit of spiritual virtues.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Four Things to Take Up"
+  },
+  {
+    "segment_id": "s08",
+    "visual_type": "concept",
+    "est_start_s": 1050,
+    "est_end_s": 1200,
+    "prompt_short": "Auditing Your Servitude to Allah",
+    "prompt_full": "A conceptual illustration showing a master observing a diligent servant, with a subtle overlay or reflection suggesting the infinitely greater relationship between a human and their Creator. The scene should convey introspection and accountability in one's devotion, emphasizing the internal audit of one's actions before God.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Auditing Your Servitude"
+  },
+  {
+    "segment_id": "s09",
+    "visual_type": "hadith_text",
+    "est_start_s": 1200,
+    "est_end_s": 1350,
+    "prompt_short": "Love for Others, Focused Study",
+    "prompt_full": "Stylized text on parchment presenting the sacred hadith: 'My slave's faith is never complete until he loves for all human beings what he loves for himself.' Below or alongside, a subtle visual element depicting a scholar intensely focused on a single scroll, surrounded by discarded, less essential texts, symbolizing the 'one week to live' urgency in study.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Love for Others, Focus Your Study"
+  },
+  {
+    "segment_id": "s10",
+    "visual_type": "hadith_text",
+    "est_start_s": 1350,
+    "est_end_s": 1500,
+    "prompt_short": "Prophet's Prayer for Provision",
+    "prompt_full": "Stylized text on parchment presenting the Prophet's supplication: 'O my Allah! Make this provision sufficient for the family of Muhammad.' The background subtly illustrates a modest, well-ordered pantry with a year's worth of provisions, contrasting with an empty space symbolizing complete reliance on Allah for those with strong Tawakkul.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Make this provision sufficient."
+  },
+  {
+    "segment_id": "s11",
+    "visual_type": "concept",
+    "est_start_s": 1500,
+    "est_end_s": 1650,
+    "prompt_short": "The Divine Names in Supplication",
+    "prompt_full": "A visually rich conceptual illustration featuring eleven distinct, beautifully calligraphed Arabic names of Allah (Ya Aziz, Ya Ghaffar, Ya Kareem, Ya Sattar, Ya Haleem, Ya Jabbar, Ya Azeem, Ya Qahhar, Ya Rahman, Ya Raheem, Ya Arhamu ar-Rahimeen) arranged in a harmonious, ascending pattern, symbolizing the comprehensive nature of the supplication. The background should evoke a sense of divine presence and mercy.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "The Divine Names"
+  },
+  {
+    "segment_id": "s12",
+    "visual_type": "portrait",
+    "est_start_s": 1650,
+    "est_end_s": 2181,
+    "prompt_short": "Imam al-Ghazali, Al-Malik, Al-Wahhab",
+    "prompt_full": "A dignified, non-photorealistic portrait of Imam al-Ghazali, rendered in an editorial illustration style, with a serene and wise expression. Subtle calligraphic elements of 'Al-Malik' (The Absolute Sovereign) and 'Al-Wahhab' (The Giver of all) should be integrated into the background or frame, signifying the divine assistance in completing his profound work.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Imam al-Ghazali"
+  }
+]

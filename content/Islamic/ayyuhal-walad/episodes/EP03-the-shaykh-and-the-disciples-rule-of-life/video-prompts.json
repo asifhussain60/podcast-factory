@@ -1,0 +1,122 @@
+[
+  {
+    "segment_id": "s01",
+    "visual_type": "concept",
+    "est_start_s": 0,
+    "est_end_s": 60,
+    "prompt_short": "Spine sentence: practice brings clarity",
+    "prompt_full": "An open, ancient manuscript with calligraphic Arabic script, glowing with an inner light, symbolizing profound wisdom. The setting is a serene, scholarly study, perhaps with a quill and inkpot nearby, emphasizing the transformative power of steady spiritual practice leading to understanding. The atmosphere is one of quiet contemplation and deep learning.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Practice brings clarity"
+  },
+  {
+    "segment_id": "s02",
+    "visual_type": "scenery",
+    "est_start_s": 60,
+    "est_end_s": 180,
+    "prompt_short": "Hatim ibn Ism reports to Shaykh Shafeeq",
+    "prompt_full": "Hatim ibn Ism, a wise and observant disciple, stands before his master Shaykh Shafeeq al-Balkhi in a humble, sunlit study in Khurasan. Hatim is presenting his observations from the world, perhaps with a scroll or through a gesture, while the master listens intently, conveying a sense of deep respect and mentorship.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Hatim ibn Ism reports eight benefits"
+  },
+  {
+    "segment_id": "s03",
+    "visual_type": "concept",
+    "est_start_s": 180,
+    "est_end_s": 270,
+    "prompt_short": "Righteous deeds: beloved in the grave",
+    "prompt_full": "A symbolic depiction of a grave, not morbid, but serene and illuminated from within by a single, radiant light. This light represents righteous deeds accompanying the deceased, offering companionship and dispelling darkness, symbolizing the only true beloved that remains beyond this life.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Righteous deeds: beloved in the grave"
+  },
+  {
+    "segment_id": "s04",
+    "visual_type": "quran_verse",
+    "est_start_s": 270,
+    "est_end_s": 360,
+    "prompt_short": "Refusing the Nafs, Quran 79:40-41",
+    "prompt_full": "Calligraphic Arabic script of Quran 79:40-41, 'Wa Amma Mun Khafa Maqama Rabbihi Wa Nahun Nafsa 'Anil Hawa Fa Innal Jannata Heyal Mawa,' rendered in an elegant Thuluth style on a parchment background, with a subtle glow. Below, the English gloss: 'But as for the one who has stood in awe of his Sustainer's Presence and restrained his inner self from base and evil desires, Paradise will be the place of rest.'",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Quran 79:40-41"
+  },
+  {
+    "segment_id": "s05",
+    "visual_type": "quran_verse",
+    "est_start_s": 360,
+    "est_end_s": 450,
+    "prompt_short": "Taqwa is nobility, Quran 49:13",
+    "prompt_full": "Calligraphic Arabic script of Quran 49:13, 'Inna Akramakum 'IndAllahi Atqakum,' in a dignified Kufic style, set against a backdrop of subtle, abstract patterns suggesting divine presence and consciousness. Below, the English gloss: 'Verily, the noblest of you in the sight of Allah is the one who is most deeply conscious — most fearful — of Him.'",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Quran 49:13"
+  },
+  {
+    "segment_id": "s06",
+    "visual_type": "concept",
+    "est_start_s": 450,
+    "est_end_s": 540,
+    "prompt_short": "Eight benefits in four holy Books",
+    "prompt_full": "Four ancient, distinct holy books (Torah, Gospel, Psalms, Quran) are depicted, open and radiating light, converging their wisdom onto a central, glowing symbol representing the eight principles of Hatim. The image conveys unity and timeless truth, showing the universal nature of these spiritual insights.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Eight benefits in four holy Books"
+  },
+  {
+    "segment_id": "s07",
+    "visual_type": "concept",
+    "est_start_s": 540,
+    "est_end_s": 660,
+    "prompt_short": "The Shaykh al-Kamil: a perfected guide",
+    "prompt_full": "A wise, serene spiritual guide (Shaykh al-Kamil) in traditional Islamic attire, gently tending to a flourishing garden of young plants, carefully removing weeds. This symbolizes the purification of the soul and nurturing of noble qualities, akin to a farmer tending his crop.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "The Shaykh al-Kamil: a perfected guide"
+  },
+  {
+    "segment_id": "s08",
+    "visual_type": "flowchart",
+    "est_start_s": 660,
+    "est_end_s": 780,
+    "prompt_short": "Qualities of a true Shaykh",
+    "prompt_full": "A visually appealing flowchart or diagram illustrating the key qualities of a true Shaykh: turning away from worldly love, possessing a spiritual chain back to the Prophet, undergoing rigorous spiritual disciplines, and embodying all praiseworthy moral qualities. Each point is represented by an icon or short phrase within the flow.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Qualities of a true Shaykh"
+  },
+  {
+    "segment_id": "s09",
+    "visual_type": "concept",
+    "est_start_s": 780,
+    "est_end_s": 900,
+    "prompt_short": "Shari'ah: the absolute boundary",
+    "prompt_full": "A clear, bright line of light, representing the Shari'ah, acting as an absolute and unyielding boundary. On one side, a disciple respectfully follows the guidance of a Shaykh; on the other, a shadowed figure attempts to cross the line, symbolizing forbidden commands and the diagnostic separating true masters from impostors.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Shari'ah: the absolute boundary"
+  },
+  {
+    "segment_id": "s10",
+    "visual_type": "concept",
+    "est_start_s": 900,
+    "est_end_s": 1020,
+    "prompt_short": "Ikhlas: deeds exclusively for Allah",
+    "prompt_full": "A heart radiating pure, inner light, untouched by external influences or the gaze of others. Surrounding it are faint, shadowy figures representing worldly praise or criticism, which the light of Ikhlas renders insignificant, like pebbles, illustrating the metaphysical cure for Riya by re-estimating where true power lies.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Ikhlas: deeds exclusively for Allah"
+  },
+  {
+    "segment_id": "s11",
+    "visual_type": "concept",
+    "est_start_s": 1020,
+    "est_end_s": 1140,
+    "prompt_short": "Answers through practice, not asking",
+    "prompt_full": "A path winding through a serene, illuminated landscape, with a solitary figure walking steadily forward. Ahead, a distant, soft light beckons, symbolizing answers that become clear through consistent spiritual practice and journey, rather than just intellectual inquiry or premature questioning, emphasizing the verb 'travel'.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "Answers through practice, not asking"
+  },
+  {
+    "segment_id": "s12",
+    "visual_type": "concept",
+    "est_start_s": 1140,
+    "est_end_s": 2084,
+    "prompt_short": "Zun Noon al-Misri's threshold",
+    "prompt_full": "A stylized depiction of a threshold or gateway, with a profound, ancient inscription in Arabic. A seeker stands at the entrance, contemplating the deep commitment and exertion required to step onto the path, symbolizing Shaykh Zun Noon al-Misri's challenge to offer one's soul, not just beautiful sayings.",
+    "style_directive": "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.",
+    "overlay_text": "If you have the courage, then come"
+  }
+]
