@@ -641,6 +641,10 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"| Structure | 20% | Open hook, three beats, close — all present and ordered |\n"
         f"| Enrichment | 20% | Arabic terms glossed; Quranic refs cited; domain vocabulary |\n"
         f"Thresholds: ≥ 85 = PASS · 70–84 = WARN · < 70 = FAIL (convergence loop blocks on FAIL).\n\n"
+        f"HARD CHARACTER LIMIT (P0): the final framing file must be under 4,200 "
+        f"CHARACTERS (not words). NotebookLM's Customize box silently truncates at "
+        f"~5,000 chars; anything beyond that is discarded before generation. Write "
+        f"tight, imperative directives — not prose explanations. If in doubt: cut.\n\n"
         f"After authoring, run `python3 scripts/podcast/build_episode_txt.py "
         f"{book_dir} EP{chap_num}-{chapter_slug}` to validate. Fix any hard-gate failures "
         f"before exiting.\n\n"
@@ -664,45 +668,61 @@ def author_framing(book_dir: Path, chapter_slug: str,
         ),
     )
 
-    # F1 (2026-05-25): post-authoring word-count guard. The framing prompt asks
-    # the LLM to self-count and trim to <=3500 words, but empirically the LLM
-    # ignores this ~15% of the time. When it does, build_episode_txt.py would
-    # later hard-fail with FRAMING_OVER_WORDS, marking the chapter FAILED in
-    # the orchestrator. Catch the over-cap here and invoke ONE focused
-    # compression re-author before the build gate sees it. If the compression
-    # also runs over, let the build gate handle it (orchestrator's
-    # FAILED→graceful-degrade per F33-second handles the rest).
+    # F1 (2026-06-05 revised): post-authoring CHARACTER-count guard.
+    # NotebookLM's Customize box silently truncates at ~5,000 characters (P0 —
+    # empirically measured). The binding gate is FRAMING_CHAR_MAX (4,500 chars),
+    # not word count. If the authored framing exceeds that, invoke ONE focused
+    # compression re-author that rewrites the framing as a tight directive
+    # (~700 words / ~4,200 chars) — cutting verbose prose while preserving
+    # every actionable instruction. If compression still exceeds the cap, the
+    # build gate will hard-fail and the orchestrator's graceful-degrade handles it.
     try:
-        from build_episode_txt import FRAMING_WORD_MAX
+        from _validator_constants import FRAMING_CHAR_MAX as _CHAR_MAX
     except ImportError:
-        FRAMING_WORD_MAX = 3700  # match build script default
+        _CHAR_MAX = 4500
     framing_text = framing_path.read_text(encoding="utf-8")
+    framing_chars = len(framing_text)
     framing_words = len(framing_text.split())
-    if framing_words > FRAMING_WORD_MAX:
-        overrun = framing_words - FRAMING_WORD_MAX
+    if framing_chars > _CHAR_MAX:
+        target_chars = _CHAR_MAX - 300  # 300-char buffer below ceiling
         print(
-            f"[F1] framing/{chapter_slug}: {framing_words} words > {FRAMING_WORD_MAX} "
-            f"cap (overrun={overrun}); invoking compression re-author",
+            f"[F1] framing/{chapter_slug}: {framing_chars} chars > {_CHAR_MAX} "
+            f"NotebookLM limit (overrun={framing_chars - _CHAR_MAX}); "
+            f"invoking compression re-author → target <{target_chars} chars",
             flush=True,
         )
         compress_prompt = (
-            f"Edit `{framing_path}` IN PLACE to bring total word count from "
-            f"{framing_words} down to <= {FRAMING_WORD_MAX - 100} (target leaves "
-            f"100-word buffer below the cap).\n\n"
-            f"Trim priority (delete content from these sections first, in order):\n"
-            f"  1. ## Pronunciation — drop entries for terms appearing <2x in chapter; "
-            f"keep imperative form for remaining entries.\n"
-            f"  2. ## Three-part focus — compress each beat to 1-2 short sentences; "
-            f"preserve every beat label and ordering.\n"
-            f"  3. ## Central tensions — drop redundant or weakly-distinguished tensions.\n"
-            f"  4. ## Background — strip biographical detail not required for episode "
-            f"navigation.\n\n"
-            f"DO NOT change section headers, ordering, or core doctrine (R-NO-ARABIC-NAMES, "
-            f"R-HOST-ROLE-PARITY, ## Stable role-labels, ## Anti-noise rules). DO NOT "
-            f"add new analogies. After editing, COUNT words again and report the new "
-            f"total. The chapter source at `{chapter_file}` and all other framing "
-            f"rules from the original framing-author prompt still apply.\n\n"
-            f"Exit when the framing word count is <= {FRAMING_WORD_MAX - 100}."
+            f"Rewrite `{framing_path}` IN PLACE as a tight directive for NotebookLM.\n\n"
+            f"HARD CONSTRAINT: the final file must be under {target_chars} CHARACTERS "
+            f"(currently {framing_chars} chars — NotebookLM's Customize box limit is "
+            f"~5,000 chars and silently truncates everything beyond it). Every character "
+            f"counts. This is a P0 requirement.\n\n"
+            f"WHAT TO KEEP (highest priority — these are actionable):\n"
+            f"  1. ## Opening directive — full opening/welcome sentence, spine sentence, "
+            f"     forbidden-opener list (1-2 lines only).\n"
+            f"  2. ## Name discipline — one line per figure: 'Name → stable label + "
+            f"     first-mention phrase'. No prose. No duplicates.\n"
+            f"  3. ## Pronunciation — imperative lines only: "
+            f"     'Pronounce X as Y.' One line per term, no prose.\n"
+            f"  4. ## Three-part focus — three beats, one sentence each.\n"
+            f"  5. ## Do not — a single flat list of forbidden phrases/framings, "
+            f"     no explanation.\n\n"
+            f"WHAT TO CUT (remove entirely to save characters):\n"
+            f"  - ## Audience section — cut entirely (NotebookLM doesn't need this).\n"
+            f"  - ## Length section — cut entirely (already set in NotebookLM UI).\n"
+            f"  - ## Host dynamic — cut the long prose paragraphs; keep ONLY a single "
+            f"     line: 'Host A (male) = scholar/teacher. Host B (female) = seeker/questioner. "
+            f"     Roles do not rotate.'\n"
+            f"  - All explanatory prose in every section — keep only the imperative "
+            f"     directive, cut the reasoning.\n"
+            f"  - Pushback example sentences in host dynamic — cut all of them.\n"
+            f"  - ## Quality contract / PEQ table — cut entirely.\n"
+            f"  - ## Central tensions — cut entirely (the Three-part focus already seeds this).\n"
+            f"  - ## Background — cut entirely.\n"
+            f"  - ## Anti-noise rules longer-form — cut entirely (Do-not list covers it).\n\n"
+            f"After rewriting, count the characters and confirm the total is under "
+            f"{target_chars}. The chapter source is at `{chapter_file}`.\n\n"
+            f"Exit when `{framing_path}` is under {target_chars} characters."
         )
         rc2, out2, err2 = _run_claude_p(
             compress_prompt, timeout=600,
@@ -710,18 +730,20 @@ def author_framing(book_dir: Path, chapter_slug: str,
             step=f"framing-compress/{chapter_slug}",
         )
         framing_text2 = framing_path.read_text(encoding="utf-8")
+        framing_chars2 = len(framing_text2)
         framing_words2 = len(framing_text2.split())
-        if framing_words2 > FRAMING_WORD_MAX:
+        if framing_chars2 > _CHAR_MAX:
             print(
                 f"[F1] framing/{chapter_slug}: compression returned "
-                f"{framing_words2} words (still over {FRAMING_WORD_MAX}); "
+                f"{framing_chars2} chars (still over {_CHAR_MAX}); "
                 f"build gate will handle if needed",
                 flush=True,
             )
         else:
             print(
                 f"[F1] framing/{chapter_slug}: compression OK "
-                f"({framing_words} → {framing_words2} words)",
+                f"({framing_chars} → {framing_chars2} chars / "
+                f"{framing_words} → {framing_words2} words)",
                 flush=True,
             )
     return stdout

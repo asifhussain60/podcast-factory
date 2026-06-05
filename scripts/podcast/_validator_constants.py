@@ -21,7 +21,14 @@ CHAPTER_DEAD_ZONE_MAX = 5500
 
 # Framing (CUSTOMIZE PROMPT) word-count bounds — per notebooklm-best-practices.md §5.
 FRAMING_WORD_MIN = 150
-FRAMING_WORD_MAX = 3700
+FRAMING_WORD_MAX = 3700  # kept for back-compat; CHARACTER gate below is the binding one
+
+# NotebookLM Customize box hard character ceiling (empirically measured 2026-06-05).
+# NotebookLM truncates the pasted text at ~5,000 characters; we cap at 4,500 to leave
+# 500-char headroom. This is the P0 gate — a framing that exceeds this will be silently
+# truncated by NotebookLM, discarding name-discipline, do-not lists, and pronunciation
+# imperatives. FRAMING_CHAR_MAX is the binding limit; FRAMING_WORD_MAX is secondary.
+FRAMING_CHAR_MAX = 4500
 
 # ─── Per-episode density ceiling (over-cramming brake, 2026-06-04) ────────────
 # Max words an episode may carry before it counts as "over-crammed" — too many

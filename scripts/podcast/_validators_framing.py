@@ -46,7 +46,7 @@ def assert_framing_pronunciation_imperative(content: str, file_path: Path) -> No
             f"  The passive list does not change NotebookLM voice-model behavior — empirically\n"
             f"  hosts said 'tassel wolf' for *Tasawwuf* across three episodes."
         )
-    pronounce_re = re.compile(r'^\s*Pronounce\s+(?:"[^"]+"|\*[^*]+\*)\s+as\s+["\']', re.MULTILINE)
+    pronounce_re = re.compile(r'^\s*(?:-\s+)?Pronounce\s+(?:"[^"]+"|\*[^*]+\*)\s+as\s+["\']', re.MULTILINE)
     if not pronounce_re.search(block):
         sys.exit(
             f"ERROR: framing's `## Pronunciation` block has no imperative\n"
