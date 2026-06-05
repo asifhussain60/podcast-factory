@@ -1,66 +1,43 @@
-# Video storyboard — EP04-eight-admonitions-and-a-closing-prayer
+# Teaching slides — EP04-eight-admonitions-and-a-closing-prayer
 
-| # | Type | Start | End | Short description | Overlay |
-|---|---|---|---|---|---|
-| s01 | flowchart | 0:00 | 2:30 | Eight Admonitions: Refuse and Take Up | Eight Admonitions |
-| s02 | concept | 2:30 | 5:00 | Harms of Religious Debate | Refuse Religious Debate |
-| s03 | flowchart | 5:00 | 7:30 | Four Kinds of Questioners | Turn away from the jealous one. (Quran 53:29) |
-| s04 | quran_verse | 7:30 | 10:00 | Jesus's Admonition to His Soul | First admonish your own soul. |
-| s05 | concept | 10:00 | 12:30 | Sermon's Urgency: The Flood Analogy | The Urgency of Truth |
-| s06 | hadith_text | 12:30 | 15:00 | Allah's Anger at Praising Oppressors | Allah is angered when oppressors are praised. |
-| s07 | flowchart | 15:00 | 17:30 | Four Things to Actively Take Up | Four Things to Take Up |
-| s08 | concept | 17:30 | 20:00 | Auditing Your Servitude to Allah | Auditing Your Servitude |
-| s09 | hadith_text | 20:00 | 22:30 | Love for Others, Focused Study | Love for Others, Focus Your Study |
-| s10 | hadith_text | 22:30 | 25:00 | Prophet's Prayer for Provision | Make this provision sufficient. |
-| s11 | concept | 25:00 | 27:30 | The Divine Names in Supplication | The Divine Names |
-| s12 | portrait | 27:30 | 36:21 | Imam al-Ghazali, Al-Malik, Al-Wahhab | Imam al-Ghazali |
-
-## Full prompts
-
-### s01 — flowchart
-> A stylized flowchart illustrating 'Eight Admonitions' with two main branches: 'Four Things to Refuse' and 'Four Things to Take Up'. The overall aesthetic should be scholarly and reflective, emphasizing the balance of actions and inactions for spiritual integrity, set against a warm amber/ochre palette.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s02 — concept
-> An abstract illustration depicting the internal turmoil and negative emotions such as jealousy, arrogance, and resentment associated with religious debate driven by ego. Contrast this with a subtle, serene light representing the pure intention of seeking truth privately, without desire for human applause.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s03 — flowchart
-> A flowchart illustrating four distinct paths or branches, each representing a type of questioner: the jealous, the foolish, the simple-minded, and the genuine seeker. Only one path, the genuine seeker, leads to a clear, illuminated destination, while the others are obscured or lead to dead ends. Include the Quranic verse as an overlay.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s04 — quran_verse
-> Calligraphic rendering of the Quranic quote attributed to Jesus, peace be upon him, in elegant Arabic script with a subtle English gloss overlay. The background should evoke a sense of ancient wisdom and spiritual introspection, perhaps a quiet study space or a desert landscape at dawn.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s05 — concept
-> A powerful conceptual illustration depicting a person urgently warning others of an impending flood, with water rising rapidly. The scene conveys immediate danger and the necessity of direct, unembellished communication, contrasting with ornate, decorative elements that are being swept away, symbolizing the true purpose of a sermon.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s06 — hadith_text
-> Stylized text on parchment, presenting the hadith: 'Verily, Allah, the Exalted, is angered when any transgressor or oppressor is praised; and whoever prays for a long life for an oppressor has, in effect, expressed a desire that sin be perpetuated upon the earth.' The background subtly suggests the opulence of a ruler's court contrasted with the stark truth of divine displeasure.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s07 — flowchart
-> A stylized flowchart, mirroring the opening segment, but now focusing on 'Four Things to Take Up'. The visual should convey a sense of positive action, growth, and inner discipline, perhaps with paths leading upwards or towards a central light, emphasizing the active pursuit of spiritual virtues.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s08 — concept
-> A conceptual illustration showing a master observing a diligent servant, with a subtle overlay or reflection suggesting the infinitely greater relationship between a human and their Creator. The scene should convey introspection and accountability in one's devotion, emphasizing the internal audit of one's actions before God.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s09 — hadith_text
-> Stylized text on parchment presenting the sacred hadith: 'My slave's faith is never complete until he loves for all human beings what he loves for himself.' Below or alongside, a subtle visual element depicting a scholar intensely focused on a single scroll, surrounded by discarded, less essential texts, symbolizing the 'one week to live' urgency in study.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s10 — hadith_text
-> Stylized text on parchment presenting the Prophet's supplication: 'O my Allah! Make this provision sufficient for the family of Muhammad.' The background subtly illustrates a modest, well-ordered pantry with a year's worth of provisions, contrasting with an empty space symbolizing complete reliance on Allah for those with strong Tawakkul.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s11 — concept
-> A visually rich conceptual illustration featuring eleven distinct, beautifully calligraphed Arabic names of Allah (Ya Aziz, Ya Ghaffar, Ya Kareem, Ya Sattar, Ya Haleem, Ya Jabbar, Ya Azeem, Ya Qahhar, Ya Rahman, Ya Raheem, Ya Arhamu ar-Rahimeen) arranged in a harmonious, ascending pattern, symbolizing the comprehensive nature of the supplication. The background should evoke a sense of divine presence and mercy.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s12 — portrait
-> A dignified, non-photorealistic portrait of Imam al-Ghazali, rendered in an editorial illustration style, with a serene and wise expression. Subtle calligraphic elements of 'Al-Malik' (The Absolute Sovereign) and 'Al-Wahhab' (The Giver of all) should be integrated into the background or frame, signifying the divine assistance in completing his profound work.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
+| # | Type | Background | Start | End | Content summary | Overlay |
+|---|---|---|---|---|---|---|
+| s01 | title_slide | dawn_library | 0:00 | 0:40 | Title slide: Eight Admonitions and a Clo | The Master's Letter: O Beloved Son |
+| s02 | quote_slide | dawn_library | 0:40 | 1:20 | Ghazali's core admonition: knowledge and | Knowledge must be put to work in auditable conduct. |
+| s03 | concept_slide | dawn_library | 1:20 | 2:00 | Concept: Riya, performing for human appl | Riya: performing for human applause, not Allah. |
+| s04 | quote_slide | dawn_library | 2:00 | 2:40 | Ghazali: avoid religious debates, hidden | Refuse religious debates: harms outweigh benefits. |
+| s05 | numbered_list | night_study | 2:40 | 3:20 | Signs of right intention in religious de | Right intention: truth's source irrelevant, prefer privacy. |
+| s06 | concept_slide | night_study | 3:20 | 4:00 | Concept: Shaykh al-Kamil, perfected scho | Shaykh al-Kamil: a perfected scholar, heart's physician. |
+| s07 | numbered_list | night_study | 4:00 | 4:40 | Ghazali's four categories of questioners | Four types of questioners: jealousy, foolishness, impatience, genuine seeking. |
+| s08 | quote_slide | night_study | 4:40 | 5:20 | Quote on incurable animosity of jealousy | Jealousy: an animosity that cannot be remedied. |
+| s09 | verse_slide | night_study | 5:20 | 6:00 | Quranic instruction: turn from the jealo | Turn away from those desiring only worldly pleasures. |
+| s10 | hadith_slide | night_study | 6:00 | 6:40 | Hadith: speak to people's capacity. | Speak to people according to their mental capacity. |
+| s11 | concept_slide | night_study | 6:40 | 7:20 | Concept: Wajib, religiously required. | Wajib: an obligatory, religiously required act. |
+| s12 | quote_slide | mosque_courtyard | 7:20 | 8:00 | Allah to Jesus: admonish self first. | First admonish your own soul, then others. |
+| s13 | numbered_list | mosque_courtyard | 8:00 | 8:40 | Two guards for the preacher's sermon. | Sermon guards: avoid embellishment, seek no praise. |
+| s14 | concept_slide | mosque_courtyard | 8:40 | 9:20 | Concept: Shari'ah, law of Allah. | Shari'ah: the law of Allah, guiding Muslim life. |
+| s15 | quote_slide | mosque_courtyard | 9:20 | 10:00 | Ghazali's flood analogy for sermon urgen | Sermon urgency: like warning of an imminent flood. |
+| s16 | concept_slide | mosque_courtyard | 10:00 | 10:40 | Concept: Ikhlas, sincerity for Allah. | Ikhlas: sincerity, doing everything for Allah alone. |
+| s17 | concept_slide | mosque_courtyard | 10:40 | 11:20 | Concept: 'Amr bil Ma'roof Wa Nahi 'Anil  | Commanding right, forbidding evil: a religious duty. |
+| s18 | quote_slide | desert_sunrise | 11:20 | 12:00 | Ghazali: avoid rulers and the wealthy. | Stay away from rulers and the affluent. |
+| s19 | hadith_slide | desert_sunrise | 12:00 | 12:40 | Hadith: praising oppressors angers Allah | Allah is angered by praise for oppressors. |
+| s20 | quote_slide | desert_sunrise | 12:40 | 13:20 | Ghazali: refuse gifts from rulers. | Do not accept gifts from rulers, even if lawful. |
+| s21 | concept_slide | desert_sunrise | 13:20 | 14:00 | Concept: Shaytan, inciter of evil. | Shaytan: evil jinn or human inciting harm. |
+| s22 | scenic_break | dawn_library | 14:00 | 14:40 | Scenic break: transition to four actions | Four Matters Worthy of Our Actions |
+| s23 | quote_slide | dawn_library | 14:40 | 15:20 | Ghazali's pivot: four actions to take up | Four things to actively attend to. |
+| s24 | quote_slide | dawn_library | 15:20 | 16:00 | Ghazali: intimate relationship with Alla | Audit your relationship with Allah as with a servant. |
+| s25 | hadith_slide | mosque_courtyard | 16:00 | 16:40 | Hadith: complete faith, loving for other | Love for others what you love for yourself. |
+| s26 | quote_slide | night_study | 16:40 | 17:20 | Ghazali: study with urgency, focus on be | Study as if life ends in a week: focus on beneficial knowledge. |
+| s27 | hadith_slide | night_study | 17:20 | 18:00 | Hadith: Allah looks at hearts, not faces | Allah looks at hearts and intentions, not outward actions. |
+| s28 | concept_slide | night_study | 18:00 | 18:40 | Concept: Fard al-'ayn, individual obliga | Fard al-'ayn: an individual obligation for every Muslim. |
+| s29 | quote_slide | desert_sunrise | 18:40 | 19:20 | Ghazali: limit provision to one year. | Do not stockpile more than one year's provision. |
+| s30 | hadith_slide | desert_sunrise | 19:20 | 20:00 | Hadith: prayer for sufficient provision. | Prophet's prayer for sufficient provision. |
+| s31 | concept_slide | desert_sunrise | 20:00 | 20:40 | Concept: Tawakkul, reliance on Allah. | Tawakkul: reliance and trust in Allah's provision. |
+| s32 | quote_slide | dawn_library | 20:40 | 21:20 | Ghazali's closing advice and request for | Act upon the teachings, remember me in Du'a. |
+| s33 | quote_slide | mosque_courtyard | 21:20 | 22:00 | Ghazali's supplication: seeking blessing | Supplication: seeking blessings, purity, mercy, and good. |
+| s34 | quote_slide | mosque_courtyard | 22:00 | 22:40 | Ghazali's supplication: protection and c | Supplication: seeking protection, salvation, and correction. |
+| s35 | quote_slide | mosque_courtyard | 22:40 | 23:20 | Ghazali's supplication: steadfastness an | Supplication: seeking steadfastness, salvation, and liberation. |
+| s36 | numbered_list | mosque_courtyard | 23:20 | 24:00 | Eleven Divine Names from the supplicatio | Eleven Divine Names invoked in the supplication. |
+| s37 | quote_slide | dawn_library | 24:00 | 24:40 | Ghazali's core admonition: knowledge and | Knowledge must be put to work in auditable conduct. |
+| s38 | concept_slide | dawn_library | 24:40 | 25:20 | Concepts: Al-Malik and Al-Wahhab. | Al-Malik: Absolute Sovereign. Al-Wahhab: Giver of all. |
+| s39 | quote_slide | dawn_library | 25:20 | 36:21 | The master's closing reflection on the l | The letter has given everything it can. |

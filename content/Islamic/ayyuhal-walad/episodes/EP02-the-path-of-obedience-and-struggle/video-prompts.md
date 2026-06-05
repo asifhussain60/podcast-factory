@@ -1,56 +1,42 @@
-# Video storyboard — EP02-the-path-of-obedience-and-struggle
+# Teaching slides — EP02-the-path-of-obedience-and-struggle
 
-| # | Type | Start | End | Short description | Overlay |
-|---|---|---|---|---|---|
-| s01 | portrait | 0:00 | 1:15 | Hasan al-Basri's sigh over cold water | The sigh of Hasan al-Basri |
-| s02 | quran_verse | 1:15 | 2:30 | Quranic call before dawn | Is there anyone who repents? |
-| s03 | concept | 2:30 | 3:45 | Three sounds pleasing to Allah | Rooster, Quran, Supplication |
-| s04 | flowchart | 3:45 | 5:00 | Four angelic proclamations of the night | Four Proclamations of the Night |
-| s05 | hadith_text | 5:00 | 6:15 | Luqman's counsel: rooster's wisdom | Do not let the rooster surpass you |
-| s06 | concept | 6:15 | 7:30 | Worship is obedience to Shari'ah | Worship is Obedience |
-| s07 | concept | 7:30 | 8:45 | Fasting on Eid: outward worship, inward sin | Fasting on Eid is a sin |
-| s08 | concept | 8:45 | 10:00 | Severing the lower self with struggle | Sword of Mujahadah |
-| s09 | flowchart | 10:00 | 11:15 | Four conditions for the sincere seeker | Four Conditions of the Seeker |
-| s10 | hadith_text | 11:15 | 29:07 | Shibli's Hadith: four proportions of work | Work in Proportion |
-
-## Full prompts
-
-### s01 — portrait
-> A solemn, calligraphic portrait of the early Basran teacher, Hasan al-Basri, holding a simple clay cup of cold water. His expression is one of profound contemplation and sorrow, as if burdened by a deep realization, with a faint, ethereal vision of parched souls in the distance, begging for water. The scene evokes deep empathy and spiritual wakefulness.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s02 — quran_verse
-> An elegant calligraphic rendering of the Quranic verse: 'Hul Min Ta ibin Hul Min Sa ilin Hul Min Mustaghfirin' (Is there anyone who repents from sins? Is there anyone who asks of Me? Is there anyone who seeks My forgiveness?), set against a serene pre-dawn sky with faint stars and a subtle glow on the horizon, inviting reflection.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s03 — concept
-> A visual representation of three harmonious elements: a rooster crowing at dawn, a scroll depicting Quranic recitation with subtle Arabic script, and a silhouette of a person raising hands in earnest supplication. All elements are bathed in the soft, ethereal light of the pre-dawn hour, symbolizing divine pleasure.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s04 — flowchart
-> A stylized flowchart depicting the four angelic proclamations throughout the night, as described by Sufyan al-Thawri: 1. Worshippers rise, 2. Obedient servants continue prayer, 3. Seekers of forgiveness rise, 4. Heedless rise like the dead. Each stage is subtly illustrated with figures responding to the call, transitioning from deep night to dawn, showing progression and consequence.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s05 — hadith_text
-> A stylised parchment scroll displaying the counsel of the wise father, Luqman, to his son: 'My son! Do not let the rooster prove more intelligent than you. Let it not be that he rises in the last part of the night to proclaim the hour of remembrance and glorifies his Lord, while you remain sunk in the deep sleep of heedlessness.' A silhouette of a rooster is visible in the background against a rising sun, emphasizing the teaching.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s06 — concept
-> A powerful conceptual image illustrating the core principle: 'Worship is another name for obedience.' A central, illuminated path representing the Prophetic frame (Shari'ah) guides various acts of devotion and daily life, showing them integrated and aligned, not separate. The path is clear and well-defined, symbolizing divine law.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s07 — concept
-> A paradoxical conceptual image: a person performing the outward act of fasting (empty plate, solemn expression) on a festive Eid day, with subtle visual cues indicating the day is Eid (e.g., celebratory decorations in the background, but blurred). The image conveys the idea that an act resembling worship can be a sin if it falls outside the Prophetic frame, highlighting the importance of context.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s08 — concept
-> A symbolic depiction of inner spiritual struggle (mujahadah). A gleaming, stylized sword cuts through shadowy, entangled vines or chains representing the desires of the lower self (nafs), revealing a path of light beyond. The act is decisive and transformative, emphasizing the need for discipline and effort.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s09 — flowchart
-> A clear, elegant flowchart outlining the four conditions for the sincere seeker: 1. Fear of Allah (avoiding innovation), 2. True repentance (no return to sin), 3. No unfulfilled claims against others, 4. Sufficient Shari'ah knowledge for personal obligations. Each condition is represented by a concise icon and clear text, forming a structured guide for the spiritual path.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s10 — hadith_text
-> A stylised parchment scroll displaying the hadith narrated by the Baghdad mystic, Shibli: 'Work for this world as much as you will live in it, and work for the life hereafter as much as you wish to live there, and work for Allah as much as you are in need of Him, and work toward avoiding the Fire as much as you can bear its pain and sufferings.' The text is framed by subtle scales or balance imagery, emphasizing the concept of proportion and balance in life's endeavors.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
+| # | Type | Background | Start | End | Content summary | Overlay |
+|---|---|---|---|---|---|---|
+| s01 | title_slide | dawn_library | 0:00 | 0:45 | Title slide: The Path of Obedience and S | A cure for knowledge unacted-upon: the master's letter. |
+| s02 | quote_slide | dawn_library | 0:45 | 1:15 | Quote: Worship is obedience. | Worship is obedience: the core principle. |
+| s03 | quote_slide | dawn_library | 1:15 | 2:00 | Quote: Hasan al-Basri's memory of Hell's | The early Basran teacher's sigh: a sip of water. |
+| s04 | concept_slide | dawn_library | 2:00 | 2:45 | Concept: Unbearable Consciousness of Con | The cure begins in the body, a wakefulness of soul. |
+| s05 | verse_slide | night_study | 2:45 | 3:30 | Verse: Pre-dawn call to repentance and s | The standing summons: Allah's pre-dawn call. |
+| s06 | verse_slide | night_study | 3:30 | 4:00 | Verse: Few sleep little at night. | Few sleep little in the blessed hour of nearness. |
+| s07 | hadith_slide | night_study | 4:00 | 4:45 | Hadith: Importance of pre-dawn voluntary | The Prophet's reservation: the missing pre-dawn voluntary prayer. |
+| s08 | hadith_slide | night_study | 4:45 | 5:20 | Hadith: Warning against excessive night  | Excessive sleep at night leaves one empty-handed. |
+| s09 | verse_slide | night_study | 5:20 | 6:00 | Verse: Command for pre-dawn voluntary pr | Divine command: perform the pre-dawn voluntary prayer. |
+| s10 | verse_slide | night_study | 6:00 | 6:30 | Verse: Seeking forgiveness before dawn. | True servants plead for forgiveness before dawn. |
+| s11 | verse_slide | night_study | 6:30 | 7:00 | Verse: Seeking forgiveness at dawn. | Honored mention: seeking forgiveness at dawn. |
+| s12 | numbered_list | night_study | 7:00 | 7:50 | List: Three sounds pleasing to Allah. | The rooster's crow, Quran, and pleas please Allah. |
+| s13 | numbered_list | night_study | 7:50 | 8:50 | List: Four angelic proclamations of the  | Four angels call throughout the night, narrowing responders. |
+| s14 | concept_slide | night_study | 8:50 | 9:20 | Concept: Sahr, the last blessed portion  | The last blessed portion of the night: a time of nearness. |
+| s15 | quote_slide | night_study | 9:20 | 10:20 | Quote: Luqman's counsel on the rooster. | The wise father's counsel: don't be out-answered by the rooster. |
+| s16 | quote_slide | night_study | 10:20 | 11:20 | Poetry: The dove and the sleeping lover. | The sleeping lover: animals weep, but human eyes remain dry. |
+| s17 | quote_slide | dawn_library | 11:20 | 11:50 | Quote: Worship is obedience (restated). | Worship is obedience: the core principle. |
+| s18 | scenic_break | mosque_courtyard | 11:50 | 12:20 | Scenic break: Mosque courtyard at golden | — |
+| s19 | concept_slide | mosque_courtyard | 12:20 | 13:10 | Concept: Shari'ah, the Prophetic frame. | Worship means following the Prophetic frame in word and deed. |
+| s20 | concept_slide | mosque_courtyard | 13:10 | 13:50 | Concept: Athim, the sinner. | Fasting on Eid is a sin, not worship. |
+| s21 | concept_slide | mosque_courtyard | 13:50 | 14:30 | Concept: Fasiq, the transgressor. | Prayer at forbidden times is transgression. |
+| s22 | concept_slide | mosque_courtyard | 14:30 | 15:10 | Concept: Halal, the permissible. | Lawful intimacy is obedience, indistinguishable from prayer. |
+| s23 | quote_slide | mosque_courtyard | 15:10 | 15:40 | Quote: Worship is obedience (restated). | Worship is obedience: the core principle. |
+| s24 | scenic_break | desert_sunrise | 15:40 | 16:10 | Scenic break: Vast desert at sunrise. | — |
+| s25 | concept_slide | desert_sunrise | 16:10 | 17:00 | Concept: Mujahadah, inner spiritual stru | The Path requires inner spiritual struggle, not just knowledge. |
+| s26 | concept_slide | desert_sunrise | 17:00 | 17:40 | Concept: Nafs, the lower self. | Sever the lower self with the sword of struggle. |
+| s27 | concept_slide | desert_sunrise | 17:40 | 18:20 | Concept: Sufism, the path of purificatio | True Sufis purify souls through genuine struggle. |
+| s28 | concept_slide | desert_sunrise | 18:20 | 19:00 | Concept: Ma'rifah, intimate knowledge of | The light of intimate knowledge dawns when the room is cleared. |
+| s29 | concept_slide | calligraphy_studio | 19:00 | 19:30 | Concept: Ishq, intense love. | Intense love is born from within, not taught. |
+| s30 | concept_slide | calligraphy_studio | 19:30 | 20:00 | Concept: Zauq, fervent desire. | Fervent desire to seek the Beloved is experienced. |
+| s31 | concept_slide | calligraphy_studio | 20:00 | 20:30 | Concept: Ihya al-Ulum ad-Din. | The master's revival: a comprehensive guide. |
+| s32 | numbered_list | calligraphy_studio | 20:30 | 21:30 | List: Four conditions of the sincere see | Fear, repentance, right dealing, and essential knowledge. |
+| s33 | concept_slide | calligraphy_studio | 21:30 | 22:10 | Concept: Bid'a, innovation. | Fear of Allah prevents drift into innovation. |
+| s34 | concept_slide | calligraphy_studio | 22:10 | 22:50 | Concept: Taubatun Nasuh, true repentance | True repentance closes the door on returning to sins. |
+| s35 | concept_slide | calligraphy_studio | 22:50 | 23:30 | Concept: Fard Kifayah, communal obligati | Beyond personal obligation, knowledge can be communal. |
+| s36 | hadith_slide | calligraphy_studio | 23:30 | 24:40 | Hadith: Shibli's four proportions of wor | The Baghdad mystic's hadith: work in four proportions. |
+| s37 | quote_slide | dawn_library | 24:40 | 25:10 | Quote: Worship is obedience (restated). | Worship is obedience: the core principle. |
+| s38 | title_slide | dawn_library | 25:10 | 29:07 | Closing question: Reflect on the four co | How will these conditions shape your hours this week? |

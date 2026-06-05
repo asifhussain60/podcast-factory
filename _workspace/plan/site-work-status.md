@@ -6,7 +6,7 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-05 (session 11 — holistic review + F25 apparatus table + PEQ voice-axis fixes)
+**Last updated:** 2026-06-05 (session 12 — pronunciation bug fix + video layer redesign + AW regeneration)
 
 **BRANCH: `ayyuhal-walad` — active. Committed (0bcd27e).**
 

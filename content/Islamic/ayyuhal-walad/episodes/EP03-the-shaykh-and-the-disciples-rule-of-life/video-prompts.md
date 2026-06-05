@@ -1,66 +1,39 @@
-# Video storyboard — EP03-the-shaykh-and-the-disciples-rule-of-life
+# Teaching slides — EP03-the-shaykh-and-the-disciples-rule-of-life
 
-| # | Type | Start | End | Short description | Overlay |
-|---|---|---|---|---|---|
-| s01 | concept | 0:00 | 1:00 | Spine sentence: practice brings clarity | Practice brings clarity |
-| s02 | scenery | 1:00 | 3:00 | Hatim ibn Ism reports to Shaykh Shafeeq | Hatim ibn Ism reports eight benefits |
-| s03 | concept | 3:00 | 4:30 | Righteous deeds: beloved in the grave | Righteous deeds: beloved in the grave |
-| s04 | quran_verse | 4:30 | 6:00 | Refusing the Nafs, Quran 79:40-41 | Quran 79:40-41 |
-| s05 | quran_verse | 6:00 | 7:30 | Taqwa is nobility, Quran 49:13 | Quran 49:13 |
-| s06 | concept | 7:30 | 9:00 | Eight benefits in four holy Books | Eight benefits in four holy Books |
-| s07 | concept | 9:00 | 11:00 | The Shaykh al-Kamil: a perfected guide | The Shaykh al-Kamil: a perfected guide |
-| s08 | flowchart | 11:00 | 13:00 | Qualities of a true Shaykh | Qualities of a true Shaykh |
-| s09 | concept | 13:00 | 15:00 | Shari'ah: the absolute boundary | Shari'ah: the absolute boundary |
-| s10 | concept | 15:00 | 17:00 | Ikhlas: deeds exclusively for Allah | Ikhlas: deeds exclusively for Allah |
-| s11 | concept | 17:00 | 19:00 | Answers through practice, not asking | Answers through practice, not asking |
-| s12 | concept | 19:00 | 34:44 | Zun Noon al-Misri's threshold | If you have the courage, then come |
-
-## Full prompts
-
-### s01 — concept
-> An open, ancient manuscript with calligraphic Arabic script, glowing with an inner light, symbolizing profound wisdom. The setting is a serene, scholarly study, perhaps with a quill and inkpot nearby, emphasizing the transformative power of steady spiritual practice leading to understanding. The atmosphere is one of quiet contemplation and deep learning.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s02 — scenery
-> Hatim ibn Ism, a wise and observant disciple, stands before his master Shaykh Shafeeq al-Balkhi in a humble, sunlit study in Khurasan. Hatim is presenting his observations from the world, perhaps with a scroll or through a gesture, while the master listens intently, conveying a sense of deep respect and mentorship.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s03 — concept
-> A symbolic depiction of a grave, not morbid, but serene and illuminated from within by a single, radiant light. This light represents righteous deeds accompanying the deceased, offering companionship and dispelling darkness, symbolizing the only true beloved that remains beyond this life.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s04 — quran_verse
-> Calligraphic Arabic script of Quran 79:40-41, 'Wa Amma Mun Khafa Maqama Rabbihi Wa Nahun Nafsa 'Anil Hawa Fa Innal Jannata Heyal Mawa,' rendered in an elegant Thuluth style on a parchment background, with a subtle glow. Below, the English gloss: 'But as for the one who has stood in awe of his Sustainer's Presence and restrained his inner self from base and evil desires, Paradise will be the place of rest.'
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s05 — quran_verse
-> Calligraphic Arabic script of Quran 49:13, 'Inna Akramakum 'IndAllahi Atqakum,' in a dignified Kufic style, set against a backdrop of subtle, abstract patterns suggesting divine presence and consciousness. Below, the English gloss: 'Verily, the noblest of you in the sight of Allah is the one who is most deeply conscious — most fearful — of Him.'
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s06 — concept
-> Four ancient, distinct holy books (Torah, Gospel, Psalms, Quran) are depicted, open and radiating light, converging their wisdom onto a central, glowing symbol representing the eight principles of Hatim. The image conveys unity and timeless truth, showing the universal nature of these spiritual insights.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s07 — concept
-> A wise, serene spiritual guide (Shaykh al-Kamil) in traditional Islamic attire, gently tending to a flourishing garden of young plants, carefully removing weeds. This symbolizes the purification of the soul and nurturing of noble qualities, akin to a farmer tending his crop.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s08 — flowchart
-> A visually appealing flowchart or diagram illustrating the key qualities of a true Shaykh: turning away from worldly love, possessing a spiritual chain back to the Prophet, undergoing rigorous spiritual disciplines, and embodying all praiseworthy moral qualities. Each point is represented by an icon or short phrase within the flow.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s09 — concept
-> A clear, bright line of light, representing the Shari'ah, acting as an absolute and unyielding boundary. On one side, a disciple respectfully follows the guidance of a Shaykh; on the other, a shadowed figure attempts to cross the line, symbolizing forbidden commands and the diagnostic separating true masters from impostors.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s10 — concept
-> A heart radiating pure, inner light, untouched by external influences or the gaze of others. Surrounding it are faint, shadowy figures representing worldly praise or criticism, which the light of Ikhlas renders insignificant, like pebbles, illustrating the metaphysical cure for Riya by re-estimating where true power lies.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s11 — concept
-> A path winding through a serene, illuminated landscape, with a solitary figure walking steadily forward. Ahead, a distant, soft light beckons, symbolizing answers that become clear through consistent spiritual practice and journey, rather than just intellectual inquiry or premature questioning, emphasizing the verb 'travel'.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
-
-### s12 — concept
-> A stylized depiction of a threshold or gateway, with a profound, ancient inscription in Arabic. A seeker stands at the entrance, contemplating the deep commitment and exertion required to step onto the path, symbolizing Shaykh Zun Noon al-Misri's challenge to offer one's soul, not just beautiful sayings.
-> *Style:* Editorial illustration style. Warm amber/ochre palette, fine-line Islamic geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly aesthetic. High contrast, readable text overlays. 1920x1080 landscape.
+| # | Type | Background | Start | End | Content summary | Overlay |
+|---|---|---|---|---|---|---|
+| s01 | title_slide | dawn_library | 0:00 | 0:30 | Ghazali's letter: a rule of life. | Imam al-Ghazali's timeless wisdom for seekers. |
+| s02 | title_slide | dawn_library | 0:30 | 1:15 | Three braided strands of the Path. | Eight principles, a perfected guide, four inner realities. |
+| s03 | quote_slide | dawn_library | 1:15 | 1:55 | Practice clarifies the path. | Practice reveals understanding. |
+| s04 | title_slide | night_study | 1:55 | 2:30 | Hatim's eight benefits: a practical path | Hatim's eight benefits: observation, Quran, action. |
+| s05 | concept_slide | night_study | 2:30 | 3:10 | Hatim's eight principles from observatio | Hatim's observations: a practical rule of life. |
+| s06 | title_slide | night_study | 3:10 | 3:50 | Deeds: the only true beloved. | Righteous deeds: your true companion in the grave. |
+| s07 | verse_slide | night_study | 3:50 | 4:35 | Nafs: restrain for Paradise. | Restraining the Nafs leads to Paradise. |
+| s08 | verse_slide | night_study | 4:35 | 5:20 | Wealth: send ahead for eternity. | Spend in Allah's Way; it is everlasting. |
+| s09 | verse_slide | night_study | 5:20 | 6:05 | Nobility: found in Taqwa. | Taqwa: the only true nobility in Allah's sight. |
+| s10 | verse_slide | night_study | 6:05 | 6:50 | Sustenance: Allah's distribution. | Allah distributes sustenance; be content with His decree. |
+| s11 | verse_slide | night_study | 6:50 | 7:45 | Shaytan: the only enemy. | Shaytan is your enemy; worship Allah alone. |
+| s12 | verse_slide | night_study | 7:45 | 8:30 | Sustenance: Allah's responsibility. | Allah guarantees sustenance for all living creatures. |
+| s13 | verse_slide | night_study | 8:30 | 9:15 | Trust Allah: He suffices. | Place your trust in Allah; He alone is sufficient. |
+| s14 | quote_slide | night_study | 9:15 | 10:10 | Eight principles: essence of all scriptu | These eight principles encompass all four Holy Books. |
+| s15 | scenic_break | mosque_courtyard | 10:10 | 10:20 | Transition to the perfected guide. | — |
+| s16 | quote_slide | mosque_courtyard | 10:20 | 11:00 | Practice clarifies the path. | Practice reveals understanding. |
+| s17 | concept_slide | mosque_courtyard | 11:00 | 11:45 | Shaykh al-Kamil: soul's farmer. | A perfected guide purifies the soul, like a farmer. |
+| s18 | title_slide | mosque_courtyard | 11:45 | 12:25 | Prophetic chain of guidance. | Guidance flows from the Prophet through his deputies. |
+| s19 | numbered_list | mosque_courtyard | 12:25 | 13:40 | Marks of a true spiritual guide. | A true Shaykh embodies prophetic qualities and guidance. |
+| s20 | title_slide | mosque_courtyard | 13:40 | 14:20 | Guide's etiquette: outer and inner. | Respect for the guide: outward actions, inward sincerity. |
+| s21 | concept_slide | mosque_courtyard | 14:20 | 15:05 | Outer etiquette: Shari'ah boundary. | Obey the guide, but never against Shari'ah. |
+| s22 | concept_slide | mosque_courtyard | 15:05 | 15:50 | Inner etiquette: sincerity or withdraw. | Inner sincerity or honest withdrawal from the guide. |
+| s23 | title_slide | mosque_courtyard | 15:50 | 16:35 | Nafs, humility, contentment: key conditi | Guard against Nafs, embrace humility and contentment. |
+| s24 | scenic_break | dawn_library | 16:35 | 16:45 | Transition to inner vocabulary. | — |
+| s25 | title_slide | dawn_library | 16:45 | 17:25 | Inner life: four realities. | Four essential realities of the inner life. |
+| s26 | concept_slide | dawn_library | 17:25 | 18:15 | Tasawwuf: obedience and compassion. | Tasawwuf: Shari'ah obedience and compassion for creation. |
+| s27 | concept_slide | dawn_library | 18:15 | 19:00 | Servitude: obey, accept, surrender. | Servitude: obey, accept decree, surrender desires. |
+| s28 | concept_slide | dawn_library | 19:00 | 19:45 | Tawakkul: trust Allah's decree. | Tawakkul: firm belief in Allah's promises and decree. |
+| s29 | concept_slide | dawn_library | 19:45 | 20:40 | Ikhlas: sincerity, no show. | Ikhlas: deeds purely for Allah, free from Riya. |
+| s30 | title_slide | desert_sunrise | 20:40 | 21:25 | Practice, patience, travel: the path. | Practice unlocks answers; patience is key. |
+| s31 | verse_slide | desert_sunrise | 21:25 | 22:15 | Patience in seeking knowledge. | Patience is better than clamoring for answers. |
+| s32 | verse_slide | desert_sunrise | 22:15 | 23:05 | Khidr: patience in learning. | Do not question until the right time arrives. |
+| s33 | verse_slide | desert_sunrise | 23:05 | 23:50 | Allah's signs: do not rush. | Allah will show His signs; do not hasten them. |
+| s34 | verse_slide | desert_sunrise | 23:50 | 24:30 | Travel the earth to see. | Travel the earth to truly see and understand. |
+| s35 | quote_slide | dawn_library | 24:30 | 34:44 | Soul's exertion: the true path. | Offer your soul, or don't just speak of Sufism. |
