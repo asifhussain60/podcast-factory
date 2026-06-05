@@ -245,31 +245,40 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
             log(f"    0book-illustrate: skip short section ({word_count}w): {heading[:50]!r}")
             continue
 
-        log(f"    0book-illustrate: {heading[:60]!r} — requesting diagram spec")
-        specs = _call_illustrate(heading, body, book_dir=book_dir)
+        try:
+            log(f"    0book-illustrate: {heading[:60]!r} — requesting diagram spec")
+            specs = _call_illustrate(heading, body, book_dir=book_dir)
 
-        if not specs:
-            log(f"    0book-illustrate: {heading[:60]!r} — no diagrams warranted")
-            continue
+            if not specs:
+                log(f"    0book-illustrate: {heading[:60]!r} — no diagrams warranted")
+                continue
 
-        log(f"    0book-illustrate: {heading[:60]!r} — {len(specs)} diagram(s) identified")
-        section_slug = re.sub(r'[^a-z0-9]+', '-', heading.lower())[:40].strip('-')
+            log(f"    0book-illustrate: {heading[:60]!r} — {len(specs)} diagram(s) identified")
+            section_slug = re.sub(r'[^a-z0-9]+', '-', heading.lower())[:40].strip('-')
 
-        for i, spec in enumerate(specs, 1):
-            diagram_id = f"{section_slug}-{i}"
-            mmd_path = diagram_dir / f"{diagram_id}.mmd"
-            svg_path = diagram_dir / f"{diagram_id}.svg"
-            mmd_path.write_text(spec["mermaid_dsl"], encoding="utf-8")
+            for i, spec in enumerate(specs, 1):
+                diagram_id = f"{section_slug}-{i}"
+                mmd_path = diagram_dir / f"{diagram_id}.mmd"
+                svg_path = diagram_dir / f"{diagram_id}.svg"
+                mmd_dsl = spec.get("mermaid_dsl", "")
+                if not isinstance(mmd_dsl, str) or not mmd_dsl.strip():
+                    sys.stderr.write(f"  [illustrate] empty/bad mermaid_dsl for "
+                                     f"{diagram_id}, skipping\n")
+                    continue
+                mmd_path.write_text(mmd_dsl, encoding="utf-8")
 
-            manifest.append({
-                "diagram_id": diagram_id,
-                "section": heading,
-                "anchor_text": spec["anchor_text"],
-                "diagram_type": spec["diagram_type"],
-                "caption": spec["caption"],
-                "mmd_path": str(mmd_path),
-                "svg_path": str(svg_path),
-            })
+                manifest.append({
+                    "diagram_id": diagram_id,
+                    "section": heading,
+                    "anchor_text": spec["anchor_text"],
+                    "diagram_type": spec["diagram_type"],
+                    "caption": spec["caption"],
+                    "mmd_path": str(mmd_path),
+                    "svg_path": str(svg_path),
+                })
+        except Exception as exc:
+            sys.stderr.write(f"  [illustrate] section {heading[:50]!r} failed "
+                             f"({type(exc).__name__}: {exc}), skipping\n")
 
     manifest_path.write_text(
         json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
