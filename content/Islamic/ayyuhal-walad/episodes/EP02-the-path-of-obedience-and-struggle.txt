@@ -24,18 +24,18 @@ Forbidden openers: "Welcome to our…", "Welcome back", "in this episode", "toda
 
 ## Pronunciation
 
-Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic back-to-back. For terms marked "substitute": use the English phrase and skip the Arabic term entirely.
+Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
 
-- Ghazali: gha-ZAH-lee — substitute *the master*
-- Tahajjud: ta-HAJ-jud — substitute *the pre-dawn voluntary prayer*
-- sahr: substitute *the last blessed portion of the night*
-- Shari'ah: sha-REE-ah — substitute *the Prophetic frame*
-- mujahadah: mu-JAA-ha-dah — substitute *inner spiritual struggle*
+- Ghazali: substitute *the master*
+- Tahajjud: ta-HAJ-jud (substitute *the pre-dawn voluntary prayer*)
+- sahr: SAHR (substitute *the last blessed portion of the night*)
+- Shari'ah: sha-REE-ah (substitute *the Prophetic frame*)
+- mujahadah: mu-JAA-ha-dah (substitute *inner spiritual struggle*)
 - nafs: substitute *the lower self*
-- ma'rifah: ma-aa-ri-FAH — substitute *the intimate knowledge of God*
-- bid'a: BID-ah — substitute *innovation*
-- athim: aa-THEEM — substitute *sinner*
-- fasiq: FAA-siq — substitute *transgressor*
+- ma'rifah: ma-aa-ri-FAH (substitute *the intimate knowledge of God*)
+- bid'a: BID-ah (substitute *innovation*)
+- athim: aa-THEEM (substitute *sinner*)
+- fasiq: FAA-siq (substitute *transgressor*)
 - Sufi: SOO-fee
 - Eid: EED
 - Fajr: FAJ-r
@@ -50,7 +50,5 @@ Say each term ONCE using its phonetic form. Never say the original spelling and 
 
 ## Do not
 
-Twitter, X, social media, algorithm, internet, YouTube, TikTok, 21st century, modern world, platforms like, podcast, influencer, wow, that's so interesting, chilling, profound, fascinating, mind blown, today's episode, let's dive in, journey into, tidy resolution, self-help register, faux-profundity, AI-cliché filler.
-
-, right?
+Twitter, X, social media, algorithm, internet, YouTube, TikTok, 21st century, modern world, platforms like, podcast, influencer, wow, that's so interesting, right?, chilling, profound, fascinating, mind blown, today's episode, let's dive in, journey into, tidy resolution, self-help register, faux-profundity, AI-cliché filler.
 Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.

@@ -21,22 +21,24 @@ The master's larger work → the revival of religious knowledge. First mention: 
 
 ## Pronunciation
 
-Pronounce "Ghazali" as "gha-ZAH-lee".
-Pronounce "Aisha" as "AA-i-sha".
-Pronounce "Al-Malik" as "al-MA-lik".
-Pronounce "Al-Wahhab" as "al-wah-HAAB".
-Pronounce "Al-Hazr" as "al-HAZ-r".
-Pronounce "Ya Aziz" as "yaa a-ZEEZ".
-Pronounce "Ya Ghaffar" as "yaa ghaf-FAAR".
-Pronounce "Ya Kareem" as "yaa ka-REEM".
-Pronounce "Ya Sattar" as "yaa sat-TAAR".
-Pronounce "Ya Haleem" as "yaa ha-LEEM".
-Pronounce "Ya Jabbar" as "yaa jab-BAAR".
-Pronounce "Ya Azeem" as "yaa a-ZEEM".
-Pronounce "Ya Qahhar" as "yaa qah-HAAR".
-Pronounce "Ya Rahman" as "yaa rah-MAAN".
-Pronounce "Ya Raheem" as "yaa ra-HEEM".
-Pronounce "Ya Arhamu ar-Rahimeen" as "yaa ar-HA-mu ar-raa-hi-MEEN".
+Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
+
+- Ghazali: gha-ZAH-lee
+- Aisha: AA-i-sha
+- Al-Malik: al-MA-lik
+- Al-Wahhab: al-wah-HAAB
+- Al-Hazr: al-HAZ-r
+- Ya Aziz: yaa a-ZEEZ
+- Ya Ghaffar: yaa ghaf-FAAR
+- Ya Kareem: yaa ka-REEM
+- Ya Sattar: yaa sat-TAAR
+- Ya Haleem: yaa ha-LEEM
+- Ya Jabbar: yaa jab-BAAR
+- Ya Azeem: yaa a-ZEEM
+- Ya Qahhar: yaa qah-HAAR
+- Ya Rahman: yaa rah-MAAN
+- Ya Raheem: yaa ra-HEEM
+- Ya Arhamu ar-Rahimeen: yaa ar-HA-mu ar-raa-hi-MEEN
 
 ## Three-part focus
 

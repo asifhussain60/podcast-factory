@@ -20,12 +20,14 @@ Host A (male, John) = scholar/teacher. Host B (female, Hannah) = seeker/question
 
 ## Pronunciation
 
-- Pronounce "Ghazali" as "gha-ZAH-lee".
-- Pronounce "Tahajjud" as "ta-HAJ-jud".
-- Pronounce "Junaid" as "JU-nayd".
-- Pronounce "Hasan al-Basri" as "HA-san al-BAS-ree".
-- Pronounce "Iman" as "ee-MAAN".
-- Pronounce "Mujahadah" as "mu-JAA-ha-dah".
+Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
+
+- Ghazali: gha-ZAH-lee
+- Tahajjud: ta-HAJ-jud
+- Junaid: JU-nayd
+- Hasan al-Basri: HA-san al-BAS-ree
+- Iman: ee-MAAN
+- Mujahadah: mu-JAA-ha-dah
 
 ## Three-part focus
 
