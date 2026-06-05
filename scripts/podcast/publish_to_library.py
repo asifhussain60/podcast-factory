@@ -520,6 +520,18 @@ def publish(slug: str, args: argparse.Namespace) -> int:
 
     _info("")
     _info(f"==> DONE. Marked {slug} published ({len(episodes)} episode(s)) in place.")
+
+    # Distribution export — copy PDF + audio + video to Google Drive (non-fatal).
+    if not getattr(args, "skip_export", False):
+        _info("")
+        _info("=== Distribution export ===")
+        try:
+            from export_distribution import export as _dist_export
+            out = Path(args.export_dir).expanduser() if getattr(args, "export_dir", None) else None
+            _dist_export(slug, output_root=out, dry_run=False)
+        except Exception as _exc:
+            _warn(f"distribution export failed (publish succeeded): {_exc}")
+
     return 0
 
 
@@ -600,6 +612,10 @@ def main() -> int:
     )
     parser.add_argument("--force", action="store_true",
                         help="Skip G5 state-checkpoint gate.")
+    parser.add_argument("--skip-export", action="store_true",
+                        help="Skip the post-publish distribution export to Google Drive.")
+    parser.add_argument("--export-dir", metavar="DIR",
+                        help="Override the export output root (default: Google Drive My Drive).")
     args = parser.parse_args()
 
     if not re.match(r"^[a-z0-9]+(-[a-z0-9]+)*$", args.slug):
