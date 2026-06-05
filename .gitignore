@@ -227,3 +227,6 @@ _workspace/audit/
 .favorites.json
 raw/
 .cache/
+
+# Stale legacy content/drafts/ stub (retired 2026-06-04 type-first migration)
+content/drafts/
