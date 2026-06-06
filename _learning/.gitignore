@@ -1,0 +1,6 @@
+# findings.jsonl and health/ are TRACKED — they're the persistent learning ledger.
+# These subdirs are runtime-only output from learn_aggregate.py / learn_propose.py:
+patterns.md
+proposals/
+promoted/
+archive/
