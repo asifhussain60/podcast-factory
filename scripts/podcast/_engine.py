@@ -165,3 +165,26 @@ def engine_tier(engine: str) -> int | str:
 def all_tasks() -> list[str]:
     """Every task the policy governs (used by tests to assert full coverage)."""
     return sorted(_POLICY)
+
+
+def engine_guard(task: str, actual_engine: str) -> None:
+    """Assert that `actual_engine` matches the policy for `task`.
+
+    Call this at the top of every engine-specific helper function so that a
+    policy change in `_POLICY` immediately surfaces as a runtime warning —
+    rather than silently using the wrong (e.g. pay-as-you-go) engine.
+
+    Raises ValueError on an unknown task (same as select_engine). Logs a
+    warning to stderr when there is a policy mismatch so shipped code is never
+    silently wrong, but does NOT raise on mismatch — callers own the engine
+    choice; the guard is diagnostic, not a hard gate.
+    """
+    expected = select_engine(task)
+    if expected != actual_engine:
+        import sys
+        print(
+            f"[engine-policy] WARNING: {task!r} policy says {expected!r} "
+            f"but this function uses {actual_engine!r}. "
+            f"Rationale: {rationale(task)}",
+            file=sys.stderr,
+        )

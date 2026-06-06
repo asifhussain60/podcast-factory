@@ -302,6 +302,8 @@ def _strip_fences(raw: str) -> str:
 
 def _call_gemini_scenic(chapter_text: str, framing_text: str, ep_id: str) -> list[dict]:
     """Generate scenic image prompts (flat JSON array)."""
+    from _engine import engine_guard, TASK_IMAGE_PROMPT, ENGINE_GEMINI
+    engine_guard(TASK_IMAGE_PROMPT, ENGINE_GEMINI)  # policy: Claude Max; migrate when ready
     client, genai = _gemini_client()
     from google.genai import types
 
@@ -331,6 +333,8 @@ def _call_gemini_scenic(chapter_text: str, framing_text: str, ep_id: str) -> lis
 
 def _call_gemini_hybrid(chapter_text: str, framing_text: str, ep_id: str) -> dict:
     """Generate teaching-hybrid manifest (JSON object with backgrounds + slides)."""
+    from _engine import engine_guard, TASK_IMAGE_PROMPT, ENGINE_GEMINI
+    engine_guard(TASK_IMAGE_PROMPT, ENGINE_GEMINI)  # policy: Claude Max; migrate when ready
     client, genai = _gemini_client()
     from google.genai import types
 
@@ -417,6 +421,8 @@ def _generate_background_images(
     ep_id: str,
 ) -> int:
     """Generate the 3–5 Imagen3 background images for a teaching_hybrid episode."""
+    from _engine import engine_guard, TASK_IMAGE_GEN, ENGINE_GEMINI
+    engine_guard(TASK_IMAGE_GEN, ENGINE_GEMINI)
     client, genai = _gemini_client()
     from google.genai import types
 
@@ -486,6 +492,8 @@ def _generate_images(
     ep_id: str,
     fast: bool = False,  # kept for API compat; currently unused
 ) -> int:
+    from _engine import engine_guard, TASK_IMAGE_GEN, ENGINE_GEMINI
+    engine_guard(TASK_IMAGE_GEN, ENGINE_GEMINI)
     from _secrets import get_gemini_key
     try:
         from google import genai

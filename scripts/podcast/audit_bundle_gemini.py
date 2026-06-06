@@ -83,6 +83,8 @@ def _pack_bundle_inline(bundle_dir: Path) -> Path:
 
 def _run_gemini(system_prompt: str, packed_text: str, model: str, timeout: int = 600) -> str:
     """Call Gemini with the Gem prompt as system_instruction + packed bundle as user content."""
+    from _engine import engine_guard, TASK_AUDIT, ENGINE_GEMINI
+    engine_guard(TASK_AUDIT, ENGINE_GEMINI)
     try:
         from google import genai
         from google.genai import types

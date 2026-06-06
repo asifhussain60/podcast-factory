@@ -204,6 +204,8 @@ def _load_gemini_key() -> str:
 
 def _call_gemini(prompt: str, model: str = "gemini-2.5-flash", timeout_sec: int = 120) -> str:
     """Call Gemini generateContent endpoint. Returns the text response."""
+    from _engine import engine_guard, TASK_REVIEW_HELPER, ENGINE_GEMINI
+    engine_guard(TASK_REVIEW_HELPER, ENGINE_GEMINI)
     key = _load_gemini_key()
     url = (f"https://generativelanguage.googleapis.com/v1beta/models/{model}"
            f":generateContent?key={key}")
