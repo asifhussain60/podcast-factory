@@ -6,9 +6,28 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-05 (session 14 — full pipeline audit + P1 fixes + test suite green + P2 plan.yaml update)
+**Last updated:** 2026-06-06 (session 15 — Ayyuhal Walad published to Google Drive)
 
-**BRANCH: `ayyuhal-walad` — active. Committed (9052119).**
+**BRANCH: `ayyuhal-walad` — PUBLISHED. Final commit (18c60c2). Ready to merge → develop.**
+
+**Session work completed (session 15 — 4 commits 0288816 → 18c60c2):**
+
+Complete Ayyuhal Walad podcast production and publish cycle.
+
+  - 4 chapter/framing edits: pronunciation format (R-PRONUNCIATION-DOUBLE) fixed
+    for all 4 episodes, meta-prose headers renamed in ch01 and ch02, ch02 opening
+    paragraph made standalone.
+  - Chapter renames: ch01a→ch01, ch02b→ch02 (letter suffixes blocked G2 gate).
+  - Full v1 vs v2 vs v3 audio comparison via Whisper transcription (4×87M Whisper
+    medium transcriptions). Found EP01 and EP02 had wrong content/framing in v2;
+    EP01 re-run as v3, EP02 confirmed correct on second run.
+  - All 4 m4a files renamed to canonical ch01–ch04-ayyuhal-walad.m4a.
+  - Published: status=published in orchestrator-state.json + meta.yml; catalog
+    appended; 9 files (PDF + 4 audio + 4 video) synced to Google Drive
+    Podcast Library/Ayyuha al-Walad.
+  - G7 regex fix: verdict_re now matches **Verdict (book-level):** shape from
+    whole-book challenger reports (was silently returning verdict='unknown').
+  - Tests: 321 passed, 1 skipped (unchanged).
 
 **Session work completed (session 14 — 1 commit f1e64cc):**
 
