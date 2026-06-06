@@ -176,6 +176,37 @@ if [ "$ENABLE_STORAGE" = "true" ]; then
   kv_then_az "storage-account"  "$STORAGE_ACCOUNT_NAME"
 fi
 
+# --- Language (TextAnalytics — NER, key-phrase extraction, sentiment) -------
+if [ "${ENABLE_LANGUAGE:-false}" = "true" ]; then
+  echo "==> Language (TextAnalytics) keys → keychain"
+  LANG_KEY=$(az cognitiveservices account keys list \
+    --name "$LANGUAGE_NAME" --resource-group "$RESOURCE_GROUP" \
+    --query key1 -o tsv)
+  LANG_EP=$(az cognitiveservices account show \
+    --name "$LANGUAGE_NAME" --resource-group "$RESOURCE_GROUP" \
+    --query properties.endpoint -o tsv)
+
+  kv_then_az "language-key1"     "$LANG_KEY"
+  kv_then_az "language-endpoint" "$LANG_EP"
+  kv_then_az "language-region"   "$LOCATION"
+fi
+
+# --- Azure OpenAI (DALL-E 3) -------------------------------------------------
+if [ "${ENABLE_OPENAI:-false}" = "true" ]; then
+  echo "==> Azure OpenAI keys → keychain"
+  OAI_KEY=$(az cognitiveservices account keys list \
+    --name "$OPENAI_NAME" --resource-group "$RESOURCE_GROUP" \
+    --query key1 -o tsv)
+  OAI_EP=$(az cognitiveservices account show \
+    --name "$OPENAI_NAME" --resource-group "$RESOURCE_GROUP" \
+    --query properties.endpoint -o tsv)
+
+  kv_then_az "openai-key1"                 "$OAI_KEY"
+  kv_then_az "openai-endpoint"             "$OAI_EP"
+  kv_then_az "openai-region"               "$LOCATION"
+  kv_then_az "openai-dalle-deployment"     "${OPENAI_DALLE_DEPLOYMENT:-dall-e-3}"
+fi
+
 echo
 echo "Done. To read any value back later:"
 echo "  security find-generic-password -s ${PREFIX}-translator-region -w"

@@ -77,6 +77,12 @@ SKIP_OCR_CATEGORIES: frozenset[str] = frozenset({
     "sites", "explainers",
 })
 
+# content_profile values that trigger the fiction sidecar augmenter in Phase 0e.
+# The sidecar augmenter NEVER modifies chapter prose — it writes a companion
+# glossary/aside file only. The category field may say "books" for a fiction
+# book (intake default); content_profile is the authoritative signal here.
+FICTION_CONTENT_PROFILES: frozenset[str] = frozenset({"fiction"})
+
 
 def _read_category(book_dir: "Path") -> str:
     """Read the content category for a book, with graceful fallbacks.
@@ -109,6 +115,41 @@ def _read_category(book_dir: "Path") -> str:
                     return cat.lower()
 
     return "books"
+
+
+def _read_content_profile(book_dir: "Path") -> str:
+    """Read the content_profile for a book (distinct from category).
+
+    Resolution order:
+      1. _system/orchestrator-state.json → "content_profile" field
+      2. _system/series-config.yaml      → "content_profile:" key
+      3. Default: "" (empty — caller treats as "not fiction")
+
+    content_profile is the engine-policy / augmentation routing key.
+    category is the pipeline routing key. They can differ (e.g., a fiction
+    book may have category="books" from intake but content_profile="fiction").
+    content_profile wins for Phase 0e routing decisions.
+    """
+    import json as _json
+    state_path = book_dir / "_system" / "orchestrator-state.json"
+    if state_path.exists():
+        try:
+            state = _json.loads(state_path.read_text(encoding="utf-8"))
+            prof = state.get("content_profile", "").strip()
+            if prof:
+                return prof.lower()
+        except Exception:  # noqa: BLE001
+            pass
+
+    cfg_path = book_dir / "_system" / "series-config.yaml"
+    if cfg_path.exists():
+        for line in cfg_path.read_text(encoding="utf-8").splitlines():
+            if line.strip().startswith("content_profile:"):
+                prof = line.split(":", 1)[1].strip().strip('"').strip("'")
+                if prof:
+                    return prof.lower()
+
+    return ""
 
 
 class AuthoringError(RuntimeError):

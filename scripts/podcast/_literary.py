@@ -97,6 +97,8 @@ def _load_gemini_key() -> str:
 
 
 def _call_gemini(prompt: str) -> str:
+    from _engine import engine_guard, TASK_REVOICE, ENGINE_GEMINI
+    engine_guard(TASK_REVOICE, ENGINE_GEMINI)
     key = _load_gemini_key()
     url = (f"https://generativelanguage.googleapis.com/v1beta/models/{_GEMINI_MODEL}"
            f":generateContent?key={key}")

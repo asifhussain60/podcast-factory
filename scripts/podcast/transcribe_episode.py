@@ -48,6 +48,8 @@ def transcribe(
     locale: str = "en-US",
 ) -> Path:
     """Transcribe `audio_path` and write the slug-aligned transcript file."""
+    from _engine import engine_guard, TASK_TRANSCRIBE, ENGINE_AZURE
+    engine_guard(TASK_TRANSCRIBE, ENGINE_AZURE)
     if not book_dir.is_dir():
         raise SystemExit(f"ERROR: BOOK_DIR is not a directory: {book_dir}")
     if not audio_path.is_file():

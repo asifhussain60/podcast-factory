@@ -88,6 +88,8 @@ def _build_ssml(text: str, voice: str) -> bytes:
 
 def synthesize_utterance(text: str, voice: str, key: str, retries: int = 3) -> bytes:
     """Call Azure TTS REST API and return mp3 bytes. Retries on transient errors."""
+    from _engine import engine_guard, TASK_TTS, ENGINE_AZURE
+    engine_guard(TASK_TTS, ENGINE_AZURE)
     for attempt in range(1, retries + 1):
         try:
             req = urllib.request.Request(

@@ -28,13 +28,17 @@ def _make_book(tmp: Path, **cfg) -> Path:
 
 
 class TestPhaseGating(unittest.TestCase):
-    def test_0e_skips_for_fiction(self):
+    def test_0e_routes_to_fiction_sidecar(self):
+        # Fiction books are NOT skipped in Phase 0e — they run the sidecar augmenter.
+        # With no chapters/ present, the sidecar raises AuthoringError on no chapters,
+        # proving routing went through the fiction path (not the Islamic enrichment path).
         from _authoring._enrichment import author_phase_0e
+        from _authoring._core import AuthoringError
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), content_profile="fiction")
-            msg = author_phase_0e(book, log=lambda *a, **k: None, category="books")
-            self.assertIn("fiction", msg.lower())
-            self.assertIn("skip", msg.lower())
+            with self.assertRaises(AuthoringError) as ctx:
+                author_phase_0e(book, log=lambda *a, **k: None, category="books")
+            self.assertIn("fiction-sidecar", ctx.exception.phase)
 
     def test_0c_skips_for_fiction(self):
         from _authoring._refine import author_phase_0c

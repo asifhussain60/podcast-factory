@@ -35,6 +35,8 @@ def load_key() -> str:
 
 
 def gemini(model: str, system: str, user: str) -> str:
+    from _engine import engine_guard, TASK_REVIEW_HELPER, ENGINE_GEMINI
+    engine_guard(TASK_REVIEW_HELPER, ENGINE_GEMINI)
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={load_key()}"
     body = json.dumps({"system_instruction": {"parts": [{"text": system}]},
                        "contents": [{"parts": [{"text": user}]}],

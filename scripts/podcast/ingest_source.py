@@ -185,6 +185,8 @@ def main() -> int:
         print(f"FATAL: {e}", file=sys.stderr)
         return 3
 
+    from _engine import engine_guard, TASK_OCR, ENGINE_AZURE
+    engine_guard(TASK_OCR, ENGINE_AZURE)
     t0 = time.monotonic()
     result = _azure.docintel_analyze_pdf(docintel, pdf_bytes)
     di_elapsed = time.monotonic() - t0
@@ -215,6 +217,8 @@ def main() -> int:
         except _azure.AzureCredsError as e:
             print(f"FATAL: {e}", file=sys.stderr)
             return 3
+        from _engine import engine_guard, TASK_TRANSLATE_BULK, ENGINE_AZURE
+        engine_guard(TASK_TRANSLATE_BULK, ENGINE_AZURE)
         t0 = time.monotonic()
         final_text = _azure.translate_text(
             translator, ocr_text, src_lang=args.src_lang, tgt_lang="en"

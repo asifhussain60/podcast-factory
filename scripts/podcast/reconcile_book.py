@@ -92,6 +92,8 @@ def _load_key() -> str:
 
 
 def _gemini(system: str, text: str, *, model: str = "gemini-2.5-flash") -> str:
+    from _engine import engine_guard, TASK_RECONCILE, ENGINE_GEMINI
+    engine_guard(TASK_RECONCILE, ENGINE_GEMINI)
     url = (
         f"https://generativelanguage.googleapis.com/v1beta/models/"
         f"{model}:generateContent?key={_load_key()}"
