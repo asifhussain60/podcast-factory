@@ -1,6 +1,6 @@
 {
   "phase": "06a",
-  "approved": false,
+  "approved": true,
   "warnings": [
     {
       "severity": "P0",
@@ -24,5 +24,6 @@
     }
   ],
   "reviewed_at": "2026-06-06T22:34:27Z",
-  "approved_at": null
+  "approved_at": "2026-06-06T22:41:53Z",
+  "approval_notes": "P0 warnings are false positives from the Islamic-scholar validator; dismissed. P1/P2 informational only."
 }
