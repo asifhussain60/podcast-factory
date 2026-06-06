@@ -4,8 +4,8 @@
   "category": "books",
   "branch": "journey-to-the-west-vol-1",
   "status": "draft",
-  "phase": "0e",
-  "phase_status": "completed",
+  "phase": "06a",
+  "phase_status": "awaiting_human_review",
   "last_completed_phase": "0e",
   "next_phase": "0literary",
   "last_error": null,
@@ -30,6 +30,12 @@
       "status": "completed",
       "ts_started": "2026-06-06T22:24:08Z",
       "ts_completed": "2026-06-06T22:34:26Z"
+    },
+    "06a": {
+      "status": "halted",
+      "ts_started": "2026-06-06T22:34:27Z",
+      "ts_completed": "2026-06-06T22:34:34Z",
+      "gate_warnings": 5
     }
   },
   "content_profile": "fiction",
@@ -40,5 +46,5 @@
     33
   ],
   "note": "Step 1 upstream: Claude-on-Max translation of ch 1-33 (complete). Proceeding to 0b narrative refinement.",
-  "ts_updated": "2026-06-06T22:34:26Z"
+  "ts_updated": "2026-06-06T22:34:34Z"
 }
