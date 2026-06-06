@@ -256,14 +256,14 @@ p4_4b = _make(
         ),
         operator_action=(
             "After Loop N spec lands (P4.5), create:\n"
-            "  • content/podcast/.skill/_learning/fixtures/loop_n_numeric_invented/input.txt (chapter excerpt)\n"
-            "  • content/podcast/.skill/_learning/fixtures/loop_n_numeric_invented/expected.json (1 P0 finding)\n"
+            "  • _learning/fixtures/loop_n_numeric_invented/input.txt (chapter excerpt)\n"
+            "  • _learning/fixtures/loop_n_numeric_invented/expected.json (1 P0 finding)\n"
             "Update scripts/podcast/test_challenger.py to cover the fixture; assert 8/8 green."
         ),
     ),
     detect_files=(
-        REPO_ROOT / "content/podcast/.skill/_learning/fixtures/loop_n_numeric_invented/input.txt",
-        REPO_ROOT / "content/podcast/.skill/_learning/fixtures/loop_n_numeric_invented/expected.json",
+        REPO_ROOT / "_learning/fixtures/loop_n_numeric_invented/input.txt",
+        REPO_ROOT / "_learning/fixtures/loop_n_numeric_invented/expected.json",
     ),
 )
 

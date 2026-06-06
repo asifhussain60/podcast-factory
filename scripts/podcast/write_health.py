@@ -33,7 +33,7 @@ USAGE
 
 OUTPUTS
 
-  - content/podcast/.skill/_learning/health/<book-slug>.json
+  - _learning/health/<book-slug>.json
   - _workspace/<category>/<book-slug>/_system/health-trend.md
     (appended; created on first run)
 
@@ -51,7 +51,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from _paths import REPO_ROOT
 
-HEALTH_DIR = REPO_ROOT / "content/podcast/.skill/_learning/health"
+HEALTH_DIR = REPO_ROOT / "_learning/health"
 LIBRARY_ROOT = REPO_ROOT / "content" / "drafts"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))

@@ -18,7 +18,7 @@ Consumers:
   - podcast-challenger agent runs `run_doctrinal_checks` on every chapter
     during convergence and emits findings to _learning/findings.jsonl.
   - test_challenger.py exercises each check_* function against fixtures
-    in content/podcast/.skill/_learning/fixtures/doctrinal/.
+    in _learning/fixtures/doctrinal/.
 """
 
 from __future__ import annotations

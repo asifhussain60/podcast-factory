@@ -296,7 +296,7 @@ def allowed_content_levels(book_level: str | None) -> list[str]:
 # ─── Learning substrate root (relative to repo root). Used by all four
 # learning scripts (aggregate, propose, test, health writer) and by the
 # challenger agent's report-writer to locate findings.jsonl + health/.
-LEARNING_DIR = "content/podcast/.skill/_learning"
+LEARNING_DIR = "_learning"
 
 # ─── R-NO-MODERNIZE (chapter + framing must not pull in 21st-century social-media idioms)
 # Substring scans — phrase as-it-would-appear in transcript text.
@@ -508,8 +508,7 @@ def emit_finding(
     could interleave bytes within a single record. The lock costs ~1 ms per
     emit, negligible vs the LLM-call latencies that produced the finding.
 
-    The ledger lives at `<repo_root>/content/podcast/.skill/_learning/
-    findings.jsonl` and is append-only. Callers MUST NOT emit duplicates
+    The ledger lives at `<repo_root>/_learning/findings.jsonl` and is append-only. Callers MUST NOT emit duplicates
     within a single run.
     """
     import fcntl as _fcntl

@@ -1,0 +1,24 @@
+{
+  "ts": "2026-06-06T07:27Z",
+  "book": "ayyuhal-walad",
+  "scope": "per-chapter:EP04-eight-admonitions-and-a-closing-prayer",
+  "chapters_in_scope": 1,
+  "p0": 0,
+  "p1": 2,
+  "p2": 1,
+  "auto_fixes": 0,
+  "score": 0.55,
+  "badge": "Drifting",
+  "verdict": "SHIP-WITH-CAUTION",
+  "challenger_version": "2.4",
+  "prior_run": {
+    "ts": "2026-06-05T12:17Z",
+    "scope": "per-book",
+    "chapters_in_scope": 4,
+    "p0": 0,
+    "p1": 8,
+    "p2": 1,
+    "score": 0.5875,
+    "verdict": "SHIP-WITH-CAUTION"
+  }
+}

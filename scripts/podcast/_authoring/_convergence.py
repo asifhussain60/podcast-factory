@@ -28,7 +28,7 @@ def invoke_challenger(book_dir: Path, chapter_slug: str,
         f"canonical spec from `.github/agents/podcast-challenger.agent.md`, runs the "
         f"convergence loop (max 5 internal iterations per invocation), writes "
         f"`{book_dir}/_system/challenger-report.md`, emits findings into "
-        f"`content/podcast/.skill/_learning/findings.jsonl`, and writes the health JSON.\n\n"
+        f"`_learning/findings.jsonl`, and writes the health JSON.\n\n"
         f"Invocation argument: `{book_slug} --chapter {chapter_slug}`\n\n"
         f"After the agent returns, exit immediately — do NOT take additional actions."
     )
@@ -109,7 +109,7 @@ def invoke_trainer(book_dir: Path, timeout: int = TRAINER_TIMEOUT) -> str:
         f"The trainer reads its canonical spec from `.github/agents/podcast-trainer.agent.md` "
         f"(v2 — substrate-driven). Follow its Protocol §1–§6:\n\n"
         f"  1. Run `python3 scripts/podcast/learn_aggregate.py` (ensures patterns.md is current)\n"
-        f"  2. Read `content/podcast/.skill/_learning/patterns.md` + open proposals + health JSON\n"
+        f"  2. Read `_learning/patterns.md` + open proposals + health JSON\n"
         f"  3. For each proposer-eligible proposal: draft the smallest spec/handbook diff\n"
         f"  4. Regression-gate each diff in a `git worktree add` temp branch via "
         f"`python3 scripts/podcast/test_challenger.py` (all fixtures must stay green)\n"

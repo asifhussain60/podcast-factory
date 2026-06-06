@@ -26,7 +26,7 @@ USAGE
 OUTPUT
 
   One markdown file per proposer-eligible signature under
-  `content/podcast/.skill/_learning/proposals/YYYY-MM-DD-<slug>.md`.
+  `_learning/proposals/YYYY-MM-DD-<slug>.md`.
 """
 
 from __future__ import annotations
@@ -41,10 +41,10 @@ from pathlib import Path
 from _paths import REPO_ROOT
 from typing import Any
 
-DEFAULT_LEDGER = REPO_ROOT / "content/podcast/.skill/_learning/findings.jsonl"
-DEFAULT_PROPOSALS_DIR = REPO_ROOT / "content/podcast/.skill/_learning/proposals"
-DEFAULT_PROMOTED_DIR = REPO_ROOT / "content/podcast/.skill/_learning/promoted"
-DEFAULT_ARCHIVE_DIR = REPO_ROOT / "content/podcast/.skill/_learning/archive"
+DEFAULT_LEDGER = REPO_ROOT / "_learning/findings.jsonl"
+DEFAULT_PROPOSALS_DIR = REPO_ROOT / "_learning/proposals"
+DEFAULT_PROMOTED_DIR = REPO_ROOT / "_learning/promoted"
+DEFAULT_ARCHIVE_DIR = REPO_ROOT / "_learning/archive"
 
 THRESHOLD_BOOKS = 2
 THRESHOLD_EPISODES = 3

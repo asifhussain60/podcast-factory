@@ -207,7 +207,7 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             f"{book_runtime_prefix}chapters/",
             f"{book_runtime_prefix}episodes/",
             f"{book_runtime_prefix}slide-decks/",
-            "content/podcast/.skill/_learning/",
+            "_learning/",
             "_workspace/tmp/",
             "_workspace/logs/",
             "content/m4a/",
