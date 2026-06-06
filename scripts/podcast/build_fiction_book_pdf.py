@@ -259,8 +259,9 @@ def illustrate_book(book_dir: Path, book_md: Path) -> Path:
                 append_gemini_cost(
                     book_dir=book_dir, phase="0book-illustrate",
                     step=f"image/ch{ch_num:02d}",
-                    input_tokens=0, output_tokens=0,
-                    cost_usd=IMAGE_COST_USD,
+                    model=IMAGE_MODEL,
+                    in_chars=len(full_prompt),
+                    out_chars=len(image_bytes) // 4,  # rough char estimate for image bytes
                 )
             except Exception as exc:
                 print(f"FAILED ({exc}) — skipping illustration")
