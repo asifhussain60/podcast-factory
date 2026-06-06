@@ -381,8 +381,12 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     # over-crammed: too many distinct teachings for one focused listen. Halt and
     # name the required split rather than ship a marathon episode. Profile-aware
     # — Arabic-scholarly/doctrinal caps tighter than narrative/consumer.
+    # Use the tighter dense ceiling only for Islamic scholarly content — check
+    # content_profile first so fiction/technical books in the "books" category
+    # (which is in ARABIC_SCHOLARLY_CATEGORIES) aren't wrongly capped at 6,000w.
     density_ceiling = (EPISODE_DENSITY_CEILING_DENSE
-                       if category in ARABIC_SCHOLARLY_CATEGORIES
+                       if (category in ARABIC_SCHOLARLY_CATEGORIES
+                           and _is_islamic_scholarly(book_dir))
                        else EPISODE_DENSITY_CEILING_NARRATIVE)
     overcrammed: list[str] = []
     for sc in source_chapters:
