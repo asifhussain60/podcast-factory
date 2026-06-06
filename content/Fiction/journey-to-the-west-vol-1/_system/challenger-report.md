@@ -1,98 +1,77 @@
 # Podcast Challenger Report
 
 **Book:** journey-to-the-west-vol-1
-**Run:** 2026-06-06 (challenger v2.4)
-**Scope:** per-chapter birth-of-the-stone-monkey (EP01)
+**Run:** 2026-06-06 (re-run, challenger v2.4)
+**Scope:** per-chapter four-seas-bow-in-submission (EP03)
 **Content profile:** fiction (detected from `_system/series-config.yaml`)
-**Iterations:** 1 of 5 max (intelligent break — see Convergence summary)
+**Iterations:** 1 of 5 max (intelligent break — no auto-fixes applied; flag-only findings; identical to prior pass)
 **Verdict:** SHIP-WITH-CAUTION
 
 ## Profile gating
 
-Profile `fiction` skips Categories T (doctrinal), A (Islamic citations), C (Arabic phonetic coverage), J (Arabic name aliasing). All structural / steering / literalness categories ran.
+Profile `fiction` skips Categories T (doctrinal), A (Islamic citations), C (Arabic phonetic coverage), J (Arabic name aliasing), O (Islamic honorifics). All structural / steering / literalness / interest / scholarly-conversation categories ran.
 
 ## Convergence summary
 
-Iteration 1 found that all eight P1 findings from the prior pass have already been applied to `00-framing.md` (lines 11–19, 31, 63–64, 74). Word count grew from 662 → 889 words. No new P0/P1 issues surfaced on re-scan. Convergence loop short-circuits on the intelligent-break rule (Section 4 step 6b): zero auto-fixes applied this pass AND zero new framing-side findings vs. iteration 0.
+Iteration 1: read chapter (7,798 words), framing source (714 words / 4,510 raw chars), contract (`episode_format: narrative`, `length_target: extended`, `angle: faithful_narrative`), and the rendered `episodes/EP03-...txt` (706 words / 4,456 chars — built clean, binding gate is the cleaned form against `FRAMING_CHAR_MAX = 4500`). 44 chars of headroom on the gate; framing source has drifted up 18 chars from the prior 4,492 measurement.
 
-One downstream artifact remains stale: `episodes/EP01-birth-of-the-stone-monkey.txt` is still 662 words (pre-fix) and needs `build_episode_txt.py` re-run to pick up the new clauses. This is the only remaining open item and is recorded as P1 finding **REBUILD-EP01** below.
+Deterministic scans ran clean for the high-severity gates:
+
+- No cross-episode refs, EP\d\d patterns, "previous/next/earlier episode".
+- No `[VERIFY CITATION]` / `[CONTEXT NEEDED]` / TKTK markers.
+- No legacy `Pronounce "X" as "Y"` (R-PRONUNCIATION-DOUBLE).
+- No inline phonetic parens (R-PHONETICS-OUT).
+- No banned modernization vocabulary, no surprise-noise vocabulary, no formal-essay transitions in narrative bodies (matches inside the framing's own `## Do not` block are rule statements, not violations).
+- No AI-cliché openings, no faux-profundity rhetorical-question opener, no "deep dive" self-reference.
+- No Arabic honorifics (correct for fiction).
+- No invented dialogue / fictionalized scenes — narrative is faithful Anthony Yu / W.J.F. Jenner-school rendering of Wu Cheng'en chapter 3.
+- Welcome clause present (H1), reflective closing question present (H3), no-read-aloud guard present (N4), Name discipline block present (J1 equivalent for fiction with character-label rules), three governing analogies + verbatim-source list (Anti-noise R1/R3 equivalents).
+- 15 movement headings with clear arc (arming → cudgel/armor → registers/amnesty), one-sentence summarizable (E2/E3 PASS).
+
+Two P1 findings remain — both are architectural ceiling issues, not content issues. Convergence loop short-circuits on the intelligent-break rule: zero auto-fixes applied, all findings are flag-only authoring decisions.
 
 ## Auto-fixes applied
 
-None this pass (read-only audit; framing edits were applied prior to invocation and are now reflected on disk).
+None this pass. All findings below are author/architect decisions that the challenger does not mechanically resolve.
 
 ## P0 findings
 
 None.
 
-## P1 findings (1)
+## P1 findings (2)
 
 | ID | File | Issue | Suggested fix |
 |---|---|---|---|
-| REBUILD-EP01 | episodes/EP01-birth-of-the-stone-monkey.txt | Stale customize-prompt artifact — current file (662 words) does not reflect the eight P1 clauses now in `00-framing.md` (889 words). NotebookLM will receive the old framing without R-NOINTERRUPT, R-NOREPEAT, R-NOBACKGROUND, R-SURPRISE-MOVE, R-RESET, R-CADENCE, R-NOFORMAL, and the named filler-vocabulary clause. | Run `python3 scripts/podcast/build_episode_txt.py content/Fiction/journey-to-the-west-vol-1 EP01-birth-of-the-stone-monkey` to regenerate. Deterministic; no LLM spend. (Sandbox blocked the agent from running this in-pass.) |
+| CHAR-CEILING | `episodes/EP03-four-seas-bow-in-submission.txt` | Framing builds to **4,456 chars** (cleaned form) against the binding `FRAMING_CHAR_MAX = 4500` (NotebookLM Customize-box hard ceiling). Only 44 chars of headroom on the gate; the framing source itself is 4,510 raw chars (grew 18 chars from prior 4,492 measurement). NotebookLM silently truncates at ~5,000 chars, discarding name-discipline and `## Do not` tail content. The no-read-aloud guard at the bottom sits near the truncation risk zone. | Trim ~150–300 chars from the framing. The audience-detail in the contract `audience:` field already carries the listener orientation; the framing's Opening directive can compress the welcome sentence (drop "the sixteenth-century Chinese novel —" since the source is uploaded as the SOURCE) and Three-part focus item 2 can drop the second mention of "land the spine verbatim a second time" / item 3 "third time" by stating the rule once at the head of Three-part focus. Target ~4,200 chars for safe headroom. |
+| HOST-DISCIPLINE-LITE | `_system/episode-drafts/EP03-four-seas-bow-in-submission/00-framing.md` | Host dynamic block names roles cleanly (storyteller + curious_listener, John/Hannah) and forbids bare affirmations, but does not name the canonical R-NOINTERRUPT vocabulary ("yeah", "right", "exactly") nor the cadence directive (R-CADENCE: short-to-medium sentence rhythm). Fiction-narrative profile is more permissive than Islamic-scholarly here, but Loop K2 + R3 still apply. | Add one line to Host dynamic: "No bare affirmations: never open a turn with 'yeah', 'right', or 'exactly'." And one line to Tone: "Sentence cadence is short-to-medium — thinking out loud, not reading an essay." Both lines together add ~120 chars — combined with the CHAR-CEILING trim above, the net stays under 4,400. |
 
-## P2 advisories (2 — carried, unchanged from prior pass)
+## P2 advisory findings (2)
 
-| ID | File | Issue |
-|---|---|---|
-| V1 / V3 | ch01-birth-of-the-stone-monkey.txt | Faithful-narrative adaptation of pre-modern source carries no rhetorical-question opening hook and no explicit modern-relevance signal. Profile-conscious soften: contract `angle: faithful_narrative` makes this by-design. The framing's closing reflective question (line 67) carries the listener-engagement work instead. No edit recommended. |
-| E4 / U1 | ch01-birth-of-the-stone-monkey.txt:342 | The word "exactly" appears in verbatim Patriarch Subodhi dialogue ("which fits exactly the root meaning of the newborn babe"). Source-rhetoric preservation rule applies (contract `tone_constraints`). Not a host-filler hit. |
-
-## Category sweep
-
-| Category | Status | P0 | P1 | P2 |
-|---|---|---|---|---|
-| A — Islamic citations | skipped (fiction) | 0 | 0 | 0 |
-| B — meta-prose tells | clean | 0 | 0 | 0 |
-| C — Arabic phonetics | skipped (fiction) | 0 | 0 | 0 |
-| D — enrichment depth | clean (faithful narrative; single source) | 0 | 0 | 0 |
-| E — articulation/shape | clean | 0 | 0 | 1 (source dialogue) |
-| F — framing structure | clean (Opening / Three-part focus / Pronunciation / Host dynamic / Anti-noise / Do not all present) | 0 | 0 | 0 |
-| G — Extract Mode contracts | clean | 0 | 0 | 0 |
-| H — welcome / landing | clean (H1 line 5; H3 line 67) | 0 | 0 | 0 |
-| I — anti-repetition / background | clean (lines 63–64 carry R-NOREPEAT, R-NOBACKGROUND) | 0 | 0 | 0 |
-| J — Arabic name aliasing | skipped (fiction) | 0 | 0 | 0 |
-| K — interruption / filler | clean (lines 11, 13 carry R-NOINTERRUPT + filler vocabulary) | 0 | 0 | 0 |
-| M — modernize / surprise DENY | clean (lines 71–72 carry both blocks) | 0 | 0 | 0 |
-| N — phonetic-as-content | clean (0 inline parens in chapter; framing in imperative `- term: phonetic` form per locked rule; N4 guard line 78) | 0 | 0 | 0 |
-| O — honorifics / abbreviation | n/a (no Islamic honorifics; no abbreviated work titles) | 0 | 0 | 0 |
-| P — debate format | n/a (`episode_format=narrative`) | 0 | 0 | 0 |
-| Q — host role parity | clean (storyteller / curious_listener pair; voice gender declared line 9) | 0 | 0 | 0 |
-| R — conversation choreography | clean (line 15 R-SURPRISE-MOVE; line 17 R-RESET; line 19 R-CADENCE; line 74 R-NOFORMAL) | 0 | 0 | 0 |
-| S — safety / boundary | clean (no concurrent orchestrator; no journal-library write paths) | 0 | 0 | 0 |
-| T — doctrinal | skipped (no Islamic pack for fiction — T-NO-PACK info) | 0 | 0 | 0 |
-| U — scholarly-conversation rubric | clean (no AI-cliché, no faux-profundity, no premature-closure, no deep-dive self-ref) | 0 | 0 | 0 |
-| V — interest / engagement | softened for faithful-narrative | 0 | 0 | 1 |
-| W — augmentation | n/a (no augmentation ledger for this episode) | 0 | 0 | 0 |
-| CS — chapter-set | deferred (per-chapter scope) | 0 | 0 | 0 |
-| Downstream artifact sync | **stale episode.txt** | 0 | 1 | 0 |
-| **Total** | | **0** | **1** | **2** |
+| ID | File | Issue | Note |
+|---|---|---|---|
+| B5-NARRATIVE-EMDASH | `chapters/ch03-four-seas-bow-in-submission.txt` | Chapter prose uses em-dashes pervasively (~30+ occurrences) for classical-narrative cadence and parenthetical asides (e.g., "the rod the Great Yu used in taming the floods — a black-iron pillar bound in gold that shrinks and grows at his thought, the As-You-Will Gold-Banded Cudgel"). | Carried, not auto-fixed. B5 was authored for Arabic-scholarly chapters where em-dashes disrupt NotebookLM prosody. Faithful-narrative fiction with `content_profile: fiction` reads em-dashes as legitimate rhetorical pacing — the same dashes appear in the published English translations of *Xī Yóu Jì*. Wholesale comma-substitution would damage source-faithful cadence. Carry until a fiction-profile B5 relaxation is formally landed in `_rules.py`. |
+| V1-FAITHFUL-NARRATIVE-NO-HOOK | `chapters/ch03-four-seas-bow-in-submission.txt` | Category V V1 (curiosity-building opening hook — rhetorical question or "Imagine that…" within first 20%). Chapter opens with the contract-mandated italic chapter-summary block, then "Now, the Handsome Monkey King had returned in glory to his native mountain." — classical narrative omniscient-third opener, no rhetorical question. | Carried by-design per `contract.angle: faithful_narrative` + Category U U2 anti-faux-profundity (rhetorical-question openings are explicitly forbidden in this profile). The framing's reflective close (line 52) carries the curiosity payload at the end instead of the head, which is appropriate for narrative shape. |
 
 ## Health metrics
 
-| File | Words | Lines |
+| File | Words | Chars | Notes |
+|---|---|---|---|
+| `chapters/ch03-four-seas-bow-in-submission.txt` | 7,798 | — | Inside hard band (500–12,000) and inside soft band (1,000–11,000). 15 movement headings. Episode-density ceiling for narrative is 9,500 — episode is comfortably below. |
+| `_system/episode-drafts/EP03-.../00-framing.md` | 714 | 4,510 raw | Word count fine (150–3,700); raw source 10 chars over the 4,500 ceiling but build script measures the cleaned form. |
+| `episodes/EP03-four-seas-bow-in-submission.txt` | 706 | 4,456 | Built clean from `00-framing.md`. **44 chars under the 4,500 NotebookLM hard ceiling** — see CHAR-CEILING finding. |
+
+## Contract integrity (Category G)
+
+| Check | Status | Note |
 |---|---|---|
-| ch01-birth-of-the-stone-monkey.txt | 7,704 | 360 |
-| 00-framing.md (current) | 889 | 79 |
-| EP01-birth-of-the-stone-monkey.txt (stale) | 662 | 66 |
+| G1 (contract exists, slug parity) | PASS | `chapter-contracts/four-seas-bow-in-submission.yml` present; slug matches chapter. |
+| G2 (contract validates) | PASS (inferred) | Required fields present: `chapter_ref`, `slug`, `source_type`, `source_chapter_ref`, `title`, `audience`, `angle: faithful_narrative`, `episode_format: narrative`, `essential: core`, `length_target: extended`, `host_dynamic`, `key_tensions` (6), `tone_constraints` (5), `anchor_passages` (12), `show_notes`. Build script unavailable to run directly in this sandbox. |
+| G3 (contract meta-prose lint) | PASS | No EP\d\d references, no "next/previous episode", no Phase 0a–e leaks. Title field clean. |
+| G4 (derived_from lineage) | N/A | Not a derivative contract. |
 
-- **Chapter word band:** within hard [500, 12000] and soft [1000, 11000] for extended-tier. No E1 violation.
-- **Framing word band:** within [150, 3700]. No E1 violation.
-- **Em-dashes in chapter:** 43. **B5 not enforced for narrative fiction** — em-dashes sit inside source-verbatim rhapsodies and Patriarch dialogue. Per contract `tone_constraints` ("Source-rhetoric must survive verbatim"), replacing em-dashes would damage source voice. Recorded for telemetry; not flagged.
-- **Inline phonetic parens in chapter:** 0 (N1 clean).
-- **`Pronounce "X" as "Y"` violations in framing:** 0 (R-PRONUNCIATION-DOUBLE clean — uses `- term: phonetic` with say-ONCE instruction).
-- **Cross-episode references:** 0 (B2 clean).
-- **Meta-prose tells:** 0 (B1 clean).
-- **Modernization-DENY hits outside Do-not block:** 0.
-- **Surprise-noise-DENY hits outside Do-not block:** 0.
-- **HTML comments in chapter:** 0.
+## Convergence loop trace
 
-## Caller next step
+| Iter | P0 | P1 | P2 | Auto-fixes | Action |
+|---|---|---|---|---|---|
+| 1 | 0 | 2 | 2 | 0 | Re-read three files, ran 26 in-scope check categories deterministically, no fixes applied (all findings require author judgment or architectural decisions). Intelligent break: zero auto-fixes + identical findings vs prior pass → halt. |
 
-Run the deterministic rebuild to clear the only remaining P1:
-
-```
-python3 scripts/podcast/build_episode_txt.py content/Fiction/journey-to-the-west-vol-1 EP01-birth-of-the-stone-monkey
-```
-
-After that single command, verdict promotes to SHIP-READY. No further LLM spend, no authoring judgment required.

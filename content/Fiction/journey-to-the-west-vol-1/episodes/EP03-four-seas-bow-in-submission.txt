@@ -2,52 +2,62 @@
 
 ## Opening directive
 
-Open: "Welcome. We're with Wu Cheng'en's *Journey to the West* — the sixteenth-century Chinese novel — and the chapter where Sun Wukong arms himself at every level of the cosmos and Heaven first puts him on notice." Land the spine sentence verbatim: *A guest cannot trouble two hosts.* Repeat that spine three times: open, extortion pivot, close. Forbidden openers: faux-profundity, "deep dive", "today's episode", "buckle up".
+Open: "Welcome. We're with Wu Cheng'en's *Journey to the West* — the sixteenth-century Chinese novel — and the chapter where Sun Wukong arms himself, edits the registers of death, and puts two memorials on the Jade Emperor's desk." Then land the spine verbatim: *The host need not be stirred nor the army wearied; and an immortal is gathered in by the way of the Way.* Target 50 to 60 minutes, long-form.
 
 ## Host dynamic
 
-Host A (male) = scholar/teacher. Host B (female) = seeker/questioner. Roles do not rotate.
-
-## Name discipline
-
-- Sun Wukong → "Sun Wukong" / "the Handsome Monkey King" / "the stone monkey".
-- Aoguang → "Aoguang of the Eastern Sea" first; then "Aoguang" or "the Dragon King".
-- Brothers → Aoqin (South), Aorun (West), Aoshun (North).
-- Kshitigarbha → "the Bodhisattva Kshitigarbha" first; then "Kshitigarbha".
-- Ten Kings → "the Ten Kings"; "King Qinguang" at the memorial; "King Yama" when summoned.
-- Jade Emperor → "the Jade Emperor".
-- Great White Planet → "the Great White Planet of Venus" first; then "the Great White Planet".
-
-## Pronunciation
-
-Say each name ONCE using the phonetic. Never say spelling and phonetic back-to-back.
-
-- Pronounce Sun Wukong as soon woo-KONG.
-- Pronounce Aolai as ow-LYE.
-- Pronounce Aoguang as ow-GWAHNG.
-- Pronounce Aoqin as ow-CHIN.
-- Pronounce Aorun as ow-ROON.
-- Pronounce Aoshun as ow-SHWUN.
-- Pronounce Kshitigarbha as kshee-tee-GAR-ba.
-- Pronounce Qinguang as chin-GWAHNG.
-- Pronounce Yama as YAH-ma.
-- Pronounce catty as KAT-ee.
+Host A (male — John): storyteller — narrates source, reads the wind verse, voices Aoguang and the Great White Planet, reads both memorials. Host B (female — Hannah): curious listener — asks who the Four Dragon Kings are, what a catty is, why Heaven offers amnesty. Roles do not rotate. Each finishes a thought before the other speaks. Host B never opens with bare affirmations.
 
 ## Three-part focus
 
-1. **Arming the troop, raiding Aolai.** The king's worry — *Here we are at our games, but I fear that play may turn to earnest.* Somersault-Cloud; the wind verse (*Where the cannon-clouds rise, heaven and earth are shaken … the lofty Five-Phoenix Tower rocks to its very roots*); body-dividing magic empties the armory; forty-seven thousand monkeys mustered; seventy-two caves of monster-kings.
-2. **Crystal Palace, cudgel, four-sea armor.** Iron-plank bridge down; saber, nine-pronged fork, Square-Heaven halberd rejected; the Dragon Mother points to the Heavenly-River-anchoring rod of the Great Yu; inscription — *The As-You-Will Gold-Banded Cudgel — weight, thirteen thousand five hundred catties.* Extortion: *A guest cannot trouble two hosts.* Cap, armor, shoes; exit on *Sorry to trouble you! Sorry to trouble you!*
-3. **Darkness, Jade Emperor, amnesty.** Drunken sleep, soul-takers' noose, Hall of Judgment; Wukong's reply (*Old Sun has risen above the Three Realms and stands no longer within the Five Elements*); register struck out for every monkey. Aoguang's memorial and Kshitigarbha's memorial via King Qinguang on the same morning. The Great White Planet: *the host need not be stirred nor the army wearied; and an immortal is gathered in by the way of the Way.* Close on the spine.
+Walk in source order:
 
-## Do not
+1. **Arming.** Bamboo spears and the king's worry that *play may turn to earnest*. Trip to Aolai; sand-flinging wind verse in full; body-dividing magic empties the armory. Forty-seven-thousand muster, seventy-two caves of monster-kings.
+2. **Cudgel and armor.** Descent to the Crystal Palace. Saber, nine-pronged fork, Square-Heaven halberd — all too light. The Dragon Mother points to the rod the Great Yu used to anchor the Heavenly River; Wukong wishes it shorter three times; thirteen thousand five hundred catties. Cap, armor, shoes extorted — *a guest cannot trouble two hosts* — and the *Sorry to trouble you!* exit. *Small!* embroidery needle; *Grow!* ten thousand fathoms tall. Land the spine verbatim a second time.
+3. **Registers and amnesty.** Drunken sleep, Hall of Judgment, the Ten Kings. The entry: *Heaven-born stone monkey; allotted life-span, three hundred and forty-two years; a good and natural death.* Wukong strikes out every monkey name. Twin memorials reach the Jade Emperor — Aoguang's and Qinguang's on behalf of Kshitigarbha. The Great White Planet proposes amnesty; land the spine verbatim a third time. Close on the cloud-ride beyond the Southern Heaven Gate.
 
-- Twitter, social media, algorithm, 21st century, internet, livestream.
-- wow, right?, it's chilling, it's fascinating, mind blown.
-- "deep dive", "today's episode", "buckle up".
-- Firstly, Secondly, Furthermore, In conclusion, To summarize.
-- Invented modern analogies.
-- Restating the same thesis more than twice.
-- Gesturing to other parts of the novel.
-- Reading this prompt aloud.
+## Pronunciation
+
+Say each term ONCE in phonetic form. Never say original and phonetic back-to-back.
+
+- Wukong: woo-KONG; Aolai: ow-LYE; Aoguang: ow-GWAHNG
+- Aoqin: ow-CHIN; Aorun: ow-ROON; Aoshun: ow-SHWUN
+- Qinguang: chin-GWAHNG; Kshitigarbha: kshi-ti-GAR-bha
+- Qiu Hongji: chyoh hong-JEE; Ge Xianweng: guh shyen-WUNG
+- catties: KAT-eez
+
+## Name discipline
+
+- "Handsome Monkey King" → "Sun Wukong" / "Wukong". Same labels every time.
+- "Aoguang" first; thereafter "the Dragon King".
+- "Aoqin of the South, Aorun of the West, Aoshun of the North" first; thereafter "the brother Dragon Kings".
+- "King Qinguang" first; "the Ten Kings" as group; "the Bodhisattva Kshitigarbha" once, thereafter "the Lord of the Region of Darkness".
+- "the Jade Emperor"; "the Great White Planet of Venus" → "the Planet". No Chinese book titles spoken.
+
+## Tone constraints
+
+Three governing analogies, used sparingly:
+
+- the cudgel as a sleeping tool waiting for the hand it was made for — rosy light is recognition.
+- the four-sea audience as a shakedown dressed as a state visit — bow, present, comply, memorial afterward.
+- the register-striking as editing a ledger no one is supposed to touch — offense against bookkeeping itself.
+
+No invented modern analogies. Slow down at the set-pieces — read them whole.
+
+## Anti-noise rules
+
+- Quote source verbatim at key turns: king's worry, wind verse, cudgel inscription, *a guest cannot trouble two hosts*, *Sorry to trouble you!*, register entry, both memorials, amnesty doctrine, closing couplet.
+- Background on Ming syncretism admitted at most once.
+- Standalone episode — do not gesture to other chapters.
+- End on a reflective question grounded in this chapter: when a power that can edit the registers of death is offered an office and a name on the rolls, what does the listener guess will happen — and what does that say about how systems absorb what they cannot defeat?
+
+## Do not (forbidden vocabulary)
+
+- Modernization: Twitter, social media, algorithm, 21st century, internet.
+- Surprise-noise: wow, right?, it's fascinating, mind blown.
+- Faux-profundity; premature closure; self-reference ("deep dive", "today's episode").
+- Formal-essay transitions: Firstly, Furthermore, In conclusion.
+
+---
 
 Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
