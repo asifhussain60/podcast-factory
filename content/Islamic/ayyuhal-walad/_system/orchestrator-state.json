@@ -2,7 +2,7 @@
   "schema_version": 1,
   "book_slug": "ayyuhal-walad",
   "category": "books",
-  "branch": "develop",
+  "branch": "ayyuhal-walad",
   "phase": "per-chapter-slides",
   "phase_status": "completed",
   "last_completed_phase": "per-chapter-slides",
