@@ -83,8 +83,10 @@ _OPUS_OUTPUT_USD_PER_M = PRICING_USD_PER_MILLION_TOKENS["claude-opus-4-8"][1]  #
 # Default episode count when scope is unknown and source size is unavailable.
 DEFAULT_EPISODE_COUNT = 12
 
-# Words per episode (rough) — used to back out an episode count from source size.
-WORDS_PER_EPISODE_FICTION = 6000
+# Words per consolidated fiction episode (rough) — used to back out an episode
+# count from source size. Set to the upper-middle of the "extended" tier band
+# (5,500–9,500) because fiction CONSOLIDATES adjacent chapters into fuller episodes.
+WORDS_PER_EPISODE_FICTION = 7000
 
 
 def _resolve_book_dir(arg: str) -> Path:
@@ -149,9 +151,18 @@ def estimate(book_dir: Path, *, episodes: int | None = None) -> dict:
     source_words = _count_source_words(book_dir)
     source_chars = _count_source_chars(book_dir)
 
+    # English-word volume drives the episode count. For a non-English source the
+    # raw source_words count is meaningless (Chinese has no whitespace word breaks),
+    # so estimate the post-translation English words from char count instead.
+    if source_language not in ("en", "english", ""):
+        est_en_words = int(source_chars * CHARS_TO_EN_WORDS)
+    else:
+        est_en_words = source_words
+
     if episodes is None:
-        episodes = int(cfg.get("estimated_episode_count") or 0) or (
-            max(1, round(source_words / WORDS_PER_EPISODE_FICTION)) if source_words
+        explicit = int(cfg.get("estimated_episode_count") or 0)
+        episodes = explicit or (
+            max(1, round(est_en_words / WORDS_PER_EPISODE_FICTION)) if est_en_words
             else DEFAULT_EPISODE_COUNT
         )
 
@@ -218,6 +229,8 @@ def estimate(book_dir: Path, *, episodes: int | None = None) -> dict:
             "episodes": episodes,
             "source_words": source_words,
             "source_chars": source_chars,
+            "estimated_english_words": est_en_words,
+            "words_per_episode_assumed": WORDS_PER_EPISODE_FICTION,
         },
         "notional_max_usd": notional,
         "notional_max_total_usd": notional_total,
