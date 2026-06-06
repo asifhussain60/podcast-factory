@@ -474,37 +474,26 @@ def append_from_claude_p_stdout(
     `_chunking.py` and `_authoring.py` once P6.1 integrates with those.
     """
     usage = parse_usage_from_stdout(stdout)
-    # If the JSON path produced an authoritative cost_usd, prefer it over
-    # our PRICING_USD_PER_MILLION calculation (Claude's own ledger is
-    # authoritative for any model + tier combination).
-    if usage.get("cost_usd", 0.0) > 0:
-        row = CostRow(
-            ts=ts or _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            phase=phase,
-            step=step,
-            model=model,
-            input_tokens=int(usage["input"]),
-            output_tokens=int(usage["output"]),
-            cache_read=int(usage["cache_read"]),
-            cache_create=int(usage["cache_create"]),
-            cost_usd=float(usage["cost_usd"]),
-            engine="max",  # claude -p runs on the flat-rate Max subscription
-        )
-        ledger_path = book_dir / "_system" / "cost-ledger.jsonl"
-        ledger_path.parent.mkdir(parents=True, exist_ok=True)
-        with ledger_path.open("a", encoding="utf-8") as f:
-            f.write(json.dumps(asdict(row)) + "\n")
-        return row
-    # Fall through to the legacy path that computes from PRICING_USD_PER_MILLION
-    return append_cost_row(
-        book_dir,
+    # Claude Max (`claude -p`) is flat-rate — real marginal cost is $0.
+    # We record token counts for usage tracking but cost_usd is always 0.0.
+    # The notional price from Claude's own JSON (usage["cost_usd"]) is what
+    # you would pay on the metered API; on Max it does not apply.
+    # Exception: if token usage exceeds the Max subscription cap, the caller
+    # must pass cost_usd explicitly via append_cost_row with engine="api".
+    row = CostRow(
+        ts=ts or _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         phase=phase,
         step=step,
         model=model,
-        input_tokens=usage["input"],
-        output_tokens=usage["output"],
-        cache_read=usage["cache_read"],
-        cache_create=usage["cache_create"],
-        ts=ts,
-        engine="max",  # claude -p runs on the flat-rate Max subscription
+        input_tokens=int(usage["input"]),
+        output_tokens=int(usage["output"]),
+        cache_read=int(usage["cache_read"]),
+        cache_create=int(usage["cache_create"]),
+        cost_usd=0.0,   # $0 real — covered by flat-rate Max subscription
+        engine="max",
     )
+    ledger_path = book_dir / "_system" / "cost-ledger.jsonl"
+    ledger_path.parent.mkdir(parents=True, exist_ok=True)
+    with ledger_path.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(asdict(row)) + "\n")
+    return row

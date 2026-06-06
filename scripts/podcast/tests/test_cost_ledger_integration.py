@@ -60,7 +60,9 @@ class AuthoringRunClaudePIntegrationTests(unittest.TestCase):
         self.assertEqual(row["input_tokens"], 1500)
         self.assertEqual(row["output_tokens"], 800)
         self.assertEqual(row["cache_read"], 200)
-        self.assertGreater(row["cost_usd"], 0)
+        # Claude Max is flat-rate — cost_usd is 0.0 (real spend, not notional).
+        self.assertEqual(row["cost_usd"], 0.0)
+        self.assertEqual(row["engine"], "max")
 
     def test_no_book_dir_means_no_ledger_write(self):
         """Back-compat — callers that don't pass book_dir don't get a ledger."""
