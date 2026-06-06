@@ -27,10 +27,12 @@ from ._core import (  # noqa: F401
     PHASE_0D_SC_TIMEOUT_MAX,
     PHASE_0D_SC_TIMEOUT_RATE,
     PHASE_0D_SC_TIMEOUT_BASELINE,
+    FICTION_CONTENT_PROFILES,
     _run_claude_p,
     _run_claude_p_with_retry,
     _assert_artifact,
     _compute_sc_timeout,
+    _read_content_profile,
 )
 from ._refine import (  # noqa: F401
     build_phase_0b_window_prompt,

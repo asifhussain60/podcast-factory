@@ -16,8 +16,10 @@ from ._core import (  # noqa: E402
     _run_claude_p_with_retry,
     _compute_sc_timeout,
     ARABIC_SCHOLARLY_CATEGORIES,
+    FICTION_CONTENT_PROFILES,
     SKIP_ENRICHMENT_CATEGORIES,
     _read_category,
+    _read_content_profile,
 )
 from ._refine import _run  # noqa: E402
 
@@ -95,13 +97,16 @@ def author_phase_0e(book_dir: Path,
                     timeout: int = DEFAULT_TIMEOUT,
                     chapter_timeout: int = PHASE_0E_CHAPTER_TIMEOUT,
                     log=print,
-                    category: str | None = None) -> str:
+                    category: str | None = None,
+                    content_profile: str | None = None) -> str:
     """Enrich each chapter with citations — routes to the correct strategy per category.
 
     Islamic/scholarly categories: 7-tier Islamic hierarchy (Quran → Hadith → … → modern scholarship).
     sites: SKIPPED — product documentation is authoritative; outside enrichment would be inaccurate.
     explainers: technical accuracy enrichment (official docs verification, gotchas, version specificity).
-
+    fiction (content_profile): companion sidecar augmenter — NEVER modifies chapter prose,
+      writes companion glossary/asides only. Detected via content_profile field, not category,
+      because intake defaults category to "books" even for fiction books.
 
     Implemented as a per-chapter loop so the LLM only enriches one chapter
     file per `claude -p` call. Idempotent: an enrichment-log.md row of the
@@ -118,6 +123,18 @@ def author_phase_0e(book_dir: Path,
     """
     if category is None:
         category = _read_category(book_dir)
+    if content_profile is None:
+        content_profile = _read_content_profile(book_dir)
+
+    # Fiction profile: sidecar-only augmenter (companion glossary, never edits prose).
+    # content_profile takes precedence over category because intake defaults category
+    # to "books" even for fiction books; content_profile is the authoritative signal.
+    if content_profile in FICTION_CONTENT_PROFILES:
+        log(f"  phase 0e · content_profile={content_profile!r} → fiction sidecar augmenter")
+        from augment_fiction_sidecar import author_fiction_sidecar
+        return author_fiction_sidecar(
+            book_dir, timeout=chapter_timeout, log=log,
+        )
 
     # Sites category: authoritative product docs — outside enrichment would be inaccurate.
     if category in SKIP_ENRICHMENT_CATEGORIES:
