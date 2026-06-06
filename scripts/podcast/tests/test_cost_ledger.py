@@ -196,7 +196,10 @@ class AppendFromStdoutTests(unittest.TestCase):
         self.assertEqual(row.input_tokens, 2000)
         self.assertEqual(row.output_tokens, 800)
         self.assertEqual(row.cache_read, 500)
-        self.assertGreater(row.cost_usd, 0)
+        # Claude Max is flat-rate ($0 real). Token counts are recorded for
+        # subscription usage tracking; cost_usd is always 0.0.
+        self.assertEqual(row.cost_usd, 0.0)
+        self.assertEqual(row.engine, "max")
 
 
 if __name__ == "__main__":

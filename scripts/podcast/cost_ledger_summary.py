@@ -106,22 +106,27 @@ def summarize(rows: list[dict]) -> dict:
     for d in (totals, *by_phase.values(), *by_model.values(), *by_engine.values()):
         d["cost_usd"] = round(d["cost_usd"], 4)
 
+    # real_spend_usd = only metered services (Gemini, Azure, Anthropic SDK).
+    # Claude Max rows have cost_usd=0.0 and are excluded from real spend.
+    # max_token_calls = how many Max calls fired (token counts are non-zero;
+    # useful for subscription usage monitoring, not for billing).
+    real_spend_usd = round(by_engine.get("api", {}).get("cost_usd", 0.0), 4)
+    max_calls = by_engine.get("max", {}).get("calls", 0)
     return {
         "row_count": len(rows),
         "totals": totals,
         "by_phase": dict(by_phase),
         "by_model": dict(by_model),
         "by_engine": dict(by_engine),
-        # Headline honesty: real metered spend vs flat-rate Max (notional).
-        "real_spend_usd": round(by_engine.get("api", {}).get("cost_usd", 0.0), 4),
-        "max_notional_usd": round(by_engine.get("max", {}).get("cost_usd", 0.0), 4),
+        "real_spend_usd": real_spend_usd,
+        "max_calls": max_calls,   # subscription usage indicator (not billed)
     }
 
 
 def fmt_text(summary: dict, book_slug: str) -> str:
     t = summary["totals"]
     real = summary.get("real_spend_usd", 0.0)
-    maxn = summary.get("max_notional_usd", 0.0)
+    max_calls = summary.get("max_calls", 0)
     lines = [
         f"Cost ledger summary — {book_slug}",
         f"  Rows:           {summary['row_count']}",
@@ -131,8 +136,8 @@ def fmt_text(summary: dict, book_slug: str) -> str:
         f"  Cache read:     {t['cache_read']:>12,}",
         f"  Cache create:   {t['cache_create']:>12,}",
         "",
-        f"  REAL spend (metered API/Gemini/Azure):  ${real:>9.4f}",
-        f"  Max usage (flat-rate, notional only):   ${maxn:>9.4f}  (covered by subscription, $0 marginal)",
+        f"  Real spend (Gemini / Azure / SDK):  ${real:>9.4f}",
+        f"  Claude Max calls (flat-rate, $0):   {max_calls:>9}",
         "",
         "By phase:",
     ]
