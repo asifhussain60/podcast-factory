@@ -174,6 +174,8 @@ def main() -> int:
         print(f"        chunk {i}: pages {s}-{e}  ({len(b):,} bytes)", file=sys.stderr)
 
     # 2. OCR (one Doc Intel call per chunk; concatenate markdown)
+    from _engine import engine_guard, TASK_OCR, ENGINE_AZURE
+    engine_guard(TASK_OCR, ENGINE_AZURE)
     try:
         docintel = load_docintel_creds()
     except AzureCredsError as e:
@@ -242,6 +244,8 @@ def main() -> int:
     # 3. Translate (optional)
     translated_chars = 0
     if not args.no_translate and args.src_lang != "en":
+        from _engine import TASK_TRANSLATE_BULK
+        engine_guard(TASK_TRANSLATE_BULK, ENGINE_AZURE)
         translator = load_translator_creds()
         print(
             f"[3/3] Translating {args.src_lang} → en via Azure Translator …",
