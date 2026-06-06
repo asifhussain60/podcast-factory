@@ -14,7 +14,7 @@ compliance (DoR / Convergence / Sweep / Holistic Validation / Challenge Gate /
 Determinism), Repair Plan template, Root Hygiene Prime Directive, and Cold Start
 checklist all live in a single skill file:
 
-→ [skills-staging/repo-surgeon/skill.md](../../skills-staging/repo-surgeon/skill.md)
+→ [skills-staging/repo-surgeon/SKILL.md](../../skills-staging/repo-surgeon/SKILL.md)
 
 Read that file end-to-end before any action. The bootstrap reading list (Section 0)
 now also requires reading `_workspace/plan/refactor/plan.yaml` (the v2 plan) before

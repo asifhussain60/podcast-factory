@@ -111,7 +111,7 @@ All scripts iterate `content/books/*/` once. No more dual-tree fallback. `publis
 ### D2. Cosmetic fixes (low risk)
 | File | Fix |
 |---|---|
-| `skills-staging/repo-surgeon/skill.md` | Rename → `SKILL.md` |
+| `skills-staging/repo-surgeon/SKILL.md` | Rename → `SKILL.md` |
 | `skills-staging/usage-auditor/skill.md` | Rename → `SKILL.md` |
 | `_workspace/prompts/luum-onboarding-bootstrap.md` | Archive or document "luum" context; appears vestigial |
 

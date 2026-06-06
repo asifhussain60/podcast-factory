@@ -42,4 +42,4 @@ Notable folds:
 - `intelligence-pipeline-wave1-spec.md` → [architecture.md §Intelligence Layer](architecture.md#the-intelligence-layer--three-piece-architecture) + [refactor/plan.md Wave B](refactor/plan.md#wave-b--intelligence-layer)
 - `podcast-intelligence-enhancements.md` items 3-6 → [conventions/authoring.md](conventions/authoring.md)
 - `f25-*`, `f27-*`, `v4-doctrine-propagation.md` → already-landed-per-pipeline-debt.md; deleted as superseded
-- `acceptance-criteria.md` + `podcast-plan.yaml` → ARCHIVED banner already present at deletion time; references in active specs (SKILL.md, podcast-blueprint.md, podcast-challenger.md, repo-surgeon/skill.md) are dangling and will be updated in refactor step A2/A4 docs-sweep.
+- `acceptance-criteria.md` + `podcast-plan.yaml` → ARCHIVED banner already present at deletion time; references in active specs (SKILL.md, podcast-blueprint.md, podcast-challenger.md, repo-surgeon/SKILL.md) are dangling and will be updated in refactor step A2/A4 docs-sweep.

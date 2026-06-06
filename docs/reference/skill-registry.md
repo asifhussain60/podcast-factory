@@ -16,7 +16,7 @@ The skill set here is a STRICT SUBSET of what existed pre-split — the journal 
 | **ADLC** | GOLD | Active (plugin) | `~/.claude/skills/adlc/SKILL.md` |
 | **Clean-commit** | BRONZE (target) | Active (plugin) — overlay applies (duplicated copy) | `~/.claude/skills/clean-commit/SKILL.md` + `reference/skill-overlays/clean-commit-cortex-overlay.md` |
 | **Podcast** | OUT OF SCOPE (content-prep) | Active in staging — exempt from CORTEX per SKILL.md §9; quality judged by human listening | `skills-staging/podcast/SKILL.md` |
-| **Repo-surgeon** | BRONZE (target) | WIP in staging — consolidated to single skill.md (duplicated copy) | `skills-staging/repo-surgeon/skill.md` |
+| **Repo-surgeon** | BRONZE (target) | WIP in staging — consolidated to single skill.md (duplicated copy) | `skills-staging/repo-surgeon/SKILL.md` |
 
 All skills target **CORTEX Challenger Framework v1.0**. The framework version is implicit unless a row says otherwise.
 

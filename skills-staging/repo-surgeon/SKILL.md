@@ -240,7 +240,7 @@ If ANY of the three returns a hit referencing this candidate, downgrade to "POSS
 
 | ID | Rule | Action |
 |---|---|---|
-| A1 | **Skill registry completeness** — Every directory in `skills-staging/` appears in `reference/skill-registry.md`; every registry entry has `skills-staging/<name>/skill.md`. | Add missing entries. |
+| A1 | **Skill registry completeness** — Every directory in `skills-staging/` appears in `reference/skill-registry.md`; every registry entry has `skills-staging/<name>/SKILL.md`. | Add missing entries. |
 | A2 | **Agent registry** — Every `.agent.md` in `.github/agents/` and every `.md` in `.claude/agents/` listed in `framework.md` agents table (or marked DEPRECATED in frontmatter). | Update framework.md or deprecate. |
 | A3 | **Prompt ↔ Registry alignment** — Every prompt file in `server/src/prompts/` registered in `server/src/prompts/index.js` AND noted in `reference/skill-registry.md` server-prompt-registry section. | Sync the map. |
 | A4 | **Route ↔ Prompt alignment** — Every server route calling a named prompt references it correctly. | Fix import path. |

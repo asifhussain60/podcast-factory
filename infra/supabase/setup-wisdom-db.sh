@@ -6,7 +6,7 @@
 # that are already done (container exists, database already has rows).
 #
 # Usage:
-#   bash scripts/setup-wisdom-db.sh
+#   bash infra/supabase/setup-wisdom-db.sh
 #
 # Prerequisites:
 #   - Docker (OrbStack or Docker Desktop) installed and running
