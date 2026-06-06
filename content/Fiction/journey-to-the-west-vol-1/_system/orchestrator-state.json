@@ -4,10 +4,10 @@
   "category": "books",
   "branch": "journey-to-the-west-vol-1",
   "status": "draft",
-  "phase": "0d",
+  "phase": "0e",
   "phase_status": "completed",
-  "last_completed_phase": "0d",
-  "next_phase": "0e",
+  "last_completed_phase": "0e",
+  "next_phase": "0literary",
   "last_error": null,
   "phases": {
     "0b": {
@@ -25,6 +25,11 @@
       "ts_started": "2026-06-06T21:06:44Z",
       "ts_completed": "2026-06-06T22:24:06Z",
       "manual_fallback": "Edit `/Users/asifhussain/PROJECTS/podcast-factory/content/Fiction/journey-to-the-west-vol-1/_system/source/text/_chunks/0d/source-toc.json`: raise episode_count (unit_mode='sections') for the flagged source chapter(s), re-cutting at thematic seams so each episode is ONE coherent teaching cluster, then retry Phase 0d (--resume --retry-phase 0d)."
+    },
+    "0e": {
+      "status": "completed",
+      "ts_started": "2026-06-06T22:24:08Z",
+      "ts_completed": "2026-06-06T22:34:26Z"
     }
   },
   "content_profile": "fiction",
@@ -35,5 +40,5 @@
     33
   ],
   "note": "Step 1 upstream: Claude-on-Max translation of ch 1-33 (complete). Proceeding to 0b narrative refinement.",
-  "ts_updated": "2026-06-06T22:24:06Z"
+  "ts_updated": "2026-06-06T22:34:26Z"
 }
