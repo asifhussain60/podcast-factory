@@ -35,7 +35,7 @@ pipeline:
   structure: wc8-holistic-2-episode
 
 publication:
-  status: draft
+  status: published
   shipped_via: scripts/podcast/publish_to_library.py
   publication_target: ../../published/books/ayyuhal-walad/
 

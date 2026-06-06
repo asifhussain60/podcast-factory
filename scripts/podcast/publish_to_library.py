@@ -290,12 +290,13 @@ def gate_g7_challenger_convergence(workspace: Path, allow_mode_2: bool) -> bool:
 
     verdict = "unknown"
     if report_path.exists():
-        # Tolerant of both `**Verdict:** X` and `**Verdict: X**` shapes; the
-        # in-body per-iteration summaries use the latter. Strict canonical
-        # shape lives in _convergence.py::VERDICT_LINE_RE; we mirror the same
-        # tolerance here so the gate accepts every real-world report shape.
+        # Tolerant of several real-world challenger-report shapes:
+        #   **Verdict:** SHIP-WITH-CAUTION
+        #   **Verdict: X**
+        #   **Verdict (book-level):** SHIP-WITH-CAUTION   ← whole-book sweep
+        # Strict canonical shape lives in _convergence.py::VERDICT_LINE_RE.
         verdict_re = re.compile(
-            r"\*\*Verdict:?\s*\*?\*?\s*:?\s*(SHIP-READY|SHIP-WITH-CAUTION|BLOCKED)",
+            r"\*\*Verdict[^*]*?\*?\*?\s*:?\s*(SHIP-READY|SHIP-WITH-CAUTION|BLOCKED)",
             re.IGNORECASE,
         )
         for line in report_path.read_text().splitlines()[:20]:
