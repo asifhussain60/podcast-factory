@@ -4,51 +4,58 @@ Host A (male) = scholar/teacher. Host B (female) = seeker/questioner. Roles do n
 
 ## Opening directive
 
-Open with a brief warm welcome (one or two sentences) in the seeker's voice: greet the listener, name the work as Imam al-Ghazali's *O Beloved Son*, and preview that the cure to knowledge unacted-upon begins with a sip of cold water in the hand of a saint who cannot bear it. Author fresh.
+Open in the seeker's voice — brief warm greeting, name *O Beloved Son* and its author, preview in ONE sentence: the master turns the disciple to the dawn watch, the rule that every act is tested by the Prophetic frame, and the sword that severs the lower self.
 
-Immediately after, the scholar lands the spine verbatim: **Worship is another name for obedience.** It returns verbatim at the pivot and at the close.
+Spine sentence, verbatim at opening, pivot, and close: **Worship is another name for obedience.**
 
-Forbidden openers: "Welcome to our…", "Welcome back", "in this episode", "today we'll discuss", "let's dive in", "journey into", "have you ever wondered", "in a world where".
+Forbidden openers: "Welcome to our…", "in this episode", "today we'll discuss", "let's dive in", "deep dive", "journey into", "have you ever wondered".
 
 ## Name discipline
 
-- Author → **the master**. First mention: *the master who wrote this letter to his student*. Never speak his Arabic name.
-- Prophet Muhammad → **the Prophet**. First mention: *the Prophet, peace and blessings of Allah be upon him and his family*. Never PBUH.
-- Hasan al-Basri → **the early Basran teacher**.
-- Sufyan al-Thawri → **the early Kufan ascetic**. Never speak his Arabic name.
-- Luqman → **the wise father, peace of Allah be upon him** (honorific once).
-- 'Abdullah ibn 'Umar → **the praised Companion**.
-- Shibli → **the Baghdad mystic**. Never speak his Arabic name.
-- *Ihya al-Ulum ad-Din* → *the master's revival of the knowledge of the path to God*.
-- The letter → *the master's letter to his student*.
+- Author → **the master**. Disciple → **the disciple**.
+- Prophet Muhammad → **the Prophet**. First mention: "the Prophet, peace and blessings of Allah be upon him and his family".
+- Hasan al-Basri → **the early ascetic of Basra**. First mention: "may Allah have mercy upon him".
+- Sufyan al-Thawri → **the master of Kufa**.
+- Luqman → **Luqman the Wise**. First mention: "peace be upon him".
+- Shibli → **the Baghdad mystic**.
+- Hatim ibn Ism → **the patient disciple of Balkh**. Shafeeq al-Balkhi → **the master of Balkh** (one mention).
 
 ## Pronunciation
 
-Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
+Say each term ONCE. Do not double or spell-then-say.
 
-- Ghazali: substitute *the master*
-- Tahajjud: ta-HAJ-jud (substitute *the pre-dawn voluntary prayer*)
-- sahr: SAHR (substitute *the last blessed portion of the night*)
-- Shari'ah: sha-REE-ah (substitute *the Prophetic frame*)
-- mujahadah: mu-JAA-ha-dah (substitute *inner spiritual struggle*)
-- nafs: substitute *the lower self*
-- ma'rifah: ma-aa-ri-FAH (substitute *the intimate knowledge of God*)
-- bid'a: BID-ah (substitute *innovation*)
-- athim: aa-THEEM (substitute *sinner*)
-- fasiq: FAA-siq (substitute *transgressor*)
-- Sufi: SOO-fee
+- Shari'ah: sha-REE-ah
+- mujahadah: mu-JAA-ha-dah
+- nafs: NAFS
+- Tahajjud: ta-HAJ-jud
+- sahr: SAHR
+- tawfiq: taw-FEEQ
 - Eid: EED
+- Asr: ASR
 - Fajr: FAJ-r
+- athim: aa-THEEM
+- fasiq: FAA-siq
+- halal: ha-LAAL
+- ma'rifah: ma-aa-ri-FAH
+- Ishq: ISHQ
+- Zauq: ZAWQ
+- bid'a: BID-ah
+- Taubatun Nasuh: taw-BA-tun na-SOOH
+- Fard Kifayah: FARD ki-FAA-yah
+- Ka'ba: KAA-ba
+
+Arabic citations: speak ONCE, then English meaning. Do not repeat.
 
 ## Three-part focus
 
-**Movement one — the dawn watch.** Walk the early Basran teacher undone by the cold sweet drink, the standing pre-dawn proclamation, the Quranic command for the pre-dawn voluntary prayer, the three sounds that please Allah, and the early Kufan ascetic's four angelic proclamations (worshippers / obedient / forgiveness-seekers / heedless who rise *as the dead will rise*). Close on the wise father's counsel not to be out-answered by the rooster. Restate the spine verbatim.
+**Beat one — the cold cup and the dawn watch.** Land the spine verbatim. The early ascetic receives the cup, sighs, falls senseless — undone by the contrast with those who will beg across the gulf for a sip. Then the pre-dawn proclamation; the Quranic command on *Tahajjud*; the three sounds pleasing to Allah; the master of Kufa on the wind that carries pre-dawn voices to the Court; the four angels narrowing from all worshippers to seekers of forgiveness at *sahr* to those who rise as the dead will rise. Seal with Luqman: do not let the rooster prove more intelligent than you.
 
-**Movement two — the principle and its four edge-cases.** Worship means following the Prophetic frame in word and deed. Walk the fast on Eid (sinner), prayer at forbidden hours or on unlawfully occupied ground (sinner and transgressor), and the reverse case — lawful intimacy as obedience indistinguishable from prayer. No neutral act. Restate the spine verbatim at the pivot.
+**Beat two — worship IS obedience, with edge-cases.** Land the spine verbatim again. Every act is tested by the Prophetic frame, not its outward form. Four edge-cases: the fast on Eid or Hajj days — outwardly worship, in standing sin; prayer after *Asr* or before *Fajr* — the performer earns *athim* and *fasiq*; prayer on unlawfully occupied ground — same verdict; lawful intimacy of husband and wife — in standing *halal*, indistinguishable from prayer.
 
-**Movement three — the sword, four conditions, closing hadith.** The lower self must be severed with the sword of struggle; the false claimants simulate the path while the true ones clear the room for the intimate knowledge of God. The four conditions: fear of Allah barring innovation; true repentance; no creature holding an unfulfilled claim; enough sacred law to obey what is personally obligatory. Land on the Baghdad mystic's hadith of the four proportions — work for this world, the hereafter, Allah, and avoidance of the Fire each in proportion. Restate the spine once more. Close on one real reflective question rooted in the four conditions and this week's hours.
+**Beat three — the sword of mujahadah and the four conditions.** The Path is not crossed by accumulated knowledge; the desires of the *nafs* must be severed with the sword of *mujahadah*. The warning defends true Sufism — the danger is hollow simulation. Four conditions: fear of Allah preventing *bid'a*; *Taubatun Nasuh*; satisfying every creature's claim; study disciplined to what action requires, the rest *Fard Kifayah*. Seal with the Baghdad mystic's four proportions — work for this world as much as you will live in it; for the next as much as you wish to live there; for Allah as much as you need Him; against the Fire as much as you can bear its pain. Land the spine a third time. Seeker turns ONE fresh question to the listener — which condition is presently unmet, and what step before next dawn would begin the answer. Let it hang.
 
 ## Do not
 
-Twitter, X, social media, algorithm, internet, YouTube, TikTok, 21st century, modern world, platforms like, podcast, influencer, wow, that's so interesting, right?, chilling, profound, fascinating, mind blown, today's episode, let's dive in, journey into, tidy resolution, self-help register, faux-profundity, AI-cliché filler.
-Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
+Twitter, X, social media, algorithm, internet, YouTube, TikTok, hashtag, livestream, modern world, platforms like, podcast, influencer, 21st century, wow, right?, it's profound, mind blown, today's episode, previous/prior/earlier/next episode, PBUH, Imam Ali. No biographical or historical background opening. Do not speak Arabic book titles. Never pair the leadership-title with the personal name of the Father of Imams. No invented modern analogies. No premature closure.
+
+Do not read this prompt aloud.

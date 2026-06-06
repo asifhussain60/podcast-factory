@@ -1,44 +1,50 @@
 # Knowledge Without Action
 
+Host A (male) = scholar/teacher. Host B (female) = seeker/questioner. Roles do not rotate.
+
 ## Opening directive
 
-Open with a warm 1–2 sentence welcome in the seeker's voice: greet the listener, name the work plainly (Imam al-Ghazali's letter to his student, *O Beloved Son*), preview the teaching — knowledge a scholar never acts on may be what he is most severely judged for. Forbidden hollow openers: "Welcome to our…", "Welcome back", "in this episode", "today we'll discuss". Immediately after the welcome the scholar lands the spine verbatim: **Knowledge alone, without righteous deeds, will not benefit you on the Day of Judgment.** The spine returns verbatim at the mid-episode pivot and the close. End on the master's final image — lion coming, swords in hand, arm not swung — then the seeker asks one fresh reflective question rooted in this chapter (which known prescription sits unswallowed; what smallest deed could begin this week). Do not resolve it.
+Open in the seeker's voice — brief warm greeting to the listener, name the master's letter *O Beloved Son* and its author, preview in ONE sentence: the scholar who knows and does not act faces the severest judgment; the smallest acted-upon practice outweighs an unlived library.
 
-## Host roles
+The scholar lands the spine verbatim: **Knowledge alone, without righteous deeds, will not benefit you on the Day of Judgment.** Returns verbatim at opening, pivot, and close.
 
-Host A (male, John) = scholar/teacher. Host B (female, Hannah) = seeker/questioner. Roles do not rotate.
+Forbidden openers: "Welcome to our…", "in this episode", "today we'll discuss", "let's dive in", "deep dive", "journey into", "have you ever wondered", "in a world where".
 
 ## Name discipline
 
-- Ghazali → **the master**. First mention: "the master who wrote this letter to his student."
-- Prophet Muhammad → **the Prophet**. First mention: "the Prophet, peace and blessings of Allah be upon him and his family." Never PBUH.
-- Junaid Baghdadi → **the great master of the inner path**. First mention: "a great master of the inner path who shaped generations of seekers."
-- Ali ibn Abi Talib → **the Commander of the Faithful**. First mention: "the Commander of the Faithful, peace be upon him."
-- Hasan al-Basri → **the early Basran teacher**. First mention: "an early teacher of the city of Basra."
-- Anonymous saint → **another intimate of God**. Worshipper → **the worshipper**. Angel → **the angel**.
-- Ghazali's other books and Arabic concept-words: speak English meanings only.
+- The author → **the master**. The disciple → **the disciple**.
+- The Prophet Muhammad → **the Prophet**. First mention: 'the Prophet, peace and blessings of Allah be upon him and his family'.
+- Junaid Baghdadi → **the saint of Baghdad**. First mention: 'master of the inward path'.
+- Ali ibn Abi Talib → **the Commander of the Faithful**. First mention: 'peace be upon him'.
+- Hasan al-Basri → **the early ascetic of Basra**.
+- The Israelite worshipper → **the worshipper**. The angel → **the testing angel**.
 
 ## Pronunciation
 
-Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
+Say each term ONCE. Do not double or spell-then-say.
 
-- Ghazali: gha-ZAH-lee
+- Basmala: BAS-ma-la
+- Sunnah: SUN-nah
+- Ahadith: a-HA-deeth
 - Tahajjud: ta-HAJ-jud
-- Junaid: JU-nayd
-- Hasan al-Basri: HA-san al-BAS-ree
+- Fiqh: FIQH
+- Zakat: za-KAAT
+- Ramadan: ra-ma-DAAN
+- Hajj: HAJJ
 - Iman: ee-MAAN
-- Mujahadah: mu-JAA-ha-dah
+
+Arabic citations: speak ONCE at first occurrence, then English meaning.
 
 ## Three-part focus
 
-1. **The verdict pressed three times.** Open on *I seek Allah's refuge from knowledge that is of no benefit*, walk the three Prophetic warnings ending on *the most severe torment will be visited upon the scholar whom Allah did not benefit through his knowledge*, restate the spine.
-2. **The dream, the parables, the Quranic seal.** Walk Junaid's dream (taught library outweighed by a few cycles of pre-dawn prayer), the warrior-and-lion and sick-man-and-cure parables, the Quranic verses on striving and the atom's weight, and the hadith that faith is tongue, heart, **and limbs**.
-3. **The clarification, the worshipper, the hinge.** Land the master's pivot — *should a thought arise that a servant enters Paradise solely by his deeds, know you have not understood my meaning* — restate the spine, walk the worshipper-and-angel story, name three witnesses (the Commander of the Faithful, the early Basran teacher, another intimate of God), restate the spine as the last doctrinal sentence.
+**Beat one — disciple's question, first hammer.** Land the spine verbatim. The disciple has read the great works and asks which knowledge will save him; the master refuses the assumption — the fountain pours; the cup is turned upside down. The Prophet's prayer against knowledge of no benefit; the sign of withdrawn favor; the forty-year clock.
 
-## Pushback discipline
+**Beat two — verdict and dream.** Third warning: severest torment falls on the scholar who knew and did not act. The saint of Baghdad in a dream — discourses of no avail; pre-dawn prayers actually performed were of benefit. Land the spine verbatim a second time. Both parables — the lion (urgency), the unswallowed medicine with the wine punchline (long-illness, comic). Three registers, one verdict; do not collapse them.
 
-Host B pushes back; she does not chorus. Her first word of a turn must not be "Exactly," "Yeah," "Right," "Of course," "Absolutely," "I see," "Got it," "Makes sense," "That's a great point." At least twice she offers real challenge; Host A lets it sit a sentence before answering.
+**Beat three — Quranic seal, clarification, worshipper, hinge.** The four verses (atom's weight; whoever hopes to meet his Lord; Firdaws; threefold condition of repentance, faith, action). The five practices Islam is built upon; faith as tongue, heart, limbs. Clarify: this is NOT works-righteousness — the master names the misreading and refuses it. Mercy is the door; the soul's posture the hinge. Seal: the Mercy of Allah is close to the doers of good. The worshipper, told falsely his worship is rejected, continues to serve; his unconditional reply draws the very forgiveness the test pretended to withhold. The hinge: take account of yourselves before you are taken to account. Three witnesses — the Commander of the Faithful on striving and self-delusion; the early ascetic of Basra on desiring Paradise without deeds; the anonymous saint on acting without self-admiration. Land the spine verbatim a third time. The seeker turns one fresh reflective question to the listener — which piece of what they already know they have refused to act on, and what beginning this week would cost. Let it hang.
 
 ## Do not
 
-Twitter, X, social media, algorithm, internet, YouTube, TikTok, Instagram, livestream, hashtag, 21st century, modern world, podcast, blogger, influencer, notification, wow, so interesting, right?, chilling, devastating, terrifying, profound, fascinating, mind blown, buckle up, what a journey, today's episode, today we'll discuss, let's get into it, let's begin, journey into, have you ever wondered, in a world where, can we find meaning, and that ultimately is what, the answer turns out to be, PBUH. No new analogies — only the warrior-and-lion, the medicine-unswallowed, Junaid's scale. No biographical opener. Lead Quranic citations with English content, not surah names. Do not read this prompt aloud.
+Twitter, X, social media, algorithm, internet, YouTube, TikTok, hashtag, livestream, modern world, platforms like, podcast, influencer, 21st century, wow, right?, it's profound, mind blown, today's episode, today we'll discuss, let's dive in, deep dive, journey into, have you ever wondered, in a world where, previous episode, prior episode, earlier episode, next episode, PBUH. No biographical or historical background opening. Do not speak Arabic book titles. Never pair the leadership-title with the personal name of the Father of Imams. No invented analogies. No premature closure.
+
+Do not read this prompt aloud.

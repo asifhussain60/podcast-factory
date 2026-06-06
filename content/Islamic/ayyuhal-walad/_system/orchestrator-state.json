@@ -57,7 +57,36 @@
     },
     "per-chapter": {
       "status": "running",
-      "ts_started": "2026-06-06T10:57:23Z"
+      "ts_started": "2026-06-06T10:57:23Z",
+      "completed_slugs": [],
+      "failed_slugs": [
+        "eight-admonitions-and-a-closing-prayer",
+        "knowledge-without-action",
+        "the-path-of-obedience-and-struggle"
+      ],
+      "chapter_timings": {
+        "eight-admonitions-and-a-closing-prayer": {
+          "started_ts": "2026-06-06T11:01:04Z",
+          "completed_ts": "2026-06-06T11:31:13Z",
+          "duration_sec": 1808.3,
+          "verdict": "FAILED-COST-CAPPED",
+          "cost_usd": 14.2138
+        },
+        "knowledge-without-action": {
+          "started_ts": "2026-06-06T11:31:13Z",
+          "completed_ts": "2026-06-06T11:38:26Z",
+          "duration_sec": 432.9,
+          "verdict": "FAILED",
+          "cost_usd": 2.8477
+        },
+        "the-path-of-obedience-and-struggle": {
+          "started_ts": "2026-06-06T11:38:26Z",
+          "completed_ts": "2026-06-06T11:45:46Z",
+          "duration_sec": 440.2,
+          "verdict": "FAILED",
+          "cost_usd": 2.994
+        }
+      }
     },
     "per-chapter-optimize": {
       "status": "pending"
@@ -96,7 +125,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-21T00:00:00Z",
-  "ts_updated": "2026-06-06T11:01:27Z",
+  "ts_updated": "2026-06-06T11:45:46Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.2",
   "completed_slugs": [
