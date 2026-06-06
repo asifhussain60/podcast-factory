@@ -110,3 +110,11 @@
 {"ts": "2026-06-06T21:05:02Z", "phase": "0b", "step": "win-081", "model": "claude-sonnet-4-6", "input_tokens": 713, "output_tokens": 25, "cache_read": 0, "cache_create": 0, "cost_usd": 0.002514, "engine": "api"}
 {"ts": "2026-06-06T21:05:16Z", "phase": "0b", "step": "win-079", "model": "claude-sonnet-4-6", "input_tokens": 4657, "output_tokens": 3927, "cache_read": 0, "cache_create": 0, "cost_usd": 0.072876, "engine": "api"}
 {"ts": "2026-06-06T21:06:44Z", "phase": "0b", "step": "win-080", "model": "claude-sonnet-4-6", "input_tokens": 5070, "output_tokens": 4372, "cache_read": 0, "cache_create": 0, "cost_usd": 0.08079, "engine": "api"}
+{"ts": "2026-06-06T21:17:16Z", "phase": "0d", "step": "toc", "model": "claude-opus-4-8", "input_tokens": 21, "output_tokens": 32961, "cache_read": 947317, "cache_create": 140804, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-06-06T21:22:10Z", "phase": "0d", "step": "toc", "model": "claude-opus-4-8", "input_tokens": 23, "output_tokens": 21058, "cache_read": 1120271, "cache_create": 62524, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-06-06T21:28:06Z", "phase": "0d", "step": "toc", "model": "claude-opus-4-8", "input_tokens": 23, "output_tokens": 28416, "cache_read": 1110985, "cache_create": 65310, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-06-06T21:50:24Z", "phase": "0d", "step": "sc-001", "model": "claude-opus-4-8", "input_tokens": 19, "output_tokens": 25675, "cache_read": 1189668, "cache_create": 93423, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-06-06T21:57:41Z", "phase": "0d", "step": "sc-002", "model": "claude-opus-4-8", "input_tokens": 15, "output_tokens": 26031, "cache_read": 820544, "cache_create": 88173, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-06-06T22:06:05Z", "phase": "0d", "step": "sc-003", "model": "claude-opus-4-8", "input_tokens": 19, "output_tokens": 30188, "cache_read": 1192922, "cache_create": 94358, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-06-06T22:14:59Z", "phase": "0d", "step": "sc-004", "model": "claude-opus-4-8", "input_tokens": 18, "output_tokens": 30998, "cache_read": 1135573, "cache_create": 98128, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-06-06T22:24:06Z", "phase": "0d", "step": "sc-005", "model": "claude-opus-4-8", "input_tokens": 20, "output_tokens": 33731, "cache_read": 1325681, "cache_create": 102354, "cost_usd": 0.0, "engine": "max"}
