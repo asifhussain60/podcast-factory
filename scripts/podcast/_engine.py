@@ -90,8 +90,10 @@ _POLICY: dict[str, str] = {
     TASK_NER:                 ENGINE_AZURE,
     TASK_KEY_PHRASES:         ENGINE_AZURE,
     TASK_SENTIMENT:           ENGINE_AZURE,
-    # Tier 2 — Azure OpenAI (DALL-E 3 image generation — provisioned 2026-06-06)
-    TASK_IMAGE_GEN:           ENGINE_AZURE,        # DALL-E 3 via Azure OpenAI
+    # Tier 3 — Gemini (image gen: Azure OpenAI has no active image model in eastus as of 2026-06-06;
+    #           DALL-E 3 deprecated March 2026, gpt-image-1 not yet available in this region.
+    #           Revisit when Azure lands gpt-image-1. Route through _engine so the swap is one line.)
+    TASK_IMAGE_GEN:           ENGINE_GEMINI,
     # Tier 3 — Gemini (kept where genuinely better today)
     TASK_REVOICE:             ENGINE_GEMINI,       # kept (Gemini-tuned today)
     TASK_DENOISE:             ENGINE_GEMINI,
@@ -114,7 +116,7 @@ _RATIONALE: dict[str, str] = {
     TASK_ENRICH:             "tier-1 Max reasoning",
     TASK_AUTHOR:             "tier-1 Max reasoning",
     TASK_IMAGE_PROMPT:       "tier-1 Max (Max-first swap off Gemini text)",
-    TASK_IMAGE_GEN:          "tier-2 Azure OpenAI DALL-E 3 (provisioned 2026-06-06)",
+    TASK_IMAGE_GEN:          "tier-3 Gemini Imagen3 — Azure OpenAI DALL-E deprecated Mar 2026, gpt-image-1 not yet in eastus",
     TASK_AUGMENT:            "tier-1 Max reasoning",
     TASK_NER:                "tier-2 Azure Language TextAnalytics (journal-language-market, F0 free)",
     TASK_KEY_PHRASES:        "tier-2 Azure Language TextAnalytics (journal-language-market, F0 free)",

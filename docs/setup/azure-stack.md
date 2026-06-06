@@ -24,7 +24,7 @@ Source of truth: [infra/azure/azure-config.env](../../infra/azure/azure-config.e
 | `journalpodcaststorage` | Storage account | Standard_LRS | Ancillary | Live |
 | `podcast-factory-vault` | Key Vault | Standard | Secret store (all Macs) | **Active** |
 | `journal-language-market` | Language (TextAnalytics) | **F0 free** | Augmentation — NER, key-phrase, sentiment | **Live — wired 2026-06-06** |
-| `journal-openai` | Azure OpenAI | S0 | Image generation — DALL-E 3 | **Pending provision** |
+| `journal-openai` | Azure OpenAI | S0 | Image gen (future) / Whisper transcription | **Live** — DALL-E deprecated; deploy `whisper` for transcription or wait for `gpt-image-1` |
 
 > **Note:** Azure resource names retain the `journal-*` prefix from before the 2026-05-22 repo rename. Only the app namespace (keychain prefix) changed to `podcast-factory`. Renaming the Azure resources themselves is unnecessary.
 

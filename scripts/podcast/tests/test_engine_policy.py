@@ -82,9 +82,10 @@ class TestTier2Azure(unittest.TestCase):
     def test_sentiment_is_azure_language(self):
         self.assertEqual(E.select_engine(E.TASK_SENTIMENT), E.ENGINE_AZURE)
 
-    def test_image_gen_is_azure_dalle(self):
-        """Image generation moved from Gemini to Azure DALL-E 3 (provisioned 2026-06-06)."""
-        self.assertEqual(E.select_engine(E.TASK_IMAGE_GEN), E.ENGINE_AZURE)
+    def test_image_gen_is_gemini(self):
+        """Image generation stays on Gemini: Azure DALL-E 3 deprecated Mar 2026, gpt-image-1 not yet
+        available in eastus. Route is through _engine so the swap to Azure is one-line when it lands."""
+        self.assertEqual(E.select_engine(E.TASK_IMAGE_GEN), E.ENGINE_GEMINI)
 
 
 class TestTier3Gemini(unittest.TestCase):
