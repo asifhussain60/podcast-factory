@@ -3,6 +3,13 @@
 
 content_profile: islamic_scholarly
 
+# Video generation style (read by generate_video_layer.py).
+# teaching_hybrid = Pillow text slides overlaid on Imagen3 backgrounds (Islamic scholarly)
+# scenic           = Imagen3 atmospheric images (fiction / narrative)
+# technical        = Graphviz/diagram rendering (deferred)
+video_style: teaching_hybrid
+enable_video: false
+
 audience_profile: general_scholarly
 source_tradition: ismaili-scholarly
 episode_planning_mode: dialectical_pairs

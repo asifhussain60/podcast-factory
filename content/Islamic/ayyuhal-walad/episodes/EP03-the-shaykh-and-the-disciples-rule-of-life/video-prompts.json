@@ -1,0 +1,491 @@
+{
+  "mode": "teaching_hybrid",
+  "backgrounds": [
+    {
+      "bg_id": "bg01",
+      "theme": "dawn_library",
+      "prompt": "Warm amber dawn light filtering through tall arched windows into a grand scholarly library. Dust motes dance in the light, illuminating ancient leather-bound books on dark wooden shelves, a heavy oak desk with an open manuscript, and a glowing lantern. The atmosphere is serene, contemplative, and filled with the promise of new understanding.",
+      "image_path": "bg01_dawn_library.jpg"
+    },
+    {
+      "bg_id": "bg02",
+      "theme": "night_study",
+      "prompt": "A private study at night, illuminated by the soft, flickering glow of several beeswax candles. Deep shadows cling to the corners of the room, highlighting an open, handwritten manuscript on a low table. Ink pots, quills, and rolled parchments are scattered nearby, suggesting intense, solitary contemplation and spiritual struggle.",
+      "image_path": "bg02_night_study.jpg"
+    },
+    {
+      "bg_id": "bg03",
+      "theme": "mosque_courtyard",
+      "prompt": "A quiet mosque courtyard at golden hour, bathed in the soft, warm light of late afternoon. Intricate arched colonnades cast long shadows, leading the eye towards a serene fountain. The air is still, evoking a sense of peace, community, and spiritual gathering, with subtle geometric patterns on the walls.",
+      "image_path": "bg03_mosque_courtyard.jpg"
+    },
+    {
+      "bg_id": "bg04",
+      "theme": "desert_sunrise",
+      "prompt": "A vast, empty desert landscape at sunrise. Soft, ethereal light paints the dunes in hues of gold and rose, stretching to a distant horizon. The scene evokes contemplation, journey, and the profound emptiness that precedes spiritual revelation, with a sense of quiet expectation.",
+      "image_path": "bg04_desert_sunrise.jpg"
+    }
+  ],
+  "slides": [
+    {
+      "segment_id": "s01",
+      "slide_type": "title_slide",
+      "background_id": "bg01",
+      "content": {
+        "title": "The Shaykh and the Disciple's Rule of Life",
+        "subtitle": "Imam al-Ghazali's Letter, O Beloved Son"
+      },
+      "est_start_s": 0,
+      "est_end_s": 30,
+      "overlay_text": "Imam al-Ghazali's timeless wisdom for seekers.",
+      "prompt_short": "Ghazali's letter: a rule of life."
+    },
+    {
+      "segment_id": "s03",
+      "slide_type": "quote_slide",
+      "background_id": "bg01",
+      "content": {
+        "text": "Take what is written here and steadily put it into practice — and through that practice, those matters which you do not yet understand will become clear to you.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 75,
+      "est_end_s": 115,
+      "overlay_text": "Practice reveals understanding.",
+      "prompt_short": "Practice clarifies the path."
+    },
+    {
+      "segment_id": "s04",
+      "slide_type": "title_slide",
+      "background_id": "bg02",
+      "content": {
+        "title": "The Eight Benefits Hatim Brought Back",
+        "subtitle": "Looking, Weighing, Changing"
+      },
+      "est_start_s": 115,
+      "est_end_s": 150,
+      "overlay_text": "Hatim's eight benefits: observation, Quran, action.",
+      "prompt_short": "Hatim's eight benefits: a practical path."
+    },
+    {
+      "segment_id": "s05",
+      "slide_type": "concept_slide",
+      "background_id": "bg02",
+      "content": {
+        "term": "Hatim ibn Ism",
+        "phonetic": "HAH-tim ib-n ISM",
+        "definition": "A disciple of Shaykh Shafeeq al-Balkhi who observed the people of the world and distilled eight principles for a rule of life."
+      },
+      "est_start_s": 150,
+      "est_end_s": 190,
+      "overlay_text": "Hatim's observations: a practical rule of life.",
+      "prompt_short": "Hatim's eight principles from observation."
+    },
+    {
+      "segment_id": "s06",
+      "slide_type": "title_slide",
+      "background_id": "bg02",
+      "content": {
+        "title": "First Benefit: Righteous Deeds",
+        "subtitle": "The Only Beloved Who Descends into the Grave"
+      },
+      "est_start_s": 190,
+      "est_end_s": 230,
+      "overlay_text": "Righteous deeds: your true companion in the grave.",
+      "prompt_short": "Deeds: the only true beloved."
+    },
+    {
+      "segment_id": "s07",
+      "slide_type": "verse_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "Wa Amma Mun Khafa Maqama Rabbihi Wa Nahun Nafsa 'Anil Hawa Fa Innal Jannata Heyal Mawa.\n— \"But as for the one who has stood in awe of his Sustainer's Presence and restrained his inner self from base and evil desires, Paradise will be the place of rest.\"",
+        "attribution": "Quran 79:40–41",
+        "accent": "Refusing the Nafs"
+      },
+      "est_start_s": 230,
+      "est_end_s": 275,
+      "overlay_text": "Restraining the Nafs leads to Paradise.",
+      "prompt_short": "Nafs: restrain for Paradise."
+    },
+    {
+      "segment_id": "s08",
+      "slide_type": "verse_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "Ma 'Indakum Yanfadu Wa Ma 'IndAllahi Baaqin.\n— \"All that is with you is bound to come to an end, whereas all that which is with Allah is everlasting.\"",
+        "attribution": "Quran 16:96",
+        "accent": "Sending Wealth Ahead"
+      },
+      "est_start_s": 275,
+      "est_end_s": 320,
+      "overlay_text": "Spend in Allah's Way; it is everlasting.",
+      "prompt_short": "Wealth: send ahead for eternity."
+    },
+    {
+      "segment_id": "s09",
+      "slide_type": "verse_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "Inna Akramakum 'IndAllahi Atqakum.\n— \"Verily, the noblest of you in the sight of Allah is the one who is most deeply conscious — most fearful — of Him.\"",
+        "attribution": "Quran 49:13",
+        "accent": "Taqwa is True Nobility"
+      },
+      "est_start_s": 320,
+      "est_end_s": 365,
+      "overlay_text": "Taqwa: the only true nobility in Allah's sight.",
+      "prompt_short": "Nobility: found in Taqwa."
+    },
+    {
+      "segment_id": "s10",
+      "slide_type": "verse_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "Nahnu Qasumna Baeynahum Ma'eeshatahum Fil Hayatid Dunya.\n— \"It is We who distribute their means of livelihood — their sustenance — among them in the life of this world.\"",
+        "attribution": "Quran 43:32",
+        "accent": "Content with Assigned Portion"
+      },
+      "est_start_s": 365,
+      "est_end_s": 410,
+      "overlay_text": "Allah distributes sustenance; be content with His decree.",
+      "prompt_short": "Sustenance: Allah's distribution."
+    },
+    {
+      "segment_id": "s11",
+      "slide_type": "verse_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "Innash Shaytana Lakum 'Aduwwun Fettakhizuhu 'Aduwwa.\n— \"Verily, Shaytan is your enemy, so treat him as your enemy.\"\nAlam A'had Ilaeykum Ya Bani Aadama Al La Ta'budush Shaytana — Did I not make this covenant with you, O Children of Adam: that you should never obey Shaytan, for he is your avowed enemy, and that you should worship Me alone? This is the straight path.",
+        "attribution": "Quran 35:6 and general Quranic teaching",
+        "accent": "The One True Enemy"
+      },
+      "est_start_s": 410,
+      "est_end_s": 465,
+      "overlay_text": "Shaytan is your enemy; worship Allah alone.",
+      "prompt_short": "Shaytan: the only enemy."
+    },
+    {
+      "segment_id": "s12",
+      "slide_type": "verse_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "Wa Ma Min Daabbatin Fil Arde Illa 'AlalAllahi Rizquha.\n— \"And there is no living creature on earth whose sustenance is not the responsibility of Allah.\"",
+        "attribution": "Quran 11:6",
+        "accent": "Sustenance is on Allah"
+      },
+      "est_start_s": 465,
+      "est_end_s": 510,
+      "overlay_text": "Allah guarantees sustenance for all living creatures.",
+      "prompt_short": "Sustenance: Allah's responsibility."
+    },
+    {
+      "segment_id": "s13",
+      "slide_type": "verse_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "Wa Maey Yatawakkal 'AlalAllahi Fahuwa Hasbuhu.\n— \"And for everyone who places his or her trust in Allah, He alone is sufficient.\"",
+        "attribution": "Quran 65:3",
+        "accent": "Reliance on the One Who Suffices"
+      },
+      "est_start_s": 510,
+      "est_end_s": 555,
+      "overlay_text": "Place your trust in Allah; He alone is sufficient.",
+      "prompt_short": "Trust Allah: He suffices."
+    },
+    {
+      "segment_id": "s14",
+      "slide_type": "quote_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "O Hatim! May Allah grant you His Tawfeeq. I have seen in the Tawrat, the Injil, the Zabur, and in the praiseworthy differentiator between right and wrong — the Holy Quran — that all four of these Books of God speak of these very eight benefits. Whoever acts upon these eight principles is as one who has acted upon all four holy Books.",
+        "speaker": "Shaykh Shafeeq al-Balkhi"
+      },
+      "est_start_s": 555,
+      "est_end_s": 610,
+      "overlay_text": "These eight principles encompass all four Holy Books.",
+      "prompt_short": "Eight principles: essence of all scriptures."
+    },
+    {
+      "segment_id": "s15",
+      "slide_type": "scenic_break",
+      "background_id": "bg03",
+      "content": {},
+      "est_start_s": 610,
+      "est_end_s": 620,
+      "overlay_text": "",
+      "prompt_short": "Transition to the perfected guide."
+    },
+    {
+      "segment_id": "s16",
+      "slide_type": "quote_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "Take what is written here and steadily put it into practice — and through that practice, those matters which you do not yet understand will become clear to you.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 620,
+      "est_end_s": 660,
+      "overlay_text": "Practice reveals understanding.",
+      "prompt_short": "Practice clarifies the path."
+    },
+    {
+      "segment_id": "s17",
+      "slide_type": "concept_slide",
+      "background_id": "bg03",
+      "content": {
+        "term": "Shaykh al-Kamil",
+        "phonetic": "SHAYKH al-KAH-mil",
+        "definition": "A perfected spiritual guide who leads the seeker, removing evil qualities and replacing them with noble ones, like a farmer tending a crop."
+      },
+      "est_start_s": 660,
+      "est_end_s": 705,
+      "overlay_text": "A perfected guide purifies the soul, like a farmer.",
+      "prompt_short": "Shaykh al-Kamil: soul's farmer."
+    },
+    {
+      "segment_id": "s18",
+      "slide_type": "title_slide",
+      "background_id": "bg03",
+      "content": {
+        "title": "The Unbroken Chain of Guidance",
+        "subtitle": "From the Messenger to His Deputies"
+      },
+      "est_start_s": 705,
+      "est_end_s": 745,
+      "overlay_text": "Guidance flows from the Prophet through his deputies.",
+      "prompt_short": "Prophetic chain of guidance."
+    },
+    {
+      "segment_id": "s19",
+      "slide_type": "numbered_list",
+      "background_id": "bg03",
+      "content": {
+        "title": "Qualities of a True Shaykh",
+        "items": [
+          "Turned away from love of world, honor, rank.",
+          "Taken Bay'a with a perfected guide, chain to Messenger of Allah.",
+          "Undergone Riazat and Mujahada, obeyed Prophet's commands.",
+          "Eats little, sleeps little, prays abundantly, fasts frequently, gives generously.",
+          "Possesses all praiseworthy moral qualities (patience, gratitude, certitude, etc.).",
+          "Received light from Messenger of Allah, purged evil qualities.",
+          "Relies only on knowledge from the Messenger of Allah."
+        ]
+      },
+      "est_start_s": 745,
+      "est_end_s": 820,
+      "overlay_text": "A true Shaykh embodies prophetic qualities and guidance.",
+      "prompt_short": "Marks of a true spiritual guide."
+    },
+    {
+      "segment_id": "s20",
+      "slide_type": "title_slide",
+      "background_id": "bg03",
+      "content": {
+        "title": "Obedience to the Guide",
+        "subtitle": "Outer and Inner Etiquette"
+      },
+      "est_start_s": 820,
+      "est_end_s": 860,
+      "overlay_text": "Respect for the guide: outward actions, inward sincerity.",
+      "prompt_short": "Guide's etiquette: outer and inner."
+    },
+    {
+      "segment_id": "s21",
+      "slide_type": "concept_slide",
+      "background_id": "bg03",
+      "content": {
+        "term": "Outer Etiquette",
+        "definition": "The disciple does not argue, does not remain stationed at the prayer place, and obeys all commands within the absolute boundary of the Shari'ah."
+      },
+      "est_start_s": 860,
+      "est_end_s": 905,
+      "overlay_text": "Obey the guide, but never against Shari'ah.",
+      "prompt_short": "Outer etiquette: Shari'ah boundary."
+    },
+    {
+      "segment_id": "s22",
+      "slide_type": "concept_slide",
+      "background_id": "bg03",
+      "content": {
+        "term": "Inner Etiquette",
+        "definition": "The disciple must not entertain doubt in the heart regarding the Shaykh's words or deeds. If sincerity cannot be maintained, honest withdrawal is necessary."
+      },
+      "est_start_s": 905,
+      "est_end_s": 950,
+      "overlay_text": "Inner sincerity or honest withdrawal from the guide.",
+      "prompt_short": "Inner etiquette: sincerity or withdraw."
+    },
+    {
+      "segment_id": "s23",
+      "slide_type": "title_slide",
+      "background_id": "bg03",
+      "content": {
+        "title": "Guarding Against the Nafs & Embracing Contentment",
+        "subtitle": "The Sixth and Seventh Conditions"
+      },
+      "est_start_s": 950,
+      "est_end_s": 995,
+      "overlay_text": "Guard against Nafs, embrace humility and contentment.",
+      "prompt_short": "Nafs, humility, contentment: key conditions."
+    },
+    {
+      "segment_id": "s24",
+      "slide_type": "scenic_break",
+      "background_id": "bg03",
+      "content": {},
+      "est_start_s": 995,
+      "est_end_s": 1005,
+      "overlay_text": "",
+      "prompt_short": "Transition to inner vocabulary."
+    },
+    {
+      "segment_id": "s25",
+      "slide_type": "title_slide",
+      "background_id": "bg01",
+      "content": {
+        "title": "The Inner Vocabulary of the Path",
+        "subtitle": "Four Named Realities"
+      },
+      "est_start_s": 1005,
+      "est_end_s": 1045,
+      "overlay_text": "Four essential realities of the inner life.",
+      "prompt_short": "Inner life: four realities."
+    },
+    {
+      "segment_id": "s26",
+      "slide_type": "concept_slide",
+      "background_id": "bg01",
+      "content": {
+        "term": "Tasawwuf",
+        "phonetic": "ta-SAW-wuf",
+        "definition": "Obedience to Allah (acting in accordance with the Shari'ah) and compassion and good deeds toward all of Allah's creation."
+      },
+      "est_start_s": 1045,
+      "est_end_s": 1095,
+      "overlay_text": "Tasawwuf: Shari'ah obedience and compassion for creation.",
+      "prompt_short": "Tasawwuf: obedience and compassion."
+    },
+    {
+      "segment_id": "s27",
+      "slide_type": "concept_slide",
+      "background_id": "bg01",
+      "content": {
+        "term": "Servitude",
+        "definition": "Obedience to the Shari'ah, contentment with Allah's decree, and abandonment of one's own desires for Allah's Will."
+      },
+      "est_start_s": 1095,
+      "est_end_s": 1140,
+      "overlay_text": "Servitude: obey, accept decree, surrender desires.",
+      "prompt_short": "Servitude: obey, accept, surrender."
+    },
+    {
+      "segment_id": "s28",
+      "slide_type": "concept_slide",
+      "background_id": "bg01",
+      "content": {
+        "term": "Tawakkul",
+        "phonetic": "ta-WAK-kul",
+        "definition": "Holding firm belief and certitude in what Allah has promised, knowing that His decree is absolute."
+      },
+      "est_start_s": 1140,
+      "est_end_s": 1185,
+      "overlay_text": "Tawakkul: firm belief in Allah's promises and decree.",
+      "prompt_short": "Tawakkul: trust Allah's decree."
+    },
+    {
+      "segment_id": "s29",
+      "slide_type": "concept_slide",
+      "background_id": "bg01",
+      "content": {
+        "term": "Ikhlas",
+        "phonetic": "ikh-LAAS",
+        "definition": "All deeds are exclusively for Allah's sake and pleasure, free from Riya (ostentation), regarding all creation as powerless."
+      },
+      "est_start_s": 1185,
+      "est_end_s": 1240,
+      "overlay_text": "Ikhlas: deeds purely for Allah, free from Riya.",
+      "prompt_short": "Ikhlas: sincerity, no show."
+    },
+    {
+      "segment_id": "s30",
+      "slide_type": "title_slide",
+      "background_id": "bg04",
+      "content": {
+        "title": "Answers Through Practice, Not Pages",
+        "subtitle": "The Path of Patience and Travel"
+      },
+      "est_start_s": 1240,
+      "est_end_s": 1285,
+      "overlay_text": "Practice unlocks answers; patience is key.",
+      "prompt_short": "Practice, patience, travel: the path."
+    },
+    {
+      "segment_id": "s31",
+      "slide_type": "verse_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "Wa Lau Annahum Sabaru Hatta Takhruja Ilaeyhim Lakana Khairan Lahum.\n— \"Had those people exercised patience — instead of clamoring outside your house — until you, O Prophet, came out yourself, it would have been better for them.\"",
+        "attribution": "Quran 49:5",
+        "accent": "Patience in Seeking"
+      },
+      "est_start_s": 1285,
+      "est_end_s": 1335,
+      "overlay_text": "Patience is better than clamoring for answers.",
+      "prompt_short": "Patience in seeking knowledge."
+    },
+    {
+      "segment_id": "s32",
+      "slide_type": "verse_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "Fala Tas-alni 'Un Shaeyin Hatta Uhdithu Laka Minhu Zikra.\n— \"If you wish to follow me, O Moses, then do not question me about anything until I myself bring it up and explain it to you.\"",
+        "attribution": "Quran 18:70 (Khidr to Moses)",
+        "accent": "Khidr's Counsel"
+      },
+      "est_start_s": 1335,
+      "est_end_s": 1385,
+      "overlay_text": "Do not question until the right time arrives.",
+      "prompt_short": "Khidr: patience in learning."
+    },
+    {
+      "segment_id": "s33",
+      "slide_type": "verse_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "Sa Urikum Ayate Fala Tusta'jiloon.\n— \"We — Allah — will soon show you Our signs, so do not seek to hasten this matter.\"",
+        "attribution": "Quranic statement",
+        "accent": "Do Not Hasten"
+      },
+      "est_start_s": 1385,
+      "est_end_s": 1430,
+      "overlay_text": "Allah will show His signs; do not hasten them.",
+      "prompt_short": "Allah's signs: do not rush."
+    },
+    {
+      "segment_id": "s34",
+      "slide_type": "verse_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "Awalum Yaseeru Fil Ardi Fayanzuru.\n— \"Have they not traveled the earth so that they might see?\"",
+        "attribution": "Quranic statement",
+        "accent": "The Verb: Travel"
+      },
+      "est_start_s": 1430,
+      "est_end_s": 1470,
+      "overlay_text": "Travel the earth to truly see and understand.",
+      "prompt_short": "Travel the earth to see."
+    },
+    {
+      "segment_id": "s35",
+      "slide_type": "quote_slide",
+      "background_id": "bg01",
+      "content": {
+        "text": "In Qadarta 'Ala Bazlir Ruhi Fata'ala Wa Illa Tashtaghil Bi Nazahatis Sufiyyati Wal Qaal.\n— \"If you have the courage to exert your utmost with your soul in this way, then come and step onto this path — otherwise do not merely occupy yourself with the beautiful sayings of the Sufis.\"",
+        "speaker": "Shaykh Zun Noon al-Misri"
+      },
+      "est_start_s": 1470,
+      "est_end_s": 2084,
+      "overlay_text": "Offer your soul, or don't just speak of Sufism.",
+      "prompt_short": "Soul's exertion: the true path."
+    }
+  ]
+}

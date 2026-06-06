@@ -66,12 +66,6 @@ After a live publish:
 - When the user explicitly asks to publish.
 - After a manual fix that resolved a previously-blocking gate (G4 P0 cleared, G7 verdict upgraded from BLOCKED to SHIP-READY, etc.).
 
-## When NOT to invoke this agent
-
-- The book isn't done yet — publishing mid-authoring overwrites prior published state with incomplete content. Run the workspace loop until the challenger reports SHIP-READY on every chapter.
-- You want to update a single episode. Current design is whole-book publishing; `--no-wipe` re-copies all chapters (byte-identical for unchanged ones — safe, just wasteful).
-- The book uses a non-NotebookLM downstream (third-party platform, custom audio pipeline). `content/published/` is NotebookLM-shaped; different downstream targets need a different publisher.
-
 ## What this agent does NOT do
 
 - Does not generate slide decks (that's `scripts/podcast/build_slide_deck.py` + the orchestrator's optional Phase 11b).

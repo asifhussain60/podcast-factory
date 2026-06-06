@@ -226,3 +226,12 @@ _workspace/audit/
 # VSCode workspace favorites (user-local IDE state)
 .favorites.json
 raw/
+.cache/
+
+# Stale legacy content/drafts/ stub (retired 2026-06-04 type-first migration)
+content/drafts/
+
+# Generated video-layer images — Imagen3 backgrounds + Pillow-rendered teaching slides.
+# Regenerable from video-prompts.json via generate_video_layer.py; not source-of-truth.
+content/**/video-images/
+content/Islamic/ayyuhal-walad/_system/watchdog.json

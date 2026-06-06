@@ -1,0 +1,520 @@
+{
+  "mode": "teaching_hybrid",
+  "backgrounds": [
+    {
+      "bg_id": "bg01",
+      "theme": "dawn_library",
+      "prompt": "A scholarly library interior at warm amber dawn, sunlight streaming through arched windows, illuminating dust motes and ancient leather-bound books on dark wooden shelves. Lanterns glow softly, casting intricate shadows. A sense of quiet contemplation and deep learning.",
+      "image_path": "bg01_dawn_library.jpg"
+    },
+    {
+      "bg_id": "bg02",
+      "theme": "night_study",
+      "prompt": "A private study at night, lit by flickering candlelight. Open manuscripts and scrolls are spread across a heavy wooden desk. Deep, dramatic shadows fill the corners of the room, suggesting intense focus and solitary spiritual work. A quill and inkwell are visible.",
+      "image_path": "bg02_night_study.jpg"
+    },
+    {
+      "bg_id": "bg03",
+      "theme": "mosque_courtyard",
+      "prompt": "A serene mosque courtyard at golden hour, with long shadows cast by elegant arched colonnades. A central fountain gently ripples, reflecting the warm light. The atmosphere is quiet, peaceful, and conducive to reflection and prayer. Intricate geometric patterns on the architecture.",
+      "image_path": "bg03_mosque_courtyard.jpg"
+    },
+    {
+      "bg_id": "bg04",
+      "theme": "desert_sunrise",
+      "prompt": "A vast, empty desert landscape at sunrise. Soft, ethereal light paints the dunes in hues of gold and rose. The horizon is clear and expansive, evoking a sense of contemplative emptiness and the grandeur of creation. No human presence, just natural beauty.",
+      "image_path": "bg04_desert_sunrise.jpg"
+    },
+    {
+      "bg_id": "bg05",
+      "theme": "calligraphy_studio",
+      "prompt": "An ink and parchment studio, bathed in soft, diffused light. Geometric light patterns fall across a clean wooden table where a calligrapher's tools are meticulously arranged: inkpots, various pens, and blank scrolls. A sense of precision, artistry, and devotion.",
+      "image_path": "bg05_calligraphy_studio.jpg"
+    }
+  ],
+  "slides": [
+    {
+      "segment_id": "s01",
+      "slide_type": "title_slide",
+      "background_id": "bg01",
+      "content": {
+        "title": "The Path of Obedience and Struggle",
+        "subtitle": "Insights from the master's letter to his student"
+      },
+      "est_start_s": 0,
+      "est_end_s": 45,
+      "overlay_text": "A cure for knowledge unacted-upon: the master's letter.",
+      "prompt_short": "Title slide: The Path of Obedience and Struggle."
+    },
+    {
+      "segment_id": "s02",
+      "slide_type": "quote_slide",
+      "background_id": "bg01",
+      "content": {
+        "text": "Worship is another name for obedience.",
+        "speaker": "The master"
+      },
+      "est_start_s": 45,
+      "est_end_s": 75,
+      "overlay_text": "Worship is obedience: the core principle.",
+      "prompt_short": "Quote: Worship is obedience."
+    },
+    {
+      "segment_id": "s03",
+      "slide_type": "quote_slide",
+      "background_id": "bg01",
+      "content": {
+        "text": "I remembered the plea of the inhabitants of Hell when they will beseech the inhabitants of Paradise to pour upon them even a little water.",
+        "speaker": "The early Basran teacher"
+      },
+      "est_start_s": 75,
+      "est_end_s": 120,
+      "overlay_text": "The early Basran teacher's sigh: a sip of water.",
+      "prompt_short": "Quote: Hasan al-Basri's memory of Hell's plea."
+    },
+    {
+      "segment_id": "s05",
+      "slide_type": "verse_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "Is there anyone who repents from sins? Is there anyone who asks of Me? Is there anyone who seeks My forgiveness?",
+        "attribution": "Allah the Exalted",
+        "accent": "Pre-dawn proclamation"
+      },
+      "est_start_s": 165,
+      "est_end_s": 210,
+      "overlay_text": "The standing summons: Allah's pre-dawn call.",
+      "prompt_short": "Verse: Pre-dawn call to repentance and seeking."
+    },
+    {
+      "segment_id": "s06",
+      "slide_type": "verse_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "There are only a few servants of Allah who sleep but little in the last part of the night.",
+        "attribution": "Quran",
+        "accent": "Quran 51:17"
+      },
+      "est_start_s": 210,
+      "est_end_s": 240,
+      "overlay_text": "Few sleep little in the blessed hour of nearness.",
+      "prompt_short": "Verse: Few sleep little at night."
+    },
+    {
+      "segment_id": "s07",
+      "slide_type": "hadith_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "Nay'mur Rajula Huwa Lau Kana Yusalli Bil Laili — He is a good man. If only he were to pray the pre-dawn voluntary prayer.",
+        "attribution": "The Prophet, regarding the praised Companion"
+      },
+      "est_start_s": 240,
+      "est_end_s": 285,
+      "overlay_text": "The Prophet's reservation: the missing pre-dawn voluntary prayer.",
+      "prompt_short": "Hadith: Importance of pre-dawn voluntary prayer."
+    },
+    {
+      "segment_id": "s08",
+      "slide_type": "hadith_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "La Takthirin Nauma Bil Laili Fainna Kathratan Naumi Bil Laili Tad'oo Sahibahu Faqirai Yaumal Qiyamati — Do not sleep overmuch at night, for excessive sleep at night leaves its keeper empty-handed on the Day of Judgment.",
+        "attribution": "The Prophet"
+      },
+      "est_start_s": 285,
+      "est_end_s": 320,
+      "overlay_text": "Excessive sleep at night leaves one empty-handed.",
+      "prompt_short": "Hadith: Warning against excessive night sleep."
+    },
+    {
+      "segment_id": "s09",
+      "slide_type": "verse_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "And in the last part of the night, perform the pre-dawn voluntary prayers for the sake of Allah — it shall be of great benefit to you.",
+        "attribution": "Quran",
+        "accent": "Quran 17:79"
+      },
+      "est_start_s": 320,
+      "est_end_s": 360,
+      "overlay_text": "Divine command: perform the pre-dawn voluntary prayer.",
+      "prompt_short": "Verse: Command for pre-dawn voluntary prayer."
+    },
+    {
+      "segment_id": "s10",
+      "slide_type": "verse_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "And those true servants of Allah, in the time before dawn, plead earnestly for Allah's forgiveness.",
+        "attribution": "Quran",
+        "accent": "Quran 51:18"
+      },
+      "est_start_s": 360,
+      "est_end_s": 390,
+      "overlay_text": "True servants plead for forgiveness before dawn.",
+      "prompt_short": "Verse: Seeking forgiveness before dawn."
+    },
+    {
+      "segment_id": "s11",
+      "slide_type": "verse_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "And those true servants of Allah seek Allah's forgiveness at the time before dawn.",
+        "attribution": "Quran",
+        "accent": "Quran 3:17"
+      },
+      "est_start_s": 390,
+      "est_end_s": 420,
+      "overlay_text": "Honored mention: seeking forgiveness at dawn.",
+      "prompt_short": "Verse: Seeking forgiveness at dawn."
+    },
+    {
+      "segment_id": "s12",
+      "slide_type": "numbered_list",
+      "background_id": "bg02",
+      "content": {
+        "title": "Three Sounds That Please Allah",
+        "items": [
+          "The crowing of the rooster that rouses people for the pre-dawn voluntary prayers.",
+          "The recitation of the Holy Quran.",
+          "The voices of those who, in the last portion of the night, plead to Allah for His forgiveness and turn to Him in repentance."
+        ]
+      },
+      "est_start_s": 420,
+      "est_end_s": 470,
+      "overlay_text": "The rooster's crow, Quran, and pleas please Allah.",
+      "prompt_short": "List: Three sounds pleasing to Allah."
+    },
+    {
+      "segment_id": "s13",
+      "slide_type": "numbered_list",
+      "background_id": "bg02",
+      "content": {
+        "title": "The Four Proclamations of the Night",
+        "items": [
+          "When night begins: an angel proclaims all worshippers should rise.",
+          "In the middle of the night: a second angel proclaims all obedient servants should rise.",
+          "At the last blessed portion of the night: a third angel proclaims all who seek forgiveness should rise.",
+          "When dawn draws near: a fourth angel calls, 'O heedless ones! Arise — the day has broken!'"
+        ]
+      },
+      "est_start_s": 470,
+      "est_end_s": 530,
+      "overlay_text": "Four angels call throughout the night, narrowing responders.",
+      "prompt_short": "List: Four angelic proclamations of the night."
+    },
+    {
+      "segment_id": "s14",
+      "slide_type": "concept_slide",
+      "background_id": "bg02",
+      "content": {
+        "term": "The last blessed portion of the night",
+        "phonetic": "SAHR",
+        "definition": "The final hours before dawn, a time of nearness to Allah, when angels proclaim forgiveness."
+      },
+      "est_start_s": 530,
+      "est_end_s": 560,
+      "overlay_text": "The last blessed portion of the night: a time of nearness.",
+      "prompt_short": "Concept: Sahr, the last blessed portion of the night."
+    },
+    {
+      "segment_id": "s15",
+      "slide_type": "quote_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "Ya Buneyya La Takununnad Deeku Akyas Minka Fainnahu Yunaadi Bil Ashaari Wa Anta Na'imun — My son! Do not let the rooster prove more intelligent than you. Let it not be that he rises in the last part of the night to proclaim the hour of remembrance and glorifies his Lord, while you remain sunk in the deep sleep of heedlessness, carelessness, and negligence.",
+        "speaker": "The wise father, peace of Allah be upon him"
+      },
+      "est_start_s": 560,
+      "est_end_s": 620,
+      "overlay_text": "The wise father's counsel: don't be out-answered by the rooster.",
+      "prompt_short": "Quote: Luqman's counsel on the rooster."
+    },
+    {
+      "segment_id": "s16",
+      "slide_type": "quote_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "In the depths of the night, the dove perched upon a branch calls out to her Lord, while I lie fast asleep. By the Lord of the House of Allah — the Ka'ba! I am a liar! Had I been a true lover of Allah, the doves would not have surpassed me in weeping from the pain of separation from my Beloved. Yet I claim to be a wandering lover consumed by longing, while my eyes remain dry — and the very animals weep in their love for their Creator.",
+        "speaker": "Poetry"
+      },
+      "est_start_s": 620,
+      "est_end_s": 680,
+      "overlay_text": "The sleeping lover: animals weep, but human eyes remain dry.",
+      "prompt_short": "Poetry: The dove and the sleeping lover."
+    },
+    {
+      "segment_id": "s18",
+      "slide_type": "scenic_break",
+      "background_id": "bg03",
+      "content": {},
+      "est_start_s": 710,
+      "est_end_s": 740,
+      "overlay_text": "",
+      "prompt_short": "Scenic break: Mosque courtyard at golden hour."
+    },
+    {
+      "segment_id": "s19",
+      "slide_type": "concept_slide",
+      "background_id": "bg03",
+      "content": {
+        "term": "The Prophetic frame",
+        "phonetic": "sha-REE-ah",
+        "definition": "The Divine Law of the Prophet, encompassing commandments for deeds and restraint, words and example. All actions must conform to it."
+      },
+      "est_start_s": 740,
+      "est_end_s": 790,
+      "overlay_text": "Worship means following the Prophetic frame in word and deed.",
+      "prompt_short": "Concept: Shari'ah, the Prophetic frame."
+    },
+    {
+      "segment_id": "s20",
+      "slide_type": "concept_slide",
+      "background_id": "bg03",
+      "content": {
+        "term": "Sinner",
+        "phonetic": "aa-THEEM",
+        "definition": "One who commits a sin, even if the outward form resembles worship, but it falls outside the Prophetic frame (e.g., fasting on Eid)."
+      },
+      "est_start_s": 790,
+      "est_end_s": 830,
+      "overlay_text": "Fasting on Eid is a sin, not worship.",
+      "prompt_short": "Concept: Athim, the sinner."
+    },
+    {
+      "segment_id": "s21",
+      "slide_type": "concept_slide",
+      "background_id": "bg03",
+      "content": {
+        "term": "Transgressor",
+        "phonetic": "FAA-siq",
+        "definition": "One who transgresses, for example, by praying at forbidden times or on unlawfully occupied ground, despite the outward form of prayer."
+      },
+      "est_start_s": 830,
+      "est_end_s": 870,
+      "overlay_text": "Prayer at forbidden times is transgression.",
+      "prompt_short": "Concept: Fasiq, the transgressor."
+    },
+    {
+      "segment_id": "s22",
+      "slide_type": "concept_slide",
+      "background_id": "bg03",
+      "content": {
+        "term": "Permissible",
+        "phonetic": "halal",
+        "definition": "An act that is lawful and within the Prophetic frame, such as lawful intimacy between husband and wife, which is an act of obedience."
+      },
+      "est_start_s": 870,
+      "est_end_s": 910,
+      "overlay_text": "Lawful intimacy is obedience, indistinguishable from prayer.",
+      "prompt_short": "Concept: Halal, the permissible."
+    },
+    {
+      "segment_id": "s24",
+      "slide_type": "scenic_break",
+      "background_id": "bg04",
+      "content": {},
+      "est_start_s": 940,
+      "est_end_s": 970,
+      "overlay_text": "",
+      "prompt_short": "Scenic break: Vast desert at sunrise."
+    },
+    {
+      "segment_id": "s25",
+      "slide_type": "concept_slide",
+      "background_id": "bg04",
+      "content": {
+        "term": "Inner spiritual struggle",
+        "phonetic": "mu-JAA-ha-dah",
+        "definition": "Intense effort and disciplined exercise of the soul, necessary to advance on the Path of Allah and sever the desires of the lower self."
+      },
+      "est_start_s": 970,
+      "est_end_s": 1020,
+      "overlay_text": "The Path requires inner spiritual struggle, not just knowledge.",
+      "prompt_short": "Concept: Mujahadah, inner spiritual struggle."
+    },
+    {
+      "segment_id": "s26",
+      "slide_type": "concept_slide",
+      "background_id": "bg04",
+      "content": {
+        "term": "The lower self",
+        "phonetic": "NAFS",
+        "definition": "The self with its evil desires and inclinations, which must be severed with the sword of inner spiritual struggle."
+      },
+      "est_start_s": 1020,
+      "est_end_s": 1060,
+      "overlay_text": "Sever the lower self with the sword of struggle.",
+      "prompt_short": "Concept: Nafs, the lower self."
+    },
+    {
+      "segment_id": "s27",
+      "slide_type": "concept_slide",
+      "background_id": "bg04",
+      "content": {
+        "term": "Sufism",
+        "phonetic": "SOO-fee-ism",
+        "definition": "The path of attaining an intimate relationship with God through purified souls, eradicating evil via genuine inner spiritual struggle."
+      },
+      "est_start_s": 1060,
+      "est_end_s": 1100,
+      "overlay_text": "True Sufis purify souls through genuine struggle.",
+      "prompt_short": "Concept: Sufism, the path of purification."
+    },
+    {
+      "segment_id": "s28",
+      "slide_type": "concept_slide",
+      "background_id": "bg04",
+      "content": {
+        "term": "The intimate knowledge of God",
+        "phonetic": "ma-aa-ri-FAH",
+        "definition": "Deep, intimate knowledge, awareness, and conscious relationship with Allah, which dawns when the lower self's desires are severed."
+      },
+      "est_start_s": 1100,
+      "est_end_s": 1140,
+      "overlay_text": "The light of intimate knowledge dawns when the room is cleared.",
+      "prompt_short": "Concept: Ma'rifah, intimate knowledge of God."
+    },
+    {
+      "segment_id": "s29",
+      "slide_type": "concept_slide",
+      "background_id": "bg05",
+      "content": {
+        "term": "Intense love",
+        "phonetic": "Ishq",
+        "definition": "A spiritual state that cannot be taught but is born and learned from within, a profound love for the Divine."
+      },
+      "est_start_s": 1140,
+      "est_end_s": 1170,
+      "overlay_text": "Intense love is born from within, not taught.",
+      "prompt_short": "Concept: Ishq, intense love."
+    },
+    {
+      "segment_id": "s30",
+      "slide_type": "concept_slide",
+      "background_id": "bg05",
+      "content": {
+        "term": "Fervent desire",
+        "phonetic": "Zauq",
+        "definition": "The fervent desire to seek what one loves, another spiritual state that must be experienced rather than described."
+      },
+      "est_start_s": 1170,
+      "est_end_s": 1200,
+      "overlay_text": "Fervent desire to seek the Beloved is experienced.",
+      "prompt_short": "Concept: Zauq, fervent desire."
+    },
+    {
+      "segment_id": "s31",
+      "slide_type": "concept_slide",
+      "background_id": "bg05",
+      "content": {
+        "term": "The master's revival of the knowledge of the path to God",
+        "phonetic": "Ihya al-Ulum ad-Din",
+        "definition": "The master's comprehensive work, where many questions of the Path are answered at length."
+      },
+      "est_start_s": 1200,
+      "est_end_s": 1230,
+      "overlay_text": "The master's revival: a comprehensive guide.",
+      "prompt_short": "Concept: Ihya al-Ulum ad-Din."
+    },
+    {
+      "segment_id": "s32",
+      "slide_type": "numbered_list",
+      "background_id": "bg05",
+      "content": {
+        "title": "Four Conditions of the Sincere Seeker",
+        "items": [
+          "Conviction of fear of Allah, preventing drift into innovation.",
+          "True and complete repentance, never returning to sins.",
+          "Satisfying enemies, leaving no unfulfilled obligations.",
+          "Acquiring enough Prophetic frame knowledge for personal obligations."
+        ]
+      },
+      "est_start_s": 1230,
+      "est_end_s": 1290,
+      "overlay_text": "Fear, repentance, right dealing, and essential knowledge.",
+      "prompt_short": "List: Four conditions of the sincere seeker."
+    },
+    {
+      "segment_id": "s33",
+      "slide_type": "concept_slide",
+      "background_id": "bg05",
+      "content": {
+        "term": "Innovation",
+        "phonetic": "BID-ah",
+        "definition": "Any matter contrary to the established principles of the Quran and Sunnah, including the Prophet's teachings, actions, and inner states."
+      },
+      "est_start_s": 1290,
+      "est_end_s": 1330,
+      "overlay_text": "Fear of Allah prevents drift into innovation.",
+      "prompt_short": "Concept: Bid'a, innovation."
+    },
+    {
+      "segment_id": "s34",
+      "slide_type": "concept_slide",
+      "background_id": "bg05",
+      "content": {
+        "term": "True and complete repentance",
+        "phonetic": "Taubatun Nasuh",
+        "definition": "Repentance made in such a way that the seeker will never return to the humiliation of sins."
+      },
+      "est_start_s": 1330,
+      "est_end_s": 1370,
+      "overlay_text": "True repentance closes the door on returning to sins.",
+      "prompt_short": "Concept: Taubatun Nasuh, true repentance."
+    },
+    {
+      "segment_id": "s35",
+      "slide_type": "concept_slide",
+      "background_id": "bg05",
+      "content": {
+        "term": "Communal obligation",
+        "phonetic": "Fard Kifayah",
+        "definition": "An obligation discharged when a sufficient number within the community fulfill it; otherwise, the entire community bears the sin."
+      },
+      "est_start_s": 1370,
+      "est_end_s": 1410,
+      "overlay_text": "Beyond personal obligation, knowledge can be communal.",
+      "prompt_short": "Concept: Fard Kifayah, communal obligation."
+    },
+    {
+      "segment_id": "s36",
+      "slide_type": "hadith_slide",
+      "background_id": "bg05",
+      "content": {
+        "text": "'Aymal Lid Dunya Be Qadre Maqamika Feeha Wa'mal Le Akhirateka Be Qadre Baqaa'ika Feeha Wa'mal Lillahi Be Qadre Hajateka Ilaeyhe Wa'mal Lin Naari Be Qadre Sabrika Alaeyha — Work for this world as much as you will live in it, and work for the life hereafter as much as you wish to live there, and work for Allah as much as you are in need of Him, and work toward avoiding the Fire as much as you can bear its pain and sufferings.",
+        "attribution": "The Baghdad mystic, quoting the Prophet"
+      },
+      "est_start_s": 1410,
+      "est_end_s": 1480,
+      "overlay_text": "The Baghdad mystic's hadith: work in four proportions.",
+      "prompt_short": "Hadith: Shibli's four proportions of work."
+    },
+    {
+      "segment_id": "s37",
+      "slide_type": "quote_slide",
+      "background_id": "bg01",
+      "content": {
+        "text": "Worship is another name for obedience.",
+        "speaker": "The master"
+      },
+      "est_start_s": 1480,
+      "est_end_s": 1510,
+      "overlay_text": "Worship is obedience: the core principle.",
+      "prompt_short": "Quote: Worship is obedience (restated)."
+    },
+    {
+      "segment_id": "s38",
+      "slide_type": "title_slide",
+      "background_id": "bg01",
+      "content": {
+        "title": "Reflect and Act",
+        "subtitle": "How will these conditions shape your hours this week?"
+      },
+      "est_start_s": 1510,
+      "est_end_s": 1747,
+      "overlay_text": "How will these conditions shape your hours this week?",
+      "prompt_short": "Closing question: Reflect on the four conditions."
+    }
+  ]
+}

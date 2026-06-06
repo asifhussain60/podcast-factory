@@ -1,5 +1,5 @@
 slug: ayyuhal-walad
-title: Ayyuhā al-Walad
+title: Ayyuha al-Walad
 short_name: ayw
 source_pdf: ../../../raw/Ayyuhal Walad.pdf
 
@@ -20,17 +20,22 @@ knowledge_tags:
   - wisdom
 
 pipeline:
-  current_phase: partial-pre-orchestrator
-  phase_status: no_state_file
-  chapters_with_contracts: 3
-  chapters_drafted: 3
-  episodes_authored: 3
+  # orchestrator-state.json is authoritative; this block is a human-readable mirror.
+  current_phase: per-chapter            # episodes built 2026-06-04
+  phase_status: episodes-built-awaiting-finalize
+  chapters_with_contracts: 2
+  chapters_drafted: 2
+  episodes_authored: 2
   transcripts: 0
   audits: 0
-  structure: wc8-holistic-3-episode  # adopted 2026-05-31; 5-episode original in _archive/5-episode-original/
+  # 2026-06-04 reconcile: disk has 2 chapters/contracts that together cover the whole
+  # letter (ch01 → the Hatim-Ism threshold; ch02 → the eight benefits through the closing
+  # du'a). The earlier "3-episode" / "5-episode" plans were consolidated to 2; the
+  # 5-episode original is preserved under _archive/5-episode-original/.
+  structure: wc8-holistic-2-episode
 
 publication:
-  status: draft
+  status: published
   shipped_via: scripts/podcast/publish_to_library.py
   publication_target: ../../published/books/ayyuhal-walad/
 

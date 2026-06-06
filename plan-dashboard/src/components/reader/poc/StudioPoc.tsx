@@ -1463,6 +1463,28 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
           chapter's draft versions as a separate module. Different granularities,
           not interleaved. */}
       <nav className="st-rail" aria-label="Pipeline timeline" ref={railRef}>
+        {/* Companion reading edition — a peer deliverable to the podcast (not a
+            per-chapter version, not a pipeline phase), so it gets its own zone
+            pinned above the timeline. */}
+        <div className="st-deliverable">
+          <a
+            className="st-book-link"
+            href={`/studio/${slug}/book`}
+            title="Open the companion reading edition (the book)"
+          >
+            <span className="st-book-glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z" />
+                <path d="M4 19.5A1.5 1.5 0 0 1 5.5 18H20v3H5.5A1.5 1.5 0 0 1 4 19.5z" />
+              </svg>
+            </span>
+            <span className="st-book-text">
+              <span className="st-book-label">Reading edition</span>
+              <span className="st-book-meta">the companion book</span>
+            </span>
+          </a>
+        </div>
+
         <div className="st-rail-head">
           <span className="st-rail-eyebrow">Pipeline</span>
         </div>

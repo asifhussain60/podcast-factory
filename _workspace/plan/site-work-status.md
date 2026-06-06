@@ -6,9 +6,85 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-04 (session 10 — Studio transformation timeline + dashboard)
+**Last updated:** 2026-06-06 (session 15 — Ayyuhal Walad published to Google Drive)
 
-**BRANCH: `develop` — active. Committed (4200b64).**
+**BRANCH: `ayyuhal-walad` — PUBLISHED. Final commit (18c60c2). Ready to merge → develop.**
+
+**Session work completed (session 15 — 4 commits 0288816 → 18c60c2):**
+
+Complete Ayyuhal Walad podcast production and publish cycle.
+
+  - 4 chapter/framing edits: pronunciation format (R-PRONUNCIATION-DOUBLE) fixed
+    for all 4 episodes, meta-prose headers renamed in ch01 and ch02, ch02 opening
+    paragraph made standalone.
+  - Chapter renames: ch01a→ch01, ch02b→ch02 (letter suffixes blocked G2 gate).
+  - Full v1 vs v2 vs v3 audio comparison via Whisper transcription (4×87M Whisper
+    medium transcriptions). Found EP01 and EP02 had wrong content/framing in v2;
+    EP01 re-run as v3, EP02 confirmed correct on second run.
+  - All 4 m4a files renamed to canonical ch01–ch04-ayyuhal-walad.m4a.
+  - Published: status=published in orchestrator-state.json + meta.yml; catalog
+    appended; 9 files (PDF + 4 audio + 4 video) synced to Google Drive
+    Podcast Library/Ayyuha al-Walad.
+  - G7 regex fix: verdict_re now matches **Verdict (book-level):** shape from
+    whole-book challenger reports (was silently returning verdict='unknown').
+  - Tests: 321 passed, 1 skipped (unchanged).
+
+**Session work completed (session 14 — 1 commit f1e64cc):**
+
+Full five-pass repo-surgeon audit + P1 fixes + test suite green (21→0 failures).
+
+  - `_book_illustrate.py`: per-section try/except around the LLM call so a
+    single Gemini timeout/crash skips that section instead of aborting the phase.
+  - `build_book_pdf.py`: committed the uncommitted session-13 Google Drive copy
+    feature (was in working tree, never committed).
+  - Test suite: 21 pre-existing failures resolved to 0:
+    - `test_waves_chain.py`: _paths stub leaked into full suite via `sys.modules`
+      — fixed with save/restore around `exec_module`.
+    - `test_systemic_fixes.py`: phase pin updated (PHASES moved to `_progress.py`),
+      HOST_A_ROLES_SCHOLAR checked in `_validators.py`, `_is_rule_example_line`
+      import corrected to `_validator_constants`.
+    - `test_intelligence_extractor.py`: `claude_caller` → `llm_caller` param rename.
+    - `test_source_library_mirror.py`: mock `open_mirror` for no-mirror path tests.
+  - Tests: 321 passed, 1 skipped.
+
+Audit confirmed the following were ALREADY fixed (auditor false positives):
+  - `build_book_pdf.py` preference for `book-illustrated.md` — present since session 13.
+  - `publish_to_library.py --dry-run` mutation — fixed in session 9 (Wave 1, b435df3).
+
+**Session work completed (session 13 — 1 commit 29faf2f):**
+
+New `0book-illustrate` pipeline phase: LLM-generated teaching diagrams (flowchart/
+mindmap/graph) embedded in the PDF reading edition. Claude analyses each chapter,
+identifies philosophical concepts that benefit from visual structure, writes Mermaid
+DSL, renders SVG via the existing Playwright renderer (already themed to editorial-
+modern palette), and injects `<figure class="book-diagram">` blocks into
+`book-illustrated.md`. The PDF renderer picks them up automatically.
+
+  - `_progress.py`: added "0book-illustrate" to PHASES
+  - `_book_illustrate.py`: new module (section split, LLM call, render, inject)
+  - `render-mermaid.mjs`: `--book-dir=<path>` mode for book diagram rendering
+  - `render-book-pdf.mjs`: HTML block pass-through + figure/figcaption CSS
+  - `build_book_pdf.py`: prefers `book-illustrated.md` over `book.md` when present
+  - `phases/book_driver.py`: wires illustrate between compose and render (non-blocking)
+  - Ayyuhal Walad: 14 diagrams across 8 chapters; book.pdf 544KB / 70 pages.
+  - Tests: 460 passed, 1 skipped.
+
+**Session work completed (session 11 — 1 commit 0bcd27e):**
+
+Holistic review (read-only survey via 3 parallel Explore agents), then critical
+review of pipeline + site strategy. Two genuine gaps found and closed:
+
+  - F25 apparatus table: `render_show_notes()` in `_extract_helpers.py` now reads
+    `name-aliases.yml` and emits `## Name and Title Preservation Table` with one
+    row per figure/book_title/concept_word. Category derived from YAML section
+    (Person/Book Title/Concept Term) with optional `category` override field.
+    KaR name-aliases.yml: added `category` override for three Imam figures (F26 minimal).
+  - PEQ voice-axis: added `voice_available: bool` to `PEQScore`; `markdown_table()`
+    now shows "N/A (→Fidelity)" / "50% (incl. Voice)" when voice scorer not ready,
+    instead of a misleading 0.0 row. Fixed 2 pre-existing test failures (stale
+    weight comment + voice scorer predating `_VOICE_SCORER_READY = False`).
+  - pipeline-debt.md: open-items table reconciled — F25/F27/F24/F17/F29/v4-revised
+    all marked CLOSED; F26 downgraded to P1 followup.
 
 **Session work completed (session 10 — 2 commits 711088c → 4200b64):**
 

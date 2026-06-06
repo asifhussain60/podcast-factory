@@ -12,6 +12,8 @@
  * for Phase 2 to do.
  */
 
+import { simplifyTransliteration } from '../translit';
+
 function escapeHtml(s: string): string {
   // Don't escape apostrophes — they're safe in HTML text content and inside
   // double-quoted attributes. Escaping them as &#39; breaks downstream
@@ -43,7 +45,9 @@ function renderInline(text: string): string {
 type ListKind = 'ul' | 'ol' | null;
 
 export function renderMarkdown(input: string): string {
-  const lines = input.replace(/\r\n/g, '\n').split('\n');
+  // Fold scholarly Arabic transliteration to plain English for display
+  // (Kīmiyāʾ al-Saʿāda → Kimiya al-Sa'ada). Arabic script is left untouched.
+  const lines = simplifyTransliteration(input).replace(/\r\n/g, '\n').split('\n');
   const out: string[] = [];
   let paraBuffer: string[] = [];
   let quoteBuffer: string[] = [];
@@ -59,10 +63,18 @@ export function renderMarkdown(input: string): string {
 
   const flushQuote = () => {
     if (quoteBuffer.length === 0) return;
-    // split blockquote body into paragraphs on blank lines (already collapsed
-    // since we skip empties), so join with space and emit one <p>.
-    const body = quoteBuffer.map((l) => renderInline(l)).join(' ');
-    out.push(`<blockquote><p>${body}</p></blockquote>`);
+    // Split the blockquote into paragraphs on blank lines, so e.g. an Arabic
+    // scripture line and its English translation beneath render as separate
+    // <p> blocks (Arabic above, English below) rather than one run-on line.
+    const paras: string[] = [];
+    let cur: string[] = [];
+    for (const l of quoteBuffer) {
+      if (l.trim() === '') { if (cur.length) { paras.push(cur.join(' ')); cur = []; } }
+      else cur.push(l);
+    }
+    if (cur.length) paras.push(cur.join(' '));
+    const inner = paras.map((p) => `<p>${renderInline(p)}</p>`).join('') || '<p></p>';
+    out.push(`<blockquote>${inner}</blockquote>`);
     quoteBuffer = [];
   };
 

@@ -765,69 +765,60 @@
   "waves": [],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-04T09:25:58.869636+00:00",
-  "source_commit": "74f7dd5",
+  "generated_at": "2026-06-05T21:58:50.500477+00:00",
+  "source_commit": "fe8f6de",
   "generator": "regenerate-snapshots.py",
-  "books_in_flight": [
-    {
-      "slug": "claude-code-training",
-      "title": "claude-code-training",
-      "phase": "per-chapter",
-      "phase_status": "failed",
-      "cost_to_date_usd": 0,
-      "kind": "unknown"
-    }
-  ],
+  "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "74f7dd5",
-      "subject": "chore: update site-work-status \u2014 session 8 (Studio UI/UX redesign)",
-      "date": "2026-06-03"
+      "sha": "fe8f6de",
+      "subject": "chore: update session 14 work status \u2014 audit + P1 fixes + test suite green",
+      "date": "2026-06-05"
     },
     {
-      "sha": "12b16cd",
-      "subject": "fix(studio): unified section card \u2014 continuous background + glow border",
-      "date": "2026-06-03"
+      "sha": "f1e64cc",
+      "subject": "fix: pipeline P1s + test suite drift (21\u21920 failures)",
+      "date": "2026-06-05"
     },
     {
-      "sha": "c33c20b",
-      "subject": "fix(studio): unbroken section border + Edit button on section headings",
-      "date": "2026-06-03"
+      "sha": "cebc8e2",
+      "subject": "chore: update session 13 work status \u2014 0book-illustrate phase",
+      "date": "2026-06-05"
     },
     {
-      "sha": "bfe5da6",
-      "subject": "feat(studio): section-level editing + comprehensive UI redesign",
-      "date": "2026-06-03"
+      "sha": "29faf2f",
+      "subject": "feat(book-pdf): 0book-illustrate phase \u2014 LLM-generated teaching diagrams in reading edition",
+      "date": "2026-06-05"
     },
     {
-      "sha": "b6cec54",
-      "subject": "fix(studio): depth picker \u2014 hover shift, lighter colors, scroll lock",
-      "date": "2026-06-03"
+      "sha": "b54471f",
+      "subject": "fix(pipeline): BUG-SLIDE-001 \u2014 per-chapter-slides never triggered for manually-processed books",
+      "date": "2026-06-05"
     },
     {
-      "sha": "b41c206",
-      "subject": "chore: update site-work-status \u2014 session 7 (depth redesign + tag picker separation)",
-      "date": "2026-06-03"
+      "sha": "1a4455e",
+      "subject": "chore: gitignore video-images/ + remove tracked scenic JPGs + update session status",
+      "date": "2026-06-05"
     },
     {
-      "sha": "f736717",
-      "subject": "feat(studio): redesign depth picker + separate tag picker",
-      "date": "2026-06-03"
+      "sha": "c2b44d5",
+      "subject": "fix(pipeline): 3 issues found in critical self-review",
+      "date": "2026-06-05"
     },
     {
-      "sha": "a98804a",
-      "subject": "chore: update site-work-status \u2014 session 6 (depth taxonomy + literary + annotation picker)",
-      "date": "2026-06-03"
+      "sha": "005482f",
+      "subject": "config(ayyuhal-walad): disable video generation \u2014 videos already produced",
+      "date": "2026-06-05"
     },
     {
-      "sha": "001f497",
-      "subject": "feat(literary+annotation): Phase 2 literary pipeline + Option A section annotation picker",
-      "date": "2026-06-03"
+      "sha": "ba4ab2d",
+      "subject": "feat(video): enable_video flag \u2014 opt-in per book, default off",
+      "date": "2026-06-05"
     },
     {
-      "sha": "3101132",
-      "subject": "feat(literary): pilot literary pipeline stage \u2014 Ayyuhal Walad (3 chapters)",
-      "date": "2026-06-03"
+      "sha": "afc4053",
+      "subject": "fix(video): patch manifests + lock pipeline rules against 7 production defects",
+      "date": "2026-06-05"
     }
   ],
   "wave_execution_events": [],

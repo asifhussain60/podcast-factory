@@ -34,11 +34,19 @@ def _load_chain_module() -> ModuleType:
     mod = importlib.util.module_from_spec(spec)
 
     # Stub _paths.REPO_ROOT so the module loads without the real repo root.
+    # Restore the real _paths entry (or absence) after exec so the stub
+    # doesn't leak into subsequent imports across the full test suite.
     _paths_stub = type(sys)("_paths")
     _paths_stub.REPO_ROOT = Path(__file__).resolve().parents[1]
+    _paths_prior = sys.modules.get("_paths", _SENTINEL := object())
     sys.modules["_paths"] = _paths_stub
-
-    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+    try:
+        spec.loader.exec_module(mod)  # type: ignore[union-attr]
+    finally:
+        if _paths_prior is _SENTINEL:
+            sys.modules.pop("_paths", None)
+        else:
+            sys.modules["_paths"] = _paths_prior
     return mod
 
 

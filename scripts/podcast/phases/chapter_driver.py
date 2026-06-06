@@ -289,6 +289,12 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         update_phase(book_dir, phase="per-chapter-slides", status="skipped",
                      extras={"reason": "enable_slide_decks=false"})
 
+    # PDF path — companion book (gated by series.enable_book_branch, non-blocking).
+    # Runs BEFORE the finalize halt so the book and the podcast are reviewed together;
+    # a book-branch failure never aborts the podcast ship.
+    from phases.book_driver import _drive_book_branch
+    _drive_book_branch(book_dir)
+
     # Finalize phase — run G1-G7 gates, halt for human review before publish.
     _phase_boundary_gate(book_dir, "per-chapter→finalize")
     _info("phase: finalize · run G1-G7 gates via validate_ship_ready.py")
@@ -313,7 +319,105 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     _info("  cd plan-dashboard && npm run dev")
     _info("  open http://localhost:4321/develop/" + book_slug + "/")
     _info("")
+    # ── NotebookLM upload instructions (mandatory per standing rule) ──────────
+    _print_notebooklm_table(book_dir)
+    # ─────────────────────────────────────────────────────────────────────────
+    _info("")
     _info("When satisfied, authorize publish + trainer + merge:")
     _info(f"  python3 scripts/podcast/orchestrate_book.py --resume {book_slug}")
     _info("─" * 72)
     return 0
+
+
+def _print_notebooklm_table(book_dir: Path) -> None:
+    """Print the NotebookLM upload table at finalize halt.
+
+    Reuses discovery + formatting helpers from assemble_bundle.py.
+    Prints per-episode rows: EP | Title | Upload source | Customize paste |
+    NotebookLM Format setting | Length setting.
+    """
+    try:
+        # Import helpers from sibling script (same scripts/podcast/ parent).
+        parent = Path(__file__).resolve().parents[1]
+        if str(parent) not in sys.path:
+            sys.path.insert(0, str(parent))
+        from assemble_bundle import (  # noqa: PLC0415
+            _load_episode_map,
+            _load_contract,
+            _resolve_chapter_file,
+            _resolve_framing_file,
+            _friendly_format,
+            _nlm_format,
+            _nlm_length,
+        )
+    except ImportError as exc:
+        _info(f"  [notebooklm table skipped — import error: {exc}]")
+        return
+
+    mapping = _load_episode_map(book_dir)
+    if not mapping:
+        # Fallback: discover directly from episodes/ + chapters/ directories.
+        # Covers books where Phase 0g hasn't generated the map yet (e.g.
+        # manually authored episodes outside the orchestrator flow).
+        import re as _re
+        ep_pat = _re.compile(r"^(EP(\d+)-(.*))\.txt$")
+        ep_dir = book_dir / "episodes"
+        if not ep_dir.exists():
+            _info("  [notebooklm table skipped — no episodes/ directory found]")
+            return
+        for ep_file in sorted(ep_dir.glob("EP*.txt")):
+            m = ep_pat.match(ep_file.name)
+            if not m:
+                continue
+            ep_slug, ep_num_str, ch_slug = m.group(1), m.group(2), m.group(3)
+            mapping.append({"episode": ep_slug, "chapter": f"ch{ep_num_str}-{ch_slug}",
+                            "n": int(ep_num_str)})
+    if not mapping:
+        _info("  [notebooklm table skipped — no episodes found]")
+        return
+
+    rows = []
+    for entry in mapping:
+        episode_slug = entry["episode"]
+        chapter_slug = entry["chapter"]
+        ep_num = entry["n"]
+        contract = _load_contract(book_dir, chapter_slug)
+        episode_format = contract.get("episode_format", "deep_dive")
+        title = contract.get("title", episode_slug).strip("\"'")
+        chapter_path = _resolve_chapter_file(book_dir, chapter_slug)
+        framing_path = _resolve_framing_file(book_dir, episode_slug)
+        rows.append({
+            "ep": ep_num,
+            "title": title,
+            "chapter_path": str(chapter_path.relative_to(book_dir.parent.parent))
+                            if chapter_path else "(missing)",
+            "framing_path": str(framing_path.relative_to(book_dir.parent.parent))
+                            if framing_path else "(missing)",
+            "format": _friendly_format(episode_format),
+            "nlm_format": _nlm_format(episode_format),
+            "length": _nlm_length(framing_path),
+        })
+
+    _info("─" * 72)
+    _info("NOTEBOOKLM UPLOAD INSTRUCTIONS")
+    _info("")
+    _info("For each episode, create a new NotebookLM notebook:")
+    _info("  1. Upload the SOURCE file as the ONLY source.")
+    _info("  2. Open Customize → paste the entire FRAMING file into the prompt box.")
+    _info("  3. Set Format and Length as shown, then generate.")
+    _info("")
+    # Header
+    hdr = f"  {'EP':<5} {'Title':<38} {'Format':<11} {'NLM Format':<12} {'Length'}"
+    sep = f"  {'-'*5} {'-'*38} {'-'*11} {'-'*12} {'-'*7}"
+    _info(hdr)
+    _info(sep)
+    for r in rows:
+        _info(f"  EP{r['ep']:<3d} {r['title']:<38} {r['format']:<11} {r['nlm_format']:<12} {r['length']}")
+    _info("")
+    _info("  Source files  (upload as the ONLY NotebookLM source):")
+    for r in rows:
+        _info(f"    EP{r['ep']:02d}  {r['chapter_path']}")
+    _info("")
+    _info("  Framing files (paste full contents into NotebookLM Customize box):")
+    for r in rows:
+        _info(f"    EP{r['ep']:02d}  {r['framing_path']}")

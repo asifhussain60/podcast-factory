@@ -1,0 +1,518 @@
+{
+  "mode": "teaching_hybrid",
+  "backgrounds": [
+    {
+      "bg_id": "bg01",
+      "theme": "dawn_library",
+      "prompt": "A grand, ancient library at dawn, bathed in warm, golden light filtering through tall arched windows. Dust motes dance in the air above heavy wooden tables laden with open manuscripts and leather-bound books. Ornate lanterns hang from high ceilings, casting soft glows. The atmosphere is serene, contemplative, and deeply scholarly, evoking centuries of learning and quiet reflection.",
+      "image_path": "bg01_dawn_library.jpg"
+    },
+    {
+      "bg_id": "bg02",
+      "theme": "night_study",
+      "prompt": "A private study late at night, illuminated by the flickering, warm glow of a single oil lamp and several beeswax candles. Deep shadows cling to the corners of the room, emphasizing an open, aged manuscript on a wooden lectern. Ink pots, quills, and rolled parchments are scattered nearby. The scene is intimate, focused, and intensely studious, conveying deep concentration and spiritual inquiry.",
+      "image_path": "bg02_night_study.jpg"
+    },
+    {
+      "bg_id": "bg03",
+      "theme": "desert_sunrise",
+      "prompt": "A vast, empty desert landscape at the moment of sunrise. Soft, ethereal light paints the sky in hues of rose, gold, and lavender, gradually illuminating endless dunes. The air is still and cool, conveying a sense of profound peace, contemplation, and the immensity of creation. A solitary, distant figure might be barely visible, emphasizing introspection.",
+      "image_path": "bg03_desert_sunrise.jpg"
+    },
+    {
+      "bg_id": "bg04",
+      "theme": "calligraphy_studio",
+      "prompt": "An immaculate, minimalist calligraphy studio, bathed in soft, diffused light from a high window. Geometric light patterns fall across a clean wooden desk where a single piece of parchment lies, partially inscribed with elegant Arabic script. Inkwells, finely crafted pens, and a small, polished stone for grinding pigments are neatly arranged. The scene suggests precision, artistry, and spiritual devotion through craft.",
+      "image_path": "bg04_calligraphy_studio.jpg"
+    }
+  ],
+  "slides": [
+    {
+      "segment_id": "s01",
+      "slide_type": "title_slide",
+      "background_id": "bg01",
+      "content": {
+        "title": "Knowledge Without Action",
+        "subtitle": "Imam al-Ghazali's Counsel to His Student"
+      },
+      "est_start_s": 0,
+      "est_end_s": 90,
+      "overlay_text": "Knowledge Without Action: Ghazali's Counsel",
+      "prompt_short": "Episode title and subtitle"
+    },
+    {
+      "segment_id": "s02",
+      "slide_type": "quote_slide",
+      "background_id": "bg01",
+      "content": {
+        "text": "Knowledge alone, without righteous deeds, will not benefit you on the Day of Judgment.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 90,
+      "est_end_s": 150,
+      "overlay_text": "Knowledge alone, without deeds, won't benefit.",
+      "prompt_short": "The core verdict from Ghazali"
+    },
+    {
+      "segment_id": "s03",
+      "slide_type": "concept_slide",
+      "background_id": "bg01",
+      "content": {
+        "term": "Basmala",
+        "phonetic": "BAS-ma-la",
+        "definition": "The formula 'In the Name of Allah, the Most Compassionate and the Most Merciful'"
+      },
+      "est_start_s": 150,
+      "est_end_s": 195,
+      "overlay_text": "Basmala: In Allah's Name",
+      "prompt_short": "Definition of Basmala"
+    },
+    {
+      "segment_id": "s04",
+      "slide_type": "concept_slide",
+      "background_id": "bg01",
+      "content": {
+        "term": "Sunnah",
+        "phonetic": "SOON-nah",
+        "definition": "The outward conduct and inner states of the Prophet Muhammad"
+      },
+      "est_start_s": 195,
+      "est_end_s": 240,
+      "overlay_text": "Sunnah: Prophet's conduct and states",
+      "prompt_short": "Definition of Sunnah"
+    },
+    {
+      "segment_id": "s05",
+      "slide_type": "concept_slide",
+      "background_id": "bg01",
+      "content": {
+        "term": "Ahadith",
+        "phonetic": "a-HA-deeth",
+        "definition": "The traditions and sayings of the Prophet Muhammad"
+      },
+      "est_start_s": 240,
+      "est_end_s": 285,
+      "overlay_text": "Ahadith: Prophet's traditions",
+      "prompt_short": "Definition of Ahadith"
+    },
+    {
+      "segment_id": "s06",
+      "slide_type": "quote_slide",
+      "background_id": "bg01",
+      "content": {
+        "text": "If you have received guidance from them, then you have no need of any counsel from me. However, if you have not received benefit from the counsels of the Prophet Muhammad, then tell me — in all these years, what knowledge have you truly acquired from me?",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 285,
+      "est_end_s": 360,
+      "overlay_text": "Ghazali's challenge: What have you learned?",
+      "prompt_short": "Ghazali's direct challenge to his student"
+    },
+    {
+      "segment_id": "s07",
+      "slide_type": "hadith_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "A servant's preoccupation with useless matters is a sign that Allah has withdrawn His special favor from him. And if even a single moment of a servant's life passes in pursuit of something other than that for which Allah created him, then that is a matter of profound sorrow.",
+        "attribution": "The Prophet"
+      },
+      "est_start_s": 360,
+      "est_end_s": 435,
+      "overlay_text": "Useless matters: sign of withdrawn favor",
+      "prompt_short": "First Prophetic warning on wasted time"
+    },
+    {
+      "segment_id": "s08",
+      "slide_type": "hadith_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "An individual whose condition, even after forty years of age, is such that the good within him does not prevail over the evil, should prepare to go to Hell.",
+        "attribution": "The Prophet"
+      },
+      "est_start_s": 435,
+      "est_end_s": 510,
+      "overlay_text": "After forty: good must prevail",
+      "prompt_short": "Second Prophetic warning on life's trajectory"
+    },
+    {
+      "segment_id": "s09",
+      "slide_type": "quote_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "This is the figure the rest of the chapter is aimed at. Such a person thinks it is not necessary to act upon this knowledge and that he or she is exempt from doing so.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 510,
+      "est_end_s": 585,
+      "overlay_text": "The scholar who thinks they're exempt",
+      "prompt_short": "Ghazali's target audience for his warning"
+    },
+    {
+      "segment_id": "s10",
+      "slide_type": "hadith_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "On the Day of Judgment, the most severe torment will be visited upon the scholar whom Allah did not benefit through his knowledge — that is, one who did not act upon what he acquired.",
+        "attribution": "The Prophet"
+      },
+      "est_start_s": 585,
+      "est_end_s": 660,
+      "overlay_text": "Most severe torment: scholar without action",
+      "prompt_short": "Third Prophetic warning on severe torment for scholars"
+    },
+    {
+      "segment_id": "s11",
+      "slide_type": "scenic_break",
+      "background_id": "bg02",
+      "content": {},
+      "est_start_s": 660,
+      "est_end_s": 720,
+      "overlay_text": "The Verdict Pressed Three Times",
+      "prompt_short": "Transition to next section"
+    },
+    {
+      "segment_id": "s12",
+      "slide_type": "quote_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "All discourses and spiritual signs turned out to be of no avail. But certain cycles of prayer I had performed during the Tahajjud were of benefit.",
+        "speaker": "Shaykh Junaid Baghdadi in a dream"
+      },
+      "est_start_s": 720,
+      "est_end_s": 795,
+      "overlay_text": "Junaid's dream: prayers outweighed discourses",
+      "prompt_short": "Shaykh Junaid Baghdadi's dream revelation"
+    },
+    {
+      "segment_id": "s13",
+      "slide_type": "concept_slide",
+      "background_id": "bg02",
+      "content": {
+        "term": "Tahajjud",
+        "phonetic": "ta-HAJ-jud",
+        "definition": "Voluntary night prayers performed in the third portion of the night"
+      },
+      "est_start_s": 795,
+      "est_end_s": 840,
+      "overlay_text": "Tahajjud: Voluntary night prayers",
+      "prompt_short": "Definition of Tahajjud"
+    },
+    {
+      "segment_id": "s14",
+      "slide_type": "quote_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "Be firmly convinced that knowledge alone, without righteous deeds, will not benefit you on the Day of Judgment.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 840,
+      "est_end_s": 900,
+      "overlay_text": "Knowledge alone, without deeds, won't benefit.",
+      "prompt_short": "Reiteration of the core verdict"
+    },
+    {
+      "segment_id": "s15",
+      "slide_type": "quote_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "A person is passing through a jungle or desert carrying ten sharp swords... and then suddenly a lion confronts him. Tell me, can that person be saved without actually using those weapons? You know very well that he cannot.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 900,
+      "est_end_s": 975,
+      "overlay_text": "Lion parable: knowledge without use is useless",
+      "prompt_short": "Ghazali's parable of the lion and swords"
+    },
+    {
+      "segment_id": "s16",
+      "slide_type": "quote_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "A sick person knows that his cure lies in such and such medicines, yet does not take them. Will the knowledge of those medicines and their healing properties actually cure the illness?",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 975,
+      "est_end_s": 1050,
+      "overlay_text": "Medicine parable: knowledge without action won't cure",
+      "prompt_short": "Ghazali's parable of the sick person and medicine"
+    },
+    {
+      "segment_id": "s17",
+      "slide_type": "quote_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "even if you purchase two thousand pounds of wine, you will not become intoxicated until you drink from it.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 1050,
+      "est_end_s": 1125,
+      "overlay_text": "Wine parable: knowledge without consumption is inert",
+      "prompt_short": "Ghazali's parable of wine and intoxication"
+    },
+    {
+      "segment_id": "s18",
+      "slide_type": "verse_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "Human beings will attain only what they have striven for.",
+        "attribution": "Quran",
+        "accent": "Quran"
+      },
+      "est_start_s": 1125,
+      "est_end_s": 1200,
+      "overlay_text": "Striving for what you attain",
+      "prompt_short": "Quranic verse on human striving"
+    },
+    {
+      "segment_id": "s19",
+      "slide_type": "verse_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "And so, whoever shall have done an atom's weight of good shall see it, and whoever shall have done an atom's weight of evil shall see it.",
+        "attribution": "Quran",
+        "accent": "Quran 99:7–8"
+      },
+      "est_start_s": 1200,
+      "est_end_s": 1275,
+      "overlay_text": "Atom's weight of good or evil seen",
+      "prompt_short": "Quranic verse on the atom's weight of deeds"
+    },
+    {
+      "segment_id": "s20",
+      "slide_type": "verse_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "Hence, whoever looks forward with hope and awe to meeting his Lord on the Day of Judgment, let him perform righteous deeds, and let him not ascribe unto anyone or anything a share in the worship due to the Lord.",
+        "attribution": "Quran",
+        "accent": "Quran 18:110"
+      },
+      "est_start_s": 1275,
+      "est_end_s": 1350,
+      "overlay_text": "Meet your Lord: perform righteous deeds",
+      "prompt_short": "Quranic verse on meeting the Lord with deeds"
+    },
+    {
+      "segment_id": "s21",
+      "slide_type": "verse_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "Verily, those who believe in Allah and perform righteous deeds — for them the highest Paradise shall be a welcome abode in which they will dwell forever.",
+        "attribution": "Quran",
+        "accent": "Quran"
+      },
+      "est_start_s": 1350,
+      "est_end_s": 1425,
+      "overlay_text": "Believe and do good: highest Paradise",
+      "prompt_short": "Quranic verse on belief and righteous deeds"
+    },
+    {
+      "segment_id": "s22",
+      "slide_type": "verse_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "Except for those who repented from their sins, and believed, and performed righteous deeds.",
+        "attribution": "Quran",
+        "accent": "Quran"
+      },
+      "est_start_s": 1425,
+      "est_end_s": 1500,
+      "overlay_text": "Repent, believe, act: conditions for exception",
+      "prompt_short": "Quranic verse on repentance, belief, and action"
+    },
+    {
+      "segment_id": "s23",
+      "slide_type": "hadith_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "Islam is built upon five things: to testify that there is none worthy of worship other than Allah and that Muhammad is His Messenger; to establish regular prayers; to pay the Zakat (obligatory charity); to fast during the holy month of Ramadan; and to perform Hajj (pilgrimage) for those who possess the means.",
+        "attribution": "The Prophet"
+      },
+      "est_start_s": 1500,
+      "est_end_s": 1575,
+      "overlay_text": "Islam built on five pillars",
+      "prompt_short": "Hadith on the five pillars of Islam"
+    },
+    {
+      "segment_id": "s24",
+      "slide_type": "concept_slide",
+      "background_id": "bg03",
+      "content": {
+        "term": "Zakat",
+        "phonetic": "za-KAT",
+        "definition": "Obligatory charity given to the poor and needy"
+      },
+      "est_start_s": 1575,
+      "est_end_s": 1620,
+      "overlay_text": "Zakat: Obligatory charity",
+      "prompt_short": "Definition of Zakat"
+    },
+    {
+      "segment_id": "s25",
+      "slide_type": "concept_slide",
+      "background_id": "bg03",
+      "content": {
+        "term": "Hajj",
+        "phonetic": "HAJJ",
+        "definition": "The pilgrimage to Mecca, a religious duty for Muslims"
+      },
+      "est_start_s": 1620,
+      "est_end_s": 1665,
+      "overlay_text": "Hajj: Pilgrimage to Mecca",
+      "prompt_short": "Definition of Hajj"
+    },
+    {
+      "segment_id": "s26",
+      "slide_type": "hadith_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "Iman (faith) is to testify with the tongue, to affirm with the heart, and to act upon the teachings of Islam.",
+        "attribution": "The Prophet"
+      },
+      "est_start_s": 1665,
+      "est_end_s": 1740,
+      "overlay_text": "Iman: Tongue, heart, and limbs",
+      "prompt_short": "Hadith defining Iman (faith)"
+    },
+    {
+      "segment_id": "s27",
+      "slide_type": "scenic_break",
+      "background_id": "bg03",
+      "content": {},
+      "est_start_s": 1740,
+      "est_end_s": 1800,
+      "overlay_text": "The Dream, Parables, and Quranic Seal",
+      "prompt_short": "Transition to next section"
+    },
+    {
+      "segment_id": "s28",
+      "slide_type": "quote_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "Should a thought arise in your heart that I am saying a servant of God will enter Paradise not by Allah's Grace but solely by his own deeds — know that you have not understood my meaning. On the contrary, a servant will enter Paradise because of Allah's Favor, Generosity, and Blessings.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 1800,
+      "est_end_s": 1875,
+      "overlay_text": "Not deeds alone, but Allah's Grace",
+      "prompt_short": "Ghazali's clarification on grace vs. deeds"
+    },
+    {
+      "segment_id": "s29",
+      "slide_type": "quote_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "Unless that servant makes himself deserving of Allah's Mercy through worship and obedience, he will not be in a position to receive that Mercy and Favor.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 1875,
+      "est_end_s": 1950,
+      "overlay_text": "Deserving mercy through worship and obedience",
+      "prompt_short": "Condition for receiving Allah's Mercy"
+    },
+    {
+      "segment_id": "s30",
+      "slide_type": "verse_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "Verily, the Mercy of Allah is close to the doers of good.",
+        "attribution": "Quran",
+        "accent": "Quran"
+      },
+      "est_start_s": 1950,
+      "est_end_s": 2025,
+      "overlay_text": "Allah's Mercy close to doers of good",
+      "prompt_short": "Quranic verse on Allah's Mercy"
+    },
+    {
+      "segment_id": "s31",
+      "slide_type": "quote_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "Allah, the Exalted, created us for His worship and servitude, and our duty is to serve Him — no matter what. He is the Owner of all things and all people, including myself, and He is the All-Powerful.",
+        "speaker": "The worshipper"
+      },
+      "est_start_s": 2025,
+      "est_end_s": 2100,
+      "overlay_text": "Worshipper's reply: serve Him no matter what",
+      "prompt_short": "The worshipper's steadfast reply to the angel"
+    },
+    {
+      "segment_id": "s32",
+      "slide_type": "hadith_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "O My angels! Bear witness, all of you, that I have forgiven him.",
+        "attribution": "Allah, via the Prophet"
+      },
+      "est_start_s": 2100,
+      "est_end_s": 2175,
+      "overlay_text": "Allah's forgiveness for unconditional service",
+      "prompt_short": "Allah's response to the worshipper's devotion"
+    },
+    {
+      "segment_id": "s33",
+      "slide_type": "hadith_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "Take account of yourselves before you are taken to account on the Day of Judgment, and weigh your deeds — that is, critically examine and correct the shortcomings in your deeds — before your deeds are weighed and judged, and reward or punishment is decreed.",
+        "attribution": "The Prophet"
+      },
+      "est_start_s": 2175,
+      "est_end_s": 2250,
+      "overlay_text": "Account for yourselves before judgment",
+      "prompt_short": "Hadith on self-accounting before judgment"
+    },
+    {
+      "segment_id": "s34",
+      "slide_type": "quote_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "a person who thinks he will reach Paradise without righteous striving is self-deluded, and a person who thinks he will reach Paradise through striving alone is merely exhausting himself.",
+        "speaker": "The Commander of the Faithful, Ali ibn Abi Talib"
+      },
+      "est_start_s": 2250,
+      "est_end_s": 2325,
+      "overlay_text": "Ali: Striving needed, but not striving alone",
+      "prompt_short": "Quote from Ali ibn Abi Talib on striving"
+    },
+    {
+      "segment_id": "s35",
+      "slide_type": "quote_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "to desire Paradise without good deeds is itself a sin among the sins.",
+        "speaker": "The early Basran teacher, Hasan al-Basri"
+      },
+      "est_start_s": 2325,
+      "est_end_s": 2400,
+      "overlay_text": "Hasan al-Basri: Desiring Paradise without deeds is sin",
+      "prompt_short": "Quote from Hasan al-Basri on desiring Paradise"
+    },
+    {
+      "segment_id": "s36",
+      "slide_type": "quote_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "the reality is that one should act without admiring one's own actions — but one should never abandon the performance of good deeds, even if there is a risk of self-admiration.",
+        "speaker": "Another intimate of God"
+      },
+      "est_start_s": 2400,
+      "est_end_s": 2475,
+      "overlay_text": "Act without admiration, never abandon deeds",
+      "prompt_short": "Quote from another intimate of God on action"
+    },
+    {
+      "segment_id": "s37",
+      "slide_type": "quote_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "Knowledge alone, without righteous deeds, will not benefit you on the Day of Judgment.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 2475,
+      "est_end_s": 1605,
+      "overlay_text": "Knowledge alone, without deeds, won't benefit.",
+      "prompt_short": "Final reiteration of the core verdict"
+    }
+  ]
+}

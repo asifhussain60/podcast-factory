@@ -148,34 +148,34 @@ def test_extract_chapter_valid_response():
             {"type": "quran", "surah": 2, "ayah": 255, "text_en": "test", "confidence": 0.9},
         ]
     }
-    result = extract_chapter("ch01", "some text", "book", claude_caller=_make_claude_caller(0, payload))
+    result = extract_chapter("ch01", "some text", "book", llm_caller=_make_claude_caller(0, payload))
     assert result.error is None
     assert len(result.atoms) == 1
     assert result.atoms[0]["type"] == "quran"
 
 
 def test_extract_chapter_empty_atoms():
-    result = extract_chapter("ch01", "no citations", "book", claude_caller=_make_claude_caller(0, {"atoms": []}))
+    result = extract_chapter("ch01", "no citations", "book", llm_caller=_make_claude_caller(0, {"atoms": []}))
     assert result.error is None
     assert result.atoms == []
 
 
 def test_extract_chapter_claude_failure():
-    result = extract_chapter("ch01", "text", "book", claude_caller=_make_claude_caller(1))
+    result = extract_chapter("ch01", "text", "book", llm_caller=_make_claude_caller(1))
     assert result.error is not None
     assert result.atoms == []
 
 
 def test_extract_chapter_malformed_json():
     caller = _make_claude_caller(0, raw_text="not json at all")
-    result = extract_chapter("ch01", "text", "book", claude_caller=caller)
+    result = extract_chapter("ch01", "text", "book", llm_caller=caller)
     assert result.error is not None
 
 
 def test_extract_chapter_markdown_fenced_json():
     payload = {"atoms": [{"type": "quran", "surah": 1, "ayah": 1, "text_en": "Al-Fatiha", "confidence": 0.95}]}
     raw_text = "```json\n" + json.dumps(payload) + "\n```"
-    result = extract_chapter("ch01", "text", "book", claude_caller=_make_claude_caller(0, raw_text=raw_text))
+    result = extract_chapter("ch01", "text", "book", llm_caller=_make_claude_caller(0, raw_text=raw_text))
     assert result.error is None
     assert len(result.atoms) == 1
 
@@ -184,7 +184,7 @@ def test_extract_chapter_cost_parsed():
     payload = {"atoms": []}
     def caller(prompt):
         return 0, json.dumps(payload), "0.042"
-    result = extract_chapter("ch01", "text", "book", claude_caller=caller)
+    result = extract_chapter("ch01", "text", "book", llm_caller=caller)
     assert abs(result.cost_usd - 0.042) < 0.001
 
 
@@ -194,7 +194,7 @@ def test_extract_atoms_for_book_no_chapters_dir(tmp_path, isolated_db):
     book_dir = tmp_path / "empty-book"
     book_dir.mkdir()
     caller = _make_claude_caller(0, {"atoms": []})
-    summary = extract_atoms_for_book(book_dir, claude_caller=caller)
+    summary = extract_atoms_for_book(book_dir, llm_caller=caller)
     assert summary.chapters_processed == 0
     assert summary.scratch_path.exists()
 
@@ -212,7 +212,7 @@ def test_extract_atoms_for_book_writes_scratch_jsonl(tmp_path, isolated_db):
         ]
     }
     caller = _make_claude_caller(0, payload)
-    summary = extract_atoms_for_book(book_dir, claude_caller=caller)
+    summary = extract_atoms_for_book(book_dir, llm_caller=caller)
 
     assert summary.chapters_processed == 2
     assert summary.scratch_path.exists()
@@ -235,7 +235,7 @@ def test_extract_atoms_for_book_low_confidence_queued(tmp_path, isolated_db):
         ]
     }
     caller = _make_claude_caller(0, payload)
-    summary = extract_atoms_for_book(book_dir, claude_caller=caller)
+    summary = extract_atoms_for_book(book_dir, llm_caller=caller)
     assert summary.needs_review_count == 1
 
     conn = get_connection()

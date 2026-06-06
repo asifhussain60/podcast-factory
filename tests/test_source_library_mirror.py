@@ -128,9 +128,11 @@ def test_fts_quran_search_finds_verse():
 
 
 def test_fts_quran_search_returns_empty_without_mirror():
+    from scripts.podcast import source_library_mirror
     from scripts.podcast.source_library_mirror import fts_quran_search
-    results = fts_quran_search("praise", conn=None)
-    # No mirror → returns []
+    # Patch open_mirror → None to simulate no mirror regardless of local DB state.
+    with patch.object(source_library_mirror, "open_mirror", return_value=None):
+        results = fts_quran_search("praise", conn=None)
     assert results == []
 
 
@@ -161,8 +163,10 @@ def test_fts_topics_search_finds_topic():
 
 
 def test_fts_topics_search_returns_empty_without_mirror():
+    from scripts.podcast import source_library_mirror
     from scripts.podcast.source_library_mirror import fts_topics_search
-    results = fts_topics_search("esoteric", conn=None)
+    with patch.object(source_library_mirror, "open_mirror", return_value=None):
+        results = fts_topics_search("esoteric", conn=None)
     assert results == []
 
 

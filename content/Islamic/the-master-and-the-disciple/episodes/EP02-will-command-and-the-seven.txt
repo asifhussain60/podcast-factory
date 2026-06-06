@@ -82,10 +82,10 @@ The book under discussion is a tenth-century dialogue treatise from early Fatimi
 
 ## Pronunciation
 
-Each pronunciation directive below corresponds to a term that ACTUALLY APPEARS in the body of this chapter. Speak each term as one fluent unit, not letter-by-letter.
+Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
 
-Pronounce "Quran" as "qur-AAN". Say it as one fluent word.
-Pronounce "imam" as "ee-MAAM". Say it as one fluent word.
+- Quran: qur-AAN
+- imam: ee-MAAM
 
 Do not voice Arabic personal names. The Master, the Boy, the tenth-century author, the Commander of the Faithful, the Prophet, and the green prophet are all referred to by the stable English labels in `## Stable role-labels`. Do not voice Arabic surah names; refer to surahs by their English meaning (*the chapter on the bee*, *the chapter on consultation*, *the chapter on women*, *the chapter on the cave*, *the chapter on the heights*) or lead with the verse's content. The four ranks of the religion are voiced in their English equivalents (*the speakers* or *speaker-prophets*; *the arguments*; *the chiefs*; *the summoners*); do not voice the Arabic terms.
 

@@ -91,7 +91,7 @@ from _validators import (
     CHAPTER_WORD_MIN_HARD, CHAPTER_WORD_MAX_HARD,
     CHAPTER_WORD_MIN_SOFT, CHAPTER_WORD_MAX_SOFT,
     CHAPTER_DEAD_ZONE_MIN, CHAPTER_DEAD_ZONE_MAX,
-    FRAMING_WORD_MIN, FRAMING_WORD_MAX,
+    FRAMING_WORD_MIN, FRAMING_WORD_MAX, FRAMING_CHAR_MAX,
     EP_PATTERN,
     assert_chapters_populated, find_chapter_by_slug,
     load_book_meta_prose_tells,
@@ -199,11 +199,22 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path,
     assert_framing_honorific_bounded_both_sides(cleaned, framing_path)
 
     n = word_count(cleaned)
-    if n < FRAMING_WORD_MIN or n > FRAMING_WORD_MAX:
+    n_chars = len(cleaned)
+    if n < FRAMING_WORD_MIN:
         sys.exit(
             f"ERROR: framing {framing_path.name} produces a customize prompt of {n} "
-            f"words. Target band is {FRAMING_WORD_MIN}-{FRAMING_WORD_MAX}. "
-            f"See infra/claude-agents/podcast-challenger.md (Categories C, D, E for word-count + structure) §5."
+            f"words. Minimum is {FRAMING_WORD_MIN}. "
+            f"See infra/claude-agents/podcast-challenger.md (Categories C, D, E) §5."
+        )
+    if n_chars > FRAMING_CHAR_MAX:
+        sys.exit(
+            f"ERROR: framing {framing_path.name} is {n_chars} characters — exceeds "
+            f"NotebookLM Customize box limit of {FRAMING_CHAR_MAX} chars (empirical "
+            f"5,000-char ceiling, 500-char headroom). NotebookLM silently truncates "
+            f"at ~5,000 chars, discarding name-discipline and do-not lists. "
+            f"Compress the framing to under {FRAMING_CHAR_MAX} characters.\n"
+            f"  Current: {n_chars} chars / {n} words\n"
+            f"  Target:  <{FRAMING_CHAR_MAX} chars  (~{FRAMING_CHAR_MAX // 6} words avg)"
         )
 
     if write:
@@ -246,11 +257,14 @@ def build(book_dir: Path, episode_id: str, check_only: bool = False) -> None:
     extra_tells = load_book_meta_prose_tells(book_dir)
 
     # 1. Validate the chapter (uploaded as-is to NotebookLM as the SOURCE).
-    # Prefer the literary version when present (chapters/literary/{slug}.txt);
-    # fall back to the augmented chapter (chapters/{slug}.txt).
+    # NotebookLM's source is ALWAYS the author-voice enriched chapter
+    # (chapters/{slug}.txt). The modern-prose revoice is a SEPARATE deliverable —
+    # the companion book under book/ — and must NEVER be uploaded to NotebookLM:
+    # the audio is grounded in the author's own voice. See framework.md
+    # "podcast path vs PDF path". (Reversed 2026-06-04: the builder previously
+    # preferred chapters/literary/, which fed the revoice to NotebookLM — backwards.)
     assert_chapters_populated(book_dir)
-    literary_candidate = find_chapter_by_slug(book_dir / "chapters" / "literary", episode_slug, required=False)
-    chapter_file = literary_candidate or find_chapter_by_slug(book_dir / "chapters", episode_slug)
+    chapter_file = find_chapter_by_slug(book_dir / "chapters", episode_slug)
     chapter_words = validate_chapter(chapter_file, extra_tells)
 
     # 1b. Wave N: mint pipeline-guessed section depth assignments (non-blocking).

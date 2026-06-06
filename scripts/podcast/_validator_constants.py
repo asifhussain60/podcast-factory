@@ -21,7 +21,38 @@ CHAPTER_DEAD_ZONE_MAX = 5500
 
 # Framing (CUSTOMIZE PROMPT) word-count bounds — per notebooklm-best-practices.md §5.
 FRAMING_WORD_MIN = 150
-FRAMING_WORD_MAX = 3700
+FRAMING_WORD_MAX = 3700  # kept for back-compat; CHARACTER gate below is the binding one
+
+# NotebookLM Customize box hard character ceiling (empirically measured 2026-06-05).
+# NotebookLM truncates the pasted text at ~5,000 characters; we cap at 4,500 to leave
+# 500-char headroom. This is the P0 gate — a framing that exceeds this will be silently
+# truncated by NotebookLM, discarding name-discipline, do-not lists, and pronunciation
+# imperatives. FRAMING_CHAR_MAX is the binding limit; FRAMING_WORD_MAX is secondary.
+FRAMING_CHAR_MAX = 4500
+
+# ─── Per-episode density ceiling (over-cramming brake, 2026-06-04) ────────────
+# Max words an episode may carry before it counts as "over-crammed" — too many
+# distinct teachings for one focused listen. Profile-aware: dense doctrinal
+# content caps tighter than narrative (whose "extended" episodes can run long
+# precisely because they're low-density). Phase 0d halts-and-surfaces above the
+# ceiling rather than shipping a marathon episode. (Root-causes the case where
+# Ayyuhal Walad's 8,955-word episodes packed ~24 teachings each.)
+EPISODE_DENSITY_CEILING_DENSE = 6000       # Arabic-scholarly / doctrinal
+EPISODE_DENSITY_CEILING_NARRATIVE = 9500   # narrative / consumer (the extended ceiling)
+
+
+def episode_overcrammed(words: int, episode_count: int, ceiling: int) -> int:
+    """Density-brake check (pure). Given a source chapter's word count, how many
+    episodes it currently maps to, and the per-episode density ceiling, return:
+      0  — not over-crammed (per-episode words ≤ ceiling), OR
+      N  — the minimum episode_count this chapter SHOULD use (≥2) so each episode
+           lands at/under the ceiling.
+    """
+    eps = max(1, int(episode_count))
+    per_episode = int(words) // eps
+    if per_episode <= ceiling:
+        return 0
+    return max(2, -(-int(words) // ceiling))  # ceil division
 
 # ─── Regex patterns ──────────────────────────────────────────────────────────
 EP_PATTERN = re.compile(r"^EP(\d+)-(.+)$")
@@ -105,10 +136,31 @@ HONORIFIC_PHRASES = [_compile_honorific(p) for p in _HONORIFICS_RAW
                      if p.startswith(r"\(") or p == "ﷺ"]
 
 # ─── R-PRONUNCIATION-IMPERATIVE (framing) ────────────────────────────────────
-PRONUNCIATION_LINE_OK = re.compile(r"^\s*(Pronounce\s+\"|Do not\s+|Say\s+)", re.MULTILINE)
+# Old passive-list format (asterisk-bold style) — always was bad.
 LEGACY_PASSIVE_PRONUNCIATION = re.compile(
     r"^\s*[-*]?\s*\*[A-Za-z'`\-\s]+\*\s*[:\-]\s*[A-Za-z][\w\-\s]+$",
     re.MULTILINE,
+)
+
+# "Pronounce X as Y" format — causes NotebookLM to say the term twice (R-PRONUNCIATION-DOUBLE).
+# This was the previous "imperative" standard but was empirically the root cause of
+# the double-read bug ("tahajjud, Tahajjud") first identified in Ayyuhal Walad audio.
+PRONOUNCE_AS_DOUBLE_RE = re.compile(
+    r'^\s*(?:-\s+)?Pronounce\s+(?:"[^"]+"|\*[^*]+\*)\s+as\s+["\']',
+    re.MULTILINE,
+)
+
+# Trivial uppercase respelling: "- term: TERM" where the two differ only by case.
+# Adds no phonetic value; P1 flag (not hard fail when anti-doubling instruction present).
+TRIVIAL_UPPERCASE_RESPELLING_RE = re.compile(
+    r"^\s*-\s+([\w'`\-\s]{2,30}):\s+([A-Z][A-Z'\-\s]{1,30})$",
+    re.MULTILINE,
+)
+
+# Required anti-doubling instruction marker in the Pronunciation block.
+ANTI_DOUBLING_INSTRUCTION_RE = re.compile(
+    r"(?i)(say\s+each\s+term\s+once|say\s+it\s+once|never\s+say\s+(?:the\s+)?(?:original|both)|"
+    r"do\s+not\s+(?:repeat|say\s+both)|once.*phonetic|phonetic.*once)",
 )
 
 # ─── R-NOMODERNIZE / R-NOSURPRISE / R-NO-READ-PROMPT (framing) ───────────────

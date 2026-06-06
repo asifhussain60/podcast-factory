@@ -8,6 +8,7 @@
 import { readdir, readFile, stat } from 'node:fs/promises';
 import { extname, join } from 'node:path';
 import { scoreBook, verdictLabel } from './peq-scores';
+import { simplifyTransliteration } from './translit';
 import {
   ACTIVE_CATEGORIES,
   ALLOWED_CATEGORIES,
@@ -104,7 +105,7 @@ export async function summarize(ref: ContentRef): Promise<ContentSummary> {
   const sourceDir = join(ref.dir, '_system', 'source');
   const m4aDir = join(ref.dir, 'm4a');
 
-  const title = await readTitleFromMeta(metaPath) ?? slugToTitle(ref.slug);
+  const title = simplifyTransliteration(await readTitleFromMeta(metaPath) ?? slugToTitle(ref.slug));
   const publicationStatus = await readPublicationStatusFromMeta(metaPath);
   const archetype = await readArchetypeFromMeta(metaPath);
   const bookScore = await scoreBook(ref.dir, archetype);

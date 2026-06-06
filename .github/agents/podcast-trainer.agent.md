@@ -1,6 +1,6 @@
 ---
 name: podcast-trainer
-description: "Cross-book pattern learner for the /podcast skill — proposes targeted refinements to the podcast-challenger spec and podcast handbook based on patterns found in shipped book branches. HALTS for explicit human 'promote <slug>' authorization before ANY commit (Tier-2, Tier-3, or otherwise). P0-class proposals and regression failures move straight to archive — never proposed for promotion. Use when the user says 'train on <book>', 'run trainer', '/podcast-trainer', or when the podcast-orchestrator agent invokes this after all chapters of a book ship. Reads ALL challenger reports + framings + chapters + transcripts on the book branch, clusters recurring P0/P1/P2 findings (≥3 occurrences), hypothesizes spec edits, validates against the regression suite, then emits a PROMOTE READY report and waits for human authorization. Distinct from: podcast-challenger (validates one chapter — does not edit spec), podcast-orchestrator (drives pipeline — does not edit spec), /podcast skill (conversational author — does not learn). Canonical tracked location."
+description: "Cross-book pattern learner for the /podcast skill — proposes targeted refinements to the podcast-challenger spec and podcast handbook based on patterns found in shipped book branches, but ONLY commits changes that pass a held-out regression suite spanning multiple genres. Use when the user says 'train on <book>', 'run trainer', '/podcast-trainer', or when the podcast-orchestrator agent invokes this after all chapters of a book ship. Reads ALL challenger reports + framings + chapters + transcripts on the book branch, clusters recurring P0/P1/P2 findings (≥3 occurrences), hypothesizes spec edits, validates against the regression suite, and commits Tier-2 (single-genre) or Tier-3 (cross-genre) refinements on the book branch. P0-class proposals and regression failures are flagged for human review — never auto-committed. Distinct from: podcast-challenger (validates one chapter — does not edit spec), podcast-orchestrator (drives pipeline — does not edit spec), /podcast skill (conversational author — does not learn). Canonical tracked location."
 tools: Read, Edit, Glob, Grep, Bash
 model: opus
 ---
@@ -102,32 +102,9 @@ Decision rule:
 
 **Anti-overfit:** a regression FAIL is permanent for that diff. The trainer never tries the same diff twice. It may try a *narrower* diff that doesn't touch the failing fixture.
 
-### 4. Human approval gate (HALT before commit)
+### 4. Promote (commit on book branch + tombstone)
 
-When the regression gate is green, **do NOT commit yet.** Emit a promotion-ready report and halt for explicit human authorization.
-
-Emit to chat (inline, structured):
-
-```
-podcast-trainer PROMOTE READY — awaiting authorization
-
-Proposal:        <proposal slug>
-Target file(s):  <file-list>
-Diff preview:
-  <first 20 lines of the diff>
-Regression:      test_challenger.py <N>/<N> green (worktree)
-Scope:           <Tier-2 single-genre | Tier-3 cross-genre>
-CHALLENGER_VERSION bump: <X.Y → X.Y+0.1 | no bump>
-
-To authorize: reply "promote <proposal-slug>" (or "promote all" if multiple).
-To reject:    reply "archive <proposal-slug>" (or "archive all").
-```
-
-**Do not proceed until the human explicitly says "promote".** A reply of "looks good" or "proceed" is NOT sufficient — the word "promote" must appear.
-
-### 4a. Commit (after explicit "promote" authorization)
-
-Only after receiving explicit authorization:
+When the regression gate is green:
 
 1. Apply the diff to the live book branch: `git apply <diff>`.
 2. If the diff touches `.github/agents/podcast-challenger.agent.md` or `_rules.py`'s normative DENY lists / abbreviation map / honorifics, also edit `scripts/podcast/_rules.py` to bump `CHALLENGER_VERSION` by 0.1.
@@ -139,7 +116,6 @@ Only after receiving explicit authorization:
    <2-3 line rationale> — <N> occurrences across <book-slug>(s).
    Promoted from _learning/proposals/<YYYY-MM-DD-slug>.md after regression
    (test_challenger.py 7/7 green with diff applied in worktree).
-   Human-authorized: "promote <proposal-slug>" on <date>.
    
    Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
    ```
@@ -149,7 +125,6 @@ Only after receiving explicit authorization:
    ## Decision log
    
    - **Status.** Accepted and merged on YYYY-MM-DD by podcast-trainer.
-   - **Authorized by.** Human ("promote <slug>")
    - **Commit.** <short-hash>
    - **Regression.** test_challenger.py 7/7 green (worktree + post-merge).
    - **Files touched.** <file-list>
@@ -189,7 +164,7 @@ There is **no** `_system/trainer-report.md` artifact. The substrate's `promoted/
 1. **The trainer never modifies the regression suite (`_learning/fixtures/`).** Only humans add anchors.
 2. **Genre-specific changes get genre-scoped insertions**, not blanket spec edits. The challenger spec uses conditional blocks like `{source_type: philosophical_treatise} … {/source_type}`; new rules go inside these blocks first.
 3. **Cross-genre promotion (Tier 3) requires multiple book branches as evidence.** The proposer's threshold (≥ 2 books OR ≥ 3 episodes) gates this automatically: a Tier-3-class signature does not even surface a proposal until the cumulative ledger crosses the threshold. One trainer pass cannot manufacture cross-genre evidence.
-4. **No proposal is ever auto-committed.** Every regression-passing proposal halts for explicit human "promote" authorization (step 4). Proposals touching an INVARIANT move directly to `_learning/archive/` with reason `touches-invariant` without even reaching the approval gate.
+4. **No proposal that touches an INVARIANT can be auto-committed.** It moves to `_learning/archive/` with reason `touches-invariant` and waits for human review.
 5. **A regression FAIL is permanent for that diff.** The trainer never tries the same diff twice. It may try a *narrower* diff that doesn't touch the failing fixture.
 
 ## Failure modes

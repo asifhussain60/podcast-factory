@@ -290,12 +290,13 @@ def gate_g7_challenger_convergence(workspace: Path, allow_mode_2: bool) -> bool:
 
     verdict = "unknown"
     if report_path.exists():
-        # Tolerant of both `**Verdict:** X` and `**Verdict: X**` shapes; the
-        # in-body per-iteration summaries use the latter. Strict canonical
-        # shape lives in _convergence.py::VERDICT_LINE_RE; we mirror the same
-        # tolerance here so the gate accepts every real-world report shape.
+        # Tolerant of several real-world challenger-report shapes:
+        #   **Verdict:** SHIP-WITH-CAUTION
+        #   **Verdict: X**
+        #   **Verdict (book-level):** SHIP-WITH-CAUTION   ← whole-book sweep
+        # Strict canonical shape lives in _convergence.py::VERDICT_LINE_RE.
         verdict_re = re.compile(
-            r"\*\*Verdict:?\s*\*?\*?\s*:?\s*(SHIP-READY|SHIP-WITH-CAUTION|BLOCKED)",
+            r"\*\*Verdict[^*]*?\*?\*?\s*:?\s*(SHIP-READY|SHIP-WITH-CAUTION|BLOCKED)",
             re.IGNORECASE,
         )
         for line in report_path.read_text().splitlines()[:20]:
@@ -520,6 +521,18 @@ def publish(slug: str, args: argparse.Namespace) -> int:
 
     _info("")
     _info(f"==> DONE. Marked {slug} published ({len(episodes)} episode(s)) in place.")
+
+    # Distribution export — copy PDF + audio + video to Google Drive (non-fatal).
+    if not getattr(args, "skip_export", False):
+        _info("")
+        _info("=== Distribution export ===")
+        try:
+            from export_distribution import export as _dist_export
+            out = Path(args.export_dir).expanduser() if getattr(args, "export_dir", None) else None
+            _dist_export(slug, output_root=out, dry_run=False)
+        except Exception as _exc:
+            _warn(f"distribution export failed (publish succeeded): {_exc}")
+
     return 0
 
 
@@ -600,6 +613,10 @@ def main() -> int:
     )
     parser.add_argument("--force", action="store_true",
                         help="Skip G5 state-checkpoint gate.")
+    parser.add_argument("--skip-export", action="store_true",
+                        help="Skip the post-publish distribution export to Google Drive.")
+    parser.add_argument("--export-dir", metavar="DIR",
+                        help="Override the export output root (default: Google Drive My Drive).")
     args = parser.parse_args()
 
     if not re.match(r"^[a-z0-9]+(-[a-z0-9]+)*$", args.slug):
