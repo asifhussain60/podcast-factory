@@ -138,7 +138,12 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     book_slug = book_dir.name
     in_refined = book_dir / "_system" / "source" / "text" / "refined-english.md"
     in_phonetics = book_dir / "_system" / "source" / "text" / "_phonetics.md"
-    _needs_phonetics = category in ARABIC_SCHOLARLY_CATEGORIES
+    # Phonetics required only for Islamic scholarly content — check content_profile
+    # first (overrides category membership) so fiction/technical books in the
+    # "books" category (which is in ARABIC_SCHOLARLY_CATEGORIES) are not gated on
+    # a _phonetics.md that Phase 0c correctly skipped for them.
+    from _content_profile import is_islamic_scholarly as _is_islamic_scholarly  # local import: avoid circularity
+    _needs_phonetics = (category in ARABIC_SCHOLARLY_CATEGORIES) and _is_islamic_scholarly(book_dir)
     out_rationale = book_dir / "_system" / "source" / "text" / "chapters-rationale.md"
     out_source_map = book_dir / "_system" / "source" / "text" / "source-chapter-map.md"
     chapters_dir = book_dir / "chapters"

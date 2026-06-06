@@ -307,6 +307,17 @@ def author_phase_0c(
     if not is_islamic_scholarly(book_dir):
         profile = resolve_content_profile(book_dir)
         log(f"  phase 0c · SKIPPED (content_profile={profile!r} has no Arabic terms)")
+        # Write a stub so Phase 0d (which checks category membership, not content_profile)
+        # never fails on a missing _phonetics.md prerequisite.
+        stub = book_dir / "_system" / "source" / "text" / "_phonetics.md"
+        if not stub.exists():
+            stub.parent.mkdir(parents=True, exist_ok=True)
+            stub.write_text(
+                f"# phonetics stub — skipped (content_profile={profile!r} has no Arabic terms)\n"
+                f"# Phase 0d will not use this file for phonetic guidance.\n",
+                encoding="utf-8",
+            )
+            log(f"  phase 0c · wrote stub {stub.name} (0d prereq guard)")
         return f"0c skipped: content_profile={profile!r} does not require Arabic phonetic extraction"
 
     book_slug = book_dir.name
