@@ -4,11 +4,15 @@
   "category": "books",
   "branch": "journey-to-the-west-vol-1",
   "status": "draft",
-  "phase": "0f",
-  "phase_status": "halted",
+  "phase": "per-chapter",
+  "phase_status": "pending",
   "last_completed_phase": "06a",
   "next_phase": "0f",
-  "last_error": null,
+  "last_error": {
+    "phase": "per-chapter",
+    "message": "5 chapter(s) failed: birth-of-the-stone-monkey, four-seas-bow-in-submission, the-great-sage-plunders-the-peaches, the-heavenly-stable-and-the-great-sage, the-secret-word-at-the-third-watch. 0 chapter(s) completed. Triage failures or raise per_chapter_cost_cap_usd and --resume.",
+    "ts": "2026-06-06T22:48:06Z"
+  },
   "phases": {
     "0b": {
       "status": "completed",
@@ -42,6 +46,51 @@
       "ts_started": "2026-06-06T22:42:13Z",
       "ts_completed": "2026-06-06T22:42:13Z",
       "series_plan_path": "content/Fiction/journey-to-the-west-vol-1/_system/series-plan.md"
+    },
+    "per-chapter": {
+      "status": "pending",
+      "ts_started": "2026-06-06T22:48:06Z",
+      "completed_slugs": [
+        "birth-of-the-stone-monkey"
+      ],
+      "failed_slugs": [],
+      "chapter_timings": {
+        "birth-of-the-stone-monkey": {
+          "started_ts": "2026-06-06T22:48:06Z",
+          "completed_ts": "2026-06-06T22:48:06Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
+        },
+        "four-seas-bow-in-submission": {
+          "started_ts": "2026-06-06T22:48:06Z",
+          "completed_ts": "2026-06-06T22:48:06Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
+        },
+        "the-great-sage-plunders-the-peaches": {
+          "started_ts": "2026-06-06T22:48:06Z",
+          "completed_ts": "2026-06-06T22:48:06Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
+        },
+        "the-heavenly-stable-and-the-great-sage": {
+          "started_ts": "2026-06-06T22:48:06Z",
+          "completed_ts": "2026-06-06T22:48:06Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
+        },
+        "the-secret-word-at-the-third-watch": {
+          "started_ts": "2026-06-06T22:48:06Z",
+          "completed_ts": "2026-06-06T22:48:06Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
+        }
+      }
     }
   },
   "content_profile": "fiction",
@@ -52,5 +101,5 @@
     33
   ],
   "note": "Step 1 upstream: Claude-on-Max translation of ch 1-33 (complete). Proceeding to 0b narrative refinement.",
-  "ts_updated": "2026-06-06T22:42:13Z"
+  "ts_updated": "2026-06-06T22:48:06Z"
 }
