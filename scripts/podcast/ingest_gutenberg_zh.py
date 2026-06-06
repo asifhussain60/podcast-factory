@@ -160,13 +160,23 @@ def translate_volume(book_dir: Path, *, model_flag: str | None, timeout: int) ->
     if not pairs:
         sys.exit("ERROR: no <!-- chapter N --> markers in chinese-source.md")
 
-    translated: list[str] = []
+    # Per-chapter checkpointing: each translated chapter is written to its own file
+    # so a crash mid-run loses only the in-flight chapter. Re-running skips chapters
+    # already on disk (resume-safe), then assembles raw-extract.md from all of them.
+    ckpt_dir = text_dir / "_chunks" / "0a-translate"
+    ckpt_dir.mkdir(parents=True, exist_ok=True)
+
+    done = 0
     for num, chunk in pairs:
-        # Recover title + body from the chunk (heading line then body).
-        m = re.search(r"#\s*第\d+回[　\s]+(.*)", chunk)
+        ck = ckpt_dir / f"ch-{num:03d}.md"
+        if ck.exists() and ck.stat().st_size > 0:
+            print(f"  chapter {num} · already translated (skip)")
+            done += 1
+            continue
+        m = re.search(r"#\s*第\S*回[　\s]+(.*)", chunk)
         title = (m.group(1).strip() if m else "")
         body = chunk.strip()
-        print(f"  translating chapter {num} ({len(body):,} chars)…")
+        print(f"  translating chapter {num} ({len(body):,} chars)…", flush=True)
         rc, stdout, stderr = _run_claude_p(
             _translate_prompt(num, title, body),
             book_dir=book_dir, phase="0a-translate", step=f"ch{num:03d}",
@@ -175,12 +185,22 @@ def translate_volume(book_dir: Path, *, model_flag: str | None, timeout: int) ->
         if rc != 0:
             sys.exit(f"ERROR: claude -p failed for chapter {num} (rc={rc}): {stderr[:300]}")
         text = parse_text_from_json_stdout(stdout).strip()
+        if not text:
+            sys.exit(f"ERROR: empty translation for chapter {num}")
         if f"<!-- chapter {num} -->" not in text:
             text = f"<!-- chapter {num} -->\n{text}"
-        translated.append(text)
+        ck.write_text(text + "\n", encoding="utf-8")
+        done += 1
+        print(f"  chapter {num} · done ({done}/{len(pairs)})", flush=True)
 
-    out_path.write_text("\n\n".join(translated).strip() + "\n", encoding="utf-8")
-    print(f"  wrote {out_path} ({len(pairs)} chapters)")
+    # Assemble raw-extract.md in chapter order from the checkpoints.
+    assembled: list[str] = []
+    for num, _ in pairs:
+        ck = ckpt_dir / f"ch-{num:03d}.md"
+        if ck.exists():
+            assembled.append(ck.read_text(encoding="utf-8").strip())
+    out_path.write_text("\n\n".join(assembled).strip() + "\n", encoding="utf-8")
+    print(f"  wrote {out_path} ({len(assembled)} chapters)")
     return out_path
 
 

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "book_slug": "journey-to-the-west-vol-1",
+  "category": "books",
+  "branch": "journey-to-the-west-vol-1",
+  "status": "draft",
+  "phase": "0a-translate",
+  "phase_status": "running",
+  "last_completed_phase": "intake",
+  "next_phase": "0b",
+  "last_error": null,
+  "phases": {},
+  "content_profile": "fiction",
+  "source_language": "zh-Hant",
+  "volume": 1,
+  "volume_chapter_range": [1, 33],
+  "note": "Step 1 upstream: Claude-on-Max translation of ch 1-33, then 0b refine + 0d consolidation. Halts for review before Step 2 (PDF) / Step 3 (podcast)."
+}
