@@ -74,18 +74,30 @@ az group create \
   --output none
 echo "    OK"
 
+# Helper: create a Cognitive Services account only if it doesn't already exist.
+# Avoids the "UpdatingCustomDomainNotAllowed" error when re-running the script.
+cs_create_if_missing() {
+  local name="$1" kind="$2" sku="$3"
+  if az cognitiveservices account show \
+       --name "$name" --resource-group "$RESOURCE_GROUP" --output none 2>/dev/null; then
+    echo "    (already exists — skipping create)"
+  else
+    az cognitiveservices account create \
+      --name "$name" \
+      --resource-group "$RESOURCE_GROUP" \
+      --location "$LOCATION" \
+      --kind "$kind" \
+      --sku "$sku" \
+      --yes \
+      --output none
+    echo "    OK"
+  fi
+}
+
 # --- Translator -------------------------------------------------------------
 if [ "$ENABLE_TRANSLATOR" = "true" ]; then
   echo "==> [2/5] Translator: $TRANSLATOR_NAME (SKU $TRANSLATOR_SKU)"
-  az cognitiveservices account create \
-    --name "$TRANSLATOR_NAME" \
-    --resource-group "$RESOURCE_GROUP" \
-    --location "$LOCATION" \
-    --kind TextTranslation \
-    --sku "$TRANSLATOR_SKU" \
-    --yes \
-    --output none
-  echo "    OK"
+  cs_create_if_missing "$TRANSLATOR_NAME" TextTranslation "$TRANSLATOR_SKU"
 else
   echo "==> [2/5] Translator: SKIPPED (ENABLE_TRANSLATOR=false)"
 fi
@@ -93,15 +105,7 @@ fi
 # --- Document Intelligence --------------------------------------------------
 if [ "$ENABLE_DOCINTEL" = "true" ]; then
   echo "==> [3/6] Document Intelligence: $DOCINTEL_NAME (SKU $DOCINTEL_SKU)"
-  az cognitiveservices account create \
-    --name "$DOCINTEL_NAME" \
-    --resource-group "$RESOURCE_GROUP" \
-    --location "$LOCATION" \
-    --kind FormRecognizer \
-    --sku "$DOCINTEL_SKU" \
-    --yes \
-    --output none
-  echo "    OK"
+  cs_create_if_missing "$DOCINTEL_NAME" FormRecognizer "$DOCINTEL_SKU"
 else
   echo "==> [3/6] Document Intelligence: SKIPPED (ENABLE_DOCINTEL=false)"
 fi
@@ -109,15 +113,7 @@ fi
 # --- Speech (Cognitive Services Speech-to-Text) -----------------------------
 if [ "${ENABLE_SPEECH:-false}" = "true" ]; then
   echo "==> [4/6] Speech: $SPEECH_NAME (SKU $SPEECH_SKU)"
-  az cognitiveservices account create \
-    --name "$SPEECH_NAME" \
-    --resource-group "$RESOURCE_GROUP" \
-    --location "$LOCATION" \
-    --kind SpeechServices \
-    --sku "$SPEECH_SKU" \
-    --yes \
-    --output none
-  echo "    OK"
+  cs_create_if_missing "$SPEECH_NAME" SpeechServices "$SPEECH_SKU"
 else
   echo "==> [4/6] Speech: SKIPPED (ENABLE_SPEECH=false)"
 fi
@@ -169,15 +165,7 @@ fi
 # --- Language (TextAnalytics — NER, key-phrase extraction, sentiment) -------
 if [ "${ENABLE_LANGUAGE:-false}" = "true" ]; then
   echo "==> Language: $LANGUAGE_NAME (SKU $LANGUAGE_SKU)"
-  az cognitiveservices account create \
-    --name "$LANGUAGE_NAME" \
-    --resource-group "$RESOURCE_GROUP" \
-    --location "$LOCATION" \
-    --kind TextAnalytics \
-    --sku "$LANGUAGE_SKU" \
-    --yes \
-    --output none
-  echo "    OK"
+  cs_create_if_missing "$LANGUAGE_NAME" TextAnalytics "$LANGUAGE_SKU"
 else
   echo "==> Language: SKIPPED (ENABLE_LANGUAGE=false)"
 fi
@@ -185,26 +173,29 @@ fi
 # --- Azure OpenAI (DALL-E 3) -------------------------------------------------
 if [ "${ENABLE_OPENAI:-false}" = "true" ]; then
   echo "==> Azure OpenAI: $OPENAI_NAME (SKU $OPENAI_SKU)"
-  az cognitiveservices account create \
-    --name "$OPENAI_NAME" \
-    --resource-group "$RESOURCE_GROUP" \
-    --location "$LOCATION" \
-    --kind OpenAI \
-    --sku "$OPENAI_SKU" \
-    --yes \
-    --output none
-  echo "    OK — now deploying DALL-E 3 model..."
-  az cognitiveservices account deployment create \
-    --name "$OPENAI_NAME" \
-    --resource-group "$RESOURCE_GROUP" \
-    --deployment-name "${OPENAI_DALLE_DEPLOYMENT:-dall-e-3}" \
-    --model-name "dall-e-3" \
-    --model-version "${OPENAI_DALLE_VERSION:-3.0}" \
-    --model-format OpenAI \
-    --sku-name Standard \
-    --sku-capacity 1 \
-    --output none
-  echo "    DALL-E 3 deployment '${OPENAI_DALLE_DEPLOYMENT:-dall-e-3}' ready"
+  cs_create_if_missing "$OPENAI_NAME" OpenAI "$OPENAI_SKU"
+  # Deploy the DALL-E 3 model only if the deployment doesn't already exist.
+  DALLE_DEPLOY="${OPENAI_DALLE_DEPLOYMENT:-dall-e-3}"
+  if az cognitiveservices account deployment show \
+       --name "$OPENAI_NAME" \
+       --resource-group "$RESOURCE_GROUP" \
+       --deployment-name "$DALLE_DEPLOY" \
+       --output none 2>/dev/null; then
+    echo "    DALL-E 3 deployment '$DALLE_DEPLOY' already exists — skipping"
+  else
+    echo "    Deploying DALL-E 3 model (this takes ~30 seconds)..."
+    az cognitiveservices account deployment create \
+      --name "$OPENAI_NAME" \
+      --resource-group "$RESOURCE_GROUP" \
+      --deployment-name "$DALLE_DEPLOY" \
+      --model-name "dall-e-3" \
+      --model-version "${OPENAI_DALLE_VERSION:-3.0}" \
+      --model-format OpenAI \
+      --sku-name Standard \
+      --sku-capacity 1 \
+      --output none
+    echo "    DALL-E 3 deployment '$DALLE_DEPLOY' ready"
+  fi
 else
   echo "==> Azure OpenAI: SKIPPED (ENABLE_OPENAI=false)"
 fi
@@ -212,13 +203,17 @@ fi
 # --- Key Vault (optional) ---------------------------------------------------
 if [ "$ENABLE_KEYVAULT" = "true" ]; then
   echo "==> [6/6] Key Vault: $KEYVAULT_NAME"
-  az keyvault create \
-    --name "$KEYVAULT_NAME" \
-    --resource-group "$RESOURCE_GROUP" \
-    --location "$LOCATION" \
-    --enable-rbac-authorization true \
-    --output none
-  echo "    OK"
+  if az keyvault show --name "$KEYVAULT_NAME" --output none 2>/dev/null; then
+    echo "    (already exists — skipping create)"
+  else
+    az keyvault create \
+      --name "$KEYVAULT_NAME" \
+      --resource-group "$RESOURCE_GROUP" \
+      --location "$LOCATION" \
+      --enable-rbac-authorization true \
+      --output none
+    echo "    OK"
+  fi
 
   # Grant the current user RBAC permissions to read/write secrets.
   USER_ID=$(az ad signed-in-user show --query id -o tsv)
