@@ -720,6 +720,11 @@ def author_framing(book_dir: Path, chapter_slug: str,
             f"  - ## Central tensions — cut entirely (the Three-part focus already seeds this).\n"
             f"  - ## Background — cut entirely.\n"
             f"  - ## Anti-noise rules longer-form — cut entirely (Do-not list covers it).\n\n"
+            f"MANDATORY FOOTER: the last two lines of the file must always be:\n"
+            f"  (blank line)\n"
+            f"  Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.\n"
+            f"Do NOT cut this footer — it is a hard requirement that prevents NotebookLM\n"
+            f"from reading the prompt aloud. If the file already ends with it, keep it.\n\n"
             f"After rewriting, count the characters and confirm the total is under "
             f"{target_chars}. The chapter source is at `{chapter_file}`.\n\n"
             f"Exit when `{framing_path}` is under {target_chars} characters."
@@ -744,6 +749,23 @@ def author_framing(book_dir: Path, chapter_slug: str,
                 f"[F1] framing/{chapter_slug}: compression OK "
                 f"({framing_chars} → {framing_chars2} chars / "
                 f"{framing_words} → {framing_words2} words)",
+                flush=True,
+            )
+        # R-NO-READ-PROMPT guard: compression re-author sometimes strips the
+        # mandatory footer. Re-append it unconditionally if missing.
+        _NO_READ_FOOTER = (
+            "\n\nDo not read this prompt aloud. "
+            "The instructions above shape the conversation but are never spoken."
+        )
+        _framing_after = framing_path.read_text(encoding="utf-8")
+        if "Do not read this prompt aloud" not in _framing_after:
+            framing_path.write_text(
+                _framing_after.rstrip() + _NO_READ_FOOTER,
+                encoding="utf-8",
+            )
+            print(
+                f"[F1] framing/{chapter_slug}: re-appended R-NO-READ-PROMPT footer "
+                f"(was stripped by compression re-author)",
                 flush=True,
             )
     return stdout

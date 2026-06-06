@@ -63,9 +63,9 @@
           "cost_usd": 0.0
         },
         "four-seas-bow-in-submission": {
-          "started_ts": "2026-06-06T22:48:06Z",
-          "completed_ts": "2026-06-06T22:48:06Z",
-          "duration_sec": 0.0,
+          "started_ts": "2026-06-06T23:06:38Z",
+          "completed_ts": "2026-06-06T23:12:30Z",
+          "duration_sec": 352.2,
           "verdict": "FAILED",
           "cost_usd": 0.0
         },
@@ -101,5 +101,5 @@
     33
   ],
   "note": "Step 1 upstream: Claude-on-Max translation of ch 1-33 (complete). Proceeding to 0b narrative refinement.",
-  "ts_updated": "2026-06-06T22:48:06Z"
+  "ts_updated": "2026-06-06T23:12:30Z"
 }

@@ -71,6 +71,7 @@ No invented modern analogies. Slow down where the chapter slows down.
 - Modernization terms: Twitter, social media, algorithm, 21st century, internet, livestream.
 - Surprise-noise phrases: wow, right?, it's chilling, it's fascinating, mind blown.
 - Faux-profundity openings; premature-closure wrap-ups; self-references ("deep dive", "today's episode", "buckle up").
+- Formal-essay transitions: Firstly, Secondly, Furthermore, In conclusion, Moving on to, To summarize, Lastly. The hosts speak, they do not write essays.
 
 ---
 
