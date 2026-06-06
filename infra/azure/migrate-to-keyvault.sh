@@ -90,6 +90,17 @@ ENTRIES=()
   "storage-endpoint"
   "storage-account"
 )
+[ "${ENABLE_LANGUAGE:-false}" = "true" ] && ENTRIES+=(
+  "language-key1"
+  "language-endpoint"
+  "language-region"
+)
+[ "${ENABLE_OPENAI:-false}" = "true" ] && ENTRIES+=(
+  "openai-key1"
+  "openai-endpoint"
+  "openai-region"
+  "openai-dalle-deployment"
+)
 
 PUSHED=0
 SKIPPED=0

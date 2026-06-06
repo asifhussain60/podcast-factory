@@ -1,6 +1,6 @@
 # Azure stack — resources, keychain, recreate from scratch
 
-Authoritative reference for the Azure side of the pipeline. The pipeline uses **4 Azure services** for OCR, translation, speech, and storage, plus Azure Key Vault as the canonical secret store for multi-Mac portability.
+Authoritative reference for the Azure side of the pipeline. The pipeline uses **6 Azure services** for OCR, translation, speech, storage, language NLP, and image generation, plus Azure Key Vault as the canonical secret store for multi-Mac portability.
 
 ## Live configuration
 
@@ -19,10 +19,12 @@ Source of truth: [infra/azure/azure-config.env](../../infra/azure/azure-config.e
 | Resource name | Type | SKU | Pipeline phase | Status |
 |---|---|---|---|---|
 | `journal-docintel` | Document Intelligence | S0 | 0a (OCR) | Live |
-| `journal-translator` | Translator | S1 | 0a (AR→EN translation) | Live |
+| `journal-translator` | Translator | S1 | 0a (bulk/utility translation) | Live |
 | `journal-speech` | Speech | S0 | Audio transcription (post-pub) | Live |
 | `journalpodcaststorage` | Storage account | Standard_LRS | Ancillary | Live |
 | `podcast-factory-vault` | Key Vault | Standard | Secret store (all Macs) | **Active** |
+| `journal-language-market` | Language (TextAnalytics) | **F0 free** | Augmentation — NER, key-phrase, sentiment | **Live — wired 2026-06-06** |
+| `journal-openai` | Azure OpenAI | S0 | Image generation — DALL-E 3 | **Pending provision** |
 
 > **Note:** Azure resource names retain the `journal-*` prefix from before the 2026-05-22 repo rename. Only the app namespace (keychain prefix) changed to `podcast-factory`. Renaming the Azure resources themselves is unnecessary.
 
@@ -50,10 +52,17 @@ Resolution priority in [scripts/podcast/_azure.py](../../scripts/podcast/_azure.
 | `azure-podcast-factory-storage-key1` | Storage |
 | `azure-podcast-factory-storage-endpoint` | Storage |
 | `azure-podcast-factory-storage-account` | Storage |
-| `gemini_api_key` | Phase 0b (Gemini refine) |
+| `azure-podcast-factory-language-key1` | Augmentation (NER, key-phrase, sentiment) |
+| `azure-podcast-factory-language-endpoint` | Augmentation |
+| `azure-podcast-factory-language-region` | Augmentation |
+| `azure-podcast-factory-openai-key1` | Image generation (DALL-E 3) |
+| `azure-podcast-factory-openai-endpoint` | Image generation |
+| `azure-podcast-factory-openai-region` | Image generation |
+| `azure-podcast-factory-openai-dalle-deployment` | Image generation (deployment name) |
+| `gemini_api_key` | Gemini tasks (revoice, denoise, audit, reconcile) |
 | `anthropic_api_key` | All Claude pipeline phases |
 
-All 14 entries above are stored in Key Vault (`podcast-factory-vault`) as of 2026-06-02. New Macs pull them all with one command — see bootstrap below.
+All entries are stored in Key Vault (`podcast-factory-vault`). After provisioning `journal-openai` (see below), run `store-keychain-keys.sh` then `migrate-to-keyvault.sh` to add the new secrets. New Macs pull everything with `pull-secrets.sh`.
 
 ## Multi-Mac secret workflow (ACTIVE since 2026-06-02)
 

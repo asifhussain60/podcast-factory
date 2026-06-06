@@ -166,6 +166,49 @@ else
   echo "==> [5/6] Storage: SKIPPED (ENABLE_STORAGE=false)"
 fi
 
+# --- Language (TextAnalytics — NER, key-phrase extraction, sentiment) -------
+if [ "${ENABLE_LANGUAGE:-false}" = "true" ]; then
+  echo "==> Language: $LANGUAGE_NAME (SKU $LANGUAGE_SKU)"
+  az cognitiveservices account create \
+    --name "$LANGUAGE_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --location "$LOCATION" \
+    --kind TextAnalytics \
+    --sku "$LANGUAGE_SKU" \
+    --yes \
+    --output none
+  echo "    OK"
+else
+  echo "==> Language: SKIPPED (ENABLE_LANGUAGE=false)"
+fi
+
+# --- Azure OpenAI (DALL-E 3) -------------------------------------------------
+if [ "${ENABLE_OPENAI:-false}" = "true" ]; then
+  echo "==> Azure OpenAI: $OPENAI_NAME (SKU $OPENAI_SKU)"
+  az cognitiveservices account create \
+    --name "$OPENAI_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --location "$LOCATION" \
+    --kind OpenAI \
+    --sku "$OPENAI_SKU" \
+    --yes \
+    --output none
+  echo "    OK — now deploying DALL-E 3 model..."
+  az cognitiveservices account deployment create \
+    --name "$OPENAI_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --deployment-name "${OPENAI_DALLE_DEPLOYMENT:-dall-e-3}" \
+    --model-name "dall-e-3" \
+    --model-version "${OPENAI_DALLE_VERSION:-3.0}" \
+    --model-format OpenAI \
+    --sku-name Standard \
+    --sku-capacity 1 \
+    --output none
+  echo "    DALL-E 3 deployment '${OPENAI_DALLE_DEPLOYMENT:-dall-e-3}' ready"
+else
+  echo "==> Azure OpenAI: SKIPPED (ENABLE_OPENAI=false)"
+fi
+
 # --- Key Vault (optional) ---------------------------------------------------
 if [ "$ENABLE_KEYVAULT" = "true" ]; then
   echo "==> [6/6] Key Vault: $KEYVAULT_NAME"
