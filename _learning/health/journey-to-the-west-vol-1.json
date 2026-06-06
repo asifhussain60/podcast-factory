@@ -1,0 +1,25 @@
+{
+  "ts": "2026-06-06T00:00Z",
+  "book": "journey-to-the-west-vol-1",
+  "scope": "per-chapter:EP01-birth-of-the-stone-monkey",
+  "chapters_in_scope": 1,
+  "p0": 0,
+  "p1": 1,
+  "p2": 2,
+  "auto_fixes": 0,
+  "score": 0.70,
+  "badge": "Healthy",
+  "verdict": "SHIP-WITH-CAUTION",
+  "challenger_version": "2.4",
+  "notes": "Only remaining P1 is downstream-artifact sync (episodes/EP01-stale vs updated 00-framing.md). Clears with a single deterministic build_episode_txt.py run; sandbox blocked the rebuild this pass.",
+  "prior_run": {
+    "ts": "2026-06-06T00:00Z",
+    "scope": "per-chapter:EP01-birth-of-the-stone-monkey",
+    "chapters_in_scope": 1,
+    "p0": 0,
+    "p1": 8,
+    "p2": 2,
+    "score": 0.30,
+    "verdict": "SHIP-WITH-CAUTION"
+  }
+}
