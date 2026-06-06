@@ -235,3 +235,12 @@ content/drafts/
 # Regenerable from video-prompts.json via generate_video_layer.py; not source-of-truth.
 content/**/video-images/
 content/Islamic/ayyuhal-walad/_system/watchdog.json
+
+# Source archives (TurboScribe exports, zip dumps) — large binaries kept on disk
+# but not tracked in git; re-exportable from TurboScribe or Google Drive.
+content/**/*.zip
+
+# Orchestrator run logs in the review archive — were accidentally committed
+# during kitab-al-riyad development; future logs stay untracked.
+_workspace/reviews/archive/**/*.log
+_workspace/reviews/logs/*.log
