@@ -6,7 +6,27 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-06 (session 15 — Ayyuhal Walad published to Google Drive)
+**Last updated:** 2026-06-06 (session 16 — full repo hygiene + pipeline audit)
+
+**BRANCH: `develop` — CLEAN. 6 commits ahead of origin. Push pending.**
+
+**Session work completed (session 16 — 6 commits 0ee218f → 2632391):**
+
+Full repo hygiene pass + LEARNING_DIR migration + production audit.
+
+  - Hygiene commit: 29 tracked orchestrator log files removed from _workspace/reviews/;
+    TurboScribe zip untracked (kunooz-al-hikmah); gitignore additions for
+    content/**/*.zip + _workspace/reviews/archive/**/*.log.
+  - LEARNING_DIR migration: `content/podcast/.skill/_learning` → `_learning/` in
+    _rules.py + 9 other scripts; 112-entry old findings.jsonl merged into canonical
+    _learning/findings.jsonl (129 total); health file git mv'd; 321 tests green.
+  - knowledge.db untracked (31MB binary slipped into tracking; now correctly gitignored).
+  - _learning/.gitignore added: fences patterns.md / proposals/ / promoted/ / archive/
+    (runtime outputs); findings.jsonl + health/ remain tracked (persistent ledger).
+  - Ayyuhal Walad pipeline state committed: all 4 framings, EP04 episode txt,
+    challenger report, health-trend, orchestrator-state, cost-ledger, augment-ledger.
+  - Production audit (repo-surgeon): phase registry COMPLETE, no tracked binaries, no
+    stale path references, 321 tests green.
 
 **BRANCH: `ayyuhal-walad` — PUBLISHED. Final commit (18c60c2). Ready to merge → develop.**
 
