@@ -327,6 +327,20 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             toc_prompt, timeout=toc_timeout,
             book_dir=book_dir, phase="0d", step="toc",
         )
+        # Stdout fallback: claude -p sometimes emits valid JSON as text output instead
+        # of using the Write tool. Detect and salvage that JSON before failing.
+        if not toc_path.exists() and stdout and stdout.strip().startswith("{"):
+            import re as _re
+            m = _re.search(r"(\{.*\})", stdout, _re.DOTALL)
+            if m:
+                candidate = m.group(1).strip()
+                try:
+                    _json.loads(candidate)  # validate
+                    toc_path.parent.mkdir(parents=True, exist_ok=True)
+                    toc_path.write_text(candidate, encoding="utf-8")
+                    log("  0d-toc · JSON extracted from stdout fallback → saved to disk")
+                except _json.JSONDecodeError:
+                    pass  # not valid JSON — let _assert_artifact surface the error normally
         _assert_artifact(
             phase="0d-toc",
             path=toc_path,
