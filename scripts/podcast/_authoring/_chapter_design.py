@@ -28,6 +28,25 @@ from _validator_constants import (  # noqa: E402
     episode_overcrammed,
 )
 
+def _read_profile_and_planning(book_dir: Path) -> tuple[str, str]:
+    """Return (content_profile, episode_planning_mode) from series-config.yaml.
+
+    Defaults: ('islamic_scholarly', '') when the file or fields are absent — so
+    existing books keep their per-source-chapter behavior with no config change.
+    """
+    cfg_path = book_dir / "_system" / "series-config.yaml"
+    if not cfg_path.exists():
+        return ("islamic_scholarly", "")
+    try:
+        import yaml  # local import — keep module import-light
+        cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return ("islamic_scholarly", "")
+    profile = str(cfg.get("content_profile", "islamic_scholarly")).strip()
+    planning = str(cfg.get("episode_planning_mode", "")).strip()
+    return (profile, planning)
+
+
 # ─── Phase 0d — Chapter design (map-reduce by source chapter) ────────────────
 def build_phase_0d_toc_prompt_technical(book_slug: str) -> str:
     """Phase 0d TOC prompt for technical/developer content (explainers category).
@@ -145,6 +164,18 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             )
     log(f"  phase 0d · category={category!r}, phonetics-required={_needs_phonetics}")
 
+    # Wave-Fiction: CONSOLIDATION mode. A novel arrives as many short source
+    # chapters that each cover one beat of a longer arc; emitting one episode per
+    # chapter yields a 100-episode marathon. Fiction (or an explicit chronological /
+    # vignette planning mode) instead GROUPS adjacent chapters into arc-level
+    # episodes. Driven by content_profile + episode_planning_mode in series-config.
+    _profile, _planning_mode = _read_profile_and_planning(book_dir)
+    _consolidate = (_profile == "fiction") or (
+        _planning_mode in {"chronological", "vignette_grid", "consolidate"})
+    if _consolidate:
+        log(f"  phase 0d · CONSOLIDATION mode (profile={_profile!r}, "
+            f"planning_mode={_planning_mode!r}) — grouping adjacent chapters into arcs")
+
     chunks_dir.mkdir(parents=True, exist_ok=True)
     chapters_dir.mkdir(parents=True, exist_ok=True)
     contracts_dir.mkdir(parents=True, exist_ok=True)
@@ -180,6 +211,23 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         ),
     }[unit_mode]
 
+    consolidation_directive = ""
+    if _consolidate:
+        consolidation_directive = (
+            "\n   (e) CONSOLIDATE (fiction/narrative — APPLY AGGRESSIVELY): the source "
+            "has many short chapters, each one beat of a longer adventure. GROUP "
+            "adjacent chapters that form a single narrative arc into ONE episode unit. "
+            "Represent each group as a SINGLE `source_chapters[]` entry: start_line = "
+            "the first grouped chapter's start, end_line = the last grouped chapter's "
+            "end, unit_mode='chapter', episode_count=1, source_title = an arc name "
+            "(e.g. 'Chapters 1-3: Birth of the Stone Monkey'). Combine enough adjacent "
+            "chapters that each episode lands within the length-tier band — prefer "
+            "FEWER, fuller episodes over many thin ones. NEVER drop or skip story: "
+            "every source chapter's events MUST fall inside exactly one group's line "
+            "range, and groups must tile the whole source with no gaps. List the "
+            "grouped source-chapter numbers in `split_reason`.\n"
+        )
+
     # ── STEP 1: TOC + plan ───────────────────────────────────────────────────
     log("  phase 0d · step 1/3 · TOC + segmentation plan")
 
@@ -208,6 +256,7 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"       skip` in the per-chapter contract so Asif can confirm at Phase 0f.\n"
             f"   (d) RE-DRAW boundaries when a thematic seam falls inside a source chapter —\n"
             f"       cut at the seam, not at the source's heading.\n"
+            f"{consolidation_directive}"
             f"   Reflect your reconfiguration in `split_reason` per source chapter.\n"
             f"2. For each output episode unit, compute its line range in `{in_refined}` "
             f"(1-indexed, inclusive — use `wc -l` style counting; lines are separated by "

@@ -218,6 +218,21 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
             message=f"book.md not found at {book_md_path} — run 0book-compose first.",
             manual_fallback="python3 _book_compose.py <BOOK_DIR>")
 
+    # Wave-Fiction: this phase generates Mermaid TEACHING diagrams (flowchart /
+    # mindmap / graph) for scholarly philosophy — inappropriate for a novel. For
+    # fiction we do NOT inject teaching diagrams; scenic raster illustrations for
+    # the fiction reading edition are produced by the dedicated fiction-illustration
+    # path (Step 2 of the Journey-to-the-West build), not here. Emit a clean
+    # passthrough so downstream (build_book_pdf) still finds book-illustrated.md.
+    from _content_profile import resolve_content_profile  # local import: avoid circularity
+    if resolve_content_profile(book_dir) == "fiction":
+        log(f"    0book-illustrate: {book_dir.name}: content_profile='fiction' — "
+            f"skipping teaching-diagram injection (novels use scenic illustration, not diagrams)")
+        diagram_dir.mkdir(parents=True, exist_ok=True)
+        manifest_path.write_text("[]\n", encoding="utf-8")
+        illustrated_path.write_text(book_md_path.read_text(encoding="utf-8"), encoding="utf-8")
+        return illustrated_path
+
     # Idempotency: skip if all outputs are present and not forcing
     if not force and illustrated_path.exists() and manifest_path.exists():
         try:
