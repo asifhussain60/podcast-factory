@@ -4,20 +4,20 @@ Host A (male) = scholar/teacher. Host B (female) = seeker/questioner. Roles do n
 
 ## Opening directive
 
-Open with a brief, warm welcome in the seeker's voice that greets the listener, names the work as the master's letter to his student called *O Beloved Son*, and previews this episode's teaching: the master hands the disciple eight contours — four habits to refuse, four to take up — so knowledge does not turn against him on the Day of Judgment. Forbidden openers: "Welcome to our…", "in this episode", "let's dive in".
+Open with a brief, warm welcome in the seeker's voice — greet the listener, name the work as the master's letter to his student *O Beloved Son*, and preview in one specific sentence: the master hands the disciple eight contours — four habits to refuse, four to take up — so knowledge does not turn against him on the Day of Judgment. Forbidden openers: "Welcome to our…", "in this episode", "let's dive in", "today we'll discuss".
 
 Immediately the scholar lands the spine verbatim: **Of these eight admonitions, there are four things you must do and four things you must not do — so that your knowledge does not turn against you on the Day of Judgment.** It returns verbatim at the pivot and at the close.
 
 ## Name discipline
 
-The author of the letter → the master. First mention: "the master".
-The Prophet Muhammad → the Prophet. First mention: "the Prophet, peace and blessings of Allah be upon him and his family".
-Prophet 'Isa → Jesus. First mention: "Jesus, peace be upon him".
-'Aisha → Aisha. First mention: "Aisha, may Allah be pleased with her".
-The Prophet's wives → the Mothers of the Believers. First mention: "the Mothers of the Believers".
-The four categories → the jealous one, the foolish one, the impatient simple-minded one, the genuine seeker.
-The six collections → the six most authenticated collections of the Prophet's traditions.
-The master's larger work → the revival of religious knowledge. First mention: "the master's larger work, the revival of religious knowledge".
+The author → **the master**. First: "the master".
+The Prophet Muhammad → **the Prophet**. First: "the Prophet, peace and blessings of Allah be upon him and his family".
+Prophet 'Isa → **Jesus**. First: "Jesus, peace be upon him".
+'Aisha → **Aisha**. First: "Aisha, may Allah be pleased with her".
+The Prophet's wives → **the Mothers of the Believers**.
+The four patients → the jealous one, the foolish one, the impatient simple-minded one, the genuine seeker.
+The Sahah Sitta → **the six most authenticated collections of the Prophet's traditions**.
+The master's larger work → **the revival of religious knowledge**.
 
 ## Pronunciation
 
@@ -25,31 +25,34 @@ Say each term ONCE using its phonetic form. Never say the original spelling and 
 
 - Ghazali: gha-ZAH-lee
 - Aisha: AA-i-sha
+- Shari'ah: sha-REE-ah
+- Tawakkul: ta-WAK-kul
+- Ikhlas: ikh-LAAS
+- Nafs: NAFS
+- Wajib: WAA-jib
+- Shaytan: shay-TAAN
+- Fasiq: FAA-siq
+- Zalim: ZAA-lim
+- Al-Hazr: al-HAZ-r
+- Salaat: sa-LAAT
+- Fard al-'ayn: fard al-AYN
 - Al-Malik: al-MA-lik
 - Al-Wahhab: al-wah-HAAB
-- Al-Hazr: al-HAZ-r
-- Ya Aziz: yaa a-ZEEZ
-- Ya Ghaffar: yaa ghaf-FAAR
-- Ya Kareem: yaa ka-REEM
-- Ya Sattar: yaa sat-TAAR
-- Ya Haleem: yaa ha-LEEM
-- Ya Jabbar: yaa jab-BAAR
-- Ya Azeem: yaa a-ZEEM
-- Ya Qahhar: yaa qah-HAAR
-- Ya Rahman: yaa rah-MAAN
-- Ya Raheem: yaa ra-HEEM
-- Ya Arhamu ar-Rahimeen: yaa ar-HA-mu ar-raa-hi-MEEN
 
 ## Three-part focus
 
-**Frame and four refrainings.** Land the spine, then walk the four prohibitions: debate (narrow exception, two inward signs, the aside on the four categories of patients); preaching (the two guards — what a sermon must not be, what the preacher's heart must not seek); courting rulers; refusing their gifts (even routed through the poor — that thought is Satan's bait).
+**Frame and four refrainings.** Land the spine, then walk: debate (narrow exception, two inward signs — indifference to whose tongue truth comes from, preference for no audience — and the four categories of patients, only the genuine seeker being *Wajib* to answer); preaching (two guards — what a sermon must carry, what the preacher's heart must not seek); courting rulers (praying for an oppressor's long life is praying for the prolongation of oppression); refusing their gifts even routed through the poor — that pious thought is Satan's bait.
 
-**Pivot and four takings-up.** Land the spine verbatim a second time. Then walk: intimate relationship with Allah audited by the household-servant analogy; right relating to the slaves of Allah by the sacred hadith of loving for others; focused study under the one-week-to-live and king-is-visiting images; not stockpiling, calibrated by the Prophet's provision.
+**Pivot and four takings-up.** Land the spine verbatim a second time. Then: relating to Allah audited by the household-servant analogy — you were not the employer, your Real Creator was; right relating to His slaves under the sacred hadith *my slave's faith is never complete until he loves for all human beings what he loves for himself*; focused study under the one-week-to-live thought and the king-is-visiting image, anchored by *Allah does not look at your faces or your outward actions, but at your hearts and your intentions*; not stockpiling beyond a year's provision — calibrated by the Prophet's practice (for the Mothers of the Believers whose reliance was perfect, he set aside nothing).
 
-**Supplication, signature, close.** Walk the supplication in three blocks (abundance, correction, deliverance) and the eleven divine names. Land the spine verbatim a third time. The master closes naming *the Absolute Sovereign* and *the Giver of all*. The seeker turns one reflective question toward the listener, grounded in this chapter's eight contours. Let it hang.
+**Supplication, signature, close.** The master gives one supplication to recite after every *Salaat* — abundance block, correction block, eleven divine names. Land the spine verbatim a third time. The master closes naming *the Absolute Sovereign* and *the Giver of all*. The seeker turns one fresh reflective question toward the listener — which one of these eight contours to begin auditing this week. Let it hang.
+
+## Tone constraints
+
+Three governing analogies, not multiplied: (1) the household-servant analogy — what you would tolerate from your servant audits your conduct with Allah; (2) the one-week-to-live thought — what would still be worth studying; (3) the king-is-visiting house-cleaning image — every room scrubbed because the gaze that matters rests on the heart. Source images (floodwater at the door, Satan on the pulpit) may be quoted in passing but not extended. Do not invent further imagery. Honorifics in full. Quotes verbatim.
 
 ## Do not
 
-Do not use: Twitter, X, social media, algorithm, content creator, internet, YouTube, TikTok, Instagram, livestream, hashtag, 21st century, modern world, platforms like, podcast, blogger, influencer, screen time, notification, wow, that's so interesting, right?, it's chilling, it's profound, mind blown, buckle up, today's episode, today we'll discuss, let's get into it, let's dive in, let's begin, journey into, have you ever wondered, in a world where. Do not paraphrase the master's verbatim sayings. Do not abbreviate honorifics. Do not invent analogies. Do not pre-announce what comes next.
+Do not use: Twitter, X, social media, algorithm, internet, YouTube, TikTok, Instagram, hashtag, 21st century, modern world, platforms like, podcast, influencer. wow, right?, it's chilling, it's profound, mind blown, buckle up. today's episode, today we'll discuss, let's dive in, journey into, have you ever wondered, in a world where. No tidy resolutions, no self-help register, no cross-episode references. Do not abbreviate honorifics. Never pair the leadership-title with the personal name of the Father of Imams.
 
 Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.
