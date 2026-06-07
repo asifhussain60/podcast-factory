@@ -12,44 +12,44 @@ commentary minimal and make sure no numbered term is skipped.
 Say each term ONCE. Do not double or spell-then-say.
 
 - al-Imām al-Nāṭiq: al-imaam an-Naa-tiq
-- Ja'far ibn Mansur al-Yaman: Ja'a-far ibn man-SOOR al-Ya-man
+- Ja'far ibn Mansur al-Yaman: Ja'a-far ibn al-man-SOOR al-Ya-man
 - Ka'b al-Ahbar: KAB al-AH-bar
 - Abd Allah: ab-dul-LAH
-- al-ʿuṣba: al-uth-ba
-- Abu Malik: a-BOO MAA-lik
+- Do NOT say **al-ʿuṣba** — say "The Band Of Eight" instead.
+- Abu Malik: abu mAA-lik
 - al-Bakhtari: al-bakh-ta-REE
-- Ubayd Allah: oo-BAYD ul-LAH
-- Sharia: shaR-EE-ah
+- Ubayd Allah: ubaid ul-LAH
+- Sharia: sha-ree-ah
 - Qur'an: kur-AAN
-- Abu Salih: a-BOO SAA-lih
-- Salih: SAA-lih
+- Abu Salih: abu Saa-leh
+- Salih: Saa-leh
 - al-Khiḍr: al-KHIDR
-- Imam: ee-MAAM
-- Sa'd: SAHD
-- Shu'ayb: shoo-AYB
-- Abu al-Khair: a-BOO al-KHAYR
-- Shariʿa: shaR-EE-ah
+- Imam: e-Maam
+- Sa'd: Sa'ad
+- Shu'ayb: shoo-ayb
+- Abu al-Khair: abu al-KHAYR
+- Shariʿa: sha-ree-ah
 - Allah: al-LAH
-- Shaykh: SHAYKH
+- Shaykh: shay-k
 - ibn: IB-n
-- Bayt al-Ma'mur: bait al-ma'a-MOOR
-- al-Jazira: al-ja-ZEE-rah
+- Bayt al-Ma'mur: bait al-ma'a-moor
+- al-Jazira: al-ja-zee-rah
 - jazā'ir: ja-ZAA-ir
 - Tur: TOOR
 - nuqabā': nu-ka-BAA
 - nāṭiq: NAA-tiq
 - nuqabāʾ: nu-ka-BAA
-- ḥawl: hawl
-- quwwa: QOO-wa
-- du'āt: dua'at
-- awliyāʾ: aww-li-yaa
-- daʿwa: DAH-wa
-- duʿāt: dua'at
-- dāʿī: daa-ee
-- taʾwīl: tah-WEEL
-- sunna: SOON-na
+- Do NOT say **ḥawl** — say "Power" instead.
+- Do NOT say **quwwa** — say "Strength" instead.
+- Do NOT say **du'āt** — say "missionaries" instead.
+- Do NOT say **awliyāʾ** — say "Friends Of Allah" instead.
+- Do NOT say **daʿwa** — say "Religious Mission" instead.
+- Do NOT say **duʿāt** — say "missionaries" instead.
+- Do NOT say **dāʿī** — say "Missionary" instead.
+- Do NOT say **taʾwīl** — say "esoteric" instead.
+- Do NOT say **sunna** — say "Prophetic tradition" instead.
 - zakat: za-KAAT
-- ḥujaj: HOO-jaj
+- ḥujaj: Hu-jaj
 - hadiths: ha-DEETHS
 
 Arabic citations: speak ONCE at first occurrence, then English meaning.

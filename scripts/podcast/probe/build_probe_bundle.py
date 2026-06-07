@@ -21,7 +21,34 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
+
+# Pull normalize_key from the shared ledger so keys match exactly.
+_PROBE_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(_PROBE_DIR.parent / "knowledge"))
+from pronunciation_ledger import normalize_key  # noqa: E402
+
+def _load_library(book_dir: Path) -> dict[str, dict]:
+    """Return a dict keyed by normalize_key(term) from pronunciations.jsonl.
+
+    The library lives at content/knowledge-base/pronunciations.jsonl —
+    two levels above the book slug (content/<Bucket>/<slug>/).
+    Falls back gracefully if the file is absent.
+    """
+    lib_path = book_dir.parent.parent / "knowledge-base" / "pronunciations.jsonl"
+    if not lib_path.exists():
+        return {}
+    result: dict[str, dict] = {}
+    for raw in lib_path.read_text(encoding="utf-8").splitlines():
+        raw = raw.strip()
+        if not raw:
+            continue
+        entry = json.loads(raw)
+        key = entry.get("key") or normalize_key(entry.get("term", ""))
+        result[key] = entry
+    return result
+
 
 SEGMENT_TITLES = {
     "names": "Part 1 — People and scholar names",
@@ -68,7 +95,15 @@ def build_source(data: dict) -> str:
         lines.append(f"## {SEGMENT_TITLES[seg]}")
         lines.append("")
         for t in items:
-            lines.append(f"{t['n']}. Next, say {_carrier(t['term'], t.get('snippet', ''))}.")
+            lib = t.get("_library", {})
+            if lib.get("status") == "unfixable" and lib.get("gloss"):
+                gloss = lib["gloss"]
+                lines.append(
+                    f"{t['n']}. Do NOT say the Arabic term **{t['term']}**. "
+                    f'Instead say the English phrase "{gloss}".'
+                )
+            else:
+                lines.append(f"{t['n']}. Next, say {_carrier(t['term'], t.get('snippet', ''))}.")
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"
 
@@ -92,12 +127,22 @@ def build_framing(data: dict) -> str:
     ]
     needs_authoring: list[dict] = []
     for t in data["terms"]:
-        if t.get("house_style_ok", True) and t.get("phonetic"):
+        lib = t.get("_library", {})
+        lib_status = lib.get("status")
+
+        if lib_status == "unfixable" and lib.get("gloss"):
+            # User marked "Use English translation instead" — tell NLM to skip the Arabic.
+            lines.append(f"- Do NOT say **{t['term']}** — say \"{lib['gloss']}\" instead.")
+        elif lib_status == "confirmed" and lib.get("phonetic"):
+            # Use the saved (human-verified) phonetic from the library.
+            lines.append(f"- {t['term']}: {lib['phonetic']}")
+        elif t.get("house_style_ok", True) and t.get("phonetic"):
+            # Fall back to the probe-terms.json baseline phonetic.
             lines.append(f"- {t['term']}: {t['phonetic']}")
         else:
-            # No valid spoken respelling yet (empty or IPA). Don't feed IPA to
-            # NotebookLM — let it say the term naturally and flag for authoring.
+            # No valid spoken respelling yet — let NLM render naturally.
             needs_authoring.append(t)
+
     if needs_authoring:
         lines += [
             "",
@@ -183,6 +228,13 @@ def build_bundle(book_dir: Path) -> Path:
     data = json.loads(data_path.read_text(encoding="utf-8"))
     if not data.get("terms"):
         raise ValueError("probe-terms.json has no terms (nothing to probe)")
+
+    # Enrich each term with its library entry (confirmed phonetic or unfixable gloss).
+    lib = _load_library(book_dir)
+    for t in data["terms"]:
+        key = normalize_key(t["term"])
+        if key in lib:
+            t["_library"] = lib[key]
 
     out_dir = book_dir / "_system" / "probe" / "EP00-pronunciation-probe"
     out_dir.mkdir(parents=True, exist_ok=True)

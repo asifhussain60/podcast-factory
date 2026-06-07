@@ -11,7 +11,7 @@ clearly, give the one-line context, and move on. Do not skip any item.
 2. Next, say **Ja'far ibn Mansur al-Yaman**.
 3. Next, say **Ka'b al-Ahbar**.
 4. Next, say **Abd Allah**.
-5. Next, say **al-ʿuṣba**.
+5. Do NOT say the Arabic term **al-ʿuṣba**. Instead say the English phrase "The Band Of Eight".
 6. Next, say **Abu Malik**.
 7. Next, say **al-Bakhtari**.
 8. Next, say **Ubayd Allah**.
@@ -41,15 +41,15 @@ clearly, give the one-line context, and move on. Do not skip any item.
 26. Next, say **nuqabā'**.
 27. Next, say **nāṭiq**.
 28. Next, say **nuqabāʾ**.
-29. Next, say **ḥawl**.
-30. Next, say **quwwa**.
-31. Next, say **du'āt**.
-32. Next, say **awliyāʾ**.
-33. Next, say **daʿwa**.
-34. Next, say **duʿāt**.
-35. Next, say **dāʿī**.
-36. Next, say **taʾwīl**.
-37. Next, say **sunna**.
+29. Do NOT say the Arabic term **ḥawl**. Instead say the English phrase "Power".
+30. Do NOT say the Arabic term **quwwa**. Instead say the English phrase "Strength".
+31. Do NOT say the Arabic term **du'āt**. Instead say the English phrase "missionaries".
+32. Do NOT say the Arabic term **awliyāʾ**. Instead say the English phrase "Friends Of Allah".
+33. Do NOT say the Arabic term **daʿwa**. Instead say the English phrase "Religious Mission".
+34. Do NOT say the Arabic term **duʿāt**. Instead say the English phrase "missionaries".
+35. Do NOT say the Arabic term **dāʿī**. Instead say the English phrase "Missionary".
+36. Do NOT say the Arabic term **taʾwīl**. Instead say the English phrase "esoteric".
+37. Do NOT say the Arabic term **sunna**. Instead say the English phrase "Prophetic tradition".
 38. Next, say **zakat**.
 39. Next, say **ḥujaj**.
 40. Next, say **hadiths**.
