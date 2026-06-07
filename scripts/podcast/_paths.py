@@ -78,8 +78,14 @@ def _validate_bucket(bucket: str) -> str:
     return bucket
 
 
-def _resolve_bucket(*, bucket: str | None, profile: str | None, category: str | None) -> str:
-    """Pick the bucket from the most specific signal available. Defaults to Islamic."""
+def resolve_bucket(*, bucket: str | None, profile: str | None, category: str | None) -> str:
+    """Pick the bucket from the most specific signal available. Defaults to Islamic.
+
+    Resolution order (most → least specific): explicit ``bucket`` > ``content_profile``
+    (via ``bucket_for_profile``) > legacy ``category`` (via ``_CATEGORY_TO_BUCKET``).
+    Public so branch-naming (_branching.py) and the path layout share one resolver —
+    folder bucket and branch bucket can never drift.
+    """
     if bucket:
         return _validate_bucket(bucket)
     if profile:
@@ -87,6 +93,10 @@ def _resolve_bucket(*, bucket: str | None, profile: str | None, category: str | 
     if category:
         return _CATEGORY_TO_BUCKET.get(category.strip().lower(), "Islamic")
     return "Islamic"
+
+
+# Back-compat alias for internal callers that used the private name.
+_resolve_bucket = resolve_bucket
 
 
 def status_of(book_dir: Path) -> str:

@@ -236,7 +236,8 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
     # 4. On matching branch
     from _branching import branch_name as _branch_name
     expected_branch = (state or {}).get("branch") or _branch_name(
-        (state or {}).get("category"), book_slug
+        (state or {}).get("category"), book_slug,
+        profile=(state or {}).get("content_profile"),
     )
     rc, branch, _ = _git("rev-parse", "--abbrev-ref", "HEAD")
     branch = branch.strip() if rc == 0 else ""

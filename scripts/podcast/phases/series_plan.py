@@ -363,7 +363,9 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
     body = SERIES_PLAN_TEMPLATE.format(
         title=title,
         book_slug=book_slug,
-        branch=state.get("branch") or _branch_name(state.get("category"), book_slug),
+        branch=state.get("branch") or _branch_name(
+            state.get("category"), book_slug, profile=state.get("content_profile")
+        ),
         ts=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
         orch_version=ORCHESTRATOR_VERSION,
         unit_mode=unit_mode,

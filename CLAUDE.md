@@ -17,23 +17,26 @@ Post-2026-05-23: this app is **machine-agnostic**. Most work is done by Anthropi
 
 The earlier cross-machine coordination model (operator files at `_workspace/plan/operators/`, `~/.machine-id` detection, `book-queue.md` mutex, coordination-protocol §15) was retired 2026-05-23. If you encounter references to operator files or "the peer machine" anywhere, treat them as stale documentation pending cleanup.
 
-## Branch policy — one branch per piece of content (locked 2026-06-04, reverting the typed-prefix model)
+## Branch policy — one branch per piece of content, grouped by content bucket (locked 2026-06-07, supersedes the 2026-06-04 bare-slug model)
 
 Every new piece of content is processed on its own branch off `develop`. The branch is created at intake time and merged back to `develop` ONLY after the publish step completes. This isolates in-flight work from `develop`, preserves a clean per-content ledger, and lets multiple books be in flight without cross-contamination.
 
-**Branch naming** is the **bare full kebab-cased slug** — no typed prefix:
+**Branch naming** is `<Bucket>/<full-slug>` — the branch is grouped under its content **bucket** (the same top-level category folder the content lives in: `Islamic`, `Technical`, `Fiction`, `Guides`). The bucket is derived from the content's `content_profile`, NOT its legacy `category` tag (a `books`-category item can be Islamic OR Fiction):
 
-| Category | Branch | Example |
+| Bucket | Branch | Example |
 |---|---|---|
-| any | `<slug>` | `kitab-al-riyad`, `ayyuhal-walad`, `journey-to-the-west` |
+| Islamic | `Islamic/<slug>` | `Islamic/kitab-al-riyad`, `Islamic/ayyuhal-walad` |
+| Fiction | `Fiction/<slug>` | `Fiction/journey-to-the-west-vol-1` |
+| Technical | `Technical/<slug>` | `Technical/claude-code-training` |
+| Guides | `Guides/<slug>` | `Guides/healthequity` |
 
-Source of truth: [scripts/podcast/_branching.py](scripts/podcast/_branching.py) — every script that computes a branch name imports `branch_name(category, slug)` from there, which now returns the bare slug (the `category` arg is accepted but ignored). The old `book/`, `lecture/`, `letter/` … prefixes were retired 2026-06-04; `branch_prefix()` survives deprecated for back-compat but is no longer used in names. Never hardcode a prefixed branch name anywhere.
+Source of truth: [scripts/podcast/_branching.py](scripts/podcast/_branching.py) — every script that computes a branch name imports `branch_name(category, slug, *, profile=None, bucket=None)` from there, which returns `<Bucket>/<slug>`. The bucket is resolved by `_paths.resolve_bucket` — the SAME resolver the content-folder layout uses — so a branch's bucket can never drift from the folder bucket. Prefer passing `profile=` (the book's `content_profile`); `category` alone falls back to a coarse map defaulting to Islamic. **History:** type prefixes (`book/`, `lecture/`…) were retired 2026-06-04 → bare slug 2026-06-04 → bucket grouping 2026-06-07 (this policy). `branch_prefix()` survives deprecated for back-compat but is no longer used in names. Never hardcode a branch name anywhere.
 
 **Lifecycle**:
-1. `intake_book.py` creates the `<slug>` branch from `develop`, routes the book to `content/<Bucket>/<slug>/` via `content_dir()`, and stamps `status=draft`.
+1. `intake_book.py` creates the `<Bucket>/<slug>` branch from `develop`, routes the book to `content/<Bucket>/<slug>/` via `content_dir()`, and stamps `status=draft`.
 2. Pipeline phases (0a → 0f → per-chapter → authoring → publish) all run on that branch.
 3. `publish_to_library.py` (via the `podcast-publisher` agent) flips `status` → `published` in place (in `orchestrator-state.json` + `meta.yml`) after gates G1–G5+G7 pass. Nothing is copied; G6 (target wipe-safety) is obsolete and dropped from the flow.
-4. The orchestrator merges `<slug>` → `develop` with `--no-ff` after publish completes.
+4. The orchestrator merges `<Bucket>/<slug>` → `develop` with `--no-ff` after publish completes.
 5. `develop` → `main` for production releases requires Asif's explicit approval (unchanged).
 
 ## Run this on session start
@@ -168,7 +171,7 @@ The default discipline is "ask before each shared-state action." Below is the st
 - Phase advancement via `--resume <slug>` on an in-progress book
 - Regenerating auto-generated state files (`chapter-set-report.md`, `challenger-report.md`, mangle-map, etc.)
 - Opening a DRAFT PR from a feature branch to `develop`
-- Orchestrator's automatic `<slug>` → `develop` merge after the `publish` phase completes successfully — this is in-pipeline and not a separate gate
+- Orchestrator's automatic `<Bucket>/<slug>` → `develop` merge after the `publish` phase completes successfully — this is in-pipeline and not a separate gate
 - Running `validate_ship_ready.py <slug>` (read-only G1-G7 gate runner — never writes files)
 - The `/loop` heartbeat re-arms automatically (Tier 0 above) — no separate Tier 1 action needed
 

@@ -133,8 +133,15 @@ def read_state(book_dir: Path) -> dict[str, Any] | None:
         return None
 
 
-def initial_state(book_slug: str, category: str) -> dict[str, Any]:
-    """Build the initial state dict for a new orchestrator run."""
+def initial_state(
+    book_slug: str, category: str, *, content_profile: str | None = None
+) -> dict[str, Any]:
+    """Build the initial state dict for a new orchestrator run.
+
+    ``content_profile`` (when known) selects the branch bucket; otherwise the
+    branch bucket falls back to the legacy ``category`` map — symmetric with how
+    the content folder is resolved at scaffold time.
+    """
     now = _utc_now()
     # Best-effort challenger version stamp.
     try:
@@ -144,14 +151,15 @@ def initial_state(book_slug: str, category: str) -> dict[str, Any]:
     except Exception:
         challenger_version = "unknown"
 
-    # Branch is the bare slug — one branch per item (2026-06-04). See _branching.py.
+    # Branch is <Bucket>/<slug> — bucket-grouped per content profile (2026-06-07).
+    # See _branching.py.
     from _branching import branch_name as _branch_name   # noqa: E402
 
     return {
         "schema_version": SCHEMA_VERSION,
         "book_slug": book_slug,
         "category": category,
-        "branch": _branch_name(category, book_slug),
+        "branch": _branch_name(category, book_slug, profile=content_profile),
         # Publication status (2026-06-04): draft|published|archived. Replaces the
         # drafts/published FOLDER split — publish_to_library.py flips this to
         # 'published' after gates pass. Default draft keeps un-shipped content

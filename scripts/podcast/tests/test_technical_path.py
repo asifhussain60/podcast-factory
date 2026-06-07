@@ -112,11 +112,35 @@ class TestCategoryRouting(unittest.TestCase):
         self.assertEqual(_branching.branch_prefix("explainers"), "explainer")
 
     def test_explainers_branch_name(self):
-        # 2026-06-04: branch is the bare slug (one branch per item); the category
-        # arg is accepted but ignored. branch_prefix() is retained separately.
+        # 2026-06-07: branch is <Bucket>/<slug>, bucket-grouped. The 'explainers'
+        # category maps to the Guides bucket via the legacy category fallback.
         self.assertEqual(
             _branching.branch_name("explainers", "claude-code-training"),
-            "claude-code-training",
+            "Guides/claude-code-training",
+        )
+
+    def test_branch_name_bucket_from_profile(self):
+        # content_profile takes precedence over the legacy category for the bucket.
+        self.assertEqual(
+            _branching.branch_name("books", "journey-to-the-west-vol-1", profile="fiction"),
+            "Fiction/journey-to-the-west-vol-1",
+        )
+        self.assertEqual(
+            _branching.branch_name("books", "ayyuhal-walad", profile="islamic_scholarly"),
+            "Islamic/ayyuhal-walad",
+        )
+
+    def test_branch_name_explicit_bucket_wins(self):
+        self.assertEqual(
+            _branching.branch_name("books", "some-slug", bucket="Technical"),
+            "Technical/some-slug",
+        )
+
+    def test_branch_name_books_category_defaults_islamic(self):
+        # Legacy 'books' category with no profile falls back to the Islamic bucket.
+        self.assertEqual(
+            _branching.branch_name("books", "kitab-al-riyad"),
+            "Islamic/kitab-al-riyad",
         )
 
     def test_sites_branch_prefix_unchanged(self):
