@@ -47,7 +47,7 @@ from typing import Any
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _paths import content_dir  # noqa: E402
+from _paths import resolve_content  # noqa: E402
 
 GOOGLE_DRIVE_CLOUD = Path.home() / "Library" / "CloudStorage"
 PODCAST_LIBRARY    = "Podcast Library"
@@ -56,14 +56,22 @@ PODCAST_LIBRARY    = "Podcast Library"
 # ─── Google Drive detection ───────────────────────────────────────────────────
 
 def _find_google_drive_root() -> Path | None:
-    """Return the 'My Drive' root if Google Drive Desktop is mounted."""
+    """Return the 'My Drive' root if Google Drive Desktop is mounted.
+
+    macOS CloudStorage uses a virtual FUSE-like filesystem where Path.exists()
+    on the GoogleDrive-* subdirectory raises PermissionError even when the
+    actual drive is accessible for reads/writes.  We therefore skip the
+    existence check on the inner path and return it unconditionally — the
+    subsequent mkdir / shutil.copy2 call will fail gracefully if wrong.
+    """
     if not GOOGLE_DRIVE_CLOUD.exists():
         return None
-    for entry in GOOGLE_DRIVE_CLOUD.iterdir():
-        if entry.name.startswith("GoogleDrive-"):
-            my_drive = entry / "My Drive"
-            if my_drive.exists():
-                return my_drive
+    try:
+        for entry in sorted(GOOGLE_DRIVE_CLOUD.iterdir()):
+            if entry.name.startswith("GoogleDrive-"):
+                return entry / "My Drive"
+    except PermissionError:
+        pass
     return None
 
 
@@ -149,15 +157,23 @@ def _find_video(book_dir: Path) -> dict[str, Path]:
 
 
 def _episode_map(book_dir: Path) -> dict[str, str]:
-    """Return {ep_num: human_title} from episode directories."""
+    """Return {ep_num: human_title} from episode .txt files or directories.
+
+    The type-first layout stores episodes as flat EP##-<slug>.txt files;
+    older books used EP##-<slug>/ subdirectories.  Both forms are scanned.
+    """
     episodes_dir = book_dir / "episodes"
     result: dict[str, str] = {}
     if not episodes_dir.exists():
         return result
-    for ep_dir in sorted(episodes_dir.iterdir()):
-        if not ep_dir.is_dir():
+    for ep_entry in sorted(episodes_dir.iterdir()):
+        if ep_entry.is_dir():
+            name = ep_entry.name
+        elif ep_entry.suffix == ".txt":
+            name = ep_entry.stem          # strip .txt → EP##-<slug>
+        else:
             continue
-        num, human = _ep_human_title(ep_dir.name)
+        num, human = _ep_human_title(name)
         if num != "??":
             result[num] = human
     return result
@@ -189,7 +205,7 @@ def export(
     Returns 0 on success (including partial — missing assets are warned).
     Returns 1 if the book directory is not found.
     """
-    book_dir = content_dir(slug)
+    book_dir = resolve_content(slug)
     if not book_dir.exists():
         print(f"export_distribution: book dir not found for '{slug}'",
               file=sys.stderr)
