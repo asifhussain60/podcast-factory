@@ -75,6 +75,19 @@ If `book/book.md` is absent, the book branch never ran (or `series.enable_book_b
 
 ---
 
+## Content-profile gating (Wave-Fiction)
+
+Before any pass, read `BOOK_DIR/_system/series-config.yaml` → `content_profile` (default `islamic_scholarly` if absent). Log the detected profile at the top of every report. The probe catalog below is written for `islamic_scholarly`; for other profiles, gate as follows.
+
+| Profile | Skip these probes | Reinterpret |
+|---|---|---|
+| `islamic_scholarly` | (none — full catalog) | — |
+| `fiction` | **BK-P2** (Arabic-quote survival), **BK-P3** (Arabic-script accuracy), **BK-A4** (plain transliteration), **BK-A5** (tradition fit) — a novel carries no Arabic scripture, no transliteration fold, no doctrinal tradition to fit | **BK-P1** → *no-scene-lost*: flag any scene/character/plot beat present in the source span but absent from the rendered chapter. **BK-P4** → *faithfulness-against-addition*: flag plot, dialogue, characters, or description NOT traceable to the source novel (invention beyond the source). Do NOT flag the novel's own fictional events as "fabrication." |
+
+For `fiction`, **BK-P3 is NOT the headline duty** — there is no supplied Arabic script to verify. The headline duties become BK-P1 (no-scene-lost) and BK-P4 (no-invention-beyond-source). Keep BK-P5 (voice fidelity, read against the fiction `narrator_voice`), BK-A1 (voice consistency), BK-A2 (segmentation sanity), and BK-A3 (preface + TOC integrity) unchanged.
+
+---
+
 ## Probes
 
 10 checks across two passes: 5 per-chapter (Pass 1) + 5 whole-book (Pass 2). Each probe has a severity, a question, a failure condition, and a citation requirement on fail.

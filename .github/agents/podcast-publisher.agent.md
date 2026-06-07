@@ -30,7 +30,7 @@ The script's full contract lives in [scripts/podcast/publish_to_library.py](../.
 
 ### 2. Confirm branch invariant
 - Read the current git branch: `git rev-parse --abbrev-ref HEAD`.
-- Confirm it matches the content branch derived from the slug's category in `orchestrator-state.json` (via [scripts/podcast/_branching.py](../../scripts/podcast/_branching.py) — `branch_name(category, slug)`). Publishing from `develop` directly is allowed only with `--force`.
+- Confirm it matches the content branch stamped in `orchestrator-state.json` (the `branch` field), which is the bucket-grouped `<Bucket>/<slug>` produced by [scripts/podcast/_branching.py](../../scripts/podcast/_branching.py) — `branch_name(category, slug, profile=…)`. Publishing from `develop` directly is allowed only with `--force`.
 
 ### 3. Invoke the publish script
 Always with `--dry-run` first (unless the user explicitly says "live publish"):
