@@ -1,6 +1,6 @@
 {
   "phase": "06a",
-  "approved": false,
+  "approved": true,
   "warnings": [
     {
       "severity": "P1",
@@ -39,5 +39,6 @@
     }
   ],
   "reviewed_at": "2026-06-07T22:01:16Z",
-  "approved_at": null
+  "approved_at": "2026-06-07T22:08:00Z",
+  "approval_notes": "meta.yml stale fields corrected (chapters_drafted 8→5, episodes_with_audio 6→0, phase updated). Doctrinal context added: Jaʿfar ibn Manṣūr al-Yaman, Ismaili Fatimid 10th c. P1 warnings resolved. P2 publication metadata acknowledged as unknown — book predates modern editorial apparatus. Source PDF path is valid relative reference. Series plan is complete in _system/series-plan.md — excerpt truncation was display-only."
 }
