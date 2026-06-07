@@ -52,7 +52,7 @@ export const BOOK_CARD_META: Record<string, BookCardMeta> = {
     nativeTitle: 'كتاب العالم والغلام',
     nativeLang: 'ar',
     displayTitle: 'The Scholar and the Disciple',
-    author: 'Anon. (Ismaili tradition)',
+    author: 'Jaffer bin Mansoor al-Yamen',
     icon: 'fa-graduation-cap',
   },
 
