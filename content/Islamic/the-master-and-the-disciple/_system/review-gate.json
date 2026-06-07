@@ -1,0 +1,43 @@
+{
+  "phase": "06a",
+  "approved": false,
+  "warnings": [
+    {
+      "severity": "P1",
+      "message": "Metadata inconsistency: 'chapters_drafted: 8' but only 5 chapters listed in chapter manifest. Discrepancy of 3 chapters unaccounted for.",
+      "chapter": "meta.yml"
+    },
+    {
+      "severity": "P1",
+      "message": "Source PDF path references relative directory structure '../../../raw/Kitaab_Al-aalim_wal_Ghulam_Chapters/' without verification that files are accessible or indexed. No file inventory provided.",
+      "chapter": "meta.yml"
+    },
+    {
+      "severity": "P2",
+      "message": "Publication metadata block is empty. No translator attribution, publication date, publisher, or edition information provided for authentication.",
+      "chapter": "meta.yml"
+    },
+    {
+      "severity": "P1",
+      "message": "Series Plan excerpt cuts off before 'Essentiality recommendations' table completes. Cannot verify which episodes are flagged as optional/skip without full table.",
+      "chapter": "Series Plan"
+    },
+    {
+      "severity": "P1",
+      "message": "Source files listed ['source-chapter-map.md', '_phonetics.md', 'refined-english.md', 'raw-extract.md', 'chapters-rationale.md'] but none provided for review. Cannot verify original text integrity, translator credentials, or editorial interventions.",
+      "chapter": "Source Files"
+    },
+    {
+      "severity": "P2",
+      "message": "Audio files reference (6 episodes with audio) but no source identification. Unknown whether audio is original recitation, modern narrator, or AI-generated. Required for authentication pipeline.",
+      "chapter": "pipeline"
+    },
+    {
+      "severity": "P1",
+      "message": "No doctrinal context provided. Original 'Kitāb al-ʿĀlim wa-l-Ghulām' attribution unclear—need confirmation of author, school (Sunni/Shia/Ismaili), and time period to assess cross-contamination risk.",
+      "chapter": "meta.yml"
+    }
+  ],
+  "reviewed_at": "2026-06-07T22:01:16Z",
+  "approved_at": null
+}

@@ -3,8 +3,8 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
-  "phase": "0e",
-  "phase_status": "completed",
+  "phase": "06a",
+  "phase_status": "awaiting_human_review",
   "last_completed_phase": "0e",
   "next_phase": "0literary",
   "last_error": null,
@@ -79,6 +79,12 @@
       "ts_started": "2026-06-07T19:20:56Z",
       "ts_completed": "2026-06-07T19:23:45Z",
       "manual_fallback": "1. Review /Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/the-master-and-the-disciple/_system/gap-analysis.md\n2. Edit or annotate as needed (add notes, reject candidates, confirm clarifications).\n3. Resume: python3 scripts/podcast/orchestrate_book.py --resume <slug>"
+    },
+    "06a": {
+      "status": "halted",
+      "ts_started": "2026-06-07T22:01:16Z",
+      "ts_completed": "2026-06-07T22:01:26Z",
+      "gate_warnings": 7
     }
   },
   "completed_slugs": [],
@@ -90,7 +96,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-07T22:01:16Z",
+  "ts_updated": "2026-06-07T22:01:26Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
