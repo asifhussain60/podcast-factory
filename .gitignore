@@ -156,6 +156,10 @@ plan-dashboard/knowledge.db
 plan-dashboard/knowledge.db-shm
 plan-dashboard/knowledge.db-wal
 
+# Dev-server daemon logs (launchd, pm2, etc.) — regenerated on every start.
+plan-dashboard/dev.launchd*.log
+plan-dashboard/*.launchd*.log
+
 # Wave L categorization run artifacts — reproducible via categorize_atoms.py;
 # the committed knowledge.db carries the source-of-truth content_level values.
 # (Both case variants listed for the macOS APFS / git case-fold mismatch.)
