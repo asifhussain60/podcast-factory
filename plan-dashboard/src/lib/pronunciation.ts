@@ -32,10 +32,12 @@ export interface ProbeTerm {
   freq: number;
   score: number;
   reasons: string[];
+  arabic_script: string;       // baked from glossary.yml by score_pronunciation_risk.py
   // ── live library overlay (added here) ──
   libraryStatus: 'confirmed' | 'unfixable' | null;
   libraryPhonetic: string;
   libraryGloss: string;
+  arabicScript: string;        // exposed to the UI (alias of arabic_script, set in getProbe)
 }
 
 export interface ProbeBookSummary {
@@ -141,6 +143,7 @@ export async function getProbe(slug: string): Promise<ProbeDetail | null> {
     const hit = lib.get(normalizeKey(t.term));
     return {
       ...t,
+      arabicScript: t.arabic_script ?? '',
       libraryStatus: hit ? hit.status : null,
       libraryPhonetic: hit?.phonetic ?? '',
       libraryGloss: hit?.gloss ?? '',
