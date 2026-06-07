@@ -61,7 +61,7 @@
     {
       "term": "Ka'b al-Ahbar",
       "transliteration": "Kaʿb al-Aḥbār",
-      "phonetic": "Ka'AB al-AHh-baar",
+      "phonetic": "KAB al-AH-bar",
       "house_style_ok": true,
       "suggested_baseline": "Ka'AB al-AHh-baar",
       "signature": [
@@ -86,7 +86,7 @@
     {
       "term": "Abd Allah",
       "transliteration": "ʿAbd Allāh",
-      "phonetic": "AB-dal-LAH",
+      "phonetic": "ab-dul-LAH",
       "house_style_ok": true,
       "suggested_baseline": "AB-dal-LAH",
       "signature": [
@@ -216,7 +216,7 @@
     {
       "term": "Qur'an",
       "transliteration": "Qurʾān",
-      "phonetic": "qur-AAN",
+      "phonetic": "kur-AAN",
       "house_style_ok": true,
       "suggested_baseline": "qur-AAN",
       "signature": [
@@ -238,7 +238,7 @@
     {
       "term": "Abu Salih",
       "transliteration": "Abū Ṣāliḥ",
-      "phonetic": "a-BOO SAA-leh",
+      "phonetic": "a-BOO SAA-lih",
       "house_style_ok": true,
       "suggested_baseline": "a-BOO SAA-leh",
       "signature": [
@@ -259,7 +259,7 @@
     {
       "term": "Salih",
       "transliteration": "Ṣāliḥ",
-      "phonetic": "Saaa-lih",
+      "phonetic": "SAA-lih",
       "house_style_ok": true,
       "suggested_baseline": "Saaa-lih",
       "signature": [
@@ -279,7 +279,7 @@
     {
       "term": "al-Khiḍr",
       "transliteration": "al-Khiḍr",
-      "phonetic": "al-khizar",
+      "phonetic": "al-KHIDR",
       "house_style_ok": true,
       "suggested_baseline": "al-khizar",
       "signature": [
@@ -301,7 +301,7 @@
     {
       "term": "Imam",
       "transliteration": "imām",
-      "phonetic": "Imam",
+      "phonetic": "ee-MAAM",
       "house_style_ok": true,
       "suggested_baseline": "Imam",
       "signature": [],
@@ -535,7 +535,7 @@
     {
       "term": "nuqabā'",
       "transliteration": "nuqabā'",
-      "phonetic": "nu-qa-baa",
+      "phonetic": "nu-ka-BAA",
       "house_style_ok": true,
       "suggested_baseline": "nu-qa-baa",
       "signature": [
@@ -580,7 +580,7 @@
     {
       "term": "nuqabāʾ",
       "transliteration": "nuqabāʾ",
-      "phonetic": "nu-qa-baa",
+      "phonetic": "nu-ka-BAA",
       "house_style_ok": true,
       "suggested_baseline": "nu-qa-baa",
       "signature": [
@@ -623,7 +623,7 @@
     {
       "term": "quwwa",
       "transliteration": "quwwa",
-      "phonetic": "quw-wwah",
+      "phonetic": "QOO-wa",
       "house_style_ok": true,
       "suggested_baseline": "quw-wwah",
       "signature": [
@@ -685,7 +685,7 @@
     {
       "term": "daʿwa",
       "transliteration": "daʿwa",
-      "phonetic": "da'a-wa",
+      "phonetic": "DAH-wa",
       "house_style_ok": true,
       "suggested_baseline": "da'a-wa",
       "signature": [
@@ -746,7 +746,7 @@
     {
       "term": "taʾwīl",
       "transliteration": "taʾwīl",
-      "phonetic": "ta-veel",
+      "phonetic": "tah-WEEL",
       "house_style_ok": true,
       "suggested_baseline": "ta-veel",
       "signature": [
@@ -766,7 +766,7 @@
     {
       "term": "sunna",
       "transliteration": "sunna",
-      "phonetic": "Sunn-nah",
+      "phonetic": "SOON-na",
       "house_style_ok": true,
       "suggested_baseline": "Sunn-nah",
       "signature": [
@@ -802,7 +802,7 @@
     {
       "term": "ḥujaj",
       "transliteration": "ḥujaj",
-      "phonetic": "Hu-jaj",
+      "phonetic": "HOO-jaj",
       "house_style_ok": true,
       "suggested_baseline": "Hu-jaj",
       "signature": [

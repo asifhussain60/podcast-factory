@@ -17,18 +17,18 @@ phonetic in the library; a respelling -> confirm the corrected form; a
 |---|------|----------|-----|-----|
 | 1 | al-Imām al-Nāṭiq | al-imaam an-Naa-tiq |  |  |
 | 2 | Ja'far ibn Mansur al-Yaman | Ja'a-far ibn man-SOOR al-Ya-man |  |  |
-| 3 | Ka'b al-Ahbar | Ka'AB al-AHh-baar |  |  |
-| 4 | Abd Allah | AB-dal-LAH |  |  |
+| 3 | Ka'b al-Ahbar | KAB al-AH-bar |  |  |
+| 4 | Abd Allah | ab-dul-LAH |  |  |
 | 5 | al-ʿuṣba | al-uth-ba |  |  |
 | 6 | Abu Malik | a-BOO MAA-lik |  |  |
 | 7 | al-Bakhtari | al-bakh-ta-REE |  |  |
 | 8 | Ubayd Allah | oo-BAYD ul-LAH |  |  |
 | 9 | Sharia | shaR-EE-ah |  |  |
-| 10 | Qur'an | qur-AAN |  |  |
-| 11 | Abu Salih | a-BOO SAA-leh |  |  |
-| 12 | Salih | Saaa-lih |  |  |
-| 13 | al-Khiḍr | al-khizar |  |  |
-| 14 | Imam | Imam |  |  |
+| 10 | Qur'an | kur-AAN |  |  |
+| 11 | Abu Salih | a-BOO SAA-lih |  |  |
+| 12 | Salih | SAA-lih |  |  |
+| 13 | al-Khiḍr | al-KHIDR |  |  |
+| 14 | Imam | ee-MAAM |  |  |
 | 15 | Sa'd | SAHD |  |  |
 | 16 | Shu'ayb | shoo-AYB |  |  |
 | 17 | Abu al-Khair | a-BOO al-KHAYR |  |  |
@@ -40,19 +40,19 @@ phonetic in the library; a respelling -> confirm the corrected form; a
 | 23 | al-Jazira | al-ja-ZEE-rah |  |  |
 | 24 | jazā'ir | ja-ZAA-ir |  |  |
 | 25 | Tur | TOOR |  |  |
-| 26 | nuqabā' | nu-qa-baa |  |  |
+| 26 | nuqabā' | nu-ka-BAA |  |  |
 | 27 | nāṭiq | NAA-tiq |  |  |
-| 28 | nuqabāʾ | nu-qa-baa |  |  |
+| 28 | nuqabāʾ | nu-ka-BAA |  |  |
 | 29 | ḥawl | hawl |  |  |
-| 30 | quwwa | quw-wwah |  |  |
+| 30 | quwwa | QOO-wa |  |  |
 | 31 | du'āt | dua'at |  |  |
 | 32 | awliyāʾ | aww-li-yaa |  |  |
-| 33 | daʿwa | da'a-wa |  |  |
+| 33 | daʿwa | DAH-wa |  |  |
 | 34 | duʿāt | dua'at |  |  |
 | 35 | dāʿī | daa-ee |  |  |
-| 36 | taʾwīl | ta-veel |  |  |
-| 37 | sunna | Sunn-nah |  |  |
+| 36 | taʾwīl | tah-WEEL |  |  |
+| 37 | sunna | SOON-na |  |  |
 | 38 | zakat | za-KAAT |  |  |
-| 39 | ḥujaj | Hu-jaj |  |  |
+| 39 | ḥujaj | HOO-jaj |  |  |
 | 40 | hadiths | ha-DEETHS |  |  |
 

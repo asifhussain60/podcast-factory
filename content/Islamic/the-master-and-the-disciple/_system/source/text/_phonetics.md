@@ -15,31 +15,31 @@
 | Kun | Kun | KOON | from which "Kun" — two letters — is derived |
 | fa-yakun | fa-yakūn | fa-ya-KOON | and "fa-yakun" — five letters |
 | minhāj | minhāj | min-HAAJ | its sign a way (minhāj) of darkness |
-| sunna | sunna | Sunn-nah | Then the sunna (custom) of creation in pairs went forth |
+| sunna | sunna | SOON-na | Then the sunna (custom) of creation in pairs went forth |
 | nāṭiq | nāṭiq | NAA-tiq | some are imams and speakers (nāṭiqs) |
-| ḥujaj | ḥujaj | Hu-jaj | some are arguments (ḥujaj) and chiefs (nuqabā') |
-| nuqabā' | nuqabā' | nu-qa-baa | some are arguments (ḥujaj) and chiefs (nuqabā') |
+| ḥujaj | ḥujaj | HOO-jaj | some are arguments (ḥujaj) and chiefs (nuqabā') |
+| nuqabā' | nuqabā' | nu-ka-BAA | some are arguments (ḥujaj) and chiefs (nuqabā') |
 | du'āt | du'āt | dua'at | among them are the summoners (du'āt) to the good |
 | zawāhir | zawāhir | za-WAA-hir | Their summoners are like the manifest stars (zawāhir) |
 | jazā'ir | jazā'ir | ja-ZAA-ir | the twelve islands (jazā'ir), the dwellings of the chiefs |
 | asbāb | asbāb | as-BAAB | the causes (asbāb) of God I have described to you |
 | al-Kabīr | al-Kabīr | al-ka-BEER | Monday is for the bladder, in the great meaning, al-Kabīr |
 | al-Imām al-Nāṭiq | al-Imām al-Nāṭiq | al-imaam an-Naa-tiq | "It is like the speaking Imam (al-Imām al-Nāṭiq), who is exalted above all creation" |
-| Imam | imām | Imam | "It is like the speaking Imam, who is exalted above all creation" |
-| nuqabāʾ | nuqabāʾ | nu-qa-baa | "They are like the twelve chiefs (nuqabā') — the chiefs of the speaking Imam" |
+| Imam | imām | ee-MAAM | "It is like the speaking Imam, who is exalted above all creation" |
+| nuqabāʾ | nuqabāʾ | nu-ka-BAA | "They are like the twelve chiefs (nuqabā') — the chiefs of the speaking Imam" |
 | duʿāt | duʿāt | dua'at | "Its stars are his summoners (du'āt), who call to good with the permission of their Lord" |
 | bāb | bāb | /baːb/ | "It is like the gate (bāb) of the speaking Imam during his lifetime" |
 | waṣī | waṣī | /waˈsˤiː/ | "and his successor (waṣī) after his death" |
-| taʾwīl | taʾwīl | ta-veel | "knowers of the parables and the esoteric interpretation (ta'wīl)" |
+| taʾwīl | taʾwīl | tah-WEEL | "knowers of the parables and the esoteric interpretation (ta'wīl)" |
 | al-falak | al-falak | /al ˈfalak/ | "These are the seven and the orbits (al-falak) — for these are the causes of the great God" |
-| daʿwa | daʿwa | da'a-wa | "the knowledge of the apparent in which there is no da'wa and no summoners" |
-| al-Khiḍr | al-Khiḍr | al-khizar | "You and I would be like Moses and al-Khiḍr" |
+| daʿwa | daʿwa | DAH-wa | "the knowledge of the apparent in which there is no da'wa and no summoners" |
+| al-Khiḍr | al-Khiḍr | al-KHIDR | "You and I would be like Moses and al-Khiḍr" |
 | ḥujja | ḥujja | /ˈħudʒːa/ | "'This is like the hujja (argument),' or 'This is like the dā'ī (caller)'" |
 | dāʿī | dāʿī | daa-ee | "'This is like the hujja (argument),' or 'This is like the dā'ī (caller)'" |
 | al-Ghulām | al-Ghulām | /al ɣuˈlaːm/ | "(152) Al-Ghulam said: I am convinced." |
 | Shariʿa | sharīʿa | shaR-EE-ah | "contains all rulings and the rulings of the Shari'a by reason of his knowledge" |
 | ḥawl | ḥawl | hawl | "the ḥawl (year) is the same ḥawl as in Allah's words" |
-| quwwa | quwwa | quw-wwah | "the public has shown, that 'quwwa' (power) means mules" |
+| quwwa | quwwa | QOO-wa | "the public has shown, that 'quwwa' (power) means mules" |
 | al-ʿuṣba | al-ʿuṣba | al-uth-ba | "the keys to them would have been carried by a band of strong men (al-ʿuṣba)" |
 | yuḥawwil | yuḥawwil | /juˈħawwil/ | "the Imam was called ḥawl because he turns (yuḥawwil) the words of the Creator" |
 | Yūsuf | Yūsuf | /ˈjuːsuf/ | "Yet the command of God was fulfilled in Yusuf" |
@@ -52,23 +52,23 @@
 | Sinai | Sīnāʾ | SEE-nigh | "opened with the light of Sinai" |
 | Shaykh | Shaykh | SHAYKH | "asked permission to enter upon the Shaykh" |
 | Ubayd Allah | ʿUbayd Allāh | oo-BAYD ul-LAH | "Ubayd Allah, son of Abd Allah" |
-| Abd Allah | ʿAbd Allāh | AB-dal-LAH | "Ubayd Allah, son of Abd Allah" |
+| Abd Allah | ʿAbd Allāh | ab-dul-LAH | "Ubayd Allah, son of Abd Allah" |
 | Sa'd | Saʿd | SAHD | "The day of Sa'd, and the guardian of Sa'd" |
 | ihram | iḥrām | ih-RAAM | "he removed his ihram by glorifying the sanctities of Allah" |
 | Hajj | Ḥajj | HAJ | "performed Hajj by the great sign" |
-| da'wa | daʿwa | da'a-wa | "the method of the call (daʿwa)" |
-| Salih | Ṣāliḥ | Saaa-lih | "The boy's name was Salih" |
+| da'wa | daʿwa | DAH-wa | "the method of the call (daʿwa)" |
+| Salih | Ṣāliḥ | SAA-lih | "The boy's name was Salih" |
 | al-Bakhtari | al-Bakhtarī | al-bakh-ta-REE | "his father's name was al-Bakhtari" |
 | Abu Malik | Abū Mālik | a-BOO MAA-lik | "a scholar they called Abu Malik" |
 | ibn | ibn | IB-n | "Salih ibn al-Bakhtari" |
 | hadiths | ḥadīths | ha-DEETHS | "an increase in literature, hadiths, poetry" |
-| Abu Salih | Abū Ṣāliḥ | a-BOO SAA-leh | "O Abu Salih, how is the good son?" |
+| Abu Salih | Abū Ṣāliḥ | a-BOO SAA-lih | "O Abu Salih, how is the good son?" |
 | Abu al-Khair | Abū al-Khayr | a-BOO al-KHAYR | "When did you not do what is virtuous, O Abu al-Khair?" |
-| Ka'b al-Ahbar | Kaʿb al-Aḥbār | Ka'AB al-AHh-baar | "Their nation has come to me, O Ka'b al-Ahbar" |
+| Ka'b al-Ahbar | Kaʿb al-Aḥbār | KAB al-AH-bar | "Their nation has come to me, O Ka'b al-Ahbar" |
 | Maqrub | Maqrūb | mak-ROOB | "a man came to you — Maqrub — and said to you" |
 | Sharia | sharīʿa | shaR-EE-ah | "The Sharia of my age has been lost" |
 | Sunnah | sunnah | SOON-nah | "the Sunnah and the obligations" |
-| Qur'an | Qurʾān | qur-AAN | "you have departed from the meaning of the Qur'an" |
+| Qur'an | Qurʾān | kur-AAN | "you have departed from the meaning of the Qur'an" |
 | alif | alif | AH-lif | "is the alif alone 'O God'" |
 | Shu'ayb | Shuʿayb | shoo-AYB | "Joseph, Jonah, and Shu'ayb, leading up to Moses" |
 | Talut | Ṭālūt | taa-LOOT | "Elias, Talut, David, Solomon, Zechariah, and John" |
