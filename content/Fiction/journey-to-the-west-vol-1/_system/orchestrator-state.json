@@ -4,15 +4,11 @@
   "category": "books",
   "branch": "journey-to-the-west-vol-1",
   "status": "draft",
-  "phase": "per-chapter",
-  "phase_status": "running",
-  "last_completed_phase": "06a",
-  "next_phase": "0f",
-  "last_error": {
-    "phase": "per-chapter",
-    "message": "5 chapter(s) failed: birth-of-the-stone-monkey, four-seas-bow-in-submission, the-great-sage-plunders-the-peaches, the-heavenly-stable-and-the-great-sage, the-secret-word-at-the-third-watch. 0 chapter(s) completed. Triage failures or raise per_chapter_cost_cap_usd and --resume.",
-    "ts": "2026-06-06T22:48:06Z"
-  },
+  "phase": "per-chapter-optimize",
+  "phase_status": "completed",
+  "last_completed_phase": "per-chapter-optimize",
+  "next_phase": "per-chapter-slides",
+  "last_error": null,
   "phases": {
     "0b": {
       "status": "completed",
@@ -48,13 +44,14 @@
       "series_plan_path": "content/Fiction/journey-to-the-west-vol-1/_system/series-plan.md"
     },
     "per-chapter": {
-      "status": "running",
+      "status": "completed",
       "ts_started": "2026-06-06T22:48:06Z",
       "completed_slugs": [
         "birth-of-the-stone-monkey",
         "four-seas-bow-in-submission",
         "the-great-sage-plunders-the-peaches",
-        "the-heavenly-stable-and-the-great-sage"
+        "the-heavenly-stable-and-the-great-sage",
+        "the-secret-word-at-the-third-watch"
       ],
       "failed_slugs": [],
       "chapter_timings": {
@@ -87,13 +84,21 @@
           "cost_usd": 0.0
         },
         "the-secret-word-at-the-third-watch": {
-          "started_ts": "2026-06-06T22:48:06Z",
-          "completed_ts": "2026-06-06T22:48:06Z",
-          "duration_sec": 0.0,
-          "verdict": "FAILED",
+          "started_ts": "2026-06-07T00:34:00Z",
+          "completed_ts": "2026-06-07T00:55:59Z",
+          "duration_sec": 1318.5,
+          "verdict": "SHIP-WITH-CAUTION",
           "cost_usd": 0.0
         }
-      }
+      },
+      "ts_completed": "2026-06-07T00:55:59Z"
+    },
+    "per-chapter-optimize": {
+      "status": "completed",
+      "ts_started": "2026-06-07T00:55:59Z",
+      "ts_completed": "2026-06-07T00:55:59Z",
+      "chapters": 0,
+      "warn": 0
     }
   },
   "content_profile": "fiction",
@@ -104,5 +109,5 @@
     33
   ],
   "note": "Step 1 upstream: Claude-on-Max translation of ch 1-33 (complete). Proceeding to 0b narrative refinement.",
-  "ts_updated": "2026-06-07T00:34:00Z"
+  "ts_updated": "2026-06-07T00:55:59Z"
 }
