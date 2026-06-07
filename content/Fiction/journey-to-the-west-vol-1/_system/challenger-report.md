@@ -77,3 +77,5 @@ None.
 
 > Fixer-pass note (2026-06-06): orchestrator invoked the EP05 (`the-great-sage-plunders-the-peaches`) fixer pass against this report, but the report on disk covers EP03 (`four-seas-bow-in-submission`). The two listed P1 findings target EP03's framing, which is outside the EP05 fixer's allowed-edit scope — no edits applied. Re-run the challenger against EP05 to produce a chapter-matched report before the next fixer pass.
 
+> Fixer-pass note (2026-06-06, EP04): orchestrator invoked the EP04 (`the-heavenly-stable-and-the-great-sage`) fixer pass against this same stale EP03 report. Both listed P1 findings (CHAR-CEILING, HOST-DISCIPLINE-LITE) target EP03's framing and episode `.txt`, which are outside the EP04 fixer's allowed-edit scope — no edits applied. Re-run the challenger against EP04 to produce a chapter-matched report before the next fixer pass.
+
