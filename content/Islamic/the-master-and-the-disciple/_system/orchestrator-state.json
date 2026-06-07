@@ -3,8 +3,8 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
-  "phase": "0f",
-  "phase_status": "halted",
+  "phase": "per-chapter",
+  "phase_status": "running",
   "last_completed_phase": "0e",
   "next_phase": "0literary",
   "last_error": null,
@@ -66,7 +66,37 @@
       "series_plan_path": "content/Islamic/the-master-and-the-disciple/_system/series-plan.md"
     },
     "per-chapter": {
-      "status": "pending"
+      "status": "running",
+      "ts_started": "2026-06-07T22:17:45Z",
+      "completed_slugs": [],
+      "failed_slugs": [
+        "knowledge-versus-action",
+        "spiritual-symbols-and-the-architecture-of-creation",
+        "the-disciple-becomes-master"
+      ],
+      "chapter_timings": {
+        "knowledge-versus-action": {
+          "started_ts": "2026-06-07T22:17:45Z",
+          "completed_ts": "2026-06-07T22:27:15Z",
+          "duration_sec": 570.2,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
+        },
+        "spiritual-symbols-and-the-architecture-of-creation": {
+          "started_ts": "2026-06-07T22:27:15Z",
+          "completed_ts": "2026-06-07T22:42:34Z",
+          "duration_sec": 919.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
+        },
+        "the-disciple-becomes-master": {
+          "started_ts": "2026-06-07T22:42:34Z",
+          "completed_ts": "2026-06-07T23:06:15Z",
+          "duration_sec": 1421.1,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
+        }
+      }
     },
     "0g": {
       "status": "pending"
@@ -99,7 +129,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-07T22:09:02Z",
+  "ts_updated": "2026-06-07T23:06:15Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
