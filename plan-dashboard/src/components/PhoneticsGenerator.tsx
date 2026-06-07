@@ -47,6 +47,7 @@ export default function PhoneticsGenerator() {
         <input
           className="phgen-input"
           type="text"
+          dir="auto"
           value={word}
           onChange={(e) => { setWord(e.target.value); setResult(''); setError(''); }}
           onKeyDown={onKey}

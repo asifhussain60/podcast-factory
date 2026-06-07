@@ -131,8 +131,9 @@
 }
 .phgen-input {
   flex: 1 1 14rem;
-  font-size: 1.5rem;
-  font-family: Amiri, ui-monospace, Menlo, monospace;
+  font-size: 2rem;
+  font-family: 'Traditional Arabic', 'Scheherazade New', Amiri, serif;
+  font-weight: 700;
   padding: 0.45rem 0.6rem;
   border: 1px solid var(--c-rule);
   border-radius: 0.45rem;
