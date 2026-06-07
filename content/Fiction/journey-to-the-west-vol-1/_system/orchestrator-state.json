@@ -4,8 +4,8 @@
   "category": "books",
   "branch": "journey-to-the-west-vol-1",
   "status": "draft",
-  "phase": "per-chapter-slides",
-  "phase_status": "completed",
+  "phase": "finalize",
+  "phase_status": "halted",
   "last_completed_phase": "per-chapter-slides",
   "next_phase": "0book-design",
   "last_error": null,
@@ -163,6 +163,28 @@
         "birth-of-the-stone-monkey": "BLOCKED",
         "four-seas-bow-in-submission": "BLOCKED"
       }
+    },
+    "0book-design": {
+      "status": "skipped",
+      "ts_completed": "2026-06-07T00:56:04Z"
+    },
+    "0book-compose": {
+      "status": "skipped",
+      "ts_completed": "2026-06-07T00:56:04Z"
+    },
+    "0book-illustrate": {
+      "status": "skipped",
+      "ts_completed": "2026-06-07T00:56:04Z"
+    },
+    "0book-render": {
+      "status": "skipped",
+      "ts_completed": "2026-06-07T00:56:04Z"
+    },
+    "finalize": {
+      "status": "halted",
+      "ts_started": "2026-06-07T00:56:04Z",
+      "ts_completed": "2026-06-07T00:56:05Z",
+      "verdict": "SHIP-READY"
     }
   },
   "content_profile": "fiction",
@@ -173,7 +195,7 @@
     33
   ],
   "note": "Step 1 upstream: Claude-on-Max translation of ch 1-33 (complete). Proceeding to 0b narrative refinement.",
-  "ts_updated": "2026-06-07T00:56:04Z",
+  "ts_updated": "2026-06-07T00:56:05Z",
   "slide_decks": {
     "the-great-sage-plunders-the-peaches": {
       "slide_deck_phase": "stalled",

@@ -1,25 +1,25 @@
 {
   "ts": "2026-06-06T00:00Z",
   "book": "journey-to-the-west-vol-1",
-  "scope": "per-chapter:EP01-birth-of-the-stone-monkey",
+  "scope": "per-chapter:EP02-the-secret-word-at-the-third-watch",
   "chapters_in_scope": 1,
   "p0": 0,
-  "p1": 1,
+  "p1": 2,
   "p2": 2,
   "auto_fixes": 0,
-  "score": 0.70,
+  "score": 0.50,
   "badge": "Healthy",
   "verdict": "SHIP-WITH-CAUTION",
   "challenger_version": "2.4",
-  "notes": "Only remaining P1 is downstream-artifact sync (episodes/EP01-stale vs updated 00-framing.md). Clears with a single deterministic build_episode_txt.py run; sandbox blocked the rebuild this pass.",
+  "notes": "EP02 the-secret-word-at-the-third-watch (2026-06-06): zero P0; deterministic scans clean across B, D, E, F, G, H, I, K, M, N, O, Q, R, S, U, V, CS categories (T/A/C/J/O skipped per fiction profile gating). Chapter 7621 words; framing source 521 words / 3343 raw chars; episode.txt 3343 chars — comfortable 1157-char headroom against FRAMING_CHAR_MAX 4500 (no CHAR-CEILING risk on EP02, unlike EP03 sibling at 44-char headroom). Sibling-parity Q3 PASS: all five EP framings declare male-scholar / female-seeker. CS5 chapter-set balance 7.9 percent across the five chapters (7184-7798 words), well under the 30 percent threshold. Two P1s recurring across the book: (1) B5 em-dash density 46 occurrences for classical-narrative cadence and Patriarch dialogue pacing, carried until fiction-profile B5 relaxation lands in _rules.py; (2) HOST-DISCIPLINE-LITE — Host dynamic block names roles cleanly but does not name canonical filler vocabulary (yeah/right/exactly) inside the Host dynamic section nor a cadence directive — DENY-vocab present only in Do not block (line 45). Two P2 advisories carried (B2 canonical Ming-chapter-closer in source voice; E1 length over default band but matching contract length_target extended).",
   "prior_run": {
     "ts": "2026-06-06T00:00Z",
-    "scope": "per-chapter:EP01-birth-of-the-stone-monkey",
+    "scope": "per-chapter:EP03-four-seas-bow-in-submission",
     "chapters_in_scope": 1,
     "p0": 0,
-    "p1": 8,
+    "p1": 2,
     "p2": 2,
-    "score": 0.30,
+    "score": 0.50,
     "verdict": "SHIP-WITH-CAUTION"
   }
 }
