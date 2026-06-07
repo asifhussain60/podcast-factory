@@ -17,7 +17,7 @@
 | minhāj | minhāj | min-HAAJ | its sign a way (minhāj) of darkness |
 | sunna | sunna | Sunn-nah | Then the sunna (custom) of creation in pairs went forth |
 | nāṭiq | nāṭiq | NAA-tiq | some are imams and speakers (nāṭiqs) |
-| ḥujaj | ḥujaj | Huj-jaj | some are arguments (ḥujaj) and chiefs (nuqabā') |
+| ḥujaj | ḥujaj | Hu-jaj | some are arguments (ḥujaj) and chiefs (nuqabā') |
 | nuqabā' | nuqabā' | nu-qa-baa | some are arguments (ḥujaj) and chiefs (nuqabā') |
 | du'āt | du'āt | dua'at | among them are the summoners (du'āt) to the good |
 | zawāhir | zawāhir | za-WAA-hir | Their summoners are like the manifest stars (zawāhir) |
@@ -35,10 +35,10 @@
 | daʿwa | daʿwa | da'a-wa | "the knowledge of the apparent in which there is no da'wa and no summoners" |
 | al-Khiḍr | al-Khiḍr | al-khizar | "You and I would be like Moses and al-Khiḍr" |
 | ḥujja | ḥujja | /ˈħudʒːa/ | "'This is like the hujja (argument),' or 'This is like the dā'ī (caller)'" |
-| dāʿī | dāʿī | /ˈdaːʕiː/ | "'This is like the hujja (argument),' or 'This is like the dā'ī (caller)'" |
+| dāʿī | dāʿī | daa-ee | "'This is like the hujja (argument),' or 'This is like the dā'ī (caller)'" |
 | al-Ghulām | al-Ghulām | /al ɣuˈlaːm/ | "(152) Al-Ghulam said: I am convinced." |
 | Shariʿa | sharīʿa | shaR-EE-ah | "contains all rulings and the rulings of the Shari'a by reason of his knowledge" |
-| ḥawl | ḥawl | /ħawl/ | "the ḥawl (year) is the same ḥawl as in Allah's words" |
+| ḥawl | ḥawl | hawl | "the ḥawl (year) is the same ḥawl as in Allah's words" |
 | quwwa | quwwa | quw-wwah | "the public has shown, that 'quwwa' (power) means mules" |
 | al-ʿuṣba | al-ʿuṣba | /al ˈʕusˤba/ | "the keys to them would have been carried by a band of strong men (al-ʿuṣba)" |
 | yuḥawwil | yuḥawwil | /juˈħawwil/ | "the Imam was called ḥawl because he turns (yuḥawwil) the words of the Creator" |
@@ -46,7 +46,7 @@
 | awliyāʾ | awliyāʾ | aww-li-yaa | "a cause between God and the guardians [awliyāʾ]" |
 | khalīfa | khalīfa | /xaˈliːfa/ | "he is the Imam of Allah and His truthful Caliph" |
 | Ādam | Ādam | /ˈʔaːdam/ | "all of them are from Adam, and Adam is from dust" |
-| zakāt | zakāt | /zaˈkaːt/ | "As for the rightful claim upon it, that is its zakat" |
+| zakāt | zakāt | za-KAAT | "As for the rightful claim upon it, that is its zakat" |
 | zakat | zakāt | za-KAAT | "made his bounty and his zakat his work" |
 | Islam | Islām | iss-LAAM | "the breast He has opened to Islam" |
 | Sinai | Sīnāʾ | SEE-nigh | "opened with the light of Sinai" |
