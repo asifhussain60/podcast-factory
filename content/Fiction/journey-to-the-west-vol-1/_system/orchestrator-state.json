@@ -3,7 +3,7 @@
   "book_slug": "journey-to-the-west-vol-1",
   "category": "books",
   "branch": "journey-to-the-west-vol-1",
-  "status": "draft",
+  "status": "published",
   "phase": "finalize",
   "phase_status": "halted",
   "last_completed_phase": "per-chapter-slides",
@@ -195,7 +195,7 @@
     33
   ],
   "note": "Step 1 upstream: Claude-on-Max translation of ch 1-33 (complete). Proceeding to 0b narrative refinement.",
-  "ts_updated": "2026-06-07T00:56:05Z",
+  "ts_updated": "2026-06-07T09:41:43Z",
   "slide_decks": {
     "the-great-sage-plunders-the-peaches": {
       "slide_deck_phase": "stalled",
@@ -222,5 +222,6 @@
       "slide_challenger_iter": 0,
       "slide_challenger_verdict": "BLOCKED"
     }
-  }
+  },
+  "published_at": "2026-06-07T09:41:43Z"
 }

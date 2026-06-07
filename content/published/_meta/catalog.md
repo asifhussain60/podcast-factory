@@ -8,3 +8,4 @@ tracks one published book. Republish a book to refresh its row.
 | [kitab-al-riyad](../books/kitab-al-riyad/README.md) | 15 | 2026-05-23 | `4e26c46355d1` |
 | [the-master-and-the-disciple](../books/the-master-and-the-disciple/README.md) | 6 | 2026-05-25 | `a664c7c94eef` |
 | [ayyuhal-walad](../books/ayyuhal-walad/README.md) | 4 | 2026-06-06 | `a461861428fb` |
+| [journey-to-the-west-vol-1](../books/journey-to-the-west-vol-1/README.md) | 5 | 2026-06-07 | `38517446e3bb` |
