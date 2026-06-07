@@ -1,0 +1,31 @@
+# podcast-factory pipeline dependencies
+# Install into the project venv:
+#   python3 -m venv .venv
+#   source .venv/bin/activate
+#   pip install -r requirements.txt
+#
+# The venv Python must be used for all pipeline commands (orchestrate_book.py,
+# publish_to_library.py, etc.) because sub-scripts inherit sys.executable.
+# Either activate the venv first, or invoke with .venv/bin/python3 directly.
+
+# ── Core pipeline (Phases 0a → finalize) ────────────────────────────────────
+anthropic==0.107.0          # Claude SDK — SDK refinement path (claude -p uses Max subscription)
+google-genai==2.8.0         # Gemini — Phase 0g bundle audit + Gemini refinement passes
+PyYAML==6.0.3               # YAML parsing throughout (series-config, meta, state)
+pydantic==2.13.4            # Data validation (noise router, phase drivers)
+httpx==0.28.1               # HTTP client (anthropic SDK dep)
+requests==2.34.2            # HTTP client (google-genai dep)
+
+# ── Optional: video layer (generate_video_layer.py + render_slides.py) ──────
+# pillow                    # Slide rendering — install with: pip install pillow
+
+# ── Optional: source library server (Phase 25.1) ────────────────────────────
+# fastapi                   # Knowledge corpus API
+# uvicorn                   # ASGI server for FastAPI
+
+# ── Optional: post-publication audio transcription ──────────────────────────
+# openai-whisper            # Local Whisper transcription (heavy install)
+
+# ── Dev / test ───────────────────────────────────────────────────────────────
+pytest==9.0.3
+Pygments==2.20.0            # Syntax highlighting in reports

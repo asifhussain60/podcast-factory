@@ -21,6 +21,21 @@ REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || {
 }
 cd "$REPO_ROOT"
 
+# ── 0. Python environment check ───────────────────────────────────────
+VENV_PYTHON="$REPO_ROOT/.venv/bin/python3"
+if [ -x "$VENV_PYTHON" ]; then
+  if [ "${VIRTUAL_ENV:-}" != "$REPO_ROOT/.venv" ]; then
+    echo "▸ venv not active — pipeline commands need it. Run:"
+    echo "    source .venv/bin/activate"
+    echo "  Then re-run:  bash scripts/start-session.sh"
+    echo "  (one-time per terminal session)"
+    echo
+  fi
+else
+  echo "⚠ .venv not found — run: python3 -m venv .venv && .venv/bin/pip install -r requirements.txt"
+  echo
+fi
+
 # ── 1. Working tree must be clean before sync ─────────────────────────
 if [ -n "$(git status --porcelain)" ]; then
   echo "ERROR: working tree is dirty. Commit or stash first." >&2
@@ -58,7 +73,7 @@ fi
 # ── 4. Regression test gate — run the systemic-fix suite. Anything red
 #      means the codebase is in a known-broken state; surface it now
 #      before the user runs a phase that depends on the fix being live. ─
-if ! /usr/bin/python3 -m unittest discover -s tests/regression -p "test_*.py" >/dev/null 2>&1; then
+if ! "$VENV_PYTHON" -m unittest discover -s tests/regression -p "test_*.py" >/dev/null 2>&1; then
   echo
   echo "⚠ regression tests are RED — run \`bash tests/regression/run_all.sh\` for detail." >&2
   echo "  Continuing session anyway, but treat any pipeline failure as suspect."
@@ -72,7 +87,8 @@ echo
 
 # ── 5a. Watchdog status — surface any running or recently-stopped watchdogs ──
 WATCHDOG_FOUND=0
-for sentinel in content/drafts/*/_system/watchdog.json; do
+# Bucket-grouped layout: content/<Bucket>/<slug>/_system/watchdog.json
+for sentinel in content/*/*/_system/watchdog.json; do
   [[ -f "$sentinel" ]] || continue
   WATCHDOG_FOUND=1
   WD_SLUG=$(jq -r '.slug' "$sentinel" 2>/dev/null)
@@ -100,7 +116,14 @@ for sentinel in content/drafts/*/_system/watchdog.json; do
 done
 if [[ "$WATCHDOG_FOUND" -eq 0 ]]; then
   echo "▸ books in flight:"
-  ls content/drafts/ 2>/dev/null | sed 's/^/  - /'
+  # Scan bucket-grouped layout for books with an orchestrator state
+  find content -mindepth 3 -maxdepth 3 -name "orchestrator-state.json" 2>/dev/null \
+    | while read -r f; do
+        slug=$(jq -r '.slug // empty' "$f" 2>/dev/null)
+        phase=$(jq -r '.phase // "?"' "$f" 2>/dev/null)
+        status=$(jq -r '.phase_status // "?"' "$f" 2>/dev/null)
+        echo "  - ${slug:-$(dirname "$f" | xargs basename)}  [${phase}/${status}]"
+      done
   echo
 fi
 
@@ -110,5 +133,7 @@ echo "  - resume book:     bash scripts/podcast/watch_orchestrator.sh <slug>"
 echo "  - check a book:    python3 scripts/podcast/orchestrate_book.py --status <slug>"
 echo "  - publish a book:  python3 scripts/podcast/publish_to_library.py <slug> --dry-run"
 echo "  - run the site:    cd plan-dashboard && npm run dev"
+echo
+echo "  NOTE: pipeline commands require the venv — run 'source .venv/bin/activate' first"
 
 exit 0

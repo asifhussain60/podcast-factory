@@ -58,7 +58,7 @@ git status              # Should be clean, on `develop`
 git log --oneline -5    # Sanity-check recent history
 ```
 
-The repo is flat (no worktrees container). Books in flight live under [`content/drafts/<slug>/`](../../content/drafts/); shipped books live under [`content/published/books/<slug>/`](../../content/published/books/).
+The repo is flat (no worktrees container). Books live under `content/<Bucket>/<slug>/` (bucket-grouped layout since 2026-06-07); `published` is a status field in `_system/orchestrator-state.json`, not a folder.
 
 ## Step 4.5 — Install git hooks and Claude skills
 
@@ -74,6 +74,24 @@ bash scripts/install-claude-skills.sh
 
 Both scripts are idempotent — safe to re-run after pulling new hook or skill versions.
 
+## Step 4.7 — Set up the Python virtual environment
+
+The pipeline runs under a venv so all sub-scripts inherit the right packages via `sys.executable`.
+
+```bash
+cd ~/PROJECTS/podcast-factory
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+After this, **always activate the venv before running pipeline commands**:
+
+```bash
+source .venv/bin/activate   # once per terminal session
+python3 scripts/podcast/orchestrate_book.py <pdf>
+```
+
 ## Step 5 — Wire Azure credentials (ONLY if this Mac drives pipeline phases)
 
 All credentials are stored in Azure Key Vault (`podcast-factory-vault`). A single command pulls everything into the local Keychain.
@@ -87,7 +105,7 @@ bash pull-secrets.sh
 
 `pull-secrets.sh` pulls all 14+ secrets (Translator, Document Intelligence, Speech, Storage, Gemini, Anthropic keys) from Key Vault into the local Keychain, then runs the connectivity test automatically.
 
-Expect the script to end with `pass 5  fail 0  ✓ Azure connectivity OK`.
+Expect the script to end with `pass 9  fail 0  ✓ Azure connectivity OK` (9 checks: Azure services + Anthropic + Gemini).
 
 **First-time Azure provisioning only** (blank Azure subscription — not a new Mac):
 ```bash
