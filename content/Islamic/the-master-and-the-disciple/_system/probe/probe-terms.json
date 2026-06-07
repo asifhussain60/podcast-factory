@@ -30,7 +30,8 @@
         "non-house-style respelling"
       ],
       "n": 1,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْإِمَامُ النَّاطِقُ"
     },
     {
       "term": "Ja'far ibn Mansur al-Yaman",
@@ -56,7 +57,8 @@
         "long"
       ],
       "n": 2,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "جَعْفَرُ بْنُ مَنْصُورِ الْيَمَنِ"
     },
     {
       "term": "Ka'b al-Ahbar",
@@ -81,7 +83,8 @@
         "long"
       ],
       "n": 3,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "كَعْبُ الْأَحْبَارِ"
     },
     {
       "term": "Abd Allah",
@@ -103,7 +106,8 @@
         "x2 in text"
       ],
       "n": 4,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "عَبْدُ اللَّهِ"
     },
     {
       "term": "al-ʿuṣba",
@@ -128,7 +132,8 @@
         "non-house-style respelling"
       ],
       "n": 5,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْعُصْبَةُ"
     },
     {
       "term": "Abu Malik",
@@ -147,7 +152,8 @@
         "x110 in text"
       ],
       "n": 6,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "أَبُو مَالِكٍ"
     },
     {
       "term": "al-Bakhtari",
@@ -168,7 +174,8 @@
         "x11 in text"
       ],
       "n": 7,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْبَخْتَرِيُّ"
     },
     {
       "term": "Ubayd Allah",
@@ -189,7 +196,8 @@
         "proper name"
       ],
       "n": 8,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "عُبَيْدُ اللَّهِ"
     },
     {
       "term": "Sharia",
@@ -211,7 +219,8 @@
         "x4 in text"
       ],
       "n": 9,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الشَّرِيعَةُ"
     },
     {
       "term": "Qur'an",
@@ -233,7 +242,8 @@
         "x2 in text"
       ],
       "n": 10,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": ""
     },
     {
       "term": "Abu Salih",
@@ -254,7 +264,8 @@
         "proper name"
       ],
       "n": 11,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "أَبُو صَالِحٍ"
     },
     {
       "term": "Salih",
@@ -274,7 +285,8 @@
         "x91 in text"
       ],
       "n": 12,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "صَالِحٌ"
     },
     {
       "term": "al-Khiḍr",
@@ -296,7 +308,8 @@
         "non-house-style respelling"
       ],
       "n": 13,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": ""
     },
     {
       "term": "Imam",
@@ -314,7 +327,8 @@
         "non-house-style respelling"
       ],
       "n": 14,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْإِمَامُ"
     },
     {
       "term": "Sa'd",
@@ -334,7 +348,8 @@
         "x2 in text"
       ],
       "n": 15,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "سَعْدٌ"
     },
     {
       "term": "Shu'ayb",
@@ -354,7 +369,8 @@
         "x2 in text"
       ],
       "n": 16,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "شُعَيْبٌ"
     },
     {
       "term": "Abu al-Khair",
@@ -374,7 +390,8 @@
         "proper name"
       ],
       "n": 17,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "أَبُو الْخَيْرِ"
     },
     {
       "term": "Shariʿa",
@@ -395,7 +412,8 @@
         "non-house-style respelling"
       ],
       "n": 18,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الشَّرِيعَةُ"
     },
     {
       "term": "Allah",
@@ -412,7 +430,8 @@
         "x222 in text"
       ],
       "n": 19,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "اللَّهُ"
     },
     {
       "term": "Shaykh",
@@ -429,7 +448,8 @@
         "x23 in text"
       ],
       "n": 20,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الشَّيْخُ"
     },
     {
       "term": "ibn",
@@ -449,7 +469,8 @@
         "x2 in text"
       ],
       "n": 21,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "بْنُ"
     },
     {
       "term": "Bayt al-Ma'mur",
@@ -472,7 +493,8 @@
         "long"
       ],
       "n": 22,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْبَيْتُ الْمَعْمُورُ"
     },
     {
       "term": "al-Jazira",
@@ -493,7 +515,8 @@
         "proper name"
       ],
       "n": 23,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْجَزِيرَةُ"
     },
     {
       "term": "jazā'ir",
@@ -513,7 +536,8 @@
         "3 syllables"
       ],
       "n": 24,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْجَزَائِرُ"
     },
     {
       "term": "Tur",
@@ -530,7 +554,8 @@
         "x68 in text"
       ],
       "n": 25,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الطُّورُ"
     },
     {
       "term": "nuqabā'",
@@ -553,7 +578,8 @@
         "x3 in text"
       ],
       "n": 26,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "نُقَبَاءُ"
     },
     {
       "term": "nāṭiq",
@@ -575,7 +601,8 @@
         "x5 in text"
       ],
       "n": 27,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "النَّاطِقُ"
     },
     {
       "term": "nuqabāʾ",
@@ -597,7 +624,8 @@
         "non-house-style respelling"
       ],
       "n": 28,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "نُقَبَاءُ"
     },
     {
       "term": "ḥawl",
@@ -618,7 +646,8 @@
         "non-house-style respelling"
       ],
       "n": 29,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْحَوْلُ"
     },
     {
       "term": "quwwa",
@@ -640,7 +669,8 @@
         "non-house-style respelling"
       ],
       "n": 30,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْقُوَّةُ"
     },
     {
       "term": "du'āt",
@@ -660,7 +690,8 @@
         "x3 in text"
       ],
       "n": 31,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "دُعَاةٌ"
     },
     {
       "term": "awliyāʾ",
@@ -680,7 +711,8 @@
         "non-house-style respelling"
       ],
       "n": 32,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "أَوْلِيَاءُ"
     },
     {
       "term": "daʿwa",
@@ -701,7 +733,8 @@
         "non-house-style respelling"
       ],
       "n": 33,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الدَّعْوَةُ"
     },
     {
       "term": "duʿāt",
@@ -721,7 +754,8 @@
         "non-house-style respelling"
       ],
       "n": 34,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الدُّعَاةُ"
     },
     {
       "term": "dāʿī",
@@ -741,7 +775,8 @@
         "non-house-style respelling"
       ],
       "n": 35,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الدَّاعِي"
     },
     {
       "term": "taʾwīl",
@@ -761,7 +796,8 @@
         "non-house-style respelling"
       ],
       "n": 36,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "التَّأْوِيلُ"
     },
     {
       "term": "sunna",
@@ -780,7 +816,8 @@
         "x15 in text"
       ],
       "n": 37,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "السُّنَّةُ"
     },
     {
       "term": "zakat",
@@ -797,7 +834,8 @@
         "x11 in text"
       ],
       "n": 38,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "زَكَاةُ"
     },
     {
       "term": "ḥujaj",
@@ -817,7 +855,8 @@
         "x3 in text"
       ],
       "n": 39,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْحُجَجُ"
     },
     {
       "term": "hadiths",
@@ -837,7 +876,8 @@
         "x2 in text"
       ],
       "n": 40,
-      "libraryStatus": "confirmed"
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْأَحَادِيثُ"
     }
   ]
 }
