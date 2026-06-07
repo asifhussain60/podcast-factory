@@ -1,10 +1,12 @@
 """phases/book_driver.py — _drive_book_branch (PDF path).
 
 Runs the companion-book phases (0book-design → 0book-compose → 0book-render)
-during authoring, BEFORE the finalize halt, so the book is reviewable alongside
-the podcast. Gated on meta.yml `series.enable_book_branch` (opt-in). NON-BLOCKING:
-a book-phase failure is recorded but never aborts the podcast ship — the book is
-a companion deliverable, not a gate.
+AFTER the finalize halt, inside publish_driver._drive_publish_through_done.
+This ensures the book is always generated from podcast content that has already
+passed the finalize quality review gate — any issues fixed at review are already
+resolved before the book branch runs. Gated on meta.yml `series.enable_book_branch`
+(opt-in). NON-BLOCKING: a book-phase failure is recorded but never aborts the
+podcast ship — the book is a companion deliverable, not a gate.
 """
 from __future__ import annotations
 

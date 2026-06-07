@@ -289,13 +289,10 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         update_phase(book_dir, phase="per-chapter-slides", status="skipped",
                      extras={"reason": "enable_slide_decks=false"})
 
-    # PDF path — companion book (gated by series.enable_book_branch, non-blocking).
-    # Runs BEFORE the finalize halt so the book and the podcast are reviewed together;
-    # a book-branch failure never aborts the podcast ship.
-    from phases.book_driver import _drive_book_branch
-    _drive_book_branch(book_dir)
-
     # Finalize phase — run G1-G7 gates, halt for human review before publish.
+    # NOTE: the PDF companion-book path (0book-*) runs AFTER this halt, inside
+    # publish_driver._drive_publish_through_done, so that any issues caught at
+    # the podcast review gate are fixed before the book branch is generated.
     _phase_boundary_gate(book_dir, "per-chapter→finalize")
     _info("phase: finalize · run G1-G7 gates via validate_ship_ready.py")
     update_phase(book_dir, phase="finalize", status="running")
