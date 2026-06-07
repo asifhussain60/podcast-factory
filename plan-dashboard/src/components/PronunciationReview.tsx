@@ -78,11 +78,22 @@ export default function PronunciationReview({ slug, terms, audioUrl }: Props) {
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Restore in-progress work from a prior session.
+  // Restore in-progress work from a prior session — but the LIBRARY is
+  // authoritative. Terms already saved to the library (libraryStatus !== null)
+  // always render from the server overlay; localStorage only restores local,
+  // not-yet-saved edits for the remaining terms. This guarantees a reload never
+  // loses saved work nor downgrades a saved term back to pending.
   useEffect(() => {
     try {
       const raw = localStorage.getItem(storageKey);
-      if (raw) setRows((prev) => ({ ...prev, ...JSON.parse(raw) }));
+      if (!raw) return;
+      const stored = JSON.parse(raw) as Record<string, RowState>;
+      const savedKeys = new Set(terms.filter((t) => t.libraryStatus !== null).map((t) => t.term));
+      const merged: Record<string, RowState> = {};
+      for (const [term, st] of Object.entries(stored)) {
+        if (!savedKeys.has(term)) merged[term] = st;
+      }
+      setRows((prev) => ({ ...prev, ...merged }));
     } catch {
       /* ignore */
     }
@@ -147,6 +158,13 @@ export default function PronunciationReview({ slug, terms, audioUrl }: Props) {
         `Saved — ${c.confirmed} confirmed, ${c.respelled} respelled, ${c.unfixable} unfixable. ` +
           `Library now ${json.data.library_size} entries; _phonetics.md updated ${json.data.phonetics_md_updated}.`,
       );
+      // Saved work now lives in the library (the authoritative source on reload),
+      // so drop the local draft to prevent stale state resurfacing.
+      try {
+        localStorage.removeItem(storageKey);
+      } catch {
+        /* ignore */
+      }
     } catch (e) {
       setError(String(e));
     } finally {
