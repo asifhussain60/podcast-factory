@@ -142,6 +142,21 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     # (always produced by 0b) so the augmented file is additive, never a prerequisite gate.
     _in_unified = book_dir / "_system" / "unified-book.md"
     in_content = _in_unified if _in_unified.exists() else in_refined
+
+    # Phase 0ci gap analysis — inject as advisory context if present.
+    _gap_path = book_dir / "_system" / "gap-analysis.md"
+    _gap_context_block = ""
+    if _gap_path.exists() and _gap_path.stat().st_size > 0:
+        _gap_excerpt = _gap_path.read_text(encoding="utf-8")[:6_000]
+        _gap_context_block = (
+            f"\n\nCONTENT INTELLIGENCE (from Phase 0ci — advisory, use to inform chapter boundaries):\n"
+            f"The following gap analysis cross-references the source text against the book's\n"
+            f"KSessions wisdom synthesis. Use [MISSING] and [PARTIAL] findings to ensure that\n"
+            f"chapters containing those passages are not split across episode boundaries where\n"
+            f"the gap would leave a listener without context. [ANALOGY] candidates are for\n"
+            f"episode framing only — do not factor into boundary decisions.\n\n"
+            f"```\n{_gap_excerpt}\n```\n"
+        )
     in_phonetics = book_dir / "_system" / "source" / "text" / "_phonetics.md"
     # Phonetics required only for Islamic scholarly content — check content_profile
     # first (overrides category membership) so fiction/technical books in the
@@ -249,7 +264,8 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"skill on book-slug `{book_slug}`. This is a small read-mostly call: you will "
             f"NOT write any chapter or contract files in this step — only one JSON plan.\n\n"
             f"INPUT:  `{in_content}` (the refined English source)\n"
-            f"OUTPUT: `{toc_path}` (machine-readable plan; valid JSON only, no markdown)\n\n"
+            f"OUTPUT: `{toc_path}` (machine-readable plan; valid JSON only, no markdown)"
+            f"{_gap_context_block}\n\n"
             f"TASK:\n"
             f"1. Read `{in_content}` and identify the EPISODE units that serve the\n"
             f"   listener best — NOT the source author's chapter list. The source's own\n"
