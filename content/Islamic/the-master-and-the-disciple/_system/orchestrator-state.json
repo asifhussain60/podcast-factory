@@ -3,14 +3,14 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
-  "phase": "0ci",
-  "phase_status": "halted",
+  "phase": "0d",
+  "phase_status": "failed",
   "last_completed_phase": "0c",
   "next_phase": "0d",
   "last_error": {
-    "phase": "0ci",
-    "message": "Book intelligence gap analysis ready for review: /Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/the-master-and-the-disciple/_system/gap-analysis.md\nReview [MISSING] and [PARTIAL] findings before Phase 0d draws chapter boundaries.\n[ANALOGY] candidates marked [TEACHING-CONTEXT] — use only if the episode format calls for it.",
-    "ts": "2026-06-07T19:23:45Z"
+    "phase": "0d",
+    "message": "Phase 0d segmentation is over-crammed — too many teachings per episode (ceiling 6000w/episode for category 'books'):\n  sc 1 (The Master's Call and the Disciple's Cov): 6095w over 1 episode(s) = 6095w/episode > 6000w ceiling — split into >= 2 episodes\n  sc 2 (The Architecture of Creation: Will, Comm): 6255w over 1 episode(s) = 6255w/episode > 6000w ceiling — split into >= 2 episodes",
+    "ts": "2026-06-07T19:37:50Z"
   },
   "pipeline_mode": "orchestrated",
   "v1_archive": {
@@ -53,7 +53,10 @@
       "note": "Phonetics. Output: _system/source/text/_phonetics.md"
     },
     "0d": {
-      "status": "pending"
+      "status": "failed",
+      "ts_started": "2026-06-07T19:37:35Z",
+      "ts_completed": "2026-06-07T19:37:50Z",
+      "manual_fallback": "Edit `/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/the-master-and-the-disciple/_system/source/text/_chunks/0d/source-toc.json`: raise episode_count (unit_mode='sections') for the flagged source chapter(s), re-cutting at thematic seams so each episode is ONE coherent teaching cluster, then retry Phase 0d (--resume --retry-phase 0d)."
     },
     "0e": {
       "status": "pending"
@@ -89,7 +92,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-07T19:23:45Z",
+  "ts_updated": "2026-06-07T19:37:50Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
