@@ -22,6 +22,7 @@ from ._core import (  # noqa: E402
     _read_content_profile,
 )
 from ._refine import _run  # noqa: E402
+from _validator_constants import META_PROSE_TELLS  # noqa: E402
 
 
 def build_technical_enrichment_prompt(
@@ -282,6 +283,13 @@ def author_phase_0e(book_dir: Path,
             f"God). For novel/obscure alqaab, use functional paraphrase — 'one of his "
             f"martial honorifics', 'a traditional title associated with his rank'. "
             f"NEVER literally translate alqaab in chapter prose.\n"
+            f"- Apply R-NO-EPISODE-BRIDGE (hard-gate, 2026-06-08): the chapter file is "
+            f"uploaded as a STANDALONE source to NotebookLM — it has no knowledge of other "
+            f"episodes. Any prose that references other episodes is rejected by the build "
+            f"validator. FORBIDDEN anywhere in the chapter output: 'next episode', 'previous "
+            f"episode', 'prior episode', 'earlier episode', 'episode opens', 'episode closes', "
+            f"'episode lands'. Do not write bridge paragraphs that narrate what comes before "
+            f"or after this chapter. End on the chapter's own content.\n"
             f"- Do NOT modify any other chapter file, contract, or `enrichment-log.md` — "
             f"the orchestrator appends the log row after validating your output.\n\n"
             f"Exit when `{chapter_file}` has been rewritten in place with citations woven in."
@@ -343,6 +351,18 @@ def author_phase_0e(book_dir: Path,
             )
         post_mtime = chapter_file.stat().st_mtime
         touched = " (in-place rewrite)" if post_mtime > pre_mtime else " (no mtime change — verify manually)"
+
+        # Post-enrichment tells check (R-NO-EPISODE-BRIDGE, 2026-06-08).
+        # Catch bridge paragraphs early — before per-chapter framing spend.
+        _chapter_lower = chapter_file.read_text(encoding="utf-8").lower()
+        _found_tells = [t for t in META_PROSE_TELLS if t in _chapter_lower]
+        if _found_tells:
+            _tell_list = ", ".join(repr(t) for t in _found_tells)
+            failures.append((stem, f"episode-bridge tells found: {_tell_list}. "
+                             f"Remove all 'next/previous/prior/earlier episode' paragraphs "
+                             f"before per-chapter authoring."))
+            log(f"    {stem} · FAIL — episode-bridge tells: {_tell_list}")
+            continue
 
         # Append checkpoint row.
         ts = _dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")

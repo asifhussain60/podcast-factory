@@ -32,8 +32,17 @@ from _validators_framing import *  # noqa: F401, F403
 # ─── assert_* functions — chapter (SOURCE) ────────────────────────────────────
 
 def assert_no_meta_prose(content: str, file_path: Path, role: str,
-                         extra_tells: list[str] | None = None) -> None:
-    """Refuse to build if content contains meta-prose tells."""
+                         extra_tells: list[str] | None = None,
+                         skip_do_not_section: bool = False) -> None:
+    """Refuse to build if content contains meta-prose tells.
+
+    skip_do_not_section: when True, strips the '## Do not' section before
+    checking tells. Used for framing files whose Do-not list legitimately
+    contains the forbidden phrases as examples of what to avoid.
+    """
+    if skip_do_not_section:
+        # Strip from "## Do not" to the next "##" heading or end-of-file.
+        content = re.sub(r'(?m)^## Do not\b.*?(?=^## |\Z)', '', content, flags=re.DOTALL)
     lower = content.lower()
     all_tells = META_PROSE_TELLS + list(extra_tells or [])
     lines = content.splitlines()

@@ -174,7 +174,10 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path,
     _islamic = is_islamic_scholarly(_bdir)
 
     # Re-validate cleaned framing for meta-prose tells (cross-episode refs, etc.).
-    assert_no_meta_prose(cleaned, framing_path, "framing (CUSTOMIZE PROMPT)", extra_tells)
+    # skip_do_not_section=True: the Do-not list legitimately names forbidden phrases
+    # (including "next episode") — exclude that section from the substring scan.
+    assert_no_meta_prose(cleaned, framing_path, "framing (CUSTOMIZE PROMPT)", extra_tells,
+                         skip_do_not_section=True)
     # R-PRONUNCIATION-IMPERATIVE (2026-05-17)
     assert_framing_pronunciation_imperative(cleaned, framing_path)
     # R-NOMODERNIZE + R-NOSURPRISE + R-NO-READ-PROMPT (2026-05-17)
