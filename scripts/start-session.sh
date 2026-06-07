@@ -79,6 +79,20 @@ if ! "$VENV_PYTHON" -m unittest discover -s tests/regression -p "test_*.py" >/de
   echo "  Continuing session anyway, but treat any pipeline failure as suspect."
 fi
 
+# ── 4b. Claude auth warm-up — trigger token auto-refresh now so the pipeline
+#       never hits an "OAuth access token expired" gate mid-run. The Claude CLI
+#       uses a refresh token (long-lived) to get a new access token automatically;
+#       this ping ensures that refresh happens here rather than mid-orchestration.
+#       Strip ANTHROPIC_API_KEY to force Max OAuth (same as the pipeline does). ─
+if command -v claude &>/dev/null; then
+  if env -u ANTHROPIC_API_KEY -u ANTHROPIC_AUTH_TOKEN \
+       claude -p --output-format json "pong" >/dev/null 2>&1; then
+    echo "▸ claude auth   OK"
+  else
+    echo "⚠ claude auth   STALE — run: claude login"
+  fi
+fi
+
 # ── 5. Surface state ──────────────────────────────────────────────────
 echo
 echo "▸ ready on develop"

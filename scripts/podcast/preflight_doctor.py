@@ -113,15 +113,23 @@ def _claude_keychain_expiry() -> CheckResult | None:
 def check_claude_auth(do_ping: bool = True) -> CheckResult:
     """Verify `claude -p` can authenticate.
 
-    Strategy: cheap keychain expiry pre-check (catches the common stale-token
-    case for free), then an authoritative live `claude -p` ping that mirrors how
-    the pipeline actually calls it (API-key env stripped → forces Max OAuth).
+    Strategy: fast keychain expiry pre-check as an ADVISORY hint only (never
+    blocks the pipeline), then an authoritative live `claude -p` ping that
+    mirrors how the pipeline actually calls it (API-key env stripped → forces
+    Max OAuth). The CLI auto-refreshes the access token via its stored refresh
+    token, so an expired access token in the keychain is not a hard failure —
+    only a failed live ping is definitive.
     """
     early = _claude_keychain_expiry()
     if early is not None:
-        return early
+        # Advisory only — the CLI may auto-refresh using the stored refresh token.
+        # Fall through to the live ping; if it succeeds the pipeline is clear.
+        _early_hint = early.detail  # captured for the success message below
+    else:
+        _early_hint = ""
     if not do_ping:
-        return CheckResult("claude-auth", OK, "keychain token unexpired (ping skipped)")
+        hint = " (keychain shows expired — will auto-refresh on first use)" if _early_hint else ""
+        return CheckResult("claude-auth", OK, f"keychain check done{hint} (ping skipped)")
 
     # Mirror _authoring._core._run_claude_p: strip API-key env so auth resolves
     # via the flat-rate Max OAuth session, never the metered API.
@@ -167,7 +175,8 @@ def check_claude_auth(do_ping: bool = True) -> CheckResult:
         )
     sub = payload.get("subscriptionType") or payload.get("usage", {}).get("service_tier", "")
     note = " (Max subscription)" if "max" in str(sub).lower() else ""
-    return CheckResult("claude-auth", OK, f"`claude -p` authenticated{note}")
+    refresh_note = " [token auto-refreshed]" if _early_hint else ""
+    return CheckResult("claude-auth", OK, f"`claude -p` authenticated{note}{refresh_note}")
 
 
 def check_anthropic_net() -> CheckResult:
