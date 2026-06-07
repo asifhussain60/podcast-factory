@@ -121,6 +121,9 @@ _is_human_review_gate() {
     status="$(_state '.phase_status')"
     # 0f: series-plan written; human must review before per-chapter authoring begins.
     if [[ "$phase" == "0f" && "$status" == "halted" ]]; then return 0; fi
+    # 0ci: book intelligence gap analysis written; human reviews before Phase 0d runs.
+    # Running --resume acknowledges the review — the driver now skips 0ci on re-entry.
+    if [[ "$phase" == "0ci" && "$status" == "halted" ]]; then return 0; fi
     return 1
 }
 
