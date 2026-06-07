@@ -189,6 +189,7 @@ html, body {
   line-height: var(--lh-base);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 /* Vertical-flow guarantee — no fixed-height container anywhere */
@@ -356,6 +357,16 @@ hr { border: 0; height: 1px; background: var(--c-rule); margin: var(--sp-6) 0; }
 .topnav-status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c-green); }
 .topnav-status .dot.is-stale { background: var(--c-amber); }
 .topnav-status .dot.is-error { background: var(--c-red); }
+
+/* ── Topnav responsive — narrow viewports ──────────────────────── */
+@media (max-width: 640px) {
+  /* Hide the "Astro Site" tagline to reclaim horizontal space */
+  .topnav-brand small { display: none; }
+  .topnav-brand { padding-right: var(--sp-3); }
+  /* Let the tab strip scroll rather than clip off-screen */
+  .topnav-sections { overflow-x: auto; scrollbar-width: none; min-width: 0; }
+  .topnav-sections::-webkit-scrollbar { display: none; }
+}
 
 /* ── Page shell + sidebar ──────────────────────────────────────── */
 

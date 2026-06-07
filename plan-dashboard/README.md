@@ -69,7 +69,7 @@ plan-dashboard/
 │   │   ├── InfraColumns.tsx                   ← vendor columns + hover tips
 │   │   ├── Sparkline.tsx                      ← tiny per-service SVG
 │   │   ├── SpendChart.tsx                     ← 30-day combined-spend bar chart
-│   │   └── DashboardTabs.tsx                  ← roadmap / current / metrics tabs
+│   │   └── PlanDesign.tsx                     ← roadmap / current / metrics (replaces DashboardTabs)
 │   ├── data/                                  ← snapshot JSONs (regenerated)
 │   └── styles/theme.css                       ← single source of styling
 └── .gitignore

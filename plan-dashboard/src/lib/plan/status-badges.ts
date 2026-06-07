@@ -1,6 +1,6 @@
 /**
  * Status badge class mappings — single source of truth.
- * Used by DashboardTabs, PlanDesign, and any other component rendering step rows.
+ * Used by PlanDesign and any other component rendering step rows.
  */
 
 /** CSS class for the pill/badge element itself (background colour). */
