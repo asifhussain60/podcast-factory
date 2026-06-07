@@ -910,6 +910,12 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                       }
                     }
 
+                    // Para-dirty: warm background on blocks the user has edited vs the original.
+                    // Only shown in human-edit mode (not prev-stage diff) so it tracks real changes.
+                    if (!prevDiff && orig[idx] !== undefined && orig[idx] !== after) {
+                      decos.push(Decoration.node(offset, offset + node.nodeSize, { class: 'para-dirty' }));
+                    }
+
                     // FC-4 Arabic overlay (non-destructive): hide the English run, inject Arabic.
                     if (arabicRef.current && glossarySorted.length) {
                       node.descendants((child, childPos) => {

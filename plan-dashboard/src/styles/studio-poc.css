@@ -231,11 +231,17 @@
   opacity: 0.75;
   margin: 0 1px;
 }
-/* Per-paragraph hover removed — sections are the editing unit; hovering individual
-   paragraphs was confusing and fragmented. Cursor change only on clickable blocks. */
-.studio-poc__editor .ProseMirror > p:hover,
-.studio-poc__editor .ProseMirror > h3:hover,
-.studio-poc__editor .ProseMirror > blockquote:hover { cursor: pointer; }
+/* Per-paragraph hover affordance: pointer cursor + glow outline shows editability on mouseover.
+   Guards prevent override of active-section and active-paragraph states. */
+.studio-poc__editor .ProseMirror > p:hover:not(.para-active):not(.section-active),
+.studio-poc__editor .ProseMirror > blockquote:hover:not(.para-active):not(.section-active) {
+  background: color-mix(in srgb, var(--c-accent) 4%, var(--c-bg-card));
+  outline: 1.5px solid color-mix(in srgb, var(--c-accent) 22%, transparent);
+  outline-offset: 3px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.studio-poc__editor .ProseMirror > h3:hover { cursor: pointer; }
 /* Tagged blocks reserve top room so their persistent icon marks sit ABOVE without overlap. */
 .studio-poc__editor .para-tagged { margin-top: 1.9em; }
 /* Active paragraph: kept for backwards-compat; section-active is the primary unit now. */
@@ -250,6 +256,22 @@
   box-shadow: 0 10px 26px -10px rgba(0, 0, 0, 0.4);
   transform: scale(1.012);
   transform-origin: left center;
+}
+
+/* Dirty paragraph: left change-bar (like Word track-changes) + very subtle tint.
+   margin-bottom→padding-bottom swap (same as section-active) makes consecutive dirty
+   paragraphs share one continuous colored strip instead of floating as separate islands. */
+.studio-poc__editor .para-dirty {
+  background: color-mix(in srgb, var(--c-accent) 5%, var(--c-bg-card));
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--c-accent) 55%, transparent);
+  padding-left: 11px;
+  margin-left: -11px;
+  margin-bottom: 0;
+  padding-bottom: 0.75em;
+}
+/* Restore normal top gap after the last dirty paragraph in a run. */
+.studio-poc__editor .para-dirty + :not(.para-dirty) {
+  margin-top: 0.75em;
 }
 
 /* Section-active: unified warm card with continuous left accent bar + perimeter glow.

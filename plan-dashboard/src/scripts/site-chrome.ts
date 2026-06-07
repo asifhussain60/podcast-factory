@@ -70,9 +70,21 @@ function initJumpNav(): void {
   sections.forEach(s => observer.observe(s));
 }
 
+function initNavScroll(): void {
+  const strip = document.querySelector<HTMLElement>('.topnav-sections');
+  const active = document.querySelector<HTMLElement>('.topnav-section.is-active');
+  if (!strip || !active) return;
+  // Scroll only the tab strip, not the page (scrollIntoView walks all ancestors).
+  const sRect = strip.getBoundingClientRect();
+  const aRect = active.getBoundingClientRect();
+  const tabCenterInStrip = aRect.left - sRect.left + strip.scrollLeft + aRect.width / 2;
+  strip.scrollLeft = tabCenterInStrip - strip.clientWidth / 2;
+}
+
 function init(): void {
   initBackToTop();
   initJumpNav();
+  initNavScroll();
 }
 
 if (document.readyState !== 'loading') init();
