@@ -14,7 +14,7 @@
     {
       "id": "A2",
       "wave": "A",
-      "title": "Build the Core layer \u2014 _paths, _db, _archetypes, _anti_cliche",
+      "title": "Build the Core layer — _paths, _db, _archetypes, _anti_cliche",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -27,7 +27,7 @@
     {
       "id": "A3",
       "wave": "A",
-      "title": "Build the Domain layer \u2014 _doctrinal + tradition_adjacency.yml, _context_injection",
+      "title": "Build the Domain layer — _doctrinal + tradition_adjacency.yml, _context_injection",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -66,7 +66,7 @@
     {
       "id": "A6",
       "wave": "A",
-      "title": "Consolidate the agent sprawl \u2014 one canonical spec per agent, one installation path",
+      "title": "Consolidate the agent sprawl — one canonical spec per agent, one installation path",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -79,7 +79,7 @@
     {
       "id": "A7",
       "wave": "A",
-      "title": "Decouple all batch pipeline processing from the interactive Claude plan \u2014 dedicated API key with spend cap",
+      "title": "Decouple all batch pipeline processing from the interactive Claude plan — dedicated API key with spend cap",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -92,7 +92,7 @@
     {
       "id": "B0",
       "wave": "B",
-      "title": "Build the Wisdom corpus ingestion driver \u2014 independent chapter refinement",
+      "title": "Build the Wisdom corpus ingestion driver — independent chapter refinement",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -344,7 +344,7 @@
     {
       "id": "E2",
       "wave": "E",
-      "title": "KaR \u2014 tier-2 distillation addendum (no re-run)",
+      "title": "KaR — tier-2 distillation addendum (no re-run)",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -358,7 +358,7 @@
     {
       "id": "E3",
       "wave": "E",
-      "title": "M&D \u2014 EP00 preface addendum + vacuum + postprod-review (no re-run)",
+      "title": "M&D — EP00 preface addendum + vacuum + postprod-review (no re-run)",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -414,7 +414,7 @@
     {
       "id": "H1",
       "wave": "H",
-      "title": "Astro site SOLID/DRY refactor \u2014 extract shared types, constants, and utilities",
+      "title": "Astro site SOLID/DRY refactor — extract shared types, constants, and utilities",
       "status": "pending",
       "tier": "T1",
       "depends_on": [],
@@ -425,7 +425,7 @@
     {
       "id": "H2",
       "wave": "H",
-      "title": "Pipeline code quality \u2014 split oversized scripts and eliminate duplication",
+      "title": "Pipeline code quality — split oversized scripts and eliminate duplication",
       "status": "pending",
       "tier": "T1",
       "depends_on": [
@@ -451,7 +451,7 @@
     {
       "id": "I0a",
       "wave": "I",
-      "title": "Retroactive noise annotation \u2014 AI pre-marks existing chapters; human reviews in reader UI",
+      "title": "Retroactive noise annotation — AI pre-marks existing chapters; human reviews in reader UI",
       "status": "complete",
       "tier": "T1",
       "depends_on": [],
@@ -475,7 +475,7 @@
     {
       "id": "I1",
       "wave": "I",
-      "title": "Audio intake \u2014 input_type branch in Phase 04 (pdf / audio-transcript / mixed)",
+      "title": "Audio intake — input_type branch in Phase 04 (pdf / audio-transcript / mixed)",
       "status": "complete",
       "tier": "T1",
       "depends_on": [],
@@ -486,7 +486,7 @@
     {
       "id": "I2",
       "wave": "I",
-      "title": "Noise routing \u2014 two-pass: zero-cost rule pre-pass then Sonnet for ambiguous survivors only",
+      "title": "Noise routing — two-pass: zero-cost rule pre-pass then Sonnet for ambiguous survivors only",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -499,7 +499,7 @@
     {
       "id": "I3",
       "wave": "I",
-      "title": "Tradition-aware knowledge base \u2014 tradition field on all atom types; B2.1 schema patch",
+      "title": "Tradition-aware knowledge base — tradition field on all atom types; B2.1 schema patch",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -512,7 +512,7 @@
     {
       "id": "I4",
       "wave": "I",
-      "title": "Source Review Gate \u2014 Phase 06a (Haiku) before per-chapter authoring",
+      "title": "Source Review Gate — Phase 06a (Haiku) before per-chapter authoring",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -526,7 +526,7 @@
     {
       "id": "I5",
       "wave": "I",
-      "title": "Book Review unified astro view \u2014 Source Review Gate (06a) + Publish Review Gate (finalize)",
+      "title": "Book Review unified astro view — Source Review Gate (06a) + Publish Review Gate (finalize)",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -539,7 +539,7 @@
     {
       "id": "I6",
       "wave": "I",
-      "title": "Phase 11g per-chapter optimiser \u2014 Claude Sonnet after authoring, before 0g dual-auditor",
+      "title": "Phase 11g per-chapter optimiser — Claude Sonnet after authoring, before 0g dual-auditor",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -552,7 +552,7 @@
     {
       "id": "J0",
       "wave": "J",
-      "title": "Build the dual-interface source library server \u2014 MCP stdio for the pipeline, HTTP for the Astro editor",
+      "title": "Build the dual-interface source library server — MCP stdio for the pipeline, HTTP for the Astro editor",
       "status": "complete",
       "tier": "T1",
       "depends_on": [],
@@ -760,65 +760,155 @@
       "plain": "",
       "tools": [],
       "last_touched": null
+    },
+    {
+      "id": "K0",
+      "title": "Define and publish the PEQ quality-scoring contract",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K1",
+      "title": "Snapshot regression baselines for kitab-al-riyad and the-master-and-the-disciple",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K0"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K2",
+      "title": "Replace challenger free-form verdict with PEQ-driven scoring in both pipelines",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K0",
+        "K1"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K3",
+      "title": "Wire PEQ scores into agent prompts and skill instructions for consistent quality framing",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K4",
+      "title": "Surface PEQ scores on the plan dashboard with per-chapter and per-book breakdowns",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K5",
+      "title": "Apply PEQ-gated quality checks to the wisdom pipeline retranslation and reingestion cycle",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2",
+        "K3"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K6",
+      "title": "Add Interest & Challenge-Defeat scoring as a 5th PEQ axis + Challenger Category V",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2",
+        "K3",
+        "K5"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K6-pre",
+      "title": "Terminus technicus preservation rule — prevent Arabic doctrinal terms from being stripped during denoise/normalize",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "WC8.0"
+      ],
+      "plain": "",
+      "tools": []
     }
   ],
   "waves": [],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-05T21:58:50.500477+00:00",
-  "source_commit": "fe8f6de",
-  "generator": "regenerate-snapshots.py",
+  "generated_at": "2026-06-07T09:50:05.090Z",
+  "source_commit": "8508623",
+  "generator": "regenerate-snapshots.mjs",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "fe8f6de",
-      "subject": "chore: update session 14 work status \u2014 audit + P1 fixes + test suite green",
-      "date": "2026-06-05"
+      "sha": "8508623",
+      "subject": "fix(export_distribution): resolve bucket correctly + fix Google Drive detection",
+      "date": "2026-06-07"
     },
     {
-      "sha": "f1e64cc",
-      "subject": "fix: pipeline P1s + test suite drift (21\u21920 failures)",
-      "date": "2026-06-05"
+      "sha": "7b7e2ec",
+      "subject": "podcast(journey-to-the-west-vol-1): publish — status=published, all 7 gates passed",
+      "date": "2026-06-07"
     },
     {
-      "sha": "cebc8e2",
-      "subject": "chore: update session 13 work status \u2014 0book-illustrate phase",
-      "date": "2026-06-05"
+      "sha": "3851744",
+      "subject": "podcast(journey-to-the-west-vol-1): per-chapter complete — 5/5 SHIP-WITH-CAUTION, finalize SHIP-READY",
+      "date": "2026-06-06"
     },
     {
-      "sha": "29faf2f",
-      "subject": "feat(book-pdf): 0book-illustrate phase \u2014 LLM-generated teaching diagrams in reading edition",
-      "date": "2026-06-05"
+      "sha": "618fdac",
+      "subject": "podcast(journey-to-the-west-vol-1): phase 11b slide-deck cohort",
+      "date": "2026-06-06"
     },
     {
-      "sha": "b54471f",
-      "subject": "fix(pipeline): BUG-SLIDE-001 \u2014 per-chapter-slides never triggered for manually-processed books",
-      "date": "2026-06-05"
+      "sha": "ca5c434",
+      "subject": "podcast(journey-to-the-west-vol-1): phase 0g register series + dual-auditor bundle sweep",
+      "date": "2026-06-06"
     },
     {
-      "sha": "1a4455e",
-      "subject": "chore: gitignore video-images/ + remove tracked scenic JPGs + update session status",
-      "date": "2026-06-05"
+      "sha": "c003d05",
+      "subject": "podcast(journey-to-the-west-vol-1): phase per-chapter-optimize (0 chapters, 0 warnings)",
+      "date": "2026-06-06"
     },
     {
-      "sha": "c2b44d5",
-      "subject": "fix(pipeline): 3 issues found in critical self-review",
-      "date": "2026-06-05"
+      "sha": "7e71d19",
+      "subject": "podcast(journey-to-the-west-vol-1)[the-secret-word-at-the-third-watch]: SHIP-WITH-CAUTION (iter=2 · P0=0 P1=0)",
+      "date": "2026-06-06"
     },
     {
-      "sha": "005482f",
-      "subject": "config(ayyuhal-walad): disable video generation \u2014 videos already produced",
-      "date": "2026-06-05"
+      "sha": "c32a80e",
+      "subject": "podcast(journey-to-the-west-vol-1)[the-heavenly-stable-and-the-great-sage]: SHIP-WITH-CAUTION (iter=2 · P0=0 P1=0)",
+      "date": "2026-06-06"
     },
     {
-      "sha": "ba4ab2d",
-      "subject": "feat(video): enable_video flag \u2014 opt-in per book, default off",
-      "date": "2026-06-05"
+      "sha": "4b6057f",
+      "subject": "podcast(journey-to-the-west-vol-1)[the-great-sage-plunders-the-peaches]: SHIP-WITH-CAUTION (iter=2 · P0=0 P1=0)",
+      "date": "2026-06-06"
     },
     {
-      "sha": "afc4053",
-      "subject": "fix(video): patch manifests + lock pipeline rules against 7 production defects",
-      "date": "2026-06-05"
+      "sha": "5b5e88b",
+      "subject": "fix(framing): require bullet format for Pronunciation block (R-PRONUNCIATION-IMPERATIVE)",
+      "date": "2026-06-06"
     }
   ],
   "wave_execution_events": [],
