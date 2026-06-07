@@ -582,14 +582,16 @@
   gap: 0.2rem;
 }
 
-/* English translation — EB Garamond bold for a proper book-title feel */
+/* English translation — Cinzel: Roman-inscription serif, all-caps by design */
 .card-title-en {
-  font-family: 'EB Garamond', 'Source Serif 4', Georgia, serif;
-  font-size: 1rem;
-  font-weight: 700;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--c-ink);
   margin: 0;
-  line-height: 1.45;
+  line-height: 1.55;
   overflow-wrap: break-word;
   word-break: break-word;
   text-align: center;
