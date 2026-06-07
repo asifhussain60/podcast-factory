@@ -4,14 +4,10 @@
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
   "phase": "0d",
-  "phase_status": "failed",
-  "last_completed_phase": "0c",
-  "next_phase": "0d",
-  "last_error": {
-    "phase": "0d",
-    "message": "Phase 0d produced no chapter files under /Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/the-master-and-the-disciple/chapters",
-    "ts": "2026-06-07T20:01:44Z"
-  },
+  "phase_status": "completed",
+  "last_completed_phase": "0d",
+  "next_phase": "0e",
+  "last_error": null,
   "pipeline_mode": "orchestrated",
   "v1_archive": {
     "git_tag": "archive/the-master-and-the-disciple-v1",
@@ -53,9 +49,9 @@
       "note": "Phonetics. Output: _system/source/text/_phonetics.md"
     },
     "0d": {
-      "status": "failed",
+      "status": "completed",
       "ts_started": "2026-06-07T19:37:35Z",
-      "ts_completed": "2026-06-07T20:01:44Z",
+      "ts_completed": "2026-06-07T21:35:11Z",
       "manual_fallback": "Inspect _chunks/0d/sc-NNN.done markers and chapters/ dir."
     },
     "0e": {
@@ -92,7 +88,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-07T20:01:44Z",
+  "ts_updated": "2026-06-07T21:35:11Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",

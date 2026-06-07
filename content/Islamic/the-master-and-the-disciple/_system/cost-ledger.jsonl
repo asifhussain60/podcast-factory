@@ -1,2 +1,5 @@
 {"ts": "2026-06-07T19:23:45Z", "phase": "0ci", "step": "gap-analysis", "model": "claude-opus-4-8", "input_tokens": 7, "output_tokens": 6649, "cache_read": 102157, "cache_create": 61395, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-06-07T19:46:51Z", "phase": "0d", "step": "toc", "model": "claude-opus-4-8", "input_tokens": 34, "output_tokens": 17759, "cache_read": 1942033, "cache_create": 56922, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-06-07T21:06:42Z", "phase": "0d", "step": "sc-001", "model": "claude-opus-4-8", "input_tokens": 29, "output_tokens": 53975, "cache_read": 2712410, "cache_create": 140718, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-06-07T21:23:27Z", "phase": "0d", "step": "sc-002", "model": "claude-opus-4-8", "input_tokens": 35, "output_tokens": 58199, "cache_read": 4056174, "cache_create": 143446, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-06-07T21:35:11Z", "phase": "0d", "step": "sc-003", "model": "claude-opus-4-8", "input_tokens": 35, "output_tokens": 39675, "cache_read": 3170986, "cache_create": 113073, "cost_usd": 0.0, "engine": "max"}
