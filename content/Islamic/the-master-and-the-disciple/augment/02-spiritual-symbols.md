@@ -151,7 +151,9 @@ Now if we return to what we were saying earlier about the three words and their 
 ⟪ar:وآیاتھا فی السماء اثنا عشر بروجاً و شواھدھا سبعۃ أملاک، و آیاتھا فی الارض اثنا عشر جزیرۃ و شواھدھا سبعۃ عشر ابحر⟫
 
 [BOOK-CONTENT]
-Hence their signs in the heaven are the 12 mansions of the Zodiac, and their witnesses are seven rulers (⟪ar:سبع املاک⟫) And their signs on the earth are the 12 regions (⟪ar:جزیرۃ⟫), while their witnesses are the seven oceans (Arctic, North Atlantic, South Atlantic, North Pacific, South Pacific, Indian, and Southern Oceans ). So those are the signs in the heavens and the earth, which most people pass right by, turning away.
+Hence their signs in the heaven are the 12 mansions of the Zodiac, and their witnesses are seven rulers (⟪ar:سبع املاک⟫) And their signs on the earth are the 12 regions (⟪ar:جزیرۃ⟫), while their witnesses are the seven oceans (Baḥr al-Ṣīn, Baḥr al-Hind, Baḥr Fārs, Baḥr al-Qulzum, Baḥr al-Rūm, Baḥr al-Khazar, Baḥr Buntus — the seven seas as enumerated by the 9th-cent. Arab geographer al-Yaʿqūbī, contemporary with this text's Fatimid-era cosmology). So those are the signs in the heavens and the earth, which most people pass right by, turning away.
+
+[CLARIFIED] The "seven rulers" (⟪ar:سبع أملاك⟫, āmlāk) are not kings or angels in the conventional sense. In Ismaili Neoplatonic cosmology they are the seven intermediary intelligences — planetary intelligences (one per celestial sphere: Moon, Mercury, Venus, Sun, Mars, Jupiter, Saturn) adapted from Neoplatonic philosophy into the Fatimid spiritual hierarchy. Each intelligence mediates between the higher spiritual world and its corresponding sphere of the physical cosmos. They are not worshipped; they are structural: the symbolic witnesses to the 12 regions of the da'wa on earth.
 
 ---
 
@@ -193,6 +195,8 @@ He continues
 
 [BOOK-CONTENT]
 So now what he's saying, is you can see that everything is paired in this world; and the pairs do not only mean masculine and feminine gender, but also in terms of greater or lesser merit. So you have the one who can influence and the one being influenced. So earlier, we saw that water created smoke; so water is male and smoke is female. Water is influencing, and smoke is being influenced. Teacher is male and students are female regardless of their genders. If a woman is teaching a bunch of men, in that context, the woman is male and the men are female - because she is influencing and they are being influenced. You understand? This is why Allah(Subhanahu wa Ta'ala) always refers to himself as "male" in the Quran. Because he holds the ultimate influence. He influences everything and nothing can influence him. He dominates everything and nothing can dominate him. It doesn't mean Allah has a gender, you understand?
+
+[CLARIFIED] The Ismaili technical terms for these cosmological pairs are **fāʿil** (⟪ar:فاعل⟫ — the active, influencing principle) and **munfaʿil** (⟪ar:منفعل⟫ — the passive, receiving principle). Syedna Jaffer translates them pedagogically as "male" and "female" to make the concept accessible, but the doctrinal terms are fāʿil/munfaʿil. In episode framing, use "active/fāʿil" and "receiving/munfaʿil" when precision matters — never "male and female" without the immediate clarification that no gender is implied.
 
 So he's saying that the fact that everything in this world exists in pair, how is it possible that physicality in general does not have a pair. How is it possible that this physical universe does not have a spiritual universe? How is it possible that the worldly life is not paired with the after life? 
 
