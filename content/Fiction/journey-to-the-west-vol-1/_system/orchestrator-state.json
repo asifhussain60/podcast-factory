@@ -4,10 +4,10 @@
   "category": "books",
   "branch": "journey-to-the-west-vol-1",
   "status": "draft",
-  "phase": "per-chapter-optimize",
+  "phase": "0g",
   "phase_status": "completed",
-  "last_completed_phase": "per-chapter-optimize",
-  "next_phase": "per-chapter-slides",
+  "last_completed_phase": "0g",
+  "next_phase": "per-chapter",
   "last_error": null,
   "phases": {
     "0b": {
@@ -99,6 +99,58 @@
       "ts_completed": "2026-06-07T00:55:59Z",
       "chapters": 0,
       "warn": 0
+    },
+    "0g": {
+      "status": "completed",
+      "ts_started": "2026-06-07T00:55:59Z",
+      "ts_completed": "2026-06-07T00:56:04Z",
+      "audit_outcomes": {
+        "birth-of-the-stone-monkey": {
+          "status": "audited",
+          "ep_label": "EP01-birth-of-the-stone-monkey",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "four-seas-bow-in-submission": {
+          "status": "audited",
+          "ep_label": "EP03-four-seas-bow-in-submission",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-great-sage-plunders-the-peaches": {
+          "status": "audited",
+          "ep_label": "EP05-the-great-sage-plunders-the-peaches",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-heavenly-stable-and-the-great-sage": {
+          "status": "audited",
+          "ep_label": "EP04-the-heavenly-stable-and-the-great-sage",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-secret-word-at-the-third-watch": {
+          "status": "audited",
+          "ep_label": "EP02-the-secret-word-at-the-third-watch",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        }
+      }
     }
   },
   "content_profile": "fiction",
@@ -109,5 +161,5 @@
     33
   ],
   "note": "Step 1 upstream: Claude-on-Max translation of ch 1-33 (complete). Proceeding to 0b narrative refinement.",
-  "ts_updated": "2026-06-07T00:55:59Z"
+  "ts_updated": "2026-06-07T00:56:04Z"
 }
