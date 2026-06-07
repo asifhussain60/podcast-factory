@@ -2,54 +2,100 @@
 /**
  * Studio landing — the book picker for the content pipeline.
  *
- * Pick the book you want to work on; each card shows pipeline progress and
- * deep-links to that book's current step. "New content" starts a fresh book.
- * (The old single-book editorial cockpit now lives at /studio/<slug>/edit.)
+ * Books are grouped by content bucket (Islamic / Fiction / Technical / Guides),
+ * each rendered as a visual bookshelf section. Each card deep-links to that
+ * book's current pipeline step.
  */
 import Base from '../layouts/Base.astro';
-import { listContent, slugToTitle } from '../lib/content-paths';
+import { listContent, slugToTitle, BUCKETS, type Bucket } from '../lib/content-paths';
 import { loadStudioPipeline } from '../lib/reader/studio-pipeline';
 import '../styles/studio-pipeline.css';
 
-const books = await listContent({ category: 'books' });
+const SHELF_META: Record<Bucket, { icon: string; label: string; desc: string }> = {
+  Islamic:   { icon: 'fa-mosque',   label: 'Islamic Scholarship', desc: 'Scholarly texts, commentaries, and spiritual works' },
+  Fiction:   { icon: 'fa-scroll',   label: 'Fiction & Narrative',  desc: 'Literature, storytelling, and imaginative works' },
+  Technical: { icon: 'fa-code',     label: 'Technical',            desc: 'Engineering, architecture, and technical guides' },
+  Guides:    { icon: 'fa-compass',  label: 'Guides & References',  desc: 'Practical guides, explainers, and reference materials' },
+};
+
+const allContent = await listContent();
 
 const cards = await Promise.all(
-  books.map(async (b) => {
+  allContent.map(async (b) => {
     const steps = await loadStudioPipeline(b.slug);
-    // Entry step: first blocked, else first active, else publish if all done, else intake.
     const blocked = steps.find((s) => s.state === 'blocked');
-    const active = steps.find((s) => s.state === 'active');
-    const entry = blocked ?? active ?? (steps.every((s) => s.state === 'done') ? steps[3] : steps[0]);
-    return { slug: b.slug, title: slugToTitle(b.slug), steps, entry };
+    const active  = steps.find((s) => s.state === 'active');
+    const entry   = blocked ?? active ?? (steps.every((s) => s.state === 'done') ? steps[3] : steps[0]);
+    return { slug: b.slug, title: slugToTitle(b.slug), bucket: b.bucket, steps, entry };
   }),
 );
-cards.sort((a, b) => a.title.localeCompare(b.title));
+
+const shelves = BUCKETS
+  .map(bucket => ({
+    bucket,
+    meta: SHELF_META[bucket],
+    cards: cards
+      .filter(c => c.bucket === bucket)
+      .sort((a, b) => a.title.localeCompare(b.title)),
+  }))
+  .filter(s => s.cards.length > 0);
 ---
 <Base title="Studio" active="studio" description="Pick a book to work on through the content pipeline.">
   <div class="studio-picker">
+
     <header class="studio-step-head">
       <span class="studio-eyebrow">Studio · Workshop</span>
       <h1>Work a book through the pipeline.</h1>
       <p>Pick a book to process — intake, source review, edit &amp; enrich, publish. Each card opens at the book's current step. To just <em>read</em> finished content, visit the <a href="/library">Library</a>.</p>
     </header>
 
-    <div class="studio-picker-grid">
-      {cards.map((c) => (
-        <a class="studio-picker-card" href={`/studio/${c.slug}/${c.entry.id}`}>
-          <h2>{c.title}</h2>
-          <span class="studio-picker-step">{c.entry.label} · {c.entry.detail}</span>
-          <div class="studio-picker-bar" aria-hidden="true">
-            {c.steps.map((s) => (
-              <span class={`studio-picker-seg${s.state === 'done' ? ' is-done' : s.state === 'active' ? ' is-active' : s.state === 'blocked' ? ' is-blocked' : ''}`}></span>
-            ))}
+    <div class="studio-shelves">
+
+      {shelves.map(({ bucket, meta, cards: shelfCards }) => (
+        <section class="studio-shelf" data-bucket={bucket}>
+
+          <header class="studio-shelf-header">
+            <span class="studio-shelf-icon-wrap" aria-hidden="true">
+              <i class={`fa-solid ${meta.icon}`}></i>
+            </span>
+            <div class="studio-shelf-title-group">
+              <h2 class="studio-shelf-name">{meta.label}</h2>
+              <p class="studio-shelf-desc">{meta.desc}</p>
+            </div>
+            <span class="studio-shelf-count" aria-label={`${shelfCards.length} works in this category`}>
+              {shelfCards.length} {shelfCards.length === 1 ? 'work' : 'works'}
+            </span>
+          </header>
+
+          <div class="studio-shelf-floor-wrap">
+            <div class="studio-shelf-grid">
+              {shelfCards.map((c) => (
+                <a class="studio-picker-card studio-shelf-card" href={`/studio/${c.slug}/${c.entry.id}`}>
+                  <h3 class="studio-shelf-card-title">{c.title}</h3>
+                  <span class="studio-picker-step">{c.entry.label} · {c.entry.detail}</span>
+                  <div class="studio-picker-bar" aria-hidden="true">
+                    {c.steps.map((s) => (
+                      <span class={`studio-picker-seg${s.state === 'done' ? ' is-done' : s.state === 'active' ? ' is-active' : s.state === 'blocked' ? ' is-blocked' : ''}`}></span>
+                    ))}
+                  </div>
+                </a>
+              ))}
+            </div>
+            <div class="studio-shelf-plank" aria-hidden="true"></div>
           </div>
-        </a>
+
+        </section>
       ))}
 
-      <a class="studio-picker-card studio-bookpick-new" href="/studio/new">
-        <h2><i class="fa-solid fa-plus" aria-hidden="true"></i> New content</h2>
-        <span class="studio-picker-step">Scaffold a new book, lecture, or article.</span>
+    </div>
+
+    <div class="studio-new-content-row">
+      <a class="studio-new-content-link" href="/studio/new">
+        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+        <span class="studio-new-content-label">New content</span>
+        <span class="studio-new-content-sub">Scaffold a new book, lecture, or article</span>
       </a>
     </div>
+
   </div>
 </Base>

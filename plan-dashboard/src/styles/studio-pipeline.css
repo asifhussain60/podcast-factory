@@ -313,6 +313,271 @@
   .studio-step-detail { display: none; }
 }
 
+/* ════════════════════════════════════════════════════════════
+   Bookshelf layout — grouped by content bucket
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Picker container — tighten gap for shelf sections ───── */
+.studio-picker { gap: 2rem; }
+
+/* ── Column of shelf sections ────────────────────────────── */
+.studio-shelves {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+/* ── One shelf section ───────────────────────────────────── */
+.studio-shelf {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Shelf header: icon + title/desc + count badge ───────── */
+.studio-shelf-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.studio-shelf-icon-wrap {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+  /* background and color overridden per bucket below */
+  background: var(--c-bg-sunken);
+  color: var(--c-ink-muted);
+  border: 1px solid var(--c-rule);
+}
+
+.studio-shelf-title-group {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--c-rule-soft);
+}
+
+.studio-shelf-name {
+  font-family: 'EB Garamond', 'Source Serif 4', Georgia, serif;
+  font-size: 1.45rem;
+  font-weight: 500;
+  color: var(--c-ink);
+  margin: 0 0 0.2rem;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.studio-shelf-desc {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--c-ink-muted);
+  font-family: var(--font-body);
+}
+
+.studio-shelf-count {
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+  font-family: var(--font-body);
+  background: var(--c-bg-sunken);
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--c-rule);
+  margin-top: 0.25rem;
+  white-space: nowrap;
+}
+
+/* ── Per-bucket accent colours ───────────────────────────── */
+/* Islamic: dark goldenrod */
+.studio-shelf[data-bucket="Islamic"] .studio-shelf-icon-wrap {
+  background: color-mix(in oklab, var(--c-gold) 12%, var(--c-bg-card));
+  color: var(--c-gold);
+  border-color: color-mix(in oklab, var(--c-gold) 30%, var(--c-rule));
+}
+.studio-shelf[data-bucket="Islamic"] .studio-shelf-title-group {
+  border-bottom-color: color-mix(in oklab, var(--c-gold) 30%, var(--c-rule-soft));
+}
+
+/* Fiction: literary purple */
+.studio-shelf[data-bucket="Fiction"] .studio-shelf-icon-wrap {
+  background: color-mix(in oklab, #6a1b9a 10%, var(--c-bg-card));
+  color: #6a1b9a;
+  border-color: color-mix(in oklab, #6a1b9a 25%, var(--c-rule));
+}
+.studio-shelf[data-bucket="Fiction"] .studio-shelf-title-group {
+  border-bottom-color: color-mix(in oklab, #6a1b9a 22%, var(--c-rule-soft));
+}
+
+/* Technical: slate blue */
+.studio-shelf[data-bucket="Technical"] .studio-shelf-icon-wrap {
+  background: color-mix(in oklab, var(--c-planner) 12%, var(--c-bg-card));
+  color: var(--c-planner);
+  border-color: color-mix(in oklab, var(--c-planner) 30%, var(--c-rule));
+}
+.studio-shelf[data-bucket="Technical"] .studio-shelf-title-group {
+  border-bottom-color: color-mix(in oklab, var(--c-planner) 28%, var(--c-rule-soft));
+}
+
+/* Guides: forest green */
+.studio-shelf[data-bucket="Guides"] .studio-shelf-icon-wrap {
+  background: color-mix(in oklab, var(--c-green) 12%, var(--c-bg-card));
+  color: var(--c-green);
+  border-color: color-mix(in oklab, var(--c-green) 30%, var(--c-rule));
+}
+.studio-shelf[data-bucket="Guides"] .studio-shelf-title-group {
+  border-bottom-color: color-mix(in oklab, var(--c-green) 28%, var(--c-rule-soft));
+}
+
+/* ── Shelf plank wrapper ──────────────────────────────────── */
+.studio-shelf-floor-wrap {
+  position: relative;
+  padding-bottom: 1.1rem;
+}
+
+/* Physical shelf plank — a layered shadow-strip below the cards */
+.studio-shelf-plank {
+  height: 6px;
+  border-radius: 0 0 4px 4px;
+  background: linear-gradient(to bottom,
+    var(--c-rule) 0%,
+    color-mix(in oklab, var(--c-rule) 50%, transparent) 60%,
+    transparent 100%);
+}
+
+/* ── Card grid within each shelf ─────────────────────────── */
+.studio-shelf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.85rem;
+}
+
+/* ── Enhanced shelf card ─────────────────────────────────── */
+.studio-shelf-card {
+  position: relative;
+  overflow: hidden;
+  padding-top: 1.35rem; /* room for the accent strip */
+  transition: border-color 130ms, transform 130ms, box-shadow 130ms;
+}
+
+/* Coloured accent strip at card top */
+.studio-shelf-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+}
+
+/* Strip + hover ring colour per bucket */
+.studio-shelf[data-bucket="Islamic"] .studio-shelf-card::before { background: var(--c-gold); }
+.studio-shelf[data-bucket="Fiction"]   .studio-shelf-card::before { background: #6a1b9a; }
+.studio-shelf[data-bucket="Technical"] .studio-shelf-card::before { background: var(--c-planner); }
+.studio-shelf[data-bucket="Guides"]    .studio-shelf-card::before { background: var(--c-green); }
+
+.studio-shelf[data-bucket="Islamic"]   .studio-shelf-card:hover { border-color: var(--c-gold); box-shadow: 0 4px 14px color-mix(in oklab, var(--c-gold) 18%, transparent); }
+.studio-shelf[data-bucket="Fiction"]   .studio-shelf-card:hover { border-color: #6a1b9a;         box-shadow: 0 4px 14px color-mix(in oklab, #6a1b9a 14%, transparent); }
+.studio-shelf[data-bucket="Technical"] .studio-shelf-card:hover { border-color: var(--c-planner);box-shadow: 0 4px 14px color-mix(in oklab, var(--c-planner) 16%, transparent); }
+.studio-shelf[data-bucket="Guides"]    .studio-shelf-card:hover { border-color: var(--c-green);  box-shadow: 0 4px 14px color-mix(in oklab, var(--c-green) 14%, transparent); }
+
+/* Serif title for each book card */
+.studio-shelf-card-title {
+  font-family: 'Source Serif 4', 'EB Garamond', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--c-ink);
+  margin: 0;
+  line-height: 1.3;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Status line: one line with ellipsis — too many wraps on narrow cards */
+.studio-shelf-card .studio-picker-step {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── "New content" row — sits below all shelves ──────────── */
+.studio-new-content-row {
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--c-rule);
+}
+
+.studio-new-content-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem 0.75rem 1rem;
+  border: 1.5px dashed var(--c-rule);
+  border-radius: 12px;
+  background: var(--c-bg-card);
+  text-decoration: none;
+  color: var(--c-ink-dim);
+  transition: border-color 130ms, background 130ms, color 130ms;
+}
+
+.studio-new-content-link:hover {
+  border-color: var(--c-accent);
+  background: color-mix(in oklab, var(--c-accent) 5%, var(--c-bg-card));
+  color: var(--c-accent);
+  text-decoration: none;
+}
+
+.studio-new-content-link i {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.studio-new-content-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: inherit;
+}
+
+.studio-new-content-sub {
+  font-size: 0.8rem;
+  color: var(--c-ink-muted);
+}
+
+.studio-new-content-link:hover .studio-new-content-sub {
+  color: color-mix(in oklab, var(--c-accent) 60%, var(--c-ink-muted));
+}
+
+/* ── Focus rings for new shelf elements ──────────────────── */
+.studio-shelf-card:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.studio-new-content-link:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .studio-shelf-grid { grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); }
+  .studio-shelf-name { font-size: 1.25rem; }
+  .studio-shelf-desc { display: none; }
+  .studio-new-content-sub { display: none; }
+}
+
+@media (max-width: 480px) {
+  .studio-shelf-grid { grid-template-columns: 1fr; } /* single column avoids cramped cards */
+  .studio-shelf-header { gap: 0.65rem; }
+  .studio-shelf-icon-wrap { width: 2.2rem; height: 2.2rem; font-size: 1rem; }
+}
+
 /* ── Content-level selector (Wave L-7) ─────────────────────────────── */
 .cl-intro {
   color: var(--c-ink-dim);
