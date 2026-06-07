@@ -494,13 +494,34 @@
    card-body-wrap    — English title, author, pipeline status bar
    ──────────────────────────────────────────────────────────────────────── */
 
-/* Script panel: sits directly below the 3px accent strip */
+/* Script panel: always rendered — icon alone for non-script cards, icon + text for Arabic/Chinese */
 .card-script-wrap {
-  padding: 0.95rem 1.2rem 0.75rem;
+  padding: 1.1rem 1.2rem 0.9rem;
   background: var(--c-bg-sunken);
   border-bottom: 1px solid var(--c-rule-soft);
-  /* text-align and direction overridden per lang below */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
 }
+
+/* Per-book icon inside the script panel */
+.card-script-icon {
+  font-size: 1.6rem;   /* large when no native script text follows */
+  line-height: 1;
+}
+
+/* Smaller icon when Arabic/Chinese text follows */
+.card-script-wrap.has-script .card-script-icon {
+  font-size: 1.1rem;
+  margin-bottom: 0.05rem;
+}
+
+/* Per-bucket icon colour in script panel */
+.studio-shelf[data-bucket="Islamic"]   .card-script-icon { color: var(--c-gold); }
+.studio-shelf[data-bucket="Fiction"]   .card-script-icon { color: #6a1b9a; }
+.studio-shelf[data-bucket="Technical"] .card-script-icon { color: var(--c-planner); }
+.studio-shelf[data-bucket="Guides"]    .card-script-icon { color: var(--c-green); }
 
 /* Arabic script — centred, Amiri, maroon */
 .card-script-text[lang="ar"] {
@@ -548,26 +569,30 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  padding: 0.8rem 1.2rem 1rem;
+  gap: 0.65rem;
+  padding: 0.9rem 1.1rem 1rem;
+  text-align: center;
 }
 
-/* Identity block: English title + author */
+/* Identity block: English title + author, centred */
 .card-identity {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  align-items: center;
+  gap: 0.2rem;
 }
 
+/* English translation — EB Garamond bold for a proper book-title feel */
 .card-title-en {
-  font-family: 'Source Serif 4', 'EB Garamond', Georgia, serif;
-  font-size: 0.95rem;
-  font-weight: 500;
+  font-family: 'EB Garamond', 'Source Serif 4', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 700;
   color: var(--c-ink);
   margin: 0;
-  line-height: 1.35;
+  line-height: 1.45;
   overflow-wrap: break-word;
   word-break: break-word;
+  text-align: center;
 }
 
 .card-author {
@@ -576,30 +601,8 @@
   font-style: italic;
   color: var(--c-ink-muted);
   line-height: 1.3;
+  text-align: center;
 }
-
-/* Title row: title text + per-book icon side-by-side */
-.card-title-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-}
-
-.card-title-row .card-title-en { flex: 1; min-width: 0; }
-
-.card-book-icon {
-  flex-shrink: 0;
-  font-size: 0.8rem;
-  margin-top: 0.18rem;
-  opacity: 0.75;
-  color: var(--c-ink-muted);
-}
-
-/* Per-bucket icon tint */
-.studio-shelf[data-bucket="Islamic"]   .card-book-icon { color: var(--c-gold); }
-.studio-shelf[data-bucket="Fiction"]   .card-book-icon { color: #6a1b9a; }
-.studio-shelf[data-bucket="Technical"] .card-book-icon { color: var(--c-planner); }
-.studio-shelf[data-bucket="Guides"]    .card-book-icon { color: var(--c-green); }
 
 /* Pipeline status: pushed to the bottom of the card body */
 .card-pipeline-status {
@@ -611,11 +614,12 @@
   gap: 0.3rem;
 }
 
-/* Status line — one line with ellipsis */
+/* Status line — centred, one line with ellipsis */
 .card-pipeline-status .studio-picker-step {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: center;
 }
 
 /* ── "New content" row — sits below all shelves ──────────── */

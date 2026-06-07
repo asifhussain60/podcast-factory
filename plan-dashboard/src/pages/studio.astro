@@ -4,9 +4,9 @@
  *
  * Books are grouped by content bucket (Islamic / Fiction / Technical / Guides),
  * each rendered as a visual bookshelf section. Each card deep-links to that
- * book's current pipeline step. Cards show the native-script title (Arabic /
- * Chinese) in Amiri / system-CJK font when available, plus author and romanized
- * English title.
+ * book's current pipeline step. Cards show:
+ *   • script panel: per-book icon + native-script title (Arabic/Chinese) when available
+ *   • body: English translation, author (italic), pipeline status bar
  */
 import Base from '../layouts/Base.astro';
 import { listContent, slugToTitle, BUCKETS, type Bucket } from '../lib/content-paths';
@@ -31,15 +31,15 @@ const cards = await Promise.all(
     const entry   = blocked ?? active ?? (steps.every((s) => s.state === 'done') ? steps[3] : steps[0]);
     const bm      = BOOK_CARD_META[b.slug] ?? {};
     return {
-      slug:        b.slug,
-      title:       slugToTitle(b.slug),
-      bucket:      b.bucket,
+      slug:         b.slug,
+      title:        bm.displayTitle ?? slugToTitle(b.slug),
+      bucket:       b.bucket,
       steps,
       entry,
-      nativeTitle: bm.nativeTitle,
-      nativeLang:  bm.nativeLang,
-      author:      bm.author,
-      icon:        bm.icon,
+      nativeTitle:  bm.nativeTitle,
+      nativeLang:   bm.nativeLang,
+      author:       bm.author,
+      icon:         bm.icon ?? 'fa-book',
     };
   }),
 );
@@ -86,28 +86,24 @@ const shelves = BUCKETS
               {shelfCards.map((c) => (
                 <a class="studio-picker-card studio-shelf-card" href={`/studio/${c.slug}/${c.entry.id}`}>
 
-                  {/* ── Native-script title panel (Arabic / Chinese) ── */}
-                  {c.nativeTitle && (
-                    <div class="card-script-wrap">
+                  {/* ── Script/icon panel — always rendered ── */}
+                  <div class={`card-script-wrap${c.nativeTitle ? ' has-script' : ''}`}>
+                    <span class="card-script-icon" aria-hidden="true">
+                      <i class={`fa-solid ${c.icon}`}></i>
+                    </span>
+                    {c.nativeTitle && (
                       <span
                         class="card-script-text"
                         lang={c.nativeLang ?? 'ar'}
                         dir={c.nativeLang === 'ar' ? 'rtl' : undefined}
                       >{c.nativeTitle}</span>
-                    </div>
-                  )}
+                    )}
+                  </div>
 
-                  {/* ── Card body: title + author + pipeline status ── */}
+                  {/* ── Card body: English title + author + pipeline status ── */}
                   <div class="card-body-wrap">
                     <div class="card-identity">
-                      <div class="card-title-row">
-                        <h3 class="card-title-en">{c.title}</h3>
-                        {c.icon && (
-                          <span class="card-book-icon" aria-hidden="true">
-                            <i class={`fa-solid ${c.icon}`}></i>
-                          </span>
-                        )}
-                      </div>
+                      <h3 class="card-title-en">{c.title}</h3>
                       {c.author && <span class="card-author">{c.author}</span>}
                     </div>
                     <div class="card-pipeline-status">
