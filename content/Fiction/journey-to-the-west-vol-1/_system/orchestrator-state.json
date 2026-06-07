@@ -53,7 +53,8 @@
       "completed_slugs": [
         "birth-of-the-stone-monkey",
         "four-seas-bow-in-submission",
-        "the-great-sage-plunders-the-peaches"
+        "the-great-sage-plunders-the-peaches",
+        "the-heavenly-stable-and-the-great-sage"
       ],
       "failed_slugs": [],
       "chapter_timings": {
@@ -79,10 +80,10 @@
           "cost_usd": 0.0
         },
         "the-heavenly-stable-and-the-great-sage": {
-          "started_ts": "2026-06-06T22:48:06Z",
-          "completed_ts": "2026-06-06T22:48:06Z",
-          "duration_sec": 0.0,
-          "verdict": "FAILED",
+          "started_ts": "2026-06-07T00:22:59Z",
+          "completed_ts": "2026-06-07T00:34:00Z",
+          "duration_sec": 661.4,
+          "verdict": "SHIP-WITH-CAUTION",
           "cost_usd": 0.0
         },
         "the-secret-word-at-the-third-watch": {
@@ -103,5 +104,5 @@
     33
   ],
   "note": "Step 1 upstream: Claude-on-Max translation of ch 1-33 (complete). Proceeding to 0b narrative refinement.",
-  "ts_updated": "2026-06-07T00:22:59Z"
+  "ts_updated": "2026-06-07T00:34:00Z"
 }
