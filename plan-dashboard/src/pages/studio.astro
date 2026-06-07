@@ -4,11 +4,14 @@
  *
  * Books are grouped by content bucket (Islamic / Fiction / Technical / Guides),
  * each rendered as a visual bookshelf section. Each card deep-links to that
- * book's current pipeline step.
+ * book's current pipeline step. Cards show the native-script title (Arabic /
+ * Chinese) in Amiri / system-CJK font when available, plus author and romanized
+ * English title.
  */
 import Base from '../layouts/Base.astro';
 import { listContent, slugToTitle, BUCKETS, type Bucket } from '../lib/content-paths';
 import { loadStudioPipeline } from '../lib/reader/studio-pipeline';
+import { BOOK_CARD_META } from '../lib/book-card-meta';
 import '../styles/studio-pipeline.css';
 
 const SHELF_META: Record<Bucket, { icon: string; label: string; desc: string }> = {
@@ -26,7 +29,17 @@ const cards = await Promise.all(
     const blocked = steps.find((s) => s.state === 'blocked');
     const active  = steps.find((s) => s.state === 'active');
     const entry   = blocked ?? active ?? (steps.every((s) => s.state === 'done') ? steps[3] : steps[0]);
-    return { slug: b.slug, title: slugToTitle(b.slug), bucket: b.bucket, steps, entry };
+    const bm      = BOOK_CARD_META[b.slug] ?? {};
+    return {
+      slug:        b.slug,
+      title:       slugToTitle(b.slug),
+      bucket:      b.bucket,
+      steps,
+      entry,
+      nativeTitle: bm.nativeTitle,
+      nativeLang:  bm.nativeLang,
+      author:      bm.author,
+    };
   }),
 );
 
@@ -71,13 +84,34 @@ const shelves = BUCKETS
             <div class="studio-shelf-grid">
               {shelfCards.map((c) => (
                 <a class="studio-picker-card studio-shelf-card" href={`/studio/${c.slug}/${c.entry.id}`}>
-                  <h3 class="studio-shelf-card-title">{c.title}</h3>
-                  <span class="studio-picker-step">{c.entry.label} · {c.entry.detail}</span>
-                  <div class="studio-picker-bar" aria-hidden="true">
-                    {c.steps.map((s) => (
-                      <span class={`studio-picker-seg${s.state === 'done' ? ' is-done' : s.state === 'active' ? ' is-active' : s.state === 'blocked' ? ' is-blocked' : ''}`}></span>
-                    ))}
+
+                  {/* ── Native-script title panel (Arabic / Chinese) ── */}
+                  {c.nativeTitle && (
+                    <div class="card-script-wrap">
+                      <span
+                        class="card-script-text"
+                        lang={c.nativeLang ?? 'ar'}
+                        dir={c.nativeLang === 'ar' ? 'rtl' : undefined}
+                      >{c.nativeTitle}</span>
+                    </div>
+                  )}
+
+                  {/* ── Card body: title + author + pipeline status ── */}
+                  <div class="card-body-wrap">
+                    <div class="card-identity">
+                      <h3 class="card-title-en">{c.title}</h3>
+                      {c.author && <span class="card-author">{c.author}</span>}
+                    </div>
+                    <div class="card-pipeline-status">
+                      <span class="studio-picker-step">{c.entry.label} · {c.entry.detail}</span>
+                      <div class="studio-picker-bar" aria-hidden="true">
+                        {c.steps.map((s) => (
+                          <span class={`studio-picker-seg${s.state === 'done' ? ' is-done' : s.state === 'active' ? ' is-active' : s.state === 'blocked' ? ' is-blocked' : ''}`}></span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
+
                 </a>
               ))}
             </div>
