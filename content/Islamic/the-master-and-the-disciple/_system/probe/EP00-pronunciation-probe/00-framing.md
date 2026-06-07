@@ -11,49 +11,46 @@ commentary minimal and make sure no numbered term is skipped.
 
 Say each term ONCE. Do not double or spell-then-say.
 
-- Ja'far ibn Mansur al-Yaman: JAH-far ibn man-SOOR al-YAH-man
-- Ka'b al-Ahbar: KAB al-AH-bar
-- Abd Allah: AB-d ah-LAH
+- al-Imām al-Nāṭiq: al-imaam an-Naa-tiq
+- Ja'far ibn Mansur al-Yaman: Ja'a-far ibn man-SOOR al-Ya-man
+- Ka'b al-Ahbar: Ka'AB al-AHh-baar
+- Abd Allah: AB-dal-LAH
+- al-ʿuṣba: al-uth-ba
 - Abu Malik: a-BOO MAA-lik
-- al-Bakhtari: al-bakh-tah-REE
-- Ubayd Allah: oo-BAYD ah-LAH
-- Sharia: sha-REE-ah
+- al-Bakhtari: al-bakh-ta-REE
+- Ubayd Allah: oo-BAYD ul-LAH
+- Sharia: shaR-EE-ah
 - Qur'an: qur-AAN
-- Abu Salih: a-BOO SAA-lih
-- Salih: SAA-lih
+- Abu Salih: a-BOO SAA-leh
+- Salih: Saaa-lih
+- al-Khiḍr: al-khizar
+- Imam: Imam
 - Sa'd: SAHD
 - Shu'ayb: shoo-AYB
 - Abu al-Khair: a-BOO al-KHAYR
-- Allah: ahl-LAH
+- Shariʿa: shaR-EE-ah
+- Allah: al-LAH
 - Shaykh: SHAYKH
 - ibn: IB-n
-- Bayt al-Ma'mur: bait al-mah-MOOR
-- al-Jazira: al-jah-ZEE-rah
+- Bayt al-Ma'mur: bait al-ma'a-MOOR
+- al-Jazira: al-ja-ZEE-rah
 - jazā'ir: ja-ZAA-ir
 - Tur: TOOR
-- nuqabā': noo-qa-BAA
+- nuqabā': nu-qa-baa
 - nāṭiq: NAA-tiq
-- du'āt: doo-AAT
-- sunna: SOON-nah
+- nuqabāʾ: nu-qa-baa
+- ḥawl: hawl
+- quwwa: quw-wwah
+- du'āt: dua'at
+- awliyāʾ: aww-li-yaa
+- daʿwa: da'a-wa
+- duʿāt: dua'at
+- dāʿī: daa-ee
+- taʾwīl: ta-veel
+- sunna: Sunn-nah
 - zakat: za-KAAT
-- ḥujaj: HOO-jaj
+- ḥujaj: Hu-jaj
 - hadiths: ha-DEETHS
-
-The following terms have no validated respelling yet — say them as
-naturally as you can; we are listening to judge the raw rendering:
-- al-Imām al-Nāṭiq
-- al-ʿuṣba
-- al-Khiḍr
-- Imam
-- Shariʿa
-- nuqabāʾ
-- ḥawl
-- quwwa
-- awliyāʾ
-- daʿwa
-- duʿāt
-- dāʿī
-- taʾwīl
 
 Arabic citations: speak ONCE at first occurrence, then English meaning.
 

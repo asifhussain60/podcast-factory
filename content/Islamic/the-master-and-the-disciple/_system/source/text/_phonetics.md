@@ -40,7 +40,7 @@
 | Shariʿa | sharīʿa | shaR-EE-ah | "contains all rulings and the rulings of the Shari'a by reason of his knowledge" |
 | ḥawl | ḥawl | hawl | "the ḥawl (year) is the same ḥawl as in Allah's words" |
 | quwwa | quwwa | quw-wwah | "the public has shown, that 'quwwa' (power) means mules" |
-| al-ʿuṣba | al-ʿuṣba | /al ˈʕusˤba/ | "the keys to them would have been carried by a band of strong men (al-ʿuṣba)" |
+| al-ʿuṣba | al-ʿuṣba | al-uth-ba | "the keys to them would have been carried by a band of strong men (al-ʿuṣba)" |
 | yuḥawwil | yuḥawwil | /juˈħawwil/ | "the Imam was called ḥawl because he turns (yuḥawwil) the words of the Creator" |
 | Yūsuf | Yūsuf | /ˈjuːsuf/ | "Yet the command of God was fulfilled in Yusuf" |
 | awliyāʾ | awliyāʾ | aww-li-yaa | "a cause between God and the guardians [awliyāʾ]" |

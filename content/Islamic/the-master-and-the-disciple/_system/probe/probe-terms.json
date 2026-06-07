@@ -9,9 +9,9 @@
     {
       "term": "al-Imām al-Nāṭiq",
       "transliteration": "al-Imām al-Nāṭiq",
-      "phonetic": "/al ʔiˈmaːm an ˈnaːtˤiq/",
-      "house_style_ok": false,
-      "suggested_baseline": "al-i-maam al-naa-tik",
+      "phonetic": "al-imaam an-Naa-tiq",
+      "house_style_ok": true,
+      "suggested_baseline": "al-imaam an-Naa-tiq",
       "signature": [
         "emphatic",
         "qaf",
@@ -29,14 +29,15 @@
         "long",
         "non-house-style respelling"
       ],
-      "n": 1
+      "n": 1,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Ja'far ibn Mansur al-Yaman",
       "transliteration": "Ja'far ibn Manṣūr al-Yaman",
-      "phonetic": "JAH-far ibn man-SOOR al-YAH-man",
+      "phonetic": "Ja'a-far ibn man-SOOR al-Ya-man",
       "house_style_ok": true,
-      "suggested_baseline": "ja-far ibn ma-nsoor al-ya-man",
+      "suggested_baseline": "Ja'a-far ibn man-SOOR al-Ya-man",
       "signature": [
         "ayn-hamza",
         "emphatic",
@@ -54,14 +55,15 @@
         "proper name",
         "long"
       ],
-      "n": 2
+      "n": 2,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Ka'b al-Ahbar",
       "transliteration": "Kaʿb al-Aḥbār",
-      "phonetic": "KAB al-AH-bar",
+      "phonetic": "Ka'AB al-AHh-baar",
       "house_style_ok": true,
-      "suggested_baseline": "kab al-a-hbaar",
+      "suggested_baseline": "Ka'AB al-AHh-baar",
       "signature": [
         "ayn-hamza",
         "emphatic",
@@ -78,14 +80,15 @@
         "proper name",
         "long"
       ],
-      "n": 3
+      "n": 3,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Abd Allah",
       "transliteration": "ʿAbd Allāh",
-      "phonetic": "AB-d ah-LAH",
+      "phonetic": "AB-dal-LAH",
       "house_style_ok": true,
-      "suggested_baseline": "abd a-llaah",
+      "suggested_baseline": "AB-dal-LAH",
       "signature": [
         "ayn-hamza"
       ],
@@ -99,14 +102,15 @@
         "proper name",
         "x2 in text"
       ],
-      "n": 4
+      "n": 4,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "al-ʿuṣba",
       "transliteration": "al-ʿuṣba",
-      "phonetic": "/al ˈʕusˤba/",
-      "house_style_ok": false,
-      "suggested_baseline": "al-u-sba",
+      "phonetic": "al-uth-ba",
+      "house_style_ok": true,
+      "suggested_baseline": "al-uth-ba",
       "signature": [
         "ayn-hamza",
         "emphatic",
@@ -123,14 +127,15 @@
         "proper name",
         "non-house-style respelling"
       ],
-      "n": 5
+      "n": 5,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Abu Malik",
       "transliteration": "Abū Mālik",
       "phonetic": "a-BOO MAA-lik",
       "house_style_ok": true,
-      "suggested_baseline": "a-boo maa-lik",
+      "suggested_baseline": "a-BOO MAA-lik",
       "signature": [],
       "segment": "names",
       "snippet": "",
@@ -141,14 +146,15 @@
         "proper name",
         "x110 in text"
       ],
-      "n": 6
+      "n": 6,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "al-Bakhtari",
       "transliteration": "al-Bakhtarī",
-      "phonetic": "al-bakh-tah-REE",
+      "phonetic": "al-bakh-ta-REE",
       "house_style_ok": true,
-      "suggested_baseline": "al-ba-khta-ree",
+      "suggested_baseline": "al-bakh-ta-REE",
       "signature": [
         "article-al"
       ],
@@ -161,14 +167,15 @@
         "proper name",
         "x11 in text"
       ],
-      "n": 7
+      "n": 7,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Ubayd Allah",
       "transliteration": "ʿUbayd Allāh",
-      "phonetic": "oo-BAYD ah-LAH",
+      "phonetic": "oo-BAYD ul-LAH",
       "house_style_ok": true,
-      "suggested_baseline": "u-bayd a-llaah",
+      "suggested_baseline": "oo-BAYD ul-LAH",
       "signature": [
         "ayn-hamza"
       ],
@@ -181,14 +188,15 @@
         "4 syllables",
         "proper name"
       ],
-      "n": 8
+      "n": 8,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Sharia",
       "transliteration": "sharīʿa",
-      "phonetic": "sha-REE-ah",
+      "phonetic": "shaR-EE-ah",
       "house_style_ok": true,
-      "suggested_baseline": "sha-ree-a",
+      "suggested_baseline": "shaR-EE-ah",
       "signature": [
         "ayn-hamza",
         "ending-a"
@@ -202,14 +210,15 @@
         "3 syllables",
         "x4 in text"
       ],
-      "n": 9
+      "n": 9,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Qur'an",
       "transliteration": "Qurʾān",
       "phonetic": "qur-AAN",
       "house_style_ok": true,
-      "suggested_baseline": "ku-raan",
+      "suggested_baseline": "qur-AAN",
       "signature": [
         "ayn-hamza",
         "qaf"
@@ -223,14 +232,15 @@
         "qaf",
         "x2 in text"
       ],
-      "n": 10
+      "n": 10,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Abu Salih",
       "transliteration": "Abū Ṣāliḥ",
-      "phonetic": "a-BOO SAA-lih",
+      "phonetic": "a-BOO SAA-leh",
       "house_style_ok": true,
-      "suggested_baseline": "a-boo saa-lih",
+      "suggested_baseline": "a-BOO SAA-leh",
       "signature": [
         "emphatic"
       ],
@@ -243,14 +253,15 @@
         "4 syllables",
         "proper name"
       ],
-      "n": 11
+      "n": 11,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Salih",
       "transliteration": "Ṣāliḥ",
-      "phonetic": "SAA-lih",
+      "phonetic": "Saaa-lih",
       "house_style_ok": true,
-      "suggested_baseline": "saa-lih",
+      "suggested_baseline": "Saaa-lih",
       "signature": [
         "emphatic"
       ],
@@ -262,14 +273,15 @@
         "emphatic x1",
         "x91 in text"
       ],
-      "n": 12
+      "n": 12,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "al-Khiḍr",
       "transliteration": "al-Khiḍr",
-      "phonetic": "/al ˈxidˤr/",
-      "house_style_ok": false,
-      "suggested_baseline": "al-khidr",
+      "phonetic": "al-khizar",
+      "house_style_ok": true,
+      "suggested_baseline": "al-khizar",
       "signature": [
         "emphatic",
         "article-al"
@@ -283,14 +295,15 @@
         "proper name",
         "non-house-style respelling"
       ],
-      "n": 13
+      "n": 13,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Imam",
       "transliteration": "imām",
-      "phonetic": "/ʔiˈmaːm/",
-      "house_style_ok": false,
-      "suggested_baseline": "i-maam",
+      "phonetic": "Imam",
+      "house_style_ok": true,
+      "suggested_baseline": "Imam",
       "signature": [],
       "segment": "names",
       "snippet": "",
@@ -300,14 +313,15 @@
         "x22 in text",
         "non-house-style respelling"
       ],
-      "n": 14
+      "n": 14,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Sa'd",
       "transliteration": "Saʿd",
       "phonetic": "SAHD",
       "house_style_ok": true,
-      "suggested_baseline": "sad",
+      "suggested_baseline": "SAHD",
       "signature": [
         "ayn-hamza"
       ],
@@ -319,14 +333,15 @@
         "ayn/hamza",
         "x2 in text"
       ],
-      "n": 15
+      "n": 15,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Shu'ayb",
       "transliteration": "Shuʿayb",
       "phonetic": "shoo-AYB",
       "house_style_ok": true,
-      "suggested_baseline": "shuayb",
+      "suggested_baseline": "shoo-AYB",
       "signature": [
         "ayn-hamza"
       ],
@@ -338,14 +353,15 @@
         "ayn/hamza",
         "x2 in text"
       ],
-      "n": 16
+      "n": 16,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Abu al-Khair",
       "transliteration": "Abū al-Khayr",
       "phonetic": "a-BOO al-KHAYR",
       "house_style_ok": true,
-      "suggested_baseline": "a-boo al-khayr",
+      "suggested_baseline": "a-BOO al-KHAYR",
       "signature": [
         "article-al"
       ],
@@ -357,14 +373,15 @@
         "4 syllables",
         "proper name"
       ],
-      "n": 17
+      "n": 17,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Shariʿa",
       "transliteration": "sharīʿa",
-      "phonetic": "/ʃaˈriːʕa/",
-      "house_style_ok": false,
-      "suggested_baseline": "sha-ree-a",
+      "phonetic": "shaR-EE-ah",
+      "house_style_ok": true,
+      "suggested_baseline": "shaR-EE-ah",
       "signature": [
         "ayn-hamza",
         "ending-a"
@@ -377,14 +394,15 @@
         "ayn/hamza",
         "non-house-style respelling"
       ],
-      "n": 18
+      "n": 18,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Allah",
       "transliteration": "Allāh",
-      "phonetic": "ahl-LAH",
+      "phonetic": "al-LAH",
       "house_style_ok": true,
-      "suggested_baseline": "a-llaah",
+      "suggested_baseline": "al-LAH",
       "signature": [],
       "segment": "names",
       "snippet": "",
@@ -393,14 +411,15 @@
       "reasons": [
         "x222 in text"
       ],
-      "n": 19
+      "n": 19,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Shaykh",
       "transliteration": "Shaykh",
       "phonetic": "SHAYKH",
       "house_style_ok": true,
-      "suggested_baseline": "shaykh",
+      "suggested_baseline": "SHAYKH",
       "signature": [],
       "segment": "names",
       "snippet": "",
@@ -409,14 +428,15 @@
       "reasons": [
         "x23 in text"
       ],
-      "n": 20
+      "n": 20,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "ibn",
       "transliteration": "ibn",
       "phonetic": "IB-n",
       "house_style_ok": true,
-      "suggested_baseline": "ibn",
+      "suggested_baseline": "IB-n",
       "signature": [
         "lineage"
       ],
@@ -428,14 +448,15 @@
         "proper name",
         "x2 in text"
       ],
-      "n": 21
+      "n": 21,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Bayt al-Ma'mur",
       "transliteration": "Bayt al-Ma'mūr",
-      "phonetic": "bait al-mah-MOOR",
+      "phonetic": "bait al-ma'a-MOOR",
       "house_style_ok": true,
-      "suggested_baseline": "bayt al-ma-moor",
+      "suggested_baseline": "bait al-ma'a-MOOR",
       "signature": [
         "ayn-hamza",
         "article-al"
@@ -450,14 +471,15 @@
         "proper name",
         "long"
       ],
-      "n": 22
+      "n": 22,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "al-Jazira",
       "transliteration": "al-Jazīra",
-      "phonetic": "al-jah-ZEE-rah",
+      "phonetic": "al-ja-ZEE-rah",
       "house_style_ok": true,
-      "suggested_baseline": "al-ja-zee-ra",
+      "suggested_baseline": "al-ja-ZEE-rah",
       "signature": [
         "article-al",
         "ending-a"
@@ -470,14 +492,15 @@
         "4 syllables",
         "proper name"
       ],
-      "n": 23
+      "n": 23,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "jazā'ir",
       "transliteration": "jazā'ir",
       "phonetic": "ja-ZAA-ir",
       "house_style_ok": true,
-      "suggested_baseline": "ja-zaa-ir",
+      "suggested_baseline": "ja-ZAA-ir",
       "signature": [
         "ayn-hamza"
       ],
@@ -489,14 +512,15 @@
         "ayn/hamza",
         "3 syllables"
       ],
-      "n": 24
+      "n": 24,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "Tur",
       "transliteration": "Ṭūr",
       "phonetic": "TOOR",
       "house_style_ok": true,
-      "suggested_baseline": "toor",
+      "suggested_baseline": "TOOR",
       "signature": [],
       "segment": "places",
       "snippet": "",
@@ -505,14 +529,15 @@
       "reasons": [
         "x68 in text"
       ],
-      "n": 25
+      "n": 25,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "nuqabā'",
       "transliteration": "nuqabā'",
-      "phonetic": "noo-qa-BAA",
+      "phonetic": "nu-qa-baa",
       "house_style_ok": true,
-      "suggested_baseline": "nu-ka-baa",
+      "suggested_baseline": "nu-qa-baa",
       "signature": [
         "ayn-hamza",
         "qaf"
@@ -527,14 +552,15 @@
         "3 syllables",
         "x3 in text"
       ],
-      "n": 26
+      "n": 26,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "nāṭiq",
       "transliteration": "nāṭiq",
       "phonetic": "NAA-tiq",
       "house_style_ok": true,
-      "suggested_baseline": "naa-tik",
+      "suggested_baseline": "NAA-tiq",
       "signature": [
         "emphatic",
         "qaf"
@@ -548,14 +574,15 @@
         "qaf",
         "x5 in text"
       ],
-      "n": 27
+      "n": 27,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "nuqabāʾ",
       "transliteration": "nuqabāʾ",
-      "phonetic": "/nuqaˈbaːʔ/",
-      "house_style_ok": false,
-      "suggested_baseline": "nu-ka-baa",
+      "phonetic": "nu-qa-baa",
+      "house_style_ok": true,
+      "suggested_baseline": "nu-qa-baa",
       "signature": [
         "ayn-hamza",
         "qaf"
@@ -569,13 +596,14 @@
         "qaf",
         "non-house-style respelling"
       ],
-      "n": 28
+      "n": 28,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "ḥawl",
       "transliteration": "ḥawl",
-      "phonetic": "/ħawl/",
-      "house_style_ok": false,
+      "phonetic": "hawl",
+      "house_style_ok": true,
       "suggested_baseline": "hawl",
       "signature": [
         "emphatic"
@@ -589,14 +617,15 @@
         "x6 in text",
         "non-house-style respelling"
       ],
-      "n": 29
+      "n": 29,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "quwwa",
       "transliteration": "quwwa",
-      "phonetic": "/ˈquwːa/",
-      "house_style_ok": false,
-      "suggested_baseline": "ku-wwa",
+      "phonetic": "quw-wwah",
+      "house_style_ok": true,
+      "suggested_baseline": "quw-wwah",
       "signature": [
         "qaf",
         "ending-a"
@@ -610,14 +639,15 @@
         "x4 in text",
         "non-house-style respelling"
       ],
-      "n": 30
+      "n": 30,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "du'āt",
       "transliteration": "du'āt",
-      "phonetic": "doo-AAT",
+      "phonetic": "dua'at",
       "house_style_ok": true,
-      "suggested_baseline": "duaat",
+      "suggested_baseline": "dua'at",
       "signature": [
         "ayn-hamza"
       ],
@@ -629,14 +659,15 @@
         "ayn/hamza",
         "x3 in text"
       ],
-      "n": 31
+      "n": 31,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "awliyāʾ",
       "transliteration": "awliyāʾ",
-      "phonetic": "/ʔawliˈjaːʔ/",
-      "house_style_ok": false,
-      "suggested_baseline": "a-wli-yaa",
+      "phonetic": "aww-li-yaa",
+      "house_style_ok": true,
+      "suggested_baseline": "aww-li-yaa",
       "signature": [
         "ayn-hamza"
       ],
@@ -648,14 +679,15 @@
         "ayn/hamza",
         "non-house-style respelling"
       ],
-      "n": 32
+      "n": 32,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "daʿwa",
       "transliteration": "daʿwa",
-      "phonetic": "/ˈdaʕwa/",
-      "house_style_ok": false,
-      "suggested_baseline": "da-wa",
+      "phonetic": "da'a-wa",
+      "house_style_ok": true,
+      "suggested_baseline": "da'a-wa",
       "signature": [
         "ayn-hamza",
         "ending-a"
@@ -668,14 +700,15 @@
         "ayn/hamza",
         "non-house-style respelling"
       ],
-      "n": 33
+      "n": 33,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "duʿāt",
       "transliteration": "duʿāt",
-      "phonetic": "/duˈʕaːt/",
-      "house_style_ok": false,
-      "suggested_baseline": "duaat",
+      "phonetic": "dua'at",
+      "house_style_ok": true,
+      "suggested_baseline": "dua'at",
       "signature": [
         "ayn-hamza"
       ],
@@ -687,13 +720,14 @@
         "ayn/hamza",
         "non-house-style respelling"
       ],
-      "n": 34
+      "n": 34,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "dāʿī",
       "transliteration": "dāʿī",
-      "phonetic": "/ˈdaːʕiː/",
-      "house_style_ok": false,
+      "phonetic": "daa-ee",
+      "house_style_ok": true,
       "suggested_baseline": "daa-ee",
       "signature": [
         "ayn-hamza"
@@ -706,14 +740,15 @@
         "ayn/hamza",
         "non-house-style respelling"
       ],
-      "n": 35
+      "n": 35,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "taʾwīl",
       "transliteration": "taʾwīl",
-      "phonetic": "/taʔˈwiːl/",
-      "house_style_ok": false,
-      "suggested_baseline": "ta-weel",
+      "phonetic": "ta-veel",
+      "house_style_ok": true,
+      "suggested_baseline": "ta-veel",
       "signature": [
         "ayn-hamza"
       ],
@@ -725,14 +760,15 @@
         "ayn/hamza",
         "non-house-style respelling"
       ],
-      "n": 36
+      "n": 36,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "sunna",
       "transliteration": "sunna",
-      "phonetic": "SOON-nah",
+      "phonetic": "Sunn-nah",
       "house_style_ok": true,
-      "suggested_baseline": "su-nna",
+      "suggested_baseline": "Sunn-nah",
       "signature": [
         "ending-a"
       ],
@@ -743,14 +779,15 @@
       "reasons": [
         "x15 in text"
       ],
-      "n": 37
+      "n": 37,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "zakat",
       "transliteration": "zakāt",
       "phonetic": "za-KAAT",
       "house_style_ok": true,
-      "suggested_baseline": "za-kaat",
+      "suggested_baseline": "za-KAAT",
       "signature": [],
       "segment": "terms",
       "snippet": "",
@@ -759,14 +796,15 @@
       "reasons": [
         "x11 in text"
       ],
-      "n": 38
+      "n": 38,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "ḥujaj",
       "transliteration": "ḥujaj",
-      "phonetic": "HOO-jaj",
+      "phonetic": "Hu-jaj",
       "house_style_ok": true,
-      "suggested_baseline": "hu-jaj",
+      "suggested_baseline": "Hu-jaj",
       "signature": [
         "emphatic"
       ],
@@ -778,14 +816,15 @@
         "emphatic x1",
         "x3 in text"
       ],
-      "n": 39
+      "n": 39,
+      "libraryStatus": "confirmed"
     },
     {
       "term": "hadiths",
       "transliteration": "ḥadīths",
       "phonetic": "ha-DEETHS",
       "house_style_ok": true,
-      "suggested_baseline": "ha-deeths",
+      "suggested_baseline": "ha-DEETHS",
       "signature": [
         "emphatic"
       ],
@@ -797,7 +836,8 @@
         "emphatic x1",
         "x2 in text"
       ],
-      "n": 40
+      "n": 40,
+      "libraryStatus": "confirmed"
     }
   ]
 }
