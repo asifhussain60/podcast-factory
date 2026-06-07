@@ -23,7 +23,7 @@ The session log at the bottom of [copilot-handoff.md](../_workspace/plan/copilot
 
 ## What this repo is
 
-- A **podcast-authoring pipeline** driving scholarly Arabic books through Claude + Azure → NotebookLM Audio Overview episodes. Live state lives under `scripts/podcast/`, in-progress books under `content/drafts/<slug>/`, shipped books under `content/published/books/<slug>/`.
+- A **podcast-authoring pipeline** driving scholarly Arabic books through Claude + Azure → NotebookLM Audio Overview episodes. Live state lives under `scripts/podcast/`; every book lives at `content/<Bucket>/<slug>/` (Islamic/Technical/Fiction/Guides) with `draft` vs `published` as a status FIELD, not a folder (type-first layout, 2026-06-04).
 - The **Azure stack** (OCR / translation / speech) under `infra/azure/`, `infra/launchd/`, `infra/llm-apis/`.
 - A handful of general-utility skills + agents (duplicated from the sibling `journal` repo as of the 2026-05-22 split).
 
@@ -38,7 +38,7 @@ The memoir, the static journal site, and the Anthropic API proxy moved to (or we
 
 ## Machine model
 
-Single-machine, machine-agnostic (since 2026-05-23). `develop` is the working branch. `develop` → `main` requires Asif's explicit approval via PR (GitHub ruleset enforces this). Content runs on typed branches (`book/<slug>`, `doc/<slug>`, etc. — see `scripts/podcast/_branching.py`).
+Single-machine, machine-agnostic (since 2026-05-23). `develop` is the working branch. `develop` → `main` requires Asif's explicit approval via PR (GitHub ruleset enforces this). Content runs on bucket-grouped branches named `<Bucket>/<slug>` (e.g. `Islamic/ayyuhal-walad`, `Fiction/journey-to-the-west-vol-1`) — the bucket comes from the content's `content_profile`; see `scripts/podcast/_branching.py` (policy locked 2026-06-07, supersedes the older typed-prefix and bare-slug models).
 
 ---
 

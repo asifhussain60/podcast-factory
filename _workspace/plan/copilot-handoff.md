@@ -87,8 +87,9 @@ archetypes, SPA, retro-enhancements) are **DONE** — `_paths.py`, `_db.py`, `_a
 rebuild any of them. The live roadmap is `_workspace/plan/CONTINUATION-2026-05-30.md` (the
 canonical Wave-8 table) plus `_workspace/plan/refactor/plan.yaml` items prefixed `WC8-`.
 
-**Active book:** Ayyuhal Walad, on branch `book/ayyuhal-walad` (NOT `develop` — content runs on
-typed branches per `scripts/podcast/_branching.py`). 5 chapters, stages built through Augmented.
+**Active book:** Ayyuhal Walad is PUBLISHED and merged to `develop`; its branch was renamed to
+`Islamic/ayyuhal-walad` (bucket-grouped, per `scripts/podcast/_branching.py` — see the 2026-06-07
+session-log entry). Content branches are now named `<Bucket>/<slug>`, NOT `develop`.
 
 **Recently shipped (most recent first):**
 - `feat(wave8/5b)` — Studio re-platform CORE: new `/studio` page (supersedes the throwaway
@@ -154,8 +155,9 @@ The split is **by directory**, because directory ≈ the skill each agent is bes
 
 ### Branch & commit discipline
 
-- Work on the active content branch (`book/ayyuhal-walad` right now). `git pull --rebase` before
-  you start and before you push — Claude may have committed pipeline work in parallel.
+- Work on the active content branch, named `<Bucket>/<slug>` (e.g. `Fiction/journey-to-the-west-vol-1`),
+  per `scripts/podcast/_branching.py`. `git pull --rebase` before you start and before you push —
+  Claude may have committed pipeline work in parallel.
 - Small, frequent commits scoped to `plan-dashboard/**`. Conventional-commit subject
   (`feat(wave8/6b): …`). Co-author trailer per repo convention.
 - **Tier-2 stays with Asif**: orchestrator runs on a new PDF, `publish_to_library.py`,
@@ -265,6 +267,35 @@ git pull --rebase origin book/ayyuhal-walad                      # sync before w
 
 Append a dated entry at the end of every session (newest at top): what changed, what's next,
 what's blocked. This is your across-session memory.
+
+### 2026-06-07 — Claude session (branch policy → bucket grouping + merge + audit)
+
+**Branch naming changed: bare slug → `<Bucket>/<slug>` (bucket-grouped).** Supersedes the
+2026-06-04 bare-slug policy. `scripts/podcast/_branching.py` `branch_name(category, slug, *,
+profile=None, bucket=None)` now returns `<Bucket>/<slug>` (Islamic/Technical/Fiction/Guides),
+resolving the bucket from `content_profile` via the newly-public `_paths.resolve_bucket` (was
+`_resolve_bucket`; alias kept) — the SAME resolver the content-folder layout uses, so branch
+bucket == folder bucket. The legacy `category` tag does NOT determine the bucket (a `books`-category
+item can be Islamic OR Fiction); prefer passing `profile=`. Commit `5319dba` on `develop`.
+
+- Callers threaded with profile where state is available: `_progress.initial_state`
+  (new `content_profile` kwarg), `phases/merge.py`, `phases/series_plan.py`, `phases/preflight.py`.
+  Creation-time callers (`scaffold`, `initial_driver`, `preflight_initial`, `intake_book`) stay
+  category-only — symmetric with how the folder is resolved, so the two never drift.
+- **Branches renamed (local + remote):** `ayyuhal-walad` → `Islamic/ayyuhal-walad`;
+  `journey-to-the-west-vol-1` → `Fiction/journey-to-the-west-vol-1`. Old remote refs deleted.
+  State `branch` fields restamped for both + `the-master-and-the-disciple` (`Islamic/...`).
+- **Merges to develop:** `journey-to-the-west-vol-1` merged (--no-ff; branch kept — book not yet
+  complete). Ayyuhal Walad was ALREADY merged (d14a82e) and is published — NOT re-merged (its
+  branch is 17 behind develop; re-merging the stale branch would have reverted newer state).
+- Docs updated: `CLAUDE.md`, `framework.md`, publisher agent doc, this handoff.
+- **Audit:** 547 tests pass (run from repo root: `python3 -m pytest scripts/podcast/tests/`).
+  No tracked media binaries, no root sprawl, no journal reach-ins, snapshots regenerated.
+- **NEXT:** the orchestrator creates the branch at intake BEFORE `content_profile` is classified,
+  so a fiction book intaken with the default `books` category lands on an `Islamic/` branch until
+  reclassified. Consider letting intake accept an explicit `--content-profile` (or pre-seed
+  series-config) so the first branch lands in the right bucket. Low priority; folder has the same
+  property and state.branch carries the authoritative name afterward.
 
 ### 2026-05-31 — Claude session (close-out: site consolidation + regression sweep) — CROSS-LANE + BACKLOG
 
