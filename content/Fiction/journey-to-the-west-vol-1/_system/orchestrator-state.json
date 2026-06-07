@@ -5,7 +5,7 @@
   "branch": "journey-to-the-west-vol-1",
   "status": "draft",
   "phase": "per-chapter",
-  "phase_status": "pending",
+  "phase_status": "running",
   "last_completed_phase": "06a",
   "next_phase": "0f",
   "last_error": {
@@ -102,5 +102,5 @@
     33
   ],
   "note": "Step 1 upstream: Claude-on-Max translation of ch 1-33 (complete). Proceeding to 0b narrative refinement.",
-  "ts_updated": "2026-06-06T23:56:28Z"
+  "ts_updated": "2026-06-07T00:06:47Z"
 }

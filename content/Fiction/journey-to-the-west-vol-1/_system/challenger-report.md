@@ -75,3 +75,5 @@ None.
 |---|---|---|---|---|---|
 | 1 | 0 | 2 | 2 | 0 | Re-read three files, ran 26 in-scope check categories deterministically, no fixes applied (all findings require author judgment or architectural decisions). Intelligent break: zero auto-fixes + identical findings vs prior pass → halt. |
 
+> Fixer-pass note (2026-06-06): orchestrator invoked the EP05 (`the-great-sage-plunders-the-peaches`) fixer pass against this report, but the report on disk covers EP03 (`four-seas-bow-in-submission`). The two listed P1 findings target EP03's framing, which is outside the EP05 fixer's allowed-edit scope — no edits applied. Re-run the challenger against EP05 to produce a chapter-matched report before the next fixer pass.
+
