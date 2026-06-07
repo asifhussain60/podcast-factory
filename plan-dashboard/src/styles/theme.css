@@ -189,7 +189,7 @@ html, body {
   line-height: var(--lh-base);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip; /* clip prevents horizontal scroll without creating a new scroll container (hidden would break position:sticky) */
 }
 
 /* Vertical-flow guarantee — no fixed-height container anywhere */
