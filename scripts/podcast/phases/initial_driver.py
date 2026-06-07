@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _paths import REPO_ROOT  # noqa: E402
 from _progress import initial_state, read_state, update_phase, write_state  # noqa: E402
 from _rules import CONSUMER_CATEGORIES  # noqa: E402
-from _authoring import AuthoringError, author_phase_0b, author_phase_0c, author_phase_0d, author_phase_0e  # noqa: E402
+from _authoring import AuthoringError, AuthoringHalt, author_phase_0b, author_phase_0c, author_phase_0ci, author_phase_0d, author_phase_0e  # noqa: E402
 from phases.preflight import preflight_initial  # noqa: E402
 from phases.scaffold import phase_branch, phase_scaffold, phase_0a_ingest, phase_git_commit  # noqa: E402
 from phases.source_ingest import phase_0a_ingest_source_md  # noqa: E402
@@ -65,6 +65,13 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
             return
         author_phase_0c(bd, log=_info)
 
+    def _run_0ci(bd: Path) -> None:
+        # Skip guard: if 0d is already completed, this book pre-dates the feature — no-op.
+        if "0d" in completed:
+            _info("phase 0ci · 0d already completed (pre-feature book) — skipping")
+            return
+        author_phase_0ci(bd, log=_info)
+
     def _run_0d(bd: Path) -> None:
         author_phase_0d(bd, length_tier=length_tier, unit_mode=unit_mode, log=_info)
 
@@ -82,6 +89,7 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
     phase_map = [
         ("0b", _run_0b, "phase 0b English refinement (chunked)"),
         ("0c", _run_0c, "phase 0c phonetic pass (chunked)"),
+        ("0ci", _run_0ci, "phase 0ci book intelligence gap analysis"),
         ("0d", _run_0d, f"phase 0d chapter design (tier={length_tier}, unit={unit_mode})"),
         ("0e", _run_0e, "phase 0e enrichment"),
     ]
@@ -98,6 +106,23 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
         update_phase(book_dir, phase=phase_id, status="running")
         try:
             fn(book_dir)
+        except AuthoringHalt as e:
+            # Phase completed its core work but requires human review before the next phase.
+            # Commit the phase output, then halt cleanly (status="halted", not "failed").
+            update_phase(book_dir, phase=phase_id, status="halted",
+                         error=str(e), extras={"manual_fallback": e.manual_fallback})
+            phase_git_commit(book_dir, f"podcast({book_slug}): {subject} [halted for review]")
+            _info("")
+            _info("─" * 72)
+            _info(f"Phase {phase_id} · HALTED — human review required")
+            _info(f"  {e}")
+            if e.manual_fallback:
+                _info("")
+                _info("  Next steps:")
+                for line in e.manual_fallback.splitlines():
+                    _info(f"    {line}")
+            _info("─" * 72)
+            return 0
         except AuthoringError as e:
             update_phase(book_dir, phase=phase_id, status="failed",
                          error=str(e), extras={"manual_fallback": e.manual_fallback})

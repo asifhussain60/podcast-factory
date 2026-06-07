@@ -64,6 +64,7 @@ PHASES = (
     "0a",       # Azure OCR + Translation (deterministic)
     "0b",       # English refinement (LLM)
     "0c",       # Arabic phonetic pass (LLM)
+    "0ci",      # Book intelligence: gap analysis + corpus cross-reference (LLM); Islamic-content halt
     "0d",       # Chapter design (LLM)
     "0e",       # Enrichment (LLM)
     "0literary",  # 08b literary transformation (Gemini); after enrichment, emitted by initial_driver

@@ -164,6 +164,18 @@ class AuthoringError(RuntimeError):
         self.stderr = stderr
 
 
+class AuthoringHalt(AuthoringError):
+    """Raised when a phase completes its work but requires human review before the next phase.
+
+    Unlike AuthoringError (failure), AuthoringHalt signals *successful* completion
+    with a required human gate. The orchestrator maps this to phase_status="halted"
+    rather than "failed", preserving the phase's completed work.
+    """
+
+    def __init__(self, phase: str, message: str, manual_fallback: str = ""):
+        super().__init__(phase=phase, message=message, manual_fallback=manual_fallback)
+
+
 DEFAULT_MODEL_LABEL = "claude-opus-4-8"
 
 

@@ -18,6 +18,7 @@ from ._core import (  # noqa: E402
     PHASE_0C_OVERLAP_WORDS,
     PHASE_0C_WINDOW_TIMEOUT,
     AuthoringError,
+    AuthoringHalt,
     ARABIC_SCHOLARLY_CATEGORIES,
     SKIP_PHONETICS_CATEGORIES,
     _read_category,
@@ -405,7 +406,27 @@ def author_phase_0c(
         )
 
     glossary_msg = _bake_glossary(book_dir, log=log)
-    return f"0c chunked: {len(out_paths)} windows merged into {out_path.name}{glossary_msg}"
+    probe_msg, probe_halt = _bake_probe(book_dir, log=log)
+
+    if probe_halt and is_islamic_scholarly(book_dir):
+        bundle_path = book_dir / "_system" / "probe" / "EP00-pronunciation-probe"
+        raise AuthoringHalt(
+            phase="0c",
+            message=(
+                "EP00 pronunciation probe ready for human review. "
+                f"Upload `{bundle_path}/pronunciation-probe.md` to NotebookLM, "
+                "paste `00-framing.md` into Customize, generate a 3-5 min audio, "
+                "mark corrections in `listen-checklist.md`, then resume."
+            ),
+            manual_fallback=(
+                f"1. Open {bundle_path}/README.md for upload instructions.\n"
+                "2. Review the audio and mark corrections in listen-checklist.md.\n"
+                "3. Run: python3 scripts/podcast/apply_pronunciation_corrections.py <book-dir>\n"
+                "4. Resume: python3 scripts/podcast/orchestrate_book.py --resume <slug>"
+            ),
+        )
+
+    return f"0c chunked: {len(out_paths)} windows merged into {out_path.name}{glossary_msg}{probe_msg}"
 
 
 def _bake_glossary(book_dir: Path, *, log=print) -> str:
@@ -428,6 +449,56 @@ def _bake_glossary(book_dir: Path, *, log=print) -> str:
     else:
         log(f"  phase 0c · glossary Arabic-fill skipped (rc={rc}): {err.strip()[:200]}")
     return f" + glossary: {' + '.join(msg_parts)}"
+
+
+def _bake_probe(book_dir: Path, *, log=print) -> tuple[str, bool]:
+    """Score pronunciation risk + build EP00 bundle. Returns (msg, halt_needed).
+
+    halt_needed is True when a fresh probe was generated and needs human review.
+    False when the probe already has confirmed entries (reviewed) or scripts are absent.
+    """
+    import json as _json
+
+    here = Path(__file__).resolve().parents[1]  # scripts/podcast/
+    scorer = here / "probe" / "score_pronunciation_risk.py"
+    bundler = here / "probe" / "build_probe_bundle.py"
+    probe_json = book_dir / "_system" / "probe" / "probe-terms.json"
+    bundle_dir = book_dir / "_system" / "probe" / "EP00-pronunciation-probe"
+
+    if not scorer.exists() or not bundler.exists():
+        log("  phase 0c · probe scripts absent — skipping probe generation")
+        return "", False
+
+    # If probe artifacts already exist with confirmed entries, the human already reviewed them.
+    if probe_json.exists() and bundle_dir.exists():
+        try:
+            terms = _json.loads(probe_json.read_text(encoding="utf-8"))
+            confirmed = sum(1 for t in terms if t.get("libraryStatus") == "confirmed")
+            if confirmed > 0:
+                log(f"  phase 0c · probe already reviewed ({confirmed} confirmed terms) — skipping")
+                return f" + probe: already-reviewed({confirmed})", False
+        except Exception:
+            pass
+
+    msg_parts: list[str] = []
+
+    rc, out, err = _run([sys.executable, str(scorer), str(book_dir)])
+    if rc == 0:
+        msg_parts.append("scored")
+        log("  phase 0c · probe terms scored")
+    else:
+        log(f"  phase 0c · probe scoring failed (rc={rc}): {err.strip()[:200]}")
+        return " + probe: score-failed", False
+
+    rc, out, err = _run([sys.executable, str(bundler), str(book_dir)])
+    if rc == 0:
+        msg_parts.append("bundle")
+        log("  phase 0c · EP00 bundle generated")
+    else:
+        log(f"  phase 0c · probe bundle failed (rc={rc}): {err.strip()[:200]}")
+        return f" + probe: {'+'.join(msg_parts)}-no-bundle", False
+
+    return f" + probe: {'+'.join(msg_parts)}", True
 
 
 def _run(argv: list[str]) -> tuple[int, str, str]:

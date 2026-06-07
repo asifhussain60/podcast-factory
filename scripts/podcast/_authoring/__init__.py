@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from ._core import (  # noqa: F401
     AuthoringError,
+    AuthoringHalt,
     DEFAULT_MODEL_LABEL,
     CLAUDE_CMD,
     DEFAULT_TIMEOUT,
@@ -39,6 +40,7 @@ from ._refine import (  # noqa: F401
     author_phase_0b,
     author_phase_0c,
 )
+from ._book_intelligence import author_phase_0ci  # noqa: F401
 from ._chapter_design import author_phase_0d  # noqa: F401
 from ._enrichment import author_phase_0e  # noqa: F401
 from ._framing import author_framing  # noqa: F401
