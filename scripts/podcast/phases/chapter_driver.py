@@ -343,10 +343,8 @@ def _print_notebooklm_table(book_dir: Path) -> None:
             _load_contract,
             _resolve_chapter_file,
             _resolve_framing_file,
-            _friendly_format,
-            _nlm_format,
-            _nlm_length,
         )
+        from _notebooklm_table import UploadRow, render_upload_table_lines  # noqa: PLC0415
     except ImportError as exc:
         _info(f"  [notebooklm table skipped — import error: {exc}]")
         return
@@ -373,7 +371,8 @@ def _print_notebooklm_table(book_dir: Path) -> None:
         _info("  [notebooklm table skipped — no episodes found]")
         return
 
-    rows = []
+    rows: list[UploadRow] = []
+    files: list[dict] = []
     for entry in mapping:
         episode_slug = entry["episode"]
         chapter_slug = entry["chapter"]
@@ -383,38 +382,35 @@ def _print_notebooklm_table(book_dir: Path) -> None:
         title = contract.get("title", episode_slug).strip("\"'")
         chapter_path = _resolve_chapter_file(book_dir, chapter_slug)
         framing_path = _resolve_framing_file(book_dir, episode_slug)
-        rows.append({
+        rows.append(UploadRow(
+            n=ep_num,
+            chapter_title=title,
+            episode_title=title,
+            episode_format=episode_format,
+        ))
+        files.append({
             "ep": ep_num,
-            "title": title,
             "chapter_path": str(chapter_path.relative_to(book_dir.parent.parent))
                             if chapter_path else "(missing)",
             "framing_path": str(framing_path.relative_to(book_dir.parent.parent))
                             if framing_path else "(missing)",
-            "format": _friendly_format(episode_format),
-            "nlm_format": _nlm_format(episode_format),
-            "length": _nlm_length(framing_path),
         })
 
     _info("─" * 72)
-    _info("NOTEBOOKLM UPLOAD INSTRUCTIONS")
+    _info("NOTEBOOKLM UPLOAD TABLE")
     _info("")
     _info("For each episode, create a new NotebookLM notebook:")
     _info("  1. Upload the SOURCE file as the ONLY source.")
     _info("  2. Open Customize → paste the entire FRAMING file into the prompt box.")
-    _info("  3. Set Format and Length as shown, then generate.")
+    _info("  3. Set the conversation style + Length as shown, then generate.")
     _info("")
-    # Header
-    hdr = f"  {'EP':<5} {'Title':<38} {'Format':<11} {'NLM Format':<12} {'Length'}"
-    sep = f"  {'-'*5} {'-'*38} {'-'*11} {'-'*12} {'-'*7}"
-    _info(hdr)
-    _info(sep)
-    for r in rows:
-        _info(f"  EP{r['ep']:<3d} {r['title']:<38} {r['format']:<11} {r['nlm_format']:<12} {r['length']}")
+    for line in render_upload_table_lines(rows):
+        _info(f"  {line}")
     _info("")
     _info("  Source files  (upload as the ONLY NotebookLM source):")
-    for r in rows:
-        _info(f"    EP{r['ep']:02d}  {r['chapter_path']}")
+    for f in files:
+        _info(f"    EP{f['ep']:02d}  {f['chapter_path']}")
     _info("")
     _info("  Framing files (paste full contents into NotebookLM Customize box):")
-    for r in rows:
-        _info(f"    EP{r['ep']:02d}  {r['framing_path']}")
+    for f in files:
+        _info(f"    EP{f['ep']:02d}  {f['framing_path']}")

@@ -25,9 +25,10 @@ PEQ SCORING (5-axis, K6)
     Runs _quality.score() deterministically on each chapter source text.
     No API calls. Uses the same formula as the challenger's inner loop.
 
-NOTEBOOKLM UPLOAD TABLE (mandatory format per feedback_notebooklm_instructions_format.md)
-    EP | Title | Format | NLM Format | Length
-    Length rule: episode framing > 3,500 words → Long; ≤ 3,200 words → Default.
+NOTEBOOKLM UPLOAD TABLE (mandatory canonical format — defined in _notebooklm_table.py,
+per feedback_notebooklm_instructions_format.md)
+    | Chapters | Episodes | Deep dive or debate | Length |
+    Length default: Long (standing rule). Episodes cell carries "EP## — <title>".
 
 EXIT CODES
     0  all chapters + framings present; PEQ all WARN or PASS
@@ -37,6 +38,7 @@ EXIT CODES
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -81,7 +83,16 @@ def _load_episode_map(book_dir: Path) -> list[dict]:
     if not p.exists():
         return _derive_episode_map_from_chapters(book_dir)
     data = json.loads(p.read_text(encoding="utf-8"))
-    return data.get("mapping", [])
+    mapping = data.get("mapping", [])
+    # Backfill the `episode` slug when the on-disk map carries only chapter + n
+    # (a real schema seen in shipped books). Without this, every consumer that
+    # reads entry["episode"] KeyErrors — including the finalize upload table.
+    for entry in mapping:
+        if "episode" not in entry and entry.get("chapter") and entry.get("n") is not None:
+            m = re.match(r"^ch\d+[a-z]?-(.*)$", str(entry["chapter"]))
+            tail = m.group(1) if m else str(entry["chapter"])
+            entry["episode"] = f"EP{int(entry['n']):02d}-{tail}"
+    return mapping
 
 
 def _load_contract(book_dir: Path, chapter_slug: str) -> dict:
@@ -337,14 +348,22 @@ def assemble_bundle(slug: str, *, run_score: bool = False, as_json: bool = False
                   f"{p['fidelity']:>5.1f} {p['structure']:>5.1f} {p['enrichment']:>5.1f} "
                   f"{p['interest']:>5.1f} {p['total']:>6.1f} {v_icon} {p['verdict']}")
 
-    # NotebookLM upload table (mandatory format).
+    # NotebookLM upload table (mandatory canonical format — see _notebooklm_table.py).
+    from _notebooklm_table import UploadRow, render_upload_table_lines  # noqa: PLC0415
     print(f"\nNOTEBOOKLM UPLOAD TABLE — {slug} ({len(rows)} episodes)")
-    print(f"  Read the chapter SOURCE to NotebookLM; paste the FRAMING into Customize.")
+    print(f"  Upload the chapter SOURCE to NotebookLM; paste the FRAMING into Customize.")
     print()
-    print(f"  {'EP':<5} {'Title':<38} {'Format':<11} {'NLM Format':<12} {'Length'}")
-    print(f"  {'-'*5} {'-'*38} {'-'*11} {'-'*12} {'-'*7}")
-    for r in rows:
-        print(f"  EP{r['ep']:<3d} {r['title']:<38} {r['format']:<11} {r['nlm_format']:<12} {r['length']}")
+    upload_rows = [
+        UploadRow(
+            n=r["ep"],
+            chapter_title=str(r["title"]).strip("\"'"),
+            episode_title=str(r["title"]).strip("\"'"),
+            episode_format="debate" if r["nlm_format"].strip().lower() == "debate" else "deep_dive",
+        )
+        for r in rows
+    ]
+    for line in render_upload_table_lines(upload_rows):
+        print(f"  {line}")
 
     print()
     print(f"  Source files  → upload each  chapters/chNN-<slug>.txt  as the ONLY source")
