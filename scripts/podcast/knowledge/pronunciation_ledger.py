@@ -54,24 +54,37 @@ def normalize_key(term: str) -> str:
     return s
 
 
-_HOUSE_STYLE_RE = re.compile(r"^[a-z]+(?:-[a-z]+)*(?: [a-z]+(?:-[a-z]+)*)*$", re.ASCII)
+# Markers that signal a NON-spoken form (IPA transcription) we must reject:
+# slashes/brackets delimiters + IPA-only phonetic letters and suprasegmentals.
+_IPA_MARKERS = re.compile(r"[/\[\]ˈˌːʔʕɣħʃʒθðɸβχŋɑɒɛɪʊəɜɔæ]")
+_ARABIC_SCRIPT = re.compile(r"[؀-ۿݐ-ݿ]")
 
 
 def is_house_style(phonetic: str) -> bool:
-    """True if ``phonetic`` obeys the spoken house style.
+    """True if ``phonetic`` is a usable SPOKEN respelling (not IPA / not raw script).
 
-    Lowercase letters and hyphens, CAPS allowed only as whole-syllable stress
-    markers, space-separated words. Rejects Arabic script, digits, and
-    spelled-out single letters joined by spaces (``g h a``).
+    Deliberately permissive: a human-confirmed respelling is authoritative, so we
+    accept any mix of latin letters, hyphens, spaces and the apostrophe (a common
+    glottal-stop / ayn marker, e.g. ``bait al-ma'a-MOOR``). The house ideal is
+    still lowercase-hyphen-syllables with CAPS stress, but we only REJECT input
+    that is clearly the wrong KIND of string:
+      - empty / whitespace
+      - IPA (``/al ʔiˈmaːm.../`` — slashes, stress marks, IPA letters)
+      - raw Arabic script or leftover transliteration diacritics (ā, ṣ, ...)
+      - strings with no latin letter at all
     """
     if not phonetic or not phonetic.strip():
         return False
-    # Fold the stress CAPS down to lowercase, then the residue must match.
-    folded = phonetic.lower()
-    if not _HOUSE_STYLE_RE.match(folded):
+    s = phonetic.strip()
+    if _IPA_MARKERS.search(s):
         return False
-    # A "syllable" of one letter repeated (spelled-out) is a smell; require that
-    # at least one hyphen-or-multichar token exists for multi-syllable terms.
+    if _ARABIC_SCRIPT.search(s):
+        return False
+    # Leftover combining diacritics (macrons/dots) mean a raw translit slipped in.
+    if any(unicodedata.combining(c) for c in unicodedata.normalize("NFD", s)):
+        return False
+    if not re.search(r"[A-Za-z]", s):
+        return False
     return True
 
 
