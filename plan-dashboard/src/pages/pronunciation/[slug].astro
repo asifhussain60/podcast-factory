@@ -30,6 +30,61 @@ const detail = slug ? await getProbe(slug) : null;
     )}
   </header>
 
+  <details class="pron-key">
+    <summary>Phonetic key — how to write a respelling NotebookLM reads correctly</summary>
+    <div class="pron-key-body">
+      <p class="pron-key-lede">
+        A respelling is plain English spelling that <em>sounds out</em> the word. Four rules:
+      </p>
+      <ol class="pron-key-rules">
+        <li><strong>Split every syllable with a hyphen</strong> — <code>ja-zee-ra</code>, not <code>jazeera</code>.</li>
+        <li><strong>CAPITALS mark the one stressed syllable</strong> — and nothing else.
+          <code>ee-MAAM</code> stresses syllable 2. Never use caps for a different vowel, and never cap two syllables.</li>
+        <li><strong>Vowel sound comes from the letters, not the case</strong> — see the legend. Don't triple letters (<code>QOO-wa</code>, not <code>quw-wwah</code>).</li>
+        <li><strong>An apostrophe <code>'</code> is a tiny glottal catch</strong> (the ʿayn / hamza), or just drop it.</li>
+      </ol>
+
+      <p class="pron-key-sub">Vowel legend</p>
+      <ul class="pron-key-legend">
+        <li><code>a</code> = c<em>a</em>t</li>
+        <li><code>ah</code> = f<em>a</em>ther (short)</li>
+        <li><code>aa</code> = p<em>al</em>m (long)</li>
+        <li><code>e</code> = p<em>e</em>t</li>
+        <li><code>ee</code> = s<em>ee</em></li>
+        <li><code>i</code> = s<em>i</em>t</li>
+        <li><code>o</code> = g<em>o</em></li>
+        <li><code>oo</code> = m<em>oo</em>n</li>
+        <li><code>ay</code> = d<em>ay</em></li>
+        <li><code>ow</code> = n<em>ow</em></li>
+        <li><code>uh</code> = s<em>o</em>fa</li>
+      </ul>
+
+      <p class="pron-key-sub">Worked examples</p>
+      <table class="pron-key-table">
+        <thead>
+          <tr><th>Arabic (transliterated)</th><th>Respelling</th><th>Why</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>imām</td><td><code>ee-MAAM</code></td><td>i → "ee"; stress 2nd syllable. Not "Imam" (reads as English).</td></tr>
+          <tr><td>Ṣāliḥ</td><td><code>SAA-lih</code></td><td>ā = long "aa"; stress 1st; ḥ ≈ h. One stress only.</td></tr>
+          <tr><td>ʿAbd Allāh</td><td><code>ab-dul-LAH</code></td><td>One stress (last). Lowercase the rest.</td></tr>
+          <tr><td>quwwa</td><td><code>QOO-wa</code></td><td>Doubled w → one "oo" + "w". Don't triple letters.</td></tr>
+          <tr><td>Qurʾān</td><td><code>kur-AAN</code></td><td>q ≈ "k" for the TTS; stress last.</td></tr>
+          <tr><td>al-Khiḍr</td><td><code>al-KHIDR</code></td><td>kh kept; ḍ ≈ d (a "d", not "z").</td></tr>
+          <tr><td>daʿwa</td><td><code>DAH-wa</code></td><td>ʿayn is a soft catch — usually just a vowel.</td></tr>
+          <tr><td>al-Ghazālī</td><td><code>al-gha-zaa-LEE</code></td><td>"al-" stays; gh kept; ī = "ee"; stress last.</td></tr>
+        </tbody>
+      </table>
+
+      <p class="pron-key-foot">
+        Convention: standard English pronunciation respelling
+        (<a href="https://en.wikipedia.org/wiki/Help:Pronunciation_respelling_key" target="_blank" rel="noopener">Wikipedia key</a>,
+        <a href="https://www.merriam-webster.com/dictionary/syllable" target="_blank" rel="noopener">Merriam-Webster</a>).
+        Unsure? Type the term in chat and Claude will generate the respelling for you.
+      </p>
+    </div>
+  </details>
+
   {detail ? (
     <PronunciationReview
       client:load
