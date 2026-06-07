@@ -289,13 +289,10 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         update_phase(book_dir, phase="per-chapter-slides", status="skipped",
                      extras={"reason": "enable_slide_decks=false"})
 
-    # PDF path — companion book (gated by series.enable_book_branch, non-blocking).
-    # Runs BEFORE the finalize halt so the book and the podcast are reviewed together;
-    # a book-branch failure never aborts the podcast ship.
-    from phases.book_driver import _drive_book_branch
-    _drive_book_branch(book_dir)
-
     # Finalize phase — run G1-G7 gates, halt for human review before publish.
+    # NOTE: the PDF companion-book path (0book-*) runs AFTER this halt, inside
+    # publish_driver._drive_publish_through_done, so that any issues caught at
+    # the podcast review gate are fixed before the book branch is generated.
     _phase_boundary_gate(book_dir, "per-chapter→finalize")
     _info("phase: finalize · run G1-G7 gates via validate_ship_ready.py")
     update_phase(book_dir, phase="finalize", status="running")
@@ -346,10 +343,8 @@ def _print_notebooklm_table(book_dir: Path) -> None:
             _load_contract,
             _resolve_chapter_file,
             _resolve_framing_file,
-            _friendly_format,
-            _nlm_format,
-            _nlm_length,
         )
+        from _notebooklm_table import UploadRow, render_upload_table_lines, repo_rel_href  # noqa: PLC0415
     except ImportError as exc:
         _info(f"  [notebooklm table skipped — import error: {exc}]")
         return
@@ -376,7 +371,7 @@ def _print_notebooklm_table(book_dir: Path) -> None:
         _info("  [notebooklm table skipped — no episodes found]")
         return
 
-    rows = []
+    rows: list[UploadRow] = []
     for entry in mapping:
         episode_slug = entry["episode"]
         chapter_slug = entry["chapter"]
@@ -386,38 +381,20 @@ def _print_notebooklm_table(book_dir: Path) -> None:
         title = contract.get("title", episode_slug).strip("\"'")
         chapter_path = _resolve_chapter_file(book_dir, chapter_slug)
         framing_path = _resolve_framing_file(book_dir, episode_slug)
-        rows.append({
-            "ep": ep_num,
-            "title": title,
-            "chapter_path": str(chapter_path.relative_to(book_dir.parent.parent))
-                            if chapter_path else "(missing)",
-            "framing_path": str(framing_path.relative_to(book_dir.parent.parent))
-                            if framing_path else "(missing)",
-            "format": _friendly_format(episode_format),
-            "nlm_format": _nlm_format(episode_format),
-            "length": _nlm_length(framing_path),
-        })
+        rows.append(UploadRow(
+            n=ep_num,
+            chapter_title=title,
+            episode_title=title,
+            episode_format=episode_format,
+            chapter_href=repo_rel_href(chapter_path, book_dir),
+            episode_href=repo_rel_href(framing_path, book_dir),
+        ))
 
     _info("─" * 72)
-    _info("NOTEBOOKLM UPLOAD INSTRUCTIONS")
+    _info("NOTEBOOKLM UPLOAD TABLE")
     _info("")
-    _info("For each episode, create a new NotebookLM notebook:")
-    _info("  1. Upload the SOURCE file as the ONLY source.")
-    _info("  2. Open Customize → paste the entire FRAMING file into the prompt box.")
-    _info("  3. Set Format and Length as shown, then generate.")
+    _info("Per row: click the CHAPTER cell to open the SOURCE to upload, and the")
+    _info("EPISODE cell to open the FRAMING to paste into NotebookLM's Customize box.")
     _info("")
-    # Header
-    hdr = f"  {'EP':<5} {'Title':<38} {'Format':<11} {'NLM Format':<12} {'Length'}"
-    sep = f"  {'-'*5} {'-'*38} {'-'*11} {'-'*12} {'-'*7}"
-    _info(hdr)
-    _info(sep)
-    for r in rows:
-        _info(f"  EP{r['ep']:<3d} {r['title']:<38} {r['format']:<11} {r['nlm_format']:<12} {r['length']}")
-    _info("")
-    _info("  Source files  (upload as the ONLY NotebookLM source):")
-    for r in rows:
-        _info(f"    EP{r['ep']:02d}  {r['chapter_path']}")
-    _info("")
-    _info("  Framing files (paste full contents into NotebookLM Customize box):")
-    for r in rows:
-        _info(f"    EP{r['ep']:02d}  {r['framing_path']}")
+    for line in render_upload_table_lines(rows):
+        _info(f"  {line}")

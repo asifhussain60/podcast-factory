@@ -16,6 +16,7 @@ export type ActivePage =
   | 'planner'
   | 'system-map'
   | 'corpus'
+  | 'pronunciation'
   | 'pipeline-paths';
 
 /**
@@ -38,7 +39,7 @@ export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
   { href: '/studio', label: 'Studio', section: 'studio', pages: ['studio'] },
   { href: '/library', label: 'Library', section: 'library', pages: ['library'] },
   { href: '/corpus', label: 'Corpus', section: 'corpus', pages: ['corpus', 'wisdom', 'db-schema'] },
-  { href: '/architecture', label: 'System', section: 'system', pages: ['architecture', 'intelligence', 'system-map', 'infrastructure', 'security', 'quality', 'plan', 'planner', 'overview', 'about', 'annotation-ops', 'pipeline-paths'] },
+  { href: '/architecture', label: 'System', section: 'system', pages: ['architecture', 'intelligence', 'system-map', 'infrastructure', 'security', 'quality', 'plan', 'planner', 'overview', 'about', 'annotation-ops', 'pronunciation', 'pipeline-paths'] },
 ];
 
 export const SUBNAV: Record<NavSection, NavLink[]> = {
@@ -64,6 +65,7 @@ export const SUBNAV: Record<NavSection, NavLink[]> = {
     { href: '/quality', label: 'Quality', pages: ['quality'] },
     { href: '/plan', label: 'Roadmap', pages: ['plan', 'planner'] },
     { href: '/annotation-ops', label: 'Annotations', pages: ['annotation-ops'] },
+    { href: '/pronunciation', label: 'Pronunciation', pages: ['pronunciation'] },
     { href: '/pipeline-paths', label: 'Pipeline Paths', pages: ['pipeline-paths'] },
     { href: '/overview', label: 'Operations', pages: ['overview'] },
     { href: '/about', label: 'About & Help', pages: ['about'] },

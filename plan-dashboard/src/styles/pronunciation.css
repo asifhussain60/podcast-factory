@@ -1,0 +1,650 @@
+/* pronunciation.css — /pronunciation utility (index + per-book review).
+   Theme-Adapter Pattern B: consumes the shared --c-* tokens only; no new theme,
+   no inline styles. Reading floor 1.2rem. */
+
+/* ── index: book cards ────────────────────────────────────────────────── */
+.pron-book-card {
+  text-decoration: none;
+  color: inherit;
+}
+.pron-book-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.pron-slug {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 1.2rem;
+  color: var(--c-ink-muted);
+}
+.pron-book-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+.pron-badge {
+  font-size: 1.05rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg-sunken);
+  color: var(--c-ink-dim);
+}
+.pron-badge-ready { color: var(--c-green); border-color: var(--c-green); }
+.pron-badge-noaudio { color: var(--c-ink-muted); }
+.pron-badge-warn { color: var(--c-red); border-color: var(--c-red); }
+
+/* ── phonetic key panel (collapsible reference) ───────────────────────── */
+.pron-key {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: 0.6rem;
+  margin-bottom: 1rem;
+}
+.pron-key > summary {
+  cursor: pointer;
+  padding: 0.85rem 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--c-accent);
+}
+.pron-key-body {
+  padding: 0 1.1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.pron-key-lede {
+  font-size: 1.25rem;
+  color: var(--c-ink);
+  margin: 0;
+}
+.pron-key-rules {
+  margin: 0;
+  padding-left: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 1.2rem;
+  color: var(--c-ink-dim);
+}
+.pron-key-sub {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+  margin: 0.5rem 0 0;
+}
+.pron-key-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.9rem;
+  font-size: 1.15rem;
+  color: var(--c-ink-dim);
+}
+.pron-key-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.15rem;
+}
+.pron-key-table th,
+.pron-key-table td {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid var(--c-rule-soft);
+  vertical-align: top;
+}
+.pron-key-table th {
+  font-size: 1.02rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-ink-muted);
+}
+.pron-key code {
+  font-family: ui-monospace, Menlo, monospace;
+  background: var(--c-bg-sunken);
+  padding: 0.05rem 0.3rem;
+  border-radius: 0.25rem;
+  color: var(--c-ink);
+}
+.pron-key-foot {
+  font-size: 1.1rem;
+  color: var(--c-ink-muted);
+  margin: 0.3rem 0 0;
+}
+
+/* ── phonetic key: live generate widget ───────────────────────────────── */
+.phgen {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.phgen-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.phgen-input {
+  flex: 1 1 14rem;
+  font-size: 2rem;
+  font-family: 'Traditional Arabic', 'Scheherazade New', Amiri, serif;
+  font-weight: 700;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--c-rule);
+  border-radius: 0.45rem;
+  background: var(--c-bg-elev);
+  color: var(--c-ink);
+  min-width: 0;
+}
+.phgen-input:disabled {
+  opacity: 0.6;
+}
+.phgen-btn {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
+  border-radius: 0.45rem;
+  border: 1px solid var(--c-accent);
+  background: var(--c-accent);
+  color: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.phgen-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.phgen-result {
+  font-size: 1.2rem;
+  color: var(--c-ink-dim);
+  margin: 0;
+}
+.phgen-phonetic {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 1.3rem;
+  background: var(--c-bg-sunken);
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.3rem;
+  color: var(--c-accent);
+}
+.phgen-error {
+  font-size: 1.1rem;
+  color: var(--c-red);
+  margin: 0;
+}
+
+/* ── inline audio player ──────────────────────────────────────────────── */
+.pron-audio-inline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.75rem 1rem;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: 0.6rem;
+}
+.pron-audio-inline audio {
+  width: 100%;
+  height: 2.8rem;
+}
+.pron-audio-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--c-ink-muted);
+  margin: 0;
+}
+
+/* ── review: sticky action bar ────────────────────────────────────────── */
+.pron {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.pron-bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: 0.6rem;
+}
+.pron-bar-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.pron-count {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.pron-noaudio { color: var(--c-ink-muted); font-size: 1.2rem; }
+.pron-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.pron-save {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--c-accent);
+  background: var(--c-accent);
+  color: #fff;
+  cursor: pointer;
+}
+.pron-save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.pron-acceptall {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--c-accent);
+  background: var(--c-bg-elev);
+  color: var(--c-accent);
+  cursor: pointer;
+}
+.pron-acceptall:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pron-msg {
+  font-size: 1.2rem;
+  padding: 0.7rem 1rem;
+  border-radius: 0.5rem;
+  margin: 0;
+}
+.pron-msg-ok { background: var(--c-bg-sunken); color: var(--c-green); border: 1px solid var(--c-green); }
+.pron-msg-err { background: var(--c-bg-sunken); color: var(--c-red); border: 1px solid var(--c-red); }
+
+/* ── review: term rows ────────────────────────────────────────────────── */
+.pron-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.pron-row {
+  display: grid;
+  grid-template-columns: 2rem minmax(12rem, 1fr) minmax(18rem, 1.3fr);
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.55rem 0.8rem;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-left: 4px solid var(--c-rule);
+  border-radius: 0.55rem;
+}
+.pron-row-ok { border-left-color: var(--c-green); }
+.pron-row-fix { border-left-color: var(--c-gold); }
+.pron-row-cantsay { border-left-color: var(--c-red); }
+.pron-row-needsfix { background: var(--c-bg-sunken); }
+
+.pron-n {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 1.1rem;
+  color: var(--c-ink-muted);
+  padding-top: 0.15rem;
+}
+
+/* Left column: term name + Arabic script inline (grid), then translit + chips */
+.pron-term {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+  column-gap: 0.55rem;
+  row-gap: 0.15rem;
+  align-items: start;
+}
+.pron-term-name {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--c-ink);
+  align-self: center;
+}
+.pron-term-translit {
+  grid-column: 1;
+  grid-row: 2;
+  font-size: 1.1rem;
+  color: var(--c-ink-dim);
+}
+.pron-chips {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.1rem;
+}
+.pron-chip {
+  font-size: 0.98rem;
+  padding: 0.08rem 0.4rem;
+  border-radius: 0.35rem;
+  background: var(--c-bg-sunken);
+  color: var(--c-ink-muted);
+  border: 1px solid var(--c-rule-soft);
+}
+.pron-chip-seg { color: var(--c-ink-dim); }
+.pron-chip-warn { color: var(--c-red); border-color: var(--c-red); }
+.pron-chip-known { color: var(--c-green); border-color: var(--c-green); }
+
+/* Arabic script input — inline right column, spans name + translit rows */
+.pron-term-arabic {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  font-size: 1.5rem;
+  font-family: 'Traditional Arabic', 'Scheherazade New', Amiri, serif;
+  font-weight: 700;
+  direction: rtl;
+  text-align: center;
+  padding: 0.2rem 0.35rem;
+  border: 1px solid var(--c-rule);
+  border-radius: 0.4rem;
+  background: var(--c-bg-elev);
+  color: var(--c-ink);
+  width: 9rem;
+  min-width: 0;
+  align-self: start;
+}
+.pron-term-arabic:focus {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 1px;
+}
+.pron-term-arabic::placeholder {
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--c-ink-muted);
+  direction: ltr;
+}
+
+/* Phonetic input with AI suggestion */
+.pron-input-suggested {
+  border-color: var(--c-gold);
+}
+.pron-suggested-note {
+  font-size: 0.95rem;
+  color: var(--c-gold);
+  font-style: italic;
+}
+
+/* English gloss toggle checkbox — lives inline in .pron-decision-row */
+.pron-gloss-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 1rem;
+  color: var(--c-ink-dim);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+.pron-gloss-check {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--c-accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ── bundle generator panel ───────────────────────────────────────────── */
+.pron-bundle-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.bundle-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* controls row: format + length toggles + generate button */
+.bundle-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.bundle-seg {
+  display: inline-flex;
+  border: 1px solid var(--c-rule);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.bundle-segbtn {
+  font-size: 1.15rem;
+  padding: 0.42rem 0.9rem;
+  border: none;
+  border-right: 1px solid var(--c-rule);
+  background: var(--c-bg-elev);
+  color: var(--c-ink-dim);
+  cursor: pointer;
+}
+.bundle-segbtn:last-child { border-right: none; }
+.bundle-segbtn.is-on { background: var(--c-accent); color: #fff; }
+
+.bundle-gen-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.45rem 1.1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--c-accent);
+  background: var(--c-accent);
+  color: #fff;
+  cursor: pointer;
+}
+.bundle-gen-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* spinner */
+@keyframes bundle-spin {
+  to { transform: rotate(360deg); }
+}
+.bundle-spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid rgba(255,255,255,0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: bundle-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.bundle-error {
+  font-size: 1.1rem;
+  color: var(--c-red);
+  margin: 0;
+}
+
+/* output area */
+.bundle-output {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.bundle-nlm-note {
+  font-size: 1.1rem;
+  color: var(--c-ink-muted);
+  margin: 0;
+  padding: 0.5rem 0.8rem;
+  background: var(--c-bg-sunken);
+  border-radius: 0.4rem;
+}
+
+/* side-by-side panels */
+.bundle-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+@media (max-width: 900px) {
+  .bundle-panels { grid-template-columns: 1fr; }
+}
+
+.bundle-panel {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--c-rule);
+  border-radius: 0.55rem;
+  overflow: hidden;
+}
+.bundle-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 0.8rem;
+  background: var(--c-bg-card);
+  border-bottom: 1px solid var(--c-rule);
+  gap: 0.5rem;
+}
+.bundle-panel-label {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--c-ink-dim);
+}
+.bundle-copy {
+  font-size: 1rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 0.35rem;
+  border: 1px solid var(--c-accent);
+  background: var(--c-bg-elev);
+  color: var(--c-accent);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.bundle-copy.is-copied {
+  border-color: var(--c-green);
+  color: var(--c-green);
+}
+.bundle-pre {
+  margin: 0;
+  padding: 0.8rem;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--c-ink);
+  background: var(--c-bg-elev);
+  overflow-y: auto;
+  max-height: 28rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.pron-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+/* First row: Correct/Fix buttons + English gloss checkbox in one line */
+.pron-decision-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.pron-seg {
+  display: inline-flex;
+  border: 1px solid var(--c-rule);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  width: fit-content;
+  flex-shrink: 0;
+}
+.pron-segbtn {
+  font-size: 1.05rem;
+  line-height: 1.1;
+  padding: 0.3rem 0.65rem;
+  border: none;
+  border-right: 1px solid var(--c-rule);
+  background: var(--c-bg-elev);
+  color: var(--c-ink-dim);
+  cursor: pointer;
+}
+.pron-segbtn:last-child { border-right: none; }
+.pron-segbtn.is-on { background: var(--c-accent); color: #fff; }
+
+.pron-input {
+  font-size: 1.1rem;
+  line-height: 1.2;
+  font-family: ui-monospace, Menlo, monospace;
+  padding: 0.28rem 0.5rem;
+  border: 1px solid var(--c-rule);
+  border-radius: 0.45rem;
+  background: var(--c-bg-elev);
+  color: var(--c-ink);
+  width: 100%;
+}
+.pron-input:read-only {
+  background: var(--c-bg-sunken);
+  color: var(--c-ink-dim);
+}
+.pron-intended {
+  font-size: 0.88rem;
+  line-height: 1.3;
+  color: var(--c-ink-muted);
+}
+.pron-intended code {
+  font-family: ui-monospace, Menlo, monospace;
+  color: var(--c-ink-dim);
+}
+
+/* ── review footer — save button anchored below the list ────────────────── */
+.pron-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 0 0.5rem;
+  border-top: 1px solid var(--c-rule);
+  margin-top: 0.5rem;
+}
+
+/* ── NotebookLM bundle panel ─────────────────────────────────────────────── */
+.pron-bundle-panel {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem 1.5rem;
+  margin-top: 1.5rem;
+}
+.pron-bundle-panel-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin: 0 0 0.3rem;
+}
+.pron-bundle-panel-desc {
+  font-size: 1rem;
+  color: var(--c-ink-dim);
+  margin: 0 0 1.1rem;
+  line-height: 1.5;
+}

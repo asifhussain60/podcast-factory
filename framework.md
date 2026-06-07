@@ -169,6 +169,16 @@ The pipeline is **machine-agnostic**. Most work is done by Anthropic + Azure rem
 
 ---
 
+## Setup stage — pre-pipeline system check (added 2026-06-07)
+
+Before any pipeline work runs, the orchestrator executes a **Setup stage** that resolves machine-readiness problems up front instead of crashing deep inside a phase. Two parts:
+
+1. **Interpreter self-heal** ([scripts/podcast/orchestrate_book.py](scripts/podcast/orchestrate_book.py) `_ensure_capable_interpreter`) — if the active interpreter can't `import yaml`, the orchestrator transparently re-execs under the repo virtualenv `.venv/bin/python` (which carries PyYAML/anthropic/requests). A sentinel env var (`_PODCAST_REEXECED`) prevents an exec loop; a missing/incomplete venv surfaces an actionable `python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`. This eliminates the failure mode where system `python3` (lacking deps) crashed every phase at `import yaml` and the watchdog mis-reported it as "working tree dirty".
+
+2. **Doctor / system check** ([scripts/podcast/preflight_doctor.py](scripts/podcast/preflight_doctor.py) `run_doctor`) — runs at the top of `main()` for BOTH initial and resume, **before the watchdog is spawned**, so a failure fails fast with the exact fix command instead of the watchdog retry-looping a doomed run 20×. Four checks: **deps** (yaml/anthropic/requests importable), **claude-auth** (keychain OAuth-token expiry pre-check + a live `claude -p` ping mirroring `_run_claude_p`'s API-key-stripped Max path; a 401/expired token halts with `claude login`), **anthropic-net** (api.anthropic.com:443 reachable), **azure** (OCR/Translate probe — skipped automatically on resumes where phase 0a already completed). Flags: `--doctor` runs only the check and exits (0=ready, 1=blocked); `--skip-doctor` bypasses it (use only when the failing subsystem is unused by the phases being run). The watchdog ([scripts/podcast/watch_orchestrator.sh](scripts/podcast/watch_orchestrator.sh)) also prefers `.venv/bin/python` for the same dependency reason.
+
+---
+
 ## Duplicated general-utility skills (also in sibling journal repo as independent copies)
 
 | Skill | Purpose |

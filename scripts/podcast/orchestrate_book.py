@@ -85,6 +85,44 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+
+# ── Interpreter self-heal (Setup stage, part 1) ──────────────────────────────
+# MUST run before the yaml-dependent local imports below. The system python3
+# (and pyenv shims) frequently lack PyYAML/anthropic/requests, which crashes the
+# whole pipeline at `import yaml` deep inside a phase module — with the watchdog
+# then mis-reporting it as "working tree dirty". If the active interpreter can't
+# import yaml, transparently re-exec under the repo virtualenv (.venv), which is
+# provisioned with every dependency. Idempotent: a sentinel env var prevents an
+# exec loop, and a missing/incomplete venv surfaces an actionable message.
+def _ensure_capable_interpreter() -> None:
+    try:
+        import yaml  # noqa: F401  (probe only)
+        return
+    except ImportError:
+        pass
+    if os.environ.get("_PODCAST_REEXECED") == "1":
+        sys.stderr.write(
+            "FATAL: PyYAML is not importable under this interpreter:\n"
+            f"    {sys.executable}\n"
+            "  The repo virtualenv is missing or incomplete. Fix:\n"
+            "    python3 -m venv .venv && .venv/bin/pip install -r requirements.txt\n"
+        )
+        raise SystemExit(1)
+    repo_root = Path(__file__).resolve().parents[2]
+    venv_py = repo_root / ".venv" / "bin" / "python"
+    if venv_py.exists() and venv_py.resolve() != Path(sys.executable).resolve():
+        os.environ["_PODCAST_REEXECED"] = "1"
+        sys.stderr.write(f"  [setup] re-executing under repo venv: {venv_py}\n")
+        os.execv(str(venv_py), [str(venv_py), str(Path(__file__).resolve()), *sys.argv[1:]])
+    sys.stderr.write(
+        "FATAL: PyYAML is not importable and no usable .venv was found.\n"
+        "  Fix: python3 -m venv .venv && .venv/bin/pip install -r requirements.txt\n"
+    )
+    raise SystemExit(1)
+
+
+_ensure_capable_interpreter()
+
 # Local imports (these live next to this script).
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _progress import (  # noqa: E402
@@ -410,6 +448,12 @@ def build_parser() -> argparse.ArgumentParser:
                        "Phase 0d episode segmentation (initial run only; persisted in state). "
                        "Default: auto."
                    ))
+    p.add_argument("--doctor", action="store_true",
+                   help=("run ONLY the Setup-stage system check (deps, claude -p auth, "
+                         "Anthropic + Azure connectivity) and exit. 0=ready, 1=blocked."))
+    p.add_argument("--skip-doctor", action="store_true",
+                   help=("skip the Setup-stage system check. Use only when you know the "
+                         "failing subsystem is unused by the phases you are running."))
     p.add_argument("--version", action="version",
                    version=f"orchestrate_book.py v{ORCHESTRATOR_VERSION}")
     return p
@@ -456,6 +500,31 @@ def main() -> int:
 
     if args.status:
         return run_status(args)
+
+    # ── Setup stage: full system check ──────────────────────────────────────
+    # `--doctor` runs ONLY the check and exits. Otherwise the check gates every
+    # run (initial + resume) BEFORE the watchdog is spawned — so an expired
+    # claude -p token or a connectivity break fails fast with the exact fix
+    # command, instead of the watchdog retry-looping a doomed run 20×.
+    from preflight_doctor import run_doctor as _run_doctor
+
+    if args.doctor:
+        # Standalone: assume the heaviest scope (azure included) for a full sweep.
+        return _run_doctor(need_azure=True)
+
+    if not args.skip_doctor:
+        # Azure is only needed while an ingest phase 0a still has to run. On a
+        # resume past 0a, skip the Azure probe so a book mid-pipeline isn't
+        # blocked by an ingest-only dependency.
+        need_azure = True
+        if args.resume:
+            _bd = _paths_find_content(args.resume)
+            _state = read_state(_bd[2]) if _bd else None
+            if _state:
+                _zd = _state.get("phases", {}).get("0a", {})
+                need_azure = _zd.get("status") != "completed"
+        if _run_doctor(need_azure=need_azure) != 0:
+            return 1
 
     if args.resume:
         slug_for_lock = args.resume
