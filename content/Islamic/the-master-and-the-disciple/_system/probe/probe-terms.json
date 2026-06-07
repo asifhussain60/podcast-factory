@@ -11,6 +11,12 @@
       "transliteration": "al-Imām al-Nāṭiq",
       "phonetic": "/al ʔiˈmaːm an ˈnaːtˤiq/",
       "house_style_ok": false,
+      "suggested_baseline": "al-i-maam al-naa-tik",
+      "signature": [
+        "emphatic",
+        "qaf",
+        "article-al"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 1,
@@ -30,6 +36,13 @@
       "transliteration": "Ja'far ibn Manṣūr al-Yaman",
       "phonetic": "JAH-far ibn man-SOOR al-YAH-man",
       "house_style_ok": true,
+      "suggested_baseline": "ja-far ibn ma-nsoor al-ya-man",
+      "signature": [
+        "ayn-hamza",
+        "emphatic",
+        "article-al",
+        "lineage"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 1,
@@ -48,6 +61,12 @@
       "transliteration": "Kaʿb al-Aḥbār",
       "phonetic": "KAB al-AH-bar",
       "house_style_ok": true,
+      "suggested_baseline": "kab al-a-hbaar",
+      "signature": [
+        "ayn-hamza",
+        "emphatic",
+        "article-al"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 1,
@@ -66,6 +85,10 @@
       "transliteration": "ʿAbd Allāh",
       "phonetic": "AB-d ah-LAH",
       "house_style_ok": true,
+      "suggested_baseline": "abd a-llaah",
+      "signature": [
+        "ayn-hamza"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 2,
@@ -83,6 +106,13 @@
       "transliteration": "al-ʿuṣba",
       "phonetic": "/al ˈʕusˤba/",
       "house_style_ok": false,
+      "suggested_baseline": "al-u-sba",
+      "signature": [
+        "ayn-hamza",
+        "emphatic",
+        "article-al",
+        "ending-a"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 1,
@@ -100,6 +130,8 @@
       "transliteration": "Abū Mālik",
       "phonetic": "a-BOO MAA-lik",
       "house_style_ok": true,
+      "suggested_baseline": "a-boo maa-lik",
+      "signature": [],
       "segment": "names",
       "snippet": "",
       "freq": 110,
@@ -116,6 +148,10 @@
       "transliteration": "al-Bakhtarī",
       "phonetic": "al-bakh-tah-REE",
       "house_style_ok": true,
+      "suggested_baseline": "al-ba-khta-ree",
+      "signature": [
+        "article-al"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 11,
@@ -132,6 +168,10 @@
       "transliteration": "ʿUbayd Allāh",
       "phonetic": "oo-BAYD ah-LAH",
       "house_style_ok": true,
+      "suggested_baseline": "u-bayd a-llaah",
+      "signature": [
+        "ayn-hamza"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 1,
@@ -148,6 +188,11 @@
       "transliteration": "sharīʿa",
       "phonetic": "sha-REE-ah",
       "house_style_ok": true,
+      "suggested_baseline": "sha-ree-a",
+      "signature": [
+        "ayn-hamza",
+        "ending-a"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 4,
@@ -164,6 +209,11 @@
       "transliteration": "Qurʾān",
       "phonetic": "qur-AAN",
       "house_style_ok": true,
+      "suggested_baseline": "ku-raan",
+      "signature": [
+        "ayn-hamza",
+        "qaf"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 2,
@@ -180,6 +230,10 @@
       "transliteration": "Abū Ṣāliḥ",
       "phonetic": "a-BOO SAA-lih",
       "house_style_ok": true,
+      "suggested_baseline": "a-boo saa-lih",
+      "signature": [
+        "emphatic"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 1,
@@ -196,6 +250,10 @@
       "transliteration": "Ṣāliḥ",
       "phonetic": "SAA-lih",
       "house_style_ok": true,
+      "suggested_baseline": "saa-lih",
+      "signature": [
+        "emphatic"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 91,
@@ -211,6 +269,11 @@
       "transliteration": "al-Khiḍr",
       "phonetic": "/al ˈxidˤr/",
       "house_style_ok": false,
+      "suggested_baseline": "al-khidr",
+      "signature": [
+        "emphatic",
+        "article-al"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 1,
@@ -227,6 +290,8 @@
       "transliteration": "imām",
       "phonetic": "/ʔiˈmaːm/",
       "house_style_ok": false,
+      "suggested_baseline": "i-maam",
+      "signature": [],
       "segment": "names",
       "snippet": "",
       "freq": 22,
@@ -242,6 +307,10 @@
       "transliteration": "Saʿd",
       "phonetic": "SAHD",
       "house_style_ok": true,
+      "suggested_baseline": "sad",
+      "signature": [
+        "ayn-hamza"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 2,
@@ -257,6 +326,10 @@
       "transliteration": "Shuʿayb",
       "phonetic": "shoo-AYB",
       "house_style_ok": true,
+      "suggested_baseline": "shuayb",
+      "signature": [
+        "ayn-hamza"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 2,
@@ -272,6 +345,10 @@
       "transliteration": "Abū al-Khayr",
       "phonetic": "a-BOO al-KHAYR",
       "house_style_ok": true,
+      "suggested_baseline": "a-boo al-khayr",
+      "signature": [
+        "article-al"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 1,
@@ -287,6 +364,11 @@
       "transliteration": "sharīʿa",
       "phonetic": "/ʃaˈriːʕa/",
       "house_style_ok": false,
+      "suggested_baseline": "sha-ree-a",
+      "signature": [
+        "ayn-hamza",
+        "ending-a"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 0,
@@ -302,6 +384,8 @@
       "transliteration": "Allāh",
       "phonetic": "ahl-LAH",
       "house_style_ok": true,
+      "suggested_baseline": "a-llaah",
+      "signature": [],
       "segment": "names",
       "snippet": "",
       "freq": 222,
@@ -316,6 +400,8 @@
       "transliteration": "Shaykh",
       "phonetic": "SHAYKH",
       "house_style_ok": true,
+      "suggested_baseline": "shaykh",
+      "signature": [],
       "segment": "names",
       "snippet": "",
       "freq": 23,
@@ -330,6 +416,10 @@
       "transliteration": "ibn",
       "phonetic": "IB-n",
       "house_style_ok": true,
+      "suggested_baseline": "ibn",
+      "signature": [
+        "lineage"
+      ],
       "segment": "names",
       "snippet": "",
       "freq": 2,
@@ -345,6 +435,11 @@
       "transliteration": "Bayt al-Ma'mūr",
       "phonetic": "bait al-mah-MOOR",
       "house_style_ok": true,
+      "suggested_baseline": "bayt al-ma-moor",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
       "segment": "places",
       "snippet": "",
       "freq": 1,
@@ -362,6 +457,11 @@
       "transliteration": "al-Jazīra",
       "phonetic": "al-jah-ZEE-rah",
       "house_style_ok": true,
+      "suggested_baseline": "al-ja-zee-ra",
+      "signature": [
+        "article-al",
+        "ending-a"
+      ],
       "segment": "places",
       "snippet": "",
       "freq": 1,
@@ -377,6 +477,10 @@
       "transliteration": "jazā'ir",
       "phonetic": "ja-ZAA-ir",
       "house_style_ok": true,
+      "suggested_baseline": "ja-zaa-ir",
+      "signature": [
+        "ayn-hamza"
+      ],
       "segment": "places",
       "snippet": "",
       "freq": 1,
@@ -392,6 +496,8 @@
       "transliteration": "Ṭūr",
       "phonetic": "TOOR",
       "house_style_ok": true,
+      "suggested_baseline": "toor",
+      "signature": [],
       "segment": "places",
       "snippet": "",
       "freq": 68,
@@ -406,6 +512,11 @@
       "transliteration": "nuqabā'",
       "phonetic": "noo-qa-BAA",
       "house_style_ok": true,
+      "suggested_baseline": "nu-ka-baa",
+      "signature": [
+        "ayn-hamza",
+        "qaf"
+      ],
       "segment": "terms",
       "snippet": "",
       "freq": 3,
@@ -423,6 +534,11 @@
       "transliteration": "nāṭiq",
       "phonetic": "NAA-tiq",
       "house_style_ok": true,
+      "suggested_baseline": "naa-tik",
+      "signature": [
+        "emphatic",
+        "qaf"
+      ],
       "segment": "terms",
       "snippet": "",
       "freq": 5,
@@ -439,6 +555,11 @@
       "transliteration": "nuqabāʾ",
       "phonetic": "/nuqaˈbaːʔ/",
       "house_style_ok": false,
+      "suggested_baseline": "nu-ka-baa",
+      "signature": [
+        "ayn-hamza",
+        "qaf"
+      ],
       "segment": "terms",
       "snippet": "",
       "freq": 0,
@@ -455,6 +576,10 @@
       "transliteration": "ḥawl",
       "phonetic": "/ħawl/",
       "house_style_ok": false,
+      "suggested_baseline": "hawl",
+      "signature": [
+        "emphatic"
+      ],
       "segment": "terms",
       "snippet": "",
       "freq": 6,
@@ -471,6 +596,11 @@
       "transliteration": "quwwa",
       "phonetic": "/ˈquwːa/",
       "house_style_ok": false,
+      "suggested_baseline": "ku-wwa",
+      "signature": [
+        "qaf",
+        "ending-a"
+      ],
       "segment": "terms",
       "snippet": "",
       "freq": 4,
@@ -487,6 +617,10 @@
       "transliteration": "du'āt",
       "phonetic": "doo-AAT",
       "house_style_ok": true,
+      "suggested_baseline": "duaat",
+      "signature": [
+        "ayn-hamza"
+      ],
       "segment": "terms",
       "snippet": "",
       "freq": 3,
@@ -502,6 +636,10 @@
       "transliteration": "awliyāʾ",
       "phonetic": "/ʔawliˈjaːʔ/",
       "house_style_ok": false,
+      "suggested_baseline": "a-wli-yaa",
+      "signature": [
+        "ayn-hamza"
+      ],
       "segment": "terms",
       "snippet": "",
       "freq": 1,
@@ -517,6 +655,11 @@
       "transliteration": "daʿwa",
       "phonetic": "/ˈdaʕwa/",
       "house_style_ok": false,
+      "suggested_baseline": "da-wa",
+      "signature": [
+        "ayn-hamza",
+        "ending-a"
+      ],
       "segment": "terms",
       "snippet": "",
       "freq": 1,
@@ -532,6 +675,10 @@
       "transliteration": "duʿāt",
       "phonetic": "/duˈʕaːt/",
       "house_style_ok": false,
+      "suggested_baseline": "duaat",
+      "signature": [
+        "ayn-hamza"
+      ],
       "segment": "terms",
       "snippet": "",
       "freq": 0,
@@ -547,6 +694,10 @@
       "transliteration": "dāʿī",
       "phonetic": "/ˈdaːʕiː/",
       "house_style_ok": false,
+      "suggested_baseline": "daa-ee",
+      "signature": [
+        "ayn-hamza"
+      ],
       "segment": "terms",
       "snippet": "",
       "freq": 0,
@@ -562,6 +713,10 @@
       "transliteration": "taʾwīl",
       "phonetic": "/taʔˈwiːl/",
       "house_style_ok": false,
+      "suggested_baseline": "ta-weel",
+      "signature": [
+        "ayn-hamza"
+      ],
       "segment": "terms",
       "snippet": "",
       "freq": 0,
@@ -577,6 +732,10 @@
       "transliteration": "sunna",
       "phonetic": "SOON-nah",
       "house_style_ok": true,
+      "suggested_baseline": "su-nna",
+      "signature": [
+        "ending-a"
+      ],
       "segment": "terms",
       "snippet": "",
       "freq": 15,
@@ -591,6 +750,8 @@
       "transliteration": "zakāt",
       "phonetic": "za-KAAT",
       "house_style_ok": true,
+      "suggested_baseline": "za-kaat",
+      "signature": [],
       "segment": "terms",
       "snippet": "",
       "freq": 11,
@@ -605,6 +766,10 @@
       "transliteration": "ḥujaj",
       "phonetic": "HOO-jaj",
       "house_style_ok": true,
+      "suggested_baseline": "hu-jaj",
+      "signature": [
+        "emphatic"
+      ],
       "segment": "terms",
       "snippet": "",
       "freq": 3,
@@ -620,6 +785,10 @@
       "transliteration": "ḥadīths",
       "phonetic": "ha-DEETHS",
       "house_style_ok": true,
+      "suggested_baseline": "ha-deeths",
+      "signature": [
+        "emphatic"
+      ],
       "segment": "terms",
       "snippet": "",
       "freq": 2,

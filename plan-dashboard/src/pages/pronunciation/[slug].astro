@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import PronunciationReview from '../../components/PronunciationReview.tsx';
+import { getProbe } from '../../lib/pronunciation';
+import '../../styles/pronunciation.css';
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+const detail = slug ? await getProbe(slug) : null;
+---
+<Base
+  title={detail ? `Pronunciation · ${detail.title}` : 'Pronunciation'}
+  active="pronunciation"
+  description="Review and correct Arabic-term pronunciations for this book."
+>
+  <header class="stack">
+    <span class="eyebrow"><a href="/pronunciation">Pronunciation</a> · Review</span>
+    {detail ? (
+      <>
+        <h1>{detail.title}</h1>
+        <p class="lede">
+          Play the probe, then for each term: <strong>Correct</strong> if NotebookLM said it right,
+          <strong>Fix</strong> to enter a house-style respelling, or <strong>Can’t say</strong> to gloss
+          it in English. {detail.generatedNote}.
+        </p>
+      </>
+    ) : (
+      <h1>No probe found</h1>
+    )}
+  </header>
+
+  {detail ? (
+    <PronunciationReview
+      client:load
+      slug={detail.slug}
+      title={detail.title}
+      terms={detail.terms}
+      audioUrl={detail.audioUrl}
+    />
+  ) : (
+    <div class="card card-tight">
+      <p class="card-sub">
+        No <code>_system/probe/probe-terms.json</code> for <code>{slug}</code>. Generate it with
+        <code>python3 scripts/podcast/probe/score_pronunciation_risk.py &lt;book-dir&gt;</code> then
+        <code>build_probe_bundle.py</code>. <a href="/pronunciation">Back to all probes</a>.
+      </p>
+    </div>
+  )}
+</Base>

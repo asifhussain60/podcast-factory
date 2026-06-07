@@ -1,0 +1,212 @@
+/* pronunciation.css — /pronunciation utility (index + per-book review).
+   Theme-Adapter Pattern B: consumes the shared --c-* tokens only; no new theme,
+   no inline styles. Reading floor 1.2rem. */
+
+/* ── index: book cards ────────────────────────────────────────────────── */
+.pron-book-card {
+  text-decoration: none;
+  color: inherit;
+}
+.pron-book-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.pron-slug {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 1.2rem;
+  color: var(--c-ink-muted);
+}
+.pron-book-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+.pron-badge {
+  font-size: 1.05rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg-sunken);
+  color: var(--c-ink-dim);
+}
+.pron-badge-ready { color: var(--c-green); border-color: var(--c-green); }
+.pron-badge-noaudio { color: var(--c-ink-muted); }
+.pron-badge-warn { color: var(--c-red); border-color: var(--c-red); }
+
+/* ── review: sticky action bar ────────────────────────────────────────── */
+.pron {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.pron-bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: 0.6rem;
+}
+.pron-bar-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.pron-count {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.pron-audio { height: 2.6rem; }
+.pron-noaudio { color: var(--c-ink-muted); font-size: 1.2rem; }
+.pron-save {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--c-accent);
+  background: var(--c-accent);
+  color: #fff;
+  cursor: pointer;
+}
+.pron-save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pron-msg {
+  font-size: 1.2rem;
+  padding: 0.7rem 1rem;
+  border-radius: 0.5rem;
+  margin: 0;
+}
+.pron-msg-ok { background: var(--c-bg-sunken); color: var(--c-green); border: 1px solid var(--c-green); }
+.pron-msg-err { background: var(--c-bg-sunken); color: var(--c-red); border: 1px solid var(--c-red); }
+
+/* ── review: term rows ────────────────────────────────────────────────── */
+.pron-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.pron-row {
+  display: grid;
+  grid-template-columns: 2rem minmax(12rem, 1fr) minmax(20rem, 1.4fr);
+  gap: 1rem;
+  align-items: start;
+  padding: 0.8rem 1rem;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-left: 4px solid var(--c-rule);
+  border-radius: 0.55rem;
+}
+.pron-row-ok { border-left-color: var(--c-green); }
+.pron-row-fix { border-left-color: var(--c-gold); }
+.pron-row-cantsay { border-left-color: var(--c-red); }
+.pron-row-needsfix { background: var(--c-bg-sunken); }
+
+.pron-n {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 1.15rem;
+  color: var(--c-ink-muted);
+  padding-top: 0.2rem;
+}
+.pron-term {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.pron-term-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.pron-term-translit {
+  font-size: 1.2rem;
+  color: var(--c-ink-dim);
+}
+.pron-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.2rem;
+}
+.pron-chip {
+  font-size: 1.02rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.35rem;
+  background: var(--c-bg-sunken);
+  color: var(--c-ink-muted);
+  border: 1px solid var(--c-rule-soft);
+}
+.pron-chip-seg { color: var(--c-ink-dim); }
+.pron-chip-warn { color: var(--c-red); border-color: var(--c-red); }
+.pron-chip-known { color: var(--c-green); border-color: var(--c-green); }
+
+.pron-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.pron-seg {
+  display: inline-flex;
+  border: 1px solid var(--c-rule);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  width: fit-content;
+}
+.pron-segbtn {
+  font-size: 1.15rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-right: 1px solid var(--c-rule);
+  background: var(--c-bg-elev);
+  color: var(--c-ink-dim);
+  cursor: pointer;
+}
+.pron-segbtn:last-child { border-right: none; }
+.pron-segbtn.is-on { background: var(--c-accent); color: #fff; }
+
+.pron-input {
+  font-size: 1.2rem;
+  font-family: ui-monospace, Menlo, monospace;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--c-rule);
+  border-radius: 0.45rem;
+  background: var(--c-bg-elev);
+  color: var(--c-ink);
+  width: 100%;
+}
+.pron-input:read-only {
+  background: var(--c-bg-sunken);
+  color: var(--c-ink-dim);
+}
+.pron-intended {
+  font-size: 1.05rem;
+  color: var(--c-ink-muted);
+}
+.pron-intended code {
+  font-family: ui-monospace, Menlo, monospace;
+  color: var(--c-ink-dim);
+}
+
+@media (max-width: 720px) {
+  .pron-row {
+    grid-template-columns: 1.6rem 1fr;
+  }
+  .pron-controls {
+    grid-column: 1 / -1;
+  }
+}

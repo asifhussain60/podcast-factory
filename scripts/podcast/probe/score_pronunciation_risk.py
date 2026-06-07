@@ -28,6 +28,7 @@ if str(_SCRIPTS_PODCAST) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS_PODCAST))
 
 from knowledge import pronunciation_ledger as ledger  # noqa: E402
+from knowledge import pronunciation_patterns as patterns  # noqa: E402
 
 DEFAULT_TOP_N = 40
 
@@ -134,6 +135,7 @@ def build_probe_terms(book_dir: Path, top_n: int = DEFAULT_TOP_N) -> dict:
     text = refined_path.read_text(encoding="utf-8").lower() if refined_path.exists() else ""
 
     lib = ledger.load()
+    pat = patterns.load()
     scored: list[dict] = []
     skipped_confirmed = 0
     skipped_unfixable = 0
@@ -162,6 +164,10 @@ def build_probe_terms(book_dir: Path, top_n: int = DEFAULT_TOP_N) -> dict:
             "transliteration": row["transliteration"],
             "phonetic": phon,
             "house_style_ok": house_ok,
+            # deterministic pattern baseline — pre-fills a suggestion for unseen /
+            # IPA-broken terms so the reviewer confirms instead of types from blank
+            "suggested_baseline": pat.baseline_phonetic(row["transliteration"] or row["term"]),
+            "signature": patterns.feature_signature(row["term"], row["transliteration"]),
             "segment": _segment_of(row),
             "snippet": snippet,
             "freq": freq,

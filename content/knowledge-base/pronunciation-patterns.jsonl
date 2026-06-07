@@ -1,0 +1,26 @@
+{"kind": "char", "motif": "ā", "note": "long a", "spoken": "aa"}
+{"kind": "char", "motif": "ī", "note": "long i", "spoken": "ee"}
+{"kind": "char", "motif": "ū", "note": "long u", "spoken": "oo"}
+{"kind": "char", "motif": "ē", "note": "long e", "spoken": "ay"}
+{"kind": "char", "motif": "ō", "note": "long o", "spoken": "oh"}
+{"kind": "char", "motif": "kh", "note": "khaa", "spoken": "kh"}
+{"kind": "char", "motif": "gh", "note": "ghayn", "spoken": "gh"}
+{"kind": "char", "motif": "sh", "note": "sheen", "spoken": "sh"}
+{"kind": "char", "motif": "th", "note": "thaa", "spoken": "th"}
+{"kind": "char", "motif": "dh", "note": "dhaal", "spoken": "dh"}
+{"kind": "char", "motif": "ṣ", "note": "saad", "spoken": "s"}
+{"kind": "char", "motif": "ḍ", "note": "daad", "spoken": "d"}
+{"kind": "char", "motif": "ṭ", "note": "taa (emphatic)", "spoken": "t"}
+{"kind": "char", "motif": "ẓ", "note": "zaa (emphatic)", "spoken": "z"}
+{"kind": "char", "motif": "ḥ", "note": "haa (emphatic)", "spoken": "h"}
+{"kind": "char", "motif": "ḫ", "note": "khaa variant", "spoken": "kh"}
+{"kind": "char", "motif": "ġ", "note": "ghayn variant", "spoken": "gh"}
+{"kind": "char", "motif": "ṯ", "note": "thaa variant", "spoken": "th"}
+{"kind": "char", "motif": "ḏ", "note": "dhaal variant", "spoken": "dh"}
+{"kind": "char", "motif": "š", "note": "sheen variant", "spoken": "sh"}
+{"kind": "char", "motif": "ḳ", "note": "qaf variant", "spoken": "k"}
+{"kind": "char", "motif": "q", "note": "qaf -> k (TTS-friendly)", "spoken": "k"}
+{"kind": "char", "motif": "ʿ", "note": "ayn -> dropped", "spoken": ""}
+{"kind": "char", "motif": "ʾ", "note": "hamza -> dropped", "spoken": ""}
+{"kind": "char", "motif": "'", "note": "apostrophe glottal -> dropped", "spoken": ""}
+{"kind": "char", "motif": "ʼ", "note": "modifier apostrophe -> dropped", "spoken": ""}
