@@ -118,6 +118,65 @@
   margin: 0.3rem 0 0;
 }
 
+/* ── phonetic key: live generate widget ───────────────────────────────── */
+.phgen {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.phgen-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.phgen-input {
+  flex: 1 1 14rem;
+  font-size: 1.2rem;
+  font-family: ui-monospace, Menlo, monospace;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--c-rule);
+  border-radius: 0.45rem;
+  background: var(--c-bg-elev);
+  color: var(--c-ink);
+  min-width: 0;
+}
+.phgen-input:disabled {
+  opacity: 0.6;
+}
+.phgen-btn {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
+  border-radius: 0.45rem;
+  border: 1px solid var(--c-accent);
+  background: var(--c-accent);
+  color: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.phgen-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.phgen-result {
+  font-size: 1.2rem;
+  color: var(--c-ink-dim);
+  margin: 0;
+}
+.phgen-phonetic {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 1.3rem;
+  background: var(--c-bg-sunken);
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.3rem;
+  color: var(--c-accent);
+}
+.phgen-error {
+  font-size: 1.1rem;
+  color: var(--c-red);
+  margin: 0;
+}
+
 /* ── review: sticky action bar ────────────────────────────────────────── */
 .pron {
   display: flex;

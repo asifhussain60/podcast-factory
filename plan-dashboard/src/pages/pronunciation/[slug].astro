@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PronunciationReview from '../../components/PronunciationReview.tsx';
+import PhoneticsGenerator from '../../components/PhoneticsGenerator.tsx';
 import { getProbe } from '../../lib/pronunciation';
 import '../../styles/pronunciation.css';
 
@@ -76,11 +77,13 @@ const detail = slug ? await getProbe(slug) : null;
         </tbody>
       </table>
 
+      <p class="pron-key-sub">Generate a respelling</p>
+      <PhoneticsGenerator client:load />
+
       <p class="pron-key-foot">
         Convention: standard English pronunciation respelling
         (<a href="https://en.wikipedia.org/wiki/Help:Pronunciation_respelling_key" target="_blank" rel="noopener">Wikipedia key</a>,
         <a href="https://www.merriam-webster.com/dictionary/syllable" target="_blank" rel="noopener">Merriam-Webster</a>).
-        Unsure? Type the term in chat and Claude will generate the respelling for you.
       </p>
     </div>
   </details>
