@@ -63,39 +63,62 @@ IMAGE_MODEL         = "gemini-3.1-flash-image"
 IMAGE_COST_ESTIMATE = 0.04
 TEXT_MODEL          = "gemini-2.5-flash"
 
-# ─── Scenic mode (v1 — fiction / narrative) ───────────────────────────────────
+# ─── Scenic mode (fiction / narrative) ────────────────────────────────────────
+#
+# The scenic style is CONTENT-DRIVEN, not hardcoded. Per-book it is read from
+# series-config.yaml `scenic_style`; absent that, this neutral cinematic default
+# applies. (The previous default baked an Islamic geometric border + "scholarly
+# aesthetic" into EVERY non-scholarly book — wrong for a Chinese epic, a sci-fi
+# novel, or anything else. A book sets its own world's look in its config; e.g.
+# Journey to the West uses a Ming-dynasty ink-and-color / shan-shui directive.)
 
 _SCENIC_STYLE = (
-    "Editorial illustration style. Warm amber/ochre palette, fine-line Islamic "
-    "geometric border frame. NOT photorealistic. NOT generic stock art. Scholarly "
-    "aesthetic. High contrast, readable text overlays. 1920x1080 landscape."
+    "Cinematic editorial illustration. Painterly and atmospheric, evocative of "
+    "the story's mood and world. NOT photorealistic. NOT generic stock art. Rich "
+    "lighting, depth, and composition. No text, no captions, no watermarks. "
+    "1920x1080 landscape."
 )
 
-_SCENIC_PROMPT = f"""You are a visual storyboard writer for a narrative/fiction podcast series.
-Given an enriched chapter text and its episode framing, produce a JSON array of image segments.
+# Visual vocabulary for narrative fiction — generalized away from the old
+# scripture/scholar types (quran_verse / hadith_text / portrait-of-scholar /
+# flowchart) which only made sense for Islamic teaching content.
+_SCENIC_VISUAL_TYPES = "scenery, character, action, setting, concept"
+
+
+def _build_scenic_prompt(style_directive: str) -> str:
+    """Build the scenic storyboard system-prompt with a resolved style directive.
+
+    `style_directive` is the per-book scenic look (from series-config.yaml or the
+    neutral default). The visual vocabulary is fiction-general — no Islamic
+    scripture/scholar types — so the same prompt serves any narrative world.
+    """
+    return f"""You are a visual storyboard writer for a narrative/fiction podcast series.
+Given a chapter text and its episode framing, produce a JSON array of image segments.
 
 Aim for 8–12 segments per episode, spread across the full episode duration.
-Visual types: scenery, quran_verse, hadith_text, flowchart, concept, portrait.
+Visual types: {_SCENIC_VISUAL_TYPES}.
 
 Rules:
-- quran_verse / hadith_text ONLY for explicitly quoted text — never invent.
-- portrait ONLY for named scholars/figures.
-- flowchart ONLY for explicit numbered/bulleted lists in the source.
-- Every segment needs a distinct prompt_full (≥30 words).
-- overlay_text: ≤10 words to render on the image, or empty string.
-- style_directive: always "{_SCENIC_STYLE}".
+- scenery = a landscape or environment; setting = a specific place/interior; action = a
+  dynamic story moment; character = a figure from the narrative; concept = a symbolic or
+  atmospheric image for an idea.
+- character / action / setting ONLY for events and figures that appear in THIS chapter —
+  never invent people, places, or events not in the source.
+- Every segment needs a distinct prompt_full (≥30 words) describing the scene visually.
+- overlay_text: leave EMPTY ("") — scenic images carry no text overlay.
+- style_directive: always "{style_directive}".
 
 Return ONLY valid JSON — no markdown fences.
 Schema per element:
 {{
   "segment_id": "s01",
-  "visual_type": "<scenery|quran_verse|hadith_text|flowchart|concept|portrait>",
+  "visual_type": "<scenery|character|action|setting|concept>",
   "est_start_s": <int>,
   "est_end_s": <int>,
   "prompt_short": "<≤12 word summary>",
   "prompt_full": "<detailed generative prompt ≥30 words>",
-  "style_directive": "{_SCENIC_STYLE}",
-  "overlay_text": "<≤10 words or empty string>"
+  "style_directive": "{style_directive}",
+  "overlay_text": ""
 }}
 """
 
@@ -210,6 +233,19 @@ def _read_video_style(book_dir: Path) -> str:
     return "scenic"
 
 
+def _read_scenic_style(book_dir: Path) -> str:
+    """Return the per-book scenic style directive.
+
+    Reads `scenic_style` from series-config.yaml when set (each book describes its
+    own visual world there); otherwise the neutral cinematic default `_SCENIC_STYLE`.
+    """
+    cfg = _read_series_config(book_dir)
+    style = cfg.get("scenic_style")
+    if style and str(style).strip():
+        return str(style).strip()
+    return _SCENIC_STYLE
+
+
 # ─── Episode discovery ────────────────────────────────────────────────────────
 
 def _discover_episodes(book_dir: Path) -> list[dict[str, Any]]:
@@ -300,13 +336,15 @@ def _strip_fences(raw: str) -> str:
     return raw.strip()
 
 
-def _call_gemini_scenic(chapter_text: str, framing_text: str, ep_id: str) -> list[dict]:
-    """Generate scenic image prompts (flat JSON array)."""
+def _call_gemini_scenic(chapter_text: str, framing_text: str, ep_id: str,
+                        book_dir: Path) -> list[dict]:
+    """Generate scenic image prompts (flat JSON array) with the book's own style."""
     from _engine import engine_guard, TASK_IMAGE_PROMPT, ENGINE_GEMINI
     engine_guard(TASK_IMAGE_PROMPT, ENGINE_GEMINI)  # policy: Claude Max; migrate when ready
     client, genai = _gemini_client()
     from google.genai import types
 
+    scenic_prompt = _build_scenic_prompt(_read_scenic_style(book_dir))
     user_content = (
         f"## Episode framing\n\n{framing_text}\n\n"
         f"## Enriched chapter text\n\n{chapter_text}"
@@ -316,7 +354,7 @@ def _call_gemini_scenic(chapter_text: str, framing_text: str, ep_id: str) -> lis
         model=TEXT_MODEL,
         contents=user_content,
         config=types.GenerateContentConfig(
-            system_instruction=_SCENIC_PROMPT,
+            system_instruction=scenic_prompt,
             temperature=0.2,
             max_output_tokens=8192,
         ),
@@ -669,7 +707,7 @@ def main(argv: list[str] | None = None) -> int:
                 # Handle old dict manifests (teaching_hybrid written to scenic path)
                 segments = raw if isinstance(raw, list) else raw.get("slides", [])
             else:
-                segments = _call_gemini_scenic(ch_text, fr_text, ep_id)
+                segments = _call_gemini_scenic(ch_text, fr_text, ep_id, book_dir)
                 segments = _assign_timestamps(segments, total_s)
                 _write_json(segments, json_path)
                 _write_markdown_scenic(segments, ep_id, md_path)

@@ -109,6 +109,7 @@ resolve_content_profile(book_dir):
 | `islamic_scholarly` | (none — full check catalog applies) | All 30 checks |
 | `consumer_explainer` | A (citation discipline — Islamic-specific citations), C (phonetic coverage — Arabic transliteration), J (name aliasing — Arabic name policy), T (doctrinal accuracy — Islamic doctrine) | Consumer accuracy guardrails from `content/_shared/consumer_explainer/framing-guardrails.md` |
 | `general_nonfiction` | T (doctrinal accuracy only) | Standard academic citation checks |
+| `fiction` | A (citation discipline — Islamic citations), C (phonetic coverage — Arabic transliteration), J (name aliasing — Arabic name policy), T (doctrinal accuracy — Islamic doctrine) | Narrative-fidelity guardrails (see below) |
 
 **For `consumer_explainer` books specifically:**
 - Skip A1–A6 (Authenticity): citation format, Islamic source tiers, tradition firewall — none apply.
@@ -117,6 +118,15 @@ resolve_content_profile(book_dir):
 - Skip T (doctrinal accuracy): Islamic doctrine checks don't apply to consumer financial content.
 - Keep B (meta-prose tells), D (enrichment depth), E/F/G (structure/framing integrity), H/I/K/L/M/N/O (NotebookLM literalness, welcome, anti-repetition, interruption, filler checks).
 - ADD: verify each factual claim about tax treatment, eligibility, or dollar amounts can be traced to an authoritative source per `content/_shared/consumer_explainer/enrichment-sources.md`. Flag any unqualified "will save" or "you always" phrasing (P1).
+
+**For `fiction` books specifically:**
+- Skip A1–A6 (Authenticity): Islamic citation format, source tiers, and tradition firewall do not apply to a novel.
+- Skip C1–C6 (Phonetic coverage): no Arabic transliteration in narrative fiction.
+- Skip J1–J3 (Name discipline): the Arabic name-aliasing policy does not apply; character names follow the narrative's own romanization.
+- Skip T (doctrinal accuracy): Islamic doctrine checks do not apply to fiction (a work like *Journey to the West* carries Buddhist/Daoist content — do NOT flag it as Islamic doctrinal error).
+- Keep B (meta-prose tells), D (enrichment depth → read as *narrative/context depth* for fiction), E/F/G (structure/framing integrity), H/I/K/L/M/N/O (NotebookLM literalness, welcome, anti-repetition, interruption, filler checks).
+- **Reinterpret B6 for fiction:** B6 ("no invented dialogue / fictionalized scenes / fabricated quotes") means every scene, line of dialogue, and quote in the framing must trace to **the source novel** — flag invention BEYOND the source (P0), but do NOT flag the novel's own fictional events as fabrication.
+- ADD: verify character names, place names, and plot events in the framing are consistent with the source narrative and internally consistent across episodes (P1 on drift).
 
 Log the detected profile at the top of every challenger report:
 ```

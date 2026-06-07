@@ -28,6 +28,25 @@ from _validator_constants import (  # noqa: E402
     episode_overcrammed,
 )
 
+def _read_profile_and_planning(book_dir: Path) -> tuple[str, str]:
+    """Return (content_profile, episode_planning_mode) from series-config.yaml.
+
+    Defaults: ('islamic_scholarly', '') when the file or fields are absent — so
+    existing books keep their per-source-chapter behavior with no config change.
+    """
+    cfg_path = book_dir / "_system" / "series-config.yaml"
+    if not cfg_path.exists():
+        return ("islamic_scholarly", "")
+    try:
+        import yaml  # local import — keep module import-light
+        cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return ("islamic_scholarly", "")
+    profile = str(cfg.get("content_profile", "islamic_scholarly")).strip()
+    planning = str(cfg.get("episode_planning_mode", "")).strip()
+    return (profile, planning)
+
+
 # ─── Phase 0d — Chapter design (map-reduce by source chapter) ────────────────
 def build_phase_0d_toc_prompt_technical(book_slug: str) -> str:
     """Phase 0d TOC prompt for technical/developer content (explainers category).
@@ -119,7 +138,12 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     book_slug = book_dir.name
     in_refined = book_dir / "_system" / "source" / "text" / "refined-english.md"
     in_phonetics = book_dir / "_system" / "source" / "text" / "_phonetics.md"
-    _needs_phonetics = category in ARABIC_SCHOLARLY_CATEGORIES
+    # Phonetics required only for Islamic scholarly content — check content_profile
+    # first (overrides category membership) so fiction/technical books in the
+    # "books" category (which is in ARABIC_SCHOLARLY_CATEGORIES) are not gated on
+    # a _phonetics.md that Phase 0c correctly skipped for them.
+    from _content_profile import is_islamic_scholarly as _is_islamic_scholarly  # local import: avoid circularity
+    _needs_phonetics = (category in ARABIC_SCHOLARLY_CATEGORIES) and _is_islamic_scholarly(book_dir)
     out_rationale = book_dir / "_system" / "source" / "text" / "chapters-rationale.md"
     out_source_map = book_dir / "_system" / "source" / "text" / "source-chapter-map.md"
     chapters_dir = book_dir / "chapters"
@@ -144,6 +168,18 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                 manual_fallback="Run prior phases (0b, 0c) first.",
             )
     log(f"  phase 0d · category={category!r}, phonetics-required={_needs_phonetics}")
+
+    # Wave-Fiction: CONSOLIDATION mode. A novel arrives as many short source
+    # chapters that each cover one beat of a longer arc; emitting one episode per
+    # chapter yields a 100-episode marathon. Fiction (or an explicit chronological /
+    # vignette planning mode) instead GROUPS adjacent chapters into arc-level
+    # episodes. Driven by content_profile + episode_planning_mode in series-config.
+    _profile, _planning_mode = _read_profile_and_planning(book_dir)
+    _consolidate = (_profile == "fiction") or (
+        _planning_mode in {"chronological", "vignette_grid", "consolidate"})
+    if _consolidate:
+        log(f"  phase 0d · CONSOLIDATION mode (profile={_profile!r}, "
+            f"planning_mode={_planning_mode!r}) — grouping adjacent chapters into arcs")
 
     chunks_dir.mkdir(parents=True, exist_ok=True)
     chapters_dir.mkdir(parents=True, exist_ok=True)
@@ -180,6 +216,23 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         ),
     }[unit_mode]
 
+    consolidation_directive = ""
+    if _consolidate:
+        consolidation_directive = (
+            "\n   (e) CONSOLIDATE (fiction/narrative — APPLY AGGRESSIVELY): the source "
+            "has many short chapters, each one beat of a longer adventure. GROUP "
+            "adjacent chapters that form a single narrative arc into ONE episode unit. "
+            "Represent each group as a SINGLE `source_chapters[]` entry: start_line = "
+            "the first grouped chapter's start, end_line = the last grouped chapter's "
+            "end, unit_mode='chapter', episode_count=1, source_title = an arc name "
+            "(e.g. 'Chapters 1-3: Birth of the Stone Monkey'). Combine enough adjacent "
+            "chapters that each episode lands within the length-tier band — prefer "
+            "FEWER, fuller episodes over many thin ones. NEVER drop or skip story: "
+            "every source chapter's events MUST fall inside exactly one group's line "
+            "range, and groups must tile the whole source with no gaps. List the "
+            "grouped source-chapter numbers in `split_reason`.\n"
+        )
+
     # ── STEP 1: TOC + plan ───────────────────────────────────────────────────
     log("  phase 0d · step 1/3 · TOC + segmentation plan")
 
@@ -208,6 +261,7 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"       skip` in the per-chapter contract so Asif can confirm at Phase 0f.\n"
             f"   (d) RE-DRAW boundaries when a thematic seam falls inside a source chapter —\n"
             f"       cut at the seam, not at the source's heading.\n"
+            f"{consolidation_directive}"
             f"   Reflect your reconfiguration in `split_reason` per source chapter.\n"
             f"2. For each output episode unit, compute its line range in `{in_refined}` "
             f"(1-indexed, inclusive — use `wc -l` style counting; lines are separated by "
@@ -273,6 +327,20 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             toc_prompt, timeout=toc_timeout,
             book_dir=book_dir, phase="0d", step="toc",
         )
+        # Stdout fallback: claude -p sometimes emits valid JSON as text output instead
+        # of using the Write tool. Detect and salvage that JSON before failing.
+        if not toc_path.exists() and stdout and stdout.strip().startswith("{"):
+            import re as _re
+            m = _re.search(r"(\{.*\})", stdout, _re.DOTALL)
+            if m:
+                candidate = m.group(1).strip()
+                try:
+                    _json.loads(candidate)  # validate
+                    toc_path.parent.mkdir(parents=True, exist_ok=True)
+                    toc_path.write_text(candidate, encoding="utf-8")
+                    log("  0d-toc · JSON extracted from stdout fallback → saved to disk")
+                except _json.JSONDecodeError:
+                    pass  # not valid JSON — let _assert_artifact surface the error normally
         _assert_artifact(
             phase="0d-toc",
             path=toc_path,
@@ -313,8 +381,12 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     # over-crammed: too many distinct teachings for one focused listen. Halt and
     # name the required split rather than ship a marathon episode. Profile-aware
     # — Arabic-scholarly/doctrinal caps tighter than narrative/consumer.
+    # Use the tighter dense ceiling only for Islamic scholarly content — check
+    # content_profile first so fiction/technical books in the "books" category
+    # (which is in ARABIC_SCHOLARLY_CATEGORIES) aren't wrongly capped at 6,000w.
     density_ceiling = (EPISODE_DENSITY_CEILING_DENSE
-                       if category in ARABIC_SCHOLARLY_CATEGORIES
+                       if (category in ARABIC_SCHOLARLY_CATEGORIES
+                           and _is_islamic_scholarly(book_dir))
                        else EPISODE_DENSITY_CEILING_NARRATIVE)
     overcrammed: list[str] = []
     for sc in source_chapters:

@@ -141,6 +141,14 @@ def author_phase_0e(book_dir: Path,
         log(f"  phase 0e · SKIPPED (category={category!r} — source is already authoritative)")
         return f"0e skipped: category={category!r} does not require enrichment"
 
+    # Wave-Fiction: narrative fiction carries no citations, Arabic terms, or doctrinal
+    # tiers to enrich. Honor the registry's skip_enrichment intent for fiction WITHOUT
+    # touching technical/Islamic routing below (the flag is otherwise dead for those).
+    from _content_profile import resolve_content_profile  # local import: avoid circularity
+    if resolve_content_profile(book_dir) == "fiction":
+        log("  phase 0e · SKIPPED (content_profile='fiction' — narrative needs no citation enrichment)")
+        return "0e skipped: content_profile='fiction' does not require enrichment"
+
     _use_technical_enrichment = category not in ARABIC_SCHOLARLY_CATEGORIES
     log(f"  phase 0e · category={category!r}, strategy={'technical' if _use_technical_enrichment else 'islamic-7-tier'}")
 

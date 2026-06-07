@@ -168,8 +168,13 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
                     f"\n  Per SKILL.md INVARIANT 6, every chapter must have a unique title."
                 )
     angle = c.get("angle")
-    valid_angles = {"faithful_exposition", "personal_application",
-                    "critical_dialectical", "comparative"}
+    valid_angles = {
+        # Islamic scholarly angles (R-ANGLE family)
+        "faithful_exposition", "personal_application",
+        "critical_dialectical", "comparative",
+        # Fiction / narrative angles
+        "faithful_narrative",
+    }
     if angle not in valid_angles:
         sys.exit(f"ERROR: contract.angle {angle!r} not in {valid_angles}.")
     mode = c.get("adaptation_mode")

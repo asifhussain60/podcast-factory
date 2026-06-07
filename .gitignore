@@ -244,3 +244,5 @@ content/**/*.zip
 # during kitab-al-riyad development; future logs stay untracked.
 _workspace/reviews/archive/**/*.log
 _workspace/reviews/logs/*.log
+# temp YNAB files
+_workspace/ynab-*

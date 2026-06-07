@@ -78,6 +78,57 @@ def build_phase_0b_window_prompt_technical(
     )
 
 
+def build_phase_0b_window_prompt_narrative(
+    book_slug: str,
+    idx: int,
+    total: int,
+    win_in: "Path",
+    win_out: "Path",
+) -> str:
+    """Phase 0b refinement prompt for narrative fiction (content_profile=fiction).
+
+    Polishes translated narrative prose for fluent reading and listening: smooths
+    seams left by windowed translation, keeps proper-name romanization consistent,
+    and preserves verse/poetry passages. Carries NONE of the Arabic-term,
+    scriptural-citation, honorific, or CLI/code preservation rules — those belong
+    to scholarly or technical content. The marker invariant is CHAPTER markers
+    (`<!-- chapter N -->` / chapter headings), since fiction sources carry chapter
+    structure, not PDF page markers.
+    """
+    return (
+        f"You are driving Phase 0b (Narrative Refinement) of the /podcast skill on "
+        f"book-slug `{book_slug}`, **window {idx} of {total}**.\n\n"
+        f"INPUT  (read this window only): `{win_in}`\n"
+        f"OUTPUT (write the refined window here): `{win_out}`\n\n"
+        f"This is one window in a sequence — DO NOT add chapter headings, intros, "
+        f"summaries, or transitions not present in the INPUT. Refine only the prose in "
+        f"the INPUT. If the input begins with a `<!-- context-overlap -->` block, that is "
+        f"tail context for continuity — DO NOT re-emit it; resume cleanly after it.\n\n"
+        f"**Chapter-marker invariant (CRITICAL).** Preserve every `<!-- chapter N -->` "
+        f"HTML comment and every chapter heading verbatim and in-place. Do NOT move, "
+        f"renumber, merge, or omit them — they are the downstream anchors for chapter "
+        f"design (0d).\n\n"
+        f"REFINEMENT GOALS for narrative fiction:\n"
+        f"- Smooth seams left by windowed translation: fix abrupt tense or register "
+        f"  shifts, clarify pronoun antecedents, make clause order read naturally aloud.\n"
+        f"- Render dialogue and narration as fluent, vivid literary English while staying "
+        f"  faithful to the events, imagery, and tone of the INPUT.\n"
+        f"- Keep proper-name romanization consistent within the window (a character named "
+        f"  once keeps that spelling throughout).\n"
+        f"- Preserve verse/poetry passages as set-apart lines — render them as readable "
+        f"  English verse; do NOT collapse them into prose or drop them.\n"
+        f"- Do NOT invent plot, characters, or description not present in the INPUT — "
+        f"  fidelity to the source narrative is mandatory.\n\n"
+        f"Do NOT apply Arabic-term, scriptural-citation, or honorific rules — this is "
+        f"narrative fiction, not religious scholarship. Do NOT preserve CLI commands, code "
+        f"blocks, or version numbers — there are none.\n\n"
+        f"Constraints:\n"
+        f"- Do NOT modify any file other than `{win_out}`.\n"
+        f"- Do NOT wrap output in code fences or add preamble like 'Here is the refined text:'.\n\n"
+        f"Exit when `{win_out}` is non-empty."
+    )
+
+
 def build_phase_0b_window_prompt(
     book_slug: str,
     idx: int,
@@ -152,12 +203,26 @@ def author_phase_0b(
 
     raw_text = in_path.read_text(encoding="utf-8")
 
-    _use_technical = category not in ARABIC_SCHOLARLY_CATEGORIES and category != "sites"
-    _prompt_label = "technical" if _use_technical else ("consumer" if category == "sites" else "scholarly")
-    log(f"  phase 0b · category={category!r}, prompt-variant={_prompt_label!r}")
+    # Wave-Fiction: route by content_profile FIRST so a non-Islamic profile never
+    # falls into the Arabic-preservation scholarly prompt. Fiction gets a dedicated
+    # narrative prompt; every other profile keeps its prior category-based routing
+    # byte-for-byte (no regression to Islamic / technical / sites / Guides books).
+    from _content_profile import resolve_content_profile  # local import: avoid circularity
+    _profile = resolve_content_profile(book_dir)
+    _is_fiction = _profile == "fiction"
+    _use_technical = (not _is_fiction) and category not in ARABIC_SCHOLARLY_CATEGORIES and category != "sites"
+    _prompt_label = (
+        "narrative" if _is_fiction
+        else "technical" if _use_technical
+        else "consumer" if category == "sites"
+        else "scholarly"
+    )
+    log(f"  phase 0b · category={category!r}, content_profile={_profile!r}, prompt-variant={_prompt_label!r}")
 
     def _builder(body: str, idx: int, total: int, win_out: Path) -> str:
         win_in = win_out.with_suffix("").with_suffix(".in.md")
+        if _is_fiction:
+            return build_phase_0b_window_prompt_narrative(book_slug, idx, total, win_in, win_out)
         if _use_technical:
             return build_phase_0b_window_prompt_technical(book_slug, idx, total, win_in, win_out)
         return build_phase_0b_window_prompt(book_slug, idx, total, win_in, win_out)
@@ -242,6 +307,17 @@ def author_phase_0c(
     if not is_islamic_scholarly(book_dir):
         profile = resolve_content_profile(book_dir)
         log(f"  phase 0c · SKIPPED (content_profile={profile!r} has no Arabic terms)")
+        # Write a stub so Phase 0d (which checks category membership, not content_profile)
+        # never fails on a missing _phonetics.md prerequisite.
+        stub = book_dir / "_system" / "source" / "text" / "_phonetics.md"
+        if not stub.exists():
+            stub.parent.mkdir(parents=True, exist_ok=True)
+            stub.write_text(
+                f"# phonetics stub — skipped (content_profile={profile!r} has no Arabic terms)\n"
+                f"# Phase 0d will not use this file for phonetic guidance.\n",
+                encoding="utf-8",
+            )
+            log(f"  phase 0c · wrote stub {stub.name} (0d prereq guard)")
         return f"0c skipped: content_profile={profile!r} does not require Arabic phonetic extraction"
 
     book_slug = book_dir.name

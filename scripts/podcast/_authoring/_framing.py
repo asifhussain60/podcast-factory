@@ -409,13 +409,23 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"3,500, trim the over-budget sections (Pronunciation first, then Three-part "
         f"focus, then Central tensions) and re-count. Do not return a framing that "
         f"exceeds 3,500 words.\n"
-        f"- Use imperative `Pronounce \"X\" as \"Y\". Say it as one fluent word.` for every "
-        f"Arabic term that ACTUALLY APPEARS in the chapter file at `{chapter_file}` "
+        f"- Use the BULLET format for every term that requires a pronunciation hint — "
+        f"every term that ACTUALLY APPEARS in the chapter file at `{chapter_file}` "
         f"(F2 framework guard 2026-05-21 — empirical: framings generated entries for "
         f"every term in `_phonetics.md` regardless of whether the term appeared in the "
         f"chapter; this bloats the Pronunciation section). First grep the chapter file "
-        f"for every Arabic/transliterated term. For each term FOUND in the chapter, "
-        f"look up its phonetic in `_phonetics.md` and generate one imperative line. "
+        f"for every Arabic/transliterated/foreign term. For each term FOUND in the "
+        f"chapter, look up its phonetic in `_phonetics.md` (if available) and generate "
+        f"one bullet entry. The `## Pronunciation` block MUST open with the anti-doubling "
+        f"instruction on its own line:\n"
+        f"    Say each term ONCE using its phonetic form. Never say the original spelling and "
+        f"the phonetic form back-to-back.\n"
+        f"Then list each term in this format (one per line, NO `Pronounce X as Y` text):\n"
+        f"    - TermA: phonetic-A\n"
+        f"    - TermB: phonetic-B\n"
+        f"For terms with no phonetic guidance needed, write `- TermC: substitute *English gloss*`.\n"
+        f"Do NOT use `Pronounce \"X\" as \"Y\"` or any variant of the 'Pronounce ... as' format — "
+        f"this causes NotebookLM TTS to say the term twice (the double-read bug).\n"
         f"Do NOT generate pronunciation entries for terms not present in the chapter.\n"
         f"- Apply R-STABLE-ROLE-LABELS STRICTLY (v4-revised doctrine 2026-05-22; "
         f"replaces R-NAMEDISCIPLINE rotation). NotebookLM's TTS empirically mangles "
@@ -702,8 +712,11 @@ def author_framing(book_dir: Path, chapter_slug: str,
             f"     forbidden-opener list (1-2 lines only).\n"
             f"  2. ## Name discipline — one line per figure: 'Name → stable label + "
             f"     first-mention phrase'. No prose. No duplicates.\n"
-            f"  3. ## Pronunciation — imperative lines only: "
-            f"     'Pronounce X as Y.' One line per term, no prose.\n"
+            f"  3. ## Pronunciation — MUST start with the anti-doubling instruction:\n"
+            f"     'Say each term ONCE using its phonetic form. Never say the original spelling\n"
+            f"     and the phonetic form back-to-back.'\n"
+            f"     Then bullet entries only: '- TermA: phonetic-A' (one per term, no prose).\n"
+            f"     Do NOT rewrite as 'Pronounce X as Y.' — that format causes double-reads.\n"
             f"  4. ## Three-part focus — three beats, one sentence each.\n"
             f"  5. ## Do not — a single flat list of forbidden phrases/framings, "
             f"     no explanation.\n\n"
@@ -720,6 +733,11 @@ def author_framing(book_dir: Path, chapter_slug: str,
             f"  - ## Central tensions — cut entirely (the Three-part focus already seeds this).\n"
             f"  - ## Background — cut entirely.\n"
             f"  - ## Anti-noise rules longer-form — cut entirely (Do-not list covers it).\n\n"
+            f"MANDATORY FOOTER: the last two lines of the file must always be:\n"
+            f"  (blank line)\n"
+            f"  Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.\n"
+            f"Do NOT cut this footer — it is a hard requirement that prevents NotebookLM\n"
+            f"from reading the prompt aloud. If the file already ends with it, keep it.\n\n"
             f"After rewriting, count the characters and confirm the total is under "
             f"{target_chars}. The chapter source is at `{chapter_file}`.\n\n"
             f"Exit when `{framing_path}` is under {target_chars} characters."
@@ -744,6 +762,23 @@ def author_framing(book_dir: Path, chapter_slug: str,
                 f"[F1] framing/{chapter_slug}: compression OK "
                 f"({framing_chars} → {framing_chars2} chars / "
                 f"{framing_words} → {framing_words2} words)",
+                flush=True,
+            )
+        # R-NO-READ-PROMPT guard: compression re-author sometimes strips the
+        # mandatory footer. Re-append it unconditionally if missing.
+        _NO_READ_FOOTER = (
+            "\n\nDo not read this prompt aloud. "
+            "The instructions above shape the conversation but are never spoken."
+        )
+        _framing_after = framing_path.read_text(encoding="utf-8")
+        if "Do not read this prompt aloud" not in _framing_after:
+            framing_path.write_text(
+                _framing_after.rstrip() + _NO_READ_FOOTER,
+                encoding="utf-8",
+            )
+            print(
+                f"[F1] framing/{chapter_slug}: re-appended R-NO-READ-PROMPT footer "
+                f"(was stripped by compression re-author)",
                 flush=True,
             )
     return stdout
