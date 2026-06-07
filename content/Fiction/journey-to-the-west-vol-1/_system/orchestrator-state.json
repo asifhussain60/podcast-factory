@@ -5,7 +5,7 @@
   "branch": "journey-to-the-west-vol-1",
   "status": "draft",
   "phase": "per-chapter",
-  "phase_status": "running",
+  "phase_status": "pending",
   "last_completed_phase": "06a",
   "next_phase": "0f",
   "last_error": {
@@ -51,7 +51,8 @@
       "status": "running",
       "ts_started": "2026-06-06T22:48:06Z",
       "completed_slugs": [
-        "birth-of-the-stone-monkey"
+        "birth-of-the-stone-monkey",
+        "four-seas-bow-in-submission"
       ],
       "failed_slugs": [],
       "chapter_timings": {
@@ -63,16 +64,16 @@
           "cost_usd": 0.0
         },
         "four-seas-bow-in-submission": {
-          "started_ts": "2026-06-06T23:06:38Z",
-          "completed_ts": "2026-06-06T23:12:30Z",
-          "duration_sec": 352.2,
-          "verdict": "FAILED",
+          "started_ts": "2026-06-06T23:21:09Z",
+          "completed_ts": "2026-06-06T23:49:11Z",
+          "duration_sec": 1681.6,
+          "verdict": "SHIP-WITH-CAUTION",
           "cost_usd": 0.0
         },
         "the-great-sage-plunders-the-peaches": {
-          "started_ts": "2026-06-06T22:48:06Z",
-          "completed_ts": "2026-06-06T22:48:06Z",
-          "duration_sec": 0.0,
+          "started_ts": "2026-06-06T23:49:11Z",
+          "completed_ts": "2026-06-06T23:56:28Z",
+          "duration_sec": 436.5,
           "verdict": "FAILED",
           "cost_usd": 0.0
         },
@@ -101,5 +102,5 @@
     33
   ],
   "note": "Step 1 upstream: Claude-on-Max translation of ch 1-33 (complete). Proceeding to 0b narrative refinement.",
-  "ts_updated": "2026-06-06T23:21:09Z"
+  "ts_updated": "2026-06-06T23:56:28Z"
 }
