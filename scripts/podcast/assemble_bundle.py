@@ -29,6 +29,8 @@ NOTEBOOKLM UPLOAD TABLE (mandatory canonical format — defined in _notebooklm_t
 per feedback_notebooklm_instructions_format.md)
     | Chapters | Episodes | Deep dive or debate | Length |
     Length default: Long (standing rule). Episodes cell carries "EP## — <title>".
+    Chapters/Episodes cells are ALWAYS clickable links: Chapters -> chapter SOURCE,
+    Episodes -> episode FRAMING.
 
 EXIT CODES
     0  all chapters + framings present; PEQ all WARN or PASS
@@ -285,6 +287,8 @@ def assemble_bundle(slug: str, *, run_score: bool = False, as_json: bool = False
             "format": _friendly_format(episode_format),
             "nlm_format": _nlm_format(episode_format),
             "length": _nlm_length(framing_path),
+            "chapter_path": chapter_path,
+            "framing_path": framing_path,
             "chapter_words": len(chapter_path.read_text(encoding="utf-8").split()) if chapter_path else 0,
             "framing_words": len(framing_path.read_text(encoding="utf-8").split()) if framing_path else 0,
             "chapter_ok": chapter_path is not None,
@@ -349,9 +353,11 @@ def assemble_bundle(slug: str, *, run_score: bool = False, as_json: bool = False
                   f"{p['interest']:>5.1f} {p['total']:>6.1f} {v_icon} {p['verdict']}")
 
     # NotebookLM upload table (mandatory canonical format — see _notebooklm_table.py).
-    from _notebooklm_table import UploadRow, render_upload_table_lines  # noqa: PLC0415
+    from _notebooklm_table import UploadRow, render_upload_table_lines, repo_rel_href  # noqa: PLC0415
     print(f"\nNOTEBOOKLM UPLOAD TABLE — {slug} ({len(rows)} episodes)")
-    print(f"  Upload the chapter SOURCE to NotebookLM; paste the FRAMING into Customize.")
+    print(f"  Click the CHAPTER cell to open the SOURCE to upload; the EPISODE cell")
+    print(f"  to open the FRAMING to paste into NotebookLM's Customize box.")
+    print(f"  (skip the '# Framing: …' H1 title line when pasting)")
     print()
     upload_rows = [
         UploadRow(
@@ -359,16 +365,13 @@ def assemble_bundle(slug: str, *, run_score: bool = False, as_json: bool = False
             chapter_title=str(r["title"]).strip("\"'"),
             episode_title=str(r["title"]).strip("\"'"),
             episode_format="debate" if r["nlm_format"].strip().lower() == "debate" else "deep_dive",
+            chapter_href=repo_rel_href(r.get("chapter_path"), book_dir),
+            episode_href=repo_rel_href(r.get("framing_path"), book_dir),
         )
         for r in rows
     ]
     for line in render_upload_table_lines(upload_rows):
         print(f"  {line}")
-
-    print()
-    print(f"  Source files  → upload each  chapters/chNN-<slug>.txt  as the ONLY source")
-    print(f"  Framing files → paste body of episodes/EPNN-<slug>.txt  into the Customize box")
-    print(f"  (skip the '# Framing: …' H1 title line when pasting)")
 
     # Slide deck status.
     slides_done = sum(1 for r in rows if r["slide_deck_ok"])

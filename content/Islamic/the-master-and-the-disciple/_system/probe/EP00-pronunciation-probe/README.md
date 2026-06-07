@@ -7,9 +7,12 @@ corrections.
 
 ## Generate this in NotebookLM
 
+Click the Chapters cell to open the SOURCE to upload; the Episodes cell to
+open the FRAMING to paste into Customize.
+
 | Chapters | Episodes | Deep dive or debate | Length |
 |---|---|---|---|
-| (pronunciation probe) | EP00 — Pronunciation probe | Deep Dive | Shorter |
+| [(pronunciation probe)](pronunciation-probe.md) | [EP00 — Pronunciation probe](00-framing.md) | Deep Dive | Shorter |
 
 (This diagnostic uses **Shorter** on purpose — it is a 3-5 min check, not a
 chapter/episode upload, which default to Long.)

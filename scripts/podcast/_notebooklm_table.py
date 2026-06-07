@@ -19,11 +19,27 @@ format, change it HERE — not in each caller.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 
 # The standing default length setting. Change here to retune globally.
 DEFAULT_LENGTH = "Long"
 
 COLUMNS = ("Chapters", "Episodes", "Deep dive or debate", "Length")
+
+
+def repo_rel_href(path, book_dir) -> str | None:
+    """Repo-root-relative href for a file, for clickable markdown links.
+
+    Content lives at ``<repo>/content/<Bucket>/<slug>/…`` so the repo root is
+    ``book_dir.parents[2]``. Returns None for a missing path; falls back to the
+    raw string if the path is outside the repo root.
+    """
+    if path is None:
+        return None
+    try:
+        return str(Path(path).resolve().relative_to(Path(book_dir).resolve().parents[2]))
+    except (ValueError, IndexError):
+        return str(path)
 
 
 def conversation_style(episode_format: str | None) -> str:
@@ -37,23 +53,34 @@ def conversation_style(episode_format: str | None) -> str:
 
 @dataclass
 class UploadRow:
-    n: int                       # episode / chapter number
-    chapter_title: str           # chapter display title
-    episode_title: str           # episode display title
+    n: int                            # episode / chapter number
+    chapter_title: str                # chapter display title
+    episode_title: str                # episode display title
     episode_format: str = "deep_dive"
     length: str = DEFAULT_LENGTH
+    chapter_href: str | None = None   # link target for the Chapters cell (chapter SOURCE file)
+    episode_href: str | None = None   # link target for the Episodes cell (episode FRAMING file)
 
-    def chapters_cell(self) -> str:
+    def chapters_text(self) -> str:
         title = self.chapter_title.strip() if self.chapter_title else f"Chapter {self.n}"
         return f"{self.n}. {title}"
 
-    def episodes_cell(self) -> str:
+    def episodes_text(self) -> str:
         return f"EP{self.n:02d} — {self.episode_title}"
+
+    @staticmethod
+    def _link(text: str, href: str | None) -> str:
+        """Markdown link when an href is known; plain text otherwise.
+
+        Chapters/Episodes are ALWAYS clickable links when the file is known
+        (standing rule) — Chapters -> chapter SOURCE, Episodes -> episode FRAMING.
+        """
+        return f"[{text}]({href})" if href else text
 
     def cells(self) -> list[str]:
         return [
-            self.chapters_cell(),
-            self.episodes_cell(),
+            self._link(self.chapters_text(), self.chapter_href),
+            self._link(self.episodes_text(), self.episode_href),
             conversation_style(self.episode_format),
             self.length,
         ]

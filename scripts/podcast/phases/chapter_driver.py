@@ -344,7 +344,7 @@ def _print_notebooklm_table(book_dir: Path) -> None:
             _resolve_chapter_file,
             _resolve_framing_file,
         )
-        from _notebooklm_table import UploadRow, render_upload_table_lines  # noqa: PLC0415
+        from _notebooklm_table import UploadRow, render_upload_table_lines, repo_rel_href  # noqa: PLC0415
     except ImportError as exc:
         _info(f"  [notebooklm table skipped — import error: {exc}]")
         return
@@ -372,7 +372,6 @@ def _print_notebooklm_table(book_dir: Path) -> None:
         return
 
     rows: list[UploadRow] = []
-    files: list[dict] = []
     for entry in mapping:
         episode_slug = entry["episode"]
         chapter_slug = entry["chapter"]
@@ -387,30 +386,15 @@ def _print_notebooklm_table(book_dir: Path) -> None:
             chapter_title=title,
             episode_title=title,
             episode_format=episode_format,
+            chapter_href=repo_rel_href(chapter_path, book_dir),
+            episode_href=repo_rel_href(framing_path, book_dir),
         ))
-        files.append({
-            "ep": ep_num,
-            "chapter_path": str(chapter_path.relative_to(book_dir.parent.parent))
-                            if chapter_path else "(missing)",
-            "framing_path": str(framing_path.relative_to(book_dir.parent.parent))
-                            if framing_path else "(missing)",
-        })
 
     _info("─" * 72)
     _info("NOTEBOOKLM UPLOAD TABLE")
     _info("")
-    _info("For each episode, create a new NotebookLM notebook:")
-    _info("  1. Upload the SOURCE file as the ONLY source.")
-    _info("  2. Open Customize → paste the entire FRAMING file into the prompt box.")
-    _info("  3. Set the conversation style + Length as shown, then generate.")
+    _info("Per row: click the CHAPTER cell to open the SOURCE to upload, and the")
+    _info("EPISODE cell to open the FRAMING to paste into NotebookLM's Customize box.")
     _info("")
     for line in render_upload_table_lines(rows):
         _info(f"  {line}")
-    _info("")
-    _info("  Source files  (upload as the ONLY NotebookLM source):")
-    for f in files:
-        _info(f"    EP{f['ep']:02d}  {f['chapter_path']}")
-    _info("")
-    _info("  Framing files (paste full contents into NotebookLM Customize box):")
-    for f in files:
-        _info(f"    EP{f['ep']:02d}  {f['framing_path']}")
