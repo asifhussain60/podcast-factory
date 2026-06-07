@@ -32,27 +32,24 @@ phonetic in the library; a respelling -> confirm the corrected form; a
 | 15 | Sa'd | SAHD |  |  |
 | 16 | Shu'ayb | shoo-AYB |  |  |
 | 17 | Abu al-Khair | a-BOO al-KHAYR |  |  |
-| 18 | Shariʿa | shaR-EE-ah |  |  |
-| 19 | Allah | al-LAH |  |  |
-| 20 | Shaykh | SHAYKH |  |  |
-| 21 | ibn | IB-n |  |  |
-| 22 | Bayt al-Ma'mur | bait al-ma'a-MOOR |  |  |
-| 23 | al-Jazira | al-ja-ZEE-rah |  |  |
-| 24 | jazā'ir | ja-ZAA-ir |  |  |
-| 25 | Tur | TOOR |  |  |
-| 26 | nuqabā' | nu-ka-BAA |  |  |
-| 27 | nāṭiq | NAA-tiq |  |  |
-| 28 | nuqabāʾ | nu-ka-BAA |  |  |
-| 29 | ḥawl | hawl |  |  |
-| 30 | quwwa | QOO-wa |  |  |
-| 31 | du'āt | dua'at |  |  |
-| 32 | awliyāʾ | aww-li-yaa |  |  |
-| 33 | daʿwa | DAH-wa |  |  |
-| 34 | duʿāt | dua'at |  |  |
-| 35 | dāʿī | daa-ee |  |  |
-| 36 | taʾwīl | tah-WEEL |  |  |
-| 37 | sunna | SOON-na |  |  |
-| 38 | zakat | za-KAAT |  |  |
-| 39 | ḥujaj | HOO-jaj |  |  |
-| 40 | hadiths | ha-DEETHS |  |  |
+| 18 | Allah | al-LAH |  |  |
+| 19 | Shaykh | SHAYKH |  |  |
+| 20 | ibn | IB-n |  |  |
+| 21 | Bayt al-Ma'mur | bait al-ma'a-MOOR |  |  |
+| 22 | al-Jazira | al-ja-ZEE-rah |  |  |
+| 23 | jazā'ir | ja-ZAA-ir |  |  |
+| 24 | Tur | TOOR |  |  |
+| 25 | nuqabā' | nu-ka-BAA |  |  |
+| 26 | nāṭiq | NAA-tiq |  |  |
+| 27 | ḥawl | hawl |  |  |
+| 28 | quwwa | QOO-wa |  |  |
+| 29 | du'āt | dua'at |  |  |
+| 30 | awliyāʾ | aww-li-yaa |  |  |
+| 31 | daʿwa | DAH-wa |  |  |
+| 32 | dāʿī | daa-ee |  |  |
+| 33 | taʾwīl | tah-WEEL |  |  |
+| 34 | sunna | SOON-na |  |  |
+| 35 | zakat | za-KAAT |  |  |
+| 36 | ḥujaj | HOO-jaj |  |  |
+| 37 | hadiths | ha-DEETHS |  |  |
 

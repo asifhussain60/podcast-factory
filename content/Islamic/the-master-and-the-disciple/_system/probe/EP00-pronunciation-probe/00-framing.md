@@ -16,19 +16,18 @@ Say each term ONCE. Do not double or spell-then-say.
 - Ka'b al-Ahbar: KAB al-AH-bar
 - Abd Allah: ab-dul-LAH
 - Do NOT say **al-ʿuṣba** — say "The Band Of Eight" instead.
-- Abu Malik: abu mAA-lik
+- Abu Malik: a-BOO MAA-lik
 - al-Bakhtari: al-bakh-ta-REE
 - Ubayd Allah: ubaid ul-LAH
 - Sharia: sha-ree-ah
 - Qur'an: kur-AAN
-- Abu Salih: abu Saa-leh
+- Abu Salih: a-BOO SAA-leh
 - Salih: Saa-leh
 - al-Khiḍr: al-KHIDR
-- Imam: e-Maam
+- Imam: e-MAAM
 - Sa'd: Sa'ad
 - Shu'ayb: shoo-ayb
 - Abu al-Khair: abu al-KHAYR
-- Shariʿa: sha-ree-ah
 - Allah: al-LAH
 - Shaykh: shay-k
 - ibn: IB-n
@@ -38,13 +37,11 @@ Say each term ONCE. Do not double or spell-then-say.
 - Tur: TOOR
 - nuqabā': nu-ka-BAA
 - nāṭiq: NAA-tiq
-- nuqabāʾ: nu-ka-BAA
 - Do NOT say **ḥawl** — say "Power" instead.
 - Do NOT say **quwwa** — say "Strength" instead.
 - Do NOT say **du'āt** — say "missionaries" instead.
 - Do NOT say **awliyāʾ** — say "Friends Of Allah" instead.
 - Do NOT say **daʿwa** — say "Religious Mission" instead.
-- Do NOT say **duʿāt** — say "missionaries" instead.
 - Do NOT say **dāʿī** — say "Missionary" instead.
 - Do NOT say **taʾwīl** — say "esoteric" instead.
 - Do NOT say **sunna** — say "Prophetic tradition" instead.

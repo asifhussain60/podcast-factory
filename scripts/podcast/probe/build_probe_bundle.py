@@ -236,6 +236,21 @@ def build_bundle(book_dir: Path) -> Path:
         if key in lib:
             t["_library"] = lib[key]
 
+    # Deduplicate by normalized key — keeps the first (highest-ranked) occurrence.
+    # Prevents the same Arabic concept from appearing twice when the probe-terms.json
+    # has both a plain and a diacritic/hamza variant (e.g. "Sharia" + "Shariʿa").
+    seen: set[str] = set()
+    deduped: list[dict] = []
+    for t in data["terms"]:
+        key = normalize_key(t["term"])
+        if key not in seen:
+            seen.add(key)
+            deduped.append(t)
+    # Renumber sequentially so the source has no gaps after dedup.
+    for i, t in enumerate(deduped, start=1):
+        t["n"] = i
+    data = {**data, "terms": deduped}
+
     out_dir = book_dir / "_system" / "probe" / "EP00-pronunciation-probe"
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "pronunciation-probe.md").write_text(build_source(data), encoding="utf-8")
