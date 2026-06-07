@@ -1,1 +1,2 @@
 {"ts": "2026-06-07T19:23:45Z", "phase": "0ci", "step": "gap-analysis", "model": "claude-opus-4-8", "input_tokens": 7, "output_tokens": 6649, "cache_read": 102157, "cache_create": 61395, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-06-07T19:46:51Z", "phase": "0d", "step": "toc", "model": "claude-opus-4-8", "input_tokens": 34, "output_tokens": 17759, "cache_read": 1942033, "cache_create": 56922, "cost_usd": 0.0, "engine": "max"}
