@@ -211,6 +211,13 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         "extended": "5,500–9,500 words per episode",
     }.get(length_tier, "5,500–9,500 words per episode (extended)")
 
+    # Islamic scholarly content is validated against EPISODE_DENSITY_CEILING_DENSE
+    # (6,000w), not the narrative 9,500w ceiling. Cap the tier_band upper bound so
+    # the LLM's segmentation target matches what the density validator will enforce.
+    if (category in ARABIC_SCHOLARLY_CATEGORIES and _is_islamic_scholarly(book_dir)
+            and "9,500" in tier_band):
+        tier_band = tier_band.replace("9,500", f"{EPISODE_DENSITY_CEILING_DENSE:,}")
+
     unit_directive = {
         "chapter": (
             "UNIT MODE: **chapter** — every source chapter MUST become exactly ONE episode "
