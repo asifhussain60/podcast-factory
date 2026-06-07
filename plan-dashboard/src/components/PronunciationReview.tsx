@@ -108,13 +108,47 @@ export default function PronunciationReview({ slug, terms, audioUrl }: Props) {
     }
   }, [rows, storageKey]);
 
+  // A row counts as reviewed only when it carries an actionable decision: a
+  // phonetic for ok/fix, or a non-empty gloss for cantsay. A pre-filled
+  // SUGGESTION on a still-pending row does NOT count (that was the confusion).
+  function isDecided(r: RowState): boolean {
+    if (r.decision === 'ok' || r.decision === 'fix') return !!r.phonetic.trim();
+    if (r.decision === 'cantsay') return !!r.gloss.trim();
+    return false;
+  }
+
   const decidedCount = useMemo(
-    () => Object.values(rows).filter((r) => r.decision !== 'pending').length,
+    () => Object.values(rows).filter(isDecided).length,
     [rows],
+  );
+
+  // Pending rows that already have a suggestion the reviewer can accept in bulk.
+  const acceptableCount = useMemo(
+    () => terms.filter((t) => {
+      const r = rows[t.term];
+      return r && r.decision === 'pending' && r.phonetic.trim();
+    }).length,
+    [rows, terms],
   );
 
   function update(term: string, patch: Partial<RowState>) {
     setRows((prev) => ({ ...prev, [term]: { ...prev[term], ...patch } }));
+    setResult(null);
+  }
+
+  // Accept every still-pending suggestion as "Correct" in one click. Rows the
+  // reviewer already set to Fix / Can't say are left untouched.
+  function acceptAllSuggestions() {
+    setRows((prev) => {
+      const next = { ...prev };
+      for (const t of terms) {
+        const r = next[t.term];
+        if (r && r.decision === 'pending' && r.phonetic.trim()) {
+          next[t.term] = { ...r, decision: 'ok' };
+        }
+      }
+      return next;
+    });
     setResult(null);
   }
 
@@ -127,6 +161,7 @@ export default function PronunciationReview({ slug, terms, audioUrl }: Props) {
         const r = rows[t.term];
         if (!r || r.decision === 'pending') return null;
         if (r.decision === 'cantsay') {
+          if (!r.gloss.trim()) return null; // empty gloss -> not actionable, skip
           return {
             term: t.term,
             transliteration: t.transliteration,
@@ -187,9 +222,16 @@ export default function PronunciationReview({ slug, terms, audioUrl }: Props) {
             <span className="pron-noaudio">No probe audio found for this book.</span>
           )}
         </div>
-        <button className="pron-save" onClick={save} disabled={saving || decidedCount === 0}>
-          {saving ? 'Saving…' : `Save ${decidedCount} correction${decidedCount === 1 ? '' : 's'}`}
-        </button>
+        <div className="pron-bar-actions">
+          {acceptableCount > 0 && (
+            <button className="pron-acceptall" onClick={acceptAllSuggestions} disabled={saving}>
+              Accept {acceptableCount} suggestion{acceptableCount === 1 ? '' : 's'}
+            </button>
+          )}
+          <button className="pron-save" onClick={save} disabled={saving || decidedCount === 0}>
+            {saving ? 'Saving…' : `Save ${decidedCount} correction${decidedCount === 1 ? '' : 's'}`}
+          </button>
+        </div>
       </div>
 
       {result && <p className="pron-msg pron-msg-ok" role="status">{result}</p>}

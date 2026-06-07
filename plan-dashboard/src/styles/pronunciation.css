@@ -68,6 +68,12 @@
 }
 .pron-audio { height: 2.6rem; }
 .pron-noaudio { color: var(--c-ink-muted); font-size: 1.2rem; }
+.pron-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
 .pron-save {
   font-size: 1.2rem;
   font-weight: 600;
@@ -79,6 +85,20 @@
   cursor: pointer;
 }
 .pron-save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.pron-acceptall {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--c-accent);
+  background: var(--c-bg-elev);
+  color: var(--c-accent);
+  cursor: pointer;
+}
+.pron-acceptall:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
