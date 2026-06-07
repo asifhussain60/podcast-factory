@@ -31,7 +31,14 @@ done
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 REPO_ROOT="$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
-PYTHON=/usr/bin/python3
+# Prefer the repo virtualenv (carries PyYAML/anthropic/requests). The system
+# /usr/bin/python3 lacks these deps, so a hardcoded interpreter crashes every
+# phase at `import yaml`. Fall back to /usr/bin/python3 only if no venv exists.
+if [[ -x "$REPO_ROOT/.venv/bin/python" ]]; then
+    PYTHON="$REPO_ROOT/.venv/bin/python"
+else
+    PYTHON=/usr/bin/python3
+fi
 ORCH="$REPO_ROOT/scripts/podcast/orchestrate_book.py"
 
 # Resolve state file path via _paths.find_content() so non-books categories

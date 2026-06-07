@@ -137,6 +137,11 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
 
     book_slug = book_dir.name
     in_refined = book_dir / "_system" / "source" / "text" / "refined-english.md"
+    # Prefer unified-book.md (augmented content layer, e.g. ksessions) when present;
+    # fall back to refined-english.md. The prereq check still requires refined-english.md
+    # (always produced by 0b) so the augmented file is additive, never a prerequisite gate.
+    _in_unified = book_dir / "_system" / "unified-book.md"
+    in_content = _in_unified if _in_unified.exists() else in_refined
     in_phonetics = book_dir / "_system" / "source" / "text" / "_phonetics.md"
     # Phonetics required only for Islamic scholarly content — check content_profile
     # first (overrides category membership) so fiction/technical books in the
@@ -243,10 +248,10 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"You are driving Phase 0d STEP 1 (TOC + segmentation plan) of the /podcast "
             f"skill on book-slug `{book_slug}`. This is a small read-mostly call: you will "
             f"NOT write any chapter or contract files in this step — only one JSON plan.\n\n"
-            f"INPUT:  `{in_refined}` (the refined English source)\n"
+            f"INPUT:  `{in_content}` (the refined English source)\n"
             f"OUTPUT: `{toc_path}` (machine-readable plan; valid JSON only, no markdown)\n\n"
             f"TASK:\n"
-            f"1. Read `{in_refined}` and identify the EPISODE units that serve the\n"
+            f"1. Read `{in_content}` and identify the EPISODE units that serve the\n"
             f"   listener best — NOT the source author's chapter list. The source's own\n"
             f"   chapter breaks are ADVISORY, not authoritative. You are reconfiguring\n"
             f"   the material into episodes; you are not transcribing a table of contents.\n"
@@ -263,7 +268,7 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"       cut at the seam, not at the source's heading.\n"
             f"{consolidation_directive}"
             f"   Reflect your reconfiguration in `split_reason` per source chapter.\n"
-            f"2. For each output episode unit, compute its line range in `{in_refined}` "
+            f"2. For each output episode unit, compute its line range in `{in_content}` "
             f"(1-indexed, inclusive — use `wc -l` style counting; lines are separated by "
             f"`\\n`). Also compute its word count (whitespace-split).\n"
             f"3. Apply the following segmentation directive PER SOURCE-OR-RECONFIGURED CHAPTER:\n"
@@ -374,7 +379,7 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             manual_fallback=f"Edit `{toc_path}` to add source_chapters then retry.",
         )
 
-    refined_lines = in_refined.read_text(encoding="utf-8").splitlines()
+    refined_lines = in_content.read_text(encoding="utf-8").splitlines()
 
     # ── Density guardrail — the over-cramming brake (2026-06-04) ──────────────
     # A plan whose episodes land far above the per-episode density ceiling is
