@@ -27,3 +27,5 @@
 {"ts": "2026-06-08T13:00:49Z", "phase": "0book-compose", "step": "bk-07", "model": "claude-opus-4-8", "input_tokens": 6, "output_tokens": 7038, "cache_read": 23675, "cache_create": 39467, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-06-08T13:03:07Z", "phase": "0book-compose", "step": "bk-08", "model": "claude-opus-4-8", "input_tokens": 6, "output_tokens": 4759, "cache_read": 23675, "cache_create": 36403, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-06-08T13:09:13Z", "phase": "0book-compose", "step": "bk-09", "model": "claude-opus-4-8", "input_tokens": 6, "output_tokens": 21587, "cache_read": 23675, "cache_create": 55309, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-06-08T13:10:35Z", "phase": "0book-compose", "step": "bk-10", "model": "claude-opus-4-8", "input_tokens": 6, "output_tokens": 876, "cache_read": 23675, "cache_create": 32952, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-06-08T13:11:51Z", "phase": "0book-compose", "step": "preface", "model": "claude-opus-4-8", "input_tokens": 6, "output_tokens": 812, "cache_read": 23675, "cache_create": 32754, "cost_usd": 0.0, "engine": "max"}
