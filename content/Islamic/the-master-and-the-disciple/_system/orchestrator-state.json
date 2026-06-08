@@ -3,8 +3,8 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
-  "phase": "0book-design",
-  "phase_status": "completed",
+  "phase": "0book-compose",
+  "phase_status": "running",
   "last_completed_phase": "0book-design",
   "next_phase": "0book-compose",
   "last_error": null,
@@ -140,6 +140,10 @@
       "status": "completed",
       "ts_started": "2026-06-08T12:43:44Z",
       "ts_completed": "2026-06-08T12:45:18Z"
+    },
+    "0book-compose": {
+      "status": "running",
+      "ts_started": "2026-06-08T12:45:18Z"
     }
   },
   "completed_slugs": [],
