@@ -6,11 +6,42 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-08 (session 17 — pronunciation probe overhaul)
+**Last updated:** 2026-06-08 (session 19 — bundle numbering fix)
 
-**BRANCH: `Islamic/asaas-al-taveel` — 1 commit 65e72e9. Push pending.**
+**BRANCH: `Islamic/asaas-al-taveel` — 10 commits. Push pending.**
 
-**Session work completed (session 17 — 1 commit 65e72e9):**
+**Session work completed (session 19 — 1 commit e891724):**
+
+Fixed bundle generator sequential numbering + clarified English generalization workflow.
+
+  - build_probe_bundle.py: reorder terms in segment-presentation order (names ->
+    places -> terms) BEFORE assigning 1-N numbers. Previously places got mid-range
+    global ranks (n=59, 108) while Part 3 restarted at n=1, breaking the checklist.
+    Now Part 2 = items 1,2; Part 3 = items 3,4,5...115 sequentially.
+  - Bundle regenerated: pronunciation-probe.md, 00-framing.md, listen-checklist.md
+    all updated with correct sequential numbers.
+
+**English generalization workflow (complete):**
+  1. Click "English for N x1 terms" on each page -> marks in UI
+  2. Click "Save" -> writes to library as unfixable with English gloss
+  3. Click "Generate source and framing" again -> bundle now shows "Do NOT say X - say Y instead"
+
+**Session work completed (session 18 — 1 commit 64c2114):**
+
+LLM-filled English meanings for all probe terms + toggle-pill UI replacing checkbox.
+
+  - fill_probe_meanings.py: new Gemini Flash batch script fills concise 1-4 word
+    English meanings for terms missing one or with meanings >6 words. Biblical names
+    for prophets. One API call per run; writes probe-terms.json in place.
+  - probe-terms.json: all 128 terms now have concise English meanings. Examples:
+    walaya -> Spiritual Guardianship, hujja -> Divine Proof, al-Qa'im -> The Awaited One.
+  - PronunciationReview.tsx: checkbox replaced with pill toggle showing English text
+    inline at all times. Inactive: grey pill with ⇄ + English preview. Active:
+    accent-colored pill with checkmark; gloss input pre-fills with the meaning.
+  - pronunciation.css: .pron-lang-toggle pill styles; old checkbox CSS removed.
+  - TypeScript clean; html-view-lint: errors=0 warns=0.
+
+**Session work completed (session 17 — 5 commits):**
 
 Pronunciation probe overhaul — frequency counting, meaning pre-fill, count badge.
 
