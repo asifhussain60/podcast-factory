@@ -3,15 +3,11 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
-  "phase": "per-chapter",
-  "phase_status": "complete",
-  "last_completed_phase": "0e",
-  "next_phase": "0literary",
-  "last_error": {
-    "phase": "per-chapter",
-    "message": "4 chapter(s) failed: knowledge-versus-action, spiritual-symbols-and-the-architecture-of-creation, the-disciple-becomes-master, unity-justice-and-the-living-witness. 1 chapter(s) completed. Triage failures or raise per_chapter_cost_cap_usd and --resume.",
-    "ts": "2026-06-07T23:36:09Z"
-  },
+  "phase": "0book-design",
+  "phase_status": "completed",
+  "last_completed_phase": "0book-design",
+  "next_phase": "0book-compose",
+  "last_error": null,
   "pipeline_mode": "orchestrated",
   "v1_archive": {
     "git_tag": "archive/the-master-and-the-disciple-v1",
@@ -139,6 +135,11 @@
       "ts_started": "2026-06-07T22:01:16Z",
       "ts_completed": "2026-06-07T22:01:26Z",
       "gate_warnings": 7
+    },
+    "0book-design": {
+      "status": "completed",
+      "ts_started": "2026-06-08T12:43:44Z",
+      "ts_completed": "2026-06-08T12:45:18Z"
     }
   },
   "completed_slugs": [],
@@ -150,7 +151,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-07T23:36:09Z",
+  "ts_updated": "2026-06-08T12:45:18Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",

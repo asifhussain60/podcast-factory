@@ -17,3 +17,4 @@
 {"ts": "2026-06-07T23:28:36Z", "phase": "per-chapter", "step": "challenger/true-sources-of-knowledge", "model": "claude-opus-4-8", "input_tokens": 7, "output_tokens": 760, "cache_read": 79224, "cache_create": 34204, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-06-07T23:34:43Z", "phase": "per-chapter", "step": "fixer/true-sources-of-knowledge/P1", "model": "claude-opus-4-8", "input_tokens": 64, "output_tokens": 17758, "cache_read": 5150699, "cache_create": 81727, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-06-07T23:36:09Z", "phase": "per-chapter", "step": "challenger/true-sources-of-knowledge", "model": "claude-opus-4-8", "input_tokens": 7, "output_tokens": 420, "cache_read": 79336, "cache_create": 32693, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-06-08T12:45:18Z", "phase": "0book-design", "step": "segment", "model": "claude-opus-4-8", "input_tokens": 6, "output_tokens": 1902, "cache_read": 0, "cache_create": 119488, "cost_usd": 0.0, "engine": "max"}
