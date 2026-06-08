@@ -120,6 +120,11 @@ export default function PronunciationReview({ slug, terms }: Props) {
     () => pagedTerms.filter((t) => { const r = rows[t.term]; return r && r.decision === 'pending' && r.phonetic.trim(); }).length,
     [rows, pagedTerms],
   );
+  // Single-mention terms with a translation ready — bulk-English candidate count.
+  const lowFreqEnglishCount = useMemo(
+    () => pagedTerms.filter((t) => t.freq === 1 && t.meaning && rows[t.term]?.decision === 'pending').length,
+    [rows, pagedTerms],
+  );
 
   function update(term: string, patch: Partial<RowState>) {
     setRows((prev) => ({ ...prev, [term]: { ...prev[term], ...patch } }));
@@ -133,6 +138,21 @@ export default function PronunciationReview({ slug, terms }: Props) {
         const r = next[t.term];
         if (r && r.decision === 'pending' && r.phonetic.trim()) {
           next[t.term] = { ...r, decision: 'ok', phoneSuggested: false };
+        }
+      }
+      return next;
+    });
+    setResult(null);
+  }
+
+  function applyEnglishForLowFreq() {
+    setRows((prev) => {
+      const next = { ...prev };
+      for (const t of pagedTerms) {
+        if (t.freq !== 1 || !t.meaning) continue;
+        const r = next[t.term];
+        if (r && r.decision === 'pending') {
+          next[t.term] = { ...r, decision: 'cantsay', gloss: t.meaning, phoneSuggested: false };
         }
       }
       return next;
@@ -210,6 +230,11 @@ export default function PronunciationReview({ slug, terms }: Props) {
           )}
         </div>
         <div className="pron-bar-actions">
+          {lowFreqEnglishCount > 0 && (
+            <button className="pron-acceptall" onClick={applyEnglishForLowFreq} disabled={saving}>
+              English for {lowFreqEnglishCount} ×1 term{lowFreqEnglishCount === 1 ? '' : 's'}
+            </button>
+          )}
           {acceptableCount > 0 && (
             <button className="pron-acceptall" onClick={acceptAllSuggestions} disabled={saving}>
               Accept {acceptableCount} suggestion{acceptableCount === 1 ? '' : 's'}
