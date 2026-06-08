@@ -287,8 +287,37 @@ def illustrate_book(book_dir: Path, book_md: Path) -> Path:
     return illustrated_md
 
 
+def _book_title(book_dir: Path) -> str:
+    """Read the reading-edition title for the published PDF.
+
+    Priority:
+    1. book/book-toc.json ``book_title`` — the authored reading-edition title.
+    2. meta.yml ``title`` — the original work title (coarser fallback).
+    3. The content slug (book_dir.name) — last resort.
+    """
+    toc = book_dir / "book" / "book-toc.json"
+    if toc.exists():
+        try:
+            title = (json.loads(toc.read_text(encoding="utf-8")).get("book_title") or "").strip()
+            if title:
+                return title
+        except Exception:
+            pass
+    meta = book_dir / "meta.yml"
+    if meta.exists():
+        try:
+            import yaml  # type: ignore[import]
+            title = (yaml.safe_load(meta.read_text(encoding="utf-8")) or {}).get("title", "").strip()
+            if title:
+                return title
+        except Exception:
+            pass
+    return book_dir.name
+
+
 def render_pdf(book_dir: Path, illustrated_md: Path) -> Path:
     """Step 3: render book-illustrated.md → book.pdf via Playwright."""
+    import shutil
     out_pdf = book_dir / "book" / "book.pdf"
     print(f"  render · {illustrated_md.name} → book.pdf (Playwright) …")
     render_script = REPO_ROOT / "plan-dashboard" / "scripts" / "render-book-pdf.mjs"
@@ -312,16 +341,30 @@ def render_pdf(book_dir: Path, illustrated_md: Path) -> Path:
 
     print(f"  render · wrote {out_pdf} ({out_pdf.stat().st_size // 1024}KB)")
 
-    # Copy to Google Drive
+    # Write a titled copy alongside book.pdf so the filename matches the book.
+    # book.pdf stays in place for pipeline compatibility (export_distribution.py etc.).
+    title = _book_title(book_dir)
+    titled_pdf = out_pdf.parent / f"{title}.pdf"
+    try:
+        shutil.copy2(out_pdf, titled_pdf)
+        print(f"  render · titled copy → {titled_pdf.name}")
+    except Exception as exc:
+        print(f"  render · titled copy failed (non-fatal): {exc}")
+
+    # Copy to Google Drive sync folder as {Title}.pdf (overwrites previous version).
     gdrive = Path(
         "~/Library/CloudStorage/GoogleDrive-asifhussain60@gmail.com"
         "/My Drive/podcast factory"
     ).expanduser()
     if gdrive.exists():
-        import shutil
-        dest = gdrive / "Journey to the West Vol 1.pdf"
-        shutil.copy2(out_pdf, dest)
-        print(f"  render · copied to Google Drive: {dest.name}")
+        dest = gdrive / f"{title}.pdf"
+        try:
+            shutil.copy2(out_pdf, dest)
+            print(f"  render · copied to Google Drive: {dest.name}")
+        except Exception as exc:
+            print(f"  render · Google Drive copy failed (non-fatal): {exc}")
+    else:
+        print("  render · Google Drive folder not mounted — skipping Drive copy")
 
     return out_pdf
 

@@ -40,7 +40,24 @@ _GDRIVE_BOOKS = Path(
 
 
 def _book_title(book_dir: Path) -> str:
-    """Read the book title from meta.yml. Falls back to the slug."""
+    """Read the reading-edition title for the published PDF.
+
+    Priority:
+    1. book/book-toc.json ``book_title`` — the authored reading-edition title
+       (e.g. "The Book of the Master and the Boy").
+    2. meta.yml ``title`` — the original work title (coarser; only used as fallback).
+    3. The content slug (book_dir.name) — last resort.
+    """
+    toc = book_dir / "book" / "book-toc.json"
+    if toc.exists():
+        try:
+            import json
+            data = json.loads(toc.read_text(encoding="utf-8"))
+            title = (data.get("book_title") or "").strip()
+            if title:
+                return title
+        except Exception:
+            pass
     meta = book_dir / "meta.yml"
     if meta.exists():
         try:
@@ -90,8 +107,17 @@ def build_book(book_dir: Path, *, log=print, book_md: Path | None = None) -> Pat
             manual_fallback=_INSTALL_HINT)
     log(f"    0book-render: wrote {out_pdf.name} ({out_pdf.stat().st_size // 1024} KB)")
 
-    # Copy to Google Drive sync folder as {Title}.pdf (overwrites previous version).
+    # Write a titled copy alongside book.pdf so the PDF filename matches the book.
+    # book.pdf stays in place for pipeline compatibility (export_distribution.py etc.).
     title = _book_title(book_dir)
+    titled_pdf = out_pdf.parent / f"{title}.pdf"
+    try:
+        shutil.copy2(str(out_pdf), str(titled_pdf))
+        log(f"    0book-render: titled copy → {titled_pdf.name}")
+    except Exception as exc:
+        log(f"    0book-render: titled copy failed (non-fatal): {exc}")
+
+    # Copy to Google Drive sync folder as {Title}.pdf (overwrites previous version).
     gdrive_dest = _GDRIVE_BOOKS / f"{title}.pdf"
     if _GDRIVE_BOOKS.exists():
         try:
