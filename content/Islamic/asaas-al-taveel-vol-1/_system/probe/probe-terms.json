@@ -4,7 +4,7 @@
   "scored_terms": 128,
   "skipped_confirmed": 40,
   "skipped_unfixable": 0,
-  "top_n": 128,
+  "top_n": 115,
   "terms": [
     {
       "term": "حجة",
@@ -1056,76 +1056,6 @@
       "n": 51
     },
     {
-      "term": "المعيّد في الدين",
-      "transliteration": "al-Mu'ayyad fi al-Din",
-      "phonetic": "ʔal-muʔajjad fiː ad-diːn",
-      "house_style_ok": false,
-      "suggested_baseline": "al-mua-yyad fi al-din",
-      "signature": [
-        "ayn-hamza",
-        "article-al"
-      ],
-      "segment": "terms",
-      "snippet": "\"their great supporter of religion, al-Mu'ayyad fi al-Din\"",
-      "freq": 1,
-      "score": 4,
-      "reasons": [
-        "5 syllables",
-        "long",
-        "non-house-style respelling"
-      ],
-      "arabic_script": "المعيّد في الدين",
-      "meaning": "Al-Mu'ayyad fi al-Din",
-      "n": 52
-    },
-    {
-      "term": "عبد السلام ابن رغبان",
-      "transliteration": "Abd al-Salam ibn Raghban",
-      "phonetic": "ʕabd as-salaːm ɪbn raɣbaːn",
-      "house_style_ok": false,
-      "suggested_baseline": "abd al-sa-lam ibn ra-ghban",
-      "signature": [
-        "article-al",
-        "lineage"
-      ],
-      "segment": "terms",
-      "snippet": "\"information about the poet Abd al-Salam ibn Raghban\"",
-      "freq": 1,
-      "score": 4,
-      "reasons": [
-        "5 syllables",
-        "long",
-        "non-house-style respelling"
-      ],
-      "arabic_script": "عبد السلام ابن رغبان",
-      "meaning": "Abd al-Salam ibn Raghban",
-      "n": 53
-    },
-    {
-      "term": "محمد ابن جرير الطبري",
-      "transliteration": "Muhammad ibn Jarir al-Tabari",
-      "phonetic": "mʊħammad ɪbn dʒariːr at-tabarɪ",
-      "house_style_ok": false,
-      "suggested_baseline": "mu-ha-mmad ibn ja-rir al-ta-ba-ri",
-      "signature": [
-        "article-al",
-        "lineage",
-        "ending-i"
-      ],
-      "segment": "terms",
-      "snippet": "\"all of this is plain in the books…who preceded Muhammad ibn Jarir al-Tabari\"",
-      "freq": 1,
-      "score": 4,
-      "reasons": [
-        "5 syllables",
-        "long",
-        "non-house-style respelling"
-      ],
-      "arabic_script": "محمد ابن جرير الطبري",
-      "meaning": "Muhammad ibn Jarir al-Tabari",
-      "n": 54
-    },
-    {
       "term": "الإمام المقيم",
       "transliteration": "al-imām al-muqīm",
       "phonetic": "al-i-maam al-mu-qeem",
@@ -1144,7 +1074,7 @@
       ],
       "arabic_script": "الإمام المقيم",
       "meaning": "Resident Imam",
-      "n": 55
+      "n": 52
     },
     {
       "term": "خمس رسائل إسماعيلية",
@@ -1167,7 +1097,7 @@
       ],
       "arabic_script": "خمس رسائل إسماعيلية",
       "meaning": "Five Ismaili Letters",
-      "n": 56
+      "n": 53
     },
     {
       "term": "سواع",
@@ -1187,7 +1117,7 @@
       ],
       "arabic_script": "سواع",
       "meaning": "Suwa",
-      "n": 57
+      "n": 54
     },
     {
       "term": "عبدالله بن سلام",
@@ -1209,7 +1139,7 @@
       ],
       "arabic_script": "عبدالله بن سلام",
       "meaning": "Abdullah ibn Salam",
-      "n": 58
+      "n": 55
     },
     {
       "term": "عيسى ابن مريم",
@@ -1232,7 +1162,7 @@
       ],
       "arabic_script": "عيسى ابن مريم",
       "meaning": "Jesus, Son of Mary",
-      "n": 59
+      "n": 56
     },
     {
       "term": "فاطمة الزهراء",
@@ -1255,7 +1185,7 @@
       ],
       "arabic_script": "فاطمة الزهراء",
       "meaning": "Fatima al-Zahra",
-      "n": 60
+      "n": 57
     },
     {
       "term": "لا إله إلا الله",
@@ -1276,7 +1206,7 @@
       ],
       "arabic_script": "لا إله إلا الله",
       "meaning": "No God but Allah",
-      "n": 61
+      "n": 58
     },
     {
       "term": "أصحاب الجزائر",
@@ -1298,7 +1228,7 @@
       ],
       "arabic_script": "أصحاب الجزائر",
       "meaning": "Companions of Islands",
-      "n": 62
+      "n": 59
     },
     {
       "term": "جعفر الحاجب",
@@ -1320,7 +1250,7 @@
       ],
       "arabic_script": "جعفر الحاجب",
       "meaning": "Ja'far al-Hajib",
-      "n": 63
+      "n": 60
     },
     {
       "term": "جعفر الصادق",
@@ -1342,70 +1272,7 @@
       ],
       "arabic_script": "جعفر الصادق",
       "meaning": "Ja'far al-Sadiq",
-      "n": 64
-    },
-    {
-      "term": "ديك الجن",
-      "transliteration": "Dik al-Jinn",
-      "phonetic": "diːk al-dʒɪnn",
-      "house_style_ok": false,
-      "suggested_baseline": "dik al-jinn",
-      "signature": [
-        "article-al"
-      ],
-      "segment": "terms",
-      "snippet": "\"the poet Abd al-Salam ibn Raghban — known as Dik al-Jinn\"",
-      "freq": 1,
-      "score": 2,
-      "reasons": [
-        "3 syllables",
-        "non-house-style respelling"
-      ],
-      "arabic_script": "ديك الجن",
-      "meaning": "Dik al-Jinn",
-      "n": 65
-    },
-    {
-      "term": "ذكر المقدمات",
-      "transliteration": "Dhikr al-Muqaddimat",
-      "phonetic": "dhik-rul mu-qad-di-MAAT",
-      "house_style_ok": true,
-      "suggested_baseline": "dhikr al-mu-ka-ddi-mat",
-      "signature": [
-        "article-al"
-      ],
-      "segment": "terms",
-      "snippet": "\"we have mentioned them in Mention of the Preparations (Dhikr al-Muqaddimat)\"",
-      "freq": 1,
-      "score": 2,
-      "reasons": [
-        "6 syllables"
-      ],
-      "arabic_script": "ذكر المقدمات",
-      "meaning": "Mention of Introductions",
-      "n": 66
-    },
-    {
-      "term": "رفع الإصر",
-      "transliteration": "Raf' al-Isr",
-      "phonetic": "rafʕ al-ʔɪsr",
-      "house_style_ok": false,
-      "suggested_baseline": "raf al-isr",
-      "signature": [
-        "ayn-hamza",
-        "article-al"
-      ],
-      "segment": "terms",
-      "snippet": "\"al-Hafiz in Raf' al-Isr (136)\"",
-      "freq": 1,
-      "score": 2,
-      "reasons": [
-        "3 syllables",
-        "non-house-style respelling"
-      ],
-      "arabic_script": "رفع الإصر",
-      "meaning": "Removal of Burdens",
-      "n": 67
+      "n": 61
     },
     {
       "term": "صالح",
@@ -1425,7 +1292,7 @@
       ],
       "arabic_script": "صالح",
       "meaning": "Salih",
-      "n": 68
+      "n": 62
     },
     {
       "term": "عيسى بن مريم",
@@ -1445,7 +1312,7 @@
       ],
       "arabic_script": "عيسى بن مريم",
       "meaning": "Jesus son of Mary",
-      "n": 69
+      "n": 63
     },
     {
       "term": "كتاب الهمة",
@@ -1467,7 +1334,7 @@
       ],
       "arabic_script": "كتاب الهمة",
       "meaning": "Book of Aspiration",
-      "n": 70
+      "n": 64
     },
     {
       "term": "كميل بن زياد",
@@ -1488,7 +1355,7 @@
       ],
       "arabic_script": "كميل بن زياد",
       "meaning": "Kumayl ibn Ziyad",
-      "n": 71
+      "n": 65
     },
     {
       "term": "لوح محفوظ",
@@ -1506,7 +1373,7 @@
       ],
       "arabic_script": "لوح محفوظ",
       "meaning": "Preserved Tablet",
-      "n": 72
+      "n": 66
     },
     {
       "term": "مدبرات",
@@ -1524,7 +1391,7 @@
       ],
       "arabic_script": "مدبرات",
       "meaning": "Administrators",
-      "n": 73
+      "n": 67
     },
     {
       "term": "أبدال",
@@ -1544,7 +1411,7 @@
       ],
       "arabic_script": "أبدال",
       "meaning": "Substitutes",
-      "n": 74
+      "n": 68
     },
     {
       "term": "أمويون",
@@ -1562,7 +1429,7 @@
       ],
       "arabic_script": "أمويون",
       "meaning": "Umayyads",
-      "n": 75
+      "n": 69
     },
     {
       "term": "أوصى",
@@ -1582,7 +1449,7 @@
       ],
       "arabic_script": "أوصى",
       "meaning": "Bequeathed",
-      "n": 76
+      "n": 70
     },
     {
       "term": "إشارة",
@@ -1602,27 +1469,7 @@
       ],
       "arabic_script": "إشارة",
       "meaning": "Sign, Indication",
-      "n": 77
-    },
-    {
-      "term": "ابن خلكان",
-      "transliteration": "Ibn Khallikan",
-      "phonetic": "ɪbn xallɪkaːn",
-      "house_style_ok": false,
-      "suggested_baseline": "ibn kha-lli-kan",
-      "signature": [
-        "lineage"
-      ],
-      "segment": "terms",
-      "snippet": "\"Ibn Khallikan translated his life in al-Wafayat\"",
-      "freq": 1,
-      "score": 1,
-      "reasons": [
-        "non-house-style respelling"
-      ],
-      "arabic_script": "ابن خلكان",
-      "meaning": "Ibn Khallikan",
-      "n": 78
+      "n": 71
     },
     {
       "term": "الأجنحة",
@@ -1643,7 +1490,7 @@
       ],
       "arabic_script": "الأجنحة",
       "meaning": "The Wings",
-      "n": 79
+      "n": 72
     },
     {
       "term": "الإمام",
@@ -1663,7 +1510,7 @@
       ],
       "arabic_script": "الإمام",
       "meaning": "Imam, Leader",
-      "n": 80
+      "n": 73
     },
     {
       "term": "البارئ",
@@ -1684,7 +1531,7 @@
       ],
       "arabic_script": "البارئ",
       "meaning": "The Maker",
-      "n": 81
+      "n": 74
     },
     {
       "term": "التنزيل",
@@ -1704,7 +1551,7 @@
       ],
       "arabic_script": "التنزيل",
       "meaning": "Revelation",
-      "n": 82
+      "n": 75
     },
     {
       "term": "القلم",
@@ -1724,7 +1571,7 @@
       ],
       "arabic_script": "القلم",
       "meaning": "The Pen",
-      "n": 83
+      "n": 76
     },
     {
       "term": "اللوح",
@@ -1744,71 +1591,7 @@
       ],
       "arabic_script": "اللوح",
       "meaning": "The Tablet",
-      "n": 84
-    },
-    {
-      "term": "المتنبي",
-      "transliteration": "al-Mutanabbi",
-      "phonetic": "ʔal-mʊtanabbɪ",
-      "house_style_ok": false,
-      "suggested_baseline": "al-mu-ta-na-bbi",
-      "signature": [
-        "article-al",
-        "ending-i"
-      ],
-      "segment": "terms",
-      "snippet": "\"information about…al-Mutanabbi, al-Ma'arri, and others\"",
-      "freq": 1,
-      "score": 1,
-      "reasons": [
-        "non-house-style respelling"
-      ],
-      "arabic_script": "المتنبي",
-      "meaning": "Al-Mutanabbi",
-      "n": 85
-    },
-    {
-      "term": "المعري",
-      "transliteration": "al-Ma'arri",
-      "phonetic": "ʔal-maʕarriː",
-      "house_style_ok": false,
-      "suggested_baseline": "al-maa-rri",
-      "signature": [
-        "ayn-hamza",
-        "article-al",
-        "ending-i"
-      ],
-      "segment": "terms",
-      "snippet": "\"al-Mutanabbi, al-Ma'arri, and others, has remained scant\"",
-      "freq": 1,
-      "score": 1,
-      "reasons": [
-        "non-house-style respelling"
-      ],
-      "arabic_script": "المعري",
-      "meaning": "Al-Ma'arri",
-      "n": 86
-    },
-    {
-      "term": "المقريزي",
-      "transliteration": "al-Maqrizi",
-      "phonetic": "ʔal-maqriːziː",
-      "house_style_ok": false,
-      "suggested_baseline": "al-ma-kri-zi",
-      "signature": [
-        "article-al",
-        "ending-i"
-      ],
-      "segment": "terms",
-      "snippet": "\"Al-Maqrizi and other historians say his library overflowed\"",
-      "freq": 1,
-      "score": 1,
-      "reasons": [
-        "non-house-style respelling"
-      ],
-      "arabic_script": "المقريزي",
-      "meaning": "Al-Maqrizi",
-      "n": 87
+      "n": 77
     },
     {
       "term": "المنصورية",
@@ -1829,7 +1612,7 @@
       ],
       "arabic_script": "المنصورية",
       "meaning": "Al-Mansuriyya",
-      "n": 88
+      "n": 78
     },
     {
       "term": "الوصية",
@@ -1849,27 +1632,7 @@
       ],
       "arabic_script": "الوصية",
       "meaning": "Bequest, Testament",
-      "n": 89
-    },
-    {
-      "term": "الوفيات",
-      "transliteration": "al-Wafayat",
-      "phonetic": "ʔal-wafajaːt",
-      "house_style_ok": false,
-      "suggested_baseline": "al-wa-fay-at",
-      "signature": [
-        "article-al"
-      ],
-      "segment": "terms",
-      "snippet": "\"Ibn Khallikan translated his life in al-Wafayat (2/166)\"",
-      "freq": 1,
-      "score": 1,
-      "reasons": [
-        "non-house-style respelling"
-      ],
-      "arabic_script": "الوفيات",
-      "meaning": "Obituaries",
-      "n": 90
+      "n": 79
     },
     {
       "term": "الوهاب",
@@ -1889,7 +1652,7 @@
       ],
       "arabic_script": "الوهاب",
       "meaning": "The Bestower",
-      "n": 91
+      "n": 80
     },
     {
       "term": "بنو تميم",
@@ -1907,25 +1670,7 @@
       ],
       "arabic_script": "بنو تميم",
       "meaning": "Banu Tamim",
-      "n": 92
-    },
-    {
-      "term": "بويهيون",
-      "transliteration": "Buyids",
-      "phonetic": "buːjɪd",
-      "house_style_ok": false,
-      "suggested_baseline": "bu-yids",
-      "signature": [],
-      "segment": "terms",
-      "snippet": "\"the Buyids and the Hamdanids raised the banner of culture\"",
-      "freq": 1,
-      "score": 1,
-      "reasons": [
-        "non-house-style respelling"
-      ],
-      "arabic_script": "بويهيون",
-      "meaning": "Buyids",
-      "n": 93
+      "n": 81
     },
     {
       "term": "تقية",
@@ -1945,7 +1690,7 @@
       ],
       "arabic_script": "تقية",
       "meaning": "Dissimulation",
-      "n": 94
+      "n": 82
     },
     {
       "term": "جبريل",
@@ -1965,25 +1710,7 @@
       ],
       "arabic_script": "جبريل",
       "meaning": "Gabriel",
-      "n": 95
-    },
-    {
-      "term": "حمدانيون",
-      "transliteration": "Hamdanids",
-      "phonetic": "hamdaːnɪd",
-      "house_style_ok": false,
-      "suggested_baseline": "ha-mda-nids",
-      "signature": [],
-      "segment": "terms",
-      "snippet": "\"the Buyids and the Hamdanids raised the banner of culture\"",
-      "freq": 1,
-      "score": 1,
-      "reasons": [
-        "non-house-style respelling"
-      ],
-      "arabic_script": "حمدانيون",
-      "meaning": "Hamdanids",
-      "n": 96
+      "n": 83
     },
     {
       "term": "صاحب القيامة",
@@ -2004,7 +1731,7 @@
       ],
       "arabic_script": "صاحب القيامة",
       "meaning": "Lord of Resurrection",
-      "n": 97
+      "n": 84
     },
     {
       "term": "عباسيون",
@@ -2022,7 +1749,7 @@
       ],
       "arabic_script": "عباسيون",
       "meaning": "Abbasids",
-      "n": 98
+      "n": 85
     },
     {
       "term": "عبيد الله",
@@ -2042,7 +1769,7 @@
       ],
       "arabic_script": "عبيد الله",
       "meaning": "Ubaydallah",
-      "n": 99
+      "n": 86
     },
     {
       "term": "عترة",
@@ -2062,7 +1789,7 @@
       ],
       "arabic_script": "عترة",
       "meaning": "Progeny",
-      "n": 100
+      "n": 87
     },
     {
       "term": "قرامطة",
@@ -2082,7 +1809,7 @@
       ],
       "arabic_script": "قرامطة",
       "meaning": "Qaramita",
-      "n": 101
+      "n": 88
     },
     {
       "term": "كعب الأحبار",
@@ -2103,7 +1830,7 @@
       ],
       "arabic_script": "كعب الأحبار",
       "meaning": "Ka'b al-Ahbar",
-      "n": 102
+      "n": 89
     },
     {
       "term": "مستجيب",
@@ -2121,7 +1848,7 @@
       ],
       "arabic_script": "مستجيب",
       "meaning": "Respondent",
-      "n": 103
+      "n": 90
     },
     {
       "term": "ميكائيل",
@@ -2141,7 +1868,7 @@
       ],
       "arabic_script": "ميكائيل",
       "meaning": "Michael",
-      "n": 104
+      "n": 91
     },
     {
       "term": "ناطق",
@@ -2161,7 +1888,7 @@
       ],
       "arabic_script": "ناطق",
       "meaning": "Speaking Prophet",
-      "n": 105
+      "n": 92
     },
     {
       "term": "أسباب",
@@ -2177,7 +1904,7 @@
       "reasons": [],
       "arabic_script": "أسباب",
       "meaning": "Instruments, Causes",
-      "n": 106
+      "n": 93
     },
     {
       "term": "جهاد",
@@ -2193,7 +1920,7 @@
       "reasons": [],
       "arabic_script": "جهاد",
       "meaning": "Struggle",
-      "n": 107
+      "n": 94
     },
     {
       "term": "حج",
@@ -2209,7 +1936,7 @@
       "reasons": [],
       "arabic_script": "حج",
       "meaning": "Hajj",
-      "n": 108
+      "n": 95
     },
     {
       "term": "رأس",
@@ -2227,7 +1954,7 @@
       "reasons": [],
       "arabic_script": "رأس",
       "meaning": "Head, Chief",
-      "n": 109
+      "n": 96
     },
     {
       "term": "رمز",
@@ -2243,7 +1970,7 @@
       "reasons": [],
       "arabic_script": "رمز",
       "meaning": "Symbol",
-      "n": 110
+      "n": 97
     },
     {
       "term": "سام",
@@ -2259,7 +1986,7 @@
       "reasons": [],
       "arabic_script": "سام",
       "meaning": "Shem",
-      "n": 111
+      "n": 98
     },
     {
       "term": "فاران",
@@ -2275,7 +2002,7 @@
       "reasons": [],
       "arabic_script": "فاران",
       "meaning": "Faran",
-      "n": 112
+      "n": 99
     },
     {
       "term": "نسر",
@@ -2291,7 +2018,7 @@
       "reasons": [],
       "arabic_script": "نسر",
       "meaning": "Nasr",
-      "n": 113
+      "n": 100
     },
     {
       "term": "هارون",
@@ -2307,7 +2034,7 @@
       "reasons": [],
       "arabic_script": "هارون",
       "meaning": "Aaron",
-      "n": 114
+      "n": 101
     },
     {
       "term": "ولد",
@@ -2323,7 +2050,7 @@
       "reasons": [],
       "arabic_script": "ولد",
       "meaning": "Son, Child",
-      "n": 115
+      "n": 102
     },
     {
       "term": "يعقوب",
@@ -2339,7 +2066,7 @@
       "reasons": [],
       "arabic_script": "يعقوب",
       "meaning": "Yaqub",
-      "n": 116
+      "n": 103
     },
     {
       "term": "يغوث",
@@ -2355,7 +2082,7 @@
       "reasons": [],
       "arabic_script": "يغوث",
       "meaning": "Yaghuth",
-      "n": 117
+      "n": 104
     },
     {
       "term": "يوسف",
@@ -2371,7 +2098,7 @@
       "reasons": [],
       "arabic_script": "يوسف",
       "meaning": "Yusuf",
-      "n": 118
+      "n": 105
     },
     {
       "term": "حد / حدود",
@@ -2390,7 +2117,7 @@
       ],
       "arabic_script": "حد / حدود",
       "meaning": "Rank / Ranks",
-      "n": 119
+      "n": 106
     },
     {
       "term": "يعوق",
@@ -2410,7 +2137,7 @@
       ],
       "arabic_script": "يعوق",
       "meaning": "Ya'uq",
-      "n": 120
+      "n": 107
     },
     {
       "term": "أبو قبيس",
@@ -2428,7 +2155,7 @@
       ],
       "arabic_script": "أبو قبيس",
       "meaning": "Abu Qubays",
-      "n": 121
+      "n": 108
     },
     {
       "term": "مكة المكرمة",
@@ -2449,7 +2176,7 @@
       ],
       "arabic_script": "مكة المكرمة",
       "meaning": "Mecca the Honored",
-      "n": 122
+      "n": 109
     },
     {
       "term": "الإمامة",
@@ -2469,7 +2196,7 @@
       ],
       "arabic_script": "الإمامة",
       "meaning": "Imamate, Leadership",
-      "n": 123
+      "n": 110
     },
     {
       "term": "باطن",
@@ -2490,7 +2217,7 @@
       ],
       "arabic_script": "باطن",
       "meaning": "Inner Meaning",
-      "n": 124
+      "n": 111
     },
     {
       "term": "دعوة",
@@ -2511,7 +2238,7 @@
       ],
       "arabic_script": "دعوة",
       "meaning": "The Call",
-      "n": 125
+      "n": 112
     },
     {
       "term": "ظاهر",
@@ -2532,7 +2259,7 @@
       ],
       "arabic_script": "ظاهر",
       "meaning": "Outer Meaning",
-      "n": 126
+      "n": 113
     },
     {
       "term": "قلم",
@@ -2548,7 +2275,7 @@
       "reasons": [],
       "arabic_script": "قلم",
       "meaning": "Pen",
-      "n": 127
+      "n": 114
     },
     {
       "term": "لامك",
@@ -2564,7 +2291,7 @@
       "reasons": [],
       "arabic_script": "لامك",
       "meaning": "Lamech",
-      "n": 128
+      "n": 115
     }
   ]
 }
