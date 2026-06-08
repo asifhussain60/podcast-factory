@@ -22,6 +22,7 @@ import json
 import re
 import sys
 import unicodedata
+from collections import defaultdict
 from pathlib import Path
 
 _SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
@@ -106,6 +107,71 @@ def _count_in_text(transliteration: str, text_norm: str) -> int:
     """Count normalised transliteration occurrences in the normalised English text."""
     norm = _normalise_translit(transliteration)
     return text_norm.count(norm) if norm else 0
+
+
+# Strict: only strip "al-" (with hyphen) so "Allah" / "Ali" are never affected.
+_AL_PREFIX_RE = re.compile(r"^al-", re.IGNORECASE)
+
+
+def _article_root_key(r: dict) -> str:
+    """Normalised transliteration with the definite-article al- prefix stripped."""
+    norm = _normalise_translit(r.get("transliteration") or r["term"])
+    return _AL_PREFIX_RE.sub("", norm)
+
+
+def _dedup_article_variants(scored: list[dict]) -> list[dict]:
+    """Merge entries that differ only by the ال / al- definite article.
+
+    Groups by article-stripped root.  For each group with >1 member:
+    - The bare form (transliteration does NOT start with al-) is canonical.
+    - Frequencies are summed; the score's freq contribution is recalculated.
+    - Meaning falls back to whichever member has one.
+    """
+    groups: dict[str, list[dict]] = defaultdict(list)
+    for r in scored:
+        groups[_article_root_key(r)].append(r)
+
+    out: list[dict] = []
+    for members in groups.values():
+        if len(members) == 1:
+            out.append(members[0])
+            continue
+        # Prefer the bare form (no leading al-) as canonical.
+        bare = [
+            m for m in members
+            if not _normalise_translit(m.get("transliteration") or m["term"]).startswith("al-")
+        ]
+        primary = max(bare or members, key=lambda m: (m["freq"], m["score"]))
+        total_freq = sum(m["freq"] for m in members)
+
+        # Recalculate score's frequency contribution for the merged total.
+        score = primary["score"]
+        old = primary["freq"]
+        if old >= 10:    score -= 3
+        elif old >= 4:   score -= 2
+        elif old >= 2:   score -= 1
+        if total_freq >= 10:   score += 3
+        elif total_freq >= 4:  score += 2
+        elif total_freq >= 2:  score += 1
+
+        # Build merged reasons: drop the old per-term freq entry, add merged one.
+        reasons = [rr for rr in primary["reasons"] if not re.match(r"^x\d+ in text", rr)]
+        merged_forms = [m.get("transliteration") or m["term"] for m in members if m is not primary]
+        reasons.append(f"x{total_freq} in text (+ {', '.join(merged_forms)})")
+
+        # Use primary's meaning; fall back to any member's meaning.
+        merged_meaning = primary.get("meaning") or next(
+            (m.get("meaning") for m in members if m.get("meaning")), ""
+        )
+
+        out.append({
+            **primary,
+            "freq": total_freq,
+            "score": max(0, score),
+            "reasons": reasons,
+            "meaning": merged_meaning,
+        })
+    return out
 
 
 def _parse_phonetics_md(path: Path) -> list[dict]:
@@ -258,6 +324,9 @@ def build_probe_terms(book_dir: Path, top_n: int = DEFAULT_TOP_N) -> dict:
             "arabic_script": row.get("arabic_script") or row["term"],
             "meaning": meaning or "",
         })
+
+    # Merge terms that differ only by the ال / al- definite article.
+    scored = _dedup_article_variants(scored)
 
     # Primary sort: frequency desc (most-heard terms first), then risk score desc,
     # then alphabetical.  Terms the listener hears most belong at the top of the list.

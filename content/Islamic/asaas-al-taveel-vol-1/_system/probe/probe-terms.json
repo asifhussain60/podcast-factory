@@ -1,7 +1,7 @@
 {
   "book_slug": "asaas-al-taveel-vol-1",
   "total_terms": 173,
-  "scored_terms": 173,
+  "scored_terms": 157,
   "skipped_confirmed": 0,
   "skipped_unfixable": 0,
   "top_n": 40,
@@ -53,11 +53,11 @@
       "signature": [],
       "segment": "terms",
       "snippet": "\"the authority of inner interpretation to the Imam\"",
-      "freq": 72,
+      "freq": 73,
       "score": 4,
       "reasons": [
-        "x72 in text",
-        "non-house-style respelling"
+        "non-house-style respelling",
+        "x73 in text (+ al-Imam)"
       ],
       "arabic_script": "إمام",
       "meaning": "",
@@ -183,6 +183,27 @@
       "n": 9
     },
     {
+      "term": "الحجة",
+      "transliteration": "hujja",
+      "phonetic": "/ˈħud͡ʒ.dʒa/",
+      "house_style_ok": false,
+      "suggested_baseline": "hu-jja",
+      "signature": [
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"the proof (hujja) is like a mother, because she carries them\"",
+      "freq": 22,
+      "score": 4,
+      "reasons": [
+        "non-house-style respelling",
+        "x22 in text (+ hujja)"
+      ],
+      "arabic_script": "الحجة",
+      "meaning": "\"proof\" — the senior teacher under the imām; the bridge between the imām and the believer.",
+      "n": 10
+    },
+    {
       "term": "أئمة",
       "transliteration": "Imams",
       "phonetic": "i-MAAM (pl. i-MAA-mah)",
@@ -199,7 +220,47 @@
       ],
       "arabic_script": "أئمة",
       "meaning": "",
-      "n": 10
+      "n": 11
+    },
+    {
+      "term": "تأويل",
+      "transliteration": "ta'wil",
+      "phonetic": "taʔwiːl",
+      "house_style_ok": false,
+      "suggested_baseline": "ta-wil",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "\"Asas al-Ta'wil (The Foundation of Interpretation)\"",
+      "freq": 20,
+      "score": 4,
+      "reasons": [
+        "non-house-style respelling",
+        "x20 in text (+ al-Ta'wil)"
+      ],
+      "arabic_script": "تأويل",
+      "meaning": "allegorical interpretation that returns a verse to its first principle. The title of the book.",
+      "n": 12
+    },
+    {
+      "term": "أساس",
+      "transliteration": "asas",
+      "phonetic": "ʔasaːs",
+      "house_style_ok": false,
+      "suggested_baseline": "a-sas",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"Asas al-Ta'wil (The Foundation of Interpretation)\"",
+      "freq": 18,
+      "score": 4,
+      "reasons": [
+        "non-house-style respelling",
+        "x18 in text (+ al-Asas)"
+      ],
+      "arabic_script": "أساس",
+      "meaning": "the \"foundation\" — the figure who carries the inner meaning of the nāṭiq's law. ʿAlī is the asās of Muḥammad's cycle.",
+      "n": 13
     },
     {
       "term": "نوح",
@@ -219,26 +280,7 @@
       ],
       "arabic_script": "نوح",
       "meaning": "",
-      "n": 11
-    },
-    {
-      "term": "أساس",
-      "transliteration": "asas",
-      "phonetic": "ʔasaːs",
-      "house_style_ok": false,
-      "suggested_baseline": "a-sas",
-      "signature": [],
-      "segment": "terms",
-      "snippet": "\"Asas al-Ta'wil (The Foundation of Interpretation)\"",
-      "freq": 16,
-      "score": 4,
-      "reasons": [
-        "x16 in text",
-        "non-house-style respelling"
-      ],
-      "arabic_script": "أساس",
-      "meaning": "the \"foundation\" — the figure who carries the inner meaning of the nāṭiq's law. ʿAlī is the asās of Muḥammad's cycle.",
-      "n": 12
+      "n": 14
     },
     {
       "term": "الناطق",
@@ -249,15 +291,15 @@
       "signature": [],
       "segment": "terms",
       "snippet": "\"whether he is a Speaker (natiq), a Silent One\"",
-      "freq": 16,
+      "freq": 17,
       "score": 4,
       "reasons": [
-        "x16 in text",
-        "non-house-style respelling"
+        "non-house-style respelling",
+        "x17 in text (+ al-Natiq)"
       ],
       "arabic_script": "الناطق",
       "meaning": "a \"speaker prophet\" who inaugurates a cosmological cycle. There are seven in al-Nuʿmān's scheme — Adam, Nūḥ, Ibrāhīm, Mūsā, ʿĪsā, Muḥammad, and the awaited Qāʾim.",
-      "n": 13
+      "n": 15
     },
     {
       "term": "فاطمي",
@@ -276,7 +318,7 @@
       ],
       "arabic_script": "فاطمي",
       "meaning": "",
-      "n": 14
+      "n": 16
     },
     {
       "term": "شهادة",
@@ -297,7 +339,7 @@
       ],
       "arabic_script": "شهادة",
       "meaning": "",
-      "n": 15
+      "n": 17
     },
     {
       "term": "مال",
@@ -315,7 +357,7 @@
       ],
       "arabic_script": "مال",
       "meaning": "",
-      "n": 16
+      "n": 18
     },
     {
       "term": "هود",
@@ -333,28 +375,7 @@
       ],
       "arabic_script": "هود",
       "meaning": "",
-      "n": 17
-    },
-    {
-      "term": "الحجة",
-      "transliteration": "hujja",
-      "phonetic": "/ˈħud͡ʒ.dʒa/",
-      "house_style_ok": false,
-      "suggested_baseline": "hu-jja",
-      "signature": [
-        "ending-a"
-      ],
-      "segment": "terms",
-      "snippet": "\"the proof (hujja) is like a mother, because she carries them\"",
-      "freq": 11,
-      "score": 4,
-      "reasons": [
-        "x11 in text",
-        "non-house-style respelling"
-      ],
-      "arabic_script": "الحجة",
-      "meaning": "\"proof\" — the senior teacher under the imām; the bridge between the imām and the believer.",
-      "n": 18
+      "n": 19
     },
     {
       "term": "الصادق",
@@ -375,69 +396,47 @@
       ],
       "arabic_script": "الصادق",
       "meaning": "",
-      "n": 19
-    },
-    {
-      "term": "حجة",
-      "transliteration": "hujja",
-      "phonetic": "HUJ-jah",
-      "house_style_ok": true,
-      "suggested_baseline": "hu-jja",
-      "signature": [
-        "ending-a"
-      ],
-      "segment": "terms",
-      "snippet": "\"Allah Almighty established a foundation after the Speaker to take his place…and entrust him with the knowledge of interpretation\"",
-      "freq": 11,
-      "score": 3,
-      "reasons": [
-        "x11 in text"
-      ],
-      "arabic_script": "حجة",
-      "meaning": "\"proof\" — the senior teacher under the imām; the bridge between the imām and the believer.",
       "n": 20
     },
     {
-      "term": "التأويل",
-      "transliteration": "al-Ta'wil",
-      "phonetic": "/ʔat.taʔ.ˈwiːl/",
+      "term": "الصامت",
+      "transliteration": "samit",
+      "phonetic": "/ˈsɑː.mɪt/",
       "house_style_ok": false,
-      "suggested_baseline": "al-ta-wil",
+      "suggested_baseline": "sa-mit",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"a Silent One (samit), an imam, or a Proof\"",
+      "freq": 10,
+      "score": 4,
+      "reasons": [
+        "non-house-style respelling",
+        "x10 in text (+ samit)"
+      ],
+      "arabic_script": "الصامت",
+      "meaning": "the silent one",
+      "n": 21
+    },
+    {
+      "term": "القائم",
+      "transliteration": "al-Qa'im",
+      "phonetic": "ʔal-qaːʔɪm",
+      "house_style_ok": false,
+      "suggested_baseline": "al-kaim",
       "signature": [
         "ayn-hamza",
         "article-al"
       ],
       "segment": "terms",
-      "snippet": "\"an esoteric interpretation (inner interpretation al-the hidden)\"",
-      "freq": 10,
-      "score": 4,
+      "snippet": "\"under the Fatimid (al-Qa'im), he took charge of the judiciary\"",
+      "freq": 8,
+      "score": 3,
       "reasons": [
-        "x10 in text",
-        "non-house-style respelling"
+        "non-house-style respelling",
+        "x8 in text (+ al-Qa'im)"
       ],
-      "arabic_script": "التأويل",
-      "meaning": "",
-      "n": 21
-    },
-    {
-      "term": "تأويل",
-      "transliteration": "ta'wil",
-      "phonetic": "taʔwiːl",
-      "house_style_ok": false,
-      "suggested_baseline": "ta-wil",
-      "signature": [
-        "ayn-hamza"
-      ],
-      "segment": "terms",
-      "snippet": "\"Asas al-Ta'wil (The Foundation of Interpretation)\"",
-      "freq": 10,
-      "score": 4,
-      "reasons": [
-        "x10 in text",
-        "non-house-style respelling"
-      ],
-      "arabic_script": "تأويل",
-      "meaning": "allegorical interpretation that returns a verse to its first principle. The title of the book.",
+      "arabic_script": "القائم",
+      "meaning": "\"the standing one\" — the awaited final figure who closes the seventh cycle and discloses what was hidden.",
       "n": 22
     },
     {
@@ -598,6 +597,26 @@
       "n": 30
     },
     {
+      "term": "مهدي",
+      "transliteration": "Mahdi",
+      "phonetic": "MAH-dee",
+      "house_style_ok": true,
+      "suggested_baseline": "ma-hdi",
+      "signature": [
+        "ending-i"
+      ],
+      "segment": "terms",
+      "snippet": "\"that was the appearance of the Mahdi\"",
+      "freq": 6,
+      "score": 2,
+      "reasons": [
+        "x6 in text (+ al-Mahdi)"
+      ],
+      "arabic_script": "مهدي",
+      "meaning": "ubayd allah",
+      "n": 31
+    },
+    {
       "term": "إمامة",
       "transliteration": "Imamate",
       "phonetic": "i-MAA-mah",
@@ -610,11 +629,11 @@
       "score": 3,
       "reasons": [
         "3 syllables",
-        "x5 in text"
+        "x5 in text (+ al-Imamate)"
       ],
       "arabic_script": "إمامة",
       "meaning": "",
-      "n": 31
+      "n": 32
     },
     {
       "term": "التأييد",
@@ -635,25 +654,6 @@
         "non-house-style respelling"
       ],
       "arabic_script": "التأييد",
-      "meaning": "",
-      "n": 32
-    },
-    {
-      "term": "الصامت",
-      "transliteration": "samit",
-      "phonetic": "/ˈsɑː.mɪt/",
-      "house_style_ok": false,
-      "suggested_baseline": "sa-mit",
-      "signature": [],
-      "segment": "terms",
-      "snippet": "\"a Silent One (samit), an imam, or a Proof\"",
-      "freq": 5,
-      "score": 3,
-      "reasons": [
-        "x5 in text",
-        "non-house-style respelling"
-      ],
-      "arabic_script": "الصامت",
       "meaning": "",
       "n": 33
     },
@@ -715,24 +715,6 @@
       "n": 36
     },
     {
-      "term": "صامت",
-      "transliteration": "samit",
-      "phonetic": "SAA-mit",
-      "house_style_ok": true,
-      "suggested_baseline": "sa-mit",
-      "signature": [],
-      "segment": "terms",
-      "snippet": "\"the natiq (the Speaker) and the samit (the Silent One)\"",
-      "freq": 5,
-      "score": 2,
-      "reasons": [
-        "x5 in text"
-      ],
-      "arabic_script": "صامت",
-      "meaning": "the silent one",
-      "n": 37
-    },
-    {
       "term": "المعز لدين الله",
       "transliteration": "al-Mu'izz li-Din Allah",
       "phonetic": "ʔal-muʕɪzz lɪ-diːn ʔallaːh",
@@ -755,7 +737,7 @@
       ],
       "arabic_script": "المعز لدين الله",
       "meaning": "",
-      "n": 38
+      "n": 37
     },
     {
       "term": "أمة",
@@ -776,28 +758,46 @@
       ],
       "arabic_script": "أمة",
       "meaning": "",
-      "n": 39
+      "n": 38
     },
     {
-      "term": "القائم",
-      "transliteration": "al-Qa'im",
-      "phonetic": "ʔal-qaːʔɪm",
+      "term": "الوالي",
+      "transliteration": "wali",
+      "phonetic": "/ˈwɑː.liː/",
       "house_style_ok": false,
-      "suggested_baseline": "al-kaim",
+      "suggested_baseline": "wa-li",
       "signature": [
-        "ayn-hamza",
-        "article-al"
+        "ending-i"
       ],
       "segment": "terms",
-      "snippet": "\"under the Fatimid (al-Qa'im), he took charge of the judiciary\"",
+      "snippet": "\"let him take refuge in the guardian (wali) of his own time\"",
       "freq": 4,
       "score": 3,
       "reasons": [
-        "x4 in text",
-        "non-house-style respelling"
+        "non-house-style respelling",
+        "x4 in text (+ Wali)"
       ],
-      "arabic_script": "القائم",
+      "arabic_script": "الوالي",
       "meaning": "",
+      "n": 39
+    },
+    {
+      "term": "تنزيل",
+      "transliteration": "tanzil",
+      "phonetic": "tanziːl",
+      "house_style_ok": false,
+      "suggested_baseline": "ta-nzil",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"the authority of tanzil (revelation) to 'the Speaker'\"",
+      "freq": 4,
+      "score": 3,
+      "reasons": [
+        "non-house-style respelling",
+        "x4 in text (+ al-Tanzil)"
+      ],
+      "arabic_script": "تنزيل",
+      "meaning": "the literal sending-down of revelation; the surface text. Pair with taʾwīl.",
       "n": 40
     }
   ]
