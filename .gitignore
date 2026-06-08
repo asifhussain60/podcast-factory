@@ -145,7 +145,14 @@ _workspace/plan/operations/wave-chain-auth.json
 # Scripts + extracted output are tracked; exclude the ~750MB source SQL
 # dumps (backed up in Google Drive — re-importable as needed).
 _workspace/kashkole-ksessions/*.sql
-CONTENT/_shared/source-library/*.sql
+# source-library: exclude the SQL dumps AND the built SQLite corpora (e.g.
+# wisdom-corpus.db, ~11MB) — large binaries, re-buildable from the dumps.
+# (case fixed 2026-06-08: was uppercase CONTENT/, silently broken on
+#  case-sensitive filesystems.)
+content/_shared/source-library/*.sql
+content/_shared/source-library/*.db
+content/_shared/source-library/*.db-shm
+content/_shared/source-library/*.db-wal
 content/knowledge-base/*.db
 !content/knowledge-base/mirror.db
 content/knowledge-base/*.db-shm

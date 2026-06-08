@@ -388,6 +388,7 @@ class StateMachineOrderingTests(unittest.TestCase):
                 initial_driver,
                 author_phase_0b=mock_phase,
                 author_phase_0c=mock_phase,
+                author_phase_0ci=mock_phase,
                 author_phase_0d=mock_phase,
                 author_phase_0e=mock_phase), \
              mock.patch.object(initial_driver, "phase_0f_write_series_plan", mock_series_plan), \
@@ -398,11 +399,13 @@ class StateMachineOrderingTests(unittest.TestCase):
         # Extract the phase identifiers in the order they were updated to "running" or "completed"
         seq = [(p, s) for p, s in self.phase_transitions if s in ("running", "completed", "halted")]
 
-        # Expected: 0b → 0c → 0d → 0e → 06a (approved, Wave I gate) → 0f halted
-        # (0literary retired from the active flow 2026-06-04 — revoice is PDF path now)
+        # Expected: 0b → 0c → 0ci → 0d → 0e → 06a (approved, Wave I gate) → 0f halted
+        # (0ci book-intelligence gap analysis inserted after 0c 2026-06-07;
+        #  0literary retired from the active flow 2026-06-04 — revoice is PDF path now)
         expected = [
             ("0b", "running"), ("0b", "completed"),
             ("0c", "running"), ("0c", "completed"),
+            ("0ci", "running"), ("0ci", "completed"),
             ("0d", "running"), ("0d", "completed"),
             ("0e", "running"), ("0e", "completed"),
             ("06a", "running"), ("06a", "completed"),
