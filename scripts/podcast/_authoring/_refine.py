@@ -14,12 +14,7 @@ from ._core import (  # noqa: E402
     PHASE_0B_WINDOW_WORDS,
     PHASE_0B_OVERLAP_WORDS,
     PHASE_0B_WINDOW_TIMEOUT,
-    PHASE_0C_WINDOW_WORDS,
-    PHASE_0C_OVERLAP_WORDS,
-    PHASE_0C_WINDOW_TIMEOUT,
     AuthoringError,
-    AuthoringHalt,
-    ARABIC_SCHOLARLY_CATEGORIES,
     SKIP_PHONETICS_CATEGORIES,
     _read_category,
 )
@@ -283,150 +278,36 @@ def author_phase_0c(
     book_dir: Path,
     timeout: int = DEFAULT_TIMEOUT,
     *,
-    window_words: int = PHASE_0C_WINDOW_WORDS,
-    overlap_words: int = PHASE_0C_OVERLAP_WORDS,
-    window_timeout: int = PHASE_0C_WINDOW_TIMEOUT,
     log=print,
     category: str | None = None,
 ) -> str:
-    """Add phonetic transcription for Arabic / non-English terms — windowed.
+    """Phase 0c — glossary scaffold for Islamic scholarly content.
 
-    SKIPPED for categories in SKIP_PHONETICS_CATEGORIES (sites, explainers).
-    These categories have no Arabic terms requiring phonetic guidance.
-    Returns a skip message without writing _phonetics.md.
+    Builds glossary.yml (phonetic field + Arabic-script overlay) used by the
+    podcast-reader 'Show Arabic' toggle. Pronunciation respelling (the old
+    _phonetics.md windowed extraction + EP00 probe) was retired 2026-06-08:
+    NotebookLM reads hyphen-CAPS respellings literally. Term rendering is now
+    handled by _tts_sanitize.sanitize_text_with_terms per chapter at authoring
+    time, drawing on content/knowledge-base/exonyms.json + loanwords.json.
+
+    SKIPPED for non-Islamic or skip-phonetics categories (no Arabic terms).
     """
     if category is None:
         category = _read_category(book_dir)
 
     if category in SKIP_PHONETICS_CATEGORIES:
         log(f"  phase 0c · SKIPPED (category={category!r} has no Arabic terms)")
-        return f"0c skipped: category={category!r} does not require Arabic phonetic extraction"
+        return f"0c skipped: category={category!r} does not require glossary scaffold"
 
-    # Wave CP: also skip for non-Islamic content profiles even if category is not in
-    # SKIP_PHONETICS_CATEGORIES (future-proof for general_nonfiction, etc.).
     from _content_profile import is_islamic_scholarly, resolve_content_profile  # local import to avoid circularity
     if not is_islamic_scholarly(book_dir):
         profile = resolve_content_profile(book_dir)
         log(f"  phase 0c · SKIPPED (content_profile={profile!r} has no Arabic terms)")
-        # Write a stub so Phase 0d (which checks category membership, not content_profile)
-        # never fails on a missing _phonetics.md prerequisite.
-        stub = book_dir / "_system" / "source" / "text" / "_phonetics.md"
-        if not stub.exists():
-            stub.parent.mkdir(parents=True, exist_ok=True)
-            stub.write_text(
-                f"# phonetics stub — skipped (content_profile={profile!r} has no Arabic terms)\n"
-                f"# Phase 0d will not use this file for phonetic guidance.\n",
-                encoding="utf-8",
-            )
-            log(f"  phase 0c · wrote stub {stub.name} (0d prereq guard)")
-        return f"0c skipped: content_profile={profile!r} does not require Arabic phonetic extraction"
-
-    book_slug = book_dir.name
-    in_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
-    out_path = book_dir / "_system" / "source" / "text" / "_phonetics.md"
-    chunks_dir = book_dir / "_system" / "source" / "text" / "_chunks" / "0c"
-
-    if not in_path.exists():
-        raise AuthoringError(
-            phase="0c",
-            message=f"prerequisite missing: {in_path} (Phase 0b should have produced this)",
-            manual_fallback="Run Phase 0b first.",
-        )
-
-    refined_text = in_path.read_text(encoding="utf-8")
-
-    def _builder(body: str, idx: int, total: int, win_out: Path) -> str:
-        win_in = win_out.with_suffix("").with_suffix(".in.md")
-        return (
-            f"You are driving Phase 0c (Arabic Phonetic Transcription Pass) of the /podcast skill "
-            f"on book-slug `{book_slug}`, **window {idx} of {total}**. Read the canonical "
-            f"procedure from `skills-staging/podcast/SKILL.md` (search `### PHASE 0c`).\n\n"
-            f"INPUT  (read this window): `{win_in}`\n"
-            f"AUTHORITY (the Arabic-manifest and name-alias handbook tree was retired in the\n"
-            f"2026-05-23 restructure; if `content/_shared/arabic/*` exists in this repo it is\n"
-            f"advisory only — otherwise rely on the rules inlined below and on this window's\n"
-            f"own Arabic terms. For doctrinal naming (Imam lineage, 'Father of Imams', etc.)\n"
-            f"see `content/_shared/islam/imam-lineage-ismaili.yml` and `naming-conventions.yml`).\n"
-            f"OUTPUT (write the phonetic table for THIS window only): `{win_out}`\n\n"
-            f"Output FORMAT — a markdown pipe table with EXACTLY this header:\n"
-            f"```\n"
-            f"| term | transliteration | phonetic | first-occurrence-snippet |\n"
-            f"|---|---|---|---|\n"
-            f"```\n"
-            f"One row per unique Arabic-derived term in the INPUT. The shared manifest WINS — "
-            f"copy its entries verbatim for any term it covers; add new rows only for terms it "
-            f"doesn't carry.\n\n"
-            f"Constraints:\n"
-            f"- Do NOT modify any file other than `{win_out}`.\n"
-            f"- Do NOT wrap output in code fences.\n"
-            f"- If a term repeats within this window, emit it once.\n"
-            f"- Per-window dedup only — cross-window dedup is handled by the orchestrator.\n\n"
-            f"Exit when `{win_out}` contains a valid pipe table (header + at least zero rows; "
-            f"emit just the header if the window has no Arabic terms)."
-        )
-
-    import os as _os
-    _max_workers = int(_os.environ.get("PHASE_0C_MAX_WORKERS", "3"))
-    _model_0c = _os.environ.get("PHASE_0C_MODEL", "claude-sonnet-4-6")
-    log(f"  phase 0c · chunked phonetic extraction (parallel max_workers={_max_workers})")
-    try:
-        out_paths = run_windowed(
-            text=refined_text,
-            chunks_dir=chunks_dir,
-            prompt_builder=_builder,
-            target_words=window_words,
-            overlap_words=overlap_words,
-            timeout_per_window=window_timeout,
-            log=lambda m: log(m),
-            book_dir=book_dir,
-            phase="0c",
-            model=_model_0c,
-            max_workers=_max_workers,
-            _invoke_fn=make_sdk_invoke_fn(_model_0c),
-        )
-    except ChunkingError as e:
-        raise AuthoringError(
-            phase="0c",
-            message=str(e),
-            manual_fallback=e.manual_fallback or (
-                "1. Inspect _chunks/0c/win-*.in.md and drive failed windows via /podcast.\n"
-                "2. Drop each result at _chunks/0c/win-NNN.out.md.\n"
-                "3. Re-invoke orchestrate-book --resume."
-            ),
-        ) from e
-
-    merged = _merge_phonetic_tables(out_paths)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(merged, encoding="utf-8")
-    if out_path.stat().st_size == 0:
-        raise AuthoringError(
-            phase="0c",
-            message=f"Phase 0c assembled artifact is empty: {out_path}",
-            manual_fallback="Inspect _chunks/0c/win-*.out.md and merge manually.",
-        )
+        return f"0c skipped: content_profile={profile!r} does not require glossary scaffold"
 
     glossary_msg = _bake_glossary(book_dir, log=log)
-    probe_msg, probe_halt = _bake_probe(book_dir, log=log)
-
-    if probe_halt and is_islamic_scholarly(book_dir):
-        bundle_path = book_dir / "_system" / "probe" / "EP00-pronunciation-probe"
-        raise AuthoringHalt(
-            phase="0c",
-            message=(
-                "EP00 pronunciation probe ready for human review. "
-                f"Upload `{bundle_path}/pronunciation-probe.md` to NotebookLM, "
-                "paste `00-framing.md` into Customize, generate a 3-5 min audio, "
-                "mark corrections in `listen-checklist.md`, then resume."
-            ),
-            manual_fallback=(
-                f"1. Open {bundle_path}/README.md for upload instructions.\n"
-                "2. Review the audio and mark corrections in listen-checklist.md.\n"
-                "3. Run: python3 scripts/podcast/apply_pronunciation_corrections.py <book-dir>\n"
-                "4. Resume: python3 scripts/podcast/orchestrate_book.py --resume <slug>"
-            ),
-        )
-
-    return f"0c chunked: {len(out_paths)} windows merged into {out_path.name}{glossary_msg}{probe_msg}"
+    log(f"  phase 0c · glossary scaffold complete{glossary_msg}")
+    return f"0c complete: glossary scaffold{glossary_msg}"
 
 
 def _bake_glossary(book_dir: Path, *, log=print) -> str:
@@ -451,54 +332,6 @@ def _bake_glossary(book_dir: Path, *, log=print) -> str:
     return f" + glossary: {' + '.join(msg_parts)}"
 
 
-def _bake_probe(book_dir: Path, *, log=print) -> tuple[str, bool]:
-    """Score pronunciation risk + build EP00 bundle. Returns (msg, halt_needed).
-
-    halt_needed is True when a fresh probe was generated and needs human review.
-    False when the probe already has confirmed entries (reviewed) or scripts are absent.
-    """
-    import json as _json
-
-    here = Path(__file__).resolve().parents[1]  # scripts/podcast/
-    scorer = here / "probe" / "score_pronunciation_risk.py"
-    bundler = here / "probe" / "build_probe_bundle.py"
-    probe_json = book_dir / "_system" / "probe" / "probe-terms.json"
-    bundle_dir = book_dir / "_system" / "probe" / "EP00-pronunciation-probe"
-
-    if not scorer.exists() or not bundler.exists():
-        log("  phase 0c · probe scripts absent — skipping probe generation")
-        return "", False
-
-    # If probe artifacts already exist with confirmed entries, the human already reviewed them.
-    if probe_json.exists() and bundle_dir.exists():
-        try:
-            terms = _json.loads(probe_json.read_text(encoding="utf-8"))
-            confirmed = sum(1 for t in terms if t.get("libraryStatus") == "confirmed")
-            if confirmed > 0:
-                log(f"  phase 0c · probe already reviewed ({confirmed} confirmed terms) — skipping")
-                return f" + probe: already-reviewed({confirmed})", False
-        except Exception:
-            pass
-
-    msg_parts: list[str] = []
-
-    rc, out, err = _run([sys.executable, str(scorer), str(book_dir)])
-    if rc == 0:
-        msg_parts.append("scored")
-        log("  phase 0c · probe terms scored")
-    else:
-        log(f"  phase 0c · probe scoring failed (rc={rc}): {err.strip()[:200]}")
-        return " + probe: score-failed", False
-
-    rc, out, err = _run([sys.executable, str(bundler), str(book_dir)])
-    if rc == 0:
-        msg_parts.append("bundle")
-        log("  phase 0c · EP00 bundle generated")
-    else:
-        log(f"  phase 0c · probe bundle failed (rc={rc}): {err.strip()[:200]}")
-        return f" + probe: {'+'.join(msg_parts)}-no-bundle", False
-
-    return f" + probe: {'+'.join(msg_parts)}", True
 
 
 def _run(argv: list[str]) -> tuple[int, str, str]:
@@ -508,33 +341,3 @@ def _run(argv: list[str]) -> tuple[int, str, str]:
     return proc.returncode, proc.stdout, proc.stderr
 
 
-def _merge_phonetic_tables(paths: list[Path]) -> str:
-    """Concatenate pipe-table outputs from windowed runs; dedup on first column."""
-    import re as _re
-
-    header = "| term | transliteration | phonetic | first-occurrence-snippet |"
-    divider = "|---|---|---|---|"
-    seen: dict[str, str] = {}
-    order: list[str] = []
-
-    row_re = _re.compile(r"^\s*\|\s*([^|]+?)\s*\|.*\|\s*$")
-    for p in paths:
-        if not p.exists():
-            continue
-        for line in p.read_text(encoding="utf-8").splitlines():
-            s = line.strip()
-            if not s or s.startswith("```"):
-                continue
-            if s.startswith("| term ") or s.startswith("|---"):
-                continue
-            m = row_re.match(line)
-            if not m:
-                continue
-            term = m.group(1).strip().strip("`").lower()
-            if not term or term in seen:
-                continue
-            seen[term] = line.rstrip()
-            order.append(term)
-
-    body = "\n".join(seen[t] for t in order)
-    return f"{header}\n{divider}\n{body}\n" if order else f"{header}\n{divider}\n"

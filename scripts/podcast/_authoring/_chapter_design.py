@@ -157,13 +157,6 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"episode framing only — do not factor into boundary decisions.\n\n"
             f"```\n{_gap_excerpt}\n```\n"
         )
-    in_phonetics = book_dir / "_system" / "source" / "text" / "_phonetics.md"
-    # Phonetics required only for Islamic scholarly content — check content_profile
-    # first (overrides category membership) so fiction/technical books in the
-    # "books" category (which is in ARABIC_SCHOLARLY_CATEGORIES) are not gated on
-    # a _phonetics.md that Phase 0c correctly skipped for them.
-    from _content_profile import is_islamic_scholarly as _is_islamic_scholarly  # local import: avoid circularity
-    _needs_phonetics = (category in ARABIC_SCHOLARLY_CATEGORIES) and _is_islamic_scholarly(book_dir)
     out_rationale = book_dir / "_system" / "source" / "text" / "chapters-rationale.md"
     out_source_map = book_dir / "_system" / "source" / "text" / "source-chapter-map.md"
     chapters_dir = book_dir / "chapters"
@@ -178,8 +171,6 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         )
 
     prereqs = [in_refined]
-    if _needs_phonetics:
-        prereqs.append(in_phonetics)
     for p in prereqs:
         if not p.exists():
             raise AuthoringError(
@@ -187,7 +178,7 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                 message=f"prerequisite missing: {p}",
                 manual_fallback="Run prior phases (0b, 0c) first.",
             )
-    log(f"  phase 0d · category={category!r}, phonetics-required={_needs_phonetics}")
+    log(f"  phase 0d · category={category!r}")
 
     # Wave-Fiction: CONSOLIDATION mode. A novel arrives as many short source
     # chapters that each cover one beat of a longer arc; emitting one episode per
@@ -529,7 +520,12 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"INPUT (the refined English for THIS source chapter only): `{slice_path}`\n"
             f"  · word_count: {slice_wc}  ·  source_line_range: {start_line}-{end_line}\n"
             f"AUTHORITY:\n"
-            f"  - `{in_phonetics}` (consult for Arabic terms appearing in this slice)\n"
+            f"  - For Arabic terms in this slice: use plain transliteration without diacritics\n"
+            f"    (e.g. 'al-Tabari', 'tawhid', 'da'wa'). Use the established English name where\n"
+            f"    one exists (Qabil → Cain, Habil → Abel, Shaytan → Satan, Israfil → Raphael,\n"
+            f"    Nuh → Noah, Ibrahim → Abraham, Musa → Moses, Isa → Jesus). The TTS sanitizer\n"
+            f"    auto-applies the knowledge-base exonym/loanword tables; in the chapter text,\n"
+            f"    always prefer the English equivalent over the Arabic transliteration.\n"
             f"  - `content/_shared/islam/imam-lineage-ismaili.yml` (canonical Imam lineage —\n"
             f"    Hassan=1st; the literal phrase pairing the leadership-title with the\n"
             f"    personal name of the Father of Imams is FORBIDDEN — always say 'Father\n"

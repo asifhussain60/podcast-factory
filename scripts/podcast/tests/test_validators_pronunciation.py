@@ -117,33 +117,6 @@ def test_legacy_passive_list_exits():
         assert_framing_pronunciation_imperative(content, Path("test.txt"))
 
 
-# ─── R-PRONUNCIATION-TRIVIAL: uppercase-only respellings (P1 flag) ───────────
-
-def test_trivial_uppercase_respelling_is_p1_not_hard_fail(capsys):
-    """Trivial uppercase respellings emit a P1 flag but do NOT exit."""
-    content = _wrap(
-        "Say each term ONCE using its phonetic form. "
-        "Never say the original spelling and the phonetic form back-to-back.\n\n"
-        "- nafs: NAFS\n"
-    )
-    assert_framing_pronunciation_imperative(content, Path("test.txt"))
-    captured = capsys.readouterr()
-    assert "R-PRONUNCIATION-TRIVIAL" in captured.err
-    assert "NAFS" in captured.err
-
-
-def test_genuine_respelling_no_p1_flag(capsys):
-    """A respelling that differs from the term should not trigger the trivial flag."""
-    content = _wrap(
-        "Say each term ONCE using its phonetic form. "
-        "Never say the original spelling and the phonetic form back-to-back.\n\n"
-        "- nafs: naf-SS\n"
-    )
-    assert_framing_pronunciation_imperative(content, Path("test.txt"))
-    captured = capsys.readouterr()
-    assert "R-PRONUNCIATION-TRIVIAL" not in captured.err
-
-
 # ─── bullet-list format required ─────────────────────────────────────────────
 
 def test_instruction_without_any_bullet_exits():

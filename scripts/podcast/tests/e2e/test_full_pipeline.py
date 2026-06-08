@@ -114,14 +114,8 @@ class SunnyDayE2ETests(unittest.TestCase):
         return "refined-english.md authored by mock 0b"
 
     def _mock_0c(self, book_dir: Path, log=print, **_kw) -> str:
-        text_dir = book_dir / "_system" / "source" / "text"
-        # _phonetics.md must be >100 words per P2.2 acceptance
-        (text_dir / "_phonetics.md").write_text(
-            "Arabic phonetic annotations produced by mocked Phase 0c. " * 30
-        )
-        # Lexicon sidecar
-        (text_dir / "_lexicon.md").write_text("ilm: ILM\nsabr: SAH-br\n")
-        return "_phonetics.md authored by mock 0c"
+        # Phase 0c now runs the glossary scaffold only (no _phonetics.md generation).
+        return "0c complete: glossary scaffold (mocked)"
 
     def _mock_0d(self, book_dir: Path, length_tier: str = "extended",
                  unit_mode: str = "auto", log=print, **_kw) -> str:
@@ -236,11 +230,6 @@ class SunnyDayE2ETests(unittest.TestCase):
         self.assertTrue(refined.exists(), "refined-english.md missing")
         self.assertGreater(len(refined.read_text().split()), 100,
                            "refined-english.md must be >100 words")
-
-        phonetics = text_dir / "_phonetics.md"
-        self.assertTrue(phonetics.exists(), "_phonetics.md missing")
-        self.assertGreater(len(phonetics.read_text().split()), 100,
-                           "_phonetics.md must be >100 words")
 
         # _chunks/0b/win-*.in.md ↔ win-*.out.md parity
         chunks_dir = text_dir / "_chunks" / "0b"

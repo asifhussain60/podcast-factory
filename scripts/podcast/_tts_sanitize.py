@@ -527,3 +527,66 @@ def sanitize_text(text: str) -> tuple[str, SubstitutionReport]:
         text = pat.sub(repl, text)
 
     return text, report
+
+
+def sanitize_text_with_terms(
+    text: str,
+    *,
+    tables: "tuple[dict[str, str], dict[str, str]] | None" = None,
+    book_glosses: "dict[str, str] | None" = None,
+) -> "tuple[str, SubstitutionReport]":
+    """sanitize_text plus knowledge-base term_render auto-substitution.
+
+    Runs the full sanitize_text pipeline first, then applies a word-boundary
+    substitution pass for entries in the exonyms and loanwords tables so that
+    English equivalents (Cain, Abel, Noah, Moses, …) auto-apply to every chapter
+    without a per-book manual pass. book_glosses (mined from refined-english.md
+    via term_render.mine_glosses) feeds inline-parenthetical translations.
+
+    Falls back to plain sanitize_text if term_render is unavailable.
+    """
+    text, report = sanitize_text(text)
+
+    try:
+        import re as _re
+        import sys as _sys
+        from pathlib import Path as _Path
+        _sys.path.insert(0, str(_Path(__file__).resolve().parent / "knowledge"))
+        import term_render as _tr
+        from pronunciation_ledger import normalize_key as _nk  # noqa: F401 (validates the import chain)
+
+        if tables is None:
+            tables = _tr.load_tables()
+        exonyms, loanwords = tables
+        if book_glosses is None:
+            book_glosses = {}
+
+        # Apply exonyms: Arabic transliteration → established English name.
+        # Match case-insensitively with word boundaries so "Qabil" matches but
+        # "al-Qabiliyya" does not.  Only substitute when the English form differs.
+        for arabic_key, english in exonyms.items():
+            if arabic_key == english.lower():
+                continue  # already the same (rare; skip to avoid identity loops)
+            pat = _re.compile(r"\b" + _re.escape(arabic_key) + r"\b", _re.IGNORECASE)
+            if pat.search(text):
+                count = len(pat.findall(text))
+                text = pat.sub(english, text)
+                report.arabic_terms_substituted[arabic_key] = (
+                    report.arabic_terms_substituted.get(arabic_key, 0) + count
+                )
+
+        # Apply inline book glosses: concept transliteration → author's own translation.
+        # Skip entries that are also personal-name keys (prevent wrong concept substitution).
+        for gloss_key, gloss_english in book_glosses.items():
+            pat = _re.compile(r"\b" + _re.escape(gloss_key) + r"\b", _re.IGNORECASE)
+            if pat.search(text):
+                count = len(pat.findall(text))
+                text = pat.sub(gloss_english, text)
+                report.arabic_terms_substituted[gloss_key] = (
+                    report.arabic_terms_substituted.get(gloss_key, 0) + count
+                )
+
+    except ImportError:
+        pass  # term_render not on path (non-Islamic content); plain sanitize result stands
+
+    return text, report
