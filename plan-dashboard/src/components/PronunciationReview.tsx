@@ -248,9 +248,19 @@ export default function PronunciationReview({ slug, terms }: Props) {
           <button className="pron-page-btn" disabled={page === 0} onClick={() => goToPage(page - 1)}>
             ← Prev
           </button>
-          <span className="pron-page-info">
-            {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, terms.length)} of {terms.length} · page {page + 1} of {totalPages}
-          </span>
+          <div className="pron-page-nums">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                className={`pron-page-num${i === page ? ' is-current' : ''}`}
+                onClick={() => goToPage(i)}
+                aria-label={`Page ${i + 1}`}
+                aria-current={i === page ? 'page' : undefined}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
           <button className="pron-page-btn" disabled={page === totalPages - 1} onClick={() => goToPage(page + 1)}>
             Next →
           </button>
@@ -377,9 +387,19 @@ export default function PronunciationReview({ slug, terms }: Props) {
           <button className="pron-page-btn" disabled={page === 0} onClick={() => goToPage(page - 1)}>
             ← Prev
           </button>
-          <span className="pron-page-info">
-            {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, terms.length)} of {terms.length} · page {page + 1} of {totalPages}
-          </span>
+          <div className="pron-page-nums">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                className={`pron-page-num${i === page ? ' is-current' : ''}`}
+                onClick={() => goToPage(i)}
+                aria-label={`Page ${i + 1}`}
+                aria-current={i === page ? 'page' : undefined}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
           <button className="pron-page-btn" disabled={page === totalPages - 1} onClick={() => goToPage(page + 1)}>
             Next →
           </button>

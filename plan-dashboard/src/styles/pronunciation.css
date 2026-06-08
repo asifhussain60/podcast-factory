@@ -304,6 +304,37 @@
   color: var(--c-ink-muted);
   text-align: center;
 }
+.pron-page-nums {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+.pron-page-num {
+  font-size: 1.05rem;
+  font-weight: 500;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--c-rule);
+  background: transparent;
+  color: var(--c-ink-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.12s, color 0.12s;
+}
+.pron-page-num:hover:not(.is-current) {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+.pron-page-num.is-current {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: var(--c-bg);
+  font-weight: 700;
+  cursor: default;
+}
 .pron-page-indicator {
   font-size: 1.05rem;
   color: var(--c-ink-muted);
