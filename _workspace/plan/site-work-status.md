@@ -6,6 +6,49 @@
 -->
 # Current work — status
 
+**Last updated:** 2026-06-08 (session 22 — phonetics surgery shipped; Vol 1 0d mid-run)
+
+**BRANCH: `Islamic/asaas-al-taveel` — PUSHED (up to date at cc73909).**
+
+**IN FLIGHT:** Vol 1 orchestrator is RUNNING (phase 0d, SC2 of 4 active at session end, watchdog-owned, detached PIDs survive session end). Re-check on next session with:
+  `ps aux | grep -E 'orchestrate_book|watch_orchestrator' | grep -i asaas`
+  `jq '{phase,phase_status,last_completed_phase,last_error}' content/Islamic/asaas-al-taveel/vol-01/_system/orchestrator-state.json`
+RE-ARM a 270s heartbeat if still running. It halts at 0f for review.
+
+**Session 22 work (commit cc73909):**
+  - PHONETICS SURGERY COMPLETE (option A, Asif-approved): retired _phonetics.md windowed
+    extraction, EP00 probe, listen-checklist, and the _bake_probe halt from phase 0c.
+    Phase 0c slot kept (ordering test unchanged); now just runs glossary scaffold.
+  - Phase 0d: removed _phonetics.md prerequisite gate + _phonetics.md authority reference
+    from the worker prompt; replaced with exonym resolution rules inline.
+  - Framing: _phonetics.md lookup replaced with English-exonym-first + plain-translit
+    guidance in both the initial framing prompt and the compress-rewrite prompt.
+  - _tts_sanitize.py: new sanitize_text_with_terms() wraps sanitize_text and
+    auto-applies knowledge-base exonyms (Qabil->Cain, Israfil->Raphael, etc.) +
+    inline book glosses per chapter — no manual pass per volume.
+  - sanitize_chapter_for_tts.py: updated to use sanitize_text_with_terms; accepts
+    --book-dir to mine inline glosses from refined-english.md.
+  - Tests: 561 passed (2 deleted: the respelling-format validator tests). Green.
+  - Branch: fast-forward merged wip/phonetics-removal -> Islamic/asaas-al-taveel;
+    both pushed to origin. Worktree at ~/PROJECTS/pf-phonetics-wt can be cleaned up.
+
+**OPEN (next session):**
+  - Vol 1 pipeline: check if 0d completed and 0e ran. It will halt at 0f for review.
+  - When Vol 1 halts at 0f: surface the NotebookLM upload table (4-column locked format)
+    and proceed with manual review + episode uploads.
+  - Then: Vol 2..6 sequentially on same branch.
+  - Worktree cleanup: `git worktree remove ~/PROJECTS/pf-phonetics-wt` (safe now that
+    wip/phonetics-removal is on origin and merged into the content branch).
+  - Post-merge repo-surgeon --scope podcast audit (required after pipeline changes).
+
+**Pronunciation reality:** still imperfect in NotebookLM output. Fix at MANUAL REVIEW step
+by replacing Arabic with English substitutions in the CHAPTER source. The chapter is the
+dominant pronunciation control, not the framing block. term_render auto-applies known
+exonyms/loanwords at sanitize time; residual terms need hand-editing at review.
+
+---
+_(prior status below)_
+
 **Last updated:** 2026-06-08 (session 20 — teaching filter + phonetics cleanup + pipeline resume)
 
 **BRANCH: `Islamic/asaas-al-taveel` — 14 commits. Push pending.**
