@@ -45,9 +45,34 @@ from typing import Pattern
 
 
 # ---------------------------------------------------------------------------
-# Diacritic → ASCII map. Covers every non-ASCII char observed in KaR source
-# files (audit: ï ā ʾ ʿ ḍ ḥ ṣ ṭ ẓ ī ū ē). Em-dash and arrow and ellipsis are
-# TTS-safe and left alone.
+# Typographic punctuation that is never ASCII-safe in NotebookLM-bound files.
+# Applied as Pass 0, before compound-term matching.
+# ---------------------------------------------------------------------------
+TYPOGRAPHIC_MAP: dict[str, str] = {
+    "‘": "'",    # left single quotation mark
+    "’": "'",    # right single quotation mark / apostrophe
+    "“": '"',    # left double quotation mark
+    "”": '"',    # right double quotation mark
+    "—": " - ",  # em dash -> space-hyphen-space
+    "–": "-",    # en dash -> hyphen
+    "…": "...",  # horizontal ellipsis
+    " ": " ",    # non-breaking space
+}
+
+
+def _normalize_typographic(text: str) -> tuple[str, int]:
+    """Replace typographic punctuation with ASCII equivalents. Returns (new_text, n_changes)."""
+    n = 0
+    for src, dst in TYPOGRAPHIC_MAP.items():
+        if src in text:
+            n += text.count(src)
+            text = text.replace(src, dst)
+    return text, n
+
+
+# ---------------------------------------------------------------------------
+# Diacritic -> ASCII map. Covers every non-ASCII char observed in KaR source
+# files (audit: i-diaeresis, a-macron, hamza, ayin, under-dot consonants, etc.).
 # ---------------------------------------------------------------------------
 DIACRITIC_MAP: dict[str, str] = {
     "ʿ": "",   # Arabic ayin transliteration marker
@@ -395,6 +420,7 @@ def _drop_romanized_blockquote_pairs(text: str) -> tuple[str, int]:
 @dataclass
 class SubstitutionReport:
     """Summary of what changed during a sanitize pass."""
+    typographic_normalized: int = 0
     diacritics_stripped: int = 0
     arabic_terms_substituted: dict[str, int] = field(default_factory=dict)
     surahs_substituted: int = 0
@@ -404,6 +430,8 @@ class SubstitutionReport:
 
     def summary(self) -> str:
         lines = []
+        if self.typographic_normalized:
+            lines.append(f"  typographic chars normalized: {self.typographic_normalized}")
         if self.diacritics_stripped:
             lines.append(f"  diacritics stripped: {self.diacritics_stripped}")
         if self.arabic_terms_substituted:
@@ -424,7 +452,8 @@ class SubstitutionReport:
 
     @property
     def total_changes(self) -> int:
-        return (self.diacritics_stripped
+        return (self.typographic_normalized
+                + self.diacritics_stripped
                 + sum(self.arabic_terms_substituted.values())
                 + self.surahs_substituted
                 + self.pre_surah_phrases_fixed
@@ -435,6 +464,10 @@ class SubstitutionReport:
 def sanitize_text(text: str) -> tuple[str, SubstitutionReport]:
     """Apply the full sanitization pipeline. Returns (new_text, report)."""
     report = SubstitutionReport()
+
+    # Pass 0: Typographic punctuation (curly quotes, em/en dash, ellipsis, NBSP)
+    text, n_typographic = _normalize_typographic(text)
+    report.typographic_normalized = n_typographic
 
     # Pass 1: Arabic compound terms (BEFORE diacritic strip, since some
     # patterns rely on the diacritic to distinguish from prose)
