@@ -10,6 +10,24 @@
 
   - true-sources-of-knowledge
 
+## Name and Title Preservation Table
+
+| Original / Transliteration | Category | Written Form | Audio Label | First Audio Use |
+|---|---|---|---|---|
+| Imām | Person / Title | إمام | the Imam | Beat 2 |
+| nāṭiq | Person / Title | ناطق | speaker-prophet | Beat 2 |
+| bāb (bāb al-abwāb) | Person / Title | باب | gateway / the gateway | Beat 2 |
+| ḥujja | Person / Title | حجة | proof / the proof | Beat 2 |
+| duʿāt | Person / Title | دعاة | callers | Beat 2 |
+| al-Awān | Concept Term | الأوان | the Instance | Beat 3 |
+| irāda | Concept Term | إرادة | will | Beat 1 |
+| amr | Concept Term | أمر | command | Beat 1 |
+| qawl | Concept Term | قول | saying / word | Beat 1 |
+| nūr | Concept Term | نور | light / luminescence | Beat 1 |
+| ẓāhir | Concept Term | ظاهر | the outer | Beat 2 |
+| bāṭin | Concept Term | باطن | the inner | Beat 2 |
+| kun fa-yakūn | Concept Term | كن فيكون | Be, and it is | Beat 1 |
+
 ## References
 
   - >

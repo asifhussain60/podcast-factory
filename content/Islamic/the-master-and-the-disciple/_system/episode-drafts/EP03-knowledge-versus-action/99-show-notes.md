@@ -11,6 +11,27 @@
   - spiritual-symbols-and-the-architecture-of-creation
   - the-disciple-becomes-master
 
+## Name and Title Preservation Table
+
+| Original / Transliteration | Category | Written Form | Audio Label | First Audio Use |
+|---|---|---|---|---|
+| Commander of the Faithful (Mawlā ʿAlī) | Person / Title | مولى علي | the Commander of the Faithful | Beat 3 |
+| Imām | Person / Title | إمام | the Imam / the Imam of the time | Beat 2 |
+| nāṭiq | Person / Title | ناطق | speaker-prophet | Beat 2 |
+| bāb | Person / Title | باب | gateway | Beat 2 |
+| ḥujja | Person / Title | حجة | proof | Beat 2 |
+| ẓāhir | Concept Term | ظاهر | the outer | Beat 1 |
+| bāṭin | Concept Term | باطن | the inner | Beat 1 |
+| bāṭin al-bāṭin | Concept Term | باطن الباطن | the innermost | Beat 1 |
+| ḥawl | Concept Term | حول | the transforming one | Beat 2 |
+| quwwa | Concept Term | قوة | the bearing one | Beat 2 |
+| fāsiq | Concept Term | فاسق | the outer-transgressor | Beat 3 |
+| kāfir | Concept Term | كافر | the inner-denier | Beat 3 |
+| muʾmin | Concept Term | مؤمن | the full believer | Beat 3 |
+| ʿishq | Concept Term | عشق | the lover's grief | Beat 3 |
+| zakāt | Concept Term | زكاة | the legal alms | Beat 3 |
+| kaffāra | Concept Term | كفارة | the restitution-portion | Beat 3 |
+
 ## References
 
   - >

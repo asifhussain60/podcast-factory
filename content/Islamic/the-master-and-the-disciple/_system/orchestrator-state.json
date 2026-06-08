@@ -4,7 +4,7 @@
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
   "phase": "per-chapter",
-  "phase_status": "failed",
+  "phase_status": "complete",
   "last_completed_phase": "0e",
   "next_phase": "0literary",
   "last_error": {
@@ -73,14 +73,13 @@
       "status": "failed",
       "ts_started": "2026-06-07T22:17:45Z",
       "completed_slugs": [
-        "true-sources-of-knowledge"
-      ],
-      "failed_slugs": [
+        "true-sources-of-knowledge",
         "knowledge-versus-action",
         "spiritual-symbols-and-the-architecture-of-creation",
         "the-disciple-becomes-master",
         "unity-justice-and-the-living-witness"
       ],
+      "failed_slugs": [],
       "chapter_timings": {
         "knowledge-versus-action": {
           "started_ts": "2026-06-07T22:17:45Z",

@@ -11,6 +11,23 @@
   - knowledge-versus-action
   - unity-justice-and-the-living-witness
 
+## Name and Title Preservation Table
+
+| Original / Transliteration | Category | Written Form | Audio Label | First Audio Use |
+|---|---|---|---|---|
+| Commander of the Faithful (Mawlā ʿAlī) | Person / Title | مولى علي | the Commander of the Faithful / the Father of Imams | Beat 1 |
+| the Sheikh | Person / Title | الشيخ | the Sheikh / the elder teacher | Beat 1 |
+| Ṣāliḥ (the young master) | Person / Title | صالح | the young man / the young master / the newly named | Beat 1 |
+| Abu Malik (Kaʿb al-Aḥbār) | Person / Title | أبو مالك | the renowned debater / the Yemeni scholar | Beat 3 |
+| Imām | Person / Title | إمام | the Imam | Beat 1 |
+| Ṭawāf | Concept Term | طواف | the inner pilgrimage | Beat 1 |
+| kasra / makāsir | Concept Term | كسرة / مكاسر | the cup-emptying | Beat 3 |
+| ʿilm | Concept Term | علم | knowledge (as report) | Beat 3 |
+| maʿrifa | Concept Term | معرفة | true understanding / vision | Beat 3 |
+| ẓāhir | Concept Term | ظاهر | the outer | Beat 2 |
+| bāṭin | Concept Term | باطن | the inner | Beat 2 |
+| sharīʿa | Concept Term | شريعة | the outer law | Beat 2 |
+
 ## References
 
   - >
