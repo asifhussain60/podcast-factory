@@ -1,0 +1,4 @@
+{"ts": "2026-06-08T17:20:30Z", "phase": "0c", "step": "win-002", "model": "claude-sonnet-4-6", "input_tokens": 11414, "output_tokens": 2314, "cache_read": 0, "cache_create": 0, "cost_usd": 0.068952, "engine": "api"}
+{"ts": "2026-06-08T17:20:33Z", "phase": "0c", "step": "win-003", "model": "claude-sonnet-4-6", "input_tokens": 11324, "output_tokens": 2507, "cache_read": 0, "cache_create": 0, "cost_usd": 0.071577, "engine": "api"}
+{"ts": "2026-06-08T17:20:48Z", "phase": "0c", "step": "win-001", "model": "claude-sonnet-4-6", "input_tokens": 11669, "output_tokens": 3151, "cache_read": 0, "cache_create": 0, "cost_usd": 0.082272, "engine": "api"}
+{"ts": "2026-06-08T17:20:48Z", "phase": "0c", "step": "win-004", "model": "claude-sonnet-4-6", "input_tokens": 2001, "output_tokens": 919, "cache_read": 0, "cache_create": 0, "cost_usd": 0.019788, "engine": "api"}

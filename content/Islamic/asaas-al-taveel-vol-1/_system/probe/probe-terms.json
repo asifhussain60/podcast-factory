@@ -1,0 +1,820 @@
+{
+  "book_slug": "asaas-al-taveel-vol-1",
+  "total_terms": 173,
+  "scored_terms": 173,
+  "skipped_confirmed": 0,
+  "skipped_unfixable": 0,
+  "top_n": 40,
+  "terms": [
+    {
+      "term": "أصحاب الجزائر",
+      "transliteration": "Ashab al-Jaza'ir",
+      "phonetic": "/ʔas.ħɑːb ʔal.dʒa.ˈzɑː.ʔɪr/",
+      "house_style_ok": false,
+      "suggested_baseline": "a-shab al-ja-zair",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "places",
+      "snippet": "\"the Lords of the Islands (ashab al-jaza'ir), and the Wings\"",
+      "freq": 0,
+      "score": 5,
+      "reasons": [
+        "ayn/hamza",
+        "long",
+        "non-house-style respelling"
+      ],
+      "n": 1
+    },
+    {
+      "term": "جزائر",
+      "transliteration": "jaza'ir",
+      "phonetic": "ja-ZAA-ir",
+      "house_style_ok": true,
+      "suggested_baseline": "ja-zair",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "places",
+      "snippet": "\"the twelve jaza'ir of the earth — each of them an island\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "3 syllables"
+      ],
+      "n": 2
+    },
+    {
+      "term": "المعز لدين الله",
+      "transliteration": "al-Mu'izz li-Din Allah",
+      "phonetic": "ʔal-muʕɪzz lɪ-diːn ʔallaːh",
+      "house_style_ok": false,
+      "suggested_baseline": "al-muizz li-din a-llah",
+      "signature": [
+        "ayn-hamza",
+        "article-al",
+        "ending-ah"
+      ],
+      "segment": "terms",
+      "snippet": "\"during the imamate of al-Mu'izz li-Din Allah al-Fatimi\"",
+      "freq": 0,
+      "score": 7,
+      "reasons": [
+        "ayn/hamza",
+        "5 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "n": 3
+    },
+    {
+      "term": "المعيّد في الدين",
+      "transliteration": "al-Mu'ayyad fi al-Din",
+      "phonetic": "ʔal-muʔajjad fiː ad-diːn",
+      "house_style_ok": false,
+      "suggested_baseline": "al-mua-yyad fi al-din",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"their great supporter of religion, al-Mu'ayyad fi al-Din\"",
+      "freq": 0,
+      "score": 7,
+      "reasons": [
+        "ayn/hamza",
+        "5 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "n": 4
+    },
+    {
+      "term": "رسائل إخوان الصفا",
+      "transliteration": "Rasa'il Ikhwan al-Safa",
+      "phonetic": "rasaːʔɪl ʔɪxwaːn as-safaː",
+      "house_style_ok": false,
+      "suggested_baseline": "ra-sail i-khwan al-sa-fa",
+      "signature": [
+        "ayn-hamza",
+        "article-al",
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"nothing remains in our hands today except the Rasa'il Ikhwan al-Safa\"",
+      "freq": 0,
+      "score": 7,
+      "reasons": [
+        "ayn/hamza",
+        "4 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "n": 5
+    },
+    {
+      "term": "خمس رسائل إسماعيلية",
+      "transliteration": "Khams Rasa'il Ismailiyya",
+      "phonetic": "xams rasaːʔɪl ʔɪsmaːʕiːlɪjja",
+      "house_style_ok": false,
+      "suggested_baseline": "khams ra-sail i-smai-li-yya",
+      "signature": [
+        "ayn-hamza",
+        "ending-iyya"
+      ],
+      "segment": "terms",
+      "snippet": "\"Arif Tamir's introduction to Khams Rasa'il Ismailiyya (Five Ismaili Letters)\"",
+      "freq": 0,
+      "score": 6,
+      "reasons": [
+        "ayn/hamza",
+        "3 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "n": 6
+    },
+    {
+      "term": "دعائم الإسلام",
+      "transliteration": "Da'a'im al-Islam",
+      "phonetic": "daʕaːʔɪm al-ʔɪslaːm",
+      "house_style_ok": false,
+      "suggested_baseline": "daa-im al-i-slam",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"We called it Da'a'im al-Islam (The Pillars of Islam)\"",
+      "freq": 0,
+      "score": 6,
+      "reasons": [
+        "ayn/hamza",
+        "3 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "n": 7
+    },
+    {
+      "term": "علي بن أبي طالب",
+      "transliteration": "ʿAlī ibn Abī Ṭālib",
+      "phonetic": "a-lee ib-n a-bee taa-lib",
+      "house_style_ok": true,
+      "suggested_baseline": "a-lee ibn a-bee taa-lib",
+      "signature": [
+        "ayn-hamza",
+        "lineage"
+      ],
+      "segment": "terms",
+      "snippet": "his guardian (wasi) Ali ibn Abi Talib",
+      "freq": 0,
+      "score": 6,
+      "reasons": [
+        "ayn/hamza",
+        "8 syllables",
+        "long"
+      ],
+      "n": 8
+    },
+    {
+      "term": "عيسى ابن مريم",
+      "transliteration": "'Isa ibn Maryam",
+      "phonetic": "ʕiːsaː ɪbn marjam",
+      "house_style_ok": false,
+      "suggested_baseline": "i-sa ibn ma-ryam",
+      "signature": [
+        "ayn-hamza",
+        "lineage"
+      ],
+      "segment": "terms",
+      "snippet": "\"the chapter dealing with 'Isa ibn Maryam (Jesus, son of Mary)\"",
+      "freq": 0,
+      "score": 6,
+      "reasons": [
+        "ayn/hamza",
+        "3 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "n": 9
+    },
+    {
+      "term": "جعفر الحاجب",
+      "transliteration": "Ja'far al-Hajib",
+      "phonetic": "dʒaʕfar al-ħaːdʒɪb",
+      "house_style_ok": false,
+      "suggested_baseline": "ja-far al-ha-jib",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"the story related by Ja'far al-Hajib in his biography\"",
+      "freq": 0,
+      "score": 5,
+      "reasons": [
+        "ayn/hamza",
+        "3 syllables",
+        "non-house-style respelling"
+      ],
+      "n": 10
+    },
+    {
+      "term": "جعفر الصادق",
+      "transliteration": "Ja'far al-Sadiq",
+      "phonetic": "dʒaʕfar as-saːdɪq",
+      "house_style_ok": false,
+      "suggested_baseline": "ja-far al-sa-dik",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"Al-Sadiq is Imam Ja'far ibn Muhammad ibn 'Ali ibn al-Husayn\"",
+      "freq": 0,
+      "score": 5,
+      "reasons": [
+        "ayn/hamza",
+        "3 syllables",
+        "non-house-style respelling"
+      ],
+      "n": 11
+    },
+    {
+      "term": "جعفر بن محمد",
+      "transliteration": "Ja'far ibn Muhammad",
+      "phonetic": "JAA-far ibn mu-HAM-mad",
+      "house_style_ok": true,
+      "suggested_baseline": "ja-far ibn mu-ha-mmad",
+      "signature": [
+        "ayn-hamza",
+        "lineage"
+      ],
+      "segment": "terms",
+      "snippet": "\"Al-Sadiq is Imam Ja'far ibn Muhammad ibn Ali ibn al-Husayn\"",
+      "freq": 0,
+      "score": 5,
+      "reasons": [
+        "ayn/hamza",
+        "6 syllables"
+      ],
+      "n": 12
+    },
+    {
+      "term": "حدود المعرفة",
+      "transliteration": "Hudud al-Ma'arifa",
+      "phonetic": "ħududˈ al-maʕrɪfa",
+      "house_style_ok": false,
+      "suggested_baseline": "hu-dud al-maa-ri-fa",
+      "signature": [
+        "ayn-hamza",
+        "article-al",
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"we composed for those whom we have mentioned a book that we called Hudud al-Ma'arifa\"",
+      "freq": 0,
+      "score": 5,
+      "reasons": [
+        "ayn/hamza",
+        "3 syllables",
+        "non-house-style respelling"
+      ],
+      "n": 13
+    },
+    {
+      "term": "رفع الإصر",
+      "transliteration": "Raf' al-Isr",
+      "phonetic": "rafʕ al-ʔɪsr",
+      "house_style_ok": false,
+      "suggested_baseline": "raf al-isr",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"al-Hafiz in Raf' al-Isr (136)\"",
+      "freq": 0,
+      "score": 5,
+      "reasons": [
+        "ayn/hamza",
+        "3 syllables",
+        "non-house-style respelling"
+      ],
+      "n": 14
+    },
+    {
+      "term": "إدريس عماد الدين",
+      "transliteration": "Idris Imad al-Din",
+      "phonetic": "ʔɪdriːs ʕɪmaːd ad-diːn",
+      "house_style_ok": false,
+      "suggested_baseline": "i-dris i-mad al-din",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"its author Idris Imad al-Din (6/36-39)\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "4 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "n": 15
+    },
+    {
+      "term": "التأويل",
+      "transliteration": "al-Ta'wil",
+      "phonetic": "/ʔat.taʔ.ˈwiːl/",
+      "house_style_ok": false,
+      "suggested_baseline": "al-ta-wil",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"an esoteric interpretation (inner interpretation al-the hidden)\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 16
+    },
+    {
+      "term": "التأييد",
+      "transliteration": "al-Ta'yid",
+      "phonetic": "/ʔat.taʔ.ˈjiːd/",
+      "house_style_ok": false,
+      "suggested_baseline": "al-tay-id",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"God took her up and supported her...the creation of support (al-ta'yid)\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 17
+    },
+    {
+      "term": "الدعاة",
+      "transliteration": "al-Du'at",
+      "phonetic": "/ʔad.duˈʕɑːt/",
+      "house_style_ok": false,
+      "suggested_baseline": "al-duat",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"and the Wings (al-ajniha) — and they are the preachers (al-du'at)\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 18
+    },
+    {
+      "term": "القائم",
+      "transliteration": "al-Qa'im",
+      "phonetic": "ʔal-qaːʔɪm",
+      "house_style_ok": false,
+      "suggested_baseline": "al-kaim",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"under the Fatimid (al-Qa'im), he took charge of the judiciary\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 19
+    },
+    {
+      "term": "المعري",
+      "transliteration": "al-Ma'arri",
+      "phonetic": "ʔal-maʕarriː",
+      "house_style_ok": false,
+      "suggested_baseline": "al-maa-rri",
+      "signature": [
+        "ayn-hamza",
+        "article-al",
+        "ending-i"
+      ],
+      "segment": "terms",
+      "snippet": "\"al-Mutanabbi, al-Ma'arri, and others, has remained scant\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 20
+    },
+    {
+      "term": "تأويل",
+      "transliteration": "ta'wil",
+      "phonetic": "taʔwiːl",
+      "house_style_ok": false,
+      "suggested_baseline": "ta-wil",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "\"Asas al-Ta'wil (The Foundation of Interpretation)\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 21
+    },
+    {
+      "term": "جبريل",
+      "transliteration": "Jibra'il",
+      "phonetic": "jib-raa-EEL",
+      "house_style_ok": true,
+      "suggested_baseline": "ji-brail",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "\"Israfil, Mika'il, and Jibra'il\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "3 syllables"
+      ],
+      "n": 22
+    },
+    {
+      "term": "داعي",
+      "transliteration": "da'i",
+      "phonetic": "daːʕɪ",
+      "house_style_ok": false,
+      "suggested_baseline": "dai",
+      "signature": [
+        "ayn-hamza",
+        "ending-i"
+      ],
+      "segment": "terms",
+      "snippet": "\"Ismaili Da'i al-Nu'man ibn Hayyun al-Tamimi al-Maghribi\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 23
+    },
+    {
+      "term": "داعي الدعاة",
+      "transliteration": "du'at",
+      "phonetic": "duʕaːt",
+      "house_style_ok": false,
+      "suggested_baseline": "duat",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "\"he initiated some of his preachers (du'at) into it\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 24
+    },
+    {
+      "term": "دعوة",
+      "transliteration": "da'wa",
+      "phonetic": "daʕwa",
+      "house_style_ok": false,
+      "suggested_baseline": "da-wa",
+      "signature": [
+        "ayn-hamza",
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"the secret of the creed and the key to the door of the mission\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 25
+    },
+    {
+      "term": "شريعة",
+      "transliteration": "shari'a",
+      "phonetic": "ʃariːʕa",
+      "house_style_ok": false,
+      "suggested_baseline": "sha-ria",
+      "signature": [
+        "ayn-hamza",
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"a book treating the outward knowledge of the shari'a\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 26
+    },
+    {
+      "term": "عبد السلام ابن رغبان",
+      "transliteration": "Abd al-Salam ibn Raghban",
+      "phonetic": "ʕabd as-salaːm ɪbn raɣbaːn",
+      "house_style_ok": false,
+      "suggested_baseline": "abd al-sa-lam ibn ra-ghban",
+      "signature": [
+        "article-al",
+        "lineage"
+      ],
+      "segment": "terms",
+      "snippet": "\"information about the poet Abd al-Salam ibn Raghban\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "5 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "n": 27
+    },
+    {
+      "term": "قائم",
+      "transliteration": "al-Qa'im",
+      "phonetic": "al-QAA-im",
+      "house_style_ok": true,
+      "suggested_baseline": "al-kaim",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"Muhammad, and al-Qa'im of the Age\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "3 syllables"
+      ],
+      "n": 28
+    },
+    {
+      "term": "قرآن",
+      "transliteration": "Qur'an",
+      "phonetic": "qʊrʔaːn",
+      "house_style_ok": false,
+      "suggested_baseline": "ku-ran",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "\"the Torah, the Gospel, and the Qur'an\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 29
+    },
+    {
+      "term": "كعب الأحبار",
+      "transliteration": "Ka'b al-Ahbar",
+      "phonetic": "/kaːb ʔal.ʔaħ.ˈbɑːr/",
+      "house_style_ok": false,
+      "suggested_baseline": "kab al-a-hbar",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"such as Ka'b al-Ahbar, Abdullah ibn Salam\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 30
+    },
+    {
+      "term": "كعبة",
+      "transliteration": "Ka'ba",
+      "phonetic": "kaʕba",
+      "house_style_ok": false,
+      "suggested_baseline": "ka-ba",
+      "signature": [
+        "ayn-hamza",
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"Cairo became a Ka'ba toward which scholars…turned\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 31
+    },
+    {
+      "term": "محمد ابن جرير الطبري",
+      "transliteration": "Muhammad ibn Jarir al-Tabari",
+      "phonetic": "mʊħammad ɪbn dʒariːr at-tabarɪ",
+      "house_style_ok": false,
+      "suggested_baseline": "mu-ha-mmad ibn ja-rir al-ta-ba-ri",
+      "signature": [
+        "article-al",
+        "lineage",
+        "ending-i"
+      ],
+      "segment": "terms",
+      "snippet": "\"all of this is plain in the books…who preceded Muhammad ibn Jarir al-Tabari\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "5 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "n": 32
+    },
+    {
+      "term": "ميكائيل",
+      "transliteration": "Mika'il",
+      "phonetic": "mee-kaa-EEL",
+      "house_style_ok": true,
+      "suggested_baseline": "mi-kail",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "\"Israfil, Mika'il, and Jibra'il\"",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "3 syllables"
+      ],
+      "n": 33
+    },
+    {
+      "term": "الإمام المقيم",
+      "transliteration": "al-imām al-muqīm",
+      "phonetic": "al-i-maam al-mu-qeem",
+      "house_style_ok": true,
+      "suggested_baseline": "al-i-maam al-mu-keem",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "Resident Imam (al-imam al-muqim), a permanent Imam",
+      "freq": 0,
+      "score": 3,
+      "reasons": [
+        "6 syllables",
+        "long"
+      ],
+      "n": 34
+    },
+    {
+      "term": "حد / حدود",
+      "transliteration": "hadd / hudud",
+      "phonetic": "HADD / hu-DOOD",
+      "house_style_ok": false,
+      "suggested_baseline": "hadd  hu-dud",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"the four words of the shahada stand as a likeness for these four limits\"",
+      "freq": 0,
+      "score": 3,
+      "reasons": [
+        "4 syllables",
+        "non-house-style respelling"
+      ],
+      "n": 35
+    },
+    {
+      "term": "رأس",
+      "transliteration": "ra'is",
+      "phonetic": "ra-EES",
+      "house_style_ok": true,
+      "suggested_baseline": "rais",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "\"he was called the leader (al-ra'is)\"",
+      "freq": 0,
+      "score": 3,
+      "reasons": [
+        "ayn/hamza"
+      ],
+      "n": 36
+    },
+    {
+      "term": "سواع",
+      "transliteration": "Suwāʿ",
+      "phonetic": "su-waa'",
+      "house_style_ok": true,
+      "suggested_baseline": "su-waa",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "do not forsake Wadd, Suwa'",
+      "freq": 0,
+      "score": 3,
+      "reasons": [
+        "ayn/hamza"
+      ],
+      "n": 37
+    },
+    {
+      "term": "عبدالله بن سلام",
+      "transliteration": "Abdullah ibn Salam",
+      "phonetic": "/ʕab.dʊl.ˈlɑː ɪbn sa.ˈlɑːm/",
+      "house_style_ok": false,
+      "suggested_baseline": "a-bdu-llah ibn sa-lam",
+      "signature": [
+        "lineage"
+      ],
+      "segment": "terms",
+      "snippet": "\"Ka'b al-Ahbar, Abdullah ibn Salam, and others\"",
+      "freq": 0,
+      "score": 3,
+      "reasons": [
+        "3 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "n": 38
+    },
+    {
+      "term": "فاطمة الزهراء",
+      "transliteration": "Fatima al-Zahra",
+      "phonetic": "faːtɪma az-zahraːʔ",
+      "house_style_ok": false,
+      "suggested_baseline": "fa-ti-ma al-za-hra",
+      "signature": [
+        "article-al",
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"honors the name of Fatima al-Zahra, daughter of Muhammad\"",
+      "freq": 0,
+      "score": 3,
+      "reasons": [
+        "3 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "n": 39
+    },
+    {
+      "term": "فروع",
+      "transliteration": "furu'",
+      "phonetic": "fu-ROO",
+      "house_style_ok": true,
+      "suggested_baseline": "fu-ru",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "\"the testimony to the Messenger (peace be upon him) is the lowest degree — the furu'\"",
+      "freq": 0,
+      "score": 3,
+      "reasons": [
+        "ayn/hamza"
+      ],
+      "n": 40
+    }
+  ]
+}

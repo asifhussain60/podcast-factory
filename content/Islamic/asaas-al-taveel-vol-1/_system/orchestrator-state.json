@@ -4,10 +4,14 @@
   "category": "books",
   "branch": "Islamic/asaas-al-taveel",
   "phase": "0c",
-  "phase_status": "pending",
+  "phase_status": "halted",
   "last_completed_phase": "0b",
   "next_phase": "0d",
-  "last_error": null,
+  "last_error": {
+    "phase": "0c",
+    "message": "EP00 pronunciation probe ready for human review. Upload `/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/asaas-al-taveel-vol-1/_system/probe/EP00-pronunciation-probe/pronunciation-probe.md` to NotebookLM, paste `00-framing.md` into Customize, generate a 3-5 min audio, mark corrections in `listen-checklist.md`, then resume.",
+    "ts": "2026-06-08T17:31:16Z"
+  },
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -35,7 +39,10 @@
       "note": "pre-marked: English refinement completed on full-book slug; transcript sliced and sanitized"
     },
     "0c": {
-      "status": "pending"
+      "status": "halted",
+      "ts_started": "2026-06-08T17:19:42Z",
+      "ts_completed": "2026-06-08T17:31:16Z",
+      "manual_fallback": "1. Open /Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/asaas-al-taveel-vol-1/_system/probe/EP00-pronunciation-probe/README.md for upload instructions.\n2. Review the audio and mark corrections in listen-checklist.md.\n3. Run: python3 scripts/podcast/apply_pronunciation_corrections.py <book-dir>\n4. Resume: python3 scripts/podcast/orchestrate_book.py --resume <slug>"
     },
     "0d": {
       "status": "pending"
@@ -68,7 +75,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-06-08T00:00:00Z",
-  "ts_updated": "2026-06-08T00:00:00Z",
+  "ts_updated": "2026-06-08T17:31:16Z",
   "config": {
     "length_tier": "extended",
     "unit_mode": "auto"
