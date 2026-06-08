@@ -307,32 +307,18 @@
   padding-top: 0.15rem;
 }
 
-/* Left column: term name + Arabic script inline (grid), then translit + chips */
+/* Left column: Arabic input (ghost heading) → translit → chips → meaning */
 .pron-term {
   display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: auto auto auto;
-  column-gap: 0.55rem;
+  grid-template-columns: 1fr;
   row-gap: 0.15rem;
   align-items: start;
 }
-.pron-term-name {
-  grid-column: 1;
-  grid-row: 1;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--c-ink);
-  align-self: center;
-}
 .pron-term-translit {
-  grid-column: 1;
-  grid-row: 2;
   font-size: 1.1rem;
   color: var(--c-ink-dim);
 }
 .pron-chips {
-  grid-column: 1 / -1;
-  grid-row: 3;
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem;
@@ -358,7 +344,6 @@
 
 /* English meaning gloss line — shown below chips */
 .pron-term-meaning {
-  grid-column: 1 / -1;
   font-size: 1rem;
   color: var(--c-ink-muted);
   font-style: italic;
@@ -366,33 +351,35 @@
   margin-top: 0.15rem;
 }
 
-/* Arabic script input — inline right column, spans name + translit rows */
+/* Arabic script — ghost heading at top of left column; editable on click */
 .pron-term-arabic {
-  grid-column: 2;
-  grid-row: 1 / 3;
   font-size: 1.5rem;
   font-family: 'Traditional Arabic', 'Scheherazade New', Amiri, serif;
   font-weight: 700;
   direction: rtl;
-  text-align: center;
-  padding: 0.2rem 0.35rem;
-  border: 1px solid var(--c-rule);
-  border-radius: 0.4rem;
-  background: var(--c-bg-elev);
+  text-align: right;
+  padding: 0.05rem 0.3rem;
+  border: 1px solid transparent;
+  border-radius: 0.35rem;
+  background: transparent;
   color: var(--c-ink);
-  width: 9rem;
+  width: 100%;
   min-width: 0;
-  align-self: start;
+}
+.pron-term-arabic:hover {
+  border-color: var(--c-rule-soft);
 }
 .pron-term-arabic:focus {
-  outline: 2px solid var(--c-accent);
-  outline-offset: 1px;
+  outline: none;
+  border-color: var(--c-rule);
+  background: var(--c-bg-elev);
 }
 .pron-term-arabic::placeholder {
   font-size: 1rem;
   font-family: inherit;
   color: var(--c-ink-muted);
   direction: ltr;
+  text-align: left;
 }
 
 /* Phonetic input with AI suggestion */

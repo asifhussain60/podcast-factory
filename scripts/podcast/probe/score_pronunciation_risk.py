@@ -34,6 +34,11 @@ from knowledge import pronunciation_patterns as patterns  # noqa: E402
 
 DEFAULT_TOP_N = 40
 
+# Matches capitalised proper nouns that are already in English (e.g. "Jesus",
+# "Moses", "Torah", "Mahdi").  Used as a last-resort meaning fallback so the
+# "Use English translation" checkbox has a pre-fill even without a glossary entry.
+_PROPER_NOUN_RE = re.compile(r"^[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*$")
+
 # Transliteration glyphs that signal phonemes NotebookLM routinely mangles.
 _AYN = re.compile(r"[ʿʾ’’’]")                       # hamza / ayn
 _EMPHATIC = re.compile(r"[ḥḍṣṭẓḏṯġḫ]")              # emphatics + uncommon fricatives
@@ -298,12 +303,16 @@ def build_probe_terms(book_dir: Path, top_n: int = DEFAULT_TOP_N) -> dict:
         if ledger.normalize_key(snippet).find(ledger.normalize_key(row["term"])) != -1:
             snippet = ""
         # Meaning: concept-glossary first (by Arabic script or normalised translit),
-        # then fall back to a parenthetical English gloss in the first-occurrence snippet
-        # that immediately follows the transliteration (to avoid cross-term false positives).
+        # then a parenthetical gloss from the first-occurrence snippet, then the
+        # transliteration itself when it is already an English proper noun (Jesus,
+        # Moses, Torah, Mahdi …) — gives the "Use English translation" checkbox a
+        # pre-fill at no extra cost.
+        translit_str = row.get("transliteration", "").strip()
         meaning = (
             meanings.get(row["term"])
-            or meanings.get(_normalise_translit(row["transliteration"]))
-            or _extract_snippet_meaning(row.get("snippet", ""), row["transliteration"])
+            or meanings.get(_normalise_translit(translit_str))
+            or _extract_snippet_meaning(row.get("snippet", ""), translit_str)
+            or (translit_str if _PROPER_NOUN_RE.match(translit_str) else "")
         )
 
         scored.append({

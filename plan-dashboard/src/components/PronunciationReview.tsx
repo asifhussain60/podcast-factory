@@ -212,9 +212,8 @@ export default function PronunciationReview({ slug, terms }: Props) {
             >
               <span className="pron-n">{t.n}</span>
 
-              {/* Left: term name + Arabic inline (grid), transliteration, chips */}
+              {/* Left: Arabic input (ghost heading) → transliteration → chips → meaning */}
               <div className="pron-term">
-                <span className="pron-term-name">{t.term}</span>
                 <input
                   className="pron-term-arabic"
                   type="text"

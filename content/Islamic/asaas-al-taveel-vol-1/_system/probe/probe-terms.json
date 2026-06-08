@@ -23,7 +23,7 @@
         "x240 in text"
       ],
       "arabic_script": "الله",
-      "meaning": "",
+      "meaning": "Allah",
       "n": 1
     },
     {
@@ -41,7 +41,7 @@
         "x98 in text"
       ],
       "arabic_script": "آدم",
-      "meaning": "",
+      "meaning": "Adam",
       "n": 2
     },
     {
@@ -80,7 +80,7 @@
         "x54 in text"
       ],
       "arabic_script": "علي",
-      "meaning": "",
+      "meaning": "Ali",
       "n": 4
     },
     {
@@ -120,7 +120,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "إسماعيلي",
-      "meaning": "",
+      "meaning": "Ismaili",
       "n": 6
     },
     {
@@ -139,7 +139,7 @@
         "x27 in text"
       ],
       "arabic_script": "محمد",
-      "meaning": "",
+      "meaning": "Muhammad",
       "n": 7
     },
     {
@@ -158,7 +158,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "إبليس",
-      "meaning": "",
+      "meaning": "Iblis",
       "n": 8
     },
     {
@@ -219,7 +219,7 @@
         "x20 in text"
       ],
       "arabic_script": "أئمة",
-      "meaning": "",
+      "meaning": "Imams",
       "n": 11
     },
     {
@@ -279,7 +279,7 @@
         "x18 in text"
       ],
       "arabic_script": "نوح",
-      "meaning": "",
+      "meaning": "Noah",
       "n": 14
     },
     {
@@ -317,7 +317,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "فاطمي",
-      "meaning": "",
+      "meaning": "Fatimid",
       "n": 16
     },
     {
@@ -454,7 +454,7 @@
         "x8 in text"
       ],
       "arabic_script": "عيسى",
-      "meaning": "",
+      "meaning": "Jesus",
       "n": 23
     },
     {
@@ -475,7 +475,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "توراة",
-      "meaning": "",
+      "meaning": "Torah",
       "n": 24
     },
     {
@@ -512,7 +512,7 @@
         "x7 in text"
       ],
       "arabic_script": "موسى",
-      "meaning": "",
+      "meaning": "Moses",
       "n": 26
     },
     {
@@ -555,7 +555,7 @@
         "x6 in text"
       ],
       "arabic_script": "إبراهيم",
-      "meaning": "",
+      "meaning": "Ibrahim",
       "n": 28
     },
     {
@@ -574,7 +574,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "إنجيل",
-      "meaning": "",
+      "meaning": "Gospel",
       "n": 29
     },
     {
@@ -613,7 +613,7 @@
         "x6 in text (+ al-Mahdi)"
       ],
       "arabic_script": "مهدي",
-      "meaning": "ubayd allah",
+      "meaning": "Mahdi",
       "n": 31
     },
     {
@@ -632,7 +632,7 @@
         "x5 in text (+ al-Imamate)"
       ],
       "arabic_script": "إمامة",
-      "meaning": "",
+      "meaning": "Imamate",
       "n": 32
     },
     {
@@ -693,7 +693,7 @@
         "x5 in text"
       ],
       "arabic_script": "إدريس",
-      "meaning": "",
+      "meaning": "Idris",
       "n": 35
     },
     {
@@ -778,7 +778,7 @@
         "x4 in text (+ Wali)"
       ],
       "arabic_script": "الوالي",
-      "meaning": "",
+      "meaning": "Wali",
       "n": 39
     },
     {
