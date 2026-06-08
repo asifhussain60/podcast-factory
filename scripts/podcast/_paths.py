@@ -78,6 +78,43 @@ def _validate_bucket(bucket: str) -> str:
     return bucket
 
 
+def _validate_slug(slug: str) -> str:
+    """Accept a flat slug (``<name>``) or a one-level NESTED slug (``<parent>/<vol>``).
+
+    Nested slugs let a multi-volume work live under a parent container
+    (``content/Islamic/asaas-al-taveel/vol-01``) while every flat book is
+    unchanged. Rejects empty, absolute, trailing-slash, traversal, or deeper-
+    than-one-level paths so a slug can never escape its bucket.
+    """
+    if not slug or slug.startswith("/") or slug.endswith("/") or "\\" in slug:
+        raise ValueError(f"_paths: invalid slug {slug!r}")
+    parts = slug.split("/")
+    if len(parts) > 2 or any(p in ("", "..", ".") for p in parts):
+        raise ValueError(f"_paths: invalid slug {slug!r}")
+    return slug
+
+
+def _is_book_dir(p: Path) -> bool:
+    """True if ``p`` is a processable book (has pipeline state), not a parent container.
+
+    A nested-volume parent (``asaas-al-taveel/`` holding ``vol-01`` … ``vol-06``)
+    carries neither a ``_system/`` plumbing dir nor a ``meta.yml`` at its own level,
+    so the discovery scan descends into it instead of treating it as a book.
+    """
+    return (p / "_system").is_dir() or (p / "meta.yml").is_file()
+
+
+def slug_of(path: Path) -> str:
+    """Bucket-relative slug for a content dir (flat ``<name>`` or nested ``<parent>/<vol>``)."""
+    rp = path.resolve()
+    for b in BUCKETS:
+        try:
+            return rp.relative_to((CONTENT_ROOT / b).resolve()).as_posix()
+        except ValueError:
+            continue
+    return path.name
+
+
 def resolve_bucket(*, bucket: str | None, profile: str | None, category: str | None) -> str:
     """Pick the bucket from the most specific signal available. Defaults to Islamic.
 
@@ -131,8 +168,7 @@ def content_dir(
     to a bucket for transitional callers, and ``stage=`` is ignored (draft/published
     is now a status field, not a folder).
     """
-    if not slug or "/" in slug:
-        raise ValueError(f"_paths: invalid slug {slug!r}")
+    _validate_slug(slug)
     b = _resolve_bucket(bucket=bucket, profile=profile, category=category)
     return CONTENT_ROOT / b / slug
 
@@ -225,10 +261,23 @@ def iter_content(
         for child in sorted(b_root.iterdir()):
             if not child.is_dir() or child.name.startswith(("_", ".")):
                 continue
-            if child.resolve() in seen:
+            if _is_book_dir(child):
+                if child.resolve() in seen:
+                    continue
+                seen.add(child.resolve())
+                yield (status_of(child), b, child)
                 continue
-            seen.add(child.resolve())
-            yield (status_of(child), b, child)
+            # Parent container (e.g. a multi-volume work): descend one level and
+            # yield each nested volume book. Flat books never reach this branch.
+            for sub in sorted(child.iterdir()):
+                if not sub.is_dir() or sub.name.startswith(("_", ".")):
+                    continue
+                if not _is_book_dir(sub):
+                    continue
+                if sub.resolve() in seen:
+                    continue
+                seen.add(sub.resolve())
+                yield (status_of(sub), b, sub)
 
     # Legacy fallback (only when not filtering to a specific new bucket).
     if bucket:

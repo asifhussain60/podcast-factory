@@ -87,6 +87,23 @@ async function isDir(p: string): Promise<boolean> {
   }
 }
 
+/**
+ * True if `dir` is a processable book (has pipeline state), not a parent
+ * container. A nested-volume parent (asaas-al-taveel/ holding vol-01 … vol-06)
+ * has neither a `_system/` dir nor a `meta.yml`, so discovery descends into it.
+ */
+async function isBookDir(dir: string): Promise<boolean> {
+  return (await isDir(join(dir, '_system'))) || (await isFile(join(dir, 'meta.yml')));
+}
+
+async function isFile(p: string): Promise<boolean> {
+  try {
+    return (await stat(p)).isFile();
+  } catch {
+    return false;
+  }
+}
+
 /** Read the publication status from a book dir's orchestrator-state.json. */
 export async function statusOf(dir: string): Promise<Status> {
   try {
@@ -138,7 +155,14 @@ export function findContentDirSync(slug: string): string | null {
  * Stage (ignored); a category maps to a bucket. Does NOT check existence.
  */
 export function contentDir(slug: string, bucketOrStage?: Bucket | Stage, category?: Category): string {
-  if (!slug || slug.includes('/')) {
+  // Accept a flat slug (`<name>`) or a one-level nested slug (`<parent>/<vol>`)
+  // for multi-volume works living under a parent container. Reject empty,
+  // absolute, trailing-slash, traversal, or deeper-than-one-level paths.
+  const parts = slug.split('/');
+  if (
+    !slug || slug.startsWith('/') || slug.endsWith('/') || slug.includes('\\') ||
+    parts.length > 2 || parts.some((p) => p === '' || p === '..' || p === '.')
+  ) {
     throw new Error(`content-paths: invalid slug ${JSON.stringify(slug)}`);
   }
   const maybeBucket = (BUCKETS as readonly string[]).includes(bucketOrStage as string)
@@ -206,14 +230,29 @@ export async function listContent(opts: { bucket?: Bucket; stage?: Stage; catego
     if (!(await isDir(br))) continue;
     let entries: string[];
     try { entries = await readdir(br); } catch { continue; }
-    for (const slug of entries.sort()) {
-      if (slug.startsWith('.') || slug.startsWith('_')) continue;
-      const dir = join(br, slug);
+    for (const name of entries.sort()) {
+      if (name.startsWith('.') || name.startsWith('_')) continue;
+      const dir = join(br, name);
       if (!(await isDir(dir))) continue;
-      if (seen.has(dir)) continue;
-      seen.add(dir);
-      const status = await statusOf(dir);
-      out.push({ bucket, status, slug, dir, stage: statusToStage(status), category: 'books' });
+      if (await isBookDir(dir)) {
+        if (seen.has(dir)) continue;
+        seen.add(dir);
+        const status = await statusOf(dir);
+        out.push({ bucket, status, slug: name, dir, stage: statusToStage(status), category: 'books' });
+        continue;
+      }
+      // Parent container (multi-volume work): descend one level for nested volumes.
+      let subs: string[];
+      try { subs = await readdir(dir); } catch { continue; }
+      for (const sub of subs.sort()) {
+        if (sub.startsWith('.') || sub.startsWith('_')) continue;
+        const subDir = join(dir, sub);
+        if (!(await isDir(subDir)) || !(await isBookDir(subDir))) continue;
+        if (seen.has(subDir)) continue;
+        seen.add(subDir);
+        const status = await statusOf(subDir);
+        out.push({ bucket, status, slug: `${name}/${sub}`, dir: subDir, stage: statusToStage(status), category: 'books' });
+      }
     }
   }
 
