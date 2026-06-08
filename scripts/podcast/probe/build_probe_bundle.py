@@ -246,10 +246,20 @@ def build_bundle(book_dir: Path) -> Path:
         if key not in seen:
             seen.add(key)
             deduped.append(t)
-    # Renumber sequentially so the source has no gaps after dedup.
-    for i, t in enumerate(deduped, start=1):
+
+    # Reorder in segment presentation order (names → places → terms), then renumber
+    # 1-N continuously.  Without this, Part 2 (places) might show n=59,108 while
+    # Part 3 (terms) restarts at n=1, which breaks the listen-checklist and confuses
+    # a reviewer trying to follow along.
+    seg_buckets: dict[str, list[dict]] = {s: [] for s in SEGMENT_ORDER}
+    for t in deduped:
+        seg_buckets.setdefault(t["segment"], []).append(t)
+    ordered: list[dict] = []
+    for seg in SEGMENT_ORDER:
+        ordered.extend(seg_buckets.get(seg, []))
+    for i, t in enumerate(ordered, start=1):
         t["n"] = i
-    data = {**data, "terms": deduped}
+    data = {**data, "terms": ordered}
 
     out_dir = book_dir / "_system" / "probe" / "EP00-pronunciation-probe"
     out_dir.mkdir(parents=True, exist_ok=True)
