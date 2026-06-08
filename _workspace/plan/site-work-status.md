@@ -6,64 +6,28 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-08 (session 19 — bundle numbering fix)
+**Last updated:** 2026-06-08 (session 20 — teaching filter + phonetics cleanup + pipeline resume)
 
-**BRANCH: `Islamic/asaas-al-taveel` — 10 commits. Push pending.**
+**BRANCH: `Islamic/asaas-al-taveel` — 14 commits. Push pending.**
 
-**Session work completed (session 19 — 1 commit e891724):**
+**Session work completed (session 20 — 4 commits 8c70778 -> 18affff):**
 
-Fixed bundle generator sequential numbering + clarified English generalization workflow.
+Teaching-relevance filter, complete IPA cleanup, probe regenerated, pipeline resumed.
 
-  - build_probe_bundle.py: reorder terms in segment-presentation order (names ->
-    places -> terms) BEFORE assigning 1-N numbers. Previously places got mid-range
-    global ranks (n=59, 108) while Part 3 restarted at n=1, breaking the checklist.
-    Now Part 2 = items 1,2; Part 3 = items 3,4,5...115 sequentially.
-  - Bundle regenerated: pronunciation-probe.md, 00-framing.md, listen-checklist.md
-    all updated with correct sequential numbers.
-
-**English generalization workflow (complete):**
-  1. Click "English for N x1 terms" on each page -> marks in UI
-  2. Click "Save" -> writes to library as unfixable with English gloss
-  3. Click "Generate source and framing" again -> bundle now shows "Do NOT say X - say Y instead"
-
-**Session work completed (session 18 — 1 commit 64c2114):**
-
-LLM-filled English meanings for all probe terms + toggle-pill UI replacing checkbox.
-
-  - fill_probe_meanings.py: new Gemini Flash batch script fills concise 1-4 word
-    English meanings for terms missing one or with meanings >6 words. Biblical names
-    for prophets. One API call per run; writes probe-terms.json in place.
-  - probe-terms.json: all 128 terms now have concise English meanings. Examples:
-    walaya -> Spiritual Guardianship, hujja -> Divine Proof, al-Qa'im -> The Awaited One.
-  - PronunciationReview.tsx: checkbox replaced with pill toggle showing English text
-    inline at all times. Inactive: grey pill with ⇄ + English preview. Active:
-    accent-colored pill with checkmark; gloss input pre-fills with the meaning.
-  - pronunciation.css: .pron-lang-toggle pill styles; old checkbox CSS removed.
-  - TypeScript clean; html-view-lint: errors=0 warns=0.
-
-**Session work completed (session 17 — 5 commits):**
-
-Pronunciation probe overhaul — frequency counting, meaning pre-fill, count badge.
-
-  - score_pronunciation_risk.py: fixed the core bug (freq=0 for all terms because
-    the script was counting Arabic script in English text). Fix: normalise translit
-    and count in normalised English text. Added concept-glossary.md parser for
-    pre-built meanings; snippet-extraction fallback with honorific + circular guard;
-    arabic_script now falls back to row["term"] (which IS Arabic script); segment
-    re-sort removed so frequency order is preserved end-to-end.
-  - pronunciation.ts: ProbeTerm gains meaning field; arabicScript = arabic_script ?? term.
-  - PronunciationReview.tsx: count badge (xN) in accent color; meaning line below chips;
-    "Use English translation" checkbox pre-fills gloss from t.meaning when available.
-  - pronunciation.css: pron-chip-count + pron-term-meaning CSS classes (no inline styles).
-  - probe-terms.json regenerated: top terms Allah x240, Adam x98, imam x72, Ali x54;
-    13/40 have meanings. All have arabic_script populated.
-  - TypeScript clean; html-view-lint: errors=0 warns=0.
+  - score_pronunciation_risk.py: reads body_starts_at_page from content-range.md and
+    slices refined-english.md to that page before frequency counting. Strips 54,665 chars
+    (39%) of front matter (editor intro + author preface pp. 1-32). Probe counts
+    only body text (pp. 33-75). 28 terms remain unconfirmed.
+  - _phonetics.md: all 73 remaining IPA rows converted to plain hyphenated stress guides
+    (NAA-tiq, al-ZAA-hir, KAY-n, etc.). File is now fully IPA-free.
+  - Probe + bundle regenerated: all 28 terms show clean phonetics.
+  - Pipeline resumed past phase 0c halted into 0ci/0d/0e/0f.
 
 **OPEN (next session):**
-  - Teaching-relevance filter: new pipeline step to strip editor prefaces, publisher
-    notes, author biographies from the source text before phonetics extraction.
-    Currently no such step exists. Once built, re-run the probe on filtered text.
-  - Asaas al-Taveel pipeline: resume from phase 0c after review.
+  - Pronunciation review: 28 terms remain unconfirmed. Upload EP00-pronunciation-probe
+    bundle to NotebookLM, listen, use /pronunciation UI to confirm/correct.
+    Then run apply_pronunciation_corrections.py to commit to library.
+  - Pipeline status: check orchestrator state after 0ci/0d/0e complete.
 
 **Last updated:** 2026-06-06 (session 16 — full repo hygiene + pipeline audit)
 
