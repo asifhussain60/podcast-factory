@@ -16,31 +16,31 @@ phonetic in the library; a respelling -> confirm the corrected form; a
 | n | term | intended | OK? | Fix |
 |---|------|----------|-----|-----|
 | 1 | إسرافيل | is-raa-FEEL |  |  |
-| 2 | سنة | _(needs respelling)_ |  |  |
-| 3 | قابيل | _(needs respelling)_ |  |  |
+| 2 | سنة | SUN-na |  |  |
+| 3 | قابيل | KAY-n |  |  |
 | 4 | أبي طالب | a-bee TAA-lib |  |  |
 | 5 | ذكر المقدمات | dhik-rul mu-qad-di-MAAT |  |  |
-| 6 | الحجج | _(needs respelling)_ |  |  |
-| 7 | الدعاة | _(needs respelling)_ |  |  |
-| 8 | إدريس عماد الدين | _(needs respelling)_ |  |  |
-| 9 | المعيّد في الدين | _(needs respelling)_ |  |  |
-| 10 | عبد السلام ابن رغبان | _(needs respelling)_ |  |  |
-| 11 | محمد ابن جرير الطبري | _(needs respelling)_ |  |  |
-| 12 | جعفر بن محمد | JAA-far ibn mu-HAM-mad |  |  |
-| 13 | ديك الجن | _(needs respelling)_ |  |  |
-| 14 | رفع الإصر | _(needs respelling)_ |  |  |
-| 15 | إسماعيلية | _(needs respelling)_ |  |  |
-| 16 | ابن خلكان | _(needs respelling)_ |  |  |
-| 17 | الباطن | _(needs respelling)_ |  |  |
-| 18 | الحسين | al-hu-SAYN |  |  |
-| 19 | الشيطان | _(needs respelling)_ |  |  |
-| 20 | الظاهر | _(needs respelling)_ |  |  |
-| 21 | المتنبي | _(needs respelling)_ |  |  |
-| 22 | المعري | _(needs respelling)_ |  |  |
-| 23 | المقريزي | _(needs respelling)_ |  |  |
-| 24 | الوفيات | _(needs respelling)_ |  |  |
-| 25 | بويهيون | _(needs respelling)_ |  |  |
-| 26 | حمدانيون | _(needs respelling)_ |  |  |
-| 27 | كعبة | _(needs respelling)_ |  |  |
-| 28 | مصياف | _(needs respelling)_ |  |  |
+| 6 | الحجج | al-hu-JAJ |  |  |
+| 7 | الدعاة | al-du-AAT |  |  |
+| 8 | إدريس عماد الدين | id-REES i-MAAD ad-DEEN |  |  |
+| 9 | المعيّد في الدين | al-moo-AY-yad fee ad-DEEN |  |  |
+| 10 | عبد السلام ابن رغبان | abd as-sa-LAAM ibn ragh-BAAN |  |  |
+| 11 | محمد ابن جرير الطبري | mu-HAM-mad ibn ja-REER at-ta-BA-ree |  |  |
+| 12 | إسماعيلية | is-maa-EE-li-yya |  |  |
+| 13 | ابن خلكان | ibn khal-li-KAAN |  |  |
+| 14 | المتنبي | al-mu-ta-NAB-bee |  |  |
+| 15 | المعري | al-maa-AR-ree |  |  |
+| 16 | المقريزي | al-ma-KREE-zee |  |  |
+| 17 | الوفيات | al-wa-fa-YAAT |  |  |
+| 18 | جعفر بن محمد | JAA-far ibn mu-HAM-mad |  |  |
+| 19 | الباطن | al-BAA-tin |  |  |
+| 20 | الحسين | al-hu-SAYN |  |  |
+| 21 | الشيطان | al-shay-TAAN |  |  |
+| 22 | الظاهر | al-ZAA-hir |  |  |
+| 23 | حمدانيون | ham-DAA-nids |  |  |
+| 24 | ديك الجن | DEEK al-JINN |  |  |
+| 25 | رفع الإصر | RAFF al-ISR |  |  |
+| 26 | بويهيون | BOO-yids |  |  |
+| 27 | كعبة | KAA-ba |  |  |
+| 28 | مصياف | MAS-yaaf |  |  |
 

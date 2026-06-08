@@ -18,20 +18,20 @@ clearly, give the one-line context, and move on. Do not skip any item.
 9. Next, say **المعيّد في الدين** — as in: “"their great supporter of religion, al-Mu'ayyad fi al-Din"”.
 10. Next, say **عبد السلام ابن رغبان** — as in: “"information about the poet Abd al-Salam ibn Raghban"”.
 11. Next, say **محمد ابن جرير الطبري** — as in: “"all of this is plain in the books…who preceded Muhammad ibn Jarir al-Tabari"”.
-12. Next, say **جعفر بن محمد** — as in: “"Al-Sadiq is Imam Ja'far ibn Muhammad ibn Ali ibn al-Husayn"”.
-13. Next, say **ديك الجن** — as in: “"the poet Abd al-Salam ibn Raghban — known as Dik al-Jinn"”.
-14. Next, say **رفع الإصر** — as in: “"al-Hafiz in Raf' al-Isr (136)"”.
-15. Next, say **إسماعيلية** — as in: “"those who call themselves specialists in the study of Ismaili literature…(Ismailiyya)"”.
-16. Next, say **ابن خلكان** — as in: “"Ibn Khallikan translated his life in al-Wafayat"”.
-17. Next, say **الباطن** — as in: “"the inner (al-the hidden) will be stripped away"”.
-18. Next, say **الحسين** — as in: “"Ja'far ibn Muhammad ibn Ali ibn al-Husayn ibn Ali ibn Abi Talib"”.
-19. Next, say **الشيطان** — as in: “"it is said shata fulanun when a man perishes, and likewise Iblis was called Satan"”.
-20. Next, say **الظاهر** — as in: “"the outward (al-the apparent) will fall"”.
-21. Next, say **المتنبي** — as in: “"information about…al-Mutanabbi, al-Ma'arri, and others"”.
-22. Next, say **المعري** — as in: “"al-Mutanabbi, al-Ma'arri, and others, has remained scant"”.
-23. Next, say **المقريزي** — as in: “"Al-Maqrizi and other historians say his library overflowed"”.
-24. Next, say **الوفيات** — as in: “"Ibn Khallikan translated his life in al-Wafayat (2/166)"”.
-25. Next, say **بويهيون** — as in: “"the Buyids and the Hamdanids raised the banner of culture"”.
-26. Next, say **حمدانيون** — as in: “"the Buyids and the Hamdanids raised the banner of culture"”.
+12. Next, say **إسماعيلية** — as in: “"those who call themselves specialists in the study of Ismaili literature…(Ismailiyya)"”.
+13. Next, say **ابن خلكان** — as in: “"Ibn Khallikan translated his life in al-Wafayat"”.
+14. Next, say **المتنبي** — as in: “"information about…al-Mutanabbi, al-Ma'arri, and others"”.
+15. Next, say **المعري** — as in: “"al-Mutanabbi, al-Ma'arri, and others, has remained scant"”.
+16. Next, say **المقريزي** — as in: “"Al-Maqrizi and other historians say his library overflowed"”.
+17. Next, say **الوفيات** — as in: “"Ibn Khallikan translated his life in al-Wafayat (2/166)"”.
+18. Next, say **جعفر بن محمد** — as in: “"Al-Sadiq is Imam Ja'far ibn Muhammad ibn Ali ibn al-Husayn"”.
+19. Next, say **الباطن** — as in: “"the inner (al-the hidden) will be stripped away"”.
+20. Next, say **الحسين** — as in: “"Ja'far ibn Muhammad ibn Ali ibn al-Husayn ibn Ali ibn Abi Talib"”.
+21. Next, say **الشيطان** — as in: “"it is said shata fulanun when a man perishes, and likewise Iblis was called Satan"”.
+22. Next, say **الظاهر** — as in: “"the outward (al-the apparent) will fall"”.
+23. Next, say **حمدانيون** — as in: “"the Buyids and the Hamdanids raised the banner of culture"”.
+24. Next, say **ديك الجن** — as in: “"the poet Abd al-Salam ibn Raghban — known as Dik al-Jinn"”.
+25. Next, say **رفع الإصر** — as in: “"al-Hafiz in Raf' al-Isr (136)"”.
+26. Next, say **بويهيون** — as in: “"the Buyids and the Hamdanids raised the banner of culture"”.
 27. Next, say **كعبة** — as in: “"Cairo became a Ka'ba toward which scholars…turned"”.
 28. Next, say **مصياف** — as in: “"The first came from the town of Masyaf in Syria"”.
