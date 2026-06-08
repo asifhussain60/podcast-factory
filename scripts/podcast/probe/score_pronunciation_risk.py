@@ -21,6 +21,7 @@ import argparse
 import json
 import re
 import sys
+import unicodedata
 from pathlib import Path
 
 _SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
@@ -33,11 +34,78 @@ from knowledge import pronunciation_patterns as patterns  # noqa: E402
 DEFAULT_TOP_N = 40
 
 # Transliteration glyphs that signal phonemes NotebookLM routinely mangles.
-_AYN = re.compile(r"[ʿʾ'‘’]")                       # hamza / ayn
+_AYN = re.compile(r"[ʿʾ’’’]")                       # hamza / ayn
 _EMPHATIC = re.compile(r"[ḥḍṣṭẓḏṯġḫ]")              # emphatics + uncommon fricatives
 _QAF = re.compile(r"q", re.IGNORECASE)
 _LINEAGE = re.compile(r"\b(ibn|bin|bint|abu|abi|umm|al-| al )", re.IGNORECASE)
 _PLACE_HINT = re.compile(r"\b(mount|island|river|valley|city|mosque|masjid|bayt|dwell)", re.IGNORECASE)
+_APOST_RE = re.compile(r"[ʿʾ’’ʻ`]")   # ayn / hamza variants
+
+
+def _normalise_translit(s: str) -> str:
+    """Lowercase, strip diacritics and ayn/hamza variants for loose matching."""
+    s = unicodedata.normalize("NFKD", s)
+    s = "".join(c for c in s if not unicodedata.combining(c))
+    s = _APOST_RE.sub("", s)
+    return s.lower()
+
+
+def _load_concept_glossary(book_dir: Path) -> dict[str, str]:
+    """Parse concept-glossary.md -> {arabic_script: meaning, norm_translit: meaning}."""
+    path = book_dir / "_system" / "concept-glossary.md"
+    if not path.exists():
+        return {}
+    entry_re = re.compile(r"\*\*([^*]+)\*\*\s*\(([^)]+)\):\s*(.+)")
+    meanings: dict[str, str] = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        m = entry_re.search(line)
+        if not m:
+            continue
+        translit, arabic, meaning = m.group(1).strip(), m.group(2).strip(), m.group(3).strip()
+        meanings[arabic] = meaning
+        meanings[_normalise_translit(translit)] = meaning
+    return meanings
+
+
+_HONORIFIC_RE = re.compile(
+    r"^(peace (and blessings )?be upon (him|her|them)|"
+    r"alayhis?salam|alayhi (al-)?salam|pbuh|saw|as|ra)$",
+    re.IGNORECASE,
+)
+
+
+def _extract_snippet_meaning(snippet: str, transliteration: str = "") -> str:
+    """Extract an English gloss from a first-occurrence snippet.
+
+    Only accepts a parenthetical that appears IMMEDIATELY after the normalised
+    transliteration in the snippet text.  This avoids false positives where the
+    snippet contains a different term's parenthetical (e.g. "wasi (executor)
+    appointed for the umma" incorrectly tagging 'umma' as meaning 'executor').
+    Also skips honorifics and circular self-references.
+    """
+    if not snippet or not transliteration:
+        return ""
+    norm_translit = _normalise_translit(transliteration)
+    norm_snippet = _normalise_translit(snippet)
+    # Require: <translit> immediately followed by optional space and "(...)".
+    # Build pattern as a plain string to avoid f-string brace-escaping pitfalls.
+    pattern = re.escape(norm_translit) + r"\s*\(([a-z][^)]{3,80})\)"
+    m = re.search(pattern, norm_snippet, re.IGNORECASE)
+    if not m:
+        return ""
+    candidate = m.group(1).strip()
+    # Skip if candidate is just the transliteration again or an honorific.
+    if _normalise_translit(candidate) == norm_translit:
+        return ""
+    if _HONORIFIC_RE.match(candidate):
+        return ""
+    return candidate
+
+
+def _count_in_text(transliteration: str, text_norm: str) -> int:
+    """Count normalised transliteration occurrences in the normalised English text."""
+    norm = _normalise_translit(transliteration)
+    return text_norm.count(norm) if norm else 0
 
 
 def _parse_phonetics_md(path: Path) -> list[dict]:
@@ -132,7 +200,10 @@ def build_probe_terms(book_dir: Path, top_n: int = DEFAULT_TOP_N) -> dict:
         raise FileNotFoundError(f"phonetics table missing: {phon_path} (run phase 0c first)")
 
     rows = _parse_phonetics_md(phon_path)
-    text = refined_path.read_text(encoding="utf-8").lower() if refined_path.exists() else ""
+    raw_text = refined_path.read_text(encoding="utf-8") if refined_path.exists() else ""
+    text_norm = _normalise_translit(raw_text)  # normalised once for fast repeated lookup
+
+    meanings = _load_concept_glossary(book_dir)
 
     lib = ledger.load()
     pat = patterns.load()
@@ -148,7 +219,8 @@ def build_probe_terms(book_dir: Path, top_n: int = DEFAULT_TOP_N) -> dict:
         if hit and hit.status == "unfixable":
             skipped_unfixable += 1
             continue
-        freq = text.count(row["term"].lower()) if text else 0
+        # Count by transliteration in the English text (Arabic script never appears there).
+        freq = _count_in_text(row["transliteration"], text_norm) if text_norm else 0
         score, reasons = score_row(row, freq)
         phon = row["phonetic"]
         house_ok = ledger.is_house_style(phon)
@@ -159,6 +231,15 @@ def build_probe_terms(book_dir: Path, top_n: int = DEFAULT_TOP_N) -> dict:
         # A snippet that just echoes the term/transliteration carries no context.
         if ledger.normalize_key(snippet).find(ledger.normalize_key(row["term"])) != -1:
             snippet = ""
+        # Meaning: concept-glossary first (by Arabic script or normalised translit),
+        # then fall back to a parenthetical English gloss in the first-occurrence snippet
+        # that immediately follows the transliteration (to avoid cross-term false positives).
+        meaning = (
+            meanings.get(row["term"])
+            or meanings.get(_normalise_translit(row["transliteration"]))
+            or _extract_snippet_meaning(row.get("snippet", ""), row["transliteration"])
+        )
+
         scored.append({
             "term": row["term"],
             "transliteration": row["transliteration"],
@@ -173,13 +254,16 @@ def build_probe_terms(book_dir: Path, top_n: int = DEFAULT_TOP_N) -> dict:
             "freq": freq,
             "score": score,
             "reasons": reasons,
+            # term field IS Arabic script; bake it so the UI pre-fills the Arabic input
+            "arabic_script": row.get("arabic_script") or row["term"],
+            "meaning": meaning or "",
         })
 
-    scored.sort(key=lambda r: (-r["score"], -r["freq"], r["term"].lower()))
+    # Primary sort: frequency desc (most-heard terms first), then risk score desc,
+    # then alphabetical.  Terms the listener hears most belong at the top of the list.
+    # Segment grouping is NOT applied here — it is the UI's job (or build_probe_bundle's).
+    scored.sort(key=lambda r: (-r["freq"], -r["score"], r["term"].lower()))
     top = scored[:top_n]
-    # Stable ordering within the bundle: group by segment, keep score order inside.
-    seg_order = {"names": 0, "places": 1, "terms": 2}
-    top.sort(key=lambda r: (seg_order.get(r["segment"], 9), -r["score"]))
     for i, r in enumerate(top, 1):
         r["n"] = i
 

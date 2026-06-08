@@ -25,6 +25,7 @@ interface ProbeTerm {
   freq: number;
   reasons: string[];
   arabicScript: string;
+  meaning: string;
   libraryStatus: 'confirmed' | 'unfixable' | null;
   libraryPhonetic: string;
   libraryGloss: string;
@@ -229,10 +230,14 @@ export default function PronunciationReview({ slug, terms }: Props) {
                 )}
                 <span className="pron-chips">
                   <span className="pron-chip pron-chip-seg">{SEGMENT_LABEL[t.segment] ?? t.segment}</span>
+                  {t.freq > 0 && <span className="pron-chip pron-chip-count">×{t.freq}</span>}
                   {!t.house_style_ok && <span className="pron-chip pron-chip-warn">needs respelling</span>}
                   {known && <span className="pron-chip pron-chip-known">in library</span>}
                   {t.signature.map((s) => <span key={s} className="pron-chip">{s}</span>)}
                 </span>
+                {t.meaning && (
+                  <span className="pron-term-meaning">{t.meaning}</span>
+                )}
               </div>
 
               {/* Right: decision toggle + English gloss checkbox (same row), then input */}
@@ -258,7 +263,13 @@ export default function PronunciationReview({ slug, terms }: Props) {
                       checked={useGloss}
                       onChange={(e) => {
                         if (e.target.checked) {
-                          update(t.term, { decision: 'cantsay', phoneSuggested: false });
+                          // Pre-fill gloss with the predetermined meaning if the field is still empty.
+                          const currentGloss = rows[t.term]?.gloss ?? '';
+                          update(t.term, {
+                            decision: 'cantsay',
+                            gloss: currentGloss.trim() || t.meaning || '',
+                            phoneSuggested: false,
+                          });
                         } else {
                           update(t.term, { decision: 'pending', phonetic: prefill(t), gloss: '', phoneSuggested: false });
                         }

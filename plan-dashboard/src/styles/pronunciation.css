@@ -347,8 +347,24 @@
   border: 1px solid var(--c-rule-soft);
 }
 .pron-chip-seg { color: var(--c-ink-dim); }
+.pron-chip-count {
+  font-family: ui-monospace, Menlo, monospace;
+  color: var(--c-accent);
+  border-color: var(--c-accent);
+  font-weight: 600;
+}
 .pron-chip-warn { color: var(--c-red); border-color: var(--c-red); }
 .pron-chip-known { color: var(--c-green); border-color: var(--c-green); }
+
+/* English meaning gloss line — shown below chips */
+.pron-term-meaning {
+  grid-column: 1 / -1;
+  font-size: 1rem;
+  color: var(--c-ink-muted);
+  font-style: italic;
+  line-height: 1.4;
+  margin-top: 0.15rem;
+}
 
 /* Arabic script input — inline right column, spans name + translit rows */
 .pron-term-arabic {
