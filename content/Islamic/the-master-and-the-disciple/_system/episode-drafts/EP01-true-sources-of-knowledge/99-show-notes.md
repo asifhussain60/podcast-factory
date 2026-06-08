@@ -6,6 +6,20 @@
 
 **Length estimate:** see contract.length_target (extended)
 
+## Name and Title Preservation Table
+
+| Original / Transliteration | Category | Written Form | Audio Label | First Audio Use |
+|---|---|---|---|---|
+| Commander of the Faithful (Mawlā ʿAlī) | Person / Title | مولى علي | the Commander of the Faithful / the Father of Imams | Opening |
+| nāṭiq | Person / Title | ناطق | speaker-prophet | Beat 2 |
+| daʿī / duʿāt al-dīn | Person / Title | داعي | the caller / the guide | Opening |
+| balwā | Concept Term | بلوى | trial / trial of faith | Beat 1 |
+| hudā | Concept Term | هدى | guidance | Beat 1 |
+| taqwā | Concept Term | تقوى | piety / God-consciousness | Beat 1 |
+| walāyah | Concept Term | ولاية | devotional allegiance / the covenant bond | Beat 3 |
+| ʿahd sharīf | Concept Term | عهد شريف | the sacred covenant / the oath | Beat 3 |
+| ḥizb Allāh | Concept Term | حزب الله | the party of God | Beat 3 |
+
 ## Related episodes
 
   - spiritual-symbols-and-the-architecture-of-creation
