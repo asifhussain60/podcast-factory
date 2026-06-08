@@ -1,0 +1,46 @@
+<svg id="Blessings_and_Their_Opposites" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 444" role="img" aria-labelledby="Blessings_and_Their_Opposites_t Blessings_and_Their_Opposites_d">
+<title id="Blessings_and_Their_Opposites_t">Blessings and Their Opposites</title>
+<desc id="Blessings_and_Their_Opposites_d">Two-column contrast: Blessings vs Miseries — 7 paired phenomena</desc>
+<style>#Blessings_and_Their_Opposites{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#1f1d18;}#Blessings_and_Their_Opposites text{font-family:'Lato', system-ui, sans-serif;}</style>
+<text x="250" y="20.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#8b4513"><tspan x="250" dy="0">Blessings and Their Opposites</tspan></text>
+<text x="250" y="34.0" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#87827a"><tspan x="250" dy="0">Every gift of the world has a corresponding trial to be</tspan><tspan x="250" dy="12">borne with patience</tspan></text>
+<rect x="14.0" y="62.0" width="218.0" height="48.0" fill="#8b4513" stroke="#8b4513" stroke-width="1.0" rx="4"/>
+<rect x="268.0" y="62.0" width="218.0" height="48.0" fill="#efeae0" stroke="#d9d3c4" stroke-width="1.0" rx="4"/>
+<text x="123.0" y="86.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#fffdf8"><tspan x="123.0" dy="0">Blessings</tspan></text>
+<text x="377.0" y="86.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#1f1d18"><tspan x="377.0" dy="0">Miseries</tspan></text>
+<rect x="14.0" y="110.0" width="218.0" height="46.0" fill="#fffdf8" stroke="#d9d3c4" stroke-width="1.0"/>
+<rect x="268.0" y="110.0" width="218.0" height="46.0" fill="#fffdf8" stroke="#d9d3c4" stroke-width="1.0"/>
+<text x="123.0" y="133.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="123.0" dy="0">Air</tspan></text>
+<text x="377.0" y="133.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="377.0" dy="0">Heat</tspan></text>
+<line x1="249" y1="114" x2="249" y2="152" stroke="#d9d3c4" stroke-width="1"/>
+<rect x="14.0" y="156.0" width="218.0" height="46.0" fill="#f7f4ee" stroke="#d9d3c4" stroke-width="1.0"/>
+<rect x="268.0" y="156.0" width="218.0" height="46.0" fill="#f7f4ee" stroke="#d9d3c4" stroke-width="1.0"/>
+<text x="123.0" y="179.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="123.0" dy="0">Water</tspan></text>
+<text x="377.0" y="179.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="377.0" dy="0">Cold</tspan></text>
+<line x1="249" y1="160" x2="249" y2="198" stroke="#d9d3c4" stroke-width="1"/>
+<rect x="14.0" y="202.0" width="218.0" height="46.0" fill="#fffdf8" stroke="#d9d3c4" stroke-width="1.0"/>
+<rect x="268.0" y="202.0" width="218.0" height="46.0" fill="#fffdf8" stroke="#d9d3c4" stroke-width="1.0"/>
+<text x="123.0" y="225.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="123.0" dy="0">Light</tspan></text>
+<text x="377.0" y="225.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="377.0" dy="0">Hunger</tspan></text>
+<line x1="249" y1="206" x2="249" y2="244" stroke="#d9d3c4" stroke-width="1"/>
+<rect x="14.0" y="248.0" width="218.0" height="46.0" fill="#f7f4ee" stroke="#d9d3c4" stroke-width="1.0"/>
+<rect x="268.0" y="248.0" width="218.0" height="46.0" fill="#f7f4ee" stroke="#d9d3c4" stroke-width="1.0"/>
+<text x="123.0" y="271.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="123.0" dy="0">Darkness</tspan></text>
+<text x="377.0" y="271.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="377.0" dy="0">Thirst</tspan></text>
+<line x1="249" y1="252" x2="249" y2="290" stroke="#d9d3c4" stroke-width="1"/>
+<rect x="14.0" y="294.0" width="218.0" height="46.0" fill="#fffdf8" stroke="#d9d3c4" stroke-width="1.0"/>
+<rect x="268.0" y="294.0" width="218.0" height="46.0" fill="#fffdf8" stroke="#d9d3c4" stroke-width="1.0"/>
+<text x="123.0" y="317.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="123.0" dy="0">Food</tspan></text>
+<text x="377.0" y="317.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="377.0" dy="0">Fear</tspan></text>
+<line x1="249" y1="298" x2="249" y2="336" stroke="#d9d3c4" stroke-width="1"/>
+<rect x="14.0" y="340.0" width="218.0" height="46.0" fill="#f7f4ee" stroke="#d9d3c4" stroke-width="1.0"/>
+<rect x="268.0" y="340.0" width="218.0" height="46.0" fill="#f7f4ee" stroke="#d9d3c4" stroke-width="1.0"/>
+<text x="123.0" y="363.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="123.0" dy="0">Clothing</tspan></text>
+<text x="377.0" y="363.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="377.0" dy="0">Sickness</tspan></text>
+<line x1="249" y1="344" x2="249" y2="382" stroke="#d9d3c4" stroke-width="1"/>
+<rect x="14.0" y="386.0" width="218.0" height="46.0" fill="#fffdf8" stroke="#d9d3c4" stroke-width="1.0"/>
+<rect x="268.0" y="386.0" width="218.0" height="46.0" fill="#fffdf8" stroke="#d9d3c4" stroke-width="1.0"/>
+<text x="123.0" y="409.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="123.0" dy="0">Marriage</tspan></text>
+<text x="377.0" y="409.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="377.0" dy="0">Death</tspan></text>
+<line x1="249" y1="390" x2="249" y2="428" stroke="#d9d3c4" stroke-width="1"/>
+</svg>

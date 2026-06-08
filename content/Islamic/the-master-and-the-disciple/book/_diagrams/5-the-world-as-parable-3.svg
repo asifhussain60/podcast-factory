@@ -1,0 +1,13 @@
+<svg id="Apparent_and_Inner_of_the_World" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 401" role="img" aria-labelledby="Apparent_and_Inner_of_the_World_t Apparent_and_Inner_of_the_World_d">
+<title id="Apparent_and_Inner_of_the_World_t">Apparent and Inner of the World</title>
+<desc id="Apparent_and_Inner_of_the_World_d">Concentric diagram: 2 nested levels — Apparent (Body), Inner (Soul)</desc>
+<style>#Apparent_and_Inner_of_the_World{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#1f1d18;}#Apparent_and_Inner_of_the_World text{font-family:'Lato', system-ui, sans-serif;}</style>
+<defs><marker id="svgp_arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#87827a"/></marker></defs>
+<text x="250" y="22.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#8b4513"><tspan x="250" dy="0">Apparent and Inner of the World</tspan></text>
+<ellipse cx="250" cy="225" rx="210.0" ry="160.0" fill="#a0522d" stroke="#d9d3c4" stroke-width="1.5"/>
+<ellipse cx="250" cy="225" rx="105.0" ry="80.0" fill="#8b4513" stroke="#8b4513" stroke-width="1.5"/>
+<text x="250" y="105.0" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#fffdf8"><tspan x="250" dy="0">Apparent (Body)</tspan></text>
+<text x="250" y="116.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#fffdf8"><tspan x="250" dy="0">The world as the ignorant see it —</tspan><tspan x="250" dy="13">a corpse if taken alone</tspan></text>
+<text x="250" y="185.0" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#fffdf8"><tspan x="250" dy="0">Inner (Soul)</tspan></text>
+<text x="250" y="196.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#fffdf8"><tspan x="250" dy="0">The meaning God intended — life</tspan><tspan x="250" dy="13">given to the body</tspan></text>
+</svg>
