@@ -218,6 +218,16 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             and "9,500" in tier_band):
         tier_band = tier_band.replace("9,500", f"{EPISODE_DENSITY_CEILING_DENSE:,}")
 
+    # The exact per-episode word ceiling the density validator enforces below
+    # (STEP 1.5). Surfaced in the TOC prompt as a HARD arithmetic floor so the
+    # segmenter cannot under-split a dense chapter into a marathon episode and
+    # then dead-halt the phase. Must match the density_ceiling computed at the
+    # over-cram check.
+    density_ceiling_hint = (EPISODE_DENSITY_CEILING_DENSE
+                            if (category in ARABIC_SCHOLARLY_CATEGORIES
+                                and _is_islamic_scholarly(book_dir))
+                            else EPISODE_DENSITY_CEILING_NARRATIVE)
+
     unit_directive = {
         "chapter": (
             "UNIT MODE: **chapter** — every source chapter MUST become exactly ONE episode "
@@ -296,6 +306,15 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"`\\n`). Also compute its word count (whitespace-split).\n"
             f"3. Apply the following segmentation directive PER SOURCE-OR-RECONFIGURED CHAPTER:\n"
             f"   {unit_directive}\n"
+            f"3b. HARD DENSITY FLOOR — ARITHMETIC, NOT JUDGEMENT (no exceptions unless the\n"
+            f"   directive above is the forced single-episode 'chapter' mode): for EVERY\n"
+            f"   source-or-reconfigured chapter, `episode_count` MUST be >= ceil(word_count /\n"
+            f"   {density_ceiling_hint}). A chapter whose word_count exceeds {density_ceiling_hint:,} is\n"
+            f"   NEVER one episode — e.g. a {density_ceiling_hint + 218:,}-word chapter REQUIRES\n"
+            f"   episode_count >= 2 (set unit_mode='sections', cut at the nearest thematic\n"
+            f"   seam). 'It is one coherent teaching' is NOT a valid reason to exceed the\n"
+            f"   floor. A plan that violates this floor is rejected and you will be re-run, so\n"
+            f"   compute ceil(word_count / {density_ceiling_hint}) for each chapter and honour it.\n"
             f"4. Assign monotonically increasing episode numbers (`ep_num`) across the whole "
             f"book starting at 1. Each episode gets a short kebab-case `episode_slug` "
             f"(distinct across the whole book). When a source chapter splits into multiple "
