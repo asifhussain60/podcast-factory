@@ -1,4 +1,4 @@
-# Enrichment Whitelist -- Asas al-Taweel (Tier 1, book-specific)
+# Enrichment Whitelist -- Asas al-Taweel Vol 1 (Adam cycle)
 
 Per `content/podcast/.skill/handbook/enrichment-sources.md` SS1, Tier 1 is the
 **author's own corpus**, scoped per book. This file enumerates the corpus of
@@ -9,6 +9,27 @@ highest-priority enrichment for any chapter in this book.
 
 For other books, this file enumerates a different author's corpus; the handbook
 itself names no specific author.
+
+## Tier 0 -- Da'i's Own Teachings on This Text (highest authority)
+
+These files contain delivered lectures and structured notes on the exact content of
+Asas al-Taweel. They represent the da'i's own ta'wil readings and should be consulted
+FIRST during Phase 0e enrichment, before any external scholarly source.
+
+Phase 0e agent: Read these two files in `_system/wisdom/` before enriching each chapter.
+They contain the actual pedagogical framing used to teach this material.
+
+| File | Source | Content | Words |
+|---|---|---|---|
+| `_system/wisdom/ksessions-adam-cycle.md` | KSessions Group 18, seq 1-8 | Delivered lectures on Adam cycle (Preface, Validity of Taveel, Faith and Submission, Fall of Adam, Story of Adam, Timelines, Adam ZAHIR, Adam BATIN) | ~43,000 |
+| `_system/wisdom/kashkole-adam-cycle.md` | Kashkole Binder 18 (Ch52) | Structured notes on Adam prophetic cycle -- outer story, paradise, angels' test, Iblis, expulsion, ta'wil levels | ~22,000 |
+
+These files contain: ta'wil explanations not in the source text, esoteric readings
+of Quranic verses, and pedagogical bridges between zahir and batin. Quotable content
+from these files should be attributed as "in the da'i's own words" or paraphrased
+without attribution (not cited as external sources).
+
+---
 
 ## Works (Tier 1 for this book)
 
