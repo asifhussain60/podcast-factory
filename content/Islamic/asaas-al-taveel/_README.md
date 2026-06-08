@@ -1,15 +1,18 @@
 # Asaas al-Taʾwīl (أساس التأويل)
 
-> **MASTER SOURCE -- DO NOT DELETE until all 7 volumes ship.**
-> This folder (`asaas-al-taveel`, no `-vol` suffix) holds the ONLY complete
-> refined transcript (pages 1-416) and the full 6-cycle chapters-rationale.
-> The 7-volume series (`asaas-al-taveel-vol-N`) is carved FROM this folder --
-> it is the quarry, not a pre-split remnant. Volume map = the seven natiqs:
-> Vol 1 Adam (43pp) / Vol 2 Nuh (31pp) / Vol 3 Ibrahim (72pp) / Vol 4 Musa
-> (120pp) / Vol 5 Isa (16pp) / Vol 6 Muhammad (54pp) / Vol 7 Qaim (0pp -- the
-> unwritten chapter, honored as deliberate silence). Process Vol 1 fully
-> (chapters + episodes + PDF), then Vols 2-7 sequentially. See repo memory
-> `project_asaas_seven_volumes.md`.
+> **PARENT CONTAINER + MASTER SOURCE -- DO NOT DELETE `_source/`.**
+> This folder is a CONTAINER (no book state of its own, so the pipeline resolver
+> descends into it). It holds the six volume folders `vol-01` … `vol-06` plus
+> `_source/`, which carries the ONLY complete refined transcript (pages 1-416),
+> the full master preflight artifacts, and the full Arabic PDF `Asaas Al-Taveel.pdf`
+> (filed as the source). Volumes 2-6 are carved FROM `_source/` -- it is the
+> quarry; never delete it. **Slugs are FLAT** (`asaas-al-taveel-vol-01` …
+> `-vol-06`), not the nested path; the resolver maps `<container>-<leaf>` to the
+> nested dir. 6-volume map (carved with no overlap): Vol 1 Adam (pp.1-75) /
+> Vol 2 Nuh (76-106) / Vol 3 Ibrahim (107-178) / Vol 4 Musa (179-298) /
+> Vol 5 Isa (299-314) / Vol 6 Muhammad + the unwritten Qaim (315-368). Process
+> Vol 1 fully (chapters + episodes + PDF), then Vols 2-6 sequentially. See repo
+> memory `project_asaas_seven_volumes.md`.
 
 Author: al-Qāḍī al-Nuʿmān (d. 974 CE)
 Editor: ʿĀrif Tāmir (1960 Beirut edition)
