@@ -13,7 +13,7 @@
  * still resolved as a fallback so a partial migration cannot break the reader.
  */
 import { readdir, stat, readFile } from 'node:fs/promises';
-import { existsSync, statSync } from 'node:fs';
+import { existsSync, statSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join, resolve } from 'node:path';
 
@@ -133,11 +133,39 @@ function isDirSync(p: string): boolean {
  * not hardcode the old content/drafts/books path (which the 2026-06-04 restructure
  * removed). Prefer the async findContent in async contexts.
  */
+function isBookDirSync(dir: string): boolean {
+  return isDirSync(join(dir, '_system')) || (() => { try { return statSync(join(dir, 'meta.yml')).isFile(); } catch { return false; } })();
+}
+
+/** Descend one level: a flat slug `<container>-<leaf>` -> a nested book dir. */
+function findNestedDirSync(slug: string): string | null {
+  for (const bucket of BUCKETS) {
+    const br = bucketRoot(bucket);
+    let entries: string[];
+    try { entries = readdirSync(br); } catch { continue; }
+    for (const container of entries) {
+      if (container.startsWith('.') || container.startsWith('_')) continue;
+      const cdir = join(br, container);
+      if (!isDirSync(cdir) || isBookDirSync(cdir)) continue;
+      let leaves: string[];
+      try { leaves = readdirSync(cdir); } catch { continue; }
+      for (const leaf of leaves) {
+        if (leaf.startsWith('.') || leaf.startsWith('_')) continue;
+        const ldir = join(cdir, leaf);
+        if (isBookDirSync(ldir) && `${container}-${leaf}` === slug) return ldir;
+      }
+    }
+  }
+  return null;
+}
+
 export function findContentDirSync(slug: string): string | null {
   for (const bucket of BUCKETS) {
     const dir = join(bucketRoot(bucket), slug);
-    if (isDirSync(dir)) return dir;
+    if (isBookDirSync(dir)) return dir;
   }
+  const nested = findNestedDirSync(slug);
+  if (nested) return nested;
   for (const stage of ['drafts', 'published'] as Stage[]) {
     for (const cat of ALLOWED_CATEGORIES) {
       const dir = join(legacyStageRoot(stage), cat, slug);
@@ -155,14 +183,9 @@ export function findContentDirSync(slug: string): string | null {
  * Stage (ignored); a category maps to a bucket. Does NOT check existence.
  */
 export function contentDir(slug: string, bucketOrStage?: Bucket | Stage, category?: Category): string {
-  // Accept a flat slug (`<name>`) or a one-level nested slug (`<parent>/<vol>`)
-  // for multi-volume works living under a parent container. Reject empty,
-  // absolute, trailing-slash, traversal, or deeper-than-one-level paths.
-  const parts = slug.split('/');
-  if (
-    !slug || slug.startsWith('/') || slug.endsWith('/') || slug.includes('\\') ||
-    parts.length > 2 || parts.some((p) => p === '' || p === '..' || p === '.')
-  ) {
+  // Slugs are flat and filename-safe (a nested volume folds its container into
+  // the slug as `<container>-<leaf>`), so a `/` here is invalid.
+  if (!slug || slug.includes('/') || slug.includes('\\')) {
     throw new Error(`content-paths: invalid slug ${JSON.stringify(slug)}`);
   }
   const maybeBucket = (BUCKETS as readonly string[]).includes(bucketOrStage as string)
@@ -186,12 +209,22 @@ export function archiveRoot(): string {
 }
 
 export async function findContent(slug: string): Promise<ContentRef | null> {
-  // Type-first (preferred).
+  // Type-first (preferred): a flat book directly under the bucket.
   for (const bucket of BUCKETS) {
     const dir = join(bucketRoot(bucket), slug);
-    if (await isDir(dir)) {
+    if (await isBookDir(dir)) {
       const status = await statusOf(dir);
       return { bucket, status, slug, dir, stage: statusToStage(status), category: 'books' };
+    }
+  }
+  // Nested volume: a flat slug `<container>-<leaf>` -> a book one level deeper.
+  const nestedDir = findNestedDirSync(slug);
+  if (nestedDir) {
+    for (const bucket of BUCKETS) {
+      if (nestedDir.startsWith(bucketRoot(bucket))) {
+        const status = await statusOf(nestedDir);
+        return { bucket, status, slug, dir: nestedDir, stage: statusToStage(status), category: 'books' };
+      }
     }
   }
   // Legacy: drafts/<cat>/<slug>, then published/<cat>/<slug>.
@@ -251,7 +284,8 @@ export async function listContent(opts: { bucket?: Bucket; stage?: Stage; catego
         if (seen.has(subDir)) continue;
         seen.add(subDir);
         const status = await statusOf(subDir);
-        out.push({ bucket, status, slug: `${name}/${sub}`, dir: subDir, stage: statusToStage(status), category: 'books' });
+        // Flat, filename-safe slug: fold the container into it (`<container>-<leaf>`).
+        out.push({ bucket, status, slug: `${name}-${sub}`, dir: subDir, stage: statusToStage(status), category: 'books' });
       }
     }
   }

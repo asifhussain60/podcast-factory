@@ -105,13 +105,25 @@ def _is_book_dir(p: Path) -> bool:
 
 
 def slug_of(path: Path) -> str:
-    """Bucket-relative slug for a content dir (flat ``<name>`` or nested ``<parent>/<vol>``)."""
+    """Flat, filename-safe slug for a content dir.
+
+    A flat book is its folder name (``kitab-al-riyad``). A NESTED volume folds the
+    container into the slug as ``<container>-<leaf>`` (``asaas-al-taveel`` + ``vol-01``
+    -> ``asaas-al-taveel-vol-01``) so the slug never contains ``/`` — it stays safe
+    as a chapter-file / lock / contract filename component across the pipeline,
+    while the folder on disk stays a clean ``vol-01``.
+    """
     rp = path.resolve()
     for b in BUCKETS:
         try:
-            return rp.relative_to((CONTENT_ROOT / b).resolve()).as_posix()
+            parts = rp.relative_to((CONTENT_ROOT / b).resolve()).parts
         except ValueError:
             continue
+        if len(parts) == 1:
+            return parts[0]
+        if len(parts) == 2:
+            return f"{parts[0]}-{parts[1]}"
+        return "-".join(parts)
     return path.name
 
 
@@ -205,11 +217,27 @@ def find_content(slug: str) -> tuple[str, str, Path] | None:
     (``drafts/<cat>``, ``published/<cat>``, flat ``drafts/<slug>``,
     ``drafts/BOOKS/<slug>`` — first element is the legacy ``stage``).
     """
-    # Type-first (preferred).
+    # Type-first (preferred): a flat book directly under the bucket.
     for b in BUCKETS:
         p = CONTENT_ROOT / b / slug
-        if p.is_dir():
+        if _is_book_dir(p):
             return (status_of(p), b, p)
+    # Nested volume: a flat slug ``<container>-<leaf>`` maps to a book at
+    # ``<bucket>/<container>/<leaf>``. Descend one level into parent containers
+    # and match by the same ``<container>-<leaf>`` rule slug_of() emits.
+    for b in BUCKETS:
+        b_root = CONTENT_ROOT / b
+        if not b_root.is_dir():
+            continue
+        for container in sorted(b_root.iterdir()):
+            if (not container.is_dir() or container.name.startswith(("_", "."))
+                    or _is_book_dir(container)):
+                continue
+            for leaf in sorted(container.iterdir()):
+                if (leaf.is_dir() and not leaf.name.startswith(("_", "."))
+                        and _is_book_dir(leaf)
+                        and f"{container.name}-{leaf.name}" == slug):
+                    return (status_of(leaf), b, leaf)
     # Legacy: drafts/<cat>/<slug>, then published/<cat>/<slug>.
     for st, st_root in (("drafts", DRAFTS_ROOT), ("published", PUBLISHED_ROOT)):
         for cat in ALLOWED_CATEGORIES:
