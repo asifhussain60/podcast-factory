@@ -187,10 +187,10 @@ def _flag_p1(rule: str, file_path: Path, message: str) -> None:
 # ─── Pushback / manuscript-meta constants ─────────────────────────────────────
 CHALLENGER_PUSHBACK_PATTERNS = [
     "I don't buy that yet",
-    "I don't buy that yet",          # smart-quote variant
+    "I don’t buy that yet",     # smart-quote (right single quotation mark) variant
     "That sounds like wordplay",
     "Isn't this just replacing",
-    "Isn't this just replacing",     # smart-quote variant
+    "Isn’t this just replacing",  # smart-quote variant
     "How is this different",
 ]
 
@@ -227,6 +227,20 @@ ALLOWED_ARABIC_ORIGIN_LOWER = {
     "quran", "imam", "medina", "ismaili", "fatimid", "fatimi",
     "yusuf ali", "muhammad",
     "al-bari", "al-mubdi", "al-wahid", "al-haqq",
+    # Publisher names containing Arabic-origin al- prefix:
+    "al-fikr",      # "Dar al-Fikr" (publisher)
+    # Translator names:
+    "al-khattab",   # "Nasiruddin al-Khattab" (translator)
+    # Phonetic respellings used in pronunciation guidance (always uppercase):
+    "al-lah",       # "al-LAH" (phonetic respelling of Allah)
+}
+
+# Context phrases that contain a surah name as a substring but are NOT references
+# to the surah (e.g. translator names, phonetic forms). When any of these strings
+# appear within 30 characters of a surah-name match, the match is skipped.
+SURAH_ALLOWED_CONTEXT_LOWER = {
+    "yusuf ali",    # A.Y. Ali (Quran translator — name contains surah "yusuf")
+    "a.y. ali",     # abbreviated form of the same translator
 }
 
 KNOWN_SURAH_NAMES_LOWER = {
