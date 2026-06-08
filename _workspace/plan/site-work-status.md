@@ -6,6 +6,34 @@
 -->
 # Current work — status
 
+**Last updated:** 2026-06-08 (session 17 — pronunciation probe overhaul)
+
+**BRANCH: `Islamic/asaas-al-taveel` — 1 commit 65e72e9. Push pending.**
+
+**Session work completed (session 17 — 1 commit 65e72e9):**
+
+Pronunciation probe overhaul — frequency counting, meaning pre-fill, count badge.
+
+  - score_pronunciation_risk.py: fixed the core bug (freq=0 for all terms because
+    the script was counting Arabic script in English text). Fix: normalise translit
+    and count in normalised English text. Added concept-glossary.md parser for
+    pre-built meanings; snippet-extraction fallback with honorific + circular guard;
+    arabic_script now falls back to row["term"] (which IS Arabic script); segment
+    re-sort removed so frequency order is preserved end-to-end.
+  - pronunciation.ts: ProbeTerm gains meaning field; arabicScript = arabic_script ?? term.
+  - PronunciationReview.tsx: count badge (xN) in accent color; meaning line below chips;
+    "Use English translation" checkbox pre-fills gloss from t.meaning when available.
+  - pronunciation.css: pron-chip-count + pron-term-meaning CSS classes (no inline styles).
+  - probe-terms.json regenerated: top terms Allah x240, Adam x98, imam x72, Ali x54;
+    13/40 have meanings. All have arabic_script populated.
+  - TypeScript clean; html-view-lint: errors=0 warns=0.
+
+**OPEN (next session):**
+  - Teaching-relevance filter: new pipeline step to strip editor prefaces, publisher
+    notes, author biographies from the source text before phonetics extraction.
+    Currently no such step exists. Once built, re-run the probe on filtered text.
+  - Asaas al-Taveel pipeline: resume from phase 0c after review.
+
 **Last updated:** 2026-06-06 (session 16 — full repo hygiene + pipeline audit)
 
 **BRANCH: `develop` — CLEAN. 6 commits ahead of origin. Push pending.**
