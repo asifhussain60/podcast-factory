@@ -95,7 +95,10 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
     ]
     completed = {
         p for p, blk in state.get("phases", {}).items()
-        if blk.get("status") == "completed"
+        # A "halted" phase has done its LLM work and only paused for human review.
+        # Running --resume IS the human's review acknowledgement — skip the phase
+        # rather than re-running it (and re-spending the LLM call).
+        if blk.get("status") in ("completed", "halted")
     }
 
     for phase_id, fn, subject in phase_map:

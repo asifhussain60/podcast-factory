@@ -1,7 +1,7 @@
 | term | transliteration | phonetic | first-occurrence-snippet |
 |---|---|---|---|
 | Sayyidina | Sayyidinā | sai-yi-DEE-nah | Author: Sayyidina Ja'far ibn Mansur al-Yaman |
-| Ja'far ibn Mansur al-Yaman | Ja'far ibn Manṣūr al-Yaman | Ja'a-far ibn al-man-SOOR al-Ya-man | Author: Sayyidina Ja'far ibn Mansur al-Yaman |
+| Ja'far ibn Mansur al-Yaman | Ja'far ibn Manṣūr al-Yaman | Ja'a-far ibn man-SOOR al-Ya-man | Author: Sayyidina Ja'far ibn Mansur al-Yaman |
 | Allah | Allāh | al-LAH | May Allah be with His servants |
 | Tur | Ṭūr | TOOR | one of the scholars of [Mount] Tur |
 | Bayt al-Ma'mur | Bayt al-Ma'mūr | bait al-ma'a-moor | one of the dwellers of the Bayt al-Ma'mur |
@@ -17,7 +17,7 @@
 | minhāj | minhāj | min-HAAJ | its sign a way (minhāj) of darkness |
 | sunna | sunna | SOON-na | Then the sunna (custom) of creation in pairs went forth |
 | nāṭiq | nāṭiq | NAA-tiq | some are imams and speakers (nāṭiqs) |
-| ḥujaj | ḥujaj | Hu-jaj | some are arguments (ḥujaj) and chiefs (nuqabā') |
+| ḥujaj | ḥujaj | HOO-jaj | some are arguments (ḥujaj) and chiefs (nuqabā') |
 | nuqabā' | nuqabā' | nu-ka-BAA | some are arguments (ḥujaj) and chiefs (nuqabā') |
 | du'āt | du'āt | dua'at | among them are the summoners (du'āt) to the good |
 | zawāhir | zawāhir | za-WAA-hir | Their summoners are like the manifest stars (zawāhir) |
@@ -25,7 +25,7 @@
 | asbāb | asbāb | as-BAAB | the causes (asbāb) of God I have described to you |
 | al-Kabīr | al-Kabīr | al-ka-BEER | Monday is for the bladder, in the great meaning, al-Kabīr |
 | al-Imām al-Nāṭiq | al-Imām al-Nāṭiq | al-imaam an-Naa-tiq | "It is like the speaking Imam (al-Imām al-Nāṭiq), who is exalted above all creation" |
-| Imam | imām | e-Maam | "It is like the speaking Imam, who is exalted above all creation" |
+| Imam | imām | ee-MAAM | "It is like the speaking Imam, who is exalted above all creation" |
 | nuqabāʾ | nuqabāʾ | nu-ka-BAA | "They are like the twelve chiefs (nuqabā') — the chiefs of the speaking Imam" |
 | duʿāt | duʿāt | dua'at | "Its stars are his summoners (du'āt), who call to good with the permission of their Lord" |
 | bāb | bāb | /baːb/ | "It is like the gate (bāb) of the speaking Imam during his lifetime" |
@@ -37,7 +37,7 @@
 | ḥujja | ḥujja | /ˈħudʒːa/ | "'This is like the hujja (argument),' or 'This is like the dā'ī (caller)'" |
 | dāʿī | dāʿī | daa-ee | "'This is like the hujja (argument),' or 'This is like the dā'ī (caller)'" |
 | al-Ghulām | al-Ghulām | /al ɣuˈlaːm/ | "(152) Al-Ghulam said: I am convinced." |
-| Shariʿa | sharīʿa | sha-ree-ah | "contains all rulings and the rulings of the Shari'a by reason of his knowledge" |
+| Shariʿa | sharīʿa | shaR-EE-ah | "contains all rulings and the rulings of the Shari'a by reason of his knowledge" |
 | ḥawl | ḥawl | hawl | "the ḥawl (year) is the same ḥawl as in Allah's words" |
 | quwwa | quwwa | QOO-wa | "the public has shown, that 'quwwa' (power) means mules" |
 | al-ʿuṣba | al-ʿuṣba | al-uth-ba | "the keys to them would have been carried by a band of strong men (al-ʿuṣba)" |
@@ -50,23 +50,23 @@
 | zakat | zakāt | za-KAAT | "made his bounty and his zakat his work" |
 | Islam | Islām | iss-LAAM | "the breast He has opened to Islam" |
 | Sinai | Sīnāʾ | SEE-nigh | "opened with the light of Sinai" |
-| Shaykh | Shaykh | shay-k | "asked permission to enter upon the Shaykh" |
-| Ubayd Allah | ʿUbayd Allāh | ubaid ul-LAH | "Ubayd Allah, son of Abd Allah" |
+| Shaykh | Shaykh | SHAYKH | "asked permission to enter upon the Shaykh" |
+| Ubayd Allah | ʿUbayd Allāh | oo-BAYD ul-LAH | "Ubayd Allah, son of Abd Allah" |
 | Abd Allah | ʿAbd Allāh | ab-dul-LAH | "Ubayd Allah, son of Abd Allah" |
-| Sa'd | Saʿd | Sa'ad | "The day of Sa'd, and the guardian of Sa'd" |
+| Sa'd | Saʿd | SAHD | "The day of Sa'd, and the guardian of Sa'd" |
 | ihram | iḥrām | ih-RAAM | "he removed his ihram by glorifying the sanctities of Allah" |
 | Hajj | Ḥajj | HAJ | "performed Hajj by the great sign" |
 | da'wa | daʿwa | DAH-wa | "the method of the call (daʿwa)" |
-| Salih | Ṣāliḥ | Saa-leh | "The boy's name was Salih" |
+| Salih | Ṣāliḥ | SAA-lih | "The boy's name was Salih" |
 | al-Bakhtari | al-Bakhtarī | al-bakh-ta-REE | "his father's name was al-Bakhtari" |
-| Abu Malik | Abū Mālik | abu mAA-lik | "a scholar they called Abu Malik" |
+| Abu Malik | Abū Mālik | a-BOO MAA-lik | "a scholar they called Abu Malik" |
 | ibn | ibn | IB-n | "Salih ibn al-Bakhtari" |
 | hadiths | ḥadīths | ha-DEETHS | "an increase in literature, hadiths, poetry" |
-| Abu Salih | Abū Ṣāliḥ | abu Saa-leh | "O Abu Salih, how is the good son?" |
-| Abu al-Khair | Abū al-Khayr | abu al-KHAYR | "When did you not do what is virtuous, O Abu al-Khair?" |
+| Abu Salih | Abū Ṣāliḥ | a-BOO SAA-lih | "O Abu Salih, how is the good son?" |
+| Abu al-Khair | Abū al-Khayr | a-BOO al-KHAYR | "When did you not do what is virtuous, O Abu al-Khair?" |
 | Ka'b al-Ahbar | Kaʿb al-Aḥbār | KAB al-AH-bar | "Their nation has come to me, O Ka'b al-Ahbar" |
 | Maqrub | Maqrūb | mak-ROOB | "a man came to you — Maqrub — and said to you" |
-| Sharia | sharīʿa | sha-ree-ah | "The Sharia of my age has been lost" |
+| Sharia | sharīʿa | shaR-EE-ah | "The Sharia of my age has been lost" |
 | Sunnah | sunnah | SOON-nah | "the Sunnah and the obligations" |
 | Qur'an | Qurʾān | kur-AAN | "you have departed from the meaning of the Qur'an" |
 | alif | alif | AH-lif | "is the alif alone 'O God'" |

@@ -9,12 +9,12 @@
 # Either activate the venv first, or invoke with .venv/bin/python3 directly.
 
 # ── Core pipeline (Phases 0a → finalize) ────────────────────────────────────
-anthropic==0.107.0          # Claude SDK — SDK refinement path (claude -p uses Max subscription)
-google-genai==2.8.0         # Gemini — Phase 0g bundle audit + Gemini refinement passes
+anthropic==0.79.0           # Claude SDK — SDK refinement path (claude -p uses Max subscription)
+google-genai==1.47.0        # Gemini — Phase 0g bundle audit + Gemini refinement passes
 PyYAML==6.0.3               # YAML parsing throughout (series-config, meta, state)
-pydantic==2.13.4            # Data validation (noise router, phase drivers)
+pydantic==2.12.5            # Data validation (noise router, phase drivers)
 httpx==0.28.1               # HTTP client (anthropic SDK dep)
-requests==2.34.2            # HTTP client (google-genai dep)
+requests==2.32.5            # HTTP client (google-genai dep)
 
 # ── Optional: video layer (generate_video_layer.py + render_slides.py) ──────
 # pillow                    # Slide rendering — install with: pip install pillow
@@ -27,5 +27,5 @@ requests==2.34.2            # HTTP client (google-genai dep)
 # openai-whisper            # Local Whisper transcription (heavy install)
 
 # ── Dev / test ───────────────────────────────────────────────────────────────
-pytest==9.0.3
-Pygments==2.20.0            # Syntax highlighting in reports
+pytest==8.4.2
+Pygments==2.19.2            # Syntax highlighting in reports

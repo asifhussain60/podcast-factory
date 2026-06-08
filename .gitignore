@@ -238,7 +238,9 @@ content/drafts/
 # Generated video-layer images — Imagen3 backgrounds + Pillow-rendered teaching slides.
 # Regenerable from video-prompts.json via generate_video_layer.py; not source-of-truth.
 content/**/video-images/
-content/Islamic/ayyuhal-walad/_system/watchdog.json
+# Watchdog sentinel files — ephemeral PID/state files written/deleted per run;
+# never source-of-truth, must not dirty the tree between orchestrator invocations.
+content/**/_system/watchdog.json
 
 # Source archives (TurboScribe exports, zip dumps) — large binaries kept on disk
 # but not tracked in git; re-exportable from TurboScribe or Google Drive.

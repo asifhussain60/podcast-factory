@@ -210,12 +210,12 @@ def run_resume(args: argparse.Namespace) -> int:
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         return _drive_authoring_through_0f(book_dir, title)
 
-    if current_phase in ("0b", "0c", "0d", "0e", "0literary") and current_status in ("failed", "halted", "pending"):
+    if current_phase in ("0b", "0c", "0ci", "0d", "0e", "0literary") and current_status in ("failed", "halted", "pending"):
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         _info(f"resuming LLM-authoring phases from {current_phase} (status={current_status})")
         return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
 
-    if last in ("0a",) or (last in ("0b", "0c", "0d", "0e", "0literary") and current_status == "completed"):
+    if last in ("0a",) or (last in ("0b", "0c", "0ci", "0d", "0e", "0literary") and current_status == "completed"):
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
 

@@ -111,6 +111,7 @@ from _validators import (
     assert_framing_no_modern_artifacts,
     assert_framing_honorific_bounded_both_sides,
     assert_show_notes_has_apparatus_table,
+    assert_no_doubled_phrases,
     strip_upload_checklist, strip_html_comments, word_count,
 )
 
@@ -133,6 +134,8 @@ def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -
     assert_doctrinal_clean(text, chapter_path)
     # R-NO-MANUSCRIPT-META (2026-05-21, X14) — P1 FLAG (warning, not hard fail).
     assert_chapter_no_manuscript_meta(text, chapter_path)
+    # B6-DOUBLED-PHRASE (2026-06-08) — P1 FLAG: copy-paste duplication in chapter prose.
+    assert_no_doubled_phrases(text, chapter_path)
     # F27 Tier 2.5 (2026-05-22) — TTS-safe enforcement. All P1 flags. Wave CP: these
     # assertions are Arabic/Islamic-specific; skip for non-Islamic profiles.
     _book_dir = chapter_path.parent.parent  # chapters/ → book_dir
@@ -174,7 +177,10 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path,
     _islamic = is_islamic_scholarly(_bdir)
 
     # Re-validate cleaned framing for meta-prose tells (cross-episode refs, etc.).
-    assert_no_meta_prose(cleaned, framing_path, "framing (CUSTOMIZE PROMPT)", extra_tells)
+    # skip_do_not_section=True: the Do-not list legitimately names forbidden phrases
+    # (including "next episode") — exclude that section from the substring scan.
+    assert_no_meta_prose(cleaned, framing_path, "framing (CUSTOMIZE PROMPT)", extra_tells,
+                         skip_do_not_section=True)
     # R-PRONUNCIATION-IMPERATIVE (2026-05-17)
     assert_framing_pronunciation_imperative(cleaned, framing_path)
     # R-NOMODERNIZE + R-NOSURPRISE + R-NO-READ-PROMPT (2026-05-17)

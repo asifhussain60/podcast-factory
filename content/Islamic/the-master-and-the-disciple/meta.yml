@@ -7,15 +7,25 @@ source_pdf: ../../../raw/Kitaab_Al-aalim_wal_Ghulam_Chapters/
 source_audio: ../../../raw/Kitaab_Al-aalim_wal_Ghulam_Chapters/Podcast/00 - The Master And The Disciple.mp3
 
 pipeline:
-  current_phase: 0c
-  next_phase: 0d
-  chapters_drafted: 8
-  chapters_with_contracts: 0
+  current_phase: 06a
+  next_phase: per-chapter
+  chapters_drafted: 5
+  chapters_with_contracts: 5
   episodes_shipped: 0
-  episodes_with_audio: 6
+  episodes_with_audio: 0
+
+doctrinal_context:
+  author: Jaʿfar ibn Manṣūr al-Yaman
+  school: Ismaili (Fatimid-era daʿwa tradition)
+  period: Early Fatimid, c. 10th century CE
+  genre: Socratic dialogue (ʿĀlim/Ghulām frame)
+  cross_contamination_risk: low — content is distinctly Ismaili cosmological doctrine
 
 publication:
   status: draft
+  translator: unknown
+  publisher: unknown
+  edition: unknown
   shipped_via: scripts/podcast/publish_to_library.py
   publication_target: ../../published/books/the-master-and-the-disciple/
 

@@ -31,11 +31,18 @@ done
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 REPO_ROOT="$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
-# Prefer the repo virtualenv (carries PyYAML/anthropic/requests). The system
-# /usr/bin/python3 lacks these deps, so a hardcoded interpreter crashes every
-# phase at `import yaml`. Fall back to /usr/bin/python3 only if no venv exists.
-if [[ -x "$REPO_ROOT/.venv/bin/python" ]]; then
+# Prefer the repo virtualenv if it has the required packages. If the venv
+# exists but is missing deps (e.g., packages were installed via `pip install
+# --user` rather than into the venv), fall back to the system python3 which
+# can reach user-level site-packages. Only hard-code /usr/bin/python3 as a
+# last resort — it may also lack deps, but orchestrate_book.py will surface
+# a clear fix message in that case.
+if [[ -x "$REPO_ROOT/.venv/bin/python" ]] && \
+   "$REPO_ROOT/.venv/bin/python" -c "import yaml, anthropic, requests" 2>/dev/null; then
     PYTHON="$REPO_ROOT/.venv/bin/python"
+elif command -v python3 >/dev/null 2>&1 && \
+     python3 -c "import yaml, anthropic, requests" 2>/dev/null; then
+    PYTHON="python3"
 else
     PYTHON=/usr/bin/python3
 fi
@@ -114,6 +121,9 @@ _is_human_review_gate() {
     status="$(_state '.phase_status')"
     # 0f: series-plan written; human must review before per-chapter authoring begins.
     if [[ "$phase" == "0f" && "$status" == "halted" ]]; then return 0; fi
+    # 0ci: book intelligence gap analysis written; human reviews before Phase 0d runs.
+    # Running --resume acknowledges the review — the driver now skips 0ci on re-entry.
+    if [[ "$phase" == "0ci" && "$status" == "halted" ]]; then return 0; fi
     return 1
 }
 

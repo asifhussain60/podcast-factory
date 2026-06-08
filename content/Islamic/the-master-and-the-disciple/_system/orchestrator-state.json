@@ -3,11 +3,15 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
-  "phase": "0c",
-  "phase_status": "completed",
-  "last_completed_phase": "0c",
-  "next_phase": "0d",
-  "last_error": null,
+  "phase": "per-chapter",
+  "phase_status": "complete",
+  "last_completed_phase": "0e",
+  "next_phase": "0literary",
+  "last_error": {
+    "phase": "per-chapter",
+    "message": "4 chapter(s) failed: knowledge-versus-action, spiritual-symbols-and-the-architecture-of-creation, the-disciple-becomes-master, unity-justice-and-the-living-witness. 1 chapter(s) completed. Triage failures or raise per_chapter_cost_cap_usd and --resume.",
+    "ts": "2026-06-07T23:36:09Z"
+  },
   "pipeline_mode": "orchestrated",
   "v1_archive": {
     "git_tag": "archive/the-master-and-the-disciple-v1",
@@ -49,16 +53,71 @@
       "note": "Phonetics. Output: _system/source/text/_phonetics.md"
     },
     "0d": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-06-07T19:37:35Z",
+      "ts_completed": "2026-06-07T21:35:11Z",
+      "manual_fallback": "Inspect _chunks/0d/sc-NNN.done markers and chapters/ dir."
     },
     "0e": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-06-07T21:35:12Z",
+      "ts_completed": "2026-06-07T22:01:16Z"
     },
     "0f": {
-      "status": "pending"
+      "status": "halted",
+      "ts_started": "2026-06-07T22:09:02Z",
+      "ts_completed": "2026-06-07T22:09:02Z",
+      "series_plan_path": "content/Islamic/the-master-and-the-disciple/_system/series-plan.md"
     },
     "per-chapter": {
-      "status": "pending"
+      "status": "failed",
+      "ts_started": "2026-06-07T22:17:45Z",
+      "completed_slugs": [
+        "true-sources-of-knowledge",
+        "knowledge-versus-action",
+        "spiritual-symbols-and-the-architecture-of-creation",
+        "the-disciple-becomes-master",
+        "unity-justice-and-the-living-witness"
+      ],
+      "failed_slugs": [],
+      "chapter_timings": {
+        "knowledge-versus-action": {
+          "started_ts": "2026-06-07T22:17:45Z",
+          "completed_ts": "2026-06-07T22:27:15Z",
+          "duration_sec": 570.2,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
+        },
+        "spiritual-symbols-and-the-architecture-of-creation": {
+          "started_ts": "2026-06-07T22:27:15Z",
+          "completed_ts": "2026-06-07T22:42:34Z",
+          "duration_sec": 919.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
+        },
+        "the-disciple-becomes-master": {
+          "started_ts": "2026-06-07T22:42:34Z",
+          "completed_ts": "2026-06-07T23:06:15Z",
+          "duration_sec": 1421.1,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
+        },
+        "true-sources-of-knowledge": {
+          "started_ts": "2026-06-07T23:06:15Z",
+          "completed_ts": "2026-06-07T23:36:09Z",
+          "duration_sec": 1793.3,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "unity-justice-and-the-living-witness": {
+          "started_ts": "2026-06-07T23:36:09Z",
+          "completed_ts": "2026-06-07T23:36:09Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
+        }
+      },
+      "ts_completed": "2026-06-07T23:36:09Z"
     },
     "0g": {
       "status": "pending"
@@ -68,6 +127,18 @@
     },
     "publish": {
       "status": "pending"
+    },
+    "0ci": {
+      "status": "halted",
+      "ts_started": "2026-06-07T19:20:56Z",
+      "ts_completed": "2026-06-07T19:23:45Z",
+      "manual_fallback": "1. Review /Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/the-master-and-the-disciple/_system/gap-analysis.md\n2. Edit or annotate as needed (add notes, reject candidates, confirm clarifications).\n3. Resume: python3 scripts/podcast/orchestrate_book.py --resume <slug>"
+    },
+    "06a": {
+      "status": "halted",
+      "ts_started": "2026-06-07T22:01:16Z",
+      "ts_completed": "2026-06-07T22:01:26Z",
+      "gate_warnings": 7
     }
   },
   "completed_slugs": [],
@@ -79,7 +150,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-07T00:00:00Z",
+  "ts_updated": "2026-06-07T23:36:09Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
