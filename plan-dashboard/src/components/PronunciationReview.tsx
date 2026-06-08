@@ -287,29 +287,28 @@ export default function PronunciationReview({ slug, terms }: Props) {
                     >✎ Fix</button>
                   </div>
 
-                  {/* English translation checkbox — inline with buttons */}
-                  <label className="pron-gloss-label">
-                    <input
-                      type="checkbox"
-                      className="pron-gloss-check"
-                      checked={useGloss}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          // Pre-fill gloss with the predetermined meaning if the field is still empty.
-                          const currentGloss = rows[t.term]?.gloss ?? '';
-                          update(t.term, {
-                            decision: 'cantsay',
-                            gloss: currentGloss.trim() || t.meaning || '',
-                            phoneSuggested: false,
-                          });
-                        } else {
-                          update(t.term, { decision: 'pending', phonetic: prefill(t), gloss: '', phoneSuggested: false });
-                        }
-                      }}
-                      aria-label={`Use English translation for ${t.term}`}
-                    />
-                    Use English translation instead
-                  </label>
+                  {/* English toggle pill — always shows the translation as a preview */}
+                  <button
+                    type="button"
+                    className={`pron-lang-toggle${useGloss ? ' is-active' : ''}${!t.meaning ? ' has-no-meaning' : ''}`}
+                    onClick={() => {
+                      if (useGloss) {
+                        update(t.term, { decision: 'pending', phonetic: prefill(t), gloss: '', phoneSuggested: false });
+                      } else {
+                        const currentGloss = rows[t.term]?.gloss ?? '';
+                        update(t.term, {
+                          decision: 'cantsay',
+                          gloss: currentGloss.trim() || t.meaning || '',
+                          phoneSuggested: false,
+                        });
+                      }
+                    }}
+                    aria-pressed={useGloss}
+                    aria-label={`Use English for ${t.term}: ${t.meaning || 'no translation yet'}`}
+                  >
+                    <span className="pron-lang-icon" aria-hidden="true">{useGloss ? '✓' : '⇄'}</span>
+                    <span className="pron-lang-text">{t.meaning || '…'}</span>
+                  </button>
                 </div>
 
                 {/* Phonetic input OR English gloss input */}

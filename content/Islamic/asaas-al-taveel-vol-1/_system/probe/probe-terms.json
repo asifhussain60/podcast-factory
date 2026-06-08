@@ -23,7 +23,7 @@
         "x11 in text"
       ],
       "arabic_script": "حجة",
-      "meaning": "\"proof\" — the senior teacher under the imām; the bridge between the imām and the believer.",
+      "meaning": "Divine Proof",
       "n": 1
     },
     {
@@ -45,7 +45,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "التأويل",
-      "meaning": "",
+      "meaning": "Allegorical Interpretation",
       "n": 2
     },
     {
@@ -63,7 +63,7 @@
         "x5 in text"
       ],
       "arabic_script": "صامت",
-      "meaning": "the silent one",
+      "meaning": "The Silent One",
       "n": 3
     },
     {
@@ -84,7 +84,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "سنة",
-      "meaning": "",
+      "meaning": "Prophetic Tradition",
       "n": 4
     },
     {
@@ -106,7 +106,7 @@
         "x4 in text"
       ],
       "arabic_script": "قائم",
-      "meaning": "\"the standing one\" — the awaited final figure who closes the seventh cycle and discloses what was hidden.",
+      "meaning": "The Awaited One",
       "n": 5
     },
     {
@@ -148,7 +148,7 @@
         "x3 in text"
       ],
       "arabic_script": "علي بن أبي طالب",
-      "meaning": "",
+      "meaning": "Ali ibn Abi Talib",
       "n": 7
     },
     {
@@ -191,7 +191,7 @@
         "x3 in text"
       ],
       "arabic_script": "إخوان الصفا",
-      "meaning": "",
+      "meaning": "Brethren of Purity",
       "n": 9
     },
     {
@@ -213,7 +213,7 @@
         "x3 in text"
       ],
       "arabic_script": "جعفر بن محمد",
-      "meaning": "",
+      "meaning": "Ja'far ibn Muhammad",
       "n": 10
     },
     {
@@ -234,7 +234,7 @@
         "x3 in text (+ al-Hujaj)"
       ],
       "arabic_script": "حجج",
-      "meaning": "",
+      "meaning": "Divine Proofs",
       "n": 11
     },
     {
@@ -258,7 +258,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "حدود المعرفة",
-      "meaning": "",
+      "meaning": "Ranks of Knowledge",
       "n": 12
     },
     {
@@ -320,7 +320,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "النقباء",
-      "meaning": "",
+      "meaning": "Leaders, Overseers",
       "n": 15
     },
     {
@@ -363,7 +363,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "داعي",
-      "meaning": "\"the caller\" — the Fatimid missionary, the carrier of the daʿwa.",
+      "meaning": "Missionary, Caller",
       "n": 17
     },
     {
@@ -384,7 +384,7 @@
         "x3 in text (+ al-Du'at)"
       ],
       "arabic_script": "داعي الدعاة",
-      "meaning": "",
+      "meaning": "Chief Missionary",
       "n": 18
     },
     {
@@ -406,7 +406,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "شريعة",
-      "meaning": "",
+      "meaning": "Divine Law",
       "n": 19
     },
     {
@@ -425,7 +425,7 @@
         "x3 in text (+ al-Shaytan)"
       ],
       "arabic_script": "شيطان",
-      "meaning": "",
+      "meaning": "Satan, Devil",
       "n": 20
     },
     {
@@ -446,7 +446,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "وصي",
-      "meaning": "executor",
+      "meaning": "Executor",
       "n": 21
     },
     {
@@ -466,7 +466,7 @@
         "x3 in text"
       ],
       "arabic_script": "جزية",
-      "meaning": "",
+      "meaning": "Tribute Tax",
       "n": 22
     },
     {
@@ -489,7 +489,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "إدريس عماد الدين",
-      "meaning": "",
+      "meaning": "Idris Imad al-Din",
       "n": 23
     },
     {
@@ -514,7 +514,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "رسائل إخوان الصفا",
-      "meaning": "",
+      "meaning": "Epistles of Brethren",
       "n": 24
     },
     {
@@ -534,7 +534,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "أمير المؤمنين",
-      "meaning": "\"Commander of the Believers\" — title given to ʿAlī.",
+      "meaning": "Commander of Believers",
       "n": 25
     },
     {
@@ -556,7 +556,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "عيون الأخبار",
-      "meaning": "",
+      "meaning": "Sources of Narratives",
       "n": 26
     },
     {
@@ -577,7 +577,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "أولياء",
-      "meaning": "",
+      "meaning": "Saints, Friends",
       "n": 27
     },
     {
@@ -596,7 +596,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "إيمان",
-      "meaning": "",
+      "meaning": "Faith, Belief",
       "n": 28
     },
     {
@@ -617,7 +617,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "الأساس",
-      "meaning": "",
+      "meaning": "The Foundation",
       "n": 29
     },
     {
@@ -638,7 +638,7 @@
         "x2 in text"
       ],
       "arabic_script": "الحسين",
-      "meaning": "",
+      "meaning": "Husayn",
       "n": 30
     },
     {
@@ -659,7 +659,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "الخليل",
-      "meaning": "",
+      "meaning": "The Friend",
       "n": 31
     },
     {
@@ -680,7 +680,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "المنصور",
-      "meaning": "",
+      "meaning": "The Victorious",
       "n": 32
     },
     {
@@ -702,7 +702,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "المهدي",
-      "meaning": "ubayd allah",
+      "meaning": "Ubayd Allah",
       "n": 33
     },
     {
@@ -806,7 +806,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "كعبة",
-      "meaning": "",
+      "meaning": "Kaaba",
       "n": 38
     },
     {
@@ -886,7 +886,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "ولاية",
-      "meaning": "\"guardianship\" / \"spiritual authority\" — the unique allegiance owed to the imām, distinct from prophethood.",
+      "meaning": "Spiritual Guardianship",
       "n": 42
     },
     {
@@ -904,7 +904,7 @@
         "x2 in text"
       ],
       "arabic_script": "أخنوخ",
-      "meaning": "enoch",
+      "meaning": "Enoch",
       "n": 43
     },
     {
@@ -922,7 +922,7 @@
         "x2 in text"
       ],
       "arabic_script": "أصول",
-      "meaning": "",
+      "meaning": "Principles, Roots",
       "n": 44
     },
     {
@@ -958,7 +958,7 @@
         "x2 in text"
       ],
       "arabic_script": "بشر",
-      "meaning": "",
+      "meaning": "Humanity",
       "n": 46
     },
     {
@@ -978,7 +978,7 @@
         "x2 in text"
       ],
       "arabic_script": "فروع",
-      "meaning": "",
+      "meaning": "Branches, Derivatives",
       "n": 47
     },
     {
@@ -1075,7 +1075,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "المعيّد في الدين",
-      "meaning": "",
+      "meaning": "Al-Mu'ayyad fi al-Din",
       "n": 52
     },
     {
@@ -1098,7 +1098,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "عبد السلام ابن رغبان",
-      "meaning": "",
+      "meaning": "Abd al-Salam ibn Raghban",
       "n": 53
     },
     {
@@ -1122,7 +1122,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "محمد ابن جرير الطبري",
-      "meaning": "",
+      "meaning": "Muhammad ibn Jarir al-Tabari",
       "n": 54
     },
     {
@@ -1143,7 +1143,7 @@
         "long"
       ],
       "arabic_script": "الإمام المقيم",
-      "meaning": "",
+      "meaning": "Resident Imam",
       "n": 55
     },
     {
@@ -1166,7 +1166,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "خمس رسائل إسماعيلية",
-      "meaning": "five ismaili letters",
+      "meaning": "Five Ismaili Letters",
       "n": 56
     },
     {
@@ -1186,7 +1186,7 @@
         "ayn/hamza"
       ],
       "arabic_script": "سواع",
-      "meaning": "",
+      "meaning": "Suwa",
       "n": 57
     },
     {
@@ -1208,7 +1208,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "عبدالله بن سلام",
-      "meaning": "",
+      "meaning": "Abdullah ibn Salam",
       "n": 58
     },
     {
@@ -1231,7 +1231,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "عيسى ابن مريم",
-      "meaning": "jesus, son of mary",
+      "meaning": "Jesus, Son of Mary",
       "n": 59
     },
     {
@@ -1254,7 +1254,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "فاطمة الزهراء",
-      "meaning": "",
+      "meaning": "Fatima al-Zahra",
       "n": 60
     },
     {
@@ -1275,7 +1275,7 @@
         "long"
       ],
       "arabic_script": "لا إله إلا الله",
-      "meaning": "",
+      "meaning": "No God but Allah",
       "n": 61
     },
     {
@@ -1297,7 +1297,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "أصحاب الجزائر",
-      "meaning": "",
+      "meaning": "Companions of Islands",
       "n": 62
     },
     {
@@ -1319,7 +1319,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "جعفر الحاجب",
-      "meaning": "",
+      "meaning": "Ja'far al-Hajib",
       "n": 63
     },
     {
@@ -1341,7 +1341,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "جعفر الصادق",
-      "meaning": "",
+      "meaning": "Ja'far al-Sadiq",
       "n": 64
     },
     {
@@ -1362,7 +1362,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "ديك الجن",
-      "meaning": "",
+      "meaning": "Dik al-Jinn",
       "n": 65
     },
     {
@@ -1382,7 +1382,7 @@
         "6 syllables"
       ],
       "arabic_script": "ذكر المقدمات",
-      "meaning": "",
+      "meaning": "Mention of Introductions",
       "n": 66
     },
     {
@@ -1404,7 +1404,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "رفع الإصر",
-      "meaning": "",
+      "meaning": "Removal of Burdens",
       "n": 67
     },
     {
@@ -1424,7 +1424,7 @@
         "emphatic x1"
       ],
       "arabic_script": "صالح",
-      "meaning": "",
+      "meaning": "Salih",
       "n": 68
     },
     {
@@ -1444,7 +1444,7 @@
         "5 syllables"
       ],
       "arabic_script": "عيسى بن مريم",
-      "meaning": "",
+      "meaning": "Jesus son of Mary",
       "n": 69
     },
     {
@@ -1466,7 +1466,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "كتاب الهمة",
-      "meaning": "",
+      "meaning": "Book of Aspiration",
       "n": 70
     },
     {
@@ -1487,7 +1487,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "كميل بن زياد",
-      "meaning": "",
+      "meaning": "Kumayl ibn Ziyad",
       "n": 71
     },
     {
@@ -1523,7 +1523,7 @@
         "4 syllables"
       ],
       "arabic_script": "مدبرات",
-      "meaning": "",
+      "meaning": "Administrators",
       "n": 73
     },
     {
@@ -1543,7 +1543,7 @@
         "3 syllables"
       ],
       "arabic_script": "أبدال",
-      "meaning": "",
+      "meaning": "Substitutes",
       "n": 74
     },
     {
@@ -1581,7 +1581,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "أوصى",
-      "meaning": "",
+      "meaning": "Bequeathed",
       "n": 76
     },
     {
@@ -1601,7 +1601,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "إشارة",
-      "meaning": "",
+      "meaning": "Sign, Indication",
       "n": 77
     },
     {
@@ -1642,7 +1642,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "الأجنحة",
-      "meaning": "",
+      "meaning": "The Wings",
       "n": 79
     },
     {
@@ -1662,7 +1662,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "الإمام",
-      "meaning": "",
+      "meaning": "Imam, Leader",
       "n": 80
     },
     {
@@ -1683,7 +1683,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "البارئ",
-      "meaning": "the maker",
+      "meaning": "The Maker",
       "n": 81
     },
     {
@@ -1703,7 +1703,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "التنزيل",
-      "meaning": "",
+      "meaning": "Revelation",
       "n": 82
     },
     {
@@ -1723,7 +1723,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "القلم",
-      "meaning": "",
+      "meaning": "The Pen",
       "n": 83
     },
     {
@@ -1743,7 +1743,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "اللوح",
-      "meaning": "",
+      "meaning": "The Tablet",
       "n": 84
     },
     {
@@ -1764,7 +1764,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "المتنبي",
-      "meaning": "",
+      "meaning": "Al-Mutanabbi",
       "n": 85
     },
     {
@@ -1786,7 +1786,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "المعري",
-      "meaning": "",
+      "meaning": "Al-Ma'arri",
       "n": 86
     },
     {
@@ -1807,7 +1807,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "المقريزي",
-      "meaning": "",
+      "meaning": "Al-Maqrizi",
       "n": 87
     },
     {
@@ -1828,7 +1828,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "المنصورية",
-      "meaning": "",
+      "meaning": "Al-Mansuriyya",
       "n": 88
     },
     {
@@ -1848,7 +1848,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "الوصية",
-      "meaning": "",
+      "meaning": "Bequest, Testament",
       "n": 89
     },
     {
@@ -1868,7 +1868,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "الوفيات",
-      "meaning": "",
+      "meaning": "Obituaries",
       "n": 90
     },
     {
@@ -1888,7 +1888,7 @@
         "3 syllables"
       ],
       "arabic_script": "الوهاب",
-      "meaning": "",
+      "meaning": "The Bestower",
       "n": 91
     },
     {
@@ -1944,7 +1944,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "تقية",
-      "meaning": "",
+      "meaning": "Dissimulation",
       "n": 94
     },
     {
@@ -1964,7 +1964,7 @@
         "3 syllables"
       ],
       "arabic_script": "جبريل",
-      "meaning": "",
+      "meaning": "Gabriel",
       "n": 95
     },
     {
@@ -2003,7 +2003,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "صاحب القيامة",
-      "meaning": "",
+      "meaning": "Lord of Resurrection",
       "n": 97
     },
     {
@@ -2061,7 +2061,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "عترة",
-      "meaning": "",
+      "meaning": "Progeny",
       "n": 100
     },
     {
@@ -2102,7 +2102,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "كعب الأحبار",
-      "meaning": "",
+      "meaning": "Ka'b al-Ahbar",
       "n": 102
     },
     {
@@ -2120,7 +2120,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "مستجيب",
-      "meaning": "",
+      "meaning": "Respondent",
       "n": 103
     },
     {
@@ -2140,7 +2140,7 @@
         "3 syllables"
       ],
       "arabic_script": "ميكائيل",
-      "meaning": "",
+      "meaning": "Michael",
       "n": 104
     },
     {
@@ -2160,7 +2160,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "ناطق",
-      "meaning": "a \"speaker prophet\" who inaugurates a cosmological cycle. There are seven in al-Nuʿmān's scheme — Adam, Nūḥ, Ibrāhīm, Mūsā, ʿĪsā, Muḥammad, and the awaited Qāʾim.",
+      "meaning": "Speaking Prophet",
       "n": 105
     },
     {
@@ -2176,7 +2176,7 @@
       "score": 0,
       "reasons": [],
       "arabic_script": "أسباب",
-      "meaning": "instruments / causes",
+      "meaning": "Instruments, Causes",
       "n": 106
     },
     {
@@ -2192,7 +2192,7 @@
       "score": 0,
       "reasons": [],
       "arabic_script": "جهاد",
-      "meaning": "",
+      "meaning": "Struggle",
       "n": 107
     },
     {
@@ -2226,7 +2226,7 @@
       "score": 0,
       "reasons": [],
       "arabic_script": "رأس",
-      "meaning": "",
+      "meaning": "Head, Chief",
       "n": 109
     },
     {
@@ -2242,7 +2242,7 @@
       "score": 0,
       "reasons": [],
       "arabic_script": "رمز",
-      "meaning": "",
+      "meaning": "Symbol",
       "n": 110
     },
     {
@@ -2274,7 +2274,7 @@
       "score": 0,
       "reasons": [],
       "arabic_script": "فاران",
-      "meaning": "",
+      "meaning": "Faran",
       "n": 112
     },
     {
@@ -2322,7 +2322,7 @@
       "score": 0,
       "reasons": [],
       "arabic_script": "ولد",
-      "meaning": "",
+      "meaning": "Son, Child",
       "n": 115
     },
     {
@@ -2354,7 +2354,7 @@
       "score": 0,
       "reasons": [],
       "arabic_script": "يغوث",
-      "meaning": "",
+      "meaning": "Yaghuth",
       "n": 117
     },
     {
@@ -2389,7 +2389,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "حد / حدود",
-      "meaning": "",
+      "meaning": "Rank / Ranks",
       "n": 119
     },
     {
@@ -2409,7 +2409,7 @@
         "ayn/hamza"
       ],
       "arabic_script": "يعوق",
-      "meaning": "",
+      "meaning": "Ya'uq",
       "n": 120
     },
     {
@@ -2427,7 +2427,7 @@
         "4 syllables"
       ],
       "arabic_script": "أبو قبيس",
-      "meaning": "",
+      "meaning": "Abu Qubays",
       "n": 121
     },
     {
@@ -2448,7 +2448,7 @@
         "7 syllables"
       ],
       "arabic_script": "مكة المكرمة",
-      "meaning": "",
+      "meaning": "Mecca the Honored",
       "n": 122
     },
     {
@@ -2468,7 +2468,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "الإمامة",
-      "meaning": "",
+      "meaning": "Imamate, Leadership",
       "n": 123
     },
     {
@@ -2489,7 +2489,7 @@
         "x0 in text (+ al-Batin)"
       ],
       "arabic_script": "باطن",
-      "meaning": "the inner / hidden meaning — what taʾwīl discloses.",
+      "meaning": "Inner Meaning",
       "n": 124
     },
     {
@@ -2510,7 +2510,7 @@
         "non-house-style respelling"
       ],
       "arabic_script": "دعوة",
-      "meaning": "\"the call\" — the Fatimid missionary enterprise; the structured invitation to esoteric knowledge.",
+      "meaning": "The Call",
       "n": 125
     },
     {
@@ -2531,7 +2531,7 @@
         "x0 in text (+ al-Zahir)"
       ],
       "arabic_script": "ظاهر",
-      "meaning": "the outer / manifest meaning of scripture.",
+      "meaning": "Outer Meaning",
       "n": 126
     },
     {
@@ -2547,7 +2547,7 @@
       "score": 0,
       "reasons": [],
       "arabic_script": "قلم",
-      "meaning": "",
+      "meaning": "Pen",
       "n": 127
     },
     {
@@ -2563,7 +2563,7 @@
       "score": 0,
       "reasons": [],
       "arabic_script": "لامك",
-      "meaning": "",
+      "meaning": "Lamech",
       "n": 128
     }
   ]
