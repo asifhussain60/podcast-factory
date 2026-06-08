@@ -1,0 +1,15 @@
+{
+  "ts": "2026-06-07T19:23Z",
+  "book": "the-master-and-the-disciple",
+  "scope": "per-chapter:EP01-true-sources-of-knowledge",
+  "chapters_in_scope": 1,
+  "p0": 0,
+  "p1": 5,
+  "p2": 1,
+  "auto_fixes": 7,
+  "score": 0.0,
+  "badge": "Unstable",
+  "verdict": "SHIP-WITH-CAUTION",
+  "challenger_version": "2.4",
+  "notes": "P1-heavy per-chapter pass; framing-side R-* auto-fixes applied. Em-dash density (45) drives most residual P1 weight. After author triages em-dashes, soft hadith attribution, and contract J3 drift, a re-run should land Healthy."
+}

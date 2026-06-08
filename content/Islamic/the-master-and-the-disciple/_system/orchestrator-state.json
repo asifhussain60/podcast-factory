@@ -4,10 +4,14 @@
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
   "phase": "per-chapter",
-  "phase_status": "running",
+  "phase_status": "failed",
   "last_completed_phase": "0e",
   "next_phase": "0literary",
-  "last_error": null,
+  "last_error": {
+    "phase": "per-chapter",
+    "message": "4 chapter(s) failed: knowledge-versus-action, spiritual-symbols-and-the-architecture-of-creation, the-disciple-becomes-master, unity-justice-and-the-living-witness. 1 chapter(s) completed. Triage failures or raise per_chapter_cost_cap_usd and --resume.",
+    "ts": "2026-06-07T23:36:09Z"
+  },
   "pipeline_mode": "orchestrated",
   "v1_archive": {
     "git_tag": "archive/the-master-and-the-disciple-v1",
@@ -66,13 +70,16 @@
       "series_plan_path": "content/Islamic/the-master-and-the-disciple/_system/series-plan.md"
     },
     "per-chapter": {
-      "status": "running",
+      "status": "failed",
       "ts_started": "2026-06-07T22:17:45Z",
-      "completed_slugs": [],
+      "completed_slugs": [
+        "true-sources-of-knowledge"
+      ],
       "failed_slugs": [
         "knowledge-versus-action",
         "spiritual-symbols-and-the-architecture-of-creation",
-        "the-disciple-becomes-master"
+        "the-disciple-becomes-master",
+        "unity-justice-and-the-living-witness"
       ],
       "chapter_timings": {
         "knowledge-versus-action": {
@@ -95,8 +102,23 @@
           "duration_sec": 1421.1,
           "verdict": "FAILED",
           "cost_usd": 0.0
+        },
+        "true-sources-of-knowledge": {
+          "started_ts": "2026-06-07T23:06:15Z",
+          "completed_ts": "2026-06-07T23:36:09Z",
+          "duration_sec": 1793.3,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "unity-justice-and-the-living-witness": {
+          "started_ts": "2026-06-07T23:36:09Z",
+          "completed_ts": "2026-06-07T23:36:09Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0
         }
-      }
+      },
+      "ts_completed": "2026-06-07T23:36:09Z"
     },
     "0g": {
       "status": "pending"
@@ -129,7 +151,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-07T23:06:15Z",
+  "ts_updated": "2026-06-07T23:36:09Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
