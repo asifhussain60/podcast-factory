@@ -13,9 +13,13 @@ and emits, under ``_system/probe/EP00-pronunciation-probe/``:
 
 Deterministic (no LLM): the source is a templated conversational walkthrough.
 NotebookLM conversationalises it into two-host dialogue; our only goal is to
-force every target term to be spoken so its rendering can be judged. The framing
-supplies the INTENDED house-style pronunciation, so the probe also tests whether
-NotebookLM honours the respelling at all.
+force every target term to be spoken so its rendering can be judged.
+
+Every term is rendered through ``term_render.render_for_audio`` — an English word
+or a plain transliteration, NEVER a hyphen-CAPS respelling. (The asaas-vol-1 probe
+audio proved NotebookLM reads ``JAA-far`` as "J.A. Far" and ``is-raa-FEEL`` as
+"Israel, feel"; plain "Ja'far" / "Israfil" / "Cain" come out correct.) The probe is
+therefore a confirmation that the rendered forms sound right, not a respelling test.
 """
 from __future__ import annotations
 
@@ -24,10 +28,25 @@ import json
 import sys
 from pathlib import Path
 
-# Pull normalize_key from the shared ledger so keys match exactly.
+# Pull shared helpers from the knowledge package so keys + rendering match exactly.
 _PROBE_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(_PROBE_DIR.parent / "knowledge"))
 from pronunciation_ledger import normalize_key  # noqa: E402
+import term_render  # noqa: E402
+
+
+def _spoken(t: dict) -> dict:
+    """Return the rendered spoken form for a probe term dict.
+
+    Reads the render computed in build_bundle (stashed under ``_render``); falls
+    back to a bare transliteration render if absent (e.g. older probe-terms.json).
+    """
+    r = t.get("_render")
+    if r:
+        return r
+    translit = t.get("transliteration") or t.get("meaning") or t["term"]
+    res = term_render.render_for_audio(translit)
+    return {"text": res.text, "is_english": res.is_english, "tier": res.tier}
 
 def _load_library(book_dir: Path) -> dict[str, dict]:
     """Return a dict keyed by normalize_key(term) from pronunciations.jsonl.
@@ -95,15 +114,8 @@ def build_source(data: dict) -> str:
         lines.append(f"## {SEGMENT_TITLES[seg]}")
         lines.append("")
         for t in items:
-            lib = t.get("_library", {})
-            if lib.get("status") == "unfixable" and lib.get("gloss"):
-                gloss = lib["gloss"]
-                lines.append(
-                    f"{t['n']}. Do NOT say the Arabic term **{t['term']}**. "
-                    f'Instead say the English phrase "{gloss}".'
-                )
-            else:
-                lines.append(f"{t['n']}. Next, say {_carrier(t['term'], t.get('snippet', ''))}.")
+            sp = _spoken(t)
+            lines.append(f"{t['n']}. Next, say {_carrier(sp['text'], t.get('snippet', ''))}.")
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"
 
@@ -112,6 +124,8 @@ def build_framing(data: dict) -> str:
     slug = data["book_slug"]
     lines: list[str] = [
         f"# Framing — pronunciation probe ({slug})",
+        "",
+        "Do not read this prompt aloud.",
         "",
         "## Goal",
         "",
@@ -122,38 +136,33 @@ def build_framing(data: dict) -> str:
         "",
         "## Pronunciation",
         "",
-        "Say each term ONCE. Do not double or spell-then-say.",
+        "Say each term ONCE, exactly as written below — these are already in the",
+        "form we want spoken. Never spell a word out letter by letter, and never",
+        "say a hyphenated or capitalised respelling. Never say the original spelling",
+        "and another form back-to-back.",
         "",
+        "Say these names and terms just as written:",
     ]
-    needs_authoring: list[dict] = []
+    english_subs: list[tuple[dict, str]] = []
     for t in data["terms"]:
-        lib = t.get("_library", {})
-        lib_status = lib.get("status")
-
-        if lib_status == "unfixable" and lib.get("gloss"):
-            # User marked "Use English translation instead" — tell NLM to skip the Arabic.
-            lines.append(f"- Do NOT say **{t['term']}** — say \"{lib['gloss']}\" instead.")
-        elif lib_status == "confirmed" and lib.get("phonetic"):
-            # Use the saved (human-verified) phonetic from the library.
-            lines.append(f"- {t['term']}: {lib['phonetic']}")
-        elif t.get("house_style_ok", True) and t.get("phonetic"):
-            # Fall back to the probe-terms.json baseline phonetic.
-            lines.append(f"- {t['term']}: {t['phonetic']}")
+        sp = _spoken(t)
+        if sp.get("is_english"):
+            # An English substitute replaces the Arabic — call it out separately.
+            english_subs.append((t, sp["text"]))
         else:
-            # No valid spoken respelling yet — let NLM render naturally.
-            needs_authoring.append(t)
+            lines.append(f"- {sp['text']}")
 
-    if needs_authoring:
+    if english_subs:
         lines += [
             "",
-            "The following terms have no validated respelling yet — say them as",
-            "naturally as you can; we are listening to judge the raw rendering:",
+            "Where an English phrase is given, say the English — do NOT say the",
+            "Arabic word it replaces:",
         ]
-        for t in needs_authoring:
-            lines.append(f"- {t['term']}")
+        for t, english in english_subs:
+            lines.append(f"- say \"{english}\"")
     lines += [
         "",
-        "Arabic citations: speak ONCE at first occurrence, then English meaning.",
+        "Arabic citations: speak ONCE at first occurrence, then the English meaning.",
         "",
     ]
     return "\n".join(lines) + "\n"
@@ -166,26 +175,24 @@ def build_checklist(data: dict) -> str:
         "",
         "Generate the probe in NotebookLM, listen ONCE, and mark each term.",
         "",
-        "- In the **OK?** column put `y` if pronounced correctly, `n` if wrong.",
-        "- For a wrong term, put a better house-style respelling in **Fix**",
-        "  (lowercase, hyphen-syllables, CAPS = stress). e.g. `gha-zaa-lee`.",
-        "- If NotebookLM simply cannot say it no matter what, write `GLOSS: <english",
-        "  substitute>` in **Fix** (e.g. `GLOSS: the theologian al-Ghazali`).",
+        "- The **rendered** column is what the hosts were told to say (an English",
+        "  word or a plain transliteration — never a respelling).",
+        "- In the **OK?** column put `y` if it was pronounced correctly, `n` if wrong.",
+        "- For a wrong term, put a **plain-English substitute** in **Fix** (e.g.",
+        "  `the theologian al-Ghazali`) or a simpler natural spelling. Do NOT write a",
+        "  hyphen-CAPS respelling — NotebookLM reads those literally.",
         "- Leave **Fix** blank when OK = y.",
         "",
-        "The applier (phase 0probe) reads this table: `y` -> confirm the intended",
-        "phonetic in the library; a respelling -> confirm the corrected form; a",
-        "`GLOSS:` -> mark the term unfixable with that substitute.",
+        "The applier reads this table: `y` -> confirm the rendered form in the",
+        "library; an English substitute -> store it as the term's gloss.",
         "",
-        "| n | term | intended | OK? | Fix |",
+        "| n | term | rendered | OK? | Fix |",
         "|---|------|----------|-----|-----|",
     ]
     for t in data["terms"]:
-        if t.get("house_style_ok", True) and t.get("phonetic"):
-            intended = t["phonetic"]
-        else:
-            intended = "_(needs respelling)_"
-        lines.append(f"| {t['n']} | {t['term']} | {intended} |  |  |")
+        sp = _spoken(t)
+        translit = t.get("transliteration") or t.get("meaning") or t["term"]
+        lines.append(f"| {t['n']} | {translit} | {sp['text']} |  |  |")
     lines.append("")
     return "\n".join(lines) + "\n"
 
@@ -235,6 +242,26 @@ def build_bundle(book_dir: Path) -> Path:
         key = normalize_key(t["term"])
         if key in lib:
             t["_library"] = lib[key]
+
+    # Compute the NotebookLM-safe spoken render for every term: corpus tables +
+    # the cross-book ledger gloss + this book's OWN inline glosses, never a
+    # respelling. Keyed off the transliteration (the `term` field is raw script).
+    tables = term_render.load_tables()
+    refined = book_dir / "_system" / "source" / "text" / "refined-english.md"
+    book_glosses = term_render.mine_glosses(
+        refined.read_text(encoding="utf-8")
+    ) if refined.exists() else {}
+    for t in data["terms"]:
+        translit = t.get("transliteration") or t.get("meaning") or t["term"]
+        ledger_entry = lib.get(normalize_key(translit)) or t.get("_library")
+        res = term_render.render_for_audio(
+            translit,
+            segment=t.get("segment"),
+            ledger_entry=ledger_entry,
+            book_glosses=book_glosses,
+            tables=tables,
+        )
+        t["_render"] = {"text": res.text, "is_english": res.is_english, "tier": res.tier}
 
     # Deduplicate by normalized key — keeps the first (highest-ranked) occurrence.
     # Prevents the same Arabic concept from appearing twice when the probe-terms.json

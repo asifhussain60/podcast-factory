@@ -2,45 +2,45 @@
 
 Generate the probe in NotebookLM, listen ONCE, and mark each term.
 
-- In the **OK?** column put `y` if pronounced correctly, `n` if wrong.
-- For a wrong term, put a better house-style respelling in **Fix**
-  (lowercase, hyphen-syllables, CAPS = stress). e.g. `gha-zaa-lee`.
-- If NotebookLM simply cannot say it no matter what, write `GLOSS: <english
-  substitute>` in **Fix** (e.g. `GLOSS: the theologian al-Ghazali`).
+- The **rendered** column is what the hosts were told to say (an English
+  word or a plain transliteration — never a respelling).
+- In the **OK?** column put `y` if it was pronounced correctly, `n` if wrong.
+- For a wrong term, put a **plain-English substitute** in **Fix** (e.g.
+  `the theologian al-Ghazali`) or a simpler natural spelling. Do NOT write a
+  hyphen-CAPS respelling — NotebookLM reads those literally.
 - Leave **Fix** blank when OK = y.
 
-The applier (phase 0probe) reads this table: `y` -> confirm the intended
-phonetic in the library; a respelling -> confirm the corrected form; a
-`GLOSS:` -> mark the term unfixable with that substitute.
+The applier reads this table: `y` -> confirm the rendered form in the
+library; an English substitute -> store it as the term's gloss.
 
-| n | term | intended | OK? | Fix |
+| n | term | rendered | OK? | Fix |
 |---|------|----------|-----|-----|
-| 1 | إسرافيل | is-raa-FEEL |  |  |
-| 2 | سنة | SUN-na |  |  |
-| 3 | قابيل | KAY-n |  |  |
-| 4 | أبي طالب | a-bee TAA-lib |  |  |
-| 5 | ذكر المقدمات | dhik-rul mu-qad-di-MAAT |  |  |
-| 6 | الحجج | al-hu-JAJ |  |  |
-| 7 | الدعاة | al-du-AAT |  |  |
-| 8 | إدريس عماد الدين | id-REES i-MAAD ad-DEEN |  |  |
-| 9 | المعيّد في الدين | al-moo-AY-yad fee ad-DEEN |  |  |
-| 10 | عبد السلام ابن رغبان | abd as-sa-LAAM ibn ragh-BAAN |  |  |
-| 11 | محمد ابن جرير الطبري | mu-HAM-mad ibn ja-REER at-ta-BA-ree |  |  |
-| 12 | إسماعيلية | is-maa-EE-li-yya |  |  |
-| 13 | ابن خلكان | ibn khal-li-KAAN |  |  |
-| 14 | المتنبي | al-mu-ta-NAB-bee |  |  |
-| 15 | المعري | al-maa-AR-ree |  |  |
-| 16 | المقريزي | al-ma-KREE-zee |  |  |
-| 17 | الوفيات | al-wa-fa-YAAT |  |  |
-| 18 | جعفر بن محمد | JAA-far ibn mu-HAM-mad |  |  |
-| 19 | الباطن | al-BAA-tin |  |  |
-| 20 | الحسين | al-hu-SAYN |  |  |
-| 21 | الشيطان | al-shay-TAAN |  |  |
-| 22 | الظاهر | al-ZAA-hir |  |  |
-| 23 | حمدانيون | ham-DAA-nids |  |  |
-| 24 | ديك الجن | DEEK al-JINN |  |  |
-| 25 | رفع الإصر | RAFF al-ISR |  |  |
-| 26 | بويهيون | BOO-yids |  |  |
-| 27 | كعبة | KAA-ba |  |  |
-| 28 | مصياف | MAS-yaaf |  |  |
+| 1 | Israfil | Israfil |  |  |
+| 2 | sunna | Sunna |  |  |
+| 3 | Cain | Cain |  |  |
+| 4 | Abi Talib | Abi Talib |  |  |
+| 5 | Dhikr al-Muqaddimat | Dhikr al-Muqaddimat |  |  |
+| 6 | al-Hujaj | al-Hujaj |  |  |
+| 7 | al-Du'at | al-Du'at |  |  |
+| 8 | Idris Imad al-Din | Idris Imad al-Din |  |  |
+| 9 | al-Mu'ayyad fi al-Din | al-Mu'ayyad fi al-Din |  |  |
+| 10 | Abd al-Salam ibn Raghban | Abd al-Salam ibn Raghban |  |  |
+| 11 | Muhammad ibn Jarir al-Tabari | Muhammad ibn Jarir al-Tabari |  |  |
+| 12 | Ismailiyya | Ismailiyya |  |  |
+| 13 | Ibn Khallikan | Ibn Khallikan |  |  |
+| 14 | al-Mutanabbi | al-Mutanabbi |  |  |
+| 15 | al-Ma'arri | al-Ma'arri |  |  |
+| 16 | al-Maqrizi | al-Maqrizi |  |  |
+| 17 | al-Wafayat | al-Wafayat |  |  |
+| 18 | Ja'far ibn Muhammad | Ja'far ibn Muhammad |  |  |
+| 19 | al-Batin | al-Batin |  |  |
+| 20 | al-Husayn | al-Husayn |  |  |
+| 21 | al-Shaytan | Satan |  |  |
+| 22 | al-Zahir | al-Zahir |  |  |
+| 23 | Hamdanids | Hamdanids |  |  |
+| 24 | Dik al-Jinn | Dik al-Jinn |  |  |
+| 25 | Raf' al-Isr | Raf' al-Isr |  |  |
+| 26 | Buyids | Buyids |  |  |
+| 27 | Ka'ba | Kaaba |  |  |
+| 28 | Masyaf | Masyaf |  |  |
 

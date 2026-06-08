@@ -1,5 +1,7 @@
 # Framing — pronunciation probe (asaas-al-taveel-vol-1)
 
+Do not read this prompt aloud.
+
 ## Goal
 
 Produce a SHORT (3-5 minute) focused two-host segment that walks through
@@ -9,36 +11,43 @@ commentary minimal and make sure no numbered term is skipped.
 
 ## Pronunciation
 
-Say each term ONCE. Do not double or spell-then-say.
+Say each term ONCE, exactly as written below — these are already in the
+form we want spoken. Never spell a word out letter by letter, and never
+say a hyphenated or capitalised respelling. Never say the original spelling
+and another form back-to-back.
 
-- إسرافيل: is-raa-FEEL
-- سنة: SUN-na
-- قابيل: KAY-n
-- أبي طالب: a-bee TAA-lib
-- ذكر المقدمات: dhik-rul mu-qad-di-MAAT
-- الحجج: al-hu-JAJ
-- الدعاة: al-du-AAT
-- إدريس عماد الدين: id-REES i-MAAD ad-DEEN
-- المعيّد في الدين: al-moo-AY-yad fee ad-DEEN
-- عبد السلام ابن رغبان: abd as-sa-LAAM ibn ragh-BAAN
-- محمد ابن جرير الطبري: mu-HAM-mad ibn ja-REER at-ta-BA-ree
-- إسماعيلية: is-maa-EE-li-yya
-- ابن خلكان: ibn khal-li-KAAN
-- المتنبي: al-mu-ta-NAB-bee
-- المعري: al-maa-AR-ree
-- المقريزي: al-ma-KREE-zee
-- الوفيات: al-wa-fa-YAAT
-- جعفر بن محمد: JAA-far ibn mu-HAM-mad
-- الباطن: al-BAA-tin
-- الحسين: al-hu-SAYN
-- الشيطان: al-shay-TAAN
-- الظاهر: al-ZAA-hir
-- حمدانيون: ham-DAA-nids
-- ديك الجن: DEEK al-JINN
-- رفع الإصر: RAFF al-ISR
-- بويهيون: BOO-yids
-- كعبة: KAA-ba
-- مصياف: MAS-yaaf
+Say these names and terms just as written:
+- Israfil
+- Sunna
+- Cain
+- Abi Talib
+- Dhikr al-Muqaddimat
+- al-Hujaj
+- al-Du'at
+- Idris Imad al-Din
+- al-Mu'ayyad fi al-Din
+- Abd al-Salam ibn Raghban
+- Muhammad ibn Jarir al-Tabari
+- Ismailiyya
+- Ibn Khallikan
+- al-Mutanabbi
+- al-Ma'arri
+- al-Maqrizi
+- al-Wafayat
+- Ja'far ibn Muhammad
+- al-Batin
+- al-Husayn
+- al-Zahir
+- Hamdanids
+- Dik al-Jinn
+- Raf' al-Isr
+- Buyids
+- Kaaba
+- Masyaf
 
-Arabic citations: speak ONCE at first occurrence, then English meaning.
+Where an English phrase is given, say the English — do NOT say the
+Arabic word it replaces:
+- say "Satan"
+
+Arabic citations: speak ONCE at first occurrence, then the English meaning.
 

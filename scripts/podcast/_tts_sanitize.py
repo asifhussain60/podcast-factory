@@ -212,13 +212,20 @@ ARABIC_TERM_SUBS: list[tuple[str, str]] = [
     ("Ibda",                    "Origination"),
     ("ibda",                    "origination"),
 
-    # zahir → the apparent. Handle "the zahir" first.
+    # zahir → the apparent. Handle the article-prefixed forms FIRST so a bare
+    # "zahir" replace cannot corrupt "al-zahir" into "al-the apparent".
+    ("the al-zahir",            "the apparent"),
+    ("al-zahir",                "the apparent"),
+    ("al-Zahir",                "the apparent"),
     ("the zahir",               "the apparent"),
     ("the Zahir",               "the apparent"),
     ("Zahir",                   "The apparent"),
     ("zahir",                   "the apparent"),
 
-    # batin → the hidden. Handle "the batin" first.
+    # batin → the hidden. Article-prefixed forms first (see zahir note above).
+    ("the al-batin",            "the hidden"),
+    ("al-batin",                "the hidden"),
+    ("al-Batin",                "the hidden"),
     ("the batin",               "the hidden"),
     ("the Batin",               "the hidden"),
     ("Batin",                   "The hidden"),
