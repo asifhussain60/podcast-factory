@@ -287,8 +287,41 @@ def illustrate_book(book_dir: Path, book_md: Path) -> Path:
     return illustrated_md
 
 
+def _edition_title(book_dir: Path) -> str:
+    """Reading-edition title for the PDF filename (book-toc.json book_title first)."""
+    toc = book_dir / "book" / "book-toc.json"
+    if toc.exists():
+        try:
+            title = (json.loads(toc.read_text(encoding="utf-8")).get("book_title") or "").strip()
+            if title:
+                return title
+        except Exception:
+            pass
+    return _series_title(book_dir)
+
+
+def _series_title(book_dir: Path) -> str:
+    """Original work title from meta.yml — used as the Drive per-book folder name."""
+    meta = book_dir / "meta.yml"
+    if meta.exists():
+        try:
+            import yaml  # type: ignore[import]
+            title = (yaml.safe_load(meta.read_text(encoding="utf-8")) or {}).get("title", "").strip()
+            if title:
+                return title
+        except Exception:
+            pass
+    return book_dir.name
+
+
+# Stable alias for any callers outside this module.
+def _book_title(book_dir: Path) -> str:
+    return _edition_title(book_dir)
+
+
 def render_pdf(book_dir: Path, illustrated_md: Path) -> Path:
     """Step 3: render book-illustrated.md → book.pdf via Playwright."""
+    import shutil
     out_pdf = book_dir / "book" / "book.pdf"
     print(f"  render · {illustrated_md.name} → book.pdf (Playwright) …")
     render_script = REPO_ROOT / "plan-dashboard" / "scripts" / "render-book-pdf.mjs"
@@ -312,16 +345,39 @@ def render_pdf(book_dir: Path, illustrated_md: Path) -> Path:
 
     print(f"  render · wrote {out_pdf} ({out_pdf.stat().st_size // 1024}KB)")
 
-    # Copy to Google Drive
-    gdrive = Path(
+    # Write a titled copy alongside book.pdf so the filename matches the book.
+    # book.pdf stays in place for pipeline compatibility (export_distribution.py etc.).
+    edition = _edition_title(book_dir)
+    titled_pdf = out_pdf.parent / f"{edition}.pdf"
+    try:
+        shutil.copy2(out_pdf, titled_pdf)
+        print(f"  render · titled copy → {titled_pdf.name}")
+    except Exception as exc:
+        print(f"  render · titled copy failed (non-fatal): {exc}")
+
+    # Copy to Google Drive:  Podcast Library/{Series Title}/{Edition Title}.pdf
+    series = _series_title(book_dir)
+    gdrive_library = Path(
         "~/Library/CloudStorage/GoogleDrive-asifhussain60@gmail.com"
-        "/My Drive/podcast factory"
+        "/My Drive/Podcast Library"
     ).expanduser()
-    if gdrive.exists():
-        import shutil
-        dest = gdrive / "Journey to the West Vol 1.pdf"
-        shutil.copy2(out_pdf, dest)
-        print(f"  render · copied to Google Drive: {dest.name}")
+    drive_copied = False
+    if gdrive_library.exists():
+        dest = gdrive_library / series / f"{edition}.pdf"
+        try:
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(out_pdf, dest)
+            print(f"  render · Google Drive → Podcast Library/{series}/{dest.name}")
+            drive_copied = True
+        except Exception as exc:
+            print(f"  render · Google Drive copy failed (non-fatal): {exc}")
+    else:
+        print("  render · Google Drive Podcast Library not found — skipping Drive copy")
+
+    if not drive_copied:
+        import subprocess as _sp
+        _sp.run(["open", str(titled_pdf.parent)], check=False)
+        print(f"  render · opened Finder → drag {titled_pdf.name} to Drive manually")
 
     return out_pdf
 

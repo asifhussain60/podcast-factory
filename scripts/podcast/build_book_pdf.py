@@ -5,9 +5,16 @@ the reading edition to a print PDF via the site's Playwright chromium (the same
 browser the diagram renderer uses). The in-site reader view is the always-available
 review surface; this produces the shippable PDF.
 
-After rendering, the PDF is also copied to the Google Drive sync folder as
-`{Book Title}.pdf`, overwriting any prior version, so it is immediately available
-in Drive without a manual upload step.
+After rendering, two copies are written:
+  book/book.pdf               — canonical pipeline name (unchanged, for tooling)
+  book/{Edition Title}.pdf    — human-readable copy, name from book-toc.json
+
+The edition-titled copy is also synced to Google Drive:
+  My Drive/Podcast Library/{Series Title}/{Edition Title}.pdf
+
+where {Series Title} comes from meta.yml ``title`` (the original work title used
+as the per-book Drive folder name) and {Edition Title} from book-toc.json
+``book_title`` (the authored reading-edition title).
 
 GUARANTEED step (per plan): if the chromium binary is missing, this raises an
 actionable AuthoringError naming the one-time setup command rather than skipping.
@@ -17,6 +24,7 @@ Standalone:
 """
 from __future__ import annotations
 
+import json
 import shutil
 import subprocess
 import sys
@@ -32,26 +40,53 @@ _THEME_CSS = _DASHBOARD / "src" / "styles" / "theme.css"
 _INSTALL_HINT = ("Run `npx playwright install chromium` in plan-dashboard/ "
                  "(one-time browser download), then re-run 0book-render.")
 
-# Google Drive sync folder — books are published here as {Title}.pdf.
-_GDRIVE_BOOKS = Path(
+# Google Drive root for the Podcast Library.
+# Structure: Podcast Library/{Series Title}/{Edition Title}.pdf
+# Series Title  = meta.yml ``title``  (the original work title — used as folder name)
+# Edition Title = book-toc.json ``book_title`` (the reading-edition title — used as PDF name)
+_GDRIVE_LIBRARY = Path(
     "~/Library/CloudStorage/GoogleDrive-asifhussain60@gmail.com"
-    "/My Drive/podcast factory"
+    "/My Drive/Podcast Library"
 ).expanduser()
 
 
-def _book_title(book_dir: Path) -> str:
-    """Read the book title from meta.yml. Falls back to the slug."""
+def _edition_title(book_dir: Path) -> str:
+    """Reading-edition title for the PDF filename.
+
+    Priority:
+    1. book/book-toc.json ``book_title`` — the authored reading-edition title
+       (e.g. "The Book of the Master and the Boy").
+    2. meta.yml ``title`` — original work title (fallback).
+    3. slug (book_dir.name) — last resort.
+    """
+    toc = book_dir / "book" / "book-toc.json"
+    if toc.exists():
+        try:
+            title = (json.loads(toc.read_text(encoding="utf-8")).get("book_title") or "").strip()
+            if title:
+                return title
+        except Exception:
+            pass
+    return _series_title(book_dir)
+
+
+def _series_title(book_dir: Path) -> str:
+    """Original work title from meta.yml — used as the Drive per-book folder name."""
     meta = book_dir / "meta.yml"
     if meta.exists():
         try:
             import yaml  # type: ignore[import]
-            data = yaml.safe_load(meta.read_text(encoding="utf-8")) or {}
-            title = data.get("title", "").strip()
+            title = (yaml.safe_load(meta.read_text(encoding="utf-8")) or {}).get("title", "").strip()
             if title:
                 return title
         except Exception:
             pass
     return book_dir.name
+
+
+# Keep _book_title as a stable alias so callers outside this module don't break.
+def _book_title(book_dir: Path) -> str:
+    return _edition_title(book_dir)
 
 
 def build_book(book_dir: Path, *, log=print, book_md: Path | None = None) -> Path:
@@ -90,17 +125,38 @@ def build_book(book_dir: Path, *, log=print, book_md: Path | None = None) -> Pat
             manual_fallback=_INSTALL_HINT)
     log(f"    0book-render: wrote {out_pdf.name} ({out_pdf.stat().st_size // 1024} KB)")
 
-    # Copy to Google Drive sync folder as {Title}.pdf (overwrites previous version).
-    title = _book_title(book_dir)
-    gdrive_dest = _GDRIVE_BOOKS / f"{title}.pdf"
-    if _GDRIVE_BOOKS.exists():
+    # Write a titled copy alongside book.pdf so the PDF filename matches the book.
+    # book.pdf stays in place for pipeline compatibility (export_distribution.py etc.).
+    edition = _edition_title(book_dir)
+    titled_pdf = out_pdf.parent / f"{edition}.pdf"
+    try:
+        shutil.copy2(str(out_pdf), str(titled_pdf))
+        log(f"    0book-render: titled copy → {titled_pdf.name}")
+    except Exception as exc:
+        log(f"    0book-render: titled copy failed (non-fatal): {exc}")
+
+    # Copy to Google Drive:  Podcast Library/{Series Title}/{Edition Title}.pdf
+    # Series Title = meta.yml title (original work title, used as the per-book folder).
+    # Edition Title = book-toc.json book_title (reading-edition title, used as PDF name).
+    series = _series_title(book_dir)
+    gdrive_dest = _GDRIVE_LIBRARY / series / f"{edition}.pdf"
+    drive_copied = False
+    if _GDRIVE_LIBRARY.exists():
         try:
+            gdrive_dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(str(out_pdf), str(gdrive_dest))
-            log(f"    0book-render: copied to Google Drive → {gdrive_dest.name}")
+            log(f"    0book-render: Google Drive → Podcast Library/{series}/{gdrive_dest.name}")
+            drive_copied = True
         except Exception as exc:
             log(f"    0book-render: Google Drive copy failed (non-fatal): {exc}")
     else:
-        log(f"    0book-render: Google Drive folder not mounted — skipping Drive copy")
+        log(f"    0book-render: Google Drive Podcast Library not found — skipping Drive copy")
+
+    if not drive_copied:
+        # Surface the titled copy in Finder so Asif can drag it to Drive manually.
+        import subprocess as _sp
+        _sp.run(["open", str(titled_pdf.parent)], check=False)
+        log(f"    0book-render: opened Finder → drag {titled_pdf.name} to Drive manually")
 
     return out_pdf
 

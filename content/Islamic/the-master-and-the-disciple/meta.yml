@@ -6,6 +6,9 @@ original_title: Kitāb al-ʿĀlim wa-l-Ghulām
 source_pdf: ../../../raw/Kitaab_Al-aalim_wal_Ghulam_Chapters/
 source_audio: ../../../raw/Kitaab_Al-aalim_wal_Ghulam_Chapters/Podcast/00 - The Master And The Disciple.mp3
 
+series:
+  enable_book_branch: true
+
 pipeline:
   current_phase: 06a
   next_phase: per-chapter

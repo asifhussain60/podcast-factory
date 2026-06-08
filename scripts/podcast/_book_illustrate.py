@@ -1,13 +1,26 @@
 """_book_illustrate.py — Phase 0book-illustrate: inject teaching diagrams into book.md.
 
-Reads book/book.md, splits into H2 sections, calls claude -p per section to identify
-1-3 philosophical concepts that genuinely benefit from a teaching diagram, generates
-Mermaid DSL for each, renders to SVG via render-mermaid.mjs --book-dir, reads the SVG
-inline, and produces book/book-illustrated.md with <figure class="book-diagram"> blocks
-inserted after the anchor sentences identified by the LLM.
+Two-stage, content-profile-aware SVG generation:
 
-Idempotent: if book-illustrated.md exists, manifest.json is complete, and all SVG files
-are present, the LLM + render steps are skipped. Pass force=True to regenerate.
+  Stage 1 — Structural classification (one LLM call per section)
+    Identifies 0-3 concepts in the section and classifies each into a structure
+    type from a content-profile-specific vocabulary.  Returns structured JSON with
+    the type name and typed parameters.
+
+  Stage 2 — Generation (no additional LLM call)
+    Mermaid-routed types  (mermaid-flowchart, mermaid-mindmap, mermaid-graph):
+      Write a .mmd file; render to SVG via render-mermaid.mjs (Playwright).
+    SVG-pattern types  (concentric-layers, cosmic-pair, quadrant-map,
+                        hierarchy-tree, cascade-chain):
+      Call _svg_patterns.render_pattern() directly — pure Python, no Playwright.
+
+Islamic-scholarly vocabulary includes all five SVG pattern types because
+Mermaid's grammar cannot express concentric cosmological layers, cosmic-pair
+polarity columns, 2×2 quadrant maps, 4-tier ranked hierarchies, or transmission
+cascade chains with the visual fidelity these structures deserve.
+
+Idempotent: if book-illustrated.md exists, manifest.json is complete, and all SVG
+files are present, the LLM + render steps are skipped.  Pass force=True to regenerate.
 
 Standalone:
   python3 _book_illustrate.py <BOOK_DIR> [--force]
@@ -31,48 +44,204 @@ _RENDER_SCRIPT = _DASHBOARD / "scripts" / "render-mermaid.mjs"
 # Minimum word count for a section to be worth analysing.
 _MIN_SECTION_WORDS = 200
 
-_DIAGRAM_TASK_TEMPLATE = """\
-Analyse the following passage from a scholarly Islamic philosophy reading edition and output a JSON \
-object identifying 0-3 philosophical or metaphysical concepts that warrant a teaching diagram.
+# ---------------------------------------------------------------------------
+# Classification templates — one per content_profile family.
+# Each template asks for BOTH the structure type AND its parameters in one call.
+# For mermaid-* types the parameters include the full DSL so no second call
+# is required.  For SVG-pattern types the parameters are the typed data for
+# _svg_patterns.render_pattern().
+# ---------------------------------------------------------------------------
 
-OUTPUT REQUIREMENT: Return ONLY valid JSON — no preamble, no explanation, no markdown fences, \
-no commentary. The entire response must be parseable by json.loads():
-{{"diagrams": [{{"anchor_text": "...", "diagram_type": "...", "mermaid_dsl": "...", "caption": "..."}}]}}
-Return {{"diagrams": []}} if no diagram is warranted. Maximum 3 diagrams.
+_CLASSIFY_HEADER = """\
+Analyse the passage below and identify 0-3 structural concepts that genuinely \
+benefit from a teaching diagram.  Return ONLY valid JSON, no preamble, no fences:
+{{"concepts": [{{"structure_type": "...", "anchor_text": "...", "caption": "...", \
+"parameters": {{...}}}}]}}
+Return {{"concepts": []}} if nothing warrants a diagram.  Maximum 3 diagrams.
 
-WHEN to propose a diagram — only when ALL of these hold:
-1. The concept has internal structure (taxonomy, process, multi-part relationship) that prose must describe sequentially
-2. A diagram reveals that structure at a glance in a way prose cannot
-3. A reader encountering this section cold would be measurably helped by seeing the structure
+WHEN to propose a diagram — ALL must hold:
+1. The concept has internal structure (ranked tiers, nested levels, sequential \
+stages, 2-axis states) that prose must describe word-by-word.
+2. A diagram reveals that structure simultaneously, in a way prose cannot.
+3. A reader encountering this section cold would be measurably helped.
 
 DO NOT propose a diagram for:
-- Simple binary contrasts already clear in prose
+- Simple binary contrasts already clear in a single sentence
 - Narrative passages, hadith/verse quotations, or supplications
-- Short illustrative anecdotes without structural content
+- Short anecdotes without structural content
+- Any concept that one sentence describes completely
 
-DIAGRAM TYPES — match the structural shape:
-- "flowchart": causal chains, sequential stages, conditional branches
-- "mindmap": central concept radiating into attributes, sub-types, or examples
-- "graph": bidirectional relationships between concepts of equal weight
+JSON FIELD DEFINITIONS (apply to all types):
+- structure_type: one of the types listed below
+- anchor_text: verbatim 20-70 character substring that appears EXACTLY in the passage
+- caption: one sentence (present tense) explaining what the diagram shows
+- parameters: type-specific object (see schemas below)
+
+"""
+
+_CLASSIFY_TEMPLATE_ISLAMIC = _CLASSIFY_HEADER + """\
+STRUCTURE TYPES FOR ISLAMIC PHILOSOPHICAL CONTENT:
+
+1. "concentric-layers"
+   Use when: the text describes nested degrees of the SAME reality (outer form / inner \
+meaning / secret of secrets, or any "the outer of X contains an inner which contains \
+an innermost").
+   Islamic examples: Zahir/Batin/Batin al-Batin; Shell/White/Yolk (egg metaphor).
+   Parameters schema:
+     {{"title": "<diagram title>",
+       "layers": [{{"label": "<ring label>", "description": "<optional brief note>"}}]}}
+   layers list runs from OUTERMOST to INNERMOST (most esoteric last).
+
+2. "cosmic-pair"
+   Use when: the text pairs two phenomena repeatedly as higher/lower, manifest/hidden, \
+active/passive — and gives MULTIPLE examples of the same pairing principle.
+   Islamic examples: Sun/Moon, Sky/Earth, Salty/Fresh — all expressing Zahir/Batin.
+   Convention: left column = higher rank / manifest; right column = lower rank / hidden.
+   Parameters schema:
+     {{"title": "<diagram title>",
+       "left_label": "<header for higher-rank column>",
+       "right_label": "<header for lower-rank column>",
+       "rows": [{{"left": "<item>", "right": "<item>"}}],
+       "principle": "<optional: the unifying principle in one phrase>"}}
+
+3. "hierarchy-tree"
+   Use when: the text describes a chain of RANKED authority or proximity to the source \
+with 2 or more tiers below the apex.
+   Islamic examples: Natiq → Wasi/Imam → Hujja (×12) → Duʿāt.
+   Parameters schema:
+     {{"title": "<diagram title>",
+       "root": "<apex node label>",
+       "levels": [["<tier-1 node>", ...], ["<tier-2 node>", ...]]}}
+   levels[0] is the tier immediately below root; levels[-1] is the lowest tier.
+   For large tiers use concise labels like "Hujja × 12".
+
+4. "cascade-chain"
+   Use when: the text describes HOW something (knowledge, authority, divine speech) \
+passes from origin to receiver through intermediaries, each stage TRANSFORMING or \
+adapting the substance.
+   Islamic examples: Creator's pure speech → Imam transforms into body-and-form → \
+Bab condenses → Duʿāt distributes.
+   Parameters schema:
+     {{"title": "<diagram title>",
+       "nodes": [{{"role": "<transformation label>", "label": "<entity name>"}}]}}
+   role is what this stage DOES (e.g. "Transforms into Form", "Condenses").
+   First node role can be "Source" or "Origin".
+
+5. "quadrant-map"
+   Use when: the text describes FOUR distinct states produced by two independent \
+binary qualities.
+   Islamic examples: Outer knowledge (yes/no) × Inner knowledge (yes/no) → \
+Mu'min / Fasiq / Beast / Dead.
+   Parameters schema:
+     {{"title": "<diagram title>",
+       "x_axis": {{"label": "<axis name>", "pos_label": "<right col label>", \
+"neg_label": "<left col label>"}},
+       "y_axis": {{"label": "<axis name>", "pos_label": "<top row label>", \
+"neg_label": "<bottom row label>"}},
+       "quadrants": [
+         {{"label": "<top-left state>",    "note": "<optional>", "impossible": false}},
+         {{"label": "<top-right state>",   "note": "<optional>", "impossible": false}},
+         {{"label": "<bottom-left state>", "note": "<optional>", "impossible": false}},
+         {{"label": "<bottom-right state>","note": "<optional>", "impossible": false}}
+       ]}}
+   Set "impossible": true for any quadrant the source says cannot exist.
+   The top-right quadrant (pos x + pos y) is rendered as the ideal/synthesis state.
+
+--- Simpler structures handled by Mermaid ---
+
+6. "mermaid-flowchart"
+   Use when: 3-6 sequential or causal stages, each causing the next.
+   Parameters: {{"mermaid_dsl": "flowchart TD\\nA[\\"Step\\"] --> B[\\"Step\\"]"}}
+
+7. "mermaid-mindmap"
+   Use when: one central concept radiates into sub-types or attributes (NO ranked order).
+   Parameters: {{"mermaid_dsl": "mindmap\\n  root((\\"Topic\\"))\\n  Branch1\\n  Branch2"}}
+
+8. "mermaid-graph"
+   Use when: bidirectional relationships between 3-5 concepts of roughly equal weight.
+   Parameters: {{"mermaid_dsl": "graph LR\\nA[\\"Concept\\"] --- B[\\"Concept\\"]"}}
 
 MERMAID DSL HARD CONSTRAINTS (violations cause render failure):
 - ALL node labels in double quotes: A["Label text"]
-- Node IDs: letters + digits + underscores only — no spaces, no hyphens
-- Labels: max 6 words, no apostrophes, no parentheses inside quotes
-- flowchart: first line must be `flowchart TD` or `flowchart LR`
+- Node IDs: letters + digits + underscores only (no spaces, no hyphens)
+- Labels: max 6 words, no apostrophes or parentheses inside quotes
+- flowchart: first line MUST be `flowchart TD` or `flowchart LR`
 - mindmap: root uses `root(("Topic"))`, branches indented 2 spaces, NO arrows
-- graph: `graph LR` or `graph TD`, `-->` for directional, `---` for undirected
-
-JSON FIELD DEFINITIONS:
-- anchor_text: verbatim 20-70 character substring from the passage (must appear EXACTLY in the text below)
-- diagram_type: one of "flowchart", "mindmap", "graph"
-- mermaid_dsl: complete valid Mermaid DSL string
-- caption: one sentence (present tense) explaining what structure the diagram shows
+- graph: `graph LR` or `graph TD`; `-->` directional; `---` undirected
 
 SECTION TITLE: {section_title}
 
 PASSAGE:
 {section_text}"""
+
+
+_CLASSIFY_TEMPLATE_TECHNICAL = _CLASSIFY_HEADER + """\
+STRUCTURE TYPES FOR TECHNICAL CONTENT:
+
+1. "hierarchy-tree" — system component hierarchies, module dependency trees.
+   Parameters: {{"title": str, "root": str, "levels": [[str, ...], ...]}}
+
+2. "cascade-chain" — data pipelines, request/response flows, build stages.
+   Parameters: {{"title": str, "nodes": [{{"role": str, "label": str}}]}}
+
+3. "mermaid-flowchart" — decision trees, conditional logic, sequential processes.
+   Parameters: {{"mermaid_dsl": "flowchart TD\\n..."}}
+
+4. "mermaid-graph" — dependency graphs, bidirectional component relationships.
+   Parameters: {{"mermaid_dsl": "graph LR\\n..."}}
+
+5. "mermaid-mindmap" — feature decompositions, option spaces.
+   Parameters: {{"mermaid_dsl": "mindmap\\n  root((\\"Topic\\"))\\n..."}}
+
+MERMAID DSL HARD CONSTRAINTS:
+- ALL node labels in double quotes: A["Label text"]
+- Node IDs: letters + digits + underscores only
+- Labels: max 6 words, no apostrophes or parentheses inside quotes
+- flowchart: first line MUST be `flowchart TD` or `flowchart LR`
+- mindmap: root uses `root(("Topic"))`, branches indented 2 spaces, NO arrows
+
+SECTION TITLE: {section_title}
+
+PASSAGE:
+{section_text}"""
+
+
+_CLASSIFY_TEMPLATE_DEFAULT = _CLASSIFY_HEADER + """\
+STRUCTURE TYPES:
+
+1. "mermaid-flowchart" — sequential/causal stages (3-6 steps).
+   Parameters: {{"mermaid_dsl": "flowchart TD\\n..."}}
+
+2. "mermaid-mindmap" — one central concept with radiating attributes.
+   Parameters: {{"mermaid_dsl": "mindmap\\n  root((\\"Topic\\"))\\n..."}}
+
+3. "mermaid-graph" — bidirectional relationships (3-5 concepts).
+   Parameters: {{"mermaid_dsl": "graph LR\\n..."}}
+
+4. "hierarchy-tree" — ranked tiers descending in authority.
+   Parameters: {{"title": str, "root": str, "levels": [[str, ...], ...]}}
+
+5. "cascade-chain" — sequential transmission stages.
+   Parameters: {{"title": str, "nodes": [{{"role": str, "label": str}}]}}
+
+MERMAID DSL HARD CONSTRAINTS:
+- ALL node labels in double quotes: A["Label text"]
+- Node IDs: letters + digits + underscores only
+- Labels: max 6 words, no apostrophes or parentheses inside quotes
+- flowchart: first line MUST be `flowchart TD` or `flowchart LR`
+- mindmap: root uses `root(("Topic"))`, branches indented 2 spaces, NO arrows
+
+SECTION TITLE: {section_title}
+
+PASSAGE:
+{section_text}"""
+
+_SVG_PATTERN_TYPES = frozenset({
+    "concentric-layers", "cosmic-pair", "quadrant-map",
+    "hierarchy-tree", "cascade-chain",
+})
+_MERMAID_TYPES = frozenset({"mermaid-flowchart", "mermaid-mindmap", "mermaid-graph"})
+_ALL_TYPES = _SVG_PATTERN_TYPES | _MERMAID_TYPES
 
 
 def _sections_from_md(md: str) -> list[tuple[str, str]]:
@@ -89,13 +258,21 @@ def _sections_from_md(md: str) -> list[tuple[str, str]]:
     return result
 
 
-def _call_illustrate(section_title: str, section_text: str, *, book_dir: Path) -> list[dict]:
-    """Call claude -p with the illustration prompt. Returns validated diagram specs."""
+def _select_classify_template(content_profile: str) -> str:
+    """Return the right classification template for a given content profile."""
+    if content_profile == "islamic_scholarly":
+        return _CLASSIFY_TEMPLATE_ISLAMIC
+    if content_profile == "technical":
+        return _CLASSIFY_TEMPLATE_TECHNICAL
+    return _CLASSIFY_TEMPLATE_DEFAULT
+
+
+def _classify_section(section_title: str, section_text: str,
+                       content_profile: str, *, book_dir: Path) -> list[dict]:
+    """Stage-1 classification.  Returns validated concept specs (max 3) for the section."""
+    template = _select_classify_template(content_profile)
     text = section_text[:6000] if len(section_text) > 6000 else section_text
-    prompt = _DIAGRAM_TASK_TEMPLATE.format(
-        section_title=section_title,
-        section_text=text,
-    )
+    prompt = template.format(section_title=section_title, section_text=text)
 
     rc, stdout, stderr = _run_claude_p(
         prompt,
@@ -113,19 +290,73 @@ def _call_illustrate(section_title: str, section_text: str, *, book_dir: Path) -
 
     try:
         data = json.loads(raw)
-        diagrams = data.get("diagrams", [])
+        concepts = data.get("concepts", [])
     except (json.JSONDecodeError, AttributeError):
-        sys.stderr.write(f"  [illustrate] JSON parse failed for {section_title!r}: {raw[:200]}\n")
+        sys.stderr.write(
+            f"  [illustrate] JSON parse failed for {section_title!r}: {raw[:200]}\n"
+        )
         return []
 
+    return _validate_concepts(concepts)
+
+
+def _validate_concepts(raw_concepts: list) -> list[dict]:
+    """Validate structure type, required fields, and parameter schema of raw concepts."""
     valid: list[dict] = []
-    for d in diagrams:
-        if not all(k in d for k in ("anchor_text", "diagram_type", "mermaid_dsl", "caption")):
+    for c in raw_concepts:
+        if not isinstance(c, dict):
             continue
-        if d["diagram_type"] not in ("flowchart", "mindmap", "graph"):
+        stype = c.get("structure_type", "")
+        if stype not in _ALL_TYPES:
             continue
-        valid.append(d)
-    return valid[:3]
+        if not c.get("anchor_text") or not c.get("caption"):
+            continue
+        params = c.get("parameters", {})
+        if not isinstance(params, dict):
+            continue
+
+        if stype in _MERMAID_TYPES:
+            dsl = params.get("mermaid_dsl", "")
+            if not isinstance(dsl, str) or not dsl.strip():
+                continue  # no DSL → skip
+        else:
+            # SVG pattern types require at least a 'title' in parameters
+            if not params.get("title"):
+                continue
+
+        valid.append(c)
+    return valid[:3]  # hard cap at 3 per section
+
+
+def _generate_pattern_svg_file(spec: dict, diagram_id: str,
+                                diagram_dir: Path) -> str | None:
+    """Stage-2 generation for SVG-pattern types.
+
+    Calls _svg_patterns.render_pattern() and writes the SVG file directly.
+    Returns the svg_path string, or None on failure.
+    """
+    from _svg_patterns import render_pattern  # local import: avoids circular deps
+    stype  = spec["structure_type"]
+    params = dict(spec.get("parameters", {}))
+
+    # Ensure a title exists (fall back to a cleaned diagram_id)
+    if not params.get("title"):
+        params["title"] = diagram_id.replace("-", " ").title()
+
+    svg_str = render_pattern(stype, params)
+    if not svg_str:
+        sys.stderr.write(
+            f"  [illustrate] render_pattern returned None for {diagram_id} ({stype})\n"
+        )
+        return None
+
+    svg_path = diagram_dir / f"{diagram_id}.svg"
+    try:
+        svg_path.write_text(svg_str, encoding="utf-8")
+    except OSError as exc:
+        sys.stderr.write(f"  [illustrate] write failed for {svg_path}: {exc}\n")
+        return None
+    return str(svg_path)
 
 
 def _render_diagrams(book_dir: Path, *, log=print) -> None:
@@ -218,22 +449,22 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
             message=f"book.md not found at {book_md_path} — run 0book-compose first.",
             manual_fallback="python3 _book_compose.py <BOOK_DIR>")
 
-    # Wave-Fiction: this phase generates Mermaid TEACHING diagrams (flowchart /
-    # mindmap / graph) for scholarly philosophy — inappropriate for a novel. For
-    # fiction we do NOT inject teaching diagrams; scenic raster illustrations for
-    # the fiction reading edition are produced by the dedicated fiction-illustration
-    # path (Step 2 of the Journey-to-the-West build), not here. Emit a clean
-    # passthrough so downstream (build_book_pdf) still finds book-illustrated.md.
+    # Resolve content_profile once: used for both the fiction gate and template selection.
     from _content_profile import resolve_content_profile  # local import: avoid circularity
-    if resolve_content_profile(book_dir) == "fiction":
+    content_profile = resolve_content_profile(book_dir)
+
+    # Fiction passthrough: novels use scenic raster illustrations (separate path),
+    # not teaching diagrams.  Emit book-illustrated.md as a clean copy of book.md
+    # so downstream build_book_pdf still finds the expected file name.
+    if content_profile == "fiction":
         log(f"    0book-illustrate: {book_dir.name}: content_profile='fiction' — "
-            f"skipping teaching-diagram injection (novels use scenic illustration, not diagrams)")
+            f"skipping teaching-diagram injection (novels use scenic illustration)")
         diagram_dir.mkdir(parents=True, exist_ok=True)
         manifest_path.write_text("[]\n", encoding="utf-8")
         illustrated_path.write_text(book_md_path.read_text(encoding="utf-8"), encoding="utf-8")
         return illustrated_path
 
-    # Idempotency: skip if all outputs are present and not forcing
+    # Idempotency: skip if all outputs are present and not forcing.
     if not force and illustrated_path.exists() and manifest_path.exists():
         try:
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -249,7 +480,7 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
 
     book_md = book_md_path.read_text(encoding="utf-8")
     sections = _sections_from_md(book_md)
-    log(f"    0book-illustrate: {book_dir.name}: "
+    log(f"    0book-illustrate: {book_dir.name}: profile={content_profile!r} — "
         f"analysing {len(sections)} sections for diagram opportunities")
 
     manifest: list[dict] = []
@@ -261,36 +492,62 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
             continue
 
         try:
-            log(f"    0book-illustrate: {heading[:60]!r} — requesting diagram spec")
-            specs = _call_illustrate(heading, body, book_dir=book_dir)
+            log(f"    0book-illustrate: {heading[:60]!r} — classifying structure")
+            specs = _classify_section(heading, body, content_profile, book_dir=book_dir)
 
             if not specs:
                 log(f"    0book-illustrate: {heading[:60]!r} — no diagrams warranted")
                 continue
 
-            log(f"    0book-illustrate: {heading[:60]!r} — {len(specs)} diagram(s) identified")
+            log(f"    0book-illustrate: {heading[:60]!r} — "
+                f"{len(specs)} diagram(s): "
+                + ", ".join(s["structure_type"] for s in specs))
             section_slug = re.sub(r'[^a-z0-9]+', '-', heading.lower())[:40].strip('-')
 
             for i, spec in enumerate(specs, 1):
+                stype      = spec["structure_type"]
                 diagram_id = f"{section_slug}-{i}"
-                mmd_path = diagram_dir / f"{diagram_id}.mmd"
-                svg_path = diagram_dir / f"{diagram_id}.svg"
-                mmd_dsl = spec.get("mermaid_dsl", "")
-                if not isinstance(mmd_dsl, str) or not mmd_dsl.strip():
-                    sys.stderr.write(f"  [illustrate] empty/bad mermaid_dsl for "
-                                     f"{diagram_id}, skipping\n")
-                    continue
-                mmd_path.write_text(mmd_dsl, encoding="utf-8")
 
-                manifest.append({
-                    "diagram_id": diagram_id,
-                    "section": heading,
-                    "anchor_text": spec["anchor_text"],
-                    "diagram_type": spec["diagram_type"],
-                    "caption": spec["caption"],
-                    "mmd_path": str(mmd_path),
-                    "svg_path": str(svg_path),
-                })
+                if stype in _MERMAID_TYPES:
+                    # ── Mermaid path ──
+                    # DSL is in parameters.mermaid_dsl; render-mermaid.mjs converts
+                    # .mmd → .svg in _render_diagrams() below.
+                    mmd_dsl = spec["parameters"].get("mermaid_dsl", "")
+                    if not isinstance(mmd_dsl, str) or not mmd_dsl.strip():
+                        sys.stderr.write(
+                            f"  [illustrate] empty mermaid_dsl for {diagram_id}, skipping\n"
+                        )
+                        continue
+                    mmd_file  = diagram_dir / f"{diagram_id}.mmd"
+                    svg_path  = str(diagram_dir / f"{diagram_id}.svg")
+                    mmd_file.write_text(mmd_dsl, encoding="utf-8")
+                    manifest.append({
+                        "diagram_id":     diagram_id,
+                        "section":        heading,
+                        "anchor_text":    spec["anchor_text"],
+                        "structure_type": stype,
+                        "diagram_type":   stype.replace("mermaid-", ""),  # compat
+                        "caption":        spec["caption"],
+                        "mmd_path":       str(mmd_file),
+                        "svg_path":       svg_path,
+                    })
+
+                else:
+                    # ── SVG-pattern path ──
+                    # Pure-Python renderer in _svg_patterns; no Playwright needed.
+                    svg_path = _generate_pattern_svg_file(spec, diagram_id, diagram_dir)
+                    if not svg_path:
+                        continue
+                    manifest.append({
+                        "diagram_id":     diagram_id,
+                        "section":        heading,
+                        "anchor_text":    spec["anchor_text"],
+                        "structure_type": stype,
+                        "diagram_type":   stype,  # for manifest clarity
+                        "caption":        spec["caption"],
+                        "svg_path":       svg_path,
+                    })
+
         except Exception as exc:
             sys.stderr.write(f"  [illustrate] section {heading[:50]!r} failed "
                              f"({type(exc).__name__}: {exc}), skipping\n")
