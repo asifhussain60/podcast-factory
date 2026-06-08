@@ -105,6 +105,11 @@ content/**/*.wav
 content/**/*.m4a
 content/**/*.mp4
 content/**/*.mov
+# Source PDFs placed alongside pipeline outputs (e.g. book-publisher copies)
+# are large binaries and should not be tracked. The pipeline-generated book.pdf
+# is already tracked where present; gitignore does not un-track it.
+content/**/book/[!b]*.pdf
+content/**/book/[B][^o]*.pdf
 _workspace/**/*.zip
 _workspace/**/*.llc
 _workspace/**/*.pdf
