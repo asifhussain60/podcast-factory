@@ -1,5 +1,16 @@
 # Asaas al-Taʾwīl (أساس التأويل)
 
+> **MASTER SOURCE -- DO NOT DELETE until all 7 volumes ship.**
+> This folder (`asaas-al-taveel`, no `-vol` suffix) holds the ONLY complete
+> refined transcript (pages 1-416) and the full 6-cycle chapters-rationale.
+> The 7-volume series (`asaas-al-taveel-vol-N`) is carved FROM this folder --
+> it is the quarry, not a pre-split remnant. Volume map = the seven natiqs:
+> Vol 1 Adam (43pp) / Vol 2 Nuh (31pp) / Vol 3 Ibrahim (72pp) / Vol 4 Musa
+> (120pp) / Vol 5 Isa (16pp) / Vol 6 Muhammad (54pp) / Vol 7 Qaim (0pp -- the
+> unwritten chapter, honored as deliberate silence). Process Vol 1 fully
+> (chapters + episodes + PDF), then Vols 2-7 sequentially. See repo memory
+> `project_asaas_seven_volumes.md`.
+
 Author: al-Qāḍī al-Nuʿmān (d. 974 CE)
 Editor: ʿĀrif Tāmir (1960 Beirut edition)
 Source PDF: 416 pages, scanned image-only, Arabic
