@@ -3,15 +3,11 @@
   "book_slug": "asaas-al-taveel-vol-01",
   "category": "books",
   "branch": "Islamic/asaas-al-taveel",
-  "phase": "0c",
-  "phase_status": "halted",
-  "last_completed_phase": "0b",
+  "phase": "0ci",
+  "phase_status": "completed",
+  "last_completed_phase": "0ci",
   "next_phase": "0d",
-  "last_error": {
-    "phase": "0c",
-    "message": "EP00 pronunciation probe ready for human review. Upload `/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/asaas-al-taveel-vol-1/_system/probe/EP00-pronunciation-probe/pronunciation-probe.md` to NotebookLM, paste `00-framing.md` into Customize, generate a 3-5 min audio, mark corrections in `listen-checklist.md`, then resume.",
-    "ts": "2026-06-08T17:31:16Z"
-  },
+  "last_error": null,
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -67,6 +63,11 @@
     },
     "done": {
       "status": "pending"
+    },
+    "0ci": {
+      "status": "completed",
+      "ts_started": "2026-06-08T22:13:09Z",
+      "ts_completed": "2026-06-08T22:13:09Z"
     }
   },
   "cost": {
@@ -75,7 +76,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-06-08T00:00:00Z",
-  "ts_updated": "2026-06-08T17:31:16Z",
+  "ts_updated": "2026-06-08T22:13:09Z",
   "config": {
     "length_tier": "extended",
     "unit_mode": "auto"
