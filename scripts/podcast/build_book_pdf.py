@@ -118,15 +118,29 @@ def build_book(book_dir: Path, *, log=print, book_md: Path | None = None) -> Pat
         log(f"    0book-render: titled copy failed (non-fatal): {exc}")
 
     # Copy to Google Drive sync folder as {Title}.pdf (overwrites previous version).
+    # NOTE: the Claude Code bash sandbox cannot write to ~/Library/CloudStorage/ —
+    # macOS blocks it with "Operation not permitted". The Drive copy succeeds only
+    # when this script runs with Full Disk Access (e.g. a native app context).
+    # When it fails, Finder is opened to the titled local copy so the user can drag
+    # it to Drive manually. Do NOT attempt cp/AppleScript workarounds — they fail
+    # the same way. See memory: feedback_google_drive_publish.md.
     gdrive_dest = _GDRIVE_BOOKS / f"{title}.pdf"
+    drive_copied = False
     if _GDRIVE_BOOKS.exists():
         try:
             shutil.copy2(str(out_pdf), str(gdrive_dest))
             log(f"    0book-render: copied to Google Drive → {gdrive_dest.name}")
+            drive_copied = True
         except Exception as exc:
             log(f"    0book-render: Google Drive copy failed (non-fatal): {exc}")
     else:
         log(f"    0book-render: Google Drive folder not mounted — skipping Drive copy")
+
+    if not drive_copied:
+        # Surface the titled copy in Finder so Asif can drag it to Drive manually.
+        import subprocess as _sp
+        _sp.run(["open", str(titled_pdf.parent)], check=False)
+        log(f"    0book-render: opened Finder → {titled_pdf.parent.name}/ — drag {titled_pdf.name} to Drive")
 
     return out_pdf
 
