@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+
+const PAGE_SIZE = 40;
 
 /**
  * PronunciationReview — per-book probe checklist island.
@@ -78,6 +80,14 @@ export default function PronunciationReview({ slug, terms }: Props) {
   const [saving, setSaving] = useState(false);
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(0);
+  const listRef = useRef<HTMLOListElement>(null);
+
+  const totalPages = Math.ceil(terms.length / PAGE_SIZE);
+  const pagedTerms = useMemo(
+    () => terms.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE),
+    [terms, page],
+  );
 
   useEffect(() => {
     try {
@@ -105,9 +115,10 @@ export default function PronunciationReview({ slug, terms }: Props) {
   }
 
   const decidedCount = useMemo(() => Object.values(rows).filter(isDecided).length, [rows]);
+  // acceptableCount is page-scoped — the Accept button applies to the visible batch.
   const acceptableCount = useMemo(
-    () => terms.filter((t) => { const r = rows[t.term]; return r && r.decision === 'pending' && r.phonetic.trim(); }).length,
-    [rows, terms],
+    () => pagedTerms.filter((t) => { const r = rows[t.term]; return r && r.decision === 'pending' && r.phonetic.trim(); }).length,
+    [rows, pagedTerms],
   );
 
   function update(term: string, patch: Partial<RowState>) {
@@ -118,7 +129,7 @@ export default function PronunciationReview({ slug, terms }: Props) {
   function acceptAllSuggestions() {
     setRows((prev) => {
       const next = { ...prev };
-      for (const t of terms) {
+      for (const t of pagedTerms) {
         const r = next[t.term];
         if (r && r.decision === 'pending' && r.phonetic.trim()) {
           next[t.term] = { ...r, decision: 'ok', phoneSuggested: false };
@@ -127,6 +138,11 @@ export default function PronunciationReview({ slug, terms }: Props) {
       return next;
     });
     setResult(null);
+  }
+
+  function goToPage(p: number) {
+    setPage(p);
+    listRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
   }
 
   async function handleArabicBlur(term: string, arabicValue: string) {
@@ -189,6 +205,9 @@ export default function PronunciationReview({ slug, terms }: Props) {
       <div className="pron-bar">
         <div className="pron-bar-info">
           <span className="pron-count">{decidedCount}/{terms.length} reviewed</span>
+          {totalPages > 1 && (
+            <span className="pron-page-indicator">pg {page + 1}/{totalPages}</span>
+          )}
         </div>
         <div className="pron-bar-actions">
           {acceptableCount > 0 && (
@@ -199,8 +218,22 @@ export default function PronunciationReview({ slug, terms }: Props) {
         </div>
       </div>
 
-      <ol className="pron-list">
-        {terms.map((t) => {
+      {totalPages > 1 && (
+        <div className="pron-pagination">
+          <button className="pron-page-btn" disabled={page === 0} onClick={() => goToPage(page - 1)}>
+            ← Prev
+          </button>
+          <span className="pron-page-info">
+            {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, terms.length)} of {terms.length} · page {page + 1} of {totalPages}
+          </span>
+          <button className="pron-page-btn" disabled={page === totalPages - 1} onClick={() => goToPage(page + 1)}>
+            Next →
+          </button>
+        </div>
+      )}
+
+      <ol className="pron-list" ref={listRef}>
+        {pagedTerms.map((t) => {
           const r = rows[t.term] ?? { decision: 'pending' as Decision, phonetic: prefill(t), gloss: '', arabic: t.arabicScript || '' };
           const known = t.libraryStatus !== null;
           const useGloss = r.decision === 'cantsay';
@@ -314,6 +347,20 @@ export default function PronunciationReview({ slug, terms }: Props) {
           );
         })}
       </ol>
+
+      {totalPages > 1 && (
+        <div className="pron-pagination">
+          <button className="pron-page-btn" disabled={page === 0} onClick={() => goToPage(page - 1)}>
+            ← Prev
+          </button>
+          <span className="pron-page-info">
+            {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, terms.length)} of {terms.length} · page {page + 1} of {totalPages}
+          </span>
+          <button className="pron-page-btn" disabled={page === totalPages - 1} onClick={() => goToPage(page + 1)}>
+            Next →
+          </button>
+        </div>
+      )}
 
       <div className="pron-footer">
         {result && <p className="pron-msg pron-msg-ok" role="status">{result}</p>}

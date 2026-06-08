@@ -4,7 +4,7 @@
   "scored_terms": 128,
   "skipped_confirmed": 40,
   "skipped_unfixable": 0,
-  "top_n": 40,
+  "top_n": 128,
   "terms": [
     {
       "term": "حجة",
@@ -846,6 +846,1725 @@
       "arabic_script": "هابيل",
       "meaning": "Abel",
       "n": 40
+    },
+    {
+      "term": "هبة الله",
+      "transliteration": "Hibat Allah",
+      "phonetic": "/ˈhɪ.bat ˈʔɑl.lɑː/",
+      "house_style_ok": false,
+      "suggested_baseline": "hi-bat a-llah",
+      "signature": [
+        "ending-ah"
+      ],
+      "segment": "terms",
+      "snippet": "\"he named Hibat Allah ('the Gift of God')\"",
+      "freq": 2,
+      "score": 2,
+      "reasons": [
+        "x2 in text",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "هبة الله",
+      "meaning": "Hibat Allah",
+      "n": 41
+    },
+    {
+      "term": "ولاية",
+      "transliteration": "walaya",
+      "phonetic": "walaːja",
+      "house_style_ok": false,
+      "suggested_baseline": "wa-lay-a",
+      "signature": [
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"the obligation of walaya, the proofs of the Imams\"",
+      "freq": 2,
+      "score": 2,
+      "reasons": [
+        "x2 in text",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "ولاية",
+      "meaning": "\"guardianship\" / \"spiritual authority\" — the unique allegiance owed to the imām, distinct from prophethood.",
+      "n": 42
+    },
+    {
+      "term": "أخنوخ",
+      "transliteration": "Akhnūkh",
+      "phonetic": "akh-nookh",
+      "house_style_ok": true,
+      "suggested_baseline": "a-khnookh",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "Akhnukh (Enoch) was born in 1122",
+      "freq": 2,
+      "score": 1,
+      "reasons": [
+        "x2 in text"
+      ],
+      "arabic_script": "أخنوخ",
+      "meaning": "enoch",
+      "n": 43
+    },
+    {
+      "term": "أصول",
+      "transliteration": "usul",
+      "phonetic": "u-SOOL",
+      "house_style_ok": true,
+      "suggested_baseline": "u-sul",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"the testimony to Allah Almighty is the highest degree — the usul\"",
+      "freq": 2,
+      "score": 1,
+      "reasons": [
+        "x2 in text"
+      ],
+      "arabic_script": "أصول",
+      "meaning": "",
+      "n": 44
+    },
+    {
+      "term": "باب",
+      "transliteration": "Bab",
+      "phonetic": "BAAB",
+      "house_style_ok": true,
+      "suggested_baseline": "bab",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"One of the four who holds the presidency is called 'the Bab'\"",
+      "freq": 2,
+      "score": 1,
+      "reasons": [
+        "x2 in text"
+      ],
+      "arabic_script": "باب",
+      "meaning": "Bab",
+      "n": 45
+    },
+    {
+      "term": "بشر",
+      "transliteration": "bashar",
+      "phonetic": "ba-shar",
+      "house_style_ok": true,
+      "suggested_baseline": "ba-shar",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "*bashar* refers to the appearance of the skin",
+      "freq": 2,
+      "score": 1,
+      "reasons": [
+        "x2 in text"
+      ],
+      "arabic_script": "بشر",
+      "meaning": "",
+      "n": 46
+    },
+    {
+      "term": "فروع",
+      "transliteration": "furu'",
+      "phonetic": "fu-ROO",
+      "house_style_ok": true,
+      "suggested_baseline": "fu-ru",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "\"the testimony to the Messenger (peace be upon him) is the lowest degree — the furu'\"",
+      "freq": 2,
+      "score": 1,
+      "reasons": [
+        "x2 in text"
+      ],
+      "arabic_script": "فروع",
+      "meaning": "",
+      "n": 47
+    },
+    {
+      "term": "لاحق",
+      "transliteration": "Lahiq",
+      "phonetic": "LAA-hiq",
+      "house_style_ok": true,
+      "suggested_baseline": "la-hik",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"namely the Imam, the Hujjah, and the Lahiq\"",
+      "freq": 2,
+      "score": 1,
+      "reasons": [
+        "x2 in text"
+      ],
+      "arabic_script": "لاحق",
+      "meaning": "Lahiq",
+      "n": 48
+    },
+    {
+      "term": "مريم",
+      "transliteration": "Maryam",
+      "phonetic": "MAR-yam",
+      "house_style_ok": true,
+      "suggested_baseline": "ma-ryam",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"'When the angels said, O Mary, indeed Allah gives you good tidings of a Word from Him…Isa son of Maryam'\"",
+      "freq": 2,
+      "score": 1,
+      "reasons": [
+        "x2 in text"
+      ],
+      "arabic_script": "مريم",
+      "meaning": "Maryam",
+      "n": 49
+    },
+    {
+      "term": "ودّ",
+      "transliteration": "Wadd",
+      "phonetic": "wadd",
+      "house_style_ok": true,
+      "suggested_baseline": "wadd",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "Do not forsake Wadd",
+      "freq": 2,
+      "score": 1,
+      "reasons": [
+        "x2 in text"
+      ],
+      "arabic_script": "ودّ",
+      "meaning": "Wadd",
+      "n": 50
+    },
+    {
+      "term": "ولي",
+      "transliteration": "Wali",
+      "phonetic": "wa-LEE",
+      "house_style_ok": true,
+      "suggested_baseline": "wa-li",
+      "signature": [
+        "ending-i"
+      ],
+      "segment": "terms",
+      "snippet": "\"the earth is never devoid of a Wali of Allah\"",
+      "freq": 2,
+      "score": 1,
+      "reasons": [
+        "x2 in text"
+      ],
+      "arabic_script": "ولي",
+      "meaning": "Wali",
+      "n": 51
+    },
+    {
+      "term": "المعيّد في الدين",
+      "transliteration": "al-Mu'ayyad fi al-Din",
+      "phonetic": "ʔal-muʔajjad fiː ad-diːn",
+      "house_style_ok": false,
+      "suggested_baseline": "al-mua-yyad fi al-din",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"their great supporter of religion, al-Mu'ayyad fi al-Din\"",
+      "freq": 1,
+      "score": 4,
+      "reasons": [
+        "5 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "المعيّد في الدين",
+      "meaning": "",
+      "n": 52
+    },
+    {
+      "term": "عبد السلام ابن رغبان",
+      "transliteration": "Abd al-Salam ibn Raghban",
+      "phonetic": "ʕabd as-salaːm ɪbn raɣbaːn",
+      "house_style_ok": false,
+      "suggested_baseline": "abd al-sa-lam ibn ra-ghban",
+      "signature": [
+        "article-al",
+        "lineage"
+      ],
+      "segment": "terms",
+      "snippet": "\"information about the poet Abd al-Salam ibn Raghban\"",
+      "freq": 1,
+      "score": 4,
+      "reasons": [
+        "5 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "عبد السلام ابن رغبان",
+      "meaning": "",
+      "n": 53
+    },
+    {
+      "term": "محمد ابن جرير الطبري",
+      "transliteration": "Muhammad ibn Jarir al-Tabari",
+      "phonetic": "mʊħammad ɪbn dʒariːr at-tabarɪ",
+      "house_style_ok": false,
+      "suggested_baseline": "mu-ha-mmad ibn ja-rir al-ta-ba-ri",
+      "signature": [
+        "article-al",
+        "lineage",
+        "ending-i"
+      ],
+      "segment": "terms",
+      "snippet": "\"all of this is plain in the books…who preceded Muhammad ibn Jarir al-Tabari\"",
+      "freq": 1,
+      "score": 4,
+      "reasons": [
+        "5 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "محمد ابن جرير الطبري",
+      "meaning": "",
+      "n": 54
+    },
+    {
+      "term": "الإمام المقيم",
+      "transliteration": "al-imām al-muqīm",
+      "phonetic": "al-i-maam al-mu-qeem",
+      "house_style_ok": true,
+      "suggested_baseline": "al-i-maam al-mu-keem",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "Resident Imam (al-imam al-muqim), a permanent Imam",
+      "freq": 1,
+      "score": 3,
+      "reasons": [
+        "6 syllables",
+        "long"
+      ],
+      "arabic_script": "الإمام المقيم",
+      "meaning": "",
+      "n": 55
+    },
+    {
+      "term": "خمس رسائل إسماعيلية",
+      "transliteration": "Khams Rasa'il Ismailiyya",
+      "phonetic": "xams rasaːʔɪl ʔɪsmaːʕiːlɪjja",
+      "house_style_ok": false,
+      "suggested_baseline": "khams ra-sail i-smai-li-yya",
+      "signature": [
+        "ayn-hamza",
+        "ending-iyya"
+      ],
+      "segment": "terms",
+      "snippet": "\"Arif Tamir's introduction to Khams Rasa'il Ismailiyya (Five Ismaili Letters)\"",
+      "freq": 1,
+      "score": 3,
+      "reasons": [
+        "3 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "خمس رسائل إسماعيلية",
+      "meaning": "five ismaili letters",
+      "n": 56
+    },
+    {
+      "term": "سواع",
+      "transliteration": "Suwāʿ",
+      "phonetic": "su-waa'",
+      "house_style_ok": true,
+      "suggested_baseline": "su-waa",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "do not forsake Wadd, Suwa'",
+      "freq": 1,
+      "score": 3,
+      "reasons": [
+        "ayn/hamza"
+      ],
+      "arabic_script": "سواع",
+      "meaning": "",
+      "n": 57
+    },
+    {
+      "term": "عبدالله بن سلام",
+      "transliteration": "Abdullah ibn Salam",
+      "phonetic": "/ʕab.dʊl.ˈlɑː ɪbn sa.ˈlɑːm/",
+      "house_style_ok": false,
+      "suggested_baseline": "a-bdu-llah ibn sa-lam",
+      "signature": [
+        "lineage"
+      ],
+      "segment": "terms",
+      "snippet": "\"Ka'b al-Ahbar, Abdullah ibn Salam, and others\"",
+      "freq": 1,
+      "score": 3,
+      "reasons": [
+        "3 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "عبدالله بن سلام",
+      "meaning": "",
+      "n": 58
+    },
+    {
+      "term": "عيسى ابن مريم",
+      "transliteration": "'Isa ibn Maryam",
+      "phonetic": "ʕiːsaː ɪbn marjam",
+      "house_style_ok": false,
+      "suggested_baseline": "i-sa ibn ma-ryam",
+      "signature": [
+        "ayn-hamza",
+        "lineage"
+      ],
+      "segment": "terms",
+      "snippet": "\"the chapter dealing with 'Isa ibn Maryam (Jesus, son of Mary)\"",
+      "freq": 1,
+      "score": 3,
+      "reasons": [
+        "3 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "عيسى ابن مريم",
+      "meaning": "jesus, son of mary",
+      "n": 59
+    },
+    {
+      "term": "فاطمة الزهراء",
+      "transliteration": "Fatima al-Zahra",
+      "phonetic": "faːtɪma az-zahraːʔ",
+      "house_style_ok": false,
+      "suggested_baseline": "fa-ti-ma al-za-hra",
+      "signature": [
+        "article-al",
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"honors the name of Fatima al-Zahra, daughter of Muhammad\"",
+      "freq": 1,
+      "score": 3,
+      "reasons": [
+        "3 syllables",
+        "long",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "فاطمة الزهراء",
+      "meaning": "",
+      "n": 60
+    },
+    {
+      "term": "لا إله إلا الله",
+      "transliteration": "la ilaha illa Allah",
+      "phonetic": "laa i-LAA-ha il-lal-LAH",
+      "house_style_ok": true,
+      "suggested_baseline": "la i-la-ha i-lla a-llah",
+      "signature": [
+        "ending-ah"
+      ],
+      "segment": "terms",
+      "snippet": "\"'There is no god but Allah'\"",
+      "freq": 1,
+      "score": 3,
+      "reasons": [
+        "7 syllables",
+        "long"
+      ],
+      "arabic_script": "لا إله إلا الله",
+      "meaning": "",
+      "n": 61
+    },
+    {
+      "term": "أصحاب الجزائر",
+      "transliteration": "Ashab al-Jaza'ir",
+      "phonetic": "/ʔas.ħɑːb ʔal.dʒa.ˈzɑː.ʔɪr/",
+      "house_style_ok": false,
+      "suggested_baseline": "a-shab al-ja-zair",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "places",
+      "snippet": "\"the Lords of the Islands (ashab al-jaza'ir), and the Wings\"",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "long",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "أصحاب الجزائر",
+      "meaning": "",
+      "n": 62
+    },
+    {
+      "term": "جعفر الحاجب",
+      "transliteration": "Ja'far al-Hajib",
+      "phonetic": "dʒaʕfar al-ħaːdʒɪb",
+      "house_style_ok": false,
+      "suggested_baseline": "ja-far al-ha-jib",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"the story related by Ja'far al-Hajib in his biography\"",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "3 syllables",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "جعفر الحاجب",
+      "meaning": "",
+      "n": 63
+    },
+    {
+      "term": "جعفر الصادق",
+      "transliteration": "Ja'far al-Sadiq",
+      "phonetic": "dʒaʕfar as-saːdɪq",
+      "house_style_ok": false,
+      "suggested_baseline": "ja-far al-sa-dik",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"Al-Sadiq is Imam Ja'far ibn Muhammad ibn 'Ali ibn al-Husayn\"",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "3 syllables",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "جعفر الصادق",
+      "meaning": "",
+      "n": 64
+    },
+    {
+      "term": "ديك الجن",
+      "transliteration": "Dik al-Jinn",
+      "phonetic": "diːk al-dʒɪnn",
+      "house_style_ok": false,
+      "suggested_baseline": "dik al-jinn",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"the poet Abd al-Salam ibn Raghban — known as Dik al-Jinn\"",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "3 syllables",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "ديك الجن",
+      "meaning": "",
+      "n": 65
+    },
+    {
+      "term": "ذكر المقدمات",
+      "transliteration": "Dhikr al-Muqaddimat",
+      "phonetic": "dhik-rul mu-qad-di-MAAT",
+      "house_style_ok": true,
+      "suggested_baseline": "dhikr al-mu-ka-ddi-mat",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"we have mentioned them in Mention of the Preparations (Dhikr al-Muqaddimat)\"",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "6 syllables"
+      ],
+      "arabic_script": "ذكر المقدمات",
+      "meaning": "",
+      "n": 66
+    },
+    {
+      "term": "رفع الإصر",
+      "transliteration": "Raf' al-Isr",
+      "phonetic": "rafʕ al-ʔɪsr",
+      "house_style_ok": false,
+      "suggested_baseline": "raf al-isr",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"al-Hafiz in Raf' al-Isr (136)\"",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "3 syllables",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "رفع الإصر",
+      "meaning": "",
+      "n": 67
+    },
+    {
+      "term": "صالح",
+      "transliteration": "Ṣāliḥ",
+      "phonetic": "saa-lih",
+      "house_style_ok": true,
+      "suggested_baseline": "saa-lih",
+      "signature": [
+        "emphatic"
+      ],
+      "segment": "terms",
+      "snippet": "interpretation of the stories of Noah, Hud, and Salih",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "emphatic x1"
+      ],
+      "arabic_script": "صالح",
+      "meaning": "",
+      "n": 68
+    },
+    {
+      "term": "عيسى بن مريم",
+      "transliteration": "Isa ibn Maryam",
+      "phonetic": "EE-saa ibn MAR-yam",
+      "house_style_ok": true,
+      "suggested_baseline": "i-sa ibn ma-ryam",
+      "signature": [
+        "lineage"
+      ],
+      "segment": "terms",
+      "snippet": "\"'the Messiah, son of Mary, is the Messenger of Allah…Isa son of Maryam'\"",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "5 syllables"
+      ],
+      "arabic_script": "عيسى بن مريم",
+      "meaning": "",
+      "n": 69
+    },
+    {
+      "term": "كتاب الهمة",
+      "transliteration": "Kitab al-Himma",
+      "phonetic": "kɪtaːb al-hɪmma",
+      "house_style_ok": false,
+      "suggested_baseline": "ki-tab al-hi-mma",
+      "signature": [
+        "article-al",
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"Muhammad Kamil Husayn's introduction to Kitab al-Himma (5-14)\"",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "3 syllables",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "كتاب الهمة",
+      "meaning": "",
+      "n": 70
+    },
+    {
+      "term": "كميل بن زياد",
+      "transliteration": "Kumayl ibn Ziyad",
+      "phonetic": "/ku.ˈmajl ɪbn zɪ.ˈjɑːd/",
+      "house_style_ok": false,
+      "suggested_baseline": "ku-mayl ibn zi-yad",
+      "signature": [
+        "lineage"
+      ],
+      "segment": "terms",
+      "snippet": "\"the hadith of the Commander of the Believers (peace be upon him) to Kumayl ibn Ziyad\"",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "3 syllables",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "كميل بن زياد",
+      "meaning": "",
+      "n": 71
+    },
+    {
+      "term": "لوح محفوظ",
+      "transliteration": "Preserved Tablet",
+      "phonetic": "law-hul mah-FOOZ",
+      "house_style_ok": true,
+      "suggested_baseline": "pre-se-rved ta-blet",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"Then He created the Preserved Tablet\"",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "4 syllables"
+      ],
+      "arabic_script": "لوح محفوظ",
+      "meaning": "Preserved Tablet",
+      "n": 72
+    },
+    {
+      "term": "مدبرات",
+      "transliteration": "mudabbirat",
+      "phonetic": "mu-DAB-bi-raat",
+      "house_style_ok": true,
+      "suggested_baseline": "mu-da-bbi-rat",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"the seven planetary stars — the mudabbirat\"",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "4 syllables"
+      ],
+      "arabic_script": "مدبرات",
+      "meaning": "",
+      "n": 73
+    },
+    {
+      "term": "أبدال",
+      "transliteration": "al-Abdal",
+      "phonetic": "al-ab-DAAL",
+      "house_style_ok": true,
+      "suggested_baseline": "al-a-bdal",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"they are also called 'al-Abdal' — that is, 'those who have changed'\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "3 syllables"
+      ],
+      "arabic_script": "أبدال",
+      "meaning": "",
+      "n": 74
+    },
+    {
+      "term": "أمويون",
+      "transliteration": "Umayyads",
+      "phonetic": "ʔʊmajjad",
+      "house_style_ok": false,
+      "suggested_baseline": "u-ma-yyads",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"the Umayyads, too, made an effective contribution\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "أمويون",
+      "meaning": "Umayyads",
+      "n": 75
+    },
+    {
+      "term": "أوصى",
+      "transliteration": "awsa",
+      "phonetic": "/ˈʔaw.sɑː/",
+      "house_style_ok": false,
+      "suggested_baseline": "a-wsa",
+      "signature": [
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"Adam entrusted (awsa) his son Abel\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "أوصى",
+      "meaning": "",
+      "n": 76
+    },
+    {
+      "term": "إشارة",
+      "transliteration": "ishara",
+      "phonetic": "ʔɪʃaːra",
+      "house_style_ok": false,
+      "suggested_baseline": "i-sha-ra",
+      "signature": [
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"the stage of symbol (ramz) and sign (ishara)\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "إشارة",
+      "meaning": "",
+      "n": 77
+    },
+    {
+      "term": "ابن خلكان",
+      "transliteration": "Ibn Khallikan",
+      "phonetic": "ɪbn xallɪkaːn",
+      "house_style_ok": false,
+      "suggested_baseline": "ibn kha-lli-kan",
+      "signature": [
+        "lineage"
+      ],
+      "segment": "terms",
+      "snippet": "\"Ibn Khallikan translated his life in al-Wafayat\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "ابن خلكان",
+      "meaning": "Ibn Khallikan",
+      "n": 78
+    },
+    {
+      "term": "الأجنحة",
+      "transliteration": "al-Ajniha",
+      "phonetic": "/ʔal.ˈʔad͡ʒ.nɪ.ħa/",
+      "house_style_ok": false,
+      "suggested_baseline": "al-a-jni-ha",
+      "signature": [
+        "article-al",
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"the Wings (al-ajniha) — and they are the preachers\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "الأجنحة",
+      "meaning": "",
+      "n": 79
+    },
+    {
+      "term": "الإمام",
+      "transliteration": "al-Imam",
+      "phonetic": "/ʔal.ʔɪ.ˈmɑːm/",
+      "house_style_ok": false,
+      "suggested_baseline": "al-i-mam",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"to appoint him as an Imam, He delegated from among the angels twelve kings\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "الإمام",
+      "meaning": "",
+      "n": 80
+    },
+    {
+      "term": "البارئ",
+      "transliteration": "al-Bari",
+      "phonetic": "/ʔal.ˈbɑː.rɪʔ/",
+      "house_style_ok": false,
+      "suggested_baseline": "al-ba-ri",
+      "signature": [
+        "article-al",
+        "ending-i"
+      ],
+      "segment": "terms",
+      "snippet": "\"a wisdom in their composition with which al-Bari (the Maker) was familiar\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "البارئ",
+      "meaning": "the maker",
+      "n": 81
+    },
+    {
+      "term": "التنزيل",
+      "transliteration": "al-Tanzil",
+      "phonetic": "/ʔat.tan.ˈziːl/",
+      "house_style_ok": false,
+      "suggested_baseline": "al-ta-nzil",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"grasp the inner revelation (al-tanzil al-the hidden)\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "التنزيل",
+      "meaning": "",
+      "n": 82
+    },
+    {
+      "term": "القلم",
+      "transliteration": "al-Qalam",
+      "phonetic": "/ʔal.qa.ˈlam/",
+      "house_style_ok": false,
+      "suggested_baseline": "al-ka-lam",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"and the Tablet takes it from the Pen (al-Qalam)\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "القلم",
+      "meaning": "",
+      "n": 83
+    },
+    {
+      "term": "اللوح",
+      "transliteration": "al-Lawh",
+      "phonetic": "/ʔal.ˈlawħ/",
+      "house_style_ok": false,
+      "suggested_baseline": "al-lawh",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"Israfil takes it from the Tablet (al-Lawh)\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "اللوح",
+      "meaning": "",
+      "n": 84
+    },
+    {
+      "term": "المتنبي",
+      "transliteration": "al-Mutanabbi",
+      "phonetic": "ʔal-mʊtanabbɪ",
+      "house_style_ok": false,
+      "suggested_baseline": "al-mu-ta-na-bbi",
+      "signature": [
+        "article-al",
+        "ending-i"
+      ],
+      "segment": "terms",
+      "snippet": "\"information about…al-Mutanabbi, al-Ma'arri, and others\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "المتنبي",
+      "meaning": "",
+      "n": 85
+    },
+    {
+      "term": "المعري",
+      "transliteration": "al-Ma'arri",
+      "phonetic": "ʔal-maʕarriː",
+      "house_style_ok": false,
+      "suggested_baseline": "al-maa-rri",
+      "signature": [
+        "ayn-hamza",
+        "article-al",
+        "ending-i"
+      ],
+      "segment": "terms",
+      "snippet": "\"al-Mutanabbi, al-Ma'arri, and others, has remained scant\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "المعري",
+      "meaning": "",
+      "n": 86
+    },
+    {
+      "term": "المقريزي",
+      "transliteration": "al-Maqrizi",
+      "phonetic": "ʔal-maqriːziː",
+      "house_style_ok": false,
+      "suggested_baseline": "al-ma-kri-zi",
+      "signature": [
+        "article-al",
+        "ending-i"
+      ],
+      "segment": "terms",
+      "snippet": "\"Al-Maqrizi and other historians say his library overflowed\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "المقريزي",
+      "meaning": "",
+      "n": 87
+    },
+    {
+      "term": "المنصورية",
+      "transliteration": "al-Mansuriyya",
+      "phonetic": "ʔal-mansuːrɪjja",
+      "house_style_ok": false,
+      "suggested_baseline": "al-ma-nsu-ri-yya",
+      "signature": [
+        "article-al",
+        "ending-iyya"
+      ],
+      "segment": "terms",
+      "snippet": "\"he was appointed judge of (al-Mansuriyya)\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "المنصورية",
+      "meaning": "",
+      "n": 88
+    },
+    {
+      "term": "الوصية",
+      "transliteration": "wasiyya",
+      "phonetic": "/wa.ˈsɪj.ja/",
+      "house_style_ok": false,
+      "suggested_baseline": "wa-si-yya",
+      "signature": [
+        "ending-iyya"
+      ],
+      "segment": "terms",
+      "snippet": "\"the lesson of the will (wasiyya) would be made plain to him\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "الوصية",
+      "meaning": "",
+      "n": 89
+    },
+    {
+      "term": "الوفيات",
+      "transliteration": "al-Wafayat",
+      "phonetic": "ʔal-wafajaːt",
+      "house_style_ok": false,
+      "suggested_baseline": "al-wa-fay-at",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"Ibn Khallikan translated his life in al-Wafayat (2/166)\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "الوفيات",
+      "meaning": "",
+      "n": 90
+    },
+    {
+      "term": "الوهاب",
+      "transliteration": "al-Wahhab",
+      "phonetic": "al-wah-HAAB",
+      "house_style_ok": true,
+      "suggested_baseline": "al-wa-hhab",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"as al-Wahhab said: 'This is Our gift'\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "3 syllables"
+      ],
+      "arabic_script": "الوهاب",
+      "meaning": "",
+      "n": 91
+    },
+    {
+      "term": "بنو تميم",
+      "transliteration": "Banu Tamim",
+      "phonetic": "banuː tamiːm",
+      "house_style_ok": false,
+      "suggested_baseline": "ba-nu ta-mim",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"a family belonging to the Arab tribe of Banu Tamim\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "بنو تميم",
+      "meaning": "Banu Tamim",
+      "n": 92
+    },
+    {
+      "term": "بويهيون",
+      "transliteration": "Buyids",
+      "phonetic": "buːjɪd",
+      "house_style_ok": false,
+      "suggested_baseline": "bu-yids",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"the Buyids and the Hamdanids raised the banner of culture\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "بويهيون",
+      "meaning": "Buyids",
+      "n": 93
+    },
+    {
+      "term": "تقية",
+      "transliteration": "taqiyya",
+      "phonetic": "taqɪjja",
+      "house_style_ok": false,
+      "suggested_baseline": "ta-ki-yya",
+      "signature": [
+        "ending-iyya"
+      ],
+      "segment": "terms",
+      "snippet": "\"I wished to keep it longer in the cave of taqiyya\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "تقية",
+      "meaning": "",
+      "n": 94
+    },
+    {
+      "term": "جبريل",
+      "transliteration": "Jibra'il",
+      "phonetic": "jib-raa-EEL",
+      "house_style_ok": true,
+      "suggested_baseline": "ji-brail",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "\"Israfil, Mika'il, and Jibra'il\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "3 syllables"
+      ],
+      "arabic_script": "جبريل",
+      "meaning": "",
+      "n": 95
+    },
+    {
+      "term": "حمدانيون",
+      "transliteration": "Hamdanids",
+      "phonetic": "hamdaːnɪd",
+      "house_style_ok": false,
+      "suggested_baseline": "ha-mda-nids",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"the Buyids and the Hamdanids raised the banner of culture\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "حمدانيون",
+      "meaning": "Hamdanids",
+      "n": 96
+    },
+    {
+      "term": "صاحب القيامة",
+      "transliteration": "Sahib al-Qiyama",
+      "phonetic": "/ˈsɑː.ħɪb ʔal.qɪ.ˈjɑː.ma/",
+      "house_style_ok": false,
+      "suggested_baseline": "sa-hib al-ki-ya-ma",
+      "signature": [
+        "article-al",
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"the Master of the Time — the Possessor of the Resurrection (Sahib al-Qiyama)\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "صاحب القيامة",
+      "meaning": "",
+      "n": 97
+    },
+    {
+      "term": "عباسيون",
+      "transliteration": "Abbasids",
+      "phonetic": "ʕabbaːsɪd",
+      "house_style_ok": false,
+      "suggested_baseline": "a-bba-sids",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"during the raids of the Abbasids, the Qaramita\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "عباسيون",
+      "meaning": "Abbasids",
+      "n": 98
+    },
+    {
+      "term": "عبيد الله",
+      "transliteration": "Ubaydallah",
+      "phonetic": "ʕʊbajdʊllaːh",
+      "house_style_ok": false,
+      "suggested_baseline": "u-ba-yda-llah",
+      "signature": [
+        "ending-ah"
+      ],
+      "segment": "terms",
+      "snippet": "\"Muhammad al-Mahdi — Ubaydallah — the founder of the Fatimid state\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "عبيد الله",
+      "meaning": "Ubaydallah",
+      "n": 99
+    },
+    {
+      "term": "عترة",
+      "transliteration": "itra",
+      "phonetic": "/ˈʕɪt.ra/",
+      "house_style_ok": false,
+      "suggested_baseline": "i-tra",
+      "signature": [
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"the pure Imams from his progeny ('itra)\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "عترة",
+      "meaning": "",
+      "n": 100
+    },
+    {
+      "term": "قرامطة",
+      "transliteration": "Qaramita",
+      "phonetic": "qaraːmɪta",
+      "house_style_ok": false,
+      "suggested_baseline": "ka-ra-mi-ta",
+      "signature": [
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"during the raids of the Abbasids, the Qaramita, and other groups\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "قرامطة",
+      "meaning": "Qaramita",
+      "n": 101
+    },
+    {
+      "term": "كعب الأحبار",
+      "transliteration": "Ka'b al-Ahbar",
+      "phonetic": "/kaːb ʔal.ʔaħ.ˈbɑːr/",
+      "house_style_ok": false,
+      "suggested_baseline": "kab al-a-hbar",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"such as Ka'b al-Ahbar, Abdullah ibn Salam\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "كعب الأحبار",
+      "meaning": "",
+      "n": 102
+    },
+    {
+      "term": "مستجيب",
+      "transliteration": "mustajib",
+      "phonetic": "mʊstadziːb",
+      "house_style_ok": false,
+      "suggested_baseline": "mu-sta-jib",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"the stage of the responding initiate (mustajib)\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "مستجيب",
+      "meaning": "",
+      "n": 103
+    },
+    {
+      "term": "ميكائيل",
+      "transliteration": "Mika'il",
+      "phonetic": "mee-kaa-EEL",
+      "house_style_ok": true,
+      "suggested_baseline": "mi-kail",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "\"Israfil, Mika'il, and Jibra'il\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "3 syllables"
+      ],
+      "arabic_script": "ميكائيل",
+      "meaning": "",
+      "n": 104
+    },
+    {
+      "term": "ناطق",
+      "transliteration": "al-Natiq",
+      "phonetic": "ʔan-naːtɪq",
+      "house_style_ok": false,
+      "suggested_baseline": "al-na-tik",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"the authority of tanzil (revelation) to 'the Speaker' (al-Natiq)\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "ناطق",
+      "meaning": "a \"speaker prophet\" who inaugurates a cosmological cycle. There are seven in al-Nuʿmān's scheme — Adam, Nūḥ, Ibrāhīm, Mūsā, ʿĪsā, Muḥammad, and the awaited Qāʾim.",
+      "n": 105
+    },
+    {
+      "term": "أسباب",
+      "transliteration": "asbab",
+      "phonetic": "as-BAAB",
+      "house_style_ok": true,
+      "suggested_baseline": "a-sbab",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"they are asbab (instruments / causes) for every Speaker\"",
+      "freq": 1,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "أسباب",
+      "meaning": "instruments / causes",
+      "n": 106
+    },
+    {
+      "term": "جهاد",
+      "transliteration": "jihad",
+      "phonetic": "ji-HAAD",
+      "house_style_ok": true,
+      "suggested_baseline": "ji-had",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"up to jihad — in which souls and wealth are spent\"",
+      "freq": 1,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "جهاد",
+      "meaning": "",
+      "n": 107
+    },
+    {
+      "term": "حج",
+      "transliteration": "Hajj",
+      "phonetic": "HAJJ",
+      "house_style_ok": true,
+      "suggested_baseline": "hajj",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"proclaimed the Hajj to the people\"",
+      "freq": 1,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "حج",
+      "meaning": "Hajj",
+      "n": 108
+    },
+    {
+      "term": "رأس",
+      "transliteration": "ra'is",
+      "phonetic": "ra-EES",
+      "house_style_ok": true,
+      "suggested_baseline": "rais",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "\"he was called the leader (al-ra'is)\"",
+      "freq": 1,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "رأس",
+      "meaning": "",
+      "n": 109
+    },
+    {
+      "term": "رمز",
+      "transliteration": "ramz",
+      "phonetic": "ramz",
+      "house_style_ok": true,
+      "suggested_baseline": "ramz",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"the stage of symbol (ramz) and sign (ishara)\"",
+      "freq": 1,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "رمز",
+      "meaning": "",
+      "n": 110
+    },
+    {
+      "term": "سام",
+      "transliteration": "Shem",
+      "phonetic": "SAAM",
+      "house_style_ok": true,
+      "suggested_baseline": "shem",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"the foundational samits…are likewise seven: Seth, Shem, Isaac, Aaron, Simeon, Ali, and the Mahdi\"",
+      "freq": 1,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "سام",
+      "meaning": "Shem",
+      "n": 111
+    },
+    {
+      "term": "فاران",
+      "transliteration": "Fārān",
+      "phonetic": "faa-raan",
+      "house_style_ok": true,
+      "suggested_baseline": "faa-raan",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "whose name was then \"Faran\"",
+      "freq": 1,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "فاران",
+      "meaning": "",
+      "n": 112
+    },
+    {
+      "term": "نسر",
+      "transliteration": "Nasr",
+      "phonetic": "nasr",
+      "house_style_ok": true,
+      "suggested_baseline": "nasr",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "Ya'uq, or Nasr",
+      "freq": 1,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "نسر",
+      "meaning": "Nasr",
+      "n": 113
+    },
+    {
+      "term": "هارون",
+      "transliteration": "Aaron",
+      "phonetic": "haa-ROON",
+      "house_style_ok": true,
+      "suggested_baseline": "aa-ron",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"Seth, Shem, Isaac, Aaron, Simeon, Ali, and the Mahdi\"",
+      "freq": 1,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "هارون",
+      "meaning": "Aaron",
+      "n": 114
+    },
+    {
+      "term": "ولد",
+      "transliteration": "walad",
+      "phonetic": "wa-lad",
+      "house_style_ok": true,
+      "suggested_baseline": "wa-lad",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "the child (walad) is like the responder",
+      "freq": 1,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "ولد",
+      "meaning": "",
+      "n": 115
+    },
+    {
+      "term": "يعقوب",
+      "transliteration": "Yaqub",
+      "phonetic": "ya-QOOB",
+      "house_style_ok": true,
+      "suggested_baseline": "ya-kub",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"Ibrahim charged this upon his sons, and so did Yaqub\"",
+      "freq": 1,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "يعقوب",
+      "meaning": "Yaqub",
+      "n": 116
+    },
+    {
+      "term": "يغوث",
+      "transliteration": "Yaghūth",
+      "phonetic": "ya-ghooth",
+      "house_style_ok": true,
+      "suggested_baseline": "ya-ghooth",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "Yaghuth, Ya'uq, or Nasr",
+      "freq": 1,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "يغوث",
+      "meaning": "",
+      "n": 117
+    },
+    {
+      "term": "يوسف",
+      "transliteration": "Yusuf",
+      "phonetic": "YOO-suf",
+      "house_style_ok": true,
+      "suggested_baseline": "yu-suf",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"in the story of Yusuf (peace be upon him)\"",
+      "freq": 1,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "يوسف",
+      "meaning": "Yusuf",
+      "n": 118
+    },
+    {
+      "term": "حد / حدود",
+      "transliteration": "hadd / hudud",
+      "phonetic": "HADD / hu-DOOD",
+      "house_style_ok": false,
+      "suggested_baseline": "hadd  hu-dud",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"the four words of the shahada stand as a likeness for these four limits\"",
+      "freq": 0,
+      "score": 3,
+      "reasons": [
+        "4 syllables",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "حد / حدود",
+      "meaning": "",
+      "n": 119
+    },
+    {
+      "term": "يعوق",
+      "transliteration": "Yaʿūq",
+      "phonetic": "ya-ooq",
+      "house_style_ok": true,
+      "suggested_baseline": "yaook",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "Yaghuth, Ya'uq, or Nasr",
+      "freq": 0,
+      "score": 3,
+      "reasons": [
+        "ayn/hamza"
+      ],
+      "arabic_script": "يعوق",
+      "meaning": "",
+      "n": 120
+    },
+    {
+      "term": "أبو قبيس",
+      "transliteration": "Abū Qubays",
+      "phonetic": "a-boo qu-bays",
+      "house_style_ok": true,
+      "suggested_baseline": "a-boo ku-bays",
+      "signature": [],
+      "segment": "places",
+      "snippet": "buried at the foot of Mount Abu Qubais",
+      "freq": 0,
+      "score": 2,
+      "reasons": [
+        "4 syllables"
+      ],
+      "arabic_script": "أبو قبيس",
+      "meaning": "",
+      "n": 121
+    },
+    {
+      "term": "مكة المكرمة",
+      "transliteration": "Makkah al-Mukarramah",
+      "phonetic": "mak-ka al-mu-kar-ra-ma",
+      "house_style_ok": true,
+      "suggested_baseline": "ma-kkah al-mu-ka-rra-mah",
+      "signature": [
+        "article-al",
+        "ending-ah"
+      ],
+      "segment": "terms",
+      "snippet": "migrated to Mecca al-Mukarrama",
+      "freq": 0,
+      "score": 2,
+      "reasons": [
+        "7 syllables"
+      ],
+      "arabic_script": "مكة المكرمة",
+      "meaning": "",
+      "n": 122
+    },
+    {
+      "term": "الإمامة",
+      "transliteration": "al-Imamate",
+      "phonetic": "/ʔal.ʔɪ.maː.ˈma/",
+      "house_style_ok": false,
+      "suggested_baseline": "al-i-ma-ma-te",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"the matter of the Imamate passed to the will of Seth\"",
+      "freq": 0,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "الإمامة",
+      "meaning": "",
+      "n": 123
+    },
+    {
+      "term": "باطن",
+      "transliteration": "al-batin",
+      "phonetic": "ʔal-baːtɪn",
+      "house_style_ok": false,
+      "suggested_baseline": "al-ba-tin",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"the inner sense (the hidden) against the one who rejected it\"",
+      "freq": 0,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling",
+        "x0 in text (+ al-Batin)"
+      ],
+      "arabic_script": "باطن",
+      "meaning": "the inner / hidden meaning — what taʾwīl discloses.",
+      "n": 124
+    },
+    {
+      "term": "دعوة",
+      "transliteration": "da'wa",
+      "phonetic": "daʕwa",
+      "house_style_ok": false,
+      "suggested_baseline": "da-wa",
+      "signature": [
+        "ayn-hamza",
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"the secret of the creed and the key to the door of the mission\"",
+      "freq": 0,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "دعوة",
+      "meaning": "\"the call\" — the Fatimid missionary enterprise; the structured invitation to esoteric knowledge.",
+      "n": 125
+    },
+    {
+      "term": "ظاهر",
+      "transliteration": "al-zahir",
+      "phonetic": "ʔaz-zaːhɪr",
+      "house_style_ok": false,
+      "suggested_baseline": "al-za-hir",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"the apparent (the apparent); the second represents the truth\"",
+      "freq": 0,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling",
+        "x0 in text (+ al-Zahir)"
+      ],
+      "arabic_script": "ظاهر",
+      "meaning": "the outer / manifest meaning of scripture.",
+      "n": 126
+    },
+    {
+      "term": "قلم",
+      "transliteration": "pen (qalam)",
+      "phonetic": "qa-LAM",
+      "house_style_ok": true,
+      "suggested_baseline": "pen ka-lam",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"'The first thing Allah Almighty created was the pen'\"",
+      "freq": 0,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "قلم",
+      "meaning": "",
+      "n": 127
+    },
+    {
+      "term": "لامك",
+      "transliteration": "Lāmak",
+      "phonetic": "laa-mak",
+      "house_style_ok": true,
+      "suggested_baseline": "laa-mak",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "Lamek (Lamech), born in 1454",
+      "freq": 0,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "لامك",
+      "meaning": "",
+      "n": 128
     }
   ]
 }

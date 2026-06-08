@@ -275,6 +275,41 @@
 .pron-msg-ok { background: var(--c-bg-sunken); color: var(--c-green); border: 1px solid var(--c-green); }
 .pron-msg-err { background: var(--c-bg-sunken); color: var(--c-red); border: 1px solid var(--c-red); }
 
+/* ── pagination bar ──────────────────────────────────────────────────── */
+.pron-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+.pron-page-btn {
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.35rem 0.9rem;
+  border-radius: 0.45rem;
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg-elev);
+  color: var(--c-accent);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.pron-page-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  color: var(--c-ink-muted);
+}
+.pron-page-info {
+  font-size: 1.05rem;
+  color: var(--c-ink-muted);
+  text-align: center;
+}
+.pron-page-indicator {
+  font-size: 1.05rem;
+  color: var(--c-ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
 /* ── review: term rows ────────────────────────────────────────────────── */
 .pron-list {
   list-style: none;
