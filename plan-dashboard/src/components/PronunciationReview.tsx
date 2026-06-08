@@ -142,7 +142,7 @@ export default function PronunciationReview({ slug, terms }: Props) {
 
   function goToPage(p: number) {
     setPage(p);
-    listRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }
 
   async function handleArabicBlur(term: string, arabicValue: string) {
