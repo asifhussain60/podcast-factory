@@ -287,14 +287,8 @@ def illustrate_book(book_dir: Path, book_md: Path) -> Path:
     return illustrated_md
 
 
-def _book_title(book_dir: Path) -> str:
-    """Read the reading-edition title for the published PDF.
-
-    Priority:
-    1. book/book-toc.json ``book_title`` — the authored reading-edition title.
-    2. meta.yml ``title`` — the original work title (coarser fallback).
-    3. The content slug (book_dir.name) — last resort.
-    """
+def _edition_title(book_dir: Path) -> str:
+    """Reading-edition title for the PDF filename (book-toc.json book_title first)."""
     toc = book_dir / "book" / "book-toc.json"
     if toc.exists():
         try:
@@ -303,6 +297,11 @@ def _book_title(book_dir: Path) -> str:
                 return title
         except Exception:
             pass
+    return _series_title(book_dir)
+
+
+def _series_title(book_dir: Path) -> str:
+    """Original work title from meta.yml — used as the Drive per-book folder name."""
     meta = book_dir / "meta.yml"
     if meta.exists():
         try:
@@ -313,6 +312,11 @@ def _book_title(book_dir: Path) -> str:
         except Exception:
             pass
     return book_dir.name
+
+
+# Stable alias for any callers outside this module.
+def _book_title(book_dir: Path) -> str:
+    return _edition_title(book_dir)
 
 
 def render_pdf(book_dir: Path, illustrated_md: Path) -> Path:
@@ -343,28 +347,37 @@ def render_pdf(book_dir: Path, illustrated_md: Path) -> Path:
 
     # Write a titled copy alongside book.pdf so the filename matches the book.
     # book.pdf stays in place for pipeline compatibility (export_distribution.py etc.).
-    title = _book_title(book_dir)
-    titled_pdf = out_pdf.parent / f"{title}.pdf"
+    edition = _edition_title(book_dir)
+    titled_pdf = out_pdf.parent / f"{edition}.pdf"
     try:
         shutil.copy2(out_pdf, titled_pdf)
         print(f"  render · titled copy → {titled_pdf.name}")
     except Exception as exc:
         print(f"  render · titled copy failed (non-fatal): {exc}")
 
-    # Copy to Google Drive sync folder as {Title}.pdf (overwrites previous version).
-    gdrive = Path(
+    # Copy to Google Drive:  Podcast Library/{Series Title}/{Edition Title}.pdf
+    series = _series_title(book_dir)
+    gdrive_library = Path(
         "~/Library/CloudStorage/GoogleDrive-asifhussain60@gmail.com"
-        "/My Drive/podcast factory"
+        "/My Drive/Podcast Library"
     ).expanduser()
-    if gdrive.exists():
-        dest = gdrive / f"{title}.pdf"
+    drive_copied = False
+    if gdrive_library.exists():
+        dest = gdrive_library / series / f"{edition}.pdf"
         try:
+            dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(out_pdf, dest)
-            print(f"  render · copied to Google Drive: {dest.name}")
+            print(f"  render · Google Drive → Podcast Library/{series}/{dest.name}")
+            drive_copied = True
         except Exception as exc:
             print(f"  render · Google Drive copy failed (non-fatal): {exc}")
     else:
-        print("  render · Google Drive folder not mounted — skipping Drive copy")
+        print("  render · Google Drive Podcast Library not found — skipping Drive copy")
+
+    if not drive_copied:
+        import subprocess as _sp
+        _sp.run(["open", str(titled_pdf.parent)], check=False)
+        print(f"  render · opened Finder → drag {titled_pdf.name} to Drive manually")
 
     return out_pdf
 
