@@ -1,6 +1,6 @@
 # Pronunciation probe — asaas-al-taveel-vol-1
 
-A one-time pronunciation check covering the 115 highest-risk Arabic terms in
+A one-time pronunciation check covering the 28 highest-risk Arabic terms in
 this book, BEFORE any episode is generated. Catch and fix mispronunciations
 here, and every chapter (and future book, via the shared library) inherits the
 corrections.

@@ -264,6 +264,25 @@ def score_row(row: dict, freq: int) -> tuple[int, list[str]]:
     return score, reasons
 
 
+def _body_start_page(book_dir: Path) -> int | None:
+    """Return body_starts_at_page from content-range.md, or None if absent."""
+    cr_path = book_dir / "_system" / "source" / "text" / "content-range.md"
+    if not cr_path.exists():
+        return None
+    for line in cr_path.read_text(encoding="utf-8").splitlines():
+        m = re.match(r"^\s*body_starts_at_page\s*:\s*(\d+)", line)
+        if m:
+            return int(m.group(1))
+    return None
+
+
+def _slice_to_body(raw_text: str, start_page: int) -> str:
+    """Return only the text from <!-- page N --> onward, dropping front matter."""
+    marker = f"<!-- page {start_page} -->"
+    idx = raw_text.find(marker)
+    return raw_text[idx:] if idx != -1 else raw_text
+
+
 def build_probe_terms(book_dir: Path, top_n: int = DEFAULT_TOP_N) -> dict:
     phon_path = book_dir / "_system" / "source" / "text" / "_phonetics.md"
     refined_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
@@ -272,6 +291,9 @@ def build_probe_terms(book_dir: Path, top_n: int = DEFAULT_TOP_N) -> dict:
 
     rows = _parse_phonetics_md(phon_path)
     raw_text = refined_path.read_text(encoding="utf-8") if refined_path.exists() else ""
+    body_page = _body_start_page(book_dir)
+    if body_page is not None:
+        raw_text = _slice_to_body(raw_text, body_page)
     text_norm = _normalise_translit(raw_text)  # normalised once for fast repeated lookup
 
     meanings = _load_concept_glossary(book_dir)
