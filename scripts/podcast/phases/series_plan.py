@@ -214,6 +214,31 @@ def _chapter_cost_so_far(book_dir: Path, chapter_slug: str) -> float:
     return round(total, 4)
 
 
+def _book_cost_so_far(book_dir: Path) -> float:
+    """F35: sum ALL cost-ledger.jsonl rows for a book (the per-book hard ceiling).
+
+    Reads `_system/cost-ledger.jsonl`; sums every row's `cost_usd`. Returns 0.0 if
+    the ledger is missing or unreadable. Used by the mid-loop per-book cost ceiling
+    so a runaway book is halted (systemic) before it grinds through every chapter.
+    """
+    ledger = book_dir / "_system" / "cost-ledger.jsonl"
+    if not ledger.exists():
+        return 0.0
+    total = 0.0
+    try:
+        for raw in ledger.read_text(encoding="utf-8").splitlines():
+            if not raw.strip():
+                continue
+            try:
+                rec = json.loads(raw)
+            except json.JSONDecodeError:
+                continue
+            total += float(rec.get("cost_usd", 0) or 0)
+    except OSError:
+        return 0.0
+    return round(total, 4)
+
+
 def _series_flag(book_dir: Path, flag_name: str, *, default: bool = False) -> bool:
     """Read a boolean flag from series-plan.md.
 

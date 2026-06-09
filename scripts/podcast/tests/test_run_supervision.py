@@ -128,7 +128,9 @@ class CircuitBreakerTests(unittest.TestCase):
             book = _make_book(Path(tmp), slugs)
             calls: list[str] = []
 
-            def _fake_pass(book_dir, slug):
+            def _fake_pass(book_dir, slug, **_rails):
+                # **_rails absorbs the Phase 3 safety-rail kwargs (cost caps,
+                # cost fns, heartbeat) the driver now threads through.
                 calls.append(slug)
                 return outcome_for(slug)
 

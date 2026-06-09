@@ -20,7 +20,7 @@ from _convergence import ChapterOutcome, render_outcome  # noqa: E402
 from phases.preflight import _sweep_orphan_episode_drafts  # noqa: E402
 from phases.preflight_chapter import smoke_check_book  # noqa: E402
 from phases.per_chapter import per_chapter_pass  # noqa: E402
-from phases.series_plan import _series_numeric, _series_flag, _chapter_cost_so_far  # noqa: E402
+from phases.series_plan import _series_numeric, _series_flag, _chapter_cost_so_far, _book_cost_so_far  # noqa: E402
 from phases.series_plan import phase_0g_register  # noqa: E402
 from phases.bundle_audit import phase_0g_audit_bundles  # noqa: E402
 from phases.scaffold import phase_git_commit  # noqa: E402
@@ -123,6 +123,11 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     )
     if per_chapter_cost_cap_usd > 0:
         _info(f"per-chapter cost cap: ${per_chapter_cost_cap_usd:.2f} (per series-plan)")
+    # F35: per-BOOK hard ceiling, checked mid-loop (default 0 = disabled, so
+    # existing books are unaffected unless they opt in via series-plan).
+    book_cost_cap_usd = _series_numeric(book_dir, "book_cost_cap_usd", default=0.0)
+    if book_cost_cap_usd > 0:
+        _info(f"per-book cost ceiling: ${book_cost_cap_usd:.2f} (per series-plan)")
 
     # C3 circuit breaker state: count chapters actually attempted this run and
     # group failures by normalized signature, to halt on a systemic failure
@@ -165,7 +170,33 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
                 "chapter_timings": chapter_timings,
             },
         )
-        outcome = per_chapter_pass(book_dir, slug)
+        # Phase 3: thread the mid-loop safety rails. Closures read the live ledger
+        # so the convergence loop can check ceilings at each iteration boundary; the
+        # heartbeat refreshes state so the supervisor's hang detection stays accurate.
+        def _chapter_cost_fn(_bd=book_dir, _slug=slug, _start=_cost_at_start) -> float:
+            return _chapter_cost_so_far(_bd, _slug) - _start
+
+        def _book_cost_fn(_bd=book_dir) -> float:
+            return _book_cost_so_far(_bd)
+
+        def _heartbeat(outer: int, note: str, _bd=book_dir, _slug=slug) -> None:
+            update_phase(
+                _bd, phase="per-chapter", status="running",
+                extras={
+                    "current_chapter": _slug,
+                    "last_beat": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                    "convergence_iter": outer,
+                },
+            )
+
+        outcome = per_chapter_pass(
+            book_dir, slug,
+            per_chapter_cost_cap=per_chapter_cost_cap_usd,
+            book_cost_cap=book_cost_cap_usd,
+            chapter_cost_fn=_chapter_cost_fn,
+            book_cost_fn=_book_cost_fn,
+            heartbeat=_heartbeat,
+        )
         _t_end = datetime.now(timezone.utc)
         _cost_end = _chapter_cost_so_far(book_dir, slug)
         _chapter_cost = round(_cost_end - _cost_at_start, 4)
@@ -184,6 +215,26 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
             chapter_timings[slug]["verdict"] = "FAILED-COST-CAPPED"
         outcomes.append(outcome)
         _info(render_outcome(outcome))
+        if outcome.episode_rebuild_failed:
+            _err(f"  [{slug}] episode.txt rebuild failed during convergence — review framing/build")
+        # F35: a per-BOOK ceiling breach is SYSTEMIC — halt the whole book with a
+        # COST-CEILING marker so supervise_run.py does NOT relaunch (it would just
+        # burn through the ceiling again). Distinct from a per-chapter cap (below),
+        # which only fails the one chapter and degrades to the next.
+        if outcome.systemic_halt:
+            chapter_timings[slug]["error"] = outcome.systemic_halt
+            failed_chapter_slugs.add(slug)
+            update_phase(
+                book_dir, phase="per-chapter", status="failed",
+                error=outcome.systemic_halt,
+                extras={
+                    "completed_slugs": sorted(completed_chapter_slugs),
+                    "failed_slugs": sorted(failed_chapter_slugs),
+                    "chapter_timings": chapter_timings,
+                },
+            )
+            _err(f"{outcome.systemic_halt} — halting book (no relaunch).")
+            return 2
         if outcome.final_verdict == "FAILED":
             failed_chapter_slugs.add(slug)
             # C1: capture the real reason into durable state (was swallowed —
