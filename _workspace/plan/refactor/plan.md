@@ -734,9 +734,14 @@ tracker: `plan.yaml` phase `WM`.*
   ceilings (F35), fixer early-halt, episode-rebuild surfacing, heartbeat; F32 framing cache.
 - **WM4 — De-patch + F38.** `_subprocess.py` shared helper; F38/F39 closed; F40 (giant-fn
   splits) deferred with rationale (no characterization harness → blind split risks shipped books).
-- **WM6 — Intake foundation.** `intake_form_options.py` (dropdowns from canonical vocab +
-  YAML deltas) + `intake_preflight.py` (honest capped estimate) + JSON endpoints. The React
-  visual screens are the collaborative remainder (per-screen design with Asif — LOCKED).
+- **WM6 — Intake foundation + UI.** Backend: `intake_form_options.py` (dropdowns from canonical
+  vocab + YAML deltas), `intake_preflight.py` (capped estimate), `intake_staging.py` (upload
+  lifecycle), `intake_status.py` (cockpit view), `intake_launch.py` (prep, no spawn) + JSON
+  endpoints. UI (4 screens, each designed per-screen with Asif + gated through
+  `html-view-challenger` to PASS): Screen 1 upload+roles, Screen 2 smart form (minimal-typing
+  dropdowns + inline add), Screen 3 pre-flight, Screen 4 launch (Tier-2 confirm → detached
+  spawn) + live cockpit (poll, approval cards). Remaining: M1 reading-floor decision; the live
+  classifier (`/api/intake/classify`) increment.
 - **WM5 — DEFERRED:** asaas migration + `content/`→`library/` rename (bundled; runs at asaas's
   next clean boundary — see Phase 5 checklist).
 

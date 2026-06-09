@@ -4167,11 +4167,22 @@ waves_o_ph:
         committed_at: 31980aa
         note: "F32/F35/F38/F39 CLOSED; F40 (giant-function splits) DEFERRED with rationale."
       - id: WM6
-        title: "Intake smart-form + preflight foundation (form-options.yml, preflight estimator, JSON endpoints)"
+        title: "Intake foundation — smart-form options + preflight estimator + JSON endpoints"
         status: completed
         committed_at: e2ca3de
         tests: "test_intake_form_options (10) + test_intake_preflight (11)"
-        note: "React visual screens deferred to per-screen design with Asif (LOCKED)."
+      - id: WM6-ui
+        title: "Intake UI — 4 screens (upload+roles, smart form, pre-flight, launch+cockpit), per-screen with Asif"
+        status: completed
+        committed_at: 14b6e9b
+        note: |
+          Screen 1 upload+roles (intake_staging.py, 12 tests) · Screen 2 smart form
+          (dropdowns from form-options + inline add) · Screen 3 pre-flight (capped
+          estimate) · Screen 4 launch+cockpit (intake_status 6 + intake_launch 4 tests;
+          detached spawn, approval cards). Each gated through html-view-challenger to
+          PASS. Outstanding: M1 (sub-1.2rem intake reading floor — surface-wide
+          pre-existing) needs an Asif decision (raise tier vs documented exception).
+          Live classifier (/api/intake/classify) is the one remaining increment.
       - id: WM5
         title: "asaas migration + content/->library/ rename (bundled checklist)"
         status: deferred

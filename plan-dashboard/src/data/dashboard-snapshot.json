@@ -765,11 +765,51 @@
   "waves": [],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-09T15:37:25.974159+00:00",
-  "source_commit": "e2ca3ded",
+  "generated_at": "2026-06-09T16:10:07.929794+00:00",
+  "source_commit": "14b6e9bc",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "14b6e9bc",
+      "subject": "fix(intake): Screens 3+4 a11y/integrity \u2014 resolve html-view-challenger findings",
+      "date": "2026-06-09"
+    },
+    {
+      "sha": "362de432",
+      "subject": "feat(intake): Phase 6 Screens 3+4 \u2014 pre-flight + launch + live cockpit",
+      "date": "2026-06-09"
+    },
+    {
+      "sha": "f02f1d82",
+      "subject": "fix(intake): Screen 2 a11y \u2014 resolve html-view-challenger MUST + SHOULDs",
+      "date": "2026-06-09"
+    },
+    {
+      "sha": "2553ce21",
+      "subject": "feat(intake): Phase 6 Screen 2 \u2014 smart form (minimal-typing dropdowns + inline add)",
+      "date": "2026-06-09"
+    },
+    {
+      "sha": "21386444",
+      "subject": "fix(intake): Screen 1 a11y polish \u2014 reduced-motion + focus-visible (html-view-challenger)",
+      "date": "2026-06-09"
+    },
+    {
+      "sha": "037dfca2",
+      "subject": "feat(intake): Phase 6 Screen 1 \u2014 upload + roles + staging",
+      "date": "2026-06-09"
+    },
+    {
+      "sha": "99d1b4fd",
+      "subject": "docs(book-publisher): structured contract frontmatter + expanded agent spec",
+      "date": "2026-06-09"
+    },
+    {
+      "sha": "e935ddc0",
+      "subject": "docs(plan): track Wave M (holistic hardening) in plan.yaml + plan.md + snapshots",
+      "date": "2026-06-09"
+    },
     {
       "sha": "e2ca3ded",
       "subject": "feat(intake): Phase 6 (foundation) \u2014 smart-form options + preflight + JSON endpoints",
@@ -779,46 +819,6 @@
       "sha": "31980aa8",
       "subject": "refactor(quality): Phase 4 \u2014 de-patch helpers + F38 close-out + docs",
       "date": "2026-06-09"
-    },
-    {
-      "sha": "3c8b38cb",
-      "subject": "feat(autonomy): Phase 3 \u2014 per-volume autopilot + hard safety rails",
-      "date": "2026-06-09"
-    },
-    {
-      "sha": "05873504",
-      "subject": "feat(routing): Phase 2 \u2014 profile-driven phase routing + intake --work/--volume",
-      "date": "2026-06-09"
-    },
-    {
-      "sha": "28ad0ddf",
-      "subject": "feat(works): Phase 1 \u2014 multi-volume foundation (resolver + work.yml manifest)",
-      "date": "2026-06-09"
-    },
-    {
-      "sha": "1d0139d2",
-      "subject": "fix(tests): correct sys.path depth in test_run_supervision.py (parents[1] not parents[4])",
-      "date": "2026-06-09"
-    },
-    {
-      "sha": "3b7679d5",
-      "subject": "docs(watchdog): document Phase E fast-fail gates + single-actor supervisor",
-      "date": "2026-06-09"
-    },
-    {
-      "sha": "da53ce98",
-      "subject": "feat(supervision): fast-fail + single-actor run supervision system (Phase E)",
-      "date": "2026-06-09"
-    },
-    {
-      "sha": "b89e5f4a",
-      "subject": "test(librarian): isolate KNOWLEDGE_BASE_DIR so stats.json isn't mutated",
-      "date": "2026-06-08"
-    },
-    {
-      "sha": "e70d8b2b",
-      "subject": "merge(fix/ci-green-py-pin): restore green CI \u2014 pin Python 3.13 + install deps + full pytest gate",
-      "date": "2026-06-08"
     }
   ],
   "wave_execution_events": [],
