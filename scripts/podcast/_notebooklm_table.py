@@ -21,6 +21,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
+from _paths import REPO_ROOT
+
 # The standing default length setting. Change here to retune globally.
 DEFAULT_LENGTH = "Long"
 
@@ -30,14 +32,16 @@ COLUMNS = ("Chapters", "Episodes", "Deep dive or debate", "Length")
 def repo_rel_href(path, book_dir) -> str | None:
     """Repo-root-relative href for a file, for clickable markdown links.
 
-    Content lives at ``<repo>/content/<Bucket>/<slug>/…`` so the repo root is
-    ``book_dir.parents[2]``. Returns None for a missing path; falls back to the
-    raw string if the path is outside the repo root.
+    Uses the canonical ``REPO_ROOT`` from ``_paths`` rather than counting levels
+    above ``book_dir`` — the level count is wrong for nested volumes
+    (``content/<Bucket>/<container>/<vol>/``). ``book_dir`` is retained in the
+    signature for back-compat but no longer drives the computation. Returns None
+    for a missing path; falls back to the raw string if outside the repo root.
     """
     if path is None:
         return None
     try:
-        return str(Path(path).resolve().relative_to(Path(book_dir).resolve().parents[2]))
+        return str(Path(path).resolve().relative_to(REPO_ROOT))
     except (ValueError, IndexError):
         return str(path)
 

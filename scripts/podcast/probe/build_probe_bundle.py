@@ -51,11 +51,12 @@ def _spoken(t: dict) -> dict:
 def _load_library(book_dir: Path) -> dict[str, dict]:
     """Return a dict keyed by normalize_key(term) from pronunciations.jsonl.
 
-    The library lives at content/knowledge-base/pronunciations.jsonl —
-    two levels above the book slug (content/<Bucket>/<slug>/).
+    The library lives at content/knowledge-base/pronunciations.jsonl. Anchored to
+    the repo root via _PROBE_DIR (not counting levels above book_dir, which is
+    wrong for nested volumes content/<Bucket>/<container>/<vol>/).
     Falls back gracefully if the file is absent.
     """
-    lib_path = book_dir.parent.parent / "knowledge-base" / "pronunciations.jsonl"
+    lib_path = _PROBE_DIR.parents[2] / "content" / "knowledge-base" / "pronunciations.jsonl"
     if not lib_path.exists():
         return {}
     result: dict[str, dict] = {}

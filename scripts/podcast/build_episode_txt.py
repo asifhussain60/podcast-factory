@@ -82,6 +82,7 @@ from pathlib import Path
 
 # Wave CP: content-profile resolver for assertion gating.
 from _content_profile import is_islamic_scholarly
+from _paths import relative_to_repo
 
 # Re-export everything from _validators so existing callers that do
 #   `from build_episode_txt import X`
@@ -333,8 +334,8 @@ def build(book_dir: Path, episode_id: str, check_only: bool = False) -> None:
         f"  {framing_words} words — paste into NotebookLM's Customize prompt box\n"
         f"\n"
         f"To upload:\n"
-        f"  1. Upload {chapter_file.relative_to(book_dir.parent.parent)} to NotebookLM as the single source.\n"
-        f"  2. Paste contents of {out_path.relative_to(book_dir.parent.parent)} into NotebookLM's Customize prompt box.\n"
+        f"  1. Upload {relative_to_repo(chapter_file)} to NotebookLM as the single source.\n"
+        f"  2. Paste contents of {relative_to_repo(out_path)} into NotebookLM's Customize prompt box.\n"
         f"  3. Click Generate."
     )
     for w in warnings:
