@@ -101,7 +101,7 @@ function fileViewHref(relPath: string): string {
               <span class="lib-file-name">{f.name}</span>
               <span class="lib-file-meta-row">
                 {cs && (
-                  <span class={`lib-score-pill lib-score-${cs.verdict.toLowerCase()}`} title={`Source accuracy: ${cs.fidelity.toFixed(0)}  Style: ${cs.voice.toFixed(0)}  Structure: ${cs.structure.toFixed(0)}  Depth: ${cs.enrichment.toFixed(0)}`}>
+                  <span class={`lib-score-pill lib-score-${cs.verdict.toLowerCase()}`} title={`Source accuracy: ${cs.fidelity.toFixed(0)}  Style: ${cs.voice.toFixed(0)}  Structure: ${cs.structure.toFixed(0)}  Depth: ${cs.enrichment.toFixed(0)}  Interest: ${cs.interest.toFixed(0)}`}>
                     {cs.total.toFixed(0)}
                   </span>
                 )}
