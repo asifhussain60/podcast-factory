@@ -7,7 +7,11 @@
   "phase_status": "running",
   "last_completed_phase": "0g",
   "next_phase": "0literary",
-  "last_error": null,
+  "last_error": {
+    "phase": "per-chapter",
+    "message": "[two-parties-and-the-line-to-noah] build_episode_txt.py failed: rc=1: ERROR: framing (CUSTOMIZE PROMPT) file contains meta-prose that would reach NotebookLM.",
+    "ts": "2026-06-09T18:55:07Z"
+  },
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -63,9 +67,12 @@
       "status": "running",
       "completed_slugs": [
         "adam-the-tree-and-iblis-pact",
-        "the-call-to-inner-meaning"
+        "the-call-to-inner-meaning",
+        "the-four-limits-of-the-shahada"
       ],
-      "failed_slugs": [],
+      "failed_slugs": [
+        "two-parties-and-the-line-to-noah"
+      ],
       "chapter_timings": {
         "adam-the-tree-and-iblis-pact": {
           "started_ts": "2026-06-09T17:10:34Z",
@@ -83,6 +90,21 @@
         },
         "the-four-limits-of-the-shahada": {
           "started_ts": "2026-06-09T18:28:30Z",
+          "completed_ts": "2026-06-09T18:47:49Z",
+          "duration_sec": 1158.5,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "two-parties-and-the-line-to-noah": {
+          "started_ts": "2026-06-09T18:47:49Z",
+          "completed_ts": "2026-06-09T18:55:07Z",
+          "duration_sec": 437.8,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "build_episode_txt.py failed: rc=1: ERROR: framing (CUSTOMIZE PROMPT) file contains meta-prose that would reach NotebookLM."
+        },
+        "what-ismaili-interpretation-is": {
+          "started_ts": "2026-06-09T18:55:07Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
@@ -90,8 +112,8 @@
         }
       },
       "ts_started": "2026-06-09T12:21:44Z",
-      "current_chapter": "the-four-limits-of-the-shahada",
-      "last_beat": "2026-06-09T18:43:42Z",
+      "current_chapter": "what-ismaili-interpretation-is",
+      "last_beat": "2026-06-09T19:13:00Z",
       "convergence_iter": 2
     },
     "trainer": {
@@ -121,7 +143,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-06-08T00:00:00Z",
-  "ts_updated": "2026-06-09T18:43:42Z",
+  "ts_updated": "2026-06-09T19:13:00Z",
   "config": {
     "length_tier": "extended",
     "unit_mode": "auto"
