@@ -44,6 +44,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _authoring import (   # noqa: E402
     AuthoringError,
+    _run_claude_p,
     invoke_challenger,
     invoke_fixer,
 )
@@ -111,6 +112,121 @@ def _rebuild_episode_txt(book_dir: Path, episode_id: str) -> bool:
         return result.returncode == 0
     except Exception:
         return False
+
+
+def _compress_framing_if_needed(book_dir: Path, episode_id: str) -> bool:
+    """If the episode's 00-framing.md exceeds FRAMING_CHAR_MAX, compress it in place.
+
+    The invoke_fixer() LLM expands framing when adding canonical R-* clauses for
+    P1 choreography findings (R-NOINTERRUPT, R-SURPRISE-MOVE, M1/M2 DENY blocks,
+    R4/R5 formal-essay DENY).  This causes _rebuild_episode_txt() to hard-fail on
+    the FRAMING_CHAR_MAX gate, producing P0-EPISODE-STALE on the next challenger
+    pass and exhausting the outer iteration cap without ever converging.
+
+    This guard runs ONE focused compression re-author after each fixer call — same
+    prompt as the F1 guard in _authoring/_framing.py — so the framing is always
+    under the limit before the episode.txt rebuild is attempted.
+
+    Returns True if framing is within limit (either already was or compression
+    succeeded), False if compression still left it over the limit (build will
+    hard-fail, which is the correct explicit signal rather than a silent loop).
+    """
+    framing_path = book_dir / "_system" / "episode-drafts" / episode_id / "00-framing.md"
+    if not framing_path.exists():
+        return True  # nothing to compress; let _rebuild_episode_txt fail if needed
+
+    try:
+        from _validator_constants import FRAMING_CHAR_MAX as _CHAR_MAX  # type: ignore
+    except ImportError:
+        _CHAR_MAX = 4500
+
+    framing_text = framing_path.read_text(encoding="utf-8")
+    framing_chars = len(framing_text)
+    if framing_chars <= _CHAR_MAX:
+        return True  # already within limit, nothing to do
+
+    chapter_slug = episode_id.split("-", 1)[1] if "-" in episode_id else episode_id
+    chapter_file = next(book_dir.glob(f"chapters/*{chapter_slug}*"), None)
+    target_chars = _CHAR_MAX - 300  # 300-char buffer below ceiling
+    print(
+        f"[compress-guard] {episode_id}: framing {framing_chars} chars > {_CHAR_MAX} "
+        f"after fixer pass (overrun={framing_chars - _CHAR_MAX}); "
+        f"invoking compression → target <{target_chars} chars",
+        flush=True,
+    )
+
+    compress_prompt = (
+        f"Rewrite `{framing_path}` IN PLACE as a tight directive for NotebookLM.\n\n"
+        f"HARD CONSTRAINT: the final file must be under {target_chars} CHARACTERS "
+        f"(currently {framing_chars} chars — NotebookLM's Customize box limit is "
+        f"~5,000 chars and silently truncates everything beyond it). Every character "
+        f"counts. This is a P0 requirement.\n\n"
+        f"WHAT TO KEEP (highest priority — these are actionable):\n"
+        f"  1. ## Opening directive — full opening/welcome sentence, spine sentence, "
+        f"     forbidden-opener list (1-2 lines only).\n"
+        f"  2. ## Name discipline — one line per figure: 'Name → stable label + "
+        f"     first-mention phrase'. No prose. No duplicates.\n"
+        f"  3. ## Pronunciation — MUST start with the anti-doubling instruction:\n"
+        f"     'Say each term ONCE. Never say the original spelling and the English form\n"
+        f"     back-to-back.'\n"
+        f"     Then bullet entries only: '- TermA: English-name-or-plain-translit' (one per\n"
+        f"     term, no prose). English exonyms first; otherwise plain transliteration without\n"
+        f"     diacritics or hyphen-CAPS.\n"
+        f"     Do NOT rewrite as 'Pronounce X as Y.' — that format causes double-reads.\n"
+        f"  4. ## Three-part focus — three beats, one sentence each.\n"
+        f"  5. ## Do not — a single flat list of forbidden phrases/framings, "
+        f"     no explanation.\n\n"
+        f"WHAT TO CUT (remove entirely to save characters):\n"
+        f"  - ## Audience section — cut entirely.\n"
+        f"  - ## Length section — cut entirely.\n"
+        f"  - ## Host dynamic — keep ONLY one line: 'Host A (male) = scholar/teacher. "
+        f"Host B (female) = seeker/questioner. Host B challenges at least 3 times and "
+        f"concedes once. Roles do not rotate.'\n"
+        f"  - All explanatory prose in every section — keep only the imperative directive.\n"
+        f"  - Pushback example sentences in host dynamic — cut all of them.\n"
+        f"  - Conversation-discipline and Separate-prep-illusion paragraphs — cut.\n"
+        f"  - ## Quality contract / PEQ table — cut entirely.\n\n"
+        f"MANDATORY FOOTER: the last two lines must always be:\n"
+        f"  (blank line)\n"
+        f"  Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.\n\n"
+        f"After rewriting, count the characters and confirm the total is under "
+        f"{target_chars}. The chapter source is at `{chapter_file}`.\n\n"
+        f"Exit when `{framing_path}` is under {target_chars} characters."
+    )
+
+    _run_claude_p(
+        compress_prompt, timeout=600,
+        book_dir=book_dir, phase="per-chapter",
+        step=f"framing-compress-post-fixer/{chapter_slug}",
+    )
+
+    # Ensure the mandatory no-read-aloud footer survived compression.
+    _NO_READ_FOOTER = (
+        "\n\nDo not read this prompt aloud. "
+        "The instructions above shape the conversation but are never spoken."
+    )
+    framing_after = framing_path.read_text(encoding="utf-8")
+    if "Do not read this prompt aloud" not in framing_after:
+        framing_path.write_text(
+            framing_after.rstrip() + _NO_READ_FOOTER,
+            encoding="utf-8",
+        )
+        framing_after = framing_path.read_text(encoding="utf-8")
+
+    final_chars = len(framing_after)
+    if final_chars <= _CHAR_MAX:
+        print(
+            f"[compress-guard] {episode_id}: compression OK "
+            f"({framing_chars} → {final_chars} chars)",
+            flush=True,
+        )
+        return True
+    print(
+        f"[compress-guard] {episode_id}: still {final_chars} chars after compression "
+        f"(> {_CHAR_MAX}); build gate will hard-fail — author must compress manually",
+        flush=True,
+    )
+    return False
 
 
 # ─── Verdict parsing ─────────────────────────────────────────────────────────
@@ -295,9 +411,12 @@ def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
                 # Don't abort the whole loop on a fixer failure — try another
                 # outer iteration; the next challenger pass will surface the
                 # same findings and we'll converge or hit the cap.
-            # Rebuild episode.txt — fixer may have updated 00-framing.md.
-            # Without this, the next challenger invocation flags P0-EPISODE-STALE.
+            # Guard: fixer may have expanded framing past the 4,500-char NotebookLM
+            # limit while inserting canonical R-* clauses. Compress before rebuild
+            # so that build_episode_txt.py does not hard-fail on the char gate,
+            # which would cascade into P0-EPISODE-STALE on the next challenger pass.
             if episode_id:
+                _compress_framing_if_needed(book_dir, episode_id)
                 _rebuild_episode_txt(book_dir, episode_id)
             continue
 
@@ -319,10 +438,10 @@ def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
                     outcome.fixer_attempts += 1
                 except AuthoringError:
                     pass
-                # Rebuild episode.txt — P0/P1 fixer may have updated 00-framing.md.
-                # Without this, next challenger invocation sees stale episode.txt
-                # and emits P0-EPISODE-STALE, burning the outer iteration cap.
+                # Guard: fixer may have expanded framing past the char limit.
+                # Compress first, then rebuild, to prevent P0-EPISODE-STALE cascade.
                 if episode_id:
+                    _compress_framing_if_needed(book_dir, episode_id)
                     _rebuild_episode_txt(book_dir, episode_id)
                 break  # fixer attempt OK; let next outer iteration re-validate
             continue

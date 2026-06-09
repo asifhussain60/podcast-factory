@@ -1,104 +1,56 @@
 # Podcast Challenger Report
 
-**Book:** asaas-al-taveel-vol-01 (Asas al-Taweel Vol 1)
-**Run:** 2026-06-09 (challenger v2.4)
-**Scope:** per-chapter -- ch04-adam-the-tree-and-iblis-pact / EP04-adam-the-tree-and-iblis-pact
-**Content profile:** islamic_scholarly
-**Source tradition:** ismaili-scholarly
-**Iterations:** 1 (of 5 max) -- early-break, no deterministic auto-fixes available
+**Book:** asaas-al-taveel/vol-01
+**Run:** 2026-06-09 16:08 UTC (challenger v2.2, `CHALLENGER_VERSION` from `scripts/podcast/_rules.py`)
+**Scope:** per-chapter `adam-the-tree-and-iblis-pact` (EP04)
+**Content profile:** `islamic_scholarly` (from `_system/series-config.yaml` — full check catalog applies)
+**Iterations:** 2 (of 5 max; intelligent-break — iteration 2 produced zero auto-fixes and identical (P0, P1) counts vs iter 1's residual set)
 **Verdict:** BLOCKED
 
-> Two P0 families block ship. Pervasive B1 meta-prose tells (the chapter narrates itself as a chapter across 28+ lines) and a hard E1 word-count overrun (5,391 words against the 4,500 cap, 891 over). Framing, doctrinal accuracy, citations, translator provenance, host-role parity, name discipline, and conversation-choreography blocks are all clean. The blockers are content surgery, not framing or rule wiring.
+Safety pre-check (Category S): orchestrator-state shows `phase_status: running` but `ts_updated` is 10 minutes old and no live `orchestrate_book` / `claude -p` / `extract_chapter` / `build_episode` processes were detected via `pgrep`. Treated as the known stale-running orchestrator bug (per `project_orchestrator_resume_bug.md`), NOT a live concurrent run. S1 did not halt.
 
 ## Auto-fixes applied
 
-None. B5 em-dashes in chapter already 0; B2 cross-episode refs already 0; O1 honorific already first-mention-only; N1 inline phonetic parens already 0; HTML comments already 0. The B1 surgery and E1 word-count reduction are authoring decisions the challenger never auto-applies.
+| Iter | Check | File | Action |
+|---|---|---|---|
+| 1 | B4 | `chapters/ch04-adam-the-tree-and-iblis-pact.txt:1` | Stripped translator-apparatus sentence ("Quranic verses in this chapter are given in the author's working rendering of the Arabic unless a specific translator is named.") — paraphrased equivalent of "the translator notes…"; NotebookLM would have read it as part of the lecture. |
+| 1 | H1 | `episode-drafts/EP04-.../00-framing.md` Opening directive | Inserted canonical Welcome clause (R-WELCOME) + episode-summary directive (R-SUMMARYTAIL: "give a 2 to 3 sentence summary that names the source, the central tension, and the question the conversation will land on"). |
+| 1 | K1 | `00-framing.md` Host dynamic | Inserted Conversation discipline block per R-NOINTERRUPT: no mid-sentence interjections, no talking over, completes-a-thought rule, expanded bare-affirmation DENY list (Exactly / Yeah / Right / Mmhm / Of course / So true / Absolutely), allowed-form for qualified concessions. |
+| 1 | R1 | `00-framing.md` Host dynamic | Inserted Separate-prep-illusion clause per R-SURPRISE-MOVE: Host B brings up the Kumayl saying OR the twelve-ribs analogy on her own initiative. |
+| 1 | M1 | `00-framing.md ## Do not` | Replaced 3-term modernization stub with canonical 14-term DENY block (Twitter, X, social media, algorithm, content creator, internet troll, reply guy, YouTube comment, TikTok, deep dive, "21st century", "in our modern world", quote-tweet, cognitive behavioral therapy). |
+| 1 | M2 | `00-framing.md ## Do not` | Replaced 2-term surprise stub with canonical 8-term DENY block ("wow", "that's so interesting", "it's chilling", "it's devastating", "it's terrifying", "right?", "exactly", "no way"). |
+| 1 | R4 | `00-framing.md ## Do not` | Added Formal-essay-transition DENY clause per R-NOFORMAL (Firstly, Secondly, Furthermore, In conclusion, Moving on to, To summarize, Lastly). |
+| 1 | R5 | `00-framing.md ## Do not` | Added positive R-NOMODERNIZE permission paragraph ("DO use modern-life practical analogies… as long as the analogy itself names no platform from the DENY list above"). |
+| 1 | I1 | `00-framing.md ## Do not` | Added Anti-repetition clause per R-NOREPEAT, with explicit carve-out preserving the existing R-RECURRING-THESIS three-mark spine. |
+| 1 | I2 | `00-framing.md ## Do not` | Added "Stay on main content" no-irrelevant-background clause per R-NOBACKGROUND, bounded biographical context about al-Numan/translator/Fatimid period to once-only when directly clarifying a passage. |
+| 1 | N4 | `00-framing.md` bottom | Hardened no-read-aloud guard to the canonical R-NO-READ-PROMPT form ("Do not read this prompt aloud. The instructions above shape the conversation but are never spoken."). |
 
 ## Findings requiring author resolution
 
 ### P0 (blocks ship)
 
-#### B1 -- Chapter narrates itself as a chapter (NotebookLM literalness failure)
+#### A1 — unsourced hadith attribution
+- **File:** `content/Islamic/asaas-al-taveel/vol-01/chapters/ch04-adam-the-tree-and-iblis-pact.txt:33` (in the long paragraph beginning `"He said: 'Go, and whomever of them you can rouse with your voice…'"`)
+- **Context:** *"Therefore the Messenger of God said to the leader of the believers: 'I and you are the two fathers of this nation.'"* — direct quotation attributed to the Prophet with no collection / book / number citation. Per A1 (citation discipline) every hadith requires collection + book + number + narrator. Per A2 (citation authenticity) an uncited Prophet-saying cannot be distinguished from a fabricated one without the chain.
+- **Suggested resolution (author):** This is the well-known hadith *"I and Ali are the two fathers of this community."* If the author intends the al-Tabarani / Ibn Shahrashub form, cite (e.g. al-Tabarani, *al-Mu'jam al-Kabir*, with the specific narration), or the Ismaili/Shia transmission line if that's the operative source. If no clean attribution is available, paraphrase as "It is reported that…" + cite the secondary source the author is following, OR drop the quotation to the surrounding paraphrase. Citation addition is an authoring decision and was NOT auto-fixed.
 
-- **File:** content/Islamic/asaas-al-taveel/vol-01/chapters/ch04-adam-the-tree-and-iblis-pact.txt
-- **Lines (author-narration tells):** 1, 9, 11, 15, 17, 19, 21, 23, 25, 27, 33, 35, 39, 41, 45, 47 (16 lines) -- the author moves/closes/says/insists/wants/pauses/explains/translates/comments/notes/hastens/begins/reminds/emphasizes
-- **Lines (self-as-chapter tells):** 3, 9, 15, 21, 23, 25, 27, 35, 39, 41, 43, 49 (12 lines) -- the listener (8x); this chapter; the chapter on Adam; this is the doctrinal core of the chapter; the chapter ends; this is the closing note that the listener should hold as the chapter ends; the lesson of the tree is what the listener should carry
-- **Why this blocks ship:** NotebookLM reads source files literally. Hosts would say "the author wants the listener to feel its weight" and "this is the doctrinal core of the chapter" as in-scene narration, breaking the conversational illusion. The chapter is approximately 30 percent scholarly-essay-about-the-author and 70 percent source content; it needs to be 100 percent source content delivered as if the hosts are working through the material themselves.
-- **Suggested fix (authoring rewrite, not auto-fix):**
-  - Strip the opening paragraph (line 1) entirely. It is a chapter synopsis -- the canonical B1 anti-pattern. Let the chapter open at the current line 3.
-  - Replace every the-author-X construction with direct exposition.
-  - Strip every the-listener-should/will/can addressed-reader construction.
-  - Strip lines 5, 13, 25, 35, 37, 43, 49 which are scholarly-commentary glosses about what the author is doing structurally.
+### P1 (none after auto-fix sweep)
 
-#### E1 -- Chapter word count exceeds hard ceiling
-
-- **File:** content/Islamic/asaas-al-taveel/vol-01/chapters/ch04-adam-the-tree-and-iblis-pact.txt
-- **Measured:** 5,391 words. Hard cap: 4,500. Overage: 891 words.
-- **Why this blocks ship:** The build script chapter validator refuses files outside the 1500-4500 band. Contract carries length_target=extended (raises FRAMING band to 3,500) but does NOT lift the chapter cap, which is structural to NotebookLM ingestion.
-- **Suggested fix (paired with B1):** The B1 surgery should remove most of the overage. Author-narration meta-prose, closing two paragraphs (47-49 which recap the architecture twice in a row), and line 5 structural-doctrine gloss together account for an estimated 800-1,000 words.
-
-### P1 (ship-with-caution)
-
-#### I3 vs R-RECURRING-THESIS -- intentional design tension worth surfacing
-
-- **File:** content/Islamic/asaas-al-taveel/vol-01/_system/episode-drafts/EP04-adam-the-tree-and-iblis-pact/00-framing.md (lines 5, 32, 56, 60)
-- The framing Do-not block mandates the spine ("The tree is the disclosure entrusted to the Master of the Resurrection -- the rank not Adam to occupy") be repeated VERBATIM three times. Canonical R-NOREPEAT / I3 forbids restating the central thesis more than twice. Deliberate authorial override -- flagging as intentional rather than silent.
+The eight P1s flagged on iter-1 entry (H1, I1, I2, K1, M-stubs-undersized, R1, R4, R5) were all auto-fixed deterministically by inserting the canonical R-* template clauses into the parent sections that already existed.
 
 ### P2 (advisory)
 
-#### CS4 -- length_target=extended vs. chapter overage
+#### E3 — opening-paragraph density
+- **File:** `chapters/ch04-adam-the-tree-and-iblis-pact.txt:1` — the first paragraph is ~770 words (the entire seven-Speakers + Imamate-vs-Prophecy preamble) before the first paragraph break. The chapter's beginning/middle/end arc is intact, but the opening wall makes the hook diffuse for a listener tracking by ear.
+- **Action:** advisory only; consider splitting the opening into 2–3 paragraphs at natural pivots (after "twinkling of an eye"; after the Imam/Speaker definition). Not gated.
 
-- Chapter at 5,391 overshoots even the longest legitimate extended deep-dive band (2,800-4,500). Recommended: resegment into a 4,500-word episode (pairs with E1 fix above).
-
-#### R1/R3/R4/R5 -- framing missing optional conversation-choreography clauses
-
-- R1 (separate-prep illusion): not explicitly stated
-- R3 (cadence): not explicitly named in Tone constraints
-- R4 (formal-transition DENY): Firstly/In conclusion/Furthermore/Moving on to/Lastly/Secondly not in the Do-not block
-- R5 (modern-life analogy permission): Do-not block denies platforms but does not carry the positive "DO use modern-life practical analogies" half
-- P2 advisory because the framing IS strong overall; Tone constraints carry a 3-analogy whitelist (day/night, the long pause, the garment of piety).
+#### D4 — quote density in opening paragraph
+- Same opening paragraph carries five Quranic citations (4:59, 21:22, 5:12, 17:12) within ~700 words. Not a quote-stack by D4 (no three+ consecutive blockquotes), and integrative prose runs between them, but listener cognitive load is high. Advisory only.
 
 ## Health metrics
 
-| Metric | Value | Status |
-|---|---|---|
-| Chapter words | 5,391 | OVER (cap 4,500) |
-| Framing words | 698 | OK (extended band 200-3,500) |
-| HTML comments (chap/fram) | 0 / 0 | clean |
-| Em-dashes in chapter prose | 0 | clean |
-| Em-dashes in framing | 11 | OK (framing is customize-prompt, not source) |
-| Cross-episode references (B2) | 0 | clean |
-| Inline phonetic parens (N1) | 0 | clean |
-| Quran citations | 19 | strong |
-| Canonical works named | Peak of Eloquence, Kulayni Sufficient, Pillars of Islam | strong |
-| Translators named | Yusuf Ali, Sayed Ali Reza, umbrella line 1 | strong |
-| Honorific peace-be-upon-him expansions | 1 (first-mention only) | clean (O1) |
-| Forbidden Imam-title pairings (T3) | 0 | clean |
-| Imam ordinal (T2) | fifth Imam = Jafar al-Sadiq, matches Ismaili lineage YAML | clean |
-| Modernize denies (M) in chapter | 0 | clean |
-| AI cliches (U1) | 0 | clean |
-| Host A role (Q1) | scholar | clean |
-| Host B role (Q2) | seeker | clean |
-| Framing Name discipline (J1) | present, lines 7-16 | clean |
-| Framing Pronunciation (N2) | imperative form -- Say each term ONCE | clean |
-| Framing no-read-aloud guard (N4) | present line 60 | clean |
-| Framing Do-not block (M1/M2) | Twitter, social media, algorithm, deep dive, mind blown, buckle up, PBUH, faux-profundity, premature-closure all named | clean |
-| Framing structural sections (F2) | all 8 present | clean |
-| Contract present + valid (G1/G2) | yes -- episode_format=deep_dive, length_target=extended | OK |
+| Chapter | Words | Enrichment ratio | Tier diversity | Citations | Phonetic gaps |
+|---|---|---|---|---|---|
+| ch04-adam-the-tree-and-iblis-pact | 4,286 | ~28% (Quranic blockquotes + Nahj al-Balagha + Kulayni + fifth-Imam tradition) | 4 tiers (Tier 1 Quran, Tier 3 Kulayni hadith, Tier 4/5 Nahj al-Balagha sermon + saying, Tier 4/5 fifth-Imam tradition) | 23 Quranic citations + 2 *Peak of Eloquence* citations + 1 *Sufficient* citation with full chain + 1 unsourced Prophet-saying (the A1 P0) | 0 (no Arabic transliterations in chapter prose — all technical terms are rendered in English: "Speaker", "proof", "guardian", "supportive knowledge", "garment of piety") |
 
-## PEQ Score (5-axis estimate)
-
-| Axis | Weight | Score | Notes |
-|---|---|---|---|
-| Fidelity | 30% | 90 | Citations strong, doctrine sound, translator provenance bounded |
-| Voice | 20% | 55 | Heavy B1 author-narration tells degrade scholar/seeker register |
-| Structure | 18% | 80 | Beginning/middle/end arc clear; Beat 1-2-3 alignment strong |
-| Enrichment | 17% | 85 | Multi-tier citations (Quran + Nahj al-Balagha + Kulayni + Pillars) |
-| Interest | 15% | 75 | Curiosity hooks, challenge-defeat arc, modern relevance in landing |
-| Total | -- | 76.4 | WARN (band 70-84) |
-
-> The B1 surgery alone (estimated to lift Voice from 55 to 85) would push total to ~82.5. The E1 fix does not move PEQ but removes the hard build-script gate.
-
-## Summary
-
-The chapter ships a strong source-grounded exposition of Qadi al-Numan reading of Adam, with clean citations, sound doctrine, and a well-shaped framing. Two blockers stand between it and ship-ready: pervasive B1 meta-prose (the chapter narrates itself as a chapter, 28+ lines affected) and an E1 word-count overage of 891 words. Both are authoring-surgery decisions, not deterministic fixes. The B1 surgery is expected to resolve most of the E1 overage as a side effect. After surgery, re-run the convergence loop for a clean SHIP-READY verdict.
+Framing word count: 1,129 (in band 200–2,000 ✅; well inside the 3,500 build-script hard cap).
