@@ -256,18 +256,23 @@ def _sample_text(text: str, max_words: int) -> str:
     return " ".join(words[:half]) + "\n\n[…]\n\n" + " ".join(words[-half:])
 
 
-def _parse_discriminator_findings(output: str,
-                                  file: str = "") -> list[ArtifactFinding]:
-    """Parse ``FINDING:`` lines from the discriminator's LLM output.
+def _parse_discriminator_findings(
+    output: str,
+    file: str = "",
+    severity_map: Optional[dict[str, str]] = None,
+) -> list[ArtifactFinding]:
+    """Parse ``FINDING:`` lines from a discriminator's LLM output.
 
     Expects lines of the form:
         FINDING: <CHECK_ID> | <description> | <context>
     or the clean sentinel:
         VERDICT: CLEAN
     Unknown check IDs are mapped to P1 and kept (never silently dropped).
+    ``severity_map`` overrides the default 0b map so 0e can supply its own P0s.
     """
     if "VERDICT: CLEAN" in output:
         return []
+    _smap = severity_map if severity_map is not None else _DISCRIMINATOR_0B_SEVERITY
     findings: list[ArtifactFinding] = []
     for line in output.splitlines():
         s = line.strip()
@@ -280,7 +285,7 @@ def _parse_discriminator_findings(output: str,
         check_id = parts[0].strip()
         message = parts[1].strip()
         context = parts[2].strip() if len(parts) > 2 else ""
-        severity = _DISCRIMINATOR_0B_SEVERITY.get(check_id, "P1")
+        severity = _smap.get(check_id, "P1")
         findings.append(ArtifactFinding(
             check_id=check_id,
             severity=severity,
@@ -379,6 +384,127 @@ def discriminate_0b_fidelity(
         )
     else:
         log("  phase 0b · discriminator: CLEAN")
+    return findings
+
+
+# ─── Phase C: 0e faithfulness LLM discriminator ──────────────────────────────
+#
+# Opt-in via ``phase_0e_discriminator_cap_usd`` in ``series-plan.md`` (default
+# 0.0 = off). Runs per chapter immediately after enrichment. Scores the
+# enriched text against the pre-enrichment source on 3 faithfulness axes tuned
+# to the Islamic 7-tier enrichment risk profile: hallucinated citations (P0),
+# source content alteration (P1), and doctrinal drift (P1). Flag-and-proceed.
+
+# Chapter texts are shorter than the full-book raw extract, so a 2000-word
+# sample is usually the whole chapter — that's fine.
+DISCRIMINATOR_0E_SAMPLE_WORDS = 2000
+
+_U0E_HALLUCINATED_CITATION = "U0E-HALLUCINATED-CITATION"
+_U0E_SOURCE_ALTERED = "U0E-SOURCE-ALTERED"
+_U0E_DOCTRINE_DRIFT = "U0E-DOCTRINE-DRIFT"
+
+_DISCRIMINATOR_0E_SEVERITY: dict[str, str] = {
+    _U0E_HALLUCINATED_CITATION: "P0",   # P0: fabricating citations corrupts the source text
+    _U0E_SOURCE_ALTERED: "P1",
+    _U0E_DOCTRINE_DRIFT: "P1",
+}
+
+_U0E_DISCRIMINATOR_TIMEOUT = 300
+
+
+def build_0e_discriminator_prompt(
+    book_slug: str,
+    chapter_stem: str,
+    before_sample: str,
+    after_sample: str,
+) -> str:
+    """Return the frozen faithfulness-discriminator prompt for Phase 0e.
+
+    Frozen: prompt text is part of the regression contract.
+    """
+    return (
+        f"You are a faithfulness discriminator for the podcast-factory 0e enrichment "
+        f"phase on book `{book_slug}`, chapter `{chapter_stem}`.\n\n"
+        f"Your task: compare the ORIGINAL chapter text (pre-enrichment) against the "
+        f"ENRICHED version. The enrichment adds Quranic context, hadith references, "
+        f"scholarly commentary, and practical anchors — that is expected and correct. "
+        f"Identify ONLY faithfulness failures — not the additions themselves.\n\n"
+        f"ORIGINAL (pre-enrichment — ground truth for source content):\n"
+        f"---\n{before_sample}\n---\n\n"
+        f"ENRICHED (Phase 0e output):\n"
+        f"---\n{after_sample}\n---\n\n"
+        f"Score these axes. Emit a FINDING only for a clear, specific failure:\n"
+        f"  {_U0E_HALLUCINATED_CITATION} — a Quran verse number, hadith collection reference, "
+        f"or scholar name was ADDED that has no basis in the ORIGINAL and cannot be "
+        f"independently verified (P0: most critical)\n"
+        f"  {_U0E_SOURCE_ALTERED}       — original source text was CHANGED, not enriched "
+        f"(a statement in ORIGINAL now says something different in ENRICHED)\n"
+        f"  {_U0E_DOCTRINE_DRIFT}       — an enrichment addition introduces a doctrinal "
+        f"claim inconsistent with Ismaili scholarly tradition\n\n"
+        f"Output format for each finding:\n"
+        f'FINDING: <CHECK_ID> | <one-sentence description> | '
+        f'original: "<exact phrase>" → enriched: "<exact phrase>"\n\n'
+        f"If NO faithfulness problems are found, output exactly:\n"
+        f"VERDICT: CLEAN\n\n"
+        f"Rules:\n"
+        f"- Be CONSERVATIVE: DO NOT flag enrichment additions (Quranic parallels, hadith "
+        f"  elaborations, scholarly context) — those are intended and correct.\n"
+        f"- DO flag: a verse number that appears in ENRICHED but not ORIGINAL and seems "
+        f"  fabricated; a sentence whose meaning was materially changed; a doctrinal "
+        f"  statement that contradicts the Ismaili scholarly tradition.\n"
+        f"- Emit at most 5 findings. Stop after 5.\n"
+        f"- Output ONLY the FINDING: / VERDICT: lines — no preamble or explanation.\n"
+    )
+
+
+def discriminate_0e_faithfulness(
+    book_dir: Path,
+    chapter_stem: str,
+    before_text: str,
+    after_text: str,
+    *,
+    log=print,
+) -> list[ArtifactFinding]:
+    """Phase C: invoke the frozen faithfulness discriminator for 0e.
+
+    Compares bounded samples of ``before_text`` (pre-enrichment) and ``after_text``
+    (enriched) on 3 faithfulness axes. Returns findings (empty = CLEAN).
+    NEVER raises.
+    """
+    try:
+        from ._core import _run_claude_p
+    except ImportError:
+        from _authoring._core import _run_claude_p
+
+    chapter_file = book_dir / "chapters" / f"{chapter_stem}.md"
+    before_sample = _sample_text(before_text, DISCRIMINATOR_0E_SAMPLE_WORDS)
+    after_sample = _sample_text(after_text, DISCRIMINATOR_0E_SAMPLE_WORDS)
+    prompt = build_0e_discriminator_prompt(
+        book_dir.name, chapter_stem, before_sample, after_sample)
+    log(
+        f"    {chapter_stem} · discriminator: scoring faithfulness "
+        f"(sample≤{DISCRIMINATOR_0E_SAMPLE_WORDS}w each side) …"
+    )
+    rc, stdout, _stderr = _run_claude_p(
+        prompt,
+        book_dir=book_dir,
+        phase="0e-discriminator",
+        step=f"faithfulness-{chapter_stem}",
+        timeout=_U0E_DISCRIMINATOR_TIMEOUT,
+    )
+    if rc != 0:
+        log(f"    {chapter_stem} · discriminator: rc={rc} — treating as CLEAN")
+        return []
+    findings = _parse_discriminator_findings(
+        stdout, file=str(chapter_file),
+        severity_map=_DISCRIMINATOR_0E_SEVERITY)
+    if findings:
+        log(
+            f"    {chapter_stem} · discriminator: {len(findings)} finding(s) — "
+            + ", ".join(f.check_id for f in findings)
+        )
+    else:
+        log(f"    {chapter_stem} · discriminator: CLEAN")
     return findings
 
 
@@ -628,16 +754,50 @@ def run_0b_precheck(book_dir: Path, *, log=print) -> ArtifactOutcome:
 def run_0e_chapter_precheck(book_dir: Path, chapter_stem: str,
                             before_text: str, after_text: str,
                             *, file: str = "", log=print) -> ArtifactOutcome:
-    """Phase A: deterministic-only validation of one 0e enriched chapter.
+    """Phase A+C: validation of one 0e enriched chapter.
 
-    Called per chapter from ``author_phase_0e`` with the pre-enrichment text
-    captured before the LLM rewrite. NEVER raises.
+    Phase A (always free, always runs): deterministic pre-checks — shrank,
+    balloon.
+
+    Phase C (opt-in, default off): LLM faithfulness discriminator. Enabled when
+    ``**Phase 0e Discriminator Cap Usd:** <value>`` is set to a positive float
+    in ``_system/series-plan.md``. Scores a bounded sample (≤DISCRIMINATOR_0E_SAMPLE_WORDS
+    words each side) on 3 faithfulness axes: hallucinated-citation (P0),
+    source-altered, doctrine-drift. Flag-and-proceed.
+
+    NEVER raises.
     """
     label = f"0e:{chapter_stem}"
+
+    # Phase C: read the discriminator cap from series-plan.md.
+    disc_cap = 0.0
+    try:
+        from phases.series_plan import _series_numeric
+        disc_cap = _series_numeric(
+            book_dir, "phase_0e_discriminator_cap_usd", default=0.0)
+    except Exception:  # noqa: BLE001
+        pass
+
+    discriminator_fn: Optional[Callable[[], list[ArtifactFinding]]] = None
+    cost_fn: Optional[Callable[[], float]] = None
+    if disc_cap > 0.0:
+        _before_captured = before_text
+        _after_captured = after_text
+        discriminator_fn = lambda: discriminate_0e_faithfulness(
+            book_dir, chapter_stem, _before_captured, _after_captured, log=log)
+        try:
+            from phases.series_plan import _book_cost_so_far
+            cost_fn = lambda: _book_cost_so_far(book_dir)
+        except Exception:  # noqa: BLE001
+            pass
+
     outcome = converge_artifact(
         label=label,
         book_dir=book_dir,
         precheck_fn=lambda: precheck_enriched_chapter(before_text, after_text, file=file),
+        discriminator_fn=discriminator_fn,
+        cost_cap_usd=disc_cap,
+        cost_fn=cost_fn,
         log=log,
     )
     _emit_findings(outcome.findings, book_slug=book_dir.name, source="precheck-0e")

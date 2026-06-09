@@ -318,6 +318,82 @@ class TestBuild0bDiscriminatorPrompt:
         assert "slug-xyz" in p
 
 
+# ─── Phase C: 0e faithfulness discriminator helpers ──────────────────────────
+
+
+class TestParseDiscriminatorFindingsWith0eSeverityMap:
+    def test_hallucinated_citation_is_p0(self):
+        out = 'FINDING: U0E-HALLUCINATED-CITATION | invented hadith | original: "" → enriched: "xyz"'
+        findings = ac._parse_discriminator_findings(
+            out, severity_map=ac._DISCRIMINATOR_0E_SEVERITY)
+        assert findings[0].severity == "P0"
+
+    def test_source_altered_is_p1(self):
+        out = 'FINDING: U0E-SOURCE-ALTERED | meaning changed | original: "x" → enriched: "y"'
+        findings = ac._parse_discriminator_findings(
+            out, severity_map=ac._DISCRIMINATOR_0E_SEVERITY)
+        assert findings[0].severity == "P1"
+
+    def test_clean_verdict_still_returns_empty(self):
+        assert ac._parse_discriminator_findings(
+            "VERDICT: CLEAN", severity_map=ac._DISCRIMINATOR_0E_SEVERITY) == []
+
+
+class TestBuild0eDiscriminatorPrompt:
+    def test_prompt_contains_0e_check_ids(self):
+        p = ac.build_0e_discriminator_prompt("test", "ch01", "before text", "after text")
+        for cid in ["U0E-HALLUCINATED-CITATION", "U0E-SOURCE-ALTERED", "U0E-DOCTRINE-DRIFT"]:
+            assert cid in p
+
+    def test_prompt_contains_samples(self):
+        p = ac.build_0e_discriminator_prompt("slug", "ch01", "BEFORE_TEXT", "AFTER_TEXT")
+        assert "BEFORE_TEXT" in p and "AFTER_TEXT" in p
+
+
+class TestRun0eChapterPrecheckWithDiscriminator:
+    @pytest.fixture(autouse=True)
+    def _no_real_ledger(self, monkeypatch):
+        monkeypatch.setattr(ac, "_emit_findings", lambda *a, **k: None)
+
+    def test_discriminator_fires_when_cap_set(self, book, monkeypatch):
+        import types
+        sp_mock = types.SimpleNamespace(
+            _series_numeric=lambda bd, name, default=0.0: 1.5,
+            _book_cost_so_far=lambda bd: 0.0,
+        )
+        monkeypatch.setitem(sys.modules, "phases.series_plan", sp_mock)
+
+        disc_calls = {"n": 0}
+        monkeypatch.setattr(ac, "discriminate_0e_faithfulness",
+                            lambda bd, stem, before, after, log=print: (
+                                disc_calls.__setitem__("n", disc_calls["n"] + 1) or []
+                            ))
+
+        out = ac.run_0e_chapter_precheck(
+            book, "ch01", "a b c d", "a b c d e f", log=lambda *a: None)
+        assert out.proceeded is True
+        assert disc_calls["n"] == 1
+
+    def test_discriminator_off_when_cap_zero(self, book, monkeypatch):
+        import types
+        sp_mock = types.SimpleNamespace(
+            _series_numeric=lambda bd, name, default=0.0: 0.0,
+            _book_cost_so_far=lambda bd: 0.0,
+        )
+        monkeypatch.setitem(sys.modules, "phases.series_plan", sp_mock)
+
+        disc_calls = {"n": 0}
+        monkeypatch.setattr(ac, "discriminate_0e_faithfulness",
+                            lambda bd, stem, before, after, log=print: (
+                                disc_calls.__setitem__("n", disc_calls["n"] + 1) or []
+                            ))
+
+        out = ac.run_0e_chapter_precheck(
+            book, "ch01", "a b c d", "a b c d e f", log=lambda *a: None)
+        assert out.proceeded is True
+        assert disc_calls["n"] == 0
+
+
 class TestRun0bPrecheckWithDiscriminator:
     """run_0b_precheck when phase_0b_discriminator_cap_usd > 0."""
 
