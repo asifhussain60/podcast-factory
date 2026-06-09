@@ -3,10 +3,10 @@
   "book_slug": "asaas-al-taveel-vol-01",
   "category": "books",
   "branch": "Islamic/asaas-al-taveel",
-  "phase": "per-chapter",
-  "phase_status": "running",
+  "phase": "0g",
+  "phase_status": "completed",
   "last_completed_phase": "0g",
-  "next_phase": "0literary",
+  "next_phase": "per-chapter",
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -56,14 +56,64 @@
       "series_plan_path": "content/Islamic/asaas-al-taveel/vol-01/_system/series-plan.md"
     },
     "0g": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-06-09T20:03:01Z",
+      "ts_completed": "2026-06-09T20:03:06Z",
+      "audit_outcomes": {
+        "adam-the-tree-and-iblis-pact": {
+          "status": "audited",
+          "ep_label": "EP04-adam-the-tree-and-iblis-pact",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-call-to-inner-meaning": {
+          "status": "audited",
+          "ep_label": "EP02-the-call-to-inner-meaning",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-four-limits-of-the-shahada": {
+          "status": "audited",
+          "ep_label": "EP03-the-four-limits-of-the-shahada",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "two-parties-and-the-line-to-noah": {
+          "status": "audited",
+          "ep_label": "EP05-two-parties-and-the-line-to-noah",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "what-ismaili-interpretation-is": {
+          "status": "audited",
+          "ep_label": "EP01-what-ismaili-interpretation-is",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        }
+      }
     },
     "per-chapter": {
-      "status": "running",
+      "status": "completed",
       "completed_slugs": [
         "adam-the-tree-and-iblis-pact",
         "the-call-to-inner-meaning",
         "the-four-limits-of-the-shahada",
+        "two-parties-and-the-line-to-noah",
         "what-ismaili-interpretation-is"
       ],
       "failed_slugs": [],
@@ -91,10 +141,10 @@
         },
         "two-parties-and-the-line-to-noah": {
           "started_ts": "2026-06-09T19:49:15Z",
-          "completed_ts": null,
-          "duration_sec": null,
-          "verdict": null,
-          "cost_usd": null
+          "completed_ts": "2026-06-09T20:03:01Z",
+          "duration_sec": 825.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
         },
         "what-ismaili-interpretation-is": {
           "started_ts": "2026-06-09T18:55:07Z",
@@ -108,7 +158,7 @@
       "current_chapter": "two-parties-and-the-line-to-noah",
       "last_beat": "2026-06-09T19:57:06Z",
       "convergence_iter": 2,
-      "ts_completed": "2026-06-09T19:17:26Z"
+      "ts_completed": "2026-06-09T20:03:01Z"
     },
     "trainer": {
       "status": "pending"
@@ -129,6 +179,12 @@
       "ts_started": "2026-06-09T00:04:35Z",
       "ts_completed": "2026-06-09T00:04:47Z",
       "gate_warnings": 7
+    },
+    "per-chapter-optimize": {
+      "status": "skipped",
+      "ts_started": "2026-06-09T20:03:01Z",
+      "ts_completed": "2026-06-09T20:03:01Z",
+      "reason": "optimize_enabled=false in meta.yml"
     }
   },
   "cost": {
@@ -137,11 +193,12 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-06-08T00:00:00Z",
-  "ts_updated": "2026-06-09T19:57:06Z",
+  "ts_updated": "2026-06-09T20:03:06Z",
   "config": {
     "length_tier": "extended",
     "unit_mode": "auto"
   },
   "pipeline_mode": "orchestrated",
-  "status": "draft"
+  "status": "draft",
+  "last_error": null
 }
