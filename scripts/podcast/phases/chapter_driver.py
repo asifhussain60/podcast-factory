@@ -7,6 +7,7 @@ finalize halt. Called by resume_dispatcher after Phase 0f approval.
 """
 from __future__ import annotations
 
+import re
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -17,24 +18,15 @@ from _paths import REPO_ROOT  # noqa: E402
 from _progress import read_state, update_phase  # noqa: E402
 from _convergence import ChapterOutcome, render_outcome  # noqa: E402
 from phases.preflight import _sweep_orphan_episode_drafts  # noqa: E402
+from phases.preflight_chapter import smoke_check_book  # noqa: E402
 from phases.per_chapter import per_chapter_pass  # noqa: E402
-from phases.series_plan import _series_numeric, _series_flag, _chapter_cost_so_far  # noqa: E402
+from phases.series_plan import _series_numeric, _series_flag, _chapter_cost_so_far, _book_cost_so_far  # noqa: E402
 from phases.series_plan import phase_0g_register  # noqa: E402
 from phases.bundle_audit import phase_0g_audit_bundles  # noqa: E402
 from phases.scaffold import phase_git_commit  # noqa: E402
 
 
-def _info(msg: str) -> None:
-    print(msg)
-
-
-def _err(msg: str) -> None:
-    print(f"ERROR: {msg}", file=sys.stderr)
-
-
-def _run(cmd: list[str], *, cwd: Path | None = None) -> tuple[int, str, str]:
-    proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
-    return proc.returncode, proc.stdout, proc.stderr
+from _subprocess import run as _run, err as _err, info as _info  # noqa: E402
 
 
 def _phase_boundary_gate(book_dir: Path, boundary_name: str,
@@ -43,6 +35,21 @@ def _phase_boundary_gate(book_dir: Path, boundary_name: str,
         f"[phased_rollout] phase boundary: {boundary_name}"
         + (f" (projected cost: ${projected_cost_usd:.2f})" if projected_cost_usd else "")
     )
+
+
+def _failure_signature(reason: str) -> str:
+    """Normalize a failure reason so the same root cause across chapters matches.
+
+    Collapses digits and slug-like tokens to a stable shape: "word count 2
+    outside band" and "word count 5000 outside band" share a signature, while
+    two genuinely different findings stay distinct. Used by the C3 circuit
+    breaker to detect a systemic failure repeating across chapters.
+    """
+    s = reason.lower()
+    s = re.sub(r"[0-9]+", "#", s)
+    s = re.sub(r"[^a-z#\s]", " ", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return s[:80]
 
 
 def _drive_per_chapter_and_after(book_dir: Path) -> int:
@@ -68,6 +75,29 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         state.get("phases", {}).get("per-chapter", {}).get("completed_slugs", [])
     )
 
+    # C2: $0 pre-flight smoke gate. Validate every not-yet-shipped chapter's
+    # deterministic prerequisites (chapter file present, contract parses + has
+    # required keys, word count in hard band) BEFORE the loop spends a cent on
+    # framing/convergence. A deterministic bug in chapter N halts here, at $0,
+    # instead of after authoring chapter 1.
+    _pending = [s for s in chapter_slugs if s not in completed_chapter_slugs]
+    _smoke_failures = smoke_check_book(book_dir, _pending)
+    if _smoke_failures:
+        _reason = "; ".join(f"{s}: {r}" for s, r in _smoke_failures)
+        _err(
+            f"pre-flight smoke gate ($0) failed for {len(_smoke_failures)} "
+            f"chapter(s) — halting before any LLM spend:"
+        )
+        for s, r in _smoke_failures:
+            _err(f"  {s}: {r}")
+        update_phase(
+            book_dir,
+            phase="per-chapter",
+            status="failed",
+            error=f"pre-flight smoke gate failed: {_reason}",
+        )
+        return 2
+
     update_phase(book_dir, phase="per-chapter", status="running")
     outcomes: list[ChapterOutcome] = []
     chapter_timings: dict[str, dict] = {}
@@ -83,6 +113,17 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     )
     if per_chapter_cost_cap_usd > 0:
         _info(f"per-chapter cost cap: ${per_chapter_cost_cap_usd:.2f} (per series-plan)")
+    # F35: per-BOOK hard ceiling, checked mid-loop (default 0 = disabled, so
+    # existing books are unaffected unless they opt in via series-plan).
+    book_cost_cap_usd = _series_numeric(book_dir, "book_cost_cap_usd", default=0.0)
+    if book_cost_cap_usd > 0:
+        _info(f"per-book cost ceiling: ${book_cost_cap_usd:.2f} (per series-plan)")
+
+    # C3 circuit breaker state: count chapters actually attempted this run and
+    # group failures by normalized signature, to halt on a systemic failure
+    # instead of grinding through every chapter with the same root cause.
+    attempted = 0
+    failure_signatures: dict[str, list[str]] = {}
 
     for slug in chapter_slugs:
         if slug in completed_chapter_slugs:
@@ -91,6 +132,7 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         if slug in failed_chapter_slugs:
             _info(f"phase: per-chapter[{slug}] · prior FAILED, skipping (use --retry-chapter to re-attempt)")
             continue
+        attempted += 1
         _info(f"phase: per-chapter[{slug}] · extract → frame → build → converge")
         _t_start = datetime.now(timezone.utc)
         _cost_at_start = _chapter_cost_so_far(book_dir, slug)
@@ -101,7 +143,50 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
             "verdict": None,
             "cost_usd": None,
         }
-        outcome = per_chapter_pass(book_dir, slug)
+        # C5: per-chapter progress beat. Refreshes ts_updated and records the
+        # chapter in flight so a supervisor can tell "moved to a new chapter"
+        # from "stuck on the same one" without guessing PIDs. (Intra-chapter
+        # liveness — during a long convergence — is judged by the supervisor via
+        # cost-ledger / challenger-report mtime growth, not this beat.)
+        update_phase(
+            book_dir,
+            phase="per-chapter",
+            status="running",
+            extras={
+                "current_chapter": slug,
+                "last_beat": _t_start.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "completed_slugs": sorted(completed_chapter_slugs),
+                "failed_slugs": sorted(failed_chapter_slugs),
+                "chapter_timings": chapter_timings,
+            },
+        )
+        # Phase 3: thread the mid-loop safety rails. Closures read the live ledger
+        # so the convergence loop can check ceilings at each iteration boundary; the
+        # heartbeat refreshes state so the supervisor's hang detection stays accurate.
+        def _chapter_cost_fn(_bd=book_dir, _slug=slug, _start=_cost_at_start) -> float:
+            return _chapter_cost_so_far(_bd, _slug) - _start
+
+        def _book_cost_fn(_bd=book_dir) -> float:
+            return _book_cost_so_far(_bd)
+
+        def _heartbeat(outer: int, note: str, _bd=book_dir, _slug=slug) -> None:
+            update_phase(
+                _bd, phase="per-chapter", status="running",
+                extras={
+                    "current_chapter": _slug,
+                    "last_beat": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                    "convergence_iter": outer,
+                },
+            )
+
+        outcome = per_chapter_pass(
+            book_dir, slug,
+            per_chapter_cost_cap=per_chapter_cost_cap_usd,
+            book_cost_cap=book_cost_cap_usd,
+            chapter_cost_fn=_chapter_cost_fn,
+            book_cost_fn=_book_cost_fn,
+            heartbeat=_heartbeat,
+        )
         _t_end = datetime.now(timezone.utc)
         _cost_end = _chapter_cost_so_far(book_dir, slug)
         _chapter_cost = round(_cost_end - _cost_at_start, 4)
@@ -120,19 +205,92 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
             chapter_timings[slug]["verdict"] = "FAILED-COST-CAPPED"
         outcomes.append(outcome)
         _info(render_outcome(outcome))
-        if outcome.final_verdict == "FAILED":
+        if outcome.episode_rebuild_failed:
+            _err(f"  [{slug}] episode.txt rebuild failed during convergence — review framing/build")
+        # F35: a per-BOOK ceiling breach is SYSTEMIC — halt the whole book with a
+        # COST-CEILING marker so supervise_run.py does NOT relaunch (it would just
+        # burn through the ceiling again). Distinct from a per-chapter cap (below),
+        # which only fails the one chapter and degrades to the next.
+        if outcome.systemic_halt:
+            chapter_timings[slug]["error"] = outcome.systemic_halt
             failed_chapter_slugs.add(slug)
             update_phase(
-                book_dir,
-                phase="per-chapter",
-                status="running",
+                book_dir, phase="per-chapter", status="failed",
+                error=outcome.systemic_halt,
                 extras={
                     "completed_slugs": sorted(completed_chapter_slugs),
                     "failed_slugs": sorted(failed_chapter_slugs),
                     "chapter_timings": chapter_timings,
                 },
             )
-            _err(f"chapter {slug} failed; continuing to next chapter (F33-second graceful-degrade).")
+            _err(f"{outcome.systemic_halt} — halting book (no relaunch).")
+            return 2
+        if outcome.final_verdict == "FAILED":
+            failed_chapter_slugs.add(slug)
+            # C1: capture the real reason into durable state (was swallowed —
+            # only outcome.notes held it, and render_outcome dropped it).
+            _reason = (
+                outcome.notes[-1].strip().splitlines()[0][:300]
+                if outcome.notes else "no reason captured"
+            )
+            chapter_timings[slug]["error"] = _reason
+
+            # C3 circuit breaker: is this a SYSTEMIC failure (halt) or a genuine
+            # per-chapter content failure (graceful-degrade)? Two systemic signals:
+            #   (a) the FIRST attempted chapter failed in <5s — a deterministic
+            #       crash (path/contract/template bug), not content; or
+            #   (b) the SAME normalized failure has now hit >=2 chapters — paying
+            #       for the same lesson again is waste (archetype-over-rerun rule).
+            _sig = _failure_signature(_reason)
+            _sig_slugs = failure_signatures.setdefault(_sig, [])
+            if slug not in _sig_slugs:
+                _sig_slugs.append(slug)
+            _dur = chapter_timings[slug].get("duration_sec") or 0.0
+            _systemic: str | None = None
+            if attempted == 1 and _dur < 5.0:
+                _systemic = (
+                    f"first attempted chapter '{slug}' failed in {_dur:.1f}s — "
+                    f"deterministic/systemic (not content): {_reason}"
+                )
+            elif len(_sig_slugs) >= 2:
+                _systemic = (
+                    f"same failure across {len(_sig_slugs)} chapters "
+                    f"({', '.join(_sig_slugs)}) — systemic, not per-chapter: {_reason}"
+                )
+
+            if _systemic:
+                update_phase(
+                    book_dir,
+                    phase="per-chapter",
+                    status="failed",
+                    error=f"CIRCUIT-BREAKER: {_systemic}",
+                    extras={
+                        "completed_slugs": sorted(completed_chapter_slugs),
+                        "failed_slugs": sorted(failed_chapter_slugs),
+                        "chapter_timings": chapter_timings,
+                    },
+                )
+                _err(f"CIRCUIT-BREAKER halt: {_systemic}")
+                _err(
+                    "Not grinding through remaining chapters — fix the root cause, "
+                    "then --resume."
+                )
+                return 2
+
+            # Genuine per-chapter content failure → graceful-degrade (F33-second).
+            update_phase(
+                book_dir,
+                phase="per-chapter",
+                status="running",
+                error=f"[{slug}] {_reason}",
+                extras={
+                    "completed_slugs": sorted(completed_chapter_slugs),
+                    "failed_slugs": sorted(failed_chapter_slugs),
+                    "chapter_timings": chapter_timings,
+                },
+            )
+            _err(f"chapter {slug} failed: {_reason}")
+            _err(f"chapter {slug} — continuing to next chapter (F33-second graceful-degrade).")
             continue
 
         completed_chapter_slugs.add(slug)

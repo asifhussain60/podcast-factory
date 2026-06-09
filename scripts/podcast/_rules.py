@@ -49,6 +49,42 @@ vs. substring list); the canonical data itself is plain Python literals.
 # auditors see it. See F30 / scholarly-rubric integration trail on develop.
 CHALLENGER_VERSION = "2.4"  # Wave L: Category W (augmentation quality)
 
+# ─── Upstream precheck sources (Wave N — adversarial validation, Phase A–C) ──
+# These are the `source` values written into _learning/findings.jsonl by the
+# shift-left deterministic + LLM discriminator pre-checks in
+# scripts/podcast/_authoring/_artifact_convergence.py.  Distinct from the
+# per-chapter challenger (source="podcast-challenger") — upstream checks fire
+# at generation time (Phase 0b/0e), before any chapter is drafted.
+#
+# Registered here so learn_aggregate.py + learn_propose.py can route proposals
+# to the correct human-resolution targets (generator prompt edits in
+# _authoring/_refine.py / _authoring/_enrichment.py).
+UPSTREAM_PRECHECK_SOURCES: frozenset[str] = frozenset({
+    "precheck-0b",   # refined-english.md — deterministic + Phase-B LLM fidelity
+    "precheck-0e",   # per-chapter enrichment — deterministic + Phase-C LLM faithfulness
+})
+
+# Upstream check IDs and their human-resolution targets (the same mapping as
+# CHECK_ID_TO_TARGET in learn_propose.py; duplicated here for runtime look-up
+# without importing learn_propose.py from pipeline scripts).
+UPSTREAM_CHECK_ID_TO_TARGET: dict[str, str] = {
+    # Phase A — deterministic
+    "U0B-EMPTY":              "author: re-run Phase 0b; the refinement produced empty output",
+    "U0B-LENGTH-DRIFT":       "author: review _authoring/_refine.py window prompts — length-ratio constraint",
+    "U0B-STRUCTURE-COLLAPSE": "author: review _authoring/_refine.py window prompts — paragraph-preservation rule",
+    "U0E-SHRANK":             "author: review _authoring/_enrichment.py prompt — DO NOT drop source content",
+    "U0E-BALLOON":            "author: review _authoring/_enrichment.py prompt — cap total word growth",
+    # Phase B — LLM fidelity (0b)
+    "U0B-MEANING-DRIFT":        "author: review 0b window prompt — strengthen DO NOT change meaning instruction",
+    "U0B-DROPPED-TEACHING":     "author: review 0b window prompt — preserve ALL teachings, examples, and illustrations",
+    "U0B-HALLUCINATED-ADDITION": "HUMAN REVIEW REQUIRED — fabricated content in refined-english.md (P0)",
+    "U0B-REGISTER-SHIFT":       "author: review 0b window prompt — preserve scholarly register",
+    # Phase C — LLM faithfulness (0e)
+    "U0E-HALLUCINATED-CITATION": "HUMAN REVIEW REQUIRED — fabricated citation in enriched chapter (P0)",
+    "U0E-SOURCE-ALTERED":        "author: review 0e enrichment prompt — DO NOT alter source text, only enrich",
+    "U0E-DOCTRINE-DRIFT":        "author: review 0e enrichment prompt — tradition-coherence guard",
+}
+
 # ─── Category W (Wave L) — augmentation-quality checks. Guards that knowledge
 # augmentation enriches genuine gaps naturally (never forced), respects the book's
 # content level, draws only real atoms, weaves etymology in spoken form (≤3/chapter,
@@ -249,6 +285,18 @@ def literary_voice_for_profile(profile: str | None) -> dict:
     """Revoice voice defaults for a profile (used by _literary.py). Islamic fallback."""
     ct = CONTENT_TYPE_REGISTRY.get(profile or "") or CONTENT_TYPE_REGISTRY[ISLAMIC_SCHOLARLY_PROFILE]
     return dict(ct.literary_voice)
+
+
+def phase_capabilities(profile: str | None) -> "ContentType":
+    """Return the ContentType (phase-skip capabilities) for a content_profile.
+
+    SINGLE accessor for every phase-skip decision (0a OCR, 0c phonetics, 0e
+    enrichment). Reads the CONTENT_TYPE_REGISTRY (single source of truth); unknown
+    or absent profiles fall back to islamic_scholarly — the historical default that
+    runs the full scholarly pipeline. Mirrors the bucket_for_profile pattern so
+    routing logic lives in ONE place instead of scattered `category in {...}` checks.
+    """
+    return CONTENT_TYPE_REGISTRY.get(profile or "") or CONTENT_TYPE_REGISTRY[ISLAMIC_SCHOLARLY_PROFILE]
 
 # ─── Content-level ladder (Wave M) — ISLAMIC scholarly books only. Single source
 # of truth for category-gated augmentation. A book declaring `content_level` in

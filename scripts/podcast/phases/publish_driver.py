@@ -26,17 +26,7 @@ from phases.merge import phase_merge_to_develop  # noqa: E402
 from phases.book_driver import _drive_book_branch  # noqa: E402
 
 
-def _info(msg: str) -> None:
-    print(msg)
-
-
-def _err(msg: str) -> None:
-    print(f"ERROR: {msg}", file=sys.stderr)
-
-
-def _run(cmd: list[str], *, cwd: Path | None = None) -> tuple[int, str, str]:
-    proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
-    return proc.returncode, proc.stdout, proc.stderr
+from _subprocess import run as _run, err as _err, info as _info  # noqa: E402
 
 
 def _drive_publish_through_done(book_dir: Path) -> int:

@@ -12,7 +12,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _paths import REPO_ROOT  # noqa: E402
 from _progress import initial_state, read_state, update_phase, write_state  # noqa: E402
-from _rules import CONSUMER_CATEGORIES  # noqa: E402
+from _rules import CONSUMER_CATEGORIES, ISLAMIC_SCHOLARLY_PROFILE, phase_capabilities  # noqa: E402
+from _content_profile import resolve_content_profile  # noqa: E402
 from _authoring import AuthoringError, AuthoringHalt, author_phase_0b, author_phase_0c, author_phase_0ci, author_phase_0d, author_phase_0e  # noqa: E402
 from phases.preflight import preflight_initial  # noqa: E402
 from phases.scaffold import phase_branch, phase_scaffold, phase_0a_ingest, phase_git_commit  # noqa: E402
@@ -22,12 +23,22 @@ from phases.preflight import _run_chapter_set_check  # noqa: E402
 from phases.source_review_gate import run_source_review_gate  # noqa: E402
 
 
-def _info(msg: str) -> None:
-    print(msg)
+from _subprocess import err as _err, info as _info  # noqa: E402
 
 
-def _err(msg: str) -> None:
-    print(f"ERROR: {msg}", file=sys.stderr)
+def resolve_phase_profile(book_dir: Path, category: str | None) -> str:
+    """Resolve the content_profile that drives phase-skip decisions for a book.
+
+    Reads the book's declared content_profile, then applies the consumer
+    compatibility shim: a consumer book that predates content_profile (category in
+    CONSUMER_CATEGORIES, profile still defaulting to islamic_scholarly) routes as
+    consumer_explainer so phonetics/enrichment stay skipped. Extracted so the
+    routing decision is unit-testable (test_routing_capabilities.py).
+    """
+    profile = resolve_content_profile(book_dir)
+    if profile == ISLAMIC_SCHOLARLY_PROFILE and (category or "") in CONSUMER_CATEGORIES:
+        return "consumer_explainer"
+    return profile
 
 
 def derive_slug(pdf_path: Path) -> str:
@@ -54,14 +65,22 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
     length_tier = config.get("length_tier", "extended")
     unit_mode = config.get("unit_mode", "auto")
     category = config.get("category", "books")
-    _is_consumer = category in CONSUMER_CATEGORIES
+    # Phase-skip decisions are driven by the book's content_profile via the single
+    # capability table (phase_capabilities), NOT the legacy `category` tag — a
+    # `books`-category item can be Islamic OR technical, and only the profile knows.
+    # Compatibility shim (clean transition): a consumer book that predates
+    # content_profile (category in CONSUMER_CATEGORIES, profile still defaulting to
+    # islamic_scholarly) is routed as consumer_explainer so phonetics/enrichment stay
+    # skipped — the historical behaviour. Pinned by test_routing_capabilities.py.
+    profile = resolve_phase_profile(book_dir, category)
+    caps = phase_capabilities(profile)
 
     def _run_0b(bd: Path) -> None:
         author_phase_0b(bd, log=_info)
 
     def _run_0c(bd: Path) -> None:
-        if _is_consumer:
-            _info(f"phase 0c · skipped for category '{category}' (no Arabic transliteration needed)")
+        if caps.skip_phonetics:
+            _info(f"phase 0c · skipped for profile '{profile}' (no Arabic transliteration needed)")
             return
         author_phase_0c(bd, log=_info)
 
@@ -76,8 +95,8 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
         author_phase_0d(bd, length_tier=length_tier, unit_mode=unit_mode, log=_info)
 
     def _run_0e(bd: Path) -> None:
-        if _is_consumer:
-            _info(f"phase 0e · skipped for category '{category}' (no doctrinal enrichment for consumer content)")
+        if caps.skip_enrichment:
+            _info(f"phase 0e · skipped for profile '{profile}' (no doctrinal enrichment for this content type)")
             return
         author_phase_0e(bd, log=_info)
 

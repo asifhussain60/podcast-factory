@@ -715,6 +715,36 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 
 ---
 
+# Wave M — Holistic Hardening (2026-06-09)
+
+*Holistic pipeline review to a production standard, with first-class multi-volume
+routing. Landed on `develop` (Phases 1–4 + Phase 6 foundation). Machine-readable
+tracker: `plan.yaml` phase `WM`.*
+
+- **WM1 — Multi-volume foundation.** A work = ONE branch + a `work.yml`-marked parent
+  folder with nested `vol-NN/` dirs. `_paths.py` EXTENDED (not forked) to descend a
+  work parent and yield composite slugs `<work>-vol-NN`; `_branching.branch_for_work`;
+  thin `_work_manifest.py`; `content-paths.ts` mirror. A flat `-vol-N` book is never
+  mistaken for a volume. Flat books byte-identical.
+- **WM2 — Profile routing + intake volumes.** `_rules.phase_capabilities(profile)` is the
+  single phase-skip accessor; `initial_driver` reads it instead of the legacy category.
+  `intake_book.py --work <slug> --volume N` (one PDF per volume).
+- **WM3 — Per-volume autopilot + safety rails.** `orchestrate_work.py` sequences volumes
+  and PAUSES between them (`--advance` to proceed). `converge_chapter` mid-loop cost
+  ceilings (F35), fixer early-halt, episode-rebuild surfacing, heartbeat; F32 framing cache.
+- **WM4 — De-patch + F38.** `_subprocess.py` shared helper; F38/F39 closed; F40 (giant-fn
+  splits) deferred with rationale (no characterization harness → blind split risks shipped books).
+- **WM6 — Intake foundation + UI.** Backend: `intake_form_options.py` (dropdowns from canonical
+  vocab + YAML deltas), `intake_preflight.py` (capped estimate), `intake_staging.py` (upload
+  lifecycle), `intake_status.py` (cockpit view), `intake_launch.py` (prep, no spawn) + JSON
+  endpoints. UI (4 screens, each designed per-screen with Asif + gated through
+  `html-view-challenger` to PASS): Screen 1 upload+roles, Screen 2 smart form (minimal-typing
+  dropdowns + inline add), Screen 3 pre-flight, Screen 4 launch (Tier-2 confirm → detached
+  spawn) + live cockpit (poll, approval cards). Remaining: M1 reading-floor decision; the live
+  classifier (`/api/intake/classify`) increment.
+- **WM5 — DEFERRED:** asaas migration + `content/`→`library/` rename (bundled; runs at asaas's
+  next clean boundary — see Phase 5 checklist).
+
 # Wave 8 Studio — Editorial Cockpit + New Content Intake
 
 *Authorized 2026-05-30. Branch: `book/ayyuhal-walad`. These three slices complete the WC8 re-platform that was deferred from Slice 5.*

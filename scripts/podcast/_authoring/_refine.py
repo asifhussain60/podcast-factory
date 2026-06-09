@@ -271,6 +271,15 @@ def author_phase_0b(
             manual_fallback="Inspect _chunks/0b/win-*.out.md — at least one was non-empty but stitched to nothing.",
         )
 
+    # Shift-left deterministic pre-check (Phase A). Flag-and-proceed: surfaces
+    # length-drift / structural-collapse defects to the human 06a/0ci gate and
+    # the findings ledger; NEVER raises, NEVER blocks. Zero LLM cost.
+    try:
+        from ._artifact_convergence import run_0b_precheck
+        run_0b_precheck(book_dir, log=log)
+    except Exception as _e:  # noqa: BLE001 — a precheck must never break 0b
+        log(f"  phase 0b · precheck skipped (non-fatal: {_e!r})")
+
     return f"0b chunked: {len(out_paths)} windows merged into {out_path.name}"
 
 

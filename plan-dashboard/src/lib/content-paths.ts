@@ -13,7 +13,7 @@
  * still resolved as a fallback so a partial migration cannot break the reader.
  */
 import { readdir, stat, readFile } from 'node:fs/promises';
-import { existsSync, statSync, readdirSync } from 'node:fs';
+import { existsSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join, resolve } from 'node:path';
 
@@ -87,23 +87,6 @@ async function isDir(p: string): Promise<boolean> {
   }
 }
 
-/**
- * True if `dir` is a processable book (has pipeline state), not a parent
- * container. A nested-volume parent (asaas-al-taveel/ holding vol-01 … vol-06)
- * has neither a `_system/` dir nor a `meta.yml`, so discovery descends into it.
- */
-async function isBookDir(dir: string): Promise<boolean> {
-  return (await isDir(join(dir, '_system'))) || (await isFile(join(dir, 'meta.yml')));
-}
-
-async function isFile(p: string): Promise<boolean> {
-  try {
-    return (await stat(p)).isFile();
-  } catch {
-    return false;
-  }
-}
-
 /** Read the publication status from a book dir's orchestrator-state.json. */
 export async function statusOf(dir: string): Promise<Status> {
   try {
@@ -126,6 +109,63 @@ function isDirSync(p: string): boolean {
   try { return statSync(p).isDirectory(); } catch { return false; }
 }
 
+// ── Multi-volume works (2026-06-09) — mirror of _paths.py ────────────────────
+// A nested work lives at content/<Bucket>/<work_slug>/ MARKED by a work.yml. Its
+// volumes are vol-NN/ subdirs (each a normal book dir). Composite volume slug is
+// "<work_slug>-<vol_dir>" (asaas + vol-02 → asaas-vol-02). Discovery is by the
+// marker + glob; the manifest contents are not parsed here. When no work.yml
+// exists, every function is byte-identical to flat resolution.
+export const WORK_MANIFEST_NAME = 'work.yml';
+const VOL_DIR_RE = /^vol-\d+$/;
+const COMPOSITE_SLUG_RE = /^(.+)-(vol-\d+)$/;
+
+function isWorkParentSync(dir: string): boolean {
+  return isDirSync(dir) && existsSync(join(dir, WORK_MANIFEST_NAME));
+}
+
+async function isWorkParent(dir: string): Promise<boolean> {
+  if (!(await isDir(dir))) return false;
+  try {
+    return (await stat(join(dir, WORK_MANIFEST_NAME))).isFile();
+  } catch {
+    return false;
+  }
+}
+
+async function volumeDirs(workDir: string): Promise<string[]> {
+  let entries: string[];
+  try { entries = await readdir(workDir); } catch { return []; }
+  const out: string[] = [];
+  for (const name of entries.sort()) {
+    if (VOL_DIR_RE.test(name) && (await isDir(join(workDir, name)))) out.push(name);
+  }
+  return out;
+}
+
+async function workRollupStatus(workDir: string): Promise<Status> {
+  const vols = await volumeDirs(workDir);
+  if (vols.length === 0) return 'draft';
+  const statuses = await Promise.all(vols.map((v) => statusOf(join(workDir, v))));
+  if (statuses.every((s) => s === 'published')) return 'published';
+  if (statuses.every((s) => s === 'archived')) return 'archived';
+  return 'draft';
+}
+
+/**
+ * Canonical, collision-free slug for a content dir. Returns the COMPOSITE slug
+ * for a volume dir (`<work_slug>-vol-NN`) and the plain dir name otherwise.
+ * Mirror of _paths.slug_of. Callers listing content MUST use this, not the raw
+ * dir name (two works can each contain a `vol-01`).
+ */
+export function slugOf(dir: string): string {
+  const parts = resolve(dir).split('/').filter(Boolean);
+  const name = parts[parts.length - 1] ?? dir;
+  const parent = '/' + parts.slice(0, -1).join('/');
+  const parentName = parts[parts.length - 2] ?? '';
+  if (VOL_DIR_RE.test(name) && isWorkParentSync(parent)) return `${parentName}-${name}`;
+  return name;
+}
+
 /**
  * Synchronous sibling of findContent: return the on-disk directory for `slug`,
  * or null. Mirrors the bucket-first + legacy-fallback resolution of findContent
@@ -133,39 +173,21 @@ function isDirSync(p: string): boolean {
  * not hardcode the old content/drafts/books path (which the 2026-06-04 restructure
  * removed). Prefer the async findContent in async contexts.
  */
-function isBookDirSync(dir: string): boolean {
-  return isDirSync(join(dir, '_system')) || (() => { try { return statSync(join(dir, 'meta.yml')).isFile(); } catch { return false; } })();
-}
-
-/** Descend one level: a flat slug `<container>-<leaf>` -> a nested book dir. */
-function findNestedDirSync(slug: string): string | null {
-  for (const bucket of BUCKETS) {
-    const br = bucketRoot(bucket);
-    let entries: string[];
-    try { entries = readdirSync(br); } catch { continue; }
-    for (const container of entries) {
-      if (container.startsWith('.') || container.startsWith('_')) continue;
-      const cdir = join(br, container);
-      if (!isDirSync(cdir) || isBookDirSync(cdir)) continue;
-      let leaves: string[];
-      try { leaves = readdirSync(cdir); } catch { continue; }
-      for (const leaf of leaves) {
-        if (leaf.startsWith('.') || leaf.startsWith('_')) continue;
-        const ldir = join(cdir, leaf);
-        if (isBookDirSync(ldir) && `${container}-${leaf}` === slug) return ldir;
-      }
-    }
-  }
-  return null;
-}
-
 export function findContentDirSync(slug: string): string | null {
   for (const bucket of BUCKETS) {
     const dir = join(bucketRoot(bucket), slug);
-    if (isBookDirSync(dir)) return dir;
+    if (isDirSync(dir)) return dir;  // flat book OR bare work-parent slug
   }
-  const nested = findNestedDirSync(slug);
-  if (nested) return nested;
+  // Composite volume slug "<work>-vol-NN" → <work>/vol-NN, only under a real work parent.
+  const m = COMPOSITE_SLUG_RE.exec(slug);
+  if (m) {
+    const [, work, vol] = m;
+    for (const bucket of BUCKETS) {
+      const wp = join(bucketRoot(bucket), work);
+      const vp = join(wp, vol);
+      if (isWorkParentSync(wp) && isDirSync(vp)) return vp;
+    }
+  }
   for (const stage of ['drafts', 'published'] as Stage[]) {
     for (const cat of ALLOWED_CATEGORIES) {
       const dir = join(legacyStageRoot(stage), cat, slug);
@@ -183,9 +205,7 @@ export function findContentDirSync(slug: string): string | null {
  * Stage (ignored); a category maps to a bucket. Does NOT check existence.
  */
 export function contentDir(slug: string, bucketOrStage?: Bucket | Stage, category?: Category): string {
-  // Slugs are flat and filename-safe (a nested volume folds its container into
-  // the slug as `<container>-<leaf>`), so a `/` here is invalid.
-  if (!slug || slug.includes('/') || slug.includes('\\')) {
+  if (!slug || slug.includes('/')) {
     throw new Error(`content-paths: invalid slug ${JSON.stringify(slug)}`);
   }
   const maybeBucket = (BUCKETS as readonly string[]).includes(bucketOrStage as string)
@@ -209,21 +229,25 @@ export function archiveRoot(): string {
 }
 
 export async function findContent(slug: string): Promise<ContentRef | null> {
-  // Type-first (preferred): a flat book directly under the bucket.
+  // Type-first (preferred). A bare work-parent slug rolls up its volumes' status;
+  // a flat book resolves as before (byte-identical when no work.yml exists).
   for (const bucket of BUCKETS) {
     const dir = join(bucketRoot(bucket), slug);
-    if (await isBookDir(dir)) {
-      const status = await statusOf(dir);
+    if (await isDir(dir)) {
+      const status = (await isWorkParent(dir)) ? await workRollupStatus(dir) : await statusOf(dir);
       return { bucket, status, slug, dir, stage: statusToStage(status), category: 'books' };
     }
   }
-  // Nested volume: a flat slug `<container>-<leaf>` -> a book one level deeper.
-  const nestedDir = findNestedDirSync(slug);
-  if (nestedDir) {
+  // Composite volume slug "<work>-vol-NN" → <work>/vol-NN, only under a real work parent.
+  const m = COMPOSITE_SLUG_RE.exec(slug);
+  if (m) {
+    const [, work, vol] = m;
     for (const bucket of BUCKETS) {
-      if (nestedDir.startsWith(bucketRoot(bucket))) {
-        const status = await statusOf(nestedDir);
-        return { bucket, status, slug, dir: nestedDir, stage: statusToStage(status), category: 'books' };
+      const wp = join(bucketRoot(bucket), work);
+      const vp = join(wp, vol);
+      if ((await isWorkParent(wp)) && (await isDir(vp))) {
+        const status = await statusOf(vp);
+        return { bucket, status, slug, dir: vp, stage: statusToStage(status), category: 'books' };
       }
     }
   }
@@ -263,30 +287,26 @@ export async function listContent(opts: { bucket?: Bucket; stage?: Stage; catego
     if (!(await isDir(br))) continue;
     let entries: string[];
     try { entries = await readdir(br); } catch { continue; }
-    for (const name of entries.sort()) {
-      if (name.startsWith('.') || name.startsWith('_')) continue;
-      const dir = join(br, name);
+    for (const slug of entries.sort()) {
+      if (slug.startsWith('.') || slug.startsWith('_')) continue;
+      const dir = join(br, slug);
       if (!(await isDir(dir))) continue;
-      if (await isBookDir(dir)) {
-        if (seen.has(dir)) continue;
-        seen.add(dir);
-        const status = await statusOf(dir);
-        out.push({ bucket, status, slug: name, dir, stage: statusToStage(status), category: 'books' });
+      if (seen.has(dir)) continue;
+      seen.add(dir);
+      // A work parent is NOT itself a book — descend and yield each volume with
+      // its composite slug. No-op when no work.yml exists → flat byte-identical.
+      if (await isWorkParent(dir)) {
+        for (const vol of await volumeDirs(dir)) {
+          const vp = join(dir, vol);
+          if (seen.has(vp)) continue;
+          seen.add(vp);
+          const status = await statusOf(vp);
+          out.push({ bucket, status, slug: `${slug}-${vol}`, dir: vp, stage: statusToStage(status), category: 'books' });
+        }
         continue;
       }
-      // Parent container (multi-volume work): descend one level for nested volumes.
-      let subs: string[];
-      try { subs = await readdir(dir); } catch { continue; }
-      for (const sub of subs.sort()) {
-        if (sub.startsWith('.') || sub.startsWith('_')) continue;
-        const subDir = join(dir, sub);
-        if (!(await isDir(subDir)) || !(await isBookDir(subDir))) continue;
-        if (seen.has(subDir)) continue;
-        seen.add(subDir);
-        const status = await statusOf(subDir);
-        // Flat, filename-safe slug: fold the container into it (`<container>-<leaf>`).
-        out.push({ bucket, status, slug: `${name}-${sub}`, dir: subDir, stage: statusToStage(status), category: 'books' });
-      }
+      const status = await statusOf(dir);
+      out.push({ bucket, status, slug, dir, stage: statusToStage(status), category: 'books' });
     }
   }
 

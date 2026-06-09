@@ -765,60 +765,60 @@
   "waves": [],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-07T10:12:31.146677+00:00",
-  "source_commit": "5319dba",
+  "generated_at": "2026-06-09T16:10:07.929794+00:00",
+  "source_commit": "14b6e9bc",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "5319dba",
-      "subject": "feat(branching): group content branches by bucket \u2014 <Bucket>/<slug>",
-      "date": "2026-06-07"
+      "sha": "14b6e9bc",
+      "subject": "fix(intake): Screens 3+4 a11y/integrity \u2014 resolve html-view-challenger findings",
+      "date": "2026-06-09"
     },
     {
-      "sha": "9222b72",
-      "subject": "merge: journey-to-the-west-vol-1 \u2192 develop \u2014 published; branch kept for ongoing work",
-      "date": "2026-06-07"
+      "sha": "362de432",
+      "subject": "feat(intake): Phase 6 Screens 3+4 \u2014 pre-flight + launch + live cockpit",
+      "date": "2026-06-09"
     },
     {
-      "sha": "312f126",
-      "subject": "chore(journey-to-the-west-vol-1): update state branch field to bucket-grouped name",
-      "date": "2026-06-07"
+      "sha": "f02f1d82",
+      "subject": "fix(intake): Screen 2 a11y \u2014 resolve html-view-challenger MUST + SHOULDs",
+      "date": "2026-06-09"
     },
     {
-      "sha": "321f00b",
-      "subject": "chore(plan-dashboard): regenerate architecture/dashboard/infrastructure snapshots",
-      "date": "2026-06-07"
+      "sha": "2553ce21",
+      "subject": "feat(intake): Phase 6 Screen 2 \u2014 smart form (minimal-typing dropdowns + inline add)",
+      "date": "2026-06-09"
     },
     {
-      "sha": "8508623",
-      "subject": "fix(export_distribution): resolve bucket correctly + fix Google Drive detection",
-      "date": "2026-06-07"
+      "sha": "21386444",
+      "subject": "fix(intake): Screen 1 a11y polish \u2014 reduced-motion + focus-visible (html-view-challenger)",
+      "date": "2026-06-09"
     },
     {
-      "sha": "7b7e2ec",
-      "subject": "podcast(journey-to-the-west-vol-1): publish \u2014 status=published, all 7 gates passed",
-      "date": "2026-06-07"
+      "sha": "037dfca2",
+      "subject": "feat(intake): Phase 6 Screen 1 \u2014 upload + roles + staging",
+      "date": "2026-06-09"
     },
     {
-      "sha": "3851744",
-      "subject": "podcast(journey-to-the-west-vol-1): per-chapter complete \u2014 5/5 SHIP-WITH-CAUTION, finalize SHIP-READY",
-      "date": "2026-06-06"
+      "sha": "99d1b4fd",
+      "subject": "docs(book-publisher): structured contract frontmatter + expanded agent spec",
+      "date": "2026-06-09"
     },
     {
-      "sha": "618fdac",
-      "subject": "podcast(journey-to-the-west-vol-1): phase 11b slide-deck cohort",
-      "date": "2026-06-06"
+      "sha": "e935ddc0",
+      "subject": "docs(plan): track Wave M (holistic hardening) in plan.yaml + plan.md + snapshots",
+      "date": "2026-06-09"
     },
     {
-      "sha": "ca5c434",
-      "subject": "podcast(journey-to-the-west-vol-1): phase 0g register series + dual-auditor bundle sweep",
-      "date": "2026-06-06"
+      "sha": "e2ca3ded",
+      "subject": "feat(intake): Phase 6 (foundation) \u2014 smart-form options + preflight + JSON endpoints",
+      "date": "2026-06-09"
     },
     {
-      "sha": "c003d05",
-      "subject": "podcast(journey-to-the-west-vol-1): phase per-chapter-optimize (0 chapters, 0 warnings)",
-      "date": "2026-06-06"
+      "sha": "31980aa8",
+      "subject": "refactor(quality): Phase 4 \u2014 de-patch helpers + F38 close-out + docs",
+      "date": "2026-06-09"
     }
   ],
   "wave_execution_events": [],

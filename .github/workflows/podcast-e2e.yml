@@ -1,25 +1,40 @@
 name: podcast-e2e
 
-# Per podcast-plan.yaml P2.4: PRs touching scripts/podcast/** OR
-# content/podcast/.skill/handbook/** fail CI if the E2E test suite is red.
+# Per podcast-plan.yaml P2.4: PRs touching the pipeline or its tests fail CI if
+# the suite is red.
 #
-# All tests use stdlib unittest with mocked subprocess.run + mocked Azure
-# entry points — no live LLM call, no live Azure call, $0 cost per CI run.
+# Tests mock subprocess.run + Azure / claude -p entry points — no live LLM call,
+# no live Azure call, $0 cost per CI run. They DO require the pinned Python deps
+# (PyYAML, pydantic, pytest, ...): the test modules import pipeline code such as
+# orchestrate_book.py, which probes `import yaml` at import time, and several
+# tests are pytest-native (fixtures/parametrize). CI therefore installs
+# requirements.txt and runs pytest over all three test trees.
+#
+# Python is pinned to 3.13 (not 3.14): the full suite is green on 3.13 with the
+# pinned wheels; 3.14 surfaced a stdlib behaviour regression (a dict KeyError in
+# the augmentation ledger path) and is held until that is reconciled separately.
 
 on:
   pull_request:
     branches: [develop, main]
     paths:
-      - "scripts/podcast/**"
+      - "scripts/**"
+      - "tests/**"
+      - "pytest.ini"
+      - "requirements.txt"
       - "content/podcast/.skill/handbook/**"
       - ".github/agents/podcast-*.agent.md"
       - ".github/workflows/podcast-e2e.yml"
   push:
     branches: [develop, main]
     paths:
-      - "scripts/podcast/**"
+      - "scripts/**"
+      - "tests/**"
+      - "pytest.ini"
+      - "requirements.txt"
       - "content/podcast/.skill/handbook/**"
       - ".github/agents/podcast-*.agent.md"
+      - ".github/workflows/podcast-e2e.yml"
 
 permissions:
   contents: read
@@ -28,20 +43,27 @@ jobs:
   e2e:
     name: podcast pipeline E2E (mocked Azure / claude -p)
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.14
+      - name: Set up Python 3.13
         uses: actions/setup-python@v5
         with:
-          python-version: "3.14"
+          python-version: "3.13"
+          cache: pip
 
-      - name: Run the full unittest suite (stdlib unittest only — no pytest dep)
+      - name: Install pinned dependencies
         run: |
           set -euo pipefail
-          python3 -m unittest discover -v -s scripts/podcast/tests/
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r requirements.txt
+
+      - name: Run the full test suite (pytest over all three test trees)
+        run: |
+          set -euo pipefail
+          python3 -m pytest -q
 
       - name: Boundary check (P1.1) — scripts/podcast must not write to journal/memoir
         run: |

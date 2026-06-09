@@ -24,12 +24,7 @@ from phases.scaffold import phase_git_commit  # noqa: E402
 _BOOK_PHASES = ("0book-design", "0book-compose", "0book-illustrate", "0book-render")
 
 
-def _info(msg: str) -> None:
-    print(msg)
-
-
-def _err(msg: str) -> None:
-    print(f"ERROR: {msg}", file=sys.stderr)
+from _subprocess import err as _err, info as _info  # noqa: E402
 
 
 def _book_branch_enabled(book_dir: Path) -> bool:

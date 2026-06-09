@@ -24,12 +24,7 @@ from _paths import REPO_ROOT  # noqa: E402
 from _progress import ORCHESTRATOR_VERSION, read_state  # noqa: E402
 
 
-def _info(msg: str) -> None:
-    print(msg)
-
-
-def _err(msg: str) -> None:
-    print(f"ERROR: {msg}", file=sys.stderr)
+from _subprocess import err as _err, info as _info  # noqa: E402
 
 
 def _git(*args: str) -> tuple[int, str, str]:
@@ -209,6 +204,31 @@ def _chapter_cost_so_far(book_dir: Path, chapter_slug: str) -> float:
                 continue
             if chapter_slug in str(rec.get("step", "")):
                 total += float(rec.get("cost_usd", 0) or 0)
+    except OSError:
+        return 0.0
+    return round(total, 4)
+
+
+def _book_cost_so_far(book_dir: Path) -> float:
+    """F35: sum ALL cost-ledger.jsonl rows for a book (the per-book hard ceiling).
+
+    Reads `_system/cost-ledger.jsonl`; sums every row's `cost_usd`. Returns 0.0 if
+    the ledger is missing or unreadable. Used by the mid-loop per-book cost ceiling
+    so a runaway book is halted (systemic) before it grinds through every chapter.
+    """
+    ledger = book_dir / "_system" / "cost-ledger.jsonl"
+    if not ledger.exists():
+        return 0.0
+    total = 0.0
+    try:
+        for raw in ledger.read_text(encoding="utf-8").splitlines():
+            if not raw.strip():
+                continue
+            try:
+                rec = json.loads(raw)
+            except json.JSONDecodeError:
+                continue
+            total += float(rec.get("cost_usd", 0) or 0)
     except OSError:
         return 0.0
     return round(total, 4)

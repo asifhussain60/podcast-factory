@@ -471,3 +471,26 @@ Asif). **Blocked:** hadith atom ingest (no hadith DB; PyYAML missing from venv).
 **Validation:** full unittest suite GREEN (426 passed, 1 skipped — was 2 failures + 2 errors at session start); `astro check` 0/0; `lint:views` 0/0; `npm run build` completes end-to-end; html-view-challenger re-gate PASS/Conformant on every changed view.
 
 **Net result:** develop now has a green test suite, a building site, one phase registry, a read-only `--dry-run`, and no known P0s. Open: `_phases.py` is a Tier-2 deletion candidate (only its test imports it); `regenerate-snapshots.py` dirties the committed knowledge.db as a side-effect (cosmetic).
+
+### 2026-06-09 — Claude session (Wave M: holistic hardening + multi-volume + intake UI)
+
+**Shipped on develop (~30 commits):** Wave M = Phases 1-4 + 6 of the holistic-hardening plan.
+- WM1 multi-volume foundation (`work.yml` + volume-aware `_paths`/`_branching` + TS mirror).
+- WM2 profile routing (`_rules.phase_capabilities`) + `intake_book.py --work/--volume`.
+- WM3 per-volume autopilot (`orchestrate_work.py` pause-between-volumes) + F32/F35 rails.
+- WM4 `_subprocess.py` de-patch + F38 close-out (CLOSED F32/F35/F38/F39).
+- WM6 intake: backend (`intake_form_options`/`intake_preflight`/`intake_staging`/`intake_status`/
+  `intake_launch`) + 4 UI screens, each gated through html-view-challenger to PASS.
+- Full suite 647 passed; +84 Wave-M tests; lint:views + tsc clean throughout.
+
+**REMAINING WORK — tracked durably, do NOT lose:**
+1. **Phase 5 (WM5, DEFERRED)** — asaas migration + `content/`→`library/` rename. Ready-to-run
+   checklist: `_workspace/plan/refactor/asaas-migration.md`. Runs at asaas's next clean boundary.
+2. **F40 (pipeline-debt.md)** — split the two giant functions WITH a characterization harness
+   (not blind). Deferred, low priority.
+3. **F41 (pipeline-debt.md)** — wire `POST /api/intake/classify` (podcast-blueprint Layer-1 →
+   SmartForm proposal). SmartForm is already proposal-ready. Small LLM-spend increment.
+4. **Process owed before any develop→main:** post-merge `repo-surgeon --scope podcast` sweep;
+   then develop→main needs Asif's explicit approval.
+5. **Open challenger note:** intake surface REQ-010 reading-floor recorded as a documented
+   scoped exception in `/studio/new` footer (Asif's decision) — not a TODO.

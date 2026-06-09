@@ -28,6 +28,7 @@ if str(_SCRIPTS) not in sys.path:
 
 import _db
 from _db import get_connection, run_migrations, _reset_connection
+from intelligence import librarian as _librarian
 from intelligence.librarian import merge_into_library, MergeReport
 
 
@@ -37,6 +38,10 @@ from intelligence.librarian import merge_into_library, MergeReport
 def isolated_db(tmp_path, monkeypatch):
     db_path = tmp_path / "test_knowledge.db"
     monkeypatch.setattr(_db, "_DB_PATH", db_path)
+    # Isolate the knowledge-base dir too: merge_into_library -> _update_stats
+    # writes stats.json under KNOWLEDGE_BASE_DIR. Without this, the test mutates
+    # the tracked content/knowledge-base/_index/stats.json on every run.
+    monkeypatch.setattr(_librarian, "KNOWLEDGE_BASE_DIR", tmp_path / "knowledge-base")
     run_migrations(db_path=db_path)
     _reset_connection()
     yield db_path
