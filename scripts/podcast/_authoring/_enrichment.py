@@ -301,7 +301,8 @@ def author_phase_0e(book_dir: Path,
         # max(900, min(3600, ceil(words*0.4 + 600))) — gives ch01 (9,645 words)
         # 64 min vs. the prior flat 15 min. ch02 (11,143 words) would have hit
         # the 60-min ceiling; the flat 900s explains why it timed out.
-        chapter_words = len(chapter_file.read_text(encoding="utf-8").split())
+        _pre_enrichment_text = chapter_file.read_text(encoding="utf-8")
+        chapter_words = len(_pre_enrichment_text.split())
         per_chapter_timeout = _compute_sc_timeout(chapter_words)
         log(f"    {stem} · enriching ({chapter_words} words, timeout={per_chapter_timeout}s)")
         # Capture pre-enrichment mtime to detect that the file was actually rewritten.
@@ -363,6 +364,20 @@ def author_phase_0e(book_dir: Path,
                              f"before per-chapter authoring."))
             log(f"    {stem} · FAIL — episode-bridge tells: {_tell_list}")
             continue
+
+        # Shift-left deterministic pre-check (Phase A). Compares the enriched
+        # chapter against its pre-enrichment text — flags dropped source
+        # (U0E-SHRANK) or burial (U0E-BALLOON) to the human gate + ledger.
+        # Flag-and-proceed: NEVER raises, NEVER blocks enrichment. Zero LLM cost.
+        try:
+            from ._artifact_convergence import run_0e_chapter_precheck
+            run_0e_chapter_precheck(
+                book_dir, stem, _pre_enrichment_text,
+                chapter_file.read_text(encoding="utf-8"),
+                file=str(chapter_file), log=log,
+            )
+        except Exception as _e:  # noqa: BLE001 — a precheck must never break 0e
+            log(f"    {stem} · precheck skipped (non-fatal: {_e!r})")
 
         # Append checkpoint row.
         ts = _dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
