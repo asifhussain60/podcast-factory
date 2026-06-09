@@ -28,9 +28,6 @@ interface Props {
   onLaunched?: (slug: string) => void;
 }
 
-const PER_CHAPTER_CAP = 5;
-const BOOK_CAP = 0; // 0 = disabled by default; operator opts in via series-plan
-
 export default function PreflightSummary({ slug, title, stagingToken, settings, uploadValid, onLaunched }: Props) {
   const [chapters, setChapters] = useState(10);
   const [est, setEst] = useState<Estimate | null>(null);
@@ -41,11 +38,9 @@ export default function PreflightSummary({ slug, title, stagingToken, settings, 
     let alive = true;
     (async () => {
       try {
-        const params = new URLSearchParams({
-          chapters: String(chapters),
-          perChapterCap: String(PER_CHAPTER_CAP),
-          bookCap: String(BOOK_CAP),
-        });
+        // Caps are NOT sent — the server applies its authoritative defaults so the
+        // figures the operator approves against are the real ones (content integrity).
+        const params = new URLSearchParams({ chapters: String(chapters) });
         const r = await fetch(`/api/intake/preflight?${params}`);
         const json = await r.json();
         if (alive && r.ok && json.ok) setEst(json.data.estimate);

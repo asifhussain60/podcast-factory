@@ -34,6 +34,28 @@ interface Props {
   pollMs?: number;
 }
 
+// Gloss the pipeline's internal phase tokens into plain English (REQ-037).
+const PHASE_LABELS: Record<string, string> = {
+  preflight: 'Preparing',
+  '0a': 'Reading the source (OCR)',
+  '0b': 'Refining the text',
+  '0c': 'Phonetics pass',
+  '0ci': 'Gap analysis',
+  '0d': 'Designing chapters',
+  '0e': 'Enrichment',
+  '0f': 'Series plan (your review)',
+  '06a': 'Source review (your review)',
+  'per-chapter': 'Authoring episodes',
+  '0g': 'Bundle audit',
+  finalize: 'Finishing (your review)',
+  done: 'Done',
+};
+
+function phaseLabel(phase?: string): string {
+  if (!phase) return '—';
+  return PHASE_LABELS[phase] ?? phase;
+}
+
 export default function Cockpit({ slug, pollMs = 5000 }: Props) {
   const [status, setStatus] = useState<Status | null>(null);
   const [error, setError] = useState('');
@@ -89,43 +111,46 @@ export default function Cockpit({ slug, pollMs = 5000 }: Props) {
     <div className="intake-card">
       <h2 className="intake-card-title">Run cockpit — {status.slug}</h2>
 
-      <dl className="intake-estimate">
-        <div className="intake-estimate-row">
-          <dt>Phase</dt>
-          <dd>{status.phase ?? '—'} · {status.phase_status ?? '—'}</dd>
-        </div>
-        <div className="intake-estimate-row">
-          <dt>Publication</dt>
-          <dd>{status.publication_status ?? 'draft'}</dd>
-        </div>
-        {c && (
+      {/* Poll-driven region — announced to assistive tech as values change (REQ-048). */}
+      <div className="intake-live" aria-live="polite">
+        <dl className="intake-estimate">
           <div className="intake-estimate-row">
-            <dt>Spend</dt>
-            <dd className={c.over_book_cap ? 'intake-validation-error' : undefined}>
-              ${c.book_spend_usd.toFixed(2)}
-              {c.book_cap_active ? ` / $${c.book_cap_usd.toFixed(2)} cap` : ''}
-            </dd>
+            <dt>Phase</dt>
+            <dd>{phaseLabel(status.phase)} · {status.phase_status ?? '—'}</dd>
+          </div>
+          <div className="intake-estimate-row">
+            <dt>Publication</dt>
+            <dd>{status.publication_status ?? 'draft'}</dd>
+          </div>
+          {c && (
+            <div className="intake-estimate-row">
+              <dt>Spend</dt>
+              <dd className={c.over_book_cap ? 'intake-validation-error' : undefined}>
+                ${c.book_spend_usd.toFixed(2)}
+                {c.book_cap_active ? ` / $${c.book_cap_usd.toFixed(2)} cap` : ''}
+              </dd>
+            </div>
+          )}
+        </dl>
+
+        {ch && ch.total > 0 && (
+          <div className="intake-progress">
+            <progress
+              className="intake-progress-bar"
+              value={ch.completed}
+              max={ch.total}
+              aria-label={`Chapters ${ch.completed} of ${ch.total} complete (${progressPct}%)`}
+            />
+            <p className="intake-hint">
+              {ch.completed} / {ch.total} chapters{ch.failed > 0 ? ` · ${ch.failed} failed` : ''}
+            </p>
           </div>
         )}
-      </dl>
 
-      {ch && ch.total > 0 && (
-        <div className="intake-progress">
-          <progress
-            className="intake-progress-bar"
-            value={ch.completed}
-            max={ch.total}
-            aria-label={`Chapters ${ch.completed} of ${ch.total} complete (${progressPct}%)`}
-          />
-          <p className="intake-hint">
-            {ch.completed} / {ch.total} chapters{ch.failed > 0 ? ` · ${ch.failed} failed` : ''}
-          </p>
-        </div>
-      )}
-
-      {status.last_error && !status.at_human_gate && (
-        <p className="intake-validation-warn" role="status">Last note: {status.last_error}</p>
-      )}
+        {status.last_error && !status.at_human_gate && (
+          <p className="intake-validation-warn">Last note: {status.last_error}</p>
+        )}
+      </div>
 
       {status.at_human_gate && status.gate && (
         <div className="intake-gatecard">
