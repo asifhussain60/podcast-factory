@@ -1,0 +1,90 @@
+"""phases/preflight_chapter.py — $0 deterministic smoke gate for a chapter.
+
+Fail-fast discipline (Phase E, C2): catch the broad *deterministic* failure
+class — missing chapter file, missing/malformed contract, out-of-band word
+count — BEFORE any paid/long step (author_framing LLM call, convergence loop)
+or the real-money Azure/Gemini phases. No LLM, no subprocess, no side effects.
+
+Used in two places:
+  - Pre-loop in chapter_driver: run on EVERY chapter before the per-chapter loop
+    spends a cent, so a deterministic bug in chapter N halts at $0 before
+    chapter 1's framing is authored.
+  - Inside per_chapter_pass, after extract and BEFORE author_framing, as
+    defense-in-depth so a structurally-broken chapter never pays for a framing
+    call.
+
+This does NOT replace the deep content validators (doctrinal, phonetics, framing
+structure) that run at build time — those need the authored framing and are
+content judgments, not the systemic/deterministic class this gate guards.
+"""
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from _validator_constants import CHAPTER_WORD_MIN_HARD, CHAPTER_WORD_MAX_HARD  # noqa: E402
+
+try:
+    import yaml  # noqa: E402
+except Exception:  # pragma: no cover - PyYAML is a hard dep elsewhere
+    yaml = None
+
+
+def _chapter_file(book_dir: Path, slug: str) -> Path | None:
+    return next((book_dir / "chapters").glob(f"ch*-{slug}.txt"), None)
+
+
+def smoke_check_chapter(book_dir: Path, slug: str) -> tuple[bool, str]:
+    """Return (ok, reason). ok=True means the chapter is safe to spend on.
+
+    Deterministic, $0, no side effects. ``reason`` is a one-line human-readable
+    cause when ok is False (and the empty string when ok is True).
+    """
+    # 1. Chapter file present.
+    chapter_file = _chapter_file(book_dir, slug)
+    if chapter_file is None:
+        return False, f"chapter file missing (expected chapters/ch*-{slug}.txt)"
+
+    # 2. Contract present, parses, and carries the keys the pipeline relies on.
+    contract_file = book_dir / "chapter-contracts" / f"{slug}.yml"
+    if not contract_file.is_file():
+        return False, f"contract missing (expected chapter-contracts/{slug}.yml)"
+    if yaml is not None:
+        try:
+            contract = yaml.safe_load(contract_file.read_text(encoding="utf-8"))
+        except Exception as e:  # noqa: BLE001
+            return False, f"contract parse error: {str(e).splitlines()[0][:160]}"
+        if not isinstance(contract, dict):
+            return False, "contract is not a YAML mapping"
+        if not str(contract.get("slug") or "").strip():
+            return False, "contract missing required `slug`"
+        if not (contract.get("episode_number") or str(contract.get("title") or "").strip()):
+            return False, "contract missing both `episode_number` and `title`"
+
+    # 3. Chapter word count inside the hard band (catches empty / truncated / huge).
+    try:
+        n = len(chapter_file.read_text(encoding="utf-8").split())
+    except Exception as e:  # noqa: BLE001
+        return False, f"chapter unreadable: {str(e).splitlines()[0][:160]}"
+    if n < CHAPTER_WORD_MIN_HARD or n > CHAPTER_WORD_MAX_HARD:
+        return False, (
+            f"chapter word count {n} outside hard band "
+            f"[{CHAPTER_WORD_MIN_HARD}, {CHAPTER_WORD_MAX_HARD}]"
+        )
+
+    return True, ""
+
+
+def smoke_check_book(book_dir: Path, chapter_slugs: list[str]) -> list[tuple[str, str]]:
+    """Run smoke_check on every chapter. Return [(slug, reason), ...] for FAILURES.
+
+    An empty list means every chapter passed the $0 gate and the per-chapter loop
+    is safe to spend on.
+    """
+    failures: list[tuple[str, str]] = []
+    for slug in chapter_slugs:
+        ok, reason = smoke_check_chapter(book_dir, slug)
+        if not ok:
+            failures.append((slug, reason))
+    return failures

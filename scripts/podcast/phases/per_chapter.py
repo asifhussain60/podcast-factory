@@ -60,6 +60,10 @@ def per_chapter_pass(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
         )
 
     # 2. Author framing — LLM call.
+    # (The $0 deterministic smoke gate runs once at the loop level in
+    # chapter_driver, before any chapter is attempted — see smoke_check_book.
+    # It is intentionally NOT duplicated here: the extract step above already
+    # validates path/contract for direct single-chapter callers.)
     try:
         author_framing(book_dir, chapter_slug)
     except AuthoringError as e:

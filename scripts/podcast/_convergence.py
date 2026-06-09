@@ -353,11 +353,20 @@ def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
 
 
 def render_outcome(outcome: ChapterOutcome) -> str:
-    """Single-line render for orchestrator logs."""
-    return (
+    """Render a per-chapter outcome for orchestrator logs.
+
+    One status line always; on FAILED a second indented line carries the real
+    reason (the last note) so a failure is never a blank ``iter=0`` again — the
+    reason used to live only in ``outcome.notes`` and was silently dropped.
+    """
+    line = (
         f"  {outcome.chapter_slug:<35} "
         f"{outcome.final_verdict:<22} "
         f"iter={outcome.outer_iterations} "
         f"fix={outcome.fixer_attempts} "
         f"P0={outcome.p0_remaining} P1={outcome.p1_remaining} P2={outcome.p2_remaining}"
     )
+    if outcome.final_verdict == "FAILED" and outcome.notes:
+        reason = outcome.notes[-1].strip().splitlines()[0][:200]
+        line += f"\n      ↳ reason: {reason}"
+    return line

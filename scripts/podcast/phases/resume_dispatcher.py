@@ -11,6 +11,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _paths import REPO_ROOT  # noqa: E402
 from _progress import read_state, write_state, update_phase, is_phase_stale, STALE_RUNNING_SEC, PHASES  # noqa: E402
+from cost_guard import cost_ceiling_check  # noqa: E402
 from phases.preflight import preflight_resume  # noqa: E402
 from phases.initial_driver import _drive_authoring_through_0f, _drive_source_ready_through_0f  # noqa: E402
 from phases.chapter_driver import _drive_per_chapter_and_after  # noqa: E402
@@ -140,6 +141,31 @@ def run_resume(args: argparse.Namespace) -> int:
         write_state(book_dir, state)
         _info(f"Phase {current_phase!r} human review approved — resuming.")
         current_status = "pending"
+
+    # C4: per-book REAL-MONEY ceiling. Checked on every resume before dispatching
+    # the next (possibly Azure/Gemini) phase. Max/claude -p spend is excluded, so
+    # all-Max authoring never trips it. Hard cap halts; soft cap warns.
+    _cc = cost_ceiling_check(book_dir)
+    if _cc["action"] == "halt":
+        update_phase(
+            book_dir,
+            phase=current_phase or "per-chapter",
+            status="failed",
+            error=(
+                f"COST-CEILING: real spend ${_cc['real_spend_usd']:.2f} >= hard cap "
+                f"${_cc['hard']:.2f}. Raise config.cost_cap_hard (or set 0 to disable)."
+            ),
+        )
+        _err(
+            f"COST-CEILING halt: real spend ${_cc['real_spend_usd']:.2f} >= hard cap "
+            f"${_cc['hard']:.2f}. Raise state.config.cost_cap_hard and --resume."
+        )
+        return 2
+    if _cc["action"] == "warn":
+        _err(
+            f"COST-CEILING warning: real spend ${_cc['real_spend_usd']:.2f} >= soft cap "
+            f"${_cc['soft']:.2f} (hard ${_cc['hard']:.2f})."
+        )
 
     # ── source-ready: pre-written English sources (explainers, sites) ───────────
     # Handles books whose source material was written directly as .md files rather
