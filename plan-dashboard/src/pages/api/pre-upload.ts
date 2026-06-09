@@ -5,6 +5,7 @@
  *   { action: 'save-checklist', slug, terms: ChecklistTerm[] }
  *   { action: 'apply-fix', slug, item_id, episode_id, section, fix_text }
  *   { action: 'mark-fix-status', slug, item_id, status }
+ *   { action: 'save-clarification', slug, item_id, text }
  */
 
 import type { APIRoute } from 'astro';
@@ -122,6 +123,23 @@ function appendToSection(md: string, sectionName: string, text: string): string 
   const after = lines.slice(insertAt);
   if ((before[before.length - 1] ?? '').trim() !== '') before.push('');
   return [...before, text, '', ...after].join('\n');
+}
+
+// ─── save-clarification ────────────────────────────────────────────────────
+
+async function saveClarification(slug: string, itemId: string, text: string): Promise<Response> {
+  const ref = await findContent(slug);
+  if (!ref) return apiError('Book not found', 404);
+  const itemsPath = join(ref.dir, '_system', 'ambiguity-items.json');
+  if (!existsSync(itemsPath)) return apiError('ambiguity-items.json not found', 404);
+  const raw = JSON.parse(await readFile(itemsPath, 'utf-8'));
+  let found = false;
+  for (const item of raw.items ?? []) {
+    if (item.id === itemId) { item.framing_hint = text; found = true; }
+  }
+  if (!found) return apiError(`Item not found: ${itemId}`);
+  await writeFile(itemsPath, JSON.stringify(raw, null, 2), 'utf-8');
+  return apiOk({ saved: itemId });
 }
 
 // ─── mark-fix-status ───────────────────────────────────────────────────────
@@ -271,6 +289,7 @@ export const POST: APIRoute = async ({ request }) => {
     if (action === 'apply-fix') return applyFix(slug, body.item_id, body.episode_id, body.section, body.fix_text);
     if (action === 'apply-source-replacements') return applySourceReplacements(slug, body.replacements ?? []);
     if (action === 'apply-deletions-to-source') return applyDeletionsToSource(slug, body.deletions ?? []);
+    if (action === 'save-clarification') return saveClarification(slug, body.item_id, body.text ?? '');
     if (action === 'mark-fix-status') {
       const ref = await findContent(slug);
       if (!ref) return apiError('Book not found', 404);

@@ -22,6 +22,10 @@ Thoughtful adult readers familiar with the Quranic Adam narrative but new to the
 - al-Nu'man → "the author."
 - al-Qa'im / Sahib al-Qiyama → "the Master of the Resurrection."
 
+Add to the Name discipline section: '- The Father of Imams → Ali ibn Abi Talib; first mention add "peace be upon him." Thereafter: the Commander of Believers or "Ali."' and '- The sixth Imam → Jaa'far ibn Muhammad (The truthful); first mention add the name, then use "the sixth Imam."'
+
+Add to the Name discipline section: '- The Father of Imams → Ali ibn Abi Talib; first mention add "peace be upon him." Thereafter: the Commander of the Believers or "Ali."' and '- The sixth Imam → Jaa'far ibn Muhammad (The truthful); first mention add the name, then use "the sixth Imam."'
+
 ## Pronunciation
 
 Say each term ONCE. Never say the original spelling and the English form back-to-back.
@@ -47,6 +51,8 @@ Beat 2 — Pivot. The teaching of the names. The adversary's refusal reads as su
 
 Beat 3 — Stakes. The pact: wealth is knowledge, offspring is the line that answers the call. The fall: reaching for a rank not theirs. The garment of the word is cut. Adam repents; the words return; the Imamate is preserved.
 
+Add a friction beat in EP04's Three-part focus Beat 1: 'Host B friction: "If Adam didn't hold firm, how is he the model for the entire prophetic chain?" Host A: Adam initiates the cycle; the five of firm resolve (Nuh, Ibrahim, Musa, Isa, Muhammad) carry it forward. His lapse is what distinguishes the initiating covenant from the completing one.'
+
 ## Central tensions
 
 1. Inner reading vs. annulment of the outer Paradise.
@@ -61,6 +67,8 @@ Cadence is thinking-out-loud — short-to-medium sentences, room to breathe betw
 ## Host dynamic
 
 Host A (male) = scholar/teacher. Host B (female) = seeker/questioner. Roles do not rotate. Host B challenges at least three times and concedes once. Name positionality: classical Ismaili reading, not mainstream Sunni or Twelver. Steelman the literal-tree reading once before refusing it. Plant at least one moment where one host brings up a passage the other has not been led toward — gives a "prepared separately" feel.
+
+Add a host context note: 'When Eve appears as the silent partner to Adam's speech, Host A should gloss this in one sentence: every Speaker-Prophet has a Foundation who holds the inner meaning without speaking it — Eve is Adam's Foundation. Do not expand beyond one sentence; the fuller doctrine belongs to later volumes.'
 
 ## Analogies (use only these)
 

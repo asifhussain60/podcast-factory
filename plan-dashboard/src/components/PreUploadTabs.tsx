@@ -317,9 +317,29 @@ const PRIORITY_EMOJI: Record<AmbiguityPriority, string> = {
 
 function AmbiguityCard({ slug, item: initItem }: { slug: string; item: AmbiguityItem }) {
   const [item, setItem] = useState<AmbiguityItem>(initItem);
-  const [fixText, setFixText] = useState(initItem.framing_hint);
+  const [clarText, setClarText] = useState(initItem.framing_hint);
+  const [originalHint] = useState(initItem.framing_hint);
+  const [saveResState, setSaveResState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [saveResMsg, setSaveResMsg] = useState('');
   const [applyState, setApplyState] = useState<Record<string, 'idle' | 'applying' | 'done' | 'error'>>({});
   const [applyMsg, setApplyMsg] = useState<Record<string, string>>({});
+
+  async function handleSaveResolution() {
+    setSaveResState('saving');
+    try {
+      const res = await fetch('/api/pre-upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'save-clarification', slug, item_id: item.id, text: clarText }),
+      });
+      const data = await res.json();
+      if (data.ok) { setSaveResState('saved'); setSaveResMsg('Saved'); }
+      else { setSaveResState('error'); setSaveResMsg(data.error ?? 'Save failed'); }
+    } catch (e) {
+      setSaveResState('error'); setSaveResMsg(String(e));
+    }
+    setTimeout(() => setSaveResState('idle'), 3500);
+  }
 
   async function handleApply(episodeId: string) {
     setApplyState(s => ({ ...s, [episodeId]: 'applying' }));
@@ -333,7 +353,7 @@ function AmbiguityCard({ slug, item: initItem }: { slug: string; item: Ambiguity
           item_id: item.id,
           episode_id: episodeId,
           section: item.section,
-          fix_text: fixText,
+          fix_text: clarText,
         }),
       });
       const data = await res.json();
@@ -397,35 +417,51 @@ function AmbiguityCard({ slug, item: initItem }: { slug: string; item: Ambiguity
       </div>
 
       <div className="pu-amb-body">
-        <div>
-          <div className="pu-amb-hint-label">Suggested framing note</div>
-          <div className="pu-amb-hint-text">{item.framing_hint}</div>
-        </div>
-
-        <div>
-          <div className="pu-amb-fix-label">Text to insert into framing</div>
+        {/* ── Resolution zone ──────────────────────────────────── */}
+        <div className="pu-amb-resolution">
+          <div className="pu-amb-res-header">
+            <span className="pu-amb-res-label">Your resolution</span>
+            {saveResState === 'saved' && (
+              <span className="pu-amb-saved-badge">✓ Saved</span>
+            )}
+            {saveResState === 'error' && (
+              <span className="pu-amb-saved-badge is-error">{saveResMsg}</span>
+            )}
+          </div>
           <textarea
             className="pu-amb-textarea"
-            value={fixText}
-            onChange={e => setFixText(e.target.value)}
-            aria-label="Fix text to insert into framing file"
-            rows={5}
+            value={clarText}
+            onChange={e => { setClarText(e.target.value); if (saveResState === 'saved') setSaveResState('idle'); }}
+            placeholder="Enter your interpretation or clarification for this gap…"
+            aria-label="Your resolution for this ambiguity"
+            rows={6}
           />
+          <div className="pu-amb-char-count">{clarText.length} characters</div>
         </div>
 
+        {/* ── Actions ──────────────────────────────────────────── */}
         <div className="pu-amb-actions">
+          <button
+            className="pu-btn pu-btn-sm"
+            disabled={saveResState === 'saving'}
+            onClick={handleSaveResolution}
+            aria-label="Save resolution to the ambiguity file"
+          >
+            {saveResState === 'saving' ? 'Saving…' : 'Save resolution'}
+          </button>
+
+          <span className="pu-amb-sep" aria-hidden="true">|</span>
+
           <button
             className="pu-btn pu-btn-primary pu-btn-sm"
             disabled={hasApplying || item.episodes.every(ep => applyState[ep] === 'done')}
             onClick={handleApplyAll}
-            aria-label="Apply fix to all episodes"
+            aria-label="Apply resolution to all episodes"
           >
             {hasApplying ? 'Applying…' :
              item.episodes.every(ep => applyState[ep] === 'done') ? '✓ Applied to All' :
-             'Apply to All Episodes'}
+             'Apply to All'}
           </button>
-
-          <span className="pu-amb-sep" aria-hidden="true">|</span>
 
           <div className="pu-amb-episode-btns">
             {item.episodes.map(ep => (
@@ -434,7 +470,7 @@ function AmbiguityCard({ slug, item: initItem }: { slug: string; item: Ambiguity
                 className="pu-btn pu-btn-primary pu-btn-sm"
                 disabled={hasApplying || applyState[ep] === 'done'}
                 onClick={() => handleApply(ep)}
-                aria-label={`Apply fix to ${ep}`}
+                aria-label={`Apply resolution to ${ep}`}
               >
                 {applyState[ep] === 'applying' ? '…' :
                  applyState[ep] === 'done'     ? `✓ ${ep}` :
@@ -460,6 +496,14 @@ function AmbiguityCard({ slug, item: initItem }: { slug: string; item: Ambiguity
             </span>
           )}
         </div>
+
+        {/* ── Original suggestion (collapsible) ────────────────── */}
+        {originalHint && (
+          <details className="pu-amb-hint-details">
+            <summary className="pu-amb-hint-summary">Original system suggestion</summary>
+            <div className="pu-amb-hint-text">{originalHint}</div>
+          </details>
+        )}
       </div>
     </div>
   );

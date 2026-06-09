@@ -11,6 +11,10 @@ Brief warm welcome. Name the book: *The Basis of Interpretation* by al-Numan, th
 - the Commander of the Faithful = always that title, "peace be upon him" first mention only. Never pair leadership-title with personal name of the Father of Imams.
 - the Prophet = always "the Prophet", "peace and blessings of Allah be upon him and his family" first mention only.
 
+Add to the Name discipline section: '- The Father of Imams → Ali ibn Abi Talib; first mention add "peace be upon him." Thereafter: the Commander of Believers or "Ali."' and '- The sixth Imam → Jaa'far ibn Muhammad (The truthful); first mention add the name, then use "the sixth Imam."'
+
+Add to the Name discipline section: '- The Father of Imams → Ali ibn Abi Talib; first mention add "peace be upon him." Thereafter: the Commander of the Believers or "Ali."' and '- The sixth Imam → Jaa'far ibn Muhammad (The truthful); first mention add the name, then use "the sixth Imam."'
+
 ## Pronunciation
 Say each term ONCE. Never say the original spelling and the English form back-to-back.
 - al-Numan: al-Numan

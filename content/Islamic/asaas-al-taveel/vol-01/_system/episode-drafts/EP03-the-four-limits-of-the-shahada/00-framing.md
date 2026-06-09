@@ -12,6 +12,10 @@ Brief warm welcome. Name the book: *The Basis of Interpretation* by al-Numan, th
 - the truthful Imam = stable label for the fifth Imam in the gate-and-room saying.
 - speaker-prophet / Silent One = use these English labels every time, never the Arabic.
 
+Add to the Name discipline section: '- The Father of Imams → Ali ibn Abi Talib; first mention add "peace be upon him." Thereafter: the Commander of Believers or "Ali."' and '- The sixth Imam → Jaa'far ibn Muhammad (The truthful); first mention add the name, then use "the sixth Imam."'
+
+Add to the Name discipline section: '- The Father of Imams → Ali ibn Abi Talib; first mention add "peace be upon him." Thereafter: the Commander of the Believers or "Ali."' and '- The sixth Imam → Jaa'far ibn Muhammad (The truthful); first mention add the name, then use "the sixth Imam."'
+
 ## Pronunciation
 Say each term ONCE. Never say the original spelling and the English form back-to-back.
 - al-Numan: al-Numan

@@ -377,38 +377,61 @@
   gap: var(--sp-4);
 }
 
-.pu-amb-hint-label {
+/* ── resolution zone ─────────────────────────────────────────────────────── */
+
+.pu-amb-resolution {
+  display: flex;
+  flex-direction: column;
+}
+
+.pu-amb-res-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-2);
+}
+
+.pu-amb-res-label {
   font-size: var(--fs-sm);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--c-ink-muted);
-  margin-bottom: var(--sp-2);
 }
 
-.pu-amb-hint-text {
-  font-size: var(--fs-base);
-  color: var(--c-ink-dim);
-  line-height: 1.6;
-  font-style: italic;
-  padding: var(--sp-3) var(--sp-4);
-  background: var(--c-bg-sunken);
-  border-radius: var(--r-md);
-  border-left: 2px solid var(--c-accent-soft);
-}
-
-.pu-amb-fix-label {
+.pu-amb-saved-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: var(--fs-sm);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-weight: 600;
+  color: var(--c-green);
+  padding: 2px 8px;
+  background: color-mix(in oklab, var(--c-green) 10%, var(--c-bg-elev));
+  border-radius: var(--r-sm);
+  animation: pu-fadein 0.15s ease;
+}
+
+.pu-amb-saved-badge.is-error {
+  color: var(--c-red);
+  background: color-mix(in oklab, var(--c-red) 10%, var(--c-bg-elev));
+}
+
+@keyframes pu-fadein {
+  from { opacity: 0; transform: translateY(-2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pu-amb-char-count {
+  font-size: var(--fs-sm);
   color: var(--c-ink-muted);
-  margin-bottom: var(--sp-2);
+  text-align: right;
+  margin-top: var(--sp-1);
 }
 
 .pu-amb-textarea {
   width: 100%;
-  min-height: 120px;
+  min-height: 140px;
   padding: var(--sp-3) var(--sp-4);
   border: 1px solid var(--c-rule);
   border-radius: var(--r-md);
@@ -424,6 +447,46 @@
 .pu-amb-textarea:focus {
   border-color: var(--c-accent);
   box-shadow: 0 0 0 2px color-mix(in oklab, var(--c-accent) 16%, transparent);
+}
+
+/* ── collapsible original suggestion ─────────────────────────────────────── */
+
+.pu-amb-hint-details {
+  border-top: 1px solid var(--c-rule-soft);
+  padding-top: var(--sp-3);
+}
+
+.pu-amb-hint-summary {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--c-ink-muted);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-1) 0;
+}
+.pu-amb-hint-summary::-webkit-details-marker { display: none; }
+.pu-amb-hint-summary::before {
+  content: '▸';
+  font-size: 0.75em;
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}
+details[open] .pu-amb-hint-summary::before { transform: rotate(90deg); }
+
+.pu-amb-hint-text {
+  font-size: var(--fs-base);
+  color: var(--c-ink-dim);
+  line-height: 1.6;
+  font-style: italic;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--c-bg-sunken);
+  border-radius: var(--r-md);
+  border-left: 2px solid var(--c-accent-soft);
+  margin-top: var(--sp-2);
 }
 
 .pu-amb-actions {
