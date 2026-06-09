@@ -806,3 +806,58 @@ def run_0e_chapter_precheck(book_dir: Path, chapter_stem: str,
         log(f"    {chapter_stem} · precheck flagged "
             f"{', '.join(f.check_id for f in outcome.findings)} (flag-and-proceed)")
     return outcome
+
+# ─── Phase D: trainer substrate utilities ────────────────────────────────────
+#
+# These functions let podcast-trainer and learn_aggregate.py surface upstream
+# precheck pattern summaries without importing the full pipeline. They read the
+# shared _learning/findings.jsonl ledger — never write to it.
+
+UPSTREAM_PRECHECK_SOURCES = frozenset({"precheck-0b", "precheck-0e"})
+
+
+def query_upstream_findings(
+    repo_root: Optional[Path] = None,
+    *,
+    min_occurrences: int = 3,
+) -> dict[str, list[dict]]:
+    """Return upstream precheck findings from the repo-level findings ledger.
+
+    Reads ``<repo_root>/_learning/findings.jsonl``, filters to records whose
+    ``source`` is in UPSTREAM_PRECHECK_SOURCES, groups by ``check_id``, and
+    returns only those check IDs that appear at least ``min_occurrences`` times.
+    Each value is the list of raw JSONL records for that check_id.
+
+    Used by ``podcast-trainer`` and ``learn_aggregate.py`` to surface recurring
+    upstream defect patterns and generate proposals. Read-only — never appends.
+    """
+    import json as _json
+
+    if repo_root is None:
+        repo_root = REPO_ROOT
+
+    ledger = repo_root / "_learning" / "findings.jsonl"
+    if not ledger.exists():
+        return {}
+
+    by_check_id: dict[str, list[dict]] = {}
+    try:
+        for raw in ledger.read_text(encoding="utf-8").splitlines():
+            raw = raw.strip()
+            if not raw:
+                continue
+            try:
+                rec = _json.loads(raw)
+            except _json.JSONDecodeError:
+                continue
+            if rec.get("source", "") not in UPSTREAM_PRECHECK_SOURCES:
+                continue
+            cid = rec.get("check_id", "")
+            if not cid:
+                continue
+            by_check_id.setdefault(cid, []).append(rec)
+    except OSError:
+        return {}
+
+    return {cid: recs for cid, recs in by_check_id.items()
+            if len(recs) >= min_occurrences}

@@ -191,6 +191,23 @@ CHECK_ID_TO_TARGET = {
     "R5": f"{CUSTOMIZE_RULES} (R-NOMODERNIZE — analogy permission half)",
     "R6": f"{CUSTOMIZE_RULES} (R-NOFORMAL) — empirical transcript flag-only",
     "R7": f"{CUSTOMIZE_RULES} (R-NOMODERNIZE) — empirical transcript flag-only",
+    # ── Category U: Upstream precheck (Phase A–C adversarial validation) ───
+    # Source: "precheck-0b" / "precheck-0e" — emitted by _artifact_convergence.py
+    # at Phase 0b/0e generation time. Target is author-resolution (generator
+    # prompt edits in _authoring/_refine.py / _enrichment.py) — the trainer
+    # surfaces these patterns but cannot auto-edit generator-prompt Python files.
+    "U0B-EMPTY":               "HUMAN REVIEW — Phase 0b produced empty refined-english.md; re-run 0b",
+    "U0B-LENGTH-DRIFT":        "author: 0b window prompt — tighten length-ratio constraint",
+    "U0B-STRUCTURE-COLLAPSE":  "author: 0b window prompt — add explicit paragraph-preservation rule",
+    "U0E-SHRANK":              "author: 0e prompt — add explicit DO NOT drop source content constraint",
+    "U0E-BALLOON":             "author: 0e prompt — add explicit cap on word-count growth ratio",
+    "U0B-MEANING-DRIFT":       "author: 0b window prompt — strengthen DO NOT change meaning instruction",
+    "U0B-DROPPED-TEACHING":    "author: 0b window prompt — preserve ALL teachings, examples, illustrations",
+    "U0B-HALLUCINATED-ADDITION": "HUMAN REVIEW REQUIRED (P0) — fabricated content in refined-english.md",
+    "U0B-REGISTER-SHIFT":      "author: 0b window prompt — preserve scholarly register",
+    "U0E-HALLUCINATED-CITATION": "HUMAN REVIEW REQUIRED (P0) — fabricated citation in enriched chapter",
+    "U0E-SOURCE-ALTERED":      "author: 0e prompt — add explicit DO NOT alter source text constraint",
+    "U0E-DOCTRINE-DRIFT":      "author: 0e prompt — add tradition-coherence guard to enrichment rules",
 }
 
 
