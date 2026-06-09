@@ -205,21 +205,15 @@ pre-upload UI work. Zero inline styles; all tokens from `--c-*` palette.
 
 ## Next session — resume here first
 
-**Session start task:** Before any other work, ask Asif for additional context
-on the `enoch-365-years` ambiguity item:
+**Session start task: COMPLETE (2026-06-09)**
 
-> "Idris (Enoch) is ascribed a lifespan of 365 years. The framing hint for
-> EP05 suggests this is an inner-meaning opportunity that's unexplored.
-> What is the Ismaili interpretation you had in mind — is 365 the solar year,
-> a numerological reading, or something from the vol-01 source text we can
-> cite?"
+Asif provided the Ismaili cosmological context for Enoch/Idris and the 365-year lifespan:
+- 365 = the 365 degrees of the solar cycle (shams); each year of earthly life mirrors one day in the Sun's celestial revolution.
+- Macrocosm/microcosm (alam / insan) correspondence — physical numbers are outer forms of inner spiritual completeness.
+- Saturn sphere / 30-year detail confirmed as legitimate broader Islamic cosmological tradition (NOT al-Nu'man); introduced with that attribution guard.
+- Allah elevates prophets on the basis of cosmic and spiritual purity.
 
-Once Asif answers, use that context to:
-1. Write a `### Host context (from review)` block into
-   `content/Islamic/asaas-al-taveel/vol-01/_system/episode-drafts/EP05-two-parties-and-the-line-to-noah/00-framing.md`
-   (the Enoch reference sits in EP05 which covers the chain to Noah).
-2. If the context points to something in the chapter source that needs
-   generalizing, apply the source fix too.
+Host context block written to EP05 framing file at:
+`content/Islamic/asaas-al-taveel/vol-01/_system/episode-drafts/EP05-two-parties-and-the-line-to-noah/00-framing.md`
 
-This is the first real exercise of the "Additional Context" workflow above —
-do it manually this session to validate the pattern before building the UI.
+No source fix needed — the chapter source text does not need generalizing; the detail belongs in the framing only.

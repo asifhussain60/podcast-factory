@@ -7,11 +7,9 @@ Brief warm welcome. Name the book: *The Basis of Interpretation* by al-Numan, th
 
 ## Name discipline
 - al-Numan = "the author" (first: "al-Numan, the author of this book").
-- Jafar al-Sadiq = "the truthful Imam" (first: "the fifth Imam, Jafar al-Sadiq").
+- Jafar al-Sadiq = "the truthful Imam" (first: "the sixth Imam, Jafar al-Sadiq").
 - the Commander of the Faithful = always that title, "peace be upon him" first mention only. Never pair leadership-title with personal name of the Father of Imams.
 - the Prophet = always "the Prophet", "peace and blessings of Allah be upon him and his family" first mention only.
-
-Add to the Name discipline section: '- The Father of Imams → Ali ibn Abi Talib; first mention add "peace be upon him." Thereafter: the Commander of Believers or "Ali."' and '- The sixth Imam → Jaa'far ibn Muhammad (The truthful); first mention add the name, then use "the sixth Imam."'
 
 Add to the Name discipline section: '- The Father of Imams → Ali ibn Abi Talib; first mention add "peace be upon him." Thereafter: the Commander of the Believers or "Ali."' and '- The sixth Imam → Jaa'far ibn Muhammad (The truthful); first mention add the name, then use "the sixth Imam."'
 

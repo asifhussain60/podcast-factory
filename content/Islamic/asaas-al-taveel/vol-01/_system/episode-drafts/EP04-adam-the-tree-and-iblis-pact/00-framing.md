@@ -22,8 +22,6 @@ Thoughtful adult readers familiar with the Quranic Adam narrative but new to the
 - al-Nu'man → "the author."
 - al-Qa'im / Sahib al-Qiyama → "the Master of the Resurrection."
 
-Add to the Name discipline section: '- The Father of Imams → Ali ibn Abi Talib; first mention add "peace be upon him." Thereafter: the Commander of Believers or "Ali."' and '- The sixth Imam → Jaa'far ibn Muhammad (The truthful); first mention add the name, then use "the sixth Imam."'
-
 Add to the Name discipline section: '- The Father of Imams → Ali ibn Abi Talib; first mention add "peace be upon him." Thereafter: the Commander of the Believers or "Ali."' and '- The sixth Imam → Jaa'far ibn Muhammad (The truthful); first mention add the name, then use "the sixth Imam."'
 
 ## Pronunciation
