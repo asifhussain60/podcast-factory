@@ -157,6 +157,142 @@ def _intake_from_pdf(
     return 0
 
 
+# ---- Multi-volume intake (Phase 2 — one PDF per volume) ---------------------
+
+def _intake_volume_from_pdf(
+    pdf_path: str, work_slug: str, volume: int, force: bool, no_branch: bool,
+    *, profile: str = "islamic_scholarly", title: str | None = None,
+    volume_title: str | None = None, category: str = "books",
+) -> int:
+    """Intake ONE PDF as volume *volume* of multi-volume work *work_slug* (Q3).
+
+    First volume (or any volume when no work.yml exists yet) CREATES the parent
+    work.yml; later volumes inherit the work identity. Layout:
+      content/<Bucket>/<work_slug>/work.yml          (parent manifest)
+      content/<Bucket>/<work_slug>/vol-NN/_source/   (this volume's single PDF)
+    The volume's composite slug is "<work_slug>-vol-NN" — slug-legal, works with
+    --resume. ONE branch per work via branch_for_work.
+    """
+    import sys as _sys
+    _sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import _work_manifest as wm  # noqa: E402
+    from _rules import bucket_for_profile  # noqa: E402
+
+    _validate_slug(work_slug)
+    if volume < 1:
+        _die(f"--volume must be >= 1 (got {volume})")
+
+    src = Path(pdf_path).expanduser()
+    if not src.is_absolute():
+        for candidate in [RAW_DIR / src, Path.cwd() / src, REPO_ROOT / src]:
+            if candidate.exists():
+                src = candidate
+                break
+    if not src.exists():
+        _die(f"source not found: {pdf_path} (looked under {RAW_DIR}, cwd, and repo root)")
+
+    bucket = bucket_for_profile(profile)
+    work_dir = content_dir(work_slug, profile=profile)
+    vol_dir_name = f"vol-{volume:02d}"
+    vol_slug = wm.composite_slug(work_slug, vol_dir_name)
+    book_dir = work_dir / vol_dir_name
+
+    _info(f"==> Multi-volume intake — work '{work_slug}', {vol_dir_name} (slug {vol_slug})")
+    _info(f"    work dir:   {work_dir.relative_to(REPO_ROOT)}")
+    _info(f"    bucket:     {bucket}   profile: {profile}")
+
+    # Create / update the parent work.yml manifest.
+    work_dir.mkdir(parents=True, exist_ok=True)
+    manifest = wm.read_manifest(work_dir) or {
+        "work_slug": work_slug,
+        "title": title or work_slug.replace("-", " ").title(),
+        "content_profile": profile,
+        "bucket": bucket,
+        "volumes": [],
+    }
+    if title:
+        manifest["title"] = title
+
+    # Build the volume's workspace skeleton + copy the single PDF.
+    _create_skeleton(book_dir, force)
+    _info(f"    Skeleton dirs: {', '.join(SKELETON_DIRS)}")
+    dst_pdf = book_dir / "_source" / src.name
+    shutil.copy2(src, dst_pdf)
+    _info(f"    Copied source: {src.name} → {dst_pdf.relative_to(REPO_ROOT)}")
+
+    rel_pdf = dst_pdf.relative_to(work_dir).as_posix()
+    vol_entry = {
+        "order": volume,
+        "slug": vol_slug,
+        "dir": vol_dir_name,
+        "title": volume_title or f"Volume {volume}",
+        "source_pdf": rel_pdf,
+        "sources": [{"path": rel_pdf, "role": "primary_source"}],
+        "status": "draft",
+    }
+    others = [v for v in manifest.get("volumes", []) if v.get("dir") != vol_dir_name]
+    manifest["volumes"] = sorted(others + [vol_entry], key=lambda v: v.get("order", 0))
+    wm.write_manifest(work_dir, manifest)
+    _info(f"    work.yml: {len(manifest['volumes'])} volume(s) registered")
+
+    state = {
+        "schema_version": 1,
+        "book_slug": vol_slug,
+        "work_slug": work_slug,
+        "volume": volume,
+        "source_path": str(dst_pdf.relative_to(REPO_ROOT)),
+        "source_kind": "pdf",
+        "input_type": "pdf",
+        "phase": "preflight",
+        "phase_status": "pending",
+        "last_completed_phase": None,
+        "last_error": None,
+        "category": category,
+        "content_profile": profile,
+        "status": "draft",
+        "started": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "phases": {},
+        "intake_via": "scripts/podcast/intake_book.py --work",
+    }
+    (book_dir / "_system" / "orchestrator-state.json").write_text(json.dumps(state, indent=2) + "\n")
+    _info(f"    state.json: phase=preflight, work_slug={work_slug}, volume={volume}")
+
+    if not no_branch:
+        _create_branch_for_work(vol_slug, profile=profile)
+
+    _info("")
+    _info(f"==> DONE. Next steps:")
+    _info(f"    1. python3 scripts/podcast/orchestrate_book.py --resume {vol_slug}")
+    _info(f"       (or drive the whole work: orchestrate_work.py {work_slug})")
+    return 0
+
+
+def _create_branch_for_work(vol_or_work_slug: str, *, profile: str) -> str | None:
+    """Create the SINGLE work branch off develop (idempotent). Uses branch_for_work."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from _branching import branch_for_work  # noqa: E402
+
+    branch = branch_for_work(vol_or_work_slug, profile=profile)
+    result = subprocess.run(
+        ["git", "rev-parse", "--verify", branch],
+        cwd=REPO_ROOT, capture_output=True, text=True,
+    )
+    if result.returncode == 0:
+        _info(f"==> Branch already exists: {branch} (skipping)")
+        return branch
+    _info(f"==> Creating branch {branch} from develop")
+    r = subprocess.run(
+        ["git", "branch", branch, "develop"],
+        cwd=REPO_ROOT, capture_output=True, text=True,
+    )
+    if r.returncode != 0:
+        _info(f"    WARN: could not create branch — {r.stderr.strip()}")
+        return None
+    _info(f"    Created. Switch with: git checkout {branch}")
+    return branch
+
+
 # ---- Bundle intake (new) ----------------------------------------------------
 
 _BUNDLE_FIELD_RE = re.compile(r"^([a-z_]+):\s*(.*)$")
@@ -466,6 +602,28 @@ def main() -> int:
              "bundle.suggested_category for --from-bundle).",
     )
     parser.add_argument(
+        "--work", dest="work_slug", metavar="WORK-SLUG",
+        help="Multi-volume intake: the parent work slug (e.g. asaas). "
+             "Use with --volume N and a positional <pdf-path>. One PDF per volume.",
+    )
+    parser.add_argument(
+        "--volume", dest="volume", type=int, metavar="N",
+        help="Volume number (1-based) for --work intake. ONE PDF per volume.",
+    )
+    parser.add_argument(
+        "--profile", dest="profile_flag",
+        help="content_profile for --work intake (default: islamic_scholarly). "
+             "Determines the bucket + pipeline routing.",
+    )
+    parser.add_argument(
+        "--title", dest="title_flag",
+        help="Work title for --work intake (sets work.yml title on first volume).",
+    )
+    parser.add_argument(
+        "--volume-title", dest="volume_title_flag",
+        help="Title for this specific volume (--work intake).",
+    )
+    parser.add_argument(
         "--no-branch", action="store_true",
         help="Skip git branch creation (workspace setup only).",
     )
@@ -474,6 +632,28 @@ def main() -> int:
         help="Overwrite an existing workspace skeleton.",
     )
     args = parser.parse_args()
+
+    # Multi-volume intake: <pdf> --work <slug> --volume N (mutually exclusive with
+    # the single-book positional <slug>).
+    if args.work_slug or args.volume is not None:
+        if not args.pdf_path:
+            _die("--work intake needs a positional <pdf-path> (one PDF per volume).")
+        if not args.work_slug or args.volume is None:
+            _die("--work intake needs BOTH --work <slug> and --volume N.")
+        if args.slug:
+            _die("--work intake takes one positional <pdf-path> only — drop the <slug> "
+                 "positional (the volume slug is derived as <work>-vol-NN).")
+        return _intake_volume_from_pdf(
+            pdf_path=args.pdf_path,
+            work_slug=args.work_slug,
+            volume=args.volume,
+            force=args.force,
+            no_branch=args.no_branch,
+            profile=args.profile_flag or "islamic_scholarly",
+            title=args.title_flag,
+            volume_title=args.volume_title_flag,
+            category=args.category_flag or "books",
+        )
 
     if args.from_bundle:
         if args.pdf_path is not None and args.slug is None:

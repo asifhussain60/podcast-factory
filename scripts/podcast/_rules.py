@@ -250,6 +250,18 @@ def literary_voice_for_profile(profile: str | None) -> dict:
     ct = CONTENT_TYPE_REGISTRY.get(profile or "") or CONTENT_TYPE_REGISTRY[ISLAMIC_SCHOLARLY_PROFILE]
     return dict(ct.literary_voice)
 
+
+def phase_capabilities(profile: str | None) -> "ContentType":
+    """Return the ContentType (phase-skip capabilities) for a content_profile.
+
+    SINGLE accessor for every phase-skip decision (0a OCR, 0c phonetics, 0e
+    enrichment). Reads the CONTENT_TYPE_REGISTRY (single source of truth); unknown
+    or absent profiles fall back to islamic_scholarly — the historical default that
+    runs the full scholarly pipeline. Mirrors the bucket_for_profile pattern so
+    routing logic lives in ONE place instead of scattered `category in {...}` checks.
+    """
+    return CONTENT_TYPE_REGISTRY.get(profile or "") or CONTENT_TYPE_REGISTRY[ISLAMIC_SCHOLARLY_PROFILE]
+
 # ─── Content-level ladder (Wave M) — ISLAMIC scholarly books only. Single source
 # of truth for category-gated augmentation. A book declaring `content_level` in
 # meta.yml draws doctrine atoms ONLY at or below its own level (cumulative
