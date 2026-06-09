@@ -23,5 +23,13 @@ import '../../styles/studio-pipeline.css';
     </header>
 
     <IntakeWorkspace client:only="react" cardDefs={CARD_DEFS} />
+
+    <footer class="intake-conformance">
+      Cortex HTML View Quality — Level 1 conformant (DoD-clean: external CSS only,
+      theme unchanged, WCAG-AA controls). <strong>Scoped exception (REQ-010):</strong>
+      this intake surface uses compact form/status chrome that intentionally runs
+      below the 1.2rem prose reading floor — it is a dense data-entry + monitoring
+      panel, not long-form reading. Recorded per §13 (2026-06-09).
+    </footer>
   </div>
 </Base>

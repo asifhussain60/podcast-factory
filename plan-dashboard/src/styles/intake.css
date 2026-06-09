@@ -406,3 +406,15 @@
   font-size: 0.95rem;
   color: var(--c-ink);
 }
+
+/* Conformance footer (REQ-047 / §13) — declared level + scoped REQ-010 exception. */
+.intake-conformance {
+  width: 90%;
+  max-width: 1200px;
+  margin: 8px auto 48px;
+  padding-top: 12px;
+  border-top: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--c-ink-muted);
+}
