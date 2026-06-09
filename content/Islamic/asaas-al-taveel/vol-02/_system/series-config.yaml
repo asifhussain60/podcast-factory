@@ -1,0 +1,11 @@
+content_profile: islamic_scholarly
+series: Asas al-Taweel
+volume: 2
+video_style: teaching_hybrid
+enable_video: false
+audience_profile: general_scholarly
+source_tradition: ismaili-scholarly
+episode_planning_mode: dialectical_pairs
+host_dynamic:
+  host_a: mentor
+  host_b: student

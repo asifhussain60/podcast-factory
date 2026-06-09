@@ -263,7 +263,10 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
     # Type-first buckets (content/<Bucket>/<book>/chapters/) → parents[2] is the
     # bucket name; legacy roots → "library"/"drafts"/"books"/<category>.
     valid_root_ancestors = {"library", "drafts", "books"} | set(_CATS) | set(BUCKETS)
-    if bucket_root.parent.name not in valid_root_ancestors:
+    # Walk up two levels to support nested volumes (e.g. content/Islamic/asaas-al-taveel/vol-01/)
+    # where bucket_root.parent is the container dir and bucket_root.parent.parent is the bucket.
+    ancestor_names = {bucket_root.parent.name, bucket_root.parent.parent.name}
+    if not ancestor_names & valid_root_ancestors:
         sys.exit(
             f"ERROR: resolved chapter is not under a canonical root.\n"
             f"  bucket_root={bucket_root}\n"
@@ -271,7 +274,8 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
             f"  Expected one of: {sorted(valid_root_ancestors)} (which means the\n"
             f"  chapter must live at content/drafts/<book>/chapters/, content/\n"
             f"  published/books/<book>/chapters/, or the legacy content/podcast/\n"
-            f"  library/<category>/<book>/chapters/).\n"
+            f"  library/<category>/<book>/chapters/, or nested volumes at\n"
+            f"  content/<Bucket>/<container>/<vol>/chapters/).\n"
             f"  This usually means a literal-path resolution outside the canonical\n"
             f"  layout. Move the chapter to one of the supported roots."
         )

@@ -1,0 +1,27 @@
+slug: asaas-al-taveel-vol-01
+title: "Asas al-Taweel -- Volume 1: Adam"
+short_name: asaas-vol-1
+series: Asas al-Taweel
+volume: 1
+source_pdf: /Users/asifhussain/Documents/BOOKS/asaas-al-taveel-vol-1.pdf
+
+pipeline:
+  current_phase: 0c
+  phase_status: pending
+  chapters_drafted: 0
+  chapters_with_contracts: 0
+  episodes_authored: 0
+  transcripts: 1
+
+publication:
+  status: draft
+  shipped_via: scripts/podcast/publish_to_library.py
+
+provenance:
+  branch: Islamic/asaas-al-taveel
+  split_from: asaas-al-taveel (full-book slug)
+  split_date: 2026-06-08
+  transcript_pages: "1-75"
+  transcript_lines: "1-1013"
+  phases_completed_before_split: "0a, 0b"
+  transcript_normalizations: 469

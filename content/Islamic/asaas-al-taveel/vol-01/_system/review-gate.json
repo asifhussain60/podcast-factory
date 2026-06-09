@@ -1,0 +1,43 @@
+{
+  "phase": "06a",
+  "approved": true,
+  "warnings": [
+    {
+      "severity": "P0",
+      "message": "Critical provenance gap: 'split_from: asaas-al-' is incomplete. Cannot verify source material lineage or confirm this is not a partial/corrupted derivative.",
+      "chapter": "meta.yml"
+    },
+    {
+      "severity": "P0",
+      "message": "Missing primary source authentication: No translator attribution, edition information, or publication details provided. Cannot verify whether content is from authorized Ismaili text or secondary commentary.",
+      "chapter": "meta.yml"
+    },
+    {
+      "severity": "P1",
+      "message": "Chapter summary truncations indicate incomplete metadata. Ch01, ch02, ch03 summaries cut off mid-sentence. Cannot assess content scope or identify potential doctrinal issues without full chapter descriptions.",
+      "chapter": "all chapters"
+    },
+    {
+      "severity": "P1",
+      "message": "Source files list contains no verification artifacts: No original Arabic text reference, no scholarly commentary citations, no secondary source cross-references. Only processing artifacts listed.",
+      "chapter": "meta.yml"
+    },
+    {
+      "severity": "P1",
+      "message": "Unusual chapter numbering gap: ch04a and ch05b suggest a partial extraction or reordering. Missing ch04 and ch05a. Pipeline history unclear.",
+      "chapter": "ch04a, ch05b"
+    },
+    {
+      "severity": "P2",
+      "message": "Transcript exists (transcripts: 1) but source PDF path references local user directory (/Users/asifhussain/...). Indicates draft-stage file with potential path portability issues.",
+      "chapter": "meta.yml"
+    },
+    {
+      "severity": "P2",
+      "message": "Phase 0c (pending) with no contracted chapters or authored episodes. Early pipeline stage—content authenticity verification should occur before public release.",
+      "chapter": "meta.yml"
+    }
+  ],
+  "reviewed_at": "2026-06-09T00:04:35Z",
+  "approved_at": "2026-06-09T08:22:27Z"
+}

@@ -157,13 +157,6 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"episode framing only — do not factor into boundary decisions.\n\n"
             f"```\n{_gap_excerpt}\n```\n"
         )
-    in_phonetics = book_dir / "_system" / "source" / "text" / "_phonetics.md"
-    # Phonetics required only for Islamic scholarly content — check content_profile
-    # first (overrides category membership) so fiction/technical books in the
-    # "books" category (which is in ARABIC_SCHOLARLY_CATEGORIES) are not gated on
-    # a _phonetics.md that Phase 0c correctly skipped for them.
-    from _content_profile import is_islamic_scholarly as _is_islamic_scholarly  # local import: avoid circularity
-    _needs_phonetics = (category in ARABIC_SCHOLARLY_CATEGORIES) and _is_islamic_scholarly(book_dir)
     out_rationale = book_dir / "_system" / "source" / "text" / "chapters-rationale.md"
     out_source_map = book_dir / "_system" / "source" / "text" / "source-chapter-map.md"
     chapters_dir = book_dir / "chapters"
@@ -178,8 +171,6 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         )
 
     prereqs = [in_refined]
-    if _needs_phonetics:
-        prereqs.append(in_phonetics)
     for p in prereqs:
         if not p.exists():
             raise AuthoringError(
@@ -187,7 +178,7 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                 message=f"prerequisite missing: {p}",
                 manual_fallback="Run prior phases (0b, 0c) first.",
             )
-    log(f"  phase 0d · category={category!r}, phonetics-required={_needs_phonetics}")
+    log(f"  phase 0d · category={category!r}")
 
     # Wave-Fiction: CONSOLIDATION mode. A novel arrives as many short source
     # chapters that each cover one beat of a longer arc; emitting one episode per
@@ -217,6 +208,16 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     if (category in ARABIC_SCHOLARLY_CATEGORIES and _is_islamic_scholarly(book_dir)
             and "9,500" in tier_band):
         tier_band = tier_band.replace("9,500", f"{EPISODE_DENSITY_CEILING_DENSE:,}")
+
+    # The exact per-episode word ceiling the density validator enforces below
+    # (STEP 1.5). Surfaced in the TOC prompt as a HARD arithmetic floor so the
+    # segmenter cannot under-split a dense chapter into a marathon episode and
+    # then dead-halt the phase. Must match the density_ceiling computed at the
+    # over-cram check.
+    density_ceiling_hint = (EPISODE_DENSITY_CEILING_DENSE
+                            if (category in ARABIC_SCHOLARLY_CATEGORIES
+                                and _is_islamic_scholarly(book_dir))
+                            else EPISODE_DENSITY_CEILING_NARRATIVE)
 
     unit_directive = {
         "chapter": (
@@ -296,6 +297,15 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"`\\n`). Also compute its word count (whitespace-split).\n"
             f"3. Apply the following segmentation directive PER SOURCE-OR-RECONFIGURED CHAPTER:\n"
             f"   {unit_directive}\n"
+            f"3b. HARD DENSITY FLOOR — ARITHMETIC, NOT JUDGEMENT (no exceptions unless the\n"
+            f"   directive above is the forced single-episode 'chapter' mode): for EVERY\n"
+            f"   source-or-reconfigured chapter, `episode_count` MUST be >= ceil(word_count /\n"
+            f"   {density_ceiling_hint}). A chapter whose word_count exceeds {density_ceiling_hint:,} is\n"
+            f"   NEVER one episode — e.g. a {density_ceiling_hint + 218:,}-word chapter REQUIRES\n"
+            f"   episode_count >= 2 (set unit_mode='sections', cut at the nearest thematic\n"
+            f"   seam). 'It is one coherent teaching' is NOT a valid reason to exceed the\n"
+            f"   floor. A plan that violates this floor is rejected and you will be re-run, so\n"
+            f"   compute ceil(word_count / {density_ceiling_hint}) for each chapter and honour it.\n"
             f"4. Assign monotonically increasing episode numbers (`ep_num`) across the whole "
             f"book starting at 1. Each episode gets a short kebab-case `episode_slug` "
             f"(distinct across the whole book). When a source chapter splits into multiple "
@@ -510,7 +520,12 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"INPUT (the refined English for THIS source chapter only): `{slice_path}`\n"
             f"  · word_count: {slice_wc}  ·  source_line_range: {start_line}-{end_line}\n"
             f"AUTHORITY:\n"
-            f"  - `{in_phonetics}` (consult for Arabic terms appearing in this slice)\n"
+            f"  - For Arabic terms in this slice: use plain transliteration without diacritics\n"
+            f"    (e.g. 'al-Tabari', 'tawhid', 'da'wa'). Use the established English name where\n"
+            f"    one exists (Qabil → Cain, Habil → Abel, Shaytan → Satan, Israfil → Raphael,\n"
+            f"    Nuh → Noah, Ibrahim → Abraham, Musa → Moses, Isa → Jesus). The TTS sanitizer\n"
+            f"    auto-applies the knowledge-base exonym/loanword tables; in the chapter text,\n"
+            f"    always prefer the English equivalent over the Arabic transliteration.\n"
             f"  - `content/_shared/islam/imam-lineage-ismaili.yml` (canonical Imam lineage —\n"
             f"    Hassan=1st; the literal phrase pairing the leadership-title with the\n"
             f"    personal name of the Father of Imams is FORBIDDEN — always say 'Father\n"

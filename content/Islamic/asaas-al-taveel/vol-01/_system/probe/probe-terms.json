@@ -1,0 +1,571 @@
+{
+  "book_slug": "asaas-al-taveel-vol-1",
+  "total_terms": 173,
+  "scored_terms": 28,
+  "skipped_confirmed": 92,
+  "skipped_unfixable": 53,
+  "top_n": 28,
+  "terms": [
+    {
+      "term": "إسرافيل",
+      "transliteration": "Israfil",
+      "phonetic": "is-raa-FEEL",
+      "house_style_ok": true,
+      "suggested_baseline": "i-sra-fil",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"the three subordinate spiritual hudud — Israfil, Mika'il, and Jibra'il\"",
+      "freq": 3,
+      "score": 2,
+      "reasons": [
+        "3 syllables",
+        "x3 in text"
+      ],
+      "arabic_script": "إسرافيل",
+      "meaning": "Israfil",
+      "n": 1
+    },
+    {
+      "term": "سنة",
+      "transliteration": "sunna",
+      "phonetic": "SUN-na",
+      "house_style_ok": true,
+      "suggested_baseline": "su-nna",
+      "signature": [
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"in answering those who denied them from the Book, the Sunna\"",
+      "freq": 3,
+      "score": 1,
+      "reasons": [
+        "x3 in text"
+      ],
+      "arabic_script": "سنة",
+      "meaning": "",
+      "n": 2
+    },
+    {
+      "term": "قابيل",
+      "transliteration": "Cain",
+      "phonetic": "KAY-n",
+      "house_style_ok": true,
+      "suggested_baseline": "cain",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"his brother Cain envied him and killed him\"",
+      "freq": 2,
+      "score": 1,
+      "reasons": [
+        "x2 in text"
+      ],
+      "arabic_script": "قابيل",
+      "meaning": "Cain",
+      "n": 3
+    },
+    {
+      "term": "أبي طالب",
+      "transliteration": "Abi Talib",
+      "phonetic": "a-bee TAA-lib",
+      "house_style_ok": true,
+      "suggested_baseline": "a-bi ta-lib",
+      "signature": [
+        "lineage"
+      ],
+      "segment": "terms",
+      "snippet": "\"ibn Ali ibn Abi Talib, already mentioned\"",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "4 syllables"
+      ],
+      "arabic_script": "أبي طالب",
+      "meaning": "Abi Talib",
+      "n": 4
+    },
+    {
+      "term": "ذكر المقدمات",
+      "transliteration": "Dhikr al-Muqaddimat",
+      "phonetic": "dhik-rul mu-qad-di-MAAT",
+      "house_style_ok": true,
+      "suggested_baseline": "dhikr al-mu-ka-ddi-mat",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"we have mentioned them in Mention of the Preparations (Dhikr al-Muqaddimat)\"",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "6 syllables"
+      ],
+      "arabic_script": "ذكر المقدمات",
+      "meaning": "",
+      "n": 5
+    },
+    {
+      "term": "الحجج",
+      "transliteration": "al-Hujaj",
+      "phonetic": "al-hu-JAJ",
+      "house_style_ok": true,
+      "suggested_baseline": "al-hu-jaj",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"the Pilgrims (al-hujaj), the Captains\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "3 syllables"
+      ],
+      "arabic_script": "الحجج",
+      "meaning": "",
+      "n": 6
+    },
+    {
+      "term": "الدعاة",
+      "transliteration": "al-Du'at",
+      "phonetic": "al-du-AAT",
+      "house_style_ok": true,
+      "suggested_baseline": "al-duat",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"and the Wings (al-ajniha) — and they are the preachers (al-du'at)\"",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "3 syllables"
+      ],
+      "arabic_script": "الدعاة",
+      "meaning": "",
+      "n": 7
+    },
+    {
+      "term": "إدريس عماد الدين",
+      "transliteration": "Idris Imad al-Din",
+      "phonetic": "id-REES i-MAAD ad-DEEN",
+      "house_style_ok": true,
+      "suggested_baseline": "i-dris i-mad al-din",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"its author Idris Imad al-Din (6/36-39)\"",
+      "freq": 0,
+      "score": 3,
+      "reasons": [
+        "6 syllables",
+        "long"
+      ],
+      "arabic_script": "إدريس عماد الدين",
+      "meaning": "",
+      "n": 8
+    },
+    {
+      "term": "المعيّد في الدين",
+      "transliteration": "al-Mu'ayyad fi al-Din",
+      "phonetic": "al-moo-AY-yad fee ad-DEEN",
+      "house_style_ok": true,
+      "suggested_baseline": "al-mua-yyad fi al-din",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"their great supporter of religion, al-Mu'ayyad fi al-Din\"",
+      "freq": 0,
+      "score": 3,
+      "reasons": [
+        "7 syllables",
+        "long"
+      ],
+      "arabic_script": "المعيّد في الدين",
+      "meaning": "",
+      "n": 9
+    },
+    {
+      "term": "عبد السلام ابن رغبان",
+      "transliteration": "Abd al-Salam ibn Raghban",
+      "phonetic": "abd as-sa-LAAM ibn ragh-BAAN",
+      "house_style_ok": true,
+      "suggested_baseline": "abd al-sa-lam ibn ra-ghban",
+      "signature": [
+        "article-al",
+        "lineage"
+      ],
+      "segment": "terms",
+      "snippet": "\"information about the poet Abd al-Salam ibn Raghban\"",
+      "freq": 0,
+      "score": 3,
+      "reasons": [
+        "7 syllables",
+        "long"
+      ],
+      "arabic_script": "عبد السلام ابن رغبان",
+      "meaning": "",
+      "n": 10
+    },
+    {
+      "term": "محمد ابن جرير الطبري",
+      "transliteration": "Muhammad ibn Jarir al-Tabari",
+      "phonetic": "mu-HAM-mad ibn ja-REER at-ta-BA-ree",
+      "house_style_ok": true,
+      "suggested_baseline": "mu-ha-mmad ibn ja-rir al-ta-ba-ri",
+      "signature": [
+        "article-al",
+        "lineage",
+        "ending-i"
+      ],
+      "segment": "terms",
+      "snippet": "\"all of this is plain in the books…who preceded Muhammad ibn Jarir al-Tabari\"",
+      "freq": 0,
+      "score": 3,
+      "reasons": [
+        "10 syllables",
+        "long"
+      ],
+      "arabic_script": "محمد ابن جرير الطبري",
+      "meaning": "",
+      "n": 11
+    },
+    {
+      "term": "إسماعيلية",
+      "transliteration": "Ismailiyya",
+      "phonetic": "is-maa-EE-li-yya",
+      "house_style_ok": true,
+      "suggested_baseline": "i-smai-li-yya",
+      "signature": [
+        "ending-iyya"
+      ],
+      "segment": "terms",
+      "snippet": "\"those who call themselves specialists in the study of Ismaili literature…(Ismailiyya)\"",
+      "freq": 0,
+      "score": 2,
+      "reasons": [
+        "5 syllables"
+      ],
+      "arabic_script": "إسماعيلية",
+      "meaning": "Ismailiyya",
+      "n": 12
+    },
+    {
+      "term": "ابن خلكان",
+      "transliteration": "Ibn Khallikan",
+      "phonetic": "ibn khal-li-KAAN",
+      "house_style_ok": true,
+      "suggested_baseline": "ibn kha-lli-kan",
+      "signature": [
+        "lineage"
+      ],
+      "segment": "terms",
+      "snippet": "\"Ibn Khallikan translated his life in al-Wafayat\"",
+      "freq": 0,
+      "score": 2,
+      "reasons": [
+        "4 syllables"
+      ],
+      "arabic_script": "ابن خلكان",
+      "meaning": "Ibn Khallikan",
+      "n": 13
+    },
+    {
+      "term": "المتنبي",
+      "transliteration": "al-Mutanabbi",
+      "phonetic": "al-mu-ta-NAB-bee",
+      "house_style_ok": true,
+      "suggested_baseline": "al-mu-ta-na-bbi",
+      "signature": [
+        "article-al",
+        "ending-i"
+      ],
+      "segment": "terms",
+      "snippet": "\"information about…al-Mutanabbi, al-Ma'arri, and others\"",
+      "freq": 0,
+      "score": 2,
+      "reasons": [
+        "5 syllables"
+      ],
+      "arabic_script": "المتنبي",
+      "meaning": "",
+      "n": 14
+    },
+    {
+      "term": "المعري",
+      "transliteration": "al-Ma'arri",
+      "phonetic": "al-maa-AR-ree",
+      "house_style_ok": true,
+      "suggested_baseline": "al-maa-rri",
+      "signature": [
+        "ayn-hamza",
+        "article-al",
+        "ending-i"
+      ],
+      "segment": "terms",
+      "snippet": "\"al-Mutanabbi, al-Ma'arri, and others, has remained scant\"",
+      "freq": 0,
+      "score": 2,
+      "reasons": [
+        "4 syllables"
+      ],
+      "arabic_script": "المعري",
+      "meaning": "",
+      "n": 15
+    },
+    {
+      "term": "المقريزي",
+      "transliteration": "al-Maqrizi",
+      "phonetic": "al-ma-KREE-zee",
+      "house_style_ok": true,
+      "suggested_baseline": "al-ma-kri-zi",
+      "signature": [
+        "article-al",
+        "ending-i"
+      ],
+      "segment": "terms",
+      "snippet": "\"Al-Maqrizi and other historians say his library overflowed\"",
+      "freq": 0,
+      "score": 2,
+      "reasons": [
+        "4 syllables"
+      ],
+      "arabic_script": "المقريزي",
+      "meaning": "",
+      "n": 16
+    },
+    {
+      "term": "الوفيات",
+      "transliteration": "al-Wafayat",
+      "phonetic": "al-wa-fa-YAAT",
+      "house_style_ok": true,
+      "suggested_baseline": "al-wa-fay-at",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"Ibn Khallikan translated his life in al-Wafayat (2/166)\"",
+      "freq": 0,
+      "score": 2,
+      "reasons": [
+        "4 syllables"
+      ],
+      "arabic_script": "الوفيات",
+      "meaning": "",
+      "n": 17
+    },
+    {
+      "term": "جعفر بن محمد",
+      "transliteration": "Ja'far ibn Muhammad",
+      "phonetic": "JAA-far ibn mu-HAM-mad",
+      "house_style_ok": true,
+      "suggested_baseline": "ja-far ibn mu-ha-mmad",
+      "signature": [
+        "ayn-hamza",
+        "lineage"
+      ],
+      "segment": "terms",
+      "snippet": "\"Al-Sadiq is Imam Ja'far ibn Muhammad ibn Ali ibn al-Husayn\"",
+      "freq": 0,
+      "score": 2,
+      "reasons": [
+        "6 syllables"
+      ],
+      "arabic_script": "جعفر بن محمد",
+      "meaning": "",
+      "n": 18
+    },
+    {
+      "term": "الباطن",
+      "transliteration": "al-Batin",
+      "phonetic": "al-BAA-tin",
+      "house_style_ok": true,
+      "suggested_baseline": "al-ba-tin",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"the inner (al-the hidden) will be stripped away\"",
+      "freq": 0,
+      "score": 1,
+      "reasons": [
+        "3 syllables"
+      ],
+      "arabic_script": "الباطن",
+      "meaning": "",
+      "n": 19
+    },
+    {
+      "term": "الحسين",
+      "transliteration": "al-Husayn",
+      "phonetic": "al-hu-SAYN",
+      "house_style_ok": true,
+      "suggested_baseline": "al-hu-sayn",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"Ja'far ibn Muhammad ibn Ali ibn al-Husayn ibn Ali ibn Abi Talib\"",
+      "freq": 0,
+      "score": 1,
+      "reasons": [
+        "3 syllables"
+      ],
+      "arabic_script": "الحسين",
+      "meaning": "",
+      "n": 20
+    },
+    {
+      "term": "الشيطان",
+      "transliteration": "al-Shaytan",
+      "phonetic": "al-shay-TAAN",
+      "house_style_ok": true,
+      "suggested_baseline": "al-sha-ytan",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"it is said shata fulanun when a man perishes, and likewise Iblis was called Satan\"",
+      "freq": 0,
+      "score": 1,
+      "reasons": [
+        "3 syllables"
+      ],
+      "arabic_script": "الشيطان",
+      "meaning": "",
+      "n": 21
+    },
+    {
+      "term": "الظاهر",
+      "transliteration": "al-Zahir",
+      "phonetic": "al-ZAA-hir",
+      "house_style_ok": true,
+      "suggested_baseline": "al-za-hir",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"the outward (al-the apparent) will fall\"",
+      "freq": 0,
+      "score": 1,
+      "reasons": [
+        "3 syllables"
+      ],
+      "arabic_script": "الظاهر",
+      "meaning": "",
+      "n": 22
+    },
+    {
+      "term": "حمدانيون",
+      "transliteration": "Hamdanids",
+      "phonetic": "ham-DAA-nids",
+      "house_style_ok": true,
+      "suggested_baseline": "ha-mda-nids",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"the Buyids and the Hamdanids raised the banner of culture\"",
+      "freq": 0,
+      "score": 1,
+      "reasons": [
+        "3 syllables"
+      ],
+      "arabic_script": "حمدانيون",
+      "meaning": "Hamdanids",
+      "n": 23
+    },
+    {
+      "term": "ديك الجن",
+      "transliteration": "Dik al-Jinn",
+      "phonetic": "DEEK al-JINN",
+      "house_style_ok": true,
+      "suggested_baseline": "dik al-jinn",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"the poet Abd al-Salam ibn Raghban — known as Dik al-Jinn\"",
+      "freq": 0,
+      "score": 1,
+      "reasons": [
+        "3 syllables"
+      ],
+      "arabic_script": "ديك الجن",
+      "meaning": "",
+      "n": 24
+    },
+    {
+      "term": "رفع الإصر",
+      "transliteration": "Raf' al-Isr",
+      "phonetic": "RAFF al-ISR",
+      "house_style_ok": true,
+      "suggested_baseline": "raf al-isr",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "\"al-Hafiz in Raf' al-Isr (136)\"",
+      "freq": 0,
+      "score": 1,
+      "reasons": [
+        "3 syllables"
+      ],
+      "arabic_script": "رفع الإصر",
+      "meaning": "",
+      "n": 25
+    },
+    {
+      "term": "بويهيون",
+      "transliteration": "Buyids",
+      "phonetic": "BOO-yids",
+      "house_style_ok": true,
+      "suggested_baseline": "bu-yids",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"the Buyids and the Hamdanids raised the banner of culture\"",
+      "freq": 0,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "بويهيون",
+      "meaning": "Buyids",
+      "n": 26
+    },
+    {
+      "term": "كعبة",
+      "transliteration": "Ka'ba",
+      "phonetic": "KAA-ba",
+      "house_style_ok": true,
+      "suggested_baseline": "ka-ba",
+      "signature": [
+        "ayn-hamza",
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "\"Cairo became a Ka'ba toward which scholars…turned\"",
+      "freq": 0,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "كعبة",
+      "meaning": "",
+      "n": 27
+    },
+    {
+      "term": "مصياف",
+      "transliteration": "Masyaf",
+      "phonetic": "MAS-yaaf",
+      "house_style_ok": true,
+      "suggested_baseline": "ma-syaf",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "\"The first came from the town of Masyaf in Syria\"",
+      "freq": 0,
+      "score": 0,
+      "reasons": [],
+      "arabic_script": "مصياف",
+      "meaning": "Masyaf",
+      "n": 28
+    }
+  ]
+}

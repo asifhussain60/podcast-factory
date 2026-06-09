@@ -275,6 +275,72 @@
 .pron-msg-ok { background: var(--c-bg-sunken); color: var(--c-green); border: 1px solid var(--c-green); }
 .pron-msg-err { background: var(--c-bg-sunken); color: var(--c-red); border: 1px solid var(--c-red); }
 
+/* ── pagination bar ──────────────────────────────────────────────────── */
+.pron-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+.pron-page-btn {
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.35rem 0.9rem;
+  border-radius: 0.45rem;
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg-elev);
+  color: var(--c-accent);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.pron-page-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  color: var(--c-ink-muted);
+}
+.pron-page-info {
+  font-size: 1.05rem;
+  color: var(--c-ink-muted);
+  text-align: center;
+}
+.pron-page-nums {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+.pron-page-num {
+  font-size: 1.05rem;
+  font-weight: 500;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--c-rule);
+  background: transparent;
+  color: var(--c-ink-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.12s, color 0.12s;
+}
+.pron-page-num:hover:not(.is-current) {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+.pron-page-num.is-current {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: var(--c-bg);
+  font-weight: 700;
+  cursor: default;
+}
+.pron-page-indicator {
+  font-size: 1.05rem;
+  color: var(--c-ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
 /* ── review: term rows ────────────────────────────────────────────────── */
 .pron-list {
   list-style: none;
@@ -307,32 +373,18 @@
   padding-top: 0.15rem;
 }
 
-/* Left column: term name + Arabic script inline (grid), then translit + chips */
+/* Left column: Arabic input (ghost heading) → translit → chips → meaning */
 .pron-term {
   display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: auto auto auto;
-  column-gap: 0.55rem;
+  grid-template-columns: 1fr;
   row-gap: 0.15rem;
   align-items: start;
 }
-.pron-term-name {
-  grid-column: 1;
-  grid-row: 1;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--c-ink);
-  align-self: center;
-}
 .pron-term-translit {
-  grid-column: 1;
-  grid-row: 2;
   font-size: 1.1rem;
   color: var(--c-ink-dim);
 }
 .pron-chips {
-  grid-column: 1 / -1;
-  grid-row: 3;
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem;
@@ -347,36 +399,53 @@
   border: 1px solid var(--c-rule-soft);
 }
 .pron-chip-seg { color: var(--c-ink-dim); }
+.pron-chip-count {
+  font-family: ui-monospace, Menlo, monospace;
+  color: var(--c-accent);
+  border-color: var(--c-accent);
+  font-weight: 600;
+}
 .pron-chip-warn { color: var(--c-red); border-color: var(--c-red); }
 .pron-chip-known { color: var(--c-green); border-color: var(--c-green); }
 
-/* Arabic script input — inline right column, spans name + translit rows */
+/* English meaning gloss line — shown below chips */
+.pron-term-meaning {
+  font-size: 1rem;
+  color: var(--c-ink-muted);
+  font-style: italic;
+  line-height: 1.4;
+  margin-top: 0.15rem;
+}
+
+/* Arabic script — ghost heading at top of left column; editable on click */
 .pron-term-arabic {
-  grid-column: 2;
-  grid-row: 1 / 3;
   font-size: 1.5rem;
   font-family: 'Traditional Arabic', 'Scheherazade New', Amiri, serif;
   font-weight: 700;
   direction: rtl;
-  text-align: center;
-  padding: 0.2rem 0.35rem;
-  border: 1px solid var(--c-rule);
-  border-radius: 0.4rem;
-  background: var(--c-bg-elev);
+  text-align: left;
+  padding: 0.05rem 0.3rem;
+  border: 1px solid transparent;
+  border-radius: 0.35rem;
+  background: transparent;
   color: var(--c-ink);
-  width: 9rem;
+  width: 100%;
   min-width: 0;
-  align-self: start;
+}
+.pron-term-arabic:hover {
+  border-color: var(--c-rule-soft);
 }
 .pron-term-arabic:focus {
-  outline: 2px solid var(--c-accent);
-  outline-offset: 1px;
+  outline: none;
+  border-color: var(--c-rule);
+  background: var(--c-bg-elev);
 }
 .pron-term-arabic::placeholder {
   font-size: 1rem;
   font-family: inherit;
   color: var(--c-ink-muted);
   direction: ltr;
+  text-align: left;
 }
 
 /* Phonetic input with AI suggestion */
@@ -389,23 +458,47 @@
   font-style: italic;
 }
 
-/* English gloss toggle checkbox — lives inline in .pron-decision-row */
-.pron-gloss-label {
-  display: flex;
+/* Language toggle pill — shows the English translation inline as a preview.
+   Clicking toggles "use English instead" without hiding the text first. */
+.pron-lang-toggle {
+  display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  font-size: 1rem;
+  gap: 0.3rem;
+  padding: 0.22rem 0.65rem 0.22rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--c-rule);
+  background: transparent;
   color: var(--c-ink-dim);
+  font-size: 1rem;
   cursor: pointer;
-  user-select: none;
+  max-width: 16rem;
+  overflow: hidden;
   white-space: nowrap;
-}
-.pron-gloss-check {
-  width: 1rem;
-  height: 1rem;
-  accent-color: var(--c-accent);
-  cursor: pointer;
   flex-shrink: 0;
+  transition: border-color 0.12s, color 0.12s, background 0.12s;
+}
+.pron-lang-toggle:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+.pron-lang-toggle.is-active {
+  background: color-mix(in srgb, var(--c-accent) 12%, transparent);
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+.pron-lang-toggle.has-no-meaning {
+  opacity: 0.45;
+}
+.pron-lang-icon {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.pron-lang-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-style: italic;
 }
 
 /* ── bundle generator panel ───────────────────────────────────────────── */

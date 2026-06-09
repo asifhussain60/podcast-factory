@@ -119,8 +119,10 @@ _is_human_review_gate() {
     local phase status
     phase="$(_state '.phase')"
     status="$(_state '.phase_status')"
-    # 0f: series-plan written; human must review before per-chapter authoring begins.
-    if [[ "$phase" == "0f" && "$status" == "halted" ]]; then return 0; fi
+    # NOTE: 0f/halted is intentionally NOT a watchdog short-circuit. The dispatcher
+    # (resume_dispatcher.py) clears the 0f gate on --resume and drives per-chapter;
+    # short-circuiting here deadlocked --resume (the re-invoked watchdog re-saw
+    # 0f/halted and exited before the orchestrator ran). Removed 2026-06-09.
     # 0ci: book intelligence gap analysis written; human reviews before Phase 0d runs.
     # Running --resume acknowledges the review — the driver now skips 0ci on re-entry.
     if [[ "$phase" == "0ci" && "$status" == "halted" ]]; then return 0; fi
@@ -174,9 +176,9 @@ for attempt in $(seq 1 "$MAX_RETRIES"); do
     # --retry-phase clears the stale flag so --resume can proceed.
     if [[ "$STATUS" == "running" ]]; then
         _log "Stale running state detected — using --retry-phase $PHASE"
-        "$PYTHON" "$ORCH" --resume "$SLUG" --retry-phase "$PHASE" 2>&1 | tee -a "$LOG"
+        "$PYTHON" "$ORCH" --resume "$SLUG" --retry-phase "$PHASE" --skip-doctor 2>&1 | tee -a "$LOG"
     else
-        "$PYTHON" "$ORCH" --resume "$SLUG" 2>&1 | tee -a "$LOG"
+        "$PYTHON" "$ORCH" --resume "$SLUG" --skip-doctor 2>&1 | tee -a "$LOG"
     fi
 
     RC=${PIPESTATUS[0]}

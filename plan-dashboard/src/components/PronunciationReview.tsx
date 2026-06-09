@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+
+const PAGE_SIZE = 40;
 
 /**
  * PronunciationReview — per-book probe checklist island.
@@ -25,6 +27,7 @@ interface ProbeTerm {
   freq: number;
   reasons: string[];
   arabicScript: string;
+  meaning: string;
   libraryStatus: 'confirmed' | 'unfixable' | null;
   libraryPhonetic: string;
   libraryGloss: string;
@@ -77,6 +80,14 @@ export default function PronunciationReview({ slug, terms }: Props) {
   const [saving, setSaving] = useState(false);
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(0);
+  const listRef = useRef<HTMLOListElement>(null);
+
+  const totalPages = Math.ceil(terms.length / PAGE_SIZE);
+  const pagedTerms = useMemo(
+    () => terms.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE),
+    [terms, page],
+  );
 
   useEffect(() => {
     try {
@@ -104,9 +115,15 @@ export default function PronunciationReview({ slug, terms }: Props) {
   }
 
   const decidedCount = useMemo(() => Object.values(rows).filter(isDecided).length, [rows]);
+  // acceptableCount is page-scoped — the Accept button applies to the visible batch.
   const acceptableCount = useMemo(
-    () => terms.filter((t) => { const r = rows[t.term]; return r && r.decision === 'pending' && r.phonetic.trim(); }).length,
-    [rows, terms],
+    () => pagedTerms.filter((t) => { const r = rows[t.term]; return r && r.decision === 'pending' && r.phonetic.trim(); }).length,
+    [rows, pagedTerms],
+  );
+  // Single-mention terms with a translation ready — bulk-English candidate count.
+  const lowFreqEnglishCount = useMemo(
+    () => pagedTerms.filter((t) => t.freq === 1 && t.meaning && rows[t.term]?.decision === 'pending').length,
+    [rows, pagedTerms],
   );
 
   function update(term: string, patch: Partial<RowState>) {
@@ -117,7 +134,7 @@ export default function PronunciationReview({ slug, terms }: Props) {
   function acceptAllSuggestions() {
     setRows((prev) => {
       const next = { ...prev };
-      for (const t of terms) {
+      for (const t of pagedTerms) {
         const r = next[t.term];
         if (r && r.decision === 'pending' && r.phonetic.trim()) {
           next[t.term] = { ...r, decision: 'ok', phoneSuggested: false };
@@ -126,6 +143,26 @@ export default function PronunciationReview({ slug, terms }: Props) {
       return next;
     });
     setResult(null);
+  }
+
+  function applyEnglishForLowFreq() {
+    setRows((prev) => {
+      const next = { ...prev };
+      for (const t of pagedTerms) {
+        if (t.freq !== 1 || !t.meaning) continue;
+        const r = next[t.term];
+        if (r && r.decision === 'pending') {
+          next[t.term] = { ...r, decision: 'cantsay', gloss: t.meaning, phoneSuggested: false };
+        }
+      }
+      return next;
+    });
+    setResult(null);
+  }
+
+  function goToPage(p: number) {
+    setPage(p);
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }
 
   async function handleArabicBlur(term: string, arabicValue: string) {
@@ -188,8 +225,16 @@ export default function PronunciationReview({ slug, terms }: Props) {
       <div className="pron-bar">
         <div className="pron-bar-info">
           <span className="pron-count">{decidedCount}/{terms.length} reviewed</span>
+          {totalPages > 1 && (
+            <span className="pron-page-indicator">pg {page + 1}/{totalPages}</span>
+          )}
         </div>
         <div className="pron-bar-actions">
+          {lowFreqEnglishCount > 0 && (
+            <button className="pron-acceptall" onClick={applyEnglishForLowFreq} disabled={saving}>
+              English for {lowFreqEnglishCount} ×1 term{lowFreqEnglishCount === 1 ? '' : 's'}
+            </button>
+          )}
           {acceptableCount > 0 && (
             <button className="pron-acceptall" onClick={acceptAllSuggestions} disabled={saving}>
               Accept {acceptableCount} suggestion{acceptableCount === 1 ? '' : 's'}
@@ -198,8 +243,32 @@ export default function PronunciationReview({ slug, terms }: Props) {
         </div>
       </div>
 
-      <ol className="pron-list">
-        {terms.map((t) => {
+      {totalPages > 1 && (
+        <div className="pron-pagination">
+          <button className="pron-page-btn" disabled={page === 0} onClick={() => goToPage(page - 1)}>
+            ← Prev
+          </button>
+          <div className="pron-page-nums">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                className={`pron-page-num${i === page ? ' is-current' : ''}`}
+                onClick={() => goToPage(i)}
+                aria-label={`Page ${i + 1}`}
+                aria-current={i === page ? 'page' : undefined}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+          <button className="pron-page-btn" disabled={page === totalPages - 1} onClick={() => goToPage(page + 1)}>
+            Next →
+          </button>
+        </div>
+      )}
+
+      <ol className="pron-list" ref={listRef}>
+        {pagedTerms.map((t) => {
           const r = rows[t.term] ?? { decision: 'pending' as Decision, phonetic: prefill(t), gloss: '', arabic: t.arabicScript || '' };
           const known = t.libraryStatus !== null;
           const useGloss = r.decision === 'cantsay';
@@ -211,9 +280,8 @@ export default function PronunciationReview({ slug, terms }: Props) {
             >
               <span className="pron-n">{t.n}</span>
 
-              {/* Left: term name + Arabic inline (grid), transliteration, chips */}
+              {/* Left: Arabic input (ghost heading) → transliteration → chips → meaning */}
               <div className="pron-term">
-                <span className="pron-term-name">{t.term}</span>
                 <input
                   className="pron-term-arabic"
                   type="text"
@@ -229,10 +297,14 @@ export default function PronunciationReview({ slug, terms }: Props) {
                 )}
                 <span className="pron-chips">
                   <span className="pron-chip pron-chip-seg">{SEGMENT_LABEL[t.segment] ?? t.segment}</span>
+                  {t.freq > 0 && <span className="pron-chip pron-chip-count">×{t.freq}</span>}
                   {!t.house_style_ok && <span className="pron-chip pron-chip-warn">needs respelling</span>}
                   {known && <span className="pron-chip pron-chip-known">in library</span>}
                   {t.signature.map((s) => <span key={s} className="pron-chip">{s}</span>)}
                 </span>
+                {t.meaning && (
+                  <span className="pron-term-meaning">{t.meaning}</span>
+                )}
               </div>
 
               {/* Right: decision toggle + English gloss checkbox (same row), then input */}
@@ -250,23 +322,28 @@ export default function PronunciationReview({ slug, terms }: Props) {
                     >✎ Fix</button>
                   </div>
 
-                  {/* English translation checkbox — inline with buttons */}
-                  <label className="pron-gloss-label">
-                    <input
-                      type="checkbox"
-                      className="pron-gloss-check"
-                      checked={useGloss}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          update(t.term, { decision: 'cantsay', phoneSuggested: false });
-                        } else {
-                          update(t.term, { decision: 'pending', phonetic: prefill(t), gloss: '', phoneSuggested: false });
-                        }
-                      }}
-                      aria-label={`Use English translation for ${t.term}`}
-                    />
-                    Use English translation instead
-                  </label>
+                  {/* English toggle pill — always shows the translation as a preview */}
+                  <button
+                    type="button"
+                    className={`pron-lang-toggle${useGloss ? ' is-active' : ''}${!t.meaning ? ' has-no-meaning' : ''}`}
+                    onClick={() => {
+                      if (useGloss) {
+                        update(t.term, { decision: 'pending', phonetic: prefill(t), gloss: '', phoneSuggested: false });
+                      } else {
+                        const currentGloss = rows[t.term]?.gloss ?? '';
+                        update(t.term, {
+                          decision: 'cantsay',
+                          gloss: currentGloss.trim() || t.meaning || '',
+                          phoneSuggested: false,
+                        });
+                      }
+                    }}
+                    aria-pressed={useGloss}
+                    aria-label={`Use English for ${t.term}: ${t.meaning || 'no translation yet'}`}
+                  >
+                    <span className="pron-lang-icon" aria-hidden="true">{useGloss ? '✓' : '⇄'}</span>
+                    <span className="pron-lang-text">{t.meaning || '…'}</span>
+                  </button>
                 </div>
 
                 {/* Phonetic input OR English gloss input */}
@@ -304,6 +381,30 @@ export default function PronunciationReview({ slug, terms }: Props) {
           );
         })}
       </ol>
+
+      {totalPages > 1 && (
+        <div className="pron-pagination">
+          <button className="pron-page-btn" disabled={page === 0} onClick={() => goToPage(page - 1)}>
+            ← Prev
+          </button>
+          <div className="pron-page-nums">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                className={`pron-page-num${i === page ? ' is-current' : ''}`}
+                onClick={() => goToPage(i)}
+                aria-label={`Page ${i + 1}`}
+                aria-current={i === page ? 'page' : undefined}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+          <button className="pron-page-btn" disabled={page === totalPages - 1} onClick={() => goToPage(page + 1)}>
+            Next →
+          </button>
+        </div>
+      )}
 
       <div className="pron-footer">
         {result && <p className="pron-msg pron-msg-ok" role="status">{result}</p>}

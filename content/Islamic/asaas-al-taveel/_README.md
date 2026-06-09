@@ -1,5 +1,19 @@
 # Asaas al-Taʾwīl (أساس التأويل)
 
+> **PARENT CONTAINER + MASTER SOURCE -- DO NOT DELETE `_source/`.**
+> This folder is a CONTAINER (no book state of its own, so the pipeline resolver
+> descends into it). It holds the six volume folders `vol-01` … `vol-06` plus
+> `_source/`, which carries the ONLY complete refined transcript (pages 1-416),
+> the full master preflight artifacts, and the full Arabic PDF `Asaas Al-Taveel.pdf`
+> (filed as the source). Volumes 2-6 are carved FROM `_source/` -- it is the
+> quarry; never delete it. **Slugs are FLAT** (`asaas-al-taveel-vol-01` …
+> `-vol-06`), not the nested path; the resolver maps `<container>-<leaf>` to the
+> nested dir. 6-volume map (carved with no overlap): Vol 1 Adam (pp.1-75) /
+> Vol 2 Nuh (76-106) / Vol 3 Ibrahim (107-178) / Vol 4 Musa (179-298) /
+> Vol 5 Isa (299-314) / Vol 6 Muhammad + the unwritten Qaim (315-368). Process
+> Vol 1 fully (chapters + episodes + PDF), then Vols 2-6 sequentially. See repo
+> memory `project_asaas_seven_volumes.md`.
+
 Author: al-Qāḍī al-Nuʿmān (d. 974 CE)
 Editor: ʿĀrif Tāmir (1960 Beirut edition)
 Source PDF: 416 pages, scanned image-only, Arabic

@@ -1,0 +1,50 @@
+work_slug: asaas-al-taveel
+title: "Asas al-Taweel"
+content_profile: islamic_scholarly
+bucket: Islamic
+shared:
+  pronunciation: _system/pronunciation.md
+  knowledge: _system
+volumes:
+  - order: 1
+    slug: asaas-al-taveel-vol-01
+    dir: vol-01
+    sources:
+      - path: ../_source/Asaas Al-Taveel.pdf
+        role: primary_source
+    status: draft
+  - order: 2
+    slug: asaas-al-taveel-vol-02
+    dir: vol-02
+    sources:
+      - path: ../_source/Asaas Al-Taveel.pdf
+        role: primary_source
+    status: draft
+  - order: 3
+    slug: asaas-al-taveel-vol-03
+    dir: vol-03
+    sources:
+      - path: ../_source/Asaas Al-Taveel.pdf
+        role: primary_source
+    status: draft
+  - order: 4
+    slug: asaas-al-taveel-vol-04
+    dir: vol-04
+    sources:
+      - path: ../_source/Asaas Al-Taveel.pdf
+        role: primary_source
+    status: draft
+  - order: 5
+    slug: asaas-al-taveel-vol-05
+    dir: vol-05
+    sources:
+      - path: ../_source/Asaas Al-Taveel.pdf
+        role: primary_source
+    status: draft
+  - order: 6
+    slug: asaas-al-taveel-vol-06
+    dir: vol-06
+    sources:
+      - path: ../_source/Asaas Al-Taveel.pdf
+        role: primary_source
+    status: draft

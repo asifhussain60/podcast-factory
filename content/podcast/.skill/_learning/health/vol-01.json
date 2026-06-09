@@ -1,0 +1,14 @@
+{
+  "book": "vol-01",
+  "challenger_version": "2.4",
+  "run_ts": "2026-06-09T13:09:00Z",
+  "scope": "per-chapter:ch04-adam-the-tree-and-iblis-pact",
+  "chapters": 1,
+  "p0": 3,
+  "p1": 3,
+  "p2": 3,
+  "auto_fixes": 0,
+  "verdict": "BLOCKED",
+  "score": -3.75,
+  "note": "Chapter substantially revised since prior run; earlier E1/A1/A2/B5 P0s resolved. Residual P0s: B1 (meta-paragraph 5 self-references in line 1), B2 (forward chapter reference), T2 (sixth-Imam misattributed in Ismaili lineage). Score uses challenger formula 1 - (P0*1.0 + P1*0.2 + P2*0.05)/chapters; negative score = multiple P0s outweigh single-chapter denominator."
+}

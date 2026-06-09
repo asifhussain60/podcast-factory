@@ -33,6 +33,7 @@ export interface ProbeTerm {
   score: number;
   reasons: string[];
   arabic_script: string;       // baked from glossary.yml by score_pronunciation_risk.py
+  meaning: string;             // short English gloss (concept-glossary or snippet extraction)
   // ── live library overlay (added here) ──
   libraryStatus: 'confirmed' | 'unfixable' | null;
   libraryPhonetic: string;
@@ -143,7 +144,8 @@ export async function getProbe(slug: string): Promise<ProbeDetail | null> {
     const hit = lib.get(normalizeKey(t.term));
     return {
       ...t,
-      arabicScript: t.arabic_script ?? '',
+      arabicScript: t.arabic_script ?? t.term ?? '',
+      meaning: t.meaning ?? '',
       libraryStatus: hit ? hit.status : null,
       libraryPhonetic: hit?.phonetic ?? '',
       libraryGloss: hit?.gloss ?? '',

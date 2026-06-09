@@ -225,14 +225,18 @@ _workspace/tmp/
 # _chunks/ outside the canonical book directory.
 **/_chunks/
 
-# Local-only orchestrator/runtime logs
+# Local-only orchestrator/runtime logs and supervisor run registry
 _workspace/logs/
+_workspace/runs/
 
 # Local-only audit snapshots (pre-rerun copies of book artifacts for diff/review)
 _workspace/audit/
 
 # Sanitizer backups (created by scripts/podcast/sanitize_contract_yaml.py)
 *.yml.bak
+
+# Framing signature cache (runtime hash used by pipeline to detect framing changes)
+.framing-sig
 
 # VSCode workspace favorites (user-local IDE state)
 .favorites.json

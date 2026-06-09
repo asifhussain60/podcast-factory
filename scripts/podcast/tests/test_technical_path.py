@@ -384,20 +384,6 @@ class TestPhase0dTechnical(unittest.TestCase):
             f"got: {prompt[:300]}",
         )
 
-    def test_phase_0d_toc_prompt_books_still_references_phonetics(self):
-        # GREEN today — regression guard. The original books prompt should
-        # still reference _phonetics.md after the split.
-        try:
-            from _authoring._chapter_design import build_phase_0d_toc_prompt
-        except ImportError:
-            self.skipTest("Cannot import build_phase_0d_toc_prompt")
-        with tempfile.TemporaryDirectory() as tmp:
-            book_dir = _make_book_dir(Path(tmp), category="books")
-            _make_refined_english(book_dir)
-            _make_phonetics(book_dir)
-            prompt = build_phase_0d_toc_prompt(str(book_dir), "test-book")
-        self.assertIn("_phonetics.md", prompt)
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 5. Phase 0e — Enrichment
