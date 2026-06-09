@@ -34,6 +34,7 @@ layout. Back-compat: ``content_dir()`` still accepts the old ``stage=`` /
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Iterable
 
@@ -41,6 +42,60 @@ from _rules import ALLOWED_CATEGORIES, BUCKETS, bucket_for_profile
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CONTENT_ROOT = REPO_ROOT / "content"
+
+# ── Multi-volume works (2026-06-09) ──────────────────────────────────────────
+# A nested multi-volume "work" lives at content/<Bucket>/<work_slug>/ and is
+# MARKED by a work.yml manifest. Its volumes are vol-NN/ subdirs, each a normal
+# book dir. The COMPOSITE volume slug is "<work_slug>-<vol_dir>" (asaas + vol-02
+# → asaas-vol-02). This module discovers volumes by the marker + glob WITHOUT
+# parsing the yaml (no yaml dep, no circular import on _work_manifest) — the
+# manifest CONTENTS are read by _work_manifest.py. When no work.yml exists
+# anywhere, every function below is byte-identical to flat resolution.
+WORK_MANIFEST_NAME = "work.yml"
+_VOL_DIR_RE = re.compile(r"^vol-\d+$")
+_COMPOSITE_SLUG_RE = re.compile(r"^(?P<work>.+)-(?P<dir>vol-\d+)$")
+
+
+def is_work_parent(dir_: Path) -> bool:
+    """True iff ``dir_`` is a multi-volume work parent (holds a work.yml marker)."""
+    return (dir_ / WORK_MANIFEST_NAME).is_file()
+
+
+def volume_dirs(work_dir: Path) -> list[Path]:
+    """Sorted ``vol-NN`` subdirectories of a work parent (by name)."""
+    if not work_dir.is_dir():
+        return []
+    return sorted(
+        (c for c in work_dir.iterdir() if c.is_dir() and _VOL_DIR_RE.match(c.name)),
+        key=lambda p: p.name,
+    )
+
+
+def work_rollup_status(work_dir: Path) -> str:
+    """Roll a work's status up from its volumes: ``published`` only when ALL are."""
+    vols = volume_dirs(work_dir)
+    if not vols:
+        return "draft"
+    statuses = [status_of(v) for v in vols]
+    if all(s == "published" for s in statuses):
+        return "published"
+    if all(s == "archived" for s in statuses):
+        return "archived"
+    return "draft"
+
+
+def slug_of(path: Path) -> str:
+    """Canonical slug for a content dir yielded by ``iter_content``/``find_content``.
+
+    Returns the COMPOSITE slug for a volume dir (``<work_slug>-vol-NN``) and the
+    plain dir name for a flat book or a work parent. Callers that need a stable,
+    collision-free identity MUST use this instead of ``path.name`` (two works can
+    both contain a ``vol-01``).
+    """
+    parent = path.parent
+    if _VOL_DIR_RE.match(path.name) and is_work_parent(parent):
+        return f"{parent.name}-{path.name}"
+    return path.name
 
 # Type-first plumbing root (2026-06-04).
 SYSTEM_ROOT = CONTENT_ROOT / "_system"
@@ -169,11 +224,26 @@ def find_content(slug: str) -> tuple[str, str, Path] | None:
     (``drafts/<cat>``, ``published/<cat>``, flat ``drafts/<slug>``,
     ``drafts/BOOKS/<slug>`` — first element is the legacy ``stage``).
     """
-    # Type-first (preferred).
+    # Type-first (preferred). A bare slug that names a work PARENT (has work.yml)
+    # resolves to the work dir with a rolled-up status; a flat book resolves as
+    # before (byte-identical when no manifest exists).
     for b in BUCKETS:
         p = CONTENT_ROOT / b / slug
         if p.is_dir():
+            if is_work_parent(p):
+                return (work_rollup_status(p), b, p)
             return (status_of(p), b, p)
+    # Composite volume slug: "<work>-vol-NN" → content/<B>/<work>/vol-NN, but ONLY
+    # when <work> is a real work parent (has work.yml). A flat book ending in
+    # "-vol-N" never reaches here — its own dir matched above.
+    m = _COMPOSITE_SLUG_RE.match(slug)
+    if m:
+        work, vol = m.group("work"), m.group("dir")
+        for b in BUCKETS:
+            wp = CONTENT_ROOT / b / work
+            vp = wp / vol
+            if is_work_parent(wp) and vp.is_dir():
+                return (status_of(vp), b, vp)
     # Legacy: drafts/<cat>/<slug>, then published/<cat>/<slug>.
     for st, st_root in (("drafts", DRAFTS_ROOT), ("published", PUBLISHED_ROOT)):
         for cat in ALLOWED_CATEGORIES:
@@ -228,6 +298,16 @@ def iter_content(
             if child.resolve() in seen:
                 continue
             seen.add(child.resolve())
+            # A work parent is NOT itself a book — descend and yield its volumes
+            # (each a normal book dir). Callers derive the composite slug via
+            # slug_of(path). No-op when no work.yml exists → flat byte-identical.
+            if is_work_parent(child):
+                for vol in volume_dirs(child):
+                    if vol.resolve() in seen:
+                        continue
+                    seen.add(vol.resolve())
+                    yield (status_of(vol), b, vol)
+                continue
             yield (status_of(child), b, child)
 
     # Legacy fallback (only when not filtering to a specific new bucket).

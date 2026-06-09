@@ -39,7 +39,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paths import iter_content, REPO_ROOT  # noqa: E402
+from _paths import iter_content, slug_of, REPO_ROOT  # noqa: E402
 
 DRAFTS = REPO_ROOT / "content" / "drafts"
 PUBLISHED = REPO_ROOT / "content" / "published" / "books"
@@ -160,16 +160,17 @@ def collect_fleet(since: datetime | None) -> list[dict]:
     fleet: list[dict] = []
     seen: set[str] = set()
     for stage, _category, entry in iter_content():
-        if entry.name in seen:
+        slug = slug_of(entry)
+        if slug in seen:
             continue
-        seen.add(entry.name)
+        seen.add(slug)
         state = _read_state(entry)
         phase = state.get("phase", "—")
         status = state.get("phase_status", "—")
         last_phase = state.get("last_completed_phase", "—")
         total, rows, last_ts = _read_cost_ledger(entry, since)
         fleet.append({
-            "book": entry.name,
+            "book": slug,
             "category": "draft" if stage == "drafts" else "published",
             "phase": phase,
             "status": status,

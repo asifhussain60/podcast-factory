@@ -99,3 +99,30 @@ def branch_name(
         raise ValueError(f"branch_name: slug must not contain '/' (got {slug!r})")
     b = resolve_bucket(bucket=bucket, profile=profile, category=category)
     return f"{b}/{slug}"
+
+
+def branch_for_work(
+    volume_or_work_slug: str,
+    *,
+    profile: str | None = None,
+    bucket: str | None = None,
+    category: str | None = None,
+) -> str:
+    """Return the SINGLE branch for a multi-volume work, given any of its slugs.
+
+    Q1 decision: ONE work = ONE branch. A composite volume slug
+    (``asaas-vol-02``) maps to the same branch as the bare work slug
+    (``asaas``) — ``Islamic/asaas``. A flat single book (no manifest) maps to its
+    own ``<Bucket>/<slug>`` branch unchanged: ``work_slug_of`` returns None for it,
+    so this degenerates to ``branch_name(slug)``.
+
+    The branch is grouped under the work's BUCKET (same resolver as the folder
+    layout), so branch bucket can never drift from folder bucket.
+    """
+    # Local import to avoid a module-load cycle (_work_manifest imports _paths,
+    # _paths is imported here at module top; _branching is only imported lazily
+    # by callers, never by _paths).
+    from _work_manifest import work_slug_of  # noqa: E402
+
+    work = work_slug_of(volume_or_work_slug) or volume_or_work_slug
+    return branch_name(category, work, profile=profile, bucket=bucket)

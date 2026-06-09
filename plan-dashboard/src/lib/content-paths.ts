@@ -109,6 +109,63 @@ function isDirSync(p: string): boolean {
   try { return statSync(p).isDirectory(); } catch { return false; }
 }
 
+// ── Multi-volume works (2026-06-09) — mirror of _paths.py ────────────────────
+// A nested work lives at content/<Bucket>/<work_slug>/ MARKED by a work.yml. Its
+// volumes are vol-NN/ subdirs (each a normal book dir). Composite volume slug is
+// "<work_slug>-<vol_dir>" (asaas + vol-02 → asaas-vol-02). Discovery is by the
+// marker + glob; the manifest contents are not parsed here. When no work.yml
+// exists, every function is byte-identical to flat resolution.
+export const WORK_MANIFEST_NAME = 'work.yml';
+const VOL_DIR_RE = /^vol-\d+$/;
+const COMPOSITE_SLUG_RE = /^(.+)-(vol-\d+)$/;
+
+function isWorkParentSync(dir: string): boolean {
+  return isDirSync(dir) && existsSync(join(dir, WORK_MANIFEST_NAME));
+}
+
+async function isWorkParent(dir: string): Promise<boolean> {
+  if (!(await isDir(dir))) return false;
+  try {
+    return (await stat(join(dir, WORK_MANIFEST_NAME))).isFile();
+  } catch {
+    return false;
+  }
+}
+
+async function volumeDirs(workDir: string): Promise<string[]> {
+  let entries: string[];
+  try { entries = await readdir(workDir); } catch { return []; }
+  const out: string[] = [];
+  for (const name of entries.sort()) {
+    if (VOL_DIR_RE.test(name) && (await isDir(join(workDir, name)))) out.push(name);
+  }
+  return out;
+}
+
+async function workRollupStatus(workDir: string): Promise<Status> {
+  const vols = await volumeDirs(workDir);
+  if (vols.length === 0) return 'draft';
+  const statuses = await Promise.all(vols.map((v) => statusOf(join(workDir, v))));
+  if (statuses.every((s) => s === 'published')) return 'published';
+  if (statuses.every((s) => s === 'archived')) return 'archived';
+  return 'draft';
+}
+
+/**
+ * Canonical, collision-free slug for a content dir. Returns the COMPOSITE slug
+ * for a volume dir (`<work_slug>-vol-NN`) and the plain dir name otherwise.
+ * Mirror of _paths.slug_of. Callers listing content MUST use this, not the raw
+ * dir name (two works can each contain a `vol-01`).
+ */
+export function slugOf(dir: string): string {
+  const parts = resolve(dir).split('/').filter(Boolean);
+  const name = parts[parts.length - 1] ?? dir;
+  const parent = '/' + parts.slice(0, -1).join('/');
+  const parentName = parts[parts.length - 2] ?? '';
+  if (VOL_DIR_RE.test(name) && isWorkParentSync(parent)) return `${parentName}-${name}`;
+  return name;
+}
+
 /**
  * Synchronous sibling of findContent: return the on-disk directory for `slug`,
  * or null. Mirrors the bucket-first + legacy-fallback resolution of findContent
@@ -119,7 +176,17 @@ function isDirSync(p: string): boolean {
 export function findContentDirSync(slug: string): string | null {
   for (const bucket of BUCKETS) {
     const dir = join(bucketRoot(bucket), slug);
-    if (isDirSync(dir)) return dir;
+    if (isDirSync(dir)) return dir;  // flat book OR bare work-parent slug
+  }
+  // Composite volume slug "<work>-vol-NN" → <work>/vol-NN, only under a real work parent.
+  const m = COMPOSITE_SLUG_RE.exec(slug);
+  if (m) {
+    const [, work, vol] = m;
+    for (const bucket of BUCKETS) {
+      const wp = join(bucketRoot(bucket), work);
+      const vp = join(wp, vol);
+      if (isWorkParentSync(wp) && isDirSync(vp)) return vp;
+    }
   }
   for (const stage of ['drafts', 'published'] as Stage[]) {
     for (const cat of ALLOWED_CATEGORIES) {
@@ -162,12 +229,26 @@ export function archiveRoot(): string {
 }
 
 export async function findContent(slug: string): Promise<ContentRef | null> {
-  // Type-first (preferred).
+  // Type-first (preferred). A bare work-parent slug rolls up its volumes' status;
+  // a flat book resolves as before (byte-identical when no work.yml exists).
   for (const bucket of BUCKETS) {
     const dir = join(bucketRoot(bucket), slug);
     if (await isDir(dir)) {
-      const status = await statusOf(dir);
+      const status = (await isWorkParent(dir)) ? await workRollupStatus(dir) : await statusOf(dir);
       return { bucket, status, slug, dir, stage: statusToStage(status), category: 'books' };
+    }
+  }
+  // Composite volume slug "<work>-vol-NN" → <work>/vol-NN, only under a real work parent.
+  const m = COMPOSITE_SLUG_RE.exec(slug);
+  if (m) {
+    const [, work, vol] = m;
+    for (const bucket of BUCKETS) {
+      const wp = join(bucketRoot(bucket), work);
+      const vp = join(wp, vol);
+      if ((await isWorkParent(wp)) && (await isDir(vp))) {
+        const status = await statusOf(vp);
+        return { bucket, status, slug, dir: vp, stage: statusToStage(status), category: 'books' };
+      }
     }
   }
   // Legacy: drafts/<cat>/<slug>, then published/<cat>/<slug>.
@@ -212,6 +293,18 @@ export async function listContent(opts: { bucket?: Bucket; stage?: Stage; catego
       if (!(await isDir(dir))) continue;
       if (seen.has(dir)) continue;
       seen.add(dir);
+      // A work parent is NOT itself a book — descend and yield each volume with
+      // its composite slug. No-op when no work.yml exists → flat byte-identical.
+      if (await isWorkParent(dir)) {
+        for (const vol of await volumeDirs(dir)) {
+          const vp = join(dir, vol);
+          if (seen.has(vp)) continue;
+          seen.add(vp);
+          const status = await statusOf(vp);
+          out.push({ bucket, status, slug: `${slug}-${vol}`, dir: vp, stage: statusToStage(status), category: 'books' });
+        }
+        continue;
+      }
       const status = await statusOf(dir);
       out.push({ bucket, status, slug, dir, stage: statusToStage(status), category: 'books' });
     }
