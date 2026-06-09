@@ -17,7 +17,8 @@ export type ActivePage =
   | 'system-map'
   | 'corpus'
   | 'pronunciation'
-  | 'pipeline-paths';
+  | 'pipeline-paths'
+  | 'pre-upload';
 
 /**
  * Four domains (locked 2026-06-01 IA redesign):
@@ -39,7 +40,7 @@ export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
   { href: '/studio', label: 'Studio', section: 'studio', pages: ['studio'] },
   { href: '/library', label: 'Library', section: 'library', pages: ['library'] },
   { href: '/corpus', label: 'Corpus', section: 'corpus', pages: ['corpus', 'wisdom', 'db-schema'] },
-  { href: '/architecture', label: 'System', section: 'system', pages: ['architecture', 'intelligence', 'system-map', 'infrastructure', 'security', 'quality', 'plan', 'planner', 'overview', 'about', 'annotation-ops', 'pronunciation', 'pipeline-paths'] },
+  { href: '/architecture', label: 'System', section: 'system', pages: ['architecture', 'intelligence', 'system-map', 'infrastructure', 'security', 'quality', 'plan', 'planner', 'overview', 'about', 'annotation-ops', 'pronunciation', 'pipeline-paths', 'pre-upload'] },
 ];
 
 export const SUBNAV: Record<NavSection, NavLink[]> = {
@@ -66,6 +67,7 @@ export const SUBNAV: Record<NavSection, NavLink[]> = {
     { href: '/plan', label: 'Roadmap', pages: ['plan', 'planner'] },
     { href: '/annotation-ops', label: 'Annotations', pages: ['annotation-ops'] },
     { href: '/pronunciation', label: 'Pronunciation', pages: ['pronunciation'] },
+    { href: '/pre-upload', label: 'Pre-Upload Review', pages: ['pre-upload'] },
     { href: '/pipeline-paths', label: 'Pipeline Paths', pages: ['pipeline-paths'] },
     { href: '/overview', label: 'Operations', pages: ['overview'] },
     { href: '/about', label: 'About & Help', pages: ['about'] },

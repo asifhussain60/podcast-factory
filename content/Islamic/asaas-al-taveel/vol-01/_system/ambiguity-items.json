@@ -1,0 +1,76 @@
+{
+  "slug": "asaas-al-taveel-vol-01",
+  "generated_by": "manual-vol1-spot-check-2026-06-09",
+  "items": [
+    {
+      "id": "name-discipline-imams",
+      "priority": "high",
+      "type": "undefined_reference",
+      "description": "\"Father of Imams\" and \"the sixth Imam\" never mapped to personal names. Hosts need to know who these refer to before going on air.",
+      "episodes": ["EP01", "EP02", "EP03", "EP04", "EP05"],
+      "section": "Name discipline",
+      "framing_hint": "Add to the Name discipline section: '- The Father of Imams → Ali ibn Abi Talib; first mention add \"peace be upon him.\" Thereafter: the Father of Imams or \"Ali.\"' and '- The sixth Imam → Ja'far ibn Muhammad al-Sadiq; first mention add the name, then use \"the sixth Imam.\"'",
+      "status": "pending"
+    },
+    {
+      "id": "qaim-chapter-absent",
+      "priority": "high",
+      "type": "structural_absence",
+      "description": "The Qa'im chapter (Volume 6) is deliberately absent from this volume. Without an orientation note, listeners may be puzzled by the implied incompleteness.",
+      "episodes": ["EP01"],
+      "section": "Landing",
+      "framing_hint": "Add a closing orientation to EP01's Landing section: 'Close with a single sentence orienting the listener: this volume closes the first prophetic cycle; the seventh and final cycle — the Qa'im — is the subject of a later volume. Do not name it yet; plant the absence.'",
+      "status": "pending"
+    },
+    {
+      "id": "adam-foremost-in-resolve",
+      "priority": "medium",
+      "type": "tension",
+      "description": "The Quran (20:115) says Adam did not hold firm — implying he is NOT among the \"foremost in resolve\" — yet he is treated as the initiating Speaker-Prophet. The text never reconciles this.",
+      "episodes": ["EP04"],
+      "section": "Three-part focus",
+      "framing_hint": "Add a friction beat in EP04's Three-part focus Beat 1: 'Host B friction: \"If Adam didn't hold firm, how is he the model for the entire prophetic chain?\" Host A: Adam initiates the cycle; the five of firm resolve (Nuh, Ibrahim, Musa, Isa, Muhammad) carry it forward. His lapse is what distinguishes the initiating covenant from the completing one.'",
+      "status": "pending"
+    },
+    {
+      "id": "eve-silent-one",
+      "priority": "medium",
+      "type": "scaffolding_gap",
+      "description": "Eve is named as the Silent One / Proof (al-Samit / al-Hujja) alongside Adam's Speaker role, but this structural equivalence is not unpacked for a listener who does not know the Natiq/Asas doctrine.",
+      "episodes": ["EP04"],
+      "section": "Host dynamic",
+      "framing_hint": "Add a host context note: 'When Eve appears as the silent partner to Adam's speech, Host A should gloss this in one sentence: every Speaker-Prophet has a Foundation who holds the inner meaning without speaking it — Eve is Adam's Foundation. Do not expand beyond one sentence; the fuller doctrine belongs to later volumes.'",
+      "status": "pending"
+    },
+    {
+      "id": "ten-limit-cosmology",
+      "priority": "medium",
+      "type": "scaffolding_gap",
+      "description": "The ten-limit cosmology (Pen, Tablet, Trumpet-bearer, Michael, Gabriel, Natiq, Asas, Imams, Proofs, Captains) appears only at the end of Ch05 with no build-up in earlier chapters.",
+      "episodes": ["EP05"],
+      "section": "Three-part focus",
+      "framing_hint": "Add to EP05's Three-part focus Beat 3: 'When Host A walks the chain, slow down for the ten-limit list. Name each one and its function in one clause — do not assume the listener has the map. The chain is the architecture of the whole work; this moment earns the full minute.'",
+      "status": "pending"
+    },
+    {
+      "id": "alexandrian-genealogy",
+      "priority": "low",
+      "type": "scaffolding_gap",
+      "description": "The Alexandrian-to-Ismaili genealogy of ta'wil appears only in Ch01 and is not revisited. Listeners who miss the intro may lose the intellectual lineage the author is establishing.",
+      "episodes": ["EP01"],
+      "section": "Landing",
+      "framing_hint": "Add a closing note to EP01: 'End by naming where this tradition comes from: Greek allegorical interpretation passed through Neoplatonist channels into Ismaili ta'wil. The author is not inventing an approach — he is reclaiming one. One sentence at close is enough.'",
+      "status": "pending"
+    },
+    {
+      "id": "enoch-365-years",
+      "priority": "low",
+      "type": "scaffolding_gap",
+      "description": "Enoch (Idris) appears in the prophetic chain with his legendary 365-year lifespan unremarked. The inner meaning of the number — cycles, levels — is an unexplored opportunity.",
+      "episodes": ["EP05"],
+      "section": "Three-part focus",
+      "framing_hint": "Optional friction beat in EP05: 'Host B can ask: \"Why 365 years for Enoch specifically?\" Host A: the tradition reads that number as a cosmological signature — 365 degrees in the celestial cycle, one year of outer time for each. This is speculative framing; mark it as such.'",
+      "status": "pending"
+    }
+  ]
+}
