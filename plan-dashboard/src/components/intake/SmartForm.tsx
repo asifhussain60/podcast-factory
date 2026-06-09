@@ -111,8 +111,8 @@ export default function SmartForm({ proposed, onChange }: Props) {
     }
   }
 
-  if (loading) return <div className="intake-card"><p className="intake-hint">Loading options…</p></div>;
-  if (!options) return <div className="intake-card"><p className="intake-error">{error || 'No options'}</p></div>;
+  if (loading) return <div className="intake-card"><p className="intake-hint" role="status">Loading options…</p></div>;
+  if (!options) return <div className="intake-card"><p className="intake-error" role="alert">{error || 'No options'}</p></div>;
 
   const bucket = PROFILE_TO_BUCKET[values.content_profile] ?? 'Islamic';
 
@@ -120,8 +120,8 @@ export default function SmartForm({ proposed, onChange }: Props) {
     <div className="intake-card">
       <h2 className="intake-card-title">Production settings</h2>
       <p className="intake-hint">
-        Pre-filled from the source. Everything is a dropdown — pick, or add your own with “+ add”.
-        The folder bucket follows the content profile automatically.
+        Pre-filled from the source. Everything is a dropdown — pick, or add your own with the
+        "+ add" button. The folder bucket follows the content profile automatically.
       </p>
 
       {FIELD_LABELS.map(({ key, label }) => (
@@ -169,12 +169,12 @@ export default function SmartForm({ proposed, onChange }: Props) {
         </div>
       ))}
 
-      <div className="intake-field">
-        <span className="intake-label">Folder bucket <span>(derived from profile)</span></span>
+      <div className="intake-field" role="group" aria-labelledby="sf-bucket-label">
+        <span className="intake-label" id="sf-bucket-label">Folder bucket <span>(derived from profile)</span></span>
         <p className="intake-derived">{bucket}</p>
       </div>
 
-      {error && <p className="intake-error">{error}</p>}
+      {error && <p className="intake-error" role="alert">{error}</p>}
     </div>
   );
 }
