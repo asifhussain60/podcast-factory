@@ -249,5 +249,132 @@ class TestWrappersNeverRaise:
         assert brief.exists()
 
 
+# ─── Phase B: discriminator helpers (pure / no LLM) ──────────────────────────
+
+
+class TestSampleText:
+    def test_short_returns_unchanged(self):
+        text = "word " * 100
+        assert ac._sample_text(text, 200) == text
+
+    def test_long_returns_truncated(self):
+        text = "word " * 2000
+        sampled = ac._sample_text(text, 100)
+        assert "…" in sampled or "[…]" in sampled
+        assert len(sampled.split()) < 2000
+
+
+class TestParseDiscriminatorFindings:
+    def test_clean_verdict_returns_empty(self):
+        assert ac._parse_discriminator_findings("VERDICT: CLEAN") == []
+
+    def test_finding_parsed(self):
+        out = 'FINDING: U0B-MEANING-DRIFT | changed a claim | raw: "x" → refined: "y"'
+        findings = ac._parse_discriminator_findings(out)
+        assert len(findings) == 1
+        assert findings[0].check_id == "U0B-MEANING-DRIFT"
+        assert findings[0].severity == "P1"
+
+    def test_hallucinated_addition_is_p0(self):
+        out = 'FINDING: U0B-HALLUCINATED-ADDITION | invented | raw: "" → refined: "xyz"'
+        findings = ac._parse_discriminator_findings(out)
+        assert findings[0].severity == "P0"
+
+    def test_unknown_check_id_maps_to_p1(self):
+        out = "FINDING: U0B-UNKNOWN-THING | some issue | raw: a → refined: b"
+        findings = ac._parse_discriminator_findings(out)
+        assert findings[0].severity == "P1"
+
+    def test_malformed_line_ignored(self):
+        out = "FINDING: no-pipe-here just text"
+        assert ac._parse_discriminator_findings(out) == []
+
+    def test_noisy_output_only_extracts_finding_lines(self):
+        out = (
+            "Here is my analysis:\n"
+            "The text looks mostly good.\n"
+            'FINDING: U0B-DROPPED-TEACHING | dropped ayah | raw: "verse" → refined: ""\n'
+            "Overall, acceptable work.\n"
+        )
+        findings = ac._parse_discriminator_findings(out)
+        assert len(findings) == 1
+        assert findings[0].check_id == "U0B-DROPPED-TEACHING"
+
+
+class TestBuild0bDiscriminatorPrompt:
+    def test_prompt_contains_check_ids(self):
+        p = ac.build_0b_discriminator_prompt("test-book", "raw sample", "refined sample")
+        for cid in ["U0B-MEANING-DRIFT", "U0B-DROPPED-TEACHING",
+                    "U0B-HALLUCINATED-ADDITION", "U0B-REGISTER-SHIFT"]:
+            assert cid in p
+
+    def test_prompt_contains_samples(self):
+        p = ac.build_0b_discriminator_prompt("test-book", "MY_RAW_SAMPLE", "MY_REFINED_SAMPLE")
+        assert "MY_RAW_SAMPLE" in p
+        assert "MY_REFINED_SAMPLE" in p
+
+    def test_prompt_includes_slug(self):
+        p = ac.build_0b_discriminator_prompt("slug-xyz", "r", "f")
+        assert "slug-xyz" in p
+
+
+class TestRun0bPrecheckWithDiscriminator:
+    """run_0b_precheck when phase_0b_discriminator_cap_usd > 0."""
+
+    @pytest.fixture(autouse=True)
+    def _no_real_ledger(self, monkeypatch):
+        monkeypatch.setattr(ac, "_emit_findings", lambda *a, **k: None)
+
+    def test_discriminator_fires_when_cap_set(self, book, monkeypatch):
+        # Stub series-plan cap and cost function via monkeypatching the
+        # import inside run_0b_precheck.
+        import types
+        sp_mock = types.SimpleNamespace(
+            _series_numeric=lambda bd, name, default=0.0: 2.0,
+            _book_cost_so_far=lambda bd: 0.0,
+        )
+        monkeypatch.setitem(sys.modules, "phases.series_plan", sp_mock)
+
+        disc_calls = {"n": 0}
+        # Stub discriminate_0b_fidelity so no real LLM call happens.
+        monkeypatch.setattr(ac, "discriminate_0b_fidelity",
+                            lambda bd, raw, refined, log=print: (
+                                disc_calls.__setitem__("n", disc_calls["n"] + 1) or []
+                            ))
+
+        # Create the required files.
+        text_dir = book / "_system" / "source" / "text"
+        text_dir.mkdir(parents=True)
+        (text_dir / "raw-extract.md").write_text("word " * 100, encoding="utf-8")
+        (text_dir / "refined-english.md").write_text("word " * 90, encoding="utf-8")
+
+        out = ac.run_0b_precheck(book, log=lambda *a: None)
+        assert out.proceeded is True
+        assert disc_calls["n"] == 1
+
+    def test_discriminator_off_when_cap_zero(self, book, monkeypatch):
+        import types
+        sp_mock = types.SimpleNamespace(
+            _series_numeric=lambda bd, name, default=0.0: 0.0,
+            _book_cost_so_far=lambda bd: 0.0,
+        )
+        monkeypatch.setitem(sys.modules, "phases.series_plan", sp_mock)
+
+        disc_calls = {"n": 0}
+        monkeypatch.setattr(ac, "discriminate_0b_fidelity",
+                            lambda bd, raw, refined, log=print: (
+                                disc_calls.__setitem__("n", disc_calls["n"] + 1) or []
+                            ))
+
+        text_dir = book / "_system" / "source" / "text"
+        text_dir.mkdir(parents=True)
+        (text_dir / "raw-extract.md").write_text("word " * 100, encoding="utf-8")
+        (text_dir / "refined-english.md").write_text("word " * 90, encoding="utf-8")
+
+        out = ac.run_0b_precheck(book, log=lambda *a: None)
+        assert out.proceeded is True
+        assert disc_calls["n"] == 0  # discriminator must NOT fire when cap=0
+
+
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-v"]))

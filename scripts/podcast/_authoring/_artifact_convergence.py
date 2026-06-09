@@ -214,6 +214,174 @@ def precheck_enriched_chapter(before_text: str, after_text: str,
     return findings
 
 
+# ─── Phase B: 0b fidelity LLM discriminator ──────────────────────────────────
+#
+# Opt-in via ``phase_0b_discriminator_cap_usd`` in ``series-plan.md`` (default
+# 0.0 = off). When enabled, a frozen `claude -p` call scores a bounded sample of
+# refined-english.md against raw-extract.md on 4 fidelity axes. Pure flag-and-
+# proceed: findings surface to the 06a/0ci human gate; the fixer path is left to
+# Phase B.2. Zero cost impact until a book opts in.
+
+# Words sampled from each side (raw / refined) for the discriminator. First-
+# half + last-half captures both the document opening (highest drift risk after
+# windowed refinement seam) and the closing (where LLM attention degrades).
+DISCRIMINATOR_0B_SAMPLE_WORDS = 1500
+
+# Discriminator check IDs — prefixed U0B-* consistent with the Phase A set.
+_U0B_MEANING_DRIFT = "U0B-MEANING-DRIFT"
+_U0B_DROPPED_TEACHING = "U0B-DROPPED-TEACHING"
+_U0B_HALLUCINATED_ADDITION = "U0B-HALLUCINATED-ADDITION"
+_U0B_REGISTER_SHIFT = "U0B-REGISTER-SHIFT"
+
+# Severity map. Hallucinated-addition is P0: adding content to a scholarly
+# religious text is more dangerous than dropping or shifting register.
+_DISCRIMINATOR_0B_SEVERITY: dict[str, str] = {
+    _U0B_MEANING_DRIFT: "P1",
+    _U0B_DROPPED_TEACHING: "P1",
+    _U0B_HALLUCINATED_ADDITION: "P0",
+    _U0B_REGISTER_SHIFT: "P2",
+}
+
+# Timeout for a single discriminator LLM call (shorter than FIXER_TIMEOUT —
+# the discriminator only reads, it does not rewrite).
+_U0B_DISCRIMINATOR_TIMEOUT = 300
+
+
+def _sample_text(text: str, max_words: int) -> str:
+    """Return a bounded first-half + last-half sample of ``text``."""
+    words = text.split()
+    if len(words) <= max_words:
+        return text
+    half = max_words // 2
+    return " ".join(words[:half]) + "\n\n[…]\n\n" + " ".join(words[-half:])
+
+
+def _parse_discriminator_findings(output: str,
+                                  file: str = "") -> list[ArtifactFinding]:
+    """Parse ``FINDING:`` lines from the discriminator's LLM output.
+
+    Expects lines of the form:
+        FINDING: <CHECK_ID> | <description> | <context>
+    or the clean sentinel:
+        VERDICT: CLEAN
+    Unknown check IDs are mapped to P1 and kept (never silently dropped).
+    """
+    if "VERDICT: CLEAN" in output:
+        return []
+    findings: list[ArtifactFinding] = []
+    for line in output.splitlines():
+        s = line.strip()
+        if not s.startswith("FINDING:"):
+            continue
+        body = s[len("FINDING:"):].strip()
+        parts = body.split("|", 2)
+        if len(parts) < 2:
+            continue
+        check_id = parts[0].strip()
+        message = parts[1].strip()
+        context = parts[2].strip() if len(parts) > 2 else ""
+        severity = _DISCRIMINATOR_0B_SEVERITY.get(check_id, "P1")
+        findings.append(ArtifactFinding(
+            check_id=check_id,
+            severity=severity,
+            signature=check_id,
+            message=message,
+            file=file,
+            context_excerpt=context,
+        ))
+    return findings
+
+
+def build_0b_discriminator_prompt(
+    book_slug: str,
+    raw_sample: str,
+    refined_sample: str,
+) -> str:
+    """Return the frozen fidelity-discriminator prompt for Phase 0b.
+
+    Frozen: the text of this prompt is part of the regression contract. Change
+    only with an accompanying test update and a note in the commit message.
+    """
+    return (
+        f"You are a fidelity discriminator for the podcast-factory 0b refinement "
+        f"phase on book `{book_slug}`.\n\n"
+        f"Your task: compare the RAW machine-translated sample against the REFINED "
+        f"sample produced by Phase 0b. Identify fidelity failures — NOT stylistic "
+        f"improvements or sentence restructuring that preserves meaning.\n\n"
+        f"RAW SAMPLE (machine translation — ground truth for meaning):\n"
+        f"---\n{raw_sample}\n---\n\n"
+        f"REFINED SAMPLE (Phase 0b output):\n"
+        f"---\n{refined_sample}\n---\n\n"
+        f"Score these axes. Emit a FINDING only for a clear, specific failure:\n"
+        f"  {_U0B_MEANING_DRIFT}         — refined text changes the meaning of a statement\n"
+        f"  {_U0B_DROPPED_TEACHING}      — a teaching, Quranic reference, or example present in RAW "
+        f"is missing from REFINED\n"
+        f"  {_U0B_HALLUCINATED_ADDITION} — content in REFINED has no basis in RAW (CRITICAL — P0)\n"
+        f"  {_U0B_REGISTER_SHIFT}        — register shift (e.g. scholarly → casual)\n\n"
+        f"Output format for each finding:\n"
+        f'FINDING: <CHECK_ID> | <one-sentence description> | '
+        f'raw: "<exact raw phrase>" → refined: "<exact refined phrase>"\n\n'
+        f"If NO problems are found, output exactly:\n"
+        f"VERDICT: CLEAN\n\n"
+        f"Rules:\n"
+        f"- Be CONSERVATIVE: a noisy discriminator wastes human attention. If you are "
+        f"  not certain a finding is real, do not emit it.\n"
+        f"- DO NOT flag: synonym substitution, sentence reordering, or clarity edits "
+        f"  that preserve both meaning and register.\n"
+        f"- DO flag: changed factual claims, dropped Quranic/hadith citations, "
+        f"  invented proper names, dropped doctrinal explanations.\n"
+        f"- Emit at most 5 findings total. Stop after 5.\n"
+        f"- Output ONLY the FINDING: / VERDICT: lines — no preamble or explanation.\n"
+    )
+
+
+def discriminate_0b_fidelity(
+    book_dir: Path,
+    raw_text: str,
+    refined_text: str,
+    *,
+    log=print,
+) -> list[ArtifactFinding]:
+    """Phase B: invoke the frozen fidelity discriminator for 0b.
+
+    Compares bounded samples of ``raw_text`` and ``refined_text`` on 4 fidelity
+    axes. Returns findings (empty = CLEAN). NEVER raises — the caller's
+    ``discriminator_fn`` wrapper swallows exceptions inside ``converge_artifact``.
+    """
+    try:
+        from ._core import _run_claude_p
+    except ImportError:
+        from _authoring._core import _run_claude_p  # direct-invocation fallback
+
+    refined_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
+    raw_sample = _sample_text(raw_text, DISCRIMINATOR_0B_SAMPLE_WORDS)
+    refined_sample = _sample_text(refined_text, DISCRIMINATOR_0B_SAMPLE_WORDS)
+    prompt = build_0b_discriminator_prompt(book_dir.name, raw_sample, refined_sample)
+    log(
+        f"  phase 0b · discriminator: scoring fidelity "
+        f"(sample≤{DISCRIMINATOR_0B_SAMPLE_WORDS}w each side) …"
+    )
+    rc, stdout, _stderr = _run_claude_p(
+        prompt,
+        book_dir=book_dir,
+        phase="0b-discriminator",
+        step="fidelity-score",
+        timeout=_U0B_DISCRIMINATOR_TIMEOUT,
+    )
+    if rc != 0:
+        log(f"  phase 0b · discriminator: rc={rc} — treating as CLEAN (flag-and-proceed)")
+        return []
+    findings = _parse_discriminator_findings(stdout, file=str(refined_path))
+    if findings:
+        log(
+            f"  phase 0b · discriminator: {len(findings)} finding(s) — "
+            + ", ".join(f.check_id for f in findings)
+        )
+    else:
+        log("  phase 0b · discriminator: CLEAN")
+    return findings
+
+
 # ─── Findings ledger emission ────────────────────────────────────────────────
 
 
@@ -385,21 +553,26 @@ def converge_artifact(
 
 
 def run_0b_precheck(book_dir: Path, *, log=print) -> ArtifactOutcome:
-    """Phase A: deterministic-only validation of 0b's refined-english.md.
+    """Phase A+B: validation of 0b's refined-english.md.
 
-    Reads the raw input + refined output, runs the bounded loop with no LLM,
-    emits findings to the ledger + writes the human-gate brief, and returns the
-    outcome. NEVER raises — a precheck failure must not break Phase 0b.
+    Phase A (always free, always runs): deterministic pre-checks — empty,
+    length-drift, structure-collapse.
+
+    Phase B (opt-in, default off): LLM fidelity discriminator. Enabled when
+    ``**Phase 0b Discriminator Cap Usd:** <value>`` is set to a positive float
+    in ``_system/series-plan.md``. Scores a bounded sample (≤DISCRIMINATOR_0B_SAMPLE_WORDS
+    words each side) on 4 axes: meaning-drift, dropped-teaching, hallucinated-
+    addition, register-shift. Flag-and-proceed — never blocks 0b.
+
+    NEVER raises — a precheck must not break Phase 0b.
     """
     raw_path = book_dir / "_system" / "source" / "text" / "raw-extract.md"
     refined_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
     rel = str(refined_path)
     _clean = ArtifactOutcome(label="0b:refined-english.md", converged=True,
                              rounds=0, discriminator_calls=0, fixer_calls=0)
-    # The wrapper is an advisory safety net invoked AFTER 0b has already
-    # hard-asserted a non-empty refined-english.md. If the refined artifact is
-    # absent or empty here, the phase's own assertion is the authority — skip
-    # rather than emit a spurious U0B-EMPTY (a false positive on missing input).
+    # The wrapper is advisory — invoked AFTER 0b hard-asserts non-empty. If the
+    # artifact is absent/empty here the phase's own assertion is the authority.
     if not refined_path.exists() or refined_path.stat().st_size == 0:
         log("  phase 0b · precheck skipped (no refined artifact to check)")
         return _clean
@@ -410,10 +583,36 @@ def run_0b_precheck(book_dir: Path, *, log=print) -> ArtifactOutcome:
         log(f"  phase 0b · precheck skipped (read error: {e})")
         return _clean
 
+    # Phase B: read the discriminator cost cap from series-plan.md.
+    disc_cap = 0.0
+    try:
+        from phases.series_plan import _series_numeric
+        disc_cap = _series_numeric(
+            book_dir, "phase_0b_discriminator_cap_usd", default=0.0)
+    except Exception:  # noqa: BLE001
+        pass
+
+    discriminator_fn: Optional[Callable[[], list[ArtifactFinding]]] = None
+    cost_fn: Optional[Callable[[], float]] = None
+    if disc_cap > 0.0:
+        _raw_captured = raw_text
+        _refined_captured = refined_text
+        discriminator_fn = lambda: discriminate_0b_fidelity(
+            book_dir, _raw_captured, _refined_captured, log=log)
+        try:
+            from phases.series_plan import _book_cost_so_far
+            cost_fn = lambda: _book_cost_so_far(book_dir)
+        except Exception:  # noqa: BLE001
+            pass
+        log(f"  phase 0b · discriminator enabled (cap=${disc_cap:.2f})")
+
     outcome = converge_artifact(
         label="0b:refined-english.md",
         book_dir=book_dir,
         precheck_fn=lambda: precheck_refined_english(raw_text, refined_text, file=rel),
+        discriminator_fn=discriminator_fn,
+        cost_cap_usd=disc_cap,
+        cost_fn=cost_fn,
         log=log,
     )
     _emit_findings(outcome.findings, book_slug=book_dir.name, source="precheck-0b")
