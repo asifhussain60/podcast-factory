@@ -109,9 +109,11 @@
 .pu-table tr.is-ok      td { background: color-mix(in oklab, var(--c-green)   6%, transparent); }
 .pu-table tr.is-fix     td { background: color-mix(in oklab, var(--c-amber)   8%, transparent); }
 .pu-table tr.is-replace td { background: color-mix(in oklab, var(--c-planner) 8%, transparent); }
+.pu-table tr.is-delete  td { background: color-mix(in oklab, var(--c-red)     7%, transparent); }
 .pu-table tr.is-ok:hover td,
 .pu-table tr.is-fix:hover td,
-.pu-table tr.is-replace:hover td { filter: brightness(0.98); }
+.pu-table tr.is-replace:hover td,
+.pu-table tr.is-delete:hover td { filter: brightness(0.98); }
 
 .pu-n {
   color: var(--c-ink-muted);
@@ -177,6 +179,12 @@
   background: color-mix(in oklab, var(--c-planner) 14%, var(--c-bg-card));
   border-color: var(--c-planner);
   color: var(--c-planner);
+}
+
+.pu-radio-btn.is-delete-active {
+  background: color-mix(in oklab, var(--c-red) 14%, var(--c-bg-card));
+  border-color: var(--c-red);
+  color: var(--c-red);
 }
 
 .pu-radio-btn:hover { border-color: var(--c-ink-dim); }
@@ -263,6 +271,15 @@
 }
 .pu-btn-replace:hover:not(:disabled) {
   background: color-mix(in oklab, var(--c-planner) 85%, black);
+}
+
+.pu-btn-danger {
+  background: var(--c-red);
+  border-color: var(--c-red);
+  color: white;
+}
+.pu-btn-danger:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--c-red) 85%, black);
 }
 
 .pu-btn-sm {

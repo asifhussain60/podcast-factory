@@ -100,7 +100,6 @@ const RAW: Record<string, Translation> = {
 
   // ── Asas al-Taweel vol-01 specific ───────────────────────────────────────
   'ismailiyya': { english: 'the Ismaili community' },
-  'ka\'ba':     { english: 'Kaaba' },
   "ka'ba":      { english: 'Kaaba' },
   'kaaba':      { english: 'Kaaba' },
   'al-husayn':  { english: 'al-Husayn',  note: 'grandson of the Prophet — name kept in Islamic contexts' },

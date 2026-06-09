@@ -181,6 +181,82 @@ async function applySourceReplacements(
   return apiOk({ files_changed: filesChanged, total_replacements: totalReplacements });
 }
 
+// ─── apply-deletions-to-source ─────────────────────────────────────────────
+
+function splitIntoSentences(text: string): string[] {
+  const parts = text.split(/(?<=[.!?])\s+/);
+  return parts.map(s => s.trim()).filter(Boolean);
+}
+
+async function applyDeletionsToSource(
+  slug: string,
+  deletions: Array<{ term: string; substitute: string }>,
+): Promise<Response> {
+  const ref = await findContent(slug);
+  if (!ref) return apiError('Book not found', 404);
+  const bookDir = ref.dir;
+
+  const chaptersDir = join(bookDir, 'chapters');
+  if (!existsSync(chaptersDir)) return apiError('chapters/ directory not found', 404);
+
+  const { readdirSync } = await import('node:fs');
+  const files = readdirSync(chaptersDir).filter((f: string) => f.endsWith('.txt') || f.endsWith('.md'));
+
+  let filesChanged = 0;
+  let totalChanges = 0;
+
+  for (const fname of files) {
+    const fpath = join(chaptersDir, fname);
+    let content = await readFile(fpath, 'utf-8');
+    let changed = false;
+
+    for (const { term, substitute } of deletions) {
+      if (!term.trim()) continue;
+      const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+      if (substitute.trim()) {
+        // Replace term with generic substitute
+        const regex = new RegExp(`\\b${escaped}\\b`, 'gi');
+        const matches = content.match(regex);
+        if (matches && matches.length > 0) {
+          totalChanges += matches.length;
+          content = content.replace(regex, substitute.trim());
+          changed = true;
+        }
+      } else {
+        // Remove entire sentences containing the term
+        const termRegex = new RegExp(`\\b${escaped}\\b`, 'i');
+        const paragraphs = content.split(/\n\n+/);
+        const newParagraphs: string[] = [];
+        let didChange = false;
+
+        for (const para of paragraphs) {
+          const sentences = splitIntoSentences(para);
+          const kept = sentences.filter(s => !termRegex.test(s));
+          if (kept.length !== sentences.length) {
+            didChange = true;
+            totalChanges += sentences.length - kept.length;
+          }
+          const rejoined = kept.join(' ').trim();
+          if (rejoined) newParagraphs.push(rejoined);
+        }
+
+        if (didChange) {
+          content = newParagraphs.join('\n\n');
+          changed = true;
+        }
+      }
+    }
+
+    if (changed) {
+      await writeFile(fpath, content, 'utf-8');
+      filesChanged++;
+    }
+  }
+
+  return apiOk({ files_changed: filesChanged, total_changes: totalChanges });
+}
+
 // ─── route handler ─────────────────────────────────────────────────────────
 
 export const POST: APIRoute = async ({ request }) => {
@@ -194,6 +270,7 @@ export const POST: APIRoute = async ({ request }) => {
     if (action === 'save-checklist') return saveChecklist(slug, body.terms ?? []);
     if (action === 'apply-fix') return applyFix(slug, body.item_id, body.episode_id, body.section, body.fix_text);
     if (action === 'apply-source-replacements') return applySourceReplacements(slug, body.replacements ?? []);
+    if (action === 'apply-deletions-to-source') return applyDeletionsToSource(slug, body.deletions ?? []);
     if (action === 'mark-fix-status') {
       const ref = await findContent(slug);
       if (!ref) return apiError('Book not found', 404);

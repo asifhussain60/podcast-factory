@@ -16,7 +16,7 @@ interface ChecklistTerm {
   n: number;
   term: string;
   rendered: string;
-  ok: '' | 'y' | 'n' | 'r';
+  ok: '' | 'y' | 'n' | 'r' | 'd';
   fix: string;
 }
 
@@ -59,7 +59,7 @@ function ChecklistRow({
     onChange(next);
   }
 
-  const rowClass = row.ok === 'y' ? 'is-ok' : row.ok === 'n' ? 'is-fix' : row.ok === 'r' ? 'is-replace' : '';
+  const rowClass = row.ok === 'y' ? 'is-ok' : row.ok === 'n' ? 'is-fix' : row.ok === 'r' ? 'is-replace' : row.ok === 'd' ? 'is-delete' : '';
 
   return (
     <tr className={rowClass}>
@@ -98,6 +98,15 @@ function ChecklistRow({
             />
             Replace
           </label>
+          <label className={`pu-radio-btn${row.ok === 'd' ? ' is-delete-active' : ''}`}>
+            <input
+              type="radio"
+              name={`ok-${row.n}`}
+              checked={row.ok === 'd'}
+              onChange={() => update({ ok: 'd', fix: '' })}
+            />
+            Delete
+          </label>
         </div>
       </td>
       <td>
@@ -107,10 +116,11 @@ function ChecklistRow({
           placeholder={
             row.ok === 'n' ? 'substitute for NotebookLM framing…' :
             row.ok === 'r' ? 'English / biblical equivalent in source…' :
+            row.ok === 'd' ? 'generic substitute — or leave blank to drop the sentence' :
             ''
           }
           value={row.fix}
-          disabled={row.ok !== 'n' && row.ok !== 'r'}
+          disabled={row.ok !== 'n' && row.ok !== 'r' && row.ok !== 'd'}
           onChange={(e) => update({ fix: e.target.value })}
         />
       </td>
@@ -124,14 +134,22 @@ function PronunciationTab({ slug, terms: initTerms, audioPath }: { slug: string;
   const [saveMsg, setSaveMsg] = useState('');
   const [replaceState, setReplaceState] = useState<'idle' | 'applying' | 'done' | 'error'>('idle');
   const [replaceMsg, setReplaceMsg] = useState('');
+  const [deleteState, setDeleteState] = useState<'idle' | 'applying' | 'done' | 'error'>('idle');
+  const [deleteMsg, setDeleteMsg] = useState('');
 
   const handleChange = useCallback((updated: ChecklistTerm) => {
     setTerms(prev => prev.map(t => t.n === updated.n ? updated : t));
   }, []);
 
-  const done = terms.filter(t => t.ok === 'y' || (t.ok === 'n' && t.fix.trim()) || (t.ok === 'r' && t.fix.trim())).length;
+  const done = terms.filter(t =>
+    t.ok === 'y' ||
+    (t.ok === 'n' && t.fix.trim()) ||
+    (t.ok === 'r' && t.fix.trim()) ||
+    t.ok === 'd'
+  ).length;
   const total = terms.length;
   const replaceTerms = terms.filter(t => t.ok === 'r' && t.fix.trim());
+  const deleteTerms = terms.filter(t => t.ok === 'd');
 
   async function handleSave() {
     setSaveState('saving');
@@ -183,12 +201,39 @@ function PronunciationTab({ slug, terms: initTerms, audioPath }: { slug: string;
     setTimeout(() => setReplaceState('idle'), 6000);
   }
 
+  async function handleApplyDeletions() {
+    setDeleteState('applying');
+    try {
+      const res = await fetch('/api/pre-upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'apply-deletions-to-source',
+          slug,
+          deletions: deleteTerms.map(t => ({ term: t.term, substitute: t.fix })),
+        }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setDeleteState('done');
+        setDeleteMsg(`${data.total_changes} change${data.total_changes !== 1 ? 's' : ''} across ${data.files_changed} file${data.files_changed !== 1 ? 's' : ''}`);
+      } else {
+        setDeleteState('error');
+        setDeleteMsg(data.error ?? 'Failed');
+      }
+    } catch (e) {
+      setDeleteState('error');
+      setDeleteMsg(String(e));
+    }
+    setTimeout(() => setDeleteState('idle'), 6000);
+  }
+
   return (
     <section aria-label="Pronunciation Review">
       <div className="pu-section-head">
         <h2 className="pu-section-title">Pronunciation Review</h2>
         <p className="pu-section-note">
-          Listen to the EP00 probe, then mark each term <strong>OK</strong> (correct), <strong>Fix</strong> (substitute for NotebookLM framing), or <strong>Replace</strong> (swap the Arabic term with its English/biblical equivalent in the chapter source files). Do <em>not</em> write hyphen-CAPS respellings — NotebookLM reads those literally.
+          Listen to the EP00 probe, then mark each term: <strong>OK</strong> (correct), <strong>Fix</strong> (substitute in NotebookLM framing only), <strong>Replace</strong> (swap with English/biblical equivalent in chapter source), or <strong>Delete</strong> (type a generic substitute, e.g. "the Fatimid scholar" — or leave blank to drop the whole sentence). Do <em>not</em> write hyphen-CAPS respellings.
         </p>
       </div>
 
@@ -237,6 +282,17 @@ function PronunciationTab({ slug, terms: initTerms, audioPath }: { slug: string;
              `Apply ${replaceTerms.length} replacement${replaceTerms.length !== 1 ? 's' : ''} to source`}
           </button>
         )}
+        {deleteTerms.length > 0 && (
+          <button
+            className="pu-btn pu-btn-danger"
+            disabled={deleteState === 'applying'}
+            onClick={handleApplyDeletions}
+          >
+            {deleteState === 'applying' ? 'Applying…' :
+             deleteState === 'done'     ? '✓ Deletions applied' :
+             `Apply ${deleteTerms.length} deletion${deleteTerms.length !== 1 ? 's' : ''} to source`}
+          </button>
+        )}
         <span className="pu-save-status">
           {done}/{total} terms reviewed
         </span>
@@ -244,6 +300,8 @@ function PronunciationTab({ slug, terms: initTerms, audioPath }: { slug: string;
         {saveState === 'error'     && <span className="pu-save-status error">{saveMsg}</span>}
         {replaceState === 'done'   && <span className="pu-save-status success">{replaceMsg}</span>}
         {replaceState === 'error'  && <span className="pu-save-status error">{replaceMsg}</span>}
+        {deleteState === 'done'    && <span className="pu-save-status success">{deleteMsg}</span>}
+        {deleteState === 'error'   && <span className="pu-save-status error">{deleteMsg}</span>}
       </div>
     </section>
   );
@@ -448,7 +506,7 @@ type Tab = 'pronunciation' | 'ambiguity';
 export default function PreUploadTabs({ slug, title, terms, ambiguityItems, audioPath }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>('pronunciation');
 
-  const pronDone  = terms.filter(t => t.ok === 'y' || (t.ok === 'n' && t.fix.trim())).length;
+  const pronDone  = terms.filter(t => t.ok === 'y' || (t.ok === 'n' && t.fix.trim()) || (t.ok === 'r' && t.fix.trim()) || t.ok === 'd').length;
   const ambApplied = ambiguityItems.filter(i => i.status === 'applied').length;
 
   return (

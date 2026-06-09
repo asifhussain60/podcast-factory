@@ -17,7 +17,7 @@ export interface ChecklistTerm {
   n: number;
   term: string;
   rendered: string;
-  ok: '' | 'y' | 'n' | 'r';
+  ok: '' | 'y' | 'n' | 'r' | 'd';
   fix: string;
 }
 
@@ -62,7 +62,7 @@ function parseChecklistTable(md: string): ChecklistTerm[] {
     const term = cells[1] ?? '';
     const rendered = cells[2] ?? '';
     const okRaw = (cells[3] ?? '').trim().toLowerCase();
-    const ok: '' | 'y' | 'n' | 'r' = okRaw === 'y' ? 'y' : okRaw === 'n' ? 'n' : okRaw === 'r' ? 'r' : '';
+    const ok: '' | 'y' | 'n' | 'r' | 'd' = okRaw === 'y' ? 'y' : okRaw === 'n' ? 'n' : okRaw === 'r' ? 'r' : okRaw === 'd' ? 'd' : '';
     const fix = cells[4] ?? '';
     terms.push({ n, term, rendered, ok, fix });
   }
