@@ -235,6 +235,9 @@ _workspace/audit/
 # Sanitizer backups (created by scripts/podcast/sanitize_contract_yaml.py)
 *.yml.bak
 
+# Framing signature cache (runtime hash used by pipeline to detect framing changes)
+.framing-sig
+
 # VSCode workspace favorites (user-local IDE state)
 .favorites.json
 raw/

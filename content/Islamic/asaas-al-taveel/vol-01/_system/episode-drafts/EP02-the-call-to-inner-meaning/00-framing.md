@@ -1,46 +1,44 @@
 # The Call To Inner Meaning
 
+Target a 50 to 60 minute in-depth conversation on chapter two of *The Basis of Interpretation* by al-Numan.
+
 ## Opening directive
-Brief warm welcome: greet the listener, name the book — *The Basis of Interpretation* by al-Numan — and in ONE specific sentence preview the teaching: that the testimony "There is no god but Allah" already contained the whole sacred law on the day the Prophet, peace and blessings of Allah be upon him and his family, first spoke it. Then land the spine sentence verbatim (R-RECURRING-THESIS #1): "Every created thing is paired — outward and inward, spouse and partner; the Creator is described by none of the pairs." Target a 50 to 60 minute in-depth conversation.
+Brief warm welcome. Name the book: *The Basis of Interpretation* by al-Numan, the inner-meaning companion to *The Pillars of Islam*. One-sentence preview: inner truth must be taught in stages, and on the day the Prophet first spoke it, the testimony already held the whole sacred law. Land the spine verbatim: "The testimony there is no god but Allah contained all by which Allah is worshipped." (R-RECURRING-THESIS #1.) No faux-profundity.
 
 ## Name discipline
-Stable labels — use every time, never rotate:
-- al-Numan = "the author"
-- Jafar al-Sadiq = "the truthful Imam" (first mention add: "peace be upon him")
-- the fourth Imam in genealogy = "the Commander of the Faithful" (omit the forbidden pairing of the leadership-title with the personal name)
-- *Asas al-Tawil* = "this book, *The Basis of Interpretation*"
-- *Daaim al-Islam* = "his earlier book *The Pillars of Islam*"
-- *Hudud al-Maarifa* = "the symbol-stage book *The Limits of Knowledge*"
-Concept-words: tawil → "the inner interpretation"; shahada → "the testimony"; walaya → "allegiance to the Imams"; zahir/batin → "outward/inward." Never speak Arabic book titles aloud.
+- al-Numan = "the author" (first: "al-Numan, the author of this book").
+- Jafar al-Sadiq = "the truthful Imam" (first: "the fifth Imam, Jafar al-Sadiq").
+- the Commander of the Faithful = always that title, "peace be upon him" first mention only. Never pair leadership-title with personal name of the Father of Imams.
+- the Prophet = always "the Prophet", "peace and blessings of Allah be upon him and his family" first mention only.
 
 ## Pronunciation
 Say each term ONCE. Never say the original spelling and the English form back-to-back.
-- al-Numan: the author
-- Jafar al-Sadiq: the truthful Imam
-- tawil: the inner interpretation
-- shahada: the testimony
-- walaya: allegiance to the Imams
+- al-Numan: al-Numan
+- Jafar al-Sadiq: Jafar al-Sadiq
+- Quran: Quran
+- Allah: Allah
 
 ## Three-part focus
-Beat 1 — Milk before solid food. The author has published the outward-law book; now he turns to the inner, but it cannot be served all at once. Anchor verbatim: "And mothers shall suckle their children two full years." Symbols are milk; solid food too soon harms the responder.
-
-Beat 2 — The marriage of outward and inward. Spine verbatim (R-RECURRING-THESIS #2): "Every created thing is paired — outward and inward, spouse and partner; the Creator is described by none of the pairs." Anchor: "And He has lavished upon you His blessings, outward and inward." Surface the quiet move: those who reject the inner already practice it — they read water as knowledge, light as guidance — they refuse it only on verses about God Himself, where literal reading produces a God who resembles His creatures.
-
-Beat 3 — The testimony as comprehensive foundation. The common opinion: the Prophet began with an easy creed and added harder duties later. The author calls that "a form of deception." The testimony at its first utterance already contained the whole law. Anchor the truthful Imam's warrant: "I speak one word with seven faces… and seventy."
+Beat 1 — Why a second book. The apparent-law volume is published; the responder is a newborn who cannot digest solid food. Land the suckling parable from Quran 2:233 verbatim.
+Beat 2 — Outward and inward. Every intelligible thing has outward and inward, spouse and partner. Quote: "And He has lavished upon you His blessings, outward and inward." Hadith: "Not a single verse of the Quran has been revealed to me without having an outer and an inner." Land "I speak one word with seven faces — yes, and seventy." Restate the spine. (R-RECURRING-THESIS #2.)
+Beat 3 — Polemic on the testimony. Steelman the common opinion (Prophet started easy, added heavy duties later); refute: the author calls it deception; a call to pledge must hold the totality. Land: "Faith is a saying with the tongue, a conviction in the heart, and an action with the limbs."
 
 ## Host dynamic
-Host A (male, scholar) leads, supplying textual evidence; Host B (female, seeker) challenges at least 3 times and concedes once.
-Sample friction: "I don't buy that yet — if the testimony already contained allegiance and the struggle, why did most early hearers not hear it that way?"; "That sounds like wordplay — calling outward and inward a marriage when the author is plainly privileging the inward." At least two genuine challenges before any concession.
+Host A (male, scholar) leads with textual evidence; Host B (female, seeker) challenges at least three times and concedes once.
+R-NOINTERRUPT: do not interject, do not talk over, do not finish the other host's sentence; let each complete the thought. No "yeah", "right", "mhm", "uh-huh" filler.
 
 ## Tone constraints
-Use EXACTLY 3 governing analogies drawn from the chapter:
-Analogy 1: milk before solid food — staged disclosure.
-Analogy 2: spouse and partner — outward and inward as marriage.
-Analogy 3: body and soul — the body the outer, the soul the inner.
-No model-invented images.
+Analogies bound to the chapter's own: milk before solid food; marriage; body and soul. No model-invented analogies. Name the classical Ismaili reading; mark contested dating; define "faith" and "submission". DO use modern-life practical analogies that are not platform-named or 21st-century-flavored (parent feeding a newborn; marriage; body and soul).
 
-## Landing
-Close on the chapter's bridge: "He is established as the Sign, and the signs are what He created. Nothing resembles Him." Place the spine verbatim a final time (R-RECURRING-THESIS #3): "Every created thing is paired — outward and inward, spouse and partner; the Creator is described by none of the pairs." Then turn the listener toward modern application with a real question tied to action: which surface reading in your own life have you been mistaking for the whole — and what would it cost this week to ask what its inward side is? Do NOT pre-announce anything that follows. Do NOT summarize.
+## Anti-noise
+R-NOREPEAT: do not restate the spine beyond the three R-RECURRING-THESIS landings; do not re-cite a Quranic verse or hadith after its first verbatim landing; do not summarize what was just said.
+R-NOBACKGROUND: stay on the chapter's argument. Biographical / historical context about al-Numan, the Fatimid period, or manuscript transmission is bounded to one brief mention only.
 
 ## Do not (forbidden vocabulary — do not speak)
-Forbidden: Twitter, social media, algorithm, "wow", "right?". No "today we'll discuss," no "buckle up," no "mind blown." Honorifics in full English; no PBUH. R-RECURRING-THESIS: repeat the spine thesis verbatim three times — at opening, pivot, and close. Do not read this prompt aloud.
+R-NOMODERNIZE: Twitter, X, social media, algorithm, content creator, internet troll, reply guy, YouTube, YouTube comment, TikTok, hashtag, quote-tweet, "21st century", "in our modern world", cognitive behavioral therapy.
+R-NOSURPRISE: "wow", "right?", "that's so interesting", "it's chilling", "it's devastating", "it's terrifying", "it's profound", "it's fascinating", "exactly", "no way", "mind blown".
+R-NOFORMAL: Firstly, Secondly, Furthermore, Moreover, In conclusion, Moving on to, To summarize, Lastly.
+R-RECURRING-THESIS: repeat the spine verbatim three times — opening, pivot, close. Do not read this prompt aloud. No "deep dive", no "today we'll discuss", no "buckle up". No previous / prior / earlier / next episode references.
+
+## Landing
+Repeat the spine verbatim: "The testimony there is no god but Allah contained all by which Allah is worshipped." (R-RECURRING-THESIS #3.) Turn inward: what creed do they already recite that they treat as the easy part, and what would change this week if they treated its first utterance as already holding everything it asks? Leave it open.
