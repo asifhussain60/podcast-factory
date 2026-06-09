@@ -235,6 +235,13 @@ function AmbiguityCard({ slug, item: initItem }: { slug: string; item: Ambiguity
     }
   }
 
+  async function handleApplyAll() {
+    for (const ep of item.episodes) {
+      if (applyState[ep] === 'done') continue;
+      await handleApply(ep);
+    }
+  }
+
   async function handleSkip() {
     await fetch('/api/pre-upload', {
       method: 'POST',
@@ -291,6 +298,19 @@ function AmbiguityCard({ slug, item: initItem }: { slug: string; item: Ambiguity
         </div>
 
         <div className="pu-amb-actions">
+          <button
+            className="pu-btn pu-btn-primary pu-btn-sm"
+            disabled={hasApplying || item.episodes.every(ep => applyState[ep] === 'done')}
+            onClick={handleApplyAll}
+            aria-label="Apply fix to all episodes"
+          >
+            {hasApplying ? 'Applying…' :
+             item.episodes.every(ep => applyState[ep] === 'done') ? '✓ Applied to All' :
+             'Apply to All Episodes'}
+          </button>
+
+          <span className="pu-amb-sep" aria-hidden="true">|</span>
+
           <div className="pu-amb-episode-btns">
             {item.episodes.map(ep => (
               <button
