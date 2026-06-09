@@ -15,8 +15,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-_REPO_ROOT = Path(__file__).resolve().parents[4]
-_SCRIPTS_PODCAST = _REPO_ROOT / "scripts" / "podcast"
+_SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 if str(_SCRIPTS_PODCAST) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS_PODCAST))
 
