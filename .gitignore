@@ -225,8 +225,9 @@ _workspace/tmp/
 # _chunks/ outside the canonical book directory.
 **/_chunks/
 
-# Local-only orchestrator/runtime logs
+# Local-only orchestrator/runtime logs and supervisor run registry
 _workspace/logs/
+_workspace/runs/
 
 # Local-only audit snapshots (pre-rerun copies of book artifacts for diff/review)
 _workspace/audit/
