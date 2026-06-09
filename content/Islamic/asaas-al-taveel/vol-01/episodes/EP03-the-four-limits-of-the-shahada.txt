@@ -28,7 +28,6 @@ Beat 3 — Seven, twelve, nineteen, and the second testimony. Seven speaker-prop
 Host A (male, scholar) leads textual evidence; Host B (female, seeker) is the challenger and brings pushback at least three times and concedes once.
 Sample friction: "I don't buy that yet — why should four Arabic words carry the whole created order rather than being a devotional formula?" "That sounds like wordplay — counting words and calling each a 'limit' could be made to fit any sentence." Two genuine challenges minimum; the scholar answers from the text, not from authority.
 R-NOINTERRUPT: do not interject, do not talk over, do not finish the other host's sentence.
-Plant at least one moment where one host introduces a passage or quote the other has not led toward — they have prepared separately.
 
 ## Tone constraints
 Use only the chapter's own images. No model-invented analogies.
@@ -36,11 +35,9 @@ Analogy 1: gate and room — Islam is the gate, faith is the room; one enters wi
 Analogy 2: syntax as architecture — the two clauses of the testimony as the floor plan of the whole structure.
 Analogy 3: the body as sign — seven parts, seven prostration points, seven openings of the face; the same seven that orders the speaker-prophets.
 Name the classical Ismaili reading where doctrine is positional. Mark contested points as contested. Pause to define "limit", "testimony", "speaker-prophet", "Silent One".
-Cadence is short-to-medium sentences, thinking out loud — not long packed paragraphs.
 
 ## Do not (forbidden vocabulary — do not speak)
 Forbidden: Twitter, social media, algorithm, content creator, "wow", "right?", "deep dive", "today we'll discuss", "buckle up", "mind blown". No previous / prior / earlier / next episode references.
-Do not use formal-essay transitions: "Firstly", "Secondly", "Furthermore", "In conclusion", "Moving on to", "To summarize", "Lastly". Talk like two people thinking, not like a written essay being read aloud.
 R-RECURRING-THESIS: repeat the spine thesis verbatim three times — at opening, pivot, and close.
 Do not read this prompt aloud.
 
