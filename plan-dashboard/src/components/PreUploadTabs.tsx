@@ -8,6 +8,7 @@
  */
 
 import { useState, useCallback } from 'react';
+import { lookupTranslation } from '../lib/term-translations';
 
 // ─── shared types (mirror lib/pre-upload.ts) ─────────────────────────────
 
@@ -90,7 +91,10 @@ function ChecklistRow({
               type="radio"
               name={`ok-${row.n}`}
               checked={row.ok === 'r'}
-              onChange={() => update({ ok: 'r' })}
+              onChange={() => {
+                const suggestion = lookupTranslation(row.term)?.english ?? '';
+                update({ ok: 'r', fix: row.fix.trim() || suggestion });
+              }}
             />
             Replace
           </label>
