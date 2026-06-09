@@ -478,7 +478,10 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     _info("  open http://localhost:4321/develop/" + book_slug + "/")
     _info("")
     # ── NotebookLM upload instructions (mandatory per standing rule) ──────────
-    _print_notebooklm_table(book_dir)
+    try:
+        _print_notebooklm_table(book_dir)
+    except Exception as _tbl_exc:
+        _info(f"  [notebooklm table error: {_tbl_exc}]")
     # ─────────────────────────────────────────────────────────────────────────
     _info("")
     _info("When satisfied, authorize publish + trainer + merge:")
