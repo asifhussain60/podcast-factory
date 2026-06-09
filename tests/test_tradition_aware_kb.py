@@ -16,9 +16,11 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+# Import intelligence modules package-qualified (intelligence.extractor, not bare
+# `extractor`): scripts/podcast/knowledge/ has same-named modules, and a bare name
+# resolves to whichever one another test cached in sys.modules first.
 SCRIPTS_PODCAST = Path(__file__).resolve().parent.parent / "scripts" / "podcast"
 sys.path.insert(0, str(SCRIPTS_PODCAST))
-sys.path.insert(0, str(SCRIPTS_PODCAST / "intelligence"))
 
 
 class TestMigration020Applied(unittest.TestCase):
@@ -70,21 +72,21 @@ class TestBookTradition(unittest.TestCase):
     """_book_tradition() must read tradition_affinity from meta.yml."""
 
     def test_reads_ismaili_from_meta(self):
-        from extractor import _book_tradition
+        from intelligence.extractor import _book_tradition
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = Path(tmp)
             (book_dir / "meta.yml").write_text("tradition_affinity: ismaili\n")
             self.assertEqual(_book_tradition(book_dir), "ismaili")
 
     def test_defaults_to_universal(self):
-        from extractor import _book_tradition
+        from intelligence.extractor import _book_tradition
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = Path(tmp)
             # No meta.yml
             self.assertEqual(_book_tradition(book_dir), "universal")
 
     def test_reads_sunni_from_meta(self):
-        from extractor import _book_tradition
+        from intelligence.extractor import _book_tradition
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = Path(tmp)
             (book_dir / "meta.yml").write_text("tradition_affinity: sunni\n")
@@ -97,7 +99,7 @@ class TestAugmenterTraditionFiltering(unittest.TestCase):
     def test_universal_atoms_included_for_any_tradition(self):
         """Universal tradition atoms are always included."""
         try:
-            from augmenter import _fetch_doctrine_atoms
+            from intelligence.augmenter import _fetch_doctrine_atoms
         except ImportError:
             self.skipTest("augmenter not importable in this test environment")
 

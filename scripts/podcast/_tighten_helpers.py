@@ -29,6 +29,8 @@ except ImportError:
     def compute_cost_usd(*args, **kwargs) -> float:  # type: ignore
         return 0.0
 
+from _rules import BUCKETS  # bucket registry is the single source of truth
+
 
 # --- model + cost ----------------------------------------------------------
 
@@ -110,13 +112,17 @@ class ChapterResult:
 def boundary_check(book_dir: Path) -> None:
     bd = book_dir.resolve()
     allowed_parents = [
+        (REPO_ROOT / "content" / bucket).resolve() for bucket in BUCKETS
+    ] + [
+        # Legacy pre-2026-06-04 layout, kept for back-compat (mirrors _paths fallback).
         (REPO_ROOT / "content" / "drafts").resolve(),
         (REPO_ROOT / "content" / "published" / "books").resolve(),
     ]
     if not any(str(bd).startswith(str(p) + "/") for p in allowed_parents):
         sys.exit(
-            f"[tighten] refusing: book_dir {bd} is not under content/drafts/ "
-            f"or content/published/books/"
+            f"[tighten] refusing: book_dir {bd} is not under a content bucket "
+            f"({', '.join('content/' + b + '/' for b in BUCKETS)}) "
+            f"or the legacy content/drafts/ / content/published/books/ trees"
         )
 
 
