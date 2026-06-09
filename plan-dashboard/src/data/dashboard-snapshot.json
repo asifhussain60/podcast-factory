@@ -765,11 +765,21 @@
   "waves": [],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-09T15:27:09.420107+00:00",
-  "source_commit": "3c8b38cb",
+  "generated_at": "2026-06-09T15:37:25.974159+00:00",
+  "source_commit": "e2ca3ded",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "e2ca3ded",
+      "subject": "feat(intake): Phase 6 (foundation) \u2014 smart-form options + preflight + JSON endpoints",
+      "date": "2026-06-09"
+    },
+    {
+      "sha": "31980aa8",
+      "subject": "refactor(quality): Phase 4 \u2014 de-patch helpers + F38 close-out + docs",
+      "date": "2026-06-09"
+    },
     {
       "sha": "3c8b38cb",
       "subject": "feat(autonomy): Phase 3 \u2014 per-volume autopilot + hard safety rails",
@@ -808,16 +818,6 @@
     {
       "sha": "e70d8b2b",
       "subject": "merge(fix/ci-green-py-pin): restore green CI \u2014 pin Python 3.13 + install deps + full pytest gate",
-      "date": "2026-06-08"
-    },
-    {
-      "sha": "29913827",
-      "subject": "fix(ci): pin Python 3.13 + install requirements + run full pytest suite",
-      "date": "2026-06-08"
-    },
-    {
-      "sha": "636fb926",
-      "subject": "fix(test+ci+hygiene): restore green CI gate + repo-wide pytest collection",
       "date": "2026-06-08"
     }
   ],

@@ -4134,6 +4134,49 @@ waves_o_ph:
         committed_at: f1e64cc
         tests: "321 passed, 1 skipped, 0 failed"
 
+  - id: WM
+    name: "Wave M — Holistic Hardening: multi-volume works + profile routing + autonomy rails + intake foundation"
+    execution_status: in_progress_2026_06_09
+    depends_on: [PH]
+    note: |
+      Holistic pipeline review to production standard with first-class multi-volume
+      routing. Phases 1-4 + Phase 6 foundation landed on develop; Phase 5 (asaas
+      migration + content/->library/ rename) is DEFERRED (bundled, runs at asaas's
+      next clean boundary). The Phase 6 React visual screens are the collaborative
+      remainder (per-screen with Asif — LOCKED convention); the testable server
+      foundation shipped here. Full suite 625 passed.
+    steps:
+      - id: WM1
+        title: "Multi-volume foundation — work.yml manifest + volume-aware _paths/_branching + TS mirror"
+        status: completed
+        committed_at: 28ad0dd
+        tests: "test_work_manifest.py (16) — flat byte-identity + nested happy-path"
+      - id: WM2
+        title: "Profile-driven phase routing (phase_capabilities) + intake --work/--volume"
+        status: completed
+        committed_at: 0587350
+        tests: "test_routing_capabilities (9) + test_intake_volume (4)"
+      - id: WM3
+        title: "Per-volume autopilot (orchestrate_work pause-between-volumes) + F32/F35 safety rails"
+        status: completed
+        committed_at: 3c8b38c
+        tests: "convergence safety rails (9) + orchestrate_work pause (6) + framing cache (3)"
+      - id: WM4
+        title: "Code-quality de-patch (_subprocess.py) + F38 close-out (grep gate + prompt cache + doc)"
+        status: completed
+        committed_at: 31980aa
+        note: "F32/F35/F38/F39 CLOSED; F40 (giant-function splits) DEFERRED with rationale."
+      - id: WM6
+        title: "Intake smart-form + preflight foundation (form-options.yml, preflight estimator, JSON endpoints)"
+        status: completed
+        committed_at: e2ca3de
+        tests: "test_intake_form_options (10) + test_intake_preflight (11)"
+        note: "React visual screens deferred to per-screen design with Asif (LOCKED)."
+      - id: WM5
+        title: "asaas migration + content/->library/ rename (bundled checklist)"
+        status: deferred
+        note: "Runs at asaas's next clean boundary; checklist in plan.md Phase 5."
+
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================
