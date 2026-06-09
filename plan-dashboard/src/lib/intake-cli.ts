@@ -32,3 +32,21 @@ export function runPythonJson(module: string, args: string[]): Promise<unknown> 
     });
   });
 }
+
+/**
+ * Spawn a pipeline driver DETACHED so it survives the request (and the browser
+ * closing) — the Q10 launch contract. stdio is ignored and the child is unref'd
+ * so this returns immediately; the endpoint NEVER runs the orchestrator in-request.
+ * Returns the child pid. This is a SPEND action — only ever called from the
+ * confirm / approval endpoints, which are the Tier-2 gate.
+ */
+export function spawnDetachedPython(module: string, args: string[]): number {
+  const script = join(getRepoRoot(), 'scripts', 'podcast', module);
+  const proc = spawn('/usr/bin/python3', [script, ...args], {
+    cwd: getRepoRoot(),
+    detached: true,
+    stdio: 'ignore',
+  });
+  proc.unref();
+  return proc.pid ?? -1;
+}
