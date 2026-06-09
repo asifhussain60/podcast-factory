@@ -109,6 +109,16 @@ _workspace/**/*.zip
 _workspace/**/*.llc
 _workspace/**/*.pdf
 
+# PDF policy (locked 2026-06-09):
+# - SOURCE PDFs are intentionally TRACKED — irreplaceable pipeline inputs,
+#   written once (content/<Bucket>/<slug>/_source/ and _system/source/).
+#   Git doubles as their backup; do not add ignore rules for them.
+# - GENERATED reading-edition PDFs under book/ are IGNORED — derived from
+#   book.md via build_book_pdf.py, regenerable at any time, delivered to
+#   Google Drive from disk. Tracking them would grow git history by megabytes
+#   on every re-render.
+content/**/book/*.pdf
+
 # Transcript working artifacts — raw Speech-to-Text + translator output used
 # during chapter-source authoring. The final cleaned chapters/ + episodes/
 # files are committed; transcripts/ is local-only scratch.
