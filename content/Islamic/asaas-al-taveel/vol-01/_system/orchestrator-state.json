@@ -3,11 +3,15 @@
   "book_slug": "asaas-al-taveel-vol-01",
   "category": "books",
   "branch": "Islamic/asaas-al-taveel",
-  "phase": "06a",
-  "phase_status": "awaiting_human_review",
+  "phase": "0f",
+  "phase_status": "halted",
   "last_completed_phase": "0e",
   "next_phase": "0literary",
-  "last_error": null,
+  "last_error": {
+    "phase": "0f",
+    "message": "chapter contract failed to parse: /Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/asaas-al-taveel/vol-01/chapter-contracts/the-call-to-inner-meaning.yml",
+    "ts": "2026-06-09T08:53:40Z"
+  },
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -51,7 +55,10 @@
       "ts_completed": "2026-06-09T00:04:35Z"
     },
     "0f": {
-      "status": "pending"
+      "status": "halted",
+      "ts_started": "2026-06-09T08:53:10Z",
+      "ts_completed": "2026-06-09T08:55:34Z",
+      "series_plan_path": "content/Islamic/asaas-al-taveel/vol-01/_system/series-plan.md"
     },
     "0g": {
       "status": "pending"
@@ -86,7 +93,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-06-08T00:00:00Z",
-  "ts_updated": "2026-06-09T00:04:47Z",
+  "ts_updated": "2026-06-09T08:55:34Z",
   "config": {
     "length_tier": "extended",
     "unit_mode": "auto"
