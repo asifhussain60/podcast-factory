@@ -200,6 +200,7 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             "_learning/",
             "_workspace/tmp/",
             "_workspace/logs/",
+            "_workspace/runs/",
             "content/m4a/",
         )
         runtime_artifact_suffixes_lc = tuple(s.lower() for s in runtime_artifact_suffixes)
