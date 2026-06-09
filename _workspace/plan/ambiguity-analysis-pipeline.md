@@ -141,3 +141,85 @@ The spot check on 2026-06-09 surfaced 7 ambiguities. These need to be woven into
 - Unresolvable gaps generate a reviewable `ambiguity-report.md` section that Asif can annotate
 - No chapter text is altered by this step
 - Challenger P1 count on "undefined reference" and "name discipline" findings drops measurably on Vol 2 vs Vol 1
+
+---
+
+## Astro Site addition — "Additional Context" on Framing Fixes cards
+
+**Status:** Planned (not yet implemented). Start next session.
+
+### What it does
+
+Each ambiguity card on the `/pre-upload/[slug]` Framing Fixes tab gains an
+**Additional Context** textarea beneath the existing "Text to insert into
+framing" area. Asif types his own clarification about the ambiguity — domain
+knowledge, interpretation, or doctrinal correction not derivable from the source
+alone.
+
+That context has two downstream effects:
+
+1. **Framing fix** — the additional context is appended to the framing note
+   that gets applied to the episode's `00-framing.md` (via the existing
+   `apply-fix` API action, extended to include the context paragraph under a
+   `### Host context (from review)` subsection).
+
+2. **Source fix** — when context resolves something that is also wrong or
+   incomplete in the chapter source file, Asif can tick a checkbox
+   "Also apply to chapter source" and provide a corrected sentence or
+   replacement. The API runs that correction through the same
+   `apply-deletions-to-source` / `apply-source-replacements` logic.
+
+### Data model change
+
+`ambiguity-items.json` gains two new optional fields per item:
+
+```json
+{
+  "id": "enoch-365-years",
+  ...
+  "asif_context": "",
+  "source_fix": ""
+}
+```
+
+The UI saves these on every Apply click via the existing
+`mark-fix-status` action (extended to also persist `asif_context` +
+`source_fix`).
+
+### UI changes (plan-dashboard/)
+
+| Component | Change |
+|---|---|
+| `AmbiguityCard` in `PreUploadTabs.tsx` | Add `asifContext` + `sourceFix` state; render two new textareas with their own labels beneath the existing fix textarea; add "Also apply to source" checkbox |
+| `pre-upload.css` | Add `.pu-amb-context-wrap` and `.pu-amb-source-fix-wrap` sections (same card-body pattern, no inline styles) |
+| `/api/pre-upload.ts` — `apply-fix` | Pass `asif_context` through to the framing write; append as `### Host context (from review)` block |
+| `/api/pre-upload.ts` — `mark-fix-status` | Also persist `asif_context` + `source_fix` into `ambiguity-items.json` |
+| `/api/pre-upload.ts` — new `apply-context-to-source` | If `source_fix` non-empty, run the sentence-level replacement; same logic as `apply-deletions-to-source` |
+
+### Gate
+
+Gate through `html-view-challenger` before marking complete, same as all
+pre-upload UI work. Zero inline styles; all tokens from `--c-*` palette.
+
+---
+
+## Next session — resume here first
+
+**Session start task:** Before any other work, ask Asif for additional context
+on the `enoch-365-years` ambiguity item:
+
+> "Idris (Enoch) is ascribed a lifespan of 365 years. The framing hint for
+> EP05 suggests this is an inner-meaning opportunity that's unexplored.
+> What is the Ismaili interpretation you had in mind — is 365 the solar year,
+> a numerological reading, or something from the vol-01 source text we can
+> cite?"
+
+Once Asif answers, use that context to:
+1. Write a `### Host context (from review)` block into
+   `content/Islamic/asaas-al-taveel/vol-01/_system/episode-drafts/EP05-two-parties-and-the-line-to-noah/00-framing.md`
+   (the Enoch reference sits in EP05 which covers the chain to Noah).
+2. If the context points to something in the chapter source that needs
+   generalizing, apply the source fix too.
+
+This is the first real exercise of the "Additional Context" workflow above —
+do it manually this session to validate the pattern before building the UI.
