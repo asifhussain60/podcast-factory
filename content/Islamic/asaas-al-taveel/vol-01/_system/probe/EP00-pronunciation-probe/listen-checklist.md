@@ -15,13 +15,13 @@ library; an English substitute -> store it as the term's gloss.
 
 | n | term | rendered | OK? | Fix |
 |---|------|----------|-----|-----|
-| 1 | Israfil | Israfil |  |  |
-| 2 | sunna | Sunna |  |  |
-| 3 | Cain | Cain |  |  |
-| 4 | Abi Talib | Abi Talib |  |  |
-| 5 | Dhikr al-Muqaddimat | Dhikr al-Muqaddimat |  |  |
-| 6 | al-Hujaj | al-Hujaj |  |  |
-| 7 | al-Du'at | al-Du'at |  |  |
+| 1 | Israfil | Israfil | r | Raphael |
+| 2 | sunna | Sunna | r | prophetic tradition |
+| 3 | Cain | Cain | y |  |
+| 4 | Abi Talib | Abi Talib | y |  |
+| 5 | Dhikr al-Muqaddimat | Dhikr al-Muqaddimat | r | Introduction |
+| 6 | al-Hujaj | al-Hujaj | r | the Proofs |
+| 7 | al-Du'at | al-Du'at | r | the Summoners |
 | 8 | Idris Imad al-Din | Idris Imad al-Din |  |  |
 | 9 | al-Mu'ayyad fi al-Din | al-Mu'ayyad fi al-Din |  |  |
 | 10 | Abd al-Salam ibn Raghban | Abd al-Salam ibn Raghban |  |  |
