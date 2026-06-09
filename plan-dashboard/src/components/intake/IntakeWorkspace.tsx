@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import NewContentForm from './NewContentForm';
 import EditorialDefaults from './EditorialDefaults';
+import UploadStaging from './UploadStaging';
 import type { CardDef } from '../../lib/reader/editorial';
 
 interface CreateResult {
@@ -19,7 +20,10 @@ export default function IntakeWorkspace({ cardDefs }: Props) {
 
   return (
     <div className="intake-shell">
-      <NewContentForm onCreated={setCreated} onCleared={() => setCreated(null)} />
+      <div className="intake-column">
+        <NewContentForm onCreated={setCreated} onCleared={() => setCreated(null)} />
+        <UploadStaging />
+      </div>
       <EditorialDefaults slug={created?.slug ?? null} cardDefs={cardDefs} />
     </div>
   );
