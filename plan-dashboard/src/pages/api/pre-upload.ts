@@ -136,6 +136,51 @@ async function updateItemStatus(bookDir: string, itemId: string, status: string)
   await writeFile(itemsPath, JSON.stringify(raw, null, 2), 'utf-8');
 }
 
+// ─── apply-source-replacements ─────────────────────────────────────────────
+
+async function applySourceReplacements(
+  slug: string,
+  replacements: Array<{ term: string; replacement: string }>,
+): Promise<Response> {
+  const ref = await findContent(slug);
+  if (!ref) return apiError('Book not found', 404);
+  const bookDir = ref.dir;
+
+  const chaptersDir = join(bookDir, 'chapters');
+  if (!existsSync(chaptersDir)) return apiError('chapters/ directory not found', 404);
+
+  const { readdirSync } = await import('node:fs');
+  const files = readdirSync(chaptersDir).filter((f: string) => f.endsWith('.txt') || f.endsWith('.md'));
+
+  let filesChanged = 0;
+  let totalReplacements = 0;
+
+  for (const fname of files) {
+    const fpath = join(chaptersDir, fname);
+    let content = await readFile(fpath, 'utf-8');
+    let changed = false;
+
+    for (const { term, replacement } of replacements) {
+      if (!term.trim() || !replacement.trim()) continue;
+      const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`\\b${escaped}\\b`, 'gi');
+      const matches = content.match(regex);
+      if (matches && matches.length > 0) {
+        totalReplacements += matches.length;
+        content = content.replace(regex, replacement);
+        changed = true;
+      }
+    }
+
+    if (changed) {
+      await writeFile(fpath, content, 'utf-8');
+      filesChanged++;
+    }
+  }
+
+  return apiOk({ files_changed: filesChanged, total_replacements: totalReplacements });
+}
+
 // ─── route handler ─────────────────────────────────────────────────────────
 
 export const POST: APIRoute = async ({ request }) => {
@@ -148,6 +193,7 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     if (action === 'save-checklist') return saveChecklist(slug, body.terms ?? []);
     if (action === 'apply-fix') return applyFix(slug, body.item_id, body.episode_id, body.section, body.fix_text);
+    if (action === 'apply-source-replacements') return applySourceReplacements(slug, body.replacements ?? []);
     if (action === 'mark-fix-status') {
       const ref = await findContent(slug);
       if (!ref) return apiError('Book not found', 404);

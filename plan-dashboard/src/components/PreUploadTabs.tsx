@@ -15,7 +15,7 @@ interface ChecklistTerm {
   n: number;
   term: string;
   rendered: string;
-  ok: '' | 'y' | 'n';
+  ok: '' | 'y' | 'n' | 'r';
   fix: string;
 }
 
@@ -58,7 +58,7 @@ function ChecklistRow({
     onChange(next);
   }
 
-  const rowClass = row.ok === 'y' ? 'is-ok' : row.ok === 'n' ? 'is-fix' : '';
+  const rowClass = row.ok === 'y' ? 'is-ok' : row.ok === 'n' ? 'is-fix' : row.ok === 'r' ? 'is-replace' : '';
 
   return (
     <tr className={rowClass}>
@@ -85,15 +85,28 @@ function ChecklistRow({
             />
             Fix
           </label>
+          <label className={`pu-radio-btn${row.ok === 'r' ? ' is-replace-active' : ''}`}>
+            <input
+              type="radio"
+              name={`ok-${row.n}`}
+              checked={row.ok === 'r'}
+              onChange={() => update({ ok: 'r' })}
+            />
+            Replace
+          </label>
         </div>
       </td>
       <td>
         <input
           type="text"
           className="pu-fix-input"
-          placeholder={row.ok === 'n' ? 'plain-English substitute…' : ''}
+          placeholder={
+            row.ok === 'n' ? 'substitute for NotebookLM framing…' :
+            row.ok === 'r' ? 'English / biblical equivalent in source…' :
+            ''
+          }
           value={row.fix}
-          disabled={row.ok !== 'n'}
+          disabled={row.ok !== 'n' && row.ok !== 'r'}
           onChange={(e) => update({ fix: e.target.value })}
         />
       </td>
@@ -105,13 +118,16 @@ function PronunciationTab({ slug, terms: initTerms, audioPath }: { slug: string;
   const [terms, setTerms] = useState<ChecklistTerm[]>(initTerms);
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [saveMsg, setSaveMsg] = useState('');
+  const [replaceState, setReplaceState] = useState<'idle' | 'applying' | 'done' | 'error'>('idle');
+  const [replaceMsg, setReplaceMsg] = useState('');
 
   const handleChange = useCallback((updated: ChecklistTerm) => {
     setTerms(prev => prev.map(t => t.n === updated.n ? updated : t));
   }, []);
 
-  const done = terms.filter(t => t.ok === 'y' || (t.ok === 'n' && t.fix.trim())).length;
+  const done = terms.filter(t => t.ok === 'y' || (t.ok === 'n' && t.fix.trim()) || (t.ok === 'r' && t.fix.trim())).length;
   const total = terms.length;
+  const replaceTerms = terms.filter(t => t.ok === 'r' && t.fix.trim());
 
   async function handleSave() {
     setSaveState('saving');
@@ -136,14 +152,39 @@ function PronunciationTab({ slug, terms: initTerms, audioPath }: { slug: string;
     setTimeout(() => setSaveState('idle'), 4000);
   }
 
+  async function handleApplyReplacements() {
+    setReplaceState('applying');
+    try {
+      const res = await fetch('/api/pre-upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'apply-source-replacements',
+          slug,
+          replacements: replaceTerms.map(t => ({ term: t.term, replacement: t.fix })),
+        }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setReplaceState('done');
+        setReplaceMsg(`${data.total_replacements} replacement${data.total_replacements !== 1 ? 's' : ''} across ${data.files_changed} chapter file${data.files_changed !== 1 ? 's' : ''}`);
+      } else {
+        setReplaceState('error');
+        setReplaceMsg(data.error ?? 'Failed');
+      }
+    } catch (e) {
+      setReplaceState('error');
+      setReplaceMsg(String(e));
+    }
+    setTimeout(() => setReplaceState('idle'), 6000);
+  }
+
   return (
     <section aria-label="Pronunciation Review">
       <div className="pu-section-head">
         <h2 className="pu-section-title">Pronunciation Review</h2>
         <p className="pu-section-note">
-          Listen to the EP00 probe, then for each term mark <strong>OK</strong> if NotebookLM said it correctly,
-          or <strong>Fix</strong> and enter a plain-English substitute (e.g. "the theologian al-Ghazali").
-          Do <em>not</em> write hyphen-CAPS respellings — NotebookLM reads those literally.
+          Listen to the EP00 probe, then mark each term <strong>OK</strong> (correct), <strong>Fix</strong> (substitute for NotebookLM framing), or <strong>Replace</strong> (swap the Arabic term with its English/biblical equivalent in the chapter source files). Do <em>not</em> write hyphen-CAPS respellings — NotebookLM reads those literally.
         </p>
       </div>
 
@@ -162,7 +203,7 @@ function PronunciationTab({ slug, terms: initTerms, audioPath }: { slug: string;
               <th scope="col">Term</th>
               <th scope="col">Hosts told to say</th>
               <th scope="col">Verdict</th>
-              <th scope="col">Fix (if wrong)</th>
+              <th scope="col">Fix / Replace</th>
             </tr>
           </thead>
           <tbody>
@@ -181,11 +222,24 @@ function PronunciationTab({ slug, terms: initTerms, audioPath }: { slug: string;
         >
           {saveState === 'saving' ? 'Saving…' : 'Save corrections'}
         </button>
+        {replaceTerms.length > 0 && (
+          <button
+            className="pu-btn pu-btn-replace"
+            disabled={replaceState === 'applying'}
+            onClick={handleApplyReplacements}
+          >
+            {replaceState === 'applying' ? 'Applying…' :
+             replaceState === 'done'     ? '✓ Applied to source' :
+             `Apply ${replaceTerms.length} replacement${replaceTerms.length !== 1 ? 's' : ''} to source`}
+          </button>
+        )}
         <span className="pu-save-status">
           {done}/{total} terms reviewed
         </span>
-        {saveState === 'saved' && <span className="pu-save-status success">{saveMsg}</span>}
-        {saveState === 'error'  && <span className="pu-save-status error">{saveMsg}</span>}
+        {saveState === 'saved'     && <span className="pu-save-status success">{saveMsg}</span>}
+        {saveState === 'error'     && <span className="pu-save-status error">{saveMsg}</span>}
+        {replaceState === 'done'   && <span className="pu-save-status success">{replaceMsg}</span>}
+        {replaceState === 'error'  && <span className="pu-save-status error">{replaceMsg}</span>}
       </div>
     </section>
   );

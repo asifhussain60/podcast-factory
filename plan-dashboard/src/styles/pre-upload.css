@@ -106,10 +106,12 @@
 
 .pu-table tr:last-child td { border-bottom: none; }
 
-.pu-table tr.is-ok   td { background: color-mix(in oklab, var(--c-green) 6%, transparent); }
-.pu-table tr.is-fix  td { background: color-mix(in oklab, var(--c-amber) 8%, transparent); }
+.pu-table tr.is-ok      td { background: color-mix(in oklab, var(--c-green)   6%, transparent); }
+.pu-table tr.is-fix     td { background: color-mix(in oklab, var(--c-amber)   8%, transparent); }
+.pu-table tr.is-replace td { background: color-mix(in oklab, var(--c-planner) 8%, transparent); }
 .pu-table tr.is-ok:hover td,
-.pu-table tr.is-fix:hover td { filter: brightness(0.98); }
+.pu-table tr.is-fix:hover td,
+.pu-table tr.is-replace:hover td { filter: brightness(0.98); }
 
 .pu-n {
   color: var(--c-ink-muted);
@@ -169,6 +171,12 @@
   background: color-mix(in oklab, var(--c-amber) 14%, var(--c-bg-card));
   border-color: var(--c-amber);
   color: var(--c-amber);
+}
+
+.pu-radio-btn.is-replace-active {
+  background: color-mix(in oklab, var(--c-planner) 14%, var(--c-bg-card));
+  border-color: var(--c-planner);
+  color: var(--c-planner);
 }
 
 .pu-radio-btn:hover { border-color: var(--c-ink-dim); }
@@ -246,6 +254,15 @@
 }
 .pu-btn-primary:hover:not(:disabled) {
   background: color-mix(in oklab, var(--c-accent) 85%, black);
+}
+
+.pu-btn-replace {
+  background: var(--c-planner);
+  border-color: var(--c-planner);
+  color: white;
+}
+.pu-btn-replace:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--c-planner) 85%, black);
 }
 
 .pu-btn-sm {
