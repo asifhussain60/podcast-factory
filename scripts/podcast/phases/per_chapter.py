@@ -26,9 +26,7 @@ BUILD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "build_episode_txt.py"
 _FRAMING_SIG_NAME = ".framing-sig"
 
 
-def _run(cmd: list[str], *, cwd: Path | None = None) -> tuple[int, str, str]:
-    proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
-    return proc.returncode, proc.stdout, proc.stderr
+from _subprocess import run as _run  # noqa: E402
 
 
 def _chapter_sig(chapter_file: Path) -> str:

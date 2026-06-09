@@ -21,12 +21,7 @@ AUDIT_BUNDLE_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "audit_bundle.py"
 AUDIT_BUNDLE_GEMINI_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "audit_bundle_gemini.py"
 
 
-def _info(msg: str) -> None:
-    print(msg)
-
-
-def _err(msg: str) -> None:
-    print(f"ERROR: {msg}", file=sys.stderr)
+from _subprocess import err as _err, info as _info  # noqa: E402
 
 
 def _gemini_key_available() -> bool:
@@ -35,7 +30,6 @@ def _gemini_key_available() -> bool:
         return bool(get_gemini_key())
     except Exception:
         return False
-
 
 
 def phase_0g_audit_bundles(book_dir: Path, chapter_slugs: list[str]) -> dict:

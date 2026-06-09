@@ -18,12 +18,7 @@ from phases.chapter_driver import _drive_per_chapter_and_after  # noqa: E402
 from phases.publish_driver import _drive_publish_through_done  # noqa: E402
 
 
-def _info(msg: str) -> None:
-    print(msg)
-
-
-def _err(msg: str) -> None:
-    print(f"ERROR: {msg}", file=sys.stderr)
+from _subprocess import err as _err, info as _info  # noqa: E402
 
 
 def _book_dir(book_slug: str) -> Path | None:

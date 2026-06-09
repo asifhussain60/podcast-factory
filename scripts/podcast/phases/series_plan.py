@@ -24,12 +24,7 @@ from _paths import REPO_ROOT  # noqa: E402
 from _progress import ORCHESTRATOR_VERSION, read_state  # noqa: E402
 
 
-def _info(msg: str) -> None:
-    print(msg)
-
-
-def _err(msg: str) -> None:
-    print(f"ERROR: {msg}", file=sys.stderr)
+from _subprocess import err as _err, info as _info  # noqa: E402
 
 
 def _git(*args: str) -> tuple[int, str, str]:

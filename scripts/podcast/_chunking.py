@@ -232,17 +232,25 @@ def make_sdk_invoke_fn(model: str, client: "_anthropic.Anthropic | None" = None)
 
     def _invoke(instructions: str, body: str, timeout_secs: int) -> str:
         clean_instructions = _strip_file_io_lines(instructions)
-        user_msg = (
-            f"{clean_instructions}\n\n"
-            f"<content>\n{body}\n</content>\n\n"
-            "Output ONLY the processed text. No preamble, no fences."
-        )
+        # F38/DR-015: cache the STABLE instructions block (identical across every
+        # window of a phase) so the bulk metered-API spend only pays full input
+        # price for it once per 5-min window. Split into two content blocks of the
+        # SAME user message — the concatenated text is byte-identical to the prior
+        # single-string prompt, so model behaviour is unchanged; only the first
+        # block carries cache_control.
+        content_blocks = [
+            {"type": "text", "text": clean_instructions,
+             "cache_control": {"type": "ephemeral"}},
+            {"type": "text",
+             "text": (f"\n\n<content>\n{body}\n</content>\n\n"
+                      "Output ONLY the processed text. No preamble, no fences.")},
+        ]
         _tls.usage = (0, 0)
         try:
             msg = _client.messages.create(
                 model=model,
                 max_tokens=8192,
-                messages=[{"role": "user", "content": user_msg}],
+                messages=[{"role": "user", "content": content_blocks}],
                 timeout=float(timeout_secs),
             )
             u = getattr(msg, "usage", None)

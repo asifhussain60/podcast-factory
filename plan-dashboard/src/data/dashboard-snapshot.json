@@ -765,60 +765,60 @@
   "waves": [],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-07T10:12:31.146677+00:00",
-  "source_commit": "5319dba",
+  "generated_at": "2026-06-09T15:27:09.420107+00:00",
+  "source_commit": "3c8b38cb",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "5319dba",
-      "subject": "feat(branching): group content branches by bucket \u2014 <Bucket>/<slug>",
-      "date": "2026-06-07"
+      "sha": "3c8b38cb",
+      "subject": "feat(autonomy): Phase 3 \u2014 per-volume autopilot + hard safety rails",
+      "date": "2026-06-09"
     },
     {
-      "sha": "9222b72",
-      "subject": "merge: journey-to-the-west-vol-1 \u2192 develop \u2014 published; branch kept for ongoing work",
-      "date": "2026-06-07"
+      "sha": "05873504",
+      "subject": "feat(routing): Phase 2 \u2014 profile-driven phase routing + intake --work/--volume",
+      "date": "2026-06-09"
     },
     {
-      "sha": "312f126",
-      "subject": "chore(journey-to-the-west-vol-1): update state branch field to bucket-grouped name",
-      "date": "2026-06-07"
+      "sha": "28ad0ddf",
+      "subject": "feat(works): Phase 1 \u2014 multi-volume foundation (resolver + work.yml manifest)",
+      "date": "2026-06-09"
     },
     {
-      "sha": "321f00b",
-      "subject": "chore(plan-dashboard): regenerate architecture/dashboard/infrastructure snapshots",
-      "date": "2026-06-07"
+      "sha": "1d0139d2",
+      "subject": "fix(tests): correct sys.path depth in test_run_supervision.py (parents[1] not parents[4])",
+      "date": "2026-06-09"
     },
     {
-      "sha": "8508623",
-      "subject": "fix(export_distribution): resolve bucket correctly + fix Google Drive detection",
-      "date": "2026-06-07"
+      "sha": "3b7679d5",
+      "subject": "docs(watchdog): document Phase E fast-fail gates + single-actor supervisor",
+      "date": "2026-06-09"
     },
     {
-      "sha": "7b7e2ec",
-      "subject": "podcast(journey-to-the-west-vol-1): publish \u2014 status=published, all 7 gates passed",
-      "date": "2026-06-07"
+      "sha": "da53ce98",
+      "subject": "feat(supervision): fast-fail + single-actor run supervision system (Phase E)",
+      "date": "2026-06-09"
     },
     {
-      "sha": "3851744",
-      "subject": "podcast(journey-to-the-west-vol-1): per-chapter complete \u2014 5/5 SHIP-WITH-CAUTION, finalize SHIP-READY",
-      "date": "2026-06-06"
+      "sha": "b89e5f4a",
+      "subject": "test(librarian): isolate KNOWLEDGE_BASE_DIR so stats.json isn't mutated",
+      "date": "2026-06-08"
     },
     {
-      "sha": "618fdac",
-      "subject": "podcast(journey-to-the-west-vol-1): phase 11b slide-deck cohort",
-      "date": "2026-06-06"
+      "sha": "e70d8b2b",
+      "subject": "merge(fix/ci-green-py-pin): restore green CI \u2014 pin Python 3.13 + install deps + full pytest gate",
+      "date": "2026-06-08"
     },
     {
-      "sha": "ca5c434",
-      "subject": "podcast(journey-to-the-west-vol-1): phase 0g register series + dual-auditor bundle sweep",
-      "date": "2026-06-06"
+      "sha": "29913827",
+      "subject": "fix(ci): pin Python 3.13 + install requirements + run full pytest suite",
+      "date": "2026-06-08"
     },
     {
-      "sha": "c003d05",
-      "subject": "podcast(journey-to-the-west-vol-1): phase per-chapter-optimize (0 chapters, 0 warnings)",
-      "date": "2026-06-06"
+      "sha": "636fb926",
+      "subject": "fix(test+ci+hygiene): restore green CI gate + repo-wide pytest collection",
+      "date": "2026-06-08"
     }
   ],
   "wave_execution_events": [],

@@ -23,12 +23,7 @@ from phases.preflight import _run_chapter_set_check  # noqa: E402
 from phases.source_review_gate import run_source_review_gate  # noqa: E402
 
 
-def _info(msg: str) -> None:
-    print(msg)
-
-
-def _err(msg: str) -> None:
-    print(f"ERROR: {msg}", file=sys.stderr)
+from _subprocess import err as _err, info as _info  # noqa: E402
 
 
 def resolve_phase_profile(book_dir: Path, category: str | None) -> str:

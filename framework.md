@@ -1,8 +1,57 @@
 # Podcast Factory Ecosystem Framework
 
-**Last updated:** 2026-05-30
+**Last updated:** 2026-06-09
 
 This document governs the **`podcast-factory`** repo: the multi-phase podcast pipeline that converts scholarly Arabic books into NotebookLM-driven podcast series, the Azure stack that powers OCR / translation / speech, and the agents/skills that support podcast authoring. Memoir + site work moved to the sibling **[journal](https://github.com/asifhussain60/journal)** repo as of the 2026-05-22 split. The Anthropic API proxy (`server/`) and the Cloudflare deploy scaffold were retired the same day — see §"Retired" below. The previous cross-machine coordination model (operator files, machine-id detection, per-machine book branches) was retired 2026-05-23 — see §"Single-machine model" below.
+
+## 2026-06-09 Wave M — multi-volume works + profile routing + autonomy rails
+
+Holistic-hardening wave. Four landed pieces (intake UI is a separate follow-on):
+
+- **Multi-volume "works" (Phase 1).** A multi-volume work = ONE branch + a parent
+  folder `content/<Bucket>/<work_slug>/` holding a `work.yml` manifest (ordered
+  volumes + shared-library pointers) and nested `vol-NN/` dirs, each a normal book
+  dir. The single layout seam `_paths.py` was EXTENDED (not forked): `find_content`/
+  `iter_content` descend a `work.yml`-marked parent and yield each volume under the
+  COMPOSITE slug `<work_slug>-vol-NN` (e.g. `asaas-vol-02`), discovered by marker +
+  `vol-*` glob (no yaml dep). `slug_of(path)` gives the collision-free identity;
+  `work_rollup_status` rolls a work up to `published` only when ALL volumes are.
+  Manifest CONTENTS are read by the thin `_work_manifest.py` (intake / pause-driver /
+  dashboard only). `_branching.branch_for_work` maps any volume/work slug to the one
+  work branch. A flat book ending in `-vol-N` (e.g. `journey-to-the-west-vol-1`) is
+  NEVER mistaken for a volume — descent requires a parent manifest. Single books stay
+  flat with NO manifest, byte-identical. Intake: `intake_book.py <pdf> --work <slug>
+  --volume N` (ONE PDF per volume); single-book `intake_book.py <pdf> <slug>` unchanged.
+
+- **Profile-driven phase routing (Phase 2).** `_rules.phase_capabilities(profile)` is
+  the SINGLE accessor for every phase-skip decision (0a OCR / 0c phonetics / 0e
+  enrichment), over `CONTENT_TYPE_REGISTRY`. `initial_driver` reads
+  `caps.skip_phonetics` / `caps.skip_enrichment` from the book's `content_profile`
+  instead of the legacy `category` tag — so a `books`-category item that is actually
+  technical now correctly skips. A compat shim keeps pre-`content_profile` consumer
+  books (`sites`/`explainers`) on the skip path.
+
+- **Per-volume autopilot + safety rails (Phase 3).** `orchestrate_work.py` is a
+  work-level SEQUENCER (NOT a 2nd supervisor) — it drives volumes in order, hands the
+  active volume to the existing `supervise_run.py ensure`, and PAUSES between volumes
+  (Q4: "autopilot per volume, pause between volumes"); `--advance` starts exactly one
+  next volume, never auto-launched. `converge_chapter` gained mid-loop cost ceilings
+  (F35: per-chapter cap → FAILED+degrade; per-book `book_cost_cap_usd` → systemic
+  COST-CEILING halt so the supervisor won't relaunch), a 2-consecutive-fixer-failure
+  early halt, episode-rebuild surfacing, and an intra-iteration heartbeat. F32 framing
+  cache: a restart with an unchanged chapter skips LLM re-authoring via a `.framing-sig`
+  sidecar.
+
+- **De-patch + F38 close-out (Phase 4).** Duplicated `_run`/`_err`/`_info` extracted to
+  `_subprocess.py`. **F38 / DR-015 pool choice (documented):** unattended bulk phases
+  (0b–0e chunked authoring via `_chunking.make_sdk_invoke_fn`, and the tighten pre-pass
+  via `_tighten_helpers.spawn_claude`) invoke the model through the **Anthropic SDK on
+  the METERED API pool**, NOT the interactive `claude -p` Max pool. This is DR-015's
+  intent: unattended code that fires >10 calls/book must stay on the isolated metered
+  pool (so spend is cost-covered and never diverts the interactive Max token), and the
+  mid-loop cost ceiling covers exactly this spend. The stable instructions block is
+  prompt-cached. A grep gate (`test_no_claude_p_in_unattended.py`) pins that no
+  `claude -p` shellout reappears.
 
 ## 2026-06-03 Wave L — content-level gating + etymology + augmentation challenger
 

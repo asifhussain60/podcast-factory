@@ -116,6 +116,20 @@
       "failure_mode": "surfaces error and halts"
     },
     {
+      "id": "book-publisher",
+      "name": "Book Publisher",
+      "role": "Physical delivery agent for podcast-factory books",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Physical delivery agent for podcast-factory books. Copies a book's audio episodes (m4a) and reading-edition PDF to a target folder \u2014 typically a Google Drive per-book subfolder. Accepts `<book-slug>` plus an optional `<target-folder>`; i\u2026",
+      "what_it_knows": "See infra/claude-agents/book-publisher.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
+    {
       "id": "html-view-challenger",
       "name": "Html View Challenger",
       "role": "Conformance challenger for HTML views, Astro pages, components, and diagrams on ",
@@ -439,6 +453,6 @@
   ],
   "modules": [],
   "archetypes": [],
-  "generated_at": "2026-06-07T10:12:31.174801+00:00",
-  "source_commit": "5319dba"
+  "generated_at": "2026-06-09T15:27:09.448341+00:00",
+  "source_commit": "3c8b38cb"
 }
