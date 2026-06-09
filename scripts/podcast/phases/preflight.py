@@ -185,6 +185,7 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             "/_system/chapter-set-report.md",
             "/_system/health-trend.md",
             "/_system/watchdog.json",
+            "/_system/orchestrator-state.json",
             "scripts/podcast/tighten_source.py",
             ".code-workspace",
         )
@@ -202,6 +203,7 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             "_workspace/logs/",
             "_workspace/runs/",
             "content/m4a/",
+            "content/podcast/.skill/_learning/",
         )
         runtime_artifact_suffixes_lc = tuple(s.lower() for s in runtime_artifact_suffixes)
         runtime_artifact_dirs_lc = tuple(d.lower() for d in runtime_artifact_dirs)

@@ -3,8 +3,8 @@
   "book_slug": "asaas-al-taveel-vol-01",
   "category": "books",
   "branch": "Islamic/asaas-al-taveel",
-  "phase": "per-chapter-slides",
-  "phase_status": "completed",
+  "phase": "finalize",
+  "phase_status": "failed",
   "last_completed_phase": "per-chapter-slides",
   "next_phase": "finalize",
   "phases": {
@@ -197,6 +197,13 @@
         "adam-the-tree-and-iblis-pact": "BLOCKED",
         "two-parties-and-the-line-to-noah": "BLOCKED"
       }
+    },
+    "finalize": {
+      "status": "failed",
+      "ts_started": "2026-06-09T20:03:06Z",
+      "ts_completed": "2026-06-09T20:03:06Z",
+      "validator_stdout": "",
+      "validator_stderr": "validate_ship_ready: workspace not found: /Users/asifhussain/PROJECTS/podcast-factory/content/drafts/vol-01\n"
     }
   },
   "cost": {
@@ -212,7 +219,11 @@
   },
   "pipeline_mode": "orchestrated",
   "status": "draft",
-  "last_error": null,
+  "last_error": {
+    "phase": "finalize",
+    "message": "G1-G7 gates failed; see stdout for the failing gate",
+    "ts": "2026-06-09T20:03:06Z"
+  },
   "slide_decks": {
     "what-ismaili-interpretation-is": {
       "slide_deck_phase": "stalled",
