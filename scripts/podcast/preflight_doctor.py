@@ -131,6 +131,13 @@ def check_claude_auth(do_ping: bool = True) -> CheckResult:
         hint = " (keychain shows expired — will auto-refresh on first use)" if _early_hint else ""
         return CheckResult("claude-auth", OK, f"keychain check done{hint} (ping skipped)")
 
+    # Live ping requires a TTY — claude -p hangs in capture_output subprocess mode.
+    # If stdin is not a TTY (headless/watchdog/subprocess context), skip the ping.
+    import sys as _sys
+    if not _sys.stdin.isatty():
+        hint = " (headless — ping skipped, keychain used)" if not _early_hint else " (keychain shows expired; ping skipped headless)"
+        return CheckResult("claude-auth", OK, f"keychain check done{hint}")
+
     # Mirror _authoring._core._run_claude_p: strip API-key env so auth resolves
     # via the flat-rate Max OAuth session, never the metered API.
     child_env = dict(os.environ)
@@ -140,6 +147,7 @@ def check_claude_auth(do_ping: bool = True) -> CheckResult:
         proc = subprocess.run(
             ["claude", "-p", "--output-format", "json", "Reply with exactly: pong"],
             capture_output=True, text=True, timeout=90, env=child_env,
+            stdin=subprocess.DEVNULL,
         )
     except FileNotFoundError:
         return CheckResult(

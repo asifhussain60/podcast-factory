@@ -174,9 +174,9 @@ for attempt in $(seq 1 "$MAX_RETRIES"); do
     # --retry-phase clears the stale flag so --resume can proceed.
     if [[ "$STATUS" == "running" ]]; then
         _log "Stale running state detected — using --retry-phase $PHASE"
-        "$PYTHON" "$ORCH" --resume "$SLUG" --retry-phase "$PHASE" 2>&1 | tee -a "$LOG"
+        "$PYTHON" "$ORCH" --resume "$SLUG" --retry-phase "$PHASE" --skip-doctor 2>&1 | tee -a "$LOG"
     else
-        "$PYTHON" "$ORCH" --resume "$SLUG" 2>&1 | tee -a "$LOG"
+        "$PYTHON" "$ORCH" --resume "$SLUG" --skip-doctor 2>&1 | tee -a "$LOG"
     fi
 
     RC=${PIPESTATUS[0]}
