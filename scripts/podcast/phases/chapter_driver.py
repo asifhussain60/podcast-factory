@@ -54,7 +54,10 @@ def _failure_signature(reason: str) -> str:
 
 def _drive_per_chapter_and_after(book_dir: Path) -> int:
     """After Phase 0f approval: drive per-chapter loop → 0g → finalize halt."""
-    book_slug = book_dir.name
+    # Use the slug from state — book_dir.name gives only the leaf (e.g. "vol-01")
+    # which breaks validate_ship_ready for nested-series books.
+    _state = read_state(book_dir) or {}
+    book_slug = _state.get("book_slug") or book_dir.name
     _phase_boundary_gate(book_dir, "0f→per-chapter")
 
     contracts_dir = book_dir / "chapter-contracts"
