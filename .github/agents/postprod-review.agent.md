@@ -38,12 +38,12 @@ Worker/Judge separation: this agent JUDGES, never mutates. Filename normalizatio
 
 | Path | Purpose |
 |---|---|
-| `content/drafts/<slug>/m4a/*.m4a` | The audio files downloaded from NotebookLM (filenames may be NotebookLM-assigned, not canonical) |
-| `content/drafts/<slug>/m4a/transcripts/*.txt` | Turboscribe transcripts of those m4a files (paired by stem when canonical; otherwise by inference) |
-| `content/drafts/<slug>/chapter-contracts/*.yml` | Per-chapter contract (theme, doctrinal anchors, episode count) |
-| `content/drafts/<slug>/chapters/ch*.txt` | The enriched chapter SOURCE that was uploaded to NotebookLM |
-| `content/drafts/<slug>/episodes/EP*.txt` | The CUSTOMIZE prompt that steered NotebookLM |
-| `content/drafts/<slug>/meta.yml` | Book metadata — used to pick the archetype (genre/format) |
+| `content/<Bucket>/<slug>/m4a/*.m4a` | The audio files downloaded from NotebookLM (filenames may be NotebookLM-assigned, not canonical) |
+| `content/<Bucket>/<slug>/m4a/transcripts/*.txt` | Turboscribe transcripts of those m4a files (paired by stem when canonical; otherwise by inference) |
+| `content/<Bucket>/<slug>/chapter-contracts/*.yml` | Per-chapter contract (theme, doctrinal anchors, episode count) |
+| `content/<Bucket>/<slug>/chapters/ch*.txt` | The enriched chapter SOURCE that was uploaded to NotebookLM |
+| `content/<Bucket>/<slug>/episodes/EP*.txt` | The CUSTOMIZE prompt that steered NotebookLM |
+| `content/<Bucket>/<slug>/meta.yml` | Book metadata — used to pick the archetype (genre/format) |
 | `content/_shared/archetypes/<genre>/` | The archetype the audio is judged against |
 | `scripts/podcast/_rules.py` | `MODERNIZE_DENY`, `SURPRISE_DENY`, honorifics, abbreviations, phonetics — same denial lists the source-side challenger enforces, now applied to the *transcript* |
 
@@ -51,8 +51,8 @@ Worker/Judge separation: this agent JUDGES, never mutates. Filename normalizatio
 
 | Path | Purpose |
 |---|---|
-| `content/drafts/<slug>/audits/postprod-ch<NN>-<chapter-slug>.md` | Per-chapter finding report |
-| `content/drafts/<slug>/audits/postprod-<slug>-rollup.md` | Book-level rollup with verdict + per-chapter table |
+| `content/<Bucket>/<slug>/audits/postprod-ch<NN>-<chapter-slug>.md` | Per-chapter finding report |
+| `content/<Bucket>/<slug>/audits/postprod-<slug>-rollup.md` | Book-level rollup with verdict + per-chapter table |
 | `_learning/findings.jsonl` | One JSON line per finding, `source: "postprod-review"`, `finding_id` prefixed `PR-` |
 
 The agent does NOT modify any file under `m4a/`, `chapters/`, `episodes/`, or `chapter-contracts/`. Only writes under `audits/` and `_learning/`.

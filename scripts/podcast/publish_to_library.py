@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
-"""publish_to_library.py — on-demand publish from `content/drafts/<slug>/`
-to `content/published/books/<slug>/`. Minimal output: chapters/ + episodes/ + README.md.
+"""publish_to_library.py — flip a finished book's status from draft to published
+IN PLACE (status-flag model, 2026-06-04). Nothing is copied or moved: the book stays
+at `content/<Bucket>/<slug>/`; this script sets `status: published` (+ published_at)
+in `_system/orchestrator-state.json` and `publication.status: published` in `meta.yml`,
+then updates the cross-book catalog row. The Astro site filters on that status.
 
-This script is the canonical writer of `content/published/books/<slug>/`. It supersedes
-the older `ship_to_library.py` (now deprecated — see top of that file).
+This script is the only writer of the published status. It supersedes the older
+`ship_to_library.py` (removed 2026-05-24) and the pre-2026-06-04 copy model that
+wrote a `content/published/books/<slug>/` tree.
 
-Library output is **filesystem-only** at `<repo-parent>/content/published/` and is
-deliberately NOT git-tracked. The published copy is a derived artifact —
-deletable + regeneratable from `content/drafts/<slug>/` at any time.
+GATES (failures block publish):
 
-GATES (all 6 must pass under default mode; failures block publish):
-
-  G1  Required structure  : content/drafts/<slug>/chapters/*.txt and
-                            content/drafts/<slug>/episodes/*.txt both
-                            exist and non-empty.
+  G1  Required structure  : BOOK_DIR/chapters/*.txt and BOOK_DIR/episodes/*.txt
+                            both exist and non-empty.
   G2  Pair completeness   : every EP##-<slug>.txt has a matching
                             ch##-<slug>.txt and vice versa.
   G3  Sequential numbering: chapter and episode files are purely sequential
@@ -23,22 +22,17 @@ GATES (all 6 must pass under default mode; failures block publish):
   G4  Build-clean         : running build_episode_txt.py on every episode
                             returns P0=0. P1 advisories are WARN-only in
                             default mode; --strict elevates P1 to blocking.
-  G5  State checkpoint    : content/drafts/<slug>/_system/orchestrator-
-                            state.json shows phase=done OR (phase=per-chapter
-                            AND phase_status=ship-with-caution|ship-ready).
-  G6  Library-target sane : content/published/books/<slug>/ either doesn't exist or
-                            --overwrite (default) wipe-and-recreates it.
-                            --no-wipe coexists with prior content.
+  G5  State checkpoint    : BOOK_DIR/_system/orchestrator-state.json shows
+                            phase=done OR (phase=per-chapter AND
+                            phase_status=ship-with-caution|ship-ready).
+  G6  (obsolete)          : target wipe-safety is n/a in the status-flag model —
+                            no published/ tree is created or wiped. The gate
+                            function is retained only for the test suite.
+  G7  Challenger verdict  : convergence verdict in {SHIP-READY,
+                            SHIP-WITH-CAUTION} unless --allow-mode-2.
 
-OUTPUT under content/published/books/<slug>/:
-
-  chapters/                 — copied verbatim from content/drafts/<slug>/chapters/
-  episodes/                 — copied verbatim from content/drafts/<slug>/episodes/
-  README.md                 — generated; lists episode count, publish timestamp,
-                              source git SHA (develop tip), EP→chapter pair table,
-                              NotebookLM upload instructions.
-
-The `content/published/_meta/catalog.md` row for <slug> is updated (or appended).
+The `content/published/_meta/catalog.md` row for <slug> is updated (or appended) —
+that path holds cross-book `archetypes/` + `_meta/` only, no per-book folders.
 
 USAGE:
 
@@ -47,9 +41,8 @@ USAGE:
 OPTIONS:
 
   --strict      Elevate P1 advisories to blocking (default: P1 is warn-only).
-  --no-wipe     Skip the wipe step; coexist with prior content at
-                content/published/books/<slug>/.
-  --dry-run     Run all gates + print the would-copy file list; do not write.
+  --no-wipe     Legacy no-op (status-flag model writes no published/ tree).
+  --dry-run     Run all gates + print the plan; do not write.
   --force       Skip G5 state-checkpoint gate (the per-chapter halts can leave
                 state.json mid-flight; use cautiously).
 
@@ -594,7 +587,7 @@ def _update_meta_publication_status(workspace: Path) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="On-demand publish from content/drafts/<slug>/ to content/published/books/<slug>/.",
+        description="Flip a finished book's status draft->published in place (no files copied).",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("slug", help="Book slug (e.g. kitab-al-riyad).")

@@ -179,7 +179,7 @@ P2 findings never affect the verdict (advisory only). The book-level verdict is 
 
 ## Findings ledger contract
 
-After writing the sidecar report, emit one JSONL record per distinct finding into `content/podcast/.skill/_learning/findings.jsonl` (the shared ledger; book, audio, and slide findings cohabit, distinguished by `source`). Use `scripts/podcast/_rules.py::emit_finding()` via a Python one-liner, mirroring the audio challenger.
+After writing the sidecar report, emit one JSONL record per distinct finding into `_learning/findings.jsonl` (the shared ledger; book, audio, and slide findings cohabit, distinguished by `source`). Use `scripts/podcast/_rules.py::emit_finding()` via a Python one-liner, mirroring the audio challenger.
 
 ```json
 {

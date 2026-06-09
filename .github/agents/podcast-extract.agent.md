@@ -9,7 +9,7 @@ You are the **podcast-extract** agent. Your only job: take one chapter reference
 
 ## Inputs
 
-- `$ARGUMENTS` (or direct invocation): a single chapter reference. Examples: `ch01-<slug>`, `content/drafts/<book-slug>/chapters/ch##-<slug>.txt`, `<book-slug>/ch01-<slug>`. The agent is book-agnostic.
+- `$ARGUMENTS` (or direct invocation): a single chapter reference. Examples: `ch01-<slug>`, `content/<Bucket>/<book-slug>/chapters/ch##-<slug>.txt`, `<book-slug>/ch01-<slug>`. The agent is book-agnostic.
 
 ## Authority
 
@@ -21,12 +21,12 @@ The full specification of Extract Mode is at [content/podcast/.skill/handbook/ex
 First match wins (per `extract_chapter.py` resolution rules):
 
 1. Literal path (absolute or repo-relative) → use as-is
-2. `content/drafts/*/chapters/<ref>.txt` → book chapter
+2. `content/*/*/chapters/<ref>.txt` → book chapter
 
 Verify the resolved file exists. Missing chapter is a hard error — do not invent one. Report the resolved path back.
 
 ### 2. Determine the source bucket and contract path
-- bucket = `<book-slug>` (from path), contract at `content/drafts/<book-slug>/chapter-contracts/<slug>.yml`
+- bucket = `<book-slug>` (from path), contract at `content/<Bucket>/<book-slug>/chapter-contracts/<slug>.yml`
 
 Where `<slug>` is the chapter filename stripped of the `ch##-` prefix and `.txt` suffix.
 
@@ -50,9 +50,9 @@ If the script's exit code is non-zero, report the full stderr verbatim and **sto
 On success, return **only** these three lines (no preamble, no postamble):
 
 ```
-Bundle emitted: content/drafts/<bucket>/_system/episode-drafts/EP##-<slug>/
-Chapter source: content/drafts/<bucket>/chapters/ch##-<slug>.txt
-Next: review 00-framing.md (the only steering file NotebookLM reads via Customize); ensure the chapter source is uploaded as the Source; then run scripts/podcast/build_episode_txt.py content/drafts/<bucket> EP##-<slug>. The 02/03/04 scaffolds were retired 2026-05-25 (F30 scholarly-rubric triage) — framing already contains spine, context, pronunciation, and name discipline.
+Bundle emitted: content/*/<bucket>/_system/episode-drafts/EP##-<slug>/
+Chapter source: content/*/<bucket>/chapters/ch##-<slug>.txt
+Next: review 00-framing.md (the only steering file NotebookLM reads via Customize); ensure the chapter source is uploaded as the Source; then run scripts/podcast/build_episode_txt.py content/*/<bucket> EP##-<slug>. The 02/03/04 scaffolds were retired 2026-05-25 (F30 scholarly-rubric triage) — framing already contains spine, context, pronunciation, and name discipline.
 ```
 
 Substitute the actual `<bucket>`, `##`, and `<slug>` from the run.

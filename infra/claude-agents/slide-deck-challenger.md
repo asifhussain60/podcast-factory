@@ -272,14 +272,14 @@ Per the canonical spec's standing instruction to distinguish: count and list. VE
 
 ## Ledger emission summary
 
-N findings emitted to `content/podcast/.skill/_learning/findings.jsonl` this run (source: slide-deck-challenger, version: 1.0).
+N findings emitted to `_learning/findings.jsonl` this run (source: slide-deck-challenger, version: 1.0).
 ```
 
 ---
 
 ## Findings ledger contract
 
-After writing the sidecar report, the agent MUST emit one JSONL record per **distinct finding** into `content/podcast/.skill/_learning/findings.jsonl` (the same ledger the audio `podcast-challenger` writes to — slide and audio findings cohabit the ledger, distinguished by the `source` field).
+After writing the sidecar report, the agent MUST emit one JSONL record per **distinct finding** into `_learning/findings.jsonl` (the same ledger the audio `podcast-challenger` writes to — slide and audio findings cohabit the ledger, distinguished by the `source` field).
 
 ### Required fields
 
@@ -370,7 +370,7 @@ Always write the sidecar report — even on a clean run, the report serves as th
 The agent is read-only over all bundle artifacts. The only files the agent writes are:
 
 - The sidecar report at `BOOK_DIR/_system/slide-challenger-report.md` (per-book) or `BOOK_DIR/_system/slide-challenger-reports/chNN-<slug>-report.md` (per-chapter)
-- The findings ledger entries at `content/podcast/.skill/_learning/findings.jsonl` (append-only)
+- The findings ledger entries at `_learning/findings.jsonl` (append-only)
 
 **Rationale for v1.0 NO auto-fix policy:** the audio challenger's auto-fix set (em-dashes, repeated honorifics, template-clause insertions) works because those are deterministic substring or template operations on text whose surrounding semantics don't shift. Slide-deck failures are different in kind — every Pass 1 failure (restatement, literal illustration, structure-vs-description, missing diagram type) requires the Worker to make a structural decision (which axis? which entities? what does this moment do that the audio doesn't?). No auto-fix can answer those questions. Keeping v1.0 strictly Worker-iterated keeps the contract surgical; if a deterministic remediation surfaces in the learning loop (3+ episodes showing the same fix), promote it to v1.1 auto-fix scope then.
 

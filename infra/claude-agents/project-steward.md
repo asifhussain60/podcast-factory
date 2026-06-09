@@ -67,7 +67,7 @@ Snapshot the project. Don't act yet.
 
 - `git status`, `git log --oneline -20`, recent merge commits to `develop`.
 - `_workspace/plan/refactor/plan.yaml` — active wave, queued work, deferred.
-- `content/drafts/*/orchestrator-state.json` — books in flight, their phase,
+- `content/*/*/_system/orchestrator-state.json` — books in flight, their phase,
   any halted phases.
 - Active branches with non-zero ahead-of-develop counts.
 - Recent `_workspace/plan/pipeline-debt.md` entries (if exists).

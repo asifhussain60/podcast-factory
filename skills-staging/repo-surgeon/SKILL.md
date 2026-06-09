@@ -42,7 +42,7 @@ Systematic, multi-pass reviews of the journal repo. Identify structural drift, d
 - Orphaned file detection and cleanup
 - Registry alignment (skills, prompts, agents)
 - Stale reference detection and repair
-- `server/logs/surgeon-log.jsonl` (run log)
+- `_workspace/logs/surgeon-log.jsonl` (run log — `server/` was retired 2026-05-22)
 
 ## Does NOT own
 
@@ -136,44 +136,30 @@ git ls-files | grep DS_Store
 
 ### Rules
 
+> **Retired checks (2026-05-22 repo split):** C1–C5 and C8 targeted the `site/` +
+> `server/` + `shared/` surfaces, which moved to the sibling `journal` repo or were
+> retired outright. They are kept below for the record but MUST be skipped in this
+> repo — the directories do not exist. The web-app analogues for this repo live in
+> the Astro site's view lint (`plan-dashboard/html-view-lint.config.json`,
+> `npm run lint:views`).
+
 | ID | Rule | Action |
 |---|---|---|
-| C1 | **Orphaned CSS** — `.css` in `site/css/` not linked from `site/index.html` or imported by another CSS. | Delete or link. |
-| C2 | **Orphaned JS** — `.js` in `site/js/` not referenced from `site/index.html` or another JS. | Delete or link. |
-| C3 | **Dead server routes** — Route registered in `server/src/` with no client caller in `site/`. | Flag for deprecation. |
-| C4 | **Orphaned prompts** — File in `server/src/prompts/` not registered in `server/src/prompts/index.js`. | Register or delete. |
-| C5 | **Stale named exports** — Exports in `server/src/prompts/index.js` referencing nonexistent files. | Remove export. |
+| C1 | RETIRED — orphaned CSS in `site/css/` (dir gone). | Skip. |
+| C2 | RETIRED — orphaned JS in `site/js/` (dir gone). | Skip. |
+| C3 | RETIRED — dead `server/src/` routes (dir gone). | Skip. |
+| C4 | RETIRED — orphaned prompts in `server/src/prompts/` (dir gone). | Skip. |
+| C5 | RETIRED — stale exports in `server/src/prompts/index.js` (dir gone). | Skip. |
 | C6 | **Duplicate functions** — Identical signatures + near-identical bodies across files. | Consolidate. |
-| C7 | **Console.log in production** — Unguarded `console.log` in `site/js/` (non-debug files). | Remove or guard with `DEBUG` flag. |
-| C8 | **Orphaned shared modules** — `shared/*.js` not imported by `site/` or `server/`. | Flag for removal. |
+| C7 | **Console.log in production** — Unguarded `console.log`/`console.debug` in `plan-dashboard/src/` (non-debug files). | Remove or guard with `DEBUG` flag. |
+| C8 | RETIRED — orphaned `shared/*.js` modules (dir gone). | Skip. |
 
 ### Procedure
 
 ```bash
-# C1: Orphaned CSS
-for f in site/css/*.css; do
-  base=$(basename "$f")
-  grep -rq "$base" site/index.html site/css/ 2>/dev/null || echo "ORPHANED CSS: $f"
-done
-
-# C2: Orphaned JS
-for f in site/js/*.js; do
-  base=$(basename "$f")
-  grep -rq "$base" site/index.html site/js/ 2>/dev/null || echo "ORPHANED JS: $f"
-done
-
-# C4: Orphaned prompts
-for f in server/src/prompts/*.js; do
-  base=$(basename "$f" .js)
-  [[ "$base" == "index" ]] && continue
-  grep -q "$base" server/src/prompts/index.js || echo "ORPHANED PROMPT: $f"
-done
-
-# C8: Orphaned shared modules
-for f in shared/*.js; do
-  base=$(basename "$f")
-  grep -rq "$base" site/ server/src/ 2>/dev/null || echo "ORPHANED SHARED: $f"
-done
+# C6/C7 only — C1-C5 + C8 are retired (site/, server/, shared/ no longer exist here).
+# C7: console.log in the Astro site source
+grep -rn "console\.\(log\|debug\)" plan-dashboard/src/ --include='*.ts' --include='*.tsx' --include='*.astro' | grep -v "// debug-ok"
 ```
 
 ### Dynamic-import safety (closes silent-failure mode)
@@ -226,7 +212,7 @@ If ANY of the three returns a hit referencing this candidate, downgrade to "POSS
 | AU-X3 | Extensibility | P2 | **Convention drift** — Recent additions that don't match established naming/file-layout/invocation patterns. |
 | AU-H1 | Hygiene | P1 | **Workspace-root sprawl** — Files at any folder root not in vacuum's root-legit whitelist (vacuum.agent.md §9). Report with `delegate_to: vacuum`. |
 
-**Findings:** emit one JSONL record per finding to `content/podcast/.skill/_learning/findings.jsonl` with `source: "repo-surgeon/podcast"` and `finding_id` prefixed `AU`. Report written to `_workspace/audit-reports/<ISO>-podcast-probes.md`.
+**Findings:** emit one JSONL record per finding to `_learning/findings.jsonl` with `source: "repo-surgeon/podcast"` and `finding_id` prefixed `AU`. Report written to `_workspace/audit-reports/<ISO>-podcast-probes.md`.
 
 **Verdict:** same as podcast-auditor — `healthy` (zero P0, ≤3 P1), `drift-detected` (≥1 P0 or ≥4 P1), `regression-detected` (≥3 P0).
 
@@ -390,7 +376,7 @@ grep -rnE '(open\([^)]*content/babu-memoir|open\([^)]*content/_shared|open\([^)]
 
 # L6: async safety
 ACTIVE=$(pgrep -fl 'orchestrate_book|claude -p|extract_chapter|build_episode' 2>/dev/null)
-RUNNING_STATES=$(find content/drafts/*/_system/orchestrator-state.json -type f 2>/dev/null | xargs -I{} grep -l '"phase_status": "running"' {} 2>/dev/null)
+RUNNING_STATES=$(find content/*/*/_system/orchestrator-state.json -type f 2>/dev/null | xargs -I{} grep -l '"phase_status": "running"' {} 2>/dev/null)
 if [ -n "$ACTIVE" ] && [ -n "$RUNNING_STATES" ]; then
   echo "ASYNC ACTIVE — emit wait banner from meta.async_safety.wait_banner_format and HALT."
 fi

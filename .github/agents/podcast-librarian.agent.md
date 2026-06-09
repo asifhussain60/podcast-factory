@@ -30,9 +30,9 @@ chapters, produce structured atoms, dedup against the canonical library, and rep
 ## Inputs
 
 - `$ARGUMENTS` (or direct invocation): a book slug. Example: `kitab-al-riyad`.
-- The book must be at `content/drafts/<slug>/` with phase `08-enrichment` complete
+- The book must be at `content/<Bucket>/<slug>/` with phase `08-enrichment` complete
   (state.json `phases."08-enrichment".phase_status == "completed"`).
-- Enriched chapters under `content/drafts/<slug>/02-enriched/*.md` (or the canonical
+- Enriched chapters under `content/<Bucket>/<slug>/02-enriched/*.md` (or the canonical
   enrichment output path as defined in `scripts/podcast/_phases.py` — verify at run
   time).
 
@@ -53,7 +53,7 @@ chapter source files. You never auto-resolve a conflict — humans do that.
 ## Protocol (run in this exact order)
 
 ### 1. Verify preconditions
-- Confirm `content/drafts/<slug>/_system/orchestrator-state.json` exists.
+- Confirm `content/<Bucket>/<slug>/_system/orchestrator-state.json` exists.
 - Confirm `phases."08-enrichment".phase_status == "completed"`.
 - Confirm enriched chapter files are present and non-empty.
 - If any precondition fails, halt with a clear error and do NOT modify any files.
@@ -65,7 +65,7 @@ Single Bash call:
 python3 scripts/podcast/knowledge/extractor.py <slug>
 ```
 
-The Extractor produces `content/drafts/<slug>/_system/knowledge-atoms-scratch.jsonl`
+The Extractor produces `content/<Bucket>/<slug>/_system/knowledge-atoms-scratch.jsonl`
 (one atom per line, no dedup yet). Each atom carries the common envelope from spec §4.1
 plus a Quran or hadith body per §4.2/§4.3. Low-confidence atoms (`< 0.7`) carry a
 `needs_review: true` flag.
@@ -82,7 +82,7 @@ python3 scripts/podcast/knowledge/librarian.py <slug>
 
 The Librarian reads the scratch file, walks each atom, and writes:
 - Updated `content/knowledge-base/quran.jsonl` and `hadith.jsonl` (merged in place).
-- `content/drafts/<slug>/_system/knowledge-merge-report.md` (human-readable summary).
+- `content/<Bucket>/<slug>/_system/knowledge-merge-report.md` (human-readable summary).
 - If any conflicts: `content/knowledge-base/_conflicts/pending-review.jsonl`.
 - Updated `content/knowledge-base/_index/stats.json`.
 
@@ -121,7 +121,7 @@ Atoms extracted: quran=N hadith=M
 Atoms new:       quran=A hadith=B
 Atoms merged:    quran=C hadith=D (sources added)
 Conflicts:       0
-Report: content/drafts/<slug>/_system/knowledge-merge-report.md
+Report: content/<Bucket>/<slug>/_system/knowledge-merge-report.md
 Library now: <total quran atoms> quran, <total hadith atoms> hadith across <total books> books
 Next: orchestrator advances to phase 09-series-plan.
 ```
@@ -163,7 +163,7 @@ Action required: review conflicts, run scripts/podcast/knowledge/resolve_conflic
 
 ## Branch + merge behavior
 
-- This agent runs on the book's own branch (e.g. `book/<slug>`).
+- This agent runs on the book's own branch (e.g. `<Bucket>/<slug>`, like `Islamic/ayyuhal-walad`).
 - Writes to `content/knowledge-base/*.jsonl` ride along with the book branch's merge to
   `develop`.
 - If two parallel branches both modify the library, the standard git merge resolves
