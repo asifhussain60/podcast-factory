@@ -3,10 +3,10 @@
   "book_slug": "asaas-al-taveel-vol-01",
   "category": "books",
   "branch": "Islamic/asaas-al-taveel",
-  "phase": "0g",
+  "phase": "per-chapter-slides",
   "phase_status": "completed",
-  "last_completed_phase": "0g",
-  "next_phase": "per-chapter",
+  "last_completed_phase": "per-chapter-slides",
+  "next_phase": "finalize",
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -185,6 +185,18 @@
       "ts_started": "2026-06-09T20:03:01Z",
       "ts_completed": "2026-06-09T20:03:01Z",
       "reason": "optimize_enabled=false in meta.yml"
+    },
+    "per-chapter-slides": {
+      "status": "completed",
+      "ts_started": "2026-06-09T20:03:06Z",
+      "ts_completed": "2026-06-09T20:03:06Z",
+      "outcomes": {
+        "what-ismaili-interpretation-is": "BLOCKED",
+        "the-call-to-inner-meaning": "BLOCKED",
+        "the-four-limits-of-the-shahada": "BLOCKED",
+        "adam-the-tree-and-iblis-pact": "BLOCKED",
+        "two-parties-and-the-line-to-noah": "BLOCKED"
+      }
     }
   },
   "cost": {
@@ -200,5 +212,32 @@
   },
   "pipeline_mode": "orchestrated",
   "status": "draft",
-  "last_error": null
+  "last_error": null,
+  "slide_decks": {
+    "what-ismaili-interpretation-is": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "the-call-to-inner-meaning": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "the-four-limits-of-the-shahada": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "adam-the-tree-and-iblis-pact": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "two-parties-and-the-line-to-noah": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    }
+  }
 }
