@@ -288,3 +288,44 @@
   font-size: 0.85rem;
   color: var(--c-green, #4a7c4a);
 }
+
+/* ── Screen 2 — smart form (dropdowns + inline add) ────────────────────────── */
+.intake-smartrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.intake-smartrow .intake-select { flex: 1 1 auto; min-width: 0; }
+.intake-smalladd {
+  flex: 0 0 auto;
+  font-size: 0.8rem;
+  color: var(--c-accent);
+  background: none;
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.18));
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.intake-smalladd:hover { border-color: var(--c-accent); }
+.intake-smalladd:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+.intake-addrow {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.intake-addrow .intake-input { flex: 1 1 auto; }
+.intake-rationale {
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--c-ink-muted);
+}
+.intake-derived {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--c-ink);
+}
