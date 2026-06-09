@@ -559,7 +559,7 @@ def write_precheck_brief(book_dir: Path, label: str,
         )
     lines.append(f"\n## {label}\n")
     if not findings:
-        lines.append("- ✅ no deterministic findings\n")
+        lines.append("- (clean) no findings\n")
     else:
         for f in findings:
             lines.append(f"- **{f.severity} {f.check_id}** — {f.message}\n")
@@ -594,7 +594,7 @@ def converge_artifact(
 
     Cost ceiling: when ``cost_fn`` and ``cost_cap_usd > 0`` are supplied, the
     per-book spend is checked at the TOP of each round (before any LLM call). A
-    breach records ``systemic_halt`` and proceeds — it never raises.
+    breach sets ``cost_ceiling_tripped`` and proceeds — it never raises.
 
     The loop NEVER raises and ALWAYS returns with ``proceeded=True``. Findings
     from the final round are emitted to the ledger + brief by the caller-facing
@@ -813,9 +813,6 @@ def run_0e_chapter_precheck(book_dir: Path, chapter_stem: str,
 # precheck pattern summaries without importing the full pipeline. They read the
 # shared _learning/findings.jsonl ledger — never write to it.
 
-UPSTREAM_PRECHECK_SOURCES = frozenset({"precheck-0b", "precheck-0e"})
-
-
 def query_upstream_findings(
     repo_root: Optional[Path] = None,
     *,
@@ -824,14 +821,19 @@ def query_upstream_findings(
     """Return upstream precheck findings from the repo-level findings ledger.
 
     Reads ``<repo_root>/_learning/findings.jsonl``, filters to records whose
-    ``source`` is in UPSTREAM_PRECHECK_SOURCES, groups by ``check_id``, and
-    returns only those check IDs that appear at least ``min_occurrences`` times.
-    Each value is the list of raw JSONL records for that check_id.
+    ``source`` is in ``_rules.UPSTREAM_PRECHECK_SOURCES``, groups by
+    ``check_id``, and returns only those check IDs that appear at least
+    ``min_occurrences`` times. Each value is the list of raw JSONL records.
 
     Used by ``podcast-trainer`` and ``learn_aggregate.py`` to surface recurring
     upstream defect patterns and generate proposals. Read-only — never appends.
     """
     import json as _json
+
+    try:
+        from _rules import UPSTREAM_PRECHECK_SOURCES as _sources
+    except Exception:  # noqa: BLE001 — if _rules unavailable, fall back to inline
+        _sources = frozenset({"precheck-0b", "precheck-0e"})
 
     if repo_root is None:
         repo_root = REPO_ROOT
@@ -850,7 +852,7 @@ def query_upstream_findings(
                 rec = _json.loads(raw)
             except _json.JSONDecodeError:
                 continue
-            if rec.get("source", "") not in UPSTREAM_PRECHECK_SOURCES:
+            if rec.get("source", "") not in _sources:
                 continue
             cid = rec.get("check_id", "")
             if not cid:

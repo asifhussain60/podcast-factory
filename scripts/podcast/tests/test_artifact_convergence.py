@@ -452,5 +452,74 @@ class TestRun0bPrecheckWithDiscriminator:
         assert disc_calls["n"] == 0  # discriminator must NOT fire when cap=0
 
 
+# ─── Phase D: query_upstream_findings ────────────────────────────────────────
+
+
+class TestQueryUpstreamFindings:
+    def test_empty_ledger_returns_empty(self, tmp_path):
+        result = ac.query_upstream_findings(repo_root=tmp_path, min_occurrences=1)
+        assert result == {}
+
+    def test_missing_ledger_returns_empty(self, tmp_path):
+        # No _learning/ directory at all.
+        result = ac.query_upstream_findings(repo_root=tmp_path / "nowhere")
+        assert result == {}
+
+    def test_groups_by_check_id_above_threshold(self, tmp_path):
+        import json
+        learning = tmp_path / "_learning"
+        learning.mkdir()
+        ledger = learning / "findings.jsonl"
+        for i in range(4):
+            rec = {"source": "precheck-0b", "check_id": "U0B-LENGTH-DRIFT",
+                   "severity": "P1", "signature": "U0B-LENGTH-DRIFT",
+                   "book": f"book-{i}", "ts": "2026-01-01T00:00:00Z"}
+            ledger.write_text(
+                ledger.read_text() if ledger.exists() else "" +
+                json.dumps(rec) + "\n", encoding="utf-8"
+            )
+        # Simpler: write all at once
+        ledger.write_text(
+            "\n".join(json.dumps(
+                {"source": "precheck-0b", "check_id": "U0B-LENGTH-DRIFT",
+                 "severity": "P1", "signature": "U0B-LENGTH-DRIFT",
+                 "book": f"book-{i}", "ts": "2026-01-01T00:00:00Z"}
+            ) for i in range(4)) + "\n",
+            encoding="utf-8"
+        )
+        result = ac.query_upstream_findings(repo_root=tmp_path, min_occurrences=3)
+        assert "U0B-LENGTH-DRIFT" in result
+        assert len(result["U0B-LENGTH-DRIFT"]) == 4
+
+    def test_below_threshold_excluded(self, tmp_path):
+        import json
+        learning = tmp_path / "_learning"
+        learning.mkdir()
+        ledger = learning / "findings.jsonl"
+        ledger.write_text(
+            json.dumps({"source": "precheck-0b", "check_id": "U0B-EMPTY",
+                        "severity": "P0", "book": "x", "ts": "2026-01-01T00:00:00Z"})
+            + "\n",
+            encoding="utf-8",
+        )
+        result = ac.query_upstream_findings(repo_root=tmp_path, min_occurrences=3)
+        assert result == {}  # only 1 occurrence — below threshold of 3
+
+    def test_non_upstream_sources_excluded(self, tmp_path):
+        import json
+        learning = tmp_path / "_learning"
+        learning.mkdir()
+        ledger = learning / "findings.jsonl"
+        ledger.write_text(
+            "\n".join(json.dumps(
+                {"source": "podcast-challenger", "check_id": "A1",
+                 "book": f"b{i}", "ts": "2026-01-01T00:00:00Z"}
+            ) for i in range(10)) + "\n",
+            encoding="utf-8",
+        )
+        result = ac.query_upstream_findings(repo_root=tmp_path, min_occurrences=1)
+        assert result == {}  # podcast-challenger is not an upstream source
+
+
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-v"]))
