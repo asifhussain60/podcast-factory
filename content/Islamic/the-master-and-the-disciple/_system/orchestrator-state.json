@@ -3,11 +3,15 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
-  "phase": "0book-compose",
-  "phase_status": "completed",
-  "last_completed_phase": "0book-compose",
+  "phase": "0d",
+  "phase_status": "running",
+  "last_completed_phase": "0ci",
   "next_phase": "0book-illustrate",
-  "last_error": null,
+  "last_error": {
+    "phase": "0d",
+    "message": "Phase 0d-toc did not produce expected artifact: /Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/the-master-and-the-disciple/_system/source/text/_chunks/0d/source-toc.json",
+    "ts": "2026-06-10T16:09:29Z"
+  },
   "pipeline_mode": "orchestrated",
   "v1_archive": {
     "git_tag": "archive/the-master-and-the-disciple-v1",
@@ -49,71 +53,24 @@
       "note": "Phonetics. Output: _system/source/text/_phonetics.md"
     },
     "0d": {
-      "status": "completed",
-      "ts_started": "2026-06-07T19:37:35Z",
-      "ts_completed": "2026-06-07T21:35:11Z",
-      "manual_fallback": "Inspect _chunks/0d/sc-NNN.done markers and chapters/ dir."
+      "status": "running",
+      "ts_started": "2026-06-07T19:37:35Z"
     },
     "0e": {
-      "status": "completed",
-      "ts_started": "2026-06-07T21:35:12Z",
-      "ts_completed": "2026-06-07T22:01:16Z"
+      "status": "pending",
+      "ts_started": "2026-06-07T21:35:12Z"
     },
     "0f": {
-      "status": "halted",
+      "status": "pending",
       "ts_started": "2026-06-07T22:09:02Z",
-      "ts_completed": "2026-06-07T22:09:02Z",
       "series_plan_path": "content/Islamic/the-master-and-the-disciple/_system/series-plan.md"
     },
     "per-chapter": {
-      "status": "failed",
+      "status": "pending",
       "ts_started": "2026-06-07T22:17:45Z",
-      "completed_slugs": [
-        "true-sources-of-knowledge",
-        "knowledge-versus-action",
-        "spiritual-symbols-and-the-architecture-of-creation",
-        "the-disciple-becomes-master",
-        "unity-justice-and-the-living-witness"
-      ],
+      "completed_slugs": [],
       "failed_slugs": [],
-      "chapter_timings": {
-        "knowledge-versus-action": {
-          "started_ts": "2026-06-07T22:17:45Z",
-          "completed_ts": "2026-06-07T22:27:15Z",
-          "duration_sec": 570.2,
-          "verdict": "FAILED",
-          "cost_usd": 0.0
-        },
-        "spiritual-symbols-and-the-architecture-of-creation": {
-          "started_ts": "2026-06-07T22:27:15Z",
-          "completed_ts": "2026-06-07T22:42:34Z",
-          "duration_sec": 919.0,
-          "verdict": "FAILED",
-          "cost_usd": 0.0
-        },
-        "the-disciple-becomes-master": {
-          "started_ts": "2026-06-07T22:42:34Z",
-          "completed_ts": "2026-06-07T23:06:15Z",
-          "duration_sec": 1421.1,
-          "verdict": "FAILED",
-          "cost_usd": 0.0
-        },
-        "true-sources-of-knowledge": {
-          "started_ts": "2026-06-07T23:06:15Z",
-          "completed_ts": "2026-06-07T23:36:09Z",
-          "duration_sec": 1793.3,
-          "verdict": "SHIP-WITH-CAUTION",
-          "cost_usd": 0.0
-        },
-        "unity-justice-and-the-living-witness": {
-          "started_ts": "2026-06-07T23:36:09Z",
-          "completed_ts": "2026-06-07T23:36:09Z",
-          "duration_sec": 0.0,
-          "verdict": "FAILED",
-          "cost_usd": 0.0
-        }
-      },
-      "ts_completed": "2026-06-07T23:36:09Z"
+      "chapter_timings": {}
     },
     "0g": {
       "status": "pending"
@@ -131,30 +88,26 @@
       "manual_fallback": "1. Review /Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/the-master-and-the-disciple/_system/gap-analysis.md\n2. Edit or annotate as needed (add notes, reject candidates, confirm clarifications).\n3. Resume: python3 scripts/podcast/orchestrate_book.py --resume <slug>"
     },
     "06a": {
-      "status": "halted",
+      "status": "pending",
       "ts_started": "2026-06-07T22:01:16Z",
-      "ts_completed": "2026-06-07T22:01:26Z",
       "gate_warnings": 7
     },
     "0book-design": {
-      "status": "completed",
-      "ts_started": "2026-06-08T12:43:44Z",
-      "ts_completed": "2026-06-10T16:00:42Z"
+      "status": "pending",
+      "ts_started": "2026-06-08T12:43:44Z"
     },
     "0book-compose": {
-      "status": "completed",
-      "ts_started": "2026-06-08T12:45:18Z",
-      "ts_completed": "2026-06-10T16:00:43Z"
+      "status": "pending",
+      "ts_started": "2026-06-08T12:45:18Z"
     },
     "0book-illustrate": {
-      "status": "completed",
+      "status": "running",
       "ts_started": "2026-06-08T13:11:52Z",
       "ts_completed": "2026-06-08T13:24:21Z"
     },
     "0book-render": {
-      "status": "completed",
-      "ts_started": "2026-06-08T13:24:21Z",
-      "ts_completed": "2026-06-08T13:24:22Z"
+      "status": "pending",
+      "ts_started": "2026-06-08T13:24:21Z"
     }
   },
   "completed_slugs": [],
@@ -166,7 +119,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-10T16:00:43Z",
+  "ts_updated": "2026-06-10T16:21:21Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
