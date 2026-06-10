@@ -268,6 +268,22 @@ git pull --rebase origin book/ayyuhal-walad                      # sync before w
 Append a dated entry at the end of every session (newest at top): what changed, what's next,
 what's blocked. This is your across-session memory.
 
+### 2026-06-10 — Claude session (slide-deck import into the reading edition)
+
+**New optional step `scripts/podcast/inject_slide_deck.py`** (commit `943acdd` on `develop`):
+imports a NotebookLM-exported deck PDF (`slide-deck/*.pdf` + `slide-manifest.json`) into the
+book — pdftoppm pages→JPEG (150dpi q85), figures injected at verbatim manifest anchors
+(illustrator mechanics, hardened fail-loud on missing/ambiguous anchors), output
+`book/book-slides.md`. Render priority now book-slides > book-illustrated > book
+(`build_book_pdf._pick_book_md`); `render-book-pdf.mjs` localhost server now serves
+traversal-guarded static images under the book dir. `slide-deck/_pages/` gitignored;
+deck PDF+PPTX tracked. 13 new tests; suite 721 green. Manual invocation only — NOT an
+orchestrator phase (deck export is a manual NotebookLM step; no hard prerequisite gate).
+Validated on the-master-and-the-disciple: 13/14 slides placed (S01 = cover, deck-only),
+deterministic rebuild, 126-page 7.6 MB PDF synced to Drive. Scope deliberately reduced from
+Asif's original spec after audit: no new slide-generation stage, no hard PDF prerequisite,
+no Gemini insert-passages enrichment (`_augment_gemini.py` remains an unwired stub).
+
 ### 2026-06-07 — Claude session (branch policy → bucket grouping + merge + audit)
 
 **Branch naming changed: bare slug → `<Bucket>/<slug>` (bucket-grouped).** Supersedes the
