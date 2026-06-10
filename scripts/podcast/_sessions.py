@@ -146,6 +146,13 @@ def derive_sessions(
     return sessions
 
 
+def sessions_for_plan(book_dir: Path, source_chapters: list[dict]) -> list[dict] | None:
+    """Derive sessions for an in-memory TOC plan, honoring the book's
+    `sessions:` config override. Used by Phase 0d to stamp contracts at
+    authoring time (backfill covers books authored before this existed)."""
+    return derive_sessions(source_chapters, force=_config_override(book_dir))
+
+
 def session_for_episode(sessions: list[dict] | None, ep_num: int) -> dict | None:
     """The session dict containing global episode *ep_num*, or None."""
     for s in sessions or []:

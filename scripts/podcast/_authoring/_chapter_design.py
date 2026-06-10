@@ -634,6 +634,15 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                 f"{EPISODE_MAX_CONCEPTS}) per source chapter."),
         )
 
+    # Session grouping (chapter-density standard, presence-gated): derive once
+    # from the validated plan; each source chapter's contracts are stamped
+    # right after they pass the post-write gate. Flat books derive None and
+    # nothing is stamped anywhere.
+    from _sessions import sessions_for_plan, session_for_episode, stamp_contract  # noqa: PLC0415
+    plan_sessions = sessions_for_plan(book_dir, source_chapters)
+    if plan_sessions:
+        log(f"  phase 0d · session grouping active — {len(plan_sessions)} sessions")
+
     # ── STEP 2: per-source-chapter loop ──────────────────────────────────────
     log(f"  phase 0d · step 2/3 · per-source-chapter loop ({len(source_chapters)} chapters)")
 
@@ -960,6 +969,18 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                     f"for sc {sc_idx} in the TOC plan and resume."
                 ),
             )
+
+        # Session stamping (deterministic, $0) — after the gate, before the
+        # done marker, so a rejected-and-re-authored chapter is re-stamped.
+        if plan_sessions:
+            for ep, cpath in zip(episodes, expected_contract_files):
+                try:
+                    ep_num = int(ep["ep_num"])
+                except (KeyError, TypeError, ValueError):
+                    continue
+                session = session_for_episode(plan_sessions, ep_num)
+                if session is not None:
+                    stamp_contract(cpath, session, ep_num)
 
         # All good → checkpoint.
         done_marker.write_text(
