@@ -28,6 +28,7 @@ from _validator_constants import (  # noqa: E402
     EPISODE_MAX_CONCEPTS,
     episode_overcrammed,
 )
+from _content_profile import is_islamic_scholarly as _is_islamic_scholarly  # noqa: E402
 
 def _read_profile_and_planning(book_dir: Path) -> tuple[str, str]:
     """Return (content_profile, episode_planning_mode) from series-config.yaml.
