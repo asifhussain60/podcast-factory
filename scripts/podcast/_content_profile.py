@@ -62,6 +62,27 @@ def is_islamic_scholarly(book_dir: Path) -> bool:
     return resolve_content_profile(book_dir) == ISLAMIC_SCHOLARLY_PROFILE
 
 
+def slide_deck_mode(book_dir: Path) -> str:
+    """Return the book's slide-deck mode: 'per-chapter' (default) or 'book'.
+
+    `slide_deck_mode: book` in `_system/series-config.yaml` switches the
+    mandatory per-chapter-slides phase to author ONE deck pair for the whole
+    book (slide-decks/book-deck-source.txt + book-framing.md) — one NotebookLM
+    generation instead of one per chapter. Unknown values fall back to
+    per-chapter (zero behavior change for existing books).
+    """
+    cfg_path = book_dir / "_system" / "series-config.yaml"
+    if not cfg_path.exists():
+        return "per-chapter"
+    try:
+        with cfg_path.open() as f:
+            cfg = yaml.safe_load(f) or {}
+    except Exception:
+        return "per-chapter"
+    mode = str(cfg.get("slide_deck_mode") or "per-chapter").strip().lower()
+    return "book" if mode == "book" else "per-chapter"
+
+
 def density_standard_active(book_dir: Path) -> bool:
     """True when the book opts into the chapter-density standard (v2, 2026-06-10).
 
