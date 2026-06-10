@@ -569,3 +569,30 @@ Asif). **Blocked:** hadith atom ingest (no hadith DB; PyYAML missing from venv).
    then develop→main needs Asif's explicit approval.
 5. **Open challenger note:** intake surface REQ-010 reading-floor recorded as a documented
    scoped exception in `/studio/new` footer (Asif's decision) — not a TODO.
+
+## Session log — 2026-06-10 (Session grouping build, parallel with M&D re-run)
+
+- Root-caused the 5-episode merge loophole on the-master-and-the-disciple:
+  Phase 0d topic counting was LLM judgement; episode_planning_mode=chronological
+  also flipped 0d into fiction CONSOLIDATION mode. Fixed deterministically
+  (topic floor: episode_count >= ceil(topics/3) per source chapter + binding
+  curator-archive concept inventory floor: >= ceil(59/3)=20 episodes whole-book).
+  Verified live: re-run TOC planned exactly 20 episodes (3+4+4+5+4).
+- Guard-0e fixed (was checking _system/episode-drafts written much later, and
+  raised a malformed AuthoringError).
+- M&D config: episode_planning_mode -> dialectical_pairs, length_tier ->
+  default_deep_dive (extended band at 20 eps would force ~6x padding);
+  initial_driver now falls back to series-config length_tier when state config
+  carries none. Per-concept word target in 0d prompt now derives from tier band.
+- NEW: Session grouping layer (term locked by Asif: "Session"; boundaries =
+  source Parts; global EP numbering; metadata + Drive folders only).
+  scripts/podcast/_sessions.py (derive/stamp/backfill CLI), Phase 0d stamps at
+  authoring time, series plan + NotebookLM upload table group presence-gated,
+  library reader renders collapsible Session groups (lint:views + astro check
+  clean; flat books verified byte-identical), deliver_book.py writes
+  Episodes/Session N — Title/ subfolders. Standard documented in
+  docs/standards/chapter-density.md §Session grouping.
+- Backfill remaining M&D contracts after 0d completes:
+  python3 scripts/podcast/_sessions.py the-master-and-the-disciple
+- Old 5-episode m4a files in m4a/ are stale (pre-density audio) — vacuum before
+  the new 20-episode NotebookLM generation lands.
