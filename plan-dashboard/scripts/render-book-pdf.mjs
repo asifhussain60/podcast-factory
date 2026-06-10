@@ -12,7 +12,7 @@
  * message — run `npx playwright install chromium`); exit 1 on other errors.
  */
 import { chromium } from 'playwright';
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { readFileSync, mkdirSync, existsSync } from 'node:fs';
 import { createServer } from 'node:http';
 import path from 'node:path';
 

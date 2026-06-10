@@ -36,23 +36,6 @@ interface Edge {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const W = 140;
-const H = 36;
-
-const CAT_COLOR: Record<Category, string> = {
-  core:       '#8b4513',
-  knowledge:  '#b8860b',
-  operations: '#0078d4',
-  quality:    '#4a7c4a',
-};
-
-const CAT_BG: Record<Category, string> = {
-  core:       'rgba(139,69,19,0.08)',
-  knowledge:  'rgba(184,134,11,0.08)',
-  operations: 'rgba(0,120,212,0.08)',
-  quality:    'rgba(74,124,74,0.08)',
-};
-
 const CAT_LABEL: Record<Category, string> = {
   core: 'Core pipeline',
   knowledge: 'Knowledge store',
@@ -525,7 +508,6 @@ export default function DbArchitecture() {
           const isSel = selected === table.id;
           const isRelated = !isSel && selected !== null && connectedIds.has(table.id);
           const isDimmed = selected !== null && !isSel && !isRelated;
-          const color = CAT_COLOR[table.category];
 
           return (
             <div

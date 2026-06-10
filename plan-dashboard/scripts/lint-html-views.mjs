@@ -110,7 +110,7 @@ function scanStyleBlocks(src, maxLines) {
 const FORBIDDEN_SELECTOR = /(^|[\s,>+~])(html|body|main|section(\[[^\]]*\])?)([\s,>+~{:]|$)|(^|[\s,>+~])\.container([\s,>+~{:]|$)/i;
 const CLAMP_PROP = /(max-height\s*:|height\s*:\s*100vh|overflow\s*:\s*(hidden|scroll)\b)/i;
 
-function scanCss(rel, src) {
+function scanCss(_rel, src) {
   const out = [];
   // Strip comments so a `/* overflow: hidden */` note doesn't trip the check.
   const noComments = src.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '));

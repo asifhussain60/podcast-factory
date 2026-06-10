@@ -6,7 +6,7 @@
  * Cached in localStorage (per book). No Tailwind utility classes.
  */
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getTermDef, setTermDef } from '../../lib/reader/ai-cache';
 
 interface Def {

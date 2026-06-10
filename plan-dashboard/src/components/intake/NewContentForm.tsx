@@ -57,7 +57,7 @@ export default function NewContentForm({ onCreated, onCleared }: Props) {
     setSlugError(validateSlug(clean));
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const err = validateSlug(slug);
     if (err) { setSlugError(err); return; }

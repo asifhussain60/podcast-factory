@@ -10,7 +10,7 @@ const detail = await loadDetail(slug);
 if (!detail) return Astro.redirect('/library');
 const slugStr: string = slug;
 
-const { summary, meta, chapters, episodes, slideDecks, audio, audits, sourceFiles, glossary, state } = detail;
+const { summary, meta, chapters, episodes, slideDecks, audio, audits, sourceFiles, state } = detail;
 
 const archetype = meta['archetype'] ?? null;
 const bookScore = await scoreBook(summary.ref.dir, archetype);

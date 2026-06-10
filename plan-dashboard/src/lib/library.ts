@@ -11,9 +11,6 @@ import { scoreBook, verdictLabel } from './peq-scores';
 import { simplifyTransliteration } from './translit';
 import {
   ACTIVE_CATEGORIES,
-  ALLOWED_CATEGORIES,
-  categoryLabel,
-  contentDir,
   findContent,
   listContent,
   slugToTitle,

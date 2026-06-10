@@ -424,10 +424,6 @@ function renderZones(canvas: HTMLElement) {
    NODES
    ========================================================= */
 function renderNodes(canvas: HTMLElement) {
-  const zoneAccentColors = {
-    source:'#4a7c4a', ingest:'#5b8dd9', merge:'#7c3aed',
-    store:'#7c3aed', augment:'#c08020', consume:'#888',
-  };
   Object.entries(NODES).forEach(([id, n], idx) => {
     const el = document.createElement('div');
     el.className = `dnode zone-${n.zone}`;
@@ -455,7 +451,7 @@ function renderNodes(canvas: HTMLElement) {
 
     el.addEventListener('click',      () => openDetail(id));
     el.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); openDetail(id); } });
-    el.addEventListener('mouseenter', e => showTooltip(id, el));
+    el.addEventListener('mouseenter', () => showTooltip(id, el));
     el.addEventListener('mouseleave',   () => hideTooltip());
     canvas.appendChild(el);
   });

@@ -1194,18 +1194,6 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   }, [editor]);
 
   // ── Wave L-8: AI assist + Finalize ──────────────────────────────────────
-  // Text of the paragraph at a given doc index (kept for finalize/compat).
-  const paragraphText = useCallback((idx: number): string => {
-    if (!editor) return '';
-    let i = 0;
-    let out = '';
-    editor.state.doc.forEach((n) => {
-      if (i === idx) out = n.textContent;
-      i++;
-    });
-    return out;
-  }, [editor]);
-
   // All text (heading + paragraphs) of a section, joined by double newline.
   const sectionText = useCallback((ordinal: number | null): string => {
     if (!editor || ordinal === null) return '';

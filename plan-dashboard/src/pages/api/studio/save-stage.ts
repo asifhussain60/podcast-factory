@@ -13,7 +13,7 @@
  * so the original AI output is always recoverable from disk.
  */
 import type { APIRoute } from 'astro';
-import { writeFileSync, existsSync, copyFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, existsSync, copyFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { apiOk, apiError, apiServerError } from '../../../lib/api-responses';
 

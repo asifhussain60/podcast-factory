@@ -826,60 +826,60 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-09T23:41:15.827853+00:00",
-  "source_commit": "dd6ff56",
+  "generated_at": "2026-06-10T10:14:52.524475+00:00",
+  "source_commit": "8bf21fb",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "dd6ff56",
-      "subject": "chore(gitignore): split PDF policy \u2014 sources tracked, generated reading editions ignored",
-      "date": "2026-06-09"
+      "sha": "8bf21fb",
+      "subject": "merge: Islamic/asaas-al-taveel session 24 \u2014 Studio picker filters, card design system, intake polish, visual-QA fixes",
+      "date": "2026-06-10"
     },
     {
-      "sha": "a65c40e",
-      "subject": "docs(drift): retire content/drafts + nested _learning paths across agent specs; status-flip publish semantics",
-      "date": "2026-06-09"
+      "sha": "36147d4",
+      "subject": "fix(site): drop sub-label from New-content button \u2014 '+ New content' only",
+      "date": "2026-06-10"
     },
     {
-      "sha": "33bb513",
-      "subject": "fix(peq-mirror): re-sync peq-scores.ts with the K6 5-axis formula in _quality.py",
-      "date": "2026-06-09"
+      "sha": "6204846",
+      "subject": "docs: session 24 site-work status update",
+      "date": "2026-06-10"
     },
     {
-      "sha": "58b0512",
-      "subject": "fix(tests+tighten): package-qualified KB-test imports + bucket-aware tighten boundary",
-      "date": "2026-06-09"
+      "sha": "66a7ff3",
+      "subject": "fix(site): visual-QA pass \u2014 primary New-content button, intake column balance, mobile nav clip, GSAP entrance robustness",
+      "date": "2026-06-10"
     },
     {
-      "sha": "44ccb28",
-      "subject": "merge(Islamic/asaas-al-taveel): Vol 1 framing files pre-upload ready",
-      "date": "2026-06-09"
+      "sha": "25cef34",
+      "subject": "feat(site): human-readable labels in intake production-settings dropdowns",
+      "date": "2026-06-10"
     },
     {
-      "sha": "cfa6df9",
-      "subject": "content(vol-01): resolve all 7 ambiguity items + clean framing files pre-upload",
-      "date": "2026-06-09"
+      "sha": "3163c62",
+      "subject": "feat(site): single-select filter buttons, shelf planks removed, full-width descriptions",
+      "date": "2026-06-10"
     },
     {
-      "sha": "8af3930",
-      "subject": "feat(vol-01): resolve all 7 ambiguity items + add clarification input UI",
-      "date": "2026-06-09"
+      "sha": "d732814",
+      "subject": "refactor(site): per-category card design system via --shelf-accent variable",
+      "date": "2026-06-10"
     },
     {
-      "sha": "956ee2c",
-      "subject": "plan(ambiguity): add Additional Context UI spec + next-session handoff",
-      "date": "2026-06-09"
+      "sha": "c21d984",
+      "subject": "fix(site): volume number as gold badge on Studio cards, not in the title",
+      "date": "2026-06-10"
     },
     {
-      "sha": "25492b8",
-      "subject": "content(vol-01): fill rows 1-7 of pronunciation listen-checklist",
-      "date": "2026-06-09"
+      "sha": "4c03594",
+      "subject": "fix(site): Studio card template fixes \u2014 volume meta inheritance, card blurbs, New-content to top",
+      "date": "2026-06-10"
     },
     {
-      "sha": "ef94c66",
-      "subject": "feat(pre-upload): add Delete verdict to pronunciation checklist",
-      "date": "2026-06-09"
+      "sha": "e1a4d9d",
+      "subject": "feat(site): Studio picker lifecycle filter chips \u2014 In the Works default, Up Next/Published toggles",
+      "date": "2026-06-10"
     }
   ],
   "wave_execution_events": [],

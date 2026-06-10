@@ -14,7 +14,7 @@
  */
 import type { APIRoute } from 'astro';
 import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join } from 'node:path';
 import { apiOk, apiError, apiServerError } from '../../../lib/api-responses';
 
 export const prerender = false;

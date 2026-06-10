@@ -13,7 +13,7 @@
  * representation feeds PipelineSpine; this component owns L3 detail).
  */
 
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 
 interface SwimPhase {
   id: string;

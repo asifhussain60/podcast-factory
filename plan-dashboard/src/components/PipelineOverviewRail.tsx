@@ -52,7 +52,6 @@ const GAP       = 24;
 const STEP      = NODE_W + GAP;
 const RAIL_Y    = 24;   // top of nodes
 const SVG_H     = NODE_H + RAIL_Y + 48;  // total SVG height
-const TEXT_WRAP = 90;
 
 function wrapText(text: string, maxLen: number): string[] {
   const words = text.split(/\s+/);
@@ -80,10 +79,6 @@ export default function PipelineOverviewRail({ phases }: Props) {
 
   const totalW   = phases.length * STEP + GAP;
   const svgW     = totalW;
-
-  // Phase centers
-  const cx = (i: number) => GAP + i * STEP + NODE_W / 2;
-  const cy = RAIL_Y + NODE_H / 2;
 
   // Arrow edge (between node right edge and next node left edge)
   const arrowY   = RAIL_Y + NODE_H / 2;
@@ -186,7 +181,7 @@ export default function PipelineOverviewRail({ phases }: Props) {
             })}
 
             {/* Per-edge particle paths (invisible, used as motionPath) */}
-            {phases.slice(0, -1).map((p, i) => {
+            {phases.slice(0, -1).map((_p, i) => {
               const x1 = GAP + i * STEP + NODE_W;
               const x2 = GAP + (i + 1) * STEP;
               return <path key={`mp${i}`} id={`por-mp${i}`} d={`M${x1},${connY} L${x2},${connY}`} fill="none" stroke="none"/>;

@@ -849,7 +849,6 @@ export default function NarrativeScroll({ phases, shippedCount, episodeCount }: 
         const body     = chapter.querySelector<HTMLElement>('.narrative-chapter-body');
         const badge    = chapter.querySelector<HTMLElement>('.n-kind-badge');
         const visual   = chapter.querySelector<HTMLElement>('.narrative-chapter-visual');
-        const isEven   = index % 2 === 1;
 
         // Pin each chapter
         ScrollTrigger.create({
