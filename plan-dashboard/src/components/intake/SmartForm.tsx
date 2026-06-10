@@ -37,6 +37,27 @@ const FIELD_LABELS: { key: string; label: string }[] = [
   { key: 'source_language', label: 'Source language' },
 ];
 
+// Pipeline tokens the operator should read as words. The option VALUE sent to
+// the pipeline is always the raw token — only the visible label is humanized.
+// Unknown / operator-added tokens fall back to snake_case → sentence case, so
+// new options never need an entry here to render readably.
+const LABEL_OVERRIDES: Record<string, string> = {
+  default_deep_dive: 'Default (deep dive)',
+};
+
+function humanizeOption(field: string, value: string): string {
+  if (LABEL_OVERRIDES[value]) return LABEL_OVERRIDES[value];
+  if (field === 'source_language') {
+    // Render language codes as names: "ar" → "Arabic (ar)".
+    try {
+      const name = new Intl.DisplayNames(['en'], { type: 'language' }).of(value);
+      if (name && name.toLowerCase() !== value.toLowerCase()) return `${name} (${value})`;
+    } catch { /* not a language code — fall through to the generic form */ }
+  }
+  const words = value.replace(/[_-]/g, ' ').trim();
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
 // content_profile → bucket, mirrors _rules.bucket_for_profile (display only).
 const PROFILE_TO_BUCKET: Record<string, string> = {
   islamic_scholarly: 'Islamic',
@@ -135,7 +156,7 @@ export default function SmartForm({ proposed, onChange }: Props) {
               onChange={(e) => setValue(key, e.target.value)}
             >
               {(options[key] ?? []).map((opt) => (
-                <option key={opt} value={opt}>{opt}</option>
+                <option key={opt} value={opt}>{humanizeOption(key, opt)}</option>
               ))}
             </select>
             <button
