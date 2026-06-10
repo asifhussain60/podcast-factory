@@ -6,7 +6,18 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-10 (session 24 — Studio picker filters + card design system + visual-QA pass; all committed)
+**Last updated:** 2026-06-10 (session 25 — full repo audit + cleanup; all committed to develop)
+
+**Session 25 (audit):** repo-wide audit found zero functional bugs. Site work was
+dead-code-only: 31 unused imports/vars removed across 21 files (astro check
+35 hints -> 4; the 4 survivors are intentional @deprecated category/stage
+back-compat shims in library.ts / annotation-export.ts / archive.ts — leave them).
+React.FormEvent -> React.SubmitEvent in NewContentForm. No rendering/CSS changes;
+preview-smoked /, /studio, /intelligence, /library, /library/[slug], /architecture,
+/db-schema, /corpus — all clean. Pipeline side: deleted orphaned knowledge/
+{extractor,librarian}.py (augmenter.py kept — p2_3 conformance + JSONL fallback);
+runbooks/skill-registry/CI triggers/agent specs de-drifted. NOT yet swept by
+visual-QA: /library, /corpus, /about, /intelligence (carried over from session 24).
 
 **Session 24 (later half):** single-select filter buttons (In Pipeline/Published/Up Next),
 per-category --shelf-accent design system, volume badge, card blurbs, New-content
