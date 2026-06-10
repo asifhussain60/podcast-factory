@@ -151,6 +151,51 @@
 }
 .lib-tab-link:hover { background: var(--c-bg-sunken); color: var(--c-accent); }
 .lib-section { margin-top: var(--sp-6); scroll-margin-top: var(--sp-5); }
+
+/* Session grouping (chapter-density standard) — collapsible groups of
+   binders/episodes; flat books never emit these elements. */
+.lib-session-stack { gap: var(--sp-3); }
+.lib-session-group {
+  border: 1px solid var(--c-rule-soft);
+  border-radius: var(--r-md);
+  background: var(--c-bg-card);
+  overflow: hidden;
+}
+.lib-session-group > .lib-file-list { border: none; border-radius: 0; }
+.lib-session-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  border-bottom: 1px solid var(--c-rule-soft);
+  background: var(--c-bg-sunken);
+}
+.lib-session-summary::-webkit-details-marker { display: none; }
+.lib-session-name {
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.lib-session-name::before {
+  content: '▸';
+  font-size: 0.75em;
+  color: var(--c-ink-muted);
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}
+.lib-session-group[open] .lib-session-name::before { transform: rotate(90deg); }
+.lib-session-count {
+  font-size: var(--fs-sm);
+  color: var(--c-ink-muted);
+  white-space: nowrap;
+}
+
 .lib-file-list {
   display: flex;
   flex-direction: column;

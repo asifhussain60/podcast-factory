@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { loadDetail, formatBytes, formatModified, categoryLabel } from '../../lib/library';
+import { discoverSessions } from '../../lib/reader/chapters';
 import { scoreBook, verdictLabel } from '../../lib/peq-scores';
 import '../../styles/library.css';
 
@@ -19,6 +20,50 @@ const chapterScoreMap = new Map(bookScore?.chapters.map((c) => [c.slug, c.scores
 function fileViewHref(relPath: string): string {
   return `/api/library/file?slug=${encodeURIComponent(slugStr)}&path=${encodeURIComponent(relPath)}`;
 }
+
+// Session grouping (presence-gated): sessioned books render Binders and
+// Episodes inside collapsible Session groups; flat books render as before.
+const sessions = await discoverSessions(summary.ref.dir);
+const epToSessionIndex = new Map<number, number>();
+for (const s of sessions) for (const n of s.episodeNumbers) epToSessionIndex.set(n, s.index);
+
+function fileEpisodeNumber(name: string): number | null {
+  const m = name.match(/^(?:EP|ch)(\d+)/i);
+  return m ? Number(m[1]) : null;
+}
+
+type LibFile = (typeof chapters)[number];
+interface SessionGroup { index: number; title: string; files: LibFile[] }
+function groupBySession(files: LibFile[]): { groups: SessionGroup[]; ungrouped: LibFile[] } | null {
+  if (sessions.length === 0) return null;
+  const groups: SessionGroup[] = sessions.map((s) => ({ index: s.index, title: s.title, files: [] }));
+  const ungrouped: LibFile[] = [];
+  for (const f of files) {
+    const ep = fileEpisodeNumber(f.name);
+    const idx = ep === null ? undefined : epToSessionIndex.get(ep);
+    const g = idx === undefined ? undefined : groups.find((x) => x.index === idx);
+    if (g) g.files.push(f);
+    else ungrouped.push(f);
+  }
+  return { groups: groups.filter((g) => g.files.length > 0), ungrouped };
+}
+interface RenderGroup { label: string | null; count: number; files: LibFile[] }
+function renderGroups(files: LibFile[]): RenderGroup[] {
+  const grouped = groupBySession(files);
+  if (!grouped) return [{ label: null, count: files.length, files }];
+  const out: RenderGroup[] = grouped.groups.map((g) => ({
+    label: `Session ${g.index} — ${g.title}`,
+    count: g.files.length,
+    files: g.files,
+  }));
+  if (grouped.ungrouped.length > 0) {
+    out.push({ label: out.length > 0 ? 'Ungrouped' : null, count: grouped.ungrouped.length, files: grouped.ungrouped });
+  }
+  return out;
+}
+const binderGroups = renderGroups(chapters);
+const episodeGroups = renderGroups(episodes);
+const hasSessions = sessions.length > 0;
 ---
 <Base title={summary.title} active="library" description={`${categoryLabel(summary.category)} — ${summary.title}`}>
   <header class="stack lib-detail-head">
@@ -92,23 +137,38 @@ function fileViewHref(relPath: string): string {
     {chapters.length === 0 ? (
       <p class="card-sub">No chapters yet.</p>
     ) : (
-      <div class="lib-file-list">
-        {chapters.map((f) => {
-          const chapterSlug = f.name.replace(/\.(txt|md)$/i, '');
-          const cs = chapterScoreMap.get(chapterSlug);
-          return (
-            <a class="lib-file-row" href={`/studio/${slugStr}/edit?ch=${chapterSlug}`}>
-              <span class="lib-file-name">{f.name}</span>
-              <span class="lib-file-meta-row">
-                {cs && (
-                  <span class={`lib-score-pill lib-score-${cs.verdict.toLowerCase()}`} title={`Source accuracy: ${cs.fidelity.toFixed(0)}  Style: ${cs.voice.toFixed(0)}  Structure: ${cs.structure.toFixed(0)}  Depth: ${cs.enrichment.toFixed(0)}  Interest: ${cs.interest.toFixed(0)}`}>
-                    {cs.total.toFixed(0)}
-                  </span>
-                )}
-                <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
-              </span>
-            </a>
+      <div class={hasSessions ? 'stack lib-session-stack' : ''}>
+        {binderGroups.map((g) => {
+          const rows = (
+            <div class="lib-file-list">
+              {g.files.map((f) => {
+                const chapterSlug = f.name.replace(/\.(txt|md)$/i, '');
+                const cs = chapterScoreMap.get(chapterSlug);
+                return (
+                  <a class="lib-file-row" href={`/studio/${slugStr}/edit?ch=${chapterSlug}`}>
+                    <span class="lib-file-name">{f.name}</span>
+                    <span class="lib-file-meta-row">
+                      {cs && (
+                        <span class={`lib-score-pill lib-score-${cs.verdict.toLowerCase()}`} title={`Source accuracy: ${cs.fidelity.toFixed(0)}  Style: ${cs.voice.toFixed(0)}  Structure: ${cs.structure.toFixed(0)}  Depth: ${cs.enrichment.toFixed(0)}  Interest: ${cs.interest.toFixed(0)}`}>
+                            {cs.total.toFixed(0)}
+                        </span>
+                      )}
+                      <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
           );
+          return g.label ? (
+            <details class="lib-session-group" open>
+              <summary class="lib-session-summary">
+                <span class="lib-session-name">{g.label}</span>
+                <span class="lib-session-count">{g.count} binder{g.count === 1 ? '' : 's'}</span>
+              </summary>
+              {rows}
+            </details>
+          ) : rows;
         })}
       </div>
     )}
@@ -122,14 +182,27 @@ function fileViewHref(relPath: string): string {
     {episodes.length === 0 ? (
       <p class="card-sub">No episodes yet.</p>
     ) : (
-      <div class="lib-file-list">
-        {episodes.map((f) => {
-          return (
-            <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
-              <span class="lib-file-name">{f.name}</span>
-              <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
-            </a>
+      <div class={hasSessions ? 'stack lib-session-stack' : ''}>
+        {episodeGroups.map((g) => {
+          const rows = (
+            <div class="lib-file-list">
+              {g.files.map((f) => (
+                <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
+                  <span class="lib-file-name">{f.name}</span>
+                  <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+                </a>
+              ))}
+            </div>
           );
+          return g.label ? (
+            <details class="lib-session-group" open>
+              <summary class="lib-session-summary">
+                <span class="lib-session-name">{g.label}</span>
+                <span class="lib-session-count">{g.count} episode{g.count === 1 ? '' : 's'}</span>
+              </summary>
+              {rows}
+            </details>
+          ) : rows;
         })}
       </div>
     )}
