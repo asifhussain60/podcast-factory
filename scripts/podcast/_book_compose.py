@@ -32,14 +32,65 @@ from _translit import simplify_transliteration
 _COMPOSE_TIMEOUT = 420
 _RETRY_TIMEOUT = 520
 
+_PAGE_MARK = re.compile(r"<!--\s*page\s*(\d+)\s*-->", re.IGNORECASE)
+
 
 def _slice_source(lines: list[str], ranges: list[list[int]]) -> str:
     out: list[str] = []
     for a, b in ranges:
         out.extend(lines[a - 1 : b])  # 1-based inclusive
     text = "\n".join(out)
-    text = re.sub(r"<!--\s*PAGE\s*\d+\s*-->", "", text)
+    text = _PAGE_MARK.sub("", text)
     return re.sub(r"\n{3,}", "\n\n", text).strip()
+
+
+def _line_pages(lines: list[str]) -> list[int]:
+    """Source page carried by each line of the line-numbered design input.
+
+    Lines before the first ``<!-- page N -->`` marker belong to page 1."""
+    pages: list[int] = []
+    cur = 1
+    for ln in lines:
+        m = _PAGE_MARK.search(ln)
+        if m:
+            cur = int(m.group(1))
+        pages.append(cur)
+    return pages
+
+
+def _pages_for_ranges(line_pages: list[int], ranges: list[list[int]]) -> list[int]:
+    out: set[int] = set()
+    for a, b in ranges:
+        lo, hi = max(1, a), min(len(line_pages), b)
+        out.update(line_pages[lo - 1 : hi])
+    return sorted(out)
+
+
+def _load_arabic_pages(book_dir: Path) -> dict[int, str] | None:
+    """Per-page Arabic OCR ground truth from Phase 0a, when the source was Arabic script.
+
+    Returns None for books without an Arabic OCR extract (fiction, technical, English
+    sources) — composition then behaves exactly as before."""
+    src = book_dir / "_system" / "source" / "ocr" / "raw-extract.md"
+    if not src.exists():
+        return None
+    text = src.read_text(encoding="utf-8")
+    if _arabic_run_count(text) < 50:
+        return None
+    pages: dict[int, str] = {}
+    cur: int | None = None
+    buf: list[str] = []
+    for ln in text.split("\n"):
+        m = _PAGE_MARK.search(ln)
+        if m:
+            if cur is not None:
+                pages[cur] = "\n".join(buf).strip()
+            cur, buf = int(m.group(1)), []
+        elif cur is not None:
+            buf.append(ln)
+    if cur is not None:
+        pages[cur] = "\n".join(buf).strip()
+    return pages or None
 
 
 def _translit_quote_count(text: str) -> int:
@@ -51,7 +102,24 @@ def _arabic_run_count(text: str) -> int:
     return len(re.findall(r"[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]{2,}", text))
 
 
-def _compose_prompt(title: str, body: str, cfg: dict, voice_card: str, prev_tail: str) -> str:
+def _arabic_ground_truth_block(arabic_src: str) -> str:
+    if not arabic_src:
+        return ""
+    return f"""
+ARABIC SOURCE — GROUND TRUTH (the original pages this chapter is drawn from)
+The original ARABIC of this chapter's source pages is reproduced below, from a machine OCR of the printed \
+book — it may carry stray footnote digits, broken letters, or misplaced marks. When rendering quotations, \
+poetry, sermons, and reported sayings in Arabic script, TRANSCRIBE them from this source rather than from \
+memory — silently correct obvious OCR artifacts and add full vowelling. EXCEPTION: Quranic verses must \
+still use the precise canonical mushaf text. If a passage you need is not present in this source, fall \
+back to the rule above (best faithful attempt, no invented reference).
+
+{arabic_src}
+"""
+
+
+def _compose_prompt(title: str, body: str, cfg: dict, voice_card: str, prev_tail: str,
+                    arabic_src: str = "") -> str:
     voice_key = cfg.get("narrator_voice", "author_first_person")
     narrator = cfg.get("narrator_subject", "the author")
     addressee = cfg.get("addressee", "the reader")
@@ -88,7 +156,7 @@ Use the EXACT canonical Arabic: for Quranic verses, the precise mushaf text; for
 sayings, their well-attested Arabic wording; for Arabic poetry, the Arabic lines. Keep any source \
 attribution or reference. Do NOT keep the Latin-letter transliteration. If you are not confident of the \
 exact canonical Arabic for a quotation, render your best faithful attempt and DO NOT invent a reference.
-
+{_arabic_ground_truth_block(arabic_src)}
 CHAPTER CRAFT
 Write this as a single flowing book chapter under its title. Open in a way that draws the reader in, let \
 the argument unfold through the specific things the text names, and close with resonance. Avoid \
@@ -106,8 +174,8 @@ SOURCE MATERIAL (this chapter)
 
 
 def _compose_one(title: str, body: str, cfg: dict, voice_card: str, prev_tail: str,
-                 book_dir: Path, label: str, log) -> str:
-    prompt = _compose_prompt(title, body, cfg, voice_card, prev_tail)
+                 book_dir: Path, label: str, log, arabic_src: str = "") -> str:
+    prompt = _compose_prompt(title, body, cfg, voice_card, prev_tail, arabic_src=arabic_src)
     rc, out, err = _run_claude_p(prompt, timeout=_COMPOSE_TIMEOUT, book_dir=book_dir,
                                  phase="0book-compose", step=label)
     out = (out or "").strip()
@@ -149,7 +217,20 @@ def author_phase_book_compose(book_dir: Path, *, log=print) -> Path:
     chunks_dir = book_dir / "book" / "_chunks" / "book"
     chunks_dir.mkdir(parents=True, exist_ok=True)
     chapters = toc.get("chapters", [])
-    log(f"    0book-compose: {book_dir.name}: voice={cfg.get('narrator_subject')!r} · {len(chapters)} chapters")
+    arabic_pages = _load_arabic_pages(book_dir)
+    line_pages = _line_pages(lines) if arabic_pages else []
+
+    def _arabic_for(ranges: list[list[int]]) -> tuple[str, str]:
+        """(arabic_src, page-span label) for a chapter's source line ranges."""
+        if not arabic_pages or not ranges:
+            return "", ""
+        nums = [n for n in _pages_for_ranges(line_pages, ranges) if n in arabic_pages]
+        if not nums:
+            return "", ""
+        return "\n\n".join(arabic_pages[n] for n in nums), f"pp.{nums[0]}-{nums[-1]}"
+
+    log(f"    0book-compose: {book_dir.name}: voice={cfg.get('narrator_subject')!r} · {len(chapters)} chapters"
+        + (f" · arabic ground truth: {len(arabic_pages)} OCR pages" if arabic_pages else ""))
 
     voice_card, prev_tail = "", ""
     for ch in chapters:
@@ -161,8 +242,11 @@ def author_phase_book_compose(book_dir: Path, *, log=print) -> Path:
         if out_path.exists() and out_path.read_text(encoding="utf-8").strip():
             prose = out_path.read_text(encoding="utf-8")
         else:
-            log(f"      {label}: {title} ({len(body.split())} src words) -> Opus")
-            prose = _compose_one(title, body, cfg, voice_card, prev_tail, book_dir, label, log)
+            arabic_src, span = _arabic_for(ch.get("source_line_ranges", []))
+            log(f"      {label}: {title} ({len(body.split())} src words"
+                + (f", arabic {span}" if span else "") + ") -> Opus")
+            prose = _compose_one(title, body, cfg, voice_card, prev_tail, book_dir, label, log,
+                                 arabic_src=arabic_src)
             findings = teaching_loss_findings(body, prose)
             note = (" | GUARD: " + "; ".join(findings)) if findings else ""
             note += f" | arabic blocks {_arabic_run_count(prose)} (src {_translit_quote_count(body)} translit quotes)"
@@ -183,11 +267,12 @@ def author_phase_book_compose(book_dir: Path, *, log=print) -> Path:
             pbody = _slice_source(lines, pf.get("source_line_ranges", [])) or \
                 "(The question that prompted this work.)"
             log(f"      preface: {pf.get('title')!r} -> Opus")
+            p_arabic, _ = _arabic_for(pf.get("source_line_ranges", []))
             pprompt = _compose_prompt(
                 pf.get("title", "Preface"),
                 pbody + "\n\n(Write this as a short, warm preface — at most a few paragraphs — that "
                 "orients today's reader to the work that follows: who is speaking, to whom, and why it "
-                "still matters across the centuries.)", cfg, "", "")
+                "still matters across the centuries.)", cfg, "", "", arabic_src=p_arabic)
             rc, preface, _ = _run_claude_p(pprompt, timeout=300, book_dir=book_dir,
                                            phase="0book-compose", step="preface")
             preface = (preface or "").strip()
