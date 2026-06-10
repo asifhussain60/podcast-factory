@@ -10,8 +10,8 @@ series:
   enable_book_branch: true
 
 pipeline:
-  current_phase: 06a
-  next_phase: per-chapter
+  current_phase: 0book-render
+  next_phase: per-chapter-density-rerun
   chapters_drafted: 5
   chapters_with_contracts: 5
   episodes_shipped: 0
@@ -30,7 +30,8 @@ publication:
   publisher: unknown
   edition: unknown
   shipped_via: scripts/podcast/publish_to_library.py
-  publication_target: ../../published/books/the-master-and-the-disciple/
+  # publication_target removed — retired with the copy-based publish model (2026-06-04).
+  # publish_to_library.py now flips status in-place; no target directory needed.
 
 provenance:
   canonical_source_branch: develop
