@@ -393,7 +393,11 @@ class StateMachineOrderingTests(unittest.TestCase):
                 author_phase_0e=mock_phase), \
              mock.patch.object(initial_driver, "phase_0f_write_series_plan", mock_series_plan), \
              mock.patch.object(initial_driver, "phase_git_commit", lambda *a, **k: None), \
+             mock.patch.object(initial_driver, "_guard_before_phase", lambda *a, **k: None), \
              mock.patch.object(initial_driver, "run_source_review_gate", lambda bd: approved_gate):
+            # _guard_before_phase is a no-op here: the stub phases write no
+            # artifacts and this test asserts UPDATE ORDERING only. The
+            # sunny-day test above keeps the guards live against real files.
             initial_driver._drive_authoring_through_0f(self.book_dir, "Test")
 
         # Extract the phase identifiers in the order they were updated to "running" or "completed"

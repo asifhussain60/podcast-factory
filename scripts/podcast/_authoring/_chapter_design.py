@@ -28,7 +28,10 @@ from _validator_constants import (  # noqa: E402
     EPISODE_MAX_CONCEPTS,
     episode_overcrammed,
 )
-from _content_profile import is_islamic_scholarly as _is_islamic_scholarly  # noqa: E402
+from _content_profile import (  # noqa: E402
+    is_islamic_scholarly as _is_islamic_scholarly,
+    density_standard_active as _density_standard_active,
+)
 
 def _read_profile_and_planning(book_dir: Path) -> tuple[str, str]:
     """Return (content_profile, episode_planning_mode) from series-config.yaml.
@@ -47,6 +50,90 @@ def _read_profile_and_planning(book_dir: Path) -> tuple[str, str]:
     profile = str(cfg.get("content_profile", "islamic_scholarly")).strip()
     planning = str(cfg.get("episode_planning_mode", "")).strip()
     return (profile, planning)
+
+
+def _concept_inventory(book_dir: Path) -> list[dict] | None:
+    """Deterministic concept inventory from a prior render of the same source.
+
+    When `chapters/_curator-archive/*.txt` exists — a previous render of this
+    exact source at the established concept grain — parse each archived
+    chapter with the density auditor and return one entry per file (sorted,
+    i.e. source order): `{"file": <name>, "topics": [<H2 titles>...]}`.
+    Frames are excluded by the auditor. Returns None when no archive exists
+    or it carries no concept sections, so books without a prior render are
+    unaffected.
+    """
+    archive = book_dir / "chapters" / "_curator-archive"
+    if not archive.is_dir():
+        return None
+    from chapter_density_audit import audit_chapter  # noqa: PLC0415
+    inventory: list[dict] = []
+    for p in sorted(archive.glob("*.txt")):
+        d = audit_chapter(p, book_dir.name, "")
+        if d.concept_count:
+            inventory.append(
+                {"file": p.name, "topics": [s.title for s in d.concept_sections]})
+    return inventory or None
+
+
+def _topic_floor_violations(
+    source_chapters: list[dict],
+    inventory: list[dict] | None,
+    *,
+    max_concepts: int,
+    enforce: bool,
+    consolidate: bool,
+) -> list[str]:
+    """Deterministic R-MAX-CONCEPTS plan floor (chapter-density standard).
+
+    Arithmetic, not judgement — closes the loophole where the TOC planner
+    "counts" topics coarsely (or skips counting) and plans marathon episodes
+    that the author then disguises by merging several topics under one H2.
+
+    Per source chapter: episode_count >= ceil(len(topics) / max_concepts),
+    whenever the plan enumerates `topics`. When *enforce* is True (Islamic
+    scholarly content or density_standard >= 2) a missing/empty `topics`
+    array is itself a violation (outside consolidation mode), so the floor
+    cannot be dodged by omission.
+
+    Whole-book floor: when a deterministic *inventory* exists and *enforce*
+    is True, sum(episode_count) >= ceil(total inventory concepts /
+    max_concepts) — this holds even in consolidation mode and even when the
+    planner redraws source-chapter boundaries.
+    """
+    import math
+    violations: list[str] = []
+    total_eps = 0
+    for sc in source_chapters:
+        try:
+            ep_count = int(sc.get("episode_count", 1) or 1)
+        except (TypeError, ValueError):
+            ep_count = 1
+        total_eps += ep_count
+        label = (f"sc {sc.get('sc_index', '?')} "
+                 f"({str(sc.get('source_title', '?'))[:40]})")
+        topics = sc.get("topics") or []
+        if not topics:
+            if enforce and not consolidate:
+                violations.append(
+                    f"{label}: plan is missing the `topics` enumeration "
+                    f"(required under the chapter-density standard)")
+            continue
+        need = math.ceil(len(topics) / max_concepts)
+        if ep_count < need:
+            violations.append(
+                f"{label}: {len(topics)} distinct topics over {ep_count} "
+                f"episode(s) — requires episode_count >= {need} "
+                f"(max {max_concepts} concepts/episode)")
+    if inventory and enforce:
+        total_topics = sum(len(e["topics"]) for e in inventory)
+        need_total = math.ceil(total_topics / max_concepts)
+        if total_eps < need_total:
+            violations.append(
+                f"whole-book: deterministic concept inventory carries "
+                f"{total_topics} concepts → plan requires >= {need_total} "
+                f"episodes total, plan has {total_eps}")
+    return violations
 
 
 # ─── Phase 0d — Chapter design (map-reduce by source chapter) ────────────────
@@ -203,6 +290,13 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         "longer": "2,800–4,500 words per episode",
         "extended": "5,500–9,500 words per episode",
     }.get(length_tier, "5,500–9,500 words per episode (extended)")
+    # Numeric band for derived hints (per-concept word target below). Keep in
+    # sync with the tier_band strings above.
+    _tier_lo, _tier_hi = {
+        "default_deep_dive": (1800, 2800),
+        "longer": (2800, 4500),
+        "extended": (5500, 9500),
+    }.get(length_tier, (5500, 9500))
 
     # Islamic scholarly content is validated against EPISODE_DENSITY_CEILING_DENSE
     # (6,000w), not the narrative 9,500w ceiling. Cap the tier_band upper bound so
@@ -210,6 +304,13 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     if (category in ARABIC_SCHOLARLY_CATEGORIES and _is_islamic_scholarly(book_dir)
             and "9,500" in tier_band):
         tier_band = tier_band.replace("9,500", f"{EPISODE_DENSITY_CEILING_DENSE:,}")
+        _tier_hi = min(_tier_hi, EPISODE_DENSITY_CEILING_DENSE)
+
+    # Per-concept word target derives from the tier band so the two never
+    # contradict (a fixed 1,500–2,500/concept target forces >= 4,500-word
+    # episodes — impossible inside the default_deep_dive band).
+    _concept_lo = max(400, round(_tier_lo / EPISODE_MAX_CONCEPTS, -2))
+    _concept_hi = round(_tier_hi / EPISODE_MAX_CONCEPTS, -2)
 
     # The exact per-episode word ceiling the density validator enforces below
     # (STEP 1.5). Surfaced in the TOC prompt as a HARD arithmetic floor so the
@@ -263,6 +364,37 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             "grouped source-chapter numbers in `split_reason`.\n"
         )
 
+    # Deterministic concept inventory (chapter-density standard, 2026-06-10):
+    # a prior render of this source pins the established topic grain, so the
+    # episode floor is arithmetic on KNOWN counts — not the planner's own
+    # topic-counting judgement (which under-counted 59 topics as ~15 on
+    # the-master-and-the-disciple and re-planned 5 marathon episodes).
+    _inventory = _concept_inventory(book_dir)
+    _enforce_topic_floor = (_density_standard_active(book_dir)
+                            or (category in ARABIC_SCHOLARLY_CATEGORIES
+                                and _is_islamic_scholarly(book_dir)))
+    inventory_block = ""
+    if _inventory:
+        import math as _math
+        _inv_total = sum(len(e["topics"]) for e in _inventory)
+        _inv_lines = [
+            f"   - {e['file']}: {len(e['topics'])} topics — "
+            + "; ".join(e["topics"])
+            for e in _inventory
+        ]
+        inventory_block = (
+            f"3d. DETERMINISTIC CONCEPT INVENTORY (BINDING — measured from a prior\n"
+            f"   render of this exact source at the established concept grain; the\n"
+            f"   post-parse gate enforces it arithmetically):\n"
+            + "\n".join(_inv_lines) + "\n"
+            f"   TOTAL: {_inv_total} concepts. The whole plan MUST contain at least\n"
+            f"   ceil({_inv_total} / {EPISODE_MAX_CONCEPTS}) = "
+            f"{_math.ceil(_inv_total / EPISODE_MAX_CONCEPTS)} episodes across all source\n"
+            f"   chapters. Reuse this topic segmentation when populating each source\n"
+            f"   chapter's `topics` array — do NOT re-derive a coarser grain. A plan\n"
+            f"   with fewer total episodes is rejected and you will be re-run.\n"
+        )
+
     # ── STEP 1: TOC + plan ───────────────────────────────────────────────────
     log("  phase 0d · step 1/3 · TOC + segmentation plan")
 
@@ -309,15 +441,21 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"   floor. A plan that violates this floor is rejected and you will be re-run, so\n"
             f"   compute ceil(word_count / {density_ceiling_hint}) for each chapter and honour it.\n"
             f"3c. CONCEPT CEILING — SECOND FLOOR, SAME DISCIPLINE (R-MAX-CONCEPTS, MANDATORY):\n"
-            f"   each episode covers AT MOST {EPISODE_MAX_CONCEPTS} distinct concept-level topics. Count the\n"
-            f"   distinct teachings in each source chapter and ALSO require episode_count >=\n"
-            f"   ceil(distinct_topic_count / {EPISODE_MAX_CONCEPTS}). A 5,400-word chapter that carries 9\n"
+            f"   each episode covers AT MOST {EPISODE_MAX_CONCEPTS} distinct concept-level topics. ENUMERATE the\n"
+            f"   distinct teachings of each source chapter in a `topics` string array on that\n"
+            f"   source chapter's plan entry (one short title per topic), and require\n"
+            f"   episode_count >= ceil(len(topics) / {EPISODE_MAX_CONCEPTS}). A 5,400-word chapter that carries 9\n"
             f"   distinct teachings is THREE episodes even though it fits one episode by word\n"
-            f"   count. This is a hard ceiling enforced by a deterministic post-write gate —\n"
-            f"   chapters that come out with more than {EPISODE_MAX_CONCEPTS} concept sections are rejected.\n"
+            f"   count. Both floors are enforced by deterministic gates: the plan parser\n"
+            f"   computes ceil(len(topics) / {EPISODE_MAX_CONCEPTS}) per source chapter and REJECTS any plan\n"
+            f"   whose episode_count is lower, and a post-write gate rejects chapters that\n"
+            f"   come out with more than {EPISODE_MAX_CONCEPTS} concept sections. Merging several teachings\n"
+            f"   under one umbrella heading does NOT reduce the topic count — count at the\n"
+            f"   grain a listener experiences: one teachable unit = one topic.\n"
             f"   When splitting by topic, keep each concept WHOLE inside one episode — never\n"
             f"   leave a concept's argument straddling an episode boundary — and order the\n"
             f"   episodes so each one's closing hands off naturally to the next one's opening.\n"
+            f"{inventory_block}"
             f"4. Assign monotonically increasing episode numbers (`ep_num`) across the whole "
             f"book starting at 1. Each episode gets a short kebab-case `episode_slug` "
             f"(distinct across the whole book). When a source chapter splits into multiple "
@@ -336,6 +474,8 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f'      "start_line": 12,\n'
             f'      "end_line": 487,\n'
             f'      "word_count": 4280,\n'
+            f'      "topics": ["The question of authority", "Why a living guide", '
+            f'"The covenant"],\n'
             f'      "unit_mode": "chapter",\n'
             f'      "episode_count": 1,\n'
             f'      "episodes": [\n'
@@ -350,6 +490,9 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f'      "start_line": 488,\n'
             f'      "end_line": 1820,\n'
             f'      "word_count": 11400,\n'
+            f'      "topics": ["The claim to succession", "The designation texts", '
+            f'"The tests of legitimacy", "The counter-claims answered", '
+            f'"The unbroken chain", "The seal of the argument"],\n'
             f'      "unit_mode": "sections",\n'
             f'      "episode_count": 2,\n'
             f'      "episodes": [\n'
@@ -465,6 +608,32 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                 f"teaching cluster, then retry Phase 0d (--resume --retry-phase 0d)."),
         )
 
+    # ── Topic floor — deterministic R-MAX-CONCEPTS plan gate (2026-06-10) ────
+    # Arithmetic on the plan's own `topics` enumeration plus the measured
+    # concept inventory (when a prior render exists). Catches the merge
+    # loophole the post-write H2 gate cannot see: an author can satisfy
+    # "<= 3 H2 sections" by rolling 9 teachings under 3 umbrella headings,
+    # but it cannot shrink the topic count the plan was forced to enumerate.
+    topic_violations = _topic_floor_violations(
+        source_chapters, _inventory,
+        max_concepts=EPISODE_MAX_CONCEPTS,
+        enforce=_enforce_topic_floor,
+        consolidate=_consolidate,
+    )
+    if topic_violations:
+        raise AuthoringError(
+            phase="0d-toc",
+            message=("Phase 0d plan violates the chapter-density topic floor "
+                     f"(max {EPISODE_MAX_CONCEPTS} concepts/episode — "
+                     "docs/standards/chapter-density.md):\n  "
+                     + "\n  ".join(topic_violations)),
+            manual_fallback=(
+                f"Delete `{toc_path}` and retry Phase 0d (--resume --retry-phase 0d) so the "
+                f"planner re-plans against the inventory, or edit the plan's episode_count / "
+                f"topics arrays by hand to satisfy episode_count >= ceil(topics / "
+                f"{EPISODE_MAX_CONCEPTS}) per source chapter."),
+        )
+
     # ── STEP 2: per-source-chapter loop ──────────────────────────────────────
     log(f"  phase 0d · step 2/3 · per-source-chapter loop ({len(source_chapters)} chapters)")
 
@@ -549,9 +718,11 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"CONTENT RULES (deterministic gates — violations are rejected post-write):\n"
             f"  1. R-MAX-CONCEPTS: each episode chapter txt carries AT MOST {EPISODE_MAX_CONCEPTS} concept-level\n"
             f"     `## H2` sections (structural frames — 'Where this episode opens/picks up',\n"
-            f"     'What this episode lands', 'Closing' — do not count). Target 1,500-2,500\n"
-            f"     words per concept section. Keep each concept WHOLE: open it, develop it,\n"
-            f"     land it inside the same episode.\n"
+            f"     'What this episode lands', 'Closing' — do not count). Target\n"
+            f"     {_concept_lo:,.0f}-{_concept_hi:,.0f} words per concept section. One concept = ONE teachable\n"
+            f"     unit at the grain a listener experiences — never roll several distinct\n"
+            f"     teachings under one umbrella heading to stay within the ceiling. Keep each\n"
+            f"     concept WHOLE: open it, develop it, land it inside the same episode.\n"
             f"  2. R-QURAN-CITATION-FORMAT: every Quranic quotation carries its reference\n"
             f"     inline in plain English — `(chapter N, verse M)` — NEVER `(Q N:M)`,\n"
             f"     `(Quran N:M)`, or a bare `(N:M)`. References come from the source text;\n"

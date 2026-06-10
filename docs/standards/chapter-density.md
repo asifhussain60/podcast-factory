@@ -215,6 +215,20 @@ Each chapter averages 12.4 concepts and needs 4–5 sub-episodes. The chapters f
 ```
 Phase 0d (chapter design)
   └─ ENFORCE: max 3 concepts per episode in LLM prompt
+  └─ ENFORCE (deterministic, 2026-06-10): the TOC plan must enumerate each
+     source chapter's distinct topics in a `topics` array; the plan parser
+     rejects any source chapter with episode_count < ceil(len(topics)/3).
+     When `chapters/_curator-archive/*.txt` exists (a prior render of the
+     same source), its measured concept inventory is BINDING: the whole
+     plan must carry >= ceil(total_inventory_concepts/3) episodes. Closes
+     the merge loophole where the planner under-counts topics and the
+     author rolls several teachings under one umbrella H2 to satisfy the
+     post-write heading gate. (_authoring/_chapter_design.py:
+     _concept_inventory + _topic_floor_violations; tests:
+     tests/test_topic_floor.py)
+  └─ NOTE: the per-concept word target derives from the length tier
+     (tier_band / 3), NOT a fixed 1,500–2,500 — a fixed band contradicts
+     the smaller tiers (3 × 1,500 > the default_deep_dive ceiling).
   └─ OUTPUT: chapter contracts with bounded concept count
 
 Phase 0e (enrich)

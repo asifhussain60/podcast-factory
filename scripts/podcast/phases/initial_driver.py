@@ -53,28 +53,28 @@ def _guard_before_phase(book_dir: Path, phase_id: str, log=_info) -> None:
             log("  guard-0d: (stub) unified-book.md not found — proceeding cautiously")
 
     elif phase_id == "0e":
-        # Real check: 0d must have produced episode-drafts + chapter-set-report.
-        ep_drafts = sys_dir / "episode-drafts"
-        csr = sys_dir / "chapter-set-report.md"
-        ep_dirs = (
-            [d for d in ep_drafts.iterdir() if d.is_dir() and d.name.upper().startswith("EP")]
-            if ep_drafts.exists()
-            else []
-        )
-        if not ep_dirs:
+        # Real check: 0d must have produced chapter txts + contracts. (NOT
+        # _system/episode-drafts/ — those are written by the per-chapter
+        # authoring loop long after 0e; checking them here dead-blocked every
+        # fresh run at enrichment.)
+        chapter_txts = sorted((book_dir / "chapters").glob("ch*.txt"))
+        contracts = sorted((book_dir / "chapter-contracts").glob("*.yml"))
+        if not chapter_txts:
             raise AuthoringError(
-                f"Guard-0e FAIL: no EP## episode-draft directories found under "
-                f"{ep_drafts.relative_to(book_dir.parent.parent)} — phase 0d may not have "
-                f"produced output.",
+                phase="0e",
+                message=("Guard-0e FAIL: no ch*.txt chapter files under "
+                         "chapters/ — phase 0d may not have produced output."),
                 manual_fallback="Re-run with: --retry-phase 0d",
             )
-        if not csr.exists() or csr.stat().st_size < 100:
+        if not contracts:
             raise AuthoringError(
-                "Guard-0e FAIL: chapter-set-report.md missing or too small — phase 0d incomplete.",
+                phase="0e",
+                message=("Guard-0e FAIL: no contract .yml files under "
+                         "chapter-contracts/ — phase 0d incomplete."),
                 manual_fallback="Re-run with: --retry-phase 0d",
             )
         log(
-            f"  guard-0e: {len(ep_dirs)} episode-draft(s) + chapter-set-report.md present ✓"
+            f"  guard-0e: {len(chapter_txts)} chapter(s) + {len(contracts)} contract(s) present ✓"
         )
 
     else:
@@ -105,6 +105,20 @@ def derive_slug(pdf_path: Path) -> str:
     return re.sub(r"-+", "-", s)
 
 
+def _series_config_length_tier(book_dir: Path) -> str | None:
+    """length_tier from _system/series-config.yaml, or None when absent/invalid."""
+    cfg_path = book_dir / "_system" / "series-config.yaml"
+    if not cfg_path.exists():
+        return None
+    try:
+        import yaml
+        cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return None
+    tier = str(cfg.get("length_tier") or "").strip()
+    return tier if tier in ("default_deep_dive", "longer", "extended") else None
+
+
 def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | None = None) -> int:
     """Run Phases 0b → 0c → 0d → 0e → 06a → 0f-halt. Used by run_initial AND --resume.
 
@@ -117,8 +131,12 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
     """
     book_slug = book_dir.name
     state = read_state(book_dir) or {}
-    config = state.get("config", {})
-    length_tier = config.get("length_tier", "extended")
+    config = state.get("config") or {}
+    # Tier precedence: explicit intake config > the book's series-config.yaml
+    # (the human-editable surface, e.g. density-standard re-runs) > "extended".
+    length_tier = (config.get("length_tier")
+                   or _series_config_length_tier(book_dir)
+                   or "extended")
     unit_mode = config.get("unit_mode", "auto")
     category = config.get("category", "books")
     # Phase-skip decisions are driven by the book's content_profile via the single
