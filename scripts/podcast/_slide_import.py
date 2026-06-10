@@ -226,15 +226,26 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False,
     source_md = injection_source(book_dir)
     source_text = source_md.read_text(encoding="utf-8")
 
-    # ── per-deck: extract pages, author/load manifest, collect entries ──────
+    # ── per-deck: extract pages, analyze/replicate, author/load manifest ────
     combined_entries: list[dict] = []
     combined_pages: dict[int, str] = {}
+    combined_svgs: dict[int, Path] = {}
     imported: dict[str, int] = {}
+    svg_counts: dict[str, int] = {}
     for idx, (ch, slug, pdf) in enumerate(work, start=1):
         pages_dir = deck_dir / "_pages" / ch
         extract_pages(pdf, pages_dir, force=force, log=log)
         raw_map = _page_map(pages_dir)
         pages_rel = {n: f"slide-decks/_pages/{ch}/{p.name}" for n, p in raw_map.items()}
+
+        # Slide intelligence (2026-06-10): OCR/vision-analyze every page;
+        # high-value diagram slides are replicated as verified inline SVG,
+        # everything else keeps the raster JPEG. Degrades to {} on failure
+        # (non-blocking contract — the import proceeds all-raster).
+        from _slide_replicate import analyze_and_replicate_slides
+        svg_overrides = analyze_and_replicate_slides(
+            book_dir, ch, pdf, pages_dir, force=force, log=log)
+        svg_counts[ch] = len(svg_overrides)
 
         manifest_file = _manifest_path(book_dir, ch)
         sig_file = _sig_path(book_dir, ch)
@@ -259,16 +270,20 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False,
             combined_entries.append(re_keyed)
         for n, src in pages_rel.items():
             combined_pages[offset + n] = src
+        for n, svg in svg_overrides.items():
+            combined_svgs[offset + n] = svg
         imported[ch] = sum(1 for e in entries if e["anchor_text"])
 
     # ── single combined injection ────────────────────────────────────────────
-    out = inject_slides(source_text, combined_entries, pages=combined_pages)
+    out = inject_slides(source_text, combined_entries, pages=combined_pages,
+                        svg_overrides=combined_svgs)
     out_path = book_dir / "book" / "book-slides.md"
     out_path.write_text(out, encoding="utf-8")
     total = sum(imported.values())
+    total_svg = sum(svg_counts.values())
     log(f"    {_PHASE}: {source_md.name} + {total} slides "
-        f"({len(work)} deck(s)) -> {out_path.name}")
-    return {"imported": imported, "exempt": exempt,
+        f"({len(work)} deck(s), {total_svg} as SVG) -> {out_path.name}")
+    return {"imported": imported, "exempt": exempt, "svg": svg_counts,
             "out": str(out_path.relative_to(book_dir))}
 
 

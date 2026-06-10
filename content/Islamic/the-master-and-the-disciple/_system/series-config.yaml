@@ -1,0 +1,16 @@
+slug: the-master-and-the-disciple
+title: The Master and the Disciple
+content_profile: islamic_scholarly
+source_language: en
+episode_planning_mode: chronological
+audience_profile: traditional
+conversation_style: deep_dive
+length_tier: extended
+enable_video: false
+video_style: none
+# Density-standard re-run (2026-06-10): opts this book into the chapter-density
+# standard (max 3 concepts/episode; preflight + chapter-set P0 gates halt) and
+# the single book-level slide deck (one NotebookLM generation for the whole
+# book). See docs/standards/chapter-density.md.
+density_standard: 2
+slide_deck_mode: book

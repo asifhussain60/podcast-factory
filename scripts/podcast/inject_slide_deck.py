@@ -53,8 +53,10 @@ _DPI = 150
 # for inline reading figures at this size.
 _JPEG_QUALITY = 85
 _PAGE_RE = re.compile(r"-(\d+)\.(?:png|jpg)$")
+# Widened 2026-06-10: also strips the SVG-replicated variant
+# (class="book-diagram book-slide book-slide-svg") so re-runs stay idempotent.
 _SLIDE_FIGURE_RE = re.compile(
-    r'<figure class="book-diagram book-slide">.*?</figure>\n*', re.DOTALL)
+    r'<figure class="book-diagram book-slide[^"]*">.*?</figure>\n*', re.DOTALL)
 _REQUIRED_KEYS = ("slide_id", "page", "title", "anchor_text")
 
 
@@ -155,13 +157,20 @@ def strip_slide_figures(book_md: str) -> str:
 
 
 def inject_slides(book_md: str, entries: list[dict], *, pages: dict[int, str],
-                  position: str = "before") -> str:
+                  position: str = "before",
+                  svg_overrides: dict[int, Path] | None = None) -> str:
     """Inject one figure per anchored slide at its anchor paragraph.
 
     ``pages`` maps page number -> img SRC PATH relative to the book content dir
     (e.g. "slide-decks/_pages/ch01/page-02.jpg"), so the figure src always
     matches a file that actually exists AND multiple decks can be combined in
     one call without page-number collisions (callers re-key pages uniquely).
+
+    ``svg_overrides`` (2026-06-10, slide intelligence): page number -> verified
+    SVG file path. Pages present here are injected as INLINE <svg> figures
+    (class "book-diagram book-slide book-slide-svg" — same pattern as
+    _book_illustrate) instead of the raster <img>; all other pages keep the
+    JPEG. Callers re-key svg_overrides with the same stride as ``pages``.
 
     ``position``: "before" (default — the slide precedes the passage that
     explains it, per the reading-edition design) inserts at the START of the
@@ -197,6 +206,22 @@ def inject_slides(book_md: str, entries: list[dict], *, pages: dict[int, str],
         else:
             end_of_para = result.find("\n\n", first + len(anchor))
             insert_at = (end_of_para + 2) if end_of_para != -1 else len(result)
+        svg_path = (svg_overrides or {}).get(page)
+        if svg_path is not None:
+            try:
+                svg_markup = Path(svg_path).read_text(encoding="utf-8").strip()
+            except OSError:
+                svg_markup = ""
+            if svg_markup.startswith("<svg"):
+                figure_block = (
+                    f'<figure class="book-diagram book-slide book-slide-svg">\n'
+                    f'{svg_markup}\n'
+                    f'<figcaption>{e["title"]}</figcaption>\n'
+                    f'</figure>\n\n'
+                )
+                insertions.append((insert_at, figure_block))
+                continue
+            # Unreadable/invalid SVG → fall through to the raster figure.
         figure_block = (
             f'<figure class="book-diagram book-slide">\n'
             f'<img src="{pages[page]}" alt="{e["title"]}">\n'
