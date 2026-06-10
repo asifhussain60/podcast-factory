@@ -3,10 +3,10 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
-  "phase": "0e",
-  "phase_status": "completed",
-  "last_completed_phase": "0e",
-  "next_phase": "0literary",
+  "phase": "0f",
+  "phase_status": "halted",
+  "last_completed_phase": "06a",
+  "next_phase": "0f",
   "last_error": null,
   "pipeline_mode": "orchestrated",
   "v1_archive": {
@@ -60,9 +60,10 @@
       "manual_fallback": "Inspect the chapter files of failed chapters; enrich each manually via /podcast, then add a `- <stem>: ENRICHED ...` row to enrichment-log.md and re-invoke orchestrate-book --resume."
     },
     "0f": {
-      "status": "pending",
+      "status": "halted",
       "ts_started": "2026-06-07T22:09:02Z",
-      "series_plan_path": "content/Islamic/the-master-and-the-disciple/_system/series-plan.md"
+      "series_plan_path": "content/Islamic/the-master-and-the-disciple/_system/series-plan.md",
+      "ts_completed": "2026-06-10T21:47:04Z"
     },
     "per-chapter": {
       "status": "pending",
@@ -87,9 +88,10 @@
       "manual_fallback": "1. Review /Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/the-master-and-the-disciple/_system/gap-analysis.md\n2. Edit or annotate as needed (add notes, reject candidates, confirm clarifications).\n3. Resume: python3 scripts/podcast/orchestrate_book.py --resume <slug>"
     },
     "06a": {
-      "status": "pending",
+      "status": "completed",
       "ts_started": "2026-06-07T22:01:16Z",
-      "gate_warnings": 7
+      "gate_warnings": 7,
+      "ts_completed": "2026-06-10T21:47:04Z"
     },
     "0book-design": {
       "status": "pending",
