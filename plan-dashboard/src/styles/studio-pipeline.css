@@ -629,18 +629,10 @@
     0 2px 8px color-mix(in oklab, var(--c-accent) 22%, transparent);
 }
 
-.studio-toolbar .studio-new-content-link .studio-new-content-sub {
-  color: color-mix(in oklab, var(--c-bg-card) 72%, var(--c-accent));
-}
-
 .studio-toolbar .studio-new-content-link:hover {
   background: color-mix(in oklab, var(--c-ink) 12%, var(--c-accent));
   border-color: color-mix(in oklab, var(--c-accent) 45%, var(--c-ink));
   color: var(--c-bg-card);
-}
-
-.studio-toolbar .studio-new-content-link:hover .studio-new-content-sub {
-  color: color-mix(in oklab, var(--c-bg-card) 80%, var(--c-accent));
 }
 
 .studio-new-content-link {
@@ -674,15 +666,6 @@
   color: inherit;
 }
 
-.studio-new-content-sub {
-  font-size: 0.8rem;
-  color: var(--c-ink-muted);
-}
-
-.studio-new-content-link:hover .studio-new-content-sub {
-  color: color-mix(in oklab, var(--c-accent) 60%, var(--c-ink-muted));
-}
-
 /* ── Focus rings for new shelf elements ──────────────────── */
 .studio-shelf-card:focus-visible {
   outline: 2px solid var(--c-accent);
@@ -699,7 +682,6 @@
   .studio-shelf-grid { grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); }
   .studio-shelf-name { font-size: 1.25rem; }
   .studio-shelf-desc { display: none; }
-  .studio-new-content-sub { display: none; }
 }
 
 @media (max-width: 480px) {
