@@ -58,9 +58,16 @@ class ClassifyValueTests(unittest.TestCase):
         self.assertEqual(final, "low")
 
     def test_dense_text_is_low(self):
-        final, reasons = classify_value(_entry(text_blocks=["x" * 500]))
+        # Ceiling calibrated to 1,000 chars (real decks run 470-960).
+        final, reasons = classify_value(_entry(text_blocks=["x" * 1100]))
         self.assertEqual(final, "low")
         self.assertTrue(any("too dense" in r for r in reasons))
+
+    def test_manual_override_wins(self):
+        final, reasons = classify_value(
+            _entry(diagram_type="none", manual_value_class="high"))
+        self.assertEqual(final, "high")
+        self.assertEqual(reasons, ["manual override"])
 
     def test_llm_advisory_is_overridden(self):
         # LLM says high, rubric says low (type "other") — Python disposes.

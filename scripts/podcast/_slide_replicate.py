@@ -55,8 +55,12 @@ _SVG_TIMEOUT = 1800
 
 # ── high-value rubric (deterministic) ────────────────────────────────────────
 REPLICABLE_DIAGRAM_TYPES = {"list", "hierarchy", "table", "flow"}
-MAX_TEXT_CHARS = 450     # dense slides replicate poorly as SVG
-MAX_TEXT_BLOCKS = 14
+# Calibrated against the real M&D NotebookLM deck (2026-06-10): structural
+# pages run 470-960 chars / 7-21 blocks, so the original guesses (450/14)
+# rejected every real page. Density only guards against unreadable SVGs —
+# verify_svg's exact-text survival check is the actual safety net.
+MAX_TEXT_CHARS = 1000
+MAX_TEXT_BLOCKS = 22
 
 # House style constants surfaced into the SVG prompt (mirrors _svg_patterns.py).
 _SVG_STYLE_NOTE = (
@@ -161,7 +165,14 @@ Do not modify any other file."""
 # ── deterministic classification ─────────────────────────────────────────────
 
 def classify_value(entry: dict) -> tuple[str, list[str]]:
-    """Final high/low decision + rubric reasons. The LLM's value_class is advisory."""
+    """Final high/low decision + rubric reasons. The LLM's value_class is advisory.
+
+    A human can pin a page's decision by adding `"manual_value_class": "high"|"low"`
+    to its entry in the analysis JSON — manual wins over the rubric.
+    """
+    manual = entry.get("manual_value_class")
+    if manual in ("high", "low"):
+        return manual, ["manual override"]
     reasons: list[str] = []
     dt = str(entry.get("diagram_type") or "none").lower()
     blocks = [str(b) for b in (entry.get("text_blocks") or [])]
@@ -222,27 +233,27 @@ def analyze_and_replicate_slides(book_dir: Path, ch: str, deck_pdf: Path,
         return {}
 
 
-def _load_verified_svgs(book_dir: Path, ch: str, analysis: list[dict],
-                        log=print) -> dict[int, Path]:
-    """Re-verify existing SVGs against the (possibly hand-edited) analysis."""
-    out: dict[int, Path] = {}
-    svg_dir = _svg_dir(book_dir, ch)
-    for entry in analysis:
-        if entry.get("final_value_class") != "high":
-            continue
+def _verify_high_pages(svg_dir: Path, high: list[dict]) -> tuple[dict[int, Path], list[dict]]:
+    """Verify each high page's SVG. Returns (verified {page: path}, failed entries)."""
+    verified: dict[int, Path] = {}
+    failed: list[dict] = []
+    for entry in high:
         page = int(entry["page"])
         svg_path = svg_dir / f"page-{page:02d}.svg"
         if not svg_path.exists():
+            entry["svg_verified"] = False
+            entry["fallback_reason"] = "SVG not written"
+            failed.append(entry)
             continue
         ok, why = verify_svg(svg_path, entry)
         entry["svg_verified"] = ok
         if ok:
-            out[page] = svg_path
+            entry.pop("fallback_reason", None)
+            verified[page] = svg_path
         else:
             entry["fallback_reason"] = why
-            log(f"    {_PHASE}: {ch} page {page} SVG fails verification "
-                f"({why}) — raster fallback")
-    return out
+            failed.append(entry)
+    return verified, failed
 
 
 def _analyze_and_replicate(book_dir: Path, ch: str, deck_pdf: Path,
@@ -254,36 +265,33 @@ def _analyze_and_replicate(book_dir: Path, ch: str, deck_pdf: Path,
     sig_path = _replicate_sig_path(book_dir, ch)
     sig = _sha(deck_pdf)
 
-    # Cache hit: reuse analysis + SVGs (re-verifying so manual edits to either
-    # the analysis JSON or the SVGs take effect without an LLM call).
-    if (analysis_path.exists() and sig_path.exists()
-            and sig_path.read_text(encoding="utf-8").strip() == sig and not force):
-        log(f"    {_PHASE}: {ch} slide-analysis cache hit — skipping LLM")
-        analysis = json.loads(analysis_path.read_text(encoding="utf-8"))
-        verified = _load_verified_svgs(book_dir, ch, analysis, log=log)
-        analysis_path.write_text(json.dumps(analysis, ensure_ascii=False, indent=2),
-                                 encoding="utf-8")
-        return verified
-
-    # ── 1. ANALYZE ────────────────────────────────────────────────────────────
-    _analysis_dir(book_dir).mkdir(parents=True, exist_ok=True)
-    titles = page_titles(deck_pdf)
-    rc, stdout, stderr = _run_claude_p(
-        _analysis_prompt(raw_map, titles, ch, analysis_path),
-        timeout=_ANALYSIS_TIMEOUT, book_dir=book_dir,
-        phase=_PHASE, step=f"slide-analysis/{ch}")
-    if rc != 0 or not analysis_path.exists():
-        raise RuntimeError(
-            f"vision analysis failed (rc={rc}; "
-            f"stderr={(stderr or '').strip()[:200]})")
+    # ── 1. ANALYZE — sig-cached: the vision call reruns only when the deck
+    #      PDF changes (or --force). Classification + SVG work ALWAYS rerun
+    #      below, so rubric recalibration and hand-edits to the analysis JSON
+    #      (incl. manual_value_class pins) take effect without an LLM re-read.
+    cache_hit = (analysis_path.exists() and sig_path.exists()
+                 and sig_path.read_text(encoding="utf-8").strip() == sig and not force)
+    if cache_hit:
+        log(f"    {_PHASE}: {ch} slide-analysis cache hit — skipping vision LLM")
+    else:
+        _analysis_dir(book_dir).mkdir(parents=True, exist_ok=True)
+        titles = page_titles(deck_pdf)
+        rc, stdout, stderr = _run_claude_p(
+            _analysis_prompt(raw_map, titles, ch, analysis_path),
+            timeout=_ANALYSIS_TIMEOUT, book_dir=book_dir,
+            phase=_PHASE, step=f"slide-analysis/{ch}")
+        if rc != 0 or not analysis_path.exists():
+            raise RuntimeError(
+                f"vision analysis failed (rc={rc}; "
+                f"stderr={(stderr or '').strip()[:200]})")
     analysis = json.loads(analysis_path.read_text(encoding="utf-8"))
     if not isinstance(analysis, list) or not analysis:
         raise RuntimeError("analysis JSON is not a non-empty list")
 
-    # ── 2. CLASSIFY (deterministic) ───────────────────────────────────────────
+    # ── 2. CLASSIFY (deterministic; manual_value_class wins) ─────────────────
     high: list[dict] = []
     for entry in analysis:
-        entry["llm_value_class"] = entry.get("value_class")
+        entry.setdefault("llm_value_class", entry.get("value_class"))
         final, reasons = classify_value(entry)
         entry["final_value_class"] = final
         entry["rubric_reasons"] = reasons
@@ -292,44 +300,32 @@ def _analyze_and_replicate(book_dir: Path, ch: str, deck_pdf: Path,
     log(f"    {_PHASE}: {ch} slide-analysis: {len(analysis)} pages, "
         f"{len(high)} high-value → SVG")
 
-    # ── 3. REPLICATE (one batched call) ──────────────────────────────────────
+    # ── 3+4. REPLICATE missing/failed SVGs, then VERIFY (deterministic) ─────
     verified: dict[int, Path] = {}
     if high:
         svg_dir = _svg_dir(book_dir, ch)
         svg_dir.mkdir(parents=True, exist_ok=True)
+        # Pre-verify: SVGs that already exist and pass need no authoring call.
+        verified, pending = _verify_high_pages(svg_dir, high)
         for attempt in (1, 2):
+            if not pending:
+                break
             rc, stdout, stderr = _run_claude_p(
-                _svg_prompt(high, ch, svg_dir),
+                _svg_prompt(pending, ch, svg_dir),
                 timeout=_SVG_TIMEOUT, book_dir=book_dir,
                 phase=_PHASE, step=f"slide-svg/{ch}/attempt-{attempt}")
             if rc != 0:
                 raise RuntimeError(f"SVG authoring rc={rc}")
-            # ── 4. VERIFY (deterministic) ────────────────────────────────────
-            failed: list[dict] = []
-            verified = {}
-            for entry in high:
-                page = int(entry["page"])
-                svg_path = svg_dir / f"page-{page:02d}.svg"
-                if not svg_path.exists():
-                    entry["svg_verified"] = False
-                    entry["fallback_reason"] = "SVG not written"
-                    failed.append(entry)
-                    continue
-                ok, why = verify_svg(svg_path, entry)
-                entry["svg_verified"] = ok
-                if ok:
-                    entry.pop("fallback_reason", None)
-                    verified[page] = svg_path
-                else:
-                    entry["fallback_reason"] = why
-                    failed.append(entry)
-            if not failed or attempt == 2:
-                for entry in failed:
-                    log(f"    {_PHASE}: {ch} page {entry['page']} → raster fallback "
-                        f"({entry.get('fallback_reason')})")
-                break
-            # One re-author pass for only the failed pages, with reasons appended.
-            high = [dict(e, _retry_reason=e.get("fallback_reason")) for e in failed]
+            newly_verified, pending = _verify_high_pages(svg_dir, pending)
+            verified.update(newly_verified)
+            if pending and attempt == 1:
+                # One re-author pass for only the failed pages, reasons attached
+                # in place so the analysis JSON keeps the audit trail.
+                for e in pending:
+                    e["_retry_reason"] = e.get("fallback_reason")
+        for entry in pending:
+            log(f"    {_PHASE}: {ch} page {entry['page']} → raster fallback "
+                f"({entry.get('fallback_reason')})")
 
     analysis_path.write_text(json.dumps(analysis, ensure_ascii=False, indent=2),
                              encoding="utf-8")
