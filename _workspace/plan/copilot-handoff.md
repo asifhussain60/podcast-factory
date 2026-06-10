@@ -268,6 +268,32 @@ git pull --rebase origin book/ayyuhal-walad                      # sync before w
 Append a dated entry at the end of every session (newest at top): what changed, what's next,
 what's blocked. This is your across-session memory.
 
+### 2026-06-10 (later) — Claude session (autonomous slide weave + folder standardization)
+
+**Wave SD shipped** (see plan.yaml `SD` block): (1) ONE folder-skeleton registry
+`_paths.BOOK_SUBDIRS` (16 dirs) + `ensure_book_skeleton()` consumed by intake_book
+(flat + volume), intake_launch (site New Content), scaffold_book — three divergent
+SKELETON_DIRS lists deleted; `standardize_book_folders.py` (dry-run-first) migrated
+all 9 books + 6 asaas volumes retroactively (M&D slide-deck/->slide-decks/book-deck.*,
+healthequity audio/->m4a/, claude-code-training source/->_source/; kunooz source dup
+FLAGGED not touched). gitignore: m4a/mp3 dir rules -> `/**` + .gitkeep negation.
+(2) Slide-deck generation card at the finalize halt (`_notebooklm_table.py` sibling
+renderer + `discover_slide_framings`; LOCKED episode table untouched; chapter_driver
+`_print_slide_deck_card`). (3) NEW phase `0book-slide-import` (illustrate -> render):
+`_slide_import.py` — gate (framing-driven; `.SKIP` exempts; missing PDFs ->
+AuthoringHalt, publish stops via book_driver rc=3 + publish_driver early-return,
+dispatcher re-enters publish driver on --resume), pdftoppm/pdftotext extraction,
+ONE claude -p per chapter authors `slide-decks/_manifests/<ch>-manifest.json`
+(fail-loud validation vs the REAL injection source, 1 retry, sha256 sig cache),
+single combined `inject_slides` with BEFORE-placement -> `book/book-slides.md`.
+Injector reworked: pages = src paths (multi-deck safe), `position="before"` default,
+book-level manual mode at `slide-decks/book-deck.pdf`. Dispatcher 0book dead-end
+fixed (0book-illustrate missing from tuple; stale routing to per-chapter driver).
+Dashboard `studio-pipeline.ts` PHASE_ORDER now knows the 0book chain. Tests: 744+
+green (36 new across skeleton/card/import/injector). Restored an unexplained
+worktree deletion of `content/podcast/.skill/_learning/` files (watch for recurrence
+after test runs — culprit not identified).
+
 ### 2026-06-10 — Claude session (slide-deck import into the reading edition)
 
 **New optional step `scripts/podcast/inject_slide_deck.py`** (commit `943acdd` on `develop`):

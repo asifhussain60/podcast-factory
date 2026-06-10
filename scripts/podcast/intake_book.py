@@ -33,12 +33,11 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from _paths import REPO_ROOT, content_dir
+from _paths import BOOK_SUBDIRS, REPO_ROOT, content_dir, ensure_book_skeleton
 
 WORKSPACE_BOOKS = REPO_ROOT / "content" / "drafts"  # deprecated (legacy flat layout)
 RAW_DIR = REPO_ROOT.parent.parent / "raw"  # podcast-factory/raw/, outside the worktree
 
-SKELETON_DIRS = ["_source", "_system", "chapters", "episodes", "episode-drafts"]
 SLUG_RE_PATTERN = r"^[a-z0-9]+(?:-[a-z0-9]+)*$"
 
 
@@ -66,8 +65,7 @@ def _create_skeleton(book_dir: Path, force: bool) -> None:
     if force and book_dir.exists():
         _info(f"==> Removing existing workspace at {book_dir} (--force)")
         shutil.rmtree(book_dir)
-    for d in SKELETON_DIRS:
-        (book_dir / d).mkdir(parents=True, exist_ok=True)
+    ensure_book_skeleton(book_dir)
 
 
 def _create_branch(category: str, slug: str) -> str | None:
@@ -119,7 +117,7 @@ def _intake_from_pdf(
     book_dir = content_dir(slug, category=category)
     _info(f"==> Creating workspace at {book_dir.relative_to(REPO_ROOT)}")
     _create_skeleton(book_dir, force)
-    _info(f"    Skeleton dirs: {', '.join(SKELETON_DIRS)}")
+    _info(f"    Skeleton: standard {len(BOOK_SUBDIRS)}-dir layout (see _paths.BOOK_SUBDIRS)")
 
     dst_pdf = book_dir / "_source" / src.name
     shutil.copy2(src, dst_pdf)
@@ -215,7 +213,7 @@ def _intake_volume_from_pdf(
 
     # Build the volume's workspace skeleton + copy the single PDF.
     _create_skeleton(book_dir, force)
-    _info(f"    Skeleton dirs: {', '.join(SKELETON_DIRS)}")
+    _info(f"    Skeleton: standard {len(BOOK_SUBDIRS)}-dir layout (see _paths.BOOK_SUBDIRS)")
     dst_pdf = book_dir / "_source" / src.name
     shutil.copy2(src, dst_pdf)
     _info(f"    Copied source: {src.name} → {dst_pdf.relative_to(REPO_ROOT)}")
@@ -391,7 +389,7 @@ def _intake_from_bundle(
 
     _info(f"==> Creating workspace at {book_dir.relative_to(REPO_ROOT)}")
     _create_skeleton(book_dir, force)
-    _info(f"    Skeleton dirs: {', '.join(SKELETON_DIRS)}")
+    _info(f"    Skeleton: standard {len(BOOK_SUBDIRS)}-dir layout (see _paths.BOOK_SUBDIRS)")
 
     # Copy bundle's _system/source/ into content/drafts/<slug>/_system/source/
     dst_source = book_dir / "_system" / "source"
@@ -500,7 +498,7 @@ def _intake_from_audio_transcript(
     book_dir = content_dir(slug, category=category)
     _info(f"==> Creating workspace at {book_dir.relative_to(REPO_ROOT)}")
     _create_skeleton(book_dir, force)
-    _info(f"    Skeleton dirs: {', '.join(SKELETON_DIRS)}")
+    _info(f"    Skeleton: standard {len(BOOK_SUBDIRS)}-dir layout (see _paths.BOOK_SUBDIRS)")
 
     dst_transcript = book_dir / "_system" / "source" / "text" / src.name
     dst_transcript.parent.mkdir(parents=True, exist_ok=True)

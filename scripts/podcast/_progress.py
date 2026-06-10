@@ -78,7 +78,8 @@ PHASES = (
     "0book-design",   # PDF path — book-craft re-segmentation -> book/book-toc.json (gated by series.enable_book_branch; runs post-finalize so book is built from reviewed podcast content)
     "0book-compose",  # PDF path — whole-book revoice -> book/book.md (modern author voice, Arabic script + English)
     "0book-illustrate",  # PDF path — teaching diagrams injected -> book/book-illustrated.md
-    "0book-render",   # PDF path — book-illustrated.md (or book.md) -> book.pdf (Playwright); non-blocking on the podcast ship
+    "0book-slide-import",  # PDF path — NotebookLM-exported deck PDFs (slide-decks/chNN-*.pdf) -> LLM anchor manifests -> book/book-slides.md; HALTS when framed chapters lack dropped PDFs (.SKIP exempts)
+    "0book-render",   # PDF path — book-slides.md (or book-illustrated.md / book.md) -> book.pdf (Playwright); non-blocking on the podcast ship
     "publish",      # copy drafts → published/ catalog (publish_driver)
     "trainer",
     "merge",

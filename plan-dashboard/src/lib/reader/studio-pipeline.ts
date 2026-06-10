@@ -46,7 +46,9 @@ const PHASE_ORDER = [
   '0a', '0b', '0c', '0d', '0e',
   '06a', '0f', '0g',
   'per-chapter', 'per-chapter-optimize', 'per-chapter-slides',
-  'finalize', 'publish', 'trainer', 'merge', 'done',
+  'finalize',
+  '0book-design', '0book-compose', '0book-illustrate', '0book-slide-import', '0book-render',
+  'publish', 'trainer', 'merge', 'done',
 ];
 
 function phaseIndex(phase: string | null | undefined): number {

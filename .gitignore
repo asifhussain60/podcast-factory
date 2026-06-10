@@ -98,8 +98,12 @@ content/drafts/**/*.mov
 # Per-book audio (raw input + NotebookLM renders) stays OUT of git at ANY bucket
 # path — same small-repo policy as above. (The old content/drafts/** rules are
 # kept for history/back-compat.)
-content/**/mp3/
-content/**/m4a/
+# (`/**` + .gitkeep negation, not bare dir rules: a dir-level exclude would
+#  also swallow the skeleton's .gitkeep markers — see _paths.ensure_book_skeleton)
+content/**/mp3/**
+content/**/m4a/**
+!content/**/mp3/.gitkeep
+!content/**/m4a/.gitkeep
 content/**/*.mp3
 content/**/*.wav
 content/**/*.m4a
@@ -119,9 +123,11 @@ _workspace/**/*.pdf
 #   on every re-render.
 content/**/book/*.pdf
 # - Extracted slide-deck page rasters are IGNORED — derived from the tracked
-#   slide-deck/*.pdf by inject_slide_deck.py (pdftoppm), regenerable at any time.
-#   The deck PDF + PPTX themselves stay tracked as source-of-truth inputs.
-content/**/slide-deck/_pages/
+#   deck PDFs by inject_slide_deck.py/_slide_import.py (pdftoppm), regenerable.
+#   The deck PDFs + PPTX themselves stay tracked as source-of-truth inputs;
+#   _manifests/*.json (slide→anchor maps) are tracked, their .sig caches not.
+content/**/slide-decks/_pages/
+content/**/slide-decks/_manifests/.*-sig
 
 # Transcript working artifacts — raw Speech-to-Text + translator output used
 # during chapter-source authoring. The final cleaned chapters/ + episodes/

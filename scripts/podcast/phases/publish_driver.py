@@ -42,8 +42,11 @@ def _drive_publish_through_done(book_dir: Path) -> int:
     # PDF path — companion book (gated by series.enable_book_branch, non-blocking).
     # Runs here, AFTER the finalize halt, so the book is always generated from
     # podcast content that has already passed the quality review gate. A book-branch
-    # failure is non-blocking and never prevents the podcast from publishing.
-    _drive_book_branch(book_dir)
+    # FAILURE is non-blocking and never prevents the podcast from publishing —
+    # but a slide-import HALT (rc=3: NotebookLM deck PDFs not yet dropped) stops
+    # BEFORE publish, mirroring the finalize-halt convention; --resume re-enters.
+    if _drive_book_branch(book_dir) == 3:
+        return 0
 
     _info("phase: publish · copy clean chapters + episodes to published/")
     update_phase(book_dir, phase="publish", status="running")

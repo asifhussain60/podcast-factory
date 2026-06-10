@@ -1,36 +1,37 @@
 #!/usr/bin/env python3
-"""inject_slide_deck.py — place a NotebookLM-exported slide deck inline in the
-reading edition.
+"""inject_slide_deck.py — slide-deck → reading-edition injection primitives,
+plus the manual BOOK-LEVEL import mode.
 
-Optional, manual-invocation step (decks are exported from NotebookLM by hand,
-so this is NOT an orchestrator phase). When a book has a polished deck PDF in
-slide-deck/ plus a slide-manifest.json mapping slides to teaching passages,
-this script:
+Two consumers:
+  - Manual mode (this CLI): ONE NotebookLM-exported deck for the whole book at
+    slide-decks/book-deck.pdf + slide-decks/_manifests/book-manifest.json
+    (the-master-and-the-disciple pattern; manifest hand- or LLM-authored).
+  - 0book-slide-import phase (_slide_import.py): PER-CHAPTER decks at
+    slide-decks/chNN-<slug>.pdf with LLM-authored manifests — reuses every
+    primitive here (extract_pages, pdf_page_texts, inject_slides, ...).
 
-  1. Extracts deck pages to slide-deck/_pages/page-NN.png via pdftoppm
-     (poppler — already installed; no pip dependency).
-  2. Reads book/book-illustrated.md (or book/book.md if absent), strips any
-     previously injected slide figures, and re-injects one
-     <figure class="book-diagram book-slide"> block per anchored slide,
-     immediately after the paragraph containing its verbatim anchor_text —
-     the same anchor mechanics as _book_illustrate._inject_figures, with one
-     deliberate hardening: a missing OR ambiguous anchor fails loudly naming
-     the slide_id (no silent skips).
-  3. Writes book/book-slides.md. build_book_pdf.py prefers it over
-     book-illustrated.md/book.md, so the next 0book-render picks it up.
-     book.md and book-illustrated.md are never mutated.
+Mechanics:
+  1. Extract deck pages to slide-decks/_pages/<key>/page-NN.jpg via pdftoppm
+     (poppler — installed; no pip dependency; JPEG q85 — PNG balloons the PDF).
+  2. Read book/book-illustrated.md (or book/book.md), strip previously injected
+     slide figures, re-inject one <figure class="book-diagram book-slide"> per
+     anchored slide at the paragraph containing its verbatim anchor_text —
+     by default BEFORE that paragraph (the slide precedes the passage that
+     explains it). Same anchor mechanics as _book_illustrate._inject_figures,
+     hardened: a missing OR ambiguous anchor fails loudly naming the slide_id.
+  3. Write book/book-slides.md. build_book_pdf.py prefers it over
+     book-illustrated.md/book.md. book.md / book-illustrated.md never mutated.
 
-MANIFEST  slide-deck/slide-manifest.json — list of entries:
+MANIFEST entries:
   {"slide_id": "ch01-s02", "page": 2, "title": "...",
    "anchor_text": "verbatim 20-70 char substring of the book md" | null}
 anchor_text null = combined-deck-only slide (e.g. the cover): validated
-against the page count but never injected inline. slide_ids are chapter-keyed
-(chNN-sNN), not episode-keyed — chapter/episode boundaries aren't 1:1 here.
+against the page count but never injected inline.
 
-USAGE
+USAGE (manual book-level mode)
     python3 scripts/podcast/inject_slide_deck.py <slug-or-BOOK_DIR> [--force]
 
---force re-extracts the PNG pages even if present. Re-runs are idempotent.
+--force re-extracts the page images even if present. Re-runs are idempotent.
 """
 from __future__ import annotations
 
@@ -121,17 +122,50 @@ def extract_pages(deck_pdf: Path, pages_dir: Path, *, force: bool = False, log=p
     return count
 
 
+def pdf_page_texts(pdf: Path) -> list[str]:
+    """Per-page plain text of ``pdf`` (one entry per page, form-feed split).
+
+    Used to recover slide TITLES from a NotebookLM-exported deck so the
+    manifest-authoring LLM can map slides to book passages."""
+    proc = subprocess.run(["pdftotext", str(pdf), "-"], capture_output=True, text=True)
+    if proc.returncode != 0:
+        raise AuthoringError(
+            phase=_PHASE,
+            message=f"pdftotext failed rc={proc.returncode}: {proc.stderr[:400]}",
+            manual_fallback="Install poppler (`brew install poppler`) and retry.")
+    pages = proc.stdout.split("\f")
+    if pages and not pages[-1].strip():
+        pages = pages[:-1]
+    return pages
+
+
+def page_titles(pdf: Path) -> list[str]:
+    """First non-blank line of each page — the slide title, best-effort."""
+    titles = []
+    for text in pdf_page_texts(pdf):
+        line = next((ln.strip() for ln in text.splitlines() if ln.strip()), "")
+        titles.append(line)
+    return titles
+
+
 def strip_slide_figures(book_md: str) -> str:
     """Remove previously injected book-slide figures (idempotent re-run support).
     Plain book-diagram figures from 0book-illustrate are untouched."""
     return _SLIDE_FIGURE_RE.sub("", book_md)
 
 
-def inject_slides(book_md: str, entries: list[dict], *, pages: dict[int, str]) -> str:
-    """Inject one figure per anchored slide after its anchor paragraph.
+def inject_slides(book_md: str, entries: list[dict], *, pages: dict[int, str],
+                  position: str = "before") -> str:
+    """Inject one figure per anchored slide at its anchor paragraph.
 
-    ``pages`` maps page number -> extracted image filename (from _page_map),
-    so the figure src always matches a file that actually exists.
+    ``pages`` maps page number -> img SRC PATH relative to the book content dir
+    (e.g. "slide-decks/_pages/ch01/page-02.jpg"), so the figure src always
+    matches a file that actually exists AND multiple decks can be combined in
+    one call without page-number collisions (callers re-key pages uniquely).
+
+    ``position``: "before" (default — the slide precedes the passage that
+    explains it, per the reading-edition design) inserts at the START of the
+    paragraph containing the anchor; "after" inserts past its end.
 
     Fail-loud contract (vs. _book_illustrate's soft-skip): every defect is
     collected and reported in ONE error naming the slide_ids, so a re-run
@@ -157,11 +191,15 @@ def inject_slides(book_md: str, entries: list[dict], *, pages: dict[int, str]) -
             problems.append(f"{sid}: anchor matches more than once: {anchor[:60]!r}")
             continue
 
-        end_of_para = result.find("\n\n", first + len(anchor))
-        insert_at = (end_of_para + 2) if end_of_para != -1 else len(result)
+        if position == "before":
+            para_break = result.rfind("\n\n", 0, first)
+            insert_at = (para_break + 2) if para_break != -1 else 0
+        else:
+            end_of_para = result.find("\n\n", first + len(anchor))
+            insert_at = (end_of_para + 2) if end_of_para != -1 else len(result)
         figure_block = (
             f'<figure class="book-diagram book-slide">\n'
-            f'<img src="slide-deck/_pages/{pages[page]}" alt="{e["title"]}">\n'
+            f'<img src="{pages[page]}" alt="{e["title"]}">\n'
             f'<figcaption>{e["title"]}</figcaption>\n'
             f'</figure>\n\n'
         )
@@ -180,29 +218,8 @@ def inject_slides(book_md: str, entries: list[dict], *, pages: dict[int, str]) -
     return result
 
 
-def inject_slide_deck(book_dir: Path, *, force: bool = False, log=print) -> Path:
-    """Main entry: extract pages + inject figures; returns book/book-slides.md."""
-    book_dir = Path(book_dir).resolve()
-    deck_dir = book_dir / "slide-deck"
-    deck_pdfs = sorted(deck_dir.glob("*.pdf")) if deck_dir.exists() else []
-    if len(deck_pdfs) != 1:
-        raise AuthoringError(
-            phase=_PHASE,
-            message=f"expected exactly one slide-deck/*.pdf in {book_dir.name}, "
-                    f"found {len(deck_pdfs)}",
-            manual_fallback="Export the deck from NotebookLM and place one PDF in slide-deck/.")
-    manifest_path = deck_dir / "slide-manifest.json"
-    if not manifest_path.exists():
-        raise AuthoringError(
-            phase=_PHASE,
-            message=f"missing {manifest_path.relative_to(book_dir)}",
-            manual_fallback="Author the slide manifest (slide_id/page/title/anchor_text per slide).")
-
-    entries = load_manifest(manifest_path)
-    pages_dir = deck_dir / "_pages"
-    extract_pages(deck_pdfs[0], pages_dir, force=force, log=log)
-    pages = {n: p.name for n, p in _page_map(pages_dir).items()}
-
+def injection_source(book_dir: Path) -> Path:
+    """The markdown the figures are injected into (and anchors validated against)."""
     src = book_dir / "book" / "book-illustrated.md"
     if not src.exists():
         src = book_dir / "book" / "book.md"
@@ -211,7 +228,37 @@ def inject_slide_deck(book_dir: Path, *, force: bool = False, log=print) -> Path
             phase=_PHASE,
             message=f"no book/book-illustrated.md or book/book.md in {book_dir.name}",
             manual_fallback="Run 0book-compose (and 0book-illustrate) first.")
+    return src
 
+
+def inject_slide_deck(book_dir: Path, *, force: bool = False, log=print) -> Path:
+    """Manual book-level mode: ONE deck for the whole book at the standardized
+    location slide-decks/book-deck.pdf + _manifests/book-manifest.json.
+    (Per-chapter decks are handled by the 0book-slide-import phase.)
+    Returns book/book-slides.md."""
+    book_dir = Path(book_dir).resolve()
+    deck_dir = book_dir / "slide-decks"
+    deck_pdf = deck_dir / "book-deck.pdf"
+    if not deck_pdf.exists():
+        raise AuthoringError(
+            phase=_PHASE,
+            message=f"missing slide-decks/book-deck.pdf in {book_dir.name}",
+            manual_fallback="Export the deck from NotebookLM and drop it at "
+                            "slide-decks/book-deck.pdf.")
+    manifest_path = deck_dir / "_manifests" / "book-manifest.json"
+    if not manifest_path.exists():
+        raise AuthoringError(
+            phase=_PHASE,
+            message=f"missing {manifest_path.relative_to(book_dir)}",
+            manual_fallback="Author the slide manifest (slide_id/page/title/anchor_text per slide).")
+
+    entries = load_manifest(manifest_path)
+    pages_dir = deck_dir / "_pages" / "book"
+    extract_pages(deck_pdf, pages_dir, force=force, log=log)
+    pages = {n: f"slide-decks/_pages/book/{p.name}"
+             for n, p in _page_map(pages_dir).items()}
+
+    src = injection_source(book_dir)
     out = inject_slides(src.read_text(encoding="utf-8"), entries, pages=pages)
     out_path = book_dir / "book" / "book-slides.md"
     out_path.write_text(out, encoding="utf-8")

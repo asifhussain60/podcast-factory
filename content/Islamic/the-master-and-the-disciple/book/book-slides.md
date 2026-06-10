@@ -4,12 +4,12 @@
 
 You are holding a letter that began as a conversation. Long ago, a circle of believers and preachers came to me and said, in effect: you have set us free by reminding us of what we owe — and we owe on three counts. We owe thanks for the call you extended to us, thanks for the knowledge you placed in our hands, and thanks for the work you charged us to do. Show us, they asked, what a willing soul can actually do to render each of those thanks. We already know, from the limits religion sets, what is obligatory and what the student must ask and the teacher must answer. We already know, from the conduct of the righteous and the manners of seekers, what is easy enough to say. What we want now is the harder thing — the practice.
 
-I am writing this book to answer them, and to answer you. Because if you have opened these pages, then in some way you are standing where they stood: aware that gratitude is not a feeling but a discipline, and wanting to be shown the shape of it.
-
 <figure class="book-diagram book-slide">
-<img src="slide-deck/_pages/page-02.jpg" alt="True Comportment is the Mechanism of Self-Surrender">
+<img src="slide-decks/_pages/book/page-02.jpg" alt="True Comportment is the Mechanism of Self-Surrender">
 <figcaption>True Comportment is the Mechanism of Self-Surrender</figcaption>
 </figure>
+
+I am writing this book to answer them, and to answer you. Because if you have opened these pages, then in some way you are standing where they stood: aware that gratitude is not a feeling but a discipline, and wanting to be shown the shape of it.
 
 Here is the frame I gave them, and that I now give you. The matter I am calling you toward is the one I honor above all else; may God be with His servants, complete this work in them, and ennoble those who answer Him. He has set, for the first of every thing, a last; and for the last of every thing, an end; and beyond every end, a further end. These successive ends are the houses of the hearts, and the keys that open them are acts of remembrance. The first key is affliction, the middle key is guidance, the last key is piety. Whoever has tried to grasp how things are actually built, and has stood honestly at the edge of what is within his own reach to obey, has already pointed himself toward guidance and begun to walk in the best way.
 
@@ -18,12 +18,12 @@ Here is the frame I gave them, and that I now give you. The matter I am calling 
 <figcaption>Shows the three successive keys that open the houses of the hearts.</figcaption>
 </figure>
 
-So as you read, hold these three answers close, because the whole book turns on them. To thank the Master is to obey Him. To thank the knowledge is to act on it and to call others to it. To thank the work is to be patient with it and to call others to it as well. Everything that follows is an unfolding of those three sentences — and an invitation, across the centuries, for you to take them as your own.
-
 <figure class="book-diagram book-slide">
-<img src="slide-deck/_pages/page-03.jpg" alt="The Three Thanks Matrix: Aligning the Gift with the Action and the Stage">
+<img src="slide-decks/_pages/book/page-03.jpg" alt="The Three Thanks Matrix: Aligning the Gift with the Action and the Stage">
 <figcaption>The Three Thanks Matrix: Aligning the Gift with the Action and the Stage</figcaption>
 </figure>
+
+So as you read, hold these three answers close, because the whole book turns on them. To thank the Master is to obey Him. To thank the knowledge is to act on it and to call others to it. To thank the work is to be patient with it and to call others to it as well. Everything that follows is an unfolding of those three sentences — and an invitation, across the centuries, for you to take them as your own.
 
 <figure class="book-diagram">
 <svg id="The_Three_Thanks_and_Their_Practices" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 260" role="img" aria-labelledby="The_Three_Thanks_and_Their_Practices_t The_Three_Thanks_and_Their_Practices_d">
@@ -59,12 +59,12 @@ So as you read, hold these three answers close, because the whole book turns on 
 
 Let me tell you about a man, and about what his life uncovered, because the doctrines of the righteous and the manners of the seekers are not abstractions — they walk on two feet, they begin somewhere, and what I want to set before you began in Persia.
 
-There was a man from the people of Persia who was struck by the calamity of ignorance. I do not mean dullness — he was not dull. He possessed a heart of keen retention, a sound intellect, and a culture he had carefully acquired. By every ordinary measure he was furnished. And yet ignorance prevailed over him with regard to the one knowledge I have been describing, the knowledge that matters, and he grew up inside that ignorance without knowing he was inside it. He wavered in the heat of a thirst he could not name, and reckoned the glittering mirage to be the whiteness of water — so that when he came to it, he found nothing of it, and he found God there waiting for him, and his reckoning was settled. Then God honored his resting-place and lifted the cover off him, and found him in a light, and so guided him and found him out. God became his sustainer and enriched him with knowledge, until he became one of the scholars of Mount Tur and one of the dwellers of the Bayt al-Ma'mur.
-
 <figure class="book-diagram book-slide">
-<img src="slide-deck/_pages/page-04.jpg" alt="The Seeker Encounters God at the Absolute End of the Mirage">
+<img src="slide-decks/_pages/book/page-04.jpg" alt="The Seeker Encounters God at the Absolute End of the Mirage">
 <figcaption>The Seeker Encounters God at the Absolute End of the Mirage</figcaption>
 </figure>
+
+There was a man from the people of Persia who was struck by the calamity of ignorance. I do not mean dullness — he was not dull. He possessed a heart of keen retention, a sound intellect, and a culture he had carefully acquired. By every ordinary measure he was furnished. And yet ignorance prevailed over him with regard to the one knowledge I have been describing, the knowledge that matters, and he grew up inside that ignorance without knowing he was inside it. He wavered in the heat of a thirst he could not name, and reckoned the glittering mirage to be the whiteness of water — so that when he came to it, he found nothing of it, and he found God there waiting for him, and his reckoning was settled. Then God honored his resting-place and lifted the cover off him, and found him in a light, and so guided him and found him out. God became his sustainer and enriched him with knowledge, until he became one of the scholars of Mount Tur and one of the dwellers of the Bayt al-Ma'mur.
 
 When his guidance was completed and he had reached the end of his hope, a duty settled on him: to give thanks to his Maker and to toil for his Lord. He had heard a saying from his father — one that lived inside him the way the soul lives inside the body:
 
@@ -72,12 +72,12 @@ When his guidance was completed and he had reached the end of his hope, a duty s
 >
 > "The best of good things is to raise the dead."
 
-And he said within himself: I was dead and He revived me. I was ignorant and He taught me. I was not the first to be ignorant — so that I might be the one to bring knowledge to people before anyone else. And I am not the last to be ignorant — so that teaching might end with me. In truth, I must be one who gives thanks for this blessing and who passes this trust on to those who come after me, just as those before me passed it on to me. This matter is the first of God's commandments, and it has reached me only through many causes — the first reaching the second, the second reaching the third — even though those who most loved it were the highest of God's creatures in the world. Then the veil was breached and the doors stormed, until it reached me. Am I, then, its endpoint and its end? No. Those who transmitted it and were faithful to it had the prior claim in respect of gains and virtues; and if their gains are not mine, then I rest on the fact that I am the one who gained from them through their work. And if their bounty does not exempt me from work, then I remain as poor as I was poor when I first sought knowledge. He said this within himself, and he knew that his duty was the very thing that was obligatory upon him, and that his last command was, in judgment, the same as his first.
-
 <figure class="book-diagram book-slide">
-<img src="slide-deck/_pages/page-05.jpg" alt="The Nested Obligation: Imparting Knowledge as Giving Life to the Dead">
+<img src="slide-decks/_pages/book/page-05.jpg" alt="The Nested Obligation: Imparting Knowledge as Giving Life to the Dead">
 <figcaption>The Nested Obligation: Imparting Knowledge as Giving Life to the Dead</figcaption>
 </figure>
+
+And he said within himself: I was dead and He revived me. I was ignorant and He taught me. I was not the first to be ignorant — so that I might be the one to bring knowledge to people before anyone else. And I am not the last to be ignorant — so that teaching might end with me. In truth, I must be one who gives thanks for this blessing and who passes this trust on to those who come after me, just as those before me passed it on to me. This matter is the first of God's commandments, and it has reached me only through many causes — the first reaching the second, the second reaching the third — even though those who most loved it were the highest of God's creatures in the world. Then the veil was breached and the doors stormed, until it reached me. Am I, then, its endpoint and its end? No. Those who transmitted it and were faithful to it had the prior claim in respect of gains and virtues; and if their gains are not mine, then I rest on the fact that I am the one who gained from them through their work. And if their bounty does not exempt me from work, then I remain as poor as I was poor when I first sought knowledge. He said this within himself, and he knew that his duty was the very thing that was obligatory upon him, and that his last command was, in judgment, the same as his first.
 
 So he left his family and his wealth for the sake of his Lord, answering Him and praying for the good, calling toward the obligation, yielding to Him the very thanksgiving that is His due. He passed through the peoples of the lands and through the tribes of the Arabs, scanning faces and casting questions — yet he found no answer and met no fellow seeker — until he came at last to the far reaches of the Island, al-Jazira. He entered a city of it at a time when its people were heedless. Recalling the signs and verifying the marks, he saw a group of the people of that land quarreling aimlessly over religion, wading in the depths of caprice. He sat down at a little distance, in seclusion from them, listening to their words and watching to see which of them held the best method.
 
@@ -97,12 +97,12 @@ He said: All of it is strange — to one who marvels.
 
 They said: Wonder is of two senses — praiseworthy and reprehensible.
 
-He said: Yes, I have learned that. So too, words are praiseworthy and reprehensible.
-
 <figure class="book-diagram book-slide">
-<img src="slide-deck/_pages/page-06.jpg" alt="The Test of True Speech Demands Transmissive Authority">
+<img src="slide-decks/_pages/book/page-06.jpg" alt="The Test of True Speech Demands Transmissive Authority">
 <figcaption>The Test of True Speech Demands Transmissive Authority</figcaption>
 </figure>
+
+He said: Yes, I have learned that. So too, words are praiseworthy and reprehensible.
 
 They said: What is the praiseworthy kind, in your view?
 
@@ -124,12 +124,12 @@ They said: Then let us hear from your words what you can show us of your doctrin
 
 He said: Yes. And he listened to the people, and received them with his face.
 
-Then he said: He who created the creation by His power made each thing equal to what He had decreed for it. He is the One who brought forth the highways of the pasture and made its outward and its inward free of caprices — He who is not ambiguous and is not reached by the study of mere traces. If imaginings are bewildered in their demand for Him, and minds grow careless in the search for His essence, still He does not appear within being so as to be possessed by His attributes, nor so that the intention of His path may be altered. Rather, He is generous. His knowledge is hidden by its very grace, and His secrets are protected by their proper family. His honor is the plumage of guidance; he is completed by the garment of piety, marked with the light of lights — a deposit in the breasts of the righteous, the keepers of the Word, the honor of the scribes, a trust which they discharge and a limit which they do not exceed. It is the rule of judgment and the bounties of the Most Merciful. He honored him and shielded him, protected him and concealed him, persuaded him of his rights and entrusted His covenants to him. So the thoughts of the thinkers do not reach him, and the schemes of the schemers do not arrive at him. His outward is a remembrance and an evidence for those who are guided, and his inward is a sure drink — its sky brought low to the beholders, its land paved for the seekers — and it has witnessed stations for the students. He has a guide for those who walk to Him, and signs whose wonders follow one upon another, pointing to Him by her parables. His path is preferred, his method laid out in detail, his rulings binding, his Sunna are as laws, truthfulness has ennobled their doctrines, and justice has refined their gains. For every good there is a leader and a way, and He has made it a garden and a guide to its inner chamber. Then minds were compelled, by ignorance and by want, to seek knowledge and capacity. Blessed is He who has made night and day a succession for those who would be reminded or would give thanks; and may God bless those He chose from among them to worship Him and made a warning to the worlds.
-
 <figure class="book-diagram book-slide">
-<img src="slide-deck/_pages/page-08.jpg" alt="God Marries Human Need with Divine Provision">
+<img src="slide-decks/_pages/book/page-08.jpg" alt="God Marries Human Need with Divine Provision">
 <figcaption>God Marries Human Need with Divine Provision</figcaption>
 </figure>
+
+Then he said: He who created the creation by His power made each thing equal to what He had decreed for it. He is the One who brought forth the highways of the pasture and made its outward and its inward free of caprices — He who is not ambiguous and is not reached by the study of mere traces. If imaginings are bewildered in their demand for Him, and minds grow careless in the search for His essence, still He does not appear within being so as to be possessed by His attributes, nor so that the intention of His path may be altered. Rather, He is generous. His knowledge is hidden by its very grace, and His secrets are protected by their proper family. His honor is the plumage of guidance; he is completed by the garment of piety, marked with the light of lights — a deposit in the breasts of the righteous, the keepers of the Word, the honor of the scribes, a trust which they discharge and a limit which they do not exceed. It is the rule of judgment and the bounties of the Most Merciful. He honored him and shielded him, protected him and concealed him, persuaded him of his rights and entrusted His covenants to him. So the thoughts of the thinkers do not reach him, and the schemes of the schemers do not arrive at him. His outward is a remembrance and an evidence for those who are guided, and his inward is a sure drink — its sky brought low to the beholders, its land paved for the seekers — and it has witnessed stations for the students. He has a guide for those who walk to Him, and signs whose wonders follow one upon another, pointing to Him by her parables. His path is preferred, his method laid out in detail, his rulings binding, his Sunna are as laws, truthfulness has ennobled their doctrines, and justice has refined their gains. For every good there is a leader and a way, and He has made it a garden and a guide to its inner chamber. Then minds were compelled, by ignorance and by want, to seek knowledge and capacity. Blessed is He who has made night and day a succession for those who would be reminded or would give thanks; and may God bless those He chose from among them to worship Him and made a warning to the worlds.
 
 Then he said: Fear God. Fear those who fear Him. Fear Him with the fear of one who would please Him. Seek knowledge. Learn. Work. And have mercy.
 
@@ -141,30 +141,30 @@ One of them did not. A youth from the group — the youngest, and the most thoug
 
 "O wise one," he said, "I have spoken and listened and preached in my time. I have been instructed. I have dressed the religion in the finest ornament I could find and longed for it in the noblest way I knew, and I have called others to it through the most honorable of its trusts. Minds were hungry for a question from you, because of the openings your words cut into our hearts. An excellence like this can only come from someone in whom the inner has been made whole as a teacher, and the outer has expanded into wisdom — for he is the seventh fountain of wisdom drawn from a firm origin, his blessings reach the worlds, and the branches of his branches are fruit for the seekers. I hope you may be one of those blessed branches, because of what I see in you: nobility of opinion, soundness at the core, completeness of mind. You said that minds are driven by ignorance to seek knowledge and capacity. My mind is among the most needy and the most destitute. May I have life from the way?"
 
-The Master answered. "The One who created the creatures by His power did not create them in vain. He did not create them already learned, and He does not abandon them inside the misguidance of ignorance, nor is He content for them to rest in stupidity of culture or to wear the garments of unknowing. He has made for them, as their way out of all that, the very road by which He composed their constitution and finished their making. He gave them hearing, and eyes, and hearts full of lights — as a sign of His dignity toward them and as an argument against them. Then He placed the treasures of His wisdom and the marks of His will in doctrines that please Him, lodged with His elect among His creation. He entrusted them with the religion, called them to it, and laid upon them the duty of answering Him, using the instrument we have named — so that He might separate the evil from the good. The seeker, by his very asking, comes to see; the one who is ignorant even of his own backwardness becomes known. After His Messengers no one has any argument left against Him, and no excuse to go astray."
-
 <figure class="book-diagram book-slide">
-<img src="slide-deck/_pages/page-09.jpg" alt="The Instruments Funnel: Processing the Divine Argument">
+<img src="slide-decks/_pages/book/page-09.jpg" alt="The Instruments Funnel: Processing the Divine Argument">
 <figcaption>The Instruments Funnel: Processing the Divine Argument</figcaption>
 </figure>
 
+The Master answered. "The One who created the creatures by His power did not create them in vain. He did not create them already learned, and He does not abandon them inside the misguidance of ignorance, nor is He content for them to rest in stupidity of culture or to wear the garments of unknowing. He has made for them, as their way out of all that, the very road by which He composed their constitution and finished their making. He gave them hearing, and eyes, and hearts full of lights — as a sign of His dignity toward them and as an argument against them. Then He placed the treasures of His wisdom and the marks of His will in doctrines that please Him, lodged with His elect among His creation. He entrusted them with the religion, called them to it, and laid upon them the duty of answering Him, using the instrument we have named — so that He might separate the evil from the good. The seeker, by his very asking, comes to see; the one who is ignorant even of his own backwardness becomes known. After His Messengers no one has any argument left against Him, and no excuse to go astray."
+
 "The lack of any excuse has frightened me," the boy said, "and the existence of the evidence has made me want it. I am begging you for a proof. I will be a servant to you."
 
-"God did not create men as scholars," the Master said. "He created them small, ignorant, knowing nothing. There is no great except after small, no scholar except after ignorance. Smallness is the prelude to greatness; ignorance is a guide to knowledge. Knowledge itself is not bearable except when something has gone before it — some prior knowing, quicker to the heart than the thing itself, smoother to the understanding — so that the learner is steadied in his first imaginings, his obligations are made lighter for him, his wings begin to shiver toward it, and his mind can carry its meaning. This is the way of God with His servants. Let us not deviate from it in religion by our own opinion, and let us not follow anything alongside it except the way itself."
-
 <figure class="book-diagram book-slide">
-<img src="slide-deck/_pages/page-10.jpg" alt="The Accustomed Way: Spiritual Infancy Requires Gradual Maturation">
+<img src="slide-decks/_pages/book/page-10.jpg" alt="The Accustomed Way: Spiritual Infancy Requires Gradual Maturation">
 <figcaption>The Accustomed Way: Spiritual Infancy Requires Gradual Maturation</figcaption>
 </figure>
 
+"God did not create men as scholars," the Master said. "He created them small, ignorant, knowing nothing. There is no great except after small, no scholar except after ignorance. Smallness is the prelude to greatness; ignorance is a guide to knowledge. Knowledge itself is not bearable except when something has gone before it — some prior knowing, quicker to the heart than the thing itself, smoother to the understanding — so that the learner is steadied in his first imaginings, his obligations are made lighter for him, his wings begin to shiver toward it, and his mind can carry its meaning. This is the way of God with His servants. Let us not deviate from it in religion by our own opinion, and let us not follow anything alongside it except the way itself."
+
 "I am too small for what I want," the boy said, "so raise me. I am ignorant of what I have asked for, so teach me. I am bound by your favor, so have mercy on me. You yourself were once in this very situation. God forbid that you should withhold from me — through my own hands — the blessing of that great trial God once laid upon you, the one for which He is to be thanked through your person. I know what it is to be in the suffering of ignorance and the helplessness of having no resources."
 
-"The state you describe is exactly as you say," the Master answered, "but I will not be merciful to you by doing for you what you must do for yourself. Every claim is accepted only when it is true. Knowledge is no benefit unless it is acted upon, and action is no benefit unless it is accepted. The truthfulness of speech is its justice. The proof of knowledge lies in the open ways and in the documented exemplars that have lasted through the lands, by which night and day themselves have been distinguished from each other. Do not pursue an argument carelessly, and do not dismiss one carelessly. Do not accept anything on imitation alone — because the first doubt that rises against it will tear it out of your heart. But do not reject the proof of an argument either, or you will leave an opening through which falsehood enters. Do not let your own opinion make inquiry and consensus useless. Think well of me without reservation. Strive in your questioning without suspicion. Seek the religion. Seek someone like yourself. And seek God's help in your matter. God does not waste the reward of the one who seeks, and does not deprive of reward anyone He sees pursuing the good."
-
 <figure class="book-diagram book-slide">
-<img src="slide-deck/_pages/page-11.jpg" alt="The Paradoxical Discipline: Navigating the Seeker's Failure Modes">
+<img src="slide-decks/_pages/book/page-11.jpg" alt="The Paradoxical Discipline: Navigating the Seeker's Failure Modes">
 <figcaption>The Paradoxical Discipline: Navigating the Seeker's Failure Modes</figcaption>
 </figure>
+
+"The state you describe is exactly as you say," the Master answered, "but I will not be merciful to you by doing for you what you must do for yourself. Every claim is accepted only when it is true. Knowledge is no benefit unless it is acted upon, and action is no benefit unless it is accepted. The truthfulness of speech is its justice. The proof of knowledge lies in the open ways and in the documented exemplars that have lasted through the lands, by which night and day themselves have been distinguished from each other. Do not pursue an argument carelessly, and do not dismiss one carelessly. Do not accept anything on imitation alone — because the first doubt that rises against it will tear it out of your heart. But do not reject the proof of an argument either, or you will leave an opening through which falsehood enters. Do not let your own opinion make inquiry and consensus useless. Think well of me without reservation. Strive in your questioning without suspicion. Seek the religion. Seek someone like yourself. And seek God's help in your matter. God does not waste the reward of the one who seeks, and does not deprive of reward anyone He sees pursuing the good."
 
 "You have dealt justly with yourself," the boy said, "in a way both fitting and effective, and you have set the truth out in the best phrasing of it. I ask God's help, and I ask you about this matter you are calling me to: what is it? Whose is it? To whom does it belong?"
 
@@ -280,12 +280,12 @@ Something settled in me then. "I have believed," I said. "The knowledge of the t
 
 He answered without hesitation, and he counted them off one by one, as a man counts coins he has weighed many times.
 
-"My conditions for you are five," he said. "Do not be absent if I summon you. Do not conceal anything from me if I ask you. Do not question me until I answer you. Do not request anything until I begin with you. And do not mention what passes between us to your father."
-
 <figure class="book-diagram book-slide">
-<img src="slide-deck/_pages/page-12.jpg" alt="Prudent Concealment: The Five Conditions Shield">
+<img src="slide-decks/_pages/book/page-12.jpg" alt="Prudent Concealment: The Five Conditions Shield">
 <figcaption>Prudent Concealment: The Five Conditions Shield</figcaption>
 </figure>
+
+"My conditions for you are five," he said. "Do not be absent if I summon you. Do not conceal anything from me if I ask you. Do not question me until I answer you. Do not request anything until I begin with you. And do not mention what passes between us to your father."
 
 I want you to hear those five again, slowly, because each one is a discipline of the seeker that the modern reader will be tempted to dismiss. Be present when called. Hide nothing when asked. Do not interrupt with questions before the answer has come. Do not grasp before what is meant for you is offered. And keep this between us — even from your father.
 
@@ -323,12 +323,12 @@ I felt the weight of the image at once. A key — one key — that distinguishes
 
 "This key you have mentioned is great in the sight of Allah," I said, "since it is what distinguishes between the lawful and the unlawful, between truth and falsehood. So what is it?"
 
-"It is the covenant of Allah," he said, "which establishes His rights, gathers His obligations, makes Paradise binding for His friends — the rope of God upon His earth, and the safe haven among His servants. I will recite it to you, and bind you to it."
-
 <figure class="book-diagram book-slide">
-<img src="slide-deck/_pages/page-13.jpg" alt="The Ultimate Differentiator: The Covenant Renders Action Sacred">
+<img src="slide-decks/_pages/book/page-13.jpg" alt="The Ultimate Differentiator: The Covenant Renders Action Sacred">
 <figcaption>The Ultimate Differentiator: The Covenant Renders Action Sacred</figcaption>
 </figure>
+
+"It is the covenant of Allah," he said, "which establishes His rights, gathers His obligations, makes Paradise binding for His friends — the rope of God upon His earth, and the safe haven among His servants. I will recite it to you, and bind you to it."
 
 The rope of God upon His earth. The safe haven among His servants. He was speaking of
 
@@ -700,12 +700,12 @@ So too, if you say "apparent," you must say "the apparent of what?" If you say "
 >
 > "And give up the appearance of iniquity and its interior."
 
-So sin itself became a thing with an outward and an inward. So too is the religion of God, the Greatest. The one who says "the laws" speaks of a thing whose outward is outward, and whose inward is inward — each existing on its own. And knowledge itself: its meaning has many parables that point to it, such as the hidden egg, which has an outward — the shell; an inward — the white within; and an inner of the inner — the yolk, which is its essence and its meaning.
-
 <figure class="book-diagram book-slide">
-<img src="slide-deck/_pages/page-07.jpg" alt="The Cosmic Design: Physical Veils Immortalize Spiritual Realities">
+<img src="slide-decks/_pages/book/page-07.jpg" alt="The Cosmic Design: Physical Veils Immortalize Spiritual Realities">
 <figcaption>The Cosmic Design: Physical Veils Immortalize Spiritual Realities</figcaption>
 </figure>
+
+So sin itself became a thing with an outward and an inward. So too is the religion of God, the Greatest. The one who says "the laws" speaks of a thing whose outward is outward, and whose inward is inward — each existing on its own. And knowledge itself: its meaning has many parables that point to it, such as the hidden egg, which has an outward — the shell; an inward — the white within; and an inner of the inner — the yolk, which is its essence and its meaning.
 
 <figure class="book-diagram">
 <svg id="Three_Layers_of_Knowledge__Egg_Parable" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 401" role="img" aria-labelledby="Three_Layers_of_Knowledge__Egg_Parable_t Three_Layers_of_Knowledge__Egg_Parable_d">
@@ -1733,12 +1733,12 @@ So Abu Malik and his companions differed in their state of affairs, each in his 
 
 ## 10. The Author's Word
 
-What I have set before you in the shape of a story was never a story for its own sake. I did not draw out the days of these men, nor follow them through their wanderings and their meetings and their partings, because I wished to entertain you or to fill the page with incident. I told it because a narrative, when it is true, is a confirmation of what God has commanded. The lives of the messengers, the bearing of the guardians who came after them, the manners of those who set out seeking — these things do not arrive in the soul as bare propositions. They arrive walking, eating, speaking, hesitating, repenting, returning. If I had given you only the doctrine without the men who carried it, you would have held an empty cup. And so the account that has passed before you is, in its every turn, a witness: that the messengers stood firm, that the guardians bore the signs entrusted to them, and that the seekers, when they were sincere, were taught the manners by which a seeker is known.
-
 <figure class="book-diagram book-slide">
-<img src="slide-deck/_pages/page-14.jpg" alt="The Architecture of Transmission">
+<img src="slide-decks/_pages/book/page-14.jpg" alt="The Architecture of Transmission">
 <figcaption>The Architecture of Transmission</figcaption>
 </figure>
+
+What I have set before you in the shape of a story was never a story for its own sake. I did not draw out the days of these men, nor follow them through their wanderings and their meetings and their partings, because I wished to entertain you or to fill the page with incident. I told it because a narrative, when it is true, is a confirmation of what God has commanded. The lives of the messengers, the bearing of the guardians who came after them, the manners of those who set out seeking — these things do not arrive in the soul as bare propositions. They arrive walking, eating, speaking, hesitating, repenting, returning. If I had given you only the doctrine without the men who carried it, you would have held an empty cup. And so the account that has passed before you is, in its every turn, a witness: that the messengers stood firm, that the guardians bore the signs entrusted to them, and that the seekers, when they were sincere, were taught the manners by which a seeker is known.
 
 Praise belongs to God, the First and the Last — the One before whom there was nothing and after whom there is nothing, the One whose praise is the beginning of every speech worth speaking and the seal of every speech that has reached its end. May God send His blessing upon His Messenger Muhammad, whom He sent forth from Himself to His creation as a bearer of good news and a warner; and upon his guardian, the Imam of the God-fearing, the leader of those who emigrated for God's sake, the beloved of the Lord of the Worlds; and upon the Imams of the people of his house, those whom God has favoured and from whom He has lifted every defilement and purified with a complete purifying — as He Himself has said of them:
 

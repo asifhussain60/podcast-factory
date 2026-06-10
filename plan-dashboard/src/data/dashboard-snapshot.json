@@ -826,11 +826,41 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-10T10:14:52.524475+00:00",
-  "source_commit": "8bf21fb",
+  "generated_at": "2026-06-10T12:51:53.880996+00:00",
+  "source_commit": "074bc39",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "074bc39",
+      "subject": "docs(handoff): session log \u2014 slide-deck import feature",
+      "date": "2026-06-10"
+    },
+    {
+      "sha": "943acdd",
+      "subject": "feat(book): slide-deck import \u2014 inline NotebookLM deck pages in the reading edition",
+      "date": "2026-06-10"
+    },
+    {
+      "sha": "152aa3e",
+      "subject": "docs: session 25 audit status update",
+      "date": "2026-06-10"
+    },
+    {
+      "sha": "d61c7e6",
+      "subject": "docs(drift): align runbooks, skill registry, CI triggers, agent specs with current reality",
+      "date": "2026-06-10"
+    },
+    {
+      "sha": "21eb616",
+      "subject": "chore(site): audit cleanup \u2014 remove 31 dead imports/vars flagged by astro check",
+      "date": "2026-06-10"
+    },
+    {
+      "sha": "5096821",
+      "subject": "chore(pipeline): audit cleanup \u2014 delete orphaned knowledge modules, retire stale layout comments",
+      "date": "2026-06-10"
+    },
     {
       "sha": "8bf21fb",
       "subject": "merge: Islamic/asaas-al-taveel session 24 \u2014 Studio picker filters, card design system, intake polish, visual-QA fixes",
@@ -849,36 +879,6 @@
     {
       "sha": "66a7ff3",
       "subject": "fix(site): visual-QA pass \u2014 primary New-content button, intake column balance, mobile nav clip, GSAP entrance robustness",
-      "date": "2026-06-10"
-    },
-    {
-      "sha": "25cef34",
-      "subject": "feat(site): human-readable labels in intake production-settings dropdowns",
-      "date": "2026-06-10"
-    },
-    {
-      "sha": "3163c62",
-      "subject": "feat(site): single-select filter buttons, shelf planks removed, full-width descriptions",
-      "date": "2026-06-10"
-    },
-    {
-      "sha": "d732814",
-      "subject": "refactor(site): per-category card design system via --shelf-accent variable",
-      "date": "2026-06-10"
-    },
-    {
-      "sha": "c21d984",
-      "subject": "fix(site): volume number as gold badge on Studio cards, not in the title",
-      "date": "2026-06-10"
-    },
-    {
-      "sha": "4c03594",
-      "subject": "fix(site): Studio card template fixes \u2014 volume meta inheritance, card blurbs, New-content to top",
-      "date": "2026-06-10"
-    },
-    {
-      "sha": "e1a4d9d",
-      "subject": "feat(site): Studio picker lifecycle filter chips \u2014 In the Works default, Up Next/Published toggles",
       "date": "2026-06-10"
     }
   ],

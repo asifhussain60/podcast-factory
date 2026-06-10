@@ -28,9 +28,6 @@ try:
 except Exception as exc:  # pragma: no cover
     raise ImportError("intake_launch requires PyYAML") from exc
 
-SKELETON_DIRS = ("_source", "_system", "chapters", "episodes", "episode-drafts")
-
-
 def _now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -68,8 +65,7 @@ def prepare_launch(
         book_dir = _paths.content_dir(slug, profile=profile)
         resolved_slug = slug
 
-    for d in SKELETON_DIRS:
-        (book_dir / d).mkdir(parents=True, exist_ok=True)
+    _paths.ensure_book_skeleton(book_dir)
 
     # Atomic commit: staged files → canonical _source/ (role validation enforced).
     sources = staging.commit(staging_token, book_dir / "_source")

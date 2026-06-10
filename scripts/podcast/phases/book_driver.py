@@ -16,12 +16,14 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _progress import update_phase  # noqa: E402
 from _authoring import AuthoringError  # noqa: E402
+from _authoring._core import AuthoringHalt  # noqa: E402
 from _authoring._book_design import author_phase_book_design  # noqa: E402
 from _book_compose import author_phase_book_compose  # noqa: E402
 from _book_illustrate import author_phase_book_illustrate  # noqa: E402
 from phases.scaffold import phase_git_commit  # noqa: E402
 
-_BOOK_PHASES = ("0book-design", "0book-compose", "0book-illustrate", "0book-render")
+_BOOK_PHASES = ("0book-design", "0book-compose", "0book-illustrate",
+                "0book-slide-import", "0book-render")
 
 
 from _subprocess import err as _err, info as _info  # noqa: E402
@@ -40,8 +42,14 @@ def _book_branch_enabled(book_dir: Path) -> bool:
 
 
 def _drive_book_branch(book_dir: Path) -> int:
-    """Design → compose → render the companion book. Always returns 0 (non-blocking):
-    the podcast pipeline continues to finalize regardless of book-branch outcome."""
+    """Design → compose → illustrate → slide-import → render the companion book.
+
+    Returns 0 (non-blocking — the podcast pipeline proceeds regardless of
+    book-branch outcome) with ONE exception: returns 3 when 0book-slide-import
+    raises AuthoringHalt (deck PDFs not yet dropped) — the caller must stop
+    BEFORE publish so the human can finish the NotebookLM slide round and
+    `--resume` (the upstream 0book phases are artifact-idempotent, so re-entry
+    is effectively free)."""
     book_dir = Path(book_dir).resolve()
     slug = book_dir.name
 
@@ -87,6 +95,39 @@ def _drive_book_branch(book_dir: Path) -> int:
     else:
         update_phase(book_dir, phase="0book-illustrate", status="completed")
         phase_git_commit(book_dir, f"book({slug}): 0book-illustrate — book-illustrated.md")
+
+    # 0book-slide-import: NotebookLM deck PDFs -> book-slides.md.
+    # Halts (return 3) when framed chapters lack their dropped PDFs; plain
+    # failures are non-blocking (render proceeds from book-illustrated.md).
+    update_phase(book_dir, phase="0book-slide-import", status="running")
+    try:
+        from _slide_import import author_phase_slide_import  # noqa: PLC0415
+        result = author_phase_slide_import(book_dir, log=_info)
+    except AuthoringHalt as e:
+        update_phase(book_dir, phase="0book-slide-import", status="halted",
+                     error=str(e), extras={"manual_fallback": e.manual_fallback})
+        _info("")
+        _info("─" * 72)
+        _info("0book-slide-import halted — NotebookLM slide decks not yet dropped.")
+        _info(str(e))
+        _info("")
+        _info("Then re-run: python3 scripts/podcast/orchestrate_book.py --resume "
+              + book_dir.name)
+        _info("─" * 72)
+        return 3
+    except AuthoringError as e:
+        update_phase(book_dir, phase="0book-slide-import", status="failed",
+                     error=str(e), extras={"manual_fallback": e.manual_fallback})
+        _err(f"0book-slide-import failed (non-blocking — rendering without slides): {e}")
+    else:
+        if result.get("skipped"):
+            update_phase(book_dir, phase="0book-slide-import", status="skipped",
+                         extras={"reason": result["skipped"]})
+        else:
+            update_phase(book_dir, phase="0book-slide-import", status="completed",
+                         extras={"imported": result.get("imported", {}),
+                                 "exempt": result.get("exempt", [])})
+            phase_git_commit(book_dir, f"book({slug}): 0book-slide-import — book-slides.md")
 
     # 0book-render (PDF + reader HTML) — task 5 module; degrade gracefully until present.
     update_phase(book_dir, phase="0book-render", status="running")

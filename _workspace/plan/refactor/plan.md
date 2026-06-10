@@ -956,3 +956,19 @@ Pre-authorized by the autonomy mandate in `CONTINUATION-2026-05-30.md`. Four blo
 - **BLOCKER-B** — `plan.yaml` approval flip (`meta.status: APPROVED`, `approved_by: asif`, `approved_at: 2026-05-30`); dangling `WC8-0-foundation` dep references corrected to `WC8.0` (two sites); this plan entry added.
 - **BLOCKER-C** — `scripts/podcast/intelligence/extractor.py`: `_default_claude_caller` replaced with Gemini caller mirroring `gemini_refine.py` exactly (key resolution, `urllib.request` POST, cost tracking, same `gemini-2.5-flash` model). Violating `claude -p` call removed. Module docstring, `_CLAUDE_CMD` constant, and `LLMCaller` type alias updated to match.
 - **BLOCKER-D** — `.vscode/tasks.json` (9 tasks + `bookSlug` promptString input), `.vscode/launch.json` (5 Python debug configs), `.vscode/extensions.json` (8 recommendations). `.vscode/mcp.json` left untouched.
+
+---
+
+## Slide-Deck Weave + Folder Standardization (2026-06-10)
+
+### 1. Slide decks become part of the reading edition with one human round
+
+> The pipeline already authored per-chapter slide sources and framings before the finalize halt. Now that halt also prints a slide-deck generation card (one row per framed chapter: upload source, the framing to paste into NotebookLM's Describe box, format, and the exact path to drop the exported PDF). After resume, the new import phase turns those drops into inline figures automatically: it extracts the deck pages, asks Claude once per chapter to map each slide to the exact passage it illustrates, validates the mapping mechanically (missing or ambiguous anchors fail loudly with the slide named, one retry), and weaves every slide in immediately BEFORE the passage that explains it. If decks are missing, the run halts before publish and resumes cleanly once they're dropped; a per-chapter skip marker opts out.
+>
+> *Value gained:* the finished PDF carries the polished NotebookLM visuals at the right teaching moments, with zero hand-mapping and only one NotebookLM visit per book.
+
+### 2. One folder skeleton for every book in every bucket, retroactively applied
+
+> Three divergent folder lists (intake, the site's new-content launcher, scaffold) were collapsed into a single 16-folder registry, so every new book — and every volume created by multi-volume breakup — is pre-laid identically, including the audio drop folder and the slide-decks folder. A dry-run-first migration script standardized all nine existing books and six volumes: legacy folder names were renamed into the standard, and genuine oddities were flagged for review instead of auto-merged.
+>
+> *Value gained:* any book opened by any tool has the same shape; drops always have a home; folder drift can no longer accumulate.

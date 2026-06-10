@@ -254,10 +254,19 @@ def run_resume(args: argparse.Namespace) -> int:
         _info("Phase per-chapter-slides already completed — advancing to finalize.")
         return _drive_per_chapter_and_after(book_dir)
 
-    if current_phase in ("0book-design", "0book-compose", "0book-render"):
-        _info(f"Phase {current_phase} (PDF path book) — re-entering the per-chapter driver; "
-              f"the book phases are idempotent and resume before finalize.")
-        return _drive_per_chapter_and_after(book_dir)
+    if current_phase in ("0book-design", "0book-compose", "0book-illustrate",
+                         "0book-render"):
+        _info(f"Phase {current_phase} (PDF path book) — re-entering the publish driver; "
+              f"the 0book phases run post-finalize and are artifact-idempotent.")
+        return _drive_publish_through_done(book_dir)
+
+    if current_phase == "0book-slide-import":
+        # halted = NotebookLM deck PDFs were missing; the human has (presumably)
+        # dropped them now. Re-enter the publish driver — design/compose/illustrate
+        # skip on existing artifacts, slide-import re-runs its gate.
+        _info(f"Phase 0book-slide-import status={current_status!r} — re-entering "
+              f"the publish driver (upstream 0book phases are idempotent).")
+        return _drive_publish_through_done(book_dir)
 
     if current_phase == "0g" and current_status == "completed":
         _info("Phase 0g already completed — advancing to finalize.")

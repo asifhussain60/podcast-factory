@@ -4188,6 +4188,44 @@ waves_o_ph:
         status: deferred
         note: "Runs at asaas's next clean boundary; checklist in plan.md Phase 5."
 
+  - id: SD
+    name: "Slide-Deck Weave + Folder Standardization (2026-06-10)"
+    execution_status: completed_2026_06_10
+    depends_on: [O]
+    note: |
+      NotebookLM slide decks become a woven part of the reading edition with one
+      human round: per-chapter framings (existing per-chapter-slides phase) are
+      surfaced as a generation card at the finalize halt (sibling renderer in
+      _notebooklm_table.py — LOCKED episode table untouched); dropped deck PDFs
+      (slide-decks/chNN-<slug>.pdf) are imported by the NEW 0book-slide-import
+      phase (between 0book-illustrate and 0book-render): pdftoppm page extraction,
+      pdftotext titles, ONE claude -p per chapter authors the slide->anchor
+      manifest (validated fail-loud, 1 retry, sha256 sig cache), single combined
+      injection places every slide BEFORE the passage it explains ->
+      book/book-slides.md (render priority: slides > illustrated > book).
+      Missing PDFs -> AuthoringHalt (publish stops, --resume re-enters; .SKIP
+      marker exempts). Plus: ONE folder-skeleton registry (_paths.BOOK_SUBDIRS,
+      16 dirs incl m4a + slide-decks) consumed by intake/intake_launch/scaffold/
+      volume intake; retroactive standardize_book_folders.py migrated all 9
+      books + 6 asaas volumes (slide-deck->slide-decks, audio->m4a,
+      source->_source; kunooz source dup flagged for review).
+    steps:
+      - id: SD1
+        title: "Folder skeleton registry + consumers + retroactive migration (all 4 buckets)"
+        status: completed
+        tests: "test_book_skeleton (5)"
+      - id: SD2
+        title: "Slide-deck generation card at finalize halt (framing-driven discovery)"
+        status: completed
+        tests: "test_slide_deck_card (6)"
+      - id: SD3
+        title: "0book-slide-import phase — LLM anchor manifests + combined before-placement injection + halt gate"
+        status: completed
+        tests: "test_slide_import (9) + test_inject_slide_deck (16)"
+      - id: SD4
+        title: "Dispatcher 0book dead-end fix (illustrate missing; stale per-chapter routing) + dashboard PHASE_ORDER"
+        status: completed
+
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================

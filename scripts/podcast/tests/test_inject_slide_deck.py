@@ -47,8 +47,8 @@ def _entry(slide_id: str, page: int, anchor: str | None, title: str = "T") -> di
     return {"slide_id": slide_id, "page": page, "title": title, "anchor_text": anchor}
 
 
-def _pages(n: int) -> dict[int, str]:
-    return {i: f"page-{i:02d}.jpg" for i in range(1, n + 1)}
+def _pages(n: int, prefix: str = "slide-decks/_pages/book") -> dict[int, str]:
+    return {i: f"{prefix}/page-{i:02d}.jpg" for i in range(1, n + 1)}
 
 
 class InjectSlidesTests(unittest.TestCase):
@@ -56,11 +56,36 @@ class InjectSlidesTests(unittest.TestCase):
         entries = [_entry("ch01-s02", 2, "expecting water at its edge")]
         out = isd.inject_slides(BOOK_MD, entries, pages=_pages(2))
         self.assertIn('<figure class="book-diagram book-slide">', out)
-        # Figure lands after the anchor paragraph, before the next one.
+        # Default position="before": figure precedes the anchor paragraph.
+        fig_pos = out.find("book-slide")
+        self.assertLess(fig_pos, out.find("expecting water"))
+        self.assertGreater(fig_pos, out.find("## Chapter One"))
+        self.assertIn('src="slide-decks/_pages/book/page-02.jpg"', out)
+
+    def test_after_position_still_supported(self) -> None:
+        entries = [_entry("ch01-s02", 2, "expecting water at its edge")]
+        out = isd.inject_slides(BOOK_MD, entries, pages=_pages(2), position="after")
         fig_pos = out.find("book-slide")
         self.assertGreater(fig_pos, out.find("expecting water"))
         self.assertLess(fig_pos, out.find("More prose follows"))
-        self.assertIn('src="slide-deck/_pages/page-02.jpg"', out)
+
+    def test_anchor_in_first_paragraph_inserts_at_start(self) -> None:
+        md = "First paragraph with the anchor phrase inside.\n\nSecond paragraph."
+        entries = [_entry("ch01-s02", 1, "anchor phrase inside")]
+        out = isd.inject_slides(md, entries, pages=_pages(1))
+        self.assertTrue(out.startswith('<figure class="book-diagram book-slide">'))
+
+    def test_multi_deck_combined_injection(self) -> None:
+        # Two chapters' decks combined: re-keyed pages, per-chapter src paths.
+        pages = {1002: "slide-decks/_pages/ch01/page-02.jpg",
+                 2003: "slide-decks/_pages/ch02/page-03.jpg"}
+        entries = [
+            _entry("ch01-s02", 1002, "expecting water at its edge"),
+            _entry("ch02-s03", 2003, "mechanism of self-surrender"),
+        ]
+        out = isd.inject_slides(BOOK_MD, entries, pages=pages)
+        self.assertIn('src="slide-decks/_pages/ch01/page-02.jpg"', out)
+        self.assertIn('src="slide-decks/_pages/ch02/page-03.jpg"', out)
 
     def test_cover_with_null_anchor_is_not_injected(self) -> None:
         entries = [_entry("ch01-s01", 1, None, title="Cover")]

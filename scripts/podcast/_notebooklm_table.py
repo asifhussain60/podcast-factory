@@ -101,3 +101,111 @@ def render_upload_table(rows: list[UploadRow]) -> str:
 def render_upload_table_lines(rows: list[UploadRow]) -> list[str]:
     """Same table as a list of lines, for line-by-line loggers."""
     return render_upload_table(rows).splitlines()
+
+
+# ── Slide-deck generation card (2026-06-10) ──────────────────────────────────
+# SIBLING of the locked episode upload table (which is untouched above): the
+# instruction card printed at the finalize halt for the NotebookLM "Slide deck"
+# tool, one row per chapter that has a converged deck pair in slide-decks/.
+# Centralized HERE for the same reason as the episode table — emitters
+# (chapter_driver finalize halt, _slide_import missing-PDF halt) must render
+# through this module so the format cannot drift.
+
+import re as _re
+
+DEFAULT_SLIDE_FORMAT = "Detailed deck"
+DEFAULT_SLIDE_LENGTH = "Default"
+
+SLIDE_COLUMNS = ("Chapter", "Upload source", "Describe-box paste", "Format",
+                 "Length", "Save exported PDF as")
+
+_FRAMING_RE = _re.compile(r"^(ch\d{2}[a-z]?)-framing-(.+)\.md$")
+
+
+def discover_slide_framings(book_dir: Path) -> list[tuple[str, str, Path, Path | None]]:
+    """(ch, slug, framing_path, deck_txt_path|None) per converged deck pair.
+
+    Framing-driven (NEVER PDF-glob-driven): a chapter participates in the slide
+    round iff its chNN-framing-<slug>.md exists — density-skipped chapters never
+    get one. Tolerates letter-suffix chapter ids (ch14b).
+    """
+    deck_dir = Path(book_dir) / "slide-decks"
+    out: list[tuple[str, str, Path, Path | None]] = []
+    if not deck_dir.is_dir():
+        return out
+    for f in sorted(deck_dir.glob("ch*-framing-*.md")):
+        m = _FRAMING_RE.match(f.name)
+        if not m:
+            continue
+        ch, slug = m.group(1), m.group(2)
+        deck_txt = deck_dir / f"{ch}-deck-{slug}.txt"
+        out.append((ch, slug, f, deck_txt if deck_txt.exists() else None))
+    return out
+
+
+def expected_deck_pdf(book_dir: Path, ch: str, slug: str) -> Path:
+    """Canonical drop path for a chapter's NotebookLM-exported deck PDF."""
+    return Path(book_dir) / "slide-decks" / f"{ch}-{slug}.pdf"
+
+
+@dataclass
+class SlideDeckCardRow:
+    ch: str                          # "ch01"
+    slug: str
+    framing_href: str | None = None  # paste into the Describe box (below its H1)
+    deck_href: str | None = None     # upload source (.txt)
+    expected_pdf: str = ""           # repo-relative drop path
+    fmt: str = DEFAULT_SLIDE_FORMAT
+    length: str = DEFAULT_SLIDE_LENGTH
+
+    def cells(self) -> list[str]:
+        link = UploadRow._link
+        return [
+            self.ch,
+            link(f"{self.ch}-deck-{self.slug}.txt", self.deck_href),
+            link(f"{self.ch}-framing-{self.slug}.md", self.framing_href),
+            self.fmt,
+            self.length,
+            f"`{self.expected_pdf}`",
+        ]
+
+
+def render_slide_deck_card_lines(rows: list[SlideDeckCardRow]) -> list[str]:
+    """The slide-deck generation card: header + per-chapter table + drop notes."""
+    if not rows:
+        return []
+    lines = [
+        "SLIDE DECK GENERATION (NotebookLM → Slide deck tool):",
+        "  For each chapter: open the slide notebook, choose the Slide deck tool,",
+        "  paste the framing file's contents BELOW its H1 into the Describe box,",
+        "  pick the Format + Length below, Generate, then download the PDF export",
+        "  and save it at the exact path in the last column.",
+        "",
+        f"| {' | '.join(SLIDE_COLUMNS)} |",
+        "|" + "---|" * len(SLIDE_COLUMNS),
+    ]
+    for r in rows:
+        lines.append("| " + " | ".join(r.cells()) + " |")
+    lines += [
+        "",
+        "  Decks dropped before `--resume` are imported automatically into the",
+        "  reading edition (0book-slide-import) — no further action needed.",
+        "  To exempt a chapter from the reading-edition weave, create an empty",
+        "  marker file: slide-decks/<ch>-<slug>.SKIP",
+    ]
+    return lines
+
+
+def build_slide_deck_card(book_dir: Path) -> list[str]:
+    """Discover framings and render the card; [] when no chapter participates."""
+    rows = []
+    for ch, slug, framing, deck_txt in discover_slide_framings(book_dir):
+        pdf = expected_deck_pdf(book_dir, ch, slug)
+        rows.append(SlideDeckCardRow(
+            ch=ch, slug=slug,
+            framing_href=repo_rel_href(framing, book_dir),
+            deck_href=repo_rel_href(deck_txt, book_dir) if deck_txt else None,
+            expected_pdf=str(Path(pdf).resolve().relative_to(REPO_ROOT))
+            if Path(pdf).resolve().is_relative_to(REPO_ROOT) else str(pdf),
+        ))
+    return render_slide_deck_card_lines(rows)

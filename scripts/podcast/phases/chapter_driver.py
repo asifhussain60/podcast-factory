@@ -482,12 +482,38 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         _print_notebooklm_table(book_dir)
     except Exception as _tbl_exc:
         _info(f"  [notebooklm table error: {_tbl_exc}]")
+    # ── Slide-deck generation card (same NotebookLM visit) ───────────────────
+    try:
+        _print_slide_deck_card(book_dir)
+    except Exception as _card_exc:
+        _info(f"  [slide-deck card error: {_card_exc}]")
     # ─────────────────────────────────────────────────────────────────────────
     _info("")
     _info("When satisfied, authorize publish + trainer + merge:")
     _info(f"  python3 scripts/podcast/orchestrate_book.py --resume {book_slug}")
     _info("─" * 72)
     return 0
+
+
+def _print_slide_deck_card(book_dir: Path) -> None:
+    """Print the slide-deck generation card at the finalize halt.
+
+    One row per chapter with a converged deck pair in slide-decks/ — the human
+    generates each deck in NotebookLM's Slide deck tool during the SAME visit
+    as the episode uploads, then drops the exported PDFs at the printed paths
+    so 0book-slide-import can weave them into the reading edition on --resume.
+    Prints nothing when no chapter participates (deck-less books)."""
+    parent = Path(__file__).resolve().parents[1]
+    if str(parent) not in sys.path:
+        sys.path.insert(0, str(parent))
+    from _notebooklm_table import build_slide_deck_card  # noqa: PLC0415
+
+    lines = build_slide_deck_card(book_dir)
+    if not lines:
+        return
+    _info("")
+    for line in lines:
+        _info(line)
 
 
 def _print_notebooklm_table(book_dir: Path) -> None:

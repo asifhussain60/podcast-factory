@@ -84,6 +84,47 @@ def work_rollup_status(work_dir: Path) -> str:
     return "draft"
 
 
+# ── Standard per-book folder skeleton (2026-06-10) ──────────────────────────
+# SINGLE source of truth for the subdirectories every book (or volume) dir gets
+# at creation time. intake_book.py (flat + multi-volume), scaffold_book.py, and
+# standardize_book_folders.py (retroactive migration) ALL consume this tuple —
+# never define a folder list anywhere else. Extensibility-first: adding a
+# pipeline surface = one entry here.
+BOOK_SUBDIRS: tuple[str, ...] = (
+    "_source",                   # irreplaceable source inputs (tracked)
+    "_system",                   # pipeline state + scratch
+    "_system/episode-drafts",
+    "_system/scratchpad",
+    "_system/source",
+    "_system/source/text",
+    "chapter-contracts",
+    "chapters",
+    "episodes",
+    "m4a",                       # NotebookLM audio drops (contents gitignored)
+    "transcripts",               # Turboscribe/Azure transcripts
+    "slide-decks",               # deck sources + framings + dropped deck PDFs
+    "slide-decks/_manifests",    # slide→anchor manifests (tracked)
+    "book",                      # reading edition (book.md … book.pdf)
+    "audits",
+    "notebooklm",
+)
+
+
+def ensure_book_skeleton(book_dir: Path) -> None:
+    """Create the standard subdirectory skeleton under ``book_dir``.
+
+    Idempotent. Drops a ``.gitkeep`` in each leaf so empty folders survive git
+    (audio/transcript CONTENTS stay gitignored; the keep-file is what's tracked).
+    """
+    book_dir = Path(book_dir)
+    for sub in BOOK_SUBDIRS:
+        d = book_dir / sub
+        d.mkdir(parents=True, exist_ok=True)
+        keep = d / ".gitkeep"
+        if not keep.exists() and not any(d.iterdir()):
+            keep.touch()
+
+
 def slug_of(path: Path) -> str:
     """Canonical slug for a content dir yielded by ``iter_content``/``find_content``.
 
