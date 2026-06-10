@@ -43,6 +43,7 @@ const cards = await Promise.all(
       author:       bm.author,
       icon:         bm.icon ?? 'fa-book',
       blurb:        bm.blurb,
+      volume:       bm.volume,
     };
   }),
 );
@@ -145,6 +146,7 @@ const visibleInShelf = (shelfCards: typeof cards) => shelfCards.filter((c) => de
                   <div class="card-body-wrap">
                     <div class="card-identity">
                       <h3 class="card-title-en">{c.title}</h3>
+                      {c.volume && <span class="card-volume-badge">Volume {c.volume}</span>}
                       {c.author && <span class="card-author">{c.author}</span>}
                     </div>
                     {c.blurb && <p class="card-blurb">{c.blurb}</p>}

@@ -597,6 +597,23 @@
   text-align: center;
 }
 
+/* Volume badge — between title and author, distinct from both */
+.card-volume-badge {
+  display: inline-flex;
+  align-items: center;
+  margin: 0.25rem 0 0.1rem;
+  padding: 0.22rem 0.85rem;
+  border-radius: 999px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--c-gold);
+  background: color-mix(in oklab, var(--c-gold) 10%, var(--c-bg-card));
+  border: 1px solid color-mix(in oklab, var(--c-gold) 35%, var(--c-rule));
+}
+
 .card-author {
   font-family: var(--font-body);
   font-size: 0.72rem;
