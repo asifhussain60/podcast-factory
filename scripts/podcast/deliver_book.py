@@ -42,6 +42,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _paths import find_content, REPO_ROOT  # noqa: E402
+from _sessions import load_sessions_for_book, session_for_episode  # noqa: E402
 
 _GDRIVE_LIBRARY = Path(
     "~/Library/CloudStorage/GoogleDrive-asifhussain60@gmail.com"
@@ -195,15 +196,26 @@ def deliver(
     target_path = Path(target).expanduser() if target else _default_target(book_dir)
     episodes_path = target_path / "Episodes"
 
+    # Session grouping (presence-gated): sessioned books deliver audio into
+    # Episodes/Session N — Title/ subfolders; flat books keep Episodes/ flat.
+    sessions = load_sessions_for_book(book_dir)
+
+    def _episode_subpath(ep_num: int, dest_name: str) -> str:
+        s = session_for_episode(sessions, ep_num)
+        if s is None:
+            return dest_name
+        return f"Session {s['session_index']} — {s['session_title']}/{dest_name}"
+
     log(f"book-publisher: '{slug}'")
     log(f"  source  : {book_dir.relative_to(REPO_ROOT)}")
     log(f"  target  : {target_path}")
     log(f"  PDF     : {pdf.name if pdf else '(none)'} → {target_path.name}/")
-    log(f"  audio   : {len(audio_plan)} file(s) → Episodes/")
+    log(f"  audio   : {len(audio_plan)} file(s) → Episodes/"
+        + (f" ({len(sessions)} sessions)" if sessions else ""))
     for src, ep_num, title in audio_plan:
         dest_name = f"EP-{ep_num:02d}-{title}.m4a"
         log(f"    EP-{ep_num:02d}  {src.name}")
-        log(f"         → Episodes/{dest_name}")
+        log(f"         → Episodes/{_episode_subpath(ep_num, dest_name)}")
 
     if dry_run:
         log("  [dry-run] no files written")
@@ -224,15 +236,17 @@ def deliver(
             log(f"  ✗ {pdf.name} — {exc}")
             failures += 1
 
-    # Audio → target/Episodes/ with renamed filenames
+    # Audio → target/Episodes/ (per-session subfolders when sessioned)
     for src, ep_num, title in audio_plan:
         dest_name = f"EP-{ep_num:02d}-{title}.m4a"
-        dest = episodes_path / dest_name
+        rel = _episode_subpath(ep_num, dest_name)
+        dest = episodes_path / rel
         try:
+            dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src, dest)
-            log(f"  ✓ Episodes/{dest_name} ({dest.stat().st_size // 1024} KB)")
+            log(f"  ✓ Episodes/{rel} ({dest.stat().st_size // 1024} KB)")
         except Exception as exc:
-            log(f"  ✗ Episodes/{dest_name} — {exc}")
+            log(f"  ✗ Episodes/{rel} — {exc}")
             failures += 1
 
     total = (1 if pdf else 0) + len(audio_plan)
