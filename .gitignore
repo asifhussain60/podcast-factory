@@ -118,6 +118,10 @@ _workspace/**/*.pdf
 #   Google Drive from disk. Tracking them would grow git history by megabytes
 #   on every re-render.
 content/**/book/*.pdf
+# - Extracted slide-deck page rasters are IGNORED — derived from the tracked
+#   slide-deck/*.pdf by inject_slide_deck.py (pdftoppm), regenerable at any time.
+#   The deck PDF + PPTX themselves stay tracked as source-of-truth inputs.
+content/**/slide-deck/_pages/
 
 # Transcript working artifacts — raw Speech-to-Text + translator output used
 # during chapter-source authoring. The final cleaned chapters/ + episodes/

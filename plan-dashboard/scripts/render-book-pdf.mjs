@@ -109,6 +109,8 @@ async function main() {
     blockquote p:first-child { font-size: 1.3rem; line-height: 1.85; }
     figure.book-diagram { margin: 2em auto; max-width: 88%; page-break-inside: avoid; text-align: center; }
     figure.book-diagram svg { width: 100%; height: auto; max-height: 380px; display: block; margin: 0 auto; }
+    figure.book-slide img { width: 100%; height: auto; display: block; margin: 0 auto;
+      border: 1px solid var(--c-rule-soft, #ebe6da); }
     figcaption { margin-top: 0.5em; font-size: 0.82rem; color: var(--c-ink-muted, #87827a);
       font-style: italic; font-family: var(--font-ui, system-ui, sans-serif); text-align: center; }
   </style></head><body>
@@ -116,9 +118,27 @@ async function main() {
     ${renderMd(body)}
   </body></html>`;
 
-  const server = createServer((_req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-    res.end(html);
+  // Static-asset root: the book's content dir (parent of book/), so markdown
+  // can reference e.g. <img src="slide-deck/_pages/page-02.png">. Inline SVG
+  // diagrams need no requests; only raster slide pages hit this path.
+  const assetRoot = path.resolve(path.dirname(MD_PATH), '..');
+  const MIME = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml' };
+  const server = createServer((req, res) => {
+    const reqPath = decodeURIComponent((req.url || '/').split('?')[0]);
+    if (reqPath === '/' || reqPath === '') {
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(html);
+      return;
+    }
+    const resolved = path.resolve(assetRoot, '.' + reqPath);
+    const type = MIME[path.extname(resolved).toLowerCase()];
+    // Traversal guard: only files under the book content dir, known types only.
+    if (!resolved.startsWith(assetRoot + path.sep) || !type || !existsSync(resolved)) {
+      res.writeHead(404); res.end('not found');
+      return;
+    }
+    res.writeHead(200, { 'Content-Type': type });
+    res.end(readFileSync(resolved));
   });
   await new Promise((r) => server.listen(0, '127.0.0.1', r));
   const { port } = server.address();

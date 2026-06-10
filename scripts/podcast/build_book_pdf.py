@@ -89,12 +89,21 @@ def _book_title(book_dir: Path) -> str:
     return _edition_title(book_dir)
 
 
+def _pick_book_md(book_dir: Path) -> Path:
+    """Render-input priority: book-slides.md (inject_slide_deck.py) >
+    book-illustrated.md (0book-illustrate) > book.md (0book-compose)."""
+    book = book_dir / "book"
+    for name in ("book-slides.md", "book-illustrated.md"):
+        candidate = book / name
+        if candidate.exists():
+            return candidate
+    return book / "book.md"
+
+
 def build_book(book_dir: Path, *, log=print, book_md: Path | None = None) -> Path:
     book_dir = Path(book_dir).resolve()
-    # Prefer book-illustrated.md (from 0book-illustrate) when present; fall back to book.md.
     if book_md is None:
-        illustrated = book_dir / "book" / "book-illustrated.md"
-        book_md = illustrated if illustrated.exists() else book_dir / "book" / "book.md"
+        book_md = _pick_book_md(book_dir)
     book_md = Path(book_md)
     if not book_md.exists():
         raise AuthoringError(
