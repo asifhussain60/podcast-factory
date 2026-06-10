@@ -233,12 +233,42 @@ def merge_dashboard():
             str(r["id"])
         ))
 
+    # Wave metadata (id/name/plain) drives the PlanDesign grouping — rebuild it
+    # from plan.yaml so an empty `waves` array can never blank the Roadmap page.
+    # Letters collide across the waves/waves_ghj groups, so keep one entry per
+    # id and prefer the entry that actually carries roadmap steps.
+    waves_meta = list(existing.get("waves") or [])
+    if all_waves:
+        prev_by_id = {w.get("id"): w for w in waves_meta if isinstance(w, dict)}
+        picked = {}
+        order = []
+        for w in all_waves:
+            has_steps = bool(w.get("steps"))
+            if w["id"] not in picked:
+                order.append(w["id"])
+                picked[w["id"]] = w
+            elif has_steps and not picked[w["id"]].get("steps"):
+                picked[w["id"]] = w
+        waves_meta = []
+        for wid in order:
+            w = picked[wid]
+            if not w.get("steps"):
+                continue  # empty band — no roadmap steps to show
+            plain = str(w.get("summary") or "").strip().split("\n")[0] \
+                or (prev_by_id.get(wid) or {}).get("plain", "")
+            waves_meta.append({
+                "id": wid,
+                "name": w.get("name") or wid,
+                "plain": plain,
+            })
+
     merged = {
         **existing,
         "generated_at": now_iso(),
         "source_commit": current_commit(),
         "generator": "regenerate-snapshots.py",
         "roadmap": roadmap,
+        "waves": waves_meta,
         "books_in_flight": in_flight,
         "books_shipped": existing.get("books_shipped", []),
         "recent_commits": recent_commits(),

@@ -762,62 +762,123 @@
       "last_touched": null
     }
   ],
-  "waves": [],
+  "waves": [
+    {
+      "id": "A",
+      "name": "Foundation",
+      "plain": ""
+    },
+    {
+      "id": "B",
+      "name": "Intelligence Layer",
+      "plain": ""
+    },
+    {
+      "id": "C",
+      "name": "Archetype Expansion",
+      "plain": ""
+    },
+    {
+      "id": "D",
+      "name": "Dashboard extension",
+      "plain": ""
+    },
+    {
+      "id": "E",
+      "name": "Retroactive + Gates",
+      "plain": ""
+    },
+    {
+      "id": "G",
+      "name": "Narrative Homepage",
+      "plain": ""
+    },
+    {
+      "id": "H",
+      "name": "Code-Quality Refactor",
+      "plain": ""
+    },
+    {
+      "id": "I",
+      "name": "Intelligence Pipeline \u2014 Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g",
+      "plain": "Extends the pipeline in five coordinated areas, preceded by two"
+    },
+    {
+      "id": "J",
+      "name": "Source Library \u2014 Dual-Interface Server and Live Editor Integration",
+      "plain": "Wave J transforms the three SQL Server source databases into a live"
+    },
+    {
+      "id": "M",
+      "name": "Inspector Declutter + Floating AI Toolbar + Corpus Workbench",
+      "plain": ""
+    },
+    {
+      "id": "N",
+      "name": "Kashkole Lookup_levels + Stable Section IDs + Studio Depth Markers",
+      "plain": ""
+    },
+    {
+      "id": "CP",
+      "name": "Content-Profile Branching",
+      "plain": ""
+    }
+  ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-09T16:10:07.929794+00:00",
-  "source_commit": "14b6e9bc",
+  "generated_at": "2026-06-09T23:41:15.827853+00:00",
+  "source_commit": "dd6ff56",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "14b6e9bc",
-      "subject": "fix(intake): Screens 3+4 a11y/integrity \u2014 resolve html-view-challenger findings",
+      "sha": "dd6ff56",
+      "subject": "chore(gitignore): split PDF policy \u2014 sources tracked, generated reading editions ignored",
       "date": "2026-06-09"
     },
     {
-      "sha": "362de432",
-      "subject": "feat(intake): Phase 6 Screens 3+4 \u2014 pre-flight + launch + live cockpit",
+      "sha": "a65c40e",
+      "subject": "docs(drift): retire content/drafts + nested _learning paths across agent specs; status-flip publish semantics",
       "date": "2026-06-09"
     },
     {
-      "sha": "f02f1d82",
-      "subject": "fix(intake): Screen 2 a11y \u2014 resolve html-view-challenger MUST + SHOULDs",
+      "sha": "33bb513",
+      "subject": "fix(peq-mirror): re-sync peq-scores.ts with the K6 5-axis formula in _quality.py",
       "date": "2026-06-09"
     },
     {
-      "sha": "2553ce21",
-      "subject": "feat(intake): Phase 6 Screen 2 \u2014 smart form (minimal-typing dropdowns + inline add)",
+      "sha": "58b0512",
+      "subject": "fix(tests+tighten): package-qualified KB-test imports + bucket-aware tighten boundary",
       "date": "2026-06-09"
     },
     {
-      "sha": "21386444",
-      "subject": "fix(intake): Screen 1 a11y polish \u2014 reduced-motion + focus-visible (html-view-challenger)",
+      "sha": "44ccb28",
+      "subject": "merge(Islamic/asaas-al-taveel): Vol 1 framing files pre-upload ready",
       "date": "2026-06-09"
     },
     {
-      "sha": "037dfca2",
-      "subject": "feat(intake): Phase 6 Screen 1 \u2014 upload + roles + staging",
+      "sha": "cfa6df9",
+      "subject": "content(vol-01): resolve all 7 ambiguity items + clean framing files pre-upload",
       "date": "2026-06-09"
     },
     {
-      "sha": "99d1b4fd",
-      "subject": "docs(book-publisher): structured contract frontmatter + expanded agent spec",
+      "sha": "8af3930",
+      "subject": "feat(vol-01): resolve all 7 ambiguity items + add clarification input UI",
       "date": "2026-06-09"
     },
     {
-      "sha": "e935ddc0",
-      "subject": "docs(plan): track Wave M (holistic hardening) in plan.yaml + plan.md + snapshots",
+      "sha": "956ee2c",
+      "subject": "plan(ambiguity): add Additional Context UI spec + next-session handoff",
       "date": "2026-06-09"
     },
     {
-      "sha": "e2ca3ded",
-      "subject": "feat(intake): Phase 6 (foundation) \u2014 smart-form options + preflight + JSON endpoints",
+      "sha": "25492b8",
+      "subject": "content(vol-01): fill rows 1-7 of pronunciation listen-checklist",
       "date": "2026-06-09"
     },
     {
-      "sha": "31980aa8",
-      "subject": "refactor(quality): Phase 4 \u2014 de-patch helpers + F38 close-out + docs",
+      "sha": "ef94c66",
+      "subject": "feat(pre-upload): add Delete verdict to pronunciation checklist",
       "date": "2026-06-09"
     }
   ],

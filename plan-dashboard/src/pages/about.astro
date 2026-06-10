@@ -38,31 +38,21 @@ import '../styles/about.css';
       <span class="about-section-eyebrow">Navigation guide</span>
       <h2 class="about-section-h2" id="s01-what-h2"><span class="num">01</span> What each section does</h2>
       <p class="about-section-intro">
-        The top navigation has five sections. Here is exactly what lives in each one and
-        when you would use it.
+        The top navigation has four sections — Studio, Library, Corpus, and System.
+        The brand link at the top-left always returns Home. Here is exactly what lives
+        in each one and when you would use it.
       </p>
       <div class="about-nav-cards">
 
-        <a href="/" class="about-nav-card">
-          <span class="about-nav-card-label">Home</span>
-          <p class="about-nav-card-title">Factory tour &amp; operations overview</p>
-          <p class="about-nav-card-body">
-            The entry point. "Factory tour" is a story-led introduction to the whole
-            system — great for orienting yourself or showing someone else how it works.
-            "Operations overview" gives you live counts: books in flight, open roadmap
-            steps, and estimated monthly spend.
-          </p>
-        </a>
-
         <a href="/studio" class="about-nav-card">
-          <span class="about-nav-card-label">Workspace</span>
-          <p class="about-nav-card-title">Day-to-day operator shell</p>
+          <span class="about-nav-card-label">Studio</span>
+          <p class="about-nav-card-title">Day-to-day operator workshop</p>
           <p class="about-nav-card-body">
-            Where you do the actual work. The <strong>Workbench</strong> shows all
-            in-flight books and lets you review pipeline stages, approve checkpoints,
-            and trigger next steps. The <strong>Editor</strong> is for hands-on chapter
-            editing. <strong>New content</strong> starts a brand-new book through OCR
-            intake. <strong>Annotations</strong> manages doctrine and concept tags.
+            Where you do the actual work. Pick a book and walk it through the pipeline —
+            intake, source review, edit &amp; enrich, publish. <strong>New content</strong>
+            starts a brand-new book through OCR intake. The <strong>Pre-Upload Review</strong>
+            and <strong>Pronunciation</strong> utilities live here too, for the final checks
+            before generating audio in NotebookLM.
           </p>
         </a>
 
@@ -76,25 +66,25 @@ import '../styles/about.css';
           </p>
         </a>
 
-        <a href="/wisdom" class="about-nav-card">
-          <span class="about-nav-card-label">Knowledge</span>
-          <p class="about-nav-card-title">Wisdom corpus &amp; intelligence</p>
+        <a href="/corpus" class="about-nav-card">
+          <span class="about-nav-card-label">Corpus</span>
+          <p class="about-nav-card-title">Reference storehouse &amp; wisdom shelf</p>
           <p class="about-nav-card-body">
-            The shared knowledge base that the pipeline draws from. "Wisdom corpus"
-            lets you search and browse Islamic scholarly concepts, Quranic verses,
-            hadith, and key terms. "Corpus explorer" shows coverage statistics.
-            "Intelligence" shows how the pipeline enriches chapters with these atoms.
+            The shared knowledge base the pipeline draws from. The <strong>Storehouse</strong>
+            shows coverage across the consolidated sources, the <strong>Wisdom shelf</strong>
+            lets you search Islamic scholarly concepts, Quranic verses, hadith, and key
+            terms, and the <strong>Data model</strong> documents how it is all stored.
           </p>
         </a>
 
         <a href="/architecture" class="about-nav-card">
-          <span class="about-nav-card-label">Docs</span>
+          <span class="about-nav-card-label">System</span>
           <p class="about-nav-card-title">Technical documentation &amp; roadmap</p>
           <p class="about-nav-card-body">
-            Deep technical reference. Pipeline architecture diagrams, infrastructure
-            layout, data models, security notes, quality metrics, and the active
-            development roadmap. Mostly useful when something breaks or you want to
-            understand how a specific phase works under the hood.
+            Deep technical reference. The factory overview, pipeline architecture diagrams,
+            the intelligence pipeline, infrastructure layout, security notes, quality
+            metrics, and the active development roadmap. Mostly useful when something
+            breaks or you want to understand how a specific phase works under the hood.
           </p>
         </a>
 
@@ -119,9 +109,10 @@ import '../styles/about.css';
           <div class="about-step-content">
             <h3 class="about-step-title">Check what's in flight</h3>
             <p class="about-step-body">
-              Open the <a href="/studio">Studio</a>. The left panel shows every book
-              currently being processed. The coloured status badge tells you where it is:
-              green = pipeline running, amber = waiting for your review, red = something
+              Open the <a href="/studio">Studio</a>. Every book sits on its category
+              shelf with a progress bar showing how far it has moved through the
+              pipeline. The card's status colours tell you where it is:
+              green = step done, amber = waiting for your review, red = something
               failed and needs attention.
             </p>
             <p class="about-step-tip">
@@ -154,7 +145,8 @@ import '../styles/about.css';
           <div class="about-step-content">
             <h3 class="about-step-title">Review the pipeline stages</h3>
             <p class="about-step-body">
-              Back on the Workbench, click a book. The centre panel shows all pipeline stages:
+              Back in the <a href="/studio">Studio</a>, click a book's card — it opens
+              at the book's current step. The stage cards show all pipeline stages:
               Source → Denoised → Normalized → Augmented → Narrator. Each card is either
               "Not produced yet" (hasn't run), amber (in progress), or shows a word count
               and delta when complete. Click a stage card to open the Editor and read the
@@ -169,8 +161,8 @@ import '../styles/about.css';
             <h3 class="about-step-title">Approve checkpoints</h3>
             <p class="about-step-body">
               The pipeline halts at certain review gates and waits for your approval before
-              spending more LLM tokens. The Workbench shows "N approved checkpoints" at the
-              top of the pipeline panel. Click <strong>Inspect corpus</strong> to check source
+              spending more LLM tokens. The book's pipeline panel in the Studio shows
+              "N approved checkpoints" at the top. Click <strong>Inspect corpus</strong> to check source
               fidelity, then use the approve/reject controls to unblock the next phase.
             </p>
             <p class="about-step-tip">
@@ -185,7 +177,7 @@ import '../styles/about.css';
           <div class="about-step-content">
             <h3 class="about-step-title">Search the knowledge base</h3>
             <p class="about-step-body">
-              Go to <a href="/wisdom">Knowledge → Wisdom corpus</a> to look up Islamic scholarly
+              Go to <a href="/wisdom">Corpus → Wisdom shelf</a> to look up Islamic scholarly
               concepts, verify how a term or verse is being used in your current book, or find
               related enrichment atoms. The pipeline draws from this corpus automatically, but
               you can also search it manually to cross-check the output.
@@ -203,9 +195,9 @@ import '../styles/about.css';
               text that gets pasted into NotebookLM.
             </p>
             <p class="about-step-tip">
-              The Triage synthesis panel on the Workbench homepage shows what was kept vs.
-              rejected in the last editorial review — useful context before uploading to
-              NotebookLM.
+              The Triage synthesis panel in the book's pipeline-review view shows what was
+              kept vs. rejected in the last editorial review — useful context before
+              uploading to NotebookLM.
             </p>
           </div>
         </div>
@@ -259,11 +251,11 @@ import '../styles/about.css';
 
         <div class="about-faq-item" data-faq role="listitem">
           <button class="about-faq-q" aria-expanded="false" type="button">
-            What is the Workbench and why does it say "0 stages available"?
+            What is the pipeline-review view and why does it say "0 stages available"?
             <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
           </button>
           <div class="about-faq-a">
-            <p>The Workbench is your main operator shell — it shows every book currently being processed and lets you move through pipeline stages. "0 stages available" means the pipeline hasn't produced any output for that chapter yet. Either the book is still in an early phase (OCR intake, denoising) or the orchestrator hasn't been started. Check the pipeline status badge next to the book title.</p>
+            <p>The pipeline-review view (the Workbench) lives inside the Studio — open a book and it lets you move through pipeline stages and approve checkpoints. "0 stages available" means the pipeline hasn't produced any output for that chapter yet. Either the book is still in an early phase (OCR intake, denoising) or the orchestrator hasn't been started. Check the pipeline status badge next to the book title.</p>
           </div>
         </div>
 
@@ -309,7 +301,7 @@ import '../styles/about.css';
             <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
           </button>
           <div class="about-faq-a">
-            <p>Books under <code>content/drafts/</code> are in-progress — the pipeline is still working on them and they show up in the Workbench. The <a href="/library">Library</a> only shows books that have passed all quality gates (G1–G7) and been formally published to <code>content/published/books/</code>. Publishing is a deliberate Tier 2 action — the pipeline never does it automatically without your sign-off.</p>
+            <p>Every book lives in one place on disk (<code>content/&lt;Bucket&gt;/&lt;slug&gt;/</code>) and carries a <strong>status</strong> field: it is created as a <em>draft</em> and flipped to <em>published</em> in place once it passes the quality gates — nothing is copied between folders. Draft books show up in the Studio; the <a href="/library">Library</a> only shows books whose status is published. Publishing is a deliberate Tier 2 action — the pipeline never does it automatically without your sign-off.</p>
           </div>
         </div>
 
@@ -319,7 +311,7 @@ import '../styles/about.css';
             <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
           </button>
           <div class="about-faq-a">
-            <p>The pipeline enters a <strong>finalize / halted</strong> state when it has completed all phases and is waiting for your publish review. In the Workbench you'll see the pipeline badge change to amber with a "ready for review" message. At that point you can browse the final episode text in the Library reader section, run any post-pipeline analyses you want, and then authorize publish when satisfied.</p>
+            <p>The pipeline enters a <strong>finalize / halted</strong> state when it has completed all phases and is waiting for your publish review. In the Studio you'll see the book's badge change to amber with a "ready for review" message. At that point you can browse the final episode text in the Library reader section, run any post-pipeline analyses you want, and then authorize publish when satisfied.</p>
           </div>
         </div>
 
@@ -331,7 +323,7 @@ import '../styles/about.css';
             <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
           </button>
           <div class="about-faq-a">
-            <p>The Wisdom corpus is a curated database of Islamic scholarly knowledge atoms: Quranic verses, hadith, concepts, key terms, and quotations. It lives under <code>content/knowledge-base/</code>. The pipeline extracts new atoms from each book it processes and merges them back into this shared library — so the corpus grows richer with every book. You can search and browse it at <a href="/wisdom">Knowledge → Wisdom corpus</a>.</p>
+            <p>The Wisdom corpus is a curated database of Islamic scholarly knowledge atoms: Quranic verses, hadith, concepts, key terms, and quotations. It lives under <code>content/knowledge-base/</code>. The pipeline extracts new atoms from each book it processes and merges them back into this shared library — so the corpus grows richer with every book. You can search and browse it at <a href="/wisdom">Corpus → Wisdom shelf</a>.</p>
           </div>
         </div>
 
@@ -363,7 +355,7 @@ import '../styles/about.css';
             <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
           </button>
           <div class="about-faq-a">
-            <p>The orchestrator saves state after every phase. If it fails, the Workbench status badge turns red and the error message shows in the Workbench's pipeline panel. You can resume from the last completed phase using <code>--resume &lt;slug&gt;</code> — you don't lose any work that was already done. For a stuck phase (status shows "running" but nothing is progressing), use <code>--retry-phase &lt;phase&gt;</code>.</p>
+            <p>The orchestrator saves state after every phase. If it fails, the book's status badge in the Studio turns red and the error message shows in its pipeline panel. You can resume from the last completed phase using <code>--resume &lt;slug&gt;</code> — you don't lose any work that was already done. For a stuck phase (status shows "running" but nothing is progressing), use <code>--retry-phase &lt;phase&gt;</code>.</p>
           </div>
         </div>
 
@@ -397,7 +389,7 @@ import '../styles/about.css';
             <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
           </button>
           <div class="about-faq-a">
-            <p>The <a href="/architecture">Docs → Pipeline architecture</a> page has the full diagram and 6-layer module breakdown. <a href="/system-map">System map</a> shows how all the components connect. <a href="/infrastructure">Infrastructure</a> covers the Azure + Anthropic services. <a href="/quality">Quality</a> shows the scoring rubrics used by the challenger agents. These pages are auto-generated from the live codebase, so they always reflect the current state of the repo.</p>
+            <p>The <a href="/architecture">System → Architecture</a> page has the full diagram and 6-layer module breakdown, plus deep-dive links to the <a href="/system-map">System map</a> (how all the components connect), <a href="/pipeline-paths">Pipeline paths by category</a>, and <a href="/annotation-ops">Annotation operations</a>. <a href="/infrastructure">Infrastructure</a> covers the Azure + Anthropic services. <a href="/quality">Quality</a> shows the scoring rubrics used by the challenger agents.</p>
           </div>
         </div>
 
@@ -407,7 +399,7 @@ import '../styles/about.css';
             <i class="fa-solid fa-chevron-down about-faq-q-icon" aria-hidden="true"></i>
           </button>
           <div class="about-faq-a">
-            <p>The <a href="/plan">Roadmap</a> shows the 22-step development plan (Waves A–E) and the live operational debt backlog. It's generated from <code>_workspace/plan/refactor/plan.yaml</code> and <code>_workspace/plan/debt/pipeline-debt.md</code>. You don't edit it directly in the UI — edit those source files and then run <code>npm run snapshot</code> to regenerate. The agents update this automatically when they complete a plan step.</p>
+            <p>The <a href="/plan">Roadmap</a> shows the full development plan — every improvement step grouped into waves, from Mobilization through the current wave. It's generated from <code>_workspace/plan/refactor/plan.yaml</code> and <code>_workspace/plan/debt/pipeline-debt.md</code>. You don't edit it directly in the UI — edit those source files and then run <code>npm run snapshot</code> to regenerate. The agents update this automatically when they complete a plan step.</p>
           </div>
         </div>
 
