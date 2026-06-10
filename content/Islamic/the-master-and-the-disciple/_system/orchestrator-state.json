@@ -69,7 +69,8 @@
       "status": "running",
       "ts_started": "2026-06-07T22:17:45Z",
       "completed_slugs": [
-        "abu-malik-arrives-and-the-fair-inquiry"
+        "abu-malik-arrives-and-the-fair-inquiry",
+        "air-and-the-instance-beyond-air"
       ],
       "failed_slugs": [],
       "chapter_timings": {
@@ -82,14 +83,21 @@
         },
         "air-and-the-instance-beyond-air": {
           "started_ts": "2026-06-10T22:35:49Z",
+          "completed_ts": "2026-06-10T23:14:33Z",
+          "duration_sec": 2324.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "bismillah-seal-and-the-chosen-ranks": {
+          "started_ts": "2026-06-10T23:14:33Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
           "cost_usd": null
         }
       },
-      "current_chapter": "air-and-the-instance-beyond-air",
-      "last_beat": "2026-06-10T23:03:13Z",
+      "current_chapter": "bismillah-seal-and-the-chosen-ranks",
+      "last_beat": "2026-06-10T23:41:50Z",
       "convergence_iter": 2
     },
     "0g": {
@@ -140,7 +148,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-10T23:03:13Z",
+  "ts_updated": "2026-06-10T23:41:50Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
