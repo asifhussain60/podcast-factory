@@ -48,7 +48,7 @@ Detail on what each skill owns, what triggers it, and what it explicitly defers 
 
 | Skill | Purpose | Owns | Triggers |
 |---|---|---|---|
-| `podcast` | Convert scholarly Arabic books into NotebookLM Audio Overview podcast series | `_workspace/books/<slug>/` (per-book in-progress state); promotion to `library/books/<slug>/` (shipped) via `ship_to_library.py` | `/podcast`, `/extract-chapter <ref>`, `claude --agent podcast-orchestrator`, `claude --agent podcast-operator` |
+| `podcast` | Convert scholarly Arabic books into NotebookLM Audio Overview podcast series | `content/<Bucket>/<slug>/` (all per-book state); publish = `status: published` flip in place via `publish_to_library.py` | `/podcast`, `/extract-chapter <ref>`, `claude --agent podcast-orchestrator` |
 
 ### General-utility skills (duplicated independent copies from journal repo)
 
