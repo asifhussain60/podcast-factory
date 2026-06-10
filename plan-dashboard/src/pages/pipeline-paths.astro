@@ -99,10 +99,10 @@ import '../styles/pipeline-paths.css';
                 <span class="col-phase-num">02</span>
                 <span class="col-phase-name">branch</span>
               </td>
-              <td class="col-desc">Typed branch creation</td>
-              <td class="col-category"><code>book/</code> prefix</td>
-              <td class="col-category"><code>site/</code> prefix</td>
-              <td class="col-category"><code>explainer/</code> prefix</td>
+              <td class="col-desc">Bucket branch creation</td>
+              <td class="col-category"><code>Islamic/</code> bucket</td>
+              <td class="col-category"><code>Guides/</code> bucket</td>
+              <td class="col-category"><code>Technical/</code> bucket</td>
               <td class="col-branch"><span class="bt-badge bt-shared">🟢 SHARED</span></td>
               <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
@@ -149,10 +149,10 @@ import '../styles/pipeline-paths.css';
             <tr>
               <td class="col-phase">
                 <span class="col-phase-num">06</span>
-                <span class="col-phase-name">phonetics (0c)</span>
+                <span class="col-phase-name">glossary (0c)</span>
               </td>
-              <td class="col-desc">Arabic phonetic table extraction</td>
-              <td class="col-category">Run — produces <code>_phonetics.md</code></td>
+              <td class="col-desc">Arabic glossary scaffold</td>
+              <td class="col-category">Run — scaffolds <code>glossary.yml</code></td>
               <td class="col-category"><span class="bt-badge bt-skip">🔴 SKIP</span></td>
               <td class="col-category"><span class="bt-badge bt-skip">🔴 SKIP</span></td>
               <td class="col-branch"><span class="bt-badge bt-skip">🔴 SKIP</span></td>
@@ -165,7 +165,7 @@ import '../styles/pipeline-paths.css';
                 <span class="col-phase-name">chapter-design (0d)</span>
               </td>
               <td class="col-desc">Episode segmentation + contracts</td>
-              <td class="col-category">Scholarly chapter structure, reads <code>_phonetics.md</code></td>
+              <td class="col-category">Scholarly chapter structure, inline exonym resolution</td>
               <td class="col-category">Consumer topic structure</td>
               <td class="col-category">Technical episode arc, no phonetics</td>
               <td class="col-branch"><span class="bt-badge bt-prompt">🟡 PROMPT</span></td>
@@ -472,7 +472,7 @@ import '../styles/pipeline-paths.css';
 
           <!-- 06 phonetics -->
           <text x="8" y="688" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">06</text>
-          <text x="8" y="704" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">phonetics (0c)</text>
+          <text x="8" y="704" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">glossary (0c)</text>
           <text x="8" y="718" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#a83232">🔴 SKIP</text>
 
           <!-- 07 chapter-design -->
@@ -570,14 +570,14 @@ import '../styles/pipeline-paths.css';
 
           <!-- ── ROW 1: 02 branch 🟢 SHARED ──────────────────────────────────── -->
           <rect x="144" y="188" width="756" height="104" rx="4" fill="rgba(74,124,74,0.12)" stroke="#4a7c4a" stroke-width="1.5"/>
-          <text x="522" y="232" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#4a7c4a">🟢 SHARED — branch_name(category, slug)</text>
-          <text x="522" y="250" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">book/ · site/ · explainer/ · letter/ · lecture/ prefix per category</text>
+          <text x="522" y="232" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#4a7c4a">🟢 SHARED — branch_name(category, slug, profile=…)</text>
+          <text x="522" y="250" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Islamic/ · Technical/ · Fiction/ · Guides/ — bucket branch per content profile</text>
           <text x="522" y="266" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4a7c4a">✅ Done</text>
 
           <!-- ── ROW 2: 03 scaffold 🟢 SHARED ────────────────────────────────── -->
           <rect x="144" y="308" width="756" height="104" rx="4" fill="rgba(74,124,74,0.12)" stroke="#4a7c4a" stroke-width="1.5"/>
           <text x="522" y="352" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#4a7c4a">🟢 SHARED — directory structure</text>
-          <text x="522" y="370" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">_system/ · chapters/ · _phonetics.md path resolved at runtime</text>
+          <text x="522" y="370" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">_system/ · chapters/ · glossary.yml path resolved at runtime</text>
           <text x="522" y="386" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4a7c4a">✅ Done</text>
 
           <!-- ── ROW 3: 04 ocr-translate 🔴 SKIP ─────────────────────────────── -->
@@ -614,8 +614,8 @@ import '../styles/pipeline-paths.css';
           <!-- ── ROW 5: 06 phonetics 🔴 SKIP ─────────────────────────────────── -->
           <!-- Islamic (runs) -->
           <rect x="144" y="668" width="244" height="104" rx="4" fill="rgba(74,124,74,0.12)" stroke="#4a7c4a" stroke-width="1"/>
-          <text x="266" y="706" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#4a7c4a">Phonetic extraction</text>
-          <text x="266" y="722" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Produces _phonetics.md</text>
+          <text x="266" y="706" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#4a7c4a">Glossary scaffold</text>
+          <text x="266" y="722" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Scaffolds glossary.yml</text>
           <!-- Consumer SKIP -->
           <rect x="396" y="668" width="244" height="104" rx="4" fill="rgba(168,50,50,0.10)" stroke="#a83232" stroke-width="1"/>
           <text x="518" y="716" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#a83232">🔴 SKIP</text>
@@ -629,7 +629,7 @@ import '../styles/pipeline-paths.css';
           <!-- Islamic -->
           <rect x="144" y="788" width="244" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
           <text x="266" y="822" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">Scholarly chapters</text>
-          <text x="266" y="838" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Reads _phonetics.md</text>
+          <text x="266" y="838" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Inline exonym rules</text>
           <text x="266" y="854" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Doctrinal structure</text>
           <!-- Consumer -->
           <rect x="396" y="788" width="244" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
@@ -639,7 +639,7 @@ import '../styles/pipeline-paths.css';
           <rect x="648" y="788" width="248" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
           <text x="772" y="822" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">Technical arc</text>
           <text x="772" y="838" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">No phonetics needed</text>
-          <text x="772" y="854" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">❌ Hard-wired to _phonetics</text>
+          <text x="772" y="854" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4a7c4a">✅ No glossary dependency</text>
 
           <!-- ── ROW 7: 08 enrichment PROMPT+SKIP ─────────────────────────────── -->
           <!-- Islamic -->

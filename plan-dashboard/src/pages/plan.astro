@@ -9,6 +9,7 @@ const roadmap = dash.roadmap as unknown as RoadmapStep[];
 
 const stepsDone  = roadmap.filter(s => s.status === 'complete').length;
 const stepsTotal = roadmap.length;
+const waveCount  = ((dash.waves ?? []) as Array<{ id: string }>).length;
 const inFlight   = dash.books_in_flight.length;
 const burnMonth  = ((dash.metrics as any).burn_30d_usd ?? [] as number[]).reduce((a: number, b: number) => a + b, 0);
 const nextReady  = roadmap.find(s => s.status === 'ready');
@@ -56,10 +57,10 @@ const nextReady  = roadmap.find(s => s.status === 'ready');
     <header class="stack">
       <span class="eyebrow">Plan Design</span>
       <p class="home-hero-audience"><AudienceBadge tier="you" /></p>
-      <h1>Mobilization plus the five-wave roadmap.</h1>
+      <h1>Mobilization plus the wave roadmap.</h1>
       <p class="lede">
-        Twenty-eight improvements across one Mobilization stage and five waves. Each wave delivers something independently useful.
-        Click any step for the full detail. Use the sidebar to track overall progress.
+        {stepsTotal} improvements across one Mobilization stage and {waveCount} waves. Each wave delivers something independently useful.
+        Click any step for the full detail.
       </p>
     </header>
   </section>

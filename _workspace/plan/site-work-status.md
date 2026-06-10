@@ -6,14 +6,59 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-08 (session 22 — phonetics surgery shipped; Vol 1 0d mid-run)
+**Last updated:** 2026-06-10 (session 24 — Studio picker filters + card design system + visual-QA pass; all committed)
 
-**BRANCH: `Islamic/asaas-al-taveel` — PUSHED (up to date at cc73909).**
+**Session 24 (later half):** single-select filter buttons (In Pipeline/Published/Up Next),
+per-category --shelf-accent design system, volume badge, card blurbs, New-content
+primary button, intake column balance (Editorial Defaults left, intake-card--grow),
+mobile topnav spacer fix, NarrativeScroll hero plays on mount (trigger race fixed;
+frozen anims in automation = occluded-window rAF throttling, not a bug), intake
+dropdowns humanized via humanizeOption() (values stay raw pipeline tokens).
+Visual-QA loop iteration 1 covered /studio (3 states, 2 viewports), /studio/new
+(2 viewports), step page, home. NOT yet swept: /library, /corpus, /about,
+/intelligence.
 
-**IN FLIGHT:** Vol 1 orchestrator is RUNNING (phase 0d, SC2 of 4 active at session end, watchdog-owned, detached PIDs survive session end). Re-check on next session with:
-  `ps aux | grep -E 'orchestrate_book|watch_orchestrator' | grep -i asaas`
-  `jq '{phase,phase_status,last_completed_phase,last_error}' content/Islamic/asaas-al-taveel/vol-01/_system/orchestrator-state.json`
-RE-ARM a 270s heartbeat if still running. It halts at 0f for review.
+**BRANCH: `Islamic/asaas-al-taveel` — session 24 adds lifecycle filter chips to the Studio picker.**
+
+**Session 24 work (Astro site only — no pipeline changes):**
+  - Studio picker (`/studio`) now has three icon filter chips above the shelves:
+    In the Works (default ON) / Up Next / Published. Default view shows only
+    actively-worked books; batch-scaffolded Asas volumes 02-06 are hidden until
+    the Up Next chip is toggled.
+  - Classifier `classifyStatusBucket()` + `loadStatusBucket()` exported from
+    `studio-pipeline.ts`: published status wins; no completed phase or only
+    automated ingest/refine (<= 0b) = up-next; unknown-but-real phases
+    (e.g. 0book-render) = in-the-works.
+  - Cards carry `data-status` and are hidden server-side for non-default
+    statuses (no flash); shelves with zero visible cards hide; shelf counts
+    track visible cards. Chip toggle script guards against zero active filters.
+  - lint:views clean; verified in preview (default 5 books, Up Next reveals 7,
+    Published reveals 2, Fiction shelf hides/shows correctly).
+
+**IN FLIGHT:** Vol 1 orchestrator is HALTED at `finalize` (last_completed_phase=per-chapter,
+no orchestrator/watchdog PIDs alive) — waiting for Asif's publish review. No heartbeat needed.
+
+**Session 23 work (Astro site only — no pipeline changes):**
+  - System subnav consolidated 13 -> 8 (Overview, Architecture, Intelligence, Infrastructure,
+    Security, Quality, Roadmap, About & Help). System map / Pipeline paths / Annotations fold
+    under Architecture (deep-dive links in its hero); Pronunciation + Pre-Upload Review moved
+    to the Studio domain (linked from the Studio picker header). site-nav.ts is the single edit point.
+  - Roadmap page was rendering NO steps: dashboard-snapshot `waves` was emptied long ago and
+    the regenerator never rebuilt it. regenerate-snapshots.py now rebuilds wave metadata from
+    plan.yaml (dedup by id, steps-bearing entry wins, empty bands dropped). plan.astro lede
+    is dynamic (59 steps / 12 waves).
+  - Architecture page "0 LAYERS" stat: layers/modules/archetypes restored into
+    architecture-snapshot.json from commit 98efddf (archived islr-mas-i entry dropped).
+  - Quality page showed all zeros: baselines path fixed (_workspace/test-strategy/ ->
+    _workspace/tests/); added a note that baselines are four-axis, live formula is K6 five-axis.
+  - Stale docs fixed: about.astro (4-section IA, status-field publish semantics, Corpus labels),
+    pipeline-paths.astro (_phonetics.md -> glossary.yml/inline exonyms; bucket branch naming).
+  - Studio-language pass (Asif approved "B"): about.astro quick-start + FAQ rewritten from
+    Workbench-first to Studio-first wording; one definitional Workbench mention kept
+    (it survives as ?view=workbench inside Studio).
+  - Gates: lint:views 0/0; html-view-challenger PASS (final run: 1 MUST fixed — quality.css
+    reading-floor font size; advisories noted, no restyles). Full-sweep visual QA converged:
+    13 System routes x 2 viewports, 0 overflow, 0 console errors.
 
 **Session 22 work (commit cc73909):**
   - PHONETICS SURGERY COMPLETE (option A, Asif-approved): retired _phonetics.md windowed
@@ -33,9 +78,8 @@ RE-ARM a 270s heartbeat if still running. It halts at 0f for review.
     both pushed to origin. Worktree at ~/PROJECTS/pf-phonetics-wt can be cleaned up.
 
 **OPEN (next session):**
-  - Vol 1 pipeline: check if 0d completed and 0e ran. It will halt at 0f for review.
-  - When Vol 1 halts at 0f: surface the NotebookLM upload table (4-column locked format)
-    and proceed with manual review + episode uploads.
+  - Vol 1 is at finalize/halted: surface the NotebookLM upload table (4-column locked format)
+    and proceed with manual review + episode uploads, then publish authorization.
   - Then: Vol 2..6 sequentially on same branch.
   - Worktree cleanup: `git worktree remove ~/PROJECTS/pf-phonetics-wt` (safe now that
     wip/phonetics-removal is on origin and merged into the content branch).

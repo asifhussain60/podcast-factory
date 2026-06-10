@@ -221,7 +221,6 @@
 .studio-step-head p {
   margin: 0.35rem 0 0;
   color: var(--c-ink-muted);
-  max-width: 70ch;
 }
 
 .studio-panel {
@@ -397,61 +396,35 @@
   white-space: nowrap;
 }
 
-/* ── Per-bucket accent colours ───────────────────────────── */
-/* Islamic: dark goldenrod */
-.studio-shelf[data-bucket="Islamic"] .studio-shelf-icon-wrap {
-  background: color-mix(in oklab, var(--c-gold) 12%, var(--c-bg-card));
-  color: var(--c-gold);
-  border-color: color-mix(in oklab, var(--c-gold) 30%, var(--c-rule));
+/* ════════════════════════════════════════════════════════════
+   Per-category card design system (single source of truth)
+
+   Each content bucket owns ONE accent variable, --shelf-accent,
+   set on its shelf section. EVERY category-aware element — shelf
+   icon, title underline, card top strip, hover ring, script-panel
+   tint, script icon, volume badge — derives from it via color-mix
+   so the tints stay light and theme-consistent. Adding a bucket or
+   re-hueing one is a one-line change; new card elements should use
+   var(--shelf-accent) and never name a colour directly.
+   ════════════════════════════════════════════════════════════ */
+.studio-shelf { --shelf-accent: var(--c-accent); }            /* fallback: saddle brown */
+.studio-shelf[data-bucket="Islamic"]   { --shelf-accent: var(--c-gold); }    /* dark goldenrod */
+.studio-shelf[data-bucket="Fiction"]   { --shelf-accent: #6a1b9a; }          /* literary plum  */
+.studio-shelf[data-bucket="Technical"] { --shelf-accent: var(--c-planner); } /* slate blue     */
+.studio-shelf[data-bucket="Guides"]    { --shelf-accent: var(--c-green); }   /* forest green   */
+
+.studio-shelf .studio-shelf-icon-wrap {
+  background: color-mix(in oklab, var(--shelf-accent) 11%, var(--c-bg-card));
+  color: var(--shelf-accent);
+  border-color: color-mix(in oklab, var(--shelf-accent) 28%, var(--c-rule));
 }
-.studio-shelf[data-bucket="Islamic"] .studio-shelf-title-group {
-  border-bottom-color: color-mix(in oklab, var(--c-gold) 30%, var(--c-rule-soft));
+.studio-shelf .studio-shelf-title-group {
+  border-bottom-color: color-mix(in oklab, var(--shelf-accent) 26%, var(--c-rule-soft));
 }
 
-/* Fiction: literary purple */
-.studio-shelf[data-bucket="Fiction"] .studio-shelf-icon-wrap {
-  background: color-mix(in oklab, #6a1b9a 10%, var(--c-bg-card));
-  color: #6a1b9a;
-  border-color: color-mix(in oklab, #6a1b9a 25%, var(--c-rule));
-}
-.studio-shelf[data-bucket="Fiction"] .studio-shelf-title-group {
-  border-bottom-color: color-mix(in oklab, #6a1b9a 22%, var(--c-rule-soft));
-}
-
-/* Technical: slate blue */
-.studio-shelf[data-bucket="Technical"] .studio-shelf-icon-wrap {
-  background: color-mix(in oklab, var(--c-planner) 12%, var(--c-bg-card));
-  color: var(--c-planner);
-  border-color: color-mix(in oklab, var(--c-planner) 30%, var(--c-rule));
-}
-.studio-shelf[data-bucket="Technical"] .studio-shelf-title-group {
-  border-bottom-color: color-mix(in oklab, var(--c-planner) 28%, var(--c-rule-soft));
-}
-
-/* Guides: forest green */
-.studio-shelf[data-bucket="Guides"] .studio-shelf-icon-wrap {
-  background: color-mix(in oklab, var(--c-green) 12%, var(--c-bg-card));
-  color: var(--c-green);
-  border-color: color-mix(in oklab, var(--c-green) 30%, var(--c-rule));
-}
-.studio-shelf[data-bucket="Guides"] .studio-shelf-title-group {
-  border-bottom-color: color-mix(in oklab, var(--c-green) 28%, var(--c-rule-soft));
-}
-
-/* ── Shelf plank wrapper ──────────────────────────────────── */
+/* ── Shelf card-grid wrapper (plank strip removed 2026-06-10) ── */
 .studio-shelf-floor-wrap {
   position: relative;
-  padding-bottom: 1.1rem;
-}
-
-/* Physical shelf plank — a layered shadow-strip below the cards */
-.studio-shelf-plank {
-  height: 6px;
-  border-radius: 0 0 4px 4px;
-  background: linear-gradient(to bottom,
-    var(--c-rule) 0%,
-    color-mix(in oklab, var(--c-rule) 50%, transparent) 60%,
-    transparent 100%);
 }
 
 /* ── Card grid within each shelf ─────────────────────────── */
@@ -478,16 +451,13 @@
   height: 3px;
 }
 
-/* Strip + hover ring colour per bucket */
-.studio-shelf[data-bucket="Islamic"] .studio-shelf-card::before { background: var(--c-gold); }
-.studio-shelf[data-bucket="Fiction"]   .studio-shelf-card::before { background: #6a1b9a; }
-.studio-shelf[data-bucket="Technical"] .studio-shelf-card::before { background: var(--c-planner); }
-.studio-shelf[data-bucket="Guides"]    .studio-shelf-card::before { background: var(--c-green); }
+/* Strip + hover ring — category accent via the design system */
+.studio-shelf .studio-shelf-card::before { background: var(--shelf-accent); }
 
-.studio-shelf[data-bucket="Islamic"]   .studio-shelf-card:hover { border-color: var(--c-gold); box-shadow: 0 4px 14px color-mix(in oklab, var(--c-gold) 18%, transparent); }
-.studio-shelf[data-bucket="Fiction"]   .studio-shelf-card:hover { border-color: #6a1b9a;         box-shadow: 0 4px 14px color-mix(in oklab, #6a1b9a 14%, transparent); }
-.studio-shelf[data-bucket="Technical"] .studio-shelf-card:hover { border-color: var(--c-planner);box-shadow: 0 4px 14px color-mix(in oklab, var(--c-planner) 16%, transparent); }
-.studio-shelf[data-bucket="Guides"]    .studio-shelf-card:hover { border-color: var(--c-green);  box-shadow: 0 4px 14px color-mix(in oklab, var(--c-green) 14%, transparent); }
+.studio-shelf .studio-shelf-card:hover {
+  border-color: var(--shelf-accent);
+  box-shadow: 0 4px 14px color-mix(in oklab, var(--shelf-accent) 16%, transparent);
+}
 
 /* ── Card interior layout ───────────────────────────────────────────────────
    card-script-wrap  — native-script header (Arabic / Chinese, conditional)
@@ -517,11 +487,8 @@
   margin-bottom: 0.05rem;
 }
 
-/* Per-bucket icon colour in script panel */
-.studio-shelf[data-bucket="Islamic"]   .card-script-icon { color: var(--c-gold); }
-.studio-shelf[data-bucket="Fiction"]   .card-script-icon { color: #6a1b9a; }
-.studio-shelf[data-bucket="Technical"] .card-script-icon { color: var(--c-planner); }
-.studio-shelf[data-bucket="Guides"]    .card-script-icon { color: var(--c-green); }
+/* Icon colour in script panel — category accent */
+.studio-shelf .card-script-icon { color: var(--shelf-accent); }
 
 /* Arabic script — centred, Amiri, maroon */
 .card-script-text[lang="ar"] {
@@ -546,22 +513,10 @@
   text-align: left;
 }
 
-/* Per-bucket tint on script panel background */
-.studio-shelf[data-bucket="Islamic"] .card-script-wrap {
-  background: color-mix(in oklab, var(--c-gold) 8%, var(--c-bg-card));
-  border-bottom-color: color-mix(in oklab, var(--c-gold) 22%, var(--c-rule-soft));
-}
-.studio-shelf[data-bucket="Fiction"] .card-script-wrap {
-  background: color-mix(in oklab, #6a1b9a 5%, var(--c-bg-card));
-  border-bottom-color: color-mix(in oklab, #6a1b9a 18%, var(--c-rule-soft));
-}
-.studio-shelf[data-bucket="Technical"] .card-script-wrap {
-  background: color-mix(in oklab, var(--c-planner) 6%, var(--c-bg-card));
-  border-bottom-color: color-mix(in oklab, var(--c-planner) 20%, var(--c-rule-soft));
-}
-.studio-shelf[data-bucket="Guides"] .card-script-wrap {
-  background: color-mix(in oklab, var(--c-green) 6%, var(--c-bg-card));
-  border-bottom-color: color-mix(in oklab, var(--c-green) 20%, var(--c-rule-soft));
+/* Script-panel tint — light category wash via the design system */
+.studio-shelf .card-script-wrap {
+  background: color-mix(in oklab, var(--shelf-accent) 6%, var(--c-bg-card));
+  border-bottom-color: color-mix(in oklab, var(--shelf-accent) 20%, var(--c-rule-soft));
 }
 
 /* Card body wrapper — flex column, fills remaining height */
@@ -597,12 +552,39 @@
   text-align: center;
 }
 
+/* Volume badge — between title and author; category accent via the design system */
+.card-volume-badge {
+  display: inline-flex;
+  align-items: center;
+  margin: 0.25rem 0 0.1rem;
+  padding: 0.22rem 0.85rem;
+  border-radius: 999px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--shelf-accent, var(--c-accent));
+  background: color-mix(in oklab, var(--shelf-accent, var(--c-accent)) 10%, var(--c-bg-card));
+  border: 1px solid color-mix(in oklab, var(--shelf-accent, var(--c-accent)) 35%, var(--c-rule));
+}
+
 .card-author {
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-style: italic;
   color: var(--c-ink-muted);
   line-height: 1.3;
+  text-align: center;
+}
+
+/* One-line book description above the pipeline status */
+.card-blurb {
+  margin: 0.5rem 0 0;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--c-ink-muted);
+  line-height: 1.45;
   text-align: center;
 }
 
@@ -624,10 +606,33 @@
   text-align: center;
 }
 
-/* ── "New content" row — sits below all shelves ──────────── */
-.studio-new-content-row {
-  padding-top: 0.5rem;
-  border-top: 1px dashed var(--c-rule);
+/* ── Toolbar: filter chips left, "New content" right ─────── */
+.studio-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Primary "New content" action — deliberately distinct from the filter
+   buttons: solid mid-dark fill, light text, 2px soft-rounded border. */
+.studio-toolbar .studio-new-content-link {
+  padding: 0.6rem 1.15rem;
+  border-radius: 12px;
+  gap: 0.5rem;
+  border: 2px solid color-mix(in oklab, var(--c-accent) 65%, var(--c-ink));
+  background: var(--c-accent);
+  color: var(--c-bg-card);
+  box-shadow:
+    0 1px 2px color-mix(in oklab, var(--c-ink) 12%, transparent),
+    0 2px 8px color-mix(in oklab, var(--c-accent) 22%, transparent);
+}
+
+.studio-toolbar .studio-new-content-link:hover {
+  background: color-mix(in oklab, var(--c-ink) 12%, var(--c-accent));
+  border-color: color-mix(in oklab, var(--c-accent) 45%, var(--c-ink));
+  color: var(--c-bg-card);
 }
 
 .studio-new-content-link {
@@ -661,15 +666,6 @@
   color: inherit;
 }
 
-.studio-new-content-sub {
-  font-size: 0.8rem;
-  color: var(--c-ink-muted);
-}
-
-.studio-new-content-link:hover .studio-new-content-sub {
-  color: color-mix(in oklab, var(--c-accent) 60%, var(--c-ink-muted));
-}
-
 /* ── Focus rings for new shelf elements ──────────────────── */
 .studio-shelf-card:focus-visible {
   outline: 2px solid var(--c-accent);
@@ -686,7 +682,6 @@
   .studio-shelf-grid { grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); }
   .studio-shelf-name { font-size: 1.25rem; }
   .studio-shelf-desc { display: none; }
-  .studio-new-content-sub { display: none; }
 }
 
 @media (max-width: 480px) {
@@ -699,7 +694,6 @@
 .cl-intro {
   color: var(--c-ink-dim);
   margin-bottom: 1rem;
-  max-width: 60ch;
 }
 .cl-selector { display: flex; flex-direction: column; gap: 0.75rem; }
 .cl-options {
@@ -735,3 +729,78 @@
 .cl-status { font-size: 0.85rem; color: var(--c-ink-dim); min-height: 1.2em; }
 .cl-status[data-state="saved"] { color: var(--c-green); }
 .cl-status[data-state="error"] { color: var(--c-red); }
+
+/* ════════════════════════════════════════════════════════════
+   Studio picker — lifecycle status filter chips
+   ════════════════════════════════════════════════════════════ */
+.studio-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* Single-select filter buttons — soft rounded corners with depth */
+.studio-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.6rem 1.15rem;
+  border-radius: 12px;
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg-elev);
+  color: var(--c-ink-muted);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow:
+    0 1px 2px color-mix(in oklab, var(--c-ink) 8%, transparent),
+    0 2px 6px color-mix(in oklab, var(--c-ink) 6%, transparent);
+  transition: border-color 150ms ease, background 150ms ease, color 150ms ease,
+    box-shadow 150ms ease, transform 150ms ease;
+}
+
+.studio-filter-chip:hover {
+  border-color: color-mix(in oklab, var(--c-accent) 40%, var(--c-rule));
+  color: var(--c-ink);
+  transform: translateY(-1px);
+  box-shadow:
+    0 2px 4px color-mix(in oklab, var(--c-ink) 10%, transparent),
+    0 4px 10px color-mix(in oklab, var(--c-ink) 8%, transparent);
+}
+
+.studio-filter-chip[aria-pressed="true"] {
+  background: color-mix(in oklab, var(--c-accent) 12%, var(--c-bg-card));
+  border-color: color-mix(in oklab, var(--c-accent) 50%, var(--c-rule));
+  color: var(--c-accent);
+  box-shadow:
+    inset 0 1px 2px color-mix(in oklab, var(--c-accent) 18%, transparent),
+    0 1px 2px color-mix(in oklab, var(--c-ink) 6%, transparent);
+  transform: none;
+}
+
+.studio-filter-chip:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.studio-filter-chip-count {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: var(--c-bg-sunken);
+  border: 1px solid var(--c-rule);
+  border-radius: 999px;
+  padding: 0.05rem 0.45rem;
+  color: var(--c-ink-muted);
+}
+
+.studio-filter-chip[aria-pressed="true"] .studio-filter-chip-count {
+  background: color-mix(in oklab, var(--c-accent) 18%, var(--c-bg-card));
+  border-color: color-mix(in oklab, var(--c-accent) 40%, var(--c-rule));
+  color: var(--c-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-filter-chip { transition: none; }
+}

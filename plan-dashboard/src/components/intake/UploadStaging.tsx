@@ -124,7 +124,7 @@ export default function UploadStaging({ onChange }: Props) {
   }
 
   return (
-    <div className="intake-card">
+    <div className="intake-card intake-card--grow">
       <h2 className="intake-card-title">Source files</h2>
       <p className="intake-hint">
         Drop your source material — a PDF, an audio recording, a transcript, a pronunciation

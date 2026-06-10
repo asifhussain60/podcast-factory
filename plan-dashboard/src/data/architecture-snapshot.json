@@ -368,7 +368,38 @@
       "failure_mode": "surfaces error and halts"
     }
   ],
-  "layers": [],
+  "layers": [
+    {
+      "id": 1,
+      "name": "Foundation",
+      "plain": "Files everything else depends on: paths, the database, the rule registry, branch naming."
+    },
+    {
+      "id": 2,
+      "name": "House style",
+      "plain": "Doctrinal rules, the archetype registry, the cost ledger, the shared context contract."
+    },
+    {
+      "id": 3,
+      "name": "Intelligence",
+      "plain": "The extractor, the librarian, the augmenter \u2014 the parts that read, remember, and enrich."
+    },
+    {
+      "id": 4,
+      "name": "Authoring",
+      "plain": "The pieces that actually write framings, capstones, prefaces, augmentations."
+    },
+    {
+      "id": 5,
+      "name": "Stations",
+      "plain": "One file per pipeline station. Thin orchestration that calls the layers below."
+    },
+    {
+      "id": 6,
+      "name": "Driver",
+      "plain": "A single thin driver that walks the station order. Hands off to each station in turn."
+    }
+  ],
   "adrs": [
     {
       "id": "DR-001",
@@ -451,8 +482,69 @@
       "plain": "FAISS sidecar pattern: vectors separate from metadata, rebuilt from SQLite"
     }
   ],
-  "modules": [],
-  "archetypes": [],
-  "generated_at": "2026-06-09T16:10:07.959431+00:00",
-  "source_commit": "14b6e9bc"
+  "modules": [
+    {
+      "id": "archetype-registry",
+      "name": "Book-kind recognizer",
+      "plain": "A small registry that knows the rules for each kind of book \u2014 a play-novel reads differently than a scholarly treatise. Adding support for a new kind of book means adding one entry here, never rewriting the pipeline."
+    },
+    {
+      "id": "doctrinal-rules",
+      "name": "House style guard",
+      "plain": "A collection of constraints that apply across every book \u2014 how the Imam is referred to, what tone the narrators adopt, what topics are out of bounds. Enforced at every station."
+    },
+    {
+      "id": "anti-cliche-registry",
+      "name": "Clich\u00e9 blocker",
+      "plain": "A growing list of phrases and openings the system has learned to avoid \u2014 banal welcomes, overused metaphors, podcast clich\u00e9s that flatten the source's voice."
+    },
+    {
+      "id": "context-injection",
+      "name": "Shared context",
+      "plain": "The single contract through which all background context flows into the narrator framings. One place to change what context the system passes around."
+    },
+    {
+      "id": "phonetic-glossary",
+      "name": "Pronunciation guide",
+      "plain": "A per-book mapping of every name and term in the book to its phonetic spelling \u2014 so the narrator says \"Ibn al-Walid\" the way the source intends, not the way English spelling suggests."
+    },
+    {
+      "id": "augmenter",
+      "name": "Outside-knowledge gatherer",
+      "plain": "Pulls modern research and cross-references that strengthen an episode without distorting the source \u2014 used carefully, off by default for sensitive books."
+    },
+    {
+      "id": "challenger",
+      "name": "Quality reviewer",
+      "plain": "Reads every episode bundle and every framing the way a careful editor would, flags problems by severity, and pushes them back for correction. Loops until convergence."
+    },
+    {
+      "id": "slide-deck-challenger",
+      "name": "Slide deck reviewer",
+      "plain": "The visual counterpart of the quality reviewer \u2014 checks every slide for restatement, literal illustration, structural value, and audio-deck divergence."
+    }
+  ],
+  "archetypes": [
+    {
+      "id": "play-novel",
+      "books": [
+        "asaas-al-taveel"
+      ]
+    },
+    {
+      "id": "scholarly-treatise",
+      "books": [
+        "kitab-al-riyad",
+        "the-master-and-the-disciple"
+      ]
+    },
+    {
+      "id": "letter",
+      "books": [
+        "ayyuhal-walad"
+      ]
+    }
+  ],
+  "generated_at": "2026-06-09T23:41:15.858918+00:00",
+  "source_commit": "dd6ff56"
 }

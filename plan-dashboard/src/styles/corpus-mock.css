@@ -17,7 +17,7 @@
 .cm-hero { max-width: 70rem; margin: 0 auto 1.5rem; }
 .cm-hero h1 { font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.15; margin: .4rem 0; }
 .cm-hero .eyebrow { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--c-ink-muted); }
-.cm-hero .lede { color: var(--c-ink-dim); max-width: 62ch; }
+.cm-hero .lede { color: var(--c-ink-dim); }
 .cm-mockflag {
   display: inline-flex; gap: .5rem; align-items: center; margin-top: .6rem;
   padding: .35rem .7rem; border-radius: 999px; font-size: .78rem; font-weight: 600;
