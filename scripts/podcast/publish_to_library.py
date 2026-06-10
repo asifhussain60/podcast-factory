@@ -64,19 +64,21 @@ from datetime import datetime, timezone
 from pathlib import Path
 from _paths import REPO_ROOT, find_content
 
-# 2026-05-23 restructure: workshop moved from _workspace/books/ to content/drafts/,
-# published catalog moved from out-of-repo library/ to in-repo content/published/.
+# Type-first layout (2026-06-04): books live at content/<Bucket>/<slug>/ and
+# draft/published is a STATUS FIELD, not a folder. WORKSPACE is only the legacy
+# flat-drafts fallback for resolve_workspace; LIBRARY still hosts the cross-book
+# catalog at content/published/_meta/ (no per-book folders).
 WORKSPACE = REPO_ROOT / "content" / "drafts"
 LIBRARY = REPO_ROOT / "content" / "published"
 
 
 def resolve_workspace(slug: str) -> Path:
-    """Resolve a book's drafts workspace, category-aware.
+    """Resolve a book's content dir, bucket-aware.
 
-    Post-2026-05-26 content lives at content/drafts/<category>/<slug> (e.g.
-    drafts/books/<slug>), not the flat drafts/<slug>. Delegate to _paths.find_content
-    (canonical drafts/<cat>/<slug> first, then legacy fallbacks) so the gate + publish
-    find the book regardless of category. Falls back to the legacy flat path.
+    Content lives at content/<Bucket>/<slug>/ (type-first layout, 2026-06-04).
+    Delegate to _paths.find_content (buckets first, then legacy drafts/<cat>/<slug>
+    fallbacks) so the gates + publish find the book regardless of layout vintage.
+    Falls back to the legacy flat drafts path as a last resort.
     """
     found = find_content(slug)
     if found:
@@ -341,58 +343,6 @@ def gate_g6_target(target: Path, no_wipe: bool) -> bool:
         return False
     _ok("G6", f"target {target} exists; wipe-and-recreate authorized")
     return True
-
-
-def render_readme(slug: str, chapters: list[Path], episodes: list[Path],
-                  source_sha: str, source_branch: str) -> str:
-    ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    pairs = []
-    for ep in episodes:
-        m = EP_PATTERN.match(ep.name)
-        if not m:
-            continue
-        num, ep_slug = m.group(1), m.group(2)
-        ch_name = f"ch{num}-{ep_slug}.txt"
-        pairs.append((num, ch_name, ep.name, ep_slug))
-    pair_rows = "\n".join(
-        f"| EP{num} | `chapters/{ch_name}` | `episodes/{ep_name}` | {ep_slug.replace('-', ' ')} |"
-        for num, ch_name, ep_name, ep_slug in pairs
-    )
-    return f"""# {slug} — published podcast assets
-
-Published from `content/drafts/{slug}/` to this directory on **{ts}**.
-
-- **Source git ref:** `{source_branch}@{source_sha}`
-- **Episode count:** {len(episodes)}
-- **NotebookLM mode:** 2-voice Extended Deep Dive
-
-## NotebookLM upload (per episode)
-
-For each EP## row below:
-
-1. Create a new NotebookLM notebook (or open an existing one).
-2. Upload `chapters/ch##-<slug>.txt` as the single source.
-3. Open the Customize prompt box and paste the contents of `episodes/EP##-<slug>.txt`.
-4. Click **Generate**.
-
-The chapter file is the SOURCE (uploaded as-is); the episode file is the CUSTOMIZE PROMPT (pasted into the prompt box). Do not concatenate them — NotebookLM treats them as different inputs.
-
-## Episode list
-
-| EP | Chapter file (SOURCE) | Episode file (CUSTOMIZE PROMPT) | Topic |
-|---|---|---|---|
-{pair_rows}
-
-## Republishing
-
-This directory is **filesystem-only** and **not git-tracked**. It can be deleted and regenerated at any time by re-running:
-
-```
-scripts/podcast/publish_to_library.py {slug}
-```
-
-from any worktree on the `podcast-factory` repo (the script resolves `content/published/` from `<repo-parent>/content/published/`).
-"""
 
 
 def update_catalog(slug: str, episode_count: int, source_sha: str) -> None:

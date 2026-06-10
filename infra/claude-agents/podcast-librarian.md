@@ -1,6 +1,6 @@
 ---
 name: podcast-librarian
-description: Knowledge-extraction and dedup agent for phase 0h-knowledge-extract. Reads enriched chapters from a book at the end of phase 08-enrichment, extracts atoms (Wave 1 = Quran verses + hadith only), and merges them into the canonical knowledge library at content/knowledge-base/. Flags conflicts for human review. Companion to scripts/podcast/knowledge/{extractor,librarian,augmenter}.py. Wave 2 will add quotes + definitions (embedding-driven dedup); Wave 3 will add etymology (tree-shaped atoms). Spec at _workspace/plan/intelligence-pipeline-wave1-spec.md. Visual overview at _workspace/plan/view/intelligence-pipeline.html.
+description: Knowledge-extraction and dedup agent for phase 0h-knowledge-extract. Reads enriched chapters from a book at the end of phase 08-enrichment, extracts atoms (Wave 1 = Quran verses + hadith only), and merges them into the canonical knowledge library at content/knowledge-base/. Flags conflicts for human review. Companion to scripts/podcast/intelligence/{extractor,librarian,augmenter}.py (the DB-backed Wave B modules; the legacy JSONL scripts knowledge/extractor.py + knowledge/librarian.py were deleted 2026-06-10, knowledge/augmenter.py survives as the JSONL fallback). Wave 2 will add quotes + definitions (embedding-driven dedup); Wave 3 will add etymology (tree-shaped atoms). Spec at _workspace/plan/intelligence-pipeline-wave1-spec.md. Visual overview at _workspace/plan/view/intelligence-pipeline.html.
 tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet
 ---
@@ -39,10 +39,11 @@ chapters, produce structured atoms, dedup against the canonical library, and rep
 ## Authority
 
 - **Spec**: [_workspace/plan/intelligence-pipeline-wave1-spec.md](../../_workspace/plan/intelligence-pipeline-wave1-spec.md)
-- **Implementation modules** (created during Wave 1 implementation):
-  - `scripts/podcast/knowledge/extractor.py`
-  - `scripts/podcast/knowledge/librarian.py`
-  - `scripts/podcast/knowledge/augmenter.py`
+- **Implementation modules** (Wave B DB-backed; superseded the Wave 1 JSONL
+  scripts — `knowledge/extractor.py` + `knowledge/librarian.py` deleted 2026-06-10):
+  - `scripts/podcast/intelligence/extractor.py`
+  - `scripts/podcast/intelligence/librarian.py`
+  - `scripts/podcast/intelligence/augmenter.py` (JSONL fallback: `scripts/podcast/knowledge/augmenter.py`)
   - `scripts/podcast/knowledge/_atom_schemas.py`
 - **Rules**: `R_KNOWLEDGE_*` constants in `scripts/podcast/_rules.py`
 - **Canonical library**: `content/knowledge-base/{quran,hadith}.jsonl`
@@ -62,7 +63,7 @@ chapter source files. You never auto-resolve a conflict — humans do that.
 Single Bash call:
 
 ```
-python3 scripts/podcast/knowledge/extractor.py <slug>
+python3 scripts/podcast/intelligence/extractor.py content/<Bucket>/<slug>/
 ```
 
 The Extractor produces `content/<Bucket>/<slug>/_system/knowledge-atoms-scratch.jsonl`
@@ -77,7 +78,7 @@ modify the scratch file by hand.
 Single Bash call:
 
 ```
-python3 scripts/podcast/knowledge/librarian.py <slug>
+python3 scripts/podcast/intelligence/librarian.py content/<Bucket>/<slug>/ content/<Bucket>/<slug>/_system/knowledge-atoms-scratch.jsonl
 ```
 
 The Librarian reads the scratch file, walks each atom, and writes:
@@ -132,7 +133,7 @@ On conflict halt, return:
 Phase 08b HALTED: <slug>
 Conflicts found: <N>
 Review file: content/knowledge-base/_conflicts/pending-review.jsonl
-Action required: review conflicts, run scripts/podcast/knowledge/resolve_conflicts.py <slug>, then orchestrate_book.py --retry-phase 0h-knowledge-extract <slug>.
+Action required: review + resolve conflicts by hand (no automated resolver exists yet), then orchestrate_book.py --retry-phase 0h-knowledge-extract <slug>.
 ```
 
 ## Non-goals
@@ -142,7 +143,7 @@ Action required: review conflicts, run scripts/podcast/knowledge/resolve_conflic
 - This agent does not run the Augmenter — that's a query helper invoked from other
   phases (`08-enrichment`, `11-per-chapter`, `podcast-challenger`).
 - This agent does not auto-resolve conflicts. Conflicts always require human
-  adjudication via `resolve_conflicts.py`.
+  adjudication (manual edit of the conflict file — no automated resolver exists yet).
 - This agent does not skip the cost cap. If Extractor exceeds
   `R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD` (default $2.00/book), the Extractor itself
   halts and this agent surfaces the halt without retrying. The Augmenter is
@@ -157,7 +158,7 @@ Action required: review conflicts, run scripts/podcast/knowledge/resolve_conflic
 | Precondition check fails | `08-enrichment` not done | Tell user to complete prior phase; do NOT advance. |
 | Extractor exits non-zero | LLM call failed / schema invalid | Report stderr, stop. Implementer triages. |
 | Extractor cost cap hit | Book has unusual citation density | Surface cap value + observed cost; raise cap in `_rules.py` or chunk the book differently. |
-| Librarian flags conflicts | Same canonical ID, different `text_ar` / `grade` / `narrator` | Halt phase, human resolves via `resolve_conflicts.py`. |
+| Librarian flags conflicts | Same canonical ID, different `text_ar` / `grade` / `narrator` | Halt phase, human resolves the conflict file by hand (no automated resolver yet). |
 | Library file corruption | JSONL parse failure | Halt. Library is checked into git — restore from last good commit. |
 | Embedding index missing | Wave 2+ only | N/A in Wave 1. |
 
