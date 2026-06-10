@@ -51,10 +51,12 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _paths import iter_content, slug_of  # noqa: E402
+
 # ── repo root -----------------------------------------------------------------
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CONTENT_ROOT = REPO_ROOT / "content"
-BUCKETS = ("Islamic", "Fiction", "Technical", "Guides")
 
 # ── density constants ---------------------------------------------------------
 DEFAULT_MAX_CONCEPTS = 3        # target: ≤3 concept sections per episode
@@ -105,6 +107,12 @@ class ChapterDensity:
 
     @property
     def words_per_concept(self) -> float:
+        """Average words per concept, computed over the WHOLE file.
+
+        Includes preamble and frame-section words in the numerator by
+        design — the figure approximates per-concept listening load for
+        the full episode, not just the concept bodies.
+        """
         return self.total_words / self.concept_count if self.concept_count else 0.0
 
     @property
@@ -114,7 +122,7 @@ class ChapterDensity:
             return 0.0
         target = self.max_concepts * TARGET_WORDS_PER_CONCEPT
         raw = (self.concept_count * self.words_per_concept) / target
-        return round(min(10.0, raw * 10) / 10 * 10, 1)
+        return round(min(10.0, raw * 10), 1)
 
     @property
     def status(self) -> str:
@@ -217,8 +225,14 @@ def audit_book(
     txts = sorted(chapters_dir.glob("*.txt"))
     if not txts:
         return []
-    bucket = book_dir.parent.name
-    slug = book_dir.name
+    # Bucket = first path segment under content/ (parent.name is wrong for
+    # nested work-parent volumes); slug via the canonical resolver so
+    # container volumes get their composite slug.
+    try:
+        bucket = book_dir.resolve().relative_to(CONTENT_ROOT.resolve()).parts[0]
+    except ValueError:
+        bucket = book_dir.parent.name
+    slug = slug_of(book_dir)
     return [audit_chapter(p, slug, bucket, max_concepts) for p in txts]
 
 
@@ -226,17 +240,22 @@ def audit_all(
     max_concepts: int = DEFAULT_MAX_CONCEPTS,
     slug_filter: str | None = None,
 ) -> list[ChapterDensity]:
+    """Audit every book via the canonical content resolver.
+
+    iter_content() handles the type-first buckets, nested work-parent
+    volumes (e.g. asaas-al-taveel/vol-0N), and the legacy layout — never
+    re-implement bucket scanning here.
+    """
     results: list[ChapterDensity] = []
-    for bucket in BUCKETS:
-        bucket_dir = CONTENT_ROOT / bucket
-        if not bucket_dir.is_dir():
+    seen: set[Path] = set()
+    for _status, _bucket, book_dir in iter_content():
+        if book_dir.resolve() in seen:
             continue
-        for book_dir in sorted(bucket_dir.iterdir()):
-            if not book_dir.is_dir():
-                continue
-            if slug_filter and book_dir.name != slug_filter:
-                continue
-            results.extend(audit_book(book_dir, max_concepts))
+        seen.add(book_dir.resolve())
+        slug = slug_of(book_dir) if callable(slug_of) else book_dir.name
+        if slug_filter and slug_filter not in (slug, book_dir.name):
+            continue
+        results.extend(audit_book(book_dir, max_concepts))
     return results
 
 

@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""slow-pod.py — NotebookLM Audio Post-Processor (CLI).
+"""slow_pod.py — NotebookLM Audio Post-Processor (CLI).
 
 Converts NotebookLM .m4a downloads (and .wav/.aac) to .mp3 with pitch-preserving
 tempo reduction via ffmpeg's `atempo` filter.  Zero dependencies beyond Python
 3.10+ stdlib and a local ffmpeg installation.
+
+NOTE: when processing a book's m4a/ folder, pass --output OUTSIDE the book
+folder (e.g. ~/Music/slow) — the vacuum/postprod agents normalize
+content/<Bucket>/<slug>/m4a/ and will flag stray -slowNN.mp3 files there.
 
 USAGE EXAMPLES
 --------------
