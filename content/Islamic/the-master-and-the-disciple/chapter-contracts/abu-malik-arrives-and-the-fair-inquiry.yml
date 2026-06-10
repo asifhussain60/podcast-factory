@@ -241,3 +241,10 @@ thesis_relevance: >
   conducted, and by establishing the inversion of signs
   and the sound heart as the criteria under which the
   next two episodes' debate will be tried.
+
+# Session grouping (deterministic — docs/standards/chapter-density.md)
+session_index: 4
+session_title: "The Disciple Becomes Master"
+session_slug: the-disciple-becomes-master
+session_episode: 3
+session_episode_count: 5

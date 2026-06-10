@@ -239,3 +239,10 @@ thesis_relevance: >
   transmitted, and by drawing the alim/arif distinction
   that locates the rest of the debate on the side of
   vision rather than report.
+
+# Session grouping (deterministic — docs/standards/chapter-density.md)
+session_index: 4
+session_title: "The Disciple Becomes Master"
+session_slug: the-disciple-becomes-master
+session_episode: 4
+session_episode_count: 5

@@ -180,3 +180,10 @@ thesis_relevance: >
   directly sensed and cannot be unjust. Every later
   episode of the book draws on the syllogism this episode
   establishes.
+
+# Session grouping (deterministic — docs/standards/chapter-density.md)
+session_index: 5
+session_title: "Unity and Justice: The Living Witness"
+session_slug: unity-and-justice-the-living-witness
+session_episode: 2
+session_episode_count: 4

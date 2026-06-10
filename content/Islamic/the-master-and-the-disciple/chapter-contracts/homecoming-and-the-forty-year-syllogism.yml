@@ -212,3 +212,10 @@ thesis_relevance: >
   calling, and by recording the conversion of his father
   as the first proof that the chain extended through him
   now reaches further than himself.
+
+# Session grouping (deterministic — docs/standards/chapter-density.md)
+session_index: 4
+session_title: "The Disciple Becomes Master"
+session_slug: the-disciple-becomes-master
+session_episode: 2
+session_episode_count: 5

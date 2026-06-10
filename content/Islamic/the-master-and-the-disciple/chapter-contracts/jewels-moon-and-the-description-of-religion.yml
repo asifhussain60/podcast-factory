@@ -286,3 +286,10 @@ thesis_relevance: >
   of religion as the veil, rope, handhold, ark, ship,
   light, and protected knowledge through which the
   chain extends from the heavens to the earth.
+
+# Session grouping (deterministic — docs/standards/chapter-density.md)
+session_index: 4
+session_title: "The Disciple Becomes Master"
+session_slug: the-disciple-becomes-master
+session_episode: 5
+session_episode_count: 5

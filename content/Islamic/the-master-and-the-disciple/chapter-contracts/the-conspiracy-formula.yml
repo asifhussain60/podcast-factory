@@ -192,3 +192,10 @@ thesis_relevance: >
   the absence of the witness in the listener's time is
   not the silence of heaven but the concealment of a
   chain that was never broken.
+
+# Session grouping (deterministic — docs/standards/chapter-density.md)
+session_index: 5
+session_title: "Unity and Justice: The Living Witness"
+session_slug: unity-and-justice-the-living-witness
+session_episode: 3
+session_episode_count: 4
