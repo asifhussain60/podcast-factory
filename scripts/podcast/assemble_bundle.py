@@ -295,6 +295,10 @@ def assemble_bundle(slug: str, *, run_score: bool = False, as_json: bool = False
             "framing_ok": framing_path is not None,
             "slide_deck_ok": deck_path is not None,
             "slide_framing_ok": slide_framing_path is not None,
+            "session_index": contract.get("session_index")
+                if isinstance(contract.get("session_index"), int) else None,
+            "session_title": contract.get("session_title")
+                if isinstance(contract.get("session_title"), str) else None,
         }
 
         if not chapter_path:
@@ -367,6 +371,8 @@ def assemble_bundle(slug: str, *, run_score: bool = False, as_json: bool = False
             episode_format="debate" if r["nlm_format"].strip().lower() == "debate" else "deep_dive",
             chapter_href=repo_rel_href(r.get("chapter_path"), book_dir),
             episode_href=repo_rel_href(r.get("framing_path"), book_dir),
+            session_index=r.get("session_index"),
+            session_title=r.get("session_title"),
         )
         for r in rows
     ]

@@ -591,6 +591,7 @@ def _print_notebooklm_table(book_dir: Path) -> None:
         title = contract.get("title", episode_slug).strip("\"'")
         chapter_path = _resolve_chapter_file(book_dir, chapter_slug)
         framing_path = _resolve_framing_file(book_dir, episode_slug)
+        _si = contract.get("session_index")
         rows.append(UploadRow(
             n=ep_num,
             chapter_title=title,
@@ -598,6 +599,9 @@ def _print_notebooklm_table(book_dir: Path) -> None:
             episode_format=episode_format,
             chapter_href=repo_rel_href(chapter_path, book_dir),
             episode_href=repo_rel_href(framing_path, book_dir),
+            session_index=_si if isinstance(_si, int) else None,
+            session_title=contract.get("session_title")
+                if isinstance(contract.get("session_title"), str) else None,
         ))
 
     _info("─" * 72)
