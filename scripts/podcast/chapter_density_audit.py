@@ -66,11 +66,14 @@ DEFAULT_MAX_CONCEPTS = EPISODE_MAX_CONCEPTS   # target: ≤3 concept sections pe
 TARGET_WORDS_PER_CONCEPT = 1800  # ~18 minutes of podcast audio at 150 wpm
 WARN_THRESHOLD_DELTA = 1        # WARN if exactly max+1
 
-# H2 headings that are purely structural frames, not concepts
+# H2 headings that are purely structural frames, not concepts.
+# Enrichment rewrites frame headings with variant nouns ("Where the dialogue
+# opens", "Where this teaching opens", "What this episode lands for the
+# listener") — match the frame SHAPE, not one fixed noun (2026-06-10).
 _FRAME_PATTERNS = re.compile(
-    r"^##\s+(where\s+this\s+episode\s+(opens|picks\s+up)"
-    r"|what\s+this\s+episode\s+lands"
-    r"|closing\s*(turn)?"
+    r"^##\s+(where\s+(this|the)\s+\w+\s+(opens|picks\s+up|begins)\b.*"
+    r"|what\s+(this|the)\s+\w+\s+(lands|leaves)\b.*"
+    r"|closing\s*(turn|reflection)?"
     r"|the\s+frame)"
     r"\s*$",
     re.IGNORECASE,
