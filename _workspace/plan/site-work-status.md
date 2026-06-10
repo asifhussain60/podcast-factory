@@ -6,7 +6,17 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-10 (session 24 — Studio picker status filter chips; plan approved by Asif)
+**Last updated:** 2026-06-10 (session 24 — Studio picker filters + card design system + visual-QA pass; all committed)
+
+**Session 24 (later half):** single-select filter buttons (In Pipeline/Published/Up Next),
+per-category --shelf-accent design system, volume badge, card blurbs, New-content
+primary button, intake column balance (Editorial Defaults left, intake-card--grow),
+mobile topnav spacer fix, NarrativeScroll hero plays on mount (trigger race fixed;
+frozen anims in automation = occluded-window rAF throttling, not a bug), intake
+dropdowns humanized via humanizeOption() (values stay raw pipeline tokens).
+Visual-QA loop iteration 1 covered /studio (3 states, 2 viewports), /studio/new
+(2 viewports), step page, home. NOT yet swept: /library, /corpus, /about,
+/intelligence.
 
 **BRANCH: `Islamic/asaas-al-taveel` — session 24 adds lifecycle filter chips to the Studio picker.**
 
