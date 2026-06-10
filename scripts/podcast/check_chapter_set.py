@@ -19,10 +19,22 @@ Checks (per SKILL.md INVARIANT 6 + Category P in .github/agents/podcast-challeng
   P6  cross-book-bleed        chapter text contains no slug or canonical-mangle-map
                               entry from any OTHER book
 
+Chapter-set integrity wave (2026-06-10, docs/standards/chapter-density.md):
+
+  P7  source-coverage         the union of Phase 0d source_chapters line ranges
+                              covers the refined source — nothing silently DROPPED
+                              (front/back-matter tolerance; needs _chunks/0d/source-toc.json)
+  P8  no-duplication          (a) source line ranges do not overlap; (b) no
+                              cross-chapter n-gram duplication of concept prose
+  P9  sermon-integrity        every contract `sermon.present` section exists WHOLE
+                              as an H2 in exactly ONE chapter of the set
+  P10 set-density             per-chapter concept count within the density target
+                              (advisory here; the $0 preflight gate does the halting)
+
 Severity mapping (default; the challenger may override):
 
-  P1, P4 → P0 (blocks ship)
-  P3, P5 → P1 (ship-with-caution)
+  P1, P4, P8(overlap), P9 → P0 (blocks ship)
+  P3, P5, P7, P8(ngram), P10 → P1 (ship-with-caution)
   P2, P6 → P2 (advisory)
 
 Usage:
@@ -309,6 +321,244 @@ def check_cross_book_bleed(book_slug: str, chapters: dict[str, str]) -> list[dic
     return findings
 
 
+# ─── chapter-set integrity wave (2026-06-10) ──────────────────────────────────
+
+# Lines of refined source allowed to fall outside every episode's line range
+# before P7 flags a coverage gap (front/back matter, blank runs).
+COVERAGE_GAP_TOLERANCE = 40
+# Cross-chapter duplication: shingle size + how many distinct shared shingles
+# between a chapter pair count as duplication (conservative on purpose).
+SHINGLE_N = 12
+SHINGLE_DUP_THRESHOLD = 3
+# Formulaic phrases excluded from duplication shingles (legitimately recur).
+_DUP_EXCLUDE_SUBSTRINGS = (
+    "peace and blessings", "peace be upon", "praise be to allah",
+    "commander of the faithful",
+)
+# Minimum words for a sermon section to count as "captured whole", not a stub.
+SERMON_MIN_WORDS = 150
+
+_SERMON_PRESENT_RE = re.compile(r"^sermon:\s*$", re.MULTILINE)
+_SERMON_TITLE_RE = re.compile(r"section_title:\s*[\"']?([^\"'\n]+)[\"']?")
+
+
+def _load_source_toc(book_dir: Path) -> list[dict] | None:
+    toc = book_dir / "_system" / "source" / "text" / "_chunks" / "0d" / "source-toc.json"
+    if not toc.is_file():
+        return None
+    try:
+        data = json.loads(toc.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return None
+    scs = data.get("source_chapters") if isinstance(data, dict) else None
+    if not isinstance(scs, list):
+        return None
+    ranges = []
+    for sc in scs:
+        try:
+            ranges.append({
+                "sc_index": int(sc.get("sc_index", 0)),
+                "start": int(sc["start_line"]),
+                "end": int(sc["end_line"]),
+                "title": str(sc.get("source_title", "?")),
+            })
+        except (KeyError, TypeError, ValueError):
+            continue
+    return ranges or None
+
+
+def check_source_coverage(book_dir: Path) -> list[dict]:
+    """P7: union of source_chapters line ranges covers the refined source."""
+    ranges = _load_source_toc(book_dir)
+    if ranges is None:
+        return []  # legacy book (pre-source-toc) — vacuous pass
+    refined = book_dir / "_system" / "source" / "text" / "refined-english.md"
+    if not refined.is_file():
+        return []
+    n_lines = len(refined.read_text(encoding="utf-8").splitlines())
+    ordered = sorted(ranges, key=lambda r: r["start"])
+    findings: list[dict] = []
+    cursor = 1
+    for r in ordered:
+        gap = r["start"] - cursor
+        if gap > COVERAGE_GAP_TOLERANCE:
+            findings.append({
+                "check": "P7", "severity": "P1", "slug": "<set>",
+                "msg": (
+                    f"source lines {cursor}-{r['start'] - 1} ({gap} lines) are not "
+                    f"assigned to any episode (next assigned: sc {r['sc_index']} "
+                    f"{r['title']!r}) — content silently dropped from the split"
+                ),
+            })
+        cursor = max(cursor, r["end"] + 1)
+    tail_gap = n_lines - cursor + 1
+    if tail_gap > COVERAGE_GAP_TOLERANCE:
+        findings.append({
+            "check": "P7", "severity": "P1", "slug": "<set>",
+            "msg": (
+                f"source lines {cursor}-{n_lines} ({tail_gap} lines) after the last "
+                f"assigned range are not covered by any episode"
+            ),
+        })
+    return findings
+
+
+def check_source_overlap(book_dir: Path) -> list[dict]:
+    """P8a: source line ranges must not overlap (no content doubled at the plan)."""
+    ranges = _load_source_toc(book_dir)
+    if ranges is None:
+        return []
+    ordered = sorted(ranges, key=lambda r: r["start"])
+    findings: list[dict] = []
+    for prev, cur in zip(ordered, ordered[1:]):
+        if cur["start"] <= prev["end"]:
+            findings.append({
+                "check": "P8", "severity": "P0", "slug": "<set>",
+                "msg": (
+                    f"source ranges overlap: sc {prev['sc_index']} {prev['title']!r} "
+                    f"({prev['start']}-{prev['end']}) and sc {cur['sc_index']} "
+                    f"{cur['title']!r} ({cur['start']}-{cur['end']}) — the same "
+                    f"source lines feed two episodes"
+                ),
+            })
+    return findings
+
+
+def _concept_shingles(text: str) -> set[tuple[str, ...]]:
+    """Normalized SHINGLE_N-grams of the chapter's CONCEPT prose (frames excluded)."""
+    # Drop frame sections by heading.
+    parts: list[str] = []
+    keep = True
+    for line in text.splitlines():
+        if line.startswith("## "):
+            keep = not re.match(
+                r"^##\s+(where\s+this\s+episode|what\s+this\s+episode\s+lands|closing)",
+                line, re.IGNORECASE,
+            )
+            continue
+        if keep:
+            parts.append(line)
+    body = " ".join(parts)
+    tokens = re.findall(r"[a-z']+", body.lower())
+    shingles: set[tuple[str, ...]] = set()
+    for i in range(len(tokens) - SHINGLE_N + 1):
+        gram = tuple(tokens[i:i + SHINGLE_N])
+        joined = " ".join(gram)
+        if any(x in joined for x in _DUP_EXCLUDE_SUBSTRINGS):
+            continue
+        shingles.add(gram)
+    return shingles
+
+
+def check_cross_chapter_duplication(chapters: dict[str, str]) -> list[dict]:
+    """P8b: no chapter pair shares >= SHINGLE_DUP_THRESHOLD distinct n-grams."""
+    slugs = sorted(chapters)
+    shingle_map = {s: _concept_shingles(chapters[s]) for s in slugs}
+    findings: list[dict] = []
+    for i, a in enumerate(slugs):
+        for b in slugs[i + 1:]:
+            shared = shingle_map[a] & shingle_map[b]
+            if len(shared) >= SHINGLE_DUP_THRESHOLD:
+                sample = " ".join(next(iter(shared)))
+                findings.append({
+                    "check": "P8", "severity": "P1", "slug": a,
+                    "msg": (
+                        f"chapters {a!r} and {b!r} share {len(shared)} distinct "
+                        f"{SHINGLE_N}-word passages — same content taught twice. "
+                        f"Sample: \"{sample[:90]}…\""
+                    ),
+                })
+    return findings
+
+
+def _sermon_declarations(book_dir: Path) -> list[tuple[str, str]]:
+    """Return (contract_slug, section_title) for contracts declaring a sermon.
+
+    Raw-text scan (parser-independent): a `sermon:` block with `present: true`
+    and a `section_title:` value.
+    """
+    out: list[tuple[str, str]] = []
+    contracts_dir = book_dir / "chapter-contracts"
+    if not contracts_dir.is_dir():
+        return out
+    for cf in sorted(contracts_dir.glob("*.yml")):
+        text = cf.read_text(encoding="utf-8")
+        if not _SERMON_PRESENT_RE.search(text):
+            continue
+        block = text[_SERMON_PRESENT_RE.search(text).end():]
+        if not re.search(r"present:\s*true", block):
+            continue
+        m = _SERMON_TITLE_RE.search(block)
+        if m:
+            out.append((cf.stem, m.group(1).strip()))
+    return out
+
+
+def check_sermon_integrity(book_dir: Path, chapters: dict[str, str]) -> list[dict]:
+    """P9: every declared sermon section exists WHOLE in exactly one chapter."""
+    findings: list[dict] = []
+    for contract_slug, section_title in _sermon_declarations(book_dir):
+        heading_re = re.compile(
+            rf"^##\s+\*?{re.escape(section_title)}\*?\s*$", re.MULTILINE | re.IGNORECASE
+        )
+        carriers = [s for s, body in chapters.items() if heading_re.search(body)]
+        if not carriers:
+            findings.append({
+                "check": "P9", "severity": "P0", "slug": contract_slug,
+                "msg": (
+                    f"contract declares sermon section {section_title!r} but no "
+                    f"chapter carries that H2 — the sermon was dropped or fragmented"
+                ),
+            })
+            continue
+        if len(carriers) > 1:
+            findings.append({
+                "check": "P9", "severity": "P0", "slug": contract_slug,
+                "msg": (
+                    f"sermon section {section_title!r} appears in {len(carriers)} "
+                    f"chapters ({carriers}) — a sermon must live whole in exactly one"
+                ),
+            })
+            continue
+        body = chapters[carriers[0]]
+        m = heading_re.search(body)
+        rest = body[m.end():]
+        nxt = rest.find("\n## ")
+        section = rest[:nxt] if nxt != -1 else rest
+        n = len(section.split())
+        if n < SERMON_MIN_WORDS:
+            findings.append({
+                "check": "P9", "severity": "P1", "slug": carriers[0],
+                "msg": (
+                    f"sermon section {section_title!r} is only {n} words "
+                    f"(<{SERMON_MIN_WORDS}) — likely a stub, not the sermon "
+                    f"captured whole"
+                ),
+            })
+    return findings
+
+
+def check_set_density(chapter_files: list[Path], book_slug: str) -> list[dict]:
+    """P10: per-chapter concept-count within target (advisory at set level —
+    the $0 preflight gate owns halting; this keeps the set view in the report)."""
+    try:
+        from chapter_density_audit import audit_chapter
+    except ImportError:
+        return []
+    findings: list[dict] = []
+    for cf in chapter_files:
+        d = audit_chapter(cf, book_slug, "")
+        if d.status == "FAIL":
+            findings.append({
+                "check": "P10", "severity": "P1", "slug": chapter_slug(cf),
+                "msg": (
+                    f"{d.concept_count} concept sections (target ≤{d.max_concepts}) "
+                    f"— over-dense; see docs/standards/chapter-density.md"
+                ),
+            })
+    return findings
+
+
 # ─── main ─────────────────────────────────────────────────────────────────────
 
 
@@ -342,6 +592,12 @@ def run(book_dir: Path) -> tuple[list[dict], int]:
     findings += check_band_fit(word_counts, contracts)
     findings += check_set_balance(word_counts)
     findings += check_cross_book_bleed(book_slug, chapters)
+    # Chapter-set integrity wave (2026-06-10) — P7–P10.
+    findings += check_source_coverage(book_dir)
+    findings += check_source_overlap(book_dir)
+    findings += check_cross_chapter_duplication(chapters)
+    findings += check_sermon_integrity(book_dir, chapters)
+    findings += check_set_density(chapter_files, book_slug)
 
     return findings, len(chapter_files)
 

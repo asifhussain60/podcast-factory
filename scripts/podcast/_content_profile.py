@@ -60,3 +60,46 @@ def resolve_content_profile(book_dir: Path) -> str:
 def is_islamic_scholarly(book_dir: Path) -> bool:
     """Convenience predicate: True when the book uses the default Islamic pipeline."""
     return resolve_content_profile(book_dir) == ISLAMIC_SCHOLARLY_PROFILE
+
+
+def slide_deck_mode(book_dir: Path) -> str:
+    """Return the book's slide-deck mode: 'per-chapter' (default) or 'book'.
+
+    `slide_deck_mode: book` in `_system/series-config.yaml` switches the
+    mandatory per-chapter-slides phase to author ONE deck pair for the whole
+    book (slide-decks/book-deck-source.txt + book-framing.md) — one NotebookLM
+    generation instead of one per chapter. Unknown values fall back to
+    per-chapter (zero behavior change for existing books).
+    """
+    cfg_path = book_dir / "_system" / "series-config.yaml"
+    if not cfg_path.exists():
+        return "per-chapter"
+    try:
+        with cfg_path.open() as f:
+            cfg = yaml.safe_load(f) or {}
+    except Exception:
+        return "per-chapter"
+    mode = str(cfg.get("slide_deck_mode") or "per-chapter").strip().lower()
+    return "book" if mode == "book" else "per-chapter"
+
+
+def density_standard_active(book_dir: Path) -> bool:
+    """True when the book opts into the chapter-density standard (v2, 2026-06-10).
+
+    Opt-in is `density_standard: 2` in `_system/series-config.yaml` — stamped by
+    intake on new books, set manually on books being re-run under the standard.
+    Legacy books without the field stay on advisory-only behavior: the preflight
+    density gate and the chapter-set P0 promotion never halt them.
+    """
+    cfg_path = book_dir / "_system" / "series-config.yaml"
+    if not cfg_path.exists():
+        return False
+    try:
+        with cfg_path.open() as f:
+            cfg = yaml.safe_load(f) or {}
+    except Exception:
+        return False
+    try:
+        return int(cfg.get("density_standard") or 0) >= 2
+    except (TypeError, ValueError):
+        return False

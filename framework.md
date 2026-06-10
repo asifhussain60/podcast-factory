@@ -1,6 +1,43 @@
 # Podcast Factory Ecosystem Framework
 
-**Last updated:** 2026-06-09
+**Last updated:** 2026-06-10
+
+## 2026-06-10 Density wave — chapter-density standard + citation/sermon rules + set integrity
+
+`CHALLENGER_VERSION` bumped 2.4 → 2.5. Standard: [docs/standards/chapter-density.md](docs/standards/chapter-density.md).
+
+- **R-MAX-CONCEPTS** — every episode carries ≤3 concept-level `## H2` sections
+  (frames excluded), ~1,500–2,500 words each. Constant `EPISODE_MAX_CONCEPTS` in
+  [`_validator_constants.py`](scripts/podcast/_validator_constants.py); auditor
+  [`chapter_density_audit.py`](scripts/podcast/chapter_density_audit.py) (discovery
+  via `_paths.iter_content()`, nested volumes included). Enforced three places:
+  Phase 0d prompt + deterministic post-write gate
+  ([`_chapter_design.py`](scripts/podcast/_authoring/_chapter_design.py) rejects +
+  deletes over-dense output before the done marker), and the $0 preflight smoke
+  gate check #4 ([`preflight_chapter.py`](scripts/podcast/phases/preflight_chapter.py))
+  — both OPT-IN via `density_standard: 2` in series-config (legacy books advisory).
+- **R-QURAN-CITATION-FORMAT** — canonical inline Quran reference is plain English
+  `(chapter N, verse M)`; terse `(Q N:M)` / `(Quran N:M)` / bare `(N:M)` P1-flagged
+  (`assert_quran_citation_format`). References never invented; challenger Cat A1
+  harmonized to the same format.
+- **R-NO-TRANSLIT-FORMULA** — `*Arabic translit* — *translation*` formula pairs
+  forbidden in chapter prose (English translation only); ≥4-token diacritic italic
+  runs flagged (`assert_no_translit_formula_pairs`).
+- **R-SERMON-VERBATIM** — sermons render WHOLE as their own concept section;
+  contract carries `sermon: {present, section_title}`; framing author injects a
+  `## Verbatim Recitation` block (post-author gate in
+  [`_framing.py`](scripts/podcast/_authoring/_framing.py); compression re-author
+  preserves it).
+- **Chapter-set integrity CS7–CS11** — [`check_chapter_set.py`](scripts/podcast/check_chapter_set.py)
+  gains deterministic P7 source coverage (line-range union vs refined source),
+  P8 overlap + cross-chapter 12-gram duplication, P9 sermon integrity, P10 set
+  density; CS11 (flow/conceptual integrity) is challenger judgment. For
+  `density_standard: 2` books, P0 set findings HALT post-0d before Phase 0e spend
+  ([`preflight.py::_run_chapter_set_check`](scripts/podcast/phases/preflight.py)).
+- **Retry-phase rewind fixed** — `--retry-phase` now clears EVERY downstream phase
+  via the canonical `PHASES` order (was hardcoded 0b–0e), incl. per-chapter ledgers;
+  direct per-chapter retry still preserves completed slugs (watchdog recovery).
+  Tests: `tests/test_retry_phase_clearing.py`, `tests/test_chapter_set_integrity.py`.
 
 This document governs the **`podcast-factory`** repo: the multi-phase podcast pipeline that converts scholarly Arabic books into NotebookLM-driven podcast series, the Azure stack that powers OCR / translation / speech, and the agents/skills that support podcast authoring. Memoir + site work moved to the sibling **[journal](https://github.com/asifhussain60/journal)** repo as of the 2026-05-22 split. The Anthropic API proxy (`server/`) and the Cloudflare deploy scaffold were retired the same day — see §"Retired" below. The previous cross-machine coordination model (operator files, machine-id detection, per-machine book branches) was retired 2026-05-23 — see §"Single-machine model" below.
 

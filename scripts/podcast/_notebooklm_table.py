@@ -160,10 +160,16 @@ class SlideDeckCardRow:
 
     def cells(self) -> list[str]:
         link = UploadRow._link
+        if self.ch == "book":
+            # Book-level single deck (slide_deck_mode: book) — fixed filenames.
+            deck_label, framing_label = "book-deck-source.txt", "book-framing.md"
+        else:
+            deck_label = f"{self.ch}-deck-{self.slug}.txt"
+            framing_label = f"{self.ch}-framing-{self.slug}.md"
         return [
             self.ch,
-            link(f"{self.ch}-deck-{self.slug}.txt", self.deck_href),
-            link(f"{self.ch}-framing-{self.slug}.md", self.framing_href),
+            link(deck_label, self.deck_href),
+            link(framing_label, self.framing_href),
             self.fmt,
             self.length,
             f"`{self.expected_pdf}`",
@@ -197,7 +203,12 @@ def render_slide_deck_card_lines(rows: list[SlideDeckCardRow]) -> list[str]:
 
 
 def build_slide_deck_card(book_dir: Path) -> list[str]:
-    """Discover framings and render the card; [] when no chapter participates."""
+    """Discover framings and render the card; [] when no deck participates.
+
+    Includes the book-level row (slide_deck_mode: book) when
+    slide-decks/book-framing.md exists: ONE deck for the whole book, dropped
+    at slide-decks/book-deck.pdf.
+    """
     rows = []
     for ch, slug, framing, deck_txt in discover_slide_framings(book_dir):
         pdf = expected_deck_pdf(book_dir, ch, slug)
@@ -207,5 +218,17 @@ def build_slide_deck_card(book_dir: Path) -> list[str]:
             deck_href=repo_rel_href(deck_txt, book_dir) if deck_txt else None,
             expected_pdf=str(Path(pdf).resolve().relative_to(REPO_ROOT))
             if Path(pdf).resolve().is_relative_to(REPO_ROOT) else str(pdf),
+        ))
+    deck_dir = Path(book_dir) / "slide-decks"
+    book_framing = deck_dir / "book-framing.md"
+    if book_framing.exists():
+        book_deck_txt = deck_dir / "book-deck-source.txt"
+        book_pdf = deck_dir / "book-deck.pdf"
+        rows.append(SlideDeckCardRow(
+            ch="book", slug=Path(book_dir).name,
+            framing_href=repo_rel_href(book_framing, book_dir),
+            deck_href=repo_rel_href(book_deck_txt, book_dir) if book_deck_txt.exists() else None,
+            expected_pdf=str(book_pdf.resolve().relative_to(REPO_ROOT))
+            if book_pdf.resolve().is_relative_to(REPO_ROOT) else str(book_pdf),
         ))
     return render_slide_deck_card_lines(rows)

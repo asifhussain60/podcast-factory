@@ -26,6 +26,62 @@ from phases.source_review_gate import run_source_review_gate  # noqa: E402
 from _subprocess import err as _err, info as _info  # noqa: E402
 
 
+def _guard_before_phase(book_dir: Path, phase_id: str, log=_info) -> None:
+    """Verify the previous phase's key artifacts before entering *phase_id*.
+
+    Raises AuthoringError if a prerequisite is missing.  Most phases are stubs
+    (log only) — 0e has a real check because episode-drafts from 0d are the
+    only signal that chapter design succeeded before enrichment spends tokens.
+    Add substance to stubs as each guard proves its value in practice.
+    """
+    sys_dir = book_dir / "_system"
+
+    if phase_id == "0c":
+        # Stub: 0b must have populated the book; unified-book.md is the primary artifact.
+        ub = sys_dir / "unified-book.md"
+        if ub.exists() and ub.stat().st_size > 500:
+            log(f"  guard-0c: unified-book.md present ({ub.stat().st_size // 1024}kB) ✓")
+        else:
+            log("  guard-0c: (stub) unified-book.md not found — proceeding cautiously")
+
+    elif phase_id == "0d":
+        # Stub: 0c phonetic pass must be done; unified-book.md still the key artifact.
+        ub = sys_dir / "unified-book.md"
+        if ub.exists() and ub.stat().st_size > 500:
+            log(f"  guard-0d: unified-book.md present ({ub.stat().st_size // 1024}kB) ✓")
+        else:
+            log("  guard-0d: (stub) unified-book.md not found — proceeding cautiously")
+
+    elif phase_id == "0e":
+        # Real check: 0d must have produced episode-drafts + chapter-set-report.
+        ep_drafts = sys_dir / "episode-drafts"
+        csr = sys_dir / "chapter-set-report.md"
+        ep_dirs = (
+            [d for d in ep_drafts.iterdir() if d.is_dir() and d.name.upper().startswith("EP")]
+            if ep_drafts.exists()
+            else []
+        )
+        if not ep_dirs:
+            raise AuthoringError(
+                f"Guard-0e FAIL: no EP## episode-draft directories found under "
+                f"{ep_drafts.relative_to(book_dir.parent.parent)} — phase 0d may not have "
+                f"produced output.",
+                manual_fallback="Re-run with: --retry-phase 0d",
+            )
+        if not csr.exists() or csr.stat().st_size < 100:
+            raise AuthoringError(
+                "Guard-0e FAIL: chapter-set-report.md missing or too small — phase 0d incomplete.",
+                manual_fallback="Re-run with: --retry-phase 0d",
+            )
+        log(
+            f"  guard-0e: {len(ep_dirs)} episode-draft(s) + chapter-set-report.md present ✓"
+        )
+
+    else:
+        # Stub for 0b, 0ci, and any future phases.
+        log(f"  guard-{phase_id}: (stub) no artifact pre-checks defined yet ✓")
+
+
 def resolve_phase_profile(book_dir: Path, category: str | None) -> str:
     """Resolve the content_profile that drives phase-skip decisions for a book.
 
@@ -124,6 +180,17 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
         if phase_id in completed:
             _info(f"phase: {phase_id} · already completed, skipping")
             continue
+        try:
+            _guard_before_phase(book_dir, phase_id, log=_info)
+        except AuthoringError as e:
+            update_phase(book_dir, phase=phase_id, status="failed",
+                         error=str(e), extras={"manual_fallback": e.manual_fallback})
+            _err(f"phase {phase_id} guard failed: {e}")
+            if e.manual_fallback:
+                _err("fix:")
+                for line in e.manual_fallback.splitlines():
+                    _err(f"  {line}")
+            return 3
         _info(f"phase: {phase_id} · {subject} (LLM shellout)")
         update_phase(book_dir, phase=phase_id, status="running")
         try:

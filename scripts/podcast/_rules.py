@@ -47,7 +47,24 @@ vs. substring list); the canonical data itself is plain Python literals.
 # The LLM-grade rubric extension (§3 religious literacy, §4 philosophical
 # rigor, §6 interfaith) lives in _workspace/prompts/gemini-bundle-auditor.md so both
 # auditors see it. See F30 / scholarly-rubric integration trail on develop.
-CHALLENGER_VERSION = "2.4"  # Wave L: Category W (augmentation quality)
+# 2.5 (2026-06-10): chapter-density + citation + sermon wave — adds
+# R-MAX-CONCEPTS (≤3 concept H2 sections per episode, frame headings
+# excluded; deterministic gate in Phase 0d post-write + preflight),
+# R-QURAN-CITATION-FORMAT (canonical plain-English `(chapter N, verse M)`
+# form; terse `(Q N:M)` / `(Quran N:M)` / bare `(N:M)` flagged),
+# R-NO-TRANSLIT-FORMULA (no `*Arabic translit* — *translation*` formula
+# pairs in chapter prose; English translation only), and
+# R-SERMON-VERBATIM (sermon/khutba passages render whole as their own
+# concept section, contract carries `sermon:` block, framing carries a
+# `## Verbatim Recitation` instruction). Chapter-set checks CS7–CS10
+# (coverage, overlap/dedup, sermon integrity, set density) land in
+# check_chapter_set.py. Standard: docs/standards/chapter-density.md.
+CHALLENGER_VERSION = "2.5"
+
+R_MAX_CONCEPTS: str = "R-MAX-CONCEPTS"
+R_QURAN_CITATION_FORMAT: str = "R-QURAN-CITATION-FORMAT"
+R_NO_TRANSLIT_FORMULA: str = "R-NO-TRANSLIT-FORMULA"
+R_SERMON_VERBATIM: str = "R-SERMON-VERBATIM"
 
 # ─── Upstream precheck sources (Wave N — adversarial validation, Phase A–C) ──
 # These are the `source` values written into _learning/findings.jsonl by the

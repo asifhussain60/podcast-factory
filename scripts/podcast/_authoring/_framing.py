@@ -289,6 +289,19 @@ def author_framing(book_dir: Path, chapter_slug: str,
             manual_fallback="Run Phase 0d first to produce the contracts.",
         )
 
+    # R-SERMON-VERBATIM (2026-06-10): when Phase 0d marked a sermon in the
+    # contract, the framing must carry a `## Verbatim Recitation` block so the
+    # hosts read the sermon aloud before discussing it.
+    _sermon_section: str | None = None
+    try:
+        import yaml as _yaml
+        _c = _yaml.safe_load(contract.read_text(encoding="utf-8")) or {}
+        _s = _c.get("sermon") or {}
+        if isinstance(_s, dict) and _s.get("present"):
+            _sermon_section = str(_s.get("section_title") or "").strip() or None
+    except Exception:  # noqa: BLE001 — contract parse issues surface in 0d gates
+        _sermon_section = None
+
     # Resolve episode number + draft folder from the chapter file glob.
     chapter_files = list((book_dir / "chapters").glob(f"ch*-{chapter_slug}.txt"))
     if not chapter_files:
@@ -691,6 +704,20 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"Exit when `{framing_path}` validates."
         )  # end of Islamic scholarly prompt string
 
+    if _sermon_section and not (_use_consumer_prompt or _use_technical_prompt):
+        prompt += (
+            f"\n\nR-SERMON-VERBATIM (2026-06-10 — MANDATORY for this episode): the "
+            f"chapter contains a sermon, rendered whole in the source section titled "
+            f"\"{_sermon_section}\". The framing MUST include a `## Verbatim Recitation` "
+            f"section instructing the hosts to: (1) introduce the sermon in one "
+            f"sentence; (2) have Host A read the sermon ALOUD WORD-FOR-WORD from the "
+            f"source section titled \"{_sermon_section}\" — no paraphrase, no "
+            f"abbreviation; if it runs long, break at natural paragraph boundaries "
+            f"but preserve the exact wording of each part; (3) only AFTER the "
+            f"recitation, open the discussion of its meaning. Keep this section to "
+            f"3-4 imperative lines — do not copy the sermon text into the framing."
+        )
+
     rc, stdout, stderr = _run_claude_p(
         prompt, timeout=timeout,
         book_dir=book_dir, phase="per-chapter", step=f"framing/{chapter_slug}",
@@ -707,6 +734,25 @@ def author_framing(book_dir: Path, chapter_slug: str,
             f"3. Re-invoke orchestrate-book --resume."
         ),
     )
+
+    # R-SERMON-VERBATIM post-author gate: contract demanded a recitation block.
+    if _sermon_section:
+        _ft = framing_path.read_text(encoding="utf-8")
+        if "## Verbatim Recitation" not in _ft:
+            raise AuthoringError(
+                phase=f"framing/{chapter_slug}",
+                message=(
+                    f"R-SERMON-VERBATIM: contract marks a sermon "
+                    f"(section {_sermon_section!r}) but the authored framing has no "
+                    f"`## Verbatim Recitation` section."
+                ),
+                manual_fallback=(
+                    f"Add a `## Verbatim Recitation` section to {framing_path} "
+                    f"instructing the hosts to read the sermon aloud word-for-word "
+                    f"from the source section titled {_sermon_section!r} before "
+                    f"discussing it, then resume."
+                ),
+            )
 
     # F1 (2026-06-05 revised): post-authoring CHARACTER-count guard.
     # NotebookLM's Customize box silently truncates at ~5,000 characters (P0 —
@@ -751,8 +797,14 @@ def author_framing(book_dir: Path, chapter_slug: str,
             f"     Do NOT rewrite as 'Pronounce X as Y.' — that format causes double-reads.\n"
             f"  4. ## Three-part focus — three beats, one sentence each.\n"
             f"  5. ## Do not — a single flat list of forbidden phrases/framings, "
-            f"     no explanation.\n\n"
-            f"WHAT TO CUT (remove entirely to save characters):\n"
+            f"     no explanation.\n"
+            + (
+                f"  6. ## Verbatim Recitation — KEEP THIS SECTION INTACT (R-SERMON-"
+                f"VERBATIM hard gate; the post-author validator rejects the framing "
+                f"without it). You may tighten its wording but not remove it.\n"
+                if _sermon_section else ""
+            )
+            + f"\nWHAT TO CUT (remove entirely to save characters):\n"
             f"  - ## Audience section — cut entirely (NotebookLM doesn't need this).\n"
             f"  - ## Length section — cut entirely (already set in NotebookLM UI).\n"
             f"  - ## Host dynamic — cut the long prose paragraphs; keep ONLY a single "

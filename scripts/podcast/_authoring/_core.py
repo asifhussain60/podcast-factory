@@ -191,8 +191,13 @@ def _run_claude_p(
     model_flag: str | None = None,
 ) -> tuple[int, str, str]:
     """Run `claude -p "<prompt>"` synchronously. Return (rc, stdout, stderr)."""
+    # acceptEdits alone doesn't grant Write permission for new files in non-interactive
+    # subprocess contexts — claude -p returns "Permission needed to write the file."
+    # instead of writing. --allowedTools grants the specific tools each phase needs.
+    _ALLOWED = "Write,Edit,MultiEdit,Read,Bash,Grep,Glob"
     argv: list[str] = [
         CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits",
+        "--allowedTools", _ALLOWED,
         "--output-format", "json",
     ]
     if model_flag:

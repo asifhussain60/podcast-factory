@@ -182,10 +182,13 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False,
 
     framings = discover_slide_framings(book_dir)
     book_level_pdf = deck_dir / "book-deck.pdf"
-    book_level_manifest = deck_dir / "_manifests" / "book-manifest.json"
-    has_book_level = book_level_pdf.exists() and book_level_manifest.exists()
+    book_framing = deck_dir / "book-framing.md"
+    # Book-level participates when the deck PDF was dropped; the manifest is
+    # LLM-authored when absent (a pre-existing/hand-authored book-manifest.json
+    # is honored as-is — the legacy manual mode).
+    has_book_level = book_level_pdf.exists()
 
-    if not framings and not has_book_level:
+    if not framings and not has_book_level and not book_framing.exists():
         return {"skipped": "no slide-deck framings and no book-deck.pdf"}
 
     # ── gate: every framed, non-exempt chapter needs its dropped PDF ─────────
@@ -202,6 +205,11 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False,
             work.append((ch, slug, pdf))
         else:
             missing.append(repo_rel_href(pdf, book_dir) or str(pdf))
+    # Book mode (slide_deck_mode: book): the authored book-framing.md means ONE
+    # deck is expected at slide-decks/book-deck.pdf — gate on it like a chapter.
+    if book_framing.exists() and not book_level_pdf.exists() \
+            and not (deck_dir / "book.SKIP").exists():
+        missing.append(repo_rel_href(book_level_pdf, book_dir) or str(book_level_pdf))
     if missing:
         card = "\n".join(build_slide_deck_card(book_dir))
         raise AuthoringHalt(
@@ -218,21 +226,32 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False,
     source_md = injection_source(book_dir)
     source_text = source_md.read_text(encoding="utf-8")
 
-    # ── per-deck: extract pages, author/load manifest, collect entries ──────
+    # ── per-deck: extract pages, analyze/replicate, author/load manifest ────
     combined_entries: list[dict] = []
     combined_pages: dict[int, str] = {}
+    combined_svgs: dict[int, Path] = {}
     imported: dict[str, int] = {}
+    svg_counts: dict[str, int] = {}
     for idx, (ch, slug, pdf) in enumerate(work, start=1):
         pages_dir = deck_dir / "_pages" / ch
         extract_pages(pdf, pages_dir, force=force, log=log)
         raw_map = _page_map(pages_dir)
         pages_rel = {n: f"slide-decks/_pages/{ch}/{p.name}" for n, p in raw_map.items()}
 
+        # Slide intelligence (2026-06-10): OCR/vision-analyze every page;
+        # high-value diagram slides are replicated as verified inline SVG,
+        # everything else keeps the raster JPEG. Degrades to {} on failure
+        # (non-blocking contract — the import proceeds all-raster).
+        from _slide_replicate import analyze_and_replicate_slides
+        svg_overrides = analyze_and_replicate_slides(
+            book_dir, ch, pdf, pages_dir, force=force, log=log)
+        svg_counts[ch] = len(svg_overrides)
+
         manifest_file = _manifest_path(book_dir, ch)
         sig_file = _sig_path(book_dir, ch)
         sig = _sig(pdf, source_md)
-        if (ch == "book" and manifest_file.exists()):
-            # Book-level manifests are authored manually / pre-exist — no LLM.
+        if (ch == "book" and manifest_file.exists() and not sig_file.exists()):
+            # Hand-authored book manifest (legacy manual mode, no sig) — honor as-is.
             entries = load_manifest(manifest_file)
         elif manifest_file.exists() and sig_file.exists() \
                 and sig_file.read_text(encoding="utf-8").strip() == sig and not force:
@@ -251,16 +270,20 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False,
             combined_entries.append(re_keyed)
         for n, src in pages_rel.items():
             combined_pages[offset + n] = src
+        for n, svg in svg_overrides.items():
+            combined_svgs[offset + n] = svg
         imported[ch] = sum(1 for e in entries if e["anchor_text"])
 
     # ── single combined injection ────────────────────────────────────────────
-    out = inject_slides(source_text, combined_entries, pages=combined_pages)
+    out = inject_slides(source_text, combined_entries, pages=combined_pages,
+                        svg_overrides=combined_svgs)
     out_path = book_dir / "book" / "book-slides.md"
     out_path.write_text(out, encoding="utf-8")
     total = sum(imported.values())
+    total_svg = sum(svg_counts.values())
     log(f"    {_PHASE}: {source_md.name} + {total} slides "
-        f"({len(work)} deck(s)) -> {out_path.name}")
-    return {"imported": imported, "exempt": exempt,
+        f"({len(work)} deck(s), {total_svg} as SVG) -> {out_path.name}")
+    return {"imported": imported, "exempt": exempt, "svg": svg_counts,
             "out": str(out_path.relative_to(book_dir))}
 
 

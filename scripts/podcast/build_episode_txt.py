@@ -101,6 +101,7 @@ from _validators import (
     assert_honorifics_once_only, assert_doctrinal_clean,
     assert_chapter_no_manuscript_meta,
     assert_no_arabic_transliteration, assert_no_arabic_surah_names,
+    assert_quran_citation_format, assert_no_translit_formula_pairs,
     assert_alqaab_only_established_or_paraphrased,
     assert_framing_pronunciation_imperative, assert_framing_deny_block,
     assert_framing_has_name_discipline_section,
@@ -144,6 +145,9 @@ def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -
         assert_no_arabic_transliteration(text, chapter_path, role="chapter (SOURCE)")
         assert_no_arabic_surah_names(text, chapter_path, role="chapter (SOURCE)")
         assert_alqaab_only_established_or_paraphrased(text, chapter_path, role="chapter (SOURCE)")
+        # R-QURAN-CITATION-FORMAT + R-NO-TRANSLIT-FORMULA (2026-06-10) — P1 FLAGS.
+        assert_quran_citation_format(text, chapter_path, role="chapter (SOURCE)")
+        assert_no_translit_formula_pairs(text, chapter_path, role="chapter (SOURCE)")
     n = word_count(text)
     if n < CHAPTER_WORD_MIN_HARD or n > CHAPTER_WORD_MAX_HARD:
         sys.exit(

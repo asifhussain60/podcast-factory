@@ -247,11 +247,15 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
 
 
 def _run_chapter_set_check(book_dir: Path, log=_info) -> None:
-    """G2 cohesion fix: post-Phase-0d advisory chapter-set check.
+    """G2 cohesion fix: post-Phase-0d chapter-set check.
 
     Shells out to check_chapter_set.py; writes _system/chapter-set-report.md.
-    Never raises — advisory only. Catches title collisions, word-band misfits,
-    generic titles, and inter-chapter balance variance BEFORE Phase 0e spend.
+    Advisory for legacy books (never raises). For books opted into the
+    chapter-density standard (`density_standard: 2` in series-config.yaml),
+    P0 findings RAISE and halt before Phase 0e spend. Catches title
+    collisions, word-band misfits, generic titles, balance variance, source
+    coverage gaps/overlaps, cross-chapter duplication, and sermon integrity
+    (P1–P10) BEFORE Phase 0e spend.
     """
     log("phase: 0d.5 · chapter-set advisory check")
     rc, stdout, stderr = _run([sys.executable, str(CHAPTER_SET_SCRIPT), str(book_dir)])
@@ -309,6 +313,26 @@ def _run_chapter_set_check(book_dir: Path, log=_info) -> None:
     if counts.get("P0", 0) > 0:
         log(f"  · ⚠ P0 chapter-set findings — review {report_path.relative_to(REPO_ROOT)} before Phase 0e")
     log(summary)
+
+    # Density-standard promotion (2026-06-10): books opted into the chapter-
+    # density standard (`density_standard: 2` in series-config.yaml) HALT on
+    # P0 chapter-set findings instead of advisory-logging them — the split is
+    # provably broken (duplicated source ranges, fragmented sermons, title
+    # collisions) and Phase 0e spend on it would be wasted. Legacy books keep
+    # the never-raises advisory contract.
+    if counts.get("P0", 0) > 0:
+        from _content_profile import density_standard_active
+        if density_standard_active(book_dir):
+            p0_lines = "\n".join(
+                f"  - {f.get('check')} [{f.get('slug')}] {f.get('msg')}"
+                for f in findings if f.get("severity") == "P0"
+            )
+            raise RuntimeError(
+                f"chapter-set integrity gate (density_standard=2): "
+                f"{counts['P0']} P0 finding(s) — halting before Phase 0e.\n"
+                f"{p0_lines}\n"
+                f"Full report: {report_path}"
+            )
 
 
 # ─── orphan episode-draft sweep (F8) ─────────────────────────────────────────

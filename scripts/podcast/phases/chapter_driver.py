@@ -433,14 +433,34 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
                          extras={"reason": "module-not-available"})
         else:
             slide_outcomes: dict[str, str] = {}
-            for slug in completed_chapter_slugs:
-                _info(f"phase: per-chapter-slides[{slug}] · density gauge → author → challenge")
+            from _content_profile import slide_deck_mode
+            if slide_deck_mode(book_dir) == "book":
+                # Book mode (2026-06-10): ONE deck pair for the whole book —
+                # one NotebookLM generation instead of one per chapter. The
+                # pair is deterministically validated by author_book_deck_pair;
+                # the slide-deck-challenger can be invoked at book scope for a
+                # semantic pass, and the human reviews the exported deck at the
+                # 0book-slide-import drop gate.
+                _info("phase: per-chapter-slides · slide_deck_mode=book → single book-level pair")
                 try:
-                    result = run_slide_convergence(book_dir, slug)
-                    slide_outcomes[slug] = result.verdict
+                    from _slide_authoring import author_book_deck_pair
+                    result = author_book_deck_pair(book_dir)
+                    slide_outcomes["book"] = (
+                        "AUTHORED" if result.success
+                        else f"FAILED: {'; '.join(result.validation_findings[:3])}"
+                    )
                 except Exception as e:  # noqa: BLE001
-                    _err(f"slide-deck convergence failed for {slug} (non-fatal): {e}")
-                    slide_outcomes[slug] = "ERROR"
+                    _err(f"book-level slide-deck authoring failed (non-fatal): {e}")
+                    slide_outcomes["book"] = "ERROR"
+            else:
+                for slug in completed_chapter_slugs:
+                    _info(f"phase: per-chapter-slides[{slug}] · density gauge → author → challenge")
+                    try:
+                        result = run_slide_convergence(book_dir, slug)
+                        slide_outcomes[slug] = result.verdict
+                    except Exception as e:  # noqa: BLE001
+                        _err(f"slide-deck convergence failed for {slug} (non-fatal): {e}")
+                        slide_outcomes[slug] = "ERROR"
             update_phase(
                 book_dir, phase="per-chapter-slides", status="completed",
                 extras={"outcomes": slide_outcomes},

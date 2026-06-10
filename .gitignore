@@ -128,6 +128,9 @@ content/**/book/*.pdf
 #   _manifests/*.json (slide→anchor maps) are tracked, their .sig caches not.
 content/**/slide-decks/_pages/
 content/**/slide-decks/_manifests/.*-sig
+# - Slide OCR/vision analysis JSONs are TRACKED (expensive per-chapter AI pass,
+#   cached across sessions); only the .sig cache-invalidation files are ignored.
+content/**/slide-decks/_analysis/.*-sig
 
 # Transcript working artifacts — raw Speech-to-Text + translator output used
 # during chapter-source authoring. The final cleaned chapters/ + episodes/

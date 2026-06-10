@@ -212,6 +212,54 @@ def assert_no_arabic_transliteration(content: str, file_path: Path, role: str) -
         )
 
 
+def assert_quran_citation_format(content: str, file_path: Path, role: str) -> None:
+    """R-QURAN-CITATION-FORMAT (2026-06-10): Quranic refs use plain English.
+
+    Canonical inline form is `(chapter N, verse M)`. Terse scholarly forms —
+    `(Q 5:19)`, `(Quran 5:19)`, bare `(16:74)` — are P1-flagged: NotebookLM
+    reads them aloud as opaque number runs and listeners cannot resolve them.
+    Whether a quotation is MISSING its reference entirely is a semantic call
+    left to the challenger (Category A); this validator covers the
+    deterministic format half only.
+    """
+    hits: list[tuple[int, str]] = []
+    for pat in QURAN_CITATION_BAD_PATTERNS:
+        for m in pat.finditer(content):
+            ln = content[: m.start()].count("\n") + 1
+            hits.append((ln, m.group(0)))
+    if not hits:
+        return
+    sample = ", ".join(f"{file_path.name}:{ln} {tok!r}" for ln, tok in sorted(set(hits))[:8])
+    _flag_p1(
+        "R-QURAN-CITATION-FORMAT",
+        file_path,
+        f"{role}: {len(set(hits))} terse Quran citation(s) — use the plain-English "
+        f"form '(chapter N, verse M)'. Hits: {sample}",
+    )
+
+
+def assert_no_translit_formula_pairs(content: str, file_path: Path, role: str) -> None:
+    """R-NO-TRANSLIT-FORMULA (2026-06-10): no Arabic formula + translation pairs.
+
+    A verbatim Arabic formula rendered as `*translit with diacritics* — *English*`
+    must carry the English translation only; the Arabic transliteration run is
+    dropped (plain inline Arabic terms without diacritics remain allowed).
+    """
+    hits: list[tuple[int, str]] = []
+    for m in TRANSLIT_FORMULA_PAIR_RE.finditer(content):
+        ln = content[: m.start()].count("\n") + 1
+        hits.append((ln, m.group(0)[:60]))
+    if not hits:
+        return
+    sample = "; ".join(f"{file_path.name}:{ln} {tok!r}" for ln, tok in hits[:6])
+    _flag_p1(
+        "R-NO-TRANSLIT-FORMULA",
+        file_path,
+        f"{role}: {len(hits)} transliteration formula pair(s) — keep the English "
+        f"translation, drop the italic Arabic run. Hits: {sample}",
+    )
+
+
 def assert_no_arabic_surah_names(content: str, file_path: Path, role: str) -> None:
     """F27 #6: detect Arabic surah names. F29 doctrine: use English meanings.
 

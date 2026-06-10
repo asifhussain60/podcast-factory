@@ -39,6 +39,41 @@ def _read_book_title_local(book_dir: Path) -> str | None:
     return None
 
 
+def _clear_downstream_phases(state: dict, retry_phase: str, log=_info) -> None:
+    """Reset retry_phase + every canonical phase after it to 'pending'.
+
+    A retried phase invalidates all later artifacts; a stale "completed"
+    block (e.g. per-chapter on a finished book) would make the re-run skip
+    re-authoring downstream and silently no-op. per-chapter additionally
+    gets its completion ledgers emptied.
+    """
+    block = state["phases"][retry_phase]
+    block["status"] = "pending"
+    block.pop("ts_completed", None)
+    block.pop("manual_fallback", None)
+    state["phase"] = retry_phase
+    state["phase_status"] = "pending"
+    if retry_phase in PHASES:
+        idx = PHASES.index(retry_phase)
+        for later in PHASES[idx + 1:]:
+            lb = state["phases"].get(later)
+            if not isinstance(lb, dict):
+                continue
+            if lb.get("status") in ("completed", "failed", "halted", "skipped"):
+                log(f"  --retry-phase: clearing downstream {later} (was {lb.get('status')})")
+                lb["status"] = "pending"
+                lb.pop("ts_completed", None)
+                lb.pop("manual_fallback", None)
+            if later == "per-chapter":
+                for key in ("completed_slugs", "failed_slugs"):
+                    if lb.get(key):
+                        lb[key] = []
+                if lb.get("chapter_timings"):
+                    lb["chapter_timings"] = {}
+        i = PHASES.index(retry_phase)
+        state["last_completed_phase"] = PHASES[i - 1] if i > 0 else None
+
+
 def run_resume(args: argparse.Namespace) -> int:
     slug = args.resume
     _info(f"orchestrate_book: resume — slug={slug}")
@@ -62,24 +97,7 @@ def run_resume(args: argparse.Namespace) -> int:
             _err(f"--retry-phase: unknown phase {retry_phase!r}. Known: {sorted(state.get('phases', {}).keys())}")
             return 1
         _info(f"  --retry-phase {retry_phase}: resetting status to 'pending'")
-        block = state["phases"][retry_phase]
-        block["status"] = "pending"
-        block.pop("ts_completed", None)
-        block.pop("manual_fallback", None)
-        state["phase"] = retry_phase
-        state["phase_status"] = "pending"
-        order = ("0b", "0c", "0d", "0e")
-        if retry_phase in order:
-            idx = order.index(retry_phase)
-            for later in order[idx + 1:]:
-                lb = state["phases"].get(later, {})
-                if lb.get("status") == "completed":
-                    _info(f"  --retry-phase: clearing downstream {later} (was completed)")
-                    lb["status"] = "pending"
-                    lb.pop("ts_completed", None)
-        if retry_phase in PHASES:
-            i = PHASES.index(retry_phase)
-            state["last_completed_phase"] = PHASES[i - 1] if i > 0 else None
+        _clear_downstream_phases(state, retry_phase)
         write_state(book_dir, state)
         state = read_state(book_dir) or state
 

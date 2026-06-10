@@ -268,6 +268,39 @@ git pull --rebase origin book/ayyuhal-walad                      # sync before w
 Append a dated entry at the end of every session (newest at top): what changed, what's next,
 what's blocked. This is your across-session memory.
 
+### 2026-06-10 (evening) — Claude session (density wave + slide intelligence; M&D re-run STAGED)
+
+**Branch `Islamic/the-master-and-the-disciple` — 6 commits, pushed.** Full plan at
+`~/.claude/plans/review-the-changes-made-synthetic-swan.md`.
+
+Shipped: (1) retry-phase rewind fix (resume_dispatcher clears ALL downstream phases via
+canonical PHASES; per-chapter ledgers emptied when downstream, preserved on direct retry —
+4 tests); (2) chapter-density standard baked in (CHALLENGER_VERSION 2.5: R-MAX-CONCEPTS
+EPISODE_MAX_CONCEPTS=3 with 0d prompt floors + deterministic post-write gate + opt-in $0
+preflight gate; R-QURAN-CITATION-FORMAT '(chapter N, verse M)' canonical, Cat A1 harmonized;
+R-NO-TRANSLIT-FORMULA; R-SERMON-VERBATIM with contract sermon block + framing
+## Verbatim Recitation post-author gate); (3) chapter-set integrity P7-P10 in
+check_chapter_set.py (coverage/overlap+ngram-dedup/sermon/density; P0 HALT post-0d for
+density_standard:2 books; live run found REAL duplication: 33 shared passages ch03a/ch04b);
+(4) book-level slide mode (slide_deck_mode: book → author_book_deck_pair, one deck for the
+whole book; _slide_import LLM-authors book-manifest; card shows book row); (5) slide
+intelligence _slide_replicate.py (vision analysis → deterministic classify → SVG replication
+→ exact-text verify_svg with raster fallback; calibrated against the REAL M&D deck:
+1,000 chars / 22 blocks; 13/14 pages high-value); (6) M&D re-run staged: old
+chapters/contracts/episodes archived, series-config stamped density_standard:2 +
+slide_deck_mode: book; doc tables regenerated (40 ch | 13 PASS | 1 WARN | 26 FAIL — asaas
+vol-01 now discovered via _paths.iter_content); slow-pod runtime-verified + renamed slow_pod.py.
+
+**NEXT (blocked on Asif's explicit go):** launch the re-run:
+`python3 scripts/podcast/orchestrate_book.py --resume the-master-and-the-disciple --retry-phase 0d`
+then ARM THE 270s HEARTBEAT (mandatory). Halt points: series-confirmation after 0d
+(~20-episode design review) → finalize halt (NotebookLM upload table + book-framing.md slide
+card; deck drops at slide-decks/book-deck.pdf) → publish gate. SVG smoke test on the old
+deck was in flight at session end — check slide-decks/_analysis/book-analysis.json
+(svg_verified flags) + _svg/book/. NOTE: old book-deck.pdf + hand manifest are STALE after
+the re-run (archive slide-decks/book-deck.* + _manifests/book-manifest.json before the new
+deck drops). Post-merge repo-surgeon sweep owed at end of chain.
+
 ### 2026-06-10 (later) — Claude session (autonomous slide weave + folder standardization)
 
 **Wave SD shipped** (see plan.yaml `SD` block): (1) ONE folder-skeleton registry

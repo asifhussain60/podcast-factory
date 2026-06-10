@@ -40,6 +40,37 @@ FRAMING_CHAR_MAX = 4500
 EPISODE_DENSITY_CEILING_DENSE = 6000       # Arabic-scholarly / doctrinal
 EPISODE_DENSITY_CEILING_NARRATIVE = 9500   # narrative / consumer (the extended ceiling)
 
+# Concept-count ceiling per episode (chapter-density standard, 2026-06-10).
+# One concept = one `## H2` section in the rendered chapter .txt, excluding
+# structural frames ("Where this episode opens", "What this episode lands",
+# "Closing"). Single source of truth — chapter_density_audit.py and the
+# Phase 0d post-write gate both import THIS constant. Full standard:
+# docs/standards/chapter-density.md.
+EPISODE_MAX_CONCEPTS = 3
+
+# ─── R-QURAN-CITATION-FORMAT (2026-06-10) ─────────────────────────────────────
+# Canonical inline format for Quranic quotations is plain English:
+#   (chapter 16, verse 74)
+# Terse scholarly forms are forbidden in chapter/framing prose — NotebookLM
+# reads them aloud as "Q five nineteen" and listeners can't resolve them.
+QURAN_CITATION_BAD_PATTERNS = [
+    re.compile(r"\(\s*Q\.?\s*\d{1,3}\s*:\s*\d{1,3}\s*\)"),        # (Q 5:19)
+    re.compile(r"\(\s*Quran\s+\d{1,3}\s*:\s*\d{1,3}\s*\)", re.I),  # (Quran 5:19)
+    re.compile(r"\(\s*\d{1,3}\s*:\s*\d{1,3}\s*\)"),                # bare (16:74)
+]
+
+# ─── R-NO-TRANSLIT-FORMULA (2026-06-10) ───────────────────────────────────────
+# A verbatim Arabic formula rendered as an italic transliteration run followed
+# by an em-dash and its italic translation:  *Anna Allāha mubdiʿ...* — *...*
+# Chapter prose carries the ENGLISH translation only (plain inline Arabic
+# terms without diacritics remain allowed per the Phase 0d authority rules).
+# The italic run must contain >=4 whitespace-separated tokens — short famous
+# term-glosses like `*kun fa-yakūn* — *Be! and it became*` are legitimate
+# inline teaching and stay un-flagged; long formula sentences are the target.
+TRANSLIT_FORMULA_PAIR_RE = re.compile(
+    r"\*(?=[^*\n]*[āīūēōḍḥṣṭẓġʿʾ])(?:[^*\s\n]+\s+){3,}[^*\s\n]+\*\s+—\s+\*"
+)
+
 
 def episode_overcrammed(words: int, episode_count: int, ceiling: int) -> int:
     """Density-brake check (pure). Given a source chapter's word count, how many
