@@ -17,6 +17,8 @@ export interface BookCardMeta {
   author?: string;
   /** FontAwesome icon name (without the `fa-solid` prefix), e.g. `'fa-key'`. */
   icon?: string;
+  /** One-line description shown on the card above the pipeline status. */
+  blurb?: string;
 }
 
 export const BOOK_CARD_META: Record<string, BookCardMeta> = {
@@ -74,8 +76,10 @@ export const BOOK_CARD_META: Record<string, BookCardMeta> = {
 
   // ── Technical ──────────────────────────────────────────────────────────────
   'claude-code-training': {
+    displayTitle: 'Claude Code: From Copilot to Agentic AI',
     author: 'Anthropic',
     icon: 'fa-terminal',
+    blurb: 'A practical training series for developers switching from GitHub Copilot.',
   },
 
   // ── Guides ─────────────────────────────────────────────────────────────────
@@ -83,5 +87,29 @@ export const BOOK_CARD_META: Record<string, BookCardMeta> = {
     displayTitle: 'HealthEquity',
     author: 'Health Equity Initiative',
     icon: 'fa-scale-balanced',
+    blurb: 'A consumer guide to HSA, FSA, COBRA, and commuter benefits.',
   },
 };
+
+/**
+ * Resolve display metadata for a slug. Exact entries win; a volume slug
+ * (`<parent>-vol-NN`) inherits its parent's template — native script, author,
+ * icon, blurb — with ", Volume N" appended to the display title. This keeps
+ * every volume card identical to its series template without per-volume
+ * entries.
+ */
+export function cardMetaFor(slug: string): BookCardMeta {
+  const exact = BOOK_CARD_META[slug];
+  if (exact) return exact;
+  const m = slug.match(/^(.+)-vol-0*(\d+)$/);
+  if (m) {
+    const parent = BOOK_CARD_META[m[1]];
+    if (parent) {
+      return {
+        ...parent,
+        displayTitle: parent.displayTitle ? `${parent.displayTitle}, Volume ${m[2]}` : undefined,
+      };
+    }
+  }
+  return {};
+}

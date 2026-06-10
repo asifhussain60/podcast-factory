@@ -11,7 +11,7 @@
 import Base from '../layouts/Base.astro';
 import { listContent, slugToTitle, BUCKETS, type Bucket } from '../lib/content-paths';
 import { loadStudioPipeline, loadStatusBucket, type StatusBucket } from '../lib/reader/studio-pipeline';
-import { BOOK_CARD_META } from '../lib/book-card-meta';
+import { cardMetaFor } from '../lib/book-card-meta';
 import '../styles/studio-pipeline.css';
 
 const SHELF_META: Record<Bucket, { icon: string; label: string; desc: string }> = {
@@ -30,7 +30,7 @@ const cards = await Promise.all(
     const blocked = steps.find((s) => s.state === 'blocked');
     const active  = steps.find((s) => s.state === 'active');
     const entry   = blocked ?? active ?? (steps.every((s) => s.state === 'done') ? steps[3] : steps[0]);
-    const bm      = BOOK_CARD_META[b.slug] ?? {};
+    const bm      = cardMetaFor(b.slug);
     return {
       slug:         b.slug,
       title:        bm.displayTitle ?? slugToTitle(b.slug),
@@ -42,6 +42,7 @@ const cards = await Promise.all(
       nativeLang:   bm.nativeLang,
       author:       bm.author,
       icon:         bm.icon ?? 'fa-book',
+      blurb:        bm.blurb,
     };
   }),
 );
@@ -77,20 +78,27 @@ const visibleInShelf = (shelfCards: typeof cards) => shelfCards.filter((c) => de
       <p>Before generating audio in NotebookLM, run the <a href="/pre-upload">Pre-Upload Review</a> and the <a href="/pronunciation">Pronunciation</a> utility.</p>
     </header>
 
-    <div class="studio-filter-bar" role="group" aria-label="Filter books by lifecycle status">
-      {STATUS_FILTERS.map((f) => (
-        <button
-          type="button"
-          class="studio-filter-chip"
-          data-status-filter={f.id}
-          aria-pressed={f.defaultOn ? 'true' : 'false'}
-          title={f.hint}
-        >
-          <i class={`fa-solid ${f.icon}`} aria-hidden="true"></i>
-          <span class="studio-filter-chip-label">{f.label}</span>
-          <span class="studio-filter-chip-count">{statusCount(f.id)}</span>
-        </button>
-      ))}
+    <div class="studio-toolbar">
+      <div class="studio-filter-bar" role="group" aria-label="Filter books by lifecycle status">
+        {STATUS_FILTERS.map((f) => (
+          <button
+            type="button"
+            class="studio-filter-chip"
+            data-status-filter={f.id}
+            aria-pressed={f.defaultOn ? 'true' : 'false'}
+            title={f.hint}
+          >
+            <i class={`fa-solid ${f.icon}`} aria-hidden="true"></i>
+            <span class="studio-filter-chip-label">{f.label}</span>
+            <span class="studio-filter-chip-count">{statusCount(f.id)}</span>
+          </button>
+        ))}
+      </div>
+      <a class="studio-new-content-link" href="/studio/new">
+        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+        <span class="studio-new-content-label">New content</span>
+        <span class="studio-new-content-sub">Scaffold a new book, lecture, or article</span>
+      </a>
     </div>
 
     <div class="studio-shelves">
@@ -139,6 +147,7 @@ const visibleInShelf = (shelfCards: typeof cards) => shelfCards.filter((c) => de
                       <h3 class="card-title-en">{c.title}</h3>
                       {c.author && <span class="card-author">{c.author}</span>}
                     </div>
+                    {c.blurb && <p class="card-blurb">{c.blurb}</p>}
                     <div class="card-pipeline-status">
                       <span class="studio-picker-step">{c.entry.label} · {c.entry.detail}</span>
                       <div class="studio-picker-bar" aria-hidden="true">
@@ -158,14 +167,6 @@ const visibleInShelf = (shelfCards: typeof cards) => shelfCards.filter((c) => de
         </section>
       ))}
 
-    </div>
-
-    <div class="studio-new-content-row">
-      <a class="studio-new-content-link" href="/studio/new">
-        <i class="fa-solid fa-plus" aria-hidden="true"></i>
-        <span class="studio-new-content-label">New content</span>
-        <span class="studio-new-content-sub">Scaffold a new book, lecture, or article</span>
-      </a>
     </div>
 
   </div>

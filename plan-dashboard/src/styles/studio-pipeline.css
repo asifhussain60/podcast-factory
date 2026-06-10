@@ -606,6 +606,16 @@
   text-align: center;
 }
 
+/* One-line book description above the pipeline status */
+.card-blurb {
+  margin: 0.5rem 0 0;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--c-ink-muted);
+  line-height: 1.45;
+  text-align: center;
+}
+
 /* Pipeline status: pushed to the bottom of the card body */
 .card-pipeline-status {
   margin-top: auto;
@@ -624,10 +634,19 @@
   text-align: center;
 }
 
-/* ── "New content" row — sits below all shelves ──────────── */
-.studio-new-content-row {
-  padding-top: 0.5rem;
-  border-top: 1px dashed var(--c-rule);
+/* ── Toolbar: filter chips left, "New content" right ─────── */
+.studio-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.studio-toolbar .studio-new-content-link {
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  gap: 0.5rem;
 }
 
 .studio-new-content-link {
