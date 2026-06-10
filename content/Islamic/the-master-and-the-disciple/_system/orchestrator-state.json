@@ -68,19 +68,28 @@
     "per-chapter": {
       "status": "running",
       "ts_started": "2026-06-07T22:17:45Z",
-      "completed_slugs": [],
+      "completed_slugs": [
+        "abu-malik-arrives-and-the-fair-inquiry"
+      ],
       "failed_slugs": [],
       "chapter_timings": {
         "abu-malik-arrives-and-the-fair-inquiry": {
           "started_ts": "2026-06-10T21:55:30Z",
+          "completed_ts": "2026-06-10T22:30:04Z",
+          "duration_sec": 2073.5,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "air-and-the-instance-beyond-air": {
+          "started_ts": "2026-06-10T22:30:04Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
           "cost_usd": null
         }
       },
-      "current_chapter": "abu-malik-arrives-and-the-fair-inquiry",
-      "last_beat": "2026-06-10T22:21:33Z",
+      "current_chapter": "air-and-the-instance-beyond-air",
+      "last_beat": "2026-06-10T22:30:04Z",
       "convergence_iter": 2
     },
     "0g": {
@@ -131,7 +140,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-10T22:21:33Z",
+  "ts_updated": "2026-06-10T22:30:04Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
