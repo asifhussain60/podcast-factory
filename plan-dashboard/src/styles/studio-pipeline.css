@@ -735,3 +735,62 @@
 .cl-status { font-size: 0.85rem; color: var(--c-ink-dim); min-height: 1.2em; }
 .cl-status[data-state="saved"] { color: var(--c-green); }
 .cl-status[data-state="error"] { color: var(--c-red); }
+
+/* ════════════════════════════════════════════════════════════
+   Studio picker — lifecycle status filter chips
+   ════════════════════════════════════════════════════════════ */
+.studio-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.studio-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg-card);
+  color: var(--c-ink-muted);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: border-color 150ms ease, background 150ms ease, color 150ms ease;
+}
+
+.studio-filter-chip:hover { border-color: var(--c-accent); color: var(--c-ink); }
+
+.studio-filter-chip[aria-pressed="true"] {
+  background: color-mix(in oklab, var(--c-accent) 12%, var(--c-bg-card));
+  border-color: color-mix(in oklab, var(--c-accent) 45%, var(--c-rule));
+  color: var(--c-accent);
+}
+
+.studio-filter-chip:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.studio-filter-chip-count {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: var(--c-bg-sunken);
+  border: 1px solid var(--c-rule);
+  border-radius: 999px;
+  padding: 0.05rem 0.45rem;
+  color: var(--c-ink-muted);
+}
+
+.studio-filter-chip[aria-pressed="true"] .studio-filter-chip-count {
+  background: color-mix(in oklab, var(--c-accent) 18%, var(--c-bg-card));
+  border-color: color-mix(in oklab, var(--c-accent) 40%, var(--c-rule));
+  color: var(--c-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-filter-chip { transition: none; }
+}

@@ -10,7 +10,7 @@
  */
 import Base from '../layouts/Base.astro';
 import { listContent, slugToTitle, BUCKETS, type Bucket } from '../lib/content-paths';
-import { loadStudioPipeline } from '../lib/reader/studio-pipeline';
+import { loadStudioPipeline, loadStatusBucket, type StatusBucket } from '../lib/reader/studio-pipeline';
 import { BOOK_CARD_META } from '../lib/book-card-meta';
 import '../styles/studio-pipeline.css';
 
@@ -26,6 +26,7 @@ const allContent = await listContent();
 const cards = await Promise.all(
   allContent.map(async (b) => {
     const steps = await loadStudioPipeline(b.slug);
+    const statusBucket = await loadStatusBucket(b.slug, b.status);
     const blocked = steps.find((s) => s.state === 'blocked');
     const active  = steps.find((s) => s.state === 'active');
     const entry   = blocked ?? active ?? (steps.every((s) => s.state === 'done') ? steps[3] : steps[0]);
@@ -36,6 +37,7 @@ const cards = await Promise.all(
       bucket:       b.bucket,
       steps,
       entry,
+      statusBucket,
       nativeTitle:  bm.nativeTitle,
       nativeLang:   bm.nativeLang,
       author:       bm.author,
@@ -53,6 +55,17 @@ const shelves = BUCKETS
       .sort((a, b) => a.title.localeCompare(b.title)),
   }))
   .filter(s => s.cards.length > 0);
+
+/** Status filter chips — 'in-the-works' is the only one ON by default. */
+const STATUS_FILTERS: { id: StatusBucket; icon: string; label: string; hint: string; defaultOn: boolean }[] = [
+  { id: 'in-the-works', icon: 'fa-pen-nib',         label: 'In the Works', hint: 'Books actively moving through the pipeline', defaultOn: true },
+  { id: 'up-next',      icon: 'fa-hourglass-start', label: 'Up Next',      hint: 'Scaffolded volumes where work has not begun', defaultOn: false },
+  { id: 'published',    icon: 'fa-circle-check',    label: 'Published',    hint: 'Live in the library',                          defaultOn: false },
+];
+
+const statusCount = (id: StatusBucket) => cards.filter((c) => c.statusBucket === id).length;
+const defaultOn = new Set(STATUS_FILTERS.filter((f) => f.defaultOn).map((f) => f.id));
+const visibleInShelf = (shelfCards: typeof cards) => shelfCards.filter((c) => defaultOn.has(c.statusBucket)).length;
 ---
 <Base title="Studio" active="studio" description="Pick a book to work on through the content pipeline.">
   <div class="studio-picker">
@@ -64,10 +77,26 @@ const shelves = BUCKETS
       <p>Before generating audio in NotebookLM, run the <a href="/pre-upload">Pre-Upload Review</a> and the <a href="/pronunciation">Pronunciation</a> utility.</p>
     </header>
 
+    <div class="studio-filter-bar" role="group" aria-label="Filter books by lifecycle status">
+      {STATUS_FILTERS.map((f) => (
+        <button
+          type="button"
+          class="studio-filter-chip"
+          data-status-filter={f.id}
+          aria-pressed={f.defaultOn ? 'true' : 'false'}
+          title={f.hint}
+        >
+          <i class={`fa-solid ${f.icon}`} aria-hidden="true"></i>
+          <span class="studio-filter-chip-label">{f.label}</span>
+          <span class="studio-filter-chip-count">{statusCount(f.id)}</span>
+        </button>
+      ))}
+    </div>
+
     <div class="studio-shelves">
 
       {shelves.map(({ bucket, meta, cards: shelfCards }) => (
-        <section class="studio-shelf" data-bucket={bucket}>
+        <section class="studio-shelf" data-bucket={bucket} hidden={visibleInShelf(shelfCards) === 0}>
 
           <header class="studio-shelf-header">
             <span class="studio-shelf-icon-wrap" aria-hidden="true">
@@ -77,15 +106,18 @@ const shelves = BUCKETS
               <h2 class="studio-shelf-name">{meta.label}</h2>
               <p class="studio-shelf-desc">{meta.desc}</p>
             </div>
-            <span class="studio-shelf-count" aria-label={`${shelfCards.length} works in this category`}>
-              {shelfCards.length} {shelfCards.length === 1 ? 'work' : 'works'}
-            </span>
+            <span class="studio-shelf-count">{visibleInShelf(shelfCards)} {visibleInShelf(shelfCards) === 1 ? 'work' : 'works'}</span>
           </header>
 
           <div class="studio-shelf-floor-wrap">
             <div class="studio-shelf-grid">
               {shelfCards.map((c) => (
-                <a class="studio-picker-card studio-shelf-card" href={`/studio/${c.slug}/${c.entry.id}`}>
+                <a
+                  class="studio-picker-card studio-shelf-card"
+                  href={`/studio/${c.slug}/${c.entry.id}`}
+                  data-status={c.statusBucket}
+                  hidden={!defaultOn.has(c.statusBucket)}
+                >
 
                   {/* ── Script/icon panel — always rendered ── */}
                   <div class={`card-script-wrap${c.nativeTitle ? ' has-script' : ''}`}>
@@ -138,3 +170,41 @@ const shelves = BUCKETS
 
   </div>
 </Base>
+
+<script>
+  // Studio picker status filter: toggle chips show/hide cards by data-status,
+  // hide shelves with no visible cards, and keep shelf counts honest.
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('.studio-filter-chip'));
+
+  function activeStatuses(): Set<string> {
+    return new Set(
+      chips.filter((c) => c.getAttribute('aria-pressed') === 'true')
+           .map((c) => c.dataset.statusFilter ?? ''),
+    );
+  }
+
+  function applyFilter(): void {
+    const active = activeStatuses();
+    document.querySelectorAll<HTMLElement>('.studio-shelf').forEach((shelf) => {
+      let visible = 0;
+      shelf.querySelectorAll<HTMLElement>('.studio-shelf-card').forEach((card) => {
+        const show = active.has(card.dataset.status ?? '');
+        card.hidden = !show;
+        if (show) visible += 1;
+      });
+      shelf.hidden = visible === 0;
+      const count = shelf.querySelector<HTMLElement>('.studio-shelf-count');
+      if (count) count.textContent = `${visible} ${visible === 1 ? 'work' : 'works'}`;
+    });
+  }
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const pressed = chip.getAttribute('aria-pressed') === 'true';
+      // Never allow zero active filters — the last lit chip stays lit.
+      if (pressed && activeStatuses().size === 1) return;
+      chip.setAttribute('aria-pressed', pressed ? 'false' : 'true');
+      applyFilter();
+    });
+  });
+</script>

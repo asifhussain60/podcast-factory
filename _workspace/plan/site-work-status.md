@@ -6,9 +6,24 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-09 (session 23 — System-section visual QA + nav consolidation + stale-docs sweep; COMMITTED + PUSHED)
+**Last updated:** 2026-06-10 (session 24 — Studio picker status filter chips; plan approved by Asif)
 
-**BRANCH: `Islamic/asaas-al-taveel` — session 23 site work committed and pushed (Asif approved: "A and B").**
+**BRANCH: `Islamic/asaas-al-taveel` — session 24 adds lifecycle filter chips to the Studio picker.**
+
+**Session 24 work (Astro site only — no pipeline changes):**
+  - Studio picker (`/studio`) now has three icon filter chips above the shelves:
+    In the Works (default ON) / Up Next / Published. Default view shows only
+    actively-worked books; batch-scaffolded Asas volumes 02-06 are hidden until
+    the Up Next chip is toggled.
+  - Classifier `classifyStatusBucket()` + `loadStatusBucket()` exported from
+    `studio-pipeline.ts`: published status wins; no completed phase or only
+    automated ingest/refine (<= 0b) = up-next; unknown-but-real phases
+    (e.g. 0book-render) = in-the-works.
+  - Cards carry `data-status` and are hidden server-side for non-default
+    statuses (no flash); shelves with zero visible cards hide; shelf counts
+    track visible cards. Chip toggle script guards against zero active filters.
+  - lint:views clean; verified in preview (default 5 books, Up Next reveals 7,
+    Published reveals 2, Fiction shelf hides/shows correctly).
 
 **IN FLIGHT:** Vol 1 orchestrator is HALTED at `finalize` (last_completed_phase=per-chapter,
 no orchestrator/watchdog PIDs alive) — waiting for Asif's publish review. No heartbeat needed.
