@@ -26,4 +26,4 @@ Per-chapter status. Rows with `ENRICHED` are checkpointed and skipped on resume.
 - ch18b-syllogism-of-divine-justice: ENRICHED at 2026-06-10 17:22:03 (in-place rewrite)
 - ch19c-the-conspiracy-formula: ENRICHED at 2026-06-10 17:31:38 (in-place rewrite)
 - ch20d-unbroken-chain-and-the-path-of-return: ENRICHED at 2026-06-10 17:41:59 (in-place rewrite)
-- ch10c-union-of-inner-and-outer-and-divine-justice: ENRICHED at 2026-06-10 17:45:41 (in-place rewrite; bridge sentence removed manually per 0e manual_fallback)
+- ch10c-union-of-inner-and-outer: ENRICHED at 2026-06-10 17:45:41 (in-place rewrite; bridge sentence removed manually per 0e manual_fallback)
