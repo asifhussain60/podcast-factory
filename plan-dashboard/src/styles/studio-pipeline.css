@@ -397,45 +397,30 @@
   white-space: nowrap;
 }
 
-/* ── Per-bucket accent colours ───────────────────────────── */
-/* Islamic: dark goldenrod */
-.studio-shelf[data-bucket="Islamic"] .studio-shelf-icon-wrap {
-  background: color-mix(in oklab, var(--c-gold) 12%, var(--c-bg-card));
-  color: var(--c-gold);
-  border-color: color-mix(in oklab, var(--c-gold) 30%, var(--c-rule));
-}
-.studio-shelf[data-bucket="Islamic"] .studio-shelf-title-group {
-  border-bottom-color: color-mix(in oklab, var(--c-gold) 30%, var(--c-rule-soft));
-}
+/* ════════════════════════════════════════════════════════════
+   Per-category card design system (single source of truth)
 
-/* Fiction: literary purple */
-.studio-shelf[data-bucket="Fiction"] .studio-shelf-icon-wrap {
-  background: color-mix(in oklab, #6a1b9a 10%, var(--c-bg-card));
-  color: #6a1b9a;
-  border-color: color-mix(in oklab, #6a1b9a 25%, var(--c-rule));
-}
-.studio-shelf[data-bucket="Fiction"] .studio-shelf-title-group {
-  border-bottom-color: color-mix(in oklab, #6a1b9a 22%, var(--c-rule-soft));
-}
+   Each content bucket owns ONE accent variable, --shelf-accent,
+   set on its shelf section. EVERY category-aware element — shelf
+   icon, title underline, card top strip, hover ring, script-panel
+   tint, script icon, volume badge — derives from it via color-mix
+   so the tints stay light and theme-consistent. Adding a bucket or
+   re-hueing one is a one-line change; new card elements should use
+   var(--shelf-accent) and never name a colour directly.
+   ════════════════════════════════════════════════════════════ */
+.studio-shelf { --shelf-accent: var(--c-accent); }            /* fallback: saddle brown */
+.studio-shelf[data-bucket="Islamic"]   { --shelf-accent: var(--c-gold); }    /* dark goldenrod */
+.studio-shelf[data-bucket="Fiction"]   { --shelf-accent: #6a1b9a; }          /* literary plum  */
+.studio-shelf[data-bucket="Technical"] { --shelf-accent: var(--c-planner); } /* slate blue     */
+.studio-shelf[data-bucket="Guides"]    { --shelf-accent: var(--c-green); }   /* forest green   */
 
-/* Technical: slate blue */
-.studio-shelf[data-bucket="Technical"] .studio-shelf-icon-wrap {
-  background: color-mix(in oklab, var(--c-planner) 12%, var(--c-bg-card));
-  color: var(--c-planner);
-  border-color: color-mix(in oklab, var(--c-planner) 30%, var(--c-rule));
+.studio-shelf .studio-shelf-icon-wrap {
+  background: color-mix(in oklab, var(--shelf-accent) 11%, var(--c-bg-card));
+  color: var(--shelf-accent);
+  border-color: color-mix(in oklab, var(--shelf-accent) 28%, var(--c-rule));
 }
-.studio-shelf[data-bucket="Technical"] .studio-shelf-title-group {
-  border-bottom-color: color-mix(in oklab, var(--c-planner) 28%, var(--c-rule-soft));
-}
-
-/* Guides: forest green */
-.studio-shelf[data-bucket="Guides"] .studio-shelf-icon-wrap {
-  background: color-mix(in oklab, var(--c-green) 12%, var(--c-bg-card));
-  color: var(--c-green);
-  border-color: color-mix(in oklab, var(--c-green) 30%, var(--c-rule));
-}
-.studio-shelf[data-bucket="Guides"] .studio-shelf-title-group {
-  border-bottom-color: color-mix(in oklab, var(--c-green) 28%, var(--c-rule-soft));
+.studio-shelf .studio-shelf-title-group {
+  border-bottom-color: color-mix(in oklab, var(--shelf-accent) 26%, var(--c-rule-soft));
 }
 
 /* ── Shelf plank wrapper ──────────────────────────────────── */
@@ -478,16 +463,13 @@
   height: 3px;
 }
 
-/* Strip + hover ring colour per bucket */
-.studio-shelf[data-bucket="Islamic"] .studio-shelf-card::before { background: var(--c-gold); }
-.studio-shelf[data-bucket="Fiction"]   .studio-shelf-card::before { background: #6a1b9a; }
-.studio-shelf[data-bucket="Technical"] .studio-shelf-card::before { background: var(--c-planner); }
-.studio-shelf[data-bucket="Guides"]    .studio-shelf-card::before { background: var(--c-green); }
+/* Strip + hover ring — category accent via the design system */
+.studio-shelf .studio-shelf-card::before { background: var(--shelf-accent); }
 
-.studio-shelf[data-bucket="Islamic"]   .studio-shelf-card:hover { border-color: var(--c-gold); box-shadow: 0 4px 14px color-mix(in oklab, var(--c-gold) 18%, transparent); }
-.studio-shelf[data-bucket="Fiction"]   .studio-shelf-card:hover { border-color: #6a1b9a;         box-shadow: 0 4px 14px color-mix(in oklab, #6a1b9a 14%, transparent); }
-.studio-shelf[data-bucket="Technical"] .studio-shelf-card:hover { border-color: var(--c-planner);box-shadow: 0 4px 14px color-mix(in oklab, var(--c-planner) 16%, transparent); }
-.studio-shelf[data-bucket="Guides"]    .studio-shelf-card:hover { border-color: var(--c-green);  box-shadow: 0 4px 14px color-mix(in oklab, var(--c-green) 14%, transparent); }
+.studio-shelf .studio-shelf-card:hover {
+  border-color: var(--shelf-accent);
+  box-shadow: 0 4px 14px color-mix(in oklab, var(--shelf-accent) 16%, transparent);
+}
 
 /* ── Card interior layout ───────────────────────────────────────────────────
    card-script-wrap  — native-script header (Arabic / Chinese, conditional)
@@ -517,11 +499,8 @@
   margin-bottom: 0.05rem;
 }
 
-/* Per-bucket icon colour in script panel */
-.studio-shelf[data-bucket="Islamic"]   .card-script-icon { color: var(--c-gold); }
-.studio-shelf[data-bucket="Fiction"]   .card-script-icon { color: #6a1b9a; }
-.studio-shelf[data-bucket="Technical"] .card-script-icon { color: var(--c-planner); }
-.studio-shelf[data-bucket="Guides"]    .card-script-icon { color: var(--c-green); }
+/* Icon colour in script panel — category accent */
+.studio-shelf .card-script-icon { color: var(--shelf-accent); }
 
 /* Arabic script — centred, Amiri, maroon */
 .card-script-text[lang="ar"] {
@@ -546,22 +525,10 @@
   text-align: left;
 }
 
-/* Per-bucket tint on script panel background */
-.studio-shelf[data-bucket="Islamic"] .card-script-wrap {
-  background: color-mix(in oklab, var(--c-gold) 8%, var(--c-bg-card));
-  border-bottom-color: color-mix(in oklab, var(--c-gold) 22%, var(--c-rule-soft));
-}
-.studio-shelf[data-bucket="Fiction"] .card-script-wrap {
-  background: color-mix(in oklab, #6a1b9a 5%, var(--c-bg-card));
-  border-bottom-color: color-mix(in oklab, #6a1b9a 18%, var(--c-rule-soft));
-}
-.studio-shelf[data-bucket="Technical"] .card-script-wrap {
-  background: color-mix(in oklab, var(--c-planner) 6%, var(--c-bg-card));
-  border-bottom-color: color-mix(in oklab, var(--c-planner) 20%, var(--c-rule-soft));
-}
-.studio-shelf[data-bucket="Guides"] .card-script-wrap {
-  background: color-mix(in oklab, var(--c-green) 6%, var(--c-bg-card));
-  border-bottom-color: color-mix(in oklab, var(--c-green) 20%, var(--c-rule-soft));
+/* Script-panel tint — light category wash via the design system */
+.studio-shelf .card-script-wrap {
+  background: color-mix(in oklab, var(--shelf-accent) 6%, var(--c-bg-card));
+  border-bottom-color: color-mix(in oklab, var(--shelf-accent) 20%, var(--c-rule-soft));
 }
 
 /* Card body wrapper — flex column, fills remaining height */
@@ -597,7 +564,7 @@
   text-align: center;
 }
 
-/* Volume badge — between title and author, distinct from both */
+/* Volume badge — between title and author; category accent via the design system */
 .card-volume-badge {
   display: inline-flex;
   align-items: center;
@@ -609,9 +576,9 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--c-gold);
-  background: color-mix(in oklab, var(--c-gold) 10%, var(--c-bg-card));
-  border: 1px solid color-mix(in oklab, var(--c-gold) 35%, var(--c-rule));
+  color: var(--shelf-accent, var(--c-accent));
+  background: color-mix(in oklab, var(--shelf-accent, var(--c-accent)) 10%, var(--c-bg-card));
+  border: 1px solid color-mix(in oklab, var(--shelf-accent, var(--c-accent)) 35%, var(--c-rule));
 }
 
 .card-author {
