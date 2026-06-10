@@ -53,13 +53,16 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _paths import iter_content, slug_of  # noqa: E402
+from _validator_constants import EPISODE_MAX_CONCEPTS  # noqa: E402
 
 # ── repo root -----------------------------------------------------------------
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CONTENT_ROOT = REPO_ROOT / "content"
 
 # ── density constants ---------------------------------------------------------
-DEFAULT_MAX_CONCEPTS = 3        # target: ≤3 concept sections per episode
+# Single source of truth lives in _validator_constants.EPISODE_MAX_CONCEPTS
+# (shared with the Phase 0d post-write gate and the preflight smoke gate).
+DEFAULT_MAX_CONCEPTS = EPISODE_MAX_CONCEPTS   # target: ≤3 concept sections per episode
 TARGET_WORDS_PER_CONCEPT = 1800  # ~18 minutes of podcast audio at 150 wpm
 WARN_THRESHOLD_DELTA = 1        # WARN if exactly max+1
 

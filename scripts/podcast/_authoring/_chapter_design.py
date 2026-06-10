@@ -25,6 +25,7 @@ from ._core import (  # noqa: E402
 from _validator_constants import (  # noqa: E402
     EPISODE_DENSITY_CEILING_DENSE,
     EPISODE_DENSITY_CEILING_NARRATIVE,
+    EPISODE_MAX_CONCEPTS,
     episode_overcrammed,
 )
 
@@ -306,6 +307,16 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"   seam). 'It is one coherent teaching' is NOT a valid reason to exceed the\n"
             f"   floor. A plan that violates this floor is rejected and you will be re-run, so\n"
             f"   compute ceil(word_count / {density_ceiling_hint}) for each chapter and honour it.\n"
+            f"3c. CONCEPT CEILING — SECOND FLOOR, SAME DISCIPLINE (R-MAX-CONCEPTS, MANDATORY):\n"
+            f"   each episode covers AT MOST {EPISODE_MAX_CONCEPTS} distinct concept-level topics. Count the\n"
+            f"   distinct teachings in each source chapter and ALSO require episode_count >=\n"
+            f"   ceil(distinct_topic_count / {EPISODE_MAX_CONCEPTS}). A 5,400-word chapter that carries 9\n"
+            f"   distinct teachings is THREE episodes even though it fits one episode by word\n"
+            f"   count. This is a hard ceiling enforced by a deterministic post-write gate —\n"
+            f"   chapters that come out with more than {EPISODE_MAX_CONCEPTS} concept sections are rejected.\n"
+            f"   When splitting by topic, keep each concept WHOLE inside one episode — never\n"
+            f"   leave a concept's argument straddling an episode boundary — and order the\n"
+            f"   episodes so each one's closing hands off naturally to the next one's opening.\n"
             f"4. Assign monotonically increasing episode numbers (`ep_num`) across the whole "
             f"book starting at 1. Each episode gets a short kebab-case `episode_slug` "
             f"(distinct across the whole book). When a source chapter splits into multiple "
@@ -534,6 +545,35 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"    doctrinal scanner is substring-only and flags the guard itself.\n"
             f"  - Contract shape: every episode contract under `chapter-contracts/` follows\n"
             f"    the same fields seen in earlier shipped books (see `content/published/books/*/`)\n\n"
+            f"CONTENT RULES (deterministic gates — violations are rejected post-write):\n"
+            f"  1. R-MAX-CONCEPTS: each episode chapter txt carries AT MOST {EPISODE_MAX_CONCEPTS} concept-level\n"
+            f"     `## H2` sections (structural frames — 'Where this episode opens/picks up',\n"
+            f"     'What this episode lands', 'Closing' — do not count). Target 1,500-2,500\n"
+            f"     words per concept section. Keep each concept WHOLE: open it, develop it,\n"
+            f"     land it inside the same episode.\n"
+            f"  2. R-QURAN-CITATION-FORMAT: every Quranic quotation carries its reference\n"
+            f"     inline in plain English — `(chapter N, verse M)` — NEVER `(Q N:M)`,\n"
+            f"     `(Quran N:M)`, or a bare `(N:M)`. References come from the source text;\n"
+            f"     if the source does not name the verse and you cannot verify it, write the\n"
+            f"     quotation WITHOUT a reference rather than inventing one.\n"
+            f"  3. R-NO-TRANSLIT-FORMULA: verbatim Arabic formulae/verses/hadiths appear as\n"
+            f"     their accurate English translation ONLY — never as an italic Arabic\n"
+            f"     transliteration run paired with its translation\n"
+            f"     (`*Anna Allāha mubdiʿ...* — *Allah is the Originator...*` is FORBIDDEN;\n"
+            f"     write just `*Allah is the Originator...*`). Short inline Arabic terms\n"
+            f"     without diacritics ('tawhid', 'da'wa') remain allowed per AUTHORITY.\n"
+            f"  4. R-SERMON-VERBATIM: when the slice contains a sermon, khutba, or formal\n"
+            f"     address (signals: invocational opening like 'Praise be to Allah...',\n"
+            f"     sustained uninterrupted monologue, valedictory blessing), render it WHOLE\n"
+            f"     — refined English, full text, never summarized or fragmented — as its OWN\n"
+            f"     concept section inside exactly one episode, and add to that episode's\n"
+            f"     contract:\n"
+            f"       sermon:\n"
+            f"         present: true\n"
+            f"         section_title: \"<the H2 title of the sermon section>\"\n"
+            f"     The framing author uses this to instruct the hosts to recite the sermon\n"
+            f"     aloud before discussing it. A sermon counts as ONE concept section even\n"
+            f"     when long.\n\n"
             f"PLAN FOR THIS SOURCE CHAPTER (from `{toc_path}`):\n"
             f"  unit_mode: {sc_unit_mode}\n"
             f"  episode_count: {episode_count}\n"
@@ -714,6 +754,39 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                 ),
                 stdout=stdout or "",
                 stderr=stderr or "",
+            )
+
+        # R-MAX-CONCEPTS post-write gate (2026-06-10) — deterministic, $0.
+        # Count concept-level H2 sections (frames excluded) in every chapter
+        # txt this source chapter produced; reject over-dense output BEFORE
+        # the done marker so resume re-authors it.
+        from chapter_density_audit import audit_chapter  # noqa: PLC0415
+        over_dense: list[str] = []
+        for cf in expected_chapter_files:
+            density = audit_chapter(cf, book_slug, "", max_concepts=EPISODE_MAX_CONCEPTS)
+            if density.concept_count > EPISODE_MAX_CONCEPTS:
+                over_dense.append(
+                    f"{cf.name}: {density.concept_count} concept sections "
+                    f"(max {EPISODE_MAX_CONCEPTS}): "
+                    + "; ".join(s.title for s in density.concept_sections)
+                )
+        if over_dense:
+            for cf in expected_chapter_files + expected_contract_files:
+                cf.unlink(missing_ok=True)
+            raise AuthoringError(
+                phase="0d",
+                message=(
+                    f"sc {sc_idx:03d}/{len(source_chapters)} ({sc_title!r}) violated "
+                    f"R-MAX-CONCEPTS — over-dense episode(s) rejected and deleted:\n  "
+                    + "\n  ".join(over_dense)
+                    + "\nThe plan under-split this source chapter by topic count. "
+                    f"See docs/standards/chapter-density.md."
+                ),
+                manual_fallback=(
+                    f"Re-run Phase 0d for this source chapter (the .done marker was "
+                    f"not written, so --resume re-authors it), or raise episode_count "
+                    f"for sc {sc_idx} in the TOC plan and resume."
+                ),
             )
 
         # All good → checkpoint.

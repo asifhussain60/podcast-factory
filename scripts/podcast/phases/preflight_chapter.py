@@ -73,6 +73,25 @@ def smoke_check_chapter(book_dir: Path, slug: str) -> tuple[bool, str]:
             f"[{CHAPTER_WORD_MIN_HARD}, {CHAPTER_WORD_MAX_HARD}]"
         )
 
+    # 4. Density gate (R-MAX-CONCEPTS, 2026-06-10) — OPT-IN via
+    #    `density_standard: 2` in series-config.yaml. Halts the per-chapter
+    #    loop at $0 before any framing/convergence spend on an over-dense
+    #    chapter. Legacy books (no flag) are never blocked here — 26 of the
+    #    pre-standard chapters would otherwise dead-halt on every retry.
+    try:
+        from _content_profile import density_standard_active
+        if density_standard_active(book_dir):
+            from chapter_density_audit import audit_chapter
+            density = audit_chapter(chapter_file, book_dir.name, "")
+            if density.status == "FAIL":
+                return False, (
+                    f"density gate: {density.concept_count} concept sections "
+                    f"(max {density.max_concepts}) — split required before "
+                    f"authoring; see docs/standards/chapter-density.md"
+                )
+    except ImportError:
+        pass  # density tooling unavailable — never block the smoke gate on it
+
     return True, ""
 
 
