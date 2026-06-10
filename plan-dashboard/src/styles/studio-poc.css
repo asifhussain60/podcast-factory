@@ -11,7 +11,7 @@
 /* Slim header (no site chrome). */
 .sp-header { width: 94%; max-width: 1600px; margin: 22px auto 6px; }
 .sp-h1 { font-size: 1.55rem; font-weight: 700; color: var(--c-ink); margin: 0 0 4px; }
-.sp-subtitle { font-size: 0.92rem; line-height: 1.55; color: var(--c-ink-muted); max-width: 72ch; margin: 0; }
+.sp-subtitle { font-size: 0.92rem; line-height: 1.55; color: var(--c-ink-muted); margin: 0; }
 .sp-error { width: 94%; max-width: 1600px; margin: 24px auto; color: var(--c-red, #b91c1c); font-size: 1rem; }
 
 /* Three-pane layout: timeline rail · editor (dominant) · inspector.

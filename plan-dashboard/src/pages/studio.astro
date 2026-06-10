@@ -58,11 +58,11 @@ const shelves = BUCKETS
   }))
   .filter(s => s.cards.length > 0);
 
-/** Status filter chips — 'in-the-works' is the only one ON by default. */
+/** Status filter buttons — single-select; 'in-the-works' (In Pipeline) is the default. */
 const STATUS_FILTERS: { id: StatusBucket; icon: string; label: string; hint: string; defaultOn: boolean }[] = [
-  { id: 'in-the-works', icon: 'fa-pen-nib',         label: 'In the Works', hint: 'Books actively moving through the pipeline', defaultOn: true },
-  { id: 'up-next',      icon: 'fa-hourglass-start', label: 'Up Next',      hint: 'Scaffolded volumes where work has not begun', defaultOn: false },
-  { id: 'published',    icon: 'fa-circle-check',    label: 'Published',    hint: 'Live in the library',                          defaultOn: false },
+  { id: 'in-the-works', icon: 'fa-gears',           label: 'In Pipeline', hint: 'Books actively moving through the pipeline', defaultOn: true },
+  { id: 'published',    icon: 'fa-circle-check',    label: 'Published',   hint: 'Live in the library',                          defaultOn: false },
+  { id: 'up-next',      icon: 'fa-hourglass-start', label: 'Up Next',     hint: 'Scaffolded volumes where work has not begun', defaultOn: false },
 ];
 
 const statusCount = (id: StatusBucket) => cards.filter((c) => c.statusBucket === id).length;
@@ -163,7 +163,6 @@ const visibleInShelf = (shelfCards: typeof cards) => shelfCards.filter((c) => de
                 </a>
               ))}
             </div>
-            <div class="studio-shelf-plank" aria-hidden="true"></div>
           </div>
 
         </section>
@@ -175,23 +174,16 @@ const visibleInShelf = (shelfCards: typeof cards) => shelfCards.filter((c) => de
 </Base>
 
 <script>
-  // Studio picker status filter: toggle chips show/hide cards by data-status,
-  // hide shelves with no visible cards, and keep shelf counts honest.
+  // Studio picker status filter: single-select buttons — exactly one status
+  // is active at a time. Cards show/hide by data-status, shelves with no
+  // visible cards hide, and shelf counts track the visible cards.
   const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('.studio-filter-chip'));
 
-  function activeStatuses(): Set<string> {
-    return new Set(
-      chips.filter((c) => c.getAttribute('aria-pressed') === 'true')
-           .map((c) => c.dataset.statusFilter ?? ''),
-    );
-  }
-
-  function applyFilter(): void {
-    const active = activeStatuses();
+  function applyFilter(activeId: string): void {
     document.querySelectorAll<HTMLElement>('.studio-shelf').forEach((shelf) => {
       let visible = 0;
       shelf.querySelectorAll<HTMLElement>('.studio-shelf-card').forEach((card) => {
-        const show = active.has(card.dataset.status ?? '');
+        const show = card.dataset.status === activeId;
         card.hidden = !show;
         if (show) visible += 1;
       });
@@ -203,11 +195,9 @@ const visibleInShelf = (shelfCards: typeof cards) => shelfCards.filter((c) => de
 
   chips.forEach((chip) => {
     chip.addEventListener('click', () => {
-      const pressed = chip.getAttribute('aria-pressed') === 'true';
-      // Never allow zero active filters — the last lit chip stays lit.
-      if (pressed && activeStatuses().size === 1) return;
-      chip.setAttribute('aria-pressed', pressed ? 'false' : 'true');
-      applyFilter();
+      if (chip.getAttribute('aria-pressed') === 'true') return;  // already active
+      chips.forEach((c) => c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'));
+      applyFilter(chip.dataset.statusFilter ?? '');
     });
   });
 </script>
