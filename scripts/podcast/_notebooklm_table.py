@@ -64,6 +64,8 @@ class UploadRow:
     length: str = DEFAULT_LENGTH
     chapter_href: str | None = None   # link target for the Chapters cell (chapter SOURCE file)
     episode_href: str | None = None   # link target for the Episodes cell (episode FRAMING file)
+    session_index: int | None = None  # Session grouping (chapter-density standard) — None = flat
+    session_title: str | None = None
 
     def chapters_text(self) -> str:
         title = self.chapter_title.strip() if self.chapter_title else f"Chapter {self.n}"
@@ -91,9 +93,21 @@ class UploadRow:
 
 
 def render_upload_table(rows: list[UploadRow]) -> str:
-    """Render the canonical markdown pipe table. Returns a multi-line string."""
+    """Render the canonical markdown pipe table. Returns a multi-line string.
+
+    Session grouping (presence-gated): when rows carry session metadata, a
+    full-width banner row introduces each Session. Columns stay EXACTLY the
+    locked four — the banner is a normal row with empty trailing cells, so
+    flat books render byte-identically to before.
+    """
     body = [f"| {' | '.join(COLUMNS)} |", "|" + "---|" * len(COLUMNS)]
+    current_session: int | None = None
     for r in rows:
+        if r.session_index is not None and r.session_index != current_session:
+            current_session = r.session_index
+            label = r.session_title or f"Session {r.session_index}"
+            body.append(
+                f"| **Session {r.session_index} — {label}** | | | |")
         body.append("| " + " | ".join(r.cells()) + " |")
     return "\n".join(body)
 

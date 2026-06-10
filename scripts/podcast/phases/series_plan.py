@@ -315,11 +315,12 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
         "interviewer + subject": "Interviewer + Subject",
     }
 
-    rows = [
+    _EP_TABLE_HEADER = [
         "| # | Title | Words | Tier | Format | Essential | Upload (NotebookLM source) | Customize | Length cue | Hosts |",
         "|---|---|---|---|---|---|---|---|---|---|",
     ]
-    for slug, data in contracts:
+
+    def _episode_row(slug: str, data: dict) -> str:
         ch_num = data.get("episode_number", "?")
         title_ = data.get("title", slug)
         target = data.get("length_target", "?")
@@ -335,11 +336,33 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
             f"`episodes/EP{ch_num:02d}-{slug}.txt`" if isinstance(ch_num, int)
             else f"`episodes/EP{ch_num}-{slug}.txt`"
         )
-        rows.append(
+        return (
             f"| {ch_num} | {title_} | {words} | {target} | **{fmt}** | "
             f"{essential} | {upload} | {customize} (TBD post-0g) | {length_cue} | {host_disp} |"
         )
-    chapter_list_table = "\n".join(rows)
+
+    # Session grouping (presence-gated): sessioned books render one episode
+    # table per Session under an H4 header; flat books keep the single table.
+    if any(d.get("session_index") is not None for _, d in contracts):
+        _session_groups: dict[object, list[tuple[str, dict]]] = {}
+        for slug, data in contracts:
+            _session_groups.setdefault(data.get("session_index"), []).append((slug, data))
+        _parts: list[str] = []
+        for key in sorted(_session_groups, key=lambda k: (k is None, k)):
+            group = _session_groups[key]
+            if key is None:
+                label = "#### Ungrouped"
+            else:
+                stitle = group[0][1].get("session_title") or f"Session {key}"
+                label = f"#### Session {key} — {stitle} · {len(group)} episode(s)"
+            _parts.append(
+                label + "\n\n"
+                + "\n".join(_EP_TABLE_HEADER + [_episode_row(s, d) for s, d in group])
+            )
+        chapter_list_table = "\n\n".join(_parts)
+    else:
+        chapter_list_table = "\n".join(
+            _EP_TABLE_HEADER + [_episode_row(s, d) for s, d in contracts])
 
     ess_rows = [
         "| # | Slug | Essential? | Why |",

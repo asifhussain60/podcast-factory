@@ -6,7 +6,39 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-10 (session 25 — full repo audit + cleanup; all committed to develop)
+**Last updated:** 2026-06-10 (session 26 — /library/[slug] full tabbed-workspace redesign)
+
+**Session 26 (book-detail redesign, Asif-approved option A):** /library/[slug]
+rebuilt from a 4,000px seven-section scroll into a tabbed workspace:
+compact hero (title + status chips: quality avg, pipeline phase, archetype),
+sticky hash-routed tab bar (Overview/Binders/Episodes/Media/Audits/Source,
+counts in pills; legacy anchors #meta/#audio/#slide-decks remapped in JS;
+panels render server-side, JS collapses to active tab — no-JS still shows all).
+Overview = fact grid (dl, not fake inputs) + Quality/Pipeline side cards +
+compact red-tinted Archive row (Danger zone section removed). Binders = card
+grid (chapter-number chip, humanized title, gauge score pill, icon'd meta,
+session trays). Episodes/Audio/Audits/Source = .lib-asset-row (tinted icon
+circle, humanizeFile() labels, right-aligned size·date). Pruned dead CSS:
+lib-toolbar/lib-tab-link/lib-detail-head/lib-file-*/lib-meta-form/lib-field*/
+lib-new-form/lib-peq-summary (verified unused repo-wide; index.astro keeps
+lib-slug/lib-section-head/lib-card etc.). Visual-QA'd 1440+390, all six tabs,
+empty states, legacy-hash deep link; lint:views clean, astro check 0 errors,
+console clean. Follow-up same session: (a) meta fact values now pass through
+simplifyTransliteration (lib/translit.ts — display-only ASCII, per the locked
+ASCII rule); (b) source_pdf/source_audio render as icon'd basename links via
+NEW endpoint src/pages/api/library/source.ts (client sends FIELD NAME only,
+server re-reads the path from meta.yml, realpath-guarded to repo root;
+file→link, dir→FOLDER badge, absent→MISSING badge). NOTE: all three books'
+meta source paths point at repo-root raw/ which does NOT exist on this
+machine (pre-restructure pointers) — UI honestly shows MISSING; verified the
+live-link branch with a temp fixture (200 audio/mpeg), fixture deleted.
+UNCOMMITTED on branch Islamic/the-master-and-the-disciple (in-flight book
+branch — commit with care).
+Preview-screenshot quirk found: scrolled captures paint blank in the occluded
+preview window; workaround = temporarily display:none the sections above the
+target, capture at scrollY=0, then reload.
+
+**Session 25 (audit; committed to develop):** (see below)
 
 **Session 25 (audit):** repo-wide audit found zero functional bugs. Site work was
 dead-code-only: 31 unused imports/vars removed across 21 files (astro check

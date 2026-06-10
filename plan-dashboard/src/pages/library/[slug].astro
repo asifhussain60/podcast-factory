@@ -1,7 +1,11 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { loadDetail, formatBytes, formatModified, categoryLabel } from '../../lib/library';
+import { discoverSessions } from '../../lib/reader/chapters';
 import { scoreBook, verdictLabel } from '../../lib/peq-scores';
+import { simplifyTransliteration } from '../../lib/translit';
+import { stat } from 'node:fs/promises';
+import { basename, resolve as resolvePath } from 'node:path';
 import '../../styles/library.css';
 
 const slug = Astro.params.slug;
@@ -19,9 +23,118 @@ const chapterScoreMap = new Map(bookScore?.chapters.map((c) => [c.slug, c.scores
 function fileViewHref(relPath: string): string {
   return `/api/library/file?slug=${encodeURIComponent(slugStr)}&path=${encodeURIComponent(relPath)}`;
 }
+
+// Session grouping (presence-gated): sessioned books render Binders and
+// Episodes inside collapsible Session groups; flat books render as before.
+const sessions = await discoverSessions(summary.ref.dir);
+const epToSessionIndex = new Map<number, number>();
+for (const s of sessions) for (const n of s.episodeNumbers) epToSessionIndex.set(n, s.index);
+
+function fileEpisodeNumber(name: string): number | null {
+  const m = name.match(/^(?:EP|ch)(\d+)/i);
+  return m ? Number(m[1]) : null;
+}
+
+type LibFile = (typeof chapters)[number];
+interface SessionGroup { index: number; title: string; files: LibFile[] }
+function groupBySession(files: LibFile[]): { groups: SessionGroup[]; ungrouped: LibFile[] } | null {
+  if (sessions.length === 0) return null;
+  const groups: SessionGroup[] = sessions.map((s) => ({ index: s.index, title: s.title, files: [] }));
+  const ungrouped: LibFile[] = [];
+  for (const f of files) {
+    const ep = fileEpisodeNumber(f.name);
+    const idx = ep === null ? undefined : epToSessionIndex.get(ep);
+    const g = idx === undefined ? undefined : groups.find((x) => x.index === idx);
+    if (g) g.files.push(f);
+    else ungrouped.push(f);
+  }
+  return { groups: groups.filter((g) => g.files.length > 0), ungrouped };
+}
+interface RenderGroup { label: string | null; count: number; files: LibFile[] }
+function renderGroups(files: LibFile[]): RenderGroup[] {
+  const grouped = groupBySession(files);
+  if (!grouped) return [{ label: null, count: files.length, files }];
+  const out: RenderGroup[] = grouped.groups.map((g) => ({
+    label: `Session ${g.index} — ${g.title}`,
+    count: g.files.length,
+    files: g.files,
+  }));
+  if (grouped.ungrouped.length > 0) {
+    out.push({ label: out.length > 0 ? 'Ungrouped' : null, count: grouped.ungrouped.length, files: grouped.ungrouped });
+  }
+  return out;
+}
+const binderGroups = renderGroups(chapters);
+const episodeGroups = renderGroups(episodes);
+const hasSessions = sessions.length > 0;
+
+// Binder card presentation: parse `chNN[x]-slug-words.txt` into a chapter
+// number + humanized title. Falls back to the raw name for odd filenames.
+const TITLE_MINOR_WORDS = new Set(['and', 'the', 'of', 'a', 'an', 'in', 'on', 'to', 'for', 'at', 'by', 'or']);
+interface BinderCard { num: string | null; title: string }
+function parseBinderName(name: string): BinderCard {
+  const base = name.replace(/\.(txt|md)$/i, '');
+  const m = base.match(/^ch(\d+)[a-z]?-(.+)$/i);
+  if (!m) return { num: null, title: base };
+  const words = m[2].split('-').filter(Boolean);
+  const title = words
+    .map((w, i) => (i > 0 && TITLE_MINOR_WORDS.has(w) ? w : w.charAt(0).toUpperCase() + w.slice(1)))
+    .join(' ');
+  return { num: m[1], title };
+}
+
+// Asset row presentation: humanize `01-Why_Knowledge_Is_Theft.m4a` and
+// `final-review-report.md` into readable labels.
+function humanizeFile(name: string): string {
+  const base = name.replace(/\.[a-z0-9]+$/i, '');
+  const m = base.match(/^(\d+)[-_](.+)$/);
+  const body = (m ? m[2] : base).replace(/[-_]+/g, ' ').trim();
+  const cased = body.charAt(0).toUpperCase() + body.slice(1);
+  return m ? `${m[1]} — ${cased}` : cased;
+}
+
+// Source-path meta fields render as icon'd file links instead of raw
+// relative paths. The href hits /api/library/source, which re-reads the
+// path from meta.yml server-side (field-name only — no client paths).
+const SOURCE_FIELDS = new Set(['source_pdf', 'source_audio']);
+interface MetaFileLink { kind: 'file' | 'dir' | 'missing'; name: string; icon: string; href: string | null }
+const metaFileLinks = new Map<string, MetaFileLink>();
+for (const [k, v] of Object.entries(meta)) {
+  if (!SOURCE_FIELDS.has(k)) continue;
+  const abs = resolvePath(summary.ref.dir, v);
+  const name = basename(abs);
+  let kind: MetaFileLink['kind'] = 'missing';
+  try { kind = (await stat(abs)).isDirectory() ? 'dir' : 'file'; } catch { /* leave missing */ }
+  const ext = name.split('.').pop()?.toLowerCase() ?? '';
+  const icon =
+    kind === 'dir' ? 'fa-solid fa-folder'
+    : ext === 'pdf' ? 'fa-solid fa-file-pdf'
+    : ['mp3', 'm4a', 'wav'].includes(ext) ? 'fa-solid fa-file-audio'
+    : 'fa-regular fa-file';
+  metaFileLinks.set(k, {
+    kind, name, icon,
+    href: kind === 'file' ? `/api/library/source?slug=${encodeURIComponent(slugStr)}&field=${encodeURIComponent(k)}` : null,
+  });
+}
+
+const pipelineTone =
+  !state.exists ? null
+  : state.phaseStatus === 'failed' ? 'fail'
+  : state.phaseStatus === 'running' || state.phaseStatus === 'halted' ? 'warn'
+  : 'pass';
+
+const mediaCount = audio.length + slideDecks.length;
+const tabs = [
+  { id: 'overview', label: 'Overview', count: null },
+  { id: 'binders', label: 'Binders', count: chapters.length },
+  { id: 'episodes', label: 'Episodes', count: episodes.length },
+  { id: 'media', label: 'Media', count: mediaCount },
+  { id: 'audits', label: 'Audits', count: audits.length },
+  { id: 'source', label: 'Source', count: sourceFiles.length },
+];
 ---
 <Base title={summary.title} active="library" description={`${categoryLabel(summary.category)} — ${summary.title}`}>
-  <header class="stack lib-detail-head">
+  <header class="lib-hero">
     <div class="lib-breadcrumb">
       <a href="/library">Library</a>
       <span class="lib-sep">›</span>
@@ -32,116 +145,212 @@ function fileViewHref(relPath: string): string {
       <span class={`lib-badge lib-badge-${summary.publicationStatus === 'published' ? 'published' : 'drafts'}`}>{summary.publicationStatus === 'published' ? 'Published' : 'Draft'}</span>
       <a class="lib-studio-link" href={`/studio/${slugStr}/edit`}>Open in Studio <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
     </div>
-    <p class="card-sub lib-slug">{summary.ref.slug} · {categoryLabel(summary.category)}</p>
-
-    <div class="lib-toolbar">
-      <a href={`#binders`} class="lib-tab-link">Binders · {summary.chapterCount}</a>
-      <a href={`#episodes`} class="lib-tab-link">Episodes · {summary.episodeCount}</a>
-      <a href={`#slide-decks`} class="lib-tab-link">Slide decks · {slideDecks.length}</a>
-      <a href={`#audio`} class="lib-tab-link">Audio · {summary.audioCount}</a>
-      <a href={`#audits`} class="lib-tab-link">Audits · {audits.length}</a>
-      <a href={`#source`} class="lib-tab-link">Source · {sourceFiles.length}</a>
-      <a href={`#meta`} class="lib-tab-link">Meta</a>
-    </div>
-
-    {bookScore && (
-      <div class="lib-peq-summary">
-        <span class="lib-peq-label">Quality score</span>
+    <div class="lib-hero-chips">
+      {bookScore && (
         <span class={`lib-score-pill lib-score-${bookScore.avg >= 85 ? 'pass' : bookScore.avg >= 70 ? 'warn' : 'fail'}`}>
-          {bookScore.avg.toFixed(1)} avg — {verdictLabel(bookScore.avg >= 85 ? 'PASS' : bookScore.avg >= 70 ? 'WARN' : 'FAIL')}
+          <i class="fa-solid fa-gauge-high" aria-hidden="true"></i> {bookScore.avg.toFixed(1)} avg — {verdictLabel(bookScore.avg >= 85 ? 'PASS' : bookScore.avg >= 70 ? 'WARN' : 'FAIL')}
         </span>
-        <span class="lib-peq-breakdown">
-          {bookScore.passCount > 0 && <span class="lib-peq-stat lib-peq-pass">{bookScore.passCount} excellent</span>}
-          {bookScore.warnCount > 0 && <span class="lib-peq-stat lib-peq-warn">{bookScore.warnCount} good</span>}
-          {bookScore.failCount > 0 && <span class="lib-peq-stat lib-peq-fail">{bookScore.failCount} needs work</span>}
+      )}
+      {pipelineTone && (
+        <span class={`lib-state-chip lib-state-${pipelineTone}`}>
+          <i class="fa-solid fa-diagram-project" aria-hidden="true"></i>
+          Phase {state.phase ?? '—'} · {state.phaseStatus ?? '—'}
         </span>
-      </div>
-    )}
+      )}
+      {archetype && (
+        <span class="lib-state-chip lib-state-neutral">
+          <i class="fa-solid fa-masks-theater" aria-hidden="true"></i>
+          {humanizeFile(archetype)}
+        </span>
+      )}
+      <span class="lib-hero-slug">{summary.ref.slug}</span>
+    </div>
   </header>
 
-  <section id="meta" class="stack lib-section">
-    <header class="lib-section-head">
-      <h2>Metadata</h2>
-      <p class="card-sub">From <code>meta.yml</code> — edit inline below.</p>
-    </header>
-    {summary.hasMeta ? (
-      <form class="card stack lib-meta-form" data-slug={slug}>
-        {Object.entries(meta).slice(0, 16).map(([k, v]) => (
-          <label class="lib-field">
-            <span class="lib-field-label">{k}</span>
-            <input class="lib-field-input" type="text" name={k} value={v} readonly />
-          </label>
-        ))}
-        <p class="card-sub">Read-only in v1 — editable in the next iteration.</p>
-      </form>
-    ) : (
-      <p class="card-sub">No <code>meta.yml</code> on disk.</p>
-    )}
-    {state.exists && (
-      <div class="card card-tight">
-        <p class="card-sub"><strong>Pipeline state:</strong> phase = <code>{state.phase ?? '—'}</code> · status = <code>{state.phaseStatus ?? '—'}</code> · last completed = <code>{state.lastCompleted ?? '—'}</code></p>
+  <nav class="lib-tabs" aria-label="Book sections">
+    {tabs.map((t, i) => (
+      <a
+        href={`#${t.id}`}
+        class={`lib-tab${i === 0 ? ' is-active' : ''}${t.count === 0 ? ' is-empty' : ''}`}
+        data-tab={t.id}
+        aria-current={i === 0 ? 'true' : undefined}
+      >
+        {t.label}{t.count !== null && <span class="lib-tab-count">{t.count}</span>}
+      </a>
+    ))}
+  </nav>
+
+  <section id="overview" class="lib-panel" data-panel="overview">
+    <div class="lib-overview-grid">
+      <div class="card lib-facts-card">
+        <h2 class="lib-panel-title"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> About this book</h2>
+        {summary.hasMeta ? (
+          <dl class="lib-facts">
+            {Object.entries(meta).slice(0, 16).map(([k, v]) => {
+              const link = metaFileLinks.get(k);
+              return (
+                <div class="lib-fact">
+                  <dt>{k.replace(/_/g, ' ')}</dt>
+                  <dd>
+                    {link ? (
+                      link.href ? (
+                        <a class="lib-fact-file" href={link.href} target="_blank">
+                          <i class={link.icon} aria-hidden="true"></i> {link.name}
+                        </a>
+                      ) : (
+                        <span class={`lib-fact-file is-static${link.kind === 'missing' ? ' is-missing' : ''}`} title={v}>
+                          <i class={link.icon} aria-hidden="true"></i> {link.name}
+                          <span class="lib-fact-file-hint">{link.kind === 'dir' ? 'folder' : 'missing'}</span>
+                        </span>
+                      )
+                    ) : simplifyTransliteration(v)}
+                  </dd>
+                </div>
+              );
+            })}
+          </dl>
+        ) : (
+          <p class="card-sub">No <code>meta.yml</code> on disk.</p>
+        )}
       </div>
-    )}
+      <div class="lib-overview-side">
+        {bookScore && (
+          <div class="card lib-side-card">
+            <h2 class="lib-panel-title"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Quality</h2>
+            <div class="lib-peq-breakdown">
+              {bookScore.passCount > 0 && <span class="lib-peq-stat lib-peq-pass">{bookScore.passCount} excellent</span>}
+              {bookScore.warnCount > 0 && <span class="lib-peq-stat lib-peq-warn">{bookScore.warnCount} good</span>}
+              {bookScore.failCount > 0 && <span class="lib-peq-stat lib-peq-fail">{bookScore.failCount} needs work</span>}
+            </div>
+            <p class="card-sub">Per-chapter scores are on each binder card.</p>
+          </div>
+        )}
+        {state.exists && (
+          <div class="card lib-side-card">
+            <h2 class="lib-panel-title"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Pipeline</h2>
+            <dl class="lib-facts lib-facts-tight">
+              <div class="lib-fact"><dt>phase</dt><dd>{state.phase ?? '—'}</dd></div>
+              <div class="lib-fact"><dt>status</dt><dd>{state.phaseStatus ?? '—'}</dd></div>
+              <div class="lib-fact"><dt>last completed</dt><dd>{state.lastCompleted ?? '—'}</dd></div>
+            </dl>
+          </div>
+        )}
+        <div class="lib-danger-row">
+          <div class="lib-danger-text">
+            <strong>Archive this book</strong>
+            <span class="card-sub">Soft-deletes to <code>content/_archive/</code>. Reversible.</span>
+          </div>
+          <form method="POST" action={`/api/library/${summary.ref.slug}/archive`}>
+            <button type="submit" class="lib-btn lib-btn-danger" onclick="return confirm('Archive this piece of content?')">Archive</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section id="binders" class="stack lib-section">
-    <header class="lib-section-head">
-      <h2>Binders · {chapters.length}</h2>
-      <p class="card-sub">Authored binders in <code>chapters/</code>.</p>
-    </header>
+  <section id="binders" class="lib-panel" data-panel="binders">
+    <p class="lib-panel-sub">Authored binders in <code>chapters/</code> — click a card to open it in Studio.</p>
     {chapters.length === 0 ? (
-      <p class="card-sub">No chapters yet.</p>
+      <div class="lib-empty-panel"><i class="fa-regular fa-folder-open" aria-hidden="true"></i><p>No chapters yet.</p></div>
     ) : (
-      <div class="lib-file-list">
-        {chapters.map((f) => {
-          const chapterSlug = f.name.replace(/\.(txt|md)$/i, '');
-          const cs = chapterScoreMap.get(chapterSlug);
-          return (
-            <a class="lib-file-row" href={`/studio/${slugStr}/edit?ch=${chapterSlug}`}>
-              <span class="lib-file-name">{f.name}</span>
-              <span class="lib-file-meta-row">
-                {cs && (
-                  <span class={`lib-score-pill lib-score-${cs.verdict.toLowerCase()}`} title={`Source accuracy: ${cs.fidelity.toFixed(0)}  Style: ${cs.voice.toFixed(0)}  Structure: ${cs.structure.toFixed(0)}  Depth: ${cs.enrichment.toFixed(0)}  Interest: ${cs.interest.toFixed(0)}`}>
-                    {cs.total.toFixed(0)}
-                  </span>
-                )}
-                <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
-              </span>
-            </a>
+      <div class={hasSessions ? 'stack lib-session-stack' : ''}>
+        {binderGroups.map((g) => {
+          const rows = (
+            <div class="lib-binder-grid">
+              {g.files.map((f) => {
+                const chapterSlug = f.name.replace(/\.(txt|md)$/i, '');
+                const cs = chapterScoreMap.get(chapterSlug);
+                const card = parseBinderName(f.name);
+                return (
+                  <a class="lib-binder-card" href={`/studio/${slugStr}/edit?ch=${chapterSlug}`}>
+                    <div class="lib-binder-top">
+                      <span class="lib-binder-num" aria-hidden="true">
+                        {card.num ?? <i class="fa-solid fa-book-open"></i>}
+                      </span>
+                      {cs && (
+                        <span class={`lib-score-pill lib-score-${cs.verdict.toLowerCase()}`} title={`Source accuracy: ${cs.fidelity.toFixed(0)}  Style: ${cs.voice.toFixed(0)}  Structure: ${cs.structure.toFixed(0)}  Depth: ${cs.enrichment.toFixed(0)}  Interest: ${cs.interest.toFixed(0)}`}>
+                          <i class="fa-solid fa-gauge-high" aria-hidden="true"></i> {cs.total.toFixed(0)}
+                        </span>
+                      )}
+                    </div>
+                    {card.num && <span class="lib-binder-eyebrow">Chapter {Number(card.num)}</span>}
+                    <h3 class="lib-binder-title">{card.title}</h3>
+                    <div class="lib-binder-meta">
+                      <span class="lib-binder-meta-item"><i class="fa-regular fa-file-lines" aria-hidden="true"></i> {formatBytes(f.bytes)}</span>
+                      <span class="lib-binder-meta-item"><i class="fa-regular fa-clock" aria-hidden="true"></i> {formatModified(f.modified)}</span>
+                      <span class="lib-binder-open" aria-hidden="true">Open <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
           );
+          return g.label ? (
+            <details class="lib-session-group lib-session-group-cards" open>
+              <summary class="lib-session-summary">
+                <span class="lib-session-name">{g.label}</span>
+                <span class="lib-session-count">{g.count} binder{g.count === 1 ? '' : 's'}</span>
+              </summary>
+              {rows}
+            </details>
+          ) : rows;
         })}
       </div>
     )}
   </section>
 
-  <section id="episodes" class="stack lib-section">
-    <header class="lib-section-head">
-      <h2>Episodes · {episodes.length}</h2>
-      <p class="card-sub">NotebookLM framings in <code>episodes/</code>.</p>
-    </header>
+  <section id="episodes" class="lib-panel" data-panel="episodes">
+    <p class="lib-panel-sub">NotebookLM framings in <code>episodes/</code>.</p>
     {episodes.length === 0 ? (
-      <p class="card-sub">No episodes yet.</p>
+      <div class="lib-empty-panel"><i class="fa-regular fa-folder-open" aria-hidden="true"></i><p>No episodes yet — framings land here after chapter authoring.</p></div>
     ) : (
-      <div class="lib-file-list">
-        {episodes.map((f) => {
-          return (
-            <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
-              <span class="lib-file-name">{f.name}</span>
-              <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
-            </a>
+      <div class={hasSessions ? 'stack lib-session-stack' : ''}>
+        {episodeGroups.map((g) => {
+          const rows = (
+            <div class="lib-asset-list">
+              {g.files.map((f) => (
+                <a class="lib-asset-row" href={fileViewHref(f.relPath)} target="_blank">
+                  <span class="lib-asset-icon lib-asset-icon-doc"><i class="fa-regular fa-file-lines" aria-hidden="true"></i></span>
+                  <span class="lib-asset-name">{humanizeFile(f.name)}</span>
+                  <span class="lib-asset-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+                </a>
+              ))}
+            </div>
           );
+          return g.label ? (
+            <details class="lib-session-group" open>
+              <summary class="lib-session-summary">
+                <span class="lib-session-name">{g.label}</span>
+                <span class="lib-session-count">{g.count} episode{g.count === 1 ? '' : 's'}</span>
+              </summary>
+              {rows}
+            </details>
+          ) : rows;
         })}
       </div>
     )}
   </section>
 
-  <section id="slide-decks" class="stack lib-section">
-    <header class="lib-section-head">
-      <h2>Slide decks · {slideDecks.length}</h2>
-      <p class="card-sub">One folder per chapter under <code>_system/slide-decks/</code>.</p>
-    </header>
+  <section id="media" class="lib-panel" data-panel="media">
+    <h2 class="lib-panel-title"><i class="fa-solid fa-headphones" aria-hidden="true"></i> Audio · {audio.length}</h2>
+    <p class="lib-panel-sub">NotebookLM Audio Overview downloads in <code>m4a/</code>. Audio is gitignored.</p>
+    {audio.length === 0 ? (
+      <div class="lib-empty-panel"><i class="fa-regular fa-folder-open" aria-hidden="true"></i><p>No audio files yet.</p></div>
+    ) : (
+      <div class="lib-asset-list">
+        {audio.map((f) => (
+          <a class="lib-asset-row" href={fileViewHref(f.relPath)} target="_blank">
+            <span class="lib-asset-icon lib-asset-icon-audio"><i class="fa-solid fa-file-audio" aria-hidden="true"></i></span>
+            <span class="lib-asset-name">{humanizeFile(f.name)}</span>
+            <span class="lib-asset-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+          </a>
+        ))}
+      </div>
+    )}
+    <h2 class="lib-panel-title lib-panel-title-gap"><i class="fa-solid fa-images" aria-hidden="true"></i> Slide decks · {slideDecks.length}</h2>
+    <p class="lib-panel-sub">One folder per chapter under <code>_system/slide-decks/</code>.</p>
     {slideDecks.length === 0 ? (
-      <p class="card-sub">No slide decks yet.</p>
+      <div class="lib-empty-panel"><i class="fa-regular fa-folder-open" aria-hidden="true"></i><p>No slide decks yet.</p></div>
     ) : (
       <div class="lib-deck-grid">
         {slideDecks.map((deck) => (
@@ -158,71 +367,70 @@ function fileViewHref(relPath: string): string {
     )}
   </section>
 
-  <section id="audio" class="stack lib-section">
-    <header class="lib-section-head">
-      <h2>Audio · {summary.audioCount}</h2>
-      <p class="card-sub">NotebookLM Audio Overview downloads in <code>m4a/</code>. Audio is gitignored.</p>
-    </header>
-    {audio.length === 0 ? (
-      <p class="card-sub">No audio files yet.</p>
-    ) : (
-      <div class="lib-file-list">
-        {audio.map((f) => (
-          <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
-            <span class="lib-file-name">{f.name}</span>
-            <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
-          </a>
-        ))}
-      </div>
-    )}
-  </section>
-
-  <section id="audits" class="stack lib-section">
-    <header class="lib-section-head">
-      <h2>Audits · {audits.length}</h2>
-      <p class="card-sub">Challenger reports + postprod-review findings.</p>
-    </header>
+  <section id="audits" class="lib-panel" data-panel="audits">
+    <p class="lib-panel-sub">Challenger reports + postprod-review findings.</p>
     {audits.length === 0 ? (
-      <p class="card-sub">No audits yet.</p>
+      <div class="lib-empty-panel"><i class="fa-regular fa-folder-open" aria-hidden="true"></i><p>No audits yet.</p></div>
     ) : (
-      <div class="lib-file-list">
+      <div class="lib-asset-list">
         {audits.map((f) => (
-          <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
-            <span class="lib-file-name">{f.name}</span>
-            <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+          <a class="lib-asset-row" href={fileViewHref(f.relPath)} target="_blank">
+            <span class="lib-asset-icon lib-asset-icon-audit"><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i></span>
+            <span class="lib-asset-name">{humanizeFile(f.name)}</span>
+            <span class="lib-asset-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
           </a>
         ))}
       </div>
     )}
   </section>
 
-  <section id="source" class="stack lib-section">
-    <header class="lib-section-head">
-      <h2>Source · {sourceFiles.length}</h2>
-      <p class="card-sub">Refined English, phonetics, raw extract, source-toc — under <code>_system/source/text/</code>.</p>
-    </header>
+  <section id="source" class="lib-panel" data-panel="source">
+    <p class="lib-panel-sub">Refined English, phonetics, raw extract, source-toc — under <code>_system/source/text/</code>.</p>
     {sourceFiles.length === 0 ? (
-      <p class="card-sub">No source files yet.</p>
+      <div class="lib-empty-panel"><i class="fa-regular fa-folder-open" aria-hidden="true"></i><p>No source files yet.</p></div>
     ) : (
-      <div class="lib-file-list">
+      <div class="lib-asset-list">
         {sourceFiles.map((f) => (
-          <a class="lib-file-row" href={fileViewHref(f.relPath)} target="_blank">
-            <span class="lib-file-name">{f.name}</span>
-            <span class="lib-file-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
+          <a class="lib-asset-row" href={fileViewHref(f.relPath)} target="_blank">
+            <span class="lib-asset-icon lib-asset-icon-doc"><i class="fa-regular fa-file-lines" aria-hidden="true"></i></span>
+            <span class="lib-asset-name">{humanizeFile(f.name)}</span>
+            <span class="lib-asset-meta">{formatBytes(f.bytes)} · {formatModified(f.modified)}</span>
           </a>
         ))}
       </div>
     )}
-  </section>
-
-  <section class="stack lib-section">
-    <header class="lib-section-head">
-      <h2>Danger zone</h2>
-      <p class="card-sub">Soft-deletes this piece of content to <code>content/_archive/&lt;date&gt;/{summary.ref.slug}/</code>. Reversible.</p>
-    </header>
-    <form method="POST" action={`/api/library/${summary.ref.slug}/archive`}>
-      <button type="submit" class="lib-btn lib-btn-danger" onclick="return confirm('Archive this piece of content?')">Archive</button>
-    </form>
   </section>
 </Base>
 
+<script>
+  // Hash-routed tab switching. Panels render server-side (visible without JS);
+  // on load we collapse to the active tab. Legacy anchors map to their new tab.
+  const LEGACY: Record<string, string> = { meta: 'overview', audio: 'media', 'slide-decks': 'media' };
+  const tabLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.lib-tab'));
+  const panels = Array.from(document.querySelectorAll<HTMLElement>('.lib-panel'));
+  const ids = new Set(panels.map((p) => p.dataset.panel ?? ''));
+
+  function activate(rawId: string, push: boolean): void {
+    const id = ids.has(rawId) ? rawId : (LEGACY[rawId] ?? 'overview');
+    for (const p of panels) p.hidden = p.dataset.panel !== id;
+    for (const t of tabLinks) {
+      const on = t.dataset.tab === id;
+      t.classList.toggle('is-active', on);
+      if (on) t.setAttribute('aria-current', 'true');
+      else t.removeAttribute('aria-current');
+    }
+    if (push) history.replaceState(null, '', `#${id}`);
+  }
+
+  activate(window.location.hash.replace(/^#/, '') || 'overview', false);
+  for (const t of tabLinks) {
+    t.addEventListener('click', (e) => {
+      e.preventDefault();
+      activate(t.dataset.tab ?? 'overview', true);
+      window.scrollTo({ top: 0 });
+    });
+  }
+  window.addEventListener('hashchange', () => {
+    activate(window.location.hash.replace(/^#/, '') || 'overview', false);
+  });
+</script>

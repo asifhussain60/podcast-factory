@@ -2,10 +2,16 @@ slug: the-master-and-the-disciple
 title: The Master and the Disciple
 content_profile: islamic_scholarly
 source_language: en
-episode_planning_mode: chronological
+# dialectical_pairs: master-disciple dialectic; ALSO keeps Phase 0d out of
+# fiction-style CONSOLIDATION mode (chronological triggered it and the design
+# re-planned 5 marathon episodes — 2026-06-10 root cause).
+episode_planning_mode: dialectical_pairs
 audience_profile: traditional
 conversation_style: deep_dive
-length_tier: extended
+# default_deep_dive: with the density standard forcing ~20 episodes from a
+# 17k-word source, the extended band (5,500w+/episode) would demand ~6x
+# padding; 1,800-2,800w/episode keeps the render faithful (2026-06-10).
+length_tier: default_deep_dive
 enable_video: false
 video_style: none
 # Density-standard re-run (2026-06-10): opts this book into the chapter-density

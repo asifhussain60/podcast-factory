@@ -27,6 +27,18 @@ export interface BookEpisode {
   sourceChapterRef: string | null;
   filePath: string;
   contractKeys: string[];
+  // session grouping (chapter-density standard — absent on flat books)
+  sessionIndex: number | null;
+  sessionTitle: string | null;
+  sessionEpisode: number | null;
+}
+
+export interface BookSession {
+  index: number;
+  title: string;
+  slug: string;
+  episodeNumbers: number[];
+  episodeCount: number;
 }
 
 export interface BookIndex {
@@ -82,7 +94,7 @@ async function discoverEpisodes(root: string): Promise<BookEpisode[]> {
       const raw = await readFile(filePath, 'utf-8');
       const parsed = yamlLoad(raw) as Record<string, unknown> | null;
       if (!parsed || typeof parsed !== 'object') {
-        out.push({ slug, episodeNumber: null, title: slug.replace(/-/g, ' '), sourceChapterRef: null, filePath, contractKeys: [] });
+        out.push({ slug, episodeNumber: null, title: slug.replace(/-/g, ' '), sourceChapterRef: null, filePath, contractKeys: [], sessionIndex: null, sessionTitle: null, sessionEpisode: null });
         continue;
       }
       out.push({
@@ -97,10 +109,51 @@ async function discoverEpisodes(root: string): Promise<BookEpisode[]> {
               : null,
         filePath,
         contractKeys: Object.keys(parsed),
+        sessionIndex: typeof parsed.session_index === 'number' ? parsed.session_index : null,
+        sessionTitle: typeof parsed.session_title === 'string' ? parsed.session_title : null,
+        sessionEpisode: typeof parsed.session_episode === 'number' ? parsed.session_episode : null,
       });
     } catch { /* noop */ }
   }
   return out.sort((a, b) => (a.episodeNumber ?? 999) - (b.episodeNumber ?? 999));
+}
+
+/**
+ * Discover the book's Session grouping from its chapter contracts.
+ * Returns [] for flat books (no session_* fields anywhere) — every consumer
+ * is presence-gated and renders the flat layout in that case.
+ */
+export async function discoverSessions(root: string): Promise<BookSession[]> {
+  const dir = join(root, 'chapter-contracts');
+  let entries: string[];
+  try { entries = await readdir(dir); } catch { return []; }
+
+  const byIndex = new Map<number, BookSession>();
+  for (const name of entries) {
+    if (!name.endsWith('.yml') && !name.endsWith('.yaml')) continue;
+    if (name.startsWith('.') || name.startsWith('_')) continue;
+    try {
+      const parsed = yamlLoad(await readFile(join(dir, name), 'utf-8')) as Record<string, unknown> | null;
+      if (!parsed || typeof parsed !== 'object') continue;
+      const idx = typeof parsed.session_index === 'number' ? parsed.session_index : null;
+      if (idx === null) continue;
+      let session = byIndex.get(idx);
+      if (!session) {
+        session = {
+          index: idx,
+          title: typeof parsed.session_title === 'string' ? parsed.session_title : `Session ${idx}`,
+          slug: typeof parsed.session_slug === 'string' ? parsed.session_slug : `session-${idx}`,
+          episodeNumbers: [],
+          episodeCount: typeof parsed.session_episode_count === 'number' ? parsed.session_episode_count : 0,
+        };
+        byIndex.set(idx, session);
+      }
+      if (typeof parsed.episode_number === 'number') session.episodeNumbers.push(parsed.episode_number);
+    } catch { /* noop */ }
+  }
+  const sessions = [...byIndex.values()].sort((a, b) => a.index - b.index);
+  for (const s of sessions) s.episodeNumbers.sort((a, b) => a - b);
+  return sessions;
 }
 
 export async function loadBookIndex(slug: string): Promise<BookIndex | null> {

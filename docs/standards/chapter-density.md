@@ -210,11 +210,58 @@ Each chapter averages 12.4 concepts and needs 4–5 sub-episodes. The chapters f
 
 ---
 
+## Session Grouping (2026-06-10)
+
+The density standard multiplies episode counts (this book: 5 → 20), so books
+need a navigation layer. A **Session** is a deterministic grouping of episodes
+by source structure — one session per source chapter (Part / major division).
+
+**Locked decisions (Asif, 2026-06-10):**
+
+| Decision | Locked choice |
+|---|---|
+| Term | **Session** — stored as `session_*` fields; display label per content profile via `SESSION_LABELS` registry (default "Session") |
+| Boundaries | One session per source Part; uneven sizes accepted (M&D: 3+4+4+5+4) |
+| Numbering | Global EP numbers on disk (EP01..EPnn); "Session 3, Episode 4" is display-only |
+| Scope | Automatic when planned episodes > 8 AND source chapters >= 2; override with `sessions: on\|off` in series-config.yaml |
+| Physical | Metadata everywhere + per-session folders in **Google Drive delivery only**; repo folders stay flat |
+
+**Module:** `scripts/podcast/_sessions.py` (derivation from the Phase 0d TOC
+plan, contract stamping, backfill CLI). **Tests:** `tests/test_sessions.py`.
+
+**Contract fields (appended, presence-gated everywhere):** `session_index`,
+`session_title`, `session_slug`, `session_episode` (position within session),
+`session_episode_count`. Flat books carry none of these and every consumer
+renders exactly as before.
+
+**Backfill** (books authored before this standard):
+
+```
+python3 scripts/podcast/_sessions.py <slug> --dry-run   # plan
+python3 scripts/podcast/_sessions.py <slug>             # stamp
+```
+
+---
+
 ## Integration with Pipeline Phases
 
 ```
 Phase 0d (chapter design)
   └─ ENFORCE: max 3 concepts per episode in LLM prompt
+  └─ ENFORCE (deterministic, 2026-06-10): the TOC plan must enumerate each
+     source chapter's distinct topics in a `topics` array; the plan parser
+     rejects any source chapter with episode_count < ceil(len(topics)/3).
+     When `chapters/_curator-archive/*.txt` exists (a prior render of the
+     same source), its measured concept inventory is BINDING: the whole
+     plan must carry >= ceil(total_inventory_concepts/3) episodes. Closes
+     the merge loophole where the planner under-counts topics and the
+     author rolls several teachings under one umbrella H2 to satisfy the
+     post-write heading gate. (_authoring/_chapter_design.py:
+     _concept_inventory + _topic_floor_violations; tests:
+     tests/test_topic_floor.py)
+  └─ NOTE: the per-concept word target derives from the length tier
+     (tier_band / 3), NOT a fixed 1,500–2,500 — a fixed band contradicts
+     the smaller tiers (3 × 1,500 > the default_deep_dive ceiling).
   └─ OUTPUT: chapter contracts with bounded concept count
 
 Phase 0e (enrich)
