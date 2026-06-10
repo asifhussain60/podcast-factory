@@ -615,10 +615,32 @@
   flex-wrap: wrap;
 }
 
+/* Primary "New content" action — deliberately distinct from the filter
+   buttons: solid mid-dark fill, light text, 2px soft-rounded border. */
 .studio-toolbar .studio-new-content-link {
-  padding: 0.45rem 0.95rem;
-  border-radius: 999px;
+  padding: 0.6rem 1.15rem;
+  border-radius: 12px;
   gap: 0.5rem;
+  border: 2px solid color-mix(in oklab, var(--c-accent) 65%, var(--c-ink));
+  background: var(--c-accent);
+  color: var(--c-bg-card);
+  box-shadow:
+    0 1px 2px color-mix(in oklab, var(--c-ink) 12%, transparent),
+    0 2px 8px color-mix(in oklab, var(--c-accent) 22%, transparent);
+}
+
+.studio-toolbar .studio-new-content-link .studio-new-content-sub {
+  color: color-mix(in oklab, var(--c-bg-card) 72%, var(--c-accent));
+}
+
+.studio-toolbar .studio-new-content-link:hover {
+  background: color-mix(in oklab, var(--c-ink) 12%, var(--c-accent));
+  border-color: color-mix(in oklab, var(--c-accent) 45%, var(--c-ink));
+  color: var(--c-bg-card);
+}
+
+.studio-toolbar .studio-new-content-link:hover .studio-new-content-sub {
+  color: color-mix(in oklab, var(--c-bg-card) 80%, var(--c-accent));
 }
 
 .studio-new-content-link {

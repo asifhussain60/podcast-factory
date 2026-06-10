@@ -366,6 +366,9 @@ hr { border: 0; height: 1px; background: var(--c-rule); margin: var(--sp-6) 0; }
   /* Let the tab strip scroll rather than clip off-screen */
   .topnav-sections { overflow-x: auto; scrollbar-width: none; min-width: 0; }
   .topnav-sections::-webkit-scrollbar { display: none; }
+  /* The spacer also carries flex:1 — on narrow screens it steals half the
+     free width from the tab strip and clips tabs mid-letter. Collapse it. */
+  .topnav-spacer { display: none; }
 }
 
 /* ── Page shell + sidebar ──────────────────────────────────────── */

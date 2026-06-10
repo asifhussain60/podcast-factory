@@ -26,7 +26,23 @@
   width: 90%;
   max-width: 1200px;
   margin: 18px auto 60px;
-  align-items: start;
+  align-items: stretch;
+}
+
+/* Balance the two columns: the Source-files card absorbs the height
+   difference and its drop target grows with it, so neither column trails
+   off into blank space. */
+.intake-card--grow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.intake-card--grow .intake-drop {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 @media (max-width: 800px) {
   .intake-shell { grid-template-columns: 1fr; }

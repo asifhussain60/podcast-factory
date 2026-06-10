@@ -41,6 +41,7 @@ export default function IntakeWorkspace({ cardDefs }: Props) {
         <UploadStaging
           onChange={({ token, valid }) => { setStagingToken(token); setUploadValid(valid); }}
         />
+        <EditorialDefaults slug={created?.slug ?? null} cardDefs={cardDefs} />
       </div>
       <div className="intake-column">
         <SmartForm onChange={setSettings} />
@@ -52,7 +53,6 @@ export default function IntakeWorkspace({ cardDefs }: Props) {
           uploadValid={uploadValid}
           onLaunched={setLaunchedSlug}
         />
-        <EditorialDefaults slug={created?.slug ?? null} cardDefs={cardDefs} />
       </div>
     </div>
   );
