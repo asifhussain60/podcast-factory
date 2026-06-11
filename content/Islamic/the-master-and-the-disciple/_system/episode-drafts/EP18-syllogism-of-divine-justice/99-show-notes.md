@@ -14,3 +14,16 @@
 ## References
 
   - >
+
+## Name and Title Preservation Table
+
+| Original / Transliteration | Category | Written Form | Audio Label | First Audio Use |
+|---|---|---|---|---|
+| Salih | Person | Salih | the master | "the master, the elder companion in this dialogue" |
+| Abu Malik | Person | Abu Malik | the disciple | "the disciple, the careful interlocutor" |
+| Ali ibn Abi Talib | Person | Ali ibn Abi Talib | the Commander of the Faithful | "the Commander of the Faithful, peace be upon him" |
+| Nahj al-Balagha | Title | Nahj al-Balagha | The Peak of Eloquence | "the book *The Peak of Eloquence*" |
+| Ibrahim | Person | Ibrahim | the patriarch | "the patriarch" |
+| Lut | Person | Lut | Lot | "Lot" |
+| Isma'il | Person | Isma'il | the elder son | "the elder son" |
+| Ishaq | Person | Ishaq | the younger son | "the younger son" |

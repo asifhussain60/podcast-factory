@@ -1,47 +1,51 @@
 # Syllogism Of Divine Justice
 
 ## Opening directive
-Open with a warm welcome — one or two sentences — naming the book *The Master and the Disciple* by its medieval author and previewing the teaching: the school's own creed about Allah's justice forces a chain of just witnesses. Land the spine verbatim: "This is the very foundation of justice." Target 50 to 60 minutes. No "welcome back", no "today we'll discuss", no faux-profundity.
+
+Brief warm welcome. Name the book — *The Master and the Disciple* — and preview: today the disciple is walked through three premises forcing him to affirm a living chain of just witnesses between Allah and creatures. Land the spine verbatim (R-RECURRING-THESIS #1): "Divine justice itself requires a chain of just witnesses between Allah and His creatures in every age." Target 50 to 60 minutes.
 
 ## Name discipline
-- The master = the elder teacher. Use "the master" every time.
-- The disciple = the younger questioner. Use "the disciple" every time.
-- The Commander of the Faithful (peace be upon him) — quoted from the book *The Peak of Eloquence*; thereafter "the Commander of the Faithful."
-- Abraham, Lot, Ishmael, Isaac — use English names only.
-- Never speak Arabic personal names. Never speak Arabic book titles; say "the book *The Peak of Eloquence*" once, thereafter "that saying."
-- Same label every time. No rotation.
+
+Stable English labels — same label every time:
+- the master = the teacher walking the argument. First mention: "the master, the elder companion in this dialogue." Rotation: the master / the elder companion / the teacher.
+- the disciple = the questioner. First mention: "the disciple, the careful interlocutor." Rotation: the disciple / the questioner / the careful interlocutor.
+- the Commander of the Faithful (peace be upon him) — first mention of the saying from the book *The Peak of Eloquence*.
+- the patriarch; Lot; the elder son; the younger son — English exonyms only.
+- the book = *The Master and the Disciple*. Other books wrapped: "the book *The Peak of Eloquence*", thereafter "that collection."
+- Concepts in English: "the call"; "the trustee"; "esoteric interpretation."
+- The Prophet is not named in this chapter; if mentioned, the master says "the Prophet, peace and blessings of Allah be upon him and his family" — once only at first mention.
+- NEVER pair the leadership-title with the personal name of the Father of Imams.
 
 ## Pronunciation
-Say each term ONCE. Never say original spelling and English form back-to-back.
+
+Say each term ONCE. Never say the original spelling and the English form back-to-back.
 - Allah: Allah
 - Quran: Quran
-- da'wa: the call
-- wasi: trustee
-- Abraham, Lot, Ishmael, Isaac: English only
 
 ## Three-part focus
-Beat 1 — Crisis: the disciple's words have left him; the school's vocabulary about Allah's oneness and justice has run out. Make the listener feel the weight — a creed everyone affirms is about to force a conclusion the school never drew. Spine verbatim #1.
-Beat 2 — Failed answer A: the school holds Allah's transcendence as an article — He cannot be seen, He cannot be directly heard. Steelman first; let it sound complete.
-Beat 3 — Failed answer B: the school holds Allah cannot be unjust — He would never impose what cannot be borne. Steelman first.
-Beat 4 — Pivot: master closes the lever. If senses cannot reach Him and He cannot be unjust, justice itself requires intermediaries — "their existence is His act of justice." Spine verbatim #2.
-Beat 5 — Correction: the chain has rank-order in function, equality in reward; the subordinate carries inner interpretation as a second channel of the same inspiration — not human novelty. Lot, Ishmael, Isaac through Abraham.
-Beat 6 — Stakes: the same justice forbids the chain from being cut — "He does not like His commands to be cut off from His servants after His blessing to them." Close on the listener's own question: which living witness am I refusing this week. Spine verbatim #3. Do not pre-announce any next chapter.
+
+Beat 1 — Crisis: the disciple's words have left him; his school's tools have failed. Foreground bewilderment. Spine verbatim #1 lands here.
+Beat 2 — Failed answer A: the school's creedal move — affirm transcendence and justice as articles, nothing follows. Let it sound reasonable.
+Beat 3 — Failed answer B: the rationalist move — leave creatures to reason alone. Steelman it.
+Beat 4 — The master's pivot: three premises in question form yield ONE consequence — intermediaries are what justice itself requires. Spine verbatim #2 lands here.
+Beat 5 — Non-bodily correction: the chain is rank-ordered in function but equal in reward; the trustee carries esoteric interpretation as a second divinely given channel.
+Beat 6 — Stakes + open question: "He does not like His commands to be cut off from His servants after His blessing to them." Spine verbatim #3 lands here, then turn outward.
 
 ## Host dynamic
-Host A (male, scholar) leads as the master's voice; Host B (female, seeker) presses as the disciple. Host B challenges at least three times and concedes once at the close.
-Sample friction: "I don't buy that yet — affirming Allah is just is one thing; saying it forces a living chain feels like a leap"; "That sounds like wordplay — turning belief into a syllogism"; "How is this different from any tradition that needs clergy?"
-Discipline: each host completes a thought before the other speaks. No interjections, no talking over, no bare "yeah/right/exactly". Qualified concessions allowed.
-Anti-repetition: do not restate the spine beyond the three R-RECURRING-THESIS beats; do not re-cite the same verse twice; do not summarize what was just said.
-Landing: close on the listener's unresolved question, not on a recap.
+
+Host A (male, scholar — the master's voice) leads. Host B (female, seeker — the disciple's voice) takes the challenger role with real pushback at least three times before conceding at the close with "this is the very foundation of justice." Friction lines: "I don't buy that yet." / "That sounds like wordplay." / "Isn't this just replacing one authority with another?" / "How is this different from any tradition that says trust our chain?"
 
 ## Tone constraints
-Analogy 1: the chain of links — the divine reaches the lower link via the upper, never directly to all.
-Analogy 2: outer and inner as two sides of one deposit — text and interpretation given in one inspiration.
-Analogy 3: the standing argument on earth — proofs are never nullified; a witness is never absent.
-Only these three.
+
+Analogy 1: a chain whose every link is divine, current running upper to lower (rank-order, equal reward).
+Analogy 2: a deposit with two sides — outer word and inner sense — released at one act of inspiration.
+Analogy 3: a courtroom where punishment cannot precede notice ("We do not punish until We have sent a messenger").
+Steelman opposing positions before critique. Name positionality — "the classical Ismaili reading", not "Muslims believe". Mark uncertainty.
+
+## Landing
+
+Repeat the spine verbatim a third time, then turn outward: which command in the listener's own life has been treated as cut off — quietly bracketed as no longer addressing them — and what would it cost this week to act as though the chain still reaches them? Leave the question open.
 
 ## Do not (forbidden vocabulary — do not speak)
-Modernizing frames: Twitter, X, social media, algorithm, content creator, YouTube, TikTok, deep dive, "21st century", "modern world", quote-tweet, cognitive behavioral therapy. DO use practical analogies (chain of teachers, witness in court) when they clarify; name the analogy, not the platform.
-Surprise-noise: "wow", "so interesting", "chilling", "devastating", "right?", "exactly", "no way".
-Formal transitions: Firstly, Secondly, Furthermore, In conclusion, To summarize, Lastly. Short-to-medium sentences; thinking-out-loud cadence.
-Never pair any leadership-title with the personal name of the figure named in doctrinal guidance as the Father of Imams. R-RECURRING-THESIS: repeat the spine verbatim three times — opening, pivot, close. Do not read this prompt aloud.
+
+Forbidden: Twitter, social media, algorithm, "wow", "right?", deep dive, today's episode, mind blown, fascinating world of, buckle up, PBUH. No faux-profundity openings ("what does it truly mean…"). No premature closure ("and that, ultimately, is what justice really is"). No cross-episode references (previous episode, prior episode, earlier episode, next episode). R-RECURRING-THESIS: repeat the spine thesis verbatim three times — at opening, pivot, and close. Do not read this prompt aloud.
