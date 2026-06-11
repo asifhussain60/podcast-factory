@@ -9,7 +9,7 @@ Open warmly: "Welcome. We're with *The Master and the Disciple* — the moment t
 - the seven speaker-prophets — Adam, Noah, Abraham, Moses, Jesus, Muhammad (peace and blessings of Allah be upon him and his family at first mention), and the awaited one. Rotation: the seven speaker-prophets / the seven messengers / the seven heralds.
 - the Commander of the Faithful (peace be upon him at first mention) — from the sermon-collection.
 - the chief judge — from the legal treatise *The Pillars of Islam*. Rotation: the chief judge / the Fatimid jurist / the legal master.
-- Henry Corbin, Farhad Daftary — modern scholars; plain English.
+- Henry Corbin, Farhad Daftary, Khalil Andani — modern scholars; plain English.
 Never pair the leadership-title with the personal name of the Father of Imams. No Arabic book titles spoken. *Peak of Eloquence* on first reference, thereafter "the sermon-collection."
 
 ## Pronunciation
@@ -17,6 +17,8 @@ Say each term ONCE. Never say the original spelling and the English form back-to
 - Allah: Allah
 - Quran: Quran
 - Natiqs: speaker-prophets
+- ta'wil: inner interpretation
+- awwal: first
 - Pickthall: Pickthall
 - Yusuf Ali: Yusuf Ali
 
