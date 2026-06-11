@@ -21,6 +21,68 @@ audience: >
 angle: faithful_exposition
 episode_format: debate
 resolution: host_b_concedes
+debate:
+  proposition: >
+    The chain of just witnesses has never been broken: the
+    intervals between prophets are periods of fear and
+    concealment, not absences of the witness from the earth.
+  host_a:
+    role: arbiter — voices Salih
+    position: >
+      Between Abraham and Moses and between Moses and Jesus
+      the chain runs link by link; the Quranic fatra names a
+      period of fear in which the call goes secret, not an
+      absence of the witness. Concealment follows the way of
+      Moses fleeing into Midian; its cause rests above all on
+      the sympathetic abandoners; the scholars who legitimate
+      the oppressors are worse than the murderers; and the
+      path of return lies within the community's reach.
+    source_moves:
+      - >
+        The chain by name — Ishmael, Isaac, Jacob, Jonah,
+        Shu'ayb leading to Moses; Joshua, Elijah, David,
+        Solomon, Saul, Zechariah, and John leading to Jesus.
+      - >
+        The reading of fatra (chapter 5, verse 19) as the
+        public manifestation of the call after a period of
+        fear — the earth is never without a just witness for
+        the blink of an eye.
+      - >
+        The way of Moses fleeing into Midian as the model of
+        concealment.
+      - >
+        The three categories of people — the relentless
+        murderer, the deep-seated enemy, and the sympathetic
+        abandoner because of whom the friends of Allah have
+        concealed themselves.
+      - >
+        The scholars-worse-than-murderers verdict with its
+        three verses (chapter 11, verse 113; chapter 4, verse
+        59; chapter 9, verse 123).
+      - >
+        The path-of-return formula — help the friends of Allah
+        and they will reveal themselves; abandon their enemies
+        and they will not be victorious.
+  host_b:
+    role: advocate — voices Abu Malik
+    position: >
+      History shows real intervals between the prophets, and
+      the concealment of any witness in the present age is
+      itself evidence that the chain has stopped.
+    source_moves:
+      - >
+        The interval question — what of the gaps after
+        Abraham, after Moses, before the Gospel?
+      - >
+        The question about the present concealment — where is
+        the witness now?
+      - >
+        His acknowledgement of the diagnosis as the true
+        description of his community.
+      - >
+        His repentance, and the scholar's closing counsel
+        about the testing of his companions.
+  resolution: host_b_concedes
 format_rationale: >
   The chapter carries on the named exchange between Salih
   and Abu Malik through the unbroken-chain question and

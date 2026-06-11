@@ -4,13 +4,13 @@
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
   "phase": "per-chapter",
-  "phase_status": "running",
+  "phase_status": "failed",
   "last_completed_phase": "0g",
   "next_phase": "0f",
   "last_error": {
     "phase": "per-chapter",
-    "message": "[who-is-allah-beyond-names] extract_chapter.py failed for 'the-master-and-the-disciple/ch17a-who-is-allah-beyond-names': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing.",
-    "ts": "2026-06-11T05:16:33Z"
+    "message": "7 chapter(s) failed: emptying-the-cup, jewels-moon-and-the-description-of-religion, syllogism-of-divine-justice, the-conspiracy-formula, unbroken-chain-and-the-path-of-return, union-of-inner-and-outer, who-is-allah-beyond-names. 13 chapter(s) completed. Triage failures or raise per_chapter_cost_cap_usd and --resume.",
+    "ts": "2026-06-11T05:52:39Z"
   },
   "pipeline_mode": "orchestrated",
   "v1_archive": {
@@ -70,7 +70,7 @@
       "ts_completed": "2026-06-10T21:47:04Z"
     },
     "per-chapter": {
-      "status": "running",
+      "status": "failed",
       "ts_started": "2026-06-07T22:17:45Z",
       "completed_slugs": [
         "abu-malik-arrives-and-the-fair-inquiry",
@@ -84,17 +84,10 @@
         "rebirth-and-the-seven-day-tawaf",
         "the-test-of-speech-and-the-design-of-creation",
         "three-levels-of-knowledge",
-        "three-thanks-and-the-persian-awakening"
+        "three-thanks-and-the-persian-awakening",
+        "zahir-batin-and-the-seven-natiqs"
       ],
-      "failed_slugs": [
-        "emptying-the-cup",
-        "jewels-moon-and-the-description-of-religion",
-        "syllogism-of-divine-justice",
-        "the-conspiracy-formula",
-        "unbroken-chain-and-the-path-of-return",
-        "union-of-inner-and-outer",
-        "who-is-allah-beyond-names"
-      ],
+      "failed_slugs": [],
       "chapter_timings": {
         "abu-malik-arrives-and-the-fair-inquiry": {
           "started_ts": "2026-06-10T21:55:30Z",
@@ -238,15 +231,16 @@
         },
         "zahir-batin-and-the-seven-natiqs": {
           "started_ts": "2026-06-11T05:16:33Z",
-          "completed_ts": null,
-          "duration_sec": null,
-          "verdict": null,
-          "cost_usd": null
+          "completed_ts": "2026-06-11T05:52:39Z",
+          "duration_sec": 2165.7,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
         }
       },
       "current_chapter": "zahir-batin-and-the-seven-natiqs",
       "last_beat": "2026-06-11T05:44:10Z",
-      "convergence_iter": 2
+      "convergence_iter": 2,
+      "ts_completed": "2026-06-11T05:52:39Z"
     },
     "0g": {
       "status": "pending"
@@ -296,7 +290,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T05:44:10Z",
+  "ts_updated": "2026-06-11T05:52:39Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",

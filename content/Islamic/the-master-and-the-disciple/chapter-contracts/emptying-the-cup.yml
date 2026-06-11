@@ -61,6 +61,61 @@ host_dynamic_rationale: >
   his own soul. The arbiter concedes the advocate's
   reading step by step.
 resolution: host_b_concedes
+debate:
+  proposition: >
+    The right way to seek the truth begins with demolition:
+    the seeker's cup must be emptied of what he believes he
+    knows before it can be refilled.
+  host_a:
+    role: advocate — voices Salih
+    position: >
+      True seeking begins in recognized need. The seeker must
+      be classified before he is taught; his borrowed
+      certainties must be demolished — the kasrah performed by
+      the mukasir — and the distinction between knowledge as
+      report and gnosis as vision accepted before any
+      rebuilding can begin, for every seed requires prepared
+      ground.
+    source_moves:
+      - >
+        The three kinds of seeker — the arif who gives life to
+        the dead, the mutalim who seeks the final stage, and
+        the beginner who recognizes only his own need.
+      - >
+        The source's own naming of the technique: kasrah,
+        demolition, and the formal rank of mukasir, the
+        Demolisher, whose function is to demolish existing
+        ideas so they can be replaced with new ones.
+      - >
+        The alim/arif distinction with the heaven-and-hell
+        example — the alim knows they exist as good-to-know;
+        the arif burns to reach the one and avoid the other.
+      - >
+        The seed and the prepared ground — every knowledge for
+        which the hearts of students have not first been
+        purified by proper argument will not flourish.
+  host_b:
+    role: arbiter — voices Abu Malik
+    position: >
+      A scholar of standing already possesses the modes of
+      seeking; his learning qualifies him to weigh truth-claims
+      without first surrendering the frame that learning
+      provides.
+    source_moves:
+      - >
+        The threshold riddle read as news of death, and the
+        recitation of the verse for the deceased (chapter 2,
+        verse 156).
+      - >
+        The three perplexities Abu Malik names at the door.
+      - >
+        His admission that he does not know the modes of
+        seeking, and his placement of himself in the third
+        class — the beginners.
+      - >
+        His confession of intense neediness found in his own
+        soul.
+  resolution: host_b_concedes
 length_target: default_deep_dive
 key_tensions:
   - >
