@@ -1,4 +1,4 @@
-# The Book of the Master and the Boy
+# The Master and the Disciple
 
 ## How to Read a Conversation Made of Doors
 
