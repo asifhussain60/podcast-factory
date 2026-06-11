@@ -50,6 +50,8 @@ Genuine remaining P0 framework work is now narrower than the older view suggeste
 | **Orchestrator** | F7 — no cost projection | P2 | low impact; nice-to-have |
 | **Validator regex** | F9 — R-PHONETICS-OUT remaining patterns audit | P2 | pattern #1 fixed; rest untested |
 | **Ops** | F28 — backward-compat decision | DECIDED | Asif: re-emit all KaR episodes under v4-revised doctrine |
+| **Orchestrator** | F38 — failed chapters never retried after root-cause fix | P1 | NEW 2026-06-11 (M&D run); end-of-queue $0 re-probe + auto re-enqueue |
+| **Orchestrator** | F39 — gate-failure output truncated, forensics lost | P2 | NEW 2026-06-11 (M&D run); persist full gate stderr per chapter |
 
 **Closed since last reconciliation (2026-06-05):**
 - ~~F24 (alqaab prompt)~~ — CLOSED: landed in v4-revised propagation (23009eb)
@@ -991,6 +993,30 @@ Outstanding (deferred to a later session): fleet-level heartbeat that auto-switc
 **Where:** [_rules.py:emit_finding](../../scripts/podcast/_rules.py) appended to a shared `content/podcast/.skill/_learning/findings.jsonl` from multiple concurrent orchestrators without file locking. Single-line writes under PIPE_BUF (4 KiB) are atomic on POSIX, but the JSONL record can exceed PIPE_BUF when `context_excerpt` is near its 300-char cap with multi-byte UTF-8.
 
 **Status:** **CLOSED 2026-05-25.** `emit_finding` now wraps the append in an `fcntl.LOCK_EX` critical section with `flush()` before release. Cost ~1 ms per emit, negligible vs LLM-call latencies.
+
+---
+
+### F38 — Failed chapters are never retried after a root-cause fix lands mid-run
+
+**Where:** [orchestrate_book.py](../../scripts/podcast/orchestrate_book.py) per-chapter loop + [phases/per_chapter.py](../../scripts/podcast/phases/per_chapter.py). A chapter that returns `final_verdict=FAILED` lands in `failed_slugs` and the loop moves on (F33 graceful-degrade, correct). But nothing ever re-attempts it — even when the failure's root cause is fixed on disk minutes later.
+
+**Observed (the-master-and-the-disciple, 2026-06-11):** `syllogism-of-divine-justice` failed at 09:16Z on the contract meta-prose lint; the contract fix was committed at 09:23Z (96a40e1) and verified clean — yet the chapter stays in `failed_slugs` until a human notices. `emptying-the-cup` failed pipeline_lint at 08:33Z; the same lint command passes today (rc=0, 0 P0) — also stranded.
+
+**Proposed fix:** at end-of-queue (after the last pending chapter completes, before the finalize halt), run ONE deterministic re-probe pass over `failed_slugs`: re-run the $0 gate that originally failed (contract lint / pipeline_lint / build). Any slug whose gate now passes is automatically re-enqueued for one full chapter attempt. Gate-still-failing slugs stay failed and are listed in the finalize-halt summary. Zero LLM cost for the probe; at most one extra chapter attempt per recovered slug.
+
+**Severity:** P1 — every book with a mid-run hand-fix pays a manual-retry tax and risks shipping with stranded chapters.
+
+---
+
+### F39 — Full failure output of $0 gates is not persisted; root-cause forensics impossible later
+
+**Where:** [phases/per_chapter.py](../../scripts/podcast/phases/per_chapter.py) truncates pipeline_lint output to 600 chars into `ChapterOutcome.notes`; orchestrator-state keeps an even shorter `last_error.message`. The full lint/extract stderr is discarded.
+
+**Observed (the-master-and-the-disciple, 2026-06-11):** `emptying-the-cup` recorded only `"pipeline_lint P0: framing structural mismatch:"` — the actual mismatch detail is gone. The same command passes today, and there is no way to determine what changed or whether the failure was order-dependent (the EP16 cross-similarity finding against this chapter suggests a cross-chapter check was involved).
+
+**Proposed fix:** on any deterministic-gate failure, write the FULL stdout+stderr to `_system/episode-drafts/<EP>/gate-fail-<step>-<ts>.log` before returning the FAILED outcome. Tiny, append-only, $0.
+
+**Severity:** P2 — costs nothing until a failure needs forensics, then costs everything.
 
 ---
 

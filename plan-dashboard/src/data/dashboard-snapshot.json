@@ -826,60 +826,60 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-10T12:51:53.880996+00:00",
-  "source_commit": "074bc39",
+  "generated_at": "2026-06-11T11:02:44.779921+00:00",
+  "source_commit": "4e239f6",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "074bc39",
-      "subject": "docs(handoff): session log \u2014 slide-deck import feature",
-      "date": "2026-06-10"
+      "sha": "4e239f6",
+      "subject": "research(the-master-and-the-disciple): 8 Ismaili-thought source digests + synthesis under book research/",
+      "date": "2026-06-11"
     },
     {
-      "sha": "943acdd",
-      "subject": "feat(book): slide-deck import \u2014 inline NotebookLM deck pages in the reading edition",
-      "date": "2026-06-10"
+      "sha": "33b33ea",
+      "subject": "podcast(the-master-and-the-disciple)[unbroken-chain-and-the-path-of-return]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=5)",
+      "date": "2026-06-11"
     },
     {
-      "sha": "152aa3e",
-      "subject": "docs: session 25 audit status update",
-      "date": "2026-06-10"
+      "sha": "2b0b61f",
+      "subject": "podcast(the-master-and-the-disciple)[the-conspiracy-formula]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=0)",
+      "date": "2026-06-11"
     },
     {
-      "sha": "d61c7e6",
-      "subject": "docs(drift): align runbooks, skill registry, CI triggers, agent specs with current reality",
-      "date": "2026-06-10"
+      "sha": "96a40e1",
+      "subject": "fix(the-master-and-the-disciple): syllogism audience \u2014 remove cross-episode reference (meta-prose tell)",
+      "date": "2026-06-11"
     },
     {
-      "sha": "21eb616",
-      "subject": "chore(site): audit cleanup \u2014 remove 31 dead imports/vars flagged by astro check",
-      "date": "2026-06-10"
+      "sha": "b0431f4",
+      "subject": "podcast(the-master-and-the-disciple)[jewels-moon-and-the-description-of-religion]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=3)",
+      "date": "2026-06-11"
     },
     {
-      "sha": "5096821",
-      "subject": "chore(pipeline): audit cleanup \u2014 delete orphaned knowledge modules, retire stale layout comments",
-      "date": "2026-06-10"
+      "sha": "65bd82b",
+      "subject": "fix(the-master-and-the-disciple): debate host roles \u2192 R-HOST-ROLE-PARITY enums (master/debater)",
+      "date": "2026-06-11"
     },
     {
-      "sha": "8bf21fb",
-      "subject": "merge: Islamic/asaas-al-taveel session 24 \u2014 Studio picker filters, card design system, intake polish, visual-QA fixes",
-      "date": "2026-06-10"
+      "sha": "bfc0ba5",
+      "subject": "fix(the-master-and-the-disciple): triage \u2014 author 6 missing debate blocks + ch10 slug repair, clear failed ledger",
+      "date": "2026-06-11"
     },
     {
-      "sha": "36147d4",
-      "subject": "fix(site): drop sub-label from New-content button \u2014 '+ New content' only",
-      "date": "2026-06-10"
+      "sha": "31a7108",
+      "subject": "podcast(the-master-and-the-disciple)[zahir-batin-and-the-seven-natiqs]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=2)",
+      "date": "2026-06-11"
     },
     {
-      "sha": "6204846",
-      "subject": "docs: session 24 site-work status update",
-      "date": "2026-06-10"
+      "sha": "1beb9da",
+      "subject": "podcast(the-master-and-the-disciple)[three-thanks-and-the-persian-awakening]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=0)",
+      "date": "2026-06-11"
     },
     {
-      "sha": "66a7ff3",
-      "subject": "fix(site): visual-QA pass \u2014 primary New-content button, intake column balance, mobile nav clip, GSAP entrance robustness",
-      "date": "2026-06-10"
+      "sha": "c52a68e",
+      "subject": "podcast(the-master-and-the-disciple)[three-levels-of-knowledge]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=1)",
+      "date": "2026-06-11"
     }
   ],
   "wave_execution_events": [],
