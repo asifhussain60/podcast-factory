@@ -100,7 +100,13 @@ ALLOWED_SHIP_VERDICTS = {"SHIP-READY", "SHIP-WITH-CAUTION"}
 # `ship-with-caution` based on manual review, not a convergence pass.
 NON_CONVERGED_PIPELINE_MODES = {"non_orchestrated_mode_2", "pre_orchestrator_authored"}
 
-CH_PATTERN = re.compile(r"^ch(\d+)-([a-z0-9][a-z0-9-]*)\.txt$")
+# Optional [a-z] section suffix is CANONICAL for chapters split from one
+# source Part by Phase 0d sections mode (ch10c = EP10, third slice of its
+# Part) — matches _validator_constants.CH_PATTERN, which gained the suffix
+# when section splitting shipped. Episode files never carry the letter.
+# (2026-06-11: G2 'unparseable filenames' false-BLOCK on
+# the-master-and-the-disciple ch01a..ch20d — observed at the finalize gate.)
+CH_PATTERN = re.compile(r"^ch(\d+)[a-z]?-([a-z0-9][a-z0-9-]*)\.txt$")
 EP_PATTERN = re.compile(r"^EP(\d+)-([a-z0-9][a-z0-9-]*)\.txt$")
 
 
@@ -181,12 +187,13 @@ def gate_g3_sequential(chapters: list[Path], episodes: list[Path]) -> bool:
     if ep_nums != list(range(1, len(ep_nums) + 1)):
         _fail("G3", f"episode numbers not purely sequential 1..N: {ep_nums}")
         return False
-    # Reject any letter suffix (catches ch03a, ch14b that slipped past CH_PATTERN
-    # since the pattern would not match them anyway). Belt-and-suspenders.
-    suffix_re = re.compile(r"^(ch|EP)\d+[a-z]+-", re.IGNORECASE)
-    bad = [p.name for p in chapters + episodes if suffix_re.match(p.name)]
+    # Chapter letter suffixes (ch10c) are canonical section markers — see
+    # CH_PATTERN above. EPISODE files must never carry one (the framing/upload
+    # contract keys on plain EP##); reject only those.
+    ep_suffix_re = re.compile(r"^EP\d+[a-z]+-", re.IGNORECASE)
+    bad = [p.name for p in episodes if ep_suffix_re.match(p.name)]
     if bad:
-        _fail("G3", f"letter-suffix names detected: {bad[:3]}")
+        _fail("G3", f"letter-suffix EPISODE names detected: {bad[:3]}")
         return False
     _ok("G3", f"chapters {ch_nums[0]}..{ch_nums[-1]} + episodes "
               f"{ep_nums[0]}..{ep_nums[-1]} purely sequential")
