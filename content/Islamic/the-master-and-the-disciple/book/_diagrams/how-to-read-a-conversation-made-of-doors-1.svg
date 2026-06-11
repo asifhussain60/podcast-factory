@@ -1,0 +1,20 @@
+<svg id="The_Houses_of_the_Hearts" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 260" role="img" aria-labelledby="The_Houses_of_the_Hearts_t The_Houses_of_the_Hearts_d">
+<title id="The_Houses_of_the_Hearts_t">The Houses of the Hearts</title>
+<desc id="The_Houses_of_the_Hearts_d">Hierarchy: Keys: Remembrance → First: Trial, Middle: Guidance…</desc>
+<style>#The_Houses_of_the_Hearts{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#1f1d18;}#The_Houses_of_the_Hearts text{font-family:'Lato', system-ui, sans-serif;}</style>
+<defs><marker id="svgp_arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#87827a"/></marker></defs>
+<text x="250.0" y="24.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#8b4513"><tspan x="250.0" dy="0">The Houses of the Hearts</tspan></text>
+<rect x="166.0" y="52.0" width="168.0" height="44.0" fill="#8b4513" stroke="#8b4513" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="74.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#fffdf8"><tspan x="250.0" dy="0">Keys: Remembrance</tspan></text>
+<rect x="-12.0" y="148.0" width="168.0" height="44.0" fill="#a0522d" stroke="#d9d3c4" stroke-width="1.0" rx="4"/>
+<text x="72.0" y="170.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#fffdf8"><tspan x="72.0" dy="0">First: Trial</tspan></text>
+<rect x="166.0" y="148.0" width="168.0" height="44.0" fill="#a0522d" stroke="#d9d3c4" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="170.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#fffdf8"><tspan x="250.0" dy="0">Middle: Guidance</tspan></text>
+<rect x="344.0" y="148.0" width="168.0" height="44.0" fill="#a0522d" stroke="#d9d3c4" stroke-width="1.0" rx="4"/>
+<text x="428.0" y="170.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#fffdf8"><tspan x="428.0" dy="0">Last: Piety</tspan></text>
+<line x1="250.0" y1="96.0" x2="250.0" y2="122.0" stroke="#87827a" stroke-width="1.5"/>
+<line x1="72.0" y1="122.0" x2="428.0" y2="122.0" stroke="#87827a" stroke-width="1.5"/>
+<line x1="72.0" y1="122.0" x2="72.0" y2="142.0" stroke="#87827a" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="250.0" y1="122.0" x2="250.0" y2="142.0" stroke="#87827a" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="428.0" y1="122.0" x2="428.0" y2="142.0" stroke="#87827a" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+</svg>

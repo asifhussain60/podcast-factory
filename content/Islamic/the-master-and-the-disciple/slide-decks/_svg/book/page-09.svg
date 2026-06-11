@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 600" font-family="Lato, system-ui, sans-serif">
+  <text x="380" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">The Ledger of the Covenant</text>
+  <text x="380" y="62" text-anchor="middle" font-size="13" font-style="italic" fill="#7a6a58">The Arithmetic of the Covenant-less Act (The Stolen Apples)</text>
+
+  <!-- Thief panel -->
+  <rect x="20" y="86" width="360" height="40" fill="#8b4513"/>
+  <text x="200" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#fffdf8">The Thief's Arithmetic</text>
+  <rect x="20" y="126" width="360" height="240" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="36" y="156" font-size="13" font-weight="700" fill="#8b4513">Calculation:</text>
+  <text x="36" y="180" font-size="13" fill="#2b2117"><tspan x="36" dy="0">+50 rewards (giving the apples to</tspan><tspan x="36" dy="18">charity), -5 sins (for the theft).</tspan></text>
+  <text x="36" y="244" font-size="13" font-weight="700" fill="#8b4513">Claimed Net Result:</text>
+  <text x="36" y="268" font-size="20" font-weight="700" fill="#2b2117">+45 rewards.</text>
+
+  <!-- Imam panel -->
+  <rect x="380" y="86" width="360" height="40" fill="#8b4513"/>
+  <text x="560" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#fffdf8">The Imam's Arithmetic</text>
+  <rect x="380" y="126" width="360" height="240" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="396" y="156" font-size="13" font-weight="700" fill="#8b4513">Calculation:</text>
+  <text x="396" y="180" font-size="13" fill="#2b2117"><tspan x="396" dy="0">-5 sins (for the initial theft), -5 sins</tspan><tspan x="396" dy="18">(for propagating forbidden goods</tspan><tspan x="396" dy="18">into another's hand).</tspan></text>
+  <text x="396" y="262" font-size="13" font-weight="700" fill="#8b4513">Actual Net Result:</text>
+  <text x="396" y="286" font-size="20" font-weight="700" fill="#2b2117">-10 sins, 0 rewards.</text>
+
+  <!-- footer -->
+  <rect x="20" y="394" width="720" height="166" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="40" y="422" font-size="13" fill="#2b2117"><tspan x="40" dy="0">A sacred act is blessed under the pact of Allah. A stolen act (fornication vs. marriage; forbidden</tspan><tspan x="40" dy="20">meat vs. ritual slaughter) carries no allegiance. The covenant-less act cannot be sanctified.</tspan></text>
+</svg>
