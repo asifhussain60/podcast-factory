@@ -2,87 +2,82 @@
 
 **Book:** the-master-and-the-disciple
 **Run:** 2026-06-10 (challenger v2.2)
-**Scope:** per-chapter five-conditions-and-the-covenant
-**Iterations:** 1 (of 5 max — clean break after iter 1, no auto-fixes available)
+**Scope:** per-chapter `hawl-quwwa-and-josephs-dream`
+**Iterations:** 1 (of 5 max)
 **Verdict:** SHIP-WITH-CAUTION
-**Content profile:** islamic_scholarly (detected from `_system/series-config.yaml`)
-**Episode format:** deep_dive
+**content_profile:** islamic_scholarly (from _system/series-config.yaml)
 
-## Summary
+## Auto-fixes applied (iteration-by-iteration)
 
-Chapter validates structurally through `build_episode_txt.py` (3,213 words SOURCE, 759 words CUSTOMIZE PROMPT). All P0 gates (Categories A/B/M/N/O/T/Q) pass clean. Two P1 advisories surface that the challenger cannot auto-fix because both are out-of-scope for this agent (chapter literary chiasmus that trips a copy-paste regex; show-notes apparatus table) or are book-wide archetype patterns that have already been re-validated by the orchestrator on EP01/EP02.
-
-## Auto-fixes applied
-
-| Iter | Check | File | Action |
-|---|---|---|---|
-| — | (none) | — | No deterministic auto-fixes available for the surfaced findings. |
+None. All findings are either author-judgment (out of auto-fix scope) or book-wide archetype patterns recurring across all sibling episodes.
 
 ## Findings requiring author resolution
 
 ### P0 (blocks ship)
 
-None.
+None. `build_episode_txt.py --check` validates cleanly; chapter at 2,315 words sits inside the 1,800–2,800 default-deep-dive band; framing at 749 words sits inside the soft band.
 
 ### P1 (ship-with-caution)
 
-#### B6-DOUBLED-PHRASE — chapter literary chiasmus trips copy-paste detector
-- **File:** `content/Islamic/the-master-and-the-disciple/chapters/ch03c-five-conditions-and-the-covenant.txt:69`
-- **Context:** `To take the pact is to grasp the rope; to grasp the rope is to be reattached to the chain by which Allah preserves His friends.`
-- **Assessment:** Deliberate rhetorical chiasmus, not a copy-paste error. The doubled phrase `to grasp the rope;` is structurally load-bearing — it carries the disciple's pivot from "taking" to "being reattached." Collapsing it would damage the prose.
-- **Recommendation:** Accept as-is (false positive). If the validator's signal is unacceptable, rewrite the second clause to break the surface repetition while preserving the doctrinal hinge — e.g., `To take the pact is to grasp the rope; and to hold that rope is to be reattached…`. Author judgment.
+#### R-NAMEDISCIPLINE — Name discipline section lacks rotation set
+- **File:** `_system/episode-drafts/EP09-hawl-quwwa-and-josephs-dream/00-framing.md`, `## Name discipline` (lines 6–16)
+- **Context:** Section uses stable single labels (the Imam, the gateway, the speaker-prophet, the executor, the proof, the twelve chiefs, the callers) but does not declare a `Rotation: a / b / c` line with 3+ aliases per term.
+- **Assessment:** Book-wide archetype pattern; the same shape recurs across all sibling episodes already shipped on this branch. Single-label stability has been the deliberate design choice for this dialogue — the master/disciple register depends on the listener locking each role to one English label.
+- **Suggested fix:** Archetype-level decision; not a per-chapter fix.
 
-#### F25-APPARATUS-TABLE — 99-show-notes.md missing Name and Title Preservation Table
-- **File:** `content/Islamic/the-master-and-the-disciple/_system/episode-drafts/EP03-five-conditions-and-the-covenant/99-show-notes.md`
-- **Context:** F25 doctrine requires every episode's `99-show-notes.md` to carry the written-layer apparatus (preserved Arabic / transliterations + audio-label crosswalk) that the TTS-safe audio omits.
-- **Out of scope for podcast-challenger** per Section 8 anti-pattern ("Do not edit 99-show-notes.md"). Surface to the producer / orchestrator's show-notes step.
-- **Recommendation:** Re-run the apparatus emitter on this episode-draft directory.
+#### R-DRAMATIC-ARC — Three-part focus has 3 Beat markers, only 1/4 structure tells
+- **File:** `_system/episode-drafts/EP09-hawl-quwwa-and-josephs-dream/00-framing.md`, `## Three-part focus` (lines 32–35)
+- **Context:** Three beats present (Absurdity of literal readings → Hawl/quwwa as Imam/gateway → Joseph's dream and the king's vision). Build rule wants a 6-beat arc with crisis / failed answer / pivot / stakes markers.
+- **Assessment:** Book-wide archetype; all sibling episodes use the three-beat shape that matches the source's doctrinal-exposition register. The dialogue's natural rhythm does not take a 6-beat dramatic structure.
+- **Suggested fix:** Archetype-level decision; not a per-chapter fix.
 
-### P2 (advisory — book-wide archetype, not per-chapter)
+#### R-HONORIFIC-BOTH-BOUNDS — `peace be upon him` 0 occurrences in framing (required: 1)
+- **File:** `_system/episode-drafts/EP09-hawl-quwwa-and-josephs-dream/00-framing.md`, `## Name discipline` line 15
+- **Context:** Framing uses `peace and blessings of Allah be upon him and his family` (the full Shia/Ismaili honorific form) at first mention of the Prophet. Build rule expects literal substring `peace be upon him` exactly once.
+- **Assessment:** Sectarian-register choice — the longer Shia/Ismaili honorific is doctrinally appropriate for this book. The rule was written for general Islamic register. Chapter body line 9 carries `(peace be upon him)` exactly once on the Prophet as required, so the chapter passes; the gate triggers only on framing.
+- **Suggested fix:** Author may add the shorter form at first mention, OR archetype-level rule relaxation for Shia/Ismaili books.
 
-#### R3 — Tone section missing explicit cadence directive
-- **File:** `EP03-five-conditions-and-the-covenant/00-framing.md` (Tone constraints section, lines 39–44)
-- **Assessment:** All 14 sibling episodes in this book lack the explicit `cadence` / `short-to-medium` phrasing. This is a book-wide archetype decision, not a per-chapter regression.
-- **Recommendation:** No action at chapter scope. If the operator wants to bake R-CADENCE in, do it at the archetype/template level once for the whole book.
+#### F25-APPARATUS-TABLE — `99-show-notes.md` missing `## Name and Title Preservation Table`
+- **File:** `_system/episode-drafts/EP09-hawl-quwwa-and-josephs-dream/99-show-notes.md`
+- **Context:** F25 doctrine requires every episode's show-notes to carry the written-layer apparatus (preserved Arabic / transliterations + audio-label crosswalk) that the TTS-safe audio omits.
+- **Assessment:** Book-wide archetype pattern; apparatus generator scope item.
+- **Suggested fix:** Archetype-level decision; not a per-chapter fix.
 
-#### R4 — `## Do not` block lacks formal-essay transition phrases (Firstly / Furthermore / In conclusion)
-- **File:** `EP03-five-conditions-and-the-covenant/00-framing.md` (Do not section, line 50)
-- **Assessment:** Same archetype-wide pattern. The current DENY list emphasizes the modernize + surprise vocabulary; formal-transition phrases were not part of the book's archetype framing.
-- **Recommendation:** Archetype-level decision; not a per-chapter fix.
+### P2 (advisory)
 
-#### F3 — No explicit `## Audience` section
-- **File:** `EP03-five-conditions-and-the-covenant/00-framing.md`
-- **Assessment:** Audience is implicit in the source-tradition register (scholarly Ismaili / traditional). Book-wide archetype; sibling episodes follow the same shape.
-- **Recommendation:** No action at chapter scope.
+None.
+
+## Categories scanned
+
+- **A (Authenticity):** Chapter cites Bukhari for the hadith of the formula (vol. 9, p. 281, Khan/Darussalam 1997), Arberry for Quran 12:4 + 12:8, Daftary (Cambridge 2007 pp. 138–141), Corbin (Kegan Paul 1983 pp. 60–64), and Schimmel (UNC 1985 pp. 64–67). Multi-tier (Tier 1 Quran, Tier 3 hadith, Tier 5 Ismaili secondary, Tier 6 scholarship). Translator named on first Quranic translation. ✓
+- **B (NotebookLM literalness):** No meta-prose tells, no cross-episode references, no em-dashes in violation, no translator-apparatus prefixes. ✓
+- **C (Pronunciation discipline):** Framing carries imperative `## Pronunciation` block. Honorific applied once at first mention in chapter line 9. ✓
+- **D (Enrichment & depth):** 3+ tiers, enrichment ratio ~22%, all citations bind to the chapter's tensions (chain of intermediaries, esoteric reading of dream-numerology). No `[CONTEXT NEEDED]` markers. ✓
+- **E (Articulation & shape):** Word count 2,315 inside default-deep-dive band. Beginning-middle-end arc present. No filler tells. ✓
+- **F (Framing integrity):** Four-part structure present. Audience inferred from book-wide profile. 2 tensions named. ✓
+- **G (Extract Mode contracts):** Not applicable for this book (no `chapter-contracts/` directory).
+- **H (Welcome opening + closing landing):** Welcome present in Opening; close turns listener outward to weekly practice. ✓
+- **I (Anti-repetition):** R-RECURRING-THESIS placement 1/2/3 declared. ✓
+- **J (Name aliasing):** Name discipline block present. ✓ (one P1 noted above on rotation set)
+- **K (Interruption avoidance):** Host dynamic carries friction script with explicit "concedes once" cadence. ✓
+- **M (Modernization + surprise-noise audit):** `## Do not` block names Twitter, social media, algorithm, "wow", "right?", "deep dive", "today's episode", "let's dive in", "buckle up", "mind blown". ✓
+- **N (Phonetic-as-content):** Chapter contains zero inline phonetic parens. Framing uses imperative `Pronounce` directives ("Say each term ONCE. Never say the original spelling and the English form back-to-back."). No-read-aloud guard present at line 49. ✓
+- **O (Honorific repetition + abbreviation):** "peace be upon him" appears once in chapter line 9. Forbidden abbreviations absent. ✓
+- **Q (Host role parity book-wide):** Host A = male/John/scholar; Host B = female/Hannah/seeker. Consistent with sibling episodes on this branch. ✓
+- **R (Conversation choreography):** Tone block locks 3 governing analogies. R-RECURRING-THESIS spine repeats verbatim three times. ✓
+- **S (Safety + Boundary):** S1 bypassed per pipeline-context instruction (parent orchestrator is THIS pipeline). S2–S6 clean. ✓
+- **T (Doctrinal accuracy):** Build-time `assert_doctrinal_clean()` passed during `--check`. No mis-attribution; no Imam-lineage violation; no forbidden naming-convention phrases. Joseph's-dream reading remains in the Ismaili exegetical lineage already attested by Daftary/Corbin/Schimmel. ✓
+- **U (Scholarly-conversation rubric v2.2):** No AI-cliché smells, no faux-profundity opening, no premature-closure wrap-up, no deep-dive self-reference, no external essentialism. ✓
+- **V (Interest & engagement):** Curiosity hook (the absurdity move at the open) + challenge-defeat arc + modern-relevance signal (the "every line you recite without hearing" close). ✓
+- **W (Augmentation quality):** No augmentation ledger entries for this episode — base chapter ships unmodified. ✓
+- **CS (Chapter-set design):** Single-chapter scope; not re-run at book level for this invocation.
 
 ## Health metrics
 
-| Artifact | Words | Notes |
-|---|---|---|
-| ch03c-five-conditions-and-the-covenant.txt (SOURCE) | 3,213 | Inside [500, 5500] chapter band |
-| 00-framing.md | 759 | Inside [200, 3500] framing band |
-| EP03-five-conditions-and-the-covenant.txt (CUSTOMIZE) | 759 | Build script emitted clean |
-
-| Category | Result |
-|---|---|
-| A (citation discipline) | Clean — Quran citations name surah + verse + Pickthall translator; Sunni hadith collection and Nahj al-Balagha cited with named-source phrasing per anti-literal policy |
-| B (NotebookLM literalness) | Clean except B6 chiasmus false-positive (P1) |
-| C (phonetic coverage) | Clean — minimal Arabic transliteration; framing's imperative Pronunciation block covers Allah/Quran/Imam/Pickthall |
-| D (enrichment + depth) | Multi-tier: Quran (3 verses), Sunni hadith collection (2), Nahj al-Balagha (1), early Sufi master of Baghdad (1), sixth Imam tradition (1). Tier diversity = 5. Enrichment ratio ~22%. |
-| E (articulation + shape) | Six-movement arc lands cleanly: opening crisis → five conditions → covenant → apple-and-charity → graduated ladder → night of oath. One-sentence summarizable. |
-| F (framing integrity) | Three-part focus has 6 beats; pronunciation block present; DENY blocks present. F3 advisory only. |
-| H/I/K (welcome / anti-repetition / interruption) | All clauses present; R-RECURRING-THESIS explicit. |
-| M (modernize + surprise DENY) | Both blocks present: Twitter, social media, algorithm, wow, right? all named. |
-| N (phonetic-as-content) | Zero inline phonetic parens in chapter (clean); framing uses imperative form. |
-| O (honorifics + abbreviations) | Each honorific phrase form expanded exactly once. No abbreviated work titles. |
-| Q (host role parity) | Host A = scholar (male); Host B = seeker (female). Consistent with EP01/EP02 book-wide. |
-| T (doctrinal accuracy) | Clean — no forbidden naming pairing of leadership-title with personal name of the Father of Imams. "Sayed Ali Reza" is a translator attribution, not a doctrinal pairing. Sixth Imam apple-and-charity teaching attributed to "the sixth Imam" (correct). |
-| U (scholarly-conversation rubric) | Clean — no AI clichés, no faux-profundity opening, no premature closure, no deep-dive self-reference, no essentialism. |
-
-## Convergence trace
-
-| Iter | Auto-fixes | P0 | P1 | P2 | Action |
+| Chapter | Words | Enrichment ratio | Tier diversity | Citations | Phonetic gaps |
 |---|---|---|---|---|---|
-| 1 | 0 | 0 | 2 | 3 | No auto-fixes available; P1s are out-of-scope (B6 literary, F25 show-notes); P2s are book-wide archetype. Break per v1.4 intelligent-break rule. |
+| ch09b-hawl-quwwa-and-josephs-dream | 2,315 | ~22% | 4 tiers | 5 | 0 |
 
-**Verdict:** SHIP-WITH-CAUTION. The chapter ships; the two P1 advisories are documented above for author awareness and downstream apparatus regeneration.
+## Verdict
+
+**SHIP-WITH-CAUTION.** Zero P0 findings. Four P1 findings are all book-wide archetype patterns shared with the eight sibling episodes already shipped on this branch (see recent commits e3d4514, 261cf43, b407413, 43ac6be). The chapter and framing are upload-ready for NotebookLM under the established archetype.
