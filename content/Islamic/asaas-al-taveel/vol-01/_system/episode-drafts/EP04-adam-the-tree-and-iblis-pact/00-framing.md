@@ -2,7 +2,7 @@
 
 ## Opening directive
 
-Open with a warm one-sentence welcome naming *The Foundation of Inner Interpretation* by al-Nu'man and preview THIS chapter: the forbidden tree was never a fruit but a likeness for a disclosure not yet permitted. Land the spine VERBATIM: "The tree is not a tree — it is a likeness for the Master of the Resurrection, the disclosure entrusted to him alone." Repeat at the pivot and at the close (three times total).
+Open with a warm one-sentence welcome naming *Foundations of Inner Interpretation* by al-Nu'man and preview THIS chapter: the forbidden tree was never a fruit but a likeness for a disclosure not yet permitted. Land the spine VERBATIM: "The tree is not a tree — it is a likeness for the Master of the Resurrection, the disclosure entrusted to him alone." Repeat at the pivot and at the close (three times total).
 
 Forbidden openers: "welcome to today," "in this episode," "deep dive," "let's dive in."
 
@@ -15,41 +15,25 @@ Thoughtful adult readers familiar with the Quranic Adam narrative but new to the
 - Adam → "Adam."
 - Iblis / al-Shaytan → "the adversary."
 - Hawwa → "Eve."
-- Ja'far al-Sadiq → "the sixth Imam."
-- al-Baqir → "the fifth Imam."
+- The fifth Imam → Jaa'far ibn Muhammad (the truthful); first mention add the name, then use "the fifth Imam."
 - The Prophet → first mention adds "peace and blessings of Allah be upon him and his family."
-- The Father of Imams → first mention adds "peace be upon him." Never pair the leadership title with his personal name.
+- The Father of Imams → Ali ibn Abi Talib; first mention add "peace be upon him." Thereafter: the Commander of the Believers or "Ali."
 - al-Nu'man → "the author."
 - al-Qa'im / Sahib al-Qiyama → "the Master of the Resurrection."
-
-Add to the Name discipline section: '- The Father of Imams → Ali ibn Abi Talib; first mention add "peace be upon him." Thereafter: the Commander of the Believers or "Ali."' and '- The sixth Imam → Jaa'far ibn Muhammad (The truthful); first mention add the name, then use "the sixth Imam."'
 
 ## Pronunciation
 
 Say each term ONCE. Never say the original spelling and the English form back-to-back.
 
-- Hawwa: Eve
-- al-ta'yid: supportive knowledge
-- al-nuqaba: the chiefs
-- Sahib al-Qiyama: the Master of the Resurrection
-- Hizb Allah: the Party of Allah
 - Kumayl ibn Ziyad: Kumayl
-- Da'a'im al-Islam: The Pillars of Islam
-- Nahj al-Balagha: The Peak of Eloquence
-- al-Kafi: The Sufficient
-- natiq: the Speaker-Prophet
-- samit: the silent one
-- hujja: the proof
 
 ## Three-part focus
 
-Beat 1 — Origin. Gather the seven Speaker-Prophets; locate Adam as the lower limit of Imamate. Voice the angelic objection; divine speech is not voiced sound; the adversary mocks Adam as hollow clay.
+Beat 1 — Origin. Gather the seven Speaker-Prophets; locate Adam as the lower limit of Imamate. Voice the angelic objection; divine speech is not voiced sound; the adversary mocks Adam as hollow clay. Host B friction: "If Adam didn't hold firm, how is he the model for the entire prophetic chain?" Host A: Adam initiates the cycle; the five of firm resolve — Noah, Abraham, Moses, Jesus, and the Prophet — carry it forward; his lapse distinguishes the initiating covenant from the completing one.
 
 Beat 2 — Pivot. The teaching of the names. The adversary's refusal reads as supportive vs. corporeal knowledge; expulsion leaves the proof-rank empty. Eve is the replacement proof — one of the twelve chiefs, not wife-from-rib. The garden is the rank of supportive knowledge; the inner reading does NOT annul the outer Paradise. Land the spine verbatim here.
 
 Beat 3 — Stakes. The pact: wealth is knowledge, offspring is the line that answers the call. The fall: reaching for a rank not theirs. The garment of the word is cut. Adam repents; the words return; the Imamate is preserved.
-
-Add a friction beat in EP04's Three-part focus Beat 1: 'Host B friction: "If Adam didn't hold firm, how is he the model for the entire prophetic chain?" Host A: Adam initiates the cycle; the five of firm resolve (Nuh, Ibrahim, Musa, Isa, Muhammad) carry it forward. His lapse is what distinguishes the initiating covenant from the completing one.'
 
 ## Central tensions
 
@@ -64,9 +48,7 @@ Cadence is thinking-out-loud — short-to-medium sentences, room to breathe betw
 
 ## Host dynamic
 
-Host A (male) = scholar/teacher. Host B (female) = seeker/questioner. Roles do not rotate. Host B challenges at least three times and concedes once. Name positionality: classical Ismaili reading, not mainstream Sunni or Twelver. Steelman the literal-tree reading once before refusing it. Plant at least one moment where one host brings up a passage the other has not been led toward — gives a "prepared separately" feel.
-
-Add a host context note: 'When Eve appears as the silent partner to Adam's speech, Host A should gloss this in one sentence: every Speaker-Prophet has a Foundation who holds the inner meaning without speaking it — Eve is Adam's Foundation. Do not expand beyond one sentence; the fuller doctrine belongs to later volumes.'
+Host A (male) = scholar/teacher. Host B (female) = seeker/questioner. Roles do not rotate. Host B challenges at least three times and concedes once. Name positionality: classical Ismaili reading, not mainstream Sunni or Twelver. Steelman the literal-tree reading once before refusing it. Plant at least one moment where one host brings up a passage the other has not been led toward — gives a "prepared separately" feel. When Eve appears as the silent partner to Adam's speech, Host A glosses in one sentence: every Speaker-Prophet has a Foundation who holds the inner meaning without speaking it — Eve is Adam's Foundation; do not expand beyond one sentence.
 
 ## Analogies (use only these)
 
