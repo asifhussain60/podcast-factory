@@ -4,13 +4,13 @@
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
   "phase": "per-chapter",
-  "phase_status": "failed",
+  "phase_status": "running",
   "last_completed_phase": "0g",
   "next_phase": "0f",
   "last_error": {
     "phase": "per-chapter",
-    "message": "7 chapter(s) failed: emptying-the-cup, jewels-moon-and-the-description-of-religion, syllogism-of-divine-justice, the-conspiracy-formula, unbroken-chain-and-the-path-of-return, union-of-inner-and-outer, who-is-allah-beyond-names. 13 chapter(s) completed. Triage failures or raise per_chapter_cost_cap_usd and --resume.",
-    "ts": "2026-06-11T05:52:39Z"
+    "message": "[emptying-the-cup] pipeline_lint P0: framing structural mismatch:",
+    "ts": "2026-06-11T08:33:35Z"
   },
   "pipeline_mode": "orchestrated",
   "v1_archive": {
@@ -70,7 +70,7 @@
       "ts_completed": "2026-06-10T21:47:04Z"
     },
     "per-chapter": {
-      "status": "failed",
+      "status": "running",
       "ts_started": "2026-06-07T22:17:45Z",
       "completed_slugs": [
         "abu-malik-arrives-and-the-fair-inquiry",
@@ -87,7 +87,9 @@
         "three-thanks-and-the-persian-awakening",
         "zahir-batin-and-the-seven-natiqs"
       ],
-      "failed_slugs": [],
+      "failed_slugs": [
+        "emptying-the-cup"
+      ],
       "chapter_timings": {
         "abu-malik-arrives-and-the-fair-inquiry": {
           "started_ts": "2026-06-10T21:55:30Z",
@@ -111,12 +113,12 @@
           "cost_usd": 0.0
         },
         "emptying-the-cup": {
-          "started_ts": "2026-06-10T23:50:39Z",
-          "completed_ts": "2026-06-10T23:50:39Z",
-          "duration_sec": 0.0,
+          "started_ts": "2026-06-11T08:22:37Z",
+          "completed_ts": "2026-06-11T08:33:35Z",
+          "duration_sec": 657.1,
           "verdict": "FAILED",
           "cost_usd": 0.0,
-          "error": "extract_chapter.py failed for 'the-master-and-the-disciple/ch15d-emptying-the-cup': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing."
+          "error": "pipeline_lint P0: framing structural mismatch:"
         },
         "five-conditions-and-the-covenant": {
           "started_ts": "2026-06-10T23:50:39Z",
@@ -140,12 +142,11 @@
           "cost_usd": 0.0
         },
         "jewels-moon-and-the-description-of-religion": {
-          "started_ts": "2026-06-11T01:41:13Z",
-          "completed_ts": "2026-06-11T01:41:13Z",
-          "duration_sec": 0.0,
-          "verdict": "FAILED",
-          "cost_usd": 0.0,
-          "error": "extract_chapter.py failed for 'the-master-and-the-disciple/ch16e-jewels-moon-and-the-description-of-religion': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing."
+          "started_ts": "2026-06-11T08:33:35Z",
+          "completed_ts": null,
+          "duration_sec": null,
+          "verdict": null,
+          "cost_usd": null
         },
         "originator-and-the-three-primordial-words": {
           "started_ts": "2026-06-11T01:41:13Z",
@@ -237,10 +238,9 @@
           "cost_usd": 0.0
         }
       },
-      "current_chapter": "zahir-batin-and-the-seven-natiqs",
-      "last_beat": "2026-06-11T05:44:10Z",
-      "convergence_iter": 2,
-      "ts_completed": "2026-06-11T05:52:39Z"
+      "current_chapter": "jewels-moon-and-the-description-of-religion",
+      "last_beat": "2026-06-11T09:07:31Z",
+      "convergence_iter": 2
     },
     "0g": {
       "status": "pending"
@@ -290,7 +290,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T05:52:39Z",
+  "ts_updated": "2026-06-11T09:07:31Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
