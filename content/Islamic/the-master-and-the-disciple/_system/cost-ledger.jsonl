@@ -151,3 +151,4 @@
 {"ts": "2026-06-11T14:06:59Z", "phase": "per-chapter", "step": "challenger/syllogism-of-divine-justice", "model": "claude-opus-4-8", "input_tokens": 7, "output_tokens": 836, "cache_read": 81223, "cache_create": 34547, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-06-11T14:27:43Z", "phase": "per-chapter", "step": "challenger/syllogism-of-divine-justice", "model": "claude-opus-4-8", "input_tokens": 7, "output_tokens": 609, "cache_read": 81429, "cache_create": 35217, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-06-11T14:40:26Z", "phase": "11b-slide-authoring", "step": "book-pair/attempt-1", "model": "claude-opus-4-8", "input_tokens": 24, "output_tokens": 21599, "cache_read": 2954306, "cache_create": 171351, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-06-11T17:50:16Z", "phase": "0book-design", "step": "segment", "model": "claude-opus-4-8", "input_tokens": 6, "output_tokens": 2226, "cache_read": 0, "cache_create": 121568, "cost_usd": 0.0, "engine": "max"}

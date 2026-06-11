@@ -1,0 +1,112 @@
+{
+  "book_title": "The Book of the Master and the Boy",
+  "voice": "modern author first-person",
+  "preface": {
+    "include": true,
+    "title": "How to Read a Conversation Made of Doors",
+    "source_line_ranges": [
+      [
+        8,
+        13
+      ]
+    ]
+  },
+  "chapters": [
+    {
+      "bk_index": 1,
+      "title": "The Persian Who Was Dead and Revived",
+      "source_line_ranges": [
+        [
+          14,
+          22
+        ]
+      ],
+      "theme": "Seeker's awakening",
+      "rationale": "Opens with the parable of the Persian whose ignorance was lifted, framing the duty to pass on what one has received."
+    },
+    {
+      "bk_index": 2,
+      "title": "A Stranger in the City",
+      "source_line_ranges": [
+        [
+          23,
+          69
+        ]
+      ],
+      "theme": "Public sermon",
+      "rationale": "The seeker arrives among quarreling theologians, answers their probes, and delivers a public address on the hidden God."
+    },
+    {
+      "bk_index": 3,
+      "title": "The Boy at the Door — Limits and Conditions",
+      "source_line_ranges": [
+        [
+          70,
+          200
+        ]
+      ],
+      "theme": "Private covenant",
+      "rationale": "One youth follows the Master into private dialogue, establishes the need for a guide, and accepts the binding covenant."
+    },
+    {
+      "bk_index": 4,
+      "title": "How the World Was Made",
+      "source_line_ranges": [
+        [
+          201,
+          232
+        ]
+      ],
+      "theme": "Sevenfold cosmology",
+      "rationale": "The Master sets out a cosmology of will-command-saying, the seven origins, pairs, and the corresponding ranks of imams and proofs."
+    },
+    {
+      "bk_index": 5,
+      "title": "The World, the Hereafter, and the Speech of Parables",
+      "source_line_ranges": [
+        [
+          233,
+          380
+        ]
+      ],
+      "theme": "Outer and inner",
+      "rationale": "Dialogue turns from cosmology to the moral status of this world, the doctrine of inner meaning, and the grammar of likeness."
+    },
+    {
+      "bk_index": 6,
+      "title": "Three Layers of Knowledge",
+      "source_line_ranges": [
+        [
+          381,
+          492
+        ]
+      ],
+      "theme": "Inner of the inner",
+      "rationale": "A new register: outer law, inner meaning, and the inner-of-inner, the ranks of believers, and the censured scholars of asceticism."
+    },
+    {
+      "bk_index": 7,
+      "title": "The Five Shares and the Long Road to the Shaykh",
+      "source_line_ranges": [
+        [
+          493,
+          762
+        ]
+      ],
+      "theme": "Zakat, naming, ascent",
+      "rationale": "The boy renounces wealth, his father blesses him, and the Master leads him to the greater Shaykh where he is renamed and initiated."
+    },
+    {
+      "bk_index": 8,
+      "title": "Homecoming, the Father, and the Debate with Abu Malik",
+      "source_line_ranges": [
+        [
+          763,
+          1353
+        ]
+      ],
+      "theme": "Public witness",
+      "rationale": "The boy reconciles with his father, becomes Salih, and faces Abu Malik's delegation in the climactic theological debate on justice, oneness, and the unbroken line of guides."
+    }
+  ]
+}
