@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 640" font-family="Lato, system-ui, sans-serif">
+  <text x="380" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">Mutual Subsistence: The Body and Spirit of Religion</text>
+
+  <rect x="20" y="60" width="360" height="44" fill="#8b4513"/>
+  <rect x="380" y="60" width="360" height="44" fill="#2b2117"/>
+  <text x="200" y="88" text-anchor="middle" font-size="16" font-weight="700" fill="#f7f1e6">Zahir (The Outer)</text>
+  <text x="560" y="88" text-anchor="middle" font-size="16" font-weight="700" fill="#f7f1e6">Batin (The Inner)</text>
+
+  <rect x="20" y="104" width="360" height="130" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <rect x="380" y="104" width="360" height="130" fill="#ffffff" stroke="#d9cdbd"/>
+  <text x="36" y="126" font-size="13" font-weight="700" fill="#8b4513">Identity:</text>
+  <text x="36" y="158" font-size="12" fill="#2b2117">The revealed paths, the outward ordinances of the Law.</text>
+  <text x="396" y="126" font-size="13" font-weight="700" fill="#8b4513">Identity:</text>
+  <text x="396" y="158" font-size="12" fill="#2b2117">The true religion of Allah, the esoteric meanings.</text>
+
+  <rect x="20" y="234" width="360" height="130" fill="#ffffff" stroke="#d9cdbd"/>
+  <rect x="380" y="234" width="360" height="130" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="36" y="256" font-size="13" font-weight="700" fill="#8b4513">Role:</text>
+  <text x="36" y="288" font-size="12" fill="#2b2117">The body, the covering, the sign pointing to the inner.</text>
+  <text x="396" y="256" font-size="13" font-weight="700" fill="#8b4513">Role:</text>
+  <text x="396" y="288" font-size="12" fill="#2b2117">The soul, the living spirit.</text>
+
+  <rect x="20" y="364" width="360" height="200" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <rect x="380" y="364" width="360" height="200" fill="#ffffff" stroke="#d9cdbd"/>
+  <text x="36" y="386" font-size="13" font-weight="700" fill="#8b4513">Standing Alone:</text>
+  <text x="36" y="418" font-size="12" fill="#2b2117">A corpse. A body without a spirit. Case 2 Seeker: keeps prayer/fast, lacks the animating spirit (Kafir in the root sense: one who hides the seed).</text>
+  <text x="396" y="386" font-size="13" font-weight="700" fill="#8b4513">Standing Alone:</text>
+  <text x="396" y="418" font-size="12" fill="#2b2117">A wraith. A spirit without a body. Case 1 Seeker: knows the meanings, drops prayer/fast. Fruit peeled before ripening; rots.</text>
+
+  <line x1="20" y1="590" x2="740" y2="590" stroke="#d9cdbd"/>
+  <text x="380" y="618" text-anchor="middle" font-size="13" font-style="italic" fill="#7a6a58">Mutual subsistence is the doctrine. Neither alone is a living religion.</text>
+</svg>

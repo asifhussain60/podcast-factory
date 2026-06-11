@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 580" font-family="Lato, system-ui, sans-serif">
+  <text x="380" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">The Ledger of the Covenant</text>
+  <text x="380" y="62" text-anchor="middle" font-size="13" font-style="italic" fill="#7a6a58">The Arithmetic of the Covenant-less Act (The Stolen Apples)</text>
+
+  <rect x="20" y="86" width="350" height="320" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <rect x="20" y="86" width="350" height="40" fill="#8b4513"/>
+  <text x="195" y="113" text-anchor="middle" font-size="15" font-weight="700" fill="#f7f1e6">The Thief's Arithmetic</text>
+  <text x="40" y="166" font-size="12" fill="#2b2117">Calculation: +50 rewards (giving the apples to charity), -5 sins (for the theft).</text>
+  <line x1="40" y1="220" x2="350" y2="220" stroke="#d9cdbd"/>
+  <text x="40" y="260" font-size="13" font-weight="700" fill="#2b2117">Claimed Net Result: +45 rewards.</text>
+
+  <rect x="390" y="86" width="350" height="320" fill="#ffffff" stroke="#8b4513"/>
+  <rect x="390" y="86" width="350" height="40" fill="#2b2117"/>
+  <text x="565" y="113" text-anchor="middle" font-size="15" font-weight="700" fill="#f7f1e6">The Imam's Arithmetic</text>
+  <text x="410" y="166" font-size="12" fill="#2b2117">Calculation: -5 sins (for the initial theft), -5 sins (for propagating forbidden goods into another's hand).</text>
+  <line x1="410" y1="240" x2="720" y2="240" stroke="#d9cdbd"/>
+  <text x="410" y="280" font-size="13" font-weight="700" fill="#2b2117">Actual Net Result: -10 sins, 0 rewards.</text>
+
+  <line x1="20" y1="440" x2="740" y2="440" stroke="#d9cdbd"/>
+  <text x="40" y="478" font-size="12" fill="#2b2117">A sacred act is blessed under the pact of Allah. A stolen act (fornication vs. marriage; forbidden meat vs. ritual slaughter) carries no allegiance. The covenant-less act cannot be sanctified.</text>
+</svg>

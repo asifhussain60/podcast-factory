@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 640" font-family="Lato, system-ui, sans-serif">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8b4513"/>
+    </marker>
+  </defs>
+  <text x="380" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">The Forty-Year Syllogism</text>
+
+  <rect x="120" y="64" width="520" height="56" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="380" y="98" text-anchor="middle" font-size="13" fill="#2b2117">The son addresses the father regarding his newfound knowledge.</text>
+
+  <text x="380" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#8b4513">Two-Horn Dilemma</text>
+
+  <line x1="380" y1="158" x2="180" y2="190" stroke="#8b4513" marker-end="url(#ar)"/>
+  <line x1="380" y1="158" x2="580" y2="190" stroke="#8b4513" marker-end="url(#ar)"/>
+
+  <rect x="20" y="200" width="340" height="200" rx="6" fill="#ffffff" stroke="#d9cdbd"/>
+  <text x="190" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">Horn 1</text>
+  <text x="36" y="276" font-size="12" fill="#2b2117">The father was a scholar of this truth but intentionally withheld my share.</text>
+
+  <rect x="400" y="200" width="340" height="200" rx="6" fill="#ffffff" stroke="#d9cdbd"/>
+  <text x="570" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">Horn 2</text>
+  <text x="416" y="276" font-size="12" fill="#2b2117">The father was ignorant of this truth, making him more in need of the stranger than I am.</text>
+
+  <rect x="80" y="360" width="220" height="30" fill="#2b2117"/>
+  <text x="190" y="380" text-anchor="middle" font-size="13" font-weight="700" fill="#f7f1e6">DEAD END</text>
+  <rect x="460" y="360" width="220" height="30" fill="#2b2117"/>
+  <text x="570" y="380" text-anchor="middle" font-size="13" font-weight="700" fill="#f7f1e6">DEAD END</text>
+
+  <line x1="190" y1="400" x2="380" y2="450" stroke="#8b4513" marker-end="url(#ar)"/>
+  <line x1="570" y1="400" x2="380" y2="450" stroke="#8b4513" marker-end="url(#ar)"/>
+
+  <rect x="80" y="460" width="600" height="60" rx="6" fill="#8b4513"/>
+  <text x="380" y="498" text-anchor="middle" font-size="15" font-weight="700" fill="#f7f1e6">Conclusion: You have no standing to condemn me.</text>
+
+  <line x1="20" y1="560" x2="740" y2="560" stroke="#d9cdbd"/>
+  <text x="380" y="592" text-anchor="middle" font-size="12" font-style="italic" fill="#7a6a58">There is no third position. The disjunctive dilemma closes every escape route, mathematically securing the disciple's release.</text>
+</svg>

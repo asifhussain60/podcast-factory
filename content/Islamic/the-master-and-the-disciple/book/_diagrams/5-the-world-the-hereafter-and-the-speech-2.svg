@@ -1,0 +1,31 @@
+<svg id="Outside_and_Inside_of_the_World" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 306" role="img" aria-labelledby="Outside_and_Inside_of_the_World_t Outside_and_Inside_of_the_World_d">
+<title id="Outside_and_Inside_of_the_World_t">Outside and Inside of the World</title>
+<desc id="Outside_and_Inside_of_the_World_d">Two-column contrast: Inside (soul/meaning) vs Outside (body/form) — 4 paired phenomena</desc>
+<style>#Outside_and_Inside_of_the_World{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#1f1d18;}#Outside_and_Inside_of_the_World text{font-family:'Lato', system-ui, sans-serif;}</style>
+<text x="250" y="20.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#8b4513"><tspan x="250" dy="0">Outside and Inside of the World</tspan></text>
+<text x="250" y="40.0" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#87827a"><tspan x="250" dy="0">The outside has no standing except by its inside.</tspan></text>
+<rect x="14.0" y="62.0" width="218.0" height="48.0" fill="#8b4513" stroke="#8b4513" stroke-width="1.0" rx="4"/>
+<rect x="268.0" y="62.0" width="218.0" height="48.0" fill="#efeae0" stroke="#d9d3c4" stroke-width="1.0" rx="4"/>
+<text x="123.0" y="86.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#fffdf8"><tspan x="123.0" dy="0">Inside (soul/meaning)</tspan></text>
+<text x="377.0" y="86.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#1f1d18"><tspan x="377.0" dy="0">Outside (body/form)</tspan></text>
+<rect x="14.0" y="110.0" width="218.0" height="46.0" fill="#fffdf8" stroke="#d9d3c4" stroke-width="1.0"/>
+<rect x="268.0" y="110.0" width="218.0" height="46.0" fill="#fffdf8" stroke="#d9d3c4" stroke-width="1.0"/>
+<text x="123.0" y="133.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="123.0" dy="0">Soul</tspan></text>
+<text x="377.0" y="133.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="377.0" dy="0">Body</tspan></text>
+<line x1="249" y1="114" x2="249" y2="152" stroke="#d9d3c4" stroke-width="1"/>
+<rect x="14.0" y="156.0" width="218.0" height="46.0" fill="#f7f4ee" stroke="#d9d3c4" stroke-width="1.0"/>
+<rect x="268.0" y="156.0" width="218.0" height="46.0" fill="#f7f4ee" stroke="#d9d3c4" stroke-width="1.0"/>
+<text x="123.0" y="179.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="123.0" dy="0">Meaning intended by God</tspan></text>
+<text x="377.0" y="179.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="377.0" dy="0">World as appearance</tspan></text>
+<line x1="249" y1="160" x2="249" y2="198" stroke="#d9d3c4" stroke-width="1"/>
+<rect x="14.0" y="202.0" width="218.0" height="46.0" fill="#fffdf8" stroke="#d9d3c4" stroke-width="1.0"/>
+<rect x="268.0" y="202.0" width="218.0" height="46.0" fill="#fffdf8" stroke="#d9d3c4" stroke-width="1.0"/>
+<text x="123.0" y="225.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="123.0" dy="0">Living reality</tspan></text>
+<text x="377.0" y="225.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="377.0" dy="0">Carcass if taken alone</tspan></text>
+<line x1="249" y1="206" x2="249" y2="244" stroke="#d9d3c4" stroke-width="1"/>
+<rect x="14.0" y="248.0" width="218.0" height="46.0" fill="#f7f4ee" stroke="#d9d3c4" stroke-width="1.0"/>
+<rect x="268.0" y="248.0" width="218.0" height="46.0" fill="#f7f4ee" stroke="#d9d3c4" stroke-width="1.0"/>
+<text x="123.0" y="271.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="123.0" dy="0">What scholars affirm</tspan></text>
+<text x="377.0" y="271.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#1f1d18"><tspan x="377.0" dy="0">What scholars forbid</tspan></text>
+<line x1="249" y1="252" x2="249" y2="290" stroke="#d9d3c4" stroke-width="1"/>
+</svg>

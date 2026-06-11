@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 760" font-family="Lato, system-ui, sans-serif">
+  <text x="380" y="40" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">The Scale of Incomparability</text>
+
+  <circle cx="380" cy="380" r="300" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <circle cx="380" cy="380" r="220" fill="#ffffff" stroke="#d9cdbd"/>
+  <circle cx="380" cy="380" r="140" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <circle cx="380" cy="380" r="60" fill="#ffffff" stroke="#8b4513"/>
+
+  <text x="380" y="385" text-anchor="middle" font-size="15" font-weight="700" fill="#8b4513">Allah.</text>
+
+  <text x="380" y="250" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2117">Earth in relation to Air.</text>
+  <text x="380" y="268" text-anchor="middle" font-size="12" fill="#7a6a58">Like a single seal-ring discarded in a great plain.</text>
+
+  <text x="380" y="170" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2117">Atmosphere in relation to the Heavens.</text>
+  <text x="380" y="188" text-anchor="middle" font-size="12" fill="#7a6a58">Like a seal-ring in a vast desert.</text>
+
+  <text x="380" y="100" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2117">The Heaven in relation to the full extent of Air.</text>
+  <text x="380" y="118" text-anchor="middle" font-size="12" fill="#7a6a58">Like a tiny egg resting in an immense plain.</text>
+
+  <line x1="60" y1="690" x2="700" y2="690" stroke="#d9cdbd"/>
+  <text x="60" y="712" font-size="12" font-weight="700" fill="#8b4513">Annotation</text>
+  <text x="60" y="730" font-size="12" fill="#2b2117">Ratio fails. The sign announces the failure of signs. "And Allah's is the loftiest similitude." (16:60).</text>
+  <text x="60" y="750" font-size="11" fill="#7a6a58">Lesser symbols and peer-to-peer comparisons slot the Creator into a series with His creatures, demoting Him to a rung. The highest permitted symbol (Air) announces incommensurability through sheer scale.</text>
+</svg>
