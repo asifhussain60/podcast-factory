@@ -70,8 +70,11 @@ WARN_THRESHOLD_DELTA = 1        # WARN if exactly max+1
 # Enrichment rewrites frame headings with variant nouns ("Where the dialogue
 # opens", "Where this teaching opens", "What this episode lands for the
 # listener") — match the frame SHAPE, not one fixed noun (2026-06-10).
+# "stands" added 2026-06-11: enrichment emits "Where the argument stands" as
+# the opening frame on late dialectical chapters (observed on
+# the-master-and-the-disciple ch18b/ch19c — counted as a 4th concept without it).
 _FRAME_PATTERNS = re.compile(
-    r"^##\s+(where\s+(this|the)\s+\w+\s+(opens|picks\s+up|begins)\b.*"
+    r"^##\s+(where\s+(this|the)\s+\w+\s+(opens|picks\s+up|begins|stands)\b.*"
     r"|what\s+(this|the)\s+\w+\s+(lands|leaves)\b.*"
     r"|closing\s*(turn|reflection)?"
     r"|the\s+frame)"

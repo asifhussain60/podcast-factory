@@ -554,10 +554,16 @@ def _print_notebooklm_table(book_dir: Path) -> None:
             _resolve_chapter_file,
             _resolve_framing_file,
         )
-        from _notebooklm_table import UploadRow, render_upload_table_lines, repo_rel_href  # noqa: PLC0415
+        from _notebooklm_table import (  # noqa: PLC0415
+            UploadRow, render_upload_table_lines, repo_rel_href,
+            load_density_lengths, length_for_episode,
+        )
     except ImportError as exc:
         _info(f"  [notebooklm table skipped — import error: {exc}]")
         return
+
+    # Per-episode Length from the density plan when one exists (else "Long").
+    _density_lengths = load_density_lengths(book_dir)
 
     mapping = _load_episode_map(book_dir)
     if not mapping:
@@ -597,6 +603,7 @@ def _print_notebooklm_table(book_dir: Path) -> None:
             chapter_title=title,
             episode_title=title,
             episode_format=episode_format,
+            length=length_for_episode(book_dir, ep_num, _density_lengths),
             chapter_href=repo_rel_href(chapter_path, book_dir),
             episode_href=repo_rel_href(framing_path, book_dir),
             session_index=_si if isinstance(_si, int) else None,

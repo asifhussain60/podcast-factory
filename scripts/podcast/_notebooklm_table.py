@@ -26,6 +26,49 @@ from _paths import REPO_ROOT
 # The standing default length setting. Change here to retune globally.
 DEFAULT_LENGTH = "Long"
 
+# Recognized per-episode overrides from the density plan (density_planner.py).
+_VALID_LENGTHS = ("Default", "Long")
+
+
+def load_density_lengths(book_dir) -> dict[int, str]:
+    """Per-episode NotebookLM Length overrides from _system/density-plan.json.
+
+    The density planner (scripts/podcast/density_planner.py) assigns each
+    episode group a length setting; its plan artifact's presence IS the
+    opt-in. Returns {} when no plan exists or it is unreadable, so every
+    caller falls back to DEFAULT_LENGTH and books without a plan render
+    byte-identically to before.
+    """
+    import json
+    p = Path(book_dir) / "_system" / "density-plan.json"
+    if not p.exists():
+        return {}
+    try:
+        plan = json.loads(p.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+    out: dict[int, str] = {}
+    for g in plan.get("groups", []):
+        length = g.get("notebooklm_length")
+        if length not in _VALID_LENGTHS:
+            continue
+        for ep in g.get("episode_numbers", []):
+            if isinstance(ep, int):
+                out[ep] = length
+    return out
+
+
+def length_for_episode(book_dir, ep_num: int,
+                       lengths: dict[int, str] | None = None) -> str:
+    """The Length cell for one episode: density-plan override or the default.
+
+    Pass a pre-loaded *lengths* dict (from load_density_lengths) when
+    rendering many rows to avoid re-reading the plan per row.
+    """
+    if lengths is None:
+        lengths = load_density_lengths(book_dir)
+    return lengths.get(ep_num, DEFAULT_LENGTH)
+
 COLUMNS = ("Chapters", "Episodes", "Deep dive or debate", "Length")
 
 

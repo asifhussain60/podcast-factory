@@ -395,6 +395,19 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"   with fewer total episodes is rejected and you will be re-run.\n"
         )
 
+    # Density planner advisory (Slice 2, 2026-06-11, opt-in via series-config
+    # `density_planner: on`): non-binding grouping/length hints measured from
+    # a prior render by density_planner.py. Mirrors the concept-inventory
+    # pattern — present on re-runs, silent (empty string) on fresh books.
+    density_advisory_block = ""
+    try:
+        from _density_profiles import planner_enabled as _dplanner_enabled  # noqa: PLC0415
+        from density_planner import phase_0d_advisory_block as _density_advisory  # noqa: PLC0415
+        if _dplanner_enabled(book_dir):
+            density_advisory_block = _density_advisory(book_dir)
+    except Exception:
+        density_advisory_block = ""  # advisory must never break Phase 0d
+
     # ── STEP 1: TOC + plan ───────────────────────────────────────────────────
     log("  phase 0d · step 1/3 · TOC + segmentation plan")
 
@@ -456,6 +469,7 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"   leave a concept's argument straddling an episode boundary — and order the\n"
             f"   episodes so each one's closing hands off naturally to the next one's opening.\n"
             f"{inventory_block}"
+            f"{density_advisory_block}"
             f"4. Assign monotonically increasing episode numbers (`ep_num`) across the whole "
             f"book starting at 1. Each episode gets a short kebab-case `episode_slug` "
             f"(distinct across the whole book). When a source chapter splits into multiple "
