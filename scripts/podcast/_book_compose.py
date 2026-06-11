@@ -29,8 +29,12 @@ from _authoring._core import AuthoringError, _run_claude_p
 from _literary import _read_literary_config, _VOICE_INSTRUCTIONS, teaching_loss_findings
 from _translit import simplify_transliteration
 
-_COMPOSE_TIMEOUT = 420
-_RETRY_TIMEOUT = 520
+# Per-chapter wall budgets. 420s proved too tight in practice (2026-06-11:
+# a 631-word chapter ran ~16 min on Opus and the whole phase aborted at
+# chapter 1); compose calls re-voice full chapters, so give them the same
+# order of budget as phase-0d authoring calls.
+_COMPOSE_TIMEOUT = 900
+_RETRY_TIMEOUT = 1350
 
 _PAGE_MARK = re.compile(r"<!--\s*page\s*(\d+)\s*-->", re.IGNORECASE)
 
