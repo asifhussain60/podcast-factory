@@ -1,64 +1,52 @@
 # Podcast Challenger Report
 
 **Book:** the-master-and-the-disciple
-**Run:** 2026-06-10 (challenger v2.5, re-verified)
-**Scope:** per-chapter purifying-possessions-and-parting (EP11)
-**Iterations:** 2 (of 5 max — intelligent break on steady state)
+**Run:** 2026-06-11 03:25Z (challenger v2.5)
+**Scope:** per-chapter rebirth-and-the-seven-day-tawaf (EP12)
+**Iterations:** 1 (of 5 max — clean break: identical findings to prior pass, zero auto-fixes)
 **Verdict:** SHIP-WITH-CAUTION
-
-content_profile: islamic_scholarly (resolved from _system/series-config.yaml)
+**content_profile:** islamic_scholarly
 
 ## Auto-fixes applied
 
-None this run. Em-dash usage in chapter prose (21 occurrences) matches the established style across all prior shipped chapters of this book (ch09b: 12, ch10c: 15) — treated as book-convention prose, not stripped. The build script's hard gate (`build_episode_txt.py --check`) accepted the chapter at 2,688 words and the framing at 765 words without P0 violation.
+None this run. Chapter and framing pass all P0 hard gates (build_episode_txt.py emits successfully). No deterministic auto-fix triggers fired: no inline phonetic parens (N1), no legacy passive pronunciation list (N2), no repeated honorific expansions (O1), no abbreviated work titles (O2), no cross-episode references (B2), no meta-prose tells (B1/B3/B4).
 
 ## Findings requiring author resolution
 
 ### P0 (blocks ship)
 
-None. Doctrinal gate clean across chapter + framing + show-notes (0 T-findings). No HTML comments, no inline phonetic parens, no forbidden honorific repetition expansions, no abbreviated work titles, no modernization tells, no surprise-noise tells, no cross-episode references, no meta-prose tells, no fabricated atom risks.
+None. Doctrinal checks (T1–T5) clean on chapter and framing; T3-forbidden-pairing gate clean.
 
 ### P1 (ship-with-caution)
 
-#### R-NAMEDISCIPLINE — name discipline section lacks rotation set
-- **File:** _system/episode-drafts/EP11-purifying-possessions-and-parting/00-framing.md (Stable role-labels section, lines 8–13)
-- **Context:** The framing intentionally pins single labels ("the scholar", "the disciple", "the elder Master") with explicit `Never rotate` discipline. The validator expects a 3+ alias rotation set.
-- **Recommendation:** Accept as a deliberate book-wide design — the role labels are stable by author choice across all 14 chapters; rotation would break the recurring-thesis steering. No fix needed unless the book-wide convention is reversed.
+#### R-NO-ARABIC-TRANSLITERATION: 4 Arabic transliterations in chapter (citation apparatus)
+- **File:** content/Islamic/the-master-and-the-disciple/chapters/ch12a-rebirth-and-the-seven-day-tawaf.txt
+- **Context:** Bibliographic proper nouns inside parenthetical citations: `Abu Dawud`, `al-Balagha`, `al-Radi`, `al-Sharif`. These appear in parenthetical citations of *Nahj al-Balagha* (al-Sharif al-Radi) and *Sunan Abu Dawud* — the standard written bibliographic apparatus.
+- **Suggested fix:** Author judgment. Accept as F20 citation-apparatus carve-out (the framing already maps audio labels to "the book *The Peak of Eloquence*" / "the hadith compiler", so TTS render is steered), or substitute. Recommend: accept as-is — citation apparatus belongs in the written chapter, not the audio.
 
-#### R-DRAMATIC-ARC — three-part focus is 3 beats not 6
-- **File:** _system/episode-drafts/EP11-purifying-possessions-and-parting/00-framing.md (Three-part focus section, lines 26–29)
-- **Context:** The Three-part focus declares three beats (rule + surprise; refusal + redirection; journey begins) and the validator wants 6. This is the closing episode of the scholar/disciple dialogue — a dialogue closure, not a tension arc.
-- **Recommendation:** Authoring decision. The 3-beat shape mirrors the chapter's natural movement (rule → refusal → parting). Restructuring to 6 beats would force artificial subdivision.
-
-#### R-HONORIFIC-BOTH-BOUNDS — "peace be upon him" appears 0× in framing
-- **File:** _system/episode-drafts/EP11-purifying-possessions-and-parting/00-framing.md (Name discipline section, line 16)
-- **Context:** The validator expects exactly one "peace be upon him" for first mention of the Commander of the Faithful. He is not mentioned in this episode — the dialogue does not reference the Father of Imams here, only the Prophet (handled with the full "peace and blessings of Allah be upon him and his family" on first mention).
-- **Recommendation:** Validator false-positive for this chapter. The honorific bound applies when the figure is mentioned; he is not. No fix needed.
-
-#### F25-APPARATUS-TABLE — missing "Name and Title Preservation Table" in 99-show-notes
-- **File:** _system/episode-drafts/EP11-purifying-possessions-and-parting/99-show-notes.md
-- **Context:** Show-notes lacks the F25 apparatus crosswalk (preserved Arabic / transliterations + audio-label crosswalk). The show-notes file is not part of the NotebookLM upload pair (chapter + customize prompt) — it is published-library apparatus.
-- **Recommendation:** Add the apparatus table to 99-show-notes for archival completeness; does not affect audio render. Authoring decision.
+#### F25-APPARATUS-TABLE: 99-show-notes.md missing Name and Title Preservation Table
+- **File:** content/Islamic/the-master-and-the-disciple/_system/episode-drafts/EP12-rebirth-and-the-seven-day-tawaf/99-show-notes.md
+- **Context:** Show-notes has `## Related episodes` and `## References` sections, but no `## Name and Title Preservation Table`. F25 doctrine requires every episode's show-notes to carry the written-layer apparatus (preserved Arabic / transliterations + audio-label crosswalk) the TTS-safe audio omits.
+- **Suggested fix:** Append `## Name and Title Preservation Table` mapping audio labels → written forms (e.g. "the Father of Imams" → ʿAlī ibn Abī Ṭālib; "the book *The Peak of Eloquence*" → *Nahj al-Balāgha*; "the hadith compiler" → Abū Dāwūd al-Sijistānī; "tawaf" → ṭawāf). Written-layer only; does not affect NotebookLM audio.
 
 ### P2 (advisory)
 
-#### B5 — em-dashes in chapter prose (21 occurrences)
-- **File:** chapters/ch11d-purifying-possessions-and-parting.txt
-- **Context:** Em-dashes are the established style across this book (ch09b: 12, ch10c: 15). NotebookLM TTS treats them as natural pauses for this register. Not auto-stripped per book-convention override.
+None.
 
 ## Health metrics
 
-| Chapter | Words | Framing words | Doctrinal P0 | Build P0 | P1 count |
-|---|---|---|---|---|---|
-| ch11d-purifying-possessions-and-parting | 2,688 | 765 | 0 | 0 | 4 |
+| File | Words | Status |
+|---|---|---|
+| ch12a-rebirth-and-the-seven-day-tawaf.txt | 2,332 | Within default-deep-dive band (1,800–2,800) |
+| EP12-rebirth-and-the-seven-day-tawaf/00-framing.md | 758 | Within framing band (200–2,000) |
+| Tier diversity in chapter | 5 distinct tiers cited | Multi-tier (Quran, hadith collection, Nahj al-Balagha, secondary scholarship Chittick/Corbin/Daftary) |
+| Phonetic gaps | 0 | Pronunciation block in framing covers tawaf, Sheikh, Imam, Kaaba, Allah, Quran, Hijra |
+| Honorific expansions | 1 each (Prophet, Father of Imams) | R-HONORIFIC-ONCE compliant |
 
-Both files in band: chapter 2,688 ∈ [1,800, 2,800] (default_deep_dive); framing 765 ∈ [200, 2,000].
+## Category coverage
+
+All applicable categories run: A (citation discipline), B (literalness — em-dashes accepted under current build doctrine), C (phonetic coverage via framing Pronunciation block), D (enrichment depth — Tier 3/4/5 coverage), E (articulation), F (framing integrity — all four sections present), H (welcome + landing both present), I (anti-repetition + bounded background), J (name discipline block present), K (host dynamic + forbidden filler vocabulary named), M (DENY-modernize + DENY-surprise blocks present), N (no inline phonetic parens; imperative Pronunciation block), O (single-occurrence honorifics; no abbreviated titles), Q (Host A=scholar, Host B=seeker — pool-compliant; book-wide parity maintained), R (no transcript yet for empirical pass; framing-side R1–R5 in place via Host dynamic + Tone + Do-not blocks), T (doctrinal — zero findings), U (no AI-cliche, no faux-profundity opening, no premature closure, no deep-dive self-reference, no external essentialism), V (V1 curiosity hook present, V2 challenge-defeat arc present, V3 modern relevance via gravity/orbit analogy, V4 no strawman, V5 rhetorical questions present).
 
 ## Convergence trace
 
-- iter 1: 0 P0, 4 P1, 1 P2; auto_fixes=0
-- iter 2: identical (intelligent break — no new auto-fixes, identical P0/P1 counts)
-
-Stop reason: steady state on iteration 2.
-
-> Fixer note (2026-06-10): All 4 P1s require author judgment and cannot be auto-fixed within allowed scope — R-NAMEDISCIPLINE / R-DRAMATIC-ARC / R-HONORIFIC-BOTH-BOUNDS are deliberate book-wide design choices or validator false-positives per the report's own recommendations; F25-APPARATUS-TABLE targets `99-show-notes.md`, which is outside the fixer-allowed edit set (chapter `.txt` + `00-framing.md` only). No edits applied.
+- Iteration 1: re-ran build_episode_txt.py → exit 0. Doctrinal checks → 0 findings. Direct scans for AI-cliche / modernization / cross-ep / meta-prose → 0 findings in chapter or framing prose (the framing's `## Do not` line containing those tokens is a forbidden-vocabulary directive to the hosts, not a violation). Findings identical to prior 2026-06-11 03:09Z pass: P0=0, P1=2, P2=0. Zero auto-fixes applicable. Intelligent break per Section 4.6b.

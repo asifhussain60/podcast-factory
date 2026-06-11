@@ -79,7 +79,8 @@
         "five-conditions-and-the-covenant",
         "hawl-quwwa-and-josephs-dream",
         "homecoming-and-the-forty-year-syllogism",
-        "originator-and-the-three-primordial-words"
+        "originator-and-the-three-primordial-words",
+        "purifying-possessions-and-parting"
       ],
       "failed_slugs": [
         "emptying-the-cup",
@@ -153,14 +154,21 @@
         },
         "purifying-possessions-and-parting": {
           "started_ts": "2026-06-11T02:17:26Z",
+          "completed_ts": "2026-06-11T02:50:16Z",
+          "duration_sec": 1969.3,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "rebirth-and-the-seven-day-tawaf": {
+          "started_ts": "2026-06-11T02:50:16Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
           "cost_usd": null
         }
       },
-      "current_chapter": "purifying-possessions-and-parting",
-      "last_beat": "2026-06-11T02:42:09Z",
+      "current_chapter": "rebirth-and-the-seven-day-tawaf",
+      "last_beat": "2026-06-11T03:17:11Z",
       "convergence_iter": 2
     },
     "0g": {
@@ -211,7 +219,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T02:42:09Z",
+  "ts_updated": "2026-06-11T03:17:11Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
