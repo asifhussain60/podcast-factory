@@ -1,27 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 460" font-family="Lato, system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 480" font-family="Lato, system-ui, sans-serif">
   <defs>
     <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M0,0 L10,5 L0,10 z" fill="#8b4513"/>
     </marker>
   </defs>
+
   <text x="380" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">Emptying the Cup (Kasrah)</text>
 
-  <rect x="20" y="80" width="230" height="200" rx="8" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <text x="135" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">The Traditional Scholar</text>
-  <text x="36" y="160" font-size="12" fill="#7a6a58">Polished by years of being 'right', leaving nowhere for a new thing to land.</text>
+  <!-- Stage 1 -->
+  <rect x="20" y="80" width="220" height="200" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="130" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">The Traditional Scholar</text>
+  <text x="36" y="148" font-size="13" fill="#7a6a58"><tspan x="36" dy="0">Polished by years of being</tspan><tspan x="36" dy="18">'right', leaving nowhere for a</tspan><tspan x="36" dy="18">new thing to land.</tspan></text>
 
-  <line x1="250" y1="180" x2="290" y2="180" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
+  <!-- arrow 1 -->
+  <line x1="244" y1="180" x2="266" y2="180" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
 
-  <rect x="290" y="80" width="230" height="200" rx="8" fill="#ffffff" stroke="#8b4513"/>
-  <text x="405" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#8b4513">The Demolition (Kasrah)</text>
-  <text x="306" y="160" font-size="12" fill="#2b2117">The ground must be forcefully broken. Salih's initial dialogue is a calculated act of demolition.</text>
+  <!-- Stage 2 -->
+  <rect x="270" y="80" width="220" height="200" rx="6" fill="#8b4513" stroke="#8b4513"/>
+  <text x="380" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#fffdf8">The Demolition (Kasrah)</text>
+  <text x="286" y="148" font-size="13" fill="#fffdf8"><tspan x="286" dy="0">The ground must be forcefully</tspan><tspan x="286" dy="18">broken. Salih's initial dialogue</tspan><tspan x="286" dy="18">is a calculated act of</tspan><tspan x="286" dy="18">demolition.</tspan></text>
 
-  <line x1="520" y1="180" x2="560" y2="180" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
+  <!-- arrow 2 -->
+  <line x1="494" y1="180" x2="516" y2="180" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
 
-  <rect x="560" y="80" width="180" height="200" rx="8" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <text x="650" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">The Receptacle</text>
-  <text x="576" y="160" font-size="12" fill="#7a6a58">Only once the cup is empty can a new seed be planted by the Mukasir (The Demolisher).</text>
+  <!-- Stage 3 -->
+  <rect x="520" y="80" width="220" height="200" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="630" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">The Receptacle</text>
+  <text x="536" y="148" font-size="13" fill="#7a6a58"><tspan x="536" dy="0">Only once the cup is empty</tspan><tspan x="536" dy="18">can a new seed be planted by</tspan><tspan x="536" dy="18">the Mukasir (The Demolisher).</tspan></text>
 
-  <line x1="20" y1="350" x2="740" y2="350" stroke="#d9cdbd"/>
-  <text x="380" y="382" text-anchor="middle" font-size="13" font-style="italic" fill="#7a6a58">Emptying the cup is a recognized necessity of spiritual pedagogy.</text>
+  <rect x="20" y="320" width="720" height="60" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="380" y="356" text-anchor="middle" font-size="14" font-style="italic" fill="#2b2117">Emptying the cup is a recognized necessity of spiritual pedagogy.</text>
 </svg>

@@ -1,0 +1,232 @@
+/* book-print.css — print stylesheet for the reading-edition PDF.
+ *
+ * Consumed by scripts/render-book-pdf.mjs (inlined at render time; this file
+ * is the single source of truth — never style inside the script).
+ * Theme tokens (--c-*) are injected from theme.css :root by the renderer.
+ * Fonts: Amiri / Amiri Quran are served by the renderer at /fonts/amiri/
+ * (plan-dashboard/public/fonts/amiri/, SIL OFL).
+ */
+
+@font-face {
+  font-family: 'Amiri Quran';
+  src: url('/fonts/amiri/AmiriQuran.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Amiri';
+  src: url('/fonts/amiri/Amiri-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Amiri';
+  src: url('/fonts/amiri/Amiri-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@page { margin: 2.2cm 2cm; }
+@page :first { margin: 0; }
+
+html { font-size: 19.2px; }
+body {
+  font-family: "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  line-height: 1.62;
+  color: var(--c-ink, #1f1d18);
+  background: #fff;
+  margin: 0;
+}
+
+/* ── Cover page (book/cover.png present) ─────────────────────────────────── */
+.cover {
+  position: relative;
+  width: 210mm;
+  height: 296mm;
+  page-break-after: always;
+  overflow: hidden;
+}
+.cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cover .cover-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 13%;
+  text-align: center;
+  padding: 1.6rem 2.4rem;
+  background: rgba(250, 246, 237, 0.88);
+}
+.cover .cover-panel h1 {
+  margin: 0 0 0.45rem;
+  font-size: 2.3rem;
+  line-height: 1.18;
+  color: var(--c-ink, #1f1d18);
+}
+.cover .cover-panel .cover-author {
+  margin: 0;
+  font-size: 1.02rem;
+  letter-spacing: 0.08em;
+  color: var(--c-ink-muted, #6f6a61);
+}
+
+/* ── Interior title page ─────────────────────────────────────────────────── */
+.title-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 86vh;
+  page-break-after: always;
+}
+.title-page .eyebrow {
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  color: var(--c-accent, #8b4513);
+  margin-bottom: 0.8rem;
+}
+.title-page h1 {
+  font-size: 2.4rem;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--c-ink, #1f1d18);
+}
+.title-page .title-author {
+  margin-top: 1.1rem;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  color: var(--c-ink-muted, #6f6a61);
+}
+.title-page .title-rule {
+  width: 3.2rem;
+  border: 0;
+  border-top: 1px solid var(--c-accent, #8b4513);
+  margin: 1.4rem auto 0;
+}
+
+/* ── Chapter openings — book-style ───────────────────────────────────────── */
+.chapter-open {
+  page-break-before: always;
+  padding-top: 4.6cm;
+  margin-bottom: 2.2rem;
+  text-align: center;
+}
+.chapter-open .ch-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.82rem;
+  color: var(--c-accent, #8b4513);
+  margin: 0 0 1rem;
+}
+.chapter-open h2 {
+  font-size: 2.05rem;
+  line-height: 1.22;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-weight: 600;
+}
+.chapter-open .ch-rule {
+  width: 3.2rem;
+  border: 0;
+  border-top: 1px solid var(--c-rule-soft, #d8d0bf);
+  margin: 1.5rem auto 0;
+}
+
+/* Drop cap on each chapter's opening paragraph. */
+p.ch-first::first-letter {
+  float: left;
+  font-size: 3.05em;
+  line-height: 0.83;
+  padding: 0.04em 0.1em 0 0;
+  color: var(--c-accent, #8b4513);
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.25rem;
+  margin: 1.3rem 0 0.6rem;
+  page-break-after: avoid;
+}
+p { margin: 0 0 0.8rem; }
+
+/* ── Quotation blocks ────────────────────────────────────────────────────── */
+/* Default (English-only) quotes keep the card style. */
+blockquote {
+  margin: 1rem 0;
+  padding: 0.6rem 1.1rem;
+  border-left: 3px solid var(--c-accent, #8b4513);
+  background: var(--c-bg-card, #fffdf8);
+  page-break-inside: avoid;
+}
+blockquote p { margin: 0.3rem 0; }
+
+/* Quranic / Arabic quotation blocks — mushaf treatment, golden theme. */
+blockquote.quran {
+  border: 1px solid #c9a55c;
+  border-left: 1px solid #c9a55c;
+  background: linear-gradient(180deg, #fdfaf2 0%, #faf3e2 100%);
+  text-align: center;
+  padding: 1.15rem 1.4rem 1rem;
+  margin: 1.35rem 0;
+  box-shadow: inset 0 0 0 3px #fdfaf2, inset 0 0 0 4px rgba(201, 165, 92, 0.55);
+}
+blockquote.quran p.ar {
+  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
+  font-size: 1.72rem;
+  line-height: 2.3;
+  color: #7a4a12;
+  margin: 0.2rem 0 0.1rem;
+}
+blockquote.quran .quran-divider {
+  width: 2.4rem;
+  border: 0;
+  border-top: 1px solid #c9a55c;
+  margin: 0.55rem auto;
+}
+blockquote.quran p.tr {
+  font-style: italic;
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: #5f6651;
+  margin: 0.1rem 0 0.2rem;
+}
+
+/* ── Figures ─────────────────────────────────────────────────────────────── */
+figure.book-diagram {
+  margin: 2em auto;
+  max-width: 100%;
+  page-break-inside: avoid;
+  text-align: center;
+}
+/* Vertical, uncapped: never shrink a diagram to fit an arbitrary height. */
+figure.book-diagram svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+figure.book-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+}
+figcaption {
+  margin-top: 0.5em;
+  font-size: 0.82rem;
+  color: var(--c-ink-muted, #87827a);
+  font-style: italic;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  text-align: center;
+}

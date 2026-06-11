@@ -1,38 +1,49 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 640" font-family="Lato, system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 660" font-family="Lato, system-ui, sans-serif">
   <defs>
     <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M0,0 L10,5 L0,10 z" fill="#8b4513"/>
     </marker>
   </defs>
+
   <text x="380" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">The Forty-Year Syllogism</text>
 
-  <rect x="120" y="64" width="520" height="56" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <text x="380" y="98" text-anchor="middle" font-size="13" fill="#2b2117">The son addresses the father regarding his newfound knowledge.</text>
+  <rect x="20" y="64" width="720" height="60" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="380" y="100" text-anchor="middle" font-size="13" font-style="italic" fill="#2b2117">The son addresses the father regarding his newfound knowledge.</text>
 
-  <text x="380" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#8b4513">Two-Horn Dilemma</text>
+  <text x="380" y="156" text-anchor="middle" font-size="14" font-weight="700" fill="#8b4513">Two-Horn Dilemma</text>
 
-  <line x1="380" y1="158" x2="180" y2="190" stroke="#8b4513" marker-end="url(#ar)"/>
-  <line x1="380" y1="158" x2="580" y2="190" stroke="#8b4513" marker-end="url(#ar)"/>
+  <!-- branch lines -->
+  <line x1="380" y1="166" x2="180" y2="200" stroke="#8b4513" stroke-width="1.5"/>
+  <line x1="380" y1="166" x2="580" y2="200" stroke="#8b4513" stroke-width="1.5"/>
 
-  <rect x="20" y="200" width="340" height="200" rx="6" fill="#ffffff" stroke="#d9cdbd"/>
+  <!-- Horn 1 -->
+  <rect x="20" y="200" width="340" height="130" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
   <text x="190" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">Horn 1</text>
-  <text x="36" y="276" font-size="12" fill="#2b2117">The father was a scholar of this truth but intentionally withheld my share.</text>
+  <text x="36" y="258" font-size="13" fill="#2b2117"><tspan x="36" dy="0">The father was a scholar of this truth</tspan><tspan x="36" dy="18">but intentionally withheld my share.</tspan></text>
 
-  <rect x="400" y="200" width="340" height="200" rx="6" fill="#ffffff" stroke="#d9cdbd"/>
+  <!-- Horn 2 -->
+  <rect x="400" y="200" width="340" height="130" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
   <text x="570" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">Horn 2</text>
-  <text x="416" y="276" font-size="12" fill="#2b2117">The father was ignorant of this truth, making him more in need of the stranger than I am.</text>
+  <text x="416" y="258" font-size="13" fill="#2b2117"><tspan x="416" dy="0">The father was ignorant of this truth,</tspan><tspan x="416" dy="18">making him more in need of the</tspan><tspan x="416" dy="18">stranger than I am.</tspan></text>
 
-  <rect x="80" y="360" width="220" height="30" fill="#2b2117"/>
-  <text x="190" y="380" text-anchor="middle" font-size="13" font-weight="700" fill="#f7f1e6">DEAD END</text>
-  <rect x="460" y="360" width="220" height="30" fill="#2b2117"/>
-  <text x="570" y="380" text-anchor="middle" font-size="13" font-weight="700" fill="#f7f1e6">DEAD END</text>
+  <!-- arrows down -->
+  <line x1="190" y1="334" x2="190" y2="362" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="570" y1="334" x2="570" y2="362" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
 
-  <line x1="190" y1="400" x2="380" y2="450" stroke="#8b4513" marker-end="url(#ar)"/>
-  <line x1="570" y1="400" x2="380" y2="450" stroke="#8b4513" marker-end="url(#ar)"/>
+  <!-- DEAD END boxes -->
+  <rect x="100" y="370" width="180" height="50" rx="6" fill="#8b4513"/>
+  <text x="190" y="402" text-anchor="middle" font-size="14" font-weight="700" fill="#fffdf8">DEAD END</text>
+  <rect x="480" y="370" width="180" height="50" rx="6" fill="#8b4513"/>
+  <text x="570" y="402" text-anchor="middle" font-size="14" font-weight="700" fill="#fffdf8">DEAD END</text>
 
-  <rect x="80" y="460" width="600" height="60" rx="6" fill="#8b4513"/>
-  <text x="380" y="498" text-anchor="middle" font-size="15" font-weight="700" fill="#f7f1e6">Conclusion: You have no standing to condemn me.</text>
+  <!-- converging lines to conclusion -->
+  <line x1="190" y1="420" x2="380" y2="460" stroke="#8b4513" stroke-width="1.5"/>
+  <line x1="570" y1="420" x2="380" y2="460" stroke="#8b4513" stroke-width="1.5"/>
 
-  <line x1="20" y1="560" x2="740" y2="560" stroke="#d9cdbd"/>
-  <text x="380" y="592" text-anchor="middle" font-size="12" font-style="italic" fill="#7a6a58">There is no third position. The disjunctive dilemma closes every escape route, mathematically securing the disciple's release.</text>
+  <!-- Conclusion -->
+  <rect x="60" y="460" width="640" height="60" rx="6" fill="#f7f1e6" stroke="#8b4513" stroke-width="2"/>
+  <text x="380" y="496" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">Conclusion: You have no standing to condemn me.</text>
+
+  <!-- annotation -->
+  <text x="380" y="560" text-anchor="middle" font-size="13" fill="#2b2117"><tspan x="380" dy="0">There is no third position. The disjunctive dilemma closes every escape route,</tspan><tspan x="380" dy="20">mathematically securing the disciple's release.</tspan></text>
 </svg>

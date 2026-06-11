@@ -206,6 +206,15 @@ def inject_slides(book_md: str, entries: list[dict], *, pages: dict[int, str],
         else:
             end_of_para = result.find("\n\n", first + len(anchor))
             insert_at = (end_of_para + 2) if end_of_para != -1 else len(result)
+        # Caption discipline: a placeholder/empty title never reaches the page —
+        # render a captionless figure instead of "(untitled page)".
+        title = (e.get("title") or "").strip()
+        if not title or title.lower() in ("(untitled page)", "untitled", "untitled page"):
+            caption_html = ""
+            alt_text = "slide"
+        else:
+            caption_html = f'<figcaption>{title}</figcaption>\n'
+            alt_text = title
         svg_path = (svg_overrides or {}).get(page)
         if svg_path is not None:
             try:
@@ -216,7 +225,7 @@ def inject_slides(book_md: str, entries: list[dict], *, pages: dict[int, str],
                 figure_block = (
                     f'<figure class="book-diagram book-slide book-slide-svg">\n'
                     f'{svg_markup}\n'
-                    f'<figcaption>{e["title"]}</figcaption>\n'
+                    f'{caption_html}'
                     f'</figure>\n\n'
                 )
                 insertions.append((insert_at, figure_block))
@@ -224,8 +233,8 @@ def inject_slides(book_md: str, entries: list[dict], *, pages: dict[int, str],
             # Unreadable/invalid SVG → fall through to the raster figure.
         figure_block = (
             f'<figure class="book-diagram book-slide">\n'
-            f'<img src="{pages[page]}" alt="{e["title"]}">\n'
-            f'<figcaption>{e["title"]}</figcaption>\n'
+            f'<img src="{pages[page]}" alt="{alt_text}">\n'
+            f'{caption_html}'
             f'</figure>\n\n'
         )
         insertions.append((insert_at, figure_block))

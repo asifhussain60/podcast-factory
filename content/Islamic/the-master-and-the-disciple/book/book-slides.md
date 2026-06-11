@@ -1,33 +1,37 @@
-# The Book of the Master and the Boy
+# The Master and the Disciple
 
 ## How to Read a Conversation Made of Doors
 
 <figure class="book-diagram book-slide book-slide-svg">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 760" font-family="Lato, system-ui, sans-serif">
-  <text x="380" y="40" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">The Scale of Incomparability</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 640" font-family="Lato, system-ui, sans-serif">
+  <text x="380" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">The Scale of Incomparability</text>
 
-  <circle cx="380" cy="380" r="300" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <circle cx="380" cy="380" r="220" fill="#ffffff" stroke="#d9cdbd"/>
-  <circle cx="380" cy="380" r="140" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <circle cx="380" cy="380" r="60" fill="#ffffff" stroke="#8b4513"/>
+  <rect x="40" y="64" width="680" height="76" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="56" y="92" font-size="14" font-weight="700" fill="#2b2117">Earth in relation to Air.</text>
+  <text x="56" y="116" font-size="13" fill="#7a6a58">Like a single seal-ring discarded in a great plain.</text>
 
-  <text x="380" y="385" text-anchor="middle" font-size="15" font-weight="700" fill="#8b4513">Allah.</text>
+  <line x1="380" y1="140" x2="380" y2="160" stroke="#d9cdbd" stroke-width="1.5"/>
 
-  <text x="380" y="250" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2117">Earth in relation to Air.</text>
-  <text x="380" y="268" text-anchor="middle" font-size="12" fill="#7a6a58">Like a single seal-ring discarded in a great plain.</text>
+  <rect x="40" y="160" width="680" height="76" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="56" y="188" font-size="14" font-weight="700" fill="#2b2117">Atmosphere in relation to the Heavens.</text>
+  <text x="56" y="212" font-size="13" fill="#7a6a58">Like a seal-ring in a vast desert.</text>
 
-  <text x="380" y="170" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2117">Atmosphere in relation to the Heavens.</text>
-  <text x="380" y="188" text-anchor="middle" font-size="12" fill="#7a6a58">Like a seal-ring in a vast desert.</text>
+  <line x1="380" y1="236" x2="380" y2="256" stroke="#d9cdbd" stroke-width="1.5"/>
 
-  <text x="380" y="100" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2117">The Heaven in relation to the full extent of Air.</text>
-  <text x="380" y="118" text-anchor="middle" font-size="12" fill="#7a6a58">Like a tiny egg resting in an immense plain.</text>
+  <rect x="40" y="256" width="680" height="76" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="56" y="284" font-size="14" font-weight="700" fill="#2b2117">The Heaven in relation to the full extent of Air.</text>
+  <text x="56" y="308" font-size="13" fill="#7a6a58">Like a tiny egg resting in an immense plain.</text>
 
-  <line x1="60" y1="690" x2="700" y2="690" stroke="#d9cdbd"/>
-  <text x="60" y="712" font-size="12" font-weight="700" fill="#8b4513">Annotation</text>
-  <text x="60" y="730" font-size="12" fill="#2b2117">Ratio fails. The sign announces the failure of signs. "And Allah's is the loftiest similitude." (16:60).</text>
-  <text x="60" y="750" font-size="11" fill="#7a6a58">Lesser symbols and peer-to-peer comparisons slot the Creator into a series with His creatures, demoting Him to a rung. The highest permitted symbol (Air) announces incommensurability through sheer scale.</text>
+  <line x1="380" y1="332" x2="380" y2="352" stroke="#d9cdbd" stroke-width="1.5"/>
+
+  <rect x="40" y="352" width="680" height="116" rx="6" fill="#8b4513" stroke="#8b4513"/>
+  <text x="380" y="386" text-anchor="middle" font-size="20" font-weight="700" fill="#fffdf8">Allah.</text>
+  <text x="56" y="420" font-size="13" fill="#fffdf8"><tspan x="56" dy="0">Ratio fails. The sign announces the failure of signs. &quot;And Allah's is the loftiest similitude.&quot;</tspan><tspan x="56" dy="18">(16:60).</tspan></text>
+
+  <text x="40" y="498" font-size="12" font-weight="700" fill="#8b4513">Annotation</text>
+  <text x="40" y="520" font-size="13" fill="#2b2117"><tspan x="40" dy="0">Lesser symbols and peer-to-peer comparisons slot the Creator into a series with His creatures,</tspan><tspan x="40" dy="18">demoting Him to a rung. The highest permitted symbol (Air) announces incommensurability through</tspan><tspan x="40" dy="18">sheer scale.</tspan></text>
 </svg>
-<figcaption>(untitled page)</figcaption>
+<figcaption>The Scale of Incomparability</figcaption>
 </figure>
 
 What you are about to read is a conversation. Not a treatise, not a sermon, not a catechism — a conversation, set down in writing more than a thousand years ago, between a teacher and the seekers who came to him, and then, inside it, another conversation between a learned man of Persia and a boy who walked up to him one day and asked a question he did not expect. I am the one who recorded it. My name will mean little to you; what should mean something to you is that I believed, then as I believe now, that the most important things a human being can learn are almost never delivered as lectures. They arrive in exchanges. They arrive through a door someone opens by asking.
@@ -97,8 +101,8 @@ Then he answered their three questions in three lines so compact that I have spe
 > "Thanks to the teacher is to obey him. Thanks to the knowledge is to act upon it and to call others to it. Thanks to the work is to be patient with it and to call others to it."
 
 <figure class="book-diagram book-slide">
-<img src="slide-decks/_pages/book/page-03.jpg" alt="(untitled page)">
-<figcaption>(untitled page)</figcaption>
+<img src="slide-decks/_pages/book/page-03.jpg" alt="The Densification Ladder">
+<figcaption>The Densification Ladder</figcaption>
 </figure>
 
 Notice what he has done. He has turned every form of gratitude outward. None of the three thanks is something you feel; each of them is something you do, and two of the three end in the same place — *calling others*. Gratitude, in his mouth, is contagion. A debt you pay by passing the gift along.
@@ -112,41 +116,45 @@ I am bringing this conversation across to you, across the centuries and across a
 Let me tell you now about the doctrines of the righteous and the manners of those who seek — and let me tell it through one man, because a single life carried well will teach you more than a hundred maxims.
 
 <figure class="book-diagram book-slide book-slide-svg">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 540" font-family="Lato, system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 620" font-family="Lato, system-ui, sans-serif">
   <text x="380" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">The Numerical Signatures of the Cosmos</text>
 
-  <rect x="20" y="60" width="220" height="36" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <rect x="240" y="60" width="170" height="36" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <rect x="410" y="60" width="330" height="36" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <text x="130" y="83" text-anchor="middle" font-size="13" font-weight="700" fill="#8b4513">SOURCE</text>
-  <text x="325" y="83" text-anchor="middle" font-size="13" font-weight="700" fill="#8b4513">LETTER COUNT</text>
-  <text x="575" y="83" text-anchor="middle" font-size="13" font-weight="700" fill="#8b4513">COSMIC SIGNATURES</text>
+  <!-- header row -->
+  <rect x="20" y="64" width="240" height="36" fill="#8b4513"/>
+  <rect x="260" y="64" width="160" height="36" fill="#8b4513"/>
+  <rect x="420" y="64" width="320" height="36" fill="#8b4513"/>
+  <text x="140" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#fffdf8">SOURCE</text>
+  <text x="340" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#fffdf8">LETTER COUNT</text>
+  <text x="580" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#fffdf8">COSMIC SIGNATURES</text>
 
-  <rect x="20" y="96" width="220" height="110" fill="#ffffff" stroke="#d9cdbd"/>
-  <rect x="240" y="96" width="170" height="110" fill="#ffffff" stroke="#d9cdbd"/>
-  <rect x="410" y="96" width="330" height="110" fill="#ffffff" stroke="#d9cdbd"/>
-  <text x="130" y="140" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">kun fa-yakun</text>
-  <text x="130" y="158" text-anchor="middle" font-size="12" fill="#7a6a58">(The Command)</text>
-  <text x="325" y="150" text-anchor="middle" font-size="14" fill="#2b2117">7 letters</text>
-  <text x="425" y="148" font-size="12" fill="#2b2117">Mirrored above in 7 heavens, 7 rulers. Mirrored below in 7 seas, 7 days.</text>
+  <!-- row 1 -->
+  <rect x="20" y="100" width="240" height="120" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <rect x="260" y="100" width="160" height="120" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <rect x="420" y="100" width="320" height="120" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="36" y="132" font-size="14" font-weight="700" fill="#2b2117">kun fa-yakun</text>
+  <text x="36" y="152" font-size="12" font-style="italic" fill="#7a6a58">(The Command)</text>
+  <text x="340" y="160" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">7 letters</text>
+  <text x="436" y="132" font-size="13" fill="#2b2117"><tspan x="436" dy="0">Mirrored above in 7 heavens, 7 rulers.</tspan><tspan x="436" dy="20">Mirrored below in 7 seas, 7 days.</tspan></text>
 
-  <rect x="20" y="206" width="220" height="120" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <rect x="240" y="206" width="170" height="120" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <rect x="410" y="206" width="330" height="120" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <text x="130" y="252" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">irada-amr-bi-qawl</text>
-  <text x="130" y="270" text-anchor="middle" font-size="12" fill="#7a6a58">(The Primordial Words)</text>
-  <text x="325" y="260" text-anchor="middle" font-size="14" fill="#2b2117">12 letters</text>
-  <text x="425" y="250" font-size="12" fill="#2b2117">Mirrored above in 12 zodiac mansions. Mirrored below in 12 terrestrial regions, 12 hours of day, 12 hours of night.</text>
+  <!-- row 2 -->
+  <rect x="20" y="220" width="240" height="130" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <rect x="260" y="220" width="160" height="130" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <rect x="420" y="220" width="320" height="130" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="36" y="252" font-size="14" font-weight="700" fill="#2b2117">irada-amr-bi-qawl</text>
+  <text x="36" y="272" font-size="12" font-style="italic" fill="#7a6a58">(The Primordial Words)</text>
+  <text x="340" y="290" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">12 letters</text>
+  <text x="436" y="248" font-size="13" fill="#2b2117"><tspan x="436" dy="0">Mirrored above in 12 zodiac mansions.</tspan><tspan x="436" dy="18">Mirrored below in 12 terrestrial regions,</tspan><tspan x="436" dy="18">12 hours of day, 12 hours of night.</tspan></text>
 
-  <rect x="20" y="326" width="220" height="170" fill="#ffffff" stroke="#d9cdbd"/>
-  <rect x="240" y="326" width="170" height="170" fill="#ffffff" stroke="#d9cdbd"/>
-  <rect x="410" y="326" width="330" height="170" fill="#ffffff" stroke="#d9cdbd"/>
-  <text x="130" y="385" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2117">bismillahi al-rahman al-rahim</text>
-  <text x="130" y="403" text-anchor="middle" font-size="12" fill="#7a6a58">(The Cryptographic Seal)</text>
-  <text x="325" y="395" text-anchor="middle" font-size="12" fill="#2b2117">7 letters (bismillahi) + 12 letters (al-rahman al-rahim)</text>
-  <text x="425" y="365" font-size="12" fill="#2b2117">Recited daily, decoded rarely. Mirrors irada alone (Allah) + amr-qawl pair (al-rahman + al-rahim). Legible only to those holding the covenant key.</text>
+  <!-- row 3 -->
+  <rect x="20" y="350" width="240" height="170" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <rect x="260" y="350" width="160" height="170" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <rect x="420" y="350" width="320" height="170" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="36" y="382" font-size="14" font-weight="700" fill="#2b2117">bismillahi al-rahman al-rahim</text>
+  <text x="36" y="402" font-size="12" font-style="italic" fill="#7a6a58">(The Cryptographic Seal)</text>
+  <text x="276" y="384" font-size="13" fill="#2b2117"><tspan x="276" dy="0">7 letters (bismillahi)</tspan><tspan x="276" dy="18">+ 12 letters</tspan><tspan x="276" dy="18">(al-rahman al-rahim)</tspan></text>
+  <text x="436" y="378" font-size="13" fill="#2b2117"><tspan x="436" dy="0">Recited daily, decoded rarely.</tspan><tspan x="436" dy="18">Mirrors irada alone (Allah) + amr-qawl pair</tspan><tspan x="436" dy="18">(al-rahman + al-rahim). Legible only to</tspan><tspan x="436" dy="18">those holding the covenant key.</tspan></text>
 </svg>
-<figcaption>(untitled page)</figcaption>
+<figcaption>The Numerical Signatures of the Cosmos</figcaption>
 </figure>
 
 Word reached us of a man from among the people of Persia who had been struck, early, by the calamity that I have been describing to you: the calamity of ignorance. Do not picture a dull man. He had a heart that held what it was given, an intellect that ran true, and a refinement that he himself had labored to acquire. None of that saved him. Ignorance, in the particular sense we have been speaking of, had simply prevailed in him — it had reached him before knowledge did, and he had grown up inside it. So he lived as a man lives who is staggering through heat, mistaking the shimmer at the edge of the plain for the whiteness of water. He kept walking toward it. And when he arrived where the water had seemed to be, there was nothing — and there, instead, was God, waiting, the reckoning already prepared. Then his Lord honored the place he had been brought to. He lifted the covering off him. He found him astray and guided him; He found him destitute and made him rich, not with property but with knowledge. And by that grace he became one of the scholars of the Mount, one of the dwellers of the Frequented House.
@@ -191,7 +199,7 @@ When his guidance was complete, and he had reached the furthest point of what he
   <text x="420" y="548" font-size="12" font-style="italic" fill="#2b2117">"Guided by the stars."</text>
   <line x1="360" y1="545" x2="400" y2="545" stroke="#8b4513"/>
 </svg>
-<figcaption>(untitled page)</figcaption>
+<figcaption>The Architecture of the Heavenly Mirror</figcaption>
 </figure>
 
 > إِنَّ أَفْضَلَ الْحَسَنَاتِ إِحْيَاءُ الْأَمْوَاتِ
@@ -207,39 +215,43 @@ He turned it over inside himself and said:
 And then he reasoned with himself the way an honest man reasons. I was not, he said, the first human being to be ignorant — so I cannot pretend that I am the one through whom knowledge enters the world. And I am not the last — so I cannot pretend that teaching is permitted to end with me. It falls on me, then, to be one of those who give thanks for this blessing by carrying the trust forward, handing it to whoever comes after me, exactly as it was handed to me by those who came before. For this matter began with God; it did not arrive at my door except through a long chain of causes — the first delivering to the second, the second to the third — descending from the highest assembly down toward the people of this world. The veil was breached for it. Door after door was pushed open for it. And at last it reached me. Am I, then, its destination? Am I where it stops? No. The ones who carried it and were faithful to it have the older claim on its merit; their reward is theirs, not mine to lean upon. I am simply the one who profited from their labor. And the fact that they were generous does not exempt me from working — I am as poor in front of the obligation to act on knowledge as I once was in front of the obligation to seek it. He understood, in that hour, that what was owed by him was the mirror of what had been given to him: his last command, in the divine accounting, was identical in weight to his first.
 
 <figure class="book-diagram book-slide book-slide-svg">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 640" font-family="Lato, system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 720" font-family="Lato, system-ui, sans-serif">
   <text x="380" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">Mutual Subsistence: The Body and Spirit of Religion</text>
 
-  <rect x="20" y="60" width="360" height="44" fill="#8b4513"/>
-  <rect x="380" y="60" width="360" height="44" fill="#2b2117"/>
-  <text x="200" y="88" text-anchor="middle" font-size="16" font-weight="700" fill="#f7f1e6">Zahir (The Outer)</text>
-  <text x="560" y="88" text-anchor="middle" font-size="16" font-weight="700" fill="#f7f1e6">Batin (The Inner)</text>
+  <!-- column headers -->
+  <rect x="20" y="64" width="360" height="40" fill="#8b4513"/>
+  <rect x="380" y="64" width="360" height="40" fill="#8b4513"/>
+  <text x="200" y="90" text-anchor="middle" font-size="14" font-weight="700" fill="#fffdf8">Zahir (The Outer)</text>
+  <text x="560" y="90" text-anchor="middle" font-size="14" font-weight="700" fill="#fffdf8">Batin (The Inner)</text>
 
-  <rect x="20" y="104" width="360" height="130" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <rect x="380" y="104" width="360" height="130" fill="#ffffff" stroke="#d9cdbd"/>
-  <text x="36" y="126" font-size="13" font-weight="700" fill="#8b4513">Identity:</text>
-  <text x="36" y="158" font-size="12" fill="#2b2117">The revealed paths, the outward ordinances of the Law.</text>
-  <text x="396" y="126" font-size="13" font-weight="700" fill="#8b4513">Identity:</text>
-  <text x="396" y="158" font-size="12" fill="#2b2117">The true religion of Allah, the esoteric meanings.</text>
+  <!-- Identity -->
+  <rect x="20" y="104" width="360" height="100" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <rect x="380" y="104" width="360" height="100" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="36" y="130" font-size="13" font-weight="700" fill="#8b4513">Identity:</text>
+  <text x="36" y="154" font-size="13" fill="#2b2117"><tspan x="36" dy="0">The revealed paths, the outward</tspan><tspan x="36" dy="18">ordinances of the Law.</tspan></text>
+  <text x="396" y="130" font-size="13" font-weight="700" fill="#8b4513">Identity:</text>
+  <text x="396" y="154" font-size="13" fill="#2b2117"><tspan x="396" dy="0">The true religion of Allah, the</tspan><tspan x="396" dy="18">esoteric meanings.</tspan></text>
 
-  <rect x="20" y="234" width="360" height="130" fill="#ffffff" stroke="#d9cdbd"/>
-  <rect x="380" y="234" width="360" height="130" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <text x="36" y="256" font-size="13" font-weight="700" fill="#8b4513">Role:</text>
-  <text x="36" y="288" font-size="12" fill="#2b2117">The body, the covering, the sign pointing to the inner.</text>
-  <text x="396" y="256" font-size="13" font-weight="700" fill="#8b4513">Role:</text>
-  <text x="396" y="288" font-size="12" fill="#2b2117">The soul, the living spirit.</text>
+  <!-- Role -->
+  <rect x="20" y="204" width="360" height="100" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <rect x="380" y="204" width="360" height="100" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="36" y="230" font-size="13" font-weight="700" fill="#8b4513">Role:</text>
+  <text x="36" y="254" font-size="13" fill="#2b2117"><tspan x="36" dy="0">The body, the covering, the sign</tspan><tspan x="36" dy="18">pointing to the inner.</tspan></text>
+  <text x="396" y="230" font-size="13" font-weight="700" fill="#8b4513">Role:</text>
+  <text x="396" y="254" font-size="13" fill="#2b2117">The soul, the living spirit.</text>
 
-  <rect x="20" y="364" width="360" height="200" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <rect x="380" y="364" width="360" height="200" fill="#ffffff" stroke="#d9cdbd"/>
-  <text x="36" y="386" font-size="13" font-weight="700" fill="#8b4513">Standing Alone:</text>
-  <text x="36" y="418" font-size="12" fill="#2b2117">A corpse. A body without a spirit. Case 2 Seeker: keeps prayer/fast, lacks the animating spirit (Kafir in the root sense: one who hides the seed).</text>
-  <text x="396" y="386" font-size="13" font-weight="700" fill="#8b4513">Standing Alone:</text>
-  <text x="396" y="418" font-size="12" fill="#2b2117">A wraith. A spirit without a body. Case 1 Seeker: knows the meanings, drops prayer/fast. Fruit peeled before ripening; rots.</text>
+  <!-- Standing Alone -->
+  <rect x="20" y="304" width="360" height="220" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <rect x="380" y="304" width="360" height="220" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="36" y="330" font-size="13" font-weight="700" fill="#8b4513">Standing Alone:</text>
+  <text x="36" y="354" font-size="13" fill="#2b2117"><tspan x="36" dy="0">A corpse. A body without a spirit.</tspan><tspan x="36" dy="18">Case 2 Seeker: keeps prayer/fast,</tspan><tspan x="36" dy="18">lacks the animating spirit (Kafir in</tspan><tspan x="36" dy="18">the root sense: one who hides the</tspan><tspan x="36" dy="18">seed).</tspan></text>
+  <text x="396" y="330" font-size="13" font-weight="700" fill="#8b4513">Standing Alone:</text>
+  <text x="396" y="354" font-size="13" fill="#2b2117"><tspan x="396" dy="0">A wraith. A spirit without a body.</tspan><tspan x="396" dy="18">Case 1 Seeker: knows the meanings,</tspan><tspan x="396" dy="18">drops prayer/fast. Fruit peeled before</tspan><tspan x="396" dy="18">ripening; rots.</tspan></text>
 
-  <line x1="20" y1="590" x2="740" y2="590" stroke="#d9cdbd"/>
-  <text x="380" y="618" text-anchor="middle" font-size="13" font-style="italic" fill="#7a6a58">Mutual subsistence is the doctrine. Neither alone is a living religion.</text>
+  <rect x="20" y="554" width="720" height="60" rx="6" fill="#8b4513"/>
+  <text x="380" y="590" text-anchor="middle" font-size="14" font-weight="700" fill="#fffdf8">Mutual subsistence is the doctrine. Neither alone is a living religion.</text>
 </svg>
-<figcaption>(untitled page)</figcaption>
+<figcaption>Mutual Subsistence: The Body and Spirit of Religion</figcaption>
 </figure>
 
 So he left. He left his family and his wealth and walked out toward his Lord — answering, supplicating, calling others toward the same good, intending that the thanks he owed should be paid in the only currency that fits such a debt. He moved through the peoples of the non-Arab lands and through the tribes of the Arabs, studying faces, putting his questions to whoever would hear them. No one answered. No fellow seeker came forward to meet him. He kept going until he reached the far edge of the peninsula, and there he entered a city at an hour when its people were inattentive to themselves. While he was still recollecting the signs and reading the marks of the place, his eye fell on a group of its inhabitants in the middle of an argument — quarreling about religion without any guide to steer them, plunging about in the surf of their own opinions. He did not interrupt them. He sat down a little way off, by himself, and listened, watching their faces, trying to read which of them was closest to the right road.
@@ -271,7 +283,7 @@ I said:
 They said, "But wonder has two senses, you know — there is wonder that is praiseworthy and wonder that is to be condemned."
 
 <figure class="book-diagram">
-<svg id="Praiseworthy_vs__Condemnable_Speech" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 510" role="img" aria-labelledby="Praiseworthy_vs__Condemnable_Speech_t Praiseworthy_vs__Condemnable_Speech_d">
+<svg id="Praiseworthy_vs__Condemnable_Speech" xmlns="http://www.w3.org/2000/svg" viewBox="-24 0 534 510" role="img" aria-labelledby="Praiseworthy_vs__Condemnable_Speech_t Praiseworthy_vs__Condemnable_Speech_d">
 <title id="Praiseworthy_vs__Condemnable_Speech_t">Praiseworthy vs. Condemnable Speech</title>
 <desc id="Praiseworthy_vs__Condemnable_Speech_d">Quadrant map: Direction × Origin — four states</desc>
 <style>#Praiseworthy_vs__Condemnable_Speech{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#1f1d18;}#Praiseworthy_vs__Condemnable_Speech text{font-family:'Lato', system-ui, sans-serif;}</style>
@@ -384,8 +396,8 @@ And as I said it my eyes filled and overflowed, and the words broke off in my th
 ## 3. The Boy at the Door — Limits and Conditions
 
 <figure class="book-diagram book-slide">
-<img src="slide-decks/_pages/book/page-07.jpg" alt="(untitled page)">
-<figcaption>(untitled page)</figcaption>
+<img src="slide-decks/_pages/book/page-07.jpg" alt="The Anatomy of Knowledge">
+<figcaption>The Anatomy of Knowledge</figcaption>
 </figure>
 
 He came along behind me with my permission, and I let him keep my pace until I reached the place where I was staying. I brought him in with me, called for food, and when we had eaten and the room had quieted enough for talk, he was the first to speak.
@@ -412,7 +424,7 @@ I answered him: "The One who made the creatures by His power did not make them f
 "It is the religion of God," I said, "the one He has accepted. It is from Him, so He will accept nothing in its place. He gave it first to the elite among His Messengers, and through them, in the wider sense, to all His creation. On the one specially favored, three things fall: thanks for the favor, the practice of it, the call to others to come to it. On the one cut off from it, two things fall: the seeking, until he knows, and obedience to whoever guides him."
 
 <figure class="book-diagram">
-<svg id="Duties_Imposed_by_the_Religion" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 356" role="img" aria-labelledby="Duties_Imposed_by_the_Religion_t Duties_Imposed_by_the_Religion_d">
+<svg id="Duties_Imposed_by_the_Religion" xmlns="http://www.w3.org/2000/svg" viewBox="-82 0 630 356" role="img" aria-labelledby="Duties_Imposed_by_the_Religion_t Duties_Imposed_by_the_Religion_d">
 <title id="Duties_Imposed_by_the_Religion_t">Duties Imposed by the Religion</title>
 <desc id="Duties_Imposed_by_the_Religion_d">Hierarchy: The Religion of God → On the Specially Favored, On the One Cut Off → Thanks for the Favor, Practice of It…</desc>
 <style>#Duties_Imposed_by_the_Religion{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#1f1d18;}#Duties_Imposed_by_the_Religion text{font-family:'Lato', system-ui, sans-serif;}</style>
@@ -522,34 +534,40 @@ I answered him: "The One who made the creatures by His power did not make them f
 "You have spoken the truth," he said, "and made the knowledge of the truth, and the mark of truthfulness, both plain. I will keep the limits you have ordered me to keep. What are your conditions on me?"
 
 <figure class="book-diagram book-slide book-slide-svg">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 460" font-family="Lato, system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 480" font-family="Lato, system-ui, sans-serif">
   <defs>
     <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M0,0 L10,5 L0,10 z" fill="#8b4513"/>
     </marker>
   </defs>
+
   <text x="380" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">Emptying the Cup (Kasrah)</text>
 
-  <rect x="20" y="80" width="230" height="200" rx="8" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <text x="135" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">The Traditional Scholar</text>
-  <text x="36" y="160" font-size="12" fill="#7a6a58">Polished by years of being 'right', leaving nowhere for a new thing to land.</text>
+  <!-- Stage 1 -->
+  <rect x="20" y="80" width="220" height="200" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="130" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">The Traditional Scholar</text>
+  <text x="36" y="148" font-size="13" fill="#7a6a58"><tspan x="36" dy="0">Polished by years of being</tspan><tspan x="36" dy="18">'right', leaving nowhere for a</tspan><tspan x="36" dy="18">new thing to land.</tspan></text>
 
-  <line x1="250" y1="180" x2="290" y2="180" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
+  <!-- arrow 1 -->
+  <line x1="244" y1="180" x2="266" y2="180" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
 
-  <rect x="290" y="80" width="230" height="200" rx="8" fill="#ffffff" stroke="#8b4513"/>
-  <text x="405" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#8b4513">The Demolition (Kasrah)</text>
-  <text x="306" y="160" font-size="12" fill="#2b2117">The ground must be forcefully broken. Salih's initial dialogue is a calculated act of demolition.</text>
+  <!-- Stage 2 -->
+  <rect x="270" y="80" width="220" height="200" rx="6" fill="#8b4513" stroke="#8b4513"/>
+  <text x="380" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#fffdf8">The Demolition (Kasrah)</text>
+  <text x="286" y="148" font-size="13" fill="#fffdf8"><tspan x="286" dy="0">The ground must be forcefully</tspan><tspan x="286" dy="18">broken. Salih's initial dialogue</tspan><tspan x="286" dy="18">is a calculated act of</tspan><tspan x="286" dy="18">demolition.</tspan></text>
 
-  <line x1="520" y1="180" x2="560" y2="180" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
+  <!-- arrow 2 -->
+  <line x1="494" y1="180" x2="516" y2="180" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
 
-  <rect x="560" y="80" width="180" height="200" rx="8" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <text x="650" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">The Receptacle</text>
-  <text x="576" y="160" font-size="12" fill="#7a6a58">Only once the cup is empty can a new seed be planted by the Mukasir (The Demolisher).</text>
+  <!-- Stage 3 -->
+  <rect x="520" y="80" width="220" height="200" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="630" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">The Receptacle</text>
+  <text x="536" y="148" font-size="13" fill="#7a6a58"><tspan x="536" dy="0">Only once the cup is empty</tspan><tspan x="536" dy="18">can a new seed be planted by</tspan><tspan x="536" dy="18">the Mukasir (The Demolisher).</tspan></text>
 
-  <line x1="20" y1="350" x2="740" y2="350" stroke="#d9cdbd"/>
-  <text x="380" y="382" text-anchor="middle" font-size="13" font-style="italic" fill="#7a6a58">Emptying the cup is a recognized necessity of spiritual pedagogy.</text>
+  <rect x="20" y="320" width="720" height="60" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="380" y="356" text-anchor="middle" font-size="14" font-style="italic" fill="#2b2117">Emptying the cup is a recognized necessity of spiritual pedagogy.</text>
 </svg>
-<figcaption>(untitled page)</figcaption>
+<figcaption>Emptying the Cup (Kasrah)</figcaption>
 </figure>
 
 "My conditions on you," I said, "are five. Do not fail me when I send for you. Do not hide anything from me when I ask you. Do not press me until I answer you. Do not request anything until I have begun it with you. And do not mention any of our business to your father."
@@ -641,28 +659,33 @@ He began the work of creation out of light. And from that light, three words bra
 > "His command, when He wills a thing, is only that He says to it: Be — and it is."
 
 <figure class="book-diagram book-slide book-slide-svg">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 580" font-family="Lato, system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 600" font-family="Lato, system-ui, sans-serif">
   <text x="380" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">The Ledger of the Covenant</text>
   <text x="380" y="62" text-anchor="middle" font-size="13" font-style="italic" fill="#7a6a58">The Arithmetic of the Covenant-less Act (The Stolen Apples)</text>
 
-  <rect x="20" y="86" width="350" height="320" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <rect x="20" y="86" width="350" height="40" fill="#8b4513"/>
-  <text x="195" y="113" text-anchor="middle" font-size="15" font-weight="700" fill="#f7f1e6">The Thief's Arithmetic</text>
-  <text x="40" y="166" font-size="12" fill="#2b2117">Calculation: +50 rewards (giving the apples to charity), -5 sins (for the theft).</text>
-  <line x1="40" y1="220" x2="350" y2="220" stroke="#d9cdbd"/>
-  <text x="40" y="260" font-size="13" font-weight="700" fill="#2b2117">Claimed Net Result: +45 rewards.</text>
+  <!-- Thief panel -->
+  <rect x="20" y="86" width="360" height="40" fill="#8b4513"/>
+  <text x="200" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#fffdf8">The Thief's Arithmetic</text>
+  <rect x="20" y="126" width="360" height="240" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="36" y="156" font-size="13" font-weight="700" fill="#8b4513">Calculation:</text>
+  <text x="36" y="180" font-size="13" fill="#2b2117"><tspan x="36" dy="0">+50 rewards (giving the apples to</tspan><tspan x="36" dy="18">charity), -5 sins (for the theft).</tspan></text>
+  <text x="36" y="244" font-size="13" font-weight="700" fill="#8b4513">Claimed Net Result:</text>
+  <text x="36" y="268" font-size="20" font-weight="700" fill="#2b2117">+45 rewards.</text>
 
-  <rect x="390" y="86" width="350" height="320" fill="#ffffff" stroke="#8b4513"/>
-  <rect x="390" y="86" width="350" height="40" fill="#2b2117"/>
-  <text x="565" y="113" text-anchor="middle" font-size="15" font-weight="700" fill="#f7f1e6">The Imam's Arithmetic</text>
-  <text x="410" y="166" font-size="12" fill="#2b2117">Calculation: -5 sins (for the initial theft), -5 sins (for propagating forbidden goods into another's hand).</text>
-  <line x1="410" y1="240" x2="720" y2="240" stroke="#d9cdbd"/>
-  <text x="410" y="280" font-size="13" font-weight="700" fill="#2b2117">Actual Net Result: -10 sins, 0 rewards.</text>
+  <!-- Imam panel -->
+  <rect x="380" y="86" width="360" height="40" fill="#8b4513"/>
+  <text x="560" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#fffdf8">The Imam's Arithmetic</text>
+  <rect x="380" y="126" width="360" height="240" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="396" y="156" font-size="13" font-weight="700" fill="#8b4513">Calculation:</text>
+  <text x="396" y="180" font-size="13" fill="#2b2117"><tspan x="396" dy="0">-5 sins (for the initial theft), -5 sins</tspan><tspan x="396" dy="18">(for propagating forbidden goods</tspan><tspan x="396" dy="18">into another's hand).</tspan></text>
+  <text x="396" y="262" font-size="13" font-weight="700" fill="#8b4513">Actual Net Result:</text>
+  <text x="396" y="286" font-size="20" font-weight="700" fill="#2b2117">-10 sins, 0 rewards.</text>
 
-  <line x1="20" y1="440" x2="740" y2="440" stroke="#d9cdbd"/>
-  <text x="40" y="478" font-size="12" fill="#2b2117">A sacred act is blessed under the pact of Allah. A stolen act (fornication vs. marriage; forbidden meat vs. ritual slaughter) carries no allegiance. The covenant-less act cannot be sanctified.</text>
+  <!-- footer -->
+  <rect x="20" y="394" width="720" height="166" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="40" y="422" font-size="13" fill="#2b2117"><tspan x="40" dy="0">A sacred act is blessed under the pact of Allah. A stolen act (fornication vs. marriage; forbidden</tspan><tspan x="40" dy="20">meat vs. ritual slaughter) carries no allegiance. The covenant-less act cannot be sanctified.</tspan></text>
 </svg>
-<figcaption>(untitled page)</figcaption>
+<figcaption>The Ledger of the Covenant</figcaption>
 </figure>
 
 So the first creation is a will, then a command, then a saying. Three words. And from those three words is derived *Kun* — two letters — and *fa-yakun* — five letters. Two and five: seven letters. And from seven letters, seven things branched into being.
@@ -940,8 +963,8 @@ It is, I said, the likeness of the Speaking Imam, *al-Imam al-Natiq*, who has be
 And the constellations and the rest of the stars?
 
 <figure class="book-diagram book-slide">
-<img src="slide-decks/_pages/book/page-10.jpg" alt="(untitled page)">
-<figcaption>(untitled page)</figcaption>
+<img src="slide-decks/_pages/book/page-10.jpg" alt="The Mechanics of the Tawaf">
+<figcaption>The Mechanics of the Tawaf</figcaption>
 </figure>
 
 The twelve constellations are the twelve chiefs, the *nuqaba*, the chiefs of the Speaking Imam. The stars within them are his summoners, his *du'at*, who call to the good with their Lord's permission.
@@ -1055,49 +1078,55 @@ And as for the argument of the intellect, I said: a thing is known only by a nam
 > "And leave off the outward of sin and its inward."
 
 <figure class="book-diagram book-slide book-slide-svg">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 740" font-family="Lato, system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 760" font-family="Lato, system-ui, sans-serif">
   <defs>
     <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M0,0 L10,5 L0,10 z" fill="#8b4513"/>
     </marker>
   </defs>
+
   <text x="380" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">The Conspiracy Formula</text>
 
-  <text x="380" y="70" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">The Triangle of Actors</text>
-  <polygon points="380,90 110,250 650,250" fill="#f7f1e6" stroke="#8b4513"/>
-  <text x="380" y="118" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2117">The Rebellious Devil (Temptation)</text>
-  <text x="160" y="244" font-size="13" font-weight="700" fill="#2b2117">The Hypocritical Scholar (Legitimation)</text>
-  <text x="480" y="244" font-size="13" font-weight="700" fill="#2b2117">The Willing Oppressor (Force)</text>
+  <!-- Triangle of actors -->
+  <text x="380" y="68" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">The Triangle of Actors</text>
+  <polygon points="380,90 560,210 200,210" fill="none" stroke="#8b4513" stroke-width="1.5"/>
+  <rect x="290" y="78" width="180" height="40" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="380" y="103" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2117">The Rebellious Devil</text>
+  <text x="380" y="116" text-anchor="middle" font-size="11" font-style="italic" fill="#7a6a58">(Temptation)</text>
+  <rect x="100" y="200" width="200" height="40" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="200" y="225" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2117">The Hypocritical Scholar</text>
+  <text x="200" y="238" text-anchor="middle" font-size="11" font-style="italic" fill="#7a6a58">(Legitimation)</text>
+  <rect x="460" y="200" width="200" height="40" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="560" y="225" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2117">The Willing Oppressor</text>
+  <text x="560" y="238" text-anchor="middle" font-size="11" font-style="italic" fill="#7a6a58">(Force)</text>
 
-  <rect x="20" y="290" width="170" height="90" rx="6" fill="#ffffff" stroke="#d9cdbd"/>
-  <text x="105" y="318" text-anchor="middle" font-size="13" font-weight="700" fill="#8b4513">Epoch 1 (Zoroastrians)</text>
-  <text x="105" y="350" text-anchor="middle" font-size="12" fill="#7a6a58">Cling to fire-temples.</text>
+  <!-- Epochs flow -->
+  <rect x="20" y="280" width="350" height="80" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="36" y="306" font-size="13" font-weight="700" fill="#8b4513">Epoch 1 (Zoroastrians)</text>
+  <text x="36" y="330" font-size="13" fill="#2b2117">Cling to fire-temples.</text>
 
-  <line x1="190" y1="335" x2="220" y2="335" stroke="#8b4513" marker-end="url(#ar)"/>
+  <rect x="390" y="280" width="350" height="80" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="406" y="306" font-size="13" font-weight="700" fill="#8b4513">Epoch 2 (Torah)</text>
+  <text x="406" y="330" font-size="13" fill="#2b2117">Tend the calf, submit to judges.</text>
 
-  <rect x="220" y="290" width="170" height="90" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <text x="305" y="318" text-anchor="middle" font-size="13" font-weight="700" fill="#8b4513">Epoch 2 (Torah)</text>
-  <text x="305" y="350" text-anchor="middle" font-size="11" fill="#7a6a58">Tend the calf, submit to judges.</text>
+  <rect x="20" y="380" width="350" height="80" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="36" y="406" font-size="13" font-weight="700" fill="#8b4513">Epoch 3 (Gospels)</text>
+  <text x="36" y="430" font-size="13" fill="#2b2117">Venerate priests, worship prophet as God.</text>
 
-  <line x1="390" y1="335" x2="420" y2="335" stroke="#8b4513" marker-end="url(#ar)"/>
+  <rect x="390" y="380" width="350" height="80" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="406" y="406" font-size="13" font-weight="700" fill="#8b4513">Epoch 4 (Present)</text>
+  <text x="406" y="430" font-size="13" fill="#2b2117">Inherited book, established prayers.</text>
 
-  <rect x="420" y="290" width="170" height="90" rx="6" fill="#ffffff" stroke="#d9cdbd"/>
-  <text x="505" y="316" text-anchor="middle" font-size="13" font-weight="700" fill="#8b4513">Epoch 3 (Gospels)</text>
-  <text x="505" y="348" text-anchor="middle" font-size="11" fill="#7a6a58">Venerate priests, worship prophet as God.</text>
+  <!-- Unified output -->
+  <line x1="380" y1="470" x2="380" y2="490" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
+  <rect x="60" y="510" width="640" height="70" rx="6" fill="#8b4513"/>
+  <text x="380" y="540" text-anchor="middle" font-size="13" font-weight="700" fill="#fffdf8">Unified Output:</text>
+  <text x="380" y="562" text-anchor="middle" font-size="14" font-style="italic" fill="#fffdf8">&quot;There is no messenger after ours.&quot;</text>
 
-  <line x1="590" y1="335" x2="620" y2="335" stroke="#8b4513" marker-end="url(#ar)"/>
-
-  <rect x="620" y="290" width="120" height="90" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <text x="680" y="316" text-anchor="middle" font-size="13" font-weight="700" fill="#8b4513">Epoch 4 (Present)</text>
-  <text x="680" y="348" text-anchor="middle" font-size="10" fill="#7a6a58">Inherited book, established prayers.</text>
-
-  <rect x="80" y="440" width="600" height="60" rx="6" fill="#2b2117"/>
-  <text x="380" y="478" text-anchor="middle" font-size="15" font-weight="700" fill="#f7f1e6">Unified Output: "There is no messenger after ours."</text>
-
-  <line x1="20" y1="560" x2="740" y2="560" stroke="#d9cdbd"/>
-  <text x="380" y="592" text-anchor="middle" font-size="13" font-style="italic" fill="#7a6a58">Legitimation + Force + Temptation makes falsehood attractive and opposition costly.</text>
+  <!-- annotation -->
+  <text x="380" y="616" text-anchor="middle" font-size="13" fill="#2b2117">Legitimation + Force + Temptation makes falsehood attractive and opposition costly.</text>
 </svg>
-<figcaption>(untitled page)</figcaption>
+<figcaption>The Conspiracy Formula</figcaption>
 </figure>
 
 So sin became a thing with an outside and an inside. And so too with the greatest religion of God — the religion of which one says, "The laws are its outside, and the inside is its inside" — each subsisting in itself. To know its meaning there are many parables. Take the sealed egg: it has an outside, which is the shell that keeps it. It has an inside, which is the white fluid within. And it has an inside of the inside — the yellow yolk — which is its essence and its meaning. The whole egg is held by a shell you can touch. Open it, and there is a clear that surrounds. Reach in further, and there is a gold heart at the center. That is the order of the religion of God, and the order of knowledge: outside, inside, and the inside of the inside — and the kernel inside the kernel is the place where the meaning lives.
@@ -1105,45 +1134,56 @@ So sin became a thing with an outside and an inside. And so too with the greates
 ## 6. Three Layers of Knowledge
 
 <figure class="book-diagram book-slide book-slide-svg">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 640" font-family="Lato, system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 660" font-family="Lato, system-ui, sans-serif">
   <defs>
     <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M0,0 L10,5 L0,10 z" fill="#8b4513"/>
     </marker>
   </defs>
+
   <text x="380" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">The Forty-Year Syllogism</text>
 
-  <rect x="120" y="64" width="520" height="56" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
-  <text x="380" y="98" text-anchor="middle" font-size="13" fill="#2b2117">The son addresses the father regarding his newfound knowledge.</text>
+  <rect x="20" y="64" width="720" height="60" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="380" y="100" text-anchor="middle" font-size="13" font-style="italic" fill="#2b2117">The son addresses the father regarding his newfound knowledge.</text>
 
-  <text x="380" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#8b4513">Two-Horn Dilemma</text>
+  <text x="380" y="156" text-anchor="middle" font-size="14" font-weight="700" fill="#8b4513">Two-Horn Dilemma</text>
 
-  <line x1="380" y1="158" x2="180" y2="190" stroke="#8b4513" marker-end="url(#ar)"/>
-  <line x1="380" y1="158" x2="580" y2="190" stroke="#8b4513" marker-end="url(#ar)"/>
+  <!-- branch lines -->
+  <line x1="380" y1="166" x2="180" y2="200" stroke="#8b4513" stroke-width="1.5"/>
+  <line x1="380" y1="166" x2="580" y2="200" stroke="#8b4513" stroke-width="1.5"/>
 
-  <rect x="20" y="200" width="340" height="200" rx="6" fill="#ffffff" stroke="#d9cdbd"/>
+  <!-- Horn 1 -->
+  <rect x="20" y="200" width="340" height="130" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
   <text x="190" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">Horn 1</text>
-  <text x="36" y="276" font-size="12" fill="#2b2117">The father was a scholar of this truth but intentionally withheld my share.</text>
+  <text x="36" y="258" font-size="13" fill="#2b2117"><tspan x="36" dy="0">The father was a scholar of this truth</tspan><tspan x="36" dy="18">but intentionally withheld my share.</tspan></text>
 
-  <rect x="400" y="200" width="340" height="200" rx="6" fill="#ffffff" stroke="#d9cdbd"/>
+  <!-- Horn 2 -->
+  <rect x="400" y="200" width="340" height="130" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
   <text x="570" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">Horn 2</text>
-  <text x="416" y="276" font-size="12" fill="#2b2117">The father was ignorant of this truth, making him more in need of the stranger than I am.</text>
+  <text x="416" y="258" font-size="13" fill="#2b2117"><tspan x="416" dy="0">The father was ignorant of this truth,</tspan><tspan x="416" dy="18">making him more in need of the</tspan><tspan x="416" dy="18">stranger than I am.</tspan></text>
 
-  <rect x="80" y="360" width="220" height="30" fill="#2b2117"/>
-  <text x="190" y="380" text-anchor="middle" font-size="13" font-weight="700" fill="#f7f1e6">DEAD END</text>
-  <rect x="460" y="360" width="220" height="30" fill="#2b2117"/>
-  <text x="570" y="380" text-anchor="middle" font-size="13" font-weight="700" fill="#f7f1e6">DEAD END</text>
+  <!-- arrows down -->
+  <line x1="190" y1="334" x2="190" y2="362" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="570" y1="334" x2="570" y2="362" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
 
-  <line x1="190" y1="400" x2="380" y2="450" stroke="#8b4513" marker-end="url(#ar)"/>
-  <line x1="570" y1="400" x2="380" y2="450" stroke="#8b4513" marker-end="url(#ar)"/>
+  <!-- DEAD END boxes -->
+  <rect x="100" y="370" width="180" height="50" rx="6" fill="#8b4513"/>
+  <text x="190" y="402" text-anchor="middle" font-size="14" font-weight="700" fill="#fffdf8">DEAD END</text>
+  <rect x="480" y="370" width="180" height="50" rx="6" fill="#8b4513"/>
+  <text x="570" y="402" text-anchor="middle" font-size="14" font-weight="700" fill="#fffdf8">DEAD END</text>
 
-  <rect x="80" y="460" width="600" height="60" rx="6" fill="#8b4513"/>
-  <text x="380" y="498" text-anchor="middle" font-size="15" font-weight="700" fill="#f7f1e6">Conclusion: You have no standing to condemn me.</text>
+  <!-- converging lines to conclusion -->
+  <line x1="190" y1="420" x2="380" y2="460" stroke="#8b4513" stroke-width="1.5"/>
+  <line x1="570" y1="420" x2="380" y2="460" stroke="#8b4513" stroke-width="1.5"/>
 
-  <line x1="20" y1="560" x2="740" y2="560" stroke="#d9cdbd"/>
-  <text x="380" y="592" text-anchor="middle" font-size="12" font-style="italic" fill="#7a6a58">There is no third position. The disjunctive dilemma closes every escape route, mathematically securing the disciple's release.</text>
+  <!-- Conclusion -->
+  <rect x="60" y="460" width="640" height="60" rx="6" fill="#f7f1e6" stroke="#8b4513" stroke-width="2"/>
+  <text x="380" y="496" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">Conclusion: You have no standing to condemn me.</text>
+
+  <!-- annotation -->
+  <text x="380" y="560" text-anchor="middle" font-size="13" fill="#2b2117"><tspan x="380" dy="0">There is no third position. The disjunctive dilemma closes every escape route,</tspan><tspan x="380" dy="20">mathematically securing the disciple's release.</tspan></text>
 </svg>
-<figcaption>(untitled page)</figcaption>
+<figcaption>The Forty-Year Syllogism</figcaption>
 </figure>
 
 And so the boy, hearing how the egg holds its shell, its white, and its golden heart, turned back to the scholar with a thought already half-formed. He said: *Are not this world and the Hereafter a pair? And the soul and the body a pair? And the knowledge of the apparent and the knowledge of the inward a pair? Are not all these things — and many more besides — paired in the same way?*
@@ -1167,7 +1207,7 @@ The scholar accepted that too. And then he laid out the structure plainly, as if
 <text x="250" y="91.66666666666669" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#1f1d18"><tspan x="250" dy="0">Beasts — Outward knowledge</tspan></text>
 <text x="250" y="103.16666666666669" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#1f1d18"><tspan x="250" dy="0">The visible law; whoever stops here</tspan><tspan x="250" dy="13">lives as a beast</tspan></text>
 <text x="250" y="137.0" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#fffdf8"><tspan x="250" dy="0">Children of Adam — Inward</tspan><tspan x="250" dy="16">knowledge</tspan></text>
-<text x="250" y="156.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#fffdf8"><tspan x="250" dy="0">Whoever takes hold of it becomes a</tspan><tspan x="250" dy="13">true believer</tspan></text>
+<text x="250" y="172" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#fffdf8"><tspan x="250" dy="0">Whoever takes hold of it becomes a</tspan><tspan x="250" dy="13">true believer</tspan></text>
 <text x="250" y="198.33333333333334" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#fffdf8"><tspan x="250" dy="0">Angels — Inward of the inward</tspan></text>
 <text x="250" y="209.83333333333334" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#fffdf8"><tspan x="250" dy="0">The kernel beneath the kernel; the</tspan><tspan x="250" dy="13">prophet reaches it</tspan></text>
 </svg>
@@ -1397,8 +1437,8 @@ The scholar, when he heard the boy say that, was delighted by him. *Praise be to
 And then the boy said the thing that I want you to hear carefully, because the whole arc of him stands on it.
 
 <figure class="book-diagram book-slide">
-<img src="slide-decks/_pages/book/page-13.jpg" alt="(untitled page)">
-<figcaption>(untitled page)</figcaption>
+<img src="slide-decks/_pages/book/page-13.jpg" alt="Complicity by Rank">
+<figcaption>Complicity by Rank</figcaption>
 </figure>
 
 *I used to look for surplus to come at me from other people,* he said. *I used to want it to flow in from outside. Now that the surplus has finally fallen to my own hand, I find I cannot bear to deprive myself of giving it away — nobody in the world could cheat me of the chance the way I would cheat myself. So here. This is all my wealth, in front of you, in five shares. One share is its alms. One share is expiation for what I have wasted. One share is thanksgiving to God for what I have come to know. One share for the poor among my brothers. And one share for you, for you to accept by your grace, as provision for the road. Take all of them. God will replace them in their kind.*
@@ -1592,7 +1632,7 @@ He thought about it for a long moment.
 So I said it. "Consider these forty years I have stood beside you. They cannot be free of one of two things. Either you are a knower, and you have kept your knowledge from me — and then do not blame me if I look elsewhere for my own salvation. Or you are not a knower — and in that you are excused before me — but then you, more than I, needed this stranger when he came. I would have run to him on your behalf before I ran for myself, because of your age and the lateness of your years. I have heard what he said. You heard it too. I have seen what he has shown. So have you."
 
 <figure class="book-diagram">
-<svg id="Salih_s_Dilemma_to_His_Father" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 510" role="img" aria-labelledby="Salih_s_Dilemma_to_His_Father_t Salih_s_Dilemma_to_His_Father_d">
+<svg id="Salih_s_Dilemma_to_His_Father" xmlns="http://www.w3.org/2000/svg" viewBox="-42 0 552 510" role="img" aria-labelledby="Salih_s_Dilemma_to_His_Father_t Salih_s_Dilemma_to_His_Father_d">
 <title id="Salih_s_Dilemma_to_His_Father_t">Salih's Dilemma to His Father</title>
 <desc id="Salih_s_Dilemma_to_His_Father_d">Quadrant map: Father's Knowledge × Disclosed to Son — four states</desc>
 <style>#Salih_s_Dilemma_to_His_Father{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#1f1d18;}#Salih_s_Dilemma_to_His_Father text{font-family:'Lato', system-ui, sans-serif;}</style>
@@ -1736,8 +1776,8 @@ Abu Malik thought he meant I had died.
 "Has Salih died?"
 
 <figure class="book-diagram book-slide">
-<img src="slide-decks/_pages/book/page-14.jpg" alt="(untitled page)">
-<figcaption>(untitled page)</figcaption>
+<img src="slide-decks/_pages/book/page-14.jpg" alt="The Unbroken Chain of Witnesses">
+<figcaption>The Unbroken Chain of Witnesses</figcaption>
 </figure>
 
 "Salih has not died," my father said, "and will never die. He remains, as long as time remains."

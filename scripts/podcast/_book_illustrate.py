@@ -353,6 +353,12 @@ def _generate_pattern_svg_file(spec: dict, diagram_id: str,
         )
         return None
 
+    # Geometry gate (2026-06-11): auto-expand the viewBox over escaping text;
+    # surface any remaining overlap/min-type findings in the phase log.
+    from _svg_geometry import gate_svg
+    svg_str = gate_svg(svg_str, diagram_id,
+                       log=lambda m: sys.stderr.write(f"  {m.strip()}\n"))
+
     svg_path = diagram_dir / f"{diagram_id}.svg"
     try:
         svg_path.write_text(svg_str, encoding="utf-8")
@@ -392,6 +398,17 @@ def _render_diagrams(book_dir: Path, *, log=print) -> None:
     else:
         for line in proc.stdout.strip().splitlines():
             log(f"    {line}")
+        # Geometry gate over the freshly rendered .svg files (same contract
+        # as the pattern path: auto-expand G1, surface the rest in the log).
+        from _svg_geometry import gate_svg
+        for mmd in sorted(diagram_dir.glob("*.mmd")):
+            svgf = mmd.with_suffix(".svg")
+            if not svgf.exists():
+                continue
+            src = svgf.read_text(encoding="utf-8")
+            fixed = gate_svg(src, svgf.name, log=log)
+            if fixed != src:
+                svgf.write_text(fixed, encoding="utf-8")
 
 
 def _inject_figures(book_md: str, manifest: list[dict]) -> str:

@@ -1,35 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 580" font-family="Lato, system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 540" font-family="Lato, system-ui, sans-serif">
   <defs>
     <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M0,0 L10,5 L0,10 z" fill="#8b4513"/>
     </marker>
   </defs>
+
   <text x="380" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">The Debt of Transmission</text>
 
-  <rect x="180" y="64" width="400" height="50" rx="6" fill="#2b2117"/>
-  <text x="380" y="95" text-anchor="middle" font-size="15" font-weight="700" fill="#f7f1e6">The Heavenly Host</text>
+  <!-- Chain of nodes -->
+  <rect x="40" y="74" width="680" height="50" rx="6" fill="#8b4513"/>
+  <text x="380" y="106" text-anchor="middle" font-size="14" font-weight="700" fill="#fffdf8">The Heavenly Host</text>
+  <line x1="380" y1="124" x2="380" y2="146" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
 
-  <line x1="380" y1="114" x2="380" y2="140" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
+  <rect x="40" y="150" width="680" height="50" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="380" y="182" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">First Transmitter</text>
+  <line x1="380" y1="200" x2="380" y2="222" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
 
-  <rect x="180" y="146" width="400" height="50" rx="6" fill="#f7f1e6" stroke="#8b4513"/>
-  <text x="380" y="177" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">First Transmitter</text>
+  <rect x="40" y="226" width="680" height="50" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="380" y="258" text-anchor="middle" font-size="14" font-style="italic" fill="#7a6a58">Generations across centuries</text>
+  <line x1="380" y1="276" x2="380" y2="298" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
 
-  <line x1="380" y1="196" x2="380" y2="222" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
+  <rect x="40" y="302" width="680" height="50" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+  <text x="380" y="334" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">The Persian Scholar</text>
+  <line x1="380" y1="352" x2="380" y2="374" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
 
-  <rect x="180" y="228" width="400" height="50" rx="6" fill="#ffffff" stroke="#d9cdbd"/>
-  <text x="380" y="259" text-anchor="middle" font-size="14" font-style="italic" fill="#7a6a58">Generations across centuries</text>
+  <!-- Empty slot -->
+  <rect x="40" y="378" width="680" height="50" rx="6" fill="none" stroke="#8b4513" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="380" y="410" text-anchor="middle" font-size="14" font-weight="700" fill="#8b4513">(the unfilled slot)</text>
 
-  <line x1="380" y1="278" x2="380" y2="304" stroke="#8b4513" stroke-width="2" marker-end="url(#ar)"/>
-
-  <rect x="180" y="310" width="400" height="50" rx="6" fill="#f7f1e6" stroke="#8b4513"/>
-  <text x="380" y="341" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2117">The Persian Scholar</text>
-
-  <line x1="380" y1="360" x2="380" y2="386" stroke="#8b4513" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#ar)"/>
-
-  <rect x="180" y="392" width="400" height="56" rx="6" fill="#ffffff" stroke="#8b4513" stroke-dasharray="4 4"/>
-  <text x="380" y="426" text-anchor="middle" font-size="13" font-weight="700" fill="#8b4513">[ unfilled slot ]</text>
-
-  <line x1="20" y1="476" x2="740" y2="476" stroke="#d9cdbd"/>
-  <text x="40" y="504" font-size="12" fill="#2b2117">The unfilled slot is the debt itself. Every node before it received, and then gave. You are the listener now hearing this.</text>
-  <text x="380" y="544" text-anchor="middle" font-size="13" font-style="italic" fill="#8b4513">"The most excellent of deeds is giving life to the dead."</text>
+  <!-- annotation -->
+  <text x="40" y="456" font-size="13" fill="#2b2117"><tspan x="40" dy="0">The unfilled slot is the debt itself. Every node before it received, and then gave.</tspan><tspan x="40" dy="18">You are the listener now hearing this.</tspan></text>
+  <text x="380" y="510" text-anchor="middle" font-size="13" font-style="italic" fill="#8b4513">&quot;The most excellent of deeds is giving life to the dead.&quot;</text>
 </svg>

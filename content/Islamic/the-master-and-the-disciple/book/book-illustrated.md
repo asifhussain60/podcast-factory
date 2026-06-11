@@ -1,4 +1,4 @@
-# The Book of the Master and the Boy
+# The Master and the Disciple
 
 ## How to Read a Conversation Made of Doors
 
@@ -123,7 +123,7 @@ I said:
 They said, "But wonder has two senses, you know — there is wonder that is praiseworthy and wonder that is to be condemned."
 
 <figure class="book-diagram">
-<svg id="Praiseworthy_vs__Condemnable_Speech" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 510" role="img" aria-labelledby="Praiseworthy_vs__Condemnable_Speech_t Praiseworthy_vs__Condemnable_Speech_d">
+<svg id="Praiseworthy_vs__Condemnable_Speech" xmlns="http://www.w3.org/2000/svg" viewBox="-24 0 534 510" role="img" aria-labelledby="Praiseworthy_vs__Condemnable_Speech_t Praiseworthy_vs__Condemnable_Speech_d">
 <title id="Praiseworthy_vs__Condemnable_Speech_t">Praiseworthy vs. Condemnable Speech</title>
 <desc id="Praiseworthy_vs__Condemnable_Speech_d">Quadrant map: Direction × Origin — four states</desc>
 <style>#Praiseworthy_vs__Condemnable_Speech{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#1f1d18;}#Praiseworthy_vs__Condemnable_Speech text{font-family:'Lato', system-ui, sans-serif;}</style>
@@ -259,7 +259,7 @@ I answered him: "The One who made the creatures by His power did not make them f
 "It is the religion of God," I said, "the one He has accepted. It is from Him, so He will accept nothing in its place. He gave it first to the elite among His Messengers, and through them, in the wider sense, to all His creation. On the one specially favored, three things fall: thanks for the favor, the practice of it, the call to others to come to it. On the one cut off from it, two things fall: the seeking, until he knows, and obedience to whoever guides him."
 
 <figure class="book-diagram">
-<svg id="Duties_Imposed_by_the_Religion" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 356" role="img" aria-labelledby="Duties_Imposed_by_the_Religion_t Duties_Imposed_by_the_Religion_d">
+<svg id="Duties_Imposed_by_the_Religion" xmlns="http://www.w3.org/2000/svg" viewBox="-82 0 630 356" role="img" aria-labelledby="Duties_Imposed_by_the_Religion_t Duties_Imposed_by_the_Religion_d">
 <title id="Duties_Imposed_by_the_Religion_t">Duties Imposed by the Religion</title>
 <desc id="Duties_Imposed_by_the_Religion_d">Hierarchy: The Religion of God → On the Specially Favored, On the One Cut Off → Thanks for the Favor, Practice of It…</desc>
 <style>#Duties_Imposed_by_the_Religion{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#1f1d18;}#Duties_Imposed_by_the_Religion text{font-family:'Lato', system-ui, sans-serif;}</style>
@@ -865,7 +865,7 @@ The scholar accepted that too. And then he laid out the structure plainly, as if
 <text x="250" y="91.66666666666669" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#1f1d18"><tspan x="250" dy="0">Beasts — Outward knowledge</tspan></text>
 <text x="250" y="103.16666666666669" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#1f1d18"><tspan x="250" dy="0">The visible law; whoever stops here</tspan><tspan x="250" dy="13">lives as a beast</tspan></text>
 <text x="250" y="137.0" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#fffdf8"><tspan x="250" dy="0">Children of Adam — Inward</tspan><tspan x="250" dy="16">knowledge</tspan></text>
-<text x="250" y="156.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#fffdf8"><tspan x="250" dy="0">Whoever takes hold of it becomes a</tspan><tspan x="250" dy="13">true believer</tspan></text>
+<text x="250" y="172" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#fffdf8"><tspan x="250" dy="0">Whoever takes hold of it becomes a</tspan><tspan x="250" dy="13">true believer</tspan></text>
 <text x="250" y="198.33333333333334" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#fffdf8"><tspan x="250" dy="0">Angels — Inward of the inward</tspan></text>
 <text x="250" y="209.83333333333334" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#fffdf8"><tspan x="250" dy="0">The kernel beneath the kernel; the</tspan><tspan x="250" dy="13">prophet reaches it</tspan></text>
 </svg>
@@ -1285,7 +1285,7 @@ He thought about it for a long moment.
 So I said it. "Consider these forty years I have stood beside you. They cannot be free of one of two things. Either you are a knower, and you have kept your knowledge from me — and then do not blame me if I look elsewhere for my own salvation. Or you are not a knower — and in that you are excused before me — but then you, more than I, needed this stranger when he came. I would have run to him on your behalf before I ran for myself, because of your age and the lateness of your years. I have heard what he said. You heard it too. I have seen what he has shown. So have you."
 
 <figure class="book-diagram">
-<svg id="Salih_s_Dilemma_to_His_Father" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 510" role="img" aria-labelledby="Salih_s_Dilemma_to_His_Father_t Salih_s_Dilemma_to_His_Father_d">
+<svg id="Salih_s_Dilemma_to_His_Father" xmlns="http://www.w3.org/2000/svg" viewBox="-42 0 552 510" role="img" aria-labelledby="Salih_s_Dilemma_to_His_Father_t Salih_s_Dilemma_to_His_Father_d">
 <title id="Salih_s_Dilemma_to_His_Father_t">Salih's Dilemma to His Father</title>
 <desc id="Salih_s_Dilemma_to_His_Father_d">Quadrant map: Father's Knowledge × Disclosed to Son — four states</desc>
 <style>#Salih_s_Dilemma_to_His_Father{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#1f1d18;}#Salih_s_Dilemma_to_His_Father text{font-family:'Lato', system-ui, sans-serif;}</style>

@@ -209,13 +209,16 @@ def concentric_layers(layers: list[dict], title: str) -> str:
         # Midpoint of annular band (from top arc)
         label_y = cy - (ry_this + ry_inner) / 2
 
-        label_svg, _ = _multiline_text(cx, label_y, layer["label"],
-                                        fill=text_color, size=13, weight="700",
-                                        max_chars=30, line_h=16)
+        label_svg, label_h = _multiline_text(cx, label_y, layer["label"],
+                                             fill=text_color, size=13, weight="700",
+                                             max_chars=30, line_h=16)
         parts.append(label_svg)
 
         if layer.get("description"):
-            desc_y = label_y + 18
+            # Below the WHOLE label block — a wrapped label must push the
+            # description down, not collide with it (label_h is centered on
+            # label_y, so its bottom edge sits at label_y + label_h/2).
+            desc_y = label_y + label_h / 2 + 11
             desc_svg, _ = _multiline_text(cx, desc_y, layer["description"],
                                            fill=text_color, size=10, max_chars=35,
                                            line_h=13)
