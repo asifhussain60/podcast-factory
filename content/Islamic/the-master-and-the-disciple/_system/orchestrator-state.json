@@ -3,10 +3,10 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
-  "phase": "0g",
+  "phase": "per-chapter-slides",
   "phase_status": "completed",
-  "last_completed_phase": "0g",
-  "next_phase": "per-chapter",
+  "last_completed_phase": "per-chapter-slides",
+  "next_phase": "finalize",
   "last_error": null,
   "pipeline_mode": "orchestrated",
   "v1_archive": {
@@ -465,6 +465,14 @@
       "ts_started": "2026-06-11T14:27:43Z",
       "ts_completed": "2026-06-11T14:27:43Z",
       "reason": "optimize_enabled=false in meta.yml"
+    },
+    "per-chapter-slides": {
+      "status": "completed",
+      "ts_started": "2026-06-11T14:27:48Z",
+      "ts_completed": "2026-06-11T14:40:26Z",
+      "outcomes": {
+        "book": "AUTHORED"
+      }
     }
   },
   "completed_slugs": [],
@@ -476,7 +484,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T14:27:48Z",
+  "ts_updated": "2026-06-11T14:40:26Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
