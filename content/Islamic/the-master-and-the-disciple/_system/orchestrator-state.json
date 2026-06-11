@@ -9,8 +9,8 @@
   "next_phase": "0f",
   "last_error": {
     "phase": "per-chapter",
-    "message": "[emptying-the-cup] extract_chapter.py failed for 'the-master-and-the-disciple/ch15d-emptying-the-cup': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing.",
-    "ts": "2026-06-10T23:50:39Z"
+    "message": "[jewels-moon-and-the-description-of-religion] extract_chapter.py failed for 'the-master-and-the-disciple/ch16e-jewels-moon-and-the-description-of-religion': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing.",
+    "ts": "2026-06-11T01:41:13Z"
   },
   "pipeline_mode": "orchestrated",
   "v1_archive": {
@@ -77,10 +77,12 @@
         "air-and-the-instance-beyond-air",
         "bismillah-seal-and-the-chosen-ranks",
         "five-conditions-and-the-covenant",
-        "hawl-quwwa-and-josephs-dream"
+        "hawl-quwwa-and-josephs-dream",
+        "homecoming-and-the-forty-year-syllogism"
       ],
       "failed_slugs": [
-        "emptying-the-cup"
+        "emptying-the-cup",
+        "jewels-moon-and-the-description-of-religion"
       ],
       "chapter_timings": {
         "abu-malik-arrives-and-the-fair-inquiry": {
@@ -128,14 +130,29 @@
         },
         "homecoming-and-the-forty-year-syllogism": {
           "started_ts": "2026-06-11T01:03:05Z",
+          "completed_ts": "2026-06-11T01:41:13Z",
+          "duration_sec": 2288.5,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "jewels-moon-and-the-description-of-religion": {
+          "started_ts": "2026-06-11T01:41:13Z",
+          "completed_ts": "2026-06-11T01:41:13Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "extract_chapter.py failed for 'the-master-and-the-disciple/ch16e-jewels-moon-and-the-description-of-religion': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing."
+        },
+        "originator-and-the-three-primordial-words": {
+          "started_ts": "2026-06-11T01:41:13Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
           "cost_usd": null
         }
       },
-      "current_chapter": "homecoming-and-the-forty-year-syllogism",
-      "last_beat": "2026-06-11T01:32:40Z",
+      "current_chapter": "originator-and-the-three-primordial-words",
+      "last_beat": "2026-06-11T02:08:36Z",
       "convergence_iter": 2
     },
     "0g": {
@@ -186,7 +203,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T01:32:40Z",
+  "ts_updated": "2026-06-11T02:08:36Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
