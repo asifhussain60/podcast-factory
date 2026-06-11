@@ -19,6 +19,69 @@ audience: >
   confesses that his words have left him.
 angle: faithful_exposition
 episode_format: debate
+resolution: host_b_concedes
+debate:
+  proposition: >
+    The school's vocabulary for Allah's unity — its creed,
+    the letters of the divine name, and the analogical proof
+    from manufactured things — does not grasp the reality the
+    words point to.
+  host_a:
+    role: master
+    position: >
+      Names and adjectives are of no benefit without their
+      essential realities. Fire-as-word cooks no food; the
+      letters of the divine name are signs pointing to Allah,
+      not containers of Him; the analogical proof from
+      manufactured things forges a hidden likeness; and the
+      formula "nothing like His image" smuggles an image back
+      under the table.
+    source_moves:
+      - >
+        The fire-and-food analogy — if nouns and adjectives
+        could take the place of realities, the tongue would
+        burn at the mere mention of fire.
+      - >
+        The pressure on the letters of "one" and of the divine
+        name — which of the four letters is Allah, or are they
+        signs pointing to Him?
+      - >
+        The name-versus-someone-named cycle, and the question
+        whether the school has the reality behind tawhid or
+        only a textbook definition of it.
+      - >
+        The correction of analogy as forged likeness —
+        everything is made from a pre-existing substance,
+        while Allah creates from no substance.
+      - >
+        The exposure of "nothing like His image" against
+        "none like Him."
+      - >
+        The sun-eye image — eyes cannot tolerate the light of
+        the sun, so how can they perceive the Creator?
+  host_b:
+    role: debater
+    position: >
+      The school's creed and the analogical proof from
+      manufactured things give the community real access to
+      Allah's unity and justice; the shared vocabulary of
+      tawhid is common ground both camps can stand on.
+    source_moves:
+      - >
+        The four-line creed of the school as Abu Malik states
+        it.
+      - >
+        The analysis of the divine name as the school teaches
+        it.
+      - >
+        The manufacture argument — every manufactured thing
+        has a manufacturer, so the universe must have a
+        Creator.
+      - >
+        The closing confession — my words have left me;
+        intellects are bewildered; imaginations are incapable
+        of thinking about Him.
+  resolution: host_b_concedes
 format_rationale: >
   This is a sustained named exchange between Salih and Abu
   Malik on a single proposition — that the school's

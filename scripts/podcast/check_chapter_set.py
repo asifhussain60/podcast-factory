@@ -339,7 +339,10 @@ _DUP_EXCLUDE_SUBSTRINGS = (
 SERMON_MIN_WORDS = 150
 
 _SERMON_PRESENT_RE = re.compile(r"^sermon:\s*$", re.MULTILINE)
-_SERMON_TITLE_RE = re.compile(r"section_title:\s*[\"']?([^\"'\n]+)[\"']?")
+# Capture the rest of the line; symmetric surrounding quotes are stripped at
+# the use site. (The prior [^\"'\n]+ body truncated titles at embedded
+# apostrophes — "The Sheikh's opening praise" became "The Sheikh" — a false P9.)
+_SERMON_TITLE_RE = re.compile(r"section_title:\s*(.+)")
 
 
 def _load_source_toc(book_dir: Path) -> list[dict] | None:
@@ -490,7 +493,10 @@ def _sermon_declarations(book_dir: Path) -> list[tuple[str, str]]:
             continue
         m = _SERMON_TITLE_RE.search(block)
         if m:
-            out.append((cf.stem, m.group(1).strip()))
+            title = m.group(1).strip()
+            if len(title) >= 2 and title[0] == title[-1] and title[0] in "\"'":
+                title = title[1:-1].strip()
+            out.append((cf.stem, title))
     return out
 
 

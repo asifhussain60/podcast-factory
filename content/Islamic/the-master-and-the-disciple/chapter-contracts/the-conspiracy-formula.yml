@@ -20,6 +20,71 @@ audience: >
   argument back against itself.
 angle: faithful_exposition
 episode_format: debate
+resolution: host_b_concedes
+debate:
+  proposition: >
+    The apparent absence of a living witness is manufactured:
+    in every period a rebellious devil, a willing oppressor,
+    and a hypocritical religious scholar collaborate to sever
+    the outward traces of prophecy from its living
+    continuation.
+  host_a:
+    role: master
+    position: >
+      Communities behave as if the chain has stopped because
+      three actors jointly sever the traces of prophecy from
+      its living continuation and hold the severance in place
+      with the slogan "no prophet after our prophet" — a
+      pattern repeated from the Zoroastrians through the
+      peoples of the Torah and the Gospel to this community,
+      whose own consensus logic grants the earlier communities
+      the greater claim and collapses before the Creator's
+      freedom to abrogate and confirm.
+    source_moves:
+      - >
+        The three-actor formula — every period has started
+        with a rebellious devil, a willing oppressor, and a
+        hypocritical religious scholar.
+      - >
+        The slogan analysis — "no prophet after our prophet"
+        is not argued but repeated, until inquiry itself is
+        removed and denial becomes a felt form of loyalty.
+      - >
+        The historical roll call — fire-temples after
+        Zoroaster, the calf and the judges after Moses, the
+        priests after Jesus, and now this community.
+      - >
+        The social verdict — terrified by scholarly consensus
+        and the tyranny of rulers.
+      - >
+        The consensus argument turned back — three points on
+        which the earlier communities are more deserving of
+        acknowledgment.
+      - >
+        The collapse via divine sovereignty — He is engaged in
+        a new work every day, so His actions could not be
+        denied even if He sent a warner every day.
+  host_b:
+    role: debater
+    position: >
+      The consensus of this community is decisive evidence:
+      when the entire community, scholars and rulers together,
+      agrees that Allah's proofs are complete, that agreement
+      itself settles the question.
+    source_moves:
+      - >
+        The decisive question — if divine justice requires a
+        living witness in every age, why do the scholars of
+        this community sit in their assemblies as if there
+        were none?
+      - >
+        The consensus argument as the school's standing
+        ground.
+      - >
+        His onward engagement as the diagnosis lands — the
+        implicit concession that carries him into the final
+        episode.
+  resolution: host_b_concedes
 format_rationale: >
   The chapter is framed by Abu Malik's decisive question
   and Salih's answer; the named-opposition setup carries

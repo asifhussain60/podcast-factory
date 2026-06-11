@@ -357,18 +357,23 @@ def assemble_bundle(slug: str, *, run_score: bool = False, as_json: bool = False
                   f"{p['interest']:>5.1f} {p['total']:>6.1f} {v_icon} {p['verdict']}")
 
     # NotebookLM upload table (mandatory canonical format — see _notebooklm_table.py).
-    from _notebooklm_table import UploadRow, render_upload_table_lines, repo_rel_href  # noqa: PLC0415
+    from _notebooklm_table import (  # noqa: PLC0415
+        UploadRow, render_upload_table_lines, repo_rel_href,
+        load_density_lengths, length_for_episode,
+    )
     print(f"\nNOTEBOOKLM UPLOAD TABLE — {slug} ({len(rows)} episodes)")
     print(f"  Click the CHAPTER cell to open the SOURCE to upload; the EPISODE cell")
     print(f"  to open the FRAMING to paste into NotebookLM's Customize box.")
     print(f"  (skip the '# Framing: …' H1 title line when pasting)")
     print()
+    _density_lengths = load_density_lengths(book_dir)
     upload_rows = [
         UploadRow(
             n=r["ep"],
             chapter_title=str(r["title"]).strip("\"'"),
             episode_title=str(r["title"]).strip("\"'"),
             episode_format="debate" if r["nlm_format"].strip().lower() == "debate" else "deep_dive",
+            length=length_for_episode(book_dir, r["ep"], _density_lengths),
             chapter_href=repo_rel_href(r.get("chapter_path"), book_dir),
             episode_href=repo_rel_href(r.get("framing_path"), book_dir),
             session_index=r.get("session_index"),

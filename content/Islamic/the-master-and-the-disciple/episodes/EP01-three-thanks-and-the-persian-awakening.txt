@@ -1,0 +1,42 @@
+# Three Thanks and the Persian Awakening
+
+## Opening directive
+Welcome the listener in one or two sentences: "Welcome. We're with *The Master and the Disciple* by Ja'far ibn Mansur, a tenth-century dialogue that opens by asking how a person thanks a teacher for three gifts at once — the call, the knowledge, the practice." Immediately land the spine, verbatim: **"My final duty is similar to my initial duty."** Target a 30 to 35 minute walkthrough. Start inside the doctrine; no biography.
+
+## Name discipline
+- The author: "the author of the dialogue" → "the author" → "the author". Never speak the Arabic title of the book; say "this dialogue" or "the book".
+- The teacher inside the dialogue: "the Master" every time.
+- The desert seeker: "the Persian scholar" every time.
+- The Prophet: "the Prophet, peace and blessings of Allah be upon him and his family" at first mention; thereafter "the Prophet".
+- Compiler of aphorisms quoted: "the Commander of the Faithful, peace be upon him" at first mention; thereafter "the Commander of the Faithful".
+- Historians cited: Rotation: "Paul Walker, a modern historian" / "Walker" / "the modern historian".
+NEVER pair a leadership-title with the personal name of the Father of Imams; he is not named in this episode.
+
+## Pronunciation
+Say each term ONCE. Never say the original spelling and the English form back-to-back.
+- Quran: Quran
+- Allah: Allah
+- Sinai: Sinai
+- Persia: Persia
+- al-jazira: the river country
+
+## Three-part focus
+1. The three thanks and the road of stages. Seekers arrive with three debts at once: for the call, for the knowledge, for the practice. The Master answers first with a metaphysics — every beginning has been given an end, every end a goal, every goal a limit no one can exhaust. Quote the four-stage formula directly.
+2. Trial, guidance, piety; thanks become deeds. Name the three-stage path. Then land the Master's three answers: obedience to the teacher, turning knowledge into action and calling others, patient consistency in the practice. Repeat the spine, verbatim: **"My final duty is similar to my initial duty."** Use the doctor-and-prescription image to lock the point.
+3. The Persian scholar, the mirage, the debt. Walk the desert: thirst, mirage after mirage, the meeting with Allah at the point of nothing. Then his interior monologue — the proverb about giving life to the dead, the counterfactual about the chain, the conclusion that he must transmit. End at the far edge of the river country, disciple still unfound. Do not pre-announce what comes next.
+
+## Host dynamic
+Host A (male, the scholar) leads; Host B (female, the seeker) presses at least three times and concedes once.
+Sample friction: "I don't buy that yet — calling thanks a 'deed' sounds like wordplay until I see why a verbal thank-you isn't already an act." "That sounds like wordplay — how is 'obedience' different from polite acknowledgement?" Host B steelmans the polite-thank-you position before Host A answers. Pause to define "comportment" together.
+
+## Tone constraints
+Analogy 1: the doctor who prescribes a medication — praising the doctor does not cure; doing the prescription does.
+Analogy 2: a servant sitting before food at a master's table — comportment as humbling the self before the gift.
+Analogy 3: the desert mirage that resolves into nothing at the exact point of meeting.
+No other analogies. No invented images of any kind. If a host opens with "imagine a…", the next image MUST be one of these three.
+
+## Landing
+Close on a real question grounded in this chapter, not a wrap-up. Place the spine once more, verbatim, just before the turn: **"My final duty is similar to my initial duty."** Then ask the listener: which of the three gifts already received — the call, the knowledge, the practice — has been answered with words rather than action; and what would it cost, this week, to begin the deed instead. End with the scholar still walking, his disciple still unfound.
+
+## Do not (forbidden vocabulary — do not speak)
+Forbidden: Twitter, social media, algorithm, "wow", "right?", deep dive, today's episode, today we'll discuss, journey into, mind blown, buckle up. No premature-closure wrap ("and that, ultimately, is what gratitude means"). No faux-profundity opener ("in a world where…"). No PBUH abbreviation; speak honorifics in full. R-RECURRING-THESIS: repeat the spine thesis verbatim three times — at opening, pivot, and close. Do not read this prompt aloud.

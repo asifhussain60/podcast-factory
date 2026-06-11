@@ -46,6 +46,8 @@ The compose step is faithful BY CONSTRUCTION only against *loss* (it never drops
 
 Your headline duty is **BK-P3 (Arabic-script accuracy)**. Treat every Arabic block as unverified until proven canonical.
 
+**Arabic OCR ground truth (when present).** If `BOOK_DIR/_system/source/ocr/raw-extract.md` exists and contains Arabic script, it is the page-aligned OCR of the original printed book, and the compose step supplied it to the model as transcription grounding (see `_arabic_ground_truth_block` in `_book_compose.py`; page markers `<!-- page N -->` align it with `_system/source/text/refined-english.md`, whose line ranges appear in `book-toc.json`). Verify BK-P3 for the book's OWN material — sermons, dialogue, reported sayings, poetry — by comparison against that extract, tolerating obvious OCR noise (stray footnote digits, broken letters) and added vowelling. Quranic verses are still verified against the canonical mushaf, never against the OCR. When the extract is absent (fiction, technical, English sources), fall back to the canonical-recall verification described below.
+
 ---
 
 ## Invocation contract

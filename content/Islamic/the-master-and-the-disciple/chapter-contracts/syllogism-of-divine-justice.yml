@@ -8,8 +8,8 @@ episode_number: 18
 title: The Syllogism of Divine Justice
 audience: >
   Listeners walking through the backbone of the book's
-  call. Standing on Abu Malik's bewilderment from the
-  previous episode, Salih builds a formal argument from
+  call. Standing on Abu Malik's confessed bewilderment —
+  his words have left him — Salih builds a formal argument from
   three premises — Allah cannot be seen, cannot be heard
   directly, and cannot be unjust — to the necessity of
   just witnesses between Him and His creatures. He then
@@ -19,6 +19,71 @@ audience: >
   wisdom that does not let the divine command be cut off.
 angle: faithful_exposition
 episode_format: debate
+resolution: host_b_concedes
+debate:
+  proposition: >
+    Divine justice itself requires a chain of just witnesses
+    between Allah and His creatures in every age.
+  host_a:
+    role: master
+    position: >
+      Because Allah can be neither seen nor directly heard,
+      and cannot be unjust, His command can reach creatures
+      only through intermediaries He selects. Their existence
+      is His act of justice; their chain carries rank-order in
+      function with equality in reward; and that same justice
+      forbids the chain from ever being cut, for cutting it
+      would stop worship and legitimize ignorance.
+    source_moves:
+      - >
+        The three premises in question form — can the One of
+        unimaginable immensity be perceived by vision; can His
+        speech be heard; would the Exalted One impose what
+        cannot be borne and then punish?
+      - >
+        The conclusion that such knowledge could not be
+        perceived except through intermediaries, whose
+        existence is His act of justice for and against His
+        creation.
+      - >
+        The unity of judgment across ages — justice is unified
+        by its nature; the continuous succession of messengers
+        imposes on every age the duty of willing obedience.
+      - >
+        Rank-order with equal reward — the subordinate is
+        called subordinate only because of his obedience to,
+        and need for, his superior; his esoteric
+        interpretation is a second channel of divinely given
+        knowledge.
+      - >
+        Lot, Ishmael, and Isaac through the chain of Abraham.
+      - >
+        The closing principle — He does not like His commands
+        to be cut off from His servants after His blessing to
+        them.
+  host_b:
+    role: debater
+    position: >
+      Allah's transcendence and justice stand in the school's
+      creed as articles of belief — affirmations to be held,
+      not premises that compel the necessity of a living chain
+      of witnesses in every age.
+    source_moves:
+      - >
+        His answer to the first premise — no, He is far above
+        being perceived by our vision.
+      - >
+        His answer to the second — speech comes from a speaker
+        described by his speech, and Allah is beyond such
+        attributes.
+      - >
+        His answer to the third — anyone who imposes such an
+        impossible obligation cannot be just, and Allah is far
+        exalted above that.
+      - >
+        His closing affirmation — this is the very foundation
+        of justice.
+  resolution: host_b_concedes
 format_rationale: >
   The chapter is a named exchange between Salih and Abu
   Malik on a single proposition — that divine justice

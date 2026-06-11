@@ -395,6 +395,19 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"   with fewer total episodes is rejected and you will be re-run.\n"
         )
 
+    # Density planner advisory (Slice 2, 2026-06-11, opt-in via series-config
+    # `density_planner: on`): non-binding grouping/length hints measured from
+    # a prior render by density_planner.py. Mirrors the concept-inventory
+    # pattern — present on re-runs, silent (empty string) on fresh books.
+    density_advisory_block = ""
+    try:
+        from _density_profiles import planner_enabled as _dplanner_enabled  # noqa: PLC0415
+        from density_planner import phase_0d_advisory_block as _density_advisory  # noqa: PLC0415
+        if _dplanner_enabled(book_dir):
+            density_advisory_block = _density_advisory(book_dir)
+    except Exception:
+        density_advisory_block = ""  # advisory must never break Phase 0d
+
     # ── STEP 1: TOC + plan ───────────────────────────────────────────────────
     log("  phase 0d · step 1/3 · TOC + segmentation plan")
 
@@ -456,6 +469,7 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"   leave a concept's argument straddling an episode boundary — and order the\n"
             f"   episodes so each one's closing hands off naturally to the next one's opening.\n"
             f"{inventory_block}"
+            f"{density_advisory_block}"
             f"4. Assign monotonically increasing episode numbers (`ep_num`) across the whole "
             f"book starting at 1. Each episode gets a short kebab-case `episode_slug` "
             f"(distinct across the whole book). When a source chapter splits into multiple "
@@ -754,7 +768,20 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"         section_title: \"<the H2 title of the sermon section>\"\n"
             f"     The framing author uses this to instruct the hosts to recite the sermon\n"
             f"     aloud before discussing it. A sermon counts as ONE concept section even\n"
-            f"     when long.\n\n"
+            f"     when long.\n"
+            f"  5. R-OPENING-HOOK: the FIRST sentence of the opening frame section ('Where\n"
+            f"     this episode opens/picks up') must be a curiosity-building hook — a\n"
+            f"     rhetorical question or a provocative inversion image rooted in the\n"
+            f"     episode's central tension. Describe-only openings (stage-setting prose\n"
+            f"     with no provocation in the first ~520 words) are rejected by the\n"
+            f"     challenger's V1 interest check.\n"
+            f"  6. R-NO-VERBATIM-BRIDGE: when bridging from a neighboring episode, reference\n"
+            f"     its landing by FUNCTION in fresh words (e.g. 'the largest sentence the\n"
+            f"     book had yet permitted itself') — NEVER re-quote the neighboring\n"
+            f"     episode's prose verbatim. No 12-word verbatim run may be shared between\n"
+            f"     two episode chapter files except inside attributed source quotations\n"
+            f"     and citation formulas. The challenger's cross-chapter CS check rejects\n"
+            f"     violations.\n\n"
             f"PLAN FOR THIS SOURCE CHAPTER (from `{toc_path}`):\n"
             f"  unit_mode: {sc_unit_mode}\n"
             f"  episode_count: {episode_count}\n"

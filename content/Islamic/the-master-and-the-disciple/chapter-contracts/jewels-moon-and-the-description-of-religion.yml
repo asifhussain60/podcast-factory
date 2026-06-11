@@ -70,7 +70,75 @@ host_dynamic_rationale: >
   have to have, and the request for the reality of
   which the description is the picture.
 resolution: host_b_concedes
-length_target: default_deep_dive
+debate:
+  proposition: >
+    A religion grounded only in transmitted reports has lost
+    the standing of religion; its jewels carry distinctive
+    signs that are read only by those who receive divine
+    knowledge from the heavens.
+  host_a:
+    role: master
+    position: >
+      Religion is one, purely upholding what is due to Allah
+      without difference, while transmitted reports all differ
+      and deny one another — so religion cannot rest on
+      reports alone. The Messenger's instruction to follow the
+      moon designated the wasi, not the disc, and the true
+      description of religion is the veil, the rope, the firm
+      handhold, the ark, the ship, the light, and the
+      well-protected knowledge whose jewels have their signs.
+    source_moves:
+      - >
+        The condition on the jewels-and-sunlight image — it
+        holds only where there is no confusion between a real
+        jewel and forged glass — and the story of the
+        jewelers' verdict on his own former faith.
+      - >
+        The principle that spiritual knowledge must be
+        presented to those who receive divine knowledge from
+        the heavens before it can be deemed genuine.
+      - >
+        The line that religion is one while transmitted
+        reports differ from and deny one another.
+      - >
+        The recovery of "follow the moon" as the designation
+        of the wasi — moon as symbol of the wasi, sun as
+        symbol of the natiq — and the generic formula "in all
+        matters of your life, follow Ali."
+      - >
+        The fixed number of days (chapter 2, verses 183-184)
+        and the precisely calculated paths of the sun and moon,
+        with the husban/hisab gloss.
+      - >
+        The divorce case study — a man left not knowing
+        whether he is married or divorced.
+      - >
+        The seven-image description of religion rendered whole.
+  host_b:
+    role: debater
+    position: >
+      Wisdom validates itself like a jewel in sunlight, and
+      the religion of the community — its commands,
+      prohibitions, and prophetic traditions — is that jewel's
+      setting; religion and sharia stand at the same level.
+    source_moves:
+      - >
+        The opening image: words of wisdom are like jewels —
+        observed in the sunlight they sparkle; left alone,
+        they do not lose value.
+      - >
+        The question who, after the prophets, the people of
+        divine knowledge can be.
+      - >
+        The religion-equals-sharia equivalence by which the
+        school holds what is left.
+      - >
+        The "by my life" concession that sharia has been
+        corrupted, and the closing acceptance of the
+        description with the request for the reality of which
+        it is the picture.
+  resolution: host_b_concedes
+length_target: longer
 key_tensions:
   - >
     Jewels and forged glass. Abu Malik's opening image
