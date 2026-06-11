@@ -37,7 +37,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _authoring._core import AuthoringError, _run_claude_p  # noqa: E402
 from _paths import REPO_ROOT  # noqa: E402
 
-_TIMEOUT = 180  # per section
+# Per-section classifier budget. 180s proved too tight under real Opus
+# latency (2026-06-11: every section timed out and was skipped, yielding a
+# diagram-less book) — same failure class as the compose 420s/300s budgets.
+_TIMEOUT = 600  # per section
 _DASHBOARD = REPO_ROOT / "plan-dashboard"
 _RENDER_SCRIPT = _DASHBOARD / "scripts" / "render-mermaid.mjs"
 
