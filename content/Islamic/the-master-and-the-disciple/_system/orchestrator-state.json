@@ -78,7 +78,8 @@
         "bismillah-seal-and-the-chosen-ranks",
         "five-conditions-and-the-covenant",
         "hawl-quwwa-and-josephs-dream",
-        "homecoming-and-the-forty-year-syllogism"
+        "homecoming-and-the-forty-year-syllogism",
+        "originator-and-the-three-primordial-words"
       ],
       "failed_slugs": [
         "emptying-the-cup",
@@ -145,14 +146,21 @@
         },
         "originator-and-the-three-primordial-words": {
           "started_ts": "2026-06-11T01:41:13Z",
+          "completed_ts": "2026-06-11T02:17:26Z",
+          "duration_sec": 2172.8,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "purifying-possessions-and-parting": {
+          "started_ts": "2026-06-11T02:17:26Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
           "cost_usd": null
         }
       },
-      "current_chapter": "originator-and-the-three-primordial-words",
-      "last_beat": "2026-06-11T02:08:36Z",
+      "current_chapter": "purifying-possessions-and-parting",
+      "last_beat": "2026-06-11T02:42:09Z",
       "convergence_iter": 2
     },
     "0g": {
@@ -203,7 +211,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T02:08:36Z",
+  "ts_updated": "2026-06-11T02:42:09Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
