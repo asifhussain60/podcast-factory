@@ -81,7 +81,8 @@
         "homecoming-and-the-forty-year-syllogism",
         "originator-and-the-three-primordial-words",
         "purifying-possessions-and-parting",
-        "rebirth-and-the-seven-day-tawaf"
+        "rebirth-and-the-seven-day-tawaf",
+        "the-test-of-speech-and-the-design-of-creation"
       ],
       "failed_slugs": [
         "emptying-the-cup",
@@ -187,14 +188,21 @@
         },
         "the-test-of-speech-and-the-design-of-creation": {
           "started_ts": "2026-06-11T03:26:06Z",
+          "completed_ts": "2026-06-11T04:04:12Z",
+          "duration_sec": 2285.4,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "three-levels-of-knowledge": {
+          "started_ts": "2026-06-11T04:04:12Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
           "cost_usd": null
         }
       },
-      "current_chapter": "the-test-of-speech-and-the-design-of-creation",
-      "last_beat": "2026-06-11T03:54:22Z",
+      "current_chapter": "three-levels-of-knowledge",
+      "last_beat": "2026-06-11T04:32:15Z",
       "convergence_iter": 2
     },
     "0g": {
@@ -245,7 +253,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T03:54:22Z",
+  "ts_updated": "2026-06-11T04:32:15Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
