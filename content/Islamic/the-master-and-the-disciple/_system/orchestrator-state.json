@@ -72,6 +72,7 @@
         "abu-malik-arrives-and-the-fair-inquiry",
         "air-and-the-instance-beyond-air",
         "bismillah-seal-and-the-chosen-ranks",
+        "emptying-the-cup",
         "five-conditions-and-the-covenant",
         "hawl-quwwa-and-josephs-dream",
         "homecoming-and-the-forty-year-syllogism",
@@ -113,10 +114,10 @@
         },
         "emptying-the-cup": {
           "started_ts": "2026-06-11T11:48:37Z",
-          "completed_ts": null,
-          "duration_sec": null,
-          "verdict": null,
-          "cost_usd": null
+          "completed_ts": "2026-06-11T12:15:39Z",
+          "duration_sec": 1621.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
         },
         "five-conditions-and-the-covenant": {
           "started_ts": "2026-06-10T23:50:39Z",
@@ -168,12 +169,11 @@
           "cost_usd": 0.0
         },
         "syllogism-of-divine-justice": {
-          "started_ts": "2026-06-11T09:16:34Z",
-          "completed_ts": "2026-06-11T09:16:35Z",
-          "duration_sec": 0.1,
-          "verdict": "FAILED",
-          "cost_usd": 0.0,
-          "error": "extract_chapter.py failed for 'the-master-and-the-disciple/ch18b-syllogism-of-divine-justice': rc=1: ERROR: contract at /Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/the-master-and-the-disciple/chapter-contracts/syllogism-of-divine-justice.yml contains meta-prose that would reach Noteb"
+          "started_ts": "2026-06-11T12:15:39Z",
+          "completed_ts": null,
+          "duration_sec": null,
+          "verdict": null,
+          "cost_usd": null
         },
         "the-conspiracy-formula": {
           "started_ts": "2026-06-11T09:16:35Z",
@@ -232,9 +232,9 @@
           "cost_usd": 0.0
         }
       },
-      "current_chapter": "emptying-the-cup",
-      "last_beat": "2026-06-11T12:05:54Z",
-      "convergence_iter": 2
+      "current_chapter": "syllogism-of-divine-justice",
+      "last_beat": "2026-06-11T12:24:51Z",
+      "convergence_iter": 1
     },
     "0g": {
       "status": "pending"
@@ -284,7 +284,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T12:05:54Z",
+  "ts_updated": "2026-06-11T12:24:51Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",

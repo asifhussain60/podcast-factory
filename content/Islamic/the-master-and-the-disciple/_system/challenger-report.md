@@ -2,53 +2,64 @@
 
 **Book:** the-master-and-the-disciple
 **Run:** 2026-06-11 (challenger v2.5)
-**Scope:** per-chapter emptying-the-cup
-**Iterations:** 1 (of 5 max) — intelligent-break: identical (P0=0, P1=2) to prior run; no deterministic auto-fixes available
+**Scope:** per-chapter syllogism-of-divine-justice
+**Iterations:** 2 (of 5 max)
 **Verdict:** SHIP-WITH-CAUTION
-**content_profile:** islamic_scholarly  ← detected from _system/series-config.yaml
+**Content profile:** islamic_scholarly
 
-## Auto-fixes applied (iteration-by-iteration)
+## Auto-fixes applied
 
-None. The two P1 findings (R-NO-ARABIC-TRANSLITERATION on source-dialogue character names; missing F25 preservation table) require authoring judgment. The 18 em-dashes in chapter prose are load-bearing definitional gloss markers (`kasrah — demolition`, `arif — the sanctified scholar`, `ilm — knowledge`); a mechanical B5 strip would corrupt the scholarly-dialogue voice and is therefore not safe to auto-apply at this density.
+| Iter | Check | File | Action |
+|---|---|---|---|
+| 1 | B5 | ch18b-syllogism-of-divine-justice.txt | Replaced 32 em-dashes with commas |
+| 1 | B1 | ch18b-syllogism-of-divine-justice.txt:45 | "in this chapter" → "here" (file-length self-reference) |
+| 1 | K1 | 00-framing.md Host dynamic | Inserted Conversation discipline clause (no interjections, completes-a-thought, qualified concessions only) |
+| 1 | I1 | 00-framing.md Host dynamic | Inserted Anti-repetition clause (no restating spine beyond R-RECURRING-THESIS, no re-citing same verse) |
+| 1 | H3 | 00-framing.md Host dynamic | Inserted Landing clause (close on unresolved question, not recap) |
+| 1 | M1 | 00-framing.md `## Do not` | Extended modernize DENY (cognitive behavioral therapy, deep dive, content creator, YouTube/TikTok, "21st century", "modern world", quote-tweet) + DO-permission for practical analogies |
+| 1 | M2 | 00-framing.md `## Do not` | Extended surprise-noise DENY ("so interesting", "chilling", "devastating", "no way") |
+| 1 | R4 | 00-framing.md `## Do not` | Added formal-transition DENY (Firstly, Secondly, Furthermore, In conclusion, To summarize, Lastly) + thinking-out-loud cadence |
+| 2 | E1 | 00-framing.md (multiple sections) | Compressed Opening / Three-part focus / Pronunciation / Tone to land framing under 4500-char NotebookLM ceiling (final 4499 chars, 730 words) |
+
+After iteration 2, `build_episode_txt.py` passes cleanly and emits `episodes/EP18-syllogism-of-divine-justice.txt` (730 words, customize-prompt-ready).
 
 ## Findings requiring author resolution
 
 ### P0 (blocks ship)
 
-None. Doctrinal pack (T1 attribution / T2 lineage / T3 forbidden phrases) clean. Build-script gates pass. No HTML comments, no meta-prose tells, no DENY-list violations outside the framing's legitimate `## Do not` enumeration. Chapter word count 2,438 within Default Deep Dive band (1,800–2,800). Framing word count 746 within soft band. Debate-mode contract complete: `episode_format: debate`, `resolution: host_b_concedes`, both host roles and positions populated, source moves named.
+None.
 
 ### P1 (ship-with-caution)
 
-#### R-NO-ARABIC-TRANSLITERATION: 8 Arabic transliterations detected in chapter SOURCE
-- **File:** content/Islamic/the-master-and-the-disciple/chapters/ch15d-emptying-the-cup.txt (throughout)
-- **Context:** Build script flags: 'Abu Malik', 'al-Bakhtari', 'al-Balagha', 'al-Din', 'al-Ghazali', 'al-Radi', 'al-Shari', 'al-Sharif'. Salih + Abu Malik are the two named interlocutors of the source dialogue; al-Bakhtari is the host at the door; the al-* prefixes belong to cited work-titles and authors (*Nahj al-Balagha*, *Ihya Ulum al-Din*, al-Ghazali, al-Sharif al-Radi). The framing already instructs hosts to use "the young teacher" / "the visiting scholar" / "the father at the door" audio labels (R-NAMEALIAS satisfied), so audio output is TTS-safe; the chapter SOURCE retains the canonical names since they are load-bearing for the written show notes / preservation table.
-- **Suggested fix:** Author decides — replace character names with English labels throughout chapter text, OR accept that the framing's name-discipline rule covers audio safety and the SOURCE preserves the names for the written apparatus. Cited work-titles and historical author names (al-Ghazali, al-Sharif al-Radi) should remain — these are bibliographic, not character dialogue.
+#### R-NO-ARABIC-TRANSLITERATION — "Abu Malik" in chapter prose
+- **File:** chapters/ch18b-syllogism-of-divine-justice.txt
+- **Context:** "Abu Malik" appears throughout as the disciple's name. F20 doctrine asks for an English audio label.
+- **Suggested fix:** The framing already maps the disciple → "the disciple" by label. Author may either (a) replace "Abu Malik" with "the disciple" throughout chapter prose, or (b) accept the single Arabic name as a tracked exception (this is the canonical character name from the source dialogue and the book registers it as such).
 
-#### F25-APPARATUS-TABLE: 99-show-notes.md missing 'Name and Title Preservation Table' section
-- **File:** content/Islamic/the-master-and-the-disciple/_system/episode-drafts/EP15-emptying-the-cup/99-show-notes.md
-- **Context:** Every published episode's 99-show-notes.md is expected to carry the written-layer apparatus (Original/Transliteration → Audio Label crosswalk). This show-notes file ends mid-reference and carries no apparatus table.
-- **Suggested fix:** Author writes the preservation table covering: Salih → the young teacher; Abu Malik → the visiting scholar; al-Bakhtari → the father at the door; *Nahj al-Balagha* → *The Peak of Eloquence*; *Misbah al-Shari'a* → *The Lamp of the Sacred Law*; *Ihya Ulum al-Din* → *The Revival of the Religious Sciences*; Commander of the Faithful (peace be upon him); chapter 2 verse 156 (the verse of return); chapter 39 verse 9 (the chapter on the throngs).
+#### R-NAMEDISCIPLINE — Name discipline rotation not declared
+- **File:** _system/episode-drafts/EP18-syllogism-of-divine-justice/00-framing.md
+- **Context:** Name discipline section uses "same label every time, no rotation" — but the build's R-NAMEDISCIPLINE expects a `Rotation: a / b / c` line declaring at least three aliases.
+- **Suggested fix:** Either add a rotation line for the master (e.g. `the master / the elder / the teacher`) or document the no-rotation choice as a contract override.
+
+#### R-HONORIFIC-BOTH-BOUNDS — Prophet honorific never expanded
+- **File:** _system/episode-drafts/EP18-syllogism-of-divine-justice/00-framing.md
+- **Context:** The first mention of the Prophet in spoken output requires "peace and blessings of Allah be upon him" exactly once (then never again). The framing carries no Prophet mention at all in this episode (the argument turns on Allah's justice + chosen witnesses generically), so the bound is technically violated 0× ≠ 1×.
+- **Suggested fix:** If the hosts will name the Prophet in voice, add a line to Name discipline: "On first mention of the Prophet, say 'peace and blessings of Allah be upon him' once; thereafter no honorific." If they will not name the Prophet at all in this episode, document the exception in the framing.
 
 ### P2 (advisory)
 
-- **B5-EM-DASH-DENSITY:** 18 em-dashes in chapter (1 per ~135 words) + 19 in framing. Most are definitional-gloss bindings (`kasrah — demolition`, `arif — the sanctified scholar`, `ilm — knowledge`, `marifa — gnosis`, `khabar`/`iyan`). Mechanical replacement with comma would damage the scholarly-dialogue voice. Author may selectively convert non-definitional em-dashes (lines 7, 13, 17, 19, 51, 59) to comma-bounded clauses; preserve definitional gloss markers.
-- **R-RECURRING-THESIS verification:** framing instructs hosts to repeat spine thesis verbatim 3× (open, pivot, close). Cannot verify at framing-review time — empirical transcript audit applies post-publication.
-- **F4 central tensions:** debate-mode override active (Category P P1 satisfied via populated contract.debate block) — F4 deep-dive tension check correctly skipped.
-- **CS5 chapter-set balance:** book-scope check is the authority; per-chapter run does not gate.
+None new.
 
 ## Health metrics
 
-| Chapter | Words | Enrichment ratio | Tier diversity | Citations | Phonetic gaps |
+| Chapter | Words | Em-dashes | "this chapter" | Phonetic gaps | Doctrinal (T) |
 |---|---|---|---|---|---|
-| ch15d-emptying-the-cup | 2,438 | ~24% (Nahj al-Balagha Saying 147; Quran 2:156 + 39:9; *Misbah al-Shari'a* ch.32; al-Ghazali *Ihya* Book One ch.2) | 4 tiers (Quran, Nahj al-Balagha, hadith collection, classical kalam) | 5 explicit with translator + page | 0 (no inline phonetics per R-PHONETICS-OUT; framing carries imperative Pronunciation block with 14 terms) |
+| ch18b-syllogism-of-divine-justice | 2,395 | 0 (was 32) | 0 (was 1) | 0 | 0 findings |
 
-## Build-gate status
+| Framing | Chars | Words | Sections | NotebookLM ceiling |
+|---|---|---|---|---|
+| EP18-syllogism-of-divine-justice/00-framing.md | 4,499 | 730 | 7 H2 sections | OK (< 4500) |
 
-- `build_episode_txt.py`: PASS with 2 P1 advisories (R-NO-ARABIC-TRANSLITERATION, F25-APPARATUS-TABLE) — both surfaced above.
-- Doctrinal pack (T1 / T2 / T3): clean.
-- Honorifics: '(peace be upon him)' appears 1× in chapter and 1× in framing — within R-HONORIFIC-ONCE bound.
-- Debate-mode contract (Category P): proposition, both host positions, source moves, resolution (`host_b_concedes`) all populated. Framing carries Opening directive, Three-part focus, Host dynamic, Tone constraints, `## Do not`, Landing.
+## Convergence
 
-## PEQ Score (Wave K, 5-axis)
-
-Stable at iter-1; matches sibling episodes' SHIP-WITH-CAUTION pattern (R-NO-ARABIC-TRANSLITERATION + F25-APPARATUS-TABLE are systemic across the book and are author-judgment items, not blockers).
+Iteration 1 applied 8 auto-fixes (B5, B1, K1, I1, H3, M1, M2, R4). Iteration 2 trimmed the framing to land under the 4500-char NotebookLM Customize-box ceiling without losing any of the inserted steering clauses. Build script `build_episode_txt.py` validates and emits cleanly. Three P1 findings remain — all require authoring judgment (chapter character-name policy, framing rotation declaration, Prophet-honorific bound). No P0.
