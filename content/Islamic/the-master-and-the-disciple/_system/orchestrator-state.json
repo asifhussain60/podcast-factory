@@ -88,6 +88,7 @@
         "three-levels-of-knowledge",
         "three-thanks-and-the-persian-awakening",
         "unbroken-chain-and-the-path-of-return",
+        "union-of-inner-and-outer",
         "zahir-batin-and-the-seven-natiqs"
       ],
       "failed_slugs": [
@@ -218,18 +219,17 @@
         },
         "union-of-inner-and-outer": {
           "started_ts": "2026-06-11T10:33:32Z",
+          "completed_ts": "2026-06-11T11:10:41Z",
+          "duration_sec": 2229.1,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "who-is-allah-beyond-names": {
+          "started_ts": "2026-06-11T11:10:41Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
           "cost_usd": null
-        },
-        "who-is-allah-beyond-names": {
-          "started_ts": "2026-06-11T05:16:33Z",
-          "completed_ts": "2026-06-11T05:16:33Z",
-          "duration_sec": 0.0,
-          "verdict": "FAILED",
-          "cost_usd": 0.0,
-          "error": "extract_chapter.py failed for 'the-master-and-the-disciple/ch17a-who-is-allah-beyond-names': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing."
         },
         "zahir-batin-and-the-seven-natiqs": {
           "started_ts": "2026-06-11T05:16:33Z",
@@ -239,8 +239,8 @@
           "cost_usd": 0.0
         }
       },
-      "current_chapter": "union-of-inner-and-outer",
-      "last_beat": "2026-06-11T11:01:30Z",
+      "current_chapter": "who-is-allah-beyond-names",
+      "last_beat": "2026-06-11T11:38:47Z",
       "convergence_iter": 2
     },
     "0g": {
@@ -291,7 +291,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T11:01:30Z",
+  "ts_updated": "2026-06-11T11:38:47Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",

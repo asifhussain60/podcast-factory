@@ -1,16 +1,15 @@
 # Podcast Challenger Report
 
 **Book:** the-master-and-the-disciple
-**Run:** 2026-06-11 (challenger v2.5)
-**Scope:** per-chapter union-of-inner-and-outer
-**Iterations:** 2 (of 5 max — intelligent break: no new auto-fixes after iter 1)
+**Run:** 2026-06-11 07:47 (challenger v2.5)
+**Scope:** per-chapter who-is-allah-beyond-names
+**Iterations:** 1 (of 5 max) — intelligent-break: no deterministic auto-fixes available
 **Verdict:** SHIP-WITH-CAUTION
+**content_profile:** islamic_scholarly  ← detected from _system/series-config.yaml
 
-## Auto-fixes applied
+## Auto-fixes applied (iteration-by-iteration)
 
-| Iter | Check | File | Action |
-|---|---|---|---|
-| 1 | B5 | chapters/ch10c-union-of-inner-and-outer.txt | Replaced 36 em-dash instances (` — `) with `, ` |
+None. All five findings require authoring judgment (stylistic parallel sentence, character names from source dialogue, framing apparatus shape).
 
 ## Findings requiring author resolution
 
@@ -20,34 +19,42 @@ None.
 
 ### P1 (ship-with-caution)
 
-#### R-NAMEDISCIPLINE: Name discipline section lacks rotation set with 3+ aliases
-- **File:** _system/episode-drafts/EP10-union-of-inner-and-outer/00-framing.md
-- **Context:** Name discipline lists single English labels per character (the scholar, the disciple, the Father of Imams) but no `Rotation: a / b / c` or `→ a / b / c` line with 3+ aliases. Build-script flag.
-- **Suggested fix:** Add a rotation line under Name discipline, e.g. `the scholar → the master / the teacher / the scholar`; `the disciple → the seeker / the student / the disciple`. Authoring choice — pick aliases consistent with prior episodes in this book.
+#### B6-DOUBLED-PHRASE: stylistic parallel-sentence flagged as doubled phrase
+- **File:** content/Islamic/the-master-and-the-disciple/chapters/ch17a-who-is-allah-beyond-names.txt:55
+- **Context:** Two consecutive sentences both begin "It was giving him..." — a deliberate parallel construction by the source/adapter ("It was giving him the comfort...", "It was giving him the hidden..."), not a copy-paste duplication.
+- **Suggested fix:** Author judgment — either accept as intentional parallelism or rewrite one of the two sentences to vary the opening.
 
-#### F25-APPARATUS-TABLE: 99-show-notes.md missing Name and Title Preservation Table
-- **File:** _system/episode-drafts/EP10-union-of-inner-and-outer/99-show-notes.md
-- **Context:** F25 doctrine requires every episode's show-notes to carry the written-layer apparatus (preserved Arabic / transliterations + audio-label crosswalk) the TTS-safe audio omits. No `## Name and Title Preservation Table` heading found.
-- **Suggested fix:** Append the apparatus table listing every transliteration in the chapter (fasiq, fisq, kafir, mu'min, shari'a, al-fikr, dhikr Allah, al-sunna, zakat al-abdan, la hawla wa la quwwata illa billah) with their Arabic-script form and the spoken audio label.
+#### R-NO-ARABIC-TRANSLITERATION: character name 'Abu Malik' (and 'Salih') appears in chapter
+- **File:** content/Islamic/the-master-and-the-disciple/chapters/ch17a-who-is-allah-beyond-names.txt (throughout)
+- **Context:** Salih and Abu Malik are the two named interlocutors in *The Master and the Disciple*'s source dialogue. The framing already instructs NotebookLM hosts to use "the master" / "the disciple" audio labels, so audio output is TTS-safe, but the chapter SOURCE retains the Arabic names since the source carries them.
+- **Suggested fix:** Author decides — replace Salih/Abu Malik with "the master"/"the disciple" throughout the chapter text, or accept that the framing's name-discipline rule covers audio safety and the SOURCE preserves the names for the written show notes / preservation table.
+
+#### R-NAMEDISCIPLINE: framing Name discipline lists 2 labels, no 3-way rotation
+- **File:** content/Islamic/the-master-and-the-disciple/_system/episode-drafts/EP17-who-is-allah-beyond-names/00-framing.md:6–11
+- **Context:** Build gate expects a `Rotation: a / b / c` pattern (3+ aliases). This chapter has only two named speakers (master, disciple) and the Commander of the Faithful as cited authority — no third rotation slot applies.
+- **Suggested fix:** Author may either add a third alias line or accept that this two-speaker chapter doesn't need rotation (the warning is a band-of-correctness signal, not a content defect).
+
+#### R-HONORIFIC-BOTH-BOUNDS: 'peace and blessings of Allah be upon him and his family' missing
+- **File:** content/Islamic/the-master-and-the-disciple/_system/episode-drafts/EP17-who-is-allah-beyond-names/00-framing.md
+- **Context:** Gate requires the honorific phrase to appear exactly 1× on first mention of the Prophet. This chapter does NOT mention the Prophet — only the Commander of the Faithful (with "peace be upon him") and the Quranic verses. The honorific would be a fabrication if added.
+- **Suggested fix:** Accept — finding is a false positive for chapters that don't mention the Prophet. Surface to maintainer for gate-tuning.
+
+#### F25-APPARATUS-TABLE: 99-show-notes.md missing 'Name and Title Preservation Table' section
+- **File:** content/Islamic/the-master-and-the-disciple/_system/episode-drafts/EP17-who-is-allah-beyond-names/99-show-notes.md
+- **Context:** Every published episode's 99-show-notes.md is expected to carry the written-layer apparatus (Original/Transliteration → Audio Label crosswalk). EP01 has one; EP17 does not.
+- **Suggested fix:** Author writes the preservation table covering: Salih, Abu Malik, Allah, Quran, Nahj al-Balagha / The Peak of Eloquence, the Commander of the Faithful, the chapter on consultation (verse 11), the chapter on the heights (verse 143), and the later theological work cited at line 19.
 
 ### P2 (advisory)
 
-None.
+- **CS5 chapter-set balance:** advisory only at per-chapter scope; book-scope check is the authority.
+- **R2 reset clause:** spine has 6 beats — at the band edge; advisory.
 
 ## Health metrics
 
-| Chapter | Words | Em-dashes (post-fix) | Honorifics expanded | Modernize/surprise tells |
-|---|---|---|---|---|
-| ch10c-union-of-inner-and-outer | 2500 | 0 | 0 (chapter) | 0 |
+| Chapter | Words | Enrichment ratio | Tier diversity | Citations | Phonetic gaps |
+|---|---|---|---|---|---|
+| ch17a-who-is-allah-beyond-names | 2,718 | ~22% (Quranic verses 42:11, 7:143; Nahj al-Balagha Sermon 1; later theological work cited at line 19) | 3 tiers (Quran, Nahj al-Balagha, later kalam work) | 4 explicit | 0 (no inline phonetics per R-PHONETICS-OUT) |
 
-| Framing | Words | DENY-modernize block | DENY-surprise block | No-read-aloud guard |
-|---|---|---|---|---|
-| EP10-union-of-inner-and-outer | 755 | present | present | present |
+## PEQ Score (Wave K)
 
-## Notes
-
-- Doctrinal pack (Category T): chapter passes `_doctrinal.py` cleanly. No forbidden naming-convention phrases; Father of Imams + thirsting-woman narrative correctly attributed.
-- Build script (`build_episode_txt.py --check`) exits clean. No P0 gates fire.
-- Honorific discipline (O1): chapter contains zero PBUH/SAW/RA expansions; the only honorific expansions are inside the framing's Name discipline block (first-mention-only as designed).
-- Phonetic discipline (N1/N2): chapter contains zero inline phonetic parens; framing's `## Pronunciation` block uses the imperative `- term: gloss` form per book convention.
-- Word-count band E1: chapter 2500 (within default deep-dive 1800–2800); framing 755 (within default soft band 200–2000).
+Stable at iter-1; matches prior reviewed-clean state. Verdict held SHIP-WITH-CAUTION across runs.
