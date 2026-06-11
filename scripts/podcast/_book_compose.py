@@ -277,7 +277,7 @@ def author_phase_book_compose(book_dir: Path, *, log=print) -> Path:
                 pbody + "\n\n(Write this as a short, warm preface — at most a few paragraphs — that "
                 "orients today's reader to the work that follows: who is speaking, to whom, and why it "
                 "still matters across the centuries.)", cfg, "", "", arabic_src=p_arabic)
-            rc, preface, _ = _run_claude_p(pprompt, timeout=300, book_dir=book_dir,
+            rc, preface, _ = _run_claude_p(pprompt, timeout=900, book_dir=book_dir,
                                            phase="0book-compose", step="preface")
             preface = (preface or "").strip()
             pf_path.write_text(preface + "\n", encoding="utf-8")
