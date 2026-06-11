@@ -1,10 +1,10 @@
 # NotebookLM density plan - the-master-and-the-disciple
 
-Planner v1.0 (audit mode) - deterministic, no LLM calls. Source signature `05189c8d4188`.
+Planner v1.0 (audit mode) - deterministic, no LLM calls. Source signature `d331598bd117`.
 
 ## Summary
 
-- 20 chapters, 52,016 words total
+- 20 chapters, 52,055 words total
 - 20 NotebookLM generations planned (20 standalone, 0 combined, 0 thin-flagged, 0 dense-flagged)
 - Length settings: 20 Default, 0 Long
 - Pacing directives recommended: 0
@@ -16,9 +16,9 @@ Planner v1.0 (audit mode) - deterministic, no LLM calls. Source signature `05189
 | 1 | ch01a-three-thanks-and-the-persian-awakening.txt | EP01 | 2,633 | 3 | 0.38 | standalone | Default |
 | 2 | ch02b-the-test-of-speech-and-the-design-of-creation.txt | EP02 | 2,737 | 3 | 0.41 | standalone | Default |
 | 3 | ch03c-five-conditions-and-the-covenant.txt | EP03 | 3,213 | 3 | 0.40 | standalone | Default |
-| 4 | ch04a-originator-and-the-three-primordial-words.txt | EP04 | 2,672 | 2 | 0.30 | standalone | Default |
+| 4 | ch04a-originator-and-the-three-primordial-words.txt | EP04 | 2,684 | 2 | 0.30 | standalone | Default |
 | 5 | ch05b-bismillah-seal-and-the-chosen-ranks.txt | EP05 | 2,913 | 3 | 0.39 | standalone | Default |
-| 6 | ch06c-zahir-batin-and-the-seven-natiqs.txt | EP06 | 2,375 | 3 | 0.37 | standalone | Default |
+| 6 | ch06c-zahir-batin-and-the-seven-natiqs.txt | EP06 | 2,378 | 3 | 0.37 | standalone | Default |
 | 7 | ch07d-air-and-the-instance-beyond-air.txt | EP07 | 2,245 | 3 | 0.38 | standalone | Default |
 | 8 | ch08a-three-levels-of-knowledge.txt | EP08 | 2,332 | 3 | 0.38 | standalone | Default |
 | 9 | ch09b-hawl-quwwa-and-josephs-dream.txt | EP09 | 2,315 | 2 | 0.29 | standalone | Default |
@@ -30,7 +30,7 @@ Planner v1.0 (audit mode) - deterministic, no LLM calls. Source signature `05189
 | 15 | ch15d-emptying-the-cup.txt | EP15 | 2,438 | 3 | 0.39 | standalone | Default |
 | 16 | ch16e-jewels-moon-and-the-description-of-religion.txt | EP16 | 2,879 | 3 | 0.43 | standalone | Default |
 | 17 | ch17a-who-is-allah-beyond-names.txt | EP17 | 2,718 | 3 | 0.38 | standalone | Default |
-| 18 | ch18b-syllogism-of-divine-justice.txt | EP18 | 2,395 | 3 | 0.36 | standalone | Default |
+| 18 | ch18b-syllogism-of-divine-justice.txt | EP18 | 2,419 | 3 | 0.36 | standalone | Default |
 | 19 | ch19c-the-conspiracy-formula.txt | EP19 | 2,748 | 3 | 0.38 | standalone | Default |
 | 20 | ch20d-unbroken-chain-and-the-path-of-return.txt | EP20 | 2,648 | 3 | 0.42 | standalone | Default |
 
@@ -53,7 +53,7 @@ Planner v1.0 (audit mode) - deterministic, no LLM calls. Source signature `05189
 
 ### Group 4 (EP04) - standalone
 
-- Why: 2,672 words, 2 concept section(s), ~18 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.30.
+- Why: 2,684 words, 2 concept section(s), ~18 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.30.
 - Framing: No framing change needed.
 
 ### Group 5 (EP05) - standalone
@@ -63,7 +63,7 @@ Planner v1.0 (audit mode) - deterministic, no LLM calls. Source signature `05189
 
 ### Group 6 (EP06) - standalone
 
-- Why: 2,375 words, 3 concept section(s), ~16 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.37 (at the concept ceiling).
+- Why: 2,378 words, 3 concept section(s), ~16 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.37 (at the concept ceiling).
 - Framing: No framing change needed.
 
 ### Group 7 (EP07) - standalone
@@ -123,7 +123,7 @@ Planner v1.0 (audit mode) - deterministic, no LLM calls. Source signature `05189
 
 ### Group 18 (EP18) - standalone
 
-- Why: 2,395 words, 3 concept section(s), ~16 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.36 (at the concept ceiling).
+- Why: 2,419 words, 3 concept section(s), ~16 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.36 (at the concept ceiling).
 - Framing: No framing change needed.
 
 ### Group 19 (EP19) - standalone
