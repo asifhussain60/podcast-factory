@@ -77,7 +77,7 @@ debate:
     signs that are read only by those who receive divine
     knowledge from the heavens.
   host_a:
-    role: advocate — voices Salih
+    role: master
     position: >
       Religion is one, purely upholding what is due to Allah
       without difference, while transmitted reports all differ
@@ -115,7 +115,7 @@ debate:
       - >
         The seven-image description of religion rendered whole.
   host_b:
-    role: arbiter — voices Abu Malik
+    role: debater
     position: >
       Wisdom validates itself like a jewel in sunlight, and
       the religion of the community — its commands,

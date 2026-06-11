@@ -67,7 +67,7 @@ debate:
     the seeker's cup must be emptied of what he believes he
     knows before it can be refilled.
   host_a:
-    role: advocate — voices Salih
+    role: master
     position: >
       True seeking begins in recognized need. The seeker must
       be classified before he is taught; his borrowed
@@ -95,7 +95,7 @@ debate:
         which the hearts of students have not first been
         purified by proper argument will not flourish.
   host_b:
-    role: arbiter — voices Abu Malik
+    role: debater
     position: >
       A scholar of standing already possesses the modes of
       seeking; his learning qualifies him to weigh truth-claims

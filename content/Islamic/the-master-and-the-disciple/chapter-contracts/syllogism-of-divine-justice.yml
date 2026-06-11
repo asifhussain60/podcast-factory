@@ -25,7 +25,7 @@ debate:
     Divine justice itself requires a chain of just witnesses
     between Allah and His creatures in every age.
   host_a:
-    role: arbiter — voices Salih
+    role: master
     position: >
       Because Allah can be neither seen nor directly heard,
       and cannot be unjust, His command can reach creatures
@@ -62,7 +62,7 @@ debate:
         to be cut off from His servants after His blessing to
         them.
   host_b:
-    role: advocate — voices Abu Malik
+    role: debater
     position: >
       Allah's transcendence and justice stand in the school's
       creed as articles of belief — affirmations to be held,
