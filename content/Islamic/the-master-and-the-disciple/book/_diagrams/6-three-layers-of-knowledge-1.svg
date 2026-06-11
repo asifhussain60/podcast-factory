@@ -1,0 +1,16 @@
+<svg id="Three_Houses_of_Creation__Three_Layers_o" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 401" role="img" aria-labelledby="Three_Houses_of_Creation__Three_Layers_o_t Three_Houses_of_Creation__Three_Layers_o_d">
+<title id="Three_Houses_of_Creation__Three_Layers_o_t">Three Houses of Creation, Three Layers of Knowledge</title>
+<desc id="Three_Houses_of_Creation__Three_Layers_o_d">Concentric diagram: 3 nested levels — Beasts — Outward knowledge, Children of Adam — Inward knowledge, Angels — Inward of the inward</desc>
+<style>#Three_Houses_of_Creation__Three_Layers_o{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#1f1d18;}#Three_Houses_of_Creation__Three_Layers_o text{font-family:'Lato', system-ui, sans-serif;}</style>
+<defs><marker id="svgp_arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#87827a"/></marker></defs>
+<text x="250" y="12.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#8b4513"><tspan x="250" dy="0">Three Houses of Creation, Three Layers</tspan><tspan x="250" dy="20">of Knowledge</tspan></text>
+<ellipse cx="250" cy="225" rx="210.0" ry="160.0" fill="#c8956c" stroke="#d9d3c4" stroke-width="1.5"/>
+<ellipse cx="250" cy="225" rx="140.0" ry="106.7" fill="#a0522d" stroke="#d9d3c4" stroke-width="1.5"/>
+<ellipse cx="250" cy="225" rx="70.0" ry="53.3" fill="#8b4513" stroke="#8b4513" stroke-width="1.5"/>
+<text x="250" y="91.66666666666669" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#1f1d18"><tspan x="250" dy="0">Beasts — Outward knowledge</tspan></text>
+<text x="250" y="103.16666666666669" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#1f1d18"><tspan x="250" dy="0">The visible law; whoever stops here</tspan><tspan x="250" dy="13">lives as a beast</tspan></text>
+<text x="250" y="137.0" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#fffdf8"><tspan x="250" dy="0">Children of Adam — Inward</tspan><tspan x="250" dy="16">knowledge</tspan></text>
+<text x="250" y="156.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#fffdf8"><tspan x="250" dy="0">Whoever takes hold of it becomes a</tspan><tspan x="250" dy="13">true believer</tspan></text>
+<text x="250" y="198.33333333333334" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#fffdf8"><tspan x="250" dy="0">Angels — Inward of the inward</tspan></text>
+<text x="250" y="209.83333333333334" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#fffdf8"><tspan x="250" dy="0">The kernel beneath the kernel; the</tspan><tspan x="250" dy="13">prophet reaches it</tspan></text>
+</svg>

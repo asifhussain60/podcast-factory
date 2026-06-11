@@ -1,0 +1,28 @@
+<svg id="Salih_s_Dilemma_to_His_Father" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 510" role="img" aria-labelledby="Salih_s_Dilemma_to_His_Father_t Salih_s_Dilemma_to_His_Father_d">
+<title id="Salih_s_Dilemma_to_His_Father_t">Salih's Dilemma to His Father</title>
+<desc id="Salih_s_Dilemma_to_His_Father_d">Quadrant map: Father's Knowledge × Disclosed to Son — four states</desc>
+<style>#Salih_s_Dilemma_to_His_Father{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#1f1d18;}#Salih_s_Dilemma_to_His_Father text{font-family:'Lato', system-ui, sans-serif;}</style>
+<defs><marker id="svgp_arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#87827a"/></marker></defs>
+<text x="255.0" y="24.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#8b4513"><tspan x="255.0" dy="0">Salih's Dilemma to His Father</tspan></text>
+<text x="253" y="502.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#4d4a42"><tspan x="253" dy="0">Father's Knowledge</tspan></text>
+<text x="12" y="257" text-anchor="middle" font-size="11" font-weight="600" fill="#4d4a42" transform="rotate(-90,12,257)">Disclosed to Son</text>
+<text x="155.5" y="65.0" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#87827a"><tspan x="155.5" dy="0">Not a Knower</tspan></text>
+<text x="350.5" y="65.0" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#87827a"><tspan x="350.5" dy="0">Knower</tspan></text>
+<text x="52" y="164.5" text-anchor="end" dominant-baseline="central" font-size="10" font-weight="normal" fill="#87827a"><tspan x="52" dy="0">Disclosed</tspan></text>
+<text x="52" y="349.5" text-anchor="end" dominant-baseline="central" font-size="10" font-weight="normal" fill="#87827a"><tspan x="52" dy="0">Concealed</tspan></text>
+<rect x="58.0" y="72.0" width="195.0" height="185.0" fill="#f7f4ee" stroke="#d9d3c4" stroke-width="1.0"/>
+<text x="155.5" y="146.5" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#1f1d18"><tspan x="155.5" dy="0">Father taught son</tspan><tspan x="155.5" dy="16">fully</tspan></text>
+<text x="155.5" y="176.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#1f1d18"><tspan x="155.5" dy="0">Not the case — son</tspan><tspan x="155.5" dy="12">sought elsewhere</tspan></text>
+<rect x="253.0" y="72.0" width="195.0" height="185.0" fill="#efeae0" stroke="#d9d3c4" stroke-width="1.0"/>
+<defs><pattern id="svgp_h1" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(40)"><line x1="0" y1="0" x2="0" y2="10" stroke="#d9d3c4" stroke-width="1.5"/></pattern></defs><rect x="253" y="72" width="195" height="185" fill="url(#svgp_h1)"/>
+<text x="350.5" y="154.5" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#87827a"><tspan x="350.5" dy="0">Impossible position</tspan></text>
+<text x="350.5" y="176.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#87827a"><tspan x="350.5" dy="0">Cannot both know and</tspan><tspan x="350.5" dy="12">withhold without blame</tspan></text>
+<rect x="58.0" y="257.0" width="195.0" height="185.0" fill="#efeae0" stroke="#d9d3c4" stroke-width="1.0"/>
+<text x="155.5" y="331.5" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#1f1d18"><tspan x="155.5" dy="0">Excused but in</tspan><tspan x="155.5" dy="16">greater need</tspan></text>
+<text x="155.5" y="361.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#1f1d18"><tspan x="155.5" dy="0">Then father needed the</tspan><tspan x="155.5" dy="12">stranger more than son</tspan></text>
+<rect x="253.0" y="257.0" width="195.0" height="185.0" fill="#f7f4ee" stroke="#d9d3c4" stroke-width="1.0"/>
+<text x="350.5" y="339.5" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#1f1d18"><tspan x="350.5" dy="0">Knew but concealed</tspan></text>
+<text x="350.5" y="355.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#1f1d18"><tspan x="350.5" dy="0">Son blameless for</tspan><tspan x="350.5" dy="12">seeking salvation</tspan><tspan x="350.5" dy="12">elsewhere</tspan></text>
+<line x1="253" y1="72" x2="253" y2="442" stroke="#d9d3c4" stroke-width="2"/>
+<line x1="58" y1="257" x2="448" y2="257" stroke="#d9d3c4" stroke-width="2"/>
+</svg>
