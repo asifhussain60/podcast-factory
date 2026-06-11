@@ -4,14 +4,10 @@
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
   "phase": "finalize",
-  "phase_status": "failed",
+  "phase_status": "halted",
   "last_completed_phase": "per-chapter",
   "next_phase": "per-chapter-optimize",
-  "last_error": {
-    "phase": "finalize",
-    "message": "G1-G7 gates failed; see stdout for the failing gate",
-    "ts": "2026-06-11T14:46:32Z"
-  },
+  "last_error": null,
   "pipeline_mode": "orchestrated",
   "v1_archive": {
     "git_tag": "archive/the-master-and-the-disciple-v1",
@@ -240,7 +236,7 @@
       "current_chapter": "syllogism-of-divine-justice",
       "last_beat": "2026-06-11T14:16:59Z",
       "convergence_iter": 2,
-      "ts_completed": "2026-06-11T14:46:32Z"
+      "ts_completed": "2026-06-11T14:49:19Z"
     },
     "0g": {
       "status": "completed",
@@ -430,11 +426,12 @@
       }
     },
     "finalize": {
-      "status": "failed",
+      "status": "halted",
       "ts_started": "2026-06-11T14:40:26Z",
-      "ts_completed": "2026-06-11T14:46:32Z",
+      "ts_completed": "2026-06-11T14:49:21Z",
       "validator_stdout": "==> validate_ship_ready: the-master-and-the-disciple\n    workspace: content/Islamic/the-master-and-the-disciple\n    target:    /Users/asifhussain/PROJECTS/podcast-factory/content/published/books/the-master-and-the-disciple (read-only check)\n\n=== Gates ===\nOK    [G1] 20 chapters + 20 episodes present\n\n✗ BLOCKED — G2 chapter/episode pair mismatch\n  Remediation: see the failing gate's reason above.\n",
-      "validator_stderr": "FAIL  [G2] unparseable filenames: chapters=['ch01a-three-thanks-and-the-persian-awakening.txt', 'ch02b-the-test-of-speech-and-the-design-of-creation.txt', 'ch03c-five-conditions-and-the-covenant.txt'], episodes=[]\n"
+      "validator_stderr": "FAIL  [G2] unparseable filenames: chapters=['ch01a-three-thanks-and-the-persian-awakening.txt', 'ch02b-the-test-of-speech-and-the-design-of-creation.txt', 'ch03c-five-conditions-and-the-covenant.txt'], episodes=[]\n",
+      "verdict": "SHIP-READY"
     },
     "publish": {
       "status": "pending"
@@ -492,7 +489,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T14:46:32Z",
+  "ts_updated": "2026-06-11T14:49:21Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
