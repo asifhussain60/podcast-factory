@@ -1,83 +1,60 @@
 # Podcast Challenger Report
 
 **Book:** the-master-and-the-disciple
-**Run:** 2026-06-10 (challenger v2.2)
-**Scope:** per-chapter `hawl-quwwa-and-josephs-dream`
+**Run:** 2026-06-10 (per-chapter focus)
+**Scope:** per-chapter ch13b-homecoming-and-the-forty-year-syllogism
 **Iterations:** 1 (of 5 max)
 **Verdict:** SHIP-WITH-CAUTION
-**content_profile:** islamic_scholarly (from _system/series-config.yaml)
 
-## Auto-fixes applied (iteration-by-iteration)
+content_profile: islamic_scholarly (detected from _system/series-config.yaml)
 
-None. All findings are either author-judgment (out of auto-fix scope) or book-wide archetype patterns recurring across all sibling episodes.
+## Auto-fixes applied
+
+None this iteration. Build-script validation passed (`build_episode_txt.py` exit 0). Prior 12 chapters of this book shipped under identical em-dash usage and identical "Nahj al-Balagha" citation pattern in chapter prose; treating both as authoring-voice carry-forward, not auto-fix targets.
 
 ## Findings requiring author resolution
 
 ### P0 (blocks ship)
 
-None. `build_episode_txt.py --check` validates cleanly; chapter at 2,315 words sits inside the 1,800–2,800 default-deep-dive band; framing at 749 words sits inside the soft band.
+None.
 
 ### P1 (ship-with-caution)
 
-#### R-NAMEDISCIPLINE — Name discipline section lacks rotation set
-- **File:** `_system/episode-drafts/EP09-hawl-quwwa-and-josephs-dream/00-framing.md`, `## Name discipline` (lines 6–16)
-- **Context:** Section uses stable single labels (the Imam, the gateway, the speaker-prophet, the executor, the proof, the twelve chiefs, the callers) but does not declare a `Rotation: a / b / c` line with 3+ aliases per term.
-- **Assessment:** Book-wide archetype pattern; the same shape recurs across all sibling episodes already shipped on this branch. Single-label stability has been the deliberate design choice for this dialogue — the master/disciple register depends on the listener locking each role to one English label.
-- **Suggested fix:** Archetype-level decision; not a per-chapter fix.
+#### R-NO-ARABIC-TRANSLITERATION (build-script flag)
+- **File:** chapters/ch13b-homecoming-and-the-forty-year-syllogism.txt
+- **Sample:** `al-Balagha` (appears within `Nahj al-Balagha` citation tags)
+- **Context:** Two `(Nahj al-Balagha, ...)` citation tags (lines 17, 35) retain the canonical Arabic title alongside the framing audio-label "the book of eloquence". The framing's Pronunciation block already maps `Nahj al-Balagha → the book of eloquence`, so the spoken layer is TTS-safe; the chapter prose preserves the canonical citation per A1 (citation discipline). Same pattern as ch01–ch12 — accepted across the book.
+- **Suggested fix:** none if pattern stays consistent with prior shipped chapters; author decision.
 
-#### R-DRAMATIC-ARC — Three-part focus has 3 Beat markers, only 1/4 structure tells
-- **File:** `_system/episode-drafts/EP09-hawl-quwwa-and-josephs-dream/00-framing.md`, `## Three-part focus` (lines 32–35)
-- **Context:** Three beats present (Absurdity of literal readings → Hawl/quwwa as Imam/gateway → Joseph's dream and the king's vision). Build rule wants a 6-beat arc with crisis / failed answer / pivot / stakes markers.
-- **Assessment:** Book-wide archetype; all sibling episodes use the three-beat shape that matches the source's doctrinal-exposition register. The dialogue's natural rhythm does not take a 6-beat dramatic structure.
-- **Suggested fix:** Archetype-level decision; not a per-chapter fix.
-
-#### R-HONORIFIC-BOTH-BOUNDS — `peace be upon him` 0 occurrences in framing (required: 1)
-- **File:** `_system/episode-drafts/EP09-hawl-quwwa-and-josephs-dream/00-framing.md`, `## Name discipline` line 15
-- **Context:** Framing uses `peace and blessings of Allah be upon him and his family` (the full Shia/Ismaili honorific form) at first mention of the Prophet. Build rule expects literal substring `peace be upon him` exactly once.
-- **Assessment:** Sectarian-register choice — the longer Shia/Ismaili honorific is doctrinally appropriate for this book. The rule was written for general Islamic register. Chapter body line 9 carries `(peace be upon him)` exactly once on the Prophet as required, so the chapter passes; the gate triggers only on framing.
-- **Suggested fix:** Author may add the shorter form at first mention, OR archetype-level rule relaxation for Shia/Ismaili books.
-
-#### F25-APPARATUS-TABLE — `99-show-notes.md` missing `## Name and Title Preservation Table`
-- **File:** `_system/episode-drafts/EP09-hawl-quwwa-and-josephs-dream/99-show-notes.md`
-- **Context:** F25 doctrine requires every episode's show-notes to carry the written-layer apparatus (preserved Arabic / transliterations + audio-label crosswalk) that the TTS-safe audio omits.
-- **Assessment:** Book-wide archetype pattern; apparatus generator scope item.
-- **Suggested fix:** Archetype-level decision; not a per-chapter fix.
+#### F25-APPARATUS-TABLE (99-show-notes)
+- **File:** _system/episode-drafts/EP13-homecoming-and-the-forty-year-syllogism/99-show-notes.md
+- **Context:** Missing `## Name and Title Preservation Table` section (the written-layer apparatus listing preserved Arabic / transliterations + audio-label crosswalk). Same finding pattern as prior episodes in this book.
+- **Suggested fix:** authoring step (add the apparatus table to 99-show-notes.md) — does not block NotebookLM upload because show-notes is a published-library artifact, not a NotebookLM source.
 
 ### P2 (advisory)
 
 None.
 
-## Categories scanned
-
-- **A (Authenticity):** Chapter cites Bukhari for the hadith of the formula (vol. 9, p. 281, Khan/Darussalam 1997), Arberry for Quran 12:4 + 12:8, Daftary (Cambridge 2007 pp. 138–141), Corbin (Kegan Paul 1983 pp. 60–64), and Schimmel (UNC 1985 pp. 64–67). Multi-tier (Tier 1 Quran, Tier 3 hadith, Tier 5 Ismaili secondary, Tier 6 scholarship). Translator named on first Quranic translation. ✓
-- **B (NotebookLM literalness):** No meta-prose tells, no cross-episode references, no em-dashes in violation, no translator-apparatus prefixes. ✓
-- **C (Pronunciation discipline):** Framing carries imperative `## Pronunciation` block. Honorific applied once at first mention in chapter line 9. ✓
-- **D (Enrichment & depth):** 3+ tiers, enrichment ratio ~22%, all citations bind to the chapter's tensions (chain of intermediaries, esoteric reading of dream-numerology). No `[CONTEXT NEEDED]` markers. ✓
-- **E (Articulation & shape):** Word count 2,315 inside default-deep-dive band. Beginning-middle-end arc present. No filler tells. ✓
-- **F (Framing integrity):** Four-part structure present. Audience inferred from book-wide profile. 2 tensions named. ✓
-- **G (Extract Mode contracts):** Not applicable for this book (no `chapter-contracts/` directory).
-- **H (Welcome opening + closing landing):** Welcome present in Opening; close turns listener outward to weekly practice. ✓
-- **I (Anti-repetition):** R-RECURRING-THESIS placement 1/2/3 declared. ✓
-- **J (Name aliasing):** Name discipline block present. ✓ (one P1 noted above on rotation set)
-- **K (Interruption avoidance):** Host dynamic carries friction script with explicit "concedes once" cadence. ✓
-- **M (Modernization + surprise-noise audit):** `## Do not` block names Twitter, social media, algorithm, "wow", "right?", "deep dive", "today's episode", "let's dive in", "buckle up", "mind blown". ✓
-- **N (Phonetic-as-content):** Chapter contains zero inline phonetic parens. Framing uses imperative `Pronounce` directives ("Say each term ONCE. Never say the original spelling and the English form back-to-back."). No-read-aloud guard present at line 49. ✓
-- **O (Honorific repetition + abbreviation):** "peace be upon him" appears once in chapter line 9. Forbidden abbreviations absent. ✓
-- **Q (Host role parity book-wide):** Host A = male/John/scholar; Host B = female/Hannah/seeker. Consistent with sibling episodes on this branch. ✓
-- **R (Conversation choreography):** Tone block locks 3 governing analogies. R-RECURRING-THESIS spine repeats verbatim three times. ✓
-- **S (Safety + Boundary):** S1 bypassed per pipeline-context instruction (parent orchestrator is THIS pipeline). S2–S6 clean. ✓
-- **T (Doctrinal accuracy):** Build-time `assert_doctrinal_clean()` passed during `--check`. No mis-attribution; no Imam-lineage violation; no forbidden naming-convention phrases. Joseph's-dream reading remains in the Ismaili exegetical lineage already attested by Daftary/Corbin/Schimmel. ✓
-- **U (Scholarly-conversation rubric v2.2):** No AI-cliché smells, no faux-profundity opening, no premature-closure wrap-up, no deep-dive self-reference, no external essentialism. ✓
-- **V (Interest & engagement):** Curiosity hook (the absurdity move at the open) + challenge-defeat arc + modern-relevance signal (the "every line you recite without hearing" close). ✓
-- **W (Augmentation quality):** No augmentation ledger entries for this episode — base chapter ships unmodified. ✓
-- **CS (Chapter-set design):** Single-chapter scope; not re-run at book level for this invocation.
-
 ## Health metrics
 
-| Chapter | Words | Enrichment ratio | Tier diversity | Citations | Phonetic gaps |
-|---|---|---|---|---|---|
-| ch09b-hawl-quwwa-and-josephs-dream | 2,315 | ~22% | 4 tiers | 5 | 0 |
+| File | Words | Notes |
+|---|---|---|
+| ch13b-homecoming-and-the-forty-year-syllogism.txt | 2,615 | within 1,500–4,500 band (default_deep_dive 1,800–2,800) |
+| EP13/00-framing.md | 751 | within 200–2,000 soft band; well-shaped 4-part structure |
 
-## Verdict
+## Category coverage (islamic_scholarly profile)
 
-**SHIP-WITH-CAUTION.** Zero P0 findings. Four P1 findings are all book-wide archetype patterns shared with the eight sibling episodes already shipped on this branch (see recent commits e3d4514, 261cf43, b407413, 43ac6be). The chapter and framing are upload-ready for NotebookLM under the established archetype.
+- A (Authenticity): Quran citations cite chapter+verse + Yusuf Ali translator/page; Nahj al-Balagha cites sermon/saying number + translator; Aristotle citation includes book/chapter/translator/edition/page. Clean.
+- B (Meta-prose): no cross-episode refs, no file-length self-refs, no translator-apparatus prefixes. Clean.
+- C/N/O (Pronunciation, phonetics, honorifics): build-script passed; honorifics appear once each (PBUH-form once on Abraham; "may God be pleased with him" once on Father of Imams). Pronunciation block uses imperative `- term: phonetic` format with say-ONCE doctrine.
+- D (Enrichment): 4 Quranic anchors + Nahj al-Balagha + Aristotle = multi-tier; ratio well under 60%; no quote-stacking; no `[CONTEXT NEEDED]` markers.
+- E (Articulation): clear 4-movement arc (release → six counsels → confrontation → syllogism → closing); one-sentence summarizable; no verbal filler.
+- F (Framing integrity): all four sections present (Opening / Three-part focus / Pronunciation / Anti-noise / Landing); audience implied by series-config; tensions concrete (two-horn charge vs forty-year syllogism); R-RECURRING-THESIS steering present 3× as required.
+- H/I/K (Welcome, anti-repetition, interruption-avoidance): Opening warm welcome present, naming source + spine; Landing closes on unresolved reflective question (no recap).
+- M/N/O (DENY blocks, phonetic-as-content, abbreviations): framing carries "Forbidden: Twitter, social media, algorithm, wow, right?" block; no inline phonetic parens in chapter; no abbreviated work titles.
+- Q (Host role parity): Host A = scholar (male), Host B = seeker (female). Consistent with all 12 prior episodes of this book.
+- R (Conversation choreography): Host dynamic specifies friction + concession; Tone constraints name three analogies; Do-not block present.
+- T (Doctrinal): T1–T5 all clean (0 findings via `_doctrinal.run_doctrinal_checks`). Father of Imams correctly used as the honorific; no forbidden personal-name pairing.
+- U (Scholarly-conversation rubric v2.2): no AI-cliché tells; no faux-profundity opening; no premature-closure ("the question is left with the listener"); no deep-dive self-reference; no essentialism. Clean.
+- V (Interest): opening rhetorical question ("What argument can a son offer a father so complete that forty years of paternal authority dissolve into tears?"); challenge-defeat arc explicit (two-horn charge → two-horn reply); modern-relevance present ("which piece of what we have received are we still holding back from the parent, friend, or colleague…"); no strawman framing.
+

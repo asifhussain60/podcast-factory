@@ -76,7 +76,8 @@
         "abu-malik-arrives-and-the-fair-inquiry",
         "air-and-the-instance-beyond-air",
         "bismillah-seal-and-the-chosen-ranks",
-        "five-conditions-and-the-covenant"
+        "five-conditions-and-the-covenant",
+        "hawl-quwwa-and-josephs-dream"
       ],
       "failed_slugs": [
         "emptying-the-cup"
@@ -120,14 +121,21 @@
         },
         "hawl-quwwa-and-josephs-dream": {
           "started_ts": "2026-06-11T00:28:45Z",
+          "completed_ts": "2026-06-11T01:03:04Z",
+          "duration_sec": 2059.4,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "homecoming-and-the-forty-year-syllogism": {
+          "started_ts": "2026-06-11T01:03:05Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
           "cost_usd": null
         }
       },
-      "current_chapter": "hawl-quwwa-and-josephs-dream",
-      "last_beat": "2026-06-11T00:54:12Z",
+      "current_chapter": "homecoming-and-the-forty-year-syllogism",
+      "last_beat": "2026-06-11T01:32:40Z",
       "convergence_iter": 2
     },
     "0g": {
@@ -178,7 +186,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T00:54:12Z",
+  "ts_updated": "2026-06-11T01:32:40Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
