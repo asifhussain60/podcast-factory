@@ -9,8 +9,8 @@
   "next_phase": "0f",
   "last_error": {
     "phase": "per-chapter",
-    "message": "[the-conspiracy-formula] extract_chapter.py failed for 'the-master-and-the-disciple/ch19c-the-conspiracy-formula': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing.",
-    "ts": "2026-06-11T03:26:06Z"
+    "message": "[who-is-allah-beyond-names] extract_chapter.py failed for 'the-master-and-the-disciple/ch17a-who-is-allah-beyond-names': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing.",
+    "ts": "2026-06-11T05:16:33Z"
   },
   "pipeline_mode": "orchestrated",
   "v1_archive": {
@@ -83,13 +83,17 @@
         "purifying-possessions-and-parting",
         "rebirth-and-the-seven-day-tawaf",
         "the-test-of-speech-and-the-design-of-creation",
-        "three-levels-of-knowledge"
+        "three-levels-of-knowledge",
+        "three-thanks-and-the-persian-awakening"
       ],
       "failed_slugs": [
         "emptying-the-cup",
         "jewels-moon-and-the-description-of-religion",
         "syllogism-of-divine-justice",
-        "the-conspiracy-formula"
+        "the-conspiracy-formula",
+        "unbroken-chain-and-the-path-of-return",
+        "union-of-inner-and-outer",
+        "who-is-allah-beyond-names"
       ],
       "chapter_timings": {
         "abu-malik-arrives-and-the-fair-inquiry": {
@@ -203,14 +207,45 @@
         },
         "three-thanks-and-the-persian-awakening": {
           "started_ts": "2026-06-11T04:40:56Z",
+          "completed_ts": "2026-06-11T05:16:33Z",
+          "duration_sec": 2137.0,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "unbroken-chain-and-the-path-of-return": {
+          "started_ts": "2026-06-11T05:16:33Z",
+          "completed_ts": "2026-06-11T05:16:33Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "extract_chapter.py failed for 'the-master-and-the-disciple/ch20d-unbroken-chain-and-the-path-of-return': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing."
+        },
+        "union-of-inner-and-outer": {
+          "started_ts": "2026-06-11T05:16:33Z",
+          "completed_ts": "2026-06-11T05:16:33Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "extract_chapter.py failed for 'the-master-and-the-disciple/ch10c-union-of-inner-and-outer': rc=1: ERROR: contract.slug ('union-of-inner-and-outer-and-divine-justice') does not match chapter slug ('union-of-inner-and-outer')."
+        },
+        "who-is-allah-beyond-names": {
+          "started_ts": "2026-06-11T05:16:33Z",
+          "completed_ts": "2026-06-11T05:16:33Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "extract_chapter.py failed for 'the-master-and-the-disciple/ch17a-who-is-allah-beyond-names': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing."
+        },
+        "zahir-batin-and-the-seven-natiqs": {
+          "started_ts": "2026-06-11T05:16:33Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
           "cost_usd": null
         }
       },
-      "current_chapter": "three-thanks-and-the-persian-awakening",
-      "last_beat": "2026-06-11T05:07:45Z",
+      "current_chapter": "zahir-batin-and-the-seven-natiqs",
+      "last_beat": "2026-06-11T05:44:10Z",
       "convergence_iter": 2
     },
     "0g": {
@@ -261,7 +296,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T05:07:45Z",
+  "ts_updated": "2026-06-11T05:44:10Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
