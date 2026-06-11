@@ -62,6 +62,7 @@ const detail = slug ? await getProbe(slug) : null;
       </ul>
 
       <p class="pron-key-sub">Worked examples</p>
+      <div class="table-container" role="region" aria-label="Pronunciation respelling worked examples" tabindex="0">
       <table class="pron-key-table">
         <thead>
           <tr><th>Arabic (transliterated)</th><th>Respelling</th><th>Why</th></tr>
@@ -77,6 +78,7 @@ const detail = slug ? await getProbe(slug) : null;
           <tr><td>al-Ghazālī</td><td><code>al-gha-zaa-LEE</code></td><td>"al-" stays; gh kept; ī = "ee"; stress last.</td></tr>
         </tbody>
       </table>
+      </div>
 
       <p class="pron-key-sub">Generate a respelling</p>
       <PhoneticsGenerator client:load />

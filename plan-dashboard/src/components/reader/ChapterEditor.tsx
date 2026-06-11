@@ -647,8 +647,14 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
       {rewrite && rewrite.options.length === 0 && !rewrite.loading && !rewrite.error && (
         <button
           onClick={askRewrite}
-          className="fixed z-50 inline-flex items-center gap-1 rounded-full border border-amber-400 bg-white/90 px-2.5 py-1 text-[11px] font-medium text-amber-800 shadow-lg backdrop-blur hover:bg-amber-50"
-          style={{ top: rewrite.rect.top + window.scrollY - 38, left: rewrite.rect.left + window.scrollX }}
+          className="rewrite-pop-anchor fixed z-50 inline-flex items-center gap-1 rounded-full border border-amber-400 bg-white/90 px-2.5 py-1 text-[11px] font-medium text-amber-800 shadow-lg backdrop-blur hover:bg-amber-50"
+          ref={(el) => {
+            // Selection-rect positioning via custom properties (external CSS
+            // reads --pop-top/--pop-left) — keeps JSX free of style props.
+            if (!el) return;
+            el.style.setProperty('--pop-top', `${rewrite.rect.top + window.scrollY - 38}px`);
+            el.style.setProperty('--pop-left', `${rewrite.rect.left + window.scrollX}px`);
+          }}
           title="Suggest rewrites (Gemini)"
           onMouseDown={(e) => e.preventDefault()}
         >
@@ -671,8 +677,12 @@ export default function ChapterEditor({ book, chapterSlug, chapterTitle, sourceT
       {/* Rewrite results card */}
       {rewrite && (rewrite.loading || rewrite.options.length > 0 || rewrite.error) && (
         <div
-          className="popup-card fixed z-50 w-[460px]"
-          style={{ top: rewrite.rect.bottom + window.scrollY + 8, left: Math.min(rewrite.rect.left + window.scrollX, window.scrollX + window.innerWidth - 480) }}
+          className="rewrite-pop-anchor popup-card fixed z-50 w-[460px]"
+          ref={(el) => {
+            if (!el) return;
+            el.style.setProperty('--pop-top', `${rewrite.rect.bottom + window.scrollY + 8}px`);
+            el.style.setProperty('--pop-left', `${Math.min(rewrite.rect.left + window.scrollX, window.scrollX + window.innerWidth - 480)}px`);
+          }}
           onMouseDown={(e) => e.stopPropagation()}
         >
           <div className="popup-card-header">

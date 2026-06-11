@@ -2382,3 +2382,17 @@ body[data-arabic="on"] .ref-quran .ar-overlay .ar-script { display: none; }
 }
 
 
+
+/* Selection-anchored rewrite popovers: position flows in via --pop-top/--pop-left
+   custom properties set by a ref callback (dynamic selection rect; zero inline
+   style props in JSX per the repo DoD). */
+.rewrite-pop-anchor {
+  top: var(--pop-top, 0);
+  left: var(--pop-left, 0);
+}
+
+/* REQ-050: the pulsing popover dot pauses for users who prefer reduced motion
+   (the annoRotate loading spinner is exempt — conventional progress cue). */
+@media (prefers-reduced-motion: reduce) {
+  .popover-dot { animation: none; }
+}

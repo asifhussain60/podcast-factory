@@ -6,6 +6,12 @@
  *
  * Colour scheme:  mechanical=grey  hybrid=blue  agentic=green  gate=amber
  * Layout: single horizontal rail; horizontally scrollable when narrow.
+ *
+ * Styling contract (repo DoD): zero static style props. Kind colours flow
+ * through `k-<kind>` classes that set --por-k in pipeline-overview-rail.css;
+ * the dynamic zoom factor + natural width flow through --por-zoom/--por-w
+ * custom properties set by a ref callback. Data-driven SVG paint (fill/stroke
+ * per kind) uses presentation attributes, which are not inline styles.
  */
 import { useState, useRef, useEffect, useCallback } from 'react';
 import '../styles/pipeline-overview-rail.css';
@@ -45,6 +51,8 @@ const KIND_LABEL: Record<string, string> = {
   gate:       'Human Gate',
 };
 
+const kindClass = (kind: string) => `k-${kind in KIND_COLOR ? kind : 'mechanical'}`;
+
 // ── Layout constants ──────────────────────────────────────────────────────
 const NODE_W    = 100;
 const NODE_H    = 68;
@@ -75,7 +83,18 @@ export default function PipelineOverviewRail({ phases }: Props) {
   const [selectedId, setSelectedId]   = useState<string | null>(null);
   const [tooltip, setTooltip]         = useState<{ x: number; y: number; phase: Phase } | null>(null);
   const [zoom, setZoom]               = useState(1);
+  const [reducedMotion, setReducedMotion] = useState(false);
   const svgRef                        = useRef<SVGSVGElement>(null);
+
+  // SMIL animations can't be paused from CSS — honour reduced-motion by not
+  // rendering the moving particles at all.
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
 
   const totalW   = phases.length * STEP + GAP;
   const svgW     = totalW;
@@ -88,6 +107,14 @@ export default function PipelineOverviewRail({ phases }: Props) {
   const zoomIn  = useCallback(() => setZoom(z => Math.min(2.0, z + 0.15)), []);
   const zoomOut = useCallback(() => setZoom(z => Math.max(0.4, z - 0.15)), []);
   const zoomReset = useCallback(() => setZoom(1), []);
+
+  // Dynamic sizing/zoom via custom properties (external CSS consumes them).
+  useEffect(() => {
+    const el = svgRef.current;
+    if (!el) return;
+    el.style.setProperty('--por-w', `${svgW}px`);
+    el.style.setProperty('--por-zoom', String(zoom));
+  }, [svgW, zoom]);
 
   // Ctrl+scroll zoom
   useEffect(() => {
@@ -128,9 +155,9 @@ export default function PipelineOverviewRail({ phases }: Props) {
       {/* Zoom controls */}
       <div className="por-controls">
         <div className="por-legend">
-          {Object.entries(KIND_COLOR).map(([kind, color]) => (
+          {Object.keys(KIND_COLOR).map((kind) => (
             <span key={kind} className="por-legend-item">
-              <span className="por-legend-dot" style={{ background: color }} />
+              <span className={`por-legend-dot ${kindClass(kind)}`} />
               {KIND_LABEL[kind]}
             </span>
           ))}
@@ -149,9 +176,6 @@ export default function PipelineOverviewRail({ phases }: Props) {
           ref={svgRef}
           className="por-svg"
           viewBox={`0 0 ${svgW} ${SVG_H}`}
-          style={{ transform: `scale(${zoom})`, transformOrigin: 'top left', display: 'block' }}
-          width={svgW}
-          height={SVG_H}
           role="img"
           aria-labelledby="pipeline-overview-title pipeline-overview-desc"
         >
@@ -195,28 +219,29 @@ export default function PipelineOverviewRail({ phases }: Props) {
             return (
               <line
                 key={`conn${i}`}
+                className="por-conn"
                 x1={x1} y1={connY} x2={x2} y2={connY}
                 stroke={`url(#por-lg${i})`}
                 strokeWidth={selectedId ? (selectedId === p.id || selectedId === phases[i+1].id ? 2.5 : 0.5) : 1.8}
                 opacity={selectedId ? (selectedId === p.id || selectedId === phases[i+1].id ? 1 : 0.2) : 0.7}
                 markerEnd="url(#por-arr)"
-                style={{ transition: 'opacity 0.25s, stroke-width 0.2s' }}
               />
             );
           })}
 
-          {/* ── Animated particles along each connection ── */}
-          {phases.slice(0, -1).map((p, i) => {
+          {/* ── Animated particles along each connection (skipped under
+                 prefers-reduced-motion: SMIL ignores CSS) ── */}
+          {!reducedMotion && phases.slice(0, -1).map((p, i) => {
             const col = KIND_COLOR[p.kind] || '#888';
             const dur = `${2.2 + i * 0.07}s`;
             return (
               <circle
                 key={`par${i}`}
+                className="por-particle"
                 r="3"
                 fill={col}
                 opacity={selectedId && selectedId !== p.id && selectedId !== phases[i+1].id ? 0 : 0.9}
                 filter="url(#por-glow)"
-                style={{ transition: 'opacity 0.25s' }}
               >
                 <animateMotion dur={dur} begin={`${i * 0.22}s`} repeatCount="indefinite" calcMode="linear">
                   <mpath href={`#por-mp${i}`}/>
@@ -246,26 +271,25 @@ export default function PipelineOverviewRail({ phases }: Props) {
             return (
               <g
                 key={phase.id}
-                className="por-node"
+                className={`por-node ${kindClass(phase.kind)}${isActive ? ' is-active' : ''}`}
                 transform={`translate(${x},${y})`}
+                opacity={isDimmed ? 0.2 : 1}
                 onClick={() => handleNodeClick(phase)}
                 onMouseEnter={() => handleNodeHover(phase, i, true)}
                 onMouseLeave={() => handleNodeHover(phase, i, false)}
                 role="button"
                 aria-label={`${phase.name} — ${KIND_LABEL[phase.kind]}`}
                 tabIndex={0}
-                style={{ cursor: 'pointer', opacity: isDimmed ? 0.2 : 1, transition: 'opacity 0.25s' }}
               >
                 {/* Shadow */}
                 <rect x={2} y={2} width={NODE_W} height={NODE_H} rx={7}
                       fill="rgba(0,0,0,0.08)"/>
                 {/* Background */}
-                <rect width={NODE_W} height={NODE_H} rx={7}
+                <rect className="por-node-bg" width={NODE_W} height={NODE_H} rx={7}
                       fill={bg}
                       stroke={isActive ? col : 'rgba(135,130,122,0.3)'}
                       strokeWidth={isActive ? 2.5 : 1.2}
                       filter={isActive ? 'url(#por-glow)' : undefined}
-                      style={{ transition: 'stroke 0.15s, stroke-width 0.15s' }}
                 />
                 {/* Top accent bar */}
                 <rect width={NODE_W} height={5} rx={7} fill={col} opacity={0.7}/>
@@ -274,26 +298,24 @@ export default function PipelineOverviewRail({ phases }: Props) {
                 {/* Phase ID badge */}
                 <rect x={6} y={10} width={30} height={15} rx={3}
                       fill={col} opacity={0.15}/>
-                <text x={21} y={21} textAnchor="middle"
-                      style={{ font: `700 9px 'Lato', sans-serif`, fill: col }}>
+                <text className="por-badge-text" x={21} y={21} textAnchor="middle">
                   {phase.id}
                 </text>
 
                 {/* Phase name (2 lines max) */}
                 {nameLines.map((line, li) => (
                   <text key={li}
+                        className="por-name-text"
                         x={NODE_W / 2}
                         y={isGate ? 43 + li * 13 : 38 + li * 13}
-                        textAnchor="middle"
-                        style={{ font: `600 9.5px 'Lato', sans-serif`, fill: isActive ? col : 'var(--c-ink, #2c2a25)' }}>
+                        textAnchor="middle">
                     {line}
                   </text>
                 ))}
 
                 {/* Duration badge */}
                 {phase.duration_minutes && (
-                  <text x={NODE_W - 6} y={NODE_H - 7} textAnchor="end"
-                        style={{ font: `400 8.5px 'Lato', sans-serif`, fill: 'rgba(135,130,122,0.8)' }}>
+                  <text className="por-dur-text" x={NODE_W - 6} y={NODE_H - 7} textAnchor="end">
                     ~{phase.duration_minutes}m
                   </text>
                 )}
@@ -319,16 +341,15 @@ export default function PipelineOverviewRail({ phases }: Props) {
           {/* ── Tooltip ── */}
           {tooltip && (
             <foreignObject
+              className="por-tooltip-fo"
               x={Math.min(tooltip.x, svgW - 200)}
               y={tooltip.y}
               width={200}
               height={100}
-              style={{ overflow: 'visible', pointerEvents: 'none' }}
             >
               <div className="por-tooltip">
                 <strong>{tooltip.phase.name}</strong>
-                <span className="por-tooltip-kind"
-                      style={{ color: KIND_COLOR[tooltip.phase.kind] || '#888' }}>
+                <span className={`por-tooltip-kind ${kindClass(tooltip.phase.kind)}`}>
                   {KIND_LABEL[tooltip.phase.kind]}
                   {tooltip.phase.agent ? ` · ${tooltip.phase.agent}` : ''}
                 </span>
@@ -343,13 +364,12 @@ export default function PipelineOverviewRail({ phases }: Props) {
       {selectedId && (() => {
         const p = phases.find(ph => ph.id === selectedId);
         if (!p) return null;
-        const col = KIND_COLOR[p.kind] || '#888';
         return (
-          <div className="por-selected-strip" style={{ borderLeftColor: col }}>
+          <div className={`por-selected-strip ${kindClass(p.kind)}`}>
             <div className="por-strip-header">
-              <strong style={{ color: col }}>{p.id}</strong>
+              <strong className="por-strip-id">{p.id}</strong>
               <span className="por-strip-name">{p.name}</span>
-              <span className="por-strip-kind" style={{ color: col }}>{KIND_LABEL[p.kind]}</span>
+              <span className="por-strip-kind">{KIND_LABEL[p.kind]}</span>
               {p.duration_minutes && (
                 <span className="por-strip-dur">~{p.duration_minutes} min</span>
               )}

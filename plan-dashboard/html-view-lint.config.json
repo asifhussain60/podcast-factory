@@ -19,13 +19,10 @@
   "css_paths": [
     "src/styles/"
   ],
-  "allow": {
-    "src/components/PipelineOverviewRail.tsx": [
-      "INLINE-STYLE — dynamic SVG interaction state (zoom transform, dimmed opacity, data-driven fill); legitimate per the conflict rule (WC6 remaining_followon)"
-    ]
-  },
+  "allow": {},
   "_notes": {
-    "src/layouts/NarrativeBase.astro": "WARN follow-on: missing skip-link (SKIP-LINK). Its 2-line scoped <style> is now accepted (under style_block_max_lines). Skip-link is a per-view shell change, discussed one at a time.",
+    "src/layouts/NarrativeBase.astro": "Skip-link present (the earlier 'missing skip-link' note was stale; corrected 2026-06-11). Its 2-line scoped <style> is accepted (under style_block_max_lines).",
+    "src/components/PipelineOverviewRail.tsx": "Former INLINE-STYLE allow-entry removed 2026-06-11: static styles moved to pipeline-overview-rail.css, kind colours via k-<kind> classes, zoom/width via --por-zoom/--por-w custom properties.",
     "style_block_policy": "Astro scoped <style> compiles to scoped external CSS and is DoD-compliant (Asif 2026-05-29). Only blocks > style_block_max_lines are flagged as oversized page-stylesheets that belong in src/styles/.",
     "scope": "Blocking gate covers the 12 top-level architecture view pages + shared layouts (confirmed green 2026-05-29). Non-view subpages (book-review/library/wisdom) and interactive app surfaces (reader/, ui/) are WARN or excluded by design."
   },

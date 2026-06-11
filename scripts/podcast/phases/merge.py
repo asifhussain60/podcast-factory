@@ -62,7 +62,14 @@ def phase_merge_to_develop(book_slug: str, category: str | None = None) -> None:
         f"Merge branch '{branch}' into develop",
     )
     if rc != 0:
-        raise RuntimeError(f"`git merge --no-ff {branch}` failed: {err}")
+        # Leave develop clean: a conflicted half-merge would block the NEXT
+        # book's intake (`git checkout develop` on a dirty tree). The branch
+        # itself is untouched, so the merge can be redone manually.
+        _git("merge", "--abort")
+        raise RuntimeError(
+            f"`git merge --no-ff {branch}` failed (merge aborted, develop "
+            f"left clean — resolve manually and re-run): {err}"
+        )
     rc, _, err = _git("push", "origin", "develop")
     if rc != 0:
         _err(f"warning: `git push origin develop` failed: {err}\n  (local merge preserved)")
