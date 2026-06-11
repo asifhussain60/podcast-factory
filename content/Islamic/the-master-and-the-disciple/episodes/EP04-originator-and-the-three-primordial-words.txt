@@ -7,7 +7,7 @@ Open warmly: "Welcome. We're with *The Master and the Disciple* — the elder sc
 - the scholar — the elder voice. Rotation: the scholar / the teacher / the master.
 - the disciple — the young student.
 - the Commander of the Faithful — peace be upon him at first mention; cited from the sermon-collection.
-- Paul Walker, Henry Corbin, Farhad Daftary — modern scholars; plain English.
+- Walker, Corbin, Daftary, Andani — modern scholars; plain English.
 - the author of this chapter — for the tenth-century Ismaili compiler; never speak the Arabic name.
 *Peak of Eloquence* on first reference; thereafter "the sermon-collection." Never pair the leadership-title with the personal name of the Father of Imams.
 
@@ -20,6 +20,8 @@ Say each term ONCE. Never say the original spelling and the English form back-to
 - qawl: speech
 - Nur: Spiritual Luminescence
 - kun fa-yakun: Be, and it was
+- ibda: origination out of nothing
+- al-Sijistani: al-Sijistani
 
 ## Three-part focus
 Beat 1 — Crisis. After the covenant, what is taught first? Not conduct, but architecture. The three Originator declarations: Originator of things; created without a template; first of every first and inheritor of all existence. Firstness is categorial, not chronological. Land the spine verbatim (placement 1 of 3).

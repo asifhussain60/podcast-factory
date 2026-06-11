@@ -10,7 +10,7 @@ Open with a warm welcome — one or two sentences. Name the book (*The Master an
 - the Prophet (peace and blessings of Allah be upon him and his family) — honorific at first mention only.
 - *The Peak of Eloquence* — first mention; thereafter "that book".
 - Kumayl — drop "ibn Ziyad".
-- Corbin, Schimmel — by surname after first mention.
+- Corbin, Schimmel, Andani — by surname after first mention.
 Never pair the leadership-title with the personal name of the Father of Imams.
 
 ## Pronunciation
@@ -24,6 +24,7 @@ Say each term ONCE. Never say the original spelling and the English form back-to
 - Hujja: the proof
 - Bab: the gateway
 - la hawla wa la quwwata illa billah: no power and no strength except through Allah
+- al-Sijistani: al-Sijistani
 
 ## Three-part focus
 Beat 1 — Crisis. The disciple asks whether the inner has an inner — whether the highest rung is even climbable, or sealed off above human reach.
