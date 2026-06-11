@@ -83,6 +83,7 @@
         "originator-and-the-three-primordial-words",
         "purifying-possessions-and-parting",
         "rebirth-and-the-seven-day-tawaf",
+        "the-conspiracy-formula",
         "the-test-of-speech-and-the-design-of-creation",
         "three-levels-of-knowledge",
         "three-thanks-and-the-persian-awakening",
@@ -181,10 +182,10 @@
         },
         "the-conspiracy-formula": {
           "started_ts": "2026-06-11T09:16:35Z",
-          "completed_ts": null,
-          "duration_sec": null,
-          "verdict": null,
-          "cost_usd": null
+          "completed_ts": "2026-06-11T09:54:23Z",
+          "duration_sec": 2268.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
         },
         "the-test-of-speech-and-the-design-of-creation": {
           "started_ts": "2026-06-11T03:26:06Z",
@@ -208,12 +209,11 @@
           "cost_usd": 0.0
         },
         "unbroken-chain-and-the-path-of-return": {
-          "started_ts": "2026-06-11T05:16:33Z",
-          "completed_ts": "2026-06-11T05:16:33Z",
-          "duration_sec": 0.0,
-          "verdict": "FAILED",
-          "cost_usd": 0.0,
-          "error": "extract_chapter.py failed for 'the-master-and-the-disciple/ch20d-unbroken-chain-and-the-path-of-return': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing."
+          "started_ts": "2026-06-11T09:54:23Z",
+          "completed_ts": null,
+          "duration_sec": null,
+          "verdict": null,
+          "cost_usd": null
         },
         "union-of-inner-and-outer": {
           "started_ts": "2026-06-11T05:16:33Z",
@@ -239,8 +239,8 @@
           "cost_usd": 0.0
         }
       },
-      "current_chapter": "the-conspiracy-formula",
-      "last_beat": "2026-06-11T09:44:12Z",
+      "current_chapter": "unbroken-chain-and-the-path-of-return",
+      "last_beat": "2026-06-11T10:24:18Z",
       "convergence_iter": 2
     },
     "0g": {
@@ -291,7 +291,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T09:44:12Z",
+  "ts_updated": "2026-06-11T10:24:18Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
