@@ -455,10 +455,10 @@
     "0book-design": {
       "status": "completed",
       "ts_started": "2026-06-08T12:43:44Z",
-      "ts_completed": "2026-06-11T19:27:21Z"
+      "ts_completed": "2026-06-11T19:30:02Z"
     },
     "0book-compose": {
-      "status": "failed",
+      "status": "running",
       "ts_started": "2026-06-08T12:45:18Z",
       "ts_completed": "2026-06-11T19:25:52Z",
       "manual_fallback": "Resume manually via /podcast and `--resume` the orchestrator."
@@ -496,7 +496,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T19:27:21Z",
+  "ts_updated": "2026-06-11T19:30:02Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
