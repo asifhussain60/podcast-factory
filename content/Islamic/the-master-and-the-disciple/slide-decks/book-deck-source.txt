@@ -28,9 +28,10 @@ End: Self-imposed debt, travel out to find his own disciple
 
 Genealogy chain, the transmission that places him under debt.
 
-Heavenly host arrow first transmitter arrow second arrow third arrow ... arrow the Persian scholar arrow the disciple not yet found
+Heavenly host arrow generation one, the first transmitter arrow generation two arrow generations across the centuries (marked, unnamed) arrow the Persian scholar arrow empty terminal node, the disciple not yet found
+Annotation: draw the last node EMPTY. The unfilled slot is the debt itself; every node before it received and then gave, and the visual point is the gap the scholar must now fill.
 
-Blockquote, the load-bearing proverb.
+Quote preservation, the load-bearing proverb.
 
 > "The most excellent of deeds is giving life to the dead." Cited by the scholar as the proverb that turned him outward, glossed as imparting knowledge to the ignorant.
 
@@ -113,9 +114,15 @@ Columns: Frequency | Position in the stack
 - Pilgrimage: once a lifetime | next
 - Allegiance to the Imam: every breath | top of the stack, makes the rest count
 
-Blockquote, the apple-charity correction.
+Contrast pair, the two ledgers of the stolen apples.
 
-> A man stole five apples, gave them to charity, calculated fifty rewards minus five sins equals forty-five net rewards. The Imam corrected him: five sins for the theft, five sins for propagating the forbidden into another's hand. Total ten sins, zero rewards.
+Column A: The thief's arithmetic
+- Fifty rewards for the charity, minus five sins for the theft
+- Net result claimed: forty-five rewards
+Column B: The Imam's arithmetic
+- Five sins for the theft, five sins for propagating the forbidden into another's hand
+- Net result: ten sins, zero rewards
+Shared row: the same five apples in both ledgers; the covenant-less act cannot be sanctified.
 
 ## Chapter 4: Originator and the Three Primordial Words
 
@@ -133,10 +140,12 @@ Column A: Craftsman or Big Bang cosmology
 - Density direction: matter cools and condenses
 - Starting condition: raw material, pre-existing stuff
 - Order of being: density is downstream of cooling
+- Temporal mode: a punctual event in the past
 Column B: The Originator cosmology
 - Density direction: subtle gives birth to dense in the ladder of being
 - Starting condition: no model, no material, no time
 - Order of being: world is articulated will, denser the further from source
+- Temporal mode: a perpetual act, the will still willing
 
 Annotated structure, the seven principles.
 
@@ -155,7 +164,7 @@ Comparison matrix, the numerical signature stamped on creation.
 
 Rows: kun fa-yakun (the command), irada-amr-bi-qawl (the three words)
 Columns: Letter count | Cosmic signature above | Cosmic signature below
-- kun fa-yakun: 7 letters | 7 heavens, 7 rulers | 7 oceans, 7 days
+- kun fa-yakun: 7 letters | 7 heavens, 7 rulers | 7 seas, 7 days
 - irada-amr-bi-qawl: 12 letters | 12 zodiac mansions | 12 regions, 12 hours day, 12 hours night
 
 ## Chapter 5: Bismillah Seal and the Chosen Ranks
@@ -164,7 +173,7 @@ Annotated structure, the Bismillah as cryptographic seal.
 
 Whole: bismillahi al-rahman al-rahim
 Parts:
-- bismillahi: 7 letters (the count of kun fa-yakun, of heavens, oceans, days)
+- bismillahi: 7 letters (the count of kun fa-yakun, of heavens, seas, days)
 - al-rahman al-rahim: 12 letters (the count of the three primordial words)
 - Three names: Allah (unique noun), al-rahman + al-rahim (paired attributes)
 Annotations:
@@ -268,10 +277,10 @@ Columns: Outer | Inner | Innermost
 Comparison matrix, three levels of creatures and their knowledge.
 
 Rows: Beasts, Human beings, Angels
-Columns: Knowledge that corresponds | Spiritual rank | Example
-- Beasts: outer aspect only, name without inquiry | the level of an animal that registers without understanding | one who recites but never asks
-- Human beings: inner aspect of the physical | true descendants of Adam, true faith | the alim rabbani
-- Angels: inner of the inner | purely spiritual knowledge in a physical body | the prophet, the vicegerent
+Columns: Knowledge that corresponds | Spiritual rank | Example | Orientation of the intellect-trace
+- Beasts: outer aspect only, name without inquiry | the level of an animal that registers without understanding | one who recites but never asks | turned toward the ground
+- Human beings: inner aspect of the physical | true descendants of Adam, true faith | the alim rabbani | turned toward what the visible means
+- Angels: inner of the inner | purely spiritual knowledge in a physical body | the prophet, the vicegerent | turned back toward its origin
 
 Annotated structure, the farmer metaphor.
 
@@ -404,15 +413,15 @@ Start: "What is your name?"
         arrow Disciple hangs his head, no answer
 End: "I have been born to you. Give me a name." Naming deferred seven days, in honor of the newborn.
 
-Hierarchy tree, the seven stages of embryonic creation (23:12-14).
+Process flow, the seven stages of embryonic creation (23:12-14).
 
-- Level 1: A quintessence of clay
-  - Level 2: A sperm-drop in a secure place
-    - Level 3: A clinging clot
-      - Level 4: A lump
-        - Level 5: Bones
-          - Level 6: Bones clothed with flesh
-            - Level 7: Brought forth as another creation
+Start: A quintessence of clay
+  arrow A sperm-drop in a secure place
+    arrow A clinging clot
+      arrow A lump
+        arrow Bones
+          arrow Bones clothed with flesh
+End: Brought forth as another creation
 
 Visual metaphor, the tawaf as planetary orbit.
 
