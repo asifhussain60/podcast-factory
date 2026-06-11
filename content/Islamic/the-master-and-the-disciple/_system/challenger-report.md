@@ -2,52 +2,68 @@
 
 **Book:** the-master-and-the-disciple
 **Run:** 2026-06-11 (challenger v2.5)
-**Scope:** per-chapter three-levels-of-knowledge
-**Iterations:** 1 (of 5 max)
+**Scope:** per-chapter three-thanks-and-the-persian-awakening
+**Iterations:** 2 (of 5 max — intelligent-break: identical P0/P1 set, zero auto-fixes)
 **Verdict:** SHIP-WITH-CAUTION
+**content_profile:** islamic_scholarly
 
 ## Auto-fixes applied
 
-None this iteration. Build script validation passed cleanly on the chapter source and emitted the customize-prompt episode txt without errors.
+None this run. The three standing flags require authoring judgment (citation-apparatus Arabic, name-discipline rotation form, dramatic-arc beat count) and are not in the deterministic auto-fix set. Em-dash density (19 in chapter, 11 in framing) is preserved as load-bearing prose rhythm; B5 is advisory in this codebase and the build script accepted the file.
 
 ## Findings requiring author resolution
 
 ### P0 (blocks ship)
 
-None.
+None. Doctrinal sweep clean (0 findings via `_doctrinal.run_doctrinal_checks`). Build-time hard gate at `build_episode_txt.py` passed: chapter validated as SOURCE (2,633 words), episode txt emitted as CUSTOMIZE PROMPT (737 words).
 
 ### P1 (ship-with-caution)
 
-#### F25: 99-show-notes apparatus table absent
-- **File:** content/Islamic/the-master-and-the-disciple/_system/episode-drafts/EP08-three-levels-of-knowledge/99-show-notes.md
-- **Context:** build_episode_txt.py flagged F25 — no `## Name and Title Preservation Table` section. Doctrine: every episode's 99-show-notes.md carries the written-layer apparatus (preserved Arabic / transliterations + audio-label crosswalk).
-- **Out of agent auto-fix scope** (Section 8 — 99-show-notes.md is published-library apparatus, never edited by this agent). Author resolves.
+#### R-NO-ARABIC-TRANSLITERATION (chapter — citation apparatus)
+- **File:** `content/Islamic/the-master-and-the-disciple/chapters/ch01a-three-thanks-and-the-persian-awakening.txt`
+- **Context:** 8 transliterated tokens inside parenthetical source citations: `Abu Ya`, `Ibn Majah`, `al-Amidi`, `al-Balagha`, `al-Hikam`, `al-Hindi`, `al-Sijistani`, `al-Ummal`. All occur inside English-cited references (`(al-Amidi, Ghurar al-Hikam, aphorism 6249)`).
+- **Suggested fix:** Citation-only Arabic in parens is conventionally acceptable for audio rendition. Author-judgment hold — accept as-is or substitute English audio labels per book-wide F20 policy.
+
+#### R-NAMEDISCIPLINE (framing)
+- **File:** `00-framing.md` lines 7-13
+- **Context:** Name discipline block uses 2-form rotation ("first mention → thereafter") for most entries; rule expects 3+ alias rotation (`a / b / c`).
+- **Suggested fix:** Expand each entry to 3-form rotation or accept current shape — the episode's low distinct-name density makes 2-form adequate in practice.
+
+#### R-DRAMATIC-ARC (framing)
+- **File:** `00-framing.md` lines 24-26
+- **Context:** `## Three-part focus` uses 3-beat structure; rule expects 6-beat arc with explicit crisis / failed-answer / pivot / stakes markers.
+- **Suggested fix:** Restructure as 6-beat arc OR accept the 3-part shape — the chapter's natural premise → doctrine → narrative-quest arc maps cleanly to three movements and the 6-beat overlay risks over-engineering for this opening episode.
 
 ### P2 (advisory)
 
-#### CS2: Chapter title length
-- **File:** chapters/ch08a-three-levels-of-knowledge.txt
-- **Context:** Working title is 9 words ("Three Levels of Knowledge — Angels, Humans, and Beasts"), exceeds the 6-word soft target from INVARIANT 6. Under the 60-char hard cap. Advisory only.
+#### B5: em-dash density (chapter)
+- **File:** `chapters/ch01a-three-thanks-and-the-persian-awakening.txt`
+- **Context:** 19 em-dashes used stylistically for parenthetical clauses. Build script accepted the file; NotebookLM TTS handles em-dashes as light pauses without prosody-mangling.
+- **Suggested fix:** Accept as authorial voice. No action required absent transcript-audit evidence.
 
 ## Health metrics
 
-| File | Words | Notes |
+| Artifact | Words | Notes |
 |---|---|---|
-| ch08a-three-levels-of-knowledge.txt | 2,332 | In-band (1,800–2,800 default deep dive). Citations: Corbin, Schimmel, Peak of Eloquence saying 147, Quran 7:26 + 3:103. Em-dashes (16) used in normalized narrative form. |
-| EP08-three-levels-of-knowledge/00-framing.md | 693 | In-band (200–2,000 default soft band). All R-* blocks present: Name discipline, Pronunciation (imperative), Do not (DENY-modernize + DENY-surprise), R-RECURRING-THESIS spine. |
+| Chapter (SOURCE) | 2,633 | Inside default deep-dive band 1,800-2,800 |
+| Framing (CUSTOMIZE PROMPT) | 737 | Inside default soft band 200-2,000 |
+| Honorifics in chapter | 1 (full form) | R-HONORIFIC-ONCE: clean |
+| Em-dashes (chapter) | 19 | Advisory; build accepted |
+| Doctrinal findings | 0 | Islam pack clean |
+| Cross-episode references | 0 | Clean |
+| AI clichés in voiced text | 0 | (DENY list inside `## Do not` is correct usage) |
 
-## Gate summary (per-category)
+## Convergence trace
 
-- **A (citations):** clean — Quran 7:26, 3:103, *Peak of Eloquence* saying 147 (full publication data), Corbin + Schimmel with page ranges. Tradition firewall observed (Ismaili tafsir distinguished from Sufi / Sunni overlap).
-- **B (meta-prose):** clean. Build script validated chapter + framing.
-- **C (phonetics):** clean — Arabic terms (zahir, batin, taqwa, Hujja, Bab, alim rabbani, al-amal al-salih, la hawla wa la quwwata illa billah) all glossed inline in chapter; framing carries imperative `Pronounce` block with "say ONCE" directive.
-- **D (enrichment):** multi-tier (Tier 2 Quran, Tier 3 Peak of Eloquence Shi'i collection, Tier 6 Corbin + Schimmel academic).
-- **E (shape):** beginning/middle/close arc present. One-sentence summarizable.
-- **F (framing integrity):** four-part structure intact (Opening directive, Three-part focus, Pronunciation, Do not). Audience+tensions implicit through spine.
-- **N (phonetic-as-content):** zero inline phonetic parens. Imperative Pronunciation block in framing.
-- **O (honorifics):** "(may Allah be pleased with him)" appears once. No abbreviation tells.
-- **Q (host parity):** Host A male scholar / Host B female seeker — matches book-wide pattern across EP02–EP13.
-- **T (doctrinal):** no forbidden naming-convention phrases. Father of Imams referenced via "Commander of the Faithful". Ismaili lineage intact.
-- **U (scholarly rubric):** no AI-cliché / faux-profundity / premature-closure / deep-dive-self-reference / essentialism tells.
-- **CS (chapter-set):** ch08 title 9 words (P2 advisory). No name/slug bleed into ch08.
+- Iteration 1: ran full catalog; surfaced 3 P1 (R-NO-ARABIC-TRANSLITERATION, R-NAMEDISCIPLINE, R-DRAMATIC-ARC) + 1 P2 (B5 em-dash). No auto-fixes applicable.
+- Iteration 2: re-ran; identical (p0=0, p1=3, p2=1) set with zero auto-fixes. Intelligent-break (Section 4 step 6b) — halted.
 
+## Verdict rationale
+
+SHIP-WITH-CAUTION. P0 set is empty; doctrinal sweep clean; build-script hard gate passed; both files are upload-ready as the two-file deliverable. The three P1s are authoring judgments where the current shape is defensible and the rule expects a more aggressive form. No automated fix would not produce damage greater than the residual rule deviation.
+
+## Upload (two-file deliverable, architecture v3.4)
+
+| Chapters | Episodes | Deep dive or debate | Length |
+|---|---|---|---|
+| 1. [Three Thanks and the Persian Awakening](../chapters/ch01a-three-thanks-and-the-persian-awakening.txt) | [EP01 — Three Thanks and the Persian Awakening](../episodes/EP01-three-thanks-and-the-persian-awakening.txt) | Deep dive | Long |
