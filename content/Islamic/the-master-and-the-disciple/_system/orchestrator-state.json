@@ -7,7 +7,11 @@
   "phase_status": "running",
   "last_completed_phase": "0g",
   "next_phase": "0f",
-  "last_error": null,
+  "last_error": {
+    "phase": "per-chapter",
+    "message": "[emptying-the-cup] extract_chapter.py failed for 'the-master-and-the-disciple/ch15d-emptying-the-cup': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing.",
+    "ts": "2026-06-10T23:50:39Z"
+  },
   "pipeline_mode": "orchestrated",
   "v1_archive": {
     "git_tag": "archive/the-master-and-the-disciple-v1",
@@ -70,9 +74,12 @@
       "ts_started": "2026-06-07T22:17:45Z",
       "completed_slugs": [
         "abu-malik-arrives-and-the-fair-inquiry",
-        "air-and-the-instance-beyond-air"
+        "air-and-the-instance-beyond-air",
+        "bismillah-seal-and-the-chosen-ranks"
       ],
-      "failed_slugs": [],
+      "failed_slugs": [
+        "emptying-the-cup"
+      ],
       "chapter_timings": {
         "abu-malik-arrives-and-the-fair-inquiry": {
           "started_ts": "2026-06-10T21:55:30Z",
@@ -90,14 +97,29 @@
         },
         "bismillah-seal-and-the-chosen-ranks": {
           "started_ts": "2026-06-10T23:14:33Z",
+          "completed_ts": "2026-06-10T23:50:39Z",
+          "duration_sec": 2165.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "emptying-the-cup": {
+          "started_ts": "2026-06-10T23:50:39Z",
+          "completed_ts": "2026-06-10T23:50:39Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "extract_chapter.py failed for 'the-master-and-the-disciple/ch15d-emptying-the-cup': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing."
+        },
+        "five-conditions-and-the-covenant": {
+          "started_ts": "2026-06-10T23:50:39Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
           "cost_usd": null
         }
       },
-      "current_chapter": "bismillah-seal-and-the-chosen-ranks",
-      "last_beat": "2026-06-10T23:41:50Z",
+      "current_chapter": "five-conditions-and-the-covenant",
+      "last_beat": "2026-06-11T00:19:09Z",
       "convergence_iter": 2
     },
     "0g": {
@@ -148,7 +170,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-10T23:41:50Z",
+  "ts_updated": "2026-06-11T00:19:09Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",

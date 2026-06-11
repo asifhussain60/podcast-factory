@@ -1,57 +1,88 @@
 # Podcast Challenger Report
 
 **Book:** the-master-and-the-disciple
-**Run:** 2026-06-10 (challenger v2.5)
-**Scope:** per-chapter bismillah-seal-and-the-chosen-ranks (EP05)
-**Iterations:** 2 (of 5 max — intelligent break: zero auto-fixes available, findings stable across iterations)
+**Run:** 2026-06-10 (challenger v2.2)
+**Scope:** per-chapter five-conditions-and-the-covenant
+**Iterations:** 1 (of 5 max — clean break after iter 1, no auto-fixes available)
 **Verdict:** SHIP-WITH-CAUTION
+**Content profile:** islamic_scholarly (detected from `_system/series-config.yaml`)
+**Episode format:** deep_dive
 
-content_profile: islamic_scholarly  ← detected from _system/series-config.yaml
+## Summary
 
-## Auto-fixes applied (iteration-by-iteration)
+Chapter validates structurally through `build_episode_txt.py` (3,213 words SOURCE, 759 words CUSTOMIZE PROMPT). All P0 gates (Categories A/B/M/N/O/T/Q) pass clean. Two P1 advisories surface that the challenger cannot auto-fix because both are out-of-scope for this agent (chapter literary chiasmus that trips a copy-paste regex; show-notes apparatus table) or are book-wide archetype patterns that have already been re-validated by the orchestrator on EP01/EP02.
 
-None. The remaining surfaced findings fall outside the deterministic auto-fix set in spec Section 3 — each requires authoring judgment or apparatus authoring on `99-show-notes.md` (outside this agent's edit boundary). Em-dashes in chapter prose (B5) are not enforced as a hard gate by `build_episode_txt.py` for this book; peer chapters ship with the same density, and the prose convention is settled.
+## Auto-fixes applied
+
+| Iter | Check | File | Action |
+|---|---|---|---|
+| — | (none) | — | No deterministic auto-fixes available for the surfaced findings. |
 
 ## Findings requiring author resolution
 
 ### P0 (blocks ship)
 
-None. Doctrinal pack scan (T1–T5): clean. Category Q host-role parity: scholar/seeker pair matches book-wide pattern (Host A male scholar, Host B female seeker). Category S safety gates: bypassed per pipeline-context (parent orchestrator is the calling process). Category U scholarly-conversation: zero AI-cliché hits, no faux-profundity opening, no premature-closure tail, no deep-dive self-reference. Build script `--check`: validated (chapter 2,913 words; framing 746 words). Category B meta-prose: no cross-episode references, no file-length self-references, no translator-apparatus prefixes, no HTML comments. Category N phonetic-as-content: no inline phonetic parens; framing's `## Pronunciation` uses imperative `say each term ONCE` form; no-read-aloud guard present in `## Do not` block.
+None.
 
 ### P1 (ship-with-caution)
 
-#### R-NO-ARABIC-TRANSLITERATION — chapter
-- **File:** content/Islamic/the-master-and-the-disciple/chapters/ch05b-bismillah-seal-and-the-chosen-ranks.txt
-- **Detail:** `al-Rahman`, `al-Rahim` appear in the chapter prose as the two paired divine-attribute names whose lettrist count (twelve letters, paired with the seven of `bismillahi`) carries the chapter's central argument about the Bismillah as cryptographic seal.
-- **Note:** Substitution to English-only ("the Entirely Merciful, the Especially Merciful") removes the term-of-art the lettrist analysis depends on — the seven-and-twelve count requires the Arabic spellings. The framing's Pronunciation block routes both to plain English audio labels for the audio path. Accepted authoring choice — listed for record, not a blocker.
+#### B6-DOUBLED-PHRASE — chapter literary chiasmus trips copy-paste detector
+- **File:** `content/Islamic/the-master-and-the-disciple/chapters/ch03c-five-conditions-and-the-covenant.txt:69`
+- **Context:** `To take the pact is to grasp the rope; to grasp the rope is to be reattached to the chain by which Allah preserves His friends.`
+- **Assessment:** Deliberate rhetorical chiasmus, not a copy-paste error. The doubled phrase `to grasp the rope;` is structurally load-bearing — it carries the disciple's pivot from "taking" to "being reattached." Collapsing it would damage the prose.
+- **Recommendation:** Accept as-is (false positive). If the validator's signal is unacceptable, rewrite the second clause to break the surface repetition while preserving the doctrinal hinge — e.g., `To take the pact is to grasp the rope; and to hold that rope is to be reattached…`. Author judgment.
 
-#### R-SURAH-ENGLISH-ONLY — chapter (false-positive overlap)
-- **File:** content/Islamic/the-master-and-the-disciple/chapters/ch05b-bismillah-seal-and-the-chosen-ranks.txt
-- **Detail:** Validator flagged `al-rahman` as a surah name.
-- **Note:** No surah reference in the chapter uses Arabic — every Quran citation uses English form ("the chapter on the winnowing winds, verse forty-nine"; "the chapter on the ants, verse thirty"; "the chapter on the bee, verses sixteen and forty-three"). The `al-rahman` match is the divine-attribute term-of-art covered under the prior finding, not a surah label. False positive from substring overlap; not a content issue.
+#### F25-APPARATUS-TABLE — 99-show-notes.md missing Name and Title Preservation Table
+- **File:** `content/Islamic/the-master-and-the-disciple/_system/episode-drafts/EP03-five-conditions-and-the-covenant/99-show-notes.md`
+- **Context:** F25 doctrine requires every episode's `99-show-notes.md` to carry the written-layer apparatus (preserved Arabic / transliterations + audio-label crosswalk) that the TTS-safe audio omits.
+- **Out of scope for podcast-challenger** per Section 8 anti-pattern ("Do not edit 99-show-notes.md"). Surface to the producer / orchestrator's show-notes step.
+- **Recommendation:** Re-run the apparatus emitter on this episode-draft directory.
 
-#### R-NAMEDISCIPLINE — framing rotation set
-- **File:** content/Islamic/the-master-and-the-disciple/_system/episode-drafts/EP05-bismillah-seal-and-the-chosen-ranks/00-framing.md (Name discipline section)
-- **Detail:** Validator wants a `Rotation: a / b / c` set with ≥3 aliases.
-- **Note:** A `Rotation for the elder voice: the scholar / the teacher / the master` line is present in the Name discipline block (line 13). The chapter's named figures (Solomon, queen of Sheba, Henry Corbin, Farhad Daftary, the Commander of the Faithful, the Prophet) are either English exonyms or modern scholars carrying no long-Arabic-name alias requirement. Same validator/content mismatch as peer chapters; not a content issue.
+### P2 (advisory — book-wide archetype, not per-chapter)
 
-#### F25-APPARATUS-TABLE — show notes
-- **File:** content/Islamic/the-master-and-the-disciple/_system/episode-drafts/EP05-bismillah-seal-and-the-chosen-ranks/99-show-notes.md
-- **Detail:** No `## Name and Title Preservation Table` section header.
-- **Note:** Apparatus authoring on `99-show-notes.md` is outside this agent's edit boundary per spec Section 8. Listed for author resolution at the publish gate. Peer episodes ship in the same state.
+#### R3 — Tone section missing explicit cadence directive
+- **File:** `EP03-five-conditions-and-the-covenant/00-framing.md` (Tone constraints section, lines 39–44)
+- **Assessment:** All 14 sibling episodes in this book lack the explicit `cadence` / `short-to-medium` phrasing. This is a book-wide archetype decision, not a per-chapter regression.
+- **Recommendation:** No action at chapter scope. If the operator wants to bake R-CADENCE in, do it at the archetype/template level once for the whole book.
 
-### P2 (advisory)
+#### R4 — `## Do not` block lacks formal-essay transition phrases (Firstly / Furthermore / In conclusion)
+- **File:** `EP03-five-conditions-and-the-covenant/00-framing.md` (Do not section, line 50)
+- **Assessment:** Same archetype-wide pattern. The current DENY list emphasizes the modernize + surprise vocabulary; formal-transition phrases were not part of the book's archetype framing.
+- **Recommendation:** Archetype-level decision; not a per-chapter fix.
 
-None.
+#### F3 — No explicit `## Audience` section
+- **File:** `EP03-five-conditions-and-the-covenant/00-framing.md`
+- **Assessment:** Audience is implicit in the source-tradition register (scholarly Ismaili / traditional). Book-wide archetype; sibling episodes follow the same shape.
+- **Recommendation:** No action at chapter scope.
 
 ## Health metrics
 
-| Chapter | Words | Enrichment ratio | Tier diversity | Citations | Phonetic gaps |
+| Artifact | Words | Notes |
+|---|---|---|
+| ch03c-five-conditions-and-the-covenant.txt (SOURCE) | 3,213 | Inside [500, 5500] chapter band |
+| 00-framing.md | 759 | Inside [200, 3500] framing band |
+| EP03-five-conditions-and-the-covenant.txt (CUSTOMIZE) | 759 | Build script emitted clean |
+
+| Category | Result |
+|---|---|
+| A (citation discipline) | Clean — Quran citations name surah + verse + Pickthall translator; Sunni hadith collection and Nahj al-Balagha cited with named-source phrasing per anti-literal policy |
+| B (NotebookLM literalness) | Clean except B6 chiasmus false-positive (P1) |
+| C (phonetic coverage) | Clean — minimal Arabic transliteration; framing's imperative Pronunciation block covers Allah/Quran/Imam/Pickthall |
+| D (enrichment + depth) | Multi-tier: Quran (3 verses), Sunni hadith collection (2), Nahj al-Balagha (1), early Sufi master of Baghdad (1), sixth Imam tradition (1). Tier diversity = 5. Enrichment ratio ~22%. |
+| E (articulation + shape) | Six-movement arc lands cleanly: opening crisis → five conditions → covenant → apple-and-charity → graduated ladder → night of oath. One-sentence summarizable. |
+| F (framing integrity) | Three-part focus has 6 beats; pronunciation block present; DENY blocks present. F3 advisory only. |
+| H/I/K (welcome / anti-repetition / interruption) | All clauses present; R-RECURRING-THESIS explicit. |
+| M (modernize + surprise DENY) | Both blocks present: Twitter, social media, algorithm, wow, right? all named. |
+| N (phonetic-as-content) | Zero inline phonetic parens in chapter (clean); framing uses imperative form. |
+| O (honorifics + abbreviations) | Each honorific phrase form expanded exactly once. No abbreviated work titles. |
+| Q (host role parity) | Host A = scholar (male); Host B = seeker (female). Consistent with EP01/EP02 book-wide. |
+| T (doctrinal accuracy) | Clean — no forbidden naming pairing of leadership-title with personal name of the Father of Imams. "Sayed Ali Reza" is a translator attribution, not a doctrinal pairing. Sixth Imam apple-and-charity teaching attributed to "the sixth Imam" (correct). |
+| U (scholarly-conversation rubric) | Clean — no AI clichés, no faux-profundity opening, no premature closure, no deep-dive self-reference, no essentialism. |
+
+## Convergence trace
+
+| Iter | Auto-fixes | P0 | P1 | P2 | Action |
 |---|---|---|---|---|---|
-| ch05b | 2,913 | ~28% (4 cited blockquotes across ~810 words of bridge + quote) | 4 tiers (Quran × 4 verses, *Peak of Eloquence* sermon-collection, Corbin × 2, Daftary × 1) | 8 inline citations | 0 |
+| 1 | 0 | 0 | 2 | 3 | No auto-fixes available; P1s are out-of-scope (B6 literary, F25 show-notes); P2s are book-wide archetype. Break per v1.4 intelligent-break rule. |
 
-**Framing:** 746 words. Within the default deep-dive soft band (200–2,000) and well under the 3,500 hard cap.
-
-**Build script result:** Validated. No P0. Episode txt build path is clean (`--check` mode, not written).
-
-> Convergence-loop note (2026-06-10): Iteration 1 surfaced 4 P1 findings; iteration 2 produced zero auto-fixes and identical findings vs iteration 1 → intelligent break (Section 4 step 6b). All P1s reviewed and confirmed non-blocking per the same fixer pass that ran earlier today. Pipeline context: invocation originated from within `orchestrate_book.py`; Category S1 bypass applied per spec.
+**Verdict:** SHIP-WITH-CAUTION. The chapter ships; the two P1 advisories are documented above for author awareness and downstream apparatus regeneration.
