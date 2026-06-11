@@ -14,7 +14,7 @@
     {
       "id": "A2",
       "wave": "A",
-      "title": "Build the Core layer \u2014 _paths, _db, _archetypes, _anti_cliche",
+      "title": "Build the Core layer — _paths, _db, _archetypes, _anti_cliche",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -27,7 +27,7 @@
     {
       "id": "A3",
       "wave": "A",
-      "title": "Build the Domain layer \u2014 _doctrinal + tradition_adjacency.yml, _context_injection",
+      "title": "Build the Domain layer — _doctrinal + tradition_adjacency.yml, _context_injection",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -66,7 +66,7 @@
     {
       "id": "A6",
       "wave": "A",
-      "title": "Consolidate the agent sprawl \u2014 one canonical spec per agent, one installation path",
+      "title": "Consolidate the agent sprawl — one canonical spec per agent, one installation path",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -79,7 +79,7 @@
     {
       "id": "A7",
       "wave": "A",
-      "title": "Decouple all batch pipeline processing from the interactive Claude plan \u2014 dedicated API key with spend cap",
+      "title": "Decouple all batch pipeline processing from the interactive Claude plan — dedicated API key with spend cap",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -92,7 +92,7 @@
     {
       "id": "B0",
       "wave": "B",
-      "title": "Build the Wisdom corpus ingestion driver \u2014 independent chapter refinement",
+      "title": "Build the Wisdom corpus ingestion driver — independent chapter refinement",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -344,7 +344,7 @@
     {
       "id": "E2",
       "wave": "E",
-      "title": "KaR \u2014 tier-2 distillation addendum (no re-run)",
+      "title": "KaR — tier-2 distillation addendum (no re-run)",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -358,7 +358,7 @@
     {
       "id": "E3",
       "wave": "E",
-      "title": "M&D \u2014 EP00 preface addendum + vacuum + postprod-review (no re-run)",
+      "title": "M&D — EP00 preface addendum + vacuum + postprod-review (no re-run)",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -414,7 +414,7 @@
     {
       "id": "H1",
       "wave": "H",
-      "title": "Astro site SOLID/DRY refactor \u2014 extract shared types, constants, and utilities",
+      "title": "Astro site SOLID/DRY refactor — extract shared types, constants, and utilities",
       "status": "pending",
       "tier": "T1",
       "depends_on": [],
@@ -425,7 +425,7 @@
     {
       "id": "H2",
       "wave": "H",
-      "title": "Pipeline code quality \u2014 split oversized scripts and eliminate duplication",
+      "title": "Pipeline code quality — split oversized scripts and eliminate duplication",
       "status": "pending",
       "tier": "T1",
       "depends_on": [
@@ -451,7 +451,7 @@
     {
       "id": "I0a",
       "wave": "I",
-      "title": "Retroactive noise annotation \u2014 AI pre-marks existing chapters; human reviews in reader UI",
+      "title": "Retroactive noise annotation — AI pre-marks existing chapters; human reviews in reader UI",
       "status": "complete",
       "tier": "T1",
       "depends_on": [],
@@ -475,7 +475,7 @@
     {
       "id": "I1",
       "wave": "I",
-      "title": "Audio intake \u2014 input_type branch in Phase 04 (pdf / audio-transcript / mixed)",
+      "title": "Audio intake — input_type branch in Phase 04 (pdf / audio-transcript / mixed)",
       "status": "complete",
       "tier": "T1",
       "depends_on": [],
@@ -486,7 +486,7 @@
     {
       "id": "I2",
       "wave": "I",
-      "title": "Noise routing \u2014 two-pass: zero-cost rule pre-pass then Sonnet for ambiguous survivors only",
+      "title": "Noise routing — two-pass: zero-cost rule pre-pass then Sonnet for ambiguous survivors only",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -499,7 +499,7 @@
     {
       "id": "I3",
       "wave": "I",
-      "title": "Tradition-aware knowledge base \u2014 tradition field on all atom types; B2.1 schema patch",
+      "title": "Tradition-aware knowledge base — tradition field on all atom types; B2.1 schema patch",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -512,7 +512,7 @@
     {
       "id": "I4",
       "wave": "I",
-      "title": "Source Review Gate \u2014 Phase 06a (Haiku) before per-chapter authoring",
+      "title": "Source Review Gate — Phase 06a (Haiku) before per-chapter authoring",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -526,7 +526,7 @@
     {
       "id": "I5",
       "wave": "I",
-      "title": "Book Review unified astro view \u2014 Source Review Gate (06a) + Publish Review Gate (finalize)",
+      "title": "Book Review unified astro view — Source Review Gate (06a) + Publish Review Gate (finalize)",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -539,7 +539,7 @@
     {
       "id": "I6",
       "wave": "I",
-      "title": "Phase 11g per-chapter optimiser \u2014 Claude Sonnet after authoring, before 0g dual-auditor",
+      "title": "Phase 11g per-chapter optimiser — Claude Sonnet after authoring, before 0g dual-auditor",
       "status": "complete",
       "tier": "T1",
       "depends_on": [
@@ -552,7 +552,7 @@
     {
       "id": "J0",
       "wave": "J",
-      "title": "Build the dual-interface source library server \u2014 MCP stdio for the pipeline, HTTP for the Astro editor",
+      "title": "Build the dual-interface source library server — MCP stdio for the pipeline, HTTP for the Astro editor",
       "status": "complete",
       "tier": "T1",
       "depends_on": [],
@@ -760,6 +760,96 @@
       "plain": "",
       "tools": [],
       "last_touched": null
+    },
+    {
+      "id": "K0",
+      "title": "Define and publish the PEQ quality-scoring contract",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K1",
+      "title": "Snapshot regression baselines for kitab-al-riyad and the-master-and-the-disciple",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K0"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K2",
+      "title": "Replace challenger free-form verdict with PEQ-driven scoring in both pipelines",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K0",
+        "K1"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K3",
+      "title": "Wire PEQ scores into agent prompts and skill instructions for consistent quality framing",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K4",
+      "title": "Surface PEQ scores on the plan dashboard with per-chapter and per-book breakdowns",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K5",
+      "title": "Apply PEQ-gated quality checks to the wisdom pipeline retranslation and reingestion cycle",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2",
+        "K3"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K6",
+      "title": "Add Interest & Challenge-Defeat scoring as a 5th PEQ axis + Challenger Category V",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2",
+        "K3",
+        "K5"
+      ],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "K6-pre",
+      "title": "Terminus technicus preservation rule — prevent Arabic doctrinal terms from being stripped during denoise/normalize",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "WC8.0"
+      ],
+      "plain": "",
+      "tools": []
     }
   ],
   "waves": [
@@ -800,12 +890,12 @@
     },
     {
       "id": "I",
-      "name": "Intelligence Pipeline \u2014 Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g",
+      "name": "Intelligence Pipeline — Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g",
       "plain": "Extends the pipeline in five coordinated areas, preceded by two"
     },
     {
       "id": "J",
-      "name": "Source Library \u2014 Dual-Interface Server and Live Editor Integration",
+      "name": "Source Library — Dual-Interface Server and Live Editor Integration",
       "plain": "Wave J transforms the three SQL Server source databases into a live"
     },
     {
@@ -826,11 +916,31 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-11T11:02:44.779921+00:00",
-  "source_commit": "4e239f6",
-  "generator": "regenerate-snapshots.py",
+  "generated_at": "2026-06-11T12:44:01.762Z",
+  "source_commit": "352edcc",
+  "generator": "regenerate-snapshots.mjs",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "352edcc",
+      "subject": "podcast(the-master-and-the-disciple)[emptying-the-cup]: SHIP-WITH-CAUTION (iter=2 · P0=0 P1=2)",
+      "date": "2026-06-11"
+    },
+    {
+      "sha": "c9afd9b",
+      "subject": "podcast(the-master-and-the-disciple)[who-is-allah-beyond-names]: SHIP-WITH-CAUTION (iter=2 · P0=0 P1=5)",
+      "date": "2026-06-11"
+    },
+    {
+      "sha": "7e59a1f",
+      "subject": "podcast(the-master-and-the-disciple)[union-of-inner-and-outer]: SHIP-WITH-CAUTION (iter=2 · P0=0 P1=2)",
+      "date": "2026-06-11"
+    },
+    {
+      "sha": "812bac6",
+      "subject": "debt(pipeline): F38 failed-chapter auto-retry probe + F39 persist full gate-failure output (observed on M&D run 2026-06-11)",
+      "date": "2026-06-11"
+    },
     {
       "sha": "4e239f6",
       "subject": "research(the-master-and-the-disciple): 8 Ismaili-thought source digests + synthesis under book research/",
@@ -838,47 +948,27 @@
     },
     {
       "sha": "33b33ea",
-      "subject": "podcast(the-master-and-the-disciple)[unbroken-chain-and-the-path-of-return]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=5)",
+      "subject": "podcast(the-master-and-the-disciple)[unbroken-chain-and-the-path-of-return]: SHIP-WITH-CAUTION (iter=2 · P0=0 P1=5)",
       "date": "2026-06-11"
     },
     {
       "sha": "2b0b61f",
-      "subject": "podcast(the-master-and-the-disciple)[the-conspiracy-formula]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=0)",
+      "subject": "podcast(the-master-and-the-disciple)[the-conspiracy-formula]: SHIP-WITH-CAUTION (iter=2 · P0=0 P1=0)",
       "date": "2026-06-11"
     },
     {
       "sha": "96a40e1",
-      "subject": "fix(the-master-and-the-disciple): syllogism audience \u2014 remove cross-episode reference (meta-prose tell)",
+      "subject": "fix(the-master-and-the-disciple): syllogism audience — remove cross-episode reference (meta-prose tell)",
       "date": "2026-06-11"
     },
     {
       "sha": "b0431f4",
-      "subject": "podcast(the-master-and-the-disciple)[jewels-moon-and-the-description-of-religion]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=3)",
+      "subject": "podcast(the-master-and-the-disciple)[jewels-moon-and-the-description-of-religion]: SHIP-WITH-CAUTION (iter=2 · P0=0 P1=3)",
       "date": "2026-06-11"
     },
     {
       "sha": "65bd82b",
-      "subject": "fix(the-master-and-the-disciple): debate host roles \u2192 R-HOST-ROLE-PARITY enums (master/debater)",
-      "date": "2026-06-11"
-    },
-    {
-      "sha": "bfc0ba5",
-      "subject": "fix(the-master-and-the-disciple): triage \u2014 author 6 missing debate blocks + ch10 slug repair, clear failed ledger",
-      "date": "2026-06-11"
-    },
-    {
-      "sha": "31a7108",
-      "subject": "podcast(the-master-and-the-disciple)[zahir-batin-and-the-seven-natiqs]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=2)",
-      "date": "2026-06-11"
-    },
-    {
-      "sha": "1beb9da",
-      "subject": "podcast(the-master-and-the-disciple)[three-thanks-and-the-persian-awakening]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=0)",
-      "date": "2026-06-11"
-    },
-    {
-      "sha": "c52a68e",
-      "subject": "podcast(the-master-and-the-disciple)[three-levels-of-knowledge]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=1)",
+      "subject": "fix(the-master-and-the-disciple): debate host roles → R-HOST-ROLE-PARITY enums (master/debater)",
       "date": "2026-06-11"
     }
   ],
