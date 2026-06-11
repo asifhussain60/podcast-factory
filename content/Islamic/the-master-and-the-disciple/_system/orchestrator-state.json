@@ -3,10 +3,10 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
-  "phase": "0book-render",
+  "phase": "0book-design",
   "phase_status": "completed",
-  "last_completed_phase": "0book-render",
-  "next_phase": "publish",
+  "last_completed_phase": "0book-design",
+  "next_phase": "0book-compose",
   "last_error": null,
   "pipeline_mode": "orchestrated",
   "v1_archive": {
@@ -436,7 +436,7 @@
     "publish": {
       "status": "failed",
       "ts_started": "2026-06-11T17:57:17Z",
-      "ts_completed": "2026-06-11T20:32:09Z",
+      "ts_completed": "2026-06-11T20:32:44Z",
       "publisher_stdout": "==> publish_to_library: the-master-and-the-disciple\n    workspace: content/Islamic/the-master-and-the-disciple\n    model:     status-flag (type-first layout; no second tree)\n    mode:      live\n\n=== Gates ===\nOK    [G1] 20 chapters + 20 episodes present\nOK    [G2] 20 chapter/episode pairs match\nOK    [G3] chapters 1..20 + episodes 1..20 purely sequential\nOK    [G4] P0=0 across 20 episodes (P1=56, warn-only)\n",
       "publisher_stderr": "ly)\nWARN  G4 EP08-three-levels-of-knowledge: 2 P1 advisories (warn-only)\nWARN  G4 EP09-hawl-quwwa-and-josephs-dream: 4 P1 advisories (warn-only)\nWARN  G4 EP10-union-of-inner-and-outer: 2 P1 advisories (warn-only)\nWARN  G4 EP11-purifying-possessions-and-parting: 4 P1 advisories (warn-only)\nWARN  G4 EP12-rebirth-and-the-seven-day-tawaf: 2 P1 advisories (warn-only)\nWARN  G4 EP13-homecoming-and-the-forty-year-syllogism: 2 P1 advisories (warn-only)\nWARN  G4 EP14-abu-malik-arrives-and-the-fair-inquiry: 5 P1 advisories (warn-only)\nWARN  G4 EP15-emptying-the-cup: 2 P1 advisories (warn-only)\nWARN  G4 EP16-jewels-moon-and-the-description-of-religion: 3 P1 advisories (warn-only)\nWARN  G4 EP17-who-is-allah-beyond-names: 5 P1 advisories (warn-only)\nWARN  G4 EP19-the-conspiracy-formula: 2 P1 advisories (warn-only)\nWARN  G4 EP20-unbroken-chain-and-the-path-of-return: 5 P1 advisories (warn-only)\nFAIL  [G5] state.json not in shippable state (phase=publish, phase_status=running). Use --force to bypass.\n"
     },
@@ -455,7 +455,7 @@
     "0book-design": {
       "status": "completed",
       "ts_started": "2026-06-08T12:43:44Z",
-      "ts_completed": "2026-06-11T20:32:39Z"
+      "ts_completed": "2026-06-11T20:33:14Z"
     },
     "0book-compose": {
       "status": "completed",
@@ -506,7 +506,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T20:32:41Z",
+  "ts_updated": "2026-06-11T20:33:14Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
