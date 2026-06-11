@@ -87,10 +87,21 @@ class G3SequentialTests(unittest.TestCase):
         ep = [Path("EP01-a.txt"), Path("EP03-c.txt")]
         self.assertFalse(_quiet(pub.gate_g3_sequential, ch, ep))
 
-    def test_letter_suffix_fails(self):
-        ch = [Path("ch01-a.txt"), Path("ch02a-b.txt")]
-        ep = [Path("EP01-a.txt")]
-        self.assertFalse(_quiet(pub.gate_g3_sequential, ch, ep))
+    def test_chapter_letter_suffix_is_canonical(self):
+        # Section-split chapters carry a letter suffix (ch02a = EP02, first
+        # slice of its source Part) — canonical since Phase 0d sections mode;
+        # G2/G3 false-BLOCKED the-master-and-the-disciple on 2026-06-11.
+        ch = [Path("ch01a-a.txt"), Path("ch02b-b.txt")]
+        ep = [Path("EP01-a.txt"), Path("EP02-b.txt")]
+        self.assertTrue(_quiet(pub.gate_g2_pairs, ch, ep))
+        self.assertTrue(_quiet(pub.gate_g3_sequential, ch, ep))
+
+    def test_episode_letter_suffix_fails(self):
+        # EPISODE files must never carry a letter — the upload contract keys
+        # on plain EP##.
+        ch = [Path("ch01-a.txt")]
+        ep = [Path("EP01a-a.txt")]
+        self.assertFalse(_quiet(pub.gate_g3_sequential, ch, [Path("EP01a-a.txt")]))
 
 
 class G4DryRunInvariantTests(unittest.TestCase):
