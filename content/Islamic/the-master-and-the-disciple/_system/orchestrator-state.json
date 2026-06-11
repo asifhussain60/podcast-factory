@@ -9,8 +9,8 @@
   "next_phase": "0f",
   "last_error": {
     "phase": "per-chapter",
-    "message": "[jewels-moon-and-the-description-of-religion] extract_chapter.py failed for 'the-master-and-the-disciple/ch16e-jewels-moon-and-the-description-of-religion': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing.",
-    "ts": "2026-06-11T01:41:13Z"
+    "message": "[the-conspiracy-formula] extract_chapter.py failed for 'the-master-and-the-disciple/ch19c-the-conspiracy-formula': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing.",
+    "ts": "2026-06-11T03:26:06Z"
   },
   "pipeline_mode": "orchestrated",
   "v1_archive": {
@@ -80,11 +80,14 @@
         "hawl-quwwa-and-josephs-dream",
         "homecoming-and-the-forty-year-syllogism",
         "originator-and-the-three-primordial-words",
-        "purifying-possessions-and-parting"
+        "purifying-possessions-and-parting",
+        "rebirth-and-the-seven-day-tawaf"
       ],
       "failed_slugs": [
         "emptying-the-cup",
-        "jewels-moon-and-the-description-of-religion"
+        "jewels-moon-and-the-description-of-religion",
+        "syllogism-of-divine-justice",
+        "the-conspiracy-formula"
       ],
       "chapter_timings": {
         "abu-malik-arrives-and-the-fair-inquiry": {
@@ -161,14 +164,37 @@
         },
         "rebirth-and-the-seven-day-tawaf": {
           "started_ts": "2026-06-11T02:50:16Z",
+          "completed_ts": "2026-06-11T03:26:06Z",
+          "duration_sec": 2150.3,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "syllogism-of-divine-justice": {
+          "started_ts": "2026-06-11T03:26:06Z",
+          "completed_ts": "2026-06-11T03:26:06Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "extract_chapter.py failed for 'the-master-and-the-disciple/ch18b-syllogism-of-divine-justice': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing."
+        },
+        "the-conspiracy-formula": {
+          "started_ts": "2026-06-11T03:26:06Z",
+          "completed_ts": "2026-06-11T03:26:06Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "extract_chapter.py failed for 'the-master-and-the-disciple/ch19c-the-conspiracy-formula': rc=1: ERROR: contract.episode_format is 'debate' but contract.debate is null/missing."
+        },
+        "the-test-of-speech-and-the-design-of-creation": {
+          "started_ts": "2026-06-11T03:26:06Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
           "cost_usd": null
         }
       },
-      "current_chapter": "rebirth-and-the-seven-day-tawaf",
-      "last_beat": "2026-06-11T03:17:11Z",
+      "current_chapter": "the-test-of-speech-and-the-design-of-creation",
+      "last_beat": "2026-06-11T03:54:22Z",
       "convergence_iter": 2
     },
     "0g": {
@@ -219,7 +245,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T03:17:11Z",
+  "ts_updated": "2026-06-11T03:54:22Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
