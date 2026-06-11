@@ -7,11 +7,7 @@
   "phase_status": "running",
   "last_completed_phase": "0g",
   "next_phase": "0f",
-  "last_error": {
-    "phase": "per-chapter",
-    "message": "[syllogism-of-divine-justice] extract_chapter.py failed for 'the-master-and-the-disciple/ch18b-syllogism-of-divine-justice': rc=1: ERROR: contract at /Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/the-master-and-the-disciple/chapter-contracts/syllogism-of-divine-justice.yml contains meta-prose that would reach Noteb",
-    "ts": "2026-06-11T09:16:35Z"
-  },
+  "last_error": null,
   "pipeline_mode": "orchestrated",
   "v1_archive": {
     "git_tag": "archive/the-master-and-the-disciple-v1",
@@ -89,12 +85,10 @@
         "three-thanks-and-the-persian-awakening",
         "unbroken-chain-and-the-path-of-return",
         "union-of-inner-and-outer",
+        "who-is-allah-beyond-names",
         "zahir-batin-and-the-seven-natiqs"
       ],
-      "failed_slugs": [
-        "emptying-the-cup",
-        "syllogism-of-divine-justice"
-      ],
+      "failed_slugs": [],
       "chapter_timings": {
         "abu-malik-arrives-and-the-fair-inquiry": {
           "started_ts": "2026-06-10T21:55:30Z",
@@ -118,12 +112,11 @@
           "cost_usd": 0.0
         },
         "emptying-the-cup": {
-          "started_ts": "2026-06-11T08:22:37Z",
-          "completed_ts": "2026-06-11T08:33:35Z",
-          "duration_sec": 657.1,
-          "verdict": "FAILED",
-          "cost_usd": 0.0,
-          "error": "pipeline_lint P0: framing structural mismatch:"
+          "started_ts": "2026-06-11T11:48:37Z",
+          "completed_ts": null,
+          "duration_sec": null,
+          "verdict": null,
+          "cost_usd": null
         },
         "five-conditions-and-the-covenant": {
           "started_ts": "2026-06-10T23:50:39Z",
@@ -226,10 +219,10 @@
         },
         "who-is-allah-beyond-names": {
           "started_ts": "2026-06-11T11:10:41Z",
-          "completed_ts": null,
-          "duration_sec": null,
-          "verdict": null,
-          "cost_usd": null
+          "completed_ts": "2026-06-11T11:47:44Z",
+          "duration_sec": 2223.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
         },
         "zahir-batin-and-the-seven-natiqs": {
           "started_ts": "2026-06-11T05:16:33Z",
@@ -239,8 +232,8 @@
           "cost_usd": 0.0
         }
       },
-      "current_chapter": "who-is-allah-beyond-names",
-      "last_beat": "2026-06-11T11:38:47Z",
+      "current_chapter": "emptying-the-cup",
+      "last_beat": "2026-06-11T12:05:54Z",
       "convergence_iter": 2
     },
     "0g": {
@@ -291,7 +284,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T11:38:47Z",
+  "ts_updated": "2026-06-11T12:05:54Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
