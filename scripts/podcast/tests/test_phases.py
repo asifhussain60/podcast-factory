@@ -32,6 +32,7 @@ DRIVER_EMITTED_PHASES = (
     "0a", "0b", "0c", "0d", "0e", "0literary",
     "06a", "0f", "0g",
     "per-chapter", "per-chapter-optimize", "per-chapter-slides",
+    "audio-script", "audio-render",
     "finalize", "publish", "trainer", "merge", "done",
 )
 

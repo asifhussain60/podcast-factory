@@ -52,8 +52,12 @@ def _failure_signature(reason: str) -> str:
     return s[:80]
 
 
-def _drive_per_chapter_and_after(book_dir: Path) -> int:
-    """After Phase 0f approval: drive per-chapter loop → 0g → finalize halt."""
+def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool = False) -> int:
+    """After Phase 0f approval: drive per-chapter loop → 0g → slides →
+    audio phases (Audio Engine v2; skipped for notebooklm books) → finalize halt.
+
+    *approve_audio_render* is set by the resume dispatcher when the human has
+    cleared the audio-render H1 spend halt by re-invoking --resume."""
     # Use the slug from state — book_dir.name gives only the leaf (e.g. "vol-01")
     # which breaks validate_ship_ready for nested-series books.
     _state = read_state(book_dir) or {}
@@ -470,6 +474,18 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         update_phase(book_dir, phase="per-chapter-slides", status="skipped",
                      extras={"reason": "enable_slide_decks=false"})
 
+    # Audio Engine v2 phases — autonomous (API) engines author + gate dialogue
+    # scripts, halt ONCE at H1 with the exact credit estimate, then render
+    # into the canonical m4a layout. NotebookLM books mark both phases
+    # skipped and continue to the manual finalize halt unchanged.
+    from phases.audio_driver import drive_audio_phases  # noqa: E402
+    _audio_outcome, _audio_rc = drive_audio_phases(
+        book_dir, approve_render=approve_audio_render)
+    if _audio_outcome == "halted":
+        return 0  # clean stop at the H1 spend gate; --resume approves
+    if _audio_outcome == "failed":
+        return _audio_rc
+
     # Finalize phase — run G1-G7 gates, halt for human review before publish.
     # NOTE: the PDF companion-book path (0book-*) runs AFTER this halt, inside
     # publish_driver._drive_publish_through_done, so that any issues caught at
@@ -497,24 +513,38 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     _info("  cd plan-dashboard && npm run dev")
     _info("  open http://localhost:4321/develop/" + book_slug + "/")
     _info("")
-    # ── NotebookLM upload instructions (mandatory per standing rule) ──────────
+    # Engine-aware halt card: the NotebookLM upload ritual applies only to
+    # manual (notebooklm) books; autonomous books already carry rendered
+    # audio + transcripts in the canonical layout.
     try:
-        _print_notebooklm_table(book_dir)
-    except Exception as _tbl_exc:
-        _info(f"  [notebooklm table error: {_tbl_exc}]")
-    # ── Slide-deck generation card (same NotebookLM visit) ───────────────────
-    try:
-        _print_slide_deck_card(book_dir)
-    except Exception as _card_exc:
-        _info(f"  [slide-deck card error: {_card_exc}]")
-    # ─────────────────────────────────────────────────────────────────────────
-    _info("")
-    _info("After downloading the generated .m4a files, drop them anywhere under")
-    _info("m4a/ — names don't matter — then normalize to canonical chapter order")
-    _info("and transcribe via Azure Speech (no external transcription service):")
-    _info(f"  python3 scripts/podcast/normalize_m4a.py {book_slug} --apply")
-    _info(f"  python3 scripts/podcast/transcribe_notebooklm.py {book_slug}")
-    _info("")
+        from _audio_engines import audio_engine_for_book, is_autonomous
+        _audio_autonomous = is_autonomous(audio_engine_for_book(book_dir))
+    except Exception:  # noqa: BLE001 — fall back to the manual ritual
+        _audio_autonomous = False
+    if _audio_autonomous:
+        _info("Audio engine: elevenlabs — episodes are ALREADY rendered into")
+        _info("m4a/ with script-derived transcripts (no NotebookLM step, no")
+        _info("normalize/transcribe needed). Review the audio with the reader.")
+        _info("")
+    else:
+        # ── NotebookLM upload instructions (mandatory per standing rule) ──────
+        try:
+            _print_notebooklm_table(book_dir)
+        except Exception as _tbl_exc:
+            _info(f"  [notebooklm table error: {_tbl_exc}]")
+        # ── Slide-deck generation card (same NotebookLM visit) ───────────────
+        try:
+            _print_slide_deck_card(book_dir)
+        except Exception as _card_exc:
+            _info(f"  [slide-deck card error: {_card_exc}]")
+        # ──────────────────────────────────────────────────────────────────────
+        _info("")
+        _info("After downloading the generated .m4a files, drop them anywhere under")
+        _info("m4a/ — names don't matter — then normalize to canonical chapter order")
+        _info("and transcribe via Azure Speech (no external transcription service):")
+        _info(f"  python3 scripts/podcast/normalize_m4a.py {book_slug} --apply")
+        _info(f"  python3 scripts/podcast/transcribe_notebooklm.py {book_slug}")
+        _info("")
     _info("When satisfied, authorize publish + trainer + merge:")
     _info(f"  python3 scripts/podcast/orchestrate_book.py --resume {book_slug}")
     _info("─" * 72)
