@@ -596,3 +596,26 @@ Asif). **Blocked:** hadith atom ingest (no hadith DB; PyYAML missing from venv).
   python3 scripts/podcast/_sessions.py the-master-and-the-disciple
 - Old 5-episode m4a files in m4a/ are stale (pre-density audio) — vacuum before
   the new 20-episode NotebookLM generation lands.
+
+## 2026-06-12 — Audio Engine v2 shipped on infra/audio-engine-v2 (Claude Code session)
+
+- Dual-engine audio pipeline: per-book `audio_engine` in series-config.yaml
+  (`notebooklm` default | `elevenlabs`). NotebookLM path byte-identical
+  (golden-fixture regression test); elevenlabs path fully autonomous with ONE
+  halt (H1: exact credit estimate before first paid render).
+- New modules: _audio_engines.py (capability registry), _dialogue_script.py
+  (script format/chunker/seeds), _authoring/_dialogue.py (Max authorship),
+  _validators_dialogue.py + _dialogue_convergence.py (pre-synthesis gate,
+  source=dialogue-gate findings), pronunciation_compiler.py (glossary -> PLS
+  versioned dictionary, pinned), _elevenlabs.py (stdlib client),
+  render_dialogue_audio.py (render-once/cache-forever, render ledger,
+  metered credits), phases/audio_driver.py (audio-script + audio-render
+  phases in _progress.PHASES between slides and finalize).
+- Studio Publish step surfaces engine + rendered credits (challenger PASS,
+  lint:views + astro check clean). assemble_bundle episode-map derive
+  fallback KeyError fixed (surfaced by the new dual-path e2e).
+- Suite: 1283 passed (was 854 in scripts/podcast tree; +106 new tests).
+- Arabic-script recitation scaffold OFF until H2 (audible two-variant
+  sample); flag elevenlabs_arabic_recitation.
+- Remaining: live smoke test on ONE real chapter awaits H1 approval; merge
+  to develop awaits H3 (backup branch + repo-surgeon sweep first).

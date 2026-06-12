@@ -992,3 +992,25 @@ Pre-authorized by the autonomy mandate in `CONTINUATION-2026-05-30.md`. Four blo
 > The script meant to transcribe NotebookLM's audio output was dead on arrival — it depended on a local AI model that was never installed and pointed at a folder layout retired weeks ago. That's why the manual TurboScribe upload-download ritual existed at all. The script is rebuilt on the same Azure transcription service the pipeline already uses daily for lecture intake: point it at a book and it transcribes every properly-named audio file that's missing a transcript, skips what's done, and prices each job into the book's cost ledger by actual audio duration (also fixing an older cost entry that overstated transcription spend roughly tenfold). One transcription call feeds both downstream consumers — the post-production reviewer and the audit/video tooling — from a single source of truth, and the finalize card now prints the full ritual: drop audio, normalize names, transcribe. External services remain a fallback drop path.
 >
 > *Value gained:* no external transcription service in the loop; transcripts cost cents, arrive in minutes, and land correctly named on both contracts every time.
+
+---
+
+## Audio Engine v2 — autonomous audio, NotebookLM preserved (2026-06-12)
+
+### 1. Every book chooses its audio engine; existing books change nothing
+
+> A single per-book setting now decides how episode audio gets made: the default keeps the familiar NotebookLM ritual exactly as it is (a regression test proves the output is byte-for-byte identical), while a book that opts into the new engine flows from approved source to finished audio with no manual upload or download at all. Engine capabilities live in one registry file, so adding a third engine someday is one entry — not a search through the pipeline.
+>
+> *Value gained:* full autonomy becomes an opt-in per book with zero risk to everything already shipped.
+
+### 2. The conversation is written, judged, and fixed before a cent is spent
+
+> On the autonomous path the pipeline writes the complete two-host conversation itself, on the flat-rate subscription. A free gate then checks it the way the existing chapter gates do — forbidden phrases, doctrine, honorifics, host roles — plus a new completeness check: every tension and concept the chapter contract promises must actually appear in the conversation, or the script is rejected. A second reviewing pass judges faithfulness (nothing invented, nothing lost) and the loop fixes and re-checks until the script earns the same ship verdict the audio path has always used. Pacing targets are advisory only — the system is forbidden from cutting content to hit a length.
+>
+> *Value gained:* paid synthesis can only ever run on a script that has already passed every quality bar.
+
+### 3. Audio renders once, lands in the right place, and never re-bills for unchanged work
+
+> Rendering goes through the professional voice service in small pinned-down requests: same text in, same settings, same pronunciation dictionary version every time, with each request's result remembered in a ledger and cache. Revise one paragraph later and only that paragraph's audio is re-bought. Exact spend is read off the vendor's own meter into the book's cost ledger, and the one place the pipeline stops is a single approval gate showing the precise credit estimate before the first paid render. Finished audio and transcripts land in exactly the folders the rest of the system already reads — the reviewer, the video stitcher, and the site all work unchanged — and the book's publish screen now shows which engine made the audio and what it cost.
+>
+> *Value gained:* one approval click replaces the whole upload-download-rename-transcribe ritual, at a known price, with revisions costing pennies instead of full re-renders.

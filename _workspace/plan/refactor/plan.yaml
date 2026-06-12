@@ -4290,6 +4290,70 @@ waves_o_ph:
         status: completed
         tests: "test_normalize_m4a (9, incl. shared-boilerplate regression)"
 
+
+  - id: AE
+    name: "Audio Engine v2 — ElevenLabs autonomous path, NotebookLM preserved (2026-06-12)"
+    execution_status: completed_2026_06_12
+    depends_on: [AT]
+    note: |
+      Dual-engine audio: a pluggable per-book audio_engine setting
+      (series-config.yaml; notebooklm default | elevenlabs) routes the audio
+      step. NotebookLM path byte-identical (golden-fixture regression); the
+      ElevenLabs path is fully autonomous with ONE halt per book (H1: exact
+      deterministic credit estimate before the first paid render). Registry
+      (_audio_engines.py) carries capability flags consumed by validators,
+      cost estimator, and orchestrator — no hardcoded engine conditionals.
+      Per-chapter dialogue scripts authored on Claude Max against the
+      converged framing (no rule-text duplication), gated by a deterministic
+      pre-synthesis validator set (deny lists, doctrine, honorifics, host
+      parity, engine-aware Arabic/tag rules, contract-coverage no-teaching-
+      lost) + a semantic challenger pass, SHIP-READY/SHIP-WITH-CAUTION/FAILED
+      verdicts, findings to _learning/findings.jsonl (source=dialogue-gate).
+      Pronunciation: glossary.yml -> versioned PLS alias dictionary, pinned
+      per render; Arabic-recitation scaffold OFF until H2. Renderer: eleven_v3
+      text-to-dialogue, pure chunker <=2000 chars, hash-derived seeds, render
+      ledger input-hash->output-hash, chunk cache (render once, cache
+      forever), exact subscription-meter credit rows, cps sanity band,
+      optional Azure --deep-verify; output DIRECTLY to canonical m4a +
+      transcript layout (transcript IS the script — no STT). Orchestrator:
+      audio-script + audio-render phases in _progress.PHASES between slides
+      and finalize; engine-aware finalize card. Studio Publish step surfaces
+      engine + rendered credits (html-view-challenger PASS). Quality of
+      CONTENT outranks cost everywhere: soft bands are pacing advisories
+      (P2), never cuts; cost discipline by construction.
+    steps:
+      - id: AE1
+        title: "Engine registry with capability flags + golden-fixture byte-identity for the default path"
+        status: completed
+        tests: "test_audio_engines (19)"
+      - id: AE2
+        title: "Dialogue-script artifact + Claude Max authorship (framing as steering spec)"
+        status: completed
+        tests: "test_dialogue_script (21)"
+      - id: AE3
+        title: "Pre-synthesis content gate + convergence loop (deterministic + semantic; coverage = no-teaching-lost)"
+        status: completed
+        tests: "test_dialogue_gate (20)"
+      - id: AE4
+        title: "Pronunciation compiler: glossary -> versioned PLS dictionary, pinned; Arabic-recitation scaffold (H2 OFF)"
+        status: completed
+        tests: "test_pronunciation_compiler (12)"
+      - id: AE5
+        title: "Production renderer: render-once/cache-forever, render ledger, exact credit metering, canonical layout"
+        status: completed
+        tests: "test_render_dialogue_audio (15)"
+      - id: AE6
+        title: "Orchestrator wiring: audio-script + audio-render phases, H1 halt, engine-aware finalize card"
+        status: completed
+        tests: "test_audio_driver (16) + test_phases"
+      - id: AE7
+        title: "Astro studio Publish step: audio engine + rendered-credit spend (Cortex-gated, lint clean)"
+        status: completed
+      - id: AE8
+        title: "Dual-engine e2e through the post-0f driver (both paths; fixed episode-map derive fallback KeyError)"
+        status: completed
+        tests: "e2e/test_audio_engine_paths (3)"
+
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================
