@@ -90,12 +90,37 @@ try {
 const showContentLevel = bookTradition !== '' && bookTradition !== 'universal';
 
 // Depth-level picker profile — read from series-config.yaml; defaults to islamic_scholarly.
+// Audio Engine v2: the same read resolves the book's audio engine (default notebooklm).
 let contentProfile = 'islamic_scholarly';
+let audioEngine = 'notebooklm';
 try {
   const cfgRaw = await readFile(join(ref.dir, '_system', 'series-config.yaml'), 'utf-8');
   const cpMatch = cfgRaw.match(/^content_profile:\s*(\S+)/m);
   if (cpMatch) contentProfile = cpMatch[1];
+  const aeMatch = cfgRaw.match(/^audio_engine:\s*(\S+)/m);
+  if (aeMatch) audioEngine = aeMatch[1];
 } catch { /* no series-config.yaml — default applies */ }
+
+// Audio Engine v2 — rendered-credit spend from the cost ledger (publish step).
+// ElevenLabs rows store exact metered credits in input_tokens (see
+// scripts/podcast/_cost_ledger.py::append_elevenlabs_cost).
+let renderedCredits = 0;
+let renderedUsd = 0;
+if (stepParam === 'publish') {
+  try {
+    const ledgerRaw = await readFile(join(ref.dir, '_system', 'cost-ledger.jsonl'), 'utf-8');
+    for (const line of ledgerRaw.split('\n')) {
+      if (!line.trim()) continue;
+      try {
+        const row = JSON.parse(line);
+        if (row.model === 'elevenlabs-eleven-v3') {
+          renderedCredits += Number(row.input_tokens) || 0;
+          renderedUsd += Number(row.cost_usd) || 0;
+        }
+      } catch { /* skip malformed row */ }
+    }
+  } catch { /* no ledger yet */ }
+}
 
 // Review-gate (for the review step).
 let gate: { approved?: boolean; warnings?: { severity?: string; message?: string }[] } | null = null;
@@ -227,6 +252,33 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
           Publishing promotes the finalized book from the workshop to the published catalog.
           It runs gates G1–G7 and is an explicit, reviewed step — start it from Claude Code with
           the publisher once you are satisfied with the finalized version.
+        </p>
+      </div>
+      <div class="studio-panel">
+        <h2>Audio engine</h2>
+        <dl class="studio-audio-meta">
+          <div class="studio-audio-meta-row">
+            <dt>Engine</dt>
+            <dd>
+              {audioEngine === 'elevenlabs'
+                ? 'ElevenLabs — autonomous render (eleven_v3)'
+                : 'NotebookLM — manual upload and download'}
+            </dd>
+          </div>
+          {audioEngine === 'elevenlabs' && (
+            <div class="studio-audio-meta-row">
+              <dt>Rendered credits</dt>
+              <dd>
+                {renderedCredits.toLocaleString()} credits
+                {renderedUsd > 0 && ` (~$${renderedUsd.toFixed(2)} plan value)`}
+              </dd>
+            </div>
+          )}
+        </dl>
+        <p class="studio-audio-meta-note">
+          {audioEngine === 'elevenlabs'
+            ? 'Exact metered synthesis spend from the book’s cost ledger. Unchanged chapters never re-render or re-spend.'
+            : 'This book uses the manual NotebookLM path; no synthesis credits are spent.'}
         </p>
       </div>
     </div>
