@@ -509,6 +509,11 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         _info(f"  [slide-deck card error: {_card_exc}]")
     # ─────────────────────────────────────────────────────────────────────────
     _info("")
+    _info("After downloading the generated .m4a files (and any TurboScribe")
+    _info("transcripts), drop them anywhere under m4a/ — names don't matter —")
+    _info("then normalize to canonical chapter order (dry-run first, then --apply):")
+    _info(f"  python3 scripts/podcast/normalize_m4a.py {book_slug} --apply")
+    _info("")
     _info("When satisfied, authorize publish + trainer + merge:")
     _info(f"  python3 scripts/podcast/orchestrate_book.py --resume {book_slug}")
     _info("─" * 72)

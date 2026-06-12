@@ -760,6 +760,204 @@
       "plain": "",
       "tools": [],
       "last_touched": null
+    },
+    {
+      "id": "O1",
+      "wave": "O",
+      "title": "BUG-SLIDE-001 \u2014 per-chapter-slides trigger fix for manually-processed books",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "O2",
+      "wave": "O",
+      "title": "_book_illustrate.py + render-mermaid.mjs book-dir mode + phases wiring",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "O3",
+      "wave": "O",
+      "title": "build_book_pdf.py \u2014 Google Drive copy feature committed",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "PH1",
+      "wave": "PH",
+      "title": "_book_illustrate.py \u2014 per-section try/except for LLM resilience",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "PH2",
+      "wave": "PH",
+      "title": "Test suite \u2014 21 pre-existing failures cleared to 0",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "WM1",
+      "wave": "WM",
+      "title": "Multi-volume foundation \u2014 work.yml manifest + volume-aware _paths/_branching + TS mirror",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "WM2",
+      "wave": "WM",
+      "title": "Profile-driven phase routing (phase_capabilities) + intake --work/--volume",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "WM3",
+      "wave": "WM",
+      "title": "Per-volume autopilot (orchestrate_work pause-between-volumes) + F32/F35 safety rails",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "WM4",
+      "wave": "WM",
+      "title": "Code-quality de-patch (_subprocess.py) + F38 close-out (grep gate + prompt cache + doc)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "WM5",
+      "wave": "WM",
+      "title": "asaas migration + content/->library/ rename (bundled checklist)",
+      "status": "deferred",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "WM6",
+      "wave": "WM",
+      "title": "Intake foundation \u2014 smart-form options + preflight estimator + JSON endpoints",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "WM6-ui",
+      "wave": "WM",
+      "title": "Intake UI \u2014 4 screens (upload+roles, smart form, pre-flight, launch+cockpit), per-screen with Asif",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "SD1",
+      "wave": "SD",
+      "title": "Folder skeleton registry + consumers + retroactive migration (all 4 buckets)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "SD2",
+      "wave": "SD",
+      "title": "Slide-deck generation card at finalize halt (framing-driven discovery)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "SD3",
+      "wave": "SD",
+      "title": "0book-slide-import phase \u2014 LLM anchor manifests + combined before-placement injection + halt gate",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "SD4",
+      "wave": "SD",
+      "title": "Dispatcher 0book dead-end fix (illustrate missing; stale per-chapter routing) + dashboard PHASE_ORDER",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "NM1",
+      "wave": "NM",
+      "title": "normalize_m4a.py \u2014 fingerprint matcher + swap detection + transcript pairing + ledger",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "NM2",
+      "wave": "NM",
+      "title": "Operator wiring \u2014 finalize card line + SKILL.md + framework.md docs",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
     }
   ],
   "waves": [
@@ -822,15 +1020,60 @@
       "id": "CP",
       "name": "Content-Profile Branching",
       "plain": ""
+    },
+    {
+      "id": "O",
+      "name": "PDF Reading Edition \u2014 0book-illustrate Phase + BUG-SLIDE-001",
+      "plain": ""
+    },
+    {
+      "id": "PH",
+      "name": "Pipeline Hardening \u2014 Audit, P1 Fix, Test Suite Green (21 to 0)",
+      "plain": ""
+    },
+    {
+      "id": "WM",
+      "name": "Wave M \u2014 Holistic Hardening: multi-volume works + profile routing + autonomy rails + intake foundation",
+      "plain": ""
+    },
+    {
+      "id": "SD",
+      "name": "Slide-Deck Weave + Folder Standardization (2026-06-10)",
+      "plain": ""
+    },
+    {
+      "id": "NM",
+      "name": "NotebookLM Drop Normalizer (2026-06-12)",
+      "plain": ""
     }
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-11T21:47:35.144334+00:00",
-  "source_commit": "d4cde09",
+  "generated_at": "2026-06-12T10:23:33.989980+00:00",
+  "source_commit": "557ae52",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "557ae52",
+      "subject": "status: session 27 \u2014 two-surface audit + MUST-fix sweep recorded; deferred design queue listed",
+      "date": "2026-06-11"
+    },
+    {
+      "sha": "9c5ff4a",
+      "subject": "audit: pipeline + Astro site fixes from full two-surface audit",
+      "date": "2026-06-11"
+    },
+    {
+      "sha": "f296577",
+      "subject": "tests: cover _book_cover theme brief + non-blocking ensure_cover contract (post-merge audit P2)",
+      "date": "2026-06-11"
+    },
+    {
+      "sha": "7796606",
+      "subject": "snapshots: regenerate after book-craft plan entries (post-merge audit P1)",
+      "date": "2026-06-11"
+    },
     {
       "sha": "d4cde09",
       "subject": "Merge Islamic/the-master-and-the-disciple into develop \u2014 reading edition + transcript canonicalization",
@@ -858,26 +1101,6 @@
     },
     {
       "sha": "912c2c2",
-      "subject": "book(the-master-and-the-disciple): 0book-slide-import \u2014 book-slides.md",
-      "date": "2026-06-11"
-    },
-    {
-      "sha": "2ce3efe",
-      "subject": "book(the-master-and-the-disciple): 0book-illustrate \u2014 book-illustrated.md",
-      "date": "2026-06-11"
-    },
-    {
-      "sha": "9deffac",
-      "subject": "book(the-master-and-the-disciple): retitle reading edition to 'The Master and the Disciple'",
-      "date": "2026-06-11"
-    },
-    {
-      "sha": "0d42a92",
-      "subject": "book(the-master-and-the-disciple): 0book-render \u2014 book.pdf",
-      "date": "2026-06-11"
-    },
-    {
-      "sha": "dbcc5fb",
       "subject": "book(the-master-and-the-disciple): 0book-slide-import \u2014 book-slides.md",
       "date": "2026-06-11"
     }

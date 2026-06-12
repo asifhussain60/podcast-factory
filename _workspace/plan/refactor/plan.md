@@ -972,3 +972,13 @@ Pre-authorized by the autonomy mandate in `CONTINUATION-2026-05-30.md`. Four blo
 > Three divergent folder lists (intake, the site's new-content launcher, scaffold) were collapsed into a single 16-folder registry, so every new book — and every volume created by multi-volume breakup — is pre-laid identically, including the audio drop folder and the slide-decks folder. A dry-run-first migration script standardized all nine existing books and six volumes: legacy folder names were renamed into the standard, and genuine oddities were flagged for review instead of auto-merged.
 >
 > *Value gained:* any book opened by any tool has the same shape; drops always have a home; folder drift can no longer accumulate.
+
+---
+
+## NotebookLM Drop Normalizer (2026-06-12)
+
+### 1. Dropped audio and transcripts rename themselves into canonical chapter order
+
+> NotebookLM names its exported audio after the episode's auto-generated creative title, and any chapter number the operator types in front of it is an unverified claim — a real 19/20 swap shipped this week and was caught only by hand. A new normalize step makes filenames irrelevant: drop the files anywhere in the book's audio folder with any name, run one command, and each file is fingerprint-matched against the episode framings and chapter sources (transcript text is the strongest evidence, then the creative title's own words; numeric prefixes are compared but never trusted). High-confidence matches rename to canonical form, prefix-vs-content disagreements are flagged as swaps and corrected, and anything ambiguous is left untouched and surfaced instead of guessed. Every verdict appends to the book's verification ledger, and the finalize card now prints the command as the standard post-download step.
+>
+> *Value gained:* the swap class of error can't reach publishing; the post-download ritual is one command instead of manual cross-checking.

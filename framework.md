@@ -182,7 +182,14 @@ podcast-factory/
 │   │       ├── chapters/                            ← TTS-safe source per chapter
 │   │       ├── episodes/
 │   │       ├── transcripts/
-│   │       ├── m4a/ (or audio/)                     ← rendered audio (gitignored, on disk only)
+│   │       ├── m4a/ (or audio/)                     ← rendered audio (gitignored, on disk only).
+│   │       │                                          NotebookLM downloads land here with ANY name;
+│   │       │                                          normalize_m4a.py fingerprints each file against
+│   │       │                                          the episode framings/chapter sources and renames
+│   │       │                                          to ch<NN><s>-<slug>.m4a (dry-run then --apply;
+│   │       │                                          flags SWAPs when a manual prefix disagrees with
+│   │       │                                          content; ledger at m4a/_review/). TurboScribe
+│   │       │                                          transcripts pair into m4a/transcripts/ the same way.
 │   │       ├── slide-decks/                         ← internal slide artifacts
 │   │       └── _system/meta.yml                     ← book-level state + provenance (publication.status)
 │   ├── Technical/                                   ← BUCKET (e.g. claude-code-training)

@@ -4226,6 +4226,31 @@ waves_o_ph:
         title: "Dispatcher 0book dead-end fix (illustrate missing; stale per-chapter routing) + dashboard PHASE_ORDER"
         status: completed
 
+  - id: NM
+    name: "NotebookLM Drop Normalizer (2026-06-12)"
+    execution_status: completed_2026_06_12
+    depends_on: [SD]
+    note: |
+      NotebookLM names audio exports after the Audio Overview's creative title,
+      and manual NN- prefixes are unverified claims (a real 19/20 swap shipped
+      2026-06-12, caught by hand). normalize_m4a.py makes filenames irrelevant:
+      fingerprints every non-canonical .m4a/.txt under BOOK_DIR/m4a/ against
+      episode framings + chapter sources (transcript text strongest, then
+      creative-title tokens; numeric prefixes compared but never trusted) and
+      renames to ch<NN><s>-<slug>.m4a / m4a/transcripts/<stem>.transcript.txt.
+      Dry-run default, --apply executes; AMBIGUOUS/COLLISION left untouched and
+      surfaced; all verdicts (MATCH/SWAP/AMBIGUOUS/COLLISION) append to the
+      m4a/_review/prefix-verification.json ledger. Finalize-halt card prints
+      the command; SKILL.md scripts catalog + framework.md tree updated.
+    steps:
+      - id: NM1
+        title: "normalize_m4a.py — fingerprint matcher + swap detection + transcript pairing + ledger"
+        status: completed
+        tests: "test_normalize_m4a (8)"
+      - id: NM2
+        title: "Operator wiring — finalize card line + SKILL.md + framework.md docs"
+        status: completed
+
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================
