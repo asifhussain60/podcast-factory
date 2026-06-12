@@ -619,3 +619,11 @@ Asif). **Blocked:** hadith atom ingest (no hadith DB; PyYAML missing from venv).
   sample); flag elevenlabs_arabic_recitation.
 - Remaining: live smoke test on ONE real chapter awaits H1 approval; merge
   to develop awaits H3 (backup branch + repo-surgeon sweep first).
+- SUPERSESSION: the experiment scripts under
+  _workspace/experiments/elevenlabs-audition/ (render_audition.py) and
+  _workspace/experiments/stephanie-interview-prep/ (generate_audio_v3.py)
+  are superseded by the pipeline renderer (_elevenlabs.py +
+  render_dialogue_audio.py). Folders left in place untracked — the audio
+  artifacts are Asif's; the scripts stay as historical reference only.
+- Backup branch pushed: backup/pre-audio-engine-v2-2026-06-12 (develop
+  HEAD 46eec14 restore point, pre-merge).
