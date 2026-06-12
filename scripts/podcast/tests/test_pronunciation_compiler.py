@@ -161,6 +161,9 @@ class TestClientDictionaryUpload(unittest.TestCase):
         self.assertIn("/v1/pronunciation-dictionaries/add-from-file", captured["url"])
         self.assertIn(b"<lexicon/>", captured["body"])
         self.assertIn(b'name="file"', captured["body"])
+        # ElevenLabs rejects application/xml on the file part (live 2026-06-12).
+        self.assertIn(b"Content-Type: text/plain", captured["body"])
+        self.assertNotIn(b"application/xml", captured["body"])
 
     def test_locator_cap_three(self):
         from _elevenlabs import ElevenLabsClient

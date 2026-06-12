@@ -179,9 +179,12 @@ class ElevenLabsClient:
         field("name", name)
         if description:
             field("description", description)
+        # NOTE: the file part MUST be text/plain — ElevenLabs' lexicon parser
+        # rejects application/xml with "Lexicon file formatted incorrectly"
+        # (root-caused live 2026-06-12; the XML itself was valid).
         parts.append(
             (f"--{boundary}\r\nContent-Disposition: form-data; name=\"file\"; "
-             f"filename=\"{name}.pls\"\r\nContent-Type: application/xml\r\n\r\n"
+             f"filename=\"{name}.pls\"\r\nContent-Type: text/plain\r\n\r\n"
              ).encode("utf-8"))
         parts.append(pls_text.encode("utf-8"))
         parts.append(f"\r\n--{boundary}--\r\n".encode("utf-8"))
