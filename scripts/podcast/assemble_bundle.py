@@ -65,7 +65,11 @@ def _derive_episode_map_from_chapters(book_dir: Path) -> list[dict]:
     for f in sorted(chapters_dir.glob("ch*.txt")):
         m = pattern.match(f.name)
         if m:
+            # Carry the `episode` slug too — consumers (incl. the finalize
+            # NotebookLM table) read entry["episode"]; the JSON-load path
+            # backfills it but this derive path previously did not (KeyError).
             entries.append({"chapter": m.group(1) + "-" + m.group(3),
+                            "episode": f"EP{int(m.group(2)):02d}-{m.group(3)}",
                             "n": int(m.group(2))})
     if entries:
         p = book_dir / "_system" / "episode-chapter-map.json"

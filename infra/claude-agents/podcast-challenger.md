@@ -92,6 +92,7 @@ The earlier authority list named 17 handbook + Arabic-reference files under `con
 You do NOT review:
 - Anything under `content/babu-memoir/` — memoir is out of scope per SKILL.md §9 (these belong to the journal skill).
 - The MP3 output of NotebookLM (only the upstream sources: chapters + framings).
+- Dialogue-script artifacts (`BOOK_DIR/_system/dialogue-scripts/*.script.md`, Audio Engine v2, 2026-06-12) — the autonomous ElevenLabs path has its OWN pre-synthesis gate: [scripts/podcast/_validators_dialogue.py](scripts/podcast/_validators_dialogue.py) (deterministic deny/doctrine/coverage/host-parity checks, engine-aware via [scripts/podcast/_audio_engines.py](scripts/podcast/_audio_engines.py)) converged by [scripts/podcast/_dialogue_convergence.py](scripts/podcast/_dialogue_convergence.py) with the same SHIP-READY / SHIP-WITH-CAUTION verdict grammar. Its findings land in the SAME `_learning/findings.jsonl` ledger under `source="dialogue-gate"` with `DLG-*` check ids — the trainer consumes both sources. This agent's categories continue to gate the shared upstream artifacts (chapters + framings) for BOTH engines.
 
 ---
 

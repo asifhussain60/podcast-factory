@@ -1002,6 +1002,94 @@
       "plain": "",
       "tools": [],
       "last_touched": null
+    },
+    {
+      "id": "AE1",
+      "wave": "AE",
+      "title": "Engine registry with capability flags + golden-fixture byte-identity for the default path",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AE2",
+      "wave": "AE",
+      "title": "Dialogue-script artifact + Claude Max authorship (framing as steering spec)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AE3",
+      "wave": "AE",
+      "title": "Pre-synthesis content gate + convergence loop (deterministic + semantic; coverage = no-teaching-lost)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AE4",
+      "wave": "AE",
+      "title": "Pronunciation compiler: glossary -> versioned PLS dictionary, pinned; Arabic-recitation scaffold (H2 OFF)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AE5",
+      "wave": "AE",
+      "title": "Production renderer: render-once/cache-forever, render ledger, exact credit metering, canonical layout",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AE6",
+      "wave": "AE",
+      "title": "Orchestrator wiring: audio-script + audio-render phases, H1 halt, engine-aware finalize card",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AE7",
+      "wave": "AE",
+      "title": "Astro studio Publish step: audio engine + rendered-credit spend (Cortex-gated, lint clean)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AE8",
+      "wave": "AE",
+      "title": "Dual-engine e2e through the post-0f driver (both paths; fixed episode-map derive fallback KeyError)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
     }
   ],
   "waves": [
@@ -1094,64 +1182,69 @@
       "id": "AT",
       "name": "Azure Transcription for NotebookLM Output (2026-06-12)",
       "plain": ""
+    },
+    {
+      "id": "AE",
+      "name": "Audio Engine v2 \u2014 ElevenLabs autonomous path, NotebookLM preserved (2026-06-12)",
+      "plain": ""
     }
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-12T10:53:30.311428+00:00",
-  "source_commit": "f60924a",
+  "generated_at": "2026-06-12T16:00:58.722573+00:00",
+  "source_commit": "ea9700a",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "f60924a",
-      "subject": "feat(pipeline): normalize_m4a.py \u2014 drop-and-normalize step for NotebookLM audio + transcripts",
+      "sha": "ea9700a",
+      "subject": "test(audio-v2): Step 8 \u2014 dual-engine e2e through the post-0f driver",
       "date": "2026-06-12"
     },
     {
-      "sha": "557ae52",
-      "subject": "status: session 27 \u2014 two-surface audit + MUST-fix sweep recorded; deferred design queue listed",
-      "date": "2026-06-11"
+      "sha": "a7f0681",
+      "subject": "feat(audio-v2): Step 7 \u2014 studio publish view surfaces audio engine + rendered credits",
+      "date": "2026-06-12"
     },
     {
-      "sha": "9c5ff4a",
-      "subject": "audit: pipeline + Astro site fixes from full two-surface audit",
-      "date": "2026-06-11"
+      "sha": "a9c5bbd",
+      "subject": "feat(audio-v2): Step 6 \u2014 orchestrator wiring (autonomy with ONE H1 spend halt)",
+      "date": "2026-06-12"
     },
     {
-      "sha": "f296577",
-      "subject": "tests: cover _book_cover theme brief + non-blocking ensure_cover contract (post-merge audit P2)",
-      "date": "2026-06-11"
+      "sha": "33c1910",
+      "subject": "feat(audio-v2): Step 5 \u2014 production renderer (render once, cache forever)",
+      "date": "2026-06-12"
     },
     {
-      "sha": "7796606",
-      "subject": "snapshots: regenerate after book-craft plan entries (post-merge audit P1)",
-      "date": "2026-06-11"
+      "sha": "203b3f1",
+      "subject": "feat(audio-v2): Step 4 \u2014 pronunciation compiler (glossary -> versioned PLS dictionary)",
+      "date": "2026-06-12"
     },
     {
-      "sha": "d4cde09",
-      "subject": "Merge Islamic/the-master-and-the-disciple into develop \u2014 reading edition + transcript canonicalization",
-      "date": "2026-06-11"
+      "sha": "9c0020f",
+      "subject": "feat(audio-v2): Step 3 \u2014 pre-synthesis content gate + script convergence loop",
+      "date": "2026-06-12"
     },
     {
-      "sha": "e89fda3",
-      "subject": "book(the-master-and-the-disciple): cost-ledger update + canonical m4a transcript layout",
-      "date": "2026-06-11"
+      "sha": "0a1b45f",
+      "subject": "feat(audio-v2): Step 2 \u2014 dialogue-script artifact + Claude Max authorship",
+      "date": "2026-06-12"
     },
     {
-      "sha": "015bbd2",
-      "subject": "book-craft: Asif's 8-item PDF review punch list \u2014 pipeline-level fixes",
-      "date": "2026-06-11"
+      "sha": "dc568ea",
+      "subject": "feat(audio-v2): Step 1 \u2014 pluggable audio-engine registry with capability flags",
+      "date": "2026-06-12"
     },
     {
-      "sha": "eb3b9c4",
-      "subject": "assets(fonts): vendor Amiri + AmiriQuran (OFL) for reading-edition PDF render",
-      "date": "2026-06-11"
+      "sha": "46eec14",
+      "subject": "feat(pipeline): Azure transcription for NotebookLM output \u2014 TurboScribe retired as documented path",
+      "date": "2026-06-12"
     },
     {
-      "sha": "9946c36",
-      "subject": "book(the-master-and-the-disciple): 0book-render \u2014 book.pdf",
-      "date": "2026-06-11"
+      "sha": "f60924a",
+      "subject": "feat(pipeline): normalize_m4a.py \u2014 drop-and-normalize step for NotebookLM audio + transcripts",
+      "date": "2026-06-12"
     }
   ],
   "wave_execution_events": [],
