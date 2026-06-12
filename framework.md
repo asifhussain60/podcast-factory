@@ -188,8 +188,11 @@ podcast-factory/
 │   │       │                                          the episode framings/chapter sources and renames
 │   │       │                                          to ch<NN><s>-<slug>.m4a (dry-run then --apply;
 │   │       │                                          flags SWAPs when a manual prefix disagrees with
-│   │       │                                          content; ledger at m4a/_review/). TurboScribe
-│   │       │                                          transcripts pair into m4a/transcripts/ the same way.
+│   │       │                                          content; ledger at m4a/_review/). Then
+│   │       │                                          transcribe_notebooklm.py (Azure Speech, batch,
+│   │       │                                          idempotent) fills m4a/transcripts/ + the derived
+│   │       │                                          transcripts/EP## audit copies; external-service
+│   │       │                                          drops (TurboScribe etc.) remain a paired fallback.
 │   │       ├── slide-decks/                         ← internal slide artifacts
 │   │       └── _system/meta.yml                     ← book-level state + provenance (publication.status)
 │   ├── Technical/                                   ← BUCKET (e.g. claude-code-training)

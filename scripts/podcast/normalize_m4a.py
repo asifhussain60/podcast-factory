@@ -68,14 +68,24 @@ STOPWORDS = frozenset(
     "chapter podcast audio overview notebooklm deep dive debate".split()
 )
 
-MIN_SCORE = 0.18          # best match must clear this floor
-MIN_MARGIN = 1.35         # and beat the runner-up by this ratio
+MIN_SCORE = 0.18          # filename probe: best match must clear this floor
+MIN_MARGIN = 1.35         # ... and beat the runner-up by this ratio
+MIN_TEXT_SCORE = 0.03     # transcript probe (trigram evidence is sparser but sharper)
+MIN_TEXT_MARGIN = 1.5
 TRANSCRIPT_PROBE_WORDS = 500
 
 
 def _tokens(text: str) -> set[str]:
     words = re.split(r"[^a-z0-9']+", text.lower())
     return {w for w in words if len(w) > 2 and w not in STOPWORDS}
+
+
+def _words(text: str) -> list[str]:
+    return [w for w in re.split(r"[^a-z0-9']+", text.lower()) if w]
+
+
+def _trigrams(words: list[str]) -> set[str]:
+    return {" ".join(words[i:i + 3]) for i in range(len(words) - 2)}
 
 
 def _utc_now() -> str:
@@ -101,14 +111,30 @@ class Chapter:
         except OSError:
             pass
         self.body_tokens = _tokens(body)
+        self.body_trigrams = _trigrams(_words(body))
 
-    def score(self, probe: set[str]) -> float:
-        """Containment of probe tokens in this chapter's corpus, with the
-        episode/chapter title weighted heavily (it is the discriminator)."""
+    def score(self, probe: set[str], idf: dict[str, float] | None = None,
+              max_idf: float = 1.0) -> float:
+        """IDF-weighted containment of probe tokens in this chapter's corpus.
+
+        Sibling episodes of one book share most of their vocabulary (debate
+        framing, the book's own recurring terms), so a raw-overlap score
+        drifts toward whichever chapter has the LARGEST corpus — a 2026-06-12
+        live run matched two correct transcripts to the wrong (biggest)
+        chapter that way. Weighting each token by inverse document frequency
+        across the book's chapters makes shared vocabulary worthless and
+        chapter-specific phrases decisive. Title tokens stay separately
+        weighted: they are the strongest discriminator for filename probes.
+        """
         if not probe:
             return 0.0
         title_hit = len(probe & self.title_tokens) / max(len(self.title_tokens), 1)
-        body_hit = len(probe & self.body_tokens) / len(probe)
+        if idf is None:
+            body_hit = len(probe & self.body_tokens) / len(probe)
+        else:
+            num = sum(idf.get(t, 0.0) for t in probe & self.body_tokens)
+            den = sum(idf.get(t, max_idf) for t in probe)
+            body_hit = num / den if den > 0 else 0.0
         return 0.6 * title_hit + 0.4 * body_hit
 
 
@@ -134,16 +160,68 @@ def _claimed_number(name: str) -> int | None:
     return int(m.group(1)) if m else None
 
 
-def _match(probe: set[str], chapters: list[Chapter]) -> tuple[Chapter | None, float, float, Chapter | None]:
-    """Return (best, best_score, margin_ratio, runner_up)."""
-    scored = sorted(((c.score(probe), c) for c in chapters),
-                    key=lambda t: t[0], reverse=True)
-    if not scored:
-        return None, 0.0, 0.0, None
+def _build_idf(chapters: list[Chapter], attr: str) -> tuple[dict[str, float], float]:
+    """Inverse document frequency over a per-chapter feature set (`attr` names
+    a set attribute: 'body_tokens' or 'body_trigrams'; title_tokens fold into
+    the token table).
+
+    A feature present in every chapter scores 0 (no signal); one unique to a
+    single chapter scores log(N). Probe features absent from all chapters get
+    max_idf in the denominator so noise still dilutes confidence.
+    """
+    from math import log
+    n = len(chapters)
+    df: dict[str, int] = {}
+    for c in chapters:
+        feats = set(getattr(c, attr))
+        if attr == "body_tokens":
+            feats |= c.title_tokens
+        for t in feats:
+            df[t] = df.get(t, 0) + 1
+    max_idf = log(n) if n > 1 else 1.0
+    return {t: log(n / d) for t, d in df.items()}, max_idf
+
+
+def _rank(scored: list[tuple[float, "Chapter"]]) -> tuple["Chapter | None", float, float, "Chapter | None"]:
+    scored.sort(key=lambda t: t[0], reverse=True)
     best_score, best = scored[0]
     runner_score, runner = (scored[1] if len(scored) > 1 else (0.0, None))
     margin = best_score / runner_score if runner_score > 0 else float("inf")
     return best, best_score, margin, runner
+
+
+def _match(probe: set[str], chapters: list[Chapter]) -> tuple[Chapter | None, float, float, Chapter | None]:
+    """Filename-token match: (best, best_score, margin_ratio, runner_up)."""
+    if not chapters:
+        return None, 0.0, 0.0, None
+    idf, max_idf = _build_idf(chapters, "body_tokens")
+    return _rank([(c.score(probe, idf, max_idf), c) for c in chapters])
+
+
+def _match_text(probe_words: list[str], chapters: list[Chapter]) -> tuple[Chapter | None, float, float, Chapter | None]:
+    """Transcript-text match via IDF-weighted trigram containment.
+
+    Token-set overlap fails on transcript probes: sibling episodes of one
+    book share most vocabulary (debate framing, the book's recurring
+    theology), so the biggest chapter corpus wins — a 2026-06-12 live run
+    mismatched 7 of 20 KNOWN-correct transcripts that way. Verbatim PHRASES
+    are the real signal (framings dictate exact spine lines the hosts speak),
+    so we match word-trigrams, IDF-discounted so boilerplate shared across
+    framings ("welcome to the debate") carries no weight. Validated 20/20 on
+    the-master-and-the-disciple with min margin 2.2.
+    """
+    if not chapters:
+        return None, 0.0, 0.0, None
+    probe = _trigrams(probe_words)
+    if not probe:
+        return None, 0.0, 0.0, None
+    idf, max_idf = _build_idf(chapters, "body_trigrams")
+    den = sum(idf.get(t, max_idf) for t in probe)
+    scored = [
+        (sum(idf.get(t, 0.0) for t in probe & c.body_trigrams) / den if den > 0 else 0.0, c)
+        for c in chapters
+    ]
+    return _rank(scored)
 
 
 def plan_book(book_dir: Path) -> list[dict]:
@@ -210,9 +288,8 @@ def plan_book(book_dir: Path) -> list[dict]:
             })
             taken_tx.add(stem)
             continue
-        words = p.read_text(encoding="utf-8", errors="replace").split()
-        probe = _tokens(" ".join(words[:TRANSCRIPT_PROBE_WORDS]))
-        best, score, margin, runner = _match(probe, chapters)
+        probe_words = _words(p.read_text(encoding="utf-8", errors="replace"))[:TRANSCRIPT_PROBE_WORDS]
+        best, score, margin, runner = _match_text(probe_words, chapters)
         entry = {
             "file": str(p.relative_to(m4a_dir)), "kind": "transcript",
             "claimed": _claimed_number(p.name),
@@ -220,9 +297,9 @@ def plan_book(book_dir: Path) -> list[dict]:
             "best_num": best.num if best else None,
             "score": round(score, 3), "margin": round(margin, 2),
             "runner_up": runner.stem if runner else None,
-            "evidence": "transcript-text",
+            "evidence": "transcript-trigrams",
         }
-        if best is None or score < MIN_SCORE or margin < MIN_MARGIN:
+        if best is None or score < MIN_TEXT_SCORE or margin < MIN_TEXT_MARGIN:
             entry.update(verdict="AMBIGUOUS", action=None,
                          note="no confident match — resolve by hand")
         elif best.stem in taken_tx:

@@ -120,3 +120,36 @@ def test_dry_run_never_mutates(tmp_path):
     plan_book(book)
     assert (book / "m4a" / "01-The_iron_mountain_and_the_forge.m4a").exists()
     assert not (book / "m4a" / "_review").exists()
+
+
+def test_shared_boilerplate_does_not_drift_to_biggest_chapter(tmp_path):
+    """Regression (2026-06-12): sibling episodes share debate-frame boilerplate
+    (every framing opens the same way), and token-set overlap matched 7 of 20
+    KNOWN-correct real transcripts to the largest chapter corpus. The
+    trigram+IDF scorer must keep the chapter-specific verbatim phrases
+    decisive and zero-weight phrases that appear in every framing."""
+    book = _book(tmp_path)
+    boiler = ("welcome to the debate tonight we examine the master and the "
+              "disciple and the rigorous assertion of its tenth century author ")
+    # Boilerplate appears in EVERY framing (as real framings do)...
+    for ep in ("EP01-the-garden-of-truth", "EP02-the-iron-mountain"):
+        f = book / "episodes" / f"{ep}.txt"
+        f.write_text(boiler + f.read_text(), encoding="utf-8")
+    # ...and a third chapter has by far the LARGEST corpus.
+    (book / "chapters" / "ch03c-the-grand-assembly.txt").write_text(
+        boiler * 40 + " assembly elders convene the grand council hall " * 20,
+        encoding="utf-8")
+    (book / "episodes" / "EP03-the-grand-assembly.txt").write_text(
+        boiler + " the grand assembly convenes the elders", encoding="utf-8")
+    # Transcript: mostly boilerplate + the garden chapter's verbatim phrases.
+    (book / "m4a" / "garden_episode.m4a").write_bytes(b"x")
+    exp = book / "m4a" / "drop"
+    exp.mkdir()
+    (exp / "garden_transcript.txt").write_text(
+        boiler * 3 + " the gardener prunes the orchard so truth may blossom "
+        "and every rose and fountain in order", encoding="utf-8")
+    plan = plan_book(book)
+    tx = [e for e in plan if e["kind"] == "transcript"][0]
+    assert tx["evidence"] == "transcript-trigrams"
+    assert tx["best"] == "ch01a-the-garden-of-truth"
+    assert tx["verdict"] in ("MATCH", "SWAP")

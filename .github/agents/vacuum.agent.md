@@ -80,7 +80,7 @@ content/<Bucket>/<slug>/                     (one tree; status=draft|published l
   m4a/                                       (audio folder — canonical name decided per book; see §3)
     ch<NN>-<chapter-slug>.m4a                (downloaded from NotebookLM)
     transcripts/
-      ch<NN>-<chapter-slug>.transcript.txt   (Turboscribe output — same stem as m4a)
+      ch<NN>-<chapter-slug>.transcript.txt   (transcribe_notebooklm.py Azure output, or external fallback — same stem as m4a)
   slide-decks/                               (if present; vacuum flags missing per CLAUDE.md rule)
   show-notes/                                 (if present)
 ```

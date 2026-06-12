@@ -1,6 +1,6 @@
 ---
 name: postprod-review
-description: "Post-production audit for NotebookLM-generated audio episodes. Consumes Turboscribe-produced transcripts of the downloaded m4a files and scores each against (a) the book's genre archetype and (b) the Dos/Don'ts protocol. Identifies drift the source-side `podcast-challenger` cannot catch because it only sees the *upload bundle* — postprod-review sees what NotebookLM *actually produced*. Identify-only in v1.0 (no mutations). Delegates filename normalization to the `vacuum` agent. Writes per-chapter and per-book reports under `audits/`, appends to `_learning/findings.jsonl` with prefix `PR`, and stamps `postprod_version` into every report. Book-agnostic: caller supplies `<book-slug>`. Invoke for: 'postprod <book-slug>', 'review the audio', 'audit the m4a output', '/postprod-review', 'check what NotebookLM produced', 'transcribe-and-review <book-slug>'."
+description: "Post-production audit for NotebookLM-generated audio episodes. Consumes transcripts of the downloaded m4a files (Azure Speech via scripts/podcast/transcribe_notebooklm.py — the default; external services like Turboscribe are a fallback drop path) and scores each against (a) the book's genre archetype and (b) the Dos/Don'ts protocol. Identifies drift the source-side `podcast-challenger` cannot catch because it only sees the *upload bundle* — postprod-review sees what NotebookLM *actually produced*. Identify-only in v1.0 (no mutations). Delegates filename normalization to the `vacuum` agent. Writes per-chapter and per-book reports under `audits/`, appends to `_learning/findings.jsonl` with prefix `PR`, and stamps `postprod_version` into every report. Book-agnostic: caller supplies `<book-slug>`. Invoke for: 'postprod <book-slug>', 'review the audio', 'audit the m4a output', '/postprod-review', 'check what NotebookLM produced', 'transcribe-and-review <book-slug>'."
 tools: Read, Glob, Grep, Bash
 postprod_contract:
   max_iterations: 1
@@ -26,7 +26,7 @@ postprod_version: "1.0"
 
 The `podcast-challenger` reviews the **upload bundle** — the SOURCE chapter + the CUSTOMIZE-prompt framing — *before* NotebookLM generates audio. It cannot see what NotebookLM actually produced.
 
-`postprod-review` is the mirror on the output side. After Asif downloads the generated `.m4a` files and produces transcripts via Turboscribe, this agent reads those transcripts and asks: **did NotebookLM honor the contract?** It scores the produced audio against the book's genre archetype + the Dos/Don'ts protocol, surfaces drift, and writes findings.
+`postprod-review` is the mirror on the output side. After Asif downloads the generated `.m4a` files and transcripts are produced (default: `python3 scripts/podcast/transcribe_notebooklm.py <slug>` — Azure Speech, batch, idempotent; fallback: an external service like Turboscribe whose output normalize_m4a.py pairs in), this agent reads those transcripts and asks: **did NotebookLM honor the contract?** It scores the produced audio against the book's genre archetype + the Dos/Don'ts protocol, surfaces drift, and writes findings.
 
 Worker/Judge separation: this agent JUDGES, never mutates. Filename normalization, folder cleanup, and any other mutation belong to the `vacuum` agent — postprod-review's findings include explicit `delegate_to: vacuum` instructions when mutation is needed.
 
@@ -39,7 +39,7 @@ Worker/Judge separation: this agent JUDGES, never mutates. Filename normalizatio
 | Path | Purpose |
 |---|---|
 | `content/<Bucket>/<slug>/m4a/*.m4a` | The audio files downloaded from NotebookLM (filenames may be NotebookLM-assigned, not canonical) |
-| `content/<Bucket>/<slug>/m4a/transcripts/*.txt` | Turboscribe transcripts of those m4a files (paired by stem when canonical; otherwise by inference) |
+| `content/<Bucket>/<slug>/m4a/transcripts/*.txt` | Transcripts of those m4a files — Azure transcribe_notebooklm.py output (canonical stems) or external-service drops paired by normalize_m4a.py |
 | `content/<Bucket>/<slug>/chapter-contracts/*.yml` | Per-chapter contract (theme, doctrinal anchors, episode count) |
 | `content/<Bucket>/<slug>/chapters/ch*.txt` | The enriched chapter SOURCE that was uploaded to NotebookLM |
 | `content/<Bucket>/<slug>/episodes/EP*.txt` | The CUSTOMIZE prompt that steered NotebookLM |
@@ -163,7 +163,7 @@ The agent is invoked by:
 
 ## SECTION 6 — Boundaries (what postprod-review does NOT do)
 
-- Does **not** transcribe audio. Transcripts are produced by Turboscribe (manual upload by Asif) and placed in `m4a/transcripts/`.
+- Does **not** transcribe audio itself. Transcripts are produced by `scripts/podcast/transcribe_notebooklm.py` (Azure Speech — the default) or an external fallback, landing in `m4a/transcripts/`.
 - Does **not** rename files, move files, or delete files. All mutations go through `vacuum` via `delegate_to:` findings.
 - Does **not** edit chapter sources or framings. The source-side `podcast-challenger` owns that loop; postprod is downstream.
 - Does **not** regenerate audio or talk to NotebookLM. Those are manual user actions.

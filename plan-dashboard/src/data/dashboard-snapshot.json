@@ -958,6 +958,50 @@
       "plain": "",
       "tools": [],
       "last_touched": null
+    },
+    {
+      "id": "AT1",
+      "wave": "AT",
+      "title": "transcribe_notebooklm.py rebuilt on Azure \u2014 batch, idempotent, dual-contract output, duration-priced ledger",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AT2",
+      "wave": "AT",
+      "title": "transcribe_episode.py repriced to duration-based STT helper (root fix of F36 char proxy)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AT3",
+      "wave": "AT",
+      "title": "Docs sweep Azure-first \u2014 SKILL.md, framework.md, postprod-review + vacuum specs, finalize card chain",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AT4",
+      "wave": "AT",
+      "title": "normalize_m4a transcript scorer rebuilt trigram+IDF \u2014 live Azure transcripts exposed token-overlap drift to the largest chapter corpus (7/20 known-correct mismatched); validated 20/20 on the-master-and-the-disciple",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
     }
   ],
   "waves": [
@@ -1045,15 +1089,25 @@
       "id": "NM",
       "name": "NotebookLM Drop Normalizer (2026-06-12)",
       "plain": ""
+    },
+    {
+      "id": "AT",
+      "name": "Azure Transcription for NotebookLM Output (2026-06-12)",
+      "plain": ""
     }
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-12T10:23:33.989980+00:00",
-  "source_commit": "557ae52",
+  "generated_at": "2026-06-12T10:53:30.311428+00:00",
+  "source_commit": "f60924a",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "f60924a",
+      "subject": "feat(pipeline): normalize_m4a.py \u2014 drop-and-normalize step for NotebookLM audio + transcripts",
+      "date": "2026-06-12"
+    },
     {
       "sha": "557ae52",
       "subject": "status: session 27 \u2014 two-surface audit + MUST-fix sweep recorded; deferred design queue listed",
@@ -1097,11 +1151,6 @@
     {
       "sha": "9946c36",
       "subject": "book(the-master-and-the-disciple): 0book-render \u2014 book.pdf",
-      "date": "2026-06-11"
-    },
-    {
-      "sha": "912c2c2",
-      "subject": "book(the-master-and-the-disciple): 0book-slide-import \u2014 book-slides.md",
       "date": "2026-06-11"
     }
   ],

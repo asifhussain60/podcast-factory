@@ -4251,6 +4251,45 @@ waves_o_ph:
         title: "Operator wiring — finalize card line + SKILL.md + framework.md docs"
         status: completed
 
+  - id: AT
+    name: "Azure Transcription for NotebookLM Output (2026-06-12)"
+    execution_status: completed_2026_06_12
+    depends_on: [NM]
+    note: |
+      TurboScribe retired as the documented transcription path. The OUTPUT-side
+      transcriber (transcribe_notebooklm.py) was dead code — local whisper,
+      never installed, retired drafts/ paths — which is WHY the manual
+      TurboScribe ritual existed. Rebuilt on the proven Azure Speech Fast
+      Transcription caller (_azure.transcribe_audio, same as lecture intake):
+      batch per book, idempotent, bucket-aware, --only/--force/--dry-run,
+      non-canonical names deferred to normalize_m4a. ONE Azure call writes
+      BOTH live transcript contracts: m4a/transcripts/<ch-stem>.transcript.txt
+      (source of truth: postprod-review, normalize_m4a) + derived
+      transcripts/EP##-<slug>.transcript.txt (audit_transcript Loop M,
+      stitch_video keyword sync). Cost rows duration-priced
+      (azure-speech-stt-fast); transcribe_episode.py repriced from the F36
+      char-count Neural-TTS proxy (~10x overstatement) to the same
+      duration-priced helper. Finalize card prints normalize -> transcribe.
+      Docs swept Azure-first: SKILL.md (catalog + Loop M paths a/b/c),
+      framework.md tree, postprod-review + vacuum agent specs (both copies).
+      External services (TurboScribe) remain a FALLBACK drop path that
+      normalize_m4a pairs in.
+    steps:
+      - id: AT1
+        title: "transcribe_notebooklm.py rebuilt on Azure — batch, idempotent, dual-contract output, duration-priced ledger"
+        status: completed
+        tests: "test_transcribe_notebooklm (8)"
+      - id: AT2
+        title: "transcribe_episode.py repriced to duration-based STT helper (root fix of F36 char proxy)"
+        status: completed
+      - id: AT3
+        title: "Docs sweep Azure-first — SKILL.md, framework.md, postprod-review + vacuum specs, finalize card chain"
+        status: completed
+      - id: AT4
+        title: "normalize_m4a transcript scorer rebuilt trigram+IDF — live Azure transcripts exposed token-overlap drift to the largest chapter corpus (7/20 known-correct mismatched); validated 20/20 on the-master-and-the-disciple"
+        status: completed
+        tests: "test_normalize_m4a (9, incl. shared-boilerplate regression)"
+
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================

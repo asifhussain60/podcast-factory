@@ -982,3 +982,13 @@ Pre-authorized by the autonomy mandate in `CONTINUATION-2026-05-30.md`. Four blo
 > NotebookLM names its exported audio after the episode's auto-generated creative title, and any chapter number the operator types in front of it is an unverified claim — a real 19/20 swap shipped this week and was caught only by hand. A new normalize step makes filenames irrelevant: drop the files anywhere in the book's audio folder with any name, run one command, and each file is fingerprint-matched against the episode framings and chapter sources (transcript text is the strongest evidence, then the creative title's own words; numeric prefixes are compared but never trusted). High-confidence matches rename to canonical form, prefix-vs-content disagreements are flagged as swaps and corrected, and anything ambiguous is left untouched and surfaced instead of guessed. Every verdict appends to the book's verification ledger, and the finalize card now prints the command as the standard post-download step.
 >
 > *Value gained:* the swap class of error can't reach publishing; the post-download ritual is one command instead of manual cross-checking.
+
+---
+
+## Azure Transcription for NotebookLM Output (2026-06-12)
+
+### 1. Transcription moves in-house: one command, Azure does the rest
+
+> The script meant to transcribe NotebookLM's audio output was dead on arrival — it depended on a local AI model that was never installed and pointed at a folder layout retired weeks ago. That's why the manual TurboScribe upload-download ritual existed at all. The script is rebuilt on the same Azure transcription service the pipeline already uses daily for lecture intake: point it at a book and it transcribes every properly-named audio file that's missing a transcript, skips what's done, and prices each job into the book's cost ledger by actual audio duration (also fixing an older cost entry that overstated transcription spend roughly tenfold). One transcription call feeds both downstream consumers — the post-production reviewer and the audit/video tooling — from a single source of truth, and the finalize card now prints the full ritual: drop audio, normalize names, transcribe. External services remain a fallback drop path.
+>
+> *Value gained:* no external transcription service in the loop; transcripts cost cents, arrive in minutes, and land correctly named on both contracts every time.
