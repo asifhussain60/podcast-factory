@@ -264,6 +264,30 @@ class TestConvergence(unittest.TestCase):
                 log=lambda *a: None)
         self.assertEqual(res.verdict, "FAILED")
 
+    def test_fixer_timeout_never_aborts_convergence(self):
+        """Live failure 2026-06-12: claude -p applied its edits then hung past
+        the 900s timeout; the AuthoringError crashed the whole loop. The loop
+        must instead re-gate the artifact as it stands."""
+        from _authoring._core import AuthoringError
+        bad = CLEAN_SCRIPT + (
+            "\nHOST_A: The classical Quran commentator the classical Quran commentator "
+            "said this plainly enough.\n")
+        write_script(self.book, bad)
+
+        def hanging_fixer(book_dir, episode_id, chapter_slug, findings, **kw):
+            # Simulate edits-applied-then-timeout: fix the script, then raise.
+            write_script(self.book, CLEAN_SCRIPT)
+            raise AuthoringError(phase="audio-script",
+                                 message="LLM call timed out after 900s.")
+
+        with mock.patch.object(self.dc, "_fixer_pass", side_effect=hanging_fixer):
+            res = self.dc.converge_dialogue_script(
+                self.book, CHAPTER_SLUG, semantic=False, author_first=False,
+                log=lambda *a: None)
+        # The fixed artifact re-gates clean on iteration 2 -> SHIP-READY.
+        self.assertEqual(res.verdict, "SHIP-READY")
+        self.assertTrue(any("fixer error" in n for n in res.notes))
+
     def test_credit_estimate_propagates_to_result(self):
         write_script(self.book, CLEAN_SCRIPT)
         res = self.dc.converge_dialogue_script(

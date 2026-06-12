@@ -266,7 +266,18 @@ def converge_dialogue_script(
         log(f"  [dialogue-converge] iter {iteration}: P0={report.p0} P1={report.p1} "
             f"-> fixer pass")
         actionable = [f for f in report.findings if f.severity in ("P0", "P1")]
-        _fixer_pass(book_dir, episode_id, chapter_slug, actionable)
+        try:
+            _fixer_pass(book_dir, episode_id, chapter_slug, actionable)
+        except AuthoringError as e:
+            # A fixer timeout/crash must never abort convergence: claude -p
+            # frequently applies its edits and THEN hangs past the timeout
+            # (observed live 2026-06-12 — both fixes were on disk when the
+            # 900s timeout fired). The artifact on disk is the truth; loop
+            # back and let the next gate judge it as it stands.
+            result.notes.append(
+                f"fixer error at iteration {iteration} (re-gating artifact "
+                f"as-is): {e}")
+            log(f"  [dialogue-converge] fixer error — re-gating as-is: {e}")
 
     verdict_path(book_dir, episode_id).parent.mkdir(parents=True, exist_ok=True)
     verdict_path(book_dir, episode_id).write_text(result.verdict + "\n", encoding="utf-8")
