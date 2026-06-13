@@ -487,7 +487,7 @@ Distinct from the podcast (podcast path). When `series.enable_book_branch` is tr
 - **`0book-compose`** ([_book_compose.py](../../scripts/podcast/_book_compose.py)) — revoices each chapter into modern author-first-person prose: Arabic quotations rendered as vowelled SCRIPT with the English translation beneath, faithful (no abridgement, no teaching lost), plain transliteration folded by `_translit` → `book/book.md`. Independent enrichment is pluggable, pending a tradition-appropriate corpus.
 - **`0book-render`** ([build_book_pdf.py](../../scripts/podcast/build_book_pdf.py)) — renders `book.md` to `book/book.pdf` via Playwright (one-time `npx playwright install chromium`) + the reader view at `/studio/<slug>/book`.
 
-NON-blocking (a book failure never sinks the podcast ship); gated by the **`book-challenger`** agent (whole-book voice consistency, verbatim-quote survival, **Arabic-script accuracy**, no-teaching-lost, segmentation sanity). Driver: [phases/book_driver.py](../../scripts/podcast/phases/book_driver.py).
+NON-blocking (a book failure never sinks the podcast ship); gated by the **`book-challenger`** agent (whole-book voice consistency, verbatim-quote survival, **Arabic-script accuracy**, no-teaching-lost, segmentation sanity, authored-book prose craft). Driver: [phases/book_driver.py](../../scripts/podcast/phases/book_driver.py).
 
 > **Branch boundary (locked 2026-06-04):** `chapters/chNN-<slug>.txt` (author voice) is the SOLE NotebookLM source. The book revoice lives only under `book/` and never feeds NotebookLM. The old per-chapter `0literary` step is retired.
 

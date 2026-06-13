@@ -26,7 +26,8 @@ import re
 from pathlib import Path
 
 from _authoring._core import AuthoringError, _run_claude_p
-from _literary import _read_literary_config, _VOICE_INSTRUCTIONS, teaching_loss_findings
+from _literary import (
+    _read_literary_config, _VOICE_INSTRUCTIONS, chapter_craft_block, teaching_loss_findings)
 from _translit import simplify_transliteration
 
 _COMPOSE_TIMEOUT = 420
@@ -125,6 +126,7 @@ def _compose_prompt(title: str, body: str, cfg: dict, voice_card: str, prev_tail
     addressee = cfg.get("addressee", "the reader")
     voice_instr = _VOICE_INSTRUCTIONS.get(voice_key, _VOICE_INSTRUCTIONS["author_first_person"]).format(
         narrator_subject=narrator, addressee=addressee)
+    craft = chapter_craft_block(cfg.get("content_profile"))
     anchor = (f"\nVOICE ANCHOR (match this exact register and rhythm — it is your own voice "
               f"established earlier in the book):\n{voice_card}\n") if voice_card else ""
     cont = (f"\nCONTINUITY: the previous chapter ended with —\n\"…{prev_tail}\"\nOpen THIS chapter so "
@@ -158,9 +160,9 @@ attribution or reference. Do NOT keep the Latin-letter transliteration. If you a
 exact canonical Arabic for a quotation, render your best faithful attempt and DO NOT invent a reference.
 {_arabic_ground_truth_block(arabic_src)}
 CHAPTER CRAFT
-Write this as a single flowing book chapter under its title. Open in a way that draws the reader in, let \
-the argument unfold through the specific things the text names, and close with resonance. Avoid \
-sub-headings unless the material genuinely demands one. No meta-commentary; write the thing, not about it.
+Write this as a single flowing book chapter under its title. Avoid sub-headings unless the material \
+genuinely demands one. No meta-commentary; write the thing, not about it.
+{craft}
 
 REGISTER
 Contemporary literary English — intimate, direct first person. No archaic diction.

@@ -221,7 +221,7 @@ The canonical source-of-truth for every agent is [infra/claude-agents/](infra/cl
 | `podcast-blueprint` | [infra/claude-agents/podcast-blueprint.md](infra/claude-agents/podcast-blueprint.md) | Content-aware episode-structure planner (slot 05.5-blueprint) |
 | `podcast-challenger` | [infra/claude-agents/podcast-challenger.md](infra/claude-agents/podcast-challenger.md) | Semantic-quality review (convergence loop ≤5 iterations before any bundle ships) |
 | `slide-deck-challenger` | [infra/claude-agents/slide-deck-challenger.md](infra/claude-agents/slide-deck-challenger.md) | Visual-quality challenger for slide-deck bundles |
-| `book-challenger` | [infra/claude-agents/book-challenger.md](infra/claude-agents/book-challenger.md) | Semantic-quality challenger for the companion reading edition (PDF path `book.md`) — Arabic-script accuracy, no-teaching-lost, voice consistency |
+| `book-challenger` | [infra/claude-agents/book-challenger.md](infra/claude-agents/book-challenger.md) | Semantic-quality challenger for the companion reading edition (PDF path `book.md`) — Arabic-script accuracy, no-teaching-lost, voice consistency, authored-book prose craft (no study-guide drift) |
 | `podcast-extract` | [infra/claude-agents/podcast-extract.md](infra/claude-agents/podcast-extract.md) | Single-chapter → NotebookLM bundle fast path |
 | `podcast-publisher` | [infra/claude-agents/podcast-publisher.md](infra/claude-agents/podcast-publisher.md) | Flip a finalized book's `status` draft→published in place (gates G1–G5+G7; G6 obsolete) |
 | `podcast-trainer` | [infra/claude-agents/podcast-trainer.md](infra/claude-agents/podcast-trainer.md) | Cross-book pattern learner; refines podcast-challenger + handbook with regression gates |
