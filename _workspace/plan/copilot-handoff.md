@@ -627,3 +627,38 @@ Asif). **Blocked:** hadith atom ingest (no hadith DB; PyYAML missing from venv).
   artifacts are Asif's; the scripts stay as historical reference only.
 - Backup branch pushed: backup/pre-audio-engine-v2-2026-06-12 (develop
   HEAD 46eec14 restore point, pre-merge).
+
+## Session 2026-06-13 — NotebookLM-fidelity + per-episode dual-path + voice picker (Wave AE2)
+
+Built end-to-end (all on develop, suite 976 green, view lint clean, preview-verified):
+- **ElevenLabs default for NEW Islamic books** at intake (`_rules` per-profile
+  registry → `intake_launch._write_series_config` stamps `audio_engine` +
+  `voice_cast`). NEVER retroactive — existing NotebookLM-native books (no
+  `audio_engine` field) stay put; golden test intact.
+- **Per-episode engine override**: `episode_engine_overrides` in series-config,
+  resolved by `_audio_engines.engine_for_episode()`. Script + render phases skip
+  NotebookLM-overridden episodes; `render_episode` guards against rendering one.
+  Finalize halt + assemble_bundle filter the upload table to the overridden
+  episodes, with a no-overrides latch that keeps pure-book output byte-identical.
+  Slide-deck card now prints on the autonomous path too (was coupled to manual).
+- **Tracked fingerprint + gold standard**: `_audio_fingerprint.py` (ported from
+  the style-match experiment), `build_audio_gold_standard.py` →
+  `content/_shared/audio-style/islamic_scholarly.json` built from BOTH NotebookLM
+  books (20+4 ep). Post-render style gate in `render_episode` (`style_gate`,
+  default OFF; one bounded retake inside H1; default-on in the driver). Threshold
+  65 = gross-drift floor; ear-approved CLIP10 scores 66.8 (pass), corpus median 93.5.
+  CONFIRM against the first full-episode verification render.
+- **Authoring/challenger**: `_authoring/_dialogue.py` rewritten around the seven
+  NotebookLM moves + engine-aware Arabic-script clause + male-tonal-tags-forbidden;
+  challenger rubric (per-move presence) + gate checks (registry tag budget,
+  DLG-TAGS-HOST-A-TONAL, P2 style nudges). Engine card gains `tag_budget_per_turns`.
+- **Astro voice picker**: `voice-library.yaml` gains `sample`; `_voice_library.pools()`;
+  `plan-dashboard/src/lib/voice-library.ts` + `/api/intake/voices`;
+  `VoicePicker.tsx` (engine selector + male/female cards, monogram avatars,
+  accent labels, sample play) wired through SmartForm → launch. External CSS only.
+
+OPEN (spend-gated, need Asif):
+- `build_voice_samples.py --confirm` → 8 sample clips into
+  `plan-dashboard/public/voice-samples/` (~720 chars, ~$0.16). Until then the
+  "Hear" buttons 404.
+- First full-episode verification render to confirm the style-gate threshold.

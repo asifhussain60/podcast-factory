@@ -108,11 +108,20 @@ def _branch_for(resolved_slug: str, work_slug: str | None, profile: str) -> str:
 
 def _write_series_config(book_dir: Path, slug: str, title: str,
                          settings: dict[str, Any], volume: int | None) -> None:
+    from _rules import (
+        audio_engine_default_for_profile, default_voice_cast_for_profile,
+    )
+
+    profile = settings.get("content_profile") or "islamic_scholarly"
     video_style = settings.get("video_style") or "scenic"
+    # Audio engine: explicit operator choice (from the voice/engine picker) wins;
+    # otherwise the per-profile NEW-book default (islamic_scholarly -> elevenlabs).
+    audio_engine = (settings.get("audio_engine")
+                    or audio_engine_default_for_profile(profile))
     cfg: dict[str, Any] = {
         "slug": slug,
         "title": title,
-        "content_profile": settings.get("content_profile") or "islamic_scholarly",
+        "content_profile": profile,
         "source_language": settings.get("source_language") or "en",
         "episode_planning_mode": settings.get("episode_planning_mode") or "chronological",
         "audience_profile": settings.get("audience_profile") or "traditional",
@@ -120,7 +129,21 @@ def _write_series_config(book_dir: Path, slug: str, title: str,
         "length_tier": settings.get("length_tier") or "extended",
         "enable_video": video_style != "none",
         "video_style": video_style,
+        "audio_engine": audio_engine,
     }
+    # Voice cast (library names) — only meaningful on the autonomous engine.
+    # The picker sends flat string keys voice_cast_host_a / voice_cast_host_b
+    # (matching the Record<string,string> settings shape); a nested voice_cast
+    # dict is also accepted. Operator selection wins; else the profile default.
+    if audio_engine == "elevenlabs":
+        nested = settings.get("voice_cast") if isinstance(settings.get("voice_cast"), dict) else {}
+        host_a = settings.get("voice_cast_host_a") or (nested or {}).get("host_a")
+        host_b = settings.get("voice_cast_host_b") or (nested or {}).get("host_b")
+        if not (host_a and host_b):
+            d = default_voice_cast_for_profile(profile)
+            host_a, host_b = d.get("host_a"), d.get("host_b")
+        if host_a and host_b:
+            cfg["voice_cast"] = {"host_a": host_a, "host_b": host_b}
     if volume is not None:
         cfg["volume"] = volume
     (book_dir / "_system" / "series-config.yaml").write_text(

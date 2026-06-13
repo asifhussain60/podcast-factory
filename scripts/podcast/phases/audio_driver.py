@@ -84,6 +84,7 @@ def _drive_audio_script(book_dir: Path, book_slug: str) -> int:
     from _dialogue_convergence import converge_dialogue_script, read_verdict
     from _dialogue_script import script_path_for
     from _authoring._dialogue import _episode_id_for_chapter
+    from _audio_engines import engine_for_episode, ENGINE_NOTEBOOKLM
 
     slugs = _chapter_slugs(book_dir)
     if not slugs:
@@ -101,6 +102,13 @@ def _drive_audio_script(book_dir: Path, book_slug: str) -> int:
         except Exception as e:  # noqa: BLE001
             failed.append(slug)
             _err(f"  [audio-script] {slug}: cannot resolve episode id: {e}")
+            continue
+        # Per-episode NotebookLM override: dialogue-script authorship + the
+        # convergence gate are wasted work for an episode rendered manually in
+        # NotebookLM — skip it here (it never reaches the ElevenLabs renderer).
+        if engine_for_episode(book_dir, episode_id) == ENGINE_NOTEBOOKLM:
+            _info(f"  [audio-script] {slug}: engine override -> notebooklm, skipping script")
+            verdicts[slug] = "skipped-notebooklm"
             continue
         prior = read_verdict(book_dir, episode_id)
         if prior in ("SHIP-READY", "SHIP-WITH-CAUTION") and \
@@ -136,12 +144,18 @@ def _render_plan(book_dir: Path) -> tuple[list[str], int]:
     """(episodes still needing render, total credit estimate for them)."""
     from render_dialogue_audio import episodes_with_scripts, chapter_stem_for_episode
     from _dialogue_script import parse_dialogue_script, script_path_for, script_char_count
-    from _audio_engines import audio_engine_for_book, credit_estimate
+    from _audio_engines import (
+        audio_engine_for_book, credit_estimate, engine_for_episode, ENGINE_NOTEBOOKLM,
+    )
 
     engine = audio_engine_for_book(book_dir)
     pending: list[str] = []
     estimate = 0
     for ep in episodes_with_scripts(book_dir):
+        # A NotebookLM-overridden episode is never API-rendered and must not
+        # contribute to the H1 credit estimate — skip before the m4a check.
+        if engine_for_episode(book_dir, ep) == ENGINE_NOTEBOOKLM:
+            continue
         stem = chapter_stem_for_episode(book_dir, ep)
         if (book_dir / "m4a" / f"{stem}.m4a").exists():
             continue
@@ -194,7 +208,8 @@ def _drive_audio_render(book_dir: Path, book_slug: str,
     sanity_flags: dict[str, list[str]] = {}
     for ep in pending:
         try:
-            result = render_episode(book_dir, ep, approved=True, log=_info)
+            result = render_episode(book_dir, ep, approved=True,
+                                    style_gate=True, log=_info)
         except Exception as e:  # noqa: BLE001
             update_phase(book_dir, phase="audio-render", status="failed",
                          error=f"[{ep}] {e}")
@@ -202,7 +217,9 @@ def _drive_audio_render(book_dir: Path, book_slug: str,
             return "failed", 2
         if result.credits_metered:
             metered_total += result.credits_metered
-        if result.sanity_failures:
+        # Flag for pre-publish review: a chunk sanity failure OR a residual
+        # below-threshold style score after the bounded retake.
+        if result.sanity_failures or result.style_passed is False:
             sanity_flags[ep] = result.notes
     update_phase(book_dir, phase="audio-render", status="completed",
                  extras={"credits_metered": metered_total,

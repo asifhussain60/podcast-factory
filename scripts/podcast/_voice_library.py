@@ -33,6 +33,17 @@ def female_pool() -> list[dict]:
     return list(load_library().get("females") or [])
 
 
+def pools() -> dict[str, list[dict]]:
+    """The approved pools as UI-ready entries: {males:[...], females:[...]}.
+
+    Each entry carries name, full_name, voice_id, accent, and sample (the clip
+    filename served by the Astro voice picker). The single source for both the
+    Python side and the TS reader (plan-dashboard/src/lib/voice-library.ts),
+    which parses the same YAML.
+    """
+    return {"males": male_pool(), "females": female_pool()}
+
+
 def resolve_name(name: str) -> str | None:
     """Library `name`/`full_name` (case-insensitive) -> voice_id, else None."""
     needle = name.strip().lower()

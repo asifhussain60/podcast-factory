@@ -1014,3 +1014,23 @@ Pre-authorized by the autonomy mandate in `CONTINUATION-2026-05-30.md`. Four blo
 > Rendering goes through the professional voice service in small pinned-down requests: same text in, same settings, same pronunciation dictionary version every time, with each request's result remembered in a ledger and cache. Revise one paragraph later and only that paragraph's audio is re-bought. Exact spend is read off the vendor's own meter into the book's cost ledger, and the one place the pipeline stops is a single approval gate showing the precise credit estimate before the first paid render. Finished audio and transcripts land in exactly the folders the rest of the system already reads — the reviewer, the video stitcher, and the site all work unchanged — and the book's publish screen now shows which engine made the audio and what it cost.
 >
 > *Value gained:* one approval click replaces the whole upload-download-rename-transcribe ritual, at a known price, with revisions costing pennies instead of full re-renders.
+
+## NotebookLM-fidelity + per-episode dual-path + voice picker (2026-06-13)
+
+### 1. New Islamic books are born on the autonomous path; both paths stay, per episode
+
+> A new Islamic book now defaults to the in-house voice engine with a chosen cast, decided once at intake — while every book already produced keeps exactly the path its audio came from (nothing is ever switched underneath it). NotebookLM stays available on demand for individual episodes: flip a single chapter to NotebookLM and the rest of the book still renders automatically; that chapter is left out of the automatic render and its upload instructions appear alongside the "already done" note for the others. When no chapter is flipped, the upload page is byte-for-byte what it always was.
+>
+> *Value gained:* one default that fits the main use case, with the manual path always one switch away for the chapters that want it — and zero risk to anything shipped.
+
+### 2. The autonomous voice is steered to sound like the NotebookLM episodes
+
+> The reference is the real NotebookLM audio of two finished books, measured into a saved per-genre profile (pace, turn-taking, pauses, pitch variation). The conversation is written around the seven moves that make those episodes feel like two people thinking — a cold-open question, interruptions, real pushback that concedes, short reactions, finishing each other's lines, a returning refrain, an open ending — and the scholar voice is kept free of mood tags that recolored it. A free reviewer checks each move is genuinely there before any spend, and after rendering the audio is scored against the saved profile; if it drifts, the system buys exactly one alternate take and keeps the better one — a flag, never a blocker.
+>
+> *Value gained:* "sounds like NotebookLM" becomes a measured, enforced bar instead of a hope, with spend that cannot run away.
+
+### 3. You pick the engine and the voices on the new-content form
+
+> The intake form gains a voice panel: choose the engine, then pick one male and one female from the approved roster as cards with a name, accent, a coloured initial, and a play button to hear each one. The choice flows straight into the book's settings — no hand-edited config.
+>
+> *Value gained:* casting and engine are a visual, audition-first decision at the moment a book is created, not a buried YAML edit.

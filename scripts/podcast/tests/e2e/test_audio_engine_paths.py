@@ -216,6 +216,28 @@ class AudioEnginePathE2E(unittest.TestCase):
         render_spy.assert_not_called()  # nothing renders before a passing verdict
         self.assertEqual(self._phase("finalize")["status"], "pending")
 
+    # ── Per-episode override: ElevenLabs book, one episode flipped to NotebookLM ─
+
+    def test_episode_override_skips_render_and_emits_notebooklm_table(self):
+        self._set_engine("elevenlabs")
+        cfg = self.book / "_system" / "series-config.yaml"
+        cfg.write_text(
+            cfg.read_text(encoding="utf-8")
+            + f"episode_engine_overrides:\n  {EPISODE_ID}: notebooklm\n",
+            encoding="utf-8")
+
+        render_spy = mock.Mock()
+        rc, stdout = self._drive(render_side_effect=render_spy)
+        self.assertEqual(rc, 0)
+        # The only episode is overridden -> authored script skipped, nothing renders.
+        render_spy.assert_not_called()
+        self.assertEqual(self._phase("audio-script")["status"], "completed")
+        self.assertEqual(self._phase("finalize")["status"], "halted")
+        # Mixed-routing finalize: the NotebookLM ritual IS printed for the
+        # overridden episode (and the transcribe step follows it).
+        self.assertIn("NOTEBOOKLM UPLOAD TABLE", stdout)
+        self.assertIn("transcribe_notebooklm.py", stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

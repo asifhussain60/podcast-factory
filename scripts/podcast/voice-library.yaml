@@ -19,6 +19,9 @@
 version: 1
 engine: elevenlabs
 
+# sample: short clip served by the Astro site voice picker (public/voice-samples/).
+# Render the clips with build_voice_samples.py; the file is named <name>.mp3.
+
 males:    # HOST_A — scholar lead; one per book
   - name: George
     full_name: "George - Warm, Captivating Storyteller"
@@ -26,24 +29,28 @@ males:    # HOST_A — scholar lead; one per book
     accent: british
     in_roster: true
     casting_sample: M9
+    sample: george.mp3
   - name: Faheem
     full_name: "Faheem Ahmed"
     voice_id: 8j6yw61FZtc2652jCoek
     accent: british
     in_roster: false
     casting_sample: M8
+    sample: faheem.mp3
   - name: Eric
     full_name: "Eric - Smooth, Trustworthy"
     voice_id: cjVigY5qzO86Huf0OWal
     accent: american
     in_roster: true
     casting_sample: M2
+    sample: eric.mp3
   - name: Bill
     full_name: "Bill - Wise, Mature, Balanced"
     voice_id: pqHfZKP75CvOlQylNhV4
     accent: american
     in_roster: true
     casting_sample: M3
+    sample: bill.mp3
 
 females:  # HOST_B — seeker; one per book
   - name: Sarah
@@ -52,21 +59,25 @@ females:  # HOST_B — seeker; one per book
     accent: american
     in_roster: true
     casting_sample: F1
+    sample: sarah.mp3
   - name: Lily
     full_name: "Lily - Velvety Actress"
     voice_id: pFZP5JQG7iQjIQuC4Bku
     accent: british
     in_roster: true
     casting_sample: F4
+    sample: lily.mp3
   - name: Suzy
     full_name: "Dr Suzy"
     voice_id: m1lpeyg10r5GmlOfPH8o
     accent: arabic_bilingual
     in_roster: false
     casting_sample: F6
+    sample: suzy.mp3
   - name: Millie
     full_name: "Millie - Warm, Clear and British"
     voice_id: Nk0iUG137ZABNEQYgAMl
     accent: british
     in_roster: false
     casting_sample: F8
+    sample: millie.mp3

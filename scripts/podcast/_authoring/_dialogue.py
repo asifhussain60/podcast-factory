@@ -109,13 +109,43 @@ def author_dialogue_script(book_dir: Path, chapter_slug: str,
     script_path = script_path_for(book_dir, episode_id)
     tier = _read_length_tier(book_dir)
     lo, hi = soft_char_band(tier)
-    tags_note = (
-        "Sparse [tag] performance cues like [warm], [thoughtful], [measured] are "
-        "allowed INSIDE turn text — at most one tag every 8-10 turns; each tag is "
-        "billed as audio characters."
-        if engine.supports_audio_tags else
-        "Do NOT use [tag] performance cues — this engine does not support them."
-    )
+
+    # Tag discipline — encodes the ear-locked lesson (2026-06-12): TONAL tags on
+    # the scholar recolor his approved timbre; reaction tags belong to the seeker.
+    if engine.supports_audio_tags:
+        tags_note = (
+            "Performance [tag] cues — REACTION tags go on the SEEKER (HOST_B) "
+            "ONLY: [curious], [interrupting], [thoughtful], [quiet], [skeptical]. "
+            "NEVER put a TONAL tag on the SCHOLAR (HOST_A) — tags like [warm], "
+            "[smiling], [lowering voice] recolor his approved voice; at most a "
+            "bare [pause] on HOST_A. Use a tag only where it carries a genuine "
+            "reaction (not decoration); each tag is billed as audio characters."
+        )
+    else:
+        tags_note = ("Do NOT use [tag] performance cues — this engine does not "
+                     "support them.")
+
+    # Script-language discipline — engine-aware. v3-class engines render native
+    # Arabic script correctly (the ear-approved pronunciation path); manual /
+    # phonetic engines stay ASCII-only.
+    if engine.supports_arabic_script:
+        script_lang_clause = (
+            "  - Render Quran verses and genuinely-Arabic key terms in NATIVE "
+            "ARABIC SCRIPT inline, each immediately followed by an English gloss "
+            "in the pattern «ARABIC» — English gloss (e.g. «الْحَمْدُ لِلَّهِ» — all "
+            "praise belongs to God). Use Arabic script ONLY for recited verses "
+            "and technical terms the chapter actually names; everything else is "
+            "plain English. Do NOT both romanize a term AND give its Arabic — "
+            "use the Arabic+gloss form for recited/technical Arabic, plain "
+            "English elsewhere. The script is otherwise ASCII.\n\n"
+        )
+    else:
+        script_lang_clause = (
+            "  - ASCII only. NO Arabic script — Arabic terms appear in plain "
+            "phonetic transliteration exactly as the chapter carries them "
+            "(pronunciation is handled at synthesis by a pronunciation "
+            "dictionary; do not respell terms).\n\n"
+        )
 
     prompt = (
         f"You are writing the COMPLETE two-host dialogue script for episode "
@@ -151,10 +181,7 @@ def author_dialogue_script(book_dir: Path, chapter_slug: str,
         f"  - Blank lines between turns. No other prose, no headings, no stage "
         f"    directions outside turns.\n"
         f"  - {tags_note}\n"
-        f"  - ASCII only. NO Arabic script anywhere — Arabic terms appear in "
-        f"    plain phonetic transliteration exactly as the chapter carries them "
-        f"    (pronunciation is handled at synthesis by a pronunciation "
-        f"    dictionary; do not respell terms).\n\n"
+        f"{script_lang_clause}"
         f"LENGTH (SOFT pacing band — content completeness OUTRANKS the band):\n"
         f"  Target {lo:,}-{hi:,} characters of spoken turn text "
         f"(~{lo // CHARS_PER_AUDIO_MINUTE}-{hi // CHARS_PER_AUDIO_MINUTE} minutes "
@@ -163,15 +190,33 @@ def author_dialogue_script(book_dir: Path, chapter_slug: str,
         f"chapter needs more room, exceed the band; the gate flags pacing as P2 "
         f"(advisory), while a missing teaching is a hard failure. Do not pad "
         f"either: no filler, no recap loops, no invented material.\n\n"
-        f"CONVERSATION CRAFT:\n"
-        f"  - Open exactly as the framing's Opening directive specifies; land the "
-        f"    spine thesis verbatim at open, pivot, and close.\n"
-        f"  - HOST_B pushes back genuinely (use the framing's sample-friction "
-        f"    lines as the model) and concedes only as the framing allows.\n"
-        f"  - Develop each beat fully before moving on; no topic-jumping.\n"
-        f"  - Close on the framing's Landing — a real question, no tidy wrap-up.\n"
-        f"  - Everything in the framing's Do-not list is forbidden in the "
-        f"    spoken text.\n\n"
+        f"CONVERSATION CRAFT — the NotebookLM interactive style (every move must "
+        f"appear; these are what make the audio feel like two people thinking, "
+        f"not a lecture):\n"
+        f"  1. COLD-OPEN HOOK: the very first turn poses THIS chapter's question "
+        f"     straight to the listener — no 'welcome to the show' framing. Land "
+        f"     the framing's spine thesis verbatim here.\n"
+        f"  2. INTERRUPTION ECHOES: the seeker cuts in mid-exposition to echo a "
+        f"     strange term back as a question ('Wait — the etiquette of asking?').\n"
+        f"  3. TWO PUSHBACK-AND-CONCEDE ARCS: the seeker objects with real stakes "
+        f"     ('I don't buy that yet — that sounds like wordplay'); the scholar "
+        f"     answers with the source's OWN analogy; the seeker concedes "
+        f"     explicitly ('All right — you have me there'). Use the framing's "
+        f"     sample-friction lines as the model; concede only as it allows.\n"
+        f"  4. SHORT REACTIVE BEATS: scatter 1-5 word turns at the narrative "
+        f"     peaks ('And?' / 'Just sand.' / 'Nothing again.').\n"
+        f"  5. MID-THOUGHT HANDOFFS: now and then one host completes the other's "
+        f"     sentence ('You cannot thank a road with a word.' / 'You thank it "
+        f"     by walking it.').\n"
+        f"  6. RECURRING REFRAIN: the spine line lands ~3 times — teased at open, "
+        f"     re-armed at the pivot, closed on.\n"
+        f"  7. DIRECT-TO-LISTENER CLOSE: the final exchange turns the question "
+        f"     back on the listener and ends on the chapter's unresolved image — "
+        f"     the framing's Landing, NEVER a tidy summary.\n"
+        f"  - Develop each beat fully before moving on; no topic-jumping. The "
+        f"    scholar (HOST_A) leads exposition; the seeker (HOST_B) drives the "
+        f"    friction. Everything in the framing's Do-not list is forbidden in "
+        f"    the spoken text.\n\n"
         f"FAITHFULNESS (hard rule): do not invent doctrine, attributions, "
         f"quotations, or facts not present in the chapter file. The hosts may "
         f"rephrase and connect, but every claim traces to the source.\n\n"

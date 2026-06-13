@@ -55,6 +55,11 @@ class AudioEngine:
     max_chunk_chars: int          # per render-request character ceiling (0 = n/a)
     credit_rate: float            # synthesis credits per character (0.0 = unmetered)
     model_id: str                 # pinned synthesis model id ("" = n/a)
+    # Tag-budget: the deterministic gate flags more than one [tag] per this many
+    # turns. v3 WANTS expressive reaction tags, so its budget is looser than the
+    # old flat 1-per-6 cap (which produced flat audio). Registry-driven so the
+    # ceiling lives with the engine capability, not hardcoded in the validator.
+    tag_budget_per_turns: int = 6
     # Default voice casting (host key -> vendor voice id). Per R-HOST-ROLE-PARITY
     # Host A is the male scholar voice, Host B the female seeker voice.
     # Per-book override: series-config.yaml `elevenlabs_voices: {host_a: .., host_b: ..}`.
@@ -80,6 +85,7 @@ AUDIO_ENGINE_REGISTRY: dict[str, AudioEngine] = {
         max_chunk_chars=2000,           # documented reliability limit per request
         credit_rate=1.0,                # eleven_v3: ~1 credit/char (API discounted)
         model_id="eleven_v3",
+        tag_budget_per_turns=3,         # v3 wants reaction tags — looser than the default
         default_voices={
             # Daniel — measured male, broadcast (scholar / Host A).
             "host_a": "onwK4e9ZLuTAKqWW03F9",
@@ -135,6 +141,64 @@ def resolve_audio_engine(book_dir: Path) -> str:
 def audio_engine_for_book(book_dir: Path) -> AudioEngine:
     """Convenience: the resolved AudioEngine card for a book directory."""
     return get_engine(resolve_audio_engine(book_dir))
+
+
+def episode_engine_overrides(book_dir: Path) -> dict[str, str]:
+    """Per-episode engine overrides from series-config.yaml, validated.
+
+    A book may flip individual episodes to a different engine than its book
+    default (e.g. an ElevenLabs-default book that wants one delicate chapter
+    rendered in NotebookLM):
+
+        audio_engine: elevenlabs
+        episode_engine_overrides:
+          EP07-the-conspiracy-formula: notebooklm
+
+    Returns a {episode_id: engine_name} map. Every value is validated through
+    get_engine() so a typo raises ValueError loudly (same philosophy as
+    resolve_audio_engine — engine choice is never implicit). An empty/missing
+    map returns {}, which keeps every pre-existing book byte-identical: callers
+    that gate on "are there any overrides?" treat {} as "no per-episode logic".
+    Unknown episode-id keys are tolerated (forward-compatible with edits/renames).
+    """
+    cfg_path = Path(book_dir) / "_system" / "series-config.yaml"
+    if not cfg_path.exists():
+        return {}
+    try:
+        import yaml
+        with cfg_path.open() as f:
+            cfg = yaml.safe_load(f) or {}
+    except Exception:  # noqa: BLE001
+        return {}
+    raw = cfg.get("episode_engine_overrides") or {}
+    if not isinstance(raw, dict):
+        return {}
+    out: dict[str, str] = {}
+    for ep, eng in raw.items():
+        if eng is None or str(eng).strip() == "":
+            continue
+        name = str(eng).strip().lower()
+        get_engine(name)  # raises ValueError on unknown — never silent
+        out[str(ep).strip()] = name
+    return out
+
+
+def engine_for_episode(book_dir: Path, episode_id: str) -> str:
+    """The engine that renders a single episode: its override else the book default.
+
+    This is the SINGLE decision point for per-episode routing — the script
+    loop, the render plan, the bundle emitter, and the finalize halt all funnel
+    through it so no engine conditional is ever duplicated.
+    """
+    overrides = episode_engine_overrides(book_dir)
+    if episode_id in overrides:
+        return overrides[episode_id]
+    return resolve_audio_engine(book_dir)
+
+
+def audio_engine_card_for_episode(book_dir: Path, episode_id: str) -> AudioEngine:
+    """Convenience: the resolved AudioEngine card for a single episode."""
+    return get_engine(engine_for_episode(book_dir, episode_id))
 
 
 def is_autonomous(engine: AudioEngine | str) -> bool:

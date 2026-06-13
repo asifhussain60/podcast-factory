@@ -57,6 +57,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _audio_engines import (  # noqa: E402
     audio_engine_for_book, voices_for_book, credit_estimate, is_autonomous,
+    engine_for_episode, ENGINE_NOTEBOOKLM,
 )
 from _dialogue_script import (  # noqa: E402
     parse_dialogue_script, script_path_for, script_char_count,
@@ -109,6 +110,9 @@ class RenderResult:
     credits_estimated: int = 0
     credits_metered: int | None = None
     notes: list[str] = field(default_factory=list)
+    # Post-render style gate (None when the gate did not run).
+    style_score: float | None = None
+    style_passed: bool | None = None
 
     @property
     def cache_hits(self) -> int:
@@ -186,6 +190,8 @@ def render_episode(
     client=None,
     approved: bool = False,
     deep_verify: bool = False,
+    style_gate: bool = False,
+    style_retake_budget: int = 1,
     concat=_concat_to_m4a,
     duration_probe=_audio_duration_s,
     meter_settle_s: float = 5.0,
@@ -196,6 +202,14 @@ def render_episode(
     Refuses without a shippable gate verdict; refuses paid synthesis without
     *approved* (the H1 contract). Cache hits cost nothing and need no
     approval — a fully-cached episode re-assembles for free.
+
+    *style_gate* (default OFF): after assembly, fingerprint the audio against
+    the genre gold standard (content/_shared/audio-style/<profile>.json). When
+    it scores below threshold and *style_retake_budget* > 0 AND spend is
+    approved, render ONE alternate take (salted seed) and keep the better one.
+    A residual sub-threshold score surfaces via result.style_passed/notes — it
+    is a quality FLAG, never a hard block. Default-off keeps every existing
+    caller and test byte-identical.
     """
     book_dir = Path(book_dir)
     engine = audio_engine_for_book(book_dir)
@@ -203,6 +217,14 @@ def render_episode(
         raise RuntimeError(
             f"book {book_dir.name!r} uses audio_engine={engine.name!r} "
             f"(render_mode={engine.render_mode}) — nothing to render via API.")
+    # Defense-in-depth: an episode flipped to NotebookLM via
+    # episode_engine_overrides is rendered manually, never here — refuse even a
+    # direct --episode CLI call so a flipped episode can't be rendered by mistake.
+    if engine_for_episode(book_dir, episode_id) == ENGINE_NOTEBOOKLM:
+        raise RuntimeError(
+            f"REFUSED: episode {episode_id} is overridden to notebooklm "
+            f"(episode_engine_overrides) — generate it in NotebookLM and drop the "
+            f"m4a into m4a/; it is never API-rendered.")
 
     verdict = read_verdict(book_dir, episode_id)
     result = RenderResult(episode_id=episode_id,
@@ -340,6 +362,16 @@ def render_episode(
     result.transcript_paths = [tx1, tx2]
     result.rendered = True
 
+    # ── Post-render style gate (default off) ─────────────────────────────────
+    if style_gate:
+        _apply_style_gate(
+            book_dir, episode_id, result, out_m4a, transcript_text,
+            chunks=chunks, voices=voices, engine=engine, locators=locators,
+            dictionary_version=dictionary_version, cache_dir=cache_dir,
+            m4a_dir=m4a_dir, concat=concat, client=client, approved=approved,
+            style_retake_budget=style_retake_budget,
+            meter_settle_s=meter_settle_s, log=log)
+
     if deep_verify:
         _deep_verify(book_dir, result, transcript_text, log=log)
 
@@ -347,6 +379,108 @@ def render_episode(
         f"({len(chunks)} chunks, {result.cache_hits} cached, "
         f"{len(result.sanity_failures)} sanity flags)")
     return result
+
+
+def _render_salted_take(client, chunks, voices, engine, locators,
+                        dictionary_version, cache_dir, take_salt, log) -> list[Path]:
+    """Render an ALTERNATE take of every chunk (salted seed -> distinct delivery).
+
+    Cache-keyed by the salted hash so a repeat call is free; only un-cached
+    salted chunks hit the paid API. Returns the chunk file paths to assemble.
+    """
+    files: list[Path] = []
+    for i, chunk in enumerate(chunks):
+        ihash = chunk_content_hash(
+            chunk, model_id=engine.model_id, voices=voices,
+            dictionary_version=dictionary_version, take_salt=take_salt)
+        cpath = cache_dir / f"{ihash}.mp3"
+        if not cpath.exists():
+            audio = client.text_to_dialogue(
+                [{"text": t.text, "voice_id": voices[t.speaker.lower()]}
+                 for t in chunk],
+                model_id=engine.model_id, seed=chunk_seed(ihash),
+                settings=DIALOGUE_SETTINGS,
+                pronunciation_dictionary_locators=locators,
+                output_format=OUTPUT_FORMAT)
+            cpath.write_bytes(audio)
+            log(f"  [style] retake chunk {i + 1}/{len(chunks)}: {ihash[:12]}")
+        files.append(cpath)
+    return files
+
+
+def _apply_style_gate(book_dir, episode_id, result, out_m4a, transcript_text, *,
+                      chunks, voices, engine, locators, dictionary_version,
+                      cache_dir, m4a_dir, concat, client, approved,
+                      style_retake_budget, meter_settle_s, log) -> None:
+    """Fingerprint the assembled audio vs the gold standard; one bounded retake.
+
+    A quality FLAG, never a block: keeps the better-scoring take and records a
+    residual sub-threshold score on the result for the review channel. The
+    retake re-spends, so it runs ONLY when spend is approved (inside the H1
+    scope) and is logged to the cost ledger.
+    """
+    from _content_profile import resolve_content_profile
+    from _audio_fingerprint import fingerprint_m4a, score_against_profile, word_count
+
+    profile = resolve_content_profile(book_dir)
+    words = word_count(transcript_text)
+    base = score_against_profile(fingerprint_m4a(out_m4a, words=words), profile)
+    result.style_score = base.get("score")
+    result.style_passed = base.get("passed", True)
+    if base.get("score") is None:
+        log(f"  [style] {episode_id}: no gold standard for profile {profile!r} — skipped")
+        return
+    log(f"  [style] {episode_id}: score {base['score']} "
+        f"(threshold {base['threshold']}, passed={base['passed']})")
+
+    if base.get("passed") or style_retake_budget <= 0 or not approved:
+        if not base.get("passed"):
+            result.notes.append(
+                f"style score {base['score']} below threshold "
+                f"{base['threshold']} (no retake: budget/approval)")
+        return
+
+    log(f"  [style] {episode_id}: below threshold — rendering ONE retake (salted seed)")
+    try:
+        r_start = int(client.subscription().get("character_count"))
+    except Exception:  # noqa: BLE001
+        r_start = None
+    cand_files = _render_salted_take(
+        client, chunks, voices, engine, locators, dictionary_version,
+        cache_dir, "retake1", log)
+    cand_m4a = m4a_dir / f".{result.ch_stem}.retake.m4a"
+    concat(cand_files, cand_m4a)
+    cand = score_against_profile(fingerprint_m4a(cand_m4a, words=words), profile)
+
+    if r_start is not None:
+        try:
+            time.sleep(meter_settle_s)
+            retake_credits = int(client.subscription().get("character_count")) - r_start
+            result.credits_metered = (result.credits_metered or 0) + retake_credits
+            from _cost_ledger import append_elevenlabs_cost
+            append_elevenlabs_cost(
+                book_dir, phase="audio-render", step=f"{episode_id}/style-retake",
+                credits=retake_credits, char_count=result.chars_total)
+            log(f"  [style] retake credits: {retake_credits:,}")
+        except Exception as e:  # noqa: BLE001
+            result.notes.append(f"style retake metering failed: {e}")
+
+    if (cand.get("score") or 0) > (base.get("score") or 0):
+        cand_m4a.replace(out_m4a)
+        result.style_score = cand["score"]
+        result.style_passed = cand.get("passed", False)
+        result.notes.append(
+            f"style retake kept ({base['score']} -> {cand['score']})")
+        log(f"  [style] retake WON: {base['score']} -> {cand['score']}")
+    else:
+        cand_m4a.unlink(missing_ok=True)
+        result.notes.append(
+            f"style retake discarded (base {base['score']} >= retake {cand.get('score')})")
+        log(f"  [style] retake kept base ({base['score']} >= {cand.get('score')})")
+    if not result.style_passed:
+        result.notes.append(
+            f"style score {result.style_score} still below threshold "
+            f"{base['threshold']} after retake — review before publish")
 
 
 def _deep_verify(book_dir: Path, result: RenderResult, script_text: str,

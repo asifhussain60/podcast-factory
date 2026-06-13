@@ -4354,6 +4354,51 @@ waves_o_ph:
         status: completed
         tests: "e2e/test_audio_engine_paths (3)"
 
+  - id: AE2
+    name: "NotebookLM-fidelity + per-episode dual-path + voice-picker UI (2026-06-13)"
+    execution_status: completed_2026_06_13
+    depends_on: [AE]
+    note: |
+      Makes ElevenLabs the per-profile NEW-book default for islamic_scholarly
+      (cast Eric/Lily) — stamped at intake from the _rules registry, NEVER
+      retroactive (existing NotebookLM-native books keep their path). Adds a
+      PER-EPISODE engine override (episode_engine_overrides in series-config):
+      engine_for_episode() routes each episode; the script + render phases skip
+      NotebookLM-overridden episodes (no wasted authorship, no credit estimate,
+      never API-rendered) and the finalize halt prints both the rendered-note
+      and a NotebookLM upload table filtered to the overrides. No-overrides ->
+      unfiltered table, byte-identical (golden-test latch). Steers the
+      autonomous path to the NotebookLM sound at three layers: authoring prompt
+      (seven moves, native Arabic+gloss when supported, tonal tags forbidden on
+      the scholar), the pre-spend challenger (per-move presence) + deterministic
+      gate (registry-driven tag budget, tonal-on-HOST_A check, style nudges),
+      and a post-render style gate fingerprinting audio vs a tracked per-genre
+      gold standard (built from BOTH NotebookLM books) with ONE bounded retake
+      inside H1. Astro intake gains a VoicePicker (engine + male/female from the
+      approved pools; monogram avatars, accent labels, sample clips).
+    steps:
+      - id: AE2a
+        title: "Per-episode engine resolver + episode-aware script/render phases + upload-table latch"
+        status: completed
+        tests: "test_episode_engine_and_style + e2e/test_audio_engine_paths (override)"
+      - id: AE2b
+        title: "ElevenLabs default for new Islamic books at intake (per-profile registry, never retroactive)"
+        status: completed
+        tests: "test_episode_engine_and_style (intake stamp)"
+      - id: AE2c
+        title: "Tracked fingerprint module + per-genre gold standard (both NotebookLM books) + post-render style gate (1 retake)"
+        status: completed
+        tests: "test_episode_engine_and_style (fingerprint)"
+      - id: AE2d
+        title: "Authoring prompt (seven moves, Arabic+gloss, tag discipline) + challenger rubric + gate checks"
+        status: completed
+      - id: AE2e
+        title: "Astro voice-picker UI: engine + cast selection, monogram avatars, sample clips (lint clean, preview-verified)"
+        status: completed
+      - id: AE2f
+        title: "Voice sample clips rendered into public/voice-samples/ (ElevenLabs spend gate)"
+        status: pending
+
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================

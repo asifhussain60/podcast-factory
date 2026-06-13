@@ -365,7 +365,19 @@ def assemble_bundle(slug: str, *, run_score: bool = False, as_json: bool = False
         UploadRow, render_upload_table_lines, repo_rel_href,
         load_density_lengths, length_for_episode,
     )
-    print(f"\nNOTEBOOKLM UPLOAD TABLE — {slug} ({len(rows)} episodes)")
+    # Per-episode engine routing: when a book carries episode_engine_overrides,
+    # the upload table lists ONLY the episodes routed to NotebookLM (the rest are
+    # auto-rendered by ElevenLabs). With NO overrides the table is unchanged —
+    # byte-identical to before (the golden-test latch).
+    from _audio_engines import (  # noqa: PLC0415
+        engine_for_episode, episode_engine_overrides, ENGINE_NOTEBOOKLM,
+    )
+    _overrides = episode_engine_overrides(book_dir)
+    _table_rows = ([r for r in rows
+                    if engine_for_episode(book_dir, r["episode"]) == ENGINE_NOTEBOOKLM]
+                   if _overrides else rows)
+    _suffix = " — NotebookLM-routed only" if _overrides else ""
+    print(f"\nNOTEBOOKLM UPLOAD TABLE — {slug} ({len(_table_rows)} episodes){_suffix}")
     print(f"  Click the CHAPTER cell to open the SOURCE to upload; the EPISODE cell")
     print(f"  to open the FRAMING to paste into NotebookLM's Customize box.")
     print(f"  (skip the '# Framing: …' H1 title line when pasting)")
@@ -383,7 +395,7 @@ def assemble_bundle(slug: str, *, run_score: bool = False, as_json: bool = False
             session_index=r.get("session_index"),
             session_title=r.get("session_title"),
         )
-        for r in rows
+        for r in _table_rows
     ]
     for line in render_upload_table_lines(upload_rows):
         print(f"  {line}")

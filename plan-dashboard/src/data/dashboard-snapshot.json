@@ -1090,6 +1090,72 @@
       "plain": "",
       "tools": [],
       "last_touched": null
+    },
+    {
+      "id": "AE2a",
+      "wave": "AE2",
+      "title": "Per-episode engine resolver + episode-aware script/render phases + upload-table latch",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AE2b",
+      "wave": "AE2",
+      "title": "ElevenLabs default for new Islamic books at intake (per-profile registry, never retroactive)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AE2c",
+      "wave": "AE2",
+      "title": "Tracked fingerprint module + per-genre gold standard (both NotebookLM books) + post-render style gate (1 retake)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AE2d",
+      "wave": "AE2",
+      "title": "Authoring prompt (seven moves, Arabic+gloss, tag discipline) + challenger rubric + gate checks",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AE2e",
+      "wave": "AE2",
+      "title": "Astro voice-picker UI: engine + cast selection, monogram avatars, sample clips (lint clean, preview-verified)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AE2f",
+      "wave": "AE2",
+      "title": "Voice sample clips rendered into public/voice-samples/ (ElevenLabs spend gate)",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
     }
   ],
   "waves": [
@@ -1187,15 +1253,60 @@
       "id": "AE",
       "name": "Audio Engine v2 \u2014 ElevenLabs autonomous path, NotebookLM preserved (2026-06-12)",
       "plain": ""
+    },
+    {
+      "id": "AE2",
+      "name": "NotebookLM-fidelity + per-episode dual-path + voice-picker UI (2026-06-13)",
+      "plain": ""
     }
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-12T16:00:58.722573+00:00",
-  "source_commit": "ea9700a",
+  "generated_at": "2026-06-13T10:04:47.387094+00:00",
+  "source_commit": "b8aa55d",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "b8aa55d",
+      "subject": "feat(audio-v2): lock Eric+Lily voice cast for the-master-and-the-disciple",
+      "date": "2026-06-12"
+    },
+    {
+      "sha": "ac56a4a",
+      "subject": "feat(audio-v2): voice library \u2014 Asif-approved casting pools wired into voice resolution",
+      "date": "2026-06-12"
+    },
+    {
+      "sha": "e1ae944",
+      "subject": "docs(audio-v2): session brief for the voice/style convergence continuation",
+      "date": "2026-06-12"
+    },
+    {
+      "sha": "e0ed2cb",
+      "subject": "fix(audio-v2): PLS dictionary upload \u2014 file part must be text/plain",
+      "date": "2026-06-12"
+    },
+    {
+      "sha": "69ebaad",
+      "subject": "fix(audio-v2): fixer timeout never aborts script convergence",
+      "date": "2026-06-12"
+    },
+    {
+      "sha": "b499b14",
+      "subject": "merge(audio-v2): Audio Engine v2 \u2014 ElevenLabs autonomous path, NotebookLM preserved",
+      "date": "2026-06-12"
+    },
+    {
+      "sha": "a4b115d",
+      "subject": "docs(audio-v2): Step 10 \u2014 experiment supersession + backup-branch note in session log",
+      "date": "2026-06-12"
+    },
+    {
+      "sha": "857d553",
+      "subject": "docs(audio-v2): Step 9 \u2014 framework, SKILL, challenger spec, plan ledger, snapshots",
+      "date": "2026-06-12"
+    },
     {
       "sha": "ea9700a",
       "subject": "test(audio-v2): Step 8 \u2014 dual-engine e2e through the post-0f driver",
@@ -1204,46 +1315,6 @@
     {
       "sha": "a7f0681",
       "subject": "feat(audio-v2): Step 7 \u2014 studio publish view surfaces audio engine + rendered credits",
-      "date": "2026-06-12"
-    },
-    {
-      "sha": "a9c5bbd",
-      "subject": "feat(audio-v2): Step 6 \u2014 orchestrator wiring (autonomy with ONE H1 spend halt)",
-      "date": "2026-06-12"
-    },
-    {
-      "sha": "33c1910",
-      "subject": "feat(audio-v2): Step 5 \u2014 production renderer (render once, cache forever)",
-      "date": "2026-06-12"
-    },
-    {
-      "sha": "203b3f1",
-      "subject": "feat(audio-v2): Step 4 \u2014 pronunciation compiler (glossary -> versioned PLS dictionary)",
-      "date": "2026-06-12"
-    },
-    {
-      "sha": "9c0020f",
-      "subject": "feat(audio-v2): Step 3 \u2014 pre-synthesis content gate + script convergence loop",
-      "date": "2026-06-12"
-    },
-    {
-      "sha": "0a1b45f",
-      "subject": "feat(audio-v2): Step 2 \u2014 dialogue-script artifact + Claude Max authorship",
-      "date": "2026-06-12"
-    },
-    {
-      "sha": "dc568ea",
-      "subject": "feat(audio-v2): Step 1 \u2014 pluggable audio-engine registry with capability flags",
-      "date": "2026-06-12"
-    },
-    {
-      "sha": "46eec14",
-      "subject": "feat(pipeline): Azure transcription for NotebookLM output \u2014 TurboScribe retired as documented path",
-      "date": "2026-06-12"
-    },
-    {
-      "sha": "f60924a",
-      "subject": "feat(pipeline): normalize_m4a.py \u2014 drop-and-normalize step for NotebookLM audio + transcripts",
       "date": "2026-06-12"
     }
   ],

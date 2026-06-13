@@ -205,12 +205,19 @@ def chunk_turns(turns: list[Turn], max_chars: int) -> list[list[Turn]]:
 
 def chunk_content_hash(chunk: list[Turn], *, model_id: str = "",
                        voices: dict[str, str] | None = None,
-                       dictionary_version: str = "") -> str:
+                       dictionary_version: str = "",
+                       take_salt: str = "") -> str:
     """Stable content hash for a chunk + its pinned render settings.
 
     The render ledger keys on this: same text + same speaker sequence + same
     pinned model/voices/dictionary-version -> same hash -> cache hit (never
     re-render, never re-spend).
+
+    *take_salt* (default "") seeds an ALTERNATE take for the style-gate retake:
+    a non-empty salt yields a distinct hash (hence a distinct seed + cache file)
+    so the retake renders a different delivery instead of returning the cached
+    canonical take. The empty default keeps every existing hash and cache entry
+    byte-identical — the canonical take is never salted.
     """
     h = hashlib.sha256()
     for t in chunk:
@@ -224,6 +231,9 @@ def chunk_content_hash(chunk: list[Turn], *, model_id: str = "",
         h.update(f"{k}={voices[k]}".encode("utf-8"))
         h.update(b"\x03")
     h.update(dictionary_version.encode("utf-8"))
+    if take_salt:
+        h.update(b"\x04")
+        h.update(take_salt.encode("utf-8"))
     return h.hexdigest()
 
 

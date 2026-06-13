@@ -47,7 +47,7 @@ from _validator_constants import (  # noqa: E402
 )
 from _dialogue_script import (  # noqa: E402
     Turn, parse_dialogue_script, DialogueScriptError,
-    script_path_for, script_char_count, audio_tag_count,
+    script_path_for, script_char_count, audio_tag_count, AUDIO_TAG_RE,
     soft_char_band, estimated_minutes,
 )
 from _audio_engines import audio_engine_for_book, credit_estimate  # noqa: E402
@@ -285,15 +285,36 @@ def gate_dialogue_script(
 
     # ── Audio tags (ENGINE-AWARE) ────────────────────────────────────────────
     n_tags = audio_tag_count(turns)
+    # Registry-driven sparseness budget (v3 wants reaction tags; the old flat
+    # 1-per-6 cap produced flat audio — the engine card carries its own ceiling).
+    budget = getattr(engine, "tag_budget_per_turns", TAG_SPARSE_TURNS_PER_TAG) \
+        or TAG_SPARSE_TURNS_PER_TAG
     if n_tags and not engine.supports_audio_tags:
         report.findings.append(Finding(
             "DLG-TAGS-UNSUPPORTED", "P0",
             f"{n_tags} [tag] cue(s) but engine {engine.name!r} does not support them."))
-    elif n_tags and n_tags > max(1, report.n_turns // TAG_SPARSE_TURNS_PER_TAG):
+    elif n_tags and n_tags > max(1, report.n_turns // budget):
         report.findings.append(Finding(
             "DLG-TAGS-NOT-SPARSE", "P1",
             f"{n_tags} [tag] cues across {report.n_turns} turns — keep at most "
-            f"one per {TAG_SPARSE_TURNS_PER_TAG} turns (tags are billed as characters)."))
+            f"one per {budget} turns (tags are billed as characters)."))
+    # Ear-locked lesson (2026-06-12): TONAL tags on the scholar (HOST_A) recolor
+    # his approved timbre. Only a bare [pause] is allowed on HOST_A; any other
+    # tag on a HOST_A turn is a P1 (reaction tags belong to the seeker, HOST_B).
+    if engine.supports_audio_tags:
+        host_a_tonal: list[str] = []
+        for t in turns:
+            if t.speaker != "HOST_A":
+                continue
+            for tag in AUDIO_TAG_RE.findall(t.text):
+                if tag.strip("[]").strip().lower() != "pause":
+                    host_a_tonal.append(tag)
+        if host_a_tonal:
+            report.findings.append(Finding(
+                "DLG-TAGS-HOST-A-TONAL", "P1",
+                f"{len(host_a_tonal)} tonal tag(s) on the scholar (HOST_A): "
+                f"{sorted(set(host_a_tonal))[:5]} — only [pause] is allowed on "
+                f"HOST_A; put reaction tags ([curious], [thoughtful], ...) on HOST_B."))
 
     # ── COVERAGE: every contract tension + concept surfaced (P0) ─────────────
     if contract is None:
@@ -321,6 +342,35 @@ def gate_dialogue_script(
             "DLG-COVERAGE", "P0",
             f"{len(missing)} contracted tension(s)/concept(s) not surfaced in the "
             f"script (no-teaching-lost): {missing[:3]}"))
+
+    # ── NotebookLM interactive-style nudges (P2 — advisory; the semantic
+    #    challenger carries the real seven-moves enforcement, these are cheap
+    #    mechanical hints so the fixer never thrashes on regex false positives) ─
+    if turns:
+        def _wc(s: str) -> int:
+            return len(re.sub(r"\[[^\]]+\]", " ", s).split())
+        # Cold-open hook: the opening should pose a question to the listener.
+        opener = " ".join(t.text for t in turns[:2])
+        if "?" not in opener:
+            report.findings.append(Finding(
+                "DLG-STYLE-COLD-OPEN", "P2",
+                "opening turns pose no question — the NotebookLM style opens on "
+                "the chapter's question to the listener, not a statement."))
+        # Short reactive beats: at least a few <=5-word turns at the peaks.
+        short_turns = sum(1 for t in turns if 1 <= _wc(t.text) <= 5)
+        if report.n_turns >= 20 and short_turns < 2:
+            report.findings.append(Finding(
+                "DLG-STYLE-REACTIVE-BEATS", "P2",
+                f"only {short_turns} short reactive turn(s) — the interactive "
+                f"style scatters 1-5 word beats ('And?' / 'Just sand.') at peaks."))
+        # Tidy-summary close: the final turn should land on an open image.
+        last = turns[-1].text.lower()
+        if re.search(r"\b(in summary|to summari[sz]e|in conclusion|to sum up|"
+                     r"so,? to recap)\b", last):
+            report.findings.append(Finding(
+                "DLG-STYLE-TIDY-CLOSE", "P2",
+                "closing turn reads as a tidy summary — the style closes on the "
+                "chapter's unresolved image / a question to the listener."))
 
     # ── SOFT character band (P2 — pacing advisory; content is NEVER cut) ─────
     tier = _read_length_tier(book_dir)
