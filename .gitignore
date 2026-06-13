@@ -255,6 +255,10 @@ _workspace/runs/
 # Local-only audit snapshots (pre-rerun copies of book artifacts for diff/review)
 _workspace/audit/
 
+# Local-only experiment scratch (audio smoke-tests, voice auditions, one-off
+# spikes) — kept on disk but never tracked; not source-of-truth for any pipeline.
+_workspace/experiments/
+
 # Sanitizer backups (created by scripts/podcast/sanitize_contract_yaml.py)
 *.yml.bak
 
