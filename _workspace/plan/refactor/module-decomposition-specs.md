@@ -134,6 +134,28 @@ the function:
 Medium risk (high-churn, every-book path) — golden test is the mitigation. Refactor only
 after the golden test is green on current `main` behaviour.
 
+### AS EXECUTED (2026-06-13)
+- `_phase_0d_stitch` extracted verbatim (21-line logic move); golden test
+  `tests/test_phase_0d_stitch.py` pins its byte-for-byte output (section mode,
+  chapter mode, missing/empty fragments) — green before and after.
+- `_build_phase_0d_toc_prompt` extracted verbatim (114-line f-string, proved
+  byte-identical) — 12 keyword params, matching the repo's existing
+  `_build_*_framing_prompt` convention. STEP 1 prompt wording is now maintained
+  apart from orchestration.
+- **SC prompt (STEP 2) deliberately LEFT INLINE.** AST free-variable analysis
+  showed it needs 22 parameters (incl. loop-local `episode_lines`,
+  `expected_chapter_files`, slice paths) plus a comprehension-bound name. A
+  22-parameter builder is a worse smell (long parameter list) than the inline
+  string and introduces a real keyword-wiring surface on every-book code with
+  only mocked coverage. Per minimum-surface-area / reject-over-regress, declined.
+- The literal `_phase_0d_plan` / `_phase_0d_author_chapters` control-flow split
+  was NOT done: Steps 1-2 share a ~175-line computed-hints preamble and ~15
+  locals; threading that through helper signatures relocates complexity rather
+  than removing it, on untested-except-mocked code. The deterministic-concern
+  isolation (the real SRP win) is delivered by the stitch extraction.
+- Result: `author_phase_0d` 911 -> 795 lines; deterministic assembly isolated +
+  unit-tested; signature byte-identical; 52 affected tests green.
+
 ---
 
 ## Spec 3 — `StudioPoc.tsx`: decompose the God Component + de-imperative the pickers
