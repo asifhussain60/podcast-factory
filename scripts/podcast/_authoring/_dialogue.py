@@ -67,6 +67,61 @@ def _read_length_tier(book_dir: Path) -> str:
     return "default_deep_dive"
 
 
+def _read_dialogue_lens(book_dir: Path) -> str:
+    """Per-book `dialogue_lens` from series-config.yaml (default empty = none).
+
+    A lens is an OPT-IN relational framing layered on top of the base host
+    roles. Absent/empty field = current behavior (no lens), so every book that
+    does not set it renders exactly as before.
+    """
+    cfg = book_dir / "_system" / "series-config.yaml"
+    if cfg.exists():
+        try:
+            import yaml
+            data = yaml.safe_load(cfg.read_text(encoding="utf-8")) or {}
+            return str(data.get("dialogue_lens") or "").strip()
+        except Exception:  # noqa: BLE001
+            pass
+    return ""
+
+
+# Per-book dialogue lenses (extensible registry — add a key to add a lens).
+# A lens adds a SUSTAINED relational framing on top of the locked host roles
+# (HOST_A scholar/teacher, HOST_B seeker/student). Lenses are opt-in per book
+# via `dialogue_lens:` in series-config and apply ONLY to islamic_scholarly
+# content; an unknown or non-islamic lens is ignored (no-op), so shipped books
+# without the field are byte-identical.
+DIALOGUE_LENSES: dict[str, str] = {
+    "modern_psychology_practical": (
+        "RELATIONAL LENS for this episode (modern-psychology / practical "
+        "application) — the sustained dynamic layered ON TOP of the base host "
+        "roles (it shapes HOW they talk, never what is true):\n"
+        "  - HOST_B (the student) hears each teaching through a MODERN lens: she "
+        "relates it to how people actually think and behave today (the psychology "
+        "of habit, attention, ego, motivation, anxiety) and keeps pressing the "
+        "practical question — 'what do I actually DO with this in an ordinary "
+        "week?' Her challenges are sincere, specific, and FELT in the words: "
+        "genuinely surprised when a claim upends an assumption, confused when an "
+        "abstraction will not resolve, curious when it opens something, skeptical "
+        "when it sounds like wordplay.\n"
+        "  - HOST_A (the teacher) never retreats into jargon: he TRANSLATES the "
+        "chapter's abstract or esoteric point into concrete, livable practice — a "
+        "thing to notice, to refuse, or to begin this week — always reasoning FROM "
+        "the source's own teaching. He meets her modern framing with the text's "
+        "enduring answer.\n"
+        "  - FAITHFULNESS still binds absolutely: the modern-psychology angle is "
+        "the STUDENT'S way in (her questions and analogies), NOT a new claim put "
+        "in the author's mouth. Do not invent psychological findings, and never "
+        "attribute modern psychology to the source.\n"
+        "  - CLOSE: the final exchange must leave the listener with a DEEP, "
+        "personal question that grows out of THIS chapter — how they might reshape "
+        "a real part of their own life toward the teaching — never a tidy summary. "
+        "Land the spine line's final placement just before it (the framing's "
+        "Landing).\n\n"
+    ),
+}
+
+
 def author_dialogue_script(book_dir: Path, chapter_slug: str,
                            timeout: int = DIALOGUE_TIMEOUT) -> str:
     """Author the dialogue script for one chapter. Returns claude -p stdout.
@@ -110,12 +165,22 @@ def author_dialogue_script(book_dir: Path, chapter_slug: str,
     tier = _read_length_tier(book_dir)
     lo, hi = soft_char_band(tier)
 
+    # Per-book relational lens (opt-in, islamic_scholarly only). Empty unless the
+    # book sets a known `dialogue_lens` AND is islamic_scholarly — so books that
+    # do not opt in author byte-identically to before.
+    from _content_profile import is_islamic_scholarly
+    lens_key = _read_dialogue_lens(book_dir)
+    lens_clause = ""
+    if lens_key and is_islamic_scholarly(book_dir):
+        lens_clause = DIALOGUE_LENSES.get(lens_key, "")
+
     # Tag discipline — encodes the ear-locked lesson (2026-06-12): TONAL tags on
     # the scholar recolor his approved timbre; reaction tags belong to the seeker.
     if engine.supports_audio_tags:
         tags_note = (
             "Performance [tag] cues — REACTION tags go on the SEEKER (HOST_B) "
-            "ONLY: [curious], [interrupting], [thoughtful], [quiet], [skeptical]. "
+            "ONLY: [curious], [surprised], [excited], [confused], [interrupting], "
+            "[thoughtful], [quiet], [skeptical]. "
             "NEVER put a TONAL tag on the SCHOLAR (HOST_A) — tags like [warm], "
             "[smiling], [lowering voice] recolor his approved voice; at most a "
             "bare [pause] on HOST_A. Use a tag only where it carries a genuine "
@@ -220,6 +285,7 @@ def author_dialogue_script(book_dir: Path, chapter_slug: str,
         f"    scholar (HOST_A) leads exposition; the seeker (HOST_B) drives the "
         f"    friction. Everything in the framing's Do-not list is forbidden in "
         f"    the spoken text.\n\n"
+        f"{lens_clause}"
         f"FAITHFULNESS (hard rule): do not invent doctrine, attributions, "
         f"quotations, or facts not present in the chapter file. The hosts may "
         f"rephrase and connect, but every claim traces to the source.\n\n"

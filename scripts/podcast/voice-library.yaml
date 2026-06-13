@@ -23,6 +23,13 @@ engine: elevenlabs
 # Render the clips with build_voice_samples.py; the file is named <name>.mp3.
 
 males:    # HOST_A — scholar lead; one per book
+  - name: Mohammed
+    full_name: "Mohammed - Arabic"
+    voice_id: tlETan7Okc4pzjD0z62P
+    accent: arabic
+    in_roster: true
+    casting_sample: M-asaas
+    sample: mohammed.mp3
   - name: George
     full_name: "George - Warm, Captivating Storyteller"
     voice_id: JBFqnCBsd6RMkjVDRZzb

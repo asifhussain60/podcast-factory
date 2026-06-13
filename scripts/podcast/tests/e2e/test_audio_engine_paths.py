@@ -169,7 +169,10 @@ class AudioEnginePathE2E(unittest.TestCase):
         self.assertEqual(self._phase("audio-script")["status"], "completed")
         self.assertEqual(self._phase("audio-render")["status"], "halted")
         self.assertGreater(self._phase("audio-render")["credit_estimate"], 0)
-        self.assertIn("HALTED at H1", stdout)
+        # The H1 halt is the MANDATORY pre-audio review gate: it stops before any
+        # spend, points at the Astro reader, and still shows the exact estimate.
+        self.assertIn("MANDATORY review", stdout)
+        self.assertIn("/arabic-review", stdout)
         self.assertIn("EXACT credit estimate", stdout)
         # Finalize NOT reached yet.
         self.assertEqual(self._phase("finalize")["status"], "pending")

@@ -145,6 +145,69 @@ class TestArabicRecitationScaffold(unittest.TestCase):
         self.assertIn("Sayyidina", self.turns[0].text)
 
 
+class TestGlossaryCuration(unittest.TestCase):
+    """Schema-v2 human decisions (keep/fix_phonetic/correct_arabic/replace_english)."""
+
+    def _book(self, entries):
+        tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
+        book = Path(tmp) / "book"
+        (book / "_system").mkdir(parents=True)
+        import yaml
+        (book / "_system" / "glossary.yml").write_text(
+            yaml.safe_dump({"entries": entries}), encoding="utf-8")
+        (book / "_system" / "series-config.yaml").write_text(
+            "elevenlabs_arabic_recitation: true\n", encoding="utf-8")
+        return book
+
+    def test_keep_and_absent_are_unchanged(self):
+        for entry in ({"phonetic": "batin", "arabic_script": "الباطن"},
+                      {"phonetic": "batin", "arabic_script": "الباطن", "decision": "keep"}):
+            book = self._book([entry])
+            out = pc.compile_turns_for_render(book, [Turn("HOST_A", "the batin within")])
+            self.assertIn("الباطن", out[0].text)
+
+    def test_correct_arabic_uses_corrected_script(self):
+        book = self._book([{"phonetic": "batin", "arabic_script": "WRONG",
+                            "decision": "correct_arabic", "corrected_arabic": "الباطن"}])
+        out = pc.compile_turns_for_render(book, [Turn("HOST_A", "the batin within")])
+        self.assertIn("الباطن", out[0].text)
+        self.assertNotIn("WRONG", out[0].text)
+
+    def test_fix_phonetic_changes_match_key(self):
+        # Script carries "ta'wil"; glossary phonetic was the Arabic form (no match).
+        # Human fixes the phonetic so the substitution now fires.
+        book = self._book([{"phonetic": "تأويل", "arabic_script": "تأويل",
+                            "decision": "fix_phonetic", "corrected_phonetic": "ta'wil"}])
+        out = pc.compile_turns_for_render(book, [Turn("HOST_A", "the ta'wil of the verse")])
+        self.assertIn("تأويل", out[0].text)
+
+    def test_replace_english_recites_nothing(self):
+        book = self._book([{"phonetic": "batin", "arabic_script": "الباطن",
+                            "decision": "replace_english"}])
+        out = pc.compile_turns_for_render(book, [Turn("HOST_A", "the batin within")])
+        self.assertNotIn("الباطن", out[0].text)
+        self.assertIn("batin", out[0].text)
+
+    def test_fill_roundtrip_preserves_decision_fields(self):
+        import fill_glossary_arabic as fg
+        entries = [{"phonetic": "batin", "transliteration": "batin",
+                    "arabic_script": "الباطن", "audio_phonetic": "BAA-tin",
+                    "first_seen_snippet": "x", "decision": "correct_arabic",
+                    "corrected_arabic": "الباطنُ", "decided_by": "asif"}]
+        emitted = fg.emit_glossary_yml(entries, {"schema_version": 2})
+        self.assertIn('decision: "correct_arabic"', emitted)
+        self.assertIn('corrected_arabic: "الباطنُ"', emitted)
+        tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
+        p = Path(tmp) / "glossary.yml"
+        p.write_text(emitted, encoding="utf-8")
+        parsed, _top = fg.parse_glossary_yml(p)
+        self.assertEqual(parsed[0]["decision"], "correct_arabic")
+        self.assertEqual(parsed[0]["corrected_arabic"], "الباطنُ")
+        self.assertEqual(parsed[0]["decided_by"], "asif")
+
+
 class TestClientDictionaryUpload(unittest.TestCase):
     def test_multipart_upload_parses_ids(self):
         from _elevenlabs import ElevenLabsClient

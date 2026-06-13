@@ -68,6 +68,45 @@ def _is_proper_name(phonetic: str) -> bool:
     return any(t in _NAME_CONNECTORS for t in toks)
 
 
+# ─── Human curation (glossary schema v2) ─────────────────────────────────────
+# Optional per-entry decision set by Asif in the Astro reader before audio:
+#   decision: keep | fix_phonetic | correct_arabic | replace_english
+#     keep / absent      -> original fields (byte-identical to schema v1)
+#     fix_phonetic       -> corrected_phonetic overrides the match key + alias grapheme
+#     correct_arabic     -> corrected_arabic overrides the recited script
+#     replace_english    -> term is left in English (no Arabic recited)
+# The model never authors Arabic; the human curates the verified overlay, the
+# render injects it. A glossary with no decisions behaves exactly as before.
+_DECISION_KEEP = "keep"
+_DECISION_FIX_PHONETIC = "fix_phonetic"
+_DECISION_CORRECT_ARABIC = "correct_arabic"
+_DECISION_REPLACE_ENGLISH = "replace_english"
+
+
+def resolve_curation(entry: dict) -> dict:
+    """Apply a glossary entry's human decision; return effective render fields.
+
+    Returns {"phonetic": match-key/alias-grapheme, "arabic": script to recite,
+    "drop_arabic": True when the human chose English-only}. Absent/keep decision
+    yields the original phonetic + arabic_script unchanged (no behavior drift)."""
+    decision = str(entry.get("decision") or _DECISION_KEEP).strip().lower()
+    phonetic = str(entry.get("phonetic") or "").strip()
+    arabic = str(entry.get("arabic_script") or "").strip()
+    if decision == _DECISION_FIX_PHONETIC:
+        corrected = str(entry.get("corrected_phonetic") or "").strip()
+        if corrected:
+            phonetic = corrected
+    elif decision == _DECISION_CORRECT_ARABIC:
+        corrected = str(entry.get("corrected_arabic") or "").strip()
+        if corrected:
+            arabic = corrected
+    return {
+        "phonetic": phonetic,
+        "arabic": arabic,
+        "drop_arabic": decision == _DECISION_REPLACE_ENGLISH,
+    }
+
+
 def _utc_now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -97,7 +136,10 @@ def _usable_rules(entries: list[dict]) -> list[tuple[str, str]]:
 
     rules: dict[str, str] = {}
     for e in entries:
-        grapheme = str(e.get("phonetic") or "").strip()
+        cur = resolve_curation(e)
+        # fix_phonetic moves the grapheme to the corrected form so the alias rule
+        # matches what the human says appears in the text. keep/absent -> original.
+        grapheme = cur["phonetic"]
         alias = str(e.get("audio_phonetic") or "").strip()
         if not grapheme or not alias:
             continue
@@ -248,8 +290,11 @@ def _glossary_term_subs(book_dir: Path) -> list[tuple[str, str]]:
     (referential — pronounced via the alias dictionary, never recited)."""
     subs = []
     for e in load_glossary_entries(book_dir):
-        phonetic = str(e.get("phonetic") or "").strip()
-        arabic = str(e.get("arabic_script") or "").strip()
+        cur = resolve_curation(e)
+        if cur["drop_arabic"]:
+            continue  # human chose replace-with-English — no Arabic recited
+        phonetic = cur["phonetic"]
+        arabic = cur["arabic"]
         if not phonetic or not arabic:
             continue
         if phonetic.lower() in LOANWORD_SKIP or _is_proper_name(phonetic):

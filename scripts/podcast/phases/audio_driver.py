@@ -166,6 +166,31 @@ def _render_plan(book_dir: Path) -> tuple[list[str], int]:
     return pending, estimate
 
 
+def _carryover_summary(book_dir: Path, episodes: list[str]) -> list[tuple[str, str, int]]:
+    """(episode, converged dialogue verdict, residual P1 count) for each episode.
+
+    Reads the dialogue-gate reports the audio-script phase wrote so the human can
+    see any SHIP-WITH-CAUTION residuals BEFORE approving the paid render. Degrades
+    to ('?', 0) when a report is absent — never blocks the halt."""
+    import re as _re
+    try:
+        from _dialogue_convergence import read_verdict, gate_report_path
+    except Exception:  # noqa: BLE001
+        return [(ep, "?", 0) for ep in episodes]
+    out: list[tuple[str, str, int]] = []
+    for ep in episodes:
+        verdict = read_verdict(book_dir, ep) or "?"
+        p1 = 0
+        try:
+            rp = gate_report_path(book_dir, ep)
+            if rp.exists():
+                p1 = len(_re.findall(r"\[P1\]", rp.read_text(encoding="utf-8")))
+        except Exception:  # noqa: BLE001
+            pass
+        out.append((ep, verdict, p1))
+    return out
+
+
 def _drive_audio_render(book_dir: Path, book_slug: str,
                         *, approve_render: bool) -> tuple[str, int]:
     pending, estimate = _render_plan(book_dir)
@@ -175,18 +200,35 @@ def _drive_audio_render(book_dir: Path, book_slug: str,
         return "done", 0
 
     if not approve_render:
-        # H1: the ONLY halt on the autonomous path — exact deterministic
-        # credit estimate, await human approval (mirrors the Tier-2 spend gate).
+        # H1: the MANDATORY review-and-spend gate on the autonomous path. Audio is
+        # NOT rendered until the human reviews the book in the Astro reader (chapters,
+        # dialogue scripts, and the Arabic-term curation) and re-invokes --resume.
+        # Re-invoking means BOTH "I reviewed the content" AND "I approve the spend".
+        carryover = _carryover_summary(book_dir, pending)
+        caution = [ep for ep, v, _ in carryover if v == "SHIP-WITH-CAUTION"]
         update_phase(book_dir, phase="audio-render", status="halted",
                      extras={"credit_estimate": estimate,
-                             "episodes_pending": pending})
+                             "episodes_pending": pending,
+                             "ship_with_caution": caution})
         _info("")
         _info("─" * 72)
-        _info("Phase audio-render · HALTED at H1 (paid-synthesis spend gate).")
+        _info("Phase audio-render · HALTED — MANDATORY review before any audio.")
+        _info("")
+        _info("STOP. Review this book in the Podcast Factory Astro Site BEFORE")
+        _info("approving — once you approve, ElevenLabs renders and credits are spent.")
+        _info("  cd plan-dashboard && npm run dev")
+        _info(f"  open http://localhost:4321/studio/{book_slug}/arabic-review")
+        _info("  CURATE the Arabic terms (keep / fix-phonetic / correct-Arabic /")
+        _info("  replace-with-English) — your curation drives both the spoken audio")
+        _info("  and the on-page text. Review the chapters + dialogue scripts too.")
         _info("")
         _info(f"  Episodes to render : {len(pending)}")
-        for ep in pending:
-            _info(f"    - {ep}")
+        for ep, verdict, p1 in carryover:
+            tag = f"  [{verdict}]" + (f", {p1} P1 to review" if p1 else "")
+            _info(f"    - {ep}{tag}")
+        if caution:
+            _info(f"  NOTE: {len(caution)} episode(s) shipped WITH CAUTION (residual P1s) —")
+            _info(f"        review them in the reader before approving.")
         _info(f"  Engine             : elevenlabs (eleven_v3, final quality — no Flash)")
         _info(f"  EXACT credit estimate: {estimate:,} credits (chars x registry rate)")
         try:
@@ -195,7 +237,7 @@ def _drive_audio_render(book_dir: Path, book_slug: str,
         except Exception:  # noqa: BLE001
             pass
         _info("")
-        _info("To approve the spend and render, re-invoke:")
+        _info("When you have reviewed + curated and approve the spend, re-invoke:")
         _info(f"  python3 scripts/podcast/orchestrate_book.py --resume {book_slug}")
         _info("─" * 72)
         return "halted", AUDIO_HALT_RC
