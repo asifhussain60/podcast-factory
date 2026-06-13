@@ -1,0 +1,233 @@
+/*
+ * arabic-review.css — the dedicated Arabic-curation review page + its rail panel
+ * and the inline term-curation popover. Self-contained (does NOT depend on the
+ * reader's chapter-viewer.css), scoped under .arv-page, theme-token driven
+ * (the existing --c-* palette) so the colour theme is unchanged. External CSS
+ * only — no inline styles in the page or components.
+ */
+
+.arv-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 4rem;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+.arv-page-head { margin-bottom: 1.5rem; }
+.arv-breadcrumb {
+  font-size: 0.9rem;
+  color: var(--c-ink-muted);
+  margin-bottom: 0.4rem;
+}
+.arv-breadcrumb a { color: var(--c-accent); text-decoration: none; }
+.arv-breadcrumb a:hover { text-decoration: underline; }
+.arv-page-head h1 {
+  font-size: 1.9rem;
+  color: var(--c-ink);
+  margin: 0 0 0.5rem;
+}
+.arv-lede {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--c-ink-dim);
+  max-width: 70ch;
+}
+
+/* ── Layout: reading column + sticky rail ──────────────────────────────── */
+.arv-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 22rem;
+  gap: 2rem;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .arv-layout { grid-template-columns: 1fr; }
+  .arv-panel { position: static !important; }
+}
+
+.arv-main { min-width: 0; }
+.arv-empty { color: var(--c-ink-muted); font-style: italic; }
+.arv-chapter { margin-bottom: 3rem; }
+.arv-chapter-title {
+  font-size: 1.4rem;
+  color: var(--c-ink);
+  border-bottom: 2px solid var(--c-rule);
+  padding-bottom: 0.4rem;
+  margin: 0 0 1rem;
+}
+
+/* ── Reading prose + Arabic overlay ────────────────────────────────────── */
+.prose-body {
+  font-family: "Source Serif 4", "Iowan Old Style", Charter, Georgia, serif;
+  font-size: 1.2rem;
+  line-height: 1.75;
+  color: var(--c-ink);
+  max-width: 70ch;
+}
+.prose-body p { margin: 0 0 1.1rem; }
+.prose-body h1, .prose-body h2, .prose-body h3 { color: var(--c-ink); line-height: 1.3; }
+.prose-body blockquote {
+  border-left: 3px solid var(--c-accent-soft);
+  padding-left: 1rem;
+  color: var(--c-ink-dim);
+  font-style: italic;
+}
+
+.ar-overlay {
+  cursor: pointer;
+  border-bottom: 1px dotted var(--c-accent);
+  background: var(--c-accent-soft);
+  border-radius: 2px;
+  padding: 0 1px;
+  transition: background 0.12s ease;
+}
+.ar-overlay:hover { background: var(--c-gold); }
+.ar-en { color: inherit; }
+.ar-script {
+  font-family: "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif;
+  margin-inline-start: 0.35em;
+  color: var(--c-accent);
+  font-size: 1.05em;
+}
+/* The page always shows Arabic; the toggle (if ever mounted) can still hide it. */
+body[data-arabic="off"] .arv-page .ar-script { display: none; }
+
+/* ── Inline curation popover (TermPopover renders .popover-card here) ───── */
+.arv-page .popover-card {
+  position: absolute;
+  top: var(--popover-top, 0);
+  left: var(--popover-left, 0);
+  z-index: 60;
+  width: 320px;
+  max-width: calc(100vw - 2rem);
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule);
+  border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.16);
+  font-family: "Lato", system-ui, sans-serif;
+}
+.popover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.78rem;
+  color: var(--c-ink-muted);
+  border-bottom: 1px solid var(--c-rule-soft);
+}
+.popover-close {
+  border: none; background: none; cursor: pointer;
+  color: var(--c-ink-muted); font-size: 0.9rem; line-height: 1;
+}
+.popover-body { padding: 0.75rem; }
+.popover-term-row { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+.popover-term-name { font-weight: 600; color: var(--c-ink); }
+.popover-term-audio { font-size: 0.8rem; color: var(--c-ink-muted); }
+.popover-term-script {
+  font-family: "Amiri", "Noto Naskh Arabic", serif;
+  font-size: 1.3rem; color: var(--c-accent);
+}
+.popover-divider { border: none; border-top: 1px solid var(--c-rule-soft); margin: 0.6rem 0; }
+.popover-definition { font-size: 0.95rem; color: var(--c-ink-dim); margin: 0 0 0.5rem; }
+.popover-loading, .popover-error { font-size: 0.85rem; color: var(--c-ink-muted); }
+.popover-error { color: var(--c-red); }
+.popover-chip {
+  display: inline-block; font-size: 0.75rem; padding: 1px 7px; margin: 2px 3px 0 0;
+  background: var(--c-bg-sunken); color: var(--c-ink-dim); border-radius: 10px;
+}
+.popover-etymology-toggle {
+  border: none; background: none; cursor: pointer; padding: 0;
+  color: var(--c-accent); font-size: 0.82rem;
+}
+.popover-etymology { font-size: 0.85rem; color: var(--c-ink-dim); margin: 0.3rem 0 0; }
+
+/* Curation controls shared between the popover and the panel rows. */
+.popover-curate-label, .arv-row .arv-actions { font-size: 0.78rem; }
+.popover-curate-label { color: var(--c-ink-muted); margin-bottom: 0.35rem; }
+.popover-curate-done { color: var(--c-green); font-weight: 600; }
+.popover-curate-actions, .arv-actions { display: flex; flex-wrap: wrap; gap: 4px; }
+.popover-curate-btn, .arv-act {
+  font-family: inherit; font-size: 0.76rem; cursor: pointer;
+  padding: 3px 8px; border-radius: 5px;
+  border: 1px solid var(--c-rule); background: var(--c-bg-card); color: var(--c-ink-dim);
+}
+.popover-curate-btn:hover, .arv-act:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.popover-curate-btn.is-chosen, .arv-act.is-chosen {
+  background: var(--c-accent); color: #fff; border-color: var(--c-accent);
+}
+.popover-curate-btn:disabled, .arv-act:disabled { opacity: 0.5; cursor: default; }
+.popover-curate-edit, .arv-edit { display: flex; gap: 5px; margin-top: 0.5rem; }
+.popover-curate-input, .arv-input {
+  flex: 1; min-width: 0; font-family: inherit; font-size: 0.85rem;
+  padding: 4px 7px; border: 1px solid var(--c-rule); border-radius: 5px;
+  background: var(--c-bg); color: var(--c-ink);
+}
+.popover-curate-input[dir="rtl"], .arv-input[dir="rtl"] {
+  font-family: "Amiri", "Noto Naskh Arabic", serif; font-size: 1.05rem;
+}
+.popover-curate-save, .arv-save {
+  font-family: inherit; font-size: 0.78rem; cursor: pointer;
+  padding: 4px 10px; border-radius: 5px; border: none;
+  background: var(--c-accent); color: #fff;
+}
+.popover-curate-save:disabled, .arv-save:disabled { opacity: 0.6; cursor: default; }
+
+/* ── Rail panel ─────────────────────────────────────────────────────────── */
+.arv-panel {
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: 10px;
+  padding: 1rem;
+  font-family: "Lato", system-ui, sans-serif;
+}
+.arv-loading, .arv-error { color: var(--c-ink-muted); font-size: 0.9rem; }
+.arv-error { color: var(--c-red); }
+.arv-head { margin-bottom: 0.75rem; }
+.arv-title { font-size: 1.1rem; color: var(--c-ink); margin: 0; }
+.arv-sub { font-size: 0.82rem; color: var(--c-ink-muted); margin: 0.15rem 0 0.6rem; }
+.arv-filters { display: flex; gap: 5px; }
+.arv-filter {
+  font-family: inherit; font-size: 0.76rem; cursor: pointer;
+  padding: 3px 9px; border-radius: 12px;
+  border: 1px solid var(--c-rule); background: var(--c-bg); color: var(--c-ink-dim);
+}
+.arv-filter.is-active { background: var(--c-accent); color: #fff; border-color: var(--c-accent); }
+
+.arv-list { list-style: none; margin: 0; padding: 0; }
+.arv-row {
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--c-rule-soft);
+}
+.arv-row.is-curated { background: color-mix(in oklch, var(--c-green) 6%, transparent); }
+.arv-term { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.4rem; }
+.arv-phon { font-weight: 600; color: var(--c-ink); }
+.arv-script { font-family: "Amiri", "Noto Naskh Arabic", serif; color: var(--c-accent); font-size: 1.05rem; }
+.arv-badge {
+  font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.03em;
+  padding: 1px 6px; border-radius: 8px;
+  background: var(--c-bg-sunken); color: var(--c-ink-dim);
+}
+.arv-badge[data-decision="replace_english"] { color: var(--c-amber); }
+.arv-badge[data-decision="correct_arabic"], .arv-badge[data-decision="fix_phonetic"] { color: var(--c-accent); }
+.arv-badge[data-decision="keep"] { color: var(--c-green); }
+
+/* ── Accessibility (REQ-073 focus ring · REQ-050 reduced motion) ────────── */
+.arv-act:focus-visible,
+.arv-filter:focus-visible,
+.arv-save:focus-visible,
+.arv-input:focus-visible,
+.popover-curate-btn:focus-visible,
+.popover-curate-input:focus-visible,
+.popover-curate-save:focus-visible,
+.popover-close:focus-visible,
+.popover-etymology-toggle:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ar-overlay { transition: none; }
+}

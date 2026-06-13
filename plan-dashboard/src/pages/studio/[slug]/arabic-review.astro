@@ -1,0 +1,70 @@
+---
+/**
+ * Arabic-curation review page — the mandatory pre-audio review surface.
+ *
+ * Renders each chapter's prose with the glossary Arabic overlay, mounts the
+ * inline click-to-curate popover and the right-rail review table. Curation
+ * decisions persist to _system/glossary.yml (schema v2) via
+ * /api/studio/arabic-review, driving BOTH the spoken audio and this page.
+ */
+import Base from '../../../layouts/Base.astro';
+import TermPopover from '../../../components/reader/TermPopover.tsx';
+import ArabicReviewPanel from '../../../components/reader/ArabicReviewPanel.tsx';
+import { loadBookIndex, loadChapterSource } from '../../../lib/reader/chapters';
+import { loadGlossary, wrapPhoneticTokens } from '../../../lib/reader/glossary';
+import { renderMarkdown } from '../../../lib/reader/markdown';
+import { slugToTitle } from '../../../lib/content-paths';
+import '../../../styles/arabic-review.css';
+
+export const prerender = false;
+
+const slug = Astro.params.slug!;
+const title = slugToTitle(slug);
+const [index, glossary] = await Promise.all([loadBookIndex(slug), loadGlossary(slug)]);
+
+const chapters: { slug: string; title: string; html: string }[] = [];
+if (index) {
+  for (const ch of index.chapters) {
+    const src = await loadChapterSource(ch.filePath);
+    chapters.push({ slug: ch.slug, title: ch.title, html: wrapPhoneticTokens(renderMarkdown(src), glossary) });
+  }
+}
+---
+<Base
+  title={`Arabic review · ${title}`}
+  active="library"
+  description={`Curate Arabic terms before audio · ${title}`}
+>
+  <div class="arv-page">
+    <header class="arv-page-head">
+      <nav class="arv-breadcrumb" aria-label="Breadcrumb">
+        <a href={`/library/${slug}`}>{title}</a> › Arabic review
+      </nav>
+      <h1>Arabic review — {title}</h1>
+      <p class="arv-lede">
+        Review every Arabic term before the audio is generated. Click a highlighted
+        word in the text, or use the panel, to keep it, fix its phonetic spelling,
+        correct the Arabic script, or replace it with English. Your choices drive
+        both the spoken audio and this page.
+      </p>
+    </header>
+
+    <div class="arv-layout">
+      <main class="arv-main">
+        {chapters.length === 0 && (
+          <p class="arv-empty">No chapters found for this book yet.</p>
+        )}
+        {chapters.map((ch) => (
+          <section class="arv-chapter" id={ch.slug}>
+            <h2 class="arv-chapter-title">{ch.title}</h2>
+            <div class="prose-body" set:html={ch.html}></div>
+          </section>
+        ))}
+      </main>
+
+      <ArabicReviewPanel client:only="react" slug={slug} />
+    </div>
+
+    <TermPopover client:only="react" book={slug} />
+  </div>
+</Base>

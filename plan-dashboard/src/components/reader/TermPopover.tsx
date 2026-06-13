@@ -16,6 +16,14 @@ interface Def {
   source?: 'local' | 'gemini';
 }
 
+type Decision = 'keep' | 'fix_phonetic' | 'correct_arabic' | 'replace_english';
+const CURATE_ACTIONS: { id: Decision; label: string; needs?: string; rtl?: boolean }[] = [
+  { id: 'keep', label: 'Keep' },
+  { id: 'fix_phonetic', label: 'Fix phonetic', needs: 'corrected_phonetic' },
+  { id: 'correct_arabic', label: 'Correct Arabic', needs: 'corrected_arabic', rtl: true },
+  { id: 'replace_english', label: 'Replace · English', needs: 'english_override' },
+];
+
 interface State {
   anchorRect: DOMRect;
   phonetic: string;
@@ -35,6 +43,39 @@ export default function TermPopover({ book }: Props) {
   const [etymExpanded, setEtymExpanded] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
   const hoverTimerRef = useRef<number | null>(null);
+  // Curation (schema-v2 decision for THIS term).
+  const [cAction, setCAction] = useState<Decision | null>(null);
+  const [cDraft, setCDraft] = useState('');
+  const [cSaving, setCSaving] = useState(false);
+  const [cDone, setCDone] = useState<Decision | null>(null);
+
+  async function saveCuration(decision: Decision, value: string) {
+    if (!state) return;
+    setCSaving(true);
+    const body: Record<string, string> = { slug: book, phonetic: state.phonetic, decision };
+    const needs = CURATE_ACTIONS.find((a) => a.id === decision)?.needs;
+    if (needs) body[needs] = value;
+    try {
+      const res = await fetch('/api/studio/arabic-review', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) throw new Error(`save ${res.status}`);
+      const d = await res.json();
+      const updated = (d?.data ?? d) as Record<string, string>;
+      setCDone(decision);
+      setCAction(null);
+      setCDraft('');
+      window.dispatchEvent(new CustomEvent('arabic-curation:saved', {
+        detail: { phonetic: state.phonetic, ...updated },
+      }));
+    } catch {
+      /* surfaced via the panel; the popover stays quiet */
+    } finally {
+      setCSaving(false);
+    }
+  }
 
   useEffect(() => {
     const article = document.querySelector('.prose-body');
@@ -51,6 +92,7 @@ export default function TermPopover({ book }: Props) {
 
       const cached = getTermDef(book, phonetic) as Def | null;
       setEtymExpanded(false);
+      setCAction(null); setCDraft(''); setCDone(null);
       setState({ anchorRect: rect, phonetic, transliteration: tr, script, audio, context: ctxText, def: cached, loading: !cached });
 
       if (cached) return;
@@ -176,6 +218,46 @@ export default function TermPopover({ book }: Props) {
             ))}
           </div>
         )}
+        <hr className="popover-divider" />
+        <div className="popover-curate" role="group" aria-label="Curate this Arabic term">
+          <div className="popover-curate-label">
+            Curate {cDone && <span className="popover-curate-done">✓ {cDone.replace('_', ' ')}</span>}
+          </div>
+          <div className="popover-curate-actions">
+            {CURATE_ACTIONS.map((a) => (
+              <button
+                key={a.id}
+                className={`popover-curate-btn${cAction === a.id || cDone === a.id ? ' is-chosen' : ''}`}
+                disabled={cSaving}
+                onClick={() => {
+                  if (!a.needs) { saveCuration(a.id, ''); return; }
+                  if (cAction === a.id) { setCAction(null); return; }
+                  setCAction(a.id);
+                  setCDraft(a.id === 'correct_arabic' ? state.script || '' : '');
+                }}
+              >{a.label}</button>
+            ))}
+          </div>
+          {cAction && (() => {
+            const a = CURATE_ACTIONS.find((x) => x.id === cAction)!;
+            return (
+              <div className="popover-curate-edit">
+                <input
+                  className="popover-curate-input"
+                  lang={a.rtl ? 'ar' : undefined}
+                  dir={a.rtl ? 'rtl' : undefined}
+                  value={cDraft}
+                  placeholder={a.label}
+                  onChange={(e) => setCDraft(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === 'Enter') saveCuration(cAction, cDraft); }}
+                />
+                <button className="popover-curate-save" disabled={cSaving} onClick={() => saveCuration(cAction, cDraft)}>
+                  {cSaving ? 'Saving…' : 'Save'}
+                </button>
+              </div>
+            );
+          })()}
+        </div>
       </div>
     </div>
   );
