@@ -3,10 +3,10 @@
   "book_slug": "asaas-al-taveel-vol-01",
   "category": "books",
   "branch": "Islamic/asaas-al-taveel",
-  "phase": "finalize",
-  "phase_status": "halted",
-  "last_completed_phase": "per-chapter",
-  "next_phase": "per-chapter-optimize",
+  "phase": "audio-script",
+  "phase_status": "completed",
+  "last_completed_phase": "audio-script",
+  "next_phase": "audio-render",
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -207,7 +207,16 @@
       "verdict": "SHIP-READY"
     },
     "audio-script": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-06-13T15:05:46Z",
+      "ts_completed": "2026-06-13T18:21:38Z",
+      "verdicts": {
+        "adam-the-tree-and-iblis-pact": "SHIP-WITH-CAUTION",
+        "the-call-to-inner-meaning": "SHIP-READY",
+        "the-four-limits-of-the-shahada": "SHIP-READY",
+        "two-parties-and-the-line-to-noah": "SHIP-WITH-CAUTION",
+        "what-ismaili-interpretation-is": "SHIP-WITH-CAUTION"
+      }
     },
     "audio-render": {
       "status": "pending"
@@ -219,7 +228,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-06-08T00:00:00Z",
-  "ts_updated": "2026-06-09T20:14:14Z",
+  "ts_updated": "2026-06-13T18:21:38Z",
   "config": {
     "length_tier": "extended",
     "unit_mode": "auto"
