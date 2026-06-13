@@ -1,0 +1,8 @@
+{
+  "check_id": "honorific_repeat",
+  "detector": "honorific_repeat",
+  "hits": [
+    "\\(peace be upon him\\)@L2",
+    "\\(peace be upon him\\)@L3"
+  ]
+}
