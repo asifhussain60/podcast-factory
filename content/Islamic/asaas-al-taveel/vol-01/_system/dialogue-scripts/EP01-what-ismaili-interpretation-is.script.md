@@ -1,152 +1,112 @@
 # EP01-what-ismaili-interpretation-is — dialogue script
 # engine: elevenlabs
 
-HOST_B: Here is the question on the table. A book sat in private custody for a thousand years. Why now, and what does the editor think we will mishear if we walk in unprepared?
+HOST_B: [curious] Here is the puzzle this episode opens with. A book sits in private hands for a thousand years. The tradition that owns it has a name for that practice — keeping a teaching back until the listener is ready — and the name is taqiyya, the discipline of prudent concealment. And then in 1960, in Beirut, one editor decides the wait is over and sends it to the printer. Why now, and why this one book?
 
-HOST_A: That is the right opening, and the editor answers it with one image that the whole tradition turns on. Outward commentary attends to the needles of the word; inner interpretation extracts the honey.
+HOST_A: We are with Arif Tamir, the editor printing this in Beirut in 1960, and the book is Foundations of Inner Interpretation by the Fatimid judge who served two Imam-Caliphs. The editor's own preface tells us he hesitated a long time. He wanted to keep the book in what he calls the cave of prudent concealment, the cave of taqiyya, alongside the other Ismaili manuscripts that have not yet been published. But whenever the phrase inner interpretation came to mind, only one book presented itself to him. This one. And so here is the line that runs underneath the whole introduction — the spine of the conversation we are about to have. Outward commentary attends to the needles of the word; inner interpretation extracts the honey.
 
-HOST_B: [thoughtful] Needles and honey. Say that again slowly, because I do not yet know which one I am supposed to want.
+HOST_B: The needles and the honey. Hold that — I want to come back to it. But first the concealment. A modern reader hears "held back for a thousand years" and instantly reaches for the worst explanation — embarrassment, suppression, something to hide.
 
-HOST_A: You want both. That is the point. We are with the editor, Arif Tamir, the editor printing this in Beirut in 1960, introducing Foundations of Inner Interpretation by the Fatimid judge who served two Imam-Caliphs. He hesitated a long time before sending this book to print.
+HOST_A: The editor steelmanned that suspicion before answering it. He says these materials are not held back because they are embarrassing. They are held back because the doctrine itself teaches that not every truth is fit for every ear at every moment. A truth disclosed to the wrong audience at the wrong stage of training can be heard as nonsense, or as scandal.
 
-HOST_B: [curious] Hesitated why? He had the manuscript. He had a press. What was holding him back?
+HOST_B: [skeptical] All right, but psychologically that is also precisely what a closed system says about itself. "You are not ready." I do not buy that yet. That sounds like wordplay to keep outsiders out.
 
-HOST_A: He calls it the cave of prudent concealment. In the Ismaili intellectual order, certain doctrinal materials are not held back because they are embarrassing. They are held back because the doctrine itself teaches that not every truth is fit for every ear at every moment.
+HOST_A: That is the right pressure to put on it. Hear how the source answers it. The Father of Imams, peace be upon him, is reported in his collected sayings to have said this: the Book of God carries four registers — its expression, its allusion, its subtle indication, and its inner reality. The expression is for the common people, the allusion for the elect, the subtle indication for the friends of God, and the inner reality for the prophets. That fourfold ladder is recorded in the eleventh-century collection Brilliant Aphorisms, edited by al-Amidi. The Prophet, peace and blessings of Allah be upon him and his family, gives the same architecture in a narration preserved by Ibn Hibban in The Sound Compendium — every verse of the Quran has an outward, an inward, a limit, and a place of ascent. The same four registers.
 
-HOST_B: [interrupting] Wait — not fit for every ear? That sounds, to a modern listener, like gatekeeping. Like the priesthood deciding who gets the real version.
+HOST_B: So the layered structure is not a later invention. It is built into the earliest sayings.
 
-HOST_A: Hear the steelman first. A truth disclosed to the wrong audience at the wrong stage of training can be heard as nonsense, or worse, as scandal. If I hand a child a scalpel and tell her it heals people, she will cut herself. The editor is not protecting a secret society. He is pacing a curriculum.
+HOST_A: The Ismaili order is not inventing the architecture. It is claiming custody of it. And the practical consequence is what the editor calls the etiquette of asking.
 
-HOST_B: All right, that is the charitable reading. So what changes in 1960? Why does he break the discipline now?
+HOST_B: [interrupting] The etiquette of asking?
 
-HOST_A: Because whenever the word inner interpretation comes to mind, only one book presents itself to him, and this is the book. The judge wrote others. None of them does what this one does. The editor is treating the disclosure itself as a doctrinal event, not a publishing footnote.
+HOST_A: The etiquette of asking. The book waits because the question that fits this book has to ripen in the reader first. Hand it to someone who is only at the level of the expression, and the inner reality will sound like nonsense to them, and they will reject it — and reject the apparent law along with it. The discipline protects both the reader and the teaching.
 
-HOST_B: [quiet] A thousand-year pause, broken because no substitute has appeared. I feel the weight of that now.
+HOST_B: All right — you have me there. The concealment is not about hiding shame. It is about timing.
 
-HOST_A: Good. Hold it there for a second, because it is the only frame in which the next move makes sense.
+HOST_A: That is the concession. And now hear why the editor finally lets it out. He says this is the single book in the Ismaili corpus that takes up inner interpretation as its certain theme. It is the book that lays down the basic grammar of this science in a measured way. Without it, the rest cannot be read. So he calls his decision a small departure from the usual discipline. A doctrinal event, not a publishing footnote.
 
-HOST_B: Then walk me into the next move. What is the move?
+HOST_B: [thoughtful] Good. Now define the thing. What is inner interpretation, and how is it different from ordinary commentary?
 
-HOST_A: He distinguishes two words the wider Islamic literature often runs together. Outward commentary, and inner interpretation. Ask him, what is the outward commentary on the word tree. He answers: it is a plant that is set down small, then grows, and from it limbs branch out upon which green leaves grow, and in spring it bears flowers that turn into good fruit.
+HOST_A: Two words the wider Islamic literature often runs together carry different meanings here. Outward commentary, tafsir, means clarifying the meaning of any obscure word whose sense the reader does not understand. Inner interpretation, ta'wil, is something else. The editor reaches for an example — the simplest possible one — and the example is the word tree.
 
-HOST_B: That is the dictionary. Anyone with eyes can do that.
+HOST_B: A tree.
 
-HOST_A: Right. Now ask him, what is the inner interpretation of the word tree.
+HOST_A: A tree. If we are asked, what is the commentary on the word tree, we answer — and here the editor is precise — it is a plant that is set down small, then grows, and from it limbs branch out upon which green leaves grow, and in spring it bears flowers that turn into good fruit. That is tafsir. Clarification at the level of the dictionary, the picture, the ordinary sense.
 
-HOST_B: And he says?
+HOST_B: Fine. And ta'wil?
 
-HOST_A: He may say it is a chamber, or a cow, or a rock, or anything else — provided it is in accord with truth, with reality, and with reason.
+HOST_A: But if we are asked, what is the inner interpretation of the word tree, the answer follows the view of the one giving the interpretation. He may say it is a chamber, or a cow, or a rock, or anything else — provided it is in accord with truth, with reality, and with reason, that it is not foreign to belief, nor distant from sound thought.
 
-HOST_B: [skeptical] Okay, stop. A chamber. A cow. A rock. I do not buy that yet — that sounds like wordplay. If a tree can be a rock, then anything can be anything, and you have not interpreted, you have just decorated.
+HOST_B: [interrupting] Wait — a chamber, a cow, a rock? Now I really am out. That is the move I was afraid of. If a tree can mean a rock, then a word means whatever you want it to mean, and the whole exercise floats free of the verse. I do not see how this is not arbitrary.
 
-HOST_A: That is precisely the objection the tradition expects, and it is why the great supporter of religion among the Ismailis, an eleventh-century thinker who served as chief preacher in the Fatimid court, struck the parable he did. By the parable I mean a parable struck — like the bee's needles, and what comes from it like honey.
+HOST_A: That is precisely the right objection. And the editor anticipates it. He says ta'wil is the essence of the meaning, its symbol, its inner reality — al-batin behind al-zahir, the hidden behind the apparent — but it has a condition. It must accord with truth, with reality, and with reason. It is not the reader's free association. Which means it has to come from somewhere — from someone who knows what the tree was placed in the verse to point to.
 
-HOST_B: [curious] The bee.
+HOST_B: An authority.
 
-HOST_A: A bee carries a needle on her body. Outward commentary attends to the needles of the word.
+HOST_A: An authority. And here is the structural move the whole book turns on. The Ismaili intellectual order assigns the authority of revelation, of tanzil, to the Speaker-Prophet, al-Natiq. And it assigns the authority of inner interpretation, of ta'wil, to the Imam — the foundation, al-asas. The Speaker bears the revelation in its words and its outward sense for the people at large — the sacred law, shari'a, the apparent. The Foundation bears its inner meaning, its truth, its philosophy, the hidden — al-batin — for those whose insight has been opened. The Prophet was the bearer of the revelation of the Quran for everyone, while its mystical secrets were entrusted to the Father of Imams. Two faces of the same revelation. Neither is complete without the other.
 
-HOST_B: And the honey?
+HOST_B: [thoughtful] So the tree being a chamber is not a private game. It is a reading that lives in a chain.
 
-HOST_A: Inner interpretation extracts the honey. The needle is real. The honey is also real. The honey is not a contradiction of the needle. It is what the needle was assembled to produce.
+HOST_A: A reading that lives in a chain — a chain that goes back to the moment when the meaning was placed inside the word. And now hear how the editor brings the image back to ground. The great supporter of religion among the Ismailis, an eleventh-century thinker who served as chief preacher in the Fatimid court, puts it this way. By the parable I mean a parable struck — like the bee's needles, and what comes from it like honey.
 
-HOST_B: [thoughtful] So when he says a tree might be a chamber or a cow or a rock, he is not throwing the dictionary out. He is saying the dictionary was a vehicle. The dictionary was the needle.
+HOST_B: The needles and the honey.
 
-HOST_A: That is the move. The word is not vacated, it is followed.
+HOST_A: Outward commentary attends to the needles of the word; inner interpretation extracts the honey. The needle is real. You can touch it, count it, describe it. The honey is also real — and it is what the bee was built for. Tafsir is not wrong. It is incomplete.
 
-HOST_B: All right — you have me there. But now I have a different worry, and it is the modern one. If the honey is real, who gets to tell me what it tastes like? Because in the next thirty seconds someone on the internet will say a tree means whatever they need it to mean this week.
+HOST_B: All right — I concede that one too. The image domesticates the move. A rock is not arbitrary if the chain knows what the bee was built to make.
 
-HOST_A: That is the structural question, and the editor answers it directly. Two things follow from his definition. The first is structural. There has to be an authority who knows what the tree actually is. The reader, holding only the word, cannot generate this answer by his own dictionary. He needs a teacher who stands in a chain that goes back to the moment when the meaning was placed inside the word.
+HOST_A: Good. Now hold that, because the warrant follows. The Ismailis read these claims out of specific verses, and the editor cites them in turn. From the chapter of Joseph, verse six: "your Lord shall choose you and teach you the interpretation of events" — spoken to Joseph as a child. From the same chapter, verse twenty-one: "thus We established Joseph in the land, that We might teach him the interpretation of events." From the chapter of the cave, verse seventy-eight, where a strange teacher tells the prophet Moses, after a sequence of acts that look like cruelty, "I shall inform you of the interpretation of that which you could not bear patiently." The mercy hidden inside the cruelty was the interpretation.
 
-HOST_B: A chain. Not a feeling.
+HOST_B: [curious] So the Quran is already teaching that there is an inside to events — and that someone has to be taught how to read it.
 
-HOST_A: Not a feeling. The second thing is doctrinal. The Ismaili intellectual order assigns the authority of revelation to the Speaker-Prophet. And it assigns the authority of inner interpretation to the Imam-Foundation — designated Foundation, a title given to every Imam contemporary with the Speaker-Prophet.
+HOST_A: And then the central verse. From the chapter of the family of Imran, verse seven. "He it is who has sent down to you the Book, in which are verses precisely defined — they are the foundation of the Book — and others ambiguous. As for those in whose hearts is deviation, they pursue what is ambiguous of it, seeking discord and seeking its interpretation, though none knows its interpretation save Allah and those firmly grounded in knowledge."
 
-HOST_B: [curious] So one bears the words of the revelation, and the other bears its meaning.
+HOST_B: The verse cuts both ways.
 
-HOST_A: Two faces of the same revelation. The Prophet, peace and blessings of Allah be upon him and his family, was the bearer of the revelation of the Quran in its words and outward sense for the people at large, while its mystical secrets were entrusted to the Father of Imams — Ali, peace be upon him.
+HOST_A: It cuts both ways. It says the wrong people seek the inner sense for the wrong reasons. And it says there are people — those firmly grounded in knowledge — who know it. The Ismaili reading takes that phrase to name a specific class of teachers, not a general intellectual virtue. The broader grammar of the wider community places a pause after "save Allah," limiting that knowledge to God alone. The Ismaili reading places the pause after "those firmly grounded in knowledge," making the Imams full partners in that knowledge. That is the structural move on which all interpretation depends.
 
-HOST_B: The bearer of the outward speaks to everyone. The bearer of the inward speaks to those whose insight has been opened.
+HOST_B: [curious] A grammatical pause moves the whole doctrine.
 
-HOST_A: And neither is complete without the other. That is the structural spine of the whole book.
+HOST_A: A single pause. And then the rational proofs land. From the chapter of the detailed exposition, verse fifty-three: "We shall show them Our signs on the horizons and within themselves." From the chapter of the scatterers, verses twenty and twenty-one: "in the earth are signs for those certain in faith — and in your own selves: do you not see." There are signs out there in the world; there are signs inside the human person; the two answer to each other.
 
-HOST_B: Now, before I let that pass — the broader Islamic conversation does not put it that way. Where in the Quran does the editor say his tradition gets that pairing from?
+HOST_B: All right. Here is where I am as a modern listener. I keep wanting to translate this into something I can do on a Wednesday afternoon. What does it mean to live with this distinction in ordinary practice?
 
-HOST_A: He goes to the central verse. The chapter on the family of Imran, verse seven. He it is who has sent down to you the Book, in which are verses precisely defined — they are the foundation of the Book — and others ambiguous. As for those in whose hearts is deviation, they pursue what is ambiguous of it, seeking discord and seeking its interpretation, though none knows its interpretation save Allah and those firmly grounded in knowledge.
+HOST_A: That is the right question, and the editor refuses to let the inner replace the outer. There is a two-book project at the heart of all of this. The same Fatimid judge wrote two works under the same patron — Pillars of Islam, which lays out the apparent law, the practical worship, the rulings of the sacred law as the fifth Imam narrated them from his grandfather, the Prophet. And Foundations of Inner Interpretation, the present book, which lays out the inner sense — what the editor calls scientific worship. Pillars of Islam is the body the tradition gives the believer. And Foundations of Inner Interpretation—
 
-HOST_B: [pause] So God, and those firmly grounded in knowledge.
+HOST_B: —is the soul. Body and soul.
 
-HOST_A: That phrase is the hinge. The broader Islamic grammar community placed the pause after save Allah, limiting that knowledge to God alone. The Ismaili reading places the pause after those firmly rooted in knowledge — making the Imams full partners in that knowledge.
+HOST_A: And the editor is insistent. The apparent is not accepted without the inward, and the inward is of no use without the apparent. The believer keeps the law fully — fasts, prays, gives — and reads the law as parable fully. The Ismaili reader does not drop the practice and float into philosophy. The practice is the body the soul lives in.
 
-HOST_B: A comma is doing a lot of work in that sentence.
+HOST_B: [skeptical] So what would a modern person do — a person carrying the anxiety of a busy attention, a busy phone, an inherited religion they only ever heard at the level of the dictionary? Where would they actually start?
 
-HOST_A: A comma is doing all the work. The whole interpretive enterprise rests on where you breathe.
+HOST_A: They would start where the editor starts. They would pick one verse they have only ever heard at the level of the needle and sit with the question, what is this verse for. Not what does it mean — what is it for. They would carry that question into the practice itself. They would refuse the laziness of treating the verse as a slogan, and they would refuse the other laziness of treating the practice as habit. Outward commentary attends to the needles of the word; inner interpretation extracts the honey. The honey is not found by abandoning the comb. It is found by walking back into it with a different question.
 
-HOST_B: And he has more verses where this came from?
+HOST_B: One verse. One question. One week.
 
-HOST_A: The chapter on Joseph, verse six — thus your Lord shall choose you and teach you the interpretation of events. The same chapter, verse twenty-one — and thus We established Joseph in the land, that We might teach him the interpretation of events. The chapter on the cave, verse seventy-eight — I shall inform you of the interpretation of that which you could not bear patiently, where a strange teacher tells a frustrated student that what looked like cruelty was mercy hidden inside cruelty.
+HOST_A: One week. And here is the closing claim the editor lands on, and it is sharp. Knowledge in Islam is a condition of faith. Whoever believes without understanding and knowing has not believed well. True belief, he says, is the truth that emerges from guidance, from understanding, and from choice. Religion was given the optional portion — God left freedom before the human being to act in the light of the intellect of his constitution.
 
-HOST_B: [thoughtful] Mercy hidden inside cruelty. That is the needles-and-honey image again, just told as a story.
+HOST_B: [surprised] Choice is built into the offer. The doctrine asks for the intellect to be on.
 
-HOST_A: The same shape, precisely. And then the rational proofs. The chapter on the detailed exposition, verse fifty-three — We shall show them Our signs on the horizons and within themselves. The chapter on the scatterers, verses twenty and twenty-one — and in the earth are signs for those certain in faith, and in your own selves: do you not see.
+HOST_A: And it asks for it to be disciplined. The editor calls this the covenant, the compact, and the oath — the marks of someone who has entered the ranks of the inner teaching. Inner interpretation does not shift, he says. Outward commentary proliferates in dictionaries and produces differences of opinion. The inner sense, delivered through a single chain of authoritative teachers, leads to mental reality and to consensus. That is the paradox you have to hold — the inner sense is reserved, and the inner sense is the one that does not move.
 
-HOST_B: Signs out there, signs inside us, and the two answer to each other.
+HOST_B: Reserved, and stable. Usually we think privacy breeds drift. Here it is the opposite.
 
-HOST_A: The apparent was created in order to point to the subtle. That is the architecture.
+HOST_A: It is the opposite. And the editor closes with a small note of origin. The Alexandrian school under Philo tried to read the Torah esoterically and did not complete the project. Augustine and his disciples tried with the Gospel and could not bring it through. The Ismailis inherited that ambition through Neoplatonist channels and gave it its Islamic form through the Father of Imams and through the line of Imams who carry the inner sense after each Speaker-Prophet. The Fatimid judge is not inventing an approach. He is reclaiming one.
 
-HOST_B: All right, now I want to ask the practical question, because this is where I usually lose the thread. What do I actually do with this in an ordinary week? I am not a Fatimid judge. I do not have a teacher in a chain.
+HOST_B: [curious] So what is the shape of the book the listener is about to enter?
 
-HOST_A: The editor would say you start by noticing the difference. When you read a verse, you usually stop at the level of the needle — what does this word mean, what is the rule, what am I being told to do. The first practice is to ask a second question. What was this verse sent to carry. Not to invent an answer. To hold the question open until a teacher in the chain has shown you the answer.
+HOST_A: Six chapters, one for each Speaker-Prophet — Adam, Noah, Abraham, Moses, Jesus, and the Prophet, peace and blessings be upon him. Six cycles, each with its Speaker bearing the outward and its Foundation bearing the inward.
 
-HOST_B: [quiet] So it is patience, first. Not improvisation.
+HOST_B: And the seventh?
 
-HOST_A: Patience first. And then the discipline of reading the apparent and the hidden together. Because the editor is sharp on this — the apparent is not accepted without the inward, and the inward is of no use without the apparent. For outward and inward are like body and soul, and benefits arise only from their meeting.
+HOST_A: The seventh is deliberately unwritten. The chapter on the Awaited Imam, al-Qa'im, is not in the book — because his time has not yet come.
 
-HOST_B: [curious] Body and soul. And he carries that into the project of the book itself.
+HOST_B: [quiet] An empty room at the end of the book.
 
-HOST_A: He does. The judge wrote two books under the fourth Fatimid Imam-Caliph. Pillars of Islam — narrated by the fifth Imam, Jaa'far ibn Muhammad, the truthful, from his grandfather the Prophet — is the foundation of the apparent law, what they call practical worship. Pillars of Islam is the body the tradition gives the believer.
+HOST_A: An empty room at the end of the book. This volume closes the first prophetic cycle. The seventh and final cycle belongs to a later volume — and that volume is not yet ours to name.
 
-HOST_B: And Foundations of Inner Interpretation?
+HOST_B: [thoughtful] Then here is what I want to leave the listener with. Outward commentary attends to the needles of the word; inner interpretation extracts the honey. Pick one verse you have carried your whole life only at the level of the needle. Sit with it for a week. Do not change the practice — keep the body. Ask only what the bee was built to make. And then notice what shifts in the way you walk into Wednesday afternoon.
 
-HOST_A: Is the soul.
+HOST_A: The seventh chapter is not written. The cave of taqiyya was held for a thousand years. The honey is still being extracted.
 
-HOST_B: [surprised] One author. Two books. One body, one soul. Held together so neither floats off without the other.
-
-HOST_A: That is why the editor is so insistent that this is not an antinomian tradition. The Ismaili reader keeps the law fully and reads the law as parable fully. The inner does not replace the outer. It completes it.
-
-HOST_B: This is the second place I want to push back, and it is the one that I think a modern reader feels hardest. He is saying the inner sense is reserved — only the Imam and his elect teach it — and at the same time he is saying inner interpretation is the more stable of the two, the one that does not shift. Those feel like they are in tension. Reserved knowledge is usually the kind that fragments, not the kind that stabilizes.
-
-HOST_A: Hold both halves. The outward commentary on the Quran often leads to differences of opinion — anyone can open a dictionary and disagree about a word. Inner interpretation, the disclosure of the esoteric meaning, is a fixed system that does not shift, because it is delivered through a single chain of authoritative teachers.
-
-HOST_B: One chain, one reading.
-
-HOST_A: One chain, one reading. The knowledge of the apparent is very easy to reach. Inner interpretation cannot be reached except after struggle, weariness, and the surmounting of obstacles — after passing through trials and entering the ranks of an intellectual system from which one does not emerge without being marked by what they have called the covenant, the compact, and the oath.
-
-HOST_B: [quiet] So the cost of admission is what stabilizes it. The fact that you cannot just pick it up is what keeps it from drifting.
-
-HOST_A: That is the editor's argument. And he closes the doctrinal section on a claim that the modern ear has to sit with. Knowledge in Islam has been made a condition of faith. Whoever believes without understanding and knowing has not believed well.
-
-HOST_B: [pause] Not believed well. That is a strong sentence.
-
-HOST_A: It is a strong sentence, and he means it structurally. True belief is the truth that emerges from guidance, from understanding, and from choice. The intellect was honored, and it was required to be attentive. So now bring the spine back. Outward commentary attends to the needles of the word; inner interpretation extracts the honey. Both are required. Neither is optional.
-
-HOST_B: And the architecture of the book carries that?
-
-HOST_A: The judge divides the book into six chapters, one per Speaker-Prophet — Adam, Noah, Abraham, Moses, Jesus, the Prophet himself. Each Speaker is paired with the Imam-Foundation who carried the inner meaning of his message.
-
-HOST_B: And the seventh.
-
-HOST_A: He did not write the chapter concerning the Awaited Imam — the seventh — because his time has not yet come. The absence is intentional. The book has a hole in it on purpose.
-
-HOST_B: [thoughtful] A book that admits, in its own structure, what it is not allowed to say yet. That is not something I expected from a tenth-century legal mind.
-
-HOST_A: And one closing thread the editor cannot resist. The lineage. Greek allegorical interpretation, in Alexandria — Philo and his disciples tried to read the Torah esoterically and could not complete the move; Augustine and his disciples tried it on the Gospel and could not complete it either. Then came the Ismailis, who refined the method and added a rational interpretation that pruned bare transmission. The author is not inventing an approach. He is reclaiming one, given its Islamic form through the Father of Imams' transmission through the Imamate.
-
-HOST_B: So now turn it back to the listener. What is he asking us to do.
-
-HOST_A: He is asking you to pick a verse you have read your whole life. One that has only ever been heard at the level of the needle — the ruling, the rule, the surface. And to ask, for the first time, what honey this verse was sent to carry. Not to answer it on your own. To hold the question open. Outward commentary attends to the needles of the word; inner interpretation extracts the honey.
-
-HOST_B: [quiet] And one final thing, because it sits on my chest. The book has six chapters. The seventh is unwritten. So where does this volume leave us.
-
-HOST_A: This volume closes the first prophetic cycle. The seventh and final cycle belongs to a later volume — and the editor will not name it yet. The absence is planted.
-
-HOST_B: A book that ends, deliberately, with a room that has not been entered. Which verse in your own reading have you only ever heard at the level of the needle — and what would change this week, in one ordinary thing you do, if you read it for the honey.
+HOST_B: An empty room. A held silence. A bee at work.

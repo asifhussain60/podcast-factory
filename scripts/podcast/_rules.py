@@ -244,10 +244,10 @@ CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
             "addressee": "the reader",
             "scene_source": "text_only",
         },
-        # Islamic books now default to the autonomous ElevenLabs path (Asif's
-        # ear-locked Eric/Lily cast, 2026-06-12). NotebookLM stays available
-        # per-episode via episode_engine_overrides.
-        audio_engine="elevenlabs",
+        # All Islamic books use NotebookLM (Google conversational AI — approved
+        # fingerprint from the-master-and-the-disciple, confirmed 2026-06-13).
+        # ElevenLabs scripted dialogue was tried for Vol 1 and rejected.
+        audio_engine="notebooklm",
         default_voice_cast={"host_a": "Eric", "host_b": "Lily"},
     ),
     "technical": ContentType(

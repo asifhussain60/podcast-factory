@@ -10,20 +10,9 @@ host_dynamic:
   host_a: mentor
   host_b: student
 
-# --- Audio Engine v2: ElevenLabs production run (2026-06-13) ---
-# Switched from the implicit NotebookLM default to the autonomous ElevenLabs
-# path for this volume. Voices are chosen PER BOOK (mix-and-match); these are
-# not a global Islamic lock.
-audio_engine: elevenlabs
-elevenlabs_voices:
-  host_a: tlETan7Okc4pzjD0z62P   # Mohammed - Arabic (teacher / HOST_A; profile speed 1.2 server-side)
-  host_b: EXAVITQu4vr4xnSDxMaL   # Sarah - Mature, Reassuring, Confident (student / HOST_B)
-# Opt-in relational lens (islamic_scholarly only; default off elsewhere): the
-# student challenges through a modern-psychology lens and presses for daily-life
-# application; the teacher translates the abstract into livable practice; each
-# episode closes on a deep, personal question. See DIALOGUE_LENSES in _dialogue.py.
-dialogue_lens: modern_psychology_practical
-# Native Arabic recitation of verses + key terms, spliced from verified sources
-# at render time (the model never types Arabic). Matches the Islamic+ElevenLabs
-# intake default.
-elevenlabs_arabic_recitation: true
+# Audio engine: NotebookLM (Google's conversational AI — spontaneous pitch,
+# emotions, curiosity). ElevenLabs scripted-dialogue was tried and rejected
+# 2026-06-13 (Mohammed+Sarah robotic; Eric+Lily had no emotional spontaneity).
+# NotebookLM is the approved fingerprint for this book (same as
+# the-master-and-the-disciple /m4a).
+audio_engine: notebooklm

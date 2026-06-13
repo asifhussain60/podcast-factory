@@ -33,6 +33,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -359,8 +360,11 @@ def compile_turns_for_render(book_dir: Path, turns: list, *, log=None) -> list:
         #    source; unresolved citations are left in English).
         text = inject_recitations(t.text, log=log)
         # 2. Key-term native script (longest-first; names/loanwords already skipped).
+        # Use letter-boundary lookahead/lookbehind so short phonetics (e.g. "itra")
+        # cannot match inside English words ("arb[itra]ry" -> "arbعترةry" was the bug).
         for phonetic, arabic in term_subs:
-            text = text.replace(phonetic, arabic)
+            pattern = r'(?<![a-zA-Z])' + re.escape(phonetic) + r'(?![a-zA-Z])'
+            text = re.sub(pattern, arabic, text)
         out.append(Turn(speaker=t.speaker, text=text))
     return out
 
