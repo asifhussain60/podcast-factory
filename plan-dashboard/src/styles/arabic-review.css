@@ -215,6 +215,22 @@ body[data-arabic="off"] .arv-page .ar-script { display: none; }
 .arv-badge[data-decision="correct_arabic"], .arv-badge[data-decision="fix_phonetic"] { color: var(--c-accent); }
 .arv-badge[data-decision="keep"] { color: var(--c-green); }
 
+/* ── Teaching-relevance class (recited-in-Arabic vs referential noise) ───── */
+.arv-rel {
+  font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 1px 6px; border-radius: 8px;
+  background: var(--c-bg-sunken); color: var(--c-ink-muted);
+  border: 1px solid var(--c-rule-soft);
+}
+.arv-rel[data-rel="teaching"] {
+  color: var(--c-accent);
+  background: color-mix(in oklch, var(--c-accent) 10%, transparent);
+  border-color: color-mix(in oklch, var(--c-accent) 30%, transparent);
+}
+/* Referential / name / incidental recede so the teaching terms read first. */
+.arv-row.is-muted .arv-phon { color: var(--c-ink-dim); font-weight: 500; }
+.arv-row.is-muted .arv-script { color: var(--c-ink-muted); }
+
 /* ── Accessibility (REQ-073 focus ring · REQ-050 reduced motion) ────────── */
 .arv-act:focus-visible,
 .arv-filter:focus-visible,

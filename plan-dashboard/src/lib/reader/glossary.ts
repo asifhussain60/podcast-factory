@@ -24,7 +24,13 @@ export interface GlossaryEntry {
   english_override?: string;
   decided_by?: string;
   decided_at?: string;
+  // Teaching-relevance class (set by scripts/podcast/teaching_relevance_classifier.py):
+  // how much the term carries the book's TEACHING vs incidental reference. Drives
+  // which terms are recited in Arabic + how the curation review prioritises them.
+  teaching_relevance?: TeachingRelevance;
 }
+
+export type TeachingRelevance = 'teaching' | 'name' | 'incidental' | 'referential';
 
 export type GlossaryDecision =
   | 'keep'
@@ -126,9 +132,11 @@ function q(s: string): string {
 const _BASE_FIELDS = [
   'phonetic', 'transliteration', 'arabic_script', 'audio_phonetic', 'first_seen_snippet',
 ] as const;
+// Order MUST match scripts/podcast/fill_glossary_arabic.py::_V2_FIELDS so the
+// Python and TS emitters round-trip the file byte-identically.
 const _V2_FIELDS = [
-  'decision', 'corrected_phonetic', 'corrected_arabic', 'english_override',
-  'decided_by', 'decided_at',
+  'teaching_relevance', 'decision', 'corrected_phonetic', 'corrected_arabic',
+  'english_override', 'decided_by', 'decided_at',
 ] as const;
 
 /** Serialise the glossary in the EXACT shape the Python emitters produce

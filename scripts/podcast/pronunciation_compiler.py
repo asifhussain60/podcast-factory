@@ -136,6 +136,12 @@ def _usable_rules(entries: list[dict]) -> list[tuple[str, str]]:
 
     rules: dict[str, str] = {}
     for e in entries:
+        # Teaching-relevance balance: a dynasty / place / passing reference
+        # (classified `incidental`) needs no pinned pronunciation — keep the PLS
+        # dictionary a teaching glossary, not a historical index. Names + other
+        # referential terms keep their alias so they are still said correctly.
+        if str(e.get("teaching_relevance") or "").strip().lower() == "incidental":
+            continue
         cur = resolve_curation(e)
         # fix_phonetic moves the grapheme to the corrected form so the alias rule
         # matches what the human says appears in the text. keep/absent -> original.
@@ -287,9 +293,21 @@ def arabic_recitation_enabled(book_dir: Path) -> bool:
 def _glossary_term_subs(book_dir: Path) -> list[tuple[str, str]]:
     """(phonetic, arabic_script) pairs to recite, longest-first. EXCLUDES
     loanwords (natural English reading beats a substitution) and personal names
-    (referential — pronounced via the alias dictionary, never recited)."""
+    (referential — pronounced via the alias dictionary, never recited).
+
+    Teaching-relevance balance: once the glossary carries `teaching_relevance`
+    (set by teaching_relevance_classifier.py), ONLY `teaching`-classified terms
+    are recited in Arabic — the doctrine is spoken in Arabic, while dynasties,
+    places, transmitter names, and other referential noise stay in plain speech.
+    A glossary with NO classification recites every non-name / non-loanword term
+    exactly as before (backward compatible)."""
+    entries = load_glossary_entries(book_dir)
+    classified = any(str(e.get("teaching_relevance") or "").strip() for e in entries)
     subs = []
-    for e in load_glossary_entries(book_dir):
+    for e in entries:
+        if classified and \
+                str(e.get("teaching_relevance") or "").strip().lower() != "teaching":
+            continue  # recite teaching terms only — leave referential noise unrecited
         cur = resolve_curation(e)
         if cur["drop_arabic"]:
             continue  # human chose replace-with-English — no Arabic recited
