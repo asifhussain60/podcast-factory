@@ -110,7 +110,7 @@ export default function VoicePicker({
       <div className="voice-col">
         <h3 className="voice-col-title">{heading}</h3>
         <p className="voice-col-sub">{sub}</p>
-        <ul className="voice-list" role="radiogroup" aria-label={heading}>
+        <ul className="voice-list" aria-label={heading}>
           {entries.map((v) => {
             const isSel = v.name === selected;
             return (
@@ -119,8 +119,7 @@ export default function VoicePicker({
                   <button
                     type="button"
                     className="voice-pick"
-                    role="radio"
-                    aria-checked={isSel}
+                    aria-pressed={isSel}
                     onClick={() => setSel(v.name)}
                   >
                     <span className="voice-avatar" data-accent={v.accent} aria-hidden="true">
@@ -158,7 +157,7 @@ export default function VoicePicker({
         manual upload path — you can still send individual episodes to NotebookLM later.
       </p>
 
-      <div className="intake-field" role="radiogroup" aria-label="Audio engine">
+      <div className="intake-field" role="group" aria-label="Audio engine">
         <span className="intake-label">Audio engine</span>
         <div className="voice-engine">
           {[
@@ -168,8 +167,7 @@ export default function VoicePicker({
             <button
               key={opt.id}
               type="button"
-              role="radio"
-              aria-checked={engine === opt.id}
+              aria-pressed={engine === opt.id}
               className={`voice-engine-opt${engine === opt.id ? ' voice-engine-opt--selected' : ''}`}
               onClick={() => setEngine(opt.id)}
             >

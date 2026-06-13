@@ -569,3 +569,20 @@
 }
 .voice-sample:hover { border-color: var(--c-accent); }
 .voice-sample--playing { color: var(--c-red); border-color: var(--c-red); }
+
+/* Voice-picker accessibility: visible focus ring on every new control (WCAG AA,
+   REQ-048) + reduced-motion parity with the rest of this stylesheet. */
+.voice-engine-opt:focus-visible,
+.voice-pick:focus-visible,
+.voice-sample:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .voice-engine-opt,
+  .voice-card,
+  .voice-sample {
+    transition: none;
+  }
+}
