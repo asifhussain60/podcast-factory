@@ -109,16 +109,18 @@ class TestResolution(unittest.TestCase):
             ae.resolve_audio_engine(book)
 
     def test_voices_default_and_override(self):
+        # voice library (2026-06-12): with no override, the deterministic
+        # per-slug pair from the approved pools supersedes card defaults.
+        from _voice_library import pair_for_slug
         book = self._book("audio_engine: elevenlabs\n")
         voices = ae.voices_for_book(book)
-        card = ae.get_engine(ae.ENGINE_ELEVENLABS)
-        self.assertEqual(voices, card.default_voices)
+        self.assertEqual(voices, pair_for_slug(book.name))
         book2 = self._book(
             "audio_engine: elevenlabs\n"
             "elevenlabs_voices:\n  host_a: AAA111\n")
         voices2 = ae.voices_for_book(book2)
         self.assertEqual(voices2["host_a"], "AAA111")
-        self.assertEqual(voices2["host_b"], card.default_voices["host_b"])
+        self.assertEqual(voices2["host_b"], pair_for_slug(book2.name)["host_b"])
 
     def test_notebooklm_book_has_no_voice_casting(self):
         book = self._book("audio_engine: notebooklm\n")

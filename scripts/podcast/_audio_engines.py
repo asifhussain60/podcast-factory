@@ -163,21 +163,37 @@ def credits_to_usd(credits: int | float) -> float:
 
 
 def voices_for_book(book_dir: Path) -> dict[str, str]:
-    """Voice casting for a book: registry defaults overlaid with the book's
+    """Voice casting for a book. Resolution order (lowest to highest):
 
-    series-config.yaml `elevenlabs_voices:` map (host_a / host_b -> voice id).
+    1. engine-card `default_voices` (legacy fallback)
+    2. voice library deterministic per-slug pair (`_voice_library.pair_for_slug`
+       over the Asif-approved pools in voice-library.yaml — stable per slug)
+    3. series-config `voice_cast: {host_a/host_b: <library name>}` (names)
+    4. series-config `elevenlabs_voices: {host_a/host_b: <voice id>}` (IDs)
+
     Returns {} for engines without voice casting (notebooklm).
     """
     card = audio_engine_for_book(book_dir)
     voices = dict(card.default_voices)
     if not voices:
         return voices
+    try:
+        from _voice_library import pair_for_slug, resolve_name
+        voices.update(pair_for_slug(Path(book_dir).name))
+    except Exception:  # noqa: BLE001 — library damage must not block casting
+        resolve_name = None
     cfg_path = Path(book_dir) / "_system" / "series-config.yaml"
     if cfg_path.exists():
         try:
             import yaml
             with cfg_path.open() as f:
                 cfg = yaml.safe_load(f) or {}
+            named = cfg.get("voice_cast") or {}
+            if isinstance(named, dict) and resolve_name is not None:
+                for k, v in named.items():
+                    vid = resolve_name(str(v)) if isinstance(v, str) else None
+                    if vid:
+                        voices[str(k)] = vid
             override = cfg.get("elevenlabs_voices") or {}
             if isinstance(override, dict):
                 for k, v in override.items():

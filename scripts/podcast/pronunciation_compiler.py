@@ -42,6 +42,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 STATE_FILENAME = "pronunciation-dictionary.json"
 
+# Common English loanwords that must NEVER get alias rules: English speakers
+# (and the v3 voices) already say them naturally, and forcing a respelling
+# produces mangled audio ("Imam" -> "e-Maam", observed live 2026-06-12).
+# Matches the WHOLE grapheme case-insensitively — multi-word names that merely
+# contain one of these ("Abd Allah") keep their rules.
+LOANWORD_SKIP = frozenset({
+    "imam", "imams", "allah", "quran", "koran", "sunnah", "sunna",
+    "hadith", "ahadith", "islam", "muslim", "muslims",
+})
+
 
 def _utc_now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -64,8 +74,9 @@ def load_glossary_entries(book_dir: Path) -> list[dict]:
 def _usable_rules(entries: list[dict]) -> list[tuple[str, str]]:
     """(grapheme, alias) pairs worth shipping: the script's phonetic form ->
 
-    the audio respelling. Skips entries with no audio_phonetic and trivial
-    rules where the alias equals the grapheme (case/punct-insensitively)."""
+    the audio respelling. Skips entries with no audio_phonetic, trivial
+    rules where the alias equals the grapheme (case/punct-insensitively),
+    and LOANWORD_SKIP graphemes (whole-grapheme match)."""
     def _norm(s: str) -> str:
         return "".join(c for c in s.lower() if c.isalnum())
 
@@ -77,6 +88,8 @@ def _usable_rules(entries: list[dict]) -> list[tuple[str, str]]:
             continue
         if _norm(grapheme) == _norm(alias):
             continue  # trivial respelling adds nothing
+        if grapheme.lower() in LOANWORD_SKIP:
+            continue  # common English loanword — natural reading beats an alias
         rules.setdefault(grapheme, alias)  # first occurrence wins, like the glossary
     return sorted(rules.items())  # deterministic order
 

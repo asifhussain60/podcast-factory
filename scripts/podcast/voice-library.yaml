@@ -1,0 +1,72 @@
+# Voice library — the approved casting pools for autonomous audio rendering.
+#
+# Approved by Asif's ear 2026-06-12 (casting rounds M1-M9 male, F1-F8 female;
+# standard test line: Quran 14:7 + dhikr/balwa/huda/taqwa in native Arabic
+# script, eleven_v3, seed 424242). Selection criteria: very clear English +
+# correct Arabic phonetics. v3 is multilingual — native Arabic script in the
+# render text yields correct Arabic phonemes from non-Arab voices.
+#
+# Resolution (scripts/podcast/_voice_library.py + _audio_engines.voices_for_book):
+#   1. series-config `elevenlabs_voices: {host_a: <id>, host_b: <id>}` — explicit IDs, always wins
+#   2. series-config `voice_cast: {host_a: <name>, host_b: <name>}` — names resolved here
+#   3. deterministic per-slug pick from these pools (stable across re-renders)
+#   4. engine-card default_voices (legacy fallback)
+#
+# in_roster: false = shared-library voice; renders work directly by ID, but
+# pinning into the account roster needs the `add_voice_from_voice_library`
+# API-key permission (not currently granted).
+
+version: 1
+engine: elevenlabs
+
+males:    # HOST_A — scholar lead; one per book
+  - name: George
+    full_name: "George - Warm, Captivating Storyteller"
+    voice_id: JBFqnCBsd6RMkjVDRZzb
+    accent: british
+    in_roster: true
+    casting_sample: M9
+  - name: Faheem
+    full_name: "Faheem Ahmed"
+    voice_id: 8j6yw61FZtc2652jCoek
+    accent: british
+    in_roster: false
+    casting_sample: M8
+  - name: Eric
+    full_name: "Eric - Smooth, Trustworthy"
+    voice_id: cjVigY5qzO86Huf0OWal
+    accent: american
+    in_roster: true
+    casting_sample: M2
+  - name: Bill
+    full_name: "Bill - Wise, Mature, Balanced"
+    voice_id: pqHfZKP75CvOlQylNhV4
+    accent: american
+    in_roster: true
+    casting_sample: M3
+
+females:  # HOST_B — seeker; one per book
+  - name: Sarah
+    full_name: "Sarah - Mature, Reassuring, Confident"
+    voice_id: EXAVITQu4vr4xnSDxMaL
+    accent: american
+    in_roster: true
+    casting_sample: F1
+  - name: Lily
+    full_name: "Lily - Velvety Actress"
+    voice_id: pFZP5JQG7iQjIQuC4Bku
+    accent: british
+    in_roster: true
+    casting_sample: F4
+  - name: Suzy
+    full_name: "Dr Suzy"
+    voice_id: m1lpeyg10r5GmlOfPH8o
+    accent: arabic_bilingual
+    in_roster: false
+    casting_sample: F6
+  - name: Millie
+    full_name: "Millie - Warm, Clear and British"
+    voice_id: Nk0iUG137ZABNEQYgAMl
+    accent: british
+    in_roster: false
+    casting_sample: F8

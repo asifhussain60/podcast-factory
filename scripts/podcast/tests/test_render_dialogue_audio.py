@@ -154,9 +154,13 @@ class TestRender(RenderTestCase):
             self.assertIsNotNone(call["seed"])
             self.assertGreaterEqual(call["seed"], 0)
             self.assertLessEqual(call["seed"], 4294967295)
+            # voice library (2026-06-12) supersedes the registry default
+            # cast: with no series-config override, the deterministic
+            # per-slug pair from the approved pools applies.
+            from _voice_library import pair_for_slug
+            expected = set(pair_for_slug(self.book.name).values())
             for inp in call["inputs"]:
-                self.assertIn(inp["voice_id"], (
-                    "onwK4e9ZLuTAKqWW03F9", "EXAVITQu4vr4xnSDxMaL"))
+                self.assertIn(inp["voice_id"], expected)
 
     def test_render_ledger_input_to_output_hash(self):
         res = self._render()

@@ -173,6 +173,24 @@ class TestClientDictionaryUpload(unittest.TestCase):
                 [{"text": "x", "voice_id": "v"}], model_id="eleven_v3",
                 pronunciation_dictionary_locators=[{}] * 4)
 
+    def test_loanword_skip_list(self):
+        # Common English loanwords never get alias rules ("Imam" -> "e-Maam"
+        # mangled live audio, 2026-06-12); multi-word names keep theirs.
+        import pronunciation_compiler as pc
+        entries = [
+            {"phonetic": "Imam", "audio_phonetic": "e-Maam"},
+            {"phonetic": "Sunnah", "audio_phonetic": "SOON-nah"},
+            {"phonetic": "Allah", "audio_phonetic": "ahl-LAH"},
+            {"phonetic": "Abd Allah", "audio_phonetic": "ab-dul-LAH"},
+            {"phonetic": "Sinai", "audio_phonetic": "SEE-nigh"},
+        ]
+        rules = dict(pc._usable_rules(entries))
+        self.assertNotIn("Imam", rules)
+        self.assertNotIn("Sunnah", rules)
+        self.assertNotIn("Allah", rules)
+        self.assertIn("Abd Allah", rules)      # name, not a loanword
+        self.assertIn("Sinai", rules)
+
 
 if __name__ == "__main__":
     unittest.main()
