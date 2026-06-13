@@ -52,8 +52,12 @@ def _failure_signature(reason: str) -> str:
     return s[:80]
 
 
-def _drive_per_chapter_and_after(book_dir: Path) -> int:
-    """After Phase 0f approval: drive per-chapter loop → 0g → finalize halt."""
+def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool = False) -> int:
+    """After Phase 0f approval: drive per-chapter loop → 0g → slides →
+    audio phases (Audio Engine v2; skipped for notebooklm books) → finalize halt.
+
+    *approve_audio_render* is set by the resume dispatcher when the human has
+    cleared the audio-render H1 spend halt by re-invoking --resume."""
     # Use the slug from state — book_dir.name gives only the leaf (e.g. "vol-01")
     # which breaks validate_ship_ready for nested-series books.
     _state = read_state(book_dir) or {}
@@ -470,6 +474,18 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
         update_phase(book_dir, phase="per-chapter-slides", status="skipped",
                      extras={"reason": "enable_slide_decks=false"})
 
+    # Audio Engine v2 phases — autonomous (API) engines author + gate dialogue
+    # scripts, halt ONCE at H1 with the exact credit estimate, then render
+    # into the canonical m4a layout. NotebookLM books mark both phases
+    # skipped and continue to the manual finalize halt unchanged.
+    from phases.audio_driver import drive_audio_phases  # noqa: E402
+    _audio_outcome, _audio_rc = drive_audio_phases(
+        book_dir, approve_render=approve_audio_render)
+    if _audio_outcome == "halted":
+        return 0  # clean stop at the H1 spend gate; --resume approves
+    if _audio_outcome == "failed":
+        return _audio_rc
+
     # Finalize phase — run G1-G7 gates, halt for human review before publish.
     # NOTE: the PDF companion-book path (0book-*) runs AFTER this halt, inside
     # publish_driver._drive_publish_through_done, so that any issues caught at
@@ -497,17 +513,59 @@ def _drive_per_chapter_and_after(book_dir: Path) -> int:
     _info("  cd plan-dashboard && npm run dev")
     _info("  open http://localhost:4321/develop/" + book_slug + "/")
     _info("")
-    # ── NotebookLM upload instructions (mandatory per standing rule) ──────────
+    # Engine-aware halt card. Per-episode routing: a book may be autonomous
+    # (ElevenLabs) yet flip individual episodes to NotebookLM via
+    # episode_engine_overrides — so the card may show BOTH an "already rendered"
+    # note (for the API episodes) AND the NotebookLM upload ritual (for the
+    # overridden ones). The no-overrides path is byte-identical to before (the
+    # golden-test latch): pure-NotebookLM books print the full unfiltered table,
+    # pure-ElevenLabs books print only the rendered note.
     try:
-        _print_notebooklm_table(book_dir)
-    except Exception as _tbl_exc:
-        _info(f"  [notebooklm table error: {_tbl_exc}]")
-    # ── Slide-deck generation card (same NotebookLM visit) ───────────────────
+        from _audio_engines import (
+            audio_engine_for_book, is_autonomous,
+            engine_for_episode, episode_engine_overrides, ENGINE_NOTEBOOKLM,
+        )
+        _overrides = episode_engine_overrides(book_dir)
+        _book_autonomous = is_autonomous(audio_engine_for_book(book_dir))
+    except Exception:  # noqa: BLE001 — fall back to the manual ritual
+        _overrides, _book_autonomous = {}, False
+
+    if not _overrides:
+        # No per-episode overrides → unchanged behavior.
+        _nlm_filter: set[str] | None = None if not _book_autonomous else set()
+        _has_api = _book_autonomous
+    else:
+        _all_eps = [e["episode"] for e in _discover_episode_mapping(book_dir)]
+        _nlm_filter = {ep for ep in _all_eps
+                       if engine_for_episode(book_dir, ep) == ENGINE_NOTEBOOKLM}
+        _has_api = any(ep not in _nlm_filter for ep in _all_eps)
+
+    if _has_api:
+        _info("Audio engine: elevenlabs — those episodes are ALREADY rendered into")
+        _info("m4a/ with script-derived transcripts (no NotebookLM step, no")
+        _info("normalize/transcribe needed). Review the audio with the reader.")
+        _info("")
+    # NotebookLM upload ritual: for a pure-NotebookLM book (_nlm_filter is None)
+    # or any episode overridden to NotebookLM (non-empty set).
+    if _nlm_filter is None or _nlm_filter:
+        try:
+            _print_notebooklm_table(book_dir, filter_episode_ids=_nlm_filter)
+        except Exception as _tbl_exc:
+            _info(f"  [notebooklm table error: {_tbl_exc}]")
+        _info("")
+        _info("After downloading the generated .m4a files, drop them anywhere under")
+        _info("m4a/ — names don't matter — then normalize to canonical chapter order")
+        _info("and transcribe via Azure Speech (no external transcription service):")
+        _info(f"  python3 scripts/podcast/normalize_m4a.py {book_slug} --apply")
+        _info(f"  python3 scripts/podcast/transcribe_notebooklm.py {book_slug}")
+        _info("")
+    # Slide-deck generation always runs through NotebookLM's Slide-deck tool,
+    # independent of the audio engine — print the card on EVERY path (it
+    # self-skips when no chapter has a converged deck).
     try:
         _print_slide_deck_card(book_dir)
     except Exception as _card_exc:
         _info(f"  [slide-deck card error: {_card_exc}]")
-    # ─────────────────────────────────────────────────────────────────────────
     _info("")
     _info("When satisfied, authorize publish + trainer + merge:")
     _info(f"  python3 scripts/podcast/orchestrate_book.py --resume {book_slug}")
@@ -536,12 +594,50 @@ def _print_slide_deck_card(book_dir: Path) -> None:
         _info(line)
 
 
-def _print_notebooklm_table(book_dir: Path) -> None:
+def _discover_episode_mapping(book_dir: Path) -> list[dict]:
+    """[{episode, chapter, n}] for every episode, in order.
+
+    Prefers the Phase-0g episode map; falls back to discovering directly from
+    episodes/ for books where the map isn't generated yet. Shared by the
+    NotebookLM table and the per-episode engine routing at finalize so both see
+    the SAME episode set.
+    """
+    parent = Path(__file__).resolve().parents[1]
+    if str(parent) not in sys.path:
+        sys.path.insert(0, str(parent))
+    from assemble_bundle import _load_episode_map  # noqa: PLC0415
+
+    mapping = _load_episode_map(book_dir)
+    if mapping:
+        return mapping
+    import re as _re
+    ep_pat = _re.compile(r"^(EP(\d+)-(.*))\.txt$")
+    ep_dir = book_dir / "episodes"
+    if not ep_dir.exists():
+        return []
+    out: list[dict] = []
+    for ep_file in sorted(ep_dir.glob("EP*.txt")):
+        m = ep_pat.match(ep_file.name)
+        if not m:
+            continue
+        ep_slug, ep_num_str, ch_slug = m.group(1), m.group(2), m.group(3)
+        out.append({"episode": ep_slug, "chapter": f"ch{ep_num_str}-{ch_slug}",
+                    "n": int(ep_num_str)})
+    return out
+
+
+def _print_notebooklm_table(book_dir: Path,
+                            filter_episode_ids: set[str] | None = None) -> None:
     """Print the NotebookLM upload table at finalize halt.
 
     Reuses discovery + formatting helpers from assemble_bundle.py.
     Prints per-episode rows: EP | Title | Upload source | Customize paste |
     NotebookLM Format setting | Length setting.
+
+    *filter_episode_ids*: when None (the default), ALL episodes are listed —
+    byte-identical to the pre-override behavior (the golden-test latch). When a
+    set is given (mixed-engine books), only those episode ids are listed, so the
+    operator uploads exactly the per-episode NotebookLM overrides.
     """
     try:
         # Import helpers from sibling script (same scripts/podcast/ parent).
@@ -549,7 +645,6 @@ def _print_notebooklm_table(book_dir: Path) -> None:
         if str(parent) not in sys.path:
             sys.path.insert(0, str(parent))
         from assemble_bundle import (  # noqa: PLC0415
-            _load_episode_map,
             _load_contract,
             _resolve_chapter_file,
             _resolve_framing_file,
@@ -565,24 +660,7 @@ def _print_notebooklm_table(book_dir: Path) -> None:
     # Per-episode Length from the density plan when one exists (else "Long").
     _density_lengths = load_density_lengths(book_dir)
 
-    mapping = _load_episode_map(book_dir)
-    if not mapping:
-        # Fallback: discover directly from episodes/ + chapters/ directories.
-        # Covers books where Phase 0g hasn't generated the map yet (e.g.
-        # manually authored episodes outside the orchestrator flow).
-        import re as _re
-        ep_pat = _re.compile(r"^(EP(\d+)-(.*))\.txt$")
-        ep_dir = book_dir / "episodes"
-        if not ep_dir.exists():
-            _info("  [notebooklm table skipped — no episodes/ directory found]")
-            return
-        for ep_file in sorted(ep_dir.glob("EP*.txt")):
-            m = ep_pat.match(ep_file.name)
-            if not m:
-                continue
-            ep_slug, ep_num_str, ch_slug = m.group(1), m.group(2), m.group(3)
-            mapping.append({"episode": ep_slug, "chapter": f"ch{ep_num_str}-{ch_slug}",
-                            "n": int(ep_num_str)})
+    mapping = _discover_episode_mapping(book_dir)
     if not mapping:
         _info("  [notebooklm table skipped — no episodes found]")
         return
@@ -590,6 +668,8 @@ def _print_notebooklm_table(book_dir: Path) -> None:
     rows: list[UploadRow] = []
     for entry in mapping:
         episode_slug = entry["episode"]
+        if filter_episode_ids is not None and episode_slug not in filter_episode_ids:
+            continue
         chapter_slug = entry["chapter"]
         ep_num = entry["n"]
         contract = _load_contract(book_dir, chapter_slug)

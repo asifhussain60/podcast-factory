@@ -77,19 +77,29 @@ def transcribe(
 
     out_path.write_text(text + "\n", encoding="utf-8")
 
-    # F36 (2026-05-25): record Azure Speech spend in cost-ledger.jsonl.
-    # Azure Speech Fast Transcription is priced per-character of TRANSCRIPT
-    # (close approximation; actual API pricing is per-second but we don't
-    # know audio duration without re-probing). Transcript char count is a
-    # stable proxy that under-counts long silences.
+    # Record Azure Speech spend in cost-ledger.jsonl, duration-priced —
+    # fast transcription bills per audio-second (speech_stt_per_second),
+    # matching transcribe_audio.py / transcribe_notebooklm.py. The original
+    # F36 char-count proxy (Neural-TTS pricing) overstated cost ~10x; ffprobe
+    # gives the real duration, with a ~16 chars/sec speech-rate fallback.
     try:
-        from _cost_ledger import append_azure_speech_cost
-        cost_row = append_azure_speech_cost(
-            book_dir=book_dir, phase="post-publish",
+        from _cost_ledger import append_azure_stt_cost
+        duration_s = None
+        try:
+            import subprocess as _sp
+            duration_s = float(_sp.run(
+                ["ffprobe", "-v", "quiet", "-show_entries", "format=duration",
+                 "-of", "csv=p=0", str(audio_path)],
+                capture_output=True, text=True, check=True,
+            ).stdout.strip())
+        except Exception:
+            pass
+        cost_row = append_azure_stt_cost(
+            book_dir, phase="post-publish",
             step=f"transcribe/{episode_id}",
-            char_count=len(text),
+            duration_seconds=duration_s if duration_s else len(text) / 16.0,
         )
-        print(f"  Azure cost (speech): ${cost_row.cost_usd:.4f} for {len(text):,} transcript chars")
+        print(f"  Azure cost (speech STT): ${cost_row.cost_usd:.4f}")
     except Exception as _e:
         print(f"  WARN: cost-ledger append failed: {_e}", file=sys.stderr)
     return out_path

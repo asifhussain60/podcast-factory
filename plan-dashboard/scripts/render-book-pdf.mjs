@@ -6,6 +6,19 @@
  * print document (no nav sidebar). Arabic scripture renders above its English
  * translation, matching the on-screen reader.
  *
+ * Book-craft layer (2026-06-11):
+ *   - cover page from <book>/book/cover.png when present (full bleed, panel
+ *     with title + author from the book's meta.yml);
+ *   - chapter-opening pages: numbered "## N. Title" headings become a fresh
+ *     page with a "CHAPTER N" eyebrow, the bare title, a hairline rule, and a
+ *     drop cap on the opening paragraph; the unnumbered first heading is
+ *     treated as the preface;
+ *   - Quranic treatment: blockquote paragraphs containing Arabic script get
+ *     dir="rtl" + the mushaf styling from book-print.css (Amiri Quran face,
+ *     centered, golden frame), translations centered beneath;
+ *   - all print CSS lives in src/styles/book-print.css (external single
+ *     source of truth), with :root tokens injected from theme.css.
+ *
  *   node scripts/render-book-pdf.mjs <book.md> <out.pdf> [theme.css]
  *
  * Exit 0 on success; exit 3 if the chromium binary is missing (actionable
@@ -22,6 +35,17 @@ if (!MD_PATH || !OUT_PATH) {
   process.exit(2);
 }
 const themePath = THEME_PATH || path.resolve(import.meta.dirname, '..', 'src', 'styles', 'theme.css');
+const printCssPath = path.resolve(import.meta.dirname, '..', 'src', 'styles', 'book-print.css');
+const fontRoot = path.resolve(import.meta.dirname, '..', 'public', 'fonts');
+
+const ARABIC_RE = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/;
+const NUMBER_WORDS = [
+  '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+  'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen',
+  'Eighteen', 'Nineteen', 'Twenty', 'Twenty-One', 'Twenty-Two', 'Twenty-Three',
+  'Twenty-Four', 'Twenty-Five', 'Twenty-Six', 'Twenty-Seven', 'Twenty-Eight',
+  'Twenty-Nine', 'Thirty',
+];
 
 function escapeHtml(s) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -32,6 +56,21 @@ function renderInline(text) {
   s = s.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
   return s;
 }
+/** ASCII-fold a display name (meta.yml authors carry diacritics). */
+function asciiFold(s) {
+  return s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[ʻʿ‘’ʼ]/g, "'");
+}
+/** Read the author display name from the book's meta.yml (best effort). */
+function readAuthor(bookContentDir) {
+  const metaPath = path.join(bookContentDir, 'meta.yml');
+  if (!existsSync(metaPath)) return '';
+  const m = readFileSync(metaPath, 'utf-8').match(/^\s*author:\s*["']?([^"'\n]+)["']?\s*$/m);
+  return m ? asciiFold(m[1].trim()) : '';
+}
+
 /** Minimal renderer matching markdown.ts behaviour for book.md (headings,
  *  paragraphs, blockquotes, and raw HTML blocks like <figure class="book-diagram">). */
 function renderMd(md) {
@@ -40,15 +79,43 @@ function renderMd(md) {
   let para = [];
   let quote = [];
   let inHtmlBlock = false;
-  const flushPara = () => { if (para.length) { out.push(`<p>${renderInline(para.join(' '))}</p>`); para = []; } };
+  let chapterJustOpened = false;
+  let sawH2 = false;
+
+  const flushPara = () => {
+    if (!para.length) return;
+    const cls = chapterJustOpened ? ' class="ch-first"' : '';
+    chapterJustOpened = false;
+    out.push(`<p${cls}>${renderInline(para.join(' '))}</p>`);
+    para = [];
+  };
   const flushQuote = () => {
     if (!quote.length) return;
     const paras = []; let cur = [];
     for (const l of quote) { if (l.trim() === '') { if (cur.length) { paras.push(cur.join(' ')); cur = []; } } else cur.push(l); }
     if (cur.length) paras.push(cur.join(' '));
-    out.push(`<blockquote>${paras.map((p) => `<p>${renderInline(p)}</p>`).join('') || '<p></p>'}</blockquote>`);
+    const hasArabic = paras.some((p) => ARABIC_RE.test(p));
+    if (hasArabic) {
+      // Mushaf treatment: Arabic lines RTL + Amiri, translations centered below.
+      const inner = [];
+      paras.forEach((p, i) => {
+        if (ARABIC_RE.test(p)) {
+          // Strip a stray trailing ASCII period — Latin punctuation has no
+          // place at the end of an Arabic line (bidi renders it mid-air).
+          const cleaned = p.trim().replace(/\.\s*$/, '');
+          inner.push(`<p class="ar" dir="rtl" lang="ar">${renderInline(cleaned)}</p>`);
+          if (i < paras.length - 1) inner.push('<hr class="quran-divider">');
+        } else {
+          inner.push(`<p class="tr">${renderInline(p)}</p>`);
+        }
+      });
+      out.push(`<blockquote class="quran">${inner.join('')}</blockquote>`);
+    } else {
+      out.push(`<blockquote>${paras.map((p) => `<p>${renderInline(p)}</p>`).join('') || '<p></p>'}</blockquote>`);
+    }
     quote = [];
   };
+
   for (const line of lines) {
     // Raw HTML block pass-through: <figure class="book-diagram">...</figure>
     if (inHtmlBlock) {
@@ -63,7 +130,38 @@ function renderMd(md) {
       continue;
     }
     const h = line.match(/^(#{1,6})\s+(.+)$/);
-    if (h) { flushPara(); flushQuote(); out.push(`<h${h[1].length}>${renderInline(h[2])}</h${h[1].length}>`); continue; }
+    if (h) {
+      flushPara(); flushQuote();
+      const level = h[1].length;
+      const text = h[2].trim();
+      if (level === 2) {
+        // Book-style chapter opening. "N. Title" → CHAPTER N eyebrow + bare
+        // title; the unnumbered first h2 is the preface.
+        const numbered = text.match(/^(\d+)\.\s+(.+)$/);
+        let eyebrow;
+        let title;
+        if (numbered) {
+          const n = parseInt(numbered[1], 10);
+          eyebrow = `Chapter ${NUMBER_WORDS[n] || numbered[1]}`;
+          title = numbered[2];
+        } else {
+          eyebrow = sawH2 ? '' : 'Preface';
+          title = text;
+        }
+        sawH2 = true;
+        chapterJustOpened = true;
+        out.push(
+          '<section class="chapter-open">'
+          + (eyebrow ? `<p class="ch-eyebrow">${escapeHtml(eyebrow)}</p>` : '')
+          + `<h2>${renderInline(title)}</h2>`
+          + '<hr class="ch-rule">'
+          + '</section>',
+        );
+      } else {
+        out.push(`<h${level}>${renderInline(text)}</h${level}>`);
+      }
+      continue;
+    }
     const q = line.match(/^>\s?(.*)$/);
     if (q) { flushPara(); quote.push(q[1]); continue; }
     if (quote.length) flushQuote();
@@ -85,44 +183,38 @@ async function main() {
   const title = titleMatch ? titleMatch[1].trim() : path.basename(MD_PATH, '.md');
   const body = md.replace(/^#\s+.+$\n?/m, '');
   const rootTokens = existsSync(themePath) ? themeRoot(readFileSync(themePath, 'utf-8')) : '';
+  const printCss = readFileSync(printCssPath, 'utf-8');
+
+  // Static-asset root: the book's content dir (parent of book/), so markdown
+  // can reference e.g. <img src="slide-deck/_pages/page-02.png">. Fonts are
+  // served from plan-dashboard/public/fonts at /fonts/.
+  const assetRoot = path.resolve(path.dirname(MD_PATH), '..');
+  const author = readAuthor(assetRoot);
+  const coverPath = path.join(path.dirname(MD_PATH), 'cover.png');
+  const hasCover = existsSync(coverPath);
+
+  const coverHtml = hasCover
+    ? `<section class="cover"><img src="/book/cover.png" alt="">`
+      + `<div class="cover-panel"><h1>${escapeHtml(title)}</h1>`
+      + (author ? `<p class="cover-author">${escapeHtml(author)}</p>` : '')
+      + `</div></section>`
+    : '';
+  const titlePage =
+    `<section class="title-page"><p class="eyebrow">Reading edition</p>`
+    + `<h1>${escapeHtml(title)}</h1>`
+    + (author ? `<p class="title-author">${escapeHtml(author)}</p>` : '')
+    + `<hr class="title-rule"></section>`;
 
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>
     :root {${rootTokens}}
-    @page { margin: 2.2cm 2cm; }
-    html { font-size: 19.2px; }
-    body {
-      font-family: "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
-      font-size: 1rem; line-height: 1.62; color: var(--c-ink, #1f1d18); background: #fff;
-    }
-    .title-page { display: flex; flex-direction: column; justify-content: center; align-items: center;
-      text-align: center; min-height: 86vh; page-break-after: always; }
-    .title-page .eyebrow { font-family: var(--font-ui, system-ui, sans-serif); text-transform: uppercase;
-      letter-spacing: 0.12em; font-size: 0.8rem; color: var(--c-accent, #8b4513); margin-bottom: 0.6rem; }
-    .title-page h1 { font-size: 2.4rem; line-height: 1.2; margin: 0; color: var(--c-ink, #1f1d18); }
-    h2 { font-size: 1.6rem; margin: 1.8rem 0 0.9rem; padding-bottom: 0.3rem;
-      border-bottom: 1px solid var(--c-rule-soft, #ebe6da); page-break-after: avoid; }
-    h3 { font-size: 1.25rem; margin: 1.3rem 0 0.6rem; page-break-after: avoid; }
-    p { margin: 0 0 0.8rem; }
-    blockquote { margin: 1rem 0; padding: 0.6rem 1.1rem; border-left: 3px solid var(--c-accent, #8b4513);
-      background: var(--c-bg-card, #fffdf8); page-break-inside: avoid; }
-    blockquote p { margin: 0.3rem 0; }
-    blockquote p:first-child { font-size: 1.3rem; line-height: 1.85; }
-    figure.book-diagram { margin: 2em auto; max-width: 88%; page-break-inside: avoid; text-align: center; }
-    figure.book-diagram svg { width: 100%; height: auto; max-height: 380px; display: block; margin: 0 auto; }
-    figure.book-slide img { width: 100%; height: auto; display: block; margin: 0 auto;
-      border: 1px solid var(--c-rule-soft, #ebe6da); }
-    figcaption { margin-top: 0.5em; font-size: 0.82rem; color: var(--c-ink-muted, #87827a);
-      font-style: italic; font-family: var(--font-ui, system-ui, sans-serif); text-align: center; }
+${printCss}
   </style></head><body>
-    <section class="title-page"><p class="eyebrow">Reading edition</p><h1>${escapeHtml(title)}</h1></section>
+    ${coverHtml}
+    ${titlePage}
     ${renderMd(body)}
   </body></html>`;
 
-  // Static-asset root: the book's content dir (parent of book/), so markdown
-  // can reference e.g. <img src="slide-deck/_pages/page-02.png">. Inline SVG
-  // diagrams need no requests; only raster slide pages hit this path.
-  const assetRoot = path.resolve(path.dirname(MD_PATH), '..');
-  const MIME = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml' };
+  const MIME = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.woff2': 'font/woff2' };
   const server = createServer((req, res) => {
     const reqPath = decodeURIComponent((req.url || '/').split('?')[0]);
     if (reqPath === '/' || reqPath === '') {
@@ -130,10 +222,12 @@ async function main() {
       res.end(html);
       return;
     }
-    const resolved = path.resolve(assetRoot, '.' + reqPath);
+    // Font route: /fonts/** → plan-dashboard/public/fonts/**
+    const root = reqPath.startsWith('/fonts/') ? path.dirname(fontRoot) : assetRoot;
+    const resolved = path.resolve(root, '.' + reqPath);
     const type = MIME[path.extname(resolved).toLowerCase()];
-    // Traversal guard: only files under the book content dir, known types only.
-    if (!resolved.startsWith(assetRoot + path.sep) || !type || !existsSync(resolved)) {
+    // Traversal guard: only files under the allowed root, known types only.
+    if (!resolved.startsWith(root + path.sep) || !type || !existsSync(resolved)) {
       res.writeHead(404); res.end('not found');
       return;
     }

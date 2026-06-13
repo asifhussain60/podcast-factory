@@ -123,12 +123,21 @@ def emit_glossary_yml(entries: list[dict[str, str]], top: dict[str, object]) -> 
     lines.append("")
     lines.append(f"schema_version: {top.get('schema_version', 1)}")
     lines.append("entries:")
+    # Optional schema-v2 human-curation fields (set in the Astro reader). Emitted
+    # only when present so re-running fill never wipes Asif's decisions, and v1
+    # glossaries with none round-trip byte-identically.
+    _V2_FIELDS = ("decision", "corrected_phonetic", "corrected_arabic",
+                  "english_override", "decided_by", "decided_at")
     for r in entries:
         lines.append(f'  - phonetic: "{_q(r.get("phonetic", ""))}"')
         lines.append(f'    transliteration: "{_q(r.get("transliteration", ""))}"')
         lines.append(f'    arabic_script: "{_q(r.get("arabic_script", ""))}"')
         lines.append(f'    audio_phonetic: "{_q(r.get("audio_phonetic", ""))}"')
         lines.append(f'    first_seen_snippet: "{_q(r.get("first_seen_snippet", ""))}"')
+        for field in _V2_FIELDS:
+            val = str(r.get(field, "") or "").strip()
+            if val:
+                lines.append(f'    {field}: "{_q(val)}"')
     return "\n".join(lines) + "\n"
 
 

@@ -1,0 +1,10 @@
+{
+  "check_id": "formal_transition",
+  "detector": "formal_transition",
+  "hits": [
+    "Firstly",
+    "Furthermore",
+    "In conclusion",
+    "Secondly"
+  ]
+}

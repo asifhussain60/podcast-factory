@@ -294,3 +294,10 @@
   .detail-panel { width: 100vw; }
   .detail-kv    { grid-template-columns: 1fr; }
 }
+
+/* REQ-050: infinite loops pause for users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .edge-path.flowing,
+  .edge-path.t-blocker.flowing,
+  .live-dot { animation: none; }
+}

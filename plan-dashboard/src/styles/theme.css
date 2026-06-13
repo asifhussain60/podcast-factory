@@ -3114,3 +3114,15 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .swim-swatch--high { background: var(--c-tokens-high, var(--c-accent)); }
 .swim-swatch--future { background: repeating-linear-gradient(45deg, transparent, transparent 2px, color-mix(in oklab, var(--c-amber) 35%, transparent) 2px, color-mix(in oklab, var(--c-amber) 35%, transparent) 4px); border: 1px dashed var(--c-amber); }
 .swim-gate-ico { font-size: 16px; }
+
+/* ── Shared scrollable table wrapper (REQ-052) ─────────────────────────────────
+   Promoted from pipeline-paths.css so every view can wrap wide tables in
+   <div class="table-container" role="region" tabindex="0">. Additive only. */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+}

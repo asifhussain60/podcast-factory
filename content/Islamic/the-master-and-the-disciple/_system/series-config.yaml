@@ -20,3 +20,9 @@ video_style: none
 # book). See docs/standards/chapter-density.md.
 density_standard: 2
 slide_deck_mode: book
+# Voice cast LOCKED by Asif 2026-06-12 after the 5-minute Eric+Lily demo
+# (CLIP10): names resolve through scripts/podcast/voice-library.yaml.
+# Applies whenever this book renders on the elevenlabs engine.
+voice_cast:
+  host_a: Eric
+  host_b: Lily

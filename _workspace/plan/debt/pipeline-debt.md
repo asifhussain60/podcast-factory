@@ -1270,3 +1270,24 @@ When triaging:
 - **Severity High** — actively blocks a book in flight or wastes substantial operator time per episode
 - **Severity Medium** — wastes operator time per book; would be felt on next book
 - **Severity Low** — observed but mitigated; nice to fix when there's slack
+
+---
+
+## Deferred audit gaps — 2026-06-13 (ElevenLabs/Vol-1 quality review)
+
+Surfaced by the per-phase quality-gate census during the Asaas al-Taveel Vol 1
+ElevenLabs work. The pipeline is ALREADY comprehensively gated (deterministic P0
+validators, per-chapter challenger convergence + PEQ floor, dialogue gate + semantic
+pass, pre-render verdict gate, finalize G-gates, golden tests). These are the
+remaining candidate gaps — DELIBERATELY NOT BUILT now (building gates everywhere
+would be gold-plating); recorded so they aren't lost.
+
+| ID | Gap | Severity | Note |
+|---|---|---|---|
+| F-AUD1 | No quality gate on early LLM output (0a/0b/0e) — mistranslation/garble flows to per-chapter undetected | Low | Caught later by build/challenger; a cheap Haiku sense-check at 0b could surface it earlier |
+| F-AUD2 | No cross-chapter coherence check (scholar voice / arc continuity across episodes) | Low | per-chapter-optimize checks per-chapter only; book-scope drift unguarded |
+| F-AUD3 | Cost-ledger integrity unvalidated on read — corrupt entries silently drop from ceiling sums | Low | Defensive only; no observed failure |
+| F-AUD4 | SHIP-WITH-CAUTION P1 carryover previously shipped without human sight | Closed 2026-06-13 | NOW surfaced at the audio-render review halt (audio_driver `_carryover_summary`) |
+
+Acceptance for building any of F-AUD1..3: a concrete observed failure on a real book,
+not speculative. Until then they stay Low backlog.

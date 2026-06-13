@@ -339,6 +339,53 @@ def append_gemini_cost(
     return row
 
 
+def append_elevenlabs_cost(
+    book_dir: Path,
+    *,
+    phase: str,
+    step: str,
+    credits: int,
+    char_count: int = 0,
+    ts: str | None = None,
+) -> CostRow:
+    """Audio Engine v2: append a cost row for ElevenLabs synthesis credits.
+
+    ``credits`` is the EXACT figure from the subscription meter delta (the
+    experiment's pattern), not an estimate. Stored in ``input_tokens`` (the
+    natural counter for this service, mirroring the docintel pages pattern);
+    ``output_tokens`` carries the billable character count for audit.
+    ``cost_usd`` is the NOTIONAL plan-rate conversion from
+    _audio_engines.credits_to_usd — credits are the real meter.
+    """
+    try:
+        from _audio_engines import credits_to_usd
+        usd = credits_to_usd(credits)
+    except Exception:  # noqa: BLE001 — pricing helper must never block the ledger
+        usd = 0.0
+    row = CostRow(
+        ts=ts or _now_iso(),
+        phase=phase,
+        step=step,
+        model="elevenlabs-eleven-v3",
+        input_tokens=int(credits),
+        output_tokens=int(char_count),
+        cache_read=0,
+        cache_create=0,
+        cost_usd=usd,
+    )
+    import fcntl as _fcntl
+    ledger = book_dir / "_system" / "cost-ledger.jsonl"
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    with ledger.open("a", encoding="utf-8") as f:
+        _fcntl.flock(f.fileno(), _fcntl.LOCK_EX)
+        try:
+            f.write(json.dumps(asdict(row)) + "\n")
+            f.flush()
+        finally:
+            _fcntl.flock(f.fileno(), _fcntl.LOCK_UN)
+    return row
+
+
 def append_azure_stt_cost(
     book_dir: Path,
     *,

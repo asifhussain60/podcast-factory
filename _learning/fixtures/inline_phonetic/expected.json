@@ -1,0 +1,11 @@
+{
+  "check_id": "inline_phonetic",
+  "detector": "inline_phonetic",
+  "hits": [
+    "L1:*Sharee-ah* (Sha-REE",
+    "L2:*taa-weel* (TAH-WEEL",
+    "L4:*Allaah* (Ah-LAAH",
+    "L3:> (sha-ree-ah",
+    "L2:(TAH-WEEL"
+  ]
+}

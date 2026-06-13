@@ -14,6 +14,7 @@
  * Dependency-free, class-driven, external CSS only — matches NewContentForm.
  */
 import { useEffect, useState } from 'react';
+import VoicePicker from './VoicePicker';
 
 type Options = Record<string, string[]>;
 type Proposal = Record<string, { value: string; rationale?: string }>;
@@ -94,7 +95,6 @@ export default function SmartForm({ proposed, onChange }: Props) {
             : (opts[key]?.[0] ?? '');
         }
         setValues(initial);
-        onChange?.(initial);
       } catch (e) {
         if (alive) setError(`Network error: ${String(e)}`);
       } finally {
@@ -105,10 +105,21 @@ export default function SmartForm({ proposed, onChange }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Propagate the merged settings to the parent in a commit-phase effect — never
+  // inline in a setter/updater (calling the parent's setState during render is
+  // the "update a component while rendering another" violation).
+  useEffect(() => {
+    onChange?.(values);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values]);
+
   function setValue(key: string, value: string) {
-    const next = { ...values, [key]: value };
-    setValues(next);
-    onChange?.(next);
+    setValues((prev) => ({ ...prev, [key]: value }));
+  }
+
+  // Merge the voice/engine picker's flat keys into the same settings object.
+  function mergeVoice(patch: Record<string, string>) {
+    setValues((prev) => ({ ...prev, ...patch }));
   }
 
   async function addOption(field: string) {
@@ -138,6 +149,7 @@ export default function SmartForm({ proposed, onChange }: Props) {
   const bucket = PROFILE_TO_BUCKET[values.content_profile] ?? 'Islamic';
 
   return (
+    <>
     <div className="intake-card">
       <h2 className="intake-card-title">Production settings</h2>
       <p className="intake-hint">
@@ -197,5 +209,7 @@ export default function SmartForm({ proposed, onChange }: Props) {
 
       {error && <p className="intake-error" role="alert">{error}</p>}
     </div>
+    <VoicePicker onChange={mergeVoice} />
+    </>
   );
 }

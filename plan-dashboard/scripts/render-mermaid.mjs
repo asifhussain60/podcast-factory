@@ -40,6 +40,23 @@ const THEME_VARIABLES = {
   textColor:          '#1f1d18', // --c-ink
   fontFamily:         "'Lato', system-ui, sans-serif",
   fontSize:           '16px',
+  // Sequence diagrams read their own variable set — without these, actor
+  // boxes/signals fall back to Mermaid's default grey (#eaeaea / #666).
+  actorBkg:              '#fffdf8', // --c-bg-card
+  actorBorder:           '#8b4513', // --c-accent
+  actorTextColor:        '#1f1d18', // --c-ink
+  actorLineColor:        '#87827a', // --c-ink-muted
+  signalColor:           '#87827a', // --c-ink-muted
+  signalTextColor:       '#1f1d18', // --c-ink
+  labelBoxBkgColor:      '#efeae0', // --c-bg-sunken
+  labelBoxBorderColor:   '#8b4513', // --c-accent
+  labelTextColor:        '#1f1d18', // --c-ink
+  loopTextColor:         '#1f1d18', // --c-ink
+  noteBkgColor:          '#efeae0', // --c-bg-sunken
+  noteBorderColor:       '#87827a', // --c-ink-muted
+  noteTextColor:         '#1f1d18', // --c-ink
+  activationBkgColor:    '#efeae0', // --c-bg-sunken
+  activationBorderColor: '#8b4513', // --c-accent
 };
 
 async function main() {

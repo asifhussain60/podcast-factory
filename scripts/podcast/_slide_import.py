@@ -117,6 +117,12 @@ The file is a JSON LIST with ONE object per deck page, in page order:
   {{"slide_id": "{ch}-sNN", "page": <int>, "title": "<page title>",
     "anchor_text": "<verbatim substring>" | null}}
 
+TITLE RULE: `title` becomes the printed figure caption. When a page's extracted
+title above is "(untitled page)" or empty (image-only decks), AUTHOR a short,
+meaningful title yourself from the passage the slide illustrates (e.g. "The
+Anatomy of Knowledge"). NEVER copy the "(untitled page)" placeholder into the
+manifest.
+
 ANCHOR RULES (hard requirements — the file is validated mechanically):
 - anchor_text is a VERBATIM substring of the book markdown, 20-70 characters,
   copied EXACTLY (punctuation, capitalization, spacing).

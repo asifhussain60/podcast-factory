@@ -74,6 +74,8 @@ PHASES = (
     "per-chapter",  # iterated across the chapter list on --resume
     "per-chapter-optimize",  # Wave I — Sonnet arc/format check per chapter
     "per-chapter-slides",  # optional; gated by series.enable_slide_decks. Per-chapter slide-deck authoring + slide-deck-challenger convergence. Skipped (status="skipped") when flag is false.
+    "audio-script",   # Audio Engine v2 — per-chapter dialogue-script authorship + pre-synthesis gate convergence (API engines only; skipped for notebooklm)
+    "audio-render",   # Audio Engine v2 — H1 spend halt (exact credit estimate) then ElevenLabs render into canonical m4a layout (API engines only; skipped for notebooklm)
     "finalize",     # G1-G7 quality gates + human review halt — podcast-only; book branch has not run yet
     "0book-design",   # PDF path — book-craft re-segmentation -> book/book-toc.json (gated by series.enable_book_branch; runs post-finalize so book is built from reviewed podcast content)
     "0book-compose",  # PDF path — whole-book revoice -> book/book.md (modern author voice, Arabic script + English)

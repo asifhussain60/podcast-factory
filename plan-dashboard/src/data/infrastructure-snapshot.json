@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-06-11T12:44:02.658Z",
-  "source_commit": "352edcc",
+  "generated_at": "2026-06-13T11:59:25.803810+00:00",
+  "source_commit": "f152275",
   "generator": "podcast-planner agent",
   "vendors": [
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "plain": "The thinking engine. Every piece of writing the factory produces — episode planning, narrator framings, quality reviews — goes through a Claude model. The most demanding work uses Opus, the everyday work uses Sonnet, and the cheap mechanical jobs use Haiku.",
+      "plain": "The thinking engine. Every piece of writing the factory produces \u2014 episode planning, narrator framings, quality reviews \u2014 goes through a Claude model. The most demanding work uses Opus, the everyday work uses Sonnet, and the cheap mechanical jobs use Haiku.",
       "services": [
         {
           "id": "claude-opus-4-7",
           "name": "Claude Opus 4.7",
-          "plain": "The heaviest model. Used for the multi-step authoring jobs — planning episodes, writing capstones, the quality reviewer's deep passes.",
+          "plain": "The heaviest model. Used for the multi-step authoring jobs \u2014 planning episodes, writing capstones, the quality reviewer's deep passes.",
           "used_by": [
             "Plan the episodes",
             "Enrich with context",
@@ -147,7 +147,7 @@
     {
       "id": "google",
       "name": "Google",
-      "plain": "Two distinct surfaces. NotebookLM is where the finished episodes are generated as Audio Overviews — that's the listener-facing output. Gemini is a backup thinking engine used for a small set of jobs where Claude would either overshoot the cost cap or where a second perspective is genuinely useful.",
+      "plain": "Two distinct surfaces. NotebookLM is where the finished episodes are generated as Audio Overviews \u2014 that's the listener-facing output. Gemini is a backup thinking engine used for a small set of jobs where Claude would either overshoot the cost cap or where a second perspective is genuinely useful.",
       "services": [
         {
           "id": "notebooklm",
@@ -195,7 +195,7 @@
         {
           "id": "gemini-2-0",
           "name": "Gemini 2.0 (AI Studio)",
-          "plain": "Used sparingly — currently powering one experimental classifier and the second-opinion pass on a small number of reviewer cases.",
+          "plain": "Used sparingly \u2014 currently powering one experimental classifier and the second-opinion pass on a small number of reviewer cases.",
           "used_by": [
             "Polish the text"
           ],
@@ -381,7 +381,7 @@
         {
           "id": "github-actions",
           "name": "Actions + storage",
-          "plain": "Triggers nothing in the pipeline today — the factory runs locally. Reserved for the future CI lane.",
+          "plain": "Triggers nothing in the pipeline today \u2014 the factory runs locally. Reserved for the future CI lane.",
           "used_by": [],
           "month_cost_usd": 0,
           "alltime_cost_usd": 0,

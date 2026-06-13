@@ -216,6 +216,13 @@ def verify_svg(svg_path: Path, entry: dict) -> tuple[bool, str]:
     for num in expected_digits:
         if num not in svg_text:
             return False, f"number missing/altered: {num!r}"
+    # Geometry gate (2026-06-11): text that overflows the viewBox, collides
+    # with a neighbour, or prints below the readable floor demotes the page
+    # to its raster JPEG — the semantic checks above never see layout.
+    from _svg_geometry import geometry_findings
+    geo = geometry_findings(svg_path.read_text(encoding="utf-8"))
+    if geo:
+        return False, f"geometry: {geo[0]}" + (f" (+{len(geo)-1} more)" if len(geo) > 1 else "")
     return True, ""
 
 

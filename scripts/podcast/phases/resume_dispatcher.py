@@ -286,6 +286,22 @@ def run_resume(args: argparse.Namespace) -> int:
               f"the publish driver (upstream 0book phases are idempotent).")
         return _drive_publish_through_done(book_dir)
 
+    # Audio Engine v2 phases (API engines only; notebooklm books never land here).
+    if current_phase == "audio-script":
+        _info(f"Phase audio-script status={current_status!r} — re-entering the "
+              f"per-chapter-and-after driver (completed phases skip).")
+        return _drive_per_chapter_and_after(book_dir)
+
+    if current_phase == "audio-render" and current_status == "halted":
+        _info("Phase audio-render H1 spend gate cleared (human approved by "
+              "re-invoking --resume) — rendering.")
+        return _drive_per_chapter_and_after(book_dir, approve_audio_render=True)
+
+    if current_phase == "audio-render" and current_status in (
+        "failed", "running", "pending", "completed"
+    ):
+        return _drive_per_chapter_and_after(book_dir)
+
     if current_phase == "0g" and current_status == "completed":
         _info("Phase 0g already completed — advancing to finalize.")
         return _drive_per_chapter_and_after(book_dir)

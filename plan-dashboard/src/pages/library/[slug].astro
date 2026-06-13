@@ -240,8 +240,8 @@ const tabs = [
             <strong>Archive this book</strong>
             <span class="card-sub">Soft-deletes to <code>content/_archive/</code>. Reversible.</span>
           </div>
-          <form method="POST" action={`/api/library/${summary.ref.slug}/archive`}>
-            <button type="submit" class="lib-btn lib-btn-danger" onclick="return confirm('Archive this piece of content?')">Archive</button>
+          <form method="POST" action={`/api/library/${summary.ref.slug}/archive`} data-confirm="Archive this piece of content?">
+            <button type="submit" class="lib-btn lib-btn-danger">Archive</button>
           </form>
         </div>
       </div>
@@ -433,4 +433,11 @@ const tabs = [
   window.addEventListener('hashchange', () => {
     activate(window.location.hash.replace(/^#/, '') || 'overview', false);
   });
+
+  // Destructive-action confirm (replaces the former inline onclick attribute).
+  for (const form of document.querySelectorAll<HTMLFormElement>('form[data-confirm]')) {
+    form.addEventListener('submit', (e) => {
+      if (!window.confirm(form.dataset.confirm ?? 'Are you sure?')) e.preventDefault();
+    });
+  }
 </script>

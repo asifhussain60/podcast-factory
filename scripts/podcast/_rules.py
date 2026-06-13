@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 """Canonical rule data shared across the podcast scripts.
@@ -223,6 +223,15 @@ class ContentType:
     skip_enrichment: bool # skip Phase 0e (doctrinal enrichment)
     skip_ocr: bool        # skip Phase 0a Azure OCR (source already digital English/text)
     literary_voice: dict  # revoice defaults consumed by _literary.py
+    # Default audio engine for a NEW book of this profile, stamped into
+    # series-config.yaml at intake (intake_launch._write_series_config). NEW-book
+    # default ONLY — never applied retroactively, so existing books with no
+    # `audio_engine` field keep the notebooklm default and never move off the
+    # path their already-rendered audio came from.
+    audio_engine: str = "notebooklm"
+    # Default ElevenLabs cast (host key -> voice-library name) stamped at intake
+    # when the chosen engine is elevenlabs and the operator picked no voices.
+    default_voice_cast: dict = field(default_factory=dict)
 
 
 CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
@@ -235,6 +244,11 @@ CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
             "addressee": "the reader",
             "scene_source": "text_only",
         },
+        # Islamic books now default to the autonomous ElevenLabs path (Asif's
+        # ear-locked Eric/Lily cast, 2026-06-12). NotebookLM stays available
+        # per-episode via episode_engine_overrides.
+        audio_engine="elevenlabs",
+        default_voice_cast={"host_a": "Eric", "host_b": "Lily"},
     ),
     "technical": ContentType(
         profile="technical", bucket="Technical",
@@ -314,6 +328,22 @@ def phase_capabilities(profile: str | None) -> "ContentType":
     routing logic lives in ONE place instead of scattered `category in {...}` checks.
     """
     return CONTENT_TYPE_REGISTRY.get(profile or "") or CONTENT_TYPE_REGISTRY[ISLAMIC_SCHOLARLY_PROFILE]
+
+
+def audio_engine_default_for_profile(profile: str | None) -> str:
+    """Default audio engine to stamp for a NEW book of this profile.
+
+    NEW-book default only (consumed by intake_launch). Unknown/absent profiles
+    fall back to islamic_scholarly's default. This never touches existing books.
+    """
+    ct = CONTENT_TYPE_REGISTRY.get(profile or "") or CONTENT_TYPE_REGISTRY[ISLAMIC_SCHOLARLY_PROFILE]
+    return ct.audio_engine
+
+
+def default_voice_cast_for_profile(profile: str | None) -> dict:
+    """Default ElevenLabs cast (host key -> library name) for a NEW book."""
+    ct = CONTENT_TYPE_REGISTRY.get(profile or "") or CONTENT_TYPE_REGISTRY[ISLAMIC_SCHOLARLY_PROFILE]
+    return dict(ct.default_voice_cast)
 
 # ─── Content-level ladder (Wave M) — ISLAMIC scholarly books only. Single source
 # of truth for category-gated augmentation. A book declaring `content_level` in

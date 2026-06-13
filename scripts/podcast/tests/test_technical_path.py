@@ -548,6 +548,24 @@ class TestFramingRouting(unittest.TestCase):
         except ImportError:
             self.skipTest("_build_technical_framing_prompt not yet implemented")
 
+    def test_framing_prompt_builder_registry(self):
+        # Strategy registry (2026-06-13 refactor): exactly the three variants,
+        # every value callable. A new content variant is one dict entry + one fn.
+        try:
+            from _authoring._framing import (
+                FRAMING_PROMPT_BUILDERS, _resolve_prompt_variant,
+            )
+        except ImportError:
+            self.skipTest("FRAMING_PROMPT_BUILDERS not yet implemented")
+        self.assertEqual(
+            set(FRAMING_PROMPT_BUILDERS), {"islamic", "consumer", "technical"}
+        )
+        for variant, fn in FRAMING_PROMPT_BUILDERS.items():
+            self.assertTrue(callable(fn), f"{variant} builder is not callable")
+        # Every resolved variant must have a builder (no silent KeyError path).
+        for cat in ("books", "sites", "explainers", "unknown-cat"):
+            self.assertIn(_resolve_prompt_variant(cat), FRAMING_PROMPT_BUILDERS)
+
     def test_technical_framing_prompt_omits_islamic_content(self):
         # RED today — the technical framing prompt must contain ZERO Islamic/
         # scholarly content.

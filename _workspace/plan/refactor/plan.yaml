@@ -4226,6 +4226,194 @@ waves_o_ph:
         title: "Dispatcher 0book dead-end fix (illustrate missing; stale per-chapter routing) + dashboard PHASE_ORDER"
         status: completed
 
+  - id: NM
+    name: "NotebookLM Drop Normalizer (2026-06-12)"
+    execution_status: completed_2026_06_12
+    depends_on: [SD]
+    note: |
+      NotebookLM names audio exports after the Audio Overview's creative title,
+      and manual NN- prefixes are unverified claims (a real 19/20 swap shipped
+      2026-06-12, caught by hand). normalize_m4a.py makes filenames irrelevant:
+      fingerprints every non-canonical .m4a/.txt under BOOK_DIR/m4a/ against
+      episode framings + chapter sources (transcript text strongest, then
+      creative-title tokens; numeric prefixes compared but never trusted) and
+      renames to ch<NN><s>-<slug>.m4a / m4a/transcripts/<stem>.transcript.txt.
+      Dry-run default, --apply executes; AMBIGUOUS/COLLISION left untouched and
+      surfaced; all verdicts (MATCH/SWAP/AMBIGUOUS/COLLISION) append to the
+      m4a/_review/prefix-verification.json ledger. Finalize-halt card prints
+      the command; SKILL.md scripts catalog + framework.md tree updated.
+    steps:
+      - id: NM1
+        title: "normalize_m4a.py — fingerprint matcher + swap detection + transcript pairing + ledger"
+        status: completed
+        tests: "test_normalize_m4a (8)"
+      - id: NM2
+        title: "Operator wiring — finalize card line + SKILL.md + framework.md docs"
+        status: completed
+
+  - id: AT
+    name: "Azure Transcription for NotebookLM Output (2026-06-12)"
+    execution_status: completed_2026_06_12
+    depends_on: [NM]
+    note: |
+      TurboScribe retired as the documented transcription path. The OUTPUT-side
+      transcriber (transcribe_notebooklm.py) was dead code — local whisper,
+      never installed, retired drafts/ paths — which is WHY the manual
+      TurboScribe ritual existed. Rebuilt on the proven Azure Speech Fast
+      Transcription caller (_azure.transcribe_audio, same as lecture intake):
+      batch per book, idempotent, bucket-aware, --only/--force/--dry-run,
+      non-canonical names deferred to normalize_m4a. ONE Azure call writes
+      BOTH live transcript contracts: m4a/transcripts/<ch-stem>.transcript.txt
+      (source of truth: postprod-review, normalize_m4a) + derived
+      transcripts/EP##-<slug>.transcript.txt (audit_transcript Loop M,
+      stitch_video keyword sync). Cost rows duration-priced
+      (azure-speech-stt-fast); transcribe_episode.py repriced from the F36
+      char-count Neural-TTS proxy (~10x overstatement) to the same
+      duration-priced helper. Finalize card prints normalize -> transcribe.
+      Docs swept Azure-first: SKILL.md (catalog + Loop M paths a/b/c),
+      framework.md tree, postprod-review + vacuum agent specs (both copies).
+      External services (TurboScribe) remain a FALLBACK drop path that
+      normalize_m4a pairs in.
+    steps:
+      - id: AT1
+        title: "transcribe_notebooklm.py rebuilt on Azure — batch, idempotent, dual-contract output, duration-priced ledger"
+        status: completed
+        tests: "test_transcribe_notebooklm (8)"
+      - id: AT2
+        title: "transcribe_episode.py repriced to duration-based STT helper (root fix of F36 char proxy)"
+        status: completed
+      - id: AT3
+        title: "Docs sweep Azure-first — SKILL.md, framework.md, postprod-review + vacuum specs, finalize card chain"
+        status: completed
+      - id: AT4
+        title: "normalize_m4a transcript scorer rebuilt trigram+IDF — live Azure transcripts exposed token-overlap drift to the largest chapter corpus (7/20 known-correct mismatched); validated 20/20 on the-master-and-the-disciple"
+        status: completed
+        tests: "test_normalize_m4a (9, incl. shared-boilerplate regression)"
+
+
+  - id: AE
+    name: "Audio Engine v2 — ElevenLabs autonomous path, NotebookLM preserved (2026-06-12)"
+    execution_status: completed_2026_06_12
+    depends_on: [AT]
+    note: |
+      Dual-engine audio: a pluggable per-book audio_engine setting
+      (series-config.yaml; notebooklm default | elevenlabs) routes the audio
+      step. NotebookLM path byte-identical (golden-fixture regression); the
+      ElevenLabs path is fully autonomous with ONE halt per book (H1: exact
+      deterministic credit estimate before the first paid render). Registry
+      (_audio_engines.py) carries capability flags consumed by validators,
+      cost estimator, and orchestrator — no hardcoded engine conditionals.
+      Per-chapter dialogue scripts authored on Claude Max against the
+      converged framing (no rule-text duplication), gated by a deterministic
+      pre-synthesis validator set (deny lists, doctrine, honorifics, host
+      parity, engine-aware Arabic/tag rules, contract-coverage no-teaching-
+      lost) + a semantic challenger pass, SHIP-READY/SHIP-WITH-CAUTION/FAILED
+      verdicts, findings to _learning/findings.jsonl (source=dialogue-gate).
+      Pronunciation: glossary.yml -> versioned PLS alias dictionary, pinned
+      per render; Arabic-recitation scaffold OFF until H2. Renderer: eleven_v3
+      text-to-dialogue, pure chunker <=2000 chars, hash-derived seeds, render
+      ledger input-hash->output-hash, chunk cache (render once, cache
+      forever), exact subscription-meter credit rows, cps sanity band,
+      optional Azure --deep-verify; output DIRECTLY to canonical m4a +
+      transcript layout (transcript IS the script — no STT). Orchestrator:
+      audio-script + audio-render phases in _progress.PHASES between slides
+      and finalize; engine-aware finalize card. Studio Publish step surfaces
+      engine + rendered credits (html-view-challenger PASS). Quality of
+      CONTENT outranks cost everywhere: soft bands are pacing advisories
+      (P2), never cuts; cost discipline by construction.
+    steps:
+      - id: AE1
+        title: "Engine registry with capability flags + golden-fixture byte-identity for the default path"
+        status: completed
+        tests: "test_audio_engines (19)"
+      - id: AE2
+        title: "Dialogue-script artifact + Claude Max authorship (framing as steering spec)"
+        status: completed
+        tests: "test_dialogue_script (21)"
+      - id: AE3
+        title: "Pre-synthesis content gate + convergence loop (deterministic + semantic; coverage = no-teaching-lost)"
+        status: completed
+        tests: "test_dialogue_gate (20)"
+      - id: AE4
+        title: "Pronunciation compiler: glossary -> versioned PLS dictionary, pinned; Arabic-recitation scaffold (H2 OFF)"
+        status: completed
+        tests: "test_pronunciation_compiler (12)"
+      - id: AE5
+        title: "Production renderer: render-once/cache-forever, render ledger, exact credit metering, canonical layout"
+        status: completed
+        tests: "test_render_dialogue_audio (15)"
+      - id: AE6
+        title: "Orchestrator wiring: audio-script + audio-render phases, H1 halt, engine-aware finalize card"
+        status: completed
+        tests: "test_audio_driver (16) + test_phases"
+      - id: AE7
+        title: "Astro studio Publish step: audio engine + rendered-credit spend (Cortex-gated, lint clean)"
+        status: completed
+      - id: AE8
+        title: "Dual-engine e2e through the post-0f driver (both paths; fixed episode-map derive fallback KeyError)"
+        status: completed
+        tests: "e2e/test_audio_engine_paths (3)"
+
+  - id: AE2
+    name: "NotebookLM-fidelity + per-episode dual-path + voice-picker UI (2026-06-13)"
+    execution_status: completed_2026_06_13
+    depends_on: [AE]
+    note: |
+      Makes ElevenLabs the per-profile NEW-book default for islamic_scholarly
+      (cast Eric/Lily) — stamped at intake from the _rules registry, NEVER
+      retroactive (existing NotebookLM-native books keep their path). Adds a
+      PER-EPISODE engine override (episode_engine_overrides in series-config):
+      engine_for_episode() routes each episode; the script + render phases skip
+      NotebookLM-overridden episodes (no wasted authorship, no credit estimate,
+      never API-rendered) and the finalize halt prints both the rendered-note
+      and a NotebookLM upload table filtered to the overrides. No-overrides ->
+      unfiltered table, byte-identical (golden-test latch). Steers the
+      autonomous path to the NotebookLM sound at three layers: authoring prompt
+      (seven moves, native Arabic+gloss when supported, tonal tags forbidden on
+      the scholar), the pre-spend challenger (per-move presence) + deterministic
+      gate (registry-driven tag budget, tonal-on-HOST_A check, style nudges),
+      and a post-render style gate fingerprinting audio vs a tracked per-genre
+      gold standard (built from BOTH NotebookLM books) with ONE bounded retake
+      inside H1. Astro intake gains a VoicePicker (engine + male/female from the
+      approved pools; monogram avatars, accent labels, sample clips).
+    steps:
+      - id: AE2a
+        title: "Per-episode engine resolver + episode-aware script/render phases + upload-table latch"
+        status: completed
+        tests: "test_episode_engine_and_style + e2e/test_audio_engine_paths (override)"
+      - id: AE2b
+        title: "ElevenLabs default for new Islamic books at intake (per-profile registry, never retroactive)"
+        status: completed
+        tests: "test_episode_engine_and_style (intake stamp)"
+      - id: AE2c
+        title: "Tracked fingerprint module + per-genre gold standard (both NotebookLM books) + post-render style gate (1 retake)"
+        status: completed
+        tests: "test_episode_engine_and_style (fingerprint)"
+      - id: AE2d
+        title: "Authoring prompt (seven moves, Arabic+gloss, tag discipline) + challenger rubric + gate checks"
+        status: completed
+      - id: AE2e
+        title: "Astro voice-picker UI: engine + cast selection, monogram avatars, sample clips (lint clean, preview-verified)"
+        status: completed
+      - id: AE2f
+        title: "Voice sample clips rendered into public/voice-samples/ (ElevenLabs spend gate)"
+        status: completed
+        tests: "manual render (446 credits); picker Hear buttons functional"
+      - id: AE2g
+        title: "Deterministic Arabic recitation: KQur verse lookup + glossary terms, render-layer, engine-aware"
+        status: completed
+        tests: "test_quran_recitation (20)"
+        note: |
+          ElevenLabs Islamic books recite Quran verses (verbatim from the wisdom
+          corpus KQur via _quran_recitation.py: canonical surah table + number
+          parser -> (surah,ayat) -> mirror.db fts_quran) and key terms (glossary
+          phonetic->arabic_script, skipping loanwords + personal names) in native
+          Arabic. Injected ONLY at the render-compile layer (compile_turns_for_render,
+          flag elevenlabs_arabic_recitation default-ON for Islamic at intake) — the
+          model never types Arabic (faithfulness), shared chapters + scripts stay
+          ASCII/phonetic (NotebookLM byte-identical), noise behavior unchanged.
+          Author writes ASCII + long-form citations only. Hadith deferred.
+
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================

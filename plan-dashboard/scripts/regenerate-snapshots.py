@@ -193,10 +193,15 @@ def merge_dashboard():
 
     plan = read_plan_yaml()
     roadmap = list(existing.get("roadmap") or [])
-    all_waves = [
-        w for w in (list(plan.get("waves") or []) + list(plan.get("waves_ghj") or []))
-        if isinstance(w, dict) and w.get("id")
-    ] if plan else []
+    # Every wave-shaped list in plan.yaml (waves, waves_ghj, waves_o_ph, and any
+    # future waves_* section) — entries are dicts with an id + steps. Reading only
+    # the first two lists silently hid waves O/PH/WM/SD+ from the dashboard.
+    wave_lists = []
+    if plan:
+        for key in sorted(plan.keys()):
+            if key == "waves" or key.startswith("waves_"):
+                wave_lists.extend(list(plan.get(key) or []))
+    all_waves = [w for w in wave_lists if isinstance(w, dict) and w.get("id")]
 
     if all_waves:
         valid_ids = {step["id"] for wave in all_waves for step in (wave.get("steps") or [])}

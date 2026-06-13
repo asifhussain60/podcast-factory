@@ -972,3 +972,71 @@ Pre-authorized by the autonomy mandate in `CONTINUATION-2026-05-30.md`. Four blo
 > Three divergent folder lists (intake, the site's new-content launcher, scaffold) were collapsed into a single 16-folder registry, so every new book — and every volume created by multi-volume breakup — is pre-laid identically, including the audio drop folder and the slide-decks folder. A dry-run-first migration script standardized all nine existing books and six volumes: legacy folder names were renamed into the standard, and genuine oddities were flagged for review instead of auto-merged.
 >
 > *Value gained:* any book opened by any tool has the same shape; drops always have a home; folder drift can no longer accumulate.
+
+---
+
+## NotebookLM Drop Normalizer (2026-06-12)
+
+### 1. Dropped audio and transcripts rename themselves into canonical chapter order
+
+> NotebookLM names its exported audio after the episode's auto-generated creative title, and any chapter number the operator types in front of it is an unverified claim — a real 19/20 swap shipped this week and was caught only by hand. A new normalize step makes filenames irrelevant: drop the files anywhere in the book's audio folder with any name, run one command, and each file is fingerprint-matched against the episode framings and chapter sources (transcript text is the strongest evidence, then the creative title's own words; numeric prefixes are compared but never trusted). High-confidence matches rename to canonical form, prefix-vs-content disagreements are flagged as swaps and corrected, and anything ambiguous is left untouched and surfaced instead of guessed. Every verdict appends to the book's verification ledger, and the finalize card now prints the command as the standard post-download step.
+>
+> *Value gained:* the swap class of error can't reach publishing; the post-download ritual is one command instead of manual cross-checking.
+
+---
+
+## Azure Transcription for NotebookLM Output (2026-06-12)
+
+### 1. Transcription moves in-house: one command, Azure does the rest
+
+> The script meant to transcribe NotebookLM's audio output was dead on arrival — it depended on a local AI model that was never installed and pointed at a folder layout retired weeks ago. That's why the manual TurboScribe upload-download ritual existed at all. The script is rebuilt on the same Azure transcription service the pipeline already uses daily for lecture intake: point it at a book and it transcribes every properly-named audio file that's missing a transcript, skips what's done, and prices each job into the book's cost ledger by actual audio duration (also fixing an older cost entry that overstated transcription spend roughly tenfold). One transcription call feeds both downstream consumers — the post-production reviewer and the audit/video tooling — from a single source of truth, and the finalize card now prints the full ritual: drop audio, normalize names, transcribe. External services remain a fallback drop path.
+>
+> *Value gained:* no external transcription service in the loop; transcripts cost cents, arrive in minutes, and land correctly named on both contracts every time.
+
+---
+
+## Audio Engine v2 — autonomous audio, NotebookLM preserved (2026-06-12)
+
+### 1. Every book chooses its audio engine; existing books change nothing
+
+> A single per-book setting now decides how episode audio gets made: the default keeps the familiar NotebookLM ritual exactly as it is (a regression test proves the output is byte-for-byte identical), while a book that opts into the new engine flows from approved source to finished audio with no manual upload or download at all. Engine capabilities live in one registry file, so adding a third engine someday is one entry — not a search through the pipeline.
+>
+> *Value gained:* full autonomy becomes an opt-in per book with zero risk to everything already shipped.
+
+### 2. The conversation is written, judged, and fixed before a cent is spent
+
+> On the autonomous path the pipeline writes the complete two-host conversation itself, on the flat-rate subscription. A free gate then checks it the way the existing chapter gates do — forbidden phrases, doctrine, honorifics, host roles — plus a new completeness check: every tension and concept the chapter contract promises must actually appear in the conversation, or the script is rejected. A second reviewing pass judges faithfulness (nothing invented, nothing lost) and the loop fixes and re-checks until the script earns the same ship verdict the audio path has always used. Pacing targets are advisory only — the system is forbidden from cutting content to hit a length.
+>
+> *Value gained:* paid synthesis can only ever run on a script that has already passed every quality bar.
+
+### 3. Audio renders once, lands in the right place, and never re-bills for unchanged work
+
+> Rendering goes through the professional voice service in small pinned-down requests: same text in, same settings, same pronunciation dictionary version every time, with each request's result remembered in a ledger and cache. Revise one paragraph later and only that paragraph's audio is re-bought. Exact spend is read off the vendor's own meter into the book's cost ledger, and the one place the pipeline stops is a single approval gate showing the precise credit estimate before the first paid render. Finished audio and transcripts land in exactly the folders the rest of the system already reads — the reviewer, the video stitcher, and the site all work unchanged — and the book's publish screen now shows which engine made the audio and what it cost.
+>
+> *Value gained:* one approval click replaces the whole upload-download-rename-transcribe ritual, at a known price, with revisions costing pennies instead of full re-renders.
+
+## NotebookLM-fidelity + per-episode dual-path + voice picker (2026-06-13)
+
+### 1. New Islamic books are born on the autonomous path; both paths stay, per episode
+
+> A new Islamic book now defaults to the in-house voice engine with a chosen cast, decided once at intake — while every book already produced keeps exactly the path its audio came from (nothing is ever switched underneath it). NotebookLM stays available on demand for individual episodes: flip a single chapter to NotebookLM and the rest of the book still renders automatically; that chapter is left out of the automatic render and its upload instructions appear alongside the "already done" note for the others. When no chapter is flipped, the upload page is byte-for-byte what it always was.
+>
+> *Value gained:* one default that fits the main use case, with the manual path always one switch away for the chapters that want it — and zero risk to anything shipped.
+
+### 2. The autonomous voice is steered to sound like the NotebookLM episodes
+
+> The reference is the real NotebookLM audio of two finished books, measured into a saved per-genre profile (pace, turn-taking, pauses, pitch variation). The conversation is written around the seven moves that make those episodes feel like two people thinking — a cold-open question, interruptions, real pushback that concedes, short reactions, finishing each other's lines, a returning refrain, an open ending — and the scholar voice is kept free of mood tags that recolored it. A free reviewer checks each move is genuinely there before any spend, and after rendering the audio is scored against the saved profile; if it drifts, the system buys exactly one alternate take and keeps the better one — a flag, never a blocker.
+>
+> *Value gained:* "sounds like NotebookLM" becomes a measured, enforced bar instead of a hope, with spend that cannot run away.
+
+### 3. You pick the engine and the voices on the new-content form
+
+> The intake form gains a voice panel: choose the engine, then pick one male and one female from the approved roster as cards with a name, accent, a coloured initial, and a play button to hear each one. The choice flows straight into the book's settings — no hand-edited config.
+>
+> *Value gained:* casting and engine are a visual, audition-first decision at the moment a book is created, not a buried YAML edit.
+
+### 4. The audio recites Arabic correctly — from the corpus, never guessed
+
+> Because the in-house voice engine pronounces Arabic, an Islamic episode now recites the Quran verses and key terms in their native script. Crucially, the Arabic is never typed by the AI: a verse citation like "the chapter of Abraham, verse seven" is resolved to its exact place by a fixed reference table and the verbatim Arabic is pulled from the wisdom corpus (KQur) — the same citation always yields the same canonical verse, and a citation that can't be matched is simply left in English, never invented. Key doctrinal terms come from the book's verified glossary; author and book-title names are left alone (pronounced naturally, not recited). All of this happens only on the in-house path and only at the moment of audio production — the written chapters and the NotebookLM path are untouched, so a book sent to NotebookLM still has its Arabic rendered phonetically as before. Noise removal is unchanged.
+>
+> *Value gained:* scripture is recited correctly and identically every time, with zero risk of a mispronounced or mis-typed verse, and zero disturbance to the NotebookLM path.

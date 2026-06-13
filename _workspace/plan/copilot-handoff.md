@@ -596,3 +596,90 @@ Asif). **Blocked:** hadith atom ingest (no hadith DB; PyYAML missing from venv).
   python3 scripts/podcast/_sessions.py the-master-and-the-disciple
 - Old 5-episode m4a files in m4a/ are stale (pre-density audio) — vacuum before
   the new 20-episode NotebookLM generation lands.
+
+## 2026-06-12 — Audio Engine v2 shipped on infra/audio-engine-v2 (Claude Code session)
+
+- Dual-engine audio pipeline: per-book `audio_engine` in series-config.yaml
+  (`notebooklm` default | `elevenlabs`). NotebookLM path byte-identical
+  (golden-fixture regression test); elevenlabs path fully autonomous with ONE
+  halt (H1: exact credit estimate before first paid render).
+- New modules: _audio_engines.py (capability registry), _dialogue_script.py
+  (script format/chunker/seeds), _authoring/_dialogue.py (Max authorship),
+  _validators_dialogue.py + _dialogue_convergence.py (pre-synthesis gate,
+  source=dialogue-gate findings), pronunciation_compiler.py (glossary -> PLS
+  versioned dictionary, pinned), _elevenlabs.py (stdlib client),
+  render_dialogue_audio.py (render-once/cache-forever, render ledger,
+  metered credits), phases/audio_driver.py (audio-script + audio-render
+  phases in _progress.PHASES between slides and finalize).
+- Studio Publish step surfaces engine + rendered credits (challenger PASS,
+  lint:views + astro check clean). assemble_bundle episode-map derive
+  fallback KeyError fixed (surfaced by the new dual-path e2e).
+- Suite: 1283 passed (was 854 in scripts/podcast tree; +106 new tests).
+- Arabic-script recitation scaffold OFF until H2 (audible two-variant
+  sample); flag elevenlabs_arabic_recitation.
+- Remaining: live smoke test on ONE real chapter awaits H1 approval; merge
+  to develop awaits H3 (backup branch + repo-surgeon sweep first).
+- SUPERSESSION: the experiment scripts under
+  _workspace/experiments/elevenlabs-audition/ (render_audition.py) and
+  _workspace/experiments/stephanie-interview-prep/ (generate_audio_v3.py)
+  are superseded by the pipeline renderer (_elevenlabs.py +
+  render_dialogue_audio.py). Folders left in place untracked — the audio
+  artifacts are Asif's; the scripts stay as historical reference only.
+- Backup branch pushed: backup/pre-audio-engine-v2-2026-06-12 (develop
+  HEAD 46eec14 restore point, pre-merge).
+
+## Session 2026-06-13 — NotebookLM-fidelity + per-episode dual-path + voice picker (Wave AE2)
+
+Built end-to-end (all on develop, suite 976 green, view lint clean, preview-verified):
+- **ElevenLabs default for NEW Islamic books** at intake (`_rules` per-profile
+  registry → `intake_launch._write_series_config` stamps `audio_engine` +
+  `voice_cast`). NEVER retroactive — existing NotebookLM-native books (no
+  `audio_engine` field) stay put; golden test intact.
+- **Per-episode engine override**: `episode_engine_overrides` in series-config,
+  resolved by `_audio_engines.engine_for_episode()`. Script + render phases skip
+  NotebookLM-overridden episodes; `render_episode` guards against rendering one.
+  Finalize halt + assemble_bundle filter the upload table to the overridden
+  episodes, with a no-overrides latch that keeps pure-book output byte-identical.
+  Slide-deck card now prints on the autonomous path too (was coupled to manual).
+- **Tracked fingerprint + gold standard**: `_audio_fingerprint.py` (ported from
+  the style-match experiment), `build_audio_gold_standard.py` →
+  `content/_shared/audio-style/islamic_scholarly.json` built from BOTH NotebookLM
+  books (20+4 ep). Post-render style gate in `render_episode` (`style_gate`,
+  default OFF; one bounded retake inside H1; default-on in the driver). Threshold
+  65 = gross-drift floor; ear-approved CLIP10 scores 66.8 (pass), corpus median 93.5.
+  CONFIRM against the first full-episode verification render.
+- **Authoring/challenger**: `_authoring/_dialogue.py` rewritten around the seven
+  NotebookLM moves + engine-aware Arabic-script clause + male-tonal-tags-forbidden;
+  challenger rubric (per-move presence) + gate checks (registry tag budget,
+  DLG-TAGS-HOST-A-TONAL, P2 style nudges). Engine card gains `tag_budget_per_turns`.
+- **Astro voice picker**: `voice-library.yaml` gains `sample`; `_voice_library.pools()`;
+  `plan-dashboard/src/lib/voice-library.ts` + `/api/intake/voices`;
+  `VoicePicker.tsx` (engine selector + male/female cards, monogram avatars,
+  accent labels, sample play) wired through SmartForm → launch. External CSS only.
+
+OPEN (spend-gated, need Asif):
+- `build_voice_samples.py --confirm` → 8 sample clips into
+  `plan-dashboard/public/voice-samples/` (~720 chars, ~$0.16). Until then the
+  "Hear" buttons 404.
+- First full-episode verification render to confirm the style-gate threshold.
+
+## Session 2026-06-13 (cont.) — voice clips + deterministic Arabic recitation (Wave AE2 f/g)
+
+- **8 voice sample clips** rendered (build_voice_samples.py --confirm, 446 credits)
+  into plan-dashboard/public/voice-samples/; picker "Hear" buttons now work. (98a7af2)
+- **Deterministic Quran recitation** (ElevenLabs path): new `_quran_recitation.py`
+  resolves a citation -> (surah,ayat) via a canonical surah table + exact number
+  parser, reads verbatim Arabic from KQur (mirror.db fts_quran, read-only), and
+  `inject_recitations()` splices it after the citation. Unresolved/absent verse ->
+  left in English + logged (NEVER model-generated). Translation-overlap verify is
+  default-OFF (cross-translation false negatives) — determinism is the guarantee.
+- **Render-layer wiring**: `compile_turns_for_render` (flag elevenlabs_arabic_recitation)
+  now injects verses + substitutes glossary key terms (skips loanwords + personal
+  names via `_is_proper_name`). ElevenLabs-only; shared chapters + scripts stay
+  ASCII/phonetic (NotebookLM byte-identical); noise behavior unchanged.
+- **Authoring correction**: reverted the Round-2 C7 "write native Arabic inline"
+  instruction — the author now writes ASCII + long-form citations only; the
+  pipeline injects verified Arabic at render. (Removes the invent-Arabic risk.)
+- **Intake**: islamic_scholarly + elevenlabs books stamp elevenlabs_arabic_recitation: true.
+- Suite 996 green (+20: test_quran_recitation, verse-Arabic assertions skipUnless mirror).
+- Hadith recitation DEFERRED (Ahadees table not keyed by the citation form books use).
