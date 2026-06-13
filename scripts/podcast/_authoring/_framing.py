@@ -7,6 +7,7 @@ from __future__ import annotations
 import re as _re
 import sys
 from pathlib import Path
+from typing import Callable
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -244,108 +245,23 @@ def _build_technical_framing_prompt(
     )
 
 
-def _resolve_prompt_variant(category: str) -> str:
-    """Map a content category to its framing prompt variant name.
 
-    Returns one of: 'islamic' | 'consumer' | 'technical'
-    All unrecognised categories default to 'islamic' to preserve backward
-    compatibility with content that pre-dates category stamping.
+# ─── Islamic scholarly framing prompt (category: books/letters/lectures/…) ─
+def _build_islamic_framing_prompt(
+    book_slug: str,
+    chapter_slug: str,
+    chap_num: str,
+    contract: Path,
+    chapter_file: Path,
+    framing_path: Path,
+    book_dir: Path,
+) -> str:
+    """Islamic/Arabic scholarly framing prompt (the back-compat default variant).
+
+    Extracted verbatim from author_framing's inline else-branch (registry refactor
+    2026-06-13) so a new content category is one FRAMING_PROMPT_BUILDERS entry.
     """
-    if category == "sites":
-        return "consumer"
-    if category == "explainers":
-        return "technical"
-    return "islamic"
-
-
-# ─── Per-chapter framing authorship ──────────────────────────────────────────
-def author_framing(book_dir: Path, chapter_slug: str,
-                   timeout: int = FRAMING_TIMEOUT) -> str:
-    """Author 00-framing.md from the chapter contract + customize-prompt template.
-
-    Reads:  BOOK_DIR/chapter-contracts/<slug>.yml
-            BOOK_DIR/chapters/ch##-<slug>.txt
-            (rule data: scripts/podcast/_rules.py — the prior
-            notebooklm-customize-prompt-rules.md handbook was retired 2026-05-23)
-    Writes: BOOK_DIR/_system/episode-drafts/EP##-<slug>/00-framing.md
-    """
-    book_slug = book_dir.name
-
-    # ── Category detection ────────────────────────────────────────────────────
-    # Routes to the correct framing prompt:
-    #   'islamic'  — Islamic/Arabic scholarly content (books, letters, lectures, …)
-    #   'consumer' — consumer-finance content (sites: healthequity, product docs)
-    #   'technical' — developer/technical content (explainers: training docs)
-    _category = _read_category(book_dir)
-    _prompt_variant = _resolve_prompt_variant(_category)
-    _use_consumer_prompt = _prompt_variant == "consumer"
-    _use_technical_prompt = _prompt_variant == "technical"
-
-    contract = book_dir / "chapter-contracts" / f"{chapter_slug}.yml"
-    if not contract.exists():
-        raise AuthoringError(
-            phase=f"framing/{chapter_slug}",
-            message=f"chapter contract missing: {contract}",
-            manual_fallback="Run Phase 0d first to produce the contracts.",
-        )
-
-    # R-SERMON-VERBATIM (2026-06-10): when Phase 0d marked a sermon in the
-    # contract, the framing must carry a `## Verbatim Recitation` block so the
-    # hosts read the sermon aloud before discussing it.
-    _sermon_section: str | None = None
-    try:
-        import yaml as _yaml
-        _c = _yaml.safe_load(contract.read_text(encoding="utf-8")) or {}
-        _s = _c.get("sermon") or {}
-        if isinstance(_s, dict) and _s.get("present"):
-            _sermon_section = str(_s.get("section_title") or "").strip() or None
-    except Exception:  # noqa: BLE001 — contract parse issues surface in 0d gates
-        _sermon_section = None
-
-    # Resolve episode number + draft folder from the chapter file glob.
-    chapter_files = list((book_dir / "chapters").glob(f"ch*-{chapter_slug}.txt"))
-    if not chapter_files:
-        raise AuthoringError(
-            phase=f"framing/{chapter_slug}",
-            message=f"chapter file missing for slug {chapter_slug} under {book_dir / 'chapters'}",
-            manual_fallback="Run Phase 0d to produce the chapter files.",
-        )
-    chapter_file = chapter_files[0]
-    # X7 (2026-05-21): strip letter suffix from ch## prefix via regex so chapters
-    # like `ch14b-...` produce `EP14-...` not `EP14b-...`. Mirrors the X3 fix in
-    # orchestrate_book.py:720-722. Without this, framing lands in EP14b/ while
-    # build_episode_txt.py validator looks at EP14/ — paths diverge and the
-    # chapter halts on R-PRONUNCIATION-IMPERATIVE (empty skeleton at the
-    # validator's path). Affects all letter-suffix chapters: ch01a, ch03a,
-    # ch04b, ch05c, ch13a, ch14b.
-    _chap_prefix = chapter_file.stem.split("-", 1)[0]              # e.g. "ch14b" or "ch10"
-    _m = _re.match(r"ch(\d+)", _chap_prefix)
-    chap_num = _m.group(1) if _m else _chap_prefix[2:]             # "14" or "10" — digits only
-    draft_dir = book_dir / "_system" / "episode-drafts" / f"EP{chap_num}-{chapter_slug}"
-    framing_path = draft_dir / "00-framing.md"
-
-    if _use_consumer_prompt:
-        prompt = _build_consumer_framing_prompt(
-            book_slug=book_slug,
-            chapter_slug=chapter_slug,
-            chap_num=chap_num,
-            contract=contract,
-            chapter_file=chapter_file,
-            framing_path=framing_path,
-            book_dir=book_dir,
-        )
-    elif _use_technical_prompt:
-        prompt = _build_technical_framing_prompt(
-            book_slug=book_slug,
-            chapter_slug=chapter_slug,
-            chap_num=chap_num,
-            contract=contract,
-            chapter_file=chapter_file,
-            framing_path=framing_path,
-            book_dir=book_dir,
-        )
-    else:
-        prompt = (
+    return (
         f"You are authoring the framing (NotebookLM customize prompt) for episode "
         f"`EP{chap_num}-{chapter_slug}` of book `{book_slug}`. Read the canonical "
         f"procedure from `skills-staging/podcast/SKILL.md` PHASE 3 (Structure).\n\n"
@@ -702,7 +618,109 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"{book_dir} EP{chap_num}-{chapter_slug}` to validate. Fix any hard-gate failures "
         f"before exiting.\n\n"
         f"Exit when `{framing_path}` validates."
-        )  # end of Islamic scholarly prompt string
+    )
+
+
+def _resolve_prompt_variant(category: str) -> str:
+    """Map a content category to its framing prompt variant name.
+
+    Returns one of: 'islamic' | 'consumer' | 'technical'
+    All unrecognised categories default to 'islamic' to preserve backward
+    compatibility with content that pre-dates category stamping.
+    """
+    if category == "sites":
+        return "consumer"
+    if category == "explainers":
+        return "technical"
+    return "islamic"
+
+
+# Strategy registry: content variant -> framing prompt builder. Adding a new
+# content variant is one entry here + one builder fn (Open/Closed). All three
+# builders share the same keyword signature so the lookup call is uniform.
+FRAMING_PROMPT_BUILDERS: dict[str, Callable[..., str]] = {
+    "islamic": _build_islamic_framing_prompt,
+    "consumer": _build_consumer_framing_prompt,
+    "technical": _build_technical_framing_prompt,
+}
+
+
+# ─── Per-chapter framing authorship ──────────────────────────────────────────
+def author_framing(book_dir: Path, chapter_slug: str,
+                   timeout: int = FRAMING_TIMEOUT) -> str:
+    """Author 00-framing.md from the chapter contract + customize-prompt template.
+
+    Reads:  BOOK_DIR/chapter-contracts/<slug>.yml
+            BOOK_DIR/chapters/ch##-<slug>.txt
+            (rule data: scripts/podcast/_rules.py — the prior
+            notebooklm-customize-prompt-rules.md handbook was retired 2026-05-23)
+    Writes: BOOK_DIR/_system/episode-drafts/EP##-<slug>/00-framing.md
+    """
+    book_slug = book_dir.name
+
+    # ── Category detection ────────────────────────────────────────────────────
+    # Routes to the correct framing prompt:
+    #   'islamic'  — Islamic/Arabic scholarly content (books, letters, lectures, …)
+    #   'consumer' — consumer-finance content (sites: healthequity, product docs)
+    #   'technical' — developer/technical content (explainers: training docs)
+    _category = _read_category(book_dir)
+    _prompt_variant = _resolve_prompt_variant(_category)
+    _use_consumer_prompt = _prompt_variant == "consumer"
+    _use_technical_prompt = _prompt_variant == "technical"
+
+    contract = book_dir / "chapter-contracts" / f"{chapter_slug}.yml"
+    if not contract.exists():
+        raise AuthoringError(
+            phase=f"framing/{chapter_slug}",
+            message=f"chapter contract missing: {contract}",
+            manual_fallback="Run Phase 0d first to produce the contracts.",
+        )
+
+    # R-SERMON-VERBATIM (2026-06-10): when Phase 0d marked a sermon in the
+    # contract, the framing must carry a `## Verbatim Recitation` block so the
+    # hosts read the sermon aloud before discussing it.
+    _sermon_section: str | None = None
+    try:
+        import yaml as _yaml
+        _c = _yaml.safe_load(contract.read_text(encoding="utf-8")) or {}
+        _s = _c.get("sermon") or {}
+        if isinstance(_s, dict) and _s.get("present"):
+            _sermon_section = str(_s.get("section_title") or "").strip() or None
+    except Exception:  # noqa: BLE001 — contract parse issues surface in 0d gates
+        _sermon_section = None
+
+    # Resolve episode number + draft folder from the chapter file glob.
+    chapter_files = list((book_dir / "chapters").glob(f"ch*-{chapter_slug}.txt"))
+    if not chapter_files:
+        raise AuthoringError(
+            phase=f"framing/{chapter_slug}",
+            message=f"chapter file missing for slug {chapter_slug} under {book_dir / 'chapters'}",
+            manual_fallback="Run Phase 0d to produce the chapter files.",
+        )
+    chapter_file = chapter_files[0]
+    # X7 (2026-05-21): strip letter suffix from ch## prefix via regex so chapters
+    # like `ch14b-...` produce `EP14-...` not `EP14b-...`. Mirrors the X3 fix in
+    # orchestrate_book.py:720-722. Without this, framing lands in EP14b/ while
+    # build_episode_txt.py validator looks at EP14/ — paths diverge and the
+    # chapter halts on R-PRONUNCIATION-IMPERATIVE (empty skeleton at the
+    # validator's path). Affects all letter-suffix chapters: ch01a, ch03a,
+    # ch04b, ch05c, ch13a, ch14b.
+    _chap_prefix = chapter_file.stem.split("-", 1)[0]              # e.g. "ch14b" or "ch10"
+    _m = _re.match(r"ch(\d+)", _chap_prefix)
+    chap_num = _m.group(1) if _m else _chap_prefix[2:]             # "14" or "10" — digits only
+    draft_dir = book_dir / "_system" / "episode-drafts" / f"EP{chap_num}-{chapter_slug}"
+    framing_path = draft_dir / "00-framing.md"
+
+    builder = FRAMING_PROMPT_BUILDERS[_prompt_variant]
+    prompt = builder(
+        book_slug=book_slug,
+        chapter_slug=chapter_slug,
+        chap_num=chap_num,
+        contract=contract,
+        chapter_file=chapter_file,
+        framing_path=framing_path,
+        book_dir=book_dir,
+    )
 
     if _sermon_section and not (_use_consumer_prompt or _use_technical_prompt):
         prompt += (
