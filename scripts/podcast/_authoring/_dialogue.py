@@ -125,19 +125,22 @@ def author_dialogue_script(book_dir: Path, chapter_slug: str,
         tags_note = ("Do NOT use [tag] performance cues — this engine does not "
                      "support them.")
 
-    # Script-language discipline — engine-aware. v3-class engines render native
-    # Arabic script correctly (the ear-approved pronunciation path); manual /
-    # phonetic engines stay ASCII-only.
+    # Script-language discipline. The author writes ASCII ONLY and NEVER types
+    # Arabic script — even on engines that can pronounce it. Arabic is injected
+    # downstream at the render-compile layer from VERIFIED sources (the wisdom
+    # corpus KQur for verses; the per-book glossary for key terms), so the same
+    # citation always recites the same canonical verse. A model typing Quran
+    # Arabic from memory is a faithfulness risk and is forbidden.
     if engine.supports_arabic_script:
         script_lang_clause = (
-            "  - Render Quran verses and genuinely-Arabic key terms in NATIVE "
-            "ARABIC SCRIPT inline, each immediately followed by an English gloss "
-            "in the pattern «ARABIC» — English gloss (e.g. «الْحَمْدُ لِلَّهِ» — all "
-            "praise belongs to God). Use Arabic script ONLY for recited verses "
-            "and technical terms the chapter actually names; everything else is "
-            "plain English. Do NOT both romanize a term AND give its Arabic — "
-            "use the Arabic+gloss form for recited/technical Arabic, plain "
-            "English elsewhere. The script is otherwise ASCII.\n\n"
+            "  - ASCII only — do NOT type any Arabic script yourself, not even "
+            "for verses. Write Arabic terms in plain transliteration exactly as "
+            "the chapter carries them. Cite every Quran verse in LONG-FORM prose "
+            "— 'the chapter of Abraham, verse seven' (named surah + verse number) "
+            "— and quote its English meaning; the pipeline splices the verbatim "
+            "Arabic recitation in from the corpus at render time, and pronounces "
+            "key terms correctly from the glossary. Your job is the English words "
+            "+ the precise citation, never the Arabic.\n\n"
         )
     else:
         script_lang_clause = (

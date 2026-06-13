@@ -52,6 +52,21 @@ LOANWORD_SKIP = frozenset({
     "hadith", "ahadith", "islam", "muslim", "muslims",
 })
 
+# Personal-name connectors: a glossary entry containing one of these as a
+# standalone token is a person name (e.g. "Ja'far ibn Mansur al-Yaman"), which is
+# REFERENTIAL — never recited in Arabic (the user wants teaching terms in Arabic,
+# not author/transmitter names; names are pronounced fine via the alias dictionary).
+_NAME_CONNECTORS = frozenset({"ibn", "bin", "ibni", "abu", "abi", "abu'l",
+                              "umm", "bint", "al-yaman"})
+
+
+def _is_proper_name(phonetic: str) -> bool:
+    """Deterministic: True when the glossary phonetic looks like a personal name
+    (carries a name connector token). Doctrinal terms (tawhid, hujjah, zuhd) have
+    none and return False, so they ARE eligible for Arabic-script recitation."""
+    toks = [t.strip(".,").lower() for t in str(phonetic).split()]
+    return any(t in _NAME_CONNECTORS for t in toks)
+
 
 def _utc_now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -227,28 +242,49 @@ def arabic_recitation_enabled(book_dir: Path) -> bool:
         return False
 
 
-def compile_turns_for_render(book_dir: Path, turns: list) -> list:
+def _glossary_term_subs(book_dir: Path) -> list[tuple[str, str]]:
+    """(phonetic, arabic_script) pairs to recite, longest-first. EXCLUDES
+    loanwords (natural English reading beats a substitution) and personal names
+    (referential — pronounced via the alias dictionary, never recited)."""
+    subs = []
+    for e in load_glossary_entries(book_dir):
+        phonetic = str(e.get("phonetic") or "").strip()
+        arabic = str(e.get("arabic_script") or "").strip()
+        if not phonetic or not arabic:
+            continue
+        if phonetic.lower() in LOANWORD_SKIP or _is_proper_name(phonetic):
+            continue
+        subs.append((phonetic, arabic))
+    subs.sort(key=lambda kv: len(kv[0]), reverse=True)
+    return subs
+
+
+def compile_turns_for_render(book_dir: Path, turns: list, *, log=None) -> list:
     """Script-COMPILE-layer transform applied just before chunking/synthesis.
 
-    Flag OFF (default): identity — romanized text + the pronunciation
-    dictionary carry pronunciation. Flag ON (post-H2): glossary phonetic
-    forms that carry an `arabic_script` value are replaced with the native
-    script (eleven_v3 handles mixed-language text). Shared artifacts are
-    NEVER touched — this transform exists only in the render path."""
+    Flag OFF (default): identity — romanized text + the pronunciation dictionary
+    carry pronunciation. Flag ON: the ElevenLabs render gains VERIFIED Arabic
+    from two deterministic sources, never from the model:
+      1. Quran VERSES — every resolvable citation gets the verbatim KQur Arabic
+         spliced in after it (scripts/podcast/_quran_recitation.py).
+      2. Key TERMS — glossary phonetic forms carrying an `arabic_script` value
+         are replaced with the native script (loanwords + personal names skipped).
+    eleven_v3 handles mixed-language text. SHARED artifacts (chapters, the script
+    file) are NEVER touched — this transform exists only in the render path, so
+    NotebookLM and the script artifact stay engine-neutral and phonetic-only."""
     if not arabic_recitation_enabled(book_dir):
         return list(turns)
     from _dialogue_script import Turn
-    entries = load_glossary_entries(book_dir)
-    subs = [(str(e["phonetic"]).strip(), str(e["arabic_script"]).strip())
-            for e in entries
-            if str(e.get("phonetic") or "").strip()
-            and str(e.get("arabic_script") or "").strip()]
-    # Longest-first so multi-word forms win over their substrings.
-    subs.sort(key=lambda kv: len(kv[0]), reverse=True)
+    from _quran_recitation import inject_recitations
+
+    term_subs = _glossary_term_subs(book_dir)
     out = []
     for t in turns:
-        text = t.text
-        for phonetic, arabic in subs:
+        # 1. Verbatim Quran recitation after each resolvable citation (verified
+        #    source; unresolved citations are left in English).
+        text = inject_recitations(t.text, log=log)
+        # 2. Key-term native script (longest-first; names/loanwords already skipped).
+        for phonetic, arabic in term_subs:
             text = text.replace(phonetic, arabic)
         out.append(Turn(speaker=t.speaker, text=text))
     return out

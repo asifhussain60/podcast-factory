@@ -1034,3 +1034,9 @@ Pre-authorized by the autonomy mandate in `CONTINUATION-2026-05-30.md`. Four blo
 > The intake form gains a voice panel: choose the engine, then pick one male and one female from the approved roster as cards with a name, accent, a coloured initial, and a play button to hear each one. The choice flows straight into the book's settings — no hand-edited config.
 >
 > *Value gained:* casting and engine are a visual, audition-first decision at the moment a book is created, not a buried YAML edit.
+
+### 4. The audio recites Arabic correctly — from the corpus, never guessed
+
+> Because the in-house voice engine pronounces Arabic, an Islamic episode now recites the Quran verses and key terms in their native script. Crucially, the Arabic is never typed by the AI: a verse citation like "the chapter of Abraham, verse seven" is resolved to its exact place by a fixed reference table and the verbatim Arabic is pulled from the wisdom corpus (KQur) — the same citation always yields the same canonical verse, and a citation that can't be matched is simply left in English, never invented. Key doctrinal terms come from the book's verified glossary; author and book-title names are left alone (pronounced naturally, not recited). All of this happens only on the in-house path and only at the moment of audio production — the written chapters and the NotebookLM path are untouched, so a book sent to NotebookLM still has its Arabic rendered phonetically as before. Noise removal is unchanged.
+>
+> *Value gained:* scripture is recited correctly and identically every time, with zero risk of a mispronounced or mis-typed verse, and zero disturbance to the NotebookLM path.

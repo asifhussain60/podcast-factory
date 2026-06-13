@@ -662,3 +662,24 @@ OPEN (spend-gated, need Asif):
   `plan-dashboard/public/voice-samples/` (~720 chars, ~$0.16). Until then the
   "Hear" buttons 404.
 - First full-episode verification render to confirm the style-gate threshold.
+
+## Session 2026-06-13 (cont.) — voice clips + deterministic Arabic recitation (Wave AE2 f/g)
+
+- **8 voice sample clips** rendered (build_voice_samples.py --confirm, 446 credits)
+  into plan-dashboard/public/voice-samples/; picker "Hear" buttons now work. (98a7af2)
+- **Deterministic Quran recitation** (ElevenLabs path): new `_quran_recitation.py`
+  resolves a citation -> (surah,ayat) via a canonical surah table + exact number
+  parser, reads verbatim Arabic from KQur (mirror.db fts_quran, read-only), and
+  `inject_recitations()` splices it after the citation. Unresolved/absent verse ->
+  left in English + logged (NEVER model-generated). Translation-overlap verify is
+  default-OFF (cross-translation false negatives) — determinism is the guarantee.
+- **Render-layer wiring**: `compile_turns_for_render` (flag elevenlabs_arabic_recitation)
+  now injects verses + substitutes glossary key terms (skips loanwords + personal
+  names via `_is_proper_name`). ElevenLabs-only; shared chapters + scripts stay
+  ASCII/phonetic (NotebookLM byte-identical); noise behavior unchanged.
+- **Authoring correction**: reverted the Round-2 C7 "write native Arabic inline"
+  instruction — the author now writes ASCII + long-form citations only; the
+  pipeline injects verified Arabic at render. (Removes the invent-Arabic risk.)
+- **Intake**: islamic_scholarly + elevenlabs books stamp elevenlabs_arabic_recitation: true.
+- Suite 996 green (+20: test_quran_recitation, verse-Arabic assertions skipUnless mirror).
+- Hadith recitation DEFERRED (Ahadees table not keyed by the citation form books use).

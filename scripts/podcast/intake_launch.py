@@ -144,6 +144,12 @@ def _write_series_config(book_dir: Path, slug: str, title: str,
             host_a, host_b = d.get("host_a"), d.get("host_b")
         if host_a and host_b:
             cfg["voice_cast"] = {"host_a": host_a, "host_b": host_b}
+        # Arabic recitation: ElevenLabs pronounces Arabic correctly, so an
+        # Islamic book recites verses (from KQur) + key terms (from the glossary)
+        # in native Arabic at render. Deterministic, verified-source — safe to
+        # default ON. Per-book flag retained (set false to keep phonetic).
+        if profile == "islamic_scholarly":
+            cfg["elevenlabs_arabic_recitation"] = True
     if volume is not None:
         cfg["volume"] = volume
     (book_dir / "_system" / "series-config.yaml").write_text(

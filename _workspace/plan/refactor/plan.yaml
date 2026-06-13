@@ -4397,7 +4397,22 @@ waves_o_ph:
         status: completed
       - id: AE2f
         title: "Voice sample clips rendered into public/voice-samples/ (ElevenLabs spend gate)"
-        status: pending
+        status: completed
+        tests: "manual render (446 credits); picker Hear buttons functional"
+      - id: AE2g
+        title: "Deterministic Arabic recitation: KQur verse lookup + glossary terms, render-layer, engine-aware"
+        status: completed
+        tests: "test_quran_recitation (20)"
+        note: |
+          ElevenLabs Islamic books recite Quran verses (verbatim from the wisdom
+          corpus KQur via _quran_recitation.py: canonical surah table + number
+          parser -> (surah,ayat) -> mirror.db fts_quran) and key terms (glossary
+          phonetic->arabic_script, skipping loanwords + personal names) in native
+          Arabic. Injected ONLY at the render-compile layer (compile_turns_for_render,
+          flag elevenlabs_arabic_recitation default-ON for Islamic at intake) — the
+          model never types Arabic (faithfulness), shared chapters + scripts stay
+          ASCII/phonetic (NotebookLM byte-identical), noise behavior unchanged.
+          Author writes ASCII + long-form citations only. Hadith deferred.
 
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)

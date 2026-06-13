@@ -1150,7 +1150,18 @@
       "id": "AE2f",
       "wave": "AE2",
       "title": "Voice sample clips rendered into public/voice-samples/ (ElevenLabs spend gate)",
-      "status": "pending",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "AE2g",
+      "wave": "AE2",
+      "title": "Deterministic Arabic recitation: KQur verse lookup + glossary terms, render-layer, engine-aware",
+      "status": "completed",
       "tier": "T1",
       "depends_on": [],
       "plain": "",
@@ -1262,11 +1273,26 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-13T10:04:47.387094+00:00",
-  "source_commit": "b8aa55d",
+  "generated_at": "2026-06-13T10:43:02.837591+00:00",
+  "source_commit": "98a7af2",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "98a7af2",
+      "subject": "feat(audio-v2): render 8 approved voice sample clips for the intake picker",
+      "date": "2026-06-13"
+    },
+    {
+      "sha": "e881851",
+      "subject": "fix(audio-v2): voice-picker a11y \u2014 focus rings + aria-pressed toggle model",
+      "date": "2026-06-13"
+    },
+    {
+      "sha": "8d3abee",
+      "subject": "feat(audio-v2): NotebookLM-fidelity, per-episode dual-path, voice picker (Wave AE2)",
+      "date": "2026-06-13"
+    },
     {
       "sha": "b8aa55d",
       "subject": "feat(audio-v2): lock Eric+Lily voice cast for the-master-and-the-disciple",
@@ -1300,21 +1326,6 @@
     {
       "sha": "a4b115d",
       "subject": "docs(audio-v2): Step 10 \u2014 experiment supersession + backup-branch note in session log",
-      "date": "2026-06-12"
-    },
-    {
-      "sha": "857d553",
-      "subject": "docs(audio-v2): Step 9 \u2014 framework, SKILL, challenger spec, plan ledger, snapshots",
-      "date": "2026-06-12"
-    },
-    {
-      "sha": "ea9700a",
-      "subject": "test(audio-v2): Step 8 \u2014 dual-engine e2e through the post-0f driver",
-      "date": "2026-06-12"
-    },
-    {
-      "sha": "a7f0681",
-      "subject": "feat(audio-v2): Step 7 \u2014 studio publish view surfaces audio engine + rendered credits",
       "date": "2026-06-12"
     }
   ],
