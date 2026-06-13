@@ -84,6 +84,92 @@ _SCENE_SOURCE_INSTRUCTIONS: dict[str, str] = {
 }
 
 
+# ── Chapter-craft guidance (reading-edition revoice) ─────────────────────────
+# Distilled from the professional book-rewrite craft standard. Applies to the
+# whole-book revoice (_book_compose.py) for the companion reading-edition PDF.
+# Two layers: a UNIVERSAL CORE that holds for every content profile, plus one of
+# two mutually exclusive overlays — NARRATIVE (scene/dialogue-bearing sources:
+# islamic_scholarly, fiction) or EXPOSITORY (technical/explainer/general
+# nonfiction). New profiles route through chapter_craft_block() — one place to
+# extend, never a prompt rewrite. The faithfulness/Arabic-script/output contract
+# stays in _book_compose.py; this is prose-craft only and adds no doctrine.
+
+_CHAPTER_CRAFT_CORE = (
+    "Write this as a chapter of a real book by a skilled author-teacher — not a study guide, a "
+    "summary, an outline, or a simplified paraphrase. The prose should feel authored, not assembled: "
+    "it has movement, clear ideas, and clean transitions. The teaching must live INSIDE the prose, "
+    "never announced as instructional scaffolding. Do NOT write \"the teaching of this chapter,\" "
+    "\"the main lesson,\" \"the key takeaway,\" \"in plain language,\" \"this matters because,\" or "
+    "\"the reader should understand.\" Show the idea through the specific things the text names; let "
+    "the point arrive, do not label it.\n\n"
+    "Preserve the source's SEQUENCE. Keep the original order of events, claims, concepts, and "
+    "arguments unless a change is genuinely necessary for readability; the chapter should unfold "
+    "continuously, not be rearranged into a lecture outline. You may clarify, smooth, and explain — "
+    "slow the pace, break a dense argument into steps, show why each step follows from the last, use "
+    "natural repetition — but do NOT dumb the material down, flatten a technical distinction, soften "
+    "a demanding or severe teaching into vagueness, or modernize the worldview away. Make difficulty "
+    "teachable, not easy.\n\n"
+    "Define specialized terms inside the prose, never as a glossary line — not \"Hujja means proof\" "
+    "but a sentence in which the meaning lands as the term is used. Use repetition only when each "
+    "return adds force or clarity, never to pad. Bridge the reader into hard ideas with transitions "
+    "that teach rather than abrupt jumps from narration to doctrine. Every paragraph should move the "
+    "chapter forward — advance the matter, clarify the argument, deepen the stakes, or turn toward "
+    "what comes next. Cut filler.\n\n"
+    "Never let the prose read like any of these failure modes: a study guide (\"This chapter teaches "
+    "three lessons. First...\"), an academic abstract (\"The passage establishes a hierarchical "
+    "epistemology...\"), a podcast script (\"So what's really going on here is...\"), a casual "
+    "explainer (\"Basically, the student realizes...\"), decorative mysticism (\"the luminous river "
+    "of inward knowing cascaded through the secret chambers...\"), or mechanical paraphrase (\"He "
+    "asked a question. The teacher answered. Then he asked another.\").\n\n"
+    "Sentence discipline: prefer concrete verbs over abstract nominalizations; keep most sentences "
+    "under 30 words, using an occasional longer one only for rhythm or emphasis; keep paragraphs "
+    "short to medium; never stack more than two abstract concepts in one sentence; use a topic "
+    "sentence when entering complex material; let an important short sentence stand alone when it "
+    "earns the weight."
+)
+
+_CHAPTER_CRAFT_NARRATIVE = (
+    "This source carries scenes, characters, and dialogue. Open the chapter in motion — a moment of "
+    "tension, a character's action, a consequence carried from the previous chapter, or a question "
+    "already alive in the scene — not with an outline or an explanation. Where the source has "
+    "dialogue that carries argument, character, or a turning point, keep it; you may lightly "
+    "modernize its sentence structure for clarity but never its meaning, and let it sound elevated "
+    "yet natural. Use the exchanges as pressure: a student's question can reveal need, confusion, "
+    "resistance, partial understanding, or readiness, and the teacher's answer should feel precise, "
+    "restrained, and consequential. Do not gloss every line with commentary — explain only where the "
+    "reader needs help following the argument; let strong dialogue carry its own force. Where the "
+    "source uses an analogy, keep it and make its force land. Let the explanation emerge from what is "
+    "happening in the scene wherever possible. Close the chapter by showing what has changed and why "
+    "the next chapter must follow — narrative readiness, never a summary."
+)
+
+_CHAPTER_CRAFT_EXPOSITORY = (
+    "This source is expository rather than narrative. Open each chapter on the concrete problem, "
+    "question, or case at hand rather than an outline, and let the explanation build outward from the "
+    "specific things the text names. Where the source genuinely uses lists, tables, or numbered "
+    "steps to carry meaning, you may keep them — but never manufacture bullet-point summaries, "
+    "recaps, or study-guide sections where the source had flowing exposition. Close on a consequence "
+    "or the next open question, not a restated summary."
+)
+
+# Profiles whose sources are scene-and-dialogue bearing get the narrative overlay;
+# everything else gets the expository overlay. Extend by adding to this set.
+_NARRATIVE_CRAFT_PROFILES = {"islamic_scholarly", "fiction"}
+
+
+def chapter_craft_block(profile: str | None) -> str:
+    """Return the universal craft core plus the profile-appropriate overlay.
+
+    Used by the reading-edition revoice (_book_compose.py) so every book — present
+    and future — inherits the craft standard, with narrative vs. expository craft
+    selected by content profile.
+    """
+    overlay = (_CHAPTER_CRAFT_NARRATIVE
+               if (profile or "islamic_scholarly") in _NARRATIVE_CRAFT_PROFILES
+               else _CHAPTER_CRAFT_EXPOSITORY)
+    return f"{_CHAPTER_CRAFT_CORE}\n\n{overlay}"
+
+
 # ── Gemini API ───────────────────────────────────────────────────────────────
 
 _GEMINI_MODEL = "gemini-2.5-pro"
@@ -124,6 +210,7 @@ def _read_literary_config(book_dir: Path) -> dict[str, str]:
     # with challenger/assertion routing about this book's profile.
     profile = resolve_content_profile(book_dir)
     config = literary_voice_for_profile(profile)
+    config["content_profile"] = profile
 
     cfg_path = book_dir / "_system" / "series-config.yaml"
     if cfg_path.exists():
