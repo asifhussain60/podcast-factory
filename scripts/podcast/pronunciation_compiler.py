@@ -276,18 +276,30 @@ def ensure_dictionary(book_dir: Path, client=None, *, log=print) -> dict | None:
 
 
 def arabic_recitation_enabled(book_dir: Path) -> bool:
-    """Per-book flag `elevenlabs_arabic_recitation` (default False).
+    """Per-book flag `elevenlabs_arabic_recitation` (default False), GATED to
+    Arabic-capable engines.
 
-    Flips only after Asif approves the H2 two-variant audible sample."""
+    The NotebookLM route is always phonetic-only (R-PHONETICS-OUT) — Arabic is a
+    NotebookLM concession we strip, and reaches the audio ONLY on an
+    Arabic-capable engine (ElevenLabs). So even if the flag is set, a NotebookLM
+    book never gets Arabic injected. Flips only after Asif approves the H2
+    two-variant audible sample."""
     cfg = Path(book_dir) / "_system" / "series-config.yaml"
     if not cfg.exists():
         return False
     try:
         import yaml
         data = yaml.safe_load(cfg.read_text(encoding="utf-8")) or {}
-        return bool(data.get("elevenlabs_arabic_recitation"))
+        if not bool(data.get("elevenlabs_arabic_recitation")):
+            return False
     except Exception:  # noqa: BLE001
         return False
+    # Engine gate: Arabic reaches the audio only on an Arabic-capable engine.
+    try:
+        from _audio_engines import audio_engine_for_book
+        return bool(audio_engine_for_book(book_dir).supports_arabic_script)
+    except Exception:  # noqa: BLE001
+        return True  # flag set but engine unresolvable — honor the flag
 
 
 def _glossary_term_subs(book_dir: Path) -> list[tuple[str, str]]:

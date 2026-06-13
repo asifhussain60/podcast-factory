@@ -136,7 +136,8 @@ class TestArabicRecitationScaffold(unittest.TestCase):
 
     def test_flag_on_substitutes_arabic_script(self):
         (self.book / "_system" / "series-config.yaml").write_text(
-            "elevenlabs_arabic_recitation: true\n", encoding="utf-8")
+            "audio_engine: elevenlabs\nelevenlabs_arabic_recitation: true\n",
+            encoding="utf-8")
         self.assertTrue(pc.arabic_recitation_enabled(self.book))
         out = pc.compile_turns_for_render(self.book, self.turns)
         self.assertIn("سيدنا", out[0].text)
@@ -157,7 +158,8 @@ class TestGlossaryCuration(unittest.TestCase):
         (book / "_system" / "glossary.yml").write_text(
             yaml.safe_dump({"entries": entries}), encoding="utf-8")
         (book / "_system" / "series-config.yaml").write_text(
-            "elevenlabs_arabic_recitation: true\n", encoding="utf-8")
+            "audio_engine: elevenlabs\nelevenlabs_arabic_recitation: true\n",
+            encoding="utf-8")
         return book
 
     def test_keep_and_absent_are_unchanged(self):
