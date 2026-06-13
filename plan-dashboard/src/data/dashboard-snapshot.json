@@ -1273,11 +1273,16 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-13T10:43:02.837591+00:00",
-  "source_commit": "98a7af2",
+  "generated_at": "2026-06-13T11:59:25.760497+00:00",
+  "source_commit": "f152275",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "f152275",
+      "subject": "feat(audio-v2): deterministic Quran recitation on the ElevenLabs path (Wave AE2g)",
+      "date": "2026-06-13"
+    },
     {
       "sha": "98a7af2",
       "subject": "feat(audio-v2): render 8 approved voice sample clips for the intake picker",
@@ -1321,11 +1326,6 @@
     {
       "sha": "b499b14",
       "subject": "merge(audio-v2): Audio Engine v2 \u2014 ElevenLabs autonomous path, NotebookLM preserved",
-      "date": "2026-06-12"
-    },
-    {
-      "sha": "a4b115d",
-      "subject": "docs(audio-v2): Step 10 \u2014 experiment supersession + backup-branch note in session log",
       "date": "2026-06-12"
     }
   ],

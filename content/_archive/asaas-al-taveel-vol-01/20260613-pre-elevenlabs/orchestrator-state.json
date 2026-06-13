@@ -205,12 +205,6 @@
       "validator_stdout": "",
       "validator_stderr": "validate_ship_ready: workspace not found: /Users/asifhussain/PROJECTS/podcast-factory/content/drafts/vol-01\n",
       "verdict": "SHIP-READY"
-    },
-    "audio-script": {
-      "status": "pending"
-    },
-    "audio-render": {
-      "status": "pending"
     }
   },
   "cost": {
