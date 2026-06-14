@@ -16,13 +16,20 @@ What gets delivered
     Only top-level .m4a files are delivered — v1/, v2/ subdirs are skipped.
 
 Usage
-  python3 deliver_book.py <slug> [<target-folder>] [--dry-run]
+  python3 deliver_book.py <slug> [<target-folder>]
+          [--dry-run] [--format m4a|mp3] [--bitrate 192k] [--clean]
 
   <target-folder> is optional. Default:
     ~/Library/CloudStorage/.../My Drive/Podcast Library/<series title>/
   where <series title> = meta.yml `title`.
 
-  --dry-run  Print the proposed rename + copy plan without touching the filesystem.
+  --dry-run        Print the proposed rename + copy plan without touching the filesystem.
+  --format <fmt>   Delivered audio format: m4a (default, verbatim copy) or mp3
+                   (transcoded via ffmpeg). mp3 requires ffmpeg on PATH.
+  --bitrate <rate> mp3 CBR bitrate (default 192k). Ignored for m4a.
+  --clean          Wipe the target's Episodes/ tree and any prior PDF before
+                   writing, so only the latest delivered set survives. Important
+                   when switching format (old .m4a would otherwise linger).
 
 Notes
   - shutil.copy2 is used directly for Drive paths. Do NOT test with `ls` first —
@@ -37,7 +44,9 @@ from __future__ import annotations
 import json
 import re
 import shutil
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -166,6 +175,42 @@ def _default_target(book_dir: Path) -> Path:
     return _GDRIVE_LIBRARY / _series_title(book_dir)
 
 
+# ─── audio transcode ─────────────────────────────────────────────────────────
+
+# Supported delivery formats. Default (m4a) is a verbatim copy; mp3 is transcoded
+# via ffmpeg. To add a future format (e.g. opus), add an entry here and a branch
+# in _transcode().
+AUDIO_FORMATS = ("m4a", "mp3")
+DEFAULT_MP3_BITRATE = "192k"
+
+
+def _ffmpeg() -> str | None:
+    """Return the ffmpeg executable path, or None if not installed."""
+    return shutil.which("ffmpeg")
+
+
+def _transcode(src: Path, dst: Path, *, audio_format: str, mp3_bitrate: str) -> None:
+    """Produce ``dst`` from ``src`` in ``audio_format``.
+
+    m4a → straight copy. mp3 → ffmpeg transcode (libmp3lame, CBR, stereo,
+    source sample-rate preserved, container metadata copied). Raises on failure.
+    """
+    if audio_format == "m4a":
+        shutil.copy2(src, dst)
+        return
+    if audio_format == "mp3":
+        cmd = [
+            _ffmpeg() or "ffmpeg", "-y", "-hide_banner", "-loglevel", "error",
+            "-i", str(src),
+            "-codec:a", "libmp3lame", "-b:a", mp3_bitrate,
+            "-map_metadata", "0",
+            str(dst),
+        ]
+        subprocess.run(cmd, check=True)
+        return
+    raise ValueError(f"unsupported audio_format: {audio_format!r}")
+
+
 # ─── delivery ────────────────────────────────────────────────────────────────
 
 def deliver(
@@ -173,6 +218,9 @@ def deliver(
     target: Path | str | None = None,
     *,
     dry_run: bool = False,
+    audio_format: str = "m4a",
+    mp3_bitrate: str = DEFAULT_MP3_BITRATE,
+    clean: bool = False,
     log=print,
 ) -> int:
     """Deliver audio (Episodes/) + PDF for ``slug`` to ``target``.
@@ -185,6 +233,13 @@ def deliver(
         return 2
     _, _, book_dir = found
 
+    if audio_format not in AUDIO_FORMATS:
+        log(f"ERROR: unsupported --format '{audio_format}' (choose: {', '.join(AUDIO_FORMATS)})")
+        return 2
+    if audio_format == "mp3" and _ffmpeg() is None:
+        log("ERROR: --format mp3 requires ffmpeg, which is not installed (brew install ffmpeg)")
+        return 2
+
     pdf = _find_pdf(book_dir)
     ep_titles = _episode_titles(book_dir)
     audio_plan = _match_audio_to_episodes(book_dir, ep_titles)
@@ -193,6 +248,7 @@ def deliver(
         log(f"ERROR: no PDF and no audio found for '{slug}'")
         return 1
 
+    ext = audio_format  # delivered-file extension
     target_path = Path(target).expanduser() if target else _default_target(book_dir)
     episodes_path = target_path / "Episodes"
 
@@ -206,20 +262,56 @@ def deliver(
             return dest_name
         return f"Session {s['session_index']} — {s['session_title']}/{dest_name}"
 
+    fmt_note = audio_format + (f" @{mp3_bitrate}" if audio_format == "mp3" else " (verbatim copy)")
     log(f"book-publisher: '{slug}'")
     log(f"  source  : {book_dir.relative_to(REPO_ROOT)}")
     log(f"  target  : {target_path}")
+    log(f"  format  : {fmt_note}")
+    if clean:
+        log("  clean   : wipe existing Episodes/ + prior PDF(s) before writing")
     log(f"  PDF     : {pdf.name if pdf else '(none)'} → {target_path.name}/")
     log(f"  audio   : {len(audio_plan)} file(s) → Episodes/"
         + (f" ({len(sessions)} sessions)" if sessions else ""))
     for src, ep_num, title in audio_plan:
-        dest_name = f"EP-{ep_num:02d}-{title}.m4a"
+        dest_name = f"EP-{ep_num:02d}-{title}.{ext}"
         log(f"    EP-{ep_num:02d}  {src.name}")
         log(f"         → Episodes/{_episode_subpath(ep_num, dest_name)}")
 
     if dry_run:
         log("  [dry-run] no files written")
         return 0
+
+    # Clean step — remove stale target content so only the latest set survives.
+    # Done before writes; matters most when switching audio_format (old .m4a
+    # would otherwise sit beside the new .mp3).
+    #
+    # Google Drive / macOS TCC caveat: a process WITHOUT Full Disk Access can
+    # CREATE new files in the CloudStorage mount but CANNOT delete/overwrite a
+    # file Drive has already synced (EPERM "Operation not permitted"). Directory
+    # listing is also blocked, so glob() silently returns nothing — we therefore
+    # unlink the EXACT known dest paths rather than scanning. If a delete is
+    # refused, the file must be removed in Finder / drive.google.com (the Drive
+    # app has the entitlement), or grant Full Disk Access to the controlling app.
+    def _eperm_hint(exc: Exception) -> str:
+        if isinstance(exc, PermissionError):
+            return (" — Drive blocks mutating already-synced files without Full "
+                    "Disk Access; delete it in Finder/drive.google.com or grant FDA")
+        return ""
+
+    if clean:
+        if episodes_path.exists():
+            try:
+                shutil.rmtree(episodes_path)
+                log("  ✓ wiped existing Episodes/")
+            except Exception as exc:
+                log(f"  ✗ wiping Episodes/ — {exc}{_eperm_hint(exc)}")
+        if pdf:
+            stale_pdf = target_path / pdf.name
+            try:
+                stale_pdf.unlink(missing_ok=True)
+                log(f"  ✓ removed stale {pdf.name}")
+            except Exception as exc:
+                log(f"  ✗ removing {pdf.name} — {exc}{_eperm_hint(exc)}")
 
     target_path.mkdir(parents=True, exist_ok=True)
     episodes_path.mkdir(parents=True, exist_ok=True)
@@ -233,21 +325,31 @@ def deliver(
             shutil.copy2(pdf, dest)
             log(f"  ✓ {pdf.name} ({dest.stat().st_size // 1024} KB)")
         except Exception as exc:
-            log(f"  ✗ {pdf.name} — {exc}")
+            log(f"  ✗ {pdf.name} — {exc}{_eperm_hint(exc)}")
             failures += 1
 
-    # Audio → target/Episodes/ (per-session subfolders when sessioned)
-    for src, ep_num, title in audio_plan:
-        dest_name = f"EP-{ep_num:02d}-{title}.m4a"
-        rel = _episode_subpath(ep_num, dest_name)
-        dest = episodes_path / rel
-        try:
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(src, dest)
-            log(f"  ✓ Episodes/{rel} ({dest.stat().st_size // 1024} KB)")
-        except Exception as exc:
-            log(f"  ✗ Episodes/{rel} — {exc}")
-            failures += 1
+    # Audio → target/Episodes/ (per-session subfolders when sessioned).
+    # mp3 is transcoded into a scratch dir first, then copied to the target so
+    # no transient mp3 is left in the repo or a half-written file on Drive.
+    with tempfile.TemporaryDirectory(prefix="deliver-mp3-") as scratch:
+        scratch_dir = Path(scratch)
+        for src, ep_num, title in audio_plan:
+            dest_name = f"EP-{ep_num:02d}-{title}.{ext}"
+            rel = _episode_subpath(ep_num, dest_name)
+            dest = episodes_path / rel
+            try:
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                if audio_format == "m4a":
+                    shutil.copy2(src, dest)
+                else:
+                    staged = scratch_dir / dest_name
+                    _transcode(src, staged, audio_format=audio_format, mp3_bitrate=mp3_bitrate)
+                    shutil.copy2(staged, dest)
+                    staged.unlink(missing_ok=True)
+                log(f"  ✓ Episodes/{rel} ({dest.stat().st_size // 1024} KB)")
+            except Exception as exc:
+                log(f"  ✗ Episodes/{rel} — {exc}")
+                failures += 1
 
     total = (1 if pdf else 0) + len(audio_plan)
     copied = total - failures
@@ -263,10 +365,34 @@ def main() -> int:
         print(__doc__, file=sys.stderr)
         return 2
     dry_run = "--dry-run" in args
-    args = [a for a in args if not a.startswith("--")]
-    slug = args[0]
-    target = args[1] if len(args) > 1 else None
-    return deliver(slug, target, dry_run=dry_run)
+    clean = "--clean" in args
+
+    # --format <fmt> and --bitrate <rate> consume the following token.
+    audio_format = "m4a"
+    mp3_bitrate = DEFAULT_MP3_BITRATE
+    for flag, setter in (("--format", "fmt"), ("--bitrate", "rate")):
+        if flag in args:
+            i = args.index(flag)
+            if i + 1 >= len(args):
+                print(f"ERROR: {flag} requires a value", file=sys.stderr)
+                return 2
+            val = args[i + 1]
+            if setter == "fmt":
+                audio_format = val
+            else:
+                mp3_bitrate = val
+            del args[i:i + 2]
+
+    positional = [a for a in args if not a.startswith("--")]
+    slug = positional[0]
+    target = positional[1] if len(positional) > 1 else None
+    return deliver(
+        slug, target,
+        dry_run=dry_run,
+        audio_format=audio_format,
+        mp3_bitrate=mp3_bitrate,
+        clean=clean,
+    )
 
 
 if __name__ == "__main__":
