@@ -221,7 +221,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-06-08T00:00:00Z",
-  "ts_updated": "2026-06-13T18:21:39Z",
+  "ts_updated": "2026-06-14T10:18:26Z",
   "config": {
     "length_tier": "extended",
     "unit_mode": "auto"
@@ -231,27 +231,27 @@
   "slide_decks": {
     "what-ismaili-interpretation-is": {
       "slide_deck_phase": "stalled",
-      "slide_challenger_iter": 0,
+      "slide_challenger_iter": 1,
       "slide_challenger_verdict": "BLOCKED"
     },
     "the-call-to-inner-meaning": {
       "slide_deck_phase": "stalled",
-      "slide_challenger_iter": 0,
+      "slide_challenger_iter": 1,
       "slide_challenger_verdict": "BLOCKED"
     },
     "the-four-limits-of-the-shahada": {
       "slide_deck_phase": "stalled",
-      "slide_challenger_iter": 0,
+      "slide_challenger_iter": 1,
       "slide_challenger_verdict": "BLOCKED"
     },
     "adam-the-tree-and-iblis-pact": {
       "slide_deck_phase": "stalled",
-      "slide_challenger_iter": 0,
+      "slide_challenger_iter": 1,
       "slide_challenger_verdict": "BLOCKED"
     },
     "two-parties-and-the-line-to-noah": {
       "slide_deck_phase": "stalled",
-      "slide_challenger_iter": 0,
+      "slide_challenger_iter": 1,
       "slide_challenger_verdict": "BLOCKED"
     }
   },

@@ -1,0 +1,454 @@
+# Foundations of Inner Interpretation, Volume One
+
+A book-level visual companion to volume one of al-Nu'man's *Asas al-Ta'wil*. Five chapters, one running architecture: the outward and the inward as two faces of a single revelation, joined by a chain of named bearers and gated by the discipline of timing.
+
+---
+
+## Chapter 1. What Ismaili Interpretation Is
+
+### Outward commentary vs Inner interpretation
+
+Contrast pair. The chapter rests on this split. The whole book exists because the second is a different operation from the first, not a deeper grade of it.
+
+Column A: Outward commentary (tafsir)
+- Question asked: what does this word mean in plain Arabic?
+- Method: dictionary, grammar, ordinary sense
+- Worked example for "tree": a plant set down small, growing limbs, leaves, flowers, fruit
+- Authority: any competent reader of the language
+- Audience: the common public
+- End state: the verse is intelligible at the surface
+
+Column B: Inner interpretation (ta'wil)
+- Question asked: what truth was this verse sent to carry?
+- Method: a chain back to the moment meaning was placed inside the word
+- Worked example for "tree": a chamber, or a cow, or a rock, whatever the inner reality is, provided it accords with truth, reality, and reason
+- Authority: the Imam, in a chain from the Speaker-Prophet
+- Audience: the elect, by stages
+- End state: the meaning hidden behind the word is reached
+
+Shared row: Neither denies the other. The outer holds the inner the way a body holds its soul. Both are obligatory; benefit arises only from their meeting.
+
+### Four registers of Quranic meaning
+
+Annotated structure. From the saying attributed to the Father of Imams in *Brilliant Aphorisms* and echoed in Ibn Hibban's *Sound Compendium* report: every verse carries an outer, an inner, a limit, and a place of ascent.
+
+Whole: every Quranic verse
+Parts arranged as a ladder:
+- Expression (the spoken surface), for the common people
+- Allusion (an indirect pointing), for the elect
+- Subtle indication (a hidden sign), for the friends of God
+- Inner reality (the meaning itself), for the prophets
+
+Annotation per part:
+- Expression: what the dictionary delivers
+- Allusion: meaning pointed at without being said
+- Subtle indication: meaning shown only to one prepared to see it
+- Inner reality: meaning as it lives in the bearer's own consciousness
+
+Cross-axis: descent of address (top reaches everyone, bottom reaches the prepared few) vs density of meaning (bottom is the richest, top is the most public).
+
+### The two-author scheme that frames the corpus
+
+Comparison matrix. Both books by the same Fatimid judge, al-Nu'man, composed under the same Imam-Caliph patron; both authorized as a pair.
+
+Rows: *Pillars of Islam* | *Foundations of Inner Interpretation*
+Columns: Domain | Mode | Bearer of authority | What it makes possible
+
+- *Pillars of Islam*: outward law | jurisprudence and ritual | the Speaker-Prophet | obligation and imitation
+- *Foundations of Inner Interpretation*: inward meaning | esoteric philosophy | the Imam | choice, covenant, pledge
+
+Shared row: body and soul, each book is what its companion is not.
+
+### The structural spine of volume one
+
+Hierarchy. The volume is organized by Speaker-Prophet; each Speaker is paired with a Silent One who carries the inner of his message.
+
+- Level 1: the prophetic cycles (seven in total)
+  - Level 2: each cycle's Speaker-Prophet (outward bearer)
+  - Level 2: each cycle's Foundation, the Silent One (inward bearer)
+    - Level 3: seven Imams across that Speaker's cycle
+    - Level 3: twelve successors in his time
+
+Volume one covers the first two cycles: Adam paired with Seth, then Noah's opening era. The remaining cycles continue in later volumes. The seventh cycle (the Awaited Riser) is unwritten because his time has not yet come.
+
+---
+
+## Chapter 2. The Call to Inner Meaning
+
+### The three-stage pedagogy of disclosure
+
+Process flow. Drawn from the infant-care metaphor al-Nu'man uses throughout the introduction. Order is binding; stages cannot be skipped.
+
+Start: the one newly born in faith
+  arrow down
+Stage 1, Outward repair (the *Pillars of Islam* book)
+  - Content: limits of faith, allegiance, lawful and forbidden, rulings
+  - Mode: obligation and imitation
+  - Likeness: cutting the cord, anointing the skin, tightening the swaddling
+  arrow down
+Stage 2, Symbols and signs (this book's beginning)
+  - Content: the gentlest inner degree, imagination and yearning stirred
+  - Mode: preparation, not yet full disclosure
+  - Likeness: milk for the newborn, the only food his constitution can bear
+  arrow down
+Stage 3, Inner interpretation proper (this book's body)
+  - Content: a degree of ta'wil beyond the degree of symbol
+  - Mode: choice, covenant, and pledge
+  - Likeness: solid food, given only after the body is ready
+End: the responder enters the ranks of the mission
+
+Branching at every stage: those who refuse the next step remain at the rung they have reached; their testimony at that rung is honored, but the next room is closed to them until they enter the gate of the room they are in.
+
+### One word, seven faces
+
+Visual metaphor. The saying of the fifth Imam, Ja'far al-Sadiq: "I speak one word with seven faces. And seventy. And were we to add more, we would add." Preserved in al-Nu'man's *Pillars of Islam*, Book of Faith.
+
+Abstract relation: a single revealed utterance carries graded meanings, each face calibrated to the listener's rung.
+
+Metaphor: concentric rings around a single core utterance.
+- Core: the utterance itself ("the word")
+- Ring 1: the first face, what the beginner hears
+- Ring 2: a second face, heard only by one further along
+- Ring 3 onward: faces visible only as the listener climbs
+- Outer rings (toward seventy and beyond): faces accessible only to those who have reached the highest stations
+
+Reading: the word is finite; what it contains is not. The Imam is the one who knows which face belongs to which listener.
+
+### The five foremost Messengers and their foundations
+
+Comparison matrix. The "foremost in resolve" in al-Nu'man's tradition are Noah, Abraham, Moses, Jesus, and the Prophet of Islam. Adam is excluded from this list by the Quranic verse "We found in him no firm determination" (Ta-Ha 115).
+
+Rows: Noah | Abraham | Moses | Jesus | the Prophet of Islam
+Columns: Outward foundation | Outward act | The whole inner law it carried
+
+- Noah: the ark | embarking with him | whoever did not embark drowned; the ark was the believing community itself
+- Abraham: the Sacred House | proclaiming the pilgrimage, circumambulating | the House was the pact of his sacred law
+- Moses: the staff | casting it at the one who lied | the staff held the proof of his prophecy and the law it bore
+- Jesus: the cross | "Whoever wishes to follow me, let him take up a cross" | the cross gathered the obligations of his way
+- The Prophet of Islam: the testimony | "There is no god but Allah" | the testimony gathered every duty of the religion
+
+### Outward differs, inward is one
+
+Contrast pair. The same chapter's load-bearing claim about the foundations above.
+
+Column A: Their outward forms
+- Each is a different physical thing
+- The ark is not the Sacred House
+- The Sacred House is not the staff
+- The staff is not the cross
+- The cross is not the testimony
+
+Column B: Their inward content
+- Each is a comprehensive container of the whole law of its bearer
+- Believing in the foundation is accepting the entire law
+- The act of pledge already gathers what the law requires
+- Otherwise, the messenger would have called to a fragment, and the call would not have been complete
+- The pledge-of-allegiance carries the totality, not the easier piece first
+
+Shared row: the wise reject the claim that the call begins with the easiest duty and adds more later. Where allegiance is concerned, the whole obligation is laid out at the moment of the call.
+
+---
+
+## Chapter 3. The Four Limits of the Shahada
+
+### Four words, four limits
+
+Annotated structure. The testimony "There is no god but Allah" contains four words. Each word stands for one of four cosmic limits. Two are above, in the spiritual world; two are below, in the world of bodies.
+
+Whole: the four-word testimony
+Parts arranged on a vertical axis:
+
+Upper limits (spiritual world, above)
+- The Pen, the highest bound set for creation; bearer of knowledge derived from God
+- The Preserved Tablet, beneath the Pen; receives the Pen's knowledge
+
+Lower limits (world of bodies, below)
+- The Speaker-Prophet, articulates the outward sacred law in his time
+- The Silent One, keeps the inner meaning of that law, the Speaker's successor
+
+Annotation per part:
+- Pen: source of derived knowledge; "the first thing God created"
+- Tablet: receives from the Pen; transmits downward
+- Speaker-Prophet: visible, like the day, standing in the light of manifest law
+- Silent One: concealing, like the night, carrying the inner meaning where the prepared receive it
+
+Cross-axis: derivation flows downward (Pen to Tablet, Speaker to Silent); recognition climbs upward (the worshipper begins by knowing the Speaker and ascends).
+
+### Two who saw half the architecture
+
+Comparison matrix. Two camps that broke the testimony by recognizing only some of the four limits.
+
+Rows: The philosophers | The people of outward Islam
+Columns: What they recognized | What they denied | What broke
+
+- The philosophers: the upper limits (renamed intellect and soul) | the lower limits (no messengers in their system) | the testimony lacks its earthly correspondent
+- The people of outward Islam: the lower limits (prophet and law) | the inner office of the Silent One | the testimony lacks its hidden register
+
+Shared row: each affirmed some, denied others. The testimony is whole only when all four are held together.
+
+### Day and Night, Speaker and Silent
+
+Contrast pair. The image the Imam used: the proof and its companion follow each other as night and day.
+
+Column A: Speaker-Prophet (Day)
+- Function: utters the manifest sacred law
+- Visibility: open to the public
+- Authority: revelation
+- Image: the sun, the heart of the bodily limbs
+- Mode: outward
+
+Column B: Silent One (Night)
+- Function: holds the inner meaning of the law
+- Visibility: open only to those prepared
+- Authority: interpretation, authorized by the Speaker
+- Image: the moon, the brain
+- Mode: inward
+
+Shared row: not a hierarchy of value but a division of function. The outward without the inward is empty form; the inward without the outward has nothing to stand on. No shell without its kernel; no kernel without its shell.
+
+### Cosmological correspondences of the seven
+
+Comparison matrix. The chapter's central proof that the testimony's count is not ornament. Seven speaker-prophets, seven Imams in each cycle.
+
+Rows: The seven speaker-prophets | The seven Imams of a cycle
+Columns: Heavens | Earths | Wandering stars | Climes | Stages of embryo (Believers 12-14)
+
+- Speaker-prophets: seven heavens | seven earths | seven planetary stars | seven climes | seven embryonic stages
+- Imams of a cycle: same correspondences | same | same | same | same
+
+Cross-axis: the visible cosmos is a continuous sign of the same architecture. The number is the architecture, repeated.
+
+### Islam and Faith, gate and room
+
+Hierarchy. From the saying of Ja'far al-Sadiq cited in al-Nu'man's *Pillars of Islam*: "Faith encompasses Islam, but Islam does not encompass faith."
+
+- Level 1: Faith (knowledge of the four limits, belief in them, action upon them)
+  - Level 2: Islam (saying the testimony with the tongue)
+    - Level 3: the three components, statement with the tongue, conviction in the heart, action with the limbs
+
+Reading: the outward Islam is the gate; the inward faith is the room. To enter the room one must pass through the gate. But to stand in the gate is not yet to have entered the room. The room is larger than the gate; the gate is necessary, not sufficient.
+
+### Four, seven, twelve, nineteen
+
+Hierarchy. The architecture extended through the chapter.
+
+- Level 1: Four limits (the four words of the testimony)
+  - Level 2: Seven speaker-prophets (the seven clauses of the testimony's letters)
+    - Level 3: Twelve missionaries per age (the twelve letters of the testimony)
+      - Level 4: Four chiefs above the Speaker, each with two flanking (right and left)
+    - Level 3: Seven Imams in every cycle
+- Level 1: Total of seven plus twelve = nineteen
+  - Level 2: "Over it are nineteen" (Muddathir 30)
+
+Reading: every count in the architecture maps to a count in the testimony or in scripture. The testimony is the gathering vessel.
+
+---
+
+## Chapter 4. Adam, the Tree, and Iblis' Pact
+
+### Adam's creation and ascent, the long arc
+
+Process flow. Branching is permitted; the arc has a clear start and end.
+
+Start: God announces a successor to the angels
+  arrow down
+Stage 1: angels object on grounds of corruption and bloodshed
+  arrow down
+Stage 2: clay form prepared, held until dry, spirit not yet breathed in
+  - Branch: during this long interval, Iblis comes to Adam, finds only outward knowledge, reports back that Adam is hollow
+  arrow down
+Stage 3: spirit breathed in (inner, spiritual knowledge given)
+  arrow down
+Stage 4: Adam is taught the names, knowledge no angel possessed
+  arrow down
+Stage 5: God questions the angels; they cannot answer; Adam informs them
+  arrow down
+Stage 6: command of prostration (that is, command of obedience and acceptance)
+  - Branch A: the angels prostrate
+  - Branch B: Iblis refuses, declares "You created me from fire, him from clay"
+  arrow down
+Stage 7: Iblis is cursed, expelled from the rank of being Adam's proof
+  arrow down
+End: Eve placed into the vacated rank as Adam's proof
+
+Reading: the order is the meaning. The naming of things is given only after the inner is breathed in; the test is given only after the naming.
+
+### Fire-knowledge vs Clay-knowledge
+
+Contrast pair. The argument Iblis makes when refusing the command.
+
+Column A: Iblis (Fire-knowledge)
+- Type of knowledge: gentle, spiritual, luminous, untethered
+- Mode: brilliant supportive knowledge that carries no body
+- Acquired by: nature, given from the upper substance
+- Self-image: better than Adam, refusing the rank of follower
+- End state: arrogance built on possession of the subtle
+
+Column B: Adam (Clay-knowledge)
+- Type of knowledge: dense, corporeal, argumentative, embodied
+- Mode: knowledge bound to matter, acquired only by teaching
+- Acquired by: being taught, by stages, beginning with the apparent
+- Self-image: humbled, learns the names from God
+- End state: receives obedience because of what was breathed into him
+
+Shared row: both kinds of knowledge are gifts. Iblis forgot this; he treated his fire as his own achievement and so judged the command. That forgetting is the structure of every pride built from knowledge.
+
+### The forbidden tree, what it is and is not
+
+Annotated structure. The chapter's central interpretive move. The tree is not a botanical fact; it is a likeness.
+
+Whole: the forbidden tree
+Position in the structure: the rank reserved for the Master of the Resurrection, the Awaited Riser at the close of the cycles
+Parts:
+- The covering on it (the outer): the seal that hides the disclosure until the appointed Day
+- What lies under the seal (the inner): the manifest unveiling of the inner meaning, paid out across cycles to the proofs, then made openly manifest only at the end
+
+Annotations:
+- The general claim that the tree was wheat or fig or grape, fixed on the outer, lost the inner
+- The Imam Ja'far al-Sadiq's answer (Kulayni, *The Sufficient*, Book of Divine Unity): the tree is the knowledge of the Prophet's family, preserved for them, authorized to no other
+- Adam's transgression: not greed for fruit, but reaching for a rank not his to occupy, premature timing, not appetite
+
+Reading: the tree is the shape that forbidden timing takes.
+
+### The vacancy and the replacement proof
+
+Annotated structure. What happens to the rank of "Adam's proof" across the chapter.
+
+Whole: the rank of the first proof at the beginning of human cycles
+Sequence of holders:
+- First holder: Iblis (when still a high angel, among the twelve designated to take from Adam and report to the people)
+- Vacated: when Iblis refuses prostration, is cursed, expelled, and cut off
+- Refilled: by Eve, taken up not from a physical rib but from the rank itself
+
+Annotations:
+- The "rib" in the common tradition points to this: what was removed was a rank, one position in the twelve
+- The body's twelve ribs on each side mirror the two registers of knowledge, right inner, left outer
+- Eve's role: proof, the one who holds the inner in trust, who nurses and raises those who enter the inner call
+- Image: the Speaker is like a father, the proof like a mother
+
+Reading: the first proof became the first enemy; a replacement proof was supplied within the same rank. The architecture is preserved.
+
+### The fall and the return, repentance as architecture
+
+Process flow.
+
+Start: Adam and Eve in the Garden (inwardly, the ranks of supportive knowledge)
+  arrow down
+Adversary's lie: "the tree was forbidden only so you should not become kings or immortals"
+  arrow down
+The shape of the lie: premature disclosure dressed as transcendence
+  arrow down
+They transgress, reach for the rank of the Riser
+  arrow down
+The garment of piety is cut off (support withdrawn)
+  arrow down
+What they had remaining (light of wisdom) they stitch together to cover the shame
+  arrow down
+Branch:
+  - Path A: Iblis turns aside, refuses repentance, persists, becomes the first member of the other party
+  - Path B: Adam turns back, asks forgiveness through the guardian of his time (now Eve)
+  arrow down
+"Adam received from his Lord words", repentance accepted
+  arrow down
+End: Adam is restored to the line of Imamate; the cycle is preserved
+
+Reading: stumbling is not the same as turning aside. The one who stumbles and returns is still of the party; the one who stumbles and stays has crossed over.
+
+---
+
+## Chapter 5. Two Parties and the Line to Noah
+
+### Party of Allah vs Party of Satan
+
+Contrast pair. Drawn from the chapter on the pleading woman, verses fourteen to twenty-two, where the Quran itself names the two parties.
+
+Column A: Party of Allah
+- Allegiance: to God and His guardians
+- Heart's orientation: toward the guardian of the time
+- Quranic verse named: "Those, He has decreed faith within their hearts and supported them with a spirit from Himself"
+- Behavior: "even if they were their fathers or their sons or their brothers, they do not love those who oppose Allah and His Messenger"
+- End state: gardens beneath which rivers flow, eternal abode
+- The Imam's test: a stumbler who returns belongs here
+
+Column B: Party of Satan
+- Allegiance: to the adversary and his lieutenants
+- Heart's orientation: away from the guardian, toward forgetfulness
+- Quranic verse named: "Satan has overcome them and made them forget the remembrance of Allah"
+- Behavior: oaths as cover, averting people from the way
+- End state: companions of the Fire, abiding therein
+- The Imam's test: the one who persists in sin and refuses repentance belongs here
+
+Shared row: the worshipper does not walk between the two roads. He walks on one or the other. Standing still on the road of forgetfulness is, in the standing, already walking.
+
+### The genealogy from Adam to Noah
+
+Genealogy chain. The line by which the Imamate runs from the first Speaker's cycle to the second. Each name received the trust from the one before and passed it on when his time was complete.
+
+Adam (Speaker-Prophet of cycle one)
+  arrow down
+Seth, called the Gift of God (Adam's Silent One, the Foundation of cycle one)
+  arrow down
+Enosh (Imam 1) -> Kenan (Imam 2) -> Mahalalel (Imam 3) -> Jared (Imam 4) -> Enoch (Imam 5) -> Methuselah (Imam 6) -> Lamech (Imam 7)
+  arrow down
+Lamech hands the trust to his son Noah
+  arrow down
+Noah (Speaker-Prophet of cycle two) opens a new sacred law
+
+Annotation: eight bequeathals in all, seven Imams in the cycle. Seth stands apart as the Silent One; the seven Imams run from Enosh to Lamech. The long lifetimes are an outward sign that the covenant held. Adam's cycle does not end so much as hand over; the Speaker rises only after binding himself to the law of the one before.
+
+### Five Upper Limits and Five Lower Limits
+
+Hierarchy. From the Messenger's saying cited in the chapter: "I take the revelation from Gabriel, and Gabriel takes it from Michael, and Michael takes it from the Trumpet-bearer, and the Trumpet-bearer takes it from the Tablet, and the Tablet takes it from the Pen."
+
+- Level 1: Five Upper Limits (the chain of support from above)
+  - Level 2: the Pen
+  - Level 2: the Tablet
+  - Level 2: the Trumpet-bearer angel
+  - Level 2: Michael
+  - Level 2: Gabriel
+- Level 1: Five Lower Limits (the chain of response below)
+  - Level 2: the Foundations
+  - Level 2: the Imams
+  - Level 2: the Pilgrims (the proofs of their time)
+  - Level 2: the Captains (the chief deputies of the call)
+  - Level 2: the Wings (the preachers of the call)
+
+Plus: the sixth, the rebel, Satan, who stands against whichever limit he can reach, whether Speaker, Silent One, Imam, or Proof. Whoever follows Satan is of his party; whoever follows the chain above is of Adam's party, which is the party of Allah.
+
+### Cycle handover, Adam closes, Noah opens
+
+Annotated structure. What it means for one cycle to give way to the next without breaking the chain.
+
+Whole: the prophetic cycle as a unit of revelation
+Parts within a single cycle (Adam's):
+- Speaker-Prophet at the top (outward law)
+- Silent One paired with him (inner meaning)
+- Seven Imams across the cycle (carrying the inner trust)
+- Twelve proofs in his time (organizing the mission)
+
+Bridge between cycles:
+- The closing Imam of cycle one (Lamech) holds the trust until the rising Speaker (Noah) has bound himself to the law of the one before
+- The Quran's solemn covenant, "We took from the prophets their covenant", is what binds the cycles
+
+Annotation:
+- The outer form of the law changes (Adam's law is not Noah's law)
+- The inner reality continues unchanged
+- The believers are not invited into an arbitrary new teaching each time; they are invited into the continuation of a single covenant
+- No moment passes without a living guide; complete authority sits in one person at a time, as a proof of God's oneness
+
+Reading: cycle completion is handoff, not closure. The seal at the end of cycle seven is unique because no further Speaker rises after the Riser.
+
+### Persistence vs Repentance, the daily test
+
+Process flow. The chapter's pastoral close: how a worshipper knows which party he is currently on.
+
+Start: a worshipper, of either party by claim
+  arrow down
+A sin is committed (the test the chapter assumes is universal)
+  arrow down
+Branch:
+  - Path A: Persistence. The sin is not repented. The heart stays turned away. Despair of mercy is itself crossing over. The worshipper joins the party that persists, the party of the adversary.
+  - Path B: Repentance. The worshipper turns back, takes refuge in the guardian of his time, asks forgiveness through him. Stumbling is not turning aside. The worshipper remains in the party of Adam, which is the party of Allah.
+End: the verdict is not pronounced once but renewed in every moment, because the heart's orientation is renewed in every moment.
+
+Reading: the door of repentance was closed against Iblis. It was not closed against the children of Adam. That is the difference between persistence and stumbling, and it is the difference the whole book has been training the reader to see.
