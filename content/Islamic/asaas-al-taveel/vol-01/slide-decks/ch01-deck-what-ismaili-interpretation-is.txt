@@ -1,0 +1,466 @@
+# What Ismaili Interpretation Is
+
+## The Editor's Hesitation and the Discipline of Delay
+
+Annotated structure: why Arif Tamir held the manuscript back before the 1960 Beirut print.
+
+Whole: the editor's deliberation, Beirut, 1960.
+Parts:
+- Reason 1: prudent concealment. Doctrine teaches that not every truth is fit for every ear at every moment.
+- Reason 2: incomplete preliminaries. Lesser Ismaili manuscripts, indispensable as scientific gateways, had not yet been published.
+- Reason 3: the singular standing of the book. Whenever the term inner interpretation comes to mind, only this volume presents itself.
+Result: a small departure from the usual discipline of secrecy. The book goes to print.
+
+Contrast pair: the doctrinal reason for delay versus the ordinary reason for delay.
+
+Column A: Ordinary editorial delay
+- Cause: embarrassment, incomplete scholarship, market timing
+- Audience model: any reader can receive any text at any time
+- Risk if released early: minor reputational cost
+- Remedy: more proofreading
+
+Column B: Ismaili doctrinal delay
+- Cause: the truth is not fit for every ear at every stage
+- Audience model: the reader must be prepared in graded stages
+- Risk if released early: nonsense or scandal in the wrong ear
+- Remedy: layered disclosure, sometimes across centuries
+
+Shared row: both forms of delay protect the work. Only the second protects the reader.
+
+## The Subject of the Book
+
+Annotated structure: what *Foundations of Inner Interpretation* claims to be inside the Ismaili corpus.
+
+Whole: the single manuscript that takes interpretation as its certain theme.
+Parts:
+- Function: lays out the basic idea of the science in a measured way
+- Method: brings sections and materials near to the mind, lowers them within reach of thought
+- Etymology of inner interpretation: a return, a movement back to the outcome and to the origin of a thing
+- Operation: interpret what is and what is not, then bring the matter back and resolve it
+- End state: the fate of the words is their meaning and their substance
+
+Hierarchy: where the book sits in the early Ismaili mission.
+
+- Level 1: The early Ismaili mission in its flourishing
+  - Level 2: Esoteric philosophical ideas (the intellectual body)
+    - Level 3: Inner interpretation as the primary theme of every idea
+    - Level 3: The foundation upon which the pillars rest
+    - Level 3: The nourishment by which esoteric philosophy fed its judgment, logic, exposition
+  - Level 2: Custody discipline
+    - Level 3: A treasury demanding secrecy
+    - Level 3: Materials guarded from leaking to anyone not Ismaili
+    - Level 3: Regarded as the secret of the creed and key to the door of the mission
+
+## The Fourfold Register of Revelation
+
+Hierarchy tree: the four registers of the Book as transmitted by the Father of Imams.
+
+- Level 1: The Book of God carries four registers
+  - Level 2: Expression (the spoken word)
+    - Level 3: Audience: the common people
+  - Level 2: Allusion
+    - Level 3: Audience: the elect
+  - Level 2: Subtle indication
+    - Level 3: Audience: the friends of God
+  - Level 2: Inner reality
+    - Level 3: Audience: the prophets
+
+Source attribution:
+
+> "Indeed, the Book of God carries four registers, its expression, its allusion, its subtle indication, and its inner reality; the expression is for the common people, the allusion for the elect, the subtle indication for the friends of God, and the inner reality for the prophets."
+> *Traditional source*, Saying 1
+>
+> Father of Imams, as preserved in *Brilliant Aphorisms*, edited by the eleventh-century historian al-Amidi.
+
+Cross-confirmation: the same fourfold architecture preserved by Ibn Hibban.
+
+> "There is no verse in the Quran that does not have an outward and an inward, a limit, and a place of ascent."
+> *Traditional source*, Saying 1
+>
+> The Prophet, as preserved in Ibn Hibban's *The Sound Compendium*, eleventh century.
+
+Comparison matrix: the two attested fourfold lists side by side.
+
+| Register | Father of Imams formula | Ibn Hibban formula | Function |
+|---|---|---|---|
+| 1 | Expression | Outward | What the common reader grasps |
+| 2 | Allusion | Inward | What the elect grasp |
+| 3 | Subtle indication | Limit | What the friends of God grasp |
+| 4 | Inner reality | Place of ascent | What the prophets grasp |
+
+Reading: the Ismaili order is not inventing this architecture. It is claiming custody of an architecture already attested in the tradition.
+
+## The Pedagogy of Graded Disclosure
+
+Process flow: how the mind must be fed, as described by al-Nu'man.
+
+Start: the newborn mind, not yet ready
+   |
+   v
+First nourishment: the outward practice of religion
+   - laws, obligations, visible forms
+   - established and fortified before anything deeper
+   |
+   v
+Body ready for solid food
+   |
+   v
+Second nourishment: the inner meaning, given in portions sized to readiness
+   |
+   v
+End: knowledge of the houses of the universe
+
+Anti-path branch:
+   - Bypass attempt: skipping the outer to seize the inner directly
+   - Apparent destination: wisdom
+   - Actual destination: confusion that wears the costume of wisdom
+
+Annotated structure: the principle behind the graded curriculum.
+
+Whole: respect for how the mind actually opens.
+Parts:
+- Not a concession to weakness. The graded curriculum is not a watering down.
+- Address each person in the language natural to their understanding.
+- The elevated language of logicians and philosophers would close the door for most.
+- Goal: what is given is genuinely received, not merely heard.
+
+## Outward Commentary and Inner Interpretation
+
+Contrast pair: tafsir as outward commentary against ta'wil as inner interpretation, on the worked example of the word "tree."
+
+Column A: Outward commentary (tafsir)
+- Question asked: what does the obscure word mean in plain language
+- Method: dictionary clarification, picture, ordinary sense
+- Answer for "tree": a plant set down small, then grows, from which limbs branch, on which green leaves grow, and which in spring bears flowers that become good fruit
+- Authority needed: literate competence
+- Result: leads often to differences of opinion
+- Reachable by: anyone with the language
+
+Column B: Inner interpretation (ta'wil)
+- Question asked: what truth was this word sent to carry
+- Method: disclosure of the essence behind the word
+- Answer for "tree": may be a chamber, or a cow, or a rock, or anything in accord with truth, reality, and reason
+- Authority needed: a teacher in the chain of meaning
+- Result: a fixed system that does not shift, leading to mental reality and consensus
+- Reachable by: those who have entered the ranks and accepted the covenant
+
+Shared row: both forms have a place. Outward commentary is needed and easy. Inner interpretation is needed and hard.
+
+## The Outer-Inner Pair Throughout Creation
+
+Visual metaphor: the body-and-soul template, applied at every register.
+
+Abstract relation: every tangible thing has both an outer and an inner aspect.
+Metaphor: body and soul.
+
+Elements:
+- Outer: what the senses perceive (touch, sound, measurement, description)
+- Inner: what the outer contains, reachable by knowledge that goes beyond sensation
+- Relation: not opponents but partners. The outer holds the inner the way a body holds its soul.
+
+Hierarchy: the same template applied at four scales.
+
+- Level 1: Creation as such
+  - Level 2: Body (apparent) and Soul (inward)
+- Level 1: This world and the Hereafter
+  - Level 2: This world (apparent) and Hereafter (inward)
+- Level 1: Language carrying revelation
+  - Level 2: Word (body) and Meaning (soul)
+- Level 1: Religion as a whole
+  - Level 2: Practical worship (apparent) and Scientific worship (inward)
+
+Source attribution:
+
+> "And of all things We have created pairs, that you might reflect."
+> *Traditional source*, Saying 1
+>
+> Quran, cited as the structural ground of the pairing.
+
+> "Allah has made parables and likenesses: the human body is a likeness, and the soul is a likeness; this world is a likeness, and the Hereafter is a likeness."
+> *Traditional source*, Saying 1
+>
+> The Fatimid chief preacher, an eleventh-century supporter of the religion among the Ismailis.
+
+> "By the parable I mean a parable struck, like the bee's needles, and what comes from it like honey."
+> *Traditional source*, Saying 1
+>
+> The same Fatimid chief preacher.
+
+Reading: the bee is apparent. The honey is inward. The bee's work is the path from one to the other.
+
+## The Two Authorities
+
+Contrast pair: the Speaker-Prophet and the Imam, paired across the apparent and the hidden.
+
+Column A: The Speaker-Prophet
+- Carries: revelation
+- Domain: the apparent
+- Content: rulings, jurisprudence, the law of the outward
+- Audience: everyone, the people at large
+- Mode: announced openly during the Prophet's lifetime
+- Miracle: the Arabic of the Quran, its compression and beauty, which cannot be matched
+
+Column B: The Imam (the Foundation)
+- Carries: inner interpretation
+- Domain: the hidden
+- Content: the truth, philosophy, the inward, the secret symbols
+- Audience: the loyal of the mission who have risen in its ranks
+- Mode: released in portions sized to the listener's readiness
+- Miracle: the ongoing knowledge held within the Imams, passed along a living chain
+
+Shared row: two faces of the same revelation. Neither complete without the other.
+
+Annotated structure: why a living authority is required at all.
+
+Whole: the structural problem that interpretation poses.
+Parts:
+- The reader holds only the word.
+- The word does not openly signify its inner meaning.
+- The reader cannot generate the answer by his own dictionary.
+- A teacher is needed who stands in a chain that goes back to the moment the meaning was placed inside the word.
+- That teacher, in the Ismaili order, is the Imam.
+
+## The Six Cycles and the Pairing Pattern
+
+Hierarchy: the structural spine of the book, six chapters, six Speaker-Prophets, six pairings.
+
+- Level 1: Cycle of Adam
+  - Level 2: Speaker-Prophet: Adam, with his Foundation
+- Level 1: Cycle (next Speaker, treated in chapter 2)
+  - Level 2: Speaker-Prophet paired with his Foundation
+- Level 1: Cycle (chapter 3)
+  - Level 2: Speaker-Prophet paired with his Foundation
+- Level 1: Cycle (chapter 4)
+  - Level 2: Speaker-Prophet paired with his Foundation
+- Level 1: Cycle (chapter 5)
+  - Level 2: Speaker-Prophet paired with his Foundation
+- Level 1: Cycle of Muhammad
+  - Level 2: Speaker-Prophet: Muhammad. Foundation: the Father of Imams.
+- Level 1: Cycle of the Awaited Imam (the seventh)
+  - Level 2: Not written. Time has not yet come.
+
+Reading: the same outer-inner pairing repeats across cycles. The repetition is the evidence that the architecture is not accidental.
+
+Annotated chapter of special weight:
+
+Whole: the chapter on Jesus, son of Mary.
+Parts:
+- Topic A: the story of his birth without a father
+- Topic B: paired with the story of Adam and the meaning of his creation from clay
+- Character: innovative in doctrine, rich in ideas, marked by sound rational maturity
+
+## The Verses That Make Interpretation Obligatory
+
+Comparison matrix: the Qur'anic proof-texts the Ismailis cite that interpretation is obligatory, not optional.
+
+| Citation | Verse text | What it establishes |
+|---|---|---|
+| Joseph 6 | "And thus will your Lord choose you and teach you the interpretation of narratives, and complete His favor upon you and upon the family of Jacob, as He completed it upon your two forefathers before, Abraham and Isaac. Indeed, your Lord is Knowing and Wise." | Interpretation is a gift God specifically bestows. |
+| Joseph 21 | "And thus We established Joseph in the land that We might teach him the interpretation of narratives. And Allah is predominant over His affair, but most of the people do not know." | Establishment in the land is paired with the teaching of interpretation. |
+| Cave 78 | "I shall inform you of the interpretation of that which you could not bear patiently." | Some events have an inner meaning the surface cannot show. |
+| Family of Imran 7 | "He it is who has sent down to you the Book, in which are verses precisely defined, they are the foundation of the Book, and others ambiguous. As for those in whose hearts is deviation, they pursue what is ambiguous of it, seeking discord and seeking its interpretation, though none knows its interpretation save Allah and those firmly grounded in knowledge." | The verse cuts both ways. Some seek interpretation wrongly. Some are firmly grounded and do know it. |
+
+## The Punctuation That Divides the Two Readings
+
+Contrast pair: the same Qur'anic verse, two punctuations, two communities.
+
+Column A: The broader Islamic grammar reading
+- Pause placed after: "save Allah"
+- Sentence taken to mean: only God knows the interpretation
+- Implication: those firmly grounded merely say "we believe"
+- Effect on authority: knowledge of inner interpretation is closed off
+
+Column B: The Ismaili reading
+- Pause placed after: "those firmly rooted in knowledge"
+- Sentence taken to mean: God and the firmly rooted know the interpretation
+- Implication: the firmly rooted are a specific class of teachers, beginning with the Speaker-Prophet and continuing through the Imams
+- Effect on authority: the Imams become full partners in the knowledge
+
+Shared row: the structural move on which all of Ismaili interpretation depends sits at this single placement of a pause.
+
+## The Signs in the Horizons and in the Self
+
+Contrast pair: the two arenas of rational proof.
+
+Column A: Signs in the horizons
+- Source verse: "We will show them Our signs in the horizons and within themselves until it becomes clear to them that it is the truth"
+- Location: the world outside the human person
+- Role: the external pointer
+
+Column B: Signs in the self
+- Source verse: "And in the earth are signs for those certain in faith, and in your own selves: do you not see?"
+- Location: the inside of the human person
+- Role: the internal pointer
+
+Shared row: the apparent was created in order to point to the subtle. Outside and inside answer to each other.
+
+## The Genealogy of Esoteric Interpretation
+
+Genealogy chain: the lineage of attempted esoteric reading, as the editor narrates it, ending where the Ismaili school takes custody.
+
+Stage 1: Alexandrian philosophical school
+   -> Philo and his disciples (interpreted the Torah esoterically; did not succeed)
+Stage 2: Christian heirs
+   -> Augustine and his disciples (followed the school, interpreted the Gospel esoterically; could not bring the idea to completion)
+Stage 3: Ismaili school
+   -> Spread their system of thought
+   -> Put forward inner interpretation as their first curriculum
+   -> Refined it with their own ideas
+   -> Added rational interpretation that pruned bare transmission
+   -> Produced conclusive proof for the Islamic world
+
+Reading: three attempts to read the heavenly books through their interior. The first two stalled. The third reached form.
+
+## The Two Companion Books
+
+Contrast pair: the inward and the outward each anchored in its own book, both by al-Nu'man.
+
+Column A: *Pillars of Islam*
+- Direction: the outward
+- Subject: jurisprudence and the sacred law
+- Mode of worship: practical worship
+- Transmission: narrated by the fifth Imam from his grandfather, the Prophet
+- Function in the believer's life: the body the tradition gives
+- Authority anchor: the Speaker-Prophet as bearer of the sacred law
+
+Column B: *Foundations of Inner Interpretation*
+- Direction: the inward
+- Subject: esoteric philosophy
+- Mode of worship: scientific worship
+- Transmission: the foundation of inner interpretation, given by degree
+- Function in the believer's life: the soul
+- Authority anchor: the Imam as bearer of inner interpretation
+
+Shared row: same author. Same patron, the fourth Fatimid Imam-Caliph. Two related and fully interconnected directions of one teaching.
+
+## The Author and His Patron
+
+Timeline: the life of al-Nu'man, anchored to the Islamic calendar.
+
+- Born: in Morocco, into a family of one of the great Arab tribes
+- Early service: enters the service of the founder of the Fatimid state in the late years of that Imam's life
+- Mid career: takes charge of the judiciary in Tripoli under the second Fatimid Imam-Caliph
+- Move to Egypt: brought with his family by his great patron, the fourth Fatimid Imam-Caliph
+- Composition of the two books: in collaboration with that patron
+- Died: 363 of the Islamic calendar, 974 of the Common Era, in Cairo, during the imamate of his patron
+
+Period bands: Moroccan origin, Tripoli judiciary, Cairo composition.
+
+Annotated structure: the patron under whom the book was written.
+
+Whole: the fourth Fatimid Imam-Caliph.
+Parts:
+- Counted among the most prosperous rulers Islam ever knew
+- Deeply committed to reviving the scientific renaissance throughout his realm
+- Personally collaborated with the author on both books
+- Strengthened the intellectual system he considered the foundation of his mission
+
+## The Two Modes of the Mission's Call
+
+Contrast pair: the two voices by which the Ismaili preachers spoke.
+
+Column A: The first mode
+- Concerning: the prophecies and what they brought
+- Content: laws, texts, ordinances
+- Manner of acceptance: obligation and imitation
+- Direction faced: the outward life of the community
+
+Column B: The second mode
+- Concerning: what the heavenly books brought esoterically
+- Content: inner interpretation of the laws, texts, and ordinances
+- Manner of acceptance: choice, covenant, and pledge
+- Direction faced: the inward life of the trained initiate
+
+Shared row: religion is a fortified citadel. One cannot reach what lies behind it through external appearances; only through a real abiding spiritual meaning.
+
+## Two Errors and the Posture That Avoids Both
+
+Contrast pair: literalism and pure esotericism, the two failure modes.
+
+Column A: Literalism
+- Operation: freezes the outer
+- Cost: loses the inner
+- Image: mistakes the finger for the moon
+- Outcome: external practice that, with time, becomes mere habit
+
+Column B: Pure esotericism
+- Operation: dissolves the outer
+- Cost: loses the vessel
+- Image: mistakes the inner for license
+- Outcome: confusion that wears the costume of wisdom
+
+Shared row: the Ismaili posture holds both registers at once. Apparent and inward are like body and soul. The apparent is not accepted without the inward. The inward is of no use without the apparent. Benefits arise only from their meeting.
+
+## The Covenant as the Gate to Inner Interpretation
+
+Process flow: the path of the respondent who seeks the inner.
+
+Start: the public, who hold the husks of culture and the outward appearances
+   |
+   v
+Acceptance of the apparent
+   - obligation, imitation, the practiced law
+   |
+   v
+Rise through the ranks of the intellectual system
+   - struggle, weariness, the surmounting of obstacles
+   - passing through trials
+   |
+   v
+The covenant, the compact, and the oath
+   - the marked entry into the ranks
+   |
+   v
+Inner interpretation released in portions sized to the rank reached
+   |
+   v
+End state: knowledge of the houses of the universe, the inhabited worlds separated from the transcendent Creator
+
+Hierarchy: the cosmology toward which the path leads.
+
+- Level 1: The Originating Principle
+  - Level 2: Absolute Non-Anthropomorphic Thought
+  - Level 2: The First Intellect, also called the Higher Light or the Originating Power
+  - Level 2: The Pen that writes, the First that precedes existence
+- Level 1: The Second Place
+  - Level 2: The Second Universal Intellect, or the Universal Soul
+- Level 1: The two origins from which everything proceeds
+  - Level 2: The First Intellect
+  - Level 2: The Universal Soul
+- Level 1: Transmission of the two origins
+  - Level 2: To the minds of the prophets
+  - Level 2: To the minds of the Imams
+  - Level 2: To the minds of the elect
+
+Annotated note: the common classes do not yet possess such distinct minds. They are destitute of them so long as they have not acquired knowledge or moved to the second station.
+
+## The Closing Clarification of Terminology
+
+Contrast pair: the Ismaili name and the Fatimid name, sharply distinguished by the editor.
+
+Column A: Ismaili
+- Refers to: the literature, philosophy, doctrine, the mission itself
+- Scope: every name applied to the tradition's intellectual content
+- Permanence: the standing name across history
+
+Column B: Fatimid
+- Refers to: the family that ruled the Ismailis, the line of Imams holding the caliphate in North Africa and Egypt
+- Scope: the dynastic name, nothing to do with the philosophy itself
+- Motive: drew near to the broader Islamic world by honoring the name of the Prophet's daughter, and distinguished themselves from descendants of the Father of Imams by women other than the Prophet's daughter
+
+Shared row: every name applied to literature, philosophy, doctrine, or anything else pertaining to this mission must not stray beyond the scope of the word Ismaili.
+
+## The Edition Itself
+
+Annotated structure: the textual basis of this 1960 print.
+
+Whole: the edited text presented at Beirut.
+Parts:
+- Principal copy: from a town in the Syrian mountains
+- Secondary copies: preserved in Yemen, presented by a colleague who hosted the editor during a 1956 visit to East Africa
+- Editorial work: grammatical and orthographic correction
+- Restoration: sentences that had dropped out, restored
+- Qur'anic verses: revised where transmission had corrupted them
+- Aim: a sound text upon which no dust settles
+
+Closing line of the introduction: signed by the editor at Beirut, Lebanon, in 1960.
