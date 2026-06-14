@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 700" font-family="'Lato', system-ui, sans-serif">
+<rect width="760" height="700" fill="#fffaf2"/>
+<text x="380" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#8b4513">STANDING STILL ON THE ROAD OF FORGETFULNESS IS STILL WALKING</text>
+<text x="380" y="60" text-anchor="middle" font-size="13" font-style="italic" fill="#7a6a58">The party of Allah and the party of Iblis: the two paths Adam walks between.</text>
+
+<rect x="30" y="80" width="350" height="38" fill="#f0e6d2" stroke="#d9cdbd" rx="6"/>
+<rect x="390" y="80" width="340" height="38" fill="#f0e6d2" stroke="#d9cdbd" rx="6"/>
+<text x="205" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#8b4513">PARTY OF ALLAH / ADAM'S PATH</text>
+<text x="560" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#8b4513">PARTY OF SATAN / IBLIS'S PATH</text>
+
+<rect x="30" y="124" width="350" height="72" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<rect x="390" y="124" width="340" height="72" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<text x="42" y="148" font-size="13" fill="#2b2117"><tspan font-weight="bold">Allegiance:</tspan><tspan> To God and His guardians.</tspan></text>
+<text x="402" y="148" font-size="13" fill="#2b2117"><tspan font-weight="bold">Allegiance:</tspan><tspan> To the adversary and</tspan><tspan x="402" dy="18"> his lieutenants.</tspan></text>
+
+<rect x="30" y="202" width="350" height="72" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<rect x="390" y="202" width="340" height="72" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<text x="42" y="226" font-size="13" fill="#2b2117"><tspan font-weight="bold">Orientation:</tspan><tspan> Heart turned toward</tspan><tspan x="42" dy="18"> the guardian of the time.</tspan></text>
+<text x="402" y="226" font-size="13" fill="#2b2117"><tspan font-weight="bold">Orientation:</tspan><tspan> Heart turned away,</tspan><tspan x="402" dy="18"> toward forgetfulness.</tspan></text>
+
+<rect x="30" y="280" width="350" height="72" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<rect x="390" y="280" width="340" height="72" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<text x="42" y="304" font-size="13" fill="#2b2117"><tspan font-weight="bold">Behavior:</tspan><tspan> Does not love those who</tspan><tspan x="42" dy="18"> oppose the architecture.</tspan></text>
+<text x="402" y="304" font-size="13" fill="#2b2117"><tspan font-weight="bold">Behavior:</tspan><tspan> Uses oaths as cover,</tspan><tspan x="402" dy="18"> averts people from the way.</tspan></text>
+
+<rect x="30" y="358" width="350" height="72" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<rect x="390" y="358" width="340" height="72" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<text x="42" y="382" font-size="13" fill="#2b2117"><tspan font-weight="bold">End State:</tspan><tspan> Eternal abode.</tspan></text>
+<text x="402" y="382" font-size="13" fill="#2b2117"><tspan font-weight="bold">End State:</tspan><tspan> Companions of the Fire.</tspan></text>
+
+<rect x="30" y="436" width="350" height="90" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<rect x="390" y="436" width="340" height="90" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<text x="42" y="460" font-size="13" fill="#2b2117"><tspan font-weight="bold">The Daily Test:</tspan><tspan> A stumbler who</tspan><tspan x="42" dy="18"> returns and repents belongs here.</tspan></text>
+<text x="402" y="460" font-size="13" fill="#2b2117"><tspan font-weight="bold">The Daily Test:</tspan><tspan> One who persists in</tspan><tspan x="402" dy="18"> sin and refuses repentance</tspan><tspan x="402" dy="18"> belongs here.</tspan></text>
+
+<rect x="30" y="544" width="700" height="138" fill="#f7f1e6" stroke="#d9cdbd" rx="6"/>
+<text x="42" y="572" font-size="13" font-style="italic" fill="#2b2117"><tspan>The worshipper does not walk between the two roads. The verdict is</tspan><tspan x="42" dy="20"> not pronounced once, but renewed in every moment, because the</tspan><tspan x="42" dy="20"> heart's orientation is renewed in every moment.</tspan></text>
+</svg>
