@@ -109,6 +109,8 @@ class UploadRow:
     episode_href: str | None = None   # link target for the Episodes cell (episode FRAMING file)
     session_index: int | None = None  # Session grouping (chapter-density standard) — None = flat
     session_title: str | None = None
+    chapter_stem: str | None = None   # canonical chapter stem (ch19c-...) — drives the
+                                      # worklist drop-target checklist; NOT rendered in cells()
 
     def chapters_text(self) -> str:
         title = self.chapter_title.strip() if self.chapter_title else f"Chapter {self.n}"
@@ -289,3 +291,65 @@ def build_slide_deck_card(book_dir: Path) -> list[str]:
             if book_pdf.resolve().is_relative_to(REPO_ROOT) else str(book_pdf),
         ))
     return render_slide_deck_card_lines(rows)
+
+
+# ── Durable NotebookLM worklist (2026-06-14) ─────────────────────────────────
+# The ONE artifact the operator works through for the manual NotebookLM round-
+# trips. Written to BOOK_DIR/_system/notebooklm-worklist.md at the finalize halt
+# (chapter_driver) so the upload table + slide card survive across sessions
+# instead of scrolling off the terminal. This is a COMPOSITION of the renderers
+# above (upload table + slide card) plus a live drop-target checklist — it never
+# re-implements a table, so the locked formats stay single-sourced.
+
+def build_worklist_lines(book_dir, *, upload_rows, resume_cmd: str) -> list[str]:
+    """Compose the durable worklist: upload table + slide-deck card + drop checklist.
+
+    *upload_rows* are pre-built UploadRow objects (already filtered to the
+    NotebookLM episode set by the caller via build_upload_rows). *resume_cmd* is
+    the exact command to run once every drop-target is satisfied. Checkboxes are
+    live: ``[x]`` when the canonical ``m4a/<stem>.m4a`` already exists on disk.
+    """
+    m4a_dir = Path(book_dir) / "m4a"
+    tx_dir = m4a_dir / "transcripts"
+    lines: list[str] = [
+        "# NotebookLM worklist",
+        "",
+        "Single source for the manual NotebookLM round-trips. Work top to bottom.",
+        "The pipeline auto-normalizes + transcribes dropped audio and auto-imports",
+        "dropped slide PDFs the moment you re-run the resume command at the bottom —",
+        "no separate CLI steps, no filename fixing.",
+        "",
+        "## 1 - Audio (NotebookLM -> Audio Overview)",
+        "",
+        "Per row: click the CHAPTER cell to open the SOURCE to upload, and the EPISODE",
+        "cell to open the FRAMING to paste into NotebookLM's Customize box. Download each",
+        "generated .m4a and drop it anywhere under `m4a/` — filenames do not matter.",
+        "",
+    ]
+    lines += render_upload_table_lines(upload_rows)
+
+    card = build_slide_deck_card(book_dir)
+    if card:
+        lines += ["", "## 2 - Slide decks (NotebookLM -> Slide deck tool)", ""]
+        lines += card
+
+    lines += ["", "## 3 - Drop-target checklist", ""]
+    for r in sorted(upload_rows, key=lambda x: x.n):
+        stem = r.chapter_stem or f"ch{r.n:02d}"
+        audio = m4a_dir / f"{stem}.m4a"
+        box = "x" if audio.exists() else " "
+        lines.append(f"- [{box}] EP{r.n:02d} — {r.episode_title}")
+        lines.append(f"      audio      -> m4a/{stem}.m4a")
+        lines.append(f"      transcript -> m4a/transcripts/{stem}.transcript.txt  (auto on --resume)")
+
+    lines += [
+        "",
+        "## When every box above is checked",
+        "",
+        f"    {resume_cmd}",
+        "",
+        "The orchestrator normalizes filenames, transcribes via Azure Speech, imports",
+        "any dropped slide PDFs, then publishes. If audio is still missing it re-halts",
+        "cleanly and rewrites this file — nothing is lost.",
+    ]
+    return lines

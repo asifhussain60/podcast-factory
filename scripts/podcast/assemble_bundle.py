@@ -150,6 +150,58 @@ def _resolve_framing_file(book_dir: Path, episode_slug: str) -> Path | None:
     return p if p.exists() else None
 
 
+def build_upload_rows(book_dir: Path, mapping: list[dict],
+                      filter_episode_ids=None) -> list:
+    """Build the NotebookLM UploadRow list for a book from a given episode mapping.
+
+    SINGLE constructor for the upload-table rows, shared by the finalize-halt
+    stdout table (chapter_driver._print_notebooklm_table) and the durable
+    worklist file so they render from identical data — no duplicated row logic.
+
+    *mapping* is the episode↔chapter list, passed in by the caller (from its own
+    discovery) so the table and the worklist see the SAME episode set.
+    *filter_episode_ids*: None lists ALL episodes (byte-identical to the
+    pre-override behavior — the golden-table latch); a set lists only those
+    episode ids (mixed-engine books).
+
+    Row construction is preserved verbatim from the prior inline loop, including
+    the `isinstance(session_index, int)` guard — the minimal contract YAML parser
+    yields strings, so session banners stay suppressed exactly as before; do not
+    "fix" this without re-baselining the golden table.
+    """
+    from _notebooklm_table import (  # noqa: PLC0415
+        UploadRow, repo_rel_href, load_density_lengths, length_for_episode,
+    )
+    density_lengths = load_density_lengths(book_dir)
+    rows: list = []
+    for entry in mapping:
+        episode_slug = entry["episode"]
+        if filter_episode_ids is not None and episode_slug not in filter_episode_ids:
+            continue
+        chapter_slug = entry["chapter"]
+        ep_num = entry["n"]
+        contract = _load_contract(book_dir, chapter_slug)
+        episode_format = contract.get("episode_format", "deep_dive")
+        title = contract.get("title", episode_slug).strip("\"'")
+        chapter_path = _resolve_chapter_file(book_dir, chapter_slug)
+        framing_path = _resolve_framing_file(book_dir, episode_slug)
+        _si = contract.get("session_index")
+        rows.append(UploadRow(
+            n=ep_num,
+            chapter_title=title,
+            episode_title=title,
+            episode_format=episode_format,
+            length=length_for_episode(book_dir, ep_num, density_lengths),
+            chapter_href=repo_rel_href(chapter_path, book_dir),
+            episode_href=repo_rel_href(framing_path, book_dir),
+            chapter_stem=chapter_slug,
+            session_index=_si if isinstance(_si, int) else None,
+            session_title=contract.get("session_title")
+                if isinstance(contract.get("session_title"), str) else None,
+        ))
+    return rows
+
+
 def _resolve_slide_deck(book_dir: Path, chapter_slug: str) -> tuple[Path | None, Path | None]:
     """Return (deck_source, framing) paths for the slide deck, or None if missing."""
     sd = book_dir / "slide-decks"

@@ -115,7 +115,8 @@ def _write_series_config(book_dir: Path, slug: str, title: str,
     profile = settings.get("content_profile") or "islamic_scholarly"
     video_style = settings.get("video_style") or "scenic"
     # Audio engine: explicit operator choice (from the voice/engine picker) wins;
-    # otherwise the per-profile NEW-book default (islamic_scholarly -> elevenlabs).
+    # otherwise the per-profile NEW-book default (islamic_scholarly -> notebooklm,
+    # locked 2026-06-13; ElevenLabs is quarantined/dormant — chosen only explicitly).
     audio_engine = (settings.get("audio_engine")
                     or audio_engine_default_for_profile(profile))
     cfg: dict[str, Any] = {

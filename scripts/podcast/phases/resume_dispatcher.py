@@ -310,6 +310,15 @@ def run_resume(args: argparse.Namespace) -> int:
         _info(f"Phase 0g status={current_status!r} — re-entering per-chapter-and-after driver.")
         return _drive_per_chapter_and_after(book_dir)
 
+    if current_phase == "audio-ingest":
+        # halted = NotebookLM audio not dropped yet; the human has (presumably)
+        # dropped it now. Re-enter the publish driver — audio-ingest runs at its
+        # top, normalizes + transcribes idempotently, then the 0book/publish
+        # chain follows (mirrors the 0book-slide-import re-entry convention).
+        _info(f"Phase audio-ingest status={current_status!r} — re-entering the "
+              f"publish driver (normalize + transcribe run idempotently).")
+        return _drive_publish_through_done(book_dir)
+
     if current_phase == "finalize" and current_status == "halted":
         _info("Phase finalize gate cleared (human approved by re-invoking --resume).")
         return _drive_publish_through_done(book_dir)

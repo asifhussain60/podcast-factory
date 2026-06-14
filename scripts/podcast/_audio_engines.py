@@ -77,6 +77,16 @@ AUDIO_ENGINE_REGISTRY: dict[str, AudioEngine] = {
         model_id="",
         default_voices={},
     ),
+    # ── QUARANTINED / DORMANT (2026-06-14) ──────────────────────────────────
+    # NO book currently uses this engine: every content profile defaults to
+    # `notebooklm` (_rules.audio_engine_default_for_profile), and Islamic
+    # scholarly content was confirmed on NotebookLM 2026-06-13. ElevenLabs is
+    # RETAINED, not deleted, on purpose: it is the only autonomous (API) engine,
+    # so keeping this registry entry preserves the one-engine-among-many seam
+    # (extensibility-first rule) and the path to fully hands-off audio for a
+    # future fiction/technical book. NotebookLM books never execute its render
+    # code — the audio-script / audio-render phases skip it via is_autonomous().
+    # To reactivate: set `audio_engine: elevenlabs` in a book's series-config.yaml.
     ENGINE_ELEVENLABS: AudioEngine(
         name=ENGINE_ELEVENLABS,
         render_mode=RENDER_MODE_API,
@@ -205,6 +215,40 @@ def is_autonomous(engine: AudioEngine | str) -> bool:
     """True when the engine renders audio via API (no manual upload/download)."""
     card = engine if isinstance(engine, AudioEngine) else get_engine(engine)
     return card.render_mode == RENDER_MODE_API
+
+
+def notebooklm_episode_filter(
+    book_dir: Path, all_episode_ids: list[str] | None = None
+) -> set[str] | None:
+    """The set of episodes that render on NotebookLM (manual upload/download).
+
+    SINGLE source of truth for "which episodes need the NotebookLM ritual",
+    shared by the finalize halt (which prints the upload table + worklist) and
+    the audio-ingest phase (which normalizes + transcribes the dropped audio) so
+    the two can never disagree about the episode set.
+
+    Returns:
+      - ``None``  — a pure-NotebookLM book (no per-episode overrides, manual
+        engine). Means "ALL episodes" and renders byte-identically to the
+        pre-override behavior (the golden-table latch).
+      - empty set — a pure-autonomous book (e.g. ElevenLabs): no NotebookLM
+        ritual at all; the audio-ingest phase is a no-op skip.
+      - non-empty set — a mixed-engine book: exactly the episode ids overridden
+        to NotebookLM.
+
+    ``all_episode_ids`` is only consulted for the mixed-engine case; callers
+    always pass it (from the episode mapping) so the override subset can be
+    computed. Failures fall back to ``None`` (the safe manual ritual).
+    """
+    try:
+        overrides = episode_engine_overrides(book_dir)
+        if not overrides:
+            return None if not is_autonomous(audio_engine_for_book(book_dir)) else set()
+        eps = all_episode_ids or []
+        return {ep for ep in eps
+                if engine_for_episode(book_dir, ep) == ENGINE_NOTEBOOKLM}
+    except Exception:  # noqa: BLE001 — fall back to the manual ritual
+        return None
 
 
 def credit_estimate(engine: AudioEngine | str, char_count: int) -> int:

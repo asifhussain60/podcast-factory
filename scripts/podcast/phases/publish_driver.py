@@ -39,6 +39,18 @@ def _drive_publish_through_done(book_dir: Path) -> int:
     """
     book_slug = book_dir.name
 
+    # Audio ingest — self-correcting normalize + Azure-transcribe of dropped
+    # NotebookLM audio. No-op `skipped` for autonomous/ElevenLabs books; a clean
+    # HALT (rc 3) when audio isn't dropped yet, mirroring the slide-import
+    # convention (BEFORE the book branch so the book is built once audio exists).
+    # --resume re-enters idempotently.
+    from phases.audio_ingest_driver import drive_audio_ingest  # noqa: PLC0415
+    _ai_outcome, _ai_rc = drive_audio_ingest(book_dir)
+    if _ai_outcome == "halted":
+        return 0
+    if _ai_outcome == "failed":
+        return _ai_rc
+
     # PDF path — companion book (gated by series.enable_book_branch, non-blocking).
     # Runs here, AFTER the finalize halt, so the book is always generated from
     # podcast content that has already passed the quality review gate. A book-branch
