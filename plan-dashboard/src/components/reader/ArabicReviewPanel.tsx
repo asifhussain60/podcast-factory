@@ -14,6 +14,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 type Decision = 'keep' | 'fix_phonetic' | 'correct_arabic' | 'replace_english';
+type TeachingRelevance = 'teaching' | 'name' | 'incidental' | 'referential';
 
 interface Term {
   phonetic: string;
@@ -23,12 +24,24 @@ interface Term {
   corrected_phonetic?: string;
   corrected_arabic?: string;
   english_override?: string;
+  teaching_relevance?: TeachingRelevance;
 }
 
 interface Props { slug: string; }
 
+// Teaching terms first so the curator's eye lands on what carries the doctrine,
+// before the referential/historical noise.
+const REL_ORDER: Record<TeachingRelevance, number> = {
+  teaching: 0, referential: 1, name: 2, incidental: 3,
+};
+const REL_LABEL: Record<TeachingRelevance, string> = {
+  teaching: 'teaching', referential: 'referential', name: 'name', incidental: 'incidental',
+};
+
 const FILTERS = [
   { id: 'all', label: 'All' },
+  { id: 'teaching', label: 'Teaching' },
+  { id: 'referential', label: 'Referential' },
   { id: 'pending', label: 'To review' },
   { id: 'curated', label: 'Curated' },
 ] as const;
@@ -71,12 +84,24 @@ export default function ArabicReviewPanel({ slug }: Props) {
 
   const shown = useMemo(() => {
     if (!terms) return [];
-    if (filter === 'pending') return terms.filter((t) => !t.decision);
-    if (filter === 'curated') return terms.filter((t) => !!t.decision);
-    return terms;
+    let list = terms;
+    if (filter === 'pending') list = terms.filter((t) => !t.decision);
+    else if (filter === 'curated') list = terms.filter((t) => !!t.decision);
+    else if (filter === 'teaching') list = terms.filter((t) => t.teaching_relevance === 'teaching');
+    else if (filter === 'referential')
+      list = terms.filter((t) => t.teaching_relevance && t.teaching_relevance !== 'teaching');
+    // Stable teaching-first ordering so the doctrine surfaces above the noise.
+    return list
+      .map((t, i) => ({ t, i }))
+      .sort((a, b) =>
+        (REL_ORDER[a.t.teaching_relevance ?? 'referential'] -
+         REL_ORDER[b.t.teaching_relevance ?? 'referential']) || (a.i - b.i))
+      .map(({ t }) => t);
   }, [terms, filter]);
 
   const pendingCount = terms?.filter((t) => !t.decision).length ?? 0;
+  const teachingCount = terms?.filter((t) => t.teaching_relevance === 'teaching').length ?? 0;
+  const classified = (terms?.some((t) => t.teaching_relevance)) ?? false;
 
   async function save(term: Term, decision: Decision, value: string) {
     setSavingKey(term.phonetic);
@@ -119,7 +144,10 @@ export default function ArabicReviewPanel({ slug }: Props) {
     <aside className="arv-panel" aria-label="Arabic term review">
       <div className="arv-head">
         <h2 className="arv-title">Arabic terms</h2>
-        <p className="arv-sub">{pendingCount} to review · {terms.length} total</p>
+        <p className="arv-sub">
+          {pendingCount} to review · {terms.length} total
+          {classified && <> · <strong>{teachingCount} recited in Arabic</strong> (teaching)</>}
+        </p>
         <div className="arv-filters" role="tablist" aria-label="Filter terms">
           {FILTERS.map((f) => (
             <button
@@ -135,12 +163,24 @@ export default function ArabicReviewPanel({ slug }: Props) {
       <ul className="arv-list">
         {shown.map((t) => {
           const curated = !!t.decision;
+          const rel = t.teaching_relevance;
+          const muted = !!rel && rel !== 'teaching';
           return (
-            <li key={t.phonetic} className={`arv-row${curated ? ' is-curated' : ''}`}>
+            <li
+              key={t.phonetic}
+              className={`arv-row${curated ? ' is-curated' : ''}${muted ? ' is-muted' : ''}`}
+            >
               <div className="arv-term">
                 <span className="arv-phon">{t.transliteration || t.phonetic}</span>
                 {t.arabic_script && (
                   <span className="arv-script" lang="ar" dir="rtl">{t.corrected_arabic || t.arabic_script}</span>
+                )}
+                {rel && (
+                  <span className="arv-rel" data-rel={rel} title={
+                    rel === 'teaching'
+                      ? 'Teaching term — recited in Arabic'
+                      : 'Referential — spoken in plain English, not recited'
+                  }>{REL_LABEL[rel]}</span>
                 )}
                 {curated && <span className="arv-badge" data-decision={t.decision}>{t.decision?.replace('_', ' ')}</span>}
               </div>

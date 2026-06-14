@@ -138,9 +138,15 @@ _CHAPTER_CRAFT_NARRATIVE = (
     "resistance, partial understanding, or readiness, and the teacher's answer should feel precise, "
     "restrained, and consequential. Do not gloss every line with commentary — explain only where the "
     "reader needs help following the argument; let strong dialogue carry its own force. Where the "
-    "source uses an analogy, keep it and make its force land. Let the explanation emerge from what is "
-    "happening in the scene wherever possible. Close the chapter by showing what has changed and why "
-    "the next chapter must follow — narrative readiness, never a summary."
+    "source uses an analogy, keep it and make its force land. Where the source introduces an abstract "
+    "philosophical or cosmological concept — a hierarchy of spiritual ranks, the structure of a "
+    "prophetic cycle, the mechanics of inner and outer knowledge — add one brief concrete everyday "
+    "analogy to ground it: the way load-bearing walls in a building determine everything else about "
+    "its layout, how a river finds a channel before it can irrigate, how a sealed letter passes "
+    "through several hands before reaching its recipient. One sentence of analogy, then step aside — "
+    "never stack analogies or dwell in them longer than the concept demands. Let the explanation "
+    "emerge from what is happening in the scene wherever possible. Close the chapter by showing what "
+    "has changed and why the next chapter must follow — narrative readiness, never a summary."
 )
 
 _CHAPTER_CRAFT_EXPOSITORY = (

@@ -15,6 +15,7 @@ from _progress import initial_state, read_state, update_phase, write_state  # no
 from _rules import CONSUMER_CATEGORIES, ISLAMIC_SCHOLARLY_PROFILE, phase_capabilities  # noqa: E402
 from _content_profile import resolve_content_profile  # noqa: E402
 from _authoring import AuthoringError, AuthoringHalt, author_phase_0b, author_phase_0c, author_phase_0ci, author_phase_0d, author_phase_0e  # noqa: E402
+from _contract_validation import validate_book_contracts  # noqa: E402  # FIX 14: 0d post-write gate
 from phases.preflight import preflight_initial  # noqa: E402
 from phases.scaffold import phase_branch, phase_scaffold, phase_0a_ingest, phase_git_commit  # noqa: E402
 from phases.source_ingest import phase_0a_ingest_source_md  # noqa: E402
@@ -80,6 +81,38 @@ def _guard_before_phase(book_dir: Path, phase_id: str, log=_info) -> None:
     else:
         # Stub for 0b, 0ci, and any future phases.
         log(f"  guard-{phase_id}: (stub) no artifact pre-checks defined yet ✓")
+
+
+def _gate_0d_contracts(book_dir: Path) -> None:
+    """FIX 14 — Phase-0d post-write contract gate.
+
+    Validates EVERY freshly written chapter-contracts/*.yml with the single
+    shared validator (_contract_validation.validate_contract_full) and fails
+    Phase 0d loudly BEFORE 0e runs, so the pipeline can never again hand the
+    per-chapter loop a contract that extract or pipeline_lint will refuse
+    (debate-with-no-block, slug/chapter-file rename mismatch, host roles
+    outside the R-HOST-ROLE-PARITY enums, bad enum values, …).
+    """
+    failures = validate_book_contracts(book_dir)
+    if not failures:
+        _info(f"  gate-0d: all chapter contracts pass unified validation ✓")
+        return
+    lines: list[str] = []
+    for slug, findings in failures:
+        for f in findings:
+            lines.append(f"  {slug}: {f}")
+    raise AuthoringError(
+        phase="0d",
+        message=(
+            f"Phase-0d contract gate FAIL: {len(failures)} contract(s) would be "
+            f"refused downstream by extract/pipeline_lint:\n" + "\n".join(lines)
+        ),
+        manual_fallback=(
+            "Fix chapter-contracts/<slug>.yml (or rename the matching chapters/ch*.txt\n"
+            "file) so every finding above clears, then re-run: --retry-phase 0d\n"
+            "Canonical rules: scripts/podcast/_contract_validation.py"
+        ),
+    )
 
 
 def resolve_phase_profile(book_dir: Path, category: str | None) -> str:
@@ -167,6 +200,7 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
 
     def _run_0d(bd: Path) -> None:
         author_phase_0d(bd, length_tier=length_tier, unit_mode=unit_mode, log=_info)
+        _gate_0d_contracts(bd)
 
     def _run_0e(bd: Path) -> None:
         if caps.skip_enrichment:

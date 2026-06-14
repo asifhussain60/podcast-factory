@@ -1,0 +1,66 @@
+[
+  {
+    "diagram_id": "1-what-ismaili-interpretation-is-1",
+    "section": "1. What Ismaili Interpretation Is",
+    "anchor_text": "the authority of *tanzil*, of revelation, to the one we call *al-Natiq*",
+    "structure_type": "cosmic-pair",
+    "diagram_type": "cosmic-pair",
+    "caption": "Pairs the two scriptural authorities in the Ismaili order, showing how revelation and inner interpretation divide between the Speaker and the Imam.",
+    "svg_path": "/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/asaas-al-taveel/vol-01/book/_diagrams/1-what-ismaili-interpretation-is-1.svg"
+  },
+  {
+    "diagram_id": "1-what-ismaili-interpretation-is-2",
+    "section": "1. What Ismaili Interpretation Is",
+    "anchor_text": "*Inner interpretation*, in its realistic Ismaili sense, is not the same as *tafsir*",
+    "structure_type": "cosmic-pair",
+    "diagram_type": "cosmic-pair",
+    "caption": "Contrasts conventional exegesis with Ismaili inner interpretation across what each one answers and yields.",
+    "svg_path": "/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/asaas-al-taveel/vol-01/book/_diagrams/1-what-ismaili-interpretation-is-2.svg"
+  },
+  {
+    "diagram_id": "3-the-four-limits-of-the-testimony-1",
+    "section": "3. The Four Limits of the Testimony",
+    "anchor_text": "Four words. Four limits.",
+    "structure_type": "hierarchy-tree",
+    "diagram_type": "hierarchy-tree",
+    "caption": "Shows the testimony's four words arranged as a vertical ladder of limits, with the affirmation above the negation.",
+    "svg_path": "/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/asaas-al-taveel/vol-01/book/_diagrams/3-the-four-limits-of-the-testimony-1.svg"
+  },
+  {
+    "diagram_id": "4-adam-the-tree-and-the-iblis-pact-1",
+    "section": "4. Adam, the Tree, and the Iblis Pact",
+    "anchor_text": "Hujja into Imam into Hujja",
+    "structure_type": "hierarchy-tree",
+    "diagram_type": "hierarchy-tree",
+    "caption": "Shows the ranked succession from the Speaking Prophet through the Foundation-Imam down to the Proof in each prophetic cycle.",
+    "svg_path": "/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/asaas-al-taveel/vol-01/book/_diagrams/4-adam-the-tree-and-the-iblis-pact-1.svg"
+  },
+  {
+    "diagram_id": "4-adam-the-tree-and-the-iblis-pact-2",
+    "section": "4. Adam, the Tree, and the Iblis Pact",
+    "anchor_text": "The day is like the Imam",
+    "structure_type": "cosmic-pair",
+    "diagram_type": "cosmic-pair",
+    "caption": "Pairs the manifest Imam with the concealed Hujja through the recurring sign-pairs God set in creation.",
+    "svg_path": "/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/asaas-al-taveel/vol-01/book/_diagrams/4-adam-the-tree-and-the-iblis-pact-2.svg"
+  },
+  {
+    "diagram_id": "4-adam-the-tree-and-the-iblis-pact-3",
+    "section": "4. Adam, the Tree, and the Iblis Pact",
+    "anchor_text": "They are seven: Adam, Noah, Abraham, Moses, Jesus",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Lists the seven Speaking Prophets in sequence, ending with the Qa'im of the Age.",
+    "mmd_path": "/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/asaas-al-taveel/vol-01/book/_diagrams/4-adam-the-tree-and-the-iblis-pact-3.mmd",
+    "svg_path": "/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/asaas-al-taveel/vol-01/book/_diagrams/4-adam-the-tree-and-the-iblis-pact-3.svg"
+  },
+  {
+    "diagram_id": "5-two-parties-and-the-line-to-noah-1",
+    "section": "5. Two Parties and the Line to Noah",
+    "anchor_text": "He made for Himself a party out of His own creation",
+    "structure_type": "cosmic-pair",
+    "diagram_type": "cosmic-pair",
+    "caption": "Contrasts the two parties named in Surah al-Mujadila by their defining traits.",
+    "svg_path": "/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/asaas-al-taveel/vol-01/book/_diagrams/5-two-parties-and-the-line-to-noah-1.svg"
+  }
+]

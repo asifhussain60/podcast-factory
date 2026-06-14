@@ -1,0 +1,44 @@
+{
+  "book_title": "Asas al-Taweel — Volume 1: The Cycle of Adam",
+  "voice": "author first-person",
+  "preface": {
+    "include": false
+  },
+  "chapters": [
+    {
+      "bk_index": 1,
+      "title": "What Ismaili Interpretation Is",
+      "source_line_ranges": [[1, 217]],
+      "theme": "the nature and validity of ta'wil — the inward dimension of revelation",
+      "rationale": "Establishes the hermeneutic premise: outward and inward meaning are both obligatory; al-Nu'man grounds this in Quran, hadith, and the logic of divine speech before opening the Adam cycle."
+    },
+    {
+      "bk_index": 2,
+      "title": "The Call to Inner Meaning",
+      "source_line_ranges": [[218, 442]],
+      "theme": "the obligatory inward call (da'wa) that accompanies every outward revelation",
+      "rationale": "Al-Nu'man shifts from theory to proof — every prophet carried both a public teaching and a hidden invitation to those who could receive it; the Imam inherits this dual function."
+    },
+    {
+      "bk_index": 3,
+      "title": "The Four Limits of the Testimony",
+      "source_line_ranges": [[443, 590]],
+      "theme": "the shahada parsed into four stations: limits, gates, sincerity, and the rank of the Imam",
+      "rationale": "The testimony of faith is not a formula but a cosmological map — each clause assigns the believer a position in the hierarchy of guidance, from outer acknowledgment to inner loyalty."
+    },
+    {
+      "bk_index": 4,
+      "title": "Adam, the Tree, and the Iblis Pact",
+      "source_line_ranges": [[591, 844]],
+      "theme": "the Adam narrative read as the origin of the two parties — guided and misguided — in every age",
+      "rationale": "Al-Nu'man opens the Adam cycle not as history but as a living pattern: the tree, the pact, and Iblis's refusal are the templates for every subsequent cycle of the natiq and his opponents."
+    },
+    {
+      "bk_index": 5,
+      "title": "Two Parties and the Line to Noah",
+      "source_line_ranges": [[845, 1022]],
+      "theme": "the covenant-keeping party traced from Adam through Seth to Noah; the opposing party tracing through Iblis",
+      "rationale": "The Adam cycle closes by showing that the two parties do not dissolve with Adam's death — they persist through named genealogies, binding every subsequent natiq to the same primordial division."
+    }
+  ]
+}

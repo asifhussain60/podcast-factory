@@ -24,6 +24,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _validator_constants import CHAPTER_WORD_MIN_HARD, CHAPTER_WORD_MAX_HARD  # noqa: E402
+from _contract_validation import validate_contract_full  # noqa: E402  # FIX 14: one validator, four gates
 
 try:
     import yaml  # noqa: E402
@@ -61,6 +62,20 @@ def smoke_check_chapter(book_dir: Path, slug: str) -> tuple[bool, str]:
             return False, "contract missing required `slug`"
         if not (contract.get("episode_number") or str(contract.get("title") or "").strip()):
             return False, "contract missing both `episode_number` and `title`"
+
+        # 2b. FIX 14 — FULL contract validation (the same single validator
+        # extract and pipeline_lint enforce), so the $0 pre-loop gate now
+        # catches everything those later, more expensive layers would refuse:
+        # debate-with-no-block, slug/chapter-file rename mismatch, and
+        # R-HOST-ROLE-PARITY role enums included.
+        findings = validate_contract_full(
+            contract, chapter_file, book_dir, contract_path=contract_file,
+        )
+        if findings:
+            return False, (
+                f"contract validation ({len(findings)} finding(s)): "
+                + " | ".join(findings)
+            )
 
     # 3. Chapter word count inside the hard band (catches empty / truncated / huge).
     try:

@@ -1,0 +1,2380 @@
+manifest_version: "2026-06-14"
+# Sources: git log --all, framework.md, CLAUDE.md, _workspace/plan/architecture.md,
+# _workspace/plan/refactor/plan.yaml, scripts/podcast/*.py, scripts/podcast/phases/*.py,
+# plan-dashboard/src/pages/, plan-dashboard/src/components/, plan-dashboard/src/lib/,
+# .github/agents/, infra/claude-agents/, plan-dashboard/html-view-lint.config.json
+# Phase canonical order is the single source of truth in scripts/podcast/_progress.py:PHASES.
+
+# ---------------------------------------------------------------------------
+# SURFACE 1 — PIPELINE
+# ---------------------------------------------------------------------------
+surfaces:
+  pipeline:
+
+    # -----------------------------------------------------------------------
+    # PHASES — canonical PHASES tuple from scripts/podcast/_progress.py
+    # -----------------------------------------------------------------------
+    phases:
+
+      - id: pre-flight
+        name: Pre-flight gates (initial)
+        inputs: [pdf_path, slug, series_config]
+        outputs: [validated_environment, preflight_report.md]
+        code_files:
+          - scripts/podcast/phases/preflight.py
+          - scripts/podcast/preflight_doctor.py
+          - scripts/podcast/intake_preflight.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          Validates Python interpreter, Azure credentials, secrets, disk space,
+          git tree cleanliness, and series-config schema before any LLM spend.
+          Allowlist gates added via fix(preflight) 2026-06-09 (ebfe4d3).
+
+      - id: branch
+        name: Create content branch
+        inputs: [slug, content_profile]
+        outputs: [git_branch_Bucket/slug]
+        code_files:
+          - scripts/podcast/phases/scaffold.py
+          - scripts/podcast/_branching.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          Branch naming is Bucket/slug (Islamic/kitab-al-riyad).
+          Bucket resolved via _paths.resolve_bucket from content_profile,
+          not legacy category tag. _branching.branch_for_work maps
+          multi-volume slugs to the single work branch.
+
+      - id: scaffold
+        name: Scaffold book directory structure
+        inputs: [slug, category, content_profile, pdf_path]
+        outputs:
+          - content/<Bucket>/<slug>/_system/orchestrator-state.json
+          - content/<Bucket>/<slug>/meta.yml
+          - content/<Bucket>/<slug>/_system/series-config.yaml
+        code_files:
+          - scripts/podcast/phases/scaffold.py
+          - scripts/podcast/scaffold_book.py
+          - scripts/podcast/_paths.py
+          - scripts/podcast/_work_manifest.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          standardize_book_folders.py enforces canonical folder skeleton.
+          For multi-volume works, work.yml manifest is written by intake;
+          volumes scaffold into vol-NN/ subdirs. No yaml dep for detection
+          (vol-* glob + marker). Shipped work manifest 2026-06-09 (64d5c85).
+
+      - id: 0a
+        name: Azure OCR + Translation (ingest)
+        inputs: [pdf_path or m4a_path, slug]
+        outputs:
+          - content/<Bucket>/<slug>/source/pages/*.txt
+          - content/<Bucket>/<slug>/source/raw-ocr.txt
+          - content/<Bucket>/<slug>/source/translated.txt
+        prompt_file: null
+        code_files:
+          - scripts/podcast/phases/source_ingest.py
+          - scripts/podcast/ingest_source.py
+          - scripts/podcast/_azure.py
+          - scripts/podcast/ocr_image_pages.py
+          - scripts/podcast/transcribe_audio.py
+          - scripts/podcast/translate_bundle.py
+          - scripts/podcast/phases/noise_router.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          Fully deterministic. Azure Document Intelligence OCR for PDFs;
+          Azure Speech-to-Text for m4a sources; Azure Translator for
+          Arabic -> English. Cost tracked via append_azure_*_cost helpers
+          (shipped 2026-05-25). noise_router.py selects source-text variant
+          based on content_profile (technical path bypasses OCR).
+
+      - id: 0b
+        name: English refinement (LLM tighten pass)
+        inputs: [source/translated.txt, series-config.yaml]
+        outputs: [source/refined.txt, source/tightened.txt]
+        prompt_file: _workspace/prompts/phase-0b-refine.md
+        code_files:
+          - scripts/podcast/gemini_refine.py
+          - scripts/podcast/tighten_source.py
+          - scripts/podcast/full_book_denoise.py
+          - scripts/podcast/_tighten_helpers.py
+          - scripts/podcast/_chunking.py
+          - scripts/podcast/phases/p1_1.py
+          - scripts/podcast/phases/p1_2.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          Gemini Flash denoising + Claude Max tightening in parallel windows
+          (PHASE_0B_MAX_WORKERS=3 default). web-consumer-denoise mode added
+          for technical content 2026-06-01 (9020784). Terminology guardian
+          (SN-7) injects R_TERMINUS_PRESERVE protect-list from glossary.yml
+          into denoise prompts (WC8). Chunked via _chunking.run_windowed;
+          stable instructions block is prompt-cached.
+
+      - id: 0c
+        name: Arabic phonetic pass (LLM)
+        inputs: [source/refined.txt, series-config.yaml]
+        outputs:
+          - source/phonetic.txt
+          - _system/glossary.yml
+        prompt_file: _workspace/prompts/phase-0c-phonetics.md
+        code_files:
+          - scripts/podcast/_translit.py
+          - scripts/podcast/build_glossary.py
+          - scripts/podcast/fill_glossary_arabic.py
+          - scripts/podcast/strip_inline_phonetics.py
+          - scripts/podcast/apply_pronunciation_corrections.py
+          - scripts/podcast/phases/p2_2.py
+          - scripts/podcast/phases/p2_3.py
+          - scripts/podcast/phases/p2_4.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          ASCII-only romanization (no diacritics, locked 2026-06-08).
+          _bake_glossary() auto-generates _system/glossary.yml (phonetic
+          <-> Arabic-script overlay) used by the reader Arabic toggle and
+          by the TTS pronunciation compiler. Parallel windows
+          PHASE_0C_MAX_WORKERS=3. Probe gate added 2026-06-07 (9da2357).
+
+      - id: 0ci
+        name: Book intelligence probe + Islamic scholarly halt
+        inputs: [source/phonetic.txt, knowledge.db, _system/series-config.yaml]
+        outputs:
+          - _system/book-intelligence-report.md
+          - _system/gap-analysis.json
+        prompt_file: _workspace/prompts/phase-0ci-intelligence.md
+        code_files:
+          - scripts/podcast/phases/p2_4_wave2.py
+          - scripts/podcast/source_library_mirror.py
+          - scripts/podcast/source_library_queries.py
+          - scripts/podcast/_content_profile.py
+        shipped_commit: 9da2357
+        shipped_date: "2026-06-07"
+        status: shipped
+        notes: >
+          Cross-references chapter source against knowledge.db corpus;
+          surfaces gaps in coverage. For islamic_scholarly profile,
+          emits a HALT requiring human review before proceeding to 0d.
+          This is a manual_gate for Islamic books.
+
+      - id: 0d
+        name: Chapter design and episode contract authoring (LLM)
+        inputs:
+          - source/phonetic.txt
+          - series-config.yaml
+          - _system/gap-analysis.json
+        outputs:
+          - chapters/<ch-slug>/contract.yaml
+          - _system/chapter-set-report.md
+        prompt_file: _workspace/prompts/phase-0d-chapter-design.md
+        code_files:
+          - scripts/podcast/_authoring/_chapter_design.py
+          - scripts/podcast/segment_book.py
+          - scripts/podcast/check_chapter_set.py
+          - scripts/podcast/phases/p3_1.py
+          - scripts/podcast/phases/p3_2.py
+          - scripts/podcast/phases/p3_3.py
+          - scripts/podcast/phases/p3_4.py
+          - scripts/podcast/phases/p3_5.py
+          - scripts/podcast/phases/preflight_chapter.py
+          - scripts/podcast/_density_profiles.py
+          - scripts/podcast/chapter_density_audit.py
+          - scripts/podcast/_sessions.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          Deterministic post-write gate rejects and deletes over-dense output
+          before done marker (a89b64b 2026-06-10). R-MAX-CONCEPTS enforces
+          <= 3 concept sections per episode. episode_format decided per
+          chapter from rhetorical shape (concession-arcs -> debate with
+          host_b_concedes). Session grouping stamped at authoring time
+          (9fd0be4 2026-06-10). CS7-CS11 chapter-set integrity gates run
+          post-0d for density_standard:2 books.
+
+      - id: 0e
+        name: Enrichment / augmentation (LLM + knowledge.db)
+        inputs:
+          - chapters/<ch-slug>/contract.yaml
+          - knowledge.db
+          - _system/series-config.yaml
+        outputs:
+          - chapters/<ch-slug>/enriched.md
+          - _system/episode-augment-ledger.json
+        prompt_file: _workspace/prompts/phase-0e-enrich.md
+        code_files:
+          - scripts/podcast/augment_book.py
+          - scripts/podcast/stage_knowledge_enrich.py
+          - scripts/podcast/_augmentation.py
+          - scripts/podcast/_augment_gemini.py
+          - scripts/podcast/_augment_registry.py
+          - scripts/podcast/_doctrinal.py
+          - scripts/podcast/_archetypes.py
+          - scripts/podcast/narrator_additions.py
+          - scripts/podcast/phases/p4_1.py
+          - scripts/podcast/phases/p4_2.py
+          - scripts/podcast/phases/p4_3.py
+          - scripts/podcast/phases/p4_4.py
+          - scripts/podcast/phases/p4_7.py
+          - scripts/podcast/phases/p4_8.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          Wave L adds content-level gating (L-1/L-2) via 6-level Kashkole
+          ladder (general -> advanced -> taveel -> mamsool -> mabda_maad ->
+          haqaiq). Etymology weaving (L-4): <= 3 spoken root-insights/chapter.
+          Anti-repetition ledger excludes atoms already used by other episodes.
+          Wave W challenger category (W1-W6: genuine-gap, natural, etymology
+          discipline, content-level integrity, no-fabrication,
+          no-cross-chapter-repeat). CHALLENGER_VERSION 2.3 -> 2.4 at Wave L.
+
+      - id: 0literary
+        name: Literary transformation pass (Gemini)
+        inputs: [chapters/<ch-slug>/enriched.md]
+        outputs: [chapters/<ch-slug>/literary.md]
+        prompt_file: _workspace/prompts/phase-0literary.md
+        code_files:
+          - scripts/podcast/_literary.py
+          - scripts/podcast/phases/initial_driver.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          Optional Gemini-powered literary transformation applied after
+          enrichment. Emitted by initial_driver; runs for books where
+          content_profile warrants prose-elevation.
+
+      - id: 06a
+        name: Source review gate (human approval before series plan)
+        inputs: [chapters/*, enriched.md, contract.yaml]
+        outputs: [human_approval_signal]
+        code_files:
+          - scripts/podcast/phases/source_review_gate.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          Wave I gate. Human must inspect enriched chapters and approve
+          the chapter list + scope before the series plan is written.
+          Orchestrator halts and waits. No automation assists the decision.
+          This is a manual_gate.
+
+      - id: 0f
+        name: Series plan write + human review halt
+        inputs:
+          - chapters/*/contract.yaml
+          - _system/series-config.yaml
+          - _system/chapter-set-report.md
+        outputs:
+          - _system/series-plan.md
+          - _system/notebooklm-upload-table.md
+        code_files:
+          - scripts/podcast/phases/series_plan.py
+          - scripts/podcast/_notebooklm_table.py
+          - scripts/podcast/_sessions.py
+        shipped_commit: 7095170
+        shipped_date: "2026-06-05"
+        status: shipped
+        notes: >
+          Deterministic write of series-plan.md and NotebookLM upload table
+          (render_upload_table, DEFAULT_LENGTH="Long"). Session groups appear
+          in the upload table. Auto-prints NotebookLM upload table at finalize
+          halt (7095170 2026-06-05). Orchestrator halts for human review of
+          the series plan before per-chapter begins. This is a manual_gate.
+
+      - id: 0g
+        name: Register series + dual-auditor bundle sweep
+        inputs: [chapters/*/contract.yaml, episodes/*/00-framing.md]
+        outputs:
+          - _system/orchestrator-state.json (series registered)
+          - audits/<EP-slug>.audit.claude.md
+          - audits/<EP-slug>.audit.gemini.md
+        code_files:
+          - scripts/podcast/phases/bundle_audit.py
+          - scripts/podcast/phases/register_series.py
+          - scripts/podcast/audit_bundle.py
+          - scripts/podcast/audit_bundle_gemini.py
+          - scripts/podcast/_notebooklm_table.py
+        shipped_commit: d0819e4
+        shipped_date: "2026-06-11"
+        status: shipped
+        notes: >
+          Dual-auditor runs Claude + Gemini in parallel against every
+          per-chapter NotebookLM bundle. Phase 0g shipped as dual-auditor
+          2026-06-11. Register is deterministic; bundle audit requires LLM.
+
+      - id: per-chapter
+        name: Per-chapter authoring (extract -> frame -> build -> converge)
+        inputs:
+          - chapters/<ch-slug>/enriched.md
+          - chapters/<ch-slug>/contract.yaml
+          - _system/glossary.yml
+        outputs:
+          - episodes/<EP-slug>/00-framing.md
+          - episodes/<EP-slug>/<EP-slug>.txt
+          - episodes/<EP-slug>/99-show-notes.md
+          - _learning/findings.jsonl
+          - _system/orchestrator-state.json (chapter verdicts)
+        code_files:
+          - scripts/podcast/phases/per_chapter.py
+          - scripts/podcast/phases/chapter_driver.py
+          - scripts/podcast/extract_chapter.py
+          - scripts/podcast/_extract_contract.py
+          - scripts/podcast/_extract_helpers.py
+          - scripts/podcast/build_episode_txt.py
+          - scripts/podcast/_convergence.py
+          - scripts/podcast/_validators.py
+          - scripts/podcast/_validators_framing.py
+          - scripts/podcast/_validators_dialogue.py
+          - scripts/podcast/_validator_constants.py
+          - scripts/podcast/assemble_bundle.py
+          - scripts/podcast/density_planner.py
+          - scripts/podcast/_proposal_writer.py
+          - scripts/podcast/_work_manifest.py
+          - scripts/podcast/_notebooklm_table.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          3 outer x 5 inner convergence loops = 15 max passes per chapter.
+          Per-chapter cost cap F35 (per_chapter_cost_cap_usd); per-book
+          COST-CEILING halts to prevent runaway spend. F32 framing cache
+          (skip LLM re-authoring via .framing-sig sidecar if chapter unchanged).
+          Graceful-degrade: failed_slugs set, continue on failed chapter.
+          NotebookLM density planner (c4ab0a6 2026-06-11) gives each episode
+          a composite score for dynamic Length setting. Show-notes artifact
+          auto-generated (scaffold retirement 2026-05-25).
+
+      - id: per-chapter-optimize
+        name: Per-chapter Sonnet arc/format check (Wave I)
+        inputs: [episodes/<EP-slug>/00-framing.md, episodes/<EP-slug>/<EP-slug>.txt]
+        outputs: [episodes/<EP-slug>/optimize-report.md]
+        code_files:
+          - scripts/podcast/phases/per_chapter_optimize.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          Wave I optional arc/format quality check per chapter using
+          Claude Sonnet before the per-chapter-slides phase.
+
+      - id: per-chapter-slides
+        name: Per-chapter slide-deck authoring + challenger convergence
+        inputs:
+          - episodes/<EP-slug>/00-framing.md
+          - episodes/<EP-slug>/<EP-slug>.txt
+        outputs:
+          - episodes/<EP-slug>/slide-deck-source.md
+          - episodes/<EP-slug>/slide-framing.md
+        code_files:
+          - scripts/podcast/generate_slide_decks.py
+          - scripts/podcast/_slide_authoring.py
+          - scripts/podcast/_slide_convergence.py
+          - scripts/podcast/_run_slide_convergence_batch.py
+          - scripts/podcast/_fix_slide_deck_validation.py
+          - scripts/podcast/build_slide_deck.py
+          - scripts/podcast/inject_slide_deck.py
+          - scripts/podcast/_slide_replicate.py
+          - scripts/podcast/_svg_geometry.py
+          - scripts/podcast/_svg_patterns.py
+          - scripts/podcast/phases/pw4_1.py
+          - scripts/podcast/phases/pw4_2.py
+          - scripts/podcast/phases/pw4_3.py
+          - scripts/podcast/phases/pw5_1.py
+          - scripts/podcast/phases/pw5_2.py
+          - scripts/podcast/phases/pw5_3.py
+          - scripts/podcast/phases/pw6_1.py
+          - scripts/podcast/phases/pw6_2.py
+          - scripts/podcast/phases/pw6_3.py
+        shipped_commit: 077c916
+        shipped_date: "2026-06-10"
+        status: shipped
+        notes: >
+          MANDATORY for every book (feedback_slide_decks_required.md).
+          Gemini 2.5 Flash authors two-file slide pairs (source + framing).
+          thinking disabled, maxOutputTokens=8000. Book-level single-deck mode
+          ships one deck for the whole book (f77cf8f 2026-06-10). Slide
+          intelligence: OCR/vision analysis + SVG replication (2d375a7 2026-06-10).
+          5 iteration challenger convergence loop.
+
+      - id: audio-script
+        name: Audio Engine v2 — dialogue script authorship + pre-synthesis gate
+        inputs:
+          - episodes/<EP-slug>/<EP-slug>.txt
+          - episodes/<EP-slug>/00-framing.md
+          - _system/glossary.yml
+          - _system/series-config.yaml (audio_engine field)
+        outputs:
+          - episodes/<EP-slug>/dialogue-script.md
+          - episodes/<EP-slug>/pronunciation-bundle.pls
+          - episodes/<EP-slug>/pre-synthesis-gate-report.md
+          - _system/arabic-review-manifest.json
+        code_files:
+          - scripts/podcast/_dialogue_script.py
+          - scripts/podcast/_dialogue_convergence.py
+          - scripts/podcast/pronunciation_compiler.py
+          - scripts/podcast/_tts_sanitize.py
+          - scripts/podcast/_quran_recitation.py
+          - scripts/podcast/phases/audio_driver.py
+          - scripts/podcast/phases/dor_halts.py
+        shipped_commit: 0a1b45f
+        shipped_date: "2026-06-12"
+        status: shipped
+        notes: >
+          Skipped (status=skipped) for notebooklm audio_engine.
+          Audio Engine v2 Step 2 (0a1b45f): dialogue-script artifact +
+          Claude Max authorship. Step 3 (9c0020f): pre-synthesis content gate
+          + script convergence loop. Step 4 (203b3f1): pronunciation compiler
+          -> versioned PLS dictionary upload. Mandatory pre-audio Arabic
+          curation review halt added (f35c055 2026-06-13). Quran recitation
+          injection deterministic on ElevenLabs path (f152275 2026-06-13).
+          Voice library: Asif-approved casting pools (ac56a4a 2026-06-12).
+
+      - id: audio-render
+        name: Audio Engine v2 — H1 spend halt + render
+        inputs:
+          - episodes/<EP-slug>/dialogue-script.md
+          - episodes/<EP-slug>/pronunciation-bundle.pls
+          - _system/series-config.yaml (elevenlabs_voices)
+        outputs:
+          - m4a/<ch-slug>-<EP-slug>.m4a
+          - m4a/<ch-slug>-<EP-slug>-transcript.txt
+        code_files:
+          - scripts/podcast/render_dialogue_audio.py
+          - scripts/podcast/generate_tts_episode.py
+          - scripts/podcast/_audio_engines.py
+          - scripts/podcast/_voice_library.py
+          - scripts/podcast/phases/audio_driver.py
+        shipped_commit: 33c1910
+        shipped_date: "2026-06-12"
+        status: shipped
+        notes: >
+          Skipped for notebooklm audio_engine; that path uses manual
+          NotebookLM upload and download instead. Step 5 (33c1910): production
+          renderer (render once, cache forever via audio fingerprint).
+          Step 6 (a9c5bbd): orchestrator wiring with ONE H1 spend halt.
+          ElevenLabs integration code lives in _elevenlabs.py
+          (EXCLUDED from Islamic path analysis — see excluded block).
+
+      - id: finalize
+        name: G1-G7 quality gates + human review halt
+        inputs:
+          - episodes/*/
+          - chapters/*/
+          - _system/orchestrator-state.json
+        outputs:
+          - _system/ship-ready-report.md
+          - _system/notebooklm-upload-table.md (reprinted)
+        code_files:
+          - scripts/podcast/validate_ship_ready.py
+          - scripts/podcast/phases/dor_halts.py
+          - scripts/podcast/phases/chapter_driver.py
+          - scripts/podcast/_contract_validation.py
+          - scripts/podcast/_acceptance.py
+        shipped_commit: 7e624a0
+        shipped_date: "2026-06-11"
+        status: shipped
+        notes: >
+          G1 (structure), G2 (chapter/episode pairs), G3 (sequential numbering),
+          G4 (build-clean P0=0), G5 (state.json shippable), G7 (challenger
+          convergence verdict). G6 (target wipe-safety) obsolete in
+          status-flag model. Unified contract validation across all 4 gates
+          in one validator (7e624a0 2026-06-11). Orchestrator halts for human
+          review of the finalized book before PDF branch begins.
+          Letter-suffix phase IDs accepted in G2/G3 (fb9a9b1 2026-06-11).
+
+      - id: audio-ingest
+        name: Self-correcting NotebookLM audio ingest (normalize + transcribe)
+        inputs:
+          - m4a/*.m4a (operator-dropped NotebookLM downloads, any filename)
+          - _system/series-config.yaml (audio_engine)
+          - chapters/ch*.txt (canonical stems)
+        outputs:
+          - m4a/<ch-stem>.m4a (normalized to canonical order)
+          - m4a/transcripts/<ch-stem>.transcript.txt
+          - transcripts/EP<NN>-<slug>.transcript.txt (derived audit copy)
+          - m4a/_review/prefix-verification.json (rename ledger)
+        code_files:
+          - scripts/podcast/phases/audio_ingest_driver.py
+          - scripts/podcast/normalize_m4a.py
+          - scripts/podcast/transcribe_notebooklm.py
+          - scripts/podcast/_audio_engines.py
+        shipped_commit: HEAD
+        shipped_date: "2026-06-14"
+        status: shipped
+        notes: >
+          Closes the largest closeable determinism gap. Runs after the finalize
+          human review halt, BEFORE the PDF book branch + publish, inside
+          publish_driver._drive_publish_through_done. On --resume after the
+          operator drops NotebookLM audio anywhere under m4a/, it deterministically
+          repairs filename drift (normalize_m4a fingerprint match, SWAP/MATCH only;
+          ambiguous left untouched), transcribes via Azure Speech
+          (transcribe_notebooklm), and gates on completeness — every NotebookLM
+          episode must have audio + transcript or it re-halts cleanly (rc 3) and
+          rewrites the worklist. No-op `skipped` for autonomous/ElevenLabs books
+          (engine set empty via _audio_engines.notebooklm_episode_filter, the SAME
+          filter the finalize halt uses). Idempotent: a second pass with everything
+          present transcribes nothing and completes. Replaces the prior hand-run
+          normalize_m4a.py + transcribe_notebooklm.py CLI ritual. Tests:
+          tests/test_audio_ingest_driver.py.
+
+      - id: 0book-design
+        name: PDF route — book-craft re-segmentation -> book-toc.json
+        inputs:
+          - episodes/*/00-framing.md
+          - episodes/*/<EP-slug>.txt
+          - _system/series-config.yaml
+        outputs: [book/book-toc.json]
+        prompt_file: _workspace/prompts/phase-0book-design.md
+        code_files:
+          - scripts/podcast/_authoring/_book_design.py
+          - scripts/podcast/phases/book_driver.py
+          - scripts/podcast/phases/p6_1.py
+        shipped_commit: 0c20fef
+        shipped_date: "2026-06-11"
+        status: shipped
+        notes: >
+          PDF route gated by series.enable_book_branch. Runs post-finalize
+          so book is built from reviewed podcast content. Designs the
+          reading-edition chapter structure (different from podcast episodes).
+
+      - id: 0book-compose
+        name: PDF route — whole-book revoice -> book.md
+        inputs: [book/book-toc.json, episodes/*, _system/glossary.yml]
+        outputs: [book/book.md]
+        prompt_file: _workspace/prompts/phase-0book-compose.md
+        code_files:
+          - scripts/podcast/_book_compose.py
+          - scripts/podcast/phases/book_driver.py
+          - scripts/podcast/phases/p6_2.py
+        shipped_commit: 0c20fef
+        shipped_date: "2026-06-11"
+        status: shipped
+        notes: >
+          Modern author voice revoice with Arabic script + English.
+          Grounded in saved OCR extract (f51fe62 2026-06-10) to prevent
+          Arabic script hallucination. Per-chapter wall budgets raised to
+          900/1350s (e144c7d 2026-06-11). Professional book-rewrite craft
+          folded into prompt (ab0a471 2026-06-13).
+
+      - id: 0book-illustrate
+        name: PDF route — teaching diagrams injected -> book-illustrated.md
+        inputs: [book/book.md, book/book-toc.json]
+        outputs: [book/book-illustrated.md]
+        code_files:
+          - scripts/podcast/_book_illustrate.py
+          - scripts/podcast/phases/book_driver.py
+        shipped_commit: 0c20fef
+        shipped_date: "2026-06-11"
+        status: shipped
+        notes: >
+          Teaching diagrams (SVG/Mermaid) injected at appropriate points.
+          Per-section classifier timeout raised to 600s (07e8ade 2026-06-11).
+          B&W illustration style for Islamic books (7dec0f7 2026-06-14).
+
+      - id: 0book-slide-import
+        name: PDF route — slide deck PDFs -> LLM anchor manifests -> book-slides.md
+        inputs:
+          - book/book-illustrated.md
+          - slide-decks/ch<NN>-*.pdf (manually dropped by operator)
+        outputs: [book/book-slides.md]
+        code_files:
+          - scripts/podcast/_slide_import.py
+          - scripts/podcast/phases/book_driver.py
+        shipped_commit: 943acdd
+        shipped_date: "2026-06-10"
+        status: shipped
+        notes: >
+          HALTS when framed chapters lack their dropped slide PDFs (.SKIP
+          exempts a chapter). Operator must manually export slide deck PDFs
+          from NotebookLM and drop them into slide-decks/. LLM anchors then
+          weave slide content into the reading edition. This is a manual_gate
+          for the PDF route.
+
+      - id: 0book-render
+        name: PDF route — book-slides.md -> book.pdf (Playwright)
+        inputs: [book/book-slides.md, assets/fonts/Amiri*, book/book-toc.json]
+        outputs: [book/book.pdf]
+        code_files:
+          - scripts/podcast/build_book_pdf.py
+          - scripts/podcast/build_fiction_book_pdf.py
+          - scripts/podcast/_book_cover.py
+          - scripts/podcast/phases/book_driver.py
+          - scripts/podcast/phases/p6_1.py
+          - scripts/podcast/phases/p6_2.py
+        shipped_commit: 0c20fef
+        shipped_date: "2026-06-11"
+        status: shipped
+        notes: >
+          Playwright-based PDF render. Falls back to book-illustrated.md or
+          book.md if book-slides.md absent. Amiri + AmiriQuran fonts vendored
+          (eb3b9c4 2026-06-11). _book_cover.py generates theme brief and
+          cover page. Non-blocking on the podcast ship path.
+
+      - id: publish
+        name: Status flip draft -> published in place
+        inputs:
+          - _system/orchestrator-state.json
+          - meta.yml
+          - G1-G7 gates all green
+        outputs:
+          - _system/orchestrator-state.json (status=published)
+          - meta.yml (publication.status=published)
+        code_files:
+          - scripts/podcast/publish_to_library.py
+          - scripts/podcast/phases/publish_driver.py
+          - scripts/podcast/validate_ship_ready.py
+          - scripts/podcast/post_publish.py
+          - scripts/podcast/export_distribution.py
+        shipped_commit: d67e1af
+        shipped_date: "2026-06-05"
+        status: shipped
+        notes: >
+          Nothing is copied; draft vs published is a status field.
+          publish_to_library.py flips status in orchestrator-state.json
+          and meta.yml after G1-G5+G7 pass. G6 (target wipe-safety)
+          obsolete and reports n/a. export_distribution.py wired into
+          publish flow (d67e1af 2026-06-05).
+
+      - id: trainer
+        name: Cross-book pattern learning -> spec refinements
+        inputs:
+          - _learning/findings.jsonl
+          - audits/*.md
+          - challenger reports
+        outputs:
+          - infra/claude-agents/podcast-challenger.md (proposed diffs)
+          - skills-staging/podcast/SKILL.md (proposed diffs)
+        code_files:
+          - scripts/podcast/learn_aggregate.py
+          - scripts/podcast/learn_propose.py
+          - scripts/podcast/phases/publish_driver.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          Reads ALL challenger reports + framings + chapters + transcripts on
+          the book branch. Clusters recurring P0/P1/P2 findings (>= 3 occurrences).
+          P0-class proposals and regression failures flagged for human review.
+          Rule-firing telemetry via learn_aggregate.py --by-check-id.
+
+      - id: merge
+        name: Merge book branch into develop
+        inputs: [develop branch, Islamic/<slug> branch, all gates green]
+        outputs: [develop HEAD advanced]
+        code_files:
+          - scripts/podcast/phases/merge.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          --no-ff merge. Merge-abort hardening added (7e624a0 2026-06-11).
+          Triggers post-merge holistic audit (repo-surgeon) per standing rule.
+
+      - id: done
+        name: Terminal state
+        inputs: [merge completed]
+        outputs: [orchestrator-state.json phase=done]
+        code_files: [scripts/podcast/_progress.py]
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: Terminal state; no further orchestrator action.
+
+    # -----------------------------------------------------------------------
+    # CROSS-PHASE CAPABILITIES
+    # -----------------------------------------------------------------------
+    cross_phase_capabilities:
+
+      - name: Path resolution and content layout
+        code_files:
+          - scripts/podcast/_paths.py
+          - plan-dashboard/src/lib/content-paths.ts
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        dependencies: []
+        notes: >
+          _paths.py is the ONLY place that maps slug + category to filesystem path.
+          Scans Bucket folders first, falls back to legacy drafts/published layout.
+          Supports multi-volume works via vol-* glob + work.yml marker.
+          TypeScript mirror content-paths.ts kept in sync for Astro Site.
+          bucket_for_profile() from _rules.py determines bucket.
+
+      - name: Branch naming and routing
+        code_files:
+          - scripts/podcast/_branching.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        dependencies: [path_resolution]
+        notes: >
+          branch_name(category, slug, *, profile=None, bucket=None) is the
+          single source of branch name truth. Returns Bucket/slug.
+          branch_for_work() maps any volume slug to its single work branch.
+          Deprecated branch_prefix() preserved for back-compat only.
+
+      - name: Rule constants and content profile registry
+        code_files:
+          - scripts/podcast/_rules.py
+          - scripts/podcast/_validator_constants.py
+          - scripts/podcast/_content_profile.py
+          - scripts/podcast/_density_profiles.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        dependencies: []
+        notes: >
+          R-* constants (banned phrases, format rules, thresholds) all live in
+          _rules.py. CHALLENGER_VERSION tracks the spec level (current: 2.5).
+          phase_capabilities(profile) is the single accessor for phase-skip
+          decisions. EPISODE_MAX_CONCEPTS in _validator_constants.py.
+          Content-level ladder (6 rungs) in Kashkole-derived registry.
+
+      - name: Cost ledger and tracking
+        code_files:
+          - scripts/podcast/_cost_ledger.py
+          - scripts/podcast/cost_guard.py
+          - scripts/podcast/cost_ledger_summary.py
+          - scripts/podcast/book_cost.py
+          - scripts/podcast/estimate_cost.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        dependencies: []
+        notes: >
+          LOCK_EX on cost-ledger.jsonl for concurrency safety. Azure cost
+          tracking via append_azure_*_cost wired at ingest/translate/OCR/
+          transcribe. per_chapter_cost_cap_usd and book_cost_cap_usd ceiling
+          guards. Real dollars reported for Azure + Gemini; Claude Max is
+          flat-rate (no cost reported).
+
+      - name: Orchestrator state management
+        code_files:
+          - scripts/podcast/_progress.py
+          - scripts/podcast/orchestrate_book.py
+          - scripts/podcast/phases/resume_dispatcher.py
+          - scripts/podcast/supervise_run.py
+          - scripts/podcast/orchestrate_work.py
+          - scripts/podcast/watch_orchestrator.sh
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        dependencies: [path_resolution, cost_ledger]
+        notes: >
+          orchestrator-state.json is single source of truth per book.
+          PHASES tuple in _progress.py is canonical order. is_phase_stale()
+          auto-recovers 'running' states older than 900s. orchestrate_work.py
+          sequences multi-volume works. Shell watchdog (30s retry) + auto-spawn
+          on --resume. Heartbeat re-arm is mandatory after any --resume (Tier 0).
+
+      - name: 5-axis PEQ quality scoring
+        code_files:
+          - scripts/podcast/_quality.py
+          - plan-dashboard/src/lib/peq-scores.ts
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        dependencies: [rule_constants]
+        notes: >
+          5 axes: Fidelity 30%, Voice 20%, Structure 18%, Enrichment 17%,
+          Interest 15%. Interest axis is deterministic (no API). K6 wave
+          (WC8) added the 5th axis. TypeScript mirror peq-scores.ts kept
+          in sync (re-sync fix 33bb513 2026-06-09). CHALLENGER_VERSION 2.2->2.3.
+
+      - name: Knowledge database (SQLite + JSON1)
+        code_files:
+          - scripts/podcast/_db.py
+          - scripts/podcast/intelligence/extractor.py
+          - scripts/podcast/intelligence/librarian.py
+          - scripts/podcast/intelligence/augmenter.py
+          - content/knowledge-base/knowledge.db
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        dependencies: []
+        notes: >
+          WAL-mode SQLite singleton at content/knowledge-base/knowledge.db.
+          Atoms table (quran | hadith | term | etymology | citation).
+          Wave 1: Quran + hadith atoms. Wave 2 planned (quotes + definitions
+          via embedding dedup). Wave L adds content_level column with 6-rung
+          Kashkole ladder. JSON1 extension for flexible atom bodies.
+          SQLAlchemy ORM preserves future Postgres+pgvector migration path.
+
+      - name: Archetype registry
+        code_files:
+          - scripts/podcast/_archetypes.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        dependencies: [knowledge_database]
+        notes: >
+          7 archetype seeds on disk: scholarly-deep-dive, narrative-prose,
+          aphorism-collection, socratic-dialogue, play-novel, lecture-series,
+          encyclopedic-epistolary. load/list/resolve via _archetypes.py.
+
+      - name: Doctrinal rules and tradition-adjacency guard
+        code_files:
+          - scripts/podcast/_doctrinal.py
+          - scripts/podcast/_boundary_check.py
+          - content/_shared/tradition_adjacency.yml
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        dependencies: [rule_constants]
+        notes: >
+          tradition_pack_dir / load_doctrinal_pack (F31). Build gate skips with
+          T-NO-PACK info when no pack exists for the book's source_tradition.
+          DR-011: cross-tradition guard via tradition_adjacency.yml.
+
+      - name: Session grouping and delivery
+        code_files:
+          - scripts/podcast/_sessions.py
+          - scripts/podcast/deliver_book.py
+          - plan-dashboard/src/lib/reader/book.ts
+        shipped_commit: f5a7e76
+        shipped_date: "2026-06-10"
+        status: shipped
+        dependencies: [path_resolution]
+        notes: >
+          Deterministic session grouping module; episode-count thresholds from
+          _rules.py. Phase 0d stamps session fields at authoring time. Per-session
+          Drive delivery folders. Collapsible session groups in the library reader.
+          NotebookLM upload table includes session grouping.
+
+      - name: NotebookLM upload table renderer
+        code_files:
+          - scripts/podcast/_notebooklm_table.py
+        shipped_commit: f5a7e76
+        shipped_date: "2026-06-10"
+        status: shipped
+        dependencies: []
+        notes: >
+          Centralised render_upload_table(). DEFAULT_LENGTH="Long". Four columns:
+          Chapters | Episodes | Deep dive or debate | Length. Chapters and Episodes
+          cells are clickable markdown links. Every emitter routes through this
+          module so format cannot drift per-caller. build_upload_rows() (in
+          assemble_bundle.py) is the single row constructor shared by the finalize
+          stdout table and the durable worklist.
+
+      - name: Durable NotebookLM worklist
+        code_files:
+          - scripts/podcast/_notebooklm_table.py
+          - scripts/podcast/assemble_bundle.py
+          - scripts/podcast/phases/chapter_driver.py
+        shipped_commit: HEAD
+        shipped_date: "2026-06-14"
+        status: shipped
+        dependencies: [notebooklm_upload_table_renderer]
+        notes: >
+          build_worklist_lines() composes the locked upload table + slide-deck card
+          + a live per-episode drop-target checklist (checkbox flips on m4a presence)
+          into ONE durable artifact written at the finalize halt to
+          content/<Bucket>/<slug>/_system/notebooklm-worklist.md. Survives across
+          sessions (replaces stdout-only cards). First line is the single resume
+          command; audio-ingest + 0book-slide-import consume the drops automatically.
+
+      - name: Framing strategy registry
+        code_files:
+          - scripts/podcast/_authoring.py
+          - scripts/podcast/phases/p5_4.py
+        shipped_commit: b7e6060
+        shipped_date: "2026-06-13"
+        status: shipped
+        dependencies: []
+        notes: >
+          Strategy registry for prompt variants (audit Spec 1, b7e6060).
+          Deterministic TOC prompt builder isolated (audit Spec 2, 828314c).
+
+      - name: Audio engine registry and fingerprinting
+        code_files:
+          - scripts/podcast/_audio_engines.py
+          - scripts/podcast/_audio_fingerprint.py
+          - scripts/podcast/_voice_library.py
+        shipped_commit: dc568ea
+        shipped_date: "2026-06-12"
+        status: shipped
+        dependencies: []
+        notes: >
+          Pluggable audio-engine registry with capability flags (Step 1, dc568ea).
+          Supported engines: notebooklm (default for islamic_scholarly),
+          elevenlabs (excluded from Islamic path — see excluded block).
+          Voice library: Asif-approved casting pools (ac56a4a 2026-06-12).
+          Per-episode dual-path selection (8d3abee 2026-06-13).
+          Voice sample clips for intake picker (98a7af2 2026-06-13).
+
+      - name: Glossary and pronunciation machinery
+        code_files:
+          - scripts/podcast/build_glossary.py
+          - scripts/podcast/fill_glossary_arabic.py
+          - scripts/podcast/pronunciation_compiler.py
+          - scripts/podcast/apply_pronunciation_corrections.py
+          - scripts/podcast/_tts_sanitize.py
+          - scripts/podcast/teaching_relevance_classifier.py
+        shipped_commit: 203b3f1
+        shipped_date: "2026-06-12"
+        status: shipped
+        dependencies: [rule_constants]
+        notes: >
+          glossary.yml baked in Phase 0c. Pronunciation compiler emits versioned
+          PLS dictionary from glossary. Teaching-relevance classifier (Step 4)
+          filters glossary entries for Islamic scholarly books. TTS sanitizer
+          strips problematic characters before synthesis.
+
+      - name: Chapter density audit
+        code_files:
+          - scripts/podcast/chapter_density_audit.py
+          - scripts/podcast/check_chapter_set.py
+          - scripts/podcast/_validator_constants.py
+        shipped_commit: a89b64b
+        shipped_date: "2026-06-10"
+        status: shipped
+        dependencies: [rule_constants]
+        notes: >
+          R-MAX-CONCEPTS enforces <= 3 concept H2 sections per episode.
+          CS7-CS11 chapter-set integrity gates: source coverage, overlap,
+          sermon integrity, set density. Halts post-0d for density_standard:2.
+
+      - name: Cross-book dashboard and fleet view
+        code_files:
+          - scripts/podcast/cross_book_dashboard.py
+          - scripts/podcast/write_health.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        dependencies: [path_resolution, orchestrator_state]
+        notes: >
+          Fleet-level phase/status/cost/timing table. --since 7d --json --out
+          supported. write_health.py writes per-book health scores.
+
+      - name: Video layer (teaching-hybrid pipeline)
+        code_files:
+          - scripts/podcast/generate_video_layer.py
+          - scripts/podcast/render_slides.py
+          - scripts/podcast/stitch_video.py
+        shipped_commit: f0c0a97
+        shipped_date: "2026-06-05"
+        status: shipped
+        dependencies: [rule_constants, path_resolution]
+        notes: >
+          Category-driven video style from series-config.yaml video_style field.
+          islamic_scholarly -> teaching_hybrid: Pillow text slides over Imagen3
+          darkened backgrounds. stitch_video.py uses equal-duration splits to
+          avoid "last image for 8 minutes" bug. Wired into publish flow via
+          export_distribution.py.
+
+      - name: Azure transcription for m4a normalization
+        code_files:
+          - scripts/podcast/normalize_m4a.py
+          - scripts/podcast/transcribe_notebooklm.py
+          - scripts/podcast/transcribe_episode.py
+          - scripts/podcast/audit_transcript.py
+          - scripts/podcast/ab_compare_episode.py
+        shipped_commit: f60924a
+        shipped_date: "2026-06-12"
+        status: shipped
+        dependencies: [_azure]
+        notes: >
+          normalize_m4a.py: drop-and-normalize step for NotebookLM audio +
+          transcripts (f60924a 2026-06-12). Azure Speech-to-Text replaces
+          TurboScribe as documented transcription path (46eec14 2026-06-12).
+          Produces canonical ch<NN>-<slug> filenames.
+
+      - name: Bilingual content support
+        code_files:
+          - scripts/podcast/produce_bilingual.py
+          - plan-dashboard/src/lib/reader/bilingual-sections.ts
+        shipped_commit: e1a70eb
+        shipped_date: "2026-05-30"
+        status: shipped
+        dependencies: [knowledge_database]
+        notes: >
+          KQUR Quran + Hadith bilingual bake pipeline. Arabic OCR extraction
+          wired alongside English. Reader displays bilingual sections.
+
+      - name: Parallel windowed chunking
+        code_files:
+          - scripts/podcast/_chunking.py
+          - scripts/podcast/_subprocess.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        dependencies: []
+        notes: >
+          run_windowed() with max_workers param. Default 3 workers for
+          0b and 0c phases (~3x wall-clock speedup, cost-neutral). Stable
+          instructions block is prompt-cached. _subprocess.py extracted
+          from orchestrator (de-patch Wave M, DR-015).
+
+      - name: Intake UI (web form -> pipeline launch)
+        code_files:
+          - scripts/podcast/intake_book.py
+          - scripts/podcast/intake_preflight.py
+          - scripts/podcast/intake_stage.py
+          - scripts/podcast/intake_form_options.py
+          - scripts/podcast/intake_launch.py
+          - scripts/podcast/intake_status.py
+          - scripts/podcast/intake_staging.py
+          - scripts/podcast/intake_cli.ts
+          - plan-dashboard/src/components/intake/NewContentForm.tsx
+          - plan-dashboard/src/components/intake/SmartForm.tsx
+          - plan-dashboard/src/components/intake/VoicePicker.tsx
+          - plan-dashboard/src/components/intake/IntakeWorkspace.tsx
+          - plan-dashboard/src/components/intake/Cockpit.tsx
+          - plan-dashboard/src/components/intake/EditorialDefaults.tsx
+          - plan-dashboard/src/components/intake/UploadStaging.tsx
+          - plan-dashboard/src/components/intake/PreflightSummary.tsx
+          - plan-dashboard/src/pages/api/intake/create.ts
+          - plan-dashboard/src/pages/api/intake/form-options.ts
+          - plan-dashboard/src/pages/api/intake/launch.ts
+          - plan-dashboard/src/pages/api/intake/preflight.ts
+          - plan-dashboard/src/pages/api/intake/resume.ts
+          - plan-dashboard/src/pages/api/intake/staging.ts
+          - plan-dashboard/src/pages/api/intake/status.ts
+          - plan-dashboard/src/pages/api/intake/upload.ts
+          - plan-dashboard/src/pages/api/intake/voices.ts
+        shipped_commit: 362de43
+        shipped_date: "2026-06-09"
+        status: shipped
+        dependencies: [path_resolution, audio_engine_registry]
+        notes: >
+          Phase 6 web intake (4 screens): upload + roles + staging, smart form
+          (minimal-typing dropdowns), pre-flight summary, live cockpit. Voice
+          picker with sample clips (98a7af2 2026-06-13). Human-readable labels
+          in production-settings dropdowns (25cef34 2026-06-10).
+
+    # -----------------------------------------------------------------------
+    # PDF ROUTE — book branch phases (gated by series.enable_book_branch)
+    # -----------------------------------------------------------------------
+    pdf_route:
+
+      - step: book-design
+        description: Re-segment podcast episodes into reading-edition chapters
+        code_files:
+          - scripts/podcast/_authoring/_book_design.py
+          - scripts/podcast/phases/book_driver.py
+          - scripts/podcast/phases/p6_1.py
+        shipped_commit: 0c20fef
+        shipped_date: "2026-06-11"
+        status: shipped
+        notes: Outputs book/book-toc.json. LLM-driven chapter boundary decisions.
+
+      - step: book-compose
+        description: Whole-book revoice in modern author voice with Arabic script
+        code_files:
+          - scripts/podcast/_book_compose.py
+          - scripts/podcast/phases/book_driver.py
+          - scripts/podcast/phases/p6_2.py
+        shipped_commit: 0c20fef
+        shipped_date: "2026-06-11"
+        status: shipped
+        notes: >
+          Grounded in saved OCR extract for Arabic script accuracy.
+          Preface LLM timeout raised to 900s. Professional book-rewrite
+          craft baked into prompt (2026-06-13).
+
+      - step: book-illustrate
+        description: Teaching diagrams (SVG/Mermaid) injected into book.md
+        code_files:
+          - scripts/podcast/_book_illustrate.py
+          - scripts/podcast/phases/book_driver.py
+        shipped_commit: 0c20fef
+        shipped_date: "2026-06-11"
+        status: shipped
+        notes: B&W illustration style for Islamic content (7dec0f7 2026-06-14).
+
+      - step: book-slide-import
+        description: Weave NotebookLM slide deck PDFs into reading edition
+        code_files:
+          - scripts/podcast/_slide_import.py
+          - scripts/podcast/phases/book_driver.py
+        shipped_commit: 943acdd
+        shipped_date: "2026-06-10"
+        status: shipped
+        notes: >
+          Requires operator to manually drop slide PDFs from NotebookLM into
+          slide-decks/. .SKIP marker exempts a chapter. HALTS until PDFs present.
+          LLM builds anchor manifests; then weaves into book-slides.md.
+
+      - step: book-render
+        description: Playwright PDF render from book-slides.md (or book-illustrated.md / book.md)
+        code_files:
+          - scripts/podcast/build_book_pdf.py
+          - scripts/podcast/build_fiction_book_pdf.py
+          - scripts/podcast/_book_cover.py
+        shipped_commit: 0c20fef
+        shipped_date: "2026-06-11"
+        status: shipped
+        notes: >
+          Amiri + AmiriQuran OFL fonts vendored (eb3b9c4 2026-06-11).
+          Playwright render is deterministic given book-slides.md.
+          book-challenger agent gates the PDF before publish.
+
+      - step: google-drive-delivery
+        description: Copy book PDF to Google Drive Podcast Library
+        code_files:
+          - scripts/podcast/deliver_book.py
+        shipped_commit: 0342897
+        shipped_date: "2026-06-10"
+        status: shipped
+        notes: >
+          Uses shutil.copy2 directly to CloudStorage mount.
+          Path: My Drive/Podcast Library/{Series Title}/{Edition Title}.pdf.
+          Per-session Drive delivery folders for grouped episode delivery.
+
+    # -----------------------------------------------------------------------
+    # AUDIT AND VALIDATION
+    # -----------------------------------------------------------------------
+    audit_and_validation:
+
+      - rule_id: R-CHALLENGER-FRAMEWORK
+        enforcement_layer: per-chapter convergence loop
+        code_files:
+          - scripts/podcast/_convergence.py
+          - scripts/podcast/_validators.py
+          - scripts/podcast/_validators_framing.py
+          - scripts/podcast/_validators_dialogue.py
+          - scripts/podcast/_validator_constants.py
+          - infra/claude-agents/podcast-challenger.md
+          - scripts/podcast/test_challenger.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+
+      - rule_id: R-SLIDE-DECK-CHALLENGER
+        enforcement_layer: per-chapter-slides convergence
+        code_files:
+          - scripts/podcast/_slide_convergence.py
+          - infra/claude-agents/slide-deck-challenger.md
+        shipped_commit: 077c916
+        shipped_date: "2026-06-10"
+        status: shipped
+
+      - rule_id: R-BOOK-CHALLENGER
+        enforcement_layer: book-render gate
+        code_files:
+          - infra/claude-agents/book-challenger.md
+        shipped_commit: 0c20fef
+        shipped_date: "2026-06-11"
+        status: shipped
+
+      - rule_id: R-MAX-CONCEPTS
+        enforcement_layer: phase-0d post-write gate + challenger + preflight_chapter
+        code_files:
+          - scripts/podcast/_validator_constants.py
+          - scripts/podcast/chapter_density_audit.py
+          - scripts/podcast/phases/preflight_chapter.py
+        shipped_commit: a89b64b
+        shipped_date: "2026-06-10"
+        status: shipped
+
+      - rule_id: R-QURAN-CITATION-FORMAT
+        enforcement_layer: challenger Cat A1
+        code_files:
+          - scripts/podcast/_validators.py
+          - scripts/podcast/_rules.py
+        shipped_commit: a89b64b
+        shipped_date: "2026-06-10"
+        status: shipped
+
+      - rule_id: R-NO-TRANSLIT-FORMULA
+        enforcement_layer: challenger
+        code_files: [scripts/podcast/_validators.py]
+        shipped_commit: a89b64b
+        shipped_date: "2026-06-10"
+        status: shipped
+
+      - rule_id: R-SERMON-VERBATIM
+        enforcement_layer: framing post-author gate
+        code_files:
+          - scripts/podcast/_validators_framing.py
+          - scripts/podcast/_authoring.py
+        shipped_commit: a89b64b
+        shipped_date: "2026-06-10"
+        status: shipped
+
+      - rule_id: R-PRONUNCIATION-FORMAT
+        enforcement_layer: build_episode_txt pre-build gate
+        code_files:
+          - scripts/podcast/_validators_framing.py
+          - scripts/podcast/build_episode_txt.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+
+      - rule_id: R-HOST-ROLE-PARITY
+        enforcement_layer: challenger
+        code_files:
+          - scripts/podcast/_rules.py
+          - scripts/podcast/_validators.py
+        shipped_commit: 65bd82b
+        shipped_date: "2026-06-11"
+        status: shipped
+
+      - rule_id: G1-G7-PUBLISH-GATES
+        enforcement_layer: validate_ship_ready.py (read-only, pre-publish)
+        code_files:
+          - scripts/podcast/validate_ship_ready.py
+          - scripts/podcast/_contract_validation.py
+          - scripts/podcast/_acceptance.py
+        shipped_commit: 7e624a0
+        shipped_date: "2026-06-11"
+        status: shipped
+
+      - rule_id: CHAPTER-SET-INTEGRITY-CS7-CS11
+        enforcement_layer: check_chapter_set.py (post-0d gate for density_standard:2)
+        code_files:
+          - scripts/podcast/check_chapter_set.py
+          - scripts/podcast/phases/preflight.py
+        shipped_commit: a89b64b
+        shipped_date: "2026-06-10"
+        status: shipped
+
+      - rule_id: PIPELINE-LINT
+        enforcement_layer: pre-commit hook + CI
+        code_files:
+          - scripts/podcast/pipeline_lint.py
+        shipped_commit: 9c5ff4a
+        shipped_date: "2026-06-11"
+        status: shipped
+        notes: Blocking INLINE-HANDLER check; allow-list now empty.
+
+      - rule_id: CONTENT-LEVEL-GATE-L1-L2
+        enforcement_layer: augmenter.py _fetch_doctrine_atoms
+        code_files:
+          - scripts/podcast/_augmentation.py
+          - scripts/podcast/_rules.py
+          - scripts/podcast/intelligence/augmenter.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+
+      - rule_id: WAVE-W-AUGMENTATION-CHALLENGER
+        enforcement_layer: challenger Cat W (W1-W6)
+        code_files:
+          - scripts/podcast/_augmentation.py
+          - infra/claude-agents/podcast-challenger.md
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+
+      - rule_id: DUAL-AUDITOR-BUNDLE-SWEEP
+        enforcement_layer: phase 0g
+        code_files:
+          - scripts/podcast/audit_bundle.py
+          - scripts/podcast/audit_bundle_gemini.py
+        shipped_commit: d0819e4
+        shipped_date: "2026-06-11"
+        status: shipped
+
+      - rule_id: PRE-SYNTHESIS-ARABIC-REVIEW
+        enforcement_layer: audio-script phase halt (mandatory for ElevenLabs path)
+        code_files:
+          - scripts/podcast/phases/audio_driver.py
+          - scripts/podcast/phases/dor_halts.py
+          - plan-dashboard/src/pages/studio/[slug]/arabic-review.astro
+          - plan-dashboard/src/components/reader/ArabicReviewPanel.tsx
+        shipped_commit: f35c055
+        shipped_date: "2026-06-13"
+        status: shipped
+
+    # -----------------------------------------------------------------------
+    # PUBLISH AND TRAINER
+    # -----------------------------------------------------------------------
+    publish_and_trainer:
+
+      - capability: publish-status-flip
+        code_files:
+          - scripts/podcast/publish_to_library.py
+          - scripts/podcast/phases/publish_driver.py
+        shipped_commit: d67e1af
+        shipped_date: "2026-06-05"
+        status: shipped
+
+      - capability: post-publish-and-distribution
+        code_files:
+          - scripts/podcast/post_publish.py
+          - scripts/podcast/export_distribution.py
+        shipped_commit: d67e1af
+        shipped_date: "2026-06-05"
+        status: shipped
+
+      - capability: google-drive-delivery
+        code_files:
+          - scripts/podcast/deliver_book.py
+        shipped_commit: 0342897
+        shipped_date: "2026-06-10"
+        status: shipped
+
+      - capability: cross-book-trainer
+        code_files:
+          - scripts/podcast/learn_aggregate.py
+          - scripts/podcast/learn_propose.py
+          - infra/claude-agents/podcast-trainer.md
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+
+      - capability: promote-lane
+        code_files:
+          - scripts/podcast/promotion_lane.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+
+      - capability: approve-book
+        code_files:
+          - scripts/podcast/approve_book.py
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+
+  # ---------------------------------------------------------------------------
+  # SURFACE 2 — PODCAST FACTORY ASTRO SITE  (directory: plan-dashboard/)
+  # ---------------------------------------------------------------------------
+  astro_site:
+
+    # -----------------------------------------------------------------------
+    # ROUTES
+    # -----------------------------------------------------------------------
+    routes:
+
+      - path: /
+        purpose: Homepage — animated NarrativeScroll entry with cinematic intro
+        data_source: none (static GSAP animation)
+        code_files:
+          - plan-dashboard/src/pages/index.astro
+          - plan-dashboard/src/components/NarrativeScroll.tsx
+          - plan-dashboard/src/layouts/NarrativeBase.astro
+        shipped_commit: 7b2910c
+        shipped_date: "2026-06-01"
+        status: shipped
+        notes: >
+          Design-decision queue item (a): 11 JSX keyframe blocks, off-token
+          cinematic palette, unguarded GSAP — deferred for discussion.
+
+      - path: /overview
+        purpose: System overview — 4 domains, pipeline spine diagram
+        data_source: architecture-snapshot.json (lane data)
+        code_files:
+          - plan-dashboard/src/pages/overview.astro
+          - plan-dashboard/src/components/OverviewIndexRail.astro
+          - plan-dashboard/src/components/OverviewSystemMap.astro
+          - plan-dashboard/src/components/PipelineSpine.tsx
+        shipped_commit: 7b2910c
+        shipped_date: "2026-06-01"
+        status: shipped
+
+      - path: /architecture
+        purpose: Six-layer architecture view with swimlane diagram
+        data_source: architecture-snapshot.json
+        code_files:
+          - plan-dashboard/src/pages/architecture.astro
+          - plan-dashboard/src/components/LayerStack.tsx
+          - plan-dashboard/src/components/PhaseSwimlaneDiagram.tsx
+          - plan-dashboard/src/components/PipelineOverviewRail.tsx
+        shipped_commit: 7b2910c
+        shipped_date: "2026-06-01"
+        status: shipped
+
+      - path: /plan
+        purpose: Pipeline refactor roadmap with wave/step status
+        data_source: dashboard-snapshot.json
+        code_files:
+          - plan-dashboard/src/pages/plan.astro
+          - plan-dashboard/src/components/PlanDesign.tsx
+          - plan-dashboard/src/lib/plan/types.ts
+          - plan-dashboard/src/lib/plan/visualManifest.ts
+          - plan-dashboard/src/lib/plan/status-badges.ts
+        shipped_commit: 7b2910c
+        shipped_date: "2026-06-01"
+        status: shipped
+
+      - path: /pipeline-paths
+        purpose: 18-phase branch map table + SVG swimlane (content-type routing)
+        data_source: architecture-snapshot.json
+        code_files:
+          - plan-dashboard/src/pages/pipeline-paths.astro
+        shipped_commit: a8533f8
+        shipped_date: "2026-06-02"
+        status: shipped
+
+      - path: /infrastructure
+        purpose: Azure stack and infra deployment view
+        data_source: infrastructure-snapshot.json
+        code_files:
+          - plan-dashboard/src/pages/infrastructure.astro
+          - plan-dashboard/src/components/InfraColumns.tsx
+          - plan-dashboard/src/components/InfraDeployment.astro
+          - plan-dashboard/src/components/StepDiagram.tsx
+        shipped_commit: 7b2910c
+        shipped_date: "2026-06-01"
+        status: shipped
+
+      - path: /intelligence
+        purpose: Knowledge database and augmentation pipeline view
+        data_source: architecture-snapshot.json
+        code_files:
+          - plan-dashboard/src/pages/intelligence.astro
+          - plan-dashboard/src/lib/db/knowledge.ts
+        shipped_commit: 7b2910c
+        shipped_date: "2026-06-01"
+        status: shipped
+
+      - path: /quality
+        purpose: PEQ scoring axes and challenger rule catalog
+        data_source: architecture-snapshot.json
+        code_files:
+          - plan-dashboard/src/pages/quality.astro
+          - plan-dashboard/src/lib/peq-scores.ts
+        shipped_commit: 7b2910c
+        shipped_date: "2026-06-01"
+        status: shipped
+
+      - path: /corpus
+        purpose: Knowledge corpus explorer (Quran / Hadith / Term / Etymology atoms)
+        data_source: live API (api/corpus/atoms.ts -> knowledge.db)
+        code_files:
+          - plan-dashboard/src/pages/corpus.astro
+          - plan-dashboard/src/components/corpus-mock/CorpusExplorer.tsx
+          - plan-dashboard/src/pages/api/corpus/atom.ts
+          - plan-dashboard/src/pages/api/corpus/atoms.ts
+          - plan-dashboard/src/lib/db/knowledge.ts
+        shipped_commit: ebf2ce8
+        shipped_date: "2026-06-01"
+        status: shipped
+
+      - path: /system-map
+        purpose: Full-system dependency and data-flow map
+        data_source: architecture-snapshot.json
+        code_files:
+          - plan-dashboard/src/pages/system-map.astro
+          - plan-dashboard/src/components/DbArchitecture.tsx
+        shipped_commit: 7b2910c
+        shipped_date: "2026-06-01"
+        status: shipped
+
+      - path: /db-schema
+        purpose: knowledge.db schema with full-width SQL table card grid
+        data_source: architecture-snapshot.json
+        code_files:
+          - plan-dashboard/src/pages/db-schema.astro
+        shipped_commit: 6757499
+        shipped_date: "2026-05-28"
+        status: shipped
+
+      - path: /security
+        purpose: L1-L4 security lenses view
+        data_source: architecture-snapshot.json
+        code_files:
+          - plan-dashboard/src/pages/security.astro
+        shipped_commit: 7adc245
+        shipped_date: "2026-05-28"
+        status: shipped
+
+      - path: /library
+        purpose: Published book catalog with binder card grid
+        data_source: live filesystem (content/**/*) via content-paths.ts
+        code_files:
+          - plan-dashboard/src/pages/library/index.astro
+          - plan-dashboard/src/lib/library.ts
+          - plan-dashboard/src/lib/reader/books.ts
+          - plan-dashboard/src/lib/book-card-meta.ts
+          - plan-dashboard/src/pages/api/library/file.ts
+          - plan-dashboard/src/pages/api/library/new.ts
+          - plan-dashboard/src/pages/api/library/source.ts
+        shipped_commit: 93f97c2
+        shipped_date: "2026-06-10"
+        status: shipped
+
+      - path: /library/[slug]
+        purpose: Per-book reader — chapter text with Quran/Hadith/Term popovers
+        data_source: live filesystem (content/<Bucket>/<slug>/)
+        code_files:
+          - plan-dashboard/src/pages/library/[slug].astro
+          - plan-dashboard/src/lib/reader/book.ts
+          - plan-dashboard/src/lib/reader/chapters.ts
+          - plan-dashboard/src/lib/reader/markdown.ts
+          - plan-dashboard/src/lib/reader/glossary.ts
+          - plan-dashboard/src/lib/reader/arabic-terms.ts
+          - plan-dashboard/src/lib/reader/ref-categories/index.ts
+          - plan-dashboard/src/lib/reader/highlight-renderer.ts
+          - plan-dashboard/src/lib/reader/bilingual-sections.ts
+          - plan-dashboard/src/components/reader/ChapterEditor.tsx
+          - plan-dashboard/src/components/reader/QuranPopover.tsx
+          - plan-dashboard/src/components/reader/TermPopover.tsx
+          - plan-dashboard/src/components/reader/TopicPopover.tsx
+          - plan-dashboard/src/components/reader/ArabicToggle.tsx
+          - plan-dashboard/src/components/reader/ReaderControls.tsx
+          - plan-dashboard/src/components/reader/Legend.tsx
+          - plan-dashboard/src/components/reader/FloatingActions.tsx
+          - plan-dashboard/src/lib/db/annotations.ts
+        shipped_commit: 7f1f2bb
+        shipped_date: "2026-06-01"
+        status: shipped
+        notes: >
+          Collapsible session groups (8ce9ab8 2026-06-10). Arabic toggle
+          shows Arabic script from glossary.yml. Quran/Hadith/Term inline
+          popovers. Annotation layer (highlight, note, tag) + export.
+          Chapter editor for human corrections fed back to pipeline.
+
+      - path: /studio
+        purpose: Studio picker — lifecycle filter chips, per-category card design
+        data_source: live filesystem (content/**/*) filtered by status
+        code_files:
+          - plan-dashboard/src/pages/studio.astro
+          - plan-dashboard/src/components/studio/StudioSubnav.astro
+          - plan-dashboard/src/components/studio/ContentLevelSelector.tsx
+        shipped_commit: e1a4d9d
+        shipped_date: "2026-06-10"
+        status: shipped
+        notes: >
+          In the Works default, Up Next / Published toggles. Single-select
+          filter buttons. Per-category card design system via --shelf-accent.
+          Volume number as gold badge on Studio cards.
+
+      - path: /studio/[slug]/[step]
+        purpose: Per-book studio step (editorial cards, stage review, series plan)
+        data_source: live filesystem (content/<Bucket>/<slug>/_system/)
+        code_files:
+          - plan-dashboard/src/pages/studio/[slug]/[step].astro
+          - plan-dashboard/src/components/reader/poc/StudioPoc.tsx
+          - plan-dashboard/src/components/reader/poc/EditorialCards.tsx
+          - plan-dashboard/src/components/reader/poc/TransformationDashboard.tsx
+          - plan-dashboard/src/lib/reader/stage-review.ts
+          - plan-dashboard/src/lib/reader/editorial.ts
+          - plan-dashboard/src/pages/api/studio/editorial.ts
+          - plan-dashboard/src/pages/api/studio/review.ts
+          - plan-dashboard/src/pages/api/studio/save-stage.ts
+          - plan-dashboard/src/pages/api/studio/book-meta.ts
+          - plan-dashboard/src/pages/api/studio/corpus-search.ts
+          - plan-dashboard/src/pages/api/studio/section-depth.ts
+        shipped_commit: 7b2910c
+        shipped_date: "2026-06-01"
+        status: shipped
+        notes: >
+          7 editorial cards. save-stage.ts API writes edits to
+          _stages/<ch>/<stage>.md with .md.bak backup. cmdk corpus search
+          on Key Focus card.
+
+      - path: /studio/[slug]/arabic-review
+        purpose: Pre-audio Arabic curation review (table + inline panel)
+        data_source: live filesystem (content/<Bucket>/<slug>/_system/arabic-review-manifest.json)
+        code_files:
+          - plan-dashboard/src/pages/studio/[slug]/arabic-review.astro
+          - plan-dashboard/src/components/reader/ArabicReviewPanel.tsx
+          - plan-dashboard/src/pages/api/studio/arabic-review.ts
+        shipped_commit: 5355341
+        shipped_date: "2026-06-13"
+        status: shipped
+
+      - path: /studio/[slug]/book
+        purpose: Book reading-edition review in Studio left panel (Branch B surface)
+        data_source: live filesystem (content/<Bucket>/<slug>/book/)
+        code_files:
+          - plan-dashboard/src/pages/studio/[slug]/book.astro
+        shipped_commit: 26dae66
+        shipped_date: "2026-06-04"
+        status: shipped
+
+      - path: /studio/new
+        purpose: New content intake form (Phase 6 web intake)
+        data_source: live API (intake/create + form-options)
+        code_files:
+          - plan-dashboard/src/pages/studio/new.astro
+          - plan-dashboard/src/components/intake/IntakeWorkspace.tsx
+          - plan-dashboard/src/components/intake/NewContentForm.tsx
+          - plan-dashboard/src/components/intake/SmartForm.tsx
+          - plan-dashboard/src/components/intake/VoicePicker.tsx
+          - plan-dashboard/src/components/intake/Cockpit.tsx
+          - plan-dashboard/src/components/intake/EditorialDefaults.tsx
+          - plan-dashboard/src/components/intake/UploadStaging.tsx
+          - plan-dashboard/src/components/intake/PreflightSummary.tsx
+        shipped_commit: 362de43
+        shipped_date: "2026-06-09"
+        status: shipped
+
+      - path: /pre-upload/[slug]
+        purpose: Pre-upload pronunciation + framing-fixes review
+        data_source: live filesystem (content/<Bucket>/<slug>/episodes/)
+        code_files:
+          - plan-dashboard/src/pages/pre-upload/[slug].astro
+          - plan-dashboard/src/pages/pre-upload/index.astro
+          - plan-dashboard/src/components/PreUploadTabs.tsx
+          - plan-dashboard/src/components/PronunciationReview.tsx
+          - plan-dashboard/src/lib/pre-upload.ts
+          - plan-dashboard/src/pages/api/pre-upload.ts
+          - plan-dashboard/src/pages/api/pronunciation/build-bundle.ts
+        shipped_commit: c475f0e
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          Combined pronunciation + framing-fixes review. Verdicts: Keep,
+          Replace (auto-fill English/biblical), Delete. Apply to All Episodes.
+
+      - path: /pronunciation/[slug]
+        purpose: Pronunciation dictionary management
+        data_source: live filesystem (_system/glossary.yml)
+        code_files:
+          - plan-dashboard/src/pages/pronunciation/[slug].astro
+          - plan-dashboard/src/pages/pronunciation/index.astro
+          - plan-dashboard/src/components/PhoneticsGenerator.tsx
+          - plan-dashboard/src/lib/pronunciation.ts
+          - plan-dashboard/src/pages/api/pronunciation.ts
+          - plan-dashboard/src/pages/api/phonetic-generate.ts
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+
+      - path: /wisdom/[shelf]/[book]
+        purpose: Wisdom corpus reader (atoms by shelf and book)
+        data_source: live API (api/wisdom/search.ts -> knowledge.db)
+        code_files:
+          - plan-dashboard/src/pages/wisdom/[shelf]/[book].astro
+          - plan-dashboard/src/pages/wisdom/index.astro
+          - plan-dashboard/src/pages/api/wisdom/search.ts
+          - plan-dashboard/src/pages/api/wisdom/topic.ts
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+
+      - path: /annotation-ops
+        purpose: Annotation operations and export management
+        data_source: live API (api/annotations.ts -> SQLite annotations)
+        code_files:
+          - plan-dashboard/src/pages/annotation-ops.astro
+          - plan-dashboard/src/lib/reader/annotation-export.ts
+          - plan-dashboard/src/pages/api/annotations.ts
+          - plan-dashboard/src/pages/api/annotations/export.ts
+          - plan-dashboard/src/pages/api/annotations/tags.ts
+          - plan-dashboard/src/lib/db/annotations.ts
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+
+      - path: /about
+        purpose: About + Help page with quick-start guide and searchable FAQ
+        data_source: none (static)
+        code_files:
+          - plan-dashboard/src/pages/about.astro
+        shipped_commit: 04a8ad7
+        shipped_date: "2026-05-31"
+        status: shipped
+
+    # -----------------------------------------------------------------------
+    # SNAPSHOTS
+    # -----------------------------------------------------------------------
+    snapshots:
+
+      - name: architecture-snapshot.json
+        regenerator_script: plan-dashboard/scripts/regenerate-snapshots.py
+        consumers:
+          - plan-dashboard/src/pages/architecture.astro
+          - plan-dashboard/src/pages/overview.astro
+          - plan-dashboard/src/pages/infrastructure.astro
+          - plan-dashboard/src/pages/intelligence.astro
+          - plan-dashboard/src/pages/quality.astro
+          - plan-dashboard/src/pages/system-map.astro
+          - plan-dashboard/src/pages/pipeline-paths.astro
+        shipped_commit: 7796606
+        shipped_date: "2026-06-11"
+        notes: >
+          Generated from _workspace/plan/architecture.md.
+          MUST be regenerated after any edit to architecture.md (Tier 0 rule).
+          Primary command: python3 plan-dashboard/scripts/regenerate-snapshots.py
+          (npm install blocked by org policy). Stale snapshots are a contract
+          violation — SPA reads only snapshots, never source MD files.
+
+      - name: dashboard-snapshot.json
+        regenerator_script: plan-dashboard/scripts/regenerate-snapshots.py
+        consumers:
+          - plan-dashboard/src/pages/plan.astro
+        shipped_commit: 7796606
+        shipped_date: "2026-06-11"
+        notes: Generated from _workspace/plan/refactor/plan.yaml.
+
+      - name: infrastructure-snapshot.json
+        regenerator_script: plan-dashboard/scripts/regenerate-snapshots.py
+        consumers:
+          - plan-dashboard/src/pages/infrastructure.astro
+          - plan-dashboard/src/pages/system-map.astro
+        shipped_commit: 7796606
+        shipped_date: "2026-06-11"
+        notes: Generated from _workspace/plan/refactor/plan.yaml + azure-stack.md.
+
+      - name: capabilities-manifest.yml (THIS FILE)
+        regenerator_script: manual (produce via research agent)
+        consumers: []
+        shipped_commit: null
+        shipped_date: "2026-06-14"
+        notes: >
+          GAP: No snapshot consumer is currently wired in the Astro Site for
+          capabilities-manifest.yml. To surface it, either: (a) add a
+          /capabilities route that reads this YAML, or (b) wire a JSON
+          conversion step into regenerate-snapshots.py and add it to the
+          existing snapshot consumers.
+
+    # -----------------------------------------------------------------------
+    # COMPONENT FAMILIES
+    # -----------------------------------------------------------------------
+    components:
+
+      - family: Layouts
+        code_files:
+          - plan-dashboard/src/layouts/Base.astro
+          - plan-dashboard/src/layouts/NarrativeBase.astro
+        shipped_commit: 7b2910c
+        status: shipped
+
+      - family: Pipeline diagrams
+        code_files:
+          - plan-dashboard/src/components/PhaseSwimlaneDiagram.tsx
+          - plan-dashboard/src/components/PipelineSpine.tsx
+          - plan-dashboard/src/components/PipelineOverviewRail.tsx
+          - plan-dashboard/src/components/StepDiagram.tsx
+          - plan-dashboard/src/components/LayerStack.tsx
+          - plan-dashboard/src/components/Mermaid.astro
+        shipped_commit: 7b2910c
+        status: shipped
+
+      - family: Infra and database diagrams
+        code_files:
+          - plan-dashboard/src/components/InfraColumns.tsx
+          - plan-dashboard/src/components/InfraDeployment.astro
+          - plan-dashboard/src/components/DbArchitecture.tsx
+        shipped_commit: 7b2910c
+        status: shipped
+
+      - family: Reader
+        code_files:
+          - plan-dashboard/src/components/reader/ChapterEditor.tsx
+          - plan-dashboard/src/components/reader/QuranPopover.tsx
+          - plan-dashboard/src/components/reader/TermPopover.tsx
+          - plan-dashboard/src/components/reader/TopicPopover.tsx
+          - plan-dashboard/src/components/reader/ArabicToggle.tsx
+          - plan-dashboard/src/components/reader/ArabicReviewPanel.tsx
+          - plan-dashboard/src/components/reader/ReaderControls.tsx
+          - plan-dashboard/src/components/reader/ReaderSettings.tsx
+          - plan-dashboard/src/components/reader/FloatingActions.tsx
+          - plan-dashboard/src/components/reader/Legend.tsx
+          - plan-dashboard/src/components/reader/ContractView.astro
+          - plan-dashboard/src/components/reader/ChapterInstructionPanel.tsx
+        shipped_commit: 7f1f2bb
+        status: shipped
+
+      - family: Intake
+        code_files:
+          - plan-dashboard/src/components/intake/IntakeWorkspace.tsx
+          - plan-dashboard/src/components/intake/NewContentForm.tsx
+          - plan-dashboard/src/components/intake/SmartForm.tsx
+          - plan-dashboard/src/components/intake/VoicePicker.tsx
+          - plan-dashboard/src/components/intake/Cockpit.tsx
+          - plan-dashboard/src/components/intake/EditorialDefaults.tsx
+          - plan-dashboard/src/components/intake/UploadStaging.tsx
+          - plan-dashboard/src/components/intake/PreflightSummary.tsx
+        shipped_commit: 362de43
+        status: shipped
+
+      - family: Studio
+        code_files:
+          - plan-dashboard/src/components/studio/StudioSubnav.astro
+          - plan-dashboard/src/components/studio/ContentLevelSelector.tsx
+          - plan-dashboard/src/components/workbench/OperatorWorkbench.tsx
+        shipped_commit: 7b2910c
+        status: shipped
+
+      - family: Charts and data viz
+        code_files:
+          - plan-dashboard/src/components/Sparkline.tsx
+          - plan-dashboard/src/components/SpendChart.tsx
+          - plan-dashboard/src/components/AgentCard.tsx
+          - plan-dashboard/src/components/VendorLogo.tsx
+          - plan-dashboard/src/components/AudienceBadge.astro
+        shipped_commit: 7b2910c
+        status: shipped
+        notes: SpendChart has dead code flagged for removal (deferred SHOULD-tier).
+
+      - family: Plan and design
+        code_files:
+          - plan-dashboard/src/components/PlanDesign.tsx
+          - plan-dashboard/src/components/PronunciationReview.tsx
+          - plan-dashboard/src/components/PreUploadTabs.tsx
+          - plan-dashboard/src/components/BuildBundleButton.tsx
+        shipped_commit: e2ca3de
+        status: shipped
+
+      - family: AI and Claude client
+        code_files:
+          - plan-dashboard/src/lib/ai/claude-client.ts
+          - plan-dashboard/src/lib/reader/ai-cache.ts
+          - plan-dashboard/src/lib/reader/gemini-server.ts
+          - plan-dashboard/src/pages/api/ai/ask-chapter.ts
+          - plan-dashboard/src/pages/api/ai/claude.ts
+          - plan-dashboard/src/pages/api/ai/define-term.ts
+          - plan-dashboard/src/pages/api/ai/instruct.ts
+          - plan-dashboard/src/pages/api/ai/research.ts
+          - plan-dashboard/src/pages/api/ai/rewrite.ts
+          - plan-dashboard/src/pages/api/ai/summarize-section.ts
+        shipped_commit: 7b2910c
+        status: shipped
+
+    # -----------------------------------------------------------------------
+    # GATES
+    # -----------------------------------------------------------------------
+    gates:
+
+      - name: HTML view quality lint (MUST-tier blocking)
+        command: "npm run lint:views"
+        scope: plan-dashboard/src/pages/ and plan-dashboard/src/layouts/ (blocking); plan-dashboard/src/components/ (warn)
+        shipped_commit: 9c5ff4a
+        shipped_date: "2026-06-11"
+        status: shipped
+        notes: >
+          Config at plan-dashboard/html-view-lint.config.json. Rules from
+          docs/standards/html-view-quality.md (74 REQ-NNN rules).
+          Wired into prebuild and pre-commit hook. ZERO inline styling enforced.
+          Allow-list is empty (all exceptions removed 2026-06-11).
+          Excluding: src/pages/book-review/, src/pages/library/,
+          src/pages/wisdom/, src/components/reader/, src/components/ui/.
+
+      - name: Astro type check
+        command: "astro check"
+        scope: entire plan-dashboard/src/
+        shipped_commit: 21eb616
+        shipped_date: "2026-06-10"
+        status: shipped
+
+      - name: Snapshot regeneration check
+        command: "python3 plan-dashboard/scripts/regenerate-snapshots.py"
+        scope: _workspace/plan/architecture.md + refactor/plan.yaml
+        shipped_commit: 7796606
+        shipped_date: "2026-06-11"
+        status: shipped
+        notes: Tier 0 rule — must run in same response as any plan edit.
+
+      - name: Pipeline lint (pre-commit, blocking)
+        command: "python3 scripts/podcast/pipeline_lint.py"
+        scope: scripts/podcast/**/*.py
+        shipped_commit: 9c5ff4a
+        shipped_date: "2026-06-11"
+        status: shipped
+        notes: INLINE-HANDLER check; version-stamp rejection; allow-list empty.
+
+      - name: Test suite
+        command: "pytest tests/"
+        scope: scripts/podcast/tests/
+        shipped_commit: e2ca3de
+        shipped_date: "2026-06-09"
+        status: shipped
+        notes: >
+          Key test files: test_retry_phase_clearing.py,
+          test_chapter_set_integrity.py, test_no_claude_p_in_unattended.py,
+          test_challenger.py, test_azure_connectivity.py. 70+ tests.
+
+# ---------------------------------------------------------------------------
+# EXCLUDED
+# ---------------------------------------------------------------------------
+excluded:
+
+  elevenlabs:
+    status: quarantined_dormant_not_removed
+    reason: >
+      ElevenLabs is the second audio engine in the Audio Engine v2 registry
+      (Wave AE2, shipped 2026-06-12). Every content profile defaults to the
+      notebooklm engine (_rules.audio_engine_default_for_profile; Islamic switched
+      2026-06-13 via da7cfde), and NotebookLM books skip the entire ElevenLabs
+      render path via the is_autonomous() predicate — so no book exercises it.
+      Decision 2026-06-14 (with Asif): QUARANTINE, do not delete. ElevenLabs is the
+      only autonomous (API) engine, so retaining the registry entry preserves the
+      one-engine-among-many seam (extensibility-first) and the path to fully
+      hands-off audio for a future fiction/technical book. A dormancy marker was
+      added to the ENGINE_ELEVENLABS registry entry in _audio_engines.py; nothing
+      load-bearing was removed. To reactivate: set `audio_engine: elevenlabs` in a
+      book's series-config.yaml (the recitation flag + voice cast then stamp at
+      intake; see tests/test_quran_recitation.py). Excluded from the determinism
+      analysis because it is not on any current book's path — NOT because it is dead.
+    files_retained_dormant:
+      - scripts/podcast/_elevenlabs.py
+      - scripts/podcast/render_dialogue_audio.py
+      - scripts/podcast/generate_tts_episode.py
+      - scripts/podcast/_voice_library.py
+      - scripts/podcast/pronunciation_compiler.py
+      - scripts/podcast/build_voice_samples.py (manual tool — not in any phase)
+      - scripts/podcast/render_sample_preview.py (manual tool — not in any phase)
+      - scripts/podcast/_dialogue_script.py
+      - scripts/podcast/_dialogue_convergence.py
+      - scripts/podcast/_quran_recitation.py (pure; reusable by any engine)
+      - tests/test_audio_engines.py, test_render_dialogue_audio.py, test_dialogue_*.py
+
+  journal_repo:
+    reason: >
+      The journal repo (asifhussain60/journal) was fully disconnected from
+      podcast-factory on 2026-05-22. Memoir engine, static journal site,
+      ADLC, trip-log, and journal skills all live there. This manifest covers
+      podcast-factory only.
+
+# ---------------------------------------------------------------------------
+# DETERMINISTIC ISLAMIC PATH ANALYSIS
+# ---------------------------------------------------------------------------
+deterministic_islamic_path:
+  # Walk: book PDF -> per-chapter authoring -> NotebookLM bundle -> PDF/Astro publish
+  # Total steps: 29   |   Deterministic / orchestrated: 14   |   Score: 14/29 = 48%
+  # 2026-06-14 update: the post-download audio processing (step 21) moved from a
+  # hand-run CLI ritual to the orchestrated, self-correcting `audio-ingest` phase —
+  # one fewer manual action per book. The remaining manual gates are either
+  # irreducible (step 20: NotebookLM has no API) or deliberate editorial review
+  # halts. Manual NotebookLM upload/download is now bulletproofed by the durable
+  # worklist, not eliminated (that needs an external API or the dormant ElevenLabs
+  # engine). Manual gates: 6 (1 external-dependency, 5 deliberate/automatable-later).
+
+  end_to_end_steps:
+
+    - step: 1-pdf-intake-and-slot-assignment
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: []
+      evidence_files:
+        - scripts/podcast/intake_book.py
+        - plan-dashboard/src/pages/studio/new.astro
+
+    - step: 2-branch-creation
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [1-pdf-intake-and-slot-assignment]
+      evidence_files:
+        - scripts/podcast/_branching.py
+        - scripts/podcast/phases/scaffold.py
+
+    - step: 3-scaffold-directory-structure
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [2-branch-creation]
+      evidence_files:
+        - scripts/podcast/scaffold_book.py
+        - scripts/podcast/standardize_book_folders.py
+
+    - step: 4-azure-ocr-and-translation
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [3-scaffold-directory-structure]
+      evidence_files:
+        - scripts/podcast/ingest_source.py
+        - scripts/podcast/_azure.py
+        - scripts/podcast/ocr_image_pages.py
+        - scripts/podcast/translate_bundle.py
+
+    - step: 5-english-refinement-gemini-tighten
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [4-azure-ocr-and-translation]
+      evidence_files:
+        - scripts/podcast/gemini_refine.py
+        - scripts/podcast/tighten_source.py
+        - scripts/podcast/_chunking.py
+      notes: >
+        Fully scripted, runs unattended. LLM outputs are not deterministic
+        but the invocation is scripted with no human decision required.
+        Classified deterministic for flow purposes (script drives it end-to-end).
+
+    - step: 6-arabic-phonetic-pass
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [5-english-refinement-gemini-tighten]
+      evidence_files:
+        - scripts/podcast/_translit.py
+        - scripts/podcast/build_glossary.py
+        - scripts/podcast/phases/p2_2.py
+
+    - step: 7-book-intelligence-probe
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [6-arabic-phonetic-pass]
+      evidence_files:
+        - scripts/podcast/phases/p2_4_wave2.py
+        - scripts/podcast/source_library_queries.py
+      notes: LLM cross-references source against knowledge.db. Scripted end-to-end.
+
+    - step: 8-islamic-scholarly-human-review-halt
+      surface: pipeline
+      automation_status: manual_gate
+      depends_on: [7-book-intelligence-probe]
+      evidence_files:
+        - scripts/podcast/phases/p2_4_wave2.py
+      notes: >
+        Orchestrator halts for human review of the book intelligence report
+        before chapter design begins. No tooling assists the decision.
+        Human must inspect the gap analysis and approve proceeding.
+
+    - step: 9-chapter-design-episode-contracts
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [8-islamic-scholarly-human-review-halt]
+      evidence_files:
+        - scripts/podcast/_book_compose.py
+        - scripts/podcast/phases/p3_1.py
+        - scripts/podcast/phases/p3_5.py
+        - scripts/podcast/check_chapter_set.py
+      notes: >
+        Scripted LLM. Post-write density gates are deterministic checks that
+        reject over-dense output. CS7-CS11 chapter-set integrity gates run
+        deterministically post-LLM output.
+
+    - step: 10-enrichment-and-augmentation
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [9-chapter-design-episode-contracts]
+      evidence_files:
+        - scripts/podcast/augment_book.py
+        - scripts/podcast/_augmentation.py
+        - scripts/podcast/intelligence/augmenter.py
+      notes: >
+        Scripted LLM. Content-level gate selection and anti-repetition ledger
+        are deterministic pre-LLM filtering. The LLM enrichment itself is not.
+
+    - step: 11-source-review-gate
+      surface: pipeline
+      automation_status: manual_gate
+      depends_on: [10-enrichment-and-augmentation]
+      evidence_files:
+        - scripts/podcast/phases/source_review_gate.py
+      notes: >
+        Human must inspect enriched chapters and approve before series plan.
+        No tooling assists the decision. The Astro Site reader can surface
+        chapters for review but the approval is unscripted.
+
+    - step: 12-series-plan-write
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [11-source-review-gate]
+      evidence_files:
+        - scripts/podcast/phases/series_plan.py
+        - scripts/podcast/_notebooklm_table.py
+
+    - step: 13-series-plan-human-approval-halt
+      surface: pipeline
+      automation_status: manual_gate
+      depends_on: [12-series-plan-write]
+      evidence_files:
+        - scripts/podcast/phases/series_plan.py
+      notes: >
+        Orchestrator halts for human review of the series plan. Human reads
+        series-plan.md, inspects episode list, chapter scope, session groupings,
+        and explicitly resumes the orchestrator to proceed.
+
+    - step: 14-register-series-and-dual-bundle-audit
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [13-series-plan-human-approval-halt]
+      evidence_files:
+        - scripts/podcast/phases/register_series.py
+        - scripts/podcast/phases/bundle_audit.py
+        - scripts/podcast/audit_bundle.py
+        - scripts/podcast/audit_bundle_gemini.py
+
+    - step: 15-per-chapter-extract
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [14-register-series-and-dual-bundle-audit]
+      evidence_files:
+        - scripts/podcast/extract_chapter.py
+        - scripts/podcast/_extract_contract.py
+
+    - step: 16-per-chapter-framing-authorship
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [15-per-chapter-extract]
+      evidence_files:
+        - scripts/podcast/_authoring.py
+        - scripts/podcast/phases/per_chapter.py
+      notes: Scripted LLM. Framing cache (.framing-sig) skips re-authoring if unchanged.
+
+    - step: 17-per-chapter-episode-build
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [16-per-chapter-framing-authorship]
+      evidence_files:
+        - scripts/podcast/build_episode_txt.py
+        - scripts/podcast/_validators_framing.py
+
+    - step: 18-per-chapter-challenger-convergence
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [17-per-chapter-episode-build]
+      evidence_files:
+        - scripts/podcast/_convergence.py
+        - scripts/podcast/_validators.py
+        - infra/claude-agents/podcast-challenger.md
+      notes: >
+        3 outer x 5 inner = 15 max challenger passes. Cost-capped.
+        Convergence is scripted. Human surfaces SHIP-WITH-CAUTION verdicts
+        (P1 findings) at finalize halt, not here.
+
+    - step: 19-per-chapter-slide-deck-authoring
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [18-per-chapter-challenger-convergence]
+      evidence_files:
+        - scripts/podcast/generate_slide_decks.py
+        - scripts/podcast/_slide_convergence.py
+        - scripts/podcast/phases/pw4_1.py
+      notes: Scripted Gemini 2.5 Flash. Mandatory (feedback_slide_decks_required.md).
+
+    - step: 20-notebooklm-upload-generation-download
+      surface: external (NotebookLM manual)
+      automation_status: manual_gate
+      depends_on: [19-per-chapter-slide-deck-authoring]
+      evidence_files:
+        - scripts/podcast/_notebooklm_table.py
+        - content/<Bucket>/<slug>/_system/notebooklm-worklist.md
+      notes: >
+        Irreducible manual gate (NotebookLM has no API): the human opens NotebookLM,
+        uploads the chapter source, pastes the episode framing into Customize,
+        Generates, waits, and downloads the .m4a. BULLETPROOFED 2026-06-14: the
+        finalize halt now writes ONE durable worklist (notebooklm-worklist.md) that
+        lists every upload/paste/Length/Format/drop-target in order with live
+        checkboxes — the operator works one file across sessions instead of
+        re-reading scrolled-off terminal cards. The hand-work remains (~10-20
+        min/episode) but is one-shot and self-documenting; everything AFTER the
+        download is automatic (step 21).
+
+    - step: 21-audio-ingest-normalize-and-transcribe
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [20-notebooklm-upload-generation-download]
+      evidence_files:
+        - scripts/podcast/phases/audio_ingest_driver.py
+        - scripts/podcast/normalize_m4a.py
+        - scripts/podcast/transcribe_notebooklm.py
+        - scripts/podcast/_azure.py
+      notes: >
+        GAP CLOSED 2026-06-14. Previously a hand-run two-command CLI ritual
+        (normalize_m4a.py --apply + transcribe_notebooklm.py); now the orchestrated,
+        self-correcting `audio-ingest` phase. On --resume after the audio drop it
+        fingerprint-repairs filename drift deterministically, Azure-transcribes,
+        and gates on completeness (re-halts cleanly if anything is missing).
+        Idempotent and engine-gated (no-op for ElevenLabs). No manual invocation.
+
+    - step: 22-finalize-gate-check-g1-g7
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [21-m4a-normalize-and-azure-transcribe]
+      evidence_files:
+        - scripts/podcast/validate_ship_ready.py
+        - scripts/podcast/_contract_validation.py
+        - scripts/podcast/_acceptance.py
+
+    - step: 23-finalize-human-review-halt
+      surface: pipeline + astro_site
+      automation_status: manual_gate
+      depends_on: [22-finalize-gate-check-g1-g7]
+      evidence_files:
+        - scripts/podcast/phases/dor_halts.py
+        - plan-dashboard/src/pages/library/[slug].astro
+      notes: >
+        Orchestrator halts for human review of the finished book in the
+        Podcast Factory Astro Site reader. Human reads chapters, checks
+        P1 verdicts from SHIP-WITH-CAUTION chapters, and explicitly resumes
+        to approve publish. Studio + reader surfaces assist the review.
+
+    - step: 24-pdf-book-branch-design-compose-illustrate
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [23-finalize-human-review-halt]
+      evidence_files:
+        - scripts/podcast/_authoring/_book_design.py
+        - scripts/podcast/_book_compose.py
+        - scripts/podcast/_book_illustrate.py
+        - scripts/podcast/phases/book_driver.py
+      notes: Scripted LLM. Three LLM phases in sequence.
+
+    - step: 25-notebooklm-slide-deck-pdf-manual-drop
+      surface: pipeline (manual_gate)
+      automation_status: manual_gate
+      depends_on: [24-pdf-book-branch-design-compose-illustrate]
+      evidence_files:
+        - scripts/podcast/_slide_import.py
+      notes: >
+        Human must export slide deck PDFs from NotebookLM for each episode
+        and drop them into content/<Bucket>/<slug>/slide-decks/.
+        Pipeline halts until all chapter PDFs are present (or .SKIP marked).
+        No automation can extract PDFs from NotebookLM.
+
+    - step: 26-book-slide-import-and-render
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [25-notebooklm-slide-deck-pdf-manual-drop]
+      evidence_files:
+        - scripts/podcast/_slide_import.py
+        - scripts/podcast/build_book_pdf.py
+
+    - step: 27-book-challenger-and-pdf-quality-gate
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [26-book-slide-import-and-render]
+      evidence_files:
+        - infra/claude-agents/book-challenger.md
+      notes: Automated book-challenger convergence gates the PDF.
+
+    - step: 28-publish-status-flip
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [27-book-challenger-and-pdf-quality-gate]
+      evidence_files:
+        - scripts/podcast/publish_to_library.py
+
+    - step: 29-merge-to-develop
+      surface: pipeline
+      automation_status: deterministic
+      depends_on: [28-publish-status-flip]
+      evidence_files:
+        - scripts/podcast/phases/merge.py
+
+  gaps:
+
+    - step: 21-audio-ingest-normalize-and-transcribe
+      gap_description: >
+        CLOSED 2026-06-14. Was: normalize + transcribe were hand-run CLI commands
+        outside the orchestrator. Now the orchestrated, self-correcting audio-ingest
+        phase runs them automatically on --resume with deterministic drift repair
+        and a completeness gate. Retained here as a record of the closure.
+      recommended_fix: Done — scripts/podcast/phases/audio_ingest_driver.py.
+      priority: closed
+
+    - step: 20-notebooklm-upload-generation-download
+      gap_description: >
+        IRREDUCIBLE while NotebookLM is the engine: NotebookLM has no public API,
+        so the upload/generate/download cycle is manual (~3-6 h for a 20-episode
+        book). MITIGATED 2026-06-14 by the durable worklist (one checklist file,
+        live checkboxes, survives sessions) and by full automation of everything
+        after the download (step 21). What remains unscripted is exactly the
+        in-NotebookLM-UI hand-work, which no repo-side code can perform. The only
+        path to fully closing this is an external dependency (a NotebookLM API) or
+        switching that book to the dormant autonomous engine (ElevenLabs).
+      recommended_fix: >
+        Monitor Google for a NotebookLM API. Interim already shipped: the durable
+        worklist. A browser-automation script (Playwright/Chrome extension) could
+        pre-fill the UI but is brittle (NotebookLM UI churns) — not recommended now.
+        For a book that does NOT need NotebookLM's hosted voices, reactivating the
+        quarantined ElevenLabs engine makes audio fully hands-off.
+      priority: high (external dependency — not closeable in-repo)
+
+    - step: 25-notebooklm-slide-deck-pdf-manual-drop
+      gap_description: >
+        After NotebookLM generates a slide deck for an episode, the user must
+        manually export it as PDF, rename it correctly, and drop it into the
+        slide-decks/ folder. There is no API to retrieve generated decks.
+        For a 20-episode book this is 20 manual export-rename-drop operations.
+      recommended_fix: >
+        Same as gap for step 20: a NotebookLM API would solve this. Interim:
+        a naming convention validator + drag-drop UI in the Astro Studio to
+        reduce friction. The slide-decks/ folder naming is documented
+        (ch<NN>-<slug>.pdf) but not enforced at drop time.
+      priority: medium
+
+    - step: 8-islamic-scholarly-human-review-halt
+      gap_description: >
+        The book intelligence report surfaces gaps and corpus cross-references
+        but there is no in-site UI to review and approve it. The human must
+        read a raw markdown file in the terminal and manually issue an
+        orchestrator --resume command. The gap-analysis.json data is rich but
+        unexposed in the Astro Site.
+      recommended_fix: >
+        Add a /studio/[slug]/intelligence-review route that renders the
+        book intelligence report inline and provides a one-click approve button
+        that calls api/intake/resume. This would reduce this manual gate to
+        a ~2 minute review.
+      priority: medium
+
+    - step: 11-source-review-gate
+      gap_description: >
+        Phase 06a halts for human review of enriched chapters, but the Astro
+        Site library reader (while it can display chapters) has no direct
+        "approve this review gate" action. The human must switch to the
+        terminal to resume. The review itself is well-supported by the reader;
+        the approve action is not.
+      recommended_fix: >
+        Add a "Approve Source Review" action to the Studio [slug]/[step]
+        route that maps to the 06a gate. Wire api/intake/resume behind it.
+      priority: low
+
+    - step: 23-finalize-human-review-halt
+      gap_description: >
+        The finalize halt is well-supported (Astro Site reader + Studio exist)
+        but there is no unified "approve finalize + trigger publish" button.
+        Human must switch to terminal to issue --resume. The review is rich
+        but the approval action is terminal-only.
+      recommended_fix: >
+        Add an "Approve + Publish" action to the Studio book review surface
+        that calls api/approve/[slug] and wires to the orchestrator resume.
+        api/approve/[slug].ts already exists in the route list.
+      priority: medium
+
+  manual_gates:
+
+    - step: 8-islamic-scholarly-human-review-halt
+      why_manual: >
+        Orchestrator halts after book intelligence for Islamic scholarly books.
+        Requires expert judgment on the gap analysis before LLM chapter design
+        begins to prevent spending on wrong boundaries.
+      can_automate: false
+      effort: n/a — expert judgment, not a scripting problem
+
+    - step: 11-source-review-gate
+      why_manual: >
+        Human must verify that enriched chapters faithfully represent the source
+        and that episode scope is correct before series plan is committed.
+      can_automate: false
+      effort: n/a — content fidelity judgment
+
+    - step: 13-series-plan-human-approval-halt
+      why_manual: >
+        Series plan commit is the largest structural decision in the pipeline.
+        Episode count, session groupings, and NotebookLM conversation style
+        are all locked here. Wrong decisions are expensive to reverse.
+      can_automate: true
+      effort: >
+        Could offer a "trust the pipeline" auto-approve mode for books where
+        Phase 0d and 0f produce clean CS7-CS11 reports. Would require a
+        confidence threshold (e.g. density_standard:2, P0-clean 0d report).
+        Estimated effort: 1-2 days.
+
+    - step: 20-notebooklm-upload-generation-download
+      why_manual: >
+        NotebookLM has no API. Upload, generation wait, and download are
+        entirely browser-based. This is the single biggest automation gap.
+      can_automate: true
+      effort: >
+        Browser automation via Playwright or Chrome extension. The pipeline
+        already generates perfect upload artifacts. Automation would need to:
+        (1) create a notebook, (2) upload source file, (3) set Customize prompt,
+        (4) trigger generation, (5) poll for completion, (6) download .m4a.
+        Estimated effort: 3-5 days (brittle — NotebookLM UI changes often).
+
+    - step: 23-finalize-human-review-halt
+      why_manual: >
+        Final human quality gate before publish. Human reads all chapters +
+        reviews SHIP-WITH-CAUTION P1 verdicts. This is a deliberate quality
+        control point, not an automation gap.
+      can_automate: false
+      effort: n/a — deliberate editorial gate
+
+    - step: 25-notebooklm-slide-deck-pdf-manual-drop
+      why_manual: >
+        No NotebookLM API for deck export. Human must export PDFs from the
+        NotebookLM Slides interface, rename them to the canonical ch<NN>-<slug>
+        pattern, and drop them into slide-decks/.
+      can_automate: true
+      effort: >
+        Same as step 20 — blocked on NotebookLM API availability. A naming
+        convention enforcer in the Astro Studio intake could reduce the friction
+        from the current terminal workflow.

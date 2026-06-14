@@ -520,24 +520,22 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     # overridden ones). The no-overrides path is byte-identical to before (the
     # golden-test latch): pure-NotebookLM books print the full unfiltered table,
     # pure-ElevenLabs books print only the rendered note.
+    # Shared filter: the SAME `notebooklm_episode_filter` the audio-ingest phase
+    # uses, so the halt card and the phase agree on which episodes need the ritual.
+    # None = pure-NotebookLM (all episodes); empty set = pure-API (none); a subset
+    # = mixed-engine book.
     try:
-        from _audio_engines import (
-            audio_engine_for_book, is_autonomous,
-            engine_for_episode, episode_engine_overrides, ENGINE_NOTEBOOKLM,
-        )
-        _overrides = episode_engine_overrides(book_dir)
-        _book_autonomous = is_autonomous(audio_engine_for_book(book_dir))
-    except Exception:  # noqa: BLE001 — fall back to the manual ritual
-        _overrides, _book_autonomous = {}, False
-
-    if not _overrides:
-        # No per-episode overrides → unchanged behavior.
-        _nlm_filter: set[str] | None = None if not _book_autonomous else set()
-        _has_api = _book_autonomous
-    else:
+        from _audio_engines import notebooklm_episode_filter  # noqa: PLC0415
         _all_eps = [e["episode"] for e in _discover_episode_mapping(book_dir)]
-        _nlm_filter = {ep for ep in _all_eps
-                       if engine_for_episode(book_dir, ep) == ENGINE_NOTEBOOKLM}
+        _nlm_filter: set[str] | None = notebooklm_episode_filter(book_dir, _all_eps)
+    except Exception:  # noqa: BLE001 — fall back to the manual ritual
+        _all_eps, _nlm_filter = [], None
+
+    if _nlm_filter is None:
+        _has_api = False
+    elif not _nlm_filter:
+        _has_api = True
+    else:
         _has_api = any(ep not in _nlm_filter for ep in _all_eps)
 
     if _has_api:
@@ -554,11 +552,30 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             _info(f"  [notebooklm table error: {_tbl_exc}]")
         _info("")
         _info("After downloading the generated .m4a files, drop them anywhere under")
-        _info("m4a/ — names don't matter — then normalize to canonical chapter order")
-        _info("and transcribe via Azure Speech (no external transcription service):")
-        _info(f"  python3 scripts/podcast/normalize_m4a.py {book_slug} --apply")
-        _info(f"  python3 scripts/podcast/transcribe_notebooklm.py {book_slug}")
+        _info("m4a/ — names don't matter. The next --resume normalizes them to canonical")
+        _info("chapter order and transcribes via Azure Speech automatically (the")
+        _info("audio-ingest phase) — no manual CLI step needed.")
         _info("")
+        # Durable worklist file — the operator works ONE checklist across sessions
+        # (it survives terminal scroll); audio-ingest + 0book-slide-import consume
+        # the drops automatically on --resume.
+        try:
+            from assemble_bundle import build_upload_rows  # noqa: PLC0415
+            from _notebooklm_table import build_worklist_lines  # noqa: PLC0415
+            _wl_rows = build_upload_rows(
+                book_dir, _discover_episode_mapping(book_dir),
+                filter_episode_ids=_nlm_filter)
+            _resume_cmd = f"python3 scripts/podcast/orchestrate_book.py --resume {book_slug}"
+            _wl_path = book_dir / "_system" / "notebooklm-worklist.md"
+            _wl_path.parent.mkdir(parents=True, exist_ok=True)
+            _wl_path.write_text(
+                "\n".join(build_worklist_lines(
+                    book_dir, upload_rows=_wl_rows, resume_cmd=_resume_cmd)) + "\n",
+                encoding="utf-8")
+            _info(f"Durable worklist written: {_wl_path.relative_to(REPO_ROOT)}")
+            _info("")
+        except Exception as _wl_exc:  # noqa: BLE001 — worklist is a convenience view
+            _info(f"  [worklist file skipped: {_wl_exc}]")
     # Slide-deck generation always runs through NotebookLM's Slide-deck tool,
     # independent of the audio engine — print the card on EVERY path (it
     # self-skips when no chapter has a converged deck).
@@ -644,52 +661,20 @@ def _print_notebooklm_table(book_dir: Path,
         parent = Path(__file__).resolve().parents[1]
         if str(parent) not in sys.path:
             sys.path.insert(0, str(parent))
-        from assemble_bundle import (  # noqa: PLC0415
-            _load_contract,
-            _resolve_chapter_file,
-            _resolve_framing_file,
-        )
-        from _notebooklm_table import (  # noqa: PLC0415
-            UploadRow, render_upload_table_lines, repo_rel_href,
-            load_density_lengths, length_for_episode,
-        )
+        from assemble_bundle import build_upload_rows  # noqa: PLC0415
+        from _notebooklm_table import render_upload_table_lines  # noqa: PLC0415
     except ImportError as exc:
         _info(f"  [notebooklm table skipped — import error: {exc}]")
         return
-
-    # Per-episode Length from the density plan when one exists (else "Long").
-    _density_lengths = load_density_lengths(book_dir)
 
     mapping = _discover_episode_mapping(book_dir)
     if not mapping:
         _info("  [notebooklm table skipped — no episodes found]")
         return
 
-    rows: list[UploadRow] = []
-    for entry in mapping:
-        episode_slug = entry["episode"]
-        if filter_episode_ids is not None and episode_slug not in filter_episode_ids:
-            continue
-        chapter_slug = entry["chapter"]
-        ep_num = entry["n"]
-        contract = _load_contract(book_dir, chapter_slug)
-        episode_format = contract.get("episode_format", "deep_dive")
-        title = contract.get("title", episode_slug).strip("\"'")
-        chapter_path = _resolve_chapter_file(book_dir, chapter_slug)
-        framing_path = _resolve_framing_file(book_dir, episode_slug)
-        _si = contract.get("session_index")
-        rows.append(UploadRow(
-            n=ep_num,
-            chapter_title=title,
-            episode_title=title,
-            episode_format=episode_format,
-            length=length_for_episode(book_dir, ep_num, _density_lengths),
-            chapter_href=repo_rel_href(chapter_path, book_dir),
-            episode_href=repo_rel_href(framing_path, book_dir),
-            session_index=_si if isinstance(_si, int) else None,
-            session_title=contract.get("session_title")
-                if isinstance(contract.get("session_title"), str) else None,
-        ))
+    # SINGLE row constructor — shared with the durable worklist so both render
+    # from identical data (byte-identical to the prior inline loop: the latch).
+    rows = build_upload_rows(book_dir, mapping, filter_episode_ids=filter_episode_ids)
 
     _info("─" * 72)
     _info("NOTEBOOKLM UPLOAD TABLE")

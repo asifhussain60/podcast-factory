@@ -61,9 +61,10 @@ class TestEpisodeEngineOverride(unittest.TestCase):
 
 
 class TestProfileDefaults(unittest.TestCase):
-    def test_islamic_defaults_to_elevenlabs_with_cast(self):
+    def test_islamic_defaults_to_notebooklm_with_cast(self):
+        # Locked 2026-06-13: all Islamic books use NotebookLM (ElevenLabs rejected).
         self.assertEqual(rules.audio_engine_default_for_profile("islamic_scholarly"),
-                         "elevenlabs")
+                         "notebooklm")
         cast = rules.default_voice_cast_for_profile("islamic_scholarly")
         self.assertEqual(cast.get("host_a"), "Eric")
         self.assertEqual(cast.get("host_b"), "Lily")
@@ -73,11 +74,14 @@ class TestProfileDefaults(unittest.TestCase):
             self.assertEqual(rules.audio_engine_default_for_profile(p), "notebooklm")
 
     def test_unknown_profile_falls_back_to_islamic(self):
-        self.assertEqual(rules.audio_engine_default_for_profile("nope"), "elevenlabs")
+        # Unknown profiles fall back to islamic_scholarly (notebooklm since 2026-06-13).
+        self.assertEqual(rules.audio_engine_default_for_profile("nope"), "notebooklm")
 
 
 class TestIntakeStamp(unittest.TestCase):
-    def test_new_islamic_book_gets_engine_and_cast(self):
+    def test_new_islamic_book_gets_notebooklm_engine(self):
+        # 2026-06-13: Islamic books default to notebooklm; voice_cast not written
+        # (it is ElevenLabs-only and gated by `if audio_engine == "elevenlabs"`).
         import yaml
         from intake_launch import _write_series_config
         with tempfile.TemporaryDirectory() as t:
@@ -86,10 +90,12 @@ class TestIntakeStamp(unittest.TestCase):
             _write_series_config(d, "bk", "Title",
                                  {"content_profile": "islamic_scholarly"}, None)
             cfg = yaml.safe_load((d / "_system" / "series-config.yaml").read_text())
-            self.assertEqual(cfg["audio_engine"], "elevenlabs")
-            self.assertEqual(cfg["voice_cast"], {"host_a": "Eric", "host_b": "Lily"})
+            self.assertEqual(cfg["audio_engine"], "notebooklm")
+            self.assertNotIn("voice_cast", cfg)
 
-    def test_operator_voice_choice_wins(self):
+    def test_operator_voice_choice_wins_on_elevenlabs(self):
+        # voice_cast is only written for explicit elevenlabs books; operator must
+        # select the engine AND the cast for it to land in series-config.yaml.
         import yaml
         from intake_launch import _write_series_config
         with tempfile.TemporaryDirectory() as t:
@@ -97,9 +103,11 @@ class TestIntakeStamp(unittest.TestCase):
             (d / "_system").mkdir(parents=True)
             _write_series_config(d, "bk", "Title", {
                 "content_profile": "islamic_scholarly",
+                "audio_engine": "elevenlabs",
                 "voice_cast_host_a": "George", "voice_cast_host_b": "Sarah",
             }, None)
             cfg = yaml.safe_load((d / "_system" / "series-config.yaml").read_text())
+            self.assertEqual(cfg["audio_engine"], "elevenlabs")
             self.assertEqual(cfg["voice_cast"], {"host_a": "George", "host_b": "Sarah"})
 
     def test_fiction_book_stays_notebooklm_no_cast(self):

@@ -675,7 +675,7 @@ def _build_book_pair_prompt(
         f"- No em dashes. No emojis. No inline phonetic parens on Arabic terms "
         f"(R-PHONETICS-OUT).\n\n"
         f"FRAMING rules (`{framing_path.name}`):\n"
-        f"- 150-250 words total.\n"
+        f"- 150-350 words total.\n"
         f"- H1 (one line; file-label).\n"
         f"- Required H2 sections, in this order:\n"
         f"  1. `## Audience` — named concretely.\n"
@@ -685,7 +685,14 @@ def _build_book_pair_prompt(
         f"the deck source, spanning the whole book's arc.\n"
         f"  4. `## Prohibited Patterns` — explicit list (no literal-text slides, no "
         f"audio-restatement, no stock-photo descriptions, no bullet-list-as-diagram).\n"
-        f"  5. `## Steering Phrases` — 3-5 phrases drawn from `{REFERENCE_STEERING.name}`.\n\n"
+        f"  5. `## Steering Phrases` — 3-5 phrases drawn from `{REFERENCE_STEERING.name}`.\n"
+        f"  6. `## Visual Style` — instruct the generator to use black-and-white line-art "
+        f"illustration style: conceptual diagrams in the manner of pen-and-ink scholarly "
+        f"illustrations (hierarchies as tree diagrams, contrast pairs as two-panel layouts, "
+        f"genealogy chains as flowing arrow diagrams, process flows as numbered-step "
+        f"illustrations). No colour fills, no photographs, no gradients. Clean geometric "
+        f"shapes and lines only. Each slide must be a drawn diagram rather than a "
+        f"text-heavy bullet list.\n\n"
         f"AFTER WRITING both files, print on stdout (one per line):\n"
         f"  DECK: {deck_path}\n"
         f"  FRAMING: {framing_path}\n"
@@ -721,8 +728,8 @@ def _validate_book_pair(deck_path: Path, framing_path: Path) -> list[str]:
         findings.append(f"deck source is {deck_words} words (<2,000 hard floor)")
     framing_text = framing_path.read_text(encoding="utf-8")
     framing_words = len(framing_text.split())
-    if not (120 <= framing_words <= 300):
-        findings.append(f"framing is {framing_words} words (target 150-250)")
+    if not (120 <= framing_words <= 400):
+        findings.append(f"framing is {framing_words} words (target 150-350)")
     for h2 in _BOOK_FRAMING_REQUIRED_H2:
         if h2 not in framing_text:
             findings.append(f"framing missing required section: {h2}")

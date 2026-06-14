@@ -129,14 +129,31 @@ class SunnyDayE2ETests(unittest.TestCase):
         # Per-chapter contracts (P2.2 asserts ≥1)
         cc_dir = book_dir / "chapter-contracts"
         cc_dir.mkdir(parents=True, exist_ok=True)
-        (cc_dir / "ch01-encounter.yml").write_text(
-            "schema_version: 1\nslug: ch01-encounter\ntitle: The Encounter\n"
+        # FIX 14: contract must pass the Phase-0d post-write gate
+        # (_contract_validation.validate_contract_full) like real 0d output.
+        (cc_dir / "encounter.yml").write_text(
+            "schema_version: 1\n"
+            "chapter_ref: ch01-encounter\n"
+            "slug: encounter\n"
+            "source_type: book-chapter\n"
+            "episode_number: 1\n"
+            "title: The Encounter\n"
+            "audience: Listeners new to the tiny test book.\n"
+            "angle: faithful_exposition\n"
+            "episode_format: deep_dive\n"
+            "host_dynamic: curious_mind + scholar_companion\n"
+            "adaptation_mode: faithful\n"
+            "key_tensions:\n"
+            "  - The first tension of the tiny book.\n"
         )
         # Chapter txt files (P2.2 asserts ≥1)
         ch_dir = book_dir / "chapters"
         ch_dir.mkdir(parents=True, exist_ok=True)
+        # ~2000 words so the post-0d chapter-set check's P4 word band
+        # (default_deep_dive: 1800-2800) stays clean, like real 0d output.
         (ch_dir / "ch01-encounter.txt").write_text(
-            "# The Encounter\n\nMocked chapter content produced by Phase 0d.\n"
+            "# The Encounter\n\n"
+            + ("Mocked chapter content produced by Phase 0d. " * 250)
         )
         # Required Phase 0d sidecars
         (text_dir / "chapters-rationale.md").write_text(

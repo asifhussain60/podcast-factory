@@ -142,10 +142,17 @@ class AudioEnginePathE2E(unittest.TestCase):
         self.assertEqual(self._phase("audio-script")["status"], "skipped")
         self.assertEqual(self._phase("audio-render")["status"], "skipped")
         self.assertEqual(self._phase("finalize")["status"], "halted")
-        # The manual NotebookLM ritual is present, verbatim anchors:
+        # The NotebookLM upload table is present (locked format), and the halt now
+        # tells the operator the post-drop processing is AUTOMATIC (audio-ingest
+        # phase) rather than two hand-run CLI commands.
         self.assertIn("NOTEBOOKLM UPLOAD TABLE", stdout)
-        self.assertIn("normalize_m4a.py", stdout)
-        self.assertIn("transcribe_notebooklm.py", stdout)
+        self.assertIn("audio-ingest", stdout)
+        # A durable worklist is written for the operator to work across sessions.
+        worklist = self.book / "_system" / "notebooklm-worklist.md"
+        self.assertTrue(worklist.exists())
+        wl = worklist.read_text(encoding="utf-8")
+        self.assertIn("Deep dive or debate", wl)          # locked upload-table header
+        self.assertIn("Drop-target checklist", wl)        # per-episode checkboxes
 
     # ── ElevenLabs path: autonomous with ONE H1 halt ──────────────────────────
 
@@ -237,9 +244,11 @@ class AudioEnginePathE2E(unittest.TestCase):
         self.assertEqual(self._phase("audio-script")["status"], "completed")
         self.assertEqual(self._phase("finalize")["status"], "halted")
         # Mixed-routing finalize: the NotebookLM ritual IS printed for the
-        # overridden episode (and the transcribe step follows it).
+        # overridden episode, with the automatic audio-ingest follow-up.
         self.assertIn("NOTEBOOKLM UPLOAD TABLE", stdout)
-        self.assertIn("transcribe_notebooklm.py", stdout)
+        self.assertIn("audio-ingest", stdout)
+        # The worklist is written with only the overridden (NotebookLM) episode.
+        self.assertTrue((self.book / "_system" / "notebooklm-worklist.md").exists())
 
 
 if __name__ == "__main__":

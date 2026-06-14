@@ -122,6 +122,30 @@ DIALOGUE_LENSES: dict[str, str] = {
 }
 
 
+def _teaching_terms_for_prompt(book_dir: Path, *, cap: int = 30) -> str:
+    """Comma-joined transliterations of the book's TEACHING-classified glossary
+    terms — the vocabulary the ElevenLabs author must keep (not paraphrase to
+    English) so the render layer can voice it in Arabic. Loanwords and personal
+    names are excluded (they are never recited). Empty string when the glossary
+    is absent or unclassified, so the prompt is byte-identical for such books."""
+    try:
+        from pronunciation_compiler import (
+            load_glossary_entries, _is_proper_name, LOANWORD_SKIP,
+        )
+    except Exception:  # noqa: BLE001
+        return ""
+    seen: list[str] = []
+    for e in load_glossary_entries(book_dir):
+        if str(e.get("teaching_relevance") or "").strip().lower() != "teaching":
+            continue
+        term = str(e.get("transliteration") or e.get("phonetic") or "").strip()
+        if not term or term.lower() in LOANWORD_SKIP or _is_proper_name(term):
+            continue
+        if term not in seen:
+            seen.append(term)
+    return ", ".join(seen[:cap])
+
+
 def author_dialogue_script(book_dir: Path, chapter_slug: str,
                            timeout: int = DIALOGUE_TIMEOUT) -> str:
     """Author the dialogue script for one chapter. Returns claude -p stdout.
@@ -197,15 +221,34 @@ def author_dialogue_script(book_dir: Path, chapter_slug: str,
     # citation always recites the same canonical verse. A model typing Quran
     # Arabic from memory is a faithfulness risk and is forbidden.
     if engine.supports_arabic_script:
+        # On an Arabic-capable engine the render layer voices the key teaching
+        # terms in their native Arabic from the VERIFIED glossary — but only where
+        # the script actually USES the term in transliteration. So the author must
+        # keep the teaching vocabulary by name, not paraphrase it into English-only
+        # (the failure that left asaas-vol-01's audio Arabic-free, 2026-06-13).
+        keep_terms_clause = ""
+        teaching_terms = _teaching_terms_for_prompt(book_dir)
+        if teaching_terms:
+            keep_terms_clause = (
+                f" The KEY TEACHING TERMS for this book are: {teaching_terms}. "
+                "Whenever the source teaches with one of these, USE the term by its "
+                "transliteration — introduce it ONCE with a short English gloss, then "
+                "keep using the term. Do NOT silently replace a teaching term with an "
+                "English-only paraphrase: on this engine the pipeline voices these "
+                "terms in their native Arabic from the verified glossary, so the "
+                "listener must actually HEAR the term. (Teaching vocabulary only — "
+                "keep personal names, dynasties, and places in plain English.)"
+            )
         script_lang_clause = (
             "  - ASCII only — do NOT type any Arabic script yourself, not even "
             "for verses. Write Arabic terms in plain transliteration exactly as "
-            "the chapter carries them. Cite every Quran verse in LONG-FORM prose "
-            "— 'the chapter of Abraham, verse seven' (named surah + verse number) "
-            "— and quote its English meaning; the pipeline splices the verbatim "
-            "Arabic recitation in from the corpus at render time, and pronounces "
-            "key terms correctly from the glossary. Your job is the English words "
-            "+ the precise citation, never the Arabic.\n\n"
+            "the chapter carries them." + keep_terms_clause + " Cite every Quran "
+            "verse in LONG-FORM prose — 'the chapter of Abraham, verse seven' "
+            "(named surah + verse number) — and quote its English meaning; the "
+            "pipeline splices the verbatim Arabic recitation in from the corpus at "
+            "render time, and pronounces key terms correctly from the glossary. "
+            "Your job is the English words + the precise citation, never the "
+            "Arabic.\n\n"
         )
     else:
         script_lang_clause = (

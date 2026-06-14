@@ -311,7 +311,10 @@ def _run_chapter_set_check(book_dir: Path, log=_info) -> None:
         f"{counts.get('P2', 0)} P2 findings"
     )
     if counts.get("P0", 0) > 0:
-        log(f"  · ⚠ P0 chapter-set findings — review {report_path.relative_to(REPO_ROOT)} before Phase 0e")
+        # _rel never raises on out-of-repo paths (tmp fixture books) — a bare
+        # Path.relative_to(REPO_ROOT) here crashed the 0d post-checks for any
+        # book dir outside the repo root.
+        log(f"  · ⚠ P0 chapter-set findings — review {_rel(report_path)} before Phase 0e")
     log(summary)
 
     # Density-standard promotion (2026-06-10): books opted into the chapter-

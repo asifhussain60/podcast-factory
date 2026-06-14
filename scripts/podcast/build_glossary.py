@@ -59,6 +59,7 @@ before any LLM cost. Approximate cost: ~$0.05-0.15 per book.
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -111,16 +112,24 @@ def emit_glossary_yaml(rows: list[dict[str, str]]) -> str:
     lines.append("schema_version: 1")
     lines.append("entries:")
     for r in rows:
-        # Use the `term` column as the phonetic anchor for matching.
-        # The `phonetic` column carries the hyphenated pronunciation guide
-        # used inside the framing's Pronunciation section.
-        phon = r["term"]
+        # The phonetic ANCHOR must be the ROMANIZED form that actually appears in
+        # the chapters/scripts (R-PHONETICS-OUT renders every term romanized) — the
+        # render-time Arabic injection, the reader overlay, and the PLS dictionary
+        # all match against this value. The `term` column is romanized for some
+        # books but ARABIC SCRIPT for Arabic-sourced books; matching Arabic against
+        # Latin text never fires (regression: asaas-al-taveel-vol-01, 2026-06-13).
+        # So anchor on `transliteration` (always romanized), and when the `term`
+        # column IS Arabic script, seed arabic_script from it for free.
+        term = r["term"]
         translit = r["transliteration"]
+        phon = translit or term  # romanized anchor; term only as a last resort
+        term_is_arabic = bool(re.search(r"[؀-ۿ]", term))
+        arabic_seed = term if term_is_arabic else ""
         phon_audio = r["phonetic"]
         snippet = r["first_seen_snippet"]
         lines.append(f'  - phonetic: "{_q(phon)}"')
         lines.append(f'    transliteration: "{_q(translit)}"')
-        lines.append(f'    arabic_script: ""')
+        lines.append(f'    arabic_script: "{_q(arabic_seed)}"')
         lines.append(f'    audio_phonetic: "{_q(phon_audio)}"')
         lines.append(f'    first_seen_snippet: "{_q(snippet)}"')
     return "\n".join(lines) + "\n"

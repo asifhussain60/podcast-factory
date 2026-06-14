@@ -33,6 +33,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -136,6 +137,12 @@ def _usable_rules(entries: list[dict]) -> list[tuple[str, str]]:
 
     rules: dict[str, str] = {}
     for e in entries:
+        # Teaching-relevance balance: a dynasty / place / passing reference
+        # (classified `incidental`) needs no pinned pronunciation — keep the PLS
+        # dictionary a teaching glossary, not a historical index. Names + other
+        # referential terms keep their alias so they are still said correctly.
+        if str(e.get("teaching_relevance") or "").strip().lower() == "incidental":
+            continue
         cur = resolve_curation(e)
         # fix_phonetic moves the grapheme to the corrected form so the alias rule
         # matches what the human says appears in the text. keep/absent -> original.
@@ -270,26 +277,50 @@ def ensure_dictionary(book_dir: Path, client=None, *, log=print) -> dict | None:
 
 
 def arabic_recitation_enabled(book_dir: Path) -> bool:
-    """Per-book flag `elevenlabs_arabic_recitation` (default False).
+    """Per-book flag `elevenlabs_arabic_recitation` (default False), GATED to
+    Arabic-capable engines.
 
-    Flips only after Asif approves the H2 two-variant audible sample."""
+    The NotebookLM route is always phonetic-only (R-PHONETICS-OUT) — Arabic is a
+    NotebookLM concession we strip, and reaches the audio ONLY on an
+    Arabic-capable engine (ElevenLabs). So even if the flag is set, a NotebookLM
+    book never gets Arabic injected. Flips only after Asif approves the H2
+    two-variant audible sample."""
     cfg = Path(book_dir) / "_system" / "series-config.yaml"
     if not cfg.exists():
         return False
     try:
         import yaml
         data = yaml.safe_load(cfg.read_text(encoding="utf-8")) or {}
-        return bool(data.get("elevenlabs_arabic_recitation"))
+        if not bool(data.get("elevenlabs_arabic_recitation")):
+            return False
     except Exception:  # noqa: BLE001
         return False
+    # Engine gate: Arabic reaches the audio only on an Arabic-capable engine.
+    try:
+        from _audio_engines import audio_engine_for_book
+        return bool(audio_engine_for_book(book_dir).supports_arabic_script)
+    except Exception:  # noqa: BLE001
+        return True  # flag set but engine unresolvable — honor the flag
 
 
 def _glossary_term_subs(book_dir: Path) -> list[tuple[str, str]]:
     """(phonetic, arabic_script) pairs to recite, longest-first. EXCLUDES
     loanwords (natural English reading beats a substitution) and personal names
-    (referential — pronounced via the alias dictionary, never recited)."""
+    (referential — pronounced via the alias dictionary, never recited).
+
+    Teaching-relevance balance: once the glossary carries `teaching_relevance`
+    (set by teaching_relevance_classifier.py), ONLY `teaching`-classified terms
+    are recited in Arabic — the doctrine is spoken in Arabic, while dynasties,
+    places, transmitter names, and other referential noise stay in plain speech.
+    A glossary with NO classification recites every non-name / non-loanword term
+    exactly as before (backward compatible)."""
+    entries = load_glossary_entries(book_dir)
+    classified = any(str(e.get("teaching_relevance") or "").strip() for e in entries)
     subs = []
-    for e in load_glossary_entries(book_dir):
+    for e in entries:
+        if classified and \
+                str(e.get("teaching_relevance") or "").strip().lower() != "teaching":
+            continue  # recite teaching terms only — leave referential noise unrecited
         cur = resolve_curation(e)
         if cur["drop_arabic"]:
             continue  # human chose replace-with-English — no Arabic recited
@@ -329,8 +360,11 @@ def compile_turns_for_render(book_dir: Path, turns: list, *, log=None) -> list:
         #    source; unresolved citations are left in English).
         text = inject_recitations(t.text, log=log)
         # 2. Key-term native script (longest-first; names/loanwords already skipped).
+        # Use letter-boundary lookahead/lookbehind so short phonetics (e.g. "itra")
+        # cannot match inside English words ("arb[itra]ry" -> "arbعترةry" was the bug).
         for phonetic, arabic in term_subs:
-            text = text.replace(phonetic, arabic)
+            pattern = r'(?<![a-zA-Z])' + re.escape(phonetic) + r'(?![a-zA-Z])'
+            text = re.sub(pattern, arabic, text)
         out.append(Turn(speaker=t.speaker, text=text))
     return out
 

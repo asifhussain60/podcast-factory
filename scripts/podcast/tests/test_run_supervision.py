@@ -27,8 +27,23 @@ def _make_book(tmp: Path, slugs: list[str], words: int = 600) -> Path:
     (book / "_system").mkdir(parents=True)
     for i, s in enumerate(slugs, 1):
         (book / "chapters" / f"ch{i:02d}-{s}.txt").write_text("word " * words, encoding="utf-8")
+        # FIX 14: the $0 smoke gate now runs the FULL unified contract
+        # validation (_contract_validation.validate_contract_full), so a
+        # "valid" fixture contract must carry the complete required schema.
         (book / "chapter-contracts" / f"{s}.yml").write_text(
-            f"slug: {s}\nepisode_number: {i}\n", encoding="utf-8"
+            f"chapter_ref: ch{i:02d}-{s}\n"
+            f"slug: {s}\n"
+            f"source_type: book-chapter\n"
+            f"episode_number: {i}\n"
+            f"title: Test Chapter {s}\n"
+            f"audience: Listeners new to the test book.\n"
+            f"angle: faithful_exposition\n"
+            f"episode_format: deep_dive\n"
+            f"host_dynamic: curious_mind + scholar_companion\n"
+            f"adaptation_mode: faithful\n"
+            f"key_tensions:\n"
+            f"  - The first tension of chapter {i}.\n",
+            encoding="utf-8",
         )
     (book / "_system" / "orchestrator-state.json").write_text(
         json.dumps({

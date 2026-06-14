@@ -133,6 +133,25 @@ def _drive_audio_script(book_dir: Path, book_slug: str) -> int:
             extras={"verdicts": verdicts})
         _err(f"audio-script: {len(failed)} chapter script(s) failed — fix and --resume.")
         return 2
+
+    # Teaching-relevance balance: classify every glossary term so the renderer
+    # recites the doctrine in Arabic and leaves referential noise (dynasties,
+    # places, transmitter names) in plain speech, and the pre-audio review leads
+    # with the teaching terms. Deterministic spine + one batched Max pass; never
+    # blocks the phase (a failure simply leaves the glossary unclassified, which
+    # is the prior behavior).
+    try:
+        from teaching_relevance_classifier import classify_entries
+        from fill_glossary_arabic import parse_glossary_yml, emit_glossary_yml
+        gpath = book_dir / "_system" / "glossary.yml"
+        if gpath.exists():
+            g_entries, g_top = parse_glossary_yml(gpath)
+            counts = classify_entries(g_entries, book_dir, log=_info)
+            gpath.write_text(emit_glossary_yml(g_entries, g_top), encoding="utf-8")
+            _info(f"  [audio-script] teaching-relevance split: {counts}")
+    except Exception as e:  # noqa: BLE001
+        _err(f"  [audio-script] teaching-relevance classify skipped (non-blocking): {e}")
+
     update_phase(book_dir, phase="audio-script", status="completed",
                  extras={"verdicts": verdicts})
     phase_git_commit(book_dir,

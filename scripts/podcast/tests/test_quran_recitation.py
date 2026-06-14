@@ -140,7 +140,10 @@ class TestCompileLayer(unittest.TestCase):
 
 
 class TestIntakeRecitationStamp(unittest.TestCase):
-    def test_islamic_elevenlabs_book_gets_recitation_flag(self):
+    def test_islamic_book_defaults_to_notebooklm_without_recitation_flag(self):
+        # Locked 2026-06-13: islamic_scholarly defaults to NotebookLM, not ElevenLabs.
+        # The ElevenLabs Arabic-recitation flag is therefore NOT stamped unless the
+        # operator explicitly selects the (quarantined) ElevenLabs engine.
         import yaml
         from intake_launch import _write_series_config
         with tempfile.TemporaryDirectory() as t:
@@ -148,6 +151,23 @@ class TestIntakeRecitationStamp(unittest.TestCase):
             (d / "_system").mkdir(parents=True)
             _write_series_config(d, "bk", "T", {"content_profile": "islamic_scholarly"}, None)
             cfg = yaml.safe_load((d / "_system" / "series-config.yaml").read_text())
+            self.assertEqual(cfg.get("audio_engine"), "notebooklm")
+            self.assertNotIn("elevenlabs_arabic_recitation", cfg)
+
+    def test_explicit_elevenlabs_islamic_book_gets_recitation_flag(self):
+        # When ElevenLabs is explicitly chosen, the engine still works end-to-end
+        # (it is quarantined/dormant, not deleted) — the recitation flag is stamped.
+        import yaml
+        from intake_launch import _write_series_config
+        with tempfile.TemporaryDirectory() as t:
+            d = Path(t) / "bk"
+            (d / "_system").mkdir(parents=True)
+            _write_series_config(
+                d, "bk", "T",
+                {"content_profile": "islamic_scholarly", "audio_engine": "elevenlabs"},
+                None)
+            cfg = yaml.safe_load((d / "_system" / "series-config.yaml").read_text())
+            self.assertEqual(cfg.get("audio_engine"), "elevenlabs")
             self.assertTrue(cfg.get("elevenlabs_arabic_recitation"))
 
     def test_fiction_book_no_recitation_flag(self):
