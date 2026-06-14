@@ -58,22 +58,6 @@ export const BOOK_CARD_META: Record<string, BookCardMeta> = {
     icon: 'fa-graduation-cap',
   },
 
-  // ── Fiction ────────────────────────────────────────────────────────────────
-  'journey-to-the-west': {
-    nativeTitle: '西遊記',
-    nativeLang: 'zh',
-    displayTitle: 'Journey to the West',
-    author: 'Wu Cheng-en',
-    icon: 'fa-dragon',
-  },
-  'journey-to-the-west-vol-1': {
-    nativeTitle: '西遊記',
-    nativeLang: 'zh',
-    displayTitle: 'Journey to the West, Volume I',
-    author: 'Wu Cheng-en',
-    icon: 'fa-dragon',
-  },
-
   // ── Technical ──────────────────────────────────────────────────────────────
   'claude-code-training': {
     displayTitle: 'Claude Code: From Copilot to Agentic AI',
