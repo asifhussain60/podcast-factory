@@ -421,6 +421,14 @@ def _build_apparatus_table(book_dir: Path) -> str:
 
 def render_show_notes(c: Contract, chapter: ResolvedChapter, ep_num: int) -> str:
     sn = c.get("show_notes") or {}
+    # The LLM contract writer sometimes emits show_notes as a bullet LIST instead
+    # of the {blurb, related_episodes, references} dict the renderer expects.
+    # Coerce a list into the dict (the bullets become references) so extraction
+    # never crashes on the drift and no content is lost (2026-06-15).
+    if isinstance(sn, list):
+        sn = {"references": [str(x) for x in sn if str(x).strip()]}
+    elif not isinstance(sn, dict):
+        sn = {}
     blurb = sn.get("blurb") or "[LLM-FILL — 1–2 sentence episode description]"
     related = sn.get("related_episodes") or []
     refs = sn.get("references") or []
