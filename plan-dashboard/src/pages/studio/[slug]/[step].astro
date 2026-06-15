@@ -198,7 +198,16 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
   {stepParam === 'edit' && (
     <div class="studio-step-body studio-step-body--wide">
       {workspace.loadError ? (
-        <div class="studio-panel"><p>{workspace.loadError}</p></div>
+        <>
+          <header class="studio-step-head">
+            <h1>Edit &amp; Enrich — {bookTitle}</h1>
+          </header>
+          <div class="studio-panel">
+            <h2>No chapters to edit yet</h2>
+            <p>This book hasn’t been segmented into chapters, so the Edit &amp; Enrich cockpit has nothing to show — chapters are produced later in the pipeline (phase 0d), and there are no stage artifacts before then.</p>
+            <p>Its source content — the transcripts, the refined reading edition, and audits — is ready to read now in the <a href={`/studio/${slug}`}>content reader</a>.</p>
+          </div>
+        </>
       ) : editView === 'workbench' ? (
         <>
           <nav class="studio-editview-toggle" aria-label="Edit surface">

@@ -1025,7 +1025,7 @@ export default function NarrativeScroll({ phases, shippedCount, episodeCount }: 
         </div>
 
         <div className="narrative-hero-cta">
-          <a href="/library" className="narrative-cta-primary">Browse the catalog →</a>
+          <a href="/studio" className="narrative-cta-primary">Browse the catalog →</a>
           <a href="#station-1" className="narrative-cta-secondary">Tour the factory ↓</a>
         </div>
 
@@ -1098,7 +1098,7 @@ export default function NarrativeScroll({ phases, shippedCount, episodeCount }: 
           the finished work. They never see the factory.
         </p>
         <div className="narrative-outro-actions">
-          <a href="/library" className="narrative-cta-primary">Open the catalog →</a>
+          <a href="/studio" className="narrative-cta-primary">Open the catalog →</a>
           <a href="/architecture" className="narrative-cta-secondary">Architecture detail ↗</a>
         </div>
 

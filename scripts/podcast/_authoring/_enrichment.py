@@ -94,6 +94,42 @@ def build_technical_enrichment_prompt(
     )
 
 # ─── Phase 0e — Chapter enrichment ──────────────────────────────────────────
+# Modern-science apologetics block (gated by series.enable_modern_science_responses;
+# default OFF so existing books are unchanged). Woven where relevant, corpus-grounded,
+# decisive teacher voice. Lives in 0e so it appears in BOTH the podcast and the PDF
+# (which share the enriched chapter as their single source).
+_MODERN_SCIENCE_BLOCK = (
+    "\n- Apply R-MODERN-SCIENCE-RESPONSE (Asif 2026-06-14): WHERE — and only where — "
+    "this chapter's teaching touches a topic that modern science is commonly held to "
+    "challenge (origins/creation, cosmology, the nature of the soul, miracles, the "
+    "unseen, evolution, the age of the cosmos), add a SHORT, DECISIVE response in the "
+    "teacher's own voice that resolves the apparent conflict with confidence and "
+    "without defensiveness. Constraints: (a) ground it in the tradition's own framing "
+    "(the inner/ta'wil reading, the limits of empirical method, the created-ness of "
+    "time) — prefer reasoning the corpus already supplies; (b) keep it to a few "
+    "sentences woven into the flow, NOT a separate lecture or a debate the source never "
+    "had; (c) state the answer as settled teaching, never 'some might argue' hedging; "
+    "(d) do NOT manufacture a science objection in chapters whose teaching does not "
+    "raise one. This counts toward the ≤60% outside-material budget.\n"
+)
+
+
+def _modern_science_enabled(book_dir: Path) -> bool:
+    """Read series.enable_modern_science_responses from series-config.yaml (default False)."""
+    cfg = book_dir / "_system" / "series-config.yaml"
+    if not cfg.exists():
+        return False
+    try:
+        import yaml
+        data = yaml.safe_load(cfg.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return False
+    # accept either top-level or under series:
+    if bool(data.get("enable_modern_science_responses")):
+        return True
+    return bool((data.get("series") or {}).get("enable_modern_science_responses"))
+
+
 def author_phase_0e(book_dir: Path,
                     timeout: int = DEFAULT_TIMEOUT,
                     chapter_timeout: int = PHASE_0E_CHAPTER_TIMEOUT,
@@ -294,6 +330,12 @@ def author_phase_0e(book_dir: Path,
             f"the orchestrator appends the log row after validating your output.\n\n"
             f"Exit when `{chapter_file}` has been rewritten in place with citations woven in."
         )
+            if _modern_science_enabled(book_dir):
+                prompt = prompt.replace(
+                    "Exit when `",
+                    _MODERN_SCIENCE_BLOCK + "\nExit when `",
+                    1,
+                )
 
         # Word-count-aware timeout per chapter (2026-05-24 strategy, extended
         # from Phase 0d to Phase 0e). Enrichment is heavier-write than 0d's

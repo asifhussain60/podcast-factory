@@ -10,6 +10,11 @@ export default defineConfig({
   integrations: [react()],
   devToolbar: { enabled: false },
   vite: {
+    // Allow a second dev server (e.g. the Claude preview on :4323) to use its
+    // OWN dependency-optimization cache via VITE_CACHE_DIR. Two dev servers
+    // sharing the default node_modules/.vite race on re-optimization and corrupt
+    // it — surfacing as "jsxDEV is not a function" / "504 Outdated Optimize Dep".
+    cacheDir: process.env.VITE_CACHE_DIR || undefined,
     plugins: [tailwindcss()],
     optimizeDeps: {
       // React 19 uses a conditional IIFE that Vite's CJS→ESM static analyser

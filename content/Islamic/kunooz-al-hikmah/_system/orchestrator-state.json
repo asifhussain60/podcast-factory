@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "book_slug": "kunooz-al-hikmah",
+  "source_kind": "audio",
+  "source_language": "ur",
+  "last_completed_phase": "0a",
+  "phase": "0c",
+  "phase_status": "pending",
+  "last_error": null,
+  "category": "lectures",
+  "status": "draft",
+  "updated": "2026-06-14T22:29:44Z",
+  "phases": {
+    "0a": {
+      "completed_via": "transcribe_audio_book.py (gemini direct-audio)",
+      "completed_at": "2026-06-14T20:08:32Z",
+      "lectures": 15,
+      "engine": "gemini/gemini-2.5-pro",
+      "source_language": "ur"
+    },
+    "0a-synthesize": {
+      "completed_via": "holistic_editorial.py (claude -p)",
+      "completed_at": "2026-06-14T22:29:44Z",
+      "teachings_in_ledger": 253
+    }
+  }
+}

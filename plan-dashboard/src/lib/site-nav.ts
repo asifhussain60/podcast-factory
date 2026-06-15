@@ -39,8 +39,10 @@ export interface NavLink {
 export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
   // Pronunciation + Pre-Upload Review are working tools in the book workflow,
   // so they highlight Studio (the pipeline domain), not the read-only System docs.
-  { href: '/studio', label: 'Studio', section: 'studio', pages: ['studio', 'pronunciation', 'pre-upload'] },
-  { href: '/library', label: 'Library', section: 'library', pages: ['library'] },
+  // Studio is the single books hub: it lists every book (grouped by bucket) and
+  // hosts the per-book content reader at /studio/<slug>. The former 'Library'
+  // top-nav entry + catalog were retired 2026-06-15; /library/* now redirects here.
+  { href: '/studio', label: 'Studio', section: 'studio', pages: ['studio', 'library', 'pronunciation', 'pre-upload'] },
   { href: '/corpus', label: 'Corpus', section: 'corpus', pages: ['corpus', 'wisdom', 'db-schema'] },
   { href: '/architecture', label: 'System', section: 'system', pages: ['architecture', 'intelligence', 'system-map', 'infrastructure', 'security', 'quality', 'plan', 'planner', 'overview', 'about', 'annotation-ops', 'pipeline-paths'] },
 ];

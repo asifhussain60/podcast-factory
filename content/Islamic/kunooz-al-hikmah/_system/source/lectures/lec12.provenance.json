@@ -1,0 +1,13 @@
+{
+  "lecture": 12,
+  "source_audio": "12 GH - Kunooz Al-Hikmah.mp3",
+  "source_bytes": 7677312,
+  "source_kind": "audio",
+  "source_language": "ur",
+  "transcription_engine": "gemini/gemini-2.5-pro",
+  "translated": true,
+  "char_count": 33145,
+  "word_count": 5566,
+  "elapsed_seconds": 139.0,
+  "generated_at": "2026-06-14T19:56:18Z"
+}
