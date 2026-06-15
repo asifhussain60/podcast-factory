@@ -9,6 +9,7 @@
  *      with live status icons from the pipeline state.
  */
 import type { StudioStep, StepId } from '../../lib/reader/studio-pipeline';
+import BookPalette from './BookPalette.tsx';
 
 interface BookOption { slug: string; title: string }
 
@@ -24,7 +25,7 @@ interface Props {
   compact?: boolean;
 }
 
-const { slug, bookTitle, activeStep, steps, books, compact = false } = Astro.props;
+const { slug, activeStep, steps, books, compact = false } = Astro.props;
 const activeLabel = steps.find((s) => s.id === activeStep)?.label ?? '';
 
 const STATE_ICON: Record<string, string> = {
@@ -36,25 +37,7 @@ const STATE_ICON: Record<string, string> = {
 ---
 <nav class="studio-subnav" aria-label="Studio pipeline">
   <div class="studio-subnav-inner">
-    <details class="studio-bookpick">
-      <summary>
-        <span class="studio-bookpick-eyebrow">Book</span>
-        <span class="studio-bookpick-current">{bookTitle}</span>
-        <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
-      </summary>
-      <div class="studio-bookpick-menu">
-        {books.map((b) => (
-          <a
-            href={`/studio/${b.slug}/${activeStep}`}
-            class={`studio-bookpick-item${b.slug === slug ? ' is-current' : ''}`}
-            aria-current={b.slug === slug ? 'page' : undefined}
-          >{b.title}</a>
-        ))}
-        <a href="/studio/new" class="studio-bookpick-item studio-bookpick-new">
-          <i class="fa-solid fa-plus" aria-hidden="true"></i> New content
-        </a>
-      </div>
-    </details>
+    <BookPalette client:load books={books} currentSlug={slug} />
 
     {compact ? (
       <span class="studio-subnav-current">

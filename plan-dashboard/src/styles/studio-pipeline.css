@@ -900,3 +900,28 @@
   margin: 0.75rem 0 0;
   color: var(--c-ink-dim);
 }
+
+/* ── Book command-palette (replaces the book dropdown) ─────────────────── */
+.studio-bookpick-trigger {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  font: inherit; padding: 0.4rem 0.85rem; border-radius: 10px;
+  border: 1px solid var(--c-rule); background: var(--c-bg-card); color: var(--c-ink); cursor: pointer;
+  transition: border-color 130ms ease;
+}
+.studio-bookpick-trigger:hover { border-color: var(--c-accent); }
+.studio-bookpick-trigger:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.studio-bookpick-eyebrow { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-ink-muted); }
+.studio-bookpick-current { font-weight: 700; }
+.studio-bookpick-kbd { margin-left: 0.3rem; font-size: 0.7rem; padding: 0.1rem 0.35rem; border-radius: 5px; background: color-mix(in oklab, var(--c-ink) 8%, transparent); color: var(--c-ink-muted); }
+[cmdk-overlay] { position: fixed; inset: 0; background: color-mix(in oklab, var(--c-ink) 45%, transparent); z-index: 100; }
+[cmdk-dialog] { position: fixed; top: 16vh; left: 50%; transform: translateX(-50%); width: min(36rem, 92vw); z-index: 101; }
+.book-palette { background: var(--c-bg-elev, var(--c-bg-card)); border: 1px solid var(--c-rule); border-radius: 14px; box-shadow: 0 12px 40px color-mix(in oklab, var(--c-ink) 30%, transparent); overflow: hidden; }
+.book-palette-input { width: 100%; box-sizing: border-box; font: inherit; font-size: 1rem; padding: 0.9rem 1rem; border: none; border-bottom: 1px solid var(--c-rule); background: transparent; color: var(--c-ink); outline: none; }
+.book-palette-list { max-height: 50vh; overflow-y: auto; padding: 0.4rem; }
+.book-palette-empty { padding: 1rem; color: var(--c-ink-muted); font-size: 0.9rem; }
+.book-palette-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 0.7rem; border-radius: 8px; cursor: pointer; color: var(--c-ink); }
+.book-palette-item[data-selected="true"] { background: color-mix(in oklab, var(--c-accent) 12%, transparent); }
+.book-palette-item i { color: var(--c-accent); width: 1.1rem; text-align: center; }
+.book-palette-item-title { flex: 1; min-width: 0; }
+.book-palette-tag { font-size: 0.65rem; text-transform: uppercase; color: var(--c-ink-muted); }
+.book-palette-new { border-top: 1px solid var(--c-rule); margin-top: 0.3rem; }
