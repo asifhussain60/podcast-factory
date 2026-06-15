@@ -26,6 +26,22 @@
   flex-wrap: wrap;
 }
 
+/* Breadcrumb home — every subnav step page links back to the Studio hub and
+   to this book's overview (its tabs), so there's always a way out of a step. */
+.studio-subnav-crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--c-ink-dim);
+}
+.studio-subnav-crumb a { color: var(--c-ink-dim); text-decoration: none; }
+.studio-subnav-crumb a:hover { color: var(--c-accent); text-decoration: underline; }
+.studio-subnav-crumb a:last-child { color: var(--c-ink); }
+.studio-subnav-crumb-sep { color: var(--c-ink-muted); }
+
 /* Compact mode (Edit page): the full stepper is replaced by a quiet
    current-stage label — the pipeline timeline lives in the page's left rail. */
 .studio-subnav-current {

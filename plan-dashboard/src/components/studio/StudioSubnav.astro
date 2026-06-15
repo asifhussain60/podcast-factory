@@ -25,7 +25,7 @@ interface Props {
   compact?: boolean;
 }
 
-const { slug, activeStep, steps, books, compact = false } = Astro.props;
+const { slug, bookTitle, activeStep, steps, books, compact = false } = Astro.props;
 const activeLabel = steps.find((s) => s.id === activeStep)?.label ?? '';
 
 const STATE_ICON: Record<string, string> = {
@@ -37,6 +37,11 @@ const STATE_ICON: Record<string, string> = {
 ---
 <nav class="studio-subnav" aria-label="Studio pipeline">
   <div class="studio-subnav-inner">
+    <nav class="studio-subnav-crumb" aria-label="Breadcrumb">
+      <a href="/studio">Studio</a>
+      <span class="studio-subnav-crumb-sep" aria-hidden="true">›</span>
+      <a href={`/studio/${slug}`}>{bookTitle}</a>
+    </nav>
     <BookPalette client:load books={books} currentSlug={slug} />
 
     {compact ? (
