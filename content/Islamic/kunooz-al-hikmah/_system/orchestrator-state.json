@@ -4,7 +4,7 @@
   "source_kind": "audio",
   "source_language": "ur",
   "last_completed_phase": "0a",
-  "phase": "0c",
+  "phase": "0b",
   "phase_status": "pending",
   "last_error": null,
   "category": "lectures",
@@ -23,5 +23,7 @@
       "completed_at": "2026-06-14T22:29:44Z",
       "teachings_in_ledger": 253
     }
-  }
+  },
+  "next_phase": "0b",
+  "content_profile": "islamic_scholarly"
 }

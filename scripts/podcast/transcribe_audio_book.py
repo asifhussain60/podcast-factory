@@ -22,10 +22,14 @@ What it does (idempotent — skip-if-exists, --force to redo):
    denoised SOURCE STREAM at _system/source/multi/denoised/audio-synthesized.md
    so the existing reconcile_book.py multi-source path can fuse it with any
    companion streams (PDF OCR, supplementary text).
-4. Advances orchestrator-state: last_completed_phase=0a, phase=0a-synthesize.
+4. Advances orchestrator-state: last_completed_phase=0a, phase=0b — handing the
+   book to the SINGLE canonical pipeline (refine -> phonetic -> gap-analysis ->
+   chapter design -> enrichment -> per-chapter chapters+episodes -> finalize ->
+   book-render). Audio differs ONLY in this transcription front-end; it must
+   never spawn a separate audio->book route.
 
 The faithful master is NEVER pruned here — denoise/reorganize/enrich happen in
-the holistic editorial pass downstream, against this faithful baseline.
+the canonical 0b/0c/0d/0e phases downstream, against this faithful baseline.
 
 Usage:
   python3 scripts/podcast/transcribe_audio_book.py --slug <book-slug>
@@ -263,14 +267,22 @@ def transcribe_audio_book(
           f"({total_words:,} words) in {time.monotonic()-t0:.0f}s")
     _info(f"    stream: _system/source/multi/denoised/audio-synthesized.md")
 
-    # Advance state.
+    # Advance state — hand off to the SINGLE canonical pipeline at 0b (refine),
+    # exactly like the bundle and audio-transcript intakes do. raw-extract.md is
+    # the faithful 0a-equivalent extract; from here every source-kind takes the
+    # identical path: 0b refine -> 0c phonetic -> 0ci gap -> 0d chapters ->
+    # 0e enrich -> per-chapter (chapters + episodes for NotebookLM) -> finalize
+    # -> book-render (PDF). Audio differs ONLY in this transcription front-end;
+    # it must never spawn a parallel "audio->book" route (that stranded the state
+    # and skipped chapters/episodes — 2026-06-15).
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     state.setdefault("schema_version", 1)
     state["book_slug"] = slug
     state["source_kind"] = "audio"
     state["source_language"] = language
     state["last_completed_phase"] = "0a"
-    state["phase"] = "0a-synthesize"
+    state["phase"] = "0b"
+    state["next_phase"] = "0b"
     state["phase_status"] = "pending"
     state["last_error"] = None
     state.setdefault("category", state.get("category", "lectures"))
@@ -284,9 +296,12 @@ def transcribe_audio_book(
         "source_language": language,
     }
     state_path.write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
-    _info(f"    state.json: phase=0a-synthesize, last_completed_phase=0a")
+    _info(f"    state.json: phase=0b (canonical refine), last_completed_phase=0a")
     _info("")
-    _info("==> DONE. Next: synthesize (reconcile) + holistic editorial pass.")
+    _info(f"==> DONE. Next (canonical path — same as every book):")
+    _info(f"    python3 scripts/podcast/orchestrate_book.py --resume {slug}")
+    _info(f"    (0b refine -> 0c -> 0ci -> 0d chapters -> 0e enrich -> per-chapter")
+    _info(f"     chapters+episodes -> finalize -> book-render PDF)")
     return 0
 
 
