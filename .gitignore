@@ -109,6 +109,10 @@ content/**/*.wav
 content/**/*.m4a
 content/**/*.mp4
 content/**/*.mov
+content/**/*.llc
+# Per-book scratch — transcription probes, rejected drafts, scratchpads. Never
+# committed; the orchestrator pre-flight treats untracked files as a dirty tree.
+content/**/_system/scratchpad/
 _workspace/**/*.zip
 _workspace/**/*.llc
 _workspace/**/*.pdf
