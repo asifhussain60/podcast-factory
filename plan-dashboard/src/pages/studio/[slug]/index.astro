@@ -5,7 +5,9 @@ import { discoverSessions } from '../../../lib/reader/chapters';
 import { scoreBook, verdictLabel } from '../../../lib/peq-scores';
 import EditableBookFacts, { type FactProp } from '../../../components/studio/EditableBookFacts';
 import AudioPlayer, { type Track } from '../../../components/studio/AudioPlayer';
-import { stat } from 'node:fs/promises';
+import HaltReview, { type HaltArtifactLink, type SavedDecision } from '../../../components/studio/HaltReview';
+import { haltForPhase, resolveArtifacts, type HaltReviews } from '../../../lib/studio/halts';
+import { stat, readFile } from 'node:fs/promises';
 import { basename, resolve as resolvePath } from 'node:path';
 import '../../../styles/library.css';
 
@@ -157,6 +159,25 @@ const pipelineTone =
   : state.phaseStatus === 'running' || state.phaseStatus === 'halted' ? 'warn'
   : 'pass';
 
+// Per-halt review cockpit: if the book's current phase is a human-review halt
+// (halts.ts mirrors _progress.py), surface that halt's artifacts + a decision
+// control at the top of the Overview. Absent when the book isn't at a halt.
+const activeHaltDef = state.exists ? haltForPhase(state.phase) : null;
+let haltArtifacts: HaltArtifactLink[] = [];
+let haltSaved: SavedDecision | null = null;
+if (activeHaltDef) {
+  haltArtifacts = resolveArtifacts(summary.ref.dir, activeHaltDef).map((a) => ({
+    label: a.label,
+    href: fileViewHref(a.relPath),
+    exists: a.exists,
+  }));
+  try {
+    const reviews = JSON.parse(await readFile(`${summary.ref.dir}/_system/halt-reviews.json`, 'utf-8')) as HaltReviews;
+    haltSaved = reviews[activeHaltDef.id] ?? null;
+  } catch { /* no decisions recorded yet */ }
+}
+const haltHalted = activeHaltDef !== null && (state.phaseStatus === 'halted' || state.phaseStatus === 'pending');
+
 const mediaCount = audio.length + slideDecks.length;
 const tabs = [
   { id: 'overview', label: 'Overview', count: null },
@@ -215,6 +236,16 @@ const tabs = [
   </nav>
 
   <section id="overview" class="lib-panel" data-panel="overview">
+    {activeHaltDef && (
+      <div class={`card halt-cockpit${haltHalted ? ' is-halted' : ''}`}>
+        <div class="halt-cockpit-head">
+          <span class="halt-cockpit-eyebrow"><i class="fa-solid fa-circle-pause" aria-hidden="true"></i> Review &amp; correct{haltHalted ? ' · waiting on you' : ''}</span>
+          <h2 class="halt-cockpit-title">{activeHaltDef.label}</h2>
+          <p class="halt-cockpit-blurb">{activeHaltDef.blurb}</p>
+        </div>
+        <HaltReview client:load slug={slugStr} haltId={activeHaltDef.id} artifacts={haltArtifacts} saved={haltSaved} />
+      </div>
+    )}
     <div class="lib-overview-grid">
       <div class="card lib-facts-card">
         <h2 class="lib-panel-title"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> About this book</h2>
