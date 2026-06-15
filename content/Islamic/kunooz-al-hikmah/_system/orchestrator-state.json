@@ -4,9 +4,13 @@
   "source_kind": "audio",
   "source_language": "ur",
   "last_completed_phase": "0d",
-  "phase": "0d",
-  "phase_status": "completed",
-  "last_error": null,
+  "phase": "0e",
+  "phase_status": "failed",
+  "last_error": {
+    "phase": "0e",
+    "message": "1 of 13 chapters failed enrichment: ch03-two-foundational-questions: episode-bridge tells found: 'previous episode'. Remove all 'next/previous/prior/earlier episode' paragraphs before per-chapter authoring.",
+    "ts": "2026-06-15T19:47:48Z"
+  },
   "category": "lectures",
   "status": "draft",
   "updated": "2026-06-14T22:29:44Z",
@@ -43,9 +47,15 @@
       "ts_started": "2026-06-15T13:59:33Z",
       "ts_completed": "2026-06-15T17:05:23Z",
       "manual_fallback": "Fix chapter-contracts/<slug>.yml (or rename the matching chapters/ch*.txt\nfile) so every finding above clears, then re-run: --retry-phase 0d\nCanonical rules: scripts/podcast/_contract_validation.py"
+    },
+    "0e": {
+      "status": "failed",
+      "ts_started": "2026-06-15T17:05:23Z",
+      "ts_completed": "2026-06-15T19:47:48Z",
+      "manual_fallback": "Inspect the chapter files of failed chapters; enrich each manually via /podcast, then add a `- <stem>: ENRICHED ...` row to enrichment-log.md and re-invoke orchestrate-book --resume."
     }
   },
   "next_phase": "0e",
   "content_profile": "islamic_scholarly",
-  "ts_updated": "2026-06-15T17:05:23Z"
+  "ts_updated": "2026-06-15T19:47:48Z"
 }
