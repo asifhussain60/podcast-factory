@@ -556,6 +556,89 @@ def _intake_from_audio_transcript(
     return 0
 
 
+# ---- Audio intake (raw MP3 lectures — source_kind=audio) --------------------
+
+def _intake_from_audio(
+    audio_source: str | None,
+    slug: str,
+    *,
+    source_language: str = "ur",
+    category: str = "lectures",
+    force: bool = False,
+    no_branch: bool = False,
+) -> int:
+    """Intake raw audio lectures. Sets source_kind=audio and phase=0a-transcribe;
+    the transcription is done by the standalone bridge transcribe_audio_book.py
+    (Gemini direct-audio), mirroring how translate_bundle.py bridges 0a-translate
+    for bundles. ``audio_source`` may be a directory of .mp3 files OR omitted when
+    the book's own source/ already holds the lectures (already-scaffolded books)."""
+    _validate_slug(slug)
+    book_dir = content_dir(slug, category=category)
+    src_dir = book_dir / "source"
+
+    if book_dir.exists() and not force:
+        # Already scaffolded (e.g. lectures already dropped in source/). Keep it;
+        # ensure the standard skeleton exists without wiping anything.
+        _info(f"==> Using existing workspace {book_dir.relative_to(REPO_ROOT)}")
+        ensure_book_skeleton(book_dir)
+    else:
+        _create_skeleton(book_dir, force)
+    src_dir.mkdir(parents=True, exist_ok=True)
+
+    # Copy provided audio in (if a directory/path was given and differs from src_dir).
+    if audio_source:
+        ap = Path(audio_source).expanduser()
+        if not ap.is_absolute():
+            for cand in [Path.cwd() / ap, REPO_ROOT / ap, RAW_DIR / ap]:
+                if cand.exists():
+                    ap = cand
+                    break
+        if not ap.exists():
+            _die(f"audio source not found: {audio_source}")
+        mp3s = sorted(ap.glob("*.mp3")) if ap.is_dir() else [ap]
+        for m in mp3s:
+            dst = src_dir / m.name
+            if dst.resolve() != m.resolve():
+                shutil.copy2(m, dst)
+        _info(f"    Staged {len(mp3s)} audio file(s) → {src_dir.relative_to(REPO_ROOT)}")
+
+    present = sorted(src_dir.glob("*.mp3"))
+    if not present:
+        _die(f"no .mp3 files in {src_dir} — pass a directory via --from-audio or drop lectures in source/")
+    _info(f"    {len(present)} lecture(s) present in source/")
+
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    state = {
+        "schema_version": 1,
+        "book_slug": slug,
+        "source_kind": "audio",
+        "input_type": "audio",
+        "source_language": source_language,
+        "phase": "0a-transcribe",
+        "phase_status": "pending",
+        "last_completed_phase": None,
+        "last_error": None,
+        "category": category,
+        "status": "draft",
+        "started": now,
+        "updated": now,
+        "phases": {},
+        "intake_via": "scripts/podcast/intake_book.py --from-audio",
+    }
+    state_path = book_dir / "_system" / "orchestrator-state.json"
+    state_path.write_text(json.dumps(state, indent=2) + "\n")
+    _info(f"    state.json: source_kind=audio, phase=0a-transcribe, source_language={source_language}")
+
+    if not no_branch:
+        _create_branch(category, slug)
+
+    _info("")
+    _info("==> DONE. Next:")
+    _info(f"    python3 scripts/podcast/transcribe_audio_book.py --slug {slug}")
+    _info(f"    (Gemini transcribes/translates → faithful raw-extract.md, then synthesis + editorial.)")
+    return 0
+
+
 # ---- Entry point ------------------------------------------------------------
 
 def main() -> int:
@@ -580,6 +663,18 @@ def main() -> int:
             "Skips Phase 0a (OCR) and starts at Phase 0b (refine). "
             "Use --slug to set the book slug."
         ),
+    )
+    parser.add_argument(
+        "--from-audio", dest="from_audio", metavar="PATH", nargs="?", const="",
+        help=(
+            "Intake raw audio lectures (source_kind=audio). PATH is a directory of "
+            ".mp3 files; omit it when the book's source/ already holds the lectures. "
+            "Sets phase=0a-transcribe; run transcribe_audio_book.py next. Use --slug."
+        ),
+    )
+    parser.add_argument(
+        "--source-language", dest="source_language", default="ur",
+        help="Source language for --from-audio (ur|en|ar|fa; default ur).",
     )
     parser.add_argument(
         "--companion", dest="companion_source", metavar="PATH", default=None,
@@ -660,6 +755,19 @@ def main() -> int:
             bundle_path=args.from_bundle,
             slug_override=args.slug_flag,
             category_override=args.category_flag,
+            force=args.force,
+            no_branch=args.no_branch,
+        )
+
+    if args.from_audio is not None:
+        if not args.slug_flag and not args.slug:
+            _die("--from-audio requires --slug <book-slug>.")
+        slug = args.slug_flag or args.slug
+        return _intake_from_audio(
+            audio_source=(args.from_audio or None),
+            slug=slug,
+            source_language=args.source_language,
+            category=args.category_flag or "lectures",
             force=args.force,
             no_branch=args.no_branch,
         )
