@@ -3,9 +3,9 @@
   "book_slug": "kunooz-al-hikmah",
   "source_kind": "audio",
   "source_language": "ur",
-  "last_completed_phase": "0a",
+  "last_completed_phase": "0b",
   "phase": "0b",
-  "phase_status": "pending",
+  "phase_status": "completed",
   "last_error": null,
   "category": "lectures",
   "status": "draft",
@@ -22,8 +22,14 @@
       "completed_via": "holistic_editorial.py (claude -p)",
       "completed_at": "2026-06-14T22:29:44Z",
       "teachings_in_ledger": 253
+    },
+    "0b": {
+      "status": "completed",
+      "ts_started": "2026-06-15T13:40:47Z",
+      "ts_completed": "2026-06-15T13:59:32Z"
     }
   },
-  "next_phase": "0b",
-  "content_profile": "islamic_scholarly"
+  "next_phase": "0c",
+  "content_profile": "islamic_scholarly",
+  "ts_updated": "2026-06-15T13:59:32Z"
 }
