@@ -603,8 +603,13 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             length_tier=length_tier,
             unit_mode=unit_mode,
         )
+        # Word-count-aware TOC timeout: the single whole-book segmentation call
+        # scales with source size. A flat 600s floor times out on large books
+        # (a 50k-word book needs the 3600s cap) — mirror the per-section strategy
+        # using the prompt size as the word-count proxy (2026-06-15).
+        eff_toc_timeout = max(toc_timeout, _compute_sc_timeout(len(toc_prompt.split())))
         rc, stdout, stderr = _run_claude_p(
-            toc_prompt, timeout=toc_timeout,
+            toc_prompt, timeout=eff_toc_timeout,
             book_dir=book_dir, phase="0d", step="toc",
         )
         # Stdout fallback: claude -p sometimes emits valid JSON as text output instead
