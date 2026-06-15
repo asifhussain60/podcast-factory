@@ -14,3 +14,4 @@ Per-chapter status. Rows with `ENRICHED` are checkpointed and skipped on resume.
 - ch11-living-context-and-the-whole-structure: ENRICHED at 2026-06-15 15:22:57 (in-place rewrite)
 - ch12-particular-doctrines-drawn-out: ENRICHED at 2026-06-15 15:35:24 (in-place rewrite)
 - ch13-doctrinal-synthesis-and-supplementary: ENRICHED at 2026-06-15 15:47:48 (in-place rewrite)
+- ch03-two-foundational-questions: ENRICHED at 2026-06-15 16:02:21 (in-place rewrite)

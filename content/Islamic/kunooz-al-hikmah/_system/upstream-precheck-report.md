@@ -39,3 +39,6 @@ Deterministic shift-left checks on 0b/0e artifacts (flag-and-proceed — these n
 
 ## 0e:ch13-doctrinal-synthesis-and-supplementary
 - (clean) no findings
+
+## 0e:ch03-two-foundational-questions
+- (clean) no findings
