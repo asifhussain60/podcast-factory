@@ -104,6 +104,51 @@ def repair_glossary(book_dir: Path, *, dry_run: bool = False) -> dict[str, int]:
     }
 
 
+def enrich_quran_atoms(*, dry_run: bool = False) -> dict[str, int]:
+    """Add canonical Arabic to every Quran atom in knowledge.db (Step 2b — verses).
+
+    Quran atoms carry surah/ayah but (for audio-sourced books) no Arabic. We attach
+    the EXACT canonical Arabic from the local Quran corpus — zero LLM, no guessing.
+    Idempotent: atoms that already have `arabic` are skipped.
+    """
+    import json
+    import sqlite3
+    sys.path.insert(0, str(SCRIPT_DIR))
+    from source_library_mirror import quran_ayat_lookup  # noqa: E402
+
+    conn = sqlite3.connect(str(REPO_ROOT / "content" / "knowledge-base" / "knowledge.db"))
+    rows = conn.execute("SELECT id, body FROM atoms WHERE type='quran'").fetchall()
+    enriched = skipped = unresolved = 0
+    for atom_id, raw in rows:
+        try:
+            body = json.loads(raw) if raw else {}
+        except json.JSONDecodeError:
+            continue
+        if body.get("arabic"):
+            skipped += 1
+            continue
+        surah, ayah = body.get("surah"), body.get("ayah")
+        if not surah or not ayah:
+            unresolved += 1
+            continue
+        hit = quran_ayat_lookup(int(surah), int(ayah))
+        if not hit or not hit.get("arabic"):
+            unresolved += 1
+            continue
+        body["arabic"] = hit["arabic"].strip()
+        if not dry_run:
+            conn.execute(
+                "UPDATE atoms SET body=?, updated_at=datetime('now') WHERE id=?",
+                (json.dumps(body, ensure_ascii=False), atom_id),
+            )
+        enriched += 1
+    if not dry_run:
+        conn.commit()
+    conn.close()
+    return {"quran_atoms": len(rows), "enriched": enriched,
+            "already_had_arabic": skipped, "unresolved": unresolved}
+
+
 def main() -> int:
     import argparse
     ap = argparse.ArgumentParser(description="Restore Arabic script for audio-sourced books.")
@@ -111,7 +156,15 @@ def main() -> int:
     rg = sub.add_parser("repair-glossary", help="Fix field-misassignment in glossary.yml (zero LLM).")
     rg.add_argument("slug")
     rg.add_argument("--dry-run", action="store_true")
+    ea = sub.add_parser("enrich-atoms", help="Add canonical Arabic to Quran atoms (zero LLM).")
+    ea.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
+
+    if args.cmd == "enrich-atoms":
+        r = enrich_quran_atoms(dry_run=args.dry_run)
+        tag = " (dry-run)" if args.dry_run else ""
+        print(f"enrich-atoms{tag}: {r}")
+        return 0
 
     book_dir = _resolve_book_dir(args.slug)
     if not book_dir:
