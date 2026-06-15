@@ -69,14 +69,15 @@
     "per-chapter": {
       "status": "running",
       "ts_started": "2026-06-15T20:27:36Z",
-      "current_chapter": "lectures-six-seven-eight-continued",
-      "last_beat": "2026-06-15T23:13:14Z",
+      "current_chapter": "lectures-twelve-fourteen-fifteen-continued",
+      "last_beat": "2026-06-15T23:28:10Z",
       "completed_slugs": [
         "authors-posture-and-the-line",
         "family-of-light",
         "heart-shahadah-and-early-lectures",
         "later-lectures-and-the-end-of-book",
-        "lectures-nine-ten-eleven-continued"
+        "lectures-nine-ten-eleven-continued",
+        "lectures-six-seven-eight-continued"
       ],
       "failed_slugs": [
         "doctrinal-synthesis-and-supplementary"
@@ -127,6 +128,13 @@
         },
         "lectures-six-seven-eight-continued": {
           "started_ts": "2026-06-15T23:05:57Z",
+          "completed_ts": "2026-06-15T23:15:33Z",
+          "duration_sec": 575.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "lectures-twelve-fourteen-fifteen-continued": {
+          "started_ts": "2026-06-15T23:15:33Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
@@ -138,5 +146,5 @@
   },
   "next_phase": "0literary",
   "content_profile": "islamic_scholarly",
-  "ts_updated": "2026-06-15T23:13:14Z"
+  "ts_updated": "2026-06-15T23:28:10Z"
 }
