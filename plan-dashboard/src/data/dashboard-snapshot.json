@@ -956,60 +956,60 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-13T19:38:43.173Z",
-  "source_commit": "a0d1d2c",
+  "generated_at": "2026-06-15T12:55:06.886Z",
+  "source_commit": "5c4f587",
   "generator": "regenerate-snapshots.mjs",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "a0d1d2c",
-      "subject": "podcast(audio): engine-gate Arabic recitation + regression test for the injection chain",
-      "date": "2026-06-13"
+      "sha": "5c4f587",
+      "subject": "fix(site): let a second dev server use an isolated Vite cache",
+      "date": "2026-06-15"
     },
     {
-      "sha": "e95bf37",
-      "subject": "podcast(audio): ElevenLabs author keeps teaching terms in transliteration",
-      "date": "2026-06-13"
+      "sha": "aad9951",
+      "subject": "fix(studio): same-tab artifact links + breadcrumb home on step pages",
+      "date": "2026-06-15"
     },
     {
-      "sha": "7be0344",
-      "subject": "podcast(audio): fix glossary phonetic anchor — romanized, not Arabic (ElevenLabs Arabic injection)",
-      "date": "2026-06-13"
+      "sha": "70b29fb",
+      "subject": "feat(rename): guarded slug rename — atomic script + endpoint + typed-confirm dialog",
+      "date": "2026-06-15"
     },
     {
-      "sha": "c7f24ac",
-      "subject": "podcast(asaas-vol-01): teaching-relevance balance applied to the glossary",
-      "date": "2026-06-13"
+      "sha": "372f283",
+      "subject": "feat(site): command-palette book switcher + explicit Edit & Enrich entry",
+      "date": "2026-06-15"
     },
     {
-      "sha": "8a3675e",
-      "subject": "podcast(asaas-al-taveel-vol-01): phase audio-script (5 scripts gated)",
-      "date": "2026-06-13"
+      "sha": "86933b7",
+      "subject": "content(kunooz-al-hikmah): faithful transcripts + enhanced edition + cross-book atoms",
+      "date": "2026-06-15"
     },
     {
-      "sha": "0ceacfd",
-      "subject": "podcast(audio): teaching-relevance balance for the Arabic glossary",
-      "date": "2026-06-13"
+      "sha": "dcf0bd1",
+      "subject": "feat(site): Studio redesign slice 1 — single hub, series deck, in-site reader, audio player, editable meta",
+      "date": "2026-06-15"
     },
     {
-      "sha": "808cc50",
-      "subject": "Merge branch 'develop' into Islamic/asaas-al-taveel",
-      "date": "2026-06-13"
+      "sha": "0da859f",
+      "subject": "feat(pipeline): deterministic audio->book path + holistic editorial + modern-science enrichment",
+      "date": "2026-06-15"
     },
     {
-      "sha": "ab0a471",
-      "subject": "podcast(reading-edition): fold professional book-rewrite craft into the revoice prompt for all PDF content",
-      "date": "2026-06-13"
+      "sha": "c4cf1e4",
+      "subject": "chore(site): remove Journey to the West book-card metadata",
+      "date": "2026-06-14"
     },
     {
-      "sha": "e5f52e5",
-      "subject": "podcast(reading-edition): fold professional book-rewrite craft into the revoice prompt for all PDF content",
-      "date": "2026-06-13"
+      "sha": "d4dce65",
+      "subject": "merge(Islamic/the-master-and-the-disciple): book-craft PDF punch-list, mp3 transcode delivery, SVG geometry + cover, challenger spec CS7-CS11/BK-P6",
+      "date": "2026-06-14"
     },
     {
-      "sha": "4e296be",
-      "subject": "chore(gitignore): ignore _workspace/experiments/ local scratch",
-      "date": "2026-06-13"
+      "sha": "18a52d9",
+      "subject": "docs(challengers): add BK-P6 prose-craft probe + podcast CS7-CS11 set checks",
+      "date": "2026-06-14"
     }
   ],
   "wave_execution_events": [],
