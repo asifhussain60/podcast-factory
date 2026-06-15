@@ -93,6 +93,17 @@ def _gate_0d_contracts(book_dir: Path) -> None:
     (debate-with-no-block, slug/chapter-file rename mismatch, host roles
     outside the R-HOST-ROLE-PARITY enums, bad enum values, …).
     """
+    # Auto-repair the mechanically-fixable contract drift (enum angle/source_type,
+    # chapter_ref vs file stem, over-long title, loader-incompatible YAML format)
+    # BEFORE validating — the LLM contract writer drifts on these deterministically,
+    # so conform them rather than fail the whole run on metadata (2026-06-15).
+    # Genuinely unfixable findings still fail the gate loudly below.
+    try:
+        from repair_contracts import repair_contracts_in_dir  # noqa: PLC0415
+        repair_contracts_in_dir(book_dir, log=_info)
+    except Exception as e:  # noqa: BLE001 — repair is best-effort; the gate still guards
+        _info(f"  gate-0d: contract auto-repair skipped ({e})")
+
     failures = validate_book_contracts(book_dir)
     if not failures:
         _info(f"  gate-0d: all chapter contracts pass unified validation ✓")
