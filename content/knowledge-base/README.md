@@ -5,7 +5,12 @@ pipeline processes. Shared across all books. Read by the **Augmenter** during fu
 books' enrichment, authoring, and challenger phases — so each new book walks in on the
 shoulders of prior treatments.
 
-> **Status — 2026-05-31**: `knowledge.db` is live with 7,036 atoms. `mirror.db` holds the Kashkole FTS corpus (6,236 Quran rows + 1,347 topics). JSONL files are scaffolded but empty — `knowledge.db` is the canonical storage layer (see DR-001, DR-017 in `_workspace/plan/architecture.md`).
+> **Status — 2026-05-31**: `knowledge.db` is live. `mirror.db` holds the Kashkole FTS corpus (6,236 Quran rows + 1,347 topics).
+>
+> **Durability/portability — 2026-06-15**: `knowledge.db` is gitignored *local* state. The per-type JSONL files (`quran.jsonl`, `hadith.jsonl`, `doctrine.jsonl`, `quote.jsonl`, …) are the **committed, machine-portable source of truth** — text, one atom per line, sorted by id, so git union-merges two machines' atoms with no binary conflict. Keep them in sync with [`scripts/podcast/intelligence/corpus_sync.py`](../../scripts/podcast/intelligence/corpus_sync.py):
+> - `export` — DB → JSONL (the pre-commit hook runs `export --safe` and stages the JSONL on every commit, so the corpus is always captured; `--safe` refuses to shrink a committed file).
+> - `rebuild` — JSONL → DB, **additive-only** (INSERT OR IGNORE): a pull can only *add* atoms, never wipe local-only ones.
+> - **Cross-machine protocol:** after `git pull`, run `corpus_sync.py rebuild` to absorb peers' atoms; before relying on a machine's export, `rebuild` first so its DB is a superset of git.
 
 ## Authoritative references
 
@@ -20,8 +25,10 @@ content/knowledge-base/
 ├── README.md                       # this file
 ├── knowledge.db                    # canonical SQLite — atoms, sources, variants, metadata
 ├── mirror.db                       # Kashkole + Quran FTS corpus (read-only source mirror)
-├── quran.jsonl                     # JSONL export scratch — not the source of truth
-├── hadith.jsonl                    # JSONL export scratch — not the source of truth
+├── quran.jsonl                     # committed source of truth (corpus_sync export)
+├── hadith.jsonl                    # committed source of truth (corpus_sync export)
+├── doctrine.jsonl                  # committed source of truth (corpus_sync export)
+├── quote.jsonl                     # committed source of truth (corpus_sync export)
 ├── _conflicts/
 │   └── pending-review.jsonl        # flagged conflicts halting phase 08b
 └── _index/
