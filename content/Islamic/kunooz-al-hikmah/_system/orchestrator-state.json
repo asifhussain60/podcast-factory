@@ -69,10 +69,11 @@
     "per-chapter": {
       "status": "running",
       "ts_started": "2026-06-15T20:27:36Z",
-      "current_chapter": "family-of-light",
-      "last_beat": "2026-06-15T22:07:53Z",
+      "current_chapter": "heart-shahadah-and-early-lectures",
+      "last_beat": "2026-06-15T22:26:37Z",
       "completed_slugs": [
-        "authors-posture-and-the-line"
+        "authors-posture-and-the-line",
+        "family-of-light"
       ],
       "failed_slugs": [
         "doctrinal-synthesis-and-supplementary"
@@ -95,6 +96,13 @@
         },
         "family-of-light": {
           "started_ts": "2026-06-15T21:30:15Z",
+          "completed_ts": "2026-06-15T22:11:52Z",
+          "duration_sec": 2497.0,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "heart-shahadah-and-early-lectures": {
+          "started_ts": "2026-06-15T22:11:52Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
@@ -106,5 +114,5 @@
   },
   "next_phase": "0literary",
   "content_profile": "islamic_scholarly",
-  "ts_updated": "2026-06-15T22:07:53Z"
+  "ts_updated": "2026-06-15T22:26:37Z"
 }
