@@ -2,75 +2,60 @@
 
 **Book:** kunooz-al-hikmah
 **Run:** 2026-06-15 (challenger v2.5)
-**Scope:** per-chapter ch06a-authors-posture-and-the-line / EP06
-**Iterations:** 1 (of 5 max — converged; no auto-fixable findings)
-**content_profile:** islamic_scholarly (default — series-config.yaml absent on disk)
+**Scope:** per-chapter ch01a-family-of-light / EP01-family-of-light
+**Content profile:** islamic_scholarly (inferred — tradition=fatimid-tayyibi-ismaili, no explicit field in meta.yml)
+**Iterations:** 1 (of 5 max) — intelligent-break: zero auto-fixes, identical findings vs prior pass
 **Verdict:** SHIP-WITH-CAUTION
 
-## Auto-fixes applied
+## Auto-fixes applied (iteration-by-iteration)
 
-None this run. All flagged findings require authoring judgment (framing section pattern compliance + show-notes table schema), not deterministic substitution.
+| Iter | Check | File | Action |
+|---|---|---|---|
+| — | — | — | None this pass. All deterministic auto-fixes (B5 em-dashes) were applied in the prior pass earlier this run. |
 
 ## Findings requiring author resolution
 
 ### P0 (blocks ship)
 
-None. Doctrinal gate (T1–T5) clean. No forbidden phrases, no Imam-lineage violations, no fabricated attributions. Meta-prose tells absent. No HTML comments. No inline phonetic parens. No cross-episode references. No AI clichés.
+None. Build-time hard gates pass: meta-prose, doctrinal (T1–T5), honorific discipline (O1), abbreviation expansion (O2), phonetic-as-content (N1/N2/N4), Quran citation format (no bare `N:M`), no banned modern-platform names, no AI clichés, no faux-profundity openings outside the framing's negative DENY block. Boundary contract (S2) clean. Host-role parity Q1–Q4 satisfied.
 
 ### P1 (ship-with-caution)
 
-#### R-NAMEDISCIPLINE — Rotation triplet on edge of validator threshold
-- **File:** content/Islamic/kunooz-al-hikmah/_system/episode-drafts/EP06-authors-posture-and-the-line/00-framing.md:15
-- **Context:** Line 15 reads `Rotation: the author → the writer of the appendix → the seeker who hastened.` Three aliases separated by →, which should satisfy the rule. Build-script validator nonetheless flagged "no rotation set with 3+ aliases" — likely a pattern-detection edge (validator expects newline-separated rotation lines or a stricter form).
-- **Suggested fix:** Add a second rotation triplet for another high-frequency proper noun the hosts will repeat (e.g. `Rotation: the Father of Imams / the master of the line / the leader of the believers`). Two rotation lines unambiguously satisfy the validator and give the hosts more lexical variation.
+#### E1 / CS4: chapter in tier dead-zone (5,413 words)
+- **File:** content/Islamic/kunooz-al-hikmah/chapters/ch01a-family-of-light.txt
+- **Context:** Chapter is 5,413 words — sits in the 4,500–5,500 "tier dead-zone" (too dense for Longer Deep Dive, too thin to sustain Extended Deep Dive in NotebookLM). Build script emits WARN.
+- **Suggested fix:** Either tighten to ≤4,500 words or expand via Phase 0e enrichment to ≥5,500.
 
-#### R-CHALLENGER-FRICTION — Pushback patterns absent from Host dynamic
-- **File:** content/Islamic/kunooz-al-hikmah/_system/episode-drafts/EP06-authors-posture-and-the-line/00-framing.md:33
-- **Context:** Host dynamic says "Host B challenges at least 3 times and concedes once" — directive present but no concrete pushback exemplars. Validator wants ≥2 of: "I don't buy that yet…", "That sounds like wordplay…", "Isn't this just replacing…", "How is this different…".
-- **Suggested fix:** Add 2-3 exemplar pushback lines Host B can use, anchored to the chapter's actual tensions. Suggested for this chapter: "Isn't 'sin as intended-good-undone' just expanding the word until it loses meaning?" and "How is the closed door at origination different from telling the believer to stop thinking?"
+#### A1: Quran citation format uses retired terse form (4 occurrences)
+- **File:** content/Islamic/kunooz-al-hikmah/chapters/ch01a-family-of-light.txt
+- **Context:** Four Quranic references use the retired terse form: `(Quran 2:20`, `(Quran 3:61`, `(Quran 114:1`, `(Quran 113:1`. R-QURAN-CITATION-FORMAT (canonical since 2026-06-10) requires the plain-English `(the chapter of …, verse N)` form because TTS reads `2:20` as opaque number runs.
+- **Suggested fix:** Rewrite to e.g. `(the chapter of the cow, verse 20, Pickthall trans.)`, `(the chapter of the family of Imran, verse 61, …)`, `(the chapter on the splitting of dawn, verse 1, …)`, `(the chapter on mankind, verse 1, …)`. The framing's Landing block already mandates Surah names in English, so chapter and framing converge naturally on the rewritten form.
 
-#### R-ANALOGY-CAP — Governing analogies present but not formatted as enumeration
-- **File:** content/Islamic/kunooz-al-hikmah/_system/episode-drafts/EP06-authors-posture-and-the-line/00-framing.md:37
-- **Context:** Tone constraints line 37 names three governing analogies in prose (mountains and sands / treasure with its key / open window at the grave), each correctly tied to a beat. Validator wants explicit enumerated list format (numbered or bulleted).
-- **Suggested fix:** Reformat as a bulleted enumeration directly under `## Tone constraints`. Example:
-  ```
-  Governing analogies (use only these three):
-  - mountains and sands — the master's lament (Beat 2)
-  - the treasure with its key — the book and the chief teacher's permission (Beat 4)
-  - the open window at the grave — three days for the lower marks (Beat 6)
-  ```
+#### R-NAMEDISCIPLINE: framing Name discipline section lacks a 3+ alias rotation
+- **File:** content/Islamic/kunooz-al-hikmah/_system/episode-drafts/EP01-family-of-light/00-framing.md (Name discipline section)
+- **Context:** Build script flag — long figures (the Prophet, Father of Imams, Commander of the Faithful, the Prophet's daughter, elder/younger grandson, Imam of the Time) are named with first-mention forms, but no explicit `Rotation: a / b / c` set is declared.
+- **Suggested fix:** For the most frequently named figures add an explicit rotation set, e.g. `the Prophet → the Messenger of Allah → the noble Prophet` and `the Father of Imams → the Father of the Imams → the gate of the City of Knowledge`.
 
-#### F25-APPARATUS-TABLE — Show-notes table missing required columns
-- **File:** content/Islamic/kunooz-al-hikmah/_system/episode-drafts/EP06-authors-posture-and-the-line/99-show-notes.md:31
-- **Context:** A 2-column "Name and Title Preservation Table" was added (Audio label / Preserved name). Build-script validator requires the canonical 5-column schema: Original/Transliteration | Category | Written Form | Audio Label | First Audio Use.
-- **Suggested fix:** Expand the table to the 5-column schema. Existing rows extend naturally — e.g. row 1 becomes `al-Sharif al-Radi | person | Sayyid Sharif al-Radi | the compiler of the Peak of Eloquence | line 21`.
+#### R-DRAMATIC-ARC: framing Three-part focus reads as 3 thematic beats, not a 6-beat dramatic arc
+- **File:** content/Islamic/kunooz-al-hikmah/_system/episode-drafts/EP01-family-of-light/00-framing.md (Three-part focus)
+- **Context:** Build script flag — found 3 Beat markers AND only 1/4 of the dramatic-arc structure tells (crisis / failed answer / pivot / stakes). Beats are thematic ("treasures for whom" / "equality in bewilderment" / "the veiling chain") rather than carrying the arc dynamics NotebookLM steers on.
+- **Suggested fix:** Restructure as 6 beats with crisis (the astonishment of believer-as-substance), failed answer (a ladder-of-rungs picture that fails), pivot (equality in bewilderment), stakes (the believer's dignity / fifty-thousand-year horizon), and resolution. Authoring decision — challenger cannot rewrite the dramatic spine without losing voice.
+
+#### F25-APPARATUS-TABLE: 99-show-notes.md missing Name and Title Preservation Table
+- **File:** content/Islamic/kunooz-al-hikmah/_system/episode-drafts/EP01-family-of-light/99-show-notes.md
+- **Context:** Build script flag — no `## Name and Title Preservation Table` section header. F25 doctrine requires every episode's 99-show-notes.md to carry the written-layer apparatus (preserved Arabic / transliterations + audio-label crosswalk) the TTS-safe audio omits.
+- **Suggested fix:** Add the apparatus table mapping spoken English labels (the Prophet, the Father of Imams, the Commander of the Faithful, the Prophet's daughter, *The Stored Treasures of Wisdom*, *The Peak of Eloquence*, *The Sufficient*, *The Treasury of Sciences*) to their preserved Arabic and transliterated forms (Kunooz al-Hikmah, Nahj al-Balagha, al-Kafi, etc.).
 
 ### P2 (advisory)
 
-#### E1 — Chapter word count 6,433 exceeds default soft band
-- **File:** content/Islamic/kunooz-al-hikmah/chapters/ch06a-authors-posture-and-the-line.txt
-- **Context:** 6,433 words. Contract declares `length_target: 5500-6000` (Extended tier) and framing targets a 50-60 minute conversation. The chapter is 433 words above the contract's upper bound and 933 above the default 5,500 hard cap.
-- **Note:** Build script in `--check` mode validated the chapter — the tier-relax setting honored the contract. Surfaced for human judgment: if hard cap at publish time bites, trim ~500 words; otherwise the long form is congruent with the contract's stated target.
+None.
 
 ## Health metrics
 
-| Artifact | Words | Status |
-|---|---|---|
-| ch06a-authors-posture-and-the-line.txt (SOURCE) | 6,433 | Above default band — contract `length_target: 5500-6000` |
-| EP06 00-framing.md (CUSTOMIZE PROMPT) | 691 | Within band (200–2,000) |
+| File | Words | Em-dashes | Terse Quran cites | Notes |
+|---|---|---|---|---|
+| ch01a-family-of-light.txt | 5,413 | 0 | 4 | Tier dead-zone (WARN); A1 P1 |
+| EP01/00-framing.md | 707 | 0 | — | Name-discipline + dramatic-arc P1 |
+| EP01/99-show-notes.md | — | — | — | F25 apparatus table missing (P1) |
 
-**Structural pass (per category):**
-
-- **A (Authenticity):** Citations carry plain-English Quran refs (chapter/verse + translator), full hadith provenance (collection, book, number, translator), Peak of Eloquence sermon citation with compiler attribution, Pillars of Islam jurist + page range, Daftary academic reference. No `[VERIFY]` or `[CONTEXT NEEDED]` markers. Multi-tier enrichment (Quran, Sunni hadith, Shia/Ismaili sermon, jurist codification, modern scholarship). Tradition-coherence preserved.
-- **B (NotebookLM literalness):** No meta-prose tells, no cross-episode references, no file-length self-refs, no translator-apparatus prefixes. 19 em-dashes in chapter prose (would normally B5 auto-fix, but build-script gate did not block; left in place pending tier-relax review).
-- **C/O (Pronunciation + honorifics):** First-mention honorific discipline holds (one `(peace be upon him)` for the Prophet, exact phrase once). No inline phonetic parens (R-PHONETICS-OUT clean). No abbreviated work titles in chapter prose.
-- **F (Framing integrity):** 8 H2 sections (welcome, name discipline, pronunciation, three-part focus, host dynamic, tone constraints, landing, do-not). Audience concrete (Ismaili-Tayyibi seekers). Tensions named (5 in contract). R-RECURRING-THESIS placements marked 1/2/3 at opening, pivot, close.
-- **H/I (Welcome + anti-repetition):** Welcome clause present (line 6, one-sentence intro naming book title + episode pursuit). Anti-repetition signaled through `R-RECURRING-THESIS` discipline (verbatim 3× by design, not free repetition). Landing forbids tidy resolution.
-- **K (Interruption):** No bare-affirmation forbidden vocabulary in `## Do not`. "wow" and "right?" explicitly forbidden.
-- **M/N (Modernization + phonetic-as-content):** DENY-modernize block present (Twitter, social media, algorithm). No inline phonetic parens. No legacy passive Pronunciation list — uses imperative "Say each term ONCE."
-- **Q (Host role parity):** Host A = male, scholar; Host B = female, seeker. Consistent with book-wide pair.
-- **R (Conversation choreography):** Cadence implied through "doctrinal and unflinching" tone; no formal-transition DENY phrases explicitly named (Firstly/Secondly/etc not in `## Do not`) — advisory.
-- **T (Doctrinal):** Clean. Father of Imams used throughout; forbidden title-and-name pairing absent; Imam lineage references all canonical; no weak/fabricated hadith attributions.
-- **U (Scholarly-conversation rubric):** No AI clichés, no faux-profundity opener, no premature-closure tells, no deep-dive self-reference. No external-tradition essentialism.
-- **V (Interest):** Strong opening hook (rhetorical question line 3), challenge-defeat arcs in Beats 4-5 (covenant severity / closed door), modern-relevance signal in domestic-edge framing of the three-day window (lines 87+).
-
+Build-time hard gates (build_episode_txt.py): PASS. Episode customize-prompt regenerated.
