@@ -641,3 +641,27 @@ a.lib-fact-file:focus-visible { outline: 2px solid var(--c-accent); outline-offs
 .audio-miniplayer-close { flex: none; border: none; background: transparent; color: var(--c-ink-muted); cursor: pointer; font-size: 1rem; padding: 0.3rem; }
 .audio-miniplayer-close:hover { color: var(--c-ink); }
 .audio-miniplayer-close:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+
+/* ── Slug rename (guarded, typed-confirm) ──────────────────────────────── */
+.lib-fact-structural { display: inline-flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.lib-fact-rename-btn {
+  display: inline-flex; align-items: center; gap: 0.3rem; font: inherit; font-size: 0.78rem;
+  padding: 0.2rem 0.55rem; border-radius: 7px; border: 1px solid var(--c-rule);
+  background: var(--c-bg-card); color: var(--c-accent); cursor: pointer; transition: border-color 130ms ease;
+}
+.lib-fact-rename-btn:hover { border-color: var(--c-accent); }
+.lib-fact-rename-btn:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.lib-rename-overlay {
+  position: fixed; inset: 0; z-index: 120; display: flex; align-items: center; justify-content: center;
+  background: color-mix(in oklab, var(--c-ink) 45%, transparent);
+}
+.lib-rename-dialog {
+  width: min(30rem, 92vw); background: var(--c-bg-elev, var(--c-bg-card));
+  border: 1px solid var(--c-rule); border-radius: 14px; padding: 1.4rem;
+  box-shadow: 0 14px 44px color-mix(in oklab, var(--c-ink) 32%, transparent);
+  display: flex; flex-direction: column; gap: 0.7rem;
+}
+.lib-rename-dialog h3 { margin: 0; font-size: 1.15rem; color: var(--c-ink); }
+.lib-rename-warn { margin: 0; font-size: 0.88rem; color: var(--c-ink-muted); line-height: 1.5; }
+.lib-rename-from { margin: 0; font-size: 0.8rem; color: var(--c-ink-dim); }
+.lib-rename-actions { display: flex; gap: 0.5rem; margin-top: 0.3rem; }

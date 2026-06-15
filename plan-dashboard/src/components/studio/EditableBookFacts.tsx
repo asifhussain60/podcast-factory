@@ -52,6 +52,34 @@ export default function EditableBookFacts({ slug, facts }: Props) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>('idle');
 
+  // Guarded slug rename (structural identity field).
+  const slugFact = facts.find((f) => f.structural);
+  const [renaming, setRenaming] = useState(false);
+  const [newSlug, setNewSlug] = useState(slugFact?.value ?? '');
+  const [renameStatus, setRenameStatus] = useState<'idle' | 'saving' | 'error'>('idle');
+  const [renameErr, setRenameErr] = useState('');
+  const slugValid = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(newSlug);
+
+  async function doRename() {
+    if (!slugFact) return;
+    setRenameStatus('saving');
+    setRenameErr('');
+    try {
+      const res = await fetch('/api/studio/rename-book', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ oldSlug: slugFact.value, newSlug }),
+      });
+      const j = await res.json().catch(() => ({}));
+      if (res.ok && j?.data?.redirect) { window.location.href = j.data.redirect; return; }
+      setRenameErr(j?.error ?? 'Rename failed.');
+      setRenameStatus('error');
+    } catch {
+      setRenameErr('Rename failed — check the server.');
+      setRenameStatus('error');
+    }
+  }
+
   function set(key: string, v: string) {
     setDraft((d) => ({ ...d, [key]: v }));
     const f = facts.find((x) => x.key === key)!;
@@ -158,6 +186,17 @@ export default function EditableBookFacts({ slug, facts }: Props) {
                     <span className="lib-fact-file-hint">{f.link.kind === 'dir' ? 'folder' : 'missing'}</span>
                   </span>
                 )
+              ) : f.structural ? (
+                <span className="lib-fact-structural">
+                  <span>{f.value}</span>
+                  <button
+                    type="button"
+                    className="lib-fact-rename-btn"
+                    onClick={() => { setNewSlug(f.value); setRenameErr(''); setRenameStatus('idle'); setRenaming(true); }}
+                  >
+                    <i className="fa-solid fa-pen-to-square" aria-hidden="true"></i> Rename
+                  </button>
+                </span>
               ) : (
                 (editing && f.editable ? draft[f.key] : saved[f.key] ?? f.value) || <span className="lib-fact-empty">—</span>
               )}
@@ -165,6 +204,41 @@ export default function EditableBookFacts({ slug, facts }: Props) {
           </div>
         ))}
       </dl>
+
+      {renaming && slugFact && (
+        <div className="lib-rename-overlay" role="dialog" aria-modal="true" aria-label="Rename book">
+          <div className="lib-rename-dialog">
+            <h3>Rename this book</h3>
+            <p className="lib-rename-warn">
+              This moves the content folder and git branch and rewrites every reference (metadata,
+              pipeline state, site card, knowledge base). Type the new slug to confirm.
+            </p>
+            <input
+              className={`lib-fact-input${newSlug && !slugValid ? ' is-invalid' : ''}`}
+              value={newSlug}
+              onChange={(e) => { setNewSlug(e.target.value); setRenameErr(''); }}
+              placeholder="new-slug"
+              autoFocus
+            />
+            <p className="lib-rename-from">from <code>{slugFact.value}</code></p>
+            {newSlug && !slugValid && <p className="lib-fact-error">Use lowercase letters, numbers, and hyphens only.</p>}
+            {renameErr && <p className="lib-fact-error">{renameErr}</p>}
+            <div className="lib-rename-actions">
+              <button
+                type="button"
+                className="lib-edit-btn lib-edit-btn-primary"
+                disabled={renameStatus === 'saving' || !slugValid || newSlug === slugFact.value}
+                onClick={doRename}
+              >
+                {renameStatus === 'saving' ? 'Renaming…' : 'Rename'}
+              </button>
+              <button type="button" className="lib-edit-btn lib-edit-btn-ghost" disabled={renameStatus === 'saving'} onClick={() => setRenaming(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
