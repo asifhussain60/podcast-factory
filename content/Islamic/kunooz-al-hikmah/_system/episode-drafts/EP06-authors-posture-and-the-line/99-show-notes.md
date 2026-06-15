@@ -27,3 +27,19 @@
   - The three-day window of the lower riyat: the family''s window of opportunity
   - Higher riyat forming the trailing veil of the successors; lower riyat forming the natural veil
   - Three principal moments of receiving substance: ablution, the last meal before dawn, the breaking of the fast
+
+## Name and Title Preservation Table
+
+| Audio label (spoken) | Preserved name / title (written) |
+|---|---|
+| the compiler of the Peak of Eloquence | Sayyid Sharif al-Radi (al-Sharif al-Radi) |
+| Peak of Eloquence | Nahj al-Balagha |
+| Treasures of Wisdom | Kunooz al-Hikmah |
+| the Father of Imams | Ali ibn Abi Talib |
+| the Dai | al-Da'i |
+| the chief jurist of the Fatimid court | al-Qadi al-Nu'man |
+| The Pillars of Islam | Da'a'im al-Islam |
+| Joseph | Yusuf |
+| the lower marks | al-riyat al-sufla |
+| the trailing veils | al-hujub |
+
