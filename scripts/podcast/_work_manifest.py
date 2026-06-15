@@ -25,7 +25,10 @@ SCHEMA (``content/<Bucket>/<work_slug>/work.yml`` — parent of a nested work on
       - order: 1
         slug: asaas-vol-01           # COMPOSITE slug (slug-legal; works with --resume)
         dir: vol-01                  # dir name under the work dir
-        source_pdf: vol-01/_source/asaas-vol-01.pdf
+        source_pdf: vol-01/_source/asaas-vol-01.pdf   # PDF-sourced volume; OR …
+        # source_audio_dir: vol-01/source             # … audio-sourced volume (.mp3
+        #   lectures under source/, transcribed by transcribe_audio_book.py). Exactly
+        #   one of source_pdf / source_audio_dir is set per volume.
         sources:                     # role-tagged inputs (Q7)
           - path: vol-01/_source/asaas-vol-01.pdf
             role: primary_source
@@ -34,6 +37,10 @@ SCHEMA (``content/<Bucket>/<work_slug>/work.yml`` — parent of a nested work on
         slug: asaas-vol-02
         dir: vol-02
         ...
+
+This module does NOT validate volume-entry fields (pure dict I/O), so the
+source_pdf vs source_audio_dir choice is enforced by the writer (intake_book.py),
+not here.
 
 The composite volume slug is ``<work_slug>-<dir>`` (e.g. ``asaas`` + ``vol-02`` →
 ``asaas-vol-02``). It is slug-legal so ``--resume asaas-vol-02`` works unchanged.
