@@ -4,8 +4,8 @@
   "source_kind": "audio",
   "source_language": "ur",
   "last_completed_phase": "0e",
-  "phase": "0e",
-  "phase_status": "completed",
+  "phase": "06a",
+  "phase_status": "awaiting_human_review",
   "last_error": null,
   "category": "lectures",
   "status": "draft",
@@ -49,9 +49,15 @@
       "ts_started": "2026-06-15T17:05:23Z",
       "ts_completed": "2026-06-15T20:02:21Z",
       "manual_fallback": "Inspect the chapter files of failed chapters; enrich each manually via /podcast, then add a `- <stem>: ENRICHED ...` row to enrichment-log.md and re-invoke orchestrate-book --resume."
+    },
+    "06a": {
+      "status": "halted",
+      "ts_started": "2026-06-15T20:02:21Z",
+      "ts_completed": "2026-06-15T20:02:32Z",
+      "gate_warnings": 6
     }
   },
   "next_phase": "0literary",
   "content_profile": "islamic_scholarly",
-  "ts_updated": "2026-06-15T20:02:21Z"
+  "ts_updated": "2026-06-15T20:02:32Z"
 }
