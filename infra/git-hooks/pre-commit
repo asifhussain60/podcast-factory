@@ -86,4 +86,26 @@ if [ -n "$view_files" ] && command -v node >/dev/null 2>&1 \
     fi
 fi
 
+# Check 4 — corpus durability (never lose hydrated knowledge across machines).
+# knowledge.db is gitignored local state; the per-type JSONL exports are the
+# committed, diff-friendly, union-mergeable source of truth. On every commit we
+# refresh + stage them so the hydrated corpus is always captured in git.
+# SAFE mode refuses to shrink the committed corpus (an under-hydrated machine must
+# `corpus_sync.py rebuild` first), so this can never clobber a peer's atoms.
+# Skips cleanly when the venv/script/DB are absent (non-corpus machines unaffected).
+repo_root=$(git rev-parse --show-toplevel)
+corpus_db="$repo_root/content/knowledge-base/knowledge.db"
+corpus_sync="$repo_root/scripts/podcast/intelligence/corpus_sync.py"
+corpus_py="$repo_root/.venv/bin/python"
+[ -x "$corpus_py" ] || corpus_py=$(command -v python3 || true)
+if [ -f "$corpus_db" ] && [ -f "$corpus_sync" ] && [ -n "$corpus_py" ]; then
+    if "$corpus_py" "$corpus_sync" export --safe >/dev/null 2>&1; then
+        git add "$repo_root/content/knowledge-base/"*.jsonl 2>/dev/null || true
+    else
+        echo "pre-commit: corpus export skipped (would shrink committed corpus)." >&2
+        echo "pre-commit: run 'python3 scripts/podcast/intelligence/corpus_sync.py rebuild' first." >&2
+        # advisory only — never block a commit on corpus sync
+    fi
+fi
+
 exit 0
