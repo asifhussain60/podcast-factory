@@ -5,12 +5,8 @@
   "source_language": "ur",
   "last_completed_phase": "06a",
   "phase": "per-chapter",
-  "phase_status": "failed",
-  "last_error": {
-    "phase": "per-chapter",
-    "message": "CIRCUIT-BREAKER: first attempted chapter 'authors-posture-and-the-line' failed in 0.0s — deterministic/systemic (not content): extract_chapter.py failed for 'kunooz-al-hikmah/ch06a-authors-posture-and-the-line': rc=1: Traceback (most recent call last):",
-    "ts": "2026-06-15T20:27:36Z"
-  },
+  "phase_status": "pending",
+  "last_error": null,
   "category": "lectures",
   "status": "draft",
   "updated": "2026-06-14T22:29:44Z",
@@ -67,14 +63,12 @@
       "series_plan_path": "content/Islamic/kunooz-al-hikmah/_system/series-plan.md"
     },
     "per-chapter": {
-      "status": "failed",
+      "status": "pending",
       "ts_started": "2026-06-15T20:27:36Z",
-      "current_chapter": "authors-posture-and-the-line",
+      "current_chapter": null,
       "last_beat": "2026-06-15T20:27:36Z",
       "completed_slugs": [],
-      "failed_slugs": [
-        "authors-posture-and-the-line"
-      ],
+      "failed_slugs": [],
       "chapter_timings": {
         "authors-posture-and-the-line": {
           "started_ts": "2026-06-15T20:27:36Z",
@@ -84,8 +78,7 @@
           "cost_usd": 0.0,
           "error": "extract_chapter.py failed for 'kunooz-al-hikmah/ch06a-authors-posture-and-the-line': rc=1: Traceback (most recent call last):"
         }
-      },
-      "ts_completed": "2026-06-15T20:27:36Z"
+      }
     }
   },
   "next_phase": "0literary",
