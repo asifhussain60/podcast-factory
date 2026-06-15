@@ -1,0 +1,16 @@
+{
+  "lecture": 6,
+  "source_audio": "Ansar bhai QA.mp3",
+  "source_bytes": 44618484,
+  "source_kind": "audio",
+  "source_language": "ur",
+  "transcription_engine": "gemini/gemini-2.5-pro",
+  "transcription_method": "whole-file",
+  "dup_sentence_ratio": 0.0,
+  "loop_flagged": false,
+  "translated": true,
+  "char_count": 42547,
+  "word_count": 7496,
+  "elapsed_seconds": 382.9,
+  "generated_at": "2026-06-15T18:23:36Z"
+}

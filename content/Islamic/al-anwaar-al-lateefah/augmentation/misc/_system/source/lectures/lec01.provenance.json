@@ -1,0 +1,16 @@
+{
+  "lecture": 1,
+  "source_audio": "Mabda-wa-Maad Refresher to UK & Australians.mp3",
+  "source_bytes": 151823711,
+  "source_kind": "audio",
+  "source_language": "ur",
+  "transcription_engine": "gemini/gemini-2.5-pro",
+  "transcription_method": "chunked-recovery",
+  "dup_sentence_ratio": 0.001,
+  "loop_flagged": false,
+  "translated": true,
+  "char_count": 160007,
+  "word_count": 28902,
+  "elapsed_seconds": 2281.3,
+  "generated_at": "2026-06-15T20:12:49Z"
+}

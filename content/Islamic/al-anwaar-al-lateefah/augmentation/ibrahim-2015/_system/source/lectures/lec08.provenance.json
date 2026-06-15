@@ -1,0 +1,16 @@
+{
+  "lecture": 8,
+  "source_audio": "08 Maghrib Sabaq - Hazrat Ibrahim Saheb.mp3",
+  "source_bytes": 2544143,
+  "source_kind": "audio",
+  "source_language": "ur",
+  "transcription_engine": "gemini/gemini-2.5-pro",
+  "transcription_method": "whole-file",
+  "dup_sentence_ratio": 0.0,
+  "loop_flagged": false,
+  "translated": true,
+  "char_count": 21801,
+  "word_count": 3736,
+  "elapsed_seconds": 103.6,
+  "generated_at": "2026-06-15T19:01:55Z"
+}

@@ -1,0 +1,16 @@
+{
+  "lecture": 64,
+  "source_audio": "72 AlFajr.mp3",
+  "source_bytes": 1369116,
+  "source_kind": "audio",
+  "source_language": "ur",
+  "transcription_engine": "gemini/gemini-2.5-pro",
+  "transcription_method": "whole-file",
+  "dup_sentence_ratio": 0.0,
+  "loop_flagged": false,
+  "translated": true,
+  "char_count": 2728,
+  "word_count": 432,
+  "elapsed_seconds": 52.8,
+  "generated_at": "2026-06-15T20:31:31Z"
+}
