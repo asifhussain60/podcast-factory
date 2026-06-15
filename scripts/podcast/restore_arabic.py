@@ -149,6 +149,100 @@ def enrich_quran_atoms(*, dry_run: bool = False) -> dict[str, int]:
             "already_had_arabic": skipped, "unresolved": unresolved}
 
 
+_QUOTE_ARABIC_PROMPT = """You are given transliterated Arabic quotations, hadith, and sayings \
+extracted from Urdu/Arabic Islamic lectures (Fatimid/Ismaili tradition). For EACH item, \
+provide the ARABIC SCRIPT (fully vowelled, tashkīl).
+
+RULES (quality over coverage):
+- If the text is a genuine Arabic quotation / hadith / Qur'anic phrase / saying rendered in \
+Latin transliteration, return its accurate Arabic script.
+- If the text is actually an ENGLISH paraphrase or translation (NOT Arabic), OR you cannot \
+reliably reproduce the exact Arabic, set "arabic": null and "uncertain": true. DO NOT GUESS.
+- Conservative bias: a wrong Arabic rendering is worse than none.
+
+Return ONLY a JSON array, one object per item:
+[{{"idx": <int>, "arabic": "<arabic script or null>", "uncertain": <true|false>}}]
+
+ITEMS:
+{items}
+"""
+
+
+def enrich_quote_atoms_arabic(*, batch_size: int = 12, model: str = "claude-sonnet-4-6",
+                              limit: int | None = None, dry_run: bool = False) -> dict[str, int]:
+    """Add verified-model Arabic to quote + hadith atoms via the metered Anthropic SDK
+    (DR-015: NEVER claude -p in unattended code). Confident Arabic is stored on the atom;
+    uncertain items are flagged to _conflicts/arabic-review.jsonl for human review — never
+    silently trusted."""
+    import json
+    import sqlite3
+    sys.path.insert(0, str(SCRIPT_DIR))
+    from _secrets import get_anthropic_key  # noqa: E402
+    from _tighten_helpers import extract_json  # noqa: E402
+    import anthropic  # noqa: E402
+
+    db = REPO_ROOT / "content" / "knowledge-base" / "knowledge.db"
+    conn = sqlite3.connect(str(db))
+    rows = conn.execute("SELECT id, type, body FROM atoms WHERE type IN ('quote','hadith')").fetchall()
+    todo = []
+    for atom_id, atype, raw in rows:
+        try:
+            body = json.loads(raw) if raw else {}
+        except json.JSONDecodeError:
+            continue
+        if body.get("arabic"):
+            continue
+        text = (body.get("text_en") or body.get("text") or "").strip()
+        if not text:
+            continue
+        todo.append((atom_id, atype, body.get("speaker", ""), text, body))
+    if limit:
+        todo = todo[:limit]
+
+    client = anthropic.Anthropic(api_key=get_anthropic_key())
+    review_path = REPO_ROOT / "content" / "knowledge-base" / "_conflicts" / "arabic-review.jsonl"
+    enriched = flagged = failed = 0
+    review_lines = []
+    for i in range(0, len(todo), batch_size):
+        batch = todo[i:i + batch_size]
+        items = [{"idx": j, "type": t, "speaker": sp, "text": tx}
+                 for j, (aid, t, sp, tx, b) in enumerate(batch)]
+        prompt = _QUOTE_ARABIC_PROMPT.format(items=json.dumps(items, ensure_ascii=False, indent=2))
+        try:
+            resp = client.messages.create(model=model, max_tokens=4096,
+                                          messages=[{"role": "user", "content": prompt}])
+            out = extract_json(resp.content[0].text)
+        except Exception:
+            failed += len(batch)
+            continue
+        by_idx = {o.get("idx"): o for o in out} if isinstance(out, list) else {}
+        for j, (atom_id, atype, sp, tx, body) in enumerate(batch):
+            o = by_idx.get(j) or {}
+            ar = (o.get("arabic") or "").strip() if o.get("arabic") else ""
+            if ar and not o.get("uncertain") and _has_arabic(ar):
+                body["arabic"] = ar
+                body["arabic_source"] = "model-sdk-verified"
+                if not dry_run:
+                    conn.execute("UPDATE atoms SET body=?, updated_at=datetime('now') WHERE id=?",
+                                 (json.dumps(body, ensure_ascii=False), atom_id))
+                enriched += 1
+            else:
+                flagged += 1
+                review_lines.append(json.dumps(
+                    {"atom_id": atom_id, "type": atype, "text_en": tx,
+                     "reason": "uncertain" if o.get("uncertain") else "no-arabic"},
+                    ensure_ascii=False))
+    if not dry_run:
+        conn.commit()
+        if review_lines:
+            review_path.parent.mkdir(parents=True, exist_ok=True)
+            with review_path.open("a", encoding="utf-8") as fh:
+                fh.write("\n".join(review_lines) + "\n")
+    conn.close()
+    return {"candidates": len(todo), "enriched": enriched, "flagged_for_review": flagged,
+            "failed_batches_items": failed}
+
+
 def main() -> int:
     import argparse
     ap = argparse.ArgumentParser(description="Restore Arabic script for audio-sourced books.")
@@ -158,12 +252,20 @@ def main() -> int:
     rg.add_argument("--dry-run", action="store_true")
     ea = sub.add_parser("enrich-atoms", help="Add canonical Arabic to Quran atoms (zero LLM).")
     ea.add_argument("--dry-run", action="store_true")
+    eq = sub.add_parser("enrich-quotes", help="Add verified-model Arabic to quote/hadith atoms (metered SDK).")
+    eq.add_argument("--limit", type=int, default=None)
+    eq.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
     if args.cmd == "enrich-atoms":
         r = enrich_quran_atoms(dry_run=args.dry_run)
         tag = " (dry-run)" if args.dry_run else ""
         print(f"enrich-atoms{tag}: {r}")
+        return 0
+    if args.cmd == "enrich-quotes":
+        r = enrich_quote_atoms_arabic(limit=args.limit, dry_run=args.dry_run)
+        tag = " (dry-run)" if args.dry_run else ""
+        print(f"enrich-quotes{tag}: {r}")
         return 0
 
     book_dir = _resolve_book_dir(args.slug)
