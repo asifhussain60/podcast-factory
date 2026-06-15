@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "last_updated": "2026-06-08T20:15:14.516022+00:00",
+  "last_updated": "2026-06-14T20:18:55.701517+00:00",
   "counts": {
-    "quran": 1,
-    "hadith": 1,
+    "quran": 51,
+    "hadith": 11,
     "quote": 0,
     "etymology": 0,
     "definition": 0,
