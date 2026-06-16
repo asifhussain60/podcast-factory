@@ -251,6 +251,10 @@ ${printCss}
     const page = await browser.newPage();
     page.on('pageerror', (e) => console.error('  [pageerror]', e.message));
     await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: 'networkidle' });
+    // Wait for ALL @font-face fonts (self-hosted Source Serif 4 + Amiri) to finish
+    // loading before paginating. Without this, font-display:swap can paginate with
+    // a fallback font and swap after — making page/line breaks non-deterministic.
+    await page.evaluate(() => document.fonts.ready);
     mkdirSync(path.dirname(OUT_PATH), { recursive: true });
     await page.pdf({ path: OUT_PATH, format: 'A4', printBackground: true,
       margin: { top: '0', right: '0', bottom: '0', left: '0' } });
