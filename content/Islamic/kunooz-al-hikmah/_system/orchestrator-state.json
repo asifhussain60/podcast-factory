@@ -3,8 +3,8 @@
   "book_slug": "kunooz-al-hikmah",
   "source_kind": "audio",
   "source_language": "ur",
-  "last_completed_phase": "0g",
-  "phase": "0g",
+  "last_completed_phase": "per-chapter-slides",
+  "phase": "per-chapter-slides",
   "phase_status": "completed",
   "last_error": null,
   "category": "lectures",
@@ -308,9 +308,96 @@
           "p2": 0
         }
       }
+    },
+    "per-chapter-slides": {
+      "status": "completed",
+      "ts_started": "2026-06-16T00:51:01Z",
+      "ts_completed": "2026-06-16T00:51:01Z",
+      "outcomes": {
+        "lectures-six-seven-eight-continued": "BLOCKED",
+        "family-of-light": "BLOCKED",
+        "lectures-twelve-fourteen-fifteen-continued": "BLOCKED",
+        "the-cycle-and-the-practical-frame": "BLOCKED",
+        "living-context-and-the-whole-structure": "BLOCKED",
+        "later-lectures-and-the-end-of-book": "BLOCKED",
+        "particular-doctrines-drawn-out": "BLOCKED",
+        "heart-shahadah-and-early-lectures": "BLOCKED",
+        "two-foundational-questions": "BLOCKED",
+        "named-duat-and-concealment": "BLOCKED",
+        "lectures-nine-ten-eleven-continued": "BLOCKED",
+        "doctrinal-synthesis-and-supplementary": "BLOCKED",
+        "authors-posture-and-the-line": "BLOCKED"
+      }
     }
   },
-  "next_phase": "per-chapter",
+  "next_phase": "audio-script",
   "content_profile": "islamic_scholarly",
-  "ts_updated": "2026-06-16T00:51:01Z"
+  "ts_updated": "2026-06-16T00:51:01Z",
+  "slide_decks": {
+    "lectures-six-seven-eight-continued": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "family-of-light": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "lectures-twelve-fourteen-fifteen-continued": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "the-cycle-and-the-practical-frame": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "living-context-and-the-whole-structure": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "later-lectures-and-the-end-of-book": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "particular-doctrines-drawn-out": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "heart-shahadah-and-early-lectures": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "two-foundational-questions": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "named-duat-and-concealment": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "lectures-nine-ten-eleven-continued": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "doctrinal-synthesis-and-supplementary": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "authors-posture-and-the-line": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    }
+  }
 }
