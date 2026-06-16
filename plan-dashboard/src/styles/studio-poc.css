@@ -441,6 +441,22 @@
 }
 .sp-arabic-confirm__input:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 1px; border-color: transparent; }
 .sp-arabic-confirm__gloss { font-size: 0.74rem; color: var(--c-ink-dim); font-style: italic; margin: 5px 0 0; }
+
+/* "Explain" — editable multi-line proposed clarification before replacing. */
+.sp-explain-confirm {
+  margin-top: 8px; padding: 9px 11px; border-radius: 8px;
+  background: var(--c-bg-elev);
+  border: 1px solid color-mix(in srgb, var(--c-accent) 30%, var(--c-rule, rgba(0, 0, 0, 0.12)));
+}
+.sp-explain-confirm__label { font-size: 0.72rem; color: var(--c-ink-muted); margin: 0 0 6px; }
+.sp-explain-confirm__text {
+  width: 100%; resize: vertical; min-height: 96px; padding: 8px 10px;
+  font-family: var(--font-body, Georgia, serif);
+  font-size: 0.92rem; line-height: 1.5; color: var(--c-ink);
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15)); border-radius: 7px;
+}
+.sp-explain-confirm__text:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 1px; border-color: transparent; }
 .sp-arabic-confirm__actions { display: flex; gap: 6px; margin-top: 9px; }
 .sp-arabic-confirm__apply,
 .sp-arabic-confirm__cancel {

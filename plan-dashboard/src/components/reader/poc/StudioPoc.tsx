@@ -65,6 +65,7 @@ const ACTION_REGISTRY: readonly ActionDef[] = [
   // Core
   { kind: 'arabic',    label: 'Arabic',        icon: 'fa-language',                            scope: 'term',      group: 'core',      hint: 'Replace this term with the correct contextual Arabic (AI, confirm first)', applyMode: 'immediate' },
   { kind: 'replace',   label: 'Replace',       icon: 'fa-right-left',                          scope: 'term',      group: 'core',      hint: 'Find & replace this phrase across this chapter or the whole book', applyMode: 'immediate' },
+  { kind: 'explain',   label: 'Explain',       icon: 'fa-lightbulb',                           scope: 'term',      group: 'core',      hint: 'Replace the selection with a clearer, fuller explanation (AI, in chapter context)', applyMode: 'immediate' },
   { kind: 'etymology', label: 'Etymology',     icon: 'fa-book-bookmark',                       scope: 'term',      group: 'core',      hint: 'Resolve the root-history of this term (shared wisdom corpus)' },
   { kind: 'rewrite',   label: 'Rewrite',       icon: 'fa-arrows-rotate',                       scope: 'paragraph', group: 'core',      hint: 'Rewrite this paragraph' },
   { kind: 'rephrase',  label: 'Rephrase',      icon: 'fa-pen-nib',                             scope: 'paragraph', group: 'core',      hint: 'Rephrase while keeping the meaning' },
@@ -715,6 +716,15 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   const [arabicError, setArabicError] = useState('');
   // Result line after an across-chapter / across-book Arabic replace.
   const [arabicDone, setArabicDone] = useState('');
+
+  // "Explain" immediate action — AI rewrites the highlighted excerpt into a
+  // clearer, fuller version (kept in chapter context); the human reviews/edits
+  // the proposed text before it replaces the selection.
+  const [explainProposal, setExplainProposal] = useState<
+    { from: number; to: number; original: string; text: string } | null
+  >(null);
+  const [explainBusy, setExplainBusy] = useState(false);
+  const [explainError, setExplainError] = useState('');
 
   // serializeToMarkdown / saveAndApprove / discardChanges declared after useEditor (below).
 
@@ -1431,6 +1441,9 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     });
   }
   const markedCount = actionsRef.current.length;
+  // "Approved" only counts while the stage is unchanged — any fresh edit reverts
+  // the footer to "Save & Approve" so the new edit can be saved.
+  const approvedClean = !!(stage && approvedStages[stage.id]) && changedCount === 0;
   // Chapter's marks, ordered for the queue list (by paragraph, then insertion).
   const chapterActions = [...actionsRef.current].sort((a, b) => a.para_ordinal - b.para_ordinal || a.id - b.id);
 
@@ -1544,6 +1557,54 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   }, [editor, arabicProposal]);
 
   const cancelArabic = useCallback(() => { setArabicProposal(null); setArabicError(''); setArabicDone(''); }, []);
+
+  // Propose a clearer, fuller version of the highlighted excerpt (does NOT edit
+  // yet). The whole chapter is sent as context so the AI stays inside it.
+  const proposeExplain = useCallback(async () => {
+    if (!editor || isReadOnlyStage) return;
+    const { from, to } = editor.state.selection;
+    const original = editor.state.doc.textBetween(from, to, ' ').trim();
+    if (!original || from === to) return;
+    let chapterText = '';
+    editor.state.doc.forEach((n) => { chapterText += `${n.textContent}\n\n`; });
+    setExplainBusy(true); setExplainError(''); setExplainProposal(null);
+    try {
+      const res = await fetch('/api/ai/explain', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ text: original, chapter: chapterText.trim(), bookTitle: chapterTitle }),
+      });
+      const json = await res.json();
+      if (!res.ok || json.ok === false || !json.text) {
+        setExplainError(json.error ?? `Request failed (${res.status})`);
+      } else {
+        setExplainProposal({ from, to, original, text: json.text });
+      }
+    } catch (e) {
+      setExplainError(String(e));
+    } finally {
+      setExplainBusy(false);
+    }
+  }, [editor, isReadOnlyStage, chapterTitle]);
+
+  // Apply the (edited) explanation: replace the original range, but only if the
+  // text at those positions is unchanged since proposing.
+  const applyExplain = useCallback(() => {
+    if (!editor || !explainProposal) return;
+    const { from, to, original, text } = explainProposal;
+    const replacement = text.trim();
+    if (!replacement) { setExplainError('The explanation is empty.'); return; }
+    const current = editor.state.doc.textBetween(from, to, ' ').trim();
+    if (current !== original) {
+      setExplainError('Selection changed — highlight the passage again.');
+      setExplainProposal(null);
+      return;
+    }
+    editor.view.dispatch(editor.state.tr.replaceWith(from, to, editor.state.schema.text(replacement)));
+    setExplainProposal(null); setExplainError('');
+    refresh();
+  }, [editor, explainProposal]);
+
+  const cancelExplain = useCallback(() => { setExplainProposal(null); setExplainError(''); }, []);
 
   // ── Global find-and-replace ──────────────────────────────────────────────
   // Highlight a phrase → "Replace" opens this popup pre-filled with the
@@ -1923,14 +1984,16 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                         <div className="sp-action-palette" role="toolbar" aria-label="Term action items">
                           {TERM_ACTIONS.map((def) => {
                             if (def.applyMode === 'immediate') {
-                              // Immediate action — runs now (Arabic = confirm-then-apply AI;
-                              // Replace = open the find-and-replace popup). Not a toggle.
+                              // Immediate action — runs now (Arabic / Explain = confirm-then-apply
+                              // AI; Replace = open the find-and-replace popup). Not a toggle.
                               return (
                                 <button key={def.kind} type="button"
                                   className={`sp-action-btn act-${def.kind}`}
-                                  title={def.hint} disabled={def.kind === 'arabic' && arabicBusy}
+                                  title={def.hint}
+                                  disabled={(def.kind === 'arabic' && arabicBusy) || (def.kind === 'explain' && explainBusy)}
                                   onClick={() => {
                                     if (def.kind === 'arabic') void proposeArabic();
+                                    else if (def.kind === 'explain') void proposeExplain();
                                     else if (def.kind === 'replace') openReplace();
                                   }}>
                                   <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> <span className="sp-action-label">{def.label}</span>
@@ -1947,6 +2010,26 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                             );
                           })}
                         </div>
+                        {explainBusy && <p className="sp-ai-status">Writing a clearer explanation…</p>}
+                        {explainError && <p className="sp-ai-status sp-ai-status--error">{explainError}</p>}
+                        {explainProposal && (
+                          <div className="sp-explain-confirm">
+                            <p className="sp-explain-confirm__label">Clearer explanation — edit before replacing:</p>
+                            <textarea
+                              className="sp-explain-confirm__text"
+                              value={explainProposal.text}
+                              rows={6}
+                              onChange={(e) => setExplainProposal({ ...explainProposal, text: e.target.value })}
+                              aria-label="Explanation — edit before replacing"
+                            />
+                            <div className="sp-arabic-confirm__actions">
+                              <button type="button" className="sp-arabic-confirm__apply" onClick={applyExplain} disabled={!explainProposal.text.trim()}>
+                                <i className="fa-solid fa-check" aria-hidden="true" /> Replace
+                              </button>
+                              <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelExplain}>Cancel</button>
+                            </div>
+                          </div>
+                        )}
                         {arabicBusy && <p className="sp-ai-status">Finding the Arabic term…</p>}
                         {arabicError && <p className="sp-ai-status sp-ai-status--error">{arabicError}</p>}
                         {arabicProposal && (
@@ -2142,7 +2225,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
         {saveError && <p className="sp-save-error" role="alert">{saveError}</p>}
         {!viewAll && !isReadOnlyStage && stage && (
           <div className="sp-action-footer">
-            {changedCount > 0 && !approvedStages[stage.id] && (
+            {changedCount > 0 && (
               <button
                 type="button"
                 className="sp-discard"
@@ -2155,11 +2238,11 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
             )}
             <button
               type="button"
-              className={`sp-approve${approvedStages[stage.id] ? ' is-done' : ''}`}
+              className={`sp-approve${approvedClean ? ' is-done' : ''}`}
               onClick={saveAndApprove}
-              disabled={saving || approvedStages[stage.id]}
+              disabled={saving || approvedClean}
             >
-              {approvedStages[stage.id]
+              {approvedClean
                 ? `✓ ${stage.label} approved`
                 : saving ? 'Saving…'
                 : 'Save & Approve'}
