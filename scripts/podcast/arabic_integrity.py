@@ -68,6 +68,12 @@ EXIT_ERROR = 2
 # span instead of fragmenting per word). Comma, semicolon, question mark, full
 # stop, and the ASCII space are span-internal connective glue.
 _SPAN_GLUE = set(" \t،؛؟۔")
+# A PROTECTED span (Quran verse / hadith / named term) always has >= 2 Arabic
+# letters. A lone isolated Arabic character (e.g. an illustrative letter `ھ`, or a
+# stray glyph) can never be a protected verse/term — counting it as a span produces
+# false "invented-span" flags. So spans below this many Arabic LETTERS are not
+# tracked. This does NOT weaken protection of real verses/hadith/terms.
+MIN_ARABIC_LETTERS = 2
 _BIDI_STRIP_SET = set(R_ARABIC_BIDI_STRIP)
 _TASHKEEL_SET: set[int] = set()
 for _lo, _hi in R_ARABIC_TASHKEEL:
@@ -114,7 +120,10 @@ def extract_spans(text: str) -> list[str]:
         nonlocal has_letter
         if buf and has_letter:
             norm = normalize_arabic_span("".join(buf))
-            if norm and _has_arabic(norm):
+            # Require >= MIN_ARABIC_LETTERS actual Arabic letters: a lone glyph is
+            # never a protected verse/hadith/term, and flagging it is a false positive.
+            n_letters = sum(1 for ch in norm if _ARABIC_RE.match(ch))
+            if norm and _has_arabic(norm) and n_letters >= MIN_ARABIC_LETTERS:
                 spans.append(norm)
         buf.clear()
         has_letter = False
