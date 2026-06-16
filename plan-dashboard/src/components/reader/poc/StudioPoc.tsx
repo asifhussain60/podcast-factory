@@ -1440,160 +1440,12 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   // are shown muted + non-interactive so the whole journey is visible even when a
   // run didn't write every stage. Stages AFTER the editable top (e.g. narrator
   // not yet run) are omitted — they're not part of "the journey that led here".
-  const editableIdx = stages.findIndex((s) => s.id === editableStageId);
-  const railStages = stages.slice(0, editableIdx >= 0 ? editableIdx + 1 : stages.length).reverse();
-  const hasUncaptured = railStages.some((s) => !s.available);
-
-  // Pipeline phases for the rail's spine. Fallback to a lone "Edit" node so the
-  // rail still renders if phases weren't supplied.
-  const phases: PipelineStep[] = pipelineSteps.length
-    ? pipelineSteps
-    : [{ id: 'edit', label: 'Edit & Enrich', state: 'active', detail: '' }];
-
   return (
     <div className="studio-poc">
-      {/* Left rail: TWO clean modules — (1) the book-level pipeline spine
-          (Intake → … → Publish, contiguous, never interrupted), then (2) this
-          chapter's draft versions as a separate module. Different granularities,
-          not interleaved. */}
-      <nav className="st-rail" aria-label="Pipeline timeline" ref={railRef}>
-        {/* Companion reading edition — a peer deliverable to the podcast (not a
-            per-chapter version, not a pipeline phase), so it gets its own zone
-            pinned above the timeline. */}
-        <div className="st-deliverable">
-          <a
-            className="st-book-link"
-            href={`/studio/${slug}/book`}
-            title="Open the companion reading edition (the book)"
-          >
-            <span className="st-book-glyph" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z" />
-                <path d="M4 19.5A1.5 1.5 0 0 1 5.5 18H20v3H5.5A1.5 1.5 0 0 1 4 19.5z" />
-              </svg>
-            </span>
-            <span className="st-book-text">
-              <span className="st-book-label">Reading edition</span>
-              <span className="st-book-meta">the companion book</span>
-            </span>
-          </a>
-        </div>
-
-        <div className="st-rail-head">
-          <span className="st-rail-eyebrow">Pipeline</span>
-        </div>
-
-        <ol className="st-phases">
-          {phases.map((step) => {
-            const isCurrent = step.id === activeStep;
-            const glyph = step.state === 'done' ? '✓' : step.state === 'blocked' ? '!' : '';
-            return (
-              <li key={step.id} className={`st-phase st-phase--${step.state}${isCurrent ? ' is-current' : ''}`}>
-                <a
-                  className="st-phase-link"
-                  href={`/studio/${slug}/${step.id}`}
-                  aria-current={isCurrent ? 'page' : undefined}
-                  title={`${step.label}${step.detail ? ` — ${step.detail}` : ''}`}
-                >
-                  <span className="st-phase-dot" aria-hidden="true">{glyph}</span>
-                  <span className="st-phase-text">
-                    <span className="st-phase-label">{step.label}</span>
-                    {step.detail && <span className="st-phase-detail">{step.detail}</span>}
-                  </span>
-                </a>
-              </li>
-            );
-          })}
-        </ol>
-
-        <div className="st-versions-module">
-          <div className="st-versions-head">Transformation · this chapter</div>
-          <ol className="st-list">
-            {railStages.map((s) => {
-              const isTop = s.id === editableStageId && !isArchivedView;
-              const m = metrics.find((x) => x.id === s.id);
-              const active = s.id === stageId;
-              const role = stageRole(s.id);
-              const badge = role.role ? (
-                <span className={`st-role st-role--${role.kind}`}>{role.role}</span>
-              ) : null;
-
-              // Uncaptured stage: a muted, non-interactive rung so the full
-              // journey is visible without offering a click that shows empty text.
-              if (!s.available) {
-                return (
-                  <li key={s.id} className="st-item is-uncaptured">
-                    <span className="st-link is-static">
-                      <span className="st-dot" aria-hidden="true" />
-                      <span className="st-text">
-                        <span className="st-label">
-                          {s.label}
-                          {badge}
-                        </span>
-                        <span className="st-meta">not captured in this run</span>
-                      </span>
-                    </span>
-                  </li>
-                );
-              }
-
-              return (
-                <li key={s.id} className={`st-item${active ? ' is-active' : ''}${isTop ? ' is-editable' : ' is-readonly'}`}>
-                  <button
-                    type="button"
-                    className="st-link"
-                    aria-current={active ? 'step' : undefined}
-                    onClick={() => setStageId(s.id)}
-                    title={isTop ? 'Review — the editable version' : `${s.label} — click to view (read-only)`}
-                  >
-                    <span className="st-dot" aria-hidden="true" />
-                    <span className="st-text">
-                      <span className="st-label">
-                        {isTop ? 'Review' : s.label}
-                        {badge}
-                        {isTop && <span className="st-edit-flag">editable</span>}
-                      </span>
-                      {m && (
-                        <span className="st-meta">
-                          {m.words.toLocaleString()} words
-                          {m.deltaPct !== null && (
-                            <span className={`st-delta ${m.deltaPct < 0 ? 'is-down' : m.deltaPct > 0 ? 'is-up' : ''}`}>
-                              {m.deltaPct > 0 ? '+' : ''}{m.deltaPct}%
-                            </span>
-                          )}
-                        </span>
-                      )}
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
-          {hasUncaptured && !isArchivedView && archivedLineages.length > 0 && (
-            <p className="st-uncaptured-hint">
-              Earlier stages weren't kept for this run — open the archived journey below to see the full chain.
-            </p>
-          )}
-
-          {archivedLineages.length > 0 && (
-            <div className="st-lineage">
-              {isArchivedView ? (
-                <>
-                  <button type="button" className="st-lineage-btn" onClick={() => switchLineage('current')}>
-                    ← Current rebuild
-                  </button>
-                  <p className="st-lineage-note">{activeLineage.label} · view only</p>
-                </>
-              ) : (
-                <button type="button" className="st-lineage-btn" onClick={() => switchLineage(archivedLineages[0].id)}>
-                  View archived journey →
-                </button>
-              )}
-            </div>
-          )}
-        </div>
-      </nav>
-
+      {/* Two columns: the editor and the contextual inspector. The left pipeline
+          rail was removed (redundant nav — pipeline phases live in the breadcrumb
+          and book-page tabs); the editor column widened and the reading-edition
+          link moved into the editor head below. */}
       <main className="studio-poc__editor" ref={editorContainerRef}>
         {/* Consolidated editor header: chapter switcher · metrics · finalize. */}
         <div className="sp-editor-head">
@@ -1646,6 +1498,19 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
               {finalized ? '✓ Finalized' : publishing ? 'Finalizing…' : 'Finalize chapter'}
             </button>
           )}
+          <a
+            className="sp-book-link"
+            href={`/studio/${slug}/book`}
+            title="Open the companion reading edition (the book)"
+          >
+            <span className="sp-book-glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z" />
+                <path d="M4 19.5A1.5 1.5 0 0 1 5.5 18H20v3H5.5A1.5 1.5 0 0 1 4 19.5z" />
+              </svg>
+            </span>
+            Reading edition
+          </a>
         </div>
         {!viewAll && (
           <TransformationDashboard
