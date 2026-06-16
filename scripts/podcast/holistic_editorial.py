@@ -201,6 +201,14 @@ def run(slug: str, *, skip_fidelity: bool = False) -> int:
     except Exception as e:
         return _die(f"ledger is not valid JSON: {e}")
 
+    # Arabic baseline BEFORE the first mutating pass (R-ARABIC-INTEGRITY).
+    try:
+        import arabic_integrity as _ai
+        _ai.snapshot(slug)
+    except Exception as _e:  # noqa: BLE001
+        _info(f"    (arabic-integrity snapshot skipped: {_e!r})")
+        _ai = None
+
     # 2 — holistic editorial
     _info("==> [2/3] Holistic editorial — reorganize + denoise + enrich (claude -p) ...")
     rc, _out, err = _run_claude_p(
@@ -243,6 +251,12 @@ def run(slug: str, *, skip_fidelity: bool = False) -> int:
                 _info(f"    ⚠ ledger coverage incomplete ({m.group(1)}/{m.group(2)}) — see "
                       f"{_rel(openq)}. NOT advancing phase.")
                 return 3
+
+    # Arabic verify AFTER the editorial/fidelity passes (R-ARABIC-INTEGRITY).
+    if _ai is not None and _ai.verify(slug, "0a") == _ai.EXIT_FORBIDDEN:
+        _info(f"    ⚠ R-ARABIC-INTEGRITY: forbidden Arabic mutation — see "
+              f"_system/{_ai.REPORT_NAME}. NOT advancing phase.")
+        return 3
 
     # advance state
     state_path = book_dir / "_system" / "orchestrator-state.json"

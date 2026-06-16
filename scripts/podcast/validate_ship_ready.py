@@ -207,6 +207,16 @@ def main() -> int:
                          "passed": bool(ok12)})
     # G12 is advisory — warn but do not block ship
 
+    # G13 — arabic-integrity: every protected Arabic span is byte-stable against
+    # the pre-LLM baseline snapshot (allowing only canonical injection + glossary
+    # curation). BLOCKING for Islamic books that took a baseline; vacuous pass for
+    # non-Islamic books or books with no snapshot. See arabic_integrity.py / R-ARABIC-INTEGRITY.
+    import arabic_integrity as _ai
+    ok13, msg13 = _ai.gate_arabic_integrity(workspace)
+    gate_results.append({"gate": "G13", "name": "arabic-integrity", "passed": bool(ok13)})
+    if not ok13:
+        return _emit(args, gate_results, "BLOCKED", f"G13 arabic-integrity failed — {msg13}")
+
     total_gates = len(gate_results)
     return _emit(args, gate_results, "SHIP-READY",
                  f"all {total_gates} gates passed for {args.slug}; ready for publish")

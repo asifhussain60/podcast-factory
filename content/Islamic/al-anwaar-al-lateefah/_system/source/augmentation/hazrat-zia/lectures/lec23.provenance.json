@@ -1,0 +1,16 @@
+{
+  "lecture": 23,
+  "source_audio": "Sabaq 021.mp3",
+  "source_bytes": 44011598,
+  "source_kind": "audio",
+  "source_language": "ur",
+  "transcription_engine": "gemini/gemini-2.5-pro",
+  "transcription_method": "whole-file",
+  "dup_sentence_ratio": 0.002,
+  "loop_flagged": false,
+  "translated": true,
+  "char_count": 45339,
+  "word_count": 8195,
+  "elapsed_seconds": 227.2,
+  "generated_at": "2026-06-15T22:22:45Z"
+}

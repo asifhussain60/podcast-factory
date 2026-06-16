@@ -1,0 +1,58 @@
+[
+  {
+    "name": "ansaar-bhai",
+    "staging_slug": "ansaar-bhai-augment",
+    "lectures": 6,
+    "source_language": "ur",
+    "raw_extract": "_system/source/augmentation/ansaar-bhai/raw-extract.md",
+    "origin_state": "augmentation/ansaar-bhai/_system/orchestrator-state.json"
+  },
+  {
+    "name": "hazrat-zia",
+    "staging_slug": "hazrat-zia-ali-augment",
+    "lectures": 29,
+    "source_language": "ur",
+    "raw_extract": "_system/source/augmentation/hazrat-zia/raw-extract.md",
+    "origin_state": "augmentation/hazrat-zia/_system/orchestrator-state.json"
+  },
+  {
+    "name": "ibrahim-2011",
+    "staging_slug": "ibrahim-2011-augment",
+    "lectures": 8,
+    "source_language": "ur",
+    "raw_extract": "_system/source/augmentation/ibrahim-2011/raw-extract.md",
+    "origin_state": "augmentation/ibrahim-2011/_system/orchestrator-state.json"
+  },
+  {
+    "name": "ibrahim-2015",
+    "staging_slug": "ibrahim-2015-augment",
+    "lectures": 23,
+    "source_language": "ur",
+    "raw_extract": "_system/source/augmentation/ibrahim-2015/raw-extract.md",
+    "origin_state": "augmentation/ibrahim-2015/_system/orchestrator-state.json"
+  },
+  {
+    "name": "mabda-maad-2002",
+    "staging_slug": "mabda-maad-2002-augment",
+    "lectures": 7,
+    "source_language": "ur",
+    "raw_extract": "_system/source/augmentation/mabda-maad-2002/raw-extract.md",
+    "origin_state": "augmentation/mabda-maad-2002/_system/orchestrator-state.json"
+  },
+  {
+    "name": "mabda-maad-gh-2022",
+    "staging_slug": "mabda-maad-gh-2022-augment",
+    "lectures": 16,
+    "source_language": "ur",
+    "raw_extract": "_system/source/augmentation/mabda-maad-gh-2022/raw-extract.md",
+    "origin_state": "augmentation/mabda-maad-gh-2022/_system/orchestrator-state.json"
+  },
+  {
+    "name": "misc",
+    "staging_slug": "mabda-maad-misc-augment",
+    "lectures": 2,
+    "source_language": "ur",
+    "raw_extract": "_system/source/augmentation/misc/raw-extract.md",
+    "origin_state": "augmentation/misc/_system/orchestrator-state.json"
+  }
+]

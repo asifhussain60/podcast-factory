@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "book_slug": "al-anwaar-al-lateefah",
+  "source_kind": "audio",
+  "input_type": "audio",
+  "source_language": "ur",
+  "category": "lectures",
+  "branch": "Islamic/al-anwaar-al-lateefah",
+  "status": "draft",
+  "phase": "0a-synthesize",
+  "phase_status": "pending",
+  "last_completed_phase": "0a",
+  "last_error": null,
+  "started": "2026-06-15T17:59:03Z",
+  "updated": "2026-06-16T12:42:39Z",
+  "phases": {
+    "0a": {
+      "completed_via": "promote_staging_to_book.py (consolidated staging corpora)",
+      "completed_at": "2026-06-16T12:42:39Z",
+      "lectures": 65,
+      "augmentation_corpora": 7,
+      "augmentation_lectures": 91,
+      "engine": "gemini/gemini-2.5-pro",
+      "source_language": "ur"
+    }
+  },
+  "multi_source": {
+    "spine_slug": "mabda-maad-anwaar-staging",
+    "augmentation_manifest": "_system/source/augmentation/_manifest.json",
+    "model": "spine+curated-merge+atoms"
+  },
+  "intake_via": "scripts/podcast/promote_staging_to_book.py"
+}
