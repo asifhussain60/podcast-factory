@@ -526,29 +526,16 @@ def run_slide_convergence(
             ),
         )
 
-    spine = _discussion_spine_path(book_dir, slug)
-    if spine is None:
-        # Spine pre-condition not met. Record a clean BLOCKED result with an
-        # explicit reason instead of raising — the caller (orchestrator) can
-        # then surface the chapter for upstream remediation without trapping
-        # an exception. Missing spine is an infrastructure gap, NOT a
-        # content-grounded skip; do not fake a justified-skip here.
-        outcome = ConvergenceResult(
-            verdict="BLOCKED",
-            iterations=0,
-            deck_path=None,
-            framing_path=None,
-            report_path=None,
-            findings=[],
-            notes=[
-                f"no discussion-spine for slug {slug!r}; cannot compute density",
-                "manual_fallback: author the discussion spine (Phase 2 framing draft) "
-                "before re-running slide convergence",
-            ],
-        )
-        _record_state(book_dir, slug, phase_status="stalled",
-                      iterations=0, verdict="BLOCKED")
-        return outcome
+    # A missing discussion-spine is NOT a blocker. The spine producer was
+    # deliberately retired 2026-05-25 (commit dbc9a7db), so an absent spine is
+    # the normal post-migration state — not an infrastructure gap. The rest of
+    # the pipeline already tolerates it: _compute_density returns 1.0 (high
+    # density → never skip) when the spine is missing, and _slide_authoring
+    # derives visual moments "from the audio chapter alone" (see
+    # _build_pair_prompt's no-spine clause). Fall through to author the deck
+    # from the chapter; only a genuine authoring/challenger failure below
+    # yields BLOCKED.
+    spine_absent = _discussion_spine_path(book_dir, slug) is None
 
     deck_path = book_dir / "slide-decks" / f"{ch}-deck-{slug}.txt"
     framing_path = book_dir / "slide-decks" / f"{ch}-framing-{slug}.md"
@@ -653,7 +640,9 @@ def run_slide_convergence(
         framing_path=framing_path if framing_path.exists() else None,
         report_path=report_path,
         findings=[],
-        notes=[f"density={density:.3f} ≥ {DENSITY_THRESHOLD} → full loop"],
+        notes=([f"density={density:.3f} ≥ {DENSITY_THRESHOLD} → full loop"]
+               + (["no discussion-spine present → authoring deck from the audio "
+                   "chapter alone"] if spine_absent else [])),
     )
 
     verdict_history: list[str] = []

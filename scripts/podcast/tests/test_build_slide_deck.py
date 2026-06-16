@@ -84,5 +84,25 @@ class SlideVerdictRegexTests(unittest.TestCase):
         self.assertEqual(m.group(1).lower(), "iterate")
 
 
+class MissingSpineFallThroughTests(unittest.TestCase):
+    """Stage-3 regression: a missing discussion-spine must NOT short-circuit
+    slide convergence to a BLOCKED 'cannot compute density' verdict. The spine
+    producer was retired 2026-05-25; the fall-through relies on two facts —
+    (1) the spine is detected absent, and (2) _compute_density then returns 1.0
+    (high density → never skip) so authoring proceeds 'from the chapter alone'.
+    """
+
+    def test_no_spine_detected_and_density_is_high(self):
+        import tempfile
+        from _slide_convergence import _compute_density, _discussion_spine_path
+        with tempfile.TemporaryDirectory() as d:
+            book = Path(d) / "book"
+            (book / "_system").mkdir(parents=True)
+            # No episode-drafts tree → no discussion-spine for any slug.
+            self.assertIsNone(_discussion_spine_path(book, "any-slug"))
+            # Absent spine ⇒ density 1.0 ⇒ full authoring loop, not a skip/BLOCK.
+            self.assertEqual(_compute_density(book, "any-slug"), 1.0)
+
+
 if __name__ == "__main__":
     unittest.main()
