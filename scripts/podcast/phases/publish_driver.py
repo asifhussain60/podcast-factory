@@ -60,6 +60,21 @@ def _drive_publish_through_done(book_dir: Path) -> int:
     if _drive_book_branch(book_dir) == 3:
         return 0
 
+    # Surface the reading-edition verdict before publish so a broken companion
+    # book is visible at the one place a human reviews the ship — even though it
+    # does not block the podcast (companion deliverable, by design).
+    _bv_path = book_dir / "_system" / "book-validation-report.json"
+    if _bv_path.exists():
+        try:
+            import json as _json  # noqa: PLC0415
+            _bv = _json.loads(_bv_path.read_text())
+            if _bv.get("verdict") == "BOOK-BROKEN":
+                _err(f"reading edition is BROKEN (podcast still ships): {_bv.get('summary')}")
+            elif _bv.get("verdict") == "BOOK-SOUND":
+                _info(f"reading edition verdict: SOUND — {_bv.get('summary')}")
+        except Exception:  # noqa: BLE001
+            pass
+
     _info("phase: publish · copy clean chapters + episodes to published/")
     update_phase(book_dir, phase="publish", status="running")
     publish_script = Path(__file__).resolve().parents[1] / "publish_to_library.py"

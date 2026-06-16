@@ -144,6 +144,33 @@ def _drive_book_branch(book_dir: Path) -> int:
         update_phase(book_dir, phase="0book-render", status="failed", error=str(e))
         _err(f"0book-render failed (non-blocking): {e}")
         return 0
-    update_phase(book_dir, phase="0book-render", status="completed")
+
+    # Deterministic post-render gate (B1-B3): the renderer only asserts the PDF
+    # file was written — it never checks that book.md covers every TOC chapter or
+    # that the PDF has a sane page count. Validate the deliverable here so a
+    # truncated book or an empty PDF records an HONEST `failed` status (with the
+    # reason) instead of silently `completed`. Still NON-BLOCKING for the podcast:
+    # we return 0 either way — a broken reading edition must not stop the audio
+    # from publishing — but the failure is now visible in state + surfaced loudly.
+    try:
+        from validate_book_ready import validate_book  # noqa: PLC0415
+        _bv = validate_book(book_dir)
+        (book_dir / "_system" / "book-validation-report.json").write_text(
+            __import__("json").dumps(_bv, indent=2), encoding="utf-8")
+    except Exception as e:  # noqa: BLE001  — never let the gate itself crash render
+        _err(f"0book-render: book-validation gate skipped (non-fatal): {e}")
+        _bv = {"verdict": "UNKNOWN", "gates": []}
+
+    if _bv.get("verdict") == "BOOK-BROKEN":
+        update_phase(book_dir, phase="0book-render", status="failed",
+                     error=f"deliverable failed validation: {_bv.get('summary')}",
+                     extras={"book_validation": _bv})
+        _err(f"0book-render: reading edition FAILED validation (non-blocking for "
+             f"podcast) — {_bv.get('summary')}")
+        phase_git_commit(book_dir, f"book({slug}): 0book-render — book.pdf (validation failed)")
+        return 0
+
+    update_phase(book_dir, phase="0book-render", status="completed",
+                 extras={"book_validation": _bv})
     phase_git_commit(book_dir, f"book({slug}): 0book-render — book.pdf")
     return 0

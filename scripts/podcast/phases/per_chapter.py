@@ -26,7 +26,7 @@ BUILD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "build_episode_txt.py"
 _FRAMING_SIG_NAME = ".framing-sig"
 
 
-from _subprocess import run as _run  # noqa: E402
+from _subprocess import run as _run, info as _info  # noqa: E402
 
 
 def _chapter_sig(chapter_file: Path) -> str:
@@ -120,6 +120,13 @@ def per_chapter_pass(
         (_draft / "00-framing.md").write_text(cached_framing, encoding="utf-8")
         framing_cached = True
     else:
+        # Framing cache MISS → re-author via LLM. `claude -p` has no temperature/
+        # seed knob, so this output is non-deterministic and will differ from any
+        # prior run. Logged so "reproducible only via checkpoints" is observable:
+        # a no-signature (first author) or signature-mismatch (chapter text
+        # changed, e.g. after --force re-extract) re-enters the stochastic path.
+        _info(f"      framing cache miss for {chapter_slug}: re-authoring via LLM "
+              f"(non-deterministic — output will differ from any prior run)")
         # (The $0 deterministic smoke gate runs once at the loop level in
         # chapter_driver, before any chapter is attempted — see smoke_check_book.
         # It is intentionally NOT duplicated here: the extract step above already

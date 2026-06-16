@@ -3,9 +3,28 @@
  * Consumed by scripts/render-book-pdf.mjs (inlined at render time; this file
  * is the single source of truth — never style inside the script).
  * Theme tokens (--c-*) are injected from theme.css :root by the renderer.
- * Fonts: Amiri / Amiri Quran are served by the renderer at /fonts/amiri/
- * (plan-dashboard/public/fonts/amiri/, SIL OFL).
+ * Fonts: Amiri / Amiri Quran (Arabic) and Source Serif 4 (Latin body) are
+ * self-hosted and served by the renderer from plan-dashboard/public/fonts/
+ * (both SIL OFL). The body font is bundled — NOT a host-resolved fallback — so
+ * pagination and line breaks are identical on every machine for the same book.md.
  */
+
+/* Source Serif 4 — Latin body. Variable fonts: one upright file covers all
+ * weights (100-900), one italic file covers all italic weights. */
+@font-face {
+  font-family: 'Source Serif 4';
+  src: url('/fonts/source-serif/SourceSerif4-VF.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Source Serif 4';
+  src: url('/fonts/source-serif/SourceSerif4-Italic-VF.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
 
 @font-face {
   font-family: 'Amiri Quran';

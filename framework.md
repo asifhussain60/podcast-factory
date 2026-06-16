@@ -186,6 +186,15 @@ Every book produces **two** deliverables on the same branch, in the same `conten
 
 Phases live in [scripts/podcast/_progress.py](scripts/podcast/_progress.py) `PHASES`; the book driver is [scripts/podcast/phases/book_driver.py](scripts/podcast/phases/book_driver.py).
 
+### Determinism contract for both paths (2026-06-16)
+
+`claude -p` exposes **no** temperature/top_p/seed flag, so LLM-authored prose (chapters, framings, `book.md`) is **reproducible-by-checkpoint, not generation-deterministic**: a *fresh* author is stochastic; a *re-run* is stable only because phases skip-if-exists (the framing-signature cache in [per_chapter.py](scripts/podcast/phases/per_chapter.py), per-SC done-markers, ENRICHED rows). Deleting an artifact or a `--force` re-extract that changes the chapter signature re-enters the stochastic path — now logged loudly at the framing cache-miss so this is observable. What IS deterministic and enforced:
+
+- **Model provenance** — every `claude -p` call appends to `_system/model-provenance.jsonl`; a non-default model (the Sonnet timeout-fallback) is flagged `divergence:true` so a mixed-model book is visible, not silent ([_authoring/_core.py](scripts/podcast/_authoring/_core.py) `record_model_provenance`).
+- **Deliverable gates** — the podcast deliverable is gated deterministically by G1–G13 at finalize ([validate_ship_ready.py](scripts/podcast/validate_ship_ready.py)); the reading-edition deliverable is gated post-render by B1–B3 ([validate_book_ready.py](scripts/podcast/validate_book_ready.py)) — book.md covers every TOC chapter, the PDF has a sane page count — recording an honest `failed` status (not silent `completed`) when broken, while staying non-blocking for the podcast.
+- **Arabic script** — canonical-anchored from `content/knowledge-base/mirror.db` rather than model memory (see the PDF-compose anchoring, 2026-06-16), so scripture renders identically every run.
+- **Transcription normalization** — pure, idempotent, data-driven ([data/transcription-normalization.yml](scripts/podcast/data/transcription-normalization.yml)); a malformed map now warns loudly instead of self-disabling silently.
+
 ---
 
 ## Audio engines — manual NotebookLM (default) vs autonomous ElevenLabs (2026-06-12)
