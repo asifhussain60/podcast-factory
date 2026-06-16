@@ -29,6 +29,20 @@ from phases.scaffold import phase_git_commit  # noqa: E402
 from _subprocess import run as _run, err as _err, info as _info  # noqa: E402
 
 
+def _is_bad_slide_outcome(v: str) -> bool:
+    """A slide-deck verdict that means the deck did NOT succeed.
+
+    Feeds the fail-loud net that decides whether the per-chapter-slides phase
+    reports `completed` or `failed`. STALLED (challenger never reached SHIP-READY
+    after max iterations; registry marked challenger-status=fail-iterating) is a
+    genuine non-success and MUST count here — otherwise an all-STALLED cohort
+    would masquerade as `completed`. BLOCKED/ERROR and any FAILED:* are bad too.
+    SHIP-READY / SHIP-WITH-CAUTION / SKIPPED / AUTHORED are good (SKIPPED is a
+    legitimate content-grounded outcome).
+    """
+    return v in {"BLOCKED", "ERROR", "STALLED"} or v.startswith("FAILED")
+
+
 def _phase_boundary_gate(book_dir: Path, boundary_name: str,
                          projected_cost_usd: float | None = None) -> None:
     _info(
@@ -471,10 +485,8 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             # never masquerade as `completed`. A clean or mostly-good cohort
             # (SHIP-READY / SHIP-WITH-CAUTION / SKIPPED / AUTHORED) stays
             # `completed`. SKIPPED is a legitimate content-grounded outcome.
-            def _is_bad_outcome(v: str) -> bool:
-                return v in {"BLOCKED", "ERROR"} or v.startswith("FAILED")
             _n_total = len(slide_outcomes)
-            _n_bad = sum(1 for v in slide_outcomes.values() if _is_bad_outcome(v))
+            _n_bad = sum(1 for v in slide_outcomes.values() if _is_bad_slide_outcome(v))
             _slide_status = "failed" if _n_total and _n_bad * 2 >= _n_total else "completed"
             update_phase(
                 book_dir, phase="per-chapter-slides", status=_slide_status,
@@ -540,6 +552,25 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         return 2
     update_phase(book_dir, phase="finalize", status="halted",
                  extras={"verdict": "SHIP-READY"})
+
+    # Surface the advisory transcription flags here. They are recorded into state
+    # by transcribe_audio_book.py (dup ratio, empty/short, native-script leakage,
+    # normalization substitutions) but were never read by any consumer — so a
+    # reviewer never saw them. The finalize halt is the one moment a human reviews
+    # the book before publish, so emit them as plain advisories (never blocking).
+    try:
+        import json as _json  # noqa: PLC0415
+        _sp = book_dir / "_system" / "orchestrator-state.json"
+        _tf = (_json.loads(_sp.read_text()).get("transcription_flags")
+               if _sp.exists() else None)
+        if _tf:
+            _info("")
+            _info("Transcription advisories (audio path — review, non-blocking):")
+            for _k, _v in (_tf.items() if isinstance(_tf, dict) else []):
+                _info(f"  · {_k}: {_v}")
+    except Exception:  # noqa: BLE001 — advisory surface must never break the halt
+        pass
+
     _info("")
     _info("─" * 72)
     _info("Phase finalize complete · halted for human review (SHIP-READY).")

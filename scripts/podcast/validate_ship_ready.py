@@ -261,6 +261,17 @@ def _emit(args, gate_results: list[dict], verdict: str, summary: str) -> int:
             "total_count": len(gate_results),
         }, indent=2))
     else:
+        # Echo advisory gate notes (e.g. G12 augmenter, G13 Arabic-script
+        # coverage). These never block ship, but they were previously written to
+        # the gate result and never printed in non-json mode — so the coverage
+        # signal was invisible at the finalize halt. Surface them now.
+        _advisories = [g for g in gate_results
+                       if g.get("advisory") and g.get("note")]
+        if _advisories:
+            print()
+            print("--- Advisories (non-blocking) ---")
+            for g in _advisories:
+                print(f"  · {g['gate']} {g['name']}: {g['note']}")
         print()
         if verdict == "SHIP-READY":
             print(f"✓ SHIP-READY — {summary}")

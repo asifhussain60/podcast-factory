@@ -105,7 +105,6 @@ class TestApproveBookCLI(unittest.TestCase):
         sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts" / "podcast"))
         from approve_book import approve_book
         with tempfile.TemporaryDirectory() as tmp:
-            # Mock BOOKS_DIR — use tmp directly
             book_dir = Path(tmp) / "test-book-slug"
             (book_dir / "_system").mkdir(parents=True)
             gate_path = book_dir / "_system" / "review-gate.json"
@@ -113,14 +112,16 @@ class TestApproveBookCLI(unittest.TestCase):
                 "phase": "06a", "approved": False, "warnings": [],
                 "reviewed_at": "2026-01-01T00:00:00Z", "approved_at": None,
             }))
-            # Patch BOOKS_DIR
+            # approve_book resolves the book dir via _paths.find_content (bucket-aware,
+            # 2026-06 refactor that replaced the old module-level BOOKS_DIR). Patch the
+            # resolver to point at our tmp book; hit[2] is the book-dir path.
             import approve_book as ab
-            orig = ab.BOOKS_DIR
-            ab.BOOKS_DIR = Path(tmp)
+            orig = ab.find_content
+            ab.find_content = lambda slug: ("Islamic", slug, str(book_dir))
             try:
                 rc = approve_book("test-book-slug")
             finally:
-                ab.BOOKS_DIR = orig
+                ab.find_content = orig
             self.assertEqual(rc, 0)
             updated = json.loads(gate_path.read_text())
             self.assertTrue(updated["approved"])
