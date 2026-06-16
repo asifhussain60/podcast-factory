@@ -23,6 +23,23 @@
 - **R-NO-TRANSLIT-FORMULA** — `*Arabic translit* — *translation*` formula pairs
   forbidden in chapter prose (English translation only); ≥4-token diacritic italic
   runs flagged (`assert_no_translit_formula_pairs`).
+- **R-PRESERVE-ARABIC-SOURCE** (2026-06-16) — for Arabic-scholarly content, the
+  chapter SOURCE preserves every transliterated Arabic term / name / book title /
+  surah / honorific verbatim; the English-vs-Arabic decision is made later by the
+  human in the Astro phonetic-alignment review, and audio anglicization is applied
+  downstream of those decisions (glossary/exonym sanitize layer), never baked into
+  the source. Supersedes R-NO-ARABIC-NAMES / R-SURAH-ENGLISH-ONLY / R-ALQAAB inside
+  the islamic-7-tier branch of [`_enrichment.py`](scripts/podcast/_authoring/_enrichment.py);
+  the contradictory "always prefer the English equivalent" clause was removed from
+  the Phase 0d prompt ([`_chapter_design.py`](scripts/podcast/_authoring/_chapter_design.py)).
+  (Fixes the regression where 0e per-chapter calls anglicized terms non-deterministically.)
+- **R-NO-DOCTRINE-REPEAT** (2026-06-16) — Phase 0d's sequential per-source-chapter
+  loop threads a running ledger of concept-doctrines already taught by earlier
+  chapters (deterministic H2-title extraction via `chapter_density_audit`, no extra
+  LLM call, resume-safe) and injects an "already taught — call back, don't re-teach"
+  directive into each chapter's authoring prompt. Prevents cross-chapter repetition
+  at the source ([`_chapter_design.py`](scripts/podcast/_authoring/_chapter_design.py));
+  the chapter-set P8 verbatim check is the detection floor.
 - **R-SERMON-VERBATIM** — sermons render WHOLE as their own concept section;
   contract carries `sermon: {present, section_title}`; framing author injects a
   `## Verbatim Recitation` block (post-author gate in
@@ -34,6 +51,13 @@
   density; CS11 (flow/conceptual integrity) is challenger judgment. For
   `density_standard: 2` books, P0 set findings HALT post-0d before Phase 0e spend
   ([`preflight.py::_run_chapter_set_check`](scripts/podcast/phases/preflight.py)).
+  **(2026-06-16 fix)** `check_band_fit` no longer crashes on a numeric/range
+  `length_target` (it did `(... ).lower()` on an int, aborting `run()` before the
+  P8 cross-chapter check — so the report read a false "clean"); `_resolve_band`
+  now tolerates band-token / range / numeric targets. The preflight wrapper now
+  FAILS LOUD — empty/unparseable check output writes a "CHECK DID NOT COMPLETE"
+  report (never "clean") and halts density-standard books, instead of silently
+  recording 0 findings.
 - **Retry-phase rewind fixed** — `--retry-phase` now clears EVERY downstream phase
   via the canonical `PHASES` order (was hardcoded 0b–0e), incl. per-chapter ledgers;
   direct per-chapter retry still preserves completed slugs (watchdog recovery).
