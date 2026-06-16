@@ -10,7 +10,28 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-16 (session 28 — Studio action-item queue stabilized + committed)
+**Last updated:** 2026-06-16 (session 29 — Studio "Explain" AI action shipped)
+
+**Session 29 (commit 39a5dae, branch Islamic/kunooz-al-hikmah):** Resumed an
+in-flight, uncommitted feature — the Studio editor "Explain" immediate AI action
+(begun after the session-28 commit; commits d7c49d6/67b3acc/a6d2c5f for the Arabic
+replace + palette work also landed since the session-28 note). Highlight a passage
+-> "Explain" sends the excerpt + FULL CHAPTER as context to Gemini Flash (new
+api/ai/explain.ts, mirrors arabic-term.ts: generate + rateLimitCheck, thinkingBudget=0
+so the 1024-tok budget feeds the answer, strips wrapping quotes) -> Flash rewrites
+ONLY the excerpt into a clearer/fuller version staying inside the chapter's meaning,
+voice, tradition (no new doctrine/names/citations) -> proposed text lands in an
+editable textarea, confirm-then-replace, same shape as the Arabic action. Apply guards
+the selection range is unchanged before replacing. Bundled footer fix: "approved"
+reverts to "Save & Approve" on any fresh edit (approvedClean = approved && changedCount===0).
+Verified: astro check 0 errors; endpoint exercised live (200, ~0.7s) — a real clause
+expands into a faithful fuller rewrite; a two-word excerpt echoes the surrounding
+sentence (expected — nothing to expand). Committed + pushed. NOTE left uncommitted:
+content/Islamic/kunooz-al-hikmah/_system/review/ch01a-family-of-light.json — editor
+approval-state record written live by stage-review.ts (this confirms the session-28
+save-stage 404 worry is RESOLVED: save-stage now handles bucket-layout books with no
+_stages/ and writes review/ records under _system/). No _system/review/* is tracked
+for any book and there's no gitignore rule — left for Asif to decide track-vs-ignore.
 
 **Session 28 (commit 80e612e, branch Islamic/kunooz-al-hikmah):** Resumed an
 in-flight, uncommitted feature — the Studio editor "deferred AI action-item"
