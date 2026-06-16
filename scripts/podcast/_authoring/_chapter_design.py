@@ -738,6 +738,28 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     # ── STEP 2: per-source-chapter loop ──────────────────────────────────────
     log(f"  phase 0d · step 2/3 · per-source-chapter loop ({len(source_chapters)} chapters)")
 
+    # Cross-chapter doctrine de-dup (R-NO-DOCTRINE-REPEAT, 2026-06-16). 0d
+    # authors each source chapter in an isolated slice, so a re-lecturing source
+    # produced chapters that re-taught earlier doctrines in full. Thread a
+    # running ledger of concept-doctrines already taught by EARLIER chapters and
+    # inject it into each chapter's prompt so re-covered doctrine is collapsed to
+    # a callback. Deterministic extraction (H2 concept titles via
+    # chapter_density_audit — no extra LLM call); seeded from any already-authored
+    # chapters so it is resume-safe.
+    from chapter_density_audit import audit_chapter as _audit_ch  # noqa: PLC0415
+
+    def _chapter_concepts(_cf: Path) -> list[str]:
+        try:
+            return [s.title.strip()
+                    for s in _audit_ch(_cf, book_slug, "").concept_sections
+                    if s.title and s.title.strip()]
+        except Exception:  # noqa: BLE001 — ledger is best-effort, never fatal
+            return []
+
+    taught_concepts: list[str] = []
+    for _existing in sorted(chapters_dir.glob("ch*.txt")):
+        taught_concepts.extend(_chapter_concepts(_existing))
+
     sc_failures: list[tuple[int, str]] = []
     for sc in source_chapters:
         sc_idx = int(sc["sc_index"])
@@ -992,6 +1014,24 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
 
         # Word-count-aware timeout per source chapter (2026-05-24 strategy).
         # Replaces the prior global sc_timeout. Tracks slice_wc so dense
+        # Inject the cross-chapter de-dup directive (R-NO-DOCTRINE-REPEAT) with
+        # the doctrines earlier chapters already taught, so this chapter calls
+        # back rather than re-teaches. Injected right before AUTHORITY so it is
+        # prominent; no-op for the first chapter (empty ledger).
+        if taught_concepts:
+            _seen_bullets = "\n".join(f"    - {c}" for c in dict.fromkeys(taught_concepts))
+            _dedup_block = (
+                f"CROSS-CHAPTER DE-DUP (R-NO-DOCTRINE-REPEAT — MANDATORY):\n"
+                f"The following doctrines/concepts have ALREADY been taught in full in "
+                f"EARLIER chapters of this book:\n{_seen_bullets}\n"
+                f"If THIS source chapter re-covers any of them, do NOT re-teach it in full. "
+                f"Give a brief one-line callback (e.g. 'as established earlier, in the "
+                f"teaching on X') and spend this chapter's words on what is GENUINELY NEW. "
+                f"Re-teaching an already-covered doctrine in full is a defect: the book must "
+                f"read as forward motion, not repetition.\n\n"
+            )
+            sc_prompt = sc_prompt.replace("AUTHORITY:\n", _dedup_block + "AUTHORITY:\n", 1)
+
         # chapters get the budget they need without short ones overpaying.
         per_sc_timeout = _compute_sc_timeout(slice_wc)
         log(f"    sc {sc_idx:03d}/{len(source_chapters)} · authoring "
@@ -1105,6 +1145,10 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"sc_index={sc_idx}\nsource_title={sc_title}\nepisode_count={episode_count}\n",
             encoding="utf-8",
         )
+        # Append THIS chapter's concept-doctrines to the cross-chapter ledger so
+        # subsequent chapters know not to re-teach them (R-NO-DOCTRINE-REPEAT).
+        for _cf in expected_chapter_files:
+            taught_concepts.extend(_chapter_concepts(_cf))
         log(f"    sc {sc_idx:03d}/{len(source_chapters)} · OK")
 
     if sc_failures:
