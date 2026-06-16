@@ -262,6 +262,34 @@ def check_title_non_generic(contracts: dict[str, dict]) -> list[dict]:
     return findings
 
 
+def _resolve_band(length_target) -> tuple[str, tuple[int, int]]:
+    """Resolve a contract length_target into a (label, (lo, hi)) word band.
+
+    Tolerates the three shapes contracts carry in the wild — a band TOKEN
+    ('extended'), an explicit RANGE string ('5500-6000', en-dash allowed), or a
+    single numeric TARGET (5800 as int or str). Previously this did
+    ``(... or 'default_deep_dive').lower()`` which (a) crashed with
+    AttributeError when length_target was an int, aborting the entire
+    chapter-set run before the cross-chapter checks could execute, and (b)
+    silently mis-banded range strings to default_deep_dive. Coercing to str and
+    parsing each shape fixes both.
+    """
+    if length_target is None:
+        return "default_deep_dive", LENGTH_BANDS["default_deep_dive"]
+    s = str(length_target).strip().lower()
+    if s in LENGTH_BANDS:
+        return s, LENGTH_BANDS[s]
+    m = re.match(r"^(\d+)\s*[-–]\s*(\d+)$", s)   # explicit range 'lo-hi'
+    if m:
+        lo, hi = int(m.group(1)), int(m.group(2))
+        return s, ((lo, hi) if lo <= hi else (hi, lo))
+    m = re.match(r"^(\d+)$", s)                       # single numeric target
+    if m:
+        n = int(m.group(1))
+        return s, (int(n * 0.85), int(n * 1.20))      # tolerance window
+    return "default_deep_dive", LENGTH_BANDS["default_deep_dive"]
+
+
 def check_band_fit(chapter_word_counts: dict[str, int], contracts: dict[str, dict]) -> list[dict]:
     findings: list[dict] = []
     for slug, wc in chapter_word_counts.items():
@@ -272,8 +300,7 @@ def check_band_fit(chapter_word_counts: dict[str, int], contracts: dict[str, dic
                 "msg": f"chapter has no contract; cannot verify band fit ({wc} words)",
             })
             continue
-        band = (c.get("length_target") or "default_deep_dive").lower()
-        lo, hi = LENGTH_BANDS.get(band, LENGTH_BANDS["default_deep_dive"])
+        band, (lo, hi) = _resolve_band(c.get("length_target"))
         if wc < lo or wc > hi:
             findings.append({
                 "check": "P4", "severity": "P0", "slug": slug,
