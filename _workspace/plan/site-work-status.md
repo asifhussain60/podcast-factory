@@ -10,7 +10,25 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-11 (session 27 — full two-surface audit + MUST-tier fix sweep)
+**Last updated:** 2026-06-16 (session 28 — Studio action-item queue stabilized + committed)
+
+**Session 28 (commit 80e612e, branch Islamic/kunooz-al-hikmah):** Resumed an
+in-flight, uncommitted feature — the Studio editor "deferred AI action-item"
+system. PRODUCER half is now complete, verified, and committed: stamp actions
+(etymology/rewrite/rephrase/improve/expand/condense/simplify/remove/define/xref/
+addcorpus) on a paragraph or selected term -> persist to new action_items table
+(schema/031) -> knowledge.ts CRUD -> api/studio/action-items GET/POST/DELETE ->
+StudioPoc palettes + queue list + inline badges. One immediate action "arabic"
+(api/ai/arabic-term) renders EN->Arabic via Gemini Flash, confirm-then-replace.
+Two defects found + fixed: (1) arabic-term called undefined extractJson (build
+break) -> added, mirrors define-term fence-strip parse; (2) intermittent empty
+output -> thinkingBudget=0 (Flash thinking ate the 300-tok budget). astro check
+0 errors; POST/GET/DELETE + Arabic endpoint exercised end-to-end on live server.
+CONSUMER half NOT built: no CLI drain pass exists to read pending rows, run AI
+per action_kind, and write results back into `result`. That is the next phase
+(needs a per-kind handler design pass before building — it is spend-bearing).
+
+**Session 27 (audit + fixes, commit 9c5ff4a):** Full pipeline + site audit; every
 
 **Session 27 (audit + fixes, commit 9c5ff4a):** Full pipeline + site audit; every
 finding independently verified before fixing (pipeline auditor fabricated most of
