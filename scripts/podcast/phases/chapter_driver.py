@@ -465,10 +465,26 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
                     except Exception as e:  # noqa: BLE001
                         _err(f"slide-deck convergence failed for {slug} (non-fatal): {e}")
                         slide_outcomes[slug] = "ERROR"
+            # Honest phase status (fail-loud safety net): if every — or a
+            # majority of — deck outcomes are BLOCKED/ERROR/FAILED, the phase
+            # did NOT succeed. Report `failed` so a real slide failure can
+            # never masquerade as `completed`. A clean or mostly-good cohort
+            # (SHIP-READY / SHIP-WITH-CAUTION / SKIPPED / AUTHORED) stays
+            # `completed`. SKIPPED is a legitimate content-grounded outcome.
+            def _is_bad_outcome(v: str) -> bool:
+                return v in {"BLOCKED", "ERROR"} or v.startswith("FAILED")
+            _n_total = len(slide_outcomes)
+            _n_bad = sum(1 for v in slide_outcomes.values() if _is_bad_outcome(v))
+            _slide_status = "failed" if _n_total and _n_bad * 2 >= _n_total else "completed"
             update_phase(
-                book_dir, phase="per-chapter-slides", status="completed",
-                extras={"outcomes": slide_outcomes},
+                book_dir, phase="per-chapter-slides", status=_slide_status,
+                extras={"outcomes": slide_outcomes,
+                        "bad_outcomes": _n_bad, "total_outcomes": _n_total},
             )
+            if _slide_status == "failed":
+                _err(f"per-chapter-slides: {_n_bad}/{_n_total} deck outcomes "
+                     f"BLOCKED/ERROR/FAILED — phase marked failed (was silently "
+                     f"'completed' before)")
             phase_git_commit(book_dir, f"podcast({book_slug}): phase 11b slide-deck cohort")
     else:
         update_phase(book_dir, phase="per-chapter-slides", status="skipped",
