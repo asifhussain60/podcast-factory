@@ -509,6 +509,25 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     _phase_boundary_gate(book_dir, "per-chapter→finalize")
     _info("phase: finalize · run G1-G7 gates via validate_ship_ready.py")
     update_phase(book_dir, phase="finalize", status="running")
+
+    # P3 (Stage 4): auto-run the zero-LLM Arabic-script restoration for
+    # audio-sourced Islamic books before the gate. repair_glossary is idempotent
+    # and free — it recovers any misassigned Arabic into arabic_script so the
+    # reader "Show Arabic" toggle has content. The deterministic canonical/passage
+    # restoration (steps 2b/3) and the reader-rendering feature are deferred;
+    # until they land the G13 ship-gate only REPORTS coverage, it does not block.
+    try:
+        import json as _json
+        from _content_profile import is_islamic_scholarly
+        _state_p = book_dir / "_system" / "orchestrator-state.json"
+        _st = _json.loads(_state_p.read_text()) if _state_p.exists() else {}
+        if _st.get("source_kind") == "audio" and is_islamic_scholarly(book_dir):
+            from restore_arabic import repair_glossary
+            _rep = repair_glossary(book_dir)
+            _info(f"phase: finalize · auto Arabic-restore (audio Islamic): {_rep}")
+    except Exception as _e:  # never block finalize on a best-effort restore
+        _err(f"finalize: Arabic auto-restore skipped (non-fatal): {_e}")
+
     validate_script = Path(__file__).resolve().parents[1] / "validate_ship_ready.py"
     rc, vout, verr = _run([sys.executable, str(validate_script), book_slug])
     print(vout)

@@ -207,6 +207,44 @@ def main() -> int:
                          "passed": bool(ok12)})
     # G12 is advisory — warn but do not block ship
 
+    # G13 — arabic-script-coverage (ADVISORY): for audio-sourced Islamic books the
+    # reader "Show Arabic" toggle reads glossary.yml `arabic_script`. Audio is
+    # transliteration-only, so coverage is RESTORED downstream (finalize auto-runs
+    # repair_glossary). Until the deterministic canonical/passage restoration
+    # (restore_arabic steps 2b/3) and the reader-rendering feature land — both
+    # deferred — this gate REPORTS coverage and warns at zero. It deliberately
+    # does NOT block: a hard threshold would false-fail every audio book on a
+    # capability that is not built yet. Promote to blocking when 2b/3 ship.
+    try:
+        import json as _json
+        from _content_profile import is_islamic_scholarly
+        _state_p = workspace / "_system" / "orchestrator-state.json"
+        _st = _json.loads(_state_p.read_text()) if _state_p.exists() else {}
+        if _st.get("source_kind") == "audio" and is_islamic_scholarly(workspace):
+            import yaml as _yaml
+            _gp = workspace / "_system" / "glossary.yml"
+            _entries = (_yaml.safe_load(_gp.read_text()) or {}).get("entries") or [] \
+                if _gp.exists() else []
+            _total = len(_entries)
+            _withar = sum(1 for e in _entries
+                          if str((e or {}).get("arabic_script", "")).strip())
+            _pct = (_withar / _total) if _total else 0.0
+            _note = (f"{_withar}/{_total} ({_pct:.0%}) glossary entries have arabic_script"
+                     if _pct > 0 else
+                     f"0/{_total} glossary entries have arabic_script — 'Show Arabic' "
+                     f"toggle will be empty (deterministic restoration deferred; advisory)")
+            gate_results.append({"gate": "G13", "name": "arabic-script-coverage",
+                                 "passed": True, "advisory": True, "note": _note})
+        else:
+            gate_results.append({"gate": "G13", "name": "arabic-script-coverage",
+                                 "passed": True, "advisory": True,
+                                 "note": "n/a (not an audio-sourced Islamic book)"})
+    except Exception as _e:
+        gate_results.append({"gate": "G13", "name": "arabic-script-coverage",
+                             "passed": True, "advisory": True,
+                             "note": f"advisory check skipped: {_e}"})
+    # G13 is advisory — never blocks ship.
+
     total_gates = len(gate_results)
     return _emit(args, gate_results, "SHIP-READY",
                  f"all {total_gates} gates passed for {args.slug}; ready for publish")
