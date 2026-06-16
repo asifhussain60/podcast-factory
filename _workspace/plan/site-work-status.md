@@ -10,7 +10,35 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-16 (session 29 — Studio "Explain" AI action shipped)
+**Last updated:** 2026-06-16 (session 30 — Studio draft-retention model shipped)
+
+**Session 30 (commit b400dee, branch Islamic/kunooz-al-hikmah):** Fixed the
+reported "edit, save, refresh -> reverts to original" bug at the root by adding a
+DRAFT-RETENTION layer (governance-protocol plan, approved option A). Diagnosed:
+the save round-trip itself worked (the user's deletion was on disk, original in
+.bak) — the real gap was that the ONLY persistence was the explicit irreversible
+"Save & Approve" (writes straight to canonical chapters/<id>.txt), so any
+unapproved edits were lost on reload, and save==approve. New two-phase model:
+edits autosave (debounced 1.2s + flush on tab-hide/unload) to a per-stage draft
+at content/<bucket>/<slug>/_system/drafts/<chapter>/<stage>.md (NEW
+lib/reader/stage-draft.ts; git-ignored); book-workspace.loadStageText prefers the
+draft over canonical for the live editable stage (archives unaffected) + exposes a
+per-chapter `drafted` map; NEW api/studio/draft.ts (POST autosave / DELETE
+discard); save-stage approval now PROMOTES the draft -> chapters/<id>.txt AND
+deletes it; StudioPoc: Discard deletes draft + reloads canonical (preserving
+?ch=), "Save & Approve" cancels pending autosave then commits, "Draft saved · not
+yet approved" indicator, approved badge reverts while a draft is open. SCOPE
+SAFETY (verified): book-workspace is Studio-only; the public reader
+(lib/reader/chapters) + publish/NotebookLM path read chapters/<id>.txt directly,
+so an unapproved draft NEVER reaches the published book, audio upload, or
+orchestrator. VERIFIED LIVE (API+SSR round-trip on ch13, cleaned up): draft
+written -> served on full reload (survives refresh) -> discard reverts -> approve
+clears draft; canonical never mutated until approval. astro check 0 errors;
+lint:views clean. NOTE: the user has a live ch01a draft (their editor autosaving
+through the new endpoint = feature working); if it predates the session-29 صورة/
+gardens-gloss commits it could be stale — Discard resets to committed canonical.
+
+**Session 29 (commit 39a5dae, branch Islamic/kunooz-al-hikmah):** Resumed an
 
 **Session 29 (commit 39a5dae, branch Islamic/kunooz-al-hikmah):** Resumed an
 in-flight, uncommitted feature — the Studio editor "Explain" immediate AI action
