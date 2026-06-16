@@ -7,6 +7,7 @@ import EditableBookFacts, { type FactProp } from '../../../components/studio/Edi
 import AudioPlayer, { type Track } from '../../../components/studio/AudioPlayer';
 import HaltReview, { type HaltArtifactLink, type SavedDecision } from '../../../components/studio/HaltReview';
 import { haltForPhase, resolveArtifacts, type HaltReviews } from '../../../lib/studio/halts';
+import { loadGlossary } from '../../../lib/reader/glossary';
 import { stat, readFile } from 'node:fs/promises';
 import { basename, resolve as resolvePath } from 'node:path';
 import '../../../styles/library.css';
@@ -21,6 +22,12 @@ const { summary, meta, chapters, episodes, slideDecks, audio, audits, sourceFile
 
 const archetype = meta['archetype'] ?? null;
 const bookScore = await scoreBook(summary.ref.dir, archetype);
+
+// Arabic-review entry points appear ONLY for books that carry an Arabic-script
+// glossary (Islamic scholarly content); loadGlossary returns [] for everything
+// else, so Fiction/Technical books never show these links. No per-book config.
+const hasArabic = (await loadGlossary(slugStr)).length > 0;
+const arabicReviewHref = `/studio/${encodeURIComponent(slugStr)}/arabic-review`;
 const chapterScoreMap = new Map(bookScore?.chapters.map((c) => [c.slug, c.scores]) ?? []);
 
 function fileViewHref(relPath: string): string {
@@ -198,7 +205,18 @@ const tabs = [
     <div class="lib-title-row">
       <h1>{summary.title}</h1>
       <span class={`lib-badge lib-badge-${summary.publicationStatus === 'published' ? 'published' : 'drafts'}`}>{summary.publicationStatus === 'published' ? 'Published' : 'Draft'}</span>
-      <a class="lib-studio-link" href={`/studio/${slugStr}/edit`}>Edit &amp; Enrich <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      <div class="lib-title-actions">
+        <a class="lib-studio-link" href={`/studio/${slugStr}/edit`}>
+          <i class="fa-solid fa-feather-pointed" aria-hidden="true"></i> Edit &amp; Enrich
+          <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
+        </a>
+        {hasArabic && (
+          <a class="lib-studio-link lib-studio-link-arabic" href={arabicReviewHref}>
+            <span aria-hidden="true" class="lib-arabic-glyph">ع</span> Review Arabic
+            <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
+          </a>
+        )}
+      </div>
     </div>
     <div class="lib-hero-chips">
       {bookScore && (
@@ -304,7 +322,7 @@ const tabs = [
                 const cs = chapterScoreMap.get(chapterSlug);
                 const card = parseBinderName(f.name);
                 return (
-                  <a class="lib-binder-card" href={`/studio/${slugStr}/edit?ch=${chapterSlug}`}>
+                  <div class="lib-binder-card">
                     <div class="lib-binder-top">
                       <span class="lib-binder-num" aria-hidden="true">
                         {card.num ?? <i class="fa-solid fa-book-open"></i>}
@@ -316,13 +334,20 @@ const tabs = [
                       )}
                     </div>
                     {card.num && <span class="lib-binder-eyebrow">Chapter {Number(card.num)}</span>}
-                    <h3 class="lib-binder-title">{card.title}</h3>
+                    <h3 class="lib-binder-title">
+                      <a class="lib-binder-stretch" href={`/studio/${slugStr}/edit?ch=${chapterSlug}`}>{card.title}</a>
+                    </h3>
                     <div class="lib-binder-meta">
                       <span class="lib-binder-meta-item"><i class="fa-regular fa-file-lines" aria-hidden="true"></i> {formatBytes(f.bytes)}</span>
                       <span class="lib-binder-meta-item"><i class="fa-regular fa-clock" aria-hidden="true"></i> {formatModified(f.modified)}</span>
+                      {hasArabic && (
+                        <a class="lib-binder-arabic" href={`${arabicReviewHref}#${chapterSlug}`}>
+                          <span aria-hidden="true" class="lib-arabic-glyph">ع</span> Arabic
+                        </a>
+                      )}
                       <span class="lib-binder-open" aria-hidden="true">Open <i class="fa-solid fa-arrow-right"></i></span>
                     </div>
-                  </a>
+                  </div>
                 );
               })}
             </div>

@@ -39,16 +39,37 @@
   LLM call, resume-safe) and injects an "already taught — call back, don't re-teach"
   directive into each chapter's authoring prompt. Prevents cross-chapter repetition
   at the source ([`_chapter_design.py`](scripts/podcast/_authoring/_chapter_design.py));
-  the chapter-set P8 verbatim check is the detection floor.
+  the chapter-set P8 verbatim check is the detection floor. This is PREVENTION and
+  only helps chapters authored AFTER it landed.
+- **Retroactive cross-chapter de-dup** (2026-06-16) — the complement for books whose
+  0d predates R-NO-DOCTRINE-REPEAT (e.g. kunooz). [`dedup_cross_chapter.py`](scripts/podcast/dedup_cross_chapter.py)
+  reuses the P8 shingle logic (inline bibliographic citations stripped — citing the
+  same source across chapters is scholarship, not duplication) to locate genuine
+  repeated-doctrine runs, picks the earliest chapter as the home, and proposes a
+  one-line callback. Dry-run first. A repeat that is a STANDALONE paragraph is
+  auto-collapsible; a repeat WOVEN into unique prose is FLAGGED for an authoring
+  rewrite and never blunt-cut (a cut leaves dangling lead-ins/restatements — proven
+  on kunooz, where all genuine repeats are embedded). Scripture quotations and
+  deliberate bookends are surfaced for human judgment, not auto-removed.
 - **R-SERMON-VERBATIM** — sermons render WHOLE as their own concept section;
   contract carries `sermon: {present, section_title}`; framing author injects a
   `## Verbatim Recitation` block (post-author gate in
   [`_framing.py`](scripts/podcast/_authoring/_framing.py); compression re-author
   preserves it).
+- **R-HEADING-CONCISE** (2026-06-16) — every concept `## H2` section heading is a
+  SHORT noun-phrase heading (≤6 words, the INVARIANT-6 soft cap), like a
+  professional book heading — NOT a full statement ('The veiling chain', not 'The
+  veiling chain that runs from the Father of Imams to the hidden Imam'); detail
+  belongs in the prose, structural frames keep their canonical shape. PREVENTION:
+  injected into the Phase 0d authoring prompt
+  ([`_chapter_design.py`](scripts/podcast/_authoring/_chapter_design.py)) and the
+  0e enrichment prompt ([`_enrichment.py`](scripts/podcast/_authoring/_enrichment.py)).
+  DETECTION: `check_chapter_set.py` P11 (`check_section_heading_conciseness`,
+  advisory P2, excludes frames via the density-audit frame regex).
 - **Chapter-set integrity CS7–CS11** — [`check_chapter_set.py`](scripts/podcast/check_chapter_set.py)
   gains deterministic P7 source coverage (line-range union vs refined source),
   P8 overlap + cross-chapter 12-gram duplication, P9 sermon integrity, P10 set
-  density; CS11 (flow/conceptual integrity) is challenger judgment. For
+  density, P11 section-heading conciseness; CS11 (flow/conceptual integrity) is challenger judgment. For
   `density_standard: 2` books, P0 set findings HALT post-0d before Phase 0e spend
   ([`preflight.py::_run_chapter_set_check`](scripts/podcast/phases/preflight.py)).
   **(2026-06-16 fix)** `check_band_fit` no longer crashes on a numeric/range

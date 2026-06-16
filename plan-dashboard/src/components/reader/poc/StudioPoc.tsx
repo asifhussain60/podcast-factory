@@ -628,7 +628,6 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   const [aiResult, setAiResult] = useState('');       // research / autotag plain text
   const [aiOptions, setAiOptions] = useState<string[]>([]);  // rewrite option cards
   const [aiError, setAiError] = useState('');
-  const [finalizeMsg, setFinalizeMsg] = useState('');
 
   // serializeToMarkdown / saveAndApprove / discardChanges declared after useEditor (below).
 
@@ -652,17 +651,16 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   );
 
   const [selection, setSelection] = useState('');
-  const [arabicOn, setArabicOn] = useState(false);
+  const [arabicOn, setArabicOn] = useState(true);   // Arabic overlay ON by default (Islamic review default)
   const [, setTick] = useState(0);
   const refresh = () => setTick((t) => t + 1);
 
   const originalRef = useRef<string[]>([]);            // original text per top-level node
   const paraTagsRef = useRef<Map<number, string[]>>(new Map()); // node index -> tag ids
-  const arabicRef = useRef(false);                     // mirror of arabicOn for the plugin
+  const arabicRef = useRef(true);                      // mirror of arabicOn for the plugin (ON by default)
   const hasFocusRef = useRef(false);                   // tracks editor DOM focus for para-active
   const editorContainerRef = useRef<HTMLElement | null>(null);
-  const railRef = useRef<HTMLElement | null>(null);        // left pipeline rail
-  const inspectorRef = useRef<HTMLElement | null>(null);   // right inspector (height-matched to rail)
+  const inspectorRef = useRef<HTMLElement | null>(null);   // right inspector panel
   arabicRef.current = arabicOn;
   // Per-stage diff: when a read-only step is selected, the decoration plugin can diff each
   // paragraph against the PREVIOUS stage's text (prevStageTextsRef) instead of the human-edit
@@ -1019,28 +1017,6 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     return () => document.removeEventListener('mousedown', onMouseDown);
   }, [editor]);
 
-  // Match the right inspector's height to the left pipeline rail so the two side
-  // panels are balanced. The rail height is dynamic (version count, lineage
-  // switch), so a ResizeObserver keeps them in sync. Side-by-side only — when the
-  // grid collapses to one column (≤1100px) the height is released to natural flow.
-  useEffect(() => {
-    const rail = railRef.current;
-    const insp = inspectorRef.current;
-    if (!rail || !insp) return;
-    const sync = () => {
-      if (window.matchMedia('(max-width: 1100px)').matches) {
-        insp.style.height = '';
-      } else {
-        insp.style.height = `${rail.offsetHeight}px`;
-      }
-    };
-    sync();
-    const ro = new ResizeObserver(sync);
-    ro.observe(rail);
-    window.addEventListener('resize', sync);
-    return () => { ro.disconnect(); window.removeEventListener('resize', sync); };
-  }, []);
-
   // Switch the editor to the selected stage: load its text, re-snapshot redline originals,
   // clear stage-specific tags, and make only the under-review stage editable (upstream = read-only).
   useEffect(() => {
@@ -1300,38 +1276,6 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     refresh();
   }, [editor, activeSectionOrdinal]);
 
-  // Finalize: gather paragraphs + tags + comments → Claude brief → clipboard.
-  const finalize = useCallback(async () => {
-    if (!editor) return;
-    setFinalizeMsg('Generating brief…');
-    const paragraphs: { idx: number; text: string; tags: string[]; comment: string }[] = [];
-    let i = 0;
-    editor.state.doc.forEach((n) => {
-      const tags = paraTagsRef.current.get(i) ?? [];
-      const comment = commentsRef.current.get(i) ?? '';
-      if (tags.length || comment.trim()) {
-        paragraphs.push({ idx: i, text: n.textContent.slice(0, 400), tags, comment });
-      }
-      i++;
-    });
-    try {
-      const res = await fetch('/api/ai/claude', {
-        method: 'POST', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ task: 'finalize', slug, chapter, paragraphs }),
-      });
-      const json = await res.json();
-      if (!res.ok || json.ok === false) {
-        setFinalizeMsg(`Failed: ${json.error ?? res.status}`);
-        return;
-      }
-      const brief = json.data?.brief ?? '';
-      await navigator.clipboard.writeText(brief);
-      setFinalizeMsg('Brief copied — paste into Claude Code IDE to continue.');
-    } catch (e) {
-      setFinalizeMsg(`Failed: ${String(e)}`);
-    }
-  }, [editor, slug, chapter]);
-
   // Publish = mark THIS chapter finalized (reuses the per-chapter review JSON via
   // POST /api/studio/review {finalize}). Reversible. Disabled in archived view.
   const [publishing, setPublishing] = useState(false);
@@ -1440,160 +1384,12 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   // are shown muted + non-interactive so the whole journey is visible even when a
   // run didn't write every stage. Stages AFTER the editable top (e.g. narrator
   // not yet run) are omitted — they're not part of "the journey that led here".
-  const editableIdx = stages.findIndex((s) => s.id === editableStageId);
-  const railStages = stages.slice(0, editableIdx >= 0 ? editableIdx + 1 : stages.length).reverse();
-  const hasUncaptured = railStages.some((s) => !s.available);
-
-  // Pipeline phases for the rail's spine. Fallback to a lone "Edit" node so the
-  // rail still renders if phases weren't supplied.
-  const phases: PipelineStep[] = pipelineSteps.length
-    ? pipelineSteps
-    : [{ id: 'edit', label: 'Edit & Enrich', state: 'active', detail: '' }];
-
   return (
     <div className="studio-poc">
-      {/* Left rail: TWO clean modules — (1) the book-level pipeline spine
-          (Intake → … → Publish, contiguous, never interrupted), then (2) this
-          chapter's draft versions as a separate module. Different granularities,
-          not interleaved. */}
-      <nav className="st-rail" aria-label="Pipeline timeline" ref={railRef}>
-        {/* Companion reading edition — a peer deliverable to the podcast (not a
-            per-chapter version, not a pipeline phase), so it gets its own zone
-            pinned above the timeline. */}
-        <div className="st-deliverable">
-          <a
-            className="st-book-link"
-            href={`/studio/${slug}/book`}
-            title="Open the companion reading edition (the book)"
-          >
-            <span className="st-book-glyph" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z" />
-                <path d="M4 19.5A1.5 1.5 0 0 1 5.5 18H20v3H5.5A1.5 1.5 0 0 1 4 19.5z" />
-              </svg>
-            </span>
-            <span className="st-book-text">
-              <span className="st-book-label">Reading edition</span>
-              <span className="st-book-meta">the companion book</span>
-            </span>
-          </a>
-        </div>
-
-        <div className="st-rail-head">
-          <span className="st-rail-eyebrow">Pipeline</span>
-        </div>
-
-        <ol className="st-phases">
-          {phases.map((step) => {
-            const isCurrent = step.id === activeStep;
-            const glyph = step.state === 'done' ? '✓' : step.state === 'blocked' ? '!' : '';
-            return (
-              <li key={step.id} className={`st-phase st-phase--${step.state}${isCurrent ? ' is-current' : ''}`}>
-                <a
-                  className="st-phase-link"
-                  href={`/studio/${slug}/${step.id}`}
-                  aria-current={isCurrent ? 'page' : undefined}
-                  title={`${step.label}${step.detail ? ` — ${step.detail}` : ''}`}
-                >
-                  <span className="st-phase-dot" aria-hidden="true">{glyph}</span>
-                  <span className="st-phase-text">
-                    <span className="st-phase-label">{step.label}</span>
-                    {step.detail && <span className="st-phase-detail">{step.detail}</span>}
-                  </span>
-                </a>
-              </li>
-            );
-          })}
-        </ol>
-
-        <div className="st-versions-module">
-          <div className="st-versions-head">Transformation · this chapter</div>
-          <ol className="st-list">
-            {railStages.map((s) => {
-              const isTop = s.id === editableStageId && !isArchivedView;
-              const m = metrics.find((x) => x.id === s.id);
-              const active = s.id === stageId;
-              const role = stageRole(s.id);
-              const badge = role.role ? (
-                <span className={`st-role st-role--${role.kind}`}>{role.role}</span>
-              ) : null;
-
-              // Uncaptured stage: a muted, non-interactive rung so the full
-              // journey is visible without offering a click that shows empty text.
-              if (!s.available) {
-                return (
-                  <li key={s.id} className="st-item is-uncaptured">
-                    <span className="st-link is-static">
-                      <span className="st-dot" aria-hidden="true" />
-                      <span className="st-text">
-                        <span className="st-label">
-                          {s.label}
-                          {badge}
-                        </span>
-                        <span className="st-meta">not captured in this run</span>
-                      </span>
-                    </span>
-                  </li>
-                );
-              }
-
-              return (
-                <li key={s.id} className={`st-item${active ? ' is-active' : ''}${isTop ? ' is-editable' : ' is-readonly'}`}>
-                  <button
-                    type="button"
-                    className="st-link"
-                    aria-current={active ? 'step' : undefined}
-                    onClick={() => setStageId(s.id)}
-                    title={isTop ? 'Review — the editable version' : `${s.label} — click to view (read-only)`}
-                  >
-                    <span className="st-dot" aria-hidden="true" />
-                    <span className="st-text">
-                      <span className="st-label">
-                        {isTop ? 'Review' : s.label}
-                        {badge}
-                        {isTop && <span className="st-edit-flag">editable</span>}
-                      </span>
-                      {m && (
-                        <span className="st-meta">
-                          {m.words.toLocaleString()} words
-                          {m.deltaPct !== null && (
-                            <span className={`st-delta ${m.deltaPct < 0 ? 'is-down' : m.deltaPct > 0 ? 'is-up' : ''}`}>
-                              {m.deltaPct > 0 ? '+' : ''}{m.deltaPct}%
-                            </span>
-                          )}
-                        </span>
-                      )}
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
-          {hasUncaptured && !isArchivedView && archivedLineages.length > 0 && (
-            <p className="st-uncaptured-hint">
-              Earlier stages weren't kept for this run — open the archived journey below to see the full chain.
-            </p>
-          )}
-
-          {archivedLineages.length > 0 && (
-            <div className="st-lineage">
-              {isArchivedView ? (
-                <>
-                  <button type="button" className="st-lineage-btn" onClick={() => switchLineage('current')}>
-                    ← Current rebuild
-                  </button>
-                  <p className="st-lineage-note">{activeLineage.label} · view only</p>
-                </>
-              ) : (
-                <button type="button" className="st-lineage-btn" onClick={() => switchLineage(archivedLineages[0].id)}>
-                  View archived journey →
-                </button>
-              )}
-            </div>
-          )}
-        </div>
-      </nav>
-
+      {/* Two columns: the editor and the contextual inspector. The left pipeline
+          rail was removed (redundant nav — pipeline phases live in the breadcrumb
+          and book-page tabs); the editor column widened and the reading-edition
+          link moved into the editor head below. */}
       <main className="studio-poc__editor" ref={editorContainerRef}>
         {/* Consolidated editor header: chapter switcher · metrics · finalize. */}
         <div className="sp-editor-head">
@@ -1646,6 +1442,19 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
               {finalized ? '✓ Finalized' : publishing ? 'Finalizing…' : 'Finalize chapter'}
             </button>
           )}
+          <a
+            className="sp-book-link"
+            href={`/studio/${slug}/book`}
+            title="Open the companion reading edition (the book)"
+          >
+            <span className="sp-book-glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z" />
+                <path d="M4 19.5A1.5 1.5 0 0 1 5.5 18H20v3H5.5A1.5 1.5 0 0 1 4 19.5z" />
+              </svg>
+            </span>
+            Reading edition
+          </a>
         </div>
         {!viewAll && (
           <TransformationDashboard
@@ -1715,64 +1524,35 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       </main>
 
       <aside className="studio-poc__inspector" aria-label="Contextual inspector" ref={inspectorRef}>
-        {/* M-1 — Slim global action strip: Arabic toggle · Save & Approve · Finalize */}
-        <div className="sp-global-strip">
-          <span className="sp-global-arabic">
-            <span lang="ar" dir="rtl">ع</span>
+        {/* View controls — Arabic overlay toggle + link to the phonetic map. */}
+        {glossaryCount > 0 && (
+          <div className="sp-global-strip">
             <button
               type="button"
               role="switch"
               aria-checked={arabicOn}
+              aria-label={`Toggle Arabic script — currently ${arabicOn ? 'on' : 'off'}`}
               className={`sp-arabic-btn${arabicOn ? ' is-on' : ''}`}
               onClick={toggleArabic}
-              title={arabicOn ? 'Hide Arabic script' : 'Show Arabic script'}
+              title={arabicOn ? 'Hide Arabic script in the chapter' : 'Show Arabic script in the chapter'}
             >
-              {arabicOn ? 'Arabic On' : 'Arabic'}
+              <i className={`fa-solid ${arabicOn ? 'fa-toggle-on' : 'fa-toggle-off'}`} aria-hidden="true" />
+              <span className="sp-arabic-label">Toggle Arabic</span>
             </button>
-          </span>
-          {!viewAll && !isReadOnlyStage && stage && (
-            <>
-              <div className="sp-strip-sep" aria-hidden="true" />
-              <button
-                type="button"
-                className={`sp-approve sp-approve--strip${approvedStages[stage.id] ? ' is-done' : ''}`}
-                onClick={saveAndApprove}
-                disabled={saving || approvedStages[stage.id]}
-              >
-                {approvedStages[stage.id]
-                  ? `✓ ${stage.label} approved`
-                  : saving ? 'Saving…'
-                  : `Save & Approve`}
-              </button>
-              {changedCount > 0 && !approvedStages[stage.id] && (
-                <button
-                  type="button"
-                  className="sp-discard"
-                  onClick={discardChanges}
-                  disabled={saving}
-                  title="Discard all edits and revert to original"
-                >
-                  Discard
-                </button>
-              )}
-            </>
-          )}
-          {!viewAll && !isArchivedView && (
-            <>
-              <div className="sp-strip-sep" aria-hidden="true" />
-              <button type="button" className="sp-finalize" onClick={finalize} title="Generate Claude brief from tagged paragraphs">
-                ⎘ Brief
-              </button>
-            </>
-          )}
-        </div>
-        {saveError && <p className="sp-save-error">{saveError}</p>}
-        {finalizeMsg && <p className="sp-finalize-msg" aria-live="polite">{finalizeMsg}</p>}
+            <a
+              className="sp-phonetic-map"
+              href={`/studio/${slug}/arabic-review#${chapter}`}
+              title="Open the phonetic map (full Arabic review) for this chapter"
+            >
+              <i className="fa-solid fa-language" aria-hidden="true" /> Phonetic Map
+            </a>
+          </div>
+        )}
 
         {/* M-1 — Tabbed panel: Details · Comment · AI · References */}
         <div className="sp-panel-card">
           <div className="sp-tab-bar" role="tablist" aria-label="Inspector tabs">
-            {(['details', 'comment', 'ai', 'refs'] as const).map((tab) => {
+            {(['details', 'ai', 'refs', 'comment'] as const).map((tab) => {
               const labels: Record<string, string> = { details: 'Details', comment: 'Comment', ai: 'AI', refs: 'References' };
               const hasDot = tab === 'ai' && (!!aiResult || aiOptions.length > 0 || aiBusy);
               return (
@@ -1867,11 +1647,11 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                 {activeSectionOrdinal !== null && !isReadOnlyStage && (
                   <div className="sp-ai-tab-actions" role="toolbar" aria-label="AI actions">
                     <button type="button" className="sp-ai-tab-btn" disabled={aiBusy}
-                      onClick={() => runAi('rewrite')}>↺ Rewrite</button>
+                      onClick={() => runAi('rewrite')}><i className="fa-solid fa-arrows-rotate" aria-hidden="true" /> Rewrite</button>
                     <button type="button" className="sp-ai-tab-btn" disabled={aiBusy}
-                      onClick={() => runAi('research')}>🔍 Research</button>
+                      onClick={() => runAi('research')}><i className="fa-solid fa-magnifying-glass" aria-hidden="true" /> Research</button>
                     <button type="button" className="sp-ai-tab-btn" disabled={aiBusy}
-                      onClick={() => runAi('autotag')}>🏷 Auto-tag</button>
+                      onClick={() => runAi('autotag')}><i className="fa-solid fa-tag" aria-hidden="true" /> Auto-tag</button>
                   </div>
                 )}
                 {aiBusy && <p className="sp-ai-status">Working… ({aiKind})</p>}
@@ -1924,6 +1704,34 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
             )}
           </div>
         </div>
+
+        {saveError && <p className="sp-save-error" role="alert">{saveError}</p>}
+        {!viewAll && !isReadOnlyStage && stage && (
+          <div className="sp-action-footer">
+            {changedCount > 0 && !approvedStages[stage.id] && (
+              <button
+                type="button"
+                className="sp-discard"
+                onClick={discardChanges}
+                disabled={saving}
+                title="Discard all edits and revert to original"
+              >
+                <i className="fa-solid fa-rotate-left" aria-hidden="true" /> Discard
+              </button>
+            )}
+            <button
+              type="button"
+              className={`sp-approve${approvedStages[stage.id] ? ' is-done' : ''}`}
+              onClick={saveAndApprove}
+              disabled={saving || approvedStages[stage.id]}
+            >
+              {approvedStages[stage.id]
+                ? `✓ ${stage.label} approved`
+                : saving ? 'Saving…'
+                : 'Save & Approve'}
+            </button>
+          </div>
+        )}
       </aside>
     </div>
   );

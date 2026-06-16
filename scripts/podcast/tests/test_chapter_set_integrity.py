@@ -98,6 +98,46 @@ class DuplicationTests(unittest.TestCase):
         b = "## Where this episode opens\n\n" + frame + "\n## Real2\n\nunique two."
         self.assertEqual(ccs.check_cross_chapter_duplication({"a": a, "b": b}), [])
 
+    def test_section_heading_conciseness(self):
+        """P11: a long statement-style ## heading is flagged; a short heading and a
+        structural frame heading are not."""
+        long_h = "## The veiling chain that runs from the Father of Imams to the hidden Imam"
+        short_h = "## The veiling chain"
+        frame_h = "## Where this chapter opens"
+        chapters = {
+            "a": f"{long_h}\n\nbody.\n\n{frame_h}\n\nmore.",
+            "b": f"{short_h}\n\nbody.",
+        }
+        f = ccs.check_section_heading_conciseness(chapters)
+        self.assertEqual(len(f), 1, "only the long non-frame heading is flagged")
+        self.assertEqual(f[0]["check"], "P11")
+        self.assertEqual(f[0]["slug"], "a")
+        self.assertEqual(f[0]["severity"], "P2")
+
+    def test_shared_citation_not_duplication(self):
+        """A source cited in two chapters is scholarship, not 'taught twice'.
+        Parenthetical AND bracketed citations (incl. nested parens) are stripped
+        before shingling, so a shared citation alone must NOT trip P8."""
+        cite_paren = (" (Farhad Daftary, The Ismailis: Their History and Doctrines, "
+                      "second edition, Cambridge University Press, 2007, pp. 234-238) ")
+        cite_bracket = (" [Henry Corbin, Cyclical Time and Ismaili Gnosis, trans. Ralph "
+                        "Manheim (London: Kegan Paul, 1983), pp. 84-86.] ")
+        a = "## Concept A\n\nThe line preserves itself across the eras." + cite_paren + cite_bracket
+        b = "## Concept B\n\nA wholly different teaching about the soul." + cite_paren + cite_bracket
+        self.assertEqual(ccs.check_cross_chapter_duplication({"a": a, "b": b}), [],
+                         "shared citations must not register as duplicated teaching")
+
+    def test_real_duplication_still_flagged_amid_citations(self):
+        """Citation stripping must not mask genuinely repeated teaching prose."""
+        dup = ("the imam's substance dissolves at each succession and the ranks "
+               "return that substance so the line is structurally never broken ")
+        cite = " (Daftary, The Ismailis, Cambridge University Press, 2007, p. 4) "
+        a = "## A\n\n" + dup * 2 + cite + "\n\nunique alpha."
+        b = "## B\n\n" + dup * 2 + cite + "\n\nunique beta."
+        f = ccs.check_cross_chapter_duplication({"a": a, "b": b})
+        self.assertTrue(f, "repeated teaching prose must still be flagged P8")
+        self.assertEqual(f[0]["check"], "P8")
+
 
 class SermonIntegrityTests(unittest.TestCase):
     def setUp(self):
