@@ -1,0 +1,3147 @@
+[
+  {
+    "id": "T001",
+    "teaching": "Knowledge and proof come in two types: naqli (transmitted evidence found in lectures, books, and physical things) and aqli (rational evidence weighed on the scales of the intellect).",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "naqli",
+      "aqli",
+      "daleel"
+    ]
+  },
+  {
+    "id": "T002",
+    "teaching": "The doctrine of zahir-batin (exoteric-esoteric) is unique to the Ismaili tradition and is not possessed by Hinduism, Christianity, or Judaism.",
+    "kind": "claim",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "zahir",
+      "batin"
+    ]
+  },
+  {
+    "id": "T003",
+    "teaching": "In the present age it is more necessary to strengthen the conviction of one's own community than to bring outsiders into the faith.",
+    "kind": "claim",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": []
+  },
+  {
+    "id": "T004",
+    "teaching": "We consider 'Isa, Musa, Ibrahim and all earlier prophets to be true prophets great for their respective times, whereas the followers of those faiths do not accept our Prophet as a prophet, which is the biggest difference between us.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Isa",
+      "Musa",
+      "Ibrahim",
+      "nabi"
+    ]
+  },
+  {
+    "id": "T005",
+    "teaching": "Allah's revealed books are the Tawrat, the Zabur, the Injil, and then the Quran, with the Quran being the final one.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Tawrat",
+      "Zabur",
+      "Injil",
+      "Quran"
+    ]
+  },
+  {
+    "id": "T006",
+    "teaching": "The Bible is a corrupted, late version of the Injil with conflicting recensions (Matthew, Barnabas, John), and the Tawrat and Zabur are likewise unreliable; none preserves the original text.",
+    "kind": "claim",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Injil",
+      "Tawrat",
+      "Zabur",
+      "Bible"
+    ]
+  },
+  {
+    "id": "T007",
+    "teaching": "Not a single letter or even a diacritical mark (zabr, zayr) of the Quran can be changed until Qiyamah, and any such variation is rejected.",
+    "kind": "ruling",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Quran",
+      "zabr",
+      "zayr",
+      "Qiyamah"
+    ]
+  },
+  {
+    "id": "T008",
+    "teaching": "The Quran's incorruptibility is guaranteed by Allah's words 'Inna nahnu nazzalnahu wa inna lahu lahafizun' (Indeed We sent down the Reminder and We are its guardian).",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Inna nahnu nazzalnahu",
+      "hafizun"
+    ]
+  },
+  {
+    "id": "T009",
+    "teaching": "Reformers who claimed certain Quranic rulings (e.g. on pardah) no longer apply in the modern age are wrong; the shari'ah remains in force until Qiyamah.",
+    "kind": "ruling",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "shari'ah",
+      "pardah",
+      "Qiyamah"
+    ]
+  },
+  {
+    "id": "T010",
+    "teaching": "The Quranic phrases 'Asatir al-awwalin' and 'Zubur al-awwalin' refer to ancient scriptures, including the Hindu scriptures (Bhagavad Gita, Upanishads, Rigved, Atharvaved).",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Asatir al-awwalin",
+      "Zubur al-awwalin"
+    ]
+  },
+  {
+    "id": "T011",
+    "teaching": "Zubur al-awwalin denotes the eras of Nuh and Hud, when Hinduism was the prevalent tradition.",
+    "kind": "claim",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Zubur al-awwalin",
+      "Nuh",
+      "Hud"
+    ]
+  },
+  {
+    "id": "T012",
+    "teaching": "Adam's era is roughly 6,900-7,000 years ago, and Nuh's era begins about 1,000 years after Adam.",
+    "kind": "claim",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Adam",
+      "Nuh"
+    ]
+  },
+  {
+    "id": "T013",
+    "teaching": "Nuh's reported lifespan of 900 years refers to the duration of his period/era, not his personal age, which was about 120 years.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Nuh"
+    ]
+  },
+  {
+    "id": "T014",
+    "teaching": "Across the 7,000-year period, seven great Natiq prophets are born: Adam, Nuh, Ibrahim, Musa, 'Isa, and Rasulullah (six so far), and the seventh, who establishes Qiyamah.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "natiq",
+      "nabi",
+      "Qa'im",
+      "Qiyamah"
+    ]
+  },
+  {
+    "id": "T015",
+    "teaching": "A great prophet is normally born approximately every 1,000 years, though sometimes after 1,500 or 2,000 years.",
+    "kind": "claim",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "nabi"
+    ]
+  },
+  {
+    "id": "T016",
+    "teaching": "'Isa's era lasted only 600 years, so the Prophet Muhammad came after 600 rather than the usual 1,000 years.",
+    "kind": "claim",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Isa"
+    ]
+  },
+  {
+    "id": "T017",
+    "teaching": "Everything that exists is recorded in the Quran, per 'wala ratbin wala yabisin illa fi kitabin mubin' (no moist or dry thing but is in a clear Book); one need only extract it.",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "ratb",
+      "yabis",
+      "kitab mubin"
+    ]
+  },
+  {
+    "id": "T018",
+    "teaching": "By the principle 'li-kulli qawmin had' (for every people there is a guide), every nation received a prophet, so figures such as Krishna and Ram were the guides of Hinduism's ancient era.",
+    "kind": "argument",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "li-kulli qawmin had",
+      "hadi",
+      "rahbar"
+    ]
+  },
+  {
+    "id": "T019",
+    "teaching": "Meat slaughtered by the hand of the Jews (People of the Book) is permissible for us to eat.",
+    "kind": "ruling",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": []
+  },
+  {
+    "id": "T020",
+    "teaching": "The religion (din) began with Adam, the first prophet, and has continued unbroken to the present.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "din",
+      "Adam",
+      "nabi"
+    ]
+  },
+  {
+    "id": "T021",
+    "teaching": "Human beings existed before Adam, as shown by fossils found in Java, Sumatra, and Heidelberg through anthropology, dating back hundreds of thousands of years.",
+    "kind": "claim",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": []
+  },
+  {
+    "id": "T022",
+    "teaching": "'Adam' is not a personal name but a title (mansab) for the one who begins a period, and 'Qayem/Qa'im' is the title for the one who ends it; the two have a special relationship.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Adam",
+      "Qayem",
+      "mansab"
+    ]
+  },
+  {
+    "id": "T023",
+    "teaching": "When asked who came before Adam, Hadrat 'Ali repeatedly answered 'Adam,' teaching that countless Adams have passed and countless will come.",
+    "kind": "authority",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Adam",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T024",
+    "teaching": "Din (the one system of Allah) never changes, but shari'ah (the rules of prayer, fasting, zakat, etc.) changes from one prophet's era to another.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "din",
+      "shari'ah",
+      "zakat"
+    ]
+  },
+  {
+    "id": "T025",
+    "teaching": "The salawat 'Allahumma salli 'ala Muhammad... kama sallayta 'ala Ibrahim' shows that the same din existed in Ibrahim's time.",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "salawat",
+      "Ibrahim",
+      "din"
+    ]
+  },
+  {
+    "id": "T026",
+    "teaching": "The names of Adam's father, grandfather, tribe, marketplace, district and province, as well as the name of Shaitan of that era, are all recorded in the complete books.",
+    "kind": "claim",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Adam",
+      "Shaitan"
+    ]
+  },
+  {
+    "id": "T027",
+    "teaching": "The seventh and final great prophet, yet to come, is the greatest, being simultaneously the Imam, the Nabi, and the Qa'im who brings the Resurrection.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Imam",
+      "nabi",
+      "Qa'im",
+      "Qiyamah"
+    ]
+  },
+  {
+    "id": "T028",
+    "teaching": "The Imam is interpreted as the sun (aftab) and the Da'i as the moon.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Imam",
+      "Da'i",
+      "aftab"
+    ]
+  },
+  {
+    "id": "T029",
+    "teaching": "Every Nabi is paired with a Wasi (successor): Musa with Harun, 'Isa with Yusha', and the Prophet with 'Ali.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "nabi",
+      "wasi",
+      "Harun",
+      "Yusha",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T030",
+    "teaching": "After the Nabi and Wasi pass away, Imamat takes over the task of spreading the deen, and every Imam is the controller of his time.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Imamat",
+      "deen"
+    ]
+  },
+  {
+    "id": "T031",
+    "teaching": "The Da'i cannot give knowledge until he receives it from the Imam above; the real control over the shari'at-e-Muhammadi rests with the Imam.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Da'i",
+      "Imam",
+      "shari'at-e-Muhammadi"
+    ]
+  },
+  {
+    "id": "T032",
+    "teaching": "As the moon has no light of its own but takes it from the sun, the Da'i takes knowledge from the Imam, while the Imam has his own light and takes from no one.",
+    "kind": "argument",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Imam",
+      "Da'i"
+    ]
+  },
+  {
+    "id": "T033",
+    "teaching": "The method of da'wah descends in rank from Imam to Da'i to Ma'dhun to Mukasir to Hudud and finally to the believers (mu'minin).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "da'wah",
+      "Imam",
+      "Da'i",
+      "Ma'dhun",
+      "Mukasir",
+      "Hudud",
+      "mu'minin"
+    ]
+  },
+  {
+    "id": "T034",
+    "teaching": "Knowledge ('ilm) always descends from above to below, like water that Allah sends down from the heavens to the earth ('Nahnu nazzalna al-maa'), never the reverse.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'ilm",
+      "Nahnu nazzalna al-maa'",
+      "samawat",
+      "ardh"
+    ]
+  },
+  {
+    "id": "T035",
+    "teaching": "Water is the standing metaphor for 'ilm (knowledge): wherever water is mentioned, its batin (inner reality) is knowledge.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'ilm",
+      "batin"
+    ]
+  },
+  {
+    "id": "T036",
+    "teaching": "Zahir is the apparent, visible thing (like the body or a seed) and batin is the hidden inner reality (like the soul or what is inside the belly).",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "zahir",
+      "batin",
+      "jism",
+      "ruh"
+    ]
+  },
+  {
+    "id": "T037",
+    "teaching": "Democracy and election are rejected; rank is conferred from above, the one higher lifting the one below, as illustrated by the lifting of the rosary bead in tasbih.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "tasbih"
+    ]
+  },
+  {
+    "id": "T038",
+    "teaching": "The Prophet's knowledge is like the vast salty ocean, available to all mankind, for he came 'kaffatan lil-nas' (for all people) and as 'Rahmatan lil 'Alamin' (a mercy to the worlds).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "kaffatan lil-nas",
+      "Rahmatan lil 'Alamin"
+    ]
+  },
+  {
+    "id": "T039",
+    "teaching": "The ocean's salty water represents 'ilm-e-zahir (exoteric knowledge such as biology, science, philosophy and logic), which must be separated out to obtain sweet (esoteric) water.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'ilm-e-zahir"
+    ]
+  },
+  {
+    "id": "T040",
+    "teaching": "The Prophet wrote no book except Hadith, which are short, plain narrated sentences; the formal aqa'id were derived from them later.",
+    "kind": "claim",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Hadith",
+      "aqa'id"
+    ]
+  },
+  {
+    "id": "T041",
+    "teaching": "The Prophet said 'I am the city of knowledge and Ali is its gate,' so all knowledge sprouted from Ali.",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Ali"
+    ]
+  },
+  {
+    "id": "T042",
+    "teaching": "Tanzil (revelation) descended the Quran upon the Prophet's heart, while ta'wil (interpretation) is the task of Ali; the Prophet did not perform tafsir of the Quran.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "tanzil",
+      "ta'wil",
+      "tafsir",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T043",
+    "teaching": "Since Ali is no longer present, the Imam of every age stands in his place as his descendant; the Imam being in ghaybat (occultation), one asks the Da'i.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Imam",
+      "ghaybat",
+      "Da'i"
+    ]
+  },
+  {
+    "id": "T044",
+    "teaching": "Knowledge reaches the believer filtered down through the ranks rather than directly from the original source.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'ilm"
+    ]
+  },
+  {
+    "id": "T045",
+    "teaching": "In the village-well analogy of Mabda' wa Ma'ad, the pure Imam holds the rank of the great bucket (dol) into which water (knowledge) is drawn, then poured into successively smaller vessels representing the Hujjat, Da'i and lesser ranks.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "dol",
+      "Mabda' wa Ma'ad",
+      "Hujjat",
+      "Da'i"
+    ]
+  },
+  {
+    "id": "T046",
+    "teaching": "The two hands used in wudu and ghusl symbolize the Mukasir and the Ma'dhun: the Ma'dhun (the sanctioned one) is the right hand, and the Mukasir is the left hand and the lower rank.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "wudu",
+      "ghusl",
+      "Mukasir",
+      "Ma'dhun"
+    ]
+  },
+  {
+    "id": "T047",
+    "teaching": "Mukasir means one who can refute or break an opponent's argument; the Ma'dhun is greater than him and grants permission to speak.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Mukasir",
+      "Ma'dhun"
+    ]
+  },
+  {
+    "id": "T048",
+    "teaching": "The Mir Alam Talab episode of Hazrat Abdullah Sahab teaches that one must drink water (receive knowledge) through one's own channel of dawat, not directly from the dawat-e-zaahir.",
+    "kind": "authority",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "dawat-e-zaahir",
+      "Hazrat Abdullah Sahab"
+    ]
+  },
+  {
+    "id": "T049",
+    "teaching": "Blood is the metaphor for doubt (shakk); just as prayer is invalid while blood flows until wudu is performed, one must pray in a state of certainty (yaqeen), for nothing is permissible in a state of doubt.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "shakk",
+      "wudu",
+      "yaqeen"
+    ]
+  },
+  {
+    "id": "T050",
+    "teaching": "A total of 124,000 prophets have passed in the world.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "anbiya"
+    ]
+  },
+  {
+    "id": "T051",
+    "teaching": "The ranks Nabi, Rasul, Natiq, Ulul 'Azm messenger, A'immah, and Awsiya' are all distinct categories that must not be conflated.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Nabi",
+      "Rasul",
+      "Natiq",
+      "Ulul 'Azm",
+      "A'immah",
+      "Awsiya"
+    ]
+  },
+  {
+    "id": "T052",
+    "teaching": "Nabi means one who gives news (from naba' = news) and is the lowest of the high ranks.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Nabi",
+      "naba'"
+    ]
+  },
+  {
+    "id": "T053",
+    "teaching": "The roughly 26-27 prophets named in the Quran (27 if Luqman is counted a prophet) are the greatest among the 124,000, since inclusion in the Quran is itself a supreme honor.",
+    "kind": "ruling",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Luqman",
+      "anbiya"
+    ]
+  },
+  {
+    "id": "T054",
+    "teaching": "Among the 27 named prophets, seven bear a message (paigham) from Adam to the Qa'im, of whom six Natiq have already come.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "paigham",
+      "Natiq",
+      "Qa'im"
+    ]
+  },
+  {
+    "id": "T055",
+    "teaching": "A Rasul ranks higher than a Nabi; not every Nabi is a Rasul, and a prophet is first a Nabi before becoming a Rasul.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Rasul",
+      "Nabi"
+    ]
+  },
+  {
+    "id": "T056",
+    "teaching": "Natiq means one who speaks; six Natiq have passed (Adam, Nuh, Ibrahim, Musa, 'Isa, Muhammad), and in Adam's time all others were samit (mute), lacking the intellect Allah gave Adam.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Natiq",
+      "samit"
+    ]
+  },
+  {
+    "id": "T057",
+    "teaching": "The Ulul 'Azm (possessors of firm resolve) are five: Nuh, Ibrahim, Musa, 'Isa and Muhammad, Adam being excluded because the era of Ulul 'Azmiyyat had not yet begun.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Ulul 'Azm"
+    ]
+  },
+  {
+    "id": "T058",
+    "teaching": "The five Ulul 'Azm prophets are the esoteric basis (mansul) of the five daily prayers (Fajr, Zuhr-Asr, Maghrib-Isha), supplying what makes namaz into namaz.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "mansul",
+      "namaz",
+      "Fajr",
+      "Zuhr",
+      "Asr",
+      "Maghrib",
+      "Isha"
+    ]
+  },
+  {
+    "id": "T059",
+    "teaching": "The two greatest prophets of all are Ibrahim, the Khalilullah (Friend of Allah), and Muhammad, the Habibullah (Beloved of Allah), with Muhammad standing one degree above Ibrahim.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Khalilullah",
+      "Habibullah",
+      "Ibrahim"
+    ]
+  },
+  {
+    "id": "T060",
+    "teaching": "The prophetic hierarchy narrows from 124,000 to 27, to six or seven, to five, to two, to the single greatest, the Prophet Muhammad.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "anbiya",
+      "Natiq"
+    ]
+  },
+  {
+    "id": "T061",
+    "teaching": "Sayyidna Sulayman is the concluder of the Muhammadi dawr (mukhtatim-i dawr-i Muhammadi), at which point the qaimi dawr begins.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Sulayman",
+      "mukhtatim",
+      "dawr-i Muhammadi",
+      "qaimi dawr"
+    ]
+  },
+  {
+    "id": "T062",
+    "teaching": "We belong to the Muhammadi ummah and follow the shari'at-i Muhammadi, but we live not in the Muhammadi dawr but in the higher, permanent era that follows it.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Muhammadi ummah",
+      "shari'at-i Muhammadi",
+      "dawr"
+    ]
+  },
+  {
+    "id": "T063",
+    "teaching": "About 400 years have passed in this permanent era since the time of Imam Du'al, and this 400-year excess over the standard 1,000-year prophetic period is compensation for the fact that 'Isa's era was only 600 years long.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Isa"
+    ]
+  },
+  {
+    "id": "T064",
+    "teaching": "The Prophet said 'ulama ummati ka-anbiya'i Bani Isra'il' (the scholars of my community are like the prophets of the Children of Israel), equal to them in rank.",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "ulama ummati",
+      "anbiya",
+      "Bani Isra'il"
+    ]
+  },
+  {
+    "id": "T065",
+    "teaching": "After the Prophet, with no more prophets or wasis and the Imam concealed, the du'at who pass through history are the 'ulama who stand equal to the prophets of Bani Isra'il.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "du'at",
+      "ulama",
+      "wasi",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T066",
+    "teaching": "Da'i means 'one who calls toward Allah'; the master of one jazeera, two jazeeras, or three jazeeras holds graded rank, the master of three jazeeras being the Da'i, while 'amils and mullas who call people are of lower rank without certain authority (ijazah).",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Da'i",
+      "jazeera",
+      "ijazah",
+      "amil"
+    ]
+  },
+  {
+    "id": "T067",
+    "teaching": "The Quranic verse 'fa-faddalna ba'dahum 'ala ba'd' (We preferred some of them over others) shows that no one stands at a single equal rank; excellence (fazilat) is graded everywhere.",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "fa-faddalna ba'dahum 'ala ba'd",
+      "fazilat"
+    ]
+  },
+  {
+    "id": "T068",
+    "teaching": "The world existed before Adam; the 7,000-year span is one specified period within which seven great Natiq prophets appear.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Adam",
+      "Natiq"
+    ]
+  },
+  {
+    "id": "T069",
+    "teaching": "Allah's order alternates calamity and relief so that no community weeps forever; the era before this 7,000 years was a very good era.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": []
+  },
+  {
+    "id": "T070",
+    "teaching": "History runs through two alternating periods: kashf (manifestation/openness) and satr (concealment/veiling).",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "kashf",
+      "satr"
+    ]
+  },
+  {
+    "id": "T071",
+    "teaching": "When the Imam (the sun) is manifest it is kashf, likened to day; when he is concealed it is satr, likened to night, during which the Da'i (the moon) gives light.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Imam",
+      "Da'i",
+      "kashf",
+      "satr"
+    ]
+  },
+  {
+    "id": "T072",
+    "teaching": "Kashf always comes first and satr follows, just as day precedes night.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "kashf",
+      "satr"
+    ]
+  },
+  {
+    "id": "T073",
+    "teaching": "Seven cycles of kashf and satr (day and night) form one 'week,' from which months, years and centuries are built up by the same mathematical pattern.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "kashf",
+      "satr"
+    ]
+  },
+  {
+    "id": "T074",
+    "teaching": "The kashf period lasts 50,000 years while the satr period of the current cycle is 7,000 years.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "kashf",
+      "satr"
+    ]
+  },
+  {
+    "id": "T075",
+    "teaching": "Adding kashf (50,000) and satr (7,000) gives 57,000 years; multiplied through the seven-fold cycle this yields about 399,000-400,000 years, which constitutes one dawr.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "kashf",
+      "satr",
+      "dawr"
+    ]
+  },
+  {
+    "id": "T076",
+    "teaching": "A dawr multiplied by a dawr (about 4 lakh x 4 lakh) yields roughly 16,000 crore years, which is called a kawr (qaur).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "dawr",
+      "kawr",
+      "qaur"
+    ]
+  },
+  {
+    "id": "T077",
+    "teaching": "A kawr multiplied by a kawr produces a number requiring 25 zeros, called a mor (mawr), the largest duration in existence.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "kawr",
+      "mor",
+      "mawr"
+    ]
+  },
+  {
+    "id": "T078",
+    "teaching": "The ascending hierarchy of time units is: dass/day, dawr (week-equivalent), tawr, kawr/qaur, and mawr/mor.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "dass",
+      "dawr",
+      "tawr",
+      "qaur",
+      "mawr"
+    ]
+  },
+  {
+    "id": "T079",
+    "teaching": "The soul (ruh) is the real power and 'generator' that makes a person act; the body (jism) does nothing of itself, so the ruh is superior (bartar) and the jism inferior (kamtar).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "ruh",
+      "jism",
+      "bartar",
+      "kamtar"
+    ]
+  },
+  {
+    "id": "T080",
+    "teaching": "Just as a person has a physical realm there is a jismani 'alam (physical world) and a ruhani 'alam (spiritual world), and the ruhani 'alam is the most superior and was created first.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "jismani 'alam",
+      "ruhani 'alam"
+    ]
+  },
+  {
+    "id": "T081",
+    "teaching": "The single question whose answer cannot be written or told is why Allah, the mudabbir-e-ka'inat, created the ruhani 'alam at all; one must 'believe and then go forward' as a child accepts alif before be.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "ruhani 'alam",
+      "mudabbir-e-ka'inat",
+      "maslahat"
+    ]
+  },
+  {
+    "id": "T082",
+    "teaching": "Duniya (this world) and ka'inat (universe) differ: the ka'inat is the whole universe and contains the ruhani 'alam and the other realms ('awalim).",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "duniya",
+      "ka'inat",
+      "'awalim"
+    ]
+  },
+  {
+    "id": "T083",
+    "teaching": "The realms descend in order: 'alam al-'aql (intellect), 'alam al-khalq (creation), 'alam al-jismani (body), and then this world in which we exist.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'alam al-'aql",
+      "'alam al-khalq",
+      "'alam al-jismani"
+    ]
+  },
+  {
+    "id": "T084",
+    "teaching": "The opening 'Alhamdulillah Rabbil 'Alamin' uses the plural ''alamin' to prove that there are many worlds (spiritual, bodily, physical), the spiritual created before the physical.",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Rabbil 'Alamin",
+      "'awalim"
+    ]
+  },
+  {
+    "id": "T085",
+    "teaching": "The skies are arranged in layers (tibaqan), plate upon plate; the visible sky where sight stops is the sama' al-dunya (heaven of the world), with further skies above it.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "tibaqan",
+      "sama' al-dunya",
+      "hadd-e-nazar"
+    ]
+  },
+  {
+    "id": "T086",
+    "teaching": "The creator of the spiritual realm is named Mubdi' (not Mubda'), the one whom people call Allah, who brought things from non-being into being.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Mubdi'"
+    ]
+  },
+  {
+    "id": "T087",
+    "teaching": "A khaliq (artisan/creator) only reshapes existing material, but the Mubdi' brought existence out of nothingness by the command 'Kun fa-yakun' (Be, and it is).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "khaliq",
+      "Kun fa-yakun"
+    ]
+  },
+  {
+    "id": "T088",
+    "teaching": "In the ruhani 'alam Allah created innumerable individuals in a single stroke (dafat'an wahidah) as ashbah, luminous human-form figures (nurani paikar) without substance or blood.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "dafat'an wahidah",
+      "ashbah",
+      "shibh",
+      "nurani paikar"
+    ]
+  },
+  {
+    "id": "T089",
+    "teaching": "Humans were created in the qamat-e alifiyyah (stature of an alif), because the alif came first before the ba, marking humans as distinct from animals.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "qamat-e alifiyyah",
+      "alif"
+    ]
+  },
+  {
+    "id": "T090",
+    "teaching": "The countless hosts (junud) created in the spiritual realm number only known to Allah.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "junud"
+    ]
+  },
+  {
+    "id": "T091",
+    "teaching": "All were created simultaneously in one stroke so that Allah's justice ('adl) is established; had some been created earlier and others later, His justice would not hold.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'adl",
+      "dafat'an wahidah"
+    ]
+  },
+  {
+    "id": "T092",
+    "teaching": "Each individual was given three things equally: 'ilm (knowledge), hayat (life), and qudrat (power/authority, ikhtiyar).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'ilm",
+      "hayat",
+      "qudrat",
+      "ikhtiyar"
+    ]
+  },
+  {
+    "id": "T093",
+    "teaching": "The knowledge given there was complete, the 'ilm ma kana wa sa yakun (knowledge of what was and what will be), together with qudrat-e-tammah (complete power).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'ilm ma kana wa sa yakun",
+      "qudrat-e-tammah"
+    ]
+  },
+  {
+    "id": "T094",
+    "teaching": "The life given was the most excellent state (afdal); Hazrat Zain Saab illustrated it by the wedding day being every person's most excellent, memorable day.",
+    "kind": "authority",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "afdal",
+      "hayat"
+    ]
+  },
+  {
+    "id": "T095",
+    "teaching": "Allah, having given everything, willed that the created beings recognize Him (ma'rifah), and it was from this demand for ma'rifah that the test and troubles began.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "ma'rifah"
+    ]
+  },
+  {
+    "id": "T096",
+    "teaching": "Although all were created equal with the same gifts, there is an inherent mental difference between them, as in a class where only one student comes first.",
+    "kind": "claim",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": []
+  },
+  {
+    "id": "T097",
+    "teaching": "One individual reasoned that neither could the others create him nor he them, so his creator must be someone else; this recognition is Tawhid (belief in Allah's oneness).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Tawhid"
+    ]
+  },
+  {
+    "id": "T098",
+    "teaching": "When that individual reasoned correctly, the nur (light) within him began to increase visibly, which the others observed.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "nur",
+      "nuraniyyat"
+    ]
+  },
+  {
+    "id": "T099",
+    "teaching": "Only two beings perceived the increasing light, which is why the rank of 'two' arose; Arabic uniquely has a dual (tathniyah) between the singular and the plural, the plural beginning at three.",
+    "kind": "argument",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "tathniyah",
+      "jama'"
+    ]
+  },
+  {
+    "id": "T100",
+    "teaching": "Of the two who rose, one looked at the cause (illat, the batin) and one at the effect (ma'lul, the zahir).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "illat",
+      "ma'lul",
+      "zahir",
+      "batin"
+    ]
+  },
+  {
+    "id": "T101",
+    "teaching": "'Aql-e-Awwal (the First Intellect) was the first being Allah created, the first of the entire universe; the word 'aql means tying or binding, signifying limitation, as a tethered she-camel can graze only within its rope.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Aql-e-Awwal",
+      "'aql"
+    ]
+  },
+  {
+    "id": "T102",
+    "teaching": "The two rising beings are called Mabda'-e Awwal (First Originator) and Mabda'-e Thani (Second Originator), mabda' meaning those who rise.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Mabda'-e Awwal",
+      "Mabda'-e Thani"
+    ]
+  },
+  {
+    "id": "T103",
+    "teaching": "The one who perceived the inner cause became the assistant and took the second position, while the one fixed on the external appearance remained stagnant and was left behind.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": []
+  },
+  {
+    "id": "T104",
+    "teaching": "Seven Intellects ('aqls) came into being one after another, each with a large group, all professing Tawhid that Allah neither created them nor they Him but a separate Creator made them.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'aql",
+      "Tawhid"
+    ]
+  },
+  {
+    "id": "T105",
+    "teaching": "The First and Second Intellects plus the further seven make nine 'aqls in all.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'aql"
+    ]
+  },
+  {
+    "id": "T106",
+    "teaching": "The being who stayed fixed on appearances and on his own 'I' realized too late that the others had advanced, and his chance was gone, like one who loses his cinema seat by leaving for tea.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": []
+  },
+  {
+    "id": "T107",
+    "teaching": "The fundamental error of the being left behind was the delusion of equality (masawat), thinking himself equal to the one who had risen.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "masawat"
+    ]
+  },
+  {
+    "id": "T108",
+    "teaching": "The remedy for his error was to seek forgiveness and feel remorse (nadamat/repentance), and his plea ascended through the chain of connections (itisalaat) to the top.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "nadamat",
+      "itisalaat"
+    ]
+  },
+  {
+    "id": "T109",
+    "teaching": "Upon being forgiven (taba wa anaba, he repented and turned back) he became the tenth ('Ashir; 'ashara = ten); these ten describe the 'alam-i asl (world of origin).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "taba wa anaba",
+      "'Ashir",
+      "'alam-i asl"
+    ]
+  },
+  {
+    "id": "T110",
+    "teaching": "Of his large following, one group repented along with him (tabu bi-tawbatihim), another accepted on hearing his call (labbaw al-nida'), and the rest refused, saying 'la nasma' wa la nuti'' (we will neither listen nor obey).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "tabu bi-tawbatihim",
+      "labbaw al-nida'",
+      "la nasma' wa la nuti'"
+    ]
+  },
+  {
+    "id": "T111",
+    "teaching": "Allah, the ruh-i mudabbir-i wahid who created the spiritual world once and then governs through delegation, appoints a chain of subordinates (like a general manager, manager, and section in-charges).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "ruh-i mudabbir-i wahid",
+      "kasrat-i anwar"
+    ]
+  },
+  {
+    "id": "T112",
+    "teaching": "Because the Tenth Intellect ('Ashir) caused the others to err, Allah charged him with the duty of reforming them.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'Ashir"
+    ]
+  },
+  {
+    "id": "T113",
+    "teaching": "Those who persistently refused were cast down (qubut) from the spiritual realm, and as they fell some repented.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "qubut",
+      "ruhani 'alam"
+    ]
+  },
+  {
+    "id": "T114",
+    "teaching": "Three groups resulted from the fall: immediate repenters placed in the realm of fixed stars (kawakib), the stubborn musirr and mustakbir thrown below the earth into minerals and ores, and the doubters placed in the four spheres of fire, water, air and soil.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "musirr",
+      "mustakbir",
+      "kawakib",
+      "sabit 'alam"
+    ]
+  },
+  {
+    "id": "T115",
+    "teaching": "The flickering of fire, the cyclones of air, the roaring of water and the unsettled dust of soil are all signs of the doubt of those placed in the four spheres.",
+    "kind": "argument",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "nar"
+    ]
+  },
+  {
+    "id": "T116",
+    "teaching": "The Tenth Intellect (aql al-'ashir), remaining high above, is the complete mudabbir al-'alam (governor of the world) and appoints in-charges over the great departments below.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "aql al-'ashir",
+      "mudabbir al-'alam",
+      "tadbir"
+    ]
+  },
+  {
+    "id": "T117",
+    "teaching": "The four generative realms of creation are ma'dan (mineral), nabat (vegetable), haywan (animal), and insan (human).",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "ma'dan",
+      "nabat",
+      "haywan",
+      "insan"
+    ]
+  },
+  {
+    "id": "T118",
+    "teaching": "The mill of creation runs as plants draw from minerals, animals eat plants, and humans eat animals, each body growing from the one below.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "ma'dan",
+      "nabat",
+      "haywan"
+    ]
+  },
+  {
+    "id": "T119",
+    "teaching": "What moves from above to below is called haram (forbidden), and what moves from below to above is halal (permissible).",
+    "kind": "ruling",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "haram",
+      "halal"
+    ]
+  },
+  {
+    "id": "T120",
+    "teaching": "The seven planets, from Saturn down to the Moon, were appointed as in-charges over the world.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "kawakib"
+    ]
+  },
+  {
+    "id": "T121",
+    "teaching": "Saturn (Zuhal), whose nature is to freeze, was given the first 1,000 years and spread ice over the entire world; Jupiter (a good star) then melted it, Mars spread mist, and the Sun cleared it, Saturn remaining king through 7,000 years.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Zuhal",
+      "Mushtari"
+    ]
+  },
+  {
+    "id": "T122",
+    "teaching": "Each planet in turn ruled its own 7,000-year cycle, so that after about 49,000 years the world was fully cultivated and plants were born, but the human being had not yet been created.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "nabat"
+    ]
+  },
+  {
+    "id": "T123",
+    "teaching": "The human being is the real purpose of the universe (maqsad-e-kainat), affirmed by 'Lawlaka lama khalaqtu l-aflak' (Were it not for you, O Prophet, I would not have created the celestial spheres).",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "maqsad-e-kainat",
+      "Lawlaka lama khalaqtu l-aflak"
+    ]
+  },
+  {
+    "id": "T124",
+    "teaching": "The human is a branch of the animals (haywanat) but higher: a plant has the power of growth (quwwat-e-numu) but cannot walk, an animal moves but cannot speak, and the human speaks.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "haywanat",
+      "quwwat-e-numu",
+      "insan"
+    ]
+  },
+  {
+    "id": "T125",
+    "teaching": "Since there was no mother or father, the first humans were drawn from the extract of the best, praiseworthy animals (haywanat-e-mahmudah) at their natural death (taba'i maut).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "haywanat-e-mahmudah",
+      "taba'i maut"
+    ]
+  },
+  {
+    "id": "T126",
+    "teaching": "Womb-like craters or pits formed at specific places in the earth, the best of them at the Ka'batullah in Makkah, then Madinah, then Baitul Muqaddas (Jerusalem).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Ka'batullah",
+      "rahm"
+    ]
+  },
+  {
+    "id": "T127",
+    "teaching": "Rising and condensing vapors formed an oily, sticky semen-like substance which, mixing with the earth's water (the woman's substance) and clay, produced a human when both waters mixed.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "nutfah"
+    ]
+  },
+  {
+    "id": "T128",
+    "teaching": "Twenty-eight pits formed in the Makkah area, each producing one human from the man's nutfah combined with the woman's substance and clay.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "nutfah"
+    ]
+  },
+  {
+    "id": "T129",
+    "teaching": "The first human stood in his pit for up to a year (or ten years), sucking his thumb against hunger as children naturally do, then emerged to eat ready-made paradise-like fruits such as grapes and pomegranates.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "hosh"
+    ]
+  },
+  {
+    "id": "T130",
+    "teaching": "The first strong water produced 28 men; the remaining weaker water then produced 28 women, one male and one female from each pit being like siblings who could not marry each other.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": []
+  },
+  {
+    "id": "T131",
+    "teaching": "Men and women from different pits intermarried (an interchange), and in this way the human race spread across the world.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": []
+  },
+  {
+    "id": "T132",
+    "teaching": "The tallest of the first men, the very first man of this world's creation, is called Shakl al-Kull, and those who lived with him were people of high caliber.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Shakl al-Kull"
+    ]
+  },
+  {
+    "id": "T133",
+    "teaching": "Twenty-eight is the best digit: with every Imam there should be the Imam plus 27 dignitaries (12 Da'is with the Imam and 12 in the world make 24, plus Ma'dhun, Da'i and Bab al-Abwab make 27, and the Imam himself completes 28).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Imam",
+      "Da'i",
+      "Ma'dhun",
+      "Bab al-Abwab"
+    ]
+  },
+  {
+    "id": "T134",
+    "teaching": "The 24 rak'at of Laylat al-Qadr correspond to the 24 Da'is (12 with the Imam and 12 in the world), and the 12 rak'at each of Salat al-Layl and Tahajjud correspond to the two sets of twelve.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Laylat al-Qadr",
+      "Salat al-Layl",
+      "Tahajjud"
+    ]
+  },
+  {
+    "id": "T135",
+    "teaching": "The pattern of 28 should always be in effect with every Imam, grounded in the fact that the first human creation produced 28 at Makkah, then at Jerusalem, Madinah, Jabal al-Rahmah and Jannat al-Baqi'.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Jabal al-Rahmah",
+      "Jannat al-Baqi'"
+    ]
+  },
+  {
+    "id": "T136",
+    "teaching": "The Quran refers to a kind of human creation like a plant ('We made you grow like a nabat'), a creation that does not happen always but occurs at the start of a Kaur.",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "nabat",
+      "Kaur"
+    ]
+  },
+  {
+    "id": "T137",
+    "teaching": "When 16,000 crore years (a kawr) are completed, the whole world ends and creation again occurs the plant-like way, called the creation of a Kaur, from which the next Kaur begins.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Kaur",
+      "kawr"
+    ]
+  },
+  {
+    "id": "T138",
+    "teaching": "Mawlana Zainul Abidin told a woman named Umm-i Nida that one mawr has passed and of the second mawr 399 tawrs have passed with about 4 lakh remaining; he would tell what had passed but not what remained.",
+    "kind": "authority",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Zainul Abidin",
+      "mawr",
+      "tawr",
+      "Umm-i Nida"
+    ]
+  },
+  {
+    "id": "T139",
+    "teaching": "In the current state, the 400th tawr's first dawr has begun, of whose seven days/nights about seven have passed and the seventh night is ongoing, having started when Adam's tenth 'alam ended 7,000 years ago.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "tawr",
+      "dawr"
+    ]
+  },
+  {
+    "id": "T140",
+    "teaching": "The seventh night will end only when the Qa'im comes, at which point the dawr itself changes, the tawr completes, and the kashf of the second dawr occurs.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Qa'im",
+      "dawr",
+      "tawr",
+      "kashf"
+    ]
+  },
+  {
+    "id": "T141",
+    "teaching": "After the Qa'im comes, a completely peaceful, clear era of 50,000 years of comfort and relief begins, free of all present disturbances.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Qa'im"
+    ]
+  },
+  {
+    "id": "T142",
+    "teaching": "After the 50,000 peaceful years, the era of trial returns because mutual wrongs must be requited, for Allah's justice ('adl) is certainly established and no one can escape.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'adl"
+    ]
+  },
+  {
+    "id": "T143",
+    "teaching": "We came into the world to repay our accounts by retribution, per 'al-uzunu bil-uzuni wal-nafsa bil-nafsi wal-'ayna bil-'ayni' (ear for ear, soul for soul, eye for eye); no qisas can be escaped.",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "qisas",
+      "'ayn"
+    ]
+  },
+  {
+    "id": "T144",
+    "teaching": "The correct religion is the din of mabda wa ma'ad, where mabda means the beginning and ma'ad means the end/return.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "mabda",
+      "ma'ad"
+    ]
+  },
+  {
+    "id": "T145",
+    "teaching": "Only one who takes the 'ahd (covenant) on the hand of the Imam al-Zaman, a mustajib or mu'min, is right and perfect; all others (Christian, Hindu, Jew) are upon untruth in our view and will be punished.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'ahd",
+      "Imam al-Zaman",
+      "mustajib",
+      "mu'min"
+    ]
+  },
+  {
+    "id": "T146",
+    "teaching": "Giving guidance (hidayat) is the work of Allah alone; the believer can only explain and cannot change anyone's heart (qalb).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "hidayat",
+      "tawfiq",
+      "qalb"
+    ]
+  },
+  {
+    "id": "T147",
+    "teaching": "Ayat al-Kursi's phrase 'min al-zulumati ila al-nur' describes coming from darkness into light, or conversely leaving light for darkness.",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Ayat al-Kursi",
+      "min al-zulumati ila al-nur"
+    ]
+  },
+  {
+    "id": "T148",
+    "teaching": "After clinical death the believer is first questioned about namaz, and if namaz is sound then about zakat, roza and hajj.",
+    "kind": "ruling",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "namaz",
+      "zakat",
+      "roza",
+      "hajj"
+    ]
+  },
+  {
+    "id": "T149",
+    "teaching": "Ma'ad is the final outcome; the believer's portion of it is the certainty of ascent, in which both the body (jism) and the soul (ruh) must progress.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "ma'ad",
+      "jism",
+      "ruh"
+    ]
+  },
+  {
+    "id": "T150",
+    "teaching": "A human has not one soul but three nufus (souls): the nafs-e-namiyah, the nafs-e-hissiyah, and the nafs-e-natiqah.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "nufus",
+      "namiyah",
+      "hissiyah",
+      "natiqah"
+    ]
+  },
+  {
+    "id": "T151",
+    "teaching": "Sulala is the gist or extract that comes from the father (the semen).",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "sulala"
+    ]
+  },
+  {
+    "id": "T152",
+    "teaching": "The nutfa is confirmed when the father's fluid transfers to the mother and mixes with hers, the father's being dominant.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "nutfa",
+      "sulala"
+    ]
+  },
+  {
+    "id": "T153",
+    "teaching": "The embryo passes through seven stages: nutfa, 'alaqa, mudgha, 'izam, lahm, and khalq-i-akhar.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "nutfa",
+      "'alaqa",
+      "mudgha",
+      "'izam",
+      "lahm",
+      "khalq-i-akhar"
+    ]
+  },
+  {
+    "id": "T154",
+    "teaching": "Each month of pregnancy is governed by a planet: the first by Saturn (which freezes and confirms the nutfa), the fourth by the Sun (when movement begins), the fifth by Venus (the skeleton), the sixth by Mercury (skin and flesh), and the seventh by the Moon (when it is perfected and can live).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Zuhal",
+      "Shams",
+      "Zuhra"
+    ]
+  },
+  {
+    "id": "T155",
+    "teaching": "The eighth month is dangerous because it returns to Saturn, which may freeze and kill the child, while the ninth month belongs to Jupiter, the best star, when the child is born.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Zuhal",
+      "Mushtari"
+    ]
+  },
+  {
+    "id": "T156",
+    "teaching": "Of the many life-germs that rise, only one is useful and the rest fall away, and that one which gets stuck is the 'alaqa (that which hangs), in agreement with science.",
+    "kind": "argument",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'alaqa"
+    ]
+  },
+  {
+    "id": "T157",
+    "teaching": "The seven embryonic stages correspond to seven prophets: Adam, Nuh, Ibrahim (the 'alaqa), Musa (the skeleton/fifth), 'Isa, and Muhammad.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Adam",
+      "Nuh",
+      "Ibrahim",
+      "Musa",
+      "Isa"
+    ]
+  },
+  {
+    "id": "T158",
+    "teaching": "The world's shari'ah, begun with Adam, was completed as a skeleton by 'Isa's time, and the Prophet's Muhammadi shari'ah clothed it with flesh, per 'fa kasawna l-'izama lahma' (We clothed the bones with flesh).",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "shari'ah",
+      "fa kasawna l-'izama lahma"
+    ]
+  },
+  {
+    "id": "T159",
+    "teaching": "Janab-e-Hadd blows the spirit (ruh) into the prepared child so that it may live and emerge.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Hadd",
+      "ruh"
+    ]
+  },
+  {
+    "id": "T160",
+    "teaching": "The first and lowest soul is the nafs-e-namiyah (vegetative/growth soul), the power of growth that enlarges the child in the womb.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "nafs-e-namiyah"
+    ]
+  },
+  {
+    "id": "T161",
+    "teaching": "The second soul is the nafs-e-hissiyah (sensitive/animal soul), seen in the newborn's activities of crying, laughing and moving its hands.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "nafs-e-hissiyah"
+    ]
+  },
+  {
+    "id": "T162",
+    "teaching": "The third and highest soul is the nafs-e-natiqah (rational soul), received around age 13-14 when 'aql arrives, through the taking of the 'ahd, marking the spiritual birth.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "nafs-e-natiqah",
+      "'aql",
+      "'ahd"
+    ]
+  },
+  {
+    "id": "T163",
+    "teaching": "The sign of adulthood in the shari'ah is becoming 'aqil (rational) and able to produce semen (mani), i.e. able to produce a human like oneself; at that point a hadd should be given to him.",
+    "kind": "ruling",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'aqil",
+      "mani",
+      "hadd"
+    ]
+  },
+  {
+    "id": "T164",
+    "teaching": "The three births have three separate ends: the body goes to the grave, the nafs-e-namiyah becomes rij'iah, and the nafs-e-hissiyah together with the natiqah goes to barzakh to gather with one's elder.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "rij'iah",
+      "barzakh",
+      "natiqah"
+    ]
+  },
+  {
+    "id": "T165",
+    "teaching": "An individual progresses not alone but by joining an elder, attaching to the one ranked just above him in the jama'at while the one just below attaches to him.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "jama'at"
+    ]
+  },
+  {
+    "id": "T166",
+    "teaching": "The elders of the jazirah are called malik (master) because our possession (milkiyat) rests with them, and the chain reaches up to the muqaddasin and then to the Imam.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "jazirah",
+      "malik",
+      "milkiyat",
+      "muqaddasin"
+    ]
+  },
+  {
+    "id": "T167",
+    "teaching": "Those without the covenant ('ahd) are ghair-e-haqq whatever their religion; though some hold a better creed than others, all are wrong in our view and will receive punishment accordingly.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "ghair-e-haqq",
+      "'ahd",
+      "aqidah"
+    ]
+  },
+  {
+    "id": "T168",
+    "teaching": "Both a da'wat-e-haqq (call to truth) and a da'wat-e-zalal (call to error, e.g. that of the Dawoodis) run in the world, the latter misguiding people.",
+    "kind": "claim",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "da'wat-e-haqq",
+      "da'wat-e-zalal"
+    ]
+  },
+  {
+    "id": "T169",
+    "teaching": "After death we are 'transferred' (muntaqil) to one higher than us, but the corrupt one is gradually taken down, stripped of human, then animal, then vegetable, then mineral faculties.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "muntaqil",
+      "inteqal",
+      "nabat",
+      "ma'dan"
+    ]
+  },
+  {
+    "id": "T170",
+    "teaching": "There are seven descending levels (darkat) of punishment: humanity, then bears/monkeys, then beasts, then reptiles, then birds, then vegetation, and finally minerals.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "darka",
+      "ma'dan",
+      "nabat"
+    ]
+  },
+  {
+    "id": "T171",
+    "teaching": "Each of the seven darkat contains 70 qamis (forms/shapes), each form being a different created shape.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "darka",
+      "qamis"
+    ]
+  },
+  {
+    "id": "T172",
+    "teaching": "After reaching the seventh level, if punishment remains, comes the intermediate punishment of the North and South Poles, regions of cold where penguins, sea horses and whales abide in torment.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "jahannam"
+    ]
+  },
+  {
+    "id": "T173",
+    "teaching": "The polar punishment lasts 5,000 to 20,000 years, after which, if the term still remains, comes the final third-degree punishment of stone.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": []
+  },
+  {
+    "id": "T174",
+    "teaching": "The Qa'im will come to settle the account; before him comes Mehdi, and Mehdi and Qa'im are paternal cousins just as the Prophet and 'Ali were.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Qa'im",
+      "Mehdi",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T175",
+    "teaching": "Mehdi is in the ascending line of the Prophet, and Qa'im is in the line of Janab-e 'Ali.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Mehdi",
+      "Qa'im",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T176",
+    "teaching": "Qa'im will emerge from an area in Yemen and go to Madinah, where he performs ziyarat at the Prophet's grave (his ancestors), then proceed to Makkah.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Qa'im",
+      "ziyarat"
+    ]
+  },
+  {
+    "id": "T177",
+    "teaching": "At Madinah the Qa'im will order the Prophet's grave opened, and Abu Bakr and 'Umar, buried beside him as the two apparent corruptions of Islam, will emerge alive and be crucified on erected gallows.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Qa'im",
+      "Abu Bakr",
+      "Umar"
+    ]
+  },
+  {
+    "id": "T178",
+    "teaching": "Just as the auspicious Jupiter is flanked by Saturn and Mars, the Prophet is flanked in his grave by two who are like Mars and Saturn (Abu Bakr and 'Umar).",
+    "kind": "argument",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Mushtari",
+      "Zuhal"
+    ]
+  },
+  {
+    "id": "T179",
+    "teaching": "The Qa'im will come accompanied by 313 men, himself being the 314th, and will proceed from Makkah to the plain of Mina, four kilometers away.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Qa'im",
+      "Mina"
+    ]
+  },
+  {
+    "id": "T180",
+    "teaching": "At Mina (the place of slaughter, with the Bab al-Ghanam and Bab al-Baqar) the great offenders such as Fir'awn, Namrud, Qabil, Yazid and the killer of 'Ali will be slaughtered by the Qa'im himself like camels, while the great du'at and prophets slaughter the rest like goats.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Mina",
+      "Fir'awn",
+      "Namrud",
+      "Qabil",
+      "Yazid"
+    ]
+  },
+  {
+    "id": "T181",
+    "teaching": "This slaughter is a third-degree punishment; those who committed only minor mistakes are spared and then offered the da'wah, accepting or not.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "da'wah",
+      "azab"
+    ]
+  },
+  {
+    "id": "T182",
+    "teaching": "Corrupt people possess only one soul, the Ruh al-Khabitha (vile spirit), whose invisible form (Surat al-Khabitha) is locked at Ras and Dhanab, the two invisible nodes near the moon known as Rahu and Ketu, shaped like a snake's head and tail.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Ruh al-Khabitha",
+      "Surat al-Khabitha",
+      "Ras",
+      "Dhanab"
+    ]
+  },
+  {
+    "id": "T183",
+    "teaching": "When the corpses are gathered, the Surat al-Khabitha is commanded down to burn its own bodies, and as Allah commands rain to fall, the stench of the corpses becomes the ultimate punishment.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Surat al-Khabitha"
+    ]
+  },
+  {
+    "id": "T184",
+    "teaching": "The winds carry the debris down to Jahannam/patal below the earth, the third-degree 'azab-i akbar (greatest punishment) that the du'at decline even to describe.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "jahannam",
+      "patal",
+      "'azab-i akbar"
+    ]
+  },
+  {
+    "id": "T185",
+    "teaching": "Below the earth the punished become deformed beings (with four hands and ten heads) who strike and fall endlessly, 'la yamutu wa la yahya' (neither dying nor living), for one parardha year of 16,000 crore years.",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "la yamutu wa la yahya",
+      "parardha"
+    ]
+  },
+  {
+    "id": "T186",
+    "teaching": "The believers watch the judgment unfold as if on TV, and the believer's own body, having obediently prayed and given zakat, also earns its reward.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "mu'min",
+      "zakat"
+    ]
+  },
+  {
+    "id": "T187",
+    "teaching": "Each part of a person, the spirit, the body, and the rational soul, has its own separate paradise, which is why jannat is spoken of in the plural.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "jannat",
+      "ruh"
+    ]
+  },
+  {
+    "id": "T188",
+    "teaching": "Knowledge ('ilm) and action ('amal) are the two wings of flight; learning without acting, or acting without understanding, yields no benefit; Hazrat Sadiq Sahab prayed for strength in the wings to reach the nasheman (nest).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "'ilm",
+      "'amal",
+      "nasheman"
+    ]
+  },
+  {
+    "id": "T189",
+    "teaching": "Per 'ya ma'shar al-jinn wal-ins... an tanfudhu min aqtari 's-samawati wal-ardh... illa bi-sultan', one cannot pass beyond the heavens and earth except with a sultan, namely the Imam.",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "ya ma'shar al-jinn wal-ins",
+      "sultan",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T190",
+    "teaching": "The Qa'im of each level differs (the Qa'im of the Sidrah, the 'Arsh, the Kursi, the Lauh, the Qalam); progress within a level is merely relative, but true paradise is passing from here to the sky, achieved only by the master of mawr who pierces the heavens with the whole essence (qalb).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Qa'im",
+      "Sidrah",
+      "'Arsh",
+      "Kursi",
+      "Lauh",
+      "Qalam",
+      "mawr"
+    ]
+  },
+  {
+    "id": "T191",
+    "teaching": "The batin of the sky (asman) is that, just as there are seven skies, there are seven Natiqs (Adam, Nuh, Ibrahim, Musa, 'Isa and the rest).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "asman",
+      "Natiq",
+      "batin"
+    ]
+  },
+  {
+    "id": "T192",
+    "teaching": "Allah makes rain fall upon His earth, meaning upon Janab-e-Wasi; as Harun received from Musa, 'Ali receives from the Prophet and all of us receive from 'Ali.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Wasi",
+      "Harun",
+      "Musa",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T193",
+    "teaching": "The earth signifies the existence of every imperfect thing and is the example of Hazrat 'Ali.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Ali"
+    ]
+  },
+  {
+    "id": "T194",
+    "teaching": "Per 'Kullu shay'in yarji'u ila aslihi' (everything returns to its origin), every thing falls toward the earth unless forcibly stopped, and likewise everything must ultimately return.",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Kullu shay'in yarji'u ila aslihi"
+    ]
+  },
+  {
+    "id": "T195",
+    "teaching": "Just as the earth has a gravity pulling everything to it, 'Ali has a special force pulling everyone toward him, so the whole world must ultimately come to 'Ali.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Ali"
+    ]
+  },
+  {
+    "id": "T196",
+    "teaching": "Zain al-'Abidin explained 'yaliju al-jamalu fi sammi al-khayati' (a camel passing through the eye of a needle): the world is the camel's bulk and the needle's eye is our Ahl-e-Shari'at, through which every person must in time pass.",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "yaliju al-jamalu fi sammi al-khayati",
+      "Ahl-e-Shari'at",
+      "Zain al-'Abidin"
+    ]
+  },
+  {
+    "id": "T197",
+    "teaching": "On the Day of Qiyamat the judgment at Mina takes place at the time of Hajj, and those brought there are not only Muslims but whoever is to receive punishment.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Qiyamat",
+      "Mina",
+      "Hajj"
+    ]
+  },
+  {
+    "id": "T198",
+    "teaching": "Imam is superior and Nabi is of lesser rank; the chain of Imamah (mustaqarr/mustaqirr) is never broken and requires a son, while a Nabi or Da'i is a mustawda' (caretaker) whose son does not inherit the rank.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Imam",
+      "Nabi",
+      "mustaqarr",
+      "mustawda'",
+      "Imamah"
+    ]
+  },
+  {
+    "id": "T199",
+    "teaching": "Musa's Imam (the Qudd of Musa, alif-dal) was greater than Musa, and all that Musa did before Fir'awn's court was carried out from the Imam's side.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "Musa",
+      "Imam",
+      "Fir'awn"
+    ]
+  },
+  {
+    "id": "T200",
+    "teaching": "The Imams are hidden because it is the time of night (satr); the chain of night and day is the chain of kashf and satr.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "satr",
+      "kashf"
+    ]
+  },
+  {
+    "id": "T201",
+    "teaching": "In the 50,000-year kashf, corruption begins after 47,000 years, leaving a special 3,000-year decline in which people's creed changes and they turn from the Imam to amils, astrologers and ta'weez-makers.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "kashf",
+      "amil",
+      "ta'weez"
+    ]
+  },
+  {
+    "id": "T202",
+    "teaching": "Just as evening (with both light and darkness) precedes night, a transitional period precedes the 7,000-year satr; the ascending durations are dawr, then tawr, then mawt/mawr.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 1 -->",
+    "key_terms": [
+      "dawr",
+      "tawr",
+      "mawr",
+      "satr"
+    ]
+  },
+  {
+    "id": "T203",
+    "teaching": "Whatever is known comes from a small starter, like the khamir (leaven) added to milk to make yogurt; here it is the khamir of nadamat (regret), connected with the needy one (muhtaj) and named qadim (ancient/eternal).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "khamir",
+      "nadamat",
+      "muhtaj",
+      "qadim",
+      "Dahriyya"
+    ]
+  },
+  {
+    "id": "T204",
+    "teaching": "Beyond the three nufus there are higher souls such as the nafs-i-ilahiyyah (divine soul) and nafs-i-qudsiyyah (holy soul) belonging to the Imams and the buzurgan-i-din, which do not concern ordinary believers.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "nafs-i-ilahiyyah",
+      "nafs-i-qudsiyyah",
+      "buzurgan-i-din"
+    ]
+  },
+  {
+    "id": "T205",
+    "teaching": "Nasut is the visible bodily state or form (paikar) and Lahut is the invisible; thus the Imam (Nasut) is visible while Imamat (connected to the suwar/forms) is not.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Nasut",
+      "Lahut",
+      "paikar",
+      "Imamat",
+      "suwar"
+    ]
+  },
+  {
+    "id": "T206",
+    "teaching": "The Rij'iyyah is the nafs-i-namiyyah remnant (baqaya-i-namiyyah) that remains connected to the buried body and, after about three days, departs and becomes the Nasut.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Rij'iyyah",
+      "nafs-i-namiyyah",
+      "baqaya-i-namiyyah",
+      "Nasut"
+    ]
+  },
+  {
+    "id": "T207",
+    "teaching": "Because all are sinners with some flaws, the nafs-i-namiyyah does not wholly perish at death; the body's connection with it remains in the grave to be purified by the higher soul pulling the lower.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "nafs-i-namiyyah",
+      "hissiyah"
+    ]
+  },
+  {
+    "id": "T208",
+    "teaching": "The nafs-i-natiqah, received at the 'ahd and containing belief in the madhhab and the Imam-i-zaman, is the believer's guardian (sayiban) that saves him and influences the hissiyah to perform deeds.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "nafs-i-natiqah",
+      "'ahd",
+      "Imam-i-zaman",
+      "sayiban"
+    ]
+  },
+  {
+    "id": "T209",
+    "teaching": "At death the nafs-i-natiqah, being from the 'alam-i-amr, draws the hissiyah upward to become like itself, the proportion drawn depending on how one has lived and prayed.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "nafs-i-natiqah",
+      "'alam-i-amr",
+      "hissiyah"
+    ]
+  },
+  {
+    "id": "T210",
+    "teaching": "Those with bad habits or illnesses leave more of the hissiyah behind in the grave, and the lower namiyyah remains there.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "hissiyah",
+      "namiyyah"
+    ]
+  },
+  {
+    "id": "T211",
+    "teaching": "The torment of the grave ('adhab-i-qabr) is the suffering of the remaining baqaya-i-namiyyah at being buried, and for believers it lasts only three days as a great mercy from Allah.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "'adhab-i-qabr",
+      "baqaya-i-namiyyah"
+    ]
+  },
+  {
+    "id": "T212",
+    "teaching": "The namaz of Wahshat al-Qubur and the talqin given to the deceased serve to help the namiyyah remnant depart from the grave.",
+    "kind": "ruling",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Wahshat al-Qubur",
+      "talqin"
+    ]
+  },
+  {
+    "id": "T213",
+    "teaching": "A janaza should be lifted from the feet and one should not walk in front of it, because the Rij'iyyah is present; for the great ones (buzurgan) the remnant departs before reaching the grave.",
+    "kind": "ruling",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "janaza",
+      "Rij'iyyah",
+      "buzurgan-i-kiram"
+    ]
+  },
+  {
+    "id": "T214",
+    "teaching": "The Imam is a luminous creation (nuri makhluq) with no body of his own; to come into the world as our guide (hadi) he requires a body.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "nuri makhluq",
+      "hadi",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T215",
+    "teaching": "The original veiled one (asl muhtajib) sends its hijab, a reflection and shadow (partaw, sayah), into the world, and this hijab is given a body formed from the nufus of all the believers.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "asl muhtajib",
+      "hijab",
+      "partaw",
+      "nufus"
+    ]
+  },
+  {
+    "id": "T216",
+    "teaching": "Our nafs and the Imam's body are of the same substance (jawhar); the believers' Rij'iyyat and nufus become the Imam's body, so 'Kasayifuna lata'ifuhum' (our crude things are their subtle things).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "jawhar",
+      "Rij'iyyat",
+      "Kasayifuna lata'ifuhum"
+    ]
+  },
+  {
+    "id": "T217",
+    "teaching": "There are three Nasut: the Nasut-i-taba'i (the lowest, formed from the believers of the jaza'ir), the Nasut-i-dhilli (shadow, formed from higher ranks and the believers of the hadarat), and the Nasut-i-khass (the very high, formed from the afadil of the hadarat).",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Nasut-i-taba'i",
+      "Nasut-i-dhilli",
+      "Nasut-i-khass",
+      "jaza'ir",
+      "hadarat"
+    ]
+  },
+  {
+    "id": "T218",
+    "teaching": "The believers born in the hadarat (with the Imam) are free of corruption (fisad), while believers in the world are subject to fisad such as illnesses, colds and injuries.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "hadarat",
+      "fisad"
+    ]
+  },
+  {
+    "id": "T219",
+    "teaching": "Fisad is universal in this world, afflicting even da'is and all hudud-i-din except the Imam; those born free of fisad are born in the hadarat.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "fisad",
+      "hudud-i-din",
+      "hadarat"
+    ]
+  },
+  {
+    "id": "T220",
+    "teaching": "The Nasut-i-dhilli is controlled by every Imam's mother, since the wife of one Imam is the mother of the next.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Nasut-i-dhilli"
+    ]
+  },
+  {
+    "id": "T221",
+    "teaching": "The Nasut-i-khass is so high that, as Sayyidna Hasan 'Ali said, its test (imtihan) does not even occur in the world and it can scarcely be perceived.",
+    "kind": "authority",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Nasut-i-khass",
+      "imtihan",
+      "Hasan 'Ali"
+    ]
+  },
+  {
+    "id": "T222",
+    "teaching": "Sayyidna 'Ali's Nasut-i-taba'i was higher than the Nasut-i-khass of other Imams, so high it could not be seen by ordinary eyes.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Nasut-i-taba'i",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T223",
+    "teaching": "The Imam has the power to assume one thousand hijabs (veils/degrees) to descend to the eye level of the beholder; 'Ali prayed the Fajr namaz simultaneously in several cities to display his stations.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "hijab",
+      "Ali",
+      "Fajr"
+    ]
+  },
+  {
+    "id": "T224",
+    "teaching": "Prophets and 'Ali have three main hijabs, the first being the Hijab-e-Tanasul (the veil of procreation, lived through wives and children).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Hijab-e-Tanasul",
+      "anbiya"
+    ]
+  },
+  {
+    "id": "T225",
+    "teaching": "What was seen of 'Ali in Kufa was the Hijab-e-Hijab-e-Tanasul, a thrice-lowered veil, not the taba'i, dhilli or khass form, since he had to lower himself this far for people to receive guidance.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Hijab-e-Hijab-e-Tanasul",
+      "Kufa"
+    ]
+  },
+  {
+    "id": "T226",
+    "teaching": "Sayyidna 'Ali ibn Dhiyab's book of hijabs details where the hijabs are, when they came into the world, and the nature and work of the muhtajib (the veiled one who is one's origin/asl).",
+    "kind": "reference",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Ali ibn Dhiyab",
+      "hijab",
+      "muhtajib"
+    ]
+  },
+  {
+    "id": "T227",
+    "teaching": "The muhtajib is one's origin: here he came as 'Ali Murtada, but there he is the 'Ayn-i-'Adhimah, the 'ayn (from 'Ali) and the mim (the Prophet's name), 'Ali Murtada being the reflection (partaw) that descended.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "muhtajib",
+      "'Ayn-i-'Adhimah",
+      "Ali Murtada",
+      "partaw"
+    ]
+  },
+  {
+    "id": "T228",
+    "teaching": "The Prophet's names (Muddaththir, Muzzammil, Taha, Yasin) and 'Ali's titles (Abu Turab, Mustafa, Abul-Hasan) are all hijabs, as Sayyidna Ja'far used to say.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "hijab",
+      "Muddaththir",
+      "Muzzammil",
+      "Taha",
+      "Yasin",
+      "Abu Turab"
+    ]
+  },
+  {
+    "id": "T229",
+    "teaching": "There is also a Nasut-i-kulli, not for everyone, which is the essence (khulasa) of 10-12 Imams gathered and given to a very high-ranking Imam.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Nasut-i-kulli",
+      "khulasa"
+    ]
+  },
+  {
+    "id": "T230",
+    "teaching": "Lahut is the original form (asl paikar); our suwar (forms) ascend and become Lahut, it being the form and not the ruh that rises.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Lahut",
+      "asl paikar",
+      "suwar",
+      "ruh"
+    ]
+  },
+  {
+    "id": "T231",
+    "teaching": "Imam and Imamat are distinct: a son such as Ja'far al-Sadiq is not an Imam until nass (designation) occurs, and 'Ali Akbar and 'Ali Asghar are called Imam only out of respect, the true Imam being Mawlana Zayn al-'Abidin.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Imamat",
+      "nass",
+      "Ja'far al-Sadiq",
+      "Zayn al-'Abidin"
+    ]
+  },
+  {
+    "id": "T232",
+    "teaching": "After death the suwar/Rij'iyyah parts ascend through the planets (qamar, Zuhal, Zuhra, Shams, Mushtari, Mirrikh) to the qalam and then to the kamil, remaining there until the Imam wills his successor-son's birth.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "suwar",
+      "qamar",
+      "qalam",
+      "kamil"
+    ]
+  },
+  {
+    "id": "T233",
+    "teaching": "When the Imam wills his successor's birth, the gathered Rij'iyyat (as water or juice) permeate a pure paradise fruit (grape, pomegranate or apple), which the Imam eats and gives to his wife, so the next Imam is conceived from their union.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Rij'iyyat",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T234",
+    "teaching": "The Imam's conception is wholly different in its chemistry and physics, and during pregnancy his wife continually receives madad (sustenance) from above for nine months.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "madad",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T235",
+    "teaching": "After death one's belief and conception (tasawwur, the work of the natiqah) forms a spiritual form (suwar-i-ruhaniyyah) that becomes one's higher rank (hadd-i-'ali).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "tasawwur",
+      "suwar-i-ruhaniyyah",
+      "hadd-i-'ali"
+    ]
+  },
+  {
+    "id": "T236",
+    "teaching": "There are two types of suwar, the suwar-i-'amali (form of deeds) and the suwar-i-'ilmi (form of knowledge); both outward action ('amal) and inward knowledge ('ilm) are the wings for flight and both must be present.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "suwar-i-'amali",
+      "suwar-i-'ilmi",
+      "'amal",
+      "'ilm"
+    ]
+  },
+  {
+    "id": "T237",
+    "teaching": "Every believer has a hadd-i-'ali (one rank above) and a hadd-i-adna (one rank below), and one's exact seat/number is known to the Imam, for 'Ind Allahi Ilm' (with Allah is the knowledge).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "hadd-i-'ali",
+      "hadd-i-adna",
+      "'Ind Allahi Ilm"
+    ]
+  },
+  {
+    "id": "T238",
+    "teaching": "The chain of hadd-i-'ali and hadd-i-adna ascends to the very top and is what the Wahhabis most dislike.",
+    "kind": "claim",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "hadd-i-'ali",
+      "hadd-i-adna"
+    ]
+  },
+  {
+    "id": "T239",
+    "teaching": "At death the namiyyah and hissiyah are left behind, the namiyyah becoming Rij'iyyah (or the hissiyah joining the natiqah and purifying), and one's deeds (namaz, roza, hajj, zakat, charity, good character) combine into a suwar that goes to one's hadd-i-'ali.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "namiyyah",
+      "hissiyah",
+      "Rij'iyyah",
+      "suwar",
+      "a'mal"
+    ]
+  },
+  {
+    "id": "T240",
+    "teaching": "There is no distinction of men and women in the hadd ranks; even a da'i's hadd-i-'ali can be a woman.",
+    "kind": "ruling",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "hadd-i-'ali",
+      "da'i"
+    ]
+  },
+  {
+    "id": "T241",
+    "teaching": "One's suwar joins the suwar of the hadd-i-'ali (one plus one doubling), while the nafs becomes its mujawir (neighbor); the nafs can be corrupted but the suwar cannot.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "suwar",
+      "hadd-i-'ali",
+      "mujawir",
+      "mutajawiz"
+    ]
+  },
+  {
+    "id": "T242",
+    "teaching": "On the hadd-i-'ali's own good death the joined suwars ascend to a third, a fourth, and so on up to the great one of the jazirah (the malik), then to the da'i (Malik-i-Jami'), the original owner of everything.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "suwar",
+      "jazirah",
+      "malik",
+      "Malik-i-Jami'"
+    ]
+  },
+  {
+    "id": "T243",
+    "teaching": "There are four types of doors (abwab): Lahat, Bath, Musalsal and Indamaji, and the Bab al-Abwab is the door of all doors.",
+    "kind": "definition",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "abwab",
+      "Lahat",
+      "Bath",
+      "Musalsal",
+      "Indamaji",
+      "Bab al-Abwab"
+    ]
+  },
+  {
+    "id": "T244",
+    "teaching": "The Bab al-Abwab, with whom the suwarat of all twelve jaza'ir gather, is the Fasl al-Khitab (decisive speech), so that whatever leaves his mouth comes to pass.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Bab al-Abwab",
+      "Fasl al-Khitab",
+      "jaza'ir",
+      "suwarat"
+    ]
+  },
+  {
+    "id": "T245",
+    "teaching": "The believers' spiritual forms ascend through hudud, suwar, du'at, the da'i and the Bab al-Abwab, the things of the twelve jaza'ir being collected via four da'is up to the Bab al-Abwab and then the Imam.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "hudud",
+      "du'at",
+      "jaza'ir",
+      "Bab al-Abwab"
+    ]
+  },
+  {
+    "id": "T246",
+    "teaching": "To transfer Imamat, the Imam first takes the suwarat from the Bab al-Abwab (whose departure then becomes necessary as his duty is done) and hands the trust of Imamat to his son by nass.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Imamat",
+      "suwarat",
+      "Bab al-Abwab",
+      "nass"
+    ]
+  },
+  {
+    "id": "T247",
+    "teaching": "The haykal (the assembled Lahut/Imam form) is wholly human in shape though invisible, with each part of the believers set against the corresponding part, and the Bab al-Abwab is set against the heart (qalb).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "haykal",
+      "Lahut",
+      "qalb",
+      "Bab al-Abwab"
+    ]
+  },
+  {
+    "id": "T248",
+    "teaching": "Imam Husayn, at the end in the tent, performed nass upon Mawlana Zayn al-'Abidin, handing over the relics of Imamat (asar-i-imamat) and advising him, and then passed away.",
+    "kind": "authority",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Imam Husayn",
+      "nass",
+      "Zayn al-'Abidin",
+      "asar-i-imamat"
+    ]
+  },
+  {
+    "id": "T249",
+    "teaching": "Once the Imam establishes his successor, the father-Imam's own departure follows within about one to one and a half minutes (lazim o malzum), and he is called muqim-i-Imam (the establisher of the Imam) with his own ascent.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "lazim o malzum",
+      "muqim-i-Imam",
+      "jawar-i-rahmat"
+    ]
+  },
+  {
+    "id": "T250",
+    "teaching": "Six Imams pass and the seventh who comes is sab'awi (related to seven), collecting all six; this is the unbroken chain.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "sab'awi",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T251",
+    "teaching": "On an Imam's departure his 'things' (khalq) divide into five parts, going to the coming Imam, to the heavens, and partly remaining with the believers.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "khalq",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T252",
+    "teaching": "In the esoteric reading of Surah al-Fatiha, the 'an'amta 'alayhim' are the believers and prophets, the 'dallin' (astray) are the Jews and Christians who believe in oneness but lack the correct belief, and the 'maghdub' are the polytheists and atheists.",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Fatiha",
+      "an'amta 'alayhim",
+      "dallin",
+      "maghdub"
+    ]
+  },
+  {
+    "id": "T253",
+    "teaching": "Hujjat by Sayyidna Hamid is a comprehensive book covering history, jurisprudence and theology that has never been refuted.",
+    "kind": "reference",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Hujjat",
+      "Sayyidna Hamid"
+    ]
+  },
+  {
+    "id": "T254",
+    "teaching": "One cannot truly grasp the concepts of Nasut and Lahut without having died.",
+    "kind": "claim",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Nasut",
+      "Lahut"
+    ]
+  },
+  {
+    "id": "T255",
+    "teaching": "The heart (qalb) holds all control through desire and will; one must form the intention (niyyah) and then perform the action, so that knowledge and action are combined.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "qalb",
+      "niyyah"
+    ]
+  },
+  {
+    "id": "T256",
+    "teaching": "It is permissible to use medicines and remedies from anyone (Hindus, doctors, the Tibb-i-Ma'sumin attributed to Imam Ja'far al-Sadiq and Imam Baqir) and to do yoga for bodily and mental exercise, provided one does not adopt their beliefs.",
+    "kind": "ruling",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Tibb-i-Ma'sumin",
+      "Ja'far al-Sadiq",
+      "Baqir"
+    ]
+  },
+  {
+    "id": "T257",
+    "teaching": "Knowledge ('ilm) behaves exactly like water, always flowing from a higher place to a lower one to reach the heart of the believer, never from the lower to the higher; the general populace (jumhur) has no right to give 'ilm upward.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "'ilm",
+      "jumhur",
+      "dawr"
+    ]
+  },
+  {
+    "id": "T258",
+    "teaching": "The Prophet brought tanzil, the shari'ah and the haqa'iq but did not perform ta'wil; ta'wil is the domain of Mawlana 'Ali, who received the Quran from the Prophet ('I heard it from you').",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "tanzil",
+      "shari'ah",
+      "haqa'iq",
+      "ta'wil",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T259",
+    "teaching": "Had the Quran been revealed upon the heart of anyone but the Prophet, the mountains would have crumbled; even Salman, Miqdad and 'Ammar (the 'mountains') lacked the heart's power to bear it.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Salman",
+      "Miqdad",
+      "'Ammar",
+      "qalb"
+    ]
+  },
+  {
+    "id": "T260",
+    "teaching": "The Prophet is a vast, deep ocean of 'ilm whose surface (the Hadith) is salty/exoteric; each hadith has both a superficial and a deep esoteric explanation (e.g. the letter 'b' meaning 'Ali).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "'ilm",
+      "Hadith",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T261",
+    "teaching": "'Ali is like a well from which water (knowledge) must be drawn with effort by a bucket (dol); the du'at (Abu Mus'ab, Bab al-Abwab) are the dol, distributing the water through large vessels (Awani-i-Kabirah) down to small ones before it reaches the believer.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Ali",
+      "dol",
+      "du'at",
+      "Awani-i-Kabirah",
+      "Bab al-Abwab"
+    ]
+  },
+  {
+    "id": "T262",
+    "teaching": "The believer receives the da'wah's nourishment through two hands, the Ma'dhun (a designated mansus Ma'dhun, the right hand) and the Mukasir (the lower rank, the left hand).",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Ma'dhun",
+      "mansus",
+      "Mukasir",
+      "da'wah"
+    ]
+  },
+  {
+    "id": "T263",
+    "teaching": "Wudu has seven parts, four primary: two of masah (head and feet, using less water) and two of washing (face and hands, using more), per 'wa-ghsilu wujuhakum wa aydiyakum wa-msahu bi-ru'usikum wa arjulakum'; the masah of ears and nose were added later by the du'at and Imams.",
+    "kind": "ruling",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "wudu",
+      "masah",
+      "wa-ghsilu wujuhakum"
+    ]
+  },
+  {
+    "id": "T264",
+    "teaching": "In wudu, masah (using less water, hence less 'ilm) signifies the head and feet, while washing (more water) signifies the face and hands; each act has its ta'wil and haqa'iq.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "masah",
+      "wudu",
+      "ta'wil",
+      "haqa'iq",
+      "'ilm"
+    ]
+  },
+  {
+    "id": "T265",
+    "teaching": "The Qalam, the first created thing given authority by Rabb al-Sudur, is the source from which all divine books (Zubur, Torah, Injil) came out of the Prophet's heart (qalb), but only the Quran was actually revealed upon his heart.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Qalam",
+      "Rabb al-Sudur",
+      "qalb",
+      "Zubur",
+      "Injil"
+    ]
+  },
+  {
+    "id": "T266",
+    "teaching": "The single heart (qalb) of the Prophet is the Da'ira-i-wahid (the single circle), and the circle of created things begins only afterward.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Da'ira-i-wahid",
+      "qalb"
+    ]
+  },
+  {
+    "id": "T267",
+    "teaching": "The Anwar-i-dhikriyyah (lights of remembrance) is a name for the Quran; revealed upon the Prophet's heart, they made the Prophet himself a dhikr.",
+    "kind": "doctrine",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "Anwar-i-dhikriyyah",
+      "dhikr",
+      "qalb"
+    ]
+  },
+  {
+    "id": "T268",
+    "teaching": "Since the Prophet became a dhikr, the Ahl al-Bayt are the ahl al-dhikr referred to in 'fas'alu ahl al-dhikr in kuntum la ta'lamun' (ask the people of remembrance if you do not know).",
+    "kind": "scripture",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "fas'alu ahl al-dhikr",
+      "Ahl al-Bayt",
+      "dhikr"
+    ]
+  },
+  {
+    "id": "T269",
+    "teaching": "Books are classified by letter codes: Hay for haqa'iq, To for ta'wil, Shin for shari'ah, Sin for siyar, Kaf for kuzh, and Alif for hizin, with period codes distinguishing the Qaimiyyah era (Sayyidna 'Imad) from the Tayyibiyyah era (Sayyidna Tayyib).",
+    "kind": "reference",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "haqa'iq",
+      "ta'wil",
+      "shari'ah",
+      "siyar",
+      "Tayyibiyyah",
+      "Qaimiyyah"
+    ]
+  },
+  {
+    "id": "T270",
+    "teaching": "Many haqa'iq-i-tayyibiyyah books were seized when the firqah (sect) divided and did not reach us; Sayyidna 'Imad's single hay-kat book is so dense it causes a headache to read.",
+    "kind": "reference",
+    "source": "aug:misc",
+    "source_marker": "<!-- AUG:misc lecture 2 -->",
+    "key_terms": [
+      "haqa'iq-i-tayyibiyyah",
+      "firqah",
+      "Sayyidna 'Imad"
+    ]
+  }
+]

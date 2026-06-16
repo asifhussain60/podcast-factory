@@ -1,0 +1,16 @@
+{
+  "lecture": 40,
+  "source_audio": "39 Al Anwaar.mp3",
+  "source_bytes": 14427279,
+  "source_kind": "audio",
+  "source_language": "ur",
+  "transcription_engine": "gemini/gemini-2.5-pro",
+  "transcription_method": "whole-file",
+  "dup_sentence_ratio": 0.018,
+  "loop_flagged": false,
+  "translated": true,
+  "char_count": 24017,
+  "word_count": 4008,
+  "elapsed_seconds": 117.6,
+  "generated_at": "2026-06-15T19:38:12Z"
+}

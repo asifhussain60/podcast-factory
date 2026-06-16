@@ -1,0 +1,1696 @@
+[
+  {
+    "id": "T001",
+    "teaching": "Tawhid (monotheism) is the most exalted of all Islamic sciences and surpasses all other scholarly discourses in greatness.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "tawhid",
+      "mawdu'at",
+      "ajall-e-uloom",
+      "azmat"
+    ]
+  },
+  {
+    "id": "T002",
+    "teaching": "God (Mubdi' Subhanahu) is the Originator who brought existence from nothingness; this is distinct from a creator (Khaliq) who reshapes pre-existing material.",
+    "kind": "definition",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "mubdi'",
+      "khaliq",
+      "nist",
+      "hast",
+      "wujud",
+      "adam"
+    ]
+  },
+  {
+    "id": "T003",
+    "teaching": "Four things belong exclusively to God: worship (ibadat/sajdah), sovereignty (mulk), sustenance (rizq), and command (amr).",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "al-ibadatu lillah",
+      "al-mulku lillah",
+      "al-rizqu lillah",
+      "al-amru lillah",
+      "ibadat",
+      "sajdah"
+    ]
+  },
+  {
+    "id": "T004",
+    "teaching": "Prostration (sajdah) is permissible only before God; the seven limbs touching the ground defines a true prostration, and any bow not meeting this definition is merely a gesture of respect, not sajdah.",
+    "kind": "ruling",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "sajdah",
+      "sajdah-e-ta'zim",
+      "'aza",
+      "ruku'"
+    ]
+  },
+  {
+    "id": "T005",
+    "teaching": "The command (amr) descends through a cosmic hierarchy: from God to the First Intellect, through the ten intellects, to the Imam of the era, and then through the da'i, ma'dhun, and mukasir.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "amr",
+      "amr-e-rabbi",
+      "'aql-e-awwal",
+      "ulil-amr",
+      "da'i",
+      "ma'dhun",
+      "mukasir"
+    ]
+  },
+  {
+    "id": "T006",
+    "teaching": "True Tawhid does not merely mean believing God is one (wahid) among countable things; it means recognising Him as absolutely unique (ahad), beyond all counting and enumeration.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "tawhid",
+      "ahad",
+      "wahid",
+      "qul huwa allahu ahad"
+    ]
+  },
+  {
+    "id": "T007",
+    "teaching": "According to Sayyidna Muayyad al-Din, Tawhid is defined as the gnosis of all spiritual and physical ranks (hudud), high and low, and the acknowledgment that each rank is unique in its station with no partner.",
+    "kind": "definition",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "tawhid",
+      "hudud",
+      "al-tawhidu huwa ma'rifat al-hudud",
+      "rutbah",
+      "wahidan fi rutbatihi",
+      "Sayyidna Muayyad al-Din"
+    ]
+  },
+  {
+    "id": "T008",
+    "teaching": "The ranks in the da'wah hierarchy are fixed by divine command (nass-e-juz'i) from above; no human authority can reassign someone from one rank to another.",
+    "kind": "ruling",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "nass-e-juz'i",
+      "hadd",
+      "amr-e-rabbi",
+      "hudud"
+    ]
+  },
+  {
+    "id": "T009",
+    "teaching": "Tanzih (transcendence) means God is purified from all attributes; the ninety-nine divine names properly apply to created beings who manifest those qualities, not to God Himself.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "tanzih",
+      "munazzah 'ani 'l-sifat",
+      "asma' al-sifat",
+      "ism al-dhat"
+    ]
+  },
+  {
+    "id": "T010",
+    "teaching": "The ninety-nine names of God are properly attributed to the First Intellect ('Aql-e-Awwal), God's most exalted servant; the name of the divine essence (ism al-dhat) such as 'Rahman' belongs to God alone.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "asma' al-sifat",
+      "ism al-dhat",
+      "'aql-e-awwal",
+      "mawjud-e-awwal",
+      "sabiq-e-awwal",
+      "rahman"
+    ]
+  },
+  {
+    "id": "T011",
+    "teaching": "Tajrid (abstraction) means stripping the attribute of divinity (ilahiyyah) away from everything except God; the power to bring existence from nothingness belongs to God alone.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "tajrid",
+      "salb al-ilahiyyah",
+      "ilahiyyah",
+      "la sharika lahu"
+    ]
+  },
+  {
+    "id": "T012",
+    "teaching": "God created countless luminous essences in the spiritual world simultaneously, in a uniform state, in a single stroke (ba-qat'in wahidah), in a form like the letter alif (qamat-e-alifiyyah).",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "zawat",
+      "nurani zawat",
+      "ruhani zawat",
+      "qamat-e-alifiyyah",
+      "ba-qat'in wahidah",
+      "'alam-e-ruhani"
+    ]
+  },
+  {
+    "id": "T013",
+    "teaching": "The First Intellect achieved primacy by recognising without any teacher that neither he nor other essences could create themselves, but that a third being created all of them — this acknowledgment was the greatest event in the spiritual world.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "'aql-e-awwal",
+      "mawjud-e-awwal",
+      "sabiq-e-awwal",
+      "da'irah al-wahdah"
+    ]
+  },
+  {
+    "id": "T014",
+    "teaching": "When the First Intellect acknowledged God, divine support (ta'id) flowed upon him, increasing his luminosity; this self-enjoyment (masarrat) caused the two rising beings (munba'ithayn) to notice him.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "ta'id",
+      "sha'sha'ani",
+      "ziya'",
+      "masarrat",
+      "munba'ithayn",
+      "munba'ith"
+    ]
+  },
+  {
+    "id": "T015",
+    "teaching": "Two beings arose from the assembled essences: the first munba'ith sought the inner cause (batin) of the First Intellect's luminosity, while the second munba'ith was occupied with the outward appearance (mazhariyyah); the one focused on inner reality advanced further.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "munba'ith al-awwal",
+      "munba'ith al-thani",
+      "batin",
+      "mazhariyyah",
+      "'illat",
+      "ma'lul"
+    ]
+  },
+  {
+    "id": "T016",
+    "teaching": "The second munba'ith fell into the illusion of equality (wahm-e-masawat), thinking himself equal to the first munba'ith; this was his error and caused him to fall behind.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "wahm-e-masawat",
+      "wahm",
+      "munba'ith al-thani"
+    ]
+  },
+  {
+    "id": "T017",
+    "teaching": "The First Intellect became a veil (hijab) between God (Mubdi' Subhanahu) and all other creation; no one can directly reach or comprehend God — one can only affirm His existence.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "hijab",
+      "'aql-e-awwal",
+      "mubdi' subhanahu",
+      "tafakkaru fi 'l-makhluq wa la tafakkaru fi 'l-khaliq"
+    ]
+  },
+  {
+    "id": "T018",
+    "teaching": "The prophetic tradition states: 'Reflect on the creation, and do not reflect on the Creator' — one should not attempt to mentally grasp God Himself.",
+    "kind": "scripture",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "tafakkaru fi 'l-makhluq",
+      "tafakkaru fi 'l-khaliq"
+    ]
+  },
+  {
+    "id": "T019",
+    "teaching": "Seven intellects advanced after the First Intellect before the second munba'ith finally repented, giving a total of ten intellects; the second munba'ith became the Tenth Intellect.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "'aql-e-'ashir",
+      "'aql-e-awwal",
+      "munba'ith al-thani",
+      "taba wa anaba"
+    ]
+  },
+  {
+    "id": "T020",
+    "teaching": "The Tenth Intellect is the Adam of the spiritual world; just as Adam in the physical world erred and repented, the Tenth Intellect erred (illusion of equality) and repented (taba wa anaba).",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "'aql-e-'ashir",
+      "adam-e-ruhani",
+      "taba wa anaba",
+      "wahm-e-masawat"
+    ]
+  },
+  {
+    "id": "T021",
+    "teaching": "After the Tenth Intellect repented, the remaining disobedient essences split into four groups: those who repented with him (tabu bi-tawbatihi, ~15%), those who answered the call when invited (labbu 'l-nida', ~30%), those who hesitated for an eyeblink (kallamam), and those who persisted in refusal (la nasma'u wa la nuti').",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "tabu bi-tawbatihi",
+      "labbu 'l-nida'",
+      "kallamam",
+      "la nasma'u wa la nuti'",
+      "kalamhin min al-'ayn"
+    ]
+  },
+  {
+    "id": "T022",
+    "teaching": "The Mustaqarr Imams (such as those from Mawlana Hasan onwards) are from the group of kallamam — those who hesitated for an eyeblink before accepting in the spiritual world.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "kallamam",
+      "imam-e-mustaqarr",
+      "imam-e-mustauda'"
+    ]
+  },
+  {
+    "id": "T023",
+    "teaching": "Iblis and Shaytan are distinct: Iblis spoke the word of refusal out of ignorance, while Shaytan was the instigator (muharrik) who incited others not to accept; in the era of Muhammad, the first caliph corresponds to Iblis and the second to Shaytan.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "iblis",
+      "shaytan",
+      "shaytaniyyah"
+    ]
+  },
+  {
+    "id": "T024",
+    "teaching": "When the disobedient essences were expelled from the spiritual world, darkness (zulmat) spread in them in three stages, producing three physical dimensions — length, width, and depth — rendering them unfit to remain in the spiritual world.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "zulmat",
+      "kathafat",
+      "lamza-e-jastiyyah",
+      "ahbitu",
+      "jast",
+      "'alam-e-ruhani"
+    ]
+  },
+  {
+    "id": "T025",
+    "teaching": "When the command 'Ahbitu' (Descend!) was given, the essences were divided into three groups at the moment of expulsion: the regretful (nadim wa mustaghfir), the insistent and arrogant (musirr wa mustakbir), and the doubtful and bewildered (shakk wa mutahayyir).",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "nadim",
+      "mustaghfir",
+      "musirr",
+      "mustakbir",
+      "shakk",
+      "mutahayyir",
+      "ahbitu"
+    ]
+  },
+  {
+    "id": "T026",
+    "teaching": "The stars and heavens were formed from the nadimin (the regretful); the hard core of the earth and what is below it from the musirr wa mustakbir; and the four spheres of fire, air, water, and earth from the shakk wa mutahayyirin.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "nadimin",
+      "musirr",
+      "mustakbir",
+      "shakk",
+      "mutahayyir",
+      "falak-e-muhit",
+      "'alam-e-jirmani"
+    ]
+  },
+  {
+    "id": "T027",
+    "teaching": "The leaven (khamir) of regret from the nadimin was deposited in the Spiritual Kaaba (Ka'bah al-Ruhani / ta'ud / markaz / qalb / 'alam-e-hayat); the rational souls (nufus-e-natiqah) of believers are attached to the Pillar of Light ('Amud al-Nur) next to it.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "ka'batullah al-ruhani",
+      "ta'ud",
+      "markaz",
+      "'amud al-nur",
+      "nufus-e-natiqah",
+      "'alam-e-hayat"
+    ]
+  },
+  {
+    "id": "T028",
+    "teaching": "The Prophet's hadith that 'After me my community will be divided into 73 sects' refers to the 70 cosmic groups (15 nadimin + 20 mutahayyirin + 35 musirrin) plus one representative cream drawn from each of the three divisions, totaling 73; the one sect that attains salvation is the highest portion of the nadimin.",
+    "kind": "scripture",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "sataftariqu ba'di ummati thalathan wa sab'ina firqah",
+      "nadimin",
+      "mutahayyirin",
+      "musirrin",
+      "najat",
+      "falak-e-muhit"
+    ]
+  },
+  {
+    "id": "T029",
+    "teaching": "The Tenth Intellect ('Aql-e-'Ashir) is the governor (mudabbir) and administrator of the entire physical world, and is our Khaliq (Creator); he must reform those who fell due to the spiritual world's error because the divine principle is 'man kasara 'azmuhu fa-'alayhi jabruhu' (he who breaks a bone must mend it).",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "'aql-e-'ashir",
+      "mudabbir",
+      "khaliq",
+      "man kasara 'azmuhu fa-'alayhi jabruhu"
+    ]
+  },
+  {
+    "id": "T030",
+    "teaching": "The spiritual world extends from the First Intellect to the Tenth Intellect; below that is the world of life ('alam-e-hayat), then the world of Jibra'il ('alam-e-jibra'il / 'alam-e-jirmani), then the physical world ('alam-e-jism) below the moon.",
+    "kind": "definition",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "'alam-e-ruhani",
+      "'alam-e-hayat",
+      "'alam-e-jibra'il",
+      "'alam-e-jism",
+      "'aql-e-awwal",
+      "'aql-e-'ashir",
+      "falak-e-muhit"
+    ]
+  },
+  {
+    "id": "T031",
+    "teaching": "The Hadith 'Man 'arafa nafsahu faqad 'arafa rabbahu' (Whoever knows his own self has known his Lord) means that self-knowledge is the path to recognising the divine ranks and advancing spiritually.",
+    "kind": "scripture",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "man 'arafa nafsahu faqad 'arafa rabbahu",
+      "nafs",
+      "ma'rifat",
+      "hudud"
+    ]
+  },
+  {
+    "id": "T032",
+    "teaching": "Adam (the first man) with twelve naqibs and twenty-seven hujjahs remained in the world of life at the moment of expulsion, forming the primordial structure of 28 — a pattern that reflects the Imam's cabinet in every era.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "adam-e-bida'",
+      "naqib",
+      "hujjah",
+      "ta'ud al-ruhani",
+      "'alam-e-hayat"
+    ]
+  },
+  {
+    "id": "T033",
+    "teaching": "The Sulaymanis are from the nadimin group; their attachment to the rational soul (nafs-e-natiqah) deposited in the Spiritual Kaaba is the reason they are born as Sulaymanis across generations.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "nadimin",
+      "nafs-e-natiqah",
+      "ka'batullah al-ruhani",
+      "'amud al-nur",
+      "sulaymaniyyat"
+    ]
+  },
+  {
+    "id": "T034",
+    "teaching": "The Tenth Intellect planned three things for the salvation of fallen essences: salvation only through the human form (ashraf al-makhluqat), the mechanism of laghut and nasut (imamate and the Imam's body), and the creation of animal forms as punishment-cages for those who descend.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "'aql-e-'ashir",
+      "laghut",
+      "nasut",
+      "ashraf al-makhluqat",
+      "haywani-natiq",
+      "natiqah"
+    ]
+  },
+  {
+    "id": "T035",
+    "teaching": "Human beings uniquely possess natiqah (the faculty of reason linked to guardianship/walayah); ordinary humans have only nutq (speech/intellect) but natiqah can only be obtained by entering the circle of walayah and accepting the Imam of the time.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "natiqah",
+      "nutq",
+      "walayah",
+      "imam-e-'asr",
+      "da'irah",
+      "halqa ba-gosh"
+    ]
+  },
+  {
+    "id": "T036",
+    "teaching": "The spiritual hierarchy of ranks of progress in the da'wah begins at mustajib, then mu'min (ten ranks), then kashif, then ma'dhun-e-mahdud, ma'dhun-e-mutlaq, da'i, tali-e-bab, hujjat, bab, and up through babiyyah to imamah.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "mustajib",
+      "mu'min",
+      "kashif",
+      "ma'dhun",
+      "da'i",
+      "hujjat",
+      "bab",
+      "imamah",
+      "maratib"
+    ]
+  },
+  {
+    "id": "T037",
+    "teaching": "The walayah (guardianship/love) of Amir al-Muminin Ali is the soul of the entire religion; without it, no prayer, fast, hajj, zakat, or any pillar of the Da'a'im al-Islam is complete.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "walayah",
+      "amir al-muminin",
+      "da'a'im al-islam",
+      "'ali murtada"
+    ]
+  },
+  {
+    "id": "T038",
+    "teaching": "Every Muslim is not a mu'min, but every mu'min is necessarily a Muslim — the circle of iman (faith) is a smaller circle within the larger circle of Islam.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "mu'min",
+      "muslim",
+      "iman",
+      "islam",
+      "da'irah",
+      "Ja'far al-Sadiq"
+    ]
+  },
+  {
+    "id": "T039",
+    "teaching": "Death (mawt) is a certain reality (al-mawtu haqqun); for the mu'min it is sweet like a fragrance (rayhanu 'l-mawt), while for the unbeliever it is terrible.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "al-mawtu haqqun",
+      "rayhanu 'l-mawt",
+      "mu'min",
+      "kafir"
+    ]
+  },
+  {
+    "id": "T040",
+    "teaching": "After death, the body's residue undergoes chemical changes, passes through a 720-year cycle in the sphere of constellations (falak-e-buruj), then 280 years in the mineral-plant-animal world, totaling 1000 years before returning to a new human form.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "falak-e-buruj",
+      "ma'dan",
+      "nabat",
+      "haywan",
+      "sulalah",
+      "nutfah",
+      "'alaqah",
+      "mudghah"
+    ]
+  },
+  {
+    "id": "T041",
+    "teaching": "The residue of a deceased mu'min travels first to the qalb-e-jazirah (heart of the island) in Bombay (the current spiritual center), then to the miqat, then to the falak-e-buruj where it is refined over 720 years.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "qalb-e-jazirah",
+      "miqat",
+      "falak-e-buruj",
+      "fuzlat",
+      "parnala"
+    ]
+  },
+  {
+    "id": "T042",
+    "teaching": "There are three types of souls (nafs) given to a mu'min: nawiyah (vegetative power), hissiyyah (sensory power), and natiqah (rational soul); the natiqah is received at the spiritual birth when the covenant ('ahd) is taken.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "nafs-e-namiyyah",
+      "nafs-e-hissiyyah",
+      "nafs-e-natiqah",
+      "quwwat-e-namiyyah",
+      "quwwat-e-hissiyyah",
+      "quwwat-e-natiqah",
+      "'ahd"
+    ]
+  },
+  {
+    "id": "T043",
+    "teaching": "The verse 'maraj al-baḥrayni yaltaqiyan' (He released the two seas, meeting) refers to the chains of Prophethood and Imamate meeting at the marriage of Ali and Fatimah; the pearl and coral (lu'lu' wa marjan) are Hasan and Husayn.",
+    "kind": "scripture",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "maraj al-bahrayni yaltaqiyan",
+      "yakhruju minhumā al-lu'lu' wa al-marjan",
+      "nubuwwah",
+      "imamah",
+      "Hasan",
+      "Husayn",
+      "Fatimah",
+      "'Ali"
+    ]
+  },
+  {
+    "id": "T044",
+    "teaching": "The Prophet's hadith states: 'Hasan and Husayn are two rightful Imams, whether they rise or sit, and their father is better than both of them' — Hasan 'sat' (made a truce) and Husayn 'rose' (in Karbala); Ali is superior to both as Wasi.",
+    "kind": "scripture",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "Hasan",
+      "Husayn",
+      "wasi",
+      "'Ali",
+      "imam-e-mustaqarr"
+    ]
+  },
+  {
+    "id": "T045",
+    "teaching": "The heart's scarlet blood (dam-e-sarwizi) circulates to produce innate heat (hararat-e-gharizi), which is our life force (jan) in a gaseous form; this gaseous state is closer to the spiritual world and is the next stage of bodily progress toward the spiritual.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "hararat-e-gharizi",
+      "dam-e-sarwizi",
+      "jan",
+      "jism-e-mu'min",
+      "bukharaat"
+    ]
+  },
+  {
+    "id": "T046",
+    "teaching": "The Tenth Intellect's plan for adorning the world began with making the all-encompassing sphere (falak-e-muhit) revolve, initiating the cycle of day and night, months and years.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "'aql-e-'ashir",
+      "falak-e-muhit",
+      "falak",
+      "dawr"
+    ]
+  },
+  {
+    "id": "T047",
+    "teaching": "Each of the seven planets has a special governor (mudabbir) whose spiritual center (markaz) is the ruling intelligence of that sphere; the surface of a planet is its outward shell (sadaf) while the center is its ruhaniyyah (spirituality).",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "mudabbir",
+      "sayyara",
+      "sadaf",
+      "lata'if",
+      "ruhaniyyah",
+      "markaz"
+    ]
+  },
+  {
+    "id": "T048",
+    "teaching": "The first planetary leadership (sardari) was given to Saturn (Zuhal), a harsh star counted among the two inauspicious ones (nahsayn); the two auspicious stars (sa'dayn) are Venus (Zahra) and Jupiter (Mushtari); the two luminaries (nayyirayn) are the moon and sun; Mercury ('Utarid) is the scribe of the sphere (munshi-e-falak).",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "zuhal",
+      "mushtari",
+      "zahra",
+      "'utarid",
+      "nahsayn",
+      "sa'dayn",
+      "nayyirayn",
+      "munshi-e-falak"
+    ]
+  },
+  {
+    "id": "T049",
+    "teaching": "The dawr of Saturn lasted 7000 years: 1000 years of Saturn alone (world covered in ice), then Saturn joined by each subsequent planet in successive millennia; each planet's influence shaped what was created in the mineral, plant, and animal kingdoms during its era.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "dawr-e-zuhal",
+      "ta'thir",
+      "jamadat",
+      "nabatat",
+      "haywanat",
+      "tuhfat al-qulub"
+    ]
+  },
+  {
+    "id": "T050",
+    "teaching": "After 42,000 years of planetary eras, the era of the Moon began; in the final 7000-year lunar period, the leavens (khamir/sulale) for human creation were prepared, and humans were manifested in the last part of that period.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "qamar",
+      "khamir",
+      "sulale",
+      "khilqat-e-insani",
+      "kayumarth-e-a'zam",
+      "jussa-e-ibda'iyyah"
+    ]
+  },
+  {
+    "id": "T051",
+    "teaching": "In the beginning of a kawr (great cosmic cycle), the first humans were not born from a mother's womb but emerged from pits (khudda) in the earth shaped like a womb; the most noble khudda were at the Ka'ba, Madinah, Masjid al-Aqsa, and other sacred sites.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "khudda",
+      "ka'ba",
+      "rahm",
+      "khilqat-e-awwaliyyah",
+      "kayumarth-e-a'zam"
+    ]
+  },
+  {
+    "id": "T052",
+    "teaching": "The first batch of humans created from the pits were all male (mudhakkar); the second batch, from the remaining water in the same pits, were female; women are considered more delicate (nazuk) because they were created from leftover water — reflected in the Quranic verse 'al-rijalu qawwamuna 'ala al-nisa'.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "mudhakkar",
+      "khudda",
+      "al-rijalu qawwamuna 'ala al-nisa'",
+      "nazuk",
+      "kamzor"
+    ]
+  },
+  {
+    "id": "T053",
+    "teaching": "At the Ka'ba, 28 men and then 28 women were created from pits; the first man (Kayumarth-e-A'zam / Jussa-e-Ibda'iyyah) was accompanied by 27 others (twelve da'is of one kind, twelve of another, one mukasir, one ma'dhun, one Bab al-Abwab) — a structure of 28 replicated with every Imam's cabinet.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "kayumarth-e-a'zam",
+      "jussa-e-ibda'iyyah",
+      "bab al-abwab",
+      "mukasir",
+      "ma'dhun",
+      "da'i",
+      "jazirah"
+    ]
+  },
+  {
+    "id": "T054",
+    "teaching": "All of human history begins with a single lineage from the first Imam (Kayumarth-e-A'zam): 'wahidan ba'da wahid, waladan min walad ila yawm al-qiyamah' (one after another, son from son, until the Day of Resurrection).",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "wahidan ba'da wahid",
+      "waladan min walad",
+      "nasl-e-insani",
+      "imam-e-mustaqarr"
+    ]
+  },
+  {
+    "id": "T055",
+    "teaching": "A dawr (era) consists of seven periods of kashf (500,000 years total) and seven periods of sitr (49,000 years total); seven such alternating cycles make one dawr of approximately 400,000 years.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "dawr",
+      "dawr-e-kashf",
+      "dawr-e-sitr",
+      "qaim",
+      "kawr-e-a'zam"
+    ]
+  },
+  {
+    "id": "T056",
+    "teaching": "One Kawr-e-A'zam (great cosmic cycle) = 4 lakh (400,000) dawrs of 400,000 years each = 16,000 crore years; one Mawr-e-A'zam = 4 lakh Kawrs; the Imam Zayn al-'Abidin told Umm al-Da'i that one Mawr-e-A'zam has fully passed and of the second, 399 kawrs have passed — we are in the last sitr of the first dawr of the 400th kawr.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "kawr-e-a'zam",
+      "mawr-e-a'zam",
+      "dawr",
+      "Zayn al-'Abidin",
+      "umm al-da'i",
+      "qiyamat"
+    ]
+  },
+  {
+    "id": "T057",
+    "teaching": "Every period of dawr-e-kashf (unveiling) begins with the Imam present and the da'wah fully active; dawr-e-sitr (concealment) lasts 7,000 years, during which the Imam is hidden and du'at, hujjat, and mansub operate in their place — this is analogous to night following day.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "dawr-e-kashf",
+      "dawr-e-sitr",
+      "imam",
+      "da'wah",
+      "imam-zaman",
+      "hadarat"
+    ]
+  },
+  {
+    "id": "T058",
+    "teaching": "The beginning of dawr-e-sitr is introduced by a period of dawr-e-fitrat (period of spiritual laxity) lasting 3,000 years, during which people abandon the hudud for occult practitioners ('amils) and sciences like palmistry, raml, and jafr.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "dawr-e-fitrat",
+      "dawr-e-sitr",
+      "'amil",
+      "raml",
+      "jafr",
+      "Mawlana Hunayn"
+    ]
+  },
+  {
+    "id": "T059",
+    "teaching": "The Qaim al-Muntazar (the awaited Qaim) will take reckoning for 400,000 years of deeds; his arrival will be sudden (baghtatan) unlike the Qaim whose coming is a known day (yawm-e-ma'lum).",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "qaim al-muntazar",
+      "baghtatan",
+      "yawm-e-ma'lum",
+      "qiyamat-e-wusta",
+      "Mahdi"
+    ]
+  },
+  {
+    "id": "T060",
+    "teaching": "The qiyamat (resurrection) has four grades: qiyamat-e-saghira (of sitr), qiyamat-e-wusta (of dawr), qiyamat-e-kubra (of kawr), and qiyamat-e-uzma (of mawr); each is presided over by a Qaim of increasing rank.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "qiyamat-e-saghira",
+      "qiyamat-e-wusta",
+      "qiyamat-e-kubra",
+      "qiyamat-e-uzma",
+      "qaim"
+    ]
+  },
+  {
+    "id": "T061",
+    "teaching": "The emotional bonds people feel in this life (love for siblings, attraction between husband and wife, etc.) originate in the gazes ('nazrein') that were fixed in the 'alam-e-hayat (world of life) before descent into the physical world.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "jazbat",
+      "niyyat",
+      "'alam-e-hayat",
+      "nazr-e-ashraf",
+      "nazr-e-adwan",
+      "muhabbat",
+      "nafrat"
+    ]
+  },
+  {
+    "id": "T062",
+    "teaching": "The Prophet is the spiritual sun (aftab) of the era of Muhammad: the Quran uses 'sirajan wahhajan' for the physical sun and 'sirajan munira' for the Prophet, showing they are parallel — after the Prophet, the Imam of every era takes the rank of the spiritual sun.",
+    "kind": "scripture",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "sirajan wahhajan",
+      "sirajan munira",
+      "aftab",
+      "mahtab",
+      "natiq",
+      "wasi",
+      "imam"
+    ]
+  },
+  {
+    "id": "T063",
+    "teaching": "Ali is the spiritual moon (mahtab) of the da'wah: just as the moon has no independent light but receives it from the sun, Ali received knowledge from the Prophet through the bab (door); 'the Prophet opened for me the doors of knowledge and from every door a thousand other doors were opened for me.'",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 3 -->",
+    "key_terms": [
+      "mahtab",
+      "aftab",
+      "'Ali",
+      "bab",
+      "ilm"
+    ]
+  },
+  {
+    "id": "T064",
+    "teaching": "The exoteric interpretation (ta'wil) of 'Bismillah al-Rahman al-Rahim' is that 'Bi-ism' means 'in the name of', and the greatest name (ism) of God is the being of the First Intellect; we begin in the name of God through the First Intellect as the named intermediary.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 1 -->",
+    "key_terms": [
+      "bismillah",
+      "bi-ism-illah",
+      "'aql-e-awwal",
+      "ism",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T065",
+    "teaching": "The verse 'dhalik al-kitab la rayba fih' uses the distal demonstrative 'dhalik' (that) rather than 'hadha' (this) because the Kitab al-Natiq (Speaking Book) it refers to is Ali ibn Abi Talib, who lived 1400 years ago and is therefore 'that' book, not 'this' one — the Quran on paper is the silent book (Kitab al-Samit), and Ali is the speaking book (Kitab al-Natiq).",
+    "kind": "scripture",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 4 -->",
+    "key_terms": [
+      "dhalik al-kitab la rayba fih",
+      "kitab al-natiq",
+      "kitab al-samit",
+      "'Ali",
+      "hadha",
+      "dhalika"
+    ]
+  },
+  {
+    "id": "T066",
+    "teaching": "Ali ibn Abi Talib declared: 'Hadha kitabullah al-samit wa ana kitabullah al-natiq' (This is the silent Book of Allah, and I am the speaking Book of Allah) — proving his status as the living Quran.",
+    "kind": "authority",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 4 -->",
+    "key_terms": [
+      "kitab al-samit",
+      "kitab al-natiq",
+      "'Ali",
+      "quran"
+    ]
+  },
+  {
+    "id": "T067",
+    "teaching": "The obligatory (fardh) prayers are 17 raka'ts daily: Fajr 2, Zuhr 4, Asr 4, Maghrib 3, Isha 4; the five prayer times are attributed (mansulat) to five prophets: Nuh, Ibrahim, Musa, Isa, and the Prophet Muhammad.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 4 -->",
+    "key_terms": [
+      "fardh",
+      "sunnah",
+      "nafil",
+      "mansulat",
+      "rak'at",
+      "zuhr",
+      "asr",
+      "maghrib",
+      "isha",
+      "fajr"
+    ]
+  },
+  {
+    "id": "T068",
+    "teaching": "At the times of the five obligatory prayers, special gates (issuing gates / manfas) open in the falak-e-muhit through which spiritual forms (suwarat) descend from 'alam al-arwah; these suwarat give the prayer its spiritual validity and reward.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 4 -->",
+    "key_terms": [
+      "manfas",
+      "suwarat",
+      "'alam al-arwah",
+      "falak-e-muhit",
+      "ta'thir",
+      "kitaban mawquta"
+    ]
+  },
+  {
+    "id": "T069",
+    "teaching": "The Zuhr prayer is attributed to the Prophet Muhammad because his sunlight of prophethood shone at its brightest like the midday sun; its four raka'ts correspond to the four letters Mim, Ha, Mim, Dal of Muhammad.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 4 -->",
+    "key_terms": [
+      "zuhr",
+      "Prophet Muhammad",
+      "mansulat",
+      "ta'wil",
+      "rak'at"
+    ]
+  },
+  {
+    "id": "T070",
+    "teaching": "The Asr prayer is attributed to Qaim (salawatullah 'alayh) because 'asr' means both 'era' and 'essence/juice' — the Qaim is the essence of the world; the four letters of Qaim match the four raka'ts, and after the Qaim comes no new shari'ah.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 4 -->",
+    "key_terms": [
+      "asr",
+      "qaim",
+      "'asir",
+      "mansulat",
+      "rak'at"
+    ]
+  },
+  {
+    "id": "T071",
+    "teaching": "The Maghrib prayer is attributed to Ali (salawatullah 'alayh); its three raka'ts correspond to the three letters of 'Ali; the short duration of Maghrib time mirrors the brief caliphate of Ali in the physical world.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 4 -->",
+    "key_terms": [
+      "maghrib",
+      "'Ali",
+      "mansulat",
+      "rak'at",
+      "manfas"
+    ]
+  },
+  {
+    "id": "T072",
+    "teaching": "The Isha prayer is attributed to the Imam of each era during the long period of sitr (concealment) from Tayyib until today; its long time window mirrors the extended dark night of sitr that began with Adam's era.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 4 -->",
+    "key_terms": [
+      "isha",
+      "dawr-e-sitr",
+      "imam-e-zaman",
+      "mansulat",
+      "Tayyib"
+    ]
+  },
+  {
+    "id": "T073",
+    "teaching": "The Fajr prayer will be attributed to Mahdi (salawatullah 'alayh) whose coming will be sudden (baghtatan) like the dawn spreading suddenly; the four letters of Mahdi (M-H-D) parallel the four letters of Muhammad.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 4 -->",
+    "key_terms": [
+      "fajr",
+      "Mahdi",
+      "baghtatan",
+      "mansulat",
+      "dawr-e-kashf"
+    ]
+  },
+  {
+    "id": "T074",
+    "teaching": "Wearing items made of iron, brass, or other falling (descending) materials on one's body during prayer makes the prayer deficient because the spiritual X-ray (suwarat descent) cannot penetrate such items — analogous to a medical X-ray requiring the removal of metal objects.",
+    "kind": "ruling",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 4 -->",
+    "key_terms": [
+      "suwarat",
+      "salat",
+      "iron",
+      "brass",
+      "da'a'im al-islam",
+      "'ilm-e-ladunni"
+    ]
+  },
+  {
+    "id": "T075",
+    "teaching": "The Sulaymanis combine Zuhr and Asr prayers, and Maghrib and Isha prayers, because the gate for Zuhr remains open for about two and a half hours (overlapping with Asr time) and the gate for Maghrib is very short (15-20 minutes); combining them is therefore valid and practical.",
+    "kind": "ruling",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 4 -->",
+    "key_terms": [
+      "zuhr",
+      "asr",
+      "maghrib",
+      "isha",
+      "manfas",
+      "jam'"
+    ]
+  },
+  {
+    "id": "T076",
+    "teaching": "The Prophet designated Ali as his successor at Ghadir Khumm before a crowd of 70,000, declaring 'man kuntu mawlahu fa-hadha 'Aliyyun mawlah' (of whomsoever I am the master, this Ali is his master); the Quranic command 'balligh ma unzila ilayk' compelled this declaration before the Prophet's death.",
+    "kind": "scripture",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 4 -->",
+    "key_terms": [
+      "ghadir khumm",
+      "man kuntu mawlahu",
+      "nass",
+      "wasi",
+      "balligh ma unzila ilayk",
+      "'Ali"
+    ]
+  },
+  {
+    "id": "T077",
+    "teaching": "Abu Talib was the Imam of the time during the Prophet's era; he gave prophethood (nubuwwah) to the Prophet and was a great muwahhid who never worshipped idols — the Islamic world's claim that he died an unbeliever is wrong.",
+    "kind": "claim",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 4 -->",
+    "key_terms": [
+      "Abu Talib",
+      "nubuwwah",
+      "muwahhid",
+      "imam-e-sitr"
+    ]
+  },
+  {
+    "id": "T078",
+    "teaching": "The Da'a'im al-Islam was compiled by Sayyidna Qadi al-Nu'man on the order of Imam Mu'izz; the Imam certified that this single achievement surpasses all deeds of the mu'minin until the Day of Judgment.",
+    "kind": "authority",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 5 -->",
+    "key_terms": [
+      "da'a'im al-islam",
+      "Qadi al-Nu'man",
+      "Imam Mu'izz",
+      "shari'ah"
+    ]
+  },
+  {
+    "id": "T079",
+    "teaching": "The identity of one's Hajj 'Ali (the highest spiritual superior known only to the Imam) is hidden from everyone; this arrangement prevents unhealthy fixation and ensures followers obey the established rank hierarchy rather than an individual.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 5 -->",
+    "key_terms": [
+      "hajj 'ali",
+      "ma'rifat",
+      "imam",
+      "da'i",
+      "jazirah"
+    ]
+  },
+  {
+    "id": "T080",
+    "teaching": "Sayyidna Ja'far bin Mansur al-Yaman held the rank of Bab al-Abwab in the era of Imam Mu'izz, though he was unknown in the apparent hierarchy; Qadi al-Nu'man was guided to recognise him as his superior through the Imam's intervention.",
+    "kind": "authority",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 5 -->",
+    "key_terms": [
+      "Ja'far bin Mansur al-Yaman",
+      "bab al-abwab",
+      "hajj 'ali",
+      "Qadi al-Nu'man",
+      "Imam Mu'izz"
+    ]
+  },
+  {
+    "id": "T081",
+    "teaching": "The innovation (bid'ah) of tarawih prayer was started in the time of Umar and has no basis in the Prophet's time; bid'ah leads toward misguidance (gumrahi) which leads toward disbelief (kufr) which leads toward hell.",
+    "kind": "ruling",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "bid'ah",
+      "tarawih",
+      "'Umar",
+      "gumrahi",
+      "kufr",
+      "da'a'im al-islam"
+    ]
+  },
+  {
+    "id": "T082",
+    "teaching": "Hujjat has two meanings: (1) a rank below the Imam — Bab al-Abwab and the Imam's Ma'dhun of today are in this rank; (2) the Imam's son designated to succeed him as the next Imam.",
+    "kind": "definition",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "hujjat",
+      "bab al-abwab",
+      "ma'dhun",
+      "imam",
+      "nass"
+    ]
+  },
+  {
+    "id": "T083",
+    "teaching": "Taking the covenant ('ahd) makes one a mustajib, not yet a mu'min; the spiritual birth (ruhani paida'ish) that connects one's nafs-e-natiqah to the chain of the da'wah happens at the moment of the pledge.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "mustajib",
+      "'ahd",
+      "nafs-e-natiqah",
+      "ittisal",
+      "ruhani paida'ish",
+      "hadd-e-'ali"
+    ]
+  },
+  {
+    "id": "T084",
+    "teaching": "The Da'i-e-Mutlaq (absolute missionary) is master of the three jazirahs: Yemen, Hind, and Sindh; only the Da'i of Yemen has authority to appoint mansubs — no mansub can appoint his own successor without the Da'i's order.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "da'i-e-mutlaq",
+      "jazirah",
+      "yemen",
+      "hind",
+      "sindh",
+      "mansub",
+      "nass"
+    ]
+  },
+  {
+    "id": "T085",
+    "teaching": "The entire cosmic tasbih (glorification) consists of every higher rank lifting the lower rank upward — this is what the moving of beads on a rosary symbolises: the adna (lower) is raised by the a'la (higher).",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "tasbih",
+      "adna",
+      "a'la",
+      "maratib",
+      "da'i",
+      "mansub"
+    ]
+  },
+  {
+    "id": "T086",
+    "teaching": "Today's du'at are in the ranks of Hujjat; compared to du'at of prior eras, present-day Sulaymanis' marasim (venerable figures) have advanced thirty ranks because the era of Qiyamat is near and commanders of high rank are needed.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "hujjat",
+      "da'i",
+      "marasim",
+      "qiyamat",
+      "maratib"
+    ]
+  },
+  {
+    "id": "T087",
+    "teaching": "Salman al-Farsi attained all ten ranks of Bab al-Inbi'ath in the era of Muhammad; the Prophet's statement 'As-Salmanu minna Ahl al-Bayt' means that Salman's babiyyah had ended and he was entering Imamate in his future manifestations.",
+    "kind": "authority",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "Salman al-Farsi",
+      "bab al-inbi'ath",
+      "as-salmanu minna ahl al-bayt",
+      "babiyyah",
+      "imamah"
+    ]
+  },
+  {
+    "id": "T088",
+    "teaching": "There are four Du'at-e-Shumuq (highest-ranking du'at of great eminence) recognised in the Sulaymani tradition: Sayyidna Ja'far, Sayyidna Isma'il bin Muhammad, Sayyidna Isma'il bin Hibah, and Ali bin Hibatullah.",
+    "kind": "authority",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "du'at-e-shumuq",
+      "Ja'far",
+      "Isma'il bin Muhammad",
+      "Isma'il bin Hibah",
+      "Ali bin Hibatullah"
+    ]
+  },
+  {
+    "id": "T089",
+    "teaching": "The first obligatory question on the Day of Judgement will be about prayer; the face of the entire religion is prayer — nothing takes precedence over it and one who fails to pray cannot be a mu'min.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "salat",
+      "wa-aqimu s-salah",
+      "fardh",
+      "mu'min",
+      "qiyamat"
+    ]
+  },
+  {
+    "id": "T090",
+    "teaching": "There are four foundational ranks: nubuwwah (prophethood), risalah (messengership), imamah (imamate), and wasayah (executorship); nubuwwah and risalah are of a lower degree than imamah and wasayah — the ranks of Banu Isra'il prophets are below the Imams of their time who remained hidden.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "nubuwwah",
+      "risalah",
+      "imamah",
+      "wasayah",
+      "nabi",
+      "rasul",
+      "imam",
+      "wasi"
+    ]
+  },
+  {
+    "id": "T091",
+    "teaching": "The Imamate (imamah / laghut / haykal) is distinct from and superior to the Imam himself (nasut); the Imam becomes the Imam only upon receiving the nass (designation) and the bestowing of the haykal from the Bab al-Abwab — until then he is merely the son of the Imam.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "imamah",
+      "laghut",
+      "haykal-e-imami",
+      "nasut",
+      "nass",
+      "bab al-abwab",
+      "surat-e-ruhani"
+    ]
+  },
+  {
+    "id": "T092",
+    "teaching": "The Bab al-Abwab holds the accumulated surat-e-ruhani (spiritual forms) of all mu'minin from the twelve jazirahs; when the Imam performs nass on his son, the Bab al-Abwab transfers this entire deposit to the son, and then immediately must pass away.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "bab al-abwab",
+      "surat-e-ruhani",
+      "nass",
+      "haykal-e-imami",
+      "imam",
+      "jazira"
+    ]
+  },
+  {
+    "id": "T093",
+    "teaching": "The surat-e-ruhani (spiritual form) of a mu'min ascends through each hadd-e-'ali to the da'i, then to the three-island master (da'i-e-mutlaq), then to the Bab al-Abwab, and is refined at each stage before reaching the Imam.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "surat-e-ruhani",
+      "hadd-e-'ali",
+      "da'i-e-mutlaq",
+      "bab al-abwab",
+      "imam",
+      "malik"
+    ]
+  },
+  {
+    "id": "T094",
+    "teaching": "The Imam does not die — he himself brings about his own passing (intiqal) after performing nass on his son and transferring the haykal; this must happen within approximately one to one-and-a-half minutes after nass.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "imam",
+      "intiqal",
+      "nass",
+      "haykal",
+      "wahidan ba'da wahid"
+    ]
+  },
+  {
+    "id": "T095",
+    "teaching": "The istihsan-maylan-qisas chain describes how a mu'min falls into spiritual debt: first, appreciating something from another religion (istihsan); second, inclining towards it (maylan); third, actually doing it (qisas) — each step deepens entanglement and prolongs one's stay in this world.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "istihsan",
+      "maylan",
+      "qisas",
+      "man tashabbaha bi-qawmin fa-huwa minhum",
+      "daulat-e-alam"
+    ]
+  },
+  {
+    "id": "T096",
+    "teaching": "The Hadith 'man tashabbaha bi-qawmin fa-huwa minhum' (whoever imitates a people is from them) means that adopting the religious customs of another community causes one to be resurrected with them on the Day of Judgement.",
+    "kind": "scripture",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "man tashabbaha bi-qawmin fa-huwa minhum",
+      "qisas",
+      "istihsan"
+    ]
+  },
+  {
+    "id": "T097",
+    "teaching": "Things in the physical world fall into three categories from the esoteric perspective: those in an ascending state (halal — permissible) from the nadimin, those in a descending state (haram — forbidden) from the musirrin/mustakbirun, and intermediate things from the mutahayyirin.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "halal",
+      "haram",
+      "nadimin",
+      "musirr",
+      "mutahayyir",
+      "ta'wil",
+      "natiq-e-waqt"
+    ]
+  },
+  {
+    "id": "T098",
+    "teaching": "One who finishes their qisas (accounts with all creation) is released from rebirth in this world and goes to the hadarat (higher realms of the Imam); qisas continues even for very elevated du'at — only the Imam is ma'sum-e-mutlaq (absolutely infallible) and exempt from qisas.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "qisas",
+      "hadarat",
+      "ma'sum-e-mutlaq",
+      "imam",
+      "daulat-e-alam"
+    ]
+  },
+  {
+    "id": "T099",
+    "teaching": "The seventh Imam in each week is the most superior; when the seventh comes, he absorbs the accumulated spiritual forms (haykal) of the six before him — this is why Friday (jum'ah, meaning 'gathering') follows six days and is the most important.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "jum'ah",
+      "usbu'",
+      "sabi'",
+      "haykal",
+      "imam",
+      "mustaqarr"
+    ]
+  },
+  {
+    "id": "T100",
+    "teaching": "In the chain of 48 Imams, Imam Tayyib (the 21st) is the master of two weeks (the first and the second) because he absorbed both; similarly, the 35th Imam (at the time of Sayyidna Humam, 1000 years after the Prophet) is called Qaim-e-'Al and is also the master of two weeks.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "Imam Tayyib",
+      "qaim-e-'al",
+      "Sayyidna Humam",
+      "35th Imam",
+      "usbu'",
+      "mustaqarr"
+    ]
+  },
+  {
+    "id": "T101",
+    "teaching": "The 48th Imam is the current Sahib al-'Asr (Master of the Age) and the Hujjat-e-Qaim (representative of the awaited Qaim); recognition of the Imam of one's time is obligatory — 'man mata wa lam ya'rif imama zamanihi, mata mitatan jahiliyyah' (whoever dies without knowing the Imam of his time dies the death of ignorance).",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "imam-e-zaman",
+      "sahib al-'asr",
+      "hujjat-e-qaim",
+      "man mata wa lam ya'rif imama zamanihi",
+      "48th Imam"
+    ]
+  },
+  {
+    "id": "T102",
+    "teaching": "Mawlatuna Fatimah is called Umm al-Du'at and held the rank of Hujjat of Ali; the term 'Hujjat' applied to a woman signifies a very high spiritual station in the da'wah hierarchy.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "Fatimah",
+      "umm al-du'at",
+      "hujjat",
+      "'Ali",
+      "maratib"
+    ]
+  },
+  {
+    "id": "T103",
+    "teaching": "The Ruku' (bowing in prayer) is symbolic evidence (dalil) of the Hujjat and Da'i; the two prostrations (sajdahs) are evidence of the Imam and his Hujjat, and also of 'Minha khalaqnakum wa fiha nu'idukum' — from earth you were created, into it you are returned, from it you will be raised.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "ruku'",
+      "sajdah",
+      "ta'wil",
+      "hujjat",
+      "da'i",
+      "minha khalaqnakum wa fiha nu'idukum"
+    ]
+  },
+  {
+    "id": "T104",
+    "teaching": "The Quran descends from the First Intellect ('Aql-e-Awwal) through intermediaries; the final intermediary who descended upon the Prophet's heart was Mawlana Abu Talib — all previous books (Bible, Torah, Injil) came from the Tenth Intellect.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "quran",
+      "'aql-e-awwal",
+      "'aql-e-'ashir",
+      "Abu Talib",
+      "natiq",
+      "tawrat",
+      "injil"
+    ]
+  },
+  {
+    "id": "T105",
+    "teaching": "The Quranic muqatta'at (disjointed letters like 'Alif Lam Mim') have no translation in any language or sect because they are sealed (makhfi); their meanings are found only in the esoteric books of the da'wah.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "muqatta'at",
+      "alif lam mim",
+      "makhfi",
+      "ta'wil",
+      "batin"
+    ]
+  },
+  {
+    "id": "T106",
+    "teaching": "The Prophet's hadith 'Give the laborer his wage before his sweat dries' has an esoteric meaning: at the moment of death, the dying mu'min is shown a glimpse of his surat-e-ruhani (his accumulated spiritual form / wage) before his breath leaves — and the forms of Mawlana Ali and the Imam of the time are also shown.",
+    "kind": "scripture",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "surat-e-ruhani",
+      "sakarat",
+      "naza'",
+      "ya harith hamdan man yamut yarani",
+      "'ali",
+      "murshid-e-haqiqi"
+    ]
+  },
+  {
+    "id": "T107",
+    "teaching": "Ali declared: 'Ya Harith Hamdan, man yamut yarani' (O Harith Hamdan, whoever dies sees me) — both believers and unbelievers see Ali at death, the believer with joy and the unbeliever with terror.",
+    "kind": "authority",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "ya harith hamdan man yamut yarani",
+      "'Ali",
+      "sakarat",
+      "mu'min",
+      "kafir"
+    ]
+  },
+  {
+    "id": "T108",
+    "teaching": "The Prophet's shari'ah is immutable and comprehensive until the Day of Judgement; it is the Sulaymani community that truly follows the Prophet's sunnah — they are therefore the real 'Sunnis' in the meaning of acting on the Prophet's practice.",
+    "kind": "claim",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 7 -->",
+    "key_terms": [
+      "shari'ah",
+      "sunnah",
+      "prophet Muhammad",
+      "da'a'im al-islam",
+      "sulaymaniyyat"
+    ]
+  },
+  {
+    "id": "T109",
+    "teaching": "The Sulaymani era is now in the dawr-e-Qaimi (era of the Qaim), which began about 400 years ago; though people are called the Ummat-e-Muhammadi, the da'wah is now in the period of the Qaim's cycle.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 7 -->",
+    "key_terms": [
+      "dawr-e-qaimi",
+      "dawr-e-muhammadi",
+      "ummat-e-muhammadi",
+      "qaim",
+      "Sayyidna Humam"
+    ]
+  },
+  {
+    "id": "T110",
+    "teaching": "The first perfection (Kamal-e-Awwal) was the state in which all essences in the spiritual world were created equal with knowledge ('ilm), life (hayat), and complete power (qudrah) in a potential state; the second perfection (Kamal-e-Thani) is bringing these qualities into actual expression — the entire world was created so that essences could achieve Kamal-e-Thani.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 6 -->",
+    "key_terms": [
+      "kamal-e-awwal",
+      "kamal-e-thani",
+      "'ilm",
+      "hayat",
+      "qudrah",
+      "bi 'l-quwwah",
+      "bi 'l-fi'l",
+      "'aql-e-awwal"
+    ]
+  },
+  {
+    "id": "T111",
+    "teaching": "The nafs-e-natiqah of every Sulaymani is deposited in the Spiritual Kaaba ('alam-e-azal) from the time of the pre-eternal covenant; when one takes the 'ahd on earth for the first time, a spiritual connection (ittisal) is made through the chain from hadd-e-'ali up to the Imam.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 7 -->",
+    "key_terms": [
+      "nafs-e-natiqah",
+      "'alam-e-azal",
+      "'ahd",
+      "ittisal",
+      "hadd-e-'ali",
+      "ka'batullah al-ruhani"
+    ]
+  },
+  {
+    "id": "T112",
+    "teaching": "The 'ilm-e-ladunni (divinely inspired knowledge of the da'wah) is the most truthful knowledge; after it, the two most accurate sciences are medicine ('ilm al-abdan) and then economics — all other sciences are still 'on the way' and have not reached the destination.",
+    "kind": "claim",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "'ilm-e-ladunni",
+      "'ilm al-abdan",
+      "du'at",
+      "science"
+    ]
+  },
+  {
+    "id": "T113",
+    "teaching": "The theory of mabda' and ma'ad in the Sulaymani tradition is not borrowed from Greek philosophy; it has been transmitted since the time of Adam — Aristotle (Arisṭuṭalis) and other Greek philosophers drew from this same tradition because Aristotle himself was a believer in this philosophy.",
+    "kind": "claim",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "mabda'",
+      "ma'ad",
+      "Aristotle",
+      "Arisṭuṭalis",
+      "greek philosophy",
+      "Sayyidna Muayyad al-Shirazi"
+    ]
+  },
+  {
+    "id": "T114",
+    "teaching": "Sayyidna Muayyad al-Shirazi is the great philosopher of the Sulaymani and Tayyibi da'wah who compiled the doctrines of mabda' and ma'ad; he said if he had lived in the Prophet's time he would have been like Salman al-Farsi.",
+    "kind": "authority",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "Sayyidna Muayyad al-Shirazi",
+      "mabda'",
+      "ma'ad",
+      "Salman al-Farsi",
+      "tayyibi da'wah"
+    ]
+  },
+  {
+    "id": "T115",
+    "teaching": "The natural ascent of matter follows the order: mineral (ma'dan) → plant (nabat) → animal (haywan) → human (insan); descent goes in reverse; this is the divine mill through which all fallen essences gradually progress toward the human form.",
+    "kind": "doctrine",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "ma'dan",
+      "nabat",
+      "haywan",
+      "insan",
+      "taraqqi",
+      "tanazzul",
+      "khaliq"
+    ]
+  },
+  {
+    "id": "T116",
+    "teaching": "Only human flesh from a ritually slaughtered halal animal (on which 'Allahu Akbar' was said) can truly nourish the believer's bodily substance; the act of bismillah during slaughter causes a spiritual chemical change in the animal's substance.",
+    "kind": "ruling",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "halal",
+      "zabiha",
+      "allahu akbar",
+      "bismillah",
+      "tabiat",
+      "sulalah"
+    ]
+  },
+  {
+    "id": "T117",
+    "teaching": "The Sulaymani population worldwide is less than four to five hundred thousand; though small, this community is the real essence of the world — like salt in flour which is small in quantity but gives flavour to the whole.",
+    "kind": "claim",
+    "source": "aug:mabda-maad-2002",
+    "source_marker": "<!-- AUG:mabda-maad-2002 lecture 2 -->",
+    "key_terms": [
+      "sulaymaniyyat",
+      "da'wah",
+      "mu'minin",
+      "najran",
+      "hindustan",
+      "sindh"
+    ]
+  }
+]

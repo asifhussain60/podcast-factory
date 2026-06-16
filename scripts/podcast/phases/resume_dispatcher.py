@@ -221,6 +221,31 @@ def run_resume(args: argparse.Namespace) -> int:
         _info("Phase 0f gate cleared (human approved by re-invoking --resume).")
         return _drive_per_chapter_and_after(book_dir)
 
+    # 0a-synthesize: holistic editorial bridge for audio-sourced books (off-band
+    # phase, not in PHASES — the synthesis script writes phase=0c directly). For a
+    # promoted multi-source book (state.multi_source present) route to the N-source
+    # synthesizer; otherwise the single-source holistic editorial. On success the
+    # synthesizer advances state to phase=0c, so we fall through to authoring.
+    if current_phase == "0a-synthesize" and current_status in ("pending", "failed"):
+        import subprocess
+        if state.get("multi_source"):
+            _info("Phase 0a-synthesize · multi-source merge (spine + augmentation).")
+            script = "multi_source_synthesis.py"
+        else:
+            _info("Phase 0a-synthesize · single-source holistic editorial.")
+            script = "holistic_editorial.py"
+        rc = subprocess.run(
+            [sys.executable, str(Path(__file__).resolve().parents[1] / script), "--slug", slug],
+            cwd=REPO_ROOT,
+        ).returncode
+        if rc != 0:
+            _err(f"{script} exited {rc}; not advancing.")
+            return rc if rc in (2, 3) else 2
+        # Re-read state — synthesis set phase=0c, last_completed_phase=0a.
+        state = read_state(book_dir) or state
+        title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
+        return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
+
     if current_phase == "0a" and current_status in ("failed", "pending"):
         from phases.scaffold import phase_0a_ingest, phase_git_commit
         category = state.get("category", "books")

@@ -245,6 +245,18 @@ def main() -> int:
                              "note": f"advisory check skipped: {_e}"})
     # G13 is advisory — never blocks ship.
 
+    # G14 — arabic-integrity: every protected Arabic span is byte-stable against
+    # the pre-LLM baseline snapshot (allowing only canonical injection + glossary
+    # curation). BLOCKING for Islamic books that took a baseline; vacuous pass for
+    # non-Islamic books or books with no snapshot. See arabic_integrity.py / R-ARABIC-INTEGRITY.
+    # (Distinct from G13: G13 reports glossary script coverage; G14 forbids any LLM
+    # pass from mutating/dropping/inventing a verse/hadith/term.)
+    import arabic_integrity as _ai
+    ok14, msg14 = _ai.gate_arabic_integrity(workspace)
+    gate_results.append({"gate": "G14", "name": "arabic-integrity", "passed": bool(ok14)})
+    if not ok14:
+        return _emit(args, gate_results, "BLOCKED", f"G14 arabic-integrity failed — {msg14}")
+
     total_gates = len(gate_results)
     return _emit(args, gate_results, "SHIP-READY",
                  f"all {total_gates} gates passed for {args.slug}; ready for publish")

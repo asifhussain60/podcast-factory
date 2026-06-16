@@ -193,8 +193,28 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
     profile = resolve_phase_profile(book_dir, category)
     caps = phase_capabilities(profile)
 
+    def _arabic_verify(bd: Path, phase: str) -> None:
+        """Hard Arabic-integrity gate (R-ARABIC-INTEGRITY) after an LLM pass.
+
+        No-op for non-Islamic books / books with no baseline snapshot. Raises
+        AuthoringError (→ phase marked failed, halt) on a forbidden Arabic change.
+        """
+        try:
+            import arabic_integrity as _ai
+        except Exception:
+            return
+        if _ai.verify(bd.name, phase) == _ai.EXIT_FORBIDDEN:
+            raise AuthoringError(
+                phase=phase,
+                message=(f"R-ARABIC-INTEGRITY: an LLM pass altered/dropped/invented Arabic "
+                         f"script in phase {phase}. See _system/{_ai.REPORT_NAME}."),
+                manual_fallback=("Restore the affected Arabic from canonical source, or record "
+                                 "the change as a glossary curation decision, then --resume."),
+            )
+
     def _run_0b(bd: Path) -> None:
         author_phase_0b(bd, log=_info)
+        _arabic_verify(bd, "0b")
 
     def _run_0c(bd: Path) -> None:
         if caps.skip_phonetics:
@@ -218,6 +238,7 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
             _info(f"phase 0e · skipped for profile '{profile}' (no doctrinal enrichment for this content type)")
             return
         author_phase_0e(bd, log=_info)
+        _arabic_verify(bd, "0e")
 
     # 0literary (per-chapter revoice) retired from the active flow 2026-06-04:
     # nothing consumes chapters/literary/ after the build_episode_txt wiring fix,

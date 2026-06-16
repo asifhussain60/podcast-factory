@@ -128,6 +128,31 @@ R_AUGMENT_BLOCK_HEADERS = {
     "etymology": "[ETYMOLOGY",
 }
 
+# ─── R-ARABIC-INTEGRITY (P0 2026-06-16) — Arabic spans (Quran verses, hadith,
+# named terms) are BYTE-STABLE across every LLM pass. The pipeline snapshots a
+# content-addressed (NFC-normalized) fingerprint of every Arabic span BEFORE the
+# first LLM mutation (0a-synthesize), then re-verifies after 0a/0b/0e. The ONLY
+# sanctioned mutators are (1) canonical injection by restore_arabic.py
+# (quran_ayat_lookup + verified atoms) and (2) human glossary schema-v2 curation
+# (pronunciation_compiler.resolve_curation, surfaced by the Astro phonetic-view).
+# Any other change — a silent LLM mutation, drop, or invention — FAILS the phase.
+# Implemented in scripts/podcast/arabic_integrity.py; composed as blocking finalize
+# gate G13 for islamic_scholarly books.
+R_ARABIC_INTEGRITY: str = "R-ARABIC-INTEGRITY"
+ARABIC_FINGERPRINT_VERSION: str = "1.0"
+# Bidi/joiner control codepoints stripped before hashing so a pass that only
+# re-inserts directional marks is not flagged as a mutation (RTL-ligature stability).
+R_ARABIC_BIDI_STRIP: tuple[int, ...] = (
+    0x200C, 0x200D, 0x200E, 0x200F,
+    0x202A, 0x202B, 0x202C, 0x202D, 0x202E,
+    0x2066, 0x2067, 0x2068, 0x2069,
+)
+# Combining tashkeel (harakat) ranges used to derive the vowel-stripped skeleton.
+# A near-match that differs ONLY in this range is classified AI-VOWEL-DRIFT.
+R_ARABIC_TASHKEEL: tuple[tuple[int, int], ...] = (
+    (0x064B, 0x0652), (0x0653, 0x065F), (0x0670, 0x0670),
+)
+
 # ─── R-HOST-ROLE-PARITY (P0 2026-05-24) — host roles are locked book-wide.
 # Host A is always the scholar/teacher. Host B is always the seeker/student/
 # debater. The role assignments do not rotate, swap, or blur across episodes.
