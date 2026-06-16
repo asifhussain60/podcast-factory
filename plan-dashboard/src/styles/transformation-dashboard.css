@@ -15,7 +15,8 @@
 .txd-toggle {
   display: flex;
   align-items: baseline;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 4px 10px;
   width: 100%;
   padding: 10px 14px;
   border: 0;

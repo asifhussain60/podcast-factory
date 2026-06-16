@@ -65,11 +65,11 @@ const ACTION_REGISTRY: readonly ActionDef[] = [
   // Core
   { kind: 'arabic',    label: 'Arabic',        icon: 'fa-language',                            scope: 'term',      group: 'core',      hint: 'Replace this term with the correct contextual Arabic (AI, confirm first)', applyMode: 'immediate' },
   { kind: 'replace',   label: 'Replace',       icon: 'fa-right-left',                          scope: 'term',      group: 'core',      hint: 'Find & replace this phrase across this chapter or the whole book', applyMode: 'immediate' },
+  { kind: 'explain',   label: 'Explain',       icon: 'fa-lightbulb',                           scope: 'term',      group: 'core',      hint: 'Replace the selection with a clearer, fuller explanation (AI, in chapter context)', applyMode: 'immediate' },
   { kind: 'etymology', label: 'Etymology',     icon: 'fa-book-bookmark',                       scope: 'term',      group: 'core',      hint: 'Resolve the root-history of this term (shared wisdom corpus)' },
   { kind: 'rewrite',   label: 'Rewrite',       icon: 'fa-arrows-rotate',                       scope: 'paragraph', group: 'core',      hint: 'Rewrite this paragraph' },
   { kind: 'rephrase',  label: 'Rephrase',      icon: 'fa-pen-nib',                             scope: 'paragraph', group: 'core',      hint: 'Rephrase while keeping the meaning' },
   { kind: 'improve',   label: 'Improve',       icon: 'fa-wand-magic-sparkles',                 scope: 'paragraph', group: 'core',      hint: 'Improve clarity and craft' },
-  { kind: 'remove',    label: 'Remove',        icon: 'fa-trash-can',                           scope: 'both',      group: 'core',      hint: 'Mark for removal' },
   // Transform
   { kind: 'expand',    label: 'Expand',        icon: 'fa-up-right-and-down-left-from-center',  scope: 'paragraph', group: 'transform', hint: 'Elaborate — add depth or an example' },
   { kind: 'condense',  label: 'Condense',      icon: 'fa-compress',                            scope: 'paragraph', group: 'transform', hint: 'Tighten without losing meaning' },
@@ -78,6 +78,7 @@ const ACTION_REGISTRY: readonly ActionDef[] = [
   { kind: 'define',    label: 'Define',        icon: 'fa-spell-check',                         scope: 'term',      group: 'knowledge', hint: 'Short glossary gloss for this term' },
   { kind: 'xref',      label: 'Cross-ref',     icon: 'fa-link',                                scope: 'both',      group: 'knowledge', hint: 'Find related passages in this book or the corpus' },
   { kind: 'addcorpus', label: 'Add to corpus', icon: 'fa-database',                            scope: 'both',      group: 'knowledge', hint: 'Promote this passage or term into the wisdom knowledge base' },
+  { kind: 'visualize', label: 'Visualization', icon: 'fa-diagram-project',                     scope: 'paragraph', group: 'knowledge', hint: 'Flag this passage for a visual diagram in the PDF reading edition' },
 ];
 const PARA_ACTIONS = ACTION_REGISTRY.filter((a) => a.scope === 'paragraph' || a.scope === 'both');
 const TERM_ACTIONS = ACTION_REGISTRY.filter((a) => a.scope === 'term' || a.scope === 'both');
@@ -196,6 +197,8 @@ interface Chapter {
   stages: Stage[];
   metrics: StageMetric[];
   reviewed: Record<string, { approved: boolean; approved_at?: string | null }>;
+  /** Which stages have an unapproved autosaved draft (mutated locally on approve). */
+  drafted?: Record<string, boolean>;
   finalized?: { at: string } | null;
 }
 
@@ -578,6 +581,9 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   const stage = stages.find((s) => s.id === stageId) ?? stages[0];
   const html = stage?.html ?? '';
   const isReadOnlyStage = stageId !== editableStageId || isArchivedView;
+  // Does this chapter+stage have an unapproved draft on disk? (Seeded server-side;
+  // the editor's current content already IS the draft when this is true.)
+  const hasDraftForStage = !!(stage && (chap.drafted?.[stage.id] ?? false));
 
   // Switch lineage: reset to its first chapter (chapter boundaries differ between lineages).
   const switchLineage = useCallback((id: string) => {
@@ -602,6 +608,21 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   }, [chapIdx, activeLineageId]);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
+
+  // Draft autosave state: edits are persisted to a per-stage draft (debounced) so
+  // they survive a refresh until the chapter is approved. 'saved' = a draft is on
+  // disk (seeded true when the loaded content already came from a draft).
+  const [draftState, setDraftState] = useState<'idle' | 'saving' | 'saved' | 'error'>(
+    hasDraftForStage ? 'saved' : 'idle',
+  );
+  // Debounce timer + indirection ref for the autosave scheduler (the scheduler is
+  // defined after useEditor; onUpdate reaches it through this ref). Mirrors the
+  // runAiFnRef / removeActionFnRef pattern used elsewhere in this component.
+  const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scheduleAutosaveRef = useRef<() => void>(() => {});
+  // Set true right before an intentional reload (discard) so the beforeunload
+  // flush can't recreate the draft we just deleted.
+  const suppressFlushRef = useRef(false);
 
   // Per-paragraph comments: index → text. Stored in a ref for the PM plugin,
   // mirrored in state so the inspector panel re-renders.
@@ -713,6 +734,17 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   >(null);
   const [arabicBusy, setArabicBusy] = useState(false);
   const [arabicError, setArabicError] = useState('');
+  // Result line after an across-chapter / across-book Arabic replace.
+  const [arabicDone, setArabicDone] = useState('');
+
+  // "Explain" immediate action — AI rewrites the highlighted excerpt into a
+  // clearer, fuller version (kept in chapter context); the human reviews/edits
+  // the proposed text before it replaces the selection.
+  const [explainProposal, setExplainProposal] = useState<
+    { from: number; to: number; original: string; text: string } | null
+  >(null);
+  const [explainBusy, setExplainBusy] = useState(false);
+  const [explainError, setExplainError] = useState('');
 
   // serializeToMarkdown / saveAndApprove / discardChanges declared after useEditor (below).
 
@@ -1071,7 +1103,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       setActiveSectionOrdinal(null);
       editor.view.dispatch(editor.state.tr);
     },
-    onUpdate() { refresh(); },
+    onUpdate() { refresh(); scheduleAutosaveRef.current(); },
     onSelectionUpdate({ editor }) {
       const { from, to } = editor.state.selection;
       setSelection(editor.state.doc.textBetween(from, to, ' ').trim());
@@ -1195,8 +1227,57 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     return lines.join('\n').trimEnd() + '\n';
   }, [editor, serializeInline]);
 
+  // ── Draft autosave — persist in-progress edits so they survive a refresh ────
+  // Writes the editable stage's current content to a per-stage draft (not the
+  // canonical chapter — that only happens on approve). Skipped for read-only
+  // stages and archived lineages.
+  const autosaveDraft = useCallback(async () => {
+    if (!stage || isReadOnlyStage || !editor) return;
+    const content = serializeToMarkdown();
+    if (!content.trim()) return;
+    setDraftState('saving');
+    try {
+      const res = await fetch('/api/studio/draft', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, chapter, stage: stage.id, content }),
+      });
+      setDraftState(res.ok ? 'saved' : 'error');
+    } catch {
+      setDraftState('error');
+    }
+  }, [slug, chapter, stage, isReadOnlyStage, editor, serializeToMarkdown]);
+
+  // Debounced scheduler — onUpdate reaches this through scheduleAutosaveRef.
+  const scheduleAutosave = useCallback(() => {
+    if (isReadOnlyStage) return;
+    if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
+    autosaveTimer.current = setTimeout(() => { void autosaveDraft(); }, 1200);
+  }, [autosaveDraft, isReadOnlyStage]);
+  useEffect(() => { scheduleAutosaveRef.current = scheduleAutosave; }, [scheduleAutosave]);
+
+  // Flush any pending draft when leaving the page/tab so nothing in the debounce
+  // window is lost, and reset the indicator when switching chapter/stage.
+  useEffect(() => {
+    const flush = () => { if (suppressFlushRef.current) return; if (autosaveTimer.current) { clearTimeout(autosaveTimer.current); void autosaveDraft(); } };
+    const onVisibility = () => { if (document.visibilityState === 'hidden') flush(); };
+    window.addEventListener('beforeunload', flush);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      window.removeEventListener('beforeunload', flush);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [autosaveDraft]);
+  useEffect(() => {
+    setDraftState(hasDraftForStage ? 'saved' : 'idle');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chapIdx, stageId, activeLineageId]);
+
   const saveAndApprove = useCallback(async () => {
     if (!stage || !editor) return;
+    // Cancel any pending autosave so it can't recreate the draft after approval
+    // promotes-and-deletes it on the server.
+    if (autosaveTimer.current) { clearTimeout(autosaveTimer.current); autosaveTimer.current = null; }
     setSaving(true);
     setSaveError('');
     try {
@@ -1223,6 +1304,10 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       });
       if (approveRes.ok) {
         setApprovedStages((m) => ({ ...m, [stage.id]: true }));
+        // Draft was promoted to the chapter + deleted server-side; clear the
+        // indicator and the locally-cached draft flag for this stage.
+        setDraftState('idle');
+        if (chap.drafted) chap.drafted[stage.id] = false;
         const texts: string[] = [];
         editor.state.doc.forEach((n) => texts.push(n.textContent));
         originalRef.current = texts;
@@ -1235,16 +1320,24 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     }
   }, [slug, chapter, stage, editor, serializeToMarkdown]);
 
-  const discardChanges = useCallback(() => {
+  const discardChanges = useCallback(async () => {
     if (!editor || !stage) return;
-    editor.commands.setContent(stage.html);
-    const texts: string[] = [];
-    editor.state.doc.forEach((n) => texts.push(n.textContent));
-    originalRef.current = texts;
-    commentsRef.current = new Map();
-    refreshComments();
-    refresh();
-  }, [editor, stage]);
+    // Cancel pending autosave and suppress the unload-flush, delete the draft,
+    // then reload so the canonical (last-approved) chapter text is shown. ?ch=
+    // keeps the open chapter; reload also clears local edits not yet autosaved.
+    if (autosaveTimer.current) { clearTimeout(autosaveTimer.current); autosaveTimer.current = null; }
+    suppressFlushRef.current = true;
+    try {
+      await fetch('/api/studio/draft', {
+        method: 'DELETE',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, chapter, stage: stage.id }),
+      });
+    } catch { /* reload regardless — server keeps the canonical on failure */ }
+    const url = new URL(window.location.href);
+    url.searchParams.set('ch', chapter);
+    window.location.href = url.toString();
+  }, [editor, stage, slug, chapter]);
 
   // Force a decoration recompute when Arabic mode flips. Set the ref BEFORE dispatching
   // (React state is async — the plugin reads arabicRef synchronously during the recompute).
@@ -1429,6 +1522,12 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     });
   }
   const markedCount = actionsRef.current.length;
+  // "Approved" only counts while the stage is unchanged — any fresh edit reverts
+  // the footer to "Save & Approve" so the new edit can be saved.
+  // "Approved" holds only while the stage is unchanged AND has no outstanding
+  // draft — any draft (even from a prior visit) reverts the footer to "Save &
+  // Approve" so the in-progress edits can be committed.
+  const approvedClean = !!(stage && approvedStages[stage.id]) && changedCount === 0 && draftState !== 'saved';
   // Chapter's marks, ordered for the queue list (by paragraph, then insertion).
   const chapterActions = [...actionsRef.current].sort((a, b) => a.para_ordinal - b.para_ordinal || a.id - b.id);
 
@@ -1504,7 +1603,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     const { from, to } = editor.state.selection;
     const original = editor.state.doc.textBetween(from, to, ' ').trim();
     if (!original || from === to) return;
-    setArabicBusy(true); setArabicError(''); setArabicProposal(null);
+    setArabicBusy(true); setArabicError(''); setArabicProposal(null); setArabicDone('');
     try {
       const res = await fetch('/api/ai/arabic-term', {
         method: 'POST', headers: { 'content-type': 'application/json' },
@@ -1528,18 +1627,68 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   const applyArabic = useCallback(() => {
     if (!editor || !arabicProposal) return;
     const { from, to, original, arabic } = arabicProposal;
+    const text = arabic.trim();
+    if (!text) { setArabicError('Enter the Arabic text first.'); return; }
     const current = editor.state.doc.textBetween(from, to, ' ').trim();
     if (current !== original) {
       setArabicError('Selection changed — highlight the word again.');
       setArabicProposal(null);
       return;
     }
-    editor.view.dispatch(editor.state.tr.replaceWith(from, to, editor.state.schema.text(arabic)));
+    editor.view.dispatch(editor.state.tr.replaceWith(from, to, editor.state.schema.text(text)));
     setArabicProposal(null); setArabicError('');
     refresh();
   }, [editor, arabicProposal]);
 
-  const cancelArabic = useCallback(() => { setArabicProposal(null); setArabicError(''); }, []);
+  const cancelArabic = useCallback(() => { setArabicProposal(null); setArabicError(''); setArabicDone(''); }, []);
+
+  // Propose a clearer, fuller version of the highlighted excerpt (does NOT edit
+  // yet). The whole chapter is sent as context so the AI stays inside it.
+  const proposeExplain = useCallback(async () => {
+    if (!editor || isReadOnlyStage) return;
+    const { from, to } = editor.state.selection;
+    const original = editor.state.doc.textBetween(from, to, ' ').trim();
+    if (!original || from === to) return;
+    let chapterText = '';
+    editor.state.doc.forEach((n) => { chapterText += `${n.textContent}\n\n`; });
+    setExplainBusy(true); setExplainError(''); setExplainProposal(null);
+    try {
+      const res = await fetch('/api/ai/explain', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ text: original, chapter: chapterText.trim(), bookTitle: chapterTitle }),
+      });
+      const json = await res.json();
+      if (!res.ok || json.ok === false || !json.text) {
+        setExplainError(json.error ?? `Request failed (${res.status})`);
+      } else {
+        setExplainProposal({ from, to, original, text: json.text });
+      }
+    } catch (e) {
+      setExplainError(String(e));
+    } finally {
+      setExplainBusy(false);
+    }
+  }, [editor, isReadOnlyStage, chapterTitle]);
+
+  // Apply the (edited) explanation: replace the original range, but only if the
+  // text at those positions is unchanged since proposing.
+  const applyExplain = useCallback(() => {
+    if (!editor || !explainProposal) return;
+    const { from, to, original, text } = explainProposal;
+    const replacement = text.trim();
+    if (!replacement) { setExplainError('The explanation is empty.'); return; }
+    const current = editor.state.doc.textBetween(from, to, ' ').trim();
+    if (current !== original) {
+      setExplainError('Selection changed — highlight the passage again.');
+      setExplainProposal(null);
+      return;
+    }
+    editor.view.dispatch(editor.state.tr.replaceWith(from, to, editor.state.schema.text(replacement)));
+    setExplainProposal(null); setExplainError('');
+    refresh();
+  }, [editor, explainProposal]);
+
+  const cancelExplain = useCallback(() => { setExplainProposal(null); setExplainError(''); }, []);
 
   // ── Global find-and-replace ──────────────────────────────────────────────
   // Highlight a phrase → "Replace" opens this popup pre-filled with the
@@ -1601,6 +1750,38 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       editor.view.dispatch(tr);
     }
   }, [editor]);
+
+  // Replace EVERY occurrence of the original term with the (edited) Arabic — across
+  // this chapter or the whole book — via the same canonical-file replace endpoint
+  // used by find-and-replace, then mirror the change into the live editor doc.
+  const applyArabicAcross = useCallback(async (scope: 'chapter' | 'book') => {
+    if (!editor || !arabicProposal) return;
+    const replace = arabicProposal.arabic.trim();
+    if (!replace) { setArabicError('Enter the Arabic text first.'); return; }
+    const find = arabicProposal.original;
+    setArabicBusy(true); setArabicError('');
+    try {
+      const res = await fetch('/api/studio/replace', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, scope, chapter, pairs: [{ find, replace }], apply: true }),
+      });
+      const j = await res.json();
+      if (!res.ok || j.ok === false) { setArabicError(j.error ?? `Request failed (${res.status})`); return; }
+      if (!isReadOnlyStage) replaceInEditorDoc([{ find, replace }]);
+      const nCh = (j.results ?? []).length;
+      const total = j.total ?? 0;
+      setArabicDone(
+        total === 0
+          ? 'No matches found — nothing changed.'
+          : `Replaced ${total} instance${total === 1 ? '' : 's'} across ${nCh} chapter${nCh === 1 ? '' : 's'}.`,
+      );
+      refresh();
+    } catch (e) {
+      setArabicError(String(e));
+    } finally {
+      setArabicBusy(false);
+    }
+  }, [editor, arabicProposal, slug, chapter, isReadOnlyStage, replaceInEditorDoc]);
 
   const runReplace = useCallback(async (apply: boolean) => {
     const pairs = replacePairs
@@ -1887,17 +2068,19 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                         <div className="sp-action-palette" role="toolbar" aria-label="Term action items">
                           {TERM_ACTIONS.map((def) => {
                             if (def.applyMode === 'immediate') {
-                              // Immediate action — runs now (Arabic = confirm-then-apply AI;
-                              // Replace = open the find-and-replace popup). Not a toggle.
+                              // Immediate action — runs now (Arabic / Explain = confirm-then-apply
+                              // AI; Replace = open the find-and-replace popup). Not a toggle.
                               return (
                                 <button key={def.kind} type="button"
                                   className={`sp-action-btn act-${def.kind}`}
-                                  title={def.hint} disabled={def.kind === 'arabic' && arabicBusy}
+                                  title={def.hint}
+                                  disabled={(def.kind === 'arabic' && arabicBusy) || (def.kind === 'explain' && explainBusy)}
                                   onClick={() => {
                                     if (def.kind === 'arabic') void proposeArabic();
+                                    else if (def.kind === 'explain') void proposeExplain();
                                     else if (def.kind === 'replace') openReplace();
                                   }}>
-                                  <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> {def.label}
+                                  <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> <span className="sp-action-label">{def.label}</span>
                                 </button>
                               );
                             }
@@ -1906,11 +2089,31 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                               <button key={def.kind} type="button"
                                 className={`sp-action-btn act-${def.kind}${isOn ? ' is-on' : ''}`}
                                 title={def.hint} onClick={() => stampAction(def, true)}>
-                                <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> {def.label}
+                                <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> <span className="sp-action-label">{def.label}</span>
                               </button>
                             );
                           })}
                         </div>
+                        {explainBusy && <p className="sp-ai-status">Writing a clearer explanation…</p>}
+                        {explainError && <p className="sp-ai-status sp-ai-status--error">{explainError}</p>}
+                        {explainProposal && (
+                          <div className="sp-explain-confirm">
+                            <p className="sp-explain-confirm__label">Clearer explanation — edit before replacing:</p>
+                            <textarea
+                              className="sp-explain-confirm__text"
+                              value={explainProposal.text}
+                              rows={6}
+                              onChange={(e) => setExplainProposal({ ...explainProposal, text: e.target.value })}
+                              aria-label="Explanation — edit before replacing"
+                            />
+                            <div className="sp-arabic-confirm__actions">
+                              <button type="button" className="sp-arabic-confirm__apply" onClick={applyExplain} disabled={!explainProposal.text.trim()}>
+                                <i className="fa-solid fa-check" aria-hidden="true" /> Replace
+                              </button>
+                              <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelExplain}>Cancel</button>
+                            </div>
+                          </div>
+                        )}
                         {arabicBusy && <p className="sp-ai-status">Finding the Arabic term…</p>}
                         {arabicError && <p className="sp-ai-status sp-ai-status--error">{arabicError}</p>}
                         {arabicProposal && (
@@ -1918,17 +2121,50 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                             <p className="sp-arabic-confirm__row">
                               <span className="sp-arabic-confirm__en">{truncate(arabicProposal.original, 28)}</span>
                               <i className="fa-solid fa-arrow-right-long" aria-hidden="true" />
-                              <span className="sp-arabic-confirm__ar" lang="ar" dir="rtl">{arabicProposal.arabic}</span>
                             </p>
+                            <input
+                              type="text"
+                              className="sp-arabic-confirm__input"
+                              lang="ar"
+                              dir="rtl"
+                              value={arabicProposal.arabic}
+                              onChange={(e) => setArabicProposal({ ...arabicProposal, arabic: e.target.value })}
+                              aria-label="Arabic term — edit before replacing"
+                            />
                             {arabicProposal.gloss && <p className="sp-arabic-confirm__gloss">{arabicProposal.gloss}</p>}
-                            <div className="sp-arabic-confirm__actions">
-                              <button type="button" className="sp-arabic-confirm__apply" onClick={applyArabic}>
-                                <i className="fa-solid fa-check" aria-hidden="true" /> Replace
-                              </button>
-                              <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelArabic}>
-                                Cancel
-                              </button>
-                            </div>
+                            {arabicDone ? (
+                              <>
+                                <p className="sp-arabic-confirm__doneline">
+                                  <i className="fa-solid fa-circle-check" aria-hidden="true" /> {arabicDone}
+                                </p>
+                                <div className="sp-arabic-confirm__actions">
+                                  <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelArabic}>Close</button>
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <p className="sp-arabic-confirm__scopehint">Replace where?</p>
+                                <div className="sp-arabic-scope">
+                                  <button type="button" className="sp-arabic-scope__btn sp-arabic-scope__btn--primary"
+                                    disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={applyArabic}>
+                                    <i className="fa-solid fa-check" aria-hidden="true" /> This instance
+                                  </button>
+                                  <button type="button" className="sp-arabic-scope__btn"
+                                    disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={() => void applyArabicAcross('chapter')}>
+                                    <i className="fa-solid fa-file-lines" aria-hidden="true" /> This chapter
+                                  </button>
+                                  <button type="button" className="sp-arabic-scope__btn"
+                                    disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={() => void applyArabicAcross('book')}>
+                                    <i className="fa-solid fa-book" aria-hidden="true" /> All chapters
+                                  </button>
+                                </div>
+                                <div className="sp-arabic-confirm__actions">
+                                  <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelArabic}>
+                                    {arabicBusy ? 'Replacing…' : 'Cancel'}
+                                  </button>
+                                </div>
+                              </>
+                            )}
                           </div>
                         )}
                       </>
@@ -1942,7 +2178,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                               <button key={def.kind} type="button"
                                 className={`sp-action-btn act-${def.kind}${isOn ? ' is-on' : ''}`}
                                 title={def.hint} onClick={() => stampAction(def, false)}>
-                                <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> {def.label}
+                                <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> <span className="sp-action-label">{def.label}</span>
                               </button>
                             );
                           })}
@@ -2071,26 +2307,35 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
         </div>
 
         {saveError && <p className="sp-save-error" role="alert">{saveError}</p>}
+        {!viewAll && !isReadOnlyStage && stage && draftState !== 'idle' && (
+          <p className={`sp-draft-status sp-draft-status--${draftState}`} role="status">
+            {draftState === 'saving'
+              ? <><i className="fa-solid fa-cloud-arrow-up" aria-hidden="true" /> Saving draft…</>
+              : draftState === 'error'
+              ? <><i className="fa-solid fa-triangle-exclamation" aria-hidden="true" /> Draft not saved — check connection</>
+              : <><i className="fa-solid fa-pen" aria-hidden="true" /> Draft saved · not yet approved</>}
+          </p>
+        )}
         {!viewAll && !isReadOnlyStage && stage && (
           <div className="sp-action-footer">
-            {changedCount > 0 && !approvedStages[stage.id] && (
+            {(changedCount > 0 || draftState === 'saved') && (
               <button
                 type="button"
                 className="sp-discard"
                 onClick={discardChanges}
                 disabled={saving}
-                title="Discard all edits and revert to original"
+                title="Discard the draft and revert to the approved chapter"
               >
                 <i className="fa-solid fa-rotate-left" aria-hidden="true" /> Discard
               </button>
             )}
             <button
               type="button"
-              className={`sp-approve${approvedStages[stage.id] ? ' is-done' : ''}`}
+              className={`sp-approve${approvedClean ? ' is-done' : ''}`}
               onClick={saveAndApprove}
-              disabled={saving || approvedStages[stage.id]}
+              disabled={saving || approvedClean}
             >
-              {approvedStages[stage.id]
+              {approvedClean
                 ? `✓ ${stage.label} approved`
                 : saving ? 'Saving…'
                 : 'Save & Approve'}

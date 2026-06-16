@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { renderMarkdown } from './markdown';
 import { loadGlossary } from './glossary';
 import { readReview } from './stage-review';
+import { readDraft, hasDraft } from './stage-draft';
 import { buildStageMetrics, writeMetricsLedger, type StageMetric } from './stage-metrics';
 import { findContentDirSync, getRepoRoot } from '../content-paths';
 
@@ -40,6 +41,8 @@ export interface WorkspaceChapter {
   stages: WorkspaceStage[];
   metrics: StageMetric[];
   reviewed: Record<string, { approved: boolean; approved_at?: string | null }>;
+  /** Which stages currently have an unapproved autosaved draft on disk. */
+  drafted: Record<string, boolean>;
   finalized: { at: string } | null;
 }
 
@@ -140,7 +143,15 @@ function readIfExists(url: URL): string | null {
   }
 }
 
-function loadStageText(base: URL, chapterId: string, stageId: string, stageRoot: string): string | null {
+function loadStageText(slug: string, base: URL, chapterId: string, stageId: string, stageRoot: string): string | null {
+  // Live editing draft wins over the canonical artifact for the editable stage —
+  // this is what makes in-progress edits survive a refresh until they're approved.
+  // Only the live `_stages` root has drafts; archived lineages are read-only.
+  if (stageRoot === '_stages') {
+    const draft = readDraft(slug, chapterId, stageId);
+    if (draft) return draft;
+  }
+
   if (stageId === 'narrator') {
     const clean = readIfExists(new URL(`${stageRoot}/${chapterId}/additions-narrator-clean.md`, base));
     if (clean) return clean;
@@ -181,7 +192,7 @@ export async function loadBookWorkspace(
 
   const chapters = chapterDefs.map((chapterDef) => {
     const stageTexts = stageDefs.map((stageDef) => {
-      const text = loadStageText(base, chapterDef.id, stageDef.id, stageRoot);
+      const text = loadStageText(slug, base, chapterDef.id, stageDef.id, stageRoot);
       return {
         ...stageDef,
         available: !!text,
@@ -203,12 +214,17 @@ export async function loadBookWorkspace(
     }));
 
     const review = readReview(slug, chapterDef.id);
+    // Which stages have an outstanding draft (live root only — archives never do).
+    const drafted = stageRoot === '_stages'
+      ? Object.fromEntries(stageDefs.map((s) => [s.id, hasDraft(slug, chapterDef.id, s.id)]))
+      : {};
     return {
       slug: chapterDef.id,
       title: chapterDef.title,
       stages,
       metrics,
       reviewed: review.stages,
+      drafted,
       finalized: review.finalized ?? null,
     };
   });

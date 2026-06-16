@@ -22,9 +22,9 @@ const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
 
 const ALLOWED_KINDS = new Set([
-  'etymology', 'rewrite', 'rephrase', 'improve', 'remove',
+  'etymology', 'rewrite', 'rephrase', 'improve',
   'expand', 'condense', 'simplify',
-  'define', 'xref', 'addcorpus',
+  'define', 'xref', 'addcorpus', 'visualize',
 ]);
 const ALLOWED_SCOPES = new Set(['paragraph', 'term']);
 

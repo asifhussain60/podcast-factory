@@ -10,7 +10,56 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-16 (session 28 — Studio action-item queue stabilized + committed)
+**Last updated:** 2026-06-16 (session 30 — Studio draft-retention model shipped)
+
+**Session 30 (commit b400dee, branch Islamic/kunooz-al-hikmah):** Fixed the
+reported "edit, save, refresh -> reverts to original" bug at the root by adding a
+DRAFT-RETENTION layer (governance-protocol plan, approved option A). Diagnosed:
+the save round-trip itself worked (the user's deletion was on disk, original in
+.bak) — the real gap was that the ONLY persistence was the explicit irreversible
+"Save & Approve" (writes straight to canonical chapters/<id>.txt), so any
+unapproved edits were lost on reload, and save==approve. New two-phase model:
+edits autosave (debounced 1.2s + flush on tab-hide/unload) to a per-stage draft
+at content/<bucket>/<slug>/_system/drafts/<chapter>/<stage>.md (NEW
+lib/reader/stage-draft.ts; git-ignored); book-workspace.loadStageText prefers the
+draft over canonical for the live editable stage (archives unaffected) + exposes a
+per-chapter `drafted` map; NEW api/studio/draft.ts (POST autosave / DELETE
+discard); save-stage approval now PROMOTES the draft -> chapters/<id>.txt AND
+deletes it; StudioPoc: Discard deletes draft + reloads canonical (preserving
+?ch=), "Save & Approve" cancels pending autosave then commits, "Draft saved · not
+yet approved" indicator, approved badge reverts while a draft is open. SCOPE
+SAFETY (verified): book-workspace is Studio-only; the public reader
+(lib/reader/chapters) + publish/NotebookLM path read chapters/<id>.txt directly,
+so an unapproved draft NEVER reaches the published book, audio upload, or
+orchestrator. VERIFIED LIVE (API+SSR round-trip on ch13, cleaned up): draft
+written -> served on full reload (survives refresh) -> discard reverts -> approve
+clears draft; canonical never mutated until approval. astro check 0 errors;
+lint:views clean. NOTE: the user has a live ch01a draft (their editor autosaving
+through the new endpoint = feature working); if it predates the session-29 صورة/
+gardens-gloss commits it could be stale — Discard resets to committed canonical.
+
+**Session 29 (commit 39a5dae, branch Islamic/kunooz-al-hikmah):** Resumed an
+
+**Session 29 (commit 39a5dae, branch Islamic/kunooz-al-hikmah):** Resumed an
+in-flight, uncommitted feature — the Studio editor "Explain" immediate AI action
+(begun after the session-28 commit; commits d7c49d6/67b3acc/a6d2c5f for the Arabic
+replace + palette work also landed since the session-28 note). Highlight a passage
+-> "Explain" sends the excerpt + FULL CHAPTER as context to Gemini Flash (new
+api/ai/explain.ts, mirrors arabic-term.ts: generate + rateLimitCheck, thinkingBudget=0
+so the 1024-tok budget feeds the answer, strips wrapping quotes) -> Flash rewrites
+ONLY the excerpt into a clearer/fuller version staying inside the chapter's meaning,
+voice, tradition (no new doctrine/names/citations) -> proposed text lands in an
+editable textarea, confirm-then-replace, same shape as the Arabic action. Apply guards
+the selection range is unchanged before replacing. Bundled footer fix: "approved"
+reverts to "Save & Approve" on any fresh edit (approvedClean = approved && changedCount===0).
+Verified: astro check 0 errors; endpoint exercised live (200, ~0.7s) — a real clause
+expands into a faithful fuller rewrite; a two-word excerpt echoes the surrounding
+sentence (expected — nothing to expand). Committed + pushed. NOTE left uncommitted:
+content/Islamic/kunooz-al-hikmah/_system/review/ch01a-family-of-light.json — editor
+approval-state record written live by stage-review.ts (this confirms the session-28
+save-stage 404 worry is RESOLVED: save-stage now handles bucket-layout books with no
+_stages/ and writes review/ records under _system/). No _system/review/* is tracked
+for any book and there's no gitignore rule — left for Asif to decide track-vs-ignore.
 
 **Session 28 (commit 80e612e, branch Islamic/kunooz-al-hikmah):** Resumed an
 in-flight, uncommitted feature — the Studio editor "deferred AI action-item"

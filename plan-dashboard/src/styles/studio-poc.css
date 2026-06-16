@@ -33,7 +33,10 @@
   .studio-poc { grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; }
 }
 @media (max-width: 1100px) {
-  .studio-poc { grid-template-columns: 1fr; }
+  /* minmax(0,1fr) — NOT plain 1fr — so the single column can shrink to the
+     viewport instead of growing to the editor's min-content (which overflows
+     the screen on phones). Same lesson as the two-column rule above. */
+  .studio-poc { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* M-1 scroll fix: clear the full pinned stack (topnav 52px + studio subnav ~72px) + 1rem.
@@ -367,22 +370,35 @@
 /* Inspector — action-item palette (Details tab, edit mode only). */
 .sp-actions-block { margin-top: 10px; }
 .sp-insp-subhint { font-size: 0.72rem; color: var(--c-ink-dim); margin: 5px 0 0; font-style: italic; }
-.sp-action-palette { display: flex; flex-wrap: wrap; gap: 4px; }
-.sp-action-btn {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 0.74rem; padding: 4px 9px; border-radius: 7px; cursor: pointer;
-  color: var(--c-ink); background: var(--c-bg-elev);
-  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+/* Three-across grid: every action button is the same width AND height. Long
+   labels ("Add to corpus") wrap to a second line inside the cell; the fixed
+   min-height keeps single- and double-line buttons identical in size. */
+.sp-action-palette {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
 }
-.sp-action-btn i { font-size: 0.72rem; color: var(--c-ink-muted); }
+.sp-action-btn {
+  display: flex; align-items: center; gap: 5px;
+  justify-content: flex-start; text-align: left;
+  min-width: 0; min-height: 50px; padding: 8px 7px;
+  font-size: 0.72rem; font-weight: 600; line-height: 1.2;
+  border-radius: 9px; cursor: pointer;
+  color: var(--c-ink); background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.16));
+}
+.sp-action-btn i {
+  font-size: 0.85rem; color: var(--c-ink-muted);
+  flex: 0 0 auto; width: 1em; text-align: center;
+}
+/* Label wraps inside the (now shrinkable) cell instead of overflowing it. */
+.sp-action-btn .sp-action-label { min-width: 0; overflow-wrap: anywhere; }
 .sp-action-btn:hover { border-color: var(--c-accent); color: var(--c-accent); }
 .sp-action-btn:hover i { color: var(--c-accent); }
 .sp-action-btn.is-on {
   background: var(--c-ink, #2a2118); color: #fff; border-color: transparent;
 }
 .sp-action-btn.is-on i { color: #fff; }
-/* "Remove" reads as a caution action when armed. */
-.sp-action-btn.act-remove.is-on { background: var(--c-red, #b91c1c); }
 .sp-action-btn:focus-visible,
 .sp-aq-remove:focus-visible,
 .studio-poc__editor .sp-ptool:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
@@ -414,7 +430,33 @@
 .sp-arabic-confirm__row > i { color: var(--c-ink-muted); font-size: 0.78rem; }
 .sp-arabic-confirm__en { font-size: 0.85rem; color: var(--c-ink-muted); }
 .sp-arabic-confirm__ar { font-size: 1.3rem; line-height: 1.4; color: var(--c-accent); font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', serif; }
+/* Editable Arabic — correct the AI's rendering before replacing. */
+.sp-arabic-confirm__input {
+  width: 100%; margin-top: 8px; padding: 7px 11px;
+  font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', serif;
+  font-size: 1.3rem; line-height: 1.5; color: var(--c-accent);
+  background: var(--c-bg-card);
+  border: 1px solid color-mix(in srgb, var(--c-accent) 35%, var(--c-rule, rgba(0, 0, 0, 0.15)));
+  border-radius: 8px;
+}
+.sp-arabic-confirm__input:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 1px; border-color: transparent; }
 .sp-arabic-confirm__gloss { font-size: 0.74rem; color: var(--c-ink-dim); font-style: italic; margin: 5px 0 0; }
+
+/* "Explain" — editable multi-line proposed clarification before replacing. */
+.sp-explain-confirm {
+  margin-top: 8px; padding: 9px 11px; border-radius: 8px;
+  background: var(--c-bg-elev);
+  border: 1px solid color-mix(in srgb, var(--c-accent) 30%, var(--c-rule, rgba(0, 0, 0, 0.12)));
+}
+.sp-explain-confirm__label { font-size: 0.72rem; color: var(--c-ink-muted); margin: 0 0 6px; }
+.sp-explain-confirm__text {
+  width: 100%; resize: vertical; min-height: 96px; padding: 8px 10px;
+  font-family: var(--font-body, Georgia, serif);
+  font-size: 0.92rem; line-height: 1.5; color: var(--c-ink);
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15)); border-radius: 7px;
+}
+.sp-explain-confirm__text:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 1px; border-color: transparent; }
 .sp-arabic-confirm__actions { display: flex; gap: 6px; margin-top: 9px; }
 .sp-arabic-confirm__apply,
 .sp-arabic-confirm__cancel {
@@ -429,6 +471,30 @@
 .sp-arabic-confirm__cancel:hover { border-color: var(--c-accent); color: var(--c-accent); }
 .sp-arabic-confirm__apply:focus-visible,
 .sp-arabic-confirm__cancel:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+
+/* Replace-scope choice: this instance · this chapter · all chapters. */
+.sp-arabic-confirm__scopehint { font-size: 0.72rem; color: var(--c-ink-muted); margin: 10px 0 5px; }
+.sp-arabic-scope { display: flex; flex-direction: column; gap: 5px; }
+.sp-arabic-scope__btn {
+  display: flex; align-items: center; gap: 7px;
+  width: 100%; text-align: left; font-size: 0.76rem; font-weight: 600;
+  padding: 7px 10px; border-radius: 7px; cursor: pointer;
+  color: var(--c-ink); background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.16));
+}
+.sp-arabic-scope__btn i { font-size: 0.8rem; color: var(--c-ink-muted); width: 1.1em; text-align: center; }
+.sp-arabic-scope__btn:hover:not(:disabled) { border-color: var(--c-accent); color: var(--c-accent); }
+.sp-arabic-scope__btn:hover:not(:disabled) i { color: var(--c-accent); }
+.sp-arabic-scope__btn:disabled { opacity: 0.45; cursor: default; }
+.sp-arabic-scope__btn:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.sp-arabic-scope__btn--primary { color: #fff; background: var(--c-accent); border-color: transparent; }
+.sp-arabic-scope__btn--primary i { color: #fff; }
+.sp-arabic-scope__btn--primary:hover:not(:disabled) { background: color-mix(in srgb, var(--c-accent) 88%, #000); color: #fff; }
+.sp-arabic-scope__btn--primary:hover:not(:disabled) i { color: #fff; }
+.sp-arabic-confirm__doneline {
+  display: flex; align-items: center; gap: 7px; margin: 10px 0 0;
+  font-size: 0.78rem; font-weight: 600; color: var(--c-green, #15803d);
+}
 
 /* M-1 AI result area in the AI tab. */
 .sp-ai-tab-actions { display: flex; gap: 5px; flex-wrap: wrap; }
@@ -455,7 +521,6 @@
 .studio-poc__editor .sp-ptool.act-rewrite.is-on   { color: var(--c-act-core); }
 .studio-poc__editor .sp-ptool.act-rephrase.is-on  { color: var(--c-act-core); }
 .studio-poc__editor .sp-ptool.act-improve.is-on   { color: var(--c-act-core); }
-.studio-poc__editor .sp-ptool.act-remove.is-on    { color: var(--c-act-remove); }
 .studio-poc__editor .sp-ptool.act-expand.is-on    { color: var(--c-act-transform); }
 .studio-poc__editor .sp-ptool.act-condense.is-on  { color: var(--c-act-transform); }
 .studio-poc__editor .sp-ptool.act-simplify.is-on  { color: var(--c-act-transform); }
@@ -481,6 +546,7 @@
   border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
   border-radius: 14px;
   padding: 28px 36px;
+  min-width: 0; /* grid item: shrink to the column instead of forcing page-wide overflow */
 }
 .studio-poc__editor .ProseMirror {
   font-family: var(--font-body, Georgia, serif);
@@ -803,14 +869,21 @@
 .studio-poc__editor .sp-metric-delta.is-up { color: var(--c-accent); }
 
 /* B: chapter switcher. */
-.studio-poc__editor .sp-chapsel { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; }
+.studio-poc__editor .sp-chapsel { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; min-width: 0; }
 .studio-poc__editor .sp-chapsel label { font-family: var(--font-ui, system-ui, sans-serif); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-ink-muted); }
 .studio-poc__editor .sp-chapsel select {
   font-family: var(--font-ui, system-ui, sans-serif); font-size: 0.9rem; font-weight: 600;
   color: var(--c-ink); background: var(--c-bg-card); cursor: pointer;
   border: 1px solid var(--c-rule, rgba(0,0,0,0.18)); border-radius: 8px; padding: 5px 10px;
+  min-width: 0; max-width: 100%; /* shrink + truncate the long option text on narrow screens */
 }
 .studio-poc__editor .sp-chapsel select:disabled { opacity: 0.45; cursor: default; }
+@media (max-width: 1100px) {
+  /* When the editor narrows, let the chapter selector wrap to its own full-width
+     row instead of collapsing to just the dropdown arrow. */
+  .studio-poc__editor .sp-chapsel { flex-wrap: wrap; }
+  .studio-poc__editor .sp-chapsel select { flex: 1 1 100%; }
+}
 
 /* All-chapters view toggle button. */
 .sp-viewall-btn {
@@ -1102,6 +1175,19 @@
   margin: 4px 0 0;
   line-height: 1.4;
 }
+/* Draft autosave status — the "retained, not yet approved" indicator. */
+.sp-draft-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  margin: 0 0 6px;
+  line-height: 1.4;
+  color: var(--c-ink-dim);
+}
+.sp-draft-status i { font-size: 0.72rem; }
+.sp-draft-status--saved { color: var(--c-accent); }
+.sp-draft-status--error { color: var(--c-red, #b91c1c); }
 .sp-comment-panel {
   display: flex;
   flex-direction: column;
@@ -1734,8 +1820,12 @@
 .sp-insp-meta dd { font-size: 0.68rem; }
 .sp-insp-hint { font-size: 0.625rem; }
 .sp-insp-sel { font-size: 0.7rem; }
-.sp-action-palette { gap: 5px; }
-.sp-action-btn { font-size: 0.62rem; padding: 3px 8px; }
+.sp-action-palette { gap: 6px; }
+/* Effective button sizing (this block wins over the base rule by source order).
+   0.72rem ≈ 13.8px at the 19.2px root — clearly larger than the old 0.62rem,
+   yet small enough that 8-char labels ("Rephrase", "Condense") stay one line;
+   only genuinely long single words ("Visualization") wrap. */
+.sp-action-btn { font-size: 0.72rem; min-height: 50px; padding: 8px 7px; }
 .sp-aq-item { font-size: 0.68rem; }
 .sp-marker-list li { font-size: 0.65rem; }
 .sp-legend-row { font-size: 0.62rem; }

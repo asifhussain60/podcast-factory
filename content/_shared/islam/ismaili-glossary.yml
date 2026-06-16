@@ -122,3 +122,24 @@ terms:
     gloss: "relating to the Fatimid caliphate (909–1171 CE), the Ismaili political dynasty"
     phonetic: "FAH-tih-mid"
     category: historical-group
+
+  # The three forms (suwar) of the Imam's human vessel — canonical Arabic uses
+  # sura (form/image), aligning with the Dai's suwarat language, NOT the
+  # questioner's hijab (veil) scheme. Locked rendering for all future runs.
+  - term: "al-sura al-tabi'iyya"
+    arabic: "الصورة الطبيعية"
+    gloss: "the natural form; the lowest of the Imam's three forms, born of loins and wombs in the ordinary way"
+    phonetic: "as-SOO-rah at-tab-ee-EE-yah"
+    category: cosmology
+
+  - term: "al-sura al-zilliyya"
+    arabic: "الصورة الظلية"
+    gloss: "the shadow form; the intermediate form, constituted from the higher riyat that emerge before burial"
+    phonetic: "as-SOO-rah az-ZIL-ee-yah"
+    category: cosmology
+
+  - term: "al-sura al-khassa"
+    arabic: "الصورة الخاصة"
+    gloss: "the special form; the highest form, constituted in the Sacred House from the gardens of the people of specialty, not subject to ordinary birth"
+    phonetic: "as-SOO-rah al-KHAS-sah"
+    category: cosmology
