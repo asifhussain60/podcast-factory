@@ -78,6 +78,7 @@ const ACTION_REGISTRY: readonly ActionDef[] = [
   { kind: 'define',    label: 'Define',        icon: 'fa-spell-check',                         scope: 'term',      group: 'knowledge', hint: 'Short glossary gloss for this term' },
   { kind: 'xref',      label: 'Cross-ref',     icon: 'fa-link',                                scope: 'both',      group: 'knowledge', hint: 'Find related passages in this book or the corpus' },
   { kind: 'addcorpus', label: 'Add to corpus', icon: 'fa-database',                            scope: 'both',      group: 'knowledge', hint: 'Promote this passage or term into the wisdom knowledge base' },
+  { kind: 'visualize', label: 'Visualization', icon: 'fa-diagram-project',                     scope: 'paragraph', group: 'knowledge', hint: 'Flag this passage for a visual diagram in the PDF reading edition' },
 ];
 const PARA_ACTIONS = ACTION_REGISTRY.filter((a) => a.scope === 'paragraph' || a.scope === 'both');
 const TERM_ACTIONS = ACTION_REGISTRY.filter((a) => a.scope === 'term' || a.scope === 'both');

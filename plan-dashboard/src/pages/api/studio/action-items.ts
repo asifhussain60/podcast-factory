@@ -24,7 +24,7 @@ const json = (body: unknown, status = 200) =>
 const ALLOWED_KINDS = new Set([
   'etymology', 'rewrite', 'rephrase', 'improve', 'remove',
   'expand', 'condense', 'simplify',
-  'define', 'xref', 'addcorpus',
+  'define', 'xref', 'addcorpus', 'visualize',
 ]);
 const ALLOWED_SCOPES = new Set(['paragraph', 'term']);
 

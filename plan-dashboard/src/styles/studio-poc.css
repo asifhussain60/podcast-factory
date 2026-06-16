@@ -367,14 +367,27 @@
 /* Inspector — action-item palette (Details tab, edit mode only). */
 .sp-actions-block { margin-top: 10px; }
 .sp-insp-subhint { font-size: 0.72rem; color: var(--c-ink-dim); margin: 5px 0 0; font-style: italic; }
-.sp-action-palette { display: flex; flex-wrap: wrap; gap: 4px; }
-.sp-action-btn {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 0.74rem; padding: 4px 9px; border-radius: 7px; cursor: pointer;
-  color: var(--c-ink); background: var(--c-bg-elev);
-  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+/* Three-across grid: every action button is the same width AND height. Long
+   labels ("Add to corpus") wrap to a second line inside the cell; the fixed
+   min-height keeps single- and double-line buttons identical in size. */
+.sp-action-palette {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
 }
-.sp-action-btn i { font-size: 0.72rem; color: var(--c-ink-muted); }
+.sp-action-btn {
+  display: flex; align-items: center; gap: 8px;
+  justify-content: flex-start; text-align: left;
+  min-height: 50px; padding: 8px 10px;
+  font-size: 0.82rem; font-weight: 600; line-height: 1.15;
+  border-radius: 9px; cursor: pointer;
+  color: var(--c-ink); background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.16));
+}
+.sp-action-btn i {
+  font-size: 0.95rem; color: var(--c-ink-muted);
+  flex: 0 0 auto; width: 1.15em; text-align: center;
+}
 .sp-action-btn:hover { border-color: var(--c-accent); color: var(--c-accent); }
 .sp-action-btn:hover i { color: var(--c-accent); }
 .sp-action-btn.is-on {
@@ -1734,8 +1747,8 @@
 .sp-insp-meta dd { font-size: 0.68rem; }
 .sp-insp-hint { font-size: 0.625rem; }
 .sp-insp-sel { font-size: 0.7rem; }
-.sp-action-palette { gap: 5px; }
-.sp-action-btn { font-size: 0.62rem; padding: 3px 8px; }
+.sp-action-palette { gap: 6px; }
+.sp-action-btn { font-size: 0.8rem; min-height: 46px; padding: 7px 9px; }
 .sp-aq-item { font-size: 0.68rem; }
 .sp-marker-list li { font-size: 0.65rem; }
 .sp-legend-row { font-size: 0.62rem; }
