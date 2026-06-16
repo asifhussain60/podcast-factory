@@ -603,8 +603,13 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             length_tier=length_tier,
             unit_mode=unit_mode,
         )
+        # Word-count-aware TOC timeout: the single whole-book segmentation call
+        # scales with source size. A flat 600s floor times out on large books
+        # (a 50k-word book needs the 3600s cap) — mirror the per-section strategy
+        # using the prompt size as the word-count proxy (2026-06-15).
+        eff_toc_timeout = max(toc_timeout, _compute_sc_timeout(len(toc_prompt.split())))
         rc, stdout, stderr = _run_claude_p(
-            toc_prompt, timeout=toc_timeout,
+            toc_prompt, timeout=eff_toc_timeout,
             book_dir=book_dir, phase="0d", step="toc",
         )
         # Stdout fallback: claude -p sometimes emits valid JSON as text output instead
@@ -733,6 +738,28 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     # ── STEP 2: per-source-chapter loop ──────────────────────────────────────
     log(f"  phase 0d · step 2/3 · per-source-chapter loop ({len(source_chapters)} chapters)")
 
+    # Cross-chapter doctrine de-dup (R-NO-DOCTRINE-REPEAT, 2026-06-16). 0d
+    # authors each source chapter in an isolated slice, so a re-lecturing source
+    # produced chapters that re-taught earlier doctrines in full. Thread a
+    # running ledger of concept-doctrines already taught by EARLIER chapters and
+    # inject it into each chapter's prompt so re-covered doctrine is collapsed to
+    # a callback. Deterministic extraction (H2 concept titles via
+    # chapter_density_audit — no extra LLM call); seeded from any already-authored
+    # chapters so it is resume-safe.
+    from chapter_density_audit import audit_chapter as _audit_ch  # noqa: PLC0415
+
+    def _chapter_concepts(_cf: Path) -> list[str]:
+        try:
+            return [s.title.strip()
+                    for s in _audit_ch(_cf, book_slug, "").concept_sections
+                    if s.title and s.title.strip()]
+        except Exception:  # noqa: BLE001 — ledger is best-effort, never fatal
+            return []
+
+    taught_concepts: list[str] = []
+    for _existing in sorted(chapters_dir.glob("ch*.txt")):
+        taught_concepts.extend(_chapter_concepts(_existing))
+
     sc_failures: list[tuple[int, str]] = []
     for sc in source_chapters:
         sc_idx = int(sc["sc_index"])
@@ -800,9 +827,12 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"  - For Arabic terms in this slice: use plain transliteration without diacritics\n"
             f"    (e.g. 'al-Tabari', 'tawhid', 'da'wa'). Use the established English name where\n"
             f"    one exists (Qabil → Cain, Habil → Abel, Shaytan → Satan, Israfil → Raphael,\n"
-            f"    Nuh → Noah, Ibrahim → Abraham, Musa → Moses, Isa → Jesus). The TTS sanitizer\n"
-            f"    auto-applies the knowledge-base exonym/loanword tables; in the chapter text,\n"
-            f"    always prefer the English equivalent over the Arabic transliteration.\n"
+            f"    Nuh → Noah, Ibrahim → Abraham, Musa → Moses, Isa → Jesus). For ALL OTHER\n"
+            f"    Arabic / Islamic technical terms, concept words, proper names, book titles,\n"
+            f"    and surah names: PRESERVE the transliteration as-is — do NOT substitute the\n"
+            f"    English (R-PRESERVE-ARABIC-SOURCE). The human makes the English-vs-Arabic\n"
+            f"    decision later in the Astro phonetic-alignment review; audio anglicization is\n"
+            f"    applied downstream from those decisions, never baked into the chapter here.\n"
             f"  - `content/_shared/islam/imam-lineage-ismaili.yml` (canonical Imam lineage —\n"
             f"    Hassan=1st; the literal phrase pairing the leadership-title with the\n"
             f"    personal name of the Father of Imams is FORBIDDEN — always say 'Father\n"
@@ -886,6 +916,16 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"intro episode from the apparatus by hand. The PRIMARY-SOURCE chapters "
             f"(numbered abwab, fusul, sections, kandas, books-of-the-X) are what become "
             f"episodes; the apparatus is operator-discretion content.\n"
+            f"- STRICT CONTRACT FIELDS (the downstream gate refuses anything else):\n"
+            f"  * `chapter_ref` MUST be the chapter FILE STEM (e.g. `ch01a-<slug>`), NOT a "
+            f"number — put the source-chapter number in `source_chapter_ref`.\n"
+            f"  * `angle` MUST be exactly one of: faithful_exposition, personal_application, "
+            f"critical_dialectical, comparative, faithful_narrative — a single enum token, "
+            f"NOT a prose description (put any description in `angle_note`).\n"
+            f"  * `source_type` MUST be one of: book-chapter, article, document, lecture, "
+            f"interview, letter, synthesized-explainer, explainer-doc (use `lecture` for "
+            f"audio-sourced books).\n"
+            f"  * `title` MUST be <= 60 chars and <= 6 words (INVARIANT 6), unique in the book.\n"
             f"- Each `chapter-contracts/<slug>.yml` carries: chapter_ref, slug, source_type, "
             f"book_slug=`{book_slug}`, episode_number, title, audience, angle, "
             f"episode_format, format_rationale, essential, essential_rationale, "
@@ -974,6 +1014,24 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
 
         # Word-count-aware timeout per source chapter (2026-05-24 strategy).
         # Replaces the prior global sc_timeout. Tracks slice_wc so dense
+        # Inject the cross-chapter de-dup directive (R-NO-DOCTRINE-REPEAT) with
+        # the doctrines earlier chapters already taught, so this chapter calls
+        # back rather than re-teaches. Injected right before AUTHORITY so it is
+        # prominent; no-op for the first chapter (empty ledger).
+        if taught_concepts:
+            _seen_bullets = "\n".join(f"    - {c}" for c in dict.fromkeys(taught_concepts))
+            _dedup_block = (
+                f"CROSS-CHAPTER DE-DUP (R-NO-DOCTRINE-REPEAT — MANDATORY):\n"
+                f"The following doctrines/concepts have ALREADY been taught in full in "
+                f"EARLIER chapters of this book:\n{_seen_bullets}\n"
+                f"If THIS source chapter re-covers any of them, do NOT re-teach it in full. "
+                f"Give a brief one-line callback (e.g. 'as established earlier, in the "
+                f"teaching on X') and spend this chapter's words on what is GENUINELY NEW. "
+                f"Re-teaching an already-covered doctrine in full is a defect: the book must "
+                f"read as forward motion, not repetition.\n\n"
+            )
+            sc_prompt = sc_prompt.replace("AUTHORITY:\n", _dedup_block + "AUTHORITY:\n", 1)
+
         # chapters get the budget they need without short ones overpaying.
         per_sc_timeout = _compute_sc_timeout(slice_wc)
         log(f"    sc {sc_idx:03d}/{len(source_chapters)} · authoring "
@@ -1087,6 +1145,10 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"sc_index={sc_idx}\nsource_title={sc_title}\nepisode_count={episode_count}\n",
             encoding="utf-8",
         )
+        # Append THIS chapter's concept-doctrines to the cross-chapter ledger so
+        # subsequent chapters know not to re-teach them (R-NO-DOCTRINE-REPEAT).
+        for _cf in expected_chapter_files:
+            taught_concepts.extend(_chapter_concepts(_cf))
         log(f"    sc {sc_idx:03d}/{len(source_chapters)} · OK")
 
     if sc_failures:

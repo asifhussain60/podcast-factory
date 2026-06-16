@@ -1,12 +1,19 @@
 slug: kunooz-al-hikmah
 title: Kunooz al Hikmah
 short_name: kah
+author: Ali bin Hibatullah al-Shamsi
 category: lectures
 
+source:
+  original_language: ur
+  source_type: audio-lectures
+  lecture_count: 15
+  tradition: fatimid-tayyibi-ismaili
+
 pipeline:
-  current_phase: transcription
-  phase_status: partial
-  transcripts: 4
+  current_phase: source-review
+  phase_status: complete
+  transcripts: 15
 
 publication:
   status: draft

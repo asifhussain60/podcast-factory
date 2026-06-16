@@ -1,0 +1,69 @@
+{
+  "mapping": [
+    {
+      "chapter": "ch01a-family-of-light",
+      "episode": "EP01-family-of-light",
+      "n": 1
+    },
+    {
+      "chapter": "ch02b-named-duat-and-concealment",
+      "episode": "EP02-named-duat-and-concealment",
+      "n": 2
+    },
+    {
+      "chapter": "ch03-two-foundational-questions",
+      "episode": "EP03-two-foundational-questions",
+      "n": 3
+    },
+    {
+      "chapter": "ch04a-heart-shahadah-and-early-lectures",
+      "episode": "EP04-heart-shahadah-and-early-lectures",
+      "n": 4
+    },
+    {
+      "chapter": "ch05b-later-lectures-and-the-end-of-book",
+      "episode": "EP05-later-lectures-and-the-end-of-book",
+      "n": 5
+    },
+    {
+      "chapter": "ch06a-authors-posture-and-the-line",
+      "episode": "EP06-authors-posture-and-the-line",
+      "n": 6
+    },
+    {
+      "chapter": "ch07b-the-cycle-and-the-practical-frame",
+      "episode": "EP07-the-cycle-and-the-practical-frame",
+      "n": 7
+    },
+    {
+      "chapter": "ch08a-lectures-six-seven-eight-continued",
+      "episode": "EP08-lectures-six-seven-eight-continued",
+      "n": 8
+    },
+    {
+      "chapter": "ch09b-lectures-nine-ten-eleven-continued",
+      "episode": "EP09-lectures-nine-ten-eleven-continued",
+      "n": 9
+    },
+    {
+      "chapter": "ch10c-lectures-twelve-fourteen-fifteen-continued",
+      "episode": "EP10-lectures-twelve-fourteen-fifteen-continued",
+      "n": 10
+    },
+    {
+      "chapter": "ch11-living-context-and-the-whole-structure",
+      "episode": "EP11-living-context-and-the-whole-structure",
+      "n": 11
+    },
+    {
+      "chapter": "ch12-particular-doctrines-drawn-out",
+      "episode": "EP12-particular-doctrines-drawn-out",
+      "n": 12
+    },
+    {
+      "chapter": "ch13-doctrinal-synthesis-and-supplementary",
+      "episode": "EP13-doctrinal-synthesis-and-supplementary",
+      "n": 13
+    }
+  ]
+}

@@ -283,6 +283,14 @@ def check_t2_imam_lineage(text: str) -> list[DoctrinalFinding]:
 
         # Look at the 80-char window after the match for a name token
         window = text[m.end():m.end() + 120]
+        # Guard: a restrictive relative clause immediately after the ordinal
+        # ("the first Imam IN WHOM all four ranks combined was Ali Zayn
+        # al-Abidin") makes "first/Nth" a superlative over a CONDITION, not an
+        # absolute lineage position. Such a sentence names a later Imam BY
+        # DESIGN and is not a lineage swap. Genuine lineage statements ("the
+        # third Imam, Hassan, ...") never open with "in whom/in which".
+        if re.match(r"\s*in\s+(?:whom|which)\b", window, re.IGNORECASE):
+            continue
         canonical = by_ord[ordinal]
         if not isinstance(canonical, dict):
             continue

@@ -15,6 +15,7 @@ from ._core import (  # noqa: E402
     PHASE_0B_OVERLAP_WORDS,
     PHASE_0B_WINDOW_TIMEOUT,
     AuthoringError,
+    ARABIC_SCHOLARLY_CATEGORIES,
     SKIP_PHONETICS_CATEGORIES,
     _read_category,
 )

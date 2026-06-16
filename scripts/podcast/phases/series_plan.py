@@ -298,7 +298,7 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
     else:
         length_tier = "MIXED · author resolves"
         tier_rationale = (
-            f"Chapters declare mixed tiers ({sorted(tiers)}). Pick one in the "
+            f"Chapters declare mixed tiers ({sorted(tiers, key=str)}). Pick one in the "
             "contracts before resuming."
         )
 

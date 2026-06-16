@@ -260,16 +260,32 @@ def _run_chapter_set_check(book_dir: Path, log=_info) -> None:
     log("phase: 0d.5 · chapter-set advisory check")
     rc, stdout, stderr = _run([sys.executable, str(CHAPTER_SET_SCRIPT), str(book_dir)])
     findings: list[dict] = []
-    if stdout.strip():
+    # FAIL LOUD: a check that crashed (non-zero rc, empty stdout) or emitted
+    # unparseable output must NEVER be silently downgraded to "0 findings =
+    # clean." Doing so is how a crashing band-fit check wrote "Chapter-set is
+    # clean" while never running the cross-chapter duplication check at all.
+    # NOTE: rc is NOT a failure signal on its own — check_chapter_set.main()
+    # exits 1 to signal "P0 findings present" (a completed run) and 0 for none.
+    # A genuine crash produces EMPTY stdout (the run() AttributeError did) or
+    # unparseable output. Key failure detection off the OUTPUT, not rc.
+    check_failed = False
+    failure_reason = ""
+    if not stdout.strip():
+        check_failed = True
+        failure_reason = (
+            f"chapter-set check produced no output (rc={rc}); "
+            f"stderr: {(stderr or '').strip()[:400] or '<empty>'}"
+        )
+    else:
         try:
             parsed = json.loads(stdout)
+            if isinstance(parsed, dict):
+                findings = parsed.get("findings", [])
+            elif isinstance(parsed, list):
+                findings = parsed
         except json.JSONDecodeError:
-            log(f"  · chapter-set check emitted non-JSON output; rc={rc}; skipping report")
-            return
-        if isinstance(parsed, dict):
-            findings = parsed.get("findings", [])
-        elif isinstance(parsed, list):
-            findings = parsed
+            check_failed = True
+            failure_reason = f"chapter-set check emitted non-JSON output (rc={rc})"
 
     counts = {"P0": 0, "P1": 0, "P2": 0}
     for f in findings:
@@ -277,6 +293,40 @@ def _run_chapter_set_check(book_dir: Path, log=_info) -> None:
         counts[sev] = counts.get(sev, 0) + 1
 
     report_path = book_dir / "_system" / "chapter-set-report.md"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if check_failed:
+        # Write an honest "did not complete" report — never "clean" — and halt
+        # density-standard books (an unverified chapter-set must not proceed to
+        # Phase 0e spend). Legacy books keep the advisory contract but the loud
+        # report + warning replace the old silent skip.
+        ts = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        report_path.write_text(
+            "\n".join([
+                f"# Chapter-set advisory report — {book_dir.name}",
+                "",
+                f"Generated: {ts}",
+                f"Source: `scripts/podcast/check_chapter_set.py` (challenger Category P)",
+                "",
+                "## ⚠ CHECK DID NOT COMPLETE",
+                "",
+                f"{failure_reason}",
+                "",
+                "This is NOT a clean result — the chapter-set was not verified. "
+                "Fix the check failure and re-run before trusting chapter-set health.",
+                "",
+            ]),
+            encoding="utf-8",
+        )
+        log(f"  · ⚠ {failure_reason}")
+        log(f"  · ⚠ chapter-set NOT verified — see {_rel(report_path)} (not a clean result)")
+        from _content_profile import density_standard_active
+        if density_standard_active(book_dir):
+            raise RuntimeError(
+                f"chapter-set check did not complete for {book_dir.name}; "
+                f"refusing to proceed to Phase 0e on an unverified chapter-set. {failure_reason}"
+            )
+        return
     report_path.parent.mkdir(parents=True, exist_ok=True)
     ts = datetime.now(timezone.utc).isoformat(timespec="seconds")
     lines = [
