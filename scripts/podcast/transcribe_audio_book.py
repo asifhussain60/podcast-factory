@@ -60,11 +60,17 @@ TRANSCRIBE_PROMPT = """This is an audio recording of an {lang_name}-language Isl
 Produce a FAITHFUL, COMPLETE {output_clause} of the full spoken content. Requirements:
 1. Preserve all Arabic/Islamic technical terms, proper names, and honorifics in standard \
 transliteration (e.g., Bismillah al-Rahman al-Rahim, Ahl al-Bayt, 'isma/'ismah, du'at, Sayyidna, Imam).
-2. Render Quranic verses and Arabic quotations in transliteration, followed by a short English \
-gloss in parentheses.
+2. Render Quranic verses, du'as, prayers, and Arabic quotations as a full TRANSLITERATION of \
+the actual recited words, followed by a short English gloss in parentheses. NEVER replace recited \
+Arabic with a stage-direction placeholder such as [Recitation of Al-Fatihah], [Du'a in Arabic], \
+[Prayer], or [Arabic]. Always write the words that are recited; if you recognise the canonical \
+text (e.g. Al-Fatihah), transliterate it in full.
 3. Transcribe the full continuous speech IN ORDER — do NOT summarize, condense, or reorder.
-4. Output ONLY the prose. No headings, no notes, no preamble.
-5. Where the audio is genuinely unclear, write [unclear] rather than guessing.
+4. Output romanized transliteration ONLY. Do NOT emit any native script — no Arabic script \
+(ا ب ت), no Devanagari (अ आ), no other non-Latin script. Romanize every term into Latin letters.
+5. Output ONLY the prose. No headings, no notes, no preamble.
+6. Reserve [unclear] ONLY for audio that is genuinely inaudible — never for Arabic you can hear \
+recited. Do not guess at meaning, but do transliterate what is audibly recited.
 Do NOT drop side-discussion yet — faithfulness first; cleanup happens in a later step."""
 
 _LANG_NAMES = {"ur": "Urdu", "en": "English", "ar": "Arabic", "fa": "Persian"}
@@ -112,6 +118,109 @@ def _dup_ratio(text: str) -> float:
     return (len(sents) - len(set(sents))) / len(sents)
 
 
+# ── P4: block/paragraph-level verbatim-duplication detection ──────────────────
+# A Gemini decoding loop can repeat a large verbatim block (e.g. 838 chars) that
+# the sentence-level _dup_ratio misses — the repeat may not align to sentence or
+# paragraph boundaries. We detect it with a word-shingle scan: any window of
+# BLOCK_DUP_WINDOW_WORDS consecutive words that recurs is a verbatim block.
+# Legitimate rhetorical refrains are shorter than the window, so they do not fire.
+BLOCK_DUP_WINDOW_WORDS = 40
+BLOCK_DUP_LOOP_THRESHOLD = 0.10
+
+
+def _block_dup_ratio(text: str) -> float:
+    """Fraction of words inside a verbatim block (>= BLOCK_DUP_WINDOW_WORDS
+    consecutive words) that recurs elsewhere in the text. Catches decoding-loop
+    paragraph repeats the sentence-level check misses, boundary-agnostic."""
+    words = text.split()
+    n = len(words)
+    w = BLOCK_DUP_WINDOW_WORDS
+    if n < 2 * w:
+        return 0.0
+    seen: set[str] = set()
+    dup_idx: set[int] = set()
+    for i in range(n - w + 1):
+        key = " ".join(words[i:i + w])
+        if key in seen:
+            dup_idx.update(range(i, i + w))
+        else:
+            seen.add(key)
+    return len(dup_idx) / n if n else 0.0
+
+
+# ── P5: empty / suspiciously-short transcript guard ───────────────────────────
+# Real audio that returns ~0 words is a capture failure (corrupt/silent source or
+# a dead Gemini response), not a short lecture. Flag loudly; never accept silently.
+SHORT_TRANSCRIPT_MIN_BYTES = 200_000   # below this, a short transcript is plausible
+SHORT_TRANSCRIPT_MIN_WORDS = 50        # real audio above the size floor must beat this
+
+
+def _is_empty_or_short(word_count: int, source_bytes: int) -> bool:
+    """True when a transcript is empty, or implausibly short for its audio size."""
+    if word_count == 0:
+        return True
+    return source_bytes >= SHORT_TRANSCRIPT_MIN_BYTES and word_count < SHORT_TRANSCRIPT_MIN_WORDS
+
+
+# ── P7: native-script leakage detection ───────────────────────────────────────
+# The prompt forbids native script, but ASR can still leak Arabic/Devanagari/etc.
+# tokens mid-English. We DETECT and flag them (deterministic, loud) rather than
+# auto-romanize (transliteration of arbitrary script is not deterministic).
+_NATIVE_SCRIPT_RE = re.compile(
+    r"[؀-ۿݐ-ݿऀ-ॿঀ-৿֐-׿]+"
+)
+
+
+def _native_script_tokens(text: str) -> list[str]:
+    """Return native-script (Arabic/Devanagari/Bengali/Hebrew) runs leaked into
+    the romanized transcript. Empty list = clean."""
+    return _NATIVE_SCRIPT_RE.findall(text)
+
+
+# ── P2: deterministic canonical-term normalization post-pass ──────────────────
+# Typographic folding (Unicode -> ASCII, aligned with the ASCII-only output rule)
+# plus a curated whole-word garbled-term map. Applied to every transcript so the
+# same audio always yields the same canonical terms. See
+# data/transcription-normalization.yml for the curated garble map + the rationale
+# for keeping risky linguistic variant-merges OUT of it.
+_TYPOGRAPHIC_FOLD = {
+    "‘": "'", "’": "'", "ʻ": "'", "ʿ": "'", "′": "'",
+    "“": '"', "”": '"', "″": '"',
+    "–": "-", "—": "-",
+    " ": " ",
+}
+_NORMALIZATION_PATH = SCRIPT_DIR / "data" / "transcription-normalization.yml"
+_GARBLE_MAP_CACHE: dict | None = None
+
+
+def _load_garble_map() -> dict[str, str]:
+    """Load + cache the curated whole-word garbled-term map (P2)."""
+    global _GARBLE_MAP_CACHE
+    if _GARBLE_MAP_CACHE is None:
+        try:
+            import yaml  # noqa: E402
+            data = yaml.safe_load(_NORMALIZATION_PATH.read_text(encoding="utf-8")) or {}
+            _GARBLE_MAP_CACHE = dict(data.get("garbled_terms") or {})
+        except Exception:
+            _GARBLE_MAP_CACHE = {}
+    return _GARBLE_MAP_CACHE
+
+
+def normalize_transcript(text: str) -> tuple[str, int]:
+    """Deterministic terminology/typographic normalization (P2). Returns
+    (normalized_text, substitution_count). Idempotent."""
+    subs = 0
+    for bad, good in _TYPOGRAPHIC_FOLD.items():
+        if bad in text:
+            subs += text.count(bad)
+            text = text.replace(bad, good)
+    for garbled, canonical in _load_garble_map().items():
+        pat = re.compile(rf"\b{re.escape(garbled)}\b")
+        text, n = pat.subn(canonical, text)
+        subs += n
+    return text, subs
+
+
 def _gen_from_file(client, path: str, prompt: str) -> str:
     f = client.files.upload(file=path)
     for _ in range(120):
@@ -151,13 +260,20 @@ def _transcribe_one(client, mp3: Path, *, language: str, book_title: str, log=_i
     text = _gen_from_file(client, str(mp3), prompt)
     method = "whole-file"
     dup = _dup_ratio(text)
-    if dup > DUP_RATIO_LOOP_THRESHOLD:
-        log(f"        ⚠ repetition loop detected ({dup:.0%} duplicate sentences) — re-chunking")
+    bdup = _block_dup_ratio(text)  # P4: catches block repeats the sentence check misses
+    if dup > DUP_RATIO_LOOP_THRESHOLD or bdup > BLOCK_DUP_LOOP_THRESHOLD:
+        why = (f"{dup:.0%} duplicate sentences" if dup > DUP_RATIO_LOOP_THRESHOLD
+               else f"{bdup:.0%} duplicate blocks")
+        log(f"        ⚠ repetition loop detected ({why}) — re-chunking")
         chunked = _transcribe_chunked(client, mp3.read_bytes(), prompt, max_bytes=3_400_000, log=log)
-        if _dup_ratio(chunked) < dup:
+        # Accept the chunked pass if it reduces EITHER loop signal.
+        if _dup_ratio(chunked) < dup or _block_dup_ratio(chunked) < bdup:
             text, method = chunked, "chunked-recovery"
-        if _dup_ratio(text) > DUP_RATIO_LOOP_THRESHOLD:
-            log(f"        ⚠ STILL looping after re-chunk ({_dup_ratio(text):.0%}) — flagged in provenance")
+        if (_dup_ratio(text) > DUP_RATIO_LOOP_THRESHOLD
+                or _block_dup_ratio(text) > BLOCK_DUP_LOOP_THRESHOLD):
+            log(f"        ⚠ STILL looping after re-chunk "
+                f"(sent {_dup_ratio(text):.0%} / block {_block_dup_ratio(text):.0%}) "
+                f"— flagged in provenance")
             method = "chunked-recovery-FLAGGED"
     return text, method
 
@@ -206,6 +322,7 @@ def transcribe_audio_book(
     client = genai.Client(api_key=get_gemini_key())
 
     transcripts: list[tuple[int, str]] = []
+    flagged_lectures: list[tuple[int, str, str]] = []  # (lecture, reason, detail)
     t0 = time.monotonic()
     for i, mp3 in enumerate(mp3s, 1):
         out_txt = lectures_dir / f"lec{i:02d}.txt"
@@ -218,21 +335,40 @@ def transcribe_audio_book(
         ts = time.monotonic()
         text, method = _transcribe_one(client, mp3, language=language, book_title=book_title)
         elapsed = time.monotonic() - ts
+        # P2: deterministic terminology/typographic normalization before persisting.
+        text, n_norm = normalize_transcript(text)
         dup = _dup_ratio(text)
+        bdup = _block_dup_ratio(text)                       # P4
+        src_bytes = mp3.stat().st_size
+        wc = len(text.split())
+        short = _is_empty_or_short(wc, src_bytes)           # P5
+        leaked = _native_script_tokens(text)                # P7
+        if short:
+            _info(f"        ⚠ EMPTY/SHORT: {wc} words from {src_bytes:,}-byte audio — FLAGGED")
+            flagged_lectures.append((i, "empty_or_short", f"{wc} words / {src_bytes:,} bytes"))
+        if bdup > BLOCK_DUP_LOOP_THRESHOLD:
+            flagged_lectures.append((i, "block_duplication", f"{bdup:.0%} of words in repeated blocks"))
+        if leaked:
+            _info(f"        ⚠ {len(leaked)} native-script token(s) leaked into prose — FLAGGED")
+            flagged_lectures.append((i, "native_script_leak", f"{len(leaked)} tokens e.g. {leaked[0]!r}"))
         out_txt.write_text(text + "\n", encoding="utf-8")
         prov.write_text(json.dumps({
             "lecture": i,
             "source_audio": mp3.name,
-            "source_bytes": mp3.stat().st_size,
+            "source_bytes": src_bytes,
             "source_kind": "audio",
             "source_language": language,
             "transcription_engine": f"gemini/{GEMINI_MODEL}",
             "transcription_method": method,
             "dup_sentence_ratio": round(dup, 3),
+            "block_dup_ratio": round(bdup, 3),
             "loop_flagged": method.endswith("FLAGGED"),
+            "normalization_subs": n_norm,
+            "empty_or_short": short,
+            "native_script_tokens": len(leaked),
             "translated": language != "en",
             "char_count": len(text),
-            "word_count": len(text.split()),
+            "word_count": wc,
             "elapsed_seconds": round(elapsed, 1),
             "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         }, indent=2) + "\n", encoding="utf-8")
@@ -266,6 +402,19 @@ def transcribe_audio_book(
     _info(f"==> Assembled {len(transcripts)} lectures → raw-extract.md "
           f"({total_words:,} words) in {time.monotonic()-t0:.0f}s")
     _info(f"    stream: _system/source/multi/denoised/audio-synthesized.md")
+
+    # Fail-loud transcription-quality summary (P4/P5/P7). Never let a bad capture
+    # pass silently — surface every flagged lecture and record it in state so the
+    # ship-gate and a human reviewer both see it.
+    if flagged_lectures:
+        _info("")
+        _info(f"==> ⚠ TRANSCRIPTION QUALITY FLAGS ({len(flagged_lectures)}):")
+        for lec, reason, detail in flagged_lectures:
+            _info(f"      lec{lec:02d}: {reason} — {detail}")
+        _info("    These are recorded in each lecNN.provenance.json and in state.json.")
+        state.setdefault("transcription_flags", {})[
+            datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        ] = [{"lecture": l, "reason": r, "detail": d} for l, r, d in flagged_lectures]
 
     # Advance state — hand off to the SINGLE canonical pipeline at 0b (refine),
     # exactly like the bundle and audio-transcript intakes do. raw-extract.md is
