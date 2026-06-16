@@ -75,7 +75,7 @@ WARN_THRESHOLD_DELTA = 1        # WARN if exactly max+1
 # the-master-and-the-disciple ch18b/ch19c — counted as a 4th concept without it).
 _FRAME_PATTERNS = re.compile(
     r"^##\s+(where\s+(this|the)\s+\w+\s+(opens|picks\s+up|begins|stands)\b.*"
-    r"|what\s+(this|the)\s+\w+\s+(lands|leaves)\b.*"
+    r"|what\s+(this|the)\s+[\w'-]+(\s+[\w'-]+)*?\s+(lands?|leaves?|lays\s+down)\b.*"
     r"|closing\s*(turn|reflection)?"
     r"|the\s+frame)"
     r"\s*$",

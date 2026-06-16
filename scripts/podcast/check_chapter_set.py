@@ -362,6 +362,27 @@ _DUP_EXCLUDE_SUBSTRINGS = (
     "peace and blessings", "peace be upon", "praise be to allah",
     "commander of the faithful",
 )
+# Inline bibliographic citations are quoted apparatus, not teaching content. A
+# scholarly book cites the same source (Daftary, Corbin, Halm, the canonical
+# hadith collections) in several chapters by design — that is good scholarship,
+# NOT "the same content taught twice". Strip parenthetical/bracketed citation
+# spans before shingling so the cross-chapter dedup measures repeated PROSE, not
+# repeated attribution. A span counts as a citation when, between its delimiters,
+# it carries a publisher, edition/translation marker, page marker, or 4-digit
+# year. (Verbatim scripture is handled by author judgment, not here.)
+_CITATION_MARKER = (
+    r"(?:university\s+press|cambridge|oxford|brill|crossroad|darussalam"
+    r"|\bed\.|\bedition\b|\btrans\b|\bvol\.|\bpp\.|\bp\.\s*\d"
+    r"|\b1[0-9]{3}\b|\b20[0-9]{2}\b)"
+)
+# Two delimiter forms — a parenthetical ref may carry inner brackets and a
+# bracketed ref may carry inner parens (e.g. "[Corbin ... (London: Kegan Paul,
+# 1983), pp. 84-86.]"), so each pattern excludes only its OWN delimiter from the
+# span body and tolerates the other nested inside.
+_CITATION_SPAN_RES = (
+    re.compile(r"\([^()]*" + _CITATION_MARKER + r"[^()]*\)", re.IGNORECASE),
+    re.compile(r"\[[^\[\]]*" + _CITATION_MARKER + r"[^\[\]]*\]", re.IGNORECASE),
+)
 # Minimum words for a sermon section to count as "captured whole", not a stub.
 SERMON_MIN_WORDS = 150
 
@@ -469,6 +490,8 @@ def _concept_shingles(text: str) -> set[tuple[str, ...]]:
         if keep:
             parts.append(line)
     body = " ".join(parts)
+    for _cre in _CITATION_SPAN_RES:           # drop inline bibliographic citations
+        body = _cre.sub(" ", body)
     tokens = re.findall(r"[a-z']+", body.lower())
     shingles: set[tuple[str, ...]] = set()
     for i in range(len(tokens) - SHINGLE_N + 1):
