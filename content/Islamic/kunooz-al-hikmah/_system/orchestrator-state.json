@@ -69,8 +69,8 @@
     "per-chapter": {
       "status": "running",
       "ts_started": "2026-06-15T20:27:36Z",
-      "current_chapter": "the-cycle-and-the-practical-frame",
-      "last_beat": "2026-06-16T00:21:30Z",
+      "current_chapter": "two-foundational-questions",
+      "last_beat": "2026-06-16T00:34:11Z",
       "completed_slugs": [
         "authors-posture-and-the-line",
         "family-of-light",
@@ -81,7 +81,8 @@
         "lectures-twelve-fourteen-fifteen-continued",
         "living-context-and-the-whole-structure",
         "named-duat-and-concealment",
-        "particular-doctrines-drawn-out"
+        "particular-doctrines-drawn-out",
+        "the-cycle-and-the-practical-frame"
       ],
       "failed_slugs": [
         "doctrinal-synthesis-and-supplementary"
@@ -167,6 +168,13 @@
         },
         "the-cycle-and-the-practical-frame": {
           "started_ts": "2026-06-16T00:14:45Z",
+          "completed_ts": "2026-06-16T00:23:55Z",
+          "duration_sec": 550.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "two-foundational-questions": {
+          "started_ts": "2026-06-16T00:23:55Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
@@ -178,5 +186,5 @@
   },
   "next_phase": "0literary",
   "content_profile": "islamic_scholarly",
-  "ts_updated": "2026-06-16T00:21:30Z"
+  "ts_updated": "2026-06-16T00:34:11Z"
 }
