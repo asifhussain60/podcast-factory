@@ -39,7 +39,18 @@
   LLM call, resume-safe) and injects an "already taught — call back, don't re-teach"
   directive into each chapter's authoring prompt. Prevents cross-chapter repetition
   at the source ([`_chapter_design.py`](scripts/podcast/_authoring/_chapter_design.py));
-  the chapter-set P8 verbatim check is the detection floor.
+  the chapter-set P8 verbatim check is the detection floor. This is PREVENTION and
+  only helps chapters authored AFTER it landed.
+- **Retroactive cross-chapter de-dup** (2026-06-16) — the complement for books whose
+  0d predates R-NO-DOCTRINE-REPEAT (e.g. kunooz). [`dedup_cross_chapter.py`](scripts/podcast/dedup_cross_chapter.py)
+  reuses the P8 shingle logic (inline bibliographic citations stripped — citing the
+  same source across chapters is scholarship, not duplication) to locate genuine
+  repeated-doctrine runs, picks the earliest chapter as the home, and proposes a
+  one-line callback. Dry-run first. A repeat that is a STANDALONE paragraph is
+  auto-collapsible; a repeat WOVEN into unique prose is FLAGGED for an authoring
+  rewrite and never blunt-cut (a cut leaves dangling lead-ins/restatements — proven
+  on kunooz, where all genuine repeats are embedded). Scripture quotations and
+  deliberate bookends are surfaced for human judgment, not auto-removed.
 - **R-SERMON-VERBATIM** — sermons render WHOLE as their own concept section;
   contract carries `sermon: {present, section_title}`; framing author injects a
   `## Verbatim Recitation` block (post-author gate in
