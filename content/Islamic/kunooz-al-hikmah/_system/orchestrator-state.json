@@ -6,11 +6,7 @@
   "last_completed_phase": "06a",
   "phase": "per-chapter",
   "phase_status": "running",
-  "last_error": {
-    "phase": "per-chapter",
-    "message": "[doctrinal-synthesis-and-supplementary] pipeline_lint P0: framing structural mismatch:",
-    "ts": "2026-06-15T21:30:15Z"
-  },
+  "last_error": null,
   "category": "lectures",
   "status": "draft",
   "updated": "2026-06-14T22:29:44Z",
@@ -69,8 +65,8 @@
     "per-chapter": {
       "status": "running",
       "ts_started": "2026-06-15T20:27:36Z",
-      "current_chapter": "two-foundational-questions",
-      "last_beat": "2026-06-16T00:34:11Z",
+      "current_chapter": "doctrinal-synthesis-and-supplementary",
+      "last_beat": "2026-06-16T00:48:32Z",
       "completed_slugs": [
         "authors-posture-and-the-line",
         "family-of-light",
@@ -82,11 +78,10 @@
         "living-context-and-the-whole-structure",
         "named-duat-and-concealment",
         "particular-doctrines-drawn-out",
-        "the-cycle-and-the-practical-frame"
+        "the-cycle-and-the-practical-frame",
+        "two-foundational-questions"
       ],
-      "failed_slugs": [
-        "doctrinal-synthesis-and-supplementary"
-      ],
+      "failed_slugs": [],
       "chapter_timings": {
         "authors-posture-and-the-line": {
           "started_ts": "2026-06-15T20:34:23Z",
@@ -96,12 +91,11 @@
           "cost_usd": 0.0
         },
         "doctrinal-synthesis-and-supplementary": {
-          "started_ts": "2026-06-15T21:17:18Z",
-          "completed_ts": "2026-06-15T21:30:15Z",
-          "duration_sec": 776.6,
-          "verdict": "FAILED",
-          "cost_usd": 0.0,
-          "error": "pipeline_lint P0: framing structural mismatch:"
+          "started_ts": "2026-06-16T00:44:28Z",
+          "completed_ts": null,
+          "duration_sec": null,
+          "verdict": null,
+          "cost_usd": null
         },
         "family-of-light": {
           "started_ts": "2026-06-15T21:30:15Z",
@@ -175,16 +169,17 @@
         },
         "two-foundational-questions": {
           "started_ts": "2026-06-16T00:23:55Z",
-          "completed_ts": null,
-          "duration_sec": null,
-          "verdict": null,
-          "cost_usd": null
+          "completed_ts": "2026-06-16T00:38:13Z",
+          "duration_sec": 858.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
         }
       },
-      "convergence_iter": 2
+      "convergence_iter": 2,
+      "ts_completed": "2026-06-16T00:38:14Z"
     }
   },
   "next_phase": "0literary",
   "content_profile": "islamic_scholarly",
-  "ts_updated": "2026-06-16T00:34:11Z"
+  "ts_updated": "2026-06-16T00:48:32Z"
 }
