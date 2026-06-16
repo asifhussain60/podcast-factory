@@ -374,6 +374,76 @@ export function upsertSectionDepth(
 }
 
 // ---------------------------------------------------------------------------
+// Action items — deferred AI action-item queue (editor stamps, CLI drains)
+// ---------------------------------------------------------------------------
+
+export type ActionScope = 'paragraph' | 'term';
+export type ActionStatus = 'pending' | 'resolved' | 'dismissed';
+
+export interface ActionItem {
+  id: number;
+  scope: ActionScope;
+  para_ordinal: number;
+  term_text: string;
+  anchor_text: string;
+  action_kind: string;
+  note: string | null;
+  status: ActionStatus;
+  result: string | null;
+  source: 'human' | 'pipeline';
+}
+
+const ACTION_ITEM_COLS =
+  'id, scope, para_ordinal, term_text, anchor_text, action_kind, note, status, result, source';
+
+export function getActionItems(bookSlug: string, chapterId: string): ActionItem[] {
+  const db = getDb();
+  return db.prepare(
+    `SELECT ${ACTION_ITEM_COLS} FROM action_items WHERE book_slug = ? AND chapter_id = ? ORDER BY para_ordinal, id`,
+  ).all(bookSlug, chapterId) as ActionItem[];
+}
+
+/** Insert (or update note/anchor on conflict) one action item. Identity is
+ *  (book, chapter, para_ordinal, term_text, action_kind) — re-stamping is a no-op
+ *  beyond refreshing the anchor text + note. */
+export function upsertActionItem(input: {
+  bookSlug: string;
+  chapterId: string;
+  scope: ActionScope;
+  paraOrdinal: number;
+  termText?: string;
+  anchorText?: string;
+  actionKind: string;
+  note?: string;
+  source?: 'human' | 'pipeline';
+}): ActionItem {
+  const termText = input.termText ?? '';
+  const anchorText = input.anchorText ?? '';
+  const source = input.source ?? 'human';
+  const db = getWriteDb();
+  db.prepare(`
+    INSERT INTO action_items (book_slug, chapter_id, scope, para_ordinal, term_text, anchor_text, action_kind, note, source)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(book_slug, chapter_id, para_ordinal, term_text, action_kind)
+    DO UPDATE SET anchor_text = excluded.anchor_text,
+                  note        = excluded.note,
+                  updated_at  = strftime('%Y-%m-%dT%H:%M:%SZ', 'now')
+  `).run(input.bookSlug, input.chapterId, input.scope, input.paraOrdinal, termText, anchorText, input.actionKind, input.note ?? null, source);
+  return db.prepare(
+    `SELECT ${ACTION_ITEM_COLS} FROM action_items WHERE book_slug = ? AND chapter_id = ? AND para_ordinal = ? AND term_text = ? AND action_kind = ?`,
+  ).get(input.bookSlug, input.chapterId, input.paraOrdinal, termText, input.actionKind) as ActionItem;
+}
+
+/** Remove one action item by its row id (scoped to book+chapter for safety). */
+export function deleteActionItem(bookSlug: string, chapterId: string, id: number): boolean {
+  const db = getWriteDb();
+  const info = db.prepare(
+    'DELETE FROM action_items WHERE book_slug = ? AND chapter_id = ? AND id = ?',
+  ).run(bookSlug, chapterId, id);
+  return info.changes > 0;
+}
+
+// ---------------------------------------------------------------------------
 // Lookup levels (Wave N) — Kashkole provenance for the 6-rung ladder
 // ---------------------------------------------------------------------------
 

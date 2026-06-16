@@ -174,6 +174,14 @@
   --glass-border-hover: color-mix(in oklab, var(--c-ink) 22%, transparent);
   --glass-border-accent: color-mix(in oklab, var(--c-accent) 30%, transparent);
   --radius-xl: 24px;
+  /* Action-item badge accents (Studio editor) — bright-on-dark icon colours for
+     the deferred AI action marks, grouped by action family. New named tokens
+     (not aliases); no existing colour value is changed. */
+  --c-act-core: #fbbf24;        /* amber  — rewrite / rephrase / improve */
+  --c-act-etymology: #a78bfa;   /* violet — etymology (root-history) */
+  --c-act-transform: #38bdf8;   /* sky    — expand / condense / simplify */
+  --c-act-knowledge: #2dd4bf;   /* teal   — define / cross-ref / add-to-corpus */
+  --c-act-remove: #fb7185;      /* rose   — mark for removal */
 }
 
 /* ── Reset + base ──────────────────────────────────────────────── */

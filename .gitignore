@@ -269,6 +269,9 @@ _workspace/experiments/
 # Sanitizer backups (created by scripts/podcast/sanitize_contract_yaml.py)
 *.yml.bak
 
+# Studio find-and-replace one-step backups (created by /api/studio/replace)
+*.txt.bak
+
 # Framing signature cache (runtime hash used by pipeline to detect framing changes)
 .framing-sig
 
