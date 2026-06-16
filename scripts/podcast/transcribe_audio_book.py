@@ -201,7 +201,14 @@ def _load_garble_map() -> dict[str, str]:
             import yaml  # noqa: E402
             data = yaml.safe_load(_NORMALIZATION_PATH.read_text(encoding="utf-8")) or {}
             _GARBLE_MAP_CACHE = dict(data.get("garbled_terms") or {})
-        except Exception:
+        except Exception as e:  # noqa: BLE001
+            # Fail safe (typographic fold still runs), but DON'T fail silent: the
+            # garble map is the primary determinism lever for terminology, so a
+            # malformed YAML that disables it must be visible, not swallowed.
+            sys.stderr.write(
+                f"[transcribe] WARNING: garble map disabled — could not load "
+                f"{_NORMALIZATION_PATH.name} ({e!r}); terminology normalization "
+                f"will be skipped this run\n")
             _GARBLE_MAP_CACHE = {}
     return _GARBLE_MAP_CACHE
 

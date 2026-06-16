@@ -179,6 +179,43 @@ class AuthoringHalt(AuthoringError):
 DEFAULT_MODEL_LABEL = "claude-opus-4-8"
 
 
+# ── Determinism contract (read before "make authoring deterministic") ──────────
+# The `claude -p` CLI exposes NO temperature, top_p, or seed flag (verified
+# against `claude --help`). Authoring therefore runs at the model's default
+# sampling and a *fresh* generation of any artifact is genuinely non-deterministic
+# — re-running produces different prose. The route is REPRODUCIBLE-BY-CHECKPOINT,
+# not generation-deterministic: once an artifact exists on disk the phases skip
+# re-authoring (skip-if-exists / framing-signature cache), so a re-run of a
+# completed book is stable. Deleting an artifact or forcing a re-author re-enters
+# the stochastic path and yields different bytes. Two consequences we make honest:
+#   1. Model provenance is recorded per call (record_model_provenance) so a book
+#      authored partly by the Sonnet timeout-fallback is visible, not silent.
+#   2. Callers that re-enter the stochastic path log it loudly (per_chapter
+#      framing cache-miss) so "reproducible only via checkpoints" is observable.
+# Pinning sampling is impossible until the CLI grows the knob; do NOT claim the
+# content route is byte-deterministic.
+
+def record_model_provenance(book_dir: "Path | None", *, phase: str, step: str,
+                            model: str, fallback: bool = False) -> None:
+    """Append one row to _system/model-provenance.jsonl naming the model that
+    authored this call. A row whose model != DEFAULT_MODEL_LABEL (or fallback=True)
+    is a content-provenance divergence — surfaced so mixed-model books are visible.
+    Best-effort: never raises into the authoring path."""
+    if book_dir is None:
+        return
+    try:
+        import json as _json
+        sysdir = Path(book_dir) / "_system"
+        sysdir.mkdir(parents=True, exist_ok=True)
+        row = {"phase": phase or "(unspecified)", "step": step or "(unspecified)",
+               "model": model, "fallback": bool(fallback),
+               "divergence": bool(fallback or model != DEFAULT_MODEL_LABEL)}
+        with (sysdir / "model-provenance.jsonl").open("a", encoding="utf-8") as fh:
+            fh.write(_json.dumps(row) + "\n")
+    except Exception as e:  # noqa: BLE001
+        sys.stderr.write(f"[record_model_provenance] skipped: {e!r}\n")
+
+
 def _run_claude_p(
     prompt: str,
     *,
@@ -233,6 +270,13 @@ def _run_claude_p(
                 )
             except Exception as e:  # noqa: BLE001
                 sys.stderr.write(f"[_run_claude_p] cost-ledger append failed: {e!r}\n")
+            # Record which model authored this artifact (provenance). A non-default
+            # model (the Sonnet timeout-fallback passes model_flag) is flagged as a
+            # content-provenance divergence so mixed-model books are never silent.
+            _effective_model = model_flag or model
+            record_model_provenance(
+                book_dir, phase=phase, step=step, model=_effective_model,
+                fallback=_effective_model != DEFAULT_MODEL_LABEL)
         try:
             from _cost_ledger import parse_text_from_json_stdout
             stdout = parse_text_from_json_stdout(raw_stdout)
@@ -280,7 +324,10 @@ def _run_claude_p_with_retry(
 
     bumped = int(timeout * fallback_timeout_multiplier)
     log(f"      [retry] {step}: first attempt timed out ({timeout}s); "
-        f"retrying once with model={fallback_model}, timeout={bumped}s")
+        f"retrying once with model={fallback_model}, timeout={bumped}s "
+        f"— CONTENT-PROVENANCE DIVERGENCE: this artifact will be authored by "
+        f"{fallback_model}, not {DEFAULT_MODEL_LABEL} (recorded in "
+        f"_system/model-provenance.jsonl)")
     try:
         return _run_claude_p(
             prompt, timeout=bumped,
