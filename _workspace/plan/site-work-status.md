@@ -28,6 +28,18 @@ CONSUMER half NOT built: no CLI drain pass exists to read pending rows, run AI
 per action_kind, and write results back into `result`. That is the next phase
 (needs a per-kind handler design pass before building — it is spend-bearing).
 
+Also shipped (commit d8eba51): Studio GLOBAL FIND-AND-REPLACE. Highlight a phrase
+-> "Replace" term action opens a popup (multiple find->replace pairs + scope
+checkbox: current chapter vs whole book). New api/studio/replace.ts rewrites the
+canonical chapters/<id>.txt files (resolved via findContentDirSync) — literal
+case-sensitive, pairs in order, preview-before-apply, per-file .txt.bak (gitignored)
++ git as deeper undo. StudioPoc mirrors confirmed pairs into the live editor doc.
+Verified end-to-end (preview chapter=2/book=7-across-3 matches grep; apply book-
+wide writes+restores clean). NOTE discovered: save-stage.ts still targets the
+legacy content/drafts/books/_stages path + requires _stages, so for bucket-layout
+books with no _stages (e.g. Kunooz) the editor's own Save & Approve likely 404s —
+pre-existing latent bug, NOT fixed here (replace writes chapters/<id>.txt directly).
+
 **Session 27 (audit + fixes, commit 9c5ff4a):** Full pipeline + site audit; every
 
 **Session 27 (audit + fixes, commit 9c5ff4a):** Full pipeline + site audit; every
