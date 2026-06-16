@@ -652,13 +652,13 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   );
 
   const [selection, setSelection] = useState('');
-  const [arabicOn, setArabicOn] = useState(false);
+  const [arabicOn, setArabicOn] = useState(true);   // Arabic overlay ON by default (Islamic review default)
   const [, setTick] = useState(0);
   const refresh = () => setTick((t) => t + 1);
 
   const originalRef = useRef<string[]>([]);            // original text per top-level node
   const paraTagsRef = useRef<Map<number, string[]>>(new Map()); // node index -> tag ids
-  const arabicRef = useRef(false);                     // mirror of arabicOn for the plugin
+  const arabicRef = useRef(true);                      // mirror of arabicOn for the plugin (ON by default)
   const hasFocusRef = useRef(false);                   // tracks editor DOM focus for para-active
   const editorContainerRef = useRef<HTMLElement | null>(null);
   const railRef = useRef<HTMLElement | null>(null);        // left pipeline rail
@@ -1717,19 +1717,28 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       <aside className="studio-poc__inspector" aria-label="Contextual inspector" ref={inspectorRef}>
         {/* M-1 — Slim global action strip: Arabic toggle · Save & Approve · Finalize */}
         <div className="sp-global-strip">
-          <span className="sp-global-arabic">
-            <span lang="ar" dir="rtl">ع</span>
-            <button
-              type="button"
-              role="switch"
-              aria-checked={arabicOn}
-              className={`sp-arabic-btn${arabicOn ? ' is-on' : ''}`}
-              onClick={toggleArabic}
-              title={arabicOn ? 'Hide Arabic script' : 'Show Arabic script'}
-            >
-              {arabicOn ? 'Arabic On' : 'Arabic'}
-            </button>
-          </span>
+          {glossaryCount > 0 && (
+            <span className="sp-global-arabic">
+              <button
+                type="button"
+                role="switch"
+                aria-checked={arabicOn}
+                aria-label={`Arabic script ${arabicOn ? 'on' : 'off'}`}
+                className={`sp-arabic-btn${arabicOn ? ' is-on' : ''}`}
+                onClick={toggleArabic}
+                title={arabicOn ? 'Hide Arabic script' : 'Show Arabic script'}
+              >
+                <span lang="ar" dir="rtl" aria-hidden="true">ع</span>
+              </button>
+              <a
+                className="sp-arabic-review"
+                href={`/studio/${slug}/arabic-review#${chapter}`}
+                title="Open the full Arabic review page for this chapter"
+              >
+                Review <span aria-hidden="true">↗</span>
+              </a>
+            </span>
+          )}
           {!viewAll && !isReadOnlyStage && stage && (
             <>
               <div className="sp-strip-sep" aria-hidden="true" />
