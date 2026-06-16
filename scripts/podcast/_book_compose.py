@@ -109,8 +109,15 @@ def _arabic_run_count(text: str) -> int:
 
 # Quran citation in the source/transliteration, e.g. "(Qur'an 2:255)", "Quran 7:56",
 # "Sura 18:110", "Q 53:39". Surah 1-114, ayah up to 286 (longest sura).
+# Two forms, captured consistently:
+#   - spelled prefix (Qur'an/Quran/Sura/Surah) accepts colon OR dot separator
+#     (groups 1,2). Word-boundary anchored so it won't match mid-word.
+#   - bare "Q" prefix requires a COLON separator (groups 3,4) — this excludes
+#     financial-quarter notation like "Q1.20" / "Q3.2025" that the dot form would
+#     otherwise misread as a verse and pollute the anchor-coverage metric.
 _QURAN_CITE_RE = re.compile(
-    r"(?:Qur(?:['’ʾ]?)?an|Qur['’]ān|S[uū]rah?|Sura|\bQ)\.?\s*(\d{1,3})\s*[:.]\s*(\d{1,3})",
+    r"\b(?:Qur(?:['’ʾ]?)?an|Qur['’]ān|S[uū]rah?|Sura)\.?\s*(\d{1,3})\s*[:.]\s*(\d{1,3})"
+    r"|\bQ\.?\s*(\d{1,3})\s*:\s*(\d{1,3})",
     re.IGNORECASE,
 )
 
@@ -120,7 +127,8 @@ def _detect_quran_refs(text: str) -> list[tuple[int, int]]:
     refs: list[tuple[int, int]] = []
     seen: set[tuple[int, int]] = set()
     for m in _QURAN_CITE_RE.finditer(text or ""):
-        s, a = int(m.group(1)), int(m.group(2))
+        s = int(m.group(1) or m.group(3))
+        a = int(m.group(2) or m.group(4))
         if 1 <= s <= 114 and 1 <= a <= 286 and (s, a) not in seen:
             seen.add((s, a))
             refs.append((s, a))

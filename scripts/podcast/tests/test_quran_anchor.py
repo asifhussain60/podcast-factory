@@ -29,6 +29,13 @@ _MIRROR = (SCRIPT_DIR.parents[1] / "content" / "knowledge-base" / "mirror.db").e
     ("out of range Quran 999:999 but valid Quran 2:255", [(2, 255)]),
     ("bare ratio 2:255 without a keyword is not a citation", []),
     ("dedupe Quran 2:255 ... again Qur'an 2:255", [(2, 255)]),
+    ("bare Q citation Q 2:255", [(2, 255)]),
+    # financial-quarter notation must NOT be read as Quran citations (P2 fix)
+    ("revenue in Q1.20 and Q3.15 grew", []),
+    ("guidance for Q1.2025 is strong", []),
+    ("Q2.10 is a quarter not a verse", []),   # bare-Q form requires a colon, not a dot
+    ("Q2:10 IS a verse", [(2, 10)]),
+    ("the word aQuran2:255 mid-token", []),    # spelled prefix is word-boundary anchored
 ])
 def test_detect_quran_refs(text, expected):
     assert C._detect_quran_refs(text) == expected

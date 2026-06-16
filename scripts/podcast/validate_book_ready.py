@@ -91,10 +91,12 @@ def _toc_chapter_count(book_dir: Path) -> int:
 def _pdf_page_count(pdf_bytes: bytes) -> int:
     """Deterministic page count from raw PDF bytes — count /Type /Page objects.
 
-    Avoids a PDF-parser dependency. The ``[^s]`` guard excludes ``/Type /Pages``
-    (the container node). Robust to whitespace variation between the key and value.
+    Avoids a PDF-parser dependency. The ``(?![A-Za-z])`` guard excludes
+    ``/Type /Pages`` (container) and ``/Type /PageLabels`` — only the leaf page
+    object (``/Page`` followed by a delimiter) counts. Robust to whitespace
+    variation between the key and value.
     """
-    return len(re.findall(rb"/Type\s*/Page(?![s])", pdf_bytes))
+    return len(re.findall(rb"/Type\s*/Page(?![A-Za-z])", pdf_bytes))
 
 
 def gate_b1_book_md_complete(book_dir: Path) -> tuple[bool, str]:
