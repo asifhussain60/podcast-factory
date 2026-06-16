@@ -64,6 +64,7 @@ interface ActionDef {
 const ACTION_REGISTRY: readonly ActionDef[] = [
   // Core
   { kind: 'arabic',    label: 'Arabic',        icon: 'fa-language',                            scope: 'term',      group: 'core',      hint: 'Replace this term with the correct contextual Arabic (AI, confirm first)', applyMode: 'immediate' },
+  { kind: 'replace',   label: 'Replace',       icon: 'fa-right-left',                          scope: 'term',      group: 'core',      hint: 'Find & replace this phrase across this chapter or the whole book', applyMode: 'immediate' },
   { kind: 'etymology', label: 'Etymology',     icon: 'fa-book-bookmark',                       scope: 'term',      group: 'core',      hint: 'Resolve the root-history of this term (shared wisdom corpus)' },
   { kind: 'rewrite',   label: 'Rewrite',       icon: 'fa-arrows-rotate',                       scope: 'paragraph', group: 'core',      hint: 'Rewrite this paragraph' },
   { kind: 'rephrase',  label: 'Rephrase',      icon: 'fa-pen-nib',                             scope: 'paragraph', group: 'core',      hint: 'Rephrase while keeping the meaning' },
@@ -1540,6 +1541,103 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
 
   const cancelArabic = useCallback(() => { setArabicProposal(null); setArabicError(''); }, []);
 
+  // ── Global find-and-replace ──────────────────────────────────────────────
+  // Highlight a phrase → "Replace" opens this popup pre-filled with the
+  // selection. Multiple find→replace pairs run in one pass; the scope checkbox
+  // switches between this chapter and every chapter in the book. Preview counts
+  // matches without writing; Apply rewrites the canonical chapter .txt files via
+  // /api/studio/replace and mirrors the change into the live editor doc.
+  const [replaceOpen, setReplaceOpen] = useState(false);
+  const [replacePairs, setReplacePairs] = useState<{ find: string; replace: string }[]>([{ find: '', replace: '' }]);
+  const [replaceScope, setReplaceScope] = useState<'chapter' | 'book'>('chapter');
+  const [replacePreview, setReplacePreview] = useState<{ chapter: string; count: number }[] | null>(null);
+  const [replaceTotal, setReplaceTotal] = useState(0);
+  const [replaceBusy, setReplaceBusy] = useState(false);
+  const [replaceError, setReplaceError] = useState('');
+  const [replaceDone, setReplaceDone] = useState('');
+
+  const openReplace = useCallback(() => {
+    setReplacePairs([{ find: selection.trim(), replace: '' }]);
+    setReplaceScope('chapter');
+    setReplacePreview(null); setReplaceTotal(0); setReplaceError(''); setReplaceDone('');
+    setReplaceOpen(true);
+  }, [selection]);
+  const closeReplace = useCallback(() => setReplaceOpen(false), []);
+  const updatePair = (i: number, field: 'find' | 'replace', val: string) =>
+    setReplacePairs((ps) => ps.map((p, j) => (j === i ? { ...p, [field]: val } : p)));
+  const addPair = () => setReplacePairs((ps) => [...ps, { find: '', replace: '' }]);
+  const removePair = (i: number) => setReplacePairs((ps) => (ps.length > 1 ? ps.filter((_, j) => j !== i) : ps));
+
+  // Friendly "N. Title" label for a chapter id (falls back to the raw id).
+  const chapterLabel = useCallback((id: string): string => {
+    const idx = chapters.findIndex((c) => c.slug === id);
+    return idx >= 0 ? `${idx + 1}. ${chapters[idx].title}` : id;
+  }, [chapters]);
+
+  // Mirror the confirmed replacements into the live editor doc so the current
+  // chapter updates instantly. Pairs apply in order (a later pair sees earlier
+  // results), matching the server. Each pair is swept high→low so positions
+  // stay valid as text is replaced.
+  const replaceInEditorDoc = useCallback((pairs: { find: string; replace: string }[]) => {
+    if (!editor) return;
+    for (const { find, replace } of pairs) {
+      if (!find) continue;
+      const hits: { from: number; to: number }[] = [];
+      editor.state.doc.descendants((node, pos) => {
+        if (!node.isText || !node.text) return;
+        let idx = node.text.indexOf(find);
+        while (idx !== -1) {
+          const from = pos + idx;
+          hits.push({ from, to: from + find.length });
+          idx = node.text.indexOf(find, idx + find.length);
+        }
+      });
+      if (!hits.length) continue;
+      hits.sort((a, b) => b.from - a.from);
+      let tr = editor.state.tr;
+      for (const h of hits) {
+        tr = replace ? tr.replaceWith(h.from, h.to, editor.state.schema.text(replace)) : tr.delete(h.from, h.to);
+      }
+      editor.view.dispatch(tr);
+    }
+  }, [editor]);
+
+  const runReplace = useCallback(async (apply: boolean) => {
+    const pairs = replacePairs
+      .map((p) => ({ find: p.find, replace: p.replace }))
+      .filter((p) => p.find.trim() !== '');
+    if (pairs.length === 0) { setReplaceError('Enter at least one phrase to find.'); return; }
+    setReplaceBusy(true); setReplaceError(''); setReplaceDone('');
+    try {
+      const res = await fetch('/api/studio/replace', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, scope: replaceScope, chapter, pairs, apply }),
+      });
+      const j = await res.json();
+      if (!res.ok || j.ok === false) {
+        setReplaceError(j.error ?? `Request failed (${res.status})`);
+        return;
+      }
+      setReplacePreview(j.results ?? []); setReplaceTotal(j.total ?? 0);
+      if (apply) {
+        if (!isReadOnlyStage) replaceInEditorDoc(pairs);
+        const nCh = (j.results ?? []).length;
+        setReplaceDone(
+          j.total === 0
+            ? 'No matches found — nothing changed.'
+            : `Replaced ${j.total} instance${j.total === 1 ? '' : 's'} across ${nCh} chapter${nCh === 1 ? '' : 's'}.` +
+              (replaceScope === 'book' && nCh > 1 ? ' Other chapters update when you open them.' : ''),
+        );
+        refresh();
+      }
+    } catch (e) {
+      setReplaceError(String(e));
+    } finally {
+      setReplaceBusy(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, replaceScope, chapter, replacePairs, isReadOnlyStage, replaceInEditorDoc]);
+
   const rawMarkers = scanMarkers(html.replace(/<[^>]+>/g, ' '));
   const seen = new Map<string, { kind: string; text: string; count: number }>();
   for (const m of rawMarkers) {
@@ -1789,12 +1887,16 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                         <div className="sp-action-palette" role="toolbar" aria-label="Term action items">
                           {TERM_ACTIONS.map((def) => {
                             if (def.applyMode === 'immediate') {
-                              // Immediate AI action (e.g. Arabic) — runs now, confirm-then-apply. Not a toggle.
+                              // Immediate action — runs now (Arabic = confirm-then-apply AI;
+                              // Replace = open the find-and-replace popup). Not a toggle.
                               return (
                                 <button key={def.kind} type="button"
                                   className={`sp-action-btn act-${def.kind}`}
-                                  title={def.hint} disabled={arabicBusy}
-                                  onClick={() => { if (def.kind === 'arabic') void proposeArabic(); }}>
+                                  title={def.hint} disabled={def.kind === 'arabic' && arabicBusy}
+                                  onClick={() => {
+                                    if (def.kind === 'arabic') void proposeArabic();
+                                    else if (def.kind === 'replace') openReplace();
+                                  }}>
                                   <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> {def.label}
                                 </button>
                               );
@@ -1996,6 +2098,78 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
           </div>
         )}
       </aside>
+
+      {/* ── Global find-and-replace popup ── */}
+      {replaceOpen && (
+        <div className="sp-replace-backdrop" role="dialog" aria-modal="true" aria-label="Find and replace">
+          <div className="sp-replace-modal">
+            <header className="sp-replace-head">
+              <h3 className="sp-replace-title"><i className="fa-solid fa-right-left" aria-hidden="true" /> Find &amp; replace</h3>
+              <button type="button" className="sp-replace-close" onClick={closeReplace} aria-label="Close">
+                <i className="fa-solid fa-xmark" aria-hidden="true" />
+              </button>
+            </header>
+
+            <div className="sp-replace-body">
+              {replacePairs.map((p, i) => (
+                <div key={i} className="sp-replace-row">
+                  <input className="sp-replace-input" placeholder="Find…" value={p.find}
+                    aria-label={`Find phrase ${i + 1}`}
+                    onChange={(e) => { updatePair(i, 'find', e.target.value); setReplacePreview(null); setReplaceDone(''); }} />
+                  <i className="fa-solid fa-arrow-right-long sp-replace-arrow" aria-hidden="true" />
+                  <input className="sp-replace-input" placeholder="Replace with…" value={p.replace}
+                    aria-label={`Replacement ${i + 1}`}
+                    onChange={(e) => { updatePair(i, 'replace', e.target.value); setReplacePreview(null); setReplaceDone(''); }} />
+                  <button type="button" className="sp-replace-row-rm" onClick={() => removePair(i)}
+                    disabled={replacePairs.length === 1} aria-label={`Remove replacement ${i + 1}`}>
+                    <i className="fa-solid fa-xmark" aria-hidden="true" />
+                  </button>
+                </div>
+              ))}
+
+              <button type="button" className="sp-replace-add" onClick={addPair}>
+                <i className="fa-solid fa-plus" aria-hidden="true" /> Add another replacement
+              </button>
+
+              <label className="sp-replace-scope">
+                <input type="checkbox" checked={replaceScope === 'book'}
+                  onChange={(e) => { setReplaceScope(e.target.checked ? 'book' : 'chapter'); setReplacePreview(null); setReplaceDone(''); }} />
+                <span>Apply to <strong>all chapters</strong> in this book {replaceScope === 'book' ? '' : '(otherwise this chapter only)'}</span>
+              </label>
+
+              {replaceError && <p className="sp-replace-msg sp-replace-msg--error">{replaceError}</p>}
+              {replaceDone && <p className="sp-replace-msg sp-replace-msg--ok">{replaceDone}</p>}
+
+              {replacePreview && !replaceDone && (
+                <div className="sp-replace-preview">
+                  <p className="sp-replace-preview-total">
+                    {replaceTotal} match{replaceTotal === 1 ? '' : 'es'}
+                    {replacePreview.length > 0 ? ` across ${replacePreview.length} chapter${replacePreview.length === 1 ? '' : 's'}` : ''}
+                  </p>
+                  {replacePreview.length > 0 && (
+                    <ul className="sp-replace-preview-list">
+                      {replacePreview.map((r) => (
+                        <li key={r.chapter}><span>{chapterLabel(r.chapter)}</span><span className="sp-replace-preview-n">{r.count}</span></li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <footer className="sp-replace-foot">
+              <button type="button" className="sp-replace-btn sp-replace-btn--ghost" onClick={() => void runReplace(false)} disabled={replaceBusy}>
+                {replaceBusy ? 'Working…' : 'Preview'}
+              </button>
+              <button type="button" className="sp-replace-btn sp-replace-btn--apply"
+                onClick={() => void runReplace(true)}
+                disabled={replaceBusy || (replacePreview !== null && replaceTotal === 0)}>
+                {replacePreview && !replaceDone ? `Replace ${replaceTotal}` : 'Replace'}
+              </button>
+            </footer>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
