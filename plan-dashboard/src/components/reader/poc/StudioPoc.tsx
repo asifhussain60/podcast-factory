@@ -1898,7 +1898,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                                     if (def.kind === 'arabic') void proposeArabic();
                                     else if (def.kind === 'replace') openReplace();
                                   }}>
-                                  <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> {def.label}
+                                  <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> <span className="sp-action-label">{def.label}</span>
                                 </button>
                               );
                             }
@@ -1907,7 +1907,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                               <button key={def.kind} type="button"
                                 className={`sp-action-btn act-${def.kind}${isOn ? ' is-on' : ''}`}
                                 title={def.hint} onClick={() => stampAction(def, true)}>
-                                <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> {def.label}
+                                <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> <span className="sp-action-label">{def.label}</span>
                               </button>
                             );
                           })}
@@ -1943,7 +1943,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                               <button key={def.kind} type="button"
                                 className={`sp-action-btn act-${def.kind}${isOn ? ' is-on' : ''}`}
                                 title={def.hint} onClick={() => stampAction(def, false)}>
-                                <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> {def.label}
+                                <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> <span className="sp-action-label">{def.label}</span>
                               </button>
                             );
                           })}

@@ -372,22 +372,24 @@
    min-height keeps single- and double-line buttons identical in size. */
 .sp-action-palette {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 6px;
 }
 .sp-action-btn {
-  display: flex; align-items: center; gap: 8px;
+  display: flex; align-items: center; gap: 5px;
   justify-content: flex-start; text-align: left;
-  min-height: 50px; padding: 8px 10px;
-  font-size: 0.82rem; font-weight: 600; line-height: 1.15;
+  min-width: 0; min-height: 50px; padding: 8px 7px;
+  font-size: 0.72rem; font-weight: 600; line-height: 1.2;
   border-radius: 9px; cursor: pointer;
   color: var(--c-ink); background: var(--c-bg-elev);
   border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.16));
 }
 .sp-action-btn i {
-  font-size: 0.95rem; color: var(--c-ink-muted);
-  flex: 0 0 auto; width: 1.15em; text-align: center;
+  font-size: 0.85rem; color: var(--c-ink-muted);
+  flex: 0 0 auto; width: 1em; text-align: center;
 }
+/* Label wraps inside the (now shrinkable) cell instead of overflowing it. */
+.sp-action-btn .sp-action-label { min-width: 0; overflow-wrap: anywhere; }
 .sp-action-btn:hover { border-color: var(--c-accent); color: var(--c-accent); }
 .sp-action-btn:hover i { color: var(--c-accent); }
 .sp-action-btn.is-on {
@@ -1748,7 +1750,11 @@
 .sp-insp-hint { font-size: 0.625rem; }
 .sp-insp-sel { font-size: 0.7rem; }
 .sp-action-palette { gap: 6px; }
-.sp-action-btn { font-size: 0.8rem; min-height: 46px; padding: 7px 9px; }
+/* Effective button sizing (this block wins over the base rule by source order).
+   0.72rem ≈ 13.8px at the 19.2px root — clearly larger than the old 0.62rem,
+   yet small enough that 8-char labels ("Rephrase", "Condense") stay one line;
+   only genuinely long single words ("Visualization") wrap. */
+.sp-action-btn { font-size: 0.72rem; min-height: 50px; padding: 8px 7px; }
 .sp-aq-item { font-size: 0.68rem; }
 .sp-marker-list li { font-size: 0.65rem; }
 .sp-legend-row { font-size: 0.62rem; }
