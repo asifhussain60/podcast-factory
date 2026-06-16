@@ -50,16 +50,22 @@ from typing import Any
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 from _paths import REPO_ROOT, content_dir, find_content  # noqa: E402
-from _authoring._core import _run_claude_p  # noqa: E402
+from _authoring._core import _run_claude_p, _run_claude_p_with_retry  # noqa: E402
 import arabic_integrity as _ai  # noqa: E402
 
 LEDGER_TIMEOUT = 1800
+LEDGER_BATCH_TIMEOUT = 900   # per ~10-lecture sub-batch; hung call → in-process retry/fallback
 EDITORIAL_TIMEOUT = 3600
 FIDELITY_TIMEOUT = 1800
 # Enhanced edition must retain >= this fraction of the SPINE word count.
 OVER_COMPRESSION_FLOOR = 0.45
+# Large single-shot ledger calls on big corpora intermittently hang the claude CLI
+# mid-stream; chunking each corpus into ~N-lecture sub-batches keeps every call short
+# enough to finish (and each sub-batch is cached + retried). 0 disables chunking.
+LEDGER_CHUNK_LECTURES = 10
 
 _LEC_MARKER_RE = re.compile(r"<!--\s*lecture\s+(\d+)\s*-->", re.IGNORECASE)
+_AUG_MARKER_RE = re.compile(r"<!--\s*AUG:[^\s]+\s+lecture\s+\d+\s*-->", re.IGNORECASE)
 
 
 def _die(msg: str) -> int:
@@ -142,6 +148,67 @@ Rules:
 """
 
 
+def _split_tagged_by_lectures(text: str, batch_size: int) -> list[str]:
+    """Split an AUG-tagged transcript into batches of ~batch_size lecture blocks.
+
+    Each batch string preserves its `<!-- AUG:<name> lecture N -->` markers + content,
+    so per-batch ledgers stay source-attributable. Any preamble before the first marker
+    rides with batch 1.
+    """
+    marks = list(_AUG_MARKER_RE.finditer(text))
+    if not marks:
+        return [text] if text.strip() else []
+    # Block i spans from marker i to marker i+1 (last to EOF); preamble joins block 0.
+    blocks: list[str] = []
+    pre = text[: marks[0].start()]
+    for i, mo in enumerate(marks):
+        end = marks[i + 1].start() if i + 1 < len(marks) else len(text)
+        blocks.append(text[mo.start():end])
+    if pre.strip():
+        blocks[0] = pre + blocks[0]
+    batches: list[str] = []
+    for i in range(0, len(blocks), batch_size):
+        batches.append("".join(blocks[i:i + batch_size]))
+    return batches
+
+
+def _corpus_ledger(book_dir: Path, name: str, tagged_path: Path, slice_out: Path,
+                   text_dir: Path, *, force: bool) -> bool:
+    """Build one augmentation corpus's ledger slice, chunked by lecture-range.
+
+    Splits the corpus into ~LEDGER_CHUNK_LECTURES-lecture sub-batches, runs a retried
+    ledger claude -p per batch (short enough to avoid the mid-stream hang large
+    single-shot calls hit), then concatenates the batch JSON arrays into slice_out.
+    Idempotent: cached batch files + an existing slice_out skip. Returns True on success.
+    """
+    if slice_out.exists() and not force:
+        return True
+    text = tagged_path.read_text(encoding="utf-8")
+    batches = _split_tagged_by_lectures(text, LEDGER_CHUNK_LECTURES) if LEDGER_CHUNK_LECTURES else [text]
+    batch_dir = tagged_path.parent
+    all_items: list[Any] = []
+    for bi, btext in enumerate(batches, 1):
+        bfile = batch_dir / f"ledger-batch-{bi:02d}.tagged.md"
+        bout = text_dir / f"_teaching-ledger.aug-{name}.batch{bi:02d}.json"
+        if not bout.exists() or force:
+            bfile.write_text(btext, encoding="utf-8")
+            _info(f"    ledger: aug:{name} batch {bi}/{len(batches)} ...")
+            rc, _o, err = _run_claude_p_with_retry(
+                _ledger_prompt(bfile, bout, f"aug:{name}", f"<!-- AUG:{name} lecture N -->"),
+                timeout=LEDGER_BATCH_TIMEOUT, book_dir=book_dir,
+                phase="0a-synthesize", step=f"ledger-aug-{name}-b{bi:02d}", log=_info)
+            if rc != 0 or not bout.exists():
+                _die(f"augmentation ledger {name} batch {bi} failed (rc={rc}): {err[:300]}")
+                return False
+        try:
+            all_items.extend(json.loads(bout.read_text(encoding="utf-8")))
+        except Exception as e:
+            _die(f"ledger {bout.name} is not valid JSON: {e}")
+            return False
+    slice_out.write_text(json.dumps(all_items, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return True
+
+
 def _build_unified_ledger(book_dir: Path, spine_raw: Path,
                           tagged_manifest: list[dict[str, Any]], *,
                           force: bool) -> tuple[list[dict[str, Any]], int] | None:
@@ -160,20 +227,14 @@ def _build_unified_ledger(book_dir: Path, spine_raw: Path,
             _die(f"spine ledger failed (rc={rc}): {err[:300]}")
             return None
 
-    # each augmentation
+    # each augmentation — chunked by lecture-range (avoids the mid-stream hang that
+    # large single-shot ledger calls hit). Completed corpus slices skip entirely.
     for m in tagged_manifest:
         name = m["name"]
         led = text_dir / f"_teaching-ledger.aug-{name}.json"
         if led.exists() and not force:
             continue
-        _info(f"    ledger: aug:{name} ...")
-        rc, _o, err = _run_claude_p(
-            _ledger_prompt(book_dir / m["tagged"], led, f"aug:{name}",
-                          f"<!-- AUG:{name} lecture N -->"),
-            timeout=LEDGER_TIMEOUT, book_dir=book_dir,
-            phase="0a-synthesize", step=f"ledger-aug-{name}")
-        if rc != 0 or not led.exists():
-            _die(f"augmentation ledger {name} failed (rc={rc}): {err[:300]}")
+        if not _corpus_ledger(book_dir, name, book_dir / m["tagged"], led, text_dir, force=force):
             return None
 
     # concatenate with namespaced ids
