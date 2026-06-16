@@ -107,6 +107,65 @@ def _arabic_run_count(text: str) -> int:
     return len(re.findall(r"[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]{2,}", text))
 
 
+# Quran citation in the source/transliteration, e.g. "(Qur'an 2:255)", "Quran 7:56",
+# "Sura 18:110", "Q 53:39". Surah 1-114, ayah up to 286 (longest sura).
+_QURAN_CITE_RE = re.compile(
+    r"(?:Qur(?:['’ʾ]?)?an|Qur['’]ān|S[uū]rah?|Sura|\bQ)\.?\s*(\d{1,3})\s*[:.]\s*(\d{1,3})",
+    re.IGNORECASE,
+)
+
+
+def _detect_quran_refs(text: str) -> list[tuple[int, int]]:
+    """Distinct (surah, ayat) citations in order of first appearance, range-validated."""
+    refs: list[tuple[int, int]] = []
+    seen: set[tuple[int, int]] = set()
+    for m in _QURAN_CITE_RE.finditer(text or ""):
+        s, a = int(m.group(1)), int(m.group(2))
+        if 1 <= s <= 114 and 1 <= a <= 286 and (s, a) not in seen:
+            seen.add((s, a))
+            refs.append((s, a))
+    return refs
+
+
+def _quran_anchor_block(text: str) -> tuple[str, dict]:
+    """Build an authoritative CANONICAL QURAN block from mirror.db for every verse
+    cited in the chapter, so the composer reproduces the exact mushaf text instead
+    of reconstructing it from memory. Deterministic: a stored DB lookup keyed by
+    surah:ayat (no LLM, no fuzzy match). Returns (block, stats). Empty block when
+    nothing is cited or the mirror is unavailable — composition degrades to the
+    prior best-attempt behavior, never worse."""
+    refs = _detect_quran_refs(text)
+    stats = {"cited": len(refs), "anchored": 0}
+    if not refs:
+        return "", stats
+    try:
+        from source_library_mirror import quran_ayat_lookup  # noqa: PLC0415
+    except Exception:
+        return "", stats
+    entries: list[str] = []
+    for s, a in refs:
+        try:
+            row = quran_ayat_lookup(s, a)
+        except Exception:
+            row = None
+        arabic = ((row or {}).get("arabic") or "").strip()
+        if arabic:
+            stats["anchored"] += 1
+            entries.append(f"Qur'an {s}:{a} — reproduce this EXACT canonical text:\n{arabic}")
+    if not entries:
+        return "", stats
+    block = (
+        "\nCANONICAL QURAN — VERBATIM (authoritative; overrides memory)\n"
+        "For each Quranic verse cited in this chapter, the EXACT canonical mushaf "
+        "Arabic is given below, drawn from the verified Quran database. When you "
+        "render one of these verses in Arabic script, you MUST reproduce its text "
+        "below CHARACTER-FOR-CHARACTER — do not re-spell, re-vowel, paraphrase, or "
+        "rely on memory. Place the English translation beneath as usual.\n\n"
+        + "\n\n".join(entries) + "\n"
+    )
+    return block, stats
+
+
 def _arabic_ground_truth_block(arabic_src: str) -> str:
     if not arabic_src:
         return ""
@@ -124,7 +183,7 @@ back to the rule above (best faithful attempt, no invented reference).
 
 
 def _compose_prompt(title: str, body: str, cfg: dict, voice_card: str, prev_tail: str,
-                    arabic_src: str = "") -> str:
+                    arabic_src: str = "", quran_anchor: str = "") -> str:
     voice_key = cfg.get("narrator_voice", "author_first_person")
     narrator = cfg.get("narrator_subject", "the author")
     addressee = cfg.get("addressee", "the reader")
@@ -162,7 +221,7 @@ Use the EXACT canonical Arabic: for Quranic verses, the precise mushaf text; for
 sayings, their well-attested Arabic wording; for Arabic poetry, the Arabic lines. Keep any source \
 attribution or reference. Do NOT keep the Latin-letter transliteration. If you are not confident of the \
 exact canonical Arabic for a quotation, render your best faithful attempt and DO NOT invent a reference.
-{_arabic_ground_truth_block(arabic_src)}
+{quran_anchor}{_arabic_ground_truth_block(arabic_src)}
 CHAPTER CRAFT
 Write this as a single flowing book chapter under its title. Avoid sub-headings unless the material \
 genuinely demands one. No meta-commentary; write the thing, not about it.
@@ -180,8 +239,10 @@ SOURCE MATERIAL (this chapter)
 
 
 def _compose_one(title: str, body: str, cfg: dict, voice_card: str, prev_tail: str,
-                 book_dir: Path, label: str, log, arabic_src: str = "") -> str:
-    prompt = _compose_prompt(title, body, cfg, voice_card, prev_tail, arabic_src=arabic_src)
+                 book_dir: Path, label: str, log, arabic_src: str = "",
+                 quran_anchor: str = "") -> str:
+    prompt = _compose_prompt(title, body, cfg, voice_card, prev_tail,
+                             arabic_src=arabic_src, quran_anchor=quran_anchor)
     rc, out, err = _run_claude_p(prompt, timeout=_COMPOSE_TIMEOUT, book_dir=book_dir,
                                  phase="0book-compose", step=label)
     out = (out or "").strip()
@@ -239,20 +300,31 @@ def author_phase_book_compose(book_dir: Path, *, log=print) -> Path:
         + (f" · arabic ground truth: {len(arabic_pages)} OCR pages" if arabic_pages else ""))
 
     voice_card, prev_tail = "", ""
+    _qa_cited_total, _qa_anchored_total = 0, 0
     for ch in chapters:
         idx = ch.get("bk_index")
         title = ch.get("title", f"Chapter {idx}")
         label = f"bk-{idx:02d}"
         out_path = chunks_dir / f"{label}.md"
         body = _slice_source(lines, ch.get("source_line_ranges", []))
+        # Canonical Quran anchoring (WS3) — computed for EVERY chapter (cached or
+        # fresh) so the coverage report reflects the whole book, not just chapters
+        # re-composed this run. Deterministic mirror.db lookup; sub-ms.
+        qa_block, qa_stats = _quran_anchor_block(body)
+        _qa_cited_total += qa_stats["cited"]
+        _qa_anchored_total += qa_stats["anchored"]
         if out_path.exists() and out_path.read_text(encoding="utf-8").strip():
             prose = out_path.read_text(encoding="utf-8")
         else:
             arabic_src, span = _arabic_for(ch.get("source_line_ranges", []))
+            if qa_stats["cited"]:
+                log(f"      {label}: Quran anchoring — {qa_stats['anchored']}/"
+                    f"{qa_stats['cited']} cited verses anchored to canonical mushaf "
+                    f"text (mirror.db)")
             log(f"      {label}: {title} ({len(body.split())} src words"
                 + (f", arabic {span}" if span else "") + ") -> Opus")
             prose = _compose_one(title, body, cfg, voice_card, prev_tail, book_dir, label, log,
-                                 arabic_src=arabic_src)
+                                 arabic_src=arabic_src, quran_anchor=qa_block)
             findings = teaching_loss_findings(body, prose)
             note = (" | GUARD: " + "; ".join(findings)) if findings else ""
             note += f" | arabic blocks {_arabic_run_count(prose)} (src {_translit_quote_count(body)} translit quotes)"
@@ -294,6 +366,20 @@ def author_phase_book_compose(book_dir: Path, *, log=print) -> Path:
     book_md = book_dir / "book" / "book.md"
     book_md.write_text(simplify_transliteration("\n".join(parts).rstrip() + "\n"), encoding="utf-8")
     log(f"    0book-compose: assembled book.md · {len(book_md.read_text(encoding='utf-8').split())} words")
+
+    # Deterministic Quran-anchor coverage report (WS3) — what fraction of cited
+    # verses were pinned to the canonical mushaf text vs. left to the model. Read
+    # by the reading-edition gates / reviewer; never blocks.
+    try:
+        _pct = (_qa_anchored_total / _qa_cited_total) if _qa_cited_total else 1.0
+        (book_dir / "_system" / "quran-anchor-report.json").write_text(
+            json.dumps({"cited": _qa_cited_total, "anchored": _qa_anchored_total,
+                        "coverage": round(_pct, 4)}, indent=2), encoding="utf-8")
+        if _qa_cited_total:
+            log(f"    0book-compose: Quran anchoring {_qa_anchored_total}/{_qa_cited_total} "
+                f"({_pct:.0%}) cited verses pinned to canonical text")
+    except Exception as e:  # noqa: BLE001
+        log(f"    0book-compose: quran-anchor report skipped (non-fatal): {e}")
     return book_md
 
 

@@ -137,7 +137,11 @@ def gate_b2_book_pdf_renderable(book_dir: Path) -> tuple[bool, str]:
 
 
 def gate_b3_book_arabic_coverage(book_dir: Path) -> tuple[bool, str]:
-    """ADVISORY — report Arabic-script density in the rendered book. Never blocks."""
+    """ADVISORY — report Arabic-script density + canonical Quran-anchor coverage.
+
+    Never blocks. The Quran-anchor fraction (cited verses pinned to the canonical
+    mushaf text from mirror.db, written by 0book-compose) is the determinism-
+    relevant number: 100% means no cited verse was left to the model's memory."""
     md = _pick_book_md(book_dir)
     if not md.exists():
         return True, "n/a (no render input)"
@@ -146,9 +150,18 @@ def gate_b3_book_arabic_coverage(book_dir: Path) -> tuple[bool, str]:
     translit_hints = len(_TRANSLIT_HINT_RE.findall(text))
     denom = arabic_runs + translit_hints
     pct = (arabic_runs / denom) if denom else 0.0
+    anchor_note = ""
+    report = book_dir / "_system" / "quran-anchor-report.json"
+    if report.exists():
+        try:
+            r = json.loads(report.read_text(encoding="utf-8"))
+            if r.get("cited"):
+                anchor_note = (f"; Quran anchoring {r.get('anchored')}/{r.get('cited')} "
+                               f"({r.get('coverage', 0):.0%}) cited verses canonical")
+        except Exception:  # noqa: BLE001
+            pass
     return True, (f"{arabic_runs} Arabic runs vs ~{translit_hints} transliteration "
-                  f"markers ({pct:.0%} script coverage) — advisory; canonical "
-                  f"anchoring raises this")
+                  f"markers ({pct:.0%} script coverage){anchor_note} — advisory")
 
 
 def validate_book(book_dir: Path, *, strict: bool = False) -> dict:
