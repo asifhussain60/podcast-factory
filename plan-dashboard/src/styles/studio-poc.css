@@ -246,8 +246,8 @@
   cursor: pointer;
 }
 .studio-poc__editor .ProseMirror > h3:hover { cursor: pointer; }
-/* Tagged blocks reserve top room so their persistent icon marks sit ABOVE without overlap. */
-.studio-poc__editor .para-tagged { margin-top: 1.9em; }
+/* Marked blocks reserve top room so their action-item icon badges sit ABOVE without overlap. */
+.studio-poc__editor .para-marked { margin-top: 1.9em; }
 /* Active paragraph: kept for backwards-compat; section-active is the primary unit now. */
 .studio-poc__editor .para-active,
 .studio-poc__editor .para-active:hover {
@@ -364,22 +364,71 @@
   box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.4);
 }
 
-/* M-1 inspector — Details tab tag buttons (inline row). */
-.sp-insp-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-.sp-insp-tagbtn {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 0.74rem; padding: 3px 9px; border-radius: 7px; cursor: pointer;
+/* Inspector — action-item palette (Details tab, edit mode only). */
+.sp-actions-block { margin-top: 10px; }
+.sp-insp-subhint { font-size: 0.72rem; color: var(--c-ink-dim); margin: 5px 0 0; font-style: italic; }
+.sp-action-palette { display: flex; flex-wrap: wrap; gap: 4px; }
+.sp-action-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.74rem; padding: 4px 9px; border-radius: 7px; cursor: pointer;
   color: var(--c-ink); background: var(--c-bg-elev);
   border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
 }
-.sp-insp-tagbtn:hover { border-color: var(--c-accent); }
-.sp-insp-tagbtn.is-on { background: var(--c-ink, #2a2118); color: #fff; border-color: transparent; }
-.sp-insp-tagbtn.tag-esoteric.is-on { background: #7c3aed; }
-.sp-insp-tagbtn.tag-reality.is-on  { background: #0284c7; }
-.sp-insp-tagbtn.tag-sharia.is-on   { background: #0f766e; }
-.sp-insp-tagbtn.tag-delete.is-on   { background: #e11d48; }
-.sp-insp-tagbtn.tag-improve.is-on  { background: #d97706; }
-.sp-insp-tagbtn.tag-history.is-on  { background: #92400e; }
+.sp-action-btn i { font-size: 0.72rem; color: var(--c-ink-muted); }
+.sp-action-btn:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.sp-action-btn:hover i { color: var(--c-accent); }
+.sp-action-btn.is-on {
+  background: var(--c-ink, #2a2118); color: #fff; border-color: transparent;
+}
+.sp-action-btn.is-on i { color: #fff; }
+/* "Remove" reads as a caution action when armed. */
+.sp-action-btn.act-remove.is-on { background: var(--c-red, #b91c1c); }
+.sp-action-btn:focus-visible,
+.sp-aq-remove:focus-visible,
+.studio-poc__editor .sp-ptool:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+
+/* Action-item queue list — every mark waiting for the CLI drain pass. */
+.sp-action-queue { margin-top: 12px; border-top: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1)); padding-top: 8px; }
+.sp-action-queue-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+.sp-aq-item {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 0.78rem; color: var(--c-ink);
+  background: var(--c-bg-elev); border-radius: 6px; padding: 3px 6px 3px 8px;
+}
+.sp-aq-item > i { font-size: 0.72rem; color: var(--c-accent); flex: 0 0 auto; }
+.sp-aq-label { font-weight: 600; flex: 0 0 auto; }
+.sp-aq-target { color: var(--c-ink-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1 1 auto; }
+.sp-aq-remove {
+  flex: 0 0 auto; cursor: pointer; border: 0; background: transparent;
+  color: var(--c-ink-dim); font-size: 0.8rem; line-height: 1; padding: 2px 4px; border-radius: 4px;
+}
+.sp-aq-remove:hover { color: var(--c-red, #b91c1c); background: color-mix(in srgb, var(--c-red, #b91c1c) 12%, transparent); }
+
+/* "Arabic" immediate action — confirm card (proposed Arabic before replacing). */
+.sp-arabic-confirm {
+  margin-top: 8px; padding: 9px 11px; border-radius: 8px;
+  background: var(--c-bg-elev);
+  border: 1px solid color-mix(in srgb, var(--c-accent) 30%, var(--c-rule, rgba(0, 0, 0, 0.12)));
+}
+.sp-arabic-confirm__row { display: flex; align-items: center; gap: 9px; margin: 0; flex-wrap: wrap; }
+.sp-arabic-confirm__row > i { color: var(--c-ink-muted); font-size: 0.78rem; }
+.sp-arabic-confirm__en { font-size: 0.85rem; color: var(--c-ink-muted); }
+.sp-arabic-confirm__ar { font-size: 1.3rem; line-height: 1.4; color: var(--c-accent); font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', serif; }
+.sp-arabic-confirm__gloss { font-size: 0.74rem; color: var(--c-ink-dim); font-style: italic; margin: 5px 0 0; }
+.sp-arabic-confirm__actions { display: flex; gap: 6px; margin-top: 9px; }
+.sp-arabic-confirm__apply,
+.sp-arabic-confirm__cancel {
+  font-size: 0.78rem; font-weight: 600; padding: 4px 12px; border-radius: 7px; cursor: pointer;
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15)); background: var(--c-bg-card); color: var(--c-ink);
+}
+.sp-arabic-confirm__apply {
+  color: #fff; background: var(--c-accent); border-color: transparent;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.sp-arabic-confirm__apply:hover { background: color-mix(in srgb, var(--c-accent) 88%, #000); }
+.sp-arabic-confirm__cancel:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.sp-arabic-confirm__apply:focus-visible,
+.sp-arabic-confirm__cancel:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
 
 /* M-1 AI result area in the AI tab. */
 .sp-ai-tab-actions { display: flex; gap: 5px; flex-wrap: wrap; }
@@ -399,11 +448,20 @@
   background: var(--c-ink, #2a2118);
   box-shadow: inset 0 0 0 2px currentColor;
 }
-.studio-poc__editor .sp-ptool.tag-esoteric.is-on { color: #a78bfa; }
-.studio-poc__editor .sp-ptool.tag-reality.is-on  { color: #38bdf8; }
-.studio-poc__editor .sp-ptool.tag-sharia.is-on   { color: #2dd4bf; }
-.studio-poc__editor .sp-ptool.tag-delete.is-on   { color: #fb7185; }
-.studio-poc__editor .sp-ptool.tag-improve.is-on  { color: #fbbf24; }
+/* Inline action-item badge colours, grouped via theme tokens (see theme.css):
+   core = amber, etymology = violet, transform = sky, knowledge = teal, remove = rose.
+   Each is the "on" icon colour over the dark chip. */
+.studio-poc__editor .sp-ptool.act-etymology.is-on { color: var(--c-act-etymology); }
+.studio-poc__editor .sp-ptool.act-rewrite.is-on   { color: var(--c-act-core); }
+.studio-poc__editor .sp-ptool.act-rephrase.is-on  { color: var(--c-act-core); }
+.studio-poc__editor .sp-ptool.act-improve.is-on   { color: var(--c-act-core); }
+.studio-poc__editor .sp-ptool.act-remove.is-on    { color: var(--c-act-remove); }
+.studio-poc__editor .sp-ptool.act-expand.is-on    { color: var(--c-act-transform); }
+.studio-poc__editor .sp-ptool.act-condense.is-on  { color: var(--c-act-transform); }
+.studio-poc__editor .sp-ptool.act-simplify.is-on  { color: var(--c-act-transform); }
+.studio-poc__editor .sp-ptool.act-define.is-on    { color: var(--c-act-knowledge); }
+.studio-poc__editor .sp-ptool.act-xref.is-on      { color: var(--c-act-knowledge); }
+.studio-poc__editor .sp-ptool.act-addcorpus.is-on { color: var(--c-act-knowledge); }
 
 /* Inspector tag key (legend) — compact wrapping pills to save vertical space. */
 .sp-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 5px; }
@@ -541,7 +599,9 @@
 .sp-phonetic-map:hover { color: color-mix(in oklab, var(--c-accent) 80%, var(--c-ink)); border-bottom-color: var(--c-accent); }
 .sp-phonetic-map:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) {
-  .sp-arabic-btn, .sp-phonetic-map, .sp-tab-btn, .sp-approve, .sp-discard, .sp-ai-tab-btn { transition: none; }
+  .sp-arabic-btn, .sp-phonetic-map, .sp-tab-btn, .sp-approve, .sp-discard, .sp-ai-tab-btn,
+  .sp-action-btn, .studio-poc__editor .sp-ptool { transition: none; }
+  .studio-poc__editor .sp-para-tools--palette .sp-ptool:hover { transform: none; }
 }
 
 /* FC-1: dedicated golden verse popover (StudioVersePopover). Opaque card, floating-ui
@@ -1674,7 +1734,8 @@
 .sp-insp-meta dd { font-size: 0.68rem; }
 .sp-insp-hint { font-size: 0.625rem; }
 .sp-insp-sel { font-size: 0.7rem; }
-.sp-insp-tags { gap: 5px; }
-.sp-insp-tagbtn { font-size: 0.62rem; padding: 3px 8px; }
+.sp-action-palette { gap: 5px; }
+.sp-action-btn { font-size: 0.62rem; padding: 3px 8px; }
+.sp-aq-item { font-size: 0.68rem; }
 .sp-marker-list li { font-size: 0.65rem; }
 .sp-legend-row { font-size: 0.62rem; }

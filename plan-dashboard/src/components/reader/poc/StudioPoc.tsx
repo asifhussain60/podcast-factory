@@ -41,15 +41,62 @@ const MARKER_PATTERNS: { re: RegExp; cls: string; kind: string; chip?: string }[
   { re: /Minhaj al-Abidin/g,                      cls: 'mk-term',   kind: 'Work',   chip: 'Minhaj' },
 ];
 
-// Each tag carries a distinct ICON so the meaning is recognizable without memorizing colour.
-const TAGS = [
-  { id: 'esoteric', label: 'Esoteric', icon: '🔮' },
-  { id: 'reality', label: 'Reality', icon: '💎' },
-  { id: 'sharia', label: 'Sharia', icon: '⚖️' },
-  { id: 'history', label: 'History', icon: '📜' },
-  { id: 'delete', label: 'Delete', icon: '🗑️' },
-  { id: 'improve', label: 'Improve', icon: '✏️' },
+// ── Deferred AI action-item registry ────────────────────────────────────────
+// Single source of truth for every action the human can stamp on a paragraph or
+// a selected term (edit mode only). A later CLI pass drains the queued marks.
+// Add a button HERE and it appears in the palette, the queue, and the inline
+// badges; the API allow-list in /api/studio/action-items mirrors these kinds.
+// `scope` decides where the action shows: 'term' needs a text selection,
+// 'paragraph' acts on the active paragraph, 'both' appears in either palette.
+type ActionScope = 'paragraph' | 'term' | 'both';
+type ActionGroup = 'core' | 'transform' | 'knowledge';
+interface ActionDef {
+  kind: string;
+  label: string;
+  icon: string;   // Font Awesome solid class
+  scope: ActionScope;
+  group: ActionGroup;
+  hint: string;   // tooltip — what the CLI will do with this mark
+  // 'deferred' (default) = stamp a mark for the CLI drain pass; 'immediate' = run
+  // AI now and apply in-place (e.g. Arabic term replacement), never queued.
+  applyMode?: 'deferred' | 'immediate';
+}
+const ACTION_REGISTRY: readonly ActionDef[] = [
+  // Core
+  { kind: 'arabic',    label: 'Arabic',        icon: 'fa-language',                            scope: 'term',      group: 'core',      hint: 'Replace this term with the correct contextual Arabic (AI, confirm first)', applyMode: 'immediate' },
+  { kind: 'etymology', label: 'Etymology',     icon: 'fa-book-bookmark',                       scope: 'term',      group: 'core',      hint: 'Resolve the root-history of this term (shared wisdom corpus)' },
+  { kind: 'rewrite',   label: 'Rewrite',       icon: 'fa-arrows-rotate',                       scope: 'paragraph', group: 'core',      hint: 'Rewrite this paragraph' },
+  { kind: 'rephrase',  label: 'Rephrase',      icon: 'fa-pen-nib',                             scope: 'paragraph', group: 'core',      hint: 'Rephrase while keeping the meaning' },
+  { kind: 'improve',   label: 'Improve',       icon: 'fa-wand-magic-sparkles',                 scope: 'paragraph', group: 'core',      hint: 'Improve clarity and craft' },
+  { kind: 'remove',    label: 'Remove',        icon: 'fa-trash-can',                           scope: 'both',      group: 'core',      hint: 'Mark for removal' },
+  // Transform
+  { kind: 'expand',    label: 'Expand',        icon: 'fa-up-right-and-down-left-from-center',  scope: 'paragraph', group: 'transform', hint: 'Elaborate — add depth or an example' },
+  { kind: 'condense',  label: 'Condense',      icon: 'fa-compress',                            scope: 'paragraph', group: 'transform', hint: 'Tighten without losing meaning' },
+  { kind: 'simplify',  label: 'Simplify',      icon: 'fa-feather',                             scope: 'paragraph', group: 'transform', hint: 'Plain-language version for a lay listener' },
+  // Knowledge
+  { kind: 'define',    label: 'Define',        icon: 'fa-spell-check',                         scope: 'term',      group: 'knowledge', hint: 'Short glossary gloss for this term' },
+  { kind: 'xref',      label: 'Cross-ref',     icon: 'fa-link',                                scope: 'both',      group: 'knowledge', hint: 'Find related passages in this book or the corpus' },
+  { kind: 'addcorpus', label: 'Add to corpus', icon: 'fa-database',                            scope: 'both',      group: 'knowledge', hint: 'Promote this passage or term into the wisdom knowledge base' },
 ];
+const PARA_ACTIONS = ACTION_REGISTRY.filter((a) => a.scope === 'paragraph' || a.scope === 'both');
+const TERM_ACTIONS = ACTION_REGISTRY.filter((a) => a.scope === 'term' || a.scope === 'both');
+const ACTION_BY_KIND: Record<string, ActionDef> = Object.fromEntries(ACTION_REGISTRY.map((a) => [a.kind, a]));
+
+// One action-item mark as held client-side (mirrors the action_items table row).
+interface ClientActionItem {
+  id: number;            // negative = optimistic (not yet persisted)
+  scope: 'paragraph' | 'term';
+  para_ordinal: number;
+  term_text: string;     // '' for paragraph scope
+  anchor_text: string;
+  action_kind: string;
+  status: string;
+}
+
+function truncate(s: string, n = 40): string {
+  const t = s.trim();
+  return t.length > n ? `${t.slice(0, n - 1)}…` : t;
+}
 
 interface GlossaryEntry {
   phonetic: string;
@@ -251,7 +298,8 @@ let _dpSection = '';
 let _dpOutside: ((e: MouseEvent) => void) | null = null;
 let _dpKey: ((e: KeyboardEvent) => void) | null = null;
 
-// Section-level editorial tags — same vocabulary as paragraph TAGS (minus icons)
+// Section-level editorial tags — the content-classification vocabulary carried by
+// the section depth picker on each h2 (distinct from the action-item registry above)
 const SECTION_TAGS = [
   { id: 'esoteric', label: 'Esoteric' },
   { id: 'reality',  label: 'Reality'  },
@@ -560,6 +608,13 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   const [, setCommentsKey] = useState(0);
   const refreshComments = () => setCommentsKey((k) => k + 1);
 
+  // Deferred AI action-item marks for the active chapter (persisted in the
+  // knowledge DB; the CLI drain pass reads them). Held in a ref so PM widgets
+  // built outside React always see the latest, mirrored to state for re-render.
+  const actionsRef = useRef<ClientActionItem[]>([]);
+  const [, setActionsKey] = useState(0);
+  const refreshActions = () => setActionsKey((k) => k + 1);
+
   // Active paragraph index (inspector drives the comment textarea + tag panel).
   const [activeParaIdx, setActiveParaIdx] = useState<number | null>(null);
   // Active section ordinal (0-based h2 index) — drives AI actions and section highlight.
@@ -601,6 +656,26 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug, chapter]);
 
+  // Load action-item marks when the chapter changes. Clear synchronously first so
+  // the previous chapter's marks never flash on the new chapter.
+  useEffect(() => {
+    if (!slug || !chapter) return;
+    let cancelled = false;
+    actionsRef.current = [];
+    refreshActions();
+    fetch(`/api/studio/action-items?book=${encodeURIComponent(slug)}&chapter=${encodeURIComponent(chapter)}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((json) => {
+        if (cancelled || !json?.ok || !Array.isArray(json.items)) return;
+        actionsRef.current = json.items as ClientActionItem[];
+        refreshActions();
+        editorRef.current?.view.dispatch(editorRef.current.state.tr.setMeta('refreshTags', true));
+      })
+      .catch(() => { /* offline-friendly */ });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, chapter]);
+
   // editorRef: stable ref to the editor instance so non-React callbacks (PM widgets)
   // can dispatch transactions without capturing a stale `editor` closure.
   const editorRef = useRef<ReturnType<typeof useEditor>>(null);
@@ -629,6 +704,15 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   const [aiOptions, setAiOptions] = useState<string[]>([]);  // rewrite option cards
   const [aiError, setAiError] = useState('');
 
+  // "Arabic" immediate action — AI proposes a contextual Arabic term for the
+  // highlighted text; the human confirms before it replaces the selection.
+  // Positions are captured at propose-time and re-verified before applying.
+  const [arabicProposal, setArabicProposal] = useState<
+    { from: number; to: number; original: string; arabic: string; gloss: string; kind: string } | null
+  >(null);
+  const [arabicBusy, setArabicBusy] = useState(false);
+  const [arabicError, setArabicError] = useState('');
+
   // serializeToMarkdown / saveAndApprove / discardChanges declared after useEditor (below).
 
   // "View all chapters" mode — combines every chapter's current-tab content in the editor.
@@ -656,7 +740,6 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   const refresh = () => setTick((t) => t + 1);
 
   const originalRef = useRef<string[]>([]);            // original text per top-level node
-  const paraTagsRef = useRef<Map<number, string[]>>(new Map()); // node index -> tag ids
   const arabicRef = useRef(true);                      // mirror of arabicOn for the plugin (ON by default)
   const hasFocusRef = useRef(false);                   // tracks editor DOM focus for para-active
   const editorContainerRef = useRef<HTMLElement | null>(null);
@@ -668,9 +751,10 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   const showPrevDiffRef = useRef(false);
   const prevStageTextsRef = useRef<string[]>([]);
   const [showPrevDiff, setShowPrevDiff] = useState(false);
-  // Index-based tag toggle, called from the floating per-paragraph icon toolbar (a PM widget
-  // built outside React). Held in a ref so the widget always calls the latest closure.
-  const tagFnRef = useRef<(idx: number, tagId: string) => void>(() => {});
+  // Remove an action-item mark by id, called from the inline per-paragraph badge
+  // toolbar (a PM widget built outside React). Held in a ref so the widget always
+  // calls the latest closure.
+  const removeActionFnRef = useRef<(id: number) => void>(() => {});
   // Section-level AI action ref: called from the section h2 floating toolbar.
   const runAiFnRef = useRef<(kind: string) => void>(() => {});
 
@@ -692,7 +776,12 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
               props: {
                 decorations(state) {
                   const orig = originalRef.current;
-                  const tags = paraTagsRef.current;
+                  // Group action-item marks by paragraph ordinal for inline badges.
+                  const actsByPara = new Map<number, ClientActionItem[]>();
+                  for (const a of actionsRef.current) {
+                    const arr = actsByPara.get(a.para_ordinal);
+                    if (arr) arr.push(a); else actsByPara.set(a.para_ordinal, [a]);
+                  }
                   const decos: Decoration[] = [];
 
                   // Section-level activation: read from ref (updated synchronously in onSelectionUpdate).
@@ -736,7 +825,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                   let i = 0;
                   state.doc.forEach((node, offset) => {
                     const idx = i++;
-                    const t = tags.get(idx) || [];
+                    const t = actsByPara.get(idx) || [];
 
                     // Option A: section depth badge + tag chips next to every h2.
                     if (node.type.name === 'heading' && node.attrs.level === 2) {
@@ -852,29 +941,35 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                       decos.push(Decoration.node(offset, offset + node.nodeSize, { class: 'section-active' }));
                     }
 
-                    // Tagged paragraphs: marks toolbar only (tag icons, toggleable).
+                    // Action-item marks: inline badge row (icons, click to remove).
                     if (t.length) {
-                      decos.push(Decoration.node(offset, offset + node.nodeSize, { class: `para-tagged tag-${t[0]}` }));
+                      decos.push(Decoration.node(offset, offset + node.nodeSize, { class: `para-marked act-${t[0].action_kind}` }));
                       decos.push(
                         Decoration.widget(offset + 1, () => {
                           const bar = document.createElement('div');
                           bar.contentEditable = 'false';
                           bar.className = 'sp-para-tools sp-para-tools--marks';
-                          const shown = TAGS.filter((tag) => t.includes(tag.id));
-                          for (const tag of shown) {
+                          bar.setAttribute('role', 'toolbar');
+                          bar.setAttribute('aria-label', 'Paragraph action marks');
+                          for (const item of t) {
+                            const def = ACTION_BY_KIND[item.action_kind];
+                            if (!def) continue;
                             const b = document.createElement('button');
                             b.type = 'button';
-                            b.className = `sp-ptool tag-${tag.id} is-on`;
-                            b.title = `${tag.label} (click to remove)`;
-                            b.textContent = tag.icon;
+                            b.className = `sp-ptool act-${item.action_kind} is-on`;
+                            b.title = `${def.label}${item.term_text ? ` · "${item.term_text}"` : ''} (click to remove)`;
+                            const ic = document.createElement('i');
+                            ic.className = `fa-solid ${def.icon}`;
+                            ic.setAttribute('aria-hidden', 'true');
+                            b.appendChild(ic);
                             b.addEventListener('mousedown', (ev) => {
                               ev.preventDefault(); ev.stopPropagation();
-                              tagFnRef.current(idx, tag.id);
+                              removeActionFnRef.current(item.id);
                             });
                             bar.appendChild(b);
                           }
                           return bar;
-                        }, { side: -1, key: `tools-${idx}-marks-${t.join(',')}` }),
+                        }, { side: -1, key: `tools-${idx}-marks-${t.map((x) => x.id).join(',')}` }),
                       );
                     }
                     // FC-3 Word-level track changes vs the original snapshot.
@@ -1017,21 +1112,21 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     return () => document.removeEventListener('mousedown', onMouseDown);
   }, [editor]);
 
-  // Switch the editor to the selected stage: load its text, re-snapshot redline originals,
-  // clear stage-specific tags, and make only the under-review stage editable (upstream = read-only).
+  // Switch the editor to the selected stage: load its text, re-snapshot redline
+  // originals, and make only the under-review stage editable (upstream = read-only).
+  // Action-item marks are chapter-level (not stage-level) — they reload on chapter
+  // change and are intentionally NOT cleared here.
   useEffect(() => {
     if (!editor || !stage) return;
     if (viewAll) {
       editor.commands.setContent(buildCombinedHtml(stageId));
       originalRef.current = [];
-      paraTagsRef.current = new Map();
       editor.setEditable(false);
     } else {
       editor.commands.setContent(stage.html);
       const texts: string[] = [];
       editor.state.doc.forEach((n) => texts.push(n.textContent));
       originalRef.current = texts;
-      paraTagsRef.current = new Map();
       editor.setEditable(!isReadOnlyStage);
     }
     refresh();
@@ -1145,7 +1240,6 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     const texts: string[] = [];
     editor.state.doc.forEach((n) => texts.push(n.textContent));
     originalRef.current = texts;
-    paraTagsRef.current = new Map();
     commentsRef.current = new Map();
     refreshComments();
     refresh();
@@ -1333,22 +1427,118 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       i++;
     });
   }
-  let taggedCount = 0;
-  paraTagsRef.current.forEach((t) => { if (t.length) taggedCount++; });
+  const markedCount = actionsRef.current.length;
+  // Chapter's marks, ordered for the queue list (by paragraph, then insertion).
+  const chapterActions = [...actionsRef.current].sort((a, b) => a.para_ordinal - b.para_ordinal || a.id - b.id);
 
-  const tagByIdx = useCallback(
-    (idx: number, tagId: string) => {
-      if (!editor) return;
-      const map = paraTagsRef.current;
-      const cur = map.get(idx) || [];
-      map.set(idx, cur.includes(tagId) ? cur.filter((x) => x !== tagId) : [...cur, tagId]);
-      editor.view.dispatch(editor.state.tr.setMeta('refreshTags', true));
-      refresh();
-    },
-    [editor],
-  );
-  tagFnRef.current = tagByIdx;
+  // Remove one action-item mark (optimistic; DELETE only if it was persisted).
+  const removeAction = useCallback((id: number) => {
+    actionsRef.current = actionsRef.current.filter((a) => a.id !== id);
+    editorRef.current?.view.dispatch(editorRef.current.state.tr.setMeta('refreshTags', true));
+    refreshActions(); refresh();
+    if (id < 0) return; // optimistic-only, never hit the server
+    fetch('/api/studio/action-items', {
+      method: 'DELETE', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ book: slug, chapter, id }),
+    }).catch(() => { /* non-blocking */ });
+  }, [slug, chapter]);
+
+  // Stamp an action item on the active paragraph (or the selected term). Toggles:
+  // an identical existing mark is removed. Anchor text is stored so the CLI never
+  // depends on the paragraph ordinal staying stable.
+  const stampAction = useCallback((def: ActionDef, useSelection: boolean) => {
+    if (!editor || activeParaIdx === null || isReadOnlyStage) return;
+    const scope: 'paragraph' | 'term' = useSelection ? 'term' : 'paragraph';
+    const termText = useSelection ? selection.trim() : '';
+    if (scope === 'term' && !termText) return;
+    let paraText = '';
+    let i = 0;
+    editor.state.doc.forEach((n) => { if (i === activeParaIdx) paraText = n.textContent; i++; });
+    const anchorText = scope === 'term' ? termText : paraText;
+    const existing = actionsRef.current.find(
+      (a) => a.para_ordinal === activeParaIdx && a.action_kind === def.kind && a.term_text === termText,
+    );
+    if (existing) { removeAction(existing.id); return; }
+    const tempId = -Date.now();
+    actionsRef.current = [
+      ...actionsRef.current,
+      { id: tempId, scope, para_ordinal: activeParaIdx, term_text: termText, anchor_text: anchorText, action_kind: def.kind, status: 'pending' },
+    ];
+    editor.view.dispatch(editor.state.tr.setMeta('refreshTags', true));
+    refreshActions(); refresh();
+    fetch('/api/studio/action-items', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ book: slug, chapter, scope, paraOrdinal: activeParaIdx, termText, anchorText, actionKind: def.kind }),
+    })
+      .then((r) => r.ok ? r.json() : null)
+      .then((json) => {
+        if (json?.ok && json.item) {
+          actionsRef.current = actionsRef.current.map((a) => (a.id === tempId ? (json.item as ClientActionItem) : a));
+          refreshActions();
+        }
+      })
+      .catch(() => { /* non-blocking; optimistic mark stays visible */ });
+  }, [editor, activeParaIdx, isReadOnlyStage, selection, slug, chapter, removeAction]);
+
+  removeActionFnRef.current = removeAction;
   runAiFnRef.current = (kind: string) => void runAi(kind);
+
+  // Paragraph text containing the current selection — context for the Arabic AI call.
+  const selectionContext = useCallback((): string => {
+    if (!editor) return '';
+    const headPos = editor.state.selection.$head.pos;
+    let ctx = '';
+    let pos = 0;
+    editor.state.doc.forEach((n) => {
+      const nodeEnd = pos + n.nodeSize;
+      if (headPos >= pos && headPos < nodeEnd) ctx = n.textContent;
+      pos = nodeEnd;
+    });
+    return ctx;
+  }, [editor]);
+
+  // Propose an Arabic term for the highlighted selection (does NOT edit yet).
+  const proposeArabic = useCallback(async () => {
+    if (!editor || isReadOnlyStage) return;
+    const { from, to } = editor.state.selection;
+    const original = editor.state.doc.textBetween(from, to, ' ').trim();
+    if (!original || from === to) return;
+    setArabicBusy(true); setArabicError(''); setArabicProposal(null);
+    try {
+      const res = await fetch('/api/ai/arabic-term', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ text: original, context: selectionContext(), bookTitle: chapterTitle }),
+      });
+      const json = await res.json();
+      if (!res.ok || json.ok === false || !json.arabic) {
+        setArabicError(json.error ?? `Request failed (${res.status})`);
+      } else {
+        setArabicProposal({ from, to, original, arabic: json.arabic, gloss: json.gloss ?? '', kind: json.kind ?? 'translation' });
+      }
+    } catch (e) {
+      setArabicError(String(e));
+    } finally {
+      setArabicBusy(false);
+    }
+  }, [editor, isReadOnlyStage, selectionContext, chapterTitle]);
+
+  // Apply the confirmed proposal: replace the original range with the Arabic term,
+  // but only if the text at those positions is unchanged since proposing.
+  const applyArabic = useCallback(() => {
+    if (!editor || !arabicProposal) return;
+    const { from, to, original, arabic } = arabicProposal;
+    const current = editor.state.doc.textBetween(from, to, ' ').trim();
+    if (current !== original) {
+      setArabicError('Selection changed — highlight the word again.');
+      setArabicProposal(null);
+      return;
+    }
+    editor.view.dispatch(editor.state.tr.replaceWith(from, to, editor.state.schema.text(arabic)));
+    setArabicProposal(null); setArabicError('');
+    refresh();
+  }, [editor, arabicProposal]);
+
+  const cancelArabic = useCallback(() => { setArabicProposal(null); setArabicError(''); }, []);
 
   const rawMarkers = scanMarkers(html.replace(/<[^>]+>/g, ' '));
   const seen = new Map<string, { kind: string; text: string; count: number }>();
@@ -1585,30 +1775,103 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                     <dt>Chapter</dt>
                     <dd>{chapterTitle}</dd>
                     <dt>Changes</dt>
-                    <dd>{changedCount} edited · {taggedCount} tagged</dd>
+                    <dd>{changedCount} edited · {markedCount} marked</dd>
                     <dt>Comments</dt>
                     <dd>{commentsRef.current.size > 0 ? `${commentsRef.current.size} paragraph${commentsRef.current.size !== 1 ? 's' : ''}` : '—'}</dd>
                   </dl>
                 )}
-                {activeParaIdx !== null && !isReadOnlyStage && (
-                  <div>
-                    <p className="sp-insp-hint">Tags · paragraph {activeParaIdx + 1}</p>
-                    <div className="sp-insp-tags" role="toolbar" aria-label="Editorial tags">
-                      {TAGS.map((tag) => {
-                        const isOn = (paraTagsRef.current.get(activeParaIdx) ?? []).includes(tag.id);
-                        return (
-                          <button
-                            key={tag.id}
-                            type="button"
-                            className={`sp-insp-tagbtn tag-${tag.id}${isOn ? ' is-on' : ''}`}
-                            title={isOn ? `Remove ${tag.label}` : `Apply ${tag.label}`}
-                            onClick={() => tagByIdx(activeParaIdx, tag.id)}
-                          >
-                            {tag.icon} {tag.label}
-                          </button>
-                        );
-                      })}
-                    </div>
+                {/* Action items — deferred marks for the CLI drain pass (edit mode only). */}
+                {!isReadOnlyStage && (
+                  <div className="sp-actions-block">
+                    {selection ? (
+                      <>
+                        <p className="sp-insp-hint">Term actions · "{truncate(selection, 32)}"</p>
+                        <div className="sp-action-palette" role="toolbar" aria-label="Term action items">
+                          {TERM_ACTIONS.map((def) => {
+                            if (def.applyMode === 'immediate') {
+                              // Immediate AI action (e.g. Arabic) — runs now, confirm-then-apply. Not a toggle.
+                              return (
+                                <button key={def.kind} type="button"
+                                  className={`sp-action-btn act-${def.kind}`}
+                                  title={def.hint} disabled={arabicBusy}
+                                  onClick={() => { if (def.kind === 'arabic') void proposeArabic(); }}>
+                                  <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> {def.label}
+                                </button>
+                              );
+                            }
+                            const isOn = actionsRef.current.some((a) => a.para_ordinal === activeParaIdx && a.action_kind === def.kind && a.term_text === selection.trim());
+                            return (
+                              <button key={def.kind} type="button"
+                                className={`sp-action-btn act-${def.kind}${isOn ? ' is-on' : ''}`}
+                                title={def.hint} onClick={() => stampAction(def, true)}>
+                                <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> {def.label}
+                              </button>
+                            );
+                          })}
+                        </div>
+                        {arabicBusy && <p className="sp-ai-status">Finding the Arabic term…</p>}
+                        {arabicError && <p className="sp-ai-status sp-ai-status--error">{arabicError}</p>}
+                        {arabicProposal && (
+                          <div className="sp-arabic-confirm">
+                            <p className="sp-arabic-confirm__row">
+                              <span className="sp-arabic-confirm__en">{truncate(arabicProposal.original, 28)}</span>
+                              <i className="fa-solid fa-arrow-right-long" aria-hidden="true" />
+                              <span className="sp-arabic-confirm__ar" lang="ar" dir="rtl">{arabicProposal.arabic}</span>
+                            </p>
+                            {arabicProposal.gloss && <p className="sp-arabic-confirm__gloss">{arabicProposal.gloss}</p>}
+                            <div className="sp-arabic-confirm__actions">
+                              <button type="button" className="sp-arabic-confirm__apply" onClick={applyArabic}>
+                                <i className="fa-solid fa-check" aria-hidden="true" /> Replace
+                              </button>
+                              <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelArabic}>
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    ) : activeParaIdx !== null ? (
+                      <>
+                        <p className="sp-insp-hint">Paragraph actions · paragraph {activeParaIdx + 1}</p>
+                        <div className="sp-action-palette" role="toolbar" aria-label="Paragraph action items">
+                          {PARA_ACTIONS.map((def) => {
+                            const isOn = actionsRef.current.some((a) => a.para_ordinal === activeParaIdx && a.action_kind === def.kind && a.term_text === '');
+                            return (
+                              <button key={def.kind} type="button"
+                                className={`sp-action-btn act-${def.kind}${isOn ? ' is-on' : ''}`}
+                                title={def.hint} onClick={() => stampAction(def, false)}>
+                                <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> {def.label}
+                              </button>
+                            );
+                          })}
+                        </div>
+                        <p className="sp-insp-subhint">Select a word for term actions (Etymology, Define).</p>
+                      </>
+                    ) : (
+                      <p className="sp-insp-hint">Click a paragraph, or select a word, to add an action item.</p>
+                    )}
+
+                    {chapterActions.length > 0 && (
+                      <div className="sp-action-queue">
+                        <p className="sp-insp-hint">Queued for the pipeline · {chapterActions.length}</p>
+                        <ul className="sp-action-queue-list">
+                          {chapterActions.map((item) => {
+                            const def = ACTION_BY_KIND[item.action_kind];
+                            return (
+                              <li key={item.id} className={`sp-aq-item act-${item.action_kind}`}>
+                                <i className={`fa-solid ${def?.icon ?? 'fa-circle'}`} aria-hidden="true" />
+                                <span className="sp-aq-label">{def?.label ?? item.action_kind}</span>
+                                <span className="sp-aq-target">{item.term_text ? `"${truncate(item.term_text, 24)}"` : `¶ ${item.para_ordinal + 1}`}</span>
+                                <button type="button" className="sp-aq-remove" title="Remove this mark"
+                                  aria-label={`Remove ${def?.label ?? item.action_kind} mark`} onClick={() => removeAction(item.id)}>
+                                  <i className="fa-solid fa-xmark" aria-hidden="true" />
+                                </button>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 )}
               </>
