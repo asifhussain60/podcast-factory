@@ -432,6 +432,16 @@
 .sp-arabic-confirm__row > i { color: var(--c-ink-muted); font-size: 0.78rem; }
 .sp-arabic-confirm__en { font-size: 0.85rem; color: var(--c-ink-muted); }
 .sp-arabic-confirm__ar { font-size: 1.3rem; line-height: 1.4; color: var(--c-accent); font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', serif; }
+/* Editable Arabic — correct the AI's rendering before replacing. */
+.sp-arabic-confirm__input {
+  width: 100%; margin-top: 8px; padding: 7px 11px;
+  font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', serif;
+  font-size: 1.3rem; line-height: 1.5; color: var(--c-accent);
+  background: var(--c-bg-card);
+  border: 1px solid color-mix(in srgb, var(--c-accent) 35%, var(--c-rule, rgba(0, 0, 0, 0.15)));
+  border-radius: 8px;
+}
+.sp-arabic-confirm__input:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 1px; border-color: transparent; }
 .sp-arabic-confirm__gloss { font-size: 0.74rem; color: var(--c-ink-dim); font-style: italic; margin: 5px 0 0; }
 .sp-arabic-confirm__actions { display: flex; gap: 6px; margin-top: 9px; }
 .sp-arabic-confirm__apply,

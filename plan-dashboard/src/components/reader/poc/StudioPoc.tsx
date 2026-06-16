@@ -1529,13 +1529,15 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   const applyArabic = useCallback(() => {
     if (!editor || !arabicProposal) return;
     const { from, to, original, arabic } = arabicProposal;
+    const text = arabic.trim();
+    if (!text) { setArabicError('Enter the Arabic text first.'); return; }
     const current = editor.state.doc.textBetween(from, to, ' ').trim();
     if (current !== original) {
       setArabicError('Selection changed — highlight the word again.');
       setArabicProposal(null);
       return;
     }
-    editor.view.dispatch(editor.state.tr.replaceWith(from, to, editor.state.schema.text(arabic)));
+    editor.view.dispatch(editor.state.tr.replaceWith(from, to, editor.state.schema.text(text)));
     setArabicProposal(null); setArabicError('');
     refresh();
   }, [editor, arabicProposal]);
@@ -1919,11 +1921,19 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                             <p className="sp-arabic-confirm__row">
                               <span className="sp-arabic-confirm__en">{truncate(arabicProposal.original, 28)}</span>
                               <i className="fa-solid fa-arrow-right-long" aria-hidden="true" />
-                              <span className="sp-arabic-confirm__ar" lang="ar" dir="rtl">{arabicProposal.arabic}</span>
                             </p>
+                            <input
+                              type="text"
+                              className="sp-arabic-confirm__input"
+                              lang="ar"
+                              dir="rtl"
+                              value={arabicProposal.arabic}
+                              onChange={(e) => setArabicProposal({ ...arabicProposal, arabic: e.target.value })}
+                              aria-label="Arabic term — edit before replacing"
+                            />
                             {arabicProposal.gloss && <p className="sp-arabic-confirm__gloss">{arabicProposal.gloss}</p>}
                             <div className="sp-arabic-confirm__actions">
-                              <button type="button" className="sp-arabic-confirm__apply" onClick={applyArabic}>
+                              <button type="button" className="sp-arabic-confirm__apply" onClick={applyArabic} disabled={!arabicProposal.arabic.trim()}>
                                 <i className="fa-solid fa-check" aria-hidden="true" /> Replace
                               </button>
                               <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelArabic}>
