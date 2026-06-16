@@ -383,6 +383,7 @@ a.lib-fact-file:focus-visible { outline: 2px solid var(--c-accent); outline-offs
   gap: var(--sp-4);
 }
 .lib-binder-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--sp-2);
@@ -407,7 +408,34 @@ a.lib-fact-file:focus-visible { outline: 2px solid var(--c-accent); outline-offs
   transform: translateY(-2px);
   text-decoration: none;
 }
-.lib-binder-card:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.lib-binder-card:focus-within { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+/* Stretched-link pattern: the chapter title is the primary link; its ::after
+   covers the whole card so the card stays one big click target to Edit & Enrich.
+   Secondary actions (the per-chapter Arabic link) raise above it with z-index. */
+.lib-binder-stretch { color: inherit; text-decoration: none; }
+.lib-binder-stretch::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--r-lg);
+}
+.lib-binder-arabic {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--c-accent);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px dotted color-mix(in oklab, var(--c-accent) 50%, transparent);
+}
+.lib-binder-arabic:hover { color: color-mix(in oklab, var(--c-accent) 80%, var(--c-ink)); border-bottom-color: var(--c-accent); }
+.lib-binder-arabic:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.lib-arabic-glyph { font-family: "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif; font-size: 1.1em; line-height: 1; }
+/* Header "Review Arabic" link: same chip as Edit & Enrich, accent-tinted. */
+.lib-studio-link-arabic { color: var(--c-accent); }
 .lib-binder-top {
   display: flex;
   align-items: center;
