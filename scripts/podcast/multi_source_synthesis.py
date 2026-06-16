@@ -43,6 +43,7 @@ import argparse
 import json
 import re
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -62,7 +63,13 @@ OVER_COMPRESSION_FLOOR = 0.45
 # Large single-shot ledger calls on big corpora intermittently hang the claude CLI
 # mid-stream; chunking each corpus into ~N-lecture sub-batches keeps every call short
 # enough to finish (and each sub-batch is cached + retried). 0 disables chunking.
-LEDGER_CHUNK_LECTURES = 10
+# Lowered 10→5 (2026-06-16): a 10-lecture batch (~350KB) was large enough to draw both
+# timeouts AND transient 500s; 5-lecture batches are smaller, faster, and more reliable.
+LEDGER_CHUNK_LECTURES = 5
+# Transient API failures (rc!=0, e.g. a server 500) are retried in-process with backoff
+# so the whole run does not die on a momentary server hiccup.
+LEDGER_RC_RETRIES = 4
+LEDGER_RC_BACKOFF_S = 20
 
 _LEC_MARKER_RE = re.compile(r"<!--\s*lecture\s+(\d+)\s*-->", re.IGNORECASE)
 _AUG_MARKER_RE = re.compile(r"<!--\s*AUG:[^\s]+\s+lecture\s+\d+\s*-->", re.IGNORECASE)
@@ -193,12 +200,27 @@ def _corpus_ledger(book_dir: Path, name: str, tagged_path: Path, slice_out: Path
         if not bout.exists() or force:
             bfile.write_text(btext, encoding="utf-8")
             _info(f"    ledger: aug:{name} batch {bi}/{len(batches)} ...")
-            rc, _o, err = _run_claude_p_with_retry(
-                _ledger_prompt(bfile, bout, f"aug:{name}", f"<!-- AUG:{name} lecture N -->"),
-                timeout=LEDGER_BATCH_TIMEOUT, book_dir=book_dir,
-                phase="0a-synthesize", step=f"ledger-aug-{name}-b{bi:02d}", log=_info)
+            # `_run_claude_p_with_retry` covers TIMEOUTS. Transient API errors (e.g. a
+            # 500 from the server) come back as rc!=0 and are NOT retried there, which
+            # otherwise kills the whole run. Wrap with an rc!=0 retry + backoff so a
+            # transient server error self-heals in-process instead of needing a relaunch.
+            rc, _o, err = -1, "", ""
+            for attempt in range(1, LEDGER_RC_RETRIES + 1):
+                rc, _o, err = _run_claude_p_with_retry(
+                    _ledger_prompt(bfile, bout, f"aug:{name}", f"<!-- AUG:{name} lecture N -->"),
+                    timeout=LEDGER_BATCH_TIMEOUT, book_dir=book_dir,
+                    phase="0a-synthesize", step=f"ledger-aug-{name}-b{bi:02d}", log=_info)
+                if rc == 0 and bout.exists():
+                    break
+                detail = (_o or err or "").strip().replace("\n", " ")[:160]
+                if attempt < LEDGER_RC_RETRIES:
+                    backoff = LEDGER_RC_BACKOFF_S * attempt
+                    _info(f"      [rc-retry] aug:{name} b{bi:02d} rc={rc} ({detail}); "
+                          f"retry {attempt+1}/{LEDGER_RC_RETRIES} after {backoff}s")
+                    time.sleep(backoff)
             if rc != 0 or not bout.exists():
-                _die(f"augmentation ledger {name} batch {bi} failed (rc={rc}): {err[:300]}")
+                _die(f"augmentation ledger {name} batch {bi} failed after "
+                     f"{LEDGER_RC_RETRIES} tries (rc={rc}): {(_o or err)[:300]}")
                 return False
         try:
             all_items.extend(json.loads(bout.read_text(encoding="utf-8")))
