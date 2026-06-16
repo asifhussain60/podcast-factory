@@ -197,6 +197,8 @@ interface Chapter {
   stages: Stage[];
   metrics: StageMetric[];
   reviewed: Record<string, { approved: boolean; approved_at?: string | null }>;
+  /** Which stages have an unapproved autosaved draft (mutated locally on approve). */
+  drafted?: Record<string, boolean>;
   finalized?: { at: string } | null;
 }
 
@@ -579,6 +581,9 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   const stage = stages.find((s) => s.id === stageId) ?? stages[0];
   const html = stage?.html ?? '';
   const isReadOnlyStage = stageId !== editableStageId || isArchivedView;
+  // Does this chapter+stage have an unapproved draft on disk? (Seeded server-side;
+  // the editor's current content already IS the draft when this is true.)
+  const hasDraftForStage = !!(stage && (chap.drafted?.[stage.id] ?? false));
 
   // Switch lineage: reset to its first chapter (chapter boundaries differ between lineages).
   const switchLineage = useCallback((id: string) => {
@@ -603,6 +608,21 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   }, [chapIdx, activeLineageId]);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
+
+  // Draft autosave state: edits are persisted to a per-stage draft (debounced) so
+  // they survive a refresh until the chapter is approved. 'saved' = a draft is on
+  // disk (seeded true when the loaded content already came from a draft).
+  const [draftState, setDraftState] = useState<'idle' | 'saving' | 'saved' | 'error'>(
+    hasDraftForStage ? 'saved' : 'idle',
+  );
+  // Debounce timer + indirection ref for the autosave scheduler (the scheduler is
+  // defined after useEditor; onUpdate reaches it through this ref). Mirrors the
+  // runAiFnRef / removeActionFnRef pattern used elsewhere in this component.
+  const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scheduleAutosaveRef = useRef<() => void>(() => {});
+  // Set true right before an intentional reload (discard) so the beforeunload
+  // flush can't recreate the draft we just deleted.
+  const suppressFlushRef = useRef(false);
 
   // Per-paragraph comments: index → text. Stored in a ref for the PM plugin,
   // mirrored in state so the inspector panel re-renders.
@@ -1083,7 +1103,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       setActiveSectionOrdinal(null);
       editor.view.dispatch(editor.state.tr);
     },
-    onUpdate() { refresh(); },
+    onUpdate() { refresh(); scheduleAutosaveRef.current(); },
     onSelectionUpdate({ editor }) {
       const { from, to } = editor.state.selection;
       setSelection(editor.state.doc.textBetween(from, to, ' ').trim());
@@ -1207,8 +1227,57 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     return lines.join('\n').trimEnd() + '\n';
   }, [editor, serializeInline]);
 
+  // ── Draft autosave — persist in-progress edits so they survive a refresh ────
+  // Writes the editable stage's current content to a per-stage draft (not the
+  // canonical chapter — that only happens on approve). Skipped for read-only
+  // stages and archived lineages.
+  const autosaveDraft = useCallback(async () => {
+    if (!stage || isReadOnlyStage || !editor) return;
+    const content = serializeToMarkdown();
+    if (!content.trim()) return;
+    setDraftState('saving');
+    try {
+      const res = await fetch('/api/studio/draft', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, chapter, stage: stage.id, content }),
+      });
+      setDraftState(res.ok ? 'saved' : 'error');
+    } catch {
+      setDraftState('error');
+    }
+  }, [slug, chapter, stage, isReadOnlyStage, editor, serializeToMarkdown]);
+
+  // Debounced scheduler — onUpdate reaches this through scheduleAutosaveRef.
+  const scheduleAutosave = useCallback(() => {
+    if (isReadOnlyStage) return;
+    if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
+    autosaveTimer.current = setTimeout(() => { void autosaveDraft(); }, 1200);
+  }, [autosaveDraft, isReadOnlyStage]);
+  useEffect(() => { scheduleAutosaveRef.current = scheduleAutosave; }, [scheduleAutosave]);
+
+  // Flush any pending draft when leaving the page/tab so nothing in the debounce
+  // window is lost, and reset the indicator when switching chapter/stage.
+  useEffect(() => {
+    const flush = () => { if (suppressFlushRef.current) return; if (autosaveTimer.current) { clearTimeout(autosaveTimer.current); void autosaveDraft(); } };
+    const onVisibility = () => { if (document.visibilityState === 'hidden') flush(); };
+    window.addEventListener('beforeunload', flush);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      window.removeEventListener('beforeunload', flush);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [autosaveDraft]);
+  useEffect(() => {
+    setDraftState(hasDraftForStage ? 'saved' : 'idle');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chapIdx, stageId, activeLineageId]);
+
   const saveAndApprove = useCallback(async () => {
     if (!stage || !editor) return;
+    // Cancel any pending autosave so it can't recreate the draft after approval
+    // promotes-and-deletes it on the server.
+    if (autosaveTimer.current) { clearTimeout(autosaveTimer.current); autosaveTimer.current = null; }
     setSaving(true);
     setSaveError('');
     try {
@@ -1235,6 +1304,10 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       });
       if (approveRes.ok) {
         setApprovedStages((m) => ({ ...m, [stage.id]: true }));
+        // Draft was promoted to the chapter + deleted server-side; clear the
+        // indicator and the locally-cached draft flag for this stage.
+        setDraftState('idle');
+        if (chap.drafted) chap.drafted[stage.id] = false;
         const texts: string[] = [];
         editor.state.doc.forEach((n) => texts.push(n.textContent));
         originalRef.current = texts;
@@ -1247,16 +1320,24 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     }
   }, [slug, chapter, stage, editor, serializeToMarkdown]);
 
-  const discardChanges = useCallback(() => {
+  const discardChanges = useCallback(async () => {
     if (!editor || !stage) return;
-    editor.commands.setContent(stage.html);
-    const texts: string[] = [];
-    editor.state.doc.forEach((n) => texts.push(n.textContent));
-    originalRef.current = texts;
-    commentsRef.current = new Map();
-    refreshComments();
-    refresh();
-  }, [editor, stage]);
+    // Cancel pending autosave and suppress the unload-flush, delete the draft,
+    // then reload so the canonical (last-approved) chapter text is shown. ?ch=
+    // keeps the open chapter; reload also clears local edits not yet autosaved.
+    if (autosaveTimer.current) { clearTimeout(autosaveTimer.current); autosaveTimer.current = null; }
+    suppressFlushRef.current = true;
+    try {
+      await fetch('/api/studio/draft', {
+        method: 'DELETE',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, chapter, stage: stage.id }),
+      });
+    } catch { /* reload regardless — server keeps the canonical on failure */ }
+    const url = new URL(window.location.href);
+    url.searchParams.set('ch', chapter);
+    window.location.href = url.toString();
+  }, [editor, stage, slug, chapter]);
 
   // Force a decoration recompute when Arabic mode flips. Set the ref BEFORE dispatching
   // (React state is async — the plugin reads arabicRef synchronously during the recompute).
@@ -1443,7 +1524,10 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   const markedCount = actionsRef.current.length;
   // "Approved" only counts while the stage is unchanged — any fresh edit reverts
   // the footer to "Save & Approve" so the new edit can be saved.
-  const approvedClean = !!(stage && approvedStages[stage.id]) && changedCount === 0;
+  // "Approved" holds only while the stage is unchanged AND has no outstanding
+  // draft — any draft (even from a prior visit) reverts the footer to "Save &
+  // Approve" so the in-progress edits can be committed.
+  const approvedClean = !!(stage && approvedStages[stage.id]) && changedCount === 0 && draftState !== 'saved';
   // Chapter's marks, ordered for the queue list (by paragraph, then insertion).
   const chapterActions = [...actionsRef.current].sort((a, b) => a.para_ordinal - b.para_ordinal || a.id - b.id);
 
@@ -2223,15 +2307,24 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
         </div>
 
         {saveError && <p className="sp-save-error" role="alert">{saveError}</p>}
+        {!viewAll && !isReadOnlyStage && stage && draftState !== 'idle' && (
+          <p className={`sp-draft-status sp-draft-status--${draftState}`} role="status">
+            {draftState === 'saving'
+              ? <><i className="fa-solid fa-cloud-arrow-up" aria-hidden="true" /> Saving draft…</>
+              : draftState === 'error'
+              ? <><i className="fa-solid fa-triangle-exclamation" aria-hidden="true" /> Draft not saved — check connection</>
+              : <><i className="fa-solid fa-pen" aria-hidden="true" /> Draft saved · not yet approved</>}
+          </p>
+        )}
         {!viewAll && !isReadOnlyStage && stage && (
           <div className="sp-action-footer">
-            {changedCount > 0 && (
+            {(changedCount > 0 || draftState === 'saved') && (
               <button
                 type="button"
                 className="sp-discard"
                 onClick={discardChanges}
                 disabled={saving}
-                title="Discard all edits and revert to original"
+                title="Discard the draft and revert to the approved chapter"
               >
                 <i className="fa-solid fa-rotate-left" aria-hidden="true" /> Discard
               </button>

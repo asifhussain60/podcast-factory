@@ -113,6 +113,11 @@ content/**/*.llc
 # Per-book scratch — transcription probes, rejected drafts, scratchpads. Never
 # committed; the orchestrator pre-flight treats untracked files as a dirty tree.
 content/**/_system/scratchpad/
+
+# Studio editor in-progress drafts (unapproved edits). Promoted to chapters/<id>.txt
+# on approval, then deleted; never committed — half-finished edits stay local.
+content/**/_system/drafts/
+CONTENT/**/_system/drafts/
 _workspace/**/*.zip
 _workspace/**/*.llc
 _workspace/**/*.pdf

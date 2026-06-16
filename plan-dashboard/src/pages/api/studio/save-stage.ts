@@ -19,6 +19,7 @@ import type { APIRoute } from 'astro';
 import { writeFileSync, existsSync, copyFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { findContentDirSync } from '../../../lib/content-paths';
+import { deleteDraft } from '../../../lib/reader/stage-draft';
 import { apiOk, apiError, apiServerError } from '../../../lib/api-responses';
 
 export const prerender = false;
@@ -86,6 +87,10 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     writeFileSync(targetPath, content, 'utf8');
+
+    // Approval promotes the draft to the canonical artifact, so the draft is now
+    // spent — remove it. Subsequent loads read the canonical (committed) text.
+    deleteDraft(slug, chapter, stage);
 
     // Comments side-file (write-only today): kept out of the content tree under
     // _system/, chapter+stage-scoped, alongside the review/ records.

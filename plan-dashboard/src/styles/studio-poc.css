@@ -1175,6 +1175,19 @@
   margin: 4px 0 0;
   line-height: 1.4;
 }
+/* Draft autosave status — the "retained, not yet approved" indicator. */
+.sp-draft-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  margin: 0 0 6px;
+  line-height: 1.4;
+  color: var(--c-ink-dim);
+}
+.sp-draft-status i { font-size: 0.72rem; }
+.sp-draft-status--saved { color: var(--c-accent); }
+.sp-draft-status--error { color: var(--c-red, #b91c1c); }
 .sp-comment-panel {
   display: flex;
   flex-direction: column;
