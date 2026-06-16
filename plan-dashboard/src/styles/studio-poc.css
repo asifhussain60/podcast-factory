@@ -41,32 +41,34 @@
 :root { --pf-sticky-top: 124px; }
 
 /* FLOATING inspector: pinned below the full sticky stack, scrolls INTERNALLY. */
+/* Full-height sticky column: header (fixed) → tab card (fills) → action footer
+   (pinned at the bottom). Released to natural flow when the grid single-columns. */
 .studio-poc__inspector {
   position: sticky;
   top: calc(var(--pf-sticky-top) + 1rem);
+  height: calc(100vh - var(--pf-sticky-top) - 2rem);
   max-height: calc(100vh - var(--pf-sticky-top) - 2rem);
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+@media (max-width: 1100px) {
+  .studio-poc__inspector { position: static; height: auto; max-height: none; }
+}
 
-/* M-1 inspector restructure: one outer card, no nested boxes.
-   ─── Global action strip (slim, always visible) ─── */
+/* ─── Header strip: Arabic overlay toggle + phonetic-map link ─── */
 .sp-global-strip {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
   flex-wrap: wrap;
-  padding: 10px 14px;
+  padding: 8px 10px;
   background: var(--c-bg-card);
   border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
   border-radius: 10px;
 }
-/* Arabic toggle row inside the global strip. */
-.sp-global-arabic { display: inline-flex; align-items: center; gap: 7px; font-size: 0.82rem; font-weight: 600; color: var(--c-ink); }
-/* Separator dot between global strip actions. */
-.sp-strip-sep { flex: 0 0 auto; width: 1px; height: 20px; background: var(--c-rule, rgba(0,0,0,0.12)); }
 
 /* ─── Tabbed panel (Details · Comment · AI · References) ─── */
 .sp-panel-card {
@@ -332,7 +334,6 @@
 }
 .studio-poc__editor .sp-para-tools--palette .sp-ptool:hover { opacity: 1; filter: none; transform: translateY(-1px); }
 /* M-1 Save & Approve in the slim global strip: grows to fill available width. */
-.sp-approve.sp-approve--strip { flex: 1 1 auto; }
 
 /* M-1 AI action buttons in the per-paragraph floating toolbar (palette mode).
    Override base .sp-ptool opacity/grayscale — these must read clearly at rest. */
@@ -506,22 +507,42 @@
   font-size: 1.18em;
   line-height: 1;
 }
-/* Icon toggle: the Arabic letter ain (ع) as the affordance, filled when on. */
-.sp-arabic-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 1.9em; padding: 2px 7px; font-weight: 700; }
-.sp-arabic-btn [lang="ar"] { font-family: "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif; font-size: 1.15rem; line-height: 1; }
-.sp-arabic-btn.is-on,
-.sp-arabic-btn.is-on:hover { color: #fff; background: var(--c-accent); border-color: var(--c-accent); }
-/* Per-chapter link out to the full Arabic-review page. */
-.sp-arabic-review {
-  font-size: 0.72rem;
+/* Arabic overlay toggle — a labelled switch (FontAwesome toggle icon + text). */
+.sp-arabic-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--c-ink-dim);
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.14));
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.14s, background 0.14s, border-color 0.14s;
+}
+.sp-arabic-btn i { font-size: 1.05rem; line-height: 1; }
+.sp-arabic-btn:hover { color: var(--c-ink); border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-rule, rgba(0,0,0,0.14))); }
+.sp-arabic-btn.is-on { color: #fff; background: var(--c-accent); border-color: var(--c-accent); }
+.sp-arabic-btn:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+/* Link out to the full phonetic map (Arabic review page). */
+.sp-phonetic-map {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
   font-weight: 700;
   color: var(--c-accent);
   text-decoration: none;
   white-space: nowrap;
-  border-bottom: 1px dotted color-mix(in oklab, var(--c-accent) 50%, transparent);
+  border-bottom: 1px dotted color-mix(in oklab, var(--c-accent) 45%, transparent);
 }
-.sp-arabic-review:hover { color: color-mix(in oklab, var(--c-accent) 80%, var(--c-ink)); border-bottom-color: var(--c-accent); }
-.sp-arabic-review:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.sp-phonetic-map:hover { color: color-mix(in oklab, var(--c-accent) 80%, var(--c-ink)); border-bottom-color: var(--c-accent); }
+.sp-phonetic-map:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .sp-arabic-btn, .sp-phonetic-map, .sp-tab-btn, .sp-approve, .sp-discard, .sp-ai-tab-btn { transition: none; }
+}
 
 /* FC-1: dedicated golden verse popover (StudioVersePopover). Opaque card, floating-ui
    positioned, beautiful Arabic (Amiri) + serif English. Self-contained --c-* tokens. */
@@ -680,6 +701,19 @@
 
 /* WC8 write-back: stage approval. */
 .studio-poc__editor .sp-tab-ok { color: var(--c-green, #15803d); font-weight: 700; }
+/* ─── Bottom action footer: Save & Approve (primary) + Discard (ghost) ─── */
+.sp-action-footer {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+  border-radius: 10px;
+}
+.sp-action-footer .sp-approve { flex: 1 1 auto; margin-top: 0; }
+.sp-action-footer .sp-discard { flex: 0 0 auto; }
 .sp-approve {
   width: 100%;
   margin-top: 2px;
@@ -993,7 +1027,7 @@
   font-weight: 600;
   border-radius: 7px;
   cursor: pointer;
-  color: var(--c-ink-muted);
+  color: var(--c-ink-dim);
   background: transparent;
   border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.18));
 }
@@ -1180,21 +1214,6 @@
 }
 .sp-ai-option-apply:hover:not(:disabled) { background: color-mix(in srgb, var(--c-accent) 18%, var(--c-bg-card)); border-color: var(--c-accent); }
 .sp-ai-option-apply:disabled { opacity: 0.4; cursor: default; }
-.sp-finalize-row { margin-top: 0.75rem; }
-.sp-finalize {
-  font-size: 0.79rem;
-  font-weight: 600;
-  padding: 7px 11px;
-  background: var(--c-bg-elev);
-  color: var(--c-ink);
-  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
-  border-radius: var(--radius-md, 0.375rem);
-  cursor: pointer;
-  transition: border-color 0.12s, color 0.12s;
-}
-.sp-finalize:hover { border-color: var(--c-accent); color: var(--c-accent); }
-.sp-finalize:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
-.sp-finalize-msg { font-size: 0.8rem; color: var(--c-ink-dim); margin-top: 0.4rem; }
 
 /* Wave N — depth picker popover (singleton, fixed-positioned, shown on badge click). */
 @keyframes spPopoverIn {
@@ -1647,8 +1666,6 @@
 .studio-poc__inspector { gap: 8px; }
 .sp-global-strip { padding: 8px 10px; gap: 6px; }
 .sp-global-arabic { font-size: 0.65rem; }
-.sp-approve.sp-approve--strip { font-size: 0.7rem; padding: 7px 10px; }
-.sp-finalize { font-size: 0.65rem; }
 .sp-tab-bar { padding: 3px; }
 .sp-tab-btn { font-size: 0.625rem; padding: 6px 5px; }
 .sp-tab-pane { padding: 11px 12px; gap: 10px; }
