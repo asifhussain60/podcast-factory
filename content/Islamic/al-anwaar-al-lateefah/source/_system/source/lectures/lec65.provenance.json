@@ -1,0 +1,16 @@
+{
+  "lecture": 65,
+  "source_audio": "99 Al-Fateha.mp3",
+  "source_bytes": 389659,
+  "source_kind": "audio",
+  "source_language": "ur",
+  "transcription_engine": "gemini/gemini-2.5-pro",
+  "transcription_method": "whole-file",
+  "dup_sentence_ratio": 0.0,
+  "loop_flagged": false,
+  "translated": true,
+  "char_count": 647,
+  "word_count": 104,
+  "elapsed_seconds": 11.8,
+  "generated_at": "2026-06-15T20:31:43Z"
+}

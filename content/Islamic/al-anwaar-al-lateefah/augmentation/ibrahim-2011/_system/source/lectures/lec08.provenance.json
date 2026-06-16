@@ -1,0 +1,16 @@
+{
+  "lecture": 8,
+  "source_audio": "Sawal wa jawab - Hazrat Ibrahim saheb 30-6-2011.mp3",
+  "source_bytes": 17335338,
+  "source_kind": "audio",
+  "source_language": "ur",
+  "transcription_engine": "gemini/gemini-2.5-pro",
+  "transcription_method": "whole-file",
+  "dup_sentence_ratio": 0.002,
+  "loop_flagged": false,
+  "translated": true,
+  "char_count": 46862,
+  "word_count": 7764,
+  "elapsed_seconds": 282.0,
+  "generated_at": "2026-06-15T18:43:32Z"
+}

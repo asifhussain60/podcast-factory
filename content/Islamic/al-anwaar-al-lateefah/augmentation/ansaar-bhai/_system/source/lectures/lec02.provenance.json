@@ -1,0 +1,16 @@
+{
+  "lecture": 2,
+  "source_audio": "Ansaar Bhai - ZaitoonSana Questions.mp3",
+  "source_bytes": 45346180,
+  "source_kind": "audio",
+  "source_language": "ur",
+  "transcription_engine": "gemini/gemini-2.5-pro",
+  "transcription_method": "whole-file",
+  "dup_sentence_ratio": 0.007,
+  "loop_flagged": false,
+  "translated": true,
+  "char_count": 39302,
+  "word_count": 6617,
+  "elapsed_seconds": 170.8,
+  "generated_at": "2026-06-15T18:05:35Z"
+}
