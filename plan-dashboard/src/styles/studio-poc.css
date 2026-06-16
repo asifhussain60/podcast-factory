@@ -33,7 +33,10 @@
   .studio-poc { grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; }
 }
 @media (max-width: 1100px) {
-  .studio-poc { grid-template-columns: 1fr; }
+  /* minmax(0,1fr) — NOT plain 1fr — so the single column can shrink to the
+     viewport instead of growing to the editor's min-content (which overflows
+     the screen on phones). Same lesson as the two-column rule above. */
+  .studio-poc { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* M-1 scroll fix: clear the full pinned stack (topnav 52px + studio subnav ~72px) + 1rem.
@@ -496,6 +499,7 @@
   border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
   border-radius: 14px;
   padding: 28px 36px;
+  min-width: 0; /* grid item: shrink to the column instead of forcing page-wide overflow */
 }
 .studio-poc__editor .ProseMirror {
   font-family: var(--font-body, Georgia, serif);
@@ -818,14 +822,21 @@
 .studio-poc__editor .sp-metric-delta.is-up { color: var(--c-accent); }
 
 /* B: chapter switcher. */
-.studio-poc__editor .sp-chapsel { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; }
+.studio-poc__editor .sp-chapsel { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; min-width: 0; }
 .studio-poc__editor .sp-chapsel label { font-family: var(--font-ui, system-ui, sans-serif); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-ink-muted); }
 .studio-poc__editor .sp-chapsel select {
   font-family: var(--font-ui, system-ui, sans-serif); font-size: 0.9rem; font-weight: 600;
   color: var(--c-ink); background: var(--c-bg-card); cursor: pointer;
   border: 1px solid var(--c-rule, rgba(0,0,0,0.18)); border-radius: 8px; padding: 5px 10px;
+  min-width: 0; max-width: 100%; /* shrink + truncate the long option text on narrow screens */
 }
 .studio-poc__editor .sp-chapsel select:disabled { opacity: 0.45; cursor: default; }
+@media (max-width: 1100px) {
+  /* When the editor narrows, let the chapter selector wrap to its own full-width
+     row instead of collapsing to just the dropdown arrow. */
+  .studio-poc__editor .sp-chapsel { flex-wrap: wrap; }
+  .studio-poc__editor .sp-chapsel select { flex: 1 1 100%; }
+}
 
 /* All-chapters view toggle button. */
 .sp-viewall-btn {
