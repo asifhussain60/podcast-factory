@@ -98,6 +98,22 @@ class DuplicationTests(unittest.TestCase):
         b = "## Where this episode opens\n\n" + frame + "\n## Real2\n\nunique two."
         self.assertEqual(ccs.check_cross_chapter_duplication({"a": a, "b": b}), [])
 
+    def test_section_heading_conciseness(self):
+        """P11: a long statement-style ## heading is flagged; a short heading and a
+        structural frame heading are not."""
+        long_h = "## The veiling chain that runs from the Father of Imams to the hidden Imam"
+        short_h = "## The veiling chain"
+        frame_h = "## Where this chapter opens"
+        chapters = {
+            "a": f"{long_h}\n\nbody.\n\n{frame_h}\n\nmore.",
+            "b": f"{short_h}\n\nbody.",
+        }
+        f = ccs.check_section_heading_conciseness(chapters)
+        self.assertEqual(len(f), 1, "only the long non-frame heading is flagged")
+        self.assertEqual(f[0]["check"], "P11")
+        self.assertEqual(f[0]["slug"], "a")
+        self.assertEqual(f[0]["severity"], "P2")
+
     def test_shared_citation_not_duplication(self):
         """A source cited in two chapters is scholarship, not 'taught twice'.
         Parenthetical AND bracketed citations (incl. nested parens) are stripped

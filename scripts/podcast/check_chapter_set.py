@@ -353,6 +353,10 @@ def check_cross_book_bleed(book_slug: str, chapters: dict[str, str]) -> list[dic
 # Lines of refined source allowed to fall outside every episode's line range
 # before P7 flags a coverage gap (front/back matter, blank runs).
 COVERAGE_GAP_TOLERANCE = 40
+# Concept `## H2` section headings should read like headings, not statements.
+# Target the same soft word cap as INVARIANT 6 chapter titles. Structural frames
+# (openers/landings/closing) are excluded — they carry their own canonical shape.
+HEADING_MAX_WORDS = 6
 # Cross-chapter duplication: shingle size + how many distinct shared shingles
 # between a chapter pair count as duplication (conservative on purpose).
 SHINGLE_N = 12
@@ -594,6 +598,34 @@ def check_sermon_integrity(book_dir: Path, chapters: dict[str, str]) -> list[dic
     return findings
 
 
+def check_section_heading_conciseness(chapters: dict[str, str]) -> list[dict]:
+    """P11: concept `## H2` section headings read like headings, not statements
+    (R-HEADING-CONCISE). Flags any non-frame heading over HEADING_MAX_WORDS words.
+    Structural frames (openers/landings/closing) are excluded via the canonical
+    frame regex. Advisory (P2) — display polish, never blocks ship."""
+    try:
+        from chapter_density_audit import _FRAME_PATTERNS
+    except ImportError:
+        return []
+    findings: list[dict] = []
+    for slug in sorted(chapters):
+        for line in chapters[slug].splitlines():
+            if not line.startswith("## "):
+                continue
+            if _FRAME_PATTERNS.match(line):
+                continue
+            heading = line[3:].strip()
+            wc = len(heading.split())
+            if wc > HEADING_MAX_WORDS:
+                findings.append({
+                    "check": "P11", "severity": "P2", "slug": slug,
+                    "msg": (f"section heading is {wc} words (>{HEADING_MAX_WORDS}): "
+                            f"{heading[:64]!r} — write a short noun-phrase heading, "
+                            f"not a full statement"),
+                })
+    return findings
+
+
 def check_set_density(chapter_files: list[Path], book_slug: str) -> list[dict]:
     """P10: per-chapter concept-count within target (advisory at set level —
     the $0 preflight gate owns halting; this keeps the set view in the report)."""
@@ -654,6 +686,7 @@ def run(book_dir: Path) -> tuple[list[dict], int]:
     findings += check_cross_chapter_duplication(chapters)
     findings += check_sermon_integrity(book_dir, chapters)
     findings += check_set_density(chapter_files, book_slug)
+    findings += check_section_heading_conciseness(chapters)
 
     return findings, len(chapter_files)
 
