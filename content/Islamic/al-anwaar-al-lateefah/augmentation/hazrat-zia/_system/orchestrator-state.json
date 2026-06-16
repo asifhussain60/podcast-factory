@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "book_slug": "hazrat-zia-ali-augment",
+  "source_kind": "audio",
+  "input_type": "audio",
+  "source_language": "ur",
+  "phase": "0a-synthesize",
+  "phase_status": "pending",
+  "last_completed_phase": "0a",
+  "last_error": null,
+  "category": "lectures",
+  "status": "draft",
+  "started": "2026-06-15T20:46:05Z",
+  "updated": "2026-06-15T22:46:51Z",
+  "phases": {
+    "0a": {
+      "completed_via": "transcribe_audio_book.py (gemini direct-audio)",
+      "completed_at": "2026-06-15T22:46:51Z",
+      "lectures": 29,
+      "engine": "gemini/gemini-2.5-pro",
+      "source_language": "ur"
+    }
+  },
+  "intake_via": "scripts/podcast/intake_book.py --from-audio"
+}

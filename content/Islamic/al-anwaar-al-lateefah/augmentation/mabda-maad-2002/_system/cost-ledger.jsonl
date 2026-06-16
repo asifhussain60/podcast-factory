@@ -1,0 +1,7 @@
+{"ts": "2026-06-15T18:44:02Z", "phase": "0a", "step": "transcribe/lec01", "model": "gemini-2.5-pro", "input_tokens": 90000, "output_tokens": 81960, "cache_read": 0, "cache_create": 0, "cost_usd": 0.233025, "engine": "api"}
+{"ts": "2026-06-15T18:47:29Z", "phase": "0a", "step": "transcribe/lec02", "model": "gemini-2.5-pro", "input_tokens": 83763, "output_tokens": 57274, "cache_read": 0, "cache_create": 0, "cost_usd": 0.169361, "engine": "api"}
+{"ts": "2026-06-15T18:54:24Z", "phase": "0a", "step": "transcribe/lec03", "model": "gemini-2.5-pro", "input_tokens": 88943, "output_tokens": 81174, "cache_read": 0, "cache_create": 0, "cost_usd": 0.23073, "engine": "api"}
+{"ts": "2026-06-15T18:57:26Z", "phase": "0a", "step": "transcribe/lec04", "model": "gemini-2.5-pro", "input_tokens": 87505, "output_tokens": 58211, "cache_read": 0, "cache_create": 0, "cost_usd": 0.172873, "engine": "api"}
+{"ts": "2026-06-15T19:01:35Z", "phase": "0a", "step": "transcribe/lec05", "model": "gemini-2.5-pro", "input_tokens": 88287, "output_tokens": 86129, "cache_read": 0, "cache_create": 0, "cost_usd": 0.242912, "engine": "api"}
+{"ts": "2026-06-15T19:04:39Z", "phase": "0a", "step": "transcribe/lec06", "model": "gemini-2.5-pro", "input_tokens": 36250, "output_tokens": 35163, "cache_read": 0, "cache_create": 0, "cost_usd": 0.099236, "engine": "api"}
+{"ts": "2026-06-15T19:09:22Z", "phase": "0a", "step": "transcribe/lec07", "model": "gemini-2.5-pro", "input_tokens": 86679, "output_tokens": 94794, "cache_read": 0, "cache_create": 0, "cost_usd": 0.264072, "engine": "api"}

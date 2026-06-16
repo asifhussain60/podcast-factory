@@ -1,0 +1,16 @@
+{
+  "lecture": 7,
+  "source_audio": "Sabaq 15-Hazrat Qibla-Al-Mabda wa Al-Ma'ad - 16 Rabi ul Akhar 1444.mp3",
+  "source_bytes": 8411948,
+  "source_kind": "audio",
+  "source_language": "ur",
+  "transcription_engine": "gemini/gemini-2.5-pro",
+  "transcription_method": "whole-file",
+  "dup_sentence_ratio": 0.009,
+  "loop_flagged": false,
+  "translated": true,
+  "char_count": 38631,
+  "word_count": 6704,
+  "elapsed_seconds": 119.1,
+  "generated_at": "2026-06-15T18:17:42Z"
+}
