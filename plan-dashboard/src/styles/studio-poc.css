@@ -458,6 +458,30 @@
 .sp-arabic-confirm__apply:focus-visible,
 .sp-arabic-confirm__cancel:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
 
+/* Replace-scope choice: this instance · this chapter · all chapters. */
+.sp-arabic-confirm__scopehint { font-size: 0.72rem; color: var(--c-ink-muted); margin: 10px 0 5px; }
+.sp-arabic-scope { display: flex; flex-direction: column; gap: 5px; }
+.sp-arabic-scope__btn {
+  display: flex; align-items: center; gap: 7px;
+  width: 100%; text-align: left; font-size: 0.76rem; font-weight: 600;
+  padding: 7px 10px; border-radius: 7px; cursor: pointer;
+  color: var(--c-ink); background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.16));
+}
+.sp-arabic-scope__btn i { font-size: 0.8rem; color: var(--c-ink-muted); width: 1.1em; text-align: center; }
+.sp-arabic-scope__btn:hover:not(:disabled) { border-color: var(--c-accent); color: var(--c-accent); }
+.sp-arabic-scope__btn:hover:not(:disabled) i { color: var(--c-accent); }
+.sp-arabic-scope__btn:disabled { opacity: 0.45; cursor: default; }
+.sp-arabic-scope__btn:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.sp-arabic-scope__btn--primary { color: #fff; background: var(--c-accent); border-color: transparent; }
+.sp-arabic-scope__btn--primary i { color: #fff; }
+.sp-arabic-scope__btn--primary:hover:not(:disabled) { background: color-mix(in srgb, var(--c-accent) 88%, #000); color: #fff; }
+.sp-arabic-scope__btn--primary:hover:not(:disabled) i { color: #fff; }
+.sp-arabic-confirm__doneline {
+  display: flex; align-items: center; gap: 7px; margin: 10px 0 0;
+  font-size: 0.78rem; font-weight: 600; color: var(--c-green, #15803d);
+}
+
 /* M-1 AI result area in the AI tab. */
 .sp-ai-tab-actions { display: flex; gap: 5px; flex-wrap: wrap; }
 .sp-ai-tab-btn {

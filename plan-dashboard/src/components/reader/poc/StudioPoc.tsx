@@ -714,6 +714,8 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   >(null);
   const [arabicBusy, setArabicBusy] = useState(false);
   const [arabicError, setArabicError] = useState('');
+  // Result line after an across-chapter / across-book Arabic replace.
+  const [arabicDone, setArabicDone] = useState('');
 
   // serializeToMarkdown / saveAndApprove / discardChanges declared after useEditor (below).
 
@@ -1505,7 +1507,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     const { from, to } = editor.state.selection;
     const original = editor.state.doc.textBetween(from, to, ' ').trim();
     if (!original || from === to) return;
-    setArabicBusy(true); setArabicError(''); setArabicProposal(null);
+    setArabicBusy(true); setArabicError(''); setArabicProposal(null); setArabicDone('');
     try {
       const res = await fetch('/api/ai/arabic-term', {
         method: 'POST', headers: { 'content-type': 'application/json' },
@@ -1542,7 +1544,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     refresh();
   }, [editor, arabicProposal]);
 
-  const cancelArabic = useCallback(() => { setArabicProposal(null); setArabicError(''); }, []);
+  const cancelArabic = useCallback(() => { setArabicProposal(null); setArabicError(''); setArabicDone(''); }, []);
 
   // ── Global find-and-replace ──────────────────────────────────────────────
   // Highlight a phrase → "Replace" opens this popup pre-filled with the
@@ -1604,6 +1606,38 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       editor.view.dispatch(tr);
     }
   }, [editor]);
+
+  // Replace EVERY occurrence of the original term with the (edited) Arabic — across
+  // this chapter or the whole book — via the same canonical-file replace endpoint
+  // used by find-and-replace, then mirror the change into the live editor doc.
+  const applyArabicAcross = useCallback(async (scope: 'chapter' | 'book') => {
+    if (!editor || !arabicProposal) return;
+    const replace = arabicProposal.arabic.trim();
+    if (!replace) { setArabicError('Enter the Arabic text first.'); return; }
+    const find = arabicProposal.original;
+    setArabicBusy(true); setArabicError('');
+    try {
+      const res = await fetch('/api/studio/replace', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, scope, chapter, pairs: [{ find, replace }], apply: true }),
+      });
+      const j = await res.json();
+      if (!res.ok || j.ok === false) { setArabicError(j.error ?? `Request failed (${res.status})`); return; }
+      if (!isReadOnlyStage) replaceInEditorDoc([{ find, replace }]);
+      const nCh = (j.results ?? []).length;
+      const total = j.total ?? 0;
+      setArabicDone(
+        total === 0
+          ? 'No matches found — nothing changed.'
+          : `Replaced ${total} instance${total === 1 ? '' : 's'} across ${nCh} chapter${nCh === 1 ? '' : 's'}.`,
+      );
+      refresh();
+    } catch (e) {
+      setArabicError(String(e));
+    } finally {
+      setArabicBusy(false);
+    }
+  }, [editor, arabicProposal, slug, chapter, isReadOnlyStage, replaceInEditorDoc]);
 
   const runReplace = useCallback(async (apply: boolean) => {
     const pairs = replacePairs
@@ -1932,14 +1966,39 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                               aria-label="Arabic term — edit before replacing"
                             />
                             {arabicProposal.gloss && <p className="sp-arabic-confirm__gloss">{arabicProposal.gloss}</p>}
-                            <div className="sp-arabic-confirm__actions">
-                              <button type="button" className="sp-arabic-confirm__apply" onClick={applyArabic} disabled={!arabicProposal.arabic.trim()}>
-                                <i className="fa-solid fa-check" aria-hidden="true" /> Replace
-                              </button>
-                              <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelArabic}>
-                                Cancel
-                              </button>
-                            </div>
+                            {arabicDone ? (
+                              <>
+                                <p className="sp-arabic-confirm__doneline">
+                                  <i className="fa-solid fa-circle-check" aria-hidden="true" /> {arabicDone}
+                                </p>
+                                <div className="sp-arabic-confirm__actions">
+                                  <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelArabic}>Close</button>
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <p className="sp-arabic-confirm__scopehint">Replace where?</p>
+                                <div className="sp-arabic-scope">
+                                  <button type="button" className="sp-arabic-scope__btn sp-arabic-scope__btn--primary"
+                                    disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={applyArabic}>
+                                    <i className="fa-solid fa-check" aria-hidden="true" /> This instance
+                                  </button>
+                                  <button type="button" className="sp-arabic-scope__btn"
+                                    disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={() => void applyArabicAcross('chapter')}>
+                                    <i className="fa-solid fa-file-lines" aria-hidden="true" /> This chapter
+                                  </button>
+                                  <button type="button" className="sp-arabic-scope__btn"
+                                    disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={() => void applyArabicAcross('book')}>
+                                    <i className="fa-solid fa-book" aria-hidden="true" /> All chapters
+                                  </button>
+                                </div>
+                                <div className="sp-arabic-confirm__actions">
+                                  <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelArabic}>
+                                    {arabicBusy ? 'Replacing…' : 'Cancel'}
+                                  </button>
+                                </div>
+                              </>
+                            )}
                           </div>
                         )}
                       </>
