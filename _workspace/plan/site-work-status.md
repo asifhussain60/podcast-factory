@@ -12,6 +12,20 @@
 
 **Last updated:** 2026-06-17 (session 32 — re-shell, reading width, Arabic font+colour, Noise tool, unified action panel)
 
+**Session 32 part 5:** Collapsed the redundant paragraph-rewrite trio to ONE button.
+Rewrite/Rephrase/Improve were behaviourally identical — all three stamped a deferred
+action_items mark differing only by tag string, and NO drain pass interprets the tags
+differently (verified: action_items has no consumer in scripts/podcast beyond the schema +
+API). Worse, 'rephrase'/'improve' weren't even in the API's ALLOWED_KINDS, so they never
+persisted. Removed both from ACTION_REGISTRY (kept 'rewrite', broadened its hint to
+"reword, sharpen clarity, or redo it freely") and dropped their dead `.sp-ptool.act-*.is-on`
+CSS. NOTE the section depth-tag `{id:'improve'}` (line 311, AI-tab auto-tag picker) is a
+SEPARATE feature — kept. MARK-VISIBILITY: confirmed the existing per-paragraph icon badge
+already works — marking a paragraph renders a dark `--c-ink` chip with the action's
+Font-Awesome icon in its action colour + a 2px ring (sp-para-tools--marks, side -1, top-right,
+opacity 1) plus a queue row; Asif hadn't seen it because nothing was marked. No new icon code
+needed. tsc 0 / lint:views clean.
+
 **Session 32 part 4:** Editor inspector action panel UNIFIED. Previously the Details-tab
 palette swapped button SETS by selection context — a "Term actions" palette (Arabic, Replace,
 Explain, Noise, Etymology, Define) only when a word was highlighted, a separate "Paragraph

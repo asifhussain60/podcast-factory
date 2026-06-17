@@ -68,9 +68,7 @@ const ACTION_REGISTRY: readonly ActionDef[] = [
   { kind: 'explain',   label: 'Explain',       icon: 'fa-lightbulb',                           scope: 'term',      group: 'core',      hint: 'Replace the selection with a clearer, fuller explanation (AI, in chapter context)', applyMode: 'immediate' },
   { kind: 'noise',     label: 'Noise',         icon: 'fa-eraser', scope: 'term', group: 'core', hint: 'Mark the selection as noise -> generalise to a pattern -> strip every match across this chapter or the whole book', applyMode: 'immediate' },
   { kind: 'etymology', label: 'Etymology',     icon: 'fa-book-bookmark',                       scope: 'term',      group: 'core',      hint: 'Resolve the root-history of this term (shared wisdom corpus)' },
-  { kind: 'rewrite',   label: 'Rewrite',       icon: 'fa-arrows-rotate',                       scope: 'paragraph', group: 'core',      hint: 'Rewrite this paragraph' },
-  { kind: 'rephrase',  label: 'Rephrase',      icon: 'fa-pen-nib',                             scope: 'paragraph', group: 'core',      hint: 'Rephrase while keeping the meaning' },
-  { kind: 'improve',   label: 'Improve',       icon: 'fa-wand-magic-sparkles',                 scope: 'paragraph', group: 'core',      hint: 'Improve clarity and craft' },
+  { kind: 'rewrite',   label: 'Rewrite',       icon: 'fa-arrows-rotate',                       scope: 'paragraph', group: 'core',      hint: 'Rewrite this paragraph — reword, sharpen clarity, or redo it freely' },
   // Transform
   { kind: 'expand',    label: 'Expand',        icon: 'fa-up-right-and-down-left-from-center',  scope: 'paragraph', group: 'transform', hint: 'Elaborate — add depth or an example' },
   { kind: 'condense',  label: 'Condense',      icon: 'fa-compress',                            scope: 'paragraph', group: 'transform', hint: 'Tighten without losing meaning' },

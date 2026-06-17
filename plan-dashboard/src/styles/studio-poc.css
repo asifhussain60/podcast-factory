@@ -524,8 +524,6 @@
    Each is the "on" icon colour over the dark chip. */
 .studio-poc__editor .sp-ptool.act-etymology.is-on { color: var(--c-act-etymology); }
 .studio-poc__editor .sp-ptool.act-rewrite.is-on   { color: var(--c-act-core); }
-.studio-poc__editor .sp-ptool.act-rephrase.is-on  { color: var(--c-act-core); }
-.studio-poc__editor .sp-ptool.act-improve.is-on   { color: var(--c-act-core); }
 .studio-poc__editor .sp-ptool.act-expand.is-on    { color: var(--c-act-transform); }
 .studio-poc__editor .sp-ptool.act-condense.is-on  { color: var(--c-act-transform); }
 .studio-poc__editor .sp-ptool.act-simplify.is-on  { color: var(--c-act-transform); }
