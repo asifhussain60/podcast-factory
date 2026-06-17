@@ -126,8 +126,43 @@ def _print_ladder(work_slug: str) -> None:
               f"phase={st.get('phase', '—')} status={st.get('status', 'draft')}")
 
 
+def _ensure_allocation(work_slug: str) -> int:
+    """Work-level teaching-allocation pre-pass (once, before any volume's 0d).
+
+    Only for SYNTHESIZED works — those whose work.yml declares a shared ``ledger``
+    (a unified teaching ledger to partition). Idempotent: skips when
+    ``_system/_volume-split.json`` already exists with a passing no-loss/no-repeat
+    gate. Produces the cross-volume allocation each volume's 0d consumes, so every
+    concept lands in exactly one volume+chapter with no duplication. Multi-volume
+    works intaked as per-volume PDFs (no shared ledger) are skipped untouched.
+    """
+    import json
+    work_dir = wm.work_dir_for(work_slug)
+    manifest = wm.read_manifest(work_dir) or {}
+    if not (manifest.get("shared") or {}).get("ledger"):
+        return 0  # not a synthesized work — nothing to allocate
+    split = work_dir / "_system" / "_volume-split.json"
+    if split.exists():
+        try:
+            v = (json.loads(split.read_text()).get("verification") or {})
+            if v.get("union_ok") and v.get("one_volume_each") and v.get("each_cluster_one_home"):
+                return 0  # already allocated and verified
+        except Exception:
+            pass
+    print(f"[work] no verified teaching allocation for {work_slug} — running allocator (one-time)…")
+    rc = subprocess.run(
+        [sys.executable, str(Path(__file__).resolve().parent / "allocate_teachings.py"),
+         work_slug, "--all"]).returncode
+    if rc != 0:
+        print(f"[work] allocation failed (rc={rc}); fix before authoring volumes.", file=sys.stderr)
+    return rc
+
+
 def run_work(work_slug: str, *, advance: bool) -> int:
     # Respect a supervisor ALERT on any volume — do not paper over it.
+    rc = _ensure_allocation(work_slug)
+    if rc != 0:
+        return rc
     action = plan_next_action(work_slug, advance=advance)
     print(action.message)
     if action.kind in ("no-volumes", "all-done", "pause-between-volumes"):
