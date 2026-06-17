@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "book_slug": "al-anwaar-al-lateefah-vol-04",
+  "work_slug": "al-anwaar-al-lateefah",
+  "volume": 4,
+  "category": "books",
+  "content_profile": "islamic_scholarly",
+  "branch": "Islamic/al-anwaar-al-lateefah",
+  "phase": "0c",
+  "phase_status": "pending",
+  "last_completed_phase": "0b",
+  "next_phase": "0c",
+  "last_error": null,
+  "phases": {
+    "pre-flight": {
+      "status": "completed",
+      "note": "pre-marked: volume scaffold"
+    },
+    "branch": {
+      "status": "completed",
+      "note": "pre-marked: shares Islamic/al-anwaar-al-lateefah branch"
+    },
+    "scaffold": {
+      "status": "completed",
+      "note": "pre-marked: carved from synthesized unified-book.md"
+    },
+    "0a": {
+      "status": "completed",
+      "note": "pre-marked: multi-source synthesis on work root; sliced"
+    },
+    "0b": {
+      "status": "completed",
+      "note": "pre-marked: refinement on synthesized book; sliced"
+    },
+    "0c": {
+      "status": "pending"
+    },
+    "0d": {
+      "status": "pending"
+    },
+    "0e": {
+      "status": "pending"
+    },
+    "0f": {
+      "status": "pending"
+    },
+    "0g": {
+      "status": "pending"
+    },
+    "per-chapter": {
+      "status": "pending"
+    },
+    "trainer": {
+      "status": "pending"
+    },
+    "merge": {
+      "status": "pending"
+    },
+    "done": {
+      "status": "pending"
+    }
+  },
+  "cost": {
+    "azure_usd": 0.0,
+    "anthropic_usd": 0.0
+  },
+  "wall_clock_sec": 0,
+  "config": {
+    "length_tier": "extended",
+    "unit_mode": "auto"
+  },
+  "pipeline_mode": "orchestrated",
+  "status": "draft",
+  "ts_started": "2026-06-17T12:04:07Z",
+  "ts_updated": "2026-06-17T12:04:07Z"
+}
