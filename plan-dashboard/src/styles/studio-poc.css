@@ -560,8 +560,13 @@
   line-height: 1.72;
   color: var(--c-ink);
   outline: none;
-  max-width: 74ch;
-  margin-inline: auto;           /* centre the measure in the now-wide column */
+  /* Reading view fills the editor column to maximise the line (per Asif). The
+     column's own 36px inline padding (.studio-poc__editor) is the small breathing
+     margin — no extra padding here, or the gutter doubles. A generous ch cap keeps
+     the measure sane on ultra-wide monitors; on normal screens the column is the
+     real limit. */
+  max-width: 130ch;
+  margin-inline: auto;
 }
 /* No full-editor focus ring — the active-PARAGRAPH ring is the focus cue (FC fix). */
 .studio-poc__editor .ProseMirror:focus,
