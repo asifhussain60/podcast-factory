@@ -31,3 +31,7 @@
 {"phase": "per-chapter", "step": "challenger/outer-and-inner-gnosis-and-the-mukathir", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/outer-and-inner-gnosis-and-the-mukathir/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/outer-and-inner-gnosis-and-the-mukathir", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-ladder-of-tawhid", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-ladder-of-tawhid", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-ladder-of-tawhid/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-ladder-of-tawhid", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
