@@ -10,9 +10,27 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-17 (session 32 — Arabic review re-shelled + toggle symmetry + Arabic-font fix)
+**Last updated:** 2026-06-17 (session 32 — re-shell, reading width, Arabic font+colour, Noise tool)
 
-**Session 32 addendum (same branch):** Two follow-ups after the re-shell. (1) Toggle
+**Session 32 part 3 (commits 43cad11, 801e04c, 0effc49, 77a647b):** (a) Reading width —
+editor prose raised from a centred 74ch (~65% of column) to 130ch so it fills the column
+with the column's own 36px padding as the small margin (~93% at 1680px). (b) Removed the
+redundant non-interactive "Edit & Enrich" current-step label from the compact subnav.
+(c) Arabic COLOUR (consistent throughout) — colour can't be applied per-glyph in CSS, so
+raw inline Arabic stayed ink while glossary overlays were accent brown. Editor: new pass in
+the decoration engine wraps Arabic-LETTER runs in .ar-raw (accent). Reading page: new
+glossary.ts wrapRawArabic() runs BEFORE wrapPhoneticTokens, wraps raw runs in .ar-raw. The
+ﷺ honorific (presentation-form, outside the letter ranges) stays ink on both. FEATURE —
+Noise→pattern→denoise: new "Noise" term action generalises a selection to a regex
+(digits/whitespace loosened), previews count + real per-chapter samples, strips every match
+book-wide. New /api/studio/denoise mirrors replace.ts (scope chapter|book, preview-first,
+.bak per file); guards reject invalid + empty-matching patterns; Strip disabled until preview.
+VISUAL QA (1440 + 375, both surfaces): zero defects, no overflow; endpoint exercised
+(preview, apply+restore, both guards); Noise button/modal/derivation confirmed live.
+NOTE the public library reader uses a different render path (not wrapPhoneticTokens) and was
+left out of scope for the reading-page colour extension.
+
+**Session 32 part 2 (same branch):** Two follow-ups after the re-shell. (1) Toggle
 symmetry: the Edit & Enrich page's surface toggle ([step].astro, both the editor and
 workbench views) now carries a third "Arabic review" tab (chapter-aware via
 #initialChapterId), so all three edit surfaces switch between each other identically in
