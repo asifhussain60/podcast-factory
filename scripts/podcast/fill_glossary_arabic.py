@@ -185,6 +185,20 @@ def parse_llm_yaml(raw: str) -> dict[str, str]:
     return out
 
 
+def _normalize_taa_marbuta(entries: list[dict]) -> int:
+    """A word-final taa marbuta (ة) is pronounced "h"/"ah", not "t"; the phonetic
+    generator sometimes emits a trailing "t" (ri-yaat). Rewrite it to "h" so the
+    audio says "ri-yaah". Idempotent; only entries whose Arabic ends in ة."""
+    n = 0
+    for e in entries:
+        ar = str(e.get("arabic_script") or "").strip()
+        ap = str(e.get("audio_phonetic") or "").strip()
+        if ar.endswith("ة") and ap.endswith("t"):
+            e["audio_phonetic"] = ap[:-1] + "h"
+            n += 1
+    return n
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n", 1)[0])
     ap.add_argument("--book-dir", required=True, type=Path)
@@ -284,6 +298,10 @@ def main() -> int:
 
     if n_skipped_unknown:
         print(f"  ⚠ {n_skipped_unknown} LLM-emitted rows had unknown phonetics; dropped", file=sys.stderr)
+
+    n_taa = _normalize_taa_marbuta(entries)
+    if n_taa:
+        print(f"  normalized {n_taa} taa-marbuta phonetics (-t -> -h)", file=sys.stderr)
 
     glossary_path.write_text(emit_glossary_yml(entries, top), encoding="utf-8")
     print(f"wrote {glossary_path.relative_to(book_dir)} — {n_filled} entries filled "
