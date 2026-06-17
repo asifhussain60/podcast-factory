@@ -52,6 +52,37 @@ def _read_profile_and_planning(book_dir: Path) -> tuple[str, str]:
     return (profile, planning)
 
 
+def _episode_max_concepts(book_dir: Path) -> int:
+    """Per-book concepts-per-episode cap for 0d planning.
+
+    Defaults to the module global EPISODE_MAX_CONCEPTS (3) — so every existing
+    book plans exactly as before. A book may RELAX it (higher value => FEWER,
+    fuller, breathable episodes instead of many short ones) for a curated audio
+    season, via `config.episode_max_concepts` in orchestrator-state.json or
+    `episode_max_concepts` in series-config.yaml. Used e.g. by the al-anwaar
+    multi-volume work to honor its "curated breathable audio" decision while the
+    reading edition keeps full depth.
+    """
+    import json as _json
+    try:
+        cfg = (_json.loads((book_dir / "_system" / "orchestrator-state.json").read_text())
+               .get("config") or {})
+        if cfg.get("episode_max_concepts"):
+            return max(1, int(cfg["episode_max_concepts"]))
+    except Exception:
+        pass
+    try:
+        import yaml as _yaml
+        sc = book_dir / "_system" / "series-config.yaml"
+        if sc.exists():
+            v = (_yaml.safe_load(sc.read_text(encoding="utf-8")) or {}).get("episode_max_concepts")
+            if v:
+                return max(1, int(v))
+    except Exception:
+        pass
+    return EPISODE_MAX_CONCEPTS
+
+
 def _concept_inventory(book_dir: Path) -> list[dict] | None:
     """Deterministic concept inventory from a prior render of the same source.
 
@@ -442,6 +473,13 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     """
     if category is None:
         category = _read_category(book_dir)
+
+    # Per-book concepts-per-episode cap. Rebinding the module global here (default
+    # = unchanged 3) makes every downstream reference — TOC prompt, the R-MAX-CONCEPTS
+    # floor, and per-chapter validation — honor a book's curated/breathable setting
+    # without threading a param through ~12 sites. One book per process, so this is safe.
+    global EPISODE_MAX_CONCEPTS
+    EPISODE_MAX_CONCEPTS = _episode_max_concepts(book_dir)
 
     import json as _json
 
