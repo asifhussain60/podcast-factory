@@ -27,3 +27,7 @@
 {"phase": "per-chapter", "step": "fixer/origination-from-nothing/P0", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/origination-from-nothing/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/origination-from-nothing", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/outer-and-inner-gnosis-and-the-mukathir", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/outer-and-inner-gnosis-and-the-mukathir", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/outer-and-inner-gnosis-and-the-mukathir/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/outer-and-inner-gnosis-and-the-mukathir", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

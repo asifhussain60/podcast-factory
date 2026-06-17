@@ -64,10 +64,11 @@
     "per-chapter": {
       "status": "running",
       "ts_started": "2026-06-17T20:19:07Z",
-      "current_chapter": "origination-from-nothing",
-      "last_beat": "2026-06-17T21:22:24Z",
+      "current_chapter": "outer-and-inner-gnosis-and-the-mukathir",
+      "last_beat": "2026-06-17T21:46:03Z",
       "completed_slugs": [
-        "ascent-decline-and-the-birth-of-a-god"
+        "ascent-decline-and-the-birth-of-a-god",
+        "origination-from-nothing"
       ],
       "failed_slugs": [
         "equal-but-not-infallible",
@@ -99,6 +100,13 @@
         },
         "origination-from-nothing": {
           "started_ts": "2026-06-17T20:59:10Z",
+          "completed_ts": "2026-06-17T21:27:22Z",
+          "duration_sec": 1692.4,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "outer-and-inner-gnosis-and-the-mukathir": {
+          "started_ts": "2026-06-17T21:27:23Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
@@ -141,5 +149,5 @@
   "pipeline_mode": "orchestrated",
   "status": "draft",
   "ts_started": "2026-06-17T12:04:07Z",
-  "ts_updated": "2026-06-17T21:22:24Z"
+  "ts_updated": "2026-06-17T21:46:03Z"
 }
