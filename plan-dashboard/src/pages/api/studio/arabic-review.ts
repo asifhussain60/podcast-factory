@@ -43,6 +43,7 @@ export const POST: APIRoute = async ({ request }) => {
   let body: {
     slug?: string;
     phonetic?: string;
+    arabic_script?: string;
     decision?: GlossaryDecision;
     corrected_phonetic?: string;
     corrected_arabic?: string;
@@ -67,7 +68,7 @@ export const POST: APIRoute = async ({ request }) => {
       corrected_arabic: body.corrected_arabic,
       english_override: body.english_override,
       decided_by: body.decided_by,
-    });
+    }, body.arabic_script);
     if (!updated) return apiError(`Term not found in glossary: ${phonetic}`, 404);
     return apiOk(updated);
   } catch (e) {
