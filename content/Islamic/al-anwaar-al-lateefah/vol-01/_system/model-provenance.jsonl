@@ -21,3 +21,9 @@
 {"phase": "per-chapter", "step": "challenger/ascent-decline-and-the-birth-of-a-god", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/ascent-decline-and-the-birth-of-a-god/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/ascent-decline-and-the-birth-of-a-god", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/equal-but-not-infallible", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/origination-from-nothing", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/origination-from-nothing", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/origination-from-nothing/P0", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/origination-from-nothing/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/origination-from-nothing", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

@@ -10,7 +10,11 @@
   "phase_status": "running",
   "last_completed_phase": "0e",
   "next_phase": "0literary",
-  "last_error": null,
+  "last_error": {
+    "phase": "per-chapter",
+    "message": "[naming-the-unnameable] extract_chapter.py failed for 'vol-01/ch03c-naming-the-unnameable': rc=1: ERROR: contract at /Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/chapter-contracts/naming-the-unnameable.yml contains meta-prose that would reach NotebookLM.",
+    "ts": "2026-06-17T20:59:10Z"
+  },
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -60,13 +64,41 @@
     "per-chapter": {
       "status": "running",
       "ts_started": "2026-06-17T20:19:07Z",
-      "current_chapter": "ascent-decline-and-the-birth-of-a-god",
-      "last_beat": "2026-06-17T20:39:51Z",
-      "completed_slugs": [],
-      "failed_slugs": [],
+      "current_chapter": "origination-from-nothing",
+      "last_beat": "2026-06-17T21:22:24Z",
+      "completed_slugs": [
+        "ascent-decline-and-the-birth-of-a-god"
+      ],
+      "failed_slugs": [
+        "equal-but-not-infallible",
+        "naming-the-unnameable"
+      ],
       "chapter_timings": {
         "ascent-decline-and-the-birth-of-a-god": {
           "started_ts": "2026-06-17T20:19:07Z",
+          "completed_ts": "2026-06-17T20:45:54Z",
+          "duration_sec": 1607.3,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "equal-but-not-infallible": {
+          "started_ts": "2026-06-17T20:45:55Z",
+          "completed_ts": "2026-06-17T20:59:10Z",
+          "duration_sec": 795.1,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "pipeline_lint P0: framing structural mismatch:"
+        },
+        "naming-the-unnameable": {
+          "started_ts": "2026-06-17T20:59:10Z",
+          "completed_ts": "2026-06-17T20:59:10Z",
+          "duration_sec": 0.1,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "extract_chapter.py failed for 'vol-01/ch03c-naming-the-unnameable': rc=1: ERROR: contract at /Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/chapter-contracts/naming-the-unnameable.yml contains meta-prose that would reach NotebookLM."
+        },
+        "origination-from-nothing": {
+          "started_ts": "2026-06-17T20:59:10Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
@@ -109,5 +141,5 @@
   "pipeline_mode": "orchestrated",
   "status": "draft",
   "ts_started": "2026-06-17T12:04:07Z",
-  "ts_updated": "2026-06-17T20:39:51Z"
+  "ts_updated": "2026-06-17T21:22:24Z"
 }
