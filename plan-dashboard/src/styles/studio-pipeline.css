@@ -42,19 +42,6 @@
 .studio-subnav-crumb a:last-child { color: var(--c-ink); }
 .studio-subnav-crumb-sep { color: var(--c-ink-muted); }
 
-/* Compact mode (Edit page): the full stepper is replaced by a quiet
-   current-stage label — the pipeline timeline lives in the page's left rail. */
-.studio-subnav-current {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--c-accent);
-}
-.studio-subnav-current i { font-size: 0.7rem; }
-
 /* ── Book selector (pure <details>) ────────────────────── */
 .studio-bookpick {
   position: relative;

@@ -26,7 +26,6 @@ interface Props {
 }
 
 const { slug, bookTitle, activeStep, steps, books, compact = false } = Astro.props;
-const activeLabel = steps.find((s) => s.id === activeStep)?.label ?? '';
 
 const STATE_ICON: Record<string, string> = {
   done: 'fa-circle-check',
@@ -44,12 +43,10 @@ const STATE_ICON: Record<string, string> = {
     </nav>
     <BookPalette client:load books={books} currentSlug={slug} />
 
-    {compact ? (
-      <span class="studio-subnav-current">
-        <i class="fa-solid fa-circle-dot" aria-hidden="true"></i>
-        {activeLabel}
-      </span>
-    ) : (
+    {/* Compact pages (Edit & Enrich, Arabic review) carry their own surface
+        toggle + page header, so the redundant non-interactive current-step
+        label is omitted — only the breadcrumb + book picker show here. */}
+    {compact ? null : (
       <ol class="studio-stepper">
         {steps.map((step, i) => (
           <li class={`studio-step state-${step.state}${step.id === activeStep ? ' is-active' : ''}`}>
