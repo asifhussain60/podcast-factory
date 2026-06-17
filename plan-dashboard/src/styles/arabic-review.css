@@ -92,6 +92,13 @@
   color: var(--c-accent);
   font-size: 1.05em;
 }
+/* Raw inline Arabic (typed into the prose, not a glossary token) — accent
+   colour to match the glossary overlays; the .prose-body font stack already
+   renders it in Amiri. */
+.prose-body .ar-raw {
+  color: var(--c-accent);
+  font-size: 1.05em;
+}
 /* The page always shows Arabic; the toggle (if ever mounted) can still hide it. */
 body[data-arabic="off"] .arv-page .ar-script { display: none; }
 

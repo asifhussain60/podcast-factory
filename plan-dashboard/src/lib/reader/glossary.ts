@@ -222,6 +222,24 @@ export async function writeGlossaryDecision(
   return target;
 }
 
+/** Wrap raw Arabic-LETTER runs (Arabic typed straight into the prose, not a
+ *  glossary token) in an `.ar-raw` span so the reader can colour them like the
+ *  glossary overlays — same accent, same naskh. Operates only on text segments,
+ *  never inside tags/attributes, and must run BEFORE wrapPhoneticTokens (while
+ *  the only Arabic in the HTML is raw — the overlay's own Arabic is injected
+ *  later and already styled). Honorific / presentation-form glyphs (e.g. ﷺ,
+ *  U+FDFA) fall outside these letter ranges, so they stay prose. */
+export function wrapRawArabic(html: string): string {
+  const AR = '\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF';
+  const re = new RegExp(`[${AR}](?:[${AR}\\s]*[${AR}])?`, 'g');
+  const parts = html.split(/(<[^>]+>)/g);
+  for (let i = 0; i < parts.length; i++) {
+    if (parts[i].startsWith('<')) continue;
+    parts[i] = parts[i].replace(re, (m) => `<span class="ar-raw" lang="ar" dir="rtl">${m}</span>`);
+  }
+  return parts.join('');
+}
+
 export function wrapPhoneticTokens(html: string, entries: GlossaryEntry[]): string {
   if (!entries.length) return html;
   // Apply human curation: replace-with-English entries are NOT wrapped (the term

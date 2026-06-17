@@ -12,7 +12,7 @@ import StudioSubnav from '../../../components/studio/StudioSubnav.astro';
 import TermPopover from '../../../components/reader/TermPopover.tsx';
 import ArabicReviewPanel from '../../../components/reader/ArabicReviewPanel.tsx';
 import { loadBookIndex, loadChapterSource } from '../../../lib/reader/chapters';
-import { loadGlossary, wrapPhoneticTokens } from '../../../lib/reader/glossary';
+import { loadGlossary, wrapPhoneticTokens, wrapRawArabic } from '../../../lib/reader/glossary';
 import { renderMarkdown } from '../../../lib/reader/markdown';
 import { loadStudioPipeline } from '../../../lib/reader/studio-pipeline';
 import { listContent, slugToTitle } from '../../../lib/content-paths';
@@ -36,7 +36,7 @@ const chapters: { slug: string; title: string; html: string }[] = [];
 if (index) {
   for (const ch of index.chapters) {
     const src = await loadChapterSource(ch.filePath);
-    chapters.push({ slug: ch.slug, title: ch.title, html: wrapPhoneticTokens(renderMarkdown(src), glossary) });
+    chapters.push({ slug: ch.slug, title: ch.title, html: wrapPhoneticTokens(wrapRawArabic(renderMarkdown(src)), glossary) });
   }
 }
 ---
