@@ -7,14 +7,10 @@
   "content_profile": "islamic_scholarly",
   "branch": "Islamic/al-anwaar-al-lateefah",
   "phase": "0d",
-  "phase_status": "failed",
-  "last_completed_phase": "0ci",
+  "phase_status": "completed",
+  "last_completed_phase": "0d",
   "next_phase": "0e",
-  "last_error": {
-    "phase": "0d",
-    "message": "1 of 2 source chapters failed: sc 1: rc=1: stderr= | stdout=API Error: 529 Overloaded. This is a server-side issue, usually temporary — try again in a moment. If it persists, check https://status.claude.com.",
-    "ts": "2026-06-17T17:54:12Z"
-  },
+  "last_error": null,
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -42,9 +38,9 @@
       "ts_completed": "2026-06-17T15:48:31Z"
     },
     "0d": {
-      "status": "failed",
+      "status": "completed",
       "ts_started": "2026-06-17T15:48:31Z",
-      "ts_completed": "2026-06-17T17:54:12Z",
+      "ts_completed": "2026-06-17T18:09:31Z",
       "manual_fallback": "Inspect _chunks/0d/sc-NNN.in.md for failed source chapters; drive each manually via /podcast, then re-invoke orchestrate-book --resume (already-done source chapters are skipped via the .done marker file)."
     },
     "0e": {
@@ -87,5 +83,5 @@
   "pipeline_mode": "orchestrated",
   "status": "draft",
   "ts_started": "2026-06-17T12:04:07Z",
-  "ts_updated": "2026-06-17T17:54:12Z"
+  "ts_updated": "2026-06-17T18:09:31Z"
 }
