@@ -10,7 +10,35 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-17 (session 31 — Arabic-review panel redesign + smart defaults)
+**Last updated:** 2026-06-17 (session 32 — Arabic review re-shelled onto the shared Studio chassis)
+
+**Session 32 (branch Islamic/kunooz-al-hikmah):** The Studio "Arabic review" page
+(plan-dashboard/src/pages/studio/[slug]/arabic-review.astro + styles/arabic-review.css)
+was a visually orphaned Library page — active="library", bespoke breadcrumb/header,
+NO StudioSubnav — so it felt foreign next to Intake/Source Review/Edit & Enrich/Publish,
+which all share one shell. Governance plan A approved (after an inline mockup). Re-shelled
+it to be visually IDENTICAL to the other Studio steps: (1) active="library" -> "studio";
+mounts the shared <StudioSubnav slot="subnav" activeStep="edit" compact> (same book-selector
+sub-nav + "Edit & Enrich" current-step pill); (2) dropped the bespoke .arv-page-head/
+.arv-breadcrumb/.arv-lede; body now flows through the shared .studio-step-body +
+.studio-step-head wrappers; (3) added the surface toggle by REUSING .studio-editview-toggle
+from studio-pipeline.css — "← Rich editor · Pipeline workbench · Arabic review" (Arabic review
+.is-current) — the precise inverse of the editor's existing "Phonetic Map" link, so the
+round-trip between the three edit surfaces is one click each way; (4) added a per-chapter
+"Edit & enrich →" link (.arv-chapter-edit in a new .arv-chapter-head flex row) -> /studio/
+<slug>/edit?ch=<chapter> so a chapter here opens the SAME chapter in the editor; (5) .arv-page
+collapsed to `display: contents` (scope-only) so the page-scoped overlay/popover rules
+(.arv-page .ar-script, .arv-page .popover-card) keep matching while all layout comes from the
+shared shell. Treated as a sub-surface of the Edit & Enrich step (NOT a new 5th stepper step)
+to leave the 4-step pipeline model + publish/state logic untouched. VERIFIED: astro check 0
+errors; lint:views clean; live SSR + DOM round-trip on kunooz (13 chapters, toggle, step-head,
+per-chapter href all correct); screenshot matches the approved mockup; html-view-challenger
+verdict PASS / Level 1 conformant — ZERO new MUST/SHOULD violations (two SHOULD notes are
+pre-existing shared-shell traits: REQ-013 flat h1 clamp, REQ-002 sticky-rail scroll — deferred).
+KNOWN pre-existing (NOT this change, NOT fixed here): ArabicReviewPanel.tsx emits duplicate
+React keys on repeated phonetics (al-Qa'im/hujja/samit) -> console "two children with the same
+key" warnings; the composite-identity fix that landed on the asaas branch (commits 3532bb2/
+be5c35e) has not been ported to kunooz's panel.
 
 **Session 31 (commits 0e7658e, 697f5e6, d4d34c7, branch Islamic/kunooz-al-hikmah):**
 Five-part Arabic-review-panel overhaul (governance plan A approved). (1) Taa-marbuta

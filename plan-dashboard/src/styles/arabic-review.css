@@ -6,32 +6,11 @@
  * only — no inline styles in the page or components.
  */
 
-.arv-page {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 1.5rem 1.25rem 4rem;
-}
-
-/* ── Header ─────────────────────────────────────────────────────────────── */
-.arv-page-head { margin-bottom: 1.5rem; }
-.arv-breadcrumb {
-  font-size: 0.9rem;
-  color: var(--c-ink-muted);
-  margin-bottom: 0.4rem;
-}
-.arv-breadcrumb a { color: var(--c-accent); text-decoration: none; }
-.arv-breadcrumb a:hover { text-decoration: underline; }
-.arv-page-head h1 {
-  font-size: 1.9rem;
-  color: var(--c-ink);
-  margin: 0 0 0.5rem;
-}
-.arv-lede {
-  font-size: 1.2rem;
-  line-height: 1.6;
-  color: var(--c-ink-dim);
-  max-width: 70ch;
-}
+/* Scope-only wrapper: contributes no box of its own (the shared .studio-step-*
+   shell owns max-width + padding now), but stays in the DOM tree so the
+   page-scoped descendant rules below (.arv-page .ar-script, .arv-page
+   .popover-card) keep matching. */
+.arv-page { display: contents; }
 
 /* ── Layout: reading column + sticky rail ──────────────────────────────── */
 .arv-layout {
@@ -48,13 +27,34 @@
 .arv-main { min-width: 0; }
 .arv-empty { color: var(--c-ink-muted); font-style: italic; }
 .arv-chapter { margin-bottom: 3rem; }
-.arv-chapter-title {
-  font-size: 1.4rem;
-  color: var(--c-ink);
+
+/* Chapter heading row: title on the left, the per-chapter jump into the
+   Edit & Enrich editor on the right — the precise inverse of the editor's
+   "Phonetic Map" link, carrying the same chapter via ?ch=. */
+.arv-chapter-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
   border-bottom: 2px solid var(--c-rule);
   padding-bottom: 0.4rem;
   margin: 0 0 1rem;
 }
+.arv-chapter-title {
+  font-size: 1.4rem;
+  color: var(--c-ink);
+  margin: 0;
+}
+.arv-chapter-edit {
+  flex: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--c-accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.arv-chapter-edit:hover { text-decoration: underline; }
+.arv-chapter-edit span { margin-left: 0.15rem; }
 
 /* ── Reading prose + Arabic overlay ────────────────────────────────────── */
 .prose-body {
