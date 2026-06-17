@@ -192,13 +192,18 @@ export interface GlossaryDecisionPatch {
 }
 
 /** Persist a human curation decision INTO _system/glossary.yml (schema v2),
- *  keyed by the entry's original `phonetic`. Single source of truth: both the
- *  audio render and the reader overlay read the result. Returns the updated
- *  entry, or null when the term/glossary is absent. */
+ *  keyed by the entry's original `phonetic` and disambiguated by `arabicScript`.
+ *  Some books extract the same term twice (e.g. one copy with Arabic script, one
+ *  without), so phonetic alone can match two rows and alias the write across
+ *  both; pass the row's `arabic_script` to pin the exact entry. Omitting it falls
+ *  back to phonetic-only match (the common, unique-phonetic case). Single source
+ *  of truth: both the audio render and the reader overlay read the result.
+ *  Returns the updated entry, or null when the term/glossary is absent. */
 export async function writeGlossaryDecision(
   slug: string,
   phonetic: string,
   patch: GlossaryDecisionPatch,
+  arabicScript?: string,
 ): Promise<GlossaryEntry | null> {
   const ref = await findContent(slug);
   if (!ref) return null;
@@ -209,7 +214,9 @@ export async function writeGlossaryDecision(
   } catch {
     return null;
   }
-  const target = entries.find((e) => e.phonetic === phonetic);
+  const target = entries.find((e) =>
+    e.phonetic === phonetic &&
+    (arabicScript === undefined || (e.arabic_script || '') === (arabicScript || '')));
   if (!target) return null;
   const now = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
   target.decision = patch.decision;

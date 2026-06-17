@@ -44,6 +44,15 @@ function currentPhonetic(t: Term): string {
   return notebookSafePhonetic(t.corrected_phonetic || t.audio_phonetic || t.transliteration || t.phonetic);
 }
 
+// Stable per-row identity. Phonetic alone collides on books that extract the same
+// term twice (one copy with Arabic script, one without), which would alias a save
+// across both rows. Disambiguate by arabic_script — the SAME field the server
+// matches on (writeGlossaryDecision) — so each row saves only itself. ␟ (unit
+// separator) can't appear in a phonetic or Arabic script.
+function termKey(t: { phonetic: string; arabic_script?: string }): string {
+  return `${t.phonetic}␟${t.arabic_script ?? ''}`;
+}
+
 // Teaching terms first so the curator's eye lands on what carries the doctrine,
 // before the referential/historical noise.
 const REL_ORDER: Record<TeachingRelevance, number> = {
@@ -112,7 +121,13 @@ export default function ArabicReviewPanel({ slug }: Props) {
     const onSaved = (e: Event) => {
       const d = (e as CustomEvent).detail as Term | undefined;
       if (!d?.phonetic) return;
-      setTerms((prev) => prev?.map((t) => (t.phonetic === d.phonetic ? { ...t, ...d } : t)) ?? prev);
+      // Match phonetic AND arabic_script when the event carries it (panel saves do)
+      // so a duplicated phonetic updates only its own row; popover events that omit
+      // arabic_script fall back to phonetic-only.
+      setTerms((prev) => prev?.map((t) =>
+        (t.phonetic === d.phonetic &&
+         (d.arabic_script === undefined || (t.arabic_script || '') === (d.arabic_script || '')))
+          ? { ...t, ...d } : t) ?? prev);
     };
     window.addEventListener('arabic-curation:saved', onSaved);
     return () => window.removeEventListener('arabic-curation:saved', onSaved);
@@ -139,8 +154,10 @@ export default function ArabicReviewPanel({ slug }: Props) {
   const arabicCount = (terms?.length ?? 0) - englishCount;
 
   async function save(term: Term, decision: Decision, value: string) {
-    setSavingKey(term.phonetic);
-    const body: Record<string, string> = { slug, phonetic: term.phonetic, decision };
+    setSavingKey(termKey(term));
+    const body: Record<string, string> = {
+      slug, phonetic: term.phonetic, arabic_script: term.arabic_script || '', decision,
+    };
     const action = ACTIONS.find((a) => a.id === decision);
     if (action?.needs) body[action.needs] = value;
     try {
@@ -152,7 +169,7 @@ export default function ArabicReviewPanel({ slug }: Props) {
       if (!res.ok) throw new Error(`save ${res.status}`);
       const d = await res.json();
       const updated = (d?.data ?? d) as Term;
-      setTerms((prev) => prev?.map((t) => (t.phonetic === term.phonetic ? { ...t, ...updated } : t)) ?? prev);
+      setTerms((prev) => prev?.map((t) => (termKey(t) === termKey(term) ? { ...t, ...updated } : t)) ?? prev);
       window.dispatchEvent(new CustomEvent('arabic-curation:saved', { detail: { ...term, ...updated } }));
       setOpenKey(null);
       setDraft('');
@@ -166,7 +183,7 @@ export default function ArabicReviewPanel({ slug }: Props) {
   function onAction(term: Term, decision: Decision) {
     const action = ACTIONS.find((a) => a.id === decision);
     if (!action?.needs) { save(term, decision, ''); return; }
-    const key = `${term.phonetic}:${decision}`;
+    const key = `${termKey(term)}:${decision}`;
     if (openKey === key) { setOpenKey(null); return; }
     setOpenKey(key);
     // Pre-fill the box so the curator edits a value instead of typing from blank.
@@ -189,7 +206,7 @@ export default function ArabicReviewPanel({ slug }: Props) {
   // english_override, fetching one if it's somehow missing). Either click is a
   // human decision, so it overrides an auto default.
   async function setLang(term: Term, lang: 'arabic' | 'english') {
-    if (savingKey === term.phonetic) return;
+    if (savingKey === termKey(term)) return;
     if (lang === 'arabic') {
       const dec: Decision = term.corrected_phonetic ? 'fix_phonetic' : 'keep';
       void save(term, dec, term.corrected_phonetic || '');
@@ -197,7 +214,7 @@ export default function ArabicReviewPanel({ slug }: Props) {
     }
     let eng = term.english_override || '';
     if (!eng) {
-      setSavingKey(term.phonetic);
+      setSavingKey(termKey(term));
       try {
         const res = await fetch('/api/ai/english-term', {
           method: 'POST', headers: { 'content-type': 'application/json' },
@@ -239,10 +256,10 @@ export default function ArabicReviewPanel({ slug }: Props) {
           const isEnglish = t.decision === 'replace_english';
           const isAuto = (t.decided_by || '').toLowerCase() === 'auto';
           const english = t.english_override || '';
-          const busy = savingKey === t.phonetic;
+          const busy = savingKey === termKey(t);
           return (
             <li
-              key={t.phonetic}
+              key={`${t.phonetic}::${t.arabic_script || t.audio_phonetic || ''}`}
               className={`arv-row${isEnglish ? ' is-english' : ''}`}
             >
               <div className="arv-term">
@@ -285,7 +302,7 @@ export default function ArabicReviewPanel({ slug }: Props) {
                   </button>
                 )}
               </div>
-              {openKey?.startsWith(`${t.phonetic}:`) && (() => {
+              {openKey?.startsWith(`${termKey(t)}:`) && (() => {
                 const decision = openKey.split(':')[1] as Decision;
                 const action = ACTIONS.find((a) => a.id === decision)!;
                 const isEnglish = decision === 'replace_english';
