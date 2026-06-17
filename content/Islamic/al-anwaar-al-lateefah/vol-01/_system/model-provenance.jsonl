@@ -17,3 +17,7 @@
 {"phase": "0e", "step": "ch09f-origination-from-nothing", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0e", "step": "ch10g-equal-but-not-infallible", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0e", "step": "ch11h-the-word-of-allah-and-the-greatest-name", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/ascent-decline-and-the-birth-of-a-god", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/ascent-decline-and-the-birth-of-a-god", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/ascent-decline-and-the-birth-of-a-god/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/ascent-decline-and-the-birth-of-a-god", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
