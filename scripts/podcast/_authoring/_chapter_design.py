@@ -387,8 +387,12 @@ def _volume_allocation(book_dir: Path):
         import sys as _sys
         _sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
         import _work_manifest as wm  # noqa: E402
+        import _paths  # noqa: E402
         import json as _json
-        slug = book_dir.name
+        # A volume's book_dir.name is "vol-NN" — NOT its composite slug. Resolve the
+        # work-aware composite slug ("<work>-vol-NN") so work_slug_of() can find the
+        # parent work; book_dir.name would resolve to None and silently skip allocation.
+        slug = _paths.slug_of(book_dir)
         work_slug = wm.work_slug_of(slug)
         if not work_slug:
             return "", []
