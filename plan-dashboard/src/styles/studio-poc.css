@@ -641,6 +641,13 @@
   font-size: 1.18em;
   line-height: 1;
 }
+/* Raw inline Arabic (typed into the prose, not a glossary token) — same accent
+   colour as the glossary chips so all Arabic reads as one visual language. Font
+   comes from the editor's mixed-script stack; size nudged to match the chips. */
+.studio-poc__editor .ar-raw {
+  color: var(--c-accent);
+  font-size: 1.08em;
+}
 /* Arabic overlay toggle — a labelled switch (FontAwesome toggle icon + text). */
 .sp-arabic-btn {
   display: inline-flex;
@@ -1910,8 +1917,27 @@
 }
 .sp-replace-preview-total { margin: 0 0 6px; font-size: 0.82rem; font-weight: 600; color: var(--c-ink); }
 .sp-replace-preview-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
-.sp-replace-preview-list li { display: flex; justify-content: space-between; gap: 10px; font-size: 0.78rem; color: var(--c-ink-muted); }
+.sp-replace-preview-list li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; font-size: 0.78rem; color: var(--c-ink-muted); }
 .sp-replace-preview-n { font-variant-numeric: tabular-nums; color: var(--c-accent); font-weight: 600; }
+
+/* Noise modal — reuses the find-&-replace modal shell; these are the extras:
+   a hint line, a monospace pattern field, and the per-chapter sample chips that
+   show exactly what a strip would remove (the safety affordance). */
+.sp-noise-hint { margin: 0 0 4px; font-size: 0.78rem; line-height: 1.5; color: var(--c-ink-muted); }
+.sp-noise-pattern { font-family: var(--font-mono, ui-monospace, "SF Mono", Menlo, monospace); font-size: 0.82rem; }
+.sp-noise-samples { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.sp-noise-sample {
+  font-family: var(--font-mono, ui-monospace, "SF Mono", Menlo, monospace);
+  font-size: 0.72rem;
+  background: var(--c-bg-sunken, rgba(0, 0, 0, 0.05));
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--c-ink-dim);
+  white-space: pre-wrap;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
 
 .sp-replace-foot {
   display: flex; justify-content: flex-end; gap: 8px;

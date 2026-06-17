@@ -66,6 +66,7 @@ const ACTION_REGISTRY: readonly ActionDef[] = [
   { kind: 'arabic',    label: 'Arabic',        icon: 'fa-language',                            scope: 'term',      group: 'core',      hint: 'Replace this term with the correct contextual Arabic (AI, confirm first)', applyMode: 'immediate' },
   { kind: 'replace',   label: 'Replace',       icon: 'fa-right-left',                          scope: 'term',      group: 'core',      hint: 'Find & replace this phrase across this chapter or the whole book', applyMode: 'immediate' },
   { kind: 'explain',   label: 'Explain',       icon: 'fa-lightbulb',                           scope: 'term',      group: 'core',      hint: 'Replace the selection with a clearer, fuller explanation (AI, in chapter context)', applyMode: 'immediate' },
+  { kind: 'noise',     label: 'Noise',         icon: 'fa-eraser', scope: 'term', group: 'core', hint: 'Mark the selection as noise -> generalise to a pattern -> strip every match across this chapter or the whole book', applyMode: 'immediate' },
   { kind: 'etymology', label: 'Etymology',     icon: 'fa-book-bookmark',                       scope: 'term',      group: 'core',      hint: 'Resolve the root-history of this term (shared wisdom corpus)' },
   { kind: 'rewrite',   label: 'Rewrite',       icon: 'fa-arrows-rotate',                       scope: 'paragraph', group: 'core',      hint: 'Rewrite this paragraph' },
   { kind: 'rephrase',  label: 'Rephrase',      icon: 'fa-pen-nib',                             scope: 'paragraph', group: 'core',      hint: 'Rephrase while keeping the meaning' },
@@ -1072,6 +1073,24 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                         }
                       });
                     }
+
+                    // Raw Arabic (typed straight into the prose, not a glossary
+                    // token): colour every Arabic-LETTER run with the accent so it
+                    // matches the glossary overlays — same naskh (from the editor
+                    // font stack), same colour. Honorific / presentation-form glyphs
+                    // (e.g. ﷺ, U+FDFA) fall outside these ranges, so they stay ink and
+                    // read as prose rather than as terms.
+                    node.descendants((child, childPos) => {
+                      if (!child.isText || !child.text) return;
+                      const base = offset + 1 + childPos;
+                      const arRe = /[؀-ۿݐ-ݿࢠ-ࣿ](?:[؀-ۿݐ-ݿࢠ-ࣿ\s]*[؀-ۿݐ-ݿࢠ-ࣿ])?/g;
+                      let am: RegExpExecArray | null;
+                      while ((am = arRe.exec(child.text!))) {
+                        const from = base + am.index;
+                        const to = from + am[0].length;
+                        decos.push(Decoration.inline(from, to, { class: 'ar-raw' }));
+                      }
+                    });
                   });
                   return DecorationSet.create(state.doc, decos);
                 },
@@ -1819,6 +1838,94 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug, replaceScope, chapter, replacePairs, isReadOnlyStage, replaceInEditorDoc]);
 
+  // ── Noise → pattern → denoise across chapters ────────────────────────────
+  // Highlight a recurring artifact (a page header, an OCR scar, a stray marker)
+  // → "Noise" opens this popup with a PATTERN generalised from the selection
+  // (literal text, but digit-runs and whitespace loosened so one selection
+  // catches its variants). Preview shows the count + a few real samples per
+  // chapter before anything changes; Apply strips every match from the canonical
+  // chapter .txt files via /api/studio/denoise (with .bak undo) and mirrors the
+  // deletion into the live editor doc.
+  const [noiseOpen, setNoiseOpen] = useState(false);
+  const [noisePattern, setNoisePattern] = useState('');
+  const [noiseScope, setNoiseScope] = useState<'chapter' | 'book'>('chapter');
+  const [noisePreview, setNoisePreview] = useState<{ chapter: string; count: number; samples: string[] }[] | null>(null);
+  const [noiseTotal, setNoiseTotal] = useState(0);
+  const [noiseBusy, setNoiseBusy] = useState(false);
+  const [noiseError, setNoiseError] = useState('');
+  const [noiseDone, setNoiseDone] = useState('');
+
+  // Rule-based generalisation: escape regex specials, then loosen runs of digits
+  // (\d+) and whitespace (\s+) so "[Page 12]" and "[Page 137]" collapse to one
+  // pattern. The user can hand-edit the result before previewing.
+  const deriveNoisePattern = useCallback((sel: string): string => {
+    const escaped = sel.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return escaped.replace(/\d+/g, '\\d+').replace(/\s+/g, '\\s+');
+  }, []);
+
+  const openNoise = useCallback(() => {
+    setNoisePattern(deriveNoisePattern(selection));
+    setNoiseScope('chapter');
+    setNoisePreview(null); setNoiseTotal(0); setNoiseError(''); setNoiseDone('');
+    setNoiseOpen(true);
+  }, [selection, deriveNoisePattern]);
+  const closeNoise = useCallback(() => setNoiseOpen(false), []);
+
+  // Mirror the confirmed pattern deletion into the live editor doc so the current
+  // chapter updates instantly. Swept high→low so positions stay valid.
+  const denoiseInEditorDoc = useCallback((pattern: string) => {
+    if (!editor) return;
+    let re: RegExp;
+    try { re = new RegExp(pattern, 'g'); } catch { return; }
+    const hits: { from: number; to: number }[] = [];
+    editor.state.doc.descendants((node, pos) => {
+      if (!node.isText || !node.text) return;
+      re.lastIndex = 0;
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(node.text))) {
+        if (m[0] === '') { re.lastIndex += 1; continue; }
+        const from = pos + m.index;
+        hits.push({ from, to: from + m[0].length });
+      }
+    });
+    if (!hits.length) return;
+    hits.sort((a, b) => b.from - a.from);
+    let tr = editor.state.tr;
+    for (const h of hits) tr = tr.delete(h.from, h.to);
+    editor.view.dispatch(tr);
+  }, [editor]);
+
+  const runDenoise = useCallback(async (apply: boolean) => {
+    const pattern = noisePattern.trim();
+    if (pattern === '') { setNoiseError('Enter a pattern to strip.'); return; }
+    setNoiseBusy(true); setNoiseError(''); setNoiseDone('');
+    try {
+      const res = await fetch('/api/studio/denoise', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, scope: noiseScope, chapter, pattern, apply }),
+      });
+      const j = await res.json();
+      if (!res.ok || j.ok === false) { setNoiseError(j.error ?? `Request failed (${res.status})`); return; }
+      setNoisePreview(j.results ?? []); setNoiseTotal(j.total ?? 0);
+      if (apply) {
+        if (!isReadOnlyStage) denoiseInEditorDoc(pattern);
+        const nCh = (j.results ?? []).length;
+        setNoiseDone(
+          j.total === 0
+            ? 'No matches found — nothing changed.'
+            : `Stripped ${j.total} match${j.total === 1 ? '' : 'es'} across ${nCh} chapter${nCh === 1 ? '' : 's'}.` +
+              (noiseScope === 'book' && nCh > 1 ? ' Other chapters update when you open them.' : ''),
+        );
+        refresh();
+      }
+    } catch (e) {
+      setNoiseError(String(e));
+    } finally {
+      setNoiseBusy(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, noiseScope, chapter, noisePattern, isReadOnlyStage, denoiseInEditorDoc]);
+
   const rawMarkers = scanMarkers(html.replace(/<[^>]+>/g, ' '));
   const seen = new Map<string, { kind: string; text: string; count: number }>();
   for (const m of rawMarkers) {
@@ -2079,6 +2186,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                                     if (def.kind === 'arabic') void proposeArabic();
                                     else if (def.kind === 'explain') void proposeExplain();
                                     else if (def.kind === 'replace') openReplace();
+                                    else if (def.kind === 'noise') openNoise();
                                   }}>
                                   <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> <span className="sp-action-label">{def.label}</span>
                                 </button>
@@ -2410,6 +2518,74 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                 onClick={() => void runReplace(true)}
                 disabled={replaceBusy || (replacePreview !== null && replaceTotal === 0)}>
                 {replacePreview && !replaceDone ? `Replace ${replaceTotal}` : 'Replace'}
+              </button>
+            </footer>
+          </div>
+        </div>
+      )}
+
+      {noiseOpen && (
+        <div className="sp-replace-backdrop" role="dialog" aria-modal="true" aria-label="Mark as noise">
+          <div className="sp-replace-modal">
+            <header className="sp-replace-head">
+              <h3 className="sp-replace-title"><i className="fa-solid fa-eraser" aria-hidden="true" /> Mark as noise</h3>
+              <button type="button" className="sp-replace-close" onClick={closeNoise} aria-label="Close">
+                <i className="fa-solid fa-xmark" aria-hidden="true" />
+              </button>
+            </header>
+
+            <div className="sp-replace-body">
+              <p className="sp-noise-hint">
+                The selection is generalised to a <strong>pattern</strong> (digits and spacing
+                loosened so variants match). Edit it if needed, <strong>preview</strong> what
+                it catches, then strip every match. Removed text is backed up per file.
+              </p>
+              <input className="sp-replace-input sp-noise-pattern" value={noisePattern}
+                aria-label="Noise pattern (regular expression)" spellCheck={false}
+                onChange={(e) => { setNoisePattern(e.target.value); setNoisePreview(null); setNoiseDone(''); }} />
+
+              <label className="sp-replace-scope">
+                <input type="checkbox" checked={noiseScope === 'book'}
+                  onChange={(e) => { setNoiseScope(e.target.checked ? 'book' : 'chapter'); setNoisePreview(null); setNoiseDone(''); }} />
+                <span>Strip from <strong>all chapters</strong> in this book {noiseScope === 'book' ? '' : '(otherwise this chapter only)'}</span>
+              </label>
+
+              {noiseError && <p className="sp-replace-msg sp-replace-msg--error">{noiseError}</p>}
+              {noiseDone && <p className="sp-replace-msg sp-replace-msg--ok">{noiseDone}</p>}
+
+              {noisePreview && !noiseDone && (
+                <div className="sp-replace-preview">
+                  <p className="sp-replace-preview-total">
+                    {noiseTotal} match{noiseTotal === 1 ? '' : 'es'}
+                    {noisePreview.length > 0 ? ` across ${noisePreview.length} chapter${noisePreview.length === 1 ? '' : 's'}` : ' — nothing to strip'}
+                  </p>
+                  {noisePreview.length > 0 && (
+                    <ul className="sp-replace-preview-list">
+                      {noisePreview.map((r) => (
+                        <li key={r.chapter}>
+                          <span>{chapterLabel(r.chapter)}</span>
+                          <span className="sp-replace-preview-n">{r.count}</span>
+                          {r.samples?.length > 0 && (
+                            <span className="sp-noise-samples">
+                              {r.samples.map((s, k) => <code key={k} className="sp-noise-sample">{s}</code>)}
+                            </span>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <footer className="sp-replace-foot">
+              <button type="button" className="sp-replace-btn sp-replace-btn--ghost" onClick={() => void runDenoise(false)} disabled={noiseBusy}>
+                {noiseBusy ? 'Working…' : 'Preview'}
+              </button>
+              <button type="button" className="sp-replace-btn sp-replace-btn--apply"
+                onClick={() => void runDenoise(true)}
+                disabled={noiseBusy || noisePreview === null || noiseTotal === 0}>
+                {noisePreview && !noiseDone ? `Strip ${noiseTotal}` : 'Strip noise'}
               </button>
             </footer>
           </div>
