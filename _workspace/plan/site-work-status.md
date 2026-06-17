@@ -10,7 +10,32 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-16 (session 30 — Studio draft-retention model shipped)
+**Last updated:** 2026-06-17 (session 31 — Arabic-review panel redesign + smart defaults)
+
+**Session 31 (commits 0e7658e, 697f5e6, d4d34c7, branch Islamic/kunooz-al-hikmah):**
+Five-part Arabic-review-panel overhaul (governance plan A approved). (1) Taa-marbuta
+fix: 8 Kunooz terms whose Arabic ends in ة now end -h not -t (ri-yaah etc.) +
+`_normalize_taa_marbuta()` added to fill_glossary_arabic.py so every future book is
+normalized (idempotent). (2) NEW classify_term_defaults.py: per-term smart default
+language — transparent terms (naturalised loanwords Allah/Quran, names+places,
+calques like "First Intellect") -> speak English; technical/doctrinal (taʾwil,
+nasut, riyat) -> recite Arabic. Flat-rate Claude Max, batched, NO API spend. Writes
+ONLY existing fields (english_override for all + decision=replace_english/decided_by=auto
+for transparent) => ZERO audio-pipeline change (replace_english already drops Arabic).
+Idempotent + non-destructive: skips human ('reader') decisions. Ran on Kunooz: 113
+English, 193 Arabic, 11 human preserved. (3) Panel redesign: dropped "Keep" (untouched
+= already recited by default, per resolve_curation `decision or 'keep'`); 4 buttons ->
+one Arabic|English segmented toggle; english_override shown inline (one-click flip, no
+typing); phonetic + Arabic became inline pencil chips; "auto" tag on classifier
+defaults, drops to decided_by=reader on any human flip; header reframed to
+"N recited · M English — flip exceptions". Verified: astro check 0 err, lint:views
+clean, toggle save round-trip live (auto->reader on flip) + page 200, glossary restored
+after test. Earlier same session: english-term endpoint, panel one-click-accept/4-in-row/
+wider-read (169246c). KNOWN debatable auto-defaults (e.g. tawaf->"circumambulation") are
+flippable in the panel — classifier is a starting point. NOTE: ch01a still carries the
+user's uncommitted content edits (Night-Journey Arabic + 2 deletions) from session 30.
+
+**Last updated prior:** 2026-06-16 (session 30 — Studio draft-retention model shipped)
 
 **Session 30 (commit b400dee, branch Islamic/kunooz-al-hikmah):** Fixed the
 reported "edit, save, refresh -> reverts to original" bug at the root by adding a

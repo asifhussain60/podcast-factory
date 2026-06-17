@@ -11,7 +11,7 @@
  * Reader component (html-view-lint exempt). No Tailwind; classes live in
  * arabic-review.css. The only inline style is a dynamic CSS variable.
  */
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 type Decision = 'keep' | 'fix_phonetic' | 'correct_arabic' | 'replace_english';
 type TeachingRelevance = 'teaching' | 'name' | 'incidental' | 'referential';
@@ -20,22 +20,34 @@ interface Term {
   phonetic: string;
   transliteration?: string;
   arabic_script?: string;
+  audio_phonetic?: string;
   decision?: Decision;
   corrected_phonetic?: string;
   corrected_arabic?: string;
   english_override?: string;
+  decided_by?: string;
   teaching_relevance?: TeachingRelevance;
 }
 
 interface Props { slug: string; }
 
+// NotebookLM's TTS spells out capital letters (VOIP -> "V-O-I-P") and stumbles on
+// apostrophes, so the academic caps-for-stress respelling backfires. Coerce any
+// phonetic to the speakable form: all lowercase, no apostrophes, single-spaced.
+function notebookSafePhonetic(s: string): string {
+  return (s || '').toLowerCase().replace(/['’`ʼ]/g, '').replace(/\s+/g, ' ').trim();
+}
+
+// The phonetic currently spoken for a term: the human correction wins, else the
+// baked audio phonetic, else the plain transliteration — always NotebookLM-safe.
+function currentPhonetic(t: Term): string {
+  return notebookSafePhonetic(t.corrected_phonetic || t.audio_phonetic || t.transliteration || t.phonetic);
+}
+
 // Teaching terms first so the curator's eye lands on what carries the doctrine,
 // before the referential/historical noise.
 const REL_ORDER: Record<TeachingRelevance, number> = {
   teaching: 0, referential: 1, name: 2, incidental: 3,
-};
-const REL_LABEL: Record<TeachingRelevance, string> = {
-  teaching: 'teaching', referential: 'referential', name: 'name', incidental: 'incidental',
 };
 
 const FILTERS = [
@@ -47,11 +59,12 @@ const FILTERS = [
 ] as const;
 type FilterId = (typeof FILTERS)[number]['id'];
 
-const ACTIONS: { id: Decision; label: string; needs?: keyof Term; rtl?: boolean }[] = [
+// Short labels so all four fit one row; `full` is the tooltip with the real action.
+const ACTIONS: { id: Decision; label: string; full?: string; needs?: keyof Term; rtl?: boolean }[] = [
   { id: 'keep', label: 'Keep' },
-  { id: 'fix_phonetic', label: 'Fix phonetic', needs: 'corrected_phonetic' },
-  { id: 'correct_arabic', label: 'Correct Arabic', needs: 'corrected_arabic', rtl: true },
-  { id: 'replace_english', label: 'Replace · English', needs: 'english_override' },
+  { id: 'fix_phonetic', label: 'Phonetic', full: 'Fix phonetic — click to accept, double-click to edit', needs: 'corrected_phonetic' },
+  { id: 'correct_arabic', label: 'Arabic', full: 'Correct Arabic', needs: 'corrected_arabic', rtl: true },
+  { id: 'replace_english', label: 'English', full: 'Replace with English', needs: 'english_override' },
 ];
 
 export default function ArabicReviewPanel({ slug }: Props) {
@@ -61,6 +74,29 @@ export default function ArabicReviewPanel({ slug }: Props) {
   const [openKey, setOpenKey] = useState<string | null>(null);
   const [draft, setDraft] = useState('');
   const [savingKey, setSavingKey] = useState<string | null>(null);
+  const [suggesting, setSuggesting] = useState(false);
+  // Live mirror of openKey so an in-flight English suggestion only fills the box
+  // that is still open (the user may have moved to another term meanwhile).
+  const openKeyRef = useRef<string | null>(null);
+  useEffect(() => { openKeyRef.current = openKey; }, [openKey]);
+
+  // Ask Gemini for a speakable English rendering and drop it into the edit box —
+  // only if the box is still empty and still open for this term.
+  async function suggestEnglish(term: Term, key: string) {
+    setSuggesting(true);
+    try {
+      const res = await fetch('/api/ai/english-term', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ text: term.transliteration || term.phonetic, arabic: term.arabic_script || '', bookTitle: slug }),
+      });
+      const d = await res.json();
+      if (res.ok && d?.ok && d.english && openKeyRef.current === key) {
+        setDraft((prev) => prev || (d.english as string));
+      }
+    } catch { /* leave the box empty — the curator can type it */ }
+    finally { setSuggesting(false); }
+  }
 
   useEffect(() => {
     let live = true;
@@ -99,9 +135,8 @@ export default function ArabicReviewPanel({ slug }: Props) {
       .map(({ t }) => t);
   }, [terms, filter]);
 
-  const pendingCount = terms?.filter((t) => !t.decision).length ?? 0;
-  const teachingCount = terms?.filter((t) => t.teaching_relevance === 'teaching').length ?? 0;
-  const classified = (terms?.some((t) => t.teaching_relevance)) ?? false;
+  const englishCount = terms?.filter((t) => t.decision === 'replace_english').length ?? 0;
+  const arabicCount = (terms?.length ?? 0) - englishCount;
 
   async function save(term: Term, decision: Decision, value: string) {
     setSavingKey(term.phonetic);
@@ -134,7 +169,46 @@ export default function ArabicReviewPanel({ slug }: Props) {
     const key = `${term.phonetic}:${decision}`;
     if (openKey === key) { setOpenKey(null); return; }
     setOpenKey(key);
-    setDraft((term[action.needs] as string) || (decision === 'correct_arabic' ? term.arabic_script || '' : ''));
+    // Pre-fill the box so the curator edits a value instead of typing from blank.
+    if (decision === 'fix_phonetic') {
+      // Current spoken phonetic, NotebookLM-safe (lowercase, no apostrophes).
+      setDraft(term.corrected_phonetic ? notebookSafePhonetic(term.corrected_phonetic) : currentPhonetic(term));
+    } else if (decision === 'correct_arabic') {
+      setDraft(term.corrected_arabic || term.arabic_script || '');
+    } else if (decision === 'replace_english') {
+      // Saved override wins; otherwise fetch a Gemini suggestion into the box.
+      if (term.english_override) { setDraft(term.english_override); }
+      else { setDraft(''); void suggestEnglish(term, key); }
+    } else {
+      setDraft('');
+    }
+  }
+
+  // The Arabic|English toggle. "Arabic" = recite (keep, preserving any phonetic
+  // fix); "English" = speak plain English (replace_english, using the term's
+  // english_override, fetching one if it's somehow missing). Either click is a
+  // human decision, so it overrides an auto default.
+  async function setLang(term: Term, lang: 'arabic' | 'english') {
+    if (savingKey === term.phonetic) return;
+    if (lang === 'arabic') {
+      const dec: Decision = term.corrected_phonetic ? 'fix_phonetic' : 'keep';
+      void save(term, dec, term.corrected_phonetic || '');
+      return;
+    }
+    let eng = term.english_override || '';
+    if (!eng) {
+      setSavingKey(term.phonetic);
+      try {
+        const res = await fetch('/api/ai/english-term', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ text: term.transliteration || term.phonetic, arabic: term.arabic_script || '', bookTitle: slug }),
+        });
+        const d = await res.json();
+        if (d?.ok && d.english) eng = d.english as string;
+      } catch { /* save with empty english — the term simply stays as-is in the prose */ }
+      finally { setSavingKey(null); }
+    }
+    void save(term, 'replace_english', eng);
   }
 
   if (error) return <div className="arv-panel arv-error" role="alert">Could not load terms: {error}</div>;
@@ -145,8 +219,8 @@ export default function ArabicReviewPanel({ slug }: Props) {
       <div className="arv-head">
         <h2 className="arv-title">Arabic terms</h2>
         <p className="arv-sub">
-          {pendingCount} to review · {terms.length} total
-          {classified && <> · <strong>{teachingCount} recited in Arabic</strong> (teaching)</>}
+          <strong>{arabicCount} recited in Arabic</strong> · {englishCount} spoken in English · {terms.length} terms.
+          Smart defaults applied — flip any term or fix a spelling.
         </p>
         <div className="arv-filters" role="tablist" aria-label="Filter terms">
           {FILTERS.map((f) => (
@@ -162,55 +236,80 @@ export default function ArabicReviewPanel({ slug }: Props) {
       </div>
       <ul className="arv-list">
         {shown.map((t) => {
-          const curated = !!t.decision;
-          const rel = t.teaching_relevance;
-          const muted = !!rel && rel !== 'teaching';
+          const isEnglish = t.decision === 'replace_english';
+          const isAuto = (t.decided_by || '').toLowerCase() === 'auto';
+          const english = t.english_override || '';
+          const busy = savingKey === t.phonetic;
           return (
             <li
               key={t.phonetic}
-              className={`arv-row${curated ? ' is-curated' : ''}${muted ? ' is-muted' : ''}`}
+              className={`arv-row${isEnglish ? ' is-english' : ''}`}
             >
               <div className="arv-term">
                 <span className="arv-phon">{t.transliteration || t.phonetic}</span>
                 {t.arabic_script && (
                   <span className="arv-script" lang="ar" dir="rtl">{t.corrected_arabic || t.arabic_script}</span>
                 )}
-                {rel && (
-                  <span className="arv-rel" data-rel={rel} title={
-                    rel === 'teaching'
-                      ? 'Teaching term — recited in Arabic'
-                      : 'Referential — spoken in plain English, not recited'
-                  }>{REL_LABEL[rel]}</span>
-                )}
-                {curated && <span className="arv-badge" data-decision={t.decision}>{t.decision?.replace('_', ' ')}</span>}
+                {isAuto && <span className="arv-auto" title="Auto-suggested default — change it anytime">auto</span>}
+                <span className="arv-toggle" role="group" aria-label={`Recite ${t.phonetic} in Arabic or speak it in English`}>
+                  <button type="button" className={`arv-seg${!isEnglish ? ' is-on' : ''}`} disabled={busy}
+                    onClick={() => setLang(t, 'arabic')} title="Recite in Arabic">Arabic</button>
+                  <button type="button" className={`arv-seg${isEnglish ? ' is-on' : ''}`} disabled={busy}
+                    onClick={() => setLang(t, 'english')} title="Speak in plain English">English</button>
+                </span>
               </div>
-              <div className="arv-actions" role="group" aria-label={`Curate ${t.phonetic}`}>
-                {ACTIONS.map((a) => (
-                  <button
-                    key={a.id}
-                    className={`arv-act${t.decision === a.id ? ' is-chosen' : ''}`}
-                    disabled={savingKey === t.phonetic}
-                    onClick={() => onAction(t, a.id)}
-                  >{a.label}</button>
-                ))}
+              <div className="arv-meta">
+                {!isEnglish ? (
+                  <>
+                    <button type="button" className="arv-chip arv-chip--say" title="Click to fix the spoken spelling"
+                      disabled={busy} onClick={() => onAction(t, 'fix_phonetic')}>
+                      say: {currentPhonetic(t)} <i className="fa-solid fa-pen" aria-hidden="true" />
+                    </button>
+                    {english && (
+                      <button type="button" className="arv-chip arv-chip--en" title="Speak this English instead"
+                        disabled={busy} onClick={() => setLang(t, 'english')}>
+                        <i className="fa-solid fa-language" aria-hidden="true" /> "{english}"
+                      </button>
+                    )}
+                    {t.arabic_script && (
+                      <button type="button" className="arv-chip arv-chip--ar" title="Correct the Arabic script"
+                        disabled={busy} onClick={() => onAction(t, 'correct_arabic')}>
+                        <i className="fa-solid fa-pen" aria-hidden="true" /> Arabic
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  <button type="button" className="arv-chip arv-chip--en is-active" title="Click to edit the English"
+                    disabled={busy} onClick={() => onAction(t, 'replace_english')}>
+                    <i className="fa-solid fa-volume-high" aria-hidden="true" /> spoken as "{english || '…'}" <i className="fa-solid fa-pen" aria-hidden="true" />
+                  </button>
+                )}
               </div>
               {openKey?.startsWith(`${t.phonetic}:`) && (() => {
                 const decision = openKey.split(':')[1] as Decision;
                 const action = ACTIONS.find((a) => a.id === decision)!;
+                const isEnglish = decision === 'replace_english';
+                const isPhon = decision === 'fix_phonetic';
                 return (
                   <div className="arv-edit">
-                    <input
-                      className="arv-input"
-                      lang={action.rtl ? 'ar' : undefined}
-                      dir={action.rtl ? 'rtl' : undefined}
-                      value={draft}
-                      placeholder={action.label}
-                      onChange={(e) => setDraft(e.target.value)}
-                      onKeyDown={(e) => { if (e.key === 'Enter') save(t, decision, draft); }}
-                    />
-                    <button className="arv-save" onClick={() => save(t, decision, draft)} disabled={savingKey === t.phonetic}>
-                      {savingKey === t.phonetic ? 'Saving…' : 'Save'}
-                    </button>
+                    <div className="arv-edit-row">
+                      <input
+                        className="arv-input"
+                        lang={action.rtl ? 'ar' : undefined}
+                        dir={action.rtl ? 'rtl' : undefined}
+                        value={draft}
+                        placeholder={isEnglish && suggesting ? 'Suggesting…' : isPhon ? 'lowercase, e.g. kur-aan' : action.label}
+                        autoFocus
+                        onFocus={(e) => e.target.select()}
+                        onChange={(e) => setDraft(isPhon ? notebookSafePhonetic(e.target.value) : e.target.value)}
+                        onKeyDown={(e) => { if (e.key === 'Enter') save(t, decision, draft); }}
+                      />
+                      <button className="arv-save" onClick={() => save(t, decision, draft)} disabled={savingKey === t.phonetic}>
+                        {savingKey === t.phonetic ? 'Saving…' : 'Save'}
+                      </button>
+                    </div>
+                    {isPhon && <p className="arv-edit-hint">Lowercase, hyphenate syllables, no capitals or apostrophes — that's what the voice pronounces cleanly.</p>}
+                    {isEnglish && suggesting && <p className="arv-edit-hint">Asking Gemini for a suggestion…</p>}
                   </div>
                 );
               })()}
