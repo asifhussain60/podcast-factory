@@ -61,11 +61,12 @@ const FILTERS = [
 ] as const;
 type FilterId = (typeof FILTERS)[number]['id'];
 
-const ACTIONS: { id: Decision; label: string; needs?: keyof Term; rtl?: boolean }[] = [
+// Short labels so all four fit one row; `full` is the tooltip with the real action.
+const ACTIONS: { id: Decision; label: string; full?: string; needs?: keyof Term; rtl?: boolean }[] = [
   { id: 'keep', label: 'Keep' },
-  { id: 'fix_phonetic', label: 'Fix phonetic', needs: 'corrected_phonetic' },
-  { id: 'correct_arabic', label: 'Correct Arabic', needs: 'corrected_arabic', rtl: true },
-  { id: 'replace_english', label: 'Replace · English', needs: 'english_override' },
+  { id: 'fix_phonetic', label: 'Phonetic', full: 'Fix phonetic — click to accept, double-click to edit', needs: 'corrected_phonetic' },
+  { id: 'correct_arabic', label: 'Arabic', full: 'Correct Arabic', needs: 'corrected_arabic', rtl: true },
+  { id: 'replace_english', label: 'English', full: 'Replace with English', needs: 'english_override' },
 ];
 
 export default function ArabicReviewPanel({ slug }: Props) {
@@ -186,6 +187,24 @@ export default function ArabicReviewPanel({ slug }: Props) {
     }
   }
 
+  // "Phonetic" button: single-click accepts the current spoken phonetic as the
+  // decision; double-click opens the editor to change it. A short timer tells the
+  // two apart (every other action stays a plain single-click).
+  const clickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  function handleActionClick(term: Term, decision: Decision) {
+    if (decision !== 'fix_phonetic') { onAction(term, decision); return; }
+    if (clickTimer.current) {           // 2nd click within the window -> edit
+      clearTimeout(clickTimer.current);
+      clickTimer.current = null;
+      onAction(term, 'fix_phonetic');   // opens the box, pre-filled + selected
+      return;
+    }
+    clickTimer.current = setTimeout(() => {   // single click -> accept current
+      clickTimer.current = null;
+      void save(term, 'fix_phonetic', currentPhonetic(term));
+    }, 220);
+  }
+
   if (error) return <div className="arv-panel arv-error" role="alert">Could not load terms: {error}</div>;
   if (!terms) return <div className="arv-panel arv-loading">Loading terms…</div>;
 
@@ -239,8 +258,9 @@ export default function ArabicReviewPanel({ slug }: Props) {
                   <button
                     key={a.id}
                     className={`arv-act${t.decision === a.id ? ' is-chosen' : ''}`}
+                    title={a.full || a.label}
                     disabled={savingKey === t.phonetic}
-                    onClick={() => onAction(t, a.id)}
+                    onClick={() => handleActionClick(t, a.id)}
                   >{a.label}</button>
                 ))}
               </div>
@@ -259,6 +279,7 @@ export default function ArabicReviewPanel({ slug }: Props) {
                         value={draft}
                         placeholder={isEnglish && suggesting ? 'Suggesting…' : isPhon ? 'lowercase, e.g. kur-aan' : action.label}
                         autoFocus
+                        onFocus={(e) => e.target.select()}
                         onChange={(e) => setDraft(isPhon ? notebookSafePhonetic(e.target.value) : e.target.value)}
                         onKeyDown={(e) => { if (e.key === 'Enter') save(t, decision, draft); }}
                       />

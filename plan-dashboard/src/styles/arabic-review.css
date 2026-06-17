@@ -7,7 +7,7 @@
  */
 
 .arv-page {
-  max-width: 1180px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 1.5rem 1.25rem 4rem;
 }
@@ -36,7 +36,7 @@
 /* ── Layout: reading column + sticky rail ──────────────────────────────── */
 .arv-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 22rem;
+  grid-template-columns: minmax(0, 1fr) 24rem;
   gap: 2rem;
   align-items: start;
 }
@@ -62,7 +62,7 @@
   font-size: 1.2rem;
   line-height: 1.75;
   color: var(--c-ink);
-  max-width: 70ch;
+  max-width: 80ch;
 }
 .prose-body p { margin: 0 0 1.1rem; }
 .prose-body h1, .prose-body h2, .prose-body h3 { color: var(--c-ink); line-height: 1.3; }
@@ -146,11 +146,14 @@ body[data-arabic="off"] .arv-page .ar-script { display: none; }
 .popover-curate-label { color: var(--c-ink-muted); margin-bottom: 0.35rem; }
 .popover-curate-done { color: var(--c-green); font-weight: 600; }
 .popover-curate-actions, .arv-actions { display: flex; flex-wrap: wrap; gap: 4px; }
+/* Panel rail: the four actions in a single equal-width row. */
+.arv-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
 .popover-curate-btn, .arv-act {
   font-family: inherit; font-size: 0.76rem; cursor: pointer;
   padding: 3px 8px; border-radius: 5px;
   border: 1px solid var(--c-rule); background: var(--c-bg-card); color: var(--c-ink-dim);
 }
+.arv-act { padding: 4px 6px; text-align: center; white-space: nowrap; }
 .popover-curate-btn:hover, .arv-act:hover { border-color: var(--c-accent); color: var(--c-accent); }
 .popover-curate-btn.is-chosen, .arv-act.is-chosen {
   background: var(--c-accent); color: #fff; border-color: var(--c-accent);
