@@ -242,7 +242,7 @@ export default function ArabicReviewPanel({ slug }: Props) {
           const busy = savingKey === t.phonetic;
           return (
             <li
-              key={t.phonetic}
+              key={`${t.phonetic}::${t.arabic_script || t.audio_phonetic || ''}`}
               className={`arv-row${isEnglish ? ' is-english' : ''}`}
             >
               <div className="arv-term">
