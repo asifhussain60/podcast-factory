@@ -12,6 +12,17 @@
 
 **Last updated:** 2026-06-17 (session 32 — re-shell, reading width, Arabic font+colour, Noise tool, unified action panel)
 
+**Session 32 part 6:** Mark icons moved to a LEFT-GUTTER rail. The per-paragraph mark
+badge (sp-para-tools--marks) was a single chip floating at the block's top-right; now it's a
+vertical column of action-coloured chips in the editor's existing 36px left padding, aligned
+with each marked block's first line, multiple marks stacking vertically — a scannable column
+so flagged blocks are spottable at a glance (Asif's request). CSS-only: new
+`.sp-para-tools--marks` override (top:0; right:auto; left:-32px; flex-direction:column;
+transparent surface) + removed the now-pointless `.para-marked{margin-top:1.9em}` top
+reservation. Reuses existing `.sp-ptool.is-on` pill + `--c-act-*` colours (theme unchanged).
+Verified 1440 + 390 (chip 5px inside editor edge, not clipped; stacking confirmed);
+lint:views clean; html-view-challenger PASS (Level 1, no findings).
+
 **Session 32 part 5:** Collapsed the redundant paragraph-rewrite trio to ONE button.
 Rewrite/Rephrase/Improve were behaviourally identical — all three stamped a deferred
 action_items mark differing only by tag string, and NO drain pass interprets the tags
