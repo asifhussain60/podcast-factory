@@ -6,3 +6,14 @@
 {"phase": "0d", "step": "sc-001", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0d", "step": "sc-002", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0d", "step": "sc-001", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch01a-the-trust-and-the-science-of-realities", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch02b-the-unknowable-originator-and-the-first-intellect", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch03c-naming-the-unnameable", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch04a-what-tawhid-really-is", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch05b-outer-and-inner-gnosis-and-the-mukathir", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch06c-the-refined-mukathir-house-of-allah", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch07d-ascent-decline-and-the-birth-of-a-god", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch08e-the-ladder-of-tawhid", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch09f-origination-from-nothing", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch10g-equal-but-not-infallible", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch11h-the-word-of-allah-and-the-greatest-name", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
