@@ -203,7 +203,7 @@ body[data-arabic="off"] .arv-page .ar-script { display: none; }
 .arv-head { margin-bottom: 0.75rem; }
 .arv-title { font-size: 1.1rem; color: var(--c-ink); margin: 0; }
 .arv-sub { font-size: 0.82rem; color: var(--c-ink-muted); margin: 0.15rem 0 0.6rem; }
-.arv-filters { display: flex; gap: 5px; }
+.arv-filters { display: flex; flex-wrap: wrap; gap: 5px; }
 .arv-filter {
   font-family: inherit; font-size: 0.76rem; cursor: pointer;
   padding: 3px 9px; border-radius: 12px;
