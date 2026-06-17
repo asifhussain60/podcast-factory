@@ -549,7 +549,12 @@
   min-width: 0; /* grid item: shrink to the column instead of forcing page-wide overflow */
 }
 .studio-poc__editor .ProseMirror {
-  font-family: var(--font-body, Georgia, serif);
+  /* Mixed-script stack: Latin serif first (matches --font-body), then the Arabic
+     naskh fonts, then the generic LAST. The generic must trail Amiri — a generic
+     in the middle would catch Arabic glyphs (system Geeza Pro) before any later
+     Amiri could apply, which is why raw inline Arabic rendered in a different font
+     from the glossary overlays (which already force Amiri). */
+  font-family: "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif;
   font-size: 1rem;               /* 19.2px — denser than prior 1.08rem, held at
                                     the theme-independent reading floor (REQ-010). */
   line-height: 1.72;

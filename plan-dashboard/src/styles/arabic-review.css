@@ -58,7 +58,10 @@
 
 /* ── Reading prose + Arabic overlay ────────────────────────────────────── */
 .prose-body {
-  font-family: "Source Serif 4", "Iowan Old Style", Charter, Georgia, serif;
+  /* Arabic naskh fonts sit before the trailing generic so raw inline Arabic in
+     the prose renders in Amiri, identical to the glossary .ar-script overlays — a
+     generic in the middle would otherwise catch Arabic glyphs first. */
+  font-family: "Source Serif 4", "Iowan Old Style", Charter, Georgia, "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif;
   font-size: 1.2rem;
   line-height: 1.75;
   color: var(--c-ink);

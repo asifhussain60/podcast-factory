@@ -10,7 +10,29 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-17 (session 32 — Arabic review re-shelled onto the shared Studio chassis)
+**Last updated:** 2026-06-17 (session 32 — Arabic review re-shelled + toggle symmetry + Arabic-font fix)
+
+**Session 32 addendum (same branch):** Two follow-ups after the re-shell. (1) Toggle
+symmetry: the Edit & Enrich page's surface toggle ([step].astro, both the editor and
+workbench views) now carries a third "Arabic review" tab (chapter-aware via
+#initialChapterId), so all three edit surfaces switch between each other identically in
+both directions — previously the editor reached Arabic review only via the inspector
+"Phonetic Map" link. (2) Arabic-font bug: raw inline Arabic typed into chapter prose
+(e.g. لیلة الإسراء) rendered in the system naskh (macOS Geeza Pro) while glossary-overlay
+Arabic (e.g. امام) rendered in Amiri — they looked different. Root cause: the editor
+(.studio-poc__editor .ProseMirror) and .prose-body used a Latin-only font stack ending in
+a generic `serif`; a generic in the stack catches Arabic glyphs before any Amiri fallback
+can apply, whereas glossary overlays force `Amiri,...` explicitly. Fix: rebuilt both stacks
+as proper mixed-script — Latin serifs, THEN Amiri/Scheherazade New/Noto Naskh Arabic, THEN
+the generic LAST — so raw Arabic (which the Latin fonts can't render) falls through to Amiri,
+identical to the overlays. Amiri is already loaded app-wide via the Google Fonts import in
+theme.css. Verified by computed style: editor family now
+"Source Serif 4",...,Georgia, Amiri, "Scheherazade New", "Noto Naskh Arabic", serif and the
+overlay family Amiri,"Geeza Pro",... both resolve to Amiri. astro check 0 errors; lint:views
+clean. NOTE: also discovered + fixed a Vite dev-server transient earlier this session — adding
+the new imports to arabic-review.astro triggered a dep re-optimization that double-loaded React
+and crashed TipTap's useEditor (null useRef) on the edit page; cleared node_modules/.vite +
+restarted the dev server (only one React copy in the tree — not a real duplicate-React/prod bug).
 
 **Session 32 (branch Islamic/kunooz-al-hikmah):** The Studio "Arabic review" page
 (plan-dashboard/src/pages/studio/[slug]/arabic-review.astro + styles/arabic-review.css)

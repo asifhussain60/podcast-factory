@@ -213,6 +213,7 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
           <nav class="studio-editview-toggle" aria-label="Edit surface">
             <a href={`/studio/${slug}/edit`}>← Rich editor</a>
             <span class="is-current">Pipeline workbench</span>
+            <a href={`/studio/${slug}/arabic-review#${initialChapterId}`}>Arabic review</a>
           </nav>
           <OperatorWorkbench
             client:only="react"
@@ -228,7 +229,8 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
         <>
           <nav class="studio-editview-toggle" aria-label="Edit surface">
             <span class="is-current">Rich editor</span>
-            <a href={`/studio/${slug}/edit?view=workbench`}>Pipeline workbench →</a>
+            <a href={`/studio/${slug}/edit?view=workbench`}>Pipeline workbench</a>
+            <a href={`/studio/${slug}/arabic-review#${initialChapterId}`}>Arabic review →</a>
           </nav>
           <StudioPoc
             client:only="react"
