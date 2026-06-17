@@ -10,7 +10,48 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-17 (session 32 — re-shell, reading width, Arabic font+colour, Noise tool)
+**Last updated:** 2026-06-17 (session 32 — re-shell, reading width, Arabic font+colour, Noise tool, unified action panel)
+
+**Session 32 part 6:** Mark icons moved to a LEFT-GUTTER rail. The per-paragraph mark
+badge (sp-para-tools--marks) was a single chip floating at the block's top-right; now it's a
+vertical column of action-coloured chips in the editor's existing 36px left padding, aligned
+with each marked block's first line, multiple marks stacking vertically — a scannable column
+so flagged blocks are spottable at a glance (Asif's request). CSS-only: new
+`.sp-para-tools--marks` override (top:0; right:auto; left:-32px; flex-direction:column;
+transparent surface) + removed the now-pointless `.para-marked{margin-top:1.9em}` top
+reservation. Reuses existing `.sp-ptool.is-on` pill + `--c-act-*` colours (theme unchanged).
+Verified 1440 + 390 (chip 5px inside editor edge, not clipped; stacking confirmed);
+lint:views clean; html-view-challenger PASS (Level 1, no findings).
+
+**Session 32 part 5:** Collapsed the redundant paragraph-rewrite trio to ONE button.
+Rewrite/Rephrase/Improve were behaviourally identical — all three stamped a deferred
+action_items mark differing only by tag string, and NO drain pass interprets the tags
+differently (verified: action_items has no consumer in scripts/podcast beyond the schema +
+API). Worse, 'rephrase'/'improve' weren't even in the API's ALLOWED_KINDS, so they never
+persisted. Removed both from ACTION_REGISTRY (kept 'rewrite', broadened its hint to
+"reword, sharpen clarity, or redo it freely") and dropped their dead `.sp-ptool.act-*.is-on`
+CSS. NOTE the section depth-tag `{id:'improve'}` (line 311, AI-tab auto-tag picker) is a
+SEPARATE feature — kept. MARK-VISIBILITY: confirmed the existing per-paragraph icon badge
+already works — marking a paragraph renders a dark `--c-ink` chip with the action's
+Font-Awesome icon in its action colour + a 2px ring (sp-para-tools--marks, side -1, top-right,
+opacity 1) plus a queue row; Asif hadn't seen it because nothing was marked. No new icon code
+needed. tsc 0 / lint:views clean.
+
+**Session 32 part 4:** Editor inspector action panel UNIFIED. Previously the Details-tab
+palette swapped button SETS by selection context — a "Term actions" palette (Arabic, Replace,
+Explain, Noise, Etymology, Define) only when a word was highlighted, a separate "Paragraph
+actions" palette (Rewrite, Rephrase, Improve, Expand, Condense, Simplify, Visualization) only
+when a paragraph was active. Now ONE always-present panel renders the full ACTION_REGISTRY (15
+buttons) every time; buttons that can't run in the current context are DISABLED (native
+`disabled` attr + `title` saying how to enable: "Select a word to enable" / "Click a paragraph
+to enable"), never hidden. term-scope tools disable with no selection; paragraph-scope disable
+with no active paragraph; 'both' (Cross-ref, Add to corpus) enable when either exists. Header
+now "Actions · <context>". New `.sp-action-btn:disabled` CSS (opacity 0.42 / not-allowed /
+--c-ink-dim, hover suppressed) — existing tokens only, theme unchanged. Removed dead
+PARA_ACTIONS/TERM_ACTIONS consts. VISUAL QA (1440 + 390, preview server): unified panel, all
+15 buttons, disable/enable logic + Noise modal open/derive/preview all confirmed live; tsc 0
+errors; lint:views clean; html-view-challenger PASS (no findings, WCAG 1.4.3 exempts disabled
+controls from contrast). Noise tool itself was already built in part 3 — no changes there.
 
 **Session 32 part 3 (commits 43cad11, 801e04c, 0effc49, 77a647b):** (a) Reading width —
 editor prose raised from a centred 74ch (~65% of column) to 130ch so it fills the column

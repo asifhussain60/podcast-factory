@@ -68,9 +68,7 @@ const ACTION_REGISTRY: readonly ActionDef[] = [
   { kind: 'explain',   label: 'Explain',       icon: 'fa-lightbulb',                           scope: 'term',      group: 'core',      hint: 'Replace the selection with a clearer, fuller explanation (AI, in chapter context)', applyMode: 'immediate' },
   { kind: 'noise',     label: 'Noise',         icon: 'fa-eraser', scope: 'term', group: 'core', hint: 'Mark the selection as noise -> generalise to a pattern -> strip every match across this chapter or the whole book', applyMode: 'immediate' },
   { kind: 'etymology', label: 'Etymology',     icon: 'fa-book-bookmark',                       scope: 'term',      group: 'core',      hint: 'Resolve the root-history of this term (shared wisdom corpus)' },
-  { kind: 'rewrite',   label: 'Rewrite',       icon: 'fa-arrows-rotate',                       scope: 'paragraph', group: 'core',      hint: 'Rewrite this paragraph' },
-  { kind: 'rephrase',  label: 'Rephrase',      icon: 'fa-pen-nib',                             scope: 'paragraph', group: 'core',      hint: 'Rephrase while keeping the meaning' },
-  { kind: 'improve',   label: 'Improve',       icon: 'fa-wand-magic-sparkles',                 scope: 'paragraph', group: 'core',      hint: 'Improve clarity and craft' },
+  { kind: 'rewrite',   label: 'Rewrite',       icon: 'fa-arrows-rotate',                       scope: 'paragraph', group: 'core',      hint: 'Rewrite this paragraph — reword, sharpen clarity, or redo it freely' },
   // Transform
   { kind: 'expand',    label: 'Expand',        icon: 'fa-up-right-and-down-left-from-center',  scope: 'paragraph', group: 'transform', hint: 'Elaborate — add depth or an example' },
   { kind: 'condense',  label: 'Condense',      icon: 'fa-compress',                            scope: 'paragraph', group: 'transform', hint: 'Tighten without losing meaning' },
@@ -81,8 +79,6 @@ const ACTION_REGISTRY: readonly ActionDef[] = [
   { kind: 'addcorpus', label: 'Add to corpus', icon: 'fa-database',                            scope: 'both',      group: 'knowledge', hint: 'Promote this passage or term into the wisdom knowledge base' },
   { kind: 'visualize', label: 'Visualization', icon: 'fa-diagram-project',                     scope: 'paragraph', group: 'knowledge', hint: 'Flag this passage for a visual diagram in the PDF reading edition' },
 ];
-const PARA_ACTIONS = ACTION_REGISTRY.filter((a) => a.scope === 'paragraph' || a.scope === 'both');
-const TERM_ACTIONS = ACTION_REGISTRY.filter((a) => a.scope === 'term' || a.scope === 'both');
 const ACTION_BY_KIND: Record<string, ActionDef> = Object.fromEntries(ACTION_REGISTRY.map((a) => [a.kind, a]));
 
 // One action-item mark as held client-side (mirrors the action_items table row).
@@ -2169,39 +2165,49 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                 {/* Action items — deferred marks for the CLI drain pass (edit mode only). */}
                 {!isReadOnlyStage && (
                   <div className="sp-actions-block">
-                    {selection ? (
-                      <>
-                        <p className="sp-insp-hint">Term actions · "{truncate(selection, 32)}"</p>
-                        <div className="sp-action-palette" role="toolbar" aria-label="Term action items">
-                          {TERM_ACTIONS.map((def) => {
-                            if (def.applyMode === 'immediate') {
-                              // Immediate action — runs now (Arabic / Explain = confirm-then-apply
-                              // AI; Replace = open the find-and-replace popup). Not a toggle.
-                              return (
-                                <button key={def.kind} type="button"
-                                  className={`sp-action-btn act-${def.kind}`}
-                                  title={def.hint}
-                                  disabled={(def.kind === 'arabic' && arabicBusy) || (def.kind === 'explain' && explainBusy)}
-                                  onClick={() => {
-                                    if (def.kind === 'arabic') void proposeArabic();
-                                    else if (def.kind === 'explain') void proposeExplain();
-                                    else if (def.kind === 'replace') openReplace();
-                                    else if (def.kind === 'noise') openNoise();
-                                  }}>
-                                  <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> <span className="sp-action-label">{def.label}</span>
-                                </button>
-                              );
-                            }
-                            const isOn = actionsRef.current.some((a) => a.para_ordinal === activeParaIdx && a.action_kind === def.kind && a.term_text === selection.trim());
-                            return (
-                              <button key={def.kind} type="button"
-                                className={`sp-action-btn act-${def.kind}${isOn ? ' is-on' : ''}`}
-                                title={def.hint} onClick={() => stampAction(def, true)}>
-                                <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> <span className="sp-action-label">{def.label}</span>
-                              </button>
-                            );
-                          })}
-                        </div>
+                    {/* One control panel — every action stays visible; buttons that
+                        cannot run in the current context are disabled, never hidden. */}
+                    <p className="sp-insp-hint">
+                      Actions · {selection.trim()
+                        ? `"${truncate(selection, 32)}"`
+                        : activeParaIdx !== null
+                          ? `paragraph ${activeParaIdx + 1}`
+                          : 'click a paragraph or select a word'}
+                    </p>
+                    <div className="sp-action-palette" role="toolbar" aria-label="Editor actions">
+                      {ACTION_REGISTRY.map((def) => {
+                        const sel = selection.trim();
+                        const hasSel = !!sel;
+                        const hasPara = activeParaIdx !== null;
+                        // A 'both'-scope action targets the highlighted word when one
+                        // exists, otherwise the active paragraph.
+                        const onTerm = def.scope === 'term' || (def.scope === 'both' && hasSel);
+                        const enabled = def.scope === 'term' ? hasSel : def.scope === 'paragraph' ? hasPara : (hasSel || hasPara);
+                        const busy = (def.kind === 'arabic' && arabicBusy) || (def.kind === 'explain' && explainBusy);
+                        const isOn = def.applyMode === 'immediate'
+                          ? false
+                          : actionsRef.current.some((a) => a.para_ordinal === activeParaIdx && a.action_kind === def.kind && a.term_text === (onTerm ? sel : ''));
+                        return (
+                          <button key={def.kind} type="button"
+                            className={`sp-action-btn act-${def.kind}${isOn ? ' is-on' : ''}`}
+                            title={enabled ? def.hint : (def.scope === 'term' ? 'Select a word to enable' : 'Click a paragraph to enable')}
+                            disabled={!enabled || busy}
+                            aria-pressed={def.applyMode === 'immediate' ? undefined : isOn}
+                            onClick={() => {
+                              if (def.applyMode === 'immediate') {
+                                if (def.kind === 'arabic') void proposeArabic();
+                                else if (def.kind === 'explain') void proposeExplain();
+                                else if (def.kind === 'replace') openReplace();
+                                else if (def.kind === 'noise') openNoise();
+                              } else {
+                                stampAction(def, onTerm);
+                              }
+                            }}>
+                            <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> <span className="sp-action-label">{def.label}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
                         {explainBusy && <p className="sp-ai-status">Writing a clearer explanation…</p>}
                         {explainError && <p className="sp-ai-status sp-ai-status--error">{explainError}</p>}
                         {explainProposal && (
@@ -2275,27 +2281,6 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                             )}
                           </div>
                         )}
-                      </>
-                    ) : activeParaIdx !== null ? (
-                      <>
-                        <p className="sp-insp-hint">Paragraph actions · paragraph {activeParaIdx + 1}</p>
-                        <div className="sp-action-palette" role="toolbar" aria-label="Paragraph action items">
-                          {PARA_ACTIONS.map((def) => {
-                            const isOn = actionsRef.current.some((a) => a.para_ordinal === activeParaIdx && a.action_kind === def.kind && a.term_text === '');
-                            return (
-                              <button key={def.kind} type="button"
-                                className={`sp-action-btn act-${def.kind}${isOn ? ' is-on' : ''}`}
-                                title={def.hint} onClick={() => stampAction(def, false)}>
-                                <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> <span className="sp-action-label">{def.label}</span>
-                              </button>
-                            );
-                          })}
-                        </div>
-                        <p className="sp-insp-subhint">Select a word for term actions (Etymology, Define).</p>
-                      </>
-                    ) : (
-                      <p className="sp-insp-hint">Click a paragraph, or select a word, to add an action item.</p>
-                    )}
 
                     {chapterActions.length > 0 && (
                       <div className="sp-action-queue">

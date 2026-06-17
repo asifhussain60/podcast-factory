@@ -250,7 +250,8 @@
 }
 .studio-poc__editor .ProseMirror > h3:hover { cursor: pointer; }
 /* Marked blocks reserve top room so their action-item icon badges sit ABOVE without overlap. */
-.studio-poc__editor .para-marked { margin-top: 1.9em; }
+/* Marked blocks no longer reserve top space — the mark icons now sit in the
+   left gutter (see .sp-para-tools--marks), aligned with the block's first line. */
 /* Active paragraph: kept for backwards-compat; section-active is the primary unit now. */
 .studio-poc__editor .para-active,
 .studio-poc__editor .para-active:hover {
@@ -399,6 +400,11 @@
   background: var(--c-ink, #2a2118); color: #fff; border-color: transparent;
 }
 .sp-action-btn.is-on i { color: #fff; }
+/* Disabled = the action can't run in the current context (e.g. a term tool with
+   no word selected). Stays visible and same-size; muted, with hover suppressed. */
+.sp-action-btn:disabled { opacity: 0.42; cursor: not-allowed; color: var(--c-ink-dim); }
+.sp-action-btn:disabled:hover { border-color: var(--c-rule, rgba(0, 0, 0, 0.16)); color: var(--c-ink-dim); }
+.sp-action-btn:disabled:hover i { color: var(--c-ink-muted); }
 .sp-action-btn:focus-visible,
 .sp-aq-remove:focus-visible,
 .studio-poc__editor .sp-ptool:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
@@ -519,8 +525,6 @@
    Each is the "on" icon colour over the dark chip. */
 .studio-poc__editor .sp-ptool.act-etymology.is-on { color: var(--c-act-etymology); }
 .studio-poc__editor .sp-ptool.act-rewrite.is-on   { color: var(--c-act-core); }
-.studio-poc__editor .sp-ptool.act-rephrase.is-on  { color: var(--c-act-core); }
-.studio-poc__editor .sp-ptool.act-improve.is-on   { color: var(--c-act-core); }
 .studio-poc__editor .sp-ptool.act-expand.is-on    { color: var(--c-act-transform); }
 .studio-poc__editor .sp-ptool.act-condense.is-on  { color: var(--c-act-transform); }
 .studio-poc__editor .sp-ptool.act-simplify.is-on  { color: var(--c-act-transform); }
@@ -537,8 +541,21 @@
 }
 .sp-legend-icon { font-size: 0.82rem; line-height: 1; }
 
-/* PER-PARAGRAPH TOKEN TAGS are now shown as persistent ICONS at the block's top-left
-   (sp-para-tools--marks), not a coloured border — Asif prefers icon-based recognition. */
+/* PER-PARAGRAPH MARKS are shown as persistent ICONS in the LEFT GUTTER — a
+   scannable column of action-coloured chips aligned with each marked block,
+   not a coloured border (Asif prefers icon-based recognition). The chips sit in
+   the editor's 36px inline padding, so they never overlap the prose. */
+.studio-poc__editor .sp-para-tools--marks {
+  top: 0;
+  right: auto;
+  left: -32px;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
 
 /* Editor surface — editorial-modern, comfortable measure, font ~2px smaller. */
 .studio-poc__editor {

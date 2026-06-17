@@ -22,7 +22,7 @@ const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
 
 const ALLOWED_KINDS = new Set([
-  'etymology', 'rewrite', 'rephrase', 'improve',
+  'etymology', 'rewrite',
   'expand', 'condense', 'simplify',
   'define', 'xref', 'addcorpus', 'visualize',
 ]);
