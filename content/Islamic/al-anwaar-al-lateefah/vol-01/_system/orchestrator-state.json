@@ -6,8 +6,8 @@
   "category": "books",
   "content_profile": "islamic_scholarly",
   "branch": "Islamic/al-anwaar-al-lateefah",
-  "phase": "0e",
-  "phase_status": "completed",
+  "phase": "06a",
+  "phase_status": "awaiting_human_review",
   "last_completed_phase": "0e",
   "next_phase": "0literary",
   "last_error": null,
@@ -70,6 +70,12 @@
       "status": "completed",
       "ts_started": "2026-06-17T15:48:31Z",
       "ts_completed": "2026-06-17T15:48:31Z"
+    },
+    "06a": {
+      "status": "halted",
+      "ts_started": "2026-06-17T20:14:30Z",
+      "ts_completed": "2026-06-17T20:14:46Z",
+      "gate_warnings": 6
     }
   },
   "cost": {
@@ -85,5 +91,5 @@
   "pipeline_mode": "orchestrated",
   "status": "draft",
   "ts_started": "2026-06-17T12:04:07Z",
-  "ts_updated": "2026-06-17T20:14:29Z"
+  "ts_updated": "2026-06-17T20:14:46Z"
 }

@@ -1,0 +1,38 @@
+{
+  "phase": "06a",
+  "approved": false,
+  "warnings": [
+    {
+      "severity": "P1",
+      "message": "Inconsistent chapter naming convention detected: mix of 'ch##[a|b|c]-slug-format' with no apparent pattern. Chapter identifiers (01a, 02b, 03c, 04a, 05b) suggest editorial restructuring or reordering. Verify original source chapter sequence matches this ordering.",
+      "chapter": "All (systematic issue)"
+    },
+    {
+      "severity": "P1",
+      "message": "Critical source file 'chapters-rationale.md' suggests editorial justification document rather than primary source material. This indicates human selection/curation of which chapters to include. Verify whether rationale document adds commentary that might not be from original text.",
+      "chapter": "All"
+    },
+    {
+      "severity": "P2",
+      "message": "File 'refined-english.md' suggests this is a translation revision, not direct source. Clarify: is this a translator's interpretive edition? Request original language source file for authentication.",
+      "chapter": "All"
+    },
+    {
+      "severity": "P1",
+      "message": "Chapter titles reference potentially anachronistic/specialized terminology: 'Science of Realities' (epistemology framing?), 'Mukathir' (requires verification this is original term, not translator neologism), 'Two Gnoses' (binary framework - confirm doctrinal alignment).",
+      "chapter": "ch01a, ch05b"
+    },
+    {
+      "severity": "P2",
+      "message": "Only 5 chapters shown as examples; 'and 6 more' listed but not detailed. Cannot review full chapter content for cross-contamination, anachronistic references, or missing sources. Request complete chapter list.",
+      "chapter": "ch06-ch11"
+    },
+    {
+      "severity": "P1",
+      "message": "Chapter 04 'What Tawhid Really Is' - this reinterpretive framing requires verification of whether original source text claims such doctrinal singularity or if this is editorial positioning.",
+      "chapter": "ch04a"
+    }
+  ],
+  "reviewed_at": "2026-06-17T20:14:30Z",
+  "approved_at": null
+}
