@@ -6,10 +6,10 @@
   "category": "books",
   "content_profile": "islamic_scholarly",
   "branch": "Islamic/al-anwaar-al-lateefah",
-  "phase": "0d",
+  "phase": "0e",
   "phase_status": "completed",
-  "last_completed_phase": "0d",
-  "next_phase": "0e",
+  "last_completed_phase": "0e",
+  "next_phase": "0literary",
   "last_error": null,
   "phases": {
     "pre-flight": {
@@ -44,7 +44,9 @@
       "manual_fallback": "Inspect _chunks/0d/sc-NNN.in.md for failed source chapters; drive each manually via /podcast, then re-invoke orchestrate-book --resume (already-done source chapters are skipped via the .done marker file)."
     },
     "0e": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-06-17T19:05:44Z",
+      "ts_completed": "2026-06-17T20:14:29Z"
     },
     "0f": {
       "status": "pending"
@@ -83,5 +85,5 @@
   "pipeline_mode": "orchestrated",
   "status": "draft",
   "ts_started": "2026-06-17T12:04:07Z",
-  "ts_updated": "2026-06-17T18:09:31Z"
+  "ts_updated": "2026-06-17T20:14:29Z"
 }
