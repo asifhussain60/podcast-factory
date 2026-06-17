@@ -1,0 +1,17 @@
+{"phase": "allocate", "step": "spine-volume", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "spine-volume", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "spine-volume", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "spine-volume", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "aug-section", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "aug-section", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "aug-section", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "aug-section", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "aug-section", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "aug-section", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "aug-section", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "aug-section", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "aug-section", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "aug-section", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "aug-section", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "aug-section", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "allocate", "step": "dedup-confirm", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
