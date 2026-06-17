@@ -399,6 +399,11 @@
   background: var(--c-ink, #2a2118); color: #fff; border-color: transparent;
 }
 .sp-action-btn.is-on i { color: #fff; }
+/* Disabled = the action can't run in the current context (e.g. a term tool with
+   no word selected). Stays visible and same-size; muted, with hover suppressed. */
+.sp-action-btn:disabled { opacity: 0.42; cursor: not-allowed; color: var(--c-ink-dim); }
+.sp-action-btn:disabled:hover { border-color: var(--c-rule, rgba(0, 0, 0, 0.16)); color: var(--c-ink-dim); }
+.sp-action-btn:disabled:hover i { color: var(--c-ink-muted); }
 .sp-action-btn:focus-visible,
 .sp-aq-remove:focus-visible,
 .studio-poc__editor .sp-ptool:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }

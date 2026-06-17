@@ -10,7 +10,23 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-17 (session 32 — re-shell, reading width, Arabic font+colour, Noise tool)
+**Last updated:** 2026-06-17 (session 32 — re-shell, reading width, Arabic font+colour, Noise tool, unified action panel)
+
+**Session 32 part 4:** Editor inspector action panel UNIFIED. Previously the Details-tab
+palette swapped button SETS by selection context — a "Term actions" palette (Arabic, Replace,
+Explain, Noise, Etymology, Define) only when a word was highlighted, a separate "Paragraph
+actions" palette (Rewrite, Rephrase, Improve, Expand, Condense, Simplify, Visualization) only
+when a paragraph was active. Now ONE always-present panel renders the full ACTION_REGISTRY (15
+buttons) every time; buttons that can't run in the current context are DISABLED (native
+`disabled` attr + `title` saying how to enable: "Select a word to enable" / "Click a paragraph
+to enable"), never hidden. term-scope tools disable with no selection; paragraph-scope disable
+with no active paragraph; 'both' (Cross-ref, Add to corpus) enable when either exists. Header
+now "Actions · <context>". New `.sp-action-btn:disabled` CSS (opacity 0.42 / not-allowed /
+--c-ink-dim, hover suppressed) — existing tokens only, theme unchanged. Removed dead
+PARA_ACTIONS/TERM_ACTIONS consts. VISUAL QA (1440 + 390, preview server): unified panel, all
+15 buttons, disable/enable logic + Noise modal open/derive/preview all confirmed live; tsc 0
+errors; lint:views clean; html-view-challenger PASS (no findings, WCAG 1.4.3 exempts disabled
+controls from contrast). Noise tool itself was already built in part 3 — no changes there.
 
 **Session 32 part 3 (commits 43cad11, 801e04c, 0effc49, 77a647b):** (a) Reading width —
 editor prose raised from a centred 74ch (~65% of column) to 130ch so it fills the column
