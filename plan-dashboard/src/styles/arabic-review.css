@@ -171,6 +171,17 @@ body[data-arabic="off"] .arv-page .ar-script { display: none; }
   background: var(--c-accent); color: #fff;
 }
 .popover-curate-save:disabled, .arv-save:disabled { opacity: 0.6; cursor: default; }
+/* Panel edit box: stack the input row above an optional hint line. */
+.arv-edit { flex-direction: column; align-items: stretch; }
+.arv-edit-row { display: flex; gap: 5px; }
+.arv-edit-hint { margin: 4px 0 0; font-size: 0.7rem; line-height: 1.4; color: var(--c-ink-dim); }
+/* The "say: …" spoken-phonetic chip on each term row. */
+.arv-say {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem; color: var(--c-ink-dim);
+  background: var(--c-bg-sunken); padding: 1px 6px; border-radius: 5px;
+}
+.arv-row.is-muted .arv-say { color: var(--c-ink-muted); }
 
 /* ── Rail panel ─────────────────────────────────────────────────────────── */
 .arv-panel {
