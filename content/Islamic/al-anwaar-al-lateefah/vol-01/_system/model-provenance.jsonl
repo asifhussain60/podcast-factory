@@ -35,3 +35,7 @@
 {"phase": "per-chapter", "step": "challenger/the-ladder-of-tawhid", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/the-ladder-of-tawhid/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/the-ladder-of-tawhid", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-refined-mukathir-house-of-allah", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-refined-mukathir-house-of-allah", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-refined-mukathir-house-of-allah/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-refined-mukathir-house-of-allah", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
