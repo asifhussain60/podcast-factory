@@ -858,7 +858,12 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         sc_idx = int(sc["sc_index"])
         sc_title = str(sc.get("source_title", f"source chapter {sc_idx}"))
         start_line = int(sc["start_line"])
-        end_line = int(sc["end_line"])
+        # Clamp the planned end_line to the file length: the TOC LLM commonly
+        # overshoots the FINAL chapter's end_line by a line or two (counting a
+        # trailing newline / inclusive-vs-exclusive), which is benign — the slice
+        # runs to EOF either way. Without this a 648-vs-647 overshoot fails the
+        # whole source chapter. A genuine inversion is still caught below.
+        end_line = min(int(sc["end_line"]), len(refined_lines))
         sc_unit_mode = str(sc.get("unit_mode", "chapter"))
         episode_count = int(sc.get("episode_count", 1))
         episodes = sc.get("episodes") or []
