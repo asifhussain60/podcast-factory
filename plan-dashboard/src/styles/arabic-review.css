@@ -217,7 +217,35 @@ body[data-arabic="off"] .arv-page .ar-script { display: none; }
   border-top: 1px solid var(--c-rule-soft);
 }
 .arv-row.is-curated { background: color-mix(in oklch, var(--c-green) 6%, transparent); }
-.arv-term { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.4rem; }
+.arv-row.is-english { background: color-mix(in oklch, var(--c-accent) 5%, transparent); }
+.arv-term { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem 0.5rem; margin-bottom: 0.4rem; }
+
+/* Arabic | English segmented toggle (the one decision most terms need). */
+.arv-toggle { margin-left: auto; display: inline-flex; border: 1px solid var(--c-rule); border-radius: 999px; overflow: hidden; }
+.arv-seg {
+  font-family: inherit; font-size: 0.74rem; cursor: pointer; padding: 3px 13px;
+  border: none; background: var(--c-bg); color: var(--c-ink-dim); transition: background 0.12s ease;
+}
+.arv-seg:hover:not(.is-on):not(:disabled) { background: var(--c-bg-sunken); }
+.arv-seg.is-on { background: var(--c-accent); color: #fff; font-weight: 600; }
+.arv-seg:disabled { opacity: 0.5; cursor: default; }
+.arv-auto {
+  font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--c-accent); background: color-mix(in oklch, var(--c-accent) 12%, transparent);
+  padding: 1px 6px; border-radius: 5px;
+}
+/* Meta line: spoken phonetic + English + script-edit, each a quiet chip. */
+.arv-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.arv-chip {
+  display: inline-flex; align-items: center; gap: 5px; cursor: pointer;
+  font-family: inherit; font-size: 0.74rem; color: var(--c-ink-dim);
+  background: var(--c-bg-sunken); border: 1px solid transparent; border-radius: 6px; padding: 2px 8px;
+}
+.arv-chip i { font-size: 0.68rem; opacity: 0.6; }
+.arv-chip:hover:not(:disabled) { border-color: var(--c-rule); color: var(--c-ink); }
+.arv-chip:disabled { opacity: 0.5; cursor: default; }
+.arv-chip--say { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+.arv-chip--en.is-active { background: color-mix(in oklch, var(--c-accent) 14%, transparent); color: var(--c-accent); font-weight: 500; }
 .arv-phon { font-weight: 600; color: var(--c-ink); }
 .arv-script { font-family: "Amiri", "Noto Naskh Arabic", serif; color: var(--c-accent); font-size: 1.05rem; }
 .arv-badge {
