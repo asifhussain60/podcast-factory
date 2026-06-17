@@ -5,3 +5,4 @@
 {"phase": "0d", "step": "toc", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0d", "step": "sc-001", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0d", "step": "sc-002", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0d", "step": "sc-001", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
