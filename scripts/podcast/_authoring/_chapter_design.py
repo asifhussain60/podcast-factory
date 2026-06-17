@@ -341,6 +341,52 @@ def _build_phase_0d_toc_prompt(
     )
 
 
+def _volume_allocation(book_dir: Path):
+    """For a volume of a multi-volume work carrying a teaching allocation, return
+    ``(advisory_block, prior_volume_concept_titles)``.
+
+    Returns ``("", [])`` for single books, or for works without a
+    ``_system/_volume-split.json`` — so 0d's behavior is byte-identical off this
+    path (single-book authoring is never touched). When present, the block lists
+    EXACTLY the concepts the work-level allocator assigned to this volume (already
+    ordered for incremental flow), and the second value is the concepts aired by
+    EARLIER volumes (to seed cross-volume de-dup). Best-effort — never fatal.
+    """
+    try:
+        import sys as _sys
+        _sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+        import _work_manifest as wm  # noqa: E402
+        import json as _json
+        slug = book_dir.name
+        work_slug = wm.work_slug_of(slug)
+        if not work_slug:
+            return "", []
+        work_dir = wm.work_dir_for(work_slug)
+        split_path = work_dir / "_system" / "_volume-split.json"
+        if not split_path.exists():
+            return "", []
+        doc = _json.loads(split_path.read_text())
+        entry = wm.volume_entry(slug) or {}
+        vol_dir, order = entry.get("dir"), entry.get("order", 0)
+        vols = doc.get("volumes", {})
+        my_concepts = vols.get(vol_dir, {}).get("concepts", [])
+        prior = [c["teaching"][:120]
+                 for v in wm.volumes_of(work_slug) if v.get("order", 0) < order
+                 for c in vols.get(v.get("dir"), {}).get("concepts", [])]
+        listing = "\n".join(f"  - [{c['cluster']}] {c['teaching'][:160]}" for c in my_concepts)
+        block = (
+            "\n\nVOLUME CONCEPT ALLOCATION (work-level teaching allocator — AUTHORITATIVE).\n"
+            f"This volume ({vol_dir}) is allocated EXACTLY the {len(my_concepts)} concepts below, "
+            "already ordered for incremental flow. EVERY concept must be covered across this "
+            "volume's episodes (none dropped); NO concept outside this list belongs here; and "
+            "concepts already aired in earlier volumes must NOT be re-taught (brief callback only).\n\n"
+            f"ALLOCATED CONCEPTS (in order):\n{listing}\n"
+        )
+        return block, prior
+    except Exception:  # noqa: BLE001 — allocation is advisory, never fatal
+        return "", []
+
+
 def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                     unit_mode: str = "auto",
                     timeout: int = DEFAULT_TIMEOUT,
@@ -421,6 +467,13 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"episode framing only — do not factor into boundary decisions.\n\n"
             f"```\n{_gap_excerpt}\n```\n"
         )
+    # Work-level teaching allocation (multi-volume works only; "" for single books).
+    _alloc_block, _prior_vol_concepts = _volume_allocation(book_dir)
+    if _alloc_block:
+        _gap_context_block = _gap_context_block + _alloc_block
+        log(f"  phase 0d · volume allocation active "
+            f"({len(_prior_vol_concepts)} prior-volume concepts seeded for cross-volume de-dup)")
+
     out_rationale = book_dir / "_system" / "source" / "text" / "chapters-rationale.md"
     out_source_map = book_dir / "_system" / "source" / "text" / "source-chapter-map.md"
     chapters_dir = book_dir / "chapters"
@@ -756,7 +809,9 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         except Exception:  # noqa: BLE001 — ledger is best-effort, never fatal
             return []
 
-    taught_concepts: list[str] = []
+    # Seed with EARLIER volumes' concepts so the per-source-chapter R-NO-DOCTRINE-REPEAT
+    # directive also suppresses cross-VOLUME repeats (empty for single books).
+    taught_concepts: list[str] = list(_prior_vol_concepts)
     for _existing in sorted(chapters_dir.glob("ch*.txt")):
         taught_concepts.extend(_chapter_concepts(_existing))
 
