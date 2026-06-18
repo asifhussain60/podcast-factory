@@ -55,3 +55,7 @@
 {"phase": "per-chapter", "step": "challenger/the-unknowable-originator-and-the-first-intellect", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/the-unknowable-originator-and-the-first-intellect/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/the-unknowable-originator-and-the-first-intellect", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-word-of-allah-and-the-greatest-name", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-word-of-allah-and-the-greatest-name", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-word-of-allah-and-the-greatest-name/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-word-of-allah-and-the-greatest-name", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
