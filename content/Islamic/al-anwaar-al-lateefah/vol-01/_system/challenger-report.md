@@ -1,105 +1,55 @@
 # Podcast Challenger Report
 
-**Book:** al-anwaar-al-lateefah / vol-01
+**Book:** al-anwaar-al-lateefah/vol-01
 **Run:** 2026-06-18 (challenger v2.5)
-**Scope:** per-chapter `equal-but-not-infallible` (EP10 / ch10g)
-**content_profile:** islamic_scholarly  ← defaulted (no _system/series-config.yaml; orchestrator-state confirms)
-**source_tradition:** islam (doctrinal pack resolved)
-**Iterations:** 1 (of 5 max) — converged; iteration 2 would reproduce identical findings with zero new auto-fixes (intelligent break)
+**Scope:** per-chapter `naming-the-unnameable` (chapter `ch03c-naming-the-unnameable.txt` + framing `EP03-naming-the-unnameable/00-framing.md`)
+**content_profile:** islamic_scholarly (default — no series-config.yaml on disk)
+**Iterations:** 2 (of 5 max)
 **Verdict:** SHIP-WITH-CAUTION
 
-> CHALLENGER_VERSION read from scripts/podcast/_rules.py at run time = 2.5.
+## Build gate (authoritative — `build_episode_txt.py`)
 
-## Pipeline note (P0 resolved during this run)
-
-The orchestrator circuit-breaker that halted this chapter reported a "framing structural mismatch" P0.
-Root cause confirmed and resolved during this pass:
-
-- At pass start, `extract_chapter.py --force` was run for Category-G contract validation. The contract
-  renderer regenerated `00-framing.md` into a **stub-shaped framing** carrying `[LLM-FILL ...]`
-  placeholders, no Pronunciation anti-doubling instruction, no `## Name discipline` section, no 6-beat
-  dramatic arc, no challenger-friction patterns, and no analogy-cap enumeration.
-- `pipeline_lint.py` on that regenerated framing returned **BLOCKED (1 P0, 7 P1)** — this is exactly the
-  "framing structural mismatch" the circuit-breaker saw: the deterministic contract renderer does not emit
-  the rich framing structure the framing validators (`_validators_framing.py`) require.
-- The correct ship artifact was the hand-authored framing already present in the working tree. It was
-  restored. After restoration, `pipeline_lint.py` returns **SHIP-WITH-CAUTION (0 P0, 2 P1)** and all 10
-  `_validators_framing.py` assertions PASS.
-
-Lesson for the pipeline: for this book, `extract_chapter --force` must NOT be re-run against an
-already-hand-authored framing — the renderer output is structurally inferior to the authored framing the
-validators expect. Category G contract validation here should be read-only (parse + lint the contract),
-not `--force` re-render.
-
-## Gate results (post-restoration)
-
-| Gate | Result |
-|---|---|
-| `build_episode_txt.py EP10` | EXIT 0 — chapter validated, episode txt emitted (714 words) |
-| `pipeline_lint.py EP10` | SHIP-WITH-CAUTION (0 P0, 2 P1) |
-| `_validators_framing.py` (10 assertions) | ALL PASS |
-| Doctrinal T1–T5 (`_doctrinal.run_doctrinal_checks`) | CLEAN (0 findings) — T3 "Father of Imams, Ali ibn Abi Talib (peace be upon him)" construction holds |
-| `extract_chapter.py --force` (G2) | EXIT 0 (contract validates) |
-| Category U (AI-cliché / faux-profundity / deep-dive-self-ref) | CLEAN |
-| Category V (interest) | V1–V5 all PASS |
+Exit 0. Chapter validated (3385 words, uploaded as-is). Episode customize-prompt emitted (725 words). Two P1 flags, both systemic across the whole book; neither blocks ship.
 
 ## Auto-fixes applied (iteration-by-iteration)
 
 | Iter | Check | File | Action |
 |---|---|---|---|
-| 1 | framing-restore | EP10/00-framing.md | Restored hand-authored framing destroyed by extract --force; pipeline_lint P0 cleared (BLOCKED→SHIP-WITH-CAUTION) |
-| 1 | build-sync | episodes/EP10-equal-but-not-infallible.txt | Re-ran build_episode_txt.py to re-emit the customize-prompt txt from the restored framing (714 words) |
+| 1 | (none) | — | The on-disk chapter already carried the canonical Quran citation form (`chapter N, verse M`) and contained no cross-episode references; no mechanical auto-fix was required. |
 
-No content auto-fixes were applied to the chapter SOURCE. The chapter carries 54 em-dashes (B5 in the
-challenger catalog) but the canonical build gate (`build_episode_txt.py`) does NOT enforce B5 on the
-NotebookLM SOURCE in the current architecture — code is authority, so these were left intact rather than
-mass-rewritten (auto-stripping 54 author-woven em-dashes would risk corrupting voice). Honorific
-discipline (O1) is clean: each expansion appears once.
+Note: an exploratory `extract_chapter.py --force` during iteration 1 regenerated the bundle from the contract and transiently overwrote the hand-authored framing with a generic stub. The authored framing (Opening directive with welcome + verbatim spine, Name discipline, Pronunciation block, six-beat Three-part focus, Host dynamic, Tone constraints, Landing, Do-not block) was restored verbatim before the report was written. Final on-disk framing == authored framing (725 words). The chapter file's git-tracked baseline is stale (`Quran 3:18 (Al Imran)` form, "the previous lesson" cross-episode phrasing); the working-tree chapter is the corrected canonical version and is what ships.
 
 ## Findings requiring author resolution
 
 ### P0 (blocks ship)
-None. (The framing-structural-mismatch P0 was resolved by restoring the authored framing — see Pipeline note.)
+None.
 
 ### P1 (ship-with-caution)
 
-#### F20 / R-NO-ARABIC-TRANSLITERATION — Arabic transliterations in chapter SOURCE
-- **File:** content/Islamic/al-anwaar-al-lateefah/vol-01/chapters/ch10g-equal-but-not-infallible.txt (lines 3, 11, 61, and the four Quran citations)
-- **Context:** 9 transliterations, concentrated in citation apparatus: `Al-Anwaar al-Lateefah` (line 3 episode-summary italic), `Hamid al-Din al-Kirmani` + `Rahat al-'Aql` + `al-Hakim` (line 11), `Nahj al-Balagha` (line 61), `Surat al-Nahl/al-Shams/al-Baqarah/al-Ma'idah` (Quran citation parentheticals).
-- **Mitigation in place:** the framing's `## Name discipline` already instructs hosts to "never speak Arabic titles" and "Cite the Quran by verse content, not Arabic chapter names" — the steering layer keeps these out of the spoken audio. They remain in the written SOURCE as apparatus.
-- **Suggested fix (author decision):** replace work titles with English audio labels in the source ("the book on the repose of the intellect"), or accept per the contract's own `tone_constraints` choice to keep citation apparatus. Not auto-fixed (not in the agent's deterministic auto-fix set; citation rendering is authoring judgment).
+#### F20 / R-NO-ARABIC-TRANSLITERATION: 7 Arabic transliterations in chapter SOURCE
+- **File:** content/Islamic/al-anwaar-al-lateefah/vol-01/chapters/ch03c-naming-the-unnameable.txt (lines 3, 27, 53, 85)
+- **Context:** all 7 are proper-name fragments inside scholarly citation apparatus, not freestanding doctrinal terms: the book title `Al-Anwaar al-Lateefah` (l.3); `Nahj al-Balagha (compiled by al-Sharif al-Radi)` (l.27); `Hibatullah ibn Musa al-Shirazi` and `Mawlana Sayyidna Mu'ayyad al-Din` (l.53); `Lady Fatima al-Zahra` (l.85).
+- **Severity rationale:** P1 advisory (TTS-safety). The framing already directs the hosts to cite the Quran by verse content and to use English audio labels for figures (Name discipline block), which mitigates the read-aloud risk. This pattern is systemic — every chapter in the book carries 3–10 such fragments (this chapter has the second-fewest).
+- **Suggested fix (author decision — NOT auto-fixed):** these sit inside citations where the transliteration is the scholarly reference; either accept as written-layer apparatus or substitute English audio labels per F20. Resolve book-wide, not per-chapter.
 
-#### F29 / R-SURAH-ENGLISH-ONLY — Arabic surah names in chapter SOURCE
-- **File:** same chapter, lines 17, 35, 47, 73 (the four Quran blockquote citations)
-- **Context:** `(Surat al-Nahl)`, `(Surat al-Shams)`, `(Surat al-Baqarah)`, `(Surat al-Ma'idah)` trail the already-correct plain-English citation form (`Quran, chapter N, verse M`). The Arabic parenthetical is redundant on top of the English chapter-number and is a TTS-read risk.
-- **Suggested fix (author decision):** drop the `(Surat al-X)` parenthetical or render it as the English meaning ("the chapter of the Bee", "the chapter of the Sun", etc.). The plain-English `Quran, chapter N, verse M` form already satisfies A1 / R-QURAN-CITATION-FORMAT.
-
-#### F25-APPARATUS-TABLE — 99-show-notes.md missing the Name and Title Preservation Table
-- **File:** content/Islamic/al-anwaar-al-lateefah/vol-01/_system/episode-drafts/EP10-equal-but-not-infallible/99-show-notes.md
-- **Context:** no `## Name and Title Preservation Table` header. F25 expects the written-layer crosswalk (preserved Arabic / transliterations → audio labels) that the TTS-safe audio omits.
-- **Note:** 99-show-notes.md is OUT OF SCOPE for this agent to edit (Section 8) and is a written-apparatus file that does not flow to NotebookLM audio. Flagged for the author/pipeline to add the table. Was regenerated by extract --force this pass.
-
-#### CS8 / P8 — shared 12-word passages across chapters (cited scripture recurrence)
-- **Files:** ch10g vs `the-ladder-of-tawhid` (12 passages); ch10g vs `the-unknowable-originator-and-the-first-intellect` (25 passages)
-- **Context:** the overlap samples ("...the perfection of His purity is to deny Him attributes...", "that to which it is attributed and everything to which something is attributed...") are the **Nahj al-Balagha Sermon 1** blockquote on divesting attributes (tanzih), legitimately cited across multiple chapters whose shared spine is tawhid/tanzih. This is recurring *cited scripture*, not duplicated *teaching prose*.
-- **Suggested fix (author decision):** acceptable for a book built on tanzih; if undesired, vary which Sermon-1 segment each chapter quotes, or cite the sermon in full in one chapter and reference by paraphrase elsewhere. Challenger judgment: this is a soft P1, not a teaching-duplication failure.
-
-#### CS10 / P10 — chapter over-dense (6 concept sections, target ≤3)
-- **File:** ch10g (H2 movements: No obstacle / Potential and actual / Equal but not infallible / Slipping / The first to declare / Seeking the means)
-- **Context:** advisory in CS10; `density_standard` is null for this book so it does not halt. The six movements form a coherent single arc (the chapter is `length_target: longer`), but the density standard prefers ≤3 concepts per chapter.
-- **Suggested fix (author decision):** accept for a `longer`-tier chapter, or re-split via Phase 0d if a tighter density is desired book-wide.
+#### F25-APPARATUS-TABLE: 99-show-notes.md lacks the Name and Title Preservation Table
+- **File:** content/Islamic/al-anwaar-al-lateefah/vol-01/_system/episode-drafts/EP03-naming-the-unnameable/99-show-notes.md
+- **Context:** no `## Name and Title Preservation Table` section. The show-notes carry `## Related episodes` and `## References` only.
+- **Severity rationale:** P1 advisory. Show-notes are written-layer apparatus and do NOT flow to NotebookLM audio. Systemic — applies to all episodes' show-notes.
+- **Suggested fix:** add the F25 crosswalk table (preserved Arabic / transliterations + audio-label mapping). Best resolved by the show-notes generator book-wide.
 
 ### P2 (advisory)
 
-#### B3 — soft file self-reference
-- **File:** ch10g line 85: "...the very error **this chapter has been tracing**..."
-- **Context:** "this chapter has been tracing" is a soft meta-prose tell (B3 family: "this chapter has..."). In context it means the teaching's argument thread, and the canonical build gate (`build_episode_txt.py` META_PROSE_TELLS) does NOT flag it. Surfaced P2 (not P0) because the authority gate passes it.
-- **Suggested fix (author decision):** reword to "the very error the teaching has been tracing" to remove the file-self-reference smell.
+#### Chapter-set P8 (within-book passage overlap)
+- The book-scope chapter-set check reports `naming-the-unnameable` shares 12-word passages with sibling chapters (12 with `the-unknowable-originator-and-the-first-intellect`, 12 with `what-tawhid-really-is`, 6 with `the-refined-mukathir-house-of-allah`, 6 with `outer-and-inner-gnosis-and-the-mukathir`, 3 with `the-ladder-of-tawhid`). These are largely shared liturgical/doctrinal formulae and recurring cosmological vocabulary intrinsic to a single-source lecture series. Surfaced for author awareness; this is a book-scope finding, not specific to this chapter under per-chapter scope.
+
+#### Chapter-set P10 (density)
+- `naming-the-unnameable` has 6 concept sections vs the ≤3 target (advisory; systemic — 10 of 11 chapters exceed the target). Re-split is an authoring decision via Phase 0d.
 
 ## Health metrics
 
-| Chapter | Words | Enrichment tiers | Citations | Honorific repeats | Doctrinal | Arabic-translit (F20) | Surah-names (F29) |
+| Chapter | Words | Citations | Blockquotes | Cross-ep refs | Honorific exp. | Doctrinal (T) | Quran cite form |
 |---|---|---|---|---|---|---|---|
-| ch10g equal-but-not-infallible | 3,783 | 5 (Quran / Imam / Ismaili / Sufi / academic) | Quran ×4, Nahj al-Balagha S.1, Rahat al-'Aql, Mathnawi, Walker | 0 (each ×1) | CLEAN | 9 | 4 |
+| ch03c-naming-the-unnameable | 3385 | 5 (3 Quran + 1 Nahj + 1 Sahih Muslim) | 5 | 0 | 1 (PBUH, once) | 0 findings | canonical (chapter N, verse M) |
 
-Framing: 714 words · all 10 framing validators PASS · pipeline_lint SHIP-WITH-CAUTION (0 P0, 2 P1).
+Category passes: A1–A6 clean (full citations, translator named, authentic sources, no cross-tradition collision); B1–B6 clean (no meta-prose, no cross-episode refs, no file-length self-ref); D4/D5 clean (no quote-stacking, no CONTEXT-NEEDED markers); E2/E3 strong (single-thread paradox arc, hook open + landed close); T1–T5 clean (0 doctrinal findings; Father of Imams named correctly, never paired leadership-title with personal name); U1/U2/U4/U3 clean. Framing: H1 welcome present, M1/M2 DENY blocks present, Q host-role parity correct (Host A male scholar / Host B female seeker), N4 no-read-aloud guard present, six-beat Three-part focus, R-RECURRING-THESIS spine present.
