@@ -411,11 +411,18 @@ def _volume_allocation(book_dir: Path):
         listing = "\n".join(f"  - [{c['cluster']}] {c['teaching'][:160]}" for c in my_concepts)
         block = (
             "\n\nVOLUME CONCEPT ALLOCATION (work-level teaching allocator — AUTHORITATIVE).\n"
-            f"This volume ({vol_dir}) is allocated EXACTLY the {len(my_concepts)} concepts below, "
-            "already ordered for incremental flow. EVERY concept must be covered across this "
-            "volume's episodes (none dropped); NO concept outside this list belongs here; and "
-            "concepts already aired in earlier volumes must NOT be re-taught (brief callback only).\n\n"
-            f"ALLOCATED CONCEPTS (in order):\n{listing}\n"
+            f"This volume ({vol_dir}) is allocated EXACTLY the {len(my_concepts)} concepts below "
+            "(listed in source order, for coverage reference only). EVERY concept must be covered "
+            "across this volume's episodes (none dropped); NO concept outside this list belongs "
+            "here; concepts already aired in earlier volumes must NOT be re-taught.\n"
+            "CRITICAL — EACH EPISODE STANDS ALONE. Every chapter and contract you author is "
+            "uploaded to NotebookLM and read LITERALLY by the hosts. NEVER write cross-episode or "
+            "continuity references anywhere in a chapter or contract — forbidden phrases include "
+            "'the previous episode', 'the next episode', 'earlier we', 'as we saw', 'as we will "
+            "see', 'this volume', 'handing off to', 'in the last lesson'. Describe ONLY this "
+            "episode's own content; put no authoring/meta commentary about ordering or other "
+            "episodes into any field.\n\n"
+            f"ALLOCATED CONCEPTS:\n{listing}\n"
         )
         return block, prior
     except Exception:  # noqa: BLE001 — allocation is advisory, never fatal

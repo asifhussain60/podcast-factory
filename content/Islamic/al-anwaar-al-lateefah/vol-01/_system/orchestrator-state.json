@@ -7,13 +7,13 @@
   "content_profile": "islamic_scholarly",
   "branch": "Islamic/al-anwaar-al-lateefah",
   "phase": "per-chapter",
-  "phase_status": "running",
+  "phase_status": "failed",
   "last_completed_phase": "0e",
   "next_phase": "0literary",
   "last_error": {
     "phase": "per-chapter",
-    "message": "[naming-the-unnameable] extract_chapter.py failed for 'vol-01/ch03c-naming-the-unnameable': rc=1: ERROR: contract at /Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/chapter-contracts/naming-the-unnameable.yml contains meta-prose that would reach NotebookLM.",
-    "ts": "2026-06-17T20:59:10Z"
+    "message": "6 chapter(s) failed: equal-but-not-infallible, naming-the-unnameable, the-trust-and-the-science-of-realities, the-unknowable-originator-and-the-first-intellect, the-word-of-allah-and-the-greatest-name, what-tawhid-really-is. 5 chapter(s) completed. Triage failures or raise per_chapter_cost_cap_usd and --resume.",
+    "ts": "2026-06-17T22:46:02Z"
   },
   "phases": {
     "pre-flight": {
@@ -62,19 +62,24 @@
       "status": "pending"
     },
     "per-chapter": {
-      "status": "running",
+      "status": "failed",
       "ts_started": "2026-06-17T20:19:07Z",
-      "current_chapter": "the-refined-mukathir-house-of-allah",
-      "last_beat": "2026-06-17T22:40:29Z",
+      "current_chapter": "what-tawhid-really-is",
+      "last_beat": "2026-06-17T22:46:02Z",
       "completed_slugs": [
         "ascent-decline-and-the-birth-of-a-god",
         "origination-from-nothing",
         "outer-and-inner-gnosis-and-the-mukathir",
-        "the-ladder-of-tawhid"
+        "the-ladder-of-tawhid",
+        "the-refined-mukathir-house-of-allah"
       ],
       "failed_slugs": [
         "equal-but-not-infallible",
-        "naming-the-unnameable"
+        "naming-the-unnameable",
+        "the-trust-and-the-science-of-realities",
+        "the-unknowable-originator-and-the-first-intellect",
+        "the-word-of-allah-and-the-greatest-name",
+        "what-tawhid-really-is"
       ],
       "chapter_timings": {
         "ascent-decline-and-the-birth-of-a-god": {
@@ -123,13 +128,46 @@
         },
         "the-refined-mukathir-house-of-allah": {
           "started_ts": "2026-06-17T22:22:04Z",
-          "completed_ts": null,
-          "duration_sec": null,
-          "verdict": null,
-          "cost_usd": null
+          "completed_ts": "2026-06-17T22:46:02Z",
+          "duration_sec": 1437.5,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-trust-and-the-science-of-realities": {
+          "started_ts": "2026-06-17T22:46:02Z",
+          "completed_ts": "2026-06-17T22:46:02Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "extract_chapter.py failed for 'vol-01/ch01a-the-trust-and-the-science-of-realities': rc=1: ERROR: contract at /Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/chapter-contracts/the-trust-and-the-science-of-realities.yml contains meta-prose that would reach Note"
+        },
+        "the-unknowable-originator-and-the-first-intellect": {
+          "started_ts": "2026-06-17T22:46:02Z",
+          "completed_ts": "2026-06-17T22:46:02Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "extract_chapter.py failed for 'vol-01/ch02b-the-unknowable-originator-and-the-first-intellect': rc=1: ERROR: contract at /Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/chapter-contracts/the-unknowable-originator-and-the-first-intellect.yml contains meta-prose that wou"
+        },
+        "the-word-of-allah-and-the-greatest-name": {
+          "started_ts": "2026-06-17T22:46:02Z",
+          "completed_ts": "2026-06-17T22:46:02Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "extract_chapter.py failed for 'vol-01/ch11h-the-word-of-allah-and-the-greatest-name': rc=1: ERROR: contract at /Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/chapter-contracts/the-word-of-allah-and-the-greatest-name.yml contains meta-prose that would reach Not"
+        },
+        "what-tawhid-really-is": {
+          "started_ts": "2026-06-17T22:46:02Z",
+          "completed_ts": "2026-06-17T22:46:02Z",
+          "duration_sec": 0.0,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "extract_chapter.py failed for 'vol-01/ch04a-what-tawhid-really-is': rc=1: ERROR: contract at /Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/chapter-contracts/what-tawhid-really-is.yml contains meta-prose that would reach NotebookLM."
         }
       },
-      "convergence_iter": 2
+      "convergence_iter": 2,
+      "ts_completed": "2026-06-17T22:46:02Z"
     },
     "trainer": {
       "status": "pending"
@@ -165,5 +203,5 @@
   "pipeline_mode": "orchestrated",
   "status": "draft",
   "ts_started": "2026-06-17T12:04:07Z",
-  "ts_updated": "2026-06-17T22:40:29Z"
+  "ts_updated": "2026-06-17T22:46:02Z"
 }
