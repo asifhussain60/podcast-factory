@@ -64,8 +64,8 @@
     "per-chapter": {
       "status": "running",
       "ts_started": "2026-06-17T20:19:07Z",
-      "current_chapter": "the-trust-and-the-science-of-realities",
-      "last_beat": "2026-06-18T11:10:54Z",
+      "current_chapter": "the-unknowable-originator-and-the-first-intellect",
+      "last_beat": "2026-06-18T11:34:35Z",
       "completed_slugs": [
         "ascent-decline-and-the-birth-of-a-god",
         "equal-but-not-infallible",
@@ -73,7 +73,8 @@
         "origination-from-nothing",
         "outer-and-inner-gnosis-and-the-mukathir",
         "the-ladder-of-tawhid",
-        "the-refined-mukathir-house-of-allah"
+        "the-refined-mukathir-house-of-allah",
+        "the-trust-and-the-science-of-realities"
       ],
       "failed_slugs": [],
       "chapter_timings": {
@@ -128,18 +129,17 @@
         },
         "the-trust-and-the-science-of-realities": {
           "started_ts": "2026-06-18T10:52:52Z",
+          "completed_ts": "2026-06-18T11:14:54Z",
+          "duration_sec": 1322.0,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-unknowable-originator-and-the-first-intellect": {
+          "started_ts": "2026-06-18T11:14:54Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
           "cost_usd": null
-        },
-        "the-unknowable-originator-and-the-first-intellect": {
-          "started_ts": "2026-06-17T22:46:02Z",
-          "completed_ts": "2026-06-17T22:46:02Z",
-          "duration_sec": 0.0,
-          "verdict": "FAILED",
-          "cost_usd": 0.0,
-          "error": "extract_chapter.py failed for 'vol-01/ch02b-the-unknowable-originator-and-the-first-intellect': rc=1: ERROR: contract at /Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/chapter-contracts/the-unknowable-originator-and-the-first-intellect.yml contains meta-prose that wou"
         },
         "the-word-of-allah-and-the-greatest-name": {
           "started_ts": "2026-06-17T22:46:02Z",
@@ -195,5 +195,5 @@
   "pipeline_mode": "orchestrated",
   "status": "draft",
   "ts_started": "2026-06-17T12:04:07Z",
-  "ts_updated": "2026-06-18T11:10:54Z"
+  "ts_updated": "2026-06-18T11:34:35Z"
 }
