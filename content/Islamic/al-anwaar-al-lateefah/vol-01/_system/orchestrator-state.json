@@ -6,15 +6,11 @@
   "category": "books",
   "content_profile": "islamic_scholarly",
   "branch": "Islamic/al-anwaar-al-lateefah",
-  "phase": "per-chapter",
-  "phase_status": "running",
-  "last_completed_phase": "0e",
-  "next_phase": "0literary",
-  "last_error": {
-    "phase": "per-chapter",
-    "message": "CIRCUIT-BREAKER: first attempted chapter 'equal-but-not-infallible' failed in 0.1s — deterministic/systemic (not content): pipeline_lint P0: framing structural mismatch:",
-    "ts": "2026-06-18T09:59:24Z"
-  },
+  "phase": "per-chapter-optimize",
+  "phase_status": "completed",
+  "last_completed_phase": "per-chapter-optimize",
+  "next_phase": "per-chapter-slides",
+  "last_error": null,
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -62,7 +58,7 @@
       "status": "pending"
     },
     "per-chapter": {
-      "status": "running",
+      "status": "completed",
       "ts_started": "2026-06-17T20:19:07Z",
       "current_chapter": "what-tawhid-really-is",
       "last_beat": "2026-06-18T12:13:21Z",
@@ -76,7 +72,8 @@
         "the-refined-mukathir-house-of-allah",
         "the-trust-and-the-science-of-realities",
         "the-unknowable-originator-and-the-first-intellect",
-        "the-word-of-allah-and-the-greatest-name"
+        "the-word-of-allah-and-the-greatest-name",
+        "what-tawhid-really-is"
       ],
       "failed_slugs": [],
       "chapter_timings": {
@@ -152,14 +149,14 @@
         },
         "what-tawhid-really-is": {
           "started_ts": "2026-06-18T12:01:18Z",
-          "completed_ts": null,
-          "duration_sec": null,
-          "verdict": null,
-          "cost_usd": null
+          "completed_ts": "2026-06-18T12:18:06Z",
+          "duration_sec": 1007.7,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
         }
       },
       "convergence_iter": 2,
-      "ts_completed": "2026-06-18T09:59:24Z"
+      "ts_completed": "2026-06-18T12:18:06Z"
     },
     "trainer": {
       "status": "pending"
@@ -180,6 +177,13 @@
       "ts_started": "2026-06-17T20:14:30Z",
       "ts_completed": "2026-06-17T20:14:46Z",
       "gate_warnings": 6
+    },
+    "per-chapter-optimize": {
+      "status": "completed",
+      "ts_started": "2026-06-18T12:18:06Z",
+      "ts_completed": "2026-06-18T12:18:06Z",
+      "chapters": 0,
+      "warn": 0
     }
   },
   "cost": {
@@ -195,5 +199,5 @@
   "pipeline_mode": "orchestrated",
   "status": "draft",
   "ts_started": "2026-06-17T12:04:07Z",
-  "ts_updated": "2026-06-18T12:13:21Z"
+  "ts_updated": "2026-06-18T12:18:06Z"
 }
