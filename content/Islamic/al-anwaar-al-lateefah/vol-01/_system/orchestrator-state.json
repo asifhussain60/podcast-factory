@@ -12,8 +12,8 @@
   "next_phase": "0literary",
   "last_error": {
     "phase": "per-chapter",
-    "message": "6 chapter(s) failed: equal-but-not-infallible, naming-the-unnameable, the-trust-and-the-science-of-realities, the-unknowable-originator-and-the-first-intellect, the-word-of-allah-and-the-greatest-name, what-tawhid-really-is. 5 chapter(s) completed. Triage failures or raise per_chapter_cost_cap_usd and --resume.",
-    "ts": "2026-06-18T09:58:18Z"
+    "message": "CIRCUIT-BREAKER: first attempted chapter 'equal-but-not-infallible' failed in 0.1s \u2014 deterministic/systemic (not content): pipeline_lint P0: framing structural mismatch:",
+    "ts": "2026-06-18T09:59:24Z"
   },
   "phases": {
     "pre-flight": {
@@ -64,8 +64,8 @@
     "per-chapter": {
       "status": "failed",
       "ts_started": "2026-06-17T20:19:07Z",
-      "current_chapter": "what-tawhid-really-is",
-      "last_beat": "2026-06-17T22:46:02Z",
+      "current_chapter": "equal-but-not-infallible",
+      "last_beat": "2026-06-18T09:59:24Z",
       "completed_slugs": [
         "ascent-decline-and-the-birth-of-a-god",
         "origination-from-nothing",
@@ -83,9 +83,9 @@
           "cost_usd": 0.0
         },
         "equal-but-not-infallible": {
-          "started_ts": "2026-06-17T20:45:55Z",
-          "completed_ts": "2026-06-17T20:59:10Z",
-          "duration_sec": 795.1,
+          "started_ts": "2026-06-18T09:59:24Z",
+          "completed_ts": "2026-06-18T09:59:24Z",
+          "duration_sec": 0.1,
           "verdict": "FAILED",
           "cost_usd": 0.0,
           "error": "pipeline_lint P0: framing structural mismatch:"
@@ -160,7 +160,7 @@
         }
       },
       "convergence_iter": 2,
-      "ts_completed": "2026-06-18T09:58:18Z"
+      "ts_completed": "2026-06-18T09:59:24Z"
     },
     "trainer": {
       "status": "pending"
@@ -196,5 +196,5 @@
   "pipeline_mode": "orchestrated",
   "status": "draft",
   "ts_started": "2026-06-17T12:04:07Z",
-  "ts_updated": "2026-06-18T09:58:18Z"
+  "ts_updated": "2026-06-18T09:59:24Z"
 }
