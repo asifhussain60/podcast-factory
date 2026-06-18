@@ -39,3 +39,7 @@
 {"phase": "per-chapter", "step": "challenger/the-refined-mukathir-house-of-allah", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/the-refined-mukathir-house-of-allah/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/the-refined-mukathir-house-of-allah", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/equal-but-not-infallible", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/equal-but-not-infallible", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/equal-but-not-infallible/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/equal-but-not-infallible", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
