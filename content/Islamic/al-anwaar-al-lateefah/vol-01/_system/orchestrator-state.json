@@ -64,10 +64,11 @@
     "per-chapter": {
       "status": "running",
       "ts_started": "2026-06-17T20:19:07Z",
-      "current_chapter": "equal-but-not-infallible",
-      "last_beat": "2026-06-18T10:19:00Z",
+      "current_chapter": "naming-the-unnameable",
+      "last_beat": "2026-06-18T10:48:08Z",
       "completed_slugs": [
         "ascent-decline-and-the-birth-of-a-god",
+        "equal-but-not-infallible",
         "origination-from-nothing",
         "outer-and-inner-gnosis-and-the-mukathir",
         "the-ladder-of-tawhid",
@@ -84,18 +85,17 @@
         },
         "equal-but-not-infallible": {
           "started_ts": "2026-06-18T10:03:01Z",
+          "completed_ts": "2026-06-18T10:25:50Z",
+          "duration_sec": 1369.4,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "naming-the-unnameable": {
+          "started_ts": "2026-06-18T10:25:51Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
           "cost_usd": null
-        },
-        "naming-the-unnameable": {
-          "started_ts": "2026-06-17T20:59:10Z",
-          "completed_ts": "2026-06-17T20:59:10Z",
-          "duration_sec": 0.1,
-          "verdict": "FAILED",
-          "cost_usd": 0.0,
-          "error": "extract_chapter.py failed for 'vol-01/ch03c-naming-the-unnameable': rc=1: ERROR: contract at /Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/chapter-contracts/naming-the-unnameable.yml contains meta-prose that would reach NotebookLM."
         },
         "origination-from-nothing": {
           "started_ts": "2026-06-17T20:59:10Z",
@@ -195,5 +195,5 @@
   "pipeline_mode": "orchestrated",
   "status": "draft",
   "ts_started": "2026-06-17T12:04:07Z",
-  "ts_updated": "2026-06-18T10:19:00Z"
+  "ts_updated": "2026-06-18T10:48:08Z"
 }

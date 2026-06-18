@@ -43,3 +43,7 @@
 {"phase": "per-chapter", "step": "challenger/equal-but-not-infallible", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/equal-but-not-infallible/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/equal-but-not-infallible", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/naming-the-unnameable", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/naming-the-unnameable", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/naming-the-unnameable/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/naming-the-unnameable", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
