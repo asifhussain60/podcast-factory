@@ -47,3 +47,7 @@
 {"phase": "per-chapter", "step": "challenger/naming-the-unnameable", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/naming-the-unnameable/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/naming-the-unnameable", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-trust-and-the-science-of-realities", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-trust-and-the-science-of-realities", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-trust-and-the-science-of-realities/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-trust-and-the-science-of-realities", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
