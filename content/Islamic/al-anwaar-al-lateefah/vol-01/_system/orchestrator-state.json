@@ -64,8 +64,8 @@
     "per-chapter": {
       "status": "running",
       "ts_started": "2026-06-17T20:19:07Z",
-      "current_chapter": "the-word-of-allah-and-the-greatest-name",
-      "last_beat": "2026-06-18T11:56:04Z",
+      "current_chapter": "what-tawhid-really-is",
+      "last_beat": "2026-06-18T12:13:21Z",
       "completed_slugs": [
         "ascent-decline-and-the-birth-of-a-god",
         "equal-but-not-infallible",
@@ -75,7 +75,8 @@
         "the-ladder-of-tawhid",
         "the-refined-mukathir-house-of-allah",
         "the-trust-and-the-science-of-realities",
-        "the-unknowable-originator-and-the-first-intellect"
+        "the-unknowable-originator-and-the-first-intellect",
+        "the-word-of-allah-and-the-greatest-name"
       ],
       "failed_slugs": [],
       "chapter_timings": {
@@ -144,18 +145,17 @@
         },
         "the-word-of-allah-and-the-greatest-name": {
           "started_ts": "2026-06-18T11:39:52Z",
+          "completed_ts": "2026-06-18T12:01:18Z",
+          "duration_sec": 1286.1,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "what-tawhid-really-is": {
+          "started_ts": "2026-06-18T12:01:18Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
           "cost_usd": null
-        },
-        "what-tawhid-really-is": {
-          "started_ts": "2026-06-17T22:46:02Z",
-          "completed_ts": "2026-06-17T22:46:02Z",
-          "duration_sec": 0.0,
-          "verdict": "FAILED",
-          "cost_usd": 0.0,
-          "error": "extract_chapter.py failed for 'vol-01/ch04a-what-tawhid-really-is': rc=1: ERROR: contract at /Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/chapter-contracts/what-tawhid-really-is.yml contains meta-prose that would reach NotebookLM."
         }
       },
       "convergence_iter": 2,
@@ -195,5 +195,5 @@
   "pipeline_mode": "orchestrated",
   "status": "draft",
   "ts_started": "2026-06-17T12:04:07Z",
-  "ts_updated": "2026-06-18T11:56:04Z"
+  "ts_updated": "2026-06-18T12:13:21Z"
 }
