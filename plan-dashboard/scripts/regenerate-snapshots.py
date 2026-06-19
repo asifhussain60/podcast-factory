@@ -34,6 +34,23 @@ def now_iso():
     return datetime.now(timezone.utc).isoformat()
 
 
+def head_commit_iso():
+    """Committer date of HEAD (ISO 8601).
+
+    Used for the snapshots' ``generated_at`` so regenerating at the SAME commit
+    produces a byte-identical file — no wall-clock churn, no perpetually-dirty
+    working tree. Falls back to wall-clock only when git is unavailable.
+    """
+    try:
+        out = subprocess.check_output(
+            ["git", "-C", str(REPO), "log", "-1", "--format=%cI"],
+            text=True, stderr=subprocess.DEVNULL
+        ).strip()
+        return out or now_iso()
+    except Exception:
+        return now_iso()
+
+
 def read_json(p):
     try:
         return json.loads(Path(p).read_text())
@@ -269,7 +286,7 @@ def merge_dashboard():
 
     merged = {
         **existing,
-        "generated_at": now_iso(),
+        "generated_at": head_commit_iso(),
         "source_commit": current_commit(),
         "generator": "regenerate-snapshots.py",
         "roadmap": roadmap,
@@ -343,7 +360,7 @@ def merge_architecture():
                 title = title.strip()
                 adrs.append(existing_adrs.get(adr_id) or {"id": adr_id, "title": title, "plain": title})
 
-    merged = {**snap, "generated_at": now_iso(), "source_commit": current_commit(), "agents": agents, "adrs": adrs}
+    merged = {**snap, "generated_at": head_commit_iso(), "source_commit": current_commit(), "agents": agents, "adrs": adrs}
     write_json(p, merged)
 
 
@@ -352,7 +369,7 @@ def touch_existing(name):
     data = read_json(p)
     if not data:
         return
-    data["generated_at"] = now_iso()
+    data["generated_at"] = head_commit_iso()
     data["source_commit"] = current_commit()
     write_json(p, data)
 
@@ -363,7 +380,7 @@ def main():
     touch_existing("infrastructure-snapshot.json")
 
     try:
-        SENTINEL.write_text(now_iso() + "\n")
+        SENTINEL.write_text(head_commit_iso() + "\n")
     except Exception:
         pass
 
