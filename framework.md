@@ -1,6 +1,41 @@
 # Podcast Factory Ecosystem Framework
 
-**Last updated:** 2026-06-10
+**Last updated:** 2026-06-18
+
+## 2026-06-18 Wave — work-level teaching allocator + curated audio density + 0d hardening
+
+For multi-volume **works** (one synthesized teaching ledger split across volumes,
+e.g. `al-anwaar-al-lateefah`), a pre-pass guarantees every concept is placed once,
+deduplicated, in the right volume, before any volume's 0d runs.
+
+- **Teaching allocator** — [`allocate_teachings.py`](scripts/podcast/allocate_teachings.py).
+  LLM-assisted hybrid (flat-rate `claude -p`, no API spend): spine teachings placed
+  DETERMINISTICALLY by book order (consistent with the section word-offset partition);
+  augmentation placed into sections by batched LLM classification with a Jaccard top-K
+  shortlist; conservative LLM dedup (canonical airs once, variants kept for the reading
+  edition — no teaching lost). Emits `<work>/_system/_volume-split.json` and a no-loss/
+  no-repeat GATE (`union==N`, one volume each, each cluster one home, variants
+  consistent) that **raises** on failure. Resume-safe via `_system/_alloc/` checkpoints.
+- **Work-level pre-pass** — [`orchestrate_work.py`](scripts/podcast/orchestrate_work.py)
+  `_ensure_allocation()` runs the allocator once for synthesized works (those whose
+  `work.yml` declares a shared `ledger`), idempotent on a passing gate, before any
+  volume's 0d. Works intaked as per-volume PDFs (no shared ledger) are skipped untouched.
+- **Gated 0d consumption** — [`_chapter_design.py`](scripts/podcast/_authoring/_chapter_design.py)
+  `_volume_allocation()` injects this volume's authoritative ordered concept list +
+  a cross-volume "already-taught" seed (R-NO-DOCTRINE-REPEAT) into the 0d prompt;
+  returns empty for single books so **single-book 0d is byte-identical** (zero
+  regression). A present-but-malformed `_volume-split.json` WARNS instead of silently
+  degrading.
+- **Curated breathable density** — per-book `episode_max_concepts` (orchestrator-state
+  `config.episode_max_concepts` or series-config), default = the global
+  `EPISODE_MAX_CONCEPTS` (3, unchanged for every existing book). Relaxing it yields
+  FEWER, fuller episodes (e.g. al-anwaar vol-01: 11 breathable vs 15 crammed), honoring
+  the "audio curated / reading edition full-depth" model. Rebound once at
+  `author_phase_0d` entry (one book per process → safe).
+- **0d robustness** — the per-source-chapter slicer clamps `end_line` to the file
+  length (`min(planned, len(refined_lines))`), fixing a common TOC final-line overshoot
+  for ALL books; the allocation block forbids cross-episode/continuity references in
+  authored chapters/contracts (those leak into NotebookLM literally).
 
 ## 2026-06-10 Density wave — chapter-density standard + citation/sermon rules + set integrity
 
