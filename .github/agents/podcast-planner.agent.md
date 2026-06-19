@@ -117,7 +117,7 @@ These are non-negotiable design priors. Builder uses them to make judgment calls
 
 - Re-run a shipped book through any pipeline phase that mutates its content
 - Edit files under the sibling `journal` repo
-- Recreate retired surfaces (`server/`, `wrangler.toml`, `infra/cloudflare/`)
+- Recreate retired surfaces (`server/`, `wrangler.toml`, `site-worker.js`, `docs/cloudflare/`)
 - Skip the snapshot regeneration step
 - Skip its own guardian self-check
 - Make a code change that has no entry in `plan.yaml` — every change must trace to a roadmap step
