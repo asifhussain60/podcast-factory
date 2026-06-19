@@ -103,7 +103,7 @@ These are recoverable on disk so a fresh Claude session without memory state can
 
 - **Memoir + site moved to the sibling [journal](https://github.com/asifhussain60/journal) repo**: `content/babu-memoir/`, `site/`, `scripts/memoir/`, `scripts/site/`, `skills-staging/journal/`, `.github/agents/journal-*`, `skills-staging/css-theme-sync/`, `skills-staging/ui-modernizer/` — all moved, none remain here.
 - **Anthropic API proxy `server/` RETIRED**: the journal app no longer needs it; not migrated to journal either.
-- **Cloudflare deploy scaffold RETIRED**: `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/`, `docs/anthropic-api-setup.md`, `docs/proxy-setup.md` — all deleted; not migrated.
+- **Cloudflare deploy scaffold RETIRED**: `wrangler.toml`, `site-worker.js`, `docs/cloudflare/`, `docs/anthropic-api-setup.md`, `docs/proxy-setup.md` — all deleted; not migrated. **NOTE (corrected 2026-06-19):** `infra/cloudflare/` was NOT deleted — it holds deployment reference docs for **Salty Lamps**, a SEPARATE personal project that is **not part of the podcast-factory pipeline** (companion: `infra/supabase/`). Both are non-pipeline reference only; leave them in place and never wire them into pipeline code.
 - **Duplicated general-utility items** (`clean-commit`, `repo-surgeon` skills + CORTEX/refine-prompt/reconcile/operating-contract agents + `content/_shared/arabic/` + `docs/reference/`): these stay here as INDEPENDENT copies; the journal repo has its own independent copies that evolve separately. (`cowork-brief`, `tell-me`, `usage-auditor` were removed 2026-06-02 — they were ADLC/journal-repo tools with no use in podcast-factory.)
 
 ## What to do for a typical user request
@@ -182,7 +182,7 @@ The default discipline is "ask before each shared-state action." Below is the st
 - Force-push (any branch)
 - Deleting branches
 - `--no-verify`, `--amend`, `git reset --hard`, `git clean -f`, `rm` of tracked files
-- Recreating retired surfaces (`server/`, `wrangler.toml`, `infra/cloudflare/`, `site-worker.js`)
+- Recreating retired surfaces (`server/`, `wrangler.toml`, `site-worker.js`, `docs/cloudflare/`)
 - Reaching into the sibling `journal` repo's paths or scripts
 
 Tier overrides: if the user says "just do it" for something in Tier 2, that one-shot authorizes that one action — it doesn't promote the action into Tier 1 for future sessions. If the user says "always" or "from now on" for a Tier 2 action, that's a request to edit this tier list and should be confirmed before the edit.
@@ -192,5 +192,5 @@ Tier overrides: if the user says "just do it" for something in Tier 2, that one-
 - Run any orchestrator command (`scripts/podcast/orchestrate_book.py`) on a new PDF without explicit user authorization (multi-hour LLM-spend gate)
 - Force-push to `main` or `develop`
 - Bypass `git status` cleanliness before merges
-- Re-create `server/`, `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/` without explicit user authorization — these were retired 2026-05-22 for a reason.
+- Re-create `server/`, `wrangler.toml`, `site-worker.js`, `docs/cloudflare/` without explicit user authorization — these were retired 2026-05-22 for a reason. (`infra/cloudflare/` is NOT a retired surface — it is non-pipeline Salty Lamps reference; see §"Disconnected from journal".)
 - Reach into the sibling `journal` repo's paths or scripts — the repos are fully disconnected.
