@@ -6,8 +6,8 @@
   "category": "books",
   "content_profile": "islamic_scholarly",
   "branch": "Islamic/al-anwaar-al-lateefah",
-  "phase": "per-chapter-slides",
-  "phase_status": "failed",
+  "phase": "finalize",
+  "phase_status": "halted",
   "last_completed_phase": "0g",
   "next_phase": "per-chapter",
   "last_error": null,
@@ -307,6 +307,22 @@
       },
       "bad_outcomes": 11,
       "total_outcomes": 11
+    },
+    "audio-script": {
+      "status": "skipped",
+      "ts_completed": "2026-06-18T13:30:06Z",
+      "reason": "audio_engine=notebooklm (manual)"
+    },
+    "audio-render": {
+      "status": "skipped",
+      "ts_completed": "2026-06-18T13:30:06Z",
+      "reason": "audio_engine=notebooklm (manual)"
+    },
+    "finalize": {
+      "status": "halted",
+      "ts_started": "2026-06-18T13:30:06Z",
+      "ts_completed": "2026-06-18T13:30:07Z",
+      "verdict": "SHIP-READY"
     }
   },
   "cost": {
@@ -322,7 +338,7 @@
   "pipeline_mode": "orchestrated",
   "status": "draft",
   "ts_started": "2026-06-17T12:04:07Z",
-  "ts_updated": "2026-06-18T13:30:05Z",
+  "ts_updated": "2026-06-18T13:30:07Z",
   "slide_decks": {
     "what-tawhid-really-is": {
       "slide_deck_phase": "stalled",
