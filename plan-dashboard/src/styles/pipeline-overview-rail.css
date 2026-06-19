@@ -95,12 +95,12 @@
    Kind colours are data-driven but enumerable, so they flow through k-<kind>
    classes that set --por-k. The svg's natural width + zoom factor are truly
    dynamic and arrive via --por-w/--por-zoom custom properties (ref callback). */
-.k-mechanical { --por-k: #87827a; }
-.k-hybrid     { --por-k: #5b8dd9; }
-.k-agentic    { --por-k: #4a7c4a; }
-.k-gate       { --por-k: #c08020; }
+.k-mechanical { --por-k: var(--c-kind-mechanical); }
+.k-hybrid     { --por-k: var(--c-kind-hybrid); }
+.k-agentic    { --por-k: var(--c-kind-agentic); }
+.k-gate       { --por-k: var(--c-kind-gate); }
 
-.por-legend-dot { background: var(--por-k, #888); }
+.por-legend-dot { background: var(--por-k, var(--c-ink-muted)); }
 
 .por-svg {
   display: block;

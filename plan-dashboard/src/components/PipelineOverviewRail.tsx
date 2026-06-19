@@ -30,18 +30,23 @@ interface Props {
   phases: Phase[];
 }
 
+// Canonical pipeline-"kind" palette. These hex values MIRROR the --c-kind-*
+// theme tokens (theme.css) exactly — kept as literals because SVG gradient
+// <stop stopColor> and node fill attributes cannot resolve CSS custom
+// properties. Keep in sync with --c-kind-* and the .k-* classes in
+// pipeline-overview-rail.css if the theme tokens ever change.
 const KIND_COLOR: Record<string, string> = {
-  mechanical: '#87827a',
-  hybrid:     '#5b8dd9',
-  agentic:    '#4a7c4a',
-  gate:       '#c08020',
+  mechanical: '#5a7fa0',  // --c-kind-mechanical
+  hybrid:     '#3d7a5a',  // --c-kind-hybrid
+  agentic:    '#7a4fa0',  // --c-kind-agentic
+  gate:       '#a0602d',  // --c-kind-gate
 };
 
 const KIND_BG: Record<string, string> = {
-  mechanical: 'rgba(135,130,122,0.08)',
-  hybrid:     'rgba(91,141,217,0.10)',
-  agentic:    'rgba(74,124,74,0.10)',
-  gate:       'rgba(192,128,32,0.12)',
+  mechanical: 'rgba(90,127,160,0.08)',
+  hybrid:     'rgba(61,122,90,0.10)',
+  agentic:    'rgba(122,79,160,0.10)',
+  gate:       'rgba(160,96,45,0.12)',
 };
 
 const KIND_LABEL: Record<string, string> = {
@@ -198,8 +203,8 @@ export default function PipelineOverviewRail({ phases }: Props) {
               const next = phases[i + 1];
               return (
                 <linearGradient key={`lg${i}`} id={`por-lg${i}`} x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%"   stopColor={KIND_COLOR[p.kind]    || '#888'}/>
-                  <stop offset="100%" stopColor={KIND_COLOR[next.kind] || '#888'}/>
+                  <stop offset="0%"   stopColor={KIND_COLOR[p.kind]    || '#87827a'}/>
+                  <stop offset="100%" stopColor={KIND_COLOR[next.kind] || '#87827a'}/>
                 </linearGradient>
               );
             })}
@@ -232,7 +237,7 @@ export default function PipelineOverviewRail({ phases }: Props) {
           {/* ── Animated particles along each connection (skipped under
                  prefers-reduced-motion: SMIL ignores CSS) ── */}
           {!reducedMotion && phases.slice(0, -1).map((p, i) => {
-            const col = KIND_COLOR[p.kind] || '#888';
+            const col = KIND_COLOR[p.kind] || '#87827a';
             const dur = `${2.2 + i * 0.07}s`;
             return (
               <circle
@@ -260,7 +265,7 @@ export default function PipelineOverviewRail({ phases }: Props) {
           {phases.map((phase, i) => {
             const x   = GAP + i * STEP;
             const y   = RAIL_Y;
-            const col = KIND_COLOR[phase.kind]  || '#888';
+            const col = KIND_COLOR[phase.kind]  || '#87827a';
             const bg  = KIND_BG[phase.kind]     || 'rgba(135,130,122,0.06)';
             const isGate   = phase.kind === 'gate';
             const isActive = hoveredId === phase.id || selectedId === phase.id;
