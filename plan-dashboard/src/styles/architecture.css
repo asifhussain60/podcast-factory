@@ -26,7 +26,7 @@
 }
 .diagram-container > figcaption {
   margin-top: var(--sp-3);
-  font-size: var(--fs-sm);
+  font-size: var(--fs-base); /* REQ-010 reading floor */
   line-height: 1.55;
   color: var(--c-ink-dim);
   border-left: 3px solid var(--c-rule);
@@ -48,10 +48,10 @@
    ══════════════════════════════════════════════════════════════════ */
 .swimlane-table {
   width: 100%;
-  min-width: 760px;
+  min-width: 820px;
   border-collapse: collapse;
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: var(--fs-base); /* REQ-010 reading floor; .table-container scrolls if needed */
   background: var(--c-bg-card);
 }
 
@@ -85,7 +85,8 @@
 
 .swim-station { font-weight: 600; color: var(--c-ink); }
 .swim-service { color: var(--c-ink-dim); }
-.swim-note-cell { font-size: var(--fs-sm); color: var(--c-ink-muted); line-height: 1.45; }
+/* note text inherits the table's --fs-base (REQ-010 reading floor) */
+.swim-note-cell { color: var(--c-ink-muted); line-height: 1.45; }
 
 /* Phase-id badge, tinted by vendor (decorative — id text always present) */
 .swim-phase-badge {
@@ -164,8 +165,4 @@
   white-space: nowrap;
 }
 .swim-gate-name { font-weight: 700; color: var(--c-diag-gate); margin-right: 0.6rem; }
-.swim-gate-note { color: var(--c-ink-dim); font-size: var(--fs-sm); }
-
-@media (max-width: 768px) {
-  .swimlane-table { font-size: 0.88rem; }
-}
+.swim-gate-note { color: var(--c-ink-dim); } /* inherits --fs-base (REQ-010) */
