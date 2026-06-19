@@ -34,7 +34,7 @@ The memoir, the static journal site, and the Anthropic API proxy moved to (or we
 - Memoir engine — moved to journal. `content/babu-memoir/`, `scripts/memoir/`, `scripts/site/`, `skills-staging/journal/`, `.github/agents/journal-*` are NOT here.
 - Journal site — moved to journal.
 - Anthropic API proxy — `server/` retired 2026-05-22.
-- Cloudflare deploy — `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/` retired 2026-05-22.
+- Cloudflare deploy — `wrangler.toml`, `site-worker.js`, `docs/cloudflare/` retired 2026-05-22. (`infra/cloudflare/` + `infra/supabase/` are NOT retired — they are non-pipeline reference docs for the separate Salty Lamps project; leave in place, never wire into pipeline code.)
 
 ## Machine model
 
@@ -120,7 +120,7 @@ Default discipline: **bias to action on reversible work, ask only for genuinely 
 - Force-push (any branch)
 - Deleting branches or tracked files
 - `--no-verify`, `--amend`, `git reset --hard`, `git clean -f`
-- Recreating retired surfaces (`server/`, `wrangler.toml`, `infra/cloudflare/`)
+- Recreating retired surfaces (`server/`, `wrangler.toml`, `site-worker.js`, `docs/cloudflare/`)
 - Reaching into the sibling `journal` repo's paths or scripts
 
 If the user says "just do it" for a Tier 2 action, that one-shot authorizes that one action. It does NOT promote the action to Tier 1 for future sessions.
