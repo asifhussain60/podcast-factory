@@ -221,6 +221,12 @@ p { margin: 0 0 var(--sp-3) 0; }
 .small { font-size: var(--fs-sm); }
 .eyebrow { font-size: var(--fs-2xs); text-transform: uppercase; letter-spacing: 0.07em; color: var(--c-ink-muted); font-weight: 700; }
 .text-right { text-align: right; }
+/* REQ-010 — reading-text floor. Prose meant to be READ is >= 1.2rem (--fs-base).
+   figcaption is the cross-cutting offender (diagram/chart captions); body p/li
+   already inherit --fs-base. UI chrome (eyebrows, chips, badges, nav, metric
+   labels, dense data-table headers) is intentionally exempt and keeps its
+   smaller --fs-2xs/--fs-label/--fs-sm sizing — those are labels, not reading. */
+figcaption { font-size: var(--fs-base); line-height: 1.5; }
 /* Inline resource/module reference in code — monospace, de-emphasized */
 .pipeline-code-ref {
   font-size: var(--fs-2xs); opacity: 0.65;
@@ -230,7 +236,7 @@ p { margin: 0 0 var(--sp-3) 0; }
 /* Intelligence page header */
 .intel-header { padding: var(--sp-7) var(--sp-5) var(--sp-4); }
 .intel-hero-h1 { font-size: var(--fs-h2); margin: var(--sp-2) 0 var(--sp-3); }
-.intel-hero-lede { color: var(--c-ink-dim); font-size: var(--fs-sm); line-height: 1.65; margin: 0; }
+.intel-hero-lede { color: var(--c-ink-dim); font-size: var(--fs-base); line-height: 1.65; margin: 0; }
 .intel-body { padding: 0 var(--sp-5) var(--sp-8); }
 /* Intelligence overlay dynamic content helpers */
 .intel-blocker-row { display: flex; align-items: center; gap: 8px; margin-bottom: var(--sp-3); }
