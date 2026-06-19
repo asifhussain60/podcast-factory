@@ -1,0 +1,13 @@
+{
+  "ts": "2026-06-18T12:17Z",
+  "book": "al-anwaar-al-lateefah-vol-01",
+  "chapters_in_scope": 1,
+  "p0": 0,
+  "p1": 4,
+  "p2": 1,
+  "auto_fixes": 0,
+  "score": 0.15,
+  "badge": "Unstable",
+  "verdict": "SHIP-WITH-CAUTION",
+  "challenger_version": "2.5"
+}

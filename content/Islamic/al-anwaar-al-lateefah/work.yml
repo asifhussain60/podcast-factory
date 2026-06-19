@@ -1,0 +1,84 @@
+work_slug: al-anwaar-al-lateefah
+title: Al-Anwaar al-Lateefah
+content_profile: islamic_scholarly
+bucket: Islamic
+collection: Al-Anwaar Collection
+shared:
+  synthesis: _system/unified-book.md
+  ledger: _system/source/text/_teaching-ledger.json
+  arabic_fingerprints: _system/arabic-fingerprints.json
+  knowledge: _system
+note: 'Partitioned from the synthesized 0c book by scripts/podcast/split_synthesis_al_anwaar.py (no re-synthesis).
+  Volumes start at 0c; teaching-level _volume-split.json is a per-volume 0d artifact. Boundaries: COLLECTION-PLAN.md
+  section 5 (APPROVED 2026-06-17).'
+volumes:
+- order: 1
+  slug: al-anwaar-al-lateefah-vol-01
+  dir: vol-01
+  title: The Oneness (Tawheed)
+  h2_sections:
+  - 1
+  - 2
+  refined_source: vol-01/_system/source/text/refined-english.md
+  status: draft
+- order: 2
+  slug: al-anwaar-al-lateefah-vol-02
+  dir: vol-02
+  title: The Origin (Mabda')
+  h2_sections:
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  refined_source: vol-02/_system/source/text/refined-english.md
+  status: draft
+- order: 3
+  slug: al-anwaar-al-lateefah-vol-03
+  dir: vol-03
+  title: The Hidden Hierarchy
+  h2_sections:
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  refined_source: vol-03/_system/source/text/refined-english.md
+  status: draft
+- order: 4
+  slug: al-anwaar-al-lateefah-vol-04
+  dir: vol-04
+  title: The Sacred Line
+  h2_sections:
+  - 15
+  - 16
+  - 17
+  - 18
+  refined_source: vol-04/_system/source/text/refined-english.md
+  status: draft
+- order: 5
+  slug: al-anwaar-al-lateefah-vol-05
+  dir: vol-05
+  title: The Two Paths and the Resurrection
+  h2_sections:
+  - 19
+  - 20
+  - 21
+  - 22
+  - 23
+  refined_source: vol-05/_system/source/text/refined-english.md
+  status: draft
+- order: 6
+  slug: al-anwaar-al-lateefah-vol-06
+  dir: vol-06
+  title: Retribution and the Dawn
+  h2_sections:
+  - 24
+  - 25
+  - 26
+  - 27
+  - 28
+  refined_source: vol-06/_system/source/text/refined-english.md
+  status: draft

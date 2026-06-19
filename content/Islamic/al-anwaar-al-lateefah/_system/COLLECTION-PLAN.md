@@ -33,17 +33,29 @@
 - **No repetition within OR across volumes:** every teaching ID → exactly ONE volume + ONE episode (enforced at 0d chapter design).
 - **Density per NotebookLM:** breathable (~3,000–4,000 source words/ep for this dense content); never crammed; `episode_count ≥ ⌈words/ceiling⌉`.
 
-## 5. Volume structure (5 volumes, from the 28 merged sections)
+## 5. Volume structure (6 volumes, from the 28 merged sections — APPROVED 2026-06-17)
 
-| Vol | Slug | Title (provisional) | Pillar | Sections (by H2) | ~Words |
+Section→volume is a **partition of all 28 H2 sections** (each section in exactly one
+volume; union = all 28). Full words are computed from `unified-book.md` (deterministic);
+the §6.1-era 5-volume word estimates were stale (esp. the old Vol-05 was ~109k / 10
+sections, ≈2× any other — broke the standalone-season goal), so the Return was split in
+two at section 23. Audio-episode estimates are the curated **spine** basis per §3
+(≈35–45% of full words ÷ 3,000–4,000 source words/ep; firms at 0d).
+
+| Vol | Slug | Title | Sections (H2 #) | Full words | Audio eps |
 |----|----|----|----|----|----|
-| 01 | `al-anwaar-al-lateefah-vol-01` | The Oneness (Tawheed) | Unity | Opening Covenant; Tawhid/Tanzih/Hudud | 24.5k |
-| 02 | `…-vol-02` | The Origin (Mabda') | Origin | First Emanation → Intellects → Spheres → Man (7 sec) | 58.7k |
-| 03 | `…-vol-03` | The Hidden Hierarchy | Metaphysical | Pillar of Light; Concealment/Unveiling; Souls; Soul's Ascent; House of Ibrahim | 60.4k |
-| 04 | `…-vol-04` | The Sacred Line | Metaphysical | Genealogy → Husayn → Ahl al-Bayt → Muhammad ibn Isma'il | 31.9k |
-| 05 | `…-vol-05` | The Return (Ma'ad) | Return | Two Paths → Resurrection → Retribution → Farthest Mosque → Dawn (10 sec) | 51.1k |
+| 01 | `al-anwaar-al-lateefah-vol-01` | The Oneness (Tawheed) | 1–2 | 24,501 | ~2–4 |
+| 02 | `al-anwaar-al-lateefah-vol-02` | The Origin (Mabda') | 3–9 | 58,661 | ~5–9 |
+| 03 | `al-anwaar-al-lateefah-vol-03` | The Hidden Hierarchy | 10–14 | 60,421 | ~5–9 |
+| 04 | `al-anwaar-al-lateefah-vol-04` | The Sacred Line | 15–18 | 31,855 | ~3–5 |
+| 05 | `al-anwaar-al-lateefah-vol-05` | The Two Paths and the Resurrection | 19–23 | 57,963 | ~5–9 |
+| 06 | `al-anwaar-al-lateefah-vol-06` | Retribution and the Dawn | 24–28 | 51,090 | ~4–8 |
+| | | **TOTAL** | **28** | **284,491** | **~34 (≈6/vol)** |
 
-*Titles + exact section→volume boundaries are confirmed with Asif at the §6.1 split-design gate.*
+Section→volume detail (the assignment key — see §6.1 for the per-volume H2 list).
+Every teaching → exactly ONE volume via its section home; the teaching-level
+`_volume-split.json` + no-loss/no-repeat verification (`union==3,037`, pairwise-disjoint)
+is generated at each volume's 0d, not at scaffold time.
 
 ## 6. Execution sequence (each step gated)
 
@@ -57,6 +69,30 @@
 
 ## 7. Decision log
 
+- **2026-06-17 — Split design APPROVED → 6 volumes (was 5).** Real full-depth word
+  counts from `unified-book.md` showed the locked Vol-05 (The Return) was ~109k words /
+  10 sections — ≈2× any other volume and ~10–16 audio episodes, breaking the
+  "standalone ~6–10 episode season" invariant. The Return was split at the section-23
+  thematic break: Vol-05 "The Two Paths and the Resurrection" (sec 19–23, ~58k) + Vol-06
+  "Retribution and the Dawn" (sec 24–28, ~51k). Consistent with the existing Vol-03/04
+  split of the Metaphysical pillar (volumes ≠ pillars). §5 table updated.
+- **2026-06-17 — Teaching→section map is NOT deterministic on disk.** Ledger teachings
+  are distilled atoms (0/3,037 verbatim in the book); augment-state files carry no
+  anchor data. The split is defined at the section→volume level (a clean partition);
+  per-ID→section assignment + the `_volume-split.json` no-loss/no-repeat gate are done
+  at each volume's 0d.
+- **2026-06-17 — Scaffold mechanism: bespoke synthesis-partition, not `intake_book.py
+  --work`.** That intake path assumes one fresh source PDF per volume starting at
+  preflight/0a, which would force re-synthesis (forbidden, §3.5). Following the
+  asaas-al-taveel precedent, volumes are partitioned from the already-synthesized 0c
+  `unified-book.md` into nested `vol-NN/` dirs (each its own book dir), starting at
+  **0c**; the root `_system/` (synthesized book + unified ledger + Arabic fingerprints)
+  stays as the work's **shared** source of truth (`work.yml` `shared:` block).
+- **2026-06-17 — Per-volume phonetics/enrich aligns to the redesigned views.** Each
+  volume runs `classify_term_defaults.py` (smart default language) + taa-marbuta
+  normalization + the review-by-exception Arabic panel + Studio draft-retention edit
+  flow. A work-level seed glossary keeps shared doctrinal vocabulary (ta'wil, nasut,
+  hudud, sabiq…) consistent across volumes.
 - **2026-06-17 — Spine is COMPLETE (65 lectures).** The 61–66/69–71 "gap" was file-naming only; serialized to lec01-65; hazrat-zia augmentation fills Ma'ad depth. **No re-synthesis.**
 - **2026-06-17 — Volumes under one root, not separate books.** Same overarching category → one folder; reconciled with listener-completability by authoring each volume standalone (multi-volume work).
 - **2026-06-17 — Curate audio, full depth in reading edition.** 1-teaching-per-93-words is too dense to air wholesale.

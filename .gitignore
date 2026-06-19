@@ -305,3 +305,7 @@ _workspace/reviews/archive/**/*.log
 _workspace/reviews/logs/*.log
 # temp YNAB files
 _workspace/ynab-*
+
+# transient per-run orchestrator/allocator logs in content dirs
+content/**/run-*.log
+content/**/_alloc/run.log

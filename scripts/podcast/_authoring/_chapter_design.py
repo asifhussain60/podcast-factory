@@ -52,6 +52,37 @@ def _read_profile_and_planning(book_dir: Path) -> tuple[str, str]:
     return (profile, planning)
 
 
+def _episode_max_concepts(book_dir: Path) -> int:
+    """Per-book concepts-per-episode cap for 0d planning.
+
+    Defaults to the module global EPISODE_MAX_CONCEPTS (3) — so every existing
+    book plans exactly as before. A book may RELAX it (higher value => FEWER,
+    fuller, breathable episodes instead of many short ones) for a curated audio
+    season, via `config.episode_max_concepts` in orchestrator-state.json or
+    `episode_max_concepts` in series-config.yaml. Used e.g. by the al-anwaar
+    multi-volume work to honor its "curated breathable audio" decision while the
+    reading edition keeps full depth.
+    """
+    import json as _json
+    try:
+        cfg = (_json.loads((book_dir / "_system" / "orchestrator-state.json").read_text())
+               .get("config") or {})
+        if cfg.get("episode_max_concepts"):
+            return max(1, int(cfg["episode_max_concepts"]))
+    except Exception:
+        pass
+    try:
+        import yaml as _yaml
+        sc = book_dir / "_system" / "series-config.yaml"
+        if sc.exists():
+            v = (_yaml.safe_load(sc.read_text(encoding="utf-8")) or {}).get("episode_max_concepts")
+            if v:
+                return max(1, int(v))
+    except Exception:
+        pass
+    return EPISODE_MAX_CONCEPTS
+
+
 def _concept_inventory(book_dir: Path) -> list[dict] | None:
     """Deterministic concept inventory from a prior render of the same source.
 
@@ -341,6 +372,63 @@ def _build_phase_0d_toc_prompt(
     )
 
 
+def _volume_allocation(book_dir: Path):
+    """For a volume of a multi-volume work carrying a teaching allocation, return
+    ``(advisory_block, prior_volume_concept_titles)``.
+
+    Returns ``("", [])`` for single books, or for works without a
+    ``_system/_volume-split.json`` — so 0d's behavior is byte-identical off this
+    path (single-book authoring is never touched). When present, the block lists
+    EXACTLY the concepts the work-level allocator assigned to this volume (already
+    ordered for incremental flow), and the second value is the concepts aired by
+    EARLIER volumes (to seed cross-volume de-dup). Best-effort — never fatal.
+    """
+    try:
+        import sys as _sys
+        _sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+        import _work_manifest as wm  # noqa: E402
+        import _paths  # noqa: E402
+        import json as _json
+        # A volume's book_dir.name is "vol-NN" — NOT its composite slug. Resolve the
+        # work-aware composite slug ("<work>-vol-NN") so work_slug_of() can find the
+        # parent work; book_dir.name would resolve to None and silently skip allocation.
+        slug = _paths.slug_of(book_dir)
+        work_slug = wm.work_slug_of(slug)
+        if not work_slug:
+            return "", []
+        work_dir = wm.work_dir_for(work_slug)
+        split_path = work_dir / "_system" / "_volume-split.json"
+        if not split_path.exists():
+            return "", []
+        doc = _json.loads(split_path.read_text())
+        entry = wm.volume_entry(slug) or {}
+        vol_dir, order = entry.get("dir"), entry.get("order", 0)
+        vols = doc.get("volumes", {})
+        my_concepts = vols.get(vol_dir, {}).get("concepts", [])
+        prior = [c["teaching"][:120]
+                 for v in wm.volumes_of(work_slug) if v.get("order", 0) < order
+                 for c in vols.get(v.get("dir"), {}).get("concepts", [])]
+        listing = "\n".join(f"  - [{c['cluster']}] {c['teaching'][:160]}" for c in my_concepts)
+        block = (
+            "\n\nVOLUME CONCEPT ALLOCATION (work-level teaching allocator — AUTHORITATIVE).\n"
+            f"This volume ({vol_dir}) is allocated EXACTLY the {len(my_concepts)} concepts below "
+            "(listed in source order, for coverage reference only). EVERY concept must be covered "
+            "across this volume's episodes (none dropped); NO concept outside this list belongs "
+            "here; concepts already aired in earlier volumes must NOT be re-taught.\n"
+            "CRITICAL — EACH EPISODE STANDS ALONE. Every chapter and contract you author is "
+            "uploaded to NotebookLM and read LITERALLY by the hosts. NEVER write cross-episode or "
+            "continuity references anywhere in a chapter or contract — forbidden phrases include "
+            "'the previous episode', 'the next episode', 'earlier we', 'as we saw', 'as we will "
+            "see', 'this volume', 'handing off to', 'in the last lesson'. Describe ONLY this "
+            "episode's own content; put no authoring/meta commentary about ordering or other "
+            "episodes into any field.\n\n"
+            f"ALLOCATED CONCEPTS:\n{listing}\n"
+        )
+        return block, prior
+    except Exception:  # noqa: BLE001 — allocation is advisory, never fatal
+        return "", []
+
+
 def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                     unit_mode: str = "auto",
                     timeout: int = DEFAULT_TIMEOUT,
@@ -397,6 +485,13 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     if category is None:
         category = _read_category(book_dir)
 
+    # Per-book concepts-per-episode cap. Rebinding the module global here (default
+    # = unchanged 3) makes every downstream reference — TOC prompt, the R-MAX-CONCEPTS
+    # floor, and per-chapter validation — honor a book's curated/breathable setting
+    # without threading a param through ~12 sites. One book per process, so this is safe.
+    global EPISODE_MAX_CONCEPTS
+    EPISODE_MAX_CONCEPTS = _episode_max_concepts(book_dir)
+
     import json as _json
 
     book_slug = book_dir.name
@@ -421,6 +516,13 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"episode framing only — do not factor into boundary decisions.\n\n"
             f"```\n{_gap_excerpt}\n```\n"
         )
+    # Work-level teaching allocation (multi-volume works only; "" for single books).
+    _alloc_block, _prior_vol_concepts = _volume_allocation(book_dir)
+    if _alloc_block:
+        _gap_context_block = _gap_context_block + _alloc_block
+        log(f"  phase 0d · volume allocation active "
+            f"({len(_prior_vol_concepts)} prior-volume concepts seeded for cross-volume de-dup)")
+
     out_rationale = book_dir / "_system" / "source" / "text" / "chapters-rationale.md"
     out_source_map = book_dir / "_system" / "source" / "text" / "source-chapter-map.md"
     chapters_dir = book_dir / "chapters"
@@ -756,7 +858,9 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         except Exception:  # noqa: BLE001 — ledger is best-effort, never fatal
             return []
 
-    taught_concepts: list[str] = []
+    # Seed with EARLIER volumes' concepts so the per-source-chapter R-NO-DOCTRINE-REPEAT
+    # directive also suppresses cross-VOLUME repeats (empty for single books).
+    taught_concepts: list[str] = list(_prior_vol_concepts)
     for _existing in sorted(chapters_dir.glob("ch*.txt")):
         taught_concepts.extend(_chapter_concepts(_existing))
 
@@ -765,7 +869,12 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         sc_idx = int(sc["sc_index"])
         sc_title = str(sc.get("source_title", f"source chapter {sc_idx}"))
         start_line = int(sc["start_line"])
-        end_line = int(sc["end_line"])
+        # Clamp the planned end_line to the file length: the TOC LLM commonly
+        # overshoots the FINAL chapter's end_line by a line or two (counting a
+        # trailing newline / inclusive-vs-exclusive), which is benign — the slice
+        # runs to EOF either way. Without this a 648-vs-647 overshoot fails the
+        # whole source chapter. A genuine inversion is still caught below.
+        end_line = min(int(sc["end_line"]), len(refined_lines))
         sc_unit_mode = str(sc.get("unit_mode", "chapter"))
         episode_count = int(sc.get("episode_count", 1))
         episodes = sc.get("episodes") or []
