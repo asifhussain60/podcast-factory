@@ -34,13 +34,21 @@ layout. Back-compat: ``content_dir()`` still accepts the old ``stage=`` /
 from __future__ import annotations
 
 import json
+import os
 import re
 from pathlib import Path
 from typing import Iterable
 
 from _rules import ALLOWED_CATEGORIES, BUCKETS, bucket_for_profile
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+# Repo root resolution — MUST mirror getRepoRoot() in
+# plan-dashboard/src/lib/content-paths.ts so the pipeline (writer) and the Astro
+# site (reader) never resolve different content trees. Default is file-relative
+# (deterministic, cwd-independent); an explicit PODCAST_FACTORY_ROOT override is
+# honored identically on both sides.
+_DEFAULT_REPO_ROOT = Path(__file__).resolve().parents[2]
+_ENV_REPO_ROOT = os.environ.get("PODCAST_FACTORY_ROOT")
+REPO_ROOT = Path(_ENV_REPO_ROOT) if _ENV_REPO_ROOT else _DEFAULT_REPO_ROOT
 CONTENT_ROOT = REPO_ROOT / "content"
 
 # ── Multi-volume works (2026-06-09) ──────────────────────────────────────────
