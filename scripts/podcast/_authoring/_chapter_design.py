@@ -383,23 +383,29 @@ def _volume_allocation(book_dir: Path):
     ordered for incremental flow), and the second value is the concepts aired by
     EARLIER volumes (to seed cross-volume de-dup). Best-effort — never fatal.
     """
+    import sys as _sys
+    _sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    # Legitimate "no allocation here" cases — return empty SILENTLY (single books,
+    # works without a split yet). A volume's book_dir.name is "vol-NN", NOT its
+    # composite slug, so resolve the work-aware "<work>-vol-NN" via _paths.slug_of.
     try:
-        import sys as _sys
-        _sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
         import _work_manifest as wm  # noqa: E402
         import _paths  # noqa: E402
-        import json as _json
-        # A volume's book_dir.name is "vol-NN" — NOT its composite slug. Resolve the
-        # work-aware composite slug ("<work>-vol-NN") so work_slug_of() can find the
-        # parent work; book_dir.name would resolve to None and silently skip allocation.
         slug = _paths.slug_of(book_dir)
         work_slug = wm.work_slug_of(slug)
-        if not work_slug:
-            return "", []
-        work_dir = wm.work_dir_for(work_slug)
-        split_path = work_dir / "_system" / "_volume-split.json"
-        if not split_path.exists():
-            return "", []
+    except Exception:  # noqa: BLE001 — resolver hiccup, not a degradation
+        return "", []
+    if not work_slug:
+        return "", []
+    work_dir = wm.work_dir_for(work_slug)
+    split_path = work_dir / "_system" / "_volume-split.json"
+    if not split_path.exists():
+        return "", []
+    # From here a split file EXISTS — a parse/shape failure is a REAL degradation
+    # (the volume would author un-allocated, losing coverage + cross-volume de-dup),
+    # so WARN loudly rather than silently returning empty.
+    try:
+        import json as _json
         doc = _json.loads(split_path.read_text())
         entry = wm.volume_entry(slug) or {}
         vol_dir, order = entry.get("dir"), entry.get("order", 0)
@@ -425,7 +431,9 @@ def _volume_allocation(book_dir: Path):
             f"ALLOCATED CONCEPTS:\n{listing}\n"
         )
         return block, prior
-    except Exception:  # noqa: BLE001 — allocation is advisory, never fatal
+    except Exception as _e:  # noqa: BLE001 — advisory, but surface the degradation
+        print(f"  WARNING: _volume-split.json present at {split_path} but could not be "
+              f"applied ({_e!r}); 0d will author WITHOUT allocation coverage/de-dup.")
         return "", []
 
 

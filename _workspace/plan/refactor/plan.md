@@ -1040,3 +1040,23 @@ Pre-authorized by the autonomy mandate in `CONTINUATION-2026-05-30.md`. Four blo
 > Because the in-house voice engine pronounces Arabic, an Islamic episode now recites the Quran verses and key terms in their native script. Crucially, the Arabic is never typed by the AI: a verse citation like "the chapter of Abraham, verse seven" is resolved to its exact place by a fixed reference table and the verbatim Arabic is pulled from the wisdom corpus (KQur) — the same citation always yields the same canonical verse, and a citation that can't be matched is simply left in English, never invented. Key doctrinal terms come from the book's verified glossary; author and book-title names are left alone (pronounced naturally, not recited). All of this happens only on the in-house path and only at the moment of audio production — the written chapters and the NotebookLM path are untouched, so a book sent to NotebookLM still has its Arabic rendered phonetically as before. Noise removal is unchanged.
 >
 > *Value gained:* scripture is recited correctly and identically every time, with zero risk of a mispronounced or mis-typed verse, and zero disturbance to the NotebookLM path.
+
+## Work-level teaching allocator + curated audio density (2026-06-18)
+
+### 1. A big multi-volume work splits without losing or repeating a single teaching
+
+> When one enormous synthesized source (thousands of distilled teachings) is split into a multi-volume work, a pre-pass now decides — once, up front — exactly which volume and chapter every teaching belongs to. It places the backbone teachings by their order in the book, asks the model where each of the thousands of supplementary teachings fits, and collapses true duplicates so the same idea is never taught twice on air (the duplicate is kept only in the printed reading edition). A hard gate refuses to proceed unless every teaching has exactly one home and nothing is lost or repeated across chapters or volumes.
+>
+> *Value gained:* a listener gets each concept once, in the right volume, in a sensible order — and nothing the author wrote is silently dropped.
+
+### 2. Each volume airs as a breathable season, not a crammed marathon
+
+> A per-book setting lets a dense work be paced as fewer, fuller episodes (the first Tawhid volume became 11 breathable episodes instead of 15 crammed ones) while the reading edition keeps the full depth. Single books are completely unaffected — the default is unchanged.
+>
+> *Value gained:* dense scholarly material becomes a completable season instead of an exhausting one, with no impact on any existing book.
+
+### 3. The pipeline got two quiet durability fixes that help every book
+
+> Chapter design now tolerates the model overshooting the last line of a source by a line or two (it clamps to the end instead of failing the whole chapter), and it forbids "previous/next episode" cross-references from leaking into the files that NotebookLM reads aloud. Both are gated so single-book behaviour is byte-identical.
+>
+> *Value gained:* fewer spurious failures and no self-referential narration, across the whole catalogue.

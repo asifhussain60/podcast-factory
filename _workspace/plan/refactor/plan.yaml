@@ -4414,6 +4414,39 @@ waves_o_ph:
           ASCII/phonetic (NotebookLM byte-identical), noise behavior unchanged.
           Author writes ASCII + long-form citations only. Hadith deferred.
 
+  - id: TA
+    name: "Work-level teaching allocator + curated audio density + 0d hardening (2026-06-18)"
+    execution_status: completed_2026_06_18
+    depends_on: [AE2]
+    note: |
+      For multi-volume WORKS (one synthesized teaching ledger split across
+      volumes, e.g. al-anwaar-al-lateefah), a pre-pass guarantees every concept
+      is placed once, deduplicated, in the right volume BEFORE any volume's 0d.
+      allocate_teachings.py is an LLM-assisted hybrid on flat-rate claude -p (no
+      API spend): spine placed deterministically by book order; augmentation
+      placed into sections by batched LLM classification with a Jaccard top-K
+      shortlist; conservative LLM dedup (canonical airs once, variants kept for
+      the reading edition). Emits _system/_volume-split.json + a no-loss/no-repeat
+      GATE that raises on failure; resume-safe via _system/_alloc/. orchestrate_work
+      runs it once per synthesized work (shared ledger), idempotent. 0d consumption
+      is GATED so single-book authoring is byte-identical; a malformed split WARNS
+      instead of silently degrading. Per-book episode_max_concepts (default = global
+      EPISODE_MAX_CONCEPTS 3) yields curated breathable seasons. end_line clamp +
+      cross-episode-reference guard harden 0d for ALL books.
+    steps:
+      - id: TAa
+        title: "allocate_teachings.py — dedup + spine/aug placement + no-loss/no-repeat gate (al-anwaar: 3037 -> 3003 aired + 34 variants)"
+        status: completed
+      - id: TAb
+        title: "Pipeline wiring — orchestrate_work _ensure_allocation pre-pass + gated _volume_allocation 0d injection (zero single-book regression)"
+        status: completed
+      - id: TAc
+        title: "Per-book episode_max_concepts (curated density) + 0d end_line clamp + cross-episode-reference guard"
+        status: completed
+      - id: TAd
+        title: "al-anwaar-al-lateefah vol-01 SHIP-READY end-to-end (11 episodes + slide decks, G1-G14 pass)"
+        status: completed
+
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================
