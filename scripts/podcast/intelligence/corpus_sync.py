@@ -8,9 +8,13 @@ closes that gap with the diff-friendly model the README always intended:
   export  — DB atoms (+ sources + variants) → per-type JSONL, one atom per line,
             sorted by id. Text, deterministic → git merges two machines' exports
             as a UNION with no binary conflict.
-  rebuild — JSONL → DB via INSERT OR IGNORE (ADDITIVE-ONLY). It can only ADD
-            atoms; it NEVER updates or deletes, so pulling a peer's atoms can
-            never wipe this machine's local-only hydrated content.
+  rebuild — JSONL → DB via ADDITIVE-MERGE. Duplicate-id lines (from a git
+            union-merge) are reconciled per id: same-text versions merge
+            losslessly (field-union of body/sources/variants, richer value wins);
+            genuine id-collisions (same id, different text) split into distinct
+            ids and are logged to _conflicts/id-collisions.jsonl. The merge can
+            only ADD information to an existing atom, never remove it, so pulling
+            a peer's atoms enriches local content and never wipes it.
 
 Cross-machine protocol (never lose anything):
   1. Each machine runs ``export`` before committing  → its atoms land in git as text.
@@ -76,6 +80,107 @@ def _envelope(row, sources: list, variants: list) -> dict:
     }
 
 
+def _is_empty(v) -> bool:
+    return v is None or v == "" or v == {} or v == []
+
+
+def _merge_body(a: dict, b: dict) -> dict:
+    """Field-union of two atom bodies. Lossless: fills missing/empty keys from
+    the other side and, when both carry a non-empty value for the same key,
+    keeps the richer (longer string) — never drops a field."""
+    out = dict(a or {})
+    for k, v in (b or {}).items():
+        if _is_empty(out.get(k)):
+            out[k] = v
+        elif not _is_empty(v) and out[k] != v and isinstance(v, str) \
+                and isinstance(out[k], str) and len(v) > len(out[k]):
+            out[k] = v
+    return out
+
+
+def _dedup(items: list, key) -> list:
+    seen = set()
+    out = []
+    for it in items:
+        k = key(it)
+        if k in seen:
+            continue
+        seen.add(k)
+        out.append(it)
+    return out
+
+
+def _merge_envelopes(a: dict, b: dict) -> dict:
+    """Combine two atom envelopes for the SAME logical atom, losslessly.
+
+    Body is field-unioned; sources/variants are union-deduped; confidence takes
+    the max; first_seen keeps the earliest date; tradition/content_level/type
+    prefer the first non-empty. This can only ADD information, never remove —
+    so it is safe as the cross-machine merge primitive.
+    """
+    out = dict(a)
+    out["body"] = _merge_body(a.get("body") or {}, b.get("body") or {})
+    fa, fb = a.get("first_seen") or {}, b.get("first_seen") or {}
+    da, db_ = fa.get("date") or "", fb.get("date") or ""
+    out["first_seen"] = fa if (da and (not db_ or da <= db_)) else (fb if db_ else fa)
+    out["confidence"] = max(a.get("confidence") or 0, b.get("confidence") or 0) \
+        or a.get("confidence")
+    for k in ("tradition", "content_level", "type"):
+        out[k] = a.get(k) if not _is_empty(a.get(k)) else b.get(k)
+    out["sources"] = _dedup(
+        (a.get("sources") or []) + (b.get("sources") or []),
+        lambda s: (s.get("book"), s.get("chapter"), s.get("locator")))
+    out["variants"] = _dedup(
+        (a.get("variants") or []) + (b.get("variants") or []),
+        lambda v: (v.get("book"), v.get("text_en"), v.get("translator")))
+    return out
+
+
+def _text_sig(env: dict) -> str:
+    return ((env.get("body") or {}).get("text_en") or "").strip()
+
+
+def _reconcile_group(atom_id: str, versions: list[dict]) -> tuple[list[tuple[str, dict]], list[dict]]:
+    """Collapse all JSONL versions of one id into the correct atom(s).
+
+    Versions sharing the same ``body.text_en`` are the same atom → merged
+    losslessly. If two versions carry DIFFERENT non-empty ``text_en`` under one
+    id, that is an ID COLLISION (two distinct atoms hashed to the same id): the
+    earliest-first_seen one keeps the id, the rest are re-keyed ``<id>~N`` so no
+    content is lost. Returns (kept_atoms, collision_records)."""
+    clusters: dict[str, dict] = {}
+    empties: list[dict] = []
+    for v in versions:
+        sig = _text_sig(v)
+        if sig:
+            clusters[sig] = _merge_envelopes(clusters[sig], v) if sig in clusters else dict(v)
+        else:
+            empties.append(v)
+    if not clusters:
+        merged = empties[0]
+        for v in empties[1:]:
+            merged = _merge_envelopes(merged, v)
+        return [(atom_id, merged)], []
+    sigs = sorted(clusters)
+    for v in empties:  # fold text-less versions into the first cluster
+        clusters[sigs[0]] = _merge_envelopes(clusters[sigs[0]], v)
+    if len(sigs) == 1:
+        return [(atom_id, clusters[sigs[0]])], []
+
+    def _fs_date(env: dict) -> str:
+        return (env.get("first_seen") or {}).get("date") or "9999"
+
+    ordered = sorted((clusters[s] for s in sigs), key=lambda e: (_fs_date(e), _text_sig(e)))
+    kept: list[tuple[str, dict]] = [(atom_id, ordered[0])]
+    collisions: list[dict] = [{"original_id": atom_id, "status": "kept", **ordered[0]}]
+    for n, env in enumerate(ordered[1:], start=1):
+        new_id = f"{atom_id}~{n}"
+        env = {**env, "id": new_id}
+        kept.append((new_id, env))
+        collisions.append({"original_id": atom_id, "status": "rekeyed", **env})
+    return kept, collisions
+
+
 class CorpusShrinkError(RuntimeError):
     """Raised when a safe export would REDUCE a committed JSONL's atom count.
 
@@ -86,10 +191,23 @@ class CorpusShrinkError(RuntimeError):
     """
 
 
-def _jsonl_line_count(path: Path) -> int:
+def _jsonl_unique_id_count(path: Path) -> int:
+    """Count DISTINCT atom ids in a JSONL — NOT raw lines. Duplicate-id lines
+    (from cross-machine union-merges) must not inflate the count, or the shrink
+    guard false-trips when the DB holds the correctly-deduplicated set."""
     if not path.is_file():
         return 0
-    return sum(1 for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip())
+    ids = set()
+    for ln in path.read_text(encoding="utf-8").splitlines():
+        ln = ln.strip()
+        if not ln:
+            continue
+        try:
+            ids.add(json.loads(ln).get("id"))
+        except json.JSONDecodeError:
+            continue
+    ids.discard(None)
+    return len(ids)
 
 
 def export(*, safe: bool = False) -> dict[str, int]:
@@ -110,7 +228,7 @@ def export(*, safe: bool = False) -> dict[str, int]:
         for path in KB_DIR.glob("*.jsonl"):
             if path.name in {"pronunciations.jsonl", "pronunciation-patterns.jsonl"}:
                 continue
-            existing = _jsonl_line_count(path)
+            existing = _jsonl_unique_id_count(path)
             if existing > db_counts.get(path.stem, 0):
                 shrinking.append(f"{path.stem}: committed={existing} > db={db_counts.get(path.stem, 0)}")
         if shrinking:
@@ -146,17 +264,26 @@ def export(*, safe: bool = False) -> dict[str, int]:
 
 
 def rebuild() -> dict[str, int]:
-    """JSONL → DB, ADDITIVE-ONLY (INSERT OR IGNORE). Never updates/deletes.
+    """JSONL → DB, ADDITIVE-MERGE (never loses data).
 
-    Returns per-type count of atoms newly inserted (already-present atoms are left
-    untouched, so a peer's pull can never overwrite local hydrated content).
+    For each id, all duplicate-id JSONL lines are reconciled (``_reconcile_group``):
+    same-text versions merge losslessly; genuine id-collisions split into distinct
+    ids and are logged to ``_conflicts/id-collisions.jsonl``. Each resulting atom
+    is then merged with any existing DB row and upserted — so a peer's pull can
+    only ENRICH local content (add fields/sources/variants, pick the richer
+    version), never wipe it. Returns per-type count of atoms touched.
     """
     run_migrations()
+    import sqlite3
     conn = get_connection()
-    inserted: dict[str, int] = {}
+    conn.row_factory = sqlite3.Row
+
+    # 1) Group every JSONL line by id, then reconcile each id-group.
+    raw_by_id: dict[str, list] = {}
     for path in sorted(KB_DIR.glob("*.jsonl")):
-        # skip the conflicts/pending file and any non-atom jsonl
         if path.name in {"pronunciations.jsonl", "pronunciation-patterns.jsonl"}:
+            continue
+        if path.parent.name == "_conflicts":
             continue
         for line in path.read_text(encoding="utf-8").splitlines():
             line = line.strip()
@@ -168,34 +295,72 @@ def rebuild() -> dict[str, int]:
                 continue
             if not a.get("id") or not a.get("type"):
                 continue
-            fs = a.get("first_seen") or {}
-            cur = conn.execute(
-                """INSERT OR IGNORE INTO atoms
+            raw_by_id.setdefault(a["id"], []).append(a)
+
+    reconciled: dict[str, dict] = {}
+    collisions: list[dict] = []
+    for atom_id, versions in raw_by_id.items():
+        kept, coll = _reconcile_group(atom_id, versions)
+        for new_id, env in kept:
+            reconciled[new_id] = env
+        collisions.extend(coll)
+
+    # 2) Upsert each reconciled atom, merging with any existing DB row.
+    touched: dict[str, int] = {}
+    for atom_id, env in reconciled.items():
+        existing = conn.execute("SELECT * FROM atoms WHERE id=?", (atom_id,)).fetchone()
+        if existing is not None:
+            ex_env = _envelope(
+                existing,
+                list(conn.execute("SELECT * FROM atoms_sources WHERE atom_id=?", (atom_id,))),
+                list(conn.execute("SELECT * FROM atoms_variants WHERE atom_id=?", (atom_id,))),
+            )
+            env = _merge_envelopes(ex_env, env)
+            fs = env.get("first_seen") or {}
+            conn.execute(
+                """UPDATE atoms SET body=?, first_seen_book=?, first_seen_chapter=?,
+                   first_seen_date=?, confidence=?, tradition=?, content_level=?,
+                   updated_at=datetime('now') WHERE id=?""",
+                (json.dumps(env.get("body", {}), ensure_ascii=False),
+                 fs.get("book"), fs.get("chapter"), fs.get("date"), env.get("confidence"),
+                 env.get("tradition"), env.get("content_level"), atom_id),
+            )
+        else:
+            fs = env.get("first_seen") or {}
+            conn.execute(
+                """INSERT INTO atoms
                    (id, type, body, first_seen_book, first_seen_chapter, first_seen_date,
                     confidence, tradition, content_level, created_at, updated_at)
                    VALUES (?,?,?,?,?,?,?,?,?, datetime('now'), datetime('now'))""",
-                (
-                    a["id"], a["type"], json.dumps(a.get("body", {}), ensure_ascii=False),
-                    fs.get("book"), fs.get("chapter"), fs.get("date"),
-                    a.get("confidence"), a.get("tradition"), a.get("content_level"),
-                ),
+                (atom_id, env["type"], json.dumps(env.get("body", {}), ensure_ascii=False),
+                 fs.get("book"), fs.get("chapter"), fs.get("date"),
+                 env.get("confidence"), env.get("tradition"), env.get("content_level")),
             )
-            if cur.rowcount:
-                inserted[a["type"]] = inserted.get(a["type"], 0) + 1
-            for s in a.get("sources", []):
-                conn.execute(
-                    """INSERT OR IGNORE INTO atoms_sources (atom_id, book_slug, chapter_id, locator)
-                       VALUES (?,?,?,?)""",
-                    (a["id"], s.get("book"), s.get("chapter"), s.get("locator")),
-                )
-            for v in a.get("variants", []):
-                conn.execute(
-                    """INSERT OR IGNORE INTO atoms_variants (atom_id, book_slug, text_en, translator)
-                       VALUES (?,?,?,?)""",
-                    (a["id"], v.get("book"), v.get("text_en"), v.get("translator")),
-                )
+        for s in env.get("sources", []):
+            conn.execute(
+                """INSERT OR IGNORE INTO atoms_sources (atom_id, book_slug, chapter_id, locator)
+                   VALUES (?,?,?,?)""",
+                (atom_id, s.get("book"), s.get("chapter"), s.get("locator")),
+            )
+        for v in env.get("variants", []):
+            conn.execute(
+                """INSERT OR IGNORE INTO atoms_variants (atom_id, book_slug, text_en, translator)
+                   VALUES (?,?,?,?)""",
+                (atom_id, v.get("book"), v.get("text_en"), v.get("translator")),
+            )
+        touched[env["type"]] = touched.get(env["type"], 0) + 1
+
     conn.commit()
-    return inserted
+
+    # 3) Persist any id-collision records for human review (lossless: both kept).
+    if collisions:
+        cdir = KB_DIR / "_conflicts"
+        cdir.mkdir(exist_ok=True)
+        with (cdir / "id-collisions.jsonl").open("w", encoding="utf-8") as fh:
+            for c in sorted(collisions, key=lambda r: (r.get("original_id") or "", r.get("id") or "")):
+                fh.write(json.dumps(c, ensure_ascii=False, sort_keys=True) + "\n")
+
+    return touched
 
 
 def verify() -> None:
@@ -232,8 +397,8 @@ def main() -> int:
         print("Exported (DB → JSONL):", {k: c[k] for k in sorted(c)})
     elif args.cmd == "rebuild":
         c = rebuild()
-        print("Rebuilt (JSONL → DB, additive):",
-              {k: c[k] for k in sorted(c)} if c else "0 new (DB already current)")
+        print("Rebuilt (JSONL → DB, additive-merge):",
+              {k: c[k] for k in sorted(c)} if c else "0 atoms")
     else:
         verify()
     return 0
