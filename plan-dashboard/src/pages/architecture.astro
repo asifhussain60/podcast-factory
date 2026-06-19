@@ -6,6 +6,7 @@ import PhaseSwimlaneDiagram from '../components/PhaseSwimlaneDiagram.tsx';
 import PipelineOverviewRail from '../components/PipelineOverviewRail.tsx';
 import arch from '../data/architecture-snapshot.json';
 import AudienceBadge from '../components/AudienceBadge.astro';
+import '../styles/architecture.css';
 const archetypes = (arch.archetypes ?? []) as Array<{id: string; books: string[]}>;
 ---
 <Base title="Architecture" active="architecture" section="architecture">
@@ -111,9 +112,22 @@ const archetypes = (arch.archetypes ?? []) as Array<{id: string; books: string[]
     </p>
 
     <!-- Rich animated pipeline overview rail (click a node to jump + expand) -->
-    <PipelineOverviewRail phases={arch.phases} client:load />
+    <figure class="diagram-container">
+      <PipelineOverviewRail phases={arch.phases} client:load />
+      <figcaption>
+        The pipeline as an interactive timeline — every station the book passes through, in order.
+        Click a node to jump to its detail and expand what plugs in at that stage. Interactive
+        (hydrated in the browser).
+      </figcaption>
+    </figure>
 
-    <PipelineSpine phases={arch.phases} modules={arch.modules} agents={arch.agents} client:load />
+    <figure class="diagram-container">
+      <PipelineSpine phases={arch.phases} modules={arch.modules} agents={arch.agents} client:load />
+      <figcaption>
+        The same pipeline as a vertical spine: each station shows the agent that does the work and
+        the modules that plug in. The mini-rail on the side tracks your position as you scroll.
+      </figcaption>
+    </figure>
   </section>
 
   <!-- ══════════════════════════════════════════════════════════════
@@ -143,7 +157,7 @@ const archetypes = (arch.archetypes ?? []) as Array<{id: string; books: string[]
       roadmap but not yet deployed. The two <strong>✋ HUMAN HALT</strong> gates are the hard
       checkpoints where the pipeline waits for your approval.
     </p>
-    <PhaseSwimlaneDiagram client:visible />
+    <PhaseSwimlaneDiagram />
   </section>
 
   <hr />
@@ -155,7 +169,13 @@ const archetypes = (arch.archetypes ?? []) as Array<{id: string; books: string[]
       what keeps the system testable and changeable — adding a new book kind, a new rule, or a new vendor never
       requires touching the foundation.
     </p>
-    <LayerStack layers={arch.layers} client:load />
+    <figure class="diagram-container">
+      <LayerStack layers={arch.layers} />
+      <figcaption>
+        The six code layers, drawn bottom to top. A layer may only call into the layers beneath it —
+        so adding a new book kind, rule, or vendor never reaches down into the foundation.
+      </figcaption>
+    </figure>
   </section>
 
   <hr />
