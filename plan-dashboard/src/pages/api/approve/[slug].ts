@@ -8,6 +8,7 @@
 import type { APIRoute } from 'astro';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
+import { findContentDirSync } from '../../../lib/content-paths';
 
 export const POST: APIRoute = async ({ params }) => {
   const { slug } = params;
@@ -19,8 +20,14 @@ export const POST: APIRoute = async ({ params }) => {
     });
   }
 
-  const REPO_ROOT = join(new URL(import.meta.url).pathname, '../../../../../');
-  const gatePath = join(REPO_ROOT, 'CONTENT', 'drafts', 'books', slug, '_system', 'review-gate.json');
+  const dir = findContentDirSync(slug);
+  if (!dir) {
+    return new Response(
+      JSON.stringify({ error: `No content found for "${slug}".` }),
+      { status: 404, headers: { 'Content-Type': 'application/json' } },
+    );
+  }
+  const gatePath = join(dir, '_system', 'review-gate.json');
 
   if (!existsSync(gatePath)) {
     return new Response(

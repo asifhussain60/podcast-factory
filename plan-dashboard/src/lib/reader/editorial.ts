@@ -17,8 +17,17 @@
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
+import { findContentDirSync, contentDir } from '../content-paths';
 
-const REPO_ROOT = join(new URL(import.meta.url).pathname, '../../../../../');
+/**
+ * Resolve a book's editorial dir base through the canonical resolver (bucket-first
+ * + legacy fallback), NOT the retired content/drafts/books path the 2026-06-04
+ * restructure removed. Falls back to the canonical bucket path for write targets
+ * when the book dir does not yet exist on disk.
+ */
+function bookBaseDir(slug: string): string {
+  return findContentDirSync(slug) ?? contentDir(slug);
+}
 
 export type CardId =
   | 'name_resolution'
@@ -143,7 +152,7 @@ export interface EditorialDoc {
 
 function editorialPath(slug: string, scope: Scope): string {
   const file = scope === 'book' ? 'book.json' : `${scope}.json`;
-  return join(REPO_ROOT, 'content', 'drafts', 'books', slug, '_system', 'editorial', file);
+  return join(bookBaseDir(slug), '_system', 'editorial', file);
 }
 
 function emptyDoc(slug: string, scope: Scope): EditorialDoc {
@@ -208,7 +217,7 @@ export function resolveEffective(slug: string, chapter: Scope): ResolvedCard[] {
 
 /** List chapter slugs that carry at least one override (for the cockpit's override badges). */
 export function chaptersWithOverrides(slug: string): string[] {
-  const dir = join(REPO_ROOT, 'content', 'drafts', 'books', slug, '_system', 'editorial');
+  const dir = join(bookBaseDir(slug), '_system', 'editorial');
   if (!existsSync(dir)) return [];
   return readdirSync(dir)
     .filter((f) => f.endsWith('.json') && f !== 'book.json')

@@ -2,8 +2,9 @@
  * intake/create.ts — POST /api/intake/create
  *
  * Scaffolds the workshop folder for a new piece of content. Writes:
- *   content/drafts/<category>/<slug>/_system/meta.json
- *   content/drafts/<category>/<slug>/_system/editorial/book.json
+ *   content/<Bucket>/<slug>/_system/meta.json
+ *   content/<Bucket>/<slug>/_system/editorial/book.json
+ * (Bucket is derived from the category via the canonical resolver.)
  *
  * MUST NOT launch the pipeline. It only creates the folder structure so the
  * editorial cockpit can load and the user can set canonical decisions before
@@ -16,6 +17,7 @@ import type { APIRoute } from 'astro';
 import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { apiOk, apiError, apiServerError } from '../../../lib/api-responses';
+import { contentDir, type Category } from '../../../lib/content-paths';
 
 export const prerender = false;
 
@@ -28,10 +30,6 @@ const ALLOWED_CATEGORIES = new Set([
 const REPO_ROOT = join(
   new URL('../../../../../', import.meta.url).pathname,
 );
-
-function draftsPath(category: string, slug: string): string {
-  return join(REPO_ROOT, 'content', 'drafts', category, slug);
-}
 
 export const POST: APIRoute = async ({ request }) => {
   let body: Record<string, unknown>;
@@ -58,7 +56,7 @@ export const POST: APIRoute = async ({ request }) => {
     return apiError('Title is required');
   }
 
-  const bookDir = draftsPath(category, slug);
+  const bookDir = contentDir(slug, 'drafts', category as Category);
 
   if (existsSync(join(bookDir, '_system', 'meta.json'))) {
     return apiError(`Content "${slug}" already exists at ${bookDir}`, 409);
