@@ -1322,60 +1322,60 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-19T07:58:13-04:00",
-  "source_commit": "995233f",
+  "generated_at": "2026-06-20T06:55:42-04:00",
+  "source_commit": "b025cdb",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
     {
+      "sha": "b025cdb",
+      "subject": "docs(assessment): capability manifest + architecture assessment (static, 2026-06-20)",
+      "date": "2026-06-20"
+    },
+    {
+      "sha": "af7f6a5",
+      "subject": "fix(paths): Python resolver honors PODCAST_FACTORY_ROOT \u2014 mirror parity with TS",
+      "date": "2026-06-19"
+    },
+    {
+      "sha": "03b81f4",
+      "subject": "docs(agent): sync infra/cloudflare correction to canonical podcast-planner spec",
+      "date": "2026-06-19"
+    },
+    {
+      "sha": "4a6f992",
+      "subject": "docs(mirrors): sync infra/cloudflare correction to Copilot + planner specs",
+      "date": "2026-06-19"
+    },
+    {
+      "sha": "a3d8005",
+      "subject": "docs(CLAUDE): correct stale \"infra/cloudflare deleted\" claim",
+      "date": "2026-06-19"
+    },
+    {
+      "sha": "1876e04",
+      "subject": "fix(site): enforce REQ-010 1.2rem reading-text floor on prose",
+      "date": "2026-06-19"
+    },
+    {
+      "sha": "f1f67a5",
+      "subject": "feat(site): architecture-page diagram redesign \u2014 swimlane\u2192table, figures, build-time",
+      "date": "2026-06-19"
+    },
+    {
+      "sha": "64ad988",
+      "subject": "fix(corpus): collision-aware merge rebuild + unique-id shrink guard",
+      "date": "2026-06-19"
+    },
+    {
+      "sha": "1edc508",
+      "subject": "fix(site): make snapshot regenerator idempotent \u2014 kill generated_at churn",
+      "date": "2026-06-19"
+    },
+    {
       "sha": "995233f",
       "subject": "docs+fix(allocator): plan/framework/SKILL conformance + surface malformed-split degrade",
       "date": "2026-06-19"
-    },
-    {
-      "sha": "ab2d4bc",
-      "subject": "merge(al-anwaar-al-lateefah): vol-01 SHIP-READY + teaching allocator + 0d hardening",
-      "date": "2026-06-19"
-    },
-    {
-      "sha": "0768454",
-      "subject": "podcast(al-anwaar-al-lateefah-vol-01): finalize \u2014 SHIP-READY (11 episodes, G1-G14 pass)",
-      "date": "2026-06-19"
-    },
-    {
-      "sha": "a345fa2",
-      "subject": "podcast(al-anwaar-al-lateefah-vol-01): phase 11b slide-deck cohort",
-      "date": "2026-06-18"
-    },
-    {
-      "sha": "eaecc91",
-      "subject": "podcast(al-anwaar-al-lateefah-vol-01): phase 0g register series + dual-auditor bundle sweep",
-      "date": "2026-06-18"
-    },
-    {
-      "sha": "792a7c1",
-      "subject": "podcast(al-anwaar-al-lateefah-vol-01): phase per-chapter-optimize (0 chapters, 0 warnings)",
-      "date": "2026-06-18"
-    },
-    {
-      "sha": "ff4c552",
-      "subject": "podcast(al-anwaar-al-lateefah-vol-01)[what-tawhid-really-is]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=0)",
-      "date": "2026-06-18"
-    },
-    {
-      "sha": "744415e",
-      "subject": "podcast(al-anwaar-al-lateefah-vol-01)[the-word-of-allah-and-the-greatest-name]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=1)",
-      "date": "2026-06-18"
-    },
-    {
-      "sha": "63d390c",
-      "subject": "podcast(al-anwaar-al-lateefah-vol-01)[the-unknowable-originator-and-the-first-intellect]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=0)",
-      "date": "2026-06-18"
-    },
-    {
-      "sha": "2832937",
-      "subject": "podcast(al-anwaar-al-lateefah-vol-01)[the-trust-and-the-science-of-realities]: SHIP-WITH-CAUTION (iter=2 \u00b7 P0=0 P1=0)",
-      "date": "2026-06-18"
     }
   ],
   "wave_execution_events": [],
