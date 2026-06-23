@@ -7,7 +7,7 @@ Asif's children and thoughtful newcomers who have heard the audio but never read
 The audio carries the argument in a linear voice. The slides exist only to render what audio cannot hold spatially: the structure of transmission, the symmetry of the book, and the geometry of the soul's return. If a slide could be a single spoken sentence, omit it.
 
 ## Visual Priorities
-- The chain of transmission from prophets and saints, through Hadrat Abdullah Sahib's permission and the Aaqa's command, into the treasury, as a directed genealogy chain.
+- The inherited descent of the knowledge from the prophets and the saints down to the listener, as a directed lineage — the sciences of realities passing to those fit to bear them, never the production or circulation of the book-object.
 - The five-fold architecture (five Suradiqs to twenty-five chapters to one hundred twenty-five sections) as a strict three-level hierarchy.
 - The twin pillars wilayah and amal as a two-column contrast, and the soul circling a center it cannot reach as a visual metaphor.
 

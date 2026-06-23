@@ -10,26 +10,6 @@ Before I set down a single word of what follows, let me speak the words I have a
 
 Believing brothers and sisters, I want you to understand from the first page exactly what kind of book you are holding. The lessons gathered here, in *al-Anwaar al-Lateefah*, are made of the lofty contents of the sciences of realities — what we call the *uloom-e-haqa'iq*. They did not come to me by reasoning my way toward them, nor were they assembled from the ordinary outward disciplines that any diligent student can master. They have been interpreted and unfolded entirely upon the foundation laid by the prophets, the *anbiya*, and the saints, the *awliya*. So what reaches you in these pages is inherited wisdom. Its source is not my mind. Its source is the teaching of those whom Allah Himself chose to carry His most intimate truths, and every realization I expound here traces itself back to that single fountainhead. I ask you to read in that light, or you will not read these words as they were meant.
 
-Understand, too, how they came to be written down at all. I did not record them on my own initiative, and they were never meant to become common property. I set them down only with the explicit permission — the *ijazat* — of my Maulaya, the noble benefactor to whom this knowledge is ascribed, Hadrat Abdullah Sahib:
-
-> أَطَالَ اللَّهُ بَقَاءَهُ وَجَعَلَنَا فِدَاهُ
->
-> "May Allah prolong his life and make us his ransom."
-
-At first I recorded them for one small circle only — for my father and the other members of my family, so that they too might partake of these realities. Then, by the express command of my Aaqa and Maula, this recording was deposited in the treasury of the *Da'wat Sharief*, entrusted to the safekeeping of the sacred mission itself. The authority behind what you read is therefore twofold and leaves no room for doubt: the permission of Hadrat Abdullah Sahib that allowed the recording, and the command of the Aaqa that consigned it to that treasury. Think of how a sealed letter passes through several trusted hands before it reaches the one for whom it was written, each hand bound to carry it faithfully and open nothing. These lessons are such a letter. They are a sanctioned trust, not a casual production, and you have come into the line of hands that carry it.
-
-Because they are a trust, their custody lays an obligation on you, and I must state it plainly here at the threshold. I most humbly request of you — this is my *istida* — that you do not email these lessons, that you do not exchange them in any manner over the internet, that you do not store them on your computer. My reason is not nervous caution. However secure an exchange may look, once a thing is placed on the web the door can never again be fully shut; there remains always the chance that it spills out to everyone, and that these lessons fall into the hands of those who have no right to them — the *ghair-mustahiqqeen*, the undeserving. The sciences of realities are not made for indiscriminate circulation. They are meant for those who have been prepared to receive them, and to scatter them carelessly does violence to their very nature.
-
-Let me be equally plain about what follows from ignoring this. If anyone, despite my request, should still do it — copy these lessons, listen to them and pass them on, transmit them, hand them to another, alter them, perform any such deed, any *fe'l*, with them without permission — then know that this is a sin, a *gunah*, in the sight of Allah and His Messenger. On the Day of Judgment, *baroz-e-qiyamat*, before Allah and His Messenger, the one who did it will stand answerable for it alone, and I will be free of any responsibility for that act. The accountability falls on the hand that breaks the trust, never on the one who delivered it faithfully into that hand.
-
-And do not imagine I raise this merely for effect. The *Awliya* of Allah themselves have given news of a most severe punishment, an *azab*, held in store for those who fail to safeguard these lofty sciences, these *uloom-e-aliya*. They have named it: the punishment of cold iron, described as the most terrible and severe of all chastisements.
-
-> أَعَاذَنَا اللَّهُ
->
-> "May Allah protect us from it."
-
-So the guarding of this knowledge is no matter of mere manners. It reaches into the next world. May Allah prolong the shadow of Sayyidna al-Da'i and of the *Manasib-e-Kiram* over us, and make their lights — their *anwaar* — flow upon us without ceasing. Ameen.
-
 > بِحَقِّ سَيِّدِنَا مَوْلَانَا مُحَمَّدٍ وَعَلَىٰ آلِ سَيِّدِنَا مَوْلَانَا مُحَمَّدٍ وَبَارِكْ وَسَلِّمْ
 >
 > "By the right of our master, Maulana Muhammad, and upon the family of our master, Maulana Muhammad, and grant blessings and peace."
@@ -40,33 +20,7 @@ So the guarding of this knowledge is no matter of mere manners. It reaches into 
 
 > "I seek refuge in Allah from the accursed Satan. In the name of Allah, the Most Gracious, the Most Merciful. And may Allah's blessings be upon His Messenger and his pure and purified family, and may peace be upon them all."
 
-So I begin — and I want you to understand, before you read a single line of what follows, exactly what kind of thing you are holding. The lessons gathered here, in the book *Anwaar al-Latifah*, are not the ordinary furniture of learning. They are drawn from what the tradition calls the sciences of realities, the *uloom-e-haqa'iq*. I did not arrive at them by reasoning, nor by the exoteric disciplines you might study in any school. Every one of them rests on a different foundation: the teaching of the prophets, the *anbiya*, and of the saints, the *awliya* — those whom Allah Himself chose to carry His most intimate truths. What I am handing you is inherited, not invented. Each realization unfolded in these pages traces itself back, link by link, to that prophetic and saintly source, and you must read it in that light or you will misread it entirely.
-
-I want you to grasp, too, that these lessons were never meant to become common property. I did not record them on my own initiative. I recorded them with explicit permission — the *ijazat* — of the noble one to whom this knowledge is ascribed, my master Hadrat Abdullah Sahib, of whom I say:
-
-> أَطَالَ اللَّهُ بَقَاءَهُ وَجَعَلَنَا فِدَاهُ
->
-> "May Allah prolong his life, and make us his ransom."
-
-I undertook the recording first for a small circle: my father, and the other members of my family, that they too might taste these realities. Then, by the express command of my Aaqa and Maula, the recording was placed in the treasury of the *Da'wat Sharief* — entrusted, that is, to the safekeeping of the sacred mission itself. So the authority behind what you are reading is twofold, and there is nothing vague about either part of it. There was the permission of Hadrat Abdullah Sahib, which authorized the recording. And there was the command of the Aaqa, which consigned it to the treasury. This is a sanctioned trust. It is not a casual production, and I will not let you treat it as one.
-
-Because it is a trust, its custody binds you the moment you accept it, and I must say plainly what that custody requires. I ask of you — and I ask it as a most humble request, an *istida* — that you do not email these lessons, that you do not attempt to exchange them in any manner over the internet, and that you do not store them on your computer. My reason is not nervous caution. It is the nature of the thing. However secure an exchange may look in the moment, once a thing has been placed on the web there is always the standing possibility that it spills outward to everyone, and that these lessons fall thereby into hands that do not deserve them — the *ghair-mustahiqqeen*, the undeserving. The sciences of realities are not made for indiscriminate circulation. They are meant for those who are prepared to receive them, and to scatter them carelessly is to do violence to what they are.
-
-Let me be exact about the consequence, because I would be failing you if I softened it. If anyone, after this request, should still do such a thing — copy these lessons, listen to them and pass them on, transmit them, hand them to another, alter them, or perform any deed, any *fe'l*, with them without permission — then let it be understood that this is a sin, a *gunah*, in the sight of Allah and His Messenger. On the Day of Judgment, *baroz-e-qiyamat*, standing before Allah and His Messenger, the one who did it will answer for it alone, and I will be free of any responsibility for the act. The accountability follows the hand that breaks the trust. It does not reach back to the one who delivered it faithfully.
-
-And do not imagine I say this for effect, to frighten you into care. The *Awliya* of Allah themselves have given news of a punishment — an *azab* — set aside for those who fail to safeguard these lofty sciences, these *uloom-e-aliya*. They have named it: the punishment of cold iron, which they describe as the most severe and terrible of all chastisements.
-
-> أَعَاذَنَا اللَّهُ
->
-> "May Allah protect us from it."
-
-So the guarding of this knowledge is not a question of manners. It is a matter whose weight reaches into the next world. May Allah prolong the shadow of Sayyidna al-Da'i and of the Manasib-e-Kiram over us, and make their lights — their *anwaar* — flow upon us without ceasing. Ameen.
-
-> بِحَقِّ سَيِّدِنَا مَوْلَانَا مُحَمَّدٍ وَعَلَىٰ آلِ سَيِّدِنَا مَوْلَانَا مُحَمَّدٍ وَبَارِكْ وَسَلِّمْ
->
-> "By the right of our master, Maulana Muhammad, and upon the family of our master, Maulana Muhammad — and grant blessings and peace."
-
-Now to the book itself, which is built on a design so deliberate that even the names of its parts tell you something. Each great division is called a *Suradiq*, and we open now with the first of them:
+So I begin. This book is built on a design so deliberate that even the names of its parts tell you something. Each great division is called a *Suradiq*, and we open now with the first of them:
 
 > السُّرَادِقُ الأَوَّلُ
 >
