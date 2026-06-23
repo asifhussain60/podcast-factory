@@ -1,0 +1,112 @@
+{
+  "book_title": "Al-Anwaar al-Lateefah, Volume 1 — The Oneness (Tawheed)",
+  "voice": "modern author first-person",
+  "preface": {
+    "include": true,
+    "title": "A Threshold to the Subtle Lights",
+    "source_line_ranges": [
+      [
+        9,
+        23
+      ]
+    ]
+  },
+  "chapters": [
+    {
+      "bk_index": 1,
+      "title": "The Sealed Lamp and the Road Home",
+      "source_line_ranges": [
+        [
+          9,
+          47
+        ]
+      ],
+      "theme": "Trust and path",
+      "rationale": "It binds the book's own account of itself — a sanctioned trust, its five-canopy architecture, its method of unveiled pure reality — to its first teaching, that the soul reaches God's oneness only through loving allegiance and lawful action and so returns to its original homeland."
+    },
+    {
+      "bk_index": 2,
+      "title": "The God No Pointing Can Reach",
+      "source_line_ranges": [
+        [
+          48,
+          87
+        ]
+      ],
+      "theme": "Divine transcendence",
+      "rationale": "It gathers everything on the Originator's unknowability — that no indication, thought, name, or attribute can fall upon Him, that names land instead upon the First Intellect, and that the very word 'Allah' is the bewildered creature's cry."
+    },
+    {
+      "bk_index": 3,
+      "title": "The Sin of Naming the Unnameable",
+      "source_line_ranges": [
+        [
+          88,
+          117
+        ]
+      ],
+      "theme": "Compelled speech",
+      "rationale": "It follows the single paradox that because we cannot know God we are compelled to name Him inadequately, making every naming a sin coupled with the seeking of forgiveness — drawn out through divine justice, the law of compulsion, and the ascending spiritual ranks."
+    },
+    {
+      "bk_index": 4,
+      "title": "What Oneness Actually Means",
+      "source_line_ranges": [
+        [
+          118,
+          171
+        ]
+      ],
+      "theme": "Redefining tawhid",
+      "rationale": "It overturns the reflexive notion of tawhid as counting God 'one' and replaces it with the gnosis of the ranks, unfolding the three branches of Tawhid, tanzih, and tajrid and the outer and inner depths of that knowing."
+    },
+    {
+      "bk_index": 5,
+      "title": "The Nearest Rank: Breaking the Self to Climb",
+      "source_line_ranges": [
+        [
+          172,
+          317
+        ]
+      ],
+      "theme": "The Mukathir",
+      "rationale": "It traces the first true rung of the hierarchy, the Mukathir who must break his own self before he can break another, showing how two bodies of identical flesh diverge into ascent or ruin — a divergence mirrored in the lawful and the forbidden animals."
+    },
+    {
+      "bk_index": 6,
+      "title": "Every Teacher a Threshold, Not a God",
+      "source_line_ranges": [
+        [
+          318,
+          445
+        ]
+      ],
+      "theme": "Ascent through bewilderment",
+      "rationale": "The disciple's bewilderment before his master becomes a ladder — each rank a 'god' only as the center of a bewildered orbit — climbed rank upon rank and then negated, until divinity is affirmed for the Originator alone and the tranquil soul returns to its Lord."
+    },
+    {
+      "bk_index": 7,
+      "title": "Out of Nothing, and Equal in Justice",
+      "source_line_ranges": [
+        [
+          446,
+          547
+        ]
+      ],
+      "theme": "Origination",
+      "rationale": "It turns from the ranks to the act that made them — ibda' from sheer nothingness as pure favor, not need — and to the luminous forms created perfectly equal in a single instant, yet, in their first perfection, not yet immune to error."
+    },
+    {
+      "bk_index": 8,
+      "title": "The First to Say There Is No God But He",
+      "source_line_ranges": [
+        [
+          548,
+          648
+        ]
+      ],
+      "theme": "The First Intellect",
+      "rationale": "It dramatizes the form that first looked upon itself, recognized an Originator unlike it, and through tawassul received the flowing Word 'La ilaha illa Allah' — becoming God's veil, gate, and Greatest Name, set against the second emanation who fell through the delusion of equality."
+    }
+  ]
+}
