@@ -73,3 +73,19 @@ The aggressive scope still did not over-strip: every apparatus-shaped grep hit i
 | **Total** | **45** | **0** | **0** | **0** | **15** |
 
 Note: the outstanding NotebookLM **audio** regeneration for EP01 (re-upload cleaned source, replace `m4a/`) remains the only open item from the original remediation — it is a user/NotebookLM action, not a source-surface defect, and out of this auditor's identify-only scope.
+
+## Confirmation re-sweep (2026-06-24)
+
+- `noise_auditor_version`: 1.0
+- run time: 1:24 PM EST
+- scope: **AGGRESSIVE** (NZ-CIRCULATION + NZ-PROVENANCE both in-scope)
+- surfaces re-swept: `chapters/*.txt` (11), `episodes/*.txt` (11), `slide-decks/*deck*.txt` + `*framing*.md` (22), `book/book.md` + `book-illustrated.md`
+- report: `audits/noise-audit-per-surface-confirmation-2026-06-24.md`
+
+### Verdict: **CLEAN**
+
+Fresh pass-1 grep over the formal deliverable source surfaces found 17 candidates and 0 final NZ findings. All candidates adjudicate KEEP: 14 are quoted-source citations using `compiled by`, and 3 are protected teaching passages about knowledge distribution, fasting, khums, and Imam al-Zaman rather than circulation or provenance apparatus.
+
+### Advisory outside formal source scope
+
+The old provenance diagram cache still exists under `book/_diagrams/` and contains the removed ijazat/family/treasury chain in cached `.mmd`/`.svg`/manifest files. `book.md` and `book-illustrated.md` do not reference that stale diagram, so it is not counted as a deliverable-surface NZ finding in this identify-only run. Remove or regenerate that cache only when cleanup of tracked stale artifacts is explicitly authorized.
