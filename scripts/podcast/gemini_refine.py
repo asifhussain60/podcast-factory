@@ -23,6 +23,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 from _paths import REPO_ROOT, content_dir  # noqa: E402
 from _cost_ledger import append_gemini_cost  # noqa: E402
+from _rules import R_NOISE_APPARATUS_DIRECTIVE  # noqa: E402
 
 # ─── SN-7 Terminus-technicus preservation (R_TERMINUS_PRESERVE) ───────────────
 # house-voice.md §2b. The RULE is the standard; the protect-LIST is per-book, tradition-agnostic
@@ -96,6 +97,7 @@ DENOISE_SYS = (
   "(2) Remove footnotes, glosses, manuscript notes, editorial brackets and their contents, page "
   "numbers, section-number labels like 'XVIII.', and stray inline footnote digits. (3) Keep all "
   "Quran/hadith quotations and poetry exactly. (4) Preserve paragraph flow. Output plain text only."
+  "\n\n" + R_NOISE_APPARATUS_DIRECTIVE
 )
 
 # ─── Consumer-voice denoise (category: sites) ────────────────────────────────

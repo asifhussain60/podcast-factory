@@ -710,6 +710,86 @@ R_NOISE_RULE_PATTERNS: list[tuple] = [
     (_re.compile(r"\[Narrator.*?preamble\]|\[Editorial.*?note\]", _re.I),       "editorial-preamble"),
 ]
 
+# ─── Wave N — Authorial-apparatus noise (the noise-auditor taxonomy) ──────
+# A class of noise the Wave-I routing above NEVER targets: clean *authorial*
+# prose that is non-teaching meta-content about the BOOK ITSELF — how it was
+# recorded, authorized, transmitted, and may be circulated. The denoise/refine
+# prompts (full_book_denoise.py, gemini_refine.py) only strip OCR artefacts,
+# translator footnotes, and editor brackets; authorial apparatus passes every
+# one of those filters because it is the author's own clean sentences. It then
+# fans out into chapters/*.txt, episodes/*.txt, slide-decks/*.txt, and book.md.
+# Source incident: al-Anwaar al-Lateefah vol-01 — the recorder's distribution
+# warning ("do not email… do not store on your computer… punishment of cold
+# iron") + ijazat/treasury chain-of-custody leaked into all four surfaces and
+# built an entire EP01 out of front-matter. The `noise-auditor` agent flags
+# this class with NZ-* finding IDs; the denoise prompts strip it at root.
+R_NOISE_AUTHORIAL_APPARATUS: str = "R-NOISE-AUTHORIAL-APPARATUS"
+
+# Sub-categories (NZ finding IDs map to these). Each is BOOK-PRODUCTION /
+# CIRCULATION meta — NOT doctrine. The hard line: anything about how the book
+# came to be recorded/transmitted/distributed is apparatus; anything the book
+# TEACHES is content.
+R_NOISE_APPARATUS_CATEGORIES: dict[str, str] = {
+    "NZ-CIRCULATION":  "Distribution / copyright / circulation notice — do-not-email, "
+                       "do-not-store-on-computer, do-not-share-online, copy-is-a-sin, and "
+                       "the punishment-for-careless-circulation threat (e.g. 'cold iron').",
+    "NZ-PROVENANCE":   "Provenance / chain-of-custody apparatus — ijazat/permission to RECORD, "
+                       "deposit in a treasury/archive, 'recorded first for my family', the "
+                       "two-fold authority-of-transmission of THIS recording.",
+    "NZ-COLOPHON":     "Colophon / production meta — who transcribed/compiled/printed it, edition "
+                       "and publisher notes, dedication-of-the-edition, scan/upload provenance.",
+    "NZ-EDITORIAL":    "Editorial framing about the artifact rather than its subject — 'in this "
+                       "lesson we will…', 'as recorded above', recording-session housekeeping.",
+}
+
+# PROTECT-LIST — doctrine that LOOKS like apparatus but IS the teaching and must
+# NEVER be stripped under Wave-N. In this tradition the epistemics of inherited,
+# guarded knowledge and especially the DOCTRINE OF ALLEGIANCE to the Imams /
+# Friends of Allah (wilayah) are core content, not provenance. The test: does the
+# passage make a claim about REALITY/God/the soul/the path (keep), or only about
+# the book-object's recording and circulation (strip)?
+R_NOISE_APPARATUS_PROTECT: frozenset[str] = frozenset({
+    "wilayah", "allegiance", "imam", "friends_of_allah", "awliya",
+    "esoteric", "reality", "haqaiq", "tawhid", "soul_return", "doctrine",
+})
+
+# Heuristic Pass-1 anchors for the apparatus class (semantic judgment still
+# belongs to the noise-auditor LLM / the denoise prompt; these are signals).
+R_NOISE_APPARATUS_PATTERNS: list[tuple] = [
+    (_re.compile(r"do not (e-?mail|share|circulate|store|upload|exchange)", _re.I), "NZ-CIRCULATION"),
+    (_re.compile(r"(on|over|upon) the (internet|web)|on your computer", _re.I),     "NZ-CIRCULATION"),
+    (_re.compile(r"(punishment|azab) of cold iron|to copy .* is a sin",  _re.I),    "NZ-CIRCULATION"),
+    (_re.compile(r"(ghair-?mustahiqq|undeserving|indiscriminate circulation)", _re.I), "NZ-CIRCULATION"),
+    (_re.compile(r"\b(ijazat|permission)\b.*\b(record|recording|set (it )?down)", _re.I), "NZ-PROVENANCE"),
+    (_re.compile(r"deposited? in the treasury|treasury of the (sacred mission|Da'wat)", _re.I), "NZ-PROVENANCE"),
+    (_re.compile(r"recorded (them )?(first )?for (my|his) (father|family)", _re.I),  "NZ-PROVENANCE"),
+    (_re.compile(r"(transcribed|compiled|printed|scanned|typeset) by|this edition", _re.I), "NZ-COLOPHON"),
+]
+
+# Version stamped into every noise-auditor report; bump on taxonomy change.
+NOISE_AUDITOR_VERSION = "1.0"
+
+# Ready-to-inject denoise directive — appended to the denoise system prompts
+# (gemini_refine.DENOISE_SYS, full_book_denoise.build_system_prompts) so the apparatus
+# class is stripped at the ROOT, book-agnostically, before it can fan out. The
+# PROTECT brake is stated inline so doctrine (wilayah/allegiance/epistemics) is
+# never cut. Book-agnostic: names no book — keys off content type, not title.
+R_NOISE_APPARATUS_DIRECTIVE: str = (
+    "AUTHORIAL-APPARATUS STRIP (R-NOISE-AUTHORIAL-APPARATUS, mandatory): in addition to "
+    "OCR/translator/editor apparatus, REMOVE the author's own NON-TEACHING meta-content about "
+    "the book-object itself — (a) CIRCULATION/COPYRIGHT notices: do-not-email / do-not-share / "
+    "do-not-store-online, 'to copy this is a sin', threats of punishment for careless circulation "
+    "(e.g. 'cold iron'), 'not for indiscriminate circulation', the 'undeserving'/ghair-mustahiqqeen "
+    "framing; (b) PROVENANCE / chain-of-custody: permission/ijazat to RECORD or transmit THIS "
+    "recording, 'I recorded it first for my family', deposit in a treasury/archive, the 'twofold "
+    "authority' of this recording; (c) COLOPHON: who transcribed/compiled/printed/scanned it, "
+    "edition and publisher notes. PROTECT (NEVER strip — this is TEACHING, not apparatus): any "
+    "claim about reality/God/the soul/the path/the law, the doctrine of allegiance to the Imams / "
+    "Friends of Allah (wilayah), and the epistemic claim that the knowledge is INHERITED from the "
+    "prophets and saints. The test: a passage about how the book was recorded/authorized/circulated "
+    "is apparatus (strip); a passage about what the book TEACHES is content (keep)."
+)
+
 # ─── Wave B — Intelligence layer budget constants ─────────────────────────
 # These are read by intelligence/extractor.py and intelligence/augmenter.py.
 # Max per-chapter cost for the atom extractor (Claude Sonnet structured call).

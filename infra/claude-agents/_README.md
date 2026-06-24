@@ -12,11 +12,12 @@ stay byte-identical (verify with `cmp`).
 
 ---
 
-## Agent registry (18 agents)
+## Agent registry (19 agents)
 
 | Agent | Purpose |
 |---|---|
 | `html-view-challenger` | Conformance validator for HTML views against the Cortex quality standard |
+| `noise-auditor` | Cross-surface detector for authorial-apparatus noise (circulation/provenance/colophon) the denoise step never strips; identify-only |
 | `podcast-auditor` | DEPRECATED 2026-06-02 — use `repo-surgeon --scope podcast` instead |
 | `podcast-blueprint` | Content-aware episode-structure planner (genre classification → episode plan) |
 | `podcast-challenger` | Semantic quality validator for chapters and framings; convergence loop |

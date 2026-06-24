@@ -1,0 +1,120 @@
+[
+  {
+    "diagram_id": "a-threshold-to-the-subtle-lights-1",
+    "section": "A Threshold to the Subtle Lights",
+    "anchor_text": "a sealed letter passes through several trusted hands",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Traces the chain of custody by which the inherited sciences pass from the prophets and saints, through the author's sanctioned recording, into the reader's hands as a trust.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/a-threshold-to-the-subtle-lights-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/a-threshold-to-the-subtle-lights-1.svg"
+  },
+  {
+    "diagram_id": "1-the-sealed-lamp-and-the-road-home-1",
+    "section": "1. The Sealed Lamp and the Road Home",
+    "anchor_text": "Five Suradiqs, each of five chapters",
+    "structure_type": "hierarchy-tree",
+    "diagram_type": "hierarchy-tree",
+    "caption": "Shows the book's five-fold nested architecture in which each Suradiq contains five chapters and each chapter contains five sections.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/1-the-sealed-lamp-and-the-road-home-1.svg"
+  },
+  {
+    "diagram_id": "2-the-god-no-pointing-can-reach-1",
+    "section": "2. The God No Pointing Can Reach",
+    "anchor_text": "that no indication reaches Him",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Maps the faculties that cannot reach God against the one faculty that does, clarifying the section's central argument.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/2-the-god-no-pointing-can-reach-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/2-the-god-no-pointing-can-reach-1.svg"
+  },
+  {
+    "diagram_id": "3-the-sin-of-naming-the-unnameable-1",
+    "section": "3. The Sin of Naming the Unnameable",
+    "anchor_text": "what life is, what knowledge is, what power is, what choice is",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Shows the four faculties that make up total knowledge (the knowledge of life) granted to the created intellects.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/3-the-sin-of-naming-the-unnameable-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/3-the-sin-of-naming-the-unnameable-1.svg"
+  },
+  {
+    "diagram_id": "4-what-oneness-actually-means-1",
+    "section": "4. What Oneness Actually Means",
+    "anchor_text": "There are five canopies in all",
+    "structure_type": "hierarchy-tree",
+    "diagram_type": "hierarchy-tree",
+    "caption": "Shows the book's nested 5×5×5 architecture, where each canopy contains five gates and each gate contains five chapters.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/4-what-oneness-actually-means-1.svg"
+  },
+  {
+    "diagram_id": "5-the-nearest-rank-breaking-the-self-to-1",
+    "section": "5. The Nearest Rank: Breaking the Self to Climb",
+    "anchor_text": "Below the ranks proper there are two thresholds you must first cross",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Maps the ascent from the two thresholds below the hudud (Mustajib, Mu'min) into the ranks proper, beginning with the Mukathir.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/5-the-nearest-rank-breaking-the-self-to-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/5-the-nearest-rank-breaking-the-self-to-1.svg"
+  },
+  {
+    "diagram_id": "6-every-teacher-a-threshold-not-a-god-1",
+    "section": "6. Every Teacher a Threshold, Not a God",
+    "anchor_text": "ten stations of the Mustajib",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Traces the Mukathir's ascent as a sequence of ranked stations, each climbed before the next.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/6-every-teacher-a-threshold-not-a-god-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/6-every-teacher-a-threshold-not-a-god-1.svg"
+  },
+  {
+    "diagram_id": "6-every-teacher-a-threshold-not-a-god-2",
+    "section": "6. Every Teacher a Threshold, Not a God",
+    "anchor_text": "onto a soul already made subtle",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows how the road first refines the sensory soul, then divine sciences connect to finish and transmute it.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/6-every-teacher-a-threshold-not-a-god-2.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/6-every-teacher-a-threshold-not-a-god-2.svg"
+  },
+  {
+    "diagram_id": "7-out-of-nothing-and-equal-in-justice-1",
+    "section": "7. Out of Nothing, and Equal in Justice",
+    "anchor_text": "seven names in all for a single thing",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Shows the single originated realm radiating into its seven names, clarifying that the cluster of titles names one reality seen from seven sides rather than seven separate worlds.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/7-out-of-nothing-and-equal-in-justice-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/7-out-of-nothing-and-equal-in-justice-1.svg"
+  },
+  {
+    "diagram_id": "7-out-of-nothing-and-equal-in-justice-2",
+    "section": "7. Out of Nothing, and Equal in Justice",
+    "anchor_text": "seals it with three denials",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Lays out the three denials that define ibda in its purity: no matter before it, no matter beside it, and no place beneath it.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/7-out-of-nothing-and-equal-in-justice-2.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/7-out-of-nothing-and-equal-in-justice-2.svg"
+  },
+  {
+    "diagram_id": "8-the-first-to-say-there-is-no-god-but-h-1",
+    "section": "8. The First to Say There Is No God But He",
+    "anchor_text": "the whole of Tawhid in its completeness",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Shows the single act of declaring oneness resolving into its three doctrinal branches — Tawhid, tanzih, and tajrid — that a later tradition would name and number separately.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/8-the-first-to-say-there-is-no-god-but-h-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/8-the-first-to-say-there-is-no-god-but-h-1.svg"
+  },
+  {
+    "diagram_id": "8-the-first-to-say-there-is-no-god-but-h-2",
+    "section": "8. The First to Say There Is No God But He",
+    "anchor_text": "By looking at his own essence and at his kind",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Traces the sequence by which the first form derives monotheism and is answered — from looking, to knowing, to negating and affirming divinity, to seeking means, to receiving the divine supports.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/8-the-first-to-say-there-is-no-god-but-h-2.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/al-anwaar-al-lateefah/vol-01/book/_diagrams/8-the-first-to-say-there-is-no-god-but-h-2.svg"
+  }
+]

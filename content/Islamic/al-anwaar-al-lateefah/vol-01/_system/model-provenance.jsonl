@@ -85,3 +85,22 @@
 {"phase": "11b-slide-authoring", "step": "pair/naming-the-unnameable/attempt-2", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "11b-slide-authoring", "step": "pair/ascent-decline-and-the-birth-of-a-god/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "11b-slide-authoring", "step": "pair/ascent-decline-and-the-birth-of-a-god/attempt-2", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-design", "step": "segment", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "bk-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "bk-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "bk-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "bk-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "bk-05", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "bk-06", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "bk-07", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "bk-08", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "preface", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "A Threshold to the Subtle Lights", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "1. The Sealed Lamp and the Road Home", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "2. The God No Pointing Can Reach", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "3. The Sin of Naming the Unnameable", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "4. What Oneness Actually Means", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "5. The Nearest Rank: Breaking the Self t", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "6. Every Teacher a Threshold, Not a God", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "7. Out of Nothing, and Equal in Justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "8. The First to Say There Is No God But ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

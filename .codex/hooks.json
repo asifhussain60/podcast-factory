@@ -1,0 +1,49 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/ahmac/Code/podcast-factory/.codex/hooks/plan-snapshot-regen.sh'",
+            "statusMessage": "Plan-snapshot regen"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/ahmac/Code/podcast-factory/.codex/hooks/site-work-status.sh'",
+            "statusMessage": "Site-work continuity"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/ahmac/Code/podcast-factory/.codex/hooks/cortex-view-guard.sh'",
+            "statusMessage": "Cortex HTML-view guard"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/ahmac/Code/podcast-factory/.codex/hooks/ui-reviewer-stop.sh'"
+          }
+        ]
+      }
+    ]
+  }
+}
