@@ -41,12 +41,15 @@ _VALID_PDF = _pdf_with_pages(8)
 
 
 def _make_book(tmp_path: Path, *, enable=True, chapters=3, md_sections=3,
-               md_bytes=4096, pdf=_VALID_PDF, md_name="book.md") -> Path:
+               md_bytes=4096, pdf=_VALID_PDF, md_name="book.md",
+               content_profile="technical") -> Path:
     bd = tmp_path / "slug"
     (bd / "book").mkdir(parents=True)
     (bd / "_system").mkdir(parents=True)
     (bd / "meta.yml").write_text(
         f"series:\n  enable_book_branch: {str(enable).lower()}\n", encoding="utf-8")
+    (bd / "_system" / "series-config.yaml").write_text(
+        f"content_profile: {content_profile}\n", encoding="utf-8")
     toc = {"book_title": "T", "chapters": [{"title": f"c{i}"} for i in range(chapters)]}
     (bd / "book" / "book-toc.json").write_text(json.dumps(toc), encoding="utf-8")
     body = "# Title\n" + "".join(f"## Section {i}\nbody\n" for i in range(md_sections))
@@ -55,6 +58,25 @@ def _make_book(tmp_path: Path, *, enable=True, chapters=3, md_sections=3,
     if pdf is not None:
         (bd / "book" / "book.pdf").write_bytes(pdf)
     return bd
+
+
+def _add_islamic_arabic_fixture(bd: Path) -> None:
+    (bd / "_system" / "series-config.yaml").write_text(
+        "content_profile: islamic_scholarly\n", encoding="utf-8")
+    (bd / "_system" / "glossary.yml").write_text(
+        "schema_version: 2\n"
+        "entries:\n"
+        "  - phonetic: \"tawhid\"\n"
+        "    transliteration: \"tawhid\"\n"
+        "    arabic_script: \"توحيد\"\n"
+        "    audio_phonetic: \"taw-heed\"\n"
+        "    first_seen_snippet: \"x\"\n",
+        encoding="utf-8",
+    )
+    ch = bd / "chapters"
+    ch.mkdir(exist_ok=True)
+    for i in range(1, 4):
+        (ch / f"ch{i:02d}.txt").write_text(f"Chapter with tawhid (توحيد) {i}.", encoding="utf-8")
 
 
 def test_na_when_book_branch_disabled(tmp_path):
@@ -118,6 +140,36 @@ def test_pdf_page_count_extraction():
     assert V._pdf_page_count(_ONE_PAGE_PDF) == 1
     # /Type /Pages container must NOT be counted as a page
     assert V._pdf_page_count(b"/Type /Pages /Count 9") == 0
+
+
+def test_b3_fails_islamic_book_without_chapter_arabic(tmp_path):
+    bd = _make_book(tmp_path, content_profile="islamic_scholarly")
+    (bd / "_system" / "glossary.yml").write_text(
+        "schema_version: 2\nentries:\n"
+        "  - phonetic: \"tawhid\"\n"
+        "    transliteration: \"tawhid\"\n"
+        "    arabic_script: \"توحيد\"\n"
+        "    audio_phonetic: \"taw-heed\"\n"
+        "    first_seen_snippet: \"x\"\n",
+        encoding="utf-8",
+    )
+    ch = bd / "chapters"
+    ch.mkdir()
+    (ch / "ch01.txt").write_text("Chapter with tawhid but no script.", encoding="utf-8")
+
+    res = V.validate_book(bd)
+
+    assert res["verdict"] == "BOOK-BROKEN"
+    assert "B3" in res["summary"]
+
+
+def test_b3_passes_islamic_book_with_chapter_arabic(tmp_path):
+    bd = _make_book(tmp_path, content_profile="islamic_scholarly")
+    _add_islamic_arabic_fixture(bd)
+
+    res = V.validate_book(bd)
+
+    assert res["verdict"] == "BOOK-SOUND", res["summary"]
 
 
 @pytest.mark.parametrize("verdict,bad", [

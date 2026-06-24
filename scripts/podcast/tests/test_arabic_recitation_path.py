@@ -9,9 +9,10 @@ ElevenLabs path emitting ZERO Arabic (and the reader showing none):
      ROMANIZED text. An Arabic anchor never fires.
   2. The Arabic-recitation gate keyed only off a flag, not the engine.
 
-These tests pin both fixes: the glossary anchor is romanized, Arabic is injected
-for TEACHING terms on the ElevenLabs path, incidental terms are NOT recited, and
-the NotebookLM route stays phonetic even with the flag set.
+These tests pin both fixes: the glossary anchor is romanized, Arabic is available
+to persisted chapters, Arabic is recited for TEACHING terms on the ElevenLabs
+path, incidental terms are NOT recited, and the NotebookLM dialogue-render route
+stays phonetic even with the flag set.
 """
 import sys
 from pathlib import Path
@@ -69,8 +70,8 @@ def test_incidental_term_not_recited(tmp_path):
 
 
 def test_notebooklm_stays_phonetic_even_with_flag(tmp_path):
-    # Asif's directive: Arabic stripping is for the NotebookLM route; Arabic
-    # reaches the audio ONLY on ElevenLabs. The flag alone must not breach that.
+    # Dialogue render stays engine-aware; persisted Islamic chapters carry Arabic
+    # separately through inject_chapter_arabic.py.
     from pronunciation_compiler import compile_turns_for_render
     bd = _mk_book(tmp_path, engine="notebooklm", recitation=True)
     out = compile_turns_for_render(bd, _turns("The method turns on ta'wil here."))
@@ -88,3 +89,52 @@ def test_glossary_phonetic_anchor_is_romanized():
     assert "phonetic: \"ta'wil\"" in out                       # romanized anchor
     assert "arabic_script: \"تأويل\"" in out  # arabic seeded
     assert "phonetic: \"تأويل\"" not in out   # NOT the arabic term
+
+
+def test_glossary_fallback_scans_chapters_when_phonetics_missing(tmp_path):
+    import build_glossary
+    bd = tmp_path / "bk"
+    chapters = bd / "chapters"
+    chapters.mkdir(parents=True)
+    (chapters / "ch01.txt").write_text(
+        "The path of tawhid and tanzih leads through alam al-ruh.",
+        encoding="utf-8",
+    )
+
+    rows = build_glossary.rows_from_chapter_fallback(bd)
+    out = build_glossary.emit_glossary_yaml(rows)
+
+    assert "phonetic: \"tawhid\"" in out
+    assert "arabic_script: \"توحيد\"" in out
+    assert "phonetic: \"alam al-ruh\"" in out
+    assert "arabic_script: \"عالم الروح\"" in out
+
+
+def test_inject_chapter_arabic_persists_script_from_glossary(tmp_path):
+    from inject_chapter_arabic import chapter_arabic_status, inject_book
+    bd = _mk_book(tmp_path, engine="notebooklm", recitation=False)
+    chapters = bd / "chapters"
+    chapters.mkdir()
+    chapter = chapters / "ch01.txt"
+    chapter.write_text("The method turns on ta'wil here.", encoding="utf-8")
+
+    result = inject_book(bd)
+
+    text = chapter.read_text(encoding="utf-8")
+    assert result["injections"] == 1
+    assert "ta'wil (تأويل)" in text
+    assert chapter_arabic_status(bd)["ok"] is True
+
+
+def test_inject_chapter_arabic_is_idempotent(tmp_path):
+    from inject_chapter_arabic import inject_book
+    bd = _mk_book(tmp_path, engine="notebooklm", recitation=False)
+    chapters = bd / "chapters"
+    chapters.mkdir()
+    chapter = chapters / "ch01.txt"
+    chapter.write_text("The method turns on ta'wil (تأويل) here.", encoding="utf-8")
+
+    result = inject_book(bd)
+
+    assert result["injections"] == 0
+    assert chapter.read_text(encoding="utf-8").count("تأويل") == 1

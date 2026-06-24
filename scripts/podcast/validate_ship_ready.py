@@ -207,43 +207,30 @@ def main() -> int:
                          "passed": bool(ok12)})
     # G12 is advisory — warn but do not block ship
 
-    # G13 — arabic-script-coverage (ADVISORY): for audio-sourced Islamic books the
-    # reader "Show Arabic" toggle reads glossary.yml `arabic_script`. Audio is
-    # transliteration-only, so coverage is RESTORED downstream (finalize auto-runs
-    # repair_glossary). Until the deterministic canonical/passage restoration
-    # (restore_arabic steps 2b/3) and the reader-rendering feature land — both
-    # deferred — this gate REPORTS coverage and warns at zero. It deliberately
-    # does NOT block: a hard threshold would false-fail every audio book on a
-    # capability that is not built yet. Promote to blocking when 2b/3 ship.
+    # G13 — arabic-script-in-chapters (P0): Islamic scholarly books must persist
+    # Arabic script in every chapter source, with pronunciation still controlled
+    # by the glossary / Customize prompt. Missing Arabic is a ship blocker.
     try:
-        import json as _json
         from _content_profile import is_islamic_scholarly
-        _state_p = workspace / "_system" / "orchestrator-state.json"
-        _st = _json.loads(_state_p.read_text()) if _state_p.exists() else {}
-        if _st.get("source_kind") == "audio" and is_islamic_scholarly(workspace):
-            import yaml as _yaml
-            _gp = workspace / "_system" / "glossary.yml"
-            _entries = (_yaml.safe_load(_gp.read_text()) or {}).get("entries") or [] \
-                if _gp.exists() else []
-            _total = len(_entries)
-            _withar = sum(1 for e in _entries
-                          if str((e or {}).get("arabic_script", "")).strip())
-            _pct = (_withar / _total) if _total else 0.0
-            _note = (f"{_withar}/{_total} ({_pct:.0%}) glossary entries have arabic_script"
-                     if _pct > 0 else
-                     f"0/{_total} glossary entries have arabic_script — 'Show Arabic' "
-                     f"toggle will be empty (deterministic restoration deferred; advisory)")
-            gate_results.append({"gate": "G13", "name": "arabic-script-coverage",
-                                 "passed": True, "advisory": True, "note": _note})
+        if is_islamic_scholarly(workspace):
+            from inject_chapter_arabic import chapter_arabic_status
+            _status = chapter_arabic_status(workspace)
+            _note = str(_status.get("note") or "")
+            gate_results.append({"gate": "G13", "name": "arabic-script-in-chapters",
+                                 "passed": bool(_status.get("ok")), "note": _note})
+            if not _status.get("ok"):
+                return _emit(args, gate_results, "BLOCKED",
+                             f"G13 arabic-script-in-chapters failed — {_note}")
         else:
-            gate_results.append({"gate": "G13", "name": "arabic-script-coverage",
-                                 "passed": True, "advisory": True,
-                                 "note": "n/a (not an audio-sourced Islamic book)"})
+            gate_results.append({"gate": "G13", "name": "arabic-script-in-chapters",
+                                 "passed": True,
+                                 "note": "n/a (not islamic_scholarly)"})
     except Exception as _e:
-        gate_results.append({"gate": "G13", "name": "arabic-script-coverage",
-                             "passed": True, "advisory": True,
-                             "note": f"advisory check skipped: {_e}"})
-    # G13 is advisory — never blocks ship.
+        gate_results.append({"gate": "G13", "name": "arabic-script-in-chapters",
+                             "passed": False,
+                             "note": f"check failed: {_e}"})
+        return _emit(args, gate_results, "BLOCKED",
+                     f"G13 arabic-script-in-chapters failed — {_e}")
 
     # G14 — arabic-integrity: every protected Arabic span is byte-stable against
     # the pre-LLM baseline snapshot (allowing only canonical injection + glossary

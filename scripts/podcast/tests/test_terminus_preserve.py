@@ -103,7 +103,7 @@ class Sn7GuardTests(unittest.TestCase):
 
     def test_guard_is_orthogonal_to_phonetics_out(self):
         g = gr.sn7_guard([])
-        self.assertIn("SCRIPT", g)  # Arabic script itself is stripped; phonetic carries the term
+        self.assertIn("SCRIPT", g)  # Arabic script policy is separate from inline phonetic respelling
 
 
 class RulesConstantTests(unittest.TestCase):

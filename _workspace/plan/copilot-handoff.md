@@ -683,3 +683,50 @@ OPEN (spend-gated, need Asif):
 - **Intake**: islamic_scholarly + elevenlabs books stamp elevenlabs_arabic_recitation: true.
 - Suite 996 green (+20: test_quran_recitation, verse-Arabic assertions skipUnless mirror).
 - Hadith recitation DEFERRED (Ahadees table not keyed by the citation form books use).
+
+## Session 2026-06-24 — Al Anwaar reference-tail noise cleanup
+
+- Added `NZ-REFERENCE-TAIL` to the Wave-N noise taxonomy: wisdom/saying
+  blockquotes keep the quote and speaker, but drop bibliographic tails such as
+  `in Nahj al-Balagha (compiled by al-Sharif al-Radi), Hikam (Saying) 147`,
+  translator names, edition labels, and similar source scaffolding.
+- Added deterministic `strip_reference_attribution_noise.py`, wired it into
+  Phase 0e after enrichment, and applied it to Al Anwaar vol-01 chapters.
+- Cleaned 10 chapter references in Al Anwaar vol-01; final chapter grep for
+  Nahj/Ghurar/Hikam/Saying/Sermon translator-tail markers is clean.
+- Verification: reference-tail unit tests, noise-router unit tests, and Python
+  compile checks passed.
+
+## Session 2026-06-24 — Al Anwaar Arabic overlay restored
+
+- Root cause of "no Arabic / no Arabic toggle": Al Anwaar vol-01 had no
+  `_system/glossary.yml`, so the Podcast Factory Astro Site received
+  `glossaryCount=0` and hid both the Arabic switch and the Phonetic Map link.
+- Fixed `build_glossary.py` fallback for the post-retired `_phonetics.md` world:
+  if `_phonetics.md` is absent, it scans chapters for a conservative curated map
+  of high-confidence Islamic terms and emits Arabic script directly.
+- Generated `content/Islamic/al-anwaar-al-lateefah/vol-01/_system/glossary.yml`
+  with 13 entries. Live Playwright check on 127.0.0.1:4322 confirmed Arabic
+  switch visible, Phonetic Map visible, Arabic chips rendered in the editor, and
+  Arabic review panel populated.
+- Verification: targeted Python tests, Python compile, lint:views, astro check.
+
+## Session 2026-06-24 — Arabic-in-chapters promoted to P0
+
+- User corrected the requirement: Islamic pipeline output must not be
+  transliteration-only. Arabic script is now required in persisted Islamic
+  chapter sources, while phonetic respelling remains outside prose in the
+  glossary / Customize prompt.
+- Added `inject_chapter_arabic.py`, wired it into Phase 0e after deterministic
+  cleanup, and made finalize G13 block Islamic books whose chapters lack Arabic.
+  The companion reading-edition validator now also treats missing Islamic
+  chapter Arabic as a blocking B3 failure.
+- Expanded the curated fallback glossary for Al Anwaar terminology and
+  regenerated vol-01 glossary with 27 entries. Backfilled 219 total Arabic
+  injections; all 11 chapters now contain Arabic script.
+- Updated the Podcast Factory Astro Site reader/Studio overlay so it does not
+  add Arabic chips over terms already followed by an Arabic parenthetical.
+- Verification: 33 targeted Python tests passed; Python compile passed;
+  `lint:views` clean; `astro check` clean except existing hints; ship validator
+  passed all 14 gates with G13 confirming Arabic in all 11 chapters; headless
+  Chrome check confirmed Arabic visible and Save & Approve text stable.

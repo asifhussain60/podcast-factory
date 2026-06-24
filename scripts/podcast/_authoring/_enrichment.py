@@ -261,8 +261,12 @@ def author_phase_0e(book_dir: Path,
             f"- Outside material ≤ 60% of THIS chapter's word count. The original author's "
             f"argument stays the spine.\n"
             f"- Tier diversity required — don't pull all enrichments from one tier.\n"
-            f"- Every citation carries author, work, page or section, and translator "
-            f"(for Quranic translations).\n"
+            f"- Keep chapter prose listener-clean: Quranic and hadith quotations may carry "
+            f"the concise source locator needed for trust, but wisdom/saying blockquotes "
+            f"should name the speaker only. Do NOT append bibliographic tails such as "
+            f"'in Nahj al-Balagha (compiled by al-Sharif al-Radi), Hikam (Saying) 147' "
+            f"or translator/source-edition details to chapter prose; those are reference "
+            f"noise for the audio source.\n"
             f"- Apply R-PHONETICS-OUT: no inline `*term* (PHO-NE-TIC)` parens in chapter "
             f"prose; phonetic discipline lives in the customize prompt only.\n"
             f"- Apply R-HONORIFIC-ONCE STRICTLY (F5 framework guard 2026-05-21): each "
@@ -441,6 +445,8 @@ def author_phase_0e(book_dir: Path,
     # leak. The phonetic data is preserved in _phonetics.md and glossary.yml;
     # the framing's Pronunciation section is the canonical surface.
     strip_msg = _bake_strip_inline_phonetics(book_dir, log=log)
+    strip_msg += _bake_strip_reference_attribution_noise(book_dir, log=log)
+    strip_msg += _bake_inject_chapter_arabic(book_dir, log=log)
 
     return (
         f"0e per-chapter loop: {len(chapter_files)} chapters enriched "
@@ -457,7 +463,7 @@ def _bake_strip_inline_phonetics(book_dir: Path, *, log=print) -> str:
     usually honors R-PHONETICS-OUT); when the LLM slips, this catches it
     BEFORE the build hard-refuses.
     """
-    here = Path(__file__).resolve().parent
+    here = Path(__file__).resolve().parents[1]
     stripper = here / "strip_inline_phonetics.py"
     if not stripper.exists():
         return ""
@@ -468,3 +474,40 @@ def _bake_strip_inline_phonetics(book_dir: Path, *, log=print) -> str:
     return " + strip-inline-phonetics"
 
 
+def _bake_strip_reference_attribution_noise(book_dir: Path, *, log=print) -> str:
+    """Run scripts/podcast/strip_reference_attribution_noise.py over chapters/.
+
+    Best-effort: this is a post-enrichment hygiene pass that removes bibliographic
+    tails from wisdom/saying blockquotes while preserving the quote and speaker.
+    """
+    here = Path(__file__).resolve().parents[1]
+    stripper = here / "strip_reference_attribution_noise.py"
+    if not stripper.exists():
+        return ""
+    rc, out, err = _run([sys.executable, str(stripper), "--book-dir", str(book_dir)])
+    if rc != 0:
+        log(f"  phase 0e · strip_reference_attribution_noise skipped (rc={rc}): {err.strip()[:200]}")
+        return ""
+    if "stripped: 0 reference tails" not in out:
+        log("  phase 0e · strip_reference_attribution_noise applied")
+    return " + strip-reference-attribution-noise"
+
+
+def _bake_inject_chapter_arabic(book_dir: Path, *, log=print) -> str:
+    """Run scripts/podcast/inject_chapter_arabic.py over Islamic chapters.
+
+    This promotes Arabic from reader overlay metadata into the persisted chapter
+    source while keeping phonetic pronunciation guidance in the glossary /
+    Customize prompt.
+    """
+    here = Path(__file__).resolve().parents[1]
+    injector = here / "inject_chapter_arabic.py"
+    if not injector.exists():
+        return ""
+    rc, out, err = _run([sys.executable, str(injector), "--book-dir", str(book_dir)])
+    if rc != 0:
+        log(f"  phase 0e · inject_chapter_arabic skipped (rc={rc}): {err.strip()[:200]}")
+        return ""
+    if "0 injections" not in out:
+        log("  phase 0e · inject_chapter_arabic applied")
+    return " + inject-chapter-arabic"

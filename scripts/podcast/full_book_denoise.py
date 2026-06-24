@@ -38,7 +38,7 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 from _paths import REPO_ROOT, resolve_content  # noqa: E402
-from _rules import R_NOISE_APPARATUS_DIRECTIVE  # noqa: E402
+from _rules import R_NOISE_APPARATUS_DIRECTIVE, strip_noise_reference_attributions  # noqa: E402
 
 PRICE_IN  = 0.000_000_1   # $/char Gemini Flash input
 PRICE_OUT = 0.000_000_4   # $/char output
@@ -194,6 +194,7 @@ def denoise_source(slug: str, source: str, *, force: bool = False) -> Path:
 
     print(f"  [{source}] denoising {in_chars:,} chars…", end="", flush=True)
     out = _gemini(system, text)
+    out, _reference_tail_strips = strip_noise_reference_attributions(out)
     out_path.write_text(f"# Denoised — {slug} — {source} source\n\n" + out.strip() + "\n", encoding="utf-8")
 
     out_chars = len(out)

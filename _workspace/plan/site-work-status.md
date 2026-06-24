@@ -10,7 +10,32 @@
 -->
 # Current work — status
 
-**Last updated:** 2026-06-17 (session 31 — Arabic-review panel redesign + smart defaults)
+**Last updated:** 2026-06-24 2:28 PM EST (session 33 - Al Anwaar Arabic overlay restored)
+
+**Session 33 (branch Islamic/al-anwaar-al-lateefah):**
+Restored Arabic visibility in the Al Anwaar Studio editor. Root cause: vol-01 had
+no `_system/glossary.yml`, so `glossaryCount` was zero and the Studio editor hid
+both the Arabic toggle and the phonetic-map link. Fixed the retired-phonetics gap
+in `build_glossary.py` by adding a conservative chapter-text fallback for
+high-confidence Islamic terms, generated a 13-entry glossary for vol-01, and
+verified live on 127.0.0.1:4322 that the Arabic switch, Phonetic Map link, Arabic
+chips, and Arabic review panel all render with no console errors. Checks passed:
+targeted Python tests, Python compile, lint:views, astro check.
+
+**Last updated prior:** 2026-06-24 1:43 PM EST (session 32 - Al Anwaar Studio approve fix)
+
+**Session 32 (branch Islamic/al-anwaar-al-lateefah):**
+Fixed the Studio editor approval flow for Al Anwaar after a live click exposed two
+issues: approval rewrote blockquotes without their nested paragraph text, which
+removed quoted sayings, and the approve button changed into an approval label.
+Reset the affected chapter back to the committed text, removed the transient
+review record created by the bad click, added Radix Toast for temporary approval
+feedback, and kept the button label stable as "Save & Approve". Verified the
+original 127.0.0.1:4322 Studio page after restarting the stale dev server: no
+hydration errors, button text remains stable, toast says "Augmented Approved",
+and the test-created review artifact was cleaned up.
+
+**Last updated prior:** 2026-06-17 (session 31 - Arabic-review panel redesign + smart defaults)
 
 **Session 31 (commits 0e7658e, 697f5e6, d4d34c7, branch Islamic/kunooz-al-hikmah):**
 Five-part Arabic-review-panel overhaul (governance plan A approved). (1) Taa-marbuta
@@ -138,3 +163,11 @@ palette/fonts, unguarded GSAP — needs documented-exception-or-retheme call;
 (d) figure+figcaption wrappers for architecture diagram mounts; (e) SHOULD tier:
 scroll-behavior smooth, print block, ld+json, footer conformance stamp,
 system-map density split, SpendChart dead code removal (Tier-2 rm — ask).
+
+**Session 2026-06-24 2:38 PM EST — Arabic is now baked into Islamic chapters.**
+Promoted Arabic from overlay-only to a P0 pipeline rule: Islamic scholarly
+chapters must persist glossary-backed Arabic script in the chapter source while
+phonetic respelling remains in the glossary / Customize prompt. Added the
+deterministic injector, made finalize G13 blocking, and adjusted the Studio
+overlay to avoid duplicating terms that already carry Arabic parentheticals.
+Al Anwaar vol-01 now has Arabic in all 11 chapters and G13 passes.

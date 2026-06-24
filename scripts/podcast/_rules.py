@@ -59,12 +59,17 @@ vs. substring list); the canonical data itself is plain Python literals.
 # `## Verbatim Recitation` instruction). Chapter-set checks CS7–CS10
 # (coverage, overlap/dedup, sermon integrity, set density) land in
 # check_chapter_set.py. Standard: docs/standards/chapter-density.md.
-CHALLENGER_VERSION = "2.5"
+# 2.6 (2026-06-24): promotes Arabic-in-chapters from display-layer preference
+# to P0 rule for islamic_scholarly books. R-ARABIC-IN-CHAPTERS requires every
+# Islamic chapter source to persist glossary-backed Arabic script while keeping
+# phonetic respelling in the glossary / Customize prompt only.
+CHALLENGER_VERSION = "2.6"
 
 R_MAX_CONCEPTS: str = "R-MAX-CONCEPTS"
 R_QURAN_CITATION_FORMAT: str = "R-QURAN-CITATION-FORMAT"
 R_NO_TRANSLIT_FORMULA: str = "R-NO-TRANSLIT-FORMULA"
 R_SERMON_VERBATIM: str = "R-SERMON-VERBATIM"
+R_ARABIC_IN_CHAPTERS: str = "R-ARABIC-IN-CHAPTERS"
 
 # ─── Upstream precheck sources (Wave N — adversarial validation, Phase A–C) ──
 # These are the `source` values written into _learning/findings.jsonl by the
@@ -740,6 +745,10 @@ R_NOISE_APPARATUS_CATEGORIES: dict[str, str] = {
                        "and publisher notes, dedication-of-the-edition, scan/upload provenance.",
     "NZ-EDITORIAL":    "Editorial framing about the artifact rather than its subject — 'in this "
                        "lesson we will…', 'as recorded above', recording-session housekeeping.",
+    "NZ-REFERENCE-TAIL": "Bibliographic tails attached to wisdom/saying blockquotes in chapter prose — "
+                         "e.g. 'in Nahj al-Balagha (compiled by al-Sharif al-Radi), Hikam "
+                         "(Saying) 147' or translator/source edition details. Keep the quoted "
+                         "teaching and speaker; strip the reference scaffolding from chapters.",
 }
 
 # PROTECT-LIST — doctrine that LOOKS like apparatus but IS the teaching and must
@@ -764,10 +773,57 @@ R_NOISE_APPARATUS_PATTERNS: list[tuple] = [
     (_re.compile(r"deposited? in the treasury|treasury of the (sacred mission|Da'wat)", _re.I), "NZ-PROVENANCE"),
     (_re.compile(r"recorded (them )?(first )?for (my|his) (father|family)", _re.I),  "NZ-PROVENANCE"),
     (_re.compile(r"(transcribed|compiled|printed|scanned|typeset) by|this edition", _re.I), "NZ-COLOPHON"),
+    (_re.compile(r"\b(?:in\s+)?\*?Nahj al-Balagha\*?\s*(?:\(compiled by al-Sharif al-Radi\))?,\s*(?:Hikam\s*)?\(?(?:Sermon|Saying|Letter)\)?\s*\d+", _re.I), "NZ-REFERENCE-TAIL"),
+    (_re.compile(r"\b\*?(?:Nahj al-Balagha|Ghurar al-Hikam(?: wa Durar al-Kalim)?)\*?\s*(?:\(compiled by [^)]+\))?,\s*(?:Sermon|Saying|Letter|Hikam|Maxim|among the maxims)\b", _re.I), "NZ-REFERENCE-TAIL"),
 ]
 
 # Version stamped into every noise-auditor report; bump on taxonomy change.
-NOISE_AUDITOR_VERSION = "1.0"
+NOISE_AUDITOR_VERSION = "1.1"
+
+# Chapter-prose reference-tail cleanup. The quote and speaker are content; the
+# bibliography after the speaker is chapter noise. This intentionally targets
+# wisdom/saying blockquotes, not Quranic or hadith references whose verse/book
+# numbers are needed for source clarity.
+R_NOISE_REFERENCE_TAIL_RES: tuple[_re.Pattern[str], ...] = (
+    _re.compile(
+        r"(?P<speaker>—\s*[^.\n]{1,140}?)(?:,\s*(?:in\s+)?)"
+        r"\*?(?:Nahj al-Balagha|Ghurar al-Hikam(?: wa Durar al-Kalim)?)\*?\s*"
+        r"(?:\(compiled by [^)]+\))?,\s*"
+        r"(?:(?:Hikam\s*)?\(?(?:Sermon|Saying|Letter|Maxim)\)?\s*\d+"
+        r"(?:\s*\([^)]+\))?|among the maxims on [^.]+)"
+        r"(?:,\s*trans\.\s*[^.]+)?"
+        r"(?:,\s*\*?Peak of Eloquence\*?)?\.",
+        _re.I,
+    ),
+)
+
+
+def strip_noise_reference_attributions(text: str) -> tuple[str, int]:
+    """Strip bibliographic source tails from chapter prose, preserving speaker.
+
+    Example:
+      quote — Ali ibn Abi Talib, the Father of Imams, in *Nahj al-Balagha*
+      (compiled by al-Sharif al-Radi), Hikam (Saying) 147.
+
+    becomes:
+      quote — Ali ibn Abi Talib, the Father of Imams.
+    """
+    count = 0
+
+    def _replace(match: _re.Match[str]) -> str:
+        nonlocal count
+        count += 1
+        return match.group("speaker").rstrip(" ,") + "."
+
+    out_lines: list[str] = []
+    for line in text.splitlines():
+        if line.lstrip().startswith(">"):
+            for pattern in R_NOISE_REFERENCE_TAIL_RES:
+                line = pattern.sub(_replace, line)
+        out_lines.append(line)
+
+    trailing_newline = "\n" if text.endswith("\n") else ""
+    return "\n".join(out_lines) + trailing_newline, count
 
 # Ready-to-inject denoise directive — appended to the denoise system prompts
 # (gemini_refine.DENOISE_SYS, full_book_denoise.build_system_prompts) so the apparatus
@@ -783,7 +839,10 @@ R_NOISE_APPARATUS_DIRECTIVE: str = (
     "framing; (b) PROVENANCE / chain-of-custody: permission/ijazat to RECORD or transmit THIS "
     "recording, 'I recorded it first for my family', deposit in a treasury/archive, the 'twofold "
     "authority' of this recording; (c) COLOPHON: who transcribed/compiled/printed/scanned it, "
-    "edition and publisher notes. PROTECT (NEVER strip — this is TEACHING, not apparatus): any "
+    "edition and publisher notes; (d) REFERENCE TAILS in chapter prose: bibliographic scaffolding "
+    "after a quoted saying, such as 'in Nahj al-Balagha (compiled by al-Sharif al-Radi), Hikam "
+    "(Saying) 147' or translator/source-edition details. Keep the quoted teaching and the speaker; "
+    "strip the reference tail from the chapter. PROTECT (NEVER strip — this is TEACHING, not apparatus): any "
     "claim about reality/God/the soul/the path/the law, the doctrine of allegiance to the Imams / "
     "Friends of Allah (wilayah), and the epistemic claim that the knowledge is INHERITED from the "
     "prophets and saints. The test: a passage about how the book was recorded/authorized/circulated "

@@ -6,15 +6,14 @@ PURPOSE
 The podcast pipeline's Phase 0c emits _phonetics.md (a markdown table of
 Arabic / proper-noun terms with transliteration + phonetic forms) so the
 NotebookLM Customize prompt can steer host pronunciation. The chapters
-uploaded to NotebookLM are phonetic-only by design (R-PHONETICS-OUT)
-and never contain Arabic script.
+uploaded to NotebookLM must never contain inline phonetic respelling
+(R-PHONETICS-OUT), but Islamic scholarly chapters do persist Arabic script
+beside the romanized term.
 
-For the Podcast Factory Astro Site (the reader section), however, we want to render the *original*
-Arabic script alongside the phonetic form, on a header toggle. This
-script materializes a per-book `glossary.yml` that the reader consumes:
-each row pairs the phonetic form used in chapters with the Arabic
-script, transliteration, and rendering metadata. The chapter `.txt`
-files are unchanged; the glossary is overlaid at render-time.
+This script materializes a per-book `glossary.yml` consumed by deterministic
+chapter Arabic injection, the Podcast Factory Astro Site reader overlay, and
+the audio pronunciation path: each row pairs the romanized chapter anchor with
+Arabic script, transliteration, and rendering metadata.
 
 INVOCATION
 
@@ -27,6 +26,9 @@ INPUTS
     BOOK_DIR/_system/source/ocr/raw-extract.md   (optional — used only as
                                                    a script-source hint for
                                                    downstream LLM-fill)
+    BOOK_DIR/chapters/ch*.txt                    (fallback when _phonetics.md
+                                                   is absent; scans a curated
+                                                   canonical Arabic-term map)
 
 OUTPUTS
 
@@ -40,12 +42,10 @@ The emitted YAML schema:
                                      # until LLM-fill OR manual completion
       first_seen_snippet: "..."      # context from _phonetics.md (first match)
 
-Reader behavior: when the "Show Arabic" header toggle is ON, the reader
-scans rendered chapter prose for the `phonetic` value (case-insensitive,
-word-boundary), and renders matches as
-  "Hujjah <span dir=\"rtl\" lang=\"ar\">حُجَّة</span>"
-or whatever the reader's chosen render mode dictates. Empty arabic_script
-fields are no-ops (term renders phonetic-only — same as today).
+Reader / chapter behavior: `inject_chapter_arabic.py` scans chapter prose for
+the `phonetic` value and persists `phonetic (Arabic)` in Islamic chapters. The
+reader overlay avoids double-rendering terms that already carry an Arabic
+parenthetical. Empty `arabic_script` fields are a P0 gap for Islamic books.
 
 LLM-FILL PROTOCOL (separate, not invoked here)
 
@@ -62,6 +62,36 @@ import argparse
 import re
 import sys
 from pathlib import Path
+
+CANONICAL_FALLBACK_TERMS: list[dict[str, str]] = [
+    {"phonetic": "alam al-ruh", "transliteration": "alam al-ruh", "arabic_script": "عالم الروح", "audio_phonetic": "aa-lam al-rooh"},
+    {"phonetic": "Imam al-Zaman", "transliteration": "Imam al-Zaman", "arabic_script": "إمام الزمان", "audio_phonetic": "i-maam az-za-maan"},
+    {"phonetic": "Mukathir", "transliteration": "Mukathir", "arabic_script": "مُكَثِّر", "audio_phonetic": "mu-kath-thir"},
+    {"phonetic": "tawhid", "transliteration": "tawhid", "arabic_script": "توحيد", "audio_phonetic": "taw-heed"},
+    {"phonetic": "tanzih", "transliteration": "tanzih", "arabic_script": "تنزيه", "audio_phonetic": "tan-zeeh"},
+    {"phonetic": "tajrid", "transliteration": "tajrid", "arabic_script": "تجريد", "audio_phonetic": "taj-reed"},
+    {"phonetic": "ta'wil", "transliteration": "ta'wil", "arabic_script": "تأويل", "audio_phonetic": "ta-weel"},
+    {"phonetic": "hudud", "transliteration": "hudud", "arabic_script": "حُدُود", "audio_phonetic": "hu-dood"},
+    {"phonetic": "haykal", "transliteration": "haykal", "arabic_script": "هيكل", "audio_phonetic": "hay-kal"},
+    {"phonetic": "ma'dhun", "transliteration": "ma'dhun", "arabic_script": "مأذون", "audio_phonetic": "ma-dhoon"},
+    {"phonetic": "hujjah", "transliteration": "hujjah", "arabic_script": "حُجَّة", "audio_phonetic": "huj-jah"},
+    {"phonetic": "da'i", "transliteration": "da'i", "arabic_script": "داعي", "audio_phonetic": "daa-ee"},
+    {"phonetic": "surat", "transliteration": "surat", "arabic_script": "صورة", "audio_phonetic": "soo-rah"},
+    {"phonetic": "basirah", "transliteration": "basirah", "arabic_script": "بصيرة", "audio_phonetic": "ba-see-rah"},
+    {"phonetic": "Du'at", "transliteration": "Du'at", "arabic_script": "دعاة", "audio_phonetic": "du-aat"},
+    {"phonetic": "Ilahiyyah", "transliteration": "Ilahiyyah", "arabic_script": "إلهية", "audio_phonetic": "i-laa-hiy-yah"},
+    {"phonetic": "Hujjiyyah", "transliteration": "Hujjiyyah", "arabic_script": "حجية", "audio_phonetic": "huj-jiy-yah"},
+    {"phonetic": "Hijabiyyah", "transliteration": "Hijabiyyah", "arabic_script": "حجابية", "audio_phonetic": "hi-jaab-iy-yah"},
+    {"phonetic": "Khayaliyyah", "transliteration": "Khayaliyyah", "arabic_script": "خيالية", "audio_phonetic": "kha-yaa-liy-yah"},
+    {"phonetic": "Fathiyyah", "transliteration": "Fathiyyah", "arabic_script": "فتحية", "audio_phonetic": "fath-iy-yah"},
+    {"phonetic": "Jiddiyyah", "transliteration": "Jiddiyyah", "arabic_script": "جدية", "audio_phonetic": "jid-diy-yah"},
+    {"phonetic": "Anza'iyyah", "transliteration": "Anza'iyyah", "arabic_script": "أنزعية", "audio_phonetic": "an-za-iy-yah"},
+    {"phonetic": "Qa'imiyyah", "transliteration": "Qa'imiyyah", "arabic_script": "قائمية", "audio_phonetic": "qaa-i-miy-yah"},
+    {"phonetic": "Jussiyyah", "transliteration": "Jussiyyah", "arabic_script": "جسية", "audio_phonetic": "jus-siy-yah"},
+    {"phonetic": "Ahadiyyah", "transliteration": "Ahadiyyah", "arabic_script": "أحدية", "audio_phonetic": "a-ha-diy-yah"},
+    {"phonetic": "Samadiyyah", "transliteration": "Samadiyyah", "arabic_script": "صمدية", "audio_phonetic": "sa-ma-diy-yah"},
+    {"phonetic": "Huwiyyah", "transliteration": "Huwiyyah", "arabic_script": "هوية", "audio_phonetic": "hu-wiy-yah"},
+]
 
 
 def parse_phonetics_md(path: Path) -> list[dict[str, str]]:
@@ -103,18 +133,17 @@ def emit_glossary_yaml(rows: list[dict[str, str]]) -> str:
     the source is already markdown-table-sanitized.
     """
     lines: list[str] = []
-    lines.append("# Per-book glossary — phonetic ↔ Arabic-script overlay for the reader.")
-    lines.append("# Generated by scripts/podcast/build_glossary.py from _phonetics.md.")
-    lines.append("# The arabic_script field is empty until a follow-up LLM-fill or")
-    lines.append("# manual review populates it. Empty entries render phonetic-only")
-    lines.append("# in the reader (no-op).")
+    lines.append("# Per-book glossary — phonetic ↔ Arabic-script source for chapters/reader/audio.")
+    lines.append("# Generated by scripts/podcast/build_glossary.py.")
+    lines.append("# Rows may come from _phonetics.md or the curated chapter-term fallback.")
+    lines.append("# Empty arabic_script entries are a P0 gap for islamic_scholarly books.")
     lines.append("")
     lines.append("schema_version: 1")
     lines.append("entries:")
     for r in rows:
         # The phonetic ANCHOR must be the ROMANIZED form that actually appears in
-        # the chapters/scripts (R-PHONETICS-OUT renders every term romanized) — the
-        # render-time Arabic injection, the reader overlay, and the PLS dictionary
+        # the chapters/scripts (R-PHONETICS-OUT bans inline phonetic respelling) —
+        # chapter Arabic injection, the reader overlay, and the PLS dictionary
         # all match against this value. The `term` column is romanized for some
         # books but ARABIC SCRIPT for Arabic-sourced books; matching Arabic against
         # Latin text never fires (regression: asaas-al-taveel-vol-01, 2026-06-13).
@@ -124,8 +153,8 @@ def emit_glossary_yaml(rows: list[dict[str, str]]) -> str:
         translit = r["transliteration"]
         phon = translit or term  # romanized anchor; term only as a last resort
         term_is_arabic = bool(re.search(r"[؀-ۿ]", term))
-        arabic_seed = term if term_is_arabic else ""
-        phon_audio = r["phonetic"]
+        arabic_seed = r.get("arabic_script", "") or (term if term_is_arabic else "")
+        phon_audio = r.get("audio_phonetic", "") or r["phonetic"]
         snippet = r["first_seen_snippet"]
         lines.append(f'  - phonetic: "{_q(phon)}"')
         lines.append(f'    transliteration: "{_q(translit)}"')
@@ -133,6 +162,42 @@ def emit_glossary_yaml(rows: list[dict[str, str]]) -> str:
         lines.append(f'    audio_phonetic: "{_q(phon_audio)}"')
         lines.append(f'    first_seen_snippet: "{_q(snippet)}"')
     return "\n".join(lines) + "\n"
+
+
+def rows_from_chapter_fallback(book_dir: Path) -> list[dict[str, str]]:
+    """Build a glossary scaffold by scanning chapters for known Arabic terms.
+
+    This is the post-2026-06-08 fallback for books whose retired phonetics pass
+    never wrote _phonetics.md. It is intentionally conservative: only a curated
+    high-confidence term map can emit Arabic script.
+    """
+    chapters_dir = book_dir / "chapters"
+    if not chapters_dir.exists():
+        return []
+    chapter_texts = [(p, p.read_text(encoding="utf-8")) for p in sorted(chapters_dir.glob("ch*.txt"))]
+    rows: list[dict[str, str]] = []
+    for term in CANONICAL_FALLBACK_TERMS:
+        phonetic = term["phonetic"]
+        pattern = re.compile(r"(?<![A-Za-z])" + re.escape(phonetic) + r"(?![A-Za-z])", re.I)
+        snippet = ""
+        for _, text in chapter_texts:
+            match = pattern.search(text)
+            if not match:
+                continue
+            start = max(0, match.start() - 55)
+            end = min(len(text), match.end() + 55)
+            snippet = re.sub(r"\s+", " ", text[start:end]).strip()
+            break
+        if snippet:
+            rows.append({
+                "term": phonetic,
+                "transliteration": term["transliteration"],
+                "phonetic": phonetic,
+                "arabic_script": term["arabic_script"],
+                "audio_phonetic": term["audio_phonetic"],
+                "first_seen_snippet": snippet,
+            })
+    return rows
 
 
 def _q(s: str) -> str:
@@ -151,13 +216,6 @@ def main() -> int:
     phonetics = book_dir / "_system" / "source" / "text" / "_phonetics.md"
     out_path = book_dir / "_system" / "glossary.yml"
 
-    if not phonetics.exists():
-        sys.stderr.write(
-            f"_phonetics.md not found at {phonetics}\n"
-            f"Run Phase 0c first (or scaffold the file manually).\n"
-        )
-        return 2
-
     if out_path.exists() and not args.force:
         sys.stderr.write(
             f"Refusing to overwrite {out_path} — pass --force to regenerate.\n"
@@ -165,15 +223,21 @@ def main() -> int:
         )
         return 3
 
-    rows = parse_phonetics_md(phonetics)
+    if phonetics.exists():
+        rows = parse_phonetics_md(phonetics)
+        source = "_phonetics.md"
+    else:
+        rows = rows_from_chapter_fallback(book_dir)
+        source = "chapter fallback"
     if not rows:
-        sys.stderr.write(f"No rows parsed from {phonetics}\n")
+        sys.stderr.write(
+            f"No glossary rows parsed from {phonetics} and no fallback terms found in chapters.\n"
+        )
         return 4
 
     out_path.write_text(emit_glossary_yaml(rows), encoding="utf-8")
     print(
-        f"wrote {out_path.relative_to(book_dir)} — {len(rows)} entries "
-        f"(arabic_script empty; fill via follow-up LLM step or manually)",
+        f"wrote {out_path.relative_to(book_dir)} — {len(rows)} entries from {source}",
         file=sys.stderr,
     )
     return 0

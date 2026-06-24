@@ -24,6 +24,7 @@ import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import type { Node as PMNode } from '@tiptap/pm/model';
 import { diffWords } from 'diff';
+import * as Toast from '@radix-ui/react-toast';
 import { stageRole } from '../../../lib/reader/stage-roles';
 import type { EnrichmentSummary } from '../../../lib/reader/enrichment-ledger';
 import TransformationDashboard from './TransformationDashboard';
@@ -608,6 +609,8 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   }, [chapIdx, activeLineageId]);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
+  const [approvalToastOpen, setApprovalToastOpen] = useState(false);
+  const [approvalToastText, setApprovalToastText] = useState('Augmented Approved');
 
   // Draft autosave state: edits are persisted to a per-stage draft (debounced) so
   // they survive a refresh until the chapter is approved. 'saved' = a draft is on
@@ -1056,6 +1059,10 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                             const from = base + mm.index;
                             const to = from + mm[0].length;
                             if (inRef(from)) continue; // verse-ref phrase is already replaced by a chip
+                            const after = child.text!.slice(mm.index + mm[0].length);
+                            if (/^\s*\([\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF][^)]*\)/.test(after)) {
+                              continue;
+                            }
                             decos.push(Decoration.inline(from, to, { class: 'ar-hidden' }));
                             const script = e.arabic_script;
                             decos.push(
@@ -1193,10 +1200,13 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
 
   // Walk a ProseMirror text node and emit its content with inline mark syntax preserved.
   // Handles italic (*), bold (**), bold+italic (***) — the only marks used in stage files.
-  const serializeInline = useCallback((node: PMNode): string => {
+  const serializeInline = useCallback(function serializeInlineNode(node: PMNode): string {
     let out = '';
     node.forEach((child: PMNode) => {
-      if (!child.isText || !child.text) return;
+      if (!child.isText || !child.text) {
+        out += serializeInlineNode(child);
+        return;
+      }
       const text = child.text;
       const marks = child.marks.map((m) => m.type.name);
       const isBold   = marks.includes('bold');
@@ -1207,7 +1217,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       else                    out += text;
     });
     return out;
-  }, [editor]);
+  }, []);
 
   const serializeToMarkdown = useCallback((): string => {
     if (!editor) return '';
@@ -1218,7 +1228,13 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
         const level = node.attrs.level as number;
         lines.push('#'.repeat(level) + ' ' + serializeInline(node));
       } else if (type === 'blockquote') {
-        lines.push('> ' + serializeInline(node).split('\n').join('\n> '));
+        const quoteLines: string[] = [];
+        node.forEach((child: PMNode) => {
+          const text = serializeInline(child).trimEnd();
+          if (text) quoteLines.push(...text.split('\n'));
+        });
+        if (quoteLines.length === 0) lines.push('>');
+        else quoteLines.forEach((line) => lines.push(`> ${line}`));
       } else {
         lines.push(serializeInline(node));
       }
@@ -1311,6 +1327,9 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
         const texts: string[] = [];
         editor.state.doc.forEach((n) => texts.push(n.textContent));
         originalRef.current = texts;
+        setApprovalToastText(`${stage.label} Approved`);
+        setApprovalToastOpen(false);
+        window.setTimeout(() => setApprovalToastOpen(true), 0);
         refresh();
       }
     } catch (e) {
@@ -1854,6 +1873,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   // run didn't write every stage. Stages AFTER the editable top (e.g. narrator
   // not yet run) are omitted — they're not part of "the journey that led here".
   return (
+    <Toast.Provider swipeDirection="right" duration={2600}>
     <div className="studio-poc">
       {/* Two columns: the editor and the contextual inspector. The left pipeline
           rail was removed (redundant nav — pipeline phases live in the breadcrumb
@@ -2335,10 +2355,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
               onClick={saveAndApprove}
               disabled={saving || approvedClean}
             >
-              {approvedClean
-                ? `✓ ${stage.label} approved`
-                : saving ? 'Saving…'
-                : 'Save & Approve'}
+              {saving ? 'Saving…' : 'Save & Approve'}
             </button>
           </div>
         )}
@@ -2416,5 +2433,10 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
         </div>
       )}
     </div>
+    <Toast.Root className="sp-toast" open={approvalToastOpen} onOpenChange={setApprovalToastOpen}>
+      <Toast.Title className="sp-toast-title">{approvalToastText}</Toast.Title>
+    </Toast.Root>
+    <Toast.Viewport className="sp-toast-viewport" />
+    </Toast.Provider>
   );
 }

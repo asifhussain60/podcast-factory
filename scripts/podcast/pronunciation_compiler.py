@@ -19,10 +19,10 @@ the state file records the new pin and appends the old one to `history`
 Arabic-script recitation SCAFFOLD (halt point H2): per-book flag
 `elevenlabs_arabic_recitation: true` in series-config.yaml (DEFAULT OFF).
 When ON, `compile_turns_for_render` substitutes glossary phonetic forms
-with their native Arabic script at the script-COMPILE layer only — shared
-chapter artifacts and the script artifact itself stay engine-neutral and
-phonetic-only. The flag flips only after Asif approves an audible
-two-variant sample (H2); until then the transform is an identity.
+with their native Arabic script at the script-COMPILE layer for engines that
+support it. Persisted Islamic chapter sources also carry Arabic script beside
+romanized terms via `inject_chapter_arabic.py`; phonetic respelling still lives
+in the glossary / pronunciation dictionary, not inline chapter prose.
 
 Usage (manual):
     python3 scripts/podcast/pronunciation_compiler.py <book-slug>            # compile + show plan
@@ -280,10 +280,10 @@ def arabic_recitation_enabled(book_dir: Path) -> bool:
     """Per-book flag `elevenlabs_arabic_recitation` (default False), GATED to
     Arabic-capable engines.
 
-    The NotebookLM route is always phonetic-only (R-PHONETICS-OUT) — Arabic is a
-    NotebookLM concession we strip, and reaches the audio ONLY on an
-    Arabic-capable engine (ElevenLabs). So even if the flag is set, a NotebookLM
-    book never gets Arabic injected. Flips only after Asif approves the H2
+    The NotebookLM dialogue-render route does not receive this extra render-time
+    Arabic substitution; persisted Islamic chapter sources already carry visible
+    Arabic via inject_chapter_arabic.py. The flag only controls extra audio-render
+    substitution on Arabic-capable engines. Flips only after Asif approves the H2
     two-variant audible sample."""
     cfg = Path(book_dir) / "_system" / "series-config.yaml"
     if not cfg.exists():
@@ -345,9 +345,9 @@ def compile_turns_for_render(book_dir: Path, turns: list, *, log=None) -> list:
          spliced in after it (scripts/podcast/_quran_recitation.py).
       2. Key TERMS — glossary phonetic forms carrying an `arabic_script` value
          are replaced with the native script (loanwords + personal names skipped).
-    eleven_v3 handles mixed-language text. SHARED artifacts (chapters, the script
-    file) are NEVER touched — this transform exists only in the render path, so
-    NotebookLM and the script artifact stay engine-neutral and phonetic-only."""
+    eleven_v3 handles mixed-language text. Persisted chapters are handled by
+    inject_chapter_arabic.py; this transform exists only in the render path and
+    never writes chapter or script artifacts."""
     if not arabic_recitation_enabled(book_dir):
         return list(turns)
     from _dialogue_script import Turn

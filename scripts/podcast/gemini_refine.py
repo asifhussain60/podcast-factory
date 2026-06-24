@@ -23,7 +23,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 from _paths import REPO_ROOT, content_dir  # noqa: E402
 from _cost_ledger import append_gemini_cost  # noqa: E402
-from _rules import R_NOISE_APPARATUS_DIRECTIVE  # noqa: E402
+from _rules import R_NOISE_APPARATUS_DIRECTIVE, strip_noise_reference_attributions  # noqa: E402
 
 # ─── SN-7 Terminus-technicus preservation (R_TERMINUS_PRESERVE) ───────────────
 # house-voice.md §2b. The RULE is the standard; the protect-LIST is per-book, tradition-agnostic
@@ -251,6 +251,7 @@ def main() -> int:
         return 0
     text = src.read_text()
     out = gemini(a.model, system, text)
+    out, _reference_tail_strips = strip_noise_reference_attributions(out)
     dst.write_text(title + "\n\n" + out.strip() + "\n")
     append_gemini_cost(book, phase=f"wc8/{a.mode}", step=a.chapter,
                        model=a.model, in_chars=len(text), out_chars=len(out))
