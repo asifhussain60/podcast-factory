@@ -158,7 +158,10 @@ Mu'min / Fasiq / Beast / Dead.
 
 7. "mermaid-mindmap"
    Use when: one central concept radiates into sub-types or attributes (NO ranked order).
-   Parameters: {{"mermaid_dsl": "mindmap\\n  root((\\"Topic\\"))\\n  Branch1\\n  Branch2"}}
+   Parameters: {{"mermaid_dsl": "mindmap\\n  root((\\"Topic\\"))\\n    Branch1\\n    Branch2"}}
+   The root sits at 2-space indent; EVERY branch is indented DEEPER (4 spaces) so it \
+nests UNDER the root.  Branches at the SAME indent as the root parse as separate roots \
+and Mermaid rejects the diagram with a "multiple roots" error.
 
 8. "mermaid-graph"
    Use when: bidirectional relationships between 3-5 concepts of roughly equal weight.
@@ -169,7 +172,9 @@ MERMAID DSL HARD CONSTRAINTS (violations cause render failure):
 - Node IDs: letters + digits + underscores only (no spaces, no hyphens)
 - Labels: max 6 words, no apostrophes or parentheses inside quotes
 - flowchart: first line MUST be `flowchart TD` or `flowchart LR`
-- mindmap: root uses `root(("Topic"))`, branches indented 2 spaces, NO arrows
+- mindmap: root uses `root(("Topic"))` at 2-space indent; branches indented DEEPER \
+(4 spaces) so they nest under root — branches at the same indent as root cause a \
+"multiple roots" render failure; NO arrows
 - graph: `graph LR` or `graph TD`; `-->` directional; `---` undirected
 
 SECTION TITLE: {section_title}
@@ -194,14 +199,17 @@ STRUCTURE TYPES FOR TECHNICAL CONTENT:
    Parameters: {{"mermaid_dsl": "graph LR\\n..."}}
 
 5. "mermaid-mindmap" — feature decompositions, option spaces.
-   Parameters: {{"mermaid_dsl": "mindmap\\n  root((\\"Topic\\"))\\n..."}}
+   Parameters: {{"mermaid_dsl": "mindmap\\n  root((\\"Topic\\"))\\n    Branch1\\n    Branch2"}}
+   Root at 2-space indent; EVERY branch indented DEEPER (4 spaces) so it nests under root.
 
 MERMAID DSL HARD CONSTRAINTS:
 - ALL node labels in double quotes: A["Label text"]
 - Node IDs: letters + digits + underscores only
 - Labels: max 6 words, no apostrophes or parentheses inside quotes
 - flowchart: first line MUST be `flowchart TD` or `flowchart LR`
-- mindmap: root uses `root(("Topic"))`, branches indented 2 spaces, NO arrows
+- mindmap: root uses `root(("Topic"))` at 2-space indent; branches indented DEEPER \
+(4 spaces) so they nest under root — branches at the same indent as root cause a \
+"multiple roots" render failure; NO arrows
 
 SECTION TITLE: {section_title}
 
@@ -216,7 +224,8 @@ STRUCTURE TYPES:
    Parameters: {{"mermaid_dsl": "flowchart TD\\n..."}}
 
 2. "mermaid-mindmap" — one central concept with radiating attributes.
-   Parameters: {{"mermaid_dsl": "mindmap\\n  root((\\"Topic\\"))\\n..."}}
+   Parameters: {{"mermaid_dsl": "mindmap\\n  root((\\"Topic\\"))\\n    Branch1\\n    Branch2"}}
+   Root at 2-space indent; EVERY branch indented DEEPER (4 spaces) so it nests under root.
 
 3. "mermaid-graph" — bidirectional relationships (3-5 concepts).
    Parameters: {{"mermaid_dsl": "graph LR\\n..."}}
@@ -232,7 +241,9 @@ MERMAID DSL HARD CONSTRAINTS:
 - Node IDs: letters + digits + underscores only
 - Labels: max 6 words, no apostrophes or parentheses inside quotes
 - flowchart: first line MUST be `flowchart TD` or `flowchart LR`
-- mindmap: root uses `root(("Topic"))`, branches indented 2 spaces, NO arrows
+- mindmap: root uses `root(("Topic"))` at 2-space indent; branches indented DEEPER \
+(4 spaces) so they nest under root — branches at the same indent as root cause a \
+"multiple roots" render failure; NO arrows
 
 SECTION TITLE: {section_title}
 
@@ -366,6 +377,53 @@ def _generate_pattern_svg_file(spec: dict, diagram_id: str,
         sys.stderr.write(f"  [illustrate] write failed for {svg_path}: {exc}\n")
         return None
     return str(svg_path)
+
+
+def _normalize_mindmap_dsl(dsl: str) -> str:
+    """Guarantee a single-root Mermaid mindmap regardless of LLM indentation.
+
+    Mermaid mindmaps express hierarchy purely through indentation: the first
+    node is the root and every other node must be indented DEEPER than it.  If
+    the model emits branches at the SAME (or shallower) indent as the root, each
+    top-level item is parsed as its own root and the render fails with a
+    "multiple roots" error.  This normalizer re-indents any such branch to nest
+    under the root while preserving the relative nesting among branches.
+
+    Non-mindmap DSL (flowchart/graph) is returned unchanged.
+    """
+    lines = dsl.splitlines()
+    # Locate the `mindmap` declaration line.
+    decl_idx = next((i for i, ln in enumerate(lines)
+                     if ln.strip().lower() == "mindmap"), None)
+    if decl_idx is None:
+        return dsl  # not a mindmap — leave untouched
+
+    def indent_of(ln: str) -> int:
+        return len(ln) - len(ln.lstrip(" "))
+
+    # First non-blank line after the declaration is the root node.
+    root_idx = next((i for i in range(decl_idx + 1, len(lines)) if lines[i].strip()),
+                    None)
+    if root_idx is None:
+        return dsl  # nothing but a declaration
+
+    root_indent = indent_of(lines[root_idx])
+
+    # Branch lines = every non-blank line after the root.
+    branch_idxs = [i for i in range(root_idx + 1, len(lines)) if lines[i].strip()]
+    if not branch_idxs:
+        return dsl  # root only — nothing to nest
+
+    min_branch_indent = min(indent_of(lines[i]) for i in branch_idxs)
+    if min_branch_indent > root_indent:
+        return dsl  # already correctly nested
+
+    # Shift every branch deeper so the shallowest branch sits one level (2 spaces)
+    # below the root; relative indentation among branches is preserved.
+    shift = (root_indent + 2) - min_branch_indent
+    for i in branch_idxs:
+        lines[i] = (" " * (indent_of(lines[i]) + shift)) + lines[i].lstrip(" ")
+    return "\n".join(lines)
 
 
 def _render_diagrams(book_dir: Path, *, log=print) -> None:
@@ -538,6 +596,11 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
                             f"  [illustrate] empty mermaid_dsl for {diagram_id}, skipping\n"
                         )
                         continue
+                    # Guard the mindmap DSL: re-nest any stray top-level branch
+                    # under the root so a render-breaking "multiple roots" output
+                    # can't slip through (no-op for flowchart/graph DSL).
+                    if stype == "mermaid-mindmap":
+                        mmd_dsl = _normalize_mindmap_dsl(mmd_dsl)
                     mmd_file  = diagram_dir / f"{diagram_id}.mmd"
                     svg_path  = str(diagram_dir / f"{diagram_id}.svg")
                     mmd_file.write_text(mmd_dsl, encoding="utf-8")
