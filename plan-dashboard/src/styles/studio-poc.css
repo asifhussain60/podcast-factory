@@ -890,6 +890,36 @@
 .sp-approve:disabled { cursor: default; }
 .sp-approve.is-done { color: var(--c-green, #15803d); background: color-mix(in srgb, var(--c-green, #16a34a) 14%, var(--c-bg-card)); border-color: color-mix(in srgb, var(--c-green, #16a34a) 45%, transparent); }
 
+/* Temporary approval notification — rendered by Radix Toast. */
+.sp-toast-viewport {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: min(340px, calc(100vw - 32px));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  outline: none;
+}
+.sp-toast {
+  padding: 12px 14px;
+  color: var(--c-green, #15803d);
+  background: var(--c-bg-card);
+  border: 1px solid color-mix(in srgb, var(--c-green, #16a34a) 38%, var(--c-rule, rgba(0, 0, 0, 0.12)));
+  border-radius: 9px;
+  box-shadow: 0 14px 34px rgba(31, 29, 24, 0.18);
+}
+.sp-toast-title {
+  margin: 0;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
 /* Stage metrics strip (under the tabs) — words/sentences + delta vs the prior stage. */
 .studio-poc__editor .sp-metrics {
   display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline;

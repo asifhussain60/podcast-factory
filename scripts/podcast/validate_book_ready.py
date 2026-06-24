@@ -21,10 +21,8 @@ reproducible on identical input:
   B2  book-pdf-renderable — book.pdf exists, is non-trivially sized, and its page
                           count (parsed from the PDF object stream) is at least
                           the chapter count (catches an empty / 1-page render).
-  B3  book-arabic-coverage (ADVISORY) — reports how much Arabic script the
-                          rendered book carries vs. transliteration markers. Never
-                          blocks; it is the deterministic coverage signal WS3's
-                          canonical-anchoring work raises over time.
+  B3  book-arabic-coverage — Islamic scholarly books must carry Arabic script
+                          in every persisted chapter; missing Arabic blocks.
 
 USAGE
 
@@ -139,11 +137,17 @@ def gate_b2_book_pdf_renderable(book_dir: Path) -> tuple[bool, str]:
 
 
 def gate_b3_book_arabic_coverage(book_dir: Path) -> tuple[bool, str]:
-    """ADVISORY — report Arabic-script density + canonical Quran-anchor coverage.
+    """Hard gate for Islamic chapter Arabic, plus rendered-book coverage signal."""
+    try:
+        from _content_profile import is_islamic_scholarly
+        if is_islamic_scholarly(book_dir):
+            from inject_chapter_arabic import chapter_arabic_status
+            status = chapter_arabic_status(book_dir)
+            if not status.get("ok"):
+                return False, str(status.get("note") or "Arabic chapter coverage failed")
+    except Exception as e:  # noqa: BLE001
+        return False, f"Arabic chapter coverage check failed: {e}"
 
-    Never blocks. The Quran-anchor fraction (cited verses pinned to the canonical
-    mushaf text from mirror.db, written by 0book-compose) is the determinism-
-    relevant number: 100% means no cited verse was left to the model's memory."""
     md = _pick_book_md(book_dir)
     if not md.exists():
         return True, "n/a (no render input)"
@@ -163,7 +167,7 @@ def gate_b3_book_arabic_coverage(book_dir: Path) -> tuple[bool, str]:
         except Exception:  # noqa: BLE001
             pass
     return True, (f"{arabic_runs} Arabic runs vs ~{translit_hints} transliteration "
-                  f"markers ({pct:.0%} script coverage){anchor_note} — advisory")
+                  f"markers ({pct:.0%} script coverage){anchor_note}")
 
 
 def validate_book(book_dir: Path, *, strict: bool = False) -> dict:
@@ -189,7 +193,9 @@ def validate_book(book_dir: Path, *, strict: bool = False) -> dict:
 
     ok3, why3 = gate_b3_book_arabic_coverage(book_dir)
     gates.append({"gate": "B3", "name": "book-arabic-coverage",
-                  "passed": True, "advisory": True, "note": why3})
+                  "passed": ok3, "note": why3})
+    if not ok3:
+        blocking_fail = blocking_fail or f"B3 book-arabic-coverage: {why3}"
 
     verdict = "BOOK-SOUND" if blocking_fail is None else "BOOK-BROKEN"
     summary = (f"reading edition sound ({len(gates)} gates checked)"

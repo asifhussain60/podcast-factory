@@ -2,248 +2,32 @@
   SINGLE LIVING SOURCE for "where the work stands." The SessionStart hook
   (.claude/hooks/site-work-status.sh) injects this into every new conversation so
   the next session inherits context with zero re-reminding (WC7e). KEEP IT SHORT and
-  CURRENT — update the fields at the end of any session. Stale status is worse than none.
-
-  HISTORY: prior session logs (sessions 9-26) were trimmed 2026-06-15 to keep this
-  file small — a 23KB backlog had pushed the hook's old whitespace-strip into a
-  ~10min CPU spin. Recover any earlier entry from git history of this file.
+  CURRENT. Recover older entries from git history when needed.
 -->
-# Current work — status
+# Current work - status
 
-**Last updated:** 2026-06-17 (session 32 — re-shell, reading width, Arabic font+colour, Noise tool, unified action panel)
+**Last updated:** 2026-06-24 2:38 PM EST (Al Anwaar approval, noise, and Arabic P0 fixes)
 
-**Session 32 part 6:** Mark icons moved to a LEFT-GUTTER rail. The per-paragraph mark
-badge (sp-para-tools--marks) was a single chip floating at the block's top-right; now it's a
-vertical column of action-coloured chips in the editor's existing 36px left padding, aligned
-with each marked block's first line, multiple marks stacking vertically — a scannable column
-so flagged blocks are spottable at a glance (Asif's request). CSS-only: new
-`.sp-para-tools--marks` override (top:0; right:auto; left:-32px; flex-direction:column;
-transparent surface) + removed the now-pointless `.para-marked{margin-top:1.9em}` top
-reservation. Reuses existing `.sp-ptool.is-on` pill + `--c-act-*` colours (theme unchanged).
-Verified 1440 + 390 (chip 5px inside editor edge, not clipped; stacking confirmed);
-lint:views clean; html-view-challenger PASS (Level 1, no findings).
+**Current branch merged into develop:** Islamic/al-anwaar-al-lateefah.
 
-**Session 32 part 5:** Collapsed the redundant paragraph-rewrite trio to ONE button.
-Rewrite/Rephrase/Improve were behaviourally identical — all three stamped a deferred
-action_items mark differing only by tag string, and NO drain pass interprets the tags
-differently (verified: action_items has no consumer in scripts/podcast beyond the schema +
-API). Worse, 'rephrase'/'improve' weren't even in the API's ALLOWED_KINDS, so they never
-persisted. Removed both from ACTION_REGISTRY (kept 'rewrite', broadened its hint to
-"reword, sharpen clarity, or redo it freely") and dropped their dead `.sp-ptool.act-*.is-on`
-CSS. NOTE the section depth-tag `{id:'improve'}` (line 311, AI-tab auto-tag picker) is a
-SEPARATE feature — kept. MARK-VISIBILITY: confirmed the existing per-paragraph icon badge
-already works — marking a paragraph renders a dark `--c-ink` chip with the action's
-Font-Awesome icon in its action colour + a 2px ring (sp-para-tools--marks, side -1, top-right,
-opacity 1) plus a queue row; Asif hadn't seen it because nothing was marked. No new icon code
-needed. tsc 0 / lint:views clean.
+**What changed:** Studio Save & Approve now keeps its button label stable and shows
+the approval result through a Radix toast. Al Anwaar reference-tail noise is now a
+pipeline noise class and has been stripped from current chapters. Islamic scholarly
+chapters now persist glossary-backed Arabic script in chapter text, while phonetic
+respelling remains in the glossary / Customize prompt. Finalize G13 blocks Islamic
+books that do not have Arabic in chapters.
 
-**Session 32 part 4:** Editor inspector action panel UNIFIED. Previously the Details-tab
-palette swapped button SETS by selection context — a "Term actions" palette (Arabic, Replace,
-Explain, Noise, Etymology, Define) only when a word was highlighted, a separate "Paragraph
-actions" palette (Rewrite, Rephrase, Improve, Expand, Condense, Simplify, Visualization) only
-when a paragraph was active. Now ONE always-present panel renders the full ACTION_REGISTRY (15
-buttons) every time; buttons that can't run in the current context are DISABLED (native
-`disabled` attr + `title` saying how to enable: "Select a word to enable" / "Click a paragraph
-to enable"), never hidden. term-scope tools disable with no selection; paragraph-scope disable
-with no active paragraph; 'both' (Cross-ref, Add to corpus) enable when either exists. Header
-now "Actions · <context>". New `.sp-action-btn:disabled` CSS (opacity 0.42 / not-allowed /
---c-ink-dim, hover suppressed) — existing tokens only, theme unchanged. Removed dead
-PARA_ACTIONS/TERM_ACTIONS consts. VISUAL QA (1440 + 390, preview server): unified panel, all
-15 buttons, disable/enable logic + Noise modal open/derive/preview all confirmed live; tsc 0
-errors; lint:views clean; html-view-challenger PASS (no findings, WCAG 1.4.3 exempts disabled
-controls from contrast). Noise tool itself was already built in part 3 — no changes there.
+**Current Al Anwaar state:** vol-01 has a 27-entry glossary and Arabic script in
+all 11 chapters. Ship validation passes all 14 gates, including G13
+`arabic-script-in-chapters`.
 
-**Session 32 part 3 (commits 43cad11, 801e04c, 0effc49, 77a647b):** (a) Reading width —
-editor prose raised from a centred 74ch (~65% of column) to 130ch so it fills the column
-with the column's own 36px padding as the small margin (~93% at 1680px). (b) Removed the
-redundant non-interactive "Edit & Enrich" current-step label from the compact subnav.
-(c) Arabic COLOUR (consistent throughout) — colour can't be applied per-glyph in CSS, so
-raw inline Arabic stayed ink while glossary overlays were accent brown. Editor: new pass in
-the decoration engine wraps Arabic-LETTER runs in .ar-raw (accent). Reading page: new
-glossary.ts wrapRawArabic() runs BEFORE wrapPhoneticTokens, wraps raw runs in .ar-raw. The
-ﷺ honorific (presentation-form, outside the letter ranges) stays ink on both. FEATURE —
-Noise→pattern→denoise: new "Noise" term action generalises a selection to a regex
-(digits/whitespace loosened), previews count + real per-chapter samples, strips every match
-book-wide. New /api/studio/denoise mirrors replace.ts (scope chapter|book, preview-first,
-.bak per file); guards reject invalid + empty-matching patterns; Strip disabled until preview.
-VISUAL QA (1440 + 375, both surfaces): zero defects, no overflow; endpoint exercised
-(preview, apply+restore, both guards); Noise button/modal/derivation confirmed live.
-NOTE the public library reader uses a different render path (not wrapPhoneticTokens) and was
-left out of scope for the reading-page colour extension.
+**Site verification:** lint:views clean; Astro check has 0 errors and only existing
+hints. Headless Chrome verified baked-in Arabic visible in the Studio editor, no
+duplicate Arabic chips when the toggle is clicked, and Save & Approve text stable.
 
-**Session 32 part 2 (same branch):** Two follow-ups after the re-shell. (1) Toggle
-symmetry: the Edit & Enrich page's surface toggle ([step].astro, both the editor and
-workbench views) now carries a third "Arabic review" tab (chapter-aware via
-#initialChapterId), so all three edit surfaces switch between each other identically in
-both directions — previously the editor reached Arabic review only via the inspector
-"Phonetic Map" link. (2) Arabic-font bug: raw inline Arabic typed into chapter prose
-(e.g. لیلة الإسراء) rendered in the system naskh (macOS Geeza Pro) while glossary-overlay
-Arabic (e.g. امام) rendered in Amiri — they looked different. Root cause: the editor
-(.studio-poc__editor .ProseMirror) and .prose-body used a Latin-only font stack ending in
-a generic `serif`; a generic in the stack catches Arabic glyphs before any Amiri fallback
-can apply, whereas glossary overlays force `Amiri,...` explicitly. Fix: rebuilt both stacks
-as proper mixed-script — Latin serifs, THEN Amiri/Scheherazade New/Noto Naskh Arabic, THEN
-the generic LAST — so raw Arabic (which the Latin fonts can't render) falls through to Amiri,
-identical to the overlays. Amiri is already loaded app-wide via the Google Fonts import in
-theme.css. Verified by computed style: editor family now
-"Source Serif 4",...,Georgia, Amiri, "Scheherazade New", "Noto Naskh Arabic", serif and the
-overlay family Amiri,"Geeza Pro",... both resolve to Amiri. astro check 0 errors; lint:views
-clean. NOTE: also discovered + fixed a Vite dev-server transient earlier this session — adding
-the new imports to arabic-review.astro triggered a dep re-optimization that double-loaded React
-and crashed TipTap's useEditor (null useRef) on the edit page; cleared node_modules/.vite +
-restarted the dev server (only one React copy in the tree — not a real duplicate-React/prod bug).
-
-**Session 32 (branch Islamic/kunooz-al-hikmah):** The Studio "Arabic review" page
-(plan-dashboard/src/pages/studio/[slug]/arabic-review.astro + styles/arabic-review.css)
-was a visually orphaned Library page — active="library", bespoke breadcrumb/header,
-NO StudioSubnav — so it felt foreign next to Intake/Source Review/Edit & Enrich/Publish,
-which all share one shell. Governance plan A approved (after an inline mockup). Re-shelled
-it to be visually IDENTICAL to the other Studio steps: (1) active="library" -> "studio";
-mounts the shared <StudioSubnav slot="subnav" activeStep="edit" compact> (same book-selector
-sub-nav + "Edit & Enrich" current-step pill); (2) dropped the bespoke .arv-page-head/
-.arv-breadcrumb/.arv-lede; body now flows through the shared .studio-step-body +
-.studio-step-head wrappers; (3) added the surface toggle by REUSING .studio-editview-toggle
-from studio-pipeline.css — "← Rich editor · Pipeline workbench · Arabic review" (Arabic review
-.is-current) — the precise inverse of the editor's existing "Phonetic Map" link, so the
-round-trip between the three edit surfaces is one click each way; (4) added a per-chapter
-"Edit & enrich →" link (.arv-chapter-edit in a new .arv-chapter-head flex row) -> /studio/
-<slug>/edit?ch=<chapter> so a chapter here opens the SAME chapter in the editor; (5) .arv-page
-collapsed to `display: contents` (scope-only) so the page-scoped overlay/popover rules
-(.arv-page .ar-script, .arv-page .popover-card) keep matching while all layout comes from the
-shared shell. Treated as a sub-surface of the Edit & Enrich step (NOT a new 5th stepper step)
-to leave the 4-step pipeline model + publish/state logic untouched. VERIFIED: astro check 0
-errors; lint:views clean; live SSR + DOM round-trip on kunooz (13 chapters, toggle, step-head,
-per-chapter href all correct); screenshot matches the approved mockup; html-view-challenger
-verdict PASS / Level 1 conformant — ZERO new MUST/SHOULD violations (two SHOULD notes are
-pre-existing shared-shell traits: REQ-013 flat h1 clamp, REQ-002 sticky-rail scroll — deferred).
-KNOWN pre-existing (NOT this change, NOT fixed here): ArabicReviewPanel.tsx emits duplicate
-React keys on repeated phonetics (al-Qa'im/hujja/samit) -> console "two children with the same
-key" warnings; the composite-identity fix that landed on the asaas branch (commits 3532bb2/
-be5c35e) has not been ported to kunooz's panel.
-
-**Session 31 (commits 0e7658e, 697f5e6, d4d34c7, branch Islamic/kunooz-al-hikmah):**
-Five-part Arabic-review-panel overhaul (governance plan A approved). (1) Taa-marbuta
-fix: 8 Kunooz terms whose Arabic ends in ة now end -h not -t (ri-yaah etc.) +
-`_normalize_taa_marbuta()` added to fill_glossary_arabic.py so every future book is
-normalized (idempotent). (2) NEW classify_term_defaults.py: per-term smart default
-language — transparent terms (naturalised loanwords Allah/Quran, names+places,
-calques like "First Intellect") -> speak English; technical/doctrinal (taʾwil,
-nasut, riyat) -> recite Arabic. Flat-rate Claude Max, batched, NO API spend. Writes
-ONLY existing fields (english_override for all + decision=replace_english/decided_by=auto
-for transparent) => ZERO audio-pipeline change (replace_english already drops Arabic).
-Idempotent + non-destructive: skips human ('reader') decisions. Ran on Kunooz: 113
-English, 193 Arabic, 11 human preserved. (3) Panel redesign: dropped "Keep" (untouched
-= already recited by default, per resolve_curation `decision or 'keep'`); 4 buttons ->
-one Arabic|English segmented toggle; english_override shown inline (one-click flip, no
-typing); phonetic + Arabic became inline pencil chips; "auto" tag on classifier
-defaults, drops to decided_by=reader on any human flip; header reframed to
-"N recited · M English — flip exceptions". Verified: astro check 0 err, lint:views
-clean, toggle save round-trip live (auto->reader on flip) + page 200, glossary restored
-after test. Earlier same session: english-term endpoint, panel one-click-accept/4-in-row/
-wider-read (169246c). KNOWN debatable auto-defaults (e.g. tawaf->"circumambulation") are
-flippable in the panel — classifier is a starting point. NOTE: ch01a still carries the
-user's uncommitted content edits (Night-Journey Arabic + 2 deletions) from session 30.
-
-**Last updated prior:** 2026-06-16 (session 30 — Studio draft-retention model shipped)
-
-**Session 30 (commit b400dee, branch Islamic/kunooz-al-hikmah):** Fixed the
-reported "edit, save, refresh -> reverts to original" bug at the root by adding a
-DRAFT-RETENTION layer (governance-protocol plan, approved option A). Diagnosed:
-the save round-trip itself worked (the user's deletion was on disk, original in
-.bak) — the real gap was that the ONLY persistence was the explicit irreversible
-"Save & Approve" (writes straight to canonical chapters/<id>.txt), so any
-unapproved edits were lost on reload, and save==approve. New two-phase model:
-edits autosave (debounced 1.2s + flush on tab-hide/unload) to a per-stage draft
-at content/<bucket>/<slug>/_system/drafts/<chapter>/<stage>.md (NEW
-lib/reader/stage-draft.ts; git-ignored); book-workspace.loadStageText prefers the
-draft over canonical for the live editable stage (archives unaffected) + exposes a
-per-chapter `drafted` map; NEW api/studio/draft.ts (POST autosave / DELETE
-discard); save-stage approval now PROMOTES the draft -> chapters/<id>.txt AND
-deletes it; StudioPoc: Discard deletes draft + reloads canonical (preserving
-?ch=), "Save & Approve" cancels pending autosave then commits, "Draft saved · not
-yet approved" indicator, approved badge reverts while a draft is open. SCOPE
-SAFETY (verified): book-workspace is Studio-only; the public reader
-(lib/reader/chapters) + publish/NotebookLM path read chapters/<id>.txt directly,
-so an unapproved draft NEVER reaches the published book, audio upload, or
-orchestrator. VERIFIED LIVE (API+SSR round-trip on ch13, cleaned up): draft
-written -> served on full reload (survives refresh) -> discard reverts -> approve
-clears draft; canonical never mutated until approval. astro check 0 errors;
-lint:views clean. NOTE: the user has a live ch01a draft (their editor autosaving
-through the new endpoint = feature working); if it predates the session-29 صورة/
-gardens-gloss commits it could be stale — Discard resets to committed canonical.
-
-**Session 29 (commit 39a5dae, branch Islamic/kunooz-al-hikmah):** Resumed an
-
-**Session 29 (commit 39a5dae, branch Islamic/kunooz-al-hikmah):** Resumed an
-in-flight, uncommitted feature — the Studio editor "Explain" immediate AI action
-(begun after the session-28 commit; commits d7c49d6/67b3acc/a6d2c5f for the Arabic
-replace + palette work also landed since the session-28 note). Highlight a passage
--> "Explain" sends the excerpt + FULL CHAPTER as context to Gemini Flash (new
-api/ai/explain.ts, mirrors arabic-term.ts: generate + rateLimitCheck, thinkingBudget=0
-so the 1024-tok budget feeds the answer, strips wrapping quotes) -> Flash rewrites
-ONLY the excerpt into a clearer/fuller version staying inside the chapter's meaning,
-voice, tradition (no new doctrine/names/citations) -> proposed text lands in an
-editable textarea, confirm-then-replace, same shape as the Arabic action. Apply guards
-the selection range is unchanged before replacing. Bundled footer fix: "approved"
-reverts to "Save & Approve" on any fresh edit (approvedClean = approved && changedCount===0).
-Verified: astro check 0 errors; endpoint exercised live (200, ~0.7s) — a real clause
-expands into a faithful fuller rewrite; a two-word excerpt echoes the surrounding
-sentence (expected — nothing to expand). Committed + pushed. NOTE left uncommitted:
-content/Islamic/kunooz-al-hikmah/_system/review/ch01a-family-of-light.json — editor
-approval-state record written live by stage-review.ts (this confirms the session-28
-save-stage 404 worry is RESOLVED: save-stage now handles bucket-layout books with no
-_stages/ and writes review/ records under _system/). No _system/review/* is tracked
-for any book and there's no gitignore rule — left for Asif to decide track-vs-ignore.
-
-**Session 28 (commit 80e612e, branch Islamic/kunooz-al-hikmah):** Resumed an
-in-flight, uncommitted feature — the Studio editor "deferred AI action-item"
-system. PRODUCER half is now complete, verified, and committed: stamp actions
-(etymology/rewrite/rephrase/improve/expand/condense/simplify/remove/define/xref/
-addcorpus) on a paragraph or selected term -> persist to new action_items table
-(schema/031) -> knowledge.ts CRUD -> api/studio/action-items GET/POST/DELETE ->
-StudioPoc palettes + queue list + inline badges. One immediate action "arabic"
-(api/ai/arabic-term) renders EN->Arabic via Gemini Flash, confirm-then-replace.
-Two defects found + fixed: (1) arabic-term called undefined extractJson (build
-break) -> added, mirrors define-term fence-strip parse; (2) intermittent empty
-output -> thinkingBudget=0 (Flash thinking ate the 300-tok budget). astro check
-0 errors; POST/GET/DELETE + Arabic endpoint exercised end-to-end on live server.
-CONSUMER half NOT built: no CLI drain pass exists to read pending rows, run AI
-per action_kind, and write results back into `result`. That is the next phase
-(needs a per-kind handler design pass before building — it is spend-bearing).
-
-Also shipped (commit d8eba51): Studio GLOBAL FIND-AND-REPLACE. Highlight a phrase
--> "Replace" term action opens a popup (multiple find->replace pairs + scope
-checkbox: current chapter vs whole book). New api/studio/replace.ts rewrites the
-canonical chapters/<id>.txt files (resolved via findContentDirSync) — literal
-case-sensitive, pairs in order, preview-before-apply, per-file .txt.bak (gitignored)
-+ git as deeper undo. StudioPoc mirrors confirmed pairs into the live editor doc.
-Verified end-to-end (preview chapter=2/book=7-across-3 matches grep; apply book-
-wide writes+restores clean). NOTE discovered: save-stage.ts still targets the
-legacy content/drafts/books/_stages path + requires _stages, so for bucket-layout
-books with no _stages (e.g. Kunooz) the editor's own Save & Approve likely 404s —
-pre-existing latent bug, NOT fixed here (replace writes chapters/<id>.txt directly).
-
-**Session 27 (audit + fixes, commit 9c5ff4a):** Full pipeline + site audit; every
-
-**Session 27 (audit + fixes, commit 9c5ff4a):** Full pipeline + site audit; every
-finding independently verified before fixing (pipeline auditor fabricated most of
-its claims — only merge-abort hardening in phases/merge.py + a __main__ guard on
-_fix_chapter_commas.py were real). Site MUST fixes, all challenger-gated PASS:
-archive form onclick -> data-confirm + submit listener (library/[slug]); Sparkline
-useId a11y ids; ChapterEditor + PipelineOverviewRail inline styles externalised
-(k-<kind> classes set --por-k; zoom/width via --por-zoom/--por-w; popovers via
---pop-top/--pop-left ref callbacks); svg width/height attrs dropped; REQ-052
-.table-container promoted to theme.css + wrapped pron/intelligence tables;
-sequence-diagram Mermaid theme vars added (actors were default grey); REQ-050
-reduced-motion guards (intelligence/narrative/chapter-viewer css + SMIL particles
-skipped via matchMedia); lint hardened with blocking INLINE-HANDLER check; lint
-allow-list now empty (rail entry removed), stale NarrativeBase note corrected.
-
-**Deferred design-decision queue (discuss one page at a time, NOT bugs):**
-(a) NarrativeScroll homepage — 11 JSX <style> keyframe blocks, off-token cinematic
-palette/fonts, unguarded GSAP — needs documented-exception-or-retheme call;
-(b) REQ-010 typography sweep (.small/.card-sub used for multi-sentence prose);
-(c) section ids/number markers on overview/architecture/infrastructure/quality;
-(d) figure+figcaption wrappers for architecture diagram mounts; (e) SHOULD tier:
-scroll-behavior smooth, print block, ld+json, footer conformance stamp,
-system-map density split, SpendChart dead code removal (Tier-2 rm — ask).
+**Prior Studio status carried from develop:** Session 32 reworked the Studio Arabic
+review/editor shell, unified action panel, Noise tool, raw Arabic styling, reading
+width, and left-gutter mark icons. Deferred design decisions remain: NarrativeScroll
+theme exception/retheme, REQ-010 typography sweep, section ids/number markers,
+figure wrappers, print/smooth-scroll/metadata polish, system-map density split, and
+SpendChart dead-code removal.

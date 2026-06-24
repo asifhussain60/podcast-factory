@@ -272,7 +272,11 @@ export function wrapPhoneticTokens(html: string, entries: GlossaryEntry[]): stri
     let touched = false;
     for (let i = 0; i < parts.length; i++) {
       if (parts[i].startsWith('<')) continue;
-      const replaced = parts[i].replace(re, (_m, p1) => {
+      const replaced = parts[i].replace(re, (_m, p1, offset: number, whole: string) => {
+        const after = whole.slice(offset + String(p1).length);
+        if (/^\s*\([\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF][^)]*\)/.test(after)) {
+          return String(p1);
+        }
         const phoneticAttr = escapeAttr(p1);
         return `<span class="ar-overlay" data-script="${scriptAttr}" data-audio="${audioAttr}" data-transliteration="${trAttr}" data-phonetic="${phoneticAttr}"><span class="ar-en">${escapeHtml(p1)}</span><span class="ar-script" aria-hidden="true" lang="ar" dir="rtl">${scriptInner}</span></span>`;
       });
