@@ -41,6 +41,9 @@ const MARKER_PATTERNS: { re: RegExp; cls: string; kind: string; chip?: string }[
   { re: /Minhaj al-Abidin/g,                      cls: 'mk-term',   kind: 'Work',   chip: 'Minhaj' },
 ];
 
+const ARABIC_SCRIPT_RUN = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF](?:[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\s]*[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF])?/;
+const ARABIC_PAIR_RE = /([A-Za-zāēīōūĀĒĪŌŪṣṢḍḌṭṬẓẒḥḤʿʾ'’.-]+(?:[\s-]+[A-Za-zāēīōūĀĒĪŌŪṣṢḍḌṭṬẓẒḥḤʿʾ'’.-]+)+)\s*\(([\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF][^)]+)\)/gu;
+
 // ── Deferred AI action-item registry ────────────────────────────────────────
 // Single source of truth for every action the human can stamp on a paragraph or
 // a selected term (edit mode only). A later CLI pass drains the queued marks.
@@ -592,13 +595,28 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   const [approvedStages, setApprovedStages] = useState<Record<string, boolean>>(
     () => Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, !!v?.approved])),
   );
+  const [approvalTokens, setApprovalTokens] = useState<Record<string, string>>(
+    () => Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, v?.approved_at ?? 'approved'])),
+  );
+  const [acceptedApprovalKeys, setAcceptedApprovalKeys] = useState<Record<string, boolean>>({});
   // Chapter-level finalize flag (Publish button). Seeded from disk, updated on finalize.
   const [finalized, setFinalized] = useState<{ at: string } | null>(chap.finalized ?? null);
   // On chapter/lineage switch: reset to that chapter's editable stage + reload approvals +
   // finalize flag, and tell the editorial cockpit (Slice 5b) to follow this chapter.
   useEffect(() => {
     setStageId([...chap.stages].reverse().find((s) => s.available)?.id ?? chap.stages[0]?.id);
+    const tokens = Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, v?.approved_at ?? 'approved']));
     setApprovedStages(Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, !!v?.approved])));
+    setApprovalTokens(tokens);
+    const accepted: Record<string, boolean> = {};
+    if (typeof window !== 'undefined') {
+      for (const [stageKey, token] of Object.entries(tokens)) {
+        if (window.localStorage.getItem(`pf:approval-accepted:${slug}:${chap.slug}:${stageKey}:${token}`) === '1') {
+          accepted[`${stageKey}:${token}`] = true;
+        }
+      }
+    }
+    setAcceptedApprovalKeys(accepted);
     setFinalized(chap.finalized ?? null);
     window.dispatchEvent(new CustomEvent('studio:chapter-change', { detail: { chapter: chap.slug } }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1039,6 +1057,31 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                       decos.push(Decoration.node(offset, offset + node.nodeSize, { class: 'para-dirty' }));
                     }
 
+                    const pairedRomanRanges: [number, number][] = [];
+                    const pairedArabicRanges: [number, number][] = [];
+                    const textContent = node.textContent;
+                    ARABIC_PAIR_RE.lastIndex = 0;
+                    let pairMatch: RegExpExecArray | null;
+                    while ((pairMatch = ARABIC_PAIR_RE.exec(textContent))) {
+                      const romanStart = offset + 1 + pairMatch.index;
+                      const romanEnd = romanStart + pairMatch[1].length;
+                      const arabicTextOffset = pairMatch[0].indexOf(pairMatch[2]);
+                      const arabicStart = offset + 1 + pairMatch.index + arabicTextOffset;
+                      const arabicEnd = arabicStart + pairMatch[2].length;
+                      const pairEnd = offset + 1 + pairMatch.index + pairMatch[0].length;
+                      pairedRomanRanges.push([romanStart, romanEnd]);
+                      pairedArabicRanges.push([arabicStart, arabicEnd]);
+
+                      if (arabicRef.current) {
+                        decos.push(Decoration.inline(romanStart, arabicStart, { class: 'ar-pair-hidden' }));
+                        decos.push(Decoration.inline(arabicEnd, pairEnd, { class: 'ar-pair-hidden' }));
+                      } else {
+                        decos.push(Decoration.inline(romanEnd, pairEnd, { class: 'ar-pair-hidden' }));
+                      }
+                    }
+                    const inPairedRoman = (p: number) => pairedRomanRanges.some(([a, b]) => p >= a && p < b);
+                    const inPairedArabic = (p: number) => pairedArabicRanges.some(([a, b]) => p >= a && p < b);
+
                     // FC-4 Arabic overlay (non-destructive): hide the English run, inject Arabic.
                     if (arabicRef.current && glossarySorted.length) {
                       node.descendants((child, childPos) => {
@@ -1053,6 +1096,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                             const from = base + mm.index;
                             const to = from + mm[0].length;
                             if (inRef(from)) continue; // verse-ref phrase is already replaced by a chip
+                            if (inPairedRoman(from)) continue; // paired terms already reveal their Arabic side
                             decos.push(Decoration.inline(from, to, { class: 'ar-hidden' }));
                             const script = e.arabic_script;
                             decos.push(
@@ -1079,11 +1123,12 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                     node.descendants((child, childPos) => {
                       if (!child.isText || !child.text) return;
                       const base = offset + 1 + childPos;
-                      const arRe = /[؀-ۿݐ-ݿࢠ-ࣿ](?:[؀-ۿݐ-ݿࢠ-ࣿ\s]*[؀-ۿݐ-ݿࢠ-ࣿ])?/g;
+                      const arRe = new RegExp(ARABIC_SCRIPT_RUN.source, 'g');
                       let am: RegExpExecArray | null;
                       while ((am = arRe.exec(child.text!))) {
                         const from = base + am.index;
                         const to = from + am[0].length;
+                        if (!arabicRef.current && inPairedArabic(from)) continue;
                         decos.push(Decoration.inline(from, to, { class: 'ar-raw' }));
                       }
                     });
@@ -1242,6 +1287,16 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     return lines.join('\n').trimEnd() + '\n';
   }, [editor, serializeInline]);
 
+  const normalizeCurrentEditorBaseline = useCallback(() => {
+    if (!editor) return;
+    const texts: string[] = [];
+    editor.state.doc.forEach((n) => texts.push(n.textContent));
+    originalRef.current = texts;
+    window.dispatchEvent(new CustomEvent('chapter-editor:finalize'));
+    editor.view.dispatch(editor.state.tr.setMeta('studioBaseline', Date.now()));
+    refresh();
+  }, [editor]);
+
   // ── Draft autosave — persist in-progress edits so they survive a refresh ────
   // Writes the editable stage's current content to a per-stage draft (not the
   // canonical chapter — that only happens on approve). Skipped for read-only
@@ -1318,14 +1373,27 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
         body: JSON.stringify({ slug, chapter, stage: stage.id, approved: true }),
       });
       if (approveRes.ok) {
+        const approvedJson = await approveRes.json().catch(() => null);
+        const approvedAt =
+          approvedJson?.data?.stages?.[stage.id]?.approved_at ??
+          new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+        try {
+          window.localStorage.removeItem(`pf:approval-accepted:${slug}:${chapter}:${stage.id}:${approvedAt}`);
+        } catch {
+          // localStorage is best-effort; the fresh in-memory token still shows the confirmation.
+        }
         setApprovedStages((m) => ({ ...m, [stage.id]: true }));
+        setApprovalTokens((m) => ({ ...m, [stage.id]: approvedAt }));
+        setAcceptedApprovalKeys((m) => {
+          const next = { ...m };
+          delete next[`${stage.id}:${approvedAt}`];
+          return next;
+        });
         // Draft was promoted to the chapter + deleted server-side; clear the
         // indicator and the locally-cached draft flag for this stage.
         setDraftState('idle');
         if (chap.drafted) chap.drafted[stage.id] = false;
-        const texts: string[] = [];
-        editor.state.doc.forEach((n) => texts.push(n.textContent));
-        originalRef.current = texts;
+        normalizeCurrentEditorBaseline();
         refresh();
       }
     } catch (e) {
@@ -1333,7 +1401,21 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     } finally {
       setSaving(false);
     }
-  }, [slug, chapter, stage, editor, serializeToMarkdown]);
+  }, [slug, chapter, stage, editor, serializeToMarkdown, normalizeCurrentEditorBaseline]);
+
+  const acceptApprovedStage = useCallback(() => {
+    if (!stage || !editor) return;
+    normalizeCurrentEditorBaseline();
+    const token = approvalTokens[stage.id] ?? 'approved';
+    const acceptedKey = `${stage.id}:${token}`;
+    try {
+      window.localStorage.setItem(`pf:approval-accepted:${slug}:${chapter}:${stage.id}:${token}`, '1');
+    } catch {
+      // localStorage is best-effort; the in-memory state still updates the UI.
+    }
+    setAcceptedApprovalKeys((m) => ({ ...m, [acceptedKey]: true }));
+    setSaveError('');
+  }, [stage, editor, normalizeCurrentEditorBaseline, approvalTokens, slug, chapter]);
 
   const discardChanges = useCallback(async () => {
     if (!editor || !stage) return;
@@ -1542,7 +1624,9 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   // "Approved" holds only while the stage is unchanged AND has no outstanding
   // draft — any draft (even from a prior visit) reverts the footer to "Save &
   // Approve" so the in-progress edits can be committed.
-  const approvedClean = !!(stage && approvedStages[stage.id]) && changedCount === 0 && draftState !== 'saved';
+  const approvalToken = stage ? (approvalTokens[stage.id] ?? 'approved') : '';
+  const approvalAccepted = !!(stage && acceptedApprovalKeys[`${stage.id}:${approvalToken}`]);
+  const approvedClean = !!(stage && approvedStages[stage.id]) && changedCount === 0 && draftState !== 'saved' && !approvalAccepted;
   // Chapter's marks, ordered for the queue list (by paragraph, then insertion).
   const chapterActions = [...actionsRef.current].sort((a, b) => a.para_ordinal - b.para_ordinal || a.id - b.id);
 
@@ -2425,8 +2509,9 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
             <button
               type="button"
               className={`sp-approve${approvedClean ? ' is-done' : ''}`}
-              onClick={saveAndApprove}
-              disabled={saving || approvedClean}
+              onClick={approvedClean ? acceptApprovedStage : saveAndApprove}
+              disabled={saving}
+              title={approvedClean ? 'Accept the approved text as final content' : 'Save the current text and approve this stage'}
             >
               {approvedClean
                 ? `✓ ${stage.label} approved`

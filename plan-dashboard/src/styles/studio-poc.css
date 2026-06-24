@@ -652,6 +652,7 @@
 
 /* FC-4 Arabic-script overlay (decoration-based; non-destructive). */
 .studio-poc__editor .ar-hidden { display: none; }
+.studio-poc__editor .ar-pair-hidden { display: none; }
 .studio-poc__editor .ar-script-chip {
   font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', serif;
   color: var(--c-accent);

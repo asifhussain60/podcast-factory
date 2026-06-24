@@ -30,9 +30,21 @@ Hard rules:
   - Stay strictly faithful to the chapter's meaning, voice, and tradition. Use the surrounding chapter to disambiguate — never contradict it.
   - Do NOT introduce new doctrine, claims, names, citations, or facts that are not already supported by the chapter.
   - Do NOT explain or restate anything outside the highlighted excerpt.
+  - Preserve Arabic-script terms and phrases in Arabic script only. Do NOT add English transliteration beside Arabic script, and do NOT rewrite Arabic terms as romanized Arabic in parentheses.
   - Expand only as much as clarity needs; this should read as a fuller version of the same passage, not a commentary on it.
 
 Output ONLY the rewritten excerpt as plain prose — no preamble, no labels, no surrounding quotation marks.`;
+
+function stripArabicTransliterationPairs(value: string): string {
+  const arabic = String.raw`[\p{Script=Arabic}\s]+`;
+  const roman = String.raw`[A-Za-zāēīōūĀĒĪŌŪṣṢḍḌṭṬẓẒḥḤʿʾ'’\-\s]+`;
+  const romanizedArabicTerm = String.raw`(?:al-[A-Za-zāēīōūĀĒĪŌŪṣṢḍḌṭṬẓẒḥḤʿʾ'’-]+(?:\s+al-[A-Za-zāēīōūĀĒĪŌŪṣṢḍḌṭṬẓẒḥḤʿʾ'’-]+)*|[A-Za-z'’\-]*[āēīōūṣḍṭẓḥʿʾ][A-Za-zāēīōūṣḍṭẓḥʿʾ'’\-\s]*)`;
+
+  return value
+    .replace(new RegExp(String.raw`\*${roman}\*\s*\((${arabic})\)`, 'gu'), '$1')
+    .replace(new RegExp(String.raw`${romanizedArabicTerm}\s*\((${arabic})\)`, 'gu'), '$1')
+    .replace(new RegExp(String.raw`(${arabic})\s*\(\*?(?=[^)]*(?:al-|ā|ē|ī|ō|ū|ṣ|ḍ|ṭ|ẓ|ḥ|ʿ|ʾ))${roman}\*?\)`, 'gu'), '$1');
+}
 
 export const POST: APIRoute = async ({ request }) => {
   const limit = rateLimitCheck();
@@ -65,7 +77,7 @@ export const POST: APIRoute = async ({ request }) => {
       thinkingBudget: 0,
     });
 
-    const clarified = (out ?? '').trim().replace(/^["“”]+|["“”]+$/g, '').trim();
+    const clarified = stripArabicTransliterationPairs((out ?? '').trim().replace(/^["“”]+|["“”]+$/g, '').trim());
     if (!clarified) {
       return new Response(JSON.stringify({ ok: false, error: 'no explanation returned' }), { status: 502, headers: { 'content-type': 'application/json' } });
     }

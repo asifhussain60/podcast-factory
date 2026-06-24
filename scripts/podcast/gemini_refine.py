@@ -30,7 +30,8 @@ from _rules import R_NOISE_APPARATUS_DIRECTIVE  # noqa: E402
 # data loaded from <book>/_system/glossary.yml at run time (NOT hardcoded — a Sufi treatise, a
 # Stoic letter, and a Vedanta commentary each carry their own terms of art). Orthogonal to
 # R-PHONETICS-OUT: Arabic SCRIPT (تأویل) is still stripped (TTS can't read it); the doctrinal
-# term is carried by its PHONETIC form (tawil), preserved on every occurrence, glossed once.
+# term is carried by its Arabic script and/or phonetic form, preserved on every occurrence,
+# glossed once.
 
 def load_protect_terms(slug: str) -> list[str]:
     """Phonetic + transliteration forms from the per-book glossary.yml (the protect-list).
@@ -76,11 +77,12 @@ def sn7_guard(terms: list[str]) -> str:
     base = (
       "TERMINUS-TECHNICUS GUARD (R_TERMINUS_PRESERVE, mandatory): a terminus technicus is a "
       "precise doctrinal term, not stylistic vocabulary. Preserve every such term in its "
-      "PHONETIC (transliterated) form on EVERY occurrence; on the FIRST occurrence you MAY add "
-      "a brief English gloss in parentheses, e.g. 'tawil (the inner, esoteric meaning of "
-      "scripture)'. NEVER reduce a term to an English gloss only ('tawil' -> 'esoteric "
-      "interpretation' is FORBIDDEN). Arabic SCRIPT itself is stripped (the phonetic form "
-      "carries the term) — this is about the term's IDENTITY, not its script."
+      "Arabic SCRIPT when present and in its PHONETIC/transliterated identity on EVERY occurrence; "
+      "on the FIRST occurrence you MAY add a brief English gloss in parentheses, e.g. "
+      "'تأويل / tawil (the inner, esoteric meaning of scripture)'. NEVER reduce a term to an "
+      "English gloss only ('tawil' -> 'esoteric interpretation' is FORBIDDEN). Arabic SCRIPT is "
+      "source content for the review pipeline, not audio noise; preserve it unless it belongs "
+      "only to stripped publisher/OCR apparatus."
     )
     if terms:
         base += " Known terms for this book (case/diacritic-insensitive): " + ", ".join(terms) + "."
@@ -96,7 +98,8 @@ DENOISE_SYS = (
   "rewrite, summarize, translate, or add anything — output the body VERBATIM minus apparatus. "
   "(2) Remove footnotes, glosses, manuscript notes, editorial brackets and their contents, page "
   "numbers, section-number labels like 'XVIII.', and stray inline footnote digits. (3) Keep all "
-  "Quran/hadith quotations and poetry exactly. (4) Preserve paragraph flow. Output plain text only."
+  "Quran/hadith quotations, poetry, Arabic-script terms, Arabic-script names, prayers, and "
+  "doctrinal formulae exactly. (4) Preserve paragraph flow. Output plain text only."
   "\n\n" + R_NOISE_APPARATUS_DIRECTIVE
 )
 
