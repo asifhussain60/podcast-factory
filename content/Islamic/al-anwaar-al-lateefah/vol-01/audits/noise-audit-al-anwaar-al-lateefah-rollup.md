@@ -42,3 +42,34 @@ Surfaces 2–11 need no work.
 - **Opener re-derived (C):** apparatus stripped from `book/book.md`, `book/book-illustrated.md` (incl. the provenance chain-of-custody DIAGRAM), `chapters/ch01a…txt`, `episodes/EP01…txt`, `slide-decks/ch01a-deck…txt` + `…framing…md`. Preface↔ch.1 duplication collapsed. `book.pdf` re-rendered (1888 KB, down from 1964 KB). All wilayah/allegiance doctrine preserved.
 - **Outstanding (user, NotebookLM):** EP01 **audio** must be regenerated — re-upload the cleaned `chapters/ch01a…txt` + `episodes/EP01…txt` to NotebookLM and replace the `m4a/` for EP01.
 - **Agent wired (D):** `noise-auditor` installed; docs swept (framework.md, podcast-challenger.md I5, SKILL.md 0b).
+
+## Confirmation re-sweep (2026-06-23, post-b8e8eddf)
+
+- `noise_auditor_version`: 1.0
+- scope: **AGGRESSIVE** (NZ-CIRCULATION + NZ-PROVENANCE both in-scope)
+- surfaces re-swept: `chapters/*.txt` (11), `episodes/*.txt` (11), `slide-decks/*deck*.txt` + `*framing*.md` (22), `book/book.md` (925 lines) + `book/book-illustrated.md`
+
+### Verdict: **CLEAN** ✅
+
+The three prior root defects are fully resolved. Targeted re-grep for the incident phrasing across ALL four surfaces returns **zero** hits: no `do not email`/`do not store`/`copy-is-a-sin`/`cold iron` (NZ-CIRCULATION), no `ijazat`-to-record / `treasury` deposit / `recorded for (my\|his) family` / `twofold authority` (NZ-PROVENANCE), no `transcribed/printed/scanned by` colophon, no `in this lesson we will…`/`as recorded above` editorial housekeeping. The ch01a opener (lines 1–71), book preface (L1–67), EP01 Beat 1, and the ch01a deck/framing are now built from the PROTECT-list doctrine (inherited-from-prophets/saints epistemics + wilayah/allegiance + soul-return), with all apparatus removed. Preface↔ch.1 duplication collapsed.
+
+### Pass-1 grep candidates — all adjudicated KEEP (no findings)
+
+| Locations | Anchor matched | Test | Verdict |
+|---|---|---|---|
+| `chapters/ch0{1,2,3,4,5,6,7}…` + 7× `slide-decks/…deck…` citation lines | `compiled by` | source attribution of a quoted maxim (`Nahj al-Balagha`, compiled by al-Sharif al-Radi; `Ghurar al-Hikam`, compiled by al-Amidi) — bibliographic verifiability of QUOTED content, NOT the book-object's own production colophon | KEEP — content |
+| `chapters/ch06c…:57,61`, `book/book.md:483` | `undeserving` / `treasury of` | inner meaning of fasting = concealing knowledge from the unfit; alms-of-knowledge doctrine; "House of Allah = Imam al-Zaman" — a claim about the PATH (PROTECT: imam/doctrine/soul) | KEEP — teaching |
+
+The aggressive scope still did not over-strip: every apparatus-shaped grep hit is either a scholarly citation or PROTECT-list teaching. No P0/P1/P2 noise findings on the cleaned surfaces.
+
+### Per-surface counts (confirmation run)
+
+| Surface | Files | P0 | P1 | P2 | Pass-1 candidates adjudicated KEEP |
+|---|---|---|---|---|---|
+| chapters/*.txt | 11 | 0 | 0 | 0 | 7 (citation lines + ch06c fasting doctrine) |
+| episodes/*.txt | 11 | 0 | 0 | 0 | 0 |
+| slide-decks/* | 22 | 0 | 0 | 0 | 7 (citation lines) |
+| book/book.md | 1 | 0 | 0 | 0 | 1 (ch06c-parallel fasting doctrine, L483) |
+| **Total** | **45** | **0** | **0** | **0** | **15** |
+
+Note: the outstanding NotebookLM **audio** regeneration for EP01 (re-upload cleaned source, replace `m4a/`) remains the only open item from the original remediation — it is a user/NotebookLM action, not a source-surface defect, and out of this auditor's identify-only scope.
