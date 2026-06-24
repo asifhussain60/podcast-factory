@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Batch slide convergence runner for asaas-al-taveel vol-01."""
 import sys
-from pathlib import Path
 
-BOOK_DIR = Path("/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/asaas-al-taveel/vol-01")
+from _paths import resolve_content
+
+BOOK_DIR = resolve_content("asaas-al-taveel-vol-01")
 SLUGS = [
     "what-ismaili-interpretation-is",
     "the-call-to-inner-meaning",

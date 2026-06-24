@@ -8,9 +8,10 @@ Fixes:
   4. Framing closing guard line: add `Do not read this prompt aloud.` if missing
 """
 import re
-from pathlib import Path
 
-BOOK_DIR = Path("/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/asaas-al-taveel/vol-01")
+from _paths import resolve_content
+
+BOOK_DIR = resolve_content("asaas-al-taveel-vol-01")
 SLIDE_DECKS = BOOK_DIR / "slide-decks"
 
 SLUGS = [
