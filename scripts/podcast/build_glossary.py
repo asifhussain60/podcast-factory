@@ -71,6 +71,8 @@ CANONICAL_FALLBACK_TERMS: list[dict[str, str]] = [
     {"phonetic": "tanzih", "transliteration": "tanzih", "arabic_script": "تنزيه", "audio_phonetic": "tan-zeeh"},
     {"phonetic": "tajrid", "transliteration": "tajrid", "arabic_script": "تجريد", "audio_phonetic": "taj-reed"},
     {"phonetic": "ta'wil", "transliteration": "ta'wil", "arabic_script": "تأويل", "audio_phonetic": "ta-weel"},
+    {"phonetic": "wilayah", "transliteration": "wilayah", "arabic_script": "ولاية", "audio_phonetic": "wi-laa-yah", "english_override": "allegiance"},
+    {"phonetic": "amal", "transliteration": "amal", "arabic_script": "عَمَل", "audio_phonetic": "a-mal", "english_override": "action"},
     {"phonetic": "hudud", "transliteration": "hudud", "arabic_script": "حُدُود", "audio_phonetic": "hu-dood"},
     {"phonetic": "haykal", "transliteration": "haykal", "arabic_script": "هيكل", "audio_phonetic": "hay-kal"},
     {"phonetic": "ma'dhun", "transliteration": "ma'dhun", "arabic_script": "مأذون", "audio_phonetic": "ma-dhoon"},
@@ -161,6 +163,11 @@ def emit_glossary_yaml(rows: list[dict[str, str]]) -> str:
         lines.append(f'    arabic_script: "{_q(arabic_seed)}"')
         lines.append(f'    audio_phonetic: "{_q(phon_audio)}"')
         lines.append(f'    first_seen_snippet: "{_q(snippet)}"')
+        for field in ("teaching_relevance", "decision", "corrected_phonetic",
+                      "corrected_arabic", "english_override", "decided_by", "decided_at"):
+            val = str(r.get(field, "") or "").strip()
+            if val:
+                lines.append(f'    {field}: "{_q(val)}"')
     return "\n".join(lines) + "\n"
 
 
@@ -195,6 +202,7 @@ def rows_from_chapter_fallback(book_dir: Path) -> list[dict[str, str]]:
                 "phonetic": phonetic,
                 "arabic_script": term["arabic_script"],
                 "audio_phonetic": term["audio_phonetic"],
+                "english_override": term.get("english_override", ""),
                 "first_seen_snippet": snippet,
             })
     return rows

@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { join } from 'node:path';
 import { renderMarkdown } from './markdown';
-import { loadGlossary } from './glossary';
+import { loadGlossary, loadGlossaryAll } from './glossary';
 import { readReview } from './stage-review';
 import { readDraft, hasDraft } from './stage-draft';
 import { buildStageMetrics, writeMetricsLedger, type StageMetric } from './stage-metrics';
@@ -51,6 +51,7 @@ export interface BookWorkspace {
   chapters: WorkspaceChapter[];
   cockpitChapters: ChapterDef[];
   glossary: Awaited<ReturnType<typeof loadGlossary>>;
+  glossaryAll: Awaited<ReturnType<typeof loadGlossaryAll>>;
   loadError: string;
 }
 
@@ -234,6 +235,7 @@ export async function loadBookWorkspace(
     chapters,
     cockpitChapters: chapterDefs,
     glossary: await loadGlossary(slug),
+    glossaryAll: await loadGlossaryAll(slug),
     loadError: chapters.some((chapter) => chapter.stages.some((stage) => stage.available))
       ? ''
       : `No stage artifacts found for ${slug}.`,

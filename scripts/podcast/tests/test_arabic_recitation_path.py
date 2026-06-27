@@ -97,7 +97,7 @@ def test_glossary_fallback_scans_chapters_when_phonetics_missing(tmp_path):
     chapters = bd / "chapters"
     chapters.mkdir(parents=True)
     (chapters / "ch01.txt").write_text(
-        "The path of tawhid and tanzih leads through alam al-ruh.",
+        "The path of tawhid and tanzih leads through wilayah, amal, and alam al-ruh.",
         encoding="utf-8",
     )
 
@@ -106,6 +106,12 @@ def test_glossary_fallback_scans_chapters_when_phonetics_missing(tmp_path):
 
     assert "phonetic: \"tawhid\"" in out
     assert "arabic_script: \"توحيد\"" in out
+    assert "phonetic: \"wilayah\"" in out
+    assert "arabic_script: \"ولاية\"" in out
+    assert "english_override: \"allegiance\"" in out
+    assert "phonetic: \"amal\"" in out
+    assert "arabic_script: \"عَمَل\"" in out
+    assert "english_override: \"action\"" in out
     assert "phonetic: \"alam al-ruh\"" in out
     assert "arabic_script: \"عالم الروح\"" in out
 
@@ -138,3 +144,17 @@ def test_inject_chapter_arabic_is_idempotent(tmp_path):
 
     assert result["injections"] == 0
     assert chapter.read_text(encoding="utf-8").count("تأويل") == 1
+
+
+def test_inject_chapter_arabic_uses_english_after_first_intro():
+    from inject_chapter_arabic import inject_text
+
+    text = "Access rests on wilayah and amal. Later, amal and wilayah stay paired."
+    out, count = inject_text(text, [
+        ("wilayah", "ولاية", "allegiance"),
+        ("amal", "عَمَل", "action"),
+    ])
+
+    assert count == 4
+    assert "wilayah (ولاية, allegiance) and amal (عَمَل, action)" in out
+    assert "Later, action and allegiance stay paired." in out

@@ -65,6 +65,7 @@ interface ActionDef {
 const ACTION_REGISTRY: readonly ActionDef[] = [
   // Core
   { kind: 'arabic',    label: 'Arabic',        icon: 'fa-language',                            scope: 'term',      group: 'core',      hint: 'Replace this term with the correct contextual Arabic (AI, confirm first)', applyMode: 'immediate' },
+  { kind: 'english',   label: 'English',       icon: 'fa-language',                            scope: 'term',      group: 'core',      hint: 'Replace this term with the correct contextual English (AI or glossary, confirm first)', applyMode: 'immediate' },
   { kind: 'replace',   label: 'Replace',       icon: 'fa-right-left',                          scope: 'term',      group: 'core',      hint: 'Find & replace this phrase across this chapter or the whole book', applyMode: 'immediate' },
   { kind: 'explain',   label: 'Explain',       icon: 'fa-lightbulb',                           scope: 'term',      group: 'core',      hint: 'Replace the selection with a clearer, fuller explanation (AI, in chapter context)', applyMode: 'immediate' },
   { kind: 'etymology', label: 'Etymology',     icon: 'fa-book-bookmark',                       scope: 'term',      group: 'core',      hint: 'Resolve the root-history of this term (shared wisdom corpus)' },
@@ -105,6 +106,10 @@ interface GlossaryEntry {
   phonetic: string;
   transliteration: string;
   arabic_script: string;
+  audio_phonetic?: string;
+  decision?: string;
+  corrected_arabic?: string;
+  english_override?: string;
 }
 
 function scanMarkers(text: string): { kind: string; text: string }[] {
@@ -225,6 +230,7 @@ interface Props {
   slug: string;
   chapters: Chapter[];
   glossary?: GlossaryEntry[];
+  glossaryAll?: GlossaryEntry[];
   initialChapIdx?: number;
   contentProfile?: string;
   /** Archived view-only stage lineages (e.g. an earlier episode structure). */
@@ -550,7 +556,7 @@ function openTagPicker(
 }
 // ────────────────────────────────────────────────────────────────────────────
 
-export default function StudioPoc({ slug, chapters, glossary = [], initialChapIdx = 0, contentProfile, archivedLineages = [], pipelineSteps = [], activeStep = 'edit', enrichment = null, glossaryCount = 0 }: Props) {
+export default function StudioPoc({ slug, chapters, glossary = [], glossaryAll = glossary, initialChapIdx = 0, contentProfile, archivedLineages = [], pipelineSteps = [], activeStep = 'edit', enrichment = null, glossaryCount = 0 }: Props) {
   const depthLevels = DEPTH_LEVELS_BY_PROFILE[contentProfile ?? DEFAULT_DEPTH_PROFILE]
     ?? DEPTH_LEVELS_BY_PROFILE[DEFAULT_DEPTH_PROFILE];
 
@@ -740,6 +746,14 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   // Result line after an across-chapter / across-book Arabic replace.
   const [arabicDone, setArabicDone] = useState('');
 
+  // "English" immediate action — AI/glossary proposes the correct contextual
+  // English rendering for a highlighted Arabic script or romanized term.
+  const [englishProposal, setEnglishProposal] = useState<
+    { from: number; to: number; original: string; english: string; gloss: string; phonetic?: string } | null
+  >(null);
+  const [englishBusy, setEnglishBusy] = useState(false);
+  const [englishError, setEnglishError] = useState('');
+
   // "Explain" immediate action — AI rewrites the highlighted excerpt into a
   // clearer, fuller version (kept in chapter context); the human reviews/edits
   // the proposed text before it replaces the selection.
@@ -799,6 +813,30 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     () => [...glossary].filter((e) => e.phonetic && e.arabic_script).sort((a, b) => b.phonetic.length - a.phonetic.length),
     [glossary],
   );
+  const glossaryAllSorted = useMemo(
+    () => [...glossaryAll].filter((e) => e.phonetic || e.transliteration || e.arabic_script).sort((a, b) => {
+      const ak = a.phonetic || a.transliteration || a.arabic_script || '';
+      const bk = b.phonetic || b.transliteration || b.arabic_script || '';
+      return bk.length - ak.length;
+    }),
+    [glossaryAll],
+  );
+
+  const findGlossaryTerm = useCallback((raw: string): GlossaryEntry | null => {
+    const needle = raw.trim();
+    if (!needle) return null;
+    const latinNeedle = needle.toLowerCase();
+    for (const entry of glossaryAllSorted) {
+      const values = [
+        entry.phonetic,
+        entry.transliteration,
+        entry.arabic_script,
+        entry.corrected_arabic,
+      ].filter(Boolean).map((v) => String(v).trim());
+      if (values.some((v) => v === needle || v.toLowerCase() === latinNeedle)) return entry;
+    }
+    return null;
+  }, [glossaryAllSorted]);
 
   // FC-3 + FC-4 + active paragraph: one decoration plugin reading the refs.
   const StudioDecos = useMemo(
@@ -1623,6 +1661,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     const original = editor.state.doc.textBetween(from, to, ' ').trim();
     if (!original || from === to) return;
     setArabicBusy(true); setArabicError(''); setArabicProposal(null); setArabicDone('');
+    setEnglishProposal(null); setExplainProposal(null);
     try {
       const res = await fetch('/api/ai/arabic-term', {
         method: 'POST', headers: { 'content-type': 'application/json' },
@@ -1640,6 +1679,69 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       setArabicBusy(false);
     }
   }, [editor, isReadOnlyStage, selectionContext, chapterTitle]);
+
+  const saveEnglishCuration = useCallback(async (phonetic: string | undefined, english: string) => {
+    if (!phonetic || !english.trim()) return;
+    try {
+      const res = await fetch('/api/studio/arabic-review', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          slug,
+          phonetic,
+          decision: 'replace_english',
+          english_override: english.trim(),
+          decided_by: 'studio',
+        }),
+      });
+      if (!res.ok) return;
+      const d = await res.json();
+      const updated = d?.data ?? d;
+      window.dispatchEvent(new CustomEvent('arabic-curation:saved', { detail: updated }));
+    } catch { /* non-blocking — the text replacement still applies */ }
+  }, [slug]);
+
+  const proposeEnglish = useCallback(async () => {
+    if (!editor || isReadOnlyStage) return;
+    const { from, to } = editor.state.selection;
+    const original = editor.state.doc.textBetween(from, to, ' ').trim();
+    if (!original || from === to) return;
+    const term = findGlossaryTerm(original);
+    const saved = (term?.english_override || '').trim();
+    setEnglishBusy(true); setEnglishError(''); setEnglishProposal(null);
+    setArabicProposal(null); setArabicDone(''); setExplainProposal(null);
+    if (saved) {
+      setEnglishProposal({ from, to, original, english: saved, gloss: 'Saved glossary rendering.', phonetic: term?.phonetic });
+      setEnglishBusy(false);
+      return;
+    }
+    try {
+      const arabic = term?.corrected_arabic || term?.arabic_script || (/[\u0600-\u06FF]/.test(original) ? original : '');
+      const lookup = term?.transliteration || term?.phonetic || original;
+      const res = await fetch('/api/ai/english-term', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ text: lookup, arabic, bookTitle: chapterTitle }),
+      });
+      const json = await res.json();
+      if (!res.ok || json.ok === false || !json.english) {
+        setEnglishError(json.error ?? `Request failed (${res.status})`);
+      } else {
+        setEnglishProposal({
+          from,
+          to,
+          original,
+          english: json.english,
+          gloss: json.gloss ?? '',
+          phonetic: term?.phonetic,
+        });
+      }
+    } catch (e) {
+      setEnglishError(String(e));
+    } finally {
+      setEnglishBusy(false);
+    }
+  }, [editor, isReadOnlyStage, findGlossaryTerm, chapterTitle]);
 
   // Apply the confirmed proposal: replace the original range with the Arabic term,
   // but only if the text at those positions is unchanged since proposing.
@@ -1661,6 +1763,25 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
 
   const cancelArabic = useCallback(() => { setArabicProposal(null); setArabicError(''); setArabicDone(''); }, []);
 
+  const applyEnglish = useCallback(async () => {
+    if (!editor || !englishProposal) return;
+    const { from, to, original, english, phonetic } = englishProposal;
+    const replacement = english.trim();
+    if (!replacement) { setEnglishError('Enter the English rendering first.'); return; }
+    const current = editor.state.doc.textBetween(from, to, ' ').trim();
+    if (current !== original) {
+      setEnglishError('Selection changed — highlight the word again.');
+      setEnglishProposal(null);
+      return;
+    }
+    await saveEnglishCuration(phonetic, replacement);
+    editor.view.dispatch(editor.state.tr.replaceWith(from, to, editor.state.schema.text(replacement)));
+    setEnglishProposal(null); setEnglishError('');
+    refresh();
+  }, [editor, englishProposal, saveEnglishCuration]);
+
+  const cancelEnglish = useCallback(() => { setEnglishProposal(null); setEnglishError(''); }, []);
+
   // Propose a clearer, fuller version of the highlighted excerpt (does NOT edit
   // yet). The whole chapter is sent as context so the AI stays inside it.
   const proposeExplain = useCallback(async () => {
@@ -1671,6 +1792,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     let chapterText = '';
     editor.state.doc.forEach((n) => { chapterText += `${n.textContent}\n\n`; });
     setExplainBusy(true); setExplainError(''); setExplainProposal(null);
+    setArabicProposal(null); setArabicDone(''); setEnglishProposal(null);
     try {
       const res = await fetch('/api/ai/explain', {
         method: 'POST', headers: { 'content-type': 'application/json' },
@@ -1794,6 +1916,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
           ? 'No matches found — nothing changed.'
           : `Replaced ${total} instance${total === 1 ? '' : 's'} across ${nCh} chapter${nCh === 1 ? '' : 's'}.`,
       );
+      setArabicProposal(null);
       refresh();
     } catch (e) {
       setArabicError(String(e));
@@ -1801,6 +1924,31 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       setArabicBusy(false);
     }
   }, [editor, arabicProposal, slug, chapter, isReadOnlyStage, replaceInEditorDoc]);
+
+  const applyEnglishAcross = useCallback(async (scope: 'chapter' | 'book') => {
+    if (!editor || !englishProposal) return;
+    const replace = englishProposal.english.trim();
+    if (!replace) { setEnglishError('Enter the English rendering first.'); return; }
+    const find = englishProposal.original;
+    setEnglishBusy(true); setEnglishError('');
+    try {
+      const res = await fetch('/api/studio/replace', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, scope, chapter, pairs: [{ find, replace }], apply: true }),
+      });
+      const j = await res.json();
+      if (!res.ok || j.ok === false) { setEnglishError(j.error ?? `Request failed (${res.status})`); return; }
+      await saveEnglishCuration(englishProposal.phonetic, replace);
+      if (!isReadOnlyStage) replaceInEditorDoc([{ find, replace }]);
+      setEnglishProposal(null);
+      refresh();
+    } catch (e) {
+      setEnglishError(String(e));
+    } finally {
+      setEnglishBusy(false);
+    }
+  }, [editor, englishProposal, slug, chapter, isReadOnlyStage, replaceInEditorDoc, saveEnglishCuration]);
 
   const runReplace = useCallback(async (apply: boolean) => {
     const pairs = replacePairs
@@ -2094,9 +2242,10 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                                 <button key={def.kind} type="button"
                                   className={`sp-action-btn act-${def.kind}`}
                                   title={def.hint}
-                                  disabled={(def.kind === 'arabic' && arabicBusy) || (def.kind === 'explain' && explainBusy)}
+                                  disabled={(def.kind === 'arabic' && arabicBusy) || (def.kind === 'english' && englishBusy) || (def.kind === 'explain' && explainBusy)}
                                   onClick={() => {
                                     if (def.kind === 'arabic') void proposeArabic();
+                                    else if (def.kind === 'english') void proposeEnglish();
                                     else if (def.kind === 'explain') void proposeExplain();
                                     else if (def.kind === 'replace') openReplace();
                                   }}>
@@ -2114,79 +2263,12 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                             );
                           })}
                         </div>
-                        {explainBusy && <p className="sp-ai-status">Writing a clearer explanation…</p>}
-                        {explainError && <p className="sp-ai-status sp-ai-status--error">{explainError}</p>}
-                        {explainProposal && (
-                          <div className="sp-explain-confirm">
-                            <p className="sp-explain-confirm__label">Clearer explanation — edit before replacing:</p>
-                            <textarea
-                              className="sp-explain-confirm__text"
-                              value={explainProposal.text}
-                              rows={6}
-                              onChange={(e) => setExplainProposal({ ...explainProposal, text: e.target.value })}
-                              aria-label="Explanation — edit before replacing"
-                            />
-                            <div className="sp-arabic-confirm__actions">
-                              <button type="button" className="sp-arabic-confirm__apply" onClick={applyExplain} disabled={!explainProposal.text.trim()}>
-                                <i className="fa-solid fa-check" aria-hidden="true" /> Replace
-                              </button>
-                              <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelExplain}>Cancel</button>
-                            </div>
-                          </div>
-                        )}
                         {arabicBusy && <p className="sp-ai-status">Finding the Arabic term…</p>}
                         {arabicError && <p className="sp-ai-status sp-ai-status--error">{arabicError}</p>}
-                        {arabicProposal && (
-                          <div className="sp-arabic-confirm">
-                            <p className="sp-arabic-confirm__row">
-                              <span className="sp-arabic-confirm__en">{truncate(arabicProposal.original, 28)}</span>
-                              <i className="fa-solid fa-arrow-right-long" aria-hidden="true" />
-                            </p>
-                            <input
-                              type="text"
-                              className="sp-arabic-confirm__input"
-                              lang="ar"
-                              dir="rtl"
-                              value={arabicProposal.arabic}
-                              onChange={(e) => setArabicProposal({ ...arabicProposal, arabic: e.target.value })}
-                              aria-label="Arabic term — edit before replacing"
-                            />
-                            {arabicProposal.gloss && <p className="sp-arabic-confirm__gloss">{arabicProposal.gloss}</p>}
-                            {arabicDone ? (
-                              <>
-                                <p className="sp-arabic-confirm__doneline">
-                                  <i className="fa-solid fa-circle-check" aria-hidden="true" /> {arabicDone}
-                                </p>
-                                <div className="sp-arabic-confirm__actions">
-                                  <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelArabic}>Close</button>
-                                </div>
-                              </>
-                            ) : (
-                              <>
-                                <p className="sp-arabic-confirm__scopehint">Replace where?</p>
-                                <div className="sp-arabic-scope">
-                                  <button type="button" className="sp-arabic-scope__btn sp-arabic-scope__btn--primary"
-                                    disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={applyArabic}>
-                                    <i className="fa-solid fa-check" aria-hidden="true" /> This instance
-                                  </button>
-                                  <button type="button" className="sp-arabic-scope__btn"
-                                    disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={() => void applyArabicAcross('chapter')}>
-                                    <i className="fa-solid fa-file-lines" aria-hidden="true" /> This chapter
-                                  </button>
-                                  <button type="button" className="sp-arabic-scope__btn"
-                                    disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={() => void applyArabicAcross('book')}>
-                                    <i className="fa-solid fa-book" aria-hidden="true" /> All chapters
-                                  </button>
-                                </div>
-                                <div className="sp-arabic-confirm__actions">
-                                  <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelArabic}>
-                                    {arabicBusy ? 'Replacing…' : 'Cancel'}
-                                  </button>
-                                </div>
-                              </>
-                            )}
-                          </div>
-                        )}
+                        {englishBusy && <p className="sp-ai-status">Finding the English rendering…</p>}
+                        {englishError && <p className="sp-ai-status sp-ai-status--error">{englishError}</p>}
+                        {explainBusy && <p className="sp-ai-status">Writing a clearer explanation…</p>}
+                        {explainError && <p className="sp-ai-status sp-ai-status--error">{explainError}</p>}
                       </>
                     ) : activeParaIdx !== null ? (
                       <>
@@ -2360,6 +2442,133 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
           </div>
         )}
       </aside>
+
+      {arabicProposal && (
+        <div className="sp-term-backdrop" role="dialog" aria-modal="true" aria-label="Arabic replacement">
+          <div className="sp-term-modal sp-term-modal--arabic">
+            <header className="sp-term-modal__head">
+              <div>
+                <p className="sp-term-modal__eyebrow">Arabic rendering</p>
+                <h3 className="sp-term-modal__title">Choose the Arabic script</h3>
+              </div>
+              <button type="button" className="sp-term-modal__close" onClick={cancelArabic} aria-label="Close">
+                <i className="fa-solid fa-xmark" aria-hidden="true" />
+              </button>
+            </header>
+            <div className="sp-term-modal__body">
+              <p className="sp-term-modal__swap">
+                <span>{truncate(arabicProposal.original, 48)}</span>
+                <i className="fa-solid fa-arrow-right-long" aria-hidden="true" />
+              </p>
+              <input
+                type="text"
+                className="sp-term-modal__input sp-term-modal__input--arabic"
+                lang="ar"
+                dir="rtl"
+                value={arabicProposal.arabic}
+                onChange={(e) => setArabicProposal({ ...arabicProposal, arabic: e.target.value })}
+                aria-label="Arabic term — edit before replacing"
+                autoFocus
+              />
+              {arabicProposal.gloss && <p className="sp-term-modal__gloss">{arabicProposal.gloss}</p>}
+              {arabicDone && <p className="sp-term-modal__done"><i className="fa-solid fa-circle-check" aria-hidden="true" /> {arabicDone}</p>}
+              <p className="sp-term-modal__scopehint">Save where?</p>
+              <div className="sp-term-scope">
+                <button type="button" className="sp-term-scope__btn sp-term-scope__btn--primary"
+                  disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={applyArabic}>
+                  <i className="fa-solid fa-check" aria-hidden="true" /> This instance
+                </button>
+                <button type="button" className="sp-term-scope__btn"
+                  disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={() => void applyArabicAcross('chapter')}>
+                  <i className="fa-solid fa-file-lines" aria-hidden="true" /> This chapter
+                </button>
+                <button type="button" className="sp-term-scope__btn"
+                  disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={() => void applyArabicAcross('book')}>
+                  <i className="fa-solid fa-book" aria-hidden="true" /> All chapters
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {englishProposal && (
+        <div className="sp-term-backdrop" role="dialog" aria-modal="true" aria-label="English replacement">
+          <div className="sp-term-modal">
+            <header className="sp-term-modal__head">
+              <div>
+                <p className="sp-term-modal__eyebrow">English rendering</p>
+                <h3 className="sp-term-modal__title">Choose the spoken English</h3>
+              </div>
+              <button type="button" className="sp-term-modal__close" onClick={cancelEnglish} aria-label="Close">
+                <i className="fa-solid fa-xmark" aria-hidden="true" />
+              </button>
+            </header>
+            <div className="sp-term-modal__body">
+              <p className="sp-term-modal__swap">
+                <span>{truncate(englishProposal.original, 48)}</span>
+                <i className="fa-solid fa-arrow-right-long" aria-hidden="true" />
+              </p>
+              <input
+                type="text"
+                className="sp-term-modal__input"
+                value={englishProposal.english}
+                onChange={(e) => setEnglishProposal({ ...englishProposal, english: e.target.value })}
+                aria-label="English rendering — edit before replacing"
+                autoFocus
+              />
+              {englishProposal.gloss && <p className="sp-term-modal__gloss">{englishProposal.gloss}</p>}
+              <p className="sp-term-modal__scopehint">Save where?</p>
+              <div className="sp-term-scope">
+                <button type="button" className="sp-term-scope__btn sp-term-scope__btn--primary"
+                  disabled={!englishProposal.english.trim() || englishBusy} onClick={() => void applyEnglish()}>
+                  <i className="fa-solid fa-check" aria-hidden="true" /> This instance
+                </button>
+                <button type="button" className="sp-term-scope__btn"
+                  disabled={!englishProposal.english.trim() || englishBusy} onClick={() => void applyEnglishAcross('chapter')}>
+                  <i className="fa-solid fa-file-lines" aria-hidden="true" /> This chapter
+                </button>
+                <button type="button" className="sp-term-scope__btn"
+                  disabled={!englishProposal.english.trim() || englishBusy} onClick={() => void applyEnglishAcross('book')}>
+                  <i className="fa-solid fa-book" aria-hidden="true" /> All chapters
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {explainProposal && (
+        <div className="sp-term-backdrop" role="dialog" aria-modal="true" aria-label="Explanation replacement">
+          <div className="sp-term-modal sp-term-modal--wide">
+            <header className="sp-term-modal__head">
+              <div>
+                <p className="sp-term-modal__eyebrow">Clarify selection</p>
+                <h3 className="sp-term-modal__title">Edit the replacement text</h3>
+              </div>
+              <button type="button" className="sp-term-modal__close" onClick={cancelExplain} aria-label="Close">
+                <i className="fa-solid fa-xmark" aria-hidden="true" />
+              </button>
+            </header>
+            <div className="sp-term-modal__body">
+              <textarea
+                className="sp-term-modal__textarea"
+                value={explainProposal.text}
+                rows={7}
+                onChange={(e) => setExplainProposal({ ...explainProposal, text: e.target.value })}
+                aria-label="Explanation — edit before replacing"
+                autoFocus
+              />
+              <div className="sp-term-modal__actions">
+                <button type="button" className="sp-term-modal__apply" onClick={applyExplain} disabled={!explainProposal.text.trim()}>
+                  <i className="fa-solid fa-check" aria-hidden="true" /> Replace
+                </button>
+                <button type="button" className="sp-term-modal__cancel" onClick={cancelExplain}>Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Global find-and-replace popup ── */}
       {replaceOpen && (
