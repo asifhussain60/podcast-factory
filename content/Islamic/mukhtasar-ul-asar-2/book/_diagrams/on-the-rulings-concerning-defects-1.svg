@@ -1,0 +1,27 @@
+<svg id="When_the_Buyer_s_Claim_Survives_the_Sell" xmlns="http://www.w3.org/2000/svg" viewBox="-68 0 578 510" role="img" aria-labelledby="When_the_Buyer_s_Claim_Survives_the_Sell_t When_the_Buyer_s_Claim_Survives_the_Sell_d">
+<title id="When_the_Buyer_s_Claim_Survives_the_Sell_t">When the Buyer's Claim Survives the Seller's Oath</title>
+<desc id="When_the_Buyer_s_Claim_Survives_the_Sell_d">Quadrant map: Use after discovery × Knowledge before purchase — four states</desc>
+<style>#When_the_Buyer_s_Claim_Survives_the_Sell{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#111111;}#When_the_Buyer_s_Claim_Survives_the_Sell text{font-family:'Lato', system-ui, sans-serif;}</style>
+<defs><marker id="svgp_arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#777777"/></marker></defs>
+<text x="255.0" y="14.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#000000"><tspan x="255.0" dy="0">When the Buyer's Claim Survives the Seller's</tspan><tspan x="255.0" dy="20">Oath</tspan></text>
+<text x="253" y="502.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#444444"><tspan x="253" dy="0">Use after discovery</tspan></text>
+<text x="12" y="257" text-anchor="middle" font-size="11" font-weight="600" fill="#444444" transform="rotate(-90,12,257)">Knowledge before purchase</text>
+<text x="155.5" y="59.0" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#777777"><tspan x="155.5" dy="0">Did not use or</tspan><tspan x="155.5" dy="12">profit</tspan></text>
+<text x="350.5" y="59.0" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#777777"><tspan x="350.5" dy="0">Used / profited /</tspan><tspan x="350.5" dy="12">offered for sale</tspan></text>
+<text x="52" y="158.5" text-anchor="end" dominant-baseline="central" font-size="10" font-weight="normal" fill="#777777"><tspan x="52" dy="0">Did not know of</tspan><tspan x="52" dy="12">defect</tspan></text>
+<text x="52" y="349.5" text-anchor="end" dominant-baseline="central" font-size="10" font-weight="normal" fill="#777777"><tspan x="52" dy="0">Knew of defect</tspan></text>
+<rect x="58.0" y="72.0" width="195.0" height="185.0" fill="#f7f7f7" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="155.5" y="154.5" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#111111"><tspan x="155.5" dy="0">Claim forfeited</tspan></text>
+<text x="155.5" y="176.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#111111"><tspan x="155.5" dy="0">Knew of defect, no</tspan><tspan x="155.5" dy="12">later use</tspan></text>
+<rect x="253.0" y="72.0" width="195.0" height="185.0" fill="#000000" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="350.5" y="154.5" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#ffffff"><tspan x="350.5" dy="0">Claim valid</tspan></text>
+<text x="350.5" y="170.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#ffffff"><tspan x="350.5" dy="0">Did not know and did</tspan><tspan x="350.5" dy="12">not use; may return or</tspan><tspan x="350.5" dy="12">take defect value</tspan></text>
+<rect x="58.0" y="257.0" width="195.0" height="185.0" fill="#eeeeee" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="155.5" y="339.5" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#111111"><tspan x="155.5" dy="0">Claim forfeited</tspan></text>
+<text x="155.5" y="361.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#111111"><tspan x="155.5" dy="0">Knew of defect and</tspan><tspan x="155.5" dy="12">used it</tspan></text>
+<rect x="253.0" y="257.0" width="195.0" height="185.0" fill="#f7f7f7" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="350.5" y="339.5" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#111111"><tspan x="350.5" dy="0">Claim forfeited</tspan></text>
+<text x="350.5" y="355.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#111111"><tspan x="350.5" dy="0">Used, profited from,</tspan><tspan x="350.5" dy="12">or offered the goods</tspan><tspan x="350.5" dy="12">for sale</tspan></text>
+<line x1="253" y1="72" x2="253" y2="442" stroke="#d0d0d0" stroke-width="2"/>
+<line x1="58" y1="257" x2="448" y2="257" stroke="#d0d0d0" stroke-width="2"/>
+</svg>

@@ -30,6 +30,12 @@ from _subprocess import err as _err, info as _info  # noqa: E402
 
 
 def _book_branch_enabled(book_dir: Path) -> bool:
+    try:
+        from _translation_edition import is_translation_edition  # noqa: PLC0415
+        if is_translation_edition(book_dir):
+            return True
+    except Exception:
+        pass
     meta = book_dir / "meta.yml"
     if not meta.exists():
         return False
@@ -52,6 +58,15 @@ def _drive_book_branch(book_dir: Path) -> int:
     is effectively free)."""
     book_dir = Path(book_dir).resolve()
     slug = book_dir.name
+    try:
+        from _translation_edition import is_translation_edition, assert_translation_contract  # noqa: PLC0415
+        translation_edition = is_translation_edition(book_dir)
+        if translation_edition:
+            assert_translation_contract(book_dir)
+    except AuthoringError:
+        raise
+    except Exception:
+        translation_edition = False
 
     if not _book_branch_enabled(book_dir):
         for ph in _BOOK_PHASES:
@@ -74,14 +89,21 @@ def _drive_book_branch(book_dir: Path) -> int:
     # 0book-compose
     update_phase(book_dir, phase="0book-compose", status="running")
     try:
-        author_phase_book_compose(book_dir, log=_info)
+        if translation_edition:
+            from _translation_edition import author_translation_edition_compose  # noqa: PLC0415
+            author_translation_edition_compose(book_dir, log=_info)
+        else:
+            author_phase_book_compose(book_dir, log=_info)
     except AuthoringError as e:
         update_phase(book_dir, phase="0book-compose", status="failed", error=str(e),
                      extras={"manual_fallback": e.manual_fallback})
         _err(f"0book-compose failed (non-blocking): {e}")
         return 0
     update_phase(book_dir, phase="0book-compose", status="completed")
-    phase_git_commit(book_dir, f"book({slug}): 0book-compose — book.md")
+    if translation_edition:
+        phase_git_commit(book_dir, f"book({slug}): 0book-compose — translation edition")
+    else:
+        phase_git_commit(book_dir, f"book({slug}): 0book-compose — book.md")
 
     # 0book-illustrate: teaching diagrams -> book-illustrated.md (non-blocking on failure)
     update_phase(book_dir, phase="0book-illustrate", status="running")

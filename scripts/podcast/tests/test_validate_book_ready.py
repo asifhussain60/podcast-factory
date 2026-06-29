@@ -127,6 +127,16 @@ def test_b2_fails_when_pages_below_chapter_count(tmp_path):
     assert "truncated" in res["summary"].lower()
 
 
+def test_b2_fails_on_blank_pdf_page(tmp_path, monkeypatch):
+    bd = _make_book(tmp_path, chapters=3, md_sections=3)
+    monkeypatch.setattr(V, "_pdf_text_blank_pages", lambda _pdf, _pages: [3])
+
+    res = V.validate_book(bd)
+
+    assert res["verdict"] == "BOOK-BROKEN"
+    assert "blank page" in res["summary"].lower()
+
+
 def test_picks_render_input_priority(tmp_path):
     # book-illustrated.md should be validated over book.md when present
     bd = _make_book(tmp_path, chapters=2, md_sections=2)
@@ -166,6 +176,78 @@ def test_b3_fails_islamic_book_without_chapter_arabic(tmp_path):
 def test_b3_passes_islamic_book_with_chapter_arabic(tmp_path):
     bd = _make_book(tmp_path, content_profile="islamic_scholarly")
     _add_islamic_arabic_fixture(bd)
+
+    res = V.validate_book(bd)
+
+    assert res["verdict"] == "BOOK-SOUND", res["summary"]
+
+
+def test_translation_edition_enabled_without_legacy_book_flag(tmp_path):
+    bd = _make_book(tmp_path, enable=False, content_profile="islamic_scholarly")
+    (bd / "_system" / "series-config.yaml").write_text(
+        "content_profile: islamic_scholarly\n"
+        "deliverable_mode: translation_edition\n"
+        "visual_style: black_white\n"
+        "translation_policy:\n"
+        "  augmentation: forbidden\n"
+        "  preserve_arabic_terms: true\n"
+        "  monochrome_visuals: true\n",
+        encoding="utf-8",
+    )
+
+    res = V.validate_book(bd)
+
+    assert res["verdict"] == "BOOK-SOUND", res["summary"]
+
+
+def test_translation_edition_fails_when_arabic_source_dropped(tmp_path):
+    bd = _make_book(tmp_path, content_profile="islamic_scholarly")
+    (bd / "_system" / "series-config.yaml").write_text(
+        "content_profile: islamic_scholarly\n"
+        "deliverable_mode: translation_edition\n"
+        "visual_style: black_white\n"
+        "translation_policy:\n"
+        "  augmentation: forbidden\n"
+        "  preserve_arabic_terms: true\n"
+        "  monochrome_visuals: true\n",
+        encoding="utf-8",
+    )
+    ocr = bd / "_system" / "source" / "ocr"
+    ocr.mkdir(parents=True)
+    (ocr / "raw-extract.md").write_text(
+        "<!-- page 1 -->\n" + ("قال رسول الله صلى الله عليه وسلم. " * 60),
+        encoding="utf-8",
+    )
+
+    res = V.validate_book(bd)
+
+    assert res["verdict"] == "BOOK-BROKEN"
+    assert "rendered book has none" in res["summary"]
+
+
+def test_translation_edition_passes_with_arabic_source_signal(tmp_path):
+    bd = _make_book(tmp_path, content_profile="islamic_scholarly")
+    (bd / "_system" / "series-config.yaml").write_text(
+        "content_profile: islamic_scholarly\n"
+        "deliverable_mode: translation_edition\n"
+        "visual_style: black_white\n"
+        "translation_policy:\n"
+        "  augmentation: forbidden\n"
+        "  preserve_arabic_terms: true\n"
+        "  monochrome_visuals: true\n",
+        encoding="utf-8",
+    )
+    ocr = bd / "_system" / "source" / "ocr"
+    ocr.mkdir(parents=True)
+    (ocr / "raw-extract.md").write_text(
+        "<!-- page 1 -->\n" + ("قال رسول الله صلى الله عليه وسلم. " * 60),
+        encoding="utf-8",
+    )
+    (bd / "book" / "book.md").write_text(
+        "# Title\n" + "".join(f"## Section {i}\nقال رسول الله صلى الله عليه وسلم.\n" for i in range(3))
+        + "x" * 4096,
+        encoding="utf-8",
+    )
 
     res = V.validate_book(bd)
 

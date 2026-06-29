@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "book_slug": "mukhtasar-ul-asar-2",
+  "source_path": "content/Islamic/mukhtasar-ul-asar-2/_source/Mukhtasar ul Asar 2 .pdf",
+  "source_kind": "pdf",
+  "input_type": "pdf",
+  "phase": "preflight",
+  "phase_status": "pending",
+  "last_completed_phase": null,
+  "last_error": null,
+  "category": "books",
+  "content_profile": "islamic_scholarly",
+  "deliverable_mode": "translation_edition",
+  "branch": "codex/translation-edition-mukhtasar-sample",
+  "status": "draft",
+  "started": "2026-06-29T00:00:00Z",
+  "updated": "2026-06-29T00:00:00Z",
+  "phases": {},
+  "intake_via": "translation-edition sample setup"
+}

@@ -39,6 +39,7 @@ const printCssPath = path.resolve(import.meta.dirname, '..', 'src', 'styles', 'b
 const fontRoot = path.resolve(import.meta.dirname, '..', 'public', 'fonts');
 
 const ARABIC_RE = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/;
+const ARABIC_INLINE_RE = /[﴿«]?[\s؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]+[﴾»]?/g;
 const NUMBER_WORDS = [
   '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
   'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen',
@@ -52,6 +53,13 @@ function escapeHtml(s) {
 }
 function renderInline(text) {
   let s = escapeHtml(text);
+  s = s.replace(ARABIC_INLINE_RE, (match) => {
+    if (!ARABIC_RE.test(match)) return match;
+    const leading = match.match(/^\s*/)?.[0] || '';
+    const trailing = match.match(/\s*$/)?.[0] || '';
+    const body = match.slice(leading.length, match.length - trailing.length);
+    return `${leading}<span class="ar-inline" dir="rtl" lang="ar">${body}</span>${trailing}`;
+  });
   s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   s = s.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
   return s;
@@ -137,6 +145,7 @@ function renderMd(md) {
       if (level === 2) {
         // Book-style chapter opening. "N. Title" → CHAPTER N eyebrow + bare
         // title; the unnumbered first h2 is the preface.
+        const isFirstH2 = !sawH2;
         const numbered = text.match(/^(\d+)\.\s+(.+)$/);
         let eyebrow;
         let title;
@@ -151,7 +160,7 @@ function renderMd(md) {
         sawH2 = true;
         chapterJustOpened = true;
         out.push(
-          '<section class="chapter-open">'
+          `<section class="chapter-open${isFirstH2 ? ' first-chapter-open' : ''}">`
           + (eyebrow ? `<p class="ch-eyebrow">${escapeHtml(eyebrow)}</p>` : '')
           + `<h2>${renderInline(title)}</h2>`
           + '<hr class="ch-rule">'

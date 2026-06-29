@@ -103,7 +103,8 @@ body {
   align-items: center;
   text-align: center;
   min-height: 86vh;
-  page-break-after: always;
+  page-break-after: auto;
+  break-after: auto;
 }
 .title-page .eyebrow {
   font-family: inherit;
@@ -138,6 +139,10 @@ body {
   padding-top: 4.6cm;
   margin-bottom: 2.2rem;
   text-align: center;
+}
+.chapter-open.first-chapter-open {
+  page-break-before: auto;
+  break-before: auto;
 }
 .chapter-open .ch-eyebrow {
   text-transform: uppercase;
@@ -177,6 +182,12 @@ h3 {
   page-break-after: avoid;
 }
 p { margin: 0 0 0.8rem; }
+
+.ar-inline {
+  direction: rtl;
+  unicode-bidi: isolate;
+  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
+}
 
 /* ── Quotation blocks ────────────────────────────────────────────────────── */
 /* Default (English-only) quotes keep the card style. */

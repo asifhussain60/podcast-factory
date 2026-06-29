@@ -1,0 +1,11 @@
+title: "Mukhtasar ul Asar 2"
+slug: mukhtasar-ul-asar-2
+category: books
+content_profile: islamic_scholarly
+publication:
+  status: draft
+series:
+  enable_book_branch: true
+  enable_slide_decks: true
+  slide_deck_mode: book
+  deliverable_mode: translation_edition

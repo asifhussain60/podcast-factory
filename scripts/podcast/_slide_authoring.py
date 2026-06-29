@@ -207,6 +207,7 @@ def _build_pair_prompt(
     deck_path: Path,
     framing_path: Path,
     audio_words: int,
+    visual_constraints: str = "",
     extra_constraints: str = "",
 ) -> str:
     """Build the heredoc prompt for `claude -p` to author the deck pair.
@@ -264,6 +265,7 @@ def _build_pair_prompt(
         f"on Arabic terms (R-PHONETICS-OUT — phonetics live in the customize prompt, not here).\n"
         f"- Every concept present in the audio chapter must appear (restructured) in the deck "
         f"source; the deck is a RE-PRESENTATION, not a SUMMARY.\n\n"
+        f"{visual_constraints}"
         f"FRAMING rules (`{framing_path.name}`):\n"
         f"- 150-250 words total.\n"
         f"- H1 (one line; file-label — NotebookLM users skip this line when pasting).\n"
@@ -299,6 +301,7 @@ def _build_pair_prompt_technical(
     deck_path: Path,
     framing_path: Path,
     audio_words: int,
+    visual_constraints: str = "",
     extra_constraints: str = "",
 ) -> str:
     """Build the heredoc prompt for technical/developer content (explainers category).
@@ -361,6 +364,7 @@ def _build_pair_prompt_technical(
         f"- No em dashes (use commas or restructure). No emojis.\n"
         f"- Every concept present in the audio chapter must appear (restructured) in the deck; "
         f"the deck is a RE-PRESENTATION, not a SUMMARY.\n\n"
+        f"{visual_constraints}"
         f"FRAMING rules (`{framing_path.name}`):\n"
         f"- 150-250 words total.\n"
         f"- H1 (one line; file-label — NotebookLM users skip this line when pasting).\n"
@@ -513,6 +517,19 @@ def author_deck_pair(
         if _category not in ARABIC_SCHOLARLY_CATEGORIES and _category == "explainers"
         else _build_pair_prompt
     )
+    visual_constraints = ""
+    try:
+        from _translation_edition import requires_monochrome_visuals  # noqa: PLC0415
+        if requires_monochrome_visuals(book_dir):
+            visual_constraints = (
+                "BLACK-AND-WHITE VISUAL STYLE (hard):\n"
+                "- The NotebookLM deck must be black and white only: black ink, white background, gray shading only when needed.\n"
+                "- Ask for line-art diagrams, tables, hierarchy trees, contrast panels, and process flows.\n"
+                "- No color fills, no color-coded categories, no gradients, no photographs, no stock imagery.\n"
+                "- Include this requirement in the framing's `## Prohibited Patterns` and `## Steering Phrases` sections.\n\n"
+            )
+    except Exception:
+        pass
 
     while attempts <= (MAX_AUTHORING_RETRIES if retry_on_validation_fail else 0):
         attempts += 1
@@ -525,6 +542,7 @@ def author_deck_pair(
             deck_path=deck_path,
             framing_path=framing_path,
             audio_words=audio_words,
+            visual_constraints=visual_constraints,
             extra_constraints=extra_constraints,
         )
 
@@ -648,6 +666,20 @@ def _build_book_pair_prompt(
         constraints_block = (
             "\n\nADDITIONAL CONSTRAINTS (from prior validation failure — fix these):\n"
             f"{extra_constraints.strip()}\n")
+    try:
+        from _translation_edition import requires_monochrome_visuals  # noqa: PLC0415
+        monochrome = requires_monochrome_visuals(deck_path.parents[1])
+    except Exception:
+        monochrome = False
+    style_clause = (
+        "black-and-white line-art illustration style: conceptual diagrams in the manner "
+        "of pen-and-ink scholarly illustrations (hierarchies as tree diagrams, contrast "
+        "pairs as two-panel layouts, genealogy chains as flowing arrow diagrams, process "
+        "flows as numbered-step illustrations). No colour fills, no photographs, no "
+        "gradients. Clean geometric shapes and lines only."
+        if monochrome else
+        "clear scholarly visual style: conceptual diagrams over decorative slides."
+    )
     return (
         f"You are authoring the BOOK-LEVEL slide-deck PAIR for book `{book_slug}` — "
         f"ONE deck covering the whole book (slide_deck_mode: book). The pair is one "
@@ -686,12 +718,8 @@ def _build_book_pair_prompt(
         f"  4. `## Prohibited Patterns` — explicit list (no literal-text slides, no "
         f"audio-restatement, no stock-photo descriptions, no bullet-list-as-diagram).\n"
         f"  5. `## Steering Phrases` — 3-5 phrases drawn from `{REFERENCE_STEERING.name}`.\n"
-        f"  6. `## Visual Style` — instruct the generator to use black-and-white line-art "
-        f"illustration style: conceptual diagrams in the manner of pen-and-ink scholarly "
-        f"illustrations (hierarchies as tree diagrams, contrast pairs as two-panel layouts, "
-        f"genealogy chains as flowing arrow diagrams, process flows as numbered-step "
-        f"illustrations). No colour fills, no photographs, no gradients. Clean geometric "
-        f"shapes and lines only. Each slide must be a drawn diagram rather than a "
+        f"  6. `## Visual Style` — instruct the generator to use {style_clause} "
+        f"Each slide must be a drawn diagram rather than a "
         f"text-heavy bullet list.\n\n"
         f"AFTER WRITING both files, print on stdout (one per line):\n"
         f"  DECK: {deck_path}\n"
@@ -710,7 +738,7 @@ def _build_book_pair_prompt(
 
 _BOOK_FRAMING_REQUIRED_H2 = (
     "## Audience", "## Core Principle", "## Visual Priorities",
-    "## Prohibited Patterns", "## Steering Phrases",
+    "## Prohibited Patterns", "## Steering Phrases", "## Visual Style",
 )
 
 
@@ -735,6 +763,17 @@ def _validate_book_pair(deck_path: Path, framing_path: Path) -> list[str]:
             findings.append(f"framing missing required section: {h2}")
     if "—" in deck_path.read_text(encoding="utf-8"):
         findings.append("deck source contains em dashes (forbidden)")
+    try:
+        from _translation_edition import requires_monochrome_visuals  # noqa: PLC0415
+        if requires_monochrome_visuals(deck_path.parents[1]):
+            lower = framing_text.lower()
+            if not any(term in lower for term in ("black and white", "black-and-white", "monochrome")):
+                findings.append("framing must explicitly require black-and-white / monochrome slides")
+            forbidden_colour = ("colour fills", "color fills", "gradients", "photographs")
+            if not any(term in lower for term in forbidden_colour):
+                findings.append("framing must prohibit color fills, gradients, and photographs")
+    except Exception:
+        pass
     return findings
 
 

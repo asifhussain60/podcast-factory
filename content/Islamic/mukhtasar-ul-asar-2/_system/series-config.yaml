@@ -1,0 +1,28 @@
+slug: mukhtasar-ul-asar-2
+title: "Mukhtasar ul Asar 2"
+content_profile: islamic_scholarly
+deliverable_mode: translation_edition
+source_language: ar
+target_language: en
+episode_planning_mode: chronological
+audience_profile: traditional
+conversation_style: deep_dive
+length_tier: extended
+enable_video: false
+video_style: none
+audio_engine: notebooklm
+visual_style: black_white
+slide_deck_mode: book
+translation_policy:
+  target_language: en
+  augmentation: forbidden
+  denoise: teaching_only
+  preserve_arabic_terms: true
+  preserve_quran_hadith_quotes: true
+  monochrome_visuals: true
+  allowed_llm_enrichment:
+    - faithful_translation
+    - clear_articulation
+    - teaching_only_denoise
+    - source_grounded_structure
+    - black_white_visualization

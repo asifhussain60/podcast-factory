@@ -1,0 +1,21 @@
+<svg id="Entitlement_to_Pre_emption_by_Strength_o" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 452" role="img" aria-labelledby="Entitlement_to_Pre_emption_by_Strength_o_t Entitlement_to_Pre_emption_by_Strength_o_d">
+<title id="Entitlement_to_Pre_emption_by_Strength_o_t">Entitlement to Pre-emption by Strength of Shared Right</title>
+<desc id="Entitlement_to_Pre_emption_by_Strength_o_d">Hierarchy: Co-owner / partner in the property → Residents holding rights in their own courtyards within al-Raighah → People of the inner lane section (right of way along that path) → People of the outer section / further along (no right of way)</desc>
+<style>#Entitlement_to_Pre_emption_by_Strength_o{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#111111;}#Entitlement_to_Pre_emption_by_Strength_o text{font-family:'Lato', system-ui, sans-serif;}</style>
+<defs><marker id="svgp_arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#777777"/></marker></defs>
+<text x="250.0" y="14.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#000000"><tspan x="250.0" dy="0">Entitlement to Pre-emption by Strength of</tspan><tspan x="250.0" dy="20">Shared Right</tspan></text>
+<rect x="166.0" y="52.0" width="168.0" height="44.0" fill="#000000" stroke="#000000" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="66.5" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#ffffff"><tspan x="250.0" dy="0">Co-owner / partner in</tspan><tspan x="250.0" dy="15">the property</tspan></text>
+<rect x="166.0" y="148.0" width="168.0" height="44.0" fill="#555555" stroke="#d0d0d0" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="149.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#ffffff"><tspan x="250.0" dy="0">Residents holding</tspan><tspan x="250.0" dy="14">rights in their own</tspan><tspan x="250.0" dy="14">courtyards within</tspan><tspan x="250.0" dy="14">al-Raighah</tspan></text>
+<rect x="166.0" y="244.0" width="168.0" height="44.0" fill="#d9d9d9" stroke="#d0d0d0" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="252.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#111111"><tspan x="250.0" dy="0">People of the inner</tspan><tspan x="250.0" dy="14">lane section (right of</tspan><tspan x="250.0" dy="14">way along that path)</tspan></text>
+<rect x="166.0" y="340.0" width="168.0" height="44.0" fill="#eeeeee" stroke="#d0d0d0" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="341.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#111111"><tspan x="250.0" dy="0">People of the outer</tspan><tspan x="250.0" dy="14">section / further</tspan><tspan x="250.0" dy="14">along (no right of</tspan><tspan x="250.0" dy="14">way)</tspan></text>
+<line x1="250.0" y1="96.0" x2="250.0" y2="122.0" stroke="#777777" stroke-width="1.5"/>
+<line x1="250.0" y1="122.0" x2="250.0" y2="142.0" stroke="#777777" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="250.0" y1="192.0" x2="250.0" y2="218.0" stroke="#777777" stroke-width="1.5"/>
+<line x1="250.0" y1="218.0" x2="250.0" y2="238.0" stroke="#777777" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="250.0" y1="288.0" x2="250.0" y2="314.0" stroke="#777777" stroke-width="1.5"/>
+<line x1="250.0" y1="314.0" x2="250.0" y2="334.0" stroke="#777777" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+</svg>

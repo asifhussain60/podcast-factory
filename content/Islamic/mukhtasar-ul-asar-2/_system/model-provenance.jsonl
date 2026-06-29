@@ -1,0 +1,136 @@
+{"phase": "0book-design", "step": "segment", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-05", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-09", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On the seeking of sustenance, and the ge", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On what it is forbidden to sell", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The prohibition against selling gharar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The sale of fruits", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The prohibition against cheating and dec", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "What he forbade in sales", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "Usury (Riba)", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "Selling foodstuffs against one another", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The option of the contracting parties", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The rulings on defects", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The sale of murabaha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The salam contract", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The conditions and rulings of sale", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "Debts", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "Hawala and sponsorship", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "Guardianship and the interdiction of the", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The farming arrangement and the musaqah", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "Rents", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The pledge", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "Partnership", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "Pre-emption", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "2. Binding Words: Oaths, Vows, and Their", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "3. The Body's Portion: Food, Drink, and ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The Types of Foods and the Command to Pr", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The Etiquette of Eating", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "What Is Forbidden from Food", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The Etiquette of Drinking", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "What Is Permissible to Drink", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "What Is Forbidden to Drink", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "What Is Obligatory in the Use of Medicin", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "Healing Through Acts of Righteousness", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The Talisman and the Charm", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "Treatment and Medicine", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "4. What We Wear: Dress, Adornment, and F", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "5. The Hunt and the Knife: Game, Slaught", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "6. Marriage and the Household", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "7. When a Marriage Ends: Divorce and Sep", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "8. Freedom, Generosity, and the Division", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "9. Wrong and Redress: Crime, Property Di", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "11b-slide-authoring", "step": "book-pair/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-02-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-05", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-07", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-09", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-08", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-06", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-10", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-02-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-05", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-04-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-05-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-05-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-05-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-05", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-06", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-09", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-08", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-07", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-03-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-01-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-04-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-09-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-09-part-03-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-09-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-09-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "1. The Marketplace: Honest Earning, Trad", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The Sale of Fruits", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The Prohibition of Cheating and Deceptio", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "Mention of What He Forbade Regarding Sal", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On Currency Exchange (al-Sarf)", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On the Sale of Food to One Another", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On the Option of the Two Parties to a Sa", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On the Rulings Concerning Defects", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "Concerning the Expiations", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "3. The Body's Portion: Food, Drink, and ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "What is lawful in hunting and what is fo", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "What hunting animals seize and kill", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "What hunters bring down with a throw", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The Comprehensive Doors of Slaughter", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The sacrificial offerings", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "5. The Hunt and the Knife: Game, Slaught", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "6. Marriage and the Household", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "7. When a Marriage Ends: Divorce and Sep", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On the Provision of Divorce and Making t", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On the Return, the Status of Slaves, and", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On Gifts and Generosity", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On Bequests", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On the Obligatory Shares of Inheritance", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On the inheritance of kindred and connec", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On the inheritance of the son repudiated", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On the inheritance of the killer, the bl", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "8. Freedom, Generosity, and the Division", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On Blood Money and Its Categories", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On Offenses Against the Limbs and Wounds", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On the Establishment of the Hudud", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "On the Hadd Punishment for Zina", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "9. Wrong and Redress: Crime, Property Di", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The Case and the Evidence", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-illustrate", "step": "The Etiquette of Judges", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "11b-slide-authoring", "step": "book-pair/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
