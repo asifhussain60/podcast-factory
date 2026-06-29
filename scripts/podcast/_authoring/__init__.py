@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from ._core import (  # noqa: F401
     AuthoringError,
+    AuthoringHalt,
     DEFAULT_MODEL_LABEL,
     CLAUDE_CMD,
     DEFAULT_TIMEOUT,
@@ -27,16 +28,19 @@ from ._core import (  # noqa: F401
     PHASE_0D_SC_TIMEOUT_MAX,
     PHASE_0D_SC_TIMEOUT_RATE,
     PHASE_0D_SC_TIMEOUT_BASELINE,
+    FICTION_CONTENT_PROFILES,
     _run_claude_p,
     _run_claude_p_with_retry,
     _assert_artifact,
     _compute_sc_timeout,
+    _read_content_profile,
 )
 from ._refine import (  # noqa: F401
     build_phase_0b_window_prompt,
     author_phase_0b,
     author_phase_0c,
 )
+from ._book_intelligence import author_phase_0ci  # noqa: F401
 from ._chapter_design import author_phase_0d  # noqa: F401
 from ._enrichment import author_phase_0e  # noqa: F401
 from ._framing import author_framing  # noqa: F401

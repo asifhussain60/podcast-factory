@@ -1,0 +1,451 @@
+# Mukhtasar al-Athar, Volume 2: The Law of the Market, the Table, and the Household
+
+This deck holds the strongest visual structures of the whole book, one section per chapter, in book order. Each structure is rendered as STRUCTURE rather than prose, so that a slide generator draws a diagram rather than a bullet list. The audio episodes carry the reasoning and the narratives; these structures capture only what the eye must hold all at once.
+
+## The Marketplace: Honest Earning, Trade, and Property
+
+### What may be sold and what may not
+Diagram type: Hierarchy tree.
+
+- Goods brought to market
+  - Forbidden absolutely (no sale, no earning, no taking of the price)
+    - carrion, blood, swine
+    - wine and every intoxicant
+    - the instruments of idle amusement
+    - the free person
+  - Lawful in itself, though the buyer may later corrupt it
+    - grapes, pressed juice, raisins, honey, dates, figs
+    - the sin falls only on the one who turns them into wine
+  - Ownership decides the ruling
+    - water, pasture, and fire lying unowned in the wild: no sale
+    - the same once dug, stored, gathered, or kindled within property: sale permitted
+  - Disliked yet permitted
+    - the price of the biting dog and of the cat: disliked
+    - the hunting dog, the herding dog, and copies of the Qur'an: permitted
+
+### The forms of gharar, the sale upon the unknown
+Diagram type: Annotated structure.
+
+Whole: gharar is every sale concluded upon a thing that is unknown.
+
+Parts dissected, each with its one-line flaw:
+- habal al-habalah: the offspring of an offspring, sold before either is born.
+- al-madamin and al-malaqih: what is in the loins of the stallions and the embryos in the wombs.
+- al-mulamasah: the folded garment sold by a touch, with sight waived.
+- al-munabadhah: the sale sealed by casting the garment from hand to hand.
+- the pebble sale: each party throws a pebble, and the throw is made the binding act.
+- wool on the back, fish still in the water: sold before the shearing or the catch.
+
+Callout: the binding act of a sale is the spoken word and the parting in mutual consent, never a touch and never a throw.
+
+### The riba rule for measured and weighed goods
+Diagram type: Comparison matrix.
+
+| Exchange | Hand to hand | On deferred terms |
+|---|---|---|
+| Same kind for its own kind (gold for gold, wheat for wheat, dates for dates) | Equal measure or equal weight only; any increase is riba | Not permitted at all |
+| Different kinds (wheat for dates, gold for silver) | Disparity permitted: a sa' of wheat for two sa' of dates | Not permitted |
+
+> Gold for gold, and silver for silver, hand to hand and weight for weight; whoever increases or seeks increase has dealt in riba.
+> Attributed to the Messenger of Allah, narrated through the Imams of the Ahl al-Bayt.
+
+### Two structures of joint venture: shirka and mudaraba
+Diagram type: Contrast pair.
+
+Column A: Shirka, the partnership of mingled capital
+- Capital: both partners contribute and mingle it into one indistinguishable fund.
+- Profit: divided as the two stipulate.
+- Loss: borne in proportion to each one's capital.
+- Action: neither buys nor sells without the other's leave.
+
+Column B: Mudaraba, money from one and labor from the other
+- Capital: belongs to one party alone; the worker is the mudarib.
+- Profit: divided by the contract.
+- Loss: falls on the owner of the money alone, never on the worker.
+- Breach: if the worker violates the terms, he guarantees whatever is lost.
+
+Shared row: a fixed guaranteed return turns either arrangement into a loan, and a fixed proportional return demanded as profit becomes riba.
+
+## Binding Words: Oaths, Vows, and Their Atonement
+
+### The expiation of a broken oath
+Diagram type: Process flow with a fallback branch.
+
+Start: an oath deliberately sworn, then broken.
+  Choose any ONE of the three, the choice being free:
+  - feed ten poor persons, from the average of what you feed your own family
+  - clothe ten poor persons, two garments to each
+  - free a slave
+  Branch, only when none of the three can be found or afforded:
+  - fast three consecutive days
+End: the fast never substitutes until food, clothing, and manumission are all beyond reach.
+
+> Of everything in the Qur'an stated with "or," the one to whom it applies has the choice; but wherever it says "if he does not find," he must perform the first whenever he is able.
+> Ja'far ibn Muhammad, peace be upon him.
+
+### The binding oath and the empty word
+Diagram type: Contrast pair.
+
+Column A: the deliberate oath, al-yamin al-mun'aqida
+- The heart is set upon it.
+- Breaking it makes expiation obligatory.
+- "the oaths your hearts have deliberately bound."
+
+Column B: the thoughtless word, al-laghw
+- "No, by Allah" and "Yes, by Allah" let fall in passing, the heart not upon it.
+- No expiation: it is a lie to seek forgiveness for, not an oath to expiate.
+- "Allah will not take you to task for the thoughtless word in your oaths."
+
+Shared row: the oath is only by Allah; there is no oath by divorce, by manumission, by Hajj, or by anything other than Allah.
+
+### What is sworn, and whether it binds
+Diagram type: Hierarchy tree.
+
+- An oath upon an act
+  - to do an obligatory act, or to leave a forbidden one: binding, it must be kept
+  - to do a permitted act, then the contrary proves better: do the better and expiate
+  - in disobedience, as to slaughter one's son or sever kin: counts for nothing, no perjury and no expiation
+- A vow, al-nadhr
+  - named, tied to a condition that then comes to pass: binding
+  - unnamed, merely "I owe a vow": nothing is required
+  - in disobedience or in the severing of kinship: void
+
+## The Body's Portion: Food, Drink, and Healing
+
+### The lawful and the forbidden among the animals
+Diagram type: Hierarchy tree.
+
+- Land beasts
+  - lawful: camels, cattle, sheep, the grazing wild animals, with their milk
+  - forbidden: the beasts of prey with fangs that seize and devour
+- Birds
+  - lawful: all birds when slaughtered
+  - forbidden: the birds of prey with talons that seize, and their eggs
+- Creatures of the sea
+  - lawful: what is caught alive and bears scales
+  - forbidden: what dies in the water, and what has no scales
+
+Callout, the test of the unknown egg: two unlike ends, one pointed and one round, then it is eaten; two like ends, then it is not.
+
+### The single drink that crosses the line into wine
+Diagram type: Process flow.
+
+Start: juice freshly pressed from grapes, dates, or raisins, unchanged: lawful.
+  Cooked to a body, al-tila', thickened but not turned: lawful, pure or mixed with water.
+  Soaked as nabidh, dates or raisins cast into water, drunk the first day and the second: lawful.
+  By the third day, if it has changed: poured away.
+  Branch into the forbidden: left to ferment, so it boils, intensifies, and throws up froth: it is now wine.
+End: what intoxicates in much is forbidden even in little.
+
+### The Prophetic pharmacy: healing by substance and by act
+Diagram type: Annotated structure.
+
+Whole: the remedy that the Imams transmitted, which profits only the one who receives it with belief and certainty.
+
+Branch one, healing by substance:
+- honey, "in it is a healing for people"
+- the black seed, al-shuniz, a cure for every disease except death
+- senna and fenugreek; cupping, phlebotomy; salt pressed on a sting; fresh dates for the woman in childbirth
+
+Branch two, healing by act and word:
+- supplication, which turns back the decree even after it is sealed
+- charity given early in the day, which wards off the day's affliction
+- ruqya by al-Fatiha and the two chapters of refuge
+- the name of Allah pronounced over food and over the place of pain
+
+## What We Wear: Dress, Adornment, and Fragrance
+
+### Two eras, one principle: the plainness of Ali and the fine dress of al-Sadiq
+Diagram type: Contrast pair.
+
+Column A: Ali, peace be upon him
+- Wore coarse cloth and rough fabric.
+- Lived in a time of hardship and scarcity.
+- "Wear cotton, for that was the clothing of the Messenger of Allah."
+
+Column B: Ja'far al-Sadiq, peace be upon him
+- Wore the fine al-Quhi, al-Muwri, and khazz.
+- "Allah has widened our means, and the trace of His bounty should be seen upon His servant."
+- Recited, "Who has forbidden the adornment of Allah which He has brought forth for His servants?"
+
+Shared row: clothing fine or plain is permitted; plain dress worn in humility is no fault, and fine dress within one's means is a showing of the grace of Allah.
+
+### What is lawful, disliked, and forbidden in dress and ornament
+Diagram type: Hierarchy tree.
+
+- Garments
+  - lawful: whatever the earth grows; the skin, wool, hair, and fur of a lawfully slaughtered animal; white, the best and the cloth of shrouds; dyed cloth, for no dye forbids a garment
+  - disliked: pure silk for men, though permitted woven with other fibers and displayed before the enemy; the deep saturated red, "the dye of the Banu Umayyah"; black as adornment, the garb the Banu al-Abbas took
+- Ornament
+  - lawful: gold and silver for women; the silver seal-ring; the carnelian and the ruby; the ring upon the right hand
+  - forbidden: the gold seal-ring for men; the ring of iron, "the ornament of the people of the Fire"
+
+### The fragrance of men and the fragrance of women
+Diagram type: Contrast pair.
+
+Column A: the fragrance of men
+- Scent apparent, color hidden, such as musk.
+- Worn openly, even to the Friday prayer.
+
+Column B: the fragrance of women
+- Color apparent, scent concealed, such as khaluq and henna.
+- Kept within the home; disliked when she goes out so that it can be detected from her.
+
+Shared row: fragrance was given to the prophets together with marriage and the siwak, and a sweet scent strengthens the heart.
+
+## The Hunt and the Knife: Game, Slaughter, and Sacrifice
+
+### The clean kill and the lost quarry: al-isma' and al-inma'
+Diagram type: Contrast pair.
+
+Column A: al-isma', struck dead on the spot
+- Thrown at, struck, and it dies where it falls.
+- Known with certainty to have died of the blow.
+- Lawful to eat.
+
+Column B: al-inma', driven off and lost
+- Struck, then it moves out of sight and is later found dead.
+- Unknown whether the blow or some other cause killed it.
+- Not eaten.
+
+Shared row: only an iron weapon, the sword, the spear, the arrow, makes the kill lawful, never the stick, the stone, or the pellet.
+
+### The trained hunting animal, al-jawarih
+Diagram type: Process flow.
+
+Start: a trained dog or bird of prey is released, the name of Allah invoked at its release.
+  It seizes the prey.
+  Branch:
+  - the prey is reached alive: slaughter it, then eat
+  - the prey dies before slaughter, the animal being trained and the name invoked: eaten, even if the animal ate from it
+  - the animal is untrained, or the name was deliberately omitted, or it killed without wounding: not eaten
+End: the jawarih are the earners, who earn the catch for the one who trained them.
+
+### The Sunnah of slaughter: the cut and its conditions
+Diagram type: Annotated structure.
+
+Whole: lawful slaughter at the place of slaughter, below the ghalsama, the knot of the windpipe.
+
+Parts, what the blade severs: the windpipe, the gullet, and the two jugular veins, falling short of none, not cutting into the bone.
+
+Conditions called out around the cut:
+- the blade sharpened, the beast given ease, faced toward the qibla, the name invoked
+- iron only, never stone, tooth, nail, or bone
+- do not sever the head through, do not skin until the beast is still
+- the name forgotten: invoke it when remembered and eat; the name deliberately left: it is not eaten
+
+Sign of valid slaughter: the eye flickers, the leg kicks, or the tail moves.
+
+### The ranking of the sacrificial animals
+Diagram type: Hierarchy tree.
+
+- The order of preference, best first, as al-Sadiq set it
+  - female camels → male camels
+  - female cattle → male cattle
+  - rams → wethers → ewes
+  - male goats → female goats
+
+Callout: the best of every kind is the fattest and the largest; the most prized ram is the horned black-and-white, al-amlah; nothing is slaughtered as a sacrifice before the Eid prayer.
+
+## Marriage and the Household
+
+### The order of preference in a spouse, by faith
+Diagram type: Hierarchy tree.
+
+- Most preferred, descending to least
+  - the people of knowledge and sound faith, foremost and nearest to Allah
+  - the weak who are neither loyal nor hostile
+  - the Muslims of the people of truce, who marry, inherit, and testify among themselves
+  - the people of disbelief: a Muslim man may marry their women only in necessity, and a Muslim woman is never lawful to them
+
+Callout on direction: marry INTO the people of doubt, but do not give your women to them, for a woman takes on her husband's manners; and never a Nasibiyya, the daughter of one hostile to the family of the Prophet.
+
+### The four feasts of the household
+Diagram type: Annotated structure.
+
+Whole: the feast prepared at the turning points of a household.
+
+Parts:
+- al-walima: the food when a man enters upon his wife.
+- al-khurs: the aqiqa food for the newborn on the seventh day.
+- al-i'dhar: the food at the circumcision of a boy.
+- al-wakira: the food on returning from a journey.
+
+Callout: the first day's feast is a duty, the second a kindness known among people, and what is beyond that is ostentation.
+
+### The dowry: the Sunnah, the floor, and the ceiling
+Diagram type: Comparison matrix.
+
+| Kind of dowry | The amount | When it falls due |
+|---|---|---|
+| The dowry of the Sunnah | five hundred dirhams, the Prophet's own practice | the measure against which excess is returned |
+| A named dowry | whatever the two agree, little or much | the immediate portion before consummation, the deferred to death or separation |
+| An unnamed dowry | the contract is valid; she gets the like of her peers, not above the Sunnah dowry | nothing consummated until he gives her something |
+
+> When the curtains are let down and the doors are shut, the dowry has fallen due.
+> Abu Ja'far and Abu Abdullah, peace be upon them.
+
+### Lawful marriage against the marriage of pleasure, mut'a
+Diagram type: Contrast pair.
+
+Column A: the lawful marriage
+- A guardian and two upright witnesses.
+- A dowry, however small.
+- Ends only by divorce, with a waiting period.
+- The spouses inherit; the child belongs to the bed.
+
+Column B: the pleasure union, rejected
+- No guardian and no witnesses.
+- A named sum for a named term.
+- Ends of itself when the term expires, with no divorce.
+- No waiting period claimed, and no inheritance.
+
+Shared row: intimacy is permitted by two paths only, the bond of marriage and the right hand of possession; whatever lies outside the two is forbidden.
+
+## When a Marriage Ends: Divorce and Separation
+
+### What each parted woman is owed
+Diagram type: Comparison matrix.
+
+| The woman | Maintenance | Accommodation | Mourning |
+|---|---|---|---|
+| Divorced revocably, in her waiting period | yes | yes | no |
+| Divorced irrevocably | no | no | no |
+| Divorced while pregnant | yes | yes | no |
+| Widowed while pregnant | no | no | yes |
+
+Callout: mourning is the widow's alone; throughout her count she does not comb or dye her hair, does not perfume herself or apply kohl, does not adorn herself or wear a dyed garment unless it is black, and does not leave her house by day.
+
+### The count of divorce and the path back to lawfulness
+Diagram type: Process flow.
+
+Start: a man divorces his wife.
+  Within the waiting period: he may take her back, witnessed, with no new dowry.
+  After the waiting period ends: he is one suitor among suitors, by a fresh marriage and a new dowry.
+  Branch on how many pronouncements have fallen:
+  - one or two: after a fresh marriage she returns to him for whatever remains of the count
+  - the third: she is not lawful to him until she marries another in a marriage of genuine desire, he consummates it, and that marriage then ends
+End: collusion with a hired husband, a mut'a, a boy, or a castrated man does NOT make her lawful again.
+
+### The provision of parting, mut'a
+Diagram type: Annotated structure.
+
+Whole: the parting gift, "upon the wealthy according to his means and upon the straitened according to his means."
+
+Parts, entitled and not:
+- the woman divorced by the Sunnah, in her waiting period: entitled, whether or not the marriage was consummated
+- the woman parted by khul': not entitled
+- the woman parted by mubarah: not entitled
+
+Callout: there is no fixed amount, and it is given only after the waiting period ends and hope between the two is gone.
+
+## Freedom, Generosity, and the Division of Estates
+
+### Three lifetime grants: al-umra, al-ruqba, al-sukna
+Diagram type: Annotated structure.
+
+Whole: grants of use offered for the sake of Allah.
+
+Parts:
+- al-umra: a house or estate granted for the lifetime of the recipient.
+- al-ruqba: the same grant, returning to whichever of the two parties outlives the other.
+- al-sukna: a grant of dwelling.
+
+Callout, branching on the condition: conditioned on the grantor's life, it returns to his heirs at his death; conditioned on the recipient's life, it is his until he dies and his heirs cannot reclaim it; granted to him and his heirs, it passes to them after him.
+
+### The obligatory gift and the voluntary gift: open or hidden
+Diagram type: Contrast pair.
+
+Column A: the obligatory, such as zakat and the fixed dues
+- The merit lies in giving openly and announcing it.
+- So too the obligatory prayer is best in congregation and the mosque.
+
+Column B: the voluntary, such as sadaqa and the night prayer
+- The merit lies in secrecy.
+- So too the voluntary prayer is best in seclusion, and to boast of it admits ostentation.
+
+> If you disclose your charities, that is good; but if you conceal them and give them to the poor, that is better for you.
+> al-Baqarah 271.
+
+### The order of the estate: what is taken before the heirs
+Diagram type: Process flow.
+
+Start: a person dies leaving wealth.
+  First, the shroud, from the principal of the estate.
+  Then the debts, from the principal.
+  Then the bequest, from one third or less; beyond the third only with the heirs' consent.
+  Then what remains: divided by the ordained shares.
+End: there is no bequest for an heir unless the other heirs permit, and the testator may revoke or alter his bequest while he lives.
+
+### The fixed shares, al-fara'id
+Diagram type: Comparison matrix.
+
+| Heir | With a child | Without a child |
+|---|---|---|
+| Husband | one quarter | one half |
+| Wife | one eighth | one quarter |
+| Mother | one sixth | one third, but one sixth if there are brothers |
+| Father | one sixth, then the remainder | the remainder |
+| A single daughter | one half, with the rest returned by kinship if she is alone | one half |
+| Two or more daughters | two thirds, shared | two thirds, shared |
+
+Callout: to the male the like of the share of two females; there is no awl, for the deficiency falls upon the one who takes the remainder, never upon the named shares.
+
+## Wrong and Redress: Crime, Property Disputes, and the Judge
+
+### The escalating hadd of theft
+Diagram type: Process flow.
+
+Start: theft of goods worth five dinars from a secured place, proven or freely confessed.
+  First theft: the right hand is cut at the four fingers, the thumb and palm left for use.
+  Second theft: the left foot is cut at the middle, the heel left to walk upon.
+  Third theft: imprisonment for life.
+  Theft while imprisoned: death.
+  Branch, where no hand is cut: the guest, the hired man, the father from the son, the snatcher and the pickpocket, a year of famine, the part-owner, fruit and birds. The highway robber is judged apart, at the Imam's discretion.
+
+### The prescribed punishments, the hudud
+Diagram type: Comparison matrix.
+
+| The offense | The punishment | Escalation or note |
+|---|---|---|
+| Zina, the protected (muhsan) | one hundred lashes, then stoning | the witnesses cast the first stones, or the judge if it was a confession |
+| Zina, the unprotected | one hundred lashes | a confession must be repeated four times |
+| Slander of the chaste, qadhf | eighty lashes | testimony never accepted again unless he repents |
+| Wine and intoxicants | eighty lashes | death upon the third offense |
+
+Callout: the order of severity in flogging runs from the adulterer, to the false accuser, to the drinker, to the discretionary; and where a doubt arises, the hadd is suspended.
+
+### Blood money, the soul and its parts
+Diagram type: Comparison matrix.
+
+The full diya of a free Muslim, taken in the currency of the offender's land:
+
+| Wealth | The full blood money |
+|---|---|
+| Gold | one thousand dinars |
+| Silver | its equivalent value |
+| Camels | one hundred |
+| Cattle | two hundred |
+| Sheep | one thousand |
+| Cloth | two hundred garments |
+
+The graded scale for the unborn, by stage, ascending:
+seed cast after settling, 20 dinars → the clot, al-alaqa, 40 → the morsel, al-mudgha, 60 → once bone has formed, 80 → fully formed before the spirit, 100 → once the spirit is breathed in, the full blood money.
+
+Callout: retaliation for the deliberate act where it can be taken without excess; blood money for the error, borne by the aqila when it reaches a third or more.
+
+### Evidence and oath: who carries which
+Diagram type: Contrast pair.
+
+Column A: the claimant
+- Bears the burden of evidence, al-bayyina.
+- May swear with a single witness, in matters of wealth alone.
+
+Column B: the one against whom the claim is made
+- Bears the oath, al-yamin.
+- May refer the oath back to the claimant.
+
+Shared row: the judge rules by the outward, while Allah knows the hidden, so the ruling of a judge makes nothing lawful that was unlawful.
+
+> I judge between you only by evidence and oaths; so whoever I award something out of his brother's wealth, I have only cut off for him a piece of the Fire.
+> The Messenger of Allah, peace be upon him and his family.

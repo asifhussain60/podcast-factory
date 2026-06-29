@@ -18,21 +18,17 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 
-try:
-    from _paths import REPO_ROOT
-except ImportError:
-    REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-
-BOOKS_DIR = REPO_ROOT / "CONTENT" / "drafts" / "books"
+from _paths import find_content  # bucket-aware resolver (type-first content layout)
 
 
 def approve_book(slug: str) -> int:
     """Set approved=true on the book's review-gate.json. Returns 0 on success."""
-    book_dir = BOOKS_DIR / slug
-    if not book_dir.is_dir():
+    hit = find_content(slug)
+    if not hit:
         print(f"ERROR: Book not found: {slug}", file=sys.stderr)
-        print(f"  Expected: {book_dir}", file=sys.stderr)
+        print(f"  (searched all buckets via _paths.find_content)", file=sys.stderr)
         return 1
+    book_dir = Path(hit[2])
 
     gate_path = book_dir / "_system" / "review-gate.json"
     if not gate_path.exists():

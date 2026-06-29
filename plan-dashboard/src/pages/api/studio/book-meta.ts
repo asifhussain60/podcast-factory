@@ -22,10 +22,36 @@ export const prerender = false;
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-// Allowlisted single-field patches. content_level drives Wave M augmentation gating.
-const FIELD_ALLOWED_VALUES: Record<string, Set<string>> = {
-  content_level: new Set(['general', 'advanced', 'taveel', 'mamsool', 'mabda_maad', 'haqaiq', '']),
+// Allowlisted single-field patches. Each field is either an `enum` (fixed value
+// set) or `text` (single-line free text with a length cap). SLUG and structural
+// identity fields are deliberately ABSENT — renaming is a separate guarded flow,
+// never a casual field patch (it moves the folder + git branch + many refs).
+type FieldRule =
+  | { kind: 'enum'; values: Set<string> }
+  | { kind: 'text'; maxLen: number; allowEmpty?: boolean };
+
+const FIELD_RULES: Record<string, FieldRule> = {
+  // content_level drives Wave M augmentation gating (existing).
+  content_level:  { kind: 'enum', values: new Set(['general', 'advanced', 'taveel', 'mamsool', 'mabda_maad', 'haqaiq', '']) },
+  // category is a soft tag (folder/bucket comes from content_profile, NOT category),
+  // so it is safe to patch from the site.
+  category:       { kind: 'enum', values: new Set(['books', 'lectures', 'articles', 'documents', 'interviews', 'letters', 'asbaaq']) },
+  // Safe display fields.
+  title:          { kind: 'text', maxLen: 200 },
+  short_name:     { kind: 'text', maxLen: 60 },
+  author:         { kind: 'text', maxLen: 120, allowEmpty: true },
+  original_title: { kind: 'text', maxLen: 200, allowEmpty: true },
 };
+
+// Quote a scalar when it contains YAML-significant characters, so a value like
+// "Asas al-Taweel -- Volume 1: Adam" (colon) can never corrupt the file.
+function yamlScalar(v: string): string {
+  if (v === '') return '';
+  if (/[:#&*!|>'"%@`{}[\],]/.test(v) || /^\s|\s$/.test(v)) {
+    return `"${v.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
+  }
+  return v;
+}
 
 export const POST: APIRoute = async ({ request }) => {
   let body: Record<string, unknown>;
@@ -37,9 +63,14 @@ export const POST: APIRoute = async ({ request }) => {
   const value = String(body.value ?? '').trim();
 
   if (!SLUG_RE.test(slug)) return apiError('Invalid slug');
-  if (!(field in FIELD_ALLOWED_VALUES)) return apiError(`Field "${field}" is not patchable`);
-  if (!FIELD_ALLOWED_VALUES[field].has(value)) {
-    return apiError(`Invalid value "${value}" for ${field}`);
+  const rule = FIELD_RULES[field];
+  if (!rule) return apiError(`Field "${field}" is not patchable`);
+  if (rule.kind === 'enum') {
+    if (!rule.values.has(value)) return apiError(`Invalid value "${value}" for ${field}`);
+  } else {
+    if (!value && !rule.allowEmpty) return apiError(`${field.replace(/_/g, ' ')} cannot be empty`);
+    if (value.length > rule.maxLen) return apiError(`${field.replace(/_/g, ' ')} is too long (max ${rule.maxLen})`);
+    if (/[\r\n]/.test(value)) return apiError(`${field.replace(/_/g, ' ')} must be a single line`);
   }
 
   const ref = await findContent(slug);
@@ -59,12 +90,12 @@ export const POST: APIRoute = async ({ request }) => {
       // Clear: remove the field line entirely (if present).
       if (idx !== -1) lines.splice(idx, 1);
     } else if (idx !== -1) {
-      lines[idx] = `${field}: ${value}`;
+      lines[idx] = `${field}: ${yamlScalar(value)}`;
     } else {
       // Append after the first top-level scalar block, or at end. Keep it simple:
       // insert before the first blank line that follows a top-level key, else push.
       const insertAt = lines.findIndex((ln) => ln.trim() === '');
-      const newLine = `${field}: ${value}`;
+      const newLine = `${field}: ${yamlScalar(value)}`;
       if (insertAt === -1) lines.push(newLine);
       else lines.splice(insertAt, 0, newLine);
     }

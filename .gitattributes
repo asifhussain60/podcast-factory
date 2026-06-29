@@ -1,0 +1,5 @@
+# Corpus knowledge atoms are append-mostly JSONL keyed by a stable `id`.
+# Union-merge both machines' atom lines so a cross-branch merge can NEVER
+# drop atoms behind conflict markers; `corpus_sync.py rebuild` then dedups
+# by id (INSERT OR IGNORE) into knowledge.db. Root fix for corpus loss.
+content/knowledge-base/*.jsonl merge=union

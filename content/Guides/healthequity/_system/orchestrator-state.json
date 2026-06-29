@@ -1,0 +1,56 @@
+{
+  "slug": "healthequity",
+  "category": "sites",
+  "branch": "site/healthequity",
+  "phase": "per-chapter",
+  "phase_status": "manual-complete",
+  "last_completed_phase": "per-chapter",
+  "last_error": null,
+  "created_at": "2026-06-01T00:00:00Z",
+  "updated_at": "2026-06-01T17:57:00.000000+00:00",
+  "source_kind": "web-scrape",
+  "source_url": "https://www.healthequity.com",
+  "phases": {
+    "0a": {
+      "status": "complete",
+      "note": "Web scrape + synthesis (bypasses PDF extraction)"
+    },
+    "0b": {
+      "status": "complete",
+      "note": "web-consumer-denoise via gemini_refine.py --mode web-consumer-denoise (7 chapters, legal/compliance jargon stripped, consumer voice)"
+    },
+    "0c": {
+      "status": "complete",
+      "note": "Phonetics N/A for English product content"
+    },
+    "0d": {
+      "status": "complete",
+      "note": "manual \u2014 3 pilot chapters pre-designed (ch02-hsa, ch05-cobra, ch06-commuter-dcfsa)"
+    },
+    "0e": {
+      "status": "complete",
+      "note": "manual \u2014 English web content, no citation enrichment needed for pilot"
+    },
+    "0f": {
+      "status": "complete",
+      "note": "operator-approved 2026-06-01 \u2014 pilot proceed authorized"
+    },
+    "per-chapter": {
+      "status": "manual-complete",
+      "note": "3 episodes built manually (build_episode_txt.py direct calls). Not run through orchestrator per-chapter loop \u2014 pilot proof-of-concept. Resume not needed.",
+      "completed_slugs": [
+        "hsa",
+        "cobra",
+        "commuter-dcfsa"
+      ],
+      "failed_slugs": [],
+      "ts_started": "2026-06-01T17:04:50Z",
+      "ts_completed": "2026-06-01T17:57:00Z"
+    },
+    "finalize": {
+      "status": "pending"
+    }
+  },
+  "ts_updated": "2026-06-01T17:04:50Z",
+  "status": "draft"
+}

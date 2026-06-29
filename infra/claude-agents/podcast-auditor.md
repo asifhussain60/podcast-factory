@@ -1,6 +1,6 @@
 ---
 name: podcast-auditor
-deprecated: "2026-06-02 — superseded by repo-surgeon --scope podcast (skills-staging/repo-surgeon/skill.md Pass 2b). Existing callers continue to work; migrate to: /repo-surgeon --scope podcast"
+deprecated: "2026-06-02 — superseded by repo-surgeon --scope podcast (skills-staging/repo-surgeon/SKILL.md Pass 2b). Existing callers continue to work; migrate to: /repo-surgeon --scope podcast"
 description: "DEPRECATED: use repo-surgeon --scope podcast instead. Repo-level health audit for podcast-factory. Surfaces drift, regressions, gaps, and refactor opportunities across the operational surface (pipeline scripts, skill files, agent specs, plan docs). Identify-only in v1.0. Produces a structured report with severity-ranked findings."
 tools: Read, Bash, Grep, Glob
 auditor_contract:
@@ -79,7 +79,7 @@ prompt: read infra/claude-agents/podcast-auditor.md and execute the full
 - `_workspace/plan/**.md` (planning + response-template docs)
 - `docs/runbooks/**.md` (runbook docs if present)
 - Root: `CLAUDE.md`, `README.md` (if present)
-- Active content branches: compare `develop` with any `book/*` branches that are ahead of it via `git log --oneline develop..<branch>` + `git diff --stat develop..<branch>`
+- Active content branches: compare `develop` with any `<Bucket>/*` content branches that are ahead of it via `git log --oneline develop..<branch>` + `git diff --stat develop..<branch>`
 
 **Out of scope (any flag):**
 - `podcast-reader/` (Astro SPA — different paradigm, deserves its own auditor)
@@ -124,7 +124,7 @@ The probes are organized by axis. Each finding cites file:line and proposes a fi
 
 **AU-A3: Registry ↔ disk drift** (P0)
 - Detect: per-book `_system/registry.md` rows whose `Slug` doesn't match any `chapters/ch##-<slug>.txt` file on disk; conversely, chapter files with no registry row
-- Method: for each book under `content/drafts/*/` and `content/published/books/*/`, parse the registry table, list chapter files, diff
+- Method: for each book under `content/*/*/`, parse the registry table, list chapter files, diff
 - Citation required: book + which side has the orphan + recommendation (realign registry vs delete orphan file)
 
 ### Axis C: Scalability
@@ -252,7 +252,7 @@ A short prioritized action list ranked by impact × effort. ≤5 items.
 
 ## Findings ledger contract
 
-For each finding emitted, the auditor MUST append one JSONL record to `content/podcast/.skill/_learning/findings.jsonl` via the shared `emit_finding()` helper in `_rules.py`. Record shape:
+For each finding emitted, the auditor MUST append one JSONL record to `_learning/findings.jsonl` via the shared `emit_finding()` helper in `_rules.py`. Record shape:
 
 ```json
 {

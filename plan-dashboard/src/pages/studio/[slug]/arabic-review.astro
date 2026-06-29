@@ -1,0 +1,106 @@
+---
+/**
+ * Arabic-curation review page — the mandatory pre-audio review surface.
+ *
+ * Renders each chapter's prose with the glossary Arabic overlay, mounts the
+ * inline click-to-curate popover and the right-rail review table. Curation
+ * decisions persist to _system/glossary.yml (schema v2) via
+ * /api/studio/arabic-review, driving BOTH the spoken audio and this page.
+ */
+import Base from '../../../layouts/Base.astro';
+import StudioSubnav from '../../../components/studio/StudioSubnav.astro';
+import TermPopover from '../../../components/reader/TermPopover.tsx';
+import ArabicReviewPanel from '../../../components/reader/ArabicReviewPanel.tsx';
+import { loadBookIndex, loadChapterSource } from '../../../lib/reader/chapters';
+import { loadGlossary, wrapPhoneticTokens, wrapRawArabic } from '../../../lib/reader/glossary';
+import { renderMarkdown } from '../../../lib/reader/markdown';
+import { loadStudioPipeline } from '../../../lib/reader/studio-pipeline';
+import { listContent, slugToTitle } from '../../../lib/content-paths';
+import '../../../styles/studio-pipeline.css';
+import '../../../styles/arabic-review.css';
+
+export const prerender = false;
+
+const slug = Astro.params.slug!;
+const title = slugToTitle(slug);
+const [index, glossary] = await Promise.all([loadBookIndex(slug), loadGlossary(slug)]);
+
+// Shared Studio chrome — Arabic review is a sub-surface of the Edit & Enrich
+// step, so it wears the identical book-selector sub-nav and renders inside the
+// same studio-step shell as Intake / Source Review / Edit / Publish.
+const steps = await loadStudioPipeline(slug);
+const allBooks = await listContent({ category: 'books' });
+const books = allBooks.map((b) => ({ slug: b.slug, title: slugToTitle(b.slug) }));
+
+const chapters: { slug: string; title: string; html: string }[] = [];
+if (index) {
+  for (const ch of index.chapters) {
+    const src = await loadChapterSource(ch.filePath);
+    chapters.push({ slug: ch.slug, title: ch.title, html: wrapPhoneticTokens(wrapRawArabic(renderMarkdown(src)), glossary) });
+  }
+}
+---
+<Base
+  title={`Arabic review · ${title}`}
+  active="studio"
+  description={`Curate Arabic terms before audio · ${title}`}
+>
+  <StudioSubnav
+    slot="subnav"
+    slug={slug}
+    bookTitle={title}
+    activeStep="edit"
+    steps={steps}
+    books={books}
+    compact={true}
+  />
+
+  {/* .arv-page persists as a display:contents scope wrapper so the page-scoped
+      Arabic-overlay + popover rules (.arv-page .ar-script / .popover-card) keep
+      matching; all layout now comes from the shared .studio-step-* shell. */}
+  <div class="arv-page">
+    <div class="studio-step-body">
+      {/* Same surface toggle as the Edit & Enrich page — Arabic review is the
+          third edit surface, carrying the operator back to the editor. */}
+      <nav class="studio-editview-toggle" aria-label="Edit surface">
+        <a href={`/studio/${slug}/edit`}>← Rich editor</a>
+        <a href={`/studio/${slug}/edit?view=workbench`}>Pipeline workbench</a>
+        <span class="is-current">Arabic review</span>
+      </nav>
+
+      <header class="studio-step-head">
+        <h1>Arabic review — {title}</h1>
+        <p>
+          The pipeline preserves Arabic script in the chapter source so it can be
+          reviewed here before audio is generated. Click a highlighted word in the
+          text, or use the panel, to keep it, fix its phonetic spelling, correct the
+          Arabic script, or replace it with English. Your choices drive both the
+          spoken audio and this page.
+        </p>
+      </header>
+
+      <div class="arv-layout">
+        <main class="arv-main">
+          {chapters.length === 0 && (
+            <p class="arv-empty">No chapters found for this book yet.</p>
+          )}
+          {chapters.map((ch) => (
+            <section class="arv-chapter" id={ch.slug}>
+              <header class="arv-chapter-head">
+                <h2 class="arv-chapter-title">{ch.title}</h2>
+                <a class="arv-chapter-edit" href={`/studio/${slug}/edit?ch=${ch.slug}`}>
+                  Edit &amp; enrich <span aria-hidden="true">→</span>
+                </a>
+              </header>
+              <div class="prose-body" set:html={ch.html}></div>
+            </section>
+          ))}
+        </main>
+
+        <ArabicReviewPanel client:only="react" slug={slug} />
+      </div>
+    </div>
+
+    <TermPopover client:only="react" book={slug} />
+  </div>
+</Base>

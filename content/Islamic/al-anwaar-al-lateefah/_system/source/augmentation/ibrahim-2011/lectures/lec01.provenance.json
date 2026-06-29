@@ -1,0 +1,16 @@
+{
+  "lecture": 1,
+  "source_audio": "Sabaq Hazrat Ibrahim saheb 24-6-2011.mp3",
+  "source_bytes": 8676373,
+  "source_kind": "audio",
+  "source_language": "ur",
+  "transcription_engine": "gemini/gemini-2.5-pro",
+  "transcription_method": "whole-file",
+  "dup_sentence_ratio": 0.0,
+  "loop_flagged": false,
+  "translated": true,
+  "char_count": 19436,
+  "word_count": 3325,
+  "elapsed_seconds": 112.2,
+  "generated_at": "2026-06-15T17:57:56Z"
+}

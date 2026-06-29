@@ -207,6 +207,7 @@ def _build_pair_prompt(
     deck_path: Path,
     framing_path: Path,
     audio_words: int,
+    visual_constraints: str = "",
     extra_constraints: str = "",
 ) -> str:
     """Build the heredoc prompt for `claude -p` to author the deck pair.
@@ -264,6 +265,7 @@ def _build_pair_prompt(
         f"on Arabic terms (R-PHONETICS-OUT — phonetics live in the customize prompt, not here).\n"
         f"- Every concept present in the audio chapter must appear (restructured) in the deck "
         f"source; the deck is a RE-PRESENTATION, not a SUMMARY.\n\n"
+        f"{visual_constraints}"
         f"FRAMING rules (`{framing_path.name}`):\n"
         f"- 150-250 words total.\n"
         f"- H1 (one line; file-label — NotebookLM users skip this line when pasting).\n"
@@ -299,6 +301,7 @@ def _build_pair_prompt_technical(
     deck_path: Path,
     framing_path: Path,
     audio_words: int,
+    visual_constraints: str = "",
     extra_constraints: str = "",
 ) -> str:
     """Build the heredoc prompt for technical/developer content (explainers category).
@@ -361,6 +364,7 @@ def _build_pair_prompt_technical(
         f"- No em dashes (use commas or restructure). No emojis.\n"
         f"- Every concept present in the audio chapter must appear (restructured) in the deck; "
         f"the deck is a RE-PRESENTATION, not a SUMMARY.\n\n"
+        f"{visual_constraints}"
         f"FRAMING rules (`{framing_path.name}`):\n"
         f"- 150-250 words total.\n"
         f"- H1 (one line; file-label — NotebookLM users skip this line when pasting).\n"
@@ -513,6 +517,19 @@ def author_deck_pair(
         if _category not in ARABIC_SCHOLARLY_CATEGORIES and _category == "explainers"
         else _build_pair_prompt
     )
+    visual_constraints = ""
+    try:
+        from _translation_edition import requires_monochrome_visuals  # noqa: PLC0415
+        if requires_monochrome_visuals(book_dir):
+            visual_constraints = (
+                "BLACK-AND-WHITE VISUAL STYLE (hard):\n"
+                "- The NotebookLM deck must be black and white only: black ink, white background, gray shading only when needed.\n"
+                "- Ask for line-art diagrams, tables, hierarchy trees, contrast panels, and process flows.\n"
+                "- No color fills, no color-coded categories, no gradients, no photographs, no stock imagery.\n"
+                "- Include this requirement in the framing's `## Prohibited Patterns` and `## Steering Phrases` sections.\n\n"
+            )
+    except Exception:
+        pass
 
     while attempts <= (MAX_AUTHORING_RETRIES if retry_on_validation_fail else 0):
         attempts += 1
@@ -525,6 +542,7 @@ def author_deck_pair(
             deck_path=deck_path,
             framing_path=framing_path,
             audio_words=audio_words,
+            visual_constraints=visual_constraints,
             extra_constraints=extra_constraints,
         )
 
@@ -626,6 +644,206 @@ def author_deck_pair(
         stderr=last_stderr,
         attempts=attempts,
     )
+
+
+def _build_book_pair_prompt(
+    *,
+    book_slug: str,
+    chapter_files: list[Path],
+    deck_path: Path,
+    framing_path: Path,
+    extra_constraints: str = "",
+) -> str:
+    """Book-level variant of _build_pair_prompt: ONE deck pair for the whole book.
+
+    The book deck is a SELECTION (the book's most diagram-worthy structures,
+    2-4 per chapter), not a full re-presentation — a whole book's audio word
+    count cannot map 50-100% into a single NotebookLM deck.
+    """
+    chapter_list = "\n".join(f"  - `{p}`" for p in chapter_files)
+    constraints_block = ""
+    if extra_constraints.strip():
+        constraints_block = (
+            "\n\nADDITIONAL CONSTRAINTS (from prior validation failure — fix these):\n"
+            f"{extra_constraints.strip()}\n")
+    try:
+        from _translation_edition import requires_monochrome_visuals  # noqa: PLC0415
+        monochrome = requires_monochrome_visuals(deck_path.parents[1])
+    except Exception:
+        monochrome = False
+    style_clause = (
+        "black-and-white line-art illustration style: conceptual diagrams in the manner "
+        "of pen-and-ink scholarly illustrations (hierarchies as tree diagrams, contrast "
+        "pairs as two-panel layouts, genealogy chains as flowing arrow diagrams, process "
+        "flows as numbered-step illustrations). No colour fills, no photographs, no "
+        "gradients. Clean geometric shapes and lines only."
+        if monochrome else
+        "clear scholarly visual style: conceptual diagrams over decorative slides."
+    )
+    return (
+        f"You are authoring the BOOK-LEVEL slide-deck PAIR for book `{book_slug}` — "
+        f"ONE deck covering the whole book (slide_deck_mode: book). The pair is one "
+        f"SOURCE file + one CUSTOMIZE PROMPT file, both landing in `{deck_path.parent}/`.\n\n"
+        f"AUTHORITIES (read these first — they govern shape and rules):\n"
+        f"  - `{REFERENCE_FORMAT}` (deliverable shape)\n"
+        f"  - `{REFERENCE_PATTERNS}` (diagram taxonomy)\n"
+        f"  - `{REFERENCE_STEERING}` (steering phrases — pick 3-5 for the framing)\n\n"
+        f"INPUT (every audio chapter of the book, in order):\n{chapter_list}\n\n"
+        f"OUTPUTS (write EXACTLY these two files — no others):\n"
+        f"  - `{deck_path}` (the BOOK SLIDE-DECK SOURCE — `.txt`, NotebookLM-uploadable)\n"
+        f"  - `{framing_path}` (the SLIDE CUSTOMIZE PROMPT — `.md`, NotebookLM-pasteable)\n\n"
+        f"DECK SOURCE rules (`{deck_path.name}`):\n"
+        f"- H1: the book title.\n"
+        f"- H2: one per chapter, in book order, using the chapter's own title.\n"
+        f"- Within each H2: the chapter's 2-4 MOST diagram-worthy structures (tables, "
+        f"contrast columns, hierarchies, genealogy chains, process flows) — a SELECTION "
+        f"of the book's strongest visual moments, NOT a full re-presentation. NO prose "
+        f"paragraphs longer than 100 words.\n"
+        f"- Every structural moment matches a named diagram type from the patterns taxonomy.\n"
+        f"- Word count target: 3,000-6,000 (hard floor 2,000).\n"
+        f"- Contrast columns use `Column A:` / `Column B:` PREFIX LINES. Genealogies use "
+        f"explicit `→` arrows, one chain per line. Citations / verbatim quotes preserved "
+        f"in blockquotes with attribution.\n"
+        f"- No em dashes. No emojis. No inline phonetic parens on Arabic terms "
+        f"(R-PHONETICS-OUT).\n\n"
+        f"FRAMING rules (`{framing_path.name}`):\n"
+        f"- 150-350 words total.\n"
+        f"- H1 (one line; file-label).\n"
+        f"- Required H2 sections, in this order:\n"
+        f"  1. `## Audience` — named concretely.\n"
+        f"  2. `## Core Principle` — the deck visualizes the book's STRUCTURES; the audio "
+        f"episodes carry the argument. 1-2 sentences.\n"
+        f"  3. `## Visual Priorities` — 3-5 specific visual moments matching structures in "
+        f"the deck source, spanning the whole book's arc.\n"
+        f"  4. `## Prohibited Patterns` — explicit list (no literal-text slides, no "
+        f"audio-restatement, no stock-photo descriptions, no bullet-list-as-diagram).\n"
+        f"  5. `## Steering Phrases` — 3-5 phrases drawn from `{REFERENCE_STEERING.name}`.\n"
+        f"  6. `## Visual Style` — instruct the generator to use {style_clause} "
+        f"Each slide must be a drawn diagram rather than a "
+        f"text-heavy bullet list.\n\n"
+        f"AFTER WRITING both files, print on stdout (one per line):\n"
+        f"  DECK: {deck_path}\n"
+        f"  FRAMING: {framing_path}\n"
+        f"  DECK_WORDS: <integer>\n"
+        f"  FRAMING_WORDS: <integer>\n\n"
+        f"Constraints (hard):\n"
+        f"- Do NOT modify any file other than `{deck_path}` and `{framing_path}`.\n"
+        f"- All chapter files and everything under `chapters/`, `chapter-contracts/`, "
+        f"`_system/` are READ-ONLY for this task.\n"
+        f"- Do NOT wrap outputs in code fences or add preamble.\n"
+        f"{constraints_block}"
+        f"\nExit when both files exist and are non-empty."
+    )
+
+
+_BOOK_FRAMING_REQUIRED_H2 = (
+    "## Audience", "## Core Principle", "## Visual Priorities",
+    "## Prohibited Patterns", "## Steering Phrases", "## Visual Style",
+)
+
+
+def _validate_book_pair(deck_path: Path, framing_path: Path) -> list[str]:
+    """Deterministic checks for the book-level pair. Returns findings ([] = pass)."""
+    findings: list[str] = []
+    if not deck_path.exists() or deck_path.stat().st_size == 0:
+        findings.append(f"deck source missing or empty: {deck_path}")
+    if not framing_path.exists() or framing_path.stat().st_size == 0:
+        findings.append(f"framing missing or empty: {framing_path}")
+    if findings:
+        return findings
+    deck_words = _wordcount(deck_path)
+    if deck_words < 2000:
+        findings.append(f"deck source is {deck_words} words (<2,000 hard floor)")
+    framing_text = framing_path.read_text(encoding="utf-8")
+    framing_words = len(framing_text.split())
+    if not (120 <= framing_words <= 400):
+        findings.append(f"framing is {framing_words} words (target 150-350)")
+    for h2 in _BOOK_FRAMING_REQUIRED_H2:
+        if h2 not in framing_text:
+            findings.append(f"framing missing required section: {h2}")
+    if "—" in deck_path.read_text(encoding="utf-8"):
+        findings.append("deck source contains em dashes (forbidden)")
+    try:
+        from _translation_edition import requires_monochrome_visuals  # noqa: PLC0415
+        if requires_monochrome_visuals(deck_path.parents[1]):
+            lower = framing_text.lower()
+            if not any(term in lower for term in ("black and white", "black-and-white", "monochrome")):
+                findings.append("framing must explicitly require black-and-white / monochrome slides")
+            forbidden_colour = ("colour fills", "color fills", "gradients", "photographs")
+            if not any(term in lower for term in forbidden_colour):
+                findings.append("framing must prohibit color fills, gradients, and photographs")
+    except Exception:
+        pass
+    return findings
+
+
+def author_book_deck_pair(
+    book_dir: Path,
+    *,
+    retry_on_validation_fail: bool = True,
+    timeout: int = SLIDE_DECK_TIMEOUT,
+) -> AuthoringResult:
+    """Author ONE slide-deck pair covering the whole book (slide_deck_mode: book).
+
+    Writes:
+      - `slide-decks/book-deck-source.txt`
+      - `slide-decks/book-framing.md`
+
+    The user pastes book-framing.md into NotebookLM's Slide-deck Describe box
+    (with book-deck-source.txt uploaded as the source), exports ONE deck, and
+    drops it at `slide-decks/book-deck.pdf` — the path `_slide_import.py`'s
+    book-level branch already consumes.
+    """
+    chapter_files = sorted((book_dir / "chapters").glob("ch*.txt"))
+    if not chapter_files:
+        raise AuthoringError(
+            phase="slide-deck/book",
+            message=f"no chapter files under {book_dir / 'chapters'}",
+            manual_fallback="Run Phase 0d first.")
+    deck_dir = book_dir / "slide-decks"
+    deck_dir.mkdir(parents=True, exist_ok=True)
+    deck_path = deck_dir / "book-deck-source.txt"
+    framing_path = deck_dir / "book-framing.md"
+
+    extra_constraints = ""
+    attempts = 0
+    last_stdout = ""
+    last_stderr = ""
+    last_findings: list[str] = []
+    while attempts <= (MAX_AUTHORING_RETRIES if retry_on_validation_fail else 0):
+        attempts += 1
+        prompt = _build_book_pair_prompt(
+            book_slug=book_dir.name,
+            chapter_files=chapter_files,
+            deck_path=deck_path,
+            framing_path=framing_path,
+            extra_constraints=extra_constraints,
+        )
+        rc, stdout, stderr = _run_claude_p(
+            prompt, timeout=timeout, book_dir=book_dir,
+            phase="11b-slide-authoring", step=f"book-pair/attempt-{attempts}")
+        last_stdout, last_stderr = stdout, stderr
+        if rc != 0:
+            raise AuthoringError(
+                phase="slide-deck/book",
+                message=f"claude -p exited rc={rc} authoring book deck pair (attempt {attempts}).",
+                manual_fallback=(
+                    f"Author `{deck_path}` + `{framing_path}` manually per "
+                    f"`{REFERENCE_FORMAT.name}`, then re-run --resume."),
+                stdout=stdout, stderr=stderr)
+        last_findings = _validate_book_pair(deck_path, framing_path)
+        if not last_findings:
+            return AuthoringResult(
+                success=True, deck_path=deck_path, framing_path=framing_path,
+                deck_words=_wordcount(deck_path), framing_words=_wordcount(framing_path),
+                stdout=stdout, stderr=stderr, attempts=attempts)
+        extra_constraints = "\n".join(f"- {f}" for f in last_findings)
+    return AuthoringResult(
+        success=False, deck_path=deck_path, framing_path=framing_path,
+        deck_words=_wordcount(deck_path) if deck_path.exists() else 0,
+        framing_words=_wordcount(framing_path) if framing_path.exists() else 0,
+        validation_findings=last_findings,
+        stdout=last_stdout, stderr=last_stderr, attempts=attempts)
 
 
 def compute_density(spine_path: Path) -> float:
@@ -756,6 +974,7 @@ __all__ = [
     "SLIDE_DECK_TIMEOUT",
     "AuthoringResult",
     "author_deck_pair",
+    "author_book_deck_pair",
     "compute_density",
     "should_skip_with_justification",
     "author_justified_skip",

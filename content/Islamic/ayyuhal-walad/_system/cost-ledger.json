@@ -1,0 +1,51 @@
+{
+  "slug": "ayyuhal-walad",
+  "entries": [
+    {
+      "ts": "2026-06-05T20:21:03.260077Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch01a-knowledge-without-action",
+      "in_chars": 36210,
+      "out_chars": 12476,
+      "cost_usd": 0.00861
+    },
+    {
+      "ts": "2026-06-05T20:21:13.941339Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch02b-the-path-of-obedience-and-struggle",
+      "in_chars": 39596,
+      "out_chars": 8068,
+      "cost_usd": 0.00719
+    },
+    {
+      "ts": "2026-06-05T20:21:48.511850Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch03-the-shaykh-and-the-disciples-rule-of-life",
+      "in_chars": 48010,
+      "out_chars": 2190,
+      "cost_usd": 0.00568
+    },
+    {
+      "ts": "2026-06-05T20:22:05.509876Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch04-eight-admonitions-and-a-closing-prayer",
+      "in_chars": 50066,
+      "out_chars": 13951,
+      "cost_usd": 0.01059
+    },
+    {
+      "ts": "2026-06-05T20:23:01.932327Z",
+      "op": "slide_deck",
+      "service": "gemini/gemini-2.5-flash",
+      "chapter": "ch03-the-shaykh-and-the-disciples-rule-of-life",
+      "in_chars": 48010,
+      "out_chars": 2410,
+      "cost_usd": 0.00576
+    }
+  ],
+  "total_usd": 0.0378
+}

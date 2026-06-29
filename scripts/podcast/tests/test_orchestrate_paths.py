@@ -15,31 +15,32 @@ SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
 import orchestrate_book as ob   # noqa: E402
-from _rules import ALLOWED_CATEGORIES   # noqa: E402
+from _rules import ALLOWED_CATEGORIES, BUCKETS   # noqa: E402
 
 
 class ResolveBookPathTests(unittest.TestCase):
 
-    def test_books_resolves_nested(self):
-        # Post-2026-05-26 restructure: books live at content/drafts/books/<slug>,
-        # not the legacy flat content/drafts/<slug>.
+    def test_books_resolves_to_islamic_bucket(self):
+        # 2026-06-04 type-first layout: content/<Bucket>/<slug>. A 'books'
+        # category maps to the Islamic bucket (no drafts/ or category folder).
         p = ob._resolve_book_path("books", "the-master-and-the-disciple")
         self.assertEqual(p.name, "the-master-and-the-disciple")
-        self.assertEqual(p.parent.name, "books")
-        self.assertEqual(p.parent.parent.name, "drafts")
+        self.assertEqual(p.parent.name, "Islamic")
+        self.assertEqual(p.parent.parent.name, "content")
 
-    def test_articles_resolves_nested(self):
-        p = ob._resolve_book_path("articles", "some-essay")
-        self.assertEqual(p.name, "some-essay")
-        self.assertEqual(p.parent.name, "articles")
+    def test_sites_resolves_to_guides_bucket(self):
+        p = ob._resolve_book_path("sites", "healthequity")
+        self.assertEqual(p.name, "healthequity")
+        self.assertEqual(p.parent.name, "Guides")
 
-    def test_every_allowed_category_resolves_without_crash(self):
+    def test_every_allowed_category_resolves_to_a_known_bucket(self):
         """The bug was infinite recursion on any non-'books' category.
         This iterates the full ALLOWED_CATEGORIES tuple to catch any future
         category added without updating the resolver."""
         for cat in ALLOWED_CATEGORIES:
             p = ob._resolve_book_path(cat, "test-slug")
-            self.assertTrue(str(p).endswith(f"/test-slug"))
+            self.assertEqual(p.name, "test-slug")
+            self.assertIn(p.parent.name, BUCKETS)
             # Must NOT recurse — if it did, this loop would never get here.
 
 

@@ -30,6 +30,41 @@ After ANY orchestrator action (`--resume`, `--retry-phase`, restart), the AI MUS
 
 **Kill-early discipline**: don't ask for permission to kill stalled processes. Wasted minutes = wasted LLM spend. Log what you killed and why.
 
+## Phase E — Fast-fail gates + single-actor supervisor (2026-06-09)
+
+Earlier layers restart a *crashed* run. Phase E adds the missing pieces: catch
+breaks early and cheaply, make every break legible, and never waste spend on a
+doomed run. Built by wiring existing primitives.
+
+**Fast-fail gates (in the pipeline):**
+- **$0 pre-flight smoke gate** — `phases/preflight_chapter.smoke_check_book` runs
+  before the per-chapter loop spends a cent (chapter file present, contract
+  parses + keys, word band). A deterministic bug in any chapter halts at $0.
+- **Circuit breaker** — `chapter_driver` halts (instead of grinding all chapters)
+  when the first attempted chapter fails in <5s (deterministic) or the same
+  normalized failure hits ≥2 chapters. Encodes the archetype-over-rerun rule.
+- **Real-money ceiling** — `cost_guard.cost_ceiling_check` enforces the $20 soft /
+  $50 hard caps (metered `engine="api"` only; Claude Max excluded), checked in
+  `run_resume` before every phase. Override via `state.config.cost_cap_{soft,hard}`.
+- **Visible failures** — `render_outcome` prints the real reason on FAILED and it
+  is written to `last_error` + `chapter_timings[slug].error` (was swallowed).
+
+**Single-actor supervisor (`supervise_run.py`):** the ONE component with
+kill/relaunch authority.
+- `supervise_run.py status <slug>` — read-only card (the in-session heartbeat now
+  calls this instead of hand-rolling `ps`/`jq`).
+- `supervise_run.py watch <slug>` — active loop: bounded transient relaunch
+  (crash / hung-with-no-progress-and-no-LLM-child), systemic HALT+alert
+  (circuit-breaker, cost ceiling, iter-cap), run registry at
+  `_workspace/runs/<slug>.json`, alert marker at `_workspace/runs/<slug>.ALERT`.
+- `supervise_run.py ensure <slug>` — start a run if none alive.
+
+**Single-actor discipline:** when `supervise_run` owns a run it launches the
+orchestrator with `PODCAST_WATCHDOG=1`, suppressing the Layer-1 shell watchdog —
+so exactly one actor ever kills/relaunches. The in-session heartbeat (Layer 3) is
+demoted to read-only: it reads the registry / `status` card and reports, but does
+not itself kill or relaunch. This removes the two-actor race.
+
 ## Known orchestrator-resume bug class
 
 Stale `phase_status="running"` after unclean shutdown blocks `--resume`. Recovery: `--retry-phase <phase>`. F30 / F33 / F35-second resume dispatchers (see `_resume_from_state` in orchestrate_book.py) handle `(phase, status)` combinations `(0g, completed/failed/running/pending)`, `(finalize, halted/failed/pending)`, `(publish/trainer/merge, failed/running/pending)` — re-entry is idempotent for all of these.

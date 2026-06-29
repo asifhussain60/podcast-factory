@@ -735,3 +735,9 @@
     transform: none !important;
   }
 }
+
+/* REQ-050: infinite loops pause for users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .n-particle,
+  .scroll-chevron { animation: none; }
+}

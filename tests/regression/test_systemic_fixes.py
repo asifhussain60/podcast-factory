@@ -152,16 +152,18 @@ class TestHostRoleValidator(unittest.TestCase):
     HOST_B_ROLES_SEEKER constants in _rules.py must have a consumer."""
 
     def test_host_role_validator_exists(self):
-        """A function named validate_host_role_parity (or equivalent) must
-        live in build_episode_txt.py and import the HOST_* constants."""
-        build_src = (SCRIPTS_PODCAST / "build_episode_txt.py").read_text()
+        """HOST_A_ROLES_SCHOLAR must be imported + consumed in the validators package
+        (moved from build_episode_txt.py → _validators.py in the A4 refactor)."""
+        # The constant is defined in _rules.py and consumed in _validators.py;
+        # build_episode_txt.py re-exports via `from _validators import *`.
+        validators_src = (SCRIPTS_PODCAST / "_validators.py").read_text()
         self.assertIn(
-            "HOST_A_ROLES_SCHOLAR", build_src,
-            "build_episode_txt.py must import HOST_A_ROLES_SCHOLAR from _rules"
+            "HOST_A_ROLES_SCHOLAR", validators_src,
+            "_validators.py must import HOST_A_ROLES_SCHOLAR from _rules"
         )
         self.assertTrue(
-            re.search(r"def validate_host_role_parity\b", build_src),
-            "build_episode_txt.py must define validate_host_role_parity()"
+            re.search(r"def validate_host_role_parity\b", validators_src),
+            "_validators.py must define validate_host_role_parity()"
         )
 
     def test_host_role_validator_catches_swap(self):
@@ -383,20 +385,20 @@ class TestMetaProseTellsAllowRuleExamples(unittest.TestCase):
         self.B = build_episode_txt
 
     def test_rule_example_line_recognized(self):
-        from build_episode_txt import _is_rule_example_line
+        from _validator_constants import _is_rule_example_line
         # Real rule statement with quoted tells
         line = '- **Cross-episode language.** No "previous episode," "next episode."'
         self.assertTrue(_is_rule_example_line(line, "previous episode"))
         self.assertTrue(_is_rule_example_line(line, "next episode"))
 
     def test_unquoted_tell_still_caught(self):
-        from build_episode_txt import _is_rule_example_line
+        from _validator_constants import _is_rule_example_line
         # Tell appearing OUTSIDE quotes on a rule bullet = real leak
         line = '- **Bad bullet.** As we said in the previous episode, …'
         self.assertFalse(_is_rule_example_line(line, "previous episode"))
 
     def test_non_bullet_line_with_tell_is_real(self):
-        from build_episode_txt import _is_rule_example_line
+        from _validator_constants import _is_rule_example_line
         line = 'As discussed in the previous episode, this matters.'
         self.assertFalse(_is_rule_example_line(line, "previous episode"))
 
@@ -565,35 +567,42 @@ class PhaseChainPinTest(unittest.TestCase):
     and the file-copy to content/published/.
     """
 
-    EXPECTED_PHASES = (
+    # Phases whose relative ordering is load-bearing and must not drift.
+    # Ordering rules: finalize < publish < trainer < merge.
+    # All phases must be present in _progress.PHASES (the single canonical source).
+    REQUIRED_PHASES = (
         "pre-flight", "branch", "scaffold",
         "0a", "0b", "0c", "0d", "0e",
-        "06a",  # Wave I: source review gate
+        "0literary",            # Wave I: literary pass
+        "06a",                  # Wave I: source review gate
         "0f", "0g",
         "per-chapter",
-        "per-chapter-optimize",  # Wave I: Sonnet arc/format check
+        "per-chapter-optimize", # Wave I: Sonnet arc/format check
         "per-chapter-slides",
+        "0book-design",         # session 13: book phase sequence
+        "0book-compose",
+        "0book-illustrate",
+        "0book-render",
         "finalize", "publish", "trainer", "merge", "done",
     )
 
     def test_canonical_phase_tuple_intact(self):
-        orch = (SCRIPTS_PODCAST / "orchestrate_book.py").read_text()
-        # Collapse all whitespace to single spaces so multi-line tuple literals match.
-        flat = re.sub(r"\s+", " ", orch)
-        joined = ", ".join(f'"{p}"' for p in self.EXPECTED_PHASES)
-        self.assertIn(joined, flat,
-                      f"canonical phase order drifted; expected: {self.EXPECTED_PHASES}")
+        from _progress import PHASES as canonical
+        for phase in self.REQUIRED_PHASES:
+            self.assertIn(phase, canonical,
+                          f"phase {phase!r} missing from _progress.PHASES; "
+                          f"canonical phase order drifted")
 
     def test_finalize_precedes_publish(self):
-        i_fin = self.EXPECTED_PHASES.index("finalize")
-        i_pub = self.EXPECTED_PHASES.index("publish")
+        i_fin = self.REQUIRED_PHASES.index("finalize")
+        i_pub = self.REQUIRED_PHASES.index("publish")
         self.assertLess(i_fin, i_pub,
                         "finalize MUST come before publish (read-only gate before file-copy)")
 
     def test_publish_precedes_trainer_and_merge(self):
-        i_pub = self.EXPECTED_PHASES.index("publish")
-        i_tr = self.EXPECTED_PHASES.index("trainer")
-        i_mg = self.EXPECTED_PHASES.index("merge")
+        i_pub = self.REQUIRED_PHASES.index("publish")
+        i_tr = self.REQUIRED_PHASES.index("trainer")
+        i_mg = self.REQUIRED_PHASES.index("merge")
         self.assertLess(i_pub, i_tr)
         self.assertLess(i_tr, i_mg)
 

@@ -24,12 +24,7 @@ from _paths import REPO_ROOT  # noqa: E402
 from _progress import ORCHESTRATOR_VERSION, read_state  # noqa: E402
 
 
-def _info(msg: str) -> None:
-    print(msg)
-
-
-def _err(msg: str) -> None:
-    print(f"ERROR: {msg}", file=sys.stderr)
+from _subprocess import err as _err, info as _info  # noqa: E402
 
 
 def _git(*args: str) -> tuple[int, str, str]:
@@ -214,6 +209,31 @@ def _chapter_cost_so_far(book_dir: Path, chapter_slug: str) -> float:
     return round(total, 4)
 
 
+def _book_cost_so_far(book_dir: Path) -> float:
+    """F35: sum ALL cost-ledger.jsonl rows for a book (the per-book hard ceiling).
+
+    Reads `_system/cost-ledger.jsonl`; sums every row's `cost_usd`. Returns 0.0 if
+    the ledger is missing or unreadable. Used by the mid-loop per-book cost ceiling
+    so a runaway book is halted (systemic) before it grinds through every chapter.
+    """
+    ledger = book_dir / "_system" / "cost-ledger.jsonl"
+    if not ledger.exists():
+        return 0.0
+    total = 0.0
+    try:
+        for raw in ledger.read_text(encoding="utf-8").splitlines():
+            if not raw.strip():
+                continue
+            try:
+                rec = json.loads(raw)
+            except json.JSONDecodeError:
+                continue
+            total += float(rec.get("cost_usd", 0) or 0)
+    except OSError:
+        return 0.0
+    return round(total, 4)
+
+
 def _series_flag(book_dir: Path, flag_name: str, *, default: bool = False) -> bool:
     """Read a boolean flag from series-plan.md.
 
@@ -278,7 +298,7 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
     else:
         length_tier = "MIXED · author resolves"
         tier_rationale = (
-            f"Chapters declare mixed tiers ({sorted(tiers)}). Pick one in the "
+            f"Chapters declare mixed tiers ({sorted(tiers, key=str)}). Pick one in the "
             "contracts before resuming."
         )
 
@@ -295,11 +315,12 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
         "interviewer + subject": "Interviewer + Subject",
     }
 
-    rows = [
+    _EP_TABLE_HEADER = [
         "| # | Title | Words | Tier | Format | Essential | Upload (NotebookLM source) | Customize | Length cue | Hosts |",
         "|---|---|---|---|---|---|---|---|---|---|",
     ]
-    for slug, data in contracts:
+
+    def _episode_row(slug: str, data: dict) -> str:
         ch_num = data.get("episode_number", "?")
         title_ = data.get("title", slug)
         target = data.get("length_target", "?")
@@ -315,11 +336,33 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
             f"`episodes/EP{ch_num:02d}-{slug}.txt`" if isinstance(ch_num, int)
             else f"`episodes/EP{ch_num}-{slug}.txt`"
         )
-        rows.append(
+        return (
             f"| {ch_num} | {title_} | {words} | {target} | **{fmt}** | "
             f"{essential} | {upload} | {customize} (TBD post-0g) | {length_cue} | {host_disp} |"
         )
-    chapter_list_table = "\n".join(rows)
+
+    # Session grouping (presence-gated): sessioned books render one episode
+    # table per Session under an H4 header; flat books keep the single table.
+    if any(d.get("session_index") is not None for _, d in contracts):
+        _session_groups: dict[object, list[tuple[str, dict]]] = {}
+        for slug, data in contracts:
+            _session_groups.setdefault(data.get("session_index"), []).append((slug, data))
+        _parts: list[str] = []
+        for key in sorted(_session_groups, key=lambda k: (k is None, k)):
+            group = _session_groups[key]
+            if key is None:
+                label = "#### Ungrouped"
+            else:
+                stitle = group[0][1].get("session_title") or f"Session {key}"
+                label = f"#### Session {key} — {stitle} · {len(group)} episode(s)"
+            _parts.append(
+                label + "\n\n"
+                + "\n".join(_EP_TABLE_HEADER + [_episode_row(s, d) for s, d in group])
+            )
+        chapter_list_table = "\n\n".join(_parts)
+    else:
+        chapter_list_table = "\n".join(
+            _EP_TABLE_HEADER + [_episode_row(s, d) for s, d in contracts])
 
     ess_rows = [
         "| # | Slug | Essential? | Why |",
@@ -363,7 +406,9 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
     body = SERIES_PLAN_TEMPLATE.format(
         title=title,
         book_slug=book_slug,
-        branch=state.get("branch") or _branch_name(state.get("category"), book_slug),
+        branch=state.get("branch") or _branch_name(
+            state.get("category"), book_slug, profile=state.get("content_profile")
+        ),
         ts=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
         orch_version=ORCHESTRATOR_VERSION,
         unit_mode=unit_mode,

@@ -1,0 +1,21 @@
+<svg id="The_Four_Limits_of_the_Testimony" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 452" role="img" aria-labelledby="The_Four_Limits_of_the_Testimony_t The_Four_Limits_of_the_Testimony_d">
+<title id="The_Four_Limits_of_the_Testimony_t">The Four Limits of the Testimony</title>
+<desc id="The_Four_Limits_of_the_Testimony_d">Hierarchy: Allah (highest limit) → illa (joined beneath Allah) → ilaha (lower limit) → La (joined beneath ilaha)</desc>
+<style>#The_Four_Limits_of_the_Testimony{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#1f1d18;}#The_Four_Limits_of_the_Testimony text{font-family:'Lato', system-ui, sans-serif;}</style>
+<defs><marker id="svgp_arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#87827a"/></marker></defs>
+<text x="250.0" y="24.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#8b4513"><tspan x="250.0" dy="0">The Four Limits of the Testimony</tspan></text>
+<rect x="166.0" y="52.0" width="168.0" height="44.0" fill="#8b4513" stroke="#8b4513" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="74.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#fffdf8"><tspan x="250.0" dy="0">Allah (highest limit)</tspan></text>
+<rect x="166.0" y="148.0" width="168.0" height="44.0" fill="#a0522d" stroke="#d9d3c4" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="163.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#fffdf8"><tspan x="250.0" dy="0">illa (joined beneath</tspan><tspan x="250.0" dy="14">Allah)</tspan></text>
+<rect x="166.0" y="244.0" width="168.0" height="44.0" fill="#d2b48c" stroke="#d9d3c4" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="266.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#1f1d18"><tspan x="250.0" dy="0">ilaha (lower limit)</tspan></text>
+<rect x="166.0" y="340.0" width="168.0" height="44.0" fill="#efeae0" stroke="#d9d3c4" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="355.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#1f1d18"><tspan x="250.0" dy="0">La (joined beneath</tspan><tspan x="250.0" dy="14">ilaha)</tspan></text>
+<line x1="250.0" y1="96.0" x2="250.0" y2="122.0" stroke="#87827a" stroke-width="1.5"/>
+<line x1="250.0" y1="122.0" x2="250.0" y2="142.0" stroke="#87827a" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="250.0" y1="192.0" x2="250.0" y2="218.0" stroke="#87827a" stroke-width="1.5"/>
+<line x1="250.0" y1="218.0" x2="250.0" y2="238.0" stroke="#87827a" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="250.0" y1="288.0" x2="250.0" y2="314.0" stroke="#87827a" stroke-width="1.5"/>
+<line x1="250.0" y1="314.0" x2="250.0" y2="334.0" stroke="#87827a" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+</svg>

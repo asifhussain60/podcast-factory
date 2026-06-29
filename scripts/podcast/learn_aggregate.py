@@ -21,7 +21,7 @@ USAGE
 
 OUTPUT
 
-  Writes content/podcast/.skill/_learning/patterns.md.
+  Writes _learning/patterns.md.
 
 DOES NOT MODIFY the ledger. Read-only against findings.jsonl.
 """
@@ -36,8 +36,8 @@ from pathlib import Path
 from _paths import REPO_ROOT
 from typing import Any
 
-DEFAULT_LEDGER = REPO_ROOT / "content/podcast/.skill/_learning/findings.jsonl"
-OUTPUT_PATH = REPO_ROOT / "content/podcast/.skill/_learning/patterns.md"
+DEFAULT_LEDGER = REPO_ROOT / "_learning/findings.jsonl"
+OUTPUT_PATH = REPO_ROOT / "_learning/patterns.md"
 
 # Aggregation thresholds — a pattern is "recurring" (proposer-eligible) when
 # it crosses EITHER threshold. Single occurrences are still recorded but

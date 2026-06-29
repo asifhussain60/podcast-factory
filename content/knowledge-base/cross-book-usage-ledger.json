@@ -1,0 +1,6 @@
+{
+  "schema": "cross-book-usage-ledger/v1",
+  "purpose": "Exact-atom dedup across books: records which atom_ids each book has already consumed via enrichment, so the augmenter excludes them when enriching a later book (no cross-book repetition). Semantic/paraphrase dedup is deferred; reworded overlap is flagged to _open-questions.md.",
+  "created_at": "2026-06-14T20:19:48Z",
+  "by_book": {}
+}

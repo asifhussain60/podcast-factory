@@ -24,6 +24,9 @@
   color: var(--c-accent);
   display: block;
   margin-bottom: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .about-hero-h1 {
   font-size: 2.4rem;
@@ -36,7 +39,6 @@
   font-size: 1.15rem;
   color: var(--c-ink-dim);
   line-height: 1.7;
-  max-width: 640px;
   margin: 0 0 1.5rem;
 }
 
@@ -94,7 +96,6 @@
   color: var(--c-ink-dim);
   line-height: 1.7;
   margin-bottom: 1.5rem;
-  max-width: 680px;
 }
 
 /* ── Nav section cards ───────────────────────────────────────────────────────── */

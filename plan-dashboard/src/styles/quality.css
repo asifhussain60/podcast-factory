@@ -71,7 +71,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-  font-size: var(--fs-sm);
+  font-size: var(--fs-base); /* REQ-010: narrative copy keeps the 1.2rem reading floor */
   color: var(--c-ink-muted);
 }
 

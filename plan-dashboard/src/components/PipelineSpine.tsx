@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import AgentCard from './AgentCard';
-import { VENDOR_IDS } from '../lib/vendors';
 
 interface Phase {
   id: string;
@@ -128,13 +127,6 @@ function buildChips(p: Phase, agent: Agent | null): SvcChip[] {
 }
 
 // ── Vendor tag (compact, non-interactive, eyebrow row) ────────────────────
-
-const VENDOR_ICONS: Record<VendorKey, string> = {
-  anthropic: 'robot',
-  azure:     'cloud',
-  google:    'google',
-  internal:  'code',
-};
 
 function vendorTagsForChips(chips: SvcChip[]): Array<{ vendor: VendorKey; wordmark: string }> {
   const seen = new Set<VendorKey>();
@@ -299,7 +291,6 @@ export default function PipelineSpine({ phases, modules, agents }: Props) {
       {/* ── RIGHT: vertical stack of full station sections ──────── */}
       <main className="pipeline-stations">
         {phases.map((p, i) => {
-          const meta = KIND_META[p.kind] ?? KIND_META.mechanical;
           const agent = p.agent ? agentMap.get(p.agent) : null;
           const phaseModules = p.modules.map((m) => moduleMap.get(m)).filter(Boolean) as Module[];
           const isActive = p.id === active;

@@ -1,0 +1,68 @@
+{
+  "profile": "islamic_scholarly",
+  "version": "2026-06-13",
+  "corpus": [
+    "the-master-and-the-disciple (20)",
+    "ayyuhal-walad (4)"
+  ],
+  "episodes_fingerprinted": 24,
+  "pass_threshold": 65,
+  "metrics": {
+    "wpm": {
+      "center": 178.6,
+      "tol_rel": 0.18,
+      "p10": 159.56,
+      "p90": 184.04,
+      "n": 20
+    },
+    "switches_per_min": {
+      "center": 8.76,
+      "tol_rel": 0.55,
+      "p10": 5.7,
+      "p90": 11.134,
+      "n": 24
+    },
+    "run_med_s": {
+      "center": 1.105,
+      "tol_rel": 0.6,
+      "p10": 1.012,
+      "p90": 1.16,
+      "n": 24
+    },
+    "share_male": {
+      "center": 0.615,
+      "tol_rel": 0.362,
+      "p10": 0.471,
+      "p90": 0.917,
+      "n": 24
+    },
+    "pause_per_min": {
+      "center": 13.765,
+      "tol_rel": 0.6,
+      "p10": 9.969,
+      "p90": 15.121,
+      "n": 24
+    },
+    "pause_med_ms": {
+      "center": 560.0,
+      "tol_rel": 0.6,
+      "p10": 520.0,
+      "p90": 600.0,
+      "n": 24
+    },
+    "st_sd_male": {
+      "center": 3.825,
+      "tol_rel": 0.45,
+      "p10": 2.573,
+      "p90": 4.017,
+      "n": 24
+    },
+    "st_sd_female": {
+      "center": 3.235,
+      "tol_rel": 0.45,
+      "p10": 2.996,
+      "p90": 3.472,
+      "n": 24
+    }
+  }
+}

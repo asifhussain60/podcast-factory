@@ -33,6 +33,13 @@ export interface ChapterContract {
   sectionIndex: number | null;
   title: string;
 
+  // session grouping (chapter-density standard — absent on flat books)
+  sessionIndex: number | null;
+  sessionTitle: string | null;
+  sessionSlug: string | null;
+  sessionEpisode: number | null;
+  sessionEpisodeCount: number | null;
+
   // editorial framing
   audience: string;
   angle: string | null;
@@ -135,6 +142,12 @@ export function parseChapterContractFromString(text: string): ChapterContract {
     sourceChapterRef: asNullableString(parsed.source_chapter_ref),
     sectionIndex: asNullableNumber(parsed.section_index),
     title: asString(parsed.title) || asString(parsed.slug),
+
+    sessionIndex: asNullableNumber(parsed.session_index),
+    sessionTitle: asNullableString(parsed.session_title),
+    sessionSlug: asNullableString(parsed.session_slug),
+    sessionEpisode: asNullableNumber(parsed.session_episode),
+    sessionEpisodeCount: asNullableNumber(parsed.session_episode_count),
 
     audience: asString(parsed.audience),
     angle: asNullableString(parsed.angle),

@@ -1,0 +1,28 @@
+slug: the-master-and-the-disciple
+title: The Master and the Disciple
+content_profile: islamic_scholarly
+source_language: en
+# dialectical_pairs: master-disciple dialectic; ALSO keeps Phase 0d out of
+# fiction-style CONSOLIDATION mode (chronological triggered it and the design
+# re-planned 5 marathon episodes — 2026-06-10 root cause).
+episode_planning_mode: dialectical_pairs
+audience_profile: traditional
+conversation_style: deep_dive
+# default_deep_dive: with the density standard forcing ~20 episodes from a
+# 17k-word source, the extended band (5,500w+/episode) would demand ~6x
+# padding; 1,800-2,800w/episode keeps the render faithful (2026-06-10).
+length_tier: default_deep_dive
+enable_video: false
+video_style: none
+# Density-standard re-run (2026-06-10): opts this book into the chapter-density
+# standard (max 3 concepts/episode; preflight + chapter-set P0 gates halt) and
+# the single book-level slide deck (one NotebookLM generation for the whole
+# book). See docs/standards/chapter-density.md.
+density_standard: 2
+slide_deck_mode: book
+# Voice cast LOCKED by Asif 2026-06-12 after the 5-minute Eric+Lily demo
+# (CLIP10): names resolve through scripts/podcast/voice-library.yaml.
+# Applies whenever this book renders on the elevenlabs engine.
+voice_cast:
+  host_a: Eric
+  host_b: Lily

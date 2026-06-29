@@ -82,6 +82,11 @@ const LINE_CHECKS = [
     re: /<(img[^>]+\.svg|object[^>]+\.svg|embed[^>]+\.svg)/i, msg: 'external SVG reference (inline the <svg>)' },
   { id: 'SVG-WH-ATTR',    REQ: 'REQ-024', blocking: true,  scope: 'code',
     re: /<svg\b[^>]*\s(width|height)\s*=/i, msg: 'width/height attr on <svg> (use viewBox only)' },
+  // Quoted handler attrs only (onclick="…") — React's onClick={…} uses braces and
+  // compiles to addEventListener, so it is deliberately NOT matched here.
+  { id: 'INLINE-HANDLER', REQ: 'REQ-049', blocking: true,  scope: 'code',
+    re: /\son(click|dblclick|change|submit|input|load|error|mouse\w+|key\w+|focus|blur)\s*=\s*["']/i,
+    msg: 'inline event-handler attribute (move into the page <script> / external JS)' },
 ];
 
 // Astro/JSX scoped <style> blocks compile to scoped EXTERNAL CSS at build, so a small
@@ -110,7 +115,7 @@ function scanStyleBlocks(src, maxLines) {
 const FORBIDDEN_SELECTOR = /(^|[\s,>+~])(html|body|main|section(\[[^\]]*\])?)([\s,>+~{:]|$)|(^|[\s,>+~])\.container([\s,>+~{:]|$)/i;
 const CLAMP_PROP = /(max-height\s*:|height\s*:\s*100vh|overflow\s*:\s*(hidden|scroll)\b)/i;
 
-function scanCss(rel, src) {
+function scanCss(_rel, src) {
   const out = [];
   // Strip comments so a `/* overflow: hidden */` note doesn't trip the check.
   const noComments = src.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '));

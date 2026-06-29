@@ -25,9 +25,12 @@ PEQ SCORING (5-axis, K6)
     Runs _quality.score() deterministically on each chapter source text.
     No API calls. Uses the same formula as the challenger's inner loop.
 
-NOTEBOOKLM UPLOAD TABLE (mandatory format per feedback_notebooklm_instructions_format.md)
-    EP | Title | Format | NLM Format | Length
-    Length rule: episode framing > 3,500 words → Long; ≤ 3,200 words → Default.
+NOTEBOOKLM UPLOAD TABLE (mandatory canonical format — defined in _notebooklm_table.py,
+per feedback_notebooklm_instructions_format.md)
+    | Chapters | Episodes | Deep dive or debate | Length |
+    Length default: Long (standing rule). Episodes cell carries "EP## — <title>".
+    Chapters/Episodes cells are ALWAYS clickable links: Chapters -> chapter SOURCE,
+    Episodes -> episode FRAMING.
 
 EXIT CODES
     0  all chapters + framings present; PEQ all WARN or PASS
@@ -37,6 +40,7 @@ EXIT CODES
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -50,13 +54,51 @@ from _quality import PEQScore, score as peq_score  # noqa: E402
 # Episode-chapter discovery
 # ---------------------------------------------------------------------------
 
+def _derive_episode_map_from_chapters(book_dir: Path) -> list[dict]:
+    """Fallback: build mapping from chapters/ when episode-chapter-map.json is absent."""
+    import re as _re
+    chapters_dir = book_dir / "chapters"
+    if not chapters_dir.exists():
+        return []
+    pattern = _re.compile(r"^(ch(\d+)[a-z]?)-(.+)\.txt$")
+    entries = []
+    for f in sorted(chapters_dir.glob("ch*.txt")):
+        m = pattern.match(f.name)
+        if m:
+            # Carry the `episode` slug too — consumers (incl. the finalize
+            # NotebookLM table) read entry["episode"]; the JSON-load path
+            # backfills it but this derive path previously did not (KeyError).
+            entries.append({"chapter": m.group(1) + "-" + m.group(3),
+                            "episode": f"EP{int(m.group(2)):02d}-{m.group(3)}",
+                            "n": int(m.group(2))})
+    if entries:
+        p = book_dir / "_system" / "episode-chapter-map.json"
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(json.dumps({"mapping": entries}, indent=2) + "\n",
+                     encoding="utf-8")
+    return entries
+
+
 def _load_episode_map(book_dir: Path) -> list[dict]:
-    """Load episode↔chapter mapping from episode-chapter-map.json."""
+    """Load episode↔chapter mapping from episode-chapter-map.json.
+
+    Falls back to auto-derivation from chapters/ when the JSON is missing
+    (common for books that were partially processed outside the orchestrator).
+    """
     p = book_dir / "_system" / "episode-chapter-map.json"
     if not p.exists():
-        return []
+        return _derive_episode_map_from_chapters(book_dir)
     data = json.loads(p.read_text(encoding="utf-8"))
-    return data.get("mapping", [])
+    mapping = data.get("mapping", [])
+    # Backfill the `episode` slug when the on-disk map carries only chapter + n
+    # (a real schema seen in shipped books). Without this, every consumer that
+    # reads entry["episode"] KeyErrors — including the finalize upload table.
+    for entry in mapping:
+        if "episode" not in entry and entry.get("chapter") and entry.get("n") is not None:
+            m = re.match(r"^ch\d+[a-z]?-(.*)$", str(entry["chapter"]))
+            tail = m.group(1) if m else str(entry["chapter"])
+            entry["episode"] = f"EP{int(entry['n']):02d}-{tail}"
+    return mapping
 
 
 def _load_contract(book_dir: Path, chapter_slug: str) -> dict:
@@ -106,6 +148,58 @@ def _resolve_framing_file(book_dir: Path, episode_slug: str) -> Path | None:
     """Find the episode framing .txt file in episodes/."""
     p = book_dir / "episodes" / f"{episode_slug}.txt"
     return p if p.exists() else None
+
+
+def build_upload_rows(book_dir: Path, mapping: list[dict],
+                      filter_episode_ids=None) -> list:
+    """Build the NotebookLM UploadRow list for a book from a given episode mapping.
+
+    SINGLE constructor for the upload-table rows, shared by the finalize-halt
+    stdout table (chapter_driver._print_notebooklm_table) and the durable
+    worklist file so they render from identical data — no duplicated row logic.
+
+    *mapping* is the episode↔chapter list, passed in by the caller (from its own
+    discovery) so the table and the worklist see the SAME episode set.
+    *filter_episode_ids*: None lists ALL episodes (byte-identical to the
+    pre-override behavior — the golden-table latch); a set lists only those
+    episode ids (mixed-engine books).
+
+    Row construction is preserved verbatim from the prior inline loop, including
+    the `isinstance(session_index, int)` guard — the minimal contract YAML parser
+    yields strings, so session banners stay suppressed exactly as before; do not
+    "fix" this without re-baselining the golden table.
+    """
+    from _notebooklm_table import (  # noqa: PLC0415
+        UploadRow, repo_rel_href, load_density_lengths, length_for_episode,
+    )
+    density_lengths = load_density_lengths(book_dir)
+    rows: list = []
+    for entry in mapping:
+        episode_slug = entry["episode"]
+        if filter_episode_ids is not None and episode_slug not in filter_episode_ids:
+            continue
+        chapter_slug = entry["chapter"]
+        ep_num = entry["n"]
+        contract = _load_contract(book_dir, chapter_slug)
+        episode_format = contract.get("episode_format", "deep_dive")
+        title = contract.get("title", episode_slug).strip("\"'")
+        chapter_path = _resolve_chapter_file(book_dir, chapter_slug)
+        framing_path = _resolve_framing_file(book_dir, episode_slug)
+        _si = contract.get("session_index")
+        rows.append(UploadRow(
+            n=ep_num,
+            chapter_title=title,
+            episode_title=title,
+            episode_format=episode_format,
+            length=length_for_episode(book_dir, ep_num, density_lengths),
+            chapter_href=repo_rel_href(chapter_path, book_dir),
+            episode_href=repo_rel_href(framing_path, book_dir),
+            chapter_stem=chapter_slug,
+            session_index=_si if isinstance(_si, int) else None,
+            session_title=contract.get("session_title")
+                if isinstance(contract.get("session_title"), str) else None,
+        ))
+    return rows
 
 
 def _resolve_slide_deck(book_dir: Path, chapter_slug: str) -> tuple[Path | None, Path | None]:
@@ -196,7 +290,7 @@ def _nlm_length(framing_path: Path | None) -> str:
     if framing_path is None or not framing_path.exists():
         return "Default"
     wc = len(framing_path.read_text(encoding="utf-8").split())
-    return "Long" if wc > 3_500 else "Default"
+    return "Long" if wc > 3_300 else "Default"
 
 
 def _friendly_format(episode_format: str) -> str:
@@ -249,12 +343,18 @@ def assemble_bundle(slug: str, *, run_score: bool = False, as_json: bool = False
             "format": _friendly_format(episode_format),
             "nlm_format": _nlm_format(episode_format),
             "length": _nlm_length(framing_path),
+            "chapter_path": chapter_path,
+            "framing_path": framing_path,
             "chapter_words": len(chapter_path.read_text(encoding="utf-8").split()) if chapter_path else 0,
             "framing_words": len(framing_path.read_text(encoding="utf-8").split()) if framing_path else 0,
             "chapter_ok": chapter_path is not None,
             "framing_ok": framing_path is not None,
             "slide_deck_ok": deck_path is not None,
             "slide_framing_ok": slide_framing_path is not None,
+            "session_index": contract.get("session_index")
+                if isinstance(contract.get("session_index"), int) else None,
+            "session_title": contract.get("session_title")
+                if isinstance(contract.get("session_title"), str) else None,
         }
 
         if not chapter_path:
@@ -312,19 +412,45 @@ def assemble_bundle(slug: str, *, run_score: bool = False, as_json: bool = False
                   f"{p['fidelity']:>5.1f} {p['structure']:>5.1f} {p['enrichment']:>5.1f} "
                   f"{p['interest']:>5.1f} {p['total']:>6.1f} {v_icon} {p['verdict']}")
 
-    # NotebookLM upload table (mandatory format).
-    print(f"\nNOTEBOOKLM UPLOAD TABLE — {slug} ({len(rows)} episodes)")
-    print(f"  Read the chapter SOURCE to NotebookLM; paste the FRAMING into Customize.")
-    print()
-    print(f"  {'EP':<5} {'Title':<38} {'Format':<11} {'NLM Format':<12} {'Length'}")
-    print(f"  {'-'*5} {'-'*38} {'-'*11} {'-'*12} {'-'*7}")
-    for r in rows:
-        print(f"  EP{r['ep']:<3d} {r['title']:<38} {r['format']:<11} {r['nlm_format']:<12} {r['length']}")
-
-    print()
-    print(f"  Source files  → upload each  chapters/chNN-<slug>.txt  as the ONLY source")
-    print(f"  Framing files → paste body of episodes/EPNN-<slug>.txt  into the Customize box")
+    # NotebookLM upload table (mandatory canonical format — see _notebooklm_table.py).
+    from _notebooklm_table import (  # noqa: PLC0415
+        UploadRow, render_upload_table_lines, repo_rel_href,
+        load_density_lengths, length_for_episode,
+    )
+    # Per-episode engine routing: when a book carries episode_engine_overrides,
+    # the upload table lists ONLY the episodes routed to NotebookLM (the rest are
+    # auto-rendered by ElevenLabs). With NO overrides the table is unchanged —
+    # byte-identical to before (the golden-test latch).
+    from _audio_engines import (  # noqa: PLC0415
+        engine_for_episode, episode_engine_overrides, ENGINE_NOTEBOOKLM,
+    )
+    _overrides = episode_engine_overrides(book_dir)
+    _table_rows = ([r for r in rows
+                    if engine_for_episode(book_dir, r["episode"]) == ENGINE_NOTEBOOKLM]
+                   if _overrides else rows)
+    _suffix = " — NotebookLM-routed only" if _overrides else ""
+    print(f"\nNOTEBOOKLM UPLOAD TABLE — {slug} ({len(_table_rows)} episodes){_suffix}")
+    print(f"  Click the CHAPTER cell to open the SOURCE to upload; the EPISODE cell")
+    print(f"  to open the FRAMING to paste into NotebookLM's Customize box.")
     print(f"  (skip the '# Framing: …' H1 title line when pasting)")
+    print()
+    _density_lengths = load_density_lengths(book_dir)
+    upload_rows = [
+        UploadRow(
+            n=r["ep"],
+            chapter_title=str(r["title"]).strip("\"'"),
+            episode_title=str(r["title"]).strip("\"'"),
+            episode_format="debate" if r["nlm_format"].strip().lower() == "debate" else "deep_dive",
+            length=length_for_episode(book_dir, r["ep"], _density_lengths),
+            chapter_href=repo_rel_href(r.get("chapter_path"), book_dir),
+            episode_href=repo_rel_href(r.get("framing_path"), book_dir),
+            session_index=r.get("session_index"),
+            session_title=r.get("session_title"),
+        )
+        for r in _table_rows
+    ]
+    for line in render_upload_table_lines(upload_rows):
+        print(f"  {line}")
 
     # Slide deck status.
     slides_done = sum(1 for r in rows if r["slide_deck_ok"])

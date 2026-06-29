@@ -5,7 +5,7 @@
    needed, add the class HERE and reference it from the component.
    ──────────────────────────────────────────────────────────────── */
 
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&family=Lexend:wght@400;500;600&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&family=Lexend:wght@400;500;600&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&display=swap');
 @import "tailwindcss";
 @import "./chapter-viewer.css";
 
@@ -160,6 +160,9 @@
   --radius-md: var(--r-md);
   --radius-lg: var(--r-lg);
   --font-sans: var(--font-body);
+  /* --font-ui resolves site-wide (the reader-page scope overrides it where a
+     distinct UI face is wanted); keeps Studio chrome on the body sans. */
+  --font-ui: var(--font-body);
   /* ADDED (were MISSING). --font-display kept = body font to preserve the
      current Lato headings; switching headings to a serif is a deliberate
      design choice to discuss with Asif, not a silent adapter change. */
@@ -171,6 +174,14 @@
   --glass-border-hover: color-mix(in oklab, var(--c-ink) 22%, transparent);
   --glass-border-accent: color-mix(in oklab, var(--c-accent) 30%, transparent);
   --radius-xl: 24px;
+  /* Action-item badge accents (Studio editor) — bright-on-dark icon colours for
+     the deferred AI action marks, grouped by action family. New named tokens
+     (not aliases); no existing colour value is changed. */
+  --c-act-core: #fbbf24;        /* amber  — rewrite / rephrase / improve */
+  --c-act-etymology: #a78bfa;   /* violet — etymology (root-history) */
+  --c-act-transform: #38bdf8;   /* sky    — expand / condense / simplify */
+  --c-act-knowledge: #2dd4bf;   /* teal   — define / cross-ref / add-to-corpus */
+  --c-act-remove: #fb7185;      /* rose   — mark for removal */
 }
 
 /* ── Reset + base ──────────────────────────────────────────────── */
@@ -186,6 +197,7 @@ html, body {
   line-height: var(--lh-base);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: clip; /* clip prevents horizontal scroll without creating a new scroll container (hidden would break position:sticky) */
 }
 
 /* Vertical-flow guarantee — no fixed-height container anywhere */
@@ -204,11 +216,17 @@ h2 { font-size: var(--fs-h2); }
 h3 { font-size: var(--fs-h3); }
 
 p { margin: 0 0 var(--sp-3) 0; }
-.lede { color: var(--c-ink-dim); font-size: var(--fs-lg); line-height: 1.5; max-width: min(100%, var(--maxw-prose)); }
+.lede { color: var(--c-ink-dim); font-size: var(--fs-lg); line-height: 1.5; }
 .muted { color: var(--c-ink-muted); }
 .small { font-size: var(--fs-sm); }
 .eyebrow { font-size: var(--fs-2xs); text-transform: uppercase; letter-spacing: 0.07em; color: var(--c-ink-muted); font-weight: 700; }
 .text-right { text-align: right; }
+/* REQ-010 — reading-text floor. Prose meant to be READ is >= 1.2rem (--fs-base).
+   figcaption is the cross-cutting offender (diagram/chart captions); body p/li
+   already inherit --fs-base. UI chrome (eyebrows, chips, badges, nav, metric
+   labels, dense data-table headers) is intentionally exempt and keeps its
+   smaller --fs-2xs/--fs-label/--fs-sm sizing — those are labels, not reading. */
+figcaption { font-size: var(--fs-base); line-height: 1.5; }
 /* Inline resource/module reference in code — monospace, de-emphasized */
 .pipeline-code-ref {
   font-size: var(--fs-2xs); opacity: 0.65;
@@ -218,7 +236,7 @@ p { margin: 0 0 var(--sp-3) 0; }
 /* Intelligence page header */
 .intel-header { padding: var(--sp-7) var(--sp-5) var(--sp-4); }
 .intel-hero-h1 { font-size: var(--fs-h2); margin: var(--sp-2) 0 var(--sp-3); }
-.intel-hero-lede { max-width: min(100%, 860px); color: var(--c-ink-dim); font-size: var(--fs-sm); line-height: 1.65; margin: 0; }
+.intel-hero-lede { color: var(--c-ink-dim); font-size: var(--fs-base); line-height: 1.65; margin: 0; }
 .intel-body { padding: 0 var(--sp-5) var(--sp-8); }
 /* Intelligence overlay dynamic content helpers */
 .intel-blocker-row { display: flex; align-items: center; gap: 8px; margin-bottom: var(--sp-3); }
@@ -354,6 +372,21 @@ hr { border: 0; height: 1px; background: var(--c-rule); margin: var(--sp-6) 0; }
 .topnav-status .dot.is-stale { background: var(--c-amber); }
 .topnav-status .dot.is-error { background: var(--c-red); }
 
+/* ── Topnav responsive — narrow viewports ──────────────────────── */
+@media (max-width: 640px) {
+  /* Hide the "Astro Site" tagline to reclaim horizontal space */
+  .topnav-inner { padding: 0 var(--sp-3); }
+  .topnav-brand small { display: none; }
+  .topnav-brand { padding-right: var(--sp-2); }
+  .topnav-section { padding: 0 var(--sp-3); }
+  /* Let the tab strip scroll rather than clip off-screen */
+  .topnav-sections { overflow-x: auto; scrollbar-width: none; min-width: 0; }
+  .topnav-sections::-webkit-scrollbar { display: none; }
+  /* The spacer also carries flex:1 — on narrow screens it steals half the
+     free width from the tab strip and clips tabs mid-letter. Collapse it. */
+  .topnav-spacer { display: none; }
+}
+
 /* ── Page shell + sidebar ──────────────────────────────────────── */
 
 .page-shell {
@@ -389,7 +422,6 @@ hr { border: 0; height: 1px; background: var(--c-rule); margin: var(--sp-6) 0; }
 
 .home-header { padding: var(--sp-8) var(--sp-5) var(--sp-5); }
 .home-hero-h1 { max-width: var(--maxw-prose); }
-.home-lede { max-width: var(--maxw-prose); }
 .home-body { padding: 0 var(--sp-5) var(--sp-8); }
 .home-metrics { margin-top: var(--sp-7); }
 
@@ -1217,7 +1249,7 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 }
 .svc-chip-pop-cost .fa-coins { color: var(--c-gold); font-size: var(--fs-sm); }
 
-.station-section-lede { font-size: var(--fs-base); color: var(--c-ink-dim); line-height: 1.6; margin: 0 0 var(--sp-4) 0; max-width: 64ch; }
+.station-section-lede { font-size: var(--fs-base); color: var(--c-ink-dim); line-height: 1.6; margin: 0 0 var(--sp-4) 0; }
 
 .station-section-modules { margin-top: var(--sp-4); padding-top: var(--sp-4); border-top: 1px solid var(--c-rule-soft); }
 .station-section-agent { margin-top: var(--sp-4); padding-top: var(--sp-4); border-top: 1px solid var(--c-rule-soft); }
@@ -3086,15 +3118,18 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
 .pqw-100 { width: 100%; }
 .status-chip-sp { margin-right: 6px; }
 
-/* ── PhaseSwimlaneDiagram — externalized static styles (WC6f follow-on) ── */
-.swimlane-host { overflow-x: auto; width: 100%; }
-.swimlane-svg { width: 100%; min-width: 760px; font-family: var(--font-body); font-size: 14px; }
-.swim-note { font-size: 12px; color: var(--c-ink-muted); line-height: 1.4; display: flex; align-items: center; height: 100%; }
-.swim-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; font-size: var(--fs-sm); color: var(--c-ink-dim); }
-.swim-legend-item { display: inline-flex; align-items: center; gap: 6px; }
-.swim-swatch { width: 28px; height: 10px; display: inline-block; border-radius: 2px; }
-.swim-swatch--low { background: var(--c-tokens-low, var(--c-green)); }
-.swim-swatch--mid { background: var(--c-tokens-mid, var(--c-amber)); }
-.swim-swatch--high { background: var(--c-tokens-high, var(--c-accent)); }
-.swim-swatch--future { background: repeating-linear-gradient(45deg, transparent, transparent 2px, color-mix(in oklab, var(--c-amber) 35%, transparent) 2px, color-mix(in oklab, var(--c-amber) 35%, transparent) 4px); border: 1px dashed var(--c-amber); }
-.swim-gate-ico { font-size: 16px; }
+/* PhaseSwimlaneDiagram is now a semantic <table>; its styles live in
+   architecture.css (loaded only by the Architecture page). The old SVG-grid
+   classes (.swimlane-host/.swim-note/.swim-legend/.swim-swatch) were removed. */
+
+/* ── Shared scrollable table wrapper (REQ-052) ─────────────────────────────────
+   Promoted from pipeline-paths.css so every view can wrap wide tables in
+   <div class="table-container" role="region" tabindex="0">. Additive only. */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+}

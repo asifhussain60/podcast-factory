@@ -1,0 +1,515 @@
+{
+  "schema_version": 1,
+  "book_slug": "the-master-and-the-disciple",
+  "category": "books",
+  "branch": "Islamic/the-master-and-the-disciple",
+  "phase": "0book-render",
+  "phase_status": "completed",
+  "last_completed_phase": "0book-render",
+  "next_phase": "publish",
+  "last_error": null,
+  "pipeline_mode": "orchestrated",
+  "v1_archive": {
+    "git_tag": "archive/the-master-and-the-disciple-v1",
+    "commit": "b8dea3f80dd75f79c9ecb8934c4d5d484d0d732b",
+    "archived_at": "2026-06-07",
+    "note": "Full V1 run (phases 0a–publish, 6 episodes). Processed outputs archived to audits/v1-archive/. OCR, refined-english, and phonetics preserved in _system/source/ as inputs for V2."
+  },
+  "phases": {
+    "pre-flight": {
+      "status": "completed",
+      "ts_completed": "2026-05-22T00:00:00Z",
+      "note": "manual"
+    },
+    "branch": {
+      "status": "completed",
+      "ts_completed": "2026-06-07T00:00:00Z",
+      "note": "Islamic/the-master-and-the-disciple created from develop for V2 run"
+    },
+    "scaffold": {
+      "status": "completed",
+      "ts_completed": "2026-05-23T00:00:00Z",
+      "note": "manual reshape from origin/develop@62b488b"
+    },
+    "0a": {
+      "status": "completed",
+      "ts_completed": "2026-05-24T00:00:00Z",
+      "note": "OCR via ocr_image_pages.py (95 PNGs → Doc Intel → Translator ar→en). Source artifacts: _system/source/ocr/{raw-extract.md, translated-en.md, drift-report.md, source-stitched.pdf}."
+    },
+    "0b": {
+      "status": "completed",
+      "ts_started": "2026-05-24T14:38:57Z",
+      "ts_completed": "2026-05-24T15:11:40Z",
+      "note": "English refinement. Output: _system/source/text/refined-english.md"
+    },
+    "0c": {
+      "status": "completed",
+      "ts_started": "2026-05-24T15:11:40Z",
+      "ts_completed": "2026-05-24T15:17:20Z",
+      "note": "Phonetics. Output: _system/source/text/_phonetics.md"
+    },
+    "0d": {
+      "status": "completed",
+      "ts_started": "2026-06-07T19:37:35Z",
+      "ts_completed": "2026-06-10T18:21:42Z"
+    },
+    "0e": {
+      "status": "completed",
+      "ts_started": "2026-06-07T21:35:12Z",
+      "ts_completed": "2026-06-10T21:47:04Z",
+      "manual_fallback": "Inspect the chapter files of failed chapters; enrich each manually via /podcast, then add a `- <stem>: ENRICHED ...` row to enrichment-log.md and re-invoke orchestrate-book --resume."
+    },
+    "0f": {
+      "status": "halted",
+      "ts_started": "2026-06-07T22:09:02Z",
+      "series_plan_path": "content/Islamic/the-master-and-the-disciple/_system/series-plan.md",
+      "ts_completed": "2026-06-10T21:47:04Z"
+    },
+    "per-chapter": {
+      "status": "completed",
+      "ts_started": "2026-06-07T22:17:45Z",
+      "completed_slugs": [
+        "abu-malik-arrives-and-the-fair-inquiry",
+        "air-and-the-instance-beyond-air",
+        "bismillah-seal-and-the-chosen-ranks",
+        "emptying-the-cup",
+        "five-conditions-and-the-covenant",
+        "hawl-quwwa-and-josephs-dream",
+        "homecoming-and-the-forty-year-syllogism",
+        "jewels-moon-and-the-description-of-religion",
+        "originator-and-the-three-primordial-words",
+        "purifying-possessions-and-parting",
+        "rebirth-and-the-seven-day-tawaf",
+        "syllogism-of-divine-justice",
+        "the-conspiracy-formula",
+        "the-test-of-speech-and-the-design-of-creation",
+        "three-levels-of-knowledge",
+        "three-thanks-and-the-persian-awakening",
+        "unbroken-chain-and-the-path-of-return",
+        "union-of-inner-and-outer",
+        "who-is-allah-beyond-names",
+        "zahir-batin-and-the-seven-natiqs"
+      ],
+      "failed_slugs": [],
+      "chapter_timings": {
+        "abu-malik-arrives-and-the-fair-inquiry": {
+          "started_ts": "2026-06-10T21:55:30Z",
+          "completed_ts": "2026-06-10T22:30:04Z",
+          "duration_sec": 2073.5,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "air-and-the-instance-beyond-air": {
+          "started_ts": "2026-06-10T22:35:49Z",
+          "completed_ts": "2026-06-10T23:14:33Z",
+          "duration_sec": 2324.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "bismillah-seal-and-the-chosen-ranks": {
+          "started_ts": "2026-06-10T23:14:33Z",
+          "completed_ts": "2026-06-10T23:50:39Z",
+          "duration_sec": 2165.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "emptying-the-cup": {
+          "started_ts": "2026-06-11T11:48:37Z",
+          "completed_ts": "2026-06-11T12:15:39Z",
+          "duration_sec": 1621.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "five-conditions-and-the-covenant": {
+          "started_ts": "2026-06-10T23:50:39Z",
+          "completed_ts": "2026-06-11T00:28:45Z",
+          "duration_sec": 2286.0,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "hawl-quwwa-and-josephs-dream": {
+          "started_ts": "2026-06-11T00:28:45Z",
+          "completed_ts": "2026-06-11T01:03:04Z",
+          "duration_sec": 2059.4,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "homecoming-and-the-forty-year-syllogism": {
+          "started_ts": "2026-06-11T01:03:05Z",
+          "completed_ts": "2026-06-11T01:41:13Z",
+          "duration_sec": 2288.5,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "jewels-moon-and-the-description-of-religion": {
+          "started_ts": "2026-06-11T08:33:35Z",
+          "completed_ts": "2026-06-11T09:16:34Z",
+          "duration_sec": 2579.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "originator-and-the-three-primordial-words": {
+          "started_ts": "2026-06-11T01:41:13Z",
+          "completed_ts": "2026-06-11T02:17:26Z",
+          "duration_sec": 2172.8,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "purifying-possessions-and-parting": {
+          "started_ts": "2026-06-11T02:17:26Z",
+          "completed_ts": "2026-06-11T02:50:16Z",
+          "duration_sec": 1969.3,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "rebirth-and-the-seven-day-tawaf": {
+          "started_ts": "2026-06-11T02:50:16Z",
+          "completed_ts": "2026-06-11T03:26:06Z",
+          "duration_sec": 2150.3,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "syllogism-of-divine-justice": {
+          "started_ts": "2026-06-11T13:48:04Z",
+          "completed_ts": "2026-06-11T14:27:43Z",
+          "duration_sec": 2378.8,
+          "verdict": "SHIP-READY",
+          "cost_usd": 0.0
+        },
+        "the-conspiracy-formula": {
+          "started_ts": "2026-06-11T09:16:35Z",
+          "completed_ts": "2026-06-11T09:54:23Z",
+          "duration_sec": 2268.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-test-of-speech-and-the-design-of-creation": {
+          "started_ts": "2026-06-11T03:26:06Z",
+          "completed_ts": "2026-06-11T04:04:12Z",
+          "duration_sec": 2285.4,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "three-levels-of-knowledge": {
+          "started_ts": "2026-06-11T04:04:12Z",
+          "completed_ts": "2026-06-11T04:40:56Z",
+          "duration_sec": 2203.7,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "three-thanks-and-the-persian-awakening": {
+          "started_ts": "2026-06-11T04:40:56Z",
+          "completed_ts": "2026-06-11T05:16:33Z",
+          "duration_sec": 2137.0,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "unbroken-chain-and-the-path-of-return": {
+          "started_ts": "2026-06-11T09:54:23Z",
+          "completed_ts": "2026-06-11T10:33:31Z",
+          "duration_sec": 2348.0,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "union-of-inner-and-outer": {
+          "started_ts": "2026-06-11T10:33:32Z",
+          "completed_ts": "2026-06-11T11:10:41Z",
+          "duration_sec": 2229.1,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "who-is-allah-beyond-names": {
+          "started_ts": "2026-06-11T11:10:41Z",
+          "completed_ts": "2026-06-11T11:47:44Z",
+          "duration_sec": 2223.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "zahir-batin-and-the-seven-natiqs": {
+          "started_ts": "2026-06-11T05:16:33Z",
+          "completed_ts": "2026-06-11T05:52:39Z",
+          "duration_sec": 2165.7,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        }
+      },
+      "current_chapter": "syllogism-of-divine-justice",
+      "last_beat": "2026-06-11T14:16:59Z",
+      "convergence_iter": 2,
+      "ts_completed": "2026-06-11T14:49:19Z"
+    },
+    "0g": {
+      "status": "completed",
+      "ts_started": "2026-06-11T14:27:43Z",
+      "ts_completed": "2026-06-11T14:27:48Z",
+      "audit_outcomes": {
+        "abu-malik-arrives-and-the-fair-inquiry": {
+          "status": "audited",
+          "ep_label": "EP14-abu-malik-arrives-and-the-fair-inquiry",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "air-and-the-instance-beyond-air": {
+          "status": "audited",
+          "ep_label": "EP07-air-and-the-instance-beyond-air",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "bismillah-seal-and-the-chosen-ranks": {
+          "status": "audited",
+          "ep_label": "EP05-bismillah-seal-and-the-chosen-ranks",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "emptying-the-cup": {
+          "status": "audited",
+          "ep_label": "EP15-emptying-the-cup",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "five-conditions-and-the-covenant": {
+          "status": "audited",
+          "ep_label": "EP03-five-conditions-and-the-covenant",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "hawl-quwwa-and-josephs-dream": {
+          "status": "audited",
+          "ep_label": "EP09-hawl-quwwa-and-josephs-dream",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "homecoming-and-the-forty-year-syllogism": {
+          "status": "audited",
+          "ep_label": "EP13-homecoming-and-the-forty-year-syllogism",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "jewels-moon-and-the-description-of-religion": {
+          "status": "audited",
+          "ep_label": "EP16-jewels-moon-and-the-description-of-religion",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "originator-and-the-three-primordial-words": {
+          "status": "audited",
+          "ep_label": "EP04-originator-and-the-three-primordial-words",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "purifying-possessions-and-parting": {
+          "status": "audited",
+          "ep_label": "EP11-purifying-possessions-and-parting",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "rebirth-and-the-seven-day-tawaf": {
+          "status": "audited",
+          "ep_label": "EP12-rebirth-and-the-seven-day-tawaf",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "syllogism-of-divine-justice": {
+          "status": "audited",
+          "ep_label": "EP18-syllogism-of-divine-justice",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-conspiracy-formula": {
+          "status": "audited",
+          "ep_label": "EP19-the-conspiracy-formula",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-test-of-speech-and-the-design-of-creation": {
+          "status": "audited",
+          "ep_label": "EP02-the-test-of-speech-and-the-design-of-creation",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "three-levels-of-knowledge": {
+          "status": "audited",
+          "ep_label": "EP08-three-levels-of-knowledge",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "three-thanks-and-the-persian-awakening": {
+          "status": "audited",
+          "ep_label": "EP01-three-thanks-and-the-persian-awakening",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "unbroken-chain-and-the-path-of-return": {
+          "status": "audited",
+          "ep_label": "EP20-unbroken-chain-and-the-path-of-return",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "union-of-inner-and-outer": {
+          "status": "audited",
+          "ep_label": "EP10-union-of-inner-and-outer",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "who-is-allah-beyond-names": {
+          "status": "audited",
+          "ep_label": "EP17-who-is-allah-beyond-names",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "zahir-batin-and-the-seven-natiqs": {
+          "status": "audited",
+          "ep_label": "EP06-zahir-batin-and-the-seven-natiqs",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        }
+      }
+    },
+    "finalize": {
+      "status": "halted",
+      "ts_started": "2026-06-11T14:40:26Z",
+      "ts_completed": "2026-06-11T14:49:21Z",
+      "validator_stdout": "==> validate_ship_ready: the-master-and-the-disciple\n    workspace: content/Islamic/the-master-and-the-disciple\n    target:    /Users/asifhussain/PROJECTS/podcast-factory/content/published/books/the-master-and-the-disciple (read-only check)\n\n=== Gates ===\nOK    [G1] 20 chapters + 20 episodes present\n\n✗ BLOCKED — G2 chapter/episode pair mismatch\n  Remediation: see the failing gate's reason above.\n",
+      "validator_stderr": "FAIL  [G2] unparseable filenames: chapters=['ch01a-three-thanks-and-the-persian-awakening.txt', 'ch02b-the-test-of-speech-and-the-design-of-creation.txt', 'ch03c-five-conditions-and-the-covenant.txt'], episodes=[]\n",
+      "verdict": "SHIP-READY"
+    },
+    "publish": {
+      "status": "failed",
+      "ts_started": "2026-06-11T17:57:17Z",
+      "ts_completed": "2026-06-11T20:35:02Z",
+      "publisher_stdout": "==> publish_to_library: the-master-and-the-disciple\n    workspace: content/Islamic/the-master-and-the-disciple\n    model:     status-flag (type-first layout; no second tree)\n    mode:      live\n\n=== Gates ===\nOK    [G1] 20 chapters + 20 episodes present\nOK    [G2] 20 chapter/episode pairs match\nOK    [G3] chapters 1..20 + episodes 1..20 purely sequential\nOK    [G4] P0=0 across 20 episodes (P1=56, warn-only)\n",
+      "publisher_stderr": "ly)\nWARN  G4 EP08-three-levels-of-knowledge: 2 P1 advisories (warn-only)\nWARN  G4 EP09-hawl-quwwa-and-josephs-dream: 4 P1 advisories (warn-only)\nWARN  G4 EP10-union-of-inner-and-outer: 2 P1 advisories (warn-only)\nWARN  G4 EP11-purifying-possessions-and-parting: 4 P1 advisories (warn-only)\nWARN  G4 EP12-rebirth-and-the-seven-day-tawaf: 2 P1 advisories (warn-only)\nWARN  G4 EP13-homecoming-and-the-forty-year-syllogism: 2 P1 advisories (warn-only)\nWARN  G4 EP14-abu-malik-arrives-and-the-fair-inquiry: 5 P1 advisories (warn-only)\nWARN  G4 EP15-emptying-the-cup: 2 P1 advisories (warn-only)\nWARN  G4 EP16-jewels-moon-and-the-description-of-religion: 3 P1 advisories (warn-only)\nWARN  G4 EP17-who-is-allah-beyond-names: 5 P1 advisories (warn-only)\nWARN  G4 EP19-the-conspiracy-formula: 2 P1 advisories (warn-only)\nWARN  G4 EP20-unbroken-chain-and-the-path-of-return: 5 P1 advisories (warn-only)\nFAIL  [G5] state.json not in shippable state (phase=publish, phase_status=running). Use --force to bypass.\n"
+    },
+    "0ci": {
+      "status": "halted",
+      "ts_started": "2026-06-07T19:20:56Z",
+      "ts_completed": "2026-06-07T19:23:45Z",
+      "manual_fallback": "1. Review /Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/the-master-and-the-disciple/_system/gap-analysis.md\n2. Edit or annotate as needed (add notes, reject candidates, confirm clarifications).\n3. Resume: python3 scripts/podcast/orchestrate_book.py --resume <slug>"
+    },
+    "06a": {
+      "status": "completed",
+      "ts_started": "2026-06-07T22:01:16Z",
+      "gate_warnings": 7,
+      "ts_completed": "2026-06-10T21:47:04Z"
+    },
+    "0book-design": {
+      "status": "completed",
+      "ts_started": "2026-06-08T12:43:44Z",
+      "ts_completed": "2026-06-11T20:34:57Z"
+    },
+    "0book-compose": {
+      "status": "completed",
+      "ts_started": "2026-06-08T12:45:18Z",
+      "ts_completed": "2026-06-11T20:34:58Z",
+      "manual_fallback": "Resume manually via /podcast and `--resume` the orchestrator."
+    },
+    "0book-illustrate": {
+      "status": "completed",
+      "ts_started": "2026-06-08T13:11:52Z",
+      "ts_completed": "2026-06-11T20:52:00Z"
+    },
+    "0book-render": {
+      "status": "completed",
+      "ts_started": "2026-06-08T13:24:21Z",
+      "ts_completed": "2026-06-11T21:00:49Z"
+    },
+    "per-chapter-optimize": {
+      "status": "skipped",
+      "ts_started": "2026-06-11T14:27:43Z",
+      "ts_completed": "2026-06-11T14:27:43Z",
+      "reason": "optimize_enabled=false in meta.yml"
+    },
+    "per-chapter-slides": {
+      "status": "completed",
+      "ts_started": "2026-06-11T14:27:48Z",
+      "ts_completed": "2026-06-11T14:40:26Z",
+      "outcomes": {
+        "book": "AUTHORED"
+      }
+    },
+    "0book-slide-import": {
+      "status": "completed",
+      "ts_started": "2026-06-11T20:02:05Z",
+      "ts_completed": "2026-06-11T21:00:48Z",
+      "imported": {
+        "book": 13
+      },
+      "exempt": []
+    }
+  },
+  "completed_slugs": [],
+  "cost": {
+    "docintel_usd": 0.0,
+    "translator_usd": 0.0,
+    "speech_usd": 0.0,
+    "anthropic_usd": 0.0,
+    "total_usd": 0.0
+  },
+  "ts_started": "2026-06-07T00:00:00Z",
+  "ts_updated": "2026-06-11T21:00:49Z",
+  "wall_clock_sec": 0,
+  "orchestrator_version": "1.2",
+  "challenger_version": "2.0",
+  "status": "draft",
+  "notes": []
+}

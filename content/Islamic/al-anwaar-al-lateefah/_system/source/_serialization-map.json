@@ -1,0 +1,396 @@
+{
+  "note": "Spine is COMPLETE: 65 lectures. Original source mp3 numbering had cosmetic gaps (61-66,69-71 were file-naming, not missing content). Lectures are serialized lec01-65. Any thin Ma'ad coverage is filled by the hazrat-zia augmentation (1980 Mabda-wa-Maad set, 29 lectures / 202 merged teachings). No re-synthesis required.",
+  "total_lectures": 65,
+  "map": [
+    {
+      "lecture": 1,
+      "lec_id": "lec01",
+      "original_mp3": "00 disclaimer.mp3",
+      "serialized_filename": "lec01 - 00 disclaimer.mp3"
+    },
+    {
+      "lecture": 2,
+      "lec_id": "lec02",
+      "original_mp3": "01 Al Fateha.mp3",
+      "serialized_filename": "lec02 - 01 Al Fateha.mp3"
+    },
+    {
+      "lecture": 3,
+      "lec_id": "lec03",
+      "original_mp3": "02 Al Anwaar.mp3",
+      "serialized_filename": "lec03 - 02 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 4,
+      "lec_id": "lec04",
+      "original_mp3": "03 Al Anwaar.mp3",
+      "serialized_filename": "lec04 - 03 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 5,
+      "lec_id": "lec05",
+      "original_mp3": "04 Al Anwaar.mp3",
+      "serialized_filename": "lec05 - 04 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 6,
+      "lec_id": "lec06",
+      "original_mp3": "05 Al Anwaar.mp3",
+      "serialized_filename": "lec06 - 05 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 7,
+      "lec_id": "lec07",
+      "original_mp3": "06 Al Anwaar.mp3",
+      "serialized_filename": "lec07 - 06 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 8,
+      "lec_id": "lec08",
+      "original_mp3": "07 Al Anwaar.mp3",
+      "serialized_filename": "lec08 - 07 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 9,
+      "lec_id": "lec09",
+      "original_mp3": "08 Al Anwaar.mp3",
+      "serialized_filename": "lec09 - 08 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 10,
+      "lec_id": "lec10",
+      "original_mp3": "09 Al Anwaar.mp3",
+      "serialized_filename": "lec10 - 09 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 11,
+      "lec_id": "lec11",
+      "original_mp3": "10 Al Anwaar.mp3",
+      "serialized_filename": "lec11 - 10 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 12,
+      "lec_id": "lec12",
+      "original_mp3": "11 Al Anwaar.mp3",
+      "serialized_filename": "lec12 - 11 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 13,
+      "lec_id": "lec13",
+      "original_mp3": "12 Al Anwaar.mp3",
+      "serialized_filename": "lec13 - 12 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 14,
+      "lec_id": "lec14",
+      "original_mp3": "13 Al Anwaar.mp3",
+      "serialized_filename": "lec14 - 13 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 15,
+      "lec_id": "lec15",
+      "original_mp3": "14 Al Anwaar.mp3",
+      "serialized_filename": "lec15 - 14 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 16,
+      "lec_id": "lec16",
+      "original_mp3": "15 Al Anwaar.mp3",
+      "serialized_filename": "lec16 - 15 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 17,
+      "lec_id": "lec17",
+      "original_mp3": "16 Al Anwaar.mp3",
+      "serialized_filename": "lec17 - 16 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 18,
+      "lec_id": "lec18",
+      "original_mp3": "17 Al Anwaar.mp3",
+      "serialized_filename": "lec18 - 17 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 19,
+      "lec_id": "lec19",
+      "original_mp3": "18 Al Anwaar.mp3",
+      "serialized_filename": "lec19 - 18 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 20,
+      "lec_id": "lec20",
+      "original_mp3": "19 Al Anwaar.mp3",
+      "serialized_filename": "lec20 - 19 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 21,
+      "lec_id": "lec21",
+      "original_mp3": "20 Al Anwaar.mp3",
+      "serialized_filename": "lec21 - 20 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 22,
+      "lec_id": "lec22",
+      "original_mp3": "21 Al Anwaar.mp3",
+      "serialized_filename": "lec22 - 21 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 23,
+      "lec_id": "lec23",
+      "original_mp3": "22 Al Anwaar.mp3",
+      "serialized_filename": "lec23 - 22 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 24,
+      "lec_id": "lec24",
+      "original_mp3": "23 Al Anwaar.mp3",
+      "serialized_filename": "lec24 - 23 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 25,
+      "lec_id": "lec25",
+      "original_mp3": "24 Al Anwaar.mp3",
+      "serialized_filename": "lec25 - 24 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 26,
+      "lec_id": "lec26",
+      "original_mp3": "25 Al Anwaar.mp3",
+      "serialized_filename": "lec26 - 25 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 27,
+      "lec_id": "lec27",
+      "original_mp3": "26 Al Anwaar.mp3",
+      "serialized_filename": "lec27 - 26 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 28,
+      "lec_id": "lec28",
+      "original_mp3": "27 Al Anwaar.mp3",
+      "serialized_filename": "lec28 - 27 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 29,
+      "lec_id": "lec29",
+      "original_mp3": "28 Al Anwaar.mp3",
+      "serialized_filename": "lec29 - 28 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 30,
+      "lec_id": "lec30",
+      "original_mp3": "29 Al Anwaar.mp3",
+      "serialized_filename": "lec30 - 29 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 31,
+      "lec_id": "lec31",
+      "original_mp3": "30 Al Anwaar.mp3",
+      "serialized_filename": "lec31 - 30 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 32,
+      "lec_id": "lec32",
+      "original_mp3": "31 Al Anwaar.mp3",
+      "serialized_filename": "lec32 - 31 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 33,
+      "lec_id": "lec33",
+      "original_mp3": "32 Al Anwaar.mp3",
+      "serialized_filename": "lec33 - 32 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 34,
+      "lec_id": "lec34",
+      "original_mp3": "33 Al Anwaar.mp3",
+      "serialized_filename": "lec34 - 33 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 35,
+      "lec_id": "lec35",
+      "original_mp3": "34 Al Anwaar.mp3",
+      "serialized_filename": "lec35 - 34 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 36,
+      "lec_id": "lec36",
+      "original_mp3": "35 Al Anwaar.mp3",
+      "serialized_filename": "lec36 - 35 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 37,
+      "lec_id": "lec37",
+      "original_mp3": "36 Al Anwaar.mp3",
+      "serialized_filename": "lec37 - 36 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 38,
+      "lec_id": "lec38",
+      "original_mp3": "37 Al Anwaar.mp3",
+      "serialized_filename": "lec38 - 37 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 39,
+      "lec_id": "lec39",
+      "original_mp3": "38 Al Anwaar.mp3",
+      "serialized_filename": "lec39 - 38 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 40,
+      "lec_id": "lec40",
+      "original_mp3": "39 Al Anwaar.mp3",
+      "serialized_filename": "lec40 - 39 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 41,
+      "lec_id": "lec41",
+      "original_mp3": "40 Al Anwaar.mp3",
+      "serialized_filename": "lec41 - 40 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 42,
+      "lec_id": "lec42",
+      "original_mp3": "41 Al Anwaar.mp3",
+      "serialized_filename": "lec42 - 41 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 43,
+      "lec_id": "lec43",
+      "original_mp3": "42 Al Anwaar.mp3",
+      "serialized_filename": "lec43 - 42 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 44,
+      "lec_id": "lec44",
+      "original_mp3": "43 Al Anwaar.mp3",
+      "serialized_filename": "lec44 - 43 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 45,
+      "lec_id": "lec45",
+      "original_mp3": "44 Al Anwaar.mp3",
+      "serialized_filename": "lec45 - 44 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 46,
+      "lec_id": "lec46",
+      "original_mp3": "45 Al Anwaar.mp3",
+      "serialized_filename": "lec46 - 45 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 47,
+      "lec_id": "lec47",
+      "original_mp3": "46 Al Anwaar.mp3",
+      "serialized_filename": "lec47 - 46 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 48,
+      "lec_id": "lec48",
+      "original_mp3": "47 Al Anwaar.mp3",
+      "serialized_filename": "lec48 - 47 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 49,
+      "lec_id": "lec49",
+      "original_mp3": "48 Al Anwaar.mp3",
+      "serialized_filename": "lec49 - 48 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 50,
+      "lec_id": "lec50",
+      "original_mp3": "49 Al Anwaar.mp3",
+      "serialized_filename": "lec50 - 49 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 51,
+      "lec_id": "lec51",
+      "original_mp3": "50 Al Anwaar.mp3",
+      "serialized_filename": "lec51 - 50 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 52,
+      "lec_id": "lec52",
+      "original_mp3": "51 Al Anwaar.mp3",
+      "serialized_filename": "lec52 - 51 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 53,
+      "lec_id": "lec53",
+      "original_mp3": "52 Al Anwaar.mp3",
+      "serialized_filename": "lec53 - 52 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 54,
+      "lec_id": "lec54",
+      "original_mp3": "53 Al Anwaar.mp3",
+      "serialized_filename": "lec54 - 53 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 55,
+      "lec_id": "lec55",
+      "original_mp3": "54 Al Anwaar.mp3",
+      "serialized_filename": "lec55 - 54 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 56,
+      "lec_id": "lec56",
+      "original_mp3": "55 Al Anwaar.mp3",
+      "serialized_filename": "lec56 - 55 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 57,
+      "lec_id": "lec57",
+      "original_mp3": "56 Al Anwaar.mp3",
+      "serialized_filename": "lec57 - 56 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 58,
+      "lec_id": "lec58",
+      "original_mp3": "57 Al Anwaar.mp3",
+      "serialized_filename": "lec58 - 57 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 59,
+      "lec_id": "lec59",
+      "original_mp3": "58 Al Anwaar.mp3",
+      "serialized_filename": "lec59 - 58 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 60,
+      "lec_id": "lec60",
+      "original_mp3": "59 Al Anwaar  Meraj1.mp3",
+      "serialized_filename": "lec60 - 59 Al Anwaar  Meraj1.mp3"
+    },
+    {
+      "lecture": 61,
+      "lec_id": "lec61",
+      "original_mp3": "60 Al Anwaar.mp3",
+      "serialized_filename": "lec61 - 60 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 62,
+      "lec_id": "lec62",
+      "original_mp3": "67 Al Anwaar.mp3",
+      "serialized_filename": "lec62 - 67 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 63,
+      "lec_id": "lec63",
+      "original_mp3": "68 Al Anwaar.mp3",
+      "serialized_filename": "lec63 - 68 Al Anwaar.mp3"
+    },
+    {
+      "lecture": 64,
+      "lec_id": "lec64",
+      "original_mp3": "72 AlFajr.mp3",
+      "serialized_filename": "lec64 - 72 AlFajr.mp3"
+    },
+    {
+      "lecture": 65,
+      "lec_id": "lec65",
+      "original_mp3": "99 Al-Fateha.mp3",
+      "serialized_filename": "lec65 - 99 Al-Fateha.mp3"
+    }
+  ]
+}

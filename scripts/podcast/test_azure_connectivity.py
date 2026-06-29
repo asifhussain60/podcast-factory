@@ -96,7 +96,7 @@ def main() -> int:
     parser.add_argument("--verbose", action="store_true", help="Print full creds/endpoints.")
     args = parser.parse_args()
 
-    print("Azure connectivity pre-flight")
+    print("Connectivity pre-flight (Azure + LLM, vault-backed)")
     print(f"  app: {_azure.APP_NAME}  skip_live: {SKIP_LIVE}")
     print()
 
@@ -175,6 +175,78 @@ def main() -> int:
         return f"region={creds.region}"
 
     result.check("5. Speech credentials (optional)", speech_creds, skip_on_missing_creds=True)
+
+    # ── 6. Language (TextAnalytics) creds present (optional) ─────────────
+    def language_creds() -> str:
+        creds = _azure.load_language_creds()
+        assert creds.endpoint.startswith("https://"), f"endpoint missing https: {creds.endpoint}"
+        assert creds.key, "key empty"
+        if args.verbose:
+            return f"endpoint={creds.endpoint}  region={creds.region}"
+        return f"endpoint=<resource>.cognitiveservices.azure.com"
+
+    result.check("6. Language (TextAnalytics) credentials (optional)", language_creds, skip_on_missing_creds=True)
+
+    # ── 7. Azure OpenAI / DALL-E creds present (optional) ────────────────
+    def openai_creds() -> str:
+        creds = _azure.load_openai_creds()
+        assert creds.endpoint.startswith("https://"), f"endpoint missing https: {creds.endpoint}"
+        assert creds.key, "key empty"
+        assert creds.dalle_deployment, "dalle_deployment empty"
+        if args.verbose:
+            return f"endpoint={creds.endpoint}  deployment={creds.dalle_deployment}"
+        return f"deployment={creds.dalle_deployment}"
+
+    result.check("7. Azure OpenAI / DALL-E credentials (optional)", openai_creds, skip_on_missing_creds=True)
+
+    # ── 8. Anthropic API key resolves + live 1-token completion ──────────
+    def anthropic_live() -> str:
+        from _secrets import get_anthropic_key
+        key = get_anthropic_key()
+        assert key, "empty key"
+        import anthropic
+        client = anthropic.Anthropic(api_key=key)
+        msg = client.messages.create(
+            model="claude-haiku-4-5-20251001", max_tokens=4,
+            messages=[{"role": "user", "content": "ping"}], timeout=20.0,
+        )
+        assert msg.content, "empty completion"
+        return "live completion OK (haiku)"
+
+    result.check("8. Anthropic API (key + live)", anthropic_live, skip_when_live=True)
+
+    def anthropic_key_only() -> str:
+        from _secrets import get_anthropic_key
+        assert get_anthropic_key(), "empty key"
+        return "key resolved"
+
+    if SKIP_LIVE:
+        result.check("8. Anthropic API key resolves", anthropic_key_only)
+
+    # ── 7. Gemini API key resolves + live generateContent ────────────────
+    def gemini_live() -> str:
+        from _secrets import get_gemini_key
+        key = get_gemini_key()
+        assert key, "empty key"
+        body = json.dumps({"contents": [{"parts": [{"text": "ping"}]}],
+                           "generationConfig": {"maxOutputTokens": 4}}).encode()
+        url = ("https://generativelanguage.googleapis.com/v1beta/models/"
+               f"gemini-2.5-flash:generateContent?key={key}")
+        req = urllib.request.Request(url, data=body,
+                                     headers={"Content-Type": "application/json"}, method="POST")
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            assert resp.status == 200, f"HTTP {resp.status}"
+        return "live generateContent OK (flash)"
+
+    result.check("9. Gemini API (key + live)", gemini_live, skip_when_live=True)
+
+    def gemini_key_only() -> str:
+        from _secrets import get_gemini_key
+        assert get_gemini_key(), "empty key"
+        return "key resolved"
+
+    if SKIP_LIVE:
+        result.check("9. Gemini API key resolves", gemini_key_only)
 
     print()
     summary = f"pass {result.passed}  fail {result.failed}"

@@ -16,7 +16,7 @@ The skill set here is a STRICT SUBSET of what existed pre-split — the journal 
 | **ADLC** | GOLD | Active (plugin) | `~/.claude/skills/adlc/SKILL.md` |
 | **Clean-commit** | BRONZE (target) | Active (plugin) — overlay applies (duplicated copy) | `~/.claude/skills/clean-commit/SKILL.md` + `reference/skill-overlays/clean-commit-cortex-overlay.md` |
 | **Podcast** | OUT OF SCOPE (content-prep) | Active in staging — exempt from CORTEX per SKILL.md §9; quality judged by human listening | `skills-staging/podcast/SKILL.md` |
-| **Repo-surgeon** | BRONZE (target) | WIP in staging — consolidated to single skill.md (duplicated copy) | `skills-staging/repo-surgeon/skill.md` |
+| **Repo-surgeon** | BRONZE (target) | WIP in staging — consolidated to single skill.md (duplicated copy) | `skills-staging/repo-surgeon/SKILL.md` |
 
 All skills target **CORTEX Challenger Framework v1.0**. The framework version is implicit unless a row says otherwise.
 
@@ -48,7 +48,7 @@ Detail on what each skill owns, what triggers it, and what it explicitly defers 
 
 | Skill | Purpose | Owns | Triggers |
 |---|---|---|---|
-| `podcast` | Convert scholarly Arabic books into NotebookLM Audio Overview podcast series | `_workspace/books/<slug>/` (per-book in-progress state); promotion to `library/books/<slug>/` (shipped) via `ship_to_library.py` | `/podcast`, `/extract-chapter <ref>`, `claude --agent podcast-orchestrator`, `claude --agent podcast-operator` |
+| `podcast` | Convert scholarly Arabic books into NotebookLM Audio Overview podcast series | `content/<Bucket>/<slug>/` (all per-book state); publish = `status: published` flip in place via `publish_to_library.py` | `/podcast`, `/extract-chapter <ref>`, `claude --agent podcast-orchestrator` |
 
 ### General-utility skills (duplicated independent copies from journal repo)
 

@@ -4,25 +4,28 @@ Canonical agent specifications for the podcast-factory repo.
 
 **One canonical spec per agent. This directory is the single source of truth.**
 
-The `.github/agents/` directory contains thin discovery stubs (≤15 lines each) that
-point here. Claude Code and Copilot load these stubs for agent discovery; all
-substantive procedure, authority files, and tier authorization live in this directory.
+The `.github/agents/` directory carries a full byte-identical mirror of each spec
+(`<name>.agent.md`) for Claude Code / Copilot discovery. The DR-014 thin-stub
+pattern below was never rolled out — in practice both copies are full text. Any
+edit to a spec MUST be applied to both files in the same commit so the trees
+stay byte-identical (verify with `cmp`).
 
 ---
 
-## Agent registry (18 agents)
+## Agent registry (19 agents)
 
 | Agent | Purpose |
 |---|---|
 | `html-view-challenger` | Conformance validator for HTML views against the Cortex quality standard |
-| `podcast-auditor` | Repo-level health audit — surfaces drift, regressions, and gaps |
+| `noise-auditor` | Cross-surface detector for authorial-apparatus noise (circulation/provenance/colophon) the denoise step never strips; identify-only |
+| `podcast-auditor` | DEPRECATED 2026-06-02 — use `repo-surgeon --scope podcast` instead |
 | `podcast-blueprint` | Content-aware episode-structure planner (genre classification → episode plan) |
 | `podcast-challenger` | Semantic quality validator for chapters and framings; convergence loop |
 | `podcast-extract` | Single-chapter → NotebookLM bundle path orchestrator |
 | `podcast-librarian` | Knowledge-extraction agent (Quran + hadith atoms → canonical library) |
 | `podcast-orchestrator` | Autonomous book-to-NotebookLM pipeline driver |
 | `podcast-planner` | Guardian + Builder for plan audits and roadmap step execution |
-| `podcast-publisher` | Publish-gate enforcer — moves drafts to published after G1–G7 pass |
+| `podcast-publisher` | Publish-gate enforcer — flips status draft→published in place after gates pass |
 | `podcast-trainer` | Cross-book pattern learner; proposes regression-gated spec refinements |
 | `postprod-review` | Post-production audio audit from Turboscribe transcripts |
 | `project-steward` | Strategic health advisor; composes other agents; corpus-cited recommendations |
@@ -34,10 +37,13 @@ substantive procedure, authority files, and tier authorization live in this dire
 
 ---
 
-## DR-014 — Stub pattern
+## DR-014 — Stub pattern (NOT IMPLEMENTED — kept for the record)
 
 **Decision**: Agent canonical spec lives in `infra/claude-agents/`. `.github/agents/`
 stubs register the agent for GitHub Actions and Copilot routing and point here.
+**Status 2026-06-09**: the stub rollout never happened; `.github/agents/` holds full
+mirrored copies instead. Until/unless stubs are rolled out, treat the two trees as a
+synchronized mirror (same-commit edits, byte-identical).
 
 **Stub format** (≤15 lines):
 

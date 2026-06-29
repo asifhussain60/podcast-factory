@@ -2,7 +2,7 @@
 /**
  * /quality — per-chapter PEQ score dashboard (Wave K)
  *
- * Reads baseline JSON files from _workspace/test-strategy/baselines/ at build
+ * Reads baseline JSON files from _workspace/tests/baselines/ at build
  * time and renders:
  *   • Fleet-average banner
  *   • Per-book accordion with per-chapter PEQ table
@@ -35,7 +35,7 @@ interface BookBaseline {
 }
 
 function loadBaseline(slug: string): BookBaseline | null {
-  const base = resolve(process.cwd(), `../_workspace/test-strategy/baselines/${slug}-peq-baseline.json`);
+  const base = resolve(process.cwd(), `../_workspace/tests/baselines/${slug}-peq-baseline.json`);
   try {
     const data = JSON.parse(readFileSync(base, 'utf-8'));
     // Support both array format {book, chapters:[...]} and dict format {chSlug: {scores}}
@@ -148,6 +148,11 @@ function bar(value: number, max = 100) {
       Thresholds: <strong class="pq-pass">≥ 85 PASS</strong> ·
       <strong class="pq-warn">70–84 WARN</strong> ·
       <strong class="pq-fail">&lt; 70 FAIL</strong>
+    </p>
+    <p class="pq-threshold-note">
+      These baselines were scored under the four-axis formula above. The live pipeline
+      now scores on a fifth axis as well — Interest (hooks, raised-and-resolved
+      challenges) — with rebalanced weights; new books will report five axes.
     </p>
   </section>
 

@@ -82,6 +82,7 @@ from pathlib import Path
 
 # Wave CP: content-profile resolver for assertion gating.
 from _content_profile import is_islamic_scholarly
+from _paths import relative_to_repo
 
 # Re-export everything from _validators so existing callers that do
 #   `from build_episode_txt import X`
@@ -91,7 +92,7 @@ from _validators import (
     CHAPTER_WORD_MIN_HARD, CHAPTER_WORD_MAX_HARD,
     CHAPTER_WORD_MIN_SOFT, CHAPTER_WORD_MAX_SOFT,
     CHAPTER_DEAD_ZONE_MIN, CHAPTER_DEAD_ZONE_MAX,
-    FRAMING_WORD_MIN, FRAMING_WORD_MAX,
+    FRAMING_WORD_MIN, FRAMING_WORD_MAX, FRAMING_CHAR_MAX,
     EP_PATTERN,
     assert_chapters_populated, find_chapter_by_slug,
     load_book_meta_prose_tells,
@@ -100,6 +101,7 @@ from _validators import (
     assert_honorifics_once_only, assert_doctrinal_clean,
     assert_chapter_no_manuscript_meta,
     assert_no_arabic_transliteration, assert_no_arabic_surah_names,
+    assert_quran_citation_format, assert_no_translit_formula_pairs,
     assert_alqaab_only_established_or_paraphrased,
     assert_framing_pronunciation_imperative, assert_framing_deny_block,
     assert_framing_has_name_discipline_section,
@@ -111,6 +113,7 @@ from _validators import (
     assert_framing_no_modern_artifacts,
     assert_framing_honorific_bounded_both_sides,
     assert_show_notes_has_apparatus_table,
+    assert_no_doubled_phrases,
     strip_upload_checklist, strip_html_comments, word_count,
 )
 
@@ -133,6 +136,8 @@ def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -
     assert_doctrinal_clean(text, chapter_path)
     # R-NO-MANUSCRIPT-META (2026-05-21, X14) — P1 FLAG (warning, not hard fail).
     assert_chapter_no_manuscript_meta(text, chapter_path)
+    # B6-DOUBLED-PHRASE (2026-06-08) — P1 FLAG: copy-paste duplication in chapter prose.
+    assert_no_doubled_phrases(text, chapter_path)
     # F27 Tier 2.5 (2026-05-22) — TTS-safe enforcement. All P1 flags. Wave CP: these
     # assertions are Arabic/Islamic-specific; skip for non-Islamic profiles.
     _book_dir = chapter_path.parent.parent  # chapters/ → book_dir
@@ -140,6 +145,9 @@ def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -
         assert_no_arabic_transliteration(text, chapter_path, role="chapter (SOURCE)")
         assert_no_arabic_surah_names(text, chapter_path, role="chapter (SOURCE)")
         assert_alqaab_only_established_or_paraphrased(text, chapter_path, role="chapter (SOURCE)")
+        # R-QURAN-CITATION-FORMAT + R-NO-TRANSLIT-FORMULA (2026-06-10) — P1 FLAGS.
+        assert_quran_citation_format(text, chapter_path, role="chapter (SOURCE)")
+        assert_no_translit_formula_pairs(text, chapter_path, role="chapter (SOURCE)")
     n = word_count(text)
     if n < CHAPTER_WORD_MIN_HARD or n > CHAPTER_WORD_MAX_HARD:
         sys.exit(
@@ -150,10 +158,25 @@ def validate_chapter(chapter_path: Path, extra_tells: list[str] | None = None) -
     return n
 
 
+def _insert_pacing_block(cleaned: str, pacing_block: str) -> str:
+    """Insert the density planner's pacing directive ABOVE the '## Do not'
+    section so the no-read-aloud guard stays the final line (R-NO-READ-PROMPT).
+    Idempotent: a framing that already carries a Pacing directive is returned
+    unchanged; so is a framing with no '## Do not' section (the deny-block
+    gate will fail it anyway)."""
+    if "## Pacing directive" in cleaned:
+        return cleaned
+    idx = cleaned.find("\n## Do not")
+    if idx < 0:
+        return cleaned
+    return cleaned[:idx] + "\n" + pacing_block + "\n" + cleaned[idx:]
+
+
 def build_framing_episode_txt(framing_path: Path, out_path: Path,
                               extra_tells: list[str] | None = None,
                               book_dir: Path | None = None,
-                              write: bool = True) -> int:
+                              write: bool = True,
+                              pacing_block: str | None = None) -> int:
     """Read the framing, strip upload-checklist + HTML comments, validate, write to
     out_path as the customize-prompt-only episode txt. Returns word count of the
     final framing content.
@@ -169,12 +192,29 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path,
     no_checklist = strip_upload_checklist(raw)
     cleaned = strip_html_comments(no_checklist).strip()
 
+    # Density planner pacing directive (Slice 2, opt-in via series-config
+    # `density_planner: on`). Injected BEFORE validation so every gate —
+    # including the binding FRAMING_CHAR_MAX — sees the final content. If the
+    # block would push the framing over the character ceiling, it is dropped
+    # with a warning rather than failing the build.
+    if pacing_block:
+        with_pacing = _insert_pacing_block(cleaned, pacing_block)
+        if len(with_pacing) <= FRAMING_CHAR_MAX:
+            cleaned = with_pacing
+        else:
+            print(f"WARN: pacing directive skipped for {framing_path.name} — "
+                  f"would exceed the {FRAMING_CHAR_MAX}-char Customize ceiling "
+                  f"({len(with_pacing)} chars).", file=sys.stderr)
+
     # Derive book_dir for content-profile lookup if not supplied.
     _bdir = book_dir or framing_path.parent.parent.parent  # ep-draft-dir → _system → book
     _islamic = is_islamic_scholarly(_bdir)
 
     # Re-validate cleaned framing for meta-prose tells (cross-episode refs, etc.).
-    assert_no_meta_prose(cleaned, framing_path, "framing (CUSTOMIZE PROMPT)", extra_tells)
+    # skip_do_not_section=True: the Do-not list legitimately names forbidden phrases
+    # (including "next episode") — exclude that section from the substring scan.
+    assert_no_meta_prose(cleaned, framing_path, "framing (CUSTOMIZE PROMPT)", extra_tells,
+                         skip_do_not_section=True)
     # R-PRONUNCIATION-IMPERATIVE (2026-05-17)
     assert_framing_pronunciation_imperative(cleaned, framing_path)
     # R-NOMODERNIZE + R-NOSURPRISE + R-NO-READ-PROMPT (2026-05-17)
@@ -199,11 +239,22 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path,
     assert_framing_honorific_bounded_both_sides(cleaned, framing_path)
 
     n = word_count(cleaned)
-    if n < FRAMING_WORD_MIN or n > FRAMING_WORD_MAX:
+    n_chars = len(cleaned)
+    if n < FRAMING_WORD_MIN:
         sys.exit(
             f"ERROR: framing {framing_path.name} produces a customize prompt of {n} "
-            f"words. Target band is {FRAMING_WORD_MIN}-{FRAMING_WORD_MAX}. "
-            f"See infra/claude-agents/podcast-challenger.md (Categories C, D, E for word-count + structure) §5."
+            f"words. Minimum is {FRAMING_WORD_MIN}. "
+            f"See infra/claude-agents/podcast-challenger.md (Categories C, D, E) §5."
+        )
+    if n_chars > FRAMING_CHAR_MAX:
+        sys.exit(
+            f"ERROR: framing {framing_path.name} is {n_chars} characters — exceeds "
+            f"NotebookLM Customize box limit of {FRAMING_CHAR_MAX} chars (empirical "
+            f"5,000-char ceiling, 500-char headroom). NotebookLM silently truncates "
+            f"at ~5,000 chars, discarding name-discipline and do-not lists. "
+            f"Compress the framing to under {FRAMING_CHAR_MAX} characters.\n"
+            f"  Current: {n_chars} chars / {n} words\n"
+            f"  Target:  <{FRAMING_CHAR_MAX} chars  (~{FRAMING_CHAR_MAX // 6} words avg)"
         )
 
     if write:
@@ -246,11 +297,14 @@ def build(book_dir: Path, episode_id: str, check_only: bool = False) -> None:
     extra_tells = load_book_meta_prose_tells(book_dir)
 
     # 1. Validate the chapter (uploaded as-is to NotebookLM as the SOURCE).
-    # Prefer the literary version when present (chapters/literary/{slug}.txt);
-    # fall back to the augmented chapter (chapters/{slug}.txt).
+    # NotebookLM's source is ALWAYS the author-voice enriched chapter
+    # (chapters/{slug}.txt). The modern-prose revoice is a SEPARATE deliverable —
+    # the companion book under book/ — and must NEVER be uploaded to NotebookLM:
+    # the audio is grounded in the author's own voice. See framework.md
+    # "podcast path vs PDF path". (Reversed 2026-06-04: the builder previously
+    # preferred chapters/literary/, which fed the revoice to NotebookLM — backwards.)
     assert_chapters_populated(book_dir)
-    literary_candidate = find_chapter_by_slug(book_dir / "chapters" / "literary", episode_slug, required=False)
-    chapter_file = literary_candidate or find_chapter_by_slug(book_dir / "chapters", episode_slug)
+    chapter_file = find_chapter_by_slug(book_dir / "chapters", episode_slug)
     chapter_words = validate_chapter(chapter_file, extra_tells)
 
     # 1b. Wave N: mint pipeline-guessed section depth assignments (non-blocking).
@@ -264,9 +318,23 @@ def build(book_dir: Path, episode_id: str, check_only: bool = False) -> None:
             pass  # DB unavailable or chapter has no ## sections — non-fatal
 
     # 2. Build the customize-prompt-only episode txt.
+    # Density planner pacing directive (Slice 2): only when the book opts in
+    # via `density_planner: on` AND the plan recommends it for this episode.
+    # Books without the opt-in (or without a density plan) build byte-
+    # identically to before.
+    pacing_block = None
+    try:
+        from _density_profiles import planner_enabled
+        if planner_enabled(book_dir):
+            from density_planner import pacing_block_for_episode
+            pacing_block = pacing_block_for_episode(book_dir, int(episode_num))
+    except Exception:
+        pacing_block = None  # planner availability must never break a build
+
     out_path = book_dir / "episodes" / f"{episode_id}.txt"
     framing_words = build_framing_episode_txt(
-        framing_file, out_path, extra_tells, write=not check_only
+        framing_file, out_path, extra_tells, write=not check_only,
+        pacing_block=pacing_block,
     )
 
     # 3. F25 (2026-05-23): apparatus-table check on 99-show-notes.md when present.
@@ -313,8 +381,8 @@ def build(book_dir: Path, episode_id: str, check_only: bool = False) -> None:
         f"  {framing_words} words — paste into NotebookLM's Customize prompt box\n"
         f"\n"
         f"To upload:\n"
-        f"  1. Upload {chapter_file.relative_to(book_dir.parent.parent)} to NotebookLM as the single source.\n"
-        f"  2. Paste contents of {out_path.relative_to(book_dir.parent.parent)} into NotebookLM's Customize prompt box.\n"
+        f"  1. Upload {relative_to_repo(chapter_file)} to NotebookLM as the single source.\n"
+        f"  2. Paste contents of {relative_to_repo(out_path)} into NotebookLM's Customize prompt box.\n"
         f"  3. Click Generate."
     )
     for w in warnings:

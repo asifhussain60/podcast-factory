@@ -424,10 +424,6 @@ function renderZones(canvas: HTMLElement) {
    NODES
    ========================================================= */
 function renderNodes(canvas: HTMLElement) {
-  const zoneAccentColors = {
-    source:'#4a7c4a', ingest:'#5b8dd9', merge:'#7c3aed',
-    store:'#7c3aed', augment:'#c08020', consume:'#888',
-  };
   Object.entries(NODES).forEach(([id, n], idx) => {
     const el = document.createElement('div');
     el.className = `dnode zone-${n.zone}`;
@@ -455,7 +451,7 @@ function renderNodes(canvas: HTMLElement) {
 
     el.addEventListener('click',      () => openDetail(id));
     el.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); openDetail(id); } });
-    el.addEventListener('mouseenter', e => showTooltip(id, el));
+    el.addEventListener('mouseenter', () => showTooltip(id, el));
     el.addEventListener('mouseleave',   () => hideTooltip());
     canvas.appendChild(el);
   });
@@ -659,6 +655,7 @@ function openDetail(id: string) {
   const mergeHTML = d.mergeOutcomes ? `
     <div class="detail-section">
       <h3>Four merge outcomes</h3>
+      <div class="table-container" role="region" aria-label="Merge outcomes" tabindex="0">
       <table class="outcome-table">
         <thead><tr><th>Outcome</th><th>What happens</th></tr></thead>
         <tbody>
@@ -668,11 +665,13 @@ function openDetail(id: string) {
           <tr><td>conflict</td><td>Differing text_ar or hadith grade — write to manual_review_queue and halt phase</td></tr>
         </tbody>
       </table>
+      </div>
     </div>` : '';
 
   const tableGroupHTML = d.tableGroups ? `
     <div class="detail-section">
       <h3>Table groups</h3>
+      <div class="table-container" role="region" aria-label="Database table groups" tabindex="0">
       <table class="outcome-table">
         <thead><tr><th>Group</th><th>Tables (count)</th></tr></thead>
         <tbody>
@@ -682,6 +681,7 @@ function openDetail(id: string) {
           <tr><td>Etymology (3)</td><td>arabic_roots, word_etymologies, letter_profiles</td></tr>
         </tbody>
       </table>
+      </div>
     </div>` : '';
 
   const blockerHTML = d.blocker ? `

@@ -103,7 +103,7 @@ export default function CorpusExplorer({
   // Orama index over atoms — full-text surfaces the concept(s) a phrase belongs to.
   useEffect(() => {
     (async () => {
-      const idx = await create({
+      const idx = create({
         schema: { id: 'string', gloss: 'string', text_en: 'string', arabic: 'string', source_ref: 'string' },
       });
       await insertMultiple(idx, activeAtoms as any);

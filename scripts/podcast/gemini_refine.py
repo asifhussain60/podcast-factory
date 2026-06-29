@@ -23,13 +23,15 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 from _paths import REPO_ROOT, content_dir  # noqa: E402
 from _cost_ledger import append_gemini_cost  # noqa: E402
+from _rules import R_NOISE_APPARATUS_DIRECTIVE, strip_noise_reference_attributions  # noqa: E402
 
 # ─── SN-7 Terminus-technicus preservation (R_TERMINUS_PRESERVE) ───────────────
 # house-voice.md §2b. The RULE is the standard; the protect-LIST is per-book, tradition-agnostic
 # data loaded from <book>/_system/glossary.yml at run time (NOT hardcoded — a Sufi treatise, a
 # Stoic letter, and a Vedanta commentary each carry their own terms of art). Orthogonal to
 # R-PHONETICS-OUT: Arabic SCRIPT (تأویل) is still stripped (TTS can't read it); the doctrinal
-# term is carried by its PHONETIC form (tawil), preserved on every occurrence, glossed once.
+# term is carried by its Arabic script and/or phonetic form, preserved on every occurrence,
+# glossed once.
 
 def load_protect_terms(slug: str) -> list[str]:
     """Phonetic + transliteration forms from the per-book glossary.yml (the protect-list).
@@ -75,11 +77,12 @@ def sn7_guard(terms: list[str]) -> str:
     base = (
       "TERMINUS-TECHNICUS GUARD (R_TERMINUS_PRESERVE, mandatory): a terminus technicus is a "
       "precise doctrinal term, not stylistic vocabulary. Preserve every such term in its "
-      "PHONETIC (transliterated) form on EVERY occurrence; on the FIRST occurrence you MAY add "
-      "a brief English gloss in parentheses, e.g. 'tawil (the inner, esoteric meaning of "
-      "scripture)'. NEVER reduce a term to an English gloss only ('tawil' -> 'esoteric "
-      "interpretation' is FORBIDDEN). Arabic SCRIPT itself is stripped (the phonetic form "
-      "carries the term) — this is about the term's IDENTITY, not its script."
+      "Arabic SCRIPT when present and in its PHONETIC/transliterated identity on EVERY occurrence; "
+      "on the FIRST occurrence you MAY add a brief English gloss in parentheses, e.g. "
+      "'تأويل / tawil (the inner, esoteric meaning of scripture)'. NEVER reduce a term to an "
+      "English gloss only ('tawil' -> 'esoteric interpretation' is FORBIDDEN). Arabic SCRIPT is "
+      "source content for the review pipeline, not audio noise; preserve it unless it belongs "
+      "only to stripped publisher/OCR apparatus."
     )
     if terms:
         base += " Known terms for this book (case/diacritic-insensitive): " + ", ".join(terms) + "."
@@ -95,7 +98,9 @@ DENOISE_SYS = (
   "rewrite, summarize, translate, or add anything — output the body VERBATIM minus apparatus. "
   "(2) Remove footnotes, glosses, manuscript notes, editorial brackets and their contents, page "
   "numbers, section-number labels like 'XVIII.', and stray inline footnote digits. (3) Keep all "
-  "Quran/hadith quotations and poetry exactly. (4) Preserve paragraph flow. Output plain text only."
+  "Quran/hadith quotations, poetry, Arabic-script terms, Arabic-script names, prayers, and "
+  "doctrinal formulae exactly. (4) Preserve paragraph flow. Output plain text only."
+  "\n\n" + R_NOISE_APPARATUS_DIRECTIVE
 )
 
 # ─── Consumer-voice denoise (category: sites) ────────────────────────────────
@@ -156,14 +161,14 @@ the input.\
 """
 
 def load_key() -> str:
-    env = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-    if env: return env.strip()
-    r = subprocess.run(["security", "find-generic-password", "-s", "gemini_api_key",
-                        "-a", os.environ.get("USER", ""), "-w"], capture_output=True, text=True)
-    if r.returncode != 0: raise SystemExit("gemini_api_key not in keychain")
-    return r.stdout.strip()
+    # Vault-deterministic (llm-gemini-api-key).
+    from _secrets import get_gemini_key
+    return get_gemini_key()
+
 
 def gemini(model: str, system: str, user: str) -> str:
+    from _engine import engine_guard, TASK_DENOISE, ENGINE_GEMINI
+    engine_guard(TASK_DENOISE, ENGINE_GEMINI)
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={load_key()}"
     body = json.dumps({
         "system_instruction": {"parts": [{"text": system}]},
@@ -249,6 +254,7 @@ def main() -> int:
         return 0
     text = src.read_text()
     out = gemini(a.model, system, text)
+    out, _reference_tail_strips = strip_noise_reference_attributions(out)
     dst.write_text(title + "\n\n" + out.strip() + "\n")
     append_gemini_cost(book, phase=f"wc8/{a.mode}", step=a.chapter,
                        model=a.model, in_chars=len(text), out_chars=len(out))

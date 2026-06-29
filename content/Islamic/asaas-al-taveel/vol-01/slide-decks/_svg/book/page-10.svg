@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 660" font-family="'Lato', system-ui, sans-serif">
+<rect width="760" height="660" fill="#fffaf2"/>
+<text x="380" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#8b4513">FIRE-KNOWLEDGE AND CLAY-KNOWLEDGE ARE BOTH GIVEN GIFTS</text>
+<text x="380" y="60" text-anchor="middle" font-size="13" font-style="italic" fill="#7a6a58">A comparison of Iblis and Adam: two received gifts of knowledge.</text>
+
+<rect x="30" y="80" width="350" height="38" fill="#f0e6d2" stroke="#d9cdbd" rx="6"/>
+<rect x="390" y="80" width="340" height="38" fill="#f0e6d2" stroke="#d9cdbd" rx="6"/>
+<text x="205" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#8b4513">IBLIS / FIRE-KNOWLEDGE</text>
+<text x="560" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#8b4513">ADAM / CLAY-KNOWLEDGE</text>
+
+<rect x="30" y="124" width="350" height="78" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<rect x="390" y="124" width="340" height="78" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<text x="42" y="148" font-size="13" fill="#2b2117"><tspan font-weight="bold">TYPE:</tspan><tspan> Gentle, spiritual, luminous,</tspan><tspan x="42" dy="18"> untethered.</tspan></text>
+<text x="402" y="148" font-size="13" fill="#2b2117"><tspan font-weight="bold">TYPE:</tspan><tspan> Dense, corporeal,</tspan><tspan x="402" dy="18"> argumentative, embodied.</tspan></text>
+
+<rect x="30" y="208" width="350" height="78" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<rect x="390" y="208" width="340" height="78" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<text x="42" y="232" font-size="13" fill="#2b2117"><tspan font-weight="bold">MODE:</tspan><tspan> Brilliant supportive knowledge</tspan><tspan x="42" dy="18"> carrying no body.</tspan></text>
+<text x="402" y="232" font-size="13" fill="#2b2117"><tspan font-weight="bold">MODE:</tspan><tspan> Knowledge bound to matter.</tspan></text>
+
+<rect x="30" y="292" width="350" height="78" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<rect x="390" y="292" width="340" height="78" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<text x="42" y="316" font-size="13" fill="#2b2117"><tspan font-weight="bold">ACQUISITION:</tspan><tspan> By nature, from the</tspan><tspan x="42" dy="18"> upper substance.</tspan></text>
+<text x="402" y="316" font-size="13" fill="#2b2117"><tspan font-weight="bold">ACQUISITION:</tspan><tspan> Taught by stages,</tspan><tspan x="402" dy="18"> starting with the apparent.</tspan></text>
+
+<rect x="30" y="376" width="350" height="78" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<rect x="390" y="376" width="340" height="78" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<text x="42" y="400" font-size="13" fill="#2b2117"><tspan font-weight="bold">SELF-IMAGE:</tspan><tspan> Better than Adam, refusing</tspan><tspan x="42" dy="18"> the rank of follower.</tspan></text>
+<text x="402" y="400" font-size="13" fill="#2b2117"><tspan font-weight="bold">SELF-IMAGE:</tspan><tspan> Humbled, learns the</tspan><tspan x="402" dy="18"> names from God.</tspan></text>
+
+<rect x="30" y="460" width="350" height="78" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<rect x="390" y="460" width="340" height="78" fill="#fffaf0" stroke="#d9cdbd" rx="6"/>
+<text x="42" y="484" font-size="13" fill="#2b2117"><tspan font-weight="bold">END STATE:</tspan><tspan> Arrogance built on</tspan><tspan x="42" dy="18"> possession of the subtle.</tspan></text>
+<text x="402" y="484" font-size="13" fill="#2b2117"><tspan font-weight="bold">END STATE:</tspan><tspan> Receives obedience because</tspan><tspan x="402" dy="18"> of what was breathed into him.</tspan></text>
+
+<rect x="30" y="558" width="700" height="72" fill="#f7f1e6" stroke="#d9cdbd" rx="6"/>
+<text x="42" y="585" font-size="13" font-style="italic" fill="#2b2117"><tspan>Both kinds of knowledge are gifts. Forgetting this is the structure of every</tspan><tspan x="42" dy="18"> pride built from knowledge.</tspan></text>
+</svg>

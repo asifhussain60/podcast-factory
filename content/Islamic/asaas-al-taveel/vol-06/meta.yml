@@ -1,0 +1,26 @@
+slug: asaas-al-taveel-vol-06
+title: "Asas al-Taweel -- Volume 6: Muhammad and the Awaited Qaim"
+short_name: asaas-vol-6
+series: Asas al-Taweel
+volume: 6
+source_pdf: "/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/asaas-al-taveel/_source/Asaas Al-Taveel.pdf"
+
+pipeline:
+  current_phase: 0c
+  phase_status: pending
+  chapters_drafted: 0
+  chapters_with_contracts: 0
+  episodes_authored: 0
+  transcripts: 1
+
+publication:
+  status: draft
+  shipped_via: scripts/podcast/publish_to_library.py
+
+provenance:
+  branch: Islamic/asaas-al-taveel
+  carved_from: asaas-al-taveel/_source (master full-book transcript)
+  carve_date: 2026-06-08
+  natiq_cycle: "Muhammad and the Awaited Qaim"
+  transcript_pages: "315-368"
+  phases_completed_before_carve: "0a, 0b"

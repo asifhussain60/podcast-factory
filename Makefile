@@ -50,9 +50,11 @@ store-keys:  ## Fetch Azure secrets into macOS Keychain (Key Vault priority when
 verify:  ## Run the Azure health check (resources + Keychain entries).
 	@$(AZURE_DIR)/verify-azure.sh
 
+VENV_PY := $(shell [ -x .venv/bin/python3 ] && echo .venv/bin/python3 || echo python3)
+
 .PHONY: azure-probe
 azure-probe:  ## Connectivity probe — credentials + live round-trip (set SKIP_LIVE=1 to skip HTTP).
-	@python3 $(PODCAST_DIR)/test_azure_connectivity.py
+	@$(VENV_PY) $(PODCAST_DIR)/test_azure_connectivity.py
 
 .PHONY: migrate-to-keyvault
 migrate-to-keyvault:  ## Push Keychain secrets up to Azure Key Vault (run on primary Mac only).

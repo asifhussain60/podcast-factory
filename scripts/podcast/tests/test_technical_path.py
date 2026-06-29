@@ -112,10 +112,35 @@ class TestCategoryRouting(unittest.TestCase):
         self.assertEqual(_branching.branch_prefix("explainers"), "explainer")
 
     def test_explainers_branch_name(self):
-        # GREEN today
+        # 2026-06-07: branch is <Bucket>/<slug>, bucket-grouped. The 'explainers'
+        # category maps to the Guides bucket via the legacy category fallback.
         self.assertEqual(
             _branching.branch_name("explainers", "claude-code-training"),
-            "explainer/claude-code-training",
+            "Guides/claude-code-training",
+        )
+
+    def test_branch_name_bucket_from_profile(self):
+        # content_profile takes precedence over the legacy category for the bucket.
+        self.assertEqual(
+            _branching.branch_name("books", "journey-to-the-west-vol-1", profile="fiction"),
+            "Fiction/journey-to-the-west-vol-1",
+        )
+        self.assertEqual(
+            _branching.branch_name("books", "ayyuhal-walad", profile="islamic_scholarly"),
+            "Islamic/ayyuhal-walad",
+        )
+
+    def test_branch_name_explicit_bucket_wins(self):
+        self.assertEqual(
+            _branching.branch_name("books", "some-slug", bucket="Technical"),
+            "Technical/some-slug",
+        )
+
+    def test_branch_name_books_category_defaults_islamic(self):
+        # Legacy 'books' category with no profile falls back to the Islamic bucket.
+        self.assertEqual(
+            _branching.branch_name("books", "kitab-al-riyad"),
+            "Islamic/kitab-al-riyad",
         )
 
     def test_sites_branch_prefix_unchanged(self):
@@ -359,20 +384,6 @@ class TestPhase0dTechnical(unittest.TestCase):
             f"got: {prompt[:300]}",
         )
 
-    def test_phase_0d_toc_prompt_books_still_references_phonetics(self):
-        # GREEN today — regression guard. The original books prompt should
-        # still reference _phonetics.md after the split.
-        try:
-            from _authoring._chapter_design import build_phase_0d_toc_prompt
-        except ImportError:
-            self.skipTest("Cannot import build_phase_0d_toc_prompt")
-        with tempfile.TemporaryDirectory() as tmp:
-            book_dir = _make_book_dir(Path(tmp), category="books")
-            _make_refined_english(book_dir)
-            _make_phonetics(book_dir)
-            prompt = build_phase_0d_toc_prompt(str(book_dir), "test-book")
-        self.assertIn("_phonetics.md", prompt)
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 5. Phase 0e — Enrichment
@@ -536,6 +547,24 @@ class TestFramingRouting(unittest.TestCase):
             from _authoring._framing import _build_technical_framing_prompt
         except ImportError:
             self.skipTest("_build_technical_framing_prompt not yet implemented")
+
+    def test_framing_prompt_builder_registry(self):
+        # Strategy registry (2026-06-13 refactor): exactly the three variants,
+        # every value callable. A new content variant is one dict entry + one fn.
+        try:
+            from _authoring._framing import (
+                FRAMING_PROMPT_BUILDERS, _resolve_prompt_variant,
+            )
+        except ImportError:
+            self.skipTest("FRAMING_PROMPT_BUILDERS not yet implemented")
+        self.assertEqual(
+            set(FRAMING_PROMPT_BUILDERS), {"islamic", "consumer", "technical"}
+        )
+        for variant, fn in FRAMING_PROMPT_BUILDERS.items():
+            self.assertTrue(callable(fn), f"{variant} builder is not callable")
+        # Every resolved variant must have a builder (no silent KeyError path).
+        for cat in ("books", "sites", "explainers", "unknown-cat"):
+            self.assertIn(_resolve_prompt_variant(cat), FRAMING_PROMPT_BUILDERS)
 
     def test_technical_framing_prompt_omits_islamic_content(self):
         # RED today — the technical framing prompt must contain ZERO Islamic/

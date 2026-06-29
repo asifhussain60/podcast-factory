@@ -15,7 +15,7 @@ Before returning control to the caller, regenerate the three snapshot JSON files
 |---|---|
 | `/plan-dashboard/src/data/architecture-snapshot.json` | `_workspace/plan/architecture.md` (sections, ADRs, layers, modules, phases, contracts) |
 | `/plan-dashboard/src/data/infrastructure-snapshot.json` | `docs/setup/azure-stack.md` + `scripts/podcast/_cost_ledger.py` data + `infra/llm-apis/` config + grep of which vendor SDK each phase imports |
-| `/plan-dashboard/src/data/dashboard-snapshot.json` | `_workspace/plan/refactor/plan.yaml` (step status, deps, tier), `_workspace/plan/debt/pipeline-debt.md` (open F-items), `content/drafts/*/_system/orchestrator-state.json` (live book state), recent git log on `develop` |
+| `/plan-dashboard/src/data/dashboard-snapshot.json` | `_workspace/plan/refactor/plan.yaml` (step status, deps, tier), `_workspace/plan/debt/pipeline-debt.md` (open F-items), `content/*/*/_system/orchestrator-state.json` (live book state), recent git log on `develop` |
 
 The snapshots are idempotent. Running the agent twice on the same repo state produces byte-identical JSON. Stale snapshots are a contract violation — never skip the regeneration step, even on a "no-op" run.
 
@@ -32,7 +32,7 @@ Triggered when:
 
 ### Protocol
 
-1. **Read the current state**: load the file(s) about to change, the current architecture doc, the live `plan.yaml`, the debt ledger, the last 30 commits on `develop`, and any `content/drafts/*/_system/orchestrator-state.json` for in-flight books.
+1. **Read the current state**: load the file(s) about to change, the current architecture doc, the live `plan.yaml`, the debt ledger, the last 30 commits on `develop`, and any `content/*/*/_system/orchestrator-state.json` for in-flight books.
 
 2. **Apply the four regression checks** in order. ANY single failure halts the change with a plain-English explanation:
 
@@ -45,7 +45,7 @@ Triggered when:
 
    **Check B — Shipped-book frozen-state.** The change must not propose re-running KaR, M&D, Ayyuhal Walad, ISLR Mas-I, or Asaas al-Taveel through the pipeline. Per DR-013, retroactive enhancements ship as addendum episodes + metadata stamps only.
 
-   **Check C — In-flight book interference.** If any `content/drafts/*/_system/orchestrator-state.json` shows `phase_status="running"`, the change must not touch files the running pipeline writes to (state files, ledger files, episode .txt files for that book).
+   **Check C — In-flight book interference.** If any `content/*/*/_system/orchestrator-state.json` shows `phase_status="running"`, the change must not touch files the running pipeline writes to (state files, ledger files, episode .txt files for that book).
 
    **Check D — Brittleness anti-patterns.** The change must not introduce:
    - Hardcoded book slugs in code that is supposed to be book-agnostic
@@ -117,7 +117,7 @@ These are non-negotiable design priors. Builder uses them to make judgment calls
 
 - Re-run a shipped book through any pipeline phase that mutates its content
 - Edit files under the sibling `journal` repo
-- Recreate retired surfaces (`server/`, `wrangler.toml`, `infra/cloudflare/`)
+- Recreate retired surfaces (`server/`, `wrangler.toml`, `site-worker.js`, `docs/cloudflare/`)
 - Skip the snapshot regeneration step
 - Skip its own guardian self-check
 - Make a code change that has no entry in `plan.yaml` — every change must trace to a roadmap step

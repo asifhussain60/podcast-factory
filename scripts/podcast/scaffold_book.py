@@ -35,7 +35,7 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
-from _paths import REPO_ROOT
+from _paths import REPO_ROOT, ensure_book_skeleton
 
 LIBRARY_DIR = REPO_ROOT / "content" / "drafts"
 BOOKS_INDEX = REPO_ROOT / "content" / "podcast" / ".skill" / "books.md"
@@ -213,19 +213,8 @@ def scaffold(category: str, book_slug: str, title: str, author: str | None, forc
     written: list[Path] = []
     skipped: list[Path] = []
 
-    # Create directories.
-    for sub in (
-        "chapters",
-        "chapter-contracts",
-        "episodes",
-        "transcripts",
-        "_system",
-        "_system/scratchpad",
-        "_system/source",
-        "_system/source/text",
-        "_system/episode-drafts",
-    ):
-        (book_dir / sub).mkdir(parents=True, exist_ok=True)
+    # Create directories — single source of truth in _paths.BOOK_SUBDIRS.
+    ensure_book_skeleton(book_dir)
 
     # Template bindings.
     author_clause = f" by {author}" if author else ""

@@ -123,12 +123,21 @@ def emit_glossary_yml(entries: list[dict[str, str]], top: dict[str, object]) -> 
     lines.append("")
     lines.append(f"schema_version: {top.get('schema_version', 1)}")
     lines.append("entries:")
+    # Optional schema-v2 human-curation fields (set in the Astro reader). Emitted
+    # only when present so re-running fill never wipes Asif's decisions, and v1
+    # glossaries with none round-trip byte-identically.
+    _V2_FIELDS = ("teaching_relevance", "decision", "corrected_phonetic",
+                  "corrected_arabic", "english_override", "decided_by", "decided_at")
     for r in entries:
         lines.append(f'  - phonetic: "{_q(r.get("phonetic", ""))}"')
         lines.append(f'    transliteration: "{_q(r.get("transliteration", ""))}"')
         lines.append(f'    arabic_script: "{_q(r.get("arabic_script", ""))}"')
         lines.append(f'    audio_phonetic: "{_q(r.get("audio_phonetic", ""))}"')
         lines.append(f'    first_seen_snippet: "{_q(r.get("first_seen_snippet", ""))}"')
+        for field in _V2_FIELDS:
+            val = str(r.get(field, "") or "").strip()
+            if val:
+                lines.append(f'    {field}: "{_q(val)}"')
     return "\n".join(lines) + "\n"
 
 
@@ -174,6 +183,20 @@ def parse_llm_yaml(raw: str) -> dict[str, str]:
             out[current_phon] = val
             current_phon = None
     return out
+
+
+def _normalize_taa_marbuta(entries: list[dict]) -> int:
+    """A word-final taa marbuta (ة) is pronounced "h"/"ah", not "t"; the phonetic
+    generator sometimes emits a trailing "t" (ri-yaat). Rewrite it to "h" so the
+    audio says "ri-yaah". Idempotent; only entries whose Arabic ends in ة."""
+    n = 0
+    for e in entries:
+        ar = str(e.get("arabic_script") or "").strip()
+        ap = str(e.get("audio_phonetic") or "").strip()
+        if ar.endswith("ة") and ap.endswith("t"):
+            e["audio_phonetic"] = ap[:-1] + "h"
+            n += 1
+    return n
 
 
 def main() -> int:
@@ -275,6 +298,10 @@ def main() -> int:
 
     if n_skipped_unknown:
         print(f"  ⚠ {n_skipped_unknown} LLM-emitted rows had unknown phonetics; dropped", file=sys.stderr)
+
+    n_taa = _normalize_taa_marbuta(entries)
+    if n_taa:
+        print(f"  normalized {n_taa} taa-marbuta phonetics (-t -> -h)", file=sys.stderr)
 
     glossary_path.write_text(emit_glossary_yml(entries, top), encoding="utf-8")
     print(f"wrote {glossary_path.relative_to(book_dir)} — {n_filled} entries filled "

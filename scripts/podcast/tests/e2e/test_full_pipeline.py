@@ -129,14 +129,31 @@ class SunnyDayE2ETests(unittest.TestCase):
         # Per-chapter contracts (P2.2 asserts ≥1)
         cc_dir = book_dir / "chapter-contracts"
         cc_dir.mkdir(parents=True, exist_ok=True)
-        (cc_dir / "ch01-encounter.yml").write_text(
-            "schema_version: 1\nslug: ch01-encounter\ntitle: The Encounter\n"
+        # FIX 14: contract must pass the Phase-0d post-write gate
+        # (_contract_validation.validate_contract_full) like real 0d output.
+        (cc_dir / "encounter.yml").write_text(
+            "schema_version: 1\n"
+            "chapter_ref: ch01-encounter\n"
+            "slug: encounter\n"
+            "source_type: book-chapter\n"
+            "episode_number: 1\n"
+            "title: The Encounter\n"
+            "audience: Listeners new to the tiny test book.\n"
+            "angle: faithful_exposition\n"
+            "episode_format: deep_dive\n"
+            "host_dynamic: curious_mind + scholar_companion\n"
+            "adaptation_mode: faithful\n"
+            "key_tensions:\n"
+            "  - The first tension of the tiny book.\n"
         )
         # Chapter txt files (P2.2 asserts ≥1)
         ch_dir = book_dir / "chapters"
         ch_dir.mkdir(parents=True, exist_ok=True)
+        # ~2000 words so the post-0d chapter-set check's P4 word band
+        # (default_deep_dive: 1800-2800) stays clean, like real 0d output.
         (ch_dir / "ch01-encounter.txt").write_text(
-            "# The Encounter\n\nMocked chapter content produced by Phase 0d.\n"
+            "# The Encounter\n\n"
+            + ("Mocked chapter content produced by Phase 0d. " * 250)
         )
         # Required Phase 0d sidecars
         (text_dir / "chapters-rationale.md").write_text(
@@ -200,8 +217,7 @@ class SunnyDayE2ETests(unittest.TestCase):
                 author_phase_0b=self._mock_0b,
                 author_phase_0c=self._mock_0c,
                 author_phase_0d=self._mock_0d,
-                author_phase_0e=self._mock_0e,
-                author_literary_phase=self._mock_literary), \
+                author_phase_0e=self._mock_0e), \
              mock.patch.object(initial_driver, "phase_0f_write_series_plan",
                                self._mock_0f_write_series_plan), \
              mock.patch.object(initial_driver, "phase_git_commit",
@@ -280,6 +296,51 @@ class SunnyDayE2ETests(unittest.TestCase):
             "no 'NO ARTIFACT' log line should appear — P5.2 hardening would have raised"
         )
 
+    def test_stop_after_halts_after_named_phase(self):
+        """--stop-after 0c halts the moment 0c completes; 0d/0e/0f never run.
+
+        Locks the per-step review cadence: the stopped phase block stays
+        'completed' while the top-level phase_status flips to 'halted', so the
+        dispatcher re-enters and skips it on the next resume.
+        """
+        stdout_buf, stderr_buf = io.StringIO(), io.StringIO()
+        tmp_root = Path(self.tmp.name)
+        with redirect_stdout(stdout_buf), redirect_stderr(stderr_buf), \
+             mock.patch.object(initial_driver, "REPO_ROOT", tmp_root), \
+             mock.patch.multiple(
+                initial_driver,
+                author_phase_0b=self._mock_0b,
+                author_phase_0c=self._mock_0c,
+                author_phase_0d=self._mock_0d,
+                author_phase_0e=self._mock_0e), \
+             mock.patch.object(initial_driver, "phase_0f_write_series_plan",
+                               self._mock_0f_write_series_plan), \
+             mock.patch.object(initial_driver, "phase_git_commit",
+                               self._mock_git_commit), \
+             mock.patch.object(initial_driver, "run_source_review_gate",
+                               lambda bd: __import__(
+                                   "phases.source_review_gate",
+                                   fromlist=["ReviewGate"]
+                               ).ReviewGate(approved=True, warnings=[])):
+            rc = initial_driver._drive_authoring_through_0f(
+                self.book_dir, "Tiny Test Book", stop_after="0c"
+            )
+
+        self.assertEqual(rc, 0, "stop-after halt should return 0 (clean)")
+        state = _progress.read_state(self.book_dir)
+        self.assertEqual(state["phases"]["0b"]["status"], "completed")
+        self.assertEqual(state["phases"]["0c"]["status"], "completed",
+                         "stopped phase block stays 'completed' so resume skips it")
+        self.assertEqual(state["phase"], "0c")
+        self.assertEqual(state["phase_status"], "halted",
+                         "top-level status flips to 'halted' after --stop-after")
+        # 0d/0e never ran; 0f never reached.
+        self.assertEqual(state["phases"].get("0d", {}).get("status", "pending"), "pending")
+        self.assertFalse(
+            (self.book_dir / "_system" / "series-plan.md").exists(),
+            "0f series plan must NOT be written when halted early via --stop-after"
+        )
+
 
 class StateMachineOrderingTests(unittest.TestCase):
     """Tighter assertion: phase update-order is the canonical 0b → 0c → 0d → 0e → 0f.
@@ -344,24 +405,30 @@ class StateMachineOrderingTests(unittest.TestCase):
                 initial_driver,
                 author_phase_0b=mock_phase,
                 author_phase_0c=mock_phase,
+                author_phase_0ci=mock_phase,
                 author_phase_0d=mock_phase,
-                author_phase_0e=mock_phase,
-                author_literary_phase=mock_phase), \
+                author_phase_0e=mock_phase), \
              mock.patch.object(initial_driver, "phase_0f_write_series_plan", mock_series_plan), \
              mock.patch.object(initial_driver, "phase_git_commit", lambda *a, **k: None), \
+             mock.patch.object(initial_driver, "_guard_before_phase", lambda *a, **k: None), \
              mock.patch.object(initial_driver, "run_source_review_gate", lambda bd: approved_gate):
+            # _guard_before_phase is a no-op here: the stub phases write no
+            # artifacts and this test asserts UPDATE ORDERING only. The
+            # sunny-day test above keeps the guards live against real files.
             initial_driver._drive_authoring_through_0f(self.book_dir, "Test")
 
         # Extract the phase identifiers in the order they were updated to "running" or "completed"
         seq = [(p, s) for p, s in self.phase_transitions if s in ("running", "completed", "halted")]
 
-        # Expected: 0b → 0c → 0d → 0e → 0literary → 06a (approved, Wave I gate) → 0f halted
+        # Expected: 0b → 0c → 0ci → 0d → 0e → 06a (approved, Wave I gate) → 0f halted
+        # (0ci book-intelligence gap analysis inserted after 0c 2026-06-07;
+        #  0literary retired from the active flow 2026-06-04 — revoice is PDF path now)
         expected = [
             ("0b", "running"), ("0b", "completed"),
             ("0c", "running"), ("0c", "completed"),
+            ("0ci", "running"), ("0ci", "completed"),
             ("0d", "running"), ("0d", "completed"),
             ("0e", "running"), ("0e", "completed"),
-            ("0literary", "running"), ("0literary", "completed"),
             ("06a", "running"), ("06a", "completed"),
             ("0f", "running"), ("0f", "halted"),
         ]

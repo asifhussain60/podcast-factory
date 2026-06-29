@@ -1,0 +1,16 @@
+{
+  "lecture": 2,
+  "source_audio": "Sabaq At Salman's Residence.mp3",
+  "source_bytes": 89721841,
+  "source_kind": "audio",
+  "source_language": "ur",
+  "transcription_engine": "gemini/gemini-2.5-pro",
+  "transcription_method": "whole-file",
+  "dup_sentence_ratio": 0.0,
+  "loop_flagged": false,
+  "translated": true,
+  "char_count": 51179,
+  "word_count": 9245,
+  "elapsed_seconds": 195.2,
+  "generated_at": "2026-06-15T20:16:04Z"
+}

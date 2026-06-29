@@ -32,7 +32,8 @@ DRIVER_EMITTED_PHASES = (
     "0a", "0b", "0c", "0d", "0e", "0literary",
     "06a", "0f", "0g",
     "per-chapter", "per-chapter-optimize", "per-chapter-slides",
-    "finalize", "publish", "trainer", "merge", "done",
+    "audio-script", "audio-render",
+    "finalize", "audio-ingest", "publish", "trainer", "merge", "done",
 )
 
 
@@ -77,6 +78,12 @@ class PhaseRegistryTests(unittest.TestCase):
         # Anchors that downstream logic and humans rely on, in order.
         order = list(_progress.PHASES)
         self.assertLess(order.index("0e"), order.index("0literary"))
+        # audio-ingest runs AFTER the finalize review gate but BEFORE the PDF book
+        # branch and publish (it normalizes + transcribes dropped NotebookLM audio
+        # so the book is built and published from complete content).
+        self.assertLess(order.index("finalize"), order.index("audio-ingest"))
+        self.assertLess(order.index("audio-ingest"), order.index("0book-design"))
+        self.assertLess(order.index("audio-ingest"), order.index("publish"))
         self.assertLess(order.index("0literary"), order.index("0f"))
         self.assertLess(order.index("finalize"), order.index("publish"))
         self.assertLess(order.index("publish"), order.index("trainer"))

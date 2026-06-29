@@ -43,8 +43,10 @@ WHAT IT CHECKS (the framing + chapter pair)
     - No honorific repetition
     - No manuscript-meta editorial
     - Doctrinal scan (T3 forbidden phrases)
-  Contract (if debate-mode):
-    - Host role parity (Q4)
+  Contract:
+    - Full unified contract validation (_contract_validation.validate_contract_full):
+      required fields, slug↔chapter-file match, enums, debate block schema,
+      host role parity (Q4) — single source of truth with extract + smoke gate
 """
 
 from __future__ import annotations
@@ -186,17 +188,29 @@ def lint_chapter_and_framing(book_dir: Path, episode_id: str) -> dict:
                 "message": f"framing word count {n} outside [{B.FRAMING_WORD_MIN}, {B.FRAMING_WORD_MAX}]",
             })
 
-    # Contract-side checks (debate mode → host role parity)
+    # Contract-side checks — FIX 14: route through the ONE shared validator
+    # (_contract_validation.validate_contract_full) instead of a local minimal
+    # debate-block parse, so lint enforces exactly what extract and the $0
+    # smoke gate enforce. Host-role-parity findings keep their historical
+    # check name; everything else reports as contract.validation.
     contracts_dir = book_dir / "chapter-contracts"
     contract_path = contracts_dir / f"{ch_slug}.yml" if ch_slug else None
     if contract_path and contract_path.exists():
-        # Minimal YAML read for debate block
-        ct = contract_path.read_text(encoding="utf-8")
-        if "episode_format: debate" in ct:
-            contract = _parse_debate_block(ct)
-            host_findings = B.validate_host_role_parity(contract)
-            for hf in host_findings:
-                findings.append({"check": "contract.host-role-parity", "severity": "P0", "message": hf})
+        from _contract_validation import validate_contract_full
+        from _extract_yaml import load_yaml
+        contract = None
+        try:
+            contract = load_yaml(contract_path.read_text(encoding="utf-8"))
+        except Exception as e:  # noqa: BLE001
+            findings.append({"check": "contract.parse", "severity": "P0",
+                             "message": f"{type(e).__name__}: {e}"})
+        if isinstance(contract, dict):
+            for cf in validate_contract_full(
+                contract, chapter_path, book_dir, contract_path=contract_path,
+            ):
+                check = ("contract.host-role-parity"
+                         if "R-HOST-ROLE-PARITY" in cf else "contract.validation")
+                findings.append({"check": check, "severity": "P0", "message": cf})
 
     # Compute verdict
     p0 = [f for f in findings if f["severity"] == "P0"]
@@ -215,27 +229,6 @@ def lint_chapter_and_framing(book_dir: Path, episode_id: str) -> dict:
         "findings": findings,
         "inventory": inventory,
     }
-
-
-def _parse_debate_block(yaml_text: str) -> dict:
-    """Minimal parser to extract contract.debate.host_a.role + host_b.role."""
-    debate = {"host_a": {}, "host_b": {}}
-    in_debate = False
-    current_host = None
-    for line in yaml_text.splitlines():
-        if line.startswith("debate:"):
-            in_debate = True
-            continue
-        if in_debate and line.startswith(("  host_a:", "  host_b:")):
-            current_host = "host_a" if "host_a" in line else "host_b"
-            continue
-        if in_debate and current_host and line.startswith("    role:"):
-            role = line.split(":", 1)[1].strip().strip('"').strip("'")
-            debate[current_host]["role"] = role
-            current_host = None
-        if in_debate and not line.startswith((" ", "\t")) and line.strip():
-            break
-    return {"debate": debate}
 
 
 def _print_report_text(report: dict) -> None:

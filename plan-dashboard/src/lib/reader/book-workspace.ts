@@ -1,8 +1,20 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
+import { join } from 'node:path';
 import { renderMarkdown } from './markdown';
-import { loadGlossary } from './glossary';
+import { loadGlossary, loadGlossaryAll } from './glossary';
 import { readReview } from './stage-review';
+import { readDraft, hasDraft } from './stage-draft';
 import { buildStageMetrics, writeMetricsLedger, type StageMetric } from './stage-metrics';
+import { findContentDirSync, getRepoRoot } from '../content-paths';
+
+/** file:// base URL for a book's dir, resolved via the type-first resolver
+ * (Islamic-bucket fallback). Trailing slash so `new URL('chapters/x', base)`
+ * resolves under the book dir. Replaces the old hardcoded content/drafts/books path. */
+function bookBaseUrl(slug: string): URL {
+  const dir = findContentDirSync(slug) ?? join(getRepoRoot(), 'content', 'Islamic', slug);
+  return pathToFileURL(dir.endsWith('/') ? dir : dir + '/');
+}
 
 export interface ChapterDef {
   id: string;
@@ -29,6 +41,9 @@ export interface WorkspaceChapter {
   stages: WorkspaceStage[];
   metrics: StageMetric[];
   reviewed: Record<string, { approved: boolean; approved_at?: string | null }>;
+  /** Which stages currently have an unapproved autosaved draft on disk. */
+  drafted: Record<string, boolean>;
+  finalized: { at: string } | null;
 }
 
 export interface BookWorkspace {
@@ -36,6 +51,7 @@ export interface BookWorkspace {
   chapters: WorkspaceChapter[];
   cockpitChapters: ChapterDef[];
   glossary: Awaited<ReturnType<typeof loadGlossary>>;
+  glossaryAll: Awaited<ReturnType<typeof loadGlossaryAll>>;
   loadError: string;
 }
 
@@ -47,7 +63,10 @@ export const AYYUHAL_WALAD_CHAPTERS: ChapterDef[] = [
   { id: 'ch03-the-guiding-shaykh-and-final-counsels', title: 'The Guiding Shaykh and Final Counsels' },
 ];
 
-export const AYYUHAL_WALAD_STAGE_DEFS: StageDef[] = [
+// Canonical pipeline stage order — MIRROR of Python `_stage_gate.STAGE_ORDER`
+// (scripts/podcast/_stage_gate.py) with `literary` inserted before `narrator`.
+// Keep both sides in sync in the same commit when the stage set changes.
+export const STAGE_DEFS: StageDef[] = [
   { id: 'source', label: 'Source', slice: 'Slice 1 (intake)' },
   { id: 'core', label: 'Core', slice: 'Slice 1 (intake)' },
   { id: 'denoised', label: 'Denoised', slice: 'Slice 2 (noise-strip)' },
@@ -57,6 +76,66 @@ export const AYYUHAL_WALAD_STAGE_DEFS: StageDef[] = [
   { id: 'narrator', label: 'Narrator', slice: 'Lecture additions (Shaykh)' },
 ];
 
+/**
+ * A coherent set of stage artifacts under one stage-root directory. The live
+ * book uses `_stages/`; archived runs (e.g. an earlier episode structure) keep
+ * their complete stage set under `_archive/<name>/_stages/` with their own
+ * chapter IDs. Lineages are kept distinct (their chapter boundaries differ) and
+ * are surfaced VIEW-ONLY in the progression panel — never merged per-chapter.
+ */
+export interface Lineage {
+  id: string;
+  label: string;
+  stageRoot: string;
+  chapters: ChapterDef[];
+}
+
+/** Title-case a chapter directory id: "ch01-frame-and-first-counsel" → "Frame and First Counsel". */
+function chapterIdToTitle(id: string): string {
+  const minor = new Set(['and', 'the', 'of', 'a', 'an', 'to', 'in', 'for']);
+  return id
+    .replace(/^ch\d+[-_]?/i, '')
+    .replace(/[-_]+/g, ' ')
+    .trim()
+    .split(' ')
+    .map((w, i) => (i > 0 && minor.has(w.toLowerCase()) ? w.toLowerCase() : w.charAt(0).toUpperCase() + w.slice(1)))
+    .join(' ');
+}
+
+function listSubdirs(dir: URL): string[] {
+  try {
+    return readdirSync(dir, { withFileTypes: true })
+      .filter((d) => d.isDirectory())
+      .map((d) => d.name)
+      .sort();
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Discover archived stage lineages for a book by scanning
+ * `content/drafts/books/<slug>/_archive/<name>/_stages/`. Each archive folder
+ * that contains a populated `_stages/` becomes a view-only lineage whose
+ * chapter list is read from the stage subdirectories. Returns [] when none.
+ */
+export function discoverArchivedLineages(slug: string): Lineage[] {
+  const archiveBase = new URL('_archive/', bookBaseUrl(slug));
+  const lineages: Lineage[] = [];
+  for (const name of listSubdirs(archiveBase)) {
+    const stagesUrl = new URL(`${name}/_stages/`, archiveBase);
+    const chapterIds = listSubdirs(stagesUrl);
+    if (chapterIds.length === 0) continue;
+    lineages.push({
+      id: `archive-${name}`,
+      label: `Archived · ${name.replace(/[-_]+/g, ' ')}`,
+      stageRoot: `_archive/${name}/_stages`,
+      chapters: chapterIds.map((id) => ({ id, title: chapterIdToTitle(id) })),
+    });
+  }
+  return lineages;
+}
+
 function readIfExists(url: URL): string | null {
   try {
     return readFileSync(url, 'utf8');
@@ -65,35 +144,56 @@ function readIfExists(url: URL): string | null {
   }
 }
 
-function loadStageText(base: URL, chapterId: string, stageId: string): string | null {
+function loadStageText(slug: string, base: URL, chapterId: string, stageId: string, stageRoot: string): string | null {
+  // Live editing draft wins over the canonical artifact for the editable stage —
+  // this is what makes in-progress edits survive a refresh until they're approved.
+  // Only the live `_stages` root has drafts; archived lineages are read-only.
+  if (stageRoot === '_stages') {
+    const draft = readDraft(slug, chapterId, stageId);
+    if (draft) return draft;
+  }
+
   if (stageId === 'narrator') {
-    const clean = readIfExists(new URL(`_stages/${chapterId}/additions-narrator-clean.md`, base));
+    const clean = readIfExists(new URL(`${stageRoot}/${chapterId}/additions-narrator-clean.md`, base));
     if (clean) return clean;
-    return readIfExists(new URL(`_stages/${chapterId}/additions-narrator.md`, base));
+    return readIfExists(new URL(`${stageRoot}/${chapterId}/additions-narrator.md`, base));
   }
 
   for (const ext of ['md', 'txt']) {
-    const text = readIfExists(new URL(`_stages/${chapterId}/${stageId}.${ext}`, base));
+    const text = readIfExists(new URL(`${stageRoot}/${chapterId}/${stageId}.${ext}`, base));
     if (text) return text;
   }
 
-  if (stageId === 'augmented') {
+  // The live `_stages/` root lets the plain chapter text stand in for "Augmented"
+  // when no augmented artifact was written. Archive lineages are self-contained,
+  // so the fallback only applies to the canonical `_stages` root.
+  if (stageId === 'augmented' && stageRoot === '_stages') {
     return readIfExists(new URL(`chapters/${chapterId}.txt`, base));
   }
 
   return null;
 }
 
+export interface LoadWorkspaceOpts {
+  /** Stage-root directory under the book dir. Default `_stages`; archives pass their own. */
+  stageRoot?: string;
+  /** Persist the per-chapter metrics ledger to disk. Default true; archives pass false
+   *  so a view-only lineage never clobbers the live book's stage-metrics.json. */
+  writeLedger?: boolean;
+}
+
 export async function loadBookWorkspace(
   slug: string,
   chapterDefs: ChapterDef[],
   stageDefs: StageDef[],
+  opts: LoadWorkspaceOpts = {},
 ): Promise<BookWorkspace> {
-  const base = new URL(`../../../../content/drafts/books/${slug}/`, import.meta.url);
+  const { stageRoot = '_stages', writeLedger = true } = opts;
+  const base = bookBaseUrl(slug);
 
   const chapters = chapterDefs.map((chapterDef) => {
     const stageTexts = stageDefs.map((stageDef) => {
-      const text = loadStageText(base, chapterDef.id, stageDef.id);
+      const text = loadStageText(slug, base, chapterDef.id, stageDef.id, stageRoot);
       return {
         ...stageDef,
         available: !!text,
@@ -104,7 +204,7 @@ export async function loadBookWorkspace(
     const metrics = buildStageMetrics(
       stageTexts.map((stage) => ({ id: stage.id, available: stage.available, text: stage.text })),
     );
-    writeMetricsLedger(slug, chapterDef.id, metrics);
+    if (writeLedger) writeMetricsLedger(slug, chapterDef.id, metrics);
 
     const stages = stageTexts.map((stage) => ({
       id: stage.id,
@@ -114,12 +214,19 @@ export async function loadBookWorkspace(
       html: stage.available ? renderMarkdown(stage.text) : '',
     }));
 
+    const review = readReview(slug, chapterDef.id);
+    // Which stages have an outstanding draft (live root only — archives never do).
+    const drafted = stageRoot === '_stages'
+      ? Object.fromEntries(stageDefs.map((s) => [s.id, hasDraft(slug, chapterDef.id, s.id)]))
+      : {};
     return {
       slug: chapterDef.id,
       title: chapterDef.title,
       stages,
       metrics,
-      reviewed: readReview(slug, chapterDef.id).stages,
+      reviewed: review.stages,
+      drafted,
+      finalized: review.finalized ?? null,
     };
   });
 
@@ -128,6 +235,7 @@ export async function loadBookWorkspace(
     chapters,
     cockpitChapters: chapterDefs,
     glossary: await loadGlossary(slug),
+    glossaryAll: await loadGlossaryAll(slug),
     loadError: chapters.some((chapter) => chapter.stages.some((stage) => stage.available))
       ? ''
       : `No stage artifacts found for ${slug}.`,

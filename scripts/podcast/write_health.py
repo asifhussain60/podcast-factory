@@ -33,7 +33,7 @@ USAGE
 
 OUTPUTS
 
-  - content/podcast/.skill/_learning/health/<book-slug>.json
+  - _learning/health/<book-slug>.json
   - _workspace/<category>/<book-slug>/_system/health-trend.md
     (appended; created on first run)
 
@@ -51,8 +51,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from _paths import REPO_ROOT
 
-HEALTH_DIR = REPO_ROOT / "content/podcast/.skill/_learning/health"
-LIBRARY_ROOT = REPO_ROOT / "content" / "drafts"
+HEALTH_DIR = REPO_ROOT / "_learning/health"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _rules import CHALLENGER_VERSION  # noqa: E402
@@ -76,15 +75,22 @@ def badge_for(score: float, prior_stable_runs: int) -> str:
 
 
 def find_book_dir(book_slug: str) -> Path:
-    if not LIBRARY_ROOT.is_dir():
-        raise SystemExit(f"ERROR: library root not found: {LIBRARY_ROOT}")
-    matches = list(LIBRARY_ROOT.glob(f"*/{book_slug}"))
-    matches = [m for m in matches if m.is_dir()]
-    if not matches:
-        raise SystemExit(f"ERROR: no library directory matches book-slug '{book_slug}' under {LIBRARY_ROOT}")
-    if len(matches) > 1:
-        raise SystemExit(f"ERROR: multiple matches for '{book_slug}': {matches}")
-    return matches[0]
+    """Locate the book directory using the bucket-aware path resolver.
+
+    Searches content/<Bucket>/<slug>/ (type-first layout) then falls back to
+    the legacy content/drafts/<cat>/<slug>/ layout via _paths.find_content().
+    Fails with a clear error if the slug cannot be found.
+    """
+    from _paths import find_content
+    found = find_content(book_slug)
+    if found:
+        return found[2]
+    raise SystemExit(
+        f"ERROR: no content directory matches book-slug '{book_slug}' under "
+        f"{REPO_ROOT / 'content'}. "
+        f"Checked type-first layout (content/<Bucket>/{book_slug}) and "
+        f"legacy layout (content/drafts/<cat>/{book_slug})."
+    )
 
 
 def prior_stable_count(history_path: Path) -> int:

@@ -17,7 +17,6 @@
   font-size: 0.92rem;
   line-height: 1.55;
   color: var(--c-ink-muted);
-  max-width: 68ch;
   margin: 0;
 }
 .intake-shell {
@@ -27,10 +26,32 @@
   width: 90%;
   max-width: 1200px;
   margin: 18px auto 60px;
-  align-items: start;
+  align-items: stretch;
+}
+
+/* Balance the two columns: the Source-files card absorbs the height
+   difference and its drop target grows with it, so neither column trails
+   off into blank space. */
+.intake-card--grow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.intake-card--grow .intake-drop {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 @media (max-width: 800px) {
   .intake-shell { grid-template-columns: 1fr; }
+}
+.intake-column {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  min-width: 0;
 }
 
 /* ── Form card ───────────────────────────────────────────────────── */
@@ -113,6 +134,8 @@
   transition: opacity 0.12s;
 }
 .intake-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.intake-btn:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .intake-btn { transition: none; } }
 .intake-btn--primary {
   background: var(--c-accent);
   color: #fff;
@@ -173,4 +196,393 @@
   text-align: center;
   color: var(--c-ink-muted);
   font-size: 0.88rem;
+}
+
+/* ── Screen 1 — upload + staging (Phase 6, Q6/Q7) ──────────────────────────── */
+.intake-drop {
+  margin: 12px 0 4px;
+  padding: 28px 20px;
+  border: 2px dashed var(--c-rule, rgba(0, 0, 0, 0.22));
+  border-radius: 14px;
+  background: var(--c-bg);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.intake-drop:hover,
+.intake-drop:focus-visible {
+  border-color: var(--c-accent);
+  outline: none;
+}
+.intake-drop--active {
+  border-color: var(--c-accent);
+  background: color-mix(in srgb, var(--c-accent) 8%, var(--c-bg));
+}
+/* Honour reduced-motion: the drop zone is the only animated intake element (REQ-050). */
+@media (prefers-reduced-motion: reduce) {
+  .intake-drop { transition: none; }
+}
+.intake-drop-primary {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.intake-drop-secondary {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--c-ink-muted);
+}
+.intake-drop-input { display: none; }
+
+.intake-filelist {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.intake-filerow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+  border-radius: 10px;
+}
+.intake-file-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.9rem;
+  color: var(--c-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.intake-file-role {
+  flex: 0 0 auto;
+  width: auto;
+  font-size: 0.82rem;
+  padding: 6px 8px;
+}
+.intake-file-remove {
+  flex: 0 0 auto;
+  font-size: 0.8rem;
+  color: var(--c-ink-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 4px;
+}
+.intake-file-remove:hover { color: var(--c-red, #b91c1c); }
+/* Keyboard focus visibility for the per-file controls (REQ-048). */
+.intake-file-role:focus-visible,
+.intake-file-remove:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.intake-validation {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.intake-validation-error {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--c-red, #b91c1c);
+}
+.intake-validation-warn {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--c-amber, #c08020);
+}
+.intake-validation-ok {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--c-green, #4a7c4a);
+}
+
+/* ── Screen 2 — smart form (dropdowns + inline add) ────────────────────────── */
+.intake-smartrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.intake-smartrow .intake-select { flex: 1 1 auto; min-width: 0; }
+.intake-smalladd {
+  flex: 0 0 auto;
+  font-size: 0.85rem;
+  color: var(--c-accent);
+  background: none;
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.18));
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.intake-smalladd:hover { border-color: var(--c-accent); }
+.intake-smalladd:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+.intake-addrow {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.intake-addrow .intake-input { flex: 1 1 auto; }
+.intake-rationale {
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--c-ink-muted);
+}
+.intake-derived {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+
+/* ── Screens 3 & 4 — pre-flight estimate + cockpit ─────────────────────────── */
+.intake-shell--single { grid-template-columns: 1fr; }
+
+.intake-estimate {
+  margin: 12px 0 4px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.intake-estimate-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 12px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--c-rule, rgba(0, 0, 0, 0.08));
+}
+.intake-estimate-row dt {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--c-ink-muted);
+}
+.intake-estimate-row dd {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+
+.intake-progress { margin: 12px 0 4px; }
+.intake-progress-bar {
+  width: 100%;
+  height: 10px;
+  border: none;
+  border-radius: 6px;
+  background: var(--c-bg);
+  overflow: hidden;
+  appearance: none;
+}
+.intake-progress-bar::-webkit-progress-bar {
+  background: var(--c-bg);
+  border-radius: 6px;
+}
+.intake-progress-bar::-webkit-progress-value {
+  background: var(--c-accent);
+  border-radius: 6px;
+}
+.intake-progress-bar::-moz-progress-bar {
+  background: var(--c-accent);
+  border-radius: 6px;
+}
+
+.intake-gatecard {
+  margin: 14px 0 4px;
+  padding: 16px;
+  background: color-mix(in srgb, var(--c-amber, #c08020) 10%, var(--c-bg));
+  border: 1px solid color-mix(in srgb, var(--c-amber, #c08020) 45%, transparent);
+  border-radius: 12px;
+}
+.intake-gate-title {
+  margin: 0 0 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-amber, #c08020);
+}
+.intake-gate-label {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  color: var(--c-ink);
+}
+
+/* Conformance footer (REQ-047 / §13) — declared level + scoped REQ-010 exception. */
+.intake-conformance {
+  width: 90%;
+  max-width: 1200px;
+  margin: 8px auto 48px;
+  padding-top: 12px;
+  border-top: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--c-ink-muted);
+}
+
+/* ── Voice + audio-engine picker (intake Screen 2) ─────────────────────────────
+   Class-driven, existing --c-* tokens only (theme unchanged). Accent tints are
+   carried by [data-accent] so the component needs zero inline styles. */
+.voice-engine {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+.voice-engine-opt {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  background: var(--c-bg);
+  border: 2px solid var(--c-rule);
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s;
+}
+.voice-engine-opt:hover {
+  border-color: var(--c-accent);
+}
+.voice-engine-opt--selected {
+  border-color: var(--c-accent);
+  background: color-mix(in srgb, var(--c-accent) 10%, var(--c-bg-card));
+}
+.voice-engine-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.voice-engine-sub {
+  font-size: 0.78rem;
+  color: var(--c-ink-muted);
+}
+
+.voice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 14px;
+}
+@media (max-width: 640px) {
+  .voice-grid { grid-template-columns: 1fr; }
+}
+.voice-col-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.voice-col-sub {
+  margin: 2px 0 8px;
+  font-size: 0.78rem;
+  color: var(--c-ink-muted);
+}
+.voice-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.voice-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--c-bg);
+  border: 2px solid var(--c-rule);
+  border-radius: 10px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.voice-card--selected {
+  border-color: var(--c-accent);
+  background: color-mix(in srgb, var(--c-accent) 12%, var(--c-bg-card));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--c-accent) 20%, transparent);
+}
+.voice-pick {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+}
+.voice-avatar {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--c-bg-card);
+  background: var(--c-accent);
+}
+.voice-avatar[data-accent="american"] { background: var(--c-green); }
+.voice-avatar[data-accent="arabic_bilingual"] { background: var(--c-amber); }
+.voice-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.voice-name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.voice-accent {
+  font-size: 0.74rem;
+  color: var(--c-ink-muted);
+}
+.voice-sample {
+  flex: 0 0 auto;
+  padding: 4px 9px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--c-accent);
+  background: transparent;
+  border: 1px solid var(--c-rule);
+  border-radius: 7px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.voice-sample:hover { border-color: var(--c-accent); }
+.voice-sample--playing { color: var(--c-red); border-color: var(--c-red); }
+
+/* Voice-picker accessibility: visible focus ring on every new control (WCAG AA,
+   REQ-048) + reduced-motion parity with the rest of this stylesheet. */
+.voice-engine-opt:focus-visible,
+.voice-pick:focus-visible,
+.voice-sample:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .voice-engine-opt,
+  .voice-card,
+  .voice-sample {
+    transition: none;
+  }
 }

@@ -1,0 +1,38 @@
+{
+  "phase": "06a",
+  "approved": true,
+  "warnings": [
+    {
+      "severity": "P0",
+      "message": "Pipeline integrity failure: Book marked as 'draft' with only 4/13 chapters transcribed (31% complete). Transcription phase is 'partial' but all 13 chapters are listed as existing. Cannot assess source authenticity without complete material.",
+      "chapter": "all"
+    },
+    {
+      "severity": "P0",
+      "message": "Missing primary source declaration. No author, translator, or original publication metadata provided. 'Kunooz al Hikmah' attribution is unverified - requires confirmation of: original language, publication date, author credentials, and transmission chain.",
+      "chapter": "all"
+    },
+    {
+      "severity": "P1",
+      "message": "Suspicious chapter naming conventions suggest editorial restructuring rather than faithful transcription. Chapter identifiers use mixed indexing (ch01a, ch02b, ch03, ch04a, ch05b) with descriptive titles added post-hoc. Indicates significant curation/reorganization of source material.",
+      "chapter": "ch01-ch05"
+    },
+    {
+      "severity": "P1",
+      "message": "Doctrinal marker detected: 'Duat' (Egyptian funerary concept) paired with Islamic terminology ('shahadah', 'concealment'). Requires verification this isn't syncretic cross-contamination or anachronistic interpretation.",
+      "chapter": "ch02b, ch04a"
+    },
+    {
+      "severity": "P1",
+      "message": "Administrative files ('_teaching-ledger-coverage.md', '_curation-log.md', '_open-questions.md') included in source materials. These are editorial/metadata, not primary sources. Unclear what constitutes the actual 'source material' vs. pipeline artifacts.",
+      "chapter": "all"
+    },
+    {
+      "severity": "P2",
+      "message": "Recent restructuring (2026-05-28) moved material from 'published' to 'draft' status. Suggests previous publication without current source verification. Previous publication context needed to assess whether this represents original transmission or derivative work.",
+      "chapter": "all"
+    }
+  ],
+  "reviewed_at": "2026-06-15T20:02:21Z",
+  "approved_at": "2026-06-15T20:24:10Z"
+}

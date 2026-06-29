@@ -826,10 +826,12 @@ export default function NarrativeScroll({ phases, shippedCount, episodeCount }: 
     });
 
     // ── Hero entrance animations ────────────────────────────────
-    const heroTl = gsap.timeline({
-      scrollTrigger: { trigger: '.narrative-hero', start: 'top 90%' },
-    });
-    heroTl
+    // The hero is the first viewport, so the entrance plays unconditionally
+    // on mount. It must NOT hang off a ScrollTrigger: when hydration lands
+    // after the page load event the trigger fires synchronously against a
+    // not-yet-built timeline, and the pin setup below refresh-reverts any
+    // in-flight triggered animation — both leave the hero stuck at opacity 0.
+    gsap.timeline({ delay: 0.15 })
       .to('.narrative-hero-logo',    { opacity: 1, scale: 1,  duration: 1.1, ease: 'power3.out' })
       .to('.narrative-hero-eyebrow', { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '-=0.5')
       .to('.narrative-hero-title',   { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.4')
@@ -847,7 +849,6 @@ export default function NarrativeScroll({ phases, shippedCount, episodeCount }: 
         const body     = chapter.querySelector<HTMLElement>('.narrative-chapter-body');
         const badge    = chapter.querySelector<HTMLElement>('.n-kind-badge');
         const visual   = chapter.querySelector<HTMLElement>('.narrative-chapter-visual');
-        const isEven   = index % 2 === 1;
 
         // Pin each chapter
         ScrollTrigger.create({
@@ -906,15 +907,15 @@ export default function NarrativeScroll({ phases, shippedCount, episodeCount }: 
     }
 
     // ── Outro animations ────────────────────────────────────────
-    const outroTl = gsap.timeline({
-      scrollTrigger: { trigger: '.narrative-outro', start: 'top 70%' },
-    });
+    // Same build-then-attach pattern as the hero timeline (see note above).
+    const outroTl = gsap.timeline({ paused: true });
     outroTl
       .to('.narrative-outro-eyebrow', { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' })
       .to('.narrative-outro-title',   { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '-=0.3')
       .to('.narrative-outro-sub',     { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.3')
       .to('.narrative-outro-actions', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2')
       .to('.narrative-quality-row',   { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.1');
+    ScrollTrigger.create({ trigger: '.narrative-outro', start: 'top 70%', animation: outroTl, toggleActions: 'play none none none' });
 
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
@@ -1024,7 +1025,7 @@ export default function NarrativeScroll({ phases, shippedCount, episodeCount }: 
         </div>
 
         <div className="narrative-hero-cta">
-          <a href="/library" className="narrative-cta-primary">Browse the catalog →</a>
+          <a href="/studio" className="narrative-cta-primary">Browse the catalog →</a>
           <a href="#station-1" className="narrative-cta-secondary">Tour the factory ↓</a>
         </div>
 
@@ -1097,7 +1098,7 @@ export default function NarrativeScroll({ phases, shippedCount, episodeCount }: 
           the finished work. They never see the factory.
         </p>
         <div className="narrative-outro-actions">
-          <a href="/library" className="narrative-cta-primary">Open the catalog →</a>
+          <a href="/studio" className="narrative-cta-primary">Open the catalog →</a>
           <a href="/architecture" className="narrative-cta-secondary">Architecture detail ↗</a>
         </div>
 

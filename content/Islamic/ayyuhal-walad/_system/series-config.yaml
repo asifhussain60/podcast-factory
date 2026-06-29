@@ -1,0 +1,30 @@
+# series-config.yaml — Ayyuhal Walad (Ghazali's Letter to a Student)
+# Wave CP: content_profile drives pipeline behaviour.
+
+content_profile: islamic_scholarly
+
+# Video generation style (read by generate_video_layer.py).
+# teaching_hybrid = Pillow text slides overlaid on Imagen3 backgrounds (Islamic scholarly)
+# scenic           = Imagen3 atmospheric images (fiction / narrative)
+# technical        = Graphviz/diagram rendering (deferred)
+video_style: teaching_hybrid
+enable_video: false
+
+audience_profile: general_scholarly
+source_tradition: ismaili-scholarly
+episode_planning_mode: dialectical_pairs
+
+host_dynamic:
+  host_a: scholar_narrator
+  host_b: reflective_interlocutor
+
+# Literary transformation config (Phase 08b-literary).
+# narrator_voice: how the chapter is rewritten.
+# narrator_subject: who is speaking (derived from the text's author).
+# addressee: who is being addressed.
+# scene_source: text_only = only dramatize what Ghazali himself describes.
+literary:
+  narrator_voice: author_first_person
+  narrator_subject: Imam al-Ghazali
+  addressee: the walad (the student, the reader)
+  scene_source: text_only

@@ -85,20 +85,15 @@ No preamble, no meta-commentary, no explanation.
 
 
 def _load_key() -> str:
-    env = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-    if env:
-        return env.strip()
-    r = subprocess.run(
-        ["security", "find-generic-password", "-s", "gemini_api_key",
-         "-a", os.environ.get("USER", ""), "-w"],
-        capture_output=True, text=True,
-    )
-    if r.returncode != 0:
-        raise SystemExit("gemini_api_key not in keychain")
-    return r.stdout.strip()
+    # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
+    from _secrets import get_gemini_key
+    return get_gemini_key()
+
 
 
 def _gemini(system: str, text: str, *, model: str = "gemini-2.5-flash") -> str:
+    from _engine import engine_guard, TASK_RECONCILE, ENGINE_GEMINI
+    engine_guard(TASK_RECONCILE, ENGINE_GEMINI)
     url = (
         f"https://generativelanguage.googleapis.com/v1beta/models/"
         f"{model}:generateContent?key={_load_key()}"

@@ -64,6 +64,7 @@ PHASES = (
     "0a",       # Azure OCR + Translation (deterministic)
     "0b",       # English refinement (LLM)
     "0c",       # Arabic phonetic pass (LLM)
+    "0ci",      # Book intelligence: gap analysis + corpus cross-reference (LLM); Islamic-content halt
     "0d",       # Chapter design (LLM)
     "0e",       # Enrichment (LLM)
     "0literary",  # 08b literary transformation (Gemini); after enrichment, emitted by initial_driver
@@ -73,7 +74,15 @@ PHASES = (
     "per-chapter",  # iterated across the chapter list on --resume
     "per-chapter-optimize",  # Wave I — Sonnet arc/format check per chapter
     "per-chapter-slides",  # optional; gated by series.enable_slide_decks. Per-chapter slide-deck authoring + slide-deck-challenger convergence. Skipped (status="skipped") when flag is false.
-    "finalize",     # G1-G7 quality gates + human review halt before publish
+    "audio-script",   # Audio Engine v2 — per-chapter dialogue-script authorship + pre-synthesis gate convergence (API engines only; skipped for notebooklm)
+    "audio-render",   # Audio Engine v2 — H1 spend halt (exact credit estimate) then ElevenLabs render into canonical m4a layout (API engines only; skipped for notebooklm)
+    "finalize",     # G1-G7 quality gates + human review halt — podcast-only; book branch has not run yet
+    "audio-ingest",   # NotebookLM path — self-correcting normalize + Azure-transcribe of dropped m4a (skipped for API/ElevenLabs books); halts cleanly until audio is dropped, then re-enters idempotently on --resume
+    "0book-design",   # PDF path — book-craft re-segmentation -> book/book-toc.json (gated by series.enable_book_branch; runs post-finalize so book is built from reviewed podcast content)
+    "0book-compose",  # PDF path — whole-book revoice -> book/book.md (modern author voice, Arabic script + English)
+    "0book-illustrate",  # PDF path — teaching diagrams injected -> book/book-illustrated.md
+    "0book-slide-import",  # PDF path — NotebookLM-exported deck PDFs (slide-decks/chNN-*.pdf) -> LLM anchor manifests -> book/book-slides.md; HALTS when framed chapters lack dropped PDFs (.SKIP exempts)
+    "0book-render",   # PDF path — book-slides.md (or book-illustrated.md / book.md) -> book.pdf (Playwright); non-blocking on the podcast ship
     "publish",      # copy drafts → published/ catalog (publish_driver)
     "trainer",
     "merge",
@@ -129,8 +138,15 @@ def read_state(book_dir: Path) -> dict[str, Any] | None:
         return None
 
 
-def initial_state(book_slug: str, category: str) -> dict[str, Any]:
-    """Build the initial state dict for a new orchestrator run."""
+def initial_state(
+    book_slug: str, category: str, *, content_profile: str | None = None
+) -> dict[str, Any]:
+    """Build the initial state dict for a new orchestrator run.
+
+    ``content_profile`` (when known) selects the branch bucket; otherwise the
+    branch bucket falls back to the legacy ``category`` map — symmetric with how
+    the content folder is resolved at scaffold time.
+    """
     now = _utc_now()
     # Best-effort challenger version stamp.
     try:
@@ -140,15 +156,20 @@ def initial_state(book_slug: str, category: str) -> dict[str, Any]:
     except Exception:
         challenger_version = "unknown"
 
-    # Branch naming is category-typed (book/, doc/, lecture/, article/, etc.;
-    # `draft/` for unclassified). See scripts/podcast/_branching.py for policy.
+    # Branch is <Bucket>/<slug> — bucket-grouped per content profile (2026-06-07).
+    # See _branching.py.
     from _branching import branch_name as _branch_name   # noqa: E402
 
     return {
         "schema_version": SCHEMA_VERSION,
         "book_slug": book_slug,
         "category": category,
-        "branch": _branch_name(category, book_slug),
+        "branch": _branch_name(category, book_slug, profile=content_profile),
+        # Publication status (2026-06-04): draft|published|archived. Replaces the
+        # drafts/published FOLDER split — publish_to_library.py flips this to
+        # 'published' after gates pass. Default draft keeps un-shipped content
+        # out of the audience catalog.
+        "status": "draft",
         "phase": "pre-flight",
         "phase_status": "running",
         "last_completed_phase": None,

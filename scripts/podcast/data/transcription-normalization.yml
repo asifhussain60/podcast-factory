@@ -1,0 +1,29 @@
+# Deterministic transcription normalization (P2 — "canonical-term normalization").
+#
+# Applied by transcribe_audio_book.py to EVERY audio transcript after the Gemini
+# pass and BEFORE chapter authoring, so terminology is consistent regardless of
+# per-file ASR drift. This is the primary determinism lever for terminology:
+# the same input audio always yields the same canonical terms, and the reader
+# glossary / Arabic-toggle matching becomes reliable.
+#
+# SAFE rules only. Two kinds:
+#   1. typographic — universally safe Unicode -> ASCII folding (aligned with the
+#      repo's ASCII-only output rule). Handled in code, not listed here.
+#   2. garbled_terms — high-confidence, whole-word, case-sensitive substitutions
+#      where ASR snapped an unfamiliar Arabic/Islamic term onto a common English
+#      word. CURATE THESE CAREFULLY — each entry is applied to every audio book,
+#      so only add a mapping when the left side is overwhelmingly more likely to
+#      be the garble than its literal English meaning in this scholarly corpus.
+#
+# Do NOT add risky linguistic variant-merges here (da'wat/da'wah, Qa'im/Qaim,
+# -e-/-i- ezafe). Those are per-term EDITORIAL decisions made in the phonetic-
+# alignment review, not mechanical normalization — merging them blindly changes
+# meaning and is not reversible.
+
+schema_version: 1
+
+garbled_terms:
+  # ASR snapped the First-Emanation term "Munba'ith" onto the city name (28x in
+  # the al-anwaar-al-lateefah augmentation audit, 2026-06-16). In an Ismaili
+  # doctrinal lecture "Mumbai" is virtually always this garble.
+  "Mumbai": "Munba'ith"

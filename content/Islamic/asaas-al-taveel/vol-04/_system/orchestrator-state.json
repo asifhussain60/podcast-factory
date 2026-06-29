@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "book_slug": "asaas-al-taveel-vol-04",
+  "category": "books",
+  "branch": "Islamic/asaas-al-taveel",
+  "phase": "0c",
+  "phase_status": "pending",
+  "last_completed_phase": "0b",
+  "next_phase": "0c",
+  "last_error": null,
+  "phases": {
+    "pre-flight": {
+      "status": "completed",
+      "note": "pre-marked: volume scaffold"
+    },
+    "branch": {
+      "status": "completed",
+      "note": "pre-marked: shares Islamic/asaas-al-taveel branch"
+    },
+    "scaffold": {
+      "status": "completed",
+      "note": "pre-marked: carved from master transcript"
+    },
+    "0a": {
+      "status": "completed",
+      "note": "pre-marked: OCR on master asaas-al-taveel; sliced"
+    },
+    "0b": {
+      "status": "completed",
+      "note": "pre-marked: English refinement on master; sliced"
+    },
+    "0c": {
+      "status": "pending"
+    },
+    "0d": {
+      "status": "pending"
+    },
+    "0e": {
+      "status": "pending"
+    },
+    "0f": {
+      "status": "pending"
+    },
+    "0g": {
+      "status": "pending"
+    },
+    "per-chapter": {
+      "status": "pending"
+    },
+    "trainer": {
+      "status": "pending"
+    },
+    "merge": {
+      "status": "pending"
+    },
+    "done": {
+      "status": "pending"
+    }
+  },
+  "cost": {
+    "azure_usd": 0.0,
+    "anthropic_usd": 0.0
+  },
+  "wall_clock_sec": 0,
+  "config": {
+    "length_tier": "extended",
+    "unit_mode": "auto"
+  },
+  "pipeline_mode": "orchestrated",
+  "status": "draft"
+}

@@ -219,22 +219,44 @@ def make_sdk_invoke_fn(model: str, client: "_anthropic.Anthropic | None" = None)
     """
     if _anthropic is None:
         raise ImportError("anthropic package required for SDK invocation; run: pip install anthropic")
-    _client = client or _anthropic.Anthropic()
+    if client is not None:
+        _client = client
+    else:
+        # Source the key via the central resolver (env → keychain → Azure Key Vault)
+        # so 0b/0c work on any machine with `az login`, even with no keychain entry.
+        from _secrets import get_anthropic_key
+        _client = _anthropic.Anthropic(api_key=get_anthropic_key())
+
+    import threading as _threading
+    _tls = _threading.local()  # per-thread usage stash (parallel-window safe)
 
     def _invoke(instructions: str, body: str, timeout_secs: int) -> str:
         clean_instructions = _strip_file_io_lines(instructions)
-        user_msg = (
-            f"{clean_instructions}\n\n"
-            f"<content>\n{body}\n</content>\n\n"
-            "Output ONLY the processed text. No preamble, no fences."
-        )
+        # F38/DR-015: cache the STABLE instructions block (identical across every
+        # window of a phase) so the bulk metered-API spend only pays full input
+        # price for it once per 5-min window. Split into two content blocks of the
+        # SAME user message — the concatenated text is byte-identical to the prior
+        # single-string prompt, so model behaviour is unchanged; only the first
+        # block carries cache_control.
+        content_blocks = [
+            {"type": "text", "text": clean_instructions,
+             "cache_control": {"type": "ephemeral"}},
+            {"type": "text",
+             "text": (f"\n\n<content>\n{body}\n</content>\n\n"
+                      "Output ONLY the processed text. No preamble, no fences.")},
+        ]
+        _tls.usage = (0, 0)
         try:
             msg = _client.messages.create(
                 model=model,
                 max_tokens=8192,
-                messages=[{"role": "user", "content": user_msg}],
+                messages=[{"role": "user", "content": content_blocks}],
                 timeout=float(timeout_secs),
             )
+            u = getattr(msg, "usage", None)
+            if u is not None:
+                _tls.usage = (getattr(u, "input_tokens", 0) or 0,
+                              getattr(u, "output_tokens", 0) or 0)
             return msg.content[0].text if msg.content else ""
         except _anthropic.APITimeoutError:
             return ""
@@ -242,6 +264,9 @@ def make_sdk_invoke_fn(model: str, client: "_anthropic.Anthropic | None" = None)
             sys.stderr.write(f"[_chunking] SDK call failed: {exc!r}\n")
             return ""
 
+    # Side-channel so callers can read the token usage of the last call on THIS
+    # thread (the InvokeFn contract stays -> str). Used to record real cost.
+    _invoke.get_last_usage = lambda: getattr(_tls, "usage", (0, 0))  # type: ignore[attr-defined]
     return _invoke
 
 
@@ -368,10 +393,11 @@ def run_windowed(
         if book_dir is not None:
             try:
                 from _cost_ledger import append_cost_row
+                in_tok, out_tok = getattr(_invoke_fn, "get_last_usage", lambda: (0, 0))()
                 append_cost_row(
                     book_dir, phase=phase or "(unspecified)",
                     step=f"win-{idx:03d}", model=model,
-                    input_tokens=0, output_tokens=0,
+                    input_tokens=in_tok, output_tokens=out_tok,
                 )
             except Exception:  # noqa: BLE001
                 pass

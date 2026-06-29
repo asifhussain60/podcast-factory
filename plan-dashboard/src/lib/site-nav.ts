@@ -16,7 +16,9 @@ export type ActivePage =
   | 'planner'
   | 'system-map'
   | 'corpus'
-  | 'pipeline-paths';
+  | 'pronunciation'
+  | 'pipeline-paths'
+  | 'pre-upload';
 
 /**
  * Four domains (locked 2026-06-01 IA redesign):
@@ -35,8 +37,12 @@ export interface NavLink {
 }
 
 export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
-  { href: '/studio', label: 'Studio', section: 'studio', pages: ['studio'] },
-  { href: '/library', label: 'Library', section: 'library', pages: ['library'] },
+  // Pronunciation + Pre-Upload Review are working tools in the book workflow,
+  // so they highlight Studio (the pipeline domain), not the read-only System docs.
+  // Studio is the single books hub: it lists every book (grouped by bucket) and
+  // hosts the per-book content reader at /studio/<slug>. The former 'Library'
+  // top-nav entry + catalog were retired 2026-06-15; /library/* now redirects here.
+  { href: '/studio', label: 'Studio', section: 'studio', pages: ['studio', 'library', 'pronunciation', 'pre-upload'] },
   { href: '/corpus', label: 'Corpus', section: 'corpus', pages: ['corpus', 'wisdom', 'db-schema'] },
   { href: '/architecture', label: 'System', section: 'system', pages: ['architecture', 'intelligence', 'system-map', 'infrastructure', 'security', 'quality', 'plan', 'planner', 'overview', 'about', 'annotation-ops', 'pipeline-paths'] },
 ];
@@ -55,17 +61,17 @@ export const SUBNAV: Record<NavSection, NavLink[]> = {
     { href: '/wisdom', label: 'Wisdom shelf', pages: ['wisdom'] },
     { href: '/db-schema', label: 'Data model', pages: ['db-schema'] },
   ],
+  // Consolidated 2026-06-09 (13 → 8). System map, Pipeline paths, and
+  // Annotations live under Architecture (linked from that page and still
+  // routable); Pronunciation + Pre-Upload Review moved to the Studio domain.
   system: [
-    { href: '/architecture', label: 'Pipeline architecture', pages: ['architecture'] },
-    { href: '/intelligence', label: 'Intelligence pipeline', pages: ['intelligence'] },
-    { href: '/system-map', label: 'System map', pages: ['system-map'] },
+    { href: '/overview', label: 'Overview', pages: ['overview'] },
+    { href: '/architecture', label: 'Architecture', pages: ['architecture', 'system-map', 'pipeline-paths', 'annotation-ops'] },
+    { href: '/intelligence', label: 'Intelligence', pages: ['intelligence'] },
     { href: '/infrastructure', label: 'Infrastructure', pages: ['infrastructure'] },
     { href: '/security', label: 'Security', pages: ['security'] },
     { href: '/quality', label: 'Quality', pages: ['quality'] },
     { href: '/plan', label: 'Roadmap', pages: ['plan', 'planner'] },
-    { href: '/annotation-ops', label: 'Annotations', pages: ['annotation-ops'] },
-    { href: '/pipeline-paths', label: 'Pipeline Paths', pages: ['pipeline-paths'] },
-    { href: '/overview', label: 'Operations', pages: ['overview'] },
     { href: '/about', label: 'About & Help', pages: ['about'] },
   ],
 };

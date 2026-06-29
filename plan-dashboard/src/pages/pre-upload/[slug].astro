@@ -1,0 +1,52 @@
+---
+/**
+ * /pre-upload/[slug] — combined pronunciation + ambiguity review for a book.
+ */
+import Base from '../../layouts/Base.astro';
+import PreUploadTabs from '../../components/PreUploadTabs.tsx';
+import { getChecklist, getAmbiguityItems } from '../../lib/pre-upload';
+import { slugToTitle, findContent } from '../../lib/content-paths';
+import { join } from 'node:path';
+import { existsSync } from 'node:fs';
+import '../../styles/pre-upload.css';
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/pre-upload');
+
+const [checklist, ambiguity] = await Promise.all([
+  getChecklist(slug).catch(() => null),
+  getAmbiguityItems(slug).catch(() => null),
+]);
+
+if (!checklist && !ambiguity) {
+  return Astro.redirect('/pre-upload');
+}
+
+const title = slugToTitle(slug);
+
+// Resolve audio path for the pronunciation probe
+const ref = await findContent(slug);
+let audioRelPath: string | null = null;
+if (ref) {
+  const audioAbs = join(ref.dir, '_system', 'probe', 'EP00-pronunciation-probe', 'audio', 'EP00-pronunciation-probe.m4a');
+  if (existsSync(audioAbs)) {
+    audioRelPath = audioAbs;
+  }
+}
+---
+<Base
+  title={`Pre-Upload · ${title}`}
+  active="pre-upload"
+  description={`Pre-upload review for ${title}: pronunciation corrections and framing fixes.`}
+>
+  <PreUploadTabs
+    client:load
+    slug={slug}
+    title={title}
+    terms={checklist?.terms ?? []}
+    ambiguityItems={ambiguity?.items ?? []}
+    audioPath={audioRelPath}
+  />
+</Base>

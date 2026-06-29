@@ -34,6 +34,23 @@ def now_iso():
     return datetime.now(timezone.utc).isoformat()
 
 
+def head_commit_iso():
+    """Committer date of HEAD (ISO 8601).
+
+    Used for the snapshots' ``generated_at`` so regenerating at the SAME commit
+    produces a byte-identical file — no wall-clock churn, no perpetually-dirty
+    working tree. Falls back to wall-clock only when git is unavailable.
+    """
+    try:
+        out = subprocess.check_output(
+            ["git", "-C", str(REPO), "log", "-1", "--format=%cI"],
+            text=True, stderr=subprocess.DEVNULL
+        ).strip()
+        return out or now_iso()
+    except Exception:
+        return now_iso()
+
+
 def read_json(p):
     try:
         return json.loads(Path(p).read_text())
@@ -193,10 +210,15 @@ def merge_dashboard():
 
     plan = read_plan_yaml()
     roadmap = list(existing.get("roadmap") or [])
-    all_waves = [
-        w for w in (list(plan.get("waves") or []) + list(plan.get("waves_ghj") or []))
-        if isinstance(w, dict) and w.get("id")
-    ] if plan else []
+    # Every wave-shaped list in plan.yaml (waves, waves_ghj, waves_o_ph, and any
+    # future waves_* section) — entries are dicts with an id + steps. Reading only
+    # the first two lists silently hid waves O/PH/WM/SD+ from the dashboard.
+    wave_lists = []
+    if plan:
+        for key in sorted(plan.keys()):
+            if key == "waves" or key.startswith("waves_"):
+                wave_lists.extend(list(plan.get(key) or []))
+    all_waves = [w for w in wave_lists if isinstance(w, dict) and w.get("id")]
 
     if all_waves:
         valid_ids = {step["id"] for wave in all_waves for step in (wave.get("steps") or [])}
@@ -233,12 +255,42 @@ def merge_dashboard():
             str(r["id"])
         ))
 
+    # Wave metadata (id/name/plain) drives the PlanDesign grouping — rebuild it
+    # from plan.yaml so an empty `waves` array can never blank the Roadmap page.
+    # Letters collide across the waves/waves_ghj groups, so keep one entry per
+    # id and prefer the entry that actually carries roadmap steps.
+    waves_meta = list(existing.get("waves") or [])
+    if all_waves:
+        prev_by_id = {w.get("id"): w for w in waves_meta if isinstance(w, dict)}
+        picked = {}
+        order = []
+        for w in all_waves:
+            has_steps = bool(w.get("steps"))
+            if w["id"] not in picked:
+                order.append(w["id"])
+                picked[w["id"]] = w
+            elif has_steps and not picked[w["id"]].get("steps"):
+                picked[w["id"]] = w
+        waves_meta = []
+        for wid in order:
+            w = picked[wid]
+            if not w.get("steps"):
+                continue  # empty band — no roadmap steps to show
+            plain = str(w.get("summary") or "").strip().split("\n")[0] \
+                or (prev_by_id.get(wid) or {}).get("plain", "")
+            waves_meta.append({
+                "id": wid,
+                "name": w.get("name") or wid,
+                "plain": plain,
+            })
+
     merged = {
         **existing,
-        "generated_at": now_iso(),
+        "generated_at": head_commit_iso(),
         "source_commit": current_commit(),
         "generator": "regenerate-snapshots.py",
         "roadmap": roadmap,
+        "waves": waves_meta,
         "books_in_flight": in_flight,
         "books_shipped": existing.get("books_shipped", []),
         "recent_commits": recent_commits(),
@@ -308,7 +360,7 @@ def merge_architecture():
                 title = title.strip()
                 adrs.append(existing_adrs.get(adr_id) or {"id": adr_id, "title": title, "plain": title})
 
-    merged = {**snap, "generated_at": now_iso(), "source_commit": current_commit(), "agents": agents, "adrs": adrs}
+    merged = {**snap, "generated_at": head_commit_iso(), "source_commit": current_commit(), "agents": agents, "adrs": adrs}
     write_json(p, merged)
 
 
@@ -317,7 +369,7 @@ def touch_existing(name):
     data = read_json(p)
     if not data:
         return
-    data["generated_at"] = now_iso()
+    data["generated_at"] = head_commit_iso()
     data["source_commit"] = current_commit()
     write_json(p, data)
 
@@ -328,7 +380,7 @@ def main():
     touch_existing("infrastructure-snapshot.json")
 
     try:
-        SENTINEL.write_text(now_iso() + "\n")
+        SENTINEL.write_text(head_commit_iso() + "\n")
     except Exception:
         pass
 

@@ -21,7 +21,69 @@ CHAPTER_DEAD_ZONE_MAX = 5500
 
 # Framing (CUSTOMIZE PROMPT) word-count bounds — per notebooklm-best-practices.md §5.
 FRAMING_WORD_MIN = 150
-FRAMING_WORD_MAX = 3700
+FRAMING_WORD_MAX = 3700  # kept for back-compat; CHARACTER gate below is the binding one
+
+# NotebookLM Customize box hard character ceiling (empirically measured 2026-06-05).
+# NotebookLM truncates the pasted text at ~5,000 characters; we cap at 4,500 to leave
+# 500-char headroom. This is the P0 gate — a framing that exceeds this will be silently
+# truncated by NotebookLM, discarding name-discipline, do-not lists, and pronunciation
+# imperatives. FRAMING_CHAR_MAX is the binding limit; FRAMING_WORD_MAX is secondary.
+FRAMING_CHAR_MAX = 4500
+
+# ─── Per-episode density ceiling (over-cramming brake, 2026-06-04) ────────────
+# Max words an episode may carry before it counts as "over-crammed" — too many
+# distinct teachings for one focused listen. Profile-aware: dense doctrinal
+# content caps tighter than narrative (whose "extended" episodes can run long
+# precisely because they're low-density). Phase 0d halts-and-surfaces above the
+# ceiling rather than shipping a marathon episode. (Root-causes the case where
+# Ayyuhal Walad's 8,955-word episodes packed ~24 teachings each.)
+EPISODE_DENSITY_CEILING_DENSE = 6000       # Arabic-scholarly / doctrinal
+EPISODE_DENSITY_CEILING_NARRATIVE = 9500   # narrative / consumer (the extended ceiling)
+
+# Concept-count ceiling per episode (chapter-density standard, 2026-06-10).
+# One concept = one `## H2` section in the rendered chapter .txt, excluding
+# structural frames ("Where this episode opens", "What this episode lands",
+# "Closing"). Single source of truth — chapter_density_audit.py and the
+# Phase 0d post-write gate both import THIS constant. Full standard:
+# docs/standards/chapter-density.md.
+EPISODE_MAX_CONCEPTS = 3
+
+# ─── R-QURAN-CITATION-FORMAT (2026-06-10) ─────────────────────────────────────
+# Canonical inline format for Quranic quotations is plain English:
+#   (chapter 16, verse 74)
+# Terse scholarly forms are forbidden in chapter/framing prose — NotebookLM
+# reads them aloud as "Q five nineteen" and listeners can't resolve them.
+QURAN_CITATION_BAD_PATTERNS = [
+    re.compile(r"\(\s*Q\.?\s*\d{1,3}\s*:\s*\d{1,3}\s*\)"),        # (Q 5:19)
+    re.compile(r"\(\s*Quran\s+\d{1,3}\s*:\s*\d{1,3}\s*\)", re.I),  # (Quran 5:19)
+    re.compile(r"\(\s*\d{1,3}\s*:\s*\d{1,3}\s*\)"),                # bare (16:74)
+]
+
+# ─── R-NO-TRANSLIT-FORMULA (2026-06-10) ───────────────────────────────────────
+# A verbatim Arabic formula rendered as an italic transliteration run followed
+# by an em-dash and its italic translation:  *Anna Allāha mubdiʿ...* — *...*
+# Chapter prose carries the ENGLISH translation only (plain inline Arabic
+# terms without diacritics remain allowed per the Phase 0d authority rules).
+# The italic run must contain >=4 whitespace-separated tokens — short famous
+# term-glosses like `*kun fa-yakūn* — *Be! and it became*` are legitimate
+# inline teaching and stay un-flagged; long formula sentences are the target.
+TRANSLIT_FORMULA_PAIR_RE = re.compile(
+    r"\*(?=[^*\n]*[āīūēōḍḥṣṭẓġʿʾ])(?:[^*\s\n]+\s+){3,}[^*\s\n]+\*\s+—\s+\*"
+)
+
+
+def episode_overcrammed(words: int, episode_count: int, ceiling: int) -> int:
+    """Density-brake check (pure). Given a source chapter's word count, how many
+    episodes it currently maps to, and the per-episode density ceiling, return:
+      0  — not over-crammed (per-episode words ≤ ceiling), OR
+      N  — the minimum episode_count this chapter SHOULD use (≥2) so each episode
+           lands at/under the ceiling.
+    """
+    eps = max(1, int(episode_count))
+    per_episode = int(words) // eps
+    if per_episode <= ceiling:
+        return 0
+    return max(2, -(-int(words) // ceiling))  # ceil division
 
 # ─── Regex patterns ──────────────────────────────────────────────────────────
 EP_PATTERN = re.compile(r"^EP(\d+)-(.+)$")
@@ -105,10 +167,31 @@ HONORIFIC_PHRASES = [_compile_honorific(p) for p in _HONORIFICS_RAW
                      if p.startswith(r"\(") or p == "ﷺ"]
 
 # ─── R-PRONUNCIATION-IMPERATIVE (framing) ────────────────────────────────────
-PRONUNCIATION_LINE_OK = re.compile(r"^\s*(Pronounce\s+\"|Do not\s+|Say\s+)", re.MULTILINE)
+# Old passive-list format (asterisk-bold style) — always was bad.
 LEGACY_PASSIVE_PRONUNCIATION = re.compile(
     r"^\s*[-*]?\s*\*[A-Za-z'`\-\s]+\*\s*[:\-]\s*[A-Za-z][\w\-\s]+$",
     re.MULTILINE,
+)
+
+# "Pronounce X as Y" format — causes NotebookLM to say the term twice (R-PRONUNCIATION-DOUBLE).
+# This was the previous "imperative" standard but was empirically the root cause of
+# the double-read bug ("tahajjud, Tahajjud") first identified in Ayyuhal Walad audio.
+PRONOUNCE_AS_DOUBLE_RE = re.compile(
+    r'^\s*(?:-\s+)?Pronounce\s+(?:"[^"]+"|\*[^*]+\*)\s+as\s+["\']',
+    re.MULTILINE,
+)
+
+# Trivial uppercase respelling: "- term: TERM" where the two differ only by case.
+# Adds no phonetic value; P1 flag (not hard fail when anti-doubling instruction present).
+TRIVIAL_UPPERCASE_RESPELLING_RE = re.compile(
+    r"^\s*-\s+([\w'`\-\s]{2,30}):\s+([A-Z][A-Z'\-\s]{1,30})$",
+    re.MULTILINE,
+)
+
+# Required anti-doubling instruction marker in the Pronunciation block.
+ANTI_DOUBLING_INSTRUCTION_RE = re.compile(
+    r"(?i)(say\s+each\s+term\s+once|say\s+it\s+once|never\s+say\s+(?:the\s+)?(?:original|both)|"
+    r"do\s+not\s+(?:repeat|say\s+both)|once.*phonetic|phonetic.*once)",
 )
 
 # ─── R-NOMODERNIZE / R-NOSURPRISE / R-NO-READ-PROMPT (framing) ───────────────
@@ -135,10 +218,10 @@ def _flag_p1(rule: str, file_path: Path, message: str) -> None:
 # ─── Pushback / manuscript-meta constants ─────────────────────────────────────
 CHALLENGER_PUSHBACK_PATTERNS = [
     "I don't buy that yet",
-    "I don't buy that yet",          # smart-quote variant
+    "I don’t buy that yet",     # smart-quote (right single quotation mark) variant
     "That sounds like wordplay",
     "Isn't this just replacing",
-    "Isn't this just replacing",     # smart-quote variant
+    "Isn’t this just replacing",  # smart-quote variant
     "How is this different",
 ]
 
@@ -175,6 +258,20 @@ ALLOWED_ARABIC_ORIGIN_LOWER = {
     "quran", "imam", "medina", "ismaili", "fatimid", "fatimi",
     "yusuf ali", "muhammad",
     "al-bari", "al-mubdi", "al-wahid", "al-haqq",
+    # Publisher names containing Arabic-origin al- prefix:
+    "al-fikr",      # "Dar al-Fikr" (publisher)
+    # Translator names:
+    "al-khattab",   # "Nasiruddin al-Khattab" (translator)
+    # Phonetic respellings used in pronunciation guidance (always uppercase):
+    "al-lah",       # "al-LAH" (phonetic respelling of Allah)
+}
+
+# Context phrases that contain a surah name as a substring but are NOT references
+# to the surah (e.g. translator names, phonetic forms). When any of these strings
+# appear within 30 characters of a surah-name match, the match is skipped.
+SURAH_ALLOWED_CONTEXT_LOWER = {
+    "yusuf ali",    # A.Y. Ali (Quran translator — name contains surah "yusuf")
+    "a.y. ali",     # abbreviated form of the same translator
 }
 
 KNOWN_SURAH_NAMES_LOWER = {

@@ -1,0 +1,124 @@
+{
+  "book_title": "Mukhtasar al-Athar: The Summary of Transmitted Reports (Volume Two)",
+  "voice": "modern author first-person",
+  "preface": {
+    "include": true,
+    "title": "What This Book Gathers",
+    "source_line_ranges": [
+      [
+        28,
+        32
+      ]
+    ]
+  },
+  "chapters": [
+    {
+      "bk_index": 1,
+      "title": "The Marketplace: Honest Earning, Trade, and Property",
+      "source_line_ranges": [
+        [
+          56,
+          629
+        ]
+      ],
+      "theme": "Commercial life",
+      "rationale": "All economic dealing belongs in one sustained read — from the command to seek a livelihood through forbidden sales, usury, contracts, debt, partnership, and pre-emption — because every section answers the single question of how wealth may rightly change hands."
+    },
+    {
+      "bk_index": 2,
+      "title": "Binding Words: Oaths, Vows, and Their Atonement",
+      "source_line_ranges": [
+        [
+          645,
+          741
+        ]
+      ],
+      "theme": "Sworn obligation",
+      "rationale": "Oaths, vows, and expiations form one coherent domain — the weight a person places on his own word before God — and the rules for breaking that word naturally close the thread that the rules for making it open."
+    },
+    {
+      "bk_index": 3,
+      "title": "The Body's Portion: Food, Drink, and Healing",
+      "source_line_ranges": [
+        [
+          759,
+          1074
+        ]
+      ],
+      "theme": "Nourishment and cure",
+      "rationale": "Eating, drinking, and the treatment of illness all concern what enters and restores the body, so the lawful table and the lawful remedy — including supplication, ruqyah, and medicine — read as a single account of bodily life."
+    },
+    {
+      "bk_index": 4,
+      "title": "What We Wear: Dress, Adornment, and Fragrance",
+      "source_line_ranges": [
+        [
+          1091,
+          1201
+        ]
+      ],
+      "theme": "Self-presentation",
+      "rationale": "Clothing, jewelry, rings, and scent share the theme of how a believer presents himself outwardly — beauty permitted, vanity restrained — making them one chapter on the adorned self."
+    },
+    {
+      "bk_index": 5,
+      "title": "The Hunt and the Knife: Game, Slaughter, and Sacrifice",
+      "source_line_ranges": [
+        [
+          1221,
+          1369
+        ]
+      ],
+      "theme": "Taking animal life",
+      "rationale": "Hunting, ritual slaughter, the festival sacrifice, and the newborn's aqiqah all turn on the same act — lawfully taking an animal's life — so they belong together as the law of the blade."
+    },
+    {
+      "bk_index": 6,
+      "title": "Marriage and the Household",
+      "source_line_ranges": [
+        [
+          1379,
+          2033
+        ]
+      ],
+      "theme": "Forming a family",
+      "rationale": "Everything from the call to marry through proposal, dowry, conditions, forbidden unions, conjugal life, and maintenance describes the building and ordering of a single household, the longest unbroken arc in the book."
+    },
+    {
+      "bk_index": 7,
+      "title": "When a Marriage Ends: Divorce and Separation",
+      "source_line_ranges": [
+        [
+          2045,
+          2289
+        ]
+      ],
+      "theme": "Dissolving marriage",
+      "rationale": "The many forms of ending a marriage — divorce, khul', ila, zihar, li'an, the waiting period, and what is owed afterward — are one continuous subject: the careful unwinding of the bond the previous chapter formed."
+    },
+    {
+      "bk_index": 8,
+      "title": "Freedom, Generosity, and the Division of Estates",
+      "source_line_ranges": [
+        [
+          2298,
+          2476
+        ]
+      ],
+      "theme": "Transfer of persons and property",
+      "rationale": "Manumission, gifts and endowments, wills, and inheritance all govern how persons and possessions pass from one hand to another — by liberation, by bestowal, or by death — making them a single chapter on what one leaves behind."
+    },
+    {
+      "bk_index": 9,
+      "title": "Wrong and Redress: Crime, Property Disputes, and the Judge",
+      "source_line_ranges": [
+        [
+          2482,
+          2862
+        ]
+      ],
+      "theme": "Justice and the courts",
+      "rationale": "Retaliation, blood-money, the hudud, then usurpation, trusts, lost property, testimony, evidence, and the conduct of judges all converge on one theme — how wrongs are punished and rights are vindicated before the law — closing the volume with the machinery of justice."
+    }
+  ]
+}

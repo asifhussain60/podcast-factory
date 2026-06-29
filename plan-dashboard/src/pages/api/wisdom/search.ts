@@ -7,7 +7,6 @@
  */
 
 import type { APIRoute } from 'astro';
-import { fetchLocalTopic } from '../../../lib/localServerClient';
 
 export const prerender = false;
 

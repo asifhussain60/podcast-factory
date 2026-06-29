@@ -67,6 +67,12 @@ class CostRow:
     cache_read: int
     cache_create: int
     cost_usd: float
+    # 2026-06-04: billing engine. "max" = flat-rate Claude Max via `claude -p`
+    # (cost_usd is NOTIONAL — covered by the subscription, $0 marginal). "api" =
+    # metered Anthropic SDK / Gemini / Azure (cost_usd is REAL spend). Lets the
+    # cost report separate flat-rate Max usage from real money. Defaulted so older
+    # rows (written before this field) deserialize cleanly.
+    engine: str = "api"
 
 
 def compute_cost_usd(
@@ -239,6 +245,7 @@ def append_cost_row(
     cache_read: int = 0,
     cache_create: int = 0,
     ts: str | None = None,
+    engine: str = "api",
 ) -> CostRow:
     """Append a single row to <book_dir>/_system/cost-ledger.jsonl.
 
@@ -264,6 +271,7 @@ def append_cost_row(
         cache_read=int(cache_read),
         cache_create=int(cache_create),
         cost_usd=cost,
+        engine=engine,
     )
     # F34-second (2026-05-25): fcntl LOCK_EX critical section around append.
     # When run_windowed runs with max_workers > 1, parallel threads append
@@ -317,6 +325,53 @@ def append_gemini_cost(
         cache_read=0,
         cache_create=0,
         cost_usd=cost,
+    )
+    import fcntl as _fcntl
+    ledger = book_dir / "_system" / "cost-ledger.jsonl"
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    with ledger.open("a", encoding="utf-8") as f:
+        _fcntl.flock(f.fileno(), _fcntl.LOCK_EX)
+        try:
+            f.write(json.dumps(asdict(row)) + "\n")
+            f.flush()
+        finally:
+            _fcntl.flock(f.fileno(), _fcntl.LOCK_UN)
+    return row
+
+
+def append_elevenlabs_cost(
+    book_dir: Path,
+    *,
+    phase: str,
+    step: str,
+    credits: int,
+    char_count: int = 0,
+    ts: str | None = None,
+) -> CostRow:
+    """Audio Engine v2: append a cost row for ElevenLabs synthesis credits.
+
+    ``credits`` is the EXACT figure from the subscription meter delta (the
+    experiment's pattern), not an estimate. Stored in ``input_tokens`` (the
+    natural counter for this service, mirroring the docintel pages pattern);
+    ``output_tokens`` carries the billable character count for audit.
+    ``cost_usd`` is the NOTIONAL plan-rate conversion from
+    _audio_engines.credits_to_usd — credits are the real meter.
+    """
+    try:
+        from _audio_engines import credits_to_usd
+        usd = credits_to_usd(credits)
+    except Exception:  # noqa: BLE001 — pricing helper must never block the ledger
+        usd = 0.0
+    row = CostRow(
+        ts=ts or _now_iso(),
+        phase=phase,
+        step=step,
+        model="elevenlabs-eleven-v3",
+        input_tokens=int(credits),
+        output_tokens=int(char_count),
+        cache_read=0,
+        cache_create=0,
+        cost_usd=usd,
     )
     import fcntl as _fcntl
     ledger = book_dir / "_system" / "cost-ledger.jsonl"
@@ -466,35 +521,26 @@ def append_from_claude_p_stdout(
     `_chunking.py` and `_authoring.py` once P6.1 integrates with those.
     """
     usage = parse_usage_from_stdout(stdout)
-    # If the JSON path produced an authoritative cost_usd, prefer it over
-    # our PRICING_USD_PER_MILLION calculation (Claude's own ledger is
-    # authoritative for any model + tier combination).
-    if usage.get("cost_usd", 0.0) > 0:
-        row = CostRow(
-            ts=ts or _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            phase=phase,
-            step=step,
-            model=model,
-            input_tokens=int(usage["input"]),
-            output_tokens=int(usage["output"]),
-            cache_read=int(usage["cache_read"]),
-            cache_create=int(usage["cache_create"]),
-            cost_usd=float(usage["cost_usd"]),
-        )
-        ledger_path = book_dir / "_system" / "cost-ledger.jsonl"
-        ledger_path.parent.mkdir(parents=True, exist_ok=True)
-        with ledger_path.open("a", encoding="utf-8") as f:
-            f.write(json.dumps(asdict(row)) + "\n")
-        return row
-    # Fall through to the legacy path that computes from PRICING_USD_PER_MILLION
-    return append_cost_row(
-        book_dir,
+    # Claude Max (`claude -p`) is flat-rate — real marginal cost is $0.
+    # We record token counts for usage tracking but cost_usd is always 0.0.
+    # The notional price from Claude's own JSON (usage["cost_usd"]) is what
+    # you would pay on the metered API; on Max it does not apply.
+    # Exception: if token usage exceeds the Max subscription cap, the caller
+    # must pass cost_usd explicitly via append_cost_row with engine="api".
+    row = CostRow(
+        ts=ts or _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         phase=phase,
         step=step,
         model=model,
-        input_tokens=usage["input"],
-        output_tokens=usage["output"],
-        cache_read=usage["cache_read"],
-        cache_create=usage["cache_create"],
-        ts=ts,
+        input_tokens=int(usage["input"]),
+        output_tokens=int(usage["output"]),
+        cache_read=int(usage["cache_read"]),
+        cache_create=int(usage["cache_create"]),
+        cost_usd=0.0,   # $0 real — covered by flat-rate Max subscription
+        engine="max",
     )
+    ledger_path = book_dir / "_system" / "cost-ledger.jsonl"
+    ledger_path.parent.mkdir(parents=True, exist_ok=True)
+    with ledger_path.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(asdict(row)) + "\n")
+    return row

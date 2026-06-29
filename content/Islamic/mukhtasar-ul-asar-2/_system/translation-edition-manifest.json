@@ -1,0 +1,125 @@
+{
+  "schema": "podcast.translation-edition/v1",
+  "mode": "translation_edition",
+  "augmentation": "forbidden",
+  "visual_style": "black_white",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "The Marketplace: Honest Earning, Trade, and Property",
+      "chapter_file": "chapters/ch01-the-marketplace-honest-earning-trade-and-property.txt",
+      "source_line_ranges": [
+        [
+          56,
+          629
+        ]
+      ],
+      "source_words": 27956,
+      "output_words": 30309
+    },
+    {
+      "index": 2,
+      "title": "Binding Words: Oaths, Vows, and Their Atonement",
+      "chapter_file": "chapters/ch02-binding-words-oaths-vows-and-their-atonement.txt",
+      "source_line_ranges": [
+        [
+          645,
+          741
+        ]
+      ],
+      "source_words": 3770,
+      "output_words": 1099
+    },
+    {
+      "index": 3,
+      "title": "The Body's Portion: Food, Drink, and Healing",
+      "chapter_file": "chapters/ch03-the-body-s-portion-food-drink-and-healing.txt",
+      "source_line_ranges": [
+        [
+          759,
+          1074
+        ]
+      ],
+      "source_words": 11570,
+      "output_words": 12233
+    },
+    {
+      "index": 4,
+      "title": "What We Wear: Dress, Adornment, and Fragrance",
+      "chapter_file": "chapters/ch04-what-we-wear-dress-adornment-and-fragrance.txt",
+      "source_line_ranges": [
+        [
+          1091,
+          1201
+        ]
+      ],
+      "source_words": 4091,
+      "output_words": 4582
+    },
+    {
+      "index": 5,
+      "title": "The Hunt and the Knife: Game, Slaughter, and Sacrifice",
+      "chapter_file": "chapters/ch05-the-hunt-and-the-knife-game-slaughter-and-sacrifice.txt",
+      "source_line_ranges": [
+        [
+          1221,
+          1369
+        ]
+      ],
+      "source_words": 6072,
+      "output_words": 6386
+    },
+    {
+      "index": 6,
+      "title": "Marriage and the Household",
+      "chapter_file": "chapters/ch06-marriage-and-the-household.txt",
+      "source_line_ranges": [
+        [
+          1379,
+          2033
+        ]
+      ],
+      "source_words": 24949,
+      "output_words": 28431
+    },
+    {
+      "index": 7,
+      "title": "When a Marriage Ends: Divorce and Separation",
+      "chapter_file": "chapters/ch07-when-a-marriage-ends-divorce-and-separation.txt",
+      "source_line_ranges": [
+        [
+          2045,
+          2289
+        ]
+      ],
+      "source_words": 10449,
+      "output_words": 9361
+    },
+    {
+      "index": 8,
+      "title": "Freedom, Generosity, and the Division of Estates",
+      "chapter_file": "chapters/ch08-freedom-generosity-and-the-division-of-estates.txt",
+      "source_line_ranges": [
+        [
+          2298,
+          2476
+        ]
+      ],
+      "source_words": 9722,
+      "output_words": 11350
+    },
+    {
+      "index": 9,
+      "title": "Wrong and Redress: Crime, Property Disputes, and the Judge",
+      "chapter_file": "chapters/ch09-wrong-and-redress-crime-property-disputes-and-the-judge.txt",
+      "source_line_ranges": [
+        [
+          2482,
+          2862
+        ]
+      ],
+      "source_words": 7714,
+      "output_words": 7366
+    }
+  ]
+}

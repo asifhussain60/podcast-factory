@@ -26,6 +26,22 @@
   flex-wrap: wrap;
 }
 
+/* Breadcrumb home — every subnav step page links back to the Studio hub and
+   to this book's overview (its tabs), so there's always a way out of a step. */
+.studio-subnav-crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--c-ink-dim);
+}
+.studio-subnav-crumb a { color: var(--c-ink-dim); text-decoration: none; }
+.studio-subnav-crumb a:hover { color: var(--c-accent); text-decoration: underline; }
+.studio-subnav-crumb a:last-child { color: var(--c-ink); }
+.studio-subnav-crumb-sep { color: var(--c-ink-muted); }
+
 /* ── Book selector (pure <details>) ────────────────────── */
 .studio-bookpick {
   position: relative;
@@ -167,6 +183,29 @@
   gap: 1.25rem;
 }
 
+/* Edit & Enrich is a working cockpit, not a reading article: it takes the full
+   viewport width (minus modest gutters) so all three panels get real estate.
+   A high ceiling keeps lines sane on ultra-wide monitors. */
+.studio-step-body--wide {
+  max-width: 2400px;
+  padding: var(--sp-4, 1rem) var(--sp-5, 1.5rem) var(--sp-6, 2rem);
+  gap: 0.6rem;
+}
+
+/* Slim edit-surface toggle (Rich editor ⇄ Pipeline workbench) — one quiet line. */
+.studio-editview-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--c-ink-muted);
+}
+.studio-editview-toggle a { color: var(--c-ink-muted); text-decoration: none; }
+.studio-editview-toggle a:hover { color: var(--c-accent); text-decoration: underline; }
+.studio-editview-toggle .is-current { color: var(--c-ink); }
+
 .studio-eyebrow {
   display: inline-block;
   font-size: 0.7rem;
@@ -185,7 +224,6 @@
 .studio-step-head p {
   margin: 0.35rem 0 0;
   color: var(--c-ink-muted);
-  max-width: 70ch;
 }
 
 .studio-panel {
@@ -277,11 +315,388 @@
   .studio-step-detail { display: none; }
 }
 
+/* ════════════════════════════════════════════════════════════
+   Bookshelf layout — grouped by content bucket
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Picker container — tighten gap for shelf sections ───── */
+.studio-picker { gap: 2rem; }
+
+/* ── Column of shelf sections ────────────────────────────── */
+.studio-shelves {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+/* ── One shelf section ───────────────────────────────────── */
+.studio-shelf {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Shelf header: icon + title/desc + count badge ───────── */
+.studio-shelf-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.studio-shelf-icon-wrap {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+  /* background and color overridden per bucket below */
+  background: var(--c-bg-sunken);
+  color: var(--c-ink-muted);
+  border: 1px solid var(--c-rule);
+}
+
+.studio-shelf-title-group {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--c-rule-soft);
+}
+
+.studio-shelf-name {
+  font-family: 'EB Garamond', 'Source Serif 4', Georgia, serif;
+  font-size: 1.45rem;
+  font-weight: 500;
+  color: var(--c-ink);
+  margin: 0 0 0.2rem;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.studio-shelf-desc {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--c-ink-muted);
+  font-family: var(--font-body);
+}
+
+.studio-shelf-count {
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+  font-family: var(--font-body);
+  background: var(--c-bg-sunken);
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--c-rule);
+  margin-top: 0.25rem;
+  white-space: nowrap;
+}
+
+/* ════════════════════════════════════════════════════════════
+   Per-category card design system (single source of truth)
+
+   Each content bucket owns ONE accent variable, --shelf-accent,
+   set on its shelf section. EVERY category-aware element — shelf
+   icon, title underline, card top strip, hover ring, script-panel
+   tint, script icon, volume badge — derives from it via color-mix
+   so the tints stay light and theme-consistent. Adding a bucket or
+   re-hueing one is a one-line change; new card elements should use
+   var(--shelf-accent) and never name a colour directly.
+   ════════════════════════════════════════════════════════════ */
+.studio-shelf { --shelf-accent: var(--c-accent); }            /* fallback: saddle brown */
+.studio-shelf[data-bucket="Islamic"]   { --shelf-accent: var(--c-gold); }    /* dark goldenrod */
+.studio-shelf[data-bucket="Fiction"]   { --shelf-accent: #6a1b9a; }          /* literary plum  */
+.studio-shelf[data-bucket="Technical"] { --shelf-accent: var(--c-planner); } /* slate blue     */
+.studio-shelf[data-bucket="Guides"]    { --shelf-accent: var(--c-green); }   /* forest green   */
+
+.studio-shelf .studio-shelf-icon-wrap {
+  background: color-mix(in oklab, var(--shelf-accent) 11%, var(--c-bg-card));
+  color: var(--shelf-accent);
+  border-color: color-mix(in oklab, var(--shelf-accent) 28%, var(--c-rule));
+}
+.studio-shelf .studio-shelf-title-group {
+  border-bottom-color: color-mix(in oklab, var(--shelf-accent) 26%, var(--c-rule-soft));
+}
+
+/* ── Shelf card-grid wrapper (plank strip removed 2026-06-10) ── */
+.studio-shelf-floor-wrap {
+  position: relative;
+}
+
+/* ── Card grid within each shelf ─────────────────────────── */
+.studio-shelf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.85rem;
+}
+
+/* ── Enhanced shelf card ─────────────────────────────────── */
+.studio-shelf-card {
+  position: relative;
+  overflow: hidden;
+  padding: 0;  /* card-script-wrap / card-body-wrap own their padding */
+  gap: 0;
+  transition: border-color 130ms, transform 130ms, box-shadow 130ms;
+}
+
+/* Coloured accent strip at card top */
+.studio-shelf-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+}
+
+/* Strip + hover ring — category accent via the design system */
+.studio-shelf .studio-shelf-card::before { background: var(--shelf-accent); }
+
+.studio-shelf .studio-shelf-card:hover {
+  border-color: var(--shelf-accent);
+  box-shadow: 0 4px 14px color-mix(in oklab, var(--shelf-accent) 16%, transparent);
+}
+
+/* ── Card interior layout ───────────────────────────────────────────────────
+   card-script-wrap  — native-script header (Arabic / Chinese, conditional)
+   card-body-wrap    — English title, author, pipeline status bar
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* Script panel: always rendered — icon alone for non-script cards, icon + text for Arabic/Chinese */
+.card-script-wrap {
+  padding: 1.1rem 1.2rem 0.9rem;
+  background: var(--c-bg-sunken);
+  border-bottom: 1px solid var(--c-rule-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Per-book icon inside the script panel */
+.card-script-icon {
+  font-size: 1.6rem;   /* large when no native script text follows */
+  line-height: 1;
+}
+
+/* Smaller icon when Arabic/Chinese text follows */
+.card-script-wrap.has-script .card-script-icon {
+  font-size: 1.1rem;
+  margin-bottom: 0.05rem;
+}
+
+/* Icon colour in script panel — category accent */
+.studio-shelf .card-script-icon { color: var(--shelf-accent); }
+
+/* Arabic script — centred, Amiri, maroon */
+.card-script-text[lang="ar"] {
+  display: block;
+  font-family: 'Amiri', 'Noto Naskh Arabic', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: 0;
+  color: #7B1414;
+  text-align: center;
+}
+
+/* Chinese (and other LTR scripts) — system CJK stack */
+.card-script-text[lang="zh"] {
+  display: block;
+  font-family: 'PingFang SC', 'Noto Sans CJK SC', 'Hiragino Sans GB', system-ui, serif;
+  font-size: 1.45rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--c-ink);
+  text-align: left;
+}
+
+/* Script-panel tint — light category wash via the design system */
+.studio-shelf .card-script-wrap {
+  background: color-mix(in oklab, var(--shelf-accent) 6%, var(--c-bg-card));
+  border-bottom-color: color-mix(in oklab, var(--shelf-accent) 20%, var(--c-rule-soft));
+}
+
+/* Card body wrapper — flex column, fills remaining height */
+.card-body-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.9rem 1.1rem 1rem;
+  text-align: center;
+}
+
+/* Identity block: English title + author, centred */
+.card-identity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+/* English translation — Cinzel: Roman-inscription serif, all-caps by design */
+.card-title-en {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-ink);
+  margin: 0;
+  line-height: 1.55;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  text-align: center;
+}
+
+/* Volume badge — between title and author; category accent via the design system */
+.card-volume-badge {
+  display: inline-flex;
+  align-items: center;
+  margin: 0.25rem 0 0.1rem;
+  padding: 0.22rem 0.85rem;
+  border-radius: 999px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--shelf-accent, var(--c-accent));
+  background: color-mix(in oklab, var(--shelf-accent, var(--c-accent)) 10%, var(--c-bg-card));
+  border: 1px solid color-mix(in oklab, var(--shelf-accent, var(--c-accent)) 35%, var(--c-rule));
+}
+
+.card-author {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--c-ink-muted);
+  line-height: 1.3;
+  text-align: center;
+}
+
+/* One-line book description above the pipeline status */
+.card-blurb {
+  margin: 0.5rem 0 0;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--c-ink-muted);
+  line-height: 1.45;
+  text-align: center;
+}
+
+/* Pipeline status: pushed to the bottom of the card body */
+.card-pipeline-status {
+  margin-top: auto;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--c-rule-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+/* Status line — centred, one line with ellipsis */
+.card-pipeline-status .studio-picker-step {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+/* ── Toolbar: filter chips left, "New content" right ─────── */
+.studio-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Primary "New content" action — deliberately distinct from the filter
+   buttons: solid mid-dark fill, light text, 2px soft-rounded border. */
+.studio-toolbar .studio-new-content-link {
+  padding: 0.6rem 1.15rem;
+  border-radius: 12px;
+  gap: 0.5rem;
+  border: 2px solid color-mix(in oklab, var(--c-accent) 65%, var(--c-ink));
+  background: var(--c-accent);
+  color: var(--c-bg-card);
+  box-shadow:
+    0 1px 2px color-mix(in oklab, var(--c-ink) 12%, transparent),
+    0 2px 8px color-mix(in oklab, var(--c-accent) 22%, transparent);
+}
+
+.studio-toolbar .studio-new-content-link:hover {
+  background: color-mix(in oklab, var(--c-ink) 12%, var(--c-accent));
+  border-color: color-mix(in oklab, var(--c-accent) 45%, var(--c-ink));
+  color: var(--c-bg-card);
+}
+
+.studio-new-content-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem 0.75rem 1rem;
+  border: 1.5px dashed var(--c-rule);
+  border-radius: 12px;
+  background: var(--c-bg-card);
+  text-decoration: none;
+  color: var(--c-ink-dim);
+  transition: border-color 130ms, background 130ms, color 130ms;
+}
+
+.studio-new-content-link:hover {
+  border-color: var(--c-accent);
+  background: color-mix(in oklab, var(--c-accent) 5%, var(--c-bg-card));
+  color: var(--c-accent);
+  text-decoration: none;
+}
+
+.studio-new-content-link i {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.studio-new-content-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: inherit;
+}
+
+/* ── Focus rings for new shelf elements ──────────────────── */
+.studio-shelf-card:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.studio-new-content-link:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .studio-shelf-grid { grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); }
+  .studio-shelf-name { font-size: 1.25rem; }
+  .studio-shelf-desc { display: none; }
+}
+
+@media (max-width: 480px) {
+  .studio-shelf-grid { grid-template-columns: 1fr; } /* single column avoids cramped cards */
+  .studio-shelf-header { gap: 0.65rem; }
+  .studio-shelf-icon-wrap { width: 2.2rem; height: 2.2rem; font-size: 1rem; }
+}
+
 /* ── Content-level selector (Wave L-7) ─────────────────────────────── */
 .cl-intro {
   color: var(--c-ink-dim);
   margin-bottom: 1rem;
-  max-width: 60ch;
 }
 .cl-selector { display: flex; flex-direction: column; gap: 0.75rem; }
 .cl-options {
@@ -317,3 +732,199 @@
 .cl-status { font-size: 0.85rem; color: var(--c-ink-dim); min-height: 1.2em; }
 .cl-status[data-state="saved"] { color: var(--c-green); }
 .cl-status[data-state="error"] { color: var(--c-red); }
+
+/* ── Multi-volume series deck (collapsible "deck of cards") ──────────────── */
+/* Wrapper holds the stacked sheets behind the front; the <summary> reuses the
+   standalone-book card design (.studio-picker-card .studio-shelf-card). */
+.studio-series-deck { position: relative; margin: 0 12px 16px 0; }
+.studio-series-deck::before,
+.studio-series-deck::after {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background: var(--c-bg-card);
+  border: 1.5px solid color-mix(in oklab, var(--c-ink) 34%, var(--c-rule));
+  border-radius: 14px;
+  pointer-events: none;
+}
+.studio-series-deck::before { transform: translate(6px, 6px); }
+.studio-series-deck::after  { transform: translate(12px, 12px); }
+.studio-series-deck[open]::before,
+.studio-series-deck[open]::after { display: none; }
+.studio-series-deck[open] { grid-column: 1 / -1; }   /* fan to full width when open */
+
+.studio-series-summary {
+  position: relative; z-index: 1; cursor: pointer; list-style: none;
+  /* layout + border + bg inherited from .studio-picker-card .studio-shelf-card */
+}
+.studio-series-summary::-webkit-details-marker { display: none; }
+.studio-series-summary::marker { content: ''; }
+.studio-series-summary:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.studio-series-deck:hover .studio-series-summary { border-color: var(--shelf-accent, var(--c-accent)); transform: translateY(-1px); }
+.studio-series-count {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
+  margin-top: 0.1rem; color: var(--c-accent); font-size: 0.8rem; font-weight: 600;
+}
+.studio-series-chevron { transition: transform 160ms ease; }
+.studio-series-deck[open] .studio-series-chevron { transform: rotate(180deg); }
+
+/* expanded volume list (below the front card when open) */
+.studio-series-volumes {
+  position: relative; z-index: 1;
+  list-style: none; margin: 0.6rem 0 0; padding: 0;
+  display: flex; flex-direction: column; gap: 0.4rem;
+  animation: studioSeriesFan 200ms ease both;
+}
+@keyframes studioSeriesFan { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .studio-series-volumes { animation: none; } }
+.studio-series-vol {
+  display: flex; align-items: center; gap: 0.85rem;
+  padding: 0.6rem 0.8rem; border-radius: 10px;
+  text-decoration: none; color: var(--c-ink);
+  border: 1px solid var(--c-rule); background: var(--c-bg-card);
+  transition: background 140ms ease, border-color 140ms ease;
+}
+.studio-series-vol:hover {
+  background: color-mix(in oklab, var(--c-accent) 7%, var(--c-bg-card));
+  border-color: color-mix(in oklab, var(--c-accent) 34%, var(--c-rule));
+}
+.studio-series-vol:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.studio-series-vol-order {
+  flex: none; width: 1.7rem; height: 1.7rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: color-mix(in oklab, var(--c-gold) 22%, transparent);
+  color: var(--c-accent); font-weight: 700; font-size: 0.85rem;
+}
+.studio-series-vol-title { font-weight: 600; flex: 1; min-width: 0; }
+.studio-series-vol-status { color: var(--c-ink-muted); font-size: 0.85rem; white-space: nowrap; }
+
+/* ════════════════════════════════════════════════════════════
+   Studio picker — lifecycle status filter chips
+   ════════════════════════════════════════════════════════════ */
+.studio-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* Single-select filter buttons — soft rounded corners with depth */
+.studio-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.6rem 1.15rem;
+  border-radius: 12px;
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg-elev);
+  color: var(--c-ink-muted);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow:
+    0 1px 2px color-mix(in oklab, var(--c-ink) 8%, transparent),
+    0 2px 6px color-mix(in oklab, var(--c-ink) 6%, transparent);
+  transition: border-color 150ms ease, background 150ms ease, color 150ms ease,
+    box-shadow 150ms ease, transform 150ms ease;
+}
+
+.studio-filter-chip:hover {
+  border-color: color-mix(in oklab, var(--c-accent) 40%, var(--c-rule));
+  color: var(--c-ink);
+  transform: translateY(-1px);
+  box-shadow:
+    0 2px 4px color-mix(in oklab, var(--c-ink) 10%, transparent),
+    0 4px 10px color-mix(in oklab, var(--c-ink) 8%, transparent);
+}
+
+.studio-filter-chip[aria-pressed="true"] {
+  background: color-mix(in oklab, var(--c-accent) 12%, var(--c-bg-card));
+  border-color: color-mix(in oklab, var(--c-accent) 50%, var(--c-rule));
+  color: var(--c-accent);
+  box-shadow:
+    inset 0 1px 2px color-mix(in oklab, var(--c-accent) 18%, transparent),
+    0 1px 2px color-mix(in oklab, var(--c-ink) 6%, transparent);
+  transform: none;
+}
+
+.studio-filter-chip:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.studio-filter-chip-count {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: var(--c-bg-sunken);
+  border: 1px solid var(--c-rule);
+  border-radius: 999px;
+  padding: 0.05rem 0.45rem;
+  color: var(--c-ink-muted);
+}
+
+.studio-filter-chip[aria-pressed="true"] .studio-filter-chip-count {
+  background: color-mix(in oklab, var(--c-accent) 18%, var(--c-bg-card));
+  border-color: color-mix(in oklab, var(--c-accent) 40%, var(--c-rule));
+  color: var(--c-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-filter-chip { transition: none; }
+}
+
+/* ── Audio Engine v2 — engine + rendered-credit spend (publish step) ─────── */
+
+.studio-audio-meta {
+  margin: 0.75rem 0 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.studio-audio-meta-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+}
+
+.studio-audio-meta-row dt {
+  flex: 0 0 9.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-ink-muted);
+}
+
+.studio-audio-meta-row dd {
+  margin: 0;
+  color: var(--c-ink);
+}
+
+.studio-panel .studio-audio-meta-note {
+  margin: 0.75rem 0 0;
+  color: var(--c-ink-dim);
+}
+
+/* ── Book command-palette (replaces the book dropdown) ─────────────────── */
+.studio-bookpick-trigger {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  font: inherit; padding: 0.4rem 0.85rem; border-radius: 10px;
+  border: 1px solid var(--c-rule); background: var(--c-bg-card); color: var(--c-ink); cursor: pointer;
+  transition: border-color 130ms ease;
+}
+.studio-bookpick-trigger:hover { border-color: var(--c-accent); }
+.studio-bookpick-trigger:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.studio-bookpick-eyebrow { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-ink-muted); }
+.studio-bookpick-current { font-weight: 700; }
+.studio-bookpick-kbd { margin-left: 0.3rem; font-size: 0.7rem; padding: 0.1rem 0.35rem; border-radius: 5px; background: color-mix(in oklab, var(--c-ink) 8%, transparent); color: var(--c-ink-muted); }
+[cmdk-overlay] { position: fixed; inset: 0; background: color-mix(in oklab, var(--c-ink) 45%, transparent); z-index: 100; }
+[cmdk-dialog] { position: fixed; top: 16vh; left: 50%; transform: translateX(-50%); width: min(36rem, 92vw); z-index: 101; }
+.book-palette { background: var(--c-bg-elev, var(--c-bg-card)); border: 1px solid var(--c-rule); border-radius: 14px; box-shadow: 0 12px 40px color-mix(in oklab, var(--c-ink) 30%, transparent); overflow: hidden; }
+.book-palette-input { width: 100%; box-sizing: border-box; font: inherit; font-size: 1rem; padding: 0.9rem 1rem; border: none; border-bottom: 1px solid var(--c-rule); background: transparent; color: var(--c-ink); outline: none; }
+.book-palette-list { max-height: 50vh; overflow-y: auto; padding: 0.4rem; }
+.book-palette-empty { padding: 1rem; color: var(--c-ink-muted); font-size: 0.9rem; }
+.book-palette-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 0.7rem; border-radius: 8px; cursor: pointer; color: var(--c-ink); }
+.book-palette-item[data-selected="true"] { background: color-mix(in oklab, var(--c-accent) 12%, transparent); }
+.book-palette-item i { color: var(--c-accent); width: 1.1rem; text-align: center; }
+.book-palette-item-title { flex: 1; min-width: 0; }
+.book-palette-tag { font-size: 0.65rem; text-transform: uppercase; color: var(--c-ink-muted); }
+.book-palette-new { border-top: 1px solid var(--c-rule); margin-top: 0.3rem; }

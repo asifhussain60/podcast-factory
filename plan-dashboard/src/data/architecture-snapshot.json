@@ -102,6 +102,34 @@
   ],
   "agents": [
     {
+      "id": "book-challenger",
+      "name": "Book Challenger",
+      "role": "Semantic-quality challenger for the companion reading edition (PDF path \u2014 `BOOK_",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Semantic-quality challenger for the companion reading edition (PDF path \u2014 `BOOK_DIR/book/book.md` + `book/book-toc.json`). Validates everything the deterministic compose step cannot statically catch: no-teaching-lost across the whole boo\u2026",
+      "what_it_knows": "See infra/claude-agents/book-challenger.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
+    {
+      "id": "book-publisher",
+      "name": "Book Publisher",
+      "role": "Physical delivery agent for podcast-factory books",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Physical delivery agent for podcast-factory books. Copies a book's audio episodes (m4a) and reading-edition PDF to a target folder \u2014 typically a Google Drive per-book subfolder. Accepts `<book-slug>` plus an optional `<target-folder>`; i\u2026",
+      "what_it_knows": "See infra/claude-agents/book-publisher.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
+    {
       "id": "html-view-challenger",
       "name": "Html View Challenger",
       "role": "Conformance challenger for HTML views, Astro pages, components, and diagrams on ",
@@ -109,6 +137,20 @@
       "tone": "neutral",
       "plain": "Conformance challenger for HTML views, Astro pages, components, and diagrams on the Podcast Factory Astro Site (directory plan-dashboard/). Validates a built view against the Cortex HTML View Quality Standard (the 74 REQ-NNN rules in doc\u2026",
       "what_it_knows": "See infra/claude-agents/html-view-challenger.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
+    {
+      "id": "noise-auditor",
+      "name": "Noise Auditor",
+      "role": "Cross-surface noise auditor for podcast-factory books",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Cross-surface noise auditor for podcast-factory books. Detects AUTHORIAL-APPARATUS noise \u2014 clean authorial prose that is non-teaching meta-content about the book ITSELF (how it was recorded, authorized, transmitted, and may be circulated\u2026",
+      "what_it_knows": "See infra/claude-agents/noise-auditor.md",
       "boundary_in": "",
       "boundary_out": "",
       "does_not": "",
@@ -340,7 +382,38 @@
       "failure_mode": "surfaces error and halts"
     }
   ],
-  "layers": [],
+  "layers": [
+    {
+      "id": 1,
+      "name": "Foundation",
+      "plain": "Files everything else depends on: paths, the database, the rule registry, branch naming."
+    },
+    {
+      "id": 2,
+      "name": "House style",
+      "plain": "Doctrinal rules, the archetype registry, the cost ledger, the shared context contract."
+    },
+    {
+      "id": 3,
+      "name": "Intelligence",
+      "plain": "The extractor, the librarian, the augmenter \u2014 the parts that read, remember, and enrich."
+    },
+    {
+      "id": 4,
+      "name": "Authoring",
+      "plain": "The pieces that actually write framings, capstones, prefaces, augmentations."
+    },
+    {
+      "id": 5,
+      "name": "Stations",
+      "plain": "One file per pipeline station. Thin orchestration that calls the layers below."
+    },
+    {
+      "id": 6,
+      "name": "Driver",
+      "plain": "A single thin driver that walks the station order. Hands off to each station in turn."
+    }
+  ],
   "adrs": [
     {
       "id": "DR-001",
@@ -423,8 +496,69 @@
       "plain": "FAISS sidecar pattern: vectors separate from metadata, rebuilt from SQLite"
     }
   ],
-  "modules": [],
-  "archetypes": [],
-  "generated_at": "2026-06-04T09:25:58.898479+00:00",
-  "source_commit": "74f7dd5"
+  "modules": [
+    {
+      "id": "archetype-registry",
+      "name": "Book-kind recognizer",
+      "plain": "A small registry that knows the rules for each kind of book \u2014 a play-novel reads differently than a scholarly treatise. Adding support for a new kind of book means adding one entry here, never rewriting the pipeline."
+    },
+    {
+      "id": "doctrinal-rules",
+      "name": "House style guard",
+      "plain": "A collection of constraints that apply across every book \u2014 how the Imam is referred to, what tone the narrators adopt, what topics are out of bounds. Enforced at every station."
+    },
+    {
+      "id": "anti-cliche-registry",
+      "name": "Clich\u00e9 blocker",
+      "plain": "A growing list of phrases and openings the system has learned to avoid \u2014 banal welcomes, overused metaphors, podcast clich\u00e9s that flatten the source's voice."
+    },
+    {
+      "id": "context-injection",
+      "name": "Shared context",
+      "plain": "The single contract through which all background context flows into the narrator framings. One place to change what context the system passes around."
+    },
+    {
+      "id": "phonetic-glossary",
+      "name": "Pronunciation guide",
+      "plain": "A per-book mapping of every name and term in the book to its phonetic spelling \u2014 so the narrator says \"Ibn al-Walid\" the way the source intends, not the way English spelling suggests."
+    },
+    {
+      "id": "augmenter",
+      "name": "Outside-knowledge gatherer",
+      "plain": "Pulls modern research and cross-references that strengthen an episode without distorting the source \u2014 used carefully, off by default for sensitive books."
+    },
+    {
+      "id": "challenger",
+      "name": "Quality reviewer",
+      "plain": "Reads every episode bundle and every framing the way a careful editor would, flags problems by severity, and pushes them back for correction. Loops until convergence."
+    },
+    {
+      "id": "slide-deck-challenger",
+      "name": "Slide deck reviewer",
+      "plain": "The visual counterpart of the quality reviewer \u2014 checks every slide for restatement, literal illustration, structural value, and audio-deck divergence."
+    }
+  ],
+  "archetypes": [
+    {
+      "id": "play-novel",
+      "books": [
+        "asaas-al-taveel"
+      ]
+    },
+    {
+      "id": "scholarly-treatise",
+      "books": [
+        "kitab-al-riyad",
+        "the-master-and-the-disciple"
+      ]
+    },
+    {
+      "id": "letter",
+      "books": [
+        "ayyuhal-walad"
+      ]
+    }
+  ],
+  "generated_at": "2026-06-29T06:11:29-04:00",
+  "source_commit": "29e1c0c5"
 }

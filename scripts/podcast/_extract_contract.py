@@ -11,9 +11,9 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from _rules import ALLOWED_CATEGORIES  # F3: single source of truth for valid categories
 from typing import Any
 
+from _contract_validation import REQUIRED_FIELDS, validate_contract_full  # FIX 14: one validator, four gates
 from _extract_yaml import load_yaml
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -59,8 +59,8 @@ class ResolvedChapter:
 # Contract resolution
 # ─────────────────────────────────────────────────────────────────────────────
 
-REQUIRED_FIELDS = ["chapter_ref", "slug", "source_type", "title", "audience", "angle",
-                   "host_dynamic", "key_tensions"]
+# REQUIRED_FIELDS now lives in _contract_validation.py (FIX 14) and is re-imported
+# above so existing `from _extract_contract import REQUIRED_FIELDS` callers keep working.
 
 
 @dataclass
@@ -117,77 +117,31 @@ def stub_contract(chapter: ResolvedChapter) -> dict[str, Any]:
 
 
 def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
-    missing = [k for k in REQUIRED_FIELDS if c.get(k) in (None, "", [])]
-    if missing:
+    """FIX 14: thin sys.exit wrapper over _contract_validation.validate_contract_full.
+
+    ALL contract rules (required fields, slug↔file match, title discipline,
+    angle/adaptation_mode/source_type enums, episode_format enum, full debate
+    block schema, R-HOST-ROLE-PARITY role enums) live in
+    _contract_validation.py — the single source of truth shared with the $0
+    smoke gate, pipeline_lint, and the Phase-0d post-write gate. Do NOT add
+    inline checks here; add them there so every gate inherits them.
+    """
+    findings = validate_contract_full(
+        c.raw, chapter.path, chapter.path.parents[1], contract_path=c.path,
+    )
+    if findings:
         loc = c.path or "(stub)"
         sys.exit(
-            f"ERROR: contract at {loc} is missing required fields: {', '.join(missing)}.\n"
-            f"  See scripts/podcast/extract_chapter.py::stub_contract() for the canonical schema."
-        )
-    if c.get("slug") != chapter.chapter_slug:
-        sys.exit(
-            f"ERROR: contract.slug ({c.get('slug')!r}) does not match "
-            f"chapter slug ({chapter.chapter_slug!r}).\n"
-            f"  Under the 1:1 chapter ↔ episode mapping (SKILL.md §0), these must match exactly."
+            f"ERROR: contract at {loc} failed validation ({len(findings)} finding(s)):\n"
+            + "\n".join(f"  - {f}" for f in findings)
+            + "\n  See scripts/podcast/_contract_validation.py for the canonical rules\n"
+            f"  and scripts/podcast/extract_chapter.py::stub_contract() for the schema."
         )
 
-    # INVARIANT 6 (SKILL.md §0): per-chapter title is concise + unique within the book.
-    if c.path is not None:
-        title = c.get("title")
-        if isinstance(title, str):
-            stripped = title.strip()
-            if not stripped or stripped.startswith("[TODO]"):
-                sys.exit(
-                    f"ERROR: contract.title at {c.path} is a TODO placeholder. Set a real "
-                    f"concise title (≤ 60 chars; ≤ 6 words; unique within the book) before "
-                    f"extracting."
-                )
-            if len(stripped) > 60:
-                sys.exit(
-                    f"ERROR: contract.title is {len(stripped)} chars (>60). "
-                    f"Per SKILL.md INVARIANT 6, chapter titles must be concise."
-                )
-            # Uniqueness within the book: scan sibling contracts.
-            contracts_dir = c.path.parent
-            collisions: list[str] = []
-            for sibling in sorted(contracts_dir.glob("*.yml")):
-                if sibling == c.path:
-                    continue
-                try:
-                    other = load_yaml(sibling.read_text(encoding="utf-8"))
-                except Exception:
-                    continue
-                other_title = (other.get("title") or "").strip()
-                if other_title and other_title.lower() == stripped.lower():
-                    collisions.append(f"{sibling.name}: {other_title!r}")
-            if collisions:
-                sys.exit(
-                    f"ERROR: contract.title {stripped!r} duplicates another chapter in "
-                    f"this book:\n"
-                    + "\n".join(f"    {c}" for c in collisions) +
-                    f"\n  Per SKILL.md INVARIANT 6, every chapter must have a unique title."
-                )
-    angle = c.get("angle")
-    valid_angles = {"faithful_exposition", "personal_application",
-                    "critical_dialectical", "comparative"}
-    if angle not in valid_angles:
-        sys.exit(f"ERROR: contract.angle {angle!r} not in {valid_angles}.")
-    mode = c.get("adaptation_mode")
-    valid_modes = {"faithful", "bridge", "modern_paraphrase"}
-    if mode not in valid_modes:
-        sys.exit(f"ERROR: contract.adaptation_mode {mode!r} not in {valid_modes}.")
-
-    # episode_format validation + mode-conditional required fields.
+    # P1 advisory (not a finding, never blocks): format allowed but not yet
+    # fully wired downstream — preserved verbatim from the pre-FIX-14 layer.
     episode_format = c.get("episode_format") or "deep_dive"
-    from _rules import EPISODE_FORMAT_ALLOWED, EPISODE_FORMAT_FULLY_WIRED
-    if episode_format not in EPISODE_FORMAT_ALLOWED:
-        sys.exit(
-            f"ERROR: contract.episode_format {episode_format!r} not in "
-            f"{EPISODE_FORMAT_ALLOWED}.\n"
-            f"  See infra/claude-agents/podcast-challenger.md Category P for the debate spec.\n"
-            f"  F32 extended this enum 2026-05-25; if you're using a brand-new format, "
-            f"  check _rules.EPISODE_FORMAT_ALLOWED for the current allowed set."
-        )
+    from _rules import EPISODE_FORMAT_FULLY_WIRED
     if episode_format not in EPISODE_FORMAT_FULLY_WIRED:
         print(
             f"WARNING: contract.episode_format {episode_format!r} is in "
@@ -197,67 +151,6 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
             f"This is a P1 warning per F32 plan; not a build blocker.",
             file=sys.stderr,
         )
-    if episode_format == "debate":
-        debate = c.get("debate")
-        if not isinstance(debate, dict):
-            sys.exit(
-                f"ERROR: contract.episode_format is 'debate' but contract.debate is "
-                f"null/missing.\n  Required fields: debate.proposition, debate.host_a, "
-                f"debate.host_b, debate.resolution. See debate-framing.md §Framing structure."
-            )
-        for required in ("proposition", "host_a", "host_b", "resolution"):
-            if not debate.get(required):
-                sys.exit(
-                    f"ERROR: contract.debate.{required} is missing or empty.\n"
-                    f"  See debate-framing.md §Vocabulary for what each field means."
-                )
-        valid_resolutions = {"synthesis", "open", "host_a_concedes",
-                             "host_b_concedes", "historical_division"}
-        if debate.get("resolution") not in valid_resolutions:
-            sys.exit(
-                f"ERROR: contract.debate.resolution {debate.get('resolution')!r} not in "
-                f"{valid_resolutions}."
-            )
-        for host_key in ("host_a", "host_b"):
-            host = debate.get(host_key)
-            if not isinstance(host, dict):
-                sys.exit(f"ERROR: contract.debate.{host_key} must be a mapping with role + position + source_moves.")
-            for sub in ("role", "position"):
-                if not host.get(sub):
-                    sys.exit(f"ERROR: contract.debate.{host_key}.{sub} is missing or empty.")
-
-    # source_type ↔ library/<category>/ folder coupling.
-    source_type = c.get("source_type")
-    valid_source_types = {"book-chapter", "article", "document", "lecture",
-                          "interview", "letter",
-                          "synthesized-explainer", "explainer-doc"}
-    if source_type not in valid_source_types:
-        sys.exit(f"ERROR: contract.source_type {source_type!r} not in {valid_source_types}.")
-    expected_category = {
-        "book-chapter": "books",
-        "article":      "articles",
-        "document":     "documents",
-        "lecture":      "lectures",
-        "interview":    "interviews",
-        "letter":       "letters",
-        "synthesized-explainer": "explainers",
-        "explainer-doc": "explainers",
-    }[source_type]
-    try:
-        parents = chapter.path.parents
-        actual_category = parents[2].name
-        if actual_category in ALLOWED_CATEGORIES:
-            if actual_category != expected_category:
-                sys.exit(
-                    f"ERROR: contract.source_type {source_type!r} requires the chapter to live\n"
-                    f"  under <root>/{expected_category}/<book-slug>/, but the\n"
-                    f"  chapter resolved to a path under .../{actual_category}/.\n"
-                    f"    Chapter: {chapter.path}\n"
-                    f"  Fix: either move the chapter to the {expected_category}/ category, or\n"
-                    f"  change contract.source_type to match the {actual_category}/ category."
-                )
-    except IndexError:
-        pass
 
 
 # ─────────────────────────────────────────────────────────────────────────────

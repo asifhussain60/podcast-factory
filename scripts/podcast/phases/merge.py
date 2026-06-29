@@ -13,21 +13,11 @@ from _paths import REPO_ROOT
 from _progress import read_state
 
 
-def _run(cmd: list[str], *, cwd: Path | None = None) -> tuple[int, str, str]:
-    proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
-    return proc.returncode, proc.stdout, proc.stderr
+from _subprocess import run as _run, err as _err, info as _info  # noqa: E402
 
 
 def _git(*args: str) -> tuple[int, str, str]:
     return _run(["git", *args], cwd=REPO_ROOT)
-
-
-def _err(msg: str) -> None:
-    print(f"ERROR: {msg}", file=sys.stderr)
-
-
-def _info(msg: str) -> None:
-    print(msg)
 
 
 def _book_dir_from_state(book_slug: str) -> "Path | None":
@@ -40,16 +30,24 @@ def _book_dir_from_state(book_slug: str) -> "Path | None":
 def phase_merge_to_develop(book_slug: str, category: str | None = None) -> None:
     """Fast-forward develop + merge content branch with --no-ff. Never touches main.
 
-    Branch name is derived from category via scripts/podcast/_branching.py.
-    If category is omitted (legacy callers), reads it from state.json.
+    Branch name is the one stamped in state.json when present; otherwise it is
+    derived as <Bucket>/<slug> via scripts/podcast/_branching.py, preferring the
+    book's content_profile over its legacy category.
     """
     from _branching import branch_name as _branch_name
-    if category is None:
-        bd = _book_dir_from_state(book_slug)
-        if bd is not None:
-            st = read_state(bd) or {}
+    branch = None
+    bd = _book_dir_from_state(book_slug)
+    if bd is not None:
+        st = read_state(bd) or {}
+        if category is None:
             category = st.get("category")
-    branch = _branch_name(category, book_slug)
+        stamped = st.get("branch")
+        if stamped:
+            branch = stamped
+        else:
+            branch = _branch_name(category, book_slug, profile=st.get("content_profile"))
+    if branch is None:
+        branch = _branch_name(category, book_slug)
     rc, _, err = _git("checkout", "develop")
     if rc != 0:
         raise RuntimeError(f"`git checkout develop` failed: {err}")
@@ -64,7 +62,14 @@ def phase_merge_to_develop(book_slug: str, category: str | None = None) -> None:
         f"Merge branch '{branch}' into develop",
     )
     if rc != 0:
-        raise RuntimeError(f"`git merge --no-ff {branch}` failed: {err}")
+        # Leave develop clean: a conflicted half-merge would block the NEXT
+        # book's intake (`git checkout develop` on a dirty tree). The branch
+        # itself is untouched, so the merge can be redone manually.
+        _git("merge", "--abort")
+        raise RuntimeError(
+            f"`git merge --no-ff {branch}` failed (merge aborted, develop "
+            f"left clean — resolve manually and re-run): {err}"
+        )
     rc, _, err = _git("push", "origin", "develop")
     if rc != 0:
         _err(f"warning: `git push origin develop` failed: {err}\n  (local merge preserved)")

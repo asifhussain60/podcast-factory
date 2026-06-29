@@ -29,21 +29,11 @@ LIBRARY_ROOT = REPO_ROOT / "content" / "drafts"
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
-def _run(cmd: list[str], *, cwd: Path | None = None) -> tuple[int, str, str]:
-    proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
-    return proc.returncode, proc.stdout, proc.stderr
+from _subprocess import run as _run, err as _err, info as _info  # noqa: E402
 
 
 def _git(*args: str) -> tuple[int, str, str]:
     return _run(["git", *args], cwd=REPO_ROOT)
-
-
-def _err(msg: str) -> None:
-    print(f"ERROR: {msg}", file=sys.stderr)
-
-
-def _info(msg: str) -> None:
-    print(msg)
 
 
 def _book_dir(book_slug: str) -> Path | None:
@@ -195,6 +185,7 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             "/_system/chapter-set-report.md",
             "/_system/health-trend.md",
             "/_system/watchdog.json",
+            "/_system/orchestrator-state.json",
             "scripts/podcast/tighten_source.py",
             ".code-workspace",
         )
@@ -207,10 +198,12 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             f"{book_runtime_prefix}chapters/",
             f"{book_runtime_prefix}episodes/",
             f"{book_runtime_prefix}slide-decks/",
-            "content/podcast/.skill/_learning/",
+            "_learning/",
             "_workspace/tmp/",
             "_workspace/logs/",
+            "_workspace/runs/",
             "content/m4a/",
+            "content/podcast/.skill/_learning/",
         )
         runtime_artifact_suffixes_lc = tuple(s.lower() for s in runtime_artifact_suffixes)
         runtime_artifact_dirs_lc = tuple(d.lower() for d in runtime_artifact_dirs)
@@ -236,7 +229,8 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
     # 4. On matching branch
     from _branching import branch_name as _branch_name
     expected_branch = (state or {}).get("branch") or _branch_name(
-        (state or {}).get("category"), book_slug
+        (state or {}).get("category"), book_slug,
+        profile=(state or {}).get("content_profile"),
     )
     rc, branch, _ = _git("rev-parse", "--abbrev-ref", "HEAD")
     branch = branch.strip() if rc == 0 else ""
@@ -253,25 +247,45 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
 
 
 def _run_chapter_set_check(book_dir: Path, log=_info) -> None:
-    """G2 cohesion fix: post-Phase-0d advisory chapter-set check.
+    """G2 cohesion fix: post-Phase-0d chapter-set check.
 
     Shells out to check_chapter_set.py; writes _system/chapter-set-report.md.
-    Never raises — advisory only. Catches title collisions, word-band misfits,
-    generic titles, and inter-chapter balance variance BEFORE Phase 0e spend.
+    Advisory for legacy books (never raises). For books opted into the
+    chapter-density standard (`density_standard: 2` in series-config.yaml),
+    P0 findings RAISE and halt before Phase 0e spend. Catches title
+    collisions, word-band misfits, generic titles, balance variance, source
+    coverage gaps/overlaps, cross-chapter duplication, and sermon integrity
+    (P1–P10) BEFORE Phase 0e spend.
     """
     log("phase: 0d.5 · chapter-set advisory check")
     rc, stdout, stderr = _run([sys.executable, str(CHAPTER_SET_SCRIPT), str(book_dir)])
     findings: list[dict] = []
-    if stdout.strip():
+    # FAIL LOUD: a check that crashed (non-zero rc, empty stdout) or emitted
+    # unparseable output must NEVER be silently downgraded to "0 findings =
+    # clean." Doing so is how a crashing band-fit check wrote "Chapter-set is
+    # clean" while never running the cross-chapter duplication check at all.
+    # NOTE: rc is NOT a failure signal on its own — check_chapter_set.main()
+    # exits 1 to signal "P0 findings present" (a completed run) and 0 for none.
+    # A genuine crash produces EMPTY stdout (the run() AttributeError did) or
+    # unparseable output. Key failure detection off the OUTPUT, not rc.
+    check_failed = False
+    failure_reason = ""
+    if not stdout.strip():
+        check_failed = True
+        failure_reason = (
+            f"chapter-set check produced no output (rc={rc}); "
+            f"stderr: {(stderr or '').strip()[:400] or '<empty>'}"
+        )
+    else:
         try:
             parsed = json.loads(stdout)
+            if isinstance(parsed, dict):
+                findings = parsed.get("findings", [])
+            elif isinstance(parsed, list):
+                findings = parsed
         except json.JSONDecodeError:
-            log(f"  · chapter-set check emitted non-JSON output; rc={rc}; skipping report")
-            return
-        if isinstance(parsed, dict):
-            findings = parsed.get("findings", [])
-        elif isinstance(parsed, list):
-            findings = parsed
+            check_failed = True
+            failure_reason = f"chapter-set check emitted non-JSON output (rc={rc})"
 
     counts = {"P0": 0, "P1": 0, "P2": 0}
     for f in findings:
@@ -279,6 +293,40 @@ def _run_chapter_set_check(book_dir: Path, log=_info) -> None:
         counts[sev] = counts.get(sev, 0) + 1
 
     report_path = book_dir / "_system" / "chapter-set-report.md"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if check_failed:
+        # Write an honest "did not complete" report — never "clean" — and halt
+        # density-standard books (an unverified chapter-set must not proceed to
+        # Phase 0e spend). Legacy books keep the advisory contract but the loud
+        # report + warning replace the old silent skip.
+        ts = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        report_path.write_text(
+            "\n".join([
+                f"# Chapter-set advisory report — {book_dir.name}",
+                "",
+                f"Generated: {ts}",
+                f"Source: `scripts/podcast/check_chapter_set.py` (challenger Category P)",
+                "",
+                "## ⚠ CHECK DID NOT COMPLETE",
+                "",
+                f"{failure_reason}",
+                "",
+                "This is NOT a clean result — the chapter-set was not verified. "
+                "Fix the check failure and re-run before trusting chapter-set health.",
+                "",
+            ]),
+            encoding="utf-8",
+        )
+        log(f"  · ⚠ {failure_reason}")
+        log(f"  · ⚠ chapter-set NOT verified — see {_rel(report_path)} (not a clean result)")
+        from _content_profile import density_standard_active
+        if density_standard_active(book_dir):
+            raise RuntimeError(
+                f"chapter-set check did not complete for {book_dir.name}; "
+                f"refusing to proceed to Phase 0e on an unverified chapter-set. {failure_reason}"
+            )
+        return
     report_path.parent.mkdir(parents=True, exist_ok=True)
     ts = datetime.now(timezone.utc).isoformat(timespec="seconds")
     lines = [
@@ -313,8 +361,31 @@ def _run_chapter_set_check(book_dir: Path, log=_info) -> None:
         f"{counts.get('P2', 0)} P2 findings"
     )
     if counts.get("P0", 0) > 0:
-        log(f"  · ⚠ P0 chapter-set findings — review {report_path.relative_to(REPO_ROOT)} before Phase 0e")
+        # _rel never raises on out-of-repo paths (tmp fixture books) — a bare
+        # Path.relative_to(REPO_ROOT) here crashed the 0d post-checks for any
+        # book dir outside the repo root.
+        log(f"  · ⚠ P0 chapter-set findings — review {_rel(report_path)} before Phase 0e")
     log(summary)
+
+    # Density-standard promotion (2026-06-10): books opted into the chapter-
+    # density standard (`density_standard: 2` in series-config.yaml) HALT on
+    # P0 chapter-set findings instead of advisory-logging them — the split is
+    # provably broken (duplicated source ranges, fragmented sermons, title
+    # collisions) and Phase 0e spend on it would be wasted. Legacy books keep
+    # the never-raises advisory contract.
+    if counts.get("P0", 0) > 0:
+        from _content_profile import density_standard_active
+        if density_standard_active(book_dir):
+            p0_lines = "\n".join(
+                f"  - {f.get('check')} [{f.get('slug')}] {f.get('msg')}"
+                for f in findings if f.get("severity") == "P0"
+            )
+            raise RuntimeError(
+                f"chapter-set integrity gate (density_standard=2): "
+                f"{counts['P0']} P0 finding(s) — halting before Phase 0e.\n"
+                f"{p0_lines}\n"
+                f"Full report: {report_path}"
+            )
 
 
 # ─── orphan episode-draft sweep (F8) ─────────────────────────────────────────

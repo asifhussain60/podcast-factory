@@ -1,0 +1,124 @@
+{
+  "book_title": "My Dear Beloved Son or Daughter (Ayyuhal Walad)",
+  "voice": "modern author first-person",
+  "preface": {
+    "include": true,
+    "title": "A Letter Across the Centuries",
+    "source_line_ranges": [
+      [
+        58,
+        65
+      ]
+    ]
+  },
+  "chapters": [
+    {
+      "bk_index": 1,
+      "title": "Knowledge That Will Not Save You",
+      "source_line_ranges": [
+        [
+          69,
+          144
+        ]
+      ],
+      "theme": "knowledge vs. action",
+      "rationale": "Opens with the master's framing reply and builds the central argument that unused knowledge becomes a witness against its owner."
+    },
+    {
+      "bk_index": 2,
+      "title": "The Striving That Mercy Meets",
+      "source_line_ranges": [
+        [
+          146,
+          213
+        ]
+      ],
+      "theme": "effort and grace",
+      "rationale": "Centers the parable of the tested worshipper and the sayings on self-reckoning, resolving the paradox between divine mercy and human striving."
+    },
+    {
+      "bk_index": 3,
+      "title": "The Hours Before Dawn",
+      "source_line_ranges": [
+        [
+          214,
+          332
+        ]
+      ],
+      "theme": "night vigil",
+      "rationale": "Gathers every passage on Tahajjud, the pre-dawn call, and the weeping dove into a single meditation on wakefulness and longing."
+    },
+    {
+      "bk_index": 4,
+      "title": "Worship Is Obedience, Nothing Less",
+      "source_line_ranges": [
+        [
+          334,
+          358
+        ]
+      ],
+      "theme": "Shari'ah as form",
+      "rationale": "Treats worship as conformity to prophetic example, with the Shibli hadith closing the case that knowledge must be measured, not heaped."
+    },
+    {
+      "bk_index": 5,
+      "title": "Eight Lessons from Thirty-Three Years",
+      "source_line_ranges": [
+        [
+          360,
+          478
+        ]
+      ],
+      "theme": "Hatim's distillation",
+      "rationale": "The self-contained narrative of Hatim ibn Ism's eight benefits — a complete teaching unit deserving its own chapter."
+    },
+    {
+      "bk_index": 6,
+      "title": "Finding a True Guide",
+      "source_line_ranges": [
+        [
+          481,
+          515
+        ]
+      ],
+      "theme": "the shaykh",
+      "rationale": "Pulls together the conditions of the path, the qualities of a Shaykh al-Kamil, and the inner and outer etiquettes of discipleship."
+    },
+    {
+      "bk_index": 7,
+      "title": "Sufism, Servitude, Trust, Sincerity",
+      "source_line_ranges": [
+        [
+          517,
+          562
+        ]
+      ],
+      "theme": "the four realities",
+      "rationale": "Answers the disciple's four definitional questions and closes with Ghazali's counsel to stop asking and start walking."
+    },
+    {
+      "bk_index": 8,
+      "title": "Four to Avoid, Four to Embrace",
+      "source_line_ranges": [
+        [
+          564,
+          684
+        ]
+      ],
+      "theme": "the eight admonitions",
+      "rationale": "The structured closing instruction — what to refuse (debate, preaching, rulers, their gifts) and what to practice (Allah, neighbor, study, restraint)."
+    },
+    {
+      "bk_index": 9,
+      "title": "A Prayer for the Road",
+      "source_line_ranges": [
+        [
+          686,
+          700
+        ]
+      ],
+      "theme": "closing supplication",
+      "rationale": "The promised du'a stands alone as the book's benediction and farewell."
+    }
+  ]
+}

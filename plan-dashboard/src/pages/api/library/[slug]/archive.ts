@@ -20,7 +20,7 @@ export const POST: APIRoute = async ({ params, redirect }) => {
   const ref = await findContent(slug);
   if (!ref) return new Response('content not found', { status: 404 });
 
-  const dest = join(archiveRoot(), todayStamp(), ref.category, ref.slug);
+  const dest = join(archiveRoot(), todayStamp(), ref.bucket, ref.slug);
   await mkdir(dirname(dest), { recursive: true });
   await rename(ref.dir, dest);
 

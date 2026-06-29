@@ -2,7 +2,14 @@
 
 Extracted from orchestrate_book.py (A4 split). Authority: plan.md §A4.
 
-Fires after the finalize halt: publish → trainer → merge → done.
+Fires after the finalize halt: 0book-* (PDF path) → publish → trainer → merge → done.
+
+The PDF companion-book path (0book-design → 0book-compose → 0book-illustrate →
+0book-render) runs HERE, after the finalize halt, not before it. This ensures that
+any podcast quality issues caught and fixed at the finalize review gate are already
+resolved before the book branch is generated. The two deliverables (podcast +
+reading edition) stay in sync because the book is always built from reviewed,
+finalize-approved chapter content.
 """
 from __future__ import annotations
 
@@ -16,28 +23,57 @@ from _progress import update_phase  # noqa: E402
 from _authoring import AuthoringError, invoke_trainer  # noqa: E402
 from phases.scaffold import phase_git_commit  # noqa: E402
 from phases.merge import phase_merge_to_develop  # noqa: E402
+from phases.book_driver import _drive_book_branch  # noqa: E402
 
 
-def _info(msg: str) -> None:
-    print(msg)
-
-
-def _err(msg: str) -> None:
-    print(f"ERROR: {msg}", file=sys.stderr)
-
-
-def _run(cmd: list[str], *, cwd: Path | None = None) -> tuple[int, str, str]:
-    proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
-    return proc.returncode, proc.stdout, proc.stderr
+from _subprocess import run as _run, err as _err, info as _info  # noqa: E402
 
 
 def _drive_publish_through_done(book_dir: Path) -> int:
-    """Run publish → trainer → merge → done after the finalize halt is cleared.
+    """Run 0book-* → publish → trainer → merge → done after the finalize halt is cleared.
 
+    Phase order: PDF companion-book generation first (so the book is built from
+    finalize-approved content), then publish both deliverables together.
     Failure at any step halts with state pointing at the failing phase. Each
     step is idempotent enough to resume from the last failure point.
     """
     book_slug = book_dir.name
+
+    # Audio ingest — self-correcting normalize + Azure-transcribe of dropped
+    # NotebookLM audio. No-op `skipped` for autonomous/ElevenLabs books; a clean
+    # HALT (rc 3) when audio isn't dropped yet, mirroring the slide-import
+    # convention (BEFORE the book branch so the book is built once audio exists).
+    # --resume re-enters idempotently.
+    from phases.audio_ingest_driver import drive_audio_ingest  # noqa: PLC0415
+    _ai_outcome, _ai_rc = drive_audio_ingest(book_dir)
+    if _ai_outcome == "halted":
+        return 0
+    if _ai_outcome == "failed":
+        return _ai_rc
+
+    # PDF path — companion book (gated by series.enable_book_branch, non-blocking).
+    # Runs here, AFTER the finalize halt, so the book is always generated from
+    # podcast content that has already passed the quality review gate. A book-branch
+    # FAILURE is non-blocking and never prevents the podcast from publishing —
+    # but a slide-import HALT (rc=3: NotebookLM deck PDFs not yet dropped) stops
+    # BEFORE publish, mirroring the finalize-halt convention; --resume re-enters.
+    if _drive_book_branch(book_dir) == 3:
+        return 0
+
+    # Surface the reading-edition verdict before publish so a broken companion
+    # book is visible at the one place a human reviews the ship — even though it
+    # does not block the podcast (companion deliverable, by design).
+    _bv_path = book_dir / "_system" / "book-validation-report.json"
+    if _bv_path.exists():
+        try:
+            import json as _json  # noqa: PLC0415
+            _bv = _json.loads(_bv_path.read_text())
+            if _bv.get("verdict") == "BOOK-BROKEN":
+                _err(f"reading edition is BROKEN (podcast still ships): {_bv.get('summary')}")
+            elif _bv.get("verdict") == "BOOK-SOUND":
+                _info(f"reading edition verdict: SOUND — {_bv.get('summary')}")
+        except Exception:  # noqa: BLE001
+            pass
 
     _info("phase: publish · copy clean chapters + episodes to published/")
     update_phase(book_dir, phase="publish", status="running")

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import dataclass, field
 from pathlib import Path
 
 """Canonical rule data shared across the podcast scripts.
@@ -46,7 +47,70 @@ vs. substring list); the canonical data itself is plain Python literals.
 # The LLM-grade rubric extension (§3 religious literacy, §4 philosophical
 # rigor, §6 interfaith) lives in _workspace/prompts/gemini-bundle-auditor.md so both
 # auditors see it. See F30 / scholarly-rubric integration trail on develop.
-CHALLENGER_VERSION = "2.4"  # Wave L: Category W (augmentation quality)
+# 2.5 (2026-06-10): chapter-density + citation + sermon wave — adds
+# R-MAX-CONCEPTS (≤3 concept H2 sections per episode, frame headings
+# excluded; deterministic gate in Phase 0d post-write + preflight),
+# R-QURAN-CITATION-FORMAT (canonical plain-English `(chapter N, verse M)`
+# form; terse `(Q N:M)` / `(Quran N:M)` / bare `(N:M)` flagged),
+# R-NO-TRANSLIT-FORMULA (no `*Arabic translit* — *translation*` formula
+# pairs in chapter prose; English translation only), and
+# R-SERMON-VERBATIM (sermon/khutba passages render whole as their own
+# concept section, contract carries `sermon:` block, framing carries a
+# `## Verbatim Recitation` instruction). Chapter-set checks CS7–CS10
+# (coverage, overlap/dedup, sermon integrity, set density) land in
+# check_chapter_set.py. Standard: docs/standards/chapter-density.md.
+# 2.6 (2026-06-24): promotes Arabic-in-chapters from display-layer preference
+# to P0 rule for islamic_scholarly books. R-ARABIC-IN-CHAPTERS requires every
+# Islamic chapter source to persist glossary-backed Arabic script while keeping
+# phonetic respelling in the glossary / Customize prompt only. The denoise/root
+# source contract also treats preface, intended
+# audience, book-description, author biography, chain-of-narration/transmission,
+# and reading-permission apparatus as noise while preserving Arabic script in
+# chapter source for the human phonetic/pronunciation review stage.
+CHALLENGER_VERSION = "2.6"
+
+R_MAX_CONCEPTS: str = "R-MAX-CONCEPTS"
+R_QURAN_CITATION_FORMAT: str = "R-QURAN-CITATION-FORMAT"
+R_NO_TRANSLIT_FORMULA: str = "R-NO-TRANSLIT-FORMULA"
+R_SERMON_VERBATIM: str = "R-SERMON-VERBATIM"
+R_ARABIC_IN_CHAPTERS: str = "R-ARABIC-IN-CHAPTERS"
+R_PRESERVE_ARABIC_SOURCE: str = "R-PRESERVE-ARABIC-SOURCE"
+
+# ─── Upstream precheck sources (Wave N — adversarial validation, Phase A–C) ──
+# These are the `source` values written into _learning/findings.jsonl by the
+# shift-left deterministic + LLM discriminator pre-checks in
+# scripts/podcast/_authoring/_artifact_convergence.py.  Distinct from the
+# per-chapter challenger (source="podcast-challenger") — upstream checks fire
+# at generation time (Phase 0b/0e), before any chapter is drafted.
+#
+# Registered here so learn_aggregate.py + learn_propose.py can route proposals
+# to the correct human-resolution targets (generator prompt edits in
+# _authoring/_refine.py / _authoring/_enrichment.py).
+UPSTREAM_PRECHECK_SOURCES: frozenset[str] = frozenset({
+    "precheck-0b",   # refined-english.md — deterministic + Phase-B LLM fidelity
+    "precheck-0e",   # per-chapter enrichment — deterministic + Phase-C LLM faithfulness
+})
+
+# Upstream check IDs and their human-resolution targets (the same mapping as
+# CHECK_ID_TO_TARGET in learn_propose.py; duplicated here for runtime look-up
+# without importing learn_propose.py from pipeline scripts).
+UPSTREAM_CHECK_ID_TO_TARGET: dict[str, str] = {
+    # Phase A — deterministic
+    "U0B-EMPTY":              "author: re-run Phase 0b; the refinement produced empty output",
+    "U0B-LENGTH-DRIFT":       "author: review _authoring/_refine.py window prompts — length-ratio constraint",
+    "U0B-STRUCTURE-COLLAPSE": "author: review _authoring/_refine.py window prompts — paragraph-preservation rule",
+    "U0E-SHRANK":             "author: review _authoring/_enrichment.py prompt — DO NOT drop source content",
+    "U0E-BALLOON":            "author: review _authoring/_enrichment.py prompt — cap total word growth",
+    # Phase B — LLM fidelity (0b)
+    "U0B-MEANING-DRIFT":        "author: review 0b window prompt — strengthen DO NOT change meaning instruction",
+    "U0B-DROPPED-TEACHING":     "author: review 0b window prompt — preserve ALL teachings, examples, and illustrations",
+    "U0B-HALLUCINATED-ADDITION": "HUMAN REVIEW REQUIRED — fabricated content in refined-english.md (P0)",
+    "U0B-REGISTER-SHIFT":       "author: review 0b window prompt — preserve scholarly register",
+    # Phase C — LLM faithfulness (0e)
+    "U0E-HALLUCINATED-CITATION": "HUMAN REVIEW REQUIRED — fabricated citation in enriched chapter (P0)",
+    "U0E-SOURCE-ALTERED":        "author: review 0e enrichment prompt — DO NOT alter source text, only enrich",
+    "U0E-DOCTRINE-DRIFT":        "author: review 0e enrichment prompt — tradition-coherence guard",
+}
 
 # ─── Category W (Wave L) — augmentation-quality checks. Guards that knowledge
 # augmentation enriches genuine gaps naturally (never forced), respects the book's
@@ -73,6 +137,31 @@ R_AUGMENT_BLOCK_HEADERS = {
     "quote": "[ATTRIBUTED SAYINGS",
     "etymology": "[ETYMOLOGY",
 }
+
+# ─── R-ARABIC-INTEGRITY (P0 2026-06-16) — Arabic spans (Quran verses, hadith,
+# named terms) are BYTE-STABLE across every LLM pass. The pipeline snapshots a
+# content-addressed (NFC-normalized) fingerprint of every Arabic span BEFORE the
+# first LLM mutation (0a-synthesize), then re-verifies after 0a/0b/0e. The ONLY
+# sanctioned mutators are (1) canonical injection by restore_arabic.py
+# (quran_ayat_lookup + verified atoms) and (2) human glossary schema-v2 curation
+# (pronunciation_compiler.resolve_curation, surfaced by the Astro phonetic-view).
+# Any other change — a silent LLM mutation, drop, or invention — FAILS the phase.
+# Implemented in scripts/podcast/arabic_integrity.py; composed as blocking finalize
+# gate G13 for islamic_scholarly books.
+R_ARABIC_INTEGRITY: str = "R-ARABIC-INTEGRITY"
+ARABIC_FINGERPRINT_VERSION: str = "1.0"
+# Bidi/joiner control codepoints stripped before hashing so a pass that only
+# re-inserts directional marks is not flagged as a mutation (RTL-ligature stability).
+R_ARABIC_BIDI_STRIP: tuple[int, ...] = (
+    0x200C, 0x200D, 0x200E, 0x200F,
+    0x202A, 0x202B, 0x202C, 0x202D, 0x202E,
+    0x2066, 0x2067, 0x2068, 0x2069,
+)
+# Combining tashkeel (harakat) ranges used to derive the vowel-stripped skeleton.
+# A near-match that differs ONLY in this range is classified AI-VOWEL-DRIFT.
+R_ARABIC_TASHKEEL: tuple[tuple[int, int], ...] = (
+    (0x064B, 0x0652), (0x0653, 0x065F), (0x0670, 0x0670),
+)
 
 # ─── R-HOST-ROLE-PARITY (P0 2026-05-24) — host roles are locked book-wide.
 # Host A is always the scholar/teacher. Host B is always the seeker/student/
@@ -151,12 +240,145 @@ CONSUMER_CATEGORIES: frozenset[str] = frozenset({"sites", "explainers"})
 #   - assertion gating in build_episode_txt.py (Arabic checks skipped for non-Islamic)
 #   - phase 0c phonetics (no-op for non-islamic_scholarly, already handled via CONSUMER_CATEGORIES)
 #   - challenger rule selection (only islamic_scholarly gets Arabic name/citation checks)
-CONTENT_PROFILES: tuple[str, ...] = (
-    "islamic_scholarly",   # default; all existing books; full pipeline including Arabic checks
-    "consumer_explainer",  # consumer/product/onboarding content; no Arabic assertions; phonetics skipped
-    "general_nonfiction",  # future: balanced non-fiction; selective enrichment only
-)
+# ─── Content-type registry (2026-06-04, Wave: content/ type-first layout) ──────
+# SINGLE SOURCE OF TRUTH for what a content type is: its canonical profile key
+# (stored as `content_profile` in series-config.yaml), the top-level `bucket`
+# folder it lives under (content/<bucket>/<slug>/), which pipeline phases it
+# skips, and its literary (revoice) voice defaults. Adding a content type = one
+# entry here. Two ORTHOGONAL axes used to be conflated:
+#   • the legacy `category` (books/lectures/sites/…) — still used for the optional
+#     book-vs-lecture metadata tag, and retained in ALLOWED_CATEGORIES for intake.
+#   • the content TYPE / profile — what actually drives routing + voice + bucket.
+# This registry is the profile axis. _paths.py maps profile→bucket via bucket_for_profile().
+@dataclass(frozen=True)
+class ContentType:
+    profile: str          # canonical content_profile key (series-config.yaml)
+    bucket: str           # top-level folder under content/ (type-first layout)
+    skip_phonetics: bool  # skip Phase 0c (Arabic phonetic pass)
+    skip_enrichment: bool # skip Phase 0e (doctrinal enrichment)
+    skip_ocr: bool        # skip Phase 0a Azure OCR (source already digital English/text)
+    literary_voice: dict  # revoice defaults consumed by _literary.py
+    # Default audio engine for a NEW book of this profile, stamped into
+    # series-config.yaml at intake (intake_launch._write_series_config). NEW-book
+    # default ONLY — never applied retroactively, so existing books with no
+    # `audio_engine` field keep the notebooklm default and never move off the
+    # path their already-rendered audio came from.
+    audio_engine: str = "notebooklm"
+    # Default ElevenLabs cast (host key -> voice-library name) stamped at intake
+    # when the chosen engine is elevenlabs and the operator picked no voices.
+    default_voice_cast: dict = field(default_factory=dict)
+
+
+CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
+    "islamic_scholarly": ContentType(
+        profile="islamic_scholarly", bucket="Islamic",
+        skip_phonetics=False, skip_enrichment=False, skip_ocr=False,
+        literary_voice={
+            "narrator_voice": "author_first_person",
+            "narrator_subject": "the author",
+            "addressee": "the reader",
+            "scene_source": "text_only",
+        },
+        # All Islamic books use NotebookLM (Google conversational AI — approved
+        # fingerprint from the-master-and-the-disciple, confirmed 2026-06-13).
+        # ElevenLabs scripted dialogue was tried for Vol 1 and rejected.
+        audio_engine="notebooklm",
+        default_voice_cast={"host_a": "Eric", "host_b": "Lily"},
+    ),
+    "technical": ContentType(
+        profile="technical", bucket="Technical",
+        skip_phonetics=True, skip_enrichment=True, skip_ocr=True,
+        literary_voice={
+            "narrator_voice": "peer_expert",
+            "narrator_subject": "a senior practitioner",
+            "addressee": "a fellow developer",
+            "scene_source": "text_only",
+        },
+    ),
+    "fiction": ContentType(
+        profile="fiction", bucket="Fiction",
+        skip_phonetics=True, skip_enrichment=True, skip_ocr=False,
+        literary_voice={
+            "narrator_voice": "narrative_voice",
+            "narrator_subject": "the narrator",
+            "addressee": "the reader",
+            "scene_source": "text_only",
+        },
+    ),
+    "consumer_explainer": ContentType(
+        profile="consumer_explainer", bucket="Guides",
+        skip_phonetics=True, skip_enrichment=True, skip_ocr=True,
+        literary_voice={
+            "narrator_voice": "contemporary_narrator",
+            "narrator_subject": "a guide",
+            "addressee": "you",
+            "scene_source": "text_only",
+        },
+    ),
+    "general_nonfiction": ContentType(
+        profile="general_nonfiction", bucket="Guides",
+        skip_phonetics=True, skip_enrichment=False, skip_ocr=False,
+        literary_voice={
+            "narrator_voice": "scholarly_essayist",
+            "narrator_subject": "the author",
+            "addressee": "the reader",
+            "scene_source": "text_only",
+        },
+    ),
+}
+
+# Ordered top-level bucket folders under content/ (type-first layout, 2026-06-04).
+BUCKETS: tuple[str, ...] = ("Islamic", "Technical", "Fiction", "Guides")
+
+# CONTENT_PROFILES is now DERIVED from the registry (was a hand-maintained tuple
+# of 3; technical + fiction are now first-class). Order: registry insertion order.
+CONTENT_PROFILES: tuple[str, ...] = tuple(CONTENT_TYPE_REGISTRY)
 ISLAMIC_SCHOLARLY_PROFILE = "islamic_scholarly"
+
+
+def bucket_for_profile(profile: str | None) -> str:
+    """Map a content_profile to its top-level bucket folder. Defaults to Islamic.
+
+    The bucket is the type-first folder (content/<bucket>/<slug>/). Unknown or
+    absent profiles fall back to Islamic — the historical default that keeps every
+    pre-existing book on the full scholarly pipeline.
+    """
+    ct = CONTENT_TYPE_REGISTRY.get(profile or "")
+    return ct.bucket if ct else "Islamic"
+
+
+def literary_voice_for_profile(profile: str | None) -> dict:
+    """Revoice voice defaults for a profile (used by _literary.py). Islamic fallback."""
+    ct = CONTENT_TYPE_REGISTRY.get(profile or "") or CONTENT_TYPE_REGISTRY[ISLAMIC_SCHOLARLY_PROFILE]
+    return dict(ct.literary_voice)
+
+
+def phase_capabilities(profile: str | None) -> "ContentType":
+    """Return the ContentType (phase-skip capabilities) for a content_profile.
+
+    SINGLE accessor for every phase-skip decision (0a OCR, 0c phonetics, 0e
+    enrichment). Reads the CONTENT_TYPE_REGISTRY (single source of truth); unknown
+    or absent profiles fall back to islamic_scholarly — the historical default that
+    runs the full scholarly pipeline. Mirrors the bucket_for_profile pattern so
+    routing logic lives in ONE place instead of scattered `category in {...}` checks.
+    """
+    return CONTENT_TYPE_REGISTRY.get(profile or "") or CONTENT_TYPE_REGISTRY[ISLAMIC_SCHOLARLY_PROFILE]
+
+
+def audio_engine_default_for_profile(profile: str | None) -> str:
+    """Default audio engine to stamp for a NEW book of this profile.
+
+    NEW-book default only (consumed by intake_launch). Unknown/absent profiles
+    fall back to islamic_scholarly's default. This never touches existing books.
+    """
+    ct = CONTENT_TYPE_REGISTRY.get(profile or "") or CONTENT_TYPE_REGISTRY[ISLAMIC_SCHOLARLY_PROFILE]
+    return ct.audio_engine
+
+
+def default_voice_cast_for_profile(profile: str | None) -> dict:
+    """Default ElevenLabs cast (host key -> library name) for a NEW book."""
+    ct = CONTENT_TYPE_REGISTRY.get(profile or "") or CONTENT_TYPE_REGISTRY[ISLAMIC_SCHOLARLY_PROFILE]
+    return dict(ct.default_voice_cast)
 
 # ─── Content-level ladder (Wave M) — ISLAMIC scholarly books only. Single source
 # of truth for category-gated augmentation. A book declaring `content_level` in
@@ -204,7 +426,7 @@ def allowed_content_levels(book_level: str | None) -> list[str]:
 # ─── Learning substrate root (relative to repo root). Used by all four
 # learning scripts (aggregate, propose, test, health writer) and by the
 # challenger agent's report-writer to locate findings.jsonl + health/.
-LEARNING_DIR = "content/podcast/.skill/_learning"
+LEARNING_DIR = "_learning"
 
 # ─── R-NO-MODERNIZE (chapter + framing must not pull in 21st-century social-media idioms)
 # Substring scans — phrase as-it-would-appear in transcript text.
@@ -416,8 +638,7 @@ def emit_finding(
     could interleave bytes within a single record. The lock costs ~1 ms per
     emit, negligible vs the LLM-call latencies that produced the finding.
 
-    The ledger lives at `<repo_root>/content/podcast/.skill/_learning/
-    findings.jsonl` and is append-only. Callers MUST NOT emit duplicates
+    The ledger lives at `<repo_root>/_learning/findings.jsonl` and is append-only. Callers MUST NOT emit duplicates
     within a single run.
     """
     import fcntl as _fcntl
@@ -499,6 +720,168 @@ R_NOISE_RULE_PATTERNS: list[tuple] = [
     (_re.compile(r"\[Narrator.*?preamble\]|\[Editorial.*?note\]", _re.I),       "editorial-preamble"),
 ]
 
+# ─── Wave N — Authorial-apparatus noise (the noise-auditor taxonomy) ──────
+# A class of noise the Wave-I routing above NEVER targets: clean *authorial*
+# prose that is non-teaching meta-content about the BOOK ITSELF — how it was
+# recorded, authorized, transmitted, and may be circulated. The denoise/refine
+# prompts (full_book_denoise.py, gemini_refine.py) only strip OCR artefacts,
+# translator footnotes, and editor brackets; authorial apparatus passes every
+# one of those filters because it is the author's own clean sentences. It then
+# fans out into chapters/*.txt, episodes/*.txt, slide-decks/*.txt, and book.md.
+# Source incident: al-Anwaar al-Lateefah vol-01 — the recorder's distribution
+# warning ("do not email… do not store on your computer… punishment of cold
+# iron") + ijazat/treasury chain-of-custody leaked into all four surfaces and
+# built an entire EP01 out of front-matter. The `noise-auditor` agent flags
+# this class with NZ-* finding IDs; the denoise prompts strip it at root.
+R_NOISE_AUTHORIAL_APPARATUS: str = "R-NOISE-AUTHORIAL-APPARATUS"
+
+# Sub-categories (NZ finding IDs map to these). Each is BOOK-PRODUCTION /
+# CIRCULATION meta — NOT doctrine. The hard line: anything about how the book
+# came to be recorded/transmitted/distributed is apparatus; anything the book
+# TEACHES is content.
+R_NOISE_APPARATUS_CATEGORIES: dict[str, str] = {
+    "NZ-CIRCULATION":  "Distribution / copyright / circulation notice — do-not-email, "
+                       "do-not-store-on-computer, do-not-share-online, copy-is-a-sin, and "
+                       "the punishment-for-careless-circulation threat (e.g. 'cold iron').",
+    "NZ-PROVENANCE":   "Provenance / chain-of-custody apparatus — ijazat/permission to RECORD, "
+                       "deposit in a treasury/archive, 'recorded first for my family', the "
+                       "two-fold authority-of-transmission of THIS recording.",
+    "NZ-COLOPHON":     "Colophon / production meta — who transcribed/compiled/printed it, edition "
+                       "and publisher notes, dedication-of-the-edition, scan/upload provenance.",
+    "NZ-EDITORIAL":    "Editorial framing about the artifact rather than its subject — 'in this "
+                       "lesson we will…', 'as recorded above', recording-session housekeeping.",
+    "NZ-REFERENCE-TAIL": "Bibliographic tails attached to wisdom/saying blockquotes in chapter prose — "
+                         "e.g. 'in Nahj al-Balagha (compiled by al-Sharif al-Radi), Hikam "
+                         "(Saying) 147' or translator/source edition details. Keep the quoted "
+                         "teaching and speaker; strip the reference scaffolding from chapters.",
+    "NZ-FRONTMATTER":  "Front-matter apparatus — preface, who should read the book, description "
+                       "of the book, author biography/posture, chain of narrations/transmission, "
+                       "permission-to-read, and introductory praise about the artifact rather "
+                       "than teaching content.",
+}
+
+# PROTECT-LIST — doctrine that LOOKS like apparatus but IS the teaching and must
+# NEVER be stripped under Wave-N. In this tradition the epistemics of inherited,
+# guarded knowledge and especially the DOCTRINE OF ALLEGIANCE to the Imams /
+# Friends of Allah (wilayah) are core content, not provenance. The test: does the
+# passage make a claim about REALITY/God/the soul/the path (keep), or only about
+# the book-object's recording and circulation (strip)?
+R_NOISE_APPARATUS_PROTECT: frozenset[str] = frozenset({
+    "wilayah", "allegiance", "imam", "friends_of_allah", "awliya",
+    "esoteric", "reality", "haqaiq", "tawhid", "soul_return", "doctrine",
+})
+
+# Heuristic Pass-1 anchors for the apparatus class (semantic judgment still
+# belongs to the noise-auditor LLM / the denoise prompt; these are signals).
+R_NOISE_APPARATUS_PATTERNS: list[tuple] = [
+    (_re.compile(r"do not (e-?mail|share|circulate|store|upload|exchange)", _re.I), "NZ-CIRCULATION"),
+    (_re.compile(r"(on|over|upon) the (internet|web)|on your computer", _re.I),     "NZ-CIRCULATION"),
+    (_re.compile(r"(punishment|azab) of cold iron|to copy .* is a sin",  _re.I),    "NZ-CIRCULATION"),
+    (_re.compile(r"(ghair-?mustahiqq|undeserving|indiscriminate circulation)", _re.I), "NZ-CIRCULATION"),
+    (_re.compile(r"\b(ijazat|permission)\b.*\b(record|recording|set (it )?down)", _re.I), "NZ-PROVENANCE"),
+    (_re.compile(r"\b(permission|ijazat|authorization)\b.*\b(read|study|open|transmit|narrat)", _re.I), "NZ-FRONTMATTER"),
+    (_re.compile(r"deposited? in the treasury|treasury of the (sacred mission|Da'wat)", _re.I), "NZ-PROVENANCE"),
+    (_re.compile(r"recorded (them )?(first )?for (my|his) (father|family)", _re.I),  "NZ-PROVENANCE"),
+    (_re.compile(r"(transcribed|compiled|printed|scanned|typeset) by|this edition", _re.I), "NZ-COLOPHON"),
+    (_re.compile(r"\b(?:in\s+)?\*?Nahj al-Balagha\*?\s*(?:\(compiled by al-Sharif al-Radi\))?,\s*(?:Hikam\s*)?\(?(?:Sermon|Saying|Letter)\)?\s*\d+", _re.I), "NZ-REFERENCE-TAIL"),
+    (_re.compile(r"\b\*?(?:Nahj al-Balagha|Ghurar al-Hikam(?: wa Durar al-Kalim)?)\*?\s*(?:\(compiled by [^)]+\))?,\s*(?:Sermon|Saying|Letter|Hikam|Maxim|among the maxims)\b", _re.I), "NZ-REFERENCE-TAIL"),
+    (_re.compile(r"\b(preface|foreword|introduction to this book|description of this book)\b", _re.I), "NZ-FRONTMATTER"),
+    (_re.compile(r"\b(who should read|intended audience|this book is for|reader of this book)\b", _re.I), "NZ-FRONTMATTER"),
+    (_re.compile(r"\b(author|compiler|narrator)\b.*\b(biography|life|lineage|wrote|compiled)\b", _re.I), "NZ-FRONTMATTER"),
+    (_re.compile(r"\b(chain|isnad|sanad|transmission|narration)\b.*\b(narrators?|transmitters?|permission)\b", _re.I), "NZ-FRONTMATTER"),
+]
+
+# Version stamped into every noise-auditor report; bump on taxonomy change.
+NOISE_AUDITOR_VERSION = "1.1"
+
+# Chapter-prose reference-tail cleanup. The quote and speaker are content; the
+# bibliography after the speaker is chapter noise. This intentionally targets
+# wisdom/saying blockquotes, not Quranic or hadith references whose verse/book
+# numbers are needed for source clarity.
+R_NOISE_REFERENCE_TAIL_RES: tuple[_re.Pattern[str], ...] = (
+    _re.compile(
+        r"(?P<speaker>—\s*[^.\n]{1,140}?)(?:,\s*(?:in\s+)?)"
+        r"\*?(?:Nahj al-Balagha|Ghurar al-Hikam(?: wa Durar al-Kalim)?)\*?\s*"
+        r"(?:\(compiled by [^)]+\))?,\s*"
+        r"(?:(?:Hikam\s*)?\(?(?:Sermon|Saying|Letter|Maxim)\)?\s*\d+"
+        r"(?:\s*\([^)]+\))?|among the maxims on [^.]+)"
+        r"(?:,\s*trans\.\s*[^.]+)?"
+        r"(?:,\s*\*?Peak of Eloquence\*?)?\.",
+        _re.I,
+    ),
+)
+
+
+def strip_noise_reference_attributions(text: str) -> tuple[str, int]:
+    """Strip bibliographic source tails from chapter prose, preserving speaker.
+
+    Example:
+      quote — Ali ibn Abi Talib, the Father of Imams, in *Nahj al-Balagha*
+      (compiled by al-Sharif al-Radi), Hikam (Saying) 147.
+
+    becomes:
+      quote — Ali ibn Abi Talib, the Father of Imams.
+    """
+    count = 0
+
+    def _replace(match: _re.Match[str]) -> str:
+        nonlocal count
+        count += 1
+        return match.group("speaker").rstrip(" ,") + "."
+
+    out_lines: list[str] = []
+    for line in text.splitlines():
+        if line.lstrip().startswith(">"):
+            for pattern in R_NOISE_REFERENCE_TAIL_RES:
+                line = pattern.sub(_replace, line)
+        out_lines.append(line)
+
+    trailing_newline = "\n" if text.endswith("\n") else ""
+    return "\n".join(out_lines) + trailing_newline, count
+
+
+R_PRESERVE_ARABIC_SOURCE_DIRECTIVE: str = (
+    "ARABIC-SCRIPT PRESERVATION (R-PRESERVE-ARABIC-SOURCE, mandatory): for Arabic-scholarly "
+    "content, PRESERVE Arabic script that appears in the source for technical terms, Quranic "
+    "phrases, hadith/sayings, prayers, book titles, proper names, surah names, and doctrinal "
+    "formulae. Do NOT romanize Arabic script into English-only transliteration. Do NOT translate "
+    "Arabic terms away during denoise, refine, chapter authoring, or enrichment. The persisted "
+    "chapter source is the review surface: the human phonetic/pronunciation stage decides later "
+    "which Arabic-script items are recited in Arabic, which receive a phonetic respelling, and "
+    "which are replaced by English. The only Arabic to remove is Arabic that belongs solely to "
+    "non-teaching apparatus already being stripped, such as publisher marks or scan labels."
+)
+
+# Ready-to-inject denoise directive — appended to the denoise system prompts
+# (gemini_refine.DENOISE_SYS, full_book_denoise.build_system_prompts) so the apparatus
+# class is stripped at the ROOT, book-agnostically, before it can fan out. The
+# PROTECT brake is stated inline so doctrine (wilayah/allegiance/epistemics) is
+# never cut. Book-agnostic: names no book — keys off content type, not title.
+R_NOISE_APPARATUS_DIRECTIVE: str = (
+    "AUTHORIAL-APPARATUS STRIP (R-NOISE-AUTHORIAL-APPARATUS, mandatory): in addition to "
+    "OCR/translator/editor apparatus, REMOVE the author's own NON-TEACHING meta-content about "
+    "the book-object itself — (a) CIRCULATION/COPYRIGHT notices: do-not-email / do-not-share / "
+    "do-not-store-online, 'to copy this is a sin', threats of punishment for careless circulation "
+    "(e.g. 'cold iron'), 'not for indiscriminate circulation', the 'undeserving'/ghair-mustahiqqeen "
+    "framing; (b) PROVENANCE / chain-of-custody: permission/ijazat to RECORD or transmit THIS "
+    "recording, 'I recorded it first for my family', deposit in a treasury/archive, the 'twofold "
+    "authority' of this recording; (c) COLOPHON: who transcribed/compiled/printed/scanned it, "
+    "edition and publisher notes; (d) FRONT MATTER / READING APPARATUS: prefaces, who should "
+    "read the book, descriptions of the book as a book, author biography/posture, chain of "
+    "narrations/transmission, permission-to-read, and introductory claims about the artifact "
+    "rather than the knowledge it teaches. If a front-matter section contains a real doctrine, "
+    "preserve ONLY that doctrine and condense the front-matter wrapper to at most one short "
+    "paragraph; (e) REFERENCE TAILS in chapter prose: bibliographic scaffolding "
+    "after a quoted saying, such as 'in Nahj al-Balagha (compiled by al-Sharif al-Radi), Hikam "
+    "(Saying) 147' or translator/source-edition details. Keep the quoted teaching and the speaker; "
+    "strip the reference tail from the chapter. PROTECT (NEVER strip — this is TEACHING, not apparatus): any "
+    "claim about reality/God/the soul/the path/the law, the doctrine of allegiance to the Imams / "
+    "Friends of Allah (wilayah), and the epistemic claim that the knowledge is INHERITED from the "
+    "prophets and saints. The test: a passage about how the book was recorded/authorized/circulated "
+    "is apparatus (strip); a passage about what the book TEACHES is content (keep)."
+    "\n\n" + R_PRESERVE_ARABIC_SOURCE_DIRECTIVE
+)
+
 # ─── Wave B — Intelligence layer budget constants ─────────────────────────
 # These are read by intelligence/extractor.py and intelligence/augmenter.py.
 # Max per-chapter cost for the atom extractor (Claude Sonnet structured call).
@@ -511,12 +894,13 @@ R_KNOWLEDGE_EXTRACTOR_CONFIDENCE_THRESHOLD: float = 0.70
 R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED: bool = False
 
 # ─── SN-7 — Terminus-technicus preservation (Slice 2-fix / K6-pre) ─────────
-# A terminus technicus (precise doctrinal term: tawil, zuhd, farḍ ʿayn, …) is preserved in
-# PHONETIC form on every occurrence, with a brief English gloss permitted on first use only;
-# it is NEVER reduced to an English paraphrase. Orthogonal to R-PHONETICS-OUT: Arabic SCRIPT is
-# still stripped (TTS can't read it); the phonetic form carries the term. Enforced in the
-# denoise+normalize Gemini prompts (gemini_refine.sn7_guard, protect-list from per-book
-# glossary.yml) and audited by podcast-challenger Category D check D6. Standard: house-voice.md §2b.
+# A terminus technicus (precise doctrinal term: tawil, zuhd, farḍ ʿayn, …) is preserved on every
+# occurrence, with Arabic script retained when present and phonetic/transliteration identity
+# retained for review. It is NEVER reduced to an English paraphrase. Orthogonal to
+# R-PHONETICS-OUT: inline pronunciation guides are still banned, but Arabic source text remains
+# available to the human phonetic/pronunciation review stage. Enforced in denoise+normalize
+# Gemini prompts (gemini_refine.sn7_guard, protect-list from per-book glossary.yml) and audited
+# by podcast-challenger Category D check D6. Standard: house-voice.md §2b.
 R_TERMINUS_PRESERVE: bool = True
 
 # ─── Slice 5c — HOST_ROLE_CONTRACT (host dynamics guardrail) ─────────────────

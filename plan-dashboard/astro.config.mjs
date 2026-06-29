@@ -10,12 +10,25 @@ export default defineConfig({
   integrations: [react()],
   devToolbar: { enabled: false },
   vite: {
+    // Allow a second dev server (e.g. the Claude preview on :4323) to use its
+    // OWN dependency-optimization cache via VITE_CACHE_DIR. Two dev servers
+    // sharing the default node_modules/.vite race on re-optimization and corrupt
+    // it — surfacing as "jsxDEV is not a function" / "504 Outdated Optimize Dep".
+    cacheDir: process.env.VITE_CACHE_DIR || undefined,
     plugins: [tailwindcss()],
     optimizeDeps: {
       // React 19 uses a conditional IIFE that Vite's CJS→ESM static analyser
       // can't resolve without explicit pre-bundling — forces esbuild to process
       // these packages and produce proper named ESM exports (e.g. createRoot).
-      include: ['react', 'react-dom', 'react-dom/client'],
+      // The TipTap family + diff are the heavy editor deps behind StudioPoc (the
+      // Edit & Enrich rich editor); pre-bundling them at server start stops Vite
+      // from re-optimizing mid-session, which was 504-ing the editor chunks
+      // ("Outdated Optimize Dep") and blanking Edit & Enrich (2026-06-15).
+      include: [
+        'react', 'react-dom', 'react-dom/client',
+        '@tiptap/react', '@tiptap/starter-kit', '@tiptap/core',
+        '@tiptap/pm/state', '@tiptap/pm/view', 'diff',
+      ],
     },
     server: {
       fs: {

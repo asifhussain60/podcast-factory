@@ -1,0 +1,168 @@
+/* architecture.css — styles for the Architecture view's diagrams.
+ *
+ * Loaded only by src/pages/architecture.astro. All colour is sourced from the
+ * existing --c-* design tokens in theme.css (the colour theme is unchanged);
+ * this file only maps those tokens onto the swimlane table's semantic classes
+ * and the diagram figure/figcaption shells. Zero inline styling lives in the
+ * components — every colour decision is here.
+ */
+
+/* ── Screen-reader-only utility (visible to AT, hidden visually) ── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Diagram figure shell (shared by the swimlane table + wrapped SVGs) ── */
+.diagram-container {
+  margin: var(--sp-4) 0;
+}
+.diagram-container > figcaption {
+  margin-top: var(--sp-3);
+  font-size: var(--fs-base); /* REQ-010 reading floor */
+  line-height: 1.55;
+  color: var(--c-ink-dim);
+  border-left: 3px solid var(--c-rule);
+  padding-left: var(--sp-3);
+}
+.diagram-container > figcaption strong {
+  color: var(--c-ink);
+  font-weight: 600;
+}
+
+/* ── Horizontal-scroll container for wide tables on narrow viewports ── */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Phase-sequence swimlane — semantic table
+   ══════════════════════════════════════════════════════════════════ */
+.swimlane-table {
+  width: 100%;
+  min-width: 820px;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: var(--fs-base); /* REQ-010 reading floor; .table-container scrolls if needed */
+  background: var(--c-bg-card);
+}
+
+.swimlane-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  text-align: left;
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-ink-muted);
+  background: var(--c-bg-sunken);
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1.5px solid var(--c-rule);
+}
+
+.swimlane-table tbody th,
+.swimlane-table tbody td {
+  padding: 0.7rem 0.75rem;
+  border-bottom: 0.75px solid var(--c-rule-soft);
+  vertical-align: middle;
+  text-align: left;
+  font-weight: 400;
+}
+
+.swimlane-table tbody tr:nth-child(even):not(.swim-gate-row) {
+  background: color-mix(in oklab, var(--c-bg-sunken) 55%, transparent);
+}
+
+.swim-station { font-weight: 600; color: var(--c-ink); }
+.swim-service { color: var(--c-ink-dim); }
+/* note text inherits the table's --fs-base (REQ-010 reading floor) */
+.swim-note-cell { color: var(--c-ink-muted); line-height: 1.45; }
+
+/* Phase-id badge, tinted by vendor (decorative — id text always present) */
+.swim-phase-badge {
+  display: inline-block;
+  min-width: 2.4rem;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.18rem 0.4rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.swim-phase-badge.v-anthropic { color: var(--c-vendor-anthropic); background: color-mix(in oklab, var(--c-vendor-anthropic) 14%, transparent); }
+.swim-phase-badge.v-azure     { color: var(--c-vendor-azure);     background: color-mix(in oklab, var(--c-vendor-azure) 14%, transparent); }
+.swim-phase-badge.v-google    { color: var(--c-vendor-google);    background: color-mix(in oklab, var(--c-vendor-google) 14%, transparent); }
+.swim-phase-badge.v-local     { color: var(--c-ink-muted);        background: color-mix(in oklab, var(--c-ink-muted) 16%, transparent); }
+.swim-phase-badge.v-human     { color: var(--c-diag-gate);        background: color-mix(in oklab, var(--c-diag-gate) 14%, transparent); }
+
+/* Model pill, tinted by model tier */
+.swim-model {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.swim-model.m-opus   { color: var(--c-model-opus);   background: color-mix(in oklab, var(--c-model-opus) 14%, transparent); }
+.swim-model.m-sonnet { color: var(--c-model-sonnet); background: color-mix(in oklab, var(--c-model-sonnet) 14%, transparent); }
+.swim-model.m-haiku  { color: var(--c-model-haiku);  background: color-mix(in oklab, var(--c-model-haiku) 14%, transparent); }
+.swim-model.m-gemini { color: var(--c-model-gemini); background: color-mix(in oklab, var(--c-model-gemini) 14%, transparent); }
+.swim-model-none { color: var(--c-model-none); }
+
+/* Cost-tier label, colour-coded (text label carries the meaning) */
+.swim-cost { font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
+.swim-cost.cost-high { color: var(--c-red); }
+.swim-cost.cost-mid  { color: var(--c-amber); }
+.swim-cost.cost-low  { color: var(--c-green); }
+.swim-cost.cost-zero,
+.swim-cost.cost-gate { color: var(--c-ink-muted); }
+
+/* Future-state rows — striped accent + tag (not colour-only: "Future" label) */
+.swimlane-table tr.swim-future > th,
+.swimlane-table tr.swim-future > td {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 5px,
+    color-mix(in oklab, var(--c-amber) 9%, transparent) 5px,
+    color-mix(in oklab, var(--c-amber) 9%, transparent) 7px
+  );
+}
+.swim-future-tag {
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--c-amber);
+  background: color-mix(in oklab, var(--c-amber) 16%, transparent);
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+}
+
+/* Human-halt gate rows — full-width banner styling */
+.swimlane-table tr.swim-gate-row > th,
+.swimlane-table tr.swim-gate-row > td {
+  background: color-mix(in oklab, var(--c-diag-gate) 7%, transparent);
+  border-top: 1.5px dashed var(--c-diag-gate);
+  border-bottom: 1.5px dashed var(--c-diag-gate);
+}
+.swim-gate-mark {
+  color: var(--c-diag-gate);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.swim-gate-name { font-weight: 700; color: var(--c-diag-gate); margin-right: 0.6rem; }
+.swim-gate-note { color: var(--c-ink-dim); } /* inherits --fs-base (REQ-010) */

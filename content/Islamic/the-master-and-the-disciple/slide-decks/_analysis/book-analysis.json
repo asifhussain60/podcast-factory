@@ -1,0 +1,514 @@
+[
+  {
+    "page": 1,
+    "title": "The Master and the Disciple",
+    "content_summary": "Cover slide with title and subtitle over a decorative cosmological diagram.",
+    "text_blocks": [
+      "The Master and the Disciple",
+      "The Cosmological Blueprint and the Path of Return"
+    ],
+    "diagram_type": "none",
+    "arabic_terms": [],
+    "value_class": "low",
+    "illegible": false,
+    "llm_value_class": "low",
+    "final_value_class": "low",
+    "rubric_reasons": [
+      "diagram_type 'none' not replicable"
+    ]
+  },
+  {
+    "page": 2,
+    "title": "The Scale of Incomparability",
+    "content_summary": "Nested rings illustrating the incommensurable scale between Earth, Air, Heaven, and Allah.",
+    "text_blocks": [
+      "The Scale of Incomparability",
+      "The Heaven in relation to the full extent of Air.",
+      "Like a tiny egg resting in an immense plain.",
+      "Allah.",
+      "Ratio fails. The sign announces the failure of signs. \"And Allah's is the loftiest similitude.\" (16:60).",
+      "Earth in relation to Air.",
+      "Like a single seal-ring discarded in a great plain.",
+      "Atmosphere in relation to the Heavens.",
+      "Like a seal-ring in a vast desert.",
+      "Annotation",
+      "Lesser symbols and peer-to-peer comparisons slot the Creator into a series with His creatures, demoting Him to a rung. The highest permitted symbol (Air) announces incommensurability through sheer scale."
+    ],
+    "diagram_type": "hierarchy",
+    "arabic_terms": [
+      "Allah"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable hierarchy, 11 blocks, 592 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 3,
+    "title": "The Densification Ladder",
+    "content_summary": "Five-level descending ladder from the Originator through Will, Command, and Speech, densifying into the seven heavens and seven earths.",
+    "text_blocks": [
+      "The Densification Ladder",
+      "Level 1",
+      "The Originator",
+      "No model, no precedent, no peer.",
+      "A perpetual act, the will still willing.",
+      "Level 2",
+      "First Light",
+      "Spiritual Luminescence.",
+      "Level 3",
+      "Irada (The Will)",
+      "Most rarefied.",
+      "Level 4",
+      "Amr (The Command)",
+      "Denser; requires direction and an addressee.",
+      "Level 5",
+      "Qawl (The Speech)",
+      "Densest; made audible and effective.",
+      "Densifies into the 7 heavens",
+      "Smoke",
+      "Water",
+      "Air",
+      "Light",
+      "Fire",
+      "Densifies into the 7 earths",
+      "Darkness",
+      "Mud-thickness"
+    ],
+    "diagram_type": "hierarchy",
+    "arabic_terms": [
+      "Irada",
+      "Amr",
+      "Qawl"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "low",
+    "rubric_reasons": [
+      "26 text blocks > 22"
+    ]
+  },
+  {
+    "page": 4,
+    "title": "The Numerical Signatures of the Cosmos",
+    "content_summary": "Three-row table mapping primordial phrases to letter counts and the cosmic structures they mirror.",
+    "text_blocks": [
+      "The Numerical Signatures of the Cosmos",
+      "SOURCE",
+      "LETTER COUNT",
+      "COSMIC SIGNATURES",
+      "kun fa-yakun",
+      "(The Command)",
+      "7 letters",
+      "Mirrored above in 7 heavens, 7 rulers. Mirrored below in 7 seas, 7 days.",
+      "irada-amr-bi-qawl",
+      "(The Primordial Words)",
+      "12 letters",
+      "Mirrored above in 12 zodiac mansions. Mirrored below in 12 terrestrial regions, 12 hours of day, 12 hours of night.",
+      "bismillahi al-rahman al-rahim",
+      "(The Cryptographic Seal)",
+      "7 letters (bismillahi) + 12 letters (al-rahman al-rahim)",
+      "Recited daily, decoded rarely. Mirrors irada alone (Allah) + amr-qawl pair (al-rahman + al-rahim). Legible only to those holding the covenant key."
+    ],
+    "diagram_type": "table",
+    "arabic_terms": [
+      "kun fa-yakun",
+      "irada-amr-bi-qawl",
+      "bismillahi al-rahman al-rahim",
+      "irada",
+      "Allah",
+      "amr",
+      "qawl",
+      "al-rahman",
+      "al-rahim"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable table, 16 blocks, 598 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 5,
+    "title": "The Architecture of the Heavenly Mirror",
+    "content_summary": "Four-tier mapping of the human spiritual hierarchy onto celestial bodies.",
+    "text_blocks": [
+      "The Architecture of the Heavenly Mirror",
+      "HUMAN HIERARCHY",
+      "CELESTIAL MAPPING",
+      "The Speaker-Prophet (Natiq)",
+      "Direct receiver of revelation.",
+      "Zenith Point",
+      "The Imam (Wasi)",
+      "Interprets and receives esoteric inspiration.",
+      "\"Bright beyond bearing, veiled by its own brightness.\"",
+      "The Gateway (Bab / Hujja)",
+      "Condenses and distributes.",
+      "(Twelve to an Imam, one per region).",
+      "\"Borrowed light, never out of phase with its source.\"",
+      "The Summoners (Du'at)",
+      "(Thirty per Bab, mirroring days under months).",
+      "Navigation by night.",
+      "\"Guided by the stars.\""
+    ],
+    "diagram_type": "hierarchy",
+    "arabic_terms": [
+      "Natiq",
+      "Imam",
+      "Wasi",
+      "Bab",
+      "Hujja",
+      "Du'at"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable hierarchy, 17 blocks, 503 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 6,
+    "title": "Mutual Subsistence: The Body and Spirit of Religion",
+    "content_summary": "Two-column comparison of Zahir (outer) and Batin (inner) dimensions of religion across identity, role, and standing alone.",
+    "text_blocks": [
+      "Mutual Subsistence: The Body and Spirit of Religion",
+      "Zahir (The Outer)",
+      "Batin (The Inner)",
+      "Identity:",
+      "The revealed paths, the outward ordinances of the Law.",
+      "Identity:",
+      "The true religion of Allah, the esoteric meanings.",
+      "Role:",
+      "The body, the covering, the sign pointing to the inner.",
+      "Role:",
+      "The soul, the living spirit.",
+      "Standing Alone:",
+      "A corpse. A body without a spirit. Case 2 Seeker: keeps prayer/fast, lacks the animating spirit (Kafir in the root sense: one who hides the seed).",
+      "Standing Alone:",
+      "A wraith. A spirit without a body. Case 1 Seeker: knows the meanings, drops prayer/fast. Fruit peeled before ripening; rots.",
+      "Mutual subsistence is the doctrine. Neither alone is a living religion."
+    ],
+    "diagram_type": "table",
+    "arabic_terms": [
+      "Zahir",
+      "Batin",
+      "Allah",
+      "Kafir"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable table, 16 blocks, 671 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 7,
+    "title": "The Anatomy of Knowledge",
+    "content_summary": "Two grouped tables: three dimensions of reality (Zahir/Batin/Batin al-Batin) and three registers of creatures (beasts, humans, angels).",
+    "text_blocks": [
+      "The Anatomy of Knowledge",
+      "Zahir",
+      "(Outer)",
+      "Batin",
+      "(Inner)",
+      "Batin al-Batin",
+      "(Innermost)",
+      "The Three Dimensions of Reality",
+      "A",
+      "Verse of the Garment 7:26",
+      "The physical clothing",
+      "The purpose of covering",
+      "The garment of piety",
+      "B",
+      "Grammar of a Sentence",
+      "The noun \"moon\"",
+      "The attribute \"rose\"",
+      "The meaning, the actual disk",
+      "C",
+      "Anatomy of an Egg",
+      "The hard shell",
+      "The egg white",
+      "The yolk",
+      "The Three Registers of Creatures",
+      "A",
+      "Beasts",
+      "Outer aspect only. Registers without understanding. Recites but never asks. Intellect turned toward the ground.",
+      "B",
+      "Humans",
+      "Inner aspect of the physical. The alim rabbani. True descendants of Adam. Intellect turned toward what the visible means.",
+      "C",
+      "Angels",
+      "Inner of the inner. Purely spiritual knowledge in a physical body. The prophet, the vicegerent. Intellect turned back toward its origin."
+    ],
+    "diagram_type": "table",
+    "arabic_terms": [
+      "Zahir",
+      "Batin",
+      "Batin al-Batin",
+      "alim rabbani"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "low",
+    "rubric_reasons": [
+      "33 text blocks > 22"
+    ]
+  },
+  {
+    "page": 8,
+    "title": "Emptying the Cup (Kasrah)",
+    "content_summary": "Three-stage flow showing the traditional scholar's solid vessel shattered by demolition into a new receptacle.",
+    "text_blocks": [
+      "Emptying the Cup (Kasrah)",
+      "The Traditional Scholar",
+      "Polished by years of being 'right', leaving nowhere for a new thing to land.",
+      "The Demolition (Kasrah)",
+      "The ground must be forcefully broken. Salih's initial dialogue is a calculated act of demolition.",
+      "The Receptacle",
+      "Only once the cup is empty can a new seed be planted by the Mukasir (The Demolisher).",
+      "Emptying the cup is a recognized necessity of spiritual pedagogy."
+    ],
+    "diagram_type": "flow",
+    "arabic_terms": [
+      "Kasrah",
+      "Salih",
+      "Mukasir"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable flow, 8 blocks, 408 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 9,
+    "title": "The Ledger of the Covenant",
+    "content_summary": "Two side-by-side ledger panels contrasting the thief's flawed reward arithmetic with the Imam's verdict on the covenant-less act.",
+    "text_blocks": [
+      "The Ledger of the Covenant",
+      "The Arithmetic of the Covenant-less Act (The Stolen Apples)",
+      "The Thief's Arithmetic",
+      "Calculation: +50 rewards (giving the apples to charity), -5 sins (for the theft).",
+      "Claimed Net Result: +45 rewards.",
+      "The Imam's Arithmetic",
+      "Calculation: -5 sins (for the initial theft), -5 sins (for propagating forbidden goods into another's hand).",
+      "Actual Net Result: -10 sins, 0 rewards.",
+      "A sacred act is blessed under the pact of Allah. A stolen act (fornication vs. marriage; forbidden meat vs. ritual slaughter) carries no allegiance. The covenant-less act cannot be sanctified."
+    ],
+    "diagram_type": "table",
+    "arabic_terms": [
+      "Imam",
+      "Allah"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable table, 9 blocks, 580 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 10,
+    "title": "The Mechanics of the Tawaf",
+    "content_summary": "Orbital diagram of pilgrims/planets circling a central sun-Imam-Ka'ba, with centrifugal and centripetal threats labeled.",
+    "text_blocks": [
+      "The Mechanics of the Tawaf",
+      "The pilgrims / The planets",
+      "The Imam",
+      "The House of Allah",
+      "The Sun",
+      "The Force: Gravity as Love",
+      "Centrifugal Threat: Leaving the orbit means losing the center and freezing in the dark.",
+      "Centripetal Threat: Falling straight toward the center means consumption.",
+      "The Seven Circuits (stages of life given to the embryonic soul)",
+      "The orbit is the precise shape in which love keeps the pilgrim alive."
+    ],
+    "diagram_type": "other",
+    "arabic_terms": [
+      "Tawaf",
+      "Imam",
+      "Allah"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "low",
+    "rubric_reasons": [
+      "diagram_type 'other' not replicable"
+    ]
+  },
+  {
+    "page": 11,
+    "title": "The Conspiracy Formula",
+    "content_summary": "Four-epoch flow of recurring conspiracies plus a triangle naming the three colluding actors and their unified output.",
+    "text_blocks": [
+      "The Conspiracy Formula",
+      "The Triangle of Actors",
+      "The Rebellious Devil (Temptation)",
+      "The Hypocritical Scholar (Legitimation)",
+      "The Willing Oppressor (Force)",
+      "Epoch 1 (Zoroastrians)",
+      "Cling to fire-temples.",
+      "Epoch 2 (Torah)",
+      "Tend the calf, submit to judges.",
+      "Epoch 3 (Gospels)",
+      "Venerate priests, worship prophet as God.",
+      "Epoch 4 (Present)",
+      "Inherited book, established prayers.",
+      "Unified Output: \"There is no messenger after ours.\"",
+      "Legitimation + Force + Temptation makes falsehood attractive and opposition costly."
+    ],
+    "diagram_type": "flow",
+    "arabic_terms": [],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable flow, 15 blocks, 481 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 12,
+    "title": "The Forty-Year Syllogism",
+    "content_summary": "Two-horn dilemma diagram showing both branches of the son's challenge to his father terminate in dead ends.",
+    "text_blocks": [
+      "The Forty-Year Syllogism",
+      "The son addresses the father regarding his newfound knowledge.",
+      "Horn 1",
+      "The father was a scholar of this truth but intentionally withheld my share.",
+      "DEAD END",
+      "Two-Horn Dilemma",
+      "Horn 2",
+      "The father was ignorant of this truth, making him more in need of the stranger than I am.",
+      "DEAD END",
+      "Conclusion: You have no standing to condemn me.",
+      "There is no third position. The disjunctive dilemma closes every escape route, mathematically securing the disciple's release."
+    ],
+    "diagram_type": "flow",
+    "arabic_terms": [],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable flow, 11 blocks, 467 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 13,
+    "title": "Complicity by Rank",
+    "content_summary": "Scale-balance illustration weighing the executioner against the legitimizing scholar, with the scholar judged heavier.",
+    "text_blocks": [
+      "Complicity by Rank",
+      "The Scholar (Serving the Oppressor)",
+      "Place in the chain: Upstream. Supplies the intellectual legitimation.",
+      "Visible offense: Blackens a flag or fills an inkwell.",
+      "Verdict: Worse than the murderer himself. Without the scholar's fatwas and opinions, the oppressor could not maintain dominion.",
+      "The Executioner (The Murderer)",
+      "Place in the chain: At the very end of the action.",
+      "Visible offense: Lifting the physical hand.",
+      "The Verdict of the Scales: The Weight of Intellectual Legitimation Far Exceeds the Physical Act of Violence. True Power Resides in the Authority to Justify."
+    ],
+    "diagram_type": "other",
+    "arabic_terms": [
+      "fatwas"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "low",
+    "rubric_reasons": [
+      "diagram_type 'other' not replicable"
+    ]
+  },
+  {
+    "page": 14,
+    "title": "The Unbroken Chain of Witnesses",
+    "content_summary": "Two horizontal prophet-chains (Abraham to Moses, Moses to Jesus) framing a central panel on the cause of concealment.",
+    "text_blocks": [
+      "The Unbroken Chain of Witnesses",
+      "Upholds the community of Abraham throughout. Torah is sent down.",
+      "Abraham",
+      "Ishmael",
+      "Isaac",
+      "Jacob",
+      "Jonah",
+      "Shu'ayb",
+      "Moses",
+      "The Cause of Concealment",
+      "1. The Relentless Murderer",
+      "2. The Deep-Seated Enemy",
+      "3. The Sympathetic Abandoner",
+      "He dislikes the enemies' actions, but abandons the friends. This is the operative cause of concealment. Once the community helps the friends of Allah, they reveal themselves.",
+      "Moses",
+      "Joshua",
+      "Elijah",
+      "David",
+      "Solomon",
+      "Saul",
+      "Zechariah",
+      "John",
+      "Jesus",
+      "Upholds the judgment of the Torah. Gospel is sent down."
+    ],
+    "diagram_type": "flow",
+    "arabic_terms": [
+      "Shu'ayb",
+      "Allah"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "low",
+    "rubric_reasons": [
+      "24 text blocks > 22"
+    ]
+  },
+  {
+    "page": 15,
+    "title": "The Debt of Transmission",
+    "content_summary": "Flow from the Heavenly Host through generations to the Persian Scholar arriving at an empty slot representing the listener's debt.",
+    "text_blocks": [
+      "The Debt of Transmission",
+      "The Heavenly Host",
+      "First Transmitter",
+      "Generations across centuries",
+      "The Persian Scholar",
+      "The unfilled slot is the debt itself. Every node before it received, and then gave. You are the listener now hearing this.",
+      "\"The most excellent of deeds is giving life to the dead.\""
+    ],
+    "diagram_type": "flow",
+    "arabic_terms": [],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable flow, 7 blocks, 284 chars"
+    ],
+    "svg_verified": true
+  }
+]

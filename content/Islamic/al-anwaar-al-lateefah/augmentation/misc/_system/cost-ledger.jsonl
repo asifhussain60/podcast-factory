@@ -1,0 +1,2 @@
+{"ts": "2026-06-15T20:12:49Z", "phase": "0a", "step": "transcribe/lec01", "model": "gemini-2.5-pro", "input_tokens": 151823, "output_tokens": 160007, "cache_read": 0, "cache_create": 0, "cost_usd": 0.447462, "engine": "api"}
+{"ts": "2026-06-15T20:16:04Z", "phase": "0a", "step": "transcribe/lec02", "model": "gemini-2.5-pro", "input_tokens": 89721, "output_tokens": 51179, "cache_read": 0, "cache_create": 0, "cost_usd": 0.155985, "engine": "api"}

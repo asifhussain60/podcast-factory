@@ -1,0 +1,21 @@
+<svg id="Multiple_Killers__One_Life__Proportional" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 214" role="img" aria-labelledby="Multiple_Killers__One_Life__Proportional_t Multiple_Killers__One_Life__Proportional_d">
+<title id="Multiple_Killers__One_Life__Proportional_t">Multiple Killers: One Life, Proportional Blood Money</title>
+<desc id="Multiple_Killers__One_Life__Proportional_d">Two-column contrast: Killers (one executed) vs Owed by the rest — 2 paired phenomena</desc>
+<style>#Multiple_Killers__One_Life__Proportional{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#111111;}#Multiple_Killers__One_Life__Proportional text{font-family:'Lato', system-ui, sans-serif;}</style>
+<text x="250" y="10.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#000000"><tspan x="250" dy="0">Multiple Killers: One Life, Proportional</tspan><tspan x="250" dy="20">Blood Money</tspan></text>
+<text x="250" y="34.0" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#777777"><tspan x="250" dy="0">Only one life is taken for one; the survivors pay their</tspan><tspan x="250" dy="12">share</tspan></text>
+<rect x="14.0" y="62.0" width="218.0" height="48.0" fill="#000000" stroke="#000000" stroke-width="1.0" rx="4"/>
+<rect x="268.0" y="62.0" width="218.0" height="48.0" fill="#eeeeee" stroke="#d0d0d0" stroke-width="1.0" rx="4"/>
+<text x="123.0" y="86.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#ffffff"><tspan x="123.0" dy="0">Killers (one executed)</tspan></text>
+<text x="377.0" y="86.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#111111"><tspan x="377.0" dy="0">Owed by the rest</tspan></text>
+<rect x="14.0" y="110.0" width="218.0" height="46.0" fill="#ffffff" stroke="#d0d0d0" stroke-width="1.0"/>
+<rect x="268.0" y="110.0" width="218.0" height="46.0" fill="#ffffff" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="123.0" y="126.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="123.0" dy="0">Three killers, one</tspan><tspan x="123.0" dy="14">executed</tspan></text>
+<text x="377.0" y="126.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="377.0" dy="0">Remaining two pay</tspan><tspan x="377.0" dy="14">two-thirds</tspan></text>
+<line x1="249" y1="114" x2="249" y2="152" stroke="#d0d0d0" stroke-width="1"/>
+<rect x="14.0" y="156.0" width="218.0" height="46.0" fill="#f7f7f7" stroke="#d0d0d0" stroke-width="1.0"/>
+<rect x="268.0" y="156.0" width="218.0" height="46.0" fill="#f7f7f7" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="123.0" y="172.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="123.0" dy="0">Two killers, one</tspan><tspan x="123.0" dy="14">executed</tspan></text>
+<text x="377.0" y="179.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="377.0" dy="0">Other pays one-half</tspan></text>
+<line x1="249" y1="160" x2="249" y2="198" stroke="#d0d0d0" stroke-width="1"/>
+</svg>

@@ -95,6 +95,25 @@ class T2LineageTests(unittest.TestCase):
         self.assertTrue(any(f.check_id == "T2" and f.severity == "P0"
                             for f in findings))
 
+    def test_genuine_lineage_swap_still_flagged(self):
+        """A real swap — claiming an ordinal but naming a different Imam —
+        must STILL fire P0 (the restrictive-clause guard must not weaken this)."""
+        text = "The first Imam, Ali Zayn al-Abidin, led the early community."
+        findings = check_t2_imam_lineage(text)
+        self.assertTrue(any(f.signature.startswith("t2.lineage_swap")
+                            for f in findings))
+
+    def test_superlative_over_condition_not_a_swap(self):
+        """'the first Imam IN WHOM all four ranks combined ... was Ali Zayn
+        al-Abidin' is a superlative over a condition, not a lineage position
+        claim — it must NOT be flagged as a swap (kunooz ch13 false positive)."""
+        text = ("The first Imam in whom all four ranks were combined with the "
+                "two higher dominating was Ali Zayn al-Abidin, the Adam of the "
+                "Family of the Cloak.")
+        findings = check_t2_imam_lineage(text)
+        self.assertEqual([f for f in findings
+                          if f.signature.startswith("t2.lineage_swap")], [])
+
 
 class IntegrationTests(unittest.TestCase):
 

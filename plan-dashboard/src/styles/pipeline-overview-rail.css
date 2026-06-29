@@ -90,3 +90,42 @@
   border-radius: 999px;
   border: 1px solid var(--por-border);
 }
+
+/* ── DoD refactor (2026-06-11): formerly-inline styles ─────────────────────────
+   Kind colours are data-driven but enumerable, so they flow through k-<kind>
+   classes that set --por-k. The svg's natural width + zoom factor are truly
+   dynamic and arrive via --por-w/--por-zoom custom properties (ref callback). */
+.k-mechanical { --por-k: var(--c-kind-mechanical); }
+.k-hybrid     { --por-k: var(--c-kind-hybrid); }
+.k-agentic    { --por-k: var(--c-kind-agentic); }
+.k-gate       { --por-k: var(--c-kind-gate); }
+
+.por-legend-dot { background: var(--por-k, var(--c-ink-muted)); }
+
+.por-svg {
+  display: block;
+  width: var(--por-w, 100%);
+  height: auto;
+  transform: scale(var(--por-zoom, 1));
+  transform-origin: top left;
+}
+
+.por-conn { transition: opacity 0.25s, stroke-width 0.2s; }
+.por-particle { transition: opacity 0.25s; }
+.por-node { cursor: pointer; transition: opacity 0.25s; }
+.por-node-bg { transition: stroke 0.15s, stroke-width 0.15s; }
+
+.por-badge-text { font: 700 9px var(--font-sans, 'Lato', sans-serif); fill: var(--por-k, #888); }
+.por-name-text  { font: 600 9.5px var(--font-sans, 'Lato', sans-serif); fill: var(--c-ink, #2c2a25); }
+.por-node.is-active .por-name-text { fill: var(--por-k, #888); }
+.por-dur-text   { font: 400 8.5px var(--font-sans, 'Lato', sans-serif); fill: rgba(135, 130, 122, 0.8); }
+
+.por-tooltip-fo { overflow: visible; pointer-events: none; }
+.por-tooltip .por-tooltip-kind { color: var(--por-k, #888); }
+.por-selected-strip { border-left-color: var(--por-k, #888); }
+.por-strip-id, .por-strip-kind { color: var(--por-k, #888); }
+
+@media (prefers-reduced-motion: reduce) {
+  .por-conn, .por-particle, .por-node, .por-node-bg { transition: none; }
+  .por-selected-strip { animation: none; }
+}

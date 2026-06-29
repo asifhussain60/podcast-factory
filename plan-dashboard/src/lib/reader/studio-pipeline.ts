@@ -15,6 +15,14 @@ import { findContent } from '../content-paths';
 
 export type StepId = 'intake' | 'review' | 'edit' | 'publish';
 
+/**
+ * Lifecycle bucket for the Studio picker's status filter:
+ *   'in-the-works' — real authoring/pipeline work has happened (default view)
+ *   'up-next'      — scaffolded/batch-ingested only; active work not begun
+ *   'published'    — status field flipped to published
+ */
+export type StatusBucket = 'in-the-works' | 'up-next' | 'published';
+
 export type StepState = 'done' | 'active' | 'pending' | 'blocked';
 
 export interface StudioStep {
@@ -38,7 +46,9 @@ const PHASE_ORDER = [
   '0a', '0b', '0c', '0d', '0e',
   '06a', '0f', '0g',
   'per-chapter', 'per-chapter-optimize', 'per-chapter-slides',
-  'finalize', 'publish', 'trainer', 'merge', 'done',
+  'finalize',
+  '0book-design', '0book-compose', '0book-illustrate', '0book-slide-import', '0book-render',
+  'publish', 'trainer', 'merge', 'done',
 ];
 
 function phaseIndex(phase: string | null | undefined): number {
@@ -59,6 +69,39 @@ async function readJson<T>(path: string): Promise<T | null> {
   } catch {
     return null;
   }
+}
+
+/**
+ * Classify a book into a Studio-picker filter bucket.
+ *
+ * Rule order matters:
+ *   1. published status wins outright;
+ *   2. no completed phase → up-next;
+ *   3. a completed phase the canonical order doesn't know (e.g. 0book-render)
+ *      still proves real work → in-the-works;
+ *   4. only the automated ingest/refine ran (≤ 0b) → up-next — this is the
+ *      batch-scaffolded-volume case;
+ *   5. anything further along → in-the-works.
+ */
+export function classifyStatusBucket(
+  status: string | undefined,
+  lastCompletedPhase: string | null | undefined,
+): StatusBucket {
+  if (status === 'published') return 'published';
+  if (!lastCompletedPhase) return 'up-next';
+  const idx = phaseIndex(lastCompletedPhase);
+  if (idx === -1) return 'in-the-works';
+  if (idx <= phaseIndex('0b')) return 'up-next';
+  return 'in-the-works';
+}
+
+/** Read a book's state file and classify it. `status` comes from listContent(). */
+export async function loadStatusBucket(slug: string, status: string | undefined): Promise<StatusBucket> {
+  const ref = await findContent(slug);
+  const state = ref?.dir
+    ? await readJson<RawState>(join(ref.dir, '_system', 'orchestrator-state.json'))
+    : null;
+  return classifyStatusBucket(status, state?.last_completed_phase);
 }
 
 /**

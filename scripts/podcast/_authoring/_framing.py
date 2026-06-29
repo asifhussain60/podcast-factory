@@ -7,6 +7,7 @@ from __future__ import annotations
 import re as _re
 import sys
 from pathlib import Path
+from typing import Callable
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -244,95 +245,23 @@ def _build_technical_framing_prompt(
     )
 
 
-def _resolve_prompt_variant(category: str) -> str:
-    """Map a content category to its framing prompt variant name.
 
-    Returns one of: 'islamic' | 'consumer' | 'technical'
-    All unrecognised categories default to 'islamic' to preserve backward
-    compatibility with content that pre-dates category stamping.
+# ─── Islamic scholarly framing prompt (category: books/letters/lectures/…) ─
+def _build_islamic_framing_prompt(
+    book_slug: str,
+    chapter_slug: str,
+    chap_num: str,
+    contract: Path,
+    chapter_file: Path,
+    framing_path: Path,
+    book_dir: Path,
+) -> str:
+    """Islamic/Arabic scholarly framing prompt (the back-compat default variant).
+
+    Extracted verbatim from author_framing's inline else-branch (registry refactor
+    2026-06-13) so a new content category is one FRAMING_PROMPT_BUILDERS entry.
     """
-    if category == "sites":
-        return "consumer"
-    if category == "explainers":
-        return "technical"
-    return "islamic"
-
-
-# ─── Per-chapter framing authorship ──────────────────────────────────────────
-def author_framing(book_dir: Path, chapter_slug: str,
-                   timeout: int = FRAMING_TIMEOUT) -> str:
-    """Author 00-framing.md from the chapter contract + customize-prompt template.
-
-    Reads:  BOOK_DIR/chapter-contracts/<slug>.yml
-            BOOK_DIR/chapters/ch##-<slug>.txt
-            (rule data: scripts/podcast/_rules.py — the prior
-            notebooklm-customize-prompt-rules.md handbook was retired 2026-05-23)
-    Writes: BOOK_DIR/_system/episode-drafts/EP##-<slug>/00-framing.md
-    """
-    book_slug = book_dir.name
-
-    # ── Category detection ────────────────────────────────────────────────────
-    # Routes to the correct framing prompt:
-    #   'islamic'  — Islamic/Arabic scholarly content (books, letters, lectures, …)
-    #   'consumer' — consumer-finance content (sites: healthequity, product docs)
-    #   'technical' — developer/technical content (explainers: training docs)
-    _category = _read_category(book_dir)
-    _prompt_variant = _resolve_prompt_variant(_category)
-    _use_consumer_prompt = _prompt_variant == "consumer"
-    _use_technical_prompt = _prompt_variant == "technical"
-
-    contract = book_dir / "chapter-contracts" / f"{chapter_slug}.yml"
-    if not contract.exists():
-        raise AuthoringError(
-            phase=f"framing/{chapter_slug}",
-            message=f"chapter contract missing: {contract}",
-            manual_fallback="Run Phase 0d first to produce the contracts.",
-        )
-
-    # Resolve episode number + draft folder from the chapter file glob.
-    chapter_files = list((book_dir / "chapters").glob(f"ch*-{chapter_slug}.txt"))
-    if not chapter_files:
-        raise AuthoringError(
-            phase=f"framing/{chapter_slug}",
-            message=f"chapter file missing for slug {chapter_slug} under {book_dir / 'chapters'}",
-            manual_fallback="Run Phase 0d to produce the chapter files.",
-        )
-    chapter_file = chapter_files[0]
-    # X7 (2026-05-21): strip letter suffix from ch## prefix via regex so chapters
-    # like `ch14b-...` produce `EP14-...` not `EP14b-...`. Mirrors the X3 fix in
-    # orchestrate_book.py:720-722. Without this, framing lands in EP14b/ while
-    # build_episode_txt.py validator looks at EP14/ — paths diverge and the
-    # chapter halts on R-PRONUNCIATION-IMPERATIVE (empty skeleton at the
-    # validator's path). Affects all letter-suffix chapters: ch01a, ch03a,
-    # ch04b, ch05c, ch13a, ch14b.
-    _chap_prefix = chapter_file.stem.split("-", 1)[0]              # e.g. "ch14b" or "ch10"
-    _m = _re.match(r"ch(\d+)", _chap_prefix)
-    chap_num = _m.group(1) if _m else _chap_prefix[2:]             # "14" or "10" — digits only
-    draft_dir = book_dir / "_system" / "episode-drafts" / f"EP{chap_num}-{chapter_slug}"
-    framing_path = draft_dir / "00-framing.md"
-
-    if _use_consumer_prompt:
-        prompt = _build_consumer_framing_prompt(
-            book_slug=book_slug,
-            chapter_slug=chapter_slug,
-            chap_num=chap_num,
-            contract=contract,
-            chapter_file=chapter_file,
-            framing_path=framing_path,
-            book_dir=book_dir,
-        )
-    elif _use_technical_prompt:
-        prompt = _build_technical_framing_prompt(
-            book_slug=book_slug,
-            chapter_slug=chapter_slug,
-            chap_num=chap_num,
-            contract=contract,
-            chapter_file=chapter_file,
-            framing_path=framing_path,
-            book_dir=book_dir,
-        )
-    else:
-        prompt = (
+    return (
         f"You are authoring the framing (NotebookLM customize prompt) for episode "
         f"`EP{chap_num}-{chapter_slug}` of book `{book_slug}`. Read the canonical "
         f"procedure from `skills-staging/podcast/SKILL.md` PHASE 3 (Structure).\n\n"
@@ -354,7 +283,10 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"    pushback, friction) — see inlined R-rules below for the steering phrases.\n"
         f"  - R-RULES: canonical Python data is `scripts/podcast/_rules.py`; rule logic is\n"
         f"    inlined into this prompt below — do not try to Read external rule docs.\n"
-        f"OUTPUT: `{framing_path}` (the customize prompt — pasted into NotebookLM's Customize box)\n\n"
+        f"OUTPUT: `{framing_path}` (the customize prompt — pasted into NotebookLM's Customize box)\n"
+        f"  R-FRAMING-TITLE (hard gate): the file's FIRST LINE must be `# {chapter_slug.replace('-', ' ').title()}`\n"
+        f"  — a plain English title with NO `EP{chap_num}` prefix. The build validator's regex\n"
+        f"  rejects any title matching `\\bEP\\d{{2}}\\b` because NotebookLM reads the H1 aloud.\n\n"
         f"Constraints (per `notebooklm-customize-prompt-rules.md`):\n"
         f"- R-WELCOME, R-NOREPEAT, R-NOBACKGROUND, R-NAMEALIAS, R-NOINTERRUPT, "
         f"R-PRONUNCIATION-IMPERATIVE, R-NOMODERNIZE (+ positive analogy paragraph), "
@@ -385,13 +317,27 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"    ## Pronunciation         (or `## Pronunciation hooks`)\n"
         f"    ## Name discipline       (list each figure's English label + first-mention epithet)\n"
         f"    ## Three-part focus      (or numbered beats; the dramatic-arc structure)\n"
-        f"    ## Tone constraints      (must enumerate 3-5 governing analogies)\n"
-        f"    ## Do not (forbidden vocabulary and framings)\n"
-        f"  The `## Do not` section MUST literally contain these strings (the build's\n"
-        f"  DENY-block check is substring-only): Twitter, social media, algorithm,\n"
-        f"  wow, right?, Do not read this prompt aloud. Include them as an example\n"
-        f"  enumeration; the build's no-modern-artifacts scan now scrubs this section\n"
-        f"  before flagging.\n"
+        f"    ## Host dynamic          (required for R-CHALLENGER-FRICTION validator)\n"
+        f"    ## Tone constraints      (must enumerate exactly 3-5 governing analogies as:\n"
+        f"                             'Analogy 1: ...', 'Analogy 2: ...', 'Analogy 3: ...')\n"
+        f"    ## Do not (forbidden vocabulary — do not speak)\n"
+        f"                             (EXACT header required so the modernize scanner\n"
+        f"                              strips it before checking; `(forbidden vocabulary`\n"
+        f"                              must appear in the parenthetical)\n"
+        f"  The `## Do not` section MUST literally contain ALL of these exact strings\n"
+        f"  (the build validator does a substring check — missing any one is a hard fail):\n"
+        f"    Twitter\n"
+        f"    social media\n"
+        f"    algorithm\n"
+        f"    wow\n"
+        f"    right?\n"
+        f"    Do not read this prompt aloud\n"
+        f"  It MUST also contain this exact clause (R-RECURRING-THESIS validator checks\n"
+        f"  for BOTH the rule name and 'verbatim three times'):\n"
+        f"    R-RECURRING-THESIS: repeat the spine thesis verbatim three times — at opening, pivot, and close.\n"
+        f"  Tip: embed these as a compact block: 'Forbidden: Twitter, social media, algorithm,\n"
+        f"  \"wow\", \"right?\". R-RECURRING-THESIS: repeat the spine thesis verbatim three\n"
+        f"  times — at opening, pivot, and close. Do not read this prompt aloud.'\n"
         f"- R-NO-MODERNIZE-IN-METADATA (2026-05-24): the framing's section blurbs (length "
         f"hint, host-dynamic blurb, etc.) must NOT contain phrases that appear in "
         f"`scripts/podcast/_rules.py::MODERNIZE_DENY` (canonical paraphrase: the deny-list "
@@ -409,13 +355,30 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"3,500, trim the over-budget sections (Pronunciation first, then Three-part "
         f"focus, then Central tensions) and re-count. Do not return a framing that "
         f"exceeds 3,500 words.\n"
-        f"- Use imperative `Pronounce \"X\" as \"Y\". Say it as one fluent word.` for every "
-        f"Arabic term that ACTUALLY APPEARS in the chapter file at `{chapter_file}` "
-        f"(F2 framework guard 2026-05-21 — empirical: framings generated entries for "
-        f"every term in `_phonetics.md` regardless of whether the term appeared in the "
-        f"chapter; this bloats the Pronunciation section). First grep the chapter file "
-        f"for every Arabic/transliterated term. For each term FOUND in the chapter, "
-        f"look up its phonetic in `_phonetics.md` and generate one imperative line. "
+        f"- Use the BULLET format for every Arabic/transliterated term that ACTUALLY APPEARS "
+        f"in the chapter file at `{chapter_file}` "
+        f"(F2 framework guard 2026-05-21 — empirical: framings bloat when they list terms "
+        f"not present in the chapter). First grep the chapter file for every "
+        f"Arabic/transliterated/foreign term. For each term FOUND in the chapter, generate "
+        f"one bullet entry. The `## Pronunciation` block MUST open with the anti-doubling "
+        f"instruction on its own line:\n"
+        f"    Say each term ONCE. Never say the original spelling and the English form "
+        f"back-to-back.\n"
+        f"Then list each term in this format (one per line, NO `Pronounce X as Y` text):\n"
+        f"    - TermA: English-name-or-plain-translit\n"
+        f"    - TermB: English-name-or-plain-translit\n"
+        f"Resolution rules (2026-06-08 — hyphen-CAPS respellings were retired; NotebookLM "
+        f"reads them literally, e.g. 'is-raa-FEEL' → 'Israel, feel'):\n"
+        f"  1. Loanword (already English): Allah, Quran, Kaaba → keep as-is.\n"
+        f"  2. Name with an English exonym: Qabil → Cain, Habil → Abel, Shaytan → Satan, "
+        f"Israfil → Raphael, Nuh → Noah, Ibrahim → Abraham, Musa → Moses, Isa → Jesus. "
+        f"Use the English exonym.\n"
+        f"  3. Concept with an inline gloss in the chapter (e.g. 'tafsir (exegesis)'): "
+        f"use the gloss.\n"
+        f"  4. Otherwise: plain transliteration without diacritics and without hyphens/CAPS "
+        f"(e.g. 'al-Tabari', 'tawhid', 'da'wa').\n"
+        f"Do NOT use `Pronounce \"X\" as \"Y\"` or any variant of the 'Pronounce ... as' format — "
+        f"this causes NotebookLM TTS to say the term twice (the double-read bug).\n"
         f"Do NOT generate pronunciation entries for terms not present in the chapter.\n"
         f"- Apply R-STABLE-ROLE-LABELS STRICTLY (v4-revised doctrine 2026-05-22; "
         f"replaces R-NAMEDISCIPLINE rotation). NotebookLM's TTS empirically mangles "
@@ -468,26 +431,24 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"  Each beat lands once and only once. The crisis (Beat 1) is foregrounded "
         f"with EMOTIONAL weight before any resolution appears.\n"
         f"- Apply R-CHALLENGER-FRICTION-LITERAL (v4-revised 2026-05-22; supersedes "
-        f"R-CHALLENGER-FRICTION). The Color host (or scholar_companion or advocate_b) "
-        f"MUST push back genuinely throughout the episode, not chorus. At least 3 of "
-        f"the following 4 literal pushback patterns MUST appear in the Color host's "
-        f"voice:\n"
-        f"    1. (Beat 1 → Beat 4 transition): 'I don't buy that yet. If [stated "
-        f"dichotomy], what *is* the contact made of? Isn't this just rephrasing the "
-        f"problem?'\n"
-        f"    2. (Beat 4): 'Isn't this just replacing [surface explanation] with "
-        f"[new concept] — hiding the same connection under a different word?'\n"
-        f"    3. (Beat 5): 'That sounds like wordplay. If [refused category] isn't "
-        f"X and isn't Y, what is it actually? Aren't you just refusing every "
-        f"concrete category I offer?'\n"
-        f"    4. (Beat 6): 'How is this different from hiding the problem under a "
-        f"different word? After [extended setup], the author just lets the chain "
-        f"stand. What changed?'\n"
-        f"  The Driver does NOT immediately resolve these — let each pushback sit for "
-        f"one or two sentences before answering. FORBIDDEN as the Color host's FIRST "
-        f"WORD of any turn: 'Exactly', 'Yeah', 'Right', 'Of course', 'Absolutely', "
-        f"'Totally', 'I see', 'Got it', 'Makes sense', 'Wow', 'That's a great point', "
-        f"'Brilliant', 'Beautiful', 'That captures it perfectly'.\n"
+        f"R-CHALLENGER-FRICTION). The Color host MUST push back genuinely, not chorus.\n"
+        f"  CRITICAL: the build validator (`assert_framing_challenger_friction_lists_patterns`)\n"
+        f"  performs a LITERAL STRING SEARCH for at least 2 of these EXACT phrases in the\n"
+        f"  ## Host dynamic section. You MUST include at least 2 of these verbatim in\n"
+        f"  a 'Sample friction:' subsection — the validator will reject any framing that\n"
+        f"  has fewer than 2:\n"
+        f"    \"I don't buy that yet\"\n"
+        f"    \"That sounds like wordplay\"\n"
+        f"    \"Isn't this just replacing\"\n"
+        f"    \"How is this different\"\n"
+        f"  Format for ## Host dynamic section:\n"
+        f"    ## Host dynamic\n"
+        f"    Host A (male, scholar) leads; Host B challenges at least 3 times and concedes once.\n"
+        f"    Sample friction: \"I don't buy that yet — [specific objection to this chapter]\";\n"
+        f"    \"That sounds like wordplay — [specific objection].\" At least two genuine challenges.\n"
+        f"  The exact phrases MUST appear verbatim (including punctuation) in the framing text.\n"
+        f"  FORBIDDEN as Host B's first word: Exactly, Yeah, Right, Of course, Absolutely, Totally,\n"
+        f"  I see, Got it, Makes sense, Wow, That's a great point, Brilliant, Beautiful.\n"
         f"- Apply R-ANALOGY-CAP-STRICT (v4-revised 2026-05-22). Use EXACTLY 3 governing "
         f"analogies, enumerated upfront in `## Tone constraints`. SOURCE-IMAGE "
         f"CARVE-OUT: chapter prose may contain its own analogical images (e.g., mirror "
@@ -509,6 +470,33 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"open (Beat 1 / ## Opening directive), once at the pivot (Beat 4), once at "
         f"the close (Beat 6 / ## Landing). Reference the repetition rule in each of "
         f"those three sections of the framing.\n"
+        f"- R-WELCOME-OPEN (Islamic-content standard, 2026-06-05): the ## Opening "
+        f"directive MUST instruct the hosts to begin with a brief, warm welcome — one "
+        f"or two sentences — that (a) greets the listener, (b) NAMES THE BOOK by its "
+        f"plain English title and its author, and (c) previews in ONE specific sentence "
+        f"the actual teaching THIS episode pursues (not a generic teaser). Keep it "
+        f"substantive and particular to this chapter. FORBIDDEN hollow openers (R-WELCOME "
+        f"/ WELCOME_COLD): 'Welcome to our…', 'Welcome back', 'Welcome to today', 'in "
+        f"this episode', 'today we'll/we will discuss'. Immediately after the welcome "
+        f"sentence, land the spine sentence (first of its three R-RECURRING-THESIS "
+        f"placements). Author the welcome FRESH from this chapter — do not copy any "
+        f"example. Shape (illustrative only): 'Welcome. We're with Ghazali's letter to "
+        f"his student — the one called O Beloved Son — and the hard claim at its "
+        f"center: that knowledge you never act on will not save you.'\n"
+        f"- R-MODERN-CLOSE (Islamic-content standard, 2026-06-05): the ## Landing MUST "
+        f"instruct the hosts to END on a thought-provoking question or reflective "
+        f"sentiment that grows out of THIS chapter's specific teaching and turns the "
+        f"listener toward practical application in their own modern life — what to "
+        f"examine in themselves, what to do differently, how the teaching lands in a "
+        f"contemporary life. The close must be GROUNDED in the chapter's doctrine: "
+        f"vague faux-profundity ('what does it truly mean to live?') is forbidden "
+        f"(R-NO-FAUX-PROFUNDITY-OPENING) and tidy false resolution ('and that, "
+        f"ultimately, is what it all means') is forbidden (R-NO-PREMATURE-CLOSURE). "
+        f"Leave the listener a real question to sit with, tied to action. Place the "
+        f"third spine-sentence repetition just before this reflective turn. Author "
+        f"FRESH. Shape (illustrative only): 'The question the letter leaves us with "
+        f"isn't whether we know enough — it's which piece of what we already know we "
+        f"have been refusing to act on, and what it would cost to begin this week.'\n"
         f"- Apply R-HONORIFIC-ONCE BOUNDED BOTH SIDES (v4-revised 2026-05-22). Each "
         f"honorific appears EXACTLY ONCE — not zero, not twice — at the FIRST mention "
         f"of its specific figure. MANDATORY at first mention. Required forms (in full "
@@ -589,6 +577,22 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"is' / 'the answer turns out to be Y' (see R-NO-PREMATURE-CLOSURE).\n"
         f"    - 'Mind blown', 'fascinating world of', 'buckle up', 'what a journey' "
         f"and similar AI-cliché filler (see R-NO-AI-CLICHE).\n"
+        f"    - R-NOBACKGROUND — do NOT open with or dwell on historical/biographical "
+        f"background (the author's life, manuscript history, dating, century, "
+        f"'context about the tradition'). A biographical or historical detail is "
+        f"permitted ONLY when it directly illuminates the specific teaching under "
+        f"discussion, and then stated ONCE, never recapped. The chapter's TEACHINGS "
+        f"and its anchor passages — not the author's life or the work's provenance — "
+        f"are the episode's material. The `## Three-part focus` must keep the hosts on "
+        f"the chapter's main doctrinal content; get into the doctrine, not the dates.\n"
+        f"    - R-NO-CROSS-EPISODE — each episode must stand alone. Do NOT reference "
+        f"other episodes anywhere in the framing: no 'the previous/prior/earlier/next "
+        f"episode', no 'carried over from the prior episode', no 'setup for the next "
+        f"episode'. To supply context, describe what the LETTER/BOOK itself has already "
+        f"established ('the letter has already delivered its diagnosis…'), never what a "
+        f"sibling episode covered. Stable name-labels stand on their own without a "
+        f"'carried over from…' note. build_episode_txt.py hard-fails on the tells "
+        f"'previous episode', 'prior episode', 'earlier episode', 'next episode'.\n"
         f"- Do NOT modify any file outside `{framing_path}`.\n\n"
         f"## Quality contract (PEQ axes — the challenger scores every chapter on these)\n"
         f"| Axis | Weight | What it measures |\n"
@@ -598,11 +602,139 @@ def author_framing(book_dir: Path, chapter_slug: str,
         f"| Structure | 20% | Open hook, three beats, close — all present and ordered |\n"
         f"| Enrichment | 20% | Arabic terms glossed; Quranic refs cited; domain vocabulary |\n"
         f"Thresholds: ≥ 85 = PASS · 70–84 = WARN · < 70 = FAIL (convergence loop blocks on FAIL).\n\n"
+        f"HARD CHARACTER LIMIT (P0): the final framing file MUST be under 4,200 "
+        f"CHARACTERS (the build gate rejects at 4,500; target 4,200 to leave 300-char "
+        f"headroom). NotebookLM silently truncates at ~5,000 chars — anything beyond "
+        f"4,500 is discarded, losing name-discipline, do-not lists, and pronunciation "
+        f"guidance. Write TIGHT imperative directives, not prose explanations.\n"
+        f"  Per-section character budgets to stay under 4,200 total:\n"
+        f"  ## Opening directive: ~300 chars. ## Name discipline: ~400 chars.\n"
+        f"  ## Pronunciation: ~400 chars. ## Three-part focus: ~600 chars (3 beats × 200).\n"
+        f"  ## Host dynamic: ~250 chars. ## Tone constraints: ~250 chars.\n"
+        f"  ## Do not: ~200 chars. Remaining: header and whitespace ~200 chars.\n"
+        f"  Before writing the final output, COUNT YOUR CHARACTERS. If over 4,200, cut\n"
+        f"  the longest sections (Pronunciation first, then Three-part focus beats).\n\n"
         f"After authoring, run `python3 scripts/podcast/build_episode_txt.py "
         f"{book_dir} EP{chap_num}-{chapter_slug}` to validate. Fix any hard-gate failures "
         f"before exiting.\n\n"
         f"Exit when `{framing_path}` validates."
-        )  # end of Islamic scholarly prompt string
+    )
+
+
+def _resolve_prompt_variant(category: str) -> str:
+    """Map a content category to its framing prompt variant name.
+
+    Returns one of: 'islamic' | 'consumer' | 'technical'
+    All unrecognised categories default to 'islamic' to preserve backward
+    compatibility with content that pre-dates category stamping.
+    """
+    if category == "sites":
+        return "consumer"
+    if category == "explainers":
+        return "technical"
+    return "islamic"
+
+
+# Strategy registry: content variant -> framing prompt builder. Adding a new
+# content variant is one entry here + one builder fn (Open/Closed). All three
+# builders share the same keyword signature so the lookup call is uniform.
+FRAMING_PROMPT_BUILDERS: dict[str, Callable[..., str]] = {
+    "islamic": _build_islamic_framing_prompt,
+    "consumer": _build_consumer_framing_prompt,
+    "technical": _build_technical_framing_prompt,
+}
+
+
+# ─── Per-chapter framing authorship ──────────────────────────────────────────
+def author_framing(book_dir: Path, chapter_slug: str,
+                   timeout: int = FRAMING_TIMEOUT) -> str:
+    """Author 00-framing.md from the chapter contract + customize-prompt template.
+
+    Reads:  BOOK_DIR/chapter-contracts/<slug>.yml
+            BOOK_DIR/chapters/ch##-<slug>.txt
+            (rule data: scripts/podcast/_rules.py — the prior
+            notebooklm-customize-prompt-rules.md handbook was retired 2026-05-23)
+    Writes: BOOK_DIR/_system/episode-drafts/EP##-<slug>/00-framing.md
+    """
+    book_slug = book_dir.name
+
+    # ── Category detection ────────────────────────────────────────────────────
+    # Routes to the correct framing prompt:
+    #   'islamic'  — Islamic/Arabic scholarly content (books, letters, lectures, …)
+    #   'consumer' — consumer-finance content (sites: healthequity, product docs)
+    #   'technical' — developer/technical content (explainers: training docs)
+    _category = _read_category(book_dir)
+    _prompt_variant = _resolve_prompt_variant(_category)
+    _use_consumer_prompt = _prompt_variant == "consumer"
+    _use_technical_prompt = _prompt_variant == "technical"
+
+    contract = book_dir / "chapter-contracts" / f"{chapter_slug}.yml"
+    if not contract.exists():
+        raise AuthoringError(
+            phase=f"framing/{chapter_slug}",
+            message=f"chapter contract missing: {contract}",
+            manual_fallback="Run Phase 0d first to produce the contracts.",
+        )
+
+    # R-SERMON-VERBATIM (2026-06-10): when Phase 0d marked a sermon in the
+    # contract, the framing must carry a `## Verbatim Recitation` block so the
+    # hosts read the sermon aloud before discussing it.
+    _sermon_section: str | None = None
+    try:
+        import yaml as _yaml
+        _c = _yaml.safe_load(contract.read_text(encoding="utf-8")) or {}
+        _s = _c.get("sermon") or {}
+        if isinstance(_s, dict) and _s.get("present"):
+            _sermon_section = str(_s.get("section_title") or "").strip() or None
+    except Exception:  # noqa: BLE001 — contract parse issues surface in 0d gates
+        _sermon_section = None
+
+    # Resolve episode number + draft folder from the chapter file glob.
+    chapter_files = list((book_dir / "chapters").glob(f"ch*-{chapter_slug}.txt"))
+    if not chapter_files:
+        raise AuthoringError(
+            phase=f"framing/{chapter_slug}",
+            message=f"chapter file missing for slug {chapter_slug} under {book_dir / 'chapters'}",
+            manual_fallback="Run Phase 0d to produce the chapter files.",
+        )
+    chapter_file = chapter_files[0]
+    # X7 (2026-05-21): strip letter suffix from ch## prefix via regex so chapters
+    # like `ch14b-...` produce `EP14-...` not `EP14b-...`. Mirrors the X3 fix in
+    # orchestrate_book.py:720-722. Without this, framing lands in EP14b/ while
+    # build_episode_txt.py validator looks at EP14/ — paths diverge and the
+    # chapter halts on R-PRONUNCIATION-IMPERATIVE (empty skeleton at the
+    # validator's path). Affects all letter-suffix chapters: ch01a, ch03a,
+    # ch04b, ch05c, ch13a, ch14b.
+    _chap_prefix = chapter_file.stem.split("-", 1)[0]              # e.g. "ch14b" or "ch10"
+    _m = _re.match(r"ch(\d+)", _chap_prefix)
+    chap_num = _m.group(1) if _m else _chap_prefix[2:]             # "14" or "10" — digits only
+    draft_dir = book_dir / "_system" / "episode-drafts" / f"EP{chap_num}-{chapter_slug}"
+    framing_path = draft_dir / "00-framing.md"
+
+    builder = FRAMING_PROMPT_BUILDERS[_prompt_variant]
+    prompt = builder(
+        book_slug=book_slug,
+        chapter_slug=chapter_slug,
+        chap_num=chap_num,
+        contract=contract,
+        chapter_file=chapter_file,
+        framing_path=framing_path,
+        book_dir=book_dir,
+    )
+
+    if _sermon_section and not (_use_consumer_prompt or _use_technical_prompt):
+        prompt += (
+            f"\n\nR-SERMON-VERBATIM (2026-06-10 — MANDATORY for this episode): the "
+            f"chapter contains a sermon, rendered whole in the source section titled "
+            f"\"{_sermon_section}\". The framing MUST include a `## Verbatim Recitation` "
+            f"section instructing the hosts to: (1) introduce the sermon in one "
+            f"sentence; (2) have Host A read the sermon ALOUD WORD-FOR-WORD from the "
+            f"source section titled \"{_sermon_section}\" — no paraphrase, no "
+            f"abbreviation; if it runs long, break at natural paragraph boundaries "
+            f"but preserve the exact wording of each part; (3) only AFTER the "
+            f"recitation, open the discussion of its meaning. Keep this section to "
+            f"3-4 imperative lines — do not copy the sermon text into the framing."
+        )
 
     rc, stdout, stderr = _run_claude_p(
         prompt, timeout=timeout,
@@ -621,45 +753,96 @@ def author_framing(book_dir: Path, chapter_slug: str,
         ),
     )
 
-    # F1 (2026-05-25): post-authoring word-count guard. The framing prompt asks
-    # the LLM to self-count and trim to <=3500 words, but empirically the LLM
-    # ignores this ~15% of the time. When it does, build_episode_txt.py would
-    # later hard-fail with FRAMING_OVER_WORDS, marking the chapter FAILED in
-    # the orchestrator. Catch the over-cap here and invoke ONE focused
-    # compression re-author before the build gate sees it. If the compression
-    # also runs over, let the build gate handle it (orchestrator's
-    # FAILED→graceful-degrade per F33-second handles the rest).
+    # R-SERMON-VERBATIM post-author gate: contract demanded a recitation block.
+    if _sermon_section:
+        _ft = framing_path.read_text(encoding="utf-8")
+        if "## Verbatim Recitation" not in _ft:
+            raise AuthoringError(
+                phase=f"framing/{chapter_slug}",
+                message=(
+                    f"R-SERMON-VERBATIM: contract marks a sermon "
+                    f"(section {_sermon_section!r}) but the authored framing has no "
+                    f"`## Verbatim Recitation` section."
+                ),
+                manual_fallback=(
+                    f"Add a `## Verbatim Recitation` section to {framing_path} "
+                    f"instructing the hosts to read the sermon aloud word-for-word "
+                    f"from the source section titled {_sermon_section!r} before "
+                    f"discussing it, then resume."
+                ),
+            )
+
+    # F1 (2026-06-05 revised): post-authoring CHARACTER-count guard.
+    # NotebookLM's Customize box silently truncates at ~5,000 characters (P0 —
+    # empirically measured). The binding gate is FRAMING_CHAR_MAX (4,500 chars),
+    # not word count. If the authored framing exceeds that, invoke ONE focused
+    # compression re-author that rewrites the framing as a tight directive
+    # (~700 words / ~4,200 chars) — cutting verbose prose while preserving
+    # every actionable instruction. If compression still exceeds the cap, the
+    # build gate will hard-fail and the orchestrator's graceful-degrade handles it.
     try:
-        from build_episode_txt import FRAMING_WORD_MAX
+        from _validator_constants import FRAMING_CHAR_MAX as _CHAR_MAX
     except ImportError:
-        FRAMING_WORD_MAX = 3700  # match build script default
+        _CHAR_MAX = 4500
     framing_text = framing_path.read_text(encoding="utf-8")
+    framing_chars = len(framing_text)
     framing_words = len(framing_text.split())
-    if framing_words > FRAMING_WORD_MAX:
-        overrun = framing_words - FRAMING_WORD_MAX
+    if framing_chars > _CHAR_MAX:
+        target_chars = _CHAR_MAX - 300  # 300-char buffer below ceiling
         print(
-            f"[F1] framing/{chapter_slug}: {framing_words} words > {FRAMING_WORD_MAX} "
-            f"cap (overrun={overrun}); invoking compression re-author",
+            f"[F1] framing/{chapter_slug}: {framing_chars} chars > {_CHAR_MAX} "
+            f"NotebookLM limit (overrun={framing_chars - _CHAR_MAX}); "
+            f"invoking compression re-author → target <{target_chars} chars",
             flush=True,
         )
         compress_prompt = (
-            f"Edit `{framing_path}` IN PLACE to bring total word count from "
-            f"{framing_words} down to <= {FRAMING_WORD_MAX - 100} (target leaves "
-            f"100-word buffer below the cap).\n\n"
-            f"Trim priority (delete content from these sections first, in order):\n"
-            f"  1. ## Pronunciation — drop entries for terms appearing <2x in chapter; "
-            f"keep imperative form for remaining entries.\n"
-            f"  2. ## Three-part focus — compress each beat to 1-2 short sentences; "
-            f"preserve every beat label and ordering.\n"
-            f"  3. ## Central tensions — drop redundant or weakly-distinguished tensions.\n"
-            f"  4. ## Background — strip biographical detail not required for episode "
-            f"navigation.\n\n"
-            f"DO NOT change section headers, ordering, or core doctrine (R-NO-ARABIC-NAMES, "
-            f"R-HOST-ROLE-PARITY, ## Stable role-labels, ## Anti-noise rules). DO NOT "
-            f"add new analogies. After editing, COUNT words again and report the new "
-            f"total. The chapter source at `{chapter_file}` and all other framing "
-            f"rules from the original framing-author prompt still apply.\n\n"
-            f"Exit when the framing word count is <= {FRAMING_WORD_MAX - 100}."
+            f"Rewrite `{framing_path}` IN PLACE as a tight directive for NotebookLM.\n\n"
+            f"HARD CONSTRAINT: the final file must be under {target_chars} CHARACTERS "
+            f"(currently {framing_chars} chars — NotebookLM's Customize box limit is "
+            f"~5,000 chars and silently truncates everything beyond it). Every character "
+            f"counts. This is a P0 requirement.\n\n"
+            f"WHAT TO KEEP (highest priority — these are actionable):\n"
+            f"  1. ## Opening directive — full opening/welcome sentence, spine sentence, "
+            f"     forbidden-opener list (1-2 lines only).\n"
+            f"  2. ## Name discipline — one line per figure: 'Name → stable label + "
+            f"     first-mention phrase'. No prose. No duplicates.\n"
+            f"  3. ## Pronunciation — MUST start with the anti-doubling instruction:\n"
+            f"     'Say each term ONCE. Never say the original spelling and the English form\n"
+            f"     back-to-back.'\n"
+            f"     Then bullet entries only: '- TermA: English-name-or-plain-translit' (one per\n"
+            f"     term, no prose). English exonyms first (Cain/Abel/Noah/Moses/Jesus); otherwise\n"
+            f"     plain transliteration without diacritics or hyphen-CAPS.\n"
+            f"     Do NOT rewrite as 'Pronounce X as Y.' — that format causes double-reads.\n"
+            f"  4. ## Three-part focus — three beats, one sentence each.\n"
+            f"  5. ## Do not — a single flat list of forbidden phrases/framings, "
+            f"     no explanation.\n"
+            + (
+                f"  6. ## Verbatim Recitation — KEEP THIS SECTION INTACT (R-SERMON-"
+                f"VERBATIM hard gate; the post-author validator rejects the framing "
+                f"without it). You may tighten its wording but not remove it.\n"
+                if _sermon_section else ""
+            )
+            + f"\nWHAT TO CUT (remove entirely to save characters):\n"
+            f"  - ## Audience section — cut entirely (NotebookLM doesn't need this).\n"
+            f"  - ## Length section — cut entirely (already set in NotebookLM UI).\n"
+            f"  - ## Host dynamic — cut the long prose paragraphs; keep ONLY a single "
+            f"     line: 'Host A (male) = scholar/teacher. Host B (female) = seeker/questioner. "
+            f"     Roles do not rotate.'\n"
+            f"  - All explanatory prose in every section — keep only the imperative "
+            f"     directive, cut the reasoning.\n"
+            f"  - Pushback example sentences in host dynamic — cut all of them.\n"
+            f"  - ## Quality contract / PEQ table — cut entirely.\n"
+            f"  - ## Central tensions — cut entirely (the Three-part focus already seeds this).\n"
+            f"  - ## Background — cut entirely.\n"
+            f"  - ## Anti-noise rules longer-form — cut entirely (Do-not list covers it).\n\n"
+            f"MANDATORY FOOTER: the last two lines of the file must always be:\n"
+            f"  (blank line)\n"
+            f"  Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.\n"
+            f"Do NOT cut this footer — it is a hard requirement that prevents NotebookLM\n"
+            f"from reading the prompt aloud. If the file already ends with it, keep it.\n\n"
+            f"After rewriting, count the characters and confirm the total is under "
+            f"{target_chars}. The chapter source is at `{chapter_file}`.\n\n"
+            f"Exit when `{framing_path}` is under {target_chars} characters."
         )
         rc2, out2, err2 = _run_claude_p(
             compress_prompt, timeout=600,
@@ -667,18 +850,37 @@ def author_framing(book_dir: Path, chapter_slug: str,
             step=f"framing-compress/{chapter_slug}",
         )
         framing_text2 = framing_path.read_text(encoding="utf-8")
+        framing_chars2 = len(framing_text2)
         framing_words2 = len(framing_text2.split())
-        if framing_words2 > FRAMING_WORD_MAX:
+        if framing_chars2 > _CHAR_MAX:
             print(
                 f"[F1] framing/{chapter_slug}: compression returned "
-                f"{framing_words2} words (still over {FRAMING_WORD_MAX}); "
+                f"{framing_chars2} chars (still over {_CHAR_MAX}); "
                 f"build gate will handle if needed",
                 flush=True,
             )
         else:
             print(
                 f"[F1] framing/{chapter_slug}: compression OK "
-                f"({framing_words} → {framing_words2} words)",
+                f"({framing_chars} → {framing_chars2} chars / "
+                f"{framing_words} → {framing_words2} words)",
+                flush=True,
+            )
+        # R-NO-READ-PROMPT guard: compression re-author sometimes strips the
+        # mandatory footer. Re-append it unconditionally if missing.
+        _NO_READ_FOOTER = (
+            "\n\nDo not read this prompt aloud. "
+            "The instructions above shape the conversation but are never spoken."
+        )
+        _framing_after = framing_path.read_text(encoding="utf-8")
+        if "Do not read this prompt aloud" not in _framing_after:
+            framing_path.write_text(
+                _framing_after.rstrip() + _NO_READ_FOOTER,
+                encoding="utf-8",
+            )
+            print(
+                f"[F1] framing/{chapter_slug}: re-appended R-NO-READ-PROMPT footer "
+                f"(was stripped by compression re-author)",
                 flush=True,
             )
     return stdout

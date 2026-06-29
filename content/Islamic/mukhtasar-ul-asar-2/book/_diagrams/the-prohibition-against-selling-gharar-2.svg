@@ -1,0 +1,31 @@
+<svg id="Visible_vs_hidden__when_a_sale_is_allowe" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 306" role="img" aria-labelledby="Visible_vs_hidden__when_a_sale_is_allowe_t Visible_vs_hidden__when_a_sale_is_allowe_d">
+<title id="Visible_vs_hidden__when_a_sale_is_allowe_t">Visible vs hidden: when a sale is allowed</title>
+<desc id="Visible_vs_hidden__when_a_sale_is_allowe_d">Two-column contrast: Permissible (present and visible) vs Forbidden (unknown and hidden) — 4 paired phenomena</desc>
+<style>#Visible_vs_hidden__when_a_sale_is_allowe{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#111111;}#Visible_vs_hidden__when_a_sale_is_allowe text{font-family:'Lato', system-ui, sans-serif;}</style>
+<text x="250" y="20.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#000000"><tspan x="250" dy="0">Visible vs hidden: when a sale is allowed</tspan></text>
+<text x="250" y="40.0" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#777777"><tspan x="250" dy="0">The price must fall on what is present and visible</tspan></text>
+<rect x="14.0" y="62.0" width="218.0" height="48.0" fill="#000000" stroke="#000000" stroke-width="1.0" rx="4"/>
+<rect x="268.0" y="62.0" width="218.0" height="48.0" fill="#eeeeee" stroke="#d0d0d0" stroke-width="1.0" rx="4"/>
+<text x="123.0" y="78.5" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#ffffff"><tspan x="123.0" dy="0">Permissible (present and</tspan><tspan x="123.0" dy="15">visible)</tspan></text>
+<text x="377.0" y="78.5" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#111111"><tspan x="377.0" dy="0">Forbidden (unknown and</tspan><tspan x="377.0" dy="15">hidden)</tspan></text>
+<rect x="14.0" y="110.0" width="218.0" height="46.0" fill="#ffffff" stroke="#d0d0d0" stroke-width="1.0"/>
+<rect x="268.0" y="110.0" width="218.0" height="46.0" fill="#ffffff" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="123.0" y="126.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="123.0" dy="0">Milk in udder sold with</tspan><tspan x="123.0" dy="14">milk already drawn</tspan></text>
+<text x="377.0" y="126.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="377.0" dy="0">Milk still in the udder</tspan><tspan x="377.0" dy="14">alone</tspan></text>
+<line x1="249" y1="114" x2="249" y2="152" stroke="#d0d0d0" stroke-width="1"/>
+<rect x="14.0" y="156.0" width="218.0" height="46.0" fill="#f7f7f7" stroke="#d0d0d0" stroke-width="1.0"/>
+<rect x="268.0" y="156.0" width="218.0" height="46.0" fill="#f7f7f7" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="123.0" y="172.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="123.0" dy="0">Visible part of doors,</tspan><tspan x="123.0" dy="14">rooms, garments</tspan></text>
+<text x="377.0" y="179.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="377.0" dy="0">The concealed interior</tspan></text>
+<line x1="249" y1="160" x2="249" y2="198" stroke="#d0d0d0" stroke-width="1"/>
+<rect x="14.0" y="202.0" width="218.0" height="46.0" fill="#ffffff" stroke="#d0d0d0" stroke-width="1.0"/>
+<rect x="268.0" y="202.0" width="218.0" height="46.0" fill="#ffffff" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="123.0" y="218.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="123.0" dy="0">Living slave known to</tspan><tspan x="123.0" dy="14">both parties</tspan></text>
+<text x="377.0" y="218.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="377.0" dy="0">Slave sold before his</tspan><tspan x="377.0" dy="14">existence</tspan></text>
+<line x1="249" y1="206" x2="249" y2="244" stroke="#d0d0d0" stroke-width="1"/>
+<rect x="14.0" y="248.0" width="218.0" height="46.0" fill="#f7f7f7" stroke="#d0d0d0" stroke-width="1.0"/>
+<rect x="268.0" y="248.0" width="218.0" height="46.0" fill="#f7f7f7" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="123.0" y="264.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="123.0" dy="0">Fish in water with a</tspan><tspan x="123.0" dy="14">means to catch it</tspan></text>
+<text x="377.0" y="264.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="377.0" dy="0">Fish in water with no</tspan><tspan x="377.0" dy="14">means to catch it</tspan></text>
+<line x1="249" y1="252" x2="249" y2="290" stroke="#d0d0d0" stroke-width="1"/>
+</svg>

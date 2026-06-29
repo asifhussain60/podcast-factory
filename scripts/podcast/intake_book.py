@@ -33,12 +33,11 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from _paths import REPO_ROOT
+from _paths import BOOK_SUBDIRS, REPO_ROOT, content_dir, ensure_book_skeleton
 
-WORKSPACE_BOOKS = REPO_ROOT / "content" / "drafts"
+WORKSPACE_BOOKS = REPO_ROOT / "content" / "drafts"  # deprecated (legacy flat layout)
 RAW_DIR = REPO_ROOT.parent.parent / "raw"  # podcast-factory/raw/, outside the worktree
 
-SKELETON_DIRS = ["_source", "_system", "chapters", "episodes", "episode-drafts"]
 SLUG_RE_PATTERN = r"^[a-z0-9]+(?:-[a-z0-9]+)*$"
 
 
@@ -56,6 +55,16 @@ def _validate_slug(slug: str) -> None:
         _die(f"slug '{slug}' must be lowercase-kebab-case (a-z, 0-9, hyphens)")
 
 
+def _discover_mp3s(directory: Path) -> list[Path]:
+    """Return all .mp3 files in *directory*, case-insensitively (.mp3 AND .MP3).
+
+    pathlib's glob is case-sensitive even on a case-insensitive filesystem, so a
+    plain ``glob('*.mp3')`` silently drops uppercase-extension lectures. Match on
+    the lowercased suffix instead so no source audio is lost at intake.
+    """
+    return [p for p in directory.iterdir() if p.is_file() and p.suffix.lower() == ".mp3"]
+
+
 def _create_skeleton(book_dir: Path, force: bool) -> None:
     """Create the standard workspace skeleton under book_dir."""
     if book_dir.exists() and not force:
@@ -66,8 +75,7 @@ def _create_skeleton(book_dir: Path, force: bool) -> None:
     if force and book_dir.exists():
         _info(f"==> Removing existing workspace at {book_dir} (--force)")
         shutil.rmtree(book_dir)
-    for d in SKELETON_DIRS:
-        (book_dir / d).mkdir(parents=True, exist_ok=True)
+    ensure_book_skeleton(book_dir)
 
 
 def _create_branch(category: str, slug: str) -> str | None:
@@ -116,10 +124,10 @@ def _intake_from_pdf(
             f"(looked under {RAW_DIR}, cwd, and repo root)"
         )
 
-    book_dir = WORKSPACE_BOOKS / slug
+    book_dir = content_dir(slug, category=category)
     _info(f"==> Creating workspace at {book_dir.relative_to(REPO_ROOT)}")
     _create_skeleton(book_dir, force)
-    _info(f"    Skeleton dirs: {', '.join(SKELETON_DIRS)}")
+    _info(f"    Skeleton: standard {len(BOOK_SUBDIRS)}-dir layout (see _paths.BOOK_SUBDIRS)")
 
     dst_pdf = book_dir / "_source" / src.name
     shutil.copy2(src, dst_pdf)
@@ -136,6 +144,7 @@ def _intake_from_pdf(
         "last_completed_phase": None,
         "last_error": None,
         "category": category,
+        "status": "draft",
         "started": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "phases": {},
@@ -154,6 +163,266 @@ def _intake_from_pdf(
           f"--start {dst_pdf.relative_to(REPO_ROOT)} --slug {slug}")
     _info(f"    2. Watch Phase 0a (OCR) run; advance through 0b/0c/0d as gates clear.")
     return 0
+
+
+# ---- Multi-volume intake (Phase 2 — one PDF per volume) ---------------------
+
+def _intake_volume_from_pdf(
+    pdf_path: str, work_slug: str, volume: int, force: bool, no_branch: bool,
+    *, profile: str = "islamic_scholarly", title: str | None = None,
+    volume_title: str | None = None, category: str = "books",
+) -> int:
+    """Intake ONE PDF as volume *volume* of multi-volume work *work_slug* (Q3).
+
+    First volume (or any volume when no work.yml exists yet) CREATES the parent
+    work.yml; later volumes inherit the work identity. Layout:
+      content/<Bucket>/<work_slug>/work.yml          (parent manifest)
+      content/<Bucket>/<work_slug>/vol-NN/_source/   (this volume's single PDF)
+    The volume's composite slug is "<work_slug>-vol-NN" — slug-legal, works with
+    --resume. ONE branch per work via branch_for_work.
+    """
+    import sys as _sys
+    _sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import _work_manifest as wm  # noqa: E402
+    from _rules import bucket_for_profile  # noqa: E402
+
+    _validate_slug(work_slug)
+    if volume < 1:
+        _die(f"--volume must be >= 1 (got {volume})")
+
+    src = Path(pdf_path).expanduser()
+    if not src.is_absolute():
+        for candidate in [RAW_DIR / src, Path.cwd() / src, REPO_ROOT / src]:
+            if candidate.exists():
+                src = candidate
+                break
+    if not src.exists():
+        _die(f"source not found: {pdf_path} (looked under {RAW_DIR}, cwd, and repo root)")
+
+    bucket = bucket_for_profile(profile)
+    work_dir = content_dir(work_slug, profile=profile)
+    vol_dir_name = f"vol-{volume:02d}"
+    vol_slug = wm.composite_slug(work_slug, vol_dir_name)
+    book_dir = work_dir / vol_dir_name
+
+    _info(f"==> Multi-volume intake — work '{work_slug}', {vol_dir_name} (slug {vol_slug})")
+    _info(f"    work dir:   {work_dir.relative_to(REPO_ROOT)}")
+    _info(f"    bucket:     {bucket}   profile: {profile}")
+
+    # Create / update the parent work.yml manifest.
+    work_dir.mkdir(parents=True, exist_ok=True)
+    manifest = wm.read_manifest(work_dir) or {
+        "work_slug": work_slug,
+        "title": title or work_slug.replace("-", " ").title(),
+        "content_profile": profile,
+        "bucket": bucket,
+        "volumes": [],
+    }
+    if title:
+        manifest["title"] = title
+
+    # Build the volume's workspace skeleton + copy the single PDF.
+    _create_skeleton(book_dir, force)
+    _info(f"    Skeleton: standard {len(BOOK_SUBDIRS)}-dir layout (see _paths.BOOK_SUBDIRS)")
+    dst_pdf = book_dir / "_source" / src.name
+    shutil.copy2(src, dst_pdf)
+    _info(f"    Copied source: {src.name} → {dst_pdf.relative_to(REPO_ROOT)}")
+
+    rel_pdf = dst_pdf.relative_to(work_dir).as_posix()
+    vol_entry = {
+        "order": volume,
+        "slug": vol_slug,
+        "dir": vol_dir_name,
+        "title": volume_title or f"Volume {volume}",
+        "source_pdf": rel_pdf,
+        "sources": [{"path": rel_pdf, "role": "primary_source"}],
+        "status": "draft",
+    }
+    others = [v for v in manifest.get("volumes", []) if v.get("dir") != vol_dir_name]
+    manifest["volumes"] = sorted(others + [vol_entry], key=lambda v: v.get("order", 0))
+    wm.write_manifest(work_dir, manifest)
+    _info(f"    work.yml: {len(manifest['volumes'])} volume(s) registered")
+
+    state = {
+        "schema_version": 1,
+        "book_slug": vol_slug,
+        "work_slug": work_slug,
+        "volume": volume,
+        "source_path": str(dst_pdf.relative_to(REPO_ROOT)),
+        "source_kind": "pdf",
+        "input_type": "pdf",
+        "phase": "preflight",
+        "phase_status": "pending",
+        "last_completed_phase": None,
+        "last_error": None,
+        "category": category,
+        "content_profile": profile,
+        "status": "draft",
+        "started": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "phases": {},
+        "intake_via": "scripts/podcast/intake_book.py --work",
+    }
+    (book_dir / "_system" / "orchestrator-state.json").write_text(json.dumps(state, indent=2) + "\n")
+    _info(f"    state.json: phase=preflight, work_slug={work_slug}, volume={volume}")
+
+    if not no_branch:
+        _create_branch_for_work(vol_slug, profile=profile)
+
+    _info("")
+    _info(f"==> DONE. Next steps:")
+    _info(f"    1. python3 scripts/podcast/orchestrate_book.py --resume {vol_slug}")
+    _info(f"       (or drive the whole work: orchestrate_work.py {work_slug})")
+    return 0
+
+
+def _intake_volume_from_audio(
+    audio_source: str, work_slug: str, volume: int, force: bool, no_branch: bool,
+    *, profile: str = "islamic_scholarly", title: str | None = None,
+    volume_title: str | None = None, category: str = "books",
+    source_language: str = "ur",
+) -> int:
+    """Intake a DIRECTORY of .mp3 lectures as volume *volume* of multi-volume work
+    *work_slug* — the audio twin of ``_intake_volume_from_pdf``.
+
+    Same work.yml / composite-slug / one-branch-per-work machinery as the PDF path,
+    with two source-kind differences that matter downstream:
+      * lectures land in ``vol-NN/source/`` (NOT ``_source/``) because the bridge
+        ``transcribe_audio_book.py`` globs ``<book>/source/*.mp3``;
+      * the volume state is ``source_kind=audio, phase=0a-transcribe`` so the
+        bridge (Gemini direct-audio) runs next, mirroring how the flat
+        ``_intake_from_audio`` path sets up a single-book audio source.
+    The manifest entry records ``source_audio_dir`` instead of ``source_pdf``.
+    """
+    import sys as _sys
+    _sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import _work_manifest as wm  # noqa: E402
+    from _rules import bucket_for_profile  # noqa: E402
+
+    _validate_slug(work_slug)
+    if volume < 1:
+        _die(f"--volume must be >= 1 (got {volume})")
+
+    src = Path(audio_source).expanduser()
+    if not src.is_absolute():
+        for candidate in [Path.cwd() / src, REPO_ROOT / src, RAW_DIR / src]:
+            if candidate.exists():
+                src = candidate
+                break
+    if not src.is_dir():
+        _die(f"audio source must be a directory of .mp3 files: {audio_source}")
+    mp3s = sorted(_discover_mp3s(src))  # case-insensitive (.mp3 / .MP3)
+    if not mp3s:
+        _die(f"no .mp3 files in {src}")
+
+    bucket = bucket_for_profile(profile)
+    work_dir = content_dir(work_slug, profile=profile)
+    vol_dir_name = f"vol-{volume:02d}"
+    vol_slug = wm.composite_slug(work_slug, vol_dir_name)
+    book_dir = work_dir / vol_dir_name
+
+    _info(f"==> Multi-volume AUDIO intake — work '{work_slug}', {vol_dir_name} (slug {vol_slug})")
+    _info(f"    work dir:   {work_dir.relative_to(REPO_ROOT)}")
+    _info(f"    bucket:     {bucket}   profile: {profile}   source_language: {source_language}")
+
+    # Create / update the parent work.yml manifest.
+    work_dir.mkdir(parents=True, exist_ok=True)
+    manifest = wm.read_manifest(work_dir) or {
+        "work_slug": work_slug,
+        "title": title or work_slug.replace("-", " ").title(),
+        "content_profile": profile,
+        "bucket": bucket,
+        "volumes": [],
+    }
+    if title:
+        manifest["title"] = title
+
+    # Build the volume's workspace skeleton + copy the lectures into source/
+    # (skeleton creates _source/, NOT source/ — so make it explicitly, matching
+    # the flat _intake_from_audio path and what transcribe_audio_book.py reads).
+    _create_skeleton(book_dir, force)
+    _info(f"    Skeleton: standard {len(BOOK_SUBDIRS)}-dir layout (see _paths.BOOK_SUBDIRS)")
+    audio_dst = book_dir / "source"
+    audio_dst.mkdir(parents=True, exist_ok=True)
+    for m in mp3s:
+        dst = audio_dst / (m.stem + ".mp3")  # normalize .MP3 → .mp3 for the bridge glob
+        if dst.resolve() != m.resolve():
+            shutil.copy2(m, dst)
+    _info(f"    Staged {len(mp3s)} lecture(s) → {audio_dst.relative_to(REPO_ROOT)}")
+
+    rel_audio = audio_dst.relative_to(work_dir).as_posix()
+    vol_entry = {
+        "order": volume,
+        "slug": vol_slug,
+        "dir": vol_dir_name,
+        "title": volume_title or f"Volume {volume}",
+        "source_audio_dir": rel_audio,
+        "sources": [{"path": rel_audio, "role": "primary_source"}],
+        "status": "draft",
+    }
+    others = [v for v in manifest.get("volumes", []) if v.get("dir") != vol_dir_name]
+    manifest["volumes"] = sorted(others + [vol_entry], key=lambda v: v.get("order", 0))
+    wm.write_manifest(work_dir, manifest)
+    _info(f"    work.yml: {len(manifest['volumes'])} volume(s) registered")
+
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    state = {
+        "schema_version": 1,
+        "book_slug": vol_slug,
+        "work_slug": work_slug,
+        "volume": volume,
+        "source_kind": "audio",
+        "input_type": "audio",
+        "source_language": source_language,
+        "phase": "0a-transcribe",
+        "phase_status": "pending",
+        "last_completed_phase": None,
+        "last_error": None,
+        "category": category,
+        "content_profile": profile,
+        "status": "draft",
+        "started": now,
+        "updated": now,
+        "phases": {},
+        "intake_via": "scripts/podcast/intake_book.py --from-audio --work",
+    }
+    (book_dir / "_system" / "orchestrator-state.json").write_text(json.dumps(state, indent=2) + "\n")
+    _info(f"    state.json: source_kind=audio, phase=0a-transcribe, work_slug={work_slug}, volume={volume}")
+
+    if not no_branch:
+        _create_branch_for_work(vol_slug, profile=profile)
+
+    _info("")
+    _info(f"==> DONE. Next steps:")
+    _info(f"    1. python3 scripts/podcast/transcribe_audio_book.py --slug {vol_slug}")
+    _info(f"       (Gemini transcribes → faithful raw-extract.md, then synthesis + editorial.)")
+    _info(f"    2. python3 scripts/podcast/orchestrate_book.py --resume {vol_slug}")
+    return 0
+
+
+def _create_branch_for_work(vol_or_work_slug: str, *, profile: str) -> str | None:
+    """Create the SINGLE work branch off develop (idempotent). Uses branch_for_work."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from _branching import branch_for_work  # noqa: E402
+
+    branch = branch_for_work(vol_or_work_slug, profile=profile)
+    result = subprocess.run(
+        ["git", "rev-parse", "--verify", branch],
+        cwd=REPO_ROOT, capture_output=True, text=True,
+    )
+    if result.returncode == 0:
+        _info(f"==> Branch already exists: {branch} (skipping)")
+        return branch
+    _info(f"==> Creating branch {branch} from develop")
+    r = subprocess.run(
+        ["git", "branch", branch, "develop"],
+        cwd=REPO_ROOT, capture_output=True, text=True,
+    )
+    if r.returncode != 0:
+        _info(f"    WARN: could not create branch — {r.stderr.strip()}")
+        return None
+    _info(f"    Created. Switch with: git checkout {branch}")
+    return branch
 
 
 # ---- Bundle intake (new) ----------------------------------------------------
@@ -245,7 +514,7 @@ def _intake_from_bundle(
 
     category = category_override or suggested_category or "lectures"
 
-    book_dir = WORKSPACE_BOOKS / slug
+    book_dir = content_dir(slug, category=category)
     _info(f"==> Bundle intake")
     _info(f"    bundle: {bundle_dir}")
     _info(f"    slug:   {slug}")
@@ -254,7 +523,7 @@ def _intake_from_bundle(
 
     _info(f"==> Creating workspace at {book_dir.relative_to(REPO_ROOT)}")
     _create_skeleton(book_dir, force)
-    _info(f"    Skeleton dirs: {', '.join(SKELETON_DIRS)}")
+    _info(f"    Skeleton: standard {len(BOOK_SUBDIRS)}-dir layout (see _paths.BOOK_SUBDIRS)")
 
     # Copy bundle's _system/source/ into content/drafts/<slug>/_system/source/
     dst_source = book_dir / "_system" / "source"
@@ -301,6 +570,7 @@ def _intake_from_bundle(
         "last_completed_phase": "0a",
         "last_error": last_error,
         "category": category,
+        "status": "draft",
         "started": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "phases": {
@@ -359,10 +629,10 @@ def _intake_from_audio_transcript(
     if not src.exists():
         _die(f"transcript not found: {transcript_path}")
 
-    book_dir = WORKSPACE_BOOKS / slug
+    book_dir = content_dir(slug, category=category)
     _info(f"==> Creating workspace at {book_dir.relative_to(REPO_ROOT)}")
     _create_skeleton(book_dir, force)
-    _info(f"    Skeleton dirs: {', '.join(SKELETON_DIRS)}")
+    _info(f"    Skeleton: standard {len(BOOK_SUBDIRS)}-dir layout (see _paths.BOOK_SUBDIRS)")
 
     dst_transcript = book_dir / "_system" / "source" / "text" / src.name
     dst_transcript.parent.mkdir(parents=True, exist_ok=True)
@@ -394,6 +664,7 @@ def _intake_from_audio_transcript(
         "last_completed_phase": "0a",
         "last_error": None,
         "category": category,
+        "status": "draft",
         "started": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "phases": {
@@ -416,6 +687,92 @@ def _intake_from_audio_transcript(
     _info(f"==> DONE. Next steps:")
     _info(f"    1. python3 scripts/podcast/orchestrate_book.py --resume {slug}")
     _info(f"    2. Pipeline starts at Phase 0b (refine). Phase 0a (OCR) was skipped.")
+    return 0
+
+
+# ---- Audio intake (raw MP3 lectures — source_kind=audio) --------------------
+
+def _intake_from_audio(
+    audio_source: str | None,
+    slug: str,
+    *,
+    source_language: str = "ur",
+    category: str = "lectures",
+    force: bool = False,
+    no_branch: bool = False,
+) -> int:
+    """Intake raw audio lectures. Sets source_kind=audio and phase=0a-transcribe;
+    the transcription is done by the standalone bridge transcribe_audio_book.py
+    (Gemini direct-audio), mirroring how translate_bundle.py bridges 0a-translate
+    for bundles. ``audio_source`` may be a directory of .mp3 files OR omitted when
+    the book's own source/ already holds the lectures (already-scaffolded books)."""
+    _validate_slug(slug)
+    book_dir = content_dir(slug, category=category)
+    src_dir = book_dir / "source"
+
+    if book_dir.exists() and not force:
+        # Already scaffolded (e.g. lectures already dropped in source/). Keep it;
+        # ensure the standard skeleton exists without wiping anything.
+        _info(f"==> Using existing workspace {book_dir.relative_to(REPO_ROOT)}")
+        ensure_book_skeleton(book_dir)
+    else:
+        _create_skeleton(book_dir, force)
+    src_dir.mkdir(parents=True, exist_ok=True)
+
+    # Copy provided audio in (if a directory/path was given and differs from src_dir).
+    if audio_source:
+        ap = Path(audio_source).expanduser()
+        if not ap.is_absolute():
+            for cand in [Path.cwd() / ap, REPO_ROOT / ap, RAW_DIR / ap]:
+                if cand.exists():
+                    ap = cand
+                    break
+        if not ap.exists():
+            _die(f"audio source not found: {audio_source}")
+        # Discover case-insensitively (.mp3 / .MP3) so uppercase-extension lectures
+        # are never silently dropped, and normalize the copied name to lowercase
+        # .mp3 so the downstream transcribe_audio_book.py "*.mp3" glob always matches.
+        mp3s = sorted(_discover_mp3s(ap)) if ap.is_dir() else [ap]
+        for m in mp3s:
+            dst = src_dir / (m.stem + ".mp3")
+            if dst.resolve() != m.resolve():
+                shutil.copy2(m, dst)
+        _info(f"    Staged {len(mp3s)} audio file(s) → {src_dir.relative_to(REPO_ROOT)}")
+
+    present = sorted(src_dir.glob("*.mp3"))
+    if not present:
+        _die(f"no .mp3 files in {src_dir} — pass a directory via --from-audio or drop lectures in source/")
+    _info(f"    {len(present)} lecture(s) present in source/")
+
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    state = {
+        "schema_version": 1,
+        "book_slug": slug,
+        "source_kind": "audio",
+        "input_type": "audio",
+        "source_language": source_language,
+        "phase": "0a-transcribe",
+        "phase_status": "pending",
+        "last_completed_phase": None,
+        "last_error": None,
+        "category": category,
+        "status": "draft",
+        "started": now,
+        "updated": now,
+        "phases": {},
+        "intake_via": "scripts/podcast/intake_book.py --from-audio",
+    }
+    state_path = book_dir / "_system" / "orchestrator-state.json"
+    state_path.write_text(json.dumps(state, indent=2) + "\n")
+    _info(f"    state.json: source_kind=audio, phase=0a-transcribe, source_language={source_language}")
+
+    if not no_branch:
+        _create_branch(category, slug)
+
+    _info("")
+    _info("==> DONE. Next:")
+    _info(f"    python3 scripts/podcast/transcribe_audio_book.py --slug {slug}")
+    _info(f"    (Gemini transcribes/translates → faithful raw-extract.md, then synthesis + editorial.)")
     return 0
 
 
@@ -445,6 +802,18 @@ def main() -> int:
         ),
     )
     parser.add_argument(
+        "--from-audio", dest="from_audio", metavar="PATH", nargs="?", const="",
+        help=(
+            "Intake raw audio lectures (source_kind=audio). PATH is a directory of "
+            ".mp3 files; omit it when the book's source/ already holds the lectures. "
+            "Sets phase=0a-transcribe; run transcribe_audio_book.py next. Use --slug."
+        ),
+    )
+    parser.add_argument(
+        "--source-language", dest="source_language", default="ur",
+        help="Source language for --from-audio (ur|en|ar|fa; default ur).",
+    )
+    parser.add_argument(
         "--companion", dest="companion_source", metavar="PATH", default=None,
         help="Optional companion source file for audio-transcript intake (e.g. a PDF companion).",
     )
@@ -463,6 +832,29 @@ def main() -> int:
              "bundle.suggested_category for --from-bundle).",
     )
     parser.add_argument(
+        "--work", dest="work_slug", metavar="WORK-SLUG",
+        help="Multi-volume intake: the parent work slug (e.g. asaas). "
+             "Use with --volume N and ONE source per volume: a positional "
+             "<pdf-path> (one PDF) OR --from-audio <dir> (one lecture dir).",
+    )
+    parser.add_argument(
+        "--volume", dest="volume", type=int, metavar="N",
+        help="Volume number (1-based) for --work intake. ONE PDF per volume.",
+    )
+    parser.add_argument(
+        "--profile", dest="profile_flag",
+        help="content_profile for --work intake (default: islamic_scholarly). "
+             "Determines the bucket + pipeline routing.",
+    )
+    parser.add_argument(
+        "--title", dest="title_flag",
+        help="Work title for --work intake (sets work.yml title on first volume).",
+    )
+    parser.add_argument(
+        "--volume-title", dest="volume_title_flag",
+        help="Title for this specific volume (--work intake).",
+    )
+    parser.add_argument(
         "--no-branch", action="store_true",
         help="Skip git branch creation (workspace setup only).",
     )
@@ -472,6 +864,47 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    # Multi-volume intake: --work <slug> --volume N. Source is either a positional
+    # <pdf-path> (one PDF per volume) OR --from-audio <dir> (one lecture dir per
+    # volume) — never both. The single-book positional <slug> is not used here.
+    if args.work_slug or args.volume is not None:
+        if not args.work_slug or args.volume is None:
+            _die("--work intake needs BOTH --work <slug> and --volume N.")
+        audio_for_work = args.from_audio if args.from_audio else None
+        if audio_for_work and args.pdf_path:
+            _die("--work intake takes ONE source: either a positional <pdf-path> OR "
+                 "--from-audio <dir>, not both.")
+        if audio_for_work:
+            return _intake_volume_from_audio(
+                audio_source=audio_for_work,
+                work_slug=args.work_slug,
+                volume=args.volume,
+                force=args.force,
+                no_branch=args.no_branch,
+                profile=args.profile_flag or "islamic_scholarly",
+                title=args.title_flag,
+                volume_title=args.volume_title_flag,
+                category=args.category_flag or "books",
+                source_language=args.source_language,
+            )
+        if not args.pdf_path:
+            _die("--work intake needs a source: a positional <pdf-path> OR "
+                 "--from-audio <dir> (one source per volume).")
+        if args.slug:
+            _die("--work intake takes one positional <pdf-path> only — drop the <slug> "
+                 "positional (the volume slug is derived as <work>-vol-NN).")
+        return _intake_volume_from_pdf(
+            pdf_path=args.pdf_path,
+            work_slug=args.work_slug,
+            volume=args.volume,
+            force=args.force,
+            no_branch=args.no_branch,
+            profile=args.profile_flag or "islamic_scholarly",
+            title=args.title_flag,
+            volume_title=args.volume_title_flag,
+            category=args.category_flag or "books",
+        )
+
     if args.from_bundle:
         if args.pdf_path is not None and args.slug is None:
             args.slug_flag = args.slug_flag or args.pdf_path
@@ -479,6 +912,19 @@ def main() -> int:
             bundle_path=args.from_bundle,
             slug_override=args.slug_flag,
             category_override=args.category_flag,
+            force=args.force,
+            no_branch=args.no_branch,
+        )
+
+    if args.from_audio is not None:
+        if not args.slug_flag and not args.slug:
+            _die("--from-audio requires --slug <book-slug>.")
+        slug = args.slug_flag or args.slug
+        return _intake_from_audio(
+            audio_source=(args.from_audio or None),
+            slug=slug,
+            source_language=args.source_language,
+            category=args.category_flag or "lectures",
             force=args.force,
             no_branch=args.no_branch,
         )

@@ -49,13 +49,34 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _tts_sanitize import sanitize_text  # noqa: E402
+from _tts_sanitize import sanitize_text_with_terms  # noqa: E402
 
 
-def process_file(path: Path, dry_run: bool) -> int:
+def _load_book_glosses(book_dir: Path) -> "dict[str, str]":
+    """Mine inline parenthetical glosses from the book's refined English source."""
+    try:
+        sys.path.insert(0, str(SCRIPT_DIR / "knowledge"))
+        import term_render as _tr
+        refined = book_dir / "_system" / "source" / "text" / "refined-english.md"
+        if refined.exists():
+            return _tr.mine_glosses(refined.read_text(encoding="utf-8"))
+    except Exception:
+        pass
+    return {}
+
+
+def process_file(
+    path: Path,
+    dry_run: bool,
+    *,
+    tables: "tuple[dict, dict] | None" = None,
+    book_glosses: "dict[str, str] | None" = None,
+) -> int:
     """Sanitize one chapter file. Returns the number of substitutions applied."""
     original = path.read_text(encoding="utf-8")
-    new_text, report = sanitize_text(original)
+    new_text, report = sanitize_text_with_terms(
+        original, tables=tables, book_glosses=book_glosses
+    )
     print(f"\n{path}")
     print(report.summary())
     if not dry_run and new_text != original:
@@ -74,6 +95,8 @@ def main(argv: list[str]) -> int:
     parser.add_argument("path", help="Chapter file or directory containing chapter .txt files")
     parser.add_argument("--dry-run", action="store_true",
                         help="Report changes without modifying files")
+    parser.add_argument("--book-dir", default=None,
+                        help="Book root dir to mine inline glosses from refined-english.md")
     args = parser.parse_args(argv)
 
     target = Path(args.path).resolve()
@@ -90,9 +113,25 @@ def main(argv: list[str]) -> int:
             print(f"ERROR: no .txt files found in {target}", file=sys.stderr)
             return 1
 
+    # Pre-load term_render tables once for the whole batch.
+    tables = None
+    book_glosses = None
+    try:
+        sys.path.insert(0, str(SCRIPT_DIR / "knowledge"))
+        import term_render as _tr
+        tables = _tr.load_tables()
+        book_dir = Path(args.book_dir).resolve() if args.book_dir else None
+        if book_dir is None and target.is_dir():
+            # Infer book_dir from the chapters directory (parent of chapters/).
+            book_dir = target.parent if target.name == "chapters" else None
+        if book_dir:
+            book_glosses = _load_book_glosses(book_dir)
+    except ImportError:
+        pass
+
     total = 0
     for f in files:
-        total += process_file(f, args.dry_run)
+        total += process_file(f, args.dry_run, tables=tables, book_glosses=book_glosses)
 
     print(f"\n{'='*60}")
     print(f"Total: {len(files)} file(s), {total} substitution(s){' (dry-run)' if args.dry_run else ''}")

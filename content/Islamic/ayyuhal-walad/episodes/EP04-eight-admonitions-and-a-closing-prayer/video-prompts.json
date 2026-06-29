@@ -1,0 +1,597 @@
+{
+  "mode": "teaching_hybrid",
+  "backgrounds": [
+    {
+      "bg_id": "bg01",
+      "theme": "dawn_library",
+      "prompt": "A scholarly library interior at warm amber dawn, sunlight streaming through tall arched windows, illuminating dust motes. Ancient leather-bound books line wooden shelves, with a few open manuscripts on a heavy oak table. Lanterns cast a soft glow, creating an atmosphere of quiet contemplation and deep wisdom.",
+      "image_path": "bg01_dawn_library.jpg"
+    },
+    {
+      "bg_id": "bg02",
+      "theme": "night_study",
+      "prompt": "A private study at night, illuminated by the flickering light of several candles. Deep shadows play across the room, highlighting an open, intricately calligraphed manuscript on a wooden lectern. Inkwells and quills are nearby, suggesting intense, solitary scholarly work and introspection.",
+      "image_path": "bg02_night_study.jpg"
+    },
+    {
+      "bg_id": "bg03",
+      "theme": "mosque_courtyard",
+      "prompt": "A quiet mosque courtyard at golden hour, bathed in the soft, warm light of late afternoon. Elegant arched colonnades frame a serene space, with a central fountain gently flowing. The atmosphere is peaceful and contemplative, suggesting community, prayer, and spiritual reflection.",
+      "image_path": "bg03_mosque_courtyard.jpg"
+    },
+    {
+      "bg_id": "bg04",
+      "theme": "desert_sunrise",
+      "prompt": "A vast, empty desert landscape at sunrise, with soft, ethereal light painting the dunes in hues of gold and rose. The horizon is clear and expansive, evoking a sense of contemplative emptiness, the vastness of creation, and the promise of a new beginning.",
+      "image_path": "bg04_desert_sunrise.jpg"
+    }
+  ],
+  "slides": [
+    {
+      "segment_id": "s01",
+      "slide_type": "title_slide",
+      "background_id": "bg01",
+      "content": {
+        "title": "Eight Admonitions and a Closing Prayer",
+        "subtitle": "From the Master's Letter: O Beloved Son"
+      },
+      "est_start_s": 0,
+      "est_end_s": 40,
+      "overlay_text": "The Master's Letter: O Beloved Son",
+      "prompt_short": "Title slide: Eight Admonitions and a Closing Prayer"
+    },
+    {
+      "segment_id": "s02",
+      "slide_type": "quote_slide",
+      "background_id": "bg01",
+      "content": {
+        "text": "Of these eight admonitions, there are four things you must do and four things you must not do — so that your knowledge does not turn against you on the Day of Judgment.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 40,
+      "est_end_s": 80,
+      "overlay_text": "Knowledge must be put to work in auditable conduct.",
+      "prompt_short": "Ghazali's core admonition: knowledge and conduct."
+    },
+    {
+      "segment_id": "s03",
+      "slide_type": "concept_slide",
+      "background_id": "bg01",
+      "content": {
+        "term": "Riya",
+        "phonetic": "REE-yah",
+        "definition": "Performing a religious act for human applause rather than for Allah."
+      },
+      "est_start_s": 80,
+      "est_end_s": 120,
+      "overlay_text": "Riya: performing for human applause, not Allah.",
+      "prompt_short": "Concept: Riya, performing for human applause."
+    },
+    {
+      "segment_id": "s04",
+      "slide_type": "quote_slide",
+      "background_id": "bg01",
+      "content": {
+        "text": "As far as possible, do not engage in religious debates with everyone, and do not argue with anyone on any matter — religious or otherwise — for there are many hidden harms within such disputes, and the harms far outweigh any benefits.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 120,
+      "est_end_s": 160,
+      "overlay_text": "Refuse religious debates: harms outweigh benefits.",
+      "prompt_short": "Ghazali: avoid religious debates, hidden harms."
+    },
+    {
+      "segment_id": "s05",
+      "slide_type": "numbered_list",
+      "background_id": "bg02",
+      "content": {
+        "title": "Two Signs of Right Intention in Debate",
+        "items": [
+          "Whether the truth emerges from your own tongue or your opponent's, it makes no difference to you.",
+          "You consider it preferable to discuss the matter in private, away from an audience."
+        ]
+      },
+      "est_start_s": 160,
+      "est_end_s": 200,
+      "overlay_text": "Right intention: truth's source irrelevant, prefer privacy.",
+      "prompt_short": "Signs of right intention in religious debate."
+    },
+    {
+      "segment_id": "s06",
+      "slide_type": "concept_slide",
+      "background_id": "bg02",
+      "content": {
+        "term": "Shaykh al-Kamil",
+        "phonetic": "SHAYKH al-KAA-mil",
+        "definition": "A perfected scholar, capable of curing diseases of the heart."
+      },
+      "est_start_s": 200,
+      "est_end_s": 240,
+      "overlay_text": "Shaykh al-Kamil: a perfected scholar, heart's physician.",
+      "prompt_short": "Concept: Shaykh al-Kamil, perfected scholar."
+    },
+    {
+      "segment_id": "s07",
+      "slide_type": "numbered_list",
+      "background_id": "bg02",
+      "content": {
+        "title": "Four Kinds of Questioners",
+        "items": [
+          "One who asks out of jealousy or raises objections from envy.",
+          "One whose disease arises from a lack of intelligence and foolishness.",
+          "One who, owing to restlessness and impatience, cannot absorb teachings.",
+          "One who is genuinely seeking the right path of guidance, obedient, sharp, and intelligent."
+        ]
+      },
+      "est_start_s": 240,
+      "est_end_s": 280,
+      "overlay_text": "Four types of questioners: jealousy, foolishness, impatience, genuine seeking.",
+      "prompt_short": "Ghazali's four categories of questioners."
+    },
+    {
+      "segment_id": "s08",
+      "slide_type": "quote_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "Kullul 'Adawati Qad Turja Izalatuha / Illa 'Adawata Mun 'Aadaka Min Hasadin. — 'Every kind of animosity can be remedied — except the animosity that is born of jealousy.'",
+        "speaker": "Poetry cited by Imam al-Ghazali"
+      },
+      "est_start_s": 280,
+      "est_end_s": 320,
+      "overlay_text": "Jealousy: an animosity that cannot be remedied.",
+      "prompt_short": "Quote on incurable animosity of jealousy."
+    },
+    {
+      "segment_id": "s09",
+      "slide_type": "verse_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "Fa 'AaRid 'Um Mun Tawalla 'Un Zikrina Walam Yurid Illal Hayatad Dunya. — 'So turn away from the one who, out of jealousy, turns his face from Our remembrance and desires nothing but the pleasures of the life of this world.'",
+        "attribution": "Quran 53:29",
+        "accent": "Quran 53:29"
+      },
+      "est_start_s": 320,
+      "est_end_s": 360,
+      "overlay_text": "Turn away from those desiring only worldly pleasures.",
+      "prompt_short": "Quranic instruction: turn from the jealous."
+    },
+    {
+      "segment_id": "s10",
+      "slide_type": "hadith_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "Nahnu Ma'aashirul Anbiyaee Umirna Un Natakallamun Nasa 'Ala Qadre 'Uuqulihim. — 'We, the community of prophets, have been commanded by Allah to speak to people according to the capacity of their minds.'",
+        "attribution": "The Prophet, peace and blessings of Allah be upon him and his family"
+      },
+      "est_start_s": 360,
+      "est_end_s": 400,
+      "overlay_text": "Speak to people according to their mental capacity.",
+      "prompt_short": "Hadith: speak to people's capacity."
+    },
+    {
+      "segment_id": "s11",
+      "slide_type": "concept_slide",
+      "background_id": "bg02",
+      "content": {
+        "term": "Wajib",
+        "phonetic": "WAA-jib",
+        "definition": "Religiously required; an obligatory act."
+      },
+      "est_start_s": 400,
+      "est_end_s": 440,
+      "overlay_text": "Wajib: an obligatory, religiously required act.",
+      "prompt_short": "Concept: Wajib, religiously required."
+    },
+    {
+      "segment_id": "s12",
+      "slide_type": "quote_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "Ya Ibna Maryama A'azee Nafsaka Fa In At-ta'azta Fa Izin Nasa Fustahyee Minni. — 'O Son of Mary! First admonish your own soul (Nafs); then, if it accepts your counsel, admonish others — otherwise have shame before Me.'",
+        "speaker": "Allah to Jesus, peace be upon him"
+      },
+      "est_start_s": 440,
+      "est_end_s": 480,
+      "overlay_text": "First admonish your own soul, then others.",
+      "prompt_short": "Allah to Jesus: admonish self first."
+    },
+    {
+      "segment_id": "s13",
+      "slide_type": "numbered_list",
+      "background_id": "bg03",
+      "content": {
+        "title": "Two Guards for the Preacher",
+        "items": [
+          "What a sermon must not be: avoid colorful narrations, theatrical gestures, embellished speech, and fabrications.",
+          "What a sermon must not seek: never allow thoughts of praise, ecstasy, or fame to enter the heart."
+        ]
+      },
+      "est_start_s": 480,
+      "est_end_s": 520,
+      "overlay_text": "Sermon guards: avoid embellishment, seek no praise.",
+      "prompt_short": "Two guards for the preacher's sermon."
+    },
+    {
+      "segment_id": "s14",
+      "slide_type": "concept_slide",
+      "background_id": "bg03",
+      "content": {
+        "term": "Shari'ah",
+        "phonetic": "sha-REE-ah",
+        "definition": "The law of Allah, guiding principles for Muslim life."
+      },
+      "est_start_s": 520,
+      "est_end_s": 560,
+      "overlay_text": "Shari'ah: the law of Allah, guiding Muslim life.",
+      "prompt_short": "Concept: Shari'ah, law of Allah."
+    },
+    {
+      "segment_id": "s15",
+      "slide_type": "quote_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "Al-Hazr! Al-Hazr! ('Beware! Beware! Run! The floodwater is here!') At such a moment of imminent catastrophe, no one would describe the flood in ornate sentences... A sermon should be precisely like this.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 560,
+      "est_end_s": 600,
+      "overlay_text": "Sermon urgency: like warning of an imminent flood.",
+      "prompt_short": "Ghazali's flood analogy for sermon urgency."
+    },
+    {
+      "segment_id": "s16",
+      "slide_type": "concept_slide",
+      "background_id": "bg03",
+      "content": {
+        "term": "Ikhlas",
+        "phonetic": "ikh-LAAS",
+        "definition": "Sincerity; doing everything solely for the countenance of Allah."
+      },
+      "est_start_s": 600,
+      "est_end_s": 640,
+      "overlay_text": "Ikhlas: sincerity, doing everything for Allah alone.",
+      "prompt_short": "Concept: Ikhlas, sincerity for Allah."
+    },
+    {
+      "segment_id": "s17",
+      "slide_type": "concept_slide",
+      "background_id": "bg03",
+      "content": {
+        "term": "'Amr bil Ma'roof Wa Nahi 'Anil Munkar",
+        "phonetic": "AMR bil ma-ROOF wa NA-hee anil MUN-kar",
+        "definition": "Commanding the right and forbidding the evil."
+      },
+      "est_start_s": 640,
+      "est_end_s": 680,
+      "overlay_text": "Commanding right, forbidding evil: a religious duty.",
+      "prompt_short": "Concept: 'Amr bil Ma'roof Wa Nahi 'Anil Munkar."
+    },
+    {
+      "segment_id": "s18",
+      "slide_type": "quote_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "You should not even greet any king, any person of wealth, or any ruler. Stay away from their company and gatherings, and beyond that, do not so much as lift your eyes to look at them.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 680,
+      "est_end_s": 720,
+      "overlay_text": "Stay away from rulers and the affluent.",
+      "prompt_short": "Ghazali: avoid rulers and the wealthy."
+    },
+    {
+      "segment_id": "s19",
+      "slide_type": "hadith_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "Fa InnAllaha Yaghdib Iza Mudihal Faasiqu Waz Zalimu Wa Iza Madaha Wa Mun Da'aa Li Zalimin Bitoolil Baqaaii Faqad Ahabba Aye Ya'siyAllahu Fil Arde. — 'Verily, Allah, the Exalted, is angered when any transgressor or oppressor is praised; and whoever prays for a long life for an oppressor has, in effect, expressed a desire that sin be perpetuated upon the earth.'",
+        "attribution": "The Prophet, peace and blessings of Allah be upon him and his family"
+      },
+      "est_start_s": 720,
+      "est_end_s": 760,
+      "overlay_text": "Allah is angered by praise for oppressors.",
+      "prompt_short": "Hadith: praising oppressors angers Allah."
+    },
+    {
+      "segment_id": "s20",
+      "slide_type": "quote_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "You should not accept any gifts from rulers, even if you are certain that what they offer comes from lawful — Halal — sources.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 760,
+      "est_end_s": 800,
+      "overlay_text": "Do not accept gifts from rulers, even if lawful.",
+      "prompt_short": "Ghazali: refuse gifts from rulers."
+    },
+    {
+      "segment_id": "s21",
+      "slide_type": "concept_slide",
+      "background_id": "bg04",
+      "content": {
+        "term": "Shaytan",
+        "phonetic": "shay-TAAN",
+        "definition": "Satan; an evil jinn or human who incites harm."
+      },
+      "est_start_s": 800,
+      "est_end_s": 840,
+      "overlay_text": "Shaytan: evil jinn or human inciting harm.",
+      "prompt_short": "Concept: Shaytan, inciter of evil."
+    },
+    {
+      "segment_id": "s22",
+      "slide_type": "scenic_break",
+      "background_id": "bg01",
+      "content": {},
+      "est_start_s": 840,
+      "est_end_s": 880,
+      "overlay_text": "Four Matters Worthy of Our Actions",
+      "prompt_short": "Scenic break: transition to four actions."
+    },
+    {
+      "segment_id": "s23",
+      "slide_type": "quote_slide",
+      "background_id": "bg01",
+      "content": {
+        "text": "My dear beloved son! Refrain from the four things mentioned above. But there are also four things that you must actively attend to, and it will be fitting that you take full care of them.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 880,
+      "est_end_s": 920,
+      "overlay_text": "Four things to actively attend to.",
+      "prompt_short": "Ghazali's pivot: four actions to take up."
+    },
+    {
+      "segment_id": "s24",
+      "slide_type": "quote_slide",
+      "background_id": "bg01",
+      "content": {
+        "text": "Every matter between you and Allah should be conducted in such a way that, if your own servant were to do the same for you, you would not be saddened — rather, you would approve of it, commend it, and feel no anger over it.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 920,
+      "est_end_s": 960,
+      "overlay_text": "Audit your relationship with Allah as with a servant.",
+      "prompt_short": "Ghazali: intimate relationship with Allah."
+    },
+    {
+      "segment_id": "s25",
+      "slide_type": "hadith_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "Fala Yakmalu Eemanu 'Abdi Hatta Yuhibba Lisaa-irin Nasi Ma Yuhibba Li Nafsihi. — 'My slave's faith — Iman — is never complete until he loves for all human beings what he loves for himself.'",
+        "attribution": "Sacred Hadith"
+      },
+      "est_start_s": 960,
+      "est_end_s": 1000,
+      "overlay_text": "Love for others what you love for yourself.",
+      "prompt_short": "Hadith: complete faith, loving for others."
+    },
+    {
+      "segment_id": "s26",
+      "slide_type": "quote_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "If you want to increase your knowledge and wish to study scholarly works, then imagine that your lifetime will end in no more than a week. In that situation, consider carefully what kind of knowledge will truly benefit you, and devote yourself only to that.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 1000,
+      "est_end_s": 1040,
+      "overlay_text": "Study as if life ends in a week: focus on beneficial knowledge.",
+      "prompt_short": "Ghazali: study with urgency, focus on benefit."
+    },
+    {
+      "segment_id": "s27",
+      "slide_type": "hadith_slide",
+      "background_id": "bg02",
+      "content": {
+        "text": "InnAllaha La Yunzuru Ila Suwarikum Wa La Ila 'Aamalikum Wa Lakin Yunzuru Ila Qulubikum Wa Niyyatikum. — 'Verily, Allah does not look at your faces or your outward actions, but He looks at your hearts and your intentions.'",
+        "attribution": "The Prophet, peace and blessings of Allah be upon him and his family"
+      },
+      "est_start_s": 1040,
+      "est_end_s": 1080,
+      "overlay_text": "Allah looks at hearts and intentions, not outward actions.",
+      "prompt_short": "Hadith: Allah looks at hearts, not faces."
+    },
+    {
+      "segment_id": "s28",
+      "slide_type": "concept_slide",
+      "background_id": "bg02",
+      "content": {
+        "term": "Fard al-'ayn",
+        "phonetic": "FARD al-AYN",
+        "definition": "An obligation that falls on every individual Muslim."
+      },
+      "est_start_s": 1080,
+      "est_end_s": 1120,
+      "overlay_text": "Fard al-'ayn: an individual obligation for every Muslim.",
+      "prompt_short": "Concept: Fard al-'ayn, individual obligation."
+    },
+    {
+      "segment_id": "s29",
+      "slide_type": "quote_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "You should not accumulate more than one year's provision for your family from the goods of this world.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 1120,
+      "est_end_s": 1160,
+      "overlay_text": "Do not stockpile more than one year's provision.",
+      "prompt_short": "Ghazali: limit provision to one year."
+    },
+    {
+      "segment_id": "s30",
+      "slide_type": "hadith_slide",
+      "background_id": "bg04",
+      "content": {
+        "text": "Allahumma Aj'al Quta Aale Muhammadin Kafafun. — 'O my Allah! Make this provision sufficient for the family of Muhammad.'",
+        "attribution": "The Prophet, peace and blessings of Allah be upon him and his family"
+      },
+      "est_start_s": 1160,
+      "est_end_s": 1200,
+      "overlay_text": "Prophet's prayer for sufficient provision.",
+      "prompt_short": "Hadith: prayer for sufficient provision."
+    },
+    {
+      "segment_id": "s31",
+      "slide_type": "concept_slide",
+      "background_id": "bg04",
+      "content": {
+        "term": "Tawakkul",
+        "phonetic": "ta-WAK-kul",
+        "definition": "Reliance upon Allah; trust in His provision."
+      },
+      "est_start_s": 1200,
+      "est_end_s": 1240,
+      "overlay_text": "Tawakkul: reliance and trust in Allah's provision.",
+      "prompt_short": "Concept: Tawakkul, reliance on Allah."
+    },
+    {
+      "segment_id": "s32",
+      "slide_type": "quote_slide",
+      "background_id": "bg01",
+      "content": {
+        "text": "My dear beloved son! In this book I have answered all of your questions. Now gather your resolve, act upon everything within it, and do not forget me in your supplications — your Du'a.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 1240,
+      "est_end_s": 1280,
+      "overlay_text": "Act upon the teachings, remember me in Du'a.",
+      "prompt_short": "Ghazali's closing advice and request for Du'a."
+    },
+    {
+      "segment_id": "s33",
+      "slide_type": "quote_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "O my Allah! I seek from You the fullness and perfection of Your blessings; I seek the permanence of inward and outward purity; I seek the all-encompassing breadth of Your mercy; I seek the attainment of health; I seek increase in my sustenance; I seek happiness in my life; I seek true and lasting success in this life; I seek the completion of noble qualities; I seek from Your rewards the most abundant reward; I seek from Your plenitude the sweetest plenitude; I seek from Your favors the most plentiful favor; I seek from all deeds the deed that is best; I seek from all knowledge the knowledge that is most beneficial; and I seek from all sustenance the sustenance that is most wholesome.",
+        "speaker": "Imam al-Ghazali's Supplication"
+      },
+      "est_start_s": 1280,
+      "est_end_s": 1320,
+      "overlay_text": "Supplication: seeking blessings, purity, mercy, and good.",
+      "prompt_short": "Ghazali's supplication: seeking blessings and good."
+    },
+    {
+      "segment_id": "s34",
+      "slide_type": "quote_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "O my Allah! Be on our side — grant us benefit — and do not burden us — protect us from harm. O my Allah! Grant us salvation at our death; reform our deeds; grant us safety in Your days and nights; extend Your mercy to us in our homes and in our possessions; cover our sins and faults with the veil of Your forgiveness; do us the favor of correcting all our shortcomings, inward and outward; and grant us confidence and reliance upon You.",
+        "speaker": "Imam al-Ghazali's Supplication"
+      },
+      "est_start_s": 1320,
+      "est_end_s": 1360,
+      "overlay_text": "Supplication: seeking protection, salvation, and correction.",
+      "prompt_short": "Ghazali's supplication: protection and correction."
+    },
+    {
+      "segment_id": "s35",
+      "slide_type": "quote_slide",
+      "background_id": "bg03",
+      "content": {
+        "text": "O my Allah! Grant us steadfastness and perseverance in our Deen, our religion and path to God. Save us from deeds in this world that would become a source of shame and humiliation on the Day of Judgment. Lighten the burden of our sins; grant us the life of the pious; be sufficient for us in all our affairs; and protect us from the evil of the evildoers. Liberate us and our forebears from the Fire of Hell, from debt, and from oppression.",
+        "speaker": "Imam al-Ghazali's Supplication"
+      },
+      "est_start_s": 1360,
+      "est_end_s": 1400,
+      "overlay_text": "Supplication: seeking steadfastness, salvation, and liberation.",
+      "prompt_short": "Ghazali's supplication: steadfastness and liberation."
+    },
+    {
+      "segment_id": "s36",
+      "slide_type": "numbered_list",
+      "background_id": "bg03",
+      "content": {
+        "title": "Divine Names — Part One",
+        "items": [
+          "Ya Aziz (O Victorious One)",
+          "Ya Ghaffar (O Forgiving One)",
+          "Ya Kareem (O Generous One)",
+          "Ya Sattar (O Coverer of Faults)",
+          "Ya Haleem (O Forbearing One)"
+        ]
+      },
+      "est_start_s": 1400,
+      "est_end_s": 1440,
+      "overlay_text": "Eleven Divine Names invoked in the supplication.",
+      "prompt_short": "Eleven Divine Names from the supplication."
+    },
+    {
+      "segment_id": "s36b",
+      "slide_type": "numbered_list",
+      "background_id": "bg03",
+      "content": {
+        "title": "Divine Names — Part Two",
+        "items": [
+          "Ya Jabbar (O Compeller)",
+          "Ya Azeem (O Magnificent One)",
+          "Ya Qahhar (O Who Subdues all things)",
+          "Ya Rahman (O Compassionate One in this world)",
+          "Ya Raheem (O Merciful One in the life hereafter)",
+          "Ya Arhamu ar-Rahimeen (O Greatest of the Merciful)"
+        ]
+      },
+      "est_start_s": 1400,
+      "est_end_s": 1440,
+      "overlay_text": "Eleven Divine Names invoked in the supplication.",
+      "prompt_short": "Eleven Divine Names from the supplication."
+    },
+    {
+      "segment_id": "s37",
+      "slide_type": "quote_slide",
+      "background_id": "bg01",
+      "content": {
+        "text": "Of these eight admonitions, there are four things you must do and four things you must not do — so that your knowledge does not turn against you on the Day of Judgment.",
+        "speaker": "Imam al-Ghazali"
+      },
+      "est_start_s": 1440,
+      "est_end_s": 1480,
+      "overlay_text": "Knowledge must be put to work in auditable conduct.",
+      "prompt_short": "Ghazali's core admonition: knowledge and conduct."
+    },
+    {
+      "segment_id": "s38",
+      "slide_type": "concept_slide",
+      "background_id": "bg01",
+      "content": {
+        "term": "Al-Malik",
+        "phonetic": "al-MA-lik",
+        "definition": "The Absolute King and Owner of all existence; all sovereignty belongs to Him."
+      },
+      "est_start_s": 1480,
+      "est_end_s": 1520,
+      "overlay_text": "Al-Malik: Absolute Sovereign. Al-Wahhab: Giver of all.",
+      "prompt_short": "Concepts: Al-Malik and Al-Wahhab."
+    },
+    {
+      "segment_id": "s38b",
+      "slide_type": "concept_slide",
+      "background_id": "bg01",
+      "content": {
+        "term": "Al-Wahhab",
+        "phonetic": "al-wah-HAAB",
+        "definition": "The Ever-Bestowing; He who gives unconditionally and without limit."
+      },
+      "est_start_s": 1480,
+      "est_end_s": 1520,
+      "overlay_text": "Al-Malik: Absolute Sovereign. Al-Wahhab: Giver of all.",
+      "prompt_short": "Concepts: Al-Malik and Al-Wahhab."
+    },
+    {
+      "segment_id": "s39",
+      "slide_type": "quote_slide",
+      "background_id": "bg01",
+      "content": {
+        "text": "The pages can give no more than that, and they have given everything they can.",
+        "speaker": "The Master"
+      },
+      "est_start_s": 1520,
+      "est_end_s": 2181,
+      "overlay_text": "The letter has given everything it can.",
+      "prompt_short": "The master's closing reflection on the letter."
+    }
+  ]
+}

@@ -1,0 +1,883 @@
+{
+  "book_slug": "the-master-and-the-disciple",
+  "total_terms": 75,
+  "scored_terms": 75,
+  "skipped_confirmed": 0,
+  "skipped_unfixable": 0,
+  "top_n": 40,
+  "terms": [
+    {
+      "term": "al-Imām al-Nāṭiq",
+      "transliteration": "al-Imām al-Nāṭiq",
+      "phonetic": "al-imaam an-Naa-tiq",
+      "house_style_ok": true,
+      "suggested_baseline": "al-imaam an-Naa-tiq",
+      "signature": [
+        "emphatic",
+        "qaf",
+        "article-al"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 1,
+      "score": 10,
+      "reasons": [
+        "emphatic x1",
+        "qaf",
+        "4 syllables",
+        "proper name",
+        "long",
+        "non-house-style respelling"
+      ],
+      "n": 1,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْإِمَامُ النَّاطِقُ"
+    },
+    {
+      "term": "Ja'far ibn Mansur al-Yaman",
+      "transliteration": "Ja'far ibn Manṣūr al-Yaman",
+      "phonetic": "Ja'a-far ibn man-SOOR al-Ya-man",
+      "house_style_ok": true,
+      "suggested_baseline": "Ja'a-far ibn man-SOOR al-Ya-man",
+      "signature": [
+        "ayn-hamza",
+        "emphatic",
+        "article-al",
+        "lineage"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 1,
+      "score": 10,
+      "reasons": [
+        "ayn/hamza",
+        "emphatic x1",
+        "8 syllables",
+        "proper name",
+        "long"
+      ],
+      "n": 2,
+      "libraryStatus": "confirmed",
+      "arabic_script": "جَعْفَرُ بْنُ مَنْصُورِ الْيَمَنِ"
+    },
+    {
+      "term": "Ka'b al-Ahbar",
+      "transliteration": "Kaʿb al-Aḥbār",
+      "phonetic": "KAB al-AH-bar",
+      "house_style_ok": true,
+      "suggested_baseline": "Ka'AB al-AHh-baar",
+      "signature": [
+        "ayn-hamza",
+        "emphatic",
+        "article-al"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 1,
+      "score": 10,
+      "reasons": [
+        "ayn/hamza",
+        "emphatic x1",
+        "4 syllables",
+        "proper name",
+        "long"
+      ],
+      "n": 3,
+      "libraryStatus": "confirmed",
+      "arabic_script": "كَعْبُ الْأَحْبَارِ"
+    },
+    {
+      "term": "Abd Allah",
+      "transliteration": "ʿAbd Allāh",
+      "phonetic": "ab-dul-LAH",
+      "house_style_ok": true,
+      "suggested_baseline": "AB-dal-LAH",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 2,
+      "score": 8,
+      "reasons": [
+        "ayn/hamza",
+        "4 syllables",
+        "proper name",
+        "x2 in text"
+      ],
+      "n": 4,
+      "libraryStatus": "confirmed",
+      "arabic_script": "عَبْدُ اللَّهِ"
+    },
+    {
+      "term": "al-ʿuṣba",
+      "transliteration": "al-ʿuṣba",
+      "phonetic": "al-uth-ba",
+      "house_style_ok": true,
+      "suggested_baseline": "al-uth-ba",
+      "signature": [
+        "ayn-hamza",
+        "emphatic",
+        "article-al",
+        "ending-a"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 1,
+      "score": 8,
+      "reasons": [
+        "ayn/hamza",
+        "emphatic x1",
+        "proper name",
+        "non-house-style respelling"
+      ],
+      "n": 5,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْعُصْبَةُ"
+    },
+    {
+      "term": "Abu Malik",
+      "transliteration": "Abū Mālik",
+      "phonetic": "a-BOO MAA-lik",
+      "house_style_ok": true,
+      "suggested_baseline": "a-BOO MAA-lik",
+      "signature": [],
+      "segment": "names",
+      "snippet": "",
+      "freq": 110,
+      "score": 7,
+      "reasons": [
+        "4 syllables",
+        "proper name",
+        "x110 in text"
+      ],
+      "n": 6,
+      "libraryStatus": "confirmed",
+      "arabic_script": "أَبُو مَالِكٍ"
+    },
+    {
+      "term": "al-Bakhtari",
+      "transliteration": "al-Bakhtarī",
+      "phonetic": "al-bakh-ta-REE",
+      "house_style_ok": true,
+      "suggested_baseline": "al-bakh-ta-REE",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 11,
+      "score": 7,
+      "reasons": [
+        "4 syllables",
+        "proper name",
+        "x11 in text"
+      ],
+      "n": 7,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْبَخْتَرِيُّ"
+    },
+    {
+      "term": "Ubayd Allah",
+      "transliteration": "ʿUbayd Allāh",
+      "phonetic": "oo-BAYD ul-LAH",
+      "house_style_ok": true,
+      "suggested_baseline": "oo-BAYD ul-LAH",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 1,
+      "score": 7,
+      "reasons": [
+        "ayn/hamza",
+        "4 syllables",
+        "proper name"
+      ],
+      "n": 8,
+      "libraryStatus": "confirmed",
+      "arabic_script": "عُبَيْدُ اللَّهِ"
+    },
+    {
+      "term": "Sharia",
+      "transliteration": "sharīʿa",
+      "phonetic": "shaR-EE-ah",
+      "house_style_ok": true,
+      "suggested_baseline": "shaR-EE-ah",
+      "signature": [
+        "ayn-hamza",
+        "ending-a"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 4,
+      "score": 6,
+      "reasons": [
+        "ayn/hamza",
+        "3 syllables",
+        "x4 in text"
+      ],
+      "n": 9,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الشَّرِيعَةُ"
+    },
+    {
+      "term": "Qur'an",
+      "transliteration": "Qurʾān",
+      "phonetic": "kur-AAN",
+      "house_style_ok": true,
+      "suggested_baseline": "qur-AAN",
+      "signature": [
+        "ayn-hamza",
+        "qaf"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 2,
+      "score": 6,
+      "reasons": [
+        "ayn/hamza",
+        "qaf",
+        "x2 in text"
+      ],
+      "n": 10,
+      "libraryStatus": "confirmed",
+      "arabic_script": ""
+    },
+    {
+      "term": "Abu Salih",
+      "transliteration": "Abū Ṣāliḥ",
+      "phonetic": "a-BOO SAA-lih",
+      "house_style_ok": true,
+      "suggested_baseline": "a-BOO SAA-leh",
+      "signature": [
+        "emphatic"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 1,
+      "score": 6,
+      "reasons": [
+        "emphatic x1",
+        "4 syllables",
+        "proper name"
+      ],
+      "n": 11,
+      "libraryStatus": "confirmed",
+      "arabic_script": "أَبُو صَالِحٍ"
+    },
+    {
+      "term": "Salih",
+      "transliteration": "Ṣāliḥ",
+      "phonetic": "SAA-lih",
+      "house_style_ok": true,
+      "suggested_baseline": "Saaa-lih",
+      "signature": [
+        "emphatic"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 91,
+      "score": 5,
+      "reasons": [
+        "emphatic x1",
+        "x91 in text"
+      ],
+      "n": 12,
+      "libraryStatus": "confirmed",
+      "arabic_script": "صَالِحٌ"
+    },
+    {
+      "term": "al-Khiḍr",
+      "transliteration": "al-Khiḍr",
+      "phonetic": "al-KHIDR",
+      "house_style_ok": true,
+      "suggested_baseline": "al-khizar",
+      "signature": [
+        "emphatic",
+        "article-al"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 1,
+      "score": 5,
+      "reasons": [
+        "emphatic x1",
+        "proper name",
+        "non-house-style respelling"
+      ],
+      "n": 13,
+      "libraryStatus": "confirmed",
+      "arabic_script": ""
+    },
+    {
+      "term": "Imam",
+      "transliteration": "imām",
+      "phonetic": "ee-MAAM",
+      "house_style_ok": true,
+      "suggested_baseline": "Imam",
+      "signature": [],
+      "segment": "names",
+      "snippet": "",
+      "freq": 22,
+      "score": 4,
+      "reasons": [
+        "x22 in text",
+        "non-house-style respelling"
+      ],
+      "n": 14,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْإِمَامُ"
+    },
+    {
+      "term": "Sa'd",
+      "transliteration": "Saʿd",
+      "phonetic": "SAHD",
+      "house_style_ok": true,
+      "suggested_baseline": "SAHD",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 2,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "x2 in text"
+      ],
+      "n": 15,
+      "libraryStatus": "confirmed",
+      "arabic_script": "سَعْدٌ"
+    },
+    {
+      "term": "Shu'ayb",
+      "transliteration": "Shuʿayb",
+      "phonetic": "shoo-AYB",
+      "house_style_ok": true,
+      "suggested_baseline": "shoo-AYB",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 2,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "x2 in text"
+      ],
+      "n": 16,
+      "libraryStatus": "confirmed",
+      "arabic_script": "شُعَيْبٌ"
+    },
+    {
+      "term": "Abu al-Khair",
+      "transliteration": "Abū al-Khayr",
+      "phonetic": "a-BOO al-KHAYR",
+      "house_style_ok": true,
+      "suggested_baseline": "a-BOO al-KHAYR",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 1,
+      "score": 4,
+      "reasons": [
+        "4 syllables",
+        "proper name"
+      ],
+      "n": 17,
+      "libraryStatus": "confirmed",
+      "arabic_script": "أَبُو الْخَيْرِ"
+    },
+    {
+      "term": "Shariʿa",
+      "transliteration": "sharīʿa",
+      "phonetic": "shaR-EE-ah",
+      "house_style_ok": true,
+      "suggested_baseline": "shaR-EE-ah",
+      "signature": [
+        "ayn-hamza",
+        "ending-a"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 18,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الشَّرِيعَةُ"
+    },
+    {
+      "term": "Allah",
+      "transliteration": "Allāh",
+      "phonetic": "al-LAH",
+      "house_style_ok": true,
+      "suggested_baseline": "al-LAH",
+      "signature": [],
+      "segment": "names",
+      "snippet": "",
+      "freq": 222,
+      "score": 3,
+      "reasons": [
+        "x222 in text"
+      ],
+      "n": 19,
+      "libraryStatus": "confirmed",
+      "arabic_script": "اللَّهُ"
+    },
+    {
+      "term": "Shaykh",
+      "transliteration": "Shaykh",
+      "phonetic": "SHAYKH",
+      "house_style_ok": true,
+      "suggested_baseline": "SHAYKH",
+      "signature": [],
+      "segment": "names",
+      "snippet": "",
+      "freq": 23,
+      "score": 3,
+      "reasons": [
+        "x23 in text"
+      ],
+      "n": 20,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الشَّيْخُ"
+    },
+    {
+      "term": "ibn",
+      "transliteration": "ibn",
+      "phonetic": "IB-n",
+      "house_style_ok": true,
+      "suggested_baseline": "IB-n",
+      "signature": [
+        "lineage"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 2,
+      "score": 3,
+      "reasons": [
+        "proper name",
+        "x2 in text"
+      ],
+      "n": 21,
+      "libraryStatus": "confirmed",
+      "arabic_script": "بْنُ"
+    },
+    {
+      "term": "Bayt al-Ma'mur",
+      "transliteration": "Bayt al-Ma'mūr",
+      "phonetic": "bait al-ma'a-MOOR",
+      "house_style_ok": true,
+      "suggested_baseline": "bait al-ma'a-MOOR",
+      "signature": [
+        "ayn-hamza",
+        "article-al"
+      ],
+      "segment": "places",
+      "snippet": "",
+      "freq": 1,
+      "score": 8,
+      "reasons": [
+        "ayn/hamza",
+        "4 syllables",
+        "proper name",
+        "long"
+      ],
+      "n": 22,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْبَيْتُ الْمَعْمُورُ"
+    },
+    {
+      "term": "al-Jazira",
+      "transliteration": "al-Jazīra",
+      "phonetic": "al-ja-ZEE-rah",
+      "house_style_ok": true,
+      "suggested_baseline": "al-ja-ZEE-rah",
+      "signature": [
+        "article-al",
+        "ending-a"
+      ],
+      "segment": "places",
+      "snippet": "",
+      "freq": 1,
+      "score": 4,
+      "reasons": [
+        "4 syllables",
+        "proper name"
+      ],
+      "n": 23,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْجَزِيرَةُ"
+    },
+    {
+      "term": "jazā'ir",
+      "transliteration": "jazā'ir",
+      "phonetic": "ja-ZAA-ir",
+      "house_style_ok": true,
+      "suggested_baseline": "ja-ZAA-ir",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "places",
+      "snippet": "",
+      "freq": 1,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "3 syllables"
+      ],
+      "n": 24,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْجَزَائِرُ"
+    },
+    {
+      "term": "Tur",
+      "transliteration": "Ṭūr",
+      "phonetic": "TOOR",
+      "house_style_ok": true,
+      "suggested_baseline": "TOOR",
+      "signature": [],
+      "segment": "places",
+      "snippet": "",
+      "freq": 68,
+      "score": 3,
+      "reasons": [
+        "x68 in text"
+      ],
+      "n": 25,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الطُّورُ"
+    },
+    {
+      "term": "nuqabā'",
+      "transliteration": "nuqabā'",
+      "phonetic": "nu-ka-BAA",
+      "house_style_ok": true,
+      "suggested_baseline": "nu-qa-baa",
+      "signature": [
+        "ayn-hamza",
+        "qaf"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 3,
+      "score": 7,
+      "reasons": [
+        "ayn/hamza",
+        "qaf",
+        "3 syllables",
+        "x3 in text"
+      ],
+      "n": 26,
+      "libraryStatus": "confirmed",
+      "arabic_script": "نُقَبَاءُ"
+    },
+    {
+      "term": "nāṭiq",
+      "transliteration": "nāṭiq",
+      "phonetic": "NAA-tiq",
+      "house_style_ok": true,
+      "suggested_baseline": "NAA-tiq",
+      "signature": [
+        "emphatic",
+        "qaf"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 5,
+      "score": 6,
+      "reasons": [
+        "emphatic x1",
+        "qaf",
+        "x5 in text"
+      ],
+      "n": 27,
+      "libraryStatus": "confirmed",
+      "arabic_script": "النَّاطِقُ"
+    },
+    {
+      "term": "nuqabāʾ",
+      "transliteration": "nuqabāʾ",
+      "phonetic": "nu-ka-BAA",
+      "house_style_ok": true,
+      "suggested_baseline": "nu-qa-baa",
+      "signature": [
+        "ayn-hamza",
+        "qaf"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 0,
+      "score": 6,
+      "reasons": [
+        "ayn/hamza",
+        "qaf",
+        "non-house-style respelling"
+      ],
+      "n": 28,
+      "libraryStatus": "confirmed",
+      "arabic_script": "نُقَبَاءُ"
+    },
+    {
+      "term": "ḥawl",
+      "transliteration": "ḥawl",
+      "phonetic": "hawl",
+      "house_style_ok": true,
+      "suggested_baseline": "hawl",
+      "signature": [
+        "emphatic"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 6,
+      "score": 5,
+      "reasons": [
+        "emphatic x1",
+        "x6 in text",
+        "non-house-style respelling"
+      ],
+      "n": 29,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْحَوْلُ"
+    },
+    {
+      "term": "quwwa",
+      "transliteration": "quwwa",
+      "phonetic": "QOO-wa",
+      "house_style_ok": true,
+      "suggested_baseline": "quw-wwah",
+      "signature": [
+        "qaf",
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 4,
+      "score": 5,
+      "reasons": [
+        "qaf",
+        "x4 in text",
+        "non-house-style respelling"
+      ],
+      "n": 30,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْقُوَّةُ"
+    },
+    {
+      "term": "du'āt",
+      "transliteration": "du'āt",
+      "phonetic": "dua'at",
+      "house_style_ok": true,
+      "suggested_baseline": "dua'at",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 3,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "x3 in text"
+      ],
+      "n": 31,
+      "libraryStatus": "confirmed",
+      "arabic_script": "دُعَاةٌ"
+    },
+    {
+      "term": "awliyāʾ",
+      "transliteration": "awliyāʾ",
+      "phonetic": "aww-li-yaa",
+      "house_style_ok": true,
+      "suggested_baseline": "aww-li-yaa",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 1,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 32,
+      "libraryStatus": "confirmed",
+      "arabic_script": "أَوْلِيَاءُ"
+    },
+    {
+      "term": "daʿwa",
+      "transliteration": "daʿwa",
+      "phonetic": "DAH-wa",
+      "house_style_ok": true,
+      "suggested_baseline": "da'a-wa",
+      "signature": [
+        "ayn-hamza",
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 1,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 33,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الدَّعْوَةُ"
+    },
+    {
+      "term": "duʿāt",
+      "transliteration": "duʿāt",
+      "phonetic": "dua'at",
+      "house_style_ok": true,
+      "suggested_baseline": "dua'at",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 34,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الدُّعَاةُ"
+    },
+    {
+      "term": "dāʿī",
+      "transliteration": "dāʿī",
+      "phonetic": "daa-ee",
+      "house_style_ok": true,
+      "suggested_baseline": "daa-ee",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 35,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الدَّاعِي"
+    },
+    {
+      "term": "taʾwīl",
+      "transliteration": "taʾwīl",
+      "phonetic": "tah-WEEL",
+      "house_style_ok": true,
+      "suggested_baseline": "ta-veel",
+      "signature": [
+        "ayn-hamza"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 0,
+      "score": 4,
+      "reasons": [
+        "ayn/hamza",
+        "non-house-style respelling"
+      ],
+      "n": 36,
+      "libraryStatus": "confirmed",
+      "arabic_script": "التَّأْوِيلُ"
+    },
+    {
+      "term": "sunna",
+      "transliteration": "sunna",
+      "phonetic": "SOON-na",
+      "house_style_ok": true,
+      "suggested_baseline": "Sunn-nah",
+      "signature": [
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 15,
+      "score": 3,
+      "reasons": [
+        "x15 in text"
+      ],
+      "n": 37,
+      "libraryStatus": "confirmed",
+      "arabic_script": "السُّنَّةُ"
+    },
+    {
+      "term": "zakat",
+      "transliteration": "zakāt",
+      "phonetic": "za-KAAT",
+      "house_style_ok": true,
+      "suggested_baseline": "za-KAAT",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 11,
+      "score": 3,
+      "reasons": [
+        "x11 in text"
+      ],
+      "n": 38,
+      "libraryStatus": "confirmed",
+      "arabic_script": "زَكَاةُ"
+    },
+    {
+      "term": "ḥujaj",
+      "transliteration": "ḥujaj",
+      "phonetic": "HOO-jaj",
+      "house_style_ok": true,
+      "suggested_baseline": "Hu-jaj",
+      "signature": [
+        "emphatic"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 3,
+      "score": 3,
+      "reasons": [
+        "emphatic x1",
+        "x3 in text"
+      ],
+      "n": 39,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْحُجَجُ"
+    },
+    {
+      "term": "hadiths",
+      "transliteration": "ḥadīths",
+      "phonetic": "ha-DEETHS",
+      "house_style_ok": true,
+      "suggested_baseline": "ha-DEETHS",
+      "signature": [
+        "emphatic"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 2,
+      "score": 3,
+      "reasons": [
+        "emphatic x1",
+        "x2 in text"
+      ],
+      "n": 40,
+      "libraryStatus": "confirmed",
+      "arabic_script": "الْأَحَادِيثُ"
+    }
+  ]
+}

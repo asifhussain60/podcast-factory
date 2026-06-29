@@ -1,0 +1,39 @@
+# Fiction series-config template (Wave-Fiction)
+# ---------------------------------------------------------------------------
+# Copy into a fiction volume's _system/series-config.yaml and fill the per-book
+# values. This template documents the fields the pipeline reads for a
+# content_profile=fiction book. Created with the Journey to the West build.
+
+# Routing — drives profile-aware gating across the pipeline.
+content_profile: fiction          # → Fiction bucket; skips 0c phonetics + 0e enrichment;
+                                  #   0b uses the narrative refine prompt; challengers skip A/C/J/T.
+
+# Source language. Non-English triggers the translation path (Claude on Max).
+source_language: zh-Hant          # Traditional Chinese (Journey to the West). Use 'en' for English sources.
+
+# Episode planning — fiction consolidates many short chapters into arc-level episodes.
+episode_planning_mode: chronological   # chronological | vignette_grid | consolidate → triggers 0d CONSOLIDATION.
+
+# Video layer — scenic (atmospheric images), NOT teaching slides.
+enable_video: true
+video_style: scenic
+# scenic_style: the per-book visual world (replaces the old hardcoded Islamic border).
+# Imagen3 renders this directive for every scenic image. Describe the story's aesthetic.
+scenic_style: >-
+  Ming-dynasty Chinese ink-and-color illustration (shan-shui landscape tradition).
+  Misty mountains, classical architecture, mythic figures. Painterly, atmospheric,
+  rich but restrained palette. NOT photorealistic. No text, no captions, no watermarks.
+  1920x1080 landscape.
+
+# Hosts — a storytelling dynamic for narrative fiction.
+host_dynamic:
+  host_a: storyteller          # narrates the tale with warmth and momentum
+  host_b: curious_listener     # asks the questions a first-time reader would
+
+# Audience.
+audience_profile:
+  description: "A general adult listener who enjoys classic world literature and adventure."
+  assumed_knowledge: "No prior familiarity with Chinese literature or Buddhist/Daoist context required."
+
+# Optional: a forecast hint for the cost estimator (it otherwise derives from source size).
+# estimated_episode_count: 12

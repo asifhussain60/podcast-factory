@@ -1,0 +1,418 @@
+[
+  {
+    "diagram_id": "the-sale-of-fruits-1",
+    "section": "The Sale of Fruits",
+    "anchor_text": "and it admits many meanings",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Shows the competing interpretations the Imams' reading opens up for the undefined prohibition of the sale of years.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/the-sale-of-fruits-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/the-sale-of-fruits-1.svg"
+  },
+  {
+    "diagram_id": "the-prohibition-of-cheating-and-deceptio-1",
+    "section": "The Prohibition of Cheating and Deception",
+    "anchor_text": "He forbade cheating, treachery, deception, and beguilement",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Maps the distinct forms of commercial deception this section forbids, radiating from the single prohibition.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/the-prohibition-of-cheating-and-deceptio-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/the-prohibition-of-cheating-and-deceptio-1.svg"
+  },
+  {
+    "diagram_id": "the-prohibition-of-cheating-and-deceptio-2",
+    "section": "The Prohibition of Cheating and Deception",
+    "anchor_text": "whoever cheats thereby leaves the religion of Islam",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Traces the verdict logic that a cheater is a disobedient Muslim referred to Allah, not an apostate.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/the-prohibition-of-cheating-and-deceptio-2.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/the-prohibition-of-cheating-and-deceptio-2.svg"
+  },
+  {
+    "diagram_id": "mention-of-what-he-forbade-regarding-sal-1",
+    "section": "Mention of What He Forbade Regarding Sales",
+    "anchor_text": "forbade two conditions in a single sale",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Maps the distinct categories of sale the Prophet forbade, each named in this section, into one view.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/mention-of-what-he-forbade-regarding-sal-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/mention-of-what-he-forbade-regarding-sal-1.svg"
+  },
+  {
+    "diagram_id": "on-currency-exchange-al-sarf-1",
+    "section": "On Currency Exchange (al-Sarf)",
+    "anchor_text": "like for like, hand to hand, with no increase",
+    "structure_type": "quadrant-map",
+    "diagram_type": "quadrant-map",
+    "caption": "Maps the four exchange combinations produced by same-versus-different kind and equal-versus-increased, showing that only same-kind-with-increase is forbidden riba.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-currency-exchange-al-sarf-1.svg"
+  },
+  {
+    "diagram_id": "on-currency-exchange-al-sarf-2",
+    "section": "On Currency Exchange (al-Sarf)",
+    "anchor_text": "copper predominating in it so that it is reckoned",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows the purity threshold: alloyed gold trades weight-for-weight while the name of gold still applies, but once copper predominates it is sold as copper at a disparity.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-currency-exchange-al-sarf-2.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-currency-exchange-al-sarf-2.svg"
+  },
+  {
+    "diagram_id": "on-the-sale-of-food-to-one-another-1",
+    "section": "On the Sale of Food to One Another",
+    "anchor_text": "but it is permissible to sell a sa of wheat for two sa's of dates",
+    "structure_type": "quadrant-map",
+    "diagram_type": "quadrant-map",
+    "caption": "Maps how same-kind versus different-kind goods determine whether disparity in exchange is permitted.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-sale-of-food-to-one-another-1.svg"
+  },
+  {
+    "diagram_id": "on-the-option-of-the-two-parties-to-a-sa-1",
+    "section": "On the Option of the Two Parties to a Sale",
+    "anchor_text": "People differed concerning a sale made with a condition",
+    "structure_type": "quadrant-map",
+    "diagram_type": "quadrant-map",
+    "caption": "Maps the three scholarly positions on a conditional sale, plus the People of the House resolution, against two independent questions: does the sale stand and does the condition stand.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-option-of-the-two-parties-to-a-sa-1.svg"
+  },
+  {
+    "diagram_id": "on-the-rulings-concerning-defects-1",
+    "section": "On the Rulings Concerning Defects",
+    "anchor_text": "the seller may require him to swear that he did not know of the defect",
+    "structure_type": "quadrant-map",
+    "diagram_type": "quadrant-map",
+    "caption": "Maps how the buyer's pre-purchase knowledge of the defect and his post-discovery use of the goods jointly determine whether he keeps his claim or forfeits it.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-rulings-concerning-defects-1.svg"
+  },
+  {
+    "diagram_id": "on-the-rulings-concerning-defects-2",
+    "section": "On the Rulings Concerning Defects",
+    "anchor_text": "the warranty in a slave covers the gravest disease for a year, and the calamity of death for three days",
+    "structure_type": "cosmic-pair",
+    "diagram_type": "cosmic-pair",
+    "caption": "Contrasts the two competing warranty schedules for a purchased slave — the year-long coverage of latent diseases against the brief three-day death window.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-rulings-concerning-defects-2.svg"
+  },
+  {
+    "diagram_id": "concerning-the-expiations-1",
+    "section": "Concerning the Expiations",
+    "anchor_text": "he feeds ten poor persons, or clothes them, or frees a slave",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows the free choice among the three primary expiation options and the fasting fallback that applies only when none of them can be performed.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/concerning-the-expiations-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/concerning-the-expiations-1.svg"
+  },
+  {
+    "diagram_id": "3-the-body-s-portion-food-drink-and-heal-1",
+    "section": "3. The Body's Portion: Food, Drink, and Healing",
+    "anchor_text": "But if a creature possessing blood dies in it",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows how the ruling on a creature that dies in food branches by whether it has blood and whether the food is liquid or solid.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/3-the-body-s-portion-food-drink-and-heal-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/3-the-body-s-portion-food-drink-and-heal-1.svg"
+  },
+  {
+    "diagram_id": "3-the-body-s-portion-food-drink-and-heal-2",
+    "section": "3. The Body's Portion: Food, Drink, and Healing",
+    "anchor_text": "The flesh of camels, cattle, sheep, and all wild animals",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Maps the three domains of lawful animals, each with its inclusion rule and its single exception.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/3-the-body-s-portion-food-drink-and-heal-2.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/3-the-body-s-portion-food-drink-and-heal-2.svg"
+  },
+  {
+    "diagram_id": "what-is-lawful-in-hunting-and-what-is-fo-1",
+    "section": "What is lawful in hunting and what is forbidden",
+    "anchor_text": "permitted the hunting of the sea even while one remains",
+    "structure_type": "quadrant-map",
+    "diagram_type": "quadrant-map",
+    "caption": "Shows how hunting permissibility is determined by two independent variables — where one hunts (sea vs land) and whether one is in the sacred state of consecration.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/what-is-lawful-in-hunting-and-what-is-fo-1.svg"
+  },
+  {
+    "diagram_id": "what-hunting-animals-seize-and-kill-1",
+    "section": "What hunting animals seize and kill",
+    "anchor_text": "If such an animal is untrained yet seizes the prey",
+    "structure_type": "quadrant-map",
+    "diagram_type": "quadrant-map",
+    "caption": "Shows how the lawfulness of the catch depends on two factors — whether the hunting animal is trained and whether the prey is still alive when reached.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/what-hunting-animals-seize-and-kill-1.svg"
+  },
+  {
+    "diagram_id": "what-hunters-bring-down-with-a-throw-1",
+    "section": "What hunters bring down with a throw",
+    "anchor_text": "Eat what you have killed outright",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Traces the lawfulness decision for shot game from the strike through the al-isma versus al-inma distinction to whether the cause of death is known.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/what-hunters-bring-down-with-a-throw-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/what-hunters-bring-down-with-a-throw-1.svg"
+  },
+  {
+    "diagram_id": "what-hunters-bring-down-with-a-throw-2",
+    "section": "What hunters bring down with a throw",
+    "anchor_text": "struck with a sword, a spear, an arrow, or an iron implement",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Sorts hunting implements into piercing weapons that make game lawful and blunt instruments that require reaching the animal alive for slaughter.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/what-hunters-bring-down-with-a-throw-2.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/what-hunters-bring-down-with-a-throw-2.svg"
+  },
+  {
+    "diagram_id": "the-comprehensive-doors-of-slaughter-1",
+    "section": "The Comprehensive Doors of Slaughter",
+    "anchor_text": "Sharpen the blade, face the qiblah, and invoke the name of Allah",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows the ordered sequence of the lawful slaughter procedure from sharpening the blade to skinning only after the animal has died.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/the-comprehensive-doors-of-slaughter-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/the-comprehensive-doors-of-slaughter-1.svg"
+  },
+  {
+    "diagram_id": "the-comprehensive-doors-of-slaughter-2",
+    "section": "The Comprehensive Doors of Slaughter",
+    "anchor_text": "But if he deliberately omits that",
+    "structure_type": "quadrant-map",
+    "diagram_type": "quadrant-map",
+    "caption": "Maps how intent (accidental versus deliberate) determines whether an animal may be eaten across two kinds of lapse: a missed invocation and an unintended beheading.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/the-comprehensive-doors-of-slaughter-2.svg"
+  },
+  {
+    "diagram_id": "6-marriage-and-the-household-1",
+    "section": "6. Marriage and the Household",
+    "anchor_text": "the feast is of four kinds",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Maps the four recognized kinds of feast as distinct categories radiating from the single concept of the marriage-related feast.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/6-marriage-and-the-household-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/6-marriage-and-the-household-1.svg"
+  },
+  {
+    "diagram_id": "7-when-a-marriage-ends-divorce-and-separ-1",
+    "section": "7. When a Marriage Ends: Divorce and Separation",
+    "anchor_text": "entitled to both maintenance and accommodation",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Maps each way a marriage ends to whether the woman is owed maintenance and accommodation.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/7-when-a-marriage-ends-divorce-and-separ-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/7-when-a-marriage-ends-divorce-and-separ-1.svg"
+  },
+  {
+    "diagram_id": "on-the-provision-of-divorce-and-making-t-1",
+    "section": "On the Provision of Divorce and Making the Divorced Woman Lawful Again",
+    "anchor_text": "after another husband has married her and consummated",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows the sequence by which a thrice-divorced woman becomes lawful to her first husband again through an intervening marriage.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-provision-of-divorce-and-making-t-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-provision-of-divorce-and-making-t-1.svg"
+  },
+  {
+    "diagram_id": "on-the-return-the-status-of-slaves-and-t-1",
+    "section": "On the Return, the Status of Slaves, and the Dowries Binding upon Husbands",
+    "anchor_text": "If he takes her back before her waiting period expires",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows how the rules for taking back a divorced wife differ depending on whether the waiting period has ended.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-return-the-status-of-slaves-and-t-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-return-the-status-of-slaves-and-t-1.svg"
+  },
+  {
+    "diagram_id": "on-gifts-and-generosity-1",
+    "section": "On Gifts and Generosity",
+    "anchor_text": "making little of it, making it easy, and hastening it",
+    "structure_type": "cosmic-pair",
+    "diagram_type": "cosmic-pair",
+    "caption": "Maps the three qualities that complete an act of beneficence to the effect each produces in the recipient.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-gifts-and-generosity-1.svg"
+  },
+  {
+    "diagram_id": "on-gifts-and-generosity-2",
+    "section": "On Gifts and Generosity",
+    "anchor_text": "the desire for beneficence, the ability for it",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Shows the three distinct graces God gathers in a servant so that an act of good may actually occur.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-gifts-and-generosity-2.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-gifts-and-generosity-2.svg"
+  },
+  {
+    "diagram_id": "on-bequests-1",
+    "section": "On Bequests",
+    "anchor_text": "is brought out from the entire estate, while whatever is voluntary",
+    "structure_type": "cosmic-pair",
+    "diagram_type": "cosmic-pair",
+    "caption": "Contrasts which bequests are discharged from the whole estate versus the limited one-third.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-bequests-1.svg"
+  },
+  {
+    "diagram_id": "on-bequests-2",
+    "section": "On Bequests",
+    "anchor_text": "one begins with the Hajj, then the expiation, then the manumission",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows the priority order for discharging bequests when the third falls short.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-bequests-2.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-bequests-2.svg"
+  },
+  {
+    "diagram_id": "on-the-inheritance-of-kindred-and-connec-1",
+    "section": "On the inheritance of kindred and connections, and on the apportioning of shares without awl and without exclusion",
+    "anchor_text": "Those who draw near through the father's kinship inherit",
+    "structure_type": "cosmic-pair",
+    "diagram_type": "cosmic-pair",
+    "caption": "Contrasts how kindred related through the father divide a share (male takes twice the female) against those related through the mother (male and female equal), across repeated examples.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-inheritance-of-kindred-and-connec-1.svg"
+  },
+  {
+    "diagram_id": "on-the-inheritance-of-kindred-and-connec-2",
+    "section": "On the inheritance of kindred and connections, and on the apportioning of shares without awl and without exclusion",
+    "anchor_text": "is nearer to the deceased excludes the one more remote",
+    "structure_type": "hierarchy-tree",
+    "diagram_type": "hierarchy-tree",
+    "caption": "Shows that kin one degree from the deceased (uncles and aunts) block kin two degrees away (cousins), because the nearer have reached the deceased one step sooner.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-inheritance-of-kindred-and-connec-2.svg"
+  },
+  {
+    "diagram_id": "on-the-inheritance-of-kindred-and-connec-3",
+    "section": "On the inheritance of kindred and connections, and on the apportioning of shares without awl and without exclusion",
+    "anchor_text": "There is no awl in any fixed apportionment.",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Traces the no-awl procedure: named fixed shares are assigned first and kept whole, while the residuary heir alone bears any shortfall or surplus.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-inheritance-of-kindred-and-connec-3.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-inheritance-of-kindred-and-connec-3.svg"
+  },
+  {
+    "diagram_id": "on-the-inheritance-of-the-son-repudiated-1",
+    "section": "On the inheritance of the son repudiated by li'an, the child of adultery, the foundling, the captive of unknown kin, the fetus, the Muslim, the disbeliever, the Magian, the apostate, and the bondservant",
+    "anchor_text": "The Muslim, however, inherits from them by his kinship",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows the asymmetric inter-faith inheritance rule in which a Muslim inherits from disbelievers of every faith while no disbeliever inherits from a Muslim and the different faiths do not inherit from one another.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-inheritance-of-the-son-repudiated-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-inheritance-of-the-son-repudiated-1.svg"
+  },
+  {
+    "diagram_id": "on-the-inheritance-of-the-killer-the-blo-1",
+    "section": "On the inheritance of the killer, the blood money, the intersexed person, those who drown together, the freed bondservant and his patron, the divorced woman, and the one who has no heir",
+    "anchor_text": "is judged according to the passing of urine",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Maps the branching test that determines whether an intersexed person is ruled a man or a woman based on the passage of urine.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-inheritance-of-the-killer-the-blo-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-the-inheritance-of-the-killer-the-blo-1.svg"
+  },
+  {
+    "diagram_id": "8-freedom-generosity-and-the-division-of-1",
+    "section": "8. Freedom, Generosity, and the Division of Estates",
+    "anchor_text": "then in all of these blood money is owed",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows the conditions that route a bodily injury to physical retaliation versus to compensatory blood money.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/8-freedom-generosity-and-the-division-of-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/8-freedom-generosity-and-the-division-of-1.svg"
+  },
+  {
+    "diagram_id": "8-freedom-generosity-and-the-division-of-2",
+    "section": "8. Freedom, Generosity, and the Division of Estates",
+    "anchor_text": "his guardians take from the remaining two two-thirds",
+    "structure_type": "cosmic-pair",
+    "diagram_type": "cosmic-pair",
+    "caption": "Shows how, when several share in one killing, only one is executed while the remainder pay blood money in proportion to their number.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/8-freedom-generosity-and-the-division-of-2.svg"
+  },
+  {
+    "diagram_id": "on-blood-money-and-its-categories-1",
+    "section": "On Blood Money and Its Categories",
+    "anchor_text": "casts forth the seed from the womb after it had settled",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows the escalating blood-money owed at each developmental stage of the fetus from settled seed through the breathing of the spirit.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-blood-money-and-its-categories-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-blood-money-and-its-categories-1.svg"
+  },
+  {
+    "diagram_id": "on-blood-money-and-its-categories-2",
+    "section": "On Blood Money and Its Categories",
+    "anchor_text": "expiate by freeing a believing slave; if he cannot find one",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows the ordered fallback sequence of expiation for killing in error, each step taken only if the prior one is impossible.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-blood-money-and-its-categories-2.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-blood-money-and-its-categories-2.svg"
+  },
+  {
+    "diagram_id": "on-blood-money-and-its-categories-3",
+    "section": "On Blood Money and Its Categories",
+    "anchor_text": "equivalent of one thousand dinars is taken from them",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Shows the equivalent value of the one-thousand-dinar blood money paid in the currency or livestock of each kind of wealth-holder.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-blood-money-and-its-categories-3.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-blood-money-and-its-categories-3.svg"
+  },
+  {
+    "diagram_id": "on-offenses-against-the-limbs-and-wounds-1",
+    "section": "On Offenses Against the Limbs and Wounds of the Head",
+    "anchor_text": "the sound eye is bound and the other left",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows the sequential procedure for measuring how much sight was lost in one eye and converting it to proportional blood money.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-offenses-against-the-limbs-and-wounds-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-offenses-against-the-limbs-and-wounds-1.svg"
+  },
+  {
+    "diagram_id": "on-offenses-against-the-limbs-and-wounds-2",
+    "section": "On Offenses Against the Limbs and Wounds of the Head",
+    "anchor_text": "the teeth set at the front of the mouth, which are four incisors",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Maps the two classes of teeth, their subtypes and counts, and the blood money owed for each.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-offenses-against-the-limbs-and-wounds-2.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/on-offenses-against-the-limbs-and-wounds-2.svg"
+  },
+  {
+    "diagram_id": "9-wrong-and-redress-crime-property-dispu-1",
+    "section": "9. Wrong and Redress: Crime, Property Disputes, and the Judge",
+    "anchor_text": "Once he takes it, he should announce it",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Maps the staged procedure for handling found property from discovery through announcement to its final lawful disposition.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/9-wrong-and-redress-crime-property-dispu-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/9-wrong-and-redress-crime-property-dispu-1.svg"
+  },
+  {
+    "diagram_id": "the-case-and-the-evidence-1",
+    "section": "The Case and the Evidence",
+    "anchor_text": "If the claimant presses his claim and the defendant denies it",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Traces the oath procedure from the claimant's claim through the defendant's denial, the option to refer the oath back, and the two outcomes when the claimant swears or declines.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/the-case-and-the-evidence-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/the-case-and-the-evidence-1.svg"
+  },
+  {
+    "diagram_id": "the-case-and-the-evidence-2",
+    "section": "The Case and the Evidence",
+    "anchor_text": "When the proofs are evenly matched over a single object",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows how a disputed object is disposed of when both parties present equal upright evidence, branching by who swears and who holds the object.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/the-case-and-the-evidence-2.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/the-case-and-the-evidence-2.svg"
+  },
+  {
+    "diagram_id": "the-etiquette-of-judges-1",
+    "section": "The Etiquette of Judges",
+    "anchor_text": "It is not permitted to him to judge for a tyrannical imam",
+    "structure_type": "quadrant-map",
+    "diagram_type": "quadrant-map",
+    "caption": "Maps the two independent conditions for valid judgeship — a just appointing authority and competence in the science of judgment — into the four resulting states, only one of which is permitted.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/book/_diagrams/the-etiquette-of-judges-1.svg"
+  }
+]

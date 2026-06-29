@@ -5,6 +5,7 @@ _assert_artifact so the per-phase modules can import from here.
 """
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -76,6 +77,12 @@ SKIP_OCR_CATEGORIES: frozenset[str] = frozenset({
     "sites", "explainers",
 })
 
+# content_profile values that trigger the fiction sidecar augmenter in Phase 0e.
+# The sidecar augmenter NEVER modifies chapter prose — it writes a companion
+# glossary/aside file only. The category field may say "books" for a fiction
+# book (intake default); content_profile is the authoritative signal here.
+FICTION_CONTENT_PROFILES: frozenset[str] = frozenset({"fiction"})
+
 
 def _read_category(book_dir: "Path") -> str:
     """Read the content category for a book, with graceful fallbacks.
@@ -110,6 +117,41 @@ def _read_category(book_dir: "Path") -> str:
     return "books"
 
 
+def _read_content_profile(book_dir: "Path") -> str:
+    """Read the content_profile for a book (distinct from category).
+
+    Resolution order:
+      1. _system/orchestrator-state.json → "content_profile" field
+      2. _system/series-config.yaml      → "content_profile:" key
+      3. Default: "" (empty — caller treats as "not fiction")
+
+    content_profile is the engine-policy / augmentation routing key.
+    category is the pipeline routing key. They can differ (e.g., a fiction
+    book may have category="books" from intake but content_profile="fiction").
+    content_profile wins for Phase 0e routing decisions.
+    """
+    import json as _json
+    state_path = book_dir / "_system" / "orchestrator-state.json"
+    if state_path.exists():
+        try:
+            state = _json.loads(state_path.read_text(encoding="utf-8"))
+            prof = state.get("content_profile", "").strip()
+            if prof:
+                return prof.lower()
+        except Exception:  # noqa: BLE001
+            pass
+
+    cfg_path = book_dir / "_system" / "series-config.yaml"
+    if cfg_path.exists():
+        for line in cfg_path.read_text(encoding="utf-8").splitlines():
+            if line.strip().startswith("content_profile:"):
+                prof = line.split(":", 1)[1].strip().strip('"').strip("'")
+                if prof:
+                    return prof.lower()
+
+    return ""
+
+
 class AuthoringError(RuntimeError):
     """Raised when an LLM-authoring shellout fails to produce its declared artifact."""
 
@@ -122,7 +164,56 @@ class AuthoringError(RuntimeError):
         self.stderr = stderr
 
 
+class AuthoringHalt(AuthoringError):
+    """Raised when a phase completes its work but requires human review before the next phase.
+
+    Unlike AuthoringError (failure), AuthoringHalt signals *successful* completion
+    with a required human gate. The orchestrator maps this to phase_status="halted"
+    rather than "failed", preserving the phase's completed work.
+    """
+
+    def __init__(self, phase: str, message: str, manual_fallback: str = ""):
+        super().__init__(phase=phase, message=message, manual_fallback=manual_fallback)
+
+
 DEFAULT_MODEL_LABEL = "claude-opus-4-8"
+
+
+# ── Determinism contract (read before "make authoring deterministic") ──────────
+# The `claude -p` CLI exposes NO temperature, top_p, or seed flag (verified
+# against `claude --help`). Authoring therefore runs at the model's default
+# sampling and a *fresh* generation of any artifact is genuinely non-deterministic
+# — re-running produces different prose. The route is REPRODUCIBLE-BY-CHECKPOINT,
+# not generation-deterministic: once an artifact exists on disk the phases skip
+# re-authoring (skip-if-exists / framing-signature cache), so a re-run of a
+# completed book is stable. Deleting an artifact or forcing a re-author re-enters
+# the stochastic path and yields different bytes. Two consequences we make honest:
+#   1. Model provenance is recorded per call (record_model_provenance) so a book
+#      authored partly by the Sonnet timeout-fallback is visible, not silent.
+#   2. Callers that re-enter the stochastic path log it loudly (per_chapter
+#      framing cache-miss) so "reproducible only via checkpoints" is observable.
+# Pinning sampling is impossible until the CLI grows the knob; do NOT claim the
+# content route is byte-deterministic.
+
+def record_model_provenance(book_dir: "Path | None", *, phase: str, step: str,
+                            model: str, fallback: bool = False) -> None:
+    """Append one row to _system/model-provenance.jsonl naming the model that
+    authored this call. A row whose model != DEFAULT_MODEL_LABEL (or fallback=True)
+    is a content-provenance divergence — surfaced so mixed-model books are visible.
+    Best-effort: never raises into the authoring path."""
+    if book_dir is None:
+        return
+    try:
+        import json as _json
+        sysdir = Path(book_dir) / "_system"
+        sysdir.mkdir(parents=True, exist_ok=True)
+        row = {"phase": phase or "(unspecified)", "step": step or "(unspecified)",
+               "model": model, "fallback": bool(fallback),
+               "divergence": bool(fallback or model != DEFAULT_MODEL_LABEL)}
+        with (sysdir / "model-provenance.jsonl").open("a", encoding="utf-8") as fh:
+            fh.write(_json.dumps(row) + "\n")
+    except Exception as e:  # noqa: BLE001
+        sys.stderr.write(f"[record_model_provenance] skipped: {e!r}\n")
 
 
 def _run_claude_p(
@@ -137,13 +228,26 @@ def _run_claude_p(
     model_flag: str | None = None,
 ) -> tuple[int, str, str]:
     """Run `claude -p "<prompt>"` synchronously. Return (rc, stdout, stderr)."""
+    # acceptEdits alone doesn't grant Write permission for new files in non-interactive
+    # subprocess contexts — claude -p returns "Permission needed to write the file."
+    # instead of writing. --allowedTools grants the specific tools each phase needs.
+    _ALLOWED = "Write,Edit,MultiEdit,Read,Bash,Grep,Glob"
     argv: list[str] = [
         CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits",
+        "--allowedTools", _ALLOWED,
         "--output-format", "json",
     ]
     if model_flag:
         argv.extend(["--model", model_flag])
     argv.append(prompt)
+    # P0 COST POLICY (2026-06-04): `claude -p` MUST use the flat-rate Claude Max
+    # subscription, NEVER the metered Anthropic API. Strip any API-key env from the
+    # child so the Claude CLI authenticates via the Max / OAuth session. The paid
+    # Anthropic API key is reserved for the SDK paths that structurally require it
+    # (0b/0c windowed refinement) — "API only when needed".
+    child_env = dict(os.environ)
+    for _v in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN"):
+        child_env.pop(_v, None)
     try:
         proc = subprocess.run(
             argv,
@@ -151,6 +255,7 @@ def _run_claude_p(
             capture_output=True,
             text=True,
             timeout=timeout,
+            env=child_env,
         )
         rc, raw_stdout, stderr = proc.returncode, proc.stdout, proc.stderr
         if book_dir is not None:
@@ -165,6 +270,13 @@ def _run_claude_p(
                 )
             except Exception as e:  # noqa: BLE001
                 sys.stderr.write(f"[_run_claude_p] cost-ledger append failed: {e!r}\n")
+            # Record which model authored this artifact (provenance). A non-default
+            # model (the Sonnet timeout-fallback passes model_flag) is flagged as a
+            # content-provenance divergence so mixed-model books are never silent.
+            _effective_model = model_flag or model
+            record_model_provenance(
+                book_dir, phase=phase, step=step, model=_effective_model,
+                fallback=_effective_model != DEFAULT_MODEL_LABEL)
         try:
             from _cost_ledger import parse_text_from_json_stdout
             stdout = parse_text_from_json_stdout(raw_stdout)
@@ -212,7 +324,10 @@ def _run_claude_p_with_retry(
 
     bumped = int(timeout * fallback_timeout_multiplier)
     log(f"      [retry] {step}: first attempt timed out ({timeout}s); "
-        f"retrying once with model={fallback_model}, timeout={bumped}s")
+        f"retrying once with model={fallback_model}, timeout={bumped}s "
+        f"— CONTENT-PROVENANCE DIVERGENCE: this artifact will be authored by "
+        f"{fallback_model}, not {DEFAULT_MODEL_LABEL} (recorded in "
+        f"_system/model-provenance.jsonl)")
     try:
         return _run_claude_p(
             prompt, timeout=bumped,

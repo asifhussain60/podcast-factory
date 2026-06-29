@@ -1,0 +1,26 @@
+<svg id="Stipends_for_Religious_Offices__Lawful_v" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 260" role="img" aria-labelledby="Stipends_for_Religious_Offices__Lawful_v_t Stipends_for_Religious_Offices__Lawful_v_d">
+<title id="Stipends_for_Religious_Offices__Lawful_v_t">Stipends for Religious Offices: Lawful vs. Disliked Source</title>
+<desc id="Stipends_for_Religious_Offices__Lawful_v_d">Two-column contrast: Permitted (public treasury) vs Disliked (from those served) — 3 paired phenomena</desc>
+<style>#Stipends_for_Religious_Offices__Lawful_v{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#111111;}#Stipends_for_Religious_Offices__Lawful_v text{font-family:'Lato', system-ui, sans-serif;}</style>
+<text x="250" y="10.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#000000"><tspan x="250" dy="0">Stipends for Religious Offices: Lawful vs.</tspan><tspan x="250" dy="20">Disliked Source</tspan></text>
+<text x="250" y="34.0" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#777777"><tspan x="250" dy="0">A stipend from the public treasury is permitted; a wage</tspan><tspan x="250" dy="12">taken from those one serves is disliked</tspan></text>
+<rect x="14.0" y="62.0" width="218.0" height="48.0" fill="#000000" stroke="#000000" stroke-width="1.0" rx="4"/>
+<rect x="268.0" y="62.0" width="218.0" height="48.0" fill="#eeeeee" stroke="#d0d0d0" stroke-width="1.0" rx="4"/>
+<text x="123.0" y="78.5" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#ffffff"><tspan x="123.0" dy="0">Permitted (public</tspan><tspan x="123.0" dy="15">treasury)</tspan></text>
+<text x="377.0" y="78.5" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#111111"><tspan x="377.0" dy="0">Disliked (from those</tspan><tspan x="377.0" dy="15">served)</tspan></text>
+<rect x="14.0" y="110.0" width="218.0" height="46.0" fill="#ffffff" stroke="#d0d0d0" stroke-width="1.0"/>
+<rect x="268.0" y="110.0" width="218.0" height="46.0" fill="#ffffff" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="123.0" y="126.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="123.0" dy="0">Muezzin paid a stipend</tspan><tspan x="123.0" dy="14">from the bayt al-mal</tspan></text>
+<text x="377.0" y="119.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="377.0" dy="0">Muezzin taking a wage</tspan><tspan x="377.0" dy="14">from those he calls to</tspan><tspan x="377.0" dy="14">prayer</tspan></text>
+<line x1="249" y1="114" x2="249" y2="152" stroke="#d0d0d0" stroke-width="1"/>
+<rect x="14.0" y="156.0" width="218.0" height="46.0" fill="#f7f7f7" stroke="#d0d0d0" stroke-width="1.0"/>
+<rect x="268.0" y="156.0" width="218.0" height="46.0" fill="#f7f7f7" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="123.0" y="172.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="123.0" dy="0">Imam paid a stipend from</tspan><tspan x="123.0" dy="14">the bayt al-mal</tspan></text>
+<text x="377.0" y="172.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="377.0" dy="0">Imam taking a wage from</tspan><tspan x="377.0" dy="14">those he leads in prayer</tspan></text>
+<line x1="249" y1="160" x2="249" y2="198" stroke="#d0d0d0" stroke-width="1"/>
+<rect x="14.0" y="202.0" width="218.0" height="46.0" fill="#ffffff" stroke="#d0d0d0" stroke-width="1.0"/>
+<rect x="268.0" y="202.0" width="218.0" height="46.0" fill="#ffffff" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="123.0" y="218.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="123.0" dy="0">Judge paid a stipend</tspan><tspan x="123.0" dy="14">from the bayt al-mal</tspan></text>
+<text x="377.0" y="211.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="normal" fill="#111111"><tspan x="377.0" dy="0">Judge taking payment</tspan><tspan x="377.0" dy="14">from those whose</tspan><tspan x="377.0" dy="14">disputes he adjudicates</tspan></text>
+<line x1="249" y1="206" x2="249" y2="244" stroke="#d0d0d0" stroke-width="1"/>
+</svg>

@@ -64,7 +64,7 @@ import argparse
 import re
 import sys
 from pathlib import Path
-from _paths import REPO_ROOT
+from _paths import REPO_ROOT, BUCKETS, bucket_dir
 from typing import Any
 
 # Re-export helpers so existing callers that do
@@ -99,8 +99,14 @@ HANDBOOK_DIR = PODCAST_DIR / ".skill" / "handbook"
 
 
 def _chapter_lookup_roots() -> list[Path]:
-    """The directories under which to search for `<book>/chapters/<ref>.txt`."""
-    return [DRAFTS_DIR, PUBLISHED_BOOKS_DIR, LIBRARY_DIR]
+    """The directories under which to search for `<book>/chapters/<ref>.txt`.
+
+    Type-first buckets (content/<Bucket>/<book>/) come first — the canonical
+    layout since the 2026-06-04 restructure — then the retired drafts/published
+    roots for any straggler, then the legacy library. Each root has the same
+    `<root>/<book>/chapters/<ref>.txt` shape so the globbers below are unchanged.
+    """
+    return [bucket_dir(b) for b in BUCKETS] + [DRAFTS_DIR, PUBLISHED_BOOKS_DIR, LIBRARY_DIR]
 
 
 def _book_glob(book_slug: str, bare_ref: str) -> list[Path]:
@@ -254,8 +260,13 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
     #   - published: content/published/books/<book>/chapters/<file>.txt → parents[1] = <book>
     bucket_root = chapter.path.parents[1]
     from _rules import ALLOWED_CATEGORIES as _CATS  # noqa: PLC0415
-    valid_root_ancestors = {"library", "drafts", "books"} | set(_CATS)
-    if bucket_root.parent.name not in valid_root_ancestors:
+    # Type-first buckets (content/<Bucket>/<book>/chapters/) → parents[2] is the
+    # bucket name; legacy roots → "library"/"drafts"/"books"/<category>.
+    valid_root_ancestors = {"library", "drafts", "books"} | set(_CATS) | set(BUCKETS)
+    # Walk up two levels to support nested volumes (e.g. content/Islamic/asaas-al-taveel/vol-01/)
+    # where bucket_root.parent is the container dir and bucket_root.parent.parent is the bucket.
+    ancestor_names = {bucket_root.parent.name, bucket_root.parent.parent.name}
+    if not ancestor_names & valid_root_ancestors:
         sys.exit(
             f"ERROR: resolved chapter is not under a canonical root.\n"
             f"  bucket_root={bucket_root}\n"
@@ -263,7 +274,8 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
             f"  Expected one of: {sorted(valid_root_ancestors)} (which means the\n"
             f"  chapter must live at content/drafts/<book>/chapters/, content/\n"
             f"  published/books/<book>/chapters/, or the legacy content/podcast/\n"
-            f"  library/<category>/<book>/chapters/).\n"
+            f"  library/<category>/<book>/chapters/, or nested volumes at\n"
+            f"  content/<Bucket>/<container>/<vol>/chapters/).\n"
             f"  This usually means a literal-path resolution outside the canonical\n"
             f"  layout. Move the chapter to one of the supported roots."
         )

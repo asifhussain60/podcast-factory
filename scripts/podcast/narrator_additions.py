@@ -29,14 +29,14 @@ SYS = (
 )
 
 def load_key() -> str:
-    env = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-    if env: return env.strip()
-    r = subprocess.run(["security", "find-generic-password", "-s", "gemini_api_key",
-                        "-a", os.environ.get("USER", ""), "-w"], capture_output=True, text=True)
-    if r.returncode != 0: raise SystemExit("gemini_api_key not in keychain")
-    return r.stdout.strip()
+    # Vault-deterministic (llm-gemini-api-key).
+    from _secrets import get_gemini_key
+    return get_gemini_key()
+
 
 def gemini(model: str, system: str, user: str) -> str:
+    from _engine import engine_guard, TASK_REVIEW_HELPER, ENGINE_GEMINI
+    engine_guard(TASK_REVIEW_HELPER, ENGINE_GEMINI)
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={load_key()}"
     body = json.dumps({"system_instruction": {"parts": [{"text": system}]},
                        "contents": [{"parts": [{"text": user}]}],

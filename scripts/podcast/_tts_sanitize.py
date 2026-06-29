@@ -45,9 +45,34 @@ from typing import Pattern
 
 
 # ---------------------------------------------------------------------------
-# Diacritic → ASCII map. Covers every non-ASCII char observed in KaR source
-# files (audit: ï ā ʾ ʿ ḍ ḥ ṣ ṭ ẓ ī ū ē). Em-dash and arrow and ellipsis are
-# TTS-safe and left alone.
+# Typographic punctuation that is never ASCII-safe in NotebookLM-bound files.
+# Applied as Pass 0, before compound-term matching.
+# ---------------------------------------------------------------------------
+TYPOGRAPHIC_MAP: dict[str, str] = {
+    "‘": "'",    # left single quotation mark
+    "’": "'",    # right single quotation mark / apostrophe
+    "“": '"',    # left double quotation mark
+    "”": '"',    # right double quotation mark
+    "—": " - ",  # em dash -> space-hyphen-space
+    "–": "-",    # en dash -> hyphen
+    "…": "...",  # horizontal ellipsis
+    " ": " ",    # non-breaking space
+}
+
+
+def _normalize_typographic(text: str) -> tuple[str, int]:
+    """Replace typographic punctuation with ASCII equivalents. Returns (new_text, n_changes)."""
+    n = 0
+    for src, dst in TYPOGRAPHIC_MAP.items():
+        if src in text:
+            n += text.count(src)
+            text = text.replace(src, dst)
+    return text, n
+
+
+# ---------------------------------------------------------------------------
+# Diacritic -> ASCII map. Covers every non-ASCII char observed in KaR source
+# files (audit: i-diaeresis, a-macron, hamza, ayin, under-dot consonants, etc.).
 # ---------------------------------------------------------------------------
 DIACRITIC_MAP: dict[str, str] = {
     "ʿ": "",   # Arabic ayin transliteration marker
@@ -187,13 +212,20 @@ ARABIC_TERM_SUBS: list[tuple[str, str]] = [
     ("Ibda",                    "Origination"),
     ("ibda",                    "origination"),
 
-    # zahir → the apparent. Handle "the zahir" first.
+    # zahir → the apparent. Handle the article-prefixed forms FIRST so a bare
+    # "zahir" replace cannot corrupt "al-zahir" into "al-the apparent".
+    ("the al-zahir",            "the apparent"),
+    ("al-zahir",                "the apparent"),
+    ("al-Zahir",                "the apparent"),
     ("the zahir",               "the apparent"),
     ("the Zahir",               "the apparent"),
     ("Zahir",                   "The apparent"),
     ("zahir",                   "the apparent"),
 
-    # batin → the hidden. Handle "the batin" first.
+    # batin → the hidden. Article-prefixed forms first (see zahir note above).
+    ("the al-batin",            "the hidden"),
+    ("al-batin",                "the hidden"),
+    ("al-Batin",                "the hidden"),
     ("the batin",               "the hidden"),
     ("the Batin",               "the hidden"),
     ("Batin",                   "The hidden"),
@@ -395,6 +427,7 @@ def _drop_romanized_blockquote_pairs(text: str) -> tuple[str, int]:
 @dataclass
 class SubstitutionReport:
     """Summary of what changed during a sanitize pass."""
+    typographic_normalized: int = 0
     diacritics_stripped: int = 0
     arabic_terms_substituted: dict[str, int] = field(default_factory=dict)
     surahs_substituted: int = 0
@@ -404,6 +437,8 @@ class SubstitutionReport:
 
     def summary(self) -> str:
         lines = []
+        if self.typographic_normalized:
+            lines.append(f"  typographic chars normalized: {self.typographic_normalized}")
         if self.diacritics_stripped:
             lines.append(f"  diacritics stripped: {self.diacritics_stripped}")
         if self.arabic_terms_substituted:
@@ -424,7 +459,8 @@ class SubstitutionReport:
 
     @property
     def total_changes(self) -> int:
-        return (self.diacritics_stripped
+        return (self.typographic_normalized
+                + self.diacritics_stripped
                 + sum(self.arabic_terms_substituted.values())
                 + self.surahs_substituted
                 + self.pre_surah_phrases_fixed
@@ -435,6 +471,10 @@ class SubstitutionReport:
 def sanitize_text(text: str) -> tuple[str, SubstitutionReport]:
     """Apply the full sanitization pipeline. Returns (new_text, report)."""
     report = SubstitutionReport()
+
+    # Pass 0: Typographic punctuation (curly quotes, em/en dash, ellipsis, NBSP)
+    text, n_typographic = _normalize_typographic(text)
+    report.typographic_normalized = n_typographic
 
     # Pass 1: Arabic compound terms (BEFORE diacritic strip, since some
     # patterns rely on the diacritic to distinguish from prose)
@@ -485,5 +525,68 @@ def sanitize_text(text: str) -> tuple[str, SubstitutionReport]:
     ]
     for pat, repl in cleanup_patterns:
         text = pat.sub(repl, text)
+
+    return text, report
+
+
+def sanitize_text_with_terms(
+    text: str,
+    *,
+    tables: "tuple[dict[str, str], dict[str, str]] | None" = None,
+    book_glosses: "dict[str, str] | None" = None,
+) -> "tuple[str, SubstitutionReport]":
+    """sanitize_text plus knowledge-base term_render auto-substitution.
+
+    Runs the full sanitize_text pipeline first, then applies a word-boundary
+    substitution pass for entries in the exonyms and loanwords tables so that
+    English equivalents (Cain, Abel, Noah, Moses, …) auto-apply to every chapter
+    without a per-book manual pass. book_glosses (mined from refined-english.md
+    via term_render.mine_glosses) feeds inline-parenthetical translations.
+
+    Falls back to plain sanitize_text if term_render is unavailable.
+    """
+    text, report = sanitize_text(text)
+
+    try:
+        import re as _re
+        import sys as _sys
+        from pathlib import Path as _Path
+        _sys.path.insert(0, str(_Path(__file__).resolve().parent / "knowledge"))
+        import term_render as _tr
+        from pronunciation_ledger import normalize_key as _nk  # noqa: F401 (validates the import chain)
+
+        if tables is None:
+            tables = _tr.load_tables()
+        exonyms, loanwords = tables
+        if book_glosses is None:
+            book_glosses = {}
+
+        # Apply exonyms: Arabic transliteration → established English name.
+        # Match case-insensitively with word boundaries so "Qabil" matches but
+        # "al-Qabiliyya" does not.  Only substitute when the English form differs.
+        for arabic_key, english in exonyms.items():
+            if arabic_key == english.lower():
+                continue  # already the same (rare; skip to avoid identity loops)
+            pat = _re.compile(r"\b" + _re.escape(arabic_key) + r"\b", _re.IGNORECASE)
+            if pat.search(text):
+                count = len(pat.findall(text))
+                text = pat.sub(english, text)
+                report.arabic_terms_substituted[arabic_key] = (
+                    report.arabic_terms_substituted.get(arabic_key, 0) + count
+                )
+
+        # Apply inline book glosses: concept transliteration → author's own translation.
+        # Skip entries that are also personal-name keys (prevent wrong concept substitution).
+        for gloss_key, gloss_english in book_glosses.items():
+            pat = _re.compile(r"\b" + _re.escape(gloss_key) + r"\b", _re.IGNORECASE)
+            if pat.search(text):
+                count = len(pat.findall(text))
+                text = pat.sub(gloss_english, text)
+                report.arabic_terms_substituted[gloss_key] = (
+                    report.arabic_terms_substituted.get(gloss_key, 0) + count
+                )
+
+    except ImportError:
+        pass  # term_render not on path (non-Islamic content); plain sanitize result stands
 
     return text, report

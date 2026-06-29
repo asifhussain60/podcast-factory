@@ -53,17 +53,10 @@ PRICE_OUT = 0.000_000_4  # $/char output
 # ---------------------------------------------------------------------------
 
 def _load_key() -> str:
-    env = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-    if env:
-        return env.strip()
-    r = subprocess.run(
-        ["security", "find-generic-password", "-s", "gemini_api_key",
-         "-a", os.environ.get("USER", ""), "-w"],
-        capture_output=True, text=True,
-    )
-    if r.returncode != 0:
-        raise SystemExit("gemini_api_key not in keychain — cannot call Gemini")
-    return r.stdout.strip()
+    # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
+    from _secrets import get_gemini_key
+    return get_gemini_key()
+
 
 
 def _gemini(system: str, user: str, *, model: str = "gemini-2.5-flash") -> str:
@@ -191,10 +184,37 @@ def _build_slide_framing(chapter_text: str, chapter_title: str) -> str:
 # Chapter discovery
 # ---------------------------------------------------------------------------
 
+def _derive_episode_map_from_chapters(book_dir: Path) -> list[dict]:
+    """Fallback: build mapping from chapters/ directory when JSON is absent.
+
+    Sorts by embedded chapter number (ch01a, ch02b …) and assigns n=1,2,3…
+    Writes episode-chapter-map.json so subsequent callers find it.
+    """
+    import re as _re
+    chapters_dir = book_dir / "chapters"
+    if not chapters_dir.exists():
+        return []
+    pattern = _re.compile(r"^(ch(\d+)[a-z]?)-(.+)\.txt$")
+    entries = []
+    for f in sorted(chapters_dir.glob("ch*.txt")):
+        m = pattern.match(f.name)
+        if m:
+            entries.append({"chapter": m.group(1) + "-" + m.group(3),
+                            "n": int(m.group(2))})
+    if entries:
+        # Persist so subsequent callers don't have to re-derive.
+        p = book_dir / "_system" / "episode-chapter-map.json"
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(json.dumps({"mapping": entries}, indent=2) + "\n")
+        print(f"  Auto-generated episode-chapter-map.json ({len(entries)} chapters)")
+    return entries
+
+
 def _load_episode_map(book_dir: Path) -> list[dict]:
     p = book_dir / "_system" / "episode-chapter-map.json"
     if not p.exists():
-        return []
+        print("  WARN: episode-chapter-map.json missing — deriving from chapters/ directory")
+        return _derive_episode_map_from_chapters(book_dir)
     return json.loads(p.read_text())["mapping"]
 
 
@@ -263,6 +283,12 @@ def author_chapter(
         return False
 
     chapter_text = chapter_path.read_text(encoding="utf-8")
+    # Cap input at 16,000 chars to prevent Gemini context overrun on long chapters.
+    # Chapters beyond this length cause Gemini Flash to truncate silently (~300 char output).
+    _CHAPTER_CAP = 16_000
+    if len(chapter_text) > _CHAPTER_CAP:
+        print(f"  [{chapter_slug}] capping input {len(chapter_text):,} → {_CHAPTER_CAP:,} chars (context guard)")
+        chapter_text = chapter_text[:_CHAPTER_CAP]
     in_chars = len(chapter_text)
 
     print(f"  [{chapter_slug}] authoring deck source ({in_chars:,} chars)…", end="", flush=True)

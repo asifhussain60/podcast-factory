@@ -58,7 +58,7 @@ git status              # Should be clean, on `develop`
 git log --oneline -5    # Sanity-check recent history
 ```
 
-The repo is flat (no worktrees container). Books in flight live under [`content/drafts/<slug>/`](../../content/drafts/); shipped books live under [`content/published/books/<slug>/`](../../content/published/books/).
+The repo is flat (no worktrees container). Books live under `content/<Bucket>/<slug>/` (bucket-grouped layout since 2026-06-07); `published` is a status field in `_system/orchestrator-state.json`, not a folder.
 
 ## Step 4.5 — Install git hooks and Claude skills
 
@@ -74,6 +74,24 @@ bash scripts/install-claude-skills.sh
 
 Both scripts are idempotent — safe to re-run after pulling new hook or skill versions.
 
+## Step 4.7 — Set up the Python virtual environment
+
+The pipeline runs under a venv so all sub-scripts inherit the right packages via `sys.executable`.
+
+```bash
+cd ~/PROJECTS/podcast-factory
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+After this, **always activate the venv before running pipeline commands**:
+
+```bash
+source .venv/bin/activate   # once per terminal session
+python3 scripts/podcast/orchestrate_book.py <pdf>
+```
+
 ## Step 5 — Wire Azure credentials (ONLY if this Mac drives pipeline phases)
 
 All credentials are stored in Azure Key Vault (`podcast-factory-vault`). A single command pulls everything into the local Keychain.
@@ -87,7 +105,7 @@ bash pull-secrets.sh
 
 `pull-secrets.sh` pulls all 14+ secrets (Translator, Document Intelligence, Speech, Storage, Gemini, Anthropic keys) from Key Vault into the local Keychain, then runs the connectivity test automatically.
 
-Expect the script to end with `pass 5  fail 0  ✓ Azure connectivity OK`.
+Expect the script to end with `pass 9  fail 0  ✓ Azure connectivity OK` (9 checks: Azure services + Anthropic + Gemini).
 
 **First-time Azure provisioning only** (blank Azure subscription — not a new Mac):
 ```bash
@@ -127,7 +145,7 @@ open -a OrbStack        # complete setup, pick Docker
 #   CONTENT/_shared/source-library/Kashkole.sql   (~724 MB)
 
 cd ~/PROJECTS/podcast-factory
-bash infra/setup-wisdom-db.sh   # ~3-5 min on first run; idempotent on re-runs
+bash infra/supabase/setup-wisdom-db.sh   # ~3-5 min on first run; idempotent on re-runs
 ```
 
 After the script completes, register the MCP server so Claude Code can call it:
@@ -135,6 +153,17 @@ After the script completes, register the MCP server so Claude Code can call it:
 ```bash
 python3 scripts/podcast/source_library_server.py --register
 ```
+
+### Database inventory (what travels with the repo, what is local-only)
+
+| File | Tracked? | Size | Source of truth / how to restore |
+|---|---|---|---|
+| `content/knowledge-base/mirror.db` | ✅ committed | ~29 MB | Travels in git. The reference "wisdom-corpus mirror" some scripts/tests guard on. |
+| `content/knowledge-base/knowledge.db` | gitignored | ~0.5 MB | **Rebuilt from JSONL** — `python3 scripts/podcast/intelligence/corpus_sync.py rebuild`. The durable corpus is the committed `content/knowledge-base/*.jsonl` atoms (union-merged across machines via `.gitattributes`). |
+| `content/_shared/source-library/{KQur,KSessions,Kashkole}.sql` | gitignored | ~768 MB | Large dumps — **restore from your external backup** (Google Drive or another Mac); not in git. Feed `infra/supabase/setup-wisdom-db.sh` to populate the SQL Server container. |
+| `content/_shared/source-library/wisdom-corpus.db` | gitignored | ~11 MB | Local-only SQLite extract of the KSessions session/transcript data (the paused Wave-M import). Holds source transcripts (sessions/transcripts/groups), **not corpus atoms** — it is intentionally **kept, not deleted**: it is non-redundant local source data re-buildable only from `KSessions.sql`. |
+
+> Only `mirror.db` and the JSONL atoms travel in git. Everything else is rebuildable on a fresh machine from the SQL dumps (restored from external backup) or from the committed JSONL.
 
 ## Step 6 — Run the session-starter
 

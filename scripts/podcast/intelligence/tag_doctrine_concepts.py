@@ -74,17 +74,10 @@ class TagSummary:
 
 
 def _load_gemini_key() -> str:
-    env = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-    if env:
-        return env
-    out = subprocess.run(
-        ["security", "find-generic-password", "-s", "gemini_api_key", "-w"],
-        capture_output=True, text=True,
-    )
-    key = out.stdout.strip()
-    if not key:
-        raise SystemExit("gemini_api_key not found in env or keychain")
-    return key
+    # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
+    from _secrets import get_gemini_key
+    return get_gemini_key()
+
 
 
 def _default_llm_caller(prompt: str) -> tuple[int, str, str]:

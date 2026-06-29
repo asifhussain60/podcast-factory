@@ -1,0 +1,419 @@
+{
+  "schema_version": 1,
+  "book_slug": "kunooz-al-hikmah",
+  "source_kind": "audio",
+  "source_language": "ur",
+  "last_completed_phase": "per-chapter-slides",
+  "phase": "finalize",
+  "phase_status": "halted",
+  "last_error": null,
+  "category": "lectures",
+  "status": "draft",
+  "updated": "2026-06-14T22:29:44Z",
+  "phases": {
+    "0a": {
+      "completed_via": "transcribe_audio_book.py (gemini direct-audio)",
+      "completed_at": "2026-06-14T20:08:32Z",
+      "lectures": 15,
+      "engine": "gemini/gemini-2.5-pro",
+      "source_language": "ur"
+    },
+    "0a-synthesize": {
+      "completed_via": "holistic_editorial.py (claude -p)",
+      "completed_at": "2026-06-14T22:29:44Z",
+      "teachings_in_ledger": 253
+    },
+    "0b": {
+      "status": "completed",
+      "ts_started": "2026-06-15T13:40:47Z",
+      "ts_completed": "2026-06-15T13:59:32Z"
+    },
+    "0c": {
+      "status": "completed",
+      "ts_started": "2026-06-15T13:59:32Z",
+      "ts_completed": "2026-06-15T13:59:32Z"
+    },
+    "0ci": {
+      "status": "completed",
+      "ts_started": "2026-06-15T13:59:32Z",
+      "ts_completed": "2026-06-15T13:59:32Z"
+    },
+    "0d": {
+      "status": "completed",
+      "ts_started": "2026-06-15T13:59:33Z",
+      "ts_completed": "2026-06-15T17:05:23Z",
+      "manual_fallback": "Fix chapter-contracts/<slug>.yml (or rename the matching chapters/ch*.txt\nfile) so every finding above clears, then re-run: --retry-phase 0d\nCanonical rules: scripts/podcast/_contract_validation.py"
+    },
+    "0e": {
+      "status": "completed",
+      "ts_started": "2026-06-15T17:05:23Z",
+      "ts_completed": "2026-06-15T20:02:21Z",
+      "manual_fallback": "Inspect the chapter files of failed chapters; enrich each manually via /podcast, then add a `- <stem>: ENRICHED ...` row to enrichment-log.md and re-invoke orchestrate-book --resume."
+    },
+    "06a": {
+      "status": "halted",
+      "ts_started": "2026-06-15T20:02:21Z",
+      "ts_completed": "2026-06-15T20:02:32Z",
+      "gate_warnings": 6
+    },
+    "0f": {
+      "status": "halted",
+      "ts_started": "2026-06-15T20:24:34Z",
+      "ts_completed": "2026-06-15T20:27:05Z",
+      "series_plan_path": "content/Islamic/kunooz-al-hikmah/_system/series-plan.md"
+    },
+    "per-chapter": {
+      "status": "completed",
+      "ts_started": "2026-06-15T20:27:36Z",
+      "current_chapter": "doctrinal-synthesis-and-supplementary",
+      "last_beat": "2026-06-16T00:48:32Z",
+      "completed_slugs": [
+        "authors-posture-and-the-line",
+        "doctrinal-synthesis-and-supplementary",
+        "family-of-light",
+        "heart-shahadah-and-early-lectures",
+        "later-lectures-and-the-end-of-book",
+        "lectures-nine-ten-eleven-continued",
+        "lectures-six-seven-eight-continued",
+        "lectures-twelve-fourteen-fifteen-continued",
+        "living-context-and-the-whole-structure",
+        "named-duat-and-concealment",
+        "particular-doctrines-drawn-out",
+        "the-cycle-and-the-practical-frame",
+        "two-foundational-questions"
+      ],
+      "failed_slugs": [],
+      "chapter_timings": {
+        "authors-posture-and-the-line": {
+          "started_ts": "2026-06-15T20:34:23Z",
+          "completed_ts": "2026-06-15T21:17:18Z",
+          "duration_sec": 2575.7,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "doctrinal-synthesis-and-supplementary": {
+          "started_ts": "2026-06-16T00:44:28Z",
+          "completed_ts": "2026-06-16T00:50:56Z",
+          "duration_sec": 388.9,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "family-of-light": {
+          "started_ts": "2026-06-15T21:30:15Z",
+          "completed_ts": "2026-06-15T22:11:52Z",
+          "duration_sec": 2497.0,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "heart-shahadah-and-early-lectures": {
+          "started_ts": "2026-06-15T22:11:52Z",
+          "completed_ts": "2026-06-15T22:29:49Z",
+          "duration_sec": 1076.7,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "later-lectures-and-the-end-of-book": {
+          "started_ts": "2026-06-15T22:29:49Z",
+          "completed_ts": "2026-06-15T22:50:10Z",
+          "duration_sec": 1221.1,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "lectures-nine-ten-eleven-continued": {
+          "started_ts": "2026-06-15T22:50:11Z",
+          "completed_ts": "2026-06-15T23:05:57Z",
+          "duration_sec": 946.3,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "lectures-six-seven-eight-continued": {
+          "started_ts": "2026-06-15T23:05:57Z",
+          "completed_ts": "2026-06-15T23:15:33Z",
+          "duration_sec": 575.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "lectures-twelve-fourteen-fifteen-continued": {
+          "started_ts": "2026-06-15T23:15:33Z",
+          "completed_ts": "2026-06-15T23:30:19Z",
+          "duration_sec": 886.0,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "living-context-and-the-whole-structure": {
+          "started_ts": "2026-06-15T23:30:20Z",
+          "completed_ts": "2026-06-15T23:43:56Z",
+          "duration_sec": 816.5,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "named-duat-and-concealment": {
+          "started_ts": "2026-06-15T23:43:56Z",
+          "completed_ts": "2026-06-15T23:57:33Z",
+          "duration_sec": 816.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "particular-doctrines-drawn-out": {
+          "started_ts": "2026-06-15T23:57:33Z",
+          "completed_ts": "2026-06-16T00:14:44Z",
+          "duration_sec": 1031.1,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-cycle-and-the-practical-frame": {
+          "started_ts": "2026-06-16T00:14:45Z",
+          "completed_ts": "2026-06-16T00:23:55Z",
+          "duration_sec": 550.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "two-foundational-questions": {
+          "started_ts": "2026-06-16T00:23:55Z",
+          "completed_ts": "2026-06-16T00:38:13Z",
+          "duration_sec": 858.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        }
+      },
+      "convergence_iter": 2,
+      "ts_completed": "2026-06-16T00:50:57Z"
+    },
+    "per-chapter-optimize": {
+      "status": "skipped",
+      "ts_started": "2026-06-16T00:50:57Z",
+      "ts_completed": "2026-06-16T00:50:57Z",
+      "reason": "optimize_enabled=false in meta.yml"
+    },
+    "0g": {
+      "status": "completed",
+      "ts_started": "2026-06-16T00:50:57Z",
+      "ts_completed": "2026-06-16T00:51:01Z",
+      "audit_outcomes": {
+        "authors-posture-and-the-line": {
+          "status": "audited",
+          "ep_label": "EP06-authors-posture-and-the-line",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "doctrinal-synthesis-and-supplementary": {
+          "status": "audited",
+          "ep_label": "EP13-doctrinal-synthesis-and-supplementary",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "family-of-light": {
+          "status": "audited",
+          "ep_label": "EP01-family-of-light",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "heart-shahadah-and-early-lectures": {
+          "status": "audited",
+          "ep_label": "EP04-heart-shahadah-and-early-lectures",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "later-lectures-and-the-end-of-book": {
+          "status": "audited",
+          "ep_label": "EP05-later-lectures-and-the-end-of-book",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "lectures-nine-ten-eleven-continued": {
+          "status": "audited",
+          "ep_label": "EP09-lectures-nine-ten-eleven-continued",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "lectures-six-seven-eight-continued": {
+          "status": "audited",
+          "ep_label": "EP08-lectures-six-seven-eight-continued",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "lectures-twelve-fourteen-fifteen-continued": {
+          "status": "audited",
+          "ep_label": "EP10-lectures-twelve-fourteen-fifteen-continued",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "living-context-and-the-whole-structure": {
+          "status": "audited",
+          "ep_label": "EP11-living-context-and-the-whole-structure",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "named-duat-and-concealment": {
+          "status": "audited",
+          "ep_label": "EP02-named-duat-and-concealment",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "particular-doctrines-drawn-out": {
+          "status": "audited",
+          "ep_label": "EP12-particular-doctrines-drawn-out",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-cycle-and-the-practical-frame": {
+          "status": "audited",
+          "ep_label": "EP07-the-cycle-and-the-practical-frame",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "two-foundational-questions": {
+          "status": "audited",
+          "ep_label": "EP03-two-foundational-questions",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        }
+      }
+    },
+    "per-chapter-slides": {
+      "status": "completed",
+      "ts_started": "2026-06-16T00:51:01Z",
+      "ts_completed": "2026-06-16T00:51:01Z",
+      "outcomes": {
+        "lectures-six-seven-eight-continued": "BLOCKED",
+        "family-of-light": "BLOCKED",
+        "lectures-twelve-fourteen-fifteen-continued": "BLOCKED",
+        "the-cycle-and-the-practical-frame": "BLOCKED",
+        "living-context-and-the-whole-structure": "BLOCKED",
+        "later-lectures-and-the-end-of-book": "BLOCKED",
+        "particular-doctrines-drawn-out": "BLOCKED",
+        "heart-shahadah-and-early-lectures": "BLOCKED",
+        "two-foundational-questions": "BLOCKED",
+        "named-duat-and-concealment": "BLOCKED",
+        "lectures-nine-ten-eleven-continued": "BLOCKED",
+        "doctrinal-synthesis-and-supplementary": "BLOCKED",
+        "authors-posture-and-the-line": "BLOCKED"
+      }
+    },
+    "audio-script": {
+      "status": "skipped",
+      "ts_completed": "2026-06-16T00:51:02Z",
+      "reason": "audio_engine=notebooklm (manual)"
+    },
+    "audio-render": {
+      "status": "skipped",
+      "ts_completed": "2026-06-16T00:51:02Z",
+      "reason": "audio_engine=notebooklm (manual)"
+    },
+    "finalize": {
+      "status": "halted",
+      "ts_started": "2026-06-16T00:51:02Z",
+      "ts_completed": "2026-06-16T00:51:03Z",
+      "verdict": "SHIP-READY"
+    }
+  },
+  "next_phase": "audio-script",
+  "content_profile": "islamic_scholarly",
+  "ts_updated": "2026-06-16T00:51:03Z",
+  "slide_decks": {
+    "lectures-six-seven-eight-continued": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "family-of-light": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "lectures-twelve-fourteen-fifteen-continued": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "the-cycle-and-the-practical-frame": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "living-context-and-the-whole-structure": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "later-lectures-and-the-end-of-book": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "particular-doctrines-drawn-out": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "heart-shahadah-and-early-lectures": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "two-foundational-questions": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "named-duat-and-concealment": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "lectures-nine-ten-eleven-continued": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "doctrinal-synthesis-and-supplementary": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "authors-posture-and-the-line": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 0,
+      "slide_challenger_verdict": "BLOCKED"
+    }
+  }
+}

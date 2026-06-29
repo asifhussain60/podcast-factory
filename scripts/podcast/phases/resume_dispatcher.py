@@ -11,18 +11,14 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _paths import REPO_ROOT  # noqa: E402
 from _progress import read_state, write_state, update_phase, is_phase_stale, STALE_RUNNING_SEC, PHASES  # noqa: E402
+from cost_guard import cost_ceiling_check  # noqa: E402
 from phases.preflight import preflight_resume  # noqa: E402
 from phases.initial_driver import _drive_authoring_through_0f, _drive_source_ready_through_0f  # noqa: E402
 from phases.chapter_driver import _drive_per_chapter_and_after  # noqa: E402
 from phases.publish_driver import _drive_publish_through_done  # noqa: E402
 
 
-def _info(msg: str) -> None:
-    print(msg)
-
-
-def _err(msg: str) -> None:
-    print(f"ERROR: {msg}", file=sys.stderr)
+from _subprocess import err as _err, info as _info  # noqa: E402
 
 
 def _book_dir(book_slug: str) -> Path | None:
@@ -43,6 +39,41 @@ def _read_book_title_local(book_dir: Path) -> str | None:
     return None
 
 
+def _clear_downstream_phases(state: dict, retry_phase: str, log=_info) -> None:
+    """Reset retry_phase + every canonical phase after it to 'pending'.
+
+    A retried phase invalidates all later artifacts; a stale "completed"
+    block (e.g. per-chapter on a finished book) would make the re-run skip
+    re-authoring downstream and silently no-op. per-chapter additionally
+    gets its completion ledgers emptied.
+    """
+    block = state["phases"][retry_phase]
+    block["status"] = "pending"
+    block.pop("ts_completed", None)
+    block.pop("manual_fallback", None)
+    state["phase"] = retry_phase
+    state["phase_status"] = "pending"
+    if retry_phase in PHASES:
+        idx = PHASES.index(retry_phase)
+        for later in PHASES[idx + 1:]:
+            lb = state["phases"].get(later)
+            if not isinstance(lb, dict):
+                continue
+            if lb.get("status") in ("completed", "failed", "halted", "skipped"):
+                log(f"  --retry-phase: clearing downstream {later} (was {lb.get('status')})")
+                lb["status"] = "pending"
+                lb.pop("ts_completed", None)
+                lb.pop("manual_fallback", None)
+            if later == "per-chapter":
+                for key in ("completed_slugs", "failed_slugs"):
+                    if lb.get(key):
+                        lb[key] = []
+                if lb.get("chapter_timings"):
+                    lb["chapter_timings"] = {}
+        i = PHASES.index(retry_phase)
+        state["last_completed_phase"] = PHASES[i - 1] if i > 0 else None
+
+
 def run_resume(args: argparse.Namespace) -> int:
     slug = args.resume
     _info(f"orchestrate_book: resume — slug={slug}")
@@ -59,30 +90,14 @@ def run_resume(args: argparse.Namespace) -> int:
         _err("state file missing despite pre-flight pass — abort")
         return 2
 
+    stop_after = getattr(args, "stop_after", None)
     retry_phase = getattr(args, "retry_phase", None)
     if retry_phase:
         if retry_phase not in state.get("phases", {}):
             _err(f"--retry-phase: unknown phase {retry_phase!r}. Known: {sorted(state.get('phases', {}).keys())}")
             return 1
         _info(f"  --retry-phase {retry_phase}: resetting status to 'pending'")
-        block = state["phases"][retry_phase]
-        block["status"] = "pending"
-        block.pop("ts_completed", None)
-        block.pop("manual_fallback", None)
-        state["phase"] = retry_phase
-        state["phase_status"] = "pending"
-        order = ("0b", "0c", "0d", "0e")
-        if retry_phase in order:
-            idx = order.index(retry_phase)
-            for later in order[idx + 1:]:
-                lb = state["phases"].get(later, {})
-                if lb.get("status") == "completed":
-                    _info(f"  --retry-phase: clearing downstream {later} (was completed)")
-                    lb["status"] = "pending"
-                    lb.pop("ts_completed", None)
-        if retry_phase in PHASES:
-            i = PHASES.index(retry_phase)
-            state["last_completed_phase"] = PHASES[i - 1] if i > 0 else None
+        _clear_downstream_phases(state, retry_phase)
         write_state(book_dir, state)
         state = read_state(book_dir) or state
 
@@ -140,6 +155,31 @@ def run_resume(args: argparse.Namespace) -> int:
         _info(f"Phase {current_phase!r} human review approved — resuming.")
         current_status = "pending"
 
+    # C4: per-book REAL-MONEY ceiling. Checked on every resume before dispatching
+    # the next (possibly Azure/Gemini) phase. Max/claude -p spend is excluded, so
+    # all-Max authoring never trips it. Hard cap halts; soft cap warns.
+    _cc = cost_ceiling_check(book_dir)
+    if _cc["action"] == "halt":
+        update_phase(
+            book_dir,
+            phase=current_phase or "per-chapter",
+            status="failed",
+            error=(
+                f"COST-CEILING: real spend ${_cc['real_spend_usd']:.2f} >= hard cap "
+                f"${_cc['hard']:.2f}. Raise config.cost_cap_hard (or set 0 to disable)."
+            ),
+        )
+        _err(
+            f"COST-CEILING halt: real spend ${_cc['real_spend_usd']:.2f} >= hard cap "
+            f"${_cc['hard']:.2f}. Raise state.config.cost_cap_hard and --resume."
+        )
+        return 2
+    if _cc["action"] == "warn":
+        _err(
+            f"COST-CEILING warning: real spend ${_cc['real_spend_usd']:.2f} >= soft cap "
+            f"${_cc['soft']:.2f} (hard ${_cc['hard']:.2f})."
+        )
+
     # ── source-ready: pre-written English sources (explainers, sites) ───────────
     # Handles books whose source material was written directly as .md files rather
     # than ingested from a PDF via Azure OCR. Category must be in SKIP_OCR_CATEGORIES.
@@ -166,12 +206,12 @@ def run_resume(args: argparse.Namespace) -> int:
     if current_phase == "06a" and current_status in ("pending", "failed"):
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         _info("Phase 06a cleared — resuming to 0f series plan.")
-        return _drive_authoring_through_0f(book_dir, title)
+        return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
 
     if current_phase == "0f" and current_status in ("pending", "failed"):
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         _info("Phase 0f pending — writing series plan.")
-        return _drive_authoring_through_0f(book_dir, title)
+        return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
 
     if current_phase == "0f" and current_status == "halted":
         plan = book_dir / "_system" / "series-plan.md"
@@ -180,6 +220,31 @@ def run_resume(args: argparse.Namespace) -> int:
             return 2
         _info("Phase 0f gate cleared (human approved by re-invoking --resume).")
         return _drive_per_chapter_and_after(book_dir)
+
+    # 0a-synthesize: holistic editorial bridge for audio-sourced books (off-band
+    # phase, not in PHASES — the synthesis script writes phase=0c directly). For a
+    # promoted multi-source book (state.multi_source present) route to the N-source
+    # synthesizer; otherwise the single-source holistic editorial. On success the
+    # synthesizer advances state to phase=0c, so we fall through to authoring.
+    if current_phase == "0a-synthesize" and current_status in ("pending", "failed"):
+        import subprocess
+        if state.get("multi_source"):
+            _info("Phase 0a-synthesize · multi-source merge (spine + augmentation).")
+            script = "multi_source_synthesis.py"
+        else:
+            _info("Phase 0a-synthesize · single-source holistic editorial.")
+            script = "holistic_editorial.py"
+        rc = subprocess.run(
+            [sys.executable, str(Path(__file__).resolve().parents[1] / script), "--slug", slug],
+            cwd=REPO_ROOT,
+        ).returncode
+        if rc != 0:
+            _err(f"{script} exited {rc}; not advancing.")
+            return rc if rc in (2, 3) else 2
+        # Re-read state — synthesis set phase=0c, last_completed_phase=0a.
+        state = read_state(book_dir) or state
+        title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
+        return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
 
     if current_phase == "0a" and current_status in ("failed", "pending"):
         from phases.scaffold import phase_0a_ingest, phase_git_commit
@@ -209,14 +274,14 @@ def run_resume(args: argparse.Namespace) -> int:
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         return _drive_authoring_through_0f(book_dir, title)
 
-    if current_phase in ("0b", "0c", "0d", "0e") and current_status in ("failed", "halted", "pending"):
+    if current_phase in ("0b", "0c", "0ci", "0d", "0e", "0literary") and current_status in ("failed", "halted", "pending"):
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         _info(f"resuming LLM-authoring phases from {current_phase} (status={current_status})")
-        return _drive_authoring_through_0f(book_dir, title)
+        return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
 
-    if last in ("0a",) or (last in ("0b", "0c", "0d", "0e") and current_status == "completed"):
+    if last in ("0a",) or (last in ("0b", "0c", "0ci", "0d", "0e", "0literary") and current_status == "completed"):
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
-        return _drive_authoring_through_0f(book_dir, title)
+        return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
 
     if current_phase == "per-chapter" and current_status in (
         "failed", "halted", "running", "pending"
@@ -232,6 +297,36 @@ def run_resume(args: argparse.Namespace) -> int:
         _info("Phase per-chapter-slides already completed — advancing to finalize.")
         return _drive_per_chapter_and_after(book_dir)
 
+    if current_phase in ("0book-design", "0book-compose", "0book-illustrate",
+                         "0book-render"):
+        _info(f"Phase {current_phase} (PDF path book) — re-entering the publish driver; "
+              f"the 0book phases run post-finalize and are artifact-idempotent.")
+        return _drive_publish_through_done(book_dir)
+
+    if current_phase == "0book-slide-import":
+        # halted = NotebookLM deck PDFs were missing; the human has (presumably)
+        # dropped them now. Re-enter the publish driver — design/compose/illustrate
+        # skip on existing artifacts, slide-import re-runs its gate.
+        _info(f"Phase 0book-slide-import status={current_status!r} — re-entering "
+              f"the publish driver (upstream 0book phases are idempotent).")
+        return _drive_publish_through_done(book_dir)
+
+    # Audio Engine v2 phases (API engines only; notebooklm books never land here).
+    if current_phase == "audio-script":
+        _info(f"Phase audio-script status={current_status!r} — re-entering the "
+              f"per-chapter-and-after driver (completed phases skip).")
+        return _drive_per_chapter_and_after(book_dir)
+
+    if current_phase == "audio-render" and current_status == "halted":
+        _info("Phase audio-render H1 spend gate cleared (human approved by "
+              "re-invoking --resume) — rendering.")
+        return _drive_per_chapter_and_after(book_dir, approve_audio_render=True)
+
+    if current_phase == "audio-render" and current_status in (
+        "failed", "running", "pending", "completed"
+    ):
+        return _drive_per_chapter_and_after(book_dir)
+
     if current_phase == "0g" and current_status == "completed":
         _info("Phase 0g already completed — advancing to finalize.")
         return _drive_per_chapter_and_after(book_dir)
@@ -239,6 +334,15 @@ def run_resume(args: argparse.Namespace) -> int:
     if current_phase == "0g" and current_status in ("failed", "running", "pending"):
         _info(f"Phase 0g status={current_status!r} — re-entering per-chapter-and-after driver.")
         return _drive_per_chapter_and_after(book_dir)
+
+    if current_phase == "audio-ingest":
+        # halted = NotebookLM audio not dropped yet; the human has (presumably)
+        # dropped it now. Re-enter the publish driver — audio-ingest runs at its
+        # top, normalizes + transcribes idempotently, then the 0book/publish
+        # chain follows (mirrors the 0book-slide-import re-entry convention).
+        _info(f"Phase audio-ingest status={current_status!r} — re-entering the "
+              f"publish driver (normalize + transcribe run idempotently).")
+        return _drive_publish_through_done(book_dir)
 
     if current_phase == "finalize" and current_status == "halted":
         _info("Phase finalize gate cleared (human approved by re-invoking --resume).")

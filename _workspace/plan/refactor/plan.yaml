@@ -4071,5 +4071,382 @@ wc8_holistic_pipeline:
         - content/knowledge-base/mirror.db                                  # rebuilt with fts_hadith
 
 # ===========================================================================
+# Waves O + PH — PDF Reading Edition + Pipeline Hardening (session 13-14)
+# ===========================================================================
+
+waves_o_ph:
+
+  - id: O
+    name: "PDF Reading Edition — 0book-illustrate Phase + BUG-SLIDE-001"
+    execution_status: completed_2026_06_05
+    depends_on: [A, CP]
+    note: |
+      New 0book-illustrate pipeline phase: Claude analyses each H2 section of
+      book.md, identifies philosophical concepts warranting a teaching diagram,
+      generates Mermaid DSL, renders SVG via the Playwright renderer, and injects
+      figure.book-diagram blocks into book-illustrated.md. The PDF renderer picks
+      them up automatically. Also fixes BUG-SLIDE-001 (per-chapter-slides never
+      triggered for manually-processed books).
+    steps:
+      - id: O1
+        title: "BUG-SLIDE-001 — per-chapter-slides trigger fix for manually-processed books"
+        status: completed
+        committed_at: b54471f
+        deliverables:
+          - phases/book_driver.py — wires per-chapter-slides correctly after book branch detected
+      - id: O2
+        title: "_book_illustrate.py + render-mermaid.mjs book-dir mode + phases wiring"
+        status: completed
+        committed_at: 29faf2f
+        deliverables:
+          - scripts/podcast/_book_illustrate.py (new)
+          - plan-dashboard/scripts/render-mermaid.mjs — --book-dir mode added
+          - plan-dashboard/scripts/render-book-pdf.mjs — HTML block pass-through + figure CSS
+          - scripts/podcast/build_book_pdf.py — prefers book-illustrated.md over book.md
+          - scripts/podcast/phases/book_driver.py — 0book-illustrate wired between compose and render
+          - scripts/podcast/_progress.py — 0book-illustrate added to PHASES
+        output: Ayyuhal Walad — 14 diagrams across 8 chapters; book.pdf 544 KB / 70 pages
+      - id: O3
+        title: "build_book_pdf.py — Google Drive copy feature committed"
+        status: completed
+        committed_at: f1e64cc
+
+  - id: PH
+    name: "Pipeline Hardening — Audit, P1 Fix, Test Suite Green (21 to 0)"
+    execution_status: completed_2026_06_05
+    depends_on: [O]
+    note: |
+      Five-pass repo-surgeon audit. One genuine P1 fixed (_book_illustrate.py
+      per-section exception boundary). Test suite: 21 pre-existing failures to 0.
+      Root cause of test failures: sys.modules["_paths"] stub leaked from
+      test_waves_chain.py into the full suite — fixed with save/restore around
+      exec_module. Also: claude_caller to llm_caller rename in extractor tests,
+      phase pin updated to check _progress.PHASES directly, moved function imports
+      corrected in regression tests, source_library_mirror tests patched for local DB.
+    steps:
+      - id: PH1
+        title: "_book_illustrate.py — per-section try/except for LLM resilience"
+        status: completed
+        committed_at: f1e64cc
+      - id: PH2
+        title: "Test suite — 21 pre-existing failures cleared to 0"
+        status: completed
+        committed_at: f1e64cc
+        tests: "321 passed, 1 skipped, 0 failed"
+
+  - id: WM
+    name: "Wave M — Holistic Hardening: multi-volume works + profile routing + autonomy rails + intake foundation"
+    execution_status: in_progress_2026_06_09
+    depends_on: [PH]
+    note: |
+      Holistic pipeline review to production standard with first-class multi-volume
+      routing. Phases 1-4 + Phase 6 foundation landed on develop; Phase 5 (asaas
+      migration + content/->library/ rename) is DEFERRED (bundled, runs at asaas's
+      next clean boundary). The Phase 6 React visual screens are the collaborative
+      remainder (per-screen with Asif — LOCKED convention); the testable server
+      foundation shipped here. Full suite 625 passed.
+    steps:
+      - id: WM1
+        title: "Multi-volume foundation — work.yml manifest + volume-aware _paths/_branching + TS mirror"
+        status: completed
+        committed_at: 28ad0dd
+        tests: "test_work_manifest.py (16) — flat byte-identity + nested happy-path"
+      - id: WM2
+        title: "Profile-driven phase routing (phase_capabilities) + intake --work/--volume"
+        status: completed
+        committed_at: 0587350
+        tests: "test_routing_capabilities (9) + test_intake_volume (4)"
+      - id: WM3
+        title: "Per-volume autopilot (orchestrate_work pause-between-volumes) + F32/F35 safety rails"
+        status: completed
+        committed_at: 3c8b38c
+        tests: "convergence safety rails (9) + orchestrate_work pause (6) + framing cache (3)"
+      - id: WM4
+        title: "Code-quality de-patch (_subprocess.py) + F38 close-out (grep gate + prompt cache + doc)"
+        status: completed
+        committed_at: 31980aa
+        note: "F32/F35/F38/F39 CLOSED; F40 (giant-function splits) DEFERRED with rationale."
+      - id: WM6
+        title: "Intake foundation — smart-form options + preflight estimator + JSON endpoints"
+        status: completed
+        committed_at: e2ca3de
+        tests: "test_intake_form_options (10) + test_intake_preflight (11)"
+      - id: WM6-ui
+        title: "Intake UI — 4 screens (upload+roles, smart form, pre-flight, launch+cockpit), per-screen with Asif"
+        status: completed
+        committed_at: 14b6e9b
+        note: |
+          Screen 1 upload+roles (intake_staging.py, 12 tests) · Screen 2 smart form
+          (dropdowns from form-options + inline add) · Screen 3 pre-flight (capped
+          estimate) · Screen 4 launch+cockpit (intake_status 6 + intake_launch 4 tests;
+          detached spawn, approval cards). Each gated through html-view-challenger to
+          PASS. Outstanding: M1 (sub-1.2rem intake reading floor — surface-wide
+          pre-existing) needs an Asif decision (raise tier vs documented exception).
+          Live classifier (/api/intake/classify) is the one remaining increment.
+      - id: WM5
+        title: "asaas migration + content/->library/ rename (bundled checklist)"
+        status: deferred
+        note: "Runs at asaas's next clean boundary; checklist in plan.md Phase 5."
+
+  - id: SD
+    name: "Slide-Deck Weave + Folder Standardization (2026-06-10)"
+    execution_status: completed_2026_06_10
+    depends_on: [O]
+    note: |
+      NotebookLM slide decks become a woven part of the reading edition with one
+      human round: per-chapter framings (existing per-chapter-slides phase) are
+      surfaced as a generation card at the finalize halt (sibling renderer in
+      _notebooklm_table.py — LOCKED episode table untouched); dropped deck PDFs
+      (slide-decks/chNN-<slug>.pdf) are imported by the NEW 0book-slide-import
+      phase (between 0book-illustrate and 0book-render): pdftoppm page extraction,
+      pdftotext titles, ONE claude -p per chapter authors the slide->anchor
+      manifest (validated fail-loud, 1 retry, sha256 sig cache), single combined
+      injection places every slide BEFORE the passage it explains ->
+      book/book-slides.md (render priority: slides > illustrated > book).
+      Missing PDFs -> AuthoringHalt (publish stops, --resume re-enters; .SKIP
+      marker exempts). Plus: ONE folder-skeleton registry (_paths.BOOK_SUBDIRS,
+      16 dirs incl m4a + slide-decks) consumed by intake/intake_launch/scaffold/
+      volume intake; retroactive standardize_book_folders.py migrated all 9
+      books + 6 asaas volumes (slide-deck->slide-decks, audio->m4a,
+      source->_source; kunooz source dup flagged for review).
+    steps:
+      - id: SD1
+        title: "Folder skeleton registry + consumers + retroactive migration (all 4 buckets)"
+        status: completed
+        tests: "test_book_skeleton (5)"
+      - id: SD2
+        title: "Slide-deck generation card at finalize halt (framing-driven discovery)"
+        status: completed
+        tests: "test_slide_deck_card (6)"
+      - id: SD3
+        title: "0book-slide-import phase — LLM anchor manifests + combined before-placement injection + halt gate"
+        status: completed
+        tests: "test_slide_import (9) + test_inject_slide_deck (16)"
+      - id: SD4
+        title: "Dispatcher 0book dead-end fix (illustrate missing; stale per-chapter routing) + dashboard PHASE_ORDER"
+        status: completed
+
+  - id: NM
+    name: "NotebookLM Drop Normalizer (2026-06-12)"
+    execution_status: completed_2026_06_12
+    depends_on: [SD]
+    note: |
+      NotebookLM names audio exports after the Audio Overview's creative title,
+      and manual NN- prefixes are unverified claims (a real 19/20 swap shipped
+      2026-06-12, caught by hand). normalize_m4a.py makes filenames irrelevant:
+      fingerprints every non-canonical .m4a/.txt under BOOK_DIR/m4a/ against
+      episode framings + chapter sources (transcript text strongest, then
+      creative-title tokens; numeric prefixes compared but never trusted) and
+      renames to ch<NN><s>-<slug>.m4a / m4a/transcripts/<stem>.transcript.txt.
+      Dry-run default, --apply executes; AMBIGUOUS/COLLISION left untouched and
+      surfaced; all verdicts (MATCH/SWAP/AMBIGUOUS/COLLISION) append to the
+      m4a/_review/prefix-verification.json ledger. Finalize-halt card prints
+      the command; SKILL.md scripts catalog + framework.md tree updated.
+    steps:
+      - id: NM1
+        title: "normalize_m4a.py — fingerprint matcher + swap detection + transcript pairing + ledger"
+        status: completed
+        tests: "test_normalize_m4a (8)"
+      - id: NM2
+        title: "Operator wiring — finalize card line + SKILL.md + framework.md docs"
+        status: completed
+
+  - id: AT
+    name: "Azure Transcription for NotebookLM Output (2026-06-12)"
+    execution_status: completed_2026_06_12
+    depends_on: [NM]
+    note: |
+      TurboScribe retired as the documented transcription path. The OUTPUT-side
+      transcriber (transcribe_notebooklm.py) was dead code — local whisper,
+      never installed, retired drafts/ paths — which is WHY the manual
+      TurboScribe ritual existed. Rebuilt on the proven Azure Speech Fast
+      Transcription caller (_azure.transcribe_audio, same as lecture intake):
+      batch per book, idempotent, bucket-aware, --only/--force/--dry-run,
+      non-canonical names deferred to normalize_m4a. ONE Azure call writes
+      BOTH live transcript contracts: m4a/transcripts/<ch-stem>.transcript.txt
+      (source of truth: postprod-review, normalize_m4a) + derived
+      transcripts/EP##-<slug>.transcript.txt (audit_transcript Loop M,
+      stitch_video keyword sync). Cost rows duration-priced
+      (azure-speech-stt-fast); transcribe_episode.py repriced from the F36
+      char-count Neural-TTS proxy (~10x overstatement) to the same
+      duration-priced helper. Finalize card prints normalize -> transcribe.
+      Docs swept Azure-first: SKILL.md (catalog + Loop M paths a/b/c),
+      framework.md tree, postprod-review + vacuum agent specs (both copies).
+      External services (TurboScribe) remain a FALLBACK drop path that
+      normalize_m4a pairs in.
+    steps:
+      - id: AT1
+        title: "transcribe_notebooklm.py rebuilt on Azure — batch, idempotent, dual-contract output, duration-priced ledger"
+        status: completed
+        tests: "test_transcribe_notebooklm (8)"
+      - id: AT2
+        title: "transcribe_episode.py repriced to duration-based STT helper (root fix of F36 char proxy)"
+        status: completed
+      - id: AT3
+        title: "Docs sweep Azure-first — SKILL.md, framework.md, postprod-review + vacuum specs, finalize card chain"
+        status: completed
+      - id: AT4
+        title: "normalize_m4a transcript scorer rebuilt trigram+IDF — live Azure transcripts exposed token-overlap drift to the largest chapter corpus (7/20 known-correct mismatched); validated 20/20 on the-master-and-the-disciple"
+        status: completed
+        tests: "test_normalize_m4a (9, incl. shared-boilerplate regression)"
+
+
+  - id: AE
+    name: "Audio Engine v2 — ElevenLabs autonomous path, NotebookLM preserved (2026-06-12)"
+    execution_status: completed_2026_06_12
+    depends_on: [AT]
+    note: |
+      Dual-engine audio: a pluggable per-book audio_engine setting
+      (series-config.yaml; notebooklm default | elevenlabs) routes the audio
+      step. NotebookLM path byte-identical (golden-fixture regression); the
+      ElevenLabs path is fully autonomous with ONE halt per book (H1: exact
+      deterministic credit estimate before the first paid render). Registry
+      (_audio_engines.py) carries capability flags consumed by validators,
+      cost estimator, and orchestrator — no hardcoded engine conditionals.
+      Per-chapter dialogue scripts authored on Claude Max against the
+      converged framing (no rule-text duplication), gated by a deterministic
+      pre-synthesis validator set (deny lists, doctrine, honorifics, host
+      parity, engine-aware Arabic/tag rules, contract-coverage no-teaching-
+      lost) + a semantic challenger pass, SHIP-READY/SHIP-WITH-CAUTION/FAILED
+      verdicts, findings to _learning/findings.jsonl (source=dialogue-gate).
+      Pronunciation: glossary.yml -> versioned PLS alias dictionary, pinned
+      per render; Arabic-recitation scaffold OFF until H2. Renderer: eleven_v3
+      text-to-dialogue, pure chunker <=2000 chars, hash-derived seeds, render
+      ledger input-hash->output-hash, chunk cache (render once, cache
+      forever), exact subscription-meter credit rows, cps sanity band,
+      optional Azure --deep-verify; output DIRECTLY to canonical m4a +
+      transcript layout (transcript IS the script — no STT). Orchestrator:
+      audio-script + audio-render phases in _progress.PHASES between slides
+      and finalize; engine-aware finalize card. Studio Publish step surfaces
+      engine + rendered credits (html-view-challenger PASS). Quality of
+      CONTENT outranks cost everywhere: soft bands are pacing advisories
+      (P2), never cuts; cost discipline by construction.
+    steps:
+      - id: AE1
+        title: "Engine registry with capability flags + golden-fixture byte-identity for the default path"
+        status: completed
+        tests: "test_audio_engines (19)"
+      - id: AE2
+        title: "Dialogue-script artifact + Claude Max authorship (framing as steering spec)"
+        status: completed
+        tests: "test_dialogue_script (21)"
+      - id: AE3
+        title: "Pre-synthesis content gate + convergence loop (deterministic + semantic; coverage = no-teaching-lost)"
+        status: completed
+        tests: "test_dialogue_gate (20)"
+      - id: AE4
+        title: "Pronunciation compiler: glossary -> versioned PLS dictionary, pinned; Arabic-recitation scaffold (H2 OFF)"
+        status: completed
+        tests: "test_pronunciation_compiler (12)"
+      - id: AE5
+        title: "Production renderer: render-once/cache-forever, render ledger, exact credit metering, canonical layout"
+        status: completed
+        tests: "test_render_dialogue_audio (15)"
+      - id: AE6
+        title: "Orchestrator wiring: audio-script + audio-render phases, H1 halt, engine-aware finalize card"
+        status: completed
+        tests: "test_audio_driver (16) + test_phases"
+      - id: AE7
+        title: "Astro studio Publish step: audio engine + rendered-credit spend (Cortex-gated, lint clean)"
+        status: completed
+      - id: AE8
+        title: "Dual-engine e2e through the post-0f driver (both paths; fixed episode-map derive fallback KeyError)"
+        status: completed
+        tests: "e2e/test_audio_engine_paths (3)"
+
+  - id: AE2
+    name: "NotebookLM-fidelity + per-episode dual-path + voice-picker UI (2026-06-13)"
+    execution_status: completed_2026_06_13
+    depends_on: [AE]
+    note: |
+      Makes ElevenLabs the per-profile NEW-book default for islamic_scholarly
+      (cast Eric/Lily) — stamped at intake from the _rules registry, NEVER
+      retroactive (existing NotebookLM-native books keep their path). Adds a
+      PER-EPISODE engine override (episode_engine_overrides in series-config):
+      engine_for_episode() routes each episode; the script + render phases skip
+      NotebookLM-overridden episodes (no wasted authorship, no credit estimate,
+      never API-rendered) and the finalize halt prints both the rendered-note
+      and a NotebookLM upload table filtered to the overrides. No-overrides ->
+      unfiltered table, byte-identical (golden-test latch). Steers the
+      autonomous path to the NotebookLM sound at three layers: authoring prompt
+      (seven moves, native Arabic+gloss when supported, tonal tags forbidden on
+      the scholar), the pre-spend challenger (per-move presence) + deterministic
+      gate (registry-driven tag budget, tonal-on-HOST_A check, style nudges),
+      and a post-render style gate fingerprinting audio vs a tracked per-genre
+      gold standard (built from BOTH NotebookLM books) with ONE bounded retake
+      inside H1. Astro intake gains a VoicePicker (engine + male/female from the
+      approved pools; monogram avatars, accent labels, sample clips).
+    steps:
+      - id: AE2a
+        title: "Per-episode engine resolver + episode-aware script/render phases + upload-table latch"
+        status: completed
+        tests: "test_episode_engine_and_style + e2e/test_audio_engine_paths (override)"
+      - id: AE2b
+        title: "ElevenLabs default for new Islamic books at intake (per-profile registry, never retroactive)"
+        status: completed
+        tests: "test_episode_engine_and_style (intake stamp)"
+      - id: AE2c
+        title: "Tracked fingerprint module + per-genre gold standard (both NotebookLM books) + post-render style gate (1 retake)"
+        status: completed
+        tests: "test_episode_engine_and_style (fingerprint)"
+      - id: AE2d
+        title: "Authoring prompt (seven moves, Arabic+gloss, tag discipline) + challenger rubric + gate checks"
+        status: completed
+      - id: AE2e
+        title: "Astro voice-picker UI: engine + cast selection, monogram avatars, sample clips (lint clean, preview-verified)"
+        status: completed
+      - id: AE2f
+        title: "Voice sample clips rendered into public/voice-samples/ (ElevenLabs spend gate)"
+        status: completed
+        tests: "manual render (446 credits); picker Hear buttons functional"
+      - id: AE2g
+        title: "Deterministic Arabic recitation: KQur verse lookup + glossary terms, render-layer, engine-aware"
+        status: completed
+        tests: "test_quran_recitation (20)"
+        note: |
+          ElevenLabs Islamic books recite Quran verses (verbatim from the wisdom
+          corpus KQur via _quran_recitation.py: canonical surah table + number
+          parser -> (surah,ayat) -> mirror.db fts_quran) and key terms (glossary
+          phonetic->arabic_script, skipping loanwords + personal names) in native
+          Arabic. Injected ONLY at the render-compile layer (compile_turns_for_render,
+          flag elevenlabs_arabic_recitation default-ON for Islamic at intake) — the
+          model never types Arabic (faithfulness), shared chapters + scripts stay
+          ASCII/phonetic (NotebookLM byte-identical), noise behavior unchanged.
+          Author writes ASCII + long-form citations only. Hadith deferred.
+
+  - id: TA
+    name: "Work-level teaching allocator + curated audio density + 0d hardening (2026-06-18)"
+    execution_status: completed_2026_06_18
+    depends_on: [AE2]
+    note: |
+      For multi-volume WORKS (one synthesized teaching ledger split across
+      volumes, e.g. al-anwaar-al-lateefah), a pre-pass guarantees every concept
+      is placed once, deduplicated, in the right volume BEFORE any volume's 0d.
+      allocate_teachings.py is an LLM-assisted hybrid on flat-rate claude -p (no
+      API spend): spine placed deterministically by book order; augmentation
+      placed into sections by batched LLM classification with a Jaccard top-K
+      shortlist; conservative LLM dedup (canonical airs once, variants kept for
+      the reading edition). Emits _system/_volume-split.json + a no-loss/no-repeat
+      GATE that raises on failure; resume-safe via _system/_alloc/. orchestrate_work
+      runs it once per synthesized work (shared ledger), idempotent. 0d consumption
+      is GATED so single-book authoring is byte-identical; a malformed split WARNS
+      instead of silently degrading. Per-book episode_max_concepts (default = global
+      EPISODE_MAX_CONCEPTS 3) yields curated breathable seasons. end_line clamp +
+      cross-episode-reference guard harden 0d for ALL books.
+    steps:
+      - id: TAa
+        title: "allocate_teachings.py — dedup + spine/aug placement + no-loss/no-repeat gate (al-anwaar: 3037 -> 3003 aired + 34 variants)"
+        status: completed
+      - id: TAb
+        title: "Pipeline wiring — orchestrate_work _ensure_allocation pre-pass + gated _volume_allocation 0d injection (zero single-book regression)"
+        status: completed
+      - id: TAc
+        title: "Per-book episode_max_concepts (curated density) + 0d end_line clamp + cross-episode-reference guard"
+        status: completed
+      - id: TAd
+        title: "al-anwaar-al-lateefah vol-01 SHIP-READY end-to-end (11 episodes + slide decks, G1-G14 pass)"
+        status: completed
+
+# ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================

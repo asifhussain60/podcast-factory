@@ -69,6 +69,13 @@ class ChapterOutcome:
     p2_remaining: int
     peq_total: float | None = None   # last PEQ total recorded; None if not scored
     notes: list[str] = field(default_factory=list)
+    # Phase 3: mid-loop safety-rail signals. systemic_halt is non-None when a
+    # per-BOOK ceiling was breached — the driver must halt the whole book and
+    # write the reason to state (the marker COST-CEILING tells supervise_run.py
+    # NOT to relaunch). episode_rebuild_failed surfaces a silent episode.txt
+    # rebuild failure (was swallowed); the driver can flag it for review.
+    systemic_halt: str | None = None
+    episode_rebuild_failed: bool = False
 
 
 # ─── Episode-txt rebuild helper ──────────────────────────────────────────────
@@ -172,8 +179,26 @@ def parse_challenger_report(report_path: Path) -> tuple[str, int, int, int]:
 # ─── Convergence loop ────────────────────────────────────────────────────────
 
 
-def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
+def converge_chapter(
+    book_dir: Path,
+    chapter_slug: str,
+    *,
+    per_chapter_cost_cap: float = 0.0,
+    book_cost_cap: float = 0.0,
+    chapter_cost_fn=None,   # () -> float : per-chapter spend since chapter start
+    book_cost_fn=None,      # () -> float : per-book total spend so far
+    heartbeat=None,         # (outer: int, note: str) -> None : cheap state beat
+) -> ChapterOutcome:
     """Drive the per-chapter convergence loop. Returns a ChapterOutcome.
+
+    Phase 3 safety rails (all optional + back-compat — a bare call behaves exactly
+    as before): at the TOP of each outer iteration the loop checks the per-book
+    hard ceiling (breach → systemic_halt, marker COST-CEILING) and the per-chapter
+    ceiling (breach → FAILED, graceful-degrade to the next chapter), emits a cheap
+    heartbeat (≤ MAX_OUTER_ITERATIONS per chapter) so the supervisor's hang
+    detection is accurate, breaks early on 2 consecutive structural fixer failures
+    (preserving the F11 best-verdict fallback), and surfaces a failed episode.txt
+    rebuild instead of swallowing it.
 
     Pre-conditions:
     - `BOOK_DIR/chapters/ch##-<slug>.txt` exists (Phase 0d produced it)
@@ -209,8 +234,41 @@ def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
     # the episode artifact is intact on disk).
     best_verdict_so_far: str | None = None
     best_verdict_at_iter: int = 0
+    consecutive_fixer_failures = 0  # Phase 3: 2 in a row → early halt
     for outer in range(1, MAX_OUTER_ITERATIONS + 1):
         outcome.outer_iterations = outer
+
+        # Phase 3 heartbeat: cheap state beat so the supervisor can tell
+        # "still progressing through iterations" from "hung". ≤ MAX_OUTER_ITERATIONS.
+        if heartbeat is not None:
+            try:
+                heartbeat(outer, "convergence-iter")
+            except Exception:
+                pass  # a beat failure must never break convergence
+
+        # Phase 3 mid-loop cost ceilings (F35). Per-BOOK breach is systemic —
+        # halt the whole book (the driver writes COST-CEILING to state so the
+        # supervisor does not relaunch). Per-CHAPTER breach fails just this
+        # chapter (graceful-degrade to the next). Checked BEFORE the expensive
+        # challenger call so a runaway is stopped at the iteration boundary.
+        if book_cost_fn is not None and book_cost_cap > 0:
+            _bc = book_cost_fn()
+            if _bc > book_cost_cap:
+                msg = (f"COST-CEILING: book spent ${_bc:.2f} > cap "
+                       f"${book_cost_cap:.2f} at iter {outer}")
+                outcome.notes.append(msg)
+                outcome.systemic_halt = msg
+                outcome.final_verdict = "FAILED"
+                return outcome
+        if chapter_cost_fn is not None and per_chapter_cost_cap > 0:
+            _cc = chapter_cost_fn()
+            if _cc > per_chapter_cost_cap:
+                msg = (f"COST-CAPPED (mid-loop): chapter spent ${_cc:.2f} > cap "
+                       f"${per_chapter_cost_cap:.2f} at iter {outer}")
+                outcome.notes.append(msg)
+                outcome.final_verdict = "FAILED"
+                return outcome
+
         try:
             invoke_challenger(book_dir, chapter_slug)
         except AuthoringError as e:
@@ -298,12 +356,18 @@ def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
             # Rebuild episode.txt — fixer may have updated 00-framing.md.
             # Without this, the next challenger invocation flags P0-EPISODE-STALE.
             if episode_id:
-                _rebuild_episode_txt(book_dir, episode_id)
+                if not _rebuild_episode_txt(book_dir, episode_id):
+                    outcome.episode_rebuild_failed = True
+                    outcome.notes.append(
+                        f"iter {outer}: episode.txt rebuild FAILED after P1 fixer "
+                        f"(surfaced, not swallowed)"
+                    )
             continue
 
         if verdict == "BLOCKED":
             # P0 findings present. Invoke fixer (max MAX_FIXER_ATTEMPTS_PER_P0).
             outcome.notes.append(f"iter {outer}: fixer on P0 findings (BLOCKED)")
+            _fixer_succeeded = False
             for attempt in range(1, MAX_FIXER_ATTEMPTS_PER_P0 + 1):
                 try:
                     invoke_fixer(book_dir, chapter_slug, severity="P0")
@@ -323,8 +387,36 @@ def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
                 # Without this, next challenger invocation sees stale episode.txt
                 # and emits P0-EPISODE-STALE, burning the outer iteration cap.
                 if episode_id:
-                    _rebuild_episode_txt(book_dir, episode_id)
+                    if not _rebuild_episode_txt(book_dir, episode_id):
+                        outcome.episode_rebuild_failed = True
+                        outcome.notes.append(
+                            f"iter {outer}: episode.txt rebuild FAILED after P0 fixer "
+                            f"(surfaced, not swallowed)"
+                        )
+                _fixer_succeeded = True
                 break  # fixer attempt OK; let next outer iteration re-validate
+
+            # Phase 3: 2 consecutive iterations where EVERY fixer attempt failed
+            # is a structural dead-end — break early instead of burning the cap.
+            # Preserve the F11 best-verdict fallback (a prior ship-eligible verdict
+            # still ships rather than being lost to the fixer failure).
+            if not _fixer_succeeded:
+                consecutive_fixer_failures += 1
+                if consecutive_fixer_failures >= 2:
+                    outcome.notes.append(
+                        f"iter {outer}: 2 consecutive structural fixer failures — "
+                        f"early halt (not grinding to the cap)"
+                    )
+                    if best_verdict_so_far == "SHIP-READY":
+                        outcome.final_verdict = "SHIP-READY"
+                    elif (best_verdict_so_far == "SHIP-WITH-CAUTION"
+                            and best_verdict_at_iter >= SHIP_WITH_CAUTION_MIN_ITER):
+                        outcome.final_verdict = "SHIP-WITH-CAUTION"
+                    else:
+                        outcome.final_verdict = "FAILED"
+                    return outcome
+            else:
+                consecutive_fixer_failures = 0
             continue
 
         # Unknown verdict — fail loudly to avoid silent ships
@@ -353,11 +445,20 @@ def converge_chapter(book_dir: Path, chapter_slug: str) -> ChapterOutcome:
 
 
 def render_outcome(outcome: ChapterOutcome) -> str:
-    """Single-line render for orchestrator logs."""
-    return (
+    """Render a per-chapter outcome for orchestrator logs.
+
+    One status line always; on FAILED a second indented line carries the real
+    reason (the last note) so a failure is never a blank ``iter=0`` again — the
+    reason used to live only in ``outcome.notes`` and was silently dropped.
+    """
+    line = (
         f"  {outcome.chapter_slug:<35} "
         f"{outcome.final_verdict:<22} "
         f"iter={outcome.outer_iterations} "
         f"fix={outcome.fixer_attempts} "
         f"P0={outcome.p0_remaining} P1={outcome.p1_remaining} P2={outcome.p2_remaining}"
     )
+    if outcome.final_verdict == "FAILED" and outcome.notes:
+        reason = outcome.notes[-1].strip().splitlines()[0][:200]
+        line += f"\n      ↳ reason: {reason}"
+    return line

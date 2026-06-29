@@ -1,0 +1,32 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-06-29T14:22:51.736832+00:00",
+  "source": {
+    "path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-2/_source/Mukhtasar ul Asar 2 .pdf",
+    "byte_size": 5274901
+  },
+  "book_slug": "mukhtasar-ul-asar-2",
+  "book_dir": "content/Islamic/mukhtasar-ul-asar-2",
+  "doc_intelligence": {
+    "endpoint": "https://journal-docintel.cognitiveservices.azure.com",
+    "api_version": "2023-07-31",
+    "model": "prebuilt-read",
+    "page_count": 254,
+    "ocr_char_count": 368545,
+    "elapsed_seconds": 17.11,
+    "operation_id": "succeeded"
+  },
+  "translator": {
+    "api_version": "3.0",
+    "src_lang": "ar",
+    "tgt_lang": "en",
+    "region": "eastus",
+    "output_char_count": 592607,
+    "elapsed_seconds": 16.7
+  },
+  "outputs": {
+    "raw_extract": "content/Islamic/mukhtasar-ul-asar-2/_system/source/text/raw-extract.md",
+    "ocr_raw_extract": "content/Islamic/mukhtasar-ul-asar-2/_system/source/ocr/raw-extract.md",
+    "extraction_notes": "content/Islamic/mukhtasar-ul-asar-2/_system/source/text/_extraction-notes.md"
+  }
+}

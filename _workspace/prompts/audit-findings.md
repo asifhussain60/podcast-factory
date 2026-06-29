@@ -38,7 +38,7 @@ There is **no `0h` / extractor / librarian / augmenter phase** in the execution 
 The reader's Quran popover calls **quran.com** (`plan-dashboard/src/pages/api/quran/verse.ts`), and term definitions call **Gemini** (`api/ai/define-term`). Neither calls `source_library_server` (port 4390). The 6-tool MCP blackbox exists but **no consumer is wired to it**. The reader's reference-highlighting machinery (`lib/reader/highlight-renderer.ts` + pluggable `ref-categories/`) is regex-based, not corpus-driven. → topic docs `04` + `06`.
 
 ### 2c. The "wisdom corpus" is still three separate application databases
-`CONTENT/_shared/source-library/` holds three raw SQL Server dumps (KQur 15M, KSessions 29M, Kashkole 724M). They are restored into a Docker container by `infra/setup-wisdom-db.sh`. There is **no unified corpus** — and there is real duplication (two complete Quran representations; see doc `03`). The MCP queries route to these raw DBs. The FTS5 mirror (`mirror.db`) referenced in Wave J **does not exist on disk yet** (`CONTENT/knowledge-base/` has no `mirror.db`). → topic doc `03`.
+`CONTENT/_shared/source-library/` holds three raw SQL Server dumps (KQur 15M, KSessions 29M, Kashkole 724M). They are restored into a Docker container by `infra/supabase/setup-wisdom-db.sh`. There is **no unified corpus** — and there is real duplication (two complete Quran representations; see doc `03`). The MCP queries route to these raw DBs. The FTS5 mirror (`mirror.db`) referenced in Wave J **does not exist on disk yet** (`CONTENT/knowledge-base/` has no `mirror.db`). → topic doc `03`.
 
 ---
 

@@ -113,8 +113,9 @@ class TestVoiceAxis:
         assert any("voice" in n.lower() for n in result.notes)
 
     def test_no_exemplar_weight_redistributed_to_fidelity(self):
-        # With no exemplar and perfect fidelity + structure, but no enrichment:
-        # total = (0.35+0.25)×100 + 0.20×100 + 0.20×0 = 60 + 20 + 0 = 80
+        # Perfect fidelity (no citations → full credit) + perfect structure (no rules → full credit),
+        # zero enrichment, zero interest (empty text). With Voice weight redistributed to Fidelity:
+        # total = (0.30+0.20)×100 + 0.18×100 + 0.17×0 + 0.15×0 = 50 + 18 + 0 + 0 = 68
         result = score(
             citation_ids_source=[],
             citation_ids_found=[],
@@ -125,14 +126,18 @@ class TestVoiceAxis:
             word_count=100,
             voice_exemplar_vector=None,
         )
-        assert result.total == pytest.approx(80.0, abs=1.0)
+        assert result.total == pytest.approx(68.0, abs=0.5)
+        assert result.voice_available is False
 
-    def test_exemplar_provided_returns_nonzero(self):
+    def test_exemplar_provided_voice_still_zero_until_scorer_ready(self):
+        # _VOICE_SCORER_READY = False means voice returns 0.0 regardless of the vector.
+        # This test documents the expected behaviour until K2+ builds the shared vocabulary.
         result = score(
             adapted_text="the quick brown fox jumps over the lazy dog",
             voice_exemplar_vector=[1.0] * 8,
         )
-        assert result.voice > 0.0
+        assert result.voice == 0.0
+        assert result.voice_available is False
 
 
 # ---------------------------------------------------------------------------
@@ -263,7 +268,7 @@ class TestFullScore:
     def test_as_dict_keys(self):
         result = score()
         d = result.as_dict()
-        for key in ("fidelity", "voice", "structure", "enrichment", "total", "verdict", "notes"):
+        for key in ("fidelity", "voice", "voice_available", "structure", "enrichment", "total", "verdict", "notes"):
             assert key in d
 
     def test_markdown_table_contains_total(self):
@@ -271,3 +276,10 @@ class TestFullScore:
         table = result.markdown_table()
         assert "**Total**" in table
         assert str(round(result.total, 1)) in table
+
+    def test_markdown_table_shows_na_for_voice_when_unavailable(self):
+        result = score(voice_exemplar_vector=None)
+        table = result.markdown_table()
+        assert "N/A" in table
+        assert "→Fidelity" in table
+        assert "50%" in table

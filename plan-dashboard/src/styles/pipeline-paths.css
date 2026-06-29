@@ -128,16 +128,8 @@
   white-space: nowrap;
 }
 
-/* ── Table (REQ-052: scrollable .table-container; REQ-010: ≥1.2rem text) ─────── */
-
-.table-container {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  border: 1px solid var(--c-rule);
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow-card);
-}
+/* ── Table (REQ-052; REQ-010: ≥1.2rem text) ───────────────────────────────────
+   .table-container itself is shared — defined once in theme.css. */
 
 .pp-table {
   width: 100%;

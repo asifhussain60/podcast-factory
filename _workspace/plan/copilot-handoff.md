@@ -87,8 +87,9 @@ archetypes, SPA, retro-enhancements) are **DONE** — `_paths.py`, `_db.py`, `_a
 rebuild any of them. The live roadmap is `_workspace/plan/CONTINUATION-2026-05-30.md` (the
 canonical Wave-8 table) plus `_workspace/plan/refactor/plan.yaml` items prefixed `WC8-`.
 
-**Active book:** Ayyuhal Walad, on branch `book/ayyuhal-walad` (NOT `develop` — content runs on
-typed branches per `scripts/podcast/_branching.py`). 5 chapters, stages built through Augmented.
+**Active book:** Ayyuhal Walad is PUBLISHED and merged to `develop`; its branch was renamed to
+`Islamic/ayyuhal-walad` (bucket-grouped, per `scripts/podcast/_branching.py` — see the 2026-06-07
+session-log entry). Content branches are now named `<Bucket>/<slug>`, NOT `develop`.
 
 **Recently shipped (most recent first):**
 - `feat(wave8/5b)` — Studio re-platform CORE: new `/studio` page (supersedes the throwaway
@@ -154,8 +155,9 @@ The split is **by directory**, because directory ≈ the skill each agent is bes
 
 ### Branch & commit discipline
 
-- Work on the active content branch (`book/ayyuhal-walad` right now). `git pull --rebase` before
-  you start and before you push — Claude may have committed pipeline work in parallel.
+- Work on the active content branch, named `<Bucket>/<slug>` (e.g. `Fiction/journey-to-the-west-vol-1`),
+  per `scripts/podcast/_branching.py`. `git pull --rebase` before you start and before you push —
+  Claude may have committed pipeline work in parallel.
 - Small, frequent commits scoped to `plan-dashboard/**`. Conventional-commit subject
   (`feat(wave8/6b): …`). Co-author trailer per repo convention.
 - **Tier-2 stays with Asif**: orchestrator runs on a new PDF, `publish_to_library.py`,
@@ -265,6 +267,110 @@ git pull --rebase origin book/ayyuhal-walad                      # sync before w
 
 Append a dated entry at the end of every session (newest at top): what changed, what's next,
 what's blocked. This is your across-session memory.
+
+### 2026-06-10 (evening) — Claude session (density wave + slide intelligence; M&D re-run STAGED)
+
+**Branch `Islamic/the-master-and-the-disciple` — 6 commits, pushed.** Full plan at
+`~/.claude/plans/review-the-changes-made-synthetic-swan.md`.
+
+Shipped: (1) retry-phase rewind fix (resume_dispatcher clears ALL downstream phases via
+canonical PHASES; per-chapter ledgers emptied when downstream, preserved on direct retry —
+4 tests); (2) chapter-density standard baked in (CHALLENGER_VERSION 2.5: R-MAX-CONCEPTS
+EPISODE_MAX_CONCEPTS=3 with 0d prompt floors + deterministic post-write gate + opt-in $0
+preflight gate; R-QURAN-CITATION-FORMAT '(chapter N, verse M)' canonical, Cat A1 harmonized;
+R-NO-TRANSLIT-FORMULA; R-SERMON-VERBATIM with contract sermon block + framing
+## Verbatim Recitation post-author gate); (3) chapter-set integrity P7-P10 in
+check_chapter_set.py (coverage/overlap+ngram-dedup/sermon/density; P0 HALT post-0d for
+density_standard:2 books; live run found REAL duplication: 33 shared passages ch03a/ch04b);
+(4) book-level slide mode (slide_deck_mode: book → author_book_deck_pair, one deck for the
+whole book; _slide_import LLM-authors book-manifest; card shows book row); (5) slide
+intelligence _slide_replicate.py (vision analysis → deterministic classify → SVG replication
+→ exact-text verify_svg with raster fallback; calibrated against the REAL M&D deck:
+1,000 chars / 22 blocks; 13/14 pages high-value); (6) M&D re-run staged: old
+chapters/contracts/episodes archived, series-config stamped density_standard:2 +
+slide_deck_mode: book; doc tables regenerated (40 ch | 13 PASS | 1 WARN | 26 FAIL — asaas
+vol-01 now discovered via _paths.iter_content); slow-pod runtime-verified + renamed slow_pod.py.
+
+**NEXT (blocked on Asif's explicit go):** launch the re-run:
+`python3 scripts/podcast/orchestrate_book.py --resume the-master-and-the-disciple --retry-phase 0d`
+then ARM THE 270s HEARTBEAT (mandatory). Halt points: series-confirmation after 0d
+(~20-episode design review) → finalize halt (NotebookLM upload table + book-framing.md slide
+card; deck drops at slide-decks/book-deck.pdf) → publish gate. SVG smoke test on the old
+deck was in flight at session end — check slide-decks/_analysis/book-analysis.json
+(svg_verified flags) + _svg/book/. NOTE: old book-deck.pdf + hand manifest are STALE after
+the re-run (archive slide-decks/book-deck.* + _manifests/book-manifest.json before the new
+deck drops). Post-merge repo-surgeon sweep owed at end of chain.
+
+### 2026-06-10 (later) — Claude session (autonomous slide weave + folder standardization)
+
+**Wave SD shipped** (see plan.yaml `SD` block): (1) ONE folder-skeleton registry
+`_paths.BOOK_SUBDIRS` (16 dirs) + `ensure_book_skeleton()` consumed by intake_book
+(flat + volume), intake_launch (site New Content), scaffold_book — three divergent
+SKELETON_DIRS lists deleted; `standardize_book_folders.py` (dry-run-first) migrated
+all 9 books + 6 asaas volumes retroactively (M&D slide-deck/->slide-decks/book-deck.*,
+healthequity audio/->m4a/, claude-code-training source/->_source/; kunooz source dup
+FLAGGED not touched). gitignore: m4a/mp3 dir rules -> `/**` + .gitkeep negation.
+(2) Slide-deck generation card at the finalize halt (`_notebooklm_table.py` sibling
+renderer + `discover_slide_framings`; LOCKED episode table untouched; chapter_driver
+`_print_slide_deck_card`). (3) NEW phase `0book-slide-import` (illustrate -> render):
+`_slide_import.py` — gate (framing-driven; `.SKIP` exempts; missing PDFs ->
+AuthoringHalt, publish stops via book_driver rc=3 + publish_driver early-return,
+dispatcher re-enters publish driver on --resume), pdftoppm/pdftotext extraction,
+ONE claude -p per chapter authors `slide-decks/_manifests/<ch>-manifest.json`
+(fail-loud validation vs the REAL injection source, 1 retry, sha256 sig cache),
+single combined `inject_slides` with BEFORE-placement -> `book/book-slides.md`.
+Injector reworked: pages = src paths (multi-deck safe), `position="before"` default,
+book-level manual mode at `slide-decks/book-deck.pdf`. Dispatcher 0book dead-end
+fixed (0book-illustrate missing from tuple; stale routing to per-chapter driver).
+Dashboard `studio-pipeline.ts` PHASE_ORDER now knows the 0book chain. Tests: 744+
+green (36 new across skeleton/card/import/injector). Restored an unexplained
+worktree deletion of `content/podcast/.skill/_learning/` files (watch for recurrence
+after test runs — culprit not identified).
+
+### 2026-06-10 — Claude session (slide-deck import into the reading edition)
+
+**New optional step `scripts/podcast/inject_slide_deck.py`** (commit `943acdd` on `develop`):
+imports a NotebookLM-exported deck PDF (`slide-deck/*.pdf` + `slide-manifest.json`) into the
+book — pdftoppm pages→JPEG (150dpi q85), figures injected at verbatim manifest anchors
+(illustrator mechanics, hardened fail-loud on missing/ambiguous anchors), output
+`book/book-slides.md`. Render priority now book-slides > book-illustrated > book
+(`build_book_pdf._pick_book_md`); `render-book-pdf.mjs` localhost server now serves
+traversal-guarded static images under the book dir. `slide-deck/_pages/` gitignored;
+deck PDF+PPTX tracked. 13 new tests; suite 721 green. Manual invocation only — NOT an
+orchestrator phase (deck export is a manual NotebookLM step; no hard prerequisite gate).
+Validated on the-master-and-the-disciple: 13/14 slides placed (S01 = cover, deck-only),
+deterministic rebuild, 126-page 7.6 MB PDF synced to Drive. Scope deliberately reduced from
+Asif's original spec after audit: no new slide-generation stage, no hard PDF prerequisite,
+no Gemini insert-passages enrichment (`_augment_gemini.py` remains an unwired stub).
+
+### 2026-06-07 — Claude session (branch policy → bucket grouping + merge + audit)
+
+**Branch naming changed: bare slug → `<Bucket>/<slug>` (bucket-grouped).** Supersedes the
+2026-06-04 bare-slug policy. `scripts/podcast/_branching.py` `branch_name(category, slug, *,
+profile=None, bucket=None)` now returns `<Bucket>/<slug>` (Islamic/Technical/Fiction/Guides),
+resolving the bucket from `content_profile` via the newly-public `_paths.resolve_bucket` (was
+`_resolve_bucket`; alias kept) — the SAME resolver the content-folder layout uses, so branch
+bucket == folder bucket. The legacy `category` tag does NOT determine the bucket (a `books`-category
+item can be Islamic OR Fiction); prefer passing `profile=`. Commit `5319dba` on `develop`.
+
+- Callers threaded with profile where state is available: `_progress.initial_state`
+  (new `content_profile` kwarg), `phases/merge.py`, `phases/series_plan.py`, `phases/preflight.py`.
+  Creation-time callers (`scaffold`, `initial_driver`, `preflight_initial`, `intake_book`) stay
+  category-only — symmetric with how the folder is resolved, so the two never drift.
+- **Branches renamed (local + remote):** `ayyuhal-walad` → `Islamic/ayyuhal-walad`;
+  `journey-to-the-west-vol-1` → `Fiction/journey-to-the-west-vol-1`. Old remote refs deleted.
+  State `branch` fields restamped for both + `the-master-and-the-disciple` (`Islamic/...`).
+- **Merges to develop:** `journey-to-the-west-vol-1` merged (--no-ff; branch kept — book not yet
+  complete). Ayyuhal Walad was ALREADY merged (d14a82e) and is published — NOT re-merged (its
+  branch is 17 behind develop; re-merging the stale branch would have reverted newer state).
+- Docs updated: `CLAUDE.md`, `framework.md`, publisher agent doc, this handoff.
+- **Audit:** 547 tests pass (run from repo root: `python3 -m pytest scripts/podcast/tests/`).
+  No tracked media binaries, no root sprawl, no journal reach-ins, snapshots regenerated.
+- **NEXT:** the orchestrator creates the branch at intake BEFORE `content_profile` is classified,
+  so a fiction book intaken with the default `books` category lands on an `Islamic/` branch until
+  reclassified. Consider letting intake accept an explicit `--content-profile` (or pre-seed
+  series-config) so the first branch lands in the right bucket. Low priority; folder has the same
+  property and state.branch carries the authoritative name afterward.
 
 ### 2026-05-31 — Claude session (close-out: site consolidation + regression sweep) — CROSS-LANE + BACKLOG
 
@@ -440,3 +546,206 @@ Asif). **Blocked:** hadith atom ingest (no hadith DB; PyYAML missing from venv).
 **Validation:** full unittest suite GREEN (426 passed, 1 skipped — was 2 failures + 2 errors at session start); `astro check` 0/0; `lint:views` 0/0; `npm run build` completes end-to-end; html-view-challenger re-gate PASS/Conformant on every changed view.
 
 **Net result:** develop now has a green test suite, a building site, one phase registry, a read-only `--dry-run`, and no known P0s. Open: `_phases.py` is a Tier-2 deletion candidate (only its test imports it); `regenerate-snapshots.py` dirties the committed knowledge.db as a side-effect (cosmetic).
+
+### 2026-06-09 — Claude session (Wave M: holistic hardening + multi-volume + intake UI)
+
+**Shipped on develop (~30 commits):** Wave M = Phases 1-4 + 6 of the holistic-hardening plan.
+- WM1 multi-volume foundation (`work.yml` + volume-aware `_paths`/`_branching` + TS mirror).
+- WM2 profile routing (`_rules.phase_capabilities`) + `intake_book.py --work/--volume`.
+- WM3 per-volume autopilot (`orchestrate_work.py` pause-between-volumes) + F32/F35 rails.
+- WM4 `_subprocess.py` de-patch + F38 close-out (CLOSED F32/F35/F38/F39).
+- WM6 intake: backend (`intake_form_options`/`intake_preflight`/`intake_staging`/`intake_status`/
+  `intake_launch`) + 4 UI screens, each gated through html-view-challenger to PASS.
+- Full suite 647 passed; +84 Wave-M tests; lint:views + tsc clean throughout.
+
+**REMAINING WORK — tracked durably, do NOT lose:**
+1. **Phase 5 (WM5, DEFERRED)** — asaas migration + `content/`→`library/` rename. Ready-to-run
+   checklist: `_workspace/plan/refactor/asaas-migration.md`. Runs at asaas's next clean boundary.
+2. **F40 (pipeline-debt.md)** — split the two giant functions WITH a characterization harness
+   (not blind). Deferred, low priority.
+3. **F41 (pipeline-debt.md)** — wire `POST /api/intake/classify` (podcast-blueprint Layer-1 →
+   SmartForm proposal). SmartForm is already proposal-ready. Small LLM-spend increment.
+4. **Process owed before any develop→main:** post-merge `repo-surgeon --scope podcast` sweep;
+   then develop→main needs Asif's explicit approval.
+5. **Open challenger note:** intake surface REQ-010 reading-floor recorded as a documented
+   scoped exception in `/studio/new` footer (Asif's decision) — not a TODO.
+
+## Session log — 2026-06-10 (Session grouping build, parallel with M&D re-run)
+
+- Root-caused the 5-episode merge loophole on the-master-and-the-disciple:
+  Phase 0d topic counting was LLM judgement; episode_planning_mode=chronological
+  also flipped 0d into fiction CONSOLIDATION mode. Fixed deterministically
+  (topic floor: episode_count >= ceil(topics/3) per source chapter + binding
+  curator-archive concept inventory floor: >= ceil(59/3)=20 episodes whole-book).
+  Verified live: re-run TOC planned exactly 20 episodes (3+4+4+5+4).
+- Guard-0e fixed (was checking _system/episode-drafts written much later, and
+  raised a malformed AuthoringError).
+- M&D config: episode_planning_mode -> dialectical_pairs, length_tier ->
+  default_deep_dive (extended band at 20 eps would force ~6x padding);
+  initial_driver now falls back to series-config length_tier when state config
+  carries none. Per-concept word target in 0d prompt now derives from tier band.
+- NEW: Session grouping layer (term locked by Asif: "Session"; boundaries =
+  source Parts; global EP numbering; metadata + Drive folders only).
+  scripts/podcast/_sessions.py (derive/stamp/backfill CLI), Phase 0d stamps at
+  authoring time, series plan + NotebookLM upload table group presence-gated,
+  library reader renders collapsible Session groups (lint:views + astro check
+  clean; flat books verified byte-identical), deliver_book.py writes
+  Episodes/Session N — Title/ subfolders. Standard documented in
+  docs/standards/chapter-density.md §Session grouping.
+- Backfill remaining M&D contracts after 0d completes:
+  python3 scripts/podcast/_sessions.py the-master-and-the-disciple
+- Old 5-episode m4a files in m4a/ are stale (pre-density audio) — vacuum before
+  the new 20-episode NotebookLM generation lands.
+
+## 2026-06-12 — Audio Engine v2 shipped on infra/audio-engine-v2 (Claude Code session)
+
+- Dual-engine audio pipeline: per-book `audio_engine` in series-config.yaml
+  (`notebooklm` default | `elevenlabs`). NotebookLM path byte-identical
+  (golden-fixture regression test); elevenlabs path fully autonomous with ONE
+  halt (H1: exact credit estimate before first paid render).
+- New modules: _audio_engines.py (capability registry), _dialogue_script.py
+  (script format/chunker/seeds), _authoring/_dialogue.py (Max authorship),
+  _validators_dialogue.py + _dialogue_convergence.py (pre-synthesis gate,
+  source=dialogue-gate findings), pronunciation_compiler.py (glossary -> PLS
+  versioned dictionary, pinned), _elevenlabs.py (stdlib client),
+  render_dialogue_audio.py (render-once/cache-forever, render ledger,
+  metered credits), phases/audio_driver.py (audio-script + audio-render
+  phases in _progress.PHASES between slides and finalize).
+- Studio Publish step surfaces engine + rendered credits (challenger PASS,
+  lint:views + astro check clean). assemble_bundle episode-map derive
+  fallback KeyError fixed (surfaced by the new dual-path e2e).
+- Suite: 1283 passed (was 854 in scripts/podcast tree; +106 new tests).
+- Arabic-script recitation scaffold OFF until H2 (audible two-variant
+  sample); flag elevenlabs_arabic_recitation.
+- Remaining: live smoke test on ONE real chapter awaits H1 approval; merge
+  to develop awaits H3 (backup branch + repo-surgeon sweep first).
+- SUPERSESSION: the experiment scripts under
+  _workspace/experiments/elevenlabs-audition/ (render_audition.py) and
+  _workspace/experiments/stephanie-interview-prep/ (generate_audio_v3.py)
+  are superseded by the pipeline renderer (_elevenlabs.py +
+  render_dialogue_audio.py). Folders left in place untracked — the audio
+  artifacts are Asif's; the scripts stay as historical reference only.
+- Backup branch pushed: backup/pre-audio-engine-v2-2026-06-12 (develop
+  HEAD 46eec14 restore point, pre-merge).
+
+## Session 2026-06-13 — NotebookLM-fidelity + per-episode dual-path + voice picker (Wave AE2)
+
+Built end-to-end (all on develop, suite 976 green, view lint clean, preview-verified):
+- **ElevenLabs default for NEW Islamic books** at intake (`_rules` per-profile
+  registry → `intake_launch._write_series_config` stamps `audio_engine` +
+  `voice_cast`). NEVER retroactive — existing NotebookLM-native books (no
+  `audio_engine` field) stay put; golden test intact.
+- **Per-episode engine override**: `episode_engine_overrides` in series-config,
+  resolved by `_audio_engines.engine_for_episode()`. Script + render phases skip
+  NotebookLM-overridden episodes; `render_episode` guards against rendering one.
+  Finalize halt + assemble_bundle filter the upload table to the overridden
+  episodes, with a no-overrides latch that keeps pure-book output byte-identical.
+  Slide-deck card now prints on the autonomous path too (was coupled to manual).
+- **Tracked fingerprint + gold standard**: `_audio_fingerprint.py` (ported from
+  the style-match experiment), `build_audio_gold_standard.py` →
+  `content/_shared/audio-style/islamic_scholarly.json` built from BOTH NotebookLM
+  books (20+4 ep). Post-render style gate in `render_episode` (`style_gate`,
+  default OFF; one bounded retake inside H1; default-on in the driver). Threshold
+  65 = gross-drift floor; ear-approved CLIP10 scores 66.8 (pass), corpus median 93.5.
+  CONFIRM against the first full-episode verification render.
+- **Authoring/challenger**: `_authoring/_dialogue.py` rewritten around the seven
+  NotebookLM moves + engine-aware Arabic-script clause + male-tonal-tags-forbidden;
+  challenger rubric (per-move presence) + gate checks (registry tag budget,
+  DLG-TAGS-HOST-A-TONAL, P2 style nudges). Engine card gains `tag_budget_per_turns`.
+- **Astro voice picker**: `voice-library.yaml` gains `sample`; `_voice_library.pools()`;
+  `plan-dashboard/src/lib/voice-library.ts` + `/api/intake/voices`;
+  `VoicePicker.tsx` (engine selector + male/female cards, monogram avatars,
+  accent labels, sample play) wired through SmartForm → launch. External CSS only.
+
+OPEN (spend-gated, need Asif):
+- `build_voice_samples.py --confirm` → 8 sample clips into
+  `plan-dashboard/public/voice-samples/` (~720 chars, ~$0.16). Until then the
+  "Hear" buttons 404.
+- First full-episode verification render to confirm the style-gate threshold.
+
+## Session 2026-06-13 (cont.) — voice clips + deterministic Arabic recitation (Wave AE2 f/g)
+
+- **8 voice sample clips** rendered (build_voice_samples.py --confirm, 446 credits)
+  into plan-dashboard/public/voice-samples/; picker "Hear" buttons now work. (98a7af2)
+- **Deterministic Quran recitation** (ElevenLabs path): new `_quran_recitation.py`
+  resolves a citation -> (surah,ayat) via a canonical surah table + exact number
+  parser, reads verbatim Arabic from KQur (mirror.db fts_quran, read-only), and
+  `inject_recitations()` splices it after the citation. Unresolved/absent verse ->
+  left in English + logged (NEVER model-generated). Translation-overlap verify is
+  default-OFF (cross-translation false negatives) — determinism is the guarantee.
+- **Render-layer wiring**: `compile_turns_for_render` (flag elevenlabs_arabic_recitation)
+  now injects verses + substitutes glossary key terms (skips loanwords + personal
+  names via `_is_proper_name`). ElevenLabs-only; shared chapters + scripts stay
+  ASCII/phonetic (NotebookLM byte-identical); noise behavior unchanged.
+- **Authoring correction**: reverted the Round-2 C7 "write native Arabic inline"
+  instruction — the author now writes ASCII + long-form citations only; the
+  pipeline injects verified Arabic at render. (Removes the invent-Arabic risk.)
+- **Intake**: islamic_scholarly + elevenlabs books stamp elevenlabs_arabic_recitation: true.
+- Suite 996 green (+20: test_quran_recitation, verse-Arabic assertions skipUnless mirror).
+- Hadith recitation DEFERRED (Ahadees table not keyed by the citation form books use).
+
+## Session 2026-06-24 — Al Anwaar reference-tail noise cleanup
+
+- Added `NZ-REFERENCE-TAIL` to the Wave-N noise taxonomy: wisdom/saying
+  blockquotes keep the quote and speaker, but drop bibliographic tails such as
+  `in Nahj al-Balagha (compiled by al-Sharif al-Radi), Hikam (Saying) 147`,
+  translator names, edition labels, and similar source scaffolding.
+- Added deterministic `strip_reference_attribution_noise.py`, wired it into
+  Phase 0e after enrichment, and applied it to Al Anwaar vol-01 chapters.
+- Cleaned 10 chapter references in Al Anwaar vol-01; final chapter grep for
+  Nahj/Ghurar/Hikam/Saying/Sermon translator-tail markers is clean.
+- Verification: reference-tail unit tests, noise-router unit tests, and Python
+  compile checks passed.
+
+## Session 2026-06-24 — Al Anwaar Arabic overlay restored
+
+- Root cause of "no Arabic / no Arabic toggle": Al Anwaar vol-01 had no
+  `_system/glossary.yml`, so the Podcast Factory Astro Site received
+  `glossaryCount=0` and hid both the Arabic switch and the Phonetic Map link.
+- Fixed `build_glossary.py` fallback for the post-retired `_phonetics.md` world:
+  if `_phonetics.md` is absent, it scans chapters for a conservative curated map
+  of high-confidence Islamic terms and emits Arabic script directly.
+- Generated `content/Islamic/al-anwaar-al-lateefah/vol-01/_system/glossary.yml`
+  with 13 entries. Live Playwright check on 127.0.0.1:4322 confirmed Arabic
+  switch visible, Phonetic Map visible, Arabic chips rendered in the editor, and
+  Arabic review panel populated.
+- Verification: targeted Python tests, Python compile, lint:views, astro check.
+
+## Session 2026-06-24 — Arabic-in-chapters promoted to P0
+
+- User corrected the requirement: Islamic pipeline output must not be
+  transliteration-only. Arabic script is now required in persisted Islamic
+  chapter sources, while phonetic respelling remains outside prose in the
+  glossary / Customize prompt.
+- Added `inject_chapter_arabic.py`, wired it into Phase 0e after deterministic
+  cleanup, and made finalize G13 block Islamic books whose chapters lack Arabic.
+  The companion reading-edition validator now also treats missing Islamic
+  chapter Arabic as a blocking B3 failure.
+- Expanded the curated fallback glossary for Al Anwaar terminology and
+  regenerated vol-01 glossary with 27 entries. Backfilled 219 total Arabic
+  injections; all 11 chapters now contain Arabic script.
+- Updated the Podcast Factory Astro Site reader/Studio overlay so it does not
+  add Arabic chips over terms already followed by an Arabic parenthetical.
+- Verification: 33 targeted Python tests passed; Python compile passed;
+  `lint:views` clean; `astro check` clean except existing hints; ship validator
+  passed all 14 gates with G13 confirming Arabic in all 11 chapters; headless
+  Chrome check confirmed Arabic visible and Save & Approve text stable.
+
+## Session 2026-06-29 — Digital Twin findings fixed and committed
+
+- Repaired local dependency drift: `.venv` now matches `requirements.txt`, and
+  Podcast Factory Astro Site dependencies were reinstalled from the existing lock.
+- Reconciled `ayyuhal-walad` to the actual published four-episode artifact set:
+  top-level state is `done/ship-with-caution`, metadata/README match the disk
+  shape, malformed glossary fields were repaired, and Arabic script was injected
+  into all four chapter sources. `validate_ship_ready.py ayyuhal-walad` now passes
+  all 14 gates.
+- Cleaned Podcast Factory Astro Site typecheck output to 0 errors / 0 warnings /
+  0 hints by routing legacy category/stage access through compatibility helpers,
+  archiving by bucket, and removing dead StudioPoc lineage-switch code.
+- Reconciled `AGENTS.md` with `CLAUDE.md` on `infra/cloudflare/`: it is non-
+  pipeline Salty Lamps reference material, not a retired podcast-factory surface.
+- Removed ignored local `podcast-reader/` residue from the working checkout; no
+  tracked files existed there.
+- Verification: full pytest suite `1469 passed, 1 skipped`; `npm run check`;
+  `npm run lint:views`; `_boundary_check.py`; `git diff --check`.

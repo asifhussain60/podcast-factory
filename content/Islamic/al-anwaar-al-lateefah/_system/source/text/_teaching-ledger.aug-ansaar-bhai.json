@@ -1,0 +1,2852 @@
+[
+  {
+    "id": "T001",
+    "teaching": "The two crows in the Habil-Qabil story were individuals of vile nature (khabith), because the crow is a vile animal that eats filth.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Habil",
+      "Qabil",
+      "khabith",
+      "khabasat"
+    ]
+  },
+  {
+    "id": "T002",
+    "teaching": "Nature took work even from vile people (the crows) to teach Qabil how to bury Habil, so that believers and others can learn a lesson.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Qabil",
+      "Habil"
+    ]
+  },
+  {
+    "id": "T003",
+    "teaching": "Both crows were bad/vile; unlike Habil and Qabil there was no good-versus-bad pairing among the crows.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Habil",
+      "Qabil"
+    ]
+  },
+  {
+    "id": "T004",
+    "teaching": "Qabil was from within the hudud (ranks) of Mawlana Hunaid's da'wat, one of the twelve hudud before the Imam, not a biological brother of Habil.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Qabil",
+      "hudud",
+      "dawat",
+      "Mawlana Hunaid"
+    ]
+  },
+  {
+    "id": "T005",
+    "teaching": "Adam appointed his hadd Habil as his na'ib (deputy) and wasi (successor), while the other hadd Qabil was overcome with envy (hasad).",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Adam",
+      "Habil",
+      "Qabil",
+      "naib",
+      "wasi",
+      "hasad"
+    ]
+  },
+  {
+    "id": "T006",
+    "teaching": "The Habil-Qabil episode parallels the Prophet's time: Ali (the Prophet's cousin, not a real brother) was appointed caliph by Allah's command, and Umar, unable to bear it from envy, displaced Ali and made Abu Bakr caliph.",
+    "kind": "argument",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Ali",
+      "Umar",
+      "Abu Bakr",
+      "hasad"
+    ]
+  },
+  {
+    "id": "T007",
+    "teaching": "Removing Ali from his rightful position and installing Abu Bakr constituted a batini (esoteric) killing of Ali, paralleling Qabil's killing of Habil.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "batini",
+      "qatl",
+      "Ali",
+      "Abu Bakr"
+    ]
+  },
+  {
+    "id": "T008",
+    "teaching": "Habil had merit (liyaqat) while Qabil lacked it, so Adam, by Mawlana Hunaid's command, appointed Habil as caliph, and Qabil's envious attempt at esoteric killing did not succeed.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Habil",
+      "Qabil",
+      "liyaqat",
+      "batini qatl",
+      "Mawlana Hunaid"
+    ]
+  },
+  {
+    "id": "T009",
+    "teaching": "The cure for the disease of envy (hasad) is to control one's nafs (self).",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "hasad",
+      "nafs"
+    ]
+  },
+  {
+    "id": "T010",
+    "teaching": "Reciting Mawlana Ali's Du'a daf' al-hamm wal-ghamm (also called Du'a Nasiri), which seeks refuge from disbelief, poverty, greed, envy, pride and the torment of the grave, is prescribed against envy.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Dua dafal-hamm wal-ghamm",
+      "Dua Nasiri",
+      "hasad",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T011",
+    "teaching": "The Ratib's closing du'a 'wa khallifna bi-akhlaqin Natiqatin Malakiyyah' asks Allah to replace one's character with the angelic ethics of the Natiq, embodying sincerity, truthfulness and obedience and free of envy and greed.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Ratib",
+      "akhlaq",
+      "Natiq",
+      "Malakiyyah"
+    ]
+  },
+  {
+    "id": "T012",
+    "teaching": "Aquatic predatory animals such as sharks belong to the fourth rank (the aquatic kingdom); wild/predatory land animals, birds and beasts belong to the third rank.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "wahshi janwar",
+      "charind",
+      "parind",
+      "darind"
+    ]
+  },
+  {
+    "id": "T013",
+    "teaching": "Halal animals such as cows and goats progress spiritually by rendering compulsory services to humans (milk, food, sacrifice) since they were absent from the realm of free will and must purify under compulsion.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "halal",
+      "haram"
+    ]
+  },
+  {
+    "id": "T014",
+    "teaching": "Every single thing in the world, from the smallest, must make spiritual progress.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": []
+  },
+  {
+    "id": "T015",
+    "teaching": "The long punishment of the Ahl al-Saqar (one kawr-i a'zam) is justified because the vileness (khabasat) accumulating since the start of the dawr al-sitr is collected in them, not merely their own lifetime's sins.",
+    "kind": "argument",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Ahl al-Saqar",
+      "kawr-i azam",
+      "khabasat",
+      "dawr al-sitr"
+    ]
+  },
+  {
+    "id": "T016",
+    "teaching": "The vileness from Iblis recurred in every era - as Pharaoh in Musa's time, Nimrod in Ibrahim's time, and as Abu Bakr, Umar, Uthman, Muawiya and Yazid in the Prophet's time.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Iblis",
+      "Pharaoh",
+      "Nimrod",
+      "Muawiya",
+      "Yazid"
+    ]
+  },
+  {
+    "id": "T017",
+    "teaching": "After the Prophet the da'wat advances through the Imams, and when the Imams are concealed, through the du'at.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "dawat",
+      "Imam",
+      "duat"
+    ]
+  },
+  {
+    "id": "T018",
+    "teaching": "All luminous qualities of all Imams, Prophets and successors (awsia) are collected in Ali, making him the rabb al-dawr (lord of the cycle), just as all bad qualities are collected in the vile people.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Ali",
+      "rabb al-dawr",
+      "awsia",
+      "nur"
+    ]
+  },
+  {
+    "id": "T019",
+    "teaching": "Allah granted Iblis respite until the appointed day (ila yawm al-waqt al-ma'lum); punishment is not necessarily immediate and may be delayed centuries until the time of reckoning, as Muawiya outlived Ali whom he had killed.",
+    "kind": "scripture",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Iblis",
+      "yawm al-waqt al-malum",
+      "Muawiya",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T020",
+    "teaching": "Iblis vowed to mislead the entire community except Allah's sincere/chosen servants (illa 'ibadaka minhum al-mukhlisin), a statement found at the end of Surah Rum.",
+    "kind": "scripture",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Iblis",
+      "mukhlisin",
+      "Surah Rum"
+    ]
+  },
+  {
+    "id": "T021",
+    "teaching": "Just as Ali's noble physical form (nasut sharif) reflected all preceding luminous Sadiq Imams, Umar's body was a reflection of accumulated vileness from past eras, which alone enabled him to confront Ali.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Ali",
+      "nasut sharif",
+      "Umar",
+      "azdad"
+    ]
+  },
+  {
+    "id": "T022",
+    "teaching": "Muawiya is from the opposites (azdad) of Imam Hasan, while Abu Bakr and Umar are from the opposites of Mawlana Ali.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "azdad",
+      "Muawiya",
+      "Imam Hasan",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T023",
+    "teaching": "The detailed matters of 'Ayn and Mim and the hijabat (veils), including the exchange of veils on Yawm al-Ghadir, are too deep to explain over the phone and require a face-to-face meeting.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Ayn",
+      "Mim",
+      "hijabat",
+      "Yawm al-Ghadir"
+    ]
+  },
+  {
+    "id": "T024",
+    "teaching": "On Yawm al-Ghadir the Prophet bestowed the universal physical form (nasut kulli) on Ali and their veils were exchanged - Mim took the veil of 'Ayn and 'Ayn took the veil of Mim - so Ali passed away in the veil of Mim.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Yawm al-Ghadir",
+      "nasut kulli",
+      "Mim",
+      "Ayn"
+    ]
+  },
+  {
+    "id": "T025",
+    "teaching": "There is a mutual give-and-take of trusts (amanat) between the Prophet and Ali, continuing even after the Ghadir exchange.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "amanat",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T026",
+    "teaching": "The Prophet, through Jabir ibn Abdullah al-Ansari (the babul abwab of Mawlana Muhammad al-Baqir), conveyed greetings and a trust to Muhammad al-Baqir about a hundred years after the Prophet's passing.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Jabir ibn Abdullah al-Ansari",
+      "Muhammad al-Baqir",
+      "babul abwab"
+    ]
+  },
+  {
+    "id": "T027",
+    "teaching": "Any Imam named Muhammad will surely receive something from the Prophet, and any named Ali receives from Ali; hence the Imams' names are predominantly the five blessed names Muhammad, Ali, Hasan, Husayn or Fatima.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Muhammad",
+      "Ali",
+      "Hasan",
+      "Husayn"
+    ]
+  },
+  {
+    "id": "T028",
+    "teaching": "Ibrahim had two sons: he appointed Isma'il to Imamah and Wasayah, and gave Isa Nubuwwah and Risalah; the chain of Imamah continued through Isma'il, which is why Isma'il's name is exceptional among Imam names.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Ibrahim",
+      "Ismail",
+      "Isa",
+      "Imamah",
+      "Wasayah",
+      "Nubuwwah",
+      "Risalah"
+    ]
+  },
+  {
+    "id": "T029",
+    "teaching": "Imam Ja'far al-Sadiq created a fida' (sacrificial double) named Khuraj ibn Anak who resembled Mawlana Isma'il, sending Isma'il from Kufa to Basra to save him from enemies.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Jafar al-Sadiq",
+      "Ismail ibn Jafar",
+      "fida",
+      "Khuraj ibn Anak"
+    ]
+  },
+  {
+    "id": "T030",
+    "teaching": "Hind could not swallow Hamza's liver because, according to the Imams, it was too blessed a thing for a vile person to consume; had a drop of Hamza's blood entered her, Paradise would have become obligatory for her.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Hind",
+      "Hamza",
+      "Abu Sufyan"
+    ]
+  },
+  {
+    "id": "T031",
+    "teaching": "Hamza received the title Sayyid al-Shuhada (Master of Martyrs) from the Prophet; this title was later associated with Mawlana Husayn after his martyrdom at Karbala.",
+    "kind": "authority",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Hamza",
+      "Sayyid al-Shuhada",
+      "Husayn",
+      "Karbala"
+    ]
+  },
+  {
+    "id": "T032",
+    "teaching": "Jafar al-Tayyar's two hands were cut off while fighting at the Battle of Mu'tah; the angels gave him ghusl and he was given two wings in place of his hands, hence 'al-Tayyar' (the flying one).",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Jafar al-Tayyar",
+      "Battle of Mutah",
+      "tayr"
+    ]
+  },
+  {
+    "id": "T033",
+    "teaching": "Nuh's rank is high because, unlike Adam (who was not Ulu'l-'Azm and had no shari'ah), the shari'ah began with Nuh, who is the first of the Ulu'l-'Azm prophets.",
+    "kind": "authority",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Nuh",
+      "Adam",
+      "Ulul-Azm",
+      "shariah",
+      "azm"
+    ]
+  },
+  {
+    "id": "T034",
+    "teaching": "Nuh is called Adam al-Thani (the second Adam) because the human race restarted through the roughly 80 people aboard his ark after the flood.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Nuh",
+      "Adam al-Thani"
+    ]
+  },
+  {
+    "id": "T035",
+    "teaching": "The Prophet and Ibrahim both transcended istiqrar (permanence) when elevated through their ranks, despite the Prophet being from the mustawda' lineage starting from istida'iyyat.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "mustawda",
+      "istidaiyyat",
+      "istiqrar",
+      "Ibrahim"
+    ]
+  },
+  {
+    "id": "T036",
+    "teaching": "The Prophet adopted many sunnahs of din-i Ibrahim such as circumcision and sacrifice (qurbani), and the durood links Muhammad with Ibrahim for this reason.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "din-i Ibrahim",
+      "khatna",
+      "qurbani",
+      "durood",
+      "hanif"
+    ]
+  },
+  {
+    "id": "T037",
+    "teaching": "Circumcision removes a small layer of skin that is impure in the realm of spirits ('alam al-arwah); a boy's circumcision should be done as early as possible and a girl's at age 7 or 8.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "khatna",
+      "alam al-arwah"
+    ]
+  },
+  {
+    "id": "T038",
+    "teaching": "The Prophet reached the station of Nutq-i Ilahi (his highest rank, Hijabiyyat), while the huwiyyat belongs to the Qa'im.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Nutq-i Ilahi",
+      "Hijabiyyat",
+      "huwiyyat",
+      "Qaim"
+    ]
+  },
+  {
+    "id": "T039",
+    "teaching": "Mawlana Ali reached the station of Anjaiyyat, the ninth rank, one rank below the Qa'im, which is why he is titled Anza' al-Batin.",
+    "kind": "authority",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Ali",
+      "Anjaiyyat",
+      "Anza al-Batin",
+      "Qaim"
+    ]
+  },
+  {
+    "id": "T040",
+    "teaching": "The title Anza' al-Batin is esoteric: 'batin' (big belly) refers to Ali being filled with esoteric knowledge, and 'anza'' (bald) means there is no rank above his head; the literal physical readings do not apply.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Anza al-Batin",
+      "batin",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T041",
+    "teaching": "Esoteric food is knowledge: grains are exoteric shari'ah knowledge, water is the knowledge of ta'wil, and honey and milk are the knowledge of haqa'iq - all of which were gathered in Ali.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "shariah",
+      "tawil",
+      "haqaiq",
+      "Ali",
+      "batin"
+    ]
+  },
+  {
+    "id": "T042",
+    "teaching": "The Prophet's Mi'raj had both a physical and a spiritual dimension; its detailed meaning cannot be explained over the phone and requires a face-to-face meeting.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Miraj"
+    ]
+  },
+  {
+    "id": "T043",
+    "teaching": "The Prophet's many Quranic names - Taha, Yasin, Muzzammil, Muddaththir, Basir, Nazir, Siraj al-Munir - are ranks/veils he traversed, elevating his rank in Islam.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Taha",
+      "Yasin",
+      "Muzzammil",
+      "Siraj al-Munir"
+    ]
+  },
+  {
+    "id": "T044",
+    "teaching": "The kifalat-i kubra (great sponsorship) occurred when, upon Abu Talib's death, the Prophet took charge of Ali's trusts (Imamah and Wasayah), gathering all four ranks - Imamah, Wasayah, Nubuwwah, Risalah - greatly elevating the Prophet's rank.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "kifalat-i kubra",
+      "Abu Talib",
+      "Imamah",
+      "Wasayah",
+      "Nubuwwah",
+      "Risalah"
+    ]
+  },
+  {
+    "id": "T045",
+    "teaching": "Days and dates have no bearing on the kifalat-i kubra; the Prophet gave Ali portions of the trusts over time and entrusted everything completely on the Day of Ghadir with 'man kuntu mawlahu fa hadha 'Aliyyun mawlahu'.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "kifalat-i kubra",
+      "Ghadir",
+      "man kuntu mawlahu",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T046",
+    "teaching": "Musa, being the fourth prophet (Adam, Nuh, Ibrahim, Musa), holds a high rank at the station of the sun, which gives light both above and below it; the fourth and seventh ranks are always higher.",
+    "kind": "authority",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Musa",
+      "Ulul-Azm",
+      "Shams"
+    ]
+  },
+  {
+    "id": "T047",
+    "teaching": "Musa advised the Prophet to reduce the 50 prayers because, knowing the deceitful nature of his Jewish community, he foresaw that the Prophet's community (the same returning people a thousand years later) would also be neglectful.",
+    "kind": "argument",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Musa",
+      "Miraj"
+    ]
+  },
+  {
+    "id": "T048",
+    "teaching": "The 50 prayers allude to belief in the 50 Imams (from Hasan to the Qa'im al-Ahkam al-Ihtiram), which is absolutely obligatory; failing that, belief in the Panjatan-i Pak is at minimum necessary, without which Paradise is forbidden.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "fifty Imams",
+      "Qaim al-Ahkam al-Ihtiram",
+      "Panjatan-i Pak"
+    ]
+  },
+  {
+    "id": "T049",
+    "teaching": "Muhaddad is the place of creation - the first particle (called Qaimur in the 'alam al-dharr) from which human creation began in each cycle - located on a corner (rukn) of the Ka'bah, which is why the Ka'bah endures from pre-eternity to post-eternity.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "muhaddad",
+      "Qaimur",
+      "alam al-dharr",
+      "Kabah",
+      "rukn",
+      "mawr"
+    ]
+  },
+  {
+    "id": "T050",
+    "teaching": "Mawlana Ali was born on this muhaddad when the wall of the Ka'bah split for Fatima bint Asad and she sat on the stone at the rukn.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Ali",
+      "muhaddad",
+      "Fatima bint Asad",
+      "Kabah",
+      "rukn"
+    ]
+  },
+  {
+    "id": "T051",
+    "teaching": "The spiritual Ka'bah (Tamur) also has a muhaddad, markaz and three triangular tajawif; the tajawif are matters related to the haqa'iq, and the markaz is the center point of the physical and spiritual Ka'bah respectively.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Tamur",
+      "muhaddad",
+      "markaz",
+      "tajawif",
+      "haqaiq",
+      "Kabah"
+    ]
+  },
+  {
+    "id": "T052",
+    "teaching": "When Fatima received the complete ma'rifat of 'Ayn al-'Azima (with its 99 accompanying qualities) via the Tasbih-i Fatima, the spirits of the mustaqdimin came to her service and turned the grinding stone, so she never again had difficulty with household chores.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Fatima",
+      "Tasbih-i Fatima",
+      "Ayn al-Azima",
+      "marifat",
+      "mustaqdimin"
+    ]
+  },
+  {
+    "id": "T053",
+    "teaching": "Every Imam has hujjats; a hujjat occupies the station of a man even if she is a woman, while the Imam himself is at the station of a man and his hujjats at the station of a woman.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "hujjat",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T054",
+    "teaching": "Imam Ja'far al-Sadiq's hujjat was Fatima bint Abdullah ibn Ibrahim ibn Hasan ibn Hasan, known as Umm Dawud; every hujjat has thirty da'is (one per day of the month) and a flaw arises in the mission if even one fails.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Jafar al-Sadiq",
+      "hujjat",
+      "Umm Dawud",
+      "duat"
+    ]
+  },
+  {
+    "id": "T055",
+    "teaching": "The hujjat's thirty da'is are her sons, which is why she was called Umm Dawud after her imprisoned da'i Dawud.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Umm Dawud",
+      "hujjat",
+      "duat"
+    ]
+  },
+  {
+    "id": "T056",
+    "teaching": "The Abbasid Caliphs (Abu'l-Dawaniq, Mamun, Harun Rashid) are enemies of the Imams; Abu'l-Dawaniq imprisoned Fatima's da'i Dawud, disrupting her da'wat.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Abul-Dawaniq",
+      "Mamun",
+      "Harun Rashid",
+      "Abbasid",
+      "dawat"
+    ]
+  },
+  {
+    "id": "T057",
+    "teaching": "Ja'far al-Sadiq taught Umm Dawud the prayer of the 15th of Rajab at zawal (eight rak'ahs replacing the Zuhr sunnah, istiftah prayer, recitation of the dasura), through which her son Dawud was released from prison.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Umm Dawud",
+      "Rajab",
+      "zawal",
+      "istiftah",
+      "dasura"
+    ]
+  },
+  {
+    "id": "T058",
+    "teaching": "True acceptance, not the quantity of deeds, is what matters: as Mulla Ahmad Khurshid replied about his Umrahs, only what Allah has accepted is the real treasure, so humility is essential.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 1",
+    "key_terms": [
+      "Mulla Ahmad Khurshid",
+      "Umrah"
+    ]
+  },
+  {
+    "id": "T059",
+    "teaching": "Within the celestial spheres (aflak), the outer asdaf (shells), then the lata'if (subtleties), then the ruhaniyat (spiritualities), are like the body and the souls within a human.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "aflak",
+      "asdaf",
+      "lataif",
+      "ruhaniyat",
+      "nufus"
+    ]
+  },
+  {
+    "id": "T060",
+    "teaching": "The sun contains 120,000 things called mala'ikah (angels), including jazibah (attraction), masikah (retention) and dafi'ah (repulsion), which are subtle things gathered there for purification.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Shams",
+      "malaikah",
+      "jazibah",
+      "masikah",
+      "dafiah"
+    ]
+  },
+  {
+    "id": "T061",
+    "teaching": "A human has a rational soul (nafs-e-natiqah) and a sensory soul (nafs-e-hissiyah, also nafs-e-lawwamah or nafs-e-ammarah bi'l-su'); when the sensory soul obeys the rational soul and the shari'ah, it too becomes a rational soul.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "nafs-e-natiqah",
+      "nafs-e-hissiyah",
+      "nafs-e-lawwamah",
+      "nafs-e-ammarah bil-su"
+    ]
+  },
+  {
+    "id": "T062",
+    "teaching": "After death the soul leaves the body as a vapor (nafs-e-riyhiyah) on the third day and goes to the moon for purification, which is why ziyarat, prayers for forgiveness, and sadqa on the third day are emphasized for believers.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "nafs-e-riyhiyah",
+      "ziyarat",
+      "sadqa",
+      "Qamar"
+    ]
+  },
+  {
+    "id": "T063",
+    "teaching": "After death the purifying soul passes through the miqat and Haram Sharif to the Mizan-e-Rahmat (Scale of Mercy) where its 49,000 rays (kirn) are purified.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "miqat",
+      "Haram Sharif",
+      "Mizan-e-Rahmat"
+    ]
+  },
+  {
+    "id": "T064",
+    "teaching": "The soul's purification progresses through the planets in sequence - Moon, then 'Utarid (Mercury), then the furnace of the Shams (Sun) - each performing assigned duties for set periods.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Qamar",
+      "Utarid",
+      "Shams"
+    ]
+  },
+  {
+    "id": "T065",
+    "teaching": "'Ashir Ta'ala is the Mudabbir-e-'Alam (Regulator of the World) tasked from above by the higher Intellects ('Aql-e-Awwal etc.) to purify the disobedient, like a bank manager appointed by directors who must do the work himself with their help.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Ashir Taala",
+      "Mudabbir-e-Alam",
+      "Aql-e-Awwal"
+    ]
+  },
+  {
+    "id": "T066",
+    "teaching": "Every falak (sphere) is itself a mudabbir performing its own tadbir under 'Ashir Ta'ala, just as the manager delegates work to cashiers and loan officers who act on their own guidelines.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "falak",
+      "mudabbir",
+      "tadbir",
+      "Ashir Taala"
+    ]
+  },
+  {
+    "id": "T067",
+    "teaching": "The word mudabbir applies at every level, not only to 'Ashir Ta'ala; just as Allah's attribute of generosity exists in humans without making them Allah, the 'Amilin, Mukasirin and Da'i in a jama'at are all mudabbir receiving instructions from above.",
+    "kind": "argument",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "mudabbir",
+      "Amilin",
+      "Mukasirin",
+      "Dai",
+      "Rabb al-Alamin"
+    ]
+  },
+  {
+    "id": "T068",
+    "teaching": "The initiator of every new era is an Adam - the one who brings a new shari'ah - as Mawlana Ali affirmed when repeatedly asked who came before Adam by answering 'Adam' each time.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Adam",
+      "shariah",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T069",
+    "teaching": "When the sun's asdaf (shells) fall on the earth at the beginning of a qawr, the nasut of the Jussa-e-Ibda'iyah (Primordial Body) is prepared; at the end of a dawr asdaf fall, at the end of a qawr lata'if fall, at the end of a mawr ruhaniyat fall.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "asdaf",
+      "Jussa-e-Ibdaiyah",
+      "nasut",
+      "qawr",
+      "dawr",
+      "mawr"
+    ]
+  },
+  {
+    "id": "T070",
+    "teaching": "Zuhal (Saturn) and Mirrikh (Mars), though deemed inauspicious (nahsain), are not themselves evil; like a king's executioner (jallad) bound by the king's order, their assigned duty is to receive the effects of bad things for purification.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Zuhal",
+      "Mirrikh",
+      "nahsain",
+      "jallad"
+    ]
+  },
+  {
+    "id": "T071",
+    "teaching": "Surah At-Takwir's 'Idha al-shamsu kuwwirat' in the da'wat reading means the sun completes one qawr (a cycle of 400,000 dawr), becoming so pure it progresses rapidly to become the Jussa-e-Ibda'iyah, rather than a sign of physical Resurrection darkness.",
+    "kind": "scripture",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Idha al-shamsu kuwwirat",
+      "Surah At-Takwir",
+      "qawr",
+      "Jussa-e-Ibdaiyah",
+      "dawr"
+    ]
+  },
+  {
+    "id": "T072",
+    "teaching": "All progression in the universe occurs only in human form, except the Falak-e-Maw'id which goes directly from its place to the 'Alam-e-Ruhani once the universe is purified.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Falak-e-Mawid",
+      "alam-e-ruhani"
+    ]
+  },
+  {
+    "id": "T073",
+    "teaching": "Imamate has degrees: Hasan, Husayn, Zayn al-'Abidin, Baqir and Ja'far are all Imams, but their degrees differ according to their duties, blessings and purity of thoughts, as the Prophet said there is a connection of Imamate to degrees.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Imam",
+      "Hasan",
+      "Husayn",
+      "Zayn al-Abidin",
+      "Baqir",
+      "Jafar"
+    ]
+  },
+  {
+    "id": "T074",
+    "teaching": "The Jussa-e-Ibda'iyah comes with 27 individuals, keeping 12 as bodyguards and sending 15 to different islands after teaching them languages; he reaches puberty, marries the daughter of the one from whose loin he is born, and prepares a successor son before progressing.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Jussa-e-Ibdaiyah"
+    ]
+  },
+  {
+    "id": "T075",
+    "teaching": "The Jussa-e-Ibda'iyah is distinguished from an ordinary Imam in that he progresses to take the place of 'Ashir Ta'ala (becoming Mudabbir-e-'Alam), while his successor son performs the duties of this world.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Jussa-e-Ibdaiyah",
+      "Ashir Taala",
+      "Mudabbir-e-Alam"
+    ]
+  },
+  {
+    "id": "T076",
+    "teaching": "In wudu and prayer every du'a begins with 'Allahumma' from the niyyah to the feet, except for the ears and the nose.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Allahumma",
+      "wudu",
+      "niyyah"
+    ]
+  },
+  {
+    "id": "T077",
+    "teaching": "Bab-e-Zahir prepares the Nasut (the manifest physicality) and Bab-e-Batin prepares the Lahut (divinity); the Bab-e-Batin is the Bab-e-Abwab, the gate of all degrees.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Bab-e-Zahir",
+      "Bab-e-Batin",
+      "Nasut",
+      "Lahut",
+      "Bab-e-Abwab"
+    ]
+  },
+  {
+    "id": "T078",
+    "teaching": "Nasut is the collection of riyhiyat (because they are visible) and Lahut is the collection of suwarat (forms).",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Nasut",
+      "Lahut",
+      "riyhiyat",
+      "suwarat"
+    ]
+  },
+  {
+    "id": "T079",
+    "teaching": "Nasut is of five kinds - tanasuli (ordinary believers' bodies), zilli (those related by knowledge), taba'i, khass (for da'is and high degrees, forming internal organs), and khass al-khass - governed by the Hujjat.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Nasut-e-tanasuli",
+      "Nasut-e-zilli",
+      "Nasut-e-khass",
+      "Hujjat"
+    ]
+  },
+  {
+    "id": "T080",
+    "teaching": "Bab al-Salsal and Bab al-Inbi'ath are batini matters of high degrees, not literal gates; Fatima bint Asad traversed Bab al-Salsaliyah and Salman al-Farsi traversed Bab al-Inbi'ath, and Bab-e-Zahir/Bab-e-Batin need not exist at those high levels.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Bab al-Salsal",
+      "Bab al-Inbiath",
+      "Fatima bint Asad",
+      "Salman al-Farsi"
+    ]
+  },
+  {
+    "id": "T081",
+    "teaching": "Umm al-Dhakar (Mother of the Male) is a person who abandons all worldly affairs and even neglects his own wife and children to dedicate himself fully to the Imam's da'wat, becoming worthy of being the mother (or wife) of Imam al-Zaman and lacking ordinary impurity.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Umm al-Dhakar",
+      "Imam al-Zaman",
+      "dawat"
+    ]
+  },
+  {
+    "id": "T082",
+    "teaching": "Only when all the qualities of Umm al-Dhakar are gathered in a person is the holy Imam born, as the Prophet explained Fatima was born from a Paradise fruit that Adam and Hawwa ate, and Khadijah became worthy of that fruit.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Umm al-Dhakar",
+      "Fatima",
+      "Khadijah",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T083",
+    "teaching": "Inside the Ka'bah the Muhaddad is the corner where Mawlana Ali was born, the Maqamat al-Hamra' (the red tile/Red Station); the Markaz is the center point of the Ka'bah; the Salasah Tajawif are the three triangular cavities.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Muhaddad",
+      "Maqamat al-Hamra",
+      "Markaz",
+      "Salasah Tajawif",
+      "Kabah",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T084",
+    "teaching": "The seven winds in Ta'mur (the spiritual Ka'bah) are spiritual matters (ruhaniyat), not literal wind; through them emanations carrying blessings descend at prayer times and also ascend carrying purified things back up, a continuous two-way process.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 2",
+    "key_terms": [
+      "Tamur",
+      "ruhaniyat",
+      "lataif",
+      "Markaz",
+      "Muhaddad"
+    ]
+  },
+  {
+    "id": "T085",
+    "teaching": "The descending of ten 'veils of joy' upon the 'Aql-e-Awwal means it attained, via the kalimat from the Mubdi', a special nur greater than all other 'uqul, along with the ilm-e-ma kana wa sa yakun (knowledge of what was and will be).",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Aql-e-Awwal",
+      "kalimat",
+      "Mubdi",
+      "nur",
+      "ilm-e-ma kana wa sa yakun"
+    ]
+  },
+  {
+    "id": "T086",
+    "teaching": "La ilaha illallah, the jewel of the kalimat, has 28 aspects - 2 (isbat and nafi), 3 jewels (Lam, alif, ha), 4 words, 7 fasl, 12 huruf - upon which the entire system of the cosmos is established.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "La ilaha illallah",
+      "isbat",
+      "nafi",
+      "kalima"
+    ]
+  },
+  {
+    "id": "T087",
+    "teaching": "The five 'lam' and five 'alif' in La ilaha illallah may correspond to the ten veils of joy, and the kalima also points toward the Panjatan (Five Pure Ones).",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "La ilaha illallah",
+      "Panjatan"
+    ]
+  },
+  {
+    "id": "T088",
+    "teaching": "After the seven 'uqul attained kamal-e-thani they became equal except in the rank of precedence (sabaqiyat); ilm, qudrat and hayat were given first as kamal-e-awwal, while kamal-e-thani is ismat (infallibility) granted according to each one's ma'rifat.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "kamal-e-thani",
+      "kamal-e-awwal",
+      "sabaqiyat",
+      "ismat",
+      "marifat",
+      "ilm",
+      "qudrat",
+      "hayat"
+    ]
+  },
+  {
+    "id": "T089",
+    "teaching": "The ranks of the ten intellects (second through tenth 'ashir) were assigned according to each one's ma'rifat (gnosis) of the 'Aql-e-Awwal, as Ja'far al-Sadiq said 'fi'l-imamati mutamathilun wa fi'l-darajati mutafadilun' (in Imamate alike, in ranks different).",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "marifat",
+      "Aql-e-Awwal",
+      "fil-imamati mutamathilun",
+      "Jafar al-Sadiq",
+      "ashir"
+    ]
+  },
+  {
+    "id": "T090",
+    "teaching": "The Quranic 'tilka'l-rusulu faddalna ba'dahum 'ala ba'd' confirms that all messengers (313 of 124,000 prophets) are preferred over one another, with the Prophet's rank the highest of all.",
+    "kind": "scripture",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "tilka al-rusulu faddalna",
+      "rusul"
+    ]
+  },
+  {
+    "id": "T091",
+    "teaching": "The 'Aql-e-Awwal has multiple equivalent names depending on perspective: as Aql-e-Awwal/Aql-e-Thani, as Sabiq/Tali, or as Qalam (Pen)/Lawh (Tablet) - all referring to the same realities.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Aql-e-Awwal",
+      "Sabiq",
+      "Tali",
+      "Qalam",
+      "Lawh",
+      "hiddat"
+    ]
+  },
+  {
+    "id": "T092",
+    "teaching": "Kalammam (a slight mistake) refers to those who, hearing 'Ashir's call, accepted only after a slight hesitation (ta'ammul), which divine power disliked; though they professed, they became unworthy of the 'alam-e-ruhani yet too high for the physical world.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Kalammam",
+      "Ashir",
+      "taammul",
+      "lubb al-nida",
+      "tabu bi-tawbatihi"
+    ]
+  },
+  {
+    "id": "T093",
+    "teaching": "For the Kalammam a special intermediate world, the 'alam-e-khayal (world of imagination), was created below the 'alam-e-ruhani and above the falak-e-muhit; the Imams, Muhtajib, Anbiya and Rusul belong to it.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Kalammam",
+      "alam-e-khayal",
+      "alam-e-ruhani",
+      "falak-e-muhit",
+      "Anbiya",
+      "Rusul"
+    ]
+  },
+  {
+    "id": "T094",
+    "teaching": "Those who answered immediately are lubb al-nida (who said labbayk at once) and tabu bi-tawbatihi (who repented merely upon seeing 'Ashir repent); both ascended to the 'alam-e-ruhani, while the Kalammam's hesitation also spoiled the veils (hijab) of the mustajibin who saw them.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "lubb al-nida",
+      "tabu bi-tawbatihi",
+      "labbayk",
+      "mustajib",
+      "hijab"
+    ]
+  },
+  {
+    "id": "T095",
+    "teaching": "The correct number of forms for Munba'ith's first da'ira is 28 (27 individuals plus Munba'ith), matching La ilaha illallah; the 100 and 3 figures are supplementary/particular justifications (e.g. the 100 tasbih beads), not the base.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Munbaith",
+      "daira",
+      "La ilaha illallah",
+      "surat",
+      "Ziya al-Muqaddas"
+    ]
+  },
+  {
+    "id": "T096",
+    "teaching": "The da'ira of 28 is found throughout the entire cosmos - in the 'alam-e-ruhani, 'alam-e-khayal, 'alam-e-kirmani, aflak, anasir and 'alam-e-jismani - because La ilaha illallah outweighs the entire ka'inat in its batini meaning.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "daira",
+      "La ilaha illallah",
+      "kainat",
+      "batini mana"
+    ]
+  },
+  {
+    "id": "T097",
+    "teaching": "When Ali killed Amr ibn Abd Wudd at Khandaq, all believing forms (imani suratain) were gathered in Ali and all vile forms (khabith suratain) in Amr; as the Juzw-e-Qa'im in the dawr-e-satr, Ali destroyed all vileness and settled their account.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Ali",
+      "Amr ibn Abd Wudd",
+      "Khandaq",
+      "Juzw-e-Qaim",
+      "dawr-e-satr",
+      "khabith"
+    ]
+  },
+  {
+    "id": "T098",
+    "teaching": "Ali is the Juzw-e-Qa'im and Rabb al-adwar (Lord of the Cycles), master of the seven past dawr-e-kashf and the current seventh dawr-e-satr of the 400,000-year cycle.",
+    "kind": "authority",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Ali",
+      "Juzw-e-Qaim",
+      "Rabb al-adwar",
+      "dawr-e-kashf",
+      "dawr-e-satr"
+    ]
+  },
+  {
+    "id": "T099",
+    "teaching": "The Prophet's words 'Baraza al-iman kulluhu 'ala al-kufr kulluh' at Khandaq, and that Ali's single strike outweighs the worship of the entire ummah until Qiyamah, are explained by Ali acting as the Qa'im and annihilating all gathered vileness.",
+    "kind": "scripture",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Baraza al-iman",
+      "Zarbatu Aliyyin",
+      "Khandaq",
+      "Qaim"
+    ]
+  },
+  {
+    "id": "T100",
+    "teaching": "Ali's throwing of jinns into the well (Bir al-'Alam) was also done in his capacity as Juzw-e-Qa'im; 'bir' (with the letter ba) is Arabic for a well, distinct from 'hazira' which means a jazira (island).",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Ali",
+      "Bir al-Alam",
+      "Juzw-e-Qaim",
+      "hazira",
+      "jazira"
+    ]
+  },
+  {
+    "id": "T101",
+    "teaching": "The first da'ira of Munba'ith is called Hazirat al-Quds.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Hazirat al-Quds",
+      "Munbaith",
+      "daira"
+    ]
+  },
+  {
+    "id": "T102",
+    "teaching": "The Prophet told Husayn 'tilka al-daraja... la tanaluha illa bi'l-shahadah' - two ranks he would attain only through martyrdom; these relate to Hasan rising from Imam-e-Mustawda' to Imamat-e-Mustaqarra by perfectly handling the trusts and handing them to Husayn.",
+    "kind": "scripture",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Husayn",
+      "shahadah",
+      "Hasan",
+      "Imam-e-Mustawda",
+      "Imamat-e-Mustaqarra",
+      "amanat"
+    ]
+  },
+  {
+    "id": "T103",
+    "teaching": "Hasan and Husayn are both true Imams per the Prophet's 'al-Hasanu wa'l-Husaynu imaman qama aw qa'ada wa abuhuma khayrun minhuma'; Hasan was originally mustawda' yet his perfect service made him a holder of Imamat-e-Mustaqarra, though his lineage did not continue the Imamate.",
+    "kind": "authority",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Hasan",
+      "Husayn",
+      "al-Hasan wal-Husayn imaman",
+      "mustawda",
+      "Imamat-e-Mustaqarra"
+    ]
+  },
+  {
+    "id": "T104",
+    "teaching": "Sayyidna Muhammad ibn Isma'il, though mustawda' and a dawr-e-ghayr-munfarid who passed away as a dawr-e-hujjat in Ja'far's lifetime, had his rank raised by subsequent du'at to be included among the du'at-e-munfaridin for his perfect service.",
+    "kind": "authority",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Muhammad ibn Ismail",
+      "mustawda",
+      "dawr-e-hujjat",
+      "duat-e-munfaridin"
+    ]
+  },
+  {
+    "id": "T105",
+    "teaching": "Mustawda'in who perform their services perfectly can be elevated into the ranks of the mustaqarrin, illustrated by the sal-e-kabisa (intercalary year) where Dhul-Hijjah's 29 days become 30.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "mustawdain",
+      "mustaqarrin",
+      "sal-e-kabisa"
+    ]
+  },
+  {
+    "id": "T106",
+    "teaching": "Mawlana Ikram Ali Sahab, an Indian mansab from Hyderabad who wrote Nur al-Ikhlas and books now taught by du'at, was praised by his Da'i ('Ikram Ali's flight is very high') yet was not given permission and was not more than a mansab.",
+    "kind": "authority",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Ikram Ali",
+      "Nur al-Ikhlas",
+      "mansab",
+      "Dai"
+    ]
+  },
+  {
+    "id": "T107",
+    "teaching": "In Hajj-e-Qiran one brings one's own sacrificial animal garlanded with shoes as a sign for very rapid progression, not as a matter of one's sins; this differs from Hajj-e-tamattu' and Hajj-e-mufrad.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Hajj-e-Qiran",
+      "Hajj-e-tamattu",
+      "Hajj-e-mufrad"
+    ]
+  },
+  {
+    "id": "T108",
+    "teaching": "Sacrificial animals at Hajj progress to human form very quickly and are a cause for the forgiveness of sins; the questioner's notion that eating another's Hajj goat means eating their sins is mistaken.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Hajj",
+      "qurbani"
+    ]
+  },
+  {
+    "id": "T109",
+    "teaching": "On Eid al-Adha in one's own city one may eat the sacrificed goat (keeping one-third), but the goat sacrificed at Hajj may not be eaten by the sacrificer; these distinctions point toward ma'rifat, as do the differing matters of nazar, sadaqa and aqiqa goats.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Eid al-Adha",
+      "Hajj",
+      "marifat",
+      "nazar",
+      "sadaqa",
+      "aqiqa"
+    ]
+  },
+  {
+    "id": "T110",
+    "teaching": "Per the Prophet, even the dung, bones and intestines of the Hajj sacrifice will be placed in the mizan-e-amal (scales of deeds) and will progress to human form and become a mumin.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "mizan-e-amal",
+      "mumin",
+      "qurbani"
+    ]
+  },
+  {
+    "id": "T111",
+    "teaching": "In La ilaha illa Allah negation (nafi) precedes affirmation (isbat) because the 'Aql-e-Awwal first negated any god among created beings before affirming the separate Creator; in Surah Ikhlas the order is reversed (Ahadiyyat affirmed first) because this world is the reflection (ma'kus) of that realm.",
+    "kind": "argument",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "nafi",
+      "isbat",
+      "Kalima-e-Ikhlas",
+      "Ahadiyyat",
+      "makus",
+      "Aql-e-Awwal"
+    ]
+  },
+  {
+    "id": "T112",
+    "teaching": "Ru' Musta is one of the four Hurum (sanctuary) du'at who remain always with the Imam; from 'massa' (meem-swad, to suck) it means the one continuously sucking/gaining knowledge from the Imam from the cradle to the grave.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Ru Musta",
+      "Hurum",
+      "Hudud-e-Imamiyya",
+      "massa"
+    ]
+  },
+  {
+    "id": "T113",
+    "teaching": "The cosmic chain of 28 hudud comprises 12 Du'at-e-Jazair, 12 Du'at-e-Balagh, the Imam's hujjats, and four Hurum du'at who stay always with the Imam like security guards with a prime minister.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "hudud",
+      "Duat-e-Jazair",
+      "Duat-e-Balagh",
+      "hujjat",
+      "Hurum"
+    ]
+  },
+  {
+    "id": "T114",
+    "teaching": "Tajalli means radiance/light (the simultaneous ishraq of all suwarat in Lahut), while ta'yid means help/support (madad), from which mu'ayyad derives.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "tajalli",
+      "tayid",
+      "ishraq",
+      "Lahut",
+      "muayyad"
+    ]
+  },
+  {
+    "id": "T115",
+    "teaching": "Ta'yidat (supports) are received from the Imam's side through his unseen nasikhs (taba'i, tanasubi, juzwi, khas, khas al-khas); only the nasikh-e-tanasubi appears before us as a human being.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "tayidat",
+      "nasikh",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T116",
+    "teaching": "The Hyderabad riot incident, where Hazrat Ziyali Sahab had a banner 'Ya Ghaus-e-Azam Dastagir' (the Imam being the believers' Ghaus-e-Azam) hung that turned the attacking mob back, exemplifies the ta'yid of Imam al-Zaman.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Ziyali",
+      "Ghaus-e-Azam",
+      "tayid",
+      "Imam al-Zaman",
+      "Rafidi"
+    ]
+  },
+  {
+    "id": "T117",
+    "teaching": "Tajalliyat are the effulgences from prayers like Fajr and Shams al-Shakti that fall upon and illuminate the nafs-e-natiqah and nafs-e-hissiyah, cleansing them for rapid spiritual progress even without conscious awareness.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "tajalliyat",
+      "ishraq",
+      "Shams al-Shakti",
+      "nafs-e-natiqah",
+      "nafs-e-hissiyah"
+    ]
+  },
+  {
+    "id": "T118",
+    "teaching": "The two heavens in 'shamimni ra'ihata jannatika fi jannatik' and 'wa asmi'ni munadiya jannatika fi jannatik' refer not to nasut and lahut but to a single heaven where one's apparent and inner senses are kept safe so as to be in the company of great personalities in the Imam's presence.",
+    "kind": "scripture",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "shamimni raihata jannatika",
+      "munadi",
+      "nasut",
+      "lahut",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T119",
+    "teaching": "The 'treasures' (zakha'ir) of the du'at-e-tayyibi gathered with Sayyidna Sulayman are those that progress; his nasut is also lahut because Mawlana Humam, in whose rank he shares, is among the hujjats in the hijabat of Rasulullah.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "zakhair",
+      "duat-e-tayyibi",
+      "Sulayman",
+      "Humam",
+      "nasut",
+      "lahut",
+      "hijabat"
+    ]
+  },
+  {
+    "id": "T120",
+    "teaching": "Sayyidna Sulayman (buried in Ahmedabad) and Sayyidna Humam (a leader, in the Hudud-e-Imamiyya, written with the small two-eyed he) are distinct beings; Sulayman's personality was split, the part bearing qisas sent to Jazair and the other remaining.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "Sulayman",
+      "Humam",
+      "Hudud-e-Imamiyya",
+      "qisas",
+      "Jazair"
+    ]
+  },
+  {
+    "id": "T121",
+    "teaching": "The 21 'fuzalaat' in which a mumin hides refer to the mumin-e-mustaqim al-sifat (the upright believer who perfectly follows halal/haram and the seven pillars), distinct from the 360 karrat through which the negligent futur al-mumineen purify over many returns.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 3",
+    "key_terms": [
+      "fuzalaat",
+      "karrat",
+      "mumin-e-mustaqim al-sifat",
+      "futur al-mumineen"
+    ]
+  },
+  {
+    "id": "T122",
+    "teaching": "A voluntary (tatawwu') fast must be broken if one's host invites one to eat, but this applies only to voluntary fasts (including Nuzul-e-Ka'bah and the Dhul-Hijjah/Muharram day-fasts); the obligatory fasts of Ramadan (one month) and sunnat fasts (two months) are excepted.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "tatawwu",
+      "Nuzul-e-Kabah",
+      "farz",
+      "sunnat",
+      "Ramadan"
+    ]
+  },
+  {
+    "id": "T123",
+    "teaching": "In the physical world Jadd, Fatah and Khayal differ in every era - in the Prophet's era 'Abd al-Muttalib is at the station of Jadd, Abu Talib at Fatah, and 'Abdullah at Khayal (corresponding to Jibra'il, Mika'il, Israfil).",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Jadd",
+      "Fatah",
+      "Khayal",
+      "Abd al-Muttalib",
+      "Abu Talib",
+      "Abdullah"
+    ]
+  },
+  {
+    "id": "T124",
+    "teaching": "No counterpart of Jadd, Fatah and Khayal has been specified in the spiritual world, which is only stated to have seven intellects; the categorizations of three-and-four (as in Hajj tawaf) are not mapped onto the spiritual world.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Jadd",
+      "Fatah",
+      "Khayal",
+      "alam-e-ruhani",
+      "tawaf"
+    ]
+  },
+  {
+    "id": "T125",
+    "teaching": "The Nazar-e-Ashraf and Nazar-e-Adwan arose when the two Mumba'ithin observed the 'Aql-e-Awwal's brilliance: one pondered the limmiyyat (causality, the 'why') and one only saw the kayfiyyat (outward quality) and bowed.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Nazar-e-Ashraf",
+      "Nazar-e-Adwan",
+      "Mumbaithin",
+      "limmiyyat",
+      "kayfiyyat",
+      "Aql-e-Awwal"
+    ]
+  },
+  {
+    "id": "T126",
+    "teaching": "The one with Nazar-e-Adwan, who saw only the kayfiyyat, developed an inner flaw (kharabi) and then a corrupt illusion (wahm-e-fasid), wrongly believing both were equal, while the one with Nazar-e-Ashraf had advanced many degrees.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Nazar-e-Adwan",
+      "kayfiyyat",
+      "kharabi",
+      "wahm-e-fasid",
+      "Nazar-e-Ashraf"
+    ]
+  },
+  {
+    "id": "T127",
+    "teaching": "It is not defined that the Mustaqarrin are people of Nazar-e-Ashraf and Mustawda'in of Nazar-e-Adwan, because the Mustawda'in are also people of knowledge who even protect the trusts of many Mustaqarrin, as Hasan held the trust of Husayn.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Mustaqarrin",
+      "Mustawdain",
+      "Nazar-e-Ashraf",
+      "Nazar-e-Adwan",
+      "Hasan",
+      "Husayn",
+      "amanat"
+    ]
+  },
+  {
+    "id": "T128",
+    "teaching": "As long as Hasan was alive Husayn never claimed Imamat but accepted Hasan as Imam per 'al-Hasan wa al-Husayn Imaman'; thus the Imamat system has an exception to its father-to-son rule.",
+    "kind": "authority",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Hasan",
+      "Husayn",
+      "Imamat",
+      "al-Hasan wa al-Husayn Imaman"
+    ]
+  },
+  {
+    "id": "T129",
+    "teaching": "The corrupt illusion (wahm-e-fasid) separated from Mumba'ith-e-Thani upon his repentance (when he became 'Ashir) is the Iblis-e-Ruhani (spiritual Iblis), which in humans manifests as the foreskin, hence the command of circumcision (khatna).",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "wahm-e-fasid",
+      "Mumbaith-e-Thani",
+      "Iblis-e-Ruhani",
+      "Ashir",
+      "khatna"
+    ]
+  },
+  {
+    "id": "T130",
+    "teaching": "'Ashir was tasked with creating this universe to fix the corruption born through him, per the principle 'man kasara azman fa-la yajburuhu ghayruh' (he who breaks a bone, none but he can set it).",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Ashir",
+      "man kasara azman",
+      "wahm-e-fasid"
+    ]
+  },
+  {
+    "id": "T131",
+    "teaching": "When 'Ashir gave the da'wat, sects formed (some accepted, some hesitated, some became stubborn); those developing density (kathafat) were given another world to produce subtlety (latafat) and become worthy of the spiritual world - a punishment/responsibility entrusted to 'Ashir.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Ashir",
+      "dawat",
+      "kathafat",
+      "latafat",
+      "alam-e-ruhani"
+    ]
+  },
+  {
+    "id": "T132",
+    "teaching": "'Ashir Ta'ala (Mudabbir Ta'ala) manages the creation of the universe - placing the elements (fire, water, earth, air), the three kingdoms of nature (ummahat), minerals, plants, animals, and finally extracting one Insan-e-Kamil to restart the da'wat - earning the name Mudabbir-e-Hakim.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Ashir Taala",
+      "Mudabbir Taala",
+      "ummahat",
+      "Insan-e-Kamil",
+      "Mudabbir-e-Hakim",
+      "dawat"
+    ]
+  },
+  {
+    "id": "T133",
+    "teaching": "'Ashir's group of 27 is a mix of both Tabu bi-Tawbati and Labbu an-Nida (first those who repented seeing his repentance, then those who answered the call), both becoming worthy of the spiritual world, while the hesitant Kallamam are the Mustaqarrin for whom the 'alam-e-hayat was created.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Ashir",
+      "Tabu bi-Tawbati",
+      "Labbu an-Nida",
+      "Kallamam",
+      "Mustaqarrin",
+      "alam-e-hayat"
+    ]
+  },
+  {
+    "id": "T134",
+    "teaching": "In the spiritual foundation of La ilaha illallah, 2 is the two relations (nisbatain) of 'Aql-e-Awwal, 3 is ilm/qudrat/hayat, 7 is the seven intellects, 12 are the twelve chiefs in every sphere; the meaning of the 4 was not in the speaker's memory.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "La ilaha illallah",
+      "nisbatain",
+      "Aql-e-Awwal",
+      "ilm",
+      "qudrat",
+      "hayat"
+    ]
+  },
+  {
+    "id": "T135",
+    "teaching": "Ayat al-Kursi has a special relation to Mawlana Ali (its hijab is Ali) and is the 'ayn-e-'azimah; though a single ayat, its rank equals two surahs, possibly Surah al-Ikhlas and Surah Alam Nashrah.",
+    "kind": "scripture",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Ayat al-Kursi",
+      "Ali",
+      "hijab",
+      "ayn-e-azimah",
+      "Surah al-Ikhlas"
+    ]
+  },
+  {
+    "id": "T136",
+    "teaching": "Surah Yasin is the heart of the Quran; Surah al-Ikhlas is the heart of the heart (Dhamir-e-Khilqi, the source of life keeping the heart beating); and Surah al-Fatihah is its soul.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Surah Yasin",
+      "Surah al-Ikhlas",
+      "Dhamir-e-Khilqi",
+      "Surah al-Fatihah"
+    ]
+  },
+  {
+    "id": "T137",
+    "teaching": "The Prophet's saying 'he who has not understood the twelve etiquettes of the privy (bayt al-khala') has not known you (Ali) nor me' means everything has hidden ta'wilat and haqa'iq; the most important is istinja' (cleansing), without which there is no purity.",
+    "kind": "scripture",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "bayt al-khala",
+      "Ali",
+      "tawilat",
+      "haqaiq",
+      "istinja"
+    ]
+  },
+  {
+    "id": "T138",
+    "teaching": "Urination, defecation and impurities are examples of polytheism (shirk), disbelief (kufr) and hypocrisy (nifaq); understanding them leads to true knowledge, and true knowledge leads to the ma'rifat of Ali, since true knowledge is only with Ali and his people.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "shirk",
+      "kufr",
+      "nifaq",
+      "marifat",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T139",
+    "teaching": "There is a dependency chain: no purity means no wudu, no wudu means no namaz, no namaz means no Prophet - showing the exoteric and esoteric are interlinked.",
+    "kind": "argument",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "taharat",
+      "wudu",
+      "namaz"
+    ]
+  },
+  {
+    "id": "T140",
+    "teaching": "Spirituality (ruhaniyyat) must always take the support of physicality (jismaniyyat); body and soul are an inseparable pair (lazim-malzum), since a body without soul is a corpse and a soul without body cannot perform or account for actions.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "ruhaniyyat",
+      "jismaniyyat",
+      "lazim-malzum",
+      "zahir",
+      "batin"
+    ]
+  },
+  {
+    "id": "T141",
+    "teaching": "The Prophet appeared in human form ('innama ana basharun mithlukum') because otherwise people could not learn how to pray, fast, purify, give zakat, perform hajj or jihad; through knowledge and action a form (surat) is created that gathers with the respective hadd and ultimately the Imam.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "innama ana basharun mithlukum",
+      "surat",
+      "hadd",
+      "Imam",
+      "zahir",
+      "batin"
+    ]
+  },
+  {
+    "id": "T142",
+    "teaching": "At the marriage of Ali and Fatima the Prophet said 'al-yawm zuwwija al-islam bil-iman' (today Islam is married to Faith), meaning Fatima's Islamic forms (suwarat-e-islamiyyah) were elevated and merged into Ali's faith-based forms (suwarat-e-imaniyyah).",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "al-yawm zuwwija al-islam bil-iman",
+      "Ali",
+      "Fatima",
+      "suwarat-e-islamiyyah",
+      "suwarat-e-imaniyyah"
+    ]
+  },
+  {
+    "id": "T143",
+    "teaching": "Every outward action of the Imams corresponds to an action in the spiritual world; behind every exoteric deed there is a batini event.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "zahir",
+      "batin",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T144",
+    "teaching": "Zayn al-'Abidin's reported thousand daily rak'at (impossible in 24 hours) is explained by every Imam having a thousand veils (hijab) each performing the prayers; he is titled Sayyid al-Sajidin.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Zayn al-Abidin",
+      "hijab",
+      "Sayyid al-Sajidin",
+      "rakat"
+    ]
+  },
+  {
+    "id": "T145",
+    "teaching": "The deficiencies in believers' prayers are completed by the Imam (via his natih-e-taba'i/tanasuli) so they progress quickly; since the veils are created by the believers themselves, it is effectively the believers completing their own deficient prayers.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "hijab",
+      "Imam",
+      "natih-e-tabai",
+      "natih-e-tanasuli"
+    ]
+  },
+  {
+    "id": "T146",
+    "teaching": "The Prophet's saying 'as-su'ud 'asir' (ascension is difficult) and Ali's 'Takhaffafu talhaqu' (lighten yourselves and you will join) teach that spiritual progress requires great struggle in knowledge and action and the shedding of arrogance, pride and self-assertion to become a humble petitioner.",
+    "kind": "scripture",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "as-suud asir",
+      "Takhaffafu talhaqu",
+      "takabbur",
+      "ghurur"
+    ]
+  },
+  {
+    "id": "T147",
+    "teaching": "Husband-and-wife relations are esoterically the matters of mufid (benefactor) and mustafid (beneficiary); although shari'ah allows one man four wives (one mufid to four mustafid), an entire lesson congregation counts as a single mustafid.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "mufid",
+      "mustafid",
+      "batin",
+      "tawili mana"
+    ]
+  },
+  {
+    "id": "T148",
+    "teaching": "In each rak'at the seven positions (qiyam, ruku', two sujud, etc.) follow a sevenfold representation; but in Zuhr the four units map to the Prophet, Ali, the Prophet's Bab al-Abwab and Ali's Bab al-Abwab, with all four ruku' and eight prostrations ultimately related to the Prophet.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "rakat",
+      "ruku",
+      "sujud",
+      "Bab al-Abwab",
+      "mamsulat"
+    ]
+  },
+  {
+    "id": "T149",
+    "teaching": "Maghrib's time is always short because, just as the sun sets and the moon appears, the sun of guidance (the Prophet) has set and his wasi's period - like Ali's brief outward caliphate - is always short.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Maghrib",
+      "wasi",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T150",
+    "teaching": "In every era the wasi was persecuted and not accepted with only a short period - Habil rejected by Qabil, Sham rejected by Ham in Nuh's time, Harun in Musa's time, Ali after the Prophet - after which the series of Imams begins.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "wasi",
+      "Habil",
+      "Qabil",
+      "Sham",
+      "Ham",
+      "Harun",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T151",
+    "teaching": "'Isha's long time (until dawn) represents the entire series of Imamat continuing until the dawn arrival of Imam Mahdi.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "isha",
+      "Imamat",
+      "Imam Mahdi"
+    ]
+  },
+  {
+    "id": "T152",
+    "teaching": "Every Imam has 12 hujjat-e-nahari (day-time, the 12 du'at of the 12 jaza'ir) and 12 hujjat-e-layli (night-time, in the spiritual world), each with 30 du'at, totaling 360 to match the 360 degrees of the complete circle of the da'wat.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "hujjat-e-nahari",
+      "hujjat-e-layli",
+      "jazair",
+      "duat",
+      "dawat"
+    ]
+  },
+  {
+    "id": "T153",
+    "teaching": "On the Day of Ghadir the Prophet had thorns (al-idhkhir) removed from the field, esoterically the vile/falling souls removed because luminous souls were gathering for the appointment of the wasi; practically also so barefoot pilgrims would not be pricked.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Ghadir",
+      "al-idhkhir",
+      "wasi"
+    ]
+  },
+  {
+    "id": "T154",
+    "teaching": "Per a saying of the Prophet explained by Sayyidna 'Ali Imad al-Din in Sifat al-Salat, one who neglected prayers for years in youth then repents sincerely and prays regularly need not make up those years; Allah forgives him.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Jafar as-Sadiq",
+      "Ali Imad al-Din",
+      "Sifat al-Salat",
+      "qaza"
+    ]
+  },
+  {
+    "id": "T155",
+    "teaching": "Prayers missed AFTER one's sincere repentance and resolve to be regular must be made up (qaza); if the number is unknown, one prays as much as one remembers and leaves the rest to Allah's mercy.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "qaza"
+    ]
+  },
+  {
+    "id": "T156",
+    "teaching": "The method to make up one day's prayer: perform safa, give one adhan, then pray each farz (fajr, zuhr, asr, maghrib, isha) with an iqamah before each; this completes a day's prayer in about 40 minutes, abbreviating but reciting at least Ayat al-Kursi to fiha khalidun and the tasbih.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "safa",
+      "adhan",
+      "iqamah",
+      "farz",
+      "Ayat al-Kursi",
+      "qaza"
+    ]
+  },
+  {
+    "id": "T157",
+    "teaching": "Missed prayers may be made up at any time except the safa (morning ablution) time; even after midnight or in late-night voluntary hours is permissible.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "qaza",
+      "safa"
+    ]
+  },
+  {
+    "id": "T158",
+    "teaching": "In the Tasbih of Fatimah the sequence starts with Allahu Akbar (going toward the higher, not coming from above), then Alhamdulillah, then Subhanallah, and ends with the Imam's bead (La ilaha illallah), where the entire congregation connects - it ascends from lower to higher culminating in the Imam.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "Tasbih-i Fatima",
+      "Allahu Akbar",
+      "Alhamdulillah",
+      "Subhanallah",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T159",
+    "teaching": "Every Imam/sphere has three universal forms (kulli suwarat) each with 33 subordinate forms; Allahu Akbar, Alhamdulillah and Subhanallah map onto these three (the defined, the center, and the lahut/nasut), connecting to the tasbih al-a'zam in Al-Kawakib al-Durriyah.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 4",
+    "key_terms": [
+      "kulli suwarat",
+      "ayn-e-azimah",
+      "tasbih al-azam",
+      "Al-Kawakib al-Durriyah"
+    ]
+  },
+  {
+    "id": "T160",
+    "teaching": "Sayyidna Hasan Khan ibn Abd al-Malik (visitor of the two holy sanctuaries), author of Tuhfat al-Sara'ir on the muqatta'at letters, came from the Dawoodi Bohra sect and as a child truthfully testified against his father before the British, showing his master-level truth.",
+    "kind": "authority",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "Hasan Khan ibn Abd al-Malik",
+      "Tuhfat al-Sarair",
+      "muqattaat",
+      "Dawoodi Bohra"
+    ]
+  },
+  {
+    "id": "T161",
+    "teaching": "Allah created 28 letters in the spiritual realm referring to the Second Intellect (the soul/tablet) plus its 27 individuals; they were given importance because the reflection of their action fell upon the other intellects.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "huruf-e-mujam",
+      "Second Intellect",
+      "Hadirat al-Quds"
+    ]
+  },
+  {
+    "id": "T162",
+    "teaching": "The seven 'letters of the speaking opposites' (the corrupt group) are an analogy only - the letters themselves are not corrupt (like 'fe' not appearing in Surah al-Fatihah); in the cycle of unveiling, for the seven prophets there will be seven opposites.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "huruf-e-mujam",
+      "Surah al-Fatihah",
+      "dawr-e-kashf"
+    ]
+  },
+  {
+    "id": "T163",
+    "teaching": "The 'dots' on the letters represent the differing gnosis (ma'rifat/comprehension) of the essences - some having more, some less - not actual corruption in the spiritual realm.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "huruf-e-mujam",
+      "marifat"
+    ]
+  },
+  {
+    "id": "T164",
+    "teaching": "The prayers of disbelievers, polytheists and idol-worshippers are accepted by Satan and the impure spirits, who have been given respite in this world, because Allah will not accept the words of deniers.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "Satan",
+      "impure spirits",
+      "kaafir"
+    ]
+  },
+  {
+    "id": "T165",
+    "teaching": "Allah does not waste the reward of good public-welfare deeds done by disbelievers (hospitals, wells, charity), but their return is confined to this world (health, honor, wealth, fame) - 'la khalaqa lahum fi al-akhirah' - with nothing in the hereafter and barzakh punishments beginning at death.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "la khalaqa lahum fi al-akhirah",
+      "barzakh",
+      "kaafir"
+    ]
+  },
+  {
+    "id": "T166",
+    "teaching": "Social interaction with disbelievers and polytheists is permitted (the elders did not forbid it); the required caution concerns religion only - not liking or adopting their religion, as in not embracing the Hindu Raksha Bandhan festival.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "Ghulam Husain",
+      "Raksha Bandhan"
+    ]
+  },
+  {
+    "id": "T167",
+    "teaching": "Hazrat Ziya al-Muqaddas warned that speaking the truth merely because Gandhi speaks the truth earns no reward; one should instead feel shame for neglecting one's own Rasul, Allah and Aimmah, taking only the lesson of self-correction from disbelievers' good outward conduct.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "Ziya al-Muqaddas",
+      "Gandhi",
+      "Aimmah"
+    ]
+  },
+  {
+    "id": "T168",
+    "teaching": "The Quranic 'wa lan tajida li-sunnatillahi tabdila' (you will find no change in Allah's way) refers to the chain of permanent Imamah running father-to-son, which never changes from eternity to eternity, and has nothing to do with the miraculous birth of Muhammad bin Hanafiyyah by Ali's command 'Ehbali bi-Muhammad'.",
+    "kind": "scripture",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "wa lan tajida li-sunnatillahi tabdila",
+      "Imamah",
+      "Muhammad bin Hanafiyyah",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T169",
+    "teaching": "Muhammad bin Hanafiyyah has a very high rank: Husayn took Ali Zayn al-Abidin to Karbala and left Muhammad bin Hanafiyyah in Madinah, entrusting him with all of Ali Zayn al-Abidin's trusts to be returned when they came back.",
+    "kind": "authority",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "Muhammad bin Hanafiyyah",
+      "Husayn",
+      "Ali Zayn al-Abidin",
+      "Karbala"
+    ]
+  },
+  {
+    "id": "T170",
+    "teaching": "Only the permanent Imamah possesses 'ismah (infallibility) where even an unconscious thought of sin is impossible; all ranks below have no 'ismah, so heedlessness can occur, as when the mustawda Muhammad bin Hanafiyyah momentarily mistook himself for the Imam.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "ismah",
+      "Imamah",
+      "Muhammad bin Hanafiyyah",
+      "mustawda"
+    ]
+  },
+  {
+    "id": "T171",
+    "teaching": "Zayn al-Abidin sent Muhammad bin Hanafiyyah an empty perfume bottle as a sign that he was now like an empty bottle with no perfume (no gnosis, only spirit remaining); Hanafiyyah immediately understood, ran barefoot to fall at his feet in humility, and was restored to his place.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "Zayn al-Abidin",
+      "Muhammad bin Hanafiyyah",
+      "ismah"
+    ]
+  },
+  {
+    "id": "T172",
+    "teaching": "After Karbala, Ali Zayn al-Abidin was never seen laughing, wept whenever water was presented, and became reclusive, directing visitors to ask Muhammad bin Hanafiyyah.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "Ali Zayn al-Abidin",
+      "Karbala",
+      "Muhammad bin Hanafiyyah"
+    ]
+  },
+  {
+    "id": "T173",
+    "teaching": "Mawlana Ali's famous saying 'what is in the cup is what spills out' (a believer manifests a believer's qualities) is from one of his sermons, its Arabic relating to 'vessel/container'.",
+    "kind": "authority",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "Ali"
+    ]
+  },
+  {
+    "id": "T174",
+    "teaching": "The Thalathat al-Sufara ('Abd al-Muttalib, Abu Talib, 'Abdullah) are like ambassadors from the Spiritual Realm; their collection of forms is unmatched by any other Imam and connects directly with the Qa'im's hekal rather than merging into Ali's forms - remaining on the horizon like oil on water.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "Thalathat al-Sufara",
+      "Abd al-Muttalib",
+      "Abu Talib",
+      "Abdullah",
+      "Qaim",
+      "hekal"
+    ]
+  },
+  {
+    "id": "T175",
+    "teaching": "Every Imam is a creature of the World of Life ('Alam-e-Hayat), not of this world; the distinction for the Thalathat al-Sufara is the unmatched collection of forms they carry, not their otherworldly origin.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "alam-e-hayat",
+      "Imam",
+      "Thalathat al-Sufara"
+    ]
+  },
+  {
+    "id": "T176",
+    "teaching": "In Maghrib the last rak'at is for Salman al-Farsi, the Bab al-Abwab for both the Prophet and Ali; he is the father of both hekals - of Ali's hekal of Imamah and of Fatima's hekal of mustawda Imamah (Fatima being esoterically the Opener/Fatir despite being female outwardly).",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "Maghrib",
+      "Salman al-Farsi",
+      "Bab al-Abwab",
+      "Ali",
+      "Fatima",
+      "Fatir",
+      "hekal"
+    ]
+  },
+  {
+    "id": "T177",
+    "teaching": "The four-Fatimah tasbih ('ya Fatimah', Fatimah from Fatir meaning Creator) is recited across the prostrations, the first prostration's 'ya Fatimah' pointing to Mawlana Fatimah.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "Fatimah",
+      "tasbih",
+      "Fatir"
+    ]
+  },
+  {
+    "id": "T178",
+    "teaching": "The word hujjat has two meanings: the son of the Imam (Hujjat-e-Imam) and a da'wat rank below the Imam under which there are 30 du'at; before the nass of Imamah is upon him, the Imam's designated son has an individual state (as does the Imam's wife, the umm-e-dhikr), counted separately.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "hujjat",
+      "Imam",
+      "nass",
+      "Imamah",
+      "umm-e-dhikr",
+      "duat"
+    ]
+  },
+  {
+    "id": "T179",
+    "teaching": "On the Imam's command to perform the nass of Imamah, the Bab al-Abwab transfers his collected hekal/forms to merge with the Imam's son.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "nass",
+      "Imamah",
+      "Bab al-Abwab",
+      "hekal"
+    ]
+  },
+  {
+    "id": "T180",
+    "teaching": "Hujjat is a technical da'wat term meaning a rank below the Imam, not to be taken in its literal Arabic sense of 'proof' or 'argument'; it is called hujjat because, opposite the Imam who is the manifest nafs, it remains hidden.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 5",
+    "key_terms": [
+      "hujjat",
+      "Imam",
+      "nafs"
+    ]
+  },
+  {
+    "id": "T181",
+    "teaching": "The claim (attributed to a faulty lesson) that a kaafir has no existence and is merely the shape Allah gives to a mumin's sin is rejected as a new, false teaching; a mumin receives punishment and atonement (kaffara) for his sins, cleansing the stains on his nafs, but no kaafir is created.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "kaafir",
+      "mumin",
+      "kaffara",
+      "nafs",
+      "Bayt al-Lahm"
+    ]
+  },
+  {
+    "id": "T182",
+    "teaching": "If a kaafir were created from a mumin's sins, the existence of the shaak wa mutahayyir and musirr wa mustakbir groups in the Alam-e-Ruhani would be wrongly nullified; this confirms the teaching is false.",
+    "kind": "argument",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "shaak wa mutahayyir",
+      "musirr wa mustakbir",
+      "alam-e-ruhani"
+    ]
+  },
+  {
+    "id": "T183",
+    "teaching": "Only the five Nutqa' (Adam, Nuh, Ibrahim, Musa, Isa and Rasulullah) who brought a new shari'at hold the rank of Messengers and are sahib-e-nasut wa lahut (both); the other 25-26 prophets (Yaqub, Yusuf, Yunus, etc.) who carry forward the Rasuls' shari'at and are from the mustawda'in are sahib-e-nasut only.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Nutqa",
+      "nasut",
+      "lahut",
+      "Rasul",
+      "naba",
+      "mustawdain"
+    ]
+  },
+  {
+    "id": "T184",
+    "teaching": "Since nasut is the collection of riyhiyat and lahut of suwarat, and the prophets who are sahib-e-nasut only have their corresponding suwarat attached to the Imam, the prophets are in one sense a hijab (veil) of the Imam of their time.",
+    "kind": "argument",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "nasut",
+      "lahut",
+      "riyhiyat",
+      "suwarat",
+      "hijab",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T185",
+    "teaching": "There is no difference between hijab and nasut - the nasut is the hijab; through whichever hijab/nasut the Imam manifests depends on the Imam, who changes his veils like changing a shirt to deal with each follower.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "hijab",
+      "nasut",
+      "Imam",
+      "tashakhkhus"
+    ]
+  },
+  {
+    "id": "T186",
+    "teaching": "Mawlana Ali's nasut-e-taba'i was so high (equal to other Imams' nasut-e-khaas) that he had to lower it through nasut-e-tanasuli then hijab-e-nasut-e-tanasuli then hijab-e-hijab-e-tanasuli, as explained in Risala al-Haawiya 'ala Ma'na al-Jasima (Rajab 2008).",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Ali",
+      "nasut-e-tabai",
+      "nasut-e-khaas",
+      "nasut-e-tanasuli",
+      "hijab",
+      "Risala al-Haawiya"
+    ]
+  },
+  {
+    "id": "T187",
+    "teaching": "The Imam can manifest through more than one hijab simultaneously - at one time there are a thousand hijabs - as when the Prophet's own personality was present in the era of Ubayy ibn Ka'b while also acting as a hijab.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Imam",
+      "hijab",
+      "Ubayy ibn Kab",
+      "tashakhkhus"
+    ]
+  },
+  {
+    "id": "T188",
+    "teaching": "The incident where Mawlana Ali led Fajr in many mosques of Kufa through his hijabaat (so the people he passed in the market had no need to greet him again) illustrates the Imam manifesting through multiple veils at once.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Ali",
+      "Kufa",
+      "hijabaat",
+      "Fajr"
+    ]
+  },
+  {
+    "id": "T189",
+    "teaching": "The knowledge of 'what was' (ma kaana) given to the first creation, even though nothing yet existed, is the knowledge that 'min la shayin, wa la fi shayin... wa la fi zamaan wa la makaan' (from nothing, not in anything, not in time or space), obtained from the anwaar received from the Mumba'ith-e-Thani.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "ma kaana",
+      "saya'kun",
+      "Mumbaith-e-Thani",
+      "anwaar"
+    ]
+  },
+  {
+    "id": "T190",
+    "teaching": "The Imam progresses with his entire collection (laahut and naasut) into the falak-e-a'zam; this principle holds throughout, the process being continuously ongoing.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Imam",
+      "laahut",
+      "naasut",
+      "falak-e-azam",
+      "taraqqi"
+    ]
+  },
+  {
+    "id": "T191",
+    "teaching": "The first juz' of the Mawr-e-Awwal (the Alam-e-Bida'iyya / Qaymuruth, called juz' al-kull) had excellence (nazaamat) higher than the Kalimah - like the Ark of the Covenant or Preserved Tablet - yet had to descend into this realm to begin all the universe's matters, born from a Hujjat.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Mawr-e-Awwal",
+      "Alam-e-Bidaiyya",
+      "Qaymuruth",
+      "juz al-kull",
+      "Kalimah",
+      "Hujjat"
+    ]
+  },
+  {
+    "id": "T192",
+    "teaching": "The objective of creating the universe was to make a factory/hospital for cleansing the deficient ones (musirr wa mustakbirin, naadimin wa mutahayyirin, shaak wa mutahayyirin); the first Bida'iyya being descended for this, then continued the chain of Imamat through his walad-e-kaam born of marriage.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "musirr wa mustakbirin",
+      "naadimin",
+      "shaak wa mutahayyirin",
+      "Bidaiyya",
+      "walad-e-kaam",
+      "Imamat"
+    ]
+  },
+  {
+    "id": "T193",
+    "teaching": "When the Alam-e-Bida'iyya ascended (became murtafa') it immediately took the place of Aashir and Aashir himself moved up to join the last part of the ninth intellect's degree - because everyone, including Aashir, must keep progressing (like a retiring bank manager replaced from below).",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Alam-e-Bidaiyya",
+      "murtafa",
+      "Aashir",
+      "ninth intellect"
+    ]
+  },
+  {
+    "id": "T194",
+    "teaching": "Per Zayn al-Abidin, the entire world will be cleansed in 10 mawrs; we are currently in the second mawr, so the circles (dawa'ir) of the uqul are all presently present and progressing within their own eras, not yet gathered at the Mumba'ith-e-Awwal.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Zayn al-Abidin",
+      "mawr",
+      "dawair",
+      "uqul",
+      "Mumbaith-e-Awwal"
+    ]
+  },
+  {
+    "id": "T195",
+    "teaching": "Per al-Anwaar al-Latifa, the true successor (haqiqi khalifa) of the first Adam-e-Bida'iyya of the Mawr-e-Awwal is the Qa'im of the final mawr; all in between are partial (juzwi), and the entire collection of 10 mawrs ascends together at the end.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "haqiqi khalifa",
+      "Adam-e-Bidaiyya",
+      "Mawr-e-Awwal",
+      "Qaim",
+      "juzwi",
+      "al-Anwaar al-Latifa"
+    ]
+  },
+  {
+    "id": "T196",
+    "teaching": "The ascended ones wait in a'raaf (a place to stay) only while engaged in helping the lower ones ascend; when complete, they take their fellow community members and ascend, so progression never permanently stops.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "araaf",
+      "taraqqi"
+    ]
+  },
+  {
+    "id": "T197",
+    "teaching": "Mawlana Ali's words 'Fuztu wa Rabbil Ka'bah' (I have succeeded, by the Lord of the Ka'bah) at the strike of Ibn Muljim signified that all his matters of qisas were completed, freeing him to progress after his long wait through his hijabs.",
+    "kind": "scripture",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Ali",
+      "Fuztu wa Rabbil Kabah",
+      "Ibn Muljim",
+      "qisas",
+      "hijab"
+    ]
+  },
+  {
+    "id": "T198",
+    "teaching": "At each qawr and each mawr there is a birth from a Hujjat; the second mawr's master is born from a Hujjat and takes the place of Aashir while the first mawr progresses with its collection.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "qawr",
+      "mawr",
+      "Hujjat",
+      "Aashir"
+    ]
+  },
+  {
+    "id": "T199",
+    "teaching": "Surah Takwir's 'idh al-shamsu kuwwirat' means the sun, having completed one qawr of services, comes swiftly to earth and progresses very rapidly into a state of peace - not the literal darkening of the sun and falling stars that the general public describe for Qiyamah.",
+    "kind": "scripture",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "idh al-shamsu kuwwirat",
+      "Surah Takwir",
+      "shams",
+      "qawr"
+    ]
+  },
+  {
+    "id": "T200",
+    "teaching": "Swift progression is exemplified in the da'wat: a mumin made Mulla, then aamil, then receiving the nass of mansusiyyat - as the fourth-ranked Hazrat Saqir Shah Muqaddas ('Mulla Saqir') unexpectedly received the nass over higher-ranked figures.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Mulla",
+      "aamil",
+      "nass",
+      "mansusiyyat",
+      "Saqir Shah Muqaddas",
+      "Ziya'li"
+    ]
+  },
+  {
+    "id": "T201",
+    "teaching": "When the sun progresses, its khilafat will be established and some planet (sayyarah) will take its place, as every single thing in the universe must be cleansed; the order of who replaces whom becomes known through the sciences of haqa'iq.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "shams",
+      "khilafat",
+      "sayyarah",
+      "haqaiq"
+    ]
+  },
+  {
+    "id": "T202",
+    "teaching": "The claim (attributed to a faulty lesson) that the sword of Ibn Muljim actually struck Husain's head is rejected, since an Imam coming down to become the hijab/fidiya of a lower-ranked person is not understandable and no mansab has ever said this.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Ibn Muljim",
+      "Husain",
+      "Ali",
+      "hijab",
+      "fidiya",
+      "mansab"
+    ]
+  },
+  {
+    "id": "T203",
+    "teaching": "A hijab/fidiya is taken from those of lower rank than oneself: Husayn's hijabs were Muslim ibn Aqil, Hani ibn Urwah and Abbas; Ja'far al-Sadiq chose the humble Quraish ibn Ahmad ('Aanas') as fidiya for Mawlana Isma'il by blowing in his ear so he took Isma'il's appearance, fell ill, died and was buried in his place.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "hijab",
+      "fidiya",
+      "Husayn",
+      "Muslim ibn Aqil",
+      "Quraish ibn Ahmad",
+      "Jafar al-Sadiq",
+      "Ismail"
+    ]
+  },
+  {
+    "id": "T204",
+    "teaching": "Humility elevates a person, per 'man tawaada'a lillahi rafa'ahullah'; Quraish ibn Ahmad was chosen as Isma'il's fidiya precisely because he humbly bowed his head weeping rather than raising his hand.",
+    "kind": "scripture",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "man tawaadaa lillahi rafaahullah",
+      "Quraish ibn Ahmad",
+      "fidiya",
+      "Ismail"
+    ]
+  },
+  {
+    "id": "T205",
+    "teaching": "If a mumin's conception (tasawwur) is spoiled by listening to incorrect lessons, everything is finished; therefore it is better not to listen to a teacher who creates confusion and not to know than to know something wrong.",
+    "kind": "ruling",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "tasawwur",
+      "mumin"
+    ]
+  },
+  {
+    "id": "T206",
+    "teaching": "There is no majma' called 'aql-e-muhiti'; Ali received many majma' on Yaum-e-Ghadir but no such named thing exists - it is a fabrication.",
+    "kind": "claim",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "aql-e-muhiti",
+      "majma",
+      "Ali",
+      "Yaum-e-Ghadir"
+    ]
+  },
+  {
+    "id": "T207",
+    "teaching": "There is no fixed number defining how many forms are in one kulli surat; the six daur-e-kashf and six daur-e-fatrat with all their qa'im and Imams (50 qa'im in 50,000 years) gather innumerable forms in Ali, making him also sahib-e-juzwi, and the six daur are the six kulli suwar.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "kulli surat",
+      "daur-e-kashf",
+      "daur-e-fatrat",
+      "sitta suwar",
+      "Ali",
+      "juzwi"
+    ]
+  },
+  {
+    "id": "T208",
+    "teaching": "When a mumin dies his form (nafs-e-naatiqa with nafs-e-uswaa) goes to his Hujjat-e-Ali and stays as his hijab; when that Hujjat dies it ascends to the next, so forms gather upward to the Bab al-Abwab, who gathers them into the Imam's laahut.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "mumin",
+      "nafs-e-naatiqa",
+      "Hujjat-e-Ali",
+      "hijab",
+      "Bab al-Abwab",
+      "laahut"
+    ]
+  },
+  {
+    "id": "T209",
+    "teaching": "On Yaum-e-Ghadir Ali (the hijab) gathered the collection of all forms from below for the mohtajib 'ayn / 'ayn-e-uzma, because the ongoing da'wat is the da'wat of 'ayn for which all forms must be gathered.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Yaum-e-Ghadir",
+      "Ali",
+      "hijab",
+      "mohtajib",
+      "ayn-e-uzma",
+      "dawat"
+    ]
+  },
+  {
+    "id": "T210",
+    "teaching": "The terms zaat-e-Ahmediya and Mim-e-Maryamiyya both refer to one and the same mohtajibin of the Prophet, not two different personalities.",
+    "kind": "definition",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "zaat-e-Ahmediya",
+      "Mim-e-Maryamiyya",
+      "mohtajibin"
+    ]
+  },
+  {
+    "id": "T211",
+    "teaching": "'Ayn-e-awwala (the personality of Ali) and 'ayn-e-aakhira (the personality of the Qa'im, also named Ali) are two different beings; 'ayn-e-awwala will absorb into 'ayn-e-aakhira, taking all forms to the Qa'im's laahut and the station of the heart - they do not 'progress into' each other as the same being.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "ayn-e-awwala",
+      "ayn-e-aakhira",
+      "Ali",
+      "Qaim",
+      "laahut"
+    ]
+  },
+  {
+    "id": "T212",
+    "teaching": "Fa-e-awwala is Mawlana Fatima (daughter of Rasulullah) and Fa-e-aakhira is the daughter/wife of the Qa'im (also named Fatima); they are different beings who absorb, not the same Fatima progressing forward - the latter claim is rejected as confused.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Fa-e-awwala",
+      "Fa-e-aakhira",
+      "Fatima",
+      "Qaim"
+    ]
+  },
+  {
+    "id": "T213",
+    "teaching": "The claim that the very same Prophet, Ali and Fatima will reappear as Mahdi, Qa'im and the final Fatima is rejected; this would negate the meaning of progression and the awaited Qa'im, since Ali takes all forms to absorb into the distinct Qa'im at the station of the heart.",
+    "kind": "argument",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Mahdi",
+      "Qaim",
+      "Ali",
+      "Fatima",
+      "taraqqi"
+    ]
+  },
+  {
+    "id": "T214",
+    "teaching": "The Saahib-e-Anwaar explains that 70 groups (15 types of naadimin, plus shaak wa mutahayyirin and musirr wa mustakbirin) were formed right there in the Alam-e-Ruhani - matching the Prophet's saying that his ummah will have 72 sects - and the claim that these factions split off later from the musirr wa mustakbirin is a wholly wrong conception.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Saahib-e-Anwaar",
+      "naadimin",
+      "shaak wa mutahayyirin",
+      "musirr wa mustakbirin",
+      "alam-e-ruhani"
+    ]
+  },
+  {
+    "id": "T215",
+    "teaching": "In the Alam-e-Ruhani there is no body; the falling groups had only thoughts until, trying to break free, length, breadth and depth were created and outward form took on existence (wujud), after which they were cast down to be cleansed.",
+    "kind": "doctrine",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "alam-e-ruhani",
+      "wujud",
+      "naadimin"
+    ]
+  },
+  {
+    "id": "T216",
+    "teaching": "Surah al-Fatihah's verses identify the three groups: 'sirat alladhina an'amta 'alayhim' (the naadimin/mustakbirin), 'ghayril maghdubi 'alayhim' (the shaak wa mutahayyirin upon whom wrath descended), and 'wa lad-daallin' (the misguided musirr wa mustakbirin).",
+    "kind": "scripture",
+    "source": "aug:ansaar-bhai",
+    "source_marker": "AUG:ansaar-bhai lecture 6",
+    "key_terms": [
+      "Surah al-Fatihah",
+      "naadimin",
+      "shaak wa mutahayyirin",
+      "musirr wa mustakbirin"
+    ]
+  }
+]

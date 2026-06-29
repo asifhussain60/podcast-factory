@@ -54,7 +54,7 @@ from pathlib import Path
 from _paths import REPO_ROOT
 from typing import Any
 
-DEFAULT_FIXTURES_DIR = REPO_ROOT / "content/podcast/.skill/_learning/fixtures"
+DEFAULT_FIXTURES_DIR = REPO_ROOT / "_learning/fixtures"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _rules import (

@@ -63,6 +63,8 @@ interface GenerateOptions {
   maxOutputTokens?: number;
   /** When true, asks Gemini to emit application/json (no markdown fences). */
   jsonMode?: boolean;
+  /** Set to 0 to disable Gemini 2.5 Flash thinking (prevents thinking-token starvation on small maxOutputTokens). */
+  thinkingBudget?: number;
 }
 
 /**
@@ -79,6 +81,9 @@ export async function generate(opts: GenerateOptions): Promise<string> {
       temperature: opts.temperature ?? 0.4,
       maxOutputTokens: opts.maxOutputTokens ?? 600,
       ...(opts.jsonMode ? { responseMimeType: 'application/json' } : {}),
+      ...(opts.thinkingBudget !== undefined
+        ? { thinkingConfig: { thinkingBudget: opts.thinkingBudget } }
+        : {}),
     },
   };
   const res = await fetch(url, {
@@ -91,7 +96,12 @@ export async function generate(opts: GenerateOptions): Promise<string> {
     throw new Error(`Gemini ${res.status}: ${errText.slice(0, 300)}`);
   }
   const data = await res.json() as any;
-  const text = data?.candidates?.[0]?.content?.parts?.map((p: any) => p.text || '').join('') ?? '';
+  // Filter out thinking parts (thought: true) — Gemini 2.5 Flash emits these
+  // as separate parts; joining them would corrupt JSON-mode responses.
+  const text = (data?.candidates?.[0]?.content?.parts ?? [])
+    .filter((p: any) => !p.thought)
+    .map((p: any) => p.text || '')
+    .join('') ?? '';
   return text.trim();
 }
 

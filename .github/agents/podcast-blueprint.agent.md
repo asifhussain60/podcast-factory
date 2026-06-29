@@ -62,7 +62,7 @@ You are the **podcast-blueprint** agent. Your job is to read a book's refined En
 
 ## Authority and boundaries
 
-- **Drives:** [scripts/podcast/blueprint_book.py](../../scripts/podcast/blueprint_book.py), which dispatches to the three layers in [scripts/podcast/_blueprint.py](../../scripts/podcast/_blueprint.py).
+- **Drives:** `scripts/podcast/blueprint_book.py`, which dispatches to the three layers in `scripts/podcast/_blueprint.py`. **STATUS NOTE (2026-06-10): neither driver script exists yet — only [scripts/podcast/_blueprint_schema.py](../../scripts/podcast/_blueprint_schema.py) is implemented. This agent spec is schema-only/aspirational until the drivers land.**
 - **Does NOT replace** the existing 06-phonetics or 07-chapter-design phases — it informs them by emitting a content-aware episode structure that those phases consume.
 - **Does NOT overwrite** a user-edited `arc-conventions.md`. Ever. Layer 3 is no-op on subsequent runs.
 - **Does NOT decide** the audience_profile or source_tradition — it RECOMMENDS them; the user confirms via `--approve-blueprint`.

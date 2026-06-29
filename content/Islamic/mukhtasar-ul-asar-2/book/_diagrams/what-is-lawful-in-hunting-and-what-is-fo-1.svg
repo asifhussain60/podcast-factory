@@ -1,0 +1,27 @@
+<svg id="Lawfulness_of_Hunting__Ground___Pilgrim" xmlns="http://www.w3.org/2000/svg" viewBox="-39 0 549 510" role="img" aria-labelledby="Lawfulness_of_Hunting__Ground___Pilgrim_t Lawfulness_of_Hunting__Ground___Pilgrim_d">
+<title id="Lawfulness_of_Hunting__Ground___Pilgrim_t">Lawfulness of Hunting: Ground × Pilgrim's State</title>
+<desc id="Lawfulness_of_Hunting__Ground___Pilgrim_d">Quadrant map: Hunting ground × Pilgrim's state — four states</desc>
+<style>#Lawfulness_of_Hunting__Ground___Pilgrim{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#111111;}#Lawfulness_of_Hunting__Ground___Pilgrim text{font-family:'Lato', system-ui, sans-serif;}</style>
+<defs><marker id="svgp_arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#777777"/></marker></defs>
+<text x="255.0" y="24.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#000000"><tspan x="255.0" dy="0">Lawfulness of Hunting: Ground × Pilgrim's State</tspan></text>
+<text x="253" y="502.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#444444"><tspan x="253" dy="0">Hunting ground</tspan></text>
+<text x="12" y="257" text-anchor="middle" font-size="11" font-weight="600" fill="#444444" transform="rotate(-90,12,257)">Pilgrim's state</text>
+<text x="155.5" y="65.0" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#777777"><tspan x="155.5" dy="0">Sea</tspan></text>
+<text x="350.5" y="65.0" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#777777"><tspan x="350.5" dy="0">Land</tspan></text>
+<text x="52" y="164.5" text-anchor="end" dominant-baseline="central" font-size="10" font-weight="normal" fill="#777777"><tspan x="52" dy="0">Out of ihram</tspan></text>
+<text x="52" y="343.5" text-anchor="end" dominant-baseline="central" font-size="10" font-weight="normal" fill="#777777"><tspan x="52" dy="0">In ihram (sacred</tspan><tspan x="52" dy="12">state)</tspan></text>
+<rect x="58.0" y="72.0" width="195.0" height="185.0" fill="#f7f7f7" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="155.5" y="146.5" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#111111"><tspan x="155.5" dy="0">Sea + out of ihram:</tspan><tspan x="155.5" dy="16">Permitted</tspan></text>
+<text x="155.5" y="182.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#111111"><tspan x="155.5" dy="0">Always lawful</tspan></text>
+<rect x="253.0" y="72.0" width="195.0" height="185.0" fill="#000000" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="350.5" y="146.5" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#ffffff"><tspan x="350.5" dy="0">Land + out of ihram:</tspan><tspan x="350.5" dy="16">Permitted</tspan></text>
+<text x="350.5" y="170.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#ffffff"><tspan x="350.5" dy="0">&quot;When you leave the</tspan><tspan x="350.5" dy="12">sacred state, then</tspan><tspan x="350.5" dy="12">hunt&quot;</tspan></text>
+<rect x="58.0" y="257.0" width="195.0" height="185.0" fill="#eeeeee" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="155.5" y="331.5" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#111111"><tspan x="155.5" dy="0">Sea + in ihram:</tspan><tspan x="155.5" dy="16">Permitted</tspan></text>
+<text x="155.5" y="361.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#111111"><tspan x="155.5" dy="0">Sea hunting allowed</tspan><tspan x="155.5" dy="12">even while consecrated</tspan></text>
+<rect x="253.0" y="257.0" width="195.0" height="185.0" fill="#f7f7f7" stroke="#d0d0d0" stroke-width="1.0"/>
+<text x="350.5" y="331.5" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="700" fill="#111111"><tspan x="350.5" dy="0">Land + in ihram:</tspan><tspan x="350.5" dy="16">Forbidden</tspan></text>
+<text x="350.5" y="361.5" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="normal" fill="#111111"><tspan x="350.5" dy="0">The sole forbidden</tspan><tspan x="350.5" dy="12">case</tspan></text>
+<line x1="253" y1="72" x2="253" y2="442" stroke="#d0d0d0" stroke-width="2"/>
+<line x1="58" y1="257" x2="448" y2="257" stroke="#d0d0d0" stroke-width="2"/>
+</svg>

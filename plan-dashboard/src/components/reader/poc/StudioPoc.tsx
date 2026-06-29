@@ -24,6 +24,10 @@ import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import type { Node as PMNode } from '@tiptap/pm/model';
 import { diffWords } from 'diff';
+import * as Toast from '@radix-ui/react-toast';
+import { stageRole } from '../../../lib/reader/stage-roles';
+import type { EnrichmentSummary } from '../../../lib/reader/enrichment-ledger';
+import TransformationDashboard from './TransformationDashboard';
 
 // Inline reference markers: inspector inventory + inline chips for Hadith/Works.
 // Quran verse refs are handled separately as FC-1 chips, so mk-quran is skipped here.
@@ -38,20 +42,74 @@ const MARKER_PATTERNS: { re: RegExp; cls: string; kind: string; chip?: string }[
   { re: /Minhaj al-Abidin/g,                      cls: 'mk-term',   kind: 'Work',   chip: 'Minhaj' },
 ];
 
-// Each tag carries a distinct ICON so the meaning is recognizable without memorizing colour.
-const TAGS = [
-  { id: 'esoteric', label: 'Esoteric', icon: '🔮' },
-  { id: 'reality', label: 'Reality', icon: '💎' },
-  { id: 'sharia', label: 'Sharia', icon: '⚖️' },
-  { id: 'history', label: 'History', icon: '📜' },
-  { id: 'delete', label: 'Delete', icon: '🗑️' },
-  { id: 'improve', label: 'Improve', icon: '✏️' },
+const ARABIC_SCRIPT_RUN = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF](?:[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\s]*[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF])?/;
+const ARABIC_PAIR_RE = /([A-Za-zāēīōūĀĒĪŌŪṣṢḍḌṭṬẓẒḥḤʿʾ'’.-]+(?:[\s-]+[A-Za-zāēīōūĀĒĪŌŪṣṢḍḌṭṬẓẒḥḤʿʾ'’.-]+)+)\s*\(([\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF][^)]+)\)/gu;
+
+// ── Deferred AI action-item registry ────────────────────────────────────────
+// Single source of truth for every action the human can stamp on a paragraph or
+// a selected term (edit mode only). A later CLI pass drains the queued marks.
+// Add a button HERE and it appears in the palette, the queue, and the inline
+// badges; the API allow-list in /api/studio/action-items mirrors these kinds.
+// `scope` decides where the action shows: 'term' needs a text selection,
+// 'paragraph' acts on the active paragraph, 'both' appears in either palette.
+type ActionScope = 'paragraph' | 'term' | 'both';
+type ActionGroup = 'core' | 'transform' | 'knowledge';
+interface ActionDef {
+  kind: string;
+  label: string;
+  icon: string;   // Font Awesome solid class
+  scope: ActionScope;
+  group: ActionGroup;
+  hint: string;   // tooltip — what the CLI will do with this mark
+  // 'deferred' (default) = stamp a mark for the CLI drain pass; 'immediate' = run
+  // AI now and apply in-place (e.g. Arabic term replacement), never queued.
+  applyMode?: 'deferred' | 'immediate';
+}
+const ACTION_REGISTRY: readonly ActionDef[] = [
+  // Core
+  { kind: 'arabic',    label: 'Arabic',        icon: 'fa-language',                            scope: 'term',      group: 'core',      hint: 'Replace this term with the correct contextual Arabic (AI, confirm first)', applyMode: 'immediate' },
+  { kind: 'english',   label: 'English',       icon: 'fa-language',                            scope: 'term',      group: 'core',      hint: 'Replace this term with the correct contextual English (AI or glossary, confirm first)', applyMode: 'immediate' },
+  { kind: 'replace',   label: 'Replace',       icon: 'fa-right-left',                          scope: 'term',      group: 'core',      hint: 'Find & replace this phrase across this chapter or the whole book', applyMode: 'immediate' },
+  { kind: 'explain',   label: 'Explain',       icon: 'fa-lightbulb',                           scope: 'term',      group: 'core',      hint: 'Replace the selection with a clearer, fuller explanation (AI, in chapter context)', applyMode: 'immediate' },
+  { kind: 'noise',     label: 'Noise',         icon: 'fa-eraser', scope: 'term', group: 'core', hint: 'Mark the selection as noise -> generalise to a pattern -> strip every match across this chapter or the whole book', applyMode: 'immediate' },
+  { kind: 'etymology', label: 'Etymology',     icon: 'fa-book-bookmark',                       scope: 'term',      group: 'core',      hint: 'Resolve the root-history of this term (shared wisdom corpus)' },
+  { kind: 'rewrite',   label: 'Rewrite',       icon: 'fa-arrows-rotate',                       scope: 'paragraph', group: 'core',      hint: 'Rewrite this paragraph — reword, sharpen clarity, or redo it freely' },
+  // Transform
+  { kind: 'expand',    label: 'Expand',        icon: 'fa-up-right-and-down-left-from-center',  scope: 'paragraph', group: 'transform', hint: 'Elaborate — add depth or an example' },
+  { kind: 'condense',  label: 'Condense',      icon: 'fa-compress',                            scope: 'paragraph', group: 'transform', hint: 'Tighten without losing meaning' },
+  { kind: 'simplify',  label: 'Simplify',      icon: 'fa-feather',                             scope: 'paragraph', group: 'transform', hint: 'Plain-language version for a lay listener' },
+  // Knowledge
+  { kind: 'define',    label: 'Define',        icon: 'fa-spell-check',                         scope: 'term',      group: 'knowledge', hint: 'Short glossary gloss for this term' },
+  { kind: 'xref',      label: 'Cross-ref',     icon: 'fa-link',                                scope: 'both',      group: 'knowledge', hint: 'Find related passages in this book or the corpus' },
+  { kind: 'addcorpus', label: 'Add to corpus', icon: 'fa-database',                            scope: 'both',      group: 'knowledge', hint: 'Promote this passage or term into the wisdom knowledge base' },
+  { kind: 'visualize', label: 'Visualization', icon: 'fa-diagram-project',                     scope: 'paragraph', group: 'knowledge', hint: 'Flag this passage for a visual diagram in the PDF reading edition' },
 ];
+const ACTION_BY_KIND: Record<string, ActionDef> = Object.fromEntries(ACTION_REGISTRY.map((a) => [a.kind, a]));
+
+// One action-item mark as held client-side (mirrors the action_items table row).
+interface ClientActionItem {
+  id: number;            // negative = optimistic (not yet persisted)
+  scope: 'paragraph' | 'term';
+  para_ordinal: number;
+  term_text: string;     // '' for paragraph scope
+  anchor_text: string;
+  action_kind: string;
+  status: string;
+}
+
+function truncate(s: string, n = 40): string {
+  const t = s.trim();
+  return t.length > n ? `${t.slice(0, n - 1)}…` : t;
+}
 
 interface GlossaryEntry {
   phonetic: string;
   transliteration: string;
   arabic_script: string;
+  audio_phonetic?: string;
+  decision?: string;
+  corrected_arabic?: string;
+  english_override?: string;
 }
 
 function scanMarkers(text: string): { kind: string; text: string }[] {
@@ -145,14 +203,46 @@ interface Chapter {
   stages: Stage[];
   metrics: StageMetric[];
   reviewed: Record<string, { approved: boolean; approved_at?: string | null }>;
+  /** Which stages have an unapproved autosaved draft (mutated locally on approve). */
+  drafted?: Record<string, boolean>;
+  finalized?: { at: string } | null;
+}
+
+/** A coherent stage set under one root. 'current' is the live rebuild; archived
+ *  lineages (earlier full-stage runs) are view-only and never editable. */
+export interface Lineage {
+  id: string;
+  label: string;
+  chapters: Chapter[];
+}
+
+/** A pipeline phase (Intake → Source Review → Edit & Enrich → Publish), shown
+ *  as the top tier of the left rail so the rail is the single pipeline timeline
+ *  (the top horizontal stepper is suppressed on the Edit page). */
+interface PipelineStep {
+  id: string;
+  label: string;
+  state: string;   // 'done' | 'active' | 'pending' | 'blocked'
+  detail: string;
 }
 
 interface Props {
   slug: string;
   chapters: Chapter[];
   glossary?: GlossaryEntry[];
+  glossaryAll?: GlossaryEntry[];
   initialChapIdx?: number;
   contentProfile?: string;
+  /** Archived view-only stage lineages (e.g. an earlier episode structure). */
+  archivedLineages?: Lineage[];
+  /** Pipeline phases for the left-rail timeline. */
+  pipelineSteps?: PipelineStep[];
+  /** The phase this page represents (the rail expands its versions here). */
+  activeStep?: string;
+  /** Book-level enrichment summary for the transformation dashboard. */
+  enrichment?: EnrichmentSummary | null;
+  /** Count of Arabic-overlay glossary terms (transformation dashboard footnote). */
+  glossaryCount?: number;
 }
 
 // ── Module-level depth picker singleton ─────────────────────────────────────
@@ -219,7 +309,8 @@ let _dpSection = '';
 let _dpOutside: ((e: MouseEvent) => void) | null = null;
 let _dpKey: ((e: KeyboardEvent) => void) | null = null;
 
-// Section-level editorial tags — same vocabulary as paragraph TAGS (minus icons)
+// Section-level editorial tags — the content-classification vocabulary carried by
+// the section depth picker on each h2 (distinct from the action-item registry above)
 const SECTION_TAGS = [
   { id: 'esoteric', label: 'Esoteric' },
   { id: 'reality',  label: 'Reality'  },
@@ -465,46 +556,104 @@ function openTagPicker(
 }
 // ────────────────────────────────────────────────────────────────────────────
 
-export default function StudioPoc({ slug, chapters, glossary = [], initialChapIdx = 0, contentProfile }: Props) {
+export default function StudioPoc({ slug, chapters, glossary = [], glossaryAll = glossary, initialChapIdx = 0, contentProfile, archivedLineages = [], pipelineSteps: _pipelineSteps = [], activeStep: _activeStep = 'edit', enrichment = null, glossaryCount = 0 }: Props) {
   const depthLevels = DEPTH_LEVELS_BY_PROFILE[contentProfile ?? DEFAULT_DEPTH_PROFILE]
     ?? DEPTH_LEVELS_BY_PROFILE[DEFAULT_DEPTH_PROFILE];
 
+  // Lineage = a coherent stage set. 'current' is the live rebuild; archived
+  // lineages (earlier full-stage runs) are view-only. The timeline rail swaps
+  // between them; archived lineages are never editable.
+  const lineages = useMemo<Lineage[]>(
+    () => [{ id: 'current', label: 'Current rebuild', chapters }, ...archivedLineages],
+    [chapters, archivedLineages],
+  );
+  const [activeLineageId] = useState('current');
+  const activeLineage = lineages.find((l) => l.id === activeLineageId) ?? lineages[0];
+  const isArchivedView = activeLineage.id !== 'current';
+  const viewChapters = activeLineage.chapters;
+
   // B: chapter switcher — pick which chapter's stages the editor shows.
   const [chapIdx, setChapIdx] = useState(initialChapIdx);
-  const chap = chapters[chapIdx] ?? chapters[0];
+  const chap = viewChapters[chapIdx] ?? viewChapters[0];
   const stages = chap.stages;
   const metrics = chap.metrics;
   const chapter = chap.slug;
   const chapterTitle = chap.title;
 
-  // Stage tabs (SN-5): the last AVAILABLE stage is the one under review (editable); upstream
-  // stages are read-only comparison views. Tabs for not-yet-produced stages render disabled.
+  // The timeline's top step ("Review") is the last AVAILABLE stage — the one under
+  // human review (editable); every older stage is a read-only comparison view.
+  // Archived lineages are wholly read-only.
   const editableStageId = [...stages].reverse().find((s) => s.available)?.id ?? stages[0]?.id;
   const [stageId, setStageId] = useState<string>(editableStageId);
   const stage = stages.find((s) => s.id === stageId) ?? stages[0];
   const html = stage?.html ?? '';
-  const isReadOnlyStage = stageId !== editableStageId;
+  const isReadOnlyStage = stageId !== editableStageId || isArchivedView;
+  // Does this chapter+stage have an unapproved draft on disk? (Seeded server-side;
+  // the editor's current content already IS the draft when this is true.)
+  const hasDraftForStage = !!(stage && (chap.drafted?.[stage.id] ?? false));
 
   // WC8 write-back loop: which stages are approved (seeded from disk, updated on approve).
   const [approvedStages, setApprovedStages] = useState<Record<string, boolean>>(
     () => Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, !!v?.approved])),
   );
-  // On chapter switch: reset to that chapter's editable stage + reload its approvals, and tell
-  // the editorial cockpit (Slice 5b) to follow this chapter.
+  const [approvalTokens, setApprovalTokens] = useState<Record<string, string>>(
+    () => Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, v?.approved_at ?? 'approved'])),
+  );
+  const [acceptedApprovalKeys, setAcceptedApprovalKeys] = useState<Record<string, boolean>>({});
+  // Chapter-level finalize flag (Publish button). Seeded from disk, updated on finalize.
+  const [finalized, setFinalized] = useState<{ at: string } | null>(chap.finalized ?? null);
+  // On chapter/lineage switch: reset to that chapter's editable stage + reload approvals +
+  // finalize flag, and tell the editorial cockpit (Slice 5b) to follow this chapter.
   useEffect(() => {
     setStageId([...chap.stages].reverse().find((s) => s.available)?.id ?? chap.stages[0]?.id);
+    const tokens = Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, v?.approved_at ?? 'approved']));
     setApprovedStages(Object.fromEntries(Object.entries(chap.reviewed).map(([k, v]) => [k, !!v?.approved])));
+    setApprovalTokens(tokens);
+    const accepted: Record<string, boolean> = {};
+    if (typeof window !== 'undefined') {
+      for (const [stageKey, token] of Object.entries(tokens)) {
+        if (window.localStorage.getItem(`pf:approval-accepted:${slug}:${chap.slug}:${stageKey}:${token}`) === '1') {
+          accepted[`${stageKey}:${token}`] = true;
+        }
+      }
+    }
+    setAcceptedApprovalKeys(accepted);
+    setFinalized(chap.finalized ?? null);
     window.dispatchEvent(new CustomEvent('studio:chapter-change', { detail: { chapter: chap.slug } }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chapIdx]);
+  }, [chapIdx, activeLineageId]);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
+  const [approvalToastOpen, setApprovalToastOpen] = useState(false);
+  const [approvalToastText, setApprovalToastText] = useState('Augmented Approved');
+
+  // Draft autosave state: edits are persisted to a per-stage draft (debounced) so
+  // they survive a refresh until the chapter is approved. 'saved' = a draft is on
+  // disk (seeded true when the loaded content already came from a draft).
+  const [draftState, setDraftState] = useState<'idle' | 'saving' | 'saved' | 'error'>(
+    hasDraftForStage ? 'saved' : 'idle',
+  );
+  // Debounce timer + indirection ref for the autosave scheduler (the scheduler is
+  // defined after useEditor; onUpdate reaches it through this ref). Mirrors the
+  // runAiFnRef / removeActionFnRef pattern used elsewhere in this component.
+  const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scheduleAutosaveRef = useRef<() => void>(() => {});
+  // Set true right before an intentional reload (discard) so the beforeunload
+  // flush can't recreate the draft we just deleted.
+  const suppressFlushRef = useRef(false);
 
   // Per-paragraph comments: index → text. Stored in a ref for the PM plugin,
   // mirrored in state so the inspector panel re-renders.
   const commentsRef = useRef<Map<number, string>>(new Map());
   const [, setCommentsKey] = useState(0);
   const refreshComments = () => setCommentsKey((k) => k + 1);
+
+  // Deferred AI action-item marks for the active chapter (persisted in the
+  // knowledge DB; the CLI drain pass reads them). Held in a ref so PM widgets
+  // built outside React always see the latest, mirrored to state for re-render.
+  const actionsRef = useRef<ClientActionItem[]>([]);
+  const [, setActionsKey] = useState(0);
+  const refreshActions = () => setActionsKey((k) => k + 1);
 
   // Active paragraph index (inspector drives the comment textarea + tag panel).
   const [activeParaIdx, setActiveParaIdx] = useState<number | null>(null);
@@ -547,6 +696,26 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug, chapter]);
 
+  // Load action-item marks when the chapter changes. Clear synchronously first so
+  // the previous chapter's marks never flash on the new chapter.
+  useEffect(() => {
+    if (!slug || !chapter) return;
+    let cancelled = false;
+    actionsRef.current = [];
+    refreshActions();
+    fetch(`/api/studio/action-items?book=${encodeURIComponent(slug)}&chapter=${encodeURIComponent(chapter)}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((json) => {
+        if (cancelled || !json?.ok || !Array.isArray(json.items)) return;
+        actionsRef.current = json.items as ClientActionItem[];
+        refreshActions();
+        editorRef.current?.view.dispatch(editorRef.current.state.tr.setMeta('refreshTags', true));
+      })
+      .catch(() => { /* offline-friendly */ });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, chapter]);
+
   // editorRef: stable ref to the editor instance so non-React callbacks (PM widgets)
   // can dispatch transactions without capturing a stale `editor` closure.
   const editorRef = useRef<ReturnType<typeof useEditor>>(null);
@@ -574,7 +743,34 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
   const [aiResult, setAiResult] = useState('');       // research / autotag plain text
   const [aiOptions, setAiOptions] = useState<string[]>([]);  // rewrite option cards
   const [aiError, setAiError] = useState('');
-  const [finalizeMsg, setFinalizeMsg] = useState('');
+
+  // "Arabic" immediate action — AI proposes a contextual Arabic term for the
+  // highlighted text; the human confirms before it replaces the selection.
+  // Positions are captured at propose-time and re-verified before applying.
+  const [arabicProposal, setArabicProposal] = useState<
+    { from: number; to: number; original: string; arabic: string; gloss: string; kind: string } | null
+  >(null);
+  const [arabicBusy, setArabicBusy] = useState(false);
+  const [arabicError, setArabicError] = useState('');
+  // Result line after an across-chapter / across-book Arabic replace.
+  const [arabicDone, setArabicDone] = useState('');
+
+  // "English" immediate action — AI/glossary proposes the correct contextual
+  // English rendering for a highlighted Arabic script or romanized term.
+  const [englishProposal, setEnglishProposal] = useState<
+    { from: number; to: number; original: string; english: string; gloss: string; phonetic?: string } | null
+  >(null);
+  const [englishBusy, setEnglishBusy] = useState(false);
+  const [englishError, setEnglishError] = useState('');
+
+  // "Explain" immediate action — AI rewrites the highlighted excerpt into a
+  // clearer, fuller version (kept in chapter context); the human reviews/edits
+  // the proposed text before it replaces the selection.
+  const [explainProposal, setExplainProposal] = useState<
+    { from: number; to: number; original: string; text: string } | null
+  >(null);
+  const [explainBusy, setExplainBusy] = useState(false);
+  const [explainError, setExplainError] = useState('');
 
   // serializeToMarkdown / saveAndApprove / discardChanges declared after useEditor (below).
 
@@ -584,37 +780,40 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
 
   const buildCombinedHtml = useCallback(
     (sid: string) =>
-      chapters
+      viewChapters
         .map((ch, i) => {
           const s =
             ch.stages.find((st) => st.id === sid && st.available) ??
             ch.stages.filter((st) => st.available).at(-1);
           const body = s?.html ?? '<p><em>Stage not yet produced for this chapter.</em></p>';
-          const sep = i < chapters.length - 1 ? '<hr>' : '';
+          const sep = i < viewChapters.length - 1 ? '<hr>' : '';
           return `<h2>${ch.title}</h2>${body}${sep}`;
         })
         .join(''),
-    [chapters],
+    [viewChapters],
   );
 
   const [selection, setSelection] = useState('');
-  const [arabicOn, setArabicOn] = useState(false);
+  const [arabicOn, setArabicOn] = useState(true);   // Arabic overlay ON by default (Islamic review default)
   const [, setTick] = useState(0);
   const refresh = () => setTick((t) => t + 1);
 
   const originalRef = useRef<string[]>([]);            // original text per top-level node
-  const paraTagsRef = useRef<Map<number, string[]>>(new Map()); // node index -> tag ids
-  const arabicRef = useRef(false);                     // mirror of arabicOn for the plugin
+  const arabicRef = useRef(true);                      // mirror of arabicOn for the plugin (ON by default)
   const hasFocusRef = useRef(false);                   // tracks editor DOM focus for para-active
   const editorContainerRef = useRef<HTMLElement | null>(null);
+  const inspectorRef = useRef<HTMLElement | null>(null);   // right inspector panel
   arabicRef.current = arabicOn;
-  // Aug-diff mode: compare Augmented text against Normalized to show what the pipeline added.
-  const showAugDiffRef = useRef(false);
-  const normTextsRef = useRef<string[]>([]);
-  const [showAugDiff, setShowAugDiff] = useState(false);
-  // Index-based tag toggle, called from the floating per-paragraph icon toolbar (a PM widget
-  // built outside React). Held in a ref so the widget always calls the latest closure.
-  const tagFnRef = useRef<(idx: number, tagId: string) => void>(() => {});
+  // Per-stage diff: when a read-only step is selected, the decoration plugin can diff each
+  // paragraph against the PREVIOUS stage's text (prevStageTextsRef) instead of the human-edit
+  // original — so "Show changes from {prev stage}" highlights what THAT step changed.
+  const showPrevDiffRef = useRef(false);
+  const prevStageTextsRef = useRef<string[]>([]);
+  const [showPrevDiff, setShowPrevDiff] = useState(false);
+  // Remove an action-item mark by id, called from the inline per-paragraph badge
+  // toolbar (a PM widget built outside React). Held in a ref so the widget always
+  // calls the latest closure.
+  const removeActionFnRef = useRef<(id: number) => void>(() => {});
   // Section-level AI action ref: called from the section h2 floating toolbar.
   const runAiFnRef = useRef<(kind: string) => void>(() => {});
 
@@ -623,6 +822,30 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     () => [...glossary].filter((e) => e.phonetic && e.arabic_script).sort((a, b) => b.phonetic.length - a.phonetic.length),
     [glossary],
   );
+  const glossaryAllSorted = useMemo(
+    () => [...glossaryAll].filter((e) => e.phonetic || e.transliteration || e.arabic_script).sort((a, b) => {
+      const ak = a.phonetic || a.transliteration || a.arabic_script || '';
+      const bk = b.phonetic || b.transliteration || b.arabic_script || '';
+      return bk.length - ak.length;
+    }),
+    [glossaryAll],
+  );
+
+  const findGlossaryTerm = useCallback((raw: string): GlossaryEntry | null => {
+    const needle = raw.trim();
+    if (!needle) return null;
+    const latinNeedle = needle.toLowerCase();
+    for (const entry of glossaryAllSorted) {
+      const values = [
+        entry.phonetic,
+        entry.transliteration,
+        entry.arabic_script,
+        entry.corrected_arabic,
+      ].filter(Boolean).map((v) => String(v).trim());
+      if (values.some((v) => v === needle || v.toLowerCase() === latinNeedle)) return entry;
+    }
+    return null;
+  }, [glossaryAllSorted]);
 
   // FC-3 + FC-4 + active paragraph: one decoration plugin reading the refs.
   const StudioDecos = useMemo(
@@ -636,7 +859,12 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
               props: {
                 decorations(state) {
                   const orig = originalRef.current;
-                  const tags = paraTagsRef.current;
+                  // Group action-item marks by paragraph ordinal for inline badges.
+                  const actsByPara = new Map<number, ClientActionItem[]>();
+                  for (const a of actionsRef.current) {
+                    const arr = actsByPara.get(a.para_ordinal);
+                    if (arr) arr.push(a); else actsByPara.set(a.para_ordinal, [a]);
+                  }
                   const decos: Decoration[] = [];
 
                   // Section-level activation: read from ref (updated synchronously in onSelectionUpdate).
@@ -680,7 +908,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                   let i = 0;
                   state.doc.forEach((node, offset) => {
                     const idx = i++;
-                    const t = tags.get(idx) || [];
+                    const t = actsByPara.get(idx) || [];
 
                     // Option A: section depth badge + tag chips next to every h2.
                     if (node.type.name === 'heading' && node.attrs.level === 2) {
@@ -796,38 +1024,44 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                       decos.push(Decoration.node(offset, offset + node.nodeSize, { class: 'section-active' }));
                     }
 
-                    // Tagged paragraphs: marks toolbar only (tag icons, toggleable).
+                    // Action-item marks: inline badge row (icons, click to remove).
                     if (t.length) {
-                      decos.push(Decoration.node(offset, offset + node.nodeSize, { class: `para-tagged tag-${t[0]}` }));
+                      decos.push(Decoration.node(offset, offset + node.nodeSize, { class: `para-marked act-${t[0].action_kind}` }));
                       decos.push(
                         Decoration.widget(offset + 1, () => {
                           const bar = document.createElement('div');
                           bar.contentEditable = 'false';
                           bar.className = 'sp-para-tools sp-para-tools--marks';
-                          const shown = TAGS.filter((tag) => t.includes(tag.id));
-                          for (const tag of shown) {
+                          bar.setAttribute('role', 'toolbar');
+                          bar.setAttribute('aria-label', 'Paragraph action marks');
+                          for (const item of t) {
+                            const def = ACTION_BY_KIND[item.action_kind];
+                            if (!def) continue;
                             const b = document.createElement('button');
                             b.type = 'button';
-                            b.className = `sp-ptool tag-${tag.id} is-on`;
-                            b.title = `${tag.label} (click to remove)`;
-                            b.textContent = tag.icon;
+                            b.className = `sp-ptool act-${item.action_kind} is-on`;
+                            b.title = `${def.label}${item.term_text ? ` · "${item.term_text}"` : ''} (click to remove)`;
+                            const ic = document.createElement('i');
+                            ic.className = `fa-solid ${def.icon}`;
+                            ic.setAttribute('aria-hidden', 'true');
+                            b.appendChild(ic);
                             b.addEventListener('mousedown', (ev) => {
                               ev.preventDefault(); ev.stopPropagation();
-                              tagFnRef.current(idx, tag.id);
+                              removeActionFnRef.current(item.id);
                             });
                             bar.appendChild(b);
                           }
                           return bar;
-                        }, { side: -1, key: `tools-${idx}-marks-${t.join(',')}` }),
+                        }, { side: -1, key: `tools-${idx}-marks-${t.map((x) => x.id).join(',')}` }),
                       );
                     }
                     // FC-3 Word-level track changes vs the original snapshot.
-                    // In aug-diff mode: diff current node against the Normalized paragraph
-                    // instead (showing what the augmentation pipeline added, not human edits).
-                    const augDiff = showAugDiffRef.current;
-                    const before = augDiff ? (normTextsRef.current[idx] ?? '') : orig[idx];
-                    const insClass = augDiff ? 'aug-ins' : 'tc-ins';
-                    const delClass = augDiff ? 'aug-del' : 'tc-del';
+                    // In prev-stage-diff mode: diff current node against the PREVIOUS stage's
+                    // paragraph instead (showing what THIS step changed, not human edits).
+                    const prevDiff = showPrevDiffRef.current;
+                    const before = prevDiff ? (prevStageTextsRef.current[idx] ?? '') : orig[idx];
+                    const insClass = prevDiff ? 'aug-ins' : 'tc-ins';
+                    const delClass = prevDiff ? 'aug-del' : 'tc-del';
                     const after = node.textContent;
                     if (before !== undefined && before !== after) {
                       let cursor = offset + 1; // content start of a textblock
@@ -852,6 +1086,37 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                       }
                     }
 
+                    // Para-dirty: warm background on blocks the user has edited vs the original.
+                    // Only shown in human-edit mode (not prev-stage diff) so it tracks real changes.
+                    if (!prevDiff && orig[idx] !== undefined && orig[idx] !== after) {
+                      decos.push(Decoration.node(offset, offset + node.nodeSize, { class: 'para-dirty' }));
+                    }
+
+                    const pairedRomanRanges: [number, number][] = [];
+                    const pairedArabicRanges: [number, number][] = [];
+                    const textContent = node.textContent;
+                    ARABIC_PAIR_RE.lastIndex = 0;
+                    let pairMatch: RegExpExecArray | null;
+                    while ((pairMatch = ARABIC_PAIR_RE.exec(textContent))) {
+                      const romanStart = offset + 1 + pairMatch.index;
+                      const romanEnd = romanStart + pairMatch[1].length;
+                      const arabicTextOffset = pairMatch[0].indexOf(pairMatch[2]);
+                      const arabicStart = offset + 1 + pairMatch.index + arabicTextOffset;
+                      const arabicEnd = arabicStart + pairMatch[2].length;
+                      const pairEnd = offset + 1 + pairMatch.index + pairMatch[0].length;
+                      pairedRomanRanges.push([romanStart, romanEnd]);
+                      pairedArabicRanges.push([arabicStart, arabicEnd]);
+
+                      if (arabicRef.current) {
+                        decos.push(Decoration.inline(romanStart, arabicStart, { class: 'ar-pair-hidden' }));
+                        decos.push(Decoration.inline(arabicEnd, pairEnd, { class: 'ar-pair-hidden' }));
+                      } else {
+                        decos.push(Decoration.inline(romanEnd, pairEnd, { class: 'ar-pair-hidden' }));
+                      }
+                    }
+                    const inPairedRoman = (p: number) => pairedRomanRanges.some(([a, b]) => p >= a && p < b);
+                    const inPairedArabic = (p: number) => pairedArabicRanges.some(([a, b]) => p >= a && p < b);
+
                     // FC-4 Arabic overlay (non-destructive): hide the English run, inject Arabic.
                     if (arabicRef.current && glossarySorted.length) {
                       node.descendants((child, childPos) => {
@@ -866,6 +1131,11 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                             const from = base + mm.index;
                             const to = from + mm[0].length;
                             if (inRef(from)) continue; // verse-ref phrase is already replaced by a chip
+                            if (inPairedRoman(from)) continue; // paired terms already reveal their Arabic side
+                            const after = child.text!.slice(mm.index + mm[0].length);
+                            if (/^\s*\([\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF][^)]*\)/.test(after)) {
+                              continue;
+                            }
                             decos.push(Decoration.inline(from, to, { class: 'ar-hidden' }));
                             const script = e.arabic_script;
                             decos.push(
@@ -882,6 +1152,25 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                         }
                       });
                     }
+
+                    // Raw Arabic (typed straight into the prose, not a glossary
+                    // token): colour every Arabic-LETTER run with the accent so it
+                    // matches the glossary overlays — same naskh (from the editor
+                    // font stack), same colour. Honorific / presentation-form glyphs
+                    // (e.g. ﷺ, U+FDFA) fall outside these ranges, so they stay ink and
+                    // read as prose rather than as terms.
+                    node.descendants((child, childPos) => {
+                      if (!child.isText || !child.text) return;
+                      const base = offset + 1 + childPos;
+                      const arRe = new RegExp(ARABIC_SCRIPT_RUN.source, 'g');
+                      let am: RegExpExecArray | null;
+                      while ((am = arRe.exec(child.text!))) {
+                        const from = base + am.index;
+                        const to = from + am[0].length;
+                        if (!arabicRef.current && inPairedArabic(from)) continue;
+                        decos.push(Decoration.inline(from, to, { class: 'ar-raw' }));
+                      }
+                    });
                   });
                   return DecorationSet.create(state.doc, decos);
                 },
@@ -913,7 +1202,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       setActiveSectionOrdinal(null);
       editor.view.dispatch(editor.state.tr);
     },
-    onUpdate() { refresh(); },
+    onUpdate() { refresh(); scheduleAutosaveRef.current(); },
     onSelectionUpdate({ editor }) {
       const { from, to } = editor.state.selection;
       setSelection(editor.state.doc.textBetween(from, to, ' ').trim());
@@ -955,49 +1244,61 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     return () => document.removeEventListener('mousedown', onMouseDown);
   }, [editor]);
 
-  // Switch the editor to the selected stage: load its text, re-snapshot redline originals,
-  // clear stage-specific tags, and make only the under-review stage editable (upstream = read-only).
+  // Switch the editor to the selected stage: load its text, re-snapshot redline
+  // originals, and make only the under-review stage editable (upstream = read-only).
+  // Action-item marks are chapter-level (not stage-level) — they reload on chapter
+  // change and are intentionally NOT cleared here.
   useEffect(() => {
     if (!editor || !stage) return;
     if (viewAll) {
       editor.commands.setContent(buildCombinedHtml(stageId));
       originalRef.current = [];
-      paraTagsRef.current = new Map();
       editor.setEditable(false);
     } else {
       editor.commands.setContent(stage.html);
       const texts: string[] = [];
       editor.state.doc.forEach((n) => texts.push(n.textContent));
       originalRef.current = texts;
-      paraTagsRef.current = new Map();
       editor.setEditable(!isReadOnlyStage);
     }
     refresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stageId, chapIdx, viewAll, editor]);
+  }, [stageId, chapIdx, activeLineageId, viewAll, editor]);
 
-  // Reset aug-diff and (re-)populate normTexts whenever the tab or chapter changes.
+  // (Re-)populate the previous-stage diff baseline whenever the selected step / chapter /
+  // lineage changes, and set a sensible default for the "show changes" toggle: ON for a
+  // read-only step with a moderate delta, OFF for the editable step or a huge compression
+  // (a near-total rewrite would just be a wall of strikethrough).
   useEffect(() => {
-    showAugDiffRef.current = false;
-    setShowAugDiff(false);
-    const normStage = stages.find((s) => s.id === 'normalized');
-    normTextsRef.current = [];
-    if (normStage?.html) {
-      const div = document.createElement('div');
-      div.innerHTML = normStage.html;
-      normTextsRef.current = Array.from(div.children).map((el) => el.textContent ?? '');
+    const m = metrics.find((x) => x.id === stageId);
+    const prevId = m?.comparedTo ?? null;
+    prevStageTextsRef.current = [];
+    if (prevId) {
+      const prevStage = stages.find((s) => s.id === prevId);
+      if (prevStage?.html) {
+        const div = document.createElement('div');
+        div.innerHTML = prevStage.html;
+        prevStageTextsRef.current = Array.from(div.children).map((el) => el.textContent ?? '');
+      }
     }
+    const big = m?.deltaPct != null && Math.abs(m.deltaPct) >= 60;
+    const next = isReadOnlyStage && !!prevId && !big;
+    showPrevDiffRef.current = next;
+    setShowPrevDiff(next);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stageId, chapIdx]);
+  }, [stageId, chapIdx, activeLineageId]);
 
   // ── Serialize / save / discard — declared here so editor is in scope ────────
 
   // Walk a ProseMirror text node and emit its content with inline mark syntax preserved.
   // Handles italic (*), bold (**), bold+italic (***) — the only marks used in stage files.
-  const serializeInline = useCallback((node: PMNode): string => {
+  const serializeInline = useCallback(function serializeInlineNode(node: PMNode): string {
     let out = '';
     node.forEach((child: PMNode) => {
-      if (!child.isText || !child.text) return;
+      if (!child.isText || !child.text) {
+        out += serializeInlineNode(child);
+        return;
+      }
       const text = child.text;
       const marks = child.marks.map((m) => m.type.name);
       const isBold   = marks.includes('bold');
@@ -1008,7 +1309,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       else                    out += text;
     });
     return out;
-  }, [editor]);
+  }, []);
 
   const serializeToMarkdown = useCallback((): string => {
     if (!editor) return '';
@@ -1019,7 +1320,13 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
         const level = node.attrs.level as number;
         lines.push('#'.repeat(level) + ' ' + serializeInline(node));
       } else if (type === 'blockquote') {
-        lines.push('> ' + serializeInline(node).split('\n').join('\n> '));
+        const quoteLines: string[] = [];
+        node.forEach((child: PMNode) => {
+          const text = serializeInline(child).trimEnd();
+          if (text) quoteLines.push(...text.split('\n'));
+        });
+        if (quoteLines.length === 0) lines.push('>');
+        else quoteLines.forEach((line) => lines.push(`> ${line}`));
       } else {
         lines.push(serializeInline(node));
       }
@@ -1028,8 +1335,67 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     return lines.join('\n').trimEnd() + '\n';
   }, [editor, serializeInline]);
 
+  const normalizeCurrentEditorBaseline = useCallback(() => {
+    if (!editor) return;
+    const texts: string[] = [];
+    editor.state.doc.forEach((n) => texts.push(n.textContent));
+    originalRef.current = texts;
+    window.dispatchEvent(new CustomEvent('chapter-editor:finalize'));
+    editor.view.dispatch(editor.state.tr.setMeta('studioBaseline', Date.now()));
+    refresh();
+  }, [editor]);
+
+  // ── Draft autosave — persist in-progress edits so they survive a refresh ────
+  // Writes the editable stage's current content to a per-stage draft (not the
+  // canonical chapter — that only happens on approve). Skipped for read-only
+  // stages and archived lineages.
+  const autosaveDraft = useCallback(async () => {
+    if (!stage || isReadOnlyStage || !editor) return;
+    const content = serializeToMarkdown();
+    if (!content.trim()) return;
+    setDraftState('saving');
+    try {
+      const res = await fetch('/api/studio/draft', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, chapter, stage: stage.id, content }),
+      });
+      setDraftState(res.ok ? 'saved' : 'error');
+    } catch {
+      setDraftState('error');
+    }
+  }, [slug, chapter, stage, isReadOnlyStage, editor, serializeToMarkdown]);
+
+  // Debounced scheduler — onUpdate reaches this through scheduleAutosaveRef.
+  const scheduleAutosave = useCallback(() => {
+    if (isReadOnlyStage) return;
+    if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
+    autosaveTimer.current = setTimeout(() => { void autosaveDraft(); }, 1200);
+  }, [autosaveDraft, isReadOnlyStage]);
+  useEffect(() => { scheduleAutosaveRef.current = scheduleAutosave; }, [scheduleAutosave]);
+
+  // Flush any pending draft when leaving the page/tab so nothing in the debounce
+  // window is lost, and reset the indicator when switching chapter/stage.
+  useEffect(() => {
+    const flush = () => { if (suppressFlushRef.current) return; if (autosaveTimer.current) { clearTimeout(autosaveTimer.current); void autosaveDraft(); } };
+    const onVisibility = () => { if (document.visibilityState === 'hidden') flush(); };
+    window.addEventListener('beforeunload', flush);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      window.removeEventListener('beforeunload', flush);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [autosaveDraft]);
+  useEffect(() => {
+    setDraftState(hasDraftForStage ? 'saved' : 'idle');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chapIdx, stageId, activeLineageId]);
+
   const saveAndApprove = useCallback(async () => {
     if (!stage || !editor) return;
+    // Cancel any pending autosave so it can't recreate the draft after approval
+    // promotes-and-deletes it on the server.
+    if (autosaveTimer.current) { clearTimeout(autosaveTimer.current); autosaveTimer.current = null; }
     setSaving(true);
     setSaveError('');
     try {
@@ -1055,10 +1421,30 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
         body: JSON.stringify({ slug, chapter, stage: stage.id, approved: true }),
       });
       if (approveRes.ok) {
+        const approvedJson = await approveRes.json().catch(() => null);
+        const approvedAt =
+          approvedJson?.data?.stages?.[stage.id]?.approved_at ??
+          new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+        try {
+          window.localStorage.removeItem(`pf:approval-accepted:${slug}:${chapter}:${stage.id}:${approvedAt}`);
+        } catch {
+          // localStorage is best-effort; the fresh in-memory token still shows the confirmation.
+        }
         setApprovedStages((m) => ({ ...m, [stage.id]: true }));
-        const texts: string[] = [];
-        editor.state.doc.forEach((n) => texts.push(n.textContent));
-        originalRef.current = texts;
+        setApprovalTokens((m) => ({ ...m, [stage.id]: approvedAt }));
+        setAcceptedApprovalKeys((m) => {
+          const next = { ...m };
+          delete next[`${stage.id}:${approvedAt}`];
+          return next;
+        });
+        // Draft was promoted to the chapter + deleted server-side; clear the
+        // indicator and the locally-cached draft flag for this stage.
+        setDraftState('idle');
+        if (chap.drafted) chap.drafted[stage.id] = false;
+        normalizeCurrentEditorBaseline();
+        setApprovalToastText(`${stage.label} Approved`);
+        setApprovalToastOpen(false);
+        window.setTimeout(() => setApprovalToastOpen(true), 0);
         refresh();
       }
     } catch (e) {
@@ -1066,19 +1452,40 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     } finally {
       setSaving(false);
     }
-  }, [slug, chapter, stage, editor, serializeToMarkdown]);
+  }, [slug, chapter, stage, editor, serializeToMarkdown, normalizeCurrentEditorBaseline]);
 
-  const discardChanges = useCallback(() => {
+  const acceptApprovedStage = useCallback(() => {
+    if (!stage || !editor) return;
+    normalizeCurrentEditorBaseline();
+    const token = approvalTokens[stage.id] ?? 'approved';
+    const acceptedKey = `${stage.id}:${token}`;
+    try {
+      window.localStorage.setItem(`pf:approval-accepted:${slug}:${chapter}:${stage.id}:${token}`, '1');
+    } catch {
+      // localStorage is best-effort; the in-memory state still updates the UI.
+    }
+    setAcceptedApprovalKeys((m) => ({ ...m, [acceptedKey]: true }));
+    setSaveError('');
+  }, [stage, editor, normalizeCurrentEditorBaseline, approvalTokens, slug, chapter]);
+
+  const discardChanges = useCallback(async () => {
     if (!editor || !stage) return;
-    editor.commands.setContent(stage.html);
-    const texts: string[] = [];
-    editor.state.doc.forEach((n) => texts.push(n.textContent));
-    originalRef.current = texts;
-    paraTagsRef.current = new Map();
-    commentsRef.current = new Map();
-    refreshComments();
-    refresh();
-  }, [editor, stage]);
+    // Cancel pending autosave and suppress the unload-flush, delete the draft,
+    // then reload so the canonical (last-approved) chapter text is shown. ?ch=
+    // keeps the open chapter; reload also clears local edits not yet autosaved.
+    if (autosaveTimer.current) { clearTimeout(autosaveTimer.current); autosaveTimer.current = null; }
+    suppressFlushRef.current = true;
+    try {
+      await fetch('/api/studio/draft', {
+        method: 'DELETE',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, chapter, stage: stage.id }),
+      });
+    } catch { /* reload regardless — server keeps the canonical on failure */ }
+    const url = new URL(window.location.href);
+    url.searchParams.set('ch', chapter);
+    window.location.href = url.toString();
+  }, [editor, stage, slug, chapter]);
 
   // Force a decoration recompute when Arabic mode flips. Set the ref BEFORE dispatching
   // (React state is async — the plugin reads arabicRef synchronously during the recompute).
@@ -1089,28 +1496,16 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     if (editor) editor.view.dispatch(editor.state.tr.setMeta('arabic', true));
   }, [editor]);
 
-  // Toggle augmentation diff (Normalized → Augmented word-level diff). Same ref-before-dispatch
-  // pattern as Arabic toggle so the decoration plugin sees the new value synchronously.
-  const toggleAugDiff = useCallback(() => {
-    const next = !showAugDiffRef.current;
-    showAugDiffRef.current = next;
-    setShowAugDiff(next);
-    if (editor) editor.view.dispatch(editor.state.tr.setMeta('augDiff', true));
+  // Toggle the "changes from previous stage" redline (read-only steps). Ref-before-dispatch
+  // so the decoration plugin sees the new value synchronously during the recompute.
+  const togglePrevDiff = useCallback(() => {
+    const next = !showPrevDiffRef.current;
+    showPrevDiffRef.current = next;
+    setShowPrevDiff(next);
+    if (editor) editor.view.dispatch(editor.state.tr.setMeta('prevDiff', true));
   }, [editor]);
 
   // ── Wave L-8: AI assist + Finalize ──────────────────────────────────────
-  // Text of the paragraph at a given doc index (kept for finalize/compat).
-  const paragraphText = useCallback((idx: number): string => {
-    if (!editor) return '';
-    let i = 0;
-    let out = '';
-    editor.state.doc.forEach((n) => {
-      if (i === idx) out = n.textContent;
-      i++;
-    });
-    return out;
-  }, [editor]);
-
   // All text (heading + paragraphs) of a section, joined by double newline.
   const sectionText = useCallback((ordinal: number | null): string => {
     if (!editor || ordinal === null) return '';
@@ -1217,37 +1612,26 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
     refresh();
   }, [editor, activeSectionOrdinal]);
 
-  // Finalize: gather paragraphs + tags + comments → Claude brief → clipboard.
-  const finalize = useCallback(async () => {
-    if (!editor) return;
-    setFinalizeMsg('Generating brief…');
-    const paragraphs: { idx: number; text: string; tags: string[]; comment: string }[] = [];
-    let i = 0;
-    editor.state.doc.forEach((n) => {
-      const tags = paraTagsRef.current.get(i) ?? [];
-      const comment = commentsRef.current.get(i) ?? '';
-      if (tags.length || comment.trim()) {
-        paragraphs.push({ idx: i, text: n.textContent.slice(0, 400), tags, comment });
-      }
-      i++;
-    });
+  // Publish = mark THIS chapter finalized (reuses the per-chapter review JSON via
+  // POST /api/studio/review {finalize}). Reversible. Disabled in archived view.
+  const [publishing, setPublishing] = useState(false);
+  const toggleFinalized = useCallback(async () => {
+    if (isArchivedView) return;
+    const next = finalized ? false : true;
+    setPublishing(true);
     try {
-      const res = await fetch('/api/ai/claude', {
+      const res = await fetch('/api/studio/review', {
         method: 'POST', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ task: 'finalize', slug, chapter, paragraphs }),
+        body: JSON.stringify({ slug, chapter, finalize: next }),
       });
-      const json = await res.json();
-      if (!res.ok || json.ok === false) {
-        setFinalizeMsg(`Failed: ${json.error ?? res.status}`);
-        return;
+      if (res.ok) {
+        const json = await res.json().catch(() => ({}));
+        setFinalized(next ? (json?.data?.finalized ?? { at: new Date().toISOString() }) : null);
       }
-      const brief = json.data?.brief ?? '';
-      await navigator.clipboard.writeText(brief);
-      setFinalizeMsg('Brief copied — paste into Claude Code IDE to continue.');
-    } catch (e) {
-      setFinalizeMsg(`Failed: ${String(e)}`);
+    } catch { /* non-blocking */ } finally {
+      setPublishing(false);
     }
-  }, [editor, slug, chapter]);
+  }, [slug, chapter, finalized, isArchivedView]);
 
   // Persist a paragraph comment to SQLite (annotations API) on blur.
   const persistComment = useCallback((idx: number, note: string) => {
@@ -1285,22 +1669,503 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       i++;
     });
   }
-  let taggedCount = 0;
-  paraTagsRef.current.forEach((t) => { if (t.length) taggedCount++; });
+  const markedCount = actionsRef.current.length;
+  // "Approved" only counts while the stage is unchanged — any fresh edit reverts
+  // the footer to "Save & Approve" so the new edit can be saved.
+  // "Approved" holds only while the stage is unchanged AND has no outstanding
+  // draft — any draft (even from a prior visit) reverts the footer to "Save &
+  // Approve" so the in-progress edits can be committed.
+  const approvalToken = stage ? (approvalTokens[stage.id] ?? 'approved') : '';
+  const approvalAccepted = !!(stage && acceptedApprovalKeys[`${stage.id}:${approvalToken}`]);
+  const approvedClean = !!(stage && approvedStages[stage.id]) && changedCount === 0 && draftState !== 'saved' && !approvalAccepted;
+  // Chapter's marks, ordered for the queue list (by paragraph, then insertion).
+  const chapterActions = [...actionsRef.current].sort((a, b) => a.para_ordinal - b.para_ordinal || a.id - b.id);
 
-  const tagByIdx = useCallback(
-    (idx: number, tagId: string) => {
-      if (!editor) return;
-      const map = paraTagsRef.current;
-      const cur = map.get(idx) || [];
-      map.set(idx, cur.includes(tagId) ? cur.filter((x) => x !== tagId) : [...cur, tagId]);
-      editor.view.dispatch(editor.state.tr.setMeta('refreshTags', true));
-      refresh();
-    },
-    [editor],
-  );
-  tagFnRef.current = tagByIdx;
+  // Remove one action-item mark (optimistic; DELETE only if it was persisted).
+  const removeAction = useCallback((id: number) => {
+    actionsRef.current = actionsRef.current.filter((a) => a.id !== id);
+    editorRef.current?.view.dispatch(editorRef.current.state.tr.setMeta('refreshTags', true));
+    refreshActions(); refresh();
+    if (id < 0) return; // optimistic-only, never hit the server
+    fetch('/api/studio/action-items', {
+      method: 'DELETE', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ book: slug, chapter, id }),
+    }).catch(() => { /* non-blocking */ });
+  }, [slug, chapter]);
+
+  // Stamp an action item on the active paragraph (or the selected term). Toggles:
+  // an identical existing mark is removed. Anchor text is stored so the CLI never
+  // depends on the paragraph ordinal staying stable.
+  const stampAction = useCallback((def: ActionDef, useSelection: boolean) => {
+    if (!editor || activeParaIdx === null || isReadOnlyStage) return;
+    const scope: 'paragraph' | 'term' = useSelection ? 'term' : 'paragraph';
+    const termText = useSelection ? selection.trim() : '';
+    if (scope === 'term' && !termText) return;
+    let paraText = '';
+    let i = 0;
+    editor.state.doc.forEach((n) => { if (i === activeParaIdx) paraText = n.textContent; i++; });
+    const anchorText = scope === 'term' ? termText : paraText;
+    const existing = actionsRef.current.find(
+      (a) => a.para_ordinal === activeParaIdx && a.action_kind === def.kind && a.term_text === termText,
+    );
+    if (existing) { removeAction(existing.id); return; }
+    const tempId = -Date.now();
+    actionsRef.current = [
+      ...actionsRef.current,
+      { id: tempId, scope, para_ordinal: activeParaIdx, term_text: termText, anchor_text: anchorText, action_kind: def.kind, status: 'pending' },
+    ];
+    editor.view.dispatch(editor.state.tr.setMeta('refreshTags', true));
+    refreshActions(); refresh();
+    fetch('/api/studio/action-items', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ book: slug, chapter, scope, paraOrdinal: activeParaIdx, termText, anchorText, actionKind: def.kind }),
+    })
+      .then((r) => r.ok ? r.json() : null)
+      .then((json) => {
+        if (json?.ok && json.item) {
+          actionsRef.current = actionsRef.current.map((a) => (a.id === tempId ? (json.item as ClientActionItem) : a));
+          refreshActions();
+        }
+      })
+      .catch(() => { /* non-blocking; optimistic mark stays visible */ });
+  }, [editor, activeParaIdx, isReadOnlyStage, selection, slug, chapter, removeAction]);
+
+  removeActionFnRef.current = removeAction;
   runAiFnRef.current = (kind: string) => void runAi(kind);
+
+  // Paragraph text containing the current selection — context for the Arabic AI call.
+  const selectionContext = useCallback((): string => {
+    if (!editor) return '';
+    const headPos = editor.state.selection.$head.pos;
+    let ctx = '';
+    let pos = 0;
+    editor.state.doc.forEach((n) => {
+      const nodeEnd = pos + n.nodeSize;
+      if (headPos >= pos && headPos < nodeEnd) ctx = n.textContent;
+      pos = nodeEnd;
+    });
+    return ctx;
+  }, [editor]);
+
+  // Propose an Arabic term for the highlighted selection (does NOT edit yet).
+  const proposeArabic = useCallback(async () => {
+    if (!editor || isReadOnlyStage) return;
+    const { from, to } = editor.state.selection;
+    const original = editor.state.doc.textBetween(from, to, ' ').trim();
+    if (!original || from === to) return;
+    setArabicBusy(true); setArabicError(''); setArabicProposal(null); setArabicDone('');
+    setEnglishProposal(null); setExplainProposal(null);
+    try {
+      const res = await fetch('/api/ai/arabic-term', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ text: original, context: selectionContext(), bookTitle: chapterTitle }),
+      });
+      const json = await res.json();
+      if (!res.ok || json.ok === false || !json.arabic) {
+        setArabicError(json.error ?? `Request failed (${res.status})`);
+      } else {
+        setArabicProposal({ from, to, original, arabic: json.arabic, gloss: json.gloss ?? '', kind: json.kind ?? 'translation' });
+      }
+    } catch (e) {
+      setArabicError(String(e));
+    } finally {
+      setArabicBusy(false);
+    }
+  }, [editor, isReadOnlyStage, selectionContext, chapterTitle]);
+
+  const saveEnglishCuration = useCallback(async (phonetic: string | undefined, english: string) => {
+    if (!phonetic || !english.trim()) return;
+    try {
+      const res = await fetch('/api/studio/arabic-review', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          slug,
+          phonetic,
+          decision: 'replace_english',
+          english_override: english.trim(),
+          decided_by: 'studio',
+        }),
+      });
+      if (!res.ok) return;
+      const d = await res.json();
+      const updated = d?.data ?? d;
+      window.dispatchEvent(new CustomEvent('arabic-curation:saved', { detail: updated }));
+    } catch { /* non-blocking — the text replacement still applies */ }
+  }, [slug]);
+
+  const proposeEnglish = useCallback(async () => {
+    if (!editor || isReadOnlyStage) return;
+    const { from, to } = editor.state.selection;
+    const original = editor.state.doc.textBetween(from, to, ' ').trim();
+    if (!original || from === to) return;
+    const term = findGlossaryTerm(original);
+    const saved = (term?.english_override || '').trim();
+    setEnglishBusy(true); setEnglishError(''); setEnglishProposal(null);
+    setArabicProposal(null); setArabicDone(''); setExplainProposal(null);
+    if (saved) {
+      setEnglishProposal({ from, to, original, english: saved, gloss: 'Saved glossary rendering.', phonetic: term?.phonetic });
+      setEnglishBusy(false);
+      return;
+    }
+    try {
+      const arabic = term?.corrected_arabic || term?.arabic_script || (/[\u0600-\u06FF]/.test(original) ? original : '');
+      const lookup = term?.transliteration || term?.phonetic || original;
+      const res = await fetch('/api/ai/english-term', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ text: lookup, arabic, bookTitle: chapterTitle }),
+      });
+      const json = await res.json();
+      if (!res.ok || json.ok === false || !json.english) {
+        setEnglishError(json.error ?? `Request failed (${res.status})`);
+      } else {
+        setEnglishProposal({
+          from,
+          to,
+          original,
+          english: json.english,
+          gloss: json.gloss ?? '',
+          phonetic: term?.phonetic,
+        });
+      }
+    } catch (e) {
+      setEnglishError(String(e));
+    } finally {
+      setEnglishBusy(false);
+    }
+  }, [editor, isReadOnlyStage, findGlossaryTerm, chapterTitle]);
+
+  // Apply the confirmed proposal: replace the original range with the Arabic term,
+  // but only if the text at those positions is unchanged since proposing.
+  const applyArabic = useCallback(() => {
+    if (!editor || !arabicProposal) return;
+    const { from, to, original, arabic } = arabicProposal;
+    const text = arabic.trim();
+    if (!text) { setArabicError('Enter the Arabic text first.'); return; }
+    const current = editor.state.doc.textBetween(from, to, ' ').trim();
+    if (current !== original) {
+      setArabicError('Selection changed — highlight the word again.');
+      setArabicProposal(null);
+      return;
+    }
+    editor.view.dispatch(editor.state.tr.replaceWith(from, to, editor.state.schema.text(text)));
+    setArabicProposal(null); setArabicError('');
+    refresh();
+  }, [editor, arabicProposal]);
+
+  const cancelArabic = useCallback(() => { setArabicProposal(null); setArabicError(''); setArabicDone(''); }, []);
+
+  const applyEnglish = useCallback(async () => {
+    if (!editor || !englishProposal) return;
+    const { from, to, original, english, phonetic } = englishProposal;
+    const replacement = english.trim();
+    if (!replacement) { setEnglishError('Enter the English rendering first.'); return; }
+    const current = editor.state.doc.textBetween(from, to, ' ').trim();
+    if (current !== original) {
+      setEnglishError('Selection changed — highlight the word again.');
+      setEnglishProposal(null);
+      return;
+    }
+    await saveEnglishCuration(phonetic, replacement);
+    editor.view.dispatch(editor.state.tr.replaceWith(from, to, editor.state.schema.text(replacement)));
+    setEnglishProposal(null); setEnglishError('');
+    refresh();
+  }, [editor, englishProposal, saveEnglishCuration]);
+
+  const cancelEnglish = useCallback(() => { setEnglishProposal(null); setEnglishError(''); }, []);
+
+  // Propose a clearer, fuller version of the highlighted excerpt (does NOT edit
+  // yet). The whole chapter is sent as context so the AI stays inside it.
+  const proposeExplain = useCallback(async () => {
+    if (!editor || isReadOnlyStage) return;
+    const { from, to } = editor.state.selection;
+    const original = editor.state.doc.textBetween(from, to, ' ').trim();
+    if (!original || from === to) return;
+    let chapterText = '';
+    editor.state.doc.forEach((n) => { chapterText += `${n.textContent}\n\n`; });
+    setExplainBusy(true); setExplainError(''); setExplainProposal(null);
+    setArabicProposal(null); setArabicDone(''); setEnglishProposal(null);
+    try {
+      const res = await fetch('/api/ai/explain', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ text: original, chapter: chapterText.trim(), bookTitle: chapterTitle }),
+      });
+      const json = await res.json();
+      if (!res.ok || json.ok === false || !json.text) {
+        setExplainError(json.error ?? `Request failed (${res.status})`);
+      } else {
+        setExplainProposal({ from, to, original, text: json.text });
+      }
+    } catch (e) {
+      setExplainError(String(e));
+    } finally {
+      setExplainBusy(false);
+    }
+  }, [editor, isReadOnlyStage, chapterTitle]);
+
+  // Apply the (edited) explanation: replace the original range, but only if the
+  // text at those positions is unchanged since proposing.
+  const applyExplain = useCallback(() => {
+    if (!editor || !explainProposal) return;
+    const { from, to, original, text } = explainProposal;
+    const replacement = text.trim();
+    if (!replacement) { setExplainError('The explanation is empty.'); return; }
+    const current = editor.state.doc.textBetween(from, to, ' ').trim();
+    if (current !== original) {
+      setExplainError('Selection changed — highlight the passage again.');
+      setExplainProposal(null);
+      return;
+    }
+    editor.view.dispatch(editor.state.tr.replaceWith(from, to, editor.state.schema.text(replacement)));
+    setExplainProposal(null); setExplainError('');
+    refresh();
+  }, [editor, explainProposal]);
+
+  const cancelExplain = useCallback(() => { setExplainProposal(null); setExplainError(''); }, []);
+
+  // ── Global find-and-replace ──────────────────────────────────────────────
+  // Highlight a phrase → "Replace" opens this popup pre-filled with the
+  // selection. Multiple find→replace pairs run in one pass; the scope checkbox
+  // switches between this chapter and every chapter in the book. Preview counts
+  // matches without writing; Apply rewrites the canonical chapter .txt files via
+  // /api/studio/replace and mirrors the change into the live editor doc.
+  const [replaceOpen, setReplaceOpen] = useState(false);
+  const [replacePairs, setReplacePairs] = useState<{ find: string; replace: string }[]>([{ find: '', replace: '' }]);
+  const [replaceScope, setReplaceScope] = useState<'chapter' | 'book'>('chapter');
+  const [replacePreview, setReplacePreview] = useState<{ chapter: string; count: number }[] | null>(null);
+  const [replaceTotal, setReplaceTotal] = useState(0);
+  const [replaceBusy, setReplaceBusy] = useState(false);
+  const [replaceError, setReplaceError] = useState('');
+  const [replaceDone, setReplaceDone] = useState('');
+
+  const openReplace = useCallback(() => {
+    setReplacePairs([{ find: selection.trim(), replace: '' }]);
+    setReplaceScope('chapter');
+    setReplacePreview(null); setReplaceTotal(0); setReplaceError(''); setReplaceDone('');
+    setReplaceOpen(true);
+  }, [selection]);
+  const closeReplace = useCallback(() => setReplaceOpen(false), []);
+  const updatePair = (i: number, field: 'find' | 'replace', val: string) =>
+    setReplacePairs((ps) => ps.map((p, j) => (j === i ? { ...p, [field]: val } : p)));
+  const addPair = () => setReplacePairs((ps) => [...ps, { find: '', replace: '' }]);
+  const removePair = (i: number) => setReplacePairs((ps) => (ps.length > 1 ? ps.filter((_, j) => j !== i) : ps));
+
+  // Friendly "N. Title" label for a chapter id (falls back to the raw id).
+  const chapterLabel = useCallback((id: string): string => {
+    const idx = chapters.findIndex((c) => c.slug === id);
+    return idx >= 0 ? `${idx + 1}. ${chapters[idx].title}` : id;
+  }, [chapters]);
+
+  // Mirror the confirmed replacements into the live editor doc so the current
+  // chapter updates instantly. Pairs apply in order (a later pair sees earlier
+  // results), matching the server. Each pair is swept high→low so positions
+  // stay valid as text is replaced.
+  const replaceInEditorDoc = useCallback((pairs: { find: string; replace: string }[]) => {
+    if (!editor) return;
+    for (const { find, replace } of pairs) {
+      if (!find) continue;
+      const hits: { from: number; to: number }[] = [];
+      editor.state.doc.descendants((node, pos) => {
+        if (!node.isText || !node.text) return;
+        let idx = node.text.indexOf(find);
+        while (idx !== -1) {
+          const from = pos + idx;
+          hits.push({ from, to: from + find.length });
+          idx = node.text.indexOf(find, idx + find.length);
+        }
+      });
+      if (!hits.length) continue;
+      hits.sort((a, b) => b.from - a.from);
+      let tr = editor.state.tr;
+      for (const h of hits) {
+        tr = replace ? tr.replaceWith(h.from, h.to, editor.state.schema.text(replace)) : tr.delete(h.from, h.to);
+      }
+      editor.view.dispatch(tr);
+    }
+  }, [editor]);
+
+  // Replace EVERY occurrence of the original term with the (edited) Arabic — across
+  // this chapter or the whole book — via the same canonical-file replace endpoint
+  // used by find-and-replace, then mirror the change into the live editor doc.
+  const applyArabicAcross = useCallback(async (scope: 'chapter' | 'book') => {
+    if (!editor || !arabicProposal) return;
+    const replace = arabicProposal.arabic.trim();
+    if (!replace) { setArabicError('Enter the Arabic text first.'); return; }
+    const find = arabicProposal.original;
+    setArabicBusy(true); setArabicError('');
+    try {
+      const res = await fetch('/api/studio/replace', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, scope, chapter, pairs: [{ find, replace }], apply: true }),
+      });
+      const j = await res.json();
+      if (!res.ok || j.ok === false) { setArabicError(j.error ?? `Request failed (${res.status})`); return; }
+      if (!isReadOnlyStage) replaceInEditorDoc([{ find, replace }]);
+      const nCh = (j.results ?? []).length;
+      const total = j.total ?? 0;
+      setArabicDone(
+        total === 0
+          ? 'No matches found — nothing changed.'
+          : `Replaced ${total} instance${total === 1 ? '' : 's'} across ${nCh} chapter${nCh === 1 ? '' : 's'}.`,
+      );
+      setArabicProposal(null);
+      refresh();
+    } catch (e) {
+      setArabicError(String(e));
+    } finally {
+      setArabicBusy(false);
+    }
+  }, [editor, arabicProposal, slug, chapter, isReadOnlyStage, replaceInEditorDoc]);
+
+  const applyEnglishAcross = useCallback(async (scope: 'chapter' | 'book') => {
+    if (!editor || !englishProposal) return;
+    const replace = englishProposal.english.trim();
+    if (!replace) { setEnglishError('Enter the English rendering first.'); return; }
+    const find = englishProposal.original;
+    setEnglishBusy(true); setEnglishError('');
+    try {
+      const res = await fetch('/api/studio/replace', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, scope, chapter, pairs: [{ find, replace }], apply: true }),
+      });
+      const j = await res.json();
+      if (!res.ok || j.ok === false) { setEnglishError(j.error ?? `Request failed (${res.status})`); return; }
+      await saveEnglishCuration(englishProposal.phonetic, replace);
+      if (!isReadOnlyStage) replaceInEditorDoc([{ find, replace }]);
+      setEnglishProposal(null);
+      refresh();
+    } catch (e) {
+      setEnglishError(String(e));
+    } finally {
+      setEnglishBusy(false);
+    }
+  }, [editor, englishProposal, slug, chapter, isReadOnlyStage, replaceInEditorDoc, saveEnglishCuration]);
+
+  const runReplace = useCallback(async (apply: boolean) => {
+    const pairs = replacePairs
+      .map((p) => ({ find: p.find, replace: p.replace }))
+      .filter((p) => p.find.trim() !== '');
+    if (pairs.length === 0) { setReplaceError('Enter at least one phrase to find.'); return; }
+    setReplaceBusy(true); setReplaceError(''); setReplaceDone('');
+    try {
+      const res = await fetch('/api/studio/replace', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, scope: replaceScope, chapter, pairs, apply }),
+      });
+      const j = await res.json();
+      if (!res.ok || j.ok === false) {
+        setReplaceError(j.error ?? `Request failed (${res.status})`);
+        return;
+      }
+      setReplacePreview(j.results ?? []); setReplaceTotal(j.total ?? 0);
+      if (apply) {
+        if (!isReadOnlyStage) replaceInEditorDoc(pairs);
+        const nCh = (j.results ?? []).length;
+        setReplaceDone(
+          j.total === 0
+            ? 'No matches found — nothing changed.'
+            : `Replaced ${j.total} instance${j.total === 1 ? '' : 's'} across ${nCh} chapter${nCh === 1 ? '' : 's'}.` +
+              (replaceScope === 'book' && nCh > 1 ? ' Other chapters update when you open them.' : ''),
+        );
+        refresh();
+      }
+    } catch (e) {
+      setReplaceError(String(e));
+    } finally {
+      setReplaceBusy(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, replaceScope, chapter, replacePairs, isReadOnlyStage, replaceInEditorDoc]);
+
+  // ── Noise → pattern → denoise across chapters ────────────────────────────
+  // Highlight a recurring artifact (a page header, an OCR scar, a stray marker)
+  // → "Noise" opens this popup with a PATTERN generalised from the selection
+  // (literal text, but digit-runs and whitespace loosened so one selection
+  // catches its variants). Preview shows the count + a few real samples per
+  // chapter before anything changes; Apply strips every match from the canonical
+  // chapter .txt files via /api/studio/denoise (with .bak undo) and mirrors the
+  // deletion into the live editor doc.
+  const [noiseOpen, setNoiseOpen] = useState(false);
+  const [noisePattern, setNoisePattern] = useState('');
+  const [noiseScope, setNoiseScope] = useState<'chapter' | 'book'>('chapter');
+  const [noisePreview, setNoisePreview] = useState<{ chapter: string; count: number; samples: string[] }[] | null>(null);
+  const [noiseTotal, setNoiseTotal] = useState(0);
+  const [noiseBusy, setNoiseBusy] = useState(false);
+  const [noiseError, setNoiseError] = useState('');
+  const [noiseDone, setNoiseDone] = useState('');
+
+  // Rule-based generalisation: escape regex specials, then loosen runs of digits
+  // (\d+) and whitespace (\s+) so "[Page 12]" and "[Page 137]" collapse to one
+  // pattern. The user can hand-edit the result before previewing.
+  const deriveNoisePattern = useCallback((sel: string): string => {
+    const escaped = sel.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return escaped.replace(/\d+/g, '\\d+').replace(/\s+/g, '\\s+');
+  }, []);
+
+  const openNoise = useCallback(() => {
+    setNoisePattern(deriveNoisePattern(selection));
+    setNoiseScope('chapter');
+    setNoisePreview(null); setNoiseTotal(0); setNoiseError(''); setNoiseDone('');
+    setNoiseOpen(true);
+  }, [selection, deriveNoisePattern]);
+  const closeNoise = useCallback(() => setNoiseOpen(false), []);
+
+  // Mirror the confirmed pattern deletion into the live editor doc so the current
+  // chapter updates instantly. Swept high→low so positions stay valid.
+  const denoiseInEditorDoc = useCallback((pattern: string) => {
+    if (!editor) return;
+    let re: RegExp;
+    try { re = new RegExp(pattern, 'g'); } catch { return; }
+    const hits: { from: number; to: number }[] = [];
+    editor.state.doc.descendants((node, pos) => {
+      if (!node.isText || !node.text) return;
+      re.lastIndex = 0;
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(node.text))) {
+        if (m[0] === '') { re.lastIndex += 1; continue; }
+        const from = pos + m.index;
+        hits.push({ from, to: from + m[0].length });
+      }
+    });
+    if (!hits.length) return;
+    hits.sort((a, b) => b.from - a.from);
+    let tr = editor.state.tr;
+    for (const h of hits) tr = tr.delete(h.from, h.to);
+    editor.view.dispatch(tr);
+  }, [editor]);
+
+  const runDenoise = useCallback(async (apply: boolean) => {
+    const pattern = noisePattern.trim();
+    if (pattern === '') { setNoiseError('Enter a pattern to strip.'); return; }
+    setNoiseBusy(true); setNoiseError(''); setNoiseDone('');
+    try {
+      const res = await fetch('/api/studio/denoise', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, scope: noiseScope, chapter, pattern, apply }),
+      });
+      const j = await res.json();
+      if (!res.ok || j.ok === false) { setNoiseError(j.error ?? `Request failed (${res.status})`); return; }
+      setNoisePreview(j.results ?? []); setNoiseTotal(j.total ?? 0);
+      if (apply) {
+        if (!isReadOnlyStage) denoiseInEditorDoc(pattern);
+        const nCh = (j.results ?? []).length;
+        setNoiseDone(
+          j.total === 0
+            ? 'No matches found — nothing changed.'
+            : `Stripped ${j.total} match${j.total === 1 ? '' : 'es'} across ${nCh} chapter${nCh === 1 ? '' : 's'}.` +
+              (noiseScope === 'book' && nCh > 1 ? ' Other chapters update when you open them.' : ''),
+        );
+        refresh();
+      }
+    } catch (e) {
+      setNoiseError(String(e));
+    } finally {
+      setNoiseBusy(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, noiseScope, chapter, noisePattern, isReadOnlyStage, denoiseInEditorDoc]);
 
   const rawMarkers = scanMarkers(html.replace(/<[^>]+>/g, ' '));
   const seen = new Map<string, { kind: string; text: string; count: number }>();
@@ -1331,153 +2196,181 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
       </div>
     );
 
+  // Timeline rail items: the full transformation chain UP TO the editable Review
+  // (latest at top, descending into older steps). Uncaptured intermediate stages
+  // are shown muted + non-interactive so the whole journey is visible even when a
+  // run didn't write every stage. Stages AFTER the editable top (e.g. narrator
+  // not yet run) are omitted — they're not part of "the journey that led here".
   return (
+    <Toast.Provider swipeDirection="right" duration={2600}>
     <div className="studio-poc">
+      {/* Two columns: the editor and the contextual inspector. The left pipeline
+          rail was removed (redundant nav — pipeline phases live in the breadcrumb
+          and book-page tabs); the editor column widened and the reading-edition
+          link moved into the editor head below. */}
       <main className="studio-poc__editor" ref={editorContainerRef}>
-        {/* B: chapter switcher + all-chapters view toggle. */}
-        <div className="sp-chapsel">
-          <label htmlFor="sp-chap">Chapter</label>
-          <select
-            id="sp-chap"
-            value={chapIdx}
-            disabled={viewAll}
-            onChange={(e) => setChapIdx(Number(e.target.value))}
-          >
-            {chapters.map((c, i) => (
-              <option key={c.slug} value={i}>{i + 1}. {c.title}</option>
-            ))}
-          </select>
-          <button
-            type="button"
-            className={`sp-viewall-btn${viewAll ? ' is-on' : ''}`}
-            onClick={() => setViewAll((v) => !v)}
-            title={viewAll ? 'Return to single-chapter view' : 'Combine all chapters in this tab'}
-          >
-            {viewAll ? '← Single chapter' : 'All chapters →'}
-          </button>
-        </div>
-        {/* Stage tabs (SN-5): Source -> Core -> Denoised -> Normalized -> Augmented. */}
-        <div className="sp-tabs" role="tablist" aria-label="Pipeline stages">
-          {stages.map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              role="tab"
-              aria-selected={s.id === stageId}
-              disabled={!s.available}
-              className={`sp-tab${s.id === stageId ? ' is-active' : ''}${s.available ? '' : ' is-pending'}`}
-              title={s.available ? `${s.label} stage${approvedStages[s.id] ? ' — approved' : ''}` : `Pending — produced by ${s.slice}`}
-              onClick={() => s.available && setStageId(s.id)}
+        {/* Consolidated editor header: chapter switcher · metrics · finalize. */}
+        <div className="sp-editor-head">
+          <div className="sp-chapsel">
+            <label htmlFor="sp-chap">Chapter</label>
+            <select
+              id="sp-chap"
+              value={chapIdx}
+              disabled={viewAll}
+              onChange={(e) => setChapIdx(Number(e.target.value))}
             >
-              {s.label}{approvedStages[s.id] && <span className="sp-tab-ok" aria-label="approved"> ✓</span>}
+              {viewChapters.map((c, i) => (
+                <option key={c.slug} value={i}>{i + 1}. {c.title}</option>
+              ))}
+            </select>
+            <button
+              type="button"
+              className={`sp-viewall-btn${viewAll ? ' is-on' : ''}`}
+              onClick={() => setViewAll((v) => !v)}
+              title={viewAll ? 'Return to single-chapter view' : 'Combine all chapters in this tab'}
+            >
+              {viewAll ? '← Single chapter' : 'All chapters →'}
             </button>
-          ))}
+          </div>
+          {!viewAll && (() => {
+            const m = metrics.find((x) => x.id === stageId);
+            if (!m || !m.available) return null;
+            const priorLabel = stages.find((s) => s.id === m.comparedTo)?.label;
+            const delta = m.deltaPct;
+            return (
+              <div className="sp-metrics">
+                <span>{m.words.toLocaleString()} words · {m.sentences.toLocaleString()} sentences</span>
+                {delta !== null && priorLabel && (
+                  <span className={`sp-metric-delta ${delta < 0 ? 'is-down' : delta > 0 ? 'is-up' : ''}`}>
+                    {delta > 0 ? '+' : ''}{delta}% vs {priorLabel}
+                    {stageId === 'denoised' && m.comparedTo === 'core' && delta < 0 && ` (${Math.abs(delta)}% noise removed)`}
+                  </span>
+                )}
+              </div>
+            );
+          })()}
+          {!viewAll && !isArchivedView && (
+            <button
+              type="button"
+              className={`sp-finalize-chapter${finalized ? ' is-done' : ''}`}
+              onClick={toggleFinalized}
+              disabled={publishing}
+              title={finalized ? 'Chapter finalized — click to unlock' : 'Mark this chapter finalized'}
+            >
+              {finalized ? '✓ Finalized' : publishing ? 'Finalizing…' : 'Finalize chapter'}
+            </button>
+          )}
+          <a
+            className="sp-book-link"
+            href={`/studio/${slug}/book`}
+            title="Open the companion reading edition (the book)"
+          >
+            <span className="sp-book-glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z" />
+                <path d="M4 19.5A1.5 1.5 0 0 1 5.5 18H20v3H5.5A1.5 1.5 0 0 1 4 19.5z" />
+              </svg>
+            </span>
+            Reading edition
+          </a>
         </div>
-        {!viewAll && (() => {
+        {!viewAll && (
+          <TransformationDashboard
+            chapterTitle={chap.title}
+            stages={stages}
+            metrics={metrics}
+            enrichment={enrichment}
+            glossaryCount={glossaryCount}
+          />
+        )}
+        {viewAll && (
+          <div className="sp-viewall-banner">
+            Showing all {viewChapters.length} chapters · {stages.find((s) => s.id === stageId)?.label ?? stageId} stage · read-only
+          </div>
+        )}
+        {!viewAll && stage && (() => {
           const m = metrics.find((x) => x.id === stageId);
-          if (!m || !m.available) return null;
-          const priorLabel = stages.find((s) => s.id === m.comparedTo)?.label;
-          const delta = m.deltaPct;
+          const prevLabel = stages.find((s) => s.id === m?.comparedTo)?.label;
+          const role = stageRole(stage.id);
+          const isReviewTop = stage.id === editableStageId && !isArchivedView;
+          const displayName = isReviewTop ? 'Review' : stage.label;
+          const delta = m?.deltaPct ?? null;
+          let metricText: string | null = null;
+          if (m?.available && delta !== null && prevLabel) {
+            metricText =
+              stage.id === 'denoised' && m.comparedTo === 'core' && delta < 0
+                ? `${Math.abs(delta)}% noise removed`
+                : `${delta > 0 ? '+' : ''}${delta}% vs ${prevLabel}`;
+          }
           return (
-            <div className="sp-metrics">
-              <span>{m.words.toLocaleString()} words · {m.sentences.toLocaleString()} sentences</span>
-              {delta !== null && priorLabel && (
-                <span className={`sp-metric-delta ${delta < 0 ? 'is-down' : delta > 0 ? 'is-up' : ''}`}>
-                  {delta > 0 ? '+' : ''}{delta}% vs {priorLabel}
-                  {stageId === 'denoised' && m.comparedTo === 'core' && delta < 0 && ` (${Math.abs(delta)}% noise removed)`}
-                </span>
+            <div className={`sp-stage-card sp-stage-card--${role.kind}`}>
+              <div className="sp-stage-card-main">
+                <span className="sp-stage-card-name">{displayName}</span>
+                {role.role && <span className={`sp-stage-card-role sp-stage-card-role--${role.kind}`}>{role.role}</span>}
+                {role.tool && <span className="sp-stage-card-tool">{role.tool}</span>}
+                {isReviewTop ? (
+                  <span className="sp-stage-card-flag is-editable">editable</span>
+                ) : (
+                  <span className="sp-stage-card-flag is-readonly">
+                    read-only{isArchivedView ? ` · ${activeLineage.label}` : ''}
+                  </span>
+                )}
+                {metricText && <span className="sp-stage-card-metric">{metricText}</span>}
+              </div>
+              {isReadOnlyStage && prevLabel && (
+                <div className="sp-stage-card-diff">
+                  <button
+                    type="button"
+                    className={`sp-augdiff-toggle${showPrevDiff ? ' is-on' : ''}`}
+                    onClick={togglePrevDiff}
+                    title={showPrevDiff ? 'Hide the changes' : `Highlight what changed from ${prevLabel}`}
+                  >
+                    {showPrevDiff ? 'Hide changes' : `Show changes from ${prevLabel}`}
+                  </button>
+                  {showPrevDiff && (
+                    <span className="sp-augdiff-legend">
+                      <span className="aug-ins sp-augdiff-swatch">added</span>
+                      <span className="aug-del sp-augdiff-swatch">removed</span>
+                    </span>
+                  )}
+                </div>
               )}
             </div>
           );
         })()}
-        {viewAll && (
-          <div className="sp-viewall-banner">
-            Showing all {chapters.length} chapters · {stages.find((s) => s.id === stageId)?.label ?? stageId} stage · read-only
-          </div>
-        )}
-        {!viewAll && isReadOnlyStage && (
-          <div className="sp-stage-note">Read-only — viewing the {stage?.label} stage for comparison.</div>
-        )}
-        {!viewAll && stageId === 'augmented' && stages.find((s) => s.id === 'normalized')?.available && (
-          <div className="sp-augdiff-row">
-            <button
-              type="button"
-              className={`sp-augdiff-toggle${showAugDiff ? ' is-on' : ''}`}
-              onClick={toggleAugDiff}
-              title={showAugDiff ? 'Hide augmentation diff' : 'Highlight what the augmentation step added vs Normalized'}
-            >
-              {showAugDiff ? 'Hide augmentation diff' : 'Show augmentation diff'}
-            </button>
-            {showAugDiff && (
-              <span className="sp-augdiff-legend">
-                <span className="aug-ins sp-augdiff-swatch">added</span>
-                <span className="aug-del sp-augdiff-swatch">removed</span>
-              </span>
-            )}
-          </div>
-        )}
         <EditorContent editor={editor} />
       </main>
 
-      <aside className="studio-poc__inspector" aria-label="Contextual inspector">
-        {/* M-1 — Slim global action strip: Arabic toggle · Save & Approve · Finalize */}
-        <div className="sp-global-strip">
-          <span className="sp-global-arabic">
-            <span lang="ar" dir="rtl">ع</span>
+      <aside className="studio-poc__inspector" aria-label="Contextual inspector" ref={inspectorRef}>
+        {/* View controls — Arabic overlay toggle + link to the phonetic map. */}
+        {glossaryCount > 0 && (
+          <div className="sp-global-strip">
             <button
               type="button"
               role="switch"
               aria-checked={arabicOn}
+              aria-label={`Toggle Arabic script — currently ${arabicOn ? 'on' : 'off'}`}
               className={`sp-arabic-btn${arabicOn ? ' is-on' : ''}`}
               onClick={toggleArabic}
-              title={arabicOn ? 'Hide Arabic script' : 'Show Arabic script'}
+              title={arabicOn ? 'Hide Arabic script in the chapter' : 'Show Arabic script in the chapter'}
             >
-              {arabicOn ? 'Arabic On' : 'Arabic'}
+              <i className={`fa-solid ${arabicOn ? 'fa-toggle-on' : 'fa-toggle-off'}`} aria-hidden="true" />
+              <span className="sp-arabic-label">Toggle Arabic</span>
             </button>
-          </span>
-          {!viewAll && !isReadOnlyStage && stage && (
-            <>
-              <div className="sp-strip-sep" aria-hidden="true" />
-              <button
-                type="button"
-                className={`sp-approve sp-approve--strip${approvedStages[stage.id] ? ' is-done' : ''}`}
-                onClick={saveAndApprove}
-                disabled={saving || approvedStages[stage.id]}
-              >
-                {approvedStages[stage.id]
-                  ? `✓ ${stage.label} approved`
-                  : saving ? 'Saving…'
-                  : `Save & Approve`}
-              </button>
-              {changedCount > 0 && !approvedStages[stage.id] && (
-                <button
-                  type="button"
-                  className="sp-discard"
-                  onClick={discardChanges}
-                  disabled={saving}
-                  title="Discard all edits and revert to original"
-                >
-                  Discard
-                </button>
-              )}
-            </>
-          )}
-          {!viewAll && (
-            <>
-              <div className="sp-strip-sep" aria-hidden="true" />
-              <button type="button" className="sp-finalize" onClick={finalize} title="Generate Claude brief from tagged paragraphs">
-                ⎘ Finalize
-              </button>
-            </>
-          )}
-        </div>
-        {saveError && <p className="sp-save-error">{saveError}</p>}
-        {finalizeMsg && <p className="sp-finalize-msg" aria-live="polite">{finalizeMsg}</p>}
+            <a
+              className="sp-phonetic-map"
+              href={`/studio/${slug}/arabic-review#${chapter}`}
+              title="Open the phonetic map (full Arabic review) for this chapter"
+            >
+              <i className="fa-solid fa-language" aria-hidden="true" /> Phonetic Map
+            </a>
+          </div>
+        )}
 
         {/* M-1 — Tabbed panel: Details · Comment · AI · References */}
         <div className="sp-panel-card">
           <div className="sp-tab-bar" role="tablist" aria-label="Inspector tabs">
-            {(['details', 'comment', 'ai', 'refs'] as const).map((tab) => {
+            {(['details', 'ai', 'refs', 'comment'] as const).map((tab) => {
               const labels: Record<string, string> = { details: 'Details', comment: 'Comment', ai: 'AI', refs: 'References' };
               const hasDot = tab === 'ai' && (!!aiResult || aiOptions.length > 0 || aiBusy);
               return (
@@ -1485,6 +2378,8 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                   key={tab}
                   type="button"
                   role="tab"
+                  id={`sp-tab-${tab}`}
+                  aria-controls="sp-tab-panel"
                   aria-selected={inspectorTab === tab}
                   data-tab={tab}
                   className={`sp-tab-btn${inspectorTab === tab ? ' is-active' : ''}`}
@@ -1497,7 +2392,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
             })}
           </div>
 
-          <div className="sp-tab-pane">
+          <div className="sp-tab-pane" role="tabpanel" id="sp-tab-panel" aria-labelledby={`sp-tab-${inspectorTab}`} tabIndex={0}>
             {/* ── Details tab: chapter overview + tag buttons for active paragraph ── */}
             {inspectorTab === 'details' && (
               <>
@@ -1508,30 +2403,158 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                     <dt>Chapter</dt>
                     <dd>{chapterTitle}</dd>
                     <dt>Changes</dt>
-                    <dd>{changedCount} edited · {taggedCount} tagged</dd>
+                    <dd>{changedCount} edited · {markedCount} marked</dd>
                     <dt>Comments</dt>
                     <dd>{commentsRef.current.size > 0 ? `${commentsRef.current.size} paragraph${commentsRef.current.size !== 1 ? 's' : ''}` : '—'}</dd>
                   </dl>
                 )}
-                {activeParaIdx !== null && !isReadOnlyStage && (
-                  <div>
-                    <p className="sp-insp-hint">Tags · paragraph {activeParaIdx + 1}</p>
-                    <div className="sp-insp-tags" role="toolbar" aria-label="Editorial tags">
-                      {TAGS.map((tag) => {
-                        const isOn = (paraTagsRef.current.get(activeParaIdx) ?? []).includes(tag.id);
+                {/* Action items — deferred marks for the CLI drain pass (edit mode only). */}
+                {!isReadOnlyStage && (
+                  <div className="sp-actions-block">
+                    {/* One control panel — every action stays visible; buttons that
+                        cannot run in the current context are disabled, never hidden. */}
+                    <p className="sp-insp-hint">
+                      Actions · {selection.trim()
+                        ? `"${truncate(selection, 32)}"`
+                        : activeParaIdx !== null
+                          ? `paragraph ${activeParaIdx + 1}`
+                          : 'click a paragraph or select a word'}
+                    </p>
+                    <div className="sp-action-palette" role="toolbar" aria-label="Editor actions">
+                      {ACTION_REGISTRY.map((def) => {
+                        const sel = selection.trim();
+                        const hasSel = !!sel;
+                        const hasPara = activeParaIdx !== null;
+                        // A 'both'-scope action targets the highlighted word when one
+                        // exists, otherwise the active paragraph.
+                        const onTerm = def.scope === 'term' || (def.scope === 'both' && hasSel);
+                        const enabled = def.scope === 'term' ? hasSel : def.scope === 'paragraph' ? hasPara : (hasSel || hasPara);
+                        const busy =
+                          (def.kind === 'arabic' && arabicBusy) ||
+                          (def.kind === 'english' && englishBusy) ||
+                          (def.kind === 'explain' && explainBusy);
+                        const isOn = def.applyMode === 'immediate'
+                          ? false
+                          : actionsRef.current.some((a) => a.para_ordinal === activeParaIdx && a.action_kind === def.kind && a.term_text === (onTerm ? sel : ''));
                         return (
-                          <button
-                            key={tag.id}
-                            type="button"
-                            className={`sp-insp-tagbtn tag-${tag.id}${isOn ? ' is-on' : ''}`}
-                            title={isOn ? `Remove ${tag.label}` : `Apply ${tag.label}`}
-                            onClick={() => tagByIdx(activeParaIdx, tag.id)}
-                          >
-                            {tag.icon} {tag.label}
+                          <button key={def.kind} type="button"
+                            className={`sp-action-btn act-${def.kind}${isOn ? ' is-on' : ''}`}
+                            title={enabled ? def.hint : (def.scope === 'term' ? 'Select a word to enable' : 'Click a paragraph to enable')}
+                            disabled={!enabled || busy}
+                            aria-pressed={def.applyMode === 'immediate' ? undefined : isOn}
+                            onClick={() => {
+                              if (def.applyMode === 'immediate') {
+                                if (def.kind === 'arabic') void proposeArabic();
+                                else if (def.kind === 'english') void proposeEnglish();
+                                else if (def.kind === 'explain') void proposeExplain();
+                                else if (def.kind === 'replace') openReplace();
+                                else if (def.kind === 'noise') openNoise();
+                              } else {
+                                stampAction(def, onTerm);
+                              }
+                            }}>
+                            <i className={`fa-solid ${def.icon}`} aria-hidden="true" /> <span className="sp-action-label">{def.label}</span>
                           </button>
                         );
                       })}
                     </div>
+                        {explainBusy && <p className="sp-ai-status">Writing a clearer explanation…</p>}
+                        {explainError && <p className="sp-ai-status sp-ai-status--error">{explainError}</p>}
+                        {englishBusy && <p className="sp-ai-status">Finding the English rendering…</p>}
+                        {englishError && <p className="sp-ai-status sp-ai-status--error">{englishError}</p>}
+                        {explainProposal && (
+                          <div className="sp-explain-confirm">
+                            <p className="sp-explain-confirm__label">Clearer explanation — edit before replacing:</p>
+                            <textarea
+                              className="sp-explain-confirm__text"
+                              value={explainProposal.text}
+                              rows={6}
+                              onChange={(e) => setExplainProposal({ ...explainProposal, text: e.target.value })}
+                              aria-label="Explanation — edit before replacing"
+                            />
+                            <div className="sp-arabic-confirm__actions">
+                              <button type="button" className="sp-arabic-confirm__apply" onClick={applyExplain} disabled={!explainProposal.text.trim()}>
+                                <i className="fa-solid fa-check" aria-hidden="true" /> Replace
+                              </button>
+                              <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelExplain}>Cancel</button>
+                            </div>
+                          </div>
+                        )}
+                        {arabicBusy && <p className="sp-ai-status">Finding the Arabic term…</p>}
+                        {arabicError && <p className="sp-ai-status sp-ai-status--error">{arabicError}</p>}
+                        {arabicProposal && (
+                          <div className="sp-arabic-confirm">
+                            <p className="sp-arabic-confirm__row">
+                              <span className="sp-arabic-confirm__en">{truncate(arabicProposal.original, 28)}</span>
+                              <i className="fa-solid fa-arrow-right-long" aria-hidden="true" />
+                            </p>
+                            <input
+                              type="text"
+                              className="sp-arabic-confirm__input"
+                              lang="ar"
+                              dir="rtl"
+                              value={arabicProposal.arabic}
+                              onChange={(e) => setArabicProposal({ ...arabicProposal, arabic: e.target.value })}
+                              aria-label="Arabic term — edit before replacing"
+                            />
+                            {arabicProposal.gloss && <p className="sp-arabic-confirm__gloss">{arabicProposal.gloss}</p>}
+                            {arabicDone ? (
+                              <>
+                                <p className="sp-arabic-confirm__doneline">
+                                  <i className="fa-solid fa-circle-check" aria-hidden="true" /> {arabicDone}
+                                </p>
+                                <div className="sp-arabic-confirm__actions">
+                                  <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelArabic}>Close</button>
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <p className="sp-arabic-confirm__scopehint">Replace where?</p>
+                                <div className="sp-arabic-scope">
+                                  <button type="button" className="sp-arabic-scope__btn sp-arabic-scope__btn--primary"
+                                    disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={applyArabic}>
+                                    <i className="fa-solid fa-check" aria-hidden="true" /> This instance
+                                  </button>
+                                  <button type="button" className="sp-arabic-scope__btn"
+                                    disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={() => void applyArabicAcross('chapter')}>
+                                    <i className="fa-solid fa-file-lines" aria-hidden="true" /> This chapter
+                                  </button>
+                                  <button type="button" className="sp-arabic-scope__btn"
+                                    disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={() => void applyArabicAcross('book')}>
+                                    <i className="fa-solid fa-book" aria-hidden="true" /> All chapters
+                                  </button>
+                                </div>
+                                <div className="sp-arabic-confirm__actions">
+                                  <button type="button" className="sp-arabic-confirm__cancel" onClick={cancelArabic}>
+                                    {arabicBusy ? 'Replacing…' : 'Cancel'}
+                                  </button>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        )}
+
+                    {chapterActions.length > 0 && (
+                      <div className="sp-action-queue">
+                        <p className="sp-insp-hint">Queued for the pipeline · {chapterActions.length}</p>
+                        <ul className="sp-action-queue-list">
+                          {chapterActions.map((item) => {
+                            const def = ACTION_BY_KIND[item.action_kind];
+                            return (
+                              <li key={item.id} className={`sp-aq-item act-${item.action_kind}`}>
+                                <i className={`fa-solid ${def?.icon ?? 'fa-circle'}`} aria-hidden="true" />
+                                <span className="sp-aq-label">{def?.label ?? item.action_kind}</span>
+                                <span className="sp-aq-target">{item.term_text ? `"${truncate(item.term_text, 24)}"` : `¶ ${item.para_ordinal + 1}`}</span>
+                                <button type="button" className="sp-aq-remove" title="Remove this mark"
+                                  aria-label={`Remove ${def?.label ?? item.action_kind} mark`} onClick={() => removeAction(item.id)}>
+                                  <i className="fa-solid fa-xmark" aria-hidden="true" />
+                                </button>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 )}
               </>
@@ -1570,11 +2593,11 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
                 {activeSectionOrdinal !== null && !isReadOnlyStage && (
                   <div className="sp-ai-tab-actions" role="toolbar" aria-label="AI actions">
                     <button type="button" className="sp-ai-tab-btn" disabled={aiBusy}
-                      onClick={() => runAi('rewrite')}>↺ Rewrite</button>
+                      onClick={() => runAi('rewrite')}><i className="fa-solid fa-arrows-rotate" aria-hidden="true" /> Rewrite</button>
                     <button type="button" className="sp-ai-tab-btn" disabled={aiBusy}
-                      onClick={() => runAi('research')}>🔍 Research</button>
+                      onClick={() => runAi('research')}><i className="fa-solid fa-magnifying-glass" aria-hidden="true" /> Research</button>
                     <button type="button" className="sp-ai-tab-btn" disabled={aiBusy}
-                      onClick={() => runAi('autotag')}>🏷 Auto-tag</button>
+                      onClick={() => runAi('autotag')}><i className="fa-solid fa-tag" aria-hidden="true" /> Auto-tag</button>
                   </div>
                 )}
                 {aiBusy && <p className="sp-ai-status">Working… ({aiKind})</p>}
@@ -1627,7 +2650,317 @@ export default function StudioPoc({ slug, chapters, glossary = [], initialChapId
             )}
           </div>
         </div>
+
+        {saveError && <p className="sp-save-error" role="alert">{saveError}</p>}
+        {!viewAll && !isReadOnlyStage && stage && draftState !== 'idle' && (
+          <p className={`sp-draft-status sp-draft-status--${draftState}`} role="status">
+            {draftState === 'saving'
+              ? <><i className="fa-solid fa-cloud-arrow-up" aria-hidden="true" /> Saving draft…</>
+              : draftState === 'error'
+              ? <><i className="fa-solid fa-triangle-exclamation" aria-hidden="true" /> Draft not saved — check connection</>
+              : <><i className="fa-solid fa-pen" aria-hidden="true" /> Draft saved · not yet approved</>}
+          </p>
+        )}
+        {!viewAll && !isReadOnlyStage && stage && (
+          <div className="sp-action-footer">
+            {(changedCount > 0 || draftState === 'saved') && (
+              <button
+                type="button"
+                className="sp-discard"
+                onClick={discardChanges}
+                disabled={saving}
+                title="Discard the draft and revert to the approved chapter"
+              >
+                <i className="fa-solid fa-rotate-left" aria-hidden="true" /> Discard
+              </button>
+            )}
+            <button
+              type="button"
+              className={`sp-approve${approvedClean ? ' is-done' : ''}`}
+              onClick={approvedClean ? acceptApprovedStage : saveAndApprove}
+              disabled={saving}
+              title={approvedClean ? 'Accept the approved text as final content' : 'Save the current text and approve this stage'}
+            >
+              {approvedClean
+                ? `${stage.label} approved`
+                : saving ? 'Saving…'
+                : 'Save & Approve'}
+            </button>
+          </div>
+        )}
       </aside>
+
+      {arabicProposal && (
+        <div className="sp-term-backdrop" role="dialog" aria-modal="true" aria-label="Arabic replacement">
+          <div className="sp-term-modal sp-term-modal--arabic">
+            <header className="sp-term-modal__head">
+              <div>
+                <p className="sp-term-modal__eyebrow">Arabic rendering</p>
+                <h3 className="sp-term-modal__title">Choose the Arabic script</h3>
+              </div>
+              <button type="button" className="sp-term-modal__close" onClick={cancelArabic} aria-label="Close">
+                <i className="fa-solid fa-xmark" aria-hidden="true" />
+              </button>
+            </header>
+            <div className="sp-term-modal__body">
+              <p className="sp-term-modal__swap">
+                <span>{truncate(arabicProposal.original, 48)}</span>
+                <i className="fa-solid fa-arrow-right-long" aria-hidden="true" />
+              </p>
+              <input
+                type="text"
+                className="sp-term-modal__input sp-term-modal__input--arabic"
+                lang="ar"
+                dir="rtl"
+                value={arabicProposal.arabic}
+                onChange={(e) => setArabicProposal({ ...arabicProposal, arabic: e.target.value })}
+                aria-label="Arabic term — edit before replacing"
+                autoFocus
+              />
+              {arabicProposal.gloss && <p className="sp-term-modal__gloss">{arabicProposal.gloss}</p>}
+              {arabicDone && <p className="sp-term-modal__done"><i className="fa-solid fa-circle-check" aria-hidden="true" /> {arabicDone}</p>}
+              <p className="sp-term-modal__scopehint">Save where?</p>
+              <div className="sp-term-scope">
+                <button type="button" className="sp-term-scope__btn sp-term-scope__btn--primary"
+                  disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={applyArabic}>
+                  <i className="fa-solid fa-check" aria-hidden="true" /> This instance
+                </button>
+                <button type="button" className="sp-term-scope__btn"
+                  disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={() => void applyArabicAcross('chapter')}>
+                  <i className="fa-solid fa-file-lines" aria-hidden="true" /> This chapter
+                </button>
+                <button type="button" className="sp-term-scope__btn"
+                  disabled={!arabicProposal.arabic.trim() || arabicBusy} onClick={() => void applyArabicAcross('book')}>
+                  <i className="fa-solid fa-book" aria-hidden="true" /> All chapters
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {englishProposal && (
+        <div className="sp-term-backdrop" role="dialog" aria-modal="true" aria-label="English replacement">
+          <div className="sp-term-modal">
+            <header className="sp-term-modal__head">
+              <div>
+                <p className="sp-term-modal__eyebrow">English rendering</p>
+                <h3 className="sp-term-modal__title">Choose the spoken English</h3>
+              </div>
+              <button type="button" className="sp-term-modal__close" onClick={cancelEnglish} aria-label="Close">
+                <i className="fa-solid fa-xmark" aria-hidden="true" />
+              </button>
+            </header>
+            <div className="sp-term-modal__body">
+              <p className="sp-term-modal__swap">
+                <span>{truncate(englishProposal.original, 48)}</span>
+                <i className="fa-solid fa-arrow-right-long" aria-hidden="true" />
+              </p>
+              <input
+                type="text"
+                className="sp-term-modal__input"
+                value={englishProposal.english}
+                onChange={(e) => setEnglishProposal({ ...englishProposal, english: e.target.value })}
+                aria-label="English rendering — edit before replacing"
+                autoFocus
+              />
+              {englishProposal.gloss && <p className="sp-term-modal__gloss">{englishProposal.gloss}</p>}
+              <p className="sp-term-modal__scopehint">Save where?</p>
+              <div className="sp-term-scope">
+                <button type="button" className="sp-term-scope__btn sp-term-scope__btn--primary"
+                  disabled={!englishProposal.english.trim() || englishBusy} onClick={() => void applyEnglish()}>
+                  <i className="fa-solid fa-check" aria-hidden="true" /> This instance
+                </button>
+                <button type="button" className="sp-term-scope__btn"
+                  disabled={!englishProposal.english.trim() || englishBusy} onClick={() => void applyEnglishAcross('chapter')}>
+                  <i className="fa-solid fa-file-lines" aria-hidden="true" /> This chapter
+                </button>
+                <button type="button" className="sp-term-scope__btn"
+                  disabled={!englishProposal.english.trim() || englishBusy} onClick={() => void applyEnglishAcross('book')}>
+                  <i className="fa-solid fa-book" aria-hidden="true" /> All chapters
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {explainProposal && (
+        <div className="sp-term-backdrop" role="dialog" aria-modal="true" aria-label="Explanation replacement">
+          <div className="sp-term-modal sp-term-modal--wide">
+            <header className="sp-term-modal__head">
+              <div>
+                <p className="sp-term-modal__eyebrow">Clarify selection</p>
+                <h3 className="sp-term-modal__title">Edit the replacement text</h3>
+              </div>
+              <button type="button" className="sp-term-modal__close" onClick={cancelExplain} aria-label="Close">
+                <i className="fa-solid fa-xmark" aria-hidden="true" />
+              </button>
+            </header>
+            <div className="sp-term-modal__body">
+              <textarea
+                className="sp-term-modal__textarea"
+                value={explainProposal.text}
+                rows={7}
+                onChange={(e) => setExplainProposal({ ...explainProposal, text: e.target.value })}
+                aria-label="Explanation — edit before replacing"
+                autoFocus
+              />
+              <div className="sp-term-modal__actions">
+                <button type="button" className="sp-term-modal__apply" onClick={applyExplain} disabled={!explainProposal.text.trim()}>
+                  <i className="fa-solid fa-check" aria-hidden="true" /> Replace
+                </button>
+                <button type="button" className="sp-term-modal__cancel" onClick={cancelExplain}>Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Global find-and-replace popup ── */}
+      {replaceOpen && (
+        <div className="sp-replace-backdrop" role="dialog" aria-modal="true" aria-label="Find and replace">
+          <div className="sp-replace-modal">
+            <header className="sp-replace-head">
+              <h3 className="sp-replace-title"><i className="fa-solid fa-right-left" aria-hidden="true" /> Find &amp; replace</h3>
+              <button type="button" className="sp-replace-close" onClick={closeReplace} aria-label="Close">
+                <i className="fa-solid fa-xmark" aria-hidden="true" />
+              </button>
+            </header>
+
+            <div className="sp-replace-body">
+              {replacePairs.map((p, i) => (
+                <div key={i} className="sp-replace-row">
+                  <input className="sp-replace-input" placeholder="Find…" value={p.find}
+                    aria-label={`Find phrase ${i + 1}`}
+                    onChange={(e) => { updatePair(i, 'find', e.target.value); setReplacePreview(null); setReplaceDone(''); }} />
+                  <i className="fa-solid fa-arrow-right-long sp-replace-arrow" aria-hidden="true" />
+                  <input className="sp-replace-input" placeholder="Replace with…" value={p.replace}
+                    aria-label={`Replacement ${i + 1}`}
+                    onChange={(e) => { updatePair(i, 'replace', e.target.value); setReplacePreview(null); setReplaceDone(''); }} />
+                  <button type="button" className="sp-replace-row-rm" onClick={() => removePair(i)}
+                    disabled={replacePairs.length === 1} aria-label={`Remove replacement ${i + 1}`}>
+                    <i className="fa-solid fa-xmark" aria-hidden="true" />
+                  </button>
+                </div>
+              ))}
+
+              <button type="button" className="sp-replace-add" onClick={addPair}>
+                <i className="fa-solid fa-plus" aria-hidden="true" /> Add another replacement
+              </button>
+
+              <label className="sp-replace-scope">
+                <input type="checkbox" checked={replaceScope === 'book'}
+                  onChange={(e) => { setReplaceScope(e.target.checked ? 'book' : 'chapter'); setReplacePreview(null); setReplaceDone(''); }} />
+                <span>Apply to <strong>all chapters</strong> in this book {replaceScope === 'book' ? '' : '(otherwise this chapter only)'}</span>
+              </label>
+
+              {replaceError && <p className="sp-replace-msg sp-replace-msg--error">{replaceError}</p>}
+              {replaceDone && <p className="sp-replace-msg sp-replace-msg--ok">{replaceDone}</p>}
+
+              {replacePreview && !replaceDone && (
+                <div className="sp-replace-preview">
+                  <p className="sp-replace-preview-total">
+                    {replaceTotal} match{replaceTotal === 1 ? '' : 'es'}
+                    {replacePreview.length > 0 ? ` across ${replacePreview.length} chapter${replacePreview.length === 1 ? '' : 's'}` : ''}
+                  </p>
+                  {replacePreview.length > 0 && (
+                    <ul className="sp-replace-preview-list">
+                      {replacePreview.map((r) => (
+                        <li key={r.chapter}><span>{chapterLabel(r.chapter)}</span><span className="sp-replace-preview-n">{r.count}</span></li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <footer className="sp-replace-foot">
+              <button type="button" className="sp-replace-btn sp-replace-btn--ghost" onClick={() => void runReplace(false)} disabled={replaceBusy}>
+                {replaceBusy ? 'Working…' : 'Preview'}
+              </button>
+              <button type="button" className="sp-replace-btn sp-replace-btn--apply"
+                onClick={() => void runReplace(true)}
+                disabled={replaceBusy || (replacePreview !== null && replaceTotal === 0)}>
+                {replacePreview && !replaceDone ? `Replace ${replaceTotal}` : 'Replace'}
+              </button>
+            </footer>
+          </div>
+        </div>
+      )}
+
+      {noiseOpen && (
+        <div className="sp-replace-backdrop" role="dialog" aria-modal="true" aria-label="Mark as noise">
+          <div className="sp-replace-modal">
+            <header className="sp-replace-head">
+              <h3 className="sp-replace-title"><i className="fa-solid fa-eraser" aria-hidden="true" /> Mark as noise</h3>
+              <button type="button" className="sp-replace-close" onClick={closeNoise} aria-label="Close">
+                <i className="fa-solid fa-xmark" aria-hidden="true" />
+              </button>
+            </header>
+
+            <div className="sp-replace-body">
+              <p className="sp-noise-hint">
+                The selection is generalised to a <strong>pattern</strong> (digits and spacing
+                loosened so variants match). Edit it if needed, <strong>preview</strong> what
+                it catches, then strip every match. Removed text is backed up per file.
+              </p>
+              <input className="sp-replace-input sp-noise-pattern" value={noisePattern}
+                aria-label="Noise pattern (regular expression)" spellCheck={false}
+                onChange={(e) => { setNoisePattern(e.target.value); setNoisePreview(null); setNoiseDone(''); }} />
+
+              <label className="sp-replace-scope">
+                <input type="checkbox" checked={noiseScope === 'book'}
+                  onChange={(e) => { setNoiseScope(e.target.checked ? 'book' : 'chapter'); setNoisePreview(null); setNoiseDone(''); }} />
+                <span>Strip from <strong>all chapters</strong> in this book {noiseScope === 'book' ? '' : '(otherwise this chapter only)'}</span>
+              </label>
+
+              {noiseError && <p className="sp-replace-msg sp-replace-msg--error">{noiseError}</p>}
+              {noiseDone && <p className="sp-replace-msg sp-replace-msg--ok">{noiseDone}</p>}
+
+              {noisePreview && !noiseDone && (
+                <div className="sp-replace-preview">
+                  <p className="sp-replace-preview-total">
+                    {noiseTotal} match{noiseTotal === 1 ? '' : 'es'}
+                    {noisePreview.length > 0 ? ` across ${noisePreview.length} chapter${noisePreview.length === 1 ? '' : 's'}` : ' — nothing to strip'}
+                  </p>
+                  {noisePreview.length > 0 && (
+                    <ul className="sp-replace-preview-list">
+                      {noisePreview.map((r) => (
+                        <li key={r.chapter}>
+                          <span>{chapterLabel(r.chapter)}</span>
+                          <span className="sp-replace-preview-n">{r.count}</span>
+                          {r.samples?.length > 0 && (
+                            <span className="sp-noise-samples">
+                              {r.samples.map((s, k) => <code key={k} className="sp-noise-sample">{s}</code>)}
+                            </span>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <footer className="sp-replace-foot">
+              <button type="button" className="sp-replace-btn sp-replace-btn--ghost" onClick={() => void runDenoise(false)} disabled={noiseBusy}>
+                {noiseBusy ? 'Working…' : 'Preview'}
+              </button>
+              <button type="button" className="sp-replace-btn sp-replace-btn--apply"
+                onClick={() => void runDenoise(true)}
+                disabled={noiseBusy || noisePreview === null || noiseTotal === 0}>
+                {noisePreview && !noiseDone ? `Strip ${noiseTotal}` : 'Strip noise'}
+              </button>
+            </footer>
+          </div>
+        </div>
+      )}
     </div>
+    <Toast.Root className="sp-toast" open={approvalToastOpen} onOpenChange={setApprovalToastOpen}>
+      <Toast.Title className="sp-toast-title">{approvalToastText}</Toast.Title>
+    </Toast.Root>
+    <Toast.Viewport className="sp-toast-viewport" />
+    </Toast.Provider>
   );
 }

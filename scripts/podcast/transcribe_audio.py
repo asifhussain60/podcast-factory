@@ -37,6 +37,8 @@ def extract_wav(video: Path, seconds: int | None) -> tuple[Path, float]:
     return tmp, dur
 
 def transcribe(wav: Path) -> str:
+    from _engine import engine_guard, TASK_TRANSCRIBE, ENGINE_AZURE
+    engine_guard(TASK_TRANSCRIBE, ENGINE_AZURE)
     c = _azure.load_speech_creds()
     host = c.endpoint if c.endpoint.startswith("http") else f"https://{c.region}.api.cognitive.microsoft.com"
     url = f"{host.rstrip('/')}/speechtotext/transcriptions:transcribe?api-version=2024-11-15"

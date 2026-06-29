@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { readFile, realpath, stat } from 'node:fs/promises';
-import { extname, join, normalize, resolve } from 'node:path';
+import { extname, normalize, resolve } from 'node:path';
 import { findContent } from '../../../lib/content-paths';
 
 export const prerender = false;

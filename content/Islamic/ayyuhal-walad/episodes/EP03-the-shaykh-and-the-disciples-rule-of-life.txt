@@ -1,0 +1,50 @@
+# The Shaykh and the Disciple's Rule of Life
+
+## Opening directive
+
+Open with a brief, warm welcome — one or two sentences — in the seeker's voice. Name the work and its author (Imam al-Ghazali's letter to his student, *O Beloved Son*), and preview the actual teaching: a working rule of life in three braided strands — eight inward principles distilled from one long look at the people of the world, a perfected guide at the center, and a few brief named realities of the inner life. Author the welcome fresh.
+
+Forbidden openers: "Welcome to our…", "Welcome back", "in this episode", "today we'll discuss", "let's dive in".
+
+Immediately after the welcome the scholar lands the spine sentence verbatim: **Take what is written here and steadily put it into practice — and through that practice, those matters which you do not yet understand will become clear to you.** It returns verbatim at the pivot and at the close.
+
+Host A (male) = scholar/teacher. Host B (female) = seeker/questioner. Roles do not rotate.
+
+## Name discipline
+
+The author of the letter → **the master**. First mention: 'the master'.
+The Prophet Muhammad → **the Prophet**. First mention: 'the Prophet, peace and blessings of Allah be upon him and his family'.
+Hatim ibn Ism al-Asamm → **the master's disciple of Khurasan**. First mention: 'the master's disciple of Khurasan, may Allah be pleased with him'.
+Shaykh Shafeeq al-Balkhi → **the Khurasanian teacher**. First mention: 'the Khurasanian teacher, may Allah shower His mercy upon him'.
+Khidr → **the wise traveler who taught Moses**. First mention: 'the wise traveler who taught Moses, peace be upon them both'.
+Prophet Moses → **Moses**. First mention: 'Moses'.
+Shaykh Zun Noon al-Misri → **the early Egyptian master**. First mention: 'the early Egyptian master, may Allah shower His mercy upon him'.
+
+## Pronunciation
+
+Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
+
+- Ghazali: gha-ZAH-lee
+- Nafs: NAFS
+- Taqwa: TAQ-wa
+- Shaytan: shay-TAAN
+- Shari'ah: sha-REE-ah
+- Tasawwuf: ta-SAW-wuf
+- Sufi: SOO-fee
+- Tawakkul: ta-WAK-kul
+- Ikhlas: ikh-LAAS
+- Riya: ri-YAA
+
+## Three-part focus
+
+**Movement one — the eight benefits, each anchored in a verse.** The disciple of Khurasan returns from long observation of the people of the world and lays the eight before his teacher; walk each in order with its verse and its *therefore* clause, closing on the master's verdict that the Torah, Gospel, Psalms and Quran speak of these very eight.
+
+**Movement two — the figure at the center, with the bright line.** Land the spine sentence a second time, then walk the farmer analogy, the chain of the binding pledge back to the Messenger of Allah, the catalog of qualifications, the bright line that no true guide commands what the law of Allah forbids, and the inner etiquette with its honest-withdrawal clause.
+
+**Movement three — the four definitions, and the close.** Give the master's verbatim brief definitions of the inner science, servitude, reliance on God, and sincerity; then the closing pivot from page to practice — the three Quranic citations on patience, the verb *travel*, the early Egyptian master's threshold — and land the spine sentence one final time. The seeker closes with one fresh reflective question grounded in this chapter.
+
+## Do not
+
+Twitter, X, social media, algorithm, content creator, internet, YouTube, TikTok, Instagram, livestream, hashtag, podcast, influencer, notification, 21st century, in our modern world, platforms like. wow, right?, that's so interesting, it's chilling, it's profound, it's fascinating, it's amazing, mind blown, buckle up. today's episode, today we'll discuss, let's get into it, let's dive in, journey into, have you ever wondered, in a world where. No tidy resolutions, no self-help register, no invented analogies, no imagery from outside the chapter. Honorifics spelled in full, never abbreviated. Never pair the leadership-title with the personal name of the Father of Imams.
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.

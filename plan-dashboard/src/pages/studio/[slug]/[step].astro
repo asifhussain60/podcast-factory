@@ -15,13 +15,16 @@ import ContentLevelSelector from '../../../components/studio/ContentLevelSelecto
 import StudioPoc from '../../../components/reader/poc/StudioPoc.tsx';
 import { CARD_DEFS } from '../../../lib/reader/editorial';
 import { loadBookIndex } from '../../../lib/reader/chapters';
-import { loadBookWorkspace, AYYUHAL_WALAD_STAGE_DEFS } from '../../../lib/reader/book-workspace';
+import { loadBookWorkspace, discoverArchivedLineages, STAGE_DEFS } from '../../../lib/reader/book-workspace';
+import { loadEnrichment } from '../../../lib/reader/enrichment-ledger';
 import { loadStudioPipeline, STUDIO_STEPS, type StepId } from '../../../lib/reader/studio-pipeline';
 import { findContent, listContent, slugToTitle } from '../../../lib/content-paths';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import '../../../styles/corpus-mock.css';
 import '../../../styles/studio-poc.css';
+import '../../../styles/stage-timeline.css';
+import '../../../styles/transformation-dashboard.css';
 import '../../../styles/workbench.css';
 import '../../../styles/studio-pipeline.css';
 
@@ -44,7 +47,24 @@ const books = allBooks.map((b) => ({ slug: b.slug, title: slugToTitle(b.slug) })
 // Shared loads for steps that need chapter data.
 const index = await loadBookIndex(slug);
 const chapterDefs = (index?.chapters ?? []).map((c) => ({ id: c.slug, title: c.title }));
-const workspace = await loadBookWorkspace(slug, chapterDefs, AYYUHAL_WALAD_STAGE_DEFS);
+const workspace = await loadBookWorkspace(slug, chapterDefs, STAGE_DEFS);
+// Book-level enrichment summary (Phase 0e) for the transformation dashboard.
+const enrichment = loadEnrichment(slug);
+
+// View-only progression lineages: any archived full-stage run for this book
+// (e.g. an earlier episode structure). Loaded with writeLedger:false so they
+// never clobber the live book's stage-metrics.json.
+const archivedLineages = discoverArchivedLineages(slug);
+const archivedWorkspaces = await Promise.all(
+  archivedLineages.map((ln) =>
+    loadBookWorkspace(slug, ln.chapters, STAGE_DEFS, { stageRoot: ln.stageRoot, writeLedger: false }),
+  ),
+);
+const progressionArchives = archivedLineages.map((ln, i) => ({
+  id: ln.id,
+  label: ln.label,
+  chapters: archivedWorkspaces[i].chapters,
+}));
 
 // ?ch= param — deep-link from Library chapter reader (R-1 toggle).
 // Pre-selects the specific chapter in the cockpit on arrival.
@@ -70,12 +90,37 @@ try {
 const showContentLevel = bookTradition !== '' && bookTradition !== 'universal';
 
 // Depth-level picker profile — read from series-config.yaml; defaults to islamic_scholarly.
+// Audio Engine v2: the same read resolves the book's audio engine (default notebooklm).
 let contentProfile = 'islamic_scholarly';
+let audioEngine = 'notebooklm';
 try {
   const cfgRaw = await readFile(join(ref.dir, '_system', 'series-config.yaml'), 'utf-8');
   const cpMatch = cfgRaw.match(/^content_profile:\s*(\S+)/m);
   if (cpMatch) contentProfile = cpMatch[1];
+  const aeMatch = cfgRaw.match(/^audio_engine:\s*(\S+)/m);
+  if (aeMatch) audioEngine = aeMatch[1];
 } catch { /* no series-config.yaml — default applies */ }
+
+// Audio Engine v2 — rendered-credit spend from the cost ledger (publish step).
+// ElevenLabs rows store exact metered credits in input_tokens (see
+// scripts/podcast/_cost_ledger.py::append_elevenlabs_cost).
+let renderedCredits = 0;
+let renderedUsd = 0;
+if (stepParam === 'publish') {
+  try {
+    const ledgerRaw = await readFile(join(ref.dir, '_system', 'cost-ledger.jsonl'), 'utf-8');
+    for (const line of ledgerRaw.split('\n')) {
+      if (!line.trim()) continue;
+      try {
+        const row = JSON.parse(line);
+        if (row.model === 'elevenlabs-eleven-v3') {
+          renderedCredits += Number(row.input_tokens) || 0;
+          renderedUsd += Number(row.cost_usd) || 0;
+        }
+      } catch { /* skip malformed row */ }
+    }
+  } catch { /* no ledger yet */ }
+}
 
 // Review-gate (for the review step).
 let gate: { approved?: boolean; warnings?: { severity?: string; message?: string }[] } | null = null;
@@ -91,7 +136,7 @@ const stepMeta = STUDIO_STEPS.find((s) => s.id === stepParam)!;
 const pageTitle = `${stepMeta.label} — ${bookTitle}`;
 ---
 <Base title={pageTitle} active="studio" description={`Studio · ${stepMeta.label} · ${bookTitle}`}>
-  <StudioSubnav slot="subnav" slug={slug} bookTitle={bookTitle} activeStep={stepParam} steps={steps} books={books} />
+  <StudioSubnav slot="subnav" slug={slug} bookTitle={bookTitle} activeStep={stepParam} steps={steps} books={books} compact={stepParam === 'edit'} />
 
   {/* ── Intake ──────────────────────────────────────────── */}
   {stepParam === 'intake' && (
@@ -151,14 +196,24 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
 
   {/* ── Edit & Enrich (the merged cockpit) ──────────────── */}
   {stepParam === 'edit' && (
-    <div class="studio-step-body">
+    <div class="studio-step-body studio-step-body--wide">
       {workspace.loadError ? (
-        <div class="studio-panel"><p>{workspace.loadError}</p></div>
+        <>
+          <header class="studio-step-head">
+            <h1>Edit &amp; Enrich — {bookTitle}</h1>
+          </header>
+          <div class="studio-panel">
+            <h2>No chapters to edit yet</h2>
+            <p>This book hasn’t been segmented into chapters, so the Edit &amp; Enrich cockpit has nothing to show — chapters are produced later in the pipeline (phase 0d), and there are no stage artifacts before then.</p>
+            <p>Its source content — the transcripts, the refined reading edition, and audits — is ready to read now in the <a href={`/studio/${slug}`}>content reader</a>.</p>
+          </div>
+        </>
       ) : editView === 'workbench' ? (
         <>
           <nav class="studio-editview-toggle" aria-label="Edit surface">
             <a href={`/studio/${slug}/edit`}>← Rich editor</a>
             <span class="is-current">Pipeline workbench</span>
+            <a href={`/studio/${slug}/arabic-review#${initialChapterId}`}>Arabic review</a>
           </nav>
           <OperatorWorkbench
             client:only="react"
@@ -174,15 +229,22 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
         <>
           <nav class="studio-editview-toggle" aria-label="Edit surface">
             <span class="is-current">Rich editor</span>
-            <a href={`/studio/${slug}/edit?view=workbench`}>Pipeline workbench →</a>
+            <a href={`/studio/${slug}/edit?view=workbench`}>Pipeline workbench</a>
+            <a href={`/studio/${slug}/arabic-review#${initialChapterId}`}>Arabic review →</a>
           </nav>
           <StudioPoc
             client:only="react"
             slug={workspace.slug}
             chapters={workspace.chapters}
             glossary={workspace.glossary}
+            glossaryAll={workspace.glossaryAll}
             initialChapIdx={initialChapIdx}
             contentProfile={contentProfile}
+            archivedLineages={progressionArchives}
+            pipelineSteps={steps}
+            activeStep={stepParam}
+            enrichment={enrichment}
+            glossaryCount={workspace.glossary.length}
           />
         </>
       )}
@@ -202,6 +264,33 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
           Publishing promotes the finalized book from the workshop to the published catalog.
           It runs gates G1–G7 and is an explicit, reviewed step — start it from Claude Code with
           the publisher once you are satisfied with the finalized version.
+        </p>
+      </div>
+      <div class="studio-panel">
+        <h2>Audio engine</h2>
+        <dl class="studio-audio-meta">
+          <div class="studio-audio-meta-row">
+            <dt>Engine</dt>
+            <dd>
+              {audioEngine === 'elevenlabs'
+                ? 'ElevenLabs — autonomous render (eleven_v3)'
+                : 'NotebookLM — manual upload and download'}
+            </dd>
+          </div>
+          {audioEngine === 'elevenlabs' && (
+            <div class="studio-audio-meta-row">
+              <dt>Rendered credits</dt>
+              <dd>
+                {renderedCredits.toLocaleString()} credits
+                {renderedUsd > 0 && ` (~$${renderedUsd.toFixed(2)} plan value)`}
+              </dd>
+            </div>
+          )}
+        </dl>
+        <p class="studio-audio-meta-note">
+          {audioEngine === 'elevenlabs'
+            ? 'Exact metered synthesis spend from the book’s cost ledger. Unchanged chapters never re-render or re-spend.'
+            : 'This book uses the manual NotebookLM path; no synthesis credits are spent.'}
         </p>
       </div>
     </div>

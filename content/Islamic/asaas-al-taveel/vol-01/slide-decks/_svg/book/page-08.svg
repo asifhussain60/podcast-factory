@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 620" font-family="'Lato', system-ui, sans-serif">
+<defs>
+<marker id="dn" viewBox="0 0 10 10" refX="5" refY="9" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L5,9 L10,0 Z" fill="#8b4513"/></marker>
+<marker id="up" viewBox="0 0 10 10" refX="5" refY="1" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,10 L5,1 L10,10 Z" fill="#8b4513"/></marker>
+</defs>
+<rect width="760" height="620" fill="#fffaf2"/>
+<text x="380" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#8b4513">THE TESTIMONY'S FOUR WORDS MIRROR THE COSMIC LIMITS</text>
+
+<text transform="translate(26,425) rotate(-90)" font-size="12" font-weight="bold" fill="#8b4513" letter-spacing="2">FLOW OF DERIVATION</text>
+<line x1="48" y1="200" x2="48" y2="500" stroke="#8b4513" stroke-width="1.5" marker-end="url(#dn)"/>
+
+<text transform="translate(738,432) rotate(-90)" font-size="12" font-weight="bold" fill="#8b4513" letter-spacing="2">CLIMB OF RECOGNITION</text>
+<line x1="716" y1="500" x2="716" y2="200" stroke="#8b4513" stroke-width="1.5" marker-end="url(#up)"/>
+
+<text x="380" y="72" text-anchor="middle" font-size="12" font-weight="bold" fill="#7a6a58" letter-spacing="3">SPIRITUAL WORLD (ABOVE)</text>
+
+<rect x="80" y="88" width="600" height="80" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+<text x="96" y="108" font-size="10" font-weight="bold" fill="#8b4513" letter-spacing="1">THE PEN</text>
+<text x="380" y="132" text-anchor="middle" font-size="17" font-weight="bold" fill="#2b2117">THE PEN</text>
+<text x="380" y="155" text-anchor="middle" font-size="13" fill="#2b2117">Source of derived knowledge; the highest bound set for creation.</text>
+
+<rect x="80" y="188" width="600" height="80" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+<text x="96" y="208" font-size="10" font-weight="bold" fill="#8b4513" letter-spacing="1">THE PRESERVED TABLET</text>
+<text x="380" y="232" text-anchor="middle" font-size="17" font-weight="bold" fill="#2b2117">THE PRESERVED TABLET</text>
+<text x="380" y="255" text-anchor="middle" font-size="13" fill="#2b2117">Receives knowledge from the Pen; transmits downward.</text>
+
+<line x1="80" y1="298" x2="680" y2="298" stroke="#8b4513" stroke-width="0.6" stroke-dasharray="4,3"/>
+
+<text x="380" y="326" text-anchor="middle" font-size="12" font-weight="bold" fill="#7a6a58" letter-spacing="3">WORLD OF BODIES (BELOW)</text>
+
+<rect x="80" y="342" width="600" height="80" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+<text x="96" y="362" font-size="10" font-weight="bold" fill="#8b4513" letter-spacing="1">THE SPEAKER-PROPHET</text>
+<text x="380" y="386" text-anchor="middle" font-size="17" font-weight="bold" fill="#2b2117">THE SPEAKER-PROPHET</text>
+<text x="380" y="409" text-anchor="middle" font-size="13" fill="#2b2117">Articulates the outward sacred law; visible like the day.</text>
+
+<rect x="80" y="442" width="600" height="80" rx="6" fill="#f7f1e6" stroke="#d9cdbd"/>
+<text x="96" y="462" font-size="10" font-weight="bold" fill="#8b4513" letter-spacing="1">THE SILENT ONE</text>
+<text x="380" y="486" text-anchor="middle" font-size="17" font-weight="bold" fill="#2b2117">THE SILENT ONE</text>
+<text x="380" y="509" text-anchor="middle" font-size="13" fill="#2b2117">Keeps the inner meaning of the law; concealing like the night.</text>
+
+<text x="380" y="568" text-anchor="middle" font-size="13" fill="#2b2117" font-style="italic">(Worshipper begins at the Speaker and ascends)</text>
+</svg>

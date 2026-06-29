@@ -1,0 +1,13 @@
+{
+  "ts": "2026-06-11T14:27Z",
+  "book": "the-master-and-the-disciple",
+  "chapters_in_scope": 1,
+  "p0": 0,
+  "p1": 0,
+  "p2": 3,
+  "auto_fixes": 1,
+  "score": 0.85,
+  "badge": "Drifting",
+  "verdict": "SHIP-READY",
+  "challenger_version": "2.5"
+}

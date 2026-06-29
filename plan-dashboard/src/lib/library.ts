@@ -8,12 +8,12 @@
 import { readdir, readFile, stat } from 'node:fs/promises';
 import { extname, join } from 'node:path';
 import { scoreBook, verdictLabel } from './peq-scores';
+import { simplifyTransliteration } from './translit';
 import {
   ACTIVE_CATEGORIES,
-  ALLOWED_CATEGORIES,
-  categoryLabel,
-  contentDir,
   findContent,
+  legacyCategoryOf,
+  legacyStageOf,
   listContent,
   slugToTitle,
   type Category,
@@ -104,7 +104,7 @@ export async function summarize(ref: ContentRef): Promise<ContentSummary> {
   const sourceDir = join(ref.dir, '_system', 'source');
   const m4aDir = join(ref.dir, 'm4a');
 
-  const title = await readTitleFromMeta(metaPath) ?? slugToTitle(ref.slug);
+  const title = simplifyTransliteration(await readTitleFromMeta(metaPath) ?? slugToTitle(ref.slug));
   const publicationStatus = await readPublicationStatusFromMeta(metaPath);
   const archetype = await readArchetypeFromMeta(metaPath);
   const bookScore = await scoreBook(ref.dir, archetype);
@@ -112,8 +112,8 @@ export async function summarize(ref: ContentRef): Promise<ContentSummary> {
   return {
     ref,
     title,
-    category: ref.category,
-    stage: ref.stage,
+    category: legacyCategoryOf(ref),
+    stage: legacyStageOf(ref),
     publicationStatus,
     hasMeta: await fileExists(metaPath),
     hasChapters: await dirExists(chaptersDir),

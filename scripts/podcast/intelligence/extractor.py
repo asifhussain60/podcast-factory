@@ -95,18 +95,10 @@ CHAPTER TEXT:
 
 
 def _load_gemini_key() -> str:
-    """Resolve Gemini API key: env var first, then Mac Keychain. Mirrors gemini_refine.py."""
-    env = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-    if env:
-        return env.strip()
-    r = subprocess.run(
-        ["security", "find-generic-password", "-s", "gemini_api_key",
-         "-a", os.environ.get("USER", ""), "-w"],
-        capture_output=True, text=True,
-    )
-    if r.returncode != 0:
-        raise SystemExit("gemini_api_key not found in env or keychain")
-    return r.stdout.strip()
+    # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
+    from _secrets import get_gemini_key
+    return get_gemini_key()
+
 
 
 def _default_llm_caller(prompt: str) -> tuple[int, str, str]:

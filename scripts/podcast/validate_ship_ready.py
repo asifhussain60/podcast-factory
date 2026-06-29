@@ -207,6 +207,43 @@ def main() -> int:
                          "passed": bool(ok12)})
     # G12 is advisory — warn but do not block ship
 
+    # G13 — arabic-script-in-chapters (P0): Islamic scholarly books must persist
+    # Arabic script in every chapter source, with pronunciation still controlled
+    # by the glossary / Customize prompt. Missing Arabic is a ship blocker.
+    try:
+        from _content_profile import is_islamic_scholarly
+        if is_islamic_scholarly(workspace):
+            from inject_chapter_arabic import chapter_arabic_status
+            _status = chapter_arabic_status(workspace)
+            _note = str(_status.get("note") or "")
+            gate_results.append({"gate": "G13", "name": "arabic-script-in-chapters",
+                                 "passed": bool(_status.get("ok")), "note": _note})
+            if not _status.get("ok"):
+                return _emit(args, gate_results, "BLOCKED",
+                             f"G13 arabic-script-in-chapters failed — {_note}")
+        else:
+            gate_results.append({"gate": "G13", "name": "arabic-script-in-chapters",
+                                 "passed": True,
+                                 "note": "n/a (not islamic_scholarly)"})
+    except Exception as _e:
+        gate_results.append({"gate": "G13", "name": "arabic-script-in-chapters",
+                             "passed": False,
+                             "note": f"check failed: {_e}"})
+        return _emit(args, gate_results, "BLOCKED",
+                     f"G13 arabic-script-in-chapters failed — {_e}")
+
+    # G14 — arabic-integrity: every protected Arabic span is byte-stable against
+    # the pre-LLM baseline snapshot (allowing only canonical injection + glossary
+    # curation). BLOCKING for Islamic books that took a baseline; vacuous pass for
+    # non-Islamic books or books with no snapshot. See arabic_integrity.py / R-ARABIC-INTEGRITY.
+    # (Distinct from G13: G13 reports glossary script coverage; G14 forbids any LLM
+    # pass from mutating/dropping/inventing a verse/hadith/term.)
+    import arabic_integrity as _ai
+    ok14, msg14 = _ai.gate_arabic_integrity(workspace)
+    gate_results.append({"gate": "G14", "name": "arabic-integrity", "passed": bool(ok14)})
+    if not ok14:
+        return _emit(args, gate_results, "BLOCKED", f"G14 arabic-integrity failed — {msg14}")
+
     total_gates = len(gate_results)
     return _emit(args, gate_results, "SHIP-READY",
                  f"all {total_gates} gates passed for {args.slug}; ready for publish")
@@ -223,6 +260,17 @@ def _emit(args, gate_results: list[dict], verdict: str, summary: str) -> int:
             "total_count": len(gate_results),
         }, indent=2))
     else:
+        # Echo advisory gate notes (e.g. G12 augmenter, G13 Arabic-script
+        # coverage). These never block ship, but they were previously written to
+        # the gate result and never printed in non-json mode — so the coverage
+        # signal was invisible at the finalize halt. Surface them now.
+        _advisories = [g for g in gate_results
+                       if g.get("advisory") and g.get("note")]
+        if _advisories:
+            print()
+            print("--- Advisories (non-blocking) ---")
+            for g in _advisories:
+                print(f"  · {g['gate']} {g['name']}: {g['note']}")
         print()
         if verdict == "SHIP-READY":
             print(f"✓ SHIP-READY — {summary}")

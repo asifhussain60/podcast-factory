@@ -1,0 +1,5595 @@
+[
+  {
+    "id": "T001",
+    "teaching": "The Quran has both an exoteric (zahir) dimension and an esoteric (batin) dimension, and the religion itself is likewise divided into a zahir part and a batin part.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "zahir",
+      "batin",
+      "ta'wil",
+      "tanzil"
+    ]
+  },
+  {
+    "id": "T002",
+    "teaching": "The responsibility of tanzil (the outward revelation) belongs to the Prophet Muhammad, while the responsibility of ta'wil (esoteric interpretation) belongs to the Wasi (successor/legatee), Mawlana Ali.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "tanzil",
+      "ta'wil",
+      "wasi",
+      "nabi",
+      "natiq"
+    ]
+  },
+  {
+    "id": "T003",
+    "teaching": "The Prophet Muhammad is called al-Amin (trustworthy) and al-Sadiq (truthful), titles recognised even by the polytheists of Makkah; his word must therefore be accepted.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "al-amin",
+      "al-sadiq",
+      "asdaq al-qailin"
+    ]
+  },
+  {
+    "id": "T004",
+    "teaching": "Knowledge has hierarchical levels — ta'wil, then haqa'iq, daqa'iq, haqa'iq 'aliyah, daqa'iq al-daqa'iq, and ifadat — and one receives knowledge only according to one's capacity (istiqaq).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "ta'wil",
+      "haqa'iq",
+      "daqa'iq",
+      "ifadat",
+      "istiqaq"
+    ]
+  },
+  {
+    "id": "T005",
+    "teaching": "In Ismaili ta'wil, wives (nisaa) in Quranic marriage verses allegorically represent mustafideen (spiritual students), and husbands represent mufideen (teachers/transmitters of esoteric knowledge).",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "mufid",
+      "mustafid",
+      "nisa",
+      "ta'wil",
+      "nikah"
+    ]
+  },
+  {
+    "id": "T006",
+    "teaching": "Fixing the dower (mahr) in a marriage, in ta'wil, signifies fixing a spiritual station (maqam) for the mustafid by the mufid; divorcing without setting the mahr means leaving the mustafid without granting full esoteric knowledge.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "mahr",
+      "maqam",
+      "mufid",
+      "mustafid",
+      "'ilm al-batin"
+    ]
+  },
+  {
+    "id": "T007",
+    "teaching": "A mustajib (respondent/new initiate) is the first rank of learners, and above that are ten ranks of the mu'min, which one ascends through gradual learning.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "mustajib",
+      "mu'min",
+      "maratib",
+      "daraja"
+    ]
+  },
+  {
+    "id": "T008",
+    "teaching": "Faith (iman) consists of three inseparable components: tasdiq bi al-jinan (affirmation of the heart), qawl bi al-lisan (utterance with the tongue), and 'amal bi al-arkan (action with the limbs).",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "iman",
+      "tasdiq",
+      "jinan",
+      "lisan",
+      "arkan",
+      "qawl"
+    ]
+  },
+  {
+    "id": "T009",
+    "teaching": "The spiritual form (surat-i ruhani) has two distinct aspects: the form of action (surat-i 'amali), produced by attesting to the Prophet and obeying the Shari'ah, and the form of knowledge (surat-i 'ilmi), produced by learning esoteric sciences.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "surat-i ruhani",
+      "surat-i 'amali",
+      "surat-i 'ilmi",
+      "shari'at"
+    ]
+  },
+  {
+    "id": "T010",
+    "teaching": "Every teaching of 'ilm al-batin ultimately traces back to Mawlana Ali; no matter who the teacher is, esoteric knowledge emerges from 'Ali.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "'ilm al-batin",
+      "wasi",
+      "silsila"
+    ]
+  },
+  {
+    "id": "T011",
+    "teaching": "A teacher (mufid) must teach each student only according to that student's capacity (istidaat/maghdur), and must not transgress the limits of the zahir when addressing those who are not ready for the batin.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "mufid",
+      "mustafid",
+      "had",
+      "hudud",
+      "istidaat"
+    ]
+  },
+  {
+    "id": "T012",
+    "teaching": "The verse 'wa kulla shay'in ahsaynahu fi imamin mubin' means that every perfect mu'min (called 'shay'' — thing) is enrolled in an orderly fashion within the manifest Imams (Imams Mubin), not merely gathered.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "shay'",
+      "imam mubin",
+      "ahsaynahu",
+      "mu'min"
+    ]
+  },
+  {
+    "id": "T013",
+    "teaching": "In esoteric terminology, shay' (thing) designates a perfect mu'min; nisf shay' (half-thing) designates a munafiq (hypocrite); and la shay' (no-thing) designates a kafir (disbeliever).",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "shay'",
+      "nisf shay'",
+      "la shay'",
+      "mu'min",
+      "munafiq",
+      "kafir"
+    ]
+  },
+  {
+    "id": "T014",
+    "teaching": "The Imams have two aspects: Lahut (spiritual/abstract) and Nasut (physical/visible); the Lahut contains suwarat (spiritual forms) while the Nasut contains rihiyat (spiritual essences).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "lahut",
+      "nasut",
+      "suwarat",
+      "rihiyat",
+      "imam"
+    ]
+  },
+  {
+    "id": "T015",
+    "teaching": "Saying 'la ilaha illa Allah' from the tongue alone is insufficient; it requires ikhlas (sincerity), the fulfillment of its rights (ada' huquqiha), and knowledge of its limits (ma'rifat hududiha).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "la ilaha illa Allah",
+      "ikhlas",
+      "hudud",
+      "ada' al-huquq"
+    ]
+  },
+  {
+    "id": "T016",
+    "teaching": "In ta'wil, the sky (sama') always represents the Prophet and the earth (ard) represents Ali; divine knowledge rains from the Prophet (sky) down to Ali (earth) and thence to believers.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "sama'",
+      "ard",
+      "natiq",
+      "wasi",
+      "fayd"
+    ]
+  },
+  {
+    "id": "T017",
+    "teaching": "The Quran contains both muhkamat (clear verses) and mutashabihat (allegorical verses); its signs (ayat) require the esoteric interpretation transmitted through the Imams and Du'at, not merely literal exegesis.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "muhkamat",
+      "mutashabihat",
+      "ayat",
+      "ta'wil",
+      "du'at"
+    ]
+  },
+  {
+    "id": "T018",
+    "teaching": "Wherever the word 'Allah' appears in Quranic ta'wil, the Imam of the Time is the intended referent, because the Imam is the manifest representative of divine authority.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "allah",
+      "imam al-zaman",
+      "ta'wil",
+      "mawla"
+    ]
+  },
+  {
+    "id": "T019",
+    "teaching": "The Rawdat al-Mustafid is the authoritative Ismaili Quranic ta'wil work written approximately 250 years ago by Sayyidna Husayn Husamuddin; its Urdu translation was made by order of Hazrat Zayni Sahib through Mulla Amir Sahib.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "rawdat al-mustafid",
+      "husayn husamuddin",
+      "ta'wil",
+      "urdu"
+    ]
+  },
+  {
+    "id": "T020",
+    "teaching": "The Salat al-Wusta (middle prayer) in ta'wil refers to the esoteric-spiritual assembly linked to the Wasi, who is intermediate between the Natiq (Prophet) and the zahiri scholars.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "salat al-wusta",
+      "wasi",
+      "natiq",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T021",
+    "teaching": "Taqiyyah (precautionary dissimulation) is permissible when facing enemies; Imam Ja'far al-Sadiq declared taqiyyah to be his religion and the religion of his forefathers.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "taqiyyah",
+      "ja'far al-sadiq",
+      "din",
+      "dissimulation"
+    ]
+  },
+  {
+    "id": "T022",
+    "teaching": "The 30 fasts of Ramadan allude to the 30 years during which Mawlana Ali was forced into silence after the Prophet's death during the period of the first three caliphates.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "sawm",
+      "ramadan",
+      "ali",
+      "khilafah",
+      "dawr al-satr"
+    ]
+  },
+  {
+    "id": "T023",
+    "teaching": "Fasts are a physical purification practice that have existed in every prophetic era (Musa, Maryam), but the methods differ while the underlying din remains one.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "sawm",
+      "shari'at",
+      "din",
+      "taharah"
+    ]
+  },
+  {
+    "id": "T024",
+    "teaching": "The Ramadan month has three decades (ashrat): each decade has a distinct spiritual purpose — forgiveness (maghfirah), blessing (barakah), and a third distinct aspect — totaling 30 necessary days.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "ramadan",
+      "ashrat",
+      "maghfirah",
+      "barakah",
+      "sawm"
+    ]
+  },
+  {
+    "id": "T025",
+    "teaching": "The system of cycles (karrati nizam) teaches that souls must be reborn thousands of times to purify the impurity (fudlat) they carry from the primordial descent; spiritual completion is not achieved in one lifetime.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "karrat",
+      "nizam",
+      "fudlat",
+      "ta'wil",
+      "ba'th"
+    ]
+  },
+  {
+    "id": "T026",
+    "teaching": "After death, a person's rihiyat, suwarat, and fudlat each take separate cosmic journeys: suwarat ascend to the Hadd-e-'Ali, rihiyat ascend to a lower station, and fudlat (corporeal residue) travel through a purification cycle of 720 years via twelve islands, five miqats, four matayif, and the mizab al-rahmah.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "rihiyat",
+      "suwarat",
+      "fudlat",
+      "miqat",
+      "matayif",
+      "mizab al-rahmah",
+      "hadd-e 'ali"
+    ]
+  },
+  {
+    "id": "T027",
+    "teaching": "The 720 years of cosmic purification are encoded in the root of the word khulasah (kha=600, lam=30, sad=90 = 720), indicating the alchemical refining of the fudlat into essence.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "khulasah",
+      "fudlat",
+      "abjad",
+      "tasfiyah",
+      "720"
+    ]
+  },
+  {
+    "id": "T028",
+    "teaching": "After 720 years above and 280 years in the grave (total ~1000 years), the soul completes its second coming (karrat-e thaniyah) and re-enters the world, descending through mineral, plant, and animal kingdoms before becoming human again.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "karrat",
+      "mi'raj",
+      "ma'ad",
+      "1000 years",
+      "cycle of return"
+    ]
+  },
+  {
+    "id": "T029",
+    "teaching": "The Wasi's intellectual emanations (fuyoohat-e 'ilmi) can be withdrawn from disobedient believers and then restored, just as Mawlana Ali withdrew and re-granted permission for da'wah activity.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "fuyoohat",
+      "ta'yid",
+      "wasi",
+      "da'wah",
+      "wilayah"
+    ]
+  },
+  {
+    "id": "T030",
+    "teaching": "Selfless service (khidmat bi la gharad) to the da'wah of the Wasi is rewarded with elevation of rank; showy or hypocritical service is entirely disliked in the da'wah.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "khidmat",
+      "ikhlas",
+      "da'wah",
+      "riya'"
+    ]
+  },
+  {
+    "id": "T031",
+    "teaching": "Power over granting and withholding (al-qabd wa al-bast) belongs entirely to the Wasi; all believers must ultimately return to him.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "qabd",
+      "bast",
+      "wasi",
+      "ruju'"
+    ]
+  },
+  {
+    "id": "T032",
+    "teaching": "In ta'wil, the story of Talut and Jalut illustrates that the Sultan of the Da'wah (Talut) teaches both zahir shari'ah and its esoteric meanings, while Jalut represents a false claimant of esoteric authority who deceives through false speech.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "talut",
+      "jalut",
+      "sultan al-da'wah",
+      "ta'wil",
+      "shari'ah"
+    ]
+  },
+  {
+    "id": "T033",
+    "teaching": "A small group of true believers, if they have certainty (yaqin) in the Imam's support and aid, can overcome a vastly larger opposing force, as the historical example of Talut's army demonstrates.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "yaqin",
+      "ta'yid",
+      "imam al-zaman",
+      "fi'at qalilah"
+    ]
+  },
+  {
+    "id": "T034",
+    "teaching": "The Imam of the Time knows and witnesses the actions of believers and wrongdoers alike, just as Allah is described as 'Alimun Khabir (All-Knowing, All-Aware).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 3 -->",
+    "key_terms": [
+      "imam al-zaman",
+      "'alim",
+      "khabir",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T035",
+    "teaching": "Historical leaders appointed by the Imam of the Time (such as Talut) are chosen for superiority in both exoteric ('ilm zahir) and esoteric ('ilm batin) knowledge, not for worldly wealth or status.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 3 -->",
+    "key_terms": [
+      "talut",
+      "'ilm zahir",
+      "'ilm batin",
+      "nass",
+      "imam al-zaman"
+    ]
+  },
+  {
+    "id": "T036",
+    "teaching": "The sign (aya) of a rightful Sultan of the Da'wah is that he brings the Ark (tabut) — interpreted as the exoteric shari'ah containing hidden esoteric meanings — carried by angels (the hudud).",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 3 -->",
+    "key_terms": [
+      "tabut",
+      "sakinah",
+      "aal musa",
+      "aal harun",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T037",
+    "teaching": "The Prophet Muhammad is known as the 'Musa of the era' in Ismaili ta'wil; events of Musa's time parallel events of the Prophet's time, and Harun's role parallels Ali's role.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 3 -->",
+    "key_terms": [
+      "musa",
+      "harun",
+      "natiq",
+      "wasi",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T038",
+    "teaching": "Truth (al-haqq) always rises and is never overcome (al-haqqu ya'lu wa la yu'la); time alternates between decline and increase in religion, and the righteous always ultimately prevail.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 4 -->",
+    "key_terms": [
+      "al-haqq",
+      "ya'lu",
+      "tilka al-ayyam nudawiluha",
+      "imam mahdi",
+      "qa'im"
+    ]
+  },
+  {
+    "id": "T039",
+    "teaching": "The Prophet Da'ud received both mulk (kingship/authority) and hikmah (wisdom/esoteric gnosis) from the Imam of his time, elevating him above the initiatory prophetic ranks.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 4 -->",
+    "key_terms": [
+      "da'ud",
+      "mulk",
+      "hikmah",
+      "'ilm al-batin",
+      "nabi",
+      "rasul"
+    ]
+  },
+  {
+    "id": "T040",
+    "teaching": "Prophets (anbiya') number 124,000, of whom 313 are messengers (rusul), and of those, six are nutuqa' (law-giving prophets): Adam, Nuh, Ibrahim, Musa, 'Isa, and Muhammad.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 4 -->",
+    "key_terms": [
+      "anbiya'",
+      "rusul",
+      "nutuqa'",
+      "124000",
+      "313",
+      "nabi",
+      "rasul"
+    ]
+  },
+  {
+    "id": "T041",
+    "teaching": "A Rasul (messenger) is higher in rank than a Nabi (prophet): every Rasul is a Nabi, but not every Nabi is a Rasul; the Nutuqa' are the highest-ranking prophets of all.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 4 -->",
+    "key_terms": [
+      "nabi",
+      "rasul",
+      "nutiq",
+      "maratib",
+      "hierarchy"
+    ]
+  },
+  {
+    "id": "T042",
+    "teaching": "The seventh and final Natiq (law-giving prophet) has not yet come; after the sixth Natiq (the Prophet Muhammad), the seventh Natiq will be the Qa'im.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 4 -->",
+    "key_terms": [
+      "qa'im",
+      "nutiq",
+      "khatim",
+      "seventh",
+      "da'wah"
+    ]
+  },
+  {
+    "id": "T043",
+    "teaching": "Each Natiq abrogates the shari'ah of the preceding Natiq while affirming all previous prophets; the Prophet Muhammad's shari'ah abrogated Christianity and all prior dispensations.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 4 -->",
+    "key_terms": [
+      "naskh",
+      "shari'ah",
+      "natiq",
+      "millah",
+      "muhammad"
+    ]
+  },
+  {
+    "id": "T044",
+    "teaching": "The five Ulu'l-'Azm prophets (Nuh, Ibrahim, Musa, 'Isa, and Muhammad) are the spiritual archetypes of the five daily prayers; the times of prayer are greater than the prayer itself because they are from Allah's side.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 4 -->",
+    "key_terms": [
+      "ulu al-'azm",
+      "salat",
+      "mamsul",
+      "khamsah salawat",
+      "arkaan"
+    ]
+  },
+  {
+    "id": "T045",
+    "teaching": "Ibrahim Khalilullah ascended from prophethood through messengership and through the rank of Natiq to be granted the rank of Imamate ('wa ja'alna Ibrahima imama'), making him unique among all prophets except Muhammad.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 4 -->",
+    "key_terms": [
+      "ibrahim",
+      "imamah",
+      "khalilullah",
+      "nutiq",
+      "ulu al-'azm"
+    ]
+  },
+  {
+    "id": "T046",
+    "teaching": "The Lahut of every past prophet is concentrated and summed in the Lahut of the Prophet Muhammad, making him 'Sayyid al-Mursalin' — the master into whom all prior messengers were absorbed.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 4 -->",
+    "key_terms": [
+      "lahut",
+      "nasut",
+      "sayyid al-mursalin",
+      "muhammad",
+      "a'immah"
+    ]
+  },
+  {
+    "id": "T047",
+    "teaching": "The era of concealment (dawr al-satr) is the current era; in it the Imam is hidden and the Nutuqa' are not mentioned by name, while the historical prophets (da'ud, sulayman, musa, 'isa) are the outward agents acting by the hidden Imam's command.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 4 -->",
+    "key_terms": [
+      "dawr al-satr",
+      "imam muhtajib",
+      "ibtida'i",
+      "mustaqarr",
+      "nutuqa'"
+    ]
+  },
+  {
+    "id": "T048",
+    "teaching": "The Rawdat al-Mustafid was composed by Sayyidna Husayn Jalaluddin 250 years before the lectures; the third section (Tilka al-Rusul onwards) was actually written by Sayyidna Ibrahim at the command of Sayyidna Ali bin Sulayman.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 4 -->",
+    "key_terms": [
+      "rawdat al-mustafid",
+      "husayn jalaluddin",
+      "ibrahim",
+      "ali bin sulayman",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T049",
+    "teaching": "In ta'wil, the term 'Yawm' (Day) and 'Sa'ah' (Hour) both refer to the time of the Qa'im's appearance and the establishment of the Qiyamah; not the literal Day of Resurrection in the common sense.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "yawm",
+      "sa'ah",
+      "qa'im",
+      "qiyamah",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T050",
+    "teaching": "The distinction between mushrikin (polytheists) and kuffar (disbelievers) is fundamental: the mushrikin were pre-Islamic idolaters, while the kuffar are those who entered Islam then apostasized by denying the rightful Wasi.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "mushrik",
+      "kafir",
+      "shirk",
+      "kufr",
+      "iman",
+      "wasi"
+    ]
+  },
+  {
+    "id": "T051",
+    "teaching": "The circle of Islam is large but the circle of iman (faith) is smaller; one enters the circle of iman only by affirming the Walayah of Ali, which began when the Prophet appointed his Wasi at Ghadir Khumm.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "iman",
+      "islam",
+      "walayah",
+      "ghadir khumm",
+      "wasi"
+    ]
+  },
+  {
+    "id": "T052",
+    "teaching": "Ayat al-Kursi: 'Allahu la ilaha illa Hu' means 'Allah has witnessed that there is no deity except Hu (Him)'; 'Allah' here refers to the 'Aql-e-Awwal (First Intellect), the Sabeq-e-Ta'ala, while 'Hu' indicates the unknowable Mubdi'-e-Ta'ala (Exalted Originator).",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "ayat al-kursi",
+      "'aql-e-awwal",
+      "sabeq",
+      "mubdi'",
+      "hu",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T053",
+    "teaching": "The Mubdi'-e-Ta'ala (Exalted Originator) who created the spiritual realm is absolutely transcendent: no thought, inner sight, or outer sight can reach Him; neither can any attribute be applied to Him (tanzih); His existence can only be affirmed, not comprehended.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "mubdi'",
+      "tanzih",
+      "tajrid",
+      "tawhid",
+      "la tujasirunnahu al-khawatir"
+    ]
+  },
+  {
+    "id": "T054",
+    "teaching": "The tawhid of the 'Aql-e-Awwal has three components: tajrid (stripping all others of divinity), tanzih (declaring the Mubdi' transcendent above attributes), and tawhid (affirming the oneness of the Originator).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "tawhid",
+      "tajrid",
+      "tanzih",
+      "'aql al-awwal",
+      "mabda'"
+    ]
+  },
+  {
+    "id": "T055",
+    "teaching": "The Asma' al-Husna (99 Beautiful Names) are not attributes of the unknowable Mubdi', but names of divine angels or special representatives upon whom these qualities are bestowed; that is why all 99 names are used with the prefix 'Abd (servant of).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "asma' al-husna",
+      "mubdi'",
+      "mala'ikah",
+      "'abd",
+      "tanzih"
+    ]
+  },
+  {
+    "id": "T056",
+    "teaching": "The 'Aql-e-Awwal was the first being to profess the tawhid of the Mubdi', doing so without a teacher or inspirer (bi la mu'allim wa la mulhim); this first declaration of tawhid was: 'Neither was I created by myself, nor can I create my own kind; our creator is someone else.'",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "'aql al-awwal",
+      "tawhid",
+      "mubdi'",
+      "mu'allim",
+      "mulhim"
+    ]
+  },
+  {
+    "id": "T057",
+    "teaching": "The 'Aql-e-Awwal is variously called Rabb al-'Alamin, Sabeq-e-Ta'ala, Mawjud-e-Awwal, Wujud-e-Awwal, and Mubda'-e-Awwal; he became the first veil (hijab-e-awwal) of the Mubdi' when his light increased beyond all others.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "'aql al-awwal",
+      "sabeq",
+      "rabb al-'alamin",
+      "hijab",
+      "mabda'"
+    ]
+  },
+  {
+    "id": "T058",
+    "teaching": "After the 'Aql-e-Awwal was established, two beings arose — the Munba'ith-e-Awwal (First Emissary) and the Munba'ith-e-Thani (Second Emissary); the first had a lofty gaze while the second had a base gaze and suffered from a 'delusion of equality' (wahm-e-masawat) with the first.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "munba'ith al-awwal",
+      "munba'ith al-thani",
+      "wahm-e-masawat",
+      "ma'dhuniyyat"
+    ]
+  },
+  {
+    "id": "T059",
+    "teaching": "The delusion of equality ('I am equal to the one above me') is classified as one of the 'mothers of sins' (ummahat ma'asi); it caused the Munba'ith-e-Thani to stagnate and fall to a lower circle of intellects.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "wahm-e-masawat",
+      "ummahat ma'asi",
+      "munba'ith",
+      "'aql",
+      "kibr"
+    ]
+  },
+  {
+    "id": "T060",
+    "teaching": "The Munba'ith-e-Thani eventually repented and, having his repentance accepted, became the 'Aql-e-'Ashir (Tenth Intellect) — the cosmic architect of the entire physical world.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "'aql al-'ashir",
+      "tawbah",
+      "munba'ith al-thani",
+      "khalq",
+      "architect"
+    ]
+  },
+  {
+    "id": "T061",
+    "teaching": "The seven circles of intellects (from the 'Aql-e-Awwal through the tenth) correspond to the seven heavens; after seven intellects were formed, 82 more were formed, and these led to the formation of 28 Arabic letters.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "'uqul",
+      "sab' samawat",
+      "huruf",
+      "abjad",
+      "28 letters"
+    ]
+  },
+  {
+    "id": "T062",
+    "teaching": "No one can intercede with the 'Aql-e-Awwal except through the Ta'li (Munba'ith-e-Awwal) as intermediary; all supplications and requests ultimately pass through this channel.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "ta'li",
+      "munba'ith al-awwal",
+      "shafa'ah",
+      "intercession",
+      "'aql al-awwal"
+    ]
+  },
+  {
+    "id": "T063",
+    "teaching": "The Wasi of the Prophet — Mawlana Ali — is the father of all Imams (Abu al-A'immah), the leader of the pious (Imam al-Muttaqin), and the source from which the noble da'wah originates; all subsequent Imams from Hasan to the present are veils (hujub) of Ali.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "wasi",
+      "ali",
+      "abu al-a'immah",
+      "imam al-muttaqin",
+      "hijab",
+      "a'immah"
+    ]
+  },
+  {
+    "id": "T064",
+    "teaching": "In ta'wil, three cosmic analogies are given for the Prophet and Ali: (1) Father (Prophet) and Mother (Ali); (2) Sun (Prophet) and Moon (Ali); (3) Heaven (Natiq/Prophet) and Earth (Wasi/Ali). The light of the Moon (Ali) is borrowed from the Sun (Prophet).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "shams",
+      "qamar",
+      "sama'",
+      "ard",
+      "nar",
+      "nur",
+      "prophet",
+      "ali"
+    ]
+  },
+  {
+    "id": "T065",
+    "teaching": "The intellect ('aql) resides in both the heart and the brain; the innate intellect (gharizi) is in the heart while the acquired intellect (muktasib) is related to the brain.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "'aql",
+      "gharizi",
+      "muktasib",
+      "qalb",
+      "dimagh"
+    ]
+  },
+  {
+    "id": "T066",
+    "teaching": "The distinction between Islam and Iman: Islam is the large outer circle, and Iman is the small inner circle; one in the inner circle is also in the outer, but not vice versa — iman requires firm belief in Ali.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "islam",
+      "iman",
+      "wilayah",
+      "ali",
+      "da'irah"
+    ]
+  },
+  {
+    "id": "T067",
+    "teaching": "La ikraha fi al-din (There is no compulsion in religion, Q 2:256) means in ta'wil that there is no compulsion to enter the da'wah of the Wasi; the distinction between the station of the Wasi (rushd) and the station of the Zidd (ghayy) has been made clear.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "la ikraha fi al-din",
+      "rushd",
+      "ghayy",
+      "wasi",
+      "zidd"
+    ]
+  },
+  {
+    "id": "T068",
+    "teaching": "Bara'ah (disassociation) from the first opponents (Zidd al-Awwal) is a prerequisite for complete acceptance of the Walayah of Mawlana Ali; it must exist in the heart even if it cannot be expressed publicly in times of taqiyyah.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "bara'ah",
+      "zidd al-awwal",
+      "walayah",
+      "taqiyyah",
+      "ali"
+    ]
+  },
+  {
+    "id": "T069",
+    "teaching": "The 'urwat al-wuthqa (firm handhold) in ta'wil refers to Fatima al-Zahra, who is the Hujjat of Mawlana Abu Talib and the Hujjat of Mawlana Ali; her connection to the Wasi is unbreakable.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "'urwat al-wuthqa",
+      "fatima al-zahra",
+      "hujjat",
+      "wasi",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T070",
+    "teaching": "Fatima al-Zahra is described as the remover of hardships for Mawlana Ali; after the Prophet and Ali, her rank comes third, and she is the Hujjat 'Usma.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "fatima",
+      "hujjat",
+      "ali",
+      "prophet",
+      "rank"
+    ]
+  },
+  {
+    "id": "T071",
+    "teaching": "The Wasi (Ali) is described in ta'wil as the Waliyy (protector) who brings believers out of doubts and uncertainties into the light of clear explanation; opponents of the Wasi's station are led by the Taghut (rebellious leaders of misguidance).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "waliyy",
+      "taghut",
+      "nur",
+      "zulumaat",
+      "ali",
+      "wasi"
+    ]
+  },
+  {
+    "id": "T072",
+    "teaching": "Nimrud, the opponent of Ibrahim, claimed authority over the esoteric da'wah despite possessing only worldly kingship; in ta'wil he represents those who falsely claim authority over the batin da'wah while holding only zahiri power.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "nimrud",
+      "ibrahim",
+      "zidd",
+      "zahir",
+      "batin",
+      "da'wah"
+    ]
+  },
+  {
+    "id": "T073",
+    "teaching": "The sun rising from the maghrib (west) as prophesied by the Prophet is interpreted in ta'wil as the emergence of Mawlana Imam Mahdi from Murakush (Morocco), which is the 'maghrib' (west); 'Mim-e-Awsat' refers to Imam Mahdi paralleling 'Mim-e-Awwal' for the Prophet.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "shams min al-maghrib",
+      "imam mahdi",
+      "murakush",
+      "mim-e-awsat",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T074",
+    "teaching": "The story of 'Uzayr (or Armiya) being made dead for 100 years and revived illustrates the Imam cutting off connection with 100 hudud (symbolic of 100 years) and then restoring their connection with spiritual help.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "'uzayr",
+      "mi'at 'am",
+      "hudud",
+      "ta'yid",
+      "imam al-zaman",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T075",
+    "teaching": "Ibrahim's request to witness the resurrection of the dead (Q 2:260) refers in ta'wil to his requesting the Muqim (his higher authority) to explain the methodology of da'wah propagation; the four birds represent four Hujjats elevated to the rank of 'uruf and then dispatched to spread the da'wah.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "ihya al-mawta",
+      "arba'at min al-tayr",
+      "hujjat",
+      "'uruf",
+      "da'wah",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T076",
+    "teaching": "Zakat in ta'wil means spending the wealth of esoteric knowledge; the exoteric ruling (1/40 of wealth) purifies the remaining 39 parts, and failure to give zakat is the cause of worldly losses at sea and on land.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "zakat",
+      "infaq",
+      "'ilm al-batin",
+      "tazkiyah",
+      "mal"
+    ]
+  },
+  {
+    "id": "T077",
+    "teaching": "The eight legitimate recipients of zakat include ibn al-sabil, 'amilin, the poor, the needy, orphans, captives, those in debt, and mu'allafat al-qulub (those whose hearts are to be won over); this system is described in the Da'a'im al-Islam.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "zakat",
+      "masarif",
+      "ibn al-sabil",
+      "'amilin",
+      "mu'allafat al-qulub",
+      "da'a'im al-islam"
+    ]
+  },
+  {
+    "id": "T078",
+    "teaching": "The Wasi gives wisdom (hikmah/'ilm al-batin) to whomever he wills; whoever receives it has received a great wealth, and only possessors of esoteric knowledge ('ulu al-albab) can truly understand it.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "hikmah",
+      "'ilm al-batin",
+      "ulu al-albab",
+      "wasi",
+      "istidaat"
+    ]
+  },
+  {
+    "id": "T079",
+    "teaching": "Four things belong exclusively to Allah: al-Mulk (sovereignty), al-Rizq (sustenance), al-Amr (command), and al-'Ibadah (worship); none of these can be transferred to or claimed by any creature.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "mulk",
+      "rizq",
+      "amr",
+      "'ibadah",
+      "tawhid",
+      "haqq allah"
+    ]
+  },
+  {
+    "id": "T080",
+    "teaching": "Spending knowledge in da'wah openly and secretly, in the eras of both zuhur (manifestation) and sitr (concealment), earns the full reward from the Imam of the Time; the believer who spends knowledge has no fear of going astray.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 7 -->",
+    "key_terms": [
+      "infaq",
+      "sitr",
+      "zuhur",
+      "da'wah",
+      "taqiyyah",
+      "ajr"
+    ]
+  },
+  {
+    "id": "T081",
+    "teaching": "The Shaytan (in ta'wil: the Second Opponent, i.e., the false caliphs) frightens believers by threatening that following Ali leads to deprivation of religious gnosis and worldly harm; Allah's promise is the opposite — forgiveness and increased rank.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 7 -->",
+    "key_terms": [
+      "shaytan",
+      "zidd al-thani",
+      "faqr",
+      "khalifah",
+      "tawbah"
+    ]
+  },
+  {
+    "id": "T082",
+    "teaching": "Those who commit ghuluw (excess) by raising someone above their rightful rank, and those who commit khuluw (deficiency) by lowering them below it, are equally in error; the middle way is to keep every person at their proper rank.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 8 -->",
+    "key_terms": [
+      "ghuluw",
+      "khuluw",
+      "maratib",
+      "hudud",
+      "wasatiyyah"
+    ]
+  },
+  {
+    "id": "T083",
+    "teaching": "The Imam al-Zaman dislikes both the munkar (denier) and the ghali (exaggerator); he obliterates wrong beliefs of deficiency and exaggeration and elevates the ranks of true-believing Momineen.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 8 -->",
+    "key_terms": [
+      "ghuluw",
+      "khuluw",
+      "imam al-zaman",
+      "waqif",
+      "ghali",
+      "munkar"
+    ]
+  },
+  {
+    "id": "T084",
+    "teaching": "The teaching of 'ilm al-batin is not incumbent on the Prophet; it is the exclusive right and function of the Wasi (Ali), who will teach it to whoever wears the robe of the Prophet's obedience with true ikhlas.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 8 -->",
+    "key_terms": [
+      "'ilm al-batin",
+      "wasi",
+      "nabi",
+      "ikhlas",
+      "ta'ah",
+      "tanzil"
+    ]
+  },
+  {
+    "id": "T085",
+    "teaching": "Bara'ah from Mawlana Ali is absolutely forbidden even under mortal threat; historical examples from the time of Sayyidna Taher Saifuddin confirm that the faithful offered their necks but refused to disassociate from Ali.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 8 -->",
+    "key_terms": [
+      "bara'ah",
+      "ali",
+      "taqiyyah",
+      "shahid",
+      "wilayah"
+    ]
+  },
+  {
+    "id": "T086",
+    "teaching": "Riba (interest) in ta'wil refers to ghuluw (exaggeration) in the station of the Hudud; it renders a person unable to impress their false beliefs, like one made mad by Satan — the ghali and the khali are equally lost.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 8 -->",
+    "key_terms": [
+      "riba",
+      "ghuluw",
+      "khuluw",
+      "hudud",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T087",
+    "teaching": "Avoiding the opposition of Bab-e-Salmani (the Bab al-Abwab, associated with the rank of Salman al-Farsi) is described as the means by which one progresses to the Lahut of the Imam.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 9 -->",
+    "key_terms": [
+      "bab-e-salmani",
+      "bab al-abwab",
+      "lahut",
+      "imam",
+      "salman al-farsi",
+      "inbi'asi"
+    ]
+  },
+  {
+    "id": "T088",
+    "teaching": "There are four grades of Bab: Bab-e-Zahir (apparent gate in the physical world), Bab-e-Batin (hidden gate near the Imam), Bab-e-Salsal (an elevated sub-rank within it), and Bab-e-Salmani / Bab-e-Inbi'asi (the highest rank of the Bab al-Abwab).",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 9 -->",
+    "key_terms": [
+      "bab zahir",
+      "bab batin",
+      "bab salsal",
+      "bab salmani",
+      "bab al-abwab",
+      "inbi'asi"
+    ]
+  },
+  {
+    "id": "T089",
+    "teaching": "When the lower souls (sugharat) collected by the Bab al-Abwab are presented to the Imam, they cease to be called a 'congregation' and become part of the Lahut, the haikal, or the Imamat — these three terms are equivalent.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 9 -->",
+    "key_terms": [
+      "sugharat",
+      "lahut",
+      "haikal",
+      "imamat",
+      "bab al-abwab",
+      "majma'"
+    ]
+  },
+  {
+    "id": "T090",
+    "teaching": "The Daur-e-Kashf (period of manifestation) lasts 50,000 years (with the last 3,000 years being the Fatrat period of transition), after which the Daur-e-Satr (period of concealment) begins; these alternate like day and night and cannot be changed by human will.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 9 -->",
+    "key_terms": [
+      "dawr al-kashf",
+      "dawr al-satr",
+      "fatrat",
+      "50000 years",
+      "sunnah allah"
+    ]
+  },
+  {
+    "id": "T091",
+    "teaching": "In a transaction requiring a witness (nass and tawqif scenario), if the appointed person (mansus) is a child or incapable, a trustee (mustawda'/kafil) acts in his place until the mansus is ready; at that moment divine support (ta'yid) transfers from the trustee to the mansus.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 9 -->",
+    "key_terms": [
+      "nass",
+      "mustawda'",
+      "kafil",
+      "ta'yid",
+      "mansus",
+      "qiyam"
+    ]
+  },
+  {
+    "id": "T092",
+    "teaching": "The historical example of Sayyidna Muhammad ibn Fahd acknowledging Sayyidna Ja'far al-Mansur as the rightful Da'i by transferring the divine support illustrates the principle of nass and legitimate transfer of spiritual authority.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 9 -->",
+    "key_terms": [
+      "ja'far al-mansur",
+      "muhammad ibn fahd",
+      "nass",
+      "ta'yid",
+      "amin-e-da'wah"
+    ]
+  },
+  {
+    "id": "T093",
+    "teaching": "A teacher (mufid) must teach only what the Imam has taught him and must not add or subtract anything; all divine support (ta'yid) for teaching comes from the Imam, not from the teacher's own knowledge.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 9 -->",
+    "key_terms": [
+      "mufid",
+      "ta'yid",
+      "imam",
+      "kitabat",
+      "da'wah"
+    ]
+  },
+  {
+    "id": "T094",
+    "teaching": "Sayyidna Ja'far al-Mansur advanced from the rank of Da'i to the rank of Hujjah, creating a vacancy at the Da'i level which was then filled by appointing his predecessor Sayyidna Muhammad ibn Fahd to the newly vacated seat.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 9 -->",
+    "key_terms": [
+      "ja'far al-mansur",
+      "hujjah",
+      "da'i",
+      "muhammad ibn fahd",
+      "maratib"
+    ]
+  },
+  {
+    "id": "T095",
+    "teaching": "Women in Quranic verses about transactions (like the requirement of two female witnesses) represent students (mustafideen) in ta'wil; one student can remind the other when the first makes an error.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 9 -->",
+    "key_terms": [
+      "nisa'",
+      "mustafid",
+      "ta'wil",
+      "shahid",
+      "shahida"
+    ]
+  },
+  {
+    "id": "T096",
+    "teaching": "The rijal al-da'wah (men of the mission) are those who can function as mufideen (male teachers); there is a separate category called 'untha (neuter/feminine) who are mafasih (eloquent) but do not attain the rank of mufid.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 9 -->",
+    "key_terms": [
+      "rijal al-da'wah",
+      "mufid",
+      "muzakkar",
+      "mu'annas",
+      "mafasih"
+    ]
+  },
+  {
+    "id": "T097",
+    "teaching": "The mufid (teacher) must not refuse to teach; whatever Allah has taught the mufid through the Imam, he must transmit it completely to his mustafidin without weariness or abridgement.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 9 -->",
+    "key_terms": [
+      "mufid",
+      "mustafid",
+      "ta'lim",
+      "da'wah",
+      "amanah"
+    ]
+  },
+  {
+    "id": "T098",
+    "teaching": "The ownership of all knowledge of the da'wah of the A'immah and Hujjat belongs to Ali; the hypocritical creeds of leaders of misguidance will all be accounted for by Ali, who will forgive or punish whom he wills.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "ali",
+      "hisab",
+      "da'wah",
+      "zalalat",
+      "maghfirah",
+      "iqab"
+    ]
+  },
+  {
+    "id": "T099",
+    "teaching": "The Wasi Ali holds the status of 'Juzwi Qa'im' (partial/interim Qa'im) for the period since the Prophet's departure until today (~1400 years); the final full Qa'im of Islam (the seventh Natiq) is yet to come.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "juzwi qa'im",
+      "ali",
+      "qa'im al-islam",
+      "natiq",
+      "seventh"
+    ]
+  },
+  {
+    "id": "T100",
+    "teaching": "The verse 'Aamanar-rasulu bima unzila ilayhi' means in ta'wil that those who revealed the wahi commanded the Prophet through his Hadd-e-'Ali to appoint the Wasi, and the best of creation (the believers) accepted and affirmed this appointment.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "wahi",
+      "hadd-e-'ali",
+      "wasi",
+      "nass",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T101",
+    "teaching": "The command 'balligh ma unzila ilayk' (Q 5:67) was the final decisive divine command to the Prophet to publicly appoint Ali as his Wasi at Ghadir Khumm on the return from the final Hajj; failure to do so would have invalidated his entire message.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "balligh ma unzila ilayk",
+      "ghadir khumm",
+      "wasi",
+      "hajj",
+      "khatam"
+    ]
+  },
+  {
+    "id": "T102",
+    "teaching": "Wahi (revelation) reaches prophets in three ways: direct wahi (the highest, in the manzil of Jadd), through a vision/mushahada (manzil of Fath), and through a messenger/qasid (manzil of Khayal); these correspond to the spiritual stations of Jadd ('Abd al-Muttalib), Fath (Abu Talib), and Khayal ('Abdullah).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "wahi",
+      "jadd",
+      "fath",
+      "khayal",
+      "'abd al-muttalib",
+      "abu talib",
+      "'abdallah",
+      "manzil"
+    ]
+  },
+  {
+    "id": "T103",
+    "teaching": "The phrase 'dhalika al-kitabu la rayba fih' uses 'dhalika' (that) rather than 'hadha' (this) to refer to Mawlana Ali as the Qur'an al-Natiq (Speaking Quran); the written Quran is Qur'an al-Samit (Silent Quran) while Ali himself is the Qur'an al-Natiq.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "qur'an al-natiq",
+      "qur'an al-samit",
+      "dhalika al-kitab",
+      "ali",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T104",
+    "teaching": "Mawlana Ali declared 'hadha Qur'anun samit wa ana kitabullahi al-natiq' (This is a silent Quran and I am the speaking Book of Allah), establishing his identity as the living embodiment of Quranic guidance.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "qur'an natiq",
+      "qur'an samit",
+      "ali",
+      "kitab allah",
+      "hidayah"
+    ]
+  },
+  {
+    "id": "T105",
+    "teaching": "The Walayah of Mawlana Ali is the highest pillar of the da'wah; without it, no prayer, fast, hajj, or zakat is valid — it is ranked above all other obligations in the Da'a'im al-Islam.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "walayah",
+      "ali",
+      "salat",
+      "sawm",
+      "hajj",
+      "zakat",
+      "da'a'im al-islam"
+    ]
+  },
+  {
+    "id": "T106",
+    "teaching": "The five daily prayers symbolize the five Ulu'l-'Azm prophets; the times of prayer are from Allah and are greater than the prayer itself; the prayer must be offered at its prescribed time.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "salat",
+      "mawaqit",
+      "ulu al-'azm",
+      "salatan mawquta",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T107",
+    "teaching": "The mustaqarr Imams (permanent/established Imams) are distinct from and higher than the ibtida'i prophets (initiatory prophets); every prophet acts under the command of the hidden mustaqarr Imam of his era.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "mustaqarr",
+      "ibtida'i",
+      "imam",
+      "natiq",
+      "hud",
+      "salih",
+      "dawr al-satr"
+    ]
+  },
+  {
+    "id": "T108",
+    "teaching": "Mawlana Ali is the accumulation of 10,000 years of spiritual collections (istiqrari forms), while the Prophet accumulated 9,000 years of ibtida'i forms; making them equal even by a hair's breadth is a deviation from tawhid.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "istiqrari",
+      "ibtida'i",
+      "ali",
+      "prophet",
+      "10000 years",
+      "9000 years",
+      "tawhid"
+    ]
+  },
+  {
+    "id": "T109",
+    "teaching": "The Wasi places no burden on any servant of the da'wah beyond their capacity; each person is given knowledge and responsibility commensurate with their zarf (capacity), and the reward and punishment are proportional.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "wasi",
+      "zarf",
+      "taklif",
+      "da'wah",
+      "la yukallifu allahu nafsan"
+    ]
+  },
+  {
+    "id": "T110",
+    "teaching": "The three stages of wahi delivery — Jadd, Fath, and Khayal — correspond to the three paternal ancestors of the Prophet (Abd al-Muttalib, Abu Talib, 'Abdullah); the highest wahi (Jadd) has the least impurity (kasafat).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "jadd",
+      "fath",
+      "khayal",
+      "wahi",
+      "kasafat",
+      "huruf",
+      "abjad"
+    ]
+  },
+  {
+    "id": "T111",
+    "teaching": "Knowledge (science, scholarship) is like water: sweet water (true knowledge) is rare and beneficial, while brackish/salty water (false or doubtful knowledge) is more abundant; the teacher must not teach doubtful knowledge he himself does not believe.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 7 -->",
+    "key_terms": [
+      "'ilm",
+      "ma'",
+      "halal",
+      "haram",
+      "mufid",
+      "mustafid"
+    ]
+  },
+  {
+    "id": "T112",
+    "teaching": "Affirming the Waliyyan-e-Amr (Guardians of the Command / Imams) openly is praiseworthy; in the era of sitr (concealment), secretly introducing the unaware to the possessors of ranks has an even higher station.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 7 -->",
+    "key_terms": [
+      "waliyyan-e-amr",
+      "sitr",
+      "zuhur",
+      "taqiyyah",
+      "kashf",
+      "maratib"
+    ]
+  },
+  {
+    "id": "T113",
+    "teaching": "Man kuntu mawlahu fa hadha 'Aliyyun mawlahu — the Prophet's declaration at Ghadir Khumm before 70,000 (and countless other) souls established Ali as the rightful master and guardian of all believers after him.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "man kuntu mawlahu",
+      "ghadir khumm",
+      "mawla",
+      "wasi",
+      "wilayah"
+    ]
+  },
+  {
+    "id": "T114",
+    "teaching": "The Wasi's rank is the most important after the Prophet; raising a Wasi (successor) is a necessary prophetic function — just as Musa raised Harun and the Prophet raised Ali — because the Imamate continues from the Wasi's lineage.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "wasi",
+      "imam",
+      "musa",
+      "harun",
+      "imamate",
+      "istimrar"
+    ]
+  },
+  {
+    "id": "T115",
+    "teaching": "Mawlana Hasan ibn Ali said: 'What is seen with the eyes is truth, and what is heard with the ears is falsehood; the distance between the two is four fingers.' This establishes eyewitness above hearsay.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "hasan",
+      "basar",
+      "sam'",
+      "haqq",
+      "batil",
+      "arba' asabi'"
+    ]
+  },
+  {
+    "id": "T116",
+    "teaching": "The word munafiq (hypocrite) derives from nafaq (tunnel/burrow) — one that enters from one side and exits from the other; a hypocrite's belief enters one ear and exits the other, as a burrow passes through.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "munafiq",
+      "nafaq",
+      "nifaq",
+      "ear",
+      "heart",
+      "tongue"
+    ]
+  },
+  {
+    "id": "T117",
+    "teaching": "The Prophet's statement 'I and the Sa'ah (Hour) were walking together and I went a little ahead' means the sixth shari'ah (Prophet's) came first, and the Qa'im (the seventh Natiq/Hour) will follow.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "sa'ah",
+      "qa'im",
+      "natiq",
+      "shari'ah",
+      "khatam"
+    ]
+  },
+  {
+    "id": "T118",
+    "teaching": "The da'wah should be taught using gradual, capacity-adapted methods; a student who understands in one or two sentences should not be burdened with lengthy explanation, while those who understand less must be nourished more fully.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 3 -->",
+    "key_terms": [
+      "istidaat",
+      "mufid",
+      "mustafid",
+      "ta'lim",
+      "zarf"
+    ]
+  },
+  {
+    "id": "T119",
+    "teaching": "The 'aqd (covenant/initiation) taken in the da'wah has the believer agreeing to affirm the Imam, the Wasi, and the Hudud of the din; the secrets (asrar) of the oath are given to those who take it.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "'ahd",
+      "'aqd",
+      "bay'ah",
+      "asrar",
+      "hudud al-din",
+      "da'wah"
+    ]
+  },
+  {
+    "id": "T120",
+    "teaching": "The shari'ah of Jesus ('Isa) is described as the 'abode of bones' (fifth shari'ah), and the Prophet's shari'ah (sixth) is when flesh was placed on the bones — completing the bodily structure analogous to the six months of fetal development.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "shari'at-e-'isa",
+      "shari'at-e-muhammadiyyah",
+      "'izaam",
+      "lahm",
+      "ta'wil",
+      "janin"
+    ]
+  },
+  {
+    "id": "T121",
+    "teaching": "The Prophet Ali ibn Husayn (Zayni Sahib) gave the order to translate the Rawdat al-Mustafid into Urdu so that believers in Hind and Sind could access its ta'wil; the ifadah of esoteric teaching continues in Hind-Sind while it is stopped in Yemen and other regions.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "rawdat al-mustafid",
+      "zayni sahib",
+      "urdu",
+      "ifadah",
+      "hind",
+      "sind"
+    ]
+  },
+  {
+    "id": "T122",
+    "teaching": "'Isa Masih's title 'Masih' derives from 'siyahat' (wandering/traveling); he had no permanent home, and his dyeing workshop miracle (coloring all cloth from one vat, producing each color on demand) revealed him as a Wali Allah to his twelve disciples (hawariyyun).",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "masih",
+      "siyahat",
+      "sibghah",
+      "hawariyyun",
+      "'isa",
+      "wali allah"
+    ]
+  },
+  {
+    "id": "T123",
+    "teaching": "The believer must fear the day of the Qa'im's Qiyamah and should not oppose the Bab-e-Salmani (Bab al-Abwab); each soul will be given a rank according to its istihqaq (deservingness) with perfect 'adl (justice) from the Imam.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 9 -->",
+    "key_terms": [
+      "qa'im",
+      "qiyamah",
+      "bab-e-salmani",
+      "istihqaq",
+      "'adl",
+      "imam"
+    ]
+  },
+  {
+    "id": "T124",
+    "teaching": "In the era of sitr (concealment), the Imam is hidden (muhtajib), and the Da'is and Ma'zuneen perform the work of the mission in his place; the current era is one of sitr.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "dawr al-satr",
+      "imam muhtajib",
+      "da'i",
+      "ma'dhun",
+      "da'wah"
+    ]
+  },
+  {
+    "id": "T125",
+    "teaching": "The entire known Quranic commentary tradition of non-Ismaili scholars misses the ta'wil by focusing on vowel marks (zabar, zer, pesh) and grammatical pronouns while missing the esoteric intended meaning (murad); only the Imams and those who inherit from them know the ta'wil.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "tafsir",
+      "ta'wil",
+      "murad",
+      "zabar",
+      "zer",
+      "pesh",
+      "rasikhuun fi al-'ilm"
+    ]
+  },
+  {
+    "id": "T126",
+    "teaching": "The verse 'wa ma ya'lamu ta'wilahu illa Allah wa al-rasikhuna fi al-'ilm' establishes that only Allah and those firmly rooted in knowledge (the Imams and their Du'at) know the ta'wil; others claim 'only Allah knows' and refuse to acknowledge the living Imam.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "rasikhun fi al-'ilm",
+      "ta'wil",
+      "imam",
+      "du'at",
+      "fas'alu ahl al-dhikr"
+    ]
+  },
+  {
+    "id": "T127",
+    "teaching": "Mawlana Ali extended his left hand (not the right) when compelled to give bay'ah to the first Caliph, saying 'My right hand was given to the Prophet'; this gesture signaled the illegitimacy of the transaction.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "ali",
+      "bay'ah",
+      "abu bakr",
+      "yad yusra",
+      "khilafah",
+      "ghadir"
+    ]
+  },
+  {
+    "id": "T128",
+    "teaching": "The opponents of the da'wah in the time of Ibrahim (Nimrud), Musa (Fir'awn), and Nuh (unnamed opponents) all followed a pattern: they denied, showed arrogance (ankara wa-stakbara), and were declared enemies of Allah by the prophet.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 3 -->",
+    "key_terms": [
+      "nimrud",
+      "fir'awn",
+      "ankara wa-stakbara",
+      "'aduww allah",
+      "bara'ah"
+    ]
+  },
+  {
+    "id": "T129",
+    "teaching": "The three great battles of Mawlana Ali — Siffin, Jamal, and Nahrwan — were against the kuffar (those who disbelieved after having faith), and these three categories are the mariqin, nakisin, and qasitin mentioned in the Nasr-e-'Aziz prayer.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 3 -->",
+    "key_terms": [
+      "siffin",
+      "jamal",
+      "nahrwan",
+      "mariqin",
+      "nakisin",
+      "qasitin",
+      "nasr-e-'aziz"
+    ]
+  },
+  {
+    "id": "T130",
+    "teaching": "Only through the Nasr-e-'Aziz prayer — which explicitly names the mariqin, nakisin, and qasitin — do Ismailis differ from their da'wah opponents; this prayer is the distinct mark of the da'wah's true believers.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 3 -->",
+    "key_terms": [
+      "nasr-e-'aziz",
+      "mariqin",
+      "nakisin",
+      "qasitin",
+      "da'wah",
+      "furuq"
+    ]
+  },
+  {
+    "id": "T131",
+    "teaching": "Without acceptance of all the Imams from Mawlana Hasan to the present (48th) Imam by name, no prayer, fast, hajj, or zakat is valid — the belief in the Imam's progeny is an essential condition of valid worship.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "a'immah",
+      "salat",
+      "sawm",
+      "hajj",
+      "zakat",
+      "walayah",
+      "ism"
+    ]
+  },
+  {
+    "id": "T132",
+    "teaching": "The Da'a'im al-Islam is the foundational book of the Ismaili community, authenticated by Mawlana Mu'izz (the Imam of the time); it is valid until the Day of Judgment and contains esoteric meanings behind every ruling.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 3 -->",
+    "key_terms": [
+      "da'a'im al-islam",
+      "mawlana mu'izz",
+      "shari'ah",
+      "ta'wil",
+      "batin"
+    ]
+  },
+  {
+    "id": "T133",
+    "teaching": "The miracle of Ali included materially changing the physical form (hayat) of a person into a dog by divine command, and then restoring it by invoking the intercessions of all the Nutuqa'; this demonstrates that such powers belong to Ali alone.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "ali",
+      "mu'jizah",
+      "hayat",
+      "shafi'ah",
+      "nutuqa'",
+      "qudrah"
+    ]
+  },
+  {
+    "id": "T134",
+    "teaching": "The Prophet said to Ali: 'I and you, O Ali, are the two fathers of the believers'; the Prophet is the spiritual father and Ali is the spiritual mother, explaining why wilayah of Ali has been made obligatory as 'paradise lies at the feet of the mother'.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "aba'wayn al-mu'minin",
+      "ali",
+      "prophet",
+      "wilayah",
+      "umm",
+      "jannah"
+    ]
+  },
+  {
+    "id": "T135",
+    "teaching": "Ikhlas (sincerity) is defined by the Prophet as: 'Fulfilling the rights (of la ilaha illa Allah) and knowing its limits (hudud)' — meaning performing all religious obligations and correctly recognizing the ranks of the Prophet, Ali, Husayn, and each hudud.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "ikhlas",
+      "ada' al-huquq",
+      "ma'rifat al-hudud",
+      "la ilaha illa allah",
+      "din"
+    ]
+  },
+  {
+    "id": "T136",
+    "teaching": "In ta'wil, the verse of zakat spending (infaq) refers to the obligation to teach esoteric sciences to mustafideen; the teacher who withholds esoteric knowledge from those who deserve it falls short of the Wasi's command.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "infaq",
+      "'ilm al-batin",
+      "mufid",
+      "mustafid",
+      "zakat",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T137",
+    "teaching": "In ta'wil, the verse about charity given openly and secretly corresponds to affirming the Waliyyan-e-Amr openly (in kashf) versus secretly introducing people to the possessors of ranks (in sitr); the secret act has a higher reward in the era of sitr.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 7 -->",
+    "key_terms": [
+      "sadaqah",
+      "sitr",
+      "kashf",
+      "waliyyan-e-amr",
+      "maratib",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T138",
+    "teaching": "The wahi that came to the Prophet had Jibra'il Amin as intermediary, and Jibra'il was a mala'ikah (angel) from the hadd-e-'ali who appeared in human form; the wahi then manifested in the Prophet's heart as the light of the Quran.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "jibra'il",
+      "wahi",
+      "hadd-e-'ali",
+      "mala'ikah",
+      "nur al-qur'an",
+      "qalb"
+    ]
+  },
+  {
+    "id": "T139",
+    "teaching": "Sayyidna 'Ali ibn Husayn (the Da'i) wrote his books citing Sayyidna Ja'far as his source, indicating that all knowledge attributed to himself was drawn from the assembly of Sayyidna Ja'far — a standard practice of acknowledging spiritual dependency.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "'ali ibn husayn",
+      "ja'far",
+      "ta'lid",
+      "murabbi",
+      "ta'yid",
+      "kitabah"
+    ]
+  },
+  {
+    "id": "T140",
+    "teaching": "The Quranic phrase 'aqimu al-salata wa atu al-zakat' (establish prayer and give zakat) is in ta'wil the command to establish the Muhammadan da'wah (salat) and to spread Ali's ta'wil (zakat) — not merely the ritual acts alone.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "salat",
+      "zakat",
+      "ta'wil",
+      "da'wah",
+      "shari'ah",
+      "aqimu"
+    ]
+  },
+  {
+    "id": "T141",
+    "teaching": "Gratitude (shukr) must be the constant disposition of a believer: every breath that comes and goes is a blessing; the one who does not understand the great blessings of the Wasi is ungrateful.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 2 -->",
+    "key_terms": [
+      "shukr",
+      "ni'mah",
+      "wasi",
+      "nafs",
+      "da'wah"
+    ]
+  },
+  {
+    "id": "T142",
+    "teaching": "The Imam of the Time is described as the great magnet of the world (ya Mawlana Muhammadin Ali, Imam al-Zaman, aghithni) — every soul must ultimately return to him, just as the earth's gravitational force draws all things to it.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 4 -->",
+    "key_terms": [
+      "imam al-zaman",
+      "maghnatis",
+      "ruju'",
+      "da'wah",
+      "gravitational"
+    ]
+  },
+  {
+    "id": "T143",
+    "teaching": "The Garden of Abode (jannat al-ma'wa) near the Lote-tree of the Utmost Boundary (sidrat al-muntaha) corresponds in the earthly world to the Imam of the Time and the Bab al-Abwab (Gate of Gates).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "jannat al-ma'wa",
+      "sidrat al-muntaha",
+      "bab al-abwab",
+      "imam",
+      "munba'ith al-awwal"
+    ]
+  },
+  {
+    "id": "T144",
+    "teaching": "The da'wah of the Imam of the Time is identical to the da'wah of the Wasi; the Wasi's da'wah is the divine da'wah, and its acceptance constitutes true iman.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "da'wah",
+      "wasi",
+      "imam al-zaman",
+      "iman",
+      "da'wah al-ilahiyyah"
+    ]
+  },
+  {
+    "id": "T145",
+    "teaching": "The nine stages of fetal development — governed successively by Saturn, Jupiter, Mars, Sun, Venus, Mercury, Moon, Saturn again, and finally Jupiter — correspond to the months of pregnancy and explain why the ninth month brings birth while the eighth is dangerous.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "zuhal",
+      "mushtari",
+      "mirrikh",
+      "shams",
+      "qamar",
+      "janin",
+      "hasb",
+      "nasab"
+    ]
+  },
+  {
+    "id": "T146",
+    "teaching": "In some eras, the da'wah shrinks to just one of the twelve jazirahs (islands/regions); even then, Allah Ta'ala's power preserves the chain of ifadah and istifadah until it can be re-established.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "jazirah",
+      "ifadah",
+      "istifadah",
+      "da'wah",
+      "imam al-zaman"
+    ]
+  },
+  {
+    "id": "T147",
+    "teaching": "Ihya al-mawt (bringing the dead to life) in ta'wil means granting ta'yid (spiritual support) to make a person dead in ignorance into a knower ('alim); salb al-hayat means withdrawing this ta'yid and plunging them back into ignorance.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 6 -->",
+    "key_terms": [
+      "ihya",
+      "i'matah",
+      "ta'yid",
+      "'alim",
+      "jahalat",
+      "wasi"
+    ]
+  },
+  {
+    "id": "T148",
+    "teaching": "The Imam al-Mubin (manifest Imam) is the container of all the mu'minin in the sense that their rihiyat are enrolled in him in an ordered fashion (ahsaynahu); the Imams who have passed remain as veils within the living Imam.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 1 -->",
+    "key_terms": [
+      "imam mubin",
+      "rihiyat",
+      "ahsaynahu",
+      "hijab",
+      "mu'min"
+    ]
+  },
+  {
+    "id": "T149",
+    "teaching": "The Arabic word 'Allah' is derived from 'waliha' or 'aliha', meaning the state of bewilderment or intense longing ('shawq'), because the 'Aql-e-Awwal — who first professed tawhid — filled all others with bewilderment at his luminosity.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 5 -->",
+    "key_terms": [
+      "allah",
+      "waliha",
+      "aliha",
+      "hayrah",
+      "shawq",
+      "'aql al-awwal"
+    ]
+  },
+  {
+    "id": "T150",
+    "teaching": "The Sunnah of Allah (tilka al-ayyamu nudawiluha baynan-nas; lan tajida li-sunnatillahi tabdila) means that the alternation of dawr-e-kashf and dawr-e-satr is immutable divine law that cannot be changed, just as night and day cannot be altered.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 10 -->",
+    "key_terms": [
+      "sunnah allah",
+      "dawr",
+      "kashf",
+      "satr",
+      "tabdil",
+      "tahwil"
+    ]
+  },
+  {
+    "id": "T001",
+    "teaching": "Surah Al-Imran contains 99 secrets and explanations of high mysteries, paralleling Surah Al-Baqarah in beginning with Alif Lam Mim.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "Surah Al-Imran",
+      "Alif Lam Mim",
+      "asrar"
+    ]
+  },
+  {
+    "id": "T002",
+    "teaching": "An 'ilah' is a man-made object of worship created and feared by humans; Allah is rabb al-'alamin (Lord of all worlds) and is not a man-made god.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "ilah",
+      "ma'bud",
+      "rabb al-'alamin"
+    ]
+  },
+  {
+    "id": "T003",
+    "teaching": "Sabiq ta'ala (the First Exalted One) is identical with 'aql-e-awwal (the First Intellect), maujud-e-awwal (first existent), and markaz-e-hayat (center of life); he was the first to profess the tawhid of rabb al-'alamin.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "sabiq ta'ala",
+      "'aql-e-awwal",
+      "maujud-e-awwal",
+      "markaz-e-hayat",
+      "tawhid"
+    ]
+  },
+  {
+    "id": "T004",
+    "teaching": "Allah (the Ultimate Reality) is munazza 'an al-sifat — transcendent above all attributes — and no divine attribute such as Qadir, Ghafur, or Rahim can properly apply to Him.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "munazza 'an al-sifat",
+      "asma' al-husna",
+      "sifat"
+    ]
+  },
+  {
+    "id": "T005",
+    "teaching": "The 99 asma' al-husna (beautiful names) are the attributes of special mala'ika arranged in three groups of 33, residing in the 'alam-e-'uqul, 'alam-e-hayat, and 'alam-e-meherbani; they are not names of Allah Himself.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "asma' al-husna",
+      "mala'ika",
+      "'alam-e-'uqul",
+      "'alam-e-hayat",
+      "'alam-e-meherbani"
+    ]
+  },
+  {
+    "id": "T006",
+    "teaching": "All divine attributes (sifat) properly apply to 'aql-e-awwal, since the Ultimate Reality above it is beyond all thought, conception, and description.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "sifat",
+      "'aql-e-awwal",
+      "muntaha-i-subhana"
+    ]
+  },
+  {
+    "id": "T007",
+    "teaching": "Every nabi had a shaytan opponent; the Prophet Muhammad had two — Abu Jahl and Abu Lahab — because the greater the wali, the more formidable his opposing shaytan.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "nabi",
+      "shaytan",
+      "Abu Jahl",
+      "Abu Lahab",
+      "wali"
+    ]
+  },
+  {
+    "id": "T008",
+    "teaching": "The Quran was revealed from 'aql-e-awwal (sabiq ta'ala), while all other scriptures — Torah, Gospel, Psalms, and Scrolls of Ibrahim — emerged from 'aql-e-'ashir (the Tenth Intellect), making the Quran superior to all previous books.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "'aql-e-awwal",
+      "'aql-e-'ashir",
+      "Quran",
+      "Tawrat",
+      "Injil",
+      "Zabur"
+    ]
+  },
+  {
+    "id": "T009",
+    "teaching": "The word 'book' (kitab) in Surah Al-Imran esoterically refers to the wasi-e-payghambar (Ali ibn Abi Talib), who is the Qur'an-e-Natiq (Speaking Quran).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "kitab",
+      "wasi",
+      "Qur'an-e-Natiq",
+      "ta'wil",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T010",
+    "teaching": "The Prophet's role is tanzil (conveying revealed law), while Ali's role is ta'wil (explaining the inner meaning of the Quran); these two together constitute the complete din.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "tanzil",
+      "ta'wil",
+      "wasi",
+      "din",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T011",
+    "teaching": "The Quran-e-Samit (Silent Quran) is the written scripture; the Quran-e-Natiq (Speaking Quran) is Ali ibn Abi Talib — these are two distinct but complementary realities.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "Qur'an-e-Natiq",
+      "Qur'an-e-Samit",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T012",
+    "teaching": "The Furqan (criterion) esoterically refers to the one holding the maqam-e-wasa'it (station of intermediaries), i.e., the wasi who distinguishes believers from hypocrites.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "Furqan",
+      "maqam-e-wasa'it",
+      "wasi",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T013",
+    "teaching": "Every natiq (speaker-prophet with a shari'at) had a wasi: Musa had Harun, Ibrahim had Isma'il, and Muhammad's wasi is Ali ibn Abi Talib, the Ashraf al-Awsiya' (most noble of legatees).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "natiq",
+      "wasi",
+      "Ashraf al-Awsiya'",
+      "Ali",
+      "Harun",
+      "Isma'il"
+    ]
+  },
+  {
+    "id": "T014",
+    "teaching": "The angles objected to Adam's creation, claiming he would cause bloodshed; Allah replied 'inni a'lamu ma la ta'lamun' (I know what you do not know) and closed the matter.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "mala'ika",
+      "Adam",
+      "khalifa",
+      "inni a'lamu ma la ta'lamun"
+    ]
+  },
+  {
+    "id": "T015",
+    "teaching": "The prostration (sajda) commanded for Adam was sajda-e-ta'zimi (prostration of respect), meaning to bow before, follow, and obey — not worship.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "sajda-e-ta'zimi",
+      "Adam",
+      "usjudu",
+      "ta'zim"
+    ]
+  },
+  {
+    "id": "T016",
+    "teaching": "Iblis refused the prostration to Adam and was the first to use qiyas (analogy) in religion, declaring himself better than Adam by his own reasoning — awwalu man qasa Iblis.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "Iblis",
+      "qiyas",
+      "Adam",
+      "awwalu man qasa Iblis"
+    ]
+  },
+  {
+    "id": "T017",
+    "teaching": "Iblis's personal name is Arith bin Murra; he was the mu'allim-e-malakut (teacher of the angelic realm) before his fall and was given reprieve from punishment because he professed belief in Allah.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "Arith bin Murra",
+      "Iblis",
+      "mu'allim-e-malakut",
+      "reprieve"
+    ]
+  },
+  {
+    "id": "T018",
+    "teaching": "In esoteric ta'wil, 'clay' (tin) in Adam's creation signifies knowledge of shari'ah; 'water' signifies knowledge of ta'wil; and the Imam blowing spirit into Adam signifies granting him ta'yid (divine support).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "tin",
+      "ta'wil",
+      "shari'ah",
+      "ta'yid",
+      "Adam"
+    ]
+  },
+  {
+    "id": "T019",
+    "teaching": "Maulana Hunayd salawatullah 'alayh was the Imam at the transition between the era of kashf and the era of sitr and commanded the prostration to Adam.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "Maulana Hunayd",
+      "kashf",
+      "sitr",
+      "Adam",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T020",
+    "teaching": "When the angels sinned by objecting to Adam's creation, they circled the 'Arsh (Throne) in tawaf seeking forgiveness; Allah commanded them to build the Ka'ba on earth so humans could likewise seek forgiveness through tawaf.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "tawaf",
+      "'arsh",
+      "Ka'ba",
+      "mala'ika",
+      "forgiveness"
+    ]
+  },
+  {
+    "id": "T021",
+    "teaching": "The era of kashf (manifestation, when the Imam is present and visible) lasts 50,000 years; the era of sitr (concealment) lasts 7,000 years; these alternate like day and night and cannot be altered.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "kashf",
+      "sitr",
+      "dawr",
+      "ayyamullah",
+      "50000 years",
+      "7000 years"
+    ]
+  },
+  {
+    "id": "T022",
+    "teaching": "The current era of sitr began with Adam 'alayhissalam and will end with the arrival of the Qa'im al-Salam; kashf will then resume from the Qa'im's progeny.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "sitr",
+      "kashf",
+      "Adam",
+      "Qa'im"
+    ]
+  },
+  {
+    "id": "T023",
+    "teaching": "Imam Hasan ibn Ali is a mustawda' (trustee) Imam who relinquished active exercise of the Imamate, while Imam Husayn ibn Ali is the mustaqarr (permanent, hereditary) Imam; the line descends through Husayn.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "mustawda'",
+      "mustaqarr",
+      "Hasan",
+      "Husayn",
+      "Imamat"
+    ]
+  },
+  {
+    "id": "T024",
+    "teaching": "Imam Ja'far al-Sadiq granted the nass (formal designation) to Isma'il as the rightful next Imam; Musa al-Kazim was a mustawda' given the exoteric aspects but not the true Imamate.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "nass",
+      "Ja'far al-Sadiq",
+      "Isma'il",
+      "Musa al-Kazim",
+      "mustawda'",
+      "mustaqarr"
+    ]
+  },
+  {
+    "id": "T025",
+    "teaching": "Mawlana Mustansir Billah designated Mawlana Musta'li as Imam; Nizar was given exoteric authority only; followers of Nizar became the Nizari (Agha Khani) sect.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "Musta'li",
+      "Mustansir",
+      "Nizar",
+      "Nizari",
+      "mustawda'"
+    ]
+  },
+  {
+    "id": "T026",
+    "teaching": "The ta'wil of the Quran and the reality of the ranks (maratib) are known only to the Imam al-Zaman and his hudud (authorized ranks); no one else can claim this knowledge.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "ta'wil",
+      "Imam al-Zaman",
+      "hudud",
+      "maratib",
+      "rasikhun fi'l-'ilm"
+    ]
+  },
+  {
+    "id": "T027",
+    "teaching": "The ahl al-dhikr (people of remembrance) in the Quranic verse 'fas'alu ahl al-dhikr in kuntum la ta'lamun' refers to the Ahl al-Bayt, not to meditating mystics.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "ahl al-dhikr",
+      "Ahl al-Bayt",
+      "ta'wil",
+      "fas'alu"
+    ]
+  },
+  {
+    "id": "T028",
+    "teaching": "The Imamate must be hereditary — son after father (wahidan ba'da wahidin, wa ladan 'an waladin) — and this is an unalterable sunnah of Allah: 'wa lan tajida li-sunnatillahi tabdila.'",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "wahidan ba'da wahidin",
+      "sunnah",
+      "Imamat",
+      "mustaqarr",
+      "wa lan tajida li-sunnatillahi tabdila"
+    ]
+  },
+  {
+    "id": "T029",
+    "teaching": "The chain of mustaqarr Imams after Ali: Husayn → Zain al-Abidin → Baqir → Ja'far al-Sadiq → Isma'il → Muhammad bin Isma'il → ... → Mahdi → Qa'im, continuing to the present 48th Imam.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "mustaqarr",
+      "Husayn",
+      "Zain al-Abidin",
+      "Isma'il",
+      "Muhammad bin Isma'il",
+      "Mahdi",
+      "Qa'im"
+    ]
+  },
+  {
+    "id": "T030",
+    "teaching": "Verse 7 of Surah Al-Imran: muhkamat (clear, firm) verses signify the mustaqarr Imams; mutashabihat (allegorical) verses signify the mustawda' Imams who closely resemble the mustaqarr Imams but hold a lesser rank.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "muhkamat",
+      "mutashabihat",
+      "mustaqarr",
+      "mustawda'",
+      "ta'wil",
+      "Surah Al-Imran"
+    ]
+  },
+  {
+    "id": "T031",
+    "teaching": "The mustawda' Imam is a temporary caretaker to whom a trust is given and who must return it to its rightful owner; his appointment serves worldly purposes or religious expediency (maslahat).",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "mustawda'",
+      "maslahat",
+      "ta'wil",
+      "trust"
+    ]
+  },
+  {
+    "id": "T032",
+    "teaching": "Imam Hasan was a mustawda' Imam who sat (qa'ada / relinquished active right); Husayn rose (qama) to fulfill the mustaqarr role; both are Imams but of different ranks as the Prophet declared: 'al-Hasan wa al-Husayn imamani qama aw qa'ada.'",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "Hasan",
+      "Husayn",
+      "mustawda'",
+      "mustaqarr",
+      "qama",
+      "qa'ada",
+      "al-Hasan wa al-Husayn imamani"
+    ]
+  },
+  {
+    "id": "T033",
+    "teaching": "Muhammad bin Hanafiyyah was a mustawda' Imam appointed by Husayn as a representative before Karbala; the confusion about his Imamate was resolved when Imam Zain al-Abidin returned.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "Muhammad bin Hanafiyyah",
+      "mustawda'",
+      "Zain al-Abidin",
+      "Husayn",
+      "Karbala",
+      "Hanafiyya sect"
+    ]
+  },
+  {
+    "id": "T034",
+    "teaching": "Imam Zain al-Abidin communicated his rightful Imamate to Muhammad bin Hanafiyyah by sending an empty perfume bottle — signifying that whatever rank Muhammad had held had now departed from him.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "Zain al-Abidin",
+      "Muhammad bin Hanafiyyah",
+      "mustawda'",
+      "'itr",
+      "symbolic gesture"
+    ]
+  },
+  {
+    "id": "T035",
+    "teaching": "The sunnah of Allah — 'wahidan ba'da wahidin' (one Imam after another) — has prevailed for millions of years across both kashf and sitr, and will never change even through the Qa'im's era.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "sunnah",
+      "wahidan ba'da wahidin",
+      "kashf",
+      "sitr",
+      "wa lan tajida li-sunnatillahi tahwila"
+    ]
+  },
+  {
+    "id": "T036",
+    "teaching": "The present 48th Imam is Mawlana wa Sayyidna Muhammad bin Ali salawatullah 'alayh; his special rank is that of Jadd-e-Qa'im (grandfather of the Qa'im).",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "48th Imam",
+      "Muhammad bin Ali",
+      "Jadd-e-Qa'im",
+      "Qa'im",
+      "Sulaimani"
+    ]
+  },
+  {
+    "id": "T037",
+    "teaching": "The rasikhun fi'l-'ilm (those firm in knowledge) who know the ta'wil of the Quran are the Imams of every era; they alone have the right to interpret the Quran.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "rasikhun fi'l-'ilm",
+      "ta'wil",
+      "Imam",
+      "Quran",
+      "wa ma ya'lamu ta'wilahu"
+    ]
+  },
+  {
+    "id": "T038",
+    "teaching": "The prayer 'Rabbana la tuzigh qulubana ba'da idh hadaytana' esoterically is a supplication to the Imam al-Zaman not to let believers deviate from the da'wah after receiving guidance.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "Rabbana la tuzigh",
+      "Imam al-Zaman",
+      "da'wah",
+      "ta'wil",
+      "guidance"
+    ]
+  },
+  {
+    "id": "T039",
+    "teaching": "The haykal-e-imami (Imam's spiritual body) is assembled from the suwarat (spiritual forms) of believers gathered through the da'wah of each Imam, then entrusted intact to the next Imam.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "haykal-e-imami",
+      "suwarat",
+      "da'wah",
+      "Imam",
+      "nasut-i-Imami"
+    ]
+  },
+  {
+    "id": "T040",
+    "teaching": "The Bab al-Abwab holds the suwarat of the believers; when he hands the assembled haykal to the Imam's son, he passes away at that very moment, because his station was the 'heart' (place of the heart) in the Imam's haykal.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "Bab al-Abwab",
+      "haykal-e-imami",
+      "suwarat",
+      "Imam",
+      "death"
+    ]
+  },
+  {
+    "id": "T041",
+    "teaching": "Every person's place in the Imam's haykal is determined by their merit (istihqaq) accumulated through service to the da'wah; the Imam gives each believer a place proportional to their worthiness.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "haykal-e-imami",
+      "istihqaq",
+      "da'wah",
+      "Imam",
+      "jannat"
+    ]
+  },
+  {
+    "id": "T042",
+    "teaching": "'Ihdina al-sirat al-mustaqim' (Guide us to the straight path) esoterically means: guide us to accept the Imam's son as the next Imam after him — the 'sirat' is the coming Imam.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "sirat al-mustaqim",
+      "Imam",
+      "ta'wil",
+      "ihdina",
+      "next Imam"
+    ]
+  },
+  {
+    "id": "T043",
+    "teaching": "Allah does not possess zulm (injustice); when asked what Allah lacks, Ali answered 'injustice' — meaning Allah is purely 'Adil (Just) and every person receives exactly what they deserve.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "'adl",
+      "zulm",
+      "Ali",
+      "istihqaq",
+      "justice"
+    ]
+  },
+  {
+    "id": "T044",
+    "teaching": "'Shahidallahu' in the Quran refers to 'aql-e-awwal, who was the first being in the 'alam-e-ruhani to testify to the tawhid of rabb al-'alamin without any teacher or external compulsion.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "Shahidallahu",
+      "'aql-e-awwal",
+      "tawhid",
+      "'alam-e-ruhani",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T045",
+    "teaching": "The mala'ika mentioned alongside ahl al-'ilm in 'Shahidallahu annahu la ilaha illa huwa wal-mala'ikatu wa ulul-'ilm' are the 10 intellects ('uqul) that emanated from 'aql-e-awwal and testified to tawhid after him.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "mala'ika",
+      "'uqul",
+      "'aql-e-awwal",
+      "Shahidallahu",
+      "ta'wil",
+      "ulul-'ilm"
+    ]
+  },
+  {
+    "id": "T046",
+    "teaching": "'Aql-e-thani (the Second Intellect) stagnated and fell to the rank of 'aql-e-'ashir (the Tenth Intellect) because it looked at the zahir (outward appearance) of 'aql-e-awwal instead of the batin (inner reality) — this error is called wahm-e-masawat.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "'aql-e-thani",
+      "'aql-e-'ashir",
+      "zahir",
+      "batin",
+      "wahm-e-masawat"
+    ]
+  },
+  {
+    "id": "T047",
+    "teaching": "Ali ibn Abi Talib has no peer or equal (hum-sar) among all the Awsiya'; 'la hawla wa la quwwata illa billahil 'aliyyil 'azim' means that no one has hawl or quwwat comparable to Ali.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "Ali",
+      "Ashraf al-Awsiya'",
+      "La hawla wa la quwwata",
+      "'Aliyyil 'Azim",
+      "hum-sar"
+    ]
+  },
+  {
+    "id": "T048",
+    "teaching": "At Ghadir Khumm in a gathering of 70,000, the Prophet declared 'man kuntu mawlahu fa hadha 'Aliyyun mawlahu' (Of whomsoever I am the master, Ali is his master), raising Ali's hands before all witnesses.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "Ghadir Khumm",
+      "man kuntu mawlahu",
+      "Ali",
+      "mawla",
+      "nass",
+      "70000"
+    ]
+  },
+  {
+    "id": "T049",
+    "teaching": "'Innad-deena 'indallahil-Islam' means the true din is obedience (ta'at) to the wasi — specifically giving Ali his right of wasayat by the command of Allah.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "Innad-deena",
+      "ta'at",
+      "wasi",
+      "wasayat",
+      "Islam",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T050",
+    "teaching": "The underlying din (obedience/ta'at) is one and the same across all prophets — Adam, Nuh, Ibrahim, Musa, 'Isa, Muhammad — while the shari'at (religious law) changes with each new natiq.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "din",
+      "ta'at",
+      "shari'at",
+      "natiq",
+      "nutuqa"
+    ]
+  },
+  {
+    "id": "T051",
+    "teaching": "Every natiq is a nasikh (abrogator) of the previous natiq's shari'at; the Prophet Muhammad's shari'at abrogated all previous shari'ats and is the final, most comprehensive one.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "nasikh",
+      "natiq",
+      "shari'at",
+      "Muhammad",
+      "Quran",
+      "abrogation"
+    ]
+  },
+  {
+    "id": "T052",
+    "teaching": "The Prophet's hadith and the Quran both came from the Prophet's mouth; the Prophet was truthful (sadiq) and trustworthy (amin) in distinguishing between the two.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "hadith",
+      "Quran",
+      "wahi",
+      "sadiq",
+      "amin"
+    ]
+  },
+  {
+    "id": "T053",
+    "teaching": "Those who deny the A'imma (Imams) will be 'brought down from their ranks' and subjected to escalating levels of punishment; no one can overcome the command of sabiq ta'ala.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "A'imma",
+      "sabiq ta'ala",
+      "'adhab",
+      "munkirin",
+      "ranks"
+    ]
+  },
+  {
+    "id": "T054",
+    "teaching": "The 30 fasts of Ramadan esoterically symbolize the 30-year period of the caliphates of Abu Bakr, 'Umar, and 'Uthman, during which Ali remained silent; the fasts represent refraining from what was rightfully Ali's.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 14 -->",
+    "key_terms": [
+      "Ramadan",
+      "sawm",
+      "Abu Bakr",
+      "'Umar",
+      "'Uthman",
+      "Ali",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T055",
+    "teaching": "Mushrik (polytheist) refers to one who does not believe in Allah; kafir (disbeliever) refers to one who accepted Islam but then denied Ali's wasayat — these are distinct categories with distinct consequences.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 14 -->",
+    "key_terms": [
+      "mushrik",
+      "kafir",
+      "kufr",
+      "shirk",
+      "wasayat",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T056",
+    "teaching": "All the Prophet's military campaigns (Badr, Uhud, Khandaq, Khaybar) were against mushrikin (polytheists), while Ali's three battles (Jamal, Siffin, Nahrawan) were against kafirin — Muslims who denied Ali after entering Islam.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 14 -->",
+    "key_terms": [
+      "mushrikin",
+      "kafirin",
+      "Jamal",
+      "Siffin",
+      "Nahrawan",
+      "Badr",
+      "Uhud"
+    ]
+  },
+  {
+    "id": "T057",
+    "teaching": "Accepting multiple claimants to Ali's station (the three Caliphs) constitutes shirk fi maqam-e-Mawlana Ali — polytheism in the station of Ali — which is distinct from shirk against Allah.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 14 -->",
+    "key_terms": [
+      "shirk fi maqam",
+      "Ali",
+      "khalifa",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T058",
+    "teaching": "In the symbolic system of ritual purity: blood symbolizes doubt (shakk); urine symbolizes shirk; passing wind symbolizes nifaq (hypocrisy) — all three break the state of wudu.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 14 -->",
+    "key_terms": [
+      "wudu",
+      "blood",
+      "shirk",
+      "nifaq",
+      "shakk",
+      "ta'wil",
+      "mansul"
+    ]
+  },
+  {
+    "id": "T059",
+    "teaching": "The four humors — sawda (black bile), safra (yellow bile), blood, and balgham (phlegm) — have esoteric correspondences: 'A'isha = safra, Hafsa = sawda, 'Umar ibn al-Khattab = blood, 'Abdullah bin 'Umar = balgham.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 16 -->",
+    "key_terms": [
+      "sawda",
+      "safra",
+      "balgham",
+      "'A'isha",
+      "Hafsa",
+      "'Umar",
+      "mansul",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T060",
+    "teaching": "People who fell from the pre-eternal world were of three types: nadhirin (warners who practice taqiyyah patiently), shakkin (doubters who follow mustawda' Imams), and musirr wa mustakbir (stubborn and arrogant deniers).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 16 -->",
+    "key_terms": [
+      "nadhirin",
+      "shakkin",
+      "musirr",
+      "mustakbir",
+      "'alam-e-azal",
+      "pre-eternal fall"
+    ]
+  },
+  {
+    "id": "T061",
+    "teaching": "In esoteric ta'wil, 'Allah' in the verse 'Qul Allahumma malik al-mulk' refers to Maulana Ali, who distributes participation in the da'wah, elevates and lowers ranks, and holds the 'ilm-e-batin.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 14 -->",
+    "key_terms": [
+      "Allahumma malik al-mulk",
+      "Ali",
+      "da'wah",
+      "ta'wil",
+      "maqam"
+    ]
+  },
+  {
+    "id": "T062",
+    "teaching": "The cosmic cycle of night and day directly symbolizes the alternation of sitr (concealment) and kashf (manifestation): just as no human can prevent day from following night, no one can prevent kashf from following sitr.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 14 -->",
+    "key_terms": [
+      "sitr",
+      "kashf",
+      "layl",
+      "nahar",
+      "dawr",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T063",
+    "teaching": "Those who deny the mustaqarr Imams pass through seven descending levels (darakat) of punishment: human form → monkey/chimpanzee → bear → beast → reptile → bird → minerals (nawas/ma'dan).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 15 -->",
+    "key_terms": [
+      "darakat",
+      "'adhab",
+      "munkirin",
+      "seven levels",
+      "nawas",
+      "ma'dan"
+    ]
+  },
+  {
+    "id": "T064",
+    "teaching": "The punishment sequence for deniers of the wasi is: 'adhab-e-adna (lesser punishment: the seven descending levels) → 'adhab-e-atraf (peripheral punishment) → 'adhab-e-sakhrah (the great rock/netherworld punishment).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 15 -->",
+    "key_terms": [
+      "'adhab-e-adna",
+      "'adhab-e-atraf",
+      "sakhrah",
+      "darakat",
+      "punishment sequence"
+    ]
+  },
+  {
+    "id": "T065",
+    "teaching": "The sakhrah punishment lasts 16,000 crore years — one kawr-i-a'zam — and is administered when the Qa'im al-Salam appears to give full reckoning.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 15 -->",
+    "key_terms": [
+      "sakhrah",
+      "kawr-i-a'zam",
+      "Qa'im",
+      "'adhab",
+      "16000 crore years"
+    ]
+  },
+  {
+    "id": "T066",
+    "teaching": "The rikr (return) system: a mu'min is returned to the world every 1000 years — 280 years in the grave/mineral-plant-animal state plus 720 years in the celestial spheres (buruj) — and has already undergone seven such cycles.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 15 -->",
+    "key_terms": [
+      "rikr",
+      "karrah",
+      "qabr",
+      "buruj",
+      "mu'min",
+      "1000 years"
+    ]
+  },
+  {
+    "id": "T067",
+    "teaching": "When the Qa'im al-Salam appears, every past Imam will bring his own army (followers from his era) to the field of hashr (gathering), and full reckoning — reward and punishment — will be administered.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 15 -->",
+    "key_terms": [
+      "Qa'im",
+      "hashr",
+      "Imam",
+      "ta'wil",
+      "Qiyamat"
+    ]
+  },
+  {
+    "id": "T068",
+    "teaching": "The verse 'Fa-kayfa idha jama'nahum li-yawmin la rayba fih' refers esoterically to the time of the Qa'im's zuhur (appearance) when all wrongdoers will face the full consequences of their denial of the wasi.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 15 -->",
+    "key_terms": [
+      "Fa-kayfa idha jama'nahum",
+      "Qa'im",
+      "zuhur",
+      "wasi",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T069",
+    "teaching": "Doubt (shakk) is symbolized by blood in the esoteric system; 'fi qulubihim maradun' (in their hearts is a disease) refers to those who, after knowing the evidence of Ali's station, fell into doubt.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 16 -->",
+    "key_terms": [
+      "shakk",
+      "fi qulubihim maradun",
+      "blood",
+      "Ali",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T070",
+    "teaching": "The deniers' claim that 'the fire will not touch us except for a few numbered days' esoterically means they believed suffering for denying the wasi would be brief, which deluded them into fabricating volumes of material against Ali.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 16 -->",
+    "key_terms": [
+      "lan tamassana-n-naru",
+      "munkirin",
+      "Ghadir Khumm",
+      "ta'wil",
+      "self-delusion"
+    ]
+  },
+  {
+    "id": "T071",
+    "teaching": "'Isa ibn Maryam's title 'al-Masih' derives from 'siyahat' (traveling), not healing; he was called al-Masih because he traveled constantly through the land of the da'wat without settling in any one place.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "Masih",
+      "siyahat",
+      "'Isa",
+      "da'wah",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T072",
+    "teaching": "'Isa ibn Maryam is a mustawda' natiq, not a mustaqarr Imam; his rank as natiq is lesser than that of Adam, Nuh, Ibrahim, and Muhammad.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "'Isa",
+      "mustawda'",
+      "natiq",
+      "mustaqarr",
+      "rank"
+    ]
+  },
+  {
+    "id": "T073",
+    "teaching": "The six nutuqa (speaker-prophets with a shari'at) are: Adam, Nuh, Ibrahim (the three Aba' / Fathers, of higher rank) and Musa, 'Isa, Muhammad (the three Abna' / Sons); the Aba' are greater than the Abna'.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "nutuqa",
+      "Aba'",
+      "Abna'",
+      "Adam",
+      "Nuh",
+      "Ibrahim",
+      "Musa",
+      "'Isa",
+      "Muhammad"
+    ]
+  },
+  {
+    "id": "T074",
+    "teaching": "In esoteric ta'wil, women in Quranic stories represent mustafidin (those seeking instruction); men represent mufid (benefactors who give instruction); Maryam is interpreted as a mustafidin.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "Maryam",
+      "mustafidin",
+      "mufid",
+      "ta'wil",
+      "da'wah"
+    ]
+  },
+  {
+    "id": "T075",
+    "teaching": "The story of Musa drawing water for Shu'ayb's daughters esoterically represents Musa establishing a connection (ittisal) with Shu'ayb's da'wat; his marrying one of the daughters means becoming Shu'ayb's mustafid.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "Musa",
+      "Shu'ayb",
+      "mustafidin",
+      "da'wah",
+      "ta'wil",
+      "ittisal"
+    ]
+  },
+  {
+    "id": "T076",
+    "teaching": "'Isa's miracles have esoteric meanings: healing the blind = giving the light of guidance to those with spiritual blindness; curing leprosy = correcting those who exaggerate about the wasi; raising the dead = giving the life of knowledge to the ignorant.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "'Isa",
+      "ta'wil",
+      "spiritually blind",
+      "dead of ignorance",
+      "wasi",
+      "leprosy"
+    ]
+  },
+  {
+    "id": "T077",
+    "teaching": "'Isa's saying 'I know what you eat and what you store in your houses' esoterically means: I know your capacity for knowledge, which sciences you have acquired, and which you conceal from others.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "'Isa",
+      "ta'wil",
+      "ta'lim",
+      "da'wah",
+      "'ilm",
+      "wa unabbi'ukum"
+    ]
+  },
+  {
+    "id": "T078",
+    "teaching": "Spiritual rank is attained through kasab (personal acquisition/effort) up to a certain level; beyond that, advancement comes only through mawhub (gifted divine support, ta'yid) from the Imam.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "kasab",
+      "mawhub",
+      "ta'yid",
+      "Imam",
+      "maqam"
+    ]
+  },
+  {
+    "id": "T079",
+    "teaching": "The identity of a person's Hadd-e-'Ali (highest spiritual guide above them) is known only to the Imam; anyone who claims to know who their own Hadd-e-'Ali is, is a liar.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "Hadd-e-'Ali",
+      "Hadd-e-Adna",
+      "Imam",
+      "ta'yid",
+      "da'wah",
+      "hudud"
+    ]
+  },
+  {
+    "id": "T080",
+    "teaching": "The mukasara (debate method) of the da'wah: bind an opponent with his own beliefs, then allow those beliefs to collapse through dialogue — this achieves a spiritual birth (wilada ruhiyya), as taught by Sayyidna Qadi al-Nu'man.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "mukasara",
+      "da'wah",
+      "wilada ruhiyya",
+      "Qadi al-Nu'man",
+      "debate"
+    ]
+  },
+  {
+    "id": "T081",
+    "teaching": "Adam ('Abdullah bin Tanjum) was located in Sarandib (Sri Lanka) at the beginning of the current kawr; Adam's Peak in Sri Lanka is named after him.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "Adam",
+      "Sarandib",
+      "Sri Lanka",
+      "'Abdullah bin Tanjum",
+      "kawr"
+    ]
+  },
+  {
+    "id": "T082",
+    "teaching": "Every period (dawr) begins with an Adam figure (the first natiq who initiates the shari'at) and ends with a Qa'im figure (who closes it and brings reckoning); this pattern repeats across all cosmic cycles.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "Adam",
+      "Qa'im",
+      "dawr",
+      "natiq",
+      "qissah ibtida'iyyah"
+    ]
+  },
+  {
+    "id": "T083",
+    "teaching": "The philosophers Socrates (Suqrat), Hippocrates (Buqrat), and Aristotle (Arastu) were of higher spiritual rank than Musa and therefore did not come under his shari'at; rank determines which shari'at a soul follows.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "Suqrat",
+      "Arastu",
+      "Buqrat",
+      "Musa",
+      "shari'at",
+      "rank",
+      "philosophy"
+    ]
+  },
+  {
+    "id": "T084",
+    "teaching": "'La yamassuhu illa-l-mutahharun' (None touch it except the purified) means the true meaning of the Quran can only be grasped by the spiritually pure; printing and reciting the physical text are not the same as accessing its meaning.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "la yamassuhu illa-l-mutahharun",
+      "Quran",
+      "ta'wil",
+      "mutahharun"
+    ]
+  },
+  {
+    "id": "T085",
+    "teaching": "The Qaimi era (dawra-e-Qa'im) began with the appearance of Sayyidna Sulayman ibn Hasan approximately 400 years ago; Muslims in this community are the 'ummah of Muhammad' but are already in an era more advanced than the Muhammadan era.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "Qaimi era",
+      "Sayyidna Sulayman",
+      "dawr",
+      "Qa'im",
+      "da'wah"
+    ]
+  },
+  {
+    "id": "T086",
+    "teaching": "Sayyidna Sulayman ibn Hasan is the Sur-e-Awwal (First Trumpet of Qiyamah); his appearance caused those who denied him to fall into a state of spiritual unconsciousness (ghashi).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "Sayyidna Sulayman",
+      "Sur-e-Awwal",
+      "ghashi",
+      "Qiyamat",
+      "da'wah"
+    ]
+  },
+  {
+    "id": "T087",
+    "teaching": "The Fatimid Imams from the 11th to 20th (Mahdi to 'Amir) are the Imams of zuhur (manifest Imamate); after Imam 'Amir's martyrdom the Imamate returned to mastur (concealment) and du'at began serving in the Imams' place.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "Fatimid",
+      "zuhur",
+      "mastur",
+      "Imam 'Amir",
+      "du'at",
+      "Imamat"
+    ]
+  },
+  {
+    "id": "T088",
+    "teaching": "Sayyida Hurratul Malika (Arwa bint Ahmad) was a woman of extraordinary rank in the da'wah who ruled nine islands; her knowledge exceeded that of her husband and son, and her status came from her 'ilm.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "Hurratul Malika",
+      "Arwa bint Ahmad",
+      "da'wah",
+      "jaza'ir",
+      "Yemen",
+      "'ilm"
+    ]
+  },
+  {
+    "id": "T089",
+    "teaching": "Iman (faith) and Islam (submission) are distinct: Islam is the outer circle; iman is a smaller inner circle that begins from Ghadir Khumm and requires accepting the wasayat of Ali and the subsequent Imams.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 19 -->",
+    "key_terms": [
+      "iman",
+      "Islam",
+      "Ghadir Khumm",
+      "wasayat",
+      "Ali",
+      "da'wah"
+    ]
+  },
+  {
+    "id": "T090",
+    "teaching": "Ali accepted Islam at age 10.5 years at the gathering of Dhul-'Ashirah and pledged support to the Prophet; the Prophet declared: 'O Ali, you are my wasi here and in the hereafter.'",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 19 -->",
+    "key_terms": [
+      "Ali",
+      "Dhul-'Ashirah",
+      "wasi",
+      "nass",
+      "Islam",
+      "10.5 years"
+    ]
+  },
+  {
+    "id": "T091",
+    "teaching": "Salman al-Farsi was declared 'minna Ahl al-Bayt' (of us, the People of the House) by the Prophet; he is the head of all awliya' Allah and du'at.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 14 -->",
+    "key_terms": [
+      "Salman al-Farsi",
+      "Ahl al-Bayt",
+      "awliya' Allah",
+      "du'at",
+      "minna"
+    ]
+  },
+  {
+    "id": "T092",
+    "teaching": "The Salmani lineage of da'wah descends from Salman al-Farsi through the centuries, eventually becoming the Sulaimani line; those who accepted Sayyidna Sulayman ibn Hasan are the rightly guided community.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 14 -->",
+    "key_terms": [
+      "Salmani lineage",
+      "Salman al-Farsi",
+      "Sayyidna Sulayman",
+      "da'wah",
+      "Sulaimani"
+    ]
+  },
+  {
+    "id": "T093",
+    "teaching": "At Karbala, Imam Husayn stopped Imam Zain al-Abidin from seeking martyrdom, saying 'My Imamate will be established through you,' and entrusted him with his wasiyyat (testament) and weapons.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "Husayn",
+      "Zain al-Abidin",
+      "Karbala",
+      "Imamat",
+      "wasiyyat"
+    ]
+  },
+  {
+    "id": "T094",
+    "teaching": "At Karbala, 72 companions and family members of Imam Husayn were martyred; in his final moments, Husayn killed 600 enemies alone, then delivered his final hujjat (proof) before his martyrdom.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 14 -->",
+    "key_terms": [
+      "Karbala",
+      "Husayn",
+      "martyrdom",
+      "hujjat",
+      "72 companions"
+    ]
+  },
+  {
+    "id": "T095",
+    "teaching": "At Karbala, Imam Husayn's opponents admitted they were killing him 'li-bughdi abik' (out of hatred for your father, Ali) — confirming that the root of their opposition was enmity toward Ali going back generations.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "Husayn",
+      "Karbala",
+      "li-bughdi abik",
+      "Ali",
+      "bughd",
+      "Hashim",
+      "Abd Shams"
+    ]
+  },
+  {
+    "id": "T096",
+    "teaching": "The Wilayat (authority/love) of Amir al-Mu'minin Ali is the soul of all religious pillars ('arkan); no good deed — Hajj, zakat, prayer — is accepted without Wilayat-i Amir al-Mu'minin.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 14 -->",
+    "key_terms": [
+      "wilayah",
+      "Amir al-Mu'minin",
+      "Ali",
+      "'arkan",
+      "iman"
+    ]
+  },
+  {
+    "id": "T097",
+    "teaching": "The ta'yid (divine support) descends from sabiq ta'ala through the Imam down to believers; those who deny the wasi have their ta'yid cut off and all their apparent 'good deeds' become worthless.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 15 -->",
+    "key_terms": [
+      "ta'yid",
+      "sabiq ta'ala",
+      "Imam",
+      "wasi",
+      "barkat"
+    ]
+  },
+  {
+    "id": "T098",
+    "teaching": "Those who follow mustawda' Imams and deny mustaqarr Imams — as the followers of Muhammad bin Hanafiyyah and Musa al-Kazim did — are in 'zaygh' (deviation) and their hearts have a disease.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "zaygh",
+      "mustawda'",
+      "mustaqarr",
+      "Muhammad bin Hanafiyyah",
+      "Musa al-Kazim",
+      "fi qulubihim zayghun"
+    ]
+  },
+  {
+    "id": "T099",
+    "teaching": "'Isa's wasi was Sham'un (Simon Peter); 'Isa pointed to him and declared: 'This is your Imam, his station is firm, and this is the straight path (sirat al-mustaqim).'",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "'Isa",
+      "Sham'un",
+      "wasi",
+      "sirat al-mustaqim",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T100",
+    "teaching": "'Isa's example in the sight of the Imam is like Adam's: just as Adam was elevated from the rank of hudud/mansoob to natiq through the Imam Maulana Hunayd, so was 'Isa elevated from ma'dhun to natiq through the Imam's support.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 20 -->",
+    "key_terms": [
+      "'Isa",
+      "Adam",
+      "natiq",
+      "ma'dhun",
+      "Imam",
+      "ta'yid",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T101",
+    "teaching": "Those who denied the walayat of Ali are currently suffering in the darkness of misguidance (the 1400-year interim) and will receive the sakhrah punishment when the Qa'im appears.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 20 -->",
+    "key_terms": [
+      "munkirin",
+      "sakhrah",
+      "Qa'im",
+      "walayah",
+      "Ali",
+      "'adhab",
+      "misguidance"
+    ]
+  },
+  {
+    "id": "T102",
+    "teaching": "Dhul-Qarnayn means 'the one of two eras' (not 'two horns'): it refers to Ali, who is the asas (foundation) of both the Muhammadan era and the Qaimi era.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 19 -->",
+    "key_terms": [
+      "Dhul-Qarnayn",
+      "Ali",
+      "asas",
+      "Qaimi era",
+      "Muhammadan era",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T103",
+    "teaching": "Ali ibn Abi Talib is both the Asas-e-Awwal (First Foundation of the Prophet's era) and the juzwi Qa'im of the current Qaimi era; all Imams from Hasan to the present 48th are veils (hijabat) of Ali.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 15 -->",
+    "key_terms": [
+      "Ali",
+      "Asas-e-Awwal",
+      "juzwi Qa'im",
+      "hijabat",
+      "Imam"
+    ]
+  },
+  {
+    "id": "T104",
+    "teaching": "The mubahala event: when Christians disputed about 'Isa, the Prophet brought the Panjatan Pak — himself, Ali (as nafs/soul), Fatima (as women), Hasan and Husayn (as sons) — and the Christians, seeing their nur, refused to confront them.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 20 -->",
+    "key_terms": [
+      "mubahala",
+      "Panjatan Pak",
+      "Ali",
+      "Fatima",
+      "Hasan",
+      "Husayn",
+      "Christians",
+      "Najran"
+    ]
+  },
+  {
+    "id": "T105",
+    "teaching": "In esoteric ta'wil, 'Inna hadhā lahuwa al-qaṣaṣ al-ḥaqq — there is no deity except Allah' means: the truth is that besides Ali there is no mustaqarr; Ali is incomparable in gnosis.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 20 -->",
+    "key_terms": [
+      "hadhā al-qaṣaṣ al-ḥaqq",
+      "Ali",
+      "mustaqarr",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T106",
+    "teaching": "Saint Paul first tried to make 'Uzayr the son of God among Jews, then entered Christianity and made 'Isa the son of God — corrupting both religions; a structural parallel appears in the first Caliph's ambition after the Prophet.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 20 -->",
+    "key_terms": [
+      "Saint Paul",
+      "'Uzayr",
+      "'Isa",
+      "Christians",
+      "shirk",
+      "corruption",
+      "first Caliph"
+    ]
+  },
+  {
+    "id": "T107",
+    "teaching": "'Qul ya ahla al-kitab ta'alaw ila kalimatin sawa'in' esoterically means: O Muslims, accept the walayat and authority of Ali; his person is the word of justice; do not associate anyone else with his station.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 20 -->",
+    "key_terms": [
+      "qul ya ahla al-kitab",
+      "walayah",
+      "Ali",
+      "ta'wil",
+      "kalima sawa'"
+    ]
+  },
+  {
+    "id": "T108",
+    "teaching": "In many Quranic verses, wherever the word 'Allah' appears, the esoteric ta'wil refers to Maulana Ali salawatullah 'alayh, in whose gnosis all human intellects are perplexed and bewildered.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 16 -->",
+    "key_terms": [
+      "Allah",
+      "Ali",
+      "ta'wil",
+      "ma'rifat",
+      "Quran"
+    ]
+  },
+  {
+    "id": "T109",
+    "teaching": "The Dawoodi Bohras recognize the Imamate only up to the 21st Imam (Mawlana Tayyib); the Sulaimanis continue to recognize the living hereditary chain through to the present 48th Imam.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "Dawoodi",
+      "Sulaimani",
+      "Mawlana Tayyib",
+      "48th Imam",
+      "Imamat"
+    ]
+  },
+  {
+    "id": "T110",
+    "teaching": "In matters of the wasi's station, neither excess (ghuluw) nor deficiency (taqsir) is acceptable; those who are firm in knowledge ('ulul-'ilm) maintain i'tidal (moderation) and are witnesses to the wasi's uniqueness.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "ghuluw",
+      "taqsir",
+      "i'tidal",
+      "wasi",
+      "Ali",
+      "ulul-'ilm"
+    ]
+  },
+  {
+    "id": "T111",
+    "teaching": "The Hajar al-Aswad (Black Stone) was originally white and transparent like snow, brought from paradise; it turned black because of human sins; pilgrims kiss the sanctified place, not the stone as an object of worship.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 14 -->",
+    "key_terms": [
+      "Hajar al-Aswad",
+      "Ka'ba",
+      "tawaf",
+      "jannat",
+      "sins",
+      "black"
+    ]
+  },
+  {
+    "id": "T112",
+    "teaching": "Taqiyyah (precautionary dissimulation) is obligatory during eras of danger; believers may maintain outward relations with enemies to protect themselves but must never formally disassociate from Ali (bara'at), even at the cost of their lives.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 16 -->",
+    "key_terms": [
+      "taqiyyah",
+      "bara'at",
+      "Ali",
+      "walayah",
+      "sitr",
+      "dissociation"
+    ]
+  },
+  {
+    "id": "T113",
+    "teaching": "The present 48th Imam as Jadd-e-Qa'im means: after him will come the Qa'im's father, and after him the Qa'im himself — three generations completing the current era of sitr.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "Jadd-e-Qa'im",
+      "48th Imam",
+      "Qa'im",
+      "sitr",
+      "Imamat",
+      "three generations"
+    ]
+  },
+  {
+    "id": "T114",
+    "teaching": "In prayer (namaz), 'mustaqbil al-Ka'bat al-sharif' means facing TOWARDS the Ka'ba as a directional qibla, not prostrating TO the Ka'ba itself; we do not worship the Ka'ba.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 15 -->",
+    "key_terms": [
+      "Ka'ba",
+      "mustaqbil",
+      "qibla",
+      "namaz",
+      "ta'wil",
+      "direction"
+    ]
+  },
+  {
+    "id": "T115",
+    "teaching": "The three levels of punishment are symbolized linguistically: 'nir' (deep inner fire — worst, kasrah vowel = bottom) → 'nar' (fire with heat and light) → 'nur' (light with minimal heat); reaching 'nur' from 'nir' requires accepting the Panjatan.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 19 -->",
+    "key_terms": [
+      "nir",
+      "nar",
+      "nur",
+      "'adhab",
+      "Panjatan",
+      "ta'wil",
+      "huruf-i-'illat"
+    ]
+  },
+  {
+    "id": "T116",
+    "teaching": "The story of Abraha and the People of the Elephant (As-hab al-Fil): Abraha came with an army on elephants to demolish the Ka'ba; birds from the sea destroyed the army with three stones each; Maulana 'Abd al-Muttalib's hijab (Buhayra al-Rahib) was protecting Makkah.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 20 -->",
+    "key_terms": [
+      "Abraha",
+      "As-hab al-Fil",
+      "'Abd al-Muttalib",
+      "Ka'ba",
+      "Buhayra al-Rahib"
+    ]
+  },
+  {
+    "id": "T117",
+    "teaching": "'Isa's birth esoterically: Maryam (as mustawda') asked 'How will I bear a son?' — meaning 'How will I become the musawwada of a natiq rank?' — and was told Allah elevates whomever He wills without being bound by any method.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "Maryam",
+      "'Isa",
+      "musawwada",
+      "natiq",
+      "ta'wil",
+      "kun fa-yakun"
+    ]
+  },
+  {
+    "id": "T118",
+    "teaching": "The verse 'wa yu'allimuhu al-kitaba wa al-hikmata wa al-Tawrata wa al-Injil' means 'Isa was taught both the zahiri shari'at (Torah) and its batini meaning (Injil/Hikmah); a true 'alim must know both zahir and batin.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "'Isa",
+      "kitab",
+      "hikmah",
+      "Tawrat",
+      "Injil",
+      "zahir",
+      "batin",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T119",
+    "teaching": "The rank of the 48th Imam as Jadd-e-Qa'im was revealed by the da'i in Misr to Syedna Taher Saifuddin Saheb; the author witnessed this announcement at age 14 in the mosque.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 12 -->",
+    "key_terms": [
+      "48th Imam",
+      "Jadd-e-Qa'im",
+      "Syedna Taher Saifuddin",
+      "Misr",
+      "musharraf"
+    ]
+  },
+  {
+    "id": "T120",
+    "teaching": "Those who deny the Imams of the din and kill those who uphold the wilayat of Ali will have their deeds rendered worthless in this world and the hereafter; there is no authoritative hujjat to support them.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 15 -->",
+    "key_terms": [
+      "Inna alladhina kafaru",
+      "wilayah",
+      "Ali",
+      "'adhab",
+      "ta'wil",
+      "habitat a'maluhum"
+    ]
+  },
+  {
+    "id": "T121",
+    "teaching": "The historical suppression of Ghadir Khumm: opponents fabricated a massive body of literature (Bukhari, Ghazali, Razi etc.) to bury the Prophet's declaration of Ali's wasayat under volumes of slander — this is called 'erecting a tumar' against the wasi.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 15 -->",
+    "key_terms": [
+      "Ghadir Khumm",
+      "tafsir",
+      "Bukhari",
+      "munkirin",
+      "wasayat",
+      "Ali",
+      "tumar"
+    ]
+  },
+  {
+    "id": "T122",
+    "teaching": "The knowledge-based form (surah 'ilmiyya) is superior to the action-based form (surah 'amaliyya): 'alladhina amanu wa utu al-'ilma darajat' — degrees of rank go to those who have knowledge, not merely to those who perform more actions.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 18 -->",
+    "key_terms": [
+      "surah 'ilmiyya",
+      "darajat",
+      "'ilm",
+      "da'wah",
+      "alladhina amanu wa utu al-'ilma"
+    ]
+  },
+  {
+    "id": "T123",
+    "teaching": "In the current dawr, we have already undergone seven cycles of rikr (return); the total duration of the current sitr is 7,000 years and we are near the end — the time of the Qa'im is close.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 15 -->",
+    "key_terms": [
+      "rikr",
+      "dawr",
+      "sitr",
+      "7000 years",
+      "Qa'im",
+      "seven cycles"
+    ]
+  },
+  {
+    "id": "T124",
+    "teaching": "Maulana Ali's titles include: Imam al-Muttaqin (Imam of the pious), Qa'id al-Ghurr al-Muhajjilin (leader of the radiant ones), Ashraf al-Awsiya' (most noble of legatees), Asas-e-Awwal, and juzwi Qa'im.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 16 -->",
+    "key_terms": [
+      "Ali",
+      "Imam al-Muttaqin",
+      "Qa'id al-Ghurr al-Muhajjilin",
+      "Ashraf al-Awsiya'",
+      "Asas-e-Awwal",
+      "juzwi Qa'im"
+    ]
+  },
+  {
+    "id": "T125",
+    "teaching": "In the era of sitr, du'at (missionaries) shine like stars while the Imam (the sun) is hidden; in the era of kashf the Imam is visible like the sun — in our time, the du'at are the visible guides.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 20 -->",
+    "key_terms": [
+      "sitr",
+      "kashf",
+      "du'at",
+      "Imam",
+      "sun",
+      "stars",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T126",
+    "teaching": "Prayer (namaz), fasting (sawm), or any worship performed for show (riya') is not accepted; sincerity and humility are required, as the Imam knows how each person prays — whether with genuine submission or for display.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 11 -->",
+    "key_terms": [
+      "riya'",
+      "namaz",
+      "sawm",
+      "Imam",
+      "ikhlas",
+      "show"
+    ]
+  },
+  {
+    "id": "T127",
+    "teaching": "In esoteric interpretation, wherever 'Iblis' is mentioned in the Quran, it refers to the first two Caliphs; wherever 'Shaytan' is mentioned, it refers to those even worse than them — because Shaytan misleads while Iblis merely refuses.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 15 -->",
+    "key_terms": [
+      "Iblis",
+      "Shaytan",
+      "first Caliph",
+      "second Caliph",
+      "ta'wil",
+      "ablasa min rahmati-llah"
+    ]
+  },
+  {
+    "id": "T128",
+    "teaching": "All doors of the Prophet's Mosque in Madinah were sealed by divine command except the door of Ali; this symbolizes that the only path leading to the Imam passes through Ali.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "Mosque of the Prophet",
+      "Ali",
+      "door",
+      "Madinah",
+      "wasi",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T129",
+    "teaching": "The enmity between the progeny of Hashim and Abd Shams (the line of Abu Lahab, Mu'awiyah, Yazid) was predicted at birth: the twins Hashim and Abd Shams were conjoined and separated by a sword, foretelling perpetual conflict between their descendants.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "Hashim",
+      "Abd Shams",
+      "Mu'awiyah",
+      "Yazid",
+      "enmity",
+      "Abu Sufyan",
+      "Karbala"
+    ]
+  },
+  {
+    "id": "T130",
+    "teaching": "The verse 'wa tukhrijul hayya minal mayyit wa tukhrijul mayyita minal hayy' means: from the good (knowledgeable) bad offspring emerge, and from the bad (ignorant) good offspring can emerge — as with Abu Lahab being the son of Maulana 'Abd al-Muttalib.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 14 -->",
+    "key_terms": [
+      "wa tukhrijul hayya minal mayyit",
+      "Abu Lahab",
+      "'Abd al-Muttalib",
+      "ta'wil",
+      "lineage"
+    ]
+  },
+  {
+    "id": "T131",
+    "teaching": "The Surah Jumu'ah phrase 'min yawmi'l-jumu'ah' means 'FROM the day of Jumu'ah (the shari'at of the Prophet)' — the preposition 'min' (from) distinguishes it from 'fi yawmi'l-jumu'ah' (in the day), indicating that Jumu'ah is attributed to the Prophet himself.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "Surah al-Jumu'ah",
+      "min yawmi'l-jumu'ah",
+      "shari'at",
+      "Muhammad",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T132",
+    "teaching": "The Book of Ta'wil al-Quran was written in Arabic by Sayyidna Husayn Zu'l-Jaddayn approximately 250 years before these lectures; subsequent chapters were written by Sayyidna Ibrahim, and Mulla Amin Sahab translated it into Urdu by order of the senior da'i.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "Ta'wil al-Quran",
+      "Husayn Zu'l-Jaddayn",
+      "Sayyidna Ibrahim",
+      "Mulla Amin",
+      "da'i"
+    ]
+  },
+  {
+    "id": "T133",
+    "teaching": "Surah al-Jumu'ah's verse 'Huwa lladhi ba'atha fi l-ummiyyina rasulan' refers to the Prophet being sent to Makkah — a region of pre-Islamic ignorance (jahiliyyah) — as the greatest miracle of guidance rising from the most unlikely place.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 13 -->",
+    "key_terms": [
+      "Surah al-Jumu'ah",
+      "ummiyyun",
+      "Makkah",
+      "jahiliyyah",
+      "Prophet",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T134",
+    "teaching": "The opponents who deny the wasi accept the Prophet loudly but reject his command to establish Ali; this is like obeying the master while disobeying his explicit order — which means one has not truly obeyed the master at all.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 14 -->",
+    "key_terms": [
+      "wasi",
+      "Ali",
+      "Prophet",
+      "obedience",
+      "kufr",
+      "da'wah"
+    ]
+  },
+  {
+    "id": "T135",
+    "teaching": "The wasi is in the station of the 'mother' and the Prophet is in the station of the 'father'; as love for the mother is necessary alongside love for the father, so Wilayat-i Ali is necessary alongside acceptance of the Prophet.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 14 -->",
+    "key_terms": [
+      "wilayah",
+      "Ali",
+      "Prophet",
+      "mother",
+      "father",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T001",
+    "teaching": "There is no permanent one (mustaqarr) besides Ali; he is the one in whose gnosis the intellects of the wise are bewildered, he has no peer, and he is wise in his actions.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "mustaqarr",
+      "Ali",
+      "ma'rifat",
+      "hakim"
+    ]
+  },
+  {
+    "id": "T002",
+    "teaching": "The Imam-e-Mustaqarr (Permanent Imam) is Maulana Ali, the son of Janab Abu Talib, who is the appointed successor.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "imam-e-mustaqarr",
+      "Ali",
+      "Abu Talib"
+    ]
+  },
+  {
+    "id": "T003",
+    "teaching": "For every Natiq (Speaking Prophet) there is always a Wasi (legatee), and from the progeny of the Wasi the Imamat continues unbroken.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "natiq",
+      "wasi",
+      "imamat",
+      "da'wah"
+    ]
+  },
+  {
+    "id": "T004",
+    "teaching": "Ali is both the Wasi of the Prophet (Wasi-e-Paighambar) and the Imam-e-Mustaqarr simultaneously.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "wasi-e-paighambar",
+      "imam-e-mustaqarr",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T005",
+    "teaching": "The Prophet received what he received because of Ali's trustworthiness; the amanat (trust) was for Ali, and the Prophet was called Amin and Sadiq because Ali delivered that trust.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "amanat",
+      "amin",
+      "sadiq",
+      "amanat-dari"
+    ]
+  },
+  {
+    "id": "T006",
+    "teaching": "In his capacity as Wasi, Ali is of a lower rank than the Prophet, but his Muhtajib (veiled essence) is the 'Ayn-e-'Azima (Essence of Grandeur).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "muhtajib",
+      "hijab",
+      "ayn-e-azima",
+      "wasi"
+    ]
+  },
+  {
+    "id": "T007",
+    "teaching": "The Prophet's name in the heavens was Ahmad, while Muhammad is the name given on earth.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "Ahmad",
+      "Muhammad",
+      "mim-e-maryamah"
+    ]
+  },
+  {
+    "id": "T008",
+    "teaching": "The verse 'Wa in tawallaw fa inna Allaha 'alimun bi'l-mufsidin' is read as: if they deny the wilayat of Ali, Allah is well aware of the conspiracies of those mischief-makers.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "wilayat",
+      "mufsidin",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T009",
+    "teaching": "The verse 'come to a word equitable between us' (kalimatin sawa') esoterically commands the kalimah-reciting Muslims to accept the wilayat and obedience of Ali, whose being is the word of justice and fairness.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "kalimah",
+      "wilayat",
+      "ta'at",
+      "kalimat-e-adl-o-insaf"
+    ]
+  },
+  {
+    "id": "T010",
+    "teaching": "Regarding the station of Ali one must neither commit ghuluw (exaggeration) nor fall short, must associate no partner in his station, and must make no one from among oneself an Imam.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "ghuluw",
+      "shirk",
+      "imam"
+    ]
+  },
+  {
+    "id": "T011",
+    "teaching": "If the enemy does not accept the Wasi, the follower of the Wasi must distance himself and declare disassociation (barat) from them.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "barat",
+      "wasi"
+    ]
+  },
+  {
+    "id": "T012",
+    "teaching": "In the Dar-us-Satr (Period of Concealment) there is a command to keep the batin (inner reality) hidden through taqiyyah until the Imam's command is received.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "dar-us-satr",
+      "taqiyyah",
+      "batin"
+    ]
+  },
+  {
+    "id": "T013",
+    "teaching": "Printing and distributing books of haqaiq (esoteric realities) without the Imam's permission is wrong, even if done with good Arabic and intentions.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "haqaiq"
+    ]
+  },
+  {
+    "id": "T014",
+    "teaching": "When Hazrat Asif Fyzee wished to print the Da'im ul-Islam he was denied permission until he received the command of his elder, Sayyidna Taher Saifuddin; he printed it without that permission, which was wrong.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "Asif Fyzee",
+      "Da'im ul-Islam",
+      "Taher Saifuddin"
+    ]
+  },
+  {
+    "id": "T015",
+    "teaching": "One must act upon the command of the subordinate authority (the Da'i, the Mansub) placed below the Imam.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "da'i",
+      "mansub"
+    ]
+  },
+  {
+    "id": "T016",
+    "teaching": "The verse 'why do you argue about Ibrahim while the Tawrat and Injil were revealed only after him' rebukes the People of the Scripture, since Ibrahim preceded both Judaism and Christianity.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "Ibrahim",
+      "tawrat",
+      "injil"
+    ]
+  },
+  {
+    "id": "T017",
+    "teaching": "Within every one of the 124,000 prophets there is a distinction between mustaqarr (permanent) and mustawda' (temporary), per the principle 'fad-dalna ba'dahum 'ala ba'd' (We preferred some over others).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "mustaqarr",
+      "mustawda'",
+      "fad-dalna ba'dahum 'ala ba'd"
+    ]
+  },
+  {
+    "id": "T018",
+    "teaching": "Ibrahim held the rank of khullat (close friendship) and per 'wa ja'alna Ibrahim imama' was made an Imam, raising the question of whether he was an Imam or a Prophet.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "khullat",
+      "imam",
+      "ja'alna Ibrahim imama"
+    ]
+  },
+  {
+    "id": "T019",
+    "teaching": "The Ibrahim cast into the fire in the Quran was not Ibrahim Khalilullah but a Da'i who served as the Hijab (veil) of the Imam; all du'at are in the veils of the Imam.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "Ibrahim",
+      "hijab",
+      "da'i",
+      "du'at"
+    ]
+  },
+  {
+    "id": "T020",
+    "teaching": "Da'ud Qutub was designated a mustawda' and not a mustaqarr; he was not made the owner (malik), and he wrote khatam bosi (a token of subservience) at the bottom of his letters because he was a junior to the appointed head.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "Da'ud Qutub",
+      "mustawda'",
+      "malik",
+      "khatam bosi"
+    ]
+  },
+  {
+    "id": "T021",
+    "teaching": "Sayyidna Jalal received the nass (designation) only 13 days before his death and within those days completed all the necessary appointments and demotions among the du'at.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "Sayyidna Jalal",
+      "nass",
+      "du'at"
+    ]
+  },
+  {
+    "id": "T022",
+    "teaching": "The great fitna (schism) arose at the time of Sayyidna Sulayman, when Da'ud bin 'Ajab Shah throughout his life disputed Sulayman's rank.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "fitna",
+      "Sayyidna Sulayman",
+      "Da'ud bin 'Ajab Shah"
+    ]
+  },
+  {
+    "id": "T023",
+    "teaching": "Ibrahim is a Mustaqarr Imam, the son of Janab Salih, whose lineage has continued from the beginning.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "Ibrahim",
+      "mustaqarr",
+      "Salih"
+    ]
+  },
+  {
+    "id": "T024",
+    "teaching": "The chain of the Mustaqarr Imam passes from father to son 'wahidan 'an wahidin' (one after another), an extended rope (Habl-ul-Mamdud) that is never broken and persists from one kawr (cycle) to another across all dawr, kawr, athar, and adwar.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "habl-ul-mamdud",
+      "wahidan 'an wahidin",
+      "kawr",
+      "dawr"
+    ]
+  },
+  {
+    "id": "T025",
+    "teaching": "The succession of father-to-son in the Imamat is a sunnah of Allah, not a sunnah of the Prophet, and per 'wa lan tajida li-sunnatillahi tabdila' it can never be changed.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "sunnatillah",
+      "lan tajida li-sunnatillahi tabdila",
+      "imamat"
+    ]
+  },
+  {
+    "id": "T026",
+    "teaching": "The son of a Da'i does not necessarily become a Da'i (he becomes one only if capable), but the son of an Imam must become the Imam; this is the specific principle of the da'wah.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "da'i",
+      "imam",
+      "da'wah"
+    ]
+  },
+  {
+    "id": "T027",
+    "teaching": "After Ibrahim the Matter of Imamate (Amr-e-Imamat) was divided into two parts: Imamat-e-Mustaqarr (Permanent Imamate) and Imamat-e-Mustawda' (Deputized Imamate).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "amr-e-imamat",
+      "imamat-e-mustaqarr",
+      "imamat-e-mustawda'"
+    ]
+  },
+  {
+    "id": "T028",
+    "teaching": "The opponents claimed that Muhammad was merely sent (mab'uth) to renew the shari'at of Ibrahim and was a mustawda' with no share in the Permanent Imamate, a claim the discourse refutes.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "mab'uth",
+      "mustawda'",
+      "imamat-e-mustaqarra"
+    ]
+  },
+  {
+    "id": "T029",
+    "teaching": "The Permanent Imams (A'imma-e-Mustaqarrin) appointed the Deputized Imams (Mustawda'in) only after the death of Ibrahim, and every mustaqarr appoints a mustawda' for his service by his own command.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "a'imma-e-mustaqarrin",
+      "mustawda'in",
+      "mustaqarr"
+    ]
+  },
+  {
+    "id": "T030",
+    "teaching": "Maulana Ibrahim appeared at a special juncture when 3000 years had passed for the world.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "Ibrahim"
+    ]
+  },
+  {
+    "id": "T031",
+    "teaching": "Ibrahim's two sons were Isma'il, whose rank was very high as an Imam-e-Mustaqarr, and Ishaq, who held the rank of a prophet but was a mustawda'.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "Isma'il",
+      "Ishaq",
+      "imam-e-mustaqarr",
+      "mustawda'"
+    ]
+  },
+  {
+    "id": "T032",
+    "teaching": "Isma'il was told to take future service from the progeny of Ishaq, and Ishaq and his progeny were bound to obey Isma'il; this arrangement continued for 3000 years in Lebanon, Syria, and the Middle East.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "Isma'il",
+      "Ishaq"
+    ]
+  },
+  {
+    "id": "T033",
+    "teaching": "The reward for the sincere service of Ishaq's progeny to the Imam of every age was granted at the time of the Prophet, and the Prophet's reward was the fruit of that service.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "Ishaq",
+      "imam"
+    ]
+  },
+  {
+    "id": "T034",
+    "teaching": "The prophets Ayyub, Yusuf, and Ya'qub, from the progeny of Ishaq, served the Imams (Faizar, Nawat, Salam and others) who succeeded Isma'il, by the command of the Imam.",
+    "kind": "reference",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "Ayyub",
+      "Yusuf",
+      "Ya'qub",
+      "Ishaq"
+    ]
+  },
+  {
+    "id": "T035",
+    "teaching": "Just as the Prophet worked by the command of the Imam, in the present era the du'at work by the command of the Imam.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "du'at",
+      "imam"
+    ]
+  },
+  {
+    "id": "T036",
+    "teaching": "After a thousand years of the Prophet the era changed into the era of the Qa'im, at which time the ranks of the du'at were elevated.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "Qa'im",
+      "du'at"
+    ]
+  },
+  {
+    "id": "T037",
+    "teaching": "The opponents wanted the Prophet to grant them a portion of the rank of istida' (being a deputy), but this was not the Prophet's job.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "istida'"
+    ]
+  },
+  {
+    "id": "T038",
+    "teaching": "Esoterically a shay' (thing) means a believer, nisf-e-shay' (half a thing) means a hypocrite, and la-shay' (nothing) means a disbeliever, related to the Urdu lasha (a soulless corpse).",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "shay'",
+      "nisf-e-shay'",
+      "la-shay'",
+      "ta'wil"
+    ]
+  },
+  {
+    "id": "T039",
+    "teaching": "The opponents have no gnosis (ma'rifat) of Ali the Wasi, so arguing and debating about him yields no result.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "ma'rifat",
+      "wasi",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T040",
+    "teaching": "The verse 'Ma kana Ibrahim yahudiyyan' means Ibrahim was neither excessive nor deficient: he was a sincere hanif Muslim, no polytheist, who gave every rightful person his due equally and gave his appointed successor everything in entirety.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "hanif",
+      "muslim",
+      "mushrikin",
+      "shirk"
+    ]
+  },
+  {
+    "id": "T041",
+    "teaching": "The din (religion) of God is one from Adam onward, but the shari'at (law) has kept changing, Adam's shari'at differing from Nuh's and others.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "din",
+      "shari'at",
+      "Adam",
+      "Nuh"
+    ]
+  },
+  {
+    "id": "T042",
+    "teaching": "The era of sitr (concealment) is always divided according to the Nutqa (Speaking Prophets): the eras of Ibrahim, Musa, and 'Isa are named, but never the era of Isma'il, Hasan, or Husayn.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "sitr",
+      "nutqa",
+      "natiq"
+    ]
+  },
+  {
+    "id": "T043",
+    "teaching": "Yaqub al-Sijistani holds that six shari'ats passed (Adam, Nuh, Ibrahim, Musa, 'Isa, and the Prophet), of which three are fathers (aba': Adam, Nuh, Ibrahim) and three are sons (abna': Musa, 'Isa, the Prophet).",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "Yaqub al-Sijistani",
+      "aba'",
+      "abna'",
+      "shari'at"
+    ]
+  },
+  {
+    "id": "T044",
+    "teaching": "In reality there were only three shari'ats, and the latter three came to expand and renew them: Musa expanded Adam's shari'at, 'Isa expanded Nuh's, and the Prophet expanded Ibrahim's.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "shari'at",
+      "Adam",
+      "Nuh",
+      "Ibrahim"
+    ]
+  },
+  {
+    "id": "T045",
+    "teaching": "Many rulings in the present din come from the shari'at of Ibrahim, such as zabihat (ritual slaughter) and khatna (circumcision), because Ibrahim Khalilullah is among the Prophet's ancestors.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "zabihat",
+      "khatna",
+      "Ibrahim Khalilullah"
+    ]
+  },
+  {
+    "id": "T046",
+    "teaching": "The verse 'Inna awla an-nasi bi-Ibrahim' means the people closest to Ibrahim are the Guiding Imams (A'imma-e-Hadin) whose chain of Imam-after-Imam remains, not the prophets whose ranks (Lut, Ishaq, Isma'il) are separate.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "a'imma-e-hadin",
+      "Ibrahim",
+      "mustaqarr"
+    ]
+  },
+  {
+    "id": "T047",
+    "teaching": "Isma'il's rank is very lofty as an Imam-e-Mustaqarr, while Ishaq is a mustawda' (a caretaker who acts as commanded), and Lut's rank is intermediate between Ishaq and Isma'il with attributes neither of them had.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 21 -->",
+    "key_terms": [
+      "Isma'il",
+      "Ishaq",
+      "Lut",
+      "mustawda'"
+    ]
+  },
+  {
+    "id": "T048",
+    "teaching": "The verse 'Ma kana li basharin' means no human prophet given the Scripture, authority, and prophethood would ever tell people to be his servants rather than Allah's, but would say be rabbaniyyin (people of the Lord).",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "bashar",
+      "rabbaniyyin",
+      "kitab",
+      "nubuwwah"
+    ]
+  },
+  {
+    "id": "T049",
+    "teaching": "No Mustawda' has the right, when the Imam al-Zaman entrusts him with the rank of Natiqiyyat, authority in the Da'wat, and wondrous sciences, to then tell his murids that he himself is the Imam al-Mustaqarr.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "mustawda'",
+      "imam al-zaman",
+      "rutba-e-natiqiyyat",
+      "imam al-mustaqarr"
+    ]
+  },
+  {
+    "id": "T050",
+    "teaching": "The Mustawda' must instead tell his Hudud al-Da'wat to keep clarifying the great rank of the Imam al-Zaman to the people, so that they make no one else their Lord (Rabb).",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "hudud al-da'wat",
+      "imam al-zaman",
+      "rabb"
+    ]
+  },
+  {
+    "id": "T051",
+    "teaching": "No Mustawda' has the right to rise to the level of the Mustaqarr; the Imam al-Zaman is the master (malik) who alone entrusts the Natiqiyyat.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "mustawda'",
+      "mustaqarr",
+      "malik",
+      "natiqiyyat"
+    ]
+  },
+  {
+    "id": "T052",
+    "teaching": "The 'human' (bashar) referenced in the verse is the Mustawda', and Mustawda'in of lower rank must not consider themselves to have become the Imam al-Mustaqarr.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "bashar",
+      "mustawda'",
+      "imam al-mustaqarr"
+    ]
+  },
+  {
+    "id": "T053",
+    "teaching": "The da'wat is always given toward the Imam al-Zaman, never toward the speaker himself; the support (ta'id) flows from the Imam, and every speaker must confess that he is only the medium and says nothing of his own.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "da'wat",
+      "imam al-zaman",
+      "ta'id"
+    ]
+  },
+  {
+    "id": "T054",
+    "teaching": "The verse 'Wa la ya'murakum an tattakhidhu al-mala'ikata wan-nabiyyina arbaba' means a true prophet would not command you to take the angels and prophets as lords, nor command disbelief after submission.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "mala'ika",
+      "nabiyyin",
+      "arbab",
+      "kufr"
+    ]
+  },
+  {
+    "id": "T055",
+    "teaching": "He cannot tell you to take the Hudud al-Da'wat and the Mustawda'in as Lords besides the Imam al-Mustaqarr, for the same revelation that guides cannot then misguide.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "hudud al-da'wat",
+      "mustawda'in",
+      "wahi",
+      "imam al-mustaqarr"
+    ]
+  },
+  {
+    "id": "T056",
+    "teaching": "The verse 'Wa idh akhadhallahu mithaqan-nabiyyina' records Allah taking the covenant of the prophets that they must believe in and support the messenger who confirms what is with them.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "mithaq",
+      "nabiyyin",
+      "rasul"
+    ]
+  },
+  {
+    "id": "T057",
+    "teaching": "The Sabiq-i-Ta'ala took a covenant from the Mustawda'in to remain steadfast on the gnosis (ma'rifat) of Amir al-Mu'minin and to immediately accept the confirming messenger when he comes.",
+    "kind": "interpretation",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "sabiq-i-ta'ala",
+      "mustawda'in",
+      "ma'rifat",
+      "amir al-mu'minin"
+    ]
+  },
+  {
+    "id": "T058",
+    "teaching": "Sabit qadam (steadfastness) means being saved from both ghuluww (exaggeration, ghayn=1000) and quluww (falling short, qaf=100); the midpoint 500 is the letter seen, signifying firm obedience to Allah, the Messenger, the Imam, and the hudud.",
+    "kind": "definition",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "sabit qadam",
+      "ghuluww",
+      "quluww"
+    ]
+  },
+  {
+    "id": "T059",
+    "teaching": "The verse 'Qala a'aqrartum wa akhadhtum 'ala dhalikum isri' records Allah taking the prophets' acknowledgment of the burden and making them witnesses, esoterically the acknowledgment of the station of the Wasi.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "iqrar",
+      "isr",
+      "wasi",
+      "shahid"
+    ]
+  },
+  {
+    "id": "T060",
+    "teaching": "Wherever Allah is mentioned in the covenant verses, the Wasi is being mentioned, and the mustajibin-e-da'wat (respondents of the mission) are made witnesses to the covenant.",
+    "kind": "interpretation",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "wasi",
+      "mustajibin-e-da'wat",
+      "'ahd"
+    ]
+  },
+  {
+    "id": "T061",
+    "teaching": "The verse 'Faman tawalla ba'da dhalika fa'ula'ika humul-fasiqun' means whoever turns away after the covenant exits the religion and becomes a fasiq.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "tawalla",
+      "fasiqun",
+      "'ahd"
+    ]
+  },
+  {
+    "id": "T062",
+    "teaching": "Breaking the covenant ('ahd) reaches the stage of disbelief (kufr) and makes one deserving of Hell.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "'ahd",
+      "kufr",
+      "nakithin-e-'ahd"
+    ]
+  },
+  {
+    "id": "T063",
+    "teaching": "The breakers of the covenant (Nakithin-e-'ahd) were the Jews in one era, and among us the Sunni and Shia sects are the Nakithin, Mariqin, and Fasiqin.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "nakithin",
+      "mariqin",
+      "fasiqin"
+    ]
+  },
+  {
+    "id": "T064",
+    "teaching": "The Nas'aluka-llah prayer distinguishes the believers from the Daudis (who do not have it) and seeks refuge from the three: Mariqin, Nakithin, and Fasiqin.",
+    "kind": "reference",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "nas'aluka-llah",
+      "mariqin",
+      "nakithin",
+      "fasiqin"
+    ]
+  },
+  {
+    "id": "T065",
+    "teaching": "The verse 'Afaghayra dinillahi yabghuna' means: do they desire a da'wah other than the Da'wah of the Wasi, before whom the heads of all the Nutaqa' and Awsiya' are bowed in hope of reward or fear of punishment.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "din",
+      "wasi",
+      "nutaqa'",
+      "awsiya'"
+    ]
+  },
+  {
+    "id": "T066",
+    "teaching": "'To Him alone they return' (ilayhi yurja'un) means returning to Mawlana Ali, who is the magnet within the earth whose gravitational pull draws everything, per 'kullu shay'in yarji'u ila aslihi' (every believer returns to his origin, Ali).",
+    "kind": "interpretation",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "yurja'un",
+      "Ali",
+      "kullu shay'in yarji'u ila aslihi"
+    ]
+  },
+  {
+    "id": "T067",
+    "teaching": "In the esoteric interpretations the heavens refer to the Nutaqa' and the earth refers to the Awsiya', and the most noble of the Wasis (Ashraf al-Wasi) is Janab Ali.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "nutaqa'",
+      "awsiya'",
+      "ashraf al-wasi",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T068",
+    "teaching": "The verse 'Qul amanna billahi' affirms belief in the Wilayat of Ali and in what was revealed to Ibrahim, Isma'il, Ishaq, Ya'qub and their progeny, and to the Ulu al-'Azm messengers Musa and 'Isa, making no distinction among them.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "wilayat",
+      "Ali",
+      "ulu al-'azm",
+      "Musa",
+      "'Isa"
+    ]
+  },
+  {
+    "id": "T069",
+    "teaching": "Although among prophets the son does not necessarily follow the father, the lineage Ibrahim to Ishaq to Ya'qub to Yusuf to Ayyub passed as prophets at the rank of Nabi.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "Ibrahim",
+      "Ishaq",
+      "Ya'qub",
+      "Yusuf",
+      "Ayyub"
+    ]
+  },
+  {
+    "id": "T070",
+    "teaching": "Ibrahim's station differs from that of Musa and 'Isa, and the rank of Musa and 'Isa is much lower than the other Nutaqa'.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "Ibrahim",
+      "Musa",
+      "'Isa",
+      "nutaqa'"
+    ]
+  },
+  {
+    "id": "T071",
+    "teaching": "The verse 'Wa man yabtaghi ghayral-islami dinan' means whoever shuns the Wilayat of Ali Amir al-Mu'minin and believes in another will have none of his service in the Da'wah accepted, and will be a loser in the Hereafter.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "islam",
+      "din",
+      "wilayat",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T072",
+    "teaching": "The companions (Uthman, Abu Bakr) gave their wealth only after the government was established and Islam was strong, whereas Mawlatina Khadijah gave all her wealth first, and the early strength of Islam came from her.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "Khadijah",
+      "ashab"
+    ]
+  },
+  {
+    "id": "T073",
+    "teaching": "The verse 'Kayfa yahdillahu qawman kafaru ba'da imanihim' means Allah does not guide those who, after testifying to the Messenger's truth and witnessing clear proofs, deny the Wilayat of the Wasi.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "hidayah",
+      "iman",
+      "wilayat",
+      "wasi"
+    ]
+  },
+  {
+    "id": "T074",
+    "teaching": "Among the proofs for Ali: in the gathering of Dhu al-'Ashirah he was first to volunteer help, and on the night of the Hijrah he calmly slept in the Prophet's bed, while Abu Bakr wept in the cave of Hira.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "Ali",
+      "Dhu al-'Ashirah",
+      "Hijrah",
+      "Abu Bakr"
+    ]
+  },
+  {
+    "id": "T075",
+    "teaching": "The sakinah (tranquility) in the cave verse descended in the singular form only upon the Prophet and not upon Abu Bakr, who is known only as Yar-e-Ghar (Companion of the Cave).",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "sakinah",
+      "yar-e-ghar",
+      "Abu Bakr"
+    ]
+  },
+  {
+    "id": "T076",
+    "teaching": "The verse 'Ula'ika jaza'uhum anna 'alayhim la'natallahi' means the Natiq cuts ties with such deniers, deprives them of spiritual effusion (ifada-e-dini), demotes them, and casts them into the depths of descent (darkat-e-hubut) for ages with the punishment of doubt (shukuk).",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "la'nat",
+      "natiq",
+      "ifada-e-dini",
+      "darkat-e-hubut",
+      "shukuk"
+    ]
+  },
+  {
+    "id": "T077",
+    "teaching": "Persecutors of the Nutaqa' such as Fir'awn and Namrud are presently undergoing only the lesser punishment ('adhab-e-adna), while the final reckoning (tasfiyah) and the punishment of Sakhr will be at the hands of the Qa'im on the Day of Judgment.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "'adhab-e-adna",
+      "tasfiyah",
+      "Qa'im",
+      "Sakhr"
+    ]
+  },
+  {
+    "id": "T078",
+    "teaching": "The verse 'Illal-ladhina tabu' means those who return to the Wasi and correct their belief will be mercifully forgiven by the Wasi.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "tawbah",
+      "wasi",
+      "ghafur",
+      "rahim"
+    ]
+  },
+  {
+    "id": "T079",
+    "teaching": "Mawlana Hurr's destiny changed at the last moment of Karbala: recognizing the family of the Prophet was about to be killed, he turned his horse to Husain, and was promised that his resurrection would be with Husain.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "Hurr",
+      "Husain",
+      "Karbala"
+    ]
+  },
+  {
+    "id": "T080",
+    "teaching": "In the world of intention ('alam-e-niyyat), as exemplified by Karbala, a person's destiny can change, so that a son of one given glad tidings of Paradise may deserve Hell, and a son of one destined for Hell may become a believer.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "'alam-e-niyyat",
+      "Karbala"
+    ]
+  },
+  {
+    "id": "T081",
+    "teaching": "The system of cycles (karrat-o-nizam) runs in cycles of seven-by-seven years, each karrah being a thousand years; primordial enmity (azali qusumat), mub'athat, mujibat, and environmental factors (mahawliyat) all affect a person across cycles.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "karrat-o-nizam",
+      "azali qusumat",
+      "mub'athat",
+      "mujibat",
+      "mahawliyat"
+    ]
+  },
+  {
+    "id": "T082",
+    "teaching": "Man is derived from nisyan (forgetfulness): God has made humans forget where they were born and died in previous cycles.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "nisyan",
+      "karrah"
+    ]
+  },
+  {
+    "id": "T083",
+    "teaching": "The world is a prison for the believer (sijn al-mu'min) and a paradise for the disbeliever (jannat al-kafir); the good a believer receives is the reward of the hasanat (good deeds) of himself and his forebears.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "sijn al-mu'min",
+      "jannat al-kafir",
+      "hasanat"
+    ]
+  },
+  {
+    "id": "T084",
+    "teaching": "When a Jew challenged Mawlana Hasan over his fine clothes despite the saying that the world is the believer's prison, Hasan replied that compared to the Hell awaiting the disbeliever his present state is excellent, and compared to the Paradise awaiting the believer his fine clothes are nothing.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "Hasan",
+      "sijn al-mu'min",
+      "jannat al-kafir"
+    ]
+  },
+  {
+    "id": "T085",
+    "teaching": "The verse 'Innalladhina kafaru ba'da imanihim thumm-azdadu kufran' means those who, after believing in the Natiq, denied the Wasi and kept increasing until they denied the Pure Imams (A'imma-e-Tahirin) will never have their repentance accepted.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "kufr",
+      "natiq",
+      "wasi",
+      "a'imma-e-tahirin"
+    ]
+  },
+  {
+    "id": "T086",
+    "teaching": "The verse 'Innalladhina kafaru wa matu wa hum kuffarun' means those who denied the Wilayat of the Wasi and falsely claimed the Wisayat and died on it will have no ransom (fidya) or later recantation accepted, and their leaders bear the greater sin.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "wilayat",
+      "wasi",
+      "wisayat",
+      "fidya"
+    ]
+  },
+  {
+    "id": "T087",
+    "teaching": "Believers must be grateful to the two Da'is of their time so that the Da'is increase their spiritual effusions (ifadat), through which religious and otherworldly objectives are attained.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "ikhwan-e-mu'minin",
+      "da'i",
+      "ifadat"
+    ]
+  },
+  {
+    "id": "T088",
+    "teaching": "The ta'wil of the third para' (juz') was written by Mirza Amir Sahib in 1401 AH, 38 years before this discourse.",
+    "kind": "reference",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 22 -->",
+    "key_terms": [
+      "Mirza Amir",
+      "ta'wil",
+      "para'"
+    ]
+  },
+  {
+    "id": "T089",
+    "teaching": "The book being read is Rawd al-Mustafid, the ta'wil (esoteric interpretation) of the Glorious Quran, and the discourse proceeds from the third juz' into the fourth.",
+    "kind": "reference",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "Rawd al-Mustafid",
+      "ta'wil",
+      "juz'"
+    ]
+  },
+  {
+    "id": "T090",
+    "teaching": "The opening khutbah prays for the former teaching du'at, naming Sulayman, Ja'far, and Muhammad, and for the two da'is of the time, Sayyidna Sulayman and Sayyidna Ibrahim 'Ali Pir Shan.",
+    "kind": "reference",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "du'at",
+      "Sayyidna Sulayman",
+      "Sayyidna Ibrahim"
+    ]
+  },
+  {
+    "id": "T091",
+    "teaching": "The verse 'Lan tanalu al-birra hatta tunfiqu mimma tuhibbun' esoterically means the hudud of the da'wah cannot attain the rational souls (nufus natiqah) of the believers under their authority until they benefit them with esoteric knowledge ('ilm-e-batin).",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "birr",
+      "infaq",
+      "nufus natiqah",
+      "'ilm-e-batin"
+    ]
+  },
+  {
+    "id": "T092",
+    "teaching": "The intellectual form (surat-e-ilmiyyah) is created only when one learns the knowledge and meaning behind an act, whereas the practical form (surat-e-'amali) arises merely from performing prayers and zakat; action without understanding its meaning yields no benefit.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "surat-e-ilmiyyah",
+      "surat-e-'amali",
+      "'ilm"
+    ]
+  },
+  {
+    "id": "T093",
+    "teaching": "The verse 'Kullu al-ta'ami kana hillan li-Bani Isra'il' esoterically means all knowledge was permissible for the people of the Natiq's da'wah except the knowledge the Natiq forbade disclosing before his hujjah abrogated the apparent shari'ah (the Torah).",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "ta'am",
+      "Bani Isra'il",
+      "natiq",
+      "hujjah",
+      "tawrat"
+    ]
+  },
+  {
+    "id": "T094",
+    "teaching": "The Prophet was commanded to challenge the opponents of the wasi: if they claim perfect knowledge and worthiness of the wasa'it, let them at least state some rulings of the apparent shari'ah as proof.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "wasi",
+      "wasa'it",
+      "shari'ah"
+    ]
+  },
+  {
+    "id": "T095",
+    "teaching": "After the Prophet's passing, the three caliphs could not answer the questions posed by Christians, Jews, Greeks, and Romans; only Ali answered, and he deferred some questions to Hasan and Husayn, who answered them.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "Ali",
+      "Hasan",
+      "Husayn"
+    ]
+  },
+  {
+    "id": "T096",
+    "teaching": "The verse 'Fa-mani iftara 'ala Allahi al-kadhiba' means the enemies of the wasi who accuse the Messenger of removing the rightful wasi and appointing his opponent are the wrongdoers (zalimun).",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "iftira",
+      "kadhib",
+      "wasi",
+      "zalimun"
+    ]
+  },
+  {
+    "id": "T097",
+    "teaching": "The opponents knew that if prophethood had come to one house the imamate would not, so they sought the caliphate among themselves, resulting in 1400 years of darkness with no true caliph after the first four.",
+    "kind": "argument",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "nubuwwah",
+      "imamate",
+      "khilafah"
+    ]
+  },
+  {
+    "id": "T098",
+    "teaching": "The verse 'Qul sadaqa Allah. Fattabi'u millata Ibrahima hanifa' esoterically means the Wasi Ali speaks the truth; follow the sunnah of Ibrahim and accept that imamate passes to the son after the father, a sunnah of Allah that does not change.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "millata Ibrahima",
+      "hanif",
+      "wasi",
+      "sunnatillah"
+    ]
+  },
+  {
+    "id": "T099",
+    "teaching": "Ya'qub al-Qirqisani writes that there were three shari'ahs (Adam, Nuh, Ibrahim) called the aba' (fathers), after which the abna' (sons) Musa, 'Isa, and the Prophet spread them: Musa spread Adam's, 'Isa spread Nuh's, and the Prophet spread Ibrahim's.",
+    "kind": "authority",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "Ya'qub al-Qirqisani",
+      "aba'",
+      "abna'",
+      "shari'ah"
+    ]
+  },
+  {
+    "id": "T100",
+    "teaching": "Several major elements of the Muhammadan shari'ah come from Ibrahim, including the matter of pledging allegiance and circumcision.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "Ibrahim",
+      "khatna"
+    ]
+  },
+  {
+    "id": "T101",
+    "teaching": "Ibrahim was not merely a prophet but an ulul-'azm prophet who also possessed natiqiyyah, and per 'wa-ja'alna Ibrahima imama' he reached the rank of Imamate.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "ulul-'azm",
+      "natiqiyyah",
+      "ja'alna Ibrahima imama"
+    ]
+  },
+  {
+    "id": "T102",
+    "teaching": "Per 'faddalna ba'dahum 'ala ba'd' there is a hierarchy among the 124,000 prophets: the one who received risalah is greater than the prophets, the one who received natiqiyyah is greater than the messengers, and the ulul-'azm prophet is greater than a natiq.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "faddalna ba'dahum 'ala ba'd",
+      "risalah",
+      "natiqiyyah",
+      "ulul-'azm"
+    ]
+  },
+  {
+    "id": "T103",
+    "teaching": "The Prophet's shari'ah, per 'akmaltu lakum dinakum', is the most complete religion.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "akmaltu lakum dinakum",
+      "shari'ah"
+    ]
+  },
+  {
+    "id": "T104",
+    "teaching": "The din has remained one from Adam onward while the shari'ahs keep changing as the time demands; where a contradiction or break arises Allah sends a great prophet, and so the continuity of the din persists.",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "din",
+      "shari'ah",
+      "Adam"
+    ]
+  },
+  {
+    "id": "T105",
+    "teaching": "Ibrahim's hidden lineage runs Isma'il, Qedar, Nabat, Salamah and continued in concealment, while the known prophets Ishaq, Ya'qub, Yusuf, and Ayyub who did work in the world came to the forefront.",
+    "kind": "reference",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "Isma'il",
+      "Qedar",
+      "Nabat",
+      "Salamah"
+    ]
+  },
+  {
+    "id": "T106",
+    "teaching": "In the daur-e-satr (period of concealment) it is the era of the prophets, not the imams; the era of the imams belongs to the daur-e-kashf (period of unveiling).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "daur-e-satr",
+      "daur-e-kashf",
+      "kashf"
+    ]
+  },
+  {
+    "id": "T107",
+    "teaching": "The verse 'Inna awwala baytin wudi'a li-n-nas' esoterically means the first Imam established in this era for the da'wah, raised in the station of wasa'it, helped by divine aid, who gives guidance to the people of the da'wah.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "awwala bayt",
+      "Bakkah",
+      "imam",
+      "wasa'it"
+    ]
+  },
+  {
+    "id": "T108",
+    "teaching": "The verse 'Fihi ayatun bayyinatun maqamu Ibrahim. Wa-man dakhalahu kana amina' esoterically means that in connection with the first Imam are many imams whose stations are clear, like Ibrahim who appointed two of his sons as Imams, one mustawda' and one mustaqarr, and whoever reaches the truth through the wasi's da'wah is saved.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "maqamu Ibrahim",
+      "amin",
+      "mustawda'",
+      "mustaqarr"
+    ]
+  },
+  {
+    "id": "T109",
+    "teaching": "The physical conditions for performing Hajj are safety on the path, the expenses for travel, and sustenance left for one's children; without these one should not perform Hajj.",
+    "kind": "ruling",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "hajj",
+      "istita'ah"
+    ]
+  },
+  {
+    "id": "T110",
+    "teaching": "The verse 'Wa-lillahi 'ala an-nas hijju al-bayti' esoterically means the former leader made it obligatory upon the people of the da'wah, if able, to intend to be present in the service of the wasi to acquire esoteric knowledge; whoever is negligent should know the wasi is free of need (ghani).",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "hijju al-bayt",
+      "wasi",
+      "ghani",
+      "'ilm-e-batin"
+    ]
+  },
+  {
+    "id": "T111",
+    "teaching": "The verse 'Qul ya Ahl al-Kitab lima takfuruna bi-ayati Allah' esoterically rebukes the kalimah-reciting Muslims for denying the rank of the wasi despite hundreds of proofs, while he witnesses their every action and intention.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "ahl al-kitab",
+      "ayat",
+      "wasi",
+      "kalimah"
+    ]
+  },
+  {
+    "id": "T112",
+    "teaching": "The verse 'Qul ya Ahl al-Kitab lima tasudduna 'an sabili Allah' esoterically rebukes those who stop believers from the path of the rightful wasi and seek to take the wasa'it from Ali, though they themselves witnessed Ghadir Khumm.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "sabil Allah",
+      "wasi",
+      "wasa'it",
+      "Ghadir Khumm"
+    ]
+  },
+  {
+    "id": "T113",
+    "teaching": "At Ghadir Khumm the Prophet declared 'man kuntu mawlahu fa-hadha 'Aliyun mawlahu', and the companions congratulated Ali saying 'bakhin bakhin ya Aba al-Hasan, asbahta mawlaya wa-mawla kulli mu'minin', yet within three months they turned back.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "Ghadir Khumm",
+      "man kuntu mawlahu",
+      "Ali",
+      "bakhin bakhin"
+    ]
+  },
+  {
+    "id": "T114",
+    "teaching": "The deniers of the wasi were driven by three vices: greed (hirs), envy (hasad, the mother of sins), and arrogance (kibr).",
+    "kind": "doctrine",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "hirs",
+      "hasad",
+      "kibr"
+    ]
+  },
+  {
+    "id": "T115",
+    "teaching": "Per 'yukhriju al-hayya min al-mayyit', good emerges from bad and bad from good, as Abu Lahab came from 'Abd al-Muttalib, and Isma'il (son of Sayyidna Yusuf and brother of Hasan) changed his religion for the sake of money and the lands of Turkey.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "yukhriju al-hayya min al-mayyit",
+      "Abu Lahab",
+      "Isma'il"
+    ]
+  },
+  {
+    "id": "T116",
+    "teaching": "The verse 'Ya ayyuha alladhina amanu in tuti'u fariqan' esoterically warns the followers of the wasi that if they turn toward any party of the common Muslims (united in enmity to the wasi), they will be turned away from the wilayat of Ali into denial.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "fariq",
+      "wasi",
+      "wilayat",
+      "Ali"
+    ]
+  },
+  {
+    "id": "T117",
+    "teaching": "The verse 'Wa-kayfa takfuruna wa-antum tutla 'alaykum ayatu Allah' esoterically means only the one firmly attached to the hem of the wasi treads the straight and firm path (sirat mustaqim).",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "sirat mustaqim",
+      "wasi",
+      "i'tisam"
+    ]
+  },
+  {
+    "id": "T118",
+    "teaching": "Abu Bakr and his associates were the hudud of 'Isa who knew everything but intentionally denied it and became opponents, going astray knowingly rather than out of ignorance.",
+    "kind": "claim",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "Abu Bakr",
+      "hudud",
+      "'Isa"
+    ]
+  },
+  {
+    "id": "T119",
+    "teaching": "The verse 'Ya ayyuha alladhina amanu ittaqu Allaha haqqa tuqatihi' esoterically commands the kalimah-reciters to completely fear opposing the wasi and to ensure that their death is in obedience and submission to him.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "taqwa",
+      "wasi",
+      "kalimah"
+    ]
+  },
+  {
+    "id": "T120",
+    "teaching": "The verse 'Wa-'tasimu bi-habli Allahi jami'an' esoterically commands making the wilayat of the progeny of the wasi the essence of faith and not scattering into friendship with others, for through love of the wasi former enemies became united brothers.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "habl Allah",
+      "wilayat",
+      "wasi",
+      "ikhwan"
+    ]
+  },
+  {
+    "id": "T121",
+    "teaching": "The verse 'Wa-kuntum 'ala shafa hufratin min an-nar fa-anqadhakum minha' esoterically means the believers were about to fall into the fire of misguidance through love of the wasi's enemy, but the Natiq saved them and made them recognize the ranks of his wasi and the imams.",
+    "kind": "scripture",
+    "source": "aug:ibrahim-2015",
+    "source_marker": "<!-- AUG:ibrahim-2015 lecture 23 -->",
+    "key_terms": [
+      "hufrah",
+      "natiq",
+      "wasi",
+      "imam"
+    ]
+  }
+]

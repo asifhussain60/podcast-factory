@@ -1,11 +1,15 @@
 /**
  * peq-scores.ts — TypeScript port of the PEQ (Podcast Episode Quality) scorer.
  *
- * Mirrors the logic in scripts/podcast/_quality.py and
- * scripts/podcast/intelligence/challenger_scoring.py.
- * Pure maths + regex — no API calls, no external dependencies.
+ * Mirrors the logic in scripts/podcast/_quality.py (the canonical formula —
+ * challenger_scoring.py imports from there). Pure maths + regex — no API
+ * calls, no external dependencies. Keep in sync with _quality.py in the same
+ * commit whenever either side changes (repo mirror contract).
  *
- * FORMULA: PEQ = 0.35×Fidelity + 0.25×Voice + 0.20×Structure + 0.20×Enrichment
+ * FORMULA (K6 — 5-axis):
+ *   PEQ = 0.30×Fidelity + 0.20×Voice + 0.18×Structure
+ *         + 0.17×Enrichment + 0.15×Interest
+ * When the Voice axis is unavailable its weight redistributes to Fidelity.
  * PASS ≥ 85 · WARN 70–84 · FAIL < 70
  */
 import { readFile, readdir } from 'node:fs/promises';
@@ -18,15 +22,67 @@ import { join } from 'node:path';
 export const THRESHOLD_PASS = 85;
 export const THRESHOLD_WARN = 70;
 
+// Weights — mirror _quality.py (K6 5-axis; WEIGHT_INTEREST = R_INTEREST_WEIGHT).
+const WEIGHT_FIDELITY = 0.30;
+const WEIGHT_VOICE = 0.20;
+const WEIGHT_STRUCTURE = 0.18;
+const WEIGHT_ENRICHMENT = 0.17;
+const WEIGHT_INTEREST = 0.15;
+
+// Mirror of _quality.py `_VOICE_SCORER_READY`. The Python voice scorer is
+// gated off until the K2+ shared TF-IDF vocabulary exists; while it is off,
+// voice scores 0 and its weight redistributes to Fidelity. Flip this only
+// when the Python flag flips, or the dashboard will show bigram-ratio noise
+// the pipeline never awarded.
+const VOICE_SCORER_READY = false;
+
+// Interest-axis patterns — mirror R_INTEREST_* in scripts/podcast/_rules.py.
+const INTEREST_HOOK_PATTERNS = [
+  /what (does|would|if|happens|kind of|makes|drives|compels)/i,
+  /why (does|would|did|should|is|are|do|must)/i,
+  /how (does|can|should|is|are|do|did)/i,
+  /imagine (if|a world|that|for a moment)/i,
+  /consider (this|the|what|a|that)/i,
+  /the question (is|was|becomes|facing|at the heart)/i,
+  /here'?s (the|a|what|why|how|something)/i,
+  /(let'?s|let us) (begin|start|open|ask|explore|consider)/i,
+];
+const INTEREST_CHALLENGE_RAISE_PATTERNS = [
+  /\b(objection|challenge|difficulty|problem|paradox|tension|puzzle|obstacle)\b/i,
+  /\b(one might (argue|say|object|think|wonder))\b/i,
+  /\b(it (might|may|could) seem)\b/i,
+  /\b(but (how|why|what|is this|does this|can))\b/i,
+];
+const INTEREST_CHALLENGE_RESOLVE_PATTERNS = [
+  /\b(the answer (is|lies|comes|emerges))\b/i,
+  /\b(in fact|actually|rather|instead|on the contrary)\b/i,
+  /\b(resolves?|dissolves?|overcomes?|addresses?|answers? (this|that|the))\b/i,
+];
+const INTEREST_RELEVANCE_PATTERNS = [
+  /\b(today|modern|contemporary|our (time|age|era|world|lives?))\b/i,
+  /\b(we (find|see|live|face|encounter|grapple))\b/i,
+  /\b(still (holds?|rings? true|matters?|applies?|speaks?))\b/i,
+  /\b(resonates?|relevant|speaks? to|timeless)\b/i,
+  /\b(in (our|this|any|every) (age|era|time|generation|society|context))\b/i,
+];
+const INTEREST_STRAWMAN_DENY = [
+  /\bobviously (wrong|false|absurd|incorrect|mistaken)\b/i,
+  /\bclearly (wrong|mistaken|misguided)\b/i,
+  /\babsurdly\b/i,
+  /\b(silly (argument|idea|notion|objection))\b/i,
+  /\b(no (sane|reasonable|serious) person)\b/i,
+];
+
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
 export interface PEQAxes {
   fidelity: number;   // 0–100
-  voice: number;      // 0–100
+  voice: number;      // 0–100 (0 while the voice scorer is gated off)
   structure: number;  // 0–100
   enrichment: number; // 0–100
+  interest: number;   // 0–100 (K6)
   total: number;      // 0–100
   verdict: 'PASS' | 'WARN' | 'FAIL';
 }
@@ -88,7 +144,8 @@ function arcLabels(text: string): string[] {
 }
 
 function fidelityScore(sourceIds: string[], foundIds: string[]): number {
-  if (sourceIds.length === 0 && foundIds.length === 0) return 100;
+  // Mirror _quality._fidelity_score: no source citations → no target → full credit.
+  if (sourceIds.length === 0) return 100;
   const s = new Set(sourceIds);
   const f = new Set(foundIds);
   const intersection = [...s].filter((x) => f.has(x)).length;
@@ -96,16 +153,12 @@ function fidelityScore(sourceIds: string[], foundIds: string[]): number {
   return union === 0 ? 100 : Math.round((intersection / union) * 10000) / 100;
 }
 
-function voiceScore(text: string, exemplarVector: number[] | null): number {
-  if (!exemplarVector || exemplarVector.length === 0) return 0;
-  const tokens = text.toLowerCase().split(/\s+/);
-  const bigrams: Record<string, number> = {};
-  for (let i = 0; i < tokens.length - 1; i++) {
-    const bg = `${tokens[i]}_${tokens[i + 1]}`;
-    bigrams[bg] = (bigrams[bg] ?? 0) + 1;
-  }
-  const ratio = Math.min(Object.keys(bigrams).length / Math.max(exemplarVector.length, 1), 1.0);
-  return Math.round(ratio * 10000) / 100;
+function voiceScore(_text: string, exemplarVector: number[] | null): number {
+  // Mirror _quality._voice_score: gated off until the K2+ shared TF-IDF
+  // vocabulary is built. While VOICE_SCORER_READY is false this returns 0 and
+  // peqTotal() redistributes the Voice weight to Fidelity — same as Python.
+  if (!exemplarVector || exemplarVector.length === 0 || !VOICE_SCORER_READY) return 0;
+  return 0; // K2+: cosine similarity in the shared vocabulary basis (not yet built).
 }
 
 function structureScore(arcRules: string[], found: string[]): number {
@@ -122,12 +175,42 @@ function enrichmentScore(termCount: number, glossedCount: number, qrefs: number,
   return Math.round((0.70 * glossingRatio + 0.30 * quranDensity) * 10000) / 100;
 }
 
-function peqTotal(fidelity: number, voice: number, structure: number, enrichment: number, hasVector: boolean): number {
-  if (!hasVector) {
-    // Redistribute Voice weight (0.25) to Fidelity when no exemplar
-    return Math.round((0.60 * fidelity + 0.20 * structure + 0.20 * enrichment) * 100) / 100;
-  }
-  return Math.round((0.35 * fidelity + 0.25 * voice + 0.20 * structure + 0.20 * enrichment) * 100) / 100;
+function interestScore(text: string): number {
+  // Mirror _quality._interest_score (K6): four sub-signals averaged, ×100.
+  if (!text.trim()) return 0;
+
+  const words = text.split(/\s+/).filter(Boolean);
+  const first20 = words.slice(0, Math.max(Math.floor(words.length * 0.20), 50)).join(' ');
+
+  const hook = INTEREST_HOOK_PATTERNS.some((p) => p.test(first20)) ? 1.0 : 0.0;
+
+  const raised = INTEREST_CHALLENGE_RAISE_PATTERNS.some((p) => p.test(text));
+  const resolved = INTEREST_CHALLENGE_RESOLVE_PATTERNS.some((p) => p.test(text));
+  const challenge = raised && resolved ? 1.0 : raised ? 0.5 : 0.0;
+
+  const relevance = INTEREST_RELEVANCE_PATTERNS.some((p) => p.test(text)) ? 1.0 : 0.0;
+
+  const fairness = INTEREST_STRAWMAN_DENY.some((p) => p.test(text)) ? 0.0 : 1.0;
+
+  return Math.round(((hook + challenge + relevance + fairness) / 4.0) * 10000) / 100;
+}
+
+function peqTotal(
+  fidelity: number,
+  voice: number,
+  structure: number,
+  enrichment: number,
+  interest: number,
+  voiceAvailable: boolean,
+): number {
+  // Mirror _quality.score(): Voice weight redistributes to Fidelity when the
+  // voice axis is unavailable; total clamps to 0–100 and rounds to 1 dp.
+  const total = voiceAvailable
+    ? WEIGHT_FIDELITY * fidelity + WEIGHT_VOICE * voice + WEIGHT_STRUCTURE * structure
+      + WEIGHT_ENRICHMENT * enrichment + WEIGHT_INTEREST * interest
+    : (WEIGHT_FIDELITY + WEIGHT_VOICE) * fidelity + WEIGHT_STRUCTURE * structure
+      + WEIGHT_ENRICHMENT * enrichment + WEIGHT_INTEREST * interest;
+  return Math.round(Math.min(Math.max(total, 0), 100) * 10) / 10;
 }
 
 function verdict(total: number): 'PASS' | 'WARN' | 'FAIL' {
@@ -178,13 +261,15 @@ export async function scoreChapter(
   const arc = arcLabels(chapterText);
   const citationsFound = chapterText.match(/(?:quran|hadith|doctrine):\S+/g) ?? [];
 
+  const voiceAvailable = exemplar !== null && VOICE_SCORER_READY;
   const fid = fidelityScore([], citationsFound);
   const voi = voiceScore(chapterText, exemplar);
   const str = structureScore(['open_hook', 'three_points', 'close'], arc);
   const enr = enrichmentScore(termCount, glossedCount, qrefs, words);
-  const tot = peqTotal(fid, voi, str, enr, exemplar !== null);
+  const int = interestScore(chapterText);
+  const tot = peqTotal(fid, voi, str, enr, int, voiceAvailable);
 
-  return { fidelity: fid, voice: voi, structure: str, enrichment: enr, total: tot, verdict: verdict(tot) };
+  return { fidelity: fid, voice: voi, structure: str, enrichment: enr, interest: int, total: tot, verdict: verdict(tot) };
 }
 
 // ---------------------------------------------------------------------------
@@ -226,13 +311,15 @@ export async function scoreBook(
     const arc = arcLabels(text);
     const citationsFound = text.match(/(?:quran|hadith|doctrine):\S+/g) ?? [];
 
+    const voiceAvailable = exemplar !== null && VOICE_SCORER_READY;
     const fid = fidelityScore([], citationsFound);
     const voi = voiceScore(text, exemplar);
     const str = structureScore(ARC_RULES, arc);
     const enr = enrichmentScore(termCount, glossedCount, qrefs, words);
-    const tot = peqTotal(fid, voi, str, enr, exemplar !== null);
+    const int = interestScore(text);
+    const tot = peqTotal(fid, voi, str, enr, int, voiceAvailable);
 
-    chapters.push({ slug, title, scores: { fidelity: fid, voice: voi, structure: str, enrichment: enr, total: tot, verdict: verdict(tot) } });
+    chapters.push({ slug, title, scores: { fidelity: fid, voice: voi, structure: str, enrichment: enr, interest: int, total: tot, verdict: verdict(tot) } });
   }
 
   const totals = chapters.map((c) => c.scores.total);

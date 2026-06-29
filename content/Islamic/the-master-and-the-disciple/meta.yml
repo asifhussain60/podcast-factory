@@ -1,0 +1,54 @@
+slug: the-master-and-the-disciple
+title: The Master and the Disciple
+short_name: master-disciple
+archetype: socratic-dialogue
+original_title: Kitāb al-ʿĀlim wa-l-Ghulām
+source_pdf: ../../../raw/Kitaab_Al-aalim_wal_Ghulam_Chapters/
+source_audio: ../../../raw/Kitaab_Al-aalim_wal_Ghulam_Chapters/Podcast/00 - The Master And The Disciple.mp3
+
+series:
+  enable_book_branch: true
+
+pipeline:
+  current_phase: 0book-render
+  next_phase: per-chapter-density-rerun
+  chapters_drafted: 5
+  chapters_with_contracts: 5
+  episodes_shipped: 0
+  episodes_with_audio: 0
+
+doctrinal_context:
+  author: Jaʿfar ibn Manṣūr al-Yaman
+  school: Ismaili (Fatimid-era daʿwa tradition)
+  period: Early Fatimid, c. 10th century CE
+  genre: Socratic dialogue (ʿĀlim/Ghulām frame)
+  cross_contamination_risk: low — content is distinctly Ismaili cosmological doctrine
+
+publication:
+  status: draft
+  translator: unknown
+  publisher: unknown
+  edition: unknown
+  shipped_via: scripts/podcast/publish_to_library.py
+  # publication_target removed — retired with the copy-based publish model (2026-06-04).
+  # publish_to_library.py now flips status in-place; no target directory needed.
+
+provenance:
+  canonical_source_branch: develop
+  canonical_source_commit: 62b488bc18272f98b852e37187a692e5e24b8d4e
+  canonical_source_path: content/podcast/library/books/the-master-and-the-disciple/
+  restored_via: git checkout 62b488b -- content/podcast/library/books/the-master-and-the-disciple/
+  note: |
+    Restored from origin/develop@62b488b after the earlier reshape was lost
+    in the container-layout teardown. THEN reshaped into the consistent
+    template on 2026-05-23 as part of Phase E of the systematic restructure:
+      - book-images/ → _system/source/images/ (95 PNGs)
+      - Ch-NN .txt/.md → chapters/chNN-<slug>.md (8 files, slug-cased)
+      - _notebooklm/ → notebooklm/ (7 top + 8 scaffolding)
+      - Final Review Report.md → audits/final-review-report.md
+      - Source and Editorial Notes.md → _system/source/notes/source-and-editorial-notes.md
+      - refined-english.md assembled from chapters/ at _system/source/text/
+      - All other workshop folders (chapter-contracts, episodes, framings,
+        transcripts) added as empty placeholders ready for Phase 0d.
+  reshape_date: 2026-05-23
+  reshape_method: manual reshape into agreed template (matches other books' shape)

@@ -1,6 +1,6 @@
 ---
 name: vacuum
-description: "Pipeline-aware folder hygiene and filename normalizer for podcast-factory books. Executes targeted mutations against `content/drafts/<slug>/` and `content/published/books/<slug>/` — renames audio/transcript files to canonical `ch<NN>-<slug>` form, moves misplaced files into the canonical layout, removes duplicates and known junk (`.DS_Store`, `m4a/v1/` legacy mp3s, empty/orphaned dirs), and reconciles folder-name drift (`m4a/` vs `audio/`). Always dry-run-first: emits a proposed-diff plan, halts for user approval, then executes. Designed as the delegation target for `postprod-review` findings tagged `delegate_to: vacuum`, but also invokable directly. Distinct from `clean-commit` (generic folder hygiene, no pipeline knowledge) and `repo-surgeon` (repo-wide architectural audit, no per-book ops). Book-agnostic: caller supplies `<book-slug>`. Invoke for: 'vacuum <book-slug>', 'tidy book <slug>', 'normalize filenames', 'standardize folder layout', '/vacuum', 'rename audio files to match chapters', or whenever postprod-review emits `delegate_to: vacuum` findings."
+description: "Pipeline-aware folder hygiene and filename normalizer for podcast-factory books. Executes targeted mutations against `content/<Bucket>/<slug>/` (draft or published — that's a status field, not a folder) — renames audio/transcript files to canonical `ch<NN>-<slug>` form, moves misplaced files into the canonical layout, removes duplicates and known junk (`.DS_Store`, `m4a/v1/` legacy mp3s, empty/orphaned dirs), and reconciles folder-name drift (`m4a/` vs `audio/`). Always dry-run-first: emits a proposed-diff plan, halts for user approval, then executes. Designed as the delegation target for `postprod-review` findings tagged `delegate_to: vacuum`, but also invokable directly. Distinct from `clean-commit` (generic folder hygiene, no pipeline knowledge) and `repo-surgeon` (repo-wide architectural audit, no per-book ops). Book-agnostic: caller supplies `<book-slug>`. Invoke for: 'vacuum <book-slug>', 'tidy book <slug>', 'normalize filenames', 'standardize folder layout', '/vacuum', 'rename audio files to match chapters', or whenever postprod-review emits `delegate_to: vacuum` findings."
 tools: Read, Glob, Grep, Bash, Edit, Write
 vacuum_contract:
   default_mode: dry_run                  # proposes diff, never mutates without --apply
@@ -10,9 +10,9 @@ vacuum_contract:
   delegated_from:
     - postprod-review                    # consumes `delegate_to: vacuum` findings
   reads_normative:
-    - content/drafts/<slug>/chapter-contracts/   # naming source-of-truth
-    - content/drafts/<slug>/episodes/            # episode framings (for audio→chapter inference)
-    - content/drafts/<slug>/meta.yml             # genre, slug, structural info
+    - content/<Bucket>/<slug>/chapter-contracts/   # naming source-of-truth
+    - content/<Bucket>/<slug>/episodes/            # episode framings (for audio→chapter inference)
+    - content/<Bucket>/<slug>/meta.yml             # genre, slug, structural info
     - scripts/podcast/_branching.py              # canonical slug rules
   reads_guidance:
     - infra/claude-agents/postprod-review.md
@@ -46,10 +46,10 @@ Vacuum does NOT do: commits (`clean-commit` does), repo-wide audits (`repo-surge
 
 | Path | Purpose |
 |---|---|
-| `content/drafts/<slug>/` or `content/published/books/<slug>/` | The book folder to tidy |
-| `content/drafts/<slug>/chapter-contracts/*.yml` | Authoritative `ch<NN>-<slug>` naming |
-| `content/drafts/<slug>/episodes/EP*.txt` | Episode framings — used as evidence when inferring audio→chapter mapping |
-| `content/drafts/<slug>/audits/postprod-*.md` | Postprod-review findings tagged `delegate_to: vacuum` |
+| `content/<Bucket>/<slug>/` | The book folder to tidy (any bucket; status field decides draft vs published) |
+| `content/<Bucket>/<slug>/chapter-contracts/*.yml` | Authoritative `ch<NN>-<slug>` naming |
+| `content/<Bucket>/<slug>/episodes/EP*.txt` | Episode framings — used as evidence when inferring audio→chapter mapping |
+| `content/<Bucket>/<slug>/audits/postprod-*.md` | Postprod-review findings tagged `delegate_to: vacuum` |
 | `scripts/podcast/_branching.py` | Canonical slug rules (kebab-case, prefix map) |
 | Optional: pairing JSON written by postprod-review at `audits/postprod-<slug>-pairing.json` | Pre-resolved audio→chapter map |
 
@@ -57,8 +57,8 @@ Vacuum does NOT do: commits (`clean-commit` does), repo-wide audits (`repo-surge
 
 | Path | Purpose |
 |---|---|
-| `content/drafts/<slug>/audits/vacuum-plan.md` | Dry-run plan — list of proposed mutations with rationale |
-| `content/drafts/<slug>/audits/vacuum-applied.md` | After `--apply`: executed mutations + any deferred items |
+| `content/<Bucket>/<slug>/audits/vacuum-plan.md` | Dry-run plan — list of proposed mutations with rationale |
+| `content/<Bucket>/<slug>/audits/vacuum-applied.md` | After `--apply`: executed mutations + any deferred items |
 | File operations under the target book folder | Renames, moves, deletes (only with `--apply` + approval) |
 
 ---
@@ -68,7 +68,7 @@ Vacuum does NOT do: commits (`clean-commit` does), repo-wide audits (`repo-surge
 Vacuum's job is to reconcile the current folder against this target.
 
 ```
-content/drafts/<slug>/                       (workshop)
+content/<Bucket>/<slug>/                     (one tree; status=draft|published lives in _system/orchestrator-state.json)
   meta.yml
   _system/                                   (orchestrator state, glossary, etc. — left alone)
   audits/                                    (vacuum + challenger + postprod reports)
@@ -80,18 +80,9 @@ content/drafts/<slug>/                       (workshop)
   m4a/                                       (audio folder — canonical name decided per book; see §3)
     ch<NN>-<chapter-slug>.m4a                (downloaded from NotebookLM)
     transcripts/
-      ch<NN>-<chapter-slug>.transcript.txt   (Turboscribe output — same stem as m4a)
+      ch<NN>-<chapter-slug>.transcript.txt   (transcribe_notebooklm.py Azure output, or external fallback — same stem as m4a)
   slide-decks/                               (if present; vacuum flags missing per CLAUDE.md rule)
-
-content/published/books/<slug>/              (audience-facing subset)
-  README.md
-  meta.yml
-  chapters/
-  episodes/
-  m4a/                                       (same shape as drafts/)
-    transcripts/
-  slide-decks/
-  show-notes/
+  show-notes/                                 (if present)
 ```
 
 ### Known mutations vacuum performs on a stale book

@@ -38,18 +38,24 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 from _paths import REPO_ROOT, resolve_content  # noqa: E402
+from _rules import R_NOISE_APPARATUS_DIRECTIVE, strip_noise_reference_attributions  # noqa: E402
 
 PRICE_IN  = 0.000_000_1   # $/char Gemini Flash input
 PRICE_OUT = 0.000_000_4   # $/char output
 
 SOURCES = ["arabic", "english", "scholarly"]
 
-# Tailored denoise prompts per source role
-_SYSTEM_ARABIC = """\
-You are processing a raw OCR of a classical Arabic scholarly text (Ayyuhal Walad by Imam al-Ghazali).
+# Book-agnostic denoise prompt TEMPLATES (per source role). `{book}` is filled
+# from the book's own metadata at run time — NEVER hardcode a title or author
+# here (the prior version was hardcoded to "Ayyuhal Walad by Imam al-Ghazali",
+# which mis-described every other book). The shared Wave-N apparatus directive
+# (R_NOISE_APPARATUS_DIRECTIVE) is appended in build_system_prompts so circulation/
+# provenance/colophon noise is stripped at the root for every book.
+_TMPL_ARABIC = """\
+You are processing a raw OCR of {book} — a classical Arabic scholarly text.
 
 TASK: Strip all OCR artefacts, page numbers, page separators, and editorial apparatus.
-Keep: every word of Ghazali's actual Arabic text (in Arabic script), section numbers (Roman or
+Keep: every word of the author's actual Arabic text (in Arabic script), section numbers (Roman or
 Arabic numerals), and paragraph breaks.
 Remove: page number lines, OCR noise characters, transliteration guides, editor's square-bracket
 additions, publisher notes.
@@ -57,58 +63,84 @@ additions, publisher notes.
 OUTPUT DISCIPLINE: return ONLY the cleaned text. No preamble, no explanation.
 """
 
-_SYSTEM_ENGLISH = """\
-You are processing a raw OCR of a heavily-footnoted academic English translation of Ayyuhal Walad
-by Imam al-Ghazali (translated by a Western Orientalist scholar in the early 20th century).
+_TMPL_ENGLISH = """\
+You are processing a raw OCR of a heavily-footnoted academic English translation of {book}.
 
-TASK: Extract only Ghazali's actual letter text in English. Remove ALL translator material:
+TASK: Extract only the author's actual text in English. Remove ALL translator material:
 footnotes (numbered or lettered), translator commentary, page numbers, page separators
 (lines like "-51-", "<!-- page 37 -->"), chapter headings added by the translator, bibliographic
-citations (Lane TON, Mishcat, etc.), Arabic script inserted for comparison, and any text within
-square brackets [ ] added by the translator.
+citations (Lane TON, Mishcat, etc.), and any text within square brackets [ ] added by the translator.
 
-Keep: every sentence that is Ghazali's own prose (the letter itself), section numbers
-(Roman numerals like "I.", "II.", "O youth," openings), and natural paragraph breaks.
+Keep: every sentence that is the author's own prose, section numbers
+(Roman numerals like "I.", "II.", opening address forms), natural paragraph breaks, and Arabic
+script attached to authorial terms, Quran/hadith/sayings, prayers, names, titles, and doctrinal
+formulae. The Arabic-script terms belong in the chapter source and will be reviewed later during
+the phonetic/pronunciation stage.
 
-OUTPUT DISCIPLINE: return ONLY Ghazali's cleaned English prose. No preamble, no explanation.
-Begin directly with the first word of Ghazali's text.
+OUTPUT DISCIPLINE: return ONLY the author's cleaned English prose. No preamble, no explanation.
+Begin directly with the first word of the author's text.
 """
 
-_SYSTEM_SCHOLARLY = """\
-You are processing a raw OCR of a scholarly commentary edition of Ayyuhal Walad.
+_TMPL_SCHOLARLY = """\
+You are processing a raw OCR of a scholarly commentary edition of {book}.
 This edition interleaves the original text with scholarly commentary and footnotes.
 
-TASK: Extract both (a) Ghazali's original letter text and (b) substantive scholarly
+TASK: Extract both (a) the author's original text and (b) substantive scholarly
 commentary on the meaning. Remove: page numbers, page separators, bibliographic footnotes,
 editorial apparatus, publisher information, OCR noise.
 
-Mark Ghazali's own text with: [GHAZALI] ... [/GHAZALI]
+Mark the author's own text with: [AUTHOR] ... [/AUTHOR]
 Mark scholarly commentary with: [COMMENTARY] ... [/COMMENTARY]
 This attribution lets the reconcile step assign content to the right source layer.
 
-Keep all substantive content — both the letter and the commentary that explains it.
+Keep all substantive content — both the original and the commentary that explains it.
 OUTPUT DISCIPLINE: return ONLY the marked-up text. No preamble, no explanation.
 """
 
-SYSTEM_PROMPTS = {
-    "arabic": _SYSTEM_ARABIC,
-    "english": _SYSTEM_ENGLISH,
-    "scholarly": _SYSTEM_SCHOLARLY,
+_TEMPLATES = {
+    "arabic": _TMPL_ARABIC,
+    "english": _TMPL_ENGLISH,
+    "scholarly": _TMPL_SCHOLARLY,
 }
 
 
+def _book_label(slug: str) -> str:
+    """Best-effort human label for the book (title from work.yml), book-agnostic.
+
+    Falls back to a generic phrase so a missing/odd metadata file never reinstates
+    a hardcoded title. No external YAML dependency — a tiny line scan suffices.
+    """
+    for rel in ("work.yml", "meta.yml"):
+        for base in (resolve_content(slug), resolve_content(slug).parent):
+            p = base / rel
+            if p.exists():
+                for line in p.read_text(encoding="utf-8").splitlines():
+                    if line.strip().startswith("title:"):
+                        title = line.split("title:", 1)[1].strip().strip("'\"")
+                        if title:
+                            return title
+    return "this classical Islamic treatise"
+
+
+def build_system_prompts(slug: str) -> dict[str, str]:
+    """Fill the per-source templates with this book's label and append the
+    shared Wave-N apparatus directive. Result is book-specific yet never hardcoded."""
+    book = _book_label(slug)
+    return {
+        src: (
+            tmpl.format(book=book).rstrip()
+            + "\n\n" + R_NOISE_APPARATUS_DIRECTIVE
+            + "\n"
+        )
+        for src, tmpl in _TEMPLATES.items()
+    }
+
+
 def _load_key() -> str:
-    env = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-    if env:
-        return env.strip()
-    r = subprocess.run(
-        ["security", "find-generic-password", "-s", "gemini_api_key",
-         "-a", os.environ.get("USER", ""), "-w"],
-        capture_output=True, text=True,
-    )
-    if r.returncode != 0:
-        raise SystemExit("gemini_api_key not in keychain")
-    return r.stdout.strip()
+    # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
+    from _secrets import get_gemini_key
+    return get_gemini_key()
+
 
 
 def _gemini(system: str, text: str, *, model: str = "gemini-2.5-flash") -> str:
@@ -163,11 +195,12 @@ def denoise_source(slug: str, source: str, *, force: bool = False) -> Path:
         return out_path
 
     text = in_path.read_text(encoding="utf-8")
-    system = SYSTEM_PROMPTS[source]
+    system = build_system_prompts(slug)[source]
     in_chars = len(text)
 
     print(f"  [{source}] denoising {in_chars:,} chars…", end="", flush=True)
     out = _gemini(system, text)
+    out, _reference_tail_strips = strip_noise_reference_attributions(out)
     out_path.write_text(f"# Denoised — {slug} — {source} source\n\n" + out.strip() + "\n", encoding="utf-8")
 
     out_chars = len(out)

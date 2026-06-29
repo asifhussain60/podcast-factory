@@ -196,21 +196,16 @@ def check_budget(book_dir: Path, feature: str) -> None:
 # ---------------------------------------------------------------------------
 
 def _load_gemini_key() -> str:
-    env = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-    if env:
-        return env.strip()
-    r = subprocess.run(
-        ["security", "find-generic-password", "-s", "gemini_api_key",
-         "-a", os.environ.get("USER", ""), "-w"],
-        capture_output=True, text=True, timeout=10,
-    )
-    if r.returncode != 0:
-        raise RuntimeError("gemini_api_key not found in keychain — cannot call Studio AI features")
-    return r.stdout.strip()
+    # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
+    from _secrets import get_gemini_key
+    return get_gemini_key()
+
 
 
 def _call_gemini(prompt: str, model: str = "gemini-2.5-flash", timeout_sec: int = 120) -> str:
     """Call Gemini generateContent endpoint. Returns the text response."""
+    from _engine import engine_guard, TASK_REVIEW_HELPER, ENGINE_GEMINI
+    engine_guard(TASK_REVIEW_HELPER, ENGINE_GEMINI)
     key = _load_gemini_key()
     url = (f"https://generativelanguage.googleapis.com/v1beta/models/{model}"
            f":generateContent?key={key}")

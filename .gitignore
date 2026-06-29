@@ -93,9 +93,53 @@ content/drafts/**/*.wav
 content/drafts/**/*.m4a
 content/drafts/**/*.mp4
 content/drafts/**/*.mov
+
+# Post-2026-06-04 type-first layout: content lives at content/<Bucket>/<slug>/.
+# Per-book audio (raw input + NotebookLM renders) stays OUT of git at ANY bucket
+# path — same small-repo policy as above. (The old content/drafts/** rules are
+# kept for history/back-compat.)
+# (`/**` + .gitkeep negation, not bare dir rules: a dir-level exclude would
+#  also swallow the skeleton's .gitkeep markers — see _paths.ensure_book_skeleton)
+content/**/mp3/**
+content/**/m4a/**
+!content/**/mp3/.gitkeep
+!content/**/m4a/.gitkeep
+content/**/*.mp3
+content/**/*.wav
+content/**/*.m4a
+content/**/*.mp4
+content/**/*.mov
+content/**/*.llc
+# Per-book scratch — transcription probes, rejected drafts, scratchpads. Never
+# committed; the orchestrator pre-flight treats untracked files as a dirty tree.
+content/**/_system/scratchpad/
+
+# Studio editor in-progress drafts (unapproved edits). Promoted to chapters/<id>.txt
+# on approval, then deleted; never committed — half-finished edits stay local.
+content/**/_system/drafts/
+CONTENT/**/_system/drafts/
 _workspace/**/*.zip
 _workspace/**/*.llc
 _workspace/**/*.pdf
+
+# PDF policy (locked 2026-06-09):
+# - SOURCE PDFs are intentionally TRACKED — irreplaceable pipeline inputs,
+#   written once (content/<Bucket>/<slug>/_source/ and _system/source/).
+#   Git doubles as their backup; do not add ignore rules for them.
+# - GENERATED reading-edition PDFs under book/ are IGNORED — derived from
+#   book.md via build_book_pdf.py, regenerable at any time, delivered to
+#   Google Drive from disk. Tracking them would grow git history by megabytes
+#   on every re-render.
+content/**/book/*.pdf
+# - Extracted slide-deck page rasters are IGNORED — derived from the tracked
+#   deck PDFs by inject_slide_deck.py/_slide_import.py (pdftoppm), regenerable.
+#   The deck PDFs + PPTX themselves stay tracked as source-of-truth inputs;
+#   _manifests/*.json (slide→anchor maps) are tracked, their .sig caches not.
+content/**/slide-decks/_pages/
+content/**/slide-decks/_manifests/.*-sig
+# - Slide OCR/vision analysis JSONs are TRACKED (expensive per-chapter AI pass,
+#   cached across sessions); only the .sig cache-invalidation files are ignored.
+content/**/slide-decks/_analysis/.*-sig
 
 # Transcript working artifacts — raw Speech-to-Text + translator output used
 # during chapter-source authoring. The final cleaned chapters/ + episodes/
@@ -133,7 +177,14 @@ _workspace/plan/operations/wave-chain-auth.json
 # Scripts + extracted output are tracked; exclude the ~750MB source SQL
 # dumps (backed up in Google Drive — re-importable as needed).
 _workspace/kashkole-ksessions/*.sql
-CONTENT/_shared/source-library/*.sql
+# source-library: exclude the SQL dumps AND the built SQLite corpora (e.g.
+# wisdom-corpus.db, ~11MB) — large binaries, re-buildable from the dumps.
+# (case fixed 2026-06-08: was uppercase CONTENT/, silently broken on
+#  case-sensitive filesystems.)
+content/_shared/source-library/*.sql
+content/_shared/source-library/*.db
+content/_shared/source-library/*.db-shm
+content/_shared/source-library/*.db-wal
 content/knowledge-base/*.db
 !content/knowledge-base/mirror.db
 content/knowledge-base/*.db-shm
@@ -143,6 +194,10 @@ content/knowledge-base/*.db-wal
 plan-dashboard/knowledge.db
 plan-dashboard/knowledge.db-shm
 plan-dashboard/knowledge.db-wal
+
+# Dev-server daemon logs (launchd, pm2, etc.) — regenerated on every start.
+plan-dashboard/dev.launchd*.log
+plan-dashboard/*.launchd*.log
 
 # Wave L categorization run artifacts — reproducible via categorize_atoms.py;
 # the committed knowledge.db carries the source-of-truth content_level values.
@@ -156,6 +211,11 @@ CONTENT/knowledge-base/categorize-review.json
 # (Both case variants for macOS APFS / git case-fold mismatch.)
 content/drafts/**/_system/stage-metrics.json
 CONTENT/drafts/**/_system/stage-metrics.json
+# Post-2026-06-04 type-first layout: the Studio reader rewrites stage-metrics.json
+# on every load and the cost summary writes cost-validation.json — derived, never
+# source-of-truth, must not dirty the tree at ANY bucket path.
+content/**/_system/stage-metrics.json
+content/**/_system/cost-validation.json
 
 # Root-level package-lock.json (belongs only in plan-dashboard/; the root
 # package.json is metadata-only with no install dependencies).
@@ -187,6 +247,9 @@ trips/*/snapshots/
 _workspace/orchestrator-logs/
 _workspace/scratch/
 _workspace/tmp/
+# Local-only audio/voice experiment sandbox (ElevenLabs auditions, prototype
+# scripts). Never a branch deliverable — keep on disk, out of git.
+_workspace/experiments/
 
 # Per-session chat scratch notes — now tracked for cross-Mac handoff
 # (was local-only until 2026-05-19; tracked thereafter per user directive).
@@ -197,15 +260,52 @@ _workspace/tmp/
 # _chunks/ outside the canonical book directory.
 **/_chunks/
 
-# Local-only orchestrator/runtime logs
+# Local-only orchestrator/runtime logs and supervisor run registry
 _workspace/logs/
+_workspace/runs/
 
 # Local-only audit snapshots (pre-rerun copies of book artifacts for diff/review)
 _workspace/audit/
 
+# Local-only experiment scratch (audio smoke-tests, voice auditions, one-off
+# spikes) — kept on disk but never tracked; not source-of-truth for any pipeline.
+_workspace/experiments/
+
 # Sanitizer backups (created by scripts/podcast/sanitize_contract_yaml.py)
 *.yml.bak
+
+# Studio find-and-replace one-step backups (created by /api/studio/replace)
+*.txt.bak
+
+# Framing signature cache (runtime hash used by pipeline to detect framing changes)
+.framing-sig
 
 # VSCode workspace favorites (user-local IDE state)
 .favorites.json
 raw/
+.cache/
+
+# Stale legacy content/drafts/ stub (retired 2026-06-04 type-first migration)
+content/drafts/
+
+# Generated video-layer images — Imagen3 backgrounds + Pillow-rendered teaching slides.
+# Regenerable from video-prompts.json via generate_video_layer.py; not source-of-truth.
+content/**/video-images/
+# Watchdog sentinel files — ephemeral PID/state files written/deleted per run;
+# never source-of-truth, must not dirty the tree between orchestrator invocations.
+content/**/_system/watchdog.json
+
+# Source archives (TurboScribe exports, zip dumps) — large binaries kept on disk
+# but not tracked in git; re-exportable from TurboScribe or Google Drive.
+content/**/*.zip
+
+# Orchestrator run logs in the review archive — were accidentally committed
+# during kitab-al-riyad development; future logs stay untracked.
+_workspace/reviews/archive/**/*.log
+_workspace/reviews/logs/*.log
+# temp YNAB files
+_workspace/ynab-*
+
+# transient per-run orchestrator/allocator logs in content dirs
+content/**/run-*.log
+content/**/_alloc/run.log

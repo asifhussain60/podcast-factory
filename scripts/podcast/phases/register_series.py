@@ -12,8 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _paths import REPO_ROOT
 
 
-def _info(msg: str) -> None:
-    print(msg)
+from _subprocess import info as _info  # noqa: E402
 
 
 def phase_0g_register(book_dir: Path) -> None:

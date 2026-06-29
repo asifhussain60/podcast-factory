@@ -1,0 +1,1024 @@
+{
+  "schema_version": 1,
+  "planner_version": "1.0",
+  "book_slug": "the-master-and-the-disciple",
+  "content_profile": "islamic_scholarly",
+  "mode": "audit",
+  "source_signature": "d331598bd1178392f74e7a50b2fbbdbd2168171573edc6808bf3f85e25a1427e",
+  "generated_at": "2026-06-11T15:04:16+00:00",
+  "profiles_used": {
+    "default_deep_dive": {
+      "mode": "default_deep_dive",
+      "min_words_soft": 1800,
+      "max_words_soft": 3200,
+      "max_major_concepts": 3,
+      "max_compression_risk": 0.55,
+      "combine_bias": 0.2,
+      "split_bias": 0.5
+    },
+    "longer": {
+      "mode": "longer",
+      "min_words_soft": 3800,
+      "max_words_soft": 6000,
+      "max_major_concepts": 6,
+      "max_compression_risk": 0.5,
+      "combine_bias": 0.6,
+      "split_bias": 0.2
+    }
+  },
+  "summary": {
+    "chapters": 20,
+    "episodes_before": 20,
+    "generations_after": 20,
+    "standalone": 20,
+    "combine_groups": 0,
+    "flag_thin": 0,
+    "flag_dense": 0,
+    "length_default": 20,
+    "length_long": 0,
+    "pacing_directives": 0,
+    "total_words": 52055
+  },
+  "chapters": [
+    {
+      "chapter_file": "ch01a-three-thanks-and-the-persian-awakening.txt",
+      "slug": "three-thanks-and-the-persian-awakening",
+      "ep_num": 1,
+      "title": "Three Thanks and the Persian Awakening",
+      "session_index": 1,
+      "session_title": "The True Sources of Knowledge",
+      "words": 2633,
+      "est_tokens": 3555,
+      "concepts": 3,
+      "concept_titles": [
+        "Comportment, gratitude, and the three thanks",
+        "The Persian scholar and his thirst",
+        "The chain that places him under debt"
+      ],
+      "words_per_concept": 877.7,
+      "read_minutes": 17.6,
+      "glossary_terms": 3,
+      "glossary_per_1000": 1.14,
+      "citations": 0,
+      "citations_per_1000": 0.0,
+      "key_tensions": 4,
+      "overlap_prev": 0.0,
+      "overlap_next": 0.176,
+      "compression_risk": 0.375,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch02b-the-test-of-speech-and-the-design-of-creation.txt",
+      "slug": "the-test-of-speech-and-the-design-of-creation",
+      "ep_num": 2,
+      "title": "The Test of Speech and the Design of Creation",
+      "session_index": 1,
+      "session_title": "The True Sources of Knowledge",
+      "words": 2737,
+      "est_tokens": 3695,
+      "concepts": 3,
+      "concept_titles": [
+        "The test of speech and transmissive authority",
+        "The design-of-creation sermon",
+        "The instrument of seeking: hearing, sight, and heart"
+      ],
+      "words_per_concept": 912.3,
+      "read_minutes": 18.2,
+      "glossary_terms": 2,
+      "glossary_per_1000": 0.73,
+      "citations": 6,
+      "citations_per_1000": 2.19,
+      "key_tensions": 4,
+      "overlap_prev": 0.176,
+      "overlap_next": 0.183,
+      "compression_risk": 0.408,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch03c-five-conditions-and-the-covenant.txt",
+      "slug": "five-conditions-and-the-covenant",
+      "ep_num": 3,
+      "title": "Five Conditions and the Covenant",
+      "session_index": 1,
+      "session_title": "The True Sources of Knowledge",
+      "words": 3213,
+      "est_tokens": 4338,
+      "concepts": 3,
+      "concept_titles": [
+        "The five conditions and the political stake",
+        "The covenant: the pact of Allah and the key of allegiance",
+        "Why the title teaches: discipline, disciple, and the graduated ladder"
+      ],
+      "words_per_concept": 1071.0,
+      "read_minutes": 21.4,
+      "glossary_terms": 3,
+      "glossary_per_1000": 0.93,
+      "citations": 0,
+      "citations_per_1000": 0.0,
+      "key_tensions": 4,
+      "overlap_prev": 0.183,
+      "overlap_next": 0.148,
+      "compression_risk": 0.4,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch04a-originator-and-the-three-primordial-words.txt",
+      "slug": "originator-and-the-three-primordial-words",
+      "ep_num": 4,
+      "title": "Originator and the Three Primordial Words",
+      "session_index": 2,
+      "session_title": "Spiritual Symbols: The Architecture of Creation",
+      "words": 2684,
+      "est_tokens": 3623,
+      "concepts": 2,
+      "concept_titles": [
+        "The three primordial words and the first Light",
+        "From the Light, the seven \u2014 and the math of sevens and twelves"
+      ],
+      "words_per_concept": 1342.0,
+      "read_minutes": 17.9,
+      "glossary_terms": 3,
+      "glossary_per_1000": 1.12,
+      "citations": 0,
+      "citations_per_1000": 0.0,
+      "key_tensions": 4,
+      "overlap_prev": 0.148,
+      "overlap_next": 0.244,
+      "compression_risk": 0.297,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch05b-bismillah-seal-and-the-chosen-ranks.txt",
+      "slug": "bismillah-seal-and-the-chosen-ranks",
+      "ep_num": 5,
+      "title": "Bismillah Seal and the Chosen Ranks",
+      "session_index": 2,
+      "session_title": "Spiritual Symbols: The Architecture of Creation",
+      "words": 2913,
+      "est_tokens": 3933,
+      "concepts": 3,
+      "concept_titles": [
+        "The Bismillah as cryptographic seal",
+        "The chosen ranks: distinguished personalities, houses of prophethood",
+        "The heavenly mirror: sun, moon, and stars"
+      ],
+      "words_per_concept": 971.0,
+      "read_minutes": 19.4,
+      "glossary_terms": 4,
+      "glossary_per_1000": 1.37,
+      "citations": 0,
+      "citations_per_1000": 0.0,
+      "key_tensions": 4,
+      "overlap_prev": 0.244,
+      "overlap_next": 0.197,
+      "compression_risk": 0.39,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch06c-zahir-batin-and-the-seven-natiqs.txt",
+      "slug": "zahir-batin-and-the-seven-natiqs",
+      "ep_num": 6,
+      "title": "Zahir, Batin, and the Seven Natiqs",
+      "session_index": 2,
+      "session_title": "Spiritual Symbols: The Architecture of Creation",
+      "words": 2378,
+      "est_tokens": 3210,
+      "concepts": 3,
+      "concept_titles": [
+        "The seven Natiqs and the twelves-and-thirties of transmission",
+        "Outer and inner \u2014 the body and the spirit of religion",
+        "The world is the outer of the inner: symbols, point by point"
+      ],
+      "words_per_concept": 792.7,
+      "read_minutes": 15.9,
+      "glossary_terms": 5,
+      "glossary_per_1000": 2.1,
+      "citations": 0,
+      "citations_per_1000": 0.0,
+      "key_tensions": 3,
+      "overlap_prev": 0.197,
+      "overlap_next": 0.184,
+      "compression_risk": 0.372,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch07d-air-and-the-instance-beyond-air.txt",
+      "slug": "air-and-the-instance-beyond-air",
+      "ep_num": 7,
+      "title": "Air and the Instance Beyond Air",
+      "session_index": 2,
+      "session_title": "Spiritual Symbols: The Architecture of Creation",
+      "words": 2245,
+      "est_tokens": 3031,
+      "concepts": 3,
+      "concept_titles": [
+        "Air, the loftiest symbol",
+        "The disciple's Quranic objection \u2014 and the loftiest similitude",
+        "The Instance beyond Air: al-Awan, and the limit of the dialogue"
+      ],
+      "words_per_concept": 748.3,
+      "read_minutes": 15.0,
+      "glossary_terms": 4,
+      "glossary_per_1000": 1.78,
+      "citations": 2,
+      "citations_per_1000": 0.89,
+      "key_tensions": 3,
+      "overlap_prev": 0.184,
+      "overlap_next": 0.185,
+      "compression_risk": 0.376,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch08a-three-levels-of-knowledge.txt",
+      "slug": "three-levels-of-knowledge",
+      "ep_num": 8,
+      "title": "Three Levels of Knowledge \u2014 Angels, Humans, and Beasts",
+      "session_index": 3,
+      "session_title": "Knowledge versus Action: The Three Levels and the Spiritual Economy",
+      "words": 2332,
+      "est_tokens": 3148,
+      "concepts": 3,
+      "concept_titles": [
+        "Three dimensions: zahir, batin, and the inner of the inner",
+        "Three levels of creatures: beasts, humans, angels",
+        "Climbing the ladder \u2014 and what cannot simply be given"
+      ],
+      "words_per_concept": 777.3,
+      "read_minutes": 15.5,
+      "glossary_terms": 7,
+      "glossary_per_1000": 3.0,
+      "citations": 0,
+      "citations_per_1000": 0.0,
+      "key_tensions": 3,
+      "overlap_prev": 0.185,
+      "overlap_next": 0.213,
+      "compression_risk": 0.379,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch09b-hawl-quwwa-and-josephs-dream.txt",
+      "slug": "hawl-quwwa-and-josephs-dream",
+      "ep_num": 9,
+      "title": "Hawl and Quwwa, and the Dream of Joseph",
+      "session_index": 3,
+      "session_title": "Knowledge versus Action: The Three Levels and the Spiritual Economy",
+      "words": 2315,
+      "est_tokens": 3125,
+      "concepts": 2,
+      "concept_titles": [
+        "Hawl and quwwa as Imam and Bab",
+        "Joseph's dream and the king's vision"
+      ],
+      "words_per_concept": 1157.5,
+      "read_minutes": 15.4,
+      "glossary_terms": 4,
+      "glossary_per_1000": 1.73,
+      "citations": 0,
+      "citations_per_1000": 0.0,
+      "key_tensions": 3,
+      "overlap_prev": 0.213,
+      "overlap_next": 0.18,
+      "compression_risk": 0.286,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch10c-union-of-inner-and-outer.txt",
+      "slug": "union-of-inner-and-outer",
+      "ep_num": 10,
+      "title": "The Union of Inner and Outer",
+      "session_index": 3,
+      "session_title": "Knowledge versus Action: The Three Levels and the Spiritual Economy",
+      "words": 2500,
+      "est_tokens": 3375,
+      "concepts": 3,
+      "concept_titles": [
+        "The union of inner and outer",
+        "The pallor of the true scholars",
+        "The identical instrument and divine justice"
+      ],
+      "words_per_concept": 833.3,
+      "read_minutes": 16.7,
+      "glossary_terms": 4,
+      "glossary_per_1000": 1.6,
+      "citations": 0,
+      "citations_per_1000": 0.0,
+      "key_tensions": 3,
+      "overlap_prev": 0.18,
+      "overlap_next": 0.16,
+      "compression_risk": 0.373,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch11d-purifying-possessions-and-parting.txt",
+      "slug": "purifying-possessions-and-parting",
+      "ep_num": 11,
+      "title": "Purifying Possessions and Parting from the Master",
+      "session_index": 3,
+      "session_title": "Knowledge versus Action: The Three Levels and the Spiritual Economy",
+      "words": 2688,
+      "est_tokens": 3629,
+      "concepts": 3,
+      "concept_titles": [
+        "The disciple's five portions",
+        "The scholar's refusal and the trust for the Imam",
+        "Reunion, longing, and the journey ahead"
+      ],
+      "words_per_concept": 896.0,
+      "read_minutes": 17.9,
+      "glossary_terms": 4,
+      "glossary_per_1000": 1.49,
+      "citations": 0,
+      "citations_per_1000": 0.0,
+      "key_tensions": 3,
+      "overlap_prev": 0.16,
+      "overlap_next": 0.177,
+      "compression_risk": 0.381,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch12a-rebirth-and-the-seven-day-tawaf.txt",
+      "slug": "rebirth-and-the-seven-day-tawaf",
+      "ep_num": 12,
+      "title": "Rebirth of the Disciple and the Seven-Day Tawaf",
+      "session_index": 4,
+      "session_title": "The Disciple Becomes Master",
+      "words": 2332,
+      "est_tokens": 3148,
+      "concepts": 3,
+      "concept_titles": [
+        "The Sheikh's opening praise",
+        "The name that comes only after seven days",
+        "The seventh letter, the sun, and the tawaf"
+      ],
+      "words_per_concept": 777.3,
+      "read_minutes": 15.5,
+      "glossary_terms": 4,
+      "glossary_per_1000": 1.72,
+      "citations": 0,
+      "citations_per_1000": 0.0,
+      "key_tensions": 4,
+      "overlap_prev": 0.177,
+      "overlap_next": 0.166,
+      "compression_risk": 0.367,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch13b-homecoming-and-the-forty-year-syllogism.txt",
+      "slug": "homecoming-and-the-forty-year-syllogism",
+      "ep_num": 13,
+      "title": "Homecoming and the Forty-Year Syllogism",
+      "session_index": 4,
+      "session_title": "The Disciple Becomes Master",
+      "words": 2615,
+      "est_tokens": 3530,
+      "concepts": 3,
+      "concept_titles": [
+        "The Sheikh releases the disciple",
+        "The father's confrontation",
+        "The forty-year syllogism"
+      ],
+      "words_per_concept": 871.7,
+      "read_minutes": 17.4,
+      "glossary_terms": 4,
+      "glossary_per_1000": 1.53,
+      "citations": 0,
+      "citations_per_1000": 0.0,
+      "key_tensions": 3,
+      "overlap_prev": 0.166,
+      "overlap_next": 0.168,
+      "compression_risk": 0.378,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch14c-abu-malik-arrives-and-the-fair-inquiry.txt",
+      "slug": "abu-malik-arrives-and-the-fair-inquiry",
+      "ep_num": 14,
+      "title": "Abu Malik Arrives and the Fair Inquiry",
+      "session_index": 4,
+      "session_title": "The Disciple Becomes Master",
+      "words": 2620,
+      "est_tokens": 3537,
+      "concepts": 3,
+      "concept_titles": [
+        "Who Abu Malik is and why he was summoned",
+        "Abu Malik's fair inquiry",
+        "The inversion of signs and the sound heart"
+      ],
+      "words_per_concept": 873.3,
+      "read_minutes": 17.5,
+      "glossary_terms": 6,
+      "glossary_per_1000": 2.29,
+      "citations": 0,
+      "citations_per_1000": 0.0,
+      "key_tensions": 4,
+      "overlap_prev": 0.168,
+      "overlap_next": 0.166,
+      "compression_risk": 0.386,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch15d-emptying-the-cup.txt",
+      "slug": "emptying-the-cup",
+      "ep_num": 15,
+      "title": "Emptying the Cup \u2014 The Demolisher's Art",
+      "session_index": 4,
+      "session_title": "The Disciple Becomes Master",
+      "words": 2438,
+      "est_tokens": 3291,
+      "concepts": 3,
+      "concept_titles": [
+        "The riddle at the door",
+        "Three kinds of seeker and the demolisher's art",
+        "Knowledge and gnosis \u2014 alim and arif, report and vision"
+      ],
+      "words_per_concept": 812.7,
+      "read_minutes": 16.3,
+      "glossary_terms": 6,
+      "glossary_per_1000": 2.46,
+      "citations": 2,
+      "citations_per_1000": 0.82,
+      "key_tensions": 4,
+      "overlap_prev": 0.166,
+      "overlap_next": 0.183,
+      "compression_risk": 0.391,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch16e-jewels-moon-and-the-description-of-religion.txt",
+      "slug": "jewels-moon-and-the-description-of-religion",
+      "ep_num": 16,
+      "title": "Jewels, the Moon, and the Description of Religion",
+      "session_index": 4,
+      "session_title": "The Disciple Becomes Master",
+      "words": 2879,
+      "est_tokens": 3887,
+      "concepts": 3,
+      "concept_titles": [
+        "Jewels and the assayers of divine knowledge",
+        "Follow the moon",
+        "The description of religion"
+      ],
+      "words_per_concept": 959.7,
+      "read_minutes": 19.2,
+      "glossary_terms": 4,
+      "glossary_per_1000": 1.39,
+      "citations": 8,
+      "citations_per_1000": 2.78,
+      "key_tensions": 4,
+      "overlap_prev": 0.183,
+      "overlap_next": 0.165,
+      "compression_risk": 0.431,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch17a-who-is-allah-beyond-names.txt",
+      "slug": "who-is-allah-beyond-names",
+      "ep_num": 17,
+      "title": "Who Is Allah? \u2014 Beyond Names and Adjectives",
+      "session_index": 5,
+      "session_title": "Unity and Justice: The Living Witness",
+      "words": 2718,
+      "est_tokens": 3669,
+      "concepts": 3,
+      "concept_titles": [
+        "Names cannot cook food",
+        "The letters that do not add up to Allah",
+        "The forged likeness and the bewildered intellect"
+      ],
+      "words_per_concept": 906.0,
+      "read_minutes": 18.1,
+      "glossary_terms": 3,
+      "glossary_per_1000": 1.1,
+      "citations": 0,
+      "citations_per_1000": 0.0,
+      "key_tensions": 3,
+      "overlap_prev": 0.165,
+      "overlap_next": 0.165,
+      "compression_risk": 0.378,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch18b-syllogism-of-divine-justice.txt",
+      "slug": "syllogism-of-divine-justice",
+      "ep_num": 18,
+      "title": "The Syllogism of Divine Justice",
+      "session_index": 5,
+      "session_title": "Unity and Justice: The Living Witness",
+      "words": 2419,
+      "est_tokens": 3266,
+      "concepts": 3,
+      "concept_titles": [
+        "The three premises",
+        "The necessity of intermediaries",
+        "Unbroken judgment, ranked witnesses, and esoteric interpretation"
+      ],
+      "words_per_concept": 806.3,
+      "read_minutes": 16.1,
+      "glossary_terms": 1,
+      "glossary_per_1000": 0.41,
+      "citations": 0,
+      "citations_per_1000": 0.0,
+      "key_tensions": 4,
+      "overlap_prev": 0.165,
+      "overlap_next": 0.175,
+      "compression_risk": 0.357,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch19c-the-conspiracy-formula.txt",
+      "slug": "the-conspiracy-formula",
+      "ep_num": 19,
+      "title": "The Conspiracy Formula",
+      "session_index": 5,
+      "session_title": "Unity and Justice: The Living Witness",
+      "words": 2748,
+      "est_tokens": 3710,
+      "concepts": 3,
+      "concept_titles": [
+        "The formula \u2014 three actors in every period",
+        "The historical roll call",
+        "Turning consensus back"
+      ],
+      "words_per_concept": 916.0,
+      "read_minutes": 18.3,
+      "glossary_terms": 3,
+      "glossary_per_1000": 1.09,
+      "citations": 0,
+      "citations_per_1000": 0.0,
+      "key_tensions": 4,
+      "overlap_prev": 0.175,
+      "overlap_next": 0.172,
+      "compression_risk": 0.38,
+      "underutilization": 0.0
+    },
+    {
+      "chapter_file": "ch20d-unbroken-chain-and-the-path-of-return.txt",
+      "slug": "unbroken-chain-and-the-path-of-return",
+      "ep_num": 20,
+      "title": "Unbroken Chain and the Path of Return",
+      "session_index": 5,
+      "session_title": "Unity and Justice: The Living Witness",
+      "words": 2648,
+      "est_tokens": 3575,
+      "concepts": 3,
+      "concept_titles": [
+        "There was no interval: the chain by name",
+        "Why the friends of Allah are in concealment",
+        "Repentance and the seal of the book"
+      ],
+      "words_per_concept": 882.7,
+      "read_minutes": 17.7,
+      "glossary_terms": 7,
+      "glossary_per_1000": 2.64,
+      "citations": 5,
+      "citations_per_1000": 1.89,
+      "key_tensions": 5,
+      "overlap_prev": 0.172,
+      "overlap_next": 0.0,
+      "compression_risk": 0.419,
+      "underutilization": 0.0
+    }
+  ],
+  "groups": [
+    {
+      "group_index": 1,
+      "members": [
+        "ch01a-three-thanks-and-the-persian-awakening.txt"
+      ],
+      "episode_numbers": [
+        1
+      ],
+      "framing_files": [
+        "episodes/EP01-three-thanks-and-the-persian-awakening.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2633,
+      "combined_concepts": 3,
+      "compression_risk": 0.375,
+      "score": 0.625,
+      "reasoning": "2,633 words, 3 concept section(s), ~18 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.38 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 2,
+      "members": [
+        "ch02b-the-test-of-speech-and-the-design-of-creation.txt"
+      ],
+      "episode_numbers": [
+        2
+      ],
+      "framing_files": [
+        "episodes/EP02-the-test-of-speech-and-the-design-of-creation.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2737,
+      "combined_concepts": 3,
+      "compression_risk": 0.408,
+      "score": 0.592,
+      "reasoning": "2,737 words, 3 concept section(s), ~18 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.41 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 3,
+      "members": [
+        "ch03c-five-conditions-and-the-covenant.txt"
+      ],
+      "episode_numbers": [
+        3
+      ],
+      "framing_files": [
+        "episodes/EP03-five-conditions-and-the-covenant.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 3213,
+      "combined_concepts": 3,
+      "compression_risk": 0.4,
+      "score": 0.596,
+      "reasoning": "3,213 words, 3 concept section(s), ~21 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.40 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 4,
+      "members": [
+        "ch04a-originator-and-the-three-primordial-words.txt"
+      ],
+      "episode_numbers": [
+        4
+      ],
+      "framing_files": [
+        "episodes/EP04-originator-and-the-three-primordial-words.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2684,
+      "combined_concepts": 2,
+      "compression_risk": 0.297,
+      "score": 0.703,
+      "reasoning": "2,684 words, 2 concept section(s), ~18 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.30.",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 5,
+      "members": [
+        "ch05b-bismillah-seal-and-the-chosen-ranks.txt"
+      ],
+      "episode_numbers": [
+        5
+      ],
+      "framing_files": [
+        "episodes/EP05-bismillah-seal-and-the-chosen-ranks.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2913,
+      "combined_concepts": 3,
+      "compression_risk": 0.39,
+      "score": 0.61,
+      "reasoning": "2,913 words, 3 concept section(s), ~19 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.39 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 6,
+      "members": [
+        "ch06c-zahir-batin-and-the-seven-natiqs.txt"
+      ],
+      "episode_numbers": [
+        6
+      ],
+      "framing_files": [
+        "episodes/EP06-zahir-batin-and-the-seven-natiqs.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2378,
+      "combined_concepts": 3,
+      "compression_risk": 0.372,
+      "score": 0.628,
+      "reasoning": "2,378 words, 3 concept section(s), ~16 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.37 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 7,
+      "members": [
+        "ch07d-air-and-the-instance-beyond-air.txt"
+      ],
+      "episode_numbers": [
+        7
+      ],
+      "framing_files": [
+        "episodes/EP07-air-and-the-instance-beyond-air.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2245,
+      "combined_concepts": 3,
+      "compression_risk": 0.376,
+      "score": 0.624,
+      "reasoning": "2,245 words, 3 concept section(s), ~15 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.38 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 8,
+      "members": [
+        "ch08a-three-levels-of-knowledge.txt"
+      ],
+      "episode_numbers": [
+        8
+      ],
+      "framing_files": [
+        "episodes/EP08-three-levels-of-knowledge.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2332,
+      "combined_concepts": 3,
+      "compression_risk": 0.379,
+      "score": 0.621,
+      "reasoning": "2,332 words, 3 concept section(s), ~16 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.38 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 9,
+      "members": [
+        "ch09b-hawl-quwwa-and-josephs-dream.txt"
+      ],
+      "episode_numbers": [
+        9
+      ],
+      "framing_files": [
+        "episodes/EP09-hawl-quwwa-and-josephs-dream.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2315,
+      "combined_concepts": 2,
+      "compression_risk": 0.286,
+      "score": 0.714,
+      "reasoning": "2,315 words, 2 concept section(s), ~15 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.29.",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 10,
+      "members": [
+        "ch10c-union-of-inner-and-outer.txt"
+      ],
+      "episode_numbers": [
+        10
+      ],
+      "framing_files": [
+        "episodes/EP10-union-of-inner-and-outer.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2500,
+      "combined_concepts": 3,
+      "compression_risk": 0.373,
+      "score": 0.627,
+      "reasoning": "2,500 words, 3 concept section(s), ~17 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.37 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 11,
+      "members": [
+        "ch11d-purifying-possessions-and-parting.txt"
+      ],
+      "episode_numbers": [
+        11
+      ],
+      "framing_files": [
+        "episodes/EP11-purifying-possessions-and-parting.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2688,
+      "combined_concepts": 3,
+      "compression_risk": 0.381,
+      "score": 0.619,
+      "reasoning": "2,688 words, 3 concept section(s), ~18 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.38 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 12,
+      "members": [
+        "ch12a-rebirth-and-the-seven-day-tawaf.txt"
+      ],
+      "episode_numbers": [
+        12
+      ],
+      "framing_files": [
+        "episodes/EP12-rebirth-and-the-seven-day-tawaf.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2332,
+      "combined_concepts": 3,
+      "compression_risk": 0.367,
+      "score": 0.633,
+      "reasoning": "2,332 words, 3 concept section(s), ~16 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.37 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 13,
+      "members": [
+        "ch13b-homecoming-and-the-forty-year-syllogism.txt"
+      ],
+      "episode_numbers": [
+        13
+      ],
+      "framing_files": [
+        "episodes/EP13-homecoming-and-the-forty-year-syllogism.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2615,
+      "combined_concepts": 3,
+      "compression_risk": 0.378,
+      "score": 0.622,
+      "reasoning": "2,615 words, 3 concept section(s), ~17 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.38 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 14,
+      "members": [
+        "ch14c-abu-malik-arrives-and-the-fair-inquiry.txt"
+      ],
+      "episode_numbers": [
+        14
+      ],
+      "framing_files": [
+        "episodes/EP14-abu-malik-arrives-and-the-fair-inquiry.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2620,
+      "combined_concepts": 3,
+      "compression_risk": 0.386,
+      "score": 0.614,
+      "reasoning": "2,620 words, 3 concept section(s), ~18 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.39 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 15,
+      "members": [
+        "ch15d-emptying-the-cup.txt"
+      ],
+      "episode_numbers": [
+        15
+      ],
+      "framing_files": [
+        "episodes/EP15-emptying-the-cup.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2438,
+      "combined_concepts": 3,
+      "compression_risk": 0.391,
+      "score": 0.609,
+      "reasoning": "2,438 words, 3 concept section(s), ~16 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.39 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 16,
+      "members": [
+        "ch16e-jewels-moon-and-the-description-of-religion.txt"
+      ],
+      "episode_numbers": [
+        16
+      ],
+      "framing_files": [
+        "episodes/EP16-jewels-moon-and-the-description-of-religion.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2879,
+      "combined_concepts": 3,
+      "compression_risk": 0.431,
+      "score": 0.569,
+      "reasoning": "2,879 words, 3 concept section(s), ~19 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.43 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 17,
+      "members": [
+        "ch17a-who-is-allah-beyond-names.txt"
+      ],
+      "episode_numbers": [
+        17
+      ],
+      "framing_files": [
+        "episodes/EP17-who-is-allah-beyond-names.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2718,
+      "combined_concepts": 3,
+      "compression_risk": 0.378,
+      "score": 0.622,
+      "reasoning": "2,718 words, 3 concept section(s), ~18 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.38 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 18,
+      "members": [
+        "ch18b-syllogism-of-divine-justice.txt"
+      ],
+      "episode_numbers": [
+        18
+      ],
+      "framing_files": [
+        "episodes/EP18-syllogism-of-divine-justice.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2419,
+      "combined_concepts": 3,
+      "compression_risk": 0.357,
+      "score": 0.643,
+      "reasoning": "2,419 words, 3 concept section(s), ~16 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.36 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 19,
+      "members": [
+        "ch19c-the-conspiracy-formula.txt"
+      ],
+      "episode_numbers": [
+        19
+      ],
+      "framing_files": [
+        "episodes/EP19-the-conspiracy-formula.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2748,
+      "combined_concepts": 3,
+      "compression_risk": 0.38,
+      "score": 0.62,
+      "reasoning": "2,748 words, 3 concept section(s), ~18 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.38 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    },
+    {
+      "group_index": 20,
+      "members": [
+        "ch20d-unbroken-chain-and-the-path-of-return.txt"
+      ],
+      "episode_numbers": [
+        20
+      ],
+      "framing_files": [
+        "episodes/EP20-unbroken-chain-and-the-path-of-return.txt"
+      ],
+      "action": "standalone",
+      "notebooklm_mode": "default_deep_dive",
+      "notebooklm_length": "Default",
+      "combined_words": 2648,
+      "combined_concepts": 3,
+      "compression_risk": 0.419,
+      "score": 0.581,
+      "reasoning": "2,648 words, 3 concept section(s), ~18 min spoken; band fit 1.00 vs 1,800-3,200 (default_deep_dive); compression risk 0.42 (at the concept ceiling).",
+      "framing_impact": "No framing change needed.",
+      "pacing_directive": false
+    }
+  ]
+}

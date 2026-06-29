@@ -11,18 +11,32 @@
 /* Slim header (no site chrome). */
 .sp-header { width: 94%; max-width: 1600px; margin: 22px auto 6px; }
 .sp-h1 { font-size: 1.55rem; font-weight: 700; color: var(--c-ink); margin: 0 0 4px; }
-.sp-subtitle { font-size: 0.92rem; line-height: 1.55; color: var(--c-ink-muted); max-width: 72ch; margin: 0; }
+.sp-subtitle { font-size: 0.92rem; line-height: 1.55; color: var(--c-ink-muted); margin: 0; }
 .sp-error { width: 94%; max-width: 1600px; margin: 24px auto; color: var(--c-red, #b91c1c); font-size: 1rem; }
 
-/* Two-pane layout. */
+/* Three-pane layout: timeline rail · editor (dominant) · inspector.
+   Full-width — the centre reading panel takes all space the two slim side
+   panels don't need. minmax(0,1fr) on the centre lets it shrink instead of
+   forcing horizontal overflow (the inspector-clipping bug). */
 .studio-poc {
   display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 24px;
-  width: 94%;
-  max-width: 1600px;
-  margin: 12px auto 48px;
+  /* Two columns since the left pipeline rail was removed: the editor takes the
+     freed width (its prose grows toward its own reading cap), inspector fixed. */
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 352px);
+  gap: 20px;
+  width: 100%;
+  max-width: none;
+  margin: 4px 0 32px;
   align-items: start;
+}
+@media (max-width: 1280px) {
+  .studio-poc { grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; }
+}
+@media (max-width: 1100px) {
+  /* minmax(0,1fr) — NOT plain 1fr — so the single column can shrink to the
+     viewport instead of growing to the editor's min-content (which overflows
+     the screen on phones). Same lesson as the two-column rule above. */
+  .studio-poc { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* M-1 scroll fix: clear the full pinned stack (topnav 52px + studio subnav ~72px) + 1rem.
@@ -30,32 +44,34 @@
 :root { --pf-sticky-top: 124px; }
 
 /* FLOATING inspector: pinned below the full sticky stack, scrolls INTERNALLY. */
+/* Full-height sticky column: header (fixed) → tab card (fills) → action footer
+   (pinned at the bottom). Released to natural flow when the grid single-columns. */
 .studio-poc__inspector {
   position: sticky;
   top: calc(var(--pf-sticky-top) + 1rem);
+  height: calc(100vh - var(--pf-sticky-top) - 2rem);
   max-height: calc(100vh - var(--pf-sticky-top) - 2rem);
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+@media (max-width: 1100px) {
+  .studio-poc__inspector { position: static; height: auto; max-height: none; }
+}
 
-/* M-1 inspector restructure: one outer card, no nested boxes.
-   ─── Global action strip (slim, always visible) ─── */
+/* ─── Header strip: Arabic overlay toggle + phonetic-map link ─── */
 .sp-global-strip {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
   flex-wrap: wrap;
-  padding: 10px 14px;
+  padding: 8px 10px;
   background: var(--c-bg-card);
   border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
   border-radius: 10px;
 }
-/* Arabic toggle row inside the global strip. */
-.sp-global-arabic { display: inline-flex; align-items: center; gap: 7px; font-size: 0.82rem; font-weight: 600; color: var(--c-ink); }
-/* Separator dot between global strip actions. */
-.sp-strip-sep { flex: 0 0 auto; width: 1px; height: 20px; background: var(--c-rule, rgba(0,0,0,0.12)); }
 
 /* ─── Tabbed panel (Details · Comment · AI · References) ─── */
 .sp-panel-card {
@@ -82,7 +98,9 @@
   font-family: var(--font-ui, system-ui, sans-serif);
   font-size: 0.74rem;
   font-weight: 600;
-  color: var(--c-ink-muted);
+  /* --c-ink-dim (not --c-ink-muted): the REDESIGN block shrinks tabs to 0.625rem (12px),
+     below the WCAG AA large-text threshold — inactive tab labels need 4.5:1 (REQ-048). */
+  color: var(--c-ink-dim);
   background: transparent;
   border: 1px solid transparent;
   border-radius: 4px;
@@ -152,7 +170,9 @@
 
 .sp-insp-title { font-size: 1.05rem; font-weight: 700; color: var(--c-accent); margin: 0 0 4px; }
 .sp-insp-sub { font-size: 0.85rem; font-weight: 700; color: var(--c-ink); margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
-.sp-insp-hint { font-size: 0.8rem; color: var(--c-ink-muted); margin: 0 0 6px; }
+/* --c-ink-dim (not --c-ink-muted): the REDESIGN block shrinks this to 0.625rem (12px),
+   below the WCAG AA large-text threshold, so it needs the 4.5:1 ink-dim (REQ-048). */
+.sp-insp-hint { font-size: 0.8rem; color: var(--c-ink-dim); margin: 0 0 6px; }
 .sp-insp-sel {
   font-size: 0.92rem; line-height: 1.55; color: var(--c-ink);
   border-left: 3px solid var(--c-accent); padding: 5px 10px; margin: 0;
@@ -218,13 +238,20 @@
   opacity: 0.75;
   margin: 0 1px;
 }
-/* Per-paragraph hover removed — sections are the editing unit; hovering individual
-   paragraphs was confusing and fragmented. Cursor change only on clickable blocks. */
-.studio-poc__editor .ProseMirror > p:hover,
-.studio-poc__editor .ProseMirror > h3:hover,
-.studio-poc__editor .ProseMirror > blockquote:hover { cursor: pointer; }
-/* Tagged blocks reserve top room so their persistent icon marks sit ABOVE without overlap. */
-.studio-poc__editor .para-tagged { margin-top: 1.9em; }
+/* Per-paragraph hover affordance: pointer cursor + glow outline shows editability on mouseover.
+   Guards prevent override of active-section and active-paragraph states. */
+.studio-poc__editor .ProseMirror > p:hover:not(.para-active):not(.section-active),
+.studio-poc__editor .ProseMirror > blockquote:hover:not(.para-active):not(.section-active) {
+  background: color-mix(in srgb, var(--c-accent) 4%, var(--c-bg-card));
+  outline: 1.5px solid color-mix(in srgb, var(--c-accent) 22%, transparent);
+  outline-offset: 3px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.studio-poc__editor .ProseMirror > h3:hover { cursor: pointer; }
+/* Marked blocks reserve top room so their action-item icon badges sit ABOVE without overlap. */
+/* Marked blocks no longer reserve top space — the mark icons now sit in the
+   left gutter (see .sp-para-tools--marks), aligned with the block's first line. */
 /* Active paragraph: kept for backwards-compat; section-active is the primary unit now. */
 .studio-poc__editor .para-active,
 .studio-poc__editor .para-active:hover {
@@ -237,6 +264,22 @@
   box-shadow: 0 10px 26px -10px rgba(0, 0, 0, 0.4);
   transform: scale(1.012);
   transform-origin: left center;
+}
+
+/* Dirty paragraph: left change-bar (like Word track-changes) + very subtle tint.
+   margin-bottom→padding-bottom swap (same as section-active) makes consecutive dirty
+   paragraphs share one continuous colored strip instead of floating as separate islands. */
+.studio-poc__editor .para-dirty {
+  background: color-mix(in srgb, var(--c-accent) 5%, var(--c-bg-card));
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--c-accent) 55%, transparent);
+  padding-left: 11px;
+  margin-left: -11px;
+  margin-bottom: 0;
+  padding-bottom: 0.75em;
+}
+/* Restore normal top gap after the last dirty paragraph in a run. */
+.studio-poc__editor .para-dirty + :not(.para-dirty) {
+  margin-top: 0.75em;
 }
 
 /* Section-active: unified warm card with continuous left accent bar + perimeter glow.
@@ -295,7 +338,6 @@
 }
 .studio-poc__editor .sp-para-tools--palette .sp-ptool:hover { opacity: 1; filter: none; transform: translateY(-1px); }
 /* M-1 Save & Approve in the slim global strip: grows to fill available width. */
-.sp-approve.sp-approve--strip { flex: 1 1 auto; }
 
 /* M-1 AI action buttons in the per-paragraph floating toolbar (palette mode).
    Override base .sp-ptool opacity/grayscale — these must read clearly at rest. */
@@ -326,22 +368,139 @@
   box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.4);
 }
 
-/* M-1 inspector — Details tab tag buttons (inline row). */
-.sp-insp-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-.sp-insp-tagbtn {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 0.74rem; padding: 3px 9px; border-radius: 7px; cursor: pointer;
-  color: var(--c-ink); background: var(--c-bg-elev);
-  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+/* Inspector — action-item palette (Details tab, edit mode only). */
+.sp-actions-block { margin-top: 10px; }
+.sp-insp-subhint { font-size: 0.72rem; color: var(--c-ink-dim); margin: 5px 0 0; font-style: italic; }
+/* Three-across grid: every action button is the same width AND height. Long
+   labels ("Add to corpus") wrap to a second line inside the cell; the fixed
+   min-height keeps single- and double-line buttons identical in size. */
+.sp-action-palette {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
 }
-.sp-insp-tagbtn:hover { border-color: var(--c-accent); }
-.sp-insp-tagbtn.is-on { background: var(--c-ink, #2a2118); color: #fff; border-color: transparent; }
-.sp-insp-tagbtn.tag-esoteric.is-on { background: #7c3aed; }
-.sp-insp-tagbtn.tag-reality.is-on  { background: #0284c7; }
-.sp-insp-tagbtn.tag-sharia.is-on   { background: #0f766e; }
-.sp-insp-tagbtn.tag-delete.is-on   { background: #e11d48; }
-.sp-insp-tagbtn.tag-improve.is-on  { background: #d97706; }
-.sp-insp-tagbtn.tag-history.is-on  { background: #92400e; }
+.sp-action-btn {
+  display: flex; align-items: center; gap: 5px;
+  justify-content: flex-start; text-align: left;
+  min-width: 0; min-height: 50px; padding: 8px 7px;
+  font-size: 0.72rem; font-weight: 600; line-height: 1.2;
+  border-radius: 9px; cursor: pointer;
+  color: var(--c-ink); background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.16));
+}
+.sp-action-btn i {
+  font-size: 0.85rem; color: var(--c-ink-muted);
+  flex: 0 0 auto; width: 1em; text-align: center;
+}
+/* Label wraps inside the (now shrinkable) cell instead of overflowing it. */
+.sp-action-btn .sp-action-label { min-width: 0; overflow-wrap: anywhere; }
+.sp-action-btn:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.sp-action-btn:hover i { color: var(--c-accent); }
+.sp-action-btn.is-on {
+  background: var(--c-ink, #2a2118); color: #fff; border-color: transparent;
+}
+.sp-action-btn.is-on i { color: #fff; }
+/* Disabled = the action can't run in the current context (e.g. a term tool with
+   no word selected). Stays visible and same-size; muted, with hover suppressed. */
+.sp-action-btn:disabled { opacity: 0.42; cursor: not-allowed; color: var(--c-ink-dim); }
+.sp-action-btn:disabled:hover { border-color: var(--c-rule, rgba(0, 0, 0, 0.16)); color: var(--c-ink-dim); }
+.sp-action-btn:disabled:hover i { color: var(--c-ink-muted); }
+.sp-action-btn:focus-visible,
+.sp-aq-remove:focus-visible,
+.studio-poc__editor .sp-ptool:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+
+/* Action-item queue list — every mark waiting for the CLI drain pass. */
+.sp-action-queue { margin-top: 12px; border-top: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1)); padding-top: 8px; }
+.sp-action-queue-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+.sp-aq-item {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 0.78rem; color: var(--c-ink);
+  background: var(--c-bg-elev); border-radius: 6px; padding: 3px 6px 3px 8px;
+}
+.sp-aq-item > i { font-size: 0.72rem; color: var(--c-accent); flex: 0 0 auto; }
+.sp-aq-label { font-weight: 600; flex: 0 0 auto; }
+.sp-aq-target { color: var(--c-ink-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1 1 auto; }
+.sp-aq-remove {
+  flex: 0 0 auto; cursor: pointer; border: 0; background: transparent;
+  color: var(--c-ink-dim); font-size: 0.8rem; line-height: 1; padding: 2px 4px; border-radius: 4px;
+}
+.sp-aq-remove:hover { color: var(--c-red, #b91c1c); background: color-mix(in srgb, var(--c-red, #b91c1c) 12%, transparent); }
+
+/* "Arabic" immediate action — confirm card (proposed Arabic before replacing). */
+.sp-arabic-confirm {
+  margin-top: 8px; padding: 9px 11px; border-radius: 8px;
+  background: var(--c-bg-elev);
+  border: 1px solid color-mix(in srgb, var(--c-accent) 30%, var(--c-rule, rgba(0, 0, 0, 0.12)));
+}
+.sp-arabic-confirm__row { display: flex; align-items: center; gap: 9px; margin: 0; flex-wrap: wrap; }
+.sp-arabic-confirm__row > i { color: var(--c-ink-muted); font-size: 0.78rem; }
+.sp-arabic-confirm__en { font-size: 0.85rem; color: var(--c-ink-muted); }
+.sp-arabic-confirm__ar { font-size: 1.3rem; line-height: 1.4; color: var(--c-accent); font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', serif; }
+/* Editable Arabic — correct the AI's rendering before replacing. */
+.sp-arabic-confirm__input {
+  width: 100%; margin-top: 8px; padding: 7px 11px;
+  font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', serif;
+  font-size: 1.3rem; line-height: 1.5; color: var(--c-accent);
+  background: var(--c-bg-card);
+  border: 1px solid color-mix(in srgb, var(--c-accent) 35%, var(--c-rule, rgba(0, 0, 0, 0.15)));
+  border-radius: 8px;
+}
+.sp-arabic-confirm__input:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 1px; border-color: transparent; }
+.sp-arabic-confirm__gloss { font-size: 0.74rem; color: var(--c-ink-dim); font-style: italic; margin: 5px 0 0; }
+
+/* "Explain" — editable multi-line proposed clarification before replacing. */
+.sp-explain-confirm {
+  margin-top: 8px; padding: 9px 11px; border-radius: 8px;
+  background: var(--c-bg-elev);
+  border: 1px solid color-mix(in srgb, var(--c-accent) 30%, var(--c-rule, rgba(0, 0, 0, 0.12)));
+}
+.sp-explain-confirm__label { font-size: 0.72rem; color: var(--c-ink-muted); margin: 0 0 6px; }
+.sp-explain-confirm__text {
+  width: 100%; resize: vertical; min-height: 96px; padding: 8px 10px;
+  font-family: var(--font-body, Georgia, serif);
+  font-size: 0.92rem; line-height: 1.5; color: var(--c-ink);
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15)); border-radius: 7px;
+}
+.sp-explain-confirm__text:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 1px; border-color: transparent; }
+.sp-arabic-confirm__actions { display: flex; gap: 6px; margin-top: 9px; }
+.sp-arabic-confirm__apply,
+.sp-arabic-confirm__cancel {
+  font-size: 0.78rem; font-weight: 600; padding: 4px 12px; border-radius: 7px; cursor: pointer;
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15)); background: var(--c-bg-card); color: var(--c-ink);
+}
+.sp-arabic-confirm__apply {
+  color: #fff; background: var(--c-accent); border-color: transparent;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.sp-arabic-confirm__apply:hover { background: color-mix(in srgb, var(--c-accent) 88%, #000); }
+.sp-arabic-confirm__cancel:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.sp-arabic-confirm__apply:focus-visible,
+.sp-arabic-confirm__cancel:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+
+/* Replace-scope choice: this instance · this chapter · all chapters. */
+.sp-arabic-confirm__scopehint { font-size: 0.72rem; color: var(--c-ink-muted); margin: 10px 0 5px; }
+.sp-arabic-scope { display: flex; flex-direction: column; gap: 5px; }
+.sp-arabic-scope__btn {
+  display: flex; align-items: center; gap: 7px;
+  width: 100%; text-align: left; font-size: 0.76rem; font-weight: 600;
+  padding: 7px 10px; border-radius: 7px; cursor: pointer;
+  color: var(--c-ink); background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.16));
+}
+.sp-arabic-scope__btn i { font-size: 0.8rem; color: var(--c-ink-muted); width: 1.1em; text-align: center; }
+.sp-arabic-scope__btn:hover:not(:disabled) { border-color: var(--c-accent); color: var(--c-accent); }
+.sp-arabic-scope__btn:hover:not(:disabled) i { color: var(--c-accent); }
+.sp-arabic-scope__btn:disabled { opacity: 0.45; cursor: default; }
+.sp-arabic-scope__btn:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.sp-arabic-scope__btn--primary { color: #fff; background: var(--c-accent); border-color: transparent; }
+.sp-arabic-scope__btn--primary i { color: #fff; }
+.sp-arabic-scope__btn--primary:hover:not(:disabled) { background: color-mix(in srgb, var(--c-accent) 88%, #000); color: #fff; }
+.sp-arabic-scope__btn--primary:hover:not(:disabled) i { color: #fff; }
+.sp-arabic-confirm__doneline {
+  display: flex; align-items: center; gap: 7px; margin: 10px 0 0;
+  font-size: 0.78rem; font-weight: 600; color: var(--c-green, #15803d);
+}
 
 /* M-1 AI result area in the AI tab. */
 .sp-ai-tab-actions { display: flex; gap: 5px; flex-wrap: wrap; }
@@ -361,11 +520,17 @@
   background: var(--c-ink, #2a2118);
   box-shadow: inset 0 0 0 2px currentColor;
 }
-.studio-poc__editor .sp-ptool.tag-esoteric.is-on { color: #a78bfa; }
-.studio-poc__editor .sp-ptool.tag-reality.is-on  { color: #38bdf8; }
-.studio-poc__editor .sp-ptool.tag-sharia.is-on   { color: #2dd4bf; }
-.studio-poc__editor .sp-ptool.tag-delete.is-on   { color: #fb7185; }
-.studio-poc__editor .sp-ptool.tag-improve.is-on  { color: #fbbf24; }
+/* Inline action-item badge colours, grouped via theme tokens (see theme.css):
+   core = amber, etymology = violet, transform = sky, knowledge = teal, remove = rose.
+   Each is the "on" icon colour over the dark chip. */
+.studio-poc__editor .sp-ptool.act-etymology.is-on { color: var(--c-act-etymology); }
+.studio-poc__editor .sp-ptool.act-rewrite.is-on   { color: var(--c-act-core); }
+.studio-poc__editor .sp-ptool.act-expand.is-on    { color: var(--c-act-transform); }
+.studio-poc__editor .sp-ptool.act-condense.is-on  { color: var(--c-act-transform); }
+.studio-poc__editor .sp-ptool.act-simplify.is-on  { color: var(--c-act-transform); }
+.studio-poc__editor .sp-ptool.act-define.is-on    { color: var(--c-act-knowledge); }
+.studio-poc__editor .sp-ptool.act-xref.is-on      { color: var(--c-act-knowledge); }
+.studio-poc__editor .sp-ptool.act-addcorpus.is-on { color: var(--c-act-knowledge); }
 
 /* Inspector tag key (legend) — compact wrapping pills to save vertical space. */
 .sp-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 5px; }
@@ -376,8 +541,21 @@
 }
 .sp-legend-icon { font-size: 0.82rem; line-height: 1; }
 
-/* PER-PARAGRAPH TOKEN TAGS are now shown as persistent ICONS at the block's top-left
-   (sp-para-tools--marks), not a coloured border — Asif prefers icon-based recognition. */
+/* PER-PARAGRAPH MARKS are shown as persistent ICONS in the LEFT GUTTER — a
+   scannable column of action-coloured chips aligned with each marked block,
+   not a coloured border (Asif prefers icon-based recognition). The chips sit in
+   the editor's 36px inline padding, so they never overlap the prose. */
+.studio-poc__editor .sp-para-tools--marks {
+  top: 0;
+  right: auto;
+  left: -32px;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
 
 /* Editor surface — editorial-modern, comfortable measure, font ~2px smaller. */
 .studio-poc__editor {
@@ -385,14 +563,27 @@
   border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
   border-radius: 14px;
   padding: 28px 36px;
+  min-width: 0; /* grid item: shrink to the column instead of forcing page-wide overflow */
 }
 .studio-poc__editor .ProseMirror {
-  font-family: var(--font-body, Georgia, serif);
-  font-size: 1.08rem;
-  line-height: 1.7;
+  /* Mixed-script stack: Latin serif first (matches --font-body), then the Arabic
+     naskh fonts, then the generic LAST. The generic must trail Amiri — a generic
+     in the middle would catch Arabic glyphs (system Geeza Pro) before any later
+     Amiri could apply, which is why raw inline Arabic rendered in a different font
+     from the glossary overlays (which already force Amiri). */
+  font-family: "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif;
+  font-size: 1rem;               /* 19.2px — denser than prior 1.08rem, held at
+                                    the theme-independent reading floor (REQ-010). */
+  line-height: 1.72;
   color: var(--c-ink);
   outline: none;
-  max-width: 72ch;
+  /* Reading view fills the editor column to maximise the line (per Asif). The
+     column's own 36px inline padding (.studio-poc__editor) is the small breathing
+     margin — no extra padding here, or the gutter doubles. A generous ch cap keeps
+     the measure sane on ultra-wide monitors; on normal screens the column is the
+     real limit. */
+  max-width: 130ch;
+  margin-inline: auto;
 }
 /* No full-editor focus ring — the active-PARAGRAPH ring is the focus cue (FC fix). */
 .studio-poc__editor .ProseMirror:focus,
@@ -461,15 +652,58 @@
 
 /* FC-4 Arabic-script overlay (decoration-based; non-destructive). */
 .studio-poc__editor .ar-hidden { display: none; }
+.studio-poc__editor .ar-pair-hidden { display: none; }
 .studio-poc__editor .ar-script-chip {
   font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', serif;
   color: var(--c-accent);
   font-size: 1.18em;
   line-height: 1;
 }
-.sp-arabic-btn { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
-.sp-arabic-btn.is-on,
-.sp-arabic-btn.is-on:hover { color: #fff; background: var(--c-accent); border-color: var(--c-accent); }
+/* Raw inline Arabic (typed into the prose, not a glossary token) — same accent
+   colour as the glossary chips so all Arabic reads as one visual language. Font
+   comes from the editor's mixed-script stack; size nudged to match the chips. */
+.studio-poc__editor .ar-raw {
+  color: var(--c-accent);
+  font-size: 1.08em;
+}
+/* Arabic overlay toggle — a labelled switch (FontAwesome toggle icon + text). */
+.sp-arabic-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--c-ink-dim);
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.14));
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.14s, background 0.14s, border-color 0.14s;
+}
+.sp-arabic-btn i { font-size: 1.05rem; line-height: 1; }
+.sp-arabic-btn:hover { color: var(--c-ink); border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-rule, rgba(0,0,0,0.14))); }
+.sp-arabic-btn.is-on { color: #fff; background: var(--c-accent); border-color: var(--c-accent); }
+.sp-arabic-btn:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+/* Link out to the full phonetic map (Arabic review page). */
+.sp-phonetic-map {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--c-accent);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 1px dotted color-mix(in oklab, var(--c-accent) 45%, transparent);
+}
+.sp-phonetic-map:hover { color: color-mix(in oklab, var(--c-accent) 80%, var(--c-ink)); border-bottom-color: var(--c-accent); }
+.sp-phonetic-map:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .sp-arabic-btn, .sp-phonetic-map, .sp-tab-btn, .sp-approve, .sp-discard, .sp-ai-tab-btn,
+  .sp-action-btn, .studio-poc__editor .sp-ptool { transition: none; }
+  .studio-poc__editor .sp-para-tools--palette .sp-ptool:hover { transform: none; }
+}
 
 /* FC-1: dedicated golden verse popover (StudioVersePopover). Opaque card, floating-ui
    positioned, beautiful Arabic (Amiri) + serif English. Self-contained --c-* tokens. */
@@ -542,7 +776,10 @@
 .sv-pop__open { color: #a9851a; font-weight: 700; text-decoration: none; }
 .sv-pop__open:hover { text-decoration: underline; }
 
-@media (max-width: 900px) {
+/* De-stick the inspector at the SAME breakpoint the grid collapses to one
+   column (1100px). Below that it's stacked full-width, so a sticky+max-height
+   clamp would pin it oddly mid-scroll (REQ-051). */
+@media (max-width: 1100px) {
   .studio-poc { grid-template-columns: 1fr; }
   .studio-poc__inspector { position: static; max-height: none; top: auto; }
 }
@@ -570,12 +807,74 @@
 .studio-poc__editor .sp-tab:hover:not(:disabled) { color: var(--c-ink); }
 .studio-poc__editor .sp-tab.is-active { color: var(--c-accent); border-bottom-color: var(--c-accent); }
 .studio-poc__editor .sp-tab.is-pending { cursor: not-allowed; font-style: italic; opacity: 0.45; }
-.studio-poc__editor .sp-stage-note {
-  font-size: 0.78rem; color: var(--c-ink-muted); font-style: italic; margin: -8px 0 14px;
+/* Per-stage header card — what THIS stage did, above the chapter text. Carries
+   the stage name, its plain-English role, the tool that performed it, and the
+   headline metric. The stage KIND is a coloured left border (colour never the
+   sole signal — the role text states it too). Theme tokens only. */
+.studio-poc__editor .sp-stage-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 9px 12px;
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule-soft, var(--c-rule));
+  border-left: 4px solid var(--c-rule);
+  border-radius: var(--radius-md, 8px);
+}
+.studio-poc__editor .sp-stage-card--mechanical { border-left-color: var(--c-kind-mechanical, var(--c-rule)); }
+.studio-poc__editor .sp-stage-card--agentic    { border-left-color: var(--c-kind-agentic, var(--c-accent)); }
+.studio-poc__editor .sp-stage-card--hybrid     { border-left-color: var(--c-kind-hybrid, var(--c-green)); }
+.studio-poc__editor .sp-stage-card--gate       { border-left-color: var(--c-kind-gate, var(--c-amber)); }
+.studio-poc__editor .sp-stage-card-main {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px;
+}
+.studio-poc__editor .sp-stage-card-name {
+  font-family: var(--font-display, var(--font-sans, sans-serif));
+  font-size: 0.95rem; font-weight: 700; color: var(--c-ink);
+}
+.studio-poc__editor .sp-stage-card-role {
+  padding: 1px 7px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.62rem; font-weight: 600; letter-spacing: 0.02em;
+  color: var(--c-ink-dim); background: var(--c-bg-sunken, var(--c-bg-card));
+  border-radius: 999px;
+}
+.studio-poc__editor .sp-stage-card-tool {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.72rem; color: var(--c-ink-muted);
+}
+.studio-poc__editor .sp-stage-card-flag {
+  padding: 1px 7px; border-radius: 999px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.58rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase;
+}
+.studio-poc__editor .sp-stage-card-flag.is-editable { color: var(--c-bg-card); background: var(--c-accent); }
+.studio-poc__editor .sp-stage-card-flag.is-readonly { color: var(--c-ink-dim); background: var(--c-bg-sunken, var(--c-bg-card)); }
+.studio-poc__editor .sp-stage-card-metric {
+  margin-left: auto;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.74rem; font-weight: 700; color: var(--c-ink-dim);
+}
+.studio-poc__editor .sp-stage-card-diff {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
 }
 
 /* WC8 write-back: stage approval. */
 .studio-poc__editor .sp-tab-ok { color: var(--c-green, #15803d); font-weight: 700; }
+/* ─── Bottom action footer: Save & Approve (primary) + Discard (ghost) ─── */
+.sp-action-footer {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+  border-radius: 10px;
+}
+.sp-action-footer .sp-approve { flex: 1 1 auto; margin-top: 0; }
+.sp-action-footer .sp-discard { flex: 0 0 auto; }
 .sp-approve {
   width: 100%;
   margin-top: 2px;
@@ -592,25 +891,64 @@
 .sp-approve:disabled { cursor: default; }
 .sp-approve.is-done { color: var(--c-green, #15803d); background: color-mix(in srgb, var(--c-green, #16a34a) 14%, var(--c-bg-card)); border-color: color-mix(in srgb, var(--c-green, #16a34a) 45%, transparent); }
 
+/* Temporary approval notification — rendered by Radix Toast. */
+.sp-toast-viewport {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: min(340px, calc(100vw - 32px));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  outline: none;
+}
+.sp-toast {
+  padding: 12px 14px;
+  color: var(--c-green, #15803d);
+  background: var(--c-bg-card);
+  border: 1px solid color-mix(in srgb, var(--c-green, #16a34a) 38%, var(--c-rule, rgba(0, 0, 0, 0.12)));
+  border-radius: 9px;
+  box-shadow: 0 14px 34px rgba(31, 29, 24, 0.18);
+}
+.sp-toast-title {
+  margin: 0;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
 /* Stage metrics strip (under the tabs) — words/sentences + delta vs the prior stage. */
 .studio-poc__editor .sp-metrics {
   display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline;
   font-family: var(--font-ui, system-ui, sans-serif); font-size: 0.78rem;
-  color: var(--c-ink-muted); margin: -10px 0 16px;
+  /* --c-ink-dim (not --c-ink-muted): ~15px is below the WCAG AA large-text
+     threshold; the header metrics line needs 4.5:1 (REQ-048). */
+  color: var(--c-ink-dim); margin: -10px 0 16px;
 }
 .studio-poc__editor .sp-metric-delta { font-weight: 700; }
 .studio-poc__editor .sp-metric-delta.is-down { color: var(--c-green, #15803d); }
 .studio-poc__editor .sp-metric-delta.is-up { color: var(--c-accent); }
 
 /* B: chapter switcher. */
-.studio-poc__editor .sp-chapsel { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; }
+.studio-poc__editor .sp-chapsel { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; min-width: 0; }
 .studio-poc__editor .sp-chapsel label { font-family: var(--font-ui, system-ui, sans-serif); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-ink-muted); }
 .studio-poc__editor .sp-chapsel select {
   font-family: var(--font-ui, system-ui, sans-serif); font-size: 0.9rem; font-weight: 600;
   color: var(--c-ink); background: var(--c-bg-card); cursor: pointer;
   border: 1px solid var(--c-rule, rgba(0,0,0,0.18)); border-radius: 8px; padding: 5px 10px;
+  min-width: 0; max-width: 100%; /* shrink + truncate the long option text on narrow screens */
 }
 .studio-poc__editor .sp-chapsel select:disabled { opacity: 0.45; cursor: default; }
+@media (max-width: 1100px) {
+  /* When the editor narrows, let the chapter selector wrap to its own full-width
+     row instead of collapsing to just the dropdown arrow. */
+  .studio-poc__editor .sp-chapsel { flex-wrap: wrap; }
+  .studio-poc__editor .sp-chapsel select { flex: 1 1 100%; }
+}
 
 /* All-chapters view toggle button. */
 .sp-viewall-btn {
@@ -887,7 +1225,7 @@
   font-weight: 600;
   border-radius: 7px;
   cursor: pointer;
-  color: var(--c-ink-muted);
+  color: var(--c-ink-dim);
   background: transparent;
   border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.18));
 }
@@ -902,6 +1240,19 @@
   margin: 4px 0 0;
   line-height: 1.4;
 }
+/* Draft autosave status — the "retained, not yet approved" indicator. */
+.sp-draft-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  margin: 0 0 6px;
+  line-height: 1.4;
+  color: var(--c-ink-dim);
+}
+.sp-draft-status i { font-size: 0.72rem; }
+.sp-draft-status--saved { color: var(--c-accent); }
+.sp-draft-status--error { color: var(--c-red, #b91c1c); }
 .sp-comment-panel {
   display: flex;
   flex-direction: column;
@@ -1074,21 +1425,6 @@
 }
 .sp-ai-option-apply:hover:not(:disabled) { background: color-mix(in srgb, var(--c-accent) 18%, var(--c-bg-card)); border-color: var(--c-accent); }
 .sp-ai-option-apply:disabled { opacity: 0.4; cursor: default; }
-.sp-finalize-row { margin-top: 0.75rem; }
-.sp-finalize {
-  font-size: 0.79rem;
-  font-weight: 600;
-  padding: 7px 11px;
-  background: var(--c-bg-elev);
-  color: var(--c-ink);
-  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
-  border-radius: var(--radius-md, 0.375rem);
-  cursor: pointer;
-  transition: border-color 0.12s, color 0.12s;
-}
-.sp-finalize:hover { border-color: var(--c-accent); color: var(--c-accent); }
-.sp-finalize:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
-.sp-finalize-msg { font-size: 0.8rem; color: var(--c-ink-dim); margin-top: 0.4rem; }
 
 /* Wave N — depth picker popover (singleton, fixed-positioned, shown on badge click). */
 @keyframes spPopoverIn {
@@ -1474,3 +1810,296 @@
 .sp-tag-popover__tag--improve { border-color: rgba(79,70,229,0.3);  color: #4f46e5; background: rgba(79,70,229,0.07); }
 .sp-tag-popover__tag--improve:hover { background: rgba(79,70,229,0.14); }
 .sp-tag-popover__tag--improve.is-active { background: #4f46e5; color: #fff; border-color: #4f46e5; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   REDESIGN 2026-06-04 — full-width cockpit · dominant reading panel ·
+   12px side-panel chrome · single "Publish". External CSS, --c-* tokens only,
+   colour theme unchanged (Cortex HTML-view standard).
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Consolidated editor header: chapter picker · metrics · finalize ── */
+.studio-poc__editor .sp-editor-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 0 0 14px;
+}
+/* Reset the legacy stacked-row margins now that these sit inline in the header. */
+.studio-poc__editor .sp-editor-head .sp-chapsel { margin: 0; }
+.studio-poc__editor .sp-editor-head .sp-metrics { margin: 0; }
+/* Companion reading-edition link, relocated here from the removed left rail. */
+.studio-poc__editor .sp-book-link {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--c-accent);
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.studio-poc__editor .sp-book-link .sp-book-glyph svg { display: block; width: 18px; height: 18px; }
+.studio-poc__editor .sp-book-link:hover { color: color-mix(in oklab, var(--c-accent) 80%, var(--c-ink)); }
+.studio-poc__editor .sp-book-link:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+/* Finalize chapter — the chapter-level finalize, moved out of the version rail
+   so the word "Publish" exists exactly once (the top pipeline step). Outlined,
+   not a heavy solid block, so it reads as a chapter action, not THE publish. */
+.studio-poc__editor .sp-finalize-chapter {
+  margin-left: auto;
+  flex: 0 0 auto;
+  padding: 6px 14px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--c-accent);
+  background: color-mix(in srgb, var(--c-accent) 9%, var(--c-bg-card));
+  border: 1px solid color-mix(in srgb, var(--c-accent) 45%, transparent);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.studio-poc__editor .sp-finalize-chapter:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--c-accent) 16%, var(--c-bg-card));
+  border-color: var(--c-accent);
+}
+.studio-poc__editor .sp-finalize-chapter:disabled { opacity: 0.5; cursor: default; }
+.studio-poc__editor .sp-finalize-chapter.is-done {
+  color: var(--c-green, #15803d);
+  background: color-mix(in srgb, var(--c-green, #16a34a) 12%, var(--c-bg-card));
+  border-color: color-mix(in srgb, var(--c-green, #16a34a) 45%, transparent);
+}
+
+/* ── Inspector: 12px chrome scale + tighter spacing (Asif).
+   Root font is 19.2px (theme runs at 120%), so 0.625rem = 12.0px exactly.
+   Primary text (selection, finalize) sits a touch above for hierarchy. ── */
+.studio-poc__inspector { gap: 8px; }
+.sp-global-strip { padding: 8px 10px; gap: 6px; }
+.sp-global-arabic { font-size: 0.65rem; }
+.sp-tab-bar { padding: 3px; }
+.sp-tab-btn { font-size: 0.625rem; padding: 6px 5px; }
+.sp-tab-pane { padding: 11px 12px; gap: 10px; }
+.sp-insp-meta { grid-template-columns: auto 1fr; gap: 4px 10px; }
+.sp-insp-meta dt { font-size: 0.625rem; }
+.sp-insp-meta dd { font-size: 0.68rem; }
+.sp-insp-hint { font-size: 0.625rem; }
+.sp-insp-sel { font-size: 0.7rem; }
+.sp-action-palette { gap: 6px; }
+/* Effective button sizing (this block wins over the base rule by source order).
+   0.72rem ≈ 13.8px at the 19.2px root — clearly larger than the old 0.62rem,
+   yet small enough that 8-char labels ("Rephrase", "Condense") stay one line;
+   only genuinely long single words ("Visualization") wrap. */
+.sp-action-btn { font-size: 0.72rem; min-height: 50px; padding: 8px 7px; }
+.sp-aq-item { font-size: 0.68rem; }
+.sp-marker-list li { font-size: 0.65rem; }
+.sp-legend-row { font-size: 0.62rem; }
+
+/* ── Selected-term modal popup ──────────────────────────────────────────── */
+.sp-term-backdrop {
+  position: fixed; inset: 0; z-index: 65;
+  display: flex; align-items: center; justify-content: center; padding: 1rem;
+  background: color-mix(in srgb, #000 44%, transparent);
+}
+.sp-term-modal {
+  width: min(520px, 100%); max-height: 88vh; overflow: auto;
+  display: flex; flex-direction: column;
+  background: var(--c-bg-card); color: var(--c-ink);
+  border: 1px solid color-mix(in srgb, var(--c-accent) 26%, var(--c-rule, rgba(0, 0, 0, 0.14)));
+  border-radius: 12px;
+  box-shadow: 0 20px 54px color-mix(in srgb, #000 30%, transparent);
+}
+.sp-term-modal--wide { width: min(680px, 100%); }
+.sp-term-modal__head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  padding: 16px 18px 13px;
+  border-bottom: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--c-accent) 8%, var(--c-bg-card)), var(--c-bg-card));
+}
+.sp-term-modal__eyebrow {
+  margin: 0 0 3px;
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--c-accent);
+}
+.sp-term-modal__title { margin: 0; font-size: 1.05rem; line-height: 1.2; color: var(--c-ink); }
+.sp-term-modal__close {
+  flex: none; border: none; background: transparent; cursor: pointer;
+  color: var(--c-ink-muted); font-size: 1rem; padding: 5px 7px; border-radius: 7px;
+}
+.sp-term-modal__close:hover { color: var(--c-ink); background: var(--c-bg-elev); }
+.sp-term-modal__body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 10px; }
+.sp-term-modal__swap {
+  display: flex; align-items: center; gap: 9px; margin: 0;
+  font-size: 0.86rem; color: var(--c-ink-muted);
+}
+.sp-term-modal__swap i { color: var(--c-accent); font-size: 0.8rem; }
+.sp-term-modal__input,
+.sp-term-modal__textarea {
+  width: 100%; padding: 9px 11px;
+  color: var(--c-ink); background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15)); border-radius: 8px;
+}
+.sp-term-modal__input { font-size: 0.95rem; line-height: 1.4; }
+.sp-term-modal__input--arabic {
+  font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', serif;
+  font-size: 1.45rem; line-height: 1.6; color: var(--c-accent);
+}
+.sp-term-modal__textarea {
+  resize: vertical; min-height: 160px;
+  font-family: var(--font-body, Georgia, serif); font-size: 0.95rem; line-height: 1.55;
+}
+.sp-term-modal__input:focus-visible,
+.sp-term-modal__textarea:focus-visible {
+  outline: 2px solid var(--c-accent); outline-offset: 1px; border-color: transparent;
+}
+.sp-term-modal__gloss {
+  margin: 0; font-size: 0.82rem; line-height: 1.45; color: var(--c-ink-dim); font-style: italic;
+}
+.sp-term-modal__done {
+  display: flex; align-items: center; gap: 7px; margin: 0;
+  font-size: 0.82rem; font-weight: 700; color: var(--c-green, #15803d);
+}
+.sp-term-modal__scopehint { margin: 4px 0 0; font-size: 0.76rem; color: var(--c-ink-muted); }
+.sp-term-scope { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.sp-term-scope__btn,
+.sp-term-modal__apply,
+.sp-term-modal__cancel {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  font-size: 0.82rem; font-weight: 700; padding: 9px 11px; border-radius: 8px; cursor: pointer;
+  color: var(--c-ink); background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.16));
+}
+.sp-term-scope__btn:hover:not(:disabled),
+.sp-term-modal__cancel:hover {
+  border-color: var(--c-accent); color: var(--c-accent);
+}
+.sp-term-scope__btn--primary,
+.sp-term-modal__apply {
+  color: #fff; background: var(--c-accent); border-color: transparent;
+}
+.sp-term-scope__btn--primary:hover:not(:disabled),
+.sp-term-modal__apply:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--c-accent) 88%, #000); color: #fff;
+}
+.sp-term-scope__btn:disabled,
+.sp-term-modal__apply:disabled { opacity: 0.45; cursor: default; }
+.sp-term-modal__actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 2px; }
+.sp-term-modal__close:focus-visible,
+.sp-term-scope__btn:focus-visible,
+.sp-term-modal__apply:focus-visible,
+.sp-term-modal__cancel:focus-visible {
+  outline: 2px solid var(--c-accent); outline-offset: 2px;
+}
+/* ── Global find-and-replace popup ──────────────────────────────────────── */
+.sp-replace-backdrop {
+  position: fixed; inset: 0; z-index: 60;
+  display: flex; align-items: center; justify-content: center; padding: 1rem;
+  background: color-mix(in srgb, #000 42%, transparent);
+  animation: sp-replace-fade 0.12s ease-out;
+}
+.sp-replace-modal {
+  width: min(560px, 100%); max-height: 88vh; overflow: auto;
+  display: flex; flex-direction: column;
+  background: var(--c-bg-card); color: var(--c-ink);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.14)); border-radius: 12px;
+  box-shadow: 0 18px 48px color-mix(in srgb, #000 28%, transparent);
+}
+.sp-replace-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 16px; border-bottom: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
+}
+.sp-replace-title {
+  margin: 0; font-size: 0.95rem; font-weight: 700; color: var(--c-ink);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.sp-replace-title > i { color: var(--c-accent); }
+.sp-replace-close {
+  border: none; background: transparent; cursor: pointer;
+  color: var(--c-ink-muted); font-size: 1rem; padding: 4px 6px; border-radius: 6px;
+}
+.sp-replace-close:hover { color: var(--c-ink); background: var(--c-bg-elev); }
+
+.sp-replace-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.sp-replace-row { display: flex; align-items: center; gap: 8px; }
+.sp-replace-arrow { color: var(--c-ink-muted); font-size: 0.8rem; flex: none; }
+.sp-replace-input {
+  flex: 1 1 0; min-width: 0; padding: 7px 10px; font-size: 0.85rem;
+  color: var(--c-ink); background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15)); border-radius: 7px;
+}
+.sp-replace-input:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 1px; border-color: transparent; }
+.sp-replace-row-rm {
+  flex: none; border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15)); background: var(--c-bg-card);
+  color: var(--c-ink-muted); cursor: pointer; border-radius: 7px; padding: 6px 9px; font-size: 0.8rem;
+}
+.sp-replace-row-rm:hover:not(:disabled) { color: var(--c-act-remove, #e11d48); border-color: currentColor; }
+.sp-replace-row-rm:disabled { opacity: 0.3; cursor: default; }
+
+.sp-replace-add {
+  align-self: flex-start; border: 1px dashed color-mix(in srgb, var(--c-accent) 45%, transparent);
+  background: color-mix(in srgb, var(--c-accent) 7%, var(--c-bg-card)); color: var(--c-accent);
+  cursor: pointer; border-radius: 7px; padding: 5px 11px; font-size: 0.78rem; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.sp-replace-add:hover { background: color-mix(in srgb, var(--c-accent) 14%, var(--c-bg-card)); }
+
+.sp-replace-scope {
+  display: flex; align-items: center; gap: 9px; margin-top: 2px;
+  font-size: 0.82rem; color: var(--c-ink-muted); cursor: pointer;
+}
+.sp-replace-scope input { accent-color: var(--c-accent); width: 15px; height: 15px; flex: none; }
+.sp-replace-scope strong { color: var(--c-ink); }
+
+.sp-replace-msg { margin: 2px 0 0; font-size: 0.8rem; }
+.sp-replace-msg--error { color: var(--c-red, #e11d48); }
+.sp-replace-msg--ok { color: var(--c-green, #15803d); font-weight: 600; }
+
+.sp-replace-preview {
+  margin-top: 2px; padding: 9px 11px; border-radius: 8px;
+  background: var(--c-bg-elev); border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
+}
+.sp-replace-preview-total { margin: 0 0 6px; font-size: 0.82rem; font-weight: 600; color: var(--c-ink); }
+.sp-replace-preview-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+.sp-replace-preview-list li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; font-size: 0.78rem; color: var(--c-ink-muted); }
+.sp-replace-preview-n { font-variant-numeric: tabular-nums; color: var(--c-accent); font-weight: 600; }
+
+/* Noise modal — reuses the find-&-replace modal shell; these are the extras:
+   a hint line, a monospace pattern field, and the per-chapter sample chips that
+   show exactly what a strip would remove (the safety affordance). */
+.sp-noise-hint { margin: 0 0 4px; font-size: 0.78rem; line-height: 1.5; color: var(--c-ink-muted); }
+.sp-noise-pattern { font-family: var(--font-mono, ui-monospace, "SF Mono", Menlo, monospace); font-size: 0.82rem; }
+.sp-noise-samples { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.sp-noise-sample {
+  font-family: var(--font-mono, ui-monospace, "SF Mono", Menlo, monospace);
+  font-size: 0.72rem;
+  background: var(--c-bg-sunken, rgba(0, 0, 0, 0.05));
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--c-ink-dim);
+  white-space: pre-wrap;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.sp-replace-foot {
+  display: flex; justify-content: flex-end; gap: 8px;
+  padding: 12px 16px; border-top: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
+}
+.sp-replace-btn {
+  font-size: 0.82rem; font-weight: 600; padding: 7px 16px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+}
+.sp-replace-btn--ghost { background: var(--c-bg-card); color: var(--c-ink); }
+.sp-replace-btn--ghost:hover:not(:disabled) { border-color: var(--c-accent); color: var(--c-accent); }
+.sp-replace-btn--apply { background: var(--c-accent); color: #fff; border-color: transparent; }
+.sp-replace-btn--apply:hover:not(:disabled) { background: color-mix(in srgb, var(--c-accent) 88%, #000); }
+.sp-replace-btn:disabled { opacity: 0.45; cursor: default; }
+.sp-replace-btn:focus-visible, .sp-replace-close:focus-visible, .sp-replace-add:focus-visible,
+.sp-replace-row-rm:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+
+@keyframes sp-replace-fade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .sp-term-backdrop,
+  .sp-replace-backdrop { animation: none; }
+}

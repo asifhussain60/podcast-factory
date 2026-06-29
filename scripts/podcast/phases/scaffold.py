@@ -16,21 +16,11 @@ SCAFFOLD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "scaffold_book.py"
 INGEST_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "ingest_source.py"
 
 
-def _run(cmd: list[str], *, cwd: Path | None = None) -> tuple[int, str, str]:
-    proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
-    return proc.returncode, proc.stdout, proc.stderr
+from _subprocess import run as _run, err as _err, info as _info  # noqa: E402
 
 
 def _git(*args: str) -> tuple[int, str, str]:
     return _run(["git", *args], cwd=REPO_ROOT)
-
-
-def _err(msg: str) -> None:
-    print(f"ERROR: {msg}", file=sys.stderr)
-
-
-def _info(msg: str) -> None:
-    print(msg)
 
 
 def phase_branch(book_slug: str, category: str) -> None:

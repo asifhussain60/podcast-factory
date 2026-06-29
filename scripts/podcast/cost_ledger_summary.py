@@ -22,23 +22,38 @@ import json
 import sys
 from collections import defaultdict
 from pathlib import Path
-from _paths import REPO_ROOT
-
-BOOKS_DIR = REPO_ROOT / "content" / "drafts"
+from _paths import find_content
 
 
 def _resolve_book_dir(book_arg: str) -> Path:
-    """Accept either a slug ('ayyuhal-walad') or a full path."""
+    """Accept either a slug ('ayyuhal-walad') or a full path.
+
+    Slug resolution goes through the _paths resolver (type-first bucket layout),
+    so it works regardless of which bucket the book lives in.
+    """
     p = Path(book_arg)
-    if p.is_absolute() and p.exists():
-        return p
-    p = BOOKS_DIR / book_arg
-    if p.exists():
-        return p
-    # Last-ditch: relative-from-cwd
-    if Path(book_arg).exists():
-        return Path(book_arg).resolve()
+    if p.exists() and (p / "_system").is_dir():
+        return p.resolve()
+    found = find_content(book_arg)
+    if found:
+        return found[2]
     raise FileNotFoundError(f"book not found: {book_arg!r}")
+
+
+# Phases that run on flat-rate Claude Max via `claude -p` — used to infer the
+# billing engine for OLD ledger rows written before the `engine` field existed.
+_MAX_PHASES = {"0d", "0e", "per-chapter", "per-chapter-optimize"}
+
+
+def _row_engine(r: dict) -> str:
+    """Engine for a row: explicit field wins; else infer from model/phase."""
+    eng = r.get("engine")
+    if eng in ("max", "api"):
+        return eng
+    model = str(r.get("model", ""))
+    if model.startswith(("gemini", "azure")):
+        return "api"
+    return "max" if r.get("phase") in _MAX_PHASES else "api"
 
 
 def load_ledger(ledger_path: Path) -> list[dict]:
@@ -67,32 +82,51 @@ def summarize(rows: list[dict]) -> dict:
     )
     totals = {"input_tokens": 0, "output_tokens": 0,
               "cache_read": 0, "cache_create": 0, "cost_usd": 0.0, "calls": 0}
+    # Real money is metered (api); Max (claude -p) cost_usd is notional, $0 marginal.
+    by_engine: dict[str, dict] = defaultdict(
+        lambda: {"cost_usd": 0.0, "calls": 0}
+    )
 
     for r in rows:
         phase = r.get("phase", "(unknown)")
         model = r.get("model", "(unknown)")
+        eng = _row_engine(r)
+        cost = float(r.get("cost_usd", 0))
         for d in (by_phase[phase], by_model[model], totals):
             d["input_tokens"]  += int(r.get("input_tokens", 0))
             d["output_tokens"] += int(r.get("output_tokens", 0))
             d["cache_read"]    += int(r.get("cache_read", 0))
             d["cache_create"]  += int(r.get("cache_create", 0))
-            d["cost_usd"]      += float(r.get("cost_usd", 0))
+            d["cost_usd"]      += cost
             d["calls"]         += 1
+        by_engine[eng]["cost_usd"] += cost
+        by_engine[eng]["calls"]    += 1
 
     # Round costs for diff-stability
-    for d in (totals, *by_phase.values(), *by_model.values()):
+    for d in (totals, *by_phase.values(), *by_model.values(), *by_engine.values()):
         d["cost_usd"] = round(d["cost_usd"], 4)
 
+    # real_spend_usd = only metered services (Gemini, Azure, Anthropic SDK).
+    # Claude Max rows have cost_usd=0.0 and are excluded from real spend.
+    # max_token_calls = how many Max calls fired (token counts are non-zero;
+    # useful for subscription usage monitoring, not for billing).
+    real_spend_usd = round(by_engine.get("api", {}).get("cost_usd", 0.0), 4)
+    max_calls = by_engine.get("max", {}).get("calls", 0)
     return {
         "row_count": len(rows),
         "totals": totals,
         "by_phase": dict(by_phase),
         "by_model": dict(by_model),
+        "by_engine": dict(by_engine),
+        "real_spend_usd": real_spend_usd,
+        "max_calls": max_calls,   # subscription usage indicator (not billed)
     }
 
 
 def fmt_text(summary: dict, book_slug: str) -> str:
     t = summary["totals"]
+    real = summary.get("real_spend_usd", 0.0)
+    max_calls = summary.get("max_calls", 0)
     lines = [
         f"Cost ledger summary — {book_slug}",
         f"  Rows:           {summary['row_count']}",
@@ -101,7 +135,9 @@ def fmt_text(summary: dict, book_slug: str) -> str:
         f"  Output tokens:  {t['output_tokens']:>12,}",
         f"  Cache read:     {t['cache_read']:>12,}",
         f"  Cache create:   {t['cache_create']:>12,}",
-        f"  Total cost:     ${t['cost_usd']:>10.4f}",
+        "",
+        f"  Real spend (Gemini / Azure / SDK):  ${real:>9.4f}",
+        f"  Claude Max calls (flat-rate, $0):   {max_calls:>9}",
         "",
         "By phase:",
     ]

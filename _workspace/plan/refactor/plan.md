@@ -715,6 +715,36 @@ Wave K introduces a principled, multi-dimensional quality score — the **PEQ (P
 
 ---
 
+# Wave M — Holistic Hardening (2026-06-09)
+
+*Holistic pipeline review to a production standard, with first-class multi-volume
+routing. Landed on `develop` (Phases 1–4 + Phase 6 foundation). Machine-readable
+tracker: `plan.yaml` phase `WM`.*
+
+- **WM1 — Multi-volume foundation.** A work = ONE branch + a `work.yml`-marked parent
+  folder with nested `vol-NN/` dirs. `_paths.py` EXTENDED (not forked) to descend a
+  work parent and yield composite slugs `<work>-vol-NN`; `_branching.branch_for_work`;
+  thin `_work_manifest.py`; `content-paths.ts` mirror. A flat `-vol-N` book is never
+  mistaken for a volume. Flat books byte-identical.
+- **WM2 — Profile routing + intake volumes.** `_rules.phase_capabilities(profile)` is the
+  single phase-skip accessor; `initial_driver` reads it instead of the legacy category.
+  `intake_book.py --work <slug> --volume N` (one PDF per volume).
+- **WM3 — Per-volume autopilot + safety rails.** `orchestrate_work.py` sequences volumes
+  and PAUSES between them (`--advance` to proceed). `converge_chapter` mid-loop cost
+  ceilings (F35), fixer early-halt, episode-rebuild surfacing, heartbeat; F32 framing cache.
+- **WM4 — De-patch + F38.** `_subprocess.py` shared helper; F38/F39 closed; F40 (giant-fn
+  splits) deferred with rationale (no characterization harness → blind split risks shipped books).
+- **WM6 — Intake foundation + UI.** Backend: `intake_form_options.py` (dropdowns from canonical
+  vocab + YAML deltas), `intake_preflight.py` (capped estimate), `intake_staging.py` (upload
+  lifecycle), `intake_status.py` (cockpit view), `intake_launch.py` (prep, no spawn) + JSON
+  endpoints. UI (4 screens, each designed per-screen with Asif + gated through
+  `html-view-challenger` to PASS): Screen 1 upload+roles, Screen 2 smart form (minimal-typing
+  dropdowns + inline add), Screen 3 pre-flight, Screen 4 launch (Tier-2 confirm → detached
+  spawn) + live cockpit (poll, approval cards). Remaining: M1 reading-floor decision; the live
+  classifier (`/api/intake/classify`) increment.
+- **WM5 — DEFERRED:** asaas migration + `content/`→`library/` rename (bundled; runs at asaas's
+  next clean boundary — see Phase 5 checklist).
+
 # Wave 8 Studio — Editorial Cockpit + New Content Intake
 
 *Authorized 2026-05-30. Branch: `book/ayyuhal-walad`. These three slices complete the WC8 re-platform that was deferred from Slice 5.*
@@ -926,3 +956,107 @@ Pre-authorized by the autonomy mandate in `CONTINUATION-2026-05-30.md`. Four blo
 - **BLOCKER-B** — `plan.yaml` approval flip (`meta.status: APPROVED`, `approved_by: asif`, `approved_at: 2026-05-30`); dangling `WC8-0-foundation` dep references corrected to `WC8.0` (two sites); this plan entry added.
 - **BLOCKER-C** — `scripts/podcast/intelligence/extractor.py`: `_default_claude_caller` replaced with Gemini caller mirroring `gemini_refine.py` exactly (key resolution, `urllib.request` POST, cost tracking, same `gemini-2.5-flash` model). Violating `claude -p` call removed. Module docstring, `_CLAUDE_CMD` constant, and `LLMCaller` type alias updated to match.
 - **BLOCKER-D** — `.vscode/tasks.json` (9 tasks + `bookSlug` promptString input), `.vscode/launch.json` (5 Python debug configs), `.vscode/extensions.json` (8 recommendations). `.vscode/mcp.json` left untouched.
+
+---
+
+## Slide-Deck Weave + Folder Standardization (2026-06-10)
+
+### 1. Slide decks become part of the reading edition with one human round
+
+> The pipeline already authored per-chapter slide sources and framings before the finalize halt. Now that halt also prints a slide-deck generation card (one row per framed chapter: upload source, the framing to paste into NotebookLM's Describe box, format, and the exact path to drop the exported PDF). After resume, the new import phase turns those drops into inline figures automatically: it extracts the deck pages, asks Claude once per chapter to map each slide to the exact passage it illustrates, validates the mapping mechanically (missing or ambiguous anchors fail loudly with the slide named, one retry), and weaves every slide in immediately BEFORE the passage that explains it. If decks are missing, the run halts before publish and resumes cleanly once they're dropped; a per-chapter skip marker opts out.
+>
+> *Value gained:* the finished PDF carries the polished NotebookLM visuals at the right teaching moments, with zero hand-mapping and only one NotebookLM visit per book.
+
+### 2. One folder skeleton for every book in every bucket, retroactively applied
+
+> Three divergent folder lists (intake, the site's new-content launcher, scaffold) were collapsed into a single 16-folder registry, so every new book — and every volume created by multi-volume breakup — is pre-laid identically, including the audio drop folder and the slide-decks folder. A dry-run-first migration script standardized all nine existing books and six volumes: legacy folder names were renamed into the standard, and genuine oddities were flagged for review instead of auto-merged.
+>
+> *Value gained:* any book opened by any tool has the same shape; drops always have a home; folder drift can no longer accumulate.
+
+---
+
+## NotebookLM Drop Normalizer (2026-06-12)
+
+### 1. Dropped audio and transcripts rename themselves into canonical chapter order
+
+> NotebookLM names its exported audio after the episode's auto-generated creative title, and any chapter number the operator types in front of it is an unverified claim — a real 19/20 swap shipped this week and was caught only by hand. A new normalize step makes filenames irrelevant: drop the files anywhere in the book's audio folder with any name, run one command, and each file is fingerprint-matched against the episode framings and chapter sources (transcript text is the strongest evidence, then the creative title's own words; numeric prefixes are compared but never trusted). High-confidence matches rename to canonical form, prefix-vs-content disagreements are flagged as swaps and corrected, and anything ambiguous is left untouched and surfaced instead of guessed. Every verdict appends to the book's verification ledger, and the finalize card now prints the command as the standard post-download step.
+>
+> *Value gained:* the swap class of error can't reach publishing; the post-download ritual is one command instead of manual cross-checking.
+
+---
+
+## Azure Transcription for NotebookLM Output (2026-06-12)
+
+### 1. Transcription moves in-house: one command, Azure does the rest
+
+> The script meant to transcribe NotebookLM's audio output was dead on arrival — it depended on a local AI model that was never installed and pointed at a folder layout retired weeks ago. That's why the manual TurboScribe upload-download ritual existed at all. The script is rebuilt on the same Azure transcription service the pipeline already uses daily for lecture intake: point it at a book and it transcribes every properly-named audio file that's missing a transcript, skips what's done, and prices each job into the book's cost ledger by actual audio duration (also fixing an older cost entry that overstated transcription spend roughly tenfold). One transcription call feeds both downstream consumers — the post-production reviewer and the audit/video tooling — from a single source of truth, and the finalize card now prints the full ritual: drop audio, normalize names, transcribe. External services remain a fallback drop path.
+>
+> *Value gained:* no external transcription service in the loop; transcripts cost cents, arrive in minutes, and land correctly named on both contracts every time.
+
+---
+
+## Audio Engine v2 — autonomous audio, NotebookLM preserved (2026-06-12)
+
+### 1. Every book chooses its audio engine; existing books change nothing
+
+> A single per-book setting now decides how episode audio gets made: the default keeps the familiar NotebookLM ritual exactly as it is (a regression test proves the output is byte-for-byte identical), while a book that opts into the new engine flows from approved source to finished audio with no manual upload or download at all. Engine capabilities live in one registry file, so adding a third engine someday is one entry — not a search through the pipeline.
+>
+> *Value gained:* full autonomy becomes an opt-in per book with zero risk to everything already shipped.
+
+### 2. The conversation is written, judged, and fixed before a cent is spent
+
+> On the autonomous path the pipeline writes the complete two-host conversation itself, on the flat-rate subscription. A free gate then checks it the way the existing chapter gates do — forbidden phrases, doctrine, honorifics, host roles — plus a new completeness check: every tension and concept the chapter contract promises must actually appear in the conversation, or the script is rejected. A second reviewing pass judges faithfulness (nothing invented, nothing lost) and the loop fixes and re-checks until the script earns the same ship verdict the audio path has always used. Pacing targets are advisory only — the system is forbidden from cutting content to hit a length.
+>
+> *Value gained:* paid synthesis can only ever run on a script that has already passed every quality bar.
+
+### 3. Audio renders once, lands in the right place, and never re-bills for unchanged work
+
+> Rendering goes through the professional voice service in small pinned-down requests: same text in, same settings, same pronunciation dictionary version every time, with each request's result remembered in a ledger and cache. Revise one paragraph later and only that paragraph's audio is re-bought. Exact spend is read off the vendor's own meter into the book's cost ledger, and the one place the pipeline stops is a single approval gate showing the precise credit estimate before the first paid render. Finished audio and transcripts land in exactly the folders the rest of the system already reads — the reviewer, the video stitcher, and the site all work unchanged — and the book's publish screen now shows which engine made the audio and what it cost.
+>
+> *Value gained:* one approval click replaces the whole upload-download-rename-transcribe ritual, at a known price, with revisions costing pennies instead of full re-renders.
+
+## NotebookLM-fidelity + per-episode dual-path + voice picker (2026-06-13)
+
+### 1. New Islamic books are born on the autonomous path; both paths stay, per episode
+
+> A new Islamic book now defaults to the in-house voice engine with a chosen cast, decided once at intake — while every book already produced keeps exactly the path its audio came from (nothing is ever switched underneath it). NotebookLM stays available on demand for individual episodes: flip a single chapter to NotebookLM and the rest of the book still renders automatically; that chapter is left out of the automatic render and its upload instructions appear alongside the "already done" note for the others. When no chapter is flipped, the upload page is byte-for-byte what it always was.
+>
+> *Value gained:* one default that fits the main use case, with the manual path always one switch away for the chapters that want it — and zero risk to anything shipped.
+
+### 2. The autonomous voice is steered to sound like the NotebookLM episodes
+
+> The reference is the real NotebookLM audio of two finished books, measured into a saved per-genre profile (pace, turn-taking, pauses, pitch variation). The conversation is written around the seven moves that make those episodes feel like two people thinking — a cold-open question, interruptions, real pushback that concedes, short reactions, finishing each other's lines, a returning refrain, an open ending — and the scholar voice is kept free of mood tags that recolored it. A free reviewer checks each move is genuinely there before any spend, and after rendering the audio is scored against the saved profile; if it drifts, the system buys exactly one alternate take and keeps the better one — a flag, never a blocker.
+>
+> *Value gained:* "sounds like NotebookLM" becomes a measured, enforced bar instead of a hope, with spend that cannot run away.
+
+### 3. You pick the engine and the voices on the new-content form
+
+> The intake form gains a voice panel: choose the engine, then pick one male and one female from the approved roster as cards with a name, accent, a coloured initial, and a play button to hear each one. The choice flows straight into the book's settings — no hand-edited config.
+>
+> *Value gained:* casting and engine are a visual, audition-first decision at the moment a book is created, not a buried YAML edit.
+
+### 4. The audio recites Arabic correctly — from the corpus, never guessed
+
+> Because the in-house voice engine pronounces Arabic, an Islamic episode now recites the Quran verses and key terms in their native script. Crucially, the Arabic is never typed by the AI: a verse citation like "the chapter of Abraham, verse seven" is resolved to its exact place by a fixed reference table and the verbatim Arabic is pulled from the wisdom corpus (KQur) — the same citation always yields the same canonical verse, and a citation that can't be matched is simply left in English, never invented. Key doctrinal terms come from the book's verified glossary; author and book-title names are left alone (pronounced naturally, not recited). All of this happens only on the in-house path and only at the moment of audio production — the written chapters and the NotebookLM path are untouched, so a book sent to NotebookLM still has its Arabic rendered phonetically as before. Noise removal is unchanged.
+>
+> *Value gained:* scripture is recited correctly and identically every time, with zero risk of a mispronounced or mis-typed verse, and zero disturbance to the NotebookLM path.
+
+## Work-level teaching allocator + curated audio density (2026-06-18)
+
+### 1. A big multi-volume work splits without losing or repeating a single teaching
+
+> When one enormous synthesized source (thousands of distilled teachings) is split into a multi-volume work, a pre-pass now decides — once, up front — exactly which volume and chapter every teaching belongs to. It places the backbone teachings by their order in the book, asks the model where each of the thousands of supplementary teachings fits, and collapses true duplicates so the same idea is never taught twice on air (the duplicate is kept only in the printed reading edition). A hard gate refuses to proceed unless every teaching has exactly one home and nothing is lost or repeated across chapters or volumes.
+>
+> *Value gained:* a listener gets each concept once, in the right volume, in a sensible order — and nothing the author wrote is silently dropped.
+
+### 2. Each volume airs as a breathable season, not a crammed marathon
+
+> A per-book setting lets a dense work be paced as fewer, fuller episodes (the first Tawhid volume became 11 breathable episodes instead of 15 crammed ones) while the reading edition keeps the full depth. Single books are completely unaffected — the default is unchanged.
+>
+> *Value gained:* dense scholarly material becomes a completable season instead of an exhausting one, with no impact on any existing book.
+
+### 3. The pipeline got two quiet durability fixes that help every book
+
+> Chapter design now tolerates the model overshooting the last line of a source by a line or two (it clamps to the end instead of failing the whole chapter), and it forbids "previous/next episode" cross-references from leaking into the files that NotebookLM reads aloud. Both are gated so single-book behaviour is byte-identical.
+>
+> *Value gained:* fewer spurious failures and no self-referential narration, across the whole catalogue.

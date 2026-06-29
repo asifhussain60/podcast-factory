@@ -14,9 +14,6 @@ from ._core import (  # noqa: E402
     PHASE_0B_WINDOW_WORDS,
     PHASE_0B_OVERLAP_WORDS,
     PHASE_0B_WINDOW_TIMEOUT,
-    PHASE_0C_WINDOW_WORDS,
-    PHASE_0C_OVERLAP_WORDS,
-    PHASE_0C_WINDOW_TIMEOUT,
     AuthoringError,
     ARABIC_SCHOLARLY_CATEGORIES,
     SKIP_PHONETICS_CATEGORIES,
@@ -71,6 +68,57 @@ def build_phase_0b_window_prompt_technical(
         f"  attribution context if it helps clarity.\n"
         f"- **Numeric claims** — preserve exact figures (token counts, percentages, dollar amounts); "
         f"  do NOT round or approximate.\n\n"
+        f"Constraints:\n"
+        f"- Do NOT modify any file other than `{win_out}`.\n"
+        f"- Do NOT wrap output in code fences or add preamble like 'Here is the refined text:'.\n\n"
+        f"Exit when `{win_out}` is non-empty."
+    )
+
+
+def build_phase_0b_window_prompt_narrative(
+    book_slug: str,
+    idx: int,
+    total: int,
+    win_in: "Path",
+    win_out: "Path",
+) -> str:
+    """Phase 0b refinement prompt for narrative fiction (content_profile=fiction).
+
+    Polishes translated narrative prose for fluent reading and listening: smooths
+    seams left by windowed translation, keeps proper-name romanization consistent,
+    and preserves verse/poetry passages. Carries NONE of the Arabic-term,
+    scriptural-citation, honorific, or CLI/code preservation rules — those belong
+    to scholarly or technical content. The marker invariant is CHAPTER markers
+    (`<!-- chapter N -->` / chapter headings), since fiction sources carry chapter
+    structure, not PDF page markers.
+    """
+    return (
+        f"You are driving Phase 0b (Narrative Refinement) of the /podcast skill on "
+        f"book-slug `{book_slug}`, **window {idx} of {total}**.\n\n"
+        f"INPUT  (read this window only): `{win_in}`\n"
+        f"OUTPUT (write the refined window here): `{win_out}`\n\n"
+        f"This is one window in a sequence — DO NOT add chapter headings, intros, "
+        f"summaries, or transitions not present in the INPUT. Refine only the prose in "
+        f"the INPUT. If the input begins with a `<!-- context-overlap -->` block, that is "
+        f"tail context for continuity — DO NOT re-emit it; resume cleanly after it.\n\n"
+        f"**Chapter-marker invariant (CRITICAL).** Preserve every `<!-- chapter N -->` "
+        f"HTML comment and every chapter heading verbatim and in-place. Do NOT move, "
+        f"renumber, merge, or omit them — they are the downstream anchors for chapter "
+        f"design (0d).\n\n"
+        f"REFINEMENT GOALS for narrative fiction:\n"
+        f"- Smooth seams left by windowed translation: fix abrupt tense or register "
+        f"  shifts, clarify pronoun antecedents, make clause order read naturally aloud.\n"
+        f"- Render dialogue and narration as fluent, vivid literary English while staying "
+        f"  faithful to the events, imagery, and tone of the INPUT.\n"
+        f"- Keep proper-name romanization consistent within the window (a character named "
+        f"  once keeps that spelling throughout).\n"
+        f"- Preserve verse/poetry passages as set-apart lines — render them as readable "
+        f"  English verse; do NOT collapse them into prose or drop them.\n"
+        f"- Do NOT invent plot, characters, or description not present in the INPUT — "
+        f"  fidelity to the source narrative is mandatory.\n\n"
+        f"Do NOT apply Arabic-term, scriptural-citation, or honorific rules — this is "
+        f"narrative fiction, not religious scholarship. Do NOT preserve CLI commands, code "
+        f"blocks, or version numbers — there are none.\n\n"
         f"Constraints:\n"
         f"- Do NOT modify any file other than `{win_out}`.\n"
         f"- Do NOT wrap output in code fences or add preamble like 'Here is the refined text:'.\n\n"
@@ -152,12 +200,26 @@ def author_phase_0b(
 
     raw_text = in_path.read_text(encoding="utf-8")
 
-    _use_technical = category not in ARABIC_SCHOLARLY_CATEGORIES and category != "sites"
-    _prompt_label = "technical" if _use_technical else ("consumer" if category == "sites" else "scholarly")
-    log(f"  phase 0b · category={category!r}, prompt-variant={_prompt_label!r}")
+    # Wave-Fiction: route by content_profile FIRST so a non-Islamic profile never
+    # falls into the Arabic-preservation scholarly prompt. Fiction gets a dedicated
+    # narrative prompt; every other profile keeps its prior category-based routing
+    # byte-for-byte (no regression to Islamic / technical / sites / Guides books).
+    from _content_profile import resolve_content_profile  # local import: avoid circularity
+    _profile = resolve_content_profile(book_dir)
+    _is_fiction = _profile == "fiction"
+    _use_technical = (not _is_fiction) and category not in ARABIC_SCHOLARLY_CATEGORIES and category != "sites"
+    _prompt_label = (
+        "narrative" if _is_fiction
+        else "technical" if _use_technical
+        else "consumer" if category == "sites"
+        else "scholarly"
+    )
+    log(f"  phase 0b · category={category!r}, content_profile={_profile!r}, prompt-variant={_prompt_label!r}")
 
     def _builder(body: str, idx: int, total: int, win_out: Path) -> str:
         win_in = win_out.with_suffix("").with_suffix(".in.md")
+        if _is_fiction:
+            return build_phase_0b_window_prompt_narrative(book_slug, idx, total, win_in, win_out)
         if _use_technical:
             return build_phase_0b_window_prompt_technical(book_slug, idx, total, win_in, win_out)
         return build_phase_0b_window_prompt(book_slug, idx, total, win_in, win_out)
@@ -210,6 +272,15 @@ def author_phase_0b(
             manual_fallback="Inspect _chunks/0b/win-*.out.md — at least one was non-empty but stitched to nothing.",
         )
 
+    # Shift-left deterministic pre-check (Phase A). Flag-and-proceed: surfaces
+    # length-drift / structural-collapse defects to the human 06a/0ci gate and
+    # the findings ledger; NEVER raises, NEVER blocks. Zero LLM cost.
+    try:
+        from ._artifact_convergence import run_0b_precheck
+        run_0b_precheck(book_dir, log=log)
+    except Exception as _e:  # noqa: BLE001 — a precheck must never break 0b
+        log(f"  phase 0b · precheck skipped (non-fatal: {_e!r})")
+
     return f"0b chunked: {len(out_paths)} windows merged into {out_path.name}"
 
 
@@ -217,119 +288,36 @@ def author_phase_0c(
     book_dir: Path,
     timeout: int = DEFAULT_TIMEOUT,
     *,
-    window_words: int = PHASE_0C_WINDOW_WORDS,
-    overlap_words: int = PHASE_0C_OVERLAP_WORDS,
-    window_timeout: int = PHASE_0C_WINDOW_TIMEOUT,
     log=print,
     category: str | None = None,
 ) -> str:
-    """Add phonetic transcription for Arabic / non-English terms — windowed.
+    """Phase 0c — glossary scaffold for Islamic scholarly content.
 
-    SKIPPED for categories in SKIP_PHONETICS_CATEGORIES (sites, explainers).
-    These categories have no Arabic terms requiring phonetic guidance.
-    Returns a skip message without writing _phonetics.md.
+    Builds glossary.yml (phonetic field + Arabic-script overlay) used by the
+    podcast-reader 'Show Arabic' toggle. Pronunciation respelling (the old
+    _phonetics.md windowed extraction + EP00 probe) was retired 2026-06-08:
+    NotebookLM reads hyphen-CAPS respellings literally. Term rendering is now
+    handled by _tts_sanitize.sanitize_text_with_terms per chapter at authoring
+    time, drawing on content/knowledge-base/exonyms.json + loanwords.json.
+
+    SKIPPED for non-Islamic or skip-phonetics categories (no Arabic terms).
     """
     if category is None:
         category = _read_category(book_dir)
 
     if category in SKIP_PHONETICS_CATEGORIES:
         log(f"  phase 0c · SKIPPED (category={category!r} has no Arabic terms)")
-        return f"0c skipped: category={category!r} does not require Arabic phonetic extraction"
+        return f"0c skipped: category={category!r} does not require glossary scaffold"
 
-    # Wave CP: also skip for non-Islamic content profiles even if category is not in
-    # SKIP_PHONETICS_CATEGORIES (future-proof for general_nonfiction, etc.).
     from _content_profile import is_islamic_scholarly, resolve_content_profile  # local import to avoid circularity
     if not is_islamic_scholarly(book_dir):
         profile = resolve_content_profile(book_dir)
         log(f"  phase 0c · SKIPPED (content_profile={profile!r} has no Arabic terms)")
-        return f"0c skipped: content_profile={profile!r} does not require Arabic phonetic extraction"
-
-    book_slug = book_dir.name
-    in_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
-    out_path = book_dir / "_system" / "source" / "text" / "_phonetics.md"
-    chunks_dir = book_dir / "_system" / "source" / "text" / "_chunks" / "0c"
-
-    if not in_path.exists():
-        raise AuthoringError(
-            phase="0c",
-            message=f"prerequisite missing: {in_path} (Phase 0b should have produced this)",
-            manual_fallback="Run Phase 0b first.",
-        )
-
-    refined_text = in_path.read_text(encoding="utf-8")
-
-    def _builder(body: str, idx: int, total: int, win_out: Path) -> str:
-        win_in = win_out.with_suffix("").with_suffix(".in.md")
-        return (
-            f"You are driving Phase 0c (Arabic Phonetic Transcription Pass) of the /podcast skill "
-            f"on book-slug `{book_slug}`, **window {idx} of {total}**. Read the canonical "
-            f"procedure from `skills-staging/podcast/SKILL.md` (search `### PHASE 0c`).\n\n"
-            f"INPUT  (read this window): `{win_in}`\n"
-            f"AUTHORITY (the Arabic-manifest and name-alias handbook tree was retired in the\n"
-            f"2026-05-23 restructure; if `content/_shared/arabic/*` exists in this repo it is\n"
-            f"advisory only — otherwise rely on the rules inlined below and on this window's\n"
-            f"own Arabic terms. For doctrinal naming (Imam lineage, 'Father of Imams', etc.)\n"
-            f"see `content/_shared/islam/imam-lineage-ismaili.yml` and `naming-conventions.yml`).\n"
-            f"OUTPUT (write the phonetic table for THIS window only): `{win_out}`\n\n"
-            f"Output FORMAT — a markdown pipe table with EXACTLY this header:\n"
-            f"```\n"
-            f"| term | transliteration | phonetic | first-occurrence-snippet |\n"
-            f"|---|---|---|---|\n"
-            f"```\n"
-            f"One row per unique Arabic-derived term in the INPUT. The shared manifest WINS — "
-            f"copy its entries verbatim for any term it covers; add new rows only for terms it "
-            f"doesn't carry.\n\n"
-            f"Constraints:\n"
-            f"- Do NOT modify any file other than `{win_out}`.\n"
-            f"- Do NOT wrap output in code fences.\n"
-            f"- If a term repeats within this window, emit it once.\n"
-            f"- Per-window dedup only — cross-window dedup is handled by the orchestrator.\n\n"
-            f"Exit when `{win_out}` contains a valid pipe table (header + at least zero rows; "
-            f"emit just the header if the window has no Arabic terms)."
-        )
-
-    import os as _os
-    _max_workers = int(_os.environ.get("PHASE_0C_MAX_WORKERS", "3"))
-    _model_0c = _os.environ.get("PHASE_0C_MODEL", "claude-sonnet-4-6")
-    log(f"  phase 0c · chunked phonetic extraction (parallel max_workers={_max_workers})")
-    try:
-        out_paths = run_windowed(
-            text=refined_text,
-            chunks_dir=chunks_dir,
-            prompt_builder=_builder,
-            target_words=window_words,
-            overlap_words=overlap_words,
-            timeout_per_window=window_timeout,
-            log=lambda m: log(m),
-            book_dir=book_dir,
-            phase="0c",
-            model=_model_0c,
-            max_workers=_max_workers,
-            _invoke_fn=make_sdk_invoke_fn(_model_0c),
-        )
-    except ChunkingError as e:
-        raise AuthoringError(
-            phase="0c",
-            message=str(e),
-            manual_fallback=e.manual_fallback or (
-                "1. Inspect _chunks/0c/win-*.in.md and drive failed windows via /podcast.\n"
-                "2. Drop each result at _chunks/0c/win-NNN.out.md.\n"
-                "3. Re-invoke orchestrate-book --resume."
-            ),
-        ) from e
-
-    merged = _merge_phonetic_tables(out_paths)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(merged, encoding="utf-8")
-    if out_path.stat().st_size == 0:
-        raise AuthoringError(
-            phase="0c",
-            message=f"Phase 0c assembled artifact is empty: {out_path}",
-            manual_fallback="Inspect _chunks/0c/win-*.out.md and merge manually.",
-        )
+        return f"0c skipped: content_profile={profile!r} does not require glossary scaffold"
 
     glossary_msg = _bake_glossary(book_dir, log=log)
-    return f"0c chunked: {len(out_paths)} windows merged into {out_path.name}{glossary_msg}"
+    log(f"  phase 0c · glossary scaffold complete{glossary_msg}")
+    return f"0c complete: glossary scaffold{glossary_msg}"
 
 
 def _bake_glossary(book_dir: Path, *, log=print) -> str:
@@ -354,6 +342,8 @@ def _bake_glossary(book_dir: Path, *, log=print) -> str:
     return f" + glossary: {' + '.join(msg_parts)}"
 
 
+
+
 def _run(argv: list[str]) -> tuple[int, str, str]:
     """Local shellout helper."""
     import subprocess as _sp
@@ -361,33 +351,3 @@ def _run(argv: list[str]) -> tuple[int, str, str]:
     return proc.returncode, proc.stdout, proc.stderr
 
 
-def _merge_phonetic_tables(paths: list[Path]) -> str:
-    """Concatenate pipe-table outputs from windowed runs; dedup on first column."""
-    import re as _re
-
-    header = "| term | transliteration | phonetic | first-occurrence-snippet |"
-    divider = "|---|---|---|---|"
-    seen: dict[str, str] = {}
-    order: list[str] = []
-
-    row_re = _re.compile(r"^\s*\|\s*([^|]+?)\s*\|.*\|\s*$")
-    for p in paths:
-        if not p.exists():
-            continue
-        for line in p.read_text(encoding="utf-8").splitlines():
-            s = line.strip()
-            if not s or s.startswith("```"):
-                continue
-            if s.startswith("| term ") or s.startswith("|---"):
-                continue
-            m = row_re.match(line)
-            if not m:
-                continue
-            term = m.group(1).strip().strip("`").lower()
-            if not term or term in seen:
-                continue
-            seen[term] = line.rstrip()
-            order.append(term)
-
-    body = "\n".join(seen[t] for t in order)
-    return f"{header}\n{divider}\n{body}\n" if order else f"{header}\n{divider}\n"

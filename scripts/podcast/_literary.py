@@ -30,40 +30,14 @@ import sys
 import urllib.request
 from pathlib import Path
 
-# ── Default voice config per content_profile ────────────────────────────────
+from _rules import literary_voice_for_profile
+from _content_profile import resolve_content_profile
 
-_PROFILE_DEFAULTS: dict[str, dict[str, str]] = {
-    "islamic_scholarly": {
-        "narrator_voice":   "author_first_person",
-        "narrator_subject": "the author",
-        "addressee":        "the reader",
-        "scene_source":     "text_only",
-    },
-    "consumer_explainer": {
-        "narrator_voice":   "contemporary_narrator",
-        "narrator_subject": "a guide",
-        "addressee":        "you",
-        "scene_source":     "text_only",
-    },
-    "general_nonfiction": {
-        "narrator_voice":   "scholarly_essayist",
-        "narrator_subject": "the author",
-        "addressee":        "the reader",
-        "scene_source":     "text_only",
-    },
-    "technical": {
-        "narrator_voice":   "peer_expert",
-        "narrator_subject": "a senior practitioner",
-        "addressee":        "a fellow developer",
-        "scene_source":     "text_only",
-    },
-    "fiction": {
-        "narrator_voice":   "narrative_voice",
-        "narrator_subject": "the narrator",
-        "addressee":        "the reader",
-        "scene_source":     "text_only",
-    },
-}
+# ── Default voice config per content_profile ────────────────────────────────
+# Voice DEFAULTS now live in the single content-type registry (_rules.
+# CONTENT_TYPE_REGISTRY); this module reads them via literary_voice_for_profile()
+# so the literary voice and the rest of the pipeline can never disagree about a
+# profile again. The voice INSTRUCTION TEXT below stays here — it is prompt-internal.
 
 _VOICE_INSTRUCTIONS: dict[str, str] = {
     "author_first_person": (
@@ -110,6 +84,98 @@ _SCENE_SOURCE_INSTRUCTIONS: dict[str, str] = {
 }
 
 
+# ── Chapter-craft guidance (reading-edition revoice) ─────────────────────────
+# Distilled from the professional book-rewrite craft standard. Applies to the
+# whole-book revoice (_book_compose.py) for the companion reading-edition PDF.
+# Two layers: a UNIVERSAL CORE that holds for every content profile, plus one of
+# two mutually exclusive overlays — NARRATIVE (scene/dialogue-bearing sources:
+# islamic_scholarly, fiction) or EXPOSITORY (technical/explainer/general
+# nonfiction). New profiles route through chapter_craft_block() — one place to
+# extend, never a prompt rewrite. The faithfulness/Arabic-script/output contract
+# stays in _book_compose.py; this is prose-craft only and adds no doctrine.
+
+_CHAPTER_CRAFT_CORE = (
+    "Write this as a chapter of a real book by a skilled author-teacher — not a study guide, a "
+    "summary, an outline, or a simplified paraphrase. The prose should feel authored, not assembled: "
+    "it has movement, clear ideas, and clean transitions. The teaching must live INSIDE the prose, "
+    "never announced as instructional scaffolding. Do NOT write \"the teaching of this chapter,\" "
+    "\"the main lesson,\" \"the key takeaway,\" \"in plain language,\" \"this matters because,\" or "
+    "\"the reader should understand.\" Show the idea through the specific things the text names; let "
+    "the point arrive, do not label it.\n\n"
+    "Preserve the source's SEQUENCE. Keep the original order of events, claims, concepts, and "
+    "arguments unless a change is genuinely necessary for readability; the chapter should unfold "
+    "continuously, not be rearranged into a lecture outline. You may clarify, smooth, and explain — "
+    "slow the pace, break a dense argument into steps, show why each step follows from the last, use "
+    "natural repetition — but do NOT dumb the material down, flatten a technical distinction, soften "
+    "a demanding or severe teaching into vagueness, or modernize the worldview away. Make difficulty "
+    "teachable, not easy.\n\n"
+    "Define specialized terms inside the prose, never as a glossary line — not \"Hujja means proof\" "
+    "but a sentence in which the meaning lands as the term is used. Use repetition only when each "
+    "return adds force or clarity, never to pad. Bridge the reader into hard ideas with transitions "
+    "that teach rather than abrupt jumps from narration to doctrine. Every paragraph should move the "
+    "chapter forward — advance the matter, clarify the argument, deepen the stakes, or turn toward "
+    "what comes next. Cut filler.\n\n"
+    "Never let the prose read like any of these failure modes: a study guide (\"This chapter teaches "
+    "three lessons. First...\"), an academic abstract (\"The passage establishes a hierarchical "
+    "epistemology...\"), a podcast script (\"So what's really going on here is...\"), a casual "
+    "explainer (\"Basically, the student realizes...\"), decorative mysticism (\"the luminous river "
+    "of inward knowing cascaded through the secret chambers...\"), or mechanical paraphrase (\"He "
+    "asked a question. The teacher answered. Then he asked another.\").\n\n"
+    "Sentence discipline: prefer concrete verbs over abstract nominalizations; keep most sentences "
+    "under 30 words, using an occasional longer one only for rhythm or emphasis; keep paragraphs "
+    "short to medium; never stack more than two abstract concepts in one sentence; use a topic "
+    "sentence when entering complex material; let an important short sentence stand alone when it "
+    "earns the weight."
+)
+
+_CHAPTER_CRAFT_NARRATIVE = (
+    "This source carries scenes, characters, and dialogue. Open the chapter in motion — a moment of "
+    "tension, a character's action, a consequence carried from the previous chapter, or a question "
+    "already alive in the scene — not with an outline or an explanation. Where the source has "
+    "dialogue that carries argument, character, or a turning point, keep it; you may lightly "
+    "modernize its sentence structure for clarity but never its meaning, and let it sound elevated "
+    "yet natural. Use the exchanges as pressure: a student's question can reveal need, confusion, "
+    "resistance, partial understanding, or readiness, and the teacher's answer should feel precise, "
+    "restrained, and consequential. Do not gloss every line with commentary — explain only where the "
+    "reader needs help following the argument; let strong dialogue carry its own force. Where the "
+    "source uses an analogy, keep it and make its force land. Where the source introduces an abstract "
+    "philosophical or cosmological concept — a hierarchy of spiritual ranks, the structure of a "
+    "prophetic cycle, the mechanics of inner and outer knowledge — add one brief concrete everyday "
+    "analogy to ground it: the way load-bearing walls in a building determine everything else about "
+    "its layout, how a river finds a channel before it can irrigate, how a sealed letter passes "
+    "through several hands before reaching its recipient. One sentence of analogy, then step aside — "
+    "never stack analogies or dwell in them longer than the concept demands. Let the explanation "
+    "emerge from what is happening in the scene wherever possible. Close the chapter by showing what "
+    "has changed and why the next chapter must follow — narrative readiness, never a summary."
+)
+
+_CHAPTER_CRAFT_EXPOSITORY = (
+    "This source is expository rather than narrative. Open each chapter on the concrete problem, "
+    "question, or case at hand rather than an outline, and let the explanation build outward from the "
+    "specific things the text names. Where the source genuinely uses lists, tables, or numbered "
+    "steps to carry meaning, you may keep them — but never manufacture bullet-point summaries, "
+    "recaps, or study-guide sections where the source had flowing exposition. Close on a consequence "
+    "or the next open question, not a restated summary."
+)
+
+# Profiles whose sources are scene-and-dialogue bearing get the narrative overlay;
+# everything else gets the expository overlay. Extend by adding to this set.
+_NARRATIVE_CRAFT_PROFILES = {"islamic_scholarly", "fiction"}
+
+
+def chapter_craft_block(profile: str | None) -> str:
+    """Return the universal craft core plus the profile-appropriate overlay.
+
+    Used by the reading-edition revoice (_book_compose.py) so every book — present
+    and future — inherits the craft standard, with narrative vs. expository craft
+    selected by content profile.
+    """
+    overlay = (_CHAPTER_CRAFT_NARRATIVE
+               if (profile or "islamic_scholarly") in _NARRATIVE_CRAFT_PROFILES
+               else _CHAPTER_CRAFT_EXPOSITORY)
+    return f"{_CHAPTER_CRAFT_CORE}\n\n{overlay}"
+
+
 # ── Gemini API ───────────────────────────────────────────────────────────────
 
 _GEMINI_MODEL = "gemini-2.5-pro"
@@ -117,20 +183,14 @@ _GEMINI_TIMEOUT = 300  # seconds; literary rewrites are longer than analysis tas
 
 
 def _load_gemini_key() -> str:
-    env = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-    if env:
-        return env.strip()
-    r = subprocess.run(
-        ["security", "find-generic-password", "-s", "gemini_api_key",
-         "-a", os.environ.get("USER", ""), "-w"],
-        capture_output=True, text=True, timeout=10,
-    )
-    if r.returncode != 0:
-        raise RuntimeError("gemini_api_key not found in keychain")
-    return r.stdout.strip()
+    # Central resolver: env → keychain → Azure Key Vault (llm-gemini-api-key).
+    from _secrets import get_gemini_key
+    return get_gemini_key()
 
 
 def _call_gemini(prompt: str) -> str:
+    from _engine import engine_guard, TASK_REVOICE, ENGINE_GEMINI
+    engine_guard(TASK_REVOICE, ENGINE_GEMINI)
     key = _load_gemini_key()
     url = (f"https://generativelanguage.googleapis.com/v1beta/models/{_GEMINI_MODEL}"
            f":generateContent?key={key}")
@@ -151,18 +211,12 @@ def _call_gemini(prompt: str) -> str:
 
 # ── Config loading ───────────────────────────────────────────────────────────
 
-def _read_content_profile(book_dir: Path) -> str:
-    cfg = book_dir / "_system" / "series-config.yaml"
-    if cfg.exists():
-        m = re.search(r"^content_profile:\s*(\S+)", cfg.read_text(encoding="utf-8"), re.M)
-        if m:
-            return m.group(1)
-    return "islamic_scholarly"
-
-
 def _read_literary_config(book_dir: Path) -> dict[str, str]:
-    profile = _read_content_profile(book_dir)
-    config = dict(_PROFILE_DEFAULTS.get(profile, _PROFILE_DEFAULTS["islamic_scholarly"]))
+    # Use the validated resolver (not a raw regex) so the literary voice agrees
+    # with challenger/assertion routing about this book's profile.
+    profile = resolve_content_profile(book_dir)
+    config = literary_voice_for_profile(profile)
+    config["content_profile"] = profile
 
     cfg_path = book_dir / "_system" / "series-config.yaml"
     if cfg_path.exists():
@@ -213,6 +267,9 @@ SCENES AND IMAGERY
 
 STRUCTURE
 Preserve every section heading exactly as it appears (## Section N — Title). Rewrite only the prose within each section. Do not add section headings that are not in the source, and do not remove any.
+
+PRESERVE EVERYTHING INSTRUCTIVE
+You have full freedom to re-voice and re-order for flow, but drop NOTHING the reader is meant to learn: every teaching, argument, example, named person, and citation (Quranic verse, hadith, line reference) in the source must survive in your rewrite. Re-voice a quotation into the narrator's voice if you wish, but do not omit its substance or its reference.
 
 ARGUMENT
 Let the argument emerge through engagement with specific things — a story Ghazali tells, a verse he cites, an image he uses — and open outward from there. Think Montaigne: the particular becomes the universal, never the other way around.
@@ -274,6 +331,156 @@ def _chapter_id_from_path(chapter_path: Path) -> str:
     return chapter_path.stem  # e.g. "ch01-frame-and-the-problem-of-knowledge"
 
 
+# ── No-teaching-lost guardrail ───────────────────────────────────────────────
+
+def teaching_loss_findings(source_text: str, output_text: str) -> list[str]:
+    """Deterministic check that the revoice dropped nothing instructive.
+
+    Pure function (no LLM, no I/O). Returns a list of P1 finding strings — empty
+    means clean. Three high-confidence checks: (1) every source ``## `` section
+    heading survives verbatim, (2) no large word-count drop (>40%), (3) verse-style
+    citation refs (e.g. ``2:255``) are not largely dropped. Conservative thresholds
+    to avoid false positives on legitimate reflow.
+    """
+    findings: list[str] = []
+
+    for h in dict.fromkeys(re.findall(r"^##\s+.+$", source_text, re.M)):
+        if h.strip() not in output_text:
+            findings.append(f"P1 missing section heading: {h.strip()[:80]!r}")
+
+    sw, ow = len(source_text.split()), len(output_text.split())
+    if sw >= 200 and ow < 0.6 * sw:
+        pct = 100 * ow // max(sw, 1)
+        findings.append(f"P1 large length drop: {sw}->{ow} words ({pct}% of source — possible content loss)")
+
+    src_refs = set(re.findall(r"\b\d{1,3}:\d{1,3}\b", source_text))
+    if src_refs:
+        kept = sum(1 for r in src_refs if r in output_text)
+        if kept < len(src_refs) * 0.5:
+            findings.append(
+                f"P1 citation refs dropped: only {kept}/{len(src_refs)} verse-style "
+                f"references ({', '.join(sorted(src_refs)[:5])}…) survived")
+    return findings
+
+
+def _log_guardrail(book_dir: Path, stem: str, findings: list[str]) -> None:
+    """Append guardrail findings for a chapter to literary-log.md (no silent pass)."""
+    log = _log_path(book_dir)
+    log.parent.mkdir(parents=True, exist_ok=True)
+    with log.open("a", encoding="utf-8") as f:
+        f.write(f"- {stem}: GUARDRAIL — {len(findings)} finding(s):\n")
+        for fnd in findings:
+            f.write(f"    - {fnd}\n")
+
+
+# ── Section-chunked revoice (faithfulness over whole-chapter abridgement) ─────
+
+def _split_chapter(text: str) -> tuple[str, str, list[tuple[str, str]]]:
+    """Split a chapter into (title_line, preamble_body, [(heading, body), ...]).
+
+    title_line  — a leading single-`#` chapter title, preserved verbatim.
+    preamble    — prose before the first `## ` section.
+    sections    — (verbatim `## ` heading, body) pairs.
+    """
+    lines = text.split("\n")
+    title = ""
+    start = 0
+    for i, ln in enumerate(lines):
+        if ln.strip():
+            if re.match(r"^#\s+", ln):
+                title, start = ln.strip(), i + 1
+            break
+    preamble: list[str] = []
+    sections: list[tuple[str, str]] = []
+    head: str | None = None
+    body: list[str] = []
+    for ln in lines[start:]:
+        if re.match(r"^##\s+", ln):
+            if head is not None:
+                sections.append((head, "\n".join(body).strip()))
+            head, body = ln.strip(), []
+        elif head is None:
+            preamble.append(ln)
+        else:
+            body.append(ln)
+    if head is not None:
+        sections.append((head, "\n".join(body).strip()))
+    return title, "\n".join(preamble).strip(), sections
+
+
+def _build_section_prompt(body: str, config: dict[str, str]) -> str:
+    voice_key = config.get("narrator_voice", "author_first_person")
+    scene_key = config.get("scene_source", "text_only")
+    narrator = config.get("narrator_subject", "the author")
+    addressee = config.get("addressee", "the reader")
+    voice_instr = _VOICE_INSTRUCTIONS.get(voice_key, _VOICE_INSTRUCTIONS["author_first_person"]).format(
+        narrator_subject=narrator, addressee=addressee)
+    scene_instr = _SCENE_SOURCE_INSTRUCTIONS.get(scene_key, _SCENE_SOURCE_INSTRUCTIONS["text_only"])
+    return f"""You are re-voicing ONE passage of a scholarly or translated text into contemporary literary nonfiction.
+
+NARRATOR VOICE
+{voice_instr}
+
+SCENES AND IMAGERY
+{scene_instr}
+
+ABSOLUTE FAITHFULNESS
+Re-voice EVERY sentence of this passage. Preserve every teaching, argument, example, named person, and citation (verse / hadith / line reference). You may improve flow and phrasing, but you must NOT summarize, condense, omit, or shorten. The output must be approximately the SAME LENGTH as the source passage — never shorter.
+
+REGISTER
+Contemporary literary English. No archaic diction. No meta-commentary ("in this passage…"). Write the thing, not about the thing.
+
+OUTPUT
+Return ONLY the re-voiced prose for this passage. Do NOT add a heading (it is supplied separately). No preamble, no fences.
+
+SOURCE PASSAGE
+{body}"""
+
+
+def _revoice_chunk(body: str, config: dict[str, str], log, label: str) -> str:
+    """Revoice one passage; retry once if the model abridged it (came back short)."""
+    if not body.strip():
+        return ""
+    src_words = len(body.split())
+    prompt = _build_section_prompt(body, config)
+    out = _call_gemini(prompt).strip()
+    if src_words >= 150 and len(out.split()) < 0.7 * src_words:
+        log(f"      {label}: short ({len(out.split())}/{src_words}w) — retry (anti-abridge)")
+        retry = _call_gemini(
+            prompt + "\n\nYOUR PREVIOUS ATTEMPT WAS TOO SHORT — it summarized. Re-voice the FULL "
+            "passage sentence by sentence; omit nothing; the output must be about the same length "
+            "as the source."
+        ).strip()
+        if len(retry.split()) > len(out.split()):
+            out = retry
+    return out
+
+
+def _revoice_chapter(chapter_text: str, config: dict[str, str], log, stem: str) -> str:
+    """Section-by-section revoice: each source section preserved + re-voiced in
+    isolation so the model cannot abridge across the chapter. Headings re-added
+    verbatim. Falls back to a whole-chapter revoice (with retry) when there are
+    no `## ` sections."""
+    title, preamble, sections = _split_chapter(chapter_text)
+    if not sections:
+        whole = _revoice_chunk(chapter_text, config, log, stem)
+        if title and not whole.lstrip().startswith("#"):
+            whole = f"{title}\n\n{whole}"
+        return whole.strip()
+    log(f"    {stem}: {len(sections)} section(s) · revoicing per section")
+    parts: list[str] = []
+    if title:
+        parts.append(title)
+    if preamble:
+        parts.append(_revoice_chunk(preamble, config, log, f"{stem}·intro"))
+    for i, (head, body) in enumerate(sections, 1):
+        parts.append(head)
+        rv = _revoice_chunk(body, config, log, f"{stem}·§{i}/{len(sections)}")
+        if rv:
+            parts.append(rv)
+    return "\n\n".join(p for p in parts if p).strip()
+
+
 # ── Main transform ───────────────────────────────────────────────────────────
 
 def author_literary_phase(
@@ -300,21 +507,14 @@ def author_literary_phase(
 
         chapter_text = chapter_path.read_text(encoding="utf-8").strip()
         word_count = len(chapter_text.split())
-        log(f"  {stem}: {word_count} words → building literary version …")
-
-        prompt = _build_prompt(chapter_text, config)
+        log(f"  {stem}: {word_count} words → building literary version (section-chunked) …")
 
         if dry_run:
-            log(f"  [dry-run] prompt length: {len(prompt)} chars — no API call made")
+            _t, _p, _secs = _split_chapter(chapter_text)
+            log(f"  [dry-run] {stem}: {len(_secs)} section(s) — no API call made")
             continue
 
-        literary_text = _call_gemini(prompt)
-
-        # Ensure the chapter title heading is preserved if the model strips it
-        if not literary_text.strip().startswith("#"):
-            title_match = re.match(r"^(#[^\n]+)", chapter_text)
-            if title_match:
-                literary_text = title_match.group(1) + "\n\n" + literary_text.strip()
+        literary_text = _revoice_chapter(chapter_text, config, log, stem)
 
         chapter_id = _chapter_id_from_path(chapter_path)
 
@@ -329,6 +529,17 @@ def author_literary_phase(
         (literary_dir / f"{stem}.txt").write_text(literary_text, encoding="utf-8")
 
         out_words = len(literary_text.split())
+
+        # No-teaching-lost guardrail: surface (do not silently pass) any sign the
+        # rewrite dropped a section, a large chunk of text, or its citations.
+        findings = teaching_loss_findings(chapter_text, literary_text)
+        if findings:
+            _log_guardrail(book_dir, stem, findings)
+            log(f"  {stem}: ⚠ guardrail flagged {len(findings)} possible teaching-loss issue(s) "
+                f"(logged to literary-log.md) — review before shipping")
+            for fnd in findings:
+                log(f"      · {fnd}")
+
         log(f"  {stem}: DONE — {out_words} words written")
         _mark_done(book_dir, stem)
 

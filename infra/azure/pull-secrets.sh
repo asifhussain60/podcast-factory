@@ -124,6 +124,21 @@ PREFIX="azure-${APP_NAME}"
   pull "${PREFIX}-storage-account"  "${PREFIX}-storage-account"
 }
 
+[ "${ENABLE_LANGUAGE:-false}" = "true" ] && {
+  echo "==> Language (TextAnalytics)"
+  pull "${PREFIX}-language-key1"     "${PREFIX}-language-key1"
+  pull "${PREFIX}-language-endpoint" "${PREFIX}-language-endpoint"
+  pull "${PREFIX}-language-region"   "${PREFIX}-language-region"
+}
+
+[ "${ENABLE_OPENAI:-false}" = "true" ] && {
+  echo "==> Azure OpenAI (DALL-E)"
+  pull "${PREFIX}-openai-key1"             "${PREFIX}-openai-key1"
+  pull "${PREFIX}-openai-endpoint"         "${PREFIX}-openai-endpoint"
+  pull "${PREFIX}-openai-region"           "${PREFIX}-openai-region"
+  pull "${PREFIX}-openai-dalle-deployment" "${PREFIX}-openai-dalle-deployment"
+}
+
 # ── LLM API keys ─────────────────────────────────────────────────────────────
 
 echo "==> LLM API keys"
@@ -145,8 +160,13 @@ fi
 
 echo "Verifying pipeline credentials..."
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+VENV_PY="$REPO_ROOT/.venv/bin/python3"
+# Prefer the venv Python (has anthropic + google-genai for the full 9/9 check);
+# fall back to system python3 if the venv hasn't been set up yet.
+PY="${VENV_PY:-python3}"
+[ -x "$VENV_PY" ] && PY="$VENV_PY"
 if [ -f "$REPO_ROOT/scripts/podcast/test_azure_connectivity.py" ]; then
-  python3 "$REPO_ROOT/scripts/podcast/test_azure_connectivity.py" && echo "✓ Azure connectivity OK"
+  "$PY" "$REPO_ROOT/scripts/podcast/test_azure_connectivity.py" && echo "✓ Azure connectivity OK"
 else
   echo "  (test_azure_connectivity.py not found — skipping live check)"
 fi

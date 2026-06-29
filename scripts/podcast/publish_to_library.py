@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
-"""publish_to_library.py — on-demand publish from `content/drafts/<slug>/`
-to `content/published/books/<slug>/`. Minimal output: chapters/ + episodes/ + README.md.
+"""publish_to_library.py — flip a finished book's status from draft to published
+IN PLACE (status-flag model, 2026-06-04). Nothing is copied or moved: the book stays
+at `content/<Bucket>/<slug>/`; this script sets `status: published` (+ published_at)
+in `_system/orchestrator-state.json` and `publication.status: published` in `meta.yml`,
+then updates the cross-book catalog row. The Astro site filters on that status.
 
-This script is the canonical writer of `content/published/books/<slug>/`. It supersedes
-the older `ship_to_library.py` (now deprecated — see top of that file).
+This script is the only writer of the published status. It supersedes the older
+`ship_to_library.py` (removed 2026-05-24) and the pre-2026-06-04 copy model that
+wrote a `content/published/books/<slug>/` tree.
 
-Library output is **filesystem-only** at `<repo-parent>/content/published/` and is
-deliberately NOT git-tracked. The published copy is a derived artifact —
-deletable + regeneratable from `content/drafts/<slug>/` at any time.
+GATES (failures block publish):
 
-GATES (all 6 must pass under default mode; failures block publish):
-
-  G1  Required structure  : content/drafts/<slug>/chapters/*.txt and
-                            content/drafts/<slug>/episodes/*.txt both
-                            exist and non-empty.
+  G1  Required structure  : BOOK_DIR/chapters/*.txt and BOOK_DIR/episodes/*.txt
+                            both exist and non-empty.
   G2  Pair completeness   : every EP##-<slug>.txt has a matching
                             ch##-<slug>.txt and vice versa.
   G3  Sequential numbering: chapter and episode files are purely sequential
@@ -23,22 +22,17 @@ GATES (all 6 must pass under default mode; failures block publish):
   G4  Build-clean         : running build_episode_txt.py on every episode
                             returns P0=0. P1 advisories are WARN-only in
                             default mode; --strict elevates P1 to blocking.
-  G5  State checkpoint    : content/drafts/<slug>/_system/orchestrator-
-                            state.json shows phase=done OR (phase=per-chapter
-                            AND phase_status=ship-with-caution|ship-ready).
-  G6  Library-target sane : content/published/books/<slug>/ either doesn't exist or
-                            --overwrite (default) wipe-and-recreates it.
-                            --no-wipe coexists with prior content.
+  G5  State checkpoint    : BOOK_DIR/_system/orchestrator-state.json shows
+                            phase=done OR (phase=per-chapter AND
+                            phase_status=ship-with-caution|ship-ready).
+  G6  (obsolete)          : target wipe-safety is n/a in the status-flag model —
+                            no published/ tree is created or wiped. The gate
+                            function is retained only for the test suite.
+  G7  Challenger verdict  : convergence verdict in {SHIP-READY,
+                            SHIP-WITH-CAUTION} unless --allow-mode-2.
 
-OUTPUT under content/published/books/<slug>/:
-
-  chapters/                 — copied verbatim from content/drafts/<slug>/chapters/
-  episodes/                 — copied verbatim from content/drafts/<slug>/episodes/
-  README.md                 — generated; lists episode count, publish timestamp,
-                              source git SHA (develop tip), EP→chapter pair table,
-                              NotebookLM upload instructions.
-
-The `content/published/_meta/catalog.md` row for <slug> is updated (or appended).
+The `content/published/_meta/catalog.md` row for <slug> is updated (or appended) —
+that path holds cross-book `archetypes/` + `_meta/` only, no per-book folders.
 
 USAGE:
 
@@ -47,9 +41,8 @@ USAGE:
 OPTIONS:
 
   --strict      Elevate P1 advisories to blocking (default: P1 is warn-only).
-  --no-wipe     Skip the wipe step; coexist with prior content at
-                content/published/books/<slug>/.
-  --dry-run     Run all gates + print the would-copy file list; do not write.
+  --no-wipe     Legacy no-op (status-flag model writes no published/ tree).
+  --dry-run     Run all gates + print the plan; do not write.
   --force       Skip G5 state-checkpoint gate (the per-chapter halts can leave
                 state.json mid-flight; use cautiously).
 
@@ -71,19 +64,21 @@ from datetime import datetime, timezone
 from pathlib import Path
 from _paths import REPO_ROOT, find_content
 
-# 2026-05-23 restructure: workshop moved from _workspace/books/ to content/drafts/,
-# published catalog moved from out-of-repo library/ to in-repo content/published/.
+# Type-first layout (2026-06-04): books live at content/<Bucket>/<slug>/ and
+# draft/published is a STATUS FIELD, not a folder. WORKSPACE is only the legacy
+# flat-drafts fallback for resolve_workspace; LIBRARY still hosts the cross-book
+# catalog at content/published/_meta/ (no per-book folders).
 WORKSPACE = REPO_ROOT / "content" / "drafts"
 LIBRARY = REPO_ROOT / "content" / "published"
 
 
 def resolve_workspace(slug: str) -> Path:
-    """Resolve a book's drafts workspace, category-aware.
+    """Resolve a book's content dir, bucket-aware.
 
-    Post-2026-05-26 content lives at content/drafts/<category>/<slug> (e.g.
-    drafts/books/<slug>), not the flat drafts/<slug>. Delegate to _paths.find_content
-    (canonical drafts/<cat>/<slug> first, then legacy fallbacks) so the gate + publish
-    find the book regardless of category. Falls back to the legacy flat path.
+    Content lives at content/<Bucket>/<slug>/ (type-first layout, 2026-06-04).
+    Delegate to _paths.find_content (buckets first, then legacy drafts/<cat>/<slug>
+    fallbacks) so the gates + publish find the book regardless of layout vintage.
+    Falls back to the legacy flat drafts path as a last resort.
     """
     found = find_content(slug)
     if found:
@@ -105,7 +100,13 @@ ALLOWED_SHIP_VERDICTS = {"SHIP-READY", "SHIP-WITH-CAUTION"}
 # `ship-with-caution` based on manual review, not a convergence pass.
 NON_CONVERGED_PIPELINE_MODES = {"non_orchestrated_mode_2", "pre_orchestrator_authored"}
 
-CH_PATTERN = re.compile(r"^ch(\d+)-([a-z0-9][a-z0-9-]*)\.txt$")
+# Optional [a-z] section suffix is CANONICAL for chapters split from one
+# source Part by Phase 0d sections mode (ch10c = EP10, third slice of its
+# Part) — matches _validator_constants.CH_PATTERN, which gained the suffix
+# when section splitting shipped. Episode files never carry the letter.
+# (2026-06-11: G2 'unparseable filenames' false-BLOCK on
+# the-master-and-the-disciple ch01a..ch20d — observed at the finalize gate.)
+CH_PATTERN = re.compile(r"^ch(\d+)[a-z]?-([a-z0-9][a-z0-9-]*)\.txt$")
 EP_PATTERN = re.compile(r"^EP(\d+)-([a-z0-9][a-z0-9-]*)\.txt$")
 
 
@@ -186,12 +187,13 @@ def gate_g3_sequential(chapters: list[Path], episodes: list[Path]) -> bool:
     if ep_nums != list(range(1, len(ep_nums) + 1)):
         _fail("G3", f"episode numbers not purely sequential 1..N: {ep_nums}")
         return False
-    # Reject any letter suffix (catches ch03a, ch14b that slipped past CH_PATTERN
-    # since the pattern would not match them anyway). Belt-and-suspenders.
-    suffix_re = re.compile(r"^(ch|EP)\d+[a-z]+-", re.IGNORECASE)
-    bad = [p.name for p in chapters + episodes if suffix_re.match(p.name)]
+    # Chapter letter suffixes (ch10c) are canonical section markers — see
+    # CH_PATTERN above. EPISODE files must never carry one (the framing/upload
+    # contract keys on plain EP##); reject only those.
+    ep_suffix_re = re.compile(r"^EP\d+[a-z]+-", re.IGNORECASE)
+    bad = [p.name for p in episodes if ep_suffix_re.match(p.name)]
     if bad:
-        _fail("G3", f"letter-suffix names detected: {bad[:3]}")
+        _fail("G3", f"letter-suffix EPISODE names detected: {bad[:3]}")
         return False
     _ok("G3", f"chapters {ch_nums[0]}..{ch_nums[-1]} + episodes "
               f"{ep_nums[0]}..{ep_nums[-1]} purely sequential")
@@ -290,12 +292,13 @@ def gate_g7_challenger_convergence(workspace: Path, allow_mode_2: bool) -> bool:
 
     verdict = "unknown"
     if report_path.exists():
-        # Tolerant of both `**Verdict:** X` and `**Verdict: X**` shapes; the
-        # in-body per-iteration summaries use the latter. Strict canonical
-        # shape lives in _convergence.py::VERDICT_LINE_RE; we mirror the same
-        # tolerance here so the gate accepts every real-world report shape.
+        # Tolerant of several real-world challenger-report shapes:
+        #   **Verdict:** SHIP-WITH-CAUTION
+        #   **Verdict: X**
+        #   **Verdict (book-level):** SHIP-WITH-CAUTION   ← whole-book sweep
+        # Strict canonical shape lives in _convergence.py::VERDICT_LINE_RE.
         verdict_re = re.compile(
-            r"\*\*Verdict:?\s*\*?\*?\s*:?\s*(SHIP-READY|SHIP-WITH-CAUTION|BLOCKED)",
+            r"\*\*Verdict[^*]*?\*?\*?\s*:?\s*(SHIP-READY|SHIP-WITH-CAUTION|BLOCKED)",
             re.IGNORECASE,
         )
         for line in report_path.read_text().splitlines()[:20]:
@@ -347,58 +350,6 @@ def gate_g6_target(target: Path, no_wipe: bool) -> bool:
         return False
     _ok("G6", f"target {target} exists; wipe-and-recreate authorized")
     return True
-
-
-def render_readme(slug: str, chapters: list[Path], episodes: list[Path],
-                  source_sha: str, source_branch: str) -> str:
-    ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    pairs = []
-    for ep in episodes:
-        m = EP_PATTERN.match(ep.name)
-        if not m:
-            continue
-        num, ep_slug = m.group(1), m.group(2)
-        ch_name = f"ch{num}-{ep_slug}.txt"
-        pairs.append((num, ch_name, ep.name, ep_slug))
-    pair_rows = "\n".join(
-        f"| EP{num} | `chapters/{ch_name}` | `episodes/{ep_name}` | {ep_slug.replace('-', ' ')} |"
-        for num, ch_name, ep_name, ep_slug in pairs
-    )
-    return f"""# {slug} — published podcast assets
-
-Published from `content/drafts/{slug}/` to this directory on **{ts}**.
-
-- **Source git ref:** `{source_branch}@{source_sha}`
-- **Episode count:** {len(episodes)}
-- **NotebookLM mode:** 2-voice Extended Deep Dive
-
-## NotebookLM upload (per episode)
-
-For each EP## row below:
-
-1. Create a new NotebookLM notebook (or open an existing one).
-2. Upload `chapters/ch##-<slug>.txt` as the single source.
-3. Open the Customize prompt box and paste the contents of `episodes/EP##-<slug>.txt`.
-4. Click **Generate**.
-
-The chapter file is the SOURCE (uploaded as-is); the episode file is the CUSTOMIZE PROMPT (pasted into the prompt box). Do not concatenate them — NotebookLM treats them as different inputs.
-
-## Episode list
-
-| EP | Chapter file (SOURCE) | Episode file (CUSTOMIZE PROMPT) | Topic |
-|---|---|---|---|
-{pair_rows}
-
-## Republishing
-
-This directory is **filesystem-only** and **not git-tracked**. It can be deleted and regenerated at any time by re-running:
-
-```
-scripts/podcast/publish_to_library.py {slug}
-```
-
-from any worktree on the `podcast-factory` repo (the script resolves `content/published/` from `<repo-parent>/content/published/`).
-"""
 
 
 def update_catalog(slug: str, episode_count: int, source_sha: str) -> None:
@@ -459,20 +410,24 @@ def update_catalog(slug: str, episode_count: int, source_sha: str) -> None:
 
 
 def publish(slug: str, args: argparse.Namespace) -> int:
+    """Publish = flip the book's status to 'published' in place (2026-06-04).
+
+    The drafts/published FOLDER split is gone — content lives once at
+    content/<Bucket>/<slug>/ and 'publishing' sets status=published in
+    orchestrator-state.json after gates pass. No second tree is copied.
+    """
     workspace = resolve_workspace(slug)
     if not workspace.is_dir():
         print(f"publish_to_library: workspace not found: {workspace}",
               file=sys.stderr)
         return 2
-    target = LIBRARY / "books" / slug
 
     _info(f"==> publish_to_library: {slug}")
     _info(f"    workspace: {workspace.relative_to(REPO_ROOT)}")
-    _info(f"    target:    {target}")
+    _info(f"    model:     status-flag (type-first layout; no second tree)")
     _info(f"    mode:      "
           f"{'dry-run' if args.dry_run else 'live'}"
           f"{', strict' if args.strict else ''}"
-          f"{', no-wipe' if args.no_wipe else ''}"
           f"{', force' if args.force else ''}")
     _info("")
     _info("=== Gates ===")
@@ -489,16 +444,15 @@ def publish(slug: str, args: argparse.Namespace) -> int:
         return 1
     if not gate_g5_state(workspace, args.force):
         return 1
-    if not gate_g6_target(target, args.no_wipe):
-        return 1
+    # G6 (target wipe-safety) is obsolete in the status-flag model — no published/
+    # tree is created or wiped. gate_g6_target() is retained for the test suite.
+    _info("[G6]  n/a — status-flag model writes no published/ tree")
     if not gate_g7_challenger_convergence(workspace, args.allow_mode_2):
         return 1
 
     _info("")
     _info("=== Plan ===")
-    _info(f"    would copy {len(chapters)} chapter(s) → {target}/chapters/")
-    _info(f"    would copy {len(episodes)} episode(s) → {target}/episodes/")
-    _info(f"    would write {target}/README.md")
+    _info(f"    would set status=published on {slug} ({len(episodes)} episode(s)) in place")
     _info(f"    would update catalog row for {slug}")
 
     if args.dry_run:
@@ -506,63 +460,39 @@ def publish(slug: str, args: argparse.Namespace) -> int:
         _info("==> DRY RUN: no files written. All gates passed.")
         return 0
 
-    # Live publish
+    # Live publish — flip the status flag; no copy.
     _info("")
     _info("=== Publishing ===")
-    if target.exists() and not args.no_wipe:
-        shutil.rmtree(target)
-        _info(f"    wiped: {target}")
-    target.mkdir(parents=True, exist_ok=True)
-    (target / "chapters").mkdir(exist_ok=True)
-    (target / "episodes").mkdir(exist_ok=True)
-
-    for chap in chapters:
-        shutil.copy2(chap, target / "chapters" / chap.name)
-    _info(f"    copied {len(chapters)} chapter(s)")
-    for ep in episodes:
-        shutil.copy2(ep, target / "episodes" / ep.name)
-    _info(f"    copied {len(episodes)} episode(s)")
-
-    # 2026-05-25 enhancement: ship the per-chapter show-notes apparatus too.
-    # 99-show-notes.md lives in drafts/<slug>/_system/episode-drafts/EP##-<slug>/
-    # and IS what listener-facing library readers (the Podcast Factory Astro Site) display
-    # alongside the episode. Previously these stayed in drafts only, which made
-    # the polish work invisible to the audience. Now each EP## ships its
-    # show-notes file as published/books/<slug>/show-notes/EP##-<slug>.md.
-    # Silent-skip per chapter when no show-notes file exists (back-compat).
-    show_notes_count = 0
-    drafts_dir = workspace / "_system" / "episode-drafts"
-    if drafts_dir.is_dir():
-        sn_target = target / "show-notes"
-        sn_target.mkdir(exist_ok=True)
-        for ep in episodes:
-            ep_stem = ep.stem  # EP01-the-call-and-the-covenant
-            sn_src = drafts_dir / ep_stem / "99-show-notes.md"
-            if sn_src.exists():
-                shutil.copy2(sn_src, sn_target / f"{ep_stem}.md")
-                show_notes_count += 1
-        if show_notes_count:
-            _info(f"    copied {show_notes_count} show-notes file(s)")
-
-    sha = git_sha()
-    branch = git_branch()
-    readme = render_readme(slug, chapters, episodes, sha, branch)
-    (target / "README.md").write_text(readme)
-    _info(f"    wrote README.md")
-
-    update_catalog(slug, len(episodes), sha)
-
-    # 2026-05-28: write publication.status: published to the draft meta.yml.
-    # The astro site reads publication.status from meta.yml in the drafts tree;
-    # it no longer scans the published/ directory. Without this write, the UI
-    # shows the book as "Draft" even after a successful publish.
+    _mark_published_status(workspace)
+    _info(f"    status → published in orchestrator-state.json")
+    # Keep the meta.yml publication.status write — the astro site reads it.
     _update_meta_publication_status(workspace)
+    update_catalog(slug, len(episodes), git_sha())
 
     _info("")
-    _info(f"==> DONE. Published {len(episodes)} episode(s) for {slug} "
-          f"to {target}.")
-    _info(f"    Inspect: open '{target}/README.md'")
+    _info(f"==> DONE. Marked {slug} published ({len(episodes)} episode(s)) in place.")
+
+    # Distribution export — copy PDF + audio + video to Google Drive (non-fatal).
+    if not getattr(args, "skip_export", False):
+        _info("")
+        _info("=== Distribution export ===")
+        try:
+            from export_distribution import export as _dist_export
+            out = Path(args.export_dir).expanduser() if getattr(args, "export_dir", None) else None
+            _dist_export(slug, output_root=out, dry_run=False)
+        except Exception as _exc:
+            _warn(f"distribution export failed (publish succeeded): {_exc}")
+
     return 0
+
+
+def _mark_published_status(workspace: Path) -> None:
+    """Set status=published (+ published_at) in the book's orchestrator-state.json."""
+    from _progress import read_state, write_state
+    state = read_state(workspace) or {}
+    state["status"] = "published"
+    state["published_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    write_state(workspace, state)
 
 
 def _update_meta_publication_status(workspace: Path) -> None:
@@ -614,7 +544,7 @@ def _update_meta_publication_status(workspace: Path) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="On-demand publish from content/drafts/<slug>/ to content/published/books/<slug>/.",
+        description="Flip a finished book's status draft->published in place (no files copied).",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("slug", help="Book slug (e.g. kitab-al-riyad).")
@@ -633,6 +563,10 @@ def main() -> int:
     )
     parser.add_argument("--force", action="store_true",
                         help="Skip G5 state-checkpoint gate.")
+    parser.add_argument("--skip-export", action="store_true",
+                        help="Skip the post-publish distribution export to Google Drive.")
+    parser.add_argument("--export-dir", metavar="DIR",
+                        help="Override the export output root (default: Google Drive My Drive).")
     args = parser.parse_args()
 
     if not re.match(r"^[a-z0-9]+(-[a-z0-9]+)*$", args.slug):

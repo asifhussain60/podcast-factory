@@ -21,6 +21,7 @@ from _validator_constants import (
     INLINE_PHONETIC_PATTERNS, FORBIDDEN_ABBREVIATIONS,
     HONORIFIC_PHRASES, ARABIC_TRANSLIT_PATTERNS,
     ALLOWED_ARABIC_ORIGIN_LOWER, KNOWN_SURAH_NAMES_LOWER,
+    SURAH_ALLOWED_CONTEXT_LOWER,
     FORBIDDEN_LITERAL_ALQAAB, MANUSCRIPT_META_TELLS,
     MANUSCRIPT_META_HEADER_RE, CH_PATTERN,
     HOST_A_ROLES_SCHOLAR, HOST_B_ROLES_SEEKER,
@@ -32,8 +33,17 @@ from _validators_framing import *  # noqa: F401, F403
 # ─── assert_* functions — chapter (SOURCE) ────────────────────────────────────
 
 def assert_no_meta_prose(content: str, file_path: Path, role: str,
-                         extra_tells: list[str] | None = None) -> None:
-    """Refuse to build if content contains meta-prose tells."""
+                         extra_tells: list[str] | None = None,
+                         skip_do_not_section: bool = False) -> None:
+    """Refuse to build if content contains meta-prose tells.
+
+    skip_do_not_section: when True, strips the '## Do not' section before
+    checking tells. Used for framing files whose Do-not list legitimately
+    contains the forbidden phrases as examples of what to avoid.
+    """
+    if skip_do_not_section:
+        # Strip from "## Do not" to the next "##" heading or end-of-file.
+        content = re.sub(r'(?m)^## Do not\b.*?(?=^## |\Z)', '', content, flags=re.DOTALL)
     lower = content.lower()
     all_tells = META_PROSE_TELLS + list(extra_tells or [])
     lines = content.splitlines()
@@ -202,8 +212,64 @@ def assert_no_arabic_transliteration(content: str, file_path: Path, role: str) -
         )
 
 
+def assert_quran_citation_format(content: str, file_path: Path, role: str) -> None:
+    """R-QURAN-CITATION-FORMAT (2026-06-10): Quranic refs use plain English.
+
+    Canonical inline form is `(chapter N, verse M)`. Terse scholarly forms —
+    `(Q 5:19)`, `(Quran 5:19)`, bare `(16:74)` — are P1-flagged: NotebookLM
+    reads them aloud as opaque number runs and listeners cannot resolve them.
+    Whether a quotation is MISSING its reference entirely is a semantic call
+    left to the challenger (Category A); this validator covers the
+    deterministic format half only.
+    """
+    hits: list[tuple[int, str]] = []
+    for pat in QURAN_CITATION_BAD_PATTERNS:
+        for m in pat.finditer(content):
+            ln = content[: m.start()].count("\n") + 1
+            hits.append((ln, m.group(0)))
+    if not hits:
+        return
+    sample = ", ".join(f"{file_path.name}:{ln} {tok!r}" for ln, tok in sorted(set(hits))[:8])
+    _flag_p1(
+        "R-QURAN-CITATION-FORMAT",
+        file_path,
+        f"{role}: {len(set(hits))} terse Quran citation(s) — use the plain-English "
+        f"form '(chapter N, verse M)'. Hits: {sample}",
+    )
+
+
+def assert_no_translit_formula_pairs(content: str, file_path: Path, role: str) -> None:
+    """R-NO-TRANSLIT-FORMULA (2026-06-10): no Arabic formula + translation pairs.
+
+    A verbatim Arabic formula rendered as `*translit with diacritics* — *English*`
+    must carry the English translation only; the Arabic transliteration run is
+    dropped (plain inline Arabic terms without diacritics remain allowed).
+    """
+    hits: list[tuple[int, str]] = []
+    for m in TRANSLIT_FORMULA_PAIR_RE.finditer(content):
+        ln = content[: m.start()].count("\n") + 1
+        hits.append((ln, m.group(0)[:60]))
+    if not hits:
+        return
+    sample = "; ".join(f"{file_path.name}:{ln} {tok!r}" for ln, tok in hits[:6])
+    _flag_p1(
+        "R-NO-TRANSLIT-FORMULA",
+        file_path,
+        f"{role}: {len(hits)} transliteration formula pair(s) — keep the English "
+        f"translation, drop the italic Arabic run. Hits: {sample}",
+    )
+
+
 def assert_no_arabic_surah_names(content: str, file_path: Path, role: str) -> None:
-    """F27 #6: detect Arabic surah names. F29 doctrine: use English meanings."""
+    """F27 #6: detect Arabic surah names. F29 doctrine: use English meanings.
+
+    Uses word-boundary regex (not plain substring) to avoid false positives where a
+    short surah name appears as part of a longer word or phonetic spelling:
+      - "hud" inside "(HUDJ-ja)" — not a surah reference
+      - "al-shams" inside "al-shamsi" (Arabic verse genitive) — not a surah reference
+    Context exclusion: skips matches whose surrounding text contains a known-safe phrase
+    (e.g. "yusuf ali" — a translator name, not a surah reference).
+    """
     scan_text = content.lower()
     scan_text_scrubbed = re.sub(
         r"##?\s*\d*\.?\s*(?:R-SURAH|surah\s+(?:lookup|reference|names)).*?(?=\n##\s|\Z)",
@@ -213,8 +279,19 @@ def assert_no_arabic_surah_names(content: str, file_path: Path, role: str) -> No
     )
     violations: list[str] = []
     for surah in KNOWN_SURAH_NAMES_LOWER:
-        if surah in scan_text_scrubbed:
+        # Use negative lookaround to enforce word boundaries without \b (which
+        # doesn't work well with hyphenated names like "al-shams" since hyphen
+        # is not a word char). Characters [a-z] adjacent to the match indicate
+        # the surah name is part of a longer token — skip it.
+        pat = r"(?<![a-z])" + re.escape(surah) + r"(?![a-z])"
+        for m in re.finditer(pat, scan_text_scrubbed):
+            ctx_start = max(0, m.start() - 30)
+            ctx_end = min(len(scan_text_scrubbed), m.end() + 30)
+            ctx = scan_text_scrubbed[ctx_start:ctx_end]
+            if any(allowed in ctx for allowed in SURAH_ALLOWED_CONTEXT_LOWER):
+                continue
             violations.append(surah)
+            break
     if violations:
         _flag_p1(
             "R-SURAH-ENGLISH-ONLY",
@@ -262,6 +339,61 @@ def assert_chapter_no_manuscript_meta(content: str, file_path: Path) -> None:
         f"context to `BOOK_DIR/_system/manuscript-history.md`.\n    {joined}\n"
         f"  See handbook: notebooklm-source-chapter-rules.md "
         f"R-NO-MANUSCRIPT-META."
+    )
+
+
+def assert_no_doubled_phrases(content: str, file_path: Path) -> None:
+    """B6: detect copy-paste corruption — 4+ word phrases repeated back-to-back.
+
+    Root-cause for the B6 finding in The Master and the Disciple ch04b:
+      'The classical Quran commentator the classical Quran commentator,
+       in his great commentary his great commentary'
+    NotebookLM voices both copies, producing incoherent audio. This validator
+    catches the pattern before upload so authors can collapse to single occurrence.
+
+    Words are punctuation-stripped before comparison so trailing commas / periods
+    do not prevent matching doubled phrases (e.g. 'commentator, a ...' still
+    matches against 'commentator a ...').
+    """
+    _PUNCT = str.maketrans("", "", ".,;:!?\"'()")
+
+    raw_words = content.split()
+    norm_words = [w.translate(_PUNCT).lower() for w in raw_words]
+    n = len(norm_words)
+    hits: list[tuple[int, str]] = []
+    seen_phrases: set[str] = set()
+
+    for window in range(4, 9):
+        if window * 2 > n:
+            break
+        for i in range(n - window * 2):
+            phrase_norm = " ".join(norm_words[i:i + window])
+            next_norm = " ".join(norm_words[i + window:i + window * 2])
+            # Only flag exact (post-normalization) matches of 16+ char phrases
+            if phrase_norm == next_norm and len(phrase_norm) >= 16:
+                if phrase_norm not in seen_phrases:
+                    seen_phrases.add(phrase_norm)
+                    phrase_display = " ".join(raw_words[i:i + window])
+                    # Approximate line number via prefix scan
+                    prefix = " ".join(raw_words[:i])
+                    text_pre = (
+                        content[: content.find(prefix) + len(prefix)]
+                        if prefix and prefix in content
+                        else content[:1]
+                    )
+                    ln = text_pre.count("\n") + 1
+                    hits.append((ln, phrase_display[:80]))
+
+    if not hits:
+        return
+    joined = "\n".join(
+        f"  {file_path.name}:{ln}: repeated phrase: '{phrase}'" for ln, phrase in hits[:5]
+    )
+    _flag_p1(
+        "B6-DOUBLED-PHRASE",
+        file_path,
+        f"chapter: {len(hits)} copy-paste doubled phrase(s) detected. "
+        f"Each phrase appears twice back-to-back — collapse to single occurrence:\n{joined}",
     )
 
 
