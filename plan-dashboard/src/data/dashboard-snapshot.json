@@ -1322,60 +1322,60 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-20T06:55:42-04:00",
-  "source_commit": "b025cdb",
+  "generated_at": "2026-06-29T06:11:29-04:00",
+  "source_commit": "29e1c0c5",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "b025cdb",
-      "subject": "docs(assessment): capability manifest + architecture assessment (static, 2026-06-20)",
-      "date": "2026-06-20"
+      "sha": "29e1c0c5",
+      "subject": "merge(ayyuhal-walad): sync latest branch into develop",
+      "date": "2026-06-29"
     },
     {
-      "sha": "af7f6a5",
-      "subject": "fix(paths): Python resolver honors PODCAST_FACTORY_ROOT \u2014 mirror parity with TS",
-      "date": "2026-06-19"
+      "sha": "c93d19f7",
+      "subject": "chore(agents): sync challenger activation copy",
+      "date": "2026-06-29"
     },
     {
-      "sha": "03b81f4",
-      "subject": "docs(agent): sync infra/cloudflare correction to canonical podcast-planner spec",
-      "date": "2026-06-19"
+      "sha": "21596edb",
+      "subject": "podcast: remove local slide helper paths",
+      "date": "2026-06-24"
     },
     {
-      "sha": "4a6f992",
-      "subject": "docs(mirrors): sync infra/cloudflare correction to Copilot + planner specs",
-      "date": "2026-06-19"
+      "sha": "eeac4a5e",
+      "subject": "merge Al Anwaar fixes into develop",
+      "date": "2026-06-24"
     },
     {
-      "sha": "a3d8005",
-      "subject": "docs(CLAUDE): correct stale \"infra/cloudflare deleted\" claim",
-      "date": "2026-06-19"
+      "sha": "ffe22c99",
+      "subject": "podcast: fix Al Anwaar approval and Arabic pipeline",
+      "date": "2026-06-24"
     },
     {
-      "sha": "1876e04",
-      "subject": "fix(site): enforce REQ-010 1.2rem reading-text floor on prose",
-      "date": "2026-06-19"
+      "sha": "b89a973f",
+      "subject": "podcast(al-anwaar-vol-01): add noise audit confirmation",
+      "date": "2026-06-24"
     },
     {
-      "sha": "f1f67a5",
-      "subject": "feat(site): architecture-page diagram redesign \u2014 swimlane\u2192table, figures, build-time",
-      "date": "2026-06-19"
+      "sha": "af5e85f5",
+      "subject": "Merge branch 'Islamic/al-anwaar-al-lateefah' into develop",
+      "date": "2026-06-24"
     },
     {
-      "sha": "64ad988",
-      "subject": "fix(corpus): collision-aware merge rebuild + unique-id shrink guard",
-      "date": "2026-06-19"
+      "sha": "02120256",
+      "subject": "chore: add Codex tooling mirror (.codex/ agents + hooks, AGENTS.md)",
+      "date": "2026-06-24"
     },
     {
-      "sha": "1edc508",
-      "subject": "fix(site): make snapshot regenerator idempotent \u2014 kill generated_at churn",
-      "date": "2026-06-19"
+      "sha": "281aa5de",
+      "subject": "book(al-anwaar-al-lateefah-vol-01): fix mermaid-mindmap multiple-roots render failure",
+      "date": "2026-06-24"
     },
     {
-      "sha": "995233f",
-      "subject": "docs+fix(allocator): plan/framework/SKILL conformance + surface malformed-split degrade",
-      "date": "2026-06-19"
+      "sha": "7e987e51",
+      "subject": "podcast(al-anwaar-al-lateefah-vol-01): noise-auditor confirmation re-sweep \u2014 CLEAN",
+      "date": "2026-06-24"
     }
   ],
   "wave_execution_events": [],

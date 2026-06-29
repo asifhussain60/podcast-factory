@@ -12,7 +12,7 @@ essential: core
 essential_rationale: This chapter delivers the structural shape of the entire book, the author's own final closing, and the supplementary anchorings that the lectures had only touched in passing. Removing it would leave the listener without the seeing-together that the lectures were building toward.
 host_dynamic: curious_mind + scholar_companion
 host_dynamic_rationale: The scholar_companion lays out the six principles, walks through the author's final closing, and works through the supplementary expositions; the curious_mind asks for the seeing-together and tests how the principles illuminate doctrines from earlier episodes.
-length_target: 5800
+length_target: 4200-7000
 key_tensions:
   - The two hierarchies (Aimmah and duat) are parallel and complementary, not competing — the duat carry the summoning, the Aimmah carry the Imamate.
   - The six disciplines of boundary are structural conditions, not arbitrary restrictions, under which the doctrine can be carried across the cycles.
@@ -42,8 +42,8 @@ show_notes:
   - Why supplementary expositions sit where they sit at a book's end.
 thesis_relevance: This chapter advances the book's central claim that the *Stored Treasures of Wisdom* are the duat's deposit for the era of concealment by gathering the fifteen lectures into one structural shape and showing that the supplementary mode itself is part of the deposit's instruction. The closing names what the treasures are, who they are stored for, and how the reader is to carry them forward — the synthesis-and-return that lets the rest of the book settle.
 sermon:
-  present: true
-  section_title: The final closing
+  present: false
+  section_title: null
 session_index: 8
 session_title: Doctrinal Synthesis, Supplementary Expositions, and the Last Word
 session_slug: doctrinal-synthesis-supplementary-expositions-and-the-last-word

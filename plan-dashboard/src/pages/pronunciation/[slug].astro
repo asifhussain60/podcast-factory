@@ -22,9 +22,11 @@ const detail = slug ? await getProbe(slug) : null;
       <>
         <h1>{detail.title}</h1>
         <p class="lede">
-          Play the probe below, then for each term: <strong>Correct</strong> if NotebookLM said it right,
-          <strong>Fix</strong> to enter a house-style respelling, or check
-          <strong>Use English translation</strong> to substitute an English phrase. {detail.generatedNote}.
+          Arabic terms are preserved in the chapter source until this review stage.
+          Play the probe below, then for each term: <strong>Correct</strong> if NotebookLM
+          said it right, <strong>Fix</strong> to enter a house-style respelling, or check
+          <strong>Use English translation</strong> to substitute an English phrase.
+          {detail.generatedNote}.
         </p>
       </>
     ) : (

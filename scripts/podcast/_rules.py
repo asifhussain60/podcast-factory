@@ -62,7 +62,11 @@ vs. substring list); the canonical data itself is plain Python literals.
 # 2.6 (2026-06-24): promotes Arabic-in-chapters from display-layer preference
 # to P0 rule for islamic_scholarly books. R-ARABIC-IN-CHAPTERS requires every
 # Islamic chapter source to persist glossary-backed Arabic script while keeping
-# phonetic respelling in the glossary / Customize prompt only.
+# phonetic respelling in the glossary / Customize prompt only. The denoise/root
+# source contract also treats preface, intended
+# audience, book-description, author biography, chain-of-narration/transmission,
+# and reading-permission apparatus as noise while preserving Arabic script in
+# chapter source for the human phonetic/pronunciation review stage.
 CHALLENGER_VERSION = "2.6"
 
 R_MAX_CONCEPTS: str = "R-MAX-CONCEPTS"
@@ -70,6 +74,7 @@ R_QURAN_CITATION_FORMAT: str = "R-QURAN-CITATION-FORMAT"
 R_NO_TRANSLIT_FORMULA: str = "R-NO-TRANSLIT-FORMULA"
 R_SERMON_VERBATIM: str = "R-SERMON-VERBATIM"
 R_ARABIC_IN_CHAPTERS: str = "R-ARABIC-IN-CHAPTERS"
+R_PRESERVE_ARABIC_SOURCE: str = "R-PRESERVE-ARABIC-SOURCE"
 
 # ─── Upstream precheck sources (Wave N — adversarial validation, Phase A–C) ──
 # These are the `source` values written into _learning/findings.jsonl by the
@@ -749,6 +754,10 @@ R_NOISE_APPARATUS_CATEGORIES: dict[str, str] = {
                          "e.g. 'in Nahj al-Balagha (compiled by al-Sharif al-Radi), Hikam "
                          "(Saying) 147' or translator/source edition details. Keep the quoted "
                          "teaching and speaker; strip the reference scaffolding from chapters.",
+    "NZ-FRONTMATTER":  "Front-matter apparatus — preface, who should read the book, description "
+                       "of the book, author biography/posture, chain of narrations/transmission, "
+                       "permission-to-read, and introductory praise about the artifact rather "
+                       "than teaching content.",
 }
 
 # PROTECT-LIST — doctrine that LOOKS like apparatus but IS the teaching and must
@@ -770,11 +779,16 @@ R_NOISE_APPARATUS_PATTERNS: list[tuple] = [
     (_re.compile(r"(punishment|azab) of cold iron|to copy .* is a sin",  _re.I),    "NZ-CIRCULATION"),
     (_re.compile(r"(ghair-?mustahiqq|undeserving|indiscriminate circulation)", _re.I), "NZ-CIRCULATION"),
     (_re.compile(r"\b(ijazat|permission)\b.*\b(record|recording|set (it )?down)", _re.I), "NZ-PROVENANCE"),
+    (_re.compile(r"\b(permission|ijazat|authorization)\b.*\b(read|study|open|transmit|narrat)", _re.I), "NZ-FRONTMATTER"),
     (_re.compile(r"deposited? in the treasury|treasury of the (sacred mission|Da'wat)", _re.I), "NZ-PROVENANCE"),
     (_re.compile(r"recorded (them )?(first )?for (my|his) (father|family)", _re.I),  "NZ-PROVENANCE"),
     (_re.compile(r"(transcribed|compiled|printed|scanned|typeset) by|this edition", _re.I), "NZ-COLOPHON"),
     (_re.compile(r"\b(?:in\s+)?\*?Nahj al-Balagha\*?\s*(?:\(compiled by al-Sharif al-Radi\))?,\s*(?:Hikam\s*)?\(?(?:Sermon|Saying|Letter)\)?\s*\d+", _re.I), "NZ-REFERENCE-TAIL"),
     (_re.compile(r"\b\*?(?:Nahj al-Balagha|Ghurar al-Hikam(?: wa Durar al-Kalim)?)\*?\s*(?:\(compiled by [^)]+\))?,\s*(?:Sermon|Saying|Letter|Hikam|Maxim|among the maxims)\b", _re.I), "NZ-REFERENCE-TAIL"),
+    (_re.compile(r"\b(preface|foreword|introduction to this book|description of this book)\b", _re.I), "NZ-FRONTMATTER"),
+    (_re.compile(r"\b(who should read|intended audience|this book is for|reader of this book)\b", _re.I), "NZ-FRONTMATTER"),
+    (_re.compile(r"\b(author|compiler|narrator)\b.*\b(biography|life|lineage|wrote|compiled)\b", _re.I), "NZ-FRONTMATTER"),
+    (_re.compile(r"\b(chain|isnad|sanad|transmission|narration)\b.*\b(narrators?|transmitters?|permission)\b", _re.I), "NZ-FRONTMATTER"),
 ]
 
 # Version stamped into every noise-auditor report; bump on taxonomy change.
@@ -825,6 +839,19 @@ def strip_noise_reference_attributions(text: str) -> tuple[str, int]:
     trailing_newline = "\n" if text.endswith("\n") else ""
     return "\n".join(out_lines) + trailing_newline, count
 
+
+R_PRESERVE_ARABIC_SOURCE_DIRECTIVE: str = (
+    "ARABIC-SCRIPT PRESERVATION (R-PRESERVE-ARABIC-SOURCE, mandatory): for Arabic-scholarly "
+    "content, PRESERVE Arabic script that appears in the source for technical terms, Quranic "
+    "phrases, hadith/sayings, prayers, book titles, proper names, surah names, and doctrinal "
+    "formulae. Do NOT romanize Arabic script into English-only transliteration. Do NOT translate "
+    "Arabic terms away during denoise, refine, chapter authoring, or enrichment. The persisted "
+    "chapter source is the review surface: the human phonetic/pronunciation stage decides later "
+    "which Arabic-script items are recited in Arabic, which receive a phonetic respelling, and "
+    "which are replaced by English. The only Arabic to remove is Arabic that belongs solely to "
+    "non-teaching apparatus already being stripped, such as publisher marks or scan labels."
+)
+
 # Ready-to-inject denoise directive — appended to the denoise system prompts
 # (gemini_refine.DENOISE_SYS, full_book_denoise.build_system_prompts) so the apparatus
 # class is stripped at the ROOT, book-agnostically, before it can fan out. The
@@ -839,7 +866,12 @@ R_NOISE_APPARATUS_DIRECTIVE: str = (
     "framing; (b) PROVENANCE / chain-of-custody: permission/ijazat to RECORD or transmit THIS "
     "recording, 'I recorded it first for my family', deposit in a treasury/archive, the 'twofold "
     "authority' of this recording; (c) COLOPHON: who transcribed/compiled/printed/scanned it, "
-    "edition and publisher notes; (d) REFERENCE TAILS in chapter prose: bibliographic scaffolding "
+    "edition and publisher notes; (d) FRONT MATTER / READING APPARATUS: prefaces, who should "
+    "read the book, descriptions of the book as a book, author biography/posture, chain of "
+    "narrations/transmission, permission-to-read, and introductory claims about the artifact "
+    "rather than the knowledge it teaches. If a front-matter section contains a real doctrine, "
+    "preserve ONLY that doctrine and condense the front-matter wrapper to at most one short "
+    "paragraph; (e) REFERENCE TAILS in chapter prose: bibliographic scaffolding "
     "after a quoted saying, such as 'in Nahj al-Balagha (compiled by al-Sharif al-Radi), Hikam "
     "(Saying) 147' or translator/source-edition details. Keep the quoted teaching and the speaker; "
     "strip the reference tail from the chapter. PROTECT (NEVER strip — this is TEACHING, not apparatus): any "
@@ -847,6 +879,7 @@ R_NOISE_APPARATUS_DIRECTIVE: str = (
     "Friends of Allah (wilayah), and the epistemic claim that the knowledge is INHERITED from the "
     "prophets and saints. The test: a passage about how the book was recorded/authorized/circulated "
     "is apparatus (strip); a passage about what the book TEACHES is content (keep)."
+    "\n\n" + R_PRESERVE_ARABIC_SOURCE_DIRECTIVE
 )
 
 # ─── Wave B — Intelligence layer budget constants ─────────────────────────
@@ -861,12 +894,13 @@ R_KNOWLEDGE_EXTRACTOR_CONFIDENCE_THRESHOLD: float = 0.70
 R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED: bool = False
 
 # ─── SN-7 — Terminus-technicus preservation (Slice 2-fix / K6-pre) ─────────
-# A terminus technicus (precise doctrinal term: tawil, zuhd, farḍ ʿayn, …) is preserved in
-# PHONETIC form on every occurrence, with a brief English gloss permitted on first use only;
-# it is NEVER reduced to an English paraphrase. Orthogonal to R-PHONETICS-OUT: Arabic SCRIPT is
-# still stripped (TTS can't read it); the phonetic form carries the term. Enforced in the
-# denoise+normalize Gemini prompts (gemini_refine.sn7_guard, protect-list from per-book
-# glossary.yml) and audited by podcast-challenger Category D check D6. Standard: house-voice.md §2b.
+# A terminus technicus (precise doctrinal term: tawil, zuhd, farḍ ʿayn, …) is preserved on every
+# occurrence, with Arabic script retained when present and phonetic/transliteration identity
+# retained for review. It is NEVER reduced to an English paraphrase. Orthogonal to
+# R-PHONETICS-OUT: inline pronunciation guides are still banned, but Arabic source text remains
+# available to the human phonetic/pronunciation review stage. Enforced in denoise+normalize
+# Gemini prompts (gemini_refine.sn7_guard, protect-list from per-book glossary.yml) and audited
+# by podcast-challenger Category D check D6. Standard: house-voice.md §2b.
 R_TERMINUS_PRESERVE: bool = True
 
 # ─── Slice 5c — HOST_ROLE_CONTRACT (host dynamics guardrail) ─────────────────

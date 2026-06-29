@@ -13,7 +13,8 @@
  *   chapter?: string,                 // required when scope === 'chapter'
  *   pattern: string,                  // a JS regular-expression source (no //)
  *   flags?:  string,                  // default 'g'; 'g' is always forced on
- *   apply?:  boolean                  // false (default) = preview/count only, no writes
+ *   apply?:  boolean,                 // false (default) = preview/count only, no writes
+ *   allowArabic?: boolean             // false blocks patterns that would remove Arabic script
  * }
  * Returns: {
  *   ok, applied, total,
@@ -40,6 +41,7 @@ const json = (body: unknown, status = 200) =>
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ALLOWED_FLAGS = /^[gimsuy]*$/;
+const ARABIC_RE = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
 
 /** Remove every match of `re` from `text`, counting hits and sampling up to 3
  *  distinct matched strings (for the preview). `re` must carry the global flag. */
@@ -64,6 +66,7 @@ export const POST: APIRoute = async ({ request }) => {
   const scope = String(body.scope ?? '').trim();
   const chapter = String(body.chapter ?? '').trim();
   const apply = body.apply === true;
+  const allowArabic = body.allowArabic === true;
   const pattern = String(body.pattern ?? '');
   let flags = String(body.flags ?? 'g');
 
@@ -73,8 +76,7 @@ export const POST: APIRoute = async ({ request }) => {
   if (!ALLOWED_FLAGS.test(flags)) return json({ ok: false, error: 'invalid regex flags' }, 400);
   if (!flags.includes('g')) flags += 'g';
 
-  let re: RegExp;
-  try { re = new RegExp(pattern, flags); }
+  try { new RegExp(pattern, flags); }
   catch (e) { return json({ ok: false, error: `invalid pattern: ${String(e)}` }, 400); }
   // Reject patterns that can match the empty string — they "remove" nothing but
   // count at every position, which is never what a noise-strip intends.
@@ -111,6 +113,14 @@ export const POST: APIRoute = async ({ request }) => {
       const fileRe = new RegExp(pattern, flags);
       const { text: next, count, samples } = denoiseText(text, fileRe);
       if (count > 0) {
+        if (!allowArabic && samples.some((sample) => ARABIC_RE.test(sample))) {
+          return json({
+            ok: false,
+            error: 'pattern would remove Arabic script; Arabic terms are preserved for pronunciation review',
+            chapter: id,
+            samples,
+          }, 400);
+        }
         results.push({ chapter: id, count, samples });
         total += count;
         if (apply && next !== text) {

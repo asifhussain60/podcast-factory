@@ -144,6 +144,20 @@
       "failure_mode": "surfaces error and halts"
     },
     {
+      "id": "noise-auditor",
+      "name": "Noise Auditor",
+      "role": "Cross-surface noise auditor for podcast-factory books",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Cross-surface noise auditor for podcast-factory books. Detects AUTHORIAL-APPARATUS noise \u2014 clean authorial prose that is non-teaching meta-content about the book ITSELF (how it was recorded, authorized, transmitted, and may be circulated\u2026",
+      "what_it_knows": "See infra/claude-agents/noise-auditor.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
+    {
       "id": "podcast-auditor",
       "name": "Podcast Auditor",
       "role": "DEPRECATED: use repo-surgeon --scope podcast instead",
@@ -545,6 +559,6 @@
       ]
     }
   ],
-  "generated_at": "2026-06-20T06:55:42-04:00",
-  "source_commit": "b025cdb"
+  "generated_at": "2026-06-29T06:11:29-04:00",
+  "source_commit": "29e1c0c5"
 }

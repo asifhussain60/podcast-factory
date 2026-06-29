@@ -69,11 +69,13 @@ You are processing a raw OCR of a heavily-footnoted academic English translation
 TASK: Extract only the author's actual text in English. Remove ALL translator material:
 footnotes (numbered or lettered), translator commentary, page numbers, page separators
 (lines like "-51-", "<!-- page 37 -->"), chapter headings added by the translator, bibliographic
-citations (Lane TON, Mishcat, etc.), Arabic script inserted for comparison, and any text within
-square brackets [ ] added by the translator.
+citations (Lane TON, Mishcat, etc.), and any text within square brackets [ ] added by the translator.
 
 Keep: every sentence that is the author's own prose, section numbers
-(Roman numerals like "I.", "II.", opening address forms), and natural paragraph breaks.
+(Roman numerals like "I.", "II.", opening address forms), natural paragraph breaks, and Arabic
+script attached to authorial terms, Quran/hadith/sayings, prayers, names, titles, and doctrinal
+formulae. The Arabic-script terms belong in the chapter source and will be reviewed later during
+the phonetic/pronunciation stage.
 
 OUTPUT DISCIPLINE: return ONLY the author's cleaned English prose. No preamble, no explanation.
 Begin directly with the first word of the author's text.
@@ -125,7 +127,11 @@ def build_system_prompts(slug: str) -> dict[str, str]:
     shared Wave-N apparatus directive. Result is book-specific yet never hardcoded."""
     book = _book_label(slug)
     return {
-        src: tmpl.format(book=book).rstrip() + "\n\n" + R_NOISE_APPARATUS_DIRECTIVE + "\n"
+        src: (
+            tmpl.format(book=book).rstrip()
+            + "\n\n" + R_NOISE_APPARATUS_DIRECTIVE
+            + "\n"
+        )
         for src, tmpl in _TEMPLATES.items()
     }
 
