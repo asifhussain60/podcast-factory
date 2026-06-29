@@ -27,38 +27,41 @@ def _has_arabic(text: str) -> bool:
     return bool(_ARABIC_RE.search(text or ""))
 
 
-def _term_subs(book_dir: Path) -> list[tuple[str, str]]:
+def _term_subs(book_dir: Path) -> list[tuple[str, str, str]]:
     """Return visible chapter substitutions, longest-first."""
     seen: set[str] = set()
-    subs: list[tuple[str, str]] = []
+    subs: list[tuple[str, str, str]] = []
     for entry in load_glossary_entries(book_dir):
         cur = resolve_curation(entry)
         if cur.get("drop_arabic"):
             continue
         phonetic = str(cur.get("phonetic") or "").strip()
         arabic = str(cur.get("arabic") or "").strip()
+        english = str(entry.get("english_override") or "").strip()
         key = phonetic.casefold()
         if not phonetic or not _has_arabic(arabic) or key in seen:
             continue
         seen.add(key)
-        subs.append((phonetic, arabic))
+        subs.append((phonetic, arabic, english))
     subs.sort(key=lambda kv: len(kv[0]), reverse=True)
     return subs
 
 
-def _compile_pattern(subs: list[tuple[str, str]]) -> re.Pattern[str] | None:
+def _compile_pattern(subs: list[tuple[str, str, str]]) -> re.Pattern[str] | None:
     if not subs:
         return None
-    alternation = "|".join(re.escape(term) for term, _script in subs)
+    alternation = "|".join(re.escape(term) for term, _script, _english in subs)
     return re.compile(rf"(?<![\w-])({alternation})(?![\w'’-])", re.IGNORECASE)
 
 
-def inject_text(text: str, subs: list[tuple[str, str]]) -> tuple[str, int]:
+def inject_text(text: str, subs: list[tuple[str, str, str]]) -> tuple[str, int]:
     """Inject Arabic script into chapter text. Idempotent."""
     pattern = _compile_pattern(subs)
     if pattern is None:
         return text, 0
-    scripts = {term.casefold(): script for term, script in subs}
+    scripts = {term.casefold(): script for term, script, _english in subs}
+    english_overrides = {term.casefold(): english for term, _script, english in subs if english}
+    introduced: set[str] = set()
     changed = 0
     in_fence = False
     out_lines: list[str] = []
@@ -81,8 +84,16 @@ def inject_text(text: str, subs: list[tuple[str, str]]) -> tuple[str, int]:
             after = line[match.end():]
             paren = re.match(r"\s*\(([^)]*)\)", after)
             if paren and _has_arabic(paren.group(1)):
+                introduced.add(term.casefold())
                 return term
+            english = english_overrides.get(term.casefold())
+            if english and term.casefold() in introduced:
+                changed += 1
+                return english
             changed += 1
+            introduced.add(term.casefold())
+            if english:
+                return f"{term} ({script}, {english})"
             return f"{term} ({script})"
 
         out_lines.append(pattern.sub(repl, line))
