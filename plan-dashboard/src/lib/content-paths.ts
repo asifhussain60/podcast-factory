@@ -66,6 +66,14 @@ export interface ContentRef {
   category: Category;
 }
 
+export function legacyStageOf(ref: ContentRef): Stage {
+  return (ref as { stage: Stage }).stage;
+}
+
+export function legacyCategoryOf(ref: ContentRef): Category {
+  return (ref as { category: Category }).category;
+}
+
 function bucketRoot(bucket: Bucket): string {
   return join(getRepoRoot(), 'content', bucket);
 }

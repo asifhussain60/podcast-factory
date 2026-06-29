@@ -21,23 +21,22 @@ knowledge_tags:
 
 pipeline:
   # orchestrator-state.json is authoritative; this block is a human-readable mirror.
-  current_phase: per-chapter            # episodes built 2026-06-04
-  phase_status: episodes-built-awaiting-finalize
-  chapters_with_contracts: 2
-  chapters_drafted: 2
-  episodes_authored: 2
-  transcripts: 0
-  audits: 0
-  # 2026-06-04 reconcile: disk has 2 chapters/contracts that together cover the whole
-  # letter (ch01 → the Hatim-Ism threshold; ch02 → the eight benefits through the closing
-  # du'a). The earlier "3-episode" / "5-episode" plans were consolidated to 2; the
-  # 5-episode original is preserved under _archive/5-episode-original/.
-  structure: wc8-holistic-2-episode
+  current_phase: done
+  phase_status: ship-with-caution
+  chapters_with_contracts: 4
+  chapters_drafted: 4
+  episodes_authored: 4
+  transcripts: 4
+  audits: 4
+  # 2026-06-29 reconcile: disk has the published 4-episode WC8 set. The earlier
+  # 3-episode / 5-episode plans are historical only; the state file preserves the
+  # abandoned failed rerun details as audit history.
+  structure: wc8-holistic-4-episode
 
 publication:
   status: published
   shipped_via: scripts/podcast/publish_to_library.py
-  publication_target: ../../published/books/ayyuhal-walad/
+  publication_model: status-flag-in-place
 
 provenance:
   canonical_source_branch: book/asaas-al-taveel

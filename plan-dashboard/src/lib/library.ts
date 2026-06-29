@@ -12,6 +12,8 @@ import { simplifyTransliteration } from './translit';
 import {
   ACTIVE_CATEGORIES,
   findContent,
+  legacyCategoryOf,
+  legacyStageOf,
   listContent,
   slugToTitle,
   type Category,
@@ -110,8 +112,8 @@ export async function summarize(ref: ContentRef): Promise<ContentSummary> {
   return {
     ref,
     title,
-    category: ref.category,
-    stage: ref.stage,
+    category: legacyCategoryOf(ref),
+    stage: legacyStageOf(ref),
     publicationStatus,
     hasMeta: await fileExists(metaPath),
     hasChapters: await dirExists(chaptersDir),

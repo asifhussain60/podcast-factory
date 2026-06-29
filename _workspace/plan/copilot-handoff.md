@@ -730,3 +730,22 @@ OPEN (spend-gated, need Asif):
   `lint:views` clean; `astro check` clean except existing hints; ship validator
   passed all 14 gates with G13 confirming Arabic in all 11 chapters; headless
   Chrome check confirmed Arabic visible and Save & Approve text stable.
+
+## Session 2026-06-29 — Digital Twin findings fixed and committed
+
+- Repaired local dependency drift: `.venv` now matches `requirements.txt`, and
+  Podcast Factory Astro Site dependencies were reinstalled from the existing lock.
+- Reconciled `ayyuhal-walad` to the actual published four-episode artifact set:
+  top-level state is `done/ship-with-caution`, metadata/README match the disk
+  shape, malformed glossary fields were repaired, and Arabic script was injected
+  into all four chapter sources. `validate_ship_ready.py ayyuhal-walad` now passes
+  all 14 gates.
+- Cleaned Podcast Factory Astro Site typecheck output to 0 errors / 0 warnings /
+  0 hints by routing legacy category/stage access through compatibility helpers,
+  archiving by bucket, and removing dead StudioPoc lineage-switch code.
+- Reconciled `AGENTS.md` with `CLAUDE.md` on `infra/cloudflare/`: it is non-
+  pipeline Salty Lamps reference material, not a retired podcast-factory surface.
+- Removed ignored local `podcast-reader/` residue from the working checkout; no
+  tracked files existed there.
+- Verification: full pytest suite `1469 passed, 1 skipped`; `npm run check`;
+  `npm run lint:views`; `_boundary_check.py`; `git diff --check`.

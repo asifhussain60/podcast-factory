@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { contentDir, findContent, getRepoRoot } from '../content-paths';
+import { contentDir, findContent, getRepoRoot, legacyCategoryOf } from '../content-paths';
 
 export interface QueueItem {
   id: string;
@@ -77,7 +77,7 @@ export async function writeAnnotationExportFile(payload: AnnotationExportPayload
   relativePath: string;
 }> {
   const ref = await findContent(payload.book);
-  const category = ref?.category ?? 'books';
+  const category = ref ? legacyCategoryOf(ref) : 'books';
   const draftRoot = contentDir(payload.book, 'drafts', category);
   const dir = path.join(draftRoot, '_system', 'annotation-intelligence');
   const filePath = path.join(dir, `${payload.chapter}.json`);

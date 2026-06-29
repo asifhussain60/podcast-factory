@@ -2,7 +2,7 @@
 
 **Source:** *Ayyuhal Walad — My Dear Beloved Son (or Daughter)* by Imam Abu Hamid Muhammad al-Ghazali. English translation by Irfan Hasan, from the Urdu rendering of the Arabic original (compiled within *Majmu'a Rasail Imam Ghazali*). Original at [`_system/source/Ayyuhal-Walad.pdf`](_system/source/Ayyuhal-Walad.pdf).
 
-**Slug:** `ayyuhal-walad` · **Episodes:** 5 (1:1 chapter↔episode mapping) · **Architecture:** v3.5 (chapter-as-source, phonetics in customize prompt only).
+**Slug:** `ayyuhal-walad` · **Episodes:** 4 (1:1 chapter↔episode mapping) · **Architecture:** WC8 holistic four-episode set (chapter-as-source, phonetics in customize prompt only).
 
 ---
 
@@ -12,11 +12,10 @@
 ayyuhal-walad/
 ├── _README.md you are here
 ├── chapters/ SOURCE — uploaded to NotebookLM as-is
-│ ├── ch01-frame-and-first-counsel.txt
-│ ├── ch02-hatim-eight-benefits.txt
-│ ├── ch03-the-path.txt
-│ ├── ch04-four-cautions.txt
-│ └── ch05-method-and-closing-prayer.txt
+│ ├── ch01-knowledge-without-action.txt
+│ ├── ch02-the-path-of-obedience-and-struggle.txt
+│ ├── ch03-the-shaykh-and-the-disciples-rule-of-life.txt
+│ └── ch04-eight-admonitions-and-a-closing-prayer.txt
 ├── episodes/ CUSTOMIZE PROMPT — pasted into NotebookLM Customize box
 │ └── EP##-<slug>.txt (one per chapter, slug-matched)
 ├── transcripts/ POST-PUBLISH TRANSCRIPTS — slug-aligned
@@ -48,11 +47,11 @@ Strict 1:1 mapping enforced: slug after the prefix is identical on both sides. T
 - **Angle:** faithful exposition with light personal-application beats — let Ghazali's bite land; do not soften; surface tensions.
 - **Host dynamic:** default Curious Mind (Host A) + Patient Teacher (Host B). Host B grounds in tradition; Host A keeps the modern reader's questions live.
 - **Length:** Default Deep Dive (~12–15 min) per episode.
-- **Chapter count:** 5, following the v3.5 thematic re-segmentation.
+- **Chapter count:** 4, following the WC8 holistic four-episode structure.
 
 ## Status
 
-Fresh re-run, 2026-05-17. Prior workspace archived to `_archive/ayyuhal-walad-2026-05-17/`. All five chapter prose, framings, and episode txts authored under v3.5 (no inline phonetics, pronunciation lives in customize prompt only). Build script enforces gates.
+Published in place as a status-flag book. Reconciled 2026-06-29 against the current four chapter/episode pairs on disk: `validate_ship_ready.py` passed G1-G4, and the challenger report records `SHIP-WITH-CAUTION` with P0=0. The state file retains the abandoned failed rerun details as audit history; the top-level lifecycle is `done/ship-with-caution`.
 
 ## Canonical references
 

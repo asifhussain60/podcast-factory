@@ -556,7 +556,7 @@ function openTagPicker(
 }
 // ────────────────────────────────────────────────────────────────────────────
 
-export default function StudioPoc({ slug, chapters, glossary = [], glossaryAll = glossary, initialChapIdx = 0, contentProfile, archivedLineages = [], pipelineSteps = [], activeStep = 'edit', enrichment = null, glossaryCount = 0 }: Props) {
+export default function StudioPoc({ slug, chapters, glossary = [], glossaryAll = glossary, initialChapIdx = 0, contentProfile, archivedLineages = [], pipelineSteps: _pipelineSteps = [], activeStep: _activeStep = 'edit', enrichment = null, glossaryCount = 0 }: Props) {
   const depthLevels = DEPTH_LEVELS_BY_PROFILE[contentProfile ?? DEFAULT_DEPTH_PROFILE]
     ?? DEPTH_LEVELS_BY_PROFILE[DEFAULT_DEPTH_PROFILE];
 
@@ -567,7 +567,7 @@ export default function StudioPoc({ slug, chapters, glossary = [], glossaryAll =
     () => [{ id: 'current', label: 'Current rebuild', chapters }, ...archivedLineages],
     [chapters, archivedLineages],
   );
-  const [activeLineageId, setActiveLineageId] = useState('current');
+  const [activeLineageId] = useState('current');
   const activeLineage = lineages.find((l) => l.id === activeLineageId) ?? lineages[0];
   const isArchivedView = activeLineage.id !== 'current';
   const viewChapters = activeLineage.chapters;
@@ -591,12 +591,6 @@ export default function StudioPoc({ slug, chapters, glossary = [], glossaryAll =
   // Does this chapter+stage have an unapproved draft on disk? (Seeded server-side;
   // the editor's current content already IS the draft when this is true.)
   const hasDraftForStage = !!(stage && (chap.drafted?.[stage.id] ?? false));
-
-  // Switch lineage: reset to its first chapter (chapter boundaries differ between lineages).
-  const switchLineage = useCallback((id: string) => {
-    setActiveLineageId(id);
-    setChapIdx(0);
-  }, []);
 
   // WC8 write-back loop: which stages are approved (seeded from disk, updated on approve).
   const [approvedStages, setApprovedStages] = useState<Record<string, boolean>>(
