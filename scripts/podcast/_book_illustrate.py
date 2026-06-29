@@ -343,7 +343,7 @@ def _validate_concepts(raw_concepts: list) -> list[dict]:
 
 
 def _generate_pattern_svg_file(spec: dict, diagram_id: str,
-                                diagram_dir: Path) -> str | None:
+                                diagram_dir: Path, book_dir: Path | None = None) -> str | None:
     """Stage-2 generation for SVG-pattern types.
 
     Calls _svg_patterns.render_pattern() and writes the SVG file directly.
@@ -363,6 +363,14 @@ def _generate_pattern_svg_file(spec: dict, diagram_id: str,
             f"  [illustrate] render_pattern returned None for {diagram_id} ({stype})\n"
         )
         return None
+
+    if book_dir is not None:
+        try:
+            from _translation_edition import monochrome_svg, requires_monochrome_visuals  # noqa: PLC0415
+            if requires_monochrome_visuals(book_dir):
+                svg_str = monochrome_svg(svg_str)
+        except Exception:
+            pass
 
     # Geometry gate (2026-06-11): auto-expand the viewBox over escaping text;
     # surface any remaining overlap/min-type findings in the phase log.
@@ -465,6 +473,12 @@ def _render_diagrams(book_dir: Path, *, log=print) -> None:
                 continue
             src = svgf.read_text(encoding="utf-8")
             fixed = gate_svg(src, svgf.name, log=log)
+            try:
+                from _translation_edition import monochrome_svg, requires_monochrome_visuals  # noqa: PLC0415
+                if requires_monochrome_visuals(book_dir):
+                    fixed = monochrome_svg(fixed)
+            except Exception:
+                pass
             if fixed != src:
                 svgf.write_text(fixed, encoding="utf-8")
 
@@ -618,7 +632,7 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
                 else:
                     # ── SVG-pattern path ──
                     # Pure-Python renderer in _svg_patterns; no Playwright needed.
-                    svg_path = _generate_pattern_svg_file(spec, diagram_id, diagram_dir)
+                    svg_path = _generate_pattern_svg_file(spec, diagram_id, diagram_dir, book_dir)
                     if not svg_path:
                         continue
                     manifest.append({

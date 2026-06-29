@@ -40,7 +40,10 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -68,6 +71,9 @@ def _book_branch_enabled(book_dir: Path) -> bool:
     if not meta.exists():
         return False
     try:
+        from _translation_edition import is_translation_edition
+        if is_translation_edition(book_dir):
+            return True
         import yaml  # type: ignore[import]
         data = yaml.safe_load(meta.read_text(encoding="utf-8")) or {}
         return bool(data.get("series", {}).get("enable_book_branch", False))
@@ -95,6 +101,44 @@ def _pdf_page_count(pdf_bytes: bytes) -> int:
     variation between the key and value.
     """
     return len(re.findall(rb"/Type\s*/Page(?![A-Za-z])", pdf_bytes))
+
+
+def _pdf_text_blank_pages(pdf: Path, pages: int) -> list[int]:
+    """Return pages with no extractable text, when Poppler is available.
+
+    This catches accidental blank pages from print CSS page-break interactions.
+    If Poppler is unavailable or the extractor cannot read a synthetic/unit-test
+    PDF, defer to the structural page-count checks rather than failing open books
+    for an environment issue.
+    """
+    if pages < 1 or shutil.which("pdftotext") is None:
+        return []
+    blank: list[int] = []
+    try:
+        with tempfile.TemporaryDirectory(prefix="book-pdf-text-") as tmp:
+            tmp_dir = Path(tmp)
+            for page in range(1, pages + 1):
+                out = tmp_dir / f"p{page}.txt"
+                subprocess.run(
+                    [
+                        "pdftotext",
+                        "-f",
+                        str(page),
+                        "-l",
+                        str(page),
+                        str(pdf),
+                        str(out),
+                    ],
+                    check=True,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    timeout=15,
+                )
+                if not out.read_text(encoding="utf-8", errors="ignore").strip():
+                    blank.append(page)
+    except Exception:  # noqa: BLE001
+        return []
+    return blank
 
 
 def gate_b1_book_md_complete(book_dir: Path) -> tuple[bool, str]:
@@ -133,6 +177,11 @@ def gate_b2_book_pdf_renderable(book_dir: Path) -> tuple[bool, str]:
     if n_chapters and pages < n_chapters:
         return False, (f"book.pdf has {pages} pages but the TOC lists {n_chapters} "
                        f"chapters — render is truncated")
+    blank_pages = _pdf_text_blank_pages(pdf, pages)
+    if blank_pages:
+        shown = ", ".join(str(p) for p in blank_pages[:12])
+        more = f" (+{len(blank_pages) - 12} more)" if len(blank_pages) > 12 else ""
+        return False, f"book.pdf has blank page(s): {shown}{more}"
     return True, f"book.pdf: {size // 1024} KB, {pages} pages ≥ {n_chapters} chapters"
 
 
@@ -140,7 +189,31 @@ def gate_b3_book_arabic_coverage(book_dir: Path) -> tuple[bool, str]:
     """Hard gate for Islamic chapter Arabic, plus rendered-book coverage signal."""
     try:
         from _content_profile import is_islamic_scholarly
+        from _translation_edition import is_translation_edition
         if is_islamic_scholarly(book_dir):
+            if is_translation_edition(book_dir):
+                md = _pick_book_md(book_dir)
+                rendered = md.read_text(encoding="utf-8", errors="replace") if md.exists() else ""
+                rendered_runs = len(_ARABIC_RE.findall(rendered))
+                src_candidates = [
+                    book_dir / "_system" / "source" / "ocr" / "raw-extract.md",
+                    book_dir / "_system" / "source" / "text" / "raw-extract.md",
+                ]
+                source_text = ""
+                for candidate in src_candidates:
+                    if candidate.exists():
+                        source_text = candidate.read_text(encoding="utf-8", errors="replace")
+                        if len(_ARABIC_RE.findall(source_text)) >= 50:
+                            break
+                source_runs = len(_ARABIC_RE.findall(source_text))
+                if source_runs >= 50 and rendered_runs == 0:
+                    return False, (
+                        "translation-edition source has Arabic script but the rendered book has none"
+                    )
+                return True, (
+                    f"translation-edition Arabic preservation signal: "
+                    f"{rendered_runs} rendered Arabic runs from {source_runs} source runs"
+                )
             from inject_chapter_arabic import chapter_arabic_status
             status = chapter_arabic_status(book_dir)
             if not status.get("ok"):

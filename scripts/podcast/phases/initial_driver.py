@@ -192,6 +192,11 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
     # skipped — the historical behaviour. Pinned by test_routing_capabilities.py.
     profile = resolve_phase_profile(book_dir, category)
     caps = phase_capabilities(profile)
+    try:
+        from _translation_edition import is_translation_edition  # noqa: PLC0415
+        translation_edition = is_translation_edition(book_dir)
+    except Exception:
+        translation_edition = False
 
     def _arabic_verify(bd: Path, phase: str) -> None:
         """Hard Arabic-integrity gate (R-ARABIC-INTEGRITY) after an LLM pass.
@@ -217,12 +222,18 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
         _arabic_verify(bd, "0b")
 
     def _run_0c(bd: Path) -> None:
+        if translation_edition:
+            _info("phase 0c · skipped for translation-edition mode (no audio phonetics needed)")
+            return
         if caps.skip_phonetics:
             _info(f"phase 0c · skipped for profile '{profile}' (no Arabic transliteration needed)")
             return
         author_phase_0c(bd, log=_info)
 
     def _run_0ci(bd: Path) -> None:
+        if translation_edition:
+            _info("phase 0ci · skipped for translation-edition mode (no augmentation gap analysis)")
+            return
         # Skip guard: if 0d is already completed, this book pre-dates the feature — no-op.
         if "0d" in completed:
             _info("phase 0ci · 0d already completed (pre-feature book) — skipping")
@@ -234,6 +245,9 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
         _gate_0d_contracts(bd)
 
     def _run_0e(bd: Path) -> None:
+        if translation_edition:
+            _info("phase 0e · skipped for translation-edition mode (outside-source augmentation forbidden)")
+            return
         if caps.skip_enrichment:
             _info(f"phase 0e · skipped for profile '{profile}' (no doctrinal enrichment for this content type)")
             return

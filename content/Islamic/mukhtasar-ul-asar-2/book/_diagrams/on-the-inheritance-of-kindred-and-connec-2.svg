@@ -1,0 +1,22 @@
+<svg id="Nearer_Kin_Exclude_the_More_Remote__by_D" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 356" role="img" aria-labelledby="Nearer_Kin_Exclude_the_More_Remote__by_D_t Nearer_Kin_Exclude_the_More_Remote__by_D_d">
+<title id="Nearer_Kin_Exclude_the_More_Remote__by_D_t">Nearer Kin Exclude the More Remote (by Degree of Proximity)</title>
+<desc id="Nearer_Kin_Exclude_the_More_Remote__by_D_d">Hierarchy: Deceased → Paternal uncle and aunt, Maternal uncle and aunt → Sons of uncles and aunts (cousins)</desc>
+<style>#Nearer_Kin_Exclude_the_More_Remote__by_D{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#111111;}#Nearer_Kin_Exclude_the_More_Remote__by_D text{font-family:'Lato', system-ui, sans-serif;}</style>
+<defs><marker id="svgp_arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#777777"/></marker></defs>
+<text x="250.0" y="14.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#000000"><tspan x="250.0" dy="0">Nearer Kin Exclude the More Remote (by</tspan><tspan x="250.0" dy="20">Degree of Proximity)</tspan></text>
+<rect x="166.0" y="52.0" width="168.0" height="44.0" fill="#000000" stroke="#000000" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="74.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#ffffff"><tspan x="250.0" dy="0">Deceased</tspan></text>
+<rect x="77.0" y="148.0" width="168.0" height="44.0" fill="#555555" stroke="#d0d0d0" stroke-width="1.0" rx="4"/>
+<text x="161.0" y="163.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#ffffff"><tspan x="161.0" dy="0">Paternal uncle and</tspan><tspan x="161.0" dy="14">aunt</tspan></text>
+<rect x="255.0" y="148.0" width="168.0" height="44.0" fill="#555555" stroke="#d0d0d0" stroke-width="1.0" rx="4"/>
+<text x="339.0" y="163.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#ffffff"><tspan x="339.0" dy="0">Maternal uncle and</tspan><tspan x="339.0" dy="14">aunt</tspan></text>
+<rect x="166.0" y="244.0" width="168.0" height="44.0" fill="#d9d9d9" stroke="#d0d0d0" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="259.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#111111"><tspan x="250.0" dy="0">Sons of uncles and</tspan><tspan x="250.0" dy="14">aunts (cousins)</tspan></text>
+<line x1="250.0" y1="96.0" x2="250.0" y2="122.0" stroke="#777777" stroke-width="1.5"/>
+<line x1="161.0" y1="122.0" x2="339.0" y2="122.0" stroke="#777777" stroke-width="1.5"/>
+<line x1="161.0" y1="122.0" x2="161.0" y2="142.0" stroke="#777777" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="339.0" y1="122.0" x2="339.0" y2="142.0" stroke="#777777" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="161.0" y1="192.0" x2="161.0" y2="218.0" stroke="#777777" stroke-width="1.5"/>
+<line x1="339.0" y1="192.0" x2="339.0" y2="218.0" stroke="#777777" stroke-width="1.5"/>
+<line x1="250.0" y1="218.0" x2="250.0" y2="238.0" stroke="#777777" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+</svg>

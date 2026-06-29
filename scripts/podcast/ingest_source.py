@@ -33,7 +33,8 @@ PIPELINE
 
 OUTPUTS
 
-    raw-extract.md       — the canonical Phase 0a artifact named in SKILL.md §1.5
+    raw-extract.md       — the canonical English Phase 0a artifact named in SKILL.md §1.5
+    ../ocr/raw-extract.md — original-language OCR, when Translator runs
     _provenance.json     — sidecar with timestamps, char counts, doc IDs (audit trail)
     _extraction-notes.md — created empty if missing; Phase 0b/0c append to it
 
@@ -59,7 +60,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from _paths import REPO_ROOT
+from _paths import REPO_ROOT, find_content, content_dir
 
 # Local imports — _azure.py is the credential + REST adapter.
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -78,12 +79,17 @@ def find_book_dir(book_slug: str, category: str | None) -> Path:
     and refuses on ambiguity (two books in different categories sharing a
     slug). The intent: this script does not scaffold; `scaffold_book.py` does.
     """
+    found = find_content(book_slug)
+    if found:
+        return found[2]
+
     if category:
         candidate = LIBRARY_DIR / category / book_slug
         if not candidate.is_dir():
+            modern_candidate = content_dir(book_slug, category=category)
             raise SystemExit(
-                f"ERROR: book directory not found: {candidate}\n"
-                f"Run: python3 scripts/podcast/scaffold_book.py {category} {book_slug} \"<Title>\""
+                f"ERROR: book directory not found: {candidate} or {modern_candidate}\n"
+                f"Run the intake cockpit or create content/<Bucket>/{book_slug}/ first."
             )
         return candidate
 
@@ -160,8 +166,11 @@ def main() -> int:
 
     book_dir = find_book_dir(args.book_slug, args.category)
     out_dir = book_dir / "_system" / "source" / "text"
+    ocr_dir = book_dir / "_system" / "source" / "ocr"
     out_dir.mkdir(parents=True, exist_ok=True)
+    ocr_dir.mkdir(parents=True, exist_ok=True)
     raw_path = out_dir / "raw-extract.md"
+    ocr_raw_path = ocr_dir / "raw-extract.md"
     prov_path = out_dir / "_provenance.json"
     notes_path = out_dir / "_extraction-notes.md"
 
@@ -240,6 +249,8 @@ def main() -> int:
 
     # ── Persist ──────────────────────────────────────────────────────────
     raw_path.write_text(final_text, encoding="utf-8")
+    if not args.no_translate:
+        ocr_raw_path.write_text(ocr_text, encoding="utf-8")
     if not notes_path.exists():
         notes_path.write_text(
             "# Extraction notes\n\n"
@@ -281,6 +292,10 @@ def main() -> int:
         ),
         "outputs": {
             "raw_extract": str(raw_path.relative_to(REPO_ROOT)),
+            "ocr_raw_extract": (
+                str(ocr_raw_path.relative_to(REPO_ROOT))
+                if not args.no_translate else None
+            ),
             "extraction_notes": str(notes_path.relative_to(REPO_ROOT)),
         },
     }
@@ -288,6 +303,8 @@ def main() -> int:
 
     print()
     print(f"OK: wrote {raw_path.relative_to(REPO_ROOT)}")
+    if not args.no_translate:
+        print(f"OK: wrote {ocr_raw_path.relative_to(REPO_ROOT)}")
     print(f"OK: wrote {prov_path.relative_to(REPO_ROOT)}")
     print()
     print("Next: Phase 0b (English refinement) — see SKILL.md §1.5.")
