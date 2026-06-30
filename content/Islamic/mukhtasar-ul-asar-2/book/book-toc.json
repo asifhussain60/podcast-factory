@@ -30,7 +30,7 @@
       "source_line_ranges": [
         [
           645,
-          741
+          667
         ]
       ],
       "theme": "Sworn obligation",
@@ -41,8 +41,8 @@
       "title": "The Body's Portion: Food, Drink, and Healing",
       "source_line_ranges": [
         [
-          759,
-          1074
+          668,
+          987
         ]
       ],
       "theme": "Nourishment and cure",
@@ -53,8 +53,8 @@
       "title": "What We Wear: Dress, Adornment, and Fragrance",
       "source_line_ranges": [
         [
-          1091,
-          1201
+          989,
+          1090
         ]
       ],
       "theme": "Self-presentation",
@@ -65,8 +65,8 @@
       "title": "The Hunt and the Knife: Game, Slaughter, and Sacrifice",
       "source_line_ranges": [
         [
-          1221,
-          1369
+          1091,
+          1220
         ]
       ],
       "theme": "Taking animal life",
@@ -77,8 +77,8 @@
       "title": "Marriage and the Household",
       "source_line_ranges": [
         [
-          1379,
-          2033
+          1221,
+          1844
         ]
       ],
       "theme": "Forming a family",
@@ -89,8 +89,8 @@
       "title": "When a Marriage Ends: Divorce and Separation",
       "source_line_ranges": [
         [
-          2045,
-          2289
+          1845,
+          2073
         ]
       ],
       "theme": "Dissolving marriage",
@@ -101,8 +101,8 @@
       "title": "Freedom, Generosity, and the Division of Estates",
       "source_line_ranges": [
         [
-          2298,
-          2476
+          2074,
+          2268
         ]
       ],
       "theme": "Transfer of persons and property",
@@ -113,7 +113,7 @@
       "title": "Wrong and Redress: Crime, Property Disputes, and the Judge",
       "source_line_ranges": [
         [
-          2482,
+          2269,
           2862
         ]
       ],

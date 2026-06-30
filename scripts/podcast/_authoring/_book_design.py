@@ -78,6 +78,13 @@ multiple non-contiguous ranges if book-craft merges scattered material.
 whether to include it, give it a title, and optionally point to the source lines it draws on).
 5. Give each chapter a real, evocative modern chapter TITLE (not the source's clause \
 headings) and a one-sentence rationale naming the thematic seam.
+6. Ground every title in its OWN assigned source ranges. Before finalizing, compare \
+each chapter title/rationale against the first and last substantive lines inside that \
+chapter's ranges. Do not shift a neighboring theme onto the wrong range. If the range \
+is about hunting, slaughter, marriage, sales, inheritance, retaliation, or another \
+explicit source heading, the title/rationale must reflect that same material.
+7. Never ask the later writer to resolve a title/source conflict. If a proposed title \
+does not match the assigned source lines, change either the title or the ranges now.
 
 OUTPUT
 Return ONLY a JSON object, no prose around it, in exactly this shape:

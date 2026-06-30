@@ -64,6 +64,33 @@ function renderInline(text) {
   s = s.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
   return s;
 }
+
+function extractToc(md) {
+  const items = [];
+  const headingRe = /^##\s+(.+)$/gm;
+  let match;
+  let sawNumbered = false;
+  while ((match = headingRe.exec(md)) !== null) {
+    const raw = match[1].trim();
+    const numbered = raw.match(/^(\d+)\.\s+(.+)$/);
+    if (numbered) {
+      sawNumbered = true;
+      items.push({ label: numbered[1], title: numbered[2].trim() });
+    } else if (!sawNumbered && items.length === 0) {
+      items.push({ label: items.length === 0 ? 'Preface' : '', title: raw });
+    }
+  }
+  return items;
+}
+
+function renderToc(items) {
+  if (!items.length) return '';
+  const rows = items.map((item) => {
+    const label = item.label ? `<span class="toc-label">${escapeHtml(item.label)}</span>` : '';
+    return `<li>${label}<span class="toc-title">${renderInline(item.title)}</span></li>`;
+  }).join('');
+  return `<section class="toc-page"><p class="toc-eyebrow">Contents</p><h2>Contents</h2><ol>${rows}</ol></section>`;
+}
 /** ASCII-fold a display name (meta.yml authors carry diacritics). */
 function asciiFold(s) {
   return s
@@ -75,13 +102,48 @@ function asciiFold(s) {
 function readAuthor(bookContentDir) {
   const metaPath = path.join(bookContentDir, 'meta.yml');
   if (!existsSync(metaPath)) return '';
-  const m = readFileSync(metaPath, 'utf-8').match(/^\s*author:\s*["']?([^"'\n]+)["']?\s*$/m);
-  return m ? asciiFold(m[1].trim()) : '';
+  const line = readFileSync(metaPath, 'utf-8').split(/\r?\n/).find((l) => /^\s*author:\s*/.test(l));
+  if (!line) return '';
+  let value = line.replace(/^\s*author:\s*/, '').trim();
+  if (
+    (value.startsWith('"') && value.endsWith('"'))
+    || (value.startsWith("'") && value.endsWith("'"))
+  ) {
+    value = value.slice(1, -1);
+  }
+  return asciiFold(value.trim());
+}
+function readCrosswalk(bookContentDir) {
+  const p = path.join(bookContentDir, 'book', 'source-crosswalk.json');
+  if (!existsSync(p)) return [];
+  try {
+    const data = JSON.parse(readFileSync(p, 'utf-8'));
+    return Array.isArray(data?.chapters) ? data.chapters : [];
+  } catch {
+    return [];
+  }
+}
+
+function renderSourceCrosswalk(items) {
+  if (!items.length) return '';
+  const rows = items.map((item) => {
+    const n = item.index ? String(item.index) : '';
+    const range = item.arabic_source_page_range || item.source_page_range || '';
+    const heads = Array.isArray(item.source_headings) && item.source_headings.length
+      ? item.source_headings.slice(0, 3).join('; ')
+      : (item.source_excerpt || '').slice(0, 140);
+    return `<tr><td>${escapeHtml(n)}</td><td>${renderInline(item.title || '')}</td>`
+      + `<td>${escapeHtml(range)}</td><td>${renderInline(heads || '')}</td></tr>`;
+  }).join('');
+  return '<section class="crosswalk-page"><p class="toc-eyebrow">Source Crosswalk</p>'
+    + '<h2>Source Crosswalk</h2>'
+    + '<table><thead><tr><th>Ch.</th><th>Chapter</th><th>Arabic pages</th><th>Source signal</th></tr></thead>'
+    + `<tbody>${rows}</tbody></table></section>`;
 }
 
 /** Minimal renderer matching markdown.ts behaviour for book.md (headings,
  *  paragraphs, blockquotes, and raw HTML blocks like <figure class="book-diagram">). */
-function renderMd(md) {
+function renderMd(md, crosswalkByIndex = new Map()) {
   const lines = md.replace(/\r\n/g, '\n').split('\n');
   const out = [];
   let para = [];
@@ -144,7 +206,8 @@ function renderMd(md) {
       const text = h[2].trim();
       if (level === 2) {
         // Book-style chapter opening. "N. Title" → CHAPTER N eyebrow + bare
-        // title; the unnumbered first h2 is the preface.
+        // title; the unnumbered first h2 is the preface. Later unnumbered H2s
+        // are internal source headings and must stay in the prose flow.
         const isFirstH2 = !sawH2;
         const numbered = text.match(/^(\d+)\.\s+(.+)$/);
         let eyebrow;
@@ -157,15 +220,25 @@ function renderMd(md) {
           eyebrow = sawH2 ? '' : 'Preface';
           title = text;
         }
-        sawH2 = true;
-        chapterJustOpened = true;
-        out.push(
-          `<section class="chapter-open${isFirstH2 ? ' first-chapter-open' : ''}">`
-          + (eyebrow ? `<p class="ch-eyebrow">${escapeHtml(eyebrow)}</p>` : '')
-          + `<h2>${renderInline(title)}</h2>`
-          + '<hr class="ch-rule">'
-          + '</section>',
-        );
+        if (numbered || isFirstH2) {
+          const sourceRange = numbered
+            ? (crosswalkByIndex.get(parseInt(numbered[1], 10))?.arabic_source_page_range
+                || crosswalkByIndex.get(parseInt(numbered[1], 10))?.source_page_range
+                || '')
+            : '';
+          sawH2 = true;
+          chapterJustOpened = true;
+          out.push(
+            `<section class="chapter-open${isFirstH2 ? ' first-chapter-open' : ''}">`
+            + (eyebrow ? `<p class="ch-eyebrow">${escapeHtml(eyebrow)}</p>` : '')
+            + `<h2>${renderInline(title)}</h2>`
+            + (sourceRange ? `<p class="ch-source">Arabic source ${escapeHtml(sourceRange)}</p>` : '')
+            + '<hr class="ch-rule">'
+            + '</section>',
+          );
+        } else {
+          out.push(`<h3 class="section-heading">${renderInline(text)}</h3>`);
+        }
       } else {
         out.push(`<h${level}>${renderInline(text)}</h${level}>`);
       }
@@ -191,6 +264,7 @@ async function main() {
   const titleMatch = md.match(/^#\s+(.+)$/m);
   const title = titleMatch ? titleMatch[1].trim() : path.basename(MD_PATH, '.md');
   const body = md.replace(/^#\s+.+$\n?/m, '');
+  const tocItems = extractToc(body);
   const rootTokens = existsSync(themePath) ? themeRoot(readFileSync(themePath, 'utf-8')) : '';
   const printCss = readFileSync(printCssPath, 'utf-8');
 
@@ -199,6 +273,8 @@ async function main() {
   // served from plan-dashboard/public/fonts at /fonts/.
   const assetRoot = path.resolve(path.dirname(MD_PATH), '..');
   const author = readAuthor(assetRoot);
+  const crosswalk = readCrosswalk(assetRoot);
+  const crosswalkByIndex = new Map(crosswalk.map((item) => [Number(item.index), item]));
   const coverPath = path.join(path.dirname(MD_PATH), 'cover.png');
   const hasCover = existsSync(coverPath);
 
@@ -212,7 +288,9 @@ async function main() {
     `<section class="title-page"><p class="eyebrow">Reading edition</p>`
     + `<h1>${escapeHtml(title)}</h1>`
     + (author ? `<p class="title-author">${escapeHtml(author)}</p>` : '')
-    + `<hr class="title-rule"></section>`;
+    + `<hr class="title-rule">`
+    + `<div class="disclaimer-panel">Generated using podcast-factory AI. Verify content; AI can make mistakes.</div>`
+    + `</section>`;
 
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>
     :root {${rootTokens}}
@@ -220,7 +298,9 @@ ${printCss}
   </style></head><body>
     ${coverHtml}
     ${titlePage}
-    ${renderMd(body)}
+    ${renderToc(tocItems)}
+    ${renderSourceCrosswalk(crosswalk)}
+    ${renderMd(body, crosswalkByIndex)}
   </body></html>`;
 
   const MIME = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.woff2': 'font/woff2' };
