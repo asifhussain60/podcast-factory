@@ -356,7 +356,7 @@ def gate_b6_book_source_crosswalk(book_dir: Path) -> tuple[bool, str]:
 
 
 def validate_book(book_dir: Path, *, strict: bool = False) -> dict:
-    """Run B1-B3 and return a verdict dict. Pure read-only."""
+    """Run B1-B6 and return a verdict dict. Pure read-only."""
     book_dir = Path(book_dir).resolve()
     if not _book_branch_enabled(book_dir):
         return {"slug": book_dir.name, "verdict": "N/A",
