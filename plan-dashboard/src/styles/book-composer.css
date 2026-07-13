@@ -4,25 +4,13 @@
  * data-driven figure width rides the --cx-w custom property set at runtime by
  * book-composer.ts. */
 
-.composer-head {
-  margin: 0 0 1rem;
-}
-.composer-head .composer-eyebrow {
-  font-family: var(--font-ui, system-ui, sans-serif);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.72rem;
-  color: var(--c-ink-muted, #87827a);
-  margin: 0 0 0.2rem;
-}
-.composer-head h1 {
-  margin: 0;
-  font-size: 1.6rem;
-}
-.composer-head .composer-sub {
+/* One-line help text that sits under the title inside the shared .lib-hero
+   identity block. The header structure itself is the shared Studio hero. */
+.composer-sub {
   color: var(--c-ink-muted, #87827a);
   font-size: 0.9rem;
-  margin: 0.3rem 0 0;
+  margin: 0.2rem 0 0;
+  max-width: 60ch;
 }
 
 .composer-grid {

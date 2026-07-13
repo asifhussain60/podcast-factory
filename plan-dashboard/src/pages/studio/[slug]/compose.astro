@@ -12,6 +12,7 @@
 import Base from '../../../layouts/Base.astro';
 import { loadComposer } from '../../../lib/reader/composer';
 import { slugToTitle } from '../../../lib/content-paths';
+import '../../../styles/library.css';
 import '../../../styles/book-reader.css';
 import '../../../styles/book-composer.css';
 
@@ -29,13 +30,29 @@ const dataJson = view
 >
   {view?.hasBook ? (
     <div class="composer" data-slug={slug}>
-      <header class="composer-head">
-        <p class="composer-eyebrow">Book Composer</p>
-        <h1>{bookTitle}</h1>
-        <p class="composer-sub">
-          Place each visual candidate where it belongs, then generate the PDF.
-          Drag a figure between chapters to move it; pick alignment, flow, and width on the right.
-        </p>
+      <header class="lib-hero">
+        <div class="lib-hero-main">
+          <div class="lib-breadcrumb">
+            <a href="/studio">Studio</a>
+            <span class="lib-sep">›</span>
+            <span>Book Composer</span>
+          </div>
+          <div class="lib-title-row">
+            <h1>{bookTitle}</h1>
+          </div>
+          <p class="composer-sub">
+            Place each visual candidate where it belongs, then generate the PDF.
+            Drag a figure between chapters to move it; pick alignment, flow, and width on the right.
+          </p>
+        </div>
+        <div class="lib-hero-aside">
+          <div class="lib-title-actions">
+            <a class="lib-studio-link" href={`/studio/${slug}/edit`}>
+              <i class="fa-solid fa-feather-pointed" aria-hidden="true"></i> Edit &amp; Enrich
+              <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
       </header>
 
       <div class="composer-grid">

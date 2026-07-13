@@ -9,6 +9,7 @@
 import Base from '../../../layouts/Base.astro';
 import { loadBook } from '../../../lib/reader/book';
 import { slugToTitle } from '../../../lib/content-paths';
+import '../../../styles/library.css';
 import '../../../styles/book-reader.css';
 
 const slug = Astro.params.slug!;
@@ -22,13 +23,30 @@ const bookTitle = book?.title ?? slugToTitle(slug);
 >
   {book ? (
     <>
-    <header class="bookv-head">
-      <p class="bookv-head-eyebrow">Reading edition</p>
-      <h1>{bookTitle}</h1>
-    </header>
+    <div class="bookv-head">
+      <header class="lib-hero">
+        <div class="lib-hero-main">
+          <div class="lib-breadcrumb">
+            <a href="/studio">Studio</a>
+            <span class="lib-sep">›</span>
+            <span>Reading edition</span>
+          </div>
+          <div class="lib-title-row">
+            <h1>{bookTitle}</h1>
+          </div>
+        </div>
+        <div class="lib-hero-aside">
+          <div class="lib-title-actions">
+            <a class="lib-studio-link" href={`/studio/${slug}/edit`}>
+              <i class="fa-solid fa-feather-pointed" aria-hidden="true"></i> Edit &amp; Enrich
+              <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </header>
+    </div>
     <div class="bookv">
       <nav class="bookv-toc" aria-label="Chapters">
-        <a class="bookv-back" href={`/studio/${slug}/edit`}>← Edit &amp; Enrich</a>
         <p class="bookv-toc-eyebrow">Contents</p>
         <ol class="bookv-toc-list">
           {book.toc.map((t) => (

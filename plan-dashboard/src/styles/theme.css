@@ -2899,8 +2899,12 @@ table.data tr:hover td { background: var(--c-bg-sunken); }
   border-left-color: var(--c-accent);
   background: color-mix(in oklab, var(--c-accent) 8%, transparent);
 }
-/* Only render at viewports wide enough that it doesn't overlap content */
-@media (max-width: 1400px) { .jump-nav { display: none !important; } }
+/* Only render at viewports wide enough that a 13rem nav clears the content.
+   Content is --maxw-page (1560px); the nav needs 13rem + gap of margin to its
+   right, so overlap only stops at ~2040px (below that `right` clamps to the
+   edge and the nav paints over right-aligned content — stat strips, hero
+   diagrams). Below 2040px the nav is hidden rather than overlapping. */
+@media (max-width: 2040px) { .jump-nav { display: none !important; } }
 @media print { .jump-nav { display: none !important; } }
 
 /* ── Section number marker (REQ-004) ─────────────────────────────────────── */
