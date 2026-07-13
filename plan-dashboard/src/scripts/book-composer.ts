@@ -16,9 +16,9 @@ interface Visual {
   id: string; type: string; caption: string; file: string; src: string;
   suggested_anchor: string; cleaned: boolean; embedded_title: string;
 }
-interface Chapter { anchor: string; key: string; title: string; }
+interface Chapter { anchor: string; key: string; title: string; paras: number; }
 interface Placement {
-  visual_id: string; anchor: string; align: Align; flow: Flow;
+  visual_id: string; anchor: string; anchor_para: number | null; align: Align; flow: Flow;
   width_pct: number; caption: string; page_fit: PageFit;
 }
 interface ComposerData {
@@ -58,7 +58,9 @@ function boot(): void {
     if (align === 'center') flow = 'standalone';
     if (flow === 'wrap' && width > WRAP_MAX) flow = 'standalone';
     const page_fit = (['avoid', 'before', 'isolate-plate'] as PageFit[]).includes(p.page_fit) ? p.page_fit : 'avoid';
-    return { visual_id: p.visual_id, anchor: p.anchor, align, flow, width_pct: width, caption: p.caption ?? '', page_fit };
+    let anchor_para: number | null = p.anchor_para == null ? null : Math.max(0, Math.floor(Number(p.anchor_para)));
+    if (anchor_para != null && !Number.isFinite(anchor_para)) anchor_para = null;
+    return { visual_id: p.visual_id, anchor: p.anchor, anchor_para, align, flow, width_pct: width, caption: p.caption ?? '', page_fit };
   }
 
   function markDirty(): void { dirty = true; saveBtn.disabled = false; setStatus(''); }
@@ -72,7 +74,7 @@ function boot(): void {
     if (placements.some((p) => p.visual_id === visualId)) return;
     const v = visualsById.get(visualId);
     placements.push(normalize({
-      visual_id: visualId, anchor, align: 'center', flow: 'standalone',
+      visual_id: visualId, anchor, anchor_para: null, align: 'center', flow: 'standalone',
       width_pct: 60, caption: v?.caption ?? '', page_fit: 'avoid',
     } as Placement));
     selected = visualId;
@@ -203,6 +205,7 @@ function boot(): void {
     controlsEl.appendChild(flowField(p));
     controlsEl.appendChild(widthField(p));
     controlsEl.appendChild(anchorField(p));
+    controlsEl.appendChild(positionField(p));
     controlsEl.appendChild(captionField(p));
     controlsEl.appendChild(pageFitField(p));
 
@@ -281,8 +284,26 @@ function boot(): void {
       o.selected = anchorKey(c.anchor) === anchorKey(p.anchor);
       sel.appendChild(o);
     });
-    sel.addEventListener('change', () => update(p.visual_id, { anchor: sel.value }));
+    // Moving to a different chapter resets the paragraph position to the default.
+    sel.addEventListener('change', () => update(p.visual_id, { anchor: sel.value, anchor_para: null }));
     return field('Anchor chapter', sel);
+  }
+
+  function positionField(p: Placement): HTMLElement {
+    const paras = chapterByKey.get(anchorKey(p.anchor))?.paras ?? 0;
+    const sel = document.createElement('select');
+    const opt = (value: string, label: string, selected: boolean) => {
+      const o = document.createElement('option');
+      o.value = value; o.textContent = label; o.selected = selected;
+      sel.appendChild(o);
+    };
+    sel.setAttribute('aria-label', 'Position in chapter');
+    opt('', 'After intro (default)', p.anchor_para == null);
+    opt('0', 'Chapter top', p.anchor_para === 0);
+    for (let i = 1; i <= paras; i += 1) opt(String(i), `After paragraph ${i}`, p.anchor_para === i);
+    sel.addEventListener('change', () =>
+      update(p.visual_id, { anchor_para: sel.value === '' ? null : Number(sel.value) }));
+    return field('Position in chapter', sel);
   }
 
   function captionField(p: Placement): HTMLElement {

@@ -66,6 +66,15 @@ def test_validate_flags_wrong_schema() -> None:
     assert any("unexpected schema" in x for x in warnings)
 
 
+def test_anchor_para_normalization() -> None:
+    assert normalize_placement({"visual_id": "a"})[0]["anchor_para"] is None
+    assert normalize_placement({"visual_id": "a", "anchor_para": 3})[0]["anchor_para"] == 3
+    assert normalize_placement({"visual_id": "a", "anchor_para": 0})[0]["anchor_para"] == 0
+    assert normalize_placement({"visual_id": "a", "anchor_para": -4})[0]["anchor_para"] == 0
+    assert normalize_placement({"visual_id": "a", "anchor_para": "x"})[0]["anchor_para"] is None
+    assert normalize_placement({"visual_id": "a", "anchor_para": ""})[0]["anchor_para"] is None
+
+
 def test_load_absent_layout_is_empty(tmp_path: Path) -> None:
     placements, warnings = load_layout(tmp_path)
     assert placements == [] and warnings == []

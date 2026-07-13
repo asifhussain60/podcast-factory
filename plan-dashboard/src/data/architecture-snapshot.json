@@ -130,6 +130,20 @@
       "failure_mode": "surfaces error and halts"
     },
     {
+      "id": "book-render-challenger",
+      "name": "Book Render Challenger",
+      "role": "Print-render challenger for the Book Pipeline v2 reading edition \u2014 it gates the ",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Print-render challenger for the Book Pipeline v2 reading edition \u2014 it gates the RENDERED PDF (`BOOK_DIR/book/book.pdf`), the one thing the semantic `book-challenger` (which reads book.md) and the on-screen `html-view-quality` standard ca\u2026",
+      "what_it_knows": "See infra/claude-agents/book-render-challenger.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
+    {
       "id": "html-view-challenger",
       "name": "Html View Challenger",
       "role": "Conformance challenger for HTML views, Astro pages, components, and diagrams on ",
@@ -559,6 +573,6 @@
       ]
     }
   ],
-  "generated_at": "2026-06-29T06:11:29-04:00",
-  "source_commit": "29e1c0c5"
+  "generated_at": "2026-07-13T12:01:21-04:00",
+  "source_commit": "7566c39"
 }

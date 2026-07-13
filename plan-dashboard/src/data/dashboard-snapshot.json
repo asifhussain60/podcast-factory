@@ -762,6 +762,133 @@
       "last_touched": null
     },
     {
+      "id": "BPV2-0",
+      "wave": "BPV2",
+      "title": "Flag scaffold + Astro write-back spike",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "The on/off switch for the whole feature, defaulting to off, plus confirming the site can save files.",
+      "tools": [
+        "scripts/podcast/_pipeline_flags.py"
+      ],
+      "last_touched": "deb9902"
+    },
+    {
+      "id": "BPV2-1",
+      "wave": "BPV2",
+      "title": "Unify the two book routes into one path (two knobs)",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "One book-making path; two dials pick the voice and whether to add source-grounded notes.",
+      "tools": [
+        "scripts/podcast/_book_pipeline_v2.py",
+        "scripts/podcast/_book_augment.py",
+        "scripts/podcast/_book_voice.py"
+      ],
+      "last_touched": "2b1fe88"
+    },
+    {
+      "id": "BPV2-2",
+      "wave": "BPV2",
+      "title": "Renderer honors the visual-layout contract + professional pagination",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "The PDF places each picture where the human chose and fills pages like a real book.",
+      "tools": [
+        "scripts/podcast/_visual_layout.py",
+        "plan-dashboard/scripts/visual-layout.mjs",
+        "plan-dashboard/src/styles/book-print.css"
+      ],
+      "last_touched": "301f3e1"
+    },
+    {
+      "id": "BPV2-3",
+      "wave": "BPV2",
+      "title": "Decouple visuals into a candidate asset library",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "Diagrams and cleaned slides become a palette of choices instead of being auto-stamped into the book.",
+      "tools": [
+        "scripts/podcast/_visual_candidates.py",
+        "scripts/podcast/_book_illustrate.py",
+        "scripts/podcast/_slide_import.py"
+      ],
+      "last_touched": "0531578"
+    },
+    {
+      "id": "BPV2-4",
+      "wave": "BPV2",
+      "title": "Astro Book Composer view",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "The page where a person drags pictures into place, sizes them, and clicks Generate PDF.",
+      "tools": [
+        "plan-dashboard/src/pages/studio/[slug]/compose.astro",
+        "plan-dashboard/src/scripts/book-composer.ts"
+      ],
+      "last_touched": "e201e4b"
+    },
+    {
+      "id": "BPV2-5",
+      "wave": "BPV2",
+      "title": "Modern-English prose (de-calque + fluency pass)",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "Smooths stiff word-for-word-from-Arabic phrasing into fluent English without changing any teaching.",
+      "tools": [
+        "scripts/podcast/_authoring/_refine.py",
+        "scripts/podcast/_book_voice.py"
+      ],
+      "last_touched": "90faeda"
+    },
+    {
+      "id": "BPV2-6",
+      "wave": "BPV2",
+      "title": "Governance \u2014 print standard + book-render-challenger",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "A quality bar for the printed pages and a checker that inspects the finished PDF.",
+      "tools": [
+        "docs/standards/book-print-quality.md",
+        "scripts/podcast/_book_render_checks.py"
+      ],
+      "last_touched": "ba7ae11"
+    },
+    {
+      "id": "BPV2-7",
+      "wave": "BPV2",
+      "title": "Acceptance matrix; cutover held",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "A test suite pinning the whole contract; the risky final switch is documented and deliberately not flipped yet.",
+      "tools": [
+        "scripts/podcast/tests/test_book_pipeline_v2_acceptance.py",
+        "_workspace/plan/book-pipeline-cutover.md"
+      ],
+      "last_touched": "3aed8e3"
+    },
+    {
+      "id": "BPV2-8",
+      "wave": "BPV2",
+      "title": "repo-surgeon v2 probes + merge to develop",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "Taught the repo auditor to verify the new architecture, then merged everything to the working branch.",
+      "tools": [
+        "skills-staging/repo-surgeon/SKILL.md"
+      ],
+      "last_touched": "06df259"
+    },
+    {
       "id": "O1",
       "wave": "O",
       "title": "BUG-SLIDE-001 \u2014 per-chapter-slides trigger fix for manually-processed books",
@@ -1275,6 +1402,11 @@
       "plain": ""
     },
     {
+      "id": "BPV2",
+      "name": "Book Pipeline v2 \u2014 unify book routes + decouple visuals (flag OFF)",
+      "plain": ""
+    },
+    {
       "id": "O",
       "name": "PDF Reading Edition \u2014 0book-illustrate Phase + BUG-SLIDE-001",
       "plain": ""
@@ -1322,60 +1454,60 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-06-29T06:11:29-04:00",
-  "source_commit": "29e1c0c5",
+  "generated_at": "2026-07-13T12:01:21-04:00",
+  "source_commit": "7566c39",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "29e1c0c5",
-      "subject": "merge(ayyuhal-walad): sync latest branch into develop",
-      "date": "2026-06-29"
+      "sha": "7566c39",
+      "subject": "plan: register Book Pipeline v2 in the canonical roadmap + snapshots",
+      "date": "2026-07-13"
     },
     {
-      "sha": "c93d19f7",
-      "subject": "chore(agents): sync challenger activation copy",
-      "date": "2026-06-29"
+      "sha": "58f179f",
+      "subject": "docs(status): Book Pipeline v2 merged to develop (flag OFF)",
+      "date": "2026-07-13"
     },
     {
-      "sha": "21596edb",
-      "subject": "podcast: remove local slide helper paths",
-      "date": "2026-06-24"
+      "sha": "4165160",
+      "subject": "merge(book-pipeline-v2): unify book routes + decoupled visuals + Book Composer (flag OFF)",
+      "date": "2026-07-13"
     },
     {
-      "sha": "eeac4a5e",
-      "subject": "merge Al Anwaar fixes into develop",
-      "date": "2026-06-24"
+      "sha": "06df259",
+      "subject": "book-pipeline-v2 Phase 8: teach repo-surgeon the v2 architecture",
+      "date": "2026-07-13"
     },
     {
-      "sha": "ffe22c99",
-      "subject": "podcast: fix Al Anwaar approval and Arabic pipeline",
-      "date": "2026-06-24"
+      "sha": "3aed8e3",
+      "subject": "book-pipeline-v2 Phase 7: acceptance matrix (green); cutover held",
+      "date": "2026-07-13"
     },
     {
-      "sha": "b89a973f",
-      "subject": "podcast(al-anwaar-vol-01): add noise audit confirmation",
-      "date": "2026-06-24"
+      "sha": "ba7ae11",
+      "subject": "book-pipeline-v2 Phase 6: governance \u2014 print standard + render challenger",
+      "date": "2026-07-13"
     },
     {
-      "sha": "af5e85f5",
-      "subject": "Merge branch 'Islamic/al-anwaar-al-lateefah' into develop",
-      "date": "2026-06-24"
+      "sha": "90faeda",
+      "subject": "book-pipeline-v2 Phase 5: modern-English prose (de-calque + fluency pass)",
+      "date": "2026-07-13"
     },
     {
-      "sha": "02120256",
-      "subject": "chore: add Codex tooling mirror (.codex/ agents + hooks, AGENTS.md)",
-      "date": "2026-06-24"
+      "sha": "e201e4b",
+      "subject": "book-pipeline-v2 Phase 4: the Astro Book Composer",
+      "date": "2026-07-13"
     },
     {
-      "sha": "281aa5de",
-      "subject": "book(al-anwaar-al-lateefah-vol-01): fix mermaid-mindmap multiple-roots render failure",
-      "date": "2026-06-24"
+      "sha": "0531578",
+      "subject": "book-pipeline-v2 Phase 3: decouple visuals into a candidate asset library",
+      "date": "2026-07-13"
     },
     {
-      "sha": "7e987e51",
-      "subject": "podcast(al-anwaar-al-lateefah-vol-01): noise-auditor confirmation re-sweep \u2014 CLEAN",
-      "date": "2026-06-24"
+      "sha": "301f3e1",
+      "subject": "book-pipeline-v2 Phase 2: renderer honors the contract + pro pagination",
+      "date": "2026-07-13"
     }
   ],
   "wave_execution_events": [],

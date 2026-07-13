@@ -45,8 +45,19 @@ export function normalizePlacement(raw) {
   let pageFit = String(raw.page_fit || 'avoid').trim().toLowerCase();
   if (!PAGE_FITS.includes(pageFit)) { warnings.push(`${vid}: unknown page_fit -> avoid`); pageFit = 'avoid'; }
 
+  // anchor_para: 0-based paragraph within the anchor chapter AFTER which the
+  // figure is placed. null => after the intro (first) paragraph (§26.3). Negative
+  // clamps to 0 (chapter top, before the intro).
+  let anchorPara = raw.anchor_para;
+  if (anchorPara === null || anchorPara === undefined || anchorPara === '') anchorPara = null;
+  else {
+    anchorPara = parseInt(anchorPara, 10);
+    if (!Number.isFinite(anchorPara)) anchorPara = null;
+    else anchorPara = Math.max(0, anchorPara);
+  }
+
   return {
-    placement: { visual_id: vid, anchor, align, flow, width_pct: widthPct, caption: String(raw.caption || '').trim(), page_fit: pageFit },
+    placement: { visual_id: vid, anchor, anchor_para: anchorPara, align, flow, width_pct: widthPct, caption: String(raw.caption || '').trim(), page_fit: pageFit },
     warnings,
   };
 }
@@ -102,34 +113,63 @@ export function figureHtml(placement, assetSrc, embeddedTitle = '') {
 }
 
 /**
- * Insert each placement's figure into `bodyHtml` immediately after its anchor
- * chapter <section class="chapter-open">…</section> block (the anchor is the
- * chapter heading text, e.g. "## 2. Title" or its rendered "2. Title").
- * `assetsById` maps visual_id -> { src, embeddedTitle }. Unknown ids are skipped
- * (tolerant of a partial contract). Returns the augmented body HTML.
+ * Insert each placement's figure into `bodyHtml` at its anchor chapter, AFTER the
+ * paragraph given by `anchor_para` (0-based; null => after the intro/first
+ * paragraph per §26.3; 0 => chapter top, before any paragraph). A figure whose
+ * target paragraph exceeds the chapter's paragraph count is flushed at the
+ * chapter's end. `assetsById` maps visual_id -> { src, embeddedTitle }; unknown
+ * ids are skipped (tolerant of a partial contract). Returns the augmented HTML.
  */
 export function applyLayout(bodyHtml, placements, assetsById) {
   if (!placements.length) return bodyHtml;
-  // Group figures by the anchor's chapter number/title so we can inject after
-  // the chapter-open section. We match on the <h2> text the renderer emitted.
-  const byAnchor = new Map();
+  const byKey = new Map();
   for (const p of placements) {
     const asset = assetsById.get(p.visual_id);
     if (!asset || !asset.src) continue;
     const key = anchorKey(p.anchor);
-    if (!byAnchor.has(key)) byAnchor.set(key, []);
-    byAnchor.get(key).push(figureHtml(p, asset.src, asset.embeddedTitle || ''));
+    if (!byKey.has(key)) byKey.set(key, []);
+    byKey.get(key).push({ p, fig: figureHtml(p, asset.src, asset.embeddedTitle || '') });
   }
-  if (!byAnchor.size) return bodyHtml;
-  // Split on chapter-open sections; append matching figures right after each.
-  const chapterRe = /(<section class="chapter-open[^"]*">[\s\S]*?<\/section>)/g;
-  return bodyHtml.replace(chapterRe, (block) => {
-    const h2 = block.match(/<h2>([\s\S]*?)<\/h2>/);
-    if (!h2) return block;
-    const key = anchorKey(h2[1]);
-    const figs = byAnchor.get(key);
-    return figs && figs.length ? `${block}\n${figs.join('\n')}` : block;
-  });
+  if (!byKey.size) return bodyHtml;
+
+  const isChapterOpen = (l) => /<section class="chapter-open/.test(l);
+  const isParagraph = (l) => /^\s*<p[\s>]/.test(l);
+  const h2Of = (l) => anchorKey((l.match(/<h2>([\s\S]*?)<\/h2>/) || ['', ''])[1]);
+
+  // Per-chapter schedule: resolved-paragraph-index -> [figure html].
+  const scheduleFor = (key) => {
+    const byPara = new Map();
+    for (const { p, fig } of byKey.get(key) || []) {
+      const idx = p.anchor_para == null ? 1 : p.anchor_para;  // default: after intro
+      if (!byPara.has(idx)) byPara.set(idx, []);
+      byPara.get(idx).push(fig);
+    }
+    return byPara;
+  };
+
+  const lines = bodyHtml.split('\n');
+  const out = [];
+  let byPara = new Map();
+  let paraSeen = 0;
+  let inChapter = false;
+  const emit = (idx) => { if (byPara.has(idx)) { out.push(...byPara.get(idx)); byPara.delete(idx); } };
+  const flush = () => { if (byPara.size) { for (const figs of byPara.values()) out.push(...figs); byPara.clear(); } };
+
+  for (const line of lines) {
+    if (isChapterOpen(line)) {
+      flush();                       // dump previous chapter's overflow at its end
+      out.push(line);
+      byPara = scheduleFor(h2Of(line));
+      paraSeen = 0;
+      inChapter = true;
+      emit(0);                       // anchor_para=0 -> right after the chapter opener
+      continue;
+    }
+    out.push(line);
+    if (inChapter && isParagraph(line)) { paraSeen += 1; emit(paraSeen); }
+  }
+  flush();
+  return out.join('\n');
 }
 
 /** Normalize an anchor / heading to a comparable key: strip markup, "N." prefix, case. */

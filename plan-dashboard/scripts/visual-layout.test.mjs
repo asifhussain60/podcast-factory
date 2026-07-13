@@ -60,14 +60,35 @@ t('anchorKey normalizes markup + numbering', () => {
   assert.equal(anchorKey('## 2. Patience'), 'patience');
   assert.equal(anchorKey('<h2>2. Patience</h2>'), 'patience');
 });
-t('applyLayout injects figure after matching chapter-open', () => {
-  const body = '<section class="chapter-open"><h2>2. Patience</h2></section>\n<p>text</p>';
-  const placements = [{ visual_id: 'f1', anchor: '## 2. Patience', align: 'center', flow: 'standalone', width_pct: 60, caption: 'c', page_fit: 'avoid' }];
-  const assets = new Map([['f1', { src: '/book/visuals/f1.svg' }]]);
-  const out = applyLayout(body, placements, assets);
+function norm(raw) { return validateLayout({ schema: SCHEMA, placements: [raw] }).placements[0]; }
+
+t('applyLayout default places figure AFTER the intro paragraph (§26.3)', () => {
+  const body = '<section class="chapter-open"><h2>2. Patience</h2></section>\n<p>intro</p>\n<p>more</p>';
+  const p = norm({ visual_id: 'f1', anchor: '## 2. Patience', flow: 'standalone', width_pct: 60, caption: 'c' });
+  const out = applyLayout(body, [p], new Map([['f1', { src: '/book/visuals/f1.svg' }]]));
   assert.ok(out.includes('v2-fig'));
-  assert.ok(out.indexOf('v2-fig') > out.indexOf('</h2>'));
-  assert.ok(out.indexOf('v2-fig') < out.indexOf('<p>text'));
+  assert.ok(out.indexOf('v2-fig') > out.indexOf('<p>intro</p>'));   // after intro
+  assert.ok(out.indexOf('v2-fig') < out.indexOf('<p>more</p>'));    // before 2nd para
+});
+t('anchor_para=0 places figure at chapter top', () => {
+  const body = '<section class="chapter-open"><h2>2. Patience</h2></section>\n<p>intro</p>';
+  const p = norm({ visual_id: 'f1', anchor: '## 2. Patience', anchor_para: 0, flow: 'standalone', width_pct: 60, caption: 'c' });
+  const out = applyLayout(body, [p], new Map([['f1', { src: '/x.svg' }]]));
+  assert.ok(out.indexOf('v2-fig') < out.indexOf('<p>intro</p>'));   // before any paragraph
+});
+t('anchor_para=2 places figure after the 2nd paragraph', () => {
+  const body = '<section class="chapter-open"><h2>2. Patience</h2></section>\n<p>a</p>\n<p>b</p>\n<p>c</p>';
+  const p = norm({ visual_id: 'f1', anchor: '## 2. Patience', anchor_para: 2, flow: 'standalone', width_pct: 60, caption: 'c' });
+  const out = applyLayout(body, [p], new Map([['f1', { src: '/x.svg' }]]));
+  assert.ok(out.indexOf('v2-fig') > out.indexOf('<p>b</p>'));
+  assert.ok(out.indexOf('v2-fig') < out.indexOf('<p>c</p>'));
+});
+t('overflow anchor_para flushes at chapter end (before next chapter)', () => {
+  const body = '<section class="chapter-open"><h2>1. A</h2></section>\n<p>only</p>\n<section class="chapter-open"><h2>2. B</h2></section>\n<p>next</p>';
+  const p = norm({ visual_id: 'f1', anchor: '## 1. A', anchor_para: 9, flow: 'standalone', width_pct: 60, caption: 'c' });
+  const out = applyLayout(body, [p], new Map([['f1', { src: '/x.svg' }]]));
+  assert.ok(out.indexOf('v2-fig') > out.indexOf('<p>only</p>'));
+  assert.ok(out.indexOf('v2-fig') < out.indexOf('2. B'));   // did not leak into chapter 2
 });
 t('applyLayout skips unknown visual id (partial contract tolerant)', () => {
   const body = '<section class="chapter-open"><h2>2. Patience</h2></section>';

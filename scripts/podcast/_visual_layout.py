@@ -70,10 +70,23 @@ def normalize_placement(raw: dict[str, Any]) -> tuple[dict[str, Any], list[str]]
         warnings.append(f"{vid or '?'}: unknown page_fit {page_fit!r} -> avoid")
         page_fit = "avoid"
 
+    # anchor_para: 0-based paragraph within the anchor chapter AFTER which the
+    # figure sits. None => after the intro (first) paragraph (§26.3); negatives
+    # clamp to 0 (chapter top). Mirrors visual-layout.mjs.
+    raw_para = raw.get("anchor_para")
+    if raw_para in (None, ""):
+        anchor_para = None
+    else:
+        try:
+            anchor_para = max(0, int(raw_para))
+        except (TypeError, ValueError):
+            anchor_para = None
+
     return (
         {
             "visual_id": vid,
             "anchor": anchor,
+            "anchor_para": anchor_para,
             "align": align,
             "flow": flow,
             "width_pct": width_pct,

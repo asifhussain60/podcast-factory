@@ -12,7 +12,7 @@
  * stdlib json — the same TS-writes / Python-reads convention as editorial.ts.
  */
 import type { APIRoute } from 'astro';
-import { writeFileSync, existsSync, copyFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, readFileSync, existsSync, copyFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { findContentDirSync } from '../../../lib/content-paths';
 import { apiOk, apiError, apiServerError } from '../../../lib/api-responses';
@@ -22,6 +22,25 @@ import { validateLayout, SCHEMA } from '../../../../scripts/visual-layout.mjs';
 export const prerender = false;
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+// GET /api/studio/visual-layout?slug= — return the current curated layout so the
+// Composer (or any client) can re-fetch the contract without a full page reload.
+// Reads book/visual-layout.json through the shared validator; absent file => [].
+export const GET: APIRoute = async ({ url }) => {
+  const slug = String(url.searchParams.get('slug') ?? '').trim();
+  if (!SLUG_RE.test(slug)) return apiError('Invalid slug');
+  const bookDir = findContentDirSync(slug);
+  if (!bookDir) return apiError(`Book not found: ${slug}`, 404);
+  const target = join(bookDir, 'book', 'visual-layout.json');
+  if (!existsSync(target)) return apiOk({ slug, schema: SCHEMA, placements: [], warnings: [] });
+  try {
+    const raw = JSON.parse(readFileSync(target, 'utf8'));
+    const { placements, warnings } = validateLayout(raw);
+    return apiOk({ slug, schema: SCHEMA, placements, warnings });
+  } catch (e) {
+    return apiServerError(`Failed to read visual-layout.json: ${String(e)}`);
+  }
+};
 
 export const PUT: APIRoute = async ({ request }) => {
   let body: Record<string, unknown>;

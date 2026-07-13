@@ -22,6 +22,7 @@ export interface ComposerChapter {
   key: string;      // normalized comparable key (mirrors visual-layout anchorKey)
   title: string;    // display title
   html: string;     // rendered chapter body
+  paras: number;    // prose-paragraph count (for the anchor_para position control)
 }
 
 export interface ComposerVisual {
@@ -38,6 +39,7 @@ export interface ComposerVisual {
 export interface ComposerPlacement {
   visual_id: string;
   anchor: string;
+  anchor_para: number | null;
   align: 'left' | 'center' | 'right';
   flow: 'wrap' | 'standalone';
   width_pct: number;
@@ -93,11 +95,17 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     const heading = parts[i].trim();
     const body = (parts[i + 1] ?? '').trim();
     const displayTitle = heading.replace(/^##\s+\d*\.?\s*/, '').trim();
+    // Prose-paragraph count: blank-line-separated blocks that aren't a blockquote,
+    // heading, or HTML block — mirrors what applyLayout counts as a paragraph.
+    const paras = body
+      .split(/\n\s*\n/)
+      .filter((b) => b.trim() && !/^\s*[>#<]/.test(b)).length;
     chapters.push({
       anchor: heading,
       key: anchorKey(heading),
       title: displayTitle,
       html: renderMarkdown(body),
+      paras,
     });
   }
 

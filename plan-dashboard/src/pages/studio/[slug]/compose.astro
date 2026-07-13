@@ -19,7 +19,7 @@ const slug = Astro.params.slug!;
 const view = await loadComposer(slug);
 const bookTitle = view?.title ?? slugToTitle(slug);
 const dataJson = view
-  ? JSON.stringify({ slug, chapters: view.chapters.map((c) => ({ anchor: c.anchor, key: c.key, title: c.title })), visuals: view.visuals, placements: view.placements })
+  ? JSON.stringify({ slug, chapters: view.chapters.map((c) => ({ anchor: c.anchor, key: c.key, title: c.title, paras: c.paras })), visuals: view.visuals, placements: view.placements })
   : '';
 ---
 <Base
