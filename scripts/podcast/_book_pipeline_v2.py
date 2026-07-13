@@ -25,6 +25,7 @@ from pathlib import Path
 from _pipeline_flags import (
     BOOK_AUGMENTATION_SOURCE_ONLY,
     BOOK_VOICE_AUTHOR_COMPANION,
+    BOOK_VOICE_FAITHFUL,
     book_augmentation,
     book_voice,
 )
@@ -50,13 +51,21 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         book_dir, log=log, force=force, enforce_contract=False
     )
 
-    # 2. Additive source-grounded enrichment (optional, gated, non-destructive).
+    # 2. Fluency de-calque over the FAITHFUL base (Phase 5). author_companion books
+    #    get their fluency from the re-voice pass below, so this only runs for the
+    #    faithful voice. Gated by the same fidelity checks; reverts per-chapter.
+    if voice == BOOK_VOICE_FAITHFUL:
+        from _book_voice import apply_fluency_adapt  # noqa: PLC0415
+
+        book_md = apply_fluency_adapt(book_dir, log=log, force=force)
+
+    # 3. Additive source-grounded enrichment (optional, gated, non-destructive).
     if augmentation == BOOK_AUGMENTATION_SOURCE_ONLY:
         from _book_augment import author_phase_book_augment  # noqa: PLC0415
 
         book_md = author_phase_book_augment(book_dir, log=log, force=force)
 
-    # 3. Author-companion re-voice (optional, gated, reverts on drift).
+    # 4. Author-companion re-voice (optional, gated, reverts on drift).
     if voice == BOOK_VOICE_AUTHOR_COMPANION:
         from _book_voice import apply_author_companion_voice  # noqa: PLC0415
 

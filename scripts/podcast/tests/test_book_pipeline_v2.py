@@ -192,7 +192,7 @@ def test_compose_book_v2_runs_stages_per_knobs(tmp_path: Path, monkeypatch: pyte
     assert calls == ["base", "augment", "voice"]
 
 
-def test_compose_book_v2_faithful_none_runs_base_only(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_compose_book_v2_faithful_none_runs_base_then_fluency(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     import _book_pipeline_v2
     import _translation_edition
     import _book_augment as aug
@@ -206,9 +206,30 @@ def test_compose_book_v2_faithful_none_runs_base_only(tmp_path: Path, monkeypatc
     calls: list[str] = []
     monkeypatch.setattr(_translation_edition, "author_translation_edition_compose",
                         lambda bd, **k: calls.append("base") or (Path(bd) / "book" / "book.md"))
+    monkeypatch.setattr(voice, "apply_fluency_adapt",
+                        lambda bd, **k: calls.append("fluency"))
     monkeypatch.setattr(aug, "author_phase_book_augment",
                         lambda bd, **k: calls.append("augment"))
     monkeypatch.setattr(voice, "apply_author_companion_voice",
                         lambda bd, **k: calls.append("voice"))
     _book_pipeline_v2.compose_book_v2(bd, log=lambda *a: None)
-    assert calls == ["base"]  # {none, faithful} -> base only
+    # {none, faithful} -> base + fluency de-calque, no augment/re-voice
+    assert calls == ["base", "fluency"]
+
+
+def test_fluency_reverts_calqued_drift(tmp_path: Path) -> None:
+    from _book_voice import apply_fluency_adapt
+
+    bd = _book(tmp_path, _BASE)
+
+    def fake_adapter(title, base_text, book_dir, label, log):
+        if "Knowledge" in title:
+            return base_text.replace("Seek", "You should seek")  # faithful polish -> kept
+        return "x"  # teaching loss -> reverted
+
+    apply_fluency_adapt(bd, log=lambda *a: None, adapter=fake_adapter)
+    out = (bd / "book" / "book.md").read_text(encoding="utf-8")
+    assert "You should seek knowledge" in out       # chapter 1 kept
+    assert "The patient are rewarded without measure." in out  # chapter 2 reverted to base
+    report = json.loads((bd / "_system" / "book-fluency-report.json").read_text())
+    assert report["adapted"] == 1 and report["reverted"] == 1
