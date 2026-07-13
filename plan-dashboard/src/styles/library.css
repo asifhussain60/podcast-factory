@@ -103,9 +103,28 @@
    old sprawling detail head + toolbar + quality strip. */
 .lib-hero {
   display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4) var(--sp-6);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-4);
+}
+/* Left: identity + status, grouped as one block. */
+.lib-hero-main {
+  display: flex;
   flex-direction: column;
   gap: var(--sp-2);
-  margin-bottom: var(--sp-4);
+  min-width: 0;
+  flex: 1 1 24rem;
+}
+/* Right: the actions and slug travel together instead of floating apart. */
+.lib-hero-aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--sp-2);
+  text-align: right;
 }
 .lib-hero-chips {
   display: flex;
@@ -117,7 +136,6 @@
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: var(--fs-2xs);
   color: var(--c-ink-muted);
-  margin-left: auto;
 }
 .lib-state-chip {
   display: inline-flex;
@@ -312,13 +330,19 @@ a.lib-fact-file:focus-visible { outline: 2px solid var(--c-accent); outline-offs
   flex-wrap: wrap;
 }
 .lib-title-row h1 { margin: 0; }
-/* Both header actions sit together, pinned to the right of the title row. */
+/* Actions stack in the right-hand aside, right-aligned and sized to content. */
 .lib-title-actions {
-  margin-left: auto;
   display: inline-flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
   gap: var(--sp-2);
-  flex-wrap: wrap;
+}
+/* On narrow viewports the aside drops below and its buttons go full-width. */
+@media (max-width: 40rem) {
+  .lib-hero-aside { align-self: stretch; align-items: stretch; text-align: left; }
+  .lib-title-actions { align-items: stretch; }
+  .lib-hero-aside .lib-studio-link { justify-content: center; }
+  .lib-hero-slug { text-align: left; }
 }
 .lib-studio-link {
   display: inline-flex;
