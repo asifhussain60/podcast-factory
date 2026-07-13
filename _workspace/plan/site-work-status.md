@@ -6,15 +6,28 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-06-29 1:14 PM EDT (translation-edition PDF render fixes)
+**Last updated:** 2026-07-13 10:23 AM EST (Book Pipeline v2 merged, flag OFF)
 
-**Current branch merged into develop:** Islamic/al-anwaar-al-lateefah.
+**Current branch merged into develop:** book-pipeline-v2 (merge 4165160, --no-ff).
 
-**What changed:** The book PDF renderer now wraps inline Arabic runs in isolated
-RTL spans before Playwright PDF rendering, with print CSS for `.ar-inline`. The
-title-page/first-chapter pagination rule no longer emits a blank spacer page, and
-`validate_book_ready.py` now blocks rendered PDFs with blank text pages. These
-fixes do not rerun ingest, compose, illustration, or slide authoring.
+**What changed:** Book Pipeline v2 landed behind the `book_pipeline_v2` flag
+(default OFF — zero behaviour change on develop until a book opts in). New Astro
+surface: the **Book Composer** at `/studio/<slug>/compose` (view
+`studio/[slug]/compose.astro`, loader `lib/reader/composer.ts`, client
+`scripts/book-composer.ts`, styles `styles/book-composer.css`) where a human
+places visual candidates (align/flow/width/drag-anchor/caption/page_fit), Save
+writes `book/visual-layout.json` via `api/studio/visual-layout.ts`, and Generate
+PDF calls `api/studio/generate-book-pdf.ts`. Assets served by
+`api/studio/visual-asset.ts`. The PDF renderer (`render-book-pdf.mjs` +
+`book-print.css` under `body.book-v2`) consumes the layout contract (floats for
+wrap, centered for standalone, one-plate, page-fill) — all flag-scoped. Contract
+mirror: `_visual_layout.py` ↔ `visual-layout.mjs` ↔ `composer.ts` anchorKey.
+
+**Site verification:** `lint:views` clean, `astro check` 0/0/0, `npm run build`
+succeeds, `node scripts/visual-layout.test.mjs` (12) green, and the Composer was
+driven in-browser (desktop + mobile): place → configure → Save writes a valid
+`book.visual-layout/v1` file → wrap clamps width to 50%. `html-view-challenger`
+PASS (Level 1).
 
 **Current translation-edition state:** `mukhtasar-ul-asar-2` has a rerendered
 titled PDF in `content/Islamic/mukhtasar-ul-asar-2/book/` and the Google Drive
