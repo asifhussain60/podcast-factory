@@ -655,6 +655,23 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
 
     _render_diagrams(book_dir, log=log)
 
+    # book_pipeline_v2: decouple visuals. The diagrams are generated exactly as
+    # before, but instead of injecting them into book-illustrated.md they are
+    # emitted as CANDIDATES to book/visuals/index.json for human curation.
+    # book.md stays diagram-free; the render input is book.md (see
+    # build_book_pdf._pick_book_md).
+    try:
+        from _pipeline_flags import book_pipeline_v2_enabled  # noqa: PLC0415
+        v2 = book_pipeline_v2_enabled(book_dir)
+    except Exception:  # noqa: BLE001
+        v2 = False
+    if v2:
+        from _visual_candidates import emit_diagram_candidates, merge_entries  # noqa: PLC0415
+        merge_entries(book_dir, emit_diagram_candidates(book_dir, manifest, log=log))
+        log(f"    0book-illustrate: v2 — {len(manifest)} diagram candidate(s) offered, "
+            f"book.md left diagram-free")
+        return book_md_path
+
     log(f"    0book-illustrate: assembling book-illustrated.md")
     illustrated_md = _inject_figures(book_md, manifest)
     illustrated_path.write_text(illustrated_md, encoding="utf-8")

@@ -91,8 +91,18 @@ def _book_title(book_dir: Path) -> str:
 
 def _pick_book_md(book_dir: Path) -> Path:
     """Render-input priority: book-slides.md (inject_slide_deck.py) >
-    book-illustrated.md (0book-illustrate) > book.md (0book-compose)."""
+    book-illustrated.md (0book-illustrate) > book.md (0book-compose).
+
+    Under book_pipeline_v2 the visuals are decoupled — figures come from the
+    curated visual-layout.json, not from injected *-slides/-illustrated markdown —
+    so the render input is always the diagram-free book.md."""
     book = book_dir / "book"
+    try:
+        from _pipeline_flags import book_pipeline_v2_enabled  # noqa: PLC0415
+        if book_pipeline_v2_enabled(book_dir):
+            return book / "book.md"
+    except Exception:  # noqa: BLE001
+        pass
     for name in ("book-slides.md", "book-illustrated.md"):
         candidate = book / name
         if candidate.exists():
