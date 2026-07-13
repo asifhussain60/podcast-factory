@@ -22,6 +22,28 @@ removes the OFF-path safety net before v2 is proven.
 today's output byte-for-byte (proven by the acceptance suite + per-phase tests).
 Landing this on `develop` changes nothing until someone opts a book in.
 
+## Validation progress (2026-07-13)
+
+**Fluency de-calque — VALIDATED on real content.** The highest-risk new behavior
+(the fluency de-calque pass + its faithfulness gates, `_book_voice.apply_fluency_adapt`
+/ `revoice_gates`) was exercised directly on two real chapters of
+`mukhtasar-ul-asar-2` (Binding Words 1060w; What We Wear 3012w / 59 Arabic runs):
+
+- Both **KEPT** (de-calqued, passed every gate); **0 reverted-on-drift**.
+- Genuine prose de-calque (e.g. "went out one cold day wearing a fur cloak" ->
+  "once went out on a cold day in a fur") with the teaching, the quoted hadith, and
+  the `(ع)` honorific preserved verbatim.
+- **All 59 Arabic-script runs preserved** (Arabic-preservation gate held); word
+  counts held/rose (anti-abridge gate held); no new doctrinal P0.
+
+The author-companion re-voice pass shares the same `revoice_gates` machinery, so this
+also validates that path's safety. **Conclusion:** the accuracy question at the heart
+of the cutover is answered — the new pass improves readability without altering
+meaning. Still outstanding for a FULL cutover gate: the whole knob matrix run
+end-to-end on both fixture books + the Astro Composer -> Generate PDF ->
+book-render-challenger loop (needs a stable session for the long compose; the
+environment killed the multi-hour base recompose twice on 2026-07-13).
+
 ## Validation gate (run first, when spend is authorized)
 
 On a fixture book, set `book_pipeline_v2: true` in its `series-config.yaml` (or

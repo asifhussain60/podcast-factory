@@ -6,7 +6,14 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-07-13 10:23 AM EST (Book Pipeline v2 merged, flag OFF)
+**Last updated:** 2026-07-13 12:10 PM EST (v2 review follow-ups + fluency validated)
+
+**Current branch merged into develop:** book-pipeline-v2 (merge 4165160, --no-ff);
+review follow-ups in 3a7534a (GET visual-layout endpoint, paragraph-level
+anchor_para + "Position in chapter" Composer control, dashboard snapshots).
+Fluency de-calque validated faithful on 2 real mukhtasar chapters (both kept, 59
+Arabic runs preserved) — see `_workspace/plan/book-pipeline-cutover.md`. Cutover
+still held pending the full knob-matrix + PDF render loop.
 
 **Current branch merged into develop:** book-pipeline-v2 (merge 4165160, --no-ff).
 
