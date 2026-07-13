@@ -1,0 +1,78 @@
+---
+/**
+ * Studio — Book Composer (Book Pipeline v2).
+ *
+ * /studio/<slug>/compose — where a human curates how the decoupled visual
+ * candidates (book/visuals/index.json) are placed in the reading edition. The
+ * page server-renders the book preview + candidate palette; book-composer.ts
+ * drives placement (drag between chapters, align/flow/width/caption/page_fit),
+ * writes book/visual-layout.json via /api/studio/visual-layout, then triggers a
+ * render via /api/studio/generate-book-pdf.
+ */
+import Base from '../../../layouts/Base.astro';
+import { loadComposer } from '../../../lib/reader/composer';
+import { slugToTitle } from '../../../lib/content-paths';
+import '../../../styles/book-reader.css';
+import '../../../styles/book-composer.css';
+
+const slug = Astro.params.slug!;
+const view = await loadComposer(slug);
+const bookTitle = view?.title ?? slugToTitle(slug);
+const dataJson = view
+  ? JSON.stringify({ slug, chapters: view.chapters.map((c) => ({ anchor: c.anchor, key: c.key, title: c.title })), visuals: view.visuals, placements: view.placements })
+  : '';
+---
+<Base
+  title={`Book Composer — ${bookTitle}`}
+  active="studio"
+  description={`Studio · Book Composer · ${bookTitle}`}
+>
+  {view?.hasBook ? (
+    <div class="composer" data-slug={slug}>
+      <header class="composer-head">
+        <p class="composer-eyebrow">Book Composer</p>
+        <h1>{bookTitle}</h1>
+        <p class="composer-sub">
+          Place each visual candidate where it belongs, then generate the PDF.
+          Drag a figure between chapters to move it; pick alignment, flow, and width on the right.
+        </p>
+      </header>
+
+      <div class="composer-grid">
+        <section class="composer-preview" aria-label="Book preview">
+          {view.chapters.map((ch) => (
+            <div class="cx-chapter" data-anchor={ch.anchor} data-key={ch.key}>
+              <h2>{ch.title}</h2>
+              <div class="cx-figures" data-key={ch.key}></div>
+              <div class="cx-body" set:html={ch.html}></div>
+            </div>
+          ))}
+        </section>
+
+        <aside class="composer-panel" aria-label="Composer controls">
+          <div class="cx-card">
+            <h2>Candidates</h2>
+            <div class="cx-palette-list" id="cx-palette-list"></div>
+          </div>
+          <div class="cx-card cx-controls" id="cx-controls" hidden></div>
+          <div class="cx-card">
+            <h2>Output</h2>
+            <div class="cx-actions">
+              <button type="button" class="cx-action" id="cx-save">Save layout</button>
+              <button type="button" class="cx-action is-secondary" id="cx-generate">Generate PDF</button>
+            </div>
+            <p class="cx-status" id="cx-status" role="status" aria-live="polite"></p>
+          </div>
+        </aside>
+      </div>
+
+      <script type="application/json" id="composer-data" is:inline set:html={dataJson}></script>
+    </div>
+  ) : (
+    <div class="composer-empty">
+      <p>No reading edition has been composed for this book yet.</p>
+      <p><a class="bookv-back" href={`/studio/${slug}/edit`}>← Back to Edit &amp; Enrich</a></p>
+    </div>
+  )}
+  <script>import '../../../scripts/book-composer.ts';</script>
+</Base>

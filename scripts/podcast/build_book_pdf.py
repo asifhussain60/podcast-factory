@@ -91,8 +91,18 @@ def _book_title(book_dir: Path) -> str:
 
 def _pick_book_md(book_dir: Path) -> Path:
     """Render-input priority: book-slides.md (inject_slide_deck.py) >
-    book-illustrated.md (0book-illustrate) > book.md (0book-compose)."""
+    book-illustrated.md (0book-illustrate) > book.md (0book-compose).
+
+    Under book_pipeline_v2 the visuals are decoupled — figures come from the
+    curated visual-layout.json, not from injected *-slides/-illustrated markdown —
+    so the render input is always the diagram-free book.md."""
     book = book_dir / "book"
+    try:
+        from _pipeline_flags import book_pipeline_v2_enabled  # noqa: PLC0415
+        if book_pipeline_v2_enabled(book_dir):
+            return book / "book.md"
+    except Exception:  # noqa: BLE001
+        pass
     for name in ("book-slides.md", "book-illustrated.md"):
         candidate = book / name
         if candidate.exists():
@@ -100,7 +110,8 @@ def _pick_book_md(book_dir: Path) -> Path:
     return book / "book.md"
 
 
-def build_book(book_dir: Path, *, log=print, book_md: Path | None = None) -> Path:
+def build_book(book_dir: Path, *, log=print, book_md: Path | None = None,
+               surface_finder: bool = True) -> Path:
     book_dir = Path(book_dir).resolve()
     if book_md is None:
         book_md = _pick_book_md(book_dir)
@@ -118,9 +129,19 @@ def build_book(book_dir: Path, *, log=print, book_md: Path | None = None) -> Pat
     from _book_cover import ensure_cover
     ensure_cover(book_dir, log=log)
 
+    # book_pipeline_v2: resolve the per-book flag and hand it to the renderer so
+    # it honors book/visual-layout.json + the v2 pagination CSS. Flag OFF -> "0"
+    # -> renderer output is byte-for-byte unchanged.
+    try:
+        from _pipeline_flags import book_pipeline_v2_enabled  # noqa: PLC0415
+        flag_v2 = "1" if book_pipeline_v2_enabled(book_dir) else "0"
+    except Exception:  # noqa: BLE001 — never let the flag lookup break rendering
+        flag_v2 = "0"
+
     log(f"    0book-render: {book_dir.name}: {src_label} -> book.pdf (Playwright)")
     proc = subprocess.run(
-        ["node", str(_RENDER_SCRIPT), str(book_md.resolve()), str(out_pdf), str(_THEME_CSS)],
+        ["node", str(_RENDER_SCRIPT), str(book_md.resolve()), str(out_pdf),
+         str(_THEME_CSS), flag_v2],
         cwd=_DASHBOARD, capture_output=True, text=True)
     if proc.returncode == 3:
         raise AuthoringError(
@@ -166,8 +187,10 @@ def build_book(book_dir: Path, *, log=print, book_md: Path | None = None) -> Pat
     else:
         log(f"    0book-render: Google Drive Podcast Library not found — skipping Drive copy")
 
-    if not drive_copied:
+    if not drive_copied and surface_finder:
         # Surface the titled copy in Finder so Asif can drag it to Drive manually.
+        # Skipped for API/headless renders (surface_finder=False) so a server-side
+        # "Generate PDF" never pops a Finder window.
         import subprocess as _sp
         _sp.run(["open", str(titled_pdf.parent)], check=False)
         log(f"    0book-render: opened Finder → drag {titled_pdf.name} to Drive manually")
@@ -176,14 +199,26 @@ def build_book(book_dir: Path, *, log=print, book_md: Path | None = None) -> Pat
 
 
 def main() -> int:
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    import json as _json
+    argv = sys.argv[1:]
+    as_json = "--json" in argv  # API/Composer mode: single JSON line, no Finder pop
+    args = [a for a in argv if not a.startswith("--")]
     if not args:
-        print("usage: build_book_pdf.py <BOOK_DIR>", file=sys.stderr)
+        print("usage: build_book_pdf.py <BOOK_DIR> [--json]", file=sys.stderr)
         return 2
+    book_dir = Path(args[0])
     try:
-        build_book(Path(args[0]))
+        out = build_book(book_dir, log=(lambda *a: None) if as_json else print,
+                         surface_finder=not as_json)
+        if as_json:
+            print(_json.dumps({"ok": True, "pdf": str(out),
+                               "kb": out.stat().st_size // 1024}))
         return 0
     except AuthoringError as e:
+        if as_json:
+            print(_json.dumps({"ok": False, "error": str(e),
+                               "manual_fallback": e.manual_fallback}))
+            return 1
         print(f"ERROR [{e.phase}]: {e}\n  → {e.manual_fallback}", file=sys.stderr)
         return 1
 

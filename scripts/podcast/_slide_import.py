@@ -280,13 +280,32 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False,
             combined_svgs[offset + n] = svg
         imported[ch] = sum(1 for e in entries if e["anchor_text"])
 
+    total = sum(imported.values())
+    total_svg = sum(svg_counts.values())
+
+    # book_pipeline_v2: decouple visuals. Extract + watermark-clean the slides
+    # exactly as before, but emit them as CANDIDATES to book/visuals/index.json
+    # (raster watermark-cropped; verified vector replicas preferred) instead of
+    # injecting them into book-slides.md. book.md stays diagram-free.
+    try:
+        from _pipeline_flags import book_pipeline_v2_enabled  # noqa: PLC0415
+        v2 = book_pipeline_v2_enabled(book_dir)
+    except Exception:  # noqa: BLE001
+        v2 = False
+    if v2:
+        from _visual_candidates import emit_slide_candidates, merge_entries  # noqa: PLC0415
+        merge_entries(book_dir, emit_slide_candidates(
+            book_dir, combined_entries, combined_pages, combined_svgs, log=log))
+        log(f"    {_PHASE}: v2 — {total} slide candidate(s) offered "
+            f"({len(work)} deck(s), {total_svg} as SVG), book.md left diagram-free")
+        return {"imported": imported, "exempt": exempt, "svg": svg_counts,
+                "awaiting_layout": True}
+
     # ── single combined injection ────────────────────────────────────────────
     out = inject_slides(source_text, combined_entries, pages=combined_pages,
                         svg_overrides=combined_svgs)
     out_path = book_dir / "book" / "book-slides.md"
     out_path.write_text(out, encoding="utf-8")
-    total = sum(imported.values())
-    total_svg = sum(svg_counts.values())
     log(f"    {_PHASE}: {source_md.name} + {total} slides "
         f"({len(work)} deck(s), {total_svg} as SVG) -> {out_path.name}")
     return {"imported": imported, "exempt": exempt, "svg": svg_counts,

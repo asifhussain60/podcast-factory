@@ -1,0 +1,236 @@
+/* book-composer.css — the Book Pipeline v2 "Book Composer" view.
+ * Theme-adapter: all colour comes from the existing --c-* tokens (fallbacks only
+ * so the file is legible in isolation). No new palette, no inline styles — the
+ * data-driven figure width rides the --cx-w custom property set at runtime by
+ * book-composer.ts. */
+
+.composer-head {
+  margin: 0 0 1rem;
+}
+.composer-head .composer-eyebrow {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  color: var(--c-ink-muted, #87827a);
+  margin: 0 0 0.2rem;
+}
+.composer-head h1 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+.composer-head .composer-sub {
+  color: var(--c-ink-muted, #87827a);
+  font-size: 0.9rem;
+  margin: 0.3rem 0 0;
+}
+
+.composer-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 20rem;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 60rem) {
+  .composer-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Preview column ──────────────────────────────────────────────────────── */
+.composer-preview {
+  min-width: 0;
+  background: var(--c-bg-card, #fffdf8);
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 8px;
+  padding: 1.4rem 1.6rem;
+}
+.cx-chapter { margin: 0 0 1.6rem; }
+.cx-chapter > h2 {
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
+}
+.cx-chapter.cx-dragover {
+  outline: 2px dashed var(--c-accent, #8b4513);
+  outline-offset: 4px;
+}
+.cx-body { font-size: 1.2rem; line-height: 1.7; }
+.cx-body :is(p, blockquote) { margin: 0 0 0.8rem; }
+
+.cx-figures { display: flow-root; }
+.cx-fig {
+  --cx-w: 60%;
+  position: relative;
+  margin: 0.6rem 0;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 6px;
+  background: var(--c-bg, #f7f4ee);
+  cursor: grab;
+}
+.cx-fig.is-selected {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+.cx-fig img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px 6px 0 0;
+}
+.cx-fig.flow-standalone { width: var(--cx-w); margin-left: auto; margin-right: auto; }
+.cx-fig.flow-standalone.align-left { margin-left: 0; }
+.cx-fig.flow-standalone.align-right { margin-right: 0; margin-left: auto; }
+.cx-fig.flow-wrap { width: var(--cx-w); }
+.cx-fig.flow-wrap.align-left { float: left; margin: 0.2rem 1rem 0.6rem 0; }
+.cx-fig.flow-wrap.align-right { float: right; margin: 0.2rem 0 0.6rem 1rem; }
+.cx-fig figcaption {
+  font-size: 0.78rem;
+  color: var(--c-ink-muted, #87827a);
+  font-style: italic;
+  padding: 0.3rem 0.5rem;
+  text-align: center;
+}
+.cx-fig .cx-fig-badge {
+  position: absolute;
+  top: 0.3rem;
+  left: 0.3rem;
+  font-size: 0.62rem;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  background: var(--c-accent, #8b4513);
+  color: var(--c-bg-card, #fffdf8);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+}
+
+/* ── Side panel ──────────────────────────────────────────────────────────── */
+.composer-panel {
+  position: sticky;
+  top: 1rem;
+  display: grid;
+  gap: 1rem;
+}
+.cx-card {
+  background: var(--c-bg-card, #fffdf8);
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+}
+.cx-card h2 {
+  font-size: 0.8rem;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-ink-muted, #87827a);
+  margin: 0 0 0.6rem;
+}
+.cx-palette-list { display: grid; gap: 0.6rem; }
+.cx-palette-item {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 0.6rem;
+  align-items: center;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 6px;
+  padding: 0.4rem;
+  cursor: grab;
+}
+.cx-palette-item img {
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+  background: var(--c-bg, #f7f4ee);
+  border-radius: 4px;
+}
+.cx-palette-meta { min-width: 0; }
+.cx-palette-meta .cx-palette-cap {
+  font-size: 0.82rem;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cx-palette-meta .cx-palette-type {
+  font-size: 0.68rem;
+  color: var(--c-ink-muted, #87827a);
+  margin: 0.1rem 0 0;
+}
+.cx-empty { color: var(--c-ink-muted, #87827a); font-size: 0.85rem; margin: 0; }
+
+.cx-field { display: grid; gap: 0.25rem; margin: 0 0 0.7rem; }
+.cx-field > label {
+  font-size: 0.72rem;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  color: var(--c-ink-muted, #87827a);
+}
+.cx-field select,
+.cx-field input[type="text"],
+.cx-field input[type="range"] {
+  width: 100%;
+  font: inherit;
+  padding: 0.3rem 0.4rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  background: var(--c-bg, #f7f4ee);
+  color: var(--c-ink, #1f1d18);
+}
+.cx-btn-row { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.cx-toggle {
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  background: var(--c-bg, #f7f4ee);
+  color: var(--c-ink, #1f1d18);
+  cursor: pointer;
+}
+.cx-toggle[aria-pressed="true"] {
+  background: var(--c-accent, #8b4513);
+  color: var(--c-bg-card, #fffdf8);
+  border-color: var(--c-accent, #8b4513);
+}
+.cx-actions { display: grid; gap: 0.5rem; }
+.cx-action {
+  font: inherit;
+  font-weight: 600;
+  padding: 0.55rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid var(--c-accent, #8b4513);
+  background: var(--c-accent, #8b4513);
+  color: var(--c-bg-card, #fffdf8);
+  cursor: pointer;
+}
+.cx-action.is-secondary {
+  background: transparent;
+  color: var(--c-accent, #8b4513);
+}
+.cx-action:disabled { opacity: 0.5; cursor: default; }
+.cx-status { font-size: 0.8rem; margin: 0.3rem 0 0; min-height: 1.1rem; }
+.cx-status.is-error { color: var(--c-red); }
+
+.cx-delete {
+  font: inherit;
+  font-size: 0.78rem;
+  color: var(--c-red);
+  background: transparent;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+}
+
+:is(.cx-toggle, .cx-action, .cx-delete, .cx-palette-item, .cx-fig):focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+
+.composer-empty {
+  text-align: center;
+  color: var(--c-ink-muted, #87827a);
+  padding: 3rem 1rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cx-fig, .cx-palette-item { transition: outline-color 0.15s ease; }
+}

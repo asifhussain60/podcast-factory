@@ -368,3 +368,57 @@ figcaption {
   font-family: var(--font-ui, system-ui, sans-serif);
   text-align: center;
 }
+
+/* ── Book Pipeline v2 — contract-driven figures + professional page-fill ──── */
+/* Every rule is scoped under body.book-v2, applied ONLY when the renderer is
+   handed the flag. Flag OFF => none of this matches => byte-for-byte unchanged.
+   Figures are placed solely from book/visual-layout.json (book.md is diagram-
+   free); width is data-driven via the --fig-w custom property on each figure. */
+body.book-v2 .v2-fig {
+  --fig-w: 60%;
+  margin: 1.4rem auto;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+body.book-v2 .v2-fig img,
+body.book-v2 .v2-fig svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* standalone: a centered full block that clears any prior float. */
+body.book-v2 .v2-fig.flow-standalone {
+  width: var(--fig-w);
+  margin-left: auto;
+  margin-right: auto;
+  clear: both;
+}
+body.book-v2 .v2-fig.flow-standalone.align-left { margin-left: 0; margin-right: auto; }
+body.book-v2 .v2-fig.flow-standalone.align-right { margin-left: auto; margin-right: 0; }
+/* wrap: float with body text flowing beside it (width_pct<=50 enforced upstream). */
+body.book-v2 .v2-fig.flow-wrap { width: var(--fig-w); }
+body.book-v2 .v2-fig.flow-wrap.align-left { float: left; margin: 0.2rem 1.1rem 0.8rem 0; }
+body.book-v2 .v2-fig.flow-wrap.align-right { float: right; margin: 0.2rem 0 0.8rem 1.1rem; }
+/* one-plate rule: page_fit drives pagination so a tall figure never splits. */
+body.book-v2 .v2-fig.page-fit-before { break-before: page; page-break-before: always; }
+body.book-v2 .v2-fig.page-fit-isolate-plate {
+  break-before: page;
+  break-after: page;
+  page-break-before: always;
+  page-break-after: always;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* Professional page-fill: widow/orphan control + keep the chapter heading with
+   its first lines. A chapter still opens on a fresh page (chapter-open keeps its
+   page-break-before), but interior pages fill like a real book — no stranded
+   lines, no figure-forced half-empty verso. */
+body.book-v2 p,
+body.book-v2 blockquote {
+  orphans: 2;
+  widows: 2;
+}
+body.book-v2 .chapter-open {
+  break-after: avoid;
+  page-break-after: avoid;
+}

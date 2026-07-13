@@ -126,15 +126,38 @@ def build_phase_0b_window_prompt_narrative(
     )
 
 
+# De-calque rule (Book Pipeline v2): appended to the scholarly 0b prompt ONLY when
+# book_pipeline_v2 is enabled for the book, so flag-OFF refinement is unchanged.
+# It fixes the stiff word-for-word-from-Arabic prose that made book2 read like a
+# gloss rather than a book — WITHOUT loosening fidelity (terms/citations/teachings
+# are still mandatory to preserve).
+_DE_CALQUE_BLOCK = (
+    "\n\n**Fluent modern English (de-calque) — Book Pipeline v2.** Render the "
+    "meaning in natural, idiomatic contemporary English. Do NOT calque the source "
+    "syntax: avoid word-for-word constructions, Arabic word-order that reads "
+    "awkwardly in English, and stiff literalisms. This is a fidelity-preserving "
+    "restyle of the connective prose only — every teaching, argument, named person, "
+    "Arabic term (kept in transliteration), Quran/hadith citation, and quotation "
+    "MUST survive unchanged. Do not summarize, condense, or add. Aim for prose a "
+    "modern reader follows easily on first read."
+)
+
+
 def build_phase_0b_window_prompt(
     book_slug: str,
     idx: int,
     total: int,
     win_in: Path,
     win_out: Path,
+    *,
+    de_calque: bool = False,
 ) -> str:
-    """Construct the per-window refinement prompt sent to ``claude -p``."""
-    return (
+    """Construct the per-window refinement prompt sent to ``claude -p``.
+
+    ``de_calque`` appends the Book Pipeline v2 fluent-English rule; the caller
+    passes ``book_pipeline_v2_enabled(book_dir)`` so flag-OFF output is unchanged.
+    """
+    base = (
         f"You are driving Phase 0b (English Refinement) of the /podcast skill on book-slug "
         f"`{book_slug}`, **window {idx} of {total}**. Read the canonical Phase 0b procedure "
         f"from `skills-staging/podcast/SKILL.md` (search `### PHASE 0b: ENGLISH REFINEMENT`).\n\n"
@@ -165,6 +188,7 @@ def build_phase_0b_window_prompt(
         f"- Do NOT wrap output in code fences or add preamble like 'Here is the refined text:'.\n\n"
         f"Exit when `{win_out}` is non-empty."
     )
+    return base + (_DE_CALQUE_BLOCK if de_calque else "")
 
 
 def author_phase_0b(
@@ -216,13 +240,25 @@ def author_phase_0b(
     )
     log(f"  phase 0b · category={category!r}, content_profile={_profile!r}, prompt-variant={_prompt_label!r}")
 
+    # Book Pipeline v2: the scholarly refinement de-calques stiff Arabic-calqued
+    # prose (fidelity-preserving). Gated per-book so flag-OFF refinement is byte-
+    # for-byte unchanged; only the scholarly variant carries the rule.
+    try:
+        from _pipeline_flags import book_pipeline_v2_enabled  # noqa: PLC0415
+        _de_calque = book_pipeline_v2_enabled(book_dir)
+    except Exception:  # noqa: BLE001
+        _de_calque = False
+    if _de_calque:
+        log("  phase 0b · book_pipeline_v2 — de-calque (fluent modern English) rule active")
+
     def _builder(body: str, idx: int, total: int, win_out: Path) -> str:
         win_in = win_out.with_suffix("").with_suffix(".in.md")
         if _is_fiction:
             return build_phase_0b_window_prompt_narrative(book_slug, idx, total, win_in, win_out)
         if _use_technical:
             return build_phase_0b_window_prompt_technical(book_slug, idx, total, win_in, win_out)
-        return build_phase_0b_window_prompt(book_slug, idx, total, win_in, win_out)
+        return build_phase_0b_window_prompt(
+            book_slug, idx, total, win_in, win_out, de_calque=_de_calque)
 
     import os as _os
     _max_workers = int(_os.environ.get("PHASE_0B_MAX_WORKERS", "3"))
