@@ -14,7 +14,7 @@ type PageFit = 'avoid' | 'before' | 'isolate-plate';
 
 interface Visual {
   id: string; type: string; caption: string; file: string; src: string;
-  suggested_anchor: string; cleaned: boolean; embedded_title: string;
+  suggested_anchor: string; chapter: string; cleaned: boolean; embedded_title: string;
 }
 interface Chapter { anchor: string; key: string; title: string; paras: number; }
 interface Placement {
@@ -50,6 +50,41 @@ function boot(): void {
   const saveBtn = root.querySelector<HTMLButtonElement>('#cx-save')!;
   const genBtn = root.querySelector<HTMLButtonElement>('#cx-generate')!;
   const statusEl = root.querySelector<HTMLElement>('#cx-status')!;
+  const filterEl = root.querySelector<HTMLSelectElement>('#cx-chapter-filter');
+  let chapterFilter = '__all';
+
+  // ── inspector tabs (Artifacts · Refinement · Output) ──────────────────────
+  const TABS = ['artifacts', 'refine', 'output'] as const;
+  type TabName = typeof TABS[number];
+  const tabBtn = (n: TabName) => root.querySelector<HTMLButtonElement>(`#cx-tab-${n}`);
+  const tabPanel = (n: TabName) => root.querySelector<HTMLElement>(`#cx-panel-${n}`);
+  function activateTab(name: TabName, focus = false): void {
+    for (const n of TABS) {
+      const on = n === name;
+      const btn = tabBtn(n);
+      btn?.classList.toggle('is-active', on);
+      btn?.setAttribute('aria-selected', String(on));
+      btn?.setAttribute('tabindex', on ? '0' : '-1'); // roving tabindex (ARIA tablist)
+      const panel = tabPanel(n);
+      if (panel) panel.hidden = !on;
+    }
+    if (focus) tabBtn(name)?.focus();
+  }
+  TABS.forEach((n, i) => {
+    const btn = tabBtn(n);
+    btn?.addEventListener('click', () => activateTab(n));
+    // Arrow / Home / End cycling per the ARIA tablist keyboard pattern.
+    btn?.addEventListener('keydown', (e) => {
+      let next = -1;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (i + 1) % TABS.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (i - 1 + TABS.length) % TABS.length;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = TABS.length - 1;
+      if (next >= 0) { e.preventDefault(); activateTab(TABS[next], true); }
+    });
+  });
+  activateTab('artifacts'); // initialize roving tabindex on the default tab
+  filterEl?.addEventListener('change', () => { chapterFilter = filterEl.value; render(); });
 
   function normalize(p: Placement): Placement {
     const align = (['left', 'center', 'right'] as Align[]).includes(p.align) ? p.align : 'center';
@@ -112,13 +147,20 @@ function boot(): void {
       zone.appendChild(figureEl(p, v));
     }
 
-    // palette = unplaced visuals
+    // palette = unplaced visuals, narrowed to the chapter filter
     paletteEl.textContent = '';
-    const unplaced = data.visuals.filter((v) => !placedIds.has(v.id));
+    let unplaced = data.visuals.filter((v) => !placedIds.has(v.id));
+    const totalUnplaced = unplaced.length;
+    if (chapterFilter === '__none') unplaced = unplaced.filter((v) => !v.chapter);
+    else if (chapterFilter !== '__all') unplaced = unplaced.filter((v) => v.chapter === chapterFilter);
     if (!unplaced.length) {
       const p = document.createElement('p');
       p.className = 'cx-empty';
-      p.textContent = placedIds.size ? 'All candidates placed.' : 'No visual candidates for this book yet.';
+      p.textContent = !data.visuals.length
+        ? 'No visual candidates for this book yet.'
+        : chapterFilter !== '__all' && totalUnplaced
+          ? 'No unplaced candidates for this chapter.'
+          : 'All candidates placed.';
       paletteEl.appendChild(p);
     } else {
       unplaced.forEach((v) => paletteEl.appendChild(paletteItemEl(v)));
@@ -154,9 +196,10 @@ function boot(): void {
       fig.appendChild(cap);
     }
 
-    fig.addEventListener('click', () => { selected = p.visual_id; render(); });
+    const selectAndRefine = (): void => { selected = p.visual_id; activateTab('refine'); render(); };
+    fig.addEventListener('click', selectAndRefine);
     fig.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selected = p.visual_id; render(); }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectAndRefine(); }
     });
     fig.addEventListener('dragstart', (e) => {
       e.dataTransfer?.setData('text/plain', p.visual_id);
@@ -193,13 +236,14 @@ function boot(): void {
   // ── controls panel ────────────────────────────────────────────────────────
   function renderControls(): void {
     controlsEl.textContent = '';
-    if (!selected) {
-      controlsEl.hidden = true;
+    const p = selected ? placements.find((x) => x.visual_id === selected) : undefined;
+    if (!p) {
+      const hint = document.createElement('p');
+      hint.className = 'cx-hint';
+      hint.textContent = 'Select a placed figure in the book to refine its alignment, width, position, and caption.';
+      controlsEl.appendChild(hint);
       return;
     }
-    const p = placements.find((x) => x.visual_id === selected);
-    if (!p) { controlsEl.hidden = true; return; }
-    controlsEl.hidden = false;
 
     controlsEl.appendChild(alignField(p));
     controlsEl.appendChild(flowField(p));

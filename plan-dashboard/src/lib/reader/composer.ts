@@ -32,6 +32,7 @@ export interface ComposerVisual {
   file: string;            // basename in book/visuals/
   src: string;             // servable URL
   suggested_anchor: string;
+  chapter: string;         // resolved chapter key (for the palette's chapter filter); '' = unassigned
   cleaned: boolean;
   embedded_title: string;
 }
@@ -90,6 +91,9 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
 
   // Split into chapters on "## " headings.
   const chapters: ComposerChapter[] = [];
+  // Lowercased raw bodies keyed by chapter — used to resolve a visual whose
+  // suggested_anchor is a passage phrase (slides) rather than a heading (diagrams).
+  const bodyByKey: { key: string; lc: string }[] = [];
   const parts = md.split(/^(##\s+.+)$/m);
   for (let i = 1; i < parts.length; i += 2) {
     const heading = parts[i].trim();
@@ -100,13 +104,22 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     const paras = body
       .split(/\n\s*\n/)
       .filter((b) => b.trim() && !/^\s*[>#<]/.test(b)).length;
-    chapters.push({
-      anchor: heading,
-      key: anchorKey(heading),
-      title: displayTitle,
-      html: renderMarkdown(body),
-      paras,
-    });
+    const key = anchorKey(heading);
+    chapters.push({ anchor: heading, key, title: displayTitle, html: renderMarkdown(body), paras });
+    bodyByKey.push({ key, lc: body.toLowerCase() });
+  }
+
+  // A visual's chapter: a diagram anchors by heading (direct key match); a slide
+  // anchors by a quoted passage phrase, so fall back to the chapter whose body
+  // contains that phrase. '' means unassigned (e.g. a book-level title slide).
+  const chapterKeys = new Set(chapters.map((c) => c.key));
+  function resolveChapter(suggested: string): string {
+    const k = anchorKey(suggested);
+    if (!k) return '';
+    if (chapterKeys.has(k)) return k;
+    const needle = suggested.trim().toLowerCase().slice(0, 60);
+    if (!needle) return '';
+    return bodyByKey.find((b) => b.lc.includes(needle))?.key ?? '';
   }
 
   const indexData = await readJson<{ visuals?: ComposerVisual[] }>(
@@ -119,6 +132,7 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     file: v.file,
     src: `/api/studio/visual-asset?slug=${encodeURIComponent(slug)}&file=${encodeURIComponent(v.file)}`,
     suggested_anchor: v.suggested_anchor ?? '',
+    chapter: resolveChapter(v.suggested_anchor ?? ''),
     cleaned: v.cleaned ?? true,
     embedded_title: v.embedded_title ?? '',
   }));

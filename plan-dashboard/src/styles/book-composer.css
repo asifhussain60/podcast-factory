@@ -91,27 +91,52 @@
   letter-spacing: 0.04em;
 }
 
-/* ── Side panel ──────────────────────────────────────────────────────────── */
+/* ── Side panel — tabbed inspector (Artifacts · Refinement · Output) ─────── */
 .composer-panel {
   position: sticky;
   top: 1rem;
-  display: grid;
-  gap: 1rem;
-}
-.cx-card {
   background: var(--c-bg-card, #fffdf8);
   border: 1px solid var(--c-rule-soft, #ebe6da);
   border-radius: 8px;
-  padding: 0.9rem 1rem;
+  overflow: hidden;
 }
-.cx-card h2 {
-  font-size: 0.8rem;
+.cx-tabbar {
+  display: flex;
+  gap: 0.15rem;
+  padding: 0.35rem 0.5rem 0;
+  border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
+}
+.cx-tab {
+  flex: 1 1 auto;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 0.5rem 0.4rem;
   font-family: var(--font-ui, system-ui, sans-serif);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-size: 0.8rem;
   color: var(--c-ink-muted, #87827a);
-  margin: 0 0 0.6rem;
+  cursor: pointer;
 }
+.cx-tab:hover { color: var(--c-ink, #2b2823); }
+.cx-tab.is-active {
+  color: var(--c-accent);
+  border-bottom-color: var(--c-accent);
+  font-weight: 600;
+}
+.cx-tabpanel {
+  padding: 0.9rem 1rem;
+  max-height: calc(100vh - 9rem);
+  overflow-y: auto;
+}
+.cx-tabpanel[hidden] { display: none; }
+.cx-hint {
+  color: var(--c-ink-muted, #87827a);
+  font-size: 0.85rem;
+  line-height: 1.45;
+  margin: 0;
+}
+.cx-filter { margin-bottom: 0.8rem; }
 .cx-palette-list { display: grid; gap: 0.6rem; }
 .cx-palette-item {
   display: grid;
@@ -208,7 +233,7 @@
   cursor: pointer;
 }
 
-:is(.cx-toggle, .cx-action, .cx-delete, .cx-palette-item, .cx-fig):focus-visible {
+:is(.cx-tab, .cx-toggle, .cx-action, .cx-delete, .cx-palette-item, .cx-fig):focus-visible {
   outline: 2px solid var(--c-accent, #8b4513);
   outline-offset: 2px;
 }

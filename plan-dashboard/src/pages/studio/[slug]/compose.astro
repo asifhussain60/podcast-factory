@@ -47,6 +47,10 @@ const dataJson = view
         </div>
         <div class="lib-hero-aside">
           <div class="lib-title-actions">
+            <a class="lib-studio-link" href={`/studio/${slug}/book`}>
+              <i class="fa-solid fa-book-open" aria-hidden="true"></i> Reading edition
+              <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
+            </a>
             <a class="lib-studio-link" href={`/studio/${slug}/edit`}>
               <i class="fa-solid fa-feather-pointed" aria-hidden="true"></i> Edit &amp; Enrich
               <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
@@ -67,13 +71,31 @@ const dataJson = view
         </section>
 
         <aside class="composer-panel" aria-label="Composer controls">
-          <div class="cx-card">
-            <h2>Candidates</h2>
+          <div class="cx-tabbar" role="tablist" aria-label="Composer inspector">
+            <button type="button" class="cx-tab is-active" id="cx-tab-artifacts" role="tab" aria-selected="true" aria-controls="cx-panel-artifacts">Artifacts</button>
+            <button type="button" class="cx-tab" id="cx-tab-refine" role="tab" aria-selected="false" aria-controls="cx-panel-refine">Refinement</button>
+            <button type="button" class="cx-tab" id="cx-tab-output" role="tab" aria-selected="false" aria-controls="cx-panel-output">Output</button>
+          </div>
+
+          <div class="cx-tabpanel" id="cx-panel-artifacts" role="tabpanel" aria-labelledby="cx-tab-artifacts">
+            <div class="cx-field cx-filter">
+              <label for="cx-chapter-filter">Show candidates for</label>
+              <select id="cx-chapter-filter">
+                <option value="__all">All chapters</option>
+                {view.chapters.map((c) => (
+                  <option value={c.key}>{c.title}</option>
+                ))}
+                <option value="__none">Unassigned</option>
+              </select>
+            </div>
             <div class="cx-palette-list" id="cx-palette-list"></div>
           </div>
-          <div class="cx-card cx-controls" id="cx-controls" hidden></div>
-          <div class="cx-card">
-            <h2>Output</h2>
+
+          <div class="cx-tabpanel" id="cx-panel-refine" role="tabpanel" aria-labelledby="cx-tab-refine" hidden>
+            <div class="cx-controls" id="cx-controls"></div>
+          </div>
+
+          <div class="cx-tabpanel" id="cx-panel-output" role="tabpanel" aria-labelledby="cx-tab-output" hidden>
             <div class="cx-actions">
               <button type="button" class="cx-action" id="cx-save">Save layout</button>
               <button type="button" class="cx-action is-secondary" id="cx-generate">Generate PDF</button>
