@@ -200,6 +200,20 @@ def _drive_book_branch(book_dir: Path) -> int:
         _err(f"0book-render failed (non-blocking): {e}")
         return 0
 
+    # book_pipeline_v2: deterministic render-quality probes over the RENDERED PDF
+    # (blank/half-empty pages, NotebookLM watermark, duplicated caption). These back
+    # the book-render-challenger agent and are recorded non-blocking. Flag OFF -> no
+    # new gate, render is unchanged.
+    if v2:
+        try:
+            from _book_render_checks import run_render_checks  # noqa: PLC0415
+            _rc = run_render_checks(book_dir, log=_info)
+            if _rc.get("findings"):
+                _info(f"0book-render: render-checks {_rc.get('verdict')} — "
+                      f"{len(_rc['findings'])} finding(s); see _system/book-render-checks.json")
+        except Exception as e:  # noqa: BLE001 — probes must never break render
+            _err(f"0book-render: render-checks skipped (non-fatal): {e}")
+
     # Deterministic post-render gate (B1-B3): the renderer only asserts the PDF
     # file was written — it never checks that book.md covers every TOC chapter or
     # that the PDF has a sane page count. Validate the deliverable here so a
