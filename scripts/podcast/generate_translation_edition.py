@@ -77,6 +77,18 @@ def generate_translation_edition(
         print(f"ERROR: content folder not found for slug {slug!r}: {book_dir}", file=sys.stderr)
         return 2
 
+    # DEPRECATED under book_pipeline_v2: the standalone translation-edition script
+    # is superseded by the unified book path (book_augmentation/book_voice knobs)
+    # driven through the orchestrator. It stays functional while the flag is OFF;
+    # Phase 7 removes it once v2 is the default. Surface the deprecation loudly.
+    from _pipeline_flags import book_pipeline_v2_enabled  # noqa: PLC0415
+    if book_pipeline_v2_enabled(book_dir):
+        _info(
+            "NOTE: book_pipeline_v2 is ON for this book — the unified compose path "
+            "(faithful base + knobs) supersedes generate_translation_edition.py. "
+            "Prefer driving the book branch through the orchestrator."
+        )
+
     assert_translation_contract(book_dir)
 
     raw = book_dir / "_system" / "source" / "text" / "raw-extract.md"

@@ -87,9 +87,19 @@ def _drive_book_branch(book_dir: Path) -> int:
     phase_git_commit(book_dir, f"book({slug}): 0book-design — book-toc.json")
 
     # 0book-compose
+    #
+    # book_pipeline_v2 (flag ON) routes to the single unified compose path
+    # (faithful base -> optional source-grounded augment -> optional author
+    # re-voice), selected by the two knobs. Flag OFF keeps the exact legacy
+    # dispatch below so today's output is reproduced byte-for-byte.
+    from _pipeline_flags import book_pipeline_v2_enabled  # noqa: PLC0415
+    v2 = book_pipeline_v2_enabled(book_dir)
     update_phase(book_dir, phase="0book-compose", status="running")
     try:
-        if translation_edition:
+        if v2:
+            from _book_pipeline_v2 import compose_book_v2  # noqa: PLC0415
+            compose_book_v2(book_dir, log=_info)
+        elif translation_edition:
             from _translation_edition import author_translation_edition_compose  # noqa: PLC0415
             author_translation_edition_compose(book_dir, log=_info)
         else:
@@ -100,7 +110,9 @@ def _drive_book_branch(book_dir: Path) -> int:
         _err(f"0book-compose failed (non-blocking): {e}")
         return 0
     update_phase(book_dir, phase="0book-compose", status="completed")
-    if translation_edition:
+    if v2:
+        phase_git_commit(book_dir, f"book({slug}): 0book-compose — unified path (v2)")
+    elif translation_edition:
         phase_git_commit(book_dir, f"book({slug}): 0book-compose — translation edition")
     else:
         phase_git_commit(book_dir, f"book({slug}): 0book-compose — book.md")

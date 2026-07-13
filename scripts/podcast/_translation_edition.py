@@ -569,16 +569,25 @@ def _compose_one(
     return normalize_translation_prose(out, title=title)
 
 
-def author_translation_edition_compose(book_dir: Path, *, log=print, force: bool = False) -> Path:
+def author_translation_edition_compose(
+    book_dir: Path, *, log=print, force: bool = False, enforce_contract: bool = True
+) -> Path:
     """Compose ``book/book.md`` for the translation-edition lane.
 
     Uses the existing ``book/book-toc.json`` from 0book-design, but writes a
     faithful translation edition instead of the normal author-first-person
     companion book. It also mirrors each generated chapter into ``chapters/`` so
     existing slide-deck authoring can operate without a separate adapter.
+
+    ``enforce_contract`` gates the ``deliverable_mode == translation_edition`` +
+    monochrome-visual contract. The legacy lane keeps it True. Book Pipeline v2
+    drives route selection through the two knobs (``book_augmentation`` /
+    ``book_voice``), NOT through ``deliverable_mode``, so it reuses this function
+    as the shared *faithful base* with ``enforce_contract=False``.
     """
     book_dir = Path(book_dir).resolve()
-    assert_translation_contract(book_dir)
+    if enforce_contract:
+        assert_translation_contract(book_dir)
 
     toc_path = book_dir / "book" / "book-toc.json"
     refined_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
