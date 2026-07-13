@@ -6,7 +6,24 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-07-13 12:10 PM EST (v2 review follow-ups + fluency validated)
+**Last updated:** 2026-07-13 4:21 PM EST (Book Composer WYSIWYG upgrade)
+
+**Latest — Book Composer preview is now truly WYSIWYG.** Closed the three
+open gaps against the original Phase-4 spec (drag-to-anchor, resize handles,
+float-exact preview): placed figures now render INLINE inside `.cx-body` at the
+exact paragraph the PDF renderer (`scripts/visual-layout.mjs::applyLayout`)
+would use (null→after intro, 0→chapter top, N→after Nth top-level `<p>`) instead
+of a band at the chapter top; wrap figures truly float with body text wrapping
+beside them (`.cx-body` is `display: flow-root`); a corner resize handle
+(`.cx-fig-handle`, pointer-drag → width_pct, snapped 5%, clamped ≤50% wrap); and
+drag-and-drop is paragraph-granular with an insertion indicator. The
+preview-vs-PDF paragraph counters were proven to agree exactly (blockquote-
+nested `<p>` excluded by both). Files: `compose.astro`, `book-composer.ts`,
+`book-composer.css`. Gates: `astro check` 0/0/0, `lint:views` clean,
+`html-view-challenger` PASS-WITH-CAUTION (the one MUST — REQ-010 1.02rem body
+prose — is the pre-existing intentional print-fidelity exemption, unchanged by
+this work). Verified in-browser: place → wrap float wraps text → Position moves
+the figure → handle-drag 50%→30%.
 
 **Current branch merged into develop:** book-pipeline-v2 (merge 4165160, --no-ff);
 review follow-ups in 3a7534a (GET visual-layout endpoint, paragraph-level

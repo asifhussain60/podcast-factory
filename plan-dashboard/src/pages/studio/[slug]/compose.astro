@@ -42,7 +42,8 @@ const dataJson = view
           </div>
           <p class="composer-sub">
             Place each visual candidate where it belongs, then generate the PDF.
-            Drag a figure between chapters to move it; pick alignment, flow, and width on the right.
+            Drag a figure to any paragraph to move it, drag its corner to resize, and
+            fine-tune alignment and flow on the right. The preview mirrors the printed page.
           </p>
         </div>
         <div class="lib-hero-aside">
@@ -68,7 +69,6 @@ const dataJson = view
           {view.chapters.map((ch) => (
             <div class="cx-chapter" data-anchor={ch.anchor} data-key={ch.key}>
               <h2>{ch.title}</h2>
-              <div class="cx-figures" data-key={ch.key}></div>
               <div class="cx-body" set:html={ch.html}></div>
             </div>
           ))}

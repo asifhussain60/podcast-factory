@@ -41,6 +41,16 @@ function boot(): void {
   const slug = data.slug;
   const visualsById = new Map(data.visuals.map((v) => [v.id, v]));
   const chapterByKey = new Map(data.chapters.map((c) => [c.key, c]));
+
+  // Cache each chapter's pristine prose body so every re-render re-inserts the
+  // placed figures inline (at the exact paragraph the PDF would use) without
+  // accumulating them across renders.
+  const bodyByKey = new Map<string, { el: HTMLElement; html: string }>();
+  root.querySelectorAll<HTMLElement>('.cx-chapter').forEach((ch) => {
+    const body = ch.querySelector<HTMLElement>('.cx-body');
+    if (body) bodyByKey.set(ch.dataset.key ?? '', { el: body, html: body.innerHTML });
+  });
+
   let placements: Placement[] = data.placements.map(normalize);
   let selected: string | null = null;
   let dirty = false;
@@ -105,11 +115,11 @@ function boot(): void {
     statusEl.classList.toggle('is-error', isError);
   }
 
-  function place(visualId: string, anchor: string): void {
+  function place(visualId: string, anchor: string, anchorPara: number | null = null): void {
     if (placements.some((p) => p.visual_id === visualId)) return;
     const v = visualsById.get(visualId);
     placements.push(normalize({
-      visual_id: visualId, anchor, anchor_para: null, align: 'center', flow: 'standalone',
+      visual_id: visualId, anchor, anchor_para: anchorPara, align: 'center', flow: 'standalone',
       width_pct: 60, caption: v?.caption ?? '', page_fit: 'avoid',
     } as Placement));
     selected = visualId;
@@ -134,18 +144,24 @@ function boot(): void {
 
   // ── render ──────────────────────────────────────────────────────────────
   function render(): void {
-    root.querySelectorAll<HTMLElement>('.cx-figures').forEach((z) => { z.textContent = ''; });
+    // Reset every chapter to its pristine prose, then insert each placed figure
+    // inline at the exact paragraph the renderer (applyLayout) would use.
+    for (const { el, html } of bodyByKey.values()) el.innerHTML = html;
     const placedIds = new Set(placements.map((p) => p.visual_id));
 
+    const firstKey = bodyByKey.keys().next().value ?? '';
+    const byChapter = new Map<string, { idx: number; el: HTMLElement }[]>();
     for (const p of placements) {
       const v = visualsById.get(p.visual_id);
       if (!v) continue;
       const key = anchorKey(p.anchor);
-      const zone = root.querySelector<HTMLElement>(`.cx-figures[data-key="${cssEsc(key)}"]`)
-        || root.querySelector<HTMLElement>('.cx-figures');
-      if (!zone) continue;
-      zone.appendChild(figureEl(p, v));
+      const target = bodyByKey.has(key) ? key : firstKey;
+      if (!bodyByKey.has(target)) continue;
+      const idx = p.anchor_para == null ? 1 : p.anchor_para; // null -> after intro (mirror)
+      if (!byChapter.has(target)) byChapter.set(target, []);
+      byChapter.get(target)!.push({ idx, el: figureEl(p, v) });
     }
+    for (const [key, figs] of byChapter) insertFiguresInline(bodyByKey.get(key)!.el, figs);
 
     // palette = unplaced visuals, narrowed to the chapter filter
     paletteEl.textContent = '';
@@ -166,6 +182,75 @@ function boot(): void {
       unplaced.forEach((v) => paletteEl.appendChild(paletteItemEl(v)));
     }
     renderControls();
+  }
+
+  // Insert figures into a chapter body at their paragraph index, mirroring the
+  // renderer's applyLayout: idx<=0 => chapter top; idx=N => after the Nth top-level
+  // <p>; idx beyond the paragraph count => flushed at the chapter's end. Figures
+  // sharing an index keep their placement order.
+  function insertFiguresInline(bodyEl: HTMLElement, figs: { idx: number; el: HTMLElement }[]): void {
+    const paras = Array.from(bodyEl.querySelectorAll<HTMLElement>(':scope > p'));
+    const groups = new Map<number, HTMLElement[]>();
+    for (const f of figs) {
+      if (!groups.has(f.idx)) groups.set(f.idx, []);
+      groups.get(f.idx)!.push(f.el);
+    }
+    for (const [idx, els] of groups) {
+      if (idx <= 0) {
+        const ref = bodyEl.firstChild;
+        for (const el of els) bodyEl.insertBefore(el, ref);
+      } else if (idx > paras.length) {
+        for (const el of els) bodyEl.appendChild(el);
+      } else {
+        let ref: Element = paras[idx - 1];
+        for (const el of els) { ref.insertAdjacentElement('afterend', el); ref = el; }
+      }
+    }
+  }
+
+  // Number of paragraphs whose vertical midpoint is above `clientY` — the
+  // anchor_para "after paragraph N" (0 => chapter top). Mirrors applyLayout's
+  // top-level <p> counting so a drop lands where the PDF will place the figure.
+  function paraIndexAt(bodyEl: HTMLElement, clientY: number): { idx: number; paras: HTMLElement[] } {
+    const paras = Array.from(bodyEl.querySelectorAll<HTMLElement>(':scope > p'));
+    let idx = 0;
+    for (const para of paras) {
+      const r = para.getBoundingClientRect();
+      if (clientY > r.top + r.height / 2) idx += 1; else break;
+    }
+    return { idx, paras };
+  }
+
+  // Drag the corner handle to resize a placed figure (width_pct). Delta-based so
+  // it feels natural at any alignment; the growing edge is the handle's corner
+  // (bottom-right normally, bottom-left when right-aligned). Live-updates the CSS
+  // width during the drag and commits the snapped value on release.
+  function startResize(e: PointerEvent, fig: HTMLElement, p: Placement): void {
+    e.preventDefault();
+    e.stopPropagation();
+    const container = fig.parentElement; // the .cx-body containing block
+    const refWidth = container ? container.clientWidth : fig.getBoundingClientRect().width;
+    const startX = e.clientX;
+    const startW = fig.getBoundingClientRect().width;
+    const dir = p.align === 'right' ? -1 : 1;
+    const max = p.flow === 'wrap' ? WRAP_MAX : 100;
+    fig.draggable = false; // suspend the move-drag while resizing
+    fig.classList.add('is-resizing');
+    let pct = p.width_pct;
+    const onMove = (ev: PointerEvent): void => {
+      const w = startW + (ev.clientX - startX) * dir;
+      pct = Math.max(10, Math.min(max, Math.round((w / refWidth) * 20) * 5));
+      fig.style.setProperty('--cx-w', `${pct}%`);
+    };
+    const onUp = (): void => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      fig.classList.remove('is-resizing');
+      fig.draggable = true;
+      if (pct !== p.width_pct) update(p.visual_id, { width_pct: pct });
+    };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
   }
 
   function figureEl(p: Placement, v: Visual): HTMLElement {
@@ -204,6 +289,14 @@ function boot(): void {
     fig.addEventListener('dragstart', (e) => {
       e.dataTransfer?.setData('text/plain', p.visual_id);
     });
+
+    const handle = document.createElement('span');
+    handle.className = 'cx-fig-handle';
+    handle.setAttribute('aria-hidden', 'true');
+    handle.title = 'Drag to resize';
+    handle.addEventListener('pointerdown', (e) => startResize(e, fig, p));
+    handle.addEventListener('click', (e) => e.stopPropagation()); // don't select on a resize click
+    fig.appendChild(handle);
     return fig;
   }
 
@@ -374,18 +467,40 @@ function boot(): void {
     return field('Page fit', sel);
   }
 
-  // ── drag targets: chapters accept a moved/placed visual ───────────────────
+  // ── drag targets: drop a visual onto a specific paragraph, not just a chapter ─
+  let dropMarker: HTMLElement | null = null;
+  function clearDropMarker(): void {
+    dropMarker?.classList.remove('cx-drop-before', 'cx-drop-after');
+    dropMarker = null;
+  }
+  function showDropMarker(bodyEl: HTMLElement, clientY: number): void {
+    const { idx, paras } = paraIndexAt(bodyEl, clientY);
+    clearDropMarker();
+    if (idx <= 0) {
+      const first = bodyEl.firstElementChild as HTMLElement | null;
+      if (first) { first.classList.add('cx-drop-before'); dropMarker = first; }
+    } else if (idx <= paras.length) {
+      paras[idx - 1].classList.add('cx-drop-after'); dropMarker = paras[idx - 1];
+    }
+  }
   root.querySelectorAll<HTMLElement>('.cx-chapter').forEach((ch) => {
-    ch.addEventListener('dragover', (e) => { e.preventDefault(); ch.classList.add('cx-dragover'); });
-    ch.addEventListener('dragleave', () => ch.classList.remove('cx-dragover'));
+    const body = ch.querySelector<HTMLElement>('.cx-body');
+    ch.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      ch.classList.add('cx-dragover');
+      if (body) showDropMarker(body, e.clientY);
+    });
+    ch.addEventListener('dragleave', () => { ch.classList.remove('cx-dragover'); clearDropMarker(); });
     ch.addEventListener('drop', (e) => {
       e.preventDefault();
       ch.classList.remove('cx-dragover');
+      clearDropMarker();
       const id = e.dataTransfer?.getData('text/plain');
       const anchor = ch.dataset.anchor ?? '';
       if (!id || !anchor) return;
-      if (placements.some((p) => p.visual_id === id)) update(id, { anchor });
-      else place(id, anchor);
+      const anchor_para = body ? paraIndexAt(body, e.clientY).idx : null;
+      if (placements.some((p) => p.visual_id === id)) update(id, { anchor, anchor_para });
+      else place(id, anchor, anchor_para);
     });
   });
 
@@ -431,10 +546,6 @@ function boot(): void {
 
   saveBtn.disabled = true;
   render();
-}
-
-function cssEsc(s: string): string {
-  return (window.CSS && CSS.escape) ? CSS.escape(s) : s.replace(/["\\]/g, '\\$&');
 }
 
 if (document.readyState === 'loading') {

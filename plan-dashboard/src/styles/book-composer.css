@@ -50,10 +50,23 @@
   line-height: 1.6;
   color: var(--c-ink, #1f1d18);
   max-width: 60ch;
+  display: flow-root; /* contain floated (wrap) figures within the chapter */
 }
 .cx-body :is(p, blockquote) { margin: 0 0 0.8rem; }
 
-.cx-figures { display: flow-root; }
+/* Drop indicator: a rule on the paragraph the figure will land above/below. */
+.cx-drop-before, .cx-drop-after { position: relative; }
+.cx-drop-before::before, .cx-drop-after::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--c-accent, #8b4513);
+}
+.cx-drop-before::before { top: -0.45rem; }
+.cx-drop-after::after { bottom: -0.45rem; }
+
 .cx-fig {
   --cx-w: 60%;
   position: relative;
@@ -97,6 +110,34 @@
   padding: 0.1rem 0.4rem;
   border-radius: 3px;
   letter-spacing: 0.04em;
+}
+
+/* Corner resize handle — width_pct by direct manipulation. Sits at the growing
+   edge: bottom-right normally, bottom-left when the figure is right-aligned. */
+.cx-fig-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  cursor: se-resize;
+  touch-action: none;
+  border-radius: 0 0 6px 0;
+  background: linear-gradient(135deg, transparent 45%, var(--c-accent, #8b4513) 45%);
+  opacity: 0.55;
+}
+.cx-fig-handle:hover { opacity: 1; }
+.cx-fig.align-right .cx-fig-handle {
+  right: auto;
+  left: 0;
+  cursor: sw-resize;
+  border-radius: 0 0 0 6px;
+  background: linear-gradient(225deg, transparent 45%, var(--c-accent, #8b4513) 45%);
+}
+.cx-fig.is-resizing {
+  user-select: none;
+  outline: 2px dashed var(--c-accent, #8b4513);
+  outline-offset: 2px;
 }
 
 /* ── Side panel — tabbed inspector (Artifacts · Refinement · Output) ─────── */
