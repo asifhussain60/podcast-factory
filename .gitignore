@@ -309,3 +309,4 @@ _workspace/ynab-*
 # transient per-run orchestrator/allocator logs in content dirs
 content/**/run-*.log
 content/**/_alloc/run.log
+content/**/_system/_synthesis-run.log
