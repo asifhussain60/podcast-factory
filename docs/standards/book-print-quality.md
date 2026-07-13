@@ -23,11 +23,12 @@ the meaning.
 
 - **REQ-BR-001 (MUST · P0) — No blank interior page.** Every interior page (all
   but the first and last) carries real content. Blank versos from print-CSS
-  page-break interactions are a defect. *Probe: `scan_blank_and_halfempty`.*
+  page-break interactions are a defect. *Probe: `scan_blank_and_halfempty` →
+  `BR-BLANK-PAGE`.*
 - **REQ-BR-002 (SHOULD · P1) — No half-empty interior page.** Interior pages fill
   like a professional book; a page whose text is far below the interior median is
   flagged. A chapter still opens on a fresh page — that opener is not "half-empty".
-  *Probe: `scan_blank_and_halfempty`.*
+  *Probe: `scan_blank_and_halfempty` → `BR-PAGE-FILL`.*
 - **REQ-BR-003 (SHOULD · P1) — Widow/orphan control.** No single line of a
   paragraph stranded alone at a page top or bottom; a chapter heading is never the
   last thing on a page. *CSS: `orphans/widows`, `.chapter-open { break-after:
@@ -41,11 +42,11 @@ the meaning.
 - **REQ-BR-011 (MUST · P0) — No NotebookLM watermark.** No exported-slide
   watermark text survives on any rendered page; slides are watermark-cleaned or
   replaced by a verified vector replica before becoming a candidate.
-  *Probe: `scan_watermark`.*
+  *Probe: `scan_watermark` → `BR-WATERMARK`.*
 - **REQ-BR-012 (MUST · P1) — No duplicated caption.** A figure's caption is
   printed once. A title baked into the asset is not echoed again as a
   `<figcaption>` (renderer de-dups via `embedded_title`).
-  *Probe: `scan_duplicate_captions`.*
+  *Probe: `scan_duplicate_captions` → `BR-CAPTION-DUP`.*
 - **REQ-BR-013 (MUST · —) — Placement matches the contract.** Each figure renders
   at the `align` / `flow` / `width_pct` / `anchor` the human curated in
   `visual-layout.json`: `flow: wrap` floats with text beside it (`width_pct <= 50`),
