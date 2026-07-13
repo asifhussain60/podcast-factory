@@ -26,6 +26,18 @@ sys.path.insert(0, str(SCRIPTS_PODCAST))
 
 from _book_illustrate import _normalize_mindmap_dsl, _RENDER_SCRIPT, _DASHBOARD  # noqa: E402
 
+# The live-render assertion needs the FULL mermaid toolchain: node, the render
+# script, AND the Playwright npm package (render-mermaid.mjs imports it at module
+# load). CI installs neither node_modules nor the chromium binary, so gate the
+# class on the package being present — otherwise the node process dies with
+# ERR_MODULE_NOT_FOUND (exit 1) and the test asserts instead of skipping. See the
+# runtime guard below for the chromium-binary-missing case (graceful exit 0).
+_RENDER_READY = (
+    _RENDER_SCRIPT.exists()
+    and bool(shutil.which("node"))
+    and (_DASHBOARD / "node_modules" / "playwright").exists()
+)
+
 
 def _root_count(dsl: str) -> int:
     """Count top-level roots in a mindmap DSL the way Mermaid does.
@@ -93,8 +105,8 @@ class NormalizeMindmapTests(unittest.TestCase):
 
 
 @unittest.skipUnless(
-    _RENDER_SCRIPT.exists() and shutil.which("node"),
-    "render-mermaid.mjs / node unavailable — skipping live render assertion",
+    _RENDER_READY,
+    "render-mermaid.mjs / node / playwright package unavailable — skipping live render assertion",
 )
 class MindmapRenderTests(unittest.TestCase):
     def test_normalized_mindmap_renders_single_root(self) -> None:
@@ -110,8 +122,19 @@ class MindmapRenderTests(unittest.TestCase):
             ["node", str(_RENDER_SCRIPT), f"--book-dir={book}"],
             cwd=str(_DASHBOARD), capture_output=True, text=True, timeout=120,
         )
-        if proc.returncode == 3:
-            self.skipTest("chromium unavailable for live render")
+        # Skip (not fail) on any infrastructure-degrade signal: chromium binary
+        # missing (render-mermaid.mjs degrades gracefully to exit 0 with this
+        # warning, or exit 3), or the playwright package unresolved. A genuine
+        # multi-root regression produces a mermaid PARSE error, none of these,
+        # so it still surfaces below.
+        infra_degraded = (
+            proc.returncode == 3
+            or "chromium unavailable" in proc.stderr
+            or "ERR_MODULE_NOT_FOUND" in proc.stderr
+            or "Cannot find package" in proc.stderr
+        )
+        if infra_degraded:
+            self.skipTest("mermaid renderer unavailable (chromium/playwright not installed)")
         self.assertEqual(proc.returncode, 0,
                          f"render failed (multi-root regression?):\n{proc.stderr[:400]}")
         svg = diagrams / "mm-1.svg"

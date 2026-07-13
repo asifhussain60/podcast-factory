@@ -1979,12 +1979,13 @@ surfaces:
       - id: book-illustrate-mindmap-normalization
         code_files: [scripts/podcast/_book_illustrate.py]
         tests: [test_book_illustrate_mindmap.py]
-        status: shipped_with_risk
+        status: shipped
         risk: >
-          R15 — the live-render test asserts instead of skipping when
-          plan-dashboard node_modules (playwright) is absent (render exits 1,
-          skip guard only catches exit 3). Sole cause of red develop CI since
-          2026-06-24. Fix pending approval.
+          R15 (FIXED 2026-07-13) — the live-render test previously asserted
+          instead of skipping when plan-dashboard node_modules (playwright) was
+          absent; was the sole cause of red develop CI 2026-06-24..07-13. Fix:
+          the test class is gated on the playwright package, with a runtime skip
+          on chromium/module-missing signals. Suite: 1476 passed, 2 skipped.
 
 # ---------------------------------------------------------------------------
 # EXCLUDED

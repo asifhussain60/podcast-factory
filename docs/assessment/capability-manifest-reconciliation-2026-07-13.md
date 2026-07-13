@@ -44,10 +44,10 @@ Neither base artifact covered the **translation-edition deliverable path** — a
 
 | ID | Risk | Status @ 2026-07-13 | Evidence |
 |---|---|---|---|
-| **R15** *(new)* | Mindmap live-render test asserts (not skips) when playwright pkg absent → **sole cause of red `develop` CI since 2026-06-24** (last green 2026-06-23) | **OPEN — P1 (CI-breaker)** | `gh run` history all `failure`; test added `281aa5de` on 2026-06-24 |
+| **R15** *(new)* | Mindmap live-render test asserted (not skipped) when playwright pkg absent → **was the sole cause of red `develop` CI since 2026-06-24** (last green 2026-06-23) | **FIXED 2026-07-13** — class gated on playwright package; runtime skip on chromium/module-missing signals; suite now `1476 passed, 2 skipped, 0 failed` | test added `281aa5de` 2026-06-24; fix in `test_book_illustrate_mindmap.py` |
 | **R16** *(new)* | Twin artifacts stale (`.yml` 2026-06-14, `.md` 2026-06-20); translation-edition surface uncovered | **CLOSED by this reconciliation** | `.yml` bumped to 2026-07-13 + new surface; this doc |
-| R4 | `deliver_book._find_pdf` (titled-preferred) vs `export_distribution._find_pdf` (`book.pdf` only) diverge | **OPEN** — `056e336f` aligned docstrings only; code finders still differ | `deliver_book.py:117`, `export_distribution.py:123` |
-| R9 | `R_SERMON_VERBATIM` defined, no enforcer | **OPEN** | constant `_rules.py:75`; no `assert_sermon_*` function |
+| R4 | `deliver_book._find_pdf` (titled-preferred) vs `export_distribution._find_pdf` (`book.pdf` only) diverged | **FIXED 2026-07-13** — `export_distribution` now imports the one shared `_find_pdf` from `deliver_book` (single source) | `export_distribution.py` import; verified `is` identity |
+| R9 | `R_SERMON_VERBATIM` "defined, no enforcer" | **STALE — effectively CLOSED.** Enforcer exists and is wired: `check_chapter_set.py::check_sermon_integrity` (P9, called at line 687) flags a sermon dropped (P0), fragmented across >1 chapter (P0), or stubbed <150 words (P1). Residual is cosmetic only: findings use `check="P9"`, not the `R_SERMON_VERBATIM` constant (consistent with all other checks, which cite no rule constant). **No `assert_sermon_verbatim()` written — that would duplicate a working check.** | `check_chapter_set.py:557,687` |
 | R13 | Web app + API routes: zero automated tests | **OPEN** | 0 test files under `plan-dashboard/` |
 | R1–R3, R5–R8, R10–R12, R14 | (carried from base twin) | **Not re-verified this pass** — presumed open | see base twin §4 |
 

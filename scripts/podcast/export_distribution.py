@@ -48,6 +48,9 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
 from _paths import resolve_content  # noqa: E402
+# R4 unification: share ONE reading-edition PDF finder (titled copy preferred,
+# book.pdf fallback) so delivery and distribution ship the SAME PDF for a book.
+from deliver_book import _find_pdf  # noqa: E402
 
 GOOGLE_DRIVE_CLOUD = Path.home() / "Library" / "CloudStorage"
 PODCAST_LIBRARY    = "Podcast Library"
@@ -119,10 +122,7 @@ def _ep_label(num: str, human: str) -> str:
 
 
 # ─── Asset discovery ──────────────────────────────────────────────────────────
-
-def _find_pdf(book_dir: Path) -> Path | None:
-    pdf = book_dir / "book" / "book.pdf"
-    return pdf if pdf.exists() else None
+# _find_pdf is imported from deliver_book (single source of truth — R4).
 
 
 def _find_audio(book_dir: Path) -> dict[str, Path]:
@@ -248,7 +248,7 @@ def export(
         if _copy(pdf, dest_book / f"{title}.pdf", dry_run):
             copied += 1
     else:
-        print(f"  WARN: book/book.pdf not found — PDF not exported")
+        print(f"  WARN: reading-edition PDF not found in book/ — PDF not exported")
         skipped += 1
 
     # Audio
