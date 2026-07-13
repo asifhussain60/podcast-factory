@@ -1060,3 +1060,25 @@ Pre-authorized by the autonomy mandate in `CONTINUATION-2026-05-30.md`. Four blo
 > Chapter design now tolerates the model overshooting the last line of a source by a line or two (it clamps to the end instead of failing the whole chapter), and it forbids "previous/next episode" cross-references from leaking into the files that NotebookLM reads aloud. Both are gated so single-book behaviour is byte-identical.
 >
 > *Value gained:* fewer spurious failures and no self-referential narration, across the whole catalogue.
+
+## Book Pipeline v2 — unify book routes + decouple visuals (2026-07-13, flag OFF)
+
+Landed on `develop` (merge `4165160`, `--no-ff`) entirely behind the `book_pipeline_v2` flag, which defaults **off** — so nothing about today's books changes until one opts in. Two architectural moves.
+
+### 1. The two divergent book routes became one path with two dials
+
+> The pipeline used to make a reading-edition PDF two incompatible ways — a faithful translation and an author-companion revoice — that differed on three things at once. They are now one path steered by two independent dials in the book's config: one for the voice (faithful vs. author-companion) and one for whether to add clearly-labelled, source-grounded notes. The dials default so that each existing book keeps its current behaviour.
+>
+> *Value gained:* one path to maintain instead of two, and any book can now mix voice and enrichment freely.
+
+### 2. Pictures became a curated layer instead of being auto-stamped into the text
+
+> Diagrams and cleaned NotebookLM slides no longer get injected into the book automatically (the old cause of split figures, watermarks, and duplicated captions). The text stays picture-free; every candidate image goes into a palette; a person places each one in the new **Book Composer** page on the site — choosing size, alignment, whether text wraps beside it, and which chapter it anchors to — and clicks Generate PDF. The renderer honours those choices and fills pages like a professional book.
+>
+> *Value gained:* the human controls the look of the printed book, and the structural defects that plagued the old auto-injected PDFs are designed out.
+
+### 3. Accuracy is fenced at every content-touching step, and the risky switch is held
+
+> Added source notes are dropped if they fail the doctrinal checks; the revoice/de-calque passes revert any chapter that loses a teaching or an Arabic quotation; a new print-quality standard plus a render challenger inspect the finished PDF. The final cutover — flipping the flag on for everyone and deleting the old code — is deliberately **not** done yet: it waits on a full generation run over the two fixture books, documented in `book-pipeline-cutover.md`.
+>
+> *Value gained:* the new path can prove itself on real books before it ever becomes the default, with no teaching put at risk.

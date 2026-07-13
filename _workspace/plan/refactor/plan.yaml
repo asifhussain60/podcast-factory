@@ -4447,6 +4447,68 @@ waves_o_ph:
         title: "al-anwaar-al-lateefah vol-01 SHIP-READY end-to-end (11 episodes + slide decks, G1-G14 pass)"
         status: completed
 
+waves_bpv2:
+  - id: BPV2
+    name: "Book Pipeline v2 — unify book routes + decouple visuals (flag OFF)"
+    execution_status: completed_2026_07_13
+    branch: book-pipeline-v2
+    merged_to_develop: "4165160 (--no-ff, 2026-07-13)"
+    note: >
+      Two architectural moves behind the book_pipeline_v2 flag (default OFF — zero
+      behaviour change on develop until a book opts in): (1) collapse the divergent
+      translation + author-companion book routes into ONE path with two independent
+      knobs (book_augmentation, book_voice); (2) decouple visuals from content —
+      book.md stays diagram-free, candidates go to book/visuals/index.json, a human
+      curates placement in the Astro Book Composer which writes book/visual-layout.json,
+      and the renderer consumes that contract. Cutover (flip default ON + delete legacy)
+      is HELD pending fixture LLM validation — see _workspace/plan/book-pipeline-cutover.md.
+    steps:
+      - id: BPV2-0
+        title: "Flag scaffold + Astro write-back spike"
+        plain: "The on/off switch for the whole feature, defaulting to off, plus confirming the site can save files."
+        tools: [scripts/podcast/_pipeline_flags.py]
+        last_touched: deb9902
+      - id: BPV2-1
+        title: "Unify the two book routes into one path (two knobs)"
+        plain: "One book-making path; two dials pick the voice and whether to add source-grounded notes."
+        tools: [scripts/podcast/_book_pipeline_v2.py, scripts/podcast/_book_augment.py, scripts/podcast/_book_voice.py]
+        last_touched: 2b1fe88
+      - id: BPV2-2
+        title: "Renderer honors the visual-layout contract + professional pagination"
+        plain: "The PDF places each picture where the human chose and fills pages like a real book."
+        tools: [scripts/podcast/_visual_layout.py, plan-dashboard/scripts/visual-layout.mjs, plan-dashboard/src/styles/book-print.css]
+        last_touched: 301f3e1
+      - id: BPV2-3
+        title: "Decouple visuals into a candidate asset library"
+        plain: "Diagrams and cleaned slides become a palette of choices instead of being auto-stamped into the book."
+        tools: [scripts/podcast/_visual_candidates.py, scripts/podcast/_book_illustrate.py, scripts/podcast/_slide_import.py]
+        last_touched: 0531578
+      - id: BPV2-4
+        title: "Astro Book Composer view"
+        plain: "The page where a person drags pictures into place, sizes them, and clicks Generate PDF."
+        tools: ["plan-dashboard/src/pages/studio/[slug]/compose.astro", plan-dashboard/src/scripts/book-composer.ts]
+        last_touched: e201e4b
+      - id: BPV2-5
+        title: "Modern-English prose (de-calque + fluency pass)"
+        plain: "Smooths stiff word-for-word-from-Arabic phrasing into fluent English without changing any teaching."
+        tools: [scripts/podcast/_authoring/_refine.py, scripts/podcast/_book_voice.py]
+        last_touched: 90faeda
+      - id: BPV2-6
+        title: "Governance — print standard + book-render-challenger"
+        plain: "A quality bar for the printed pages and a checker that inspects the finished PDF."
+        tools: [docs/standards/book-print-quality.md, scripts/podcast/_book_render_checks.py]
+        last_touched: ba7ae11
+      - id: BPV2-7
+        title: "Acceptance matrix; cutover held"
+        plain: "A test suite pinning the whole contract; the risky final switch is documented and deliberately not flipped yet."
+        tools: [scripts/podcast/tests/test_book_pipeline_v2_acceptance.py, _workspace/plan/book-pipeline-cutover.md]
+        last_touched: 3aed8e3
+      - id: BPV2-8
+        title: "repo-surgeon v2 probes + merge to develop"
+        plain: "Taught the repo auditor to verify the new architecture, then merged everything to the working branch."
+        tools: [skills-staging/repo-surgeon/SKILL.md]
+        last_touched: 06df259
+
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================
