@@ -110,7 +110,8 @@ def _pick_book_md(book_dir: Path) -> Path:
     return book / "book.md"
 
 
-def build_book(book_dir: Path, *, log=print, book_md: Path | None = None) -> Path:
+def build_book(book_dir: Path, *, log=print, book_md: Path | None = None,
+               surface_finder: bool = True) -> Path:
     book_dir = Path(book_dir).resolve()
     if book_md is None:
         book_md = _pick_book_md(book_dir)
@@ -186,8 +187,10 @@ def build_book(book_dir: Path, *, log=print, book_md: Path | None = None) -> Pat
     else:
         log(f"    0book-render: Google Drive Podcast Library not found — skipping Drive copy")
 
-    if not drive_copied:
+    if not drive_copied and surface_finder:
         # Surface the titled copy in Finder so Asif can drag it to Drive manually.
+        # Skipped for API/headless renders (surface_finder=False) so a server-side
+        # "Generate PDF" never pops a Finder window.
         import subprocess as _sp
         _sp.run(["open", str(titled_pdf.parent)], check=False)
         log(f"    0book-render: opened Finder → drag {titled_pdf.name} to Drive manually")
@@ -196,14 +199,26 @@ def build_book(book_dir: Path, *, log=print, book_md: Path | None = None) -> Pat
 
 
 def main() -> int:
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    import json as _json
+    argv = sys.argv[1:]
+    as_json = "--json" in argv  # API/Composer mode: single JSON line, no Finder pop
+    args = [a for a in argv if not a.startswith("--")]
     if not args:
-        print("usage: build_book_pdf.py <BOOK_DIR>", file=sys.stderr)
+        print("usage: build_book_pdf.py <BOOK_DIR> [--json]", file=sys.stderr)
         return 2
+    book_dir = Path(args[0])
     try:
-        build_book(Path(args[0]))
+        out = build_book(book_dir, log=(lambda *a: None) if as_json else print,
+                         surface_finder=not as_json)
+        if as_json:
+            print(_json.dumps({"ok": True, "pdf": str(out),
+                               "kb": out.stat().st_size // 1024}))
         return 0
     except AuthoringError as e:
+        if as_json:
+            print(_json.dumps({"ok": False, "error": str(e),
+                               "manual_fallback": e.manual_fallback}))
+            return 1
         print(f"ERROR [{e.phase}]: {e}\n  → {e.manual_fallback}", file=sys.stderr)
         return 1
 

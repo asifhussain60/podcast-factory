@@ -10,7 +10,7 @@ import {
 } from './visual-layout.mjs';
 
 let n = 0;
-const t = (name, fn) => { fn(); n++; };
+const t = (_name, fn) => { fn(); n++; };
 
 // ── normalization mirrors the Python side ──
 t('center forces standalone', () => {
