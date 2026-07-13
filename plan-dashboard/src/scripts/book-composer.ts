@@ -8,6 +8,8 @@
  * is class-based + the --cx-w custom property (set at runtime here, never as an
  * inline HTML attribute), so the view stays lint/Cortex-clean.
  */
+import { mountChapterEditor, type ChapterEditor } from './book-md-editor';
+
 type Align = 'left' | 'center' | 'right';
 type Flow = 'wrap' | 'standalone';
 type PageFit = 'avoid' | 'before' | 'isolate-plate';
@@ -16,7 +18,8 @@ interface Visual {
   id: string; type: string; caption: string; file: string; src: string;
   suggested_anchor: string; chapter: string; cleaned: boolean; embedded_title: string;
 }
-interface Chapter { anchor: string; key: string; title: string; paras: number; }
+interface Citation { ar: string; tr: string; }
+interface Chapter { anchor: string; key: string; title: string; paras: number; citations: Citation[]; }
 interface Placement {
   visual_id: string; anchor: string; anchor_para: number | null; align: Align; flow: Flow;
   width_pct: number; caption: string; page_fit: PageFit;
@@ -60,11 +63,12 @@ function boot(): void {
   const saveBtn = root.querySelector<HTMLButtonElement>('#cx-save')!;
   const genBtn = root.querySelector<HTMLButtonElement>('#cx-generate')!;
   const statusEl = root.querySelector<HTMLElement>('#cx-status')!;
-  const filterEl = root.querySelector<HTMLSelectElement>('#cx-chapter-filter');
-  let chapterFilter = '__all';
+  const chapterSelect = root.querySelector<HTMLSelectElement>('#cx-chapter-select');
+  const scopeEl = root.querySelector<HTMLElement>('#cx-artifacts-scope');
+  let selectedChapter = data.chapters[0]?.key ?? '';
 
-  // ── inspector tabs (Artifacts · Refinement · Output) ──────────────────────
-  const TABS = ['artifacts', 'refine', 'output'] as const;
+  // ── inspector tabs (Artifacts · Citations · Refinement · Output) ──────────
+  const TABS = ['artifacts', 'citations', 'refine', 'output'] as const;
   type TabName = typeof TABS[number];
   const tabBtn = (n: TabName) => root.querySelector<HTMLButtonElement>(`#cx-tab-${n}`);
   const tabPanel = (n: TabName) => root.querySelector<HTMLElement>(`#cx-panel-${n}`);
@@ -94,7 +98,203 @@ function boot(): void {
     });
   });
   activateTab('artifacts'); // initialize roving tabindex on the default tab
-  filterEl?.addEventListener('change', () => { chapterFilter = filterEl.value; render(); });
+
+  // ── chapter scoping — one chapter visible at a time; tabs follow it ────────
+  function showSelectedChapter(): void {
+    root.querySelectorAll<HTMLElement>('.cx-chapter').forEach((ch) => {
+      ch.hidden = (ch.dataset.key ?? '') !== selectedChapter;
+    });
+  }
+  if (chapterSelect) {
+    chapterSelect.value = selectedChapter;
+    chapterSelect.addEventListener('change', () => {
+      selectedChapter = chapterSelect.value;
+      selected = null; // a figure selection doesn't carry across chapters
+      showSelectedChapter();
+      renderCitations();
+      render();
+    });
+  }
+
+  // ── Read / Edit mode — Edit swaps the chapter body for the TipTap editor ──
+  const modeRead = root.querySelector<HTMLButtonElement>('#cx-mode-read');
+  const modeEdit = root.querySelector<HTMLButtonElement>('#cx-mode-edit');
+  let activeEditor: ChapterEditor | null = null;
+
+  function currentChapterEl(): HTMLElement | null {
+    return Array.from(root.querySelectorAll<HTMLElement>('.cx-chapter'))
+      .find((c) => (c.dataset.key ?? '') === selectedChapter) ?? null;
+  }
+
+  function toolbarBtn(label: string, title: string, run: (ed: ChapterEditor) => void): HTMLButtonElement {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'cx-edit-tool';
+    b.textContent = label;
+    b.title = title;
+    b.setAttribute('aria-label', title); // glyph text is decorative; announce the action
+    b.addEventListener('mousedown', (e) => e.preventDefault()); // keep editor selection
+    b.addEventListener('click', () => { if (activeEditor) run(activeEditor); });
+    return b;
+  }
+
+  function exitEdit(): void {
+    activeEditor?.destroy();
+    activeEditor = null;
+    root.querySelector('.cx-edit-shell')?.remove();
+    const bodyEl = currentChapterEl()?.querySelector<HTMLElement>('.cx-body');
+    if (bodyEl) bodyEl.hidden = false;
+    if (chapterSelect) chapterSelect.disabled = false;
+  }
+
+  function enterEdit(): void {
+    const ch = currentChapterEl();
+    const bodyEl = ch?.querySelector<HTMLElement>('.cx-body');
+    if (!ch || !bodyEl) return;
+    const pristine = bodyByKey.get(selectedChapter)?.html ?? bodyEl.innerHTML;
+    bodyEl.hidden = true;
+
+    const shell = document.createElement('div');
+    shell.className = 'cx-edit-shell';
+    const toolbar = document.createElement('div');
+    toolbar.className = 'cx-edit-toolbar';
+    toolbar.setAttribute('role', 'toolbar');
+    toolbar.setAttribute('aria-label', 'Formatting');
+    toolbar.append(
+      toolbarBtn('B', 'Bold', (ed) => ed.editor.chain().focus().toggleBold().run()),
+      toolbarBtn('i', 'Italic', (ed) => ed.editor.chain().focus().toggleItalic().run()),
+      toolbarBtn('H', 'Heading', (ed) => ed.editor.chain().focus().toggleHeading({ level: 3 }).run()),
+      toolbarBtn('❝', 'Quote', (ed) => ed.editor.chain().focus().toggleBlockquote().run()),
+      toolbarBtn('•', 'Bulleted list', (ed) => ed.editor.chain().focus().toggleBulletList().run()),
+    );
+    const host = document.createElement('div');
+    host.className = 'cx-edit-host';
+    const actions = document.createElement('div');
+    actions.className = 'cx-edit-actions';
+    const saveEditBtn = document.createElement('button');
+    saveEditBtn.type = 'button';
+    saveEditBtn.className = 'cx-action';
+    saveEditBtn.textContent = 'Save prose';
+    const cancelBtn = document.createElement('button');
+    cancelBtn.type = 'button';
+    cancelBtn.className = 'cx-action is-secondary';
+    cancelBtn.textContent = 'Cancel';
+    const editStatus = document.createElement('p');
+    editStatus.className = 'cx-status';
+    editStatus.setAttribute('role', 'status');
+    editStatus.setAttribute('aria-live', 'polite');
+    actions.append(saveEditBtn, cancelBtn);
+    shell.append(toolbar, host, actions, editStatus);
+    bodyEl.insertAdjacentElement('afterend', shell);
+
+    activeEditor = mountChapterEditor(host, pristine);
+    if (chapterSelect) chapterSelect.disabled = true;
+
+    cancelBtn.addEventListener('click', () => setMode('read'));
+    saveEditBtn.addEventListener('click', async () => {
+      if (!activeEditor) return;
+      saveEditBtn.disabled = true;
+      editStatus.textContent = 'Saving…';
+      editStatus.classList.remove('is-error');
+      try {
+        const res = await fetch('/api/studio/book-md', {
+          method: 'PUT',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ slug, chapterKey: selectedChapter, markdown: activeEditor.toMarkdown() }),
+        });
+        const json = await res.json();
+        if (!json.ok) throw new Error(json.error || 'save failed');
+        // Reload so the preview + visual anchors reflect the authoritative re-render.
+        window.location.reload();
+      } catch (err) {
+        editStatus.textContent = `Save failed: ${(err as Error).message}`;
+        editStatus.classList.add('is-error');
+        saveEditBtn.disabled = false;
+      }
+    });
+  }
+
+  function setMode(mode: 'read' | 'edit'): void {
+    const edit = mode === 'edit';
+    modeRead?.classList.toggle('is-active', !edit);
+    modeRead?.setAttribute('aria-pressed', String(!edit));
+    modeEdit?.classList.toggle('is-active', edit);
+    modeEdit?.setAttribute('aria-pressed', String(edit));
+    root.classList.toggle('is-editing', edit);
+    if (edit) enterEdit(); else exitEdit();
+  }
+  modeRead?.addEventListener('click', () => setMode('read'));
+  modeEdit?.addEventListener('click', () => setMode('edit'));
+
+  // ── Citations tab: predefined style (persisted) + this chapter's citations ──
+  const citeForm = root.querySelector<HTMLFormElement>('.cx-cite-form');
+  const citeSave = root.querySelector<HTMLElement>('#cx-cite-save');
+  const citeListEl = root.querySelector<HTMLElement>('#cx-citations-list');
+
+  function setCiteStatus(msg: string, state: '' | 'saved' | 'error'): void {
+    if (!citeSave) return;
+    citeSave.textContent = msg;
+    citeSave.classList.toggle('is-saved', state === 'saved');
+    citeSave.classList.toggle('is-error', state === 'error');
+  }
+  async function loadSavedFamily(): Promise<void> {
+    try {
+      const res = await fetch(`/api/studio/citation-style?slug=${encodeURIComponent(slug)}`);
+      const json = await res.json();
+      if (!json.ok) return;
+      const match = citeForm?.querySelector<HTMLInputElement>(
+        `input[name="citation-style"][value="${json.data.family}"]`);
+      if (match) match.checked = true;
+    } catch { /* keep the pre-checked default if the fetch fails */ }
+  }
+  citeForm?.addEventListener('change', async (ev) => {
+    const t = ev.target as HTMLInputElement;
+    if (t?.name !== 'citation-style' || !t.checked) return;
+    setCiteStatus('Saving…', '');
+    try {
+      const res = await fetch('/api/studio/citation-style', {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug, family: t.value }),
+      });
+      const json = await res.json();
+      setCiteStatus(json.ok ? `Saved — the book prints in the ${t.value} style.`
+        : `Couldn't save: ${json.error}`, json.ok ? 'saved' : 'error');
+    } catch (e) {
+      setCiteStatus(`Couldn't save: ${(e as Error).message}`, 'error');
+    }
+  });
+
+  function renderCitations(): void {
+    if (!citeListEl) return;
+    citeListEl.textContent = '';
+    const items = chapterByKey.get(selectedChapter)?.citations ?? [];
+    if (!items.length) {
+      const p = document.createElement('p');
+      p.className = 'cx-empty';
+      p.textContent = 'No Quran or hadith citations detected in this chapter.';
+      citeListEl.appendChild(p);
+      return;
+    }
+    for (const c of items) {
+      const bq = document.createElement('blockquote');
+      bq.className = 'bs-verse cx-cite-item';
+      const ar = document.createElement('p');
+      ar.className = 'bs-ar';
+      ar.setAttribute('dir', 'rtl');
+      ar.setAttribute('lang', 'ar');
+      ar.textContent = c.ar;
+      bq.appendChild(ar);
+      if (c.tr) {
+        const tr = document.createElement('p');
+        tr.className = 'bs-tr';
+        tr.textContent = c.tr;
+        bq.appendChild(tr);
+      }
+      citeListEl.appendChild(bq);
+    }
+  }
+  void loadSavedFamily();
 
   function normalize(p: Placement): Placement {
     const align = (['left', 'center', 'right'] as Align[]).includes(p.align) ? p.align : 'center';
@@ -163,23 +363,24 @@ function boot(): void {
     }
     for (const [key, figs] of byChapter) insertFiguresInline(bodyByKey.get(key)!.el, figs);
 
-    // palette = unplaced visuals, narrowed to the chapter filter
+    // palette = unplaced candidates for the selected chapter (+ book-level ones,
+    // which have no resolved chapter and must stay reachable from any chapter)
     paletteEl.textContent = '';
-    let unplaced = data.visuals.filter((v) => !placedIds.has(v.id));
-    const totalUnplaced = unplaced.length;
-    if (chapterFilter === '__none') unplaced = unplaced.filter((v) => !v.chapter);
-    else if (chapterFilter !== '__all') unplaced = unplaced.filter((v) => v.chapter === chapterFilter);
+    const unplaced = data.visuals.filter((v) =>
+      !placedIds.has(v.id) && (v.chapter === selectedChapter || !v.chapter));
     if (!unplaced.length) {
       const p = document.createElement('p');
       p.className = 'cx-empty';
       p.textContent = !data.visuals.length
         ? 'No visual candidates for this book yet.'
-        : chapterFilter !== '__all' && totalUnplaced
-          ? 'No unplaced candidates for this chapter.'
-          : 'All candidates placed.';
+        : 'No unplaced candidates for this chapter.';
       paletteEl.appendChild(p);
     } else {
       unplaced.forEach((v) => paletteEl.appendChild(paletteItemEl(v)));
+    }
+    if (scopeEl) {
+      const ch = chapterByKey.get(selectedChapter);
+      scopeEl.textContent = ch ? `Candidates for “${ch.title}”.` : '';
     }
     renderControls();
   }
@@ -545,6 +746,8 @@ function boot(): void {
   });
 
   saveBtn.disabled = true;
+  showSelectedChapter();
+  renderCitations();
   render();
 }
 

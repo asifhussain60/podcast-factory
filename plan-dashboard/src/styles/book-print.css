@@ -321,9 +321,9 @@ blockquote.quran {
 }
 blockquote.quran p.ar {
   font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
-  font-size: 1.18rem;
+  font-size: 1.05rem;
   line-height: 1.9;
-  color: #5a3a0a;
+  color: var(--c-ink, #1f1d18);
   margin: 0 0 0.2rem;
   text-align: right;
   direction: rtl;

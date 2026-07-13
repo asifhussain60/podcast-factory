@@ -32,6 +32,113 @@
   min-width: 0;
   color: var(--c-ink, #1f1d18);
 }
+
+/* Chapter picker + Read/Edit toggle, pinned to the top-left of the chapter. */
+.cx-chapter-bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 1.2rem;
+  flex-wrap: wrap;
+}
+.cx-chapter-picker { margin: 0; min-width: 16rem; flex: 1 1 auto; max-width: 32rem; }
+.cx-mode {
+  display: inline-flex;
+  gap: 0.15rem;
+  padding: 0.15rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 6px;
+  background: var(--c-bg-card, #fffdf8);
+}
+.cx-mode-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 0.82rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 5px;
+  color: var(--c-ink-muted, #87827a);
+  cursor: pointer;
+}
+.cx-mode-btn.is-active {
+  background: var(--c-accent, #8b4513);
+  color: var(--c-bg-card, #fffdf8);
+}
+
+.cx-panel-hint {
+  color: var(--c-ink-muted, #87827a);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  margin: 0 0 0.7rem;
+}
+#cx-panel-output .cx-panel-hint { margin: 0.5rem 0 0; }
+#cx-panel-artifacts .cx-panel-hint { margin: 0 0 0.6rem; }
+
+/* Citations tab — fit the reused book-styles picker + preview into the 20rem
+   panel; the detected list previews this chapter's verses in the toned look. */
+.cx-cite-form { margin: 0; }
+.cx-cite-form .bs-chips { gap: 0.4rem; margin: 0 0 0.8rem; }
+.cx-cite-form .bs-chip { min-width: 0; flex: 1 1 100%; padding: 0.5rem 0.7rem; border-radius: 8px; }
+.cx-cite-form .bs-chip-name { font-size: 0.9rem; }
+.cx-cite-form .bs-chip-tag { font-size: 0.72rem; }
+.cx-cite-preview { padding: 0.9rem 1rem; margin: 0; max-width: none; }
+.cx-cite-preview .bs-ct + .bs-ct { margin-top: 0.9rem; padding-top: 0.9rem; }
+.cx-cite-save { margin: 0.5rem 0 0; font-size: 0.8rem; min-height: 1.1rem; }
+.cx-cite-detected {
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+}
+.cx-cite-heading {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-cite-list { display: grid; gap: 0.6rem; }
+.cx-cite-item { margin: 0; }
+
+/* ── Edit mode — the chapter prose editor (TipTap) in the left column ─────── */
+.cx-edit-shell { margin: 0.4rem 0 1.6rem; }
+.cx-edit-toolbar { display: flex; gap: 0.25rem; margin: 0 0 0.6rem; }
+.cx-edit-tool {
+  font: inherit;
+  font-size: 0.85rem;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  background: var(--c-bg-card, #fffdf8);
+  color: var(--c-ink, #1f1d18);
+  cursor: pointer;
+}
+.cx-edit-tool:hover { border-color: var(--c-accent, #8b4513); }
+.cx-edit-host {
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  background: var(--c-bg-card, #fffdf8);
+}
+.cx-prose {
+  outline: none;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--c-ink, #1f1d18);
+  max-width: 60ch;
+}
+.cx-prose p { margin: 0 0 0.8rem; }
+.cx-prose h3 { font-size: 1.1rem; font-weight: 700; margin: 1.2rem 0 0.5rem; }
+.cx-prose blockquote {
+  border-left: 2px solid var(--c-rule, #d9d3c4);
+  padding-left: 1rem;
+  margin: 0.8rem 0;
+}
+.cx-edit-actions { display: flex; gap: 0.5rem; margin: 0.7rem 0 0; }
+.cx-edit-actions .cx-action { flex: 0 0 auto; }
+
 .cx-chapter { margin: 0 0 1.8rem; }
 .cx-chapter > h2 {
   font-size: 1.3rem;
@@ -53,6 +160,25 @@
   display: flow-root; /* contain floated (wrap) figures within the chapter */
 }
 .cx-body :is(p, blockquote) { margin: 0 0 0.8rem; }
+
+/* Arabic verses in the preview mirror the printed page: no box, body-ink Arabic
+   at body scale (matches book-print.css / book-reader.css blockquote.quran). */
+.cx-body blockquote.quran {
+  border-left: 2px solid var(--c-rule, #d9d3c4);
+  padding: 0.25rem 0 0.25rem 1.1rem;
+}
+.cx-body blockquote.quran p.ar {
+  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--c-ink, #1f1d18);
+  direction: rtl;
+  text-align: right;
+}
+.cx-body blockquote.quran p.tr {
+  font-size: 0.95rem;
+  color: var(--c-ink-muted, #87827a);
+}
 
 /* Drop indicator: a rule on the paragraph the figure will land above/below. */
 .cx-drop-before, .cx-drop-after { position: relative; }
@@ -282,7 +408,7 @@
   cursor: pointer;
 }
 
-:is(.cx-tab, .cx-toggle, .cx-action, .cx-delete, .cx-palette-item, .cx-fig):focus-visible {
+:is(.cx-tab, .cx-toggle, .cx-action, .cx-delete, .cx-palette-item, .cx-fig, .cx-mode-btn, .cx-edit-tool):focus-visible {
   outline: 2px solid var(--c-accent, #8b4513);
   outline-offset: 2px;
 }

@@ -6,9 +6,34 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-07-13 4:21 PM EST (Book Composer WYSIWYG upgrade)
+**Last updated:** 2026-07-13 7:07 PM EST (Book Composer → chapter-scoped workspace)
 
-**Latest — Book Composer preview is now truly WYSIWYG.** Closed the three
+**Latest — Book Composer is now a chapter-scoped editing workspace.** Three
+feature groups landed (plan: `~/.claude/plans/create-a-detailed-plan-piped-perlis.md`):
+(1) **Shell** — chapter picker moved to the top-left of the preview, first
+chapter default, only the selected chapter renders, header trimmed to "Edit &
+Enrich" (dropped "Citation styles"/"Reading edition"), and a new **Citations**
+tab after Artifacts (tablist: Artifacts · Citations · Refinement · Output).
+(2) **Citations tab** — reuses the `.bs-*` predefined-style picker
+(plain/scholarly/elegant, persisted via `/api/studio/citation-style`) + lists
+this chapter's detected Quran/hadith citations (detected in `composer.ts` from
+the `blockquote.quran` markup now emitted by `markdown.ts`). The Quran verse was
+toned down across all three layers (`book-print.css`, `book-reader.css`,
+`book-styles.css`): no box, minimal padding, Arabic at ~body scale in
+`var(--c-ink)` instead of gold. Per-type distinct PDF rendering is deferred
+(declined pipeline). (3) **Edit mode** — a Read/Edit toggle mounts the same
+TipTap engine (`book-md-editor.ts`, `@tiptap/core` + StarterKit) on the selected
+chapter, editing **book.md directly** (not chapter source — verified via the
+compose chain that source edits never reach book.md) and saving the chapter's
+section via new `PUT /api/studio/book-md` (surgical section replace, `.bak`
+backup). NOTE: a manual `compose_book_v2 --force` would regenerate book.md and
+overwrite direct edits; book.md is the last-mile reading edition so this is
+acceptable. Gates: astro check 0/0/0, lint:views clean, build OK,
+html-view-challenger PASS-WITH-CAUTION (Level 1). Verified in-browser: chapter
+scoping, Citations detection (2 in ch.1), toned verse (body-ink), Edit mount +
+surgical save round-trip (fixture restored).
+
+**Prior — Book Composer preview is now truly WYSIWYG.** Closed the three
 open gaps against the original Phase-4 spec (drag-to-anchor, resize handles,
 float-exact preview): placed figures now render INLINE inside `.cx-body` at the
 exact paragraph the PDF renderer (`scripts/visual-layout.mjs::applyLayout`)

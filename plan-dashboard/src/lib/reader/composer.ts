@@ -17,12 +17,33 @@ import { join } from 'node:path';
 import { findContent } from '../content-paths';
 import { renderMarkdown } from './markdown';
 
+export interface ComposerCitation {
+  ar: string;       // Arabic-script line (plain text)
+  tr: string;       // translation / following line (plain text; '' if none)
+}
+
 export interface ComposerChapter {
   anchor: string;   // the raw "## N. Title" heading — the placement anchor
   key: string;      // normalized comparable key (mirrors visual-layout anchorKey)
   title: string;    // display title
   html: string;     // rendered chapter body
   paras: number;    // prose-paragraph count (for the anchor_para position control)
+  citations: ComposerCitation[]; // Arabic-bearing verses/hadith detected in this chapter
+}
+
+/** Pull the Arabic-bearing quotation blocks out of rendered chapter HTML.
+ *  markdown.ts tags them as `<blockquote class="quran"><p class="ar">…<p class="tr">…`,
+ *  so the Citations tab can list a chapter's verses without a new data artifact. */
+function extractCitations(html: string): ComposerCitation[] {
+  const out: ComposerCitation[] = [];
+  const strip = (s: string) => s.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  const blocks = html.match(/<blockquote class="quran">[\s\S]*?<\/blockquote>/g) ?? [];
+  for (const b of blocks) {
+    const ar = strip((b.match(/<p class="ar"[^>]*>([\s\S]*?)<\/p>/) ?? ['', ''])[1]);
+    const tr = strip((b.match(/<p class="tr"[^>]*>([\s\S]*?)<\/p>/) ?? ['', ''])[1]);
+    if (ar) out.push({ ar, tr });
+  }
+  return out;
 }
 
 export interface ComposerVisual {
@@ -105,7 +126,8 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
       .split(/\n\s*\n/)
       .filter((b) => b.trim() && !/^\s*[>#<]/.test(b)).length;
     const key = anchorKey(heading);
-    chapters.push({ anchor: heading, key, title: displayTitle, html: renderMarkdown(body), paras });
+    const html = renderMarkdown(body);
+    chapters.push({ anchor: heading, key, title: displayTitle, html, paras, citations: extractCitations(html) });
     bodyByKey.push({ key, lc: body.toLowerCase() });
   }
 

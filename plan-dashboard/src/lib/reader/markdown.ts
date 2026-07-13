@@ -14,6 +14,9 @@
 
 import { simplifyTransliteration } from '../translit';
 
+/** Arabic-script detection (matches the print renderer's ARABIC_RE). */
+const ARABIC_SCRIPT_RE = /[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/;
+
 function escapeHtml(s: string): string {
   // Don't escape apostrophes — they're safe in HTML text content and inside
   // double-quoted attributes. Escaping them as &#39; breaks downstream
@@ -73,8 +76,20 @@ export function renderMarkdown(input: string): string {
       else cur.push(l);
     }
     if (cur.length) paras.push(cur.join(' '));
-    const inner = paras.map((p) => `<p>${renderInline(p)}</p>`).join('') || '<p></p>';
-    out.push(`<blockquote>${inner}</blockquote>`);
+    // Tag Arabic-script lines as `.ar` and their translations as `.tr` (only when
+    // the block actually contains Arabic) so the reader can style verses like the
+    // print renderer does — body-ink Arabic at body scale, no box. Emission stays
+    // one line so the Composer's paragraph mirror (`:scope > p`) is unaffected.
+    const hasArabic = paras.some((p) => ARABIC_SCRIPT_RE.test(p));
+    const inner = paras.length === 0
+      ? '<p></p>'
+      : paras.map((p) => {
+          if (!hasArabic) return `<p>${renderInline(p)}</p>`;
+          return ARABIC_SCRIPT_RE.test(p)
+            ? `<p class="ar" dir="rtl" lang="ar">${renderInline(p)}</p>`
+            : `<p class="tr">${renderInline(p)}</p>`;
+        }).join('');
+    out.push(`<blockquote${hasArabic ? ' class="quran"' : ''}>${inner}</blockquote>`);
     quoteBuffer = [];
   };
 

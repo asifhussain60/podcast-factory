@@ -109,6 +109,29 @@
   line-height: 1.9;
 }
 
+/* Arabic-bearing verses read as part of the page, not a boxed placard: no card
+   fill, minimal padding, a thin neutral rule, and Arabic at body scale in body
+   ink (matches book-print.css blockquote.quran). */
+.bookv-body blockquote.quran {
+  background: none;
+  border-radius: 0;
+  border-left: 2px solid var(--c-rule, #d9d3c4);
+  padding: 0.25rem 0 0.25rem 1.1rem;
+}
+.bookv-body blockquote.quran p.ar {
+  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--c-ink);
+  direction: rtl;
+  text-align: right;
+}
+.bookv-body blockquote.quran p.tr {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--c-ink-muted);
+}
+
 /* ── Responsive: stack the TOC above the reading column ──── */
 @media (max-width: 860px) {
   .bookv { grid-template-columns: 1fr; gap: 1.25rem; }
