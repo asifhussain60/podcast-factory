@@ -12,6 +12,7 @@ It does not run podcast audio, phonetics, gap-analysis, or enrichment.
 from __future__ import annotations
 
 import argparse
+import json
 import shutil
 import subprocess
 import sys
@@ -31,6 +32,7 @@ from _translation_edition import (  # noqa: E402
     author_translation_edition_compose,
 )
 from build_book_pdf import build_book  # noqa: E402
+from validate_book_ready import validate_book  # noqa: E402
 
 
 def _info(msg: str) -> None:
@@ -133,6 +135,16 @@ def generate_translation_edition(
 
     _info("phase 0book-render: PDF")
     build_book(book_dir, log=_info)
+    verdict = validate_book(book_dir)
+    (book_dir / "_system" / "book-validation-report.json").write_text(
+        json.dumps(verdict, indent=2), encoding="utf-8",
+    )
+    if verdict.get("verdict") == "BOOK-BROKEN":
+        raise AuthoringError(
+            phase="0book-render",
+            message="translation edition failed validation: " + str(verdict.get("summary")),
+            manual_fallback="Fix the reported manuscript/PDF issue, then rerun with targeted --force flags.",
+        )
     _info("DONE: translation edition artifacts are under book/ and slide-decks/.")
     return 0
 

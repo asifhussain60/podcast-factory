@@ -481,15 +481,27 @@ If the source is a single chapter or article (not a PDF, not multi-chapter), ski
 
 After Phase 0g, every planned episode runs Phases 1–4 below. Phase 1 intake for each episode is shortcut: most fields are inherited from the series intake; only per-episode overrides are surfaced. Phases 2–4 run normally per episode.
 
-### PHASE 0book — COMPANION READING EDITION (PDF path, optional, gated)
+### PHASE 0book — PDF ROUTES (optional, gated)
 
-Distinct from the podcast (podcast path). When `series.enable_book_branch` is true, after the per-chapter work and BEFORE the finalize halt, three phases produce a companion **book** — a PDF + an in-site reader view — a peer deliverable to the podcast that NEVER becomes a NotebookLM source:
+Distinct from the podcast path. The podcast source remains `chapters/chNN-<slug>.txt`; PDF artifacts live under `book/` and never become a NotebookLM source. There are two PDF routes:
+
+**Augmented companion-book route.** When `series.enable_book_branch` is true, the publish driver runs the book branch after the finalize review so the PDF is built from approved podcast content. The route produces a companion **book** — a PDF + an in-site reader view — as a peer deliverable to the podcast:
 
 - **`0book-design`** ([_authoring/_book_design.py](../../scripts/podcast/_authoring/_book_design.py)) — re-segments `refined-english.md` into a book-craft chapter structure (its OWN count/boundaries/titles + a preface, independent of the podcast episode cuts) → `book/book-toc.json`.
 - **`0book-compose`** ([_book_compose.py](../../scripts/podcast/_book_compose.py)) — revoices each chapter into modern author-first-person prose: Arabic quotations rendered as vowelled SCRIPT with the English translation beneath, faithful (no abridgement, no teaching lost), plain transliteration folded by `_translit` → `book/book.md`. Independent enrichment is pluggable, pending a tradition-appropriate corpus.
 - **`0book-render`** ([build_book_pdf.py](../../scripts/podcast/build_book_pdf.py)) — renders `book.md` to `book/book.pdf` via Playwright (one-time `npx playwright install chromium`) + the reader view at `/studio/<slug>/book`.
 
-NON-blocking (a book failure never sinks the podcast ship); gated by the **`book-challenger`** agent (whole-book voice consistency, verbatim-quote survival, **Arabic-script accuracy**, no-teaching-lost, segmentation sanity, authored-book prose craft). Driver: [phases/book_driver.py](../../scripts/podcast/phases/book_driver.py).
+**Articulated translation route.** When `_system/series-config.yaml` has `deliverable_mode: translation_edition`, the PDF is the primary deliverable: a faithful, readable translation/articulation of the provided non-English source. It may be run by [generate_translation_edition.py](../../scripts/podcast/generate_translation_edition.py) or by the book driver. It skips podcast phonetics, gap analysis, outside-source enrichment, and audio. Contract:
+
+- `translation_policy.augmentation` must be `forbidden`, `none`, or `source_only`; no doctrine, modern examples, external citations, or research may be added.
+- `translation_policy.preserve_arabic_terms` stays true; source Arabic and quoted material are preserved from OCR/refined source rather than invented.
+- `visual_style` is `black_white`/monochrome; diagrams and the book-level slide pair are monochrome.
+- `0book-compose` uses [_translation_edition.py](../../scripts/podcast/_translation_edition.py), writes `book/book.md`, mirrors generated chapters into `chapters/`, normalizes long English salutations into compact forms, and persists `book/source-crosswalk.json`.
+- `book/source-crosswalk.json` is required. It records each chapter's source line ranges, source pages, Arabic source pages, source headings/excerpt, and deterministic title/source drift findings.
+
+Validation is deterministic via [validate_book_ready.py](../../scripts/podcast/validate_book_ready.py): B1 book.md exists and is non-trivial, B2 PDF page count is sane, B3 Islamic scholarly chapters retain Arabic script, B4 translation editions contain no model process chatter or generated opening headings, B5 translation-edition chapters have real body text, and B6 translation editions persist and pass the source crosswalk. In the normal podcast publish flow a broken PDF is recorded as non-blocking state; in the standalone translation-edition driver, `BOOK-BROKEN` is a hard failure because the PDF is the product.
+
+Both PDF routes are gated by the **`book-challenger`** agent with route-specific probes. Driver: [phases/book_driver.py](../../scripts/podcast/phases/book_driver.py).
 
 > **Branch boundary (locked 2026-06-04):** `chapters/chNN-<slug>.txt` (author voice) is the SOLE NotebookLM source. The book revoice lives only under `book/` and never feeds NotebookLM. The old per-chapter `0literary` step is retired.
 

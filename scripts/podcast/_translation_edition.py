@@ -34,6 +34,64 @@ _LONG_CHAPTER_WORDS = 4500
 _CHAPTER_WINDOW_WORDS = 2800
 _MIN_ACCEPTABLE_RATIO = 0.24
 
+_META_COMMENTARY_PATTERNS: tuple[tuple[re.Pattern[str], str], ...] = (
+    (re.compile(r"\bsince you (?:did not|didn't) pick\b", re.I), "mentions an option the user did not pick"),
+    (re.compile(r"\bi (?:can(?:not|'t)|will not|won't) produce\b", re.I), "refuses to produce the requested chapter"),
+    (re.compile(r"\b(?:the )?brief forbids\b", re.I), "mentions hidden prompt constraints"),
+    (re.compile(r"\b(?:send|provide) the correct source\b", re.I), "asks for a different source"),
+    (re.compile(r"\bswap the title back\b", re.I), "comments on changing the title"),
+    (re.compile(r"\bsource passage (?:is|was) about\b", re.I), "comments on source/title mismatch"),
+    (re.compile(r"\bhere is the faithful chapter\b", re.I), "adds process preamble"),
+    (re.compile(r"\bas an ai\b", re.I), "mentions AI identity"),
+)
+_MARKDOWN_HEADING_RE = re.compile(r"(?m)^#{1,6}\s+\S")
+_OPENING_HEADING_RE = re.compile(r"(?m)^#\s+\S")
+_ARABIC_RE = re.compile(r"[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]+")
+_SOURCE_HEADING_RE = re.compile(r"(?m)^\s*(?:#{1,4}\s+|\*\*)?([A-Z][^\n:]{2,120}:?)\*?\*?\s*$")
+
+_SALUTATION_REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (
+    (
+        re.compile(
+            r"\bmay Allah(?:'s)? (?:peace and blessings|blessings and peace|peace|prayers)"
+            r" be upon (?:him|her)(?: and (?:his|her) family)?\b",
+            re.I,
+        ),
+        "(ع)",
+    ),
+    (
+        re.compile(
+            r"\bpeace and blessings(?: of Allah)? be upon (?:him|her)"
+            r"(?: and (?:his|her) family)?\b",
+            re.I,
+        ),
+        "(ع)",
+    ),
+    (re.compile(r"\bpeace be upon (?:him|her)\b", re.I), "(ع)"),
+    (
+        re.compile(
+            r"\bmay Allah(?:'s)? (?:peace and blessings|blessings and peace|peace|prayers)"
+            r" be upon them(?: all)?\b",
+            re.I,
+        ),
+        "(عليهم السلام)",
+    ),
+    (re.compile(r"\bpeace be upon them(?: all)?\b", re.I), "(عليهم السلام)"),
+    (re.compile(r"\bthe blessings of Allah be upon them(?: all)?\b", re.I), "(عليهم السلام)"),
+    (re.compile(r"\bmay Allah be pleased with (?:him|her|them)\b", re.I), "(رض)"),
+)
+
+_TOPIC_CLUSTERS: dict[str, tuple[str, ...]] = {
+    "sales": ("market", "trade", "merchant", "sale", "sell", "buy", "property", "rent", "loan", "deposit", "hawala", "sponsorship", "partnership", "pre-emption"),
+    "oaths": ("oath", "vow", "atonement", "expiation", "swear", "perjury"),
+    "food": ("food", "drink", "healing", "medicine", "illness", "eat", "health"),
+    "dress": ("wear", "dress", "clothing", "garment", "adornment", "ornament", "fragrance", "perfume", "ring", "silk"),
+    "hunting": ("hunt", "hunting", "game", "slaughter", "sacrifice", "prey", "animal", "knife", "aqiqah"),
+    "marriage": ("marriage", "marry", "spouse", "wife", "husband", "dowry", "wedding", "household"),
+    "divorce": ("divorce", "separation", "iddah", "mourning", "mut'a", "khul", "li'an"),
+    "inheritance": ("freedom", "generosity", "gift", "bequest", "inheritance", "estate", "shares", "heir", "slave", "manumission"),
+    "judiciary": ("wrong", "redress", "crime", "blood money", "offense", "hudud", "judge", "evidence", "testimony", "found property", "retaliation"),
+}
+
 
 def read_series_config(book_dir: Path) -> dict[str, Any]:
     cfg_path = Path(book_dir) / "_system" / "series-config.yaml"
@@ -240,6 +298,128 @@ def _translation_long_enough(prose: str, source_words: int) -> bool:
     return len(prose.split()) >= _MIN_ACCEPTABLE_RATIO * source_words
 
 
+def normalize_translation_prose(prose: str, *, title: str = "") -> str:
+    """Apply deterministic book-level cleanup before prose is persisted.
+
+    This is intentionally scoped to translation-edition output so the podcast
+    chapter/audio routes keep their existing honorific rules.
+    """
+    text = (prose or "").strip()
+    if not text:
+        return ""
+    for pattern, replacement in _SALUTATION_REPLACEMENTS:
+        text = pattern.sub(replacement, text)
+    cleaned: list[str] = []
+    expected = re.sub(r"\s+", " ", title or "").strip().casefold()
+    for line in text.splitlines():
+        m = re.match(r"^(#{1,2})\s+(.+?)\s*$", line)
+        if m:
+            heading = re.sub(r"\s+", " ", m.group(2)).strip()
+            if expected and heading.casefold() == expected:
+                continue
+            line = f"### {heading}"
+        cleaned.append(line)
+    text = "\n".join(cleaned)
+    text = re.sub(r"(?m)^\s*-{3,}\s*$\n?", "", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+
+def translation_output_findings(prose: str, *, expected_title: str = "") -> list[str]:
+    """Deterministically reject process chatter and structural leakage.
+
+    Chapter prose is inserted under pipeline-owned headings. If the model emits
+    its own Markdown headings or explains why the source/title do not match, the
+    safest action is to retry or fail before the bad text reaches book.md.
+    """
+    findings: list[str] = []
+    text = prose.strip()
+    if not text:
+        findings.append("output is empty")
+        return findings
+    for pattern, label in _META_COMMENTARY_PATTERNS:
+        if pattern.search(text):
+            findings.append(label)
+    heading = _OPENING_HEADING_RE.search(text)
+    if heading:
+        sample = heading.group(0).strip()[:120]
+        findings.append(f"contains model-owned opening heading: {sample!r}")
+    if expected_title:
+        quoted_title = re.escape(expected_title.strip())
+        if re.search(rf"\b(?:cannot|can't|will not|won't)\s+produce\s+\"?{quoted_title}\"?", text, re.I):
+            findings.append("explicitly says it cannot produce the requested chapter")
+    return findings
+
+
+def _topic_hits(text: str) -> set[str]:
+    scan = (text or "").casefold()
+    hits: set[str] = set()
+    for topic, words in _TOPIC_CLUSTERS.items():
+        if any(re.search(rf"\b{re.escape(word.casefold())}\b", scan) for word in words):
+            hits.add(topic)
+    return hits
+
+
+def source_title_drift_findings(title: str, source: str) -> list[str]:
+    """Cheap source/title drift detector for final-PDF acceptance.
+
+    It is intentionally deterministic and conservative: it only blocks when a
+    title has a recognizable legal/teaching topic and the assigned source has no
+    overlap but does have a different recognizable topic.
+    """
+    title_topics = _topic_hits(title)
+    source_topics = _topic_hits(source[:5000])
+    if title_topics and source_topics and not (title_topics & source_topics):
+        return [
+            "title/source topic drift: title "
+            f"{sorted(title_topics)} vs source {sorted(source_topics)}"
+        ]
+    return []
+
+
+def _source_headings(source: str) -> list[str]:
+    headings: list[str] = []
+    for match in _SOURCE_HEADING_RE.finditer(source):
+        raw = match.group(1).strip(" *:")
+        if 3 <= len(raw) <= 120 and not raw.startswith("<!--"):
+            headings.append(raw)
+    return headings[:8]
+
+
+def build_source_crosswalk(
+    book_dir: Path,
+    toc: dict[str, Any],
+    lines: list[str],
+    line_pages: list[int],
+) -> list[dict[str, Any]]:
+    """Build the persisted Arabic/refined source crosswalk for the book."""
+    arabic_pages = _load_arabic_pages(book_dir) or {}
+    entries: list[dict[str, Any]] = []
+    for ch in toc.get("chapters", []):
+        idx = int(ch.get("bk_index") or len(entries) + 1)
+        title = str(ch.get("title") or f"Chapter {idx}")
+        ranges = ch.get("source_line_ranges", [])
+        source = _slice_source(lines, ranges)
+        pages = _pages_for_ranges(line_pages, ranges) if line_pages else []
+        arabic_nums = [n for n in pages if n in arabic_pages]
+        excerpt = re.sub(r"\s+", " ", _PAGE_MARK.sub("", source)).strip()[:420]
+        entries.append({
+            "index": idx,
+            "title": title,
+            "source_line_ranges": ranges,
+            "source_pages": pages,
+            "source_page_range": f"pp. {pages[0]}-{pages[-1]}" if pages else "",
+            "arabic_source_pages": arabic_nums,
+            "arabic_source_page_range": (
+                f"pp. {arabic_nums[0]}-{arabic_nums[-1]}" if arabic_nums else ""
+            ),
+            "source_headings": _source_headings(source),
+            "source_excerpt": excerpt,
+            "drift_findings": source_title_drift_findings(title, source),
+        })
+    return entries
+
+
 def _arabic_ground_truth_block(arabic_src: str) -> str:
     if not arabic_src:
         return ""
@@ -281,6 +461,7 @@ Preserve meaning:
 - If a Quran verse, hadith, poem, or quoted saying appears, keep it visibly quoted and keep the attribution present in the source.
 - Do not invent canonical Arabic from memory. If the source gives Arabic, preserve it; if the source gives only a translation, translate/polish only that.
 - Use the original-language source block only as preservation evidence, not as permission to add new side material.
+- Keep salutations compact. Do not repeatedly spell out long English honorifics. Use only these compact forms in English prose: (عليهم السلام), (ع), and (رض).
 {quran_anchor}{_arabic_ground_truth_block(arabic_src)}
 
 Denoise:
@@ -340,6 +521,42 @@ def _compose_one(
         )
         if rc2 == 0 and len((out2 or "").split()) > len(out.split()):
             out = (out2 or "").strip()
+    findings = translation_output_findings(out, expected_title=title)
+    if findings:
+        log(f"      {label}: invalid translation output ({'; '.join(findings[:3])}) - retry")
+        retry_prompt = (
+            prompt
+            + "\n\nYour previous answer included process commentary or model-owned headings. "
+            "Rewrite now as clean chapter prose only. Do not mention instructions, options, "
+            "source mismatch, inability, the title selection, or the prompt. Do not emit Markdown headings."
+        )
+        rc2, out2, err2 = _run_claude_p_with_retry(
+            retry_prompt,
+            timeout=_RETRY_TIMEOUT,
+            book_dir=book_dir,
+            phase="0book-compose",
+            step=f"translation-{label}-integrity-retry",
+            log=log,
+        )
+        if rc2 == 0:
+            candidate = (out2 or "").strip()
+            if not translation_output_findings(candidate, expected_title=title):
+                out = candidate
+            else:
+                out = candidate or out
+        else:
+            log(f"      {label}: integrity retry failed rc={rc2}: {err2[:160]}")
+        findings = translation_output_findings(out, expected_title=title)
+    if findings:
+        raise AuthoringError(
+            phase="0book-compose",
+            message=f"{label}: translation edition output failed integrity gate: "
+                    + "; ".join(findings),
+            manual_fallback=(
+                "Re-run 0book-design/0book-compose after inspecting the source range; "
+                "the pipeline refused to persist model commentary or generated headings."
+            ),
+        )
     if not _translation_long_enough(out, source_words):
         raise AuthoringError(
             phase="0book-compose",
@@ -349,7 +566,7 @@ def _compose_one(
             ),
             manual_fallback="Re-run after reducing chapter/window size or inspect the source range.",
         )
-    return out
+    return normalize_translation_prose(out, title=title)
 
 
 def author_translation_edition_compose(book_dir: Path, *, log=print, force: bool = False) -> Path:
@@ -386,10 +603,45 @@ def author_translation_edition_compose(book_dir: Path, *, log=print, force: bool
     chapters_dir.mkdir(parents=True, exist_ok=True)
     arabic_pages = _load_arabic_pages(book_dir)
     line_pages = _line_pages(lines) if arabic_pages else []
+    crosswalk = build_source_crosswalk(book_dir, toc, lines, line_pages or _line_pages(lines))
+    drift = [
+        f"chapter {entry['index']} ({entry['title']}): {'; '.join(entry['drift_findings'])}"
+        for entry in crosswalk
+        if entry.get("drift_findings")
+    ]
+    if drift:
+        raise AuthoringError(
+            phase="0book-compose",
+            message="source crosswalk failed title/source alignment: " + "; ".join(drift[:4]),
+            manual_fallback=(
+                "Fix book/book-toc.json source_line_ranges or chapter titles, then rerun "
+                "translation edition compose. OCR/refinement/audio do not need to rerun."
+            ),
+        )
+    (book_dir / "book" / "source-crosswalk.json").write_text(
+        json.dumps({
+            "schema": "podcast.translation-edition.source-crosswalk/v1",
+            "book": book_dir.name,
+            "chapters": crosswalk,
+        }, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
 
     parts: list[str] = [f"# {toc.get('book_title', book_dir.name)}\n"]
     previous_tail = ""
     manifest: list[dict[str, Any]] = []
+    prior_manifest: dict[int, dict[str, Any]] = {}
+    prior_manifest_path = book_dir / "_system" / "translation-edition-manifest.json"
+    if prior_manifest_path.exists():
+        try:
+            prior_data = json.loads(prior_manifest_path.read_text(encoding="utf-8"))
+            prior_manifest = {
+                int(item.get("index")): item
+                for item in (prior_data.get("chapters") or [])
+                if item.get("index") is not None
+            }
+        except Exception:
+            prior_manifest = {}
 
     def _arabic_for(ranges: list[list[int]]) -> tuple[str, str]:
         if not arabic_pages or not ranges:
@@ -416,9 +668,27 @@ def author_translation_edition_compose(book_dir: Path, *, log=print, force: bool
         ch_ranges = ch.get("source_line_ranges", [])
         source = _slice_source(lines, ch_ranges)
         out_path = chunks_dir / f"{label}.md"
-        if not force and _cache_fresh(out_path) and out_path.read_text(encoding="utf-8").strip():
+        prior = prior_manifest.get(idx) or {}
+        cache_matches_source = (
+            prior.get("title") == title
+            and prior.get("source_line_ranges") == ch_ranges
+        )
+        if (
+            not force
+            and cache_matches_source
+            and _cache_fresh(out_path)
+            and out_path.read_text(encoding="utf-8").strip()
+        ):
             cached = out_path.read_text(encoding="utf-8").strip()
-            if _translation_long_enough(cached, len(source.split())):
+            cached = normalize_translation_prose(cached, title=title)
+            cached_findings = translation_output_findings(cached, expected_title=title)
+            if cached_findings:
+                log(
+                    f"      {label}: cached translation failed integrity gate "
+                    f"({'; '.join(cached_findings[:3])}) - recompute"
+                )
+                prose = ""
+            elif _translation_long_enough(cached, len(source.split())):
                 prose = cached
             else:
                 log(
@@ -445,14 +715,27 @@ def author_translation_edition_compose(book_dir: Path, *, log=print, force: bool
             def compose_part(part_idx: int, part_source: str, part_ranges: list[list[int]]) -> tuple[int, str]:
                 part_label = label if len(windows) == 1 else f"{label}-part-{part_idx:02d}"
                 part_path = chunks_dir / f"{part_label}.md"
-                if not force and _cache_fresh(part_path) and part_path.read_text(encoding="utf-8").strip():
+                if (
+                    not force
+                    and cache_matches_source
+                    and _cache_fresh(part_path)
+                    and part_path.read_text(encoding="utf-8").strip()
+                ):
                     cached_part = part_path.read_text(encoding="utf-8").strip()
-                    if _translation_long_enough(cached_part, len(part_source.split())):
+                    cached_part = normalize_translation_prose(cached_part, title=title)
+                    cached_findings = translation_output_findings(cached_part, expected_title=title)
+                    if cached_findings:
+                        log(
+                            f"        {part_label}: cached translation failed integrity gate "
+                            f"({'; '.join(cached_findings[:3])}) - recompute"
+                        )
+                    elif _translation_long_enough(cached_part, len(part_source.split())):
                         return part_idx, cached_part
-                    log(
-                        f"        {part_label}: cached translation is too compressed "
-                        f"({len(cached_part.split())}/{len(part_source.split())} words) - recompute"
-                    )
+                    else:
+                        log(
+                            f"        {part_label}: cached translation is too compressed "
+                            f"({len(cached_part.split())}/{len(part_source.split())} words) - recompute"
+                        )
                 qa_block, qa_stats = _quran_anchor_block(part_source)
                 arabic_src, arabic_span = _arabic_for(part_ranges)
                 if qa_stats["cited"]:
@@ -495,6 +778,7 @@ def author_translation_edition_compose(book_dir: Path, *, log=print, force: bool
                     _, part_prose = compose_part(part_idx, part_source, part_ranges)
                     prose_parts.append(part_prose)
             prose = "\n\n".join(prose_parts).strip()
+            prose = normalize_translation_prose(prose, title=title)
             out_path.write_text(prose.rstrip() + "\n", encoding="utf-8")
 
         chapter_slug = f"ch{idx:02d}-{_slugify(title, label)}"
@@ -520,6 +804,7 @@ def author_translation_edition_compose(book_dir: Path, *, log=print, force: bool
             "augmentation": "forbidden",
             "visual_style": DEFAULT_VISUAL_STYLE,
             "chapters": manifest,
+            "source_crosswalk": "book/source-crosswalk.json",
         }, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )

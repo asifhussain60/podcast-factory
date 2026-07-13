@@ -45,8 +45,19 @@
   font-style: normal;
 }
 
-@page { margin: 2.2cm 2cm; }
-@page :first { margin: 0; }
+@page {
+  margin: 2.2cm 2cm;
+  @bottom-right {
+    content: counter(page);
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 0.72rem;
+    color: var(--c-ink-muted, #87827a);
+  }
+}
+@page:first {
+  margin: 0;
+  @bottom-right { content: ""; }
+}
 
 html { font-size: 19.2px; }
 body {
@@ -102,9 +113,10 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 86vh;
-  page-break-after: auto;
-  break-after: auto;
+  min-height: 0;
+  height: 220mm;
+  page-break-after: always;
+  break-after: page;
 }
 .title-page .eyebrow {
   font-family: inherit;
@@ -132,12 +144,101 @@ body {
   border-top: 1px solid var(--c-accent, #8b4513);
   margin: 1.4rem auto 0;
 }
+.title-page .disclaimer-panel {
+  max-width: 18rem;
+  margin: 2.2rem auto 0;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--c-rule-soft, #d8d0bf);
+  border-radius: 3px;
+  color: var(--c-ink-muted, #6f6a61);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+/* ── Contents page ──────────────────────────────────────────────────────── */
+.toc-page {
+  page-break-after: always;
+  break-after: page;
+  padding-top: 2.4cm;
+}
+.toc-page .toc-eyebrow,
+.crosswalk-page .toc-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  color: var(--c-accent, #8b4513);
+  margin: 0 0 0.55rem;
+  text-align: center;
+}
+.toc-page h2,
+.crosswalk-page h2 {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin: 0 0 1.7rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.crosswalk-page {
+  page-break-after: always;
+  break-after: page;
+  padding-top: 2.4cm;
+}
+.crosswalk-page table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  line-height: 1.32;
+}
+.crosswalk-page th,
+.crosswalk-page td {
+  padding: 0.38rem 0.45rem;
+  border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
+  vertical-align: top;
+}
+.crosswalk-page th {
+  color: var(--c-ink-muted, #6f6a61);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+}
+.crosswalk-page td:first-child {
+  width: 2rem;
+  color: var(--c-accent, #8b4513);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.toc-page ol {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 32rem;
+}
+.toc-page li {
+  display: grid;
+  grid-template-columns: 3.2rem 1fr;
+  column-gap: 0.9rem;
+  align-items: baseline;
+  padding: 0.44rem 0;
+  border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
+}
+.toc-page .toc-label {
+  color: var(--c-accent, #8b4513);
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.toc-page .toc-title {
+  line-height: 1.35;
+}
 
 /* ── Chapter openings — book-style ───────────────────────────────────────── */
 .chapter-open {
   page-break-before: always;
-  padding-top: 4.6cm;
-  margin-bottom: 2.2rem;
+  padding-top: 0;
+  margin-bottom: 1.35rem;
   text-align: center;
 }
 .chapter-open.first-chapter-open {
@@ -158,6 +259,12 @@ body {
   padding: 0;
   border: 0;
   font-weight: 600;
+}
+.chapter-open .ch-source {
+  margin: 0.55rem 0 0;
+  color: var(--c-ink-muted, #6f6a61);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
 }
 .chapter-open .ch-rule {
   width: 3.2rem;

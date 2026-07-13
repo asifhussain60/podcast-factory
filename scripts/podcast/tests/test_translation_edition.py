@@ -10,7 +10,10 @@ from _translation_edition import (  # noqa: E402
     contract_findings,
     is_translation_edition,
     monochrome_svg,
+    normalize_translation_prose,
     requires_monochrome_visuals,
+    source_title_drift_findings,
+    translation_output_findings,
     _iter_source_windows,
 )
 from phases.book_driver import _book_branch_enabled  # noqa: E402
@@ -94,3 +97,47 @@ def test_source_windows_preserve_line_ranges() -> None:
     assert len(windows) >= 2
     assert windows[0][1][0][0] == 1
     assert windows[-1][1][-1][-1] == len(lines)
+
+
+def test_translation_output_findings_rejects_model_commentary() -> None:
+    prose = (
+        "Since you didn't pick an option, I cannot produce \"Dress\" prose "
+        "from a source passage about hunting. Here is the faithful chapter."
+    )
+
+    findings = translation_output_findings(prose, expected_title="Dress")
+
+    assert findings
+    assert any("option" in f or "refuses" in f for f in findings)
+
+
+def test_translation_output_findings_rejects_model_owned_headings() -> None:
+    prose = "# What We Hunt and What We Slaughter\n\nThe source teaches..."
+
+    findings = translation_output_findings(prose, expected_title="What We Wear")
+
+    assert any("opening heading" in f for f in findings)
+
+
+def test_normalize_translation_prose_compacts_long_salutations() -> None:
+    prose = (
+        "The Messenger of Allah, may Allah's peace and blessings be upon him and his family, said this. "
+        "The Imams, may Allah's prayers be upon them all, preserved it. "
+        "Ali, may Allah be pleased with him, narrated it."
+    )
+
+    normalized = normalize_translation_prose(prose)
+
+    assert "(ع)" in normalized
+    assert "(عليهم السلام)" in normalized
+    assert "(رض)" in normalized
+    assert "peace and blessings" not in normalized.lower()
+
+
+def test_source_title_drift_detects_dress_title_on_hunting_source() -> None:
+    findings = source_title_drift_findings(
+        "What We Wear: Dress, Adornment, and Fragrance",
+        "A discussion of hunting, game, slaughter, sacrifice, prey, and the knife.",
+    )
+
+    assert findings

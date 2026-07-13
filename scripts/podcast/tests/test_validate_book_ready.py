@@ -79,6 +79,40 @@ def _add_islamic_arabic_fixture(bd: Path) -> None:
         (ch / f"ch{i:02d}.txt").write_text(f"Chapter with tawhid (توحيد) {i}.", encoding="utf-8")
 
 
+def _add_translation_crosswalk_fixture(bd: Path, *, chapters: int = 3) -> None:
+    src = bd / "_system" / "source" / "text"
+    src.mkdir(parents=True, exist_ok=True)
+    lines = []
+    entries = []
+    for i in range(1, chapters + 1):
+        start = len(lines) + 1
+        lines.append(f"<!-- page {i} -->")
+        lines.append(f"Marriage and household teaching source line {i}.")
+        lines.append("More aligned source text.")
+        end = len(lines)
+        entries.append({
+            "index": i,
+            "title": f"Marriage and the Household {i}",
+            "source_line_ranges": [[start, end]],
+            "source_pages": [i],
+            "source_page_range": f"pp. {i}-{i}",
+            "arabic_source_pages": [i],
+            "arabic_source_page_range": f"pp. {i}-{i}",
+            "source_headings": ["Marriage and household teaching"],
+            "source_excerpt": f"Marriage and household teaching source line {i}.",
+            "drift_findings": [],
+        })
+    (src / "refined-english.md").write_text("\n".join(lines), encoding="utf-8")
+    (bd / "book" / "source-crosswalk.json").write_text(
+        json.dumps({
+            "schema": "podcast.translation-edition.source-crosswalk/v1",
+            "book": bd.name,
+            "chapters": entries,
+        }),
+        encoding="utf-8",
+    )
+
+
 def test_na_when_book_branch_disabled(tmp_path):
     bd = _make_book(tmp_path, enable=False)
     assert V.validate_book(bd)["verdict"] == "N/A"
@@ -194,6 +228,19 @@ def test_translation_edition_enabled_without_legacy_book_flag(tmp_path):
         "  monochrome_visuals: true\n",
         encoding="utf-8",
     )
+    (bd / "book" / "book-toc.json").write_text(
+        json.dumps({
+            "book_title": "T",
+            "chapters": [{"title": f"Marriage and the Household {i}"} for i in range(1, 4)],
+        }),
+        encoding="utf-8",
+    )
+    (bd / "book" / "book.md").write_text(
+        "# Title\n"
+        + "".join(f"## {i}. Marriage and the Household {i}\nBody text " + ("x " * 220) + "\n" for i in range(1, 4)),
+        encoding="utf-8",
+    )
+    _add_translation_crosswalk_fixture(bd)
 
     res = V.validate_book(bd)
 
@@ -244,14 +291,139 @@ def test_translation_edition_passes_with_arabic_source_signal(tmp_path):
         encoding="utf-8",
     )
     (bd / "book" / "book.md").write_text(
-        "# Title\n" + "".join(f"## Section {i}\nقال رسول الله صلى الله عليه وسلم.\n" for i in range(3))
+        "# Title\n" + "".join(
+            f"## {i}. Marriage and the Household {i}\n"
+            "قال رسول الله صلى الله عليه وسلم.\n"
+            + ("x " * 220) + "\n"
+            for i in range(1, 4)
+        )
+        + "x" * 4096,
+        encoding="utf-8",
+    )
+    (bd / "book" / "book-toc.json").write_text(
+        json.dumps({
+            "book_title": "T",
+            "chapters": [{"title": f"Marriage and the Household {i}"} for i in range(1, 4)],
+        }),
+        encoding="utf-8",
+    )
+    _add_translation_crosswalk_fixture(bd)
+
+    res = V.validate_book(bd)
+
+    assert res["verdict"] == "BOOK-SOUND", res["summary"]
+
+
+def test_translation_edition_fails_on_model_commentary(tmp_path):
+    bd = _make_book(tmp_path, chapters=1, md_sections=1, content_profile="islamic_scholarly")
+    (bd / "_system" / "series-config.yaml").write_text(
+        "content_profile: islamic_scholarly\n"
+        "deliverable_mode: translation_edition\n"
+        "visual_style: black_white\n"
+        "translation_policy:\n"
+        "  augmentation: forbidden\n"
+        "  preserve_arabic_terms: true\n"
+        "  monochrome_visuals: true\n",
+        encoding="utf-8",
+    )
+    ocr = bd / "_system" / "source" / "ocr"
+    ocr.mkdir(parents=True)
+    (ocr / "raw-extract.md").write_text(
+        "<!-- page 1 -->\n" + ("قال رسول الله صلى الله عليه وسلم. " * 60),
+        encoding="utf-8",
+    )
+    (bd / "book" / "book.md").write_text(
+        "# Title\n"
+        "## 1. What We Wear\n"
+        "Since you didn't pick an option, I cannot produce \"What We Wear\" "
+        "from a source passage about hunting.\n"
+        "قال رسول الله صلى الله عليه وسلم.\n"
         + "x" * 4096,
         encoding="utf-8",
     )
 
     res = V.validate_book(bd)
 
-    assert res["verdict"] == "BOOK-SOUND", res["summary"]
+    assert res["verdict"] == "BOOK-BROKEN"
+    assert "B4" in res["summary"]
+
+
+def test_translation_edition_fails_on_heading_only_chapter(tmp_path):
+    bd = _make_book(tmp_path, chapters=1, md_sections=1, content_profile="islamic_scholarly")
+    (bd / "_system" / "series-config.yaml").write_text(
+        "content_profile: islamic_scholarly\n"
+        "deliverable_mode: translation_edition\n"
+        "visual_style: black_white\n"
+        "translation_policy:\n"
+        "  augmentation: forbidden\n"
+        "  preserve_arabic_terms: true\n"
+        "  monochrome_visuals: true\n",
+        encoding="utf-8",
+    )
+    (bd / "book" / "book-toc.json").write_text(
+        json.dumps({"book_title": "T", "chapters": [{"title": "Marriage and the Household 1"}]}),
+        encoding="utf-8",
+    )
+    (bd / "book" / "book.md").write_text(
+        "# Title\n## 1. Marriage and the Household 1\n### Subhead\n"
+        + "<!-- filler -->\n" * 120,
+        encoding="utf-8",
+    )
+    _add_translation_crosswalk_fixture(bd, chapters=1)
+
+    res = V.validate_book(bd)
+
+    assert res["verdict"] == "BOOK-BROKEN"
+    assert "B5" in res["summary"]
+
+
+def test_translation_edition_fails_on_source_title_drift(tmp_path):
+    bd = _make_book(tmp_path, chapters=1, md_sections=1, content_profile="islamic_scholarly")
+    (bd / "_system" / "series-config.yaml").write_text(
+        "content_profile: islamic_scholarly\n"
+        "deliverable_mode: translation_edition\n"
+        "visual_style: black_white\n"
+        "translation_policy:\n"
+        "  augmentation: forbidden\n"
+        "  preserve_arabic_terms: true\n"
+        "  monochrome_visuals: true\n",
+        encoding="utf-8",
+    )
+    (bd / "book" / "book-toc.json").write_text(
+        json.dumps({"book_title": "T", "chapters": [{"title": "What We Wear: Dress, Adornment, and Fragrance"}]}),
+        encoding="utf-8",
+    )
+    (bd / "book" / "book.md").write_text(
+        "# Title\n## 1. What We Wear: Dress, Adornment, and Fragrance\n"
+        + ("قال رسول الله صلى الله عليه وسلم. " * 40),
+        encoding="utf-8",
+    )
+    src = bd / "_system" / "source" / "text"
+    src.mkdir(parents=True, exist_ok=True)
+    (src / "refined-english.md").write_text(
+        "<!-- page 1 -->\nA discussion of hunting, game, slaughter, sacrifice, prey, and the knife.",
+        encoding="utf-8",
+    )
+    (bd / "book" / "source-crosswalk.json").write_text(
+        json.dumps({
+            "schema": "podcast.translation-edition.source-crosswalk/v1",
+            "book": bd.name,
+            "chapters": [{
+                "index": 1,
+                "title": "What We Wear: Dress, Adornment, and Fragrance",
+                "source_line_ranges": [[1, 2]],
+                "source_pages": [1],
+                "source_page_range": "pp. 1-1",
+                "drift_findings": [],
+            }],
+        }),
+        encoding="utf-8",
+    )
+
+    res = V.validate_book(bd)
+
+    assert res["verdict"] == "BOOK-BROKEN"
+    assert "B6" in res["summary"]
 
 
 @pytest.mark.parametrize("verdict,bad", [
