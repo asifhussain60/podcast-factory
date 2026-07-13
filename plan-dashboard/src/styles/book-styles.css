@@ -1,0 +1,315 @@
+/* book-styles.css — the Citation & Quote style-family picker (Book Pipeline v2).
+ * External stylesheet, no inline styling. Colours come from the existing --c-*
+ * theme tokens; the one decorative gold (--bs-gold) mirrors the Arabic accent
+ * already established in book-print.css (blockquote.quran) — it is a scoped
+ * preview token, it changes no global theme value.
+ *
+ * Model (locked with Asif 2026-07-13): ONE global family skins every passage
+ * type. Three chips — Plain / Scholarly / Elegant — drive a single live preview
+ * (verse, hadith, poem, saying, quotation, inline Arabic) via CSS :has(); no
+ * per-type choice, so the printed book stays visually coherent. The renderer
+ * maps the same three families onto book-print.css (body.style-<family>).
+ */
+:root { --bs-gold: #c9a55c; --bs-arabic: #5a3a0a; }
+
+.bs-lede {
+  color: var(--c-ink-muted, #6f6a61);
+  font-size: 1.2rem;          /* REQ-010 reading-text floor (page-level prose) */
+  line-height: 1.6;
+  max-width: 60ch;
+  margin: 0;
+}
+
+/* ── Picker form ─────────────────────────────────────────────────────────── */
+.bs-styleform { margin: var(--sp-5, 20px) 0 0; }
+
+/* Family chips — accessible radios rendered as a segmented control. The radio
+   itself is visually hidden but focusable; the label is the visible target. */
+.bs-chips {
+  border: 0;
+  margin: 0 0 var(--sp-4, 16px);
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.bs-chips legend {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted, #87827a);
+  margin: 0 0 0.5rem;
+  padding: 0;
+  float: left;
+  width: 100%;
+}
+.bs-chip {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 11rem;
+  flex: 1 1 11rem;
+  border: 1px solid var(--c-rule, #e6e0d4);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  cursor: pointer;
+  background: var(--c-bg-card, #fffdf8);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.bs-chip:hover { border-color: var(--c-ink-dim, #9a938a); }
+.bs-radio {
+  position: absolute;
+  width: 1px; height: 1px;
+  opacity: 0;
+  margin: 0;
+}
+.bs-chip:has(.bs-radio:checked) {
+  border-color: var(--c-accent, #8b4513);
+  box-shadow: 0 0 0 1px var(--c-accent, #8b4513);
+}
+.bs-chip:has(.bs-radio:focus-visible) {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+.bs-chip-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+.bs-chip-name {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: var(--c-ink, #2b2823);
+}
+.bs-chip-check {
+  margin-left: auto;
+  color: var(--c-accent, #8b4513);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.bs-chip:has(.bs-radio:checked) .bs-chip-check { opacity: 1; }
+.bs-chip-tag {
+  font-size: 0.8rem;
+  color: var(--c-ink-muted, #87827a);
+}
+
+/* Per-family blurb above the preview — only the selected family's shows. */
+.bs-blurb {
+  font-size: 1.2rem;          /* REQ-010 */
+  line-height: 1.6;
+  color: var(--c-ink-muted, #6f6a61);
+  max-width: 62ch;
+  margin: 0 0 var(--sp-4, 16px);
+  display: none;
+}
+.bs-styleform:has(.bs-radio[value="plain"]:checked)    .bs-blurb[data-fam="plain"],
+.bs-styleform:has(.bs-radio[value="scholarly"]:checked) .bs-blurb[data-fam="scholarly"],
+.bs-styleform:has(.bs-radio[value="elegant"]:checked)  .bs-blurb[data-fam="elegant"] { display: block; }
+
+/* ── Live preview — one sheet, all passage types ─────────────────────────── */
+.bs-preview {
+  background: var(--c-bg-card, #fffdf8);
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 10px;
+  padding: 1.6rem 1.8rem;
+  max-width: 62ch;
+}
+.bs-ct + .bs-ct {
+  margin-top: 1.3rem;
+  padding-top: 1.3rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+}
+.bs-ct-label {
+  display: block;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.7rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--c-ink-dim, #9a938a);
+  margin: 0 0 0.55rem;
+}
+
+/* Shared primitives (base look = the "Scholarly" default). */
+.bs-ar {
+  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', 'Scheherazade New', serif;
+  direction: rtl;
+  text-align: right;
+  font-size: 1.24rem;
+  line-height: 1.95;
+  color: var(--bs-arabic);
+  margin: 0 0 0.25rem;
+}
+.bs-tr {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--c-ink-muted, #6f6a61);
+  margin: 0;
+}
+.bs-attr {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.78rem;
+  color: var(--c-ink-muted, #87827a);
+  margin: 0.35rem 0 0;
+}
+.bs-attr::before { content: '— '; }
+.bs-inline {
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: var(--c-ink, #2b2823);
+  margin: 0;
+}
+.bs-inline .ar-inline {
+  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
+  direction: rtl;
+  unicode-bidi: isolate;
+  color: var(--bs-arabic);
+}
+
+/* Verse — gold hairline rule, woven into the page. */
+.bs-verse {
+  border: none;
+  border-left: 2px solid var(--bs-gold);
+  background: none;
+  padding: 0.2rem 0 0.2rem 1.1rem;
+  margin: 0;
+}
+/* Hadith — accent hairline rule + attribution. */
+.bs-hadith {
+  border: none;
+  border-left: 2px solid var(--c-accent, #8b4513);
+  background: none;
+  padding: 0.2rem 0 0.2rem 1.1rem;
+  margin: 0;
+}
+/* Poem — centered couplet, no rule. */
+.bs-poem { margin: 0; text-align: center; }
+.bs-poem .bs-ar { text-align: center; }
+.bs-poem .bs-tr { text-align: center; font-style: italic; }
+/* Saying — an aphorism set in italic with an attribution. */
+.bs-saying { margin: 0; }
+.bs-saying p:first-child {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  font-style: italic;
+  color: var(--c-ink, #2b2823);
+  margin: 0;
+}
+/* Quotation — accent rule + faint sunken tint. */
+.bs-quote {
+  border: none;
+  border-left: 3px solid var(--c-accent, #8b4513);
+  background: var(--c-bg-sunken, #f4f0e8);
+  padding: 0.6rem 1.1rem;
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
+  color: var(--c-ink, #2b2823);
+  margin: 0;
+}
+.bs-quote p { margin: 0; }
+
+/* ── Family: Plain — no ornament, black ink, differentiated by set only ──── */
+.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-ar { color: var(--c-ink, #1f1d18); font-size: 1.18rem; }
+.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-verse,
+.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-hadith {
+  border-left: 0;
+  padding-left: 0;
+}
+.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-quote {
+  border-left: 0;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  color: var(--c-ink-dim, #4a463f);
+}
+.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-saying p:first-child { color: var(--c-ink-dim, #4a463f); }
+
+/* ── Family: Elegant — framed panels, gold, centered display ──────────────── */
+.bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-verse {
+  border: 1px solid var(--bs-gold);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--bs-gold) 8%, transparent);
+  padding: 1rem 1.2rem 0.9rem;
+  text-align: center;
+}
+.bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-verse .bs-ar {
+  text-align: center;
+  font-size: 1.4rem;
+}
+.bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-verse .bs-ar::after {
+  content: ' \06DD';                 /* ۝ end-of-ayah marker */
+  color: var(--bs-gold);
+  font-size: 0.9em;
+}
+.bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-verse .bs-tr {
+  text-align: center;
+  font-style: italic;
+  border-top: 1px solid color-mix(in oklab, var(--bs-gold) 45%, transparent);
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+}
+.bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-hadith {
+  border: 1px solid color-mix(in oklab, var(--c-accent, #8b4513) 35%, transparent);
+  border-radius: 8px;
+  background: none;
+  padding: 1rem 1.2rem 0.85rem;
+  text-align: center;
+}
+.bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-hadith .bs-ar { text-align: center; }
+.bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-hadith .bs-attr {
+  text-align: center;
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+}
+.bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-quote {
+  position: relative;
+  border-left: 0;
+  background: var(--c-bg-card, #fffdf8);
+  border: 1px solid var(--c-rule, #e6e0d4);
+  border-radius: 8px;
+  padding: 0.9rem 1.2rem 0.9rem 2.4rem;
+}
+.bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-quote::before {
+  content: '\201C';                  /* “ */
+  position: absolute;
+  left: 0.6rem;
+  top: 0.1rem;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--bs-gold);
+}
+.bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-poem .bs-tr::before,
+.bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-poem .bs-tr::after {
+  content: '\2766';                  /* ❦ floral heart */
+  color: var(--bs-gold);
+  padding: 0 0.5rem;
+  font-size: 0.9em;
+}
+
+/* Save-state line under the preview (updated by the client). */
+.bs-save {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.85rem;
+  color: var(--c-ink-muted, #87827a);
+  margin: var(--sp-4, 16px) 0 0;
+  min-height: 1.2rem;
+}
+.bs-save.is-saved { color: var(--c-accent, #8b4513); }
+.bs-save.is-error { color: var(--c-red, #b3261e); }
+
+.bs-foot {
+  font-size: 1.2rem;          /* REQ-010 reading-text floor (page-level prose) */
+  line-height: 1.6;
+  color: var(--c-ink-muted, #87827a);
+  font-style: italic;
+  margin: var(--sp-5, 20px) 0 var(--sp-6, 24px);
+  max-width: 60ch;
+}
+
+/* Honour reduced-motion — neutralise the chip hover/select micro-transitions
+   (matches the per-stylesheet guard convention used across the site). */
+@media (prefers-reduced-motion: reduce) {
+  .bs-chip,
+  .bs-chip-check { transition: none; }
+}

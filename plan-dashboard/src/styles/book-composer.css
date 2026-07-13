@@ -24,25 +24,33 @@
 }
 
 /* ── Preview column ──────────────────────────────────────────────────────── */
+/* Clean reading surface: no card frame, no tint, no borders — the prose sits
+   directly on the page in near-black ink, like a printed page. Chrome that
+   belonged to a "panel" (background, border, heavy padding, ruled headings) is
+   deliberately gone; the type does the work. */
 .composer-preview {
   min-width: 0;
-  background: var(--c-bg-card, #fffdf8);
-  border: 1px solid var(--c-rule-soft, #ebe6da);
-  border-radius: 8px;
-  padding: 1.4rem 1.6rem;
+  color: var(--c-ink, #1f1d18);
 }
-.cx-chapter { margin: 0 0 1.6rem; }
+.cx-chapter { margin: 0 0 1.8rem; }
 .cx-chapter > h2 {
-  font-size: 1.2rem;
-  margin: 0 0 0.5rem;
-  padding-bottom: 0.3rem;
-  border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--c-ink, #1f1d18);
+  margin: 0 0 0.6rem;
 }
 .cx-chapter.cx-dragover {
   outline: 2px dashed var(--c-accent, #8b4513);
   outline-offset: 4px;
 }
-.cx-body { font-size: 1.2rem; line-height: 1.7; }
+/* Reads like a printed page, not large-print web text: normal book size, tight
+   leading, a real reading measure — this is what actually reclaims the space. */
+.cx-body {
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--c-ink, #1f1d18);
+  max-width: 60ch;
+}
 .cx-body :is(p, blockquote) { margin: 0 0 0.8rem; }
 
 .cx-figures { display: flow-root; }

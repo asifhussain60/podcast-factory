@@ -242,14 +242,21 @@ const tabs = [
 
   <nav class="lib-tabs" aria-label="Book sections">
     {tabs.map((t, i) => (
-      <a
-        href={`#${t.id}`}
-        class={`lib-tab${i === 0 ? ' is-active' : ''}${t.count === 0 ? ' is-empty' : ''}`}
-        data-tab={t.id}
-        aria-current={i === 0 ? 'true' : undefined}
-      >
-        {t.label}{t.count !== null && <span class="lib-tab-count">{t.count}</span>}
-      </a>
+      <Fragment>
+        <a
+          href={`#${t.id}`}
+          class={`lib-tab${i === 0 ? ' is-active' : ''}${t.count === 0 ? ' is-empty' : ''}`}
+          data-tab={t.id}
+          aria-current={i === 0 ? 'true' : undefined}
+        >
+          {t.label}{t.count !== null && <span class="lib-tab-count">{t.count}</span>}
+        </a>
+        {t.id === 'media' && (
+          <a class="lib-tab-cta" href={`/studio/${slugStr}/compose`}>
+            <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> PDF Generator
+          </a>
+        )}
+      </Fragment>
     ))}
   </nav>
 

@@ -119,6 +119,17 @@ function readAuthor(bookContentDir) {
   }
   return asciiFold(value.trim());
 }
+/** Read the per-book citation-style family from book/citation-style.json.
+ *  Returns 'plain' | 'scholarly' | 'elegant', or '' when the file is absent or
+ *  the value is unknown (renderer then leaves the body unstyled = default look). */
+function readCitationFamily(bookDir) {
+  const p = path.join(bookDir, 'citation-style.json');
+  if (!existsSync(p)) return '';
+  try {
+    const family = JSON.parse(readFileSync(p, 'utf-8'))?.family;
+    return ['plain', 'scholarly', 'elegant'].includes(family) ? family : '';
+  } catch { return ''; }
+}
 /** Map visual_id -> { src, embeddedTitle } from book/visuals/index.json (v2).
  *  Absent index (today's state) yields an empty map — the layout applier then
  *  no-ops, so rendering is unchanged. */
@@ -319,15 +330,22 @@ async function main() {
   // ONLY from the contract (book.md stays diagram-free). Absent/partial contract
   // is tolerated — applyLayout no-ops when there are no placements or assets.
   let bodyHtml = renderMd(body, crosswalkByIndex);
-  let bodyClass = '';
+  const bodyClasses = [];
   if (V2) {
-    bodyClass = ' class="book-v2"';
+    bodyClasses.push('book-v2');
     const { placements, warnings } = loadLayout(assetRoot);
     if (warnings.length) warnings.forEach((w) => console.error(`  [visual-layout] ${w}`));
     if (placements.length) {
       bodyHtml = applyLayout(bodyHtml, placements, readVisualAssets(assetRoot));
     }
   }
+  // Citation & quote family (book/citation-style.json) — global per-book choice
+  // made in /studio/<slug>/style. Applies regardless of the v2 flag; absent file
+  // or unknown value falls back to the unstyled default (scholarly look). Adds a
+  // body.style-<family> hook that book-print.css reskins passage blocks with.
+  const family = readCitationFamily(path.dirname(MD_PATH));
+  if (family) bodyClasses.push(`style-${family}`);
+  const bodyClass = bodyClasses.length ? ` class="${bodyClasses.join(' ')}"` : '';
 
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>
     :root {${rootTokens}}

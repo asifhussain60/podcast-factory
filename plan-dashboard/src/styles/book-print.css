@@ -339,6 +339,66 @@ blockquote.quran p.tr {
   margin: 0;
 }
 
+/* ── Citation & quote families (body.style-<family>) ─────────────────────────
+   One global family per book, chosen in /studio/<slug>/style and persisted to
+   book/citation-style.json; render-book-pdf.mjs stamps body.style-<family>.
+   `scholarly` is the default look defined above and needs no override. Plain
+   strips all ornament; Elegant frames the display blocks. Passage types beyond
+   verse/quotation (hadith, poetry, sayings) light up here once the tagging step
+   gives their text a class — the mirror of book-styles.css on the picker page. */
+
+/* Plain — no borders, no tint; black ink, set apart only by placement. */
+body.style-plain blockquote.quran {
+  border-left: 0;
+  padding-left: 0;
+}
+body.style-plain blockquote.quran p.ar { color: var(--c-ink, #1f1d18); }
+body.style-plain blockquote:not(.quran) {
+  border-left: 0;
+  background: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Elegant — framed panels, gold detailing, centered display. */
+body.style-elegant blockquote.quran {
+  border: 1px solid rgba(201, 165, 92, 0.55);
+  border-radius: 8px;
+  background: rgba(201, 165, 92, 0.08);
+  padding: 0.9rem 1.2rem;
+  text-align: center;
+}
+body.style-elegant blockquote.quran p.ar { text-align: center; }
+body.style-elegant blockquote.quran p.ar::after {
+  content: ' \06DD';                 /* ۝ end-of-ayah marker */
+  color: rgba(201, 165, 92, 0.9);
+  font-size: 0.9em;
+}
+body.style-elegant blockquote.quran p.tr {
+  text-align: center;
+  font-style: italic;
+  border-top: 1px solid rgba(201, 165, 92, 0.4);
+  padding-top: 0.45rem;
+  margin-top: 0.45rem;
+}
+body.style-elegant blockquote:not(.quran) {
+  position: relative;
+  border-left: 0;
+  border: 1px solid var(--c-rule, #e6e0d4);
+  border-radius: 8px;
+  padding-left: 2.2rem;
+}
+body.style-elegant blockquote:not(.quran)::before {
+  content: '\201C';                  /* “ */
+  position: absolute;
+  left: 0.55rem;
+  top: 0.05rem;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: rgba(201, 165, 92, 0.9);
+}
+
 /* ── Figures ─────────────────────────────────────────────────────────────── */
 figure.book-diagram {
   margin: 2em auto;
