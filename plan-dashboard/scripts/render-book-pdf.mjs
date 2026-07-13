@@ -29,7 +29,13 @@ import { readFileSync, mkdirSync, existsSync } from 'node:fs';
 import { createServer } from 'node:http';
 import path from 'node:path';
 
-const [, , MD_PATH, OUT_PATH, THEME_PATH] = process.argv;
+import { loadLayout, applyLayout } from './visual-layout.mjs';
+
+const [, , MD_PATH, OUT_PATH, THEME_PATH, FLAG_V2] = process.argv;
+// book_pipeline_v2 flag (resolved per-book by build_book_pdf.py and passed in).
+// When ON, the renderer honors book/visual-layout.json and enables the v2
+// pagination CSS (scoped under body.book-v2). When OFF, output is unchanged.
+const V2 = String(FLAG_V2 || '').trim() === '1';
 if (!MD_PATH || !OUT_PATH) {
   console.error('usage: render-book-pdf.mjs <book.md> <out.pdf> [theme.css]');
   process.exit(2);
@@ -113,6 +119,23 @@ function readAuthor(bookContentDir) {
   }
   return asciiFold(value.trim());
 }
+/** Map visual_id -> { src, embeddedTitle } from book/visuals/index.json (v2).
+ *  Absent index (today's state) yields an empty map — the layout applier then
+ *  no-ops, so rendering is unchanged. */
+function readVisualAssets(bookContentDir) {
+  const p = path.join(bookContentDir, 'book', 'visuals', 'index.json');
+  const map = new Map();
+  if (!existsSync(p)) return map;
+  try {
+    const data = JSON.parse(readFileSync(p, 'utf-8'));
+    for (const v of data?.visuals || []) {
+      if (!v?.id || !v?.file) continue;
+      map.set(String(v.id), { src: `/book/visuals/${v.file}`, embeddedTitle: String(v.embedded_title || '') });
+    }
+  } catch { /* tolerant: a bad index just means no contract-driven figures */ }
+  return map;
+}
+
 function readCrosswalk(bookContentDir) {
   const p = path.join(bookContentDir, 'book', 'source-crosswalk.json');
   if (!existsSync(p)) return [];
@@ -292,15 +315,29 @@ async function main() {
     + `<div class="disclaimer-panel">Generated using podcast-factory AI. Verify content; AI can make mistakes.</div>`
     + `</section>`;
 
+  // v2: honor the human-curated visual-layout.json contract. Figures are placed
+  // ONLY from the contract (book.md stays diagram-free). Absent/partial contract
+  // is tolerated — applyLayout no-ops when there are no placements or assets.
+  let bodyHtml = renderMd(body, crosswalkByIndex);
+  let bodyClass = '';
+  if (V2) {
+    bodyClass = ' class="book-v2"';
+    const { placements, warnings } = loadLayout(assetRoot);
+    if (warnings.length) warnings.forEach((w) => console.error(`  [visual-layout] ${w}`));
+    if (placements.length) {
+      bodyHtml = applyLayout(bodyHtml, placements, readVisualAssets(assetRoot));
+    }
+  }
+
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>
     :root {${rootTokens}}
 ${printCss}
-  </style></head><body>
+  </style></head><body${bodyClass}>
     ${coverHtml}
     ${titlePage}
     ${renderToc(tocItems)}
     ${renderSourceCrosswalk(crosswalk)}
-    ${renderMd(body, crosswalkByIndex)}
+    ${bodyHtml}
   </body></html>`;
 
   const MIME = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.woff2': 'font/woff2' };

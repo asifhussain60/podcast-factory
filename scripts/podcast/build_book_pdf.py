@@ -118,9 +118,19 @@ def build_book(book_dir: Path, *, log=print, book_md: Path | None = None) -> Pat
     from _book_cover import ensure_cover
     ensure_cover(book_dir, log=log)
 
+    # book_pipeline_v2: resolve the per-book flag and hand it to the renderer so
+    # it honors book/visual-layout.json + the v2 pagination CSS. Flag OFF -> "0"
+    # -> renderer output is byte-for-byte unchanged.
+    try:
+        from _pipeline_flags import book_pipeline_v2_enabled  # noqa: PLC0415
+        flag_v2 = "1" if book_pipeline_v2_enabled(book_dir) else "0"
+    except Exception:  # noqa: BLE001 — never let the flag lookup break rendering
+        flag_v2 = "0"
+
     log(f"    0book-render: {book_dir.name}: {src_label} -> book.pdf (Playwright)")
     proc = subprocess.run(
-        ["node", str(_RENDER_SCRIPT), str(book_md.resolve()), str(out_pdf), str(_THEME_CSS)],
+        ["node", str(_RENDER_SCRIPT), str(book_md.resolve()), str(out_pdf),
+         str(_THEME_CSS), flag_v2],
         cwd=_DASHBOARD, capture_output=True, text=True)
     if proc.returncode == 3:
         raise AuthoringError(
