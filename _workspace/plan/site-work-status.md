@@ -6,9 +6,34 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-07-13 7:07 PM EST (Book Composer → chapter-scoped workspace)
+**Last updated:** 2026-07-14 9:30 AM EST (Composer round 2 — centered citations, AI editing, Gemini artifacts)
 
-**Latest — Book Composer is now a chapter-scoped editing workspace.** Three
+**Latest — Book Composer round 2.** Three follow-up groups landed
+(plan: `~/.claude/plans/create-a-detailed-plan-piped-perlis.md`): (1) **Citations**
+now center BOTH Arabic and translation with tighter translation leading
+(line-height 1.35), across all four CSS layers (`book-styles`, `book-print`,
+`book-reader`, `book-composer`). (2) **Editing** — the chapter opens directly in
+the editor by default; the **Refinement tab is now AI text actions** (Rewrite /
+Expand / Condense / Simplify / Explain) that call `/api/ai/rewrite` (+ new
+`expand` mode, hardened JSON parse) and `/api/ai/explain`, showing an
+accept/reject option popup and replacing the editor selection; figure layout
+controls moved OUT of Refinement onto a floating `.cx-fig-card` on the selected
+figure (Read mode). Chapter switching while editing is guarded with a discard
+confirm. (3) **Artifacts** — hover-to-enlarge preview, per-item delete + AI-edit
+icon buttons, and a "New AI image" box. Net-new backend:
+`scripts/podcast/composer_visual.py` (Gemini `gemini-3.1-flash-image` generate +
+image-to-image edit, reuses `_visual_candidates.write_index` + `_gemini_client`)
+behind `api/studio/visual-op.ts` (spawn-Python, like generate-book-pdf). Delete
+removes the index entry + unlinks the file. Real Gemini image spend (~$0.04/img,
+authorized). Palette item refactored to a `role="group"` with a real place-button
++ sibling action buttons (fixed the challenger's nested-interactive a11y finding).
+Gates: astro check 0/0/0, lint:views clean, build OK, html-view-challenger
+PASS-WITH-CAUTION → the one a11y MUST fixed. Verified in-browser: centered verse,
+default editor, Rewrite→3 options→accept-replaces, inline figure card, hover
+preview, real Gemini generate (gen-1.png, 670KB) → delete round-trip (fixture
+restored, no content/ mutations).
+
+**Prior — Book Composer is now a chapter-scoped editing workspace.** Three
 feature groups landed (plan: `~/.claude/plans/create-a-detailed-plan-piped-perlis.md`):
 (1) **Shell** — chapter picker moved to the top-left of the preview, first
 chapter default, only the selected chapter renders, header trimmed to "Edit &

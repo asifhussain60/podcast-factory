@@ -124,11 +124,12 @@
   line-height: 1.9;
   color: var(--c-ink);
   direction: rtl;
-  text-align: right;
+  text-align: center;
 }
 .bookv-body blockquote.quran p.tr {
   font-size: 0.95rem;
-  line-height: 1.6;
+  line-height: 1.35;
+  text-align: center;
   color: var(--c-ink-muted);
 }
 

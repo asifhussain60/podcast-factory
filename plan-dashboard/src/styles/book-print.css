@@ -325,7 +325,7 @@ blockquote.quran p.ar {
   line-height: 1.9;
   color: var(--c-ink, #1f1d18);
   margin: 0 0 0.2rem;
-  text-align: right;
+  text-align: center;
   direction: rtl;
 }
 blockquote.quran .quran-divider {
@@ -334,7 +334,8 @@ blockquote.quran .quran-divider {
 blockquote.quran p.tr {
   font-style: normal;
   font-size: 0.9rem;
-  line-height: 1.6;
+  line-height: 1.35;
+  text-align: center;
   color: var(--c-ink-muted, #6f6a61);
   margin: 0;
 }

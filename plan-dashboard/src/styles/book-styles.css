@@ -134,7 +134,7 @@
 .bs-ar {
   font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', 'Scheherazade New', serif;
   direction: rtl;
-  text-align: right;
+  text-align: center;
   font-size: 1.05rem;
   line-height: 1.95;
   color: var(--c-ink, #1f1d18);
@@ -142,13 +142,15 @@
 }
 .bs-tr {
   font-size: 0.92rem;
-  line-height: 1.6;
+  line-height: 1.35;
+  text-align: center;
   color: var(--c-ink-muted, #6f6a61);
   margin: 0;
 }
 .bs-attr {
   font-family: var(--font-ui, system-ui, sans-serif);
   font-size: 0.78rem;
+  text-align: center;
   color: var(--c-ink-muted, #87827a);
   margin: 0.35rem 0 0;
 }
@@ -187,10 +189,10 @@
 .bs-poem .bs-ar { text-align: center; }
 .bs-poem .bs-tr { text-align: center; font-style: italic; }
 /* Saying — an aphorism set in italic with an attribution. */
-.bs-saying { margin: 0; }
+.bs-saying { margin: 0; text-align: center; }
 .bs-saying p:first-child {
   font-size: 1.05rem;
-  line-height: 1.6;
+  line-height: 1.35;
   font-style: italic;
   color: var(--c-ink, #2b2823);
   margin: 0;
@@ -203,6 +205,7 @@
   padding: 0.6rem 1.1rem;
   border-radius: 0 6px 6px 0;
   font-style: italic;
+  text-align: center;
   color: var(--c-ink, #2b2823);
   margin: 0;
 }

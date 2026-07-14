@@ -108,18 +108,27 @@ function boot(): void {
   if (chapterSelect) {
     chapterSelect.value = selectedChapter;
     chapterSelect.addEventListener('change', () => {
+      const wasEditing = !!activeEditor;
+      if (wasEditing && editorDirty && !window.confirm('Discard unsaved edits to this chapter?')) {
+        chapterSelect.value = selectedChapter; // revert the picker
+        return;
+      }
+      if (activeEditor) exitEdit(); // tear down the editor bound to the old chapter
       selectedChapter = chapterSelect.value;
       selected = null; // a figure selection doesn't carry across chapters
       showSelectedChapter();
       renderCitations();
       render();
+      if (wasEditing) setMode('edit'); // stay in Edit on the newly selected chapter
     });
   }
 
   // ── Read / Edit mode — Edit swaps the chapter body for the TipTap editor ──
   const modeRead = root.querySelector<HTMLButtonElement>('#cx-mode-read');
   const modeEdit = root.querySelector<HTMLButtonElement>('#cx-mode-edit');
+  const bookTitle = root.closest('body')?.querySelector<HTMLElement>('.lib-hero-main h1')?.textContent?.trim() ?? '';
   let activeEditor: ChapterEditor | null = null;
+  let editorDirty = false;
 
   function currentChapterEl(): HTMLElement | null {
     return Array.from(root.querySelectorAll<HTMLElement>('.cx-chapter'))
@@ -141,10 +150,12 @@ function boot(): void {
   function exitEdit(): void {
     activeEditor?.destroy();
     activeEditor = null;
+    editorDirty = false;
     root.querySelector('.cx-edit-shell')?.remove();
     const bodyEl = currentChapterEl()?.querySelector<HTMLElement>('.cx-body');
     if (bodyEl) bodyEl.hidden = false;
     if (chapterSelect) chapterSelect.disabled = false;
+    updateAiEnabled(); // no editor → AI actions disabled
   }
 
   function enterEdit(): void {
@@ -188,7 +199,10 @@ function boot(): void {
     bodyEl.insertAdjacentElement('afterend', shell);
 
     activeEditor = mountChapterEditor(host, pristine);
-    if (chapterSelect) chapterSelect.disabled = true;
+    editorDirty = false;
+    activeEditor.editor.on('update', () => { editorDirty = true; });
+    activeEditor.editor.on('selectionUpdate', () => updateAiEnabled());
+    updateAiEnabled();
 
     cancelBtn.addEventListener('click', () => setMode('read'));
     saveEditBtn.addEventListener('click', async () => {
@@ -382,7 +396,6 @@ function boot(): void {
       const ch = chapterByKey.get(selectedChapter);
       scopeEl.textContent = ch ? `Candidates for “${ch.title}”.` : '';
     }
-    renderControls();
   }
 
   // Insert figures into a chapter body at their paragraph index, mirroring the
@@ -482,10 +495,13 @@ function boot(): void {
       fig.appendChild(cap);
     }
 
-    const selectAndRefine = (): void => { selected = p.visual_id; activateTab('refine'); render(); };
-    fig.addEventListener('click', selectAndRefine);
+    const selectFigure = (): void => { selected = p.visual_id; render(); };
+    fig.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('.cx-fig-card')) return; // control clicks don't reselect
+      selectFigure();
+    });
     fig.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectAndRefine(); }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectFigure(); }
     });
     fig.addEventListener('dragstart', (e) => {
       e.dataTransfer?.setData('text/plain', p.visual_id);
@@ -498,15 +514,37 @@ function boot(): void {
     handle.addEventListener('pointerdown', (e) => startResize(e, fig, p));
     handle.addEventListener('click', (e) => e.stopPropagation()); // don't select on a resize click
     fig.appendChild(handle);
+
+    // The selected figure carries its layout controls inline (align / flow / width /
+    // position / caption / page-fit / remove) instead of a side panel.
+    if (p.visual_id === selected) fig.appendChild(buildFigCard(p));
     return fig;
   }
 
+  function iconBtn(glyph: string, title: string, onClick: (e: MouseEvent) => void): HTMLButtonElement {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'cx-icon-btn';
+    b.textContent = glyph;
+    b.title = title;
+    b.setAttribute('aria-label', title);
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
   function paletteItemEl(v: Visual): HTMLElement {
-    const item = document.createElement('button');
-    item.type = 'button';
+    // A non-interactive group wrapping ONE place-button + sibling action buttons —
+    // never a role=button containing focusable children (ambiguous for AT).
+    const item = document.createElement('div');
     item.className = 'cx-palette-item';
     item.draggable = true;
-    item.setAttribute('aria-label', `Place ${v.caption || v.id}`);
+    item.setAttribute('role', 'group');
+    item.setAttribute('aria-label', v.caption || v.id);
+
+    const placeBtn = document.createElement('button');
+    placeBtn.type = 'button';
+    placeBtn.className = 'cx-palette-place';
+    placeBtn.setAttribute('aria-label', `Place ${v.caption || v.id}`);
     const img = document.createElement('img');
     img.src = v.src; img.alt = '';
     const meta = document.createElement('span');
@@ -518,41 +556,263 @@ function boot(): void {
     type.className = 'cx-palette-type';
     type.textContent = v.cleaned ? v.type : `${v.type} · uncleaned`;
     meta.append(cap, type);
-    item.append(img, meta);
+    placeBtn.append(img, meta);
+
+    const actions = document.createElement('div');
+    actions.className = 'cx-palette-actions';
+    actions.append(
+      iconBtn('✨', 'Edit this image with AI', () => openAiImageBox(v.file, v.caption)),
+      iconBtn('🗑', 'Delete artifact', () => void deleteArtifact(v)),
+    );
+    item.append(placeBtn, actions);
+
     const target = v.suggested_anchor && chapterByKey.get(anchorKey(v.suggested_anchor))
       ? v.suggested_anchor
-      : (data.chapters[0]?.anchor ?? '');
-    item.addEventListener('click', () => place(v.id, target));
+      : (chapterByKey.get(selectedChapter)?.anchor ?? data.chapters[0]?.anchor ?? '');
+    placeBtn.addEventListener('click', () => place(v.id, target));
     item.addEventListener('dragstart', (e) => e.dataTransfer?.setData('text/plain', v.id));
+    item.addEventListener('mouseenter', () => showHoverPreview(v, item));
+    item.addEventListener('mouseleave', hideHoverPreview);
     return item;
   }
 
-  // ── controls panel ────────────────────────────────────────────────────────
-  function renderControls(): void {
-    controlsEl.textContent = '';
-    const p = selected ? placements.find((x) => x.visual_id === selected) : undefined;
-    if (!p) {
-      const hint = document.createElement('p');
-      hint.className = 'cx-hint';
-      hint.textContent = 'Select a placed figure in the book to refine its alignment, width, position, and caption.';
-      controlsEl.appendChild(hint);
-      return;
+  // ── hover-to-enlarge preview ──────────────────────────────────────────────
+  let hoverEl: HTMLElement | null = null;
+  function showHoverPreview(v: Visual, anchorEl: HTMLElement): void {
+    if (!hoverEl) {
+      hoverEl = document.createElement('div');
+      hoverEl.className = 'cx-hover-preview';
+      hoverEl.appendChild(document.createElement('img'));
+      document.body.appendChild(hoverEl);
     }
+    (hoverEl.querySelector('img') as HTMLImageElement).src = v.src;
+    const r = anchorEl.getBoundingClientRect();
+    hoverEl.style.setProperty('--hx', `${Math.max(8, r.left - 372)}px`);
+    hoverEl.style.setProperty('--hy', `${Math.max(8, Math.min(window.innerHeight - 360, r.top - 40))}px`);
+    hoverEl.classList.add('is-visible');
+  }
+  function hideHoverPreview(): void { hoverEl?.classList.remove('is-visible'); }
 
-    controlsEl.appendChild(alignField(p));
-    controlsEl.appendChild(flowField(p));
-    controlsEl.appendChild(widthField(p));
-    controlsEl.appendChild(anchorField(p));
-    controlsEl.appendChild(positionField(p));
-    controlsEl.appendChild(captionField(p));
-    controlsEl.appendChild(pageFitField(p));
+  // ── delete an artifact (index entry + file) ───────────────────────────────
+  async function deleteArtifact(v: Visual): Promise<void> {
+    hideHoverPreview();
+    if (!window.confirm(`Delete “${v.caption || v.id}” permanently? This removes it from the library and disk.`)) return;
+    try {
+      const res = await fetch('/api/studio/visual-op', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ action: 'delete', slug, id: v.id }),
+      });
+      const j = await res.json();
+      if (!j.ok) throw new Error(j.error || 'delete failed');
+      data.visuals = data.visuals.filter((x) => x.id !== v.id);
+      visualsById.delete(v.id);
+      placements = placements.filter((p) => p.visual_id !== v.id); // renderer skips missing ids too
+      if (selected === v.id) selected = null;
+      render();
+    } catch (e) {
+      window.alert(`Delete failed: ${(e as Error).message}`);
+    }
+  }
 
+  // ── generate / edit an artifact with Gemini ───────────────────────────────
+  function openAiImageBox(fromFile?: string, baseCaption?: string): void {
+    hideHoverPreview();
+    root.querySelector('.cx-aiimg-box')?.remove();
+    const panel = root.querySelector<HTMLElement>('#cx-panel-artifacts');
+    if (!panel) return;
+    const box = document.createElement('div');
+    box.className = 'cx-aiimg-box';
+    const head = document.createElement('p');
+    head.className = 'cx-aiimg-head';
+    head.textContent = fromFile ? `Edit “${baseCaption || fromFile}” with AI` : 'Generate a new image with AI';
+    const ta = document.createElement('textarea');
+    ta.className = 'cx-aiimg-input';
+    ta.rows = 3;
+    ta.placeholder = fromFile ? 'Describe the change to make…' : 'Describe the image to create…';
+    const actions = document.createElement('div');
+    actions.className = 'cx-aiimg-actions';
+    const gen = document.createElement('button');
+    gen.type = 'button'; gen.className = 'cx-action'; gen.textContent = 'Generate';
+    const cancel = document.createElement('button');
+    cancel.type = 'button'; cancel.className = 'cx-action is-secondary'; cancel.textContent = 'Cancel';
+    const status = document.createElement('p');
+    status.className = 'cx-status';
+    status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite');
+    actions.append(gen, cancel);
+    box.append(head, ta, actions, status);
+    panel.insertBefore(box, panel.querySelector('#cx-palette-list'));
+    ta.focus();
+
+    cancel.addEventListener('click', () => box.remove());
+    gen.addEventListener('click', async () => {
+      const prompt = ta.value.trim();
+      if (!prompt) { status.textContent = 'Type a description first.'; status.classList.add('is-error'); return; }
+      gen.disabled = true; status.classList.remove('is-error');
+      status.textContent = 'Generating with Gemini… this can take a few seconds.';
+      try {
+        const anchor = chapterByKey.get(selectedChapter)?.anchor ?? '';
+        const res = await fetch('/api/studio/visual-op', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ action: 'generate', slug, prompt, fromFile, anchor }),
+        });
+        const j = await res.json();
+        if (!j.ok) throw new Error(j.error || 'generation failed');
+        const nv: Visual = {
+          id: j.data.id, type: 'generated', caption: j.data.caption, file: j.data.file,
+          src: `/api/studio/visual-asset?slug=${encodeURIComponent(slug)}&file=${encodeURIComponent(j.data.file)}`,
+          suggested_anchor: anchor, chapter: selectedChapter, cleaned: true, embedded_title: '',
+        };
+        data.visuals.push(nv);
+        visualsById.set(nv.id, nv);
+        box.remove();
+        render();
+      } catch (e) {
+        status.textContent = `Failed: ${(e as Error).message}`;
+        status.classList.add('is-error');
+        gen.disabled = false;
+      }
+    });
+  }
+
+  // ── inline figure controls (a floating card on the selected figure) ───────
+  function buildFigCard(p: Placement): HTMLElement {
+    const card = document.createElement('div');
+    card.className = 'cx-fig-card';
+    card.addEventListener('click', (e) => e.stopPropagation());
+    card.addEventListener('pointerdown', (e) => e.stopPropagation());
+    card.draggable = false;
+    card.append(
+      alignField(p), flowField(p), widthField(p),
+      anchorField(p), positionField(p), captionField(p), pageFitField(p),
+    );
     const del = document.createElement('button');
     del.type = 'button';
     del.className = 'cx-delete';
     del.textContent = 'Remove from book';
     del.addEventListener('click', () => remove(p.visual_id));
-    controlsEl.appendChild(del);
+    card.appendChild(del);
+    return card;
+  }
+
+  // ── Refinement tab: AI text actions on the editor selection ────────────────
+  interface AiAction { kind: string; label: string; mode?: string; explain?: boolean; }
+  const AI_ACTIONS: AiAction[] = [
+    { kind: 'rewrite', label: 'Rewrite', mode: 'clarify' },
+    { kind: 'expand', label: 'Expand', mode: 'expand' },
+    { kind: 'condense', label: 'Condense', mode: 'tighten' },
+    { kind: 'simplify', label: 'Simplify', mode: 'simplify' },
+    { kind: 'explain', label: 'Explain', explain: true },
+  ];
+  let aiStatusEl: HTMLElement | null = null;
+  let aiPopupEl: HTMLElement | null = null;
+
+  function setAiStatus(msg: string, isError = false): void {
+    if (!aiStatusEl) return;
+    aiStatusEl.textContent = msg;
+    aiStatusEl.classList.toggle('is-error', isError);
+  }
+
+  function selectionText(): { text: string; from: number; to: number } | null {
+    if (!activeEditor) return null;
+    const { from, to } = activeEditor.editor.state.selection;
+    const text = activeEditor.editor.state.doc.textBetween(from, to, ' ').trim();
+    return text ? { text, from, to } : null;
+  }
+
+  function updateAiEnabled(): void {
+    const ok = !!selectionText();
+    root.querySelectorAll<HTMLButtonElement>('.cx-ai-btn').forEach((b) => { b.disabled = !ok; });
+  }
+
+  function renderAiActions(): void {
+    controlsEl.textContent = '';
+    const hint = document.createElement('p');
+    hint.className = 'cx-hint';
+    hint.textContent = 'Select text in the chapter editor, then reshape it with AI. Each result is yours to accept or discard.';
+    controlsEl.appendChild(hint);
+
+    const row = document.createElement('div');
+    row.className = 'cx-ai-row';
+    for (const a of AI_ACTIONS) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'cx-ai-btn';
+      b.textContent = a.label;
+      b.disabled = true;
+      b.addEventListener('click', () => runAiAction(a));
+      row.appendChild(b);
+    }
+    controlsEl.appendChild(row);
+
+    aiStatusEl = document.createElement('p');
+    aiStatusEl.className = 'cx-status';
+    aiStatusEl.setAttribute('role', 'status');
+    aiStatusEl.setAttribute('aria-live', 'polite');
+    controlsEl.appendChild(aiStatusEl);
+    updateAiEnabled();
+  }
+
+  async function runAiAction(a: AiAction): Promise<void> {
+    const sel = selectionText();
+    if (!activeEditor || !sel) { setAiStatus('Select some text in the editor first.', true); return; }
+    aiPopupEl?.remove();
+    setAiStatus(`${a.label}…`);
+    try {
+      let options: string[] = [];
+      if (a.explain) {
+        const res = await fetch('/api/ai/explain', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ text: sel.text, chapter: activeEditor.editor.getText(), bookTitle }),
+        });
+        const j = await res.json();
+        if (!j.ok) throw new Error(j.error || 'failed');
+        options = [String(j.text)];
+      } else {
+        const res = await fetch('/api/ai/rewrite', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ text: sel.text, mode: a.mode, context: activeEditor.editor.getText().slice(0, 4000) }),
+        });
+        const j = await res.json();
+        if (j.error) throw new Error(j.error);
+        options = (Array.isArray(j.options) ? j.options : []).map((s: unknown) => String(s).trim()).filter(Boolean);
+      }
+      if (!options.length) throw new Error('no suggestions returned');
+      setAiStatus('');
+      showAiOptions(a.label, options, sel.from, sel.to);
+    } catch (e) {
+      setAiStatus(`${a.label} failed: ${(e as Error).message}`, true);
+    }
+  }
+
+  function showAiOptions(label: string, options: string[], from: number, to: number): void {
+    aiPopupEl?.remove();
+    const pop = document.createElement('div');
+    pop.className = 'cx-ai-popup';
+    const head = document.createElement('p');
+    head.className = 'cx-ai-popup-head';
+    head.textContent = `${label} — pick one to replace your selection:`;
+    pop.appendChild(head);
+    options.forEach((opt) => {
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'cx-ai-opt';
+      card.textContent = opt;
+      card.addEventListener('click', () => {
+        activeEditor?.editor.chain().focus().insertContentAt({ from, to }, opt).run();
+        pop.remove();
+        aiPopupEl = null;
+        setAiStatus('Applied. Remember to Save prose.');
+      });
+      pop.appendChild(card);
+    });
+    const cancel = document.createElement('button');
+    cancel.type = 'button';
+    cancel.className = 'cx-ai-opt-cancel';
+    cancel.textContent = 'Discard';
+    cancel.addEventListener('click', () => { pop.remove(); aiPopupEl = null; });
+    pop.appendChild(cancel);
+    controlsEl.appendChild(pop);
+    aiPopupEl = pop;
   }
 
   function field(label: string, control: HTMLElement): HTMLElement {
@@ -748,7 +1008,23 @@ function boot(): void {
   saveBtn.disabled = true;
   showSelectedChapter();
   renderCitations();
+  renderAiActions();
   render();
+
+  // Deselect a placed figure (and hide its inline card) on an outside click.
+  document.addEventListener('click', (e) => {
+    if (!selected) return;
+    const t = e.target as HTMLElement;
+    if (t.closest('.cx-fig') || t.closest('.cx-fig-card')) return;
+    selected = null;
+    render();
+  });
+
+  root.querySelector<HTMLButtonElement>('#cx-new-ai-image')
+    ?.addEventListener('click', () => openAiImageBox());
+
+  // The chapter opens straight in the editor, like the podcast editor.
+  setMode('edit');
 }
 
 if (document.readyState === 'loading') {

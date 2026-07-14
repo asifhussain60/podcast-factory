@@ -18,6 +18,7 @@ const MODE_HINTS: Record<string, string> = {
   clarify:   'Rewrite for clarity. Same length or shorter. Preserve every named entity and transliterated Arabic term verbatim.',
   tighten:   'Tighten — remove filler, redundancy, and stock phrasing. Cut word count by 20-30% if possible without losing content.',
   simplify:  'Simplify the vocabulary for a non-specialist reader. Keep technical terms but explain them in-line when natural.',
+  expand:    'Expand — add helpful detail, unpack implicit reasoning, and gloss difficult terms in-line. Grow the passage ~20-40% WITHOUT inventing facts, doctrine, names, or citations not already implied. Preserve every named entity and transliterated Arabic term verbatim.',
   formal:    'Raise the register slightly. Scholarly, restrained, no contractions. Same length.',
 };
 
@@ -55,8 +56,10 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     let parsed: any = {};
-    try { parsed = JSON.parse(raw); }
-    catch { parsed = { options: [raw] }; }
+    // Tolerate a code fence or stray prose around the JSON (some model turns wrap it).
+    const jsonText = (raw.match(/\{[\s\S]*\}/) ?? [raw])[0];
+    try { parsed = JSON.parse(jsonText); }
+    catch { try { parsed = JSON.parse(raw); } catch { parsed = { options: [raw] }; } }
     if (!Array.isArray(parsed.options)) parsed.options = [String(parsed.options ?? raw)];
     parsed.options = parsed.options.slice(0, 3).map((s: any) => String(s).trim());
 
