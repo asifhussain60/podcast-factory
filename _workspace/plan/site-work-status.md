@@ -6,9 +6,35 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-07-14 9:30 AM EST (Composer round 2 — centered citations, AI editing, Gemini artifacts)
+**Last updated:** 2026-07-14 1:30 PM EST (site-health-sentinel runtime gate + inaugural sweep)
 
-**Latest — Book Composer round 2.** Three follow-up groups landed
+**Latest — Site-health runtime gate shipped.** The site now has a RUNTIME/visual
+peer to the static `html-view-challenger`, mirroring the book pipeline's
+`book-challenger` (source) vs `book-render-challenger` (rendered) split. Two
+layers, both using the already-installed Playwright (no `npm install`):
+(1) **deterministic, zero model spend** — `plan-dashboard/scripts/site-health-smoke.mjs`
+(`npm run smoke`) boots the dev server, visits every page route in headless
+chromium, hard-fails on any console error / uncaught exception / failed request /
+5xx; auto-fires from the re-purposed `Stop` hook
+(`.claude/hooks/ui-reviewer-stop.sh`, formerly the disabled `ui-reviewer` stub)
+whenever `plan-dashboard/` changed and a server is up on :4322. (2) **visual
+judgment** — the new `site-health-sentinel` agent (both agent trees + registry;
+installed to `.claude/agents/`) screenshots each surface at ~1440px + ~390px
+across states via `scripts/site-health-shots.mjs`, judges pixels, fixes the
+smallest in-pattern source change, re-gates `lint:views` + `astro check`,
+converges ≤5, deletes its throwaway `.visual-qa/`. DoD line added to CLAUDE.md;
+runs as a PAIR with `html-view-challenger`. Inaugural sweep: **29/29 routes clean
+(0 console errors / 0 exceptions / 0 5xx); 0 actionable visual defects** across
+architecture / library (desktop+mobile) / composer / reading edition / wisdom
+empty-state. Two CONTENT observations surfaced (not agent-fixable): chapter-title
+echoed as the first body line in the composer + reading edition; wisdom intro
+counts (19/122/1,337) vs live 0/0/0 (likely local corpus-DB gap). Dark theme on
+long-form architecture views stays light-bodied — consistent with the KNOWN
+deferred theme-exception work, not a regression. NOTE: the agent registry is
+fixed at session start, so `site-health-sentinel` is invokable via the Agent tool
+from the NEXT session onward.
+
+**Prior — Book Composer round 2.** Three follow-up groups landed
 (plan: `~/.claude/plans/create-a-detailed-plan-piped-perlis.md`): (1) **Citations**
 now center BOTH Arabic and translation with tighter translation leading
 (line-height 1.35), across all four CSS layers (`book-styles`, `book-print`,

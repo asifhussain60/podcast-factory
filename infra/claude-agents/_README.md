@@ -12,11 +12,12 @@ stay byte-identical (verify with `cmp`).
 
 ---
 
-## Agent registry (19 agents)
+## Agent registry (20 agents)
 
 | Agent | Purpose |
 |---|---|
-| `html-view-challenger` | Conformance validator for HTML views against the Cortex quality standard |
+| `html-view-challenger` | Conformance validator for HTML views against the Cortex quality standard (STATIC, source-level) |
+| `site-health-sentinel` | Runtime + visual-QA gate for the Astro site — boots a browser, sweeps every route for console errors, screenshots at desktop/mobile across states, judges pixels for visual defects, fixes in-pattern; the runtime peer of `html-view-challenger` |
 | `noise-auditor` | Cross-surface detector for authorial-apparatus noise (circulation/provenance/colophon) the denoise step never strips; identify-only |
 | `podcast-auditor` | DEPRECATED 2026-06-02 — use `repo-surgeon --scope podcast` instead |
 | `podcast-blueprint` | Content-aware episode-structure planner (genre classification → episode plan) |

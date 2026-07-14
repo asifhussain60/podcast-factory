@@ -15,7 +15,9 @@
     "mermaid:render": "node scripts/render-mermaid.mjs",
     "prebuild": "npm run mermaid:render && npm run lint:views",
     "lint:views": "node scripts/lint-html-views.mjs",
-    "lint:views:strict": "node scripts/lint-html-views.mjs --strict"
+    "lint:views:strict": "node scripts/lint-html-views.mjs --strict",
+    "smoke": "node scripts/site-health-smoke.mjs",
+    "smoke:json": "node scripts/site-health-smoke.mjs --json"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",

@@ -1,6 +1,9 @@
 # Temporary working files
 scratchpad-*.txt
 
+# site-health-sentinel throwaway screenshots (created + deleted per QA run)
+plan-dashboard/.visual-qa/
+
 # OS files
 .DS_Store
 **/.DS_Store
