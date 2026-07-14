@@ -24,10 +24,14 @@ export default defineConfig({
       // Edit & Enrich rich editor); pre-bundling them at server start stops Vite
       // from re-optimizing mid-session, which was 504-ing the editor chunks
       // ("Outdated Optimize Dep") and blanking Edit & Enrich (2026-06-15).
+      // gsap + gsap/ScrollTrigger drive the homepage's NarrativeScroll island —
+      // same failure mode: mid-session re-optimize 504'd them and blanked the home
+      // page after a server restart with an open tab (2026-07-14).
       include: [
         'react', 'react-dom', 'react-dom/client',
         '@tiptap/react', '@tiptap/starter-kit', '@tiptap/core',
         '@tiptap/pm/state', '@tiptap/pm/view', 'diff',
+        'gsap', 'gsap/ScrollTrigger',
       ],
     },
     server: {
