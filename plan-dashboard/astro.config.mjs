@@ -20,17 +20,21 @@ export default defineConfig({
       // React 19 uses a conditional IIFE that Vite's CJS→ESM static analyser
       // can't resolve without explicit pre-bundling — forces esbuild to process
       // these packages and produce proper named ESM exports (e.g. createRoot).
-      // The TipTap family + diff are the heavy editor deps behind StudioPoc (the
-      // Edit & Enrich rich editor); pre-bundling them at server start stops Vite
-      // from re-optimizing mid-session, which was 504-ing the editor chunks
-      // ("Outdated Optimize Dep") and blanking Edit & Enrich (2026-06-15).
-      // gsap + gsap/ScrollTrigger drive the homepage's NarrativeScroll island —
-      // same failure mode: mid-session re-optimize 504'd them and blanked the home
-      // page after a server restart with an open tab (2026-07-14).
+      // Pre-bundle EVERY third-party dep imported by a client React island. If a
+      // dep is discovered mid-session (first time an island loads), Vite
+      // re-optimizes and invalidates already-served chunk URLs, 504-ing them
+      // ("Outdated Optimize Dep") for any open tab — which blanks the island
+      // (Edit & Enrich 2026-06-15; homepage NarrativeScroll + Edit palette
+      // 2026-07-14). This list = the full set of bare specifiers imported under
+      // src/components + src/scripts (node: builtins excluded); keep it in sync
+      // when a new island dependency is added.
       include: [
-        'react', 'react-dom', 'react-dom/client',
+        'react', 'react-dom', 'react-dom/client', 'lucide-react',
         '@tiptap/react', '@tiptap/starter-kit', '@tiptap/core',
-        '@tiptap/pm/state', '@tiptap/pm/view', 'diff',
+        '@tiptap/pm/model', '@tiptap/pm/state', '@tiptap/pm/view', 'diff',
+        'cmdk', '@radix-ui/react-toast',
+        '@dnd-kit/core', '@dnd-kit/sortable', '@dnd-kit/utilities',
+        '@orama/orama',
         'gsap', 'gsap/ScrollTrigger',
       ],
     },
