@@ -751,6 +751,12 @@
 .studio-series-deck[open]::after { display: none; }
 .studio-series-deck[open] { grid-column: 1 / -1; }   /* fan to full width when open */
 
+/* When closed, the front summary must FILL the stretched grid cell so the
+   inset:0 stacked sheets back it exactly. A short card (no author/status) in a
+   tall row otherwise leaves the sheets protruding below as an empty panel. */
+.studio-series-deck:not([open]) { display: flex; flex-direction: column; }
+.studio-series-deck:not([open]) .studio-series-summary { flex: 1 0 auto; }
+
 .studio-series-summary {
   position: relative; z-index: 1; cursor: pointer; list-style: none;
   /* layout + border + bg inherited from .studio-picker-card .studio-shelf-card */

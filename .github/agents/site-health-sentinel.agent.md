@@ -76,9 +76,15 @@ the long-lived server). Discover a live fixture slug the same way the smoke scri
 
 **1. Deterministic console-error gate (always, first).**
 `cd plan-dashboard && SITE_HEALTH_BASE_URL=http://localhost:4322 npm run smoke`.
-Any FAIL (console error / uncaught exception / request-failed / 5xx) is a real runtime
-bug — diagnose from source and fix BEFORE touching visuals. A route it marks "skipped
-(fixture gap)" is a data mismatch, not a bug — note it, don't fix it.
+Any FAIL (console error / uncaught exception / request-failed / 5xx / **layout-invariant**)
+is a real runtime bug — diagnose from source and fix BEFORE touching visuals. A route it
+marks "skipped (fixture gap)" is a data mismatch, not a bug — note it, don't fix it. The
+smoke gate also runs **measurable layout invariants** (`checkLayoutInvariants`) for visual
+defects that can be asserted from the DOM rather than eyeballed — e.g. INV-1
+(`series-deck-protrusion`): a multi-volume deck's front card must fill its grid cell so the
+stacked sheets don't protrude as an empty panel. When you find a NEW visual defect that is
+measurable (a size mismatch, an overflow, an overlap), add an invariant there too so it can
+never reship on the strength of a screenshot nobody looked at.
 
 **2. Capture.** For each surface, capture into a single throwaway folder you create,
 `plan-dashboard/.visual-qa/`, recording every path written:
@@ -93,6 +99,13 @@ deliberately (these are where bugs hide):
   - **Book Composer** (`/studio/<slug>/compose`): chapter picker, a placed figure's
     wrap/float + resize handle, the Artifacts/Citations/Refinement/Output tablist, the
     floating `.cx-fig-card`.
+  - **Library / studio grid** (`/library`, `/studio`): the multi-volume series
+    "deck" card (`.studio-series-deck`, a book with N volumes — e.g. "The Subtle
+    Lights", "Foundation of Esoteric Interpretation") — confirm the stacked sheets
+    peek behind the front card by only the intended ~6/12px and do NOT protrude
+    below as an empty panel, and that the front card fills its grid cell to match
+    sibling card heights. This is also enforced deterministically (INV-1 in
+    site-health-smoke.mjs) — but eyeball it too when the grid changes.
   - **Library / lists** (`/library`, `/wisdom`, `/pre-upload`): populated, and the
     EMPTY state (a slug/shelf with no items) — empty states are a classic defect nest.
   - **Focus styles:** `--eval "document.querySelector('a,button')?.focus()"` and confirm a

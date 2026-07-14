@@ -152,6 +152,35 @@ async function ensureServer() {
   return { baseUrl, proc };
 }
 
+// ---- layout invariants ----------------------------------------------------
+// Deterministic DOM assertions for defect classes that are visual but
+// MEASURABLE — so a regression can't reship on the strength of a screenshot
+// nobody looked at. Each invariant runs in-page and returns finding strings.
+// Add new invariants here as the site-health-sentinel agent finds recurring,
+// measurable defects.
+async function checkLayoutInvariants(page) {
+  return page.evaluate(() => {
+    const out = [];
+
+    // INV-1: multi-volume "series deck" stacked-card. The ::before/::after
+    // sheets are inset:0 on the deck; if the front <summary> is materially
+    // shorter than the deck (a short card stretched in a tall grid row), the
+    // sheets protrude below as an empty panel. Fixed by making the summary fill
+    // the cell — assert the leftover gap stays within the intended ~12px peek.
+    for (const deck of document.querySelectorAll('.studio-series-deck:not([open])')) {
+      const summary = deck.querySelector('.studio-series-summary');
+      if (!summary) continue;
+      const gap = Math.round(deck.clientHeight - summary.offsetHeight);
+      if (gap > 24) {
+        const name = (summary.querySelector('.card-title-en')?.textContent || '').trim();
+        out.push(`series-deck-protrusion: "${name || 'deck'}" — front card ${gap}px shorter than its cell (stacked sheets protrude as an empty panel)`);
+      }
+    }
+
+    return out;
+  });
+}
+
 // ---- per-route probe ------------------------------------------------------
 async function probeRoute(context, baseUrl, route) {
   const page = await context.newPage();
@@ -188,6 +217,10 @@ async function probeRoute(context, baseUrl, route) {
     navStatus = resp ? resp.status() : null;
     // Let client islands mount + throw if they're going to.
     await page.waitForTimeout(700);
+    // Deterministic layout invariants (measurable visual defects).
+    for (const detail of await checkLayoutInvariants(page)) {
+      findings.push({ kind: 'layout-invariant', detail });
+    }
   } catch (err) {
     findings.push({ kind: 'navigation-error', detail: String(err && err.message || err) });
   }
