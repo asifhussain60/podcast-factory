@@ -176,7 +176,7 @@ const visibleInShelf = (shelfCards: typeof cards) => shelfCards.filter((c) => de
                 <details class="studio-series-deck">
                   <summary class="studio-picker-card studio-shelf-card studio-series-summary">
                     {/* Same card design as standalone books — script panel + body */}
-                    <div class="card-script-wrap has-script">
+                    <div class={`card-script-wrap${it.deck.nativeTitle ? ' has-script' : ''}`}>
                       <span class="card-script-icon" aria-hidden="true">
                         <i class={`fa-solid ${it.deck.icon}`}></i>
                       </span>

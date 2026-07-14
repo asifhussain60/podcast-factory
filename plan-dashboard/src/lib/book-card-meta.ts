@@ -23,6 +23,12 @@ export interface BookCardMeta {
 
 export const BOOK_CARD_META: Record<string, BookCardMeta> = {
   // ── Islamic Scholarship ────────────────────────────────────────────────────
+  'al-anwaar-al-lateefah': {
+    nativeTitle: 'الأنوار اللطيفة',
+    nativeLang: 'ar',
+    displayTitle: 'The Subtle Lights',
+    icon: 'fa-lightbulb',
+  },
   'asaas-al-taveel': {
     nativeTitle: 'أساس التأويل',
     nativeLang: 'ar',

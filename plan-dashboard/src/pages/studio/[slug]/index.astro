@@ -28,7 +28,6 @@ const bookScore = await scoreBook(summary.ref.dir, archetype);
 // else, so Fiction/Technical books never show these links. No per-book config.
 const hasArabic = (await loadGlossary(slugStr)).length > 0;
 const arabicReviewHref = `/studio/${encodeURIComponent(slugStr)}/arabic-review`;
-const chapterScoreMap = new Map(bookScore?.chapters.map((c) => [c.slug, c.scores]) ?? []);
 
 function fileViewHref(relPath: string): string {
   // Text artifacts (episodes, source, audits) render in the in-site styled reader;
@@ -80,24 +79,8 @@ function renderGroups(files: LibFile[]): RenderGroup[] {
   }
   return out;
 }
-const binderGroups = renderGroups(chapters);
 const episodeGroups = renderGroups(episodes);
 const hasSessions = sessions.length > 0;
-
-// Binder card presentation: parse `chNN[x]-slug-words.txt` into a chapter
-// number + humanized title. Falls back to the raw name for odd filenames.
-const TITLE_MINOR_WORDS = new Set(['and', 'the', 'of', 'a', 'an', 'in', 'on', 'to', 'for', 'at', 'by', 'or']);
-interface BinderCard { num: string | null; title: string }
-function parseBinderName(name: string): BinderCard {
-  const base = name.replace(/\.(txt|md)$/i, '');
-  const m = base.match(/^ch(\d+)[a-z]?-(.+)$/i);
-  if (!m) return { num: null, title: base };
-  const words = m[2].split('-').filter(Boolean);
-  const title = words
-    .map((w, i) => (i > 0 && TITLE_MINOR_WORDS.has(w) ? w : w.charAt(0).toUpperCase() + w.slice(1)))
-    .join(' ');
-  return { num: m[1], title };
-}
 
 // Asset row presentation: humanize `01-Why_Knowledge_Is_Theft.m4a` and
 // `final-review-report.md` into readable labels.
@@ -194,6 +177,13 @@ const tabs = [
   { id: 'audits', label: 'Audits', count: audits.length },
   { id: 'source', label: 'Source', count: sourceFiles.length },
 ];
+
+// The Chapters tab jumps straight into the editor on the first chapter
+// (the grid view was removed). chapters[] is filename-sorted, so [0] is ch01a.
+const firstChapterId = (chapters[0]?.name ?? '').replace(/\.(txt|md)$/i, '');
+const firstChapterHref = firstChapterId
+  ? `/studio/${slugStr}/edit?ch=${firstChapterId}`
+  : `/studio/${slugStr}/edit`;
 ---
 <Base title={summary.title} active="studio" description={`${categoryLabel(summary.category)} — ${summary.title}`}>
   <header class="lib-hero">
@@ -243,14 +233,26 @@ const tabs = [
   <nav class="lib-tabs" aria-label="Book sections">
     {tabs.map((t, i) => (
       <Fragment>
-        <a
-          href={`#${t.id}`}
-          class={`lib-tab${i === 0 ? ' is-active' : ''}${t.count === 0 ? ' is-empty' : ''}`}
-          data-tab={t.id}
-          aria-current={i === 0 ? 'true' : undefined}
-        >
-          {t.label}{t.count !== null && <span class="lib-tab-count">{t.count}</span>}
-        </a>
+        {t.id === 'chapters' ? (
+          /* Chapters navigates straight to the first chapter's editor (data-nav
+             marks it so the in-page tab script does not intercept the click). */
+          <a
+            href={firstChapterHref}
+            class={`lib-tab${t.count === 0 ? ' is-empty' : ''}`}
+            data-nav
+          >
+            {t.label}{t.count !== null && <span class="lib-tab-count">{t.count}</span>}
+          </a>
+        ) : (
+          <a
+            href={`#${t.id}`}
+            class={`lib-tab${i === 0 ? ' is-active' : ''}${t.count === 0 ? ' is-empty' : ''}`}
+            data-tab={t.id}
+            aria-current={i === 0 ? 'true' : undefined}
+          >
+            {t.label}{t.count !== null && <span class="lib-tab-count">{t.count}</span>}
+          </a>
+        )}
         {t.id === 'media' && (
           <a class="lib-tab-cta" href={`/studio/${slugStr}/compose`}>
             <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> PDF Generator
@@ -313,64 +315,6 @@ const tabs = [
         </div>
       </div>
     </div>
-  </section>
-
-  <section id="chapters" class="lib-panel" data-panel="chapters">
-    <p class="lib-panel-sub">Authored chapters in <code>chapters/</code> — click a card to open it in Studio.</p>
-    {chapters.length === 0 ? (
-      <div class="lib-empty-panel"><i class="fa-regular fa-folder-open" aria-hidden="true"></i><p>No chapters yet.</p></div>
-    ) : (
-      <div class={hasSessions ? 'stack lib-session-stack' : ''}>
-        {binderGroups.map((g) => {
-          const rows = (
-            <div class="lib-binder-grid">
-              {g.files.map((f) => {
-                const chapterSlug = f.name.replace(/\.(txt|md)$/i, '');
-                const cs = chapterScoreMap.get(chapterSlug);
-                const card = parseBinderName(f.name);
-                return (
-                  <div class="lib-binder-card">
-                    <div class="lib-binder-top">
-                      <span class="lib-binder-num" aria-hidden="true">
-                        {card.num ?? <i class="fa-solid fa-book-open"></i>}
-                      </span>
-                      {cs && (
-                        <span class={`lib-score-pill lib-score-${cs.verdict.toLowerCase()}`} title={`Source accuracy: ${cs.fidelity.toFixed(0)}  Style: ${cs.voice.toFixed(0)}  Structure: ${cs.structure.toFixed(0)}  Depth: ${cs.enrichment.toFixed(0)}  Interest: ${cs.interest.toFixed(0)}`}>
-                          <i class="fa-solid fa-gauge-high" aria-hidden="true"></i> {cs.total.toFixed(0)}
-                        </span>
-                      )}
-                    </div>
-                    {card.num && <span class="lib-binder-eyebrow">Chapter {Number(card.num)}</span>}
-                    <h3 class="lib-binder-title">
-                      <a class="lib-binder-stretch" href={`/studio/${slugStr}/edit?ch=${chapterSlug}`}>{card.title}</a>
-                    </h3>
-                    <div class="lib-binder-meta">
-                      <span class="lib-binder-meta-item"><i class="fa-regular fa-file-lines" aria-hidden="true"></i> {formatBytes(f.bytes)}</span>
-                      <span class="lib-binder-meta-item"><i class="fa-regular fa-clock" aria-hidden="true"></i> {formatModified(f.modified)}</span>
-                      {hasArabic && (
-                        <a class="lib-binder-arabic" href={`${arabicReviewHref}#${chapterSlug}`}>
-                          <span aria-hidden="true" class="lib-arabic-glyph">ع</span> Arabic
-                        </a>
-                      )}
-                      <span class="lib-binder-open" aria-hidden="true">Open <i class="fa-solid fa-arrow-right"></i></span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          );
-          return g.label ? (
-            <details class="lib-session-group lib-session-group-cards" open>
-              <summary class="lib-session-summary">
-                <span class="lib-session-name">{g.label}</span>
-                <span class="lib-session-count">{g.count} chapter{g.count === 1 ? '' : 's'}</span>
-              </summary>
-              {rows}
-            </details>
-          ) : rows;
-        })}
-      </div>
-    )}
   </section>
 
   <section id="episodes" class="lib-panel" data-panel="episodes">
@@ -471,7 +415,7 @@ const tabs = [
 <script>
   // Hash-routed tab switching. Panels render server-side (visible without JS);
   // on load we collapse to the active tab. Legacy anchors map to their new tab.
-  const LEGACY: Record<string, string> = { meta: 'overview', audio: 'media', 'slide-decks': 'media', binders: 'chapters' };
+  const LEGACY: Record<string, string> = { meta: 'overview', audio: 'media', 'slide-decks': 'media' };
   const tabLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.lib-tab'));
   const panels = Array.from(document.querySelectorAll<HTMLElement>('.lib-panel'));
   const ids = new Set(panels.map((p) => p.dataset.panel ?? ''));
@@ -490,6 +434,7 @@ const tabs = [
 
   activate(window.location.hash.replace(/^#/, '') || 'overview', false);
   for (const t of tabLinks) {
+    if (t.hasAttribute('data-nav')) continue; // real navigation links (Chapters -> editor) aren't hijacked
     t.addEventListener('click', (e) => {
       e.preventDefault();
       activate(t.dataset.tab ?? 'overview', true);
