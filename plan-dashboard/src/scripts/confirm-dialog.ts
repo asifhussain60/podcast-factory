@@ -97,6 +97,71 @@ export function confirmDialog(opts: ConfirmOptions): Promise<boolean> {
   });
 }
 
+/** A one-button themed notice — replaces window.alert() for error/info messages. */
+export function noticeDialog(opts: {
+  title: string;
+  body?: string;
+  dismissLabel?: string;
+  danger?: boolean;
+}): Promise<void> {
+  return new Promise((resolve) => {
+    const prevFocus = document.activeElement as HTMLElement | null;
+
+    const scrim = document.createElement('div');
+    scrim.className = 'cx-confirm-scrim';
+    const box = document.createElement('div');
+    box.className = 'cx-confirm-box';
+    box.setAttribute('role', 'alertdialog');
+    box.setAttribute('aria-modal', 'true');
+    const titleId = `cx-confirm-title-${Math.abs(hashString(opts.title))}`;
+    box.setAttribute('aria-labelledby', titleId);
+
+    const h = document.createElement('h2');
+    h.className = 'cx-confirm-title';
+    h.id = titleId;
+    h.textContent = opts.title;
+    box.append(h);
+    if (opts.body) {
+      const bodyId = `${titleId}-body`;
+      const p = document.createElement('p');
+      p.className = 'cx-confirm-body';
+      p.id = bodyId;
+      p.textContent = opts.body;
+      box.append(p);
+      box.setAttribute('aria-describedby', bodyId);
+    }
+
+    const actions = document.createElement('div');
+    actions.className = 'cx-confirm-actions';
+    const okBtn = document.createElement('button');
+    okBtn.type = 'button';
+    okBtn.className = `cx-confirm-btn cx-confirm-btn--primary${opts.danger ? ' cx-confirm-btn--danger' : ''}`;
+    okBtn.textContent = opts.dismissLabel ?? 'OK';
+    actions.append(okBtn);
+    box.append(actions);
+    scrim.append(box);
+    document.body.append(scrim);
+
+    let closed = false;
+    const close = () => {
+      if (closed) return;
+      closed = true;
+      document.removeEventListener('keydown', onKey, true);
+      scrim.remove();
+      if (prevFocus && typeof prevFocus.focus === 'function') prevFocus.focus();
+      resolve();
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || e.key === 'Enter') { e.preventDefault(); close(); }
+      else if (e.key === 'Tab') { e.preventDefault(); okBtn.focus(); } // trap on the sole button
+    };
+    document.addEventListener('keydown', onKey, true);
+    scrim.addEventListener('mousedown', (e) => { if (e.target === scrim) close(); });
+    okBtn.addEventListener('click', close);
+    okBtn.focus();
+  });
+}
+
 function hashString(s: string): number {
   let h = 0;
   for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;

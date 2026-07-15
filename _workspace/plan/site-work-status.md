@@ -25,11 +25,11 @@ restore, danger variant) replaces the native `confirm()` on the discard-edits + 
 artifact paths; with autosave the discard prompt only fires on a genuine save FAILURE.
 Gates: html-view-challenger PASS (full AA; added dialog `aria-describedby` per its one
 SHOULD), site-health-sentinel PASS (no defects; confirmed the scrim already dims the nav).
-Verified in chromium with the save endpoint MOCKED — book.md never mutated. Deferred
-follow-up: one native `window.alert()` on the delete-FAILURE path (`book-composer.ts`)
-still needs a themed one-button notice variant. Also open from before: the composer-ux
-plan's items are now DONE; broader Studio redesign Phase 3 (Preview/Paged.js) + Phase 4
-(Edit-canvas merge) remain.
+Verified in chromium with the save endpoint MOCKED — book.md never mutated. Follow-up
+DONE: the last native `window.alert()` (delete-FAILURE path) now uses a themed one-button
+`noticeDialog()` (role=alertdialog, aria-describedby, danger); the now-implemented
+`_workspace/plan/composer-ux-plan.md` was removed. Broader Studio redesign Phase 3
+(Preview/Paged.js — needs a one-file download OK) + Phase 4 (Edit-canvas merge) remain.
 
 **LIVE Session reworked: single-scroll reader + passage-level Companion.**
 Local commit on `develop` (not yet pushed). Supersedes the Phase-2.5 pagination below.

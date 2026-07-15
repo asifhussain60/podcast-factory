@@ -9,7 +9,7 @@
  * inline HTML attribute), so the view stays lint/Cortex-clean.
  */
 import { mountChapterEditor, type ChapterEditor } from './book-md-editor';
-import { confirmDialog } from './confirm-dialog';
+import { confirmDialog, noticeDialog } from './confirm-dialog';
 
 type Align = 'left' | 'center' | 'right';
 type Flow = 'wrap' | 'standalone';
@@ -846,7 +846,11 @@ function boot(): void {
       if (selected === v.id) selected = null;
       render();
     } catch (e) {
-      window.alert(`Delete failed: ${(e as Error).message}`);
+      await noticeDialog({
+        title: 'Delete failed',
+        body: (e as Error).message,
+        danger: true,
+      });
     }
   }
 
