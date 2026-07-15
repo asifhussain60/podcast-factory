@@ -235,13 +235,15 @@ const firstChapterHref = firstChapterId
       <Fragment>
         {t.id === 'chapters' ? (
           /* Chapters navigates straight to the first chapter's editor (data-nav
-             marks it so the in-page tab script does not intercept the click). */
+             marks it so the in-page tab script does not intercept the click).
+             Styled as a pill (lib-tab-cta) to match "PDF Generator" — both are
+             authoring entry points that leave the page (REQ-SC-001). */
           <a
             href={firstChapterHref}
-            class={`lib-tab${t.count === 0 ? ' is-empty' : ''}`}
+            class="lib-tab-cta"
             data-nav
           >
-            {t.label}{t.count !== null && <span class="lib-tab-count">{t.count}</span>}
+            <i class="fa-solid fa-list-ol" aria-hidden="true"></i> {t.label}{t.count !== null && <span class="lib-tab-count">{t.count}</span>}
           </a>
         ) : (
           <a
