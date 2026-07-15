@@ -6,9 +6,39 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-07-14 1:30 PM EST (site-health-sentinel runtime gate + inaugural sweep)
+**Last updated:** 2026-07-15 10:51 AM EST (editor UX across both editors + react dedupe fix)
 
-**Latest — Site-health runtime gate shipped.** The site now has a RUNTIME/visual
+**Latest — Editor UX parity across both editors + a durable null-hook fix.**
+Three commits on `develop` (`efa86c2`, `36149ea`, `aa2f544`). (1) **Book Composer
+editor** (`/studio/<slug>/compose`, `book-composer.ts` + `book-composer.css`) is
+now a word-processor-style editing surface: a framed editor card with a
+`:focus-within` accent ring and a tinted toolbar header; a **font · size · B/I/U**
+toolbar (font selector Sans/Serif/Lato/Inter/Mono/Dyslexic, a text-size stepper,
+B/I/U + H/quote/list); **Kindle-style paper themes** Light/Sepia/Dark; the writing
+area fills the column and **justifies** (headings excluded); a white full-width
+hero banner with a full-width description. (2) **Edit & Enrich editor**
+(`StudioPoc.tsx` + `studio-poc.css`) got the SAME reading-comfort controls
+(font/size/paper) + justified full-width prose, as React state persisted to the
+SAME `cx-editor-*` localStorage keys so a choice carries between both editors; the
+picked Latin face is PREPENDED to the mixed-script ProseMirror stack so Arabic
+still falls through to Amiri; the B/I/U bar was intentionally NOT ported
+(StudioPoc has its own mark tooling). (3) **Shared fonts**: new
+`src/styles/editor-fonts.css` self-hosts Inter/Lato/OpenDyslexic (WOFF2 400/700 +
+OFL under `public/fonts/*`), imported by both editor pages (composer duplicate
+removed). Editor-view controls are VIEW-ONLY — `book.md` carries no font/size, so
+the printed book is unaffected; underline is editor-only (the reader's markdown
+renderer escapes raw HTML, no underline syntax). (4) **Durable fix**:
+`resolve.dedupe: ['react','react-dom']` in `astro.config.mjs` ended the recurring
+"Cannot read properties of null (reading 'useContext'/'useRef')" island blanks
+(a nested dep resolved its own React). Also cleared a stale/corrupt
+`node_modules/.vite` optimize cache that had blanked Edit & Enrich mid-session.
+**Verification**: `lint:views` clean, `astro check` 0 errors, `npm run build`
+clean, and the headless smoke sweep is **30/30 routes clean** (was 29/30 with
+`/corpus` failing before the dedupe). Visual sign-off via the browser tools was
+deferred (they disconnected mid-session); the changes are CSS/state-scoped and
+gate-verified.
+
+**Prior — Site-health runtime gate shipped.** The site now has a RUNTIME/visual
 peer to the static `html-view-challenger`, mirroring the book pipeline's
 `book-challenger` (source) vs `book-render-challenger` (rendered) split. Two
 layers, both using the already-installed Playwright (no `npm install`):
