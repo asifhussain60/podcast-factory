@@ -6,9 +6,29 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-07-15 10:51 AM EST (editor UX across both editors + react dedupe fix)
+**Last updated:** 2026-07-15 2:42 PM EST (Studio UX redesign Phases 0-2 shipped)
 
-**Latest — Editor UX parity across both editors + a durable null-hook fix.**
+**Latest — Composer/Preview/LIVE-Session redesign, Phases 0-2 on `develop`.**
+Four commits (`b6685d5`, `bcfe7db`, `7b1c584`, `04e2bcf`) toward a 4-phase Studio UX
+redesign (plan: `~/.claude/plans/a-no-this-is-mossy-comet.md`). **Phase 0** — durable
+contract: `docs/standards/studio-composer-quality.md` (REQ-SC-*), skill
+`skills-staging/studio-composer/SKILL.md` (registered), deterministic Preview↔PDF
+parity probe `plan-dashboard/scripts/preview-fidelity-check.mjs` (PF-* ids; PDF side
+live via pdftotext, preview side is a guarded Phase-3 seam) + `preview-fidelity-challenger`
+agent, and `/studio/<slug>/live` wired into the smoke + sentinel manifests. **Phase 1** —
+"Chapters" tab restyled as a `.lib-tab-cta` pill matching "PDF Generator"; a new
+"LIVE Session" pill on the overview tab row + composer header. **Phase 2** — new LIVE
+Session view `/studio/<slug>/live` (`live.astro` + `live-session.css` own identity,
+reuses `book-reader.css` prose): reading column + a right-hand read-only explanation
+panel that scroll-syncs to the in-view section and shows that section's Companion
+notes; a bucket-filterable, multi-volume-nested book picker sourced from `listContent()`
+(`live-index.ts` + `live-session.ts`). Gated: html-view-challenger PASS Level 1,
+site-health-sentinel PASS, 31/31 smoke clean. **Remaining: Phase 3** (rename Read→Preview,
+whole-book paginated preview reusing `book-print.css` via vendored Paged.js — needs a
+one-file download OK) and **Phase 4** (full-merge the Edit canvas: text + figure
+place/resize in one surface, inspector Edit-only — the highest-risk rework).
+
+**Prior — Editor UX parity across both editors + a durable null-hook fix.**
 Three commits on `develop` (`efa86c2`, `36149ea`, `aa2f544`). (1) **Book Composer
 editor** (`/studio/<slug>/compose`, `book-composer.ts` + `book-composer.css`) is
 now a word-processor-style editing surface: a framed editor card with a
