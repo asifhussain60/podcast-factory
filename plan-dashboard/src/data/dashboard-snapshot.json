@@ -1454,60 +1454,60 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-13T12:01:21-04:00",
-  "source_commit": "7566c39",
+  "generated_at": "2026-07-15T10:52:23-04:00",
+  "source_commit": "141e867b",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "7566c39",
-      "subject": "plan: register Book Pipeline v2 in the canonical roadmap + snapshots",
-      "date": "2026-07-13"
+      "sha": "141e867b",
+      "subject": "docs(site-work): log the editor-UX parity session + react dedupe fix",
+      "date": "2026-07-15"
     },
     {
-      "sha": "58f179f",
-      "subject": "docs(status): Book Pipeline v2 merged to develop (flag OFF)",
-      "date": "2026-07-13"
+      "sha": "aa2f5444",
+      "subject": "fix(site): dedupe react/react-dom to end the recurring null-hook island blanks",
+      "date": "2026-07-15"
     },
     {
-      "sha": "4165160",
-      "subject": "merge(book-pipeline-v2): unify book routes + decoupled visuals + Book Composer (flag OFF)",
-      "date": "2026-07-13"
+      "sha": "36149ea0",
+      "subject": "site(studio): port reading-comfort controls to the Edit & Enrich editor + share editor fonts",
+      "date": "2026-07-15"
     },
     {
-      "sha": "06df259",
-      "subject": "book-pipeline-v2 Phase 8: teach repo-surgeon the v2 architecture",
-      "date": "2026-07-13"
+      "sha": "efa86c2b",
+      "subject": "site(composer): word-processor editor toolbar + font picker (Sans/Serif/Lato/Inter/Mono/Dyslexic)",
+      "date": "2026-07-15"
     },
     {
-      "sha": "3aed8e3",
-      "subject": "book-pipeline-v2 Phase 7: acceptance matrix (green); cutover held",
-      "date": "2026-07-13"
+      "sha": "cdbd8a54",
+      "subject": "site(composer): editor card + Kindle paper themes + white full-width hero",
+      "date": "2026-07-15"
     },
     {
-      "sha": "ba7ae11",
-      "subject": "book-pipeline-v2 Phase 6: governance \u2014 print standard + render challenger",
-      "date": "2026-07-13"
+      "sha": "9371a4b3",
+      "subject": "chore: ignore composer/editor .bak save-backups under content/**",
+      "date": "2026-07-14"
     },
     {
-      "sha": "90faeda",
-      "subject": "book-pipeline-v2 Phase 5: modern-English prose (de-calque + fluency pass)",
-      "date": "2026-07-13"
+      "sha": "e87294cb",
+      "subject": "fix(site): multi-volume deck sheets no longer protrude below short cards",
+      "date": "2026-07-14"
     },
     {
-      "sha": "e201e4b",
-      "subject": "book-pipeline-v2 Phase 4: the Astro Book Composer",
-      "date": "2026-07-13"
+      "sha": "1802ce9a",
+      "subject": "content(m&d): track composer citation-style state (scholarly family)",
+      "date": "2026-07-14"
     },
     {
-      "sha": "0531578",
-      "subject": "book-pipeline-v2 Phase 3: decouple visuals into a candidate asset library",
-      "date": "2026-07-13"
+      "sha": "0c1257f8",
+      "subject": "site(health): add site-health-sentinel runtime gate + deterministic smoke sweep",
+      "date": "2026-07-14"
     },
     {
-      "sha": "301f3e1",
-      "subject": "book-pipeline-v2 Phase 2: renderer honors the contract + pro pagination",
-      "date": "2026-07-13"
+      "sha": "6bf32d64",
+      "subject": "fix(site): pre-bundle ALL client-island deps to end the 504 \"Outdated Optimize Dep\" blanks",
+      "date": "2026-07-14"
     }
   ],
   "wave_execution_events": [],

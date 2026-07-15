@@ -368,6 +368,20 @@
       "failure_mode": "surfaces error and halts"
     },
     {
+      "id": "site-health-sentinel",
+      "name": "Site Health Sentinel",
+      "role": "Runtime + visual-QA health gate for the Podcast Factory Astro Site (directory pl",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Runtime + visual-QA health gate for the Podcast Factory Astro Site (directory plan-dashboard/). The RUNTIME half of the site's quality contract \u2014 the peer of html-view-challenger (which validates STATIC Cortex conformance from source) ex\u2026",
+      "what_it_knows": "See infra/claude-agents/site-health-sentinel.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
+    {
       "id": "slide-deck-challenger",
       "name": "Slide Deck Challenger",
       "role": "Visual-quality challenger for podcasted-book slide-deck bundles (the deck source",
@@ -573,6 +587,6 @@
       ]
     }
   ],
-  "generated_at": "2026-07-13T12:01:21-04:00",
-  "source_commit": "7566c39"
+  "generated_at": "2026-07-15T10:52:23-04:00",
+  "source_commit": "141e867b"
 }
