@@ -94,6 +94,7 @@ export function upsertNote(
       kind: input.kind || existing.kind,
       body,
       anchor: input.anchor?.trim() || undefined,
+      quote: input.quote?.trim() || undefined,
       source: input.source ?? existing.source,
       updatedAt: ts,
     };
@@ -104,6 +105,7 @@ export function upsertNote(
       kind: input.kind,
       body,
       anchor: input.anchor?.trim() || undefined,
+      quote: input.quote?.trim() || undefined,
       source: input.source,
       createdAt: ts,
       updatedAt: ts,

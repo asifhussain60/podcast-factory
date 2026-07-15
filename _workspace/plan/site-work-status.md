@@ -6,10 +6,29 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-07-15 3:32 PM EST (LIVE Session is now a Kindle e-reader)
+**Last updated:** 2026-07-15 5:33 PM EST (LIVE Session → continuous scroll + passage-level Companion)
 
-**Newest — Phase 2.5: LIVE Session rebuilt as a Kindle-style e-reader.** Commits
-`757957e` + `64c0422` on `develop`. `/studio/<slug>/live` now paginates the book into
+**Newest — LIVE Session reworked: single-scroll reader + passage-level Companion.**
+Local commit on `develop` (not yet pushed). Supersedes the Phase-2.5 pagination below.
+`/studio/<slug>/live` is no longer paginated — it now stacks every chapter as its own
+numbered paper "sheet" down ONE window scrollbar (no inner scrollbars): centered reading
+toolbar, balanced margins, ~70ch measure, and a sticky right Companion. The Companion is
+now PASSAGE-level: a scroll-spy shows exactly ONE card — the note for the sentence you're
+reading — and highlights that verbatim sentence in YELLOW (`.lsv-hl.is-active`, per-paper
+`--lsv-mark`); non-active passages are invisible; no inner companion scroll. Data: added a
+verbatim `quote` field to companion notes (`types.ts`/`store.server.ts`; distinct from the
+`anchor` card-title label); pre-filled 27 real chapter sentences (verified verbatim in
+book.md) across the 8 M&D chapters; 5 illustration-only notes intentionally have no quote.
+Editor: the Companion note form (`CompanionPanel.tsx`) gained a "Capture passage" control
+(select prose → stored as `quote`), the `anchor` field is relabeled "Card title", and note
+cards show a yellow passage pill (`CompanionCard.tsx`). Verified in real chromium (reader
+highlight + editor capture + API persist round-trip); `astro check` 0 errors, `lint:views`
+clean. Gates: html-view-challenger + site-health-sentinel were interrupted by a session
+boundary mid-run (NOT a failure) — re-run pending. Known pre-existing debt spotted: HEAD
+stores note em-dashes escaped (`—`) while the store writes them literal — left as-is.
+
+**Earlier — Phase 2.5: LIVE Session was a Kindle-style e-reader (now superseded above).**
+Commits `757957e` + `64c0422` on `develop`. `/studio/<slug>/live` now paginates the book into
 screen-sized pages (CSS multi-column + translateX) turned one at a time (flip buttons,
 Arrow/Page keys, swipe); a ResizeObserver re-paginates on layout/font/resize and reveals
 after a stable measure (no pre-font flash). Adds a reading toolbar (font, size stepper,

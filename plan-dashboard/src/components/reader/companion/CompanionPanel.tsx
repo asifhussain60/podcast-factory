@@ -28,6 +28,8 @@ interface Props {
   initialChapter?: string;
   layout?: LayoutMode;
   store?: CompanionStore;
+  /** CSS selector for the reading-prose container a captured passage must come from. */
+  proseSelector?: string;
 }
 
 type LayoutMode = 'docked' | 'floating';
@@ -41,6 +43,7 @@ interface Draft {
   kind: string;
   body: string;
   anchor: string;
+  quote: string;
   provider: string;
   ref: string;
   locator: string;
@@ -50,6 +53,7 @@ const EMPTY_DRAFT: Draft = {
   kind: DEFAULT_KIND,
   body: '',
   anchor: '',
+  quote: '',
   provider: 'manual',
   ref: '',
   locator: '',
@@ -60,7 +64,14 @@ function readPref(key: string, fallback: string): string {
   return window.localStorage.getItem(key) ?? fallback;
 }
 
-export default function CompanionPanel({ slug, chapters, initialChapter, layout, store }: Props) {
+export default function CompanionPanel({
+  slug,
+  chapters,
+  initialChapter,
+  layout,
+  store,
+  proseSelector = '.bookv-body',
+}: Props) {
   const st = store ?? defaultStore;
   const validKeys = new Set(chapters.map((c) => c.key));
   const remembered = readPref(chapterKeyFor(slug), '');
@@ -82,6 +93,7 @@ export default function CompanionPanel({ slug, chapters, initialChapter, layout,
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [draft, setDraft] = useState<Draft | null>(null);
+  const [captureHint, setCaptureHint] = useState<{ msg: string; ok: boolean } | null>(null);
   const [mode, setMode] = useState<LayoutMode>(layout ?? (readPref(LAYOUT_KEY, 'docked') as LayoutMode));
   const [present, setPresent] = useState(readPref(PRESENT_KEY, '0') === '1');
   const [open, setOpen] = useState(true);
@@ -113,18 +125,46 @@ export default function CompanionPanel({ slug, chapters, initialChapter, layout,
   }
 
   function startNew() {
+    setCaptureHint(null);
     setDraft({ ...EMPTY_DRAFT });
   }
   function startEdit(note: CompanionNote) {
+    setCaptureHint(null);
     setDraft({
       id: note.id,
       kind: note.kind,
       body: note.body,
       anchor: note.anchor ?? '',
+      quote: note.quote ?? '',
       provider: note.source?.provider ?? 'manual',
       ref: note.source?.ref ?? '',
       locator: note.source?.locator ?? '',
     });
+  }
+  function cancelDraft() {
+    setCaptureHint(null);
+    setDraft(null);
+  }
+
+  // Capture the reader's current text selection as the note's verbatim passage.
+  // Runs on mouseDown (with preventDefault) so clicking the button never collapses
+  // the selection or steals focus before we can read it.
+  function captureSelection() {
+    if (typeof window === 'undefined') return;
+    const sel = window.getSelection();
+    const text = (sel ? sel.toString() : '').replace(/\s+/g, ' ').trim();
+    if (!text) {
+      setCaptureHint({ msg: 'Select a sentence in the chapter first, then Capture.', ok: false });
+      return;
+    }
+    const container = document.querySelector(proseSelector);
+    const anchorNode = sel?.anchorNode ?? null;
+    if (container && anchorNode && !container.contains(anchorNode)) {
+      setCaptureHint({ msg: 'Select text inside the chapter, not the panel.', ok: false });
+      return;
+    }
+    setDraft((d) => (d ? { ...d, quote: text } : d));
+    setCaptureHint({ msg: 'Passage captured — it will highlight in the reader.', ok: true });
   }
 
   async function saveDraft() {
@@ -139,8 +179,10 @@ export default function CompanionPanel({ slug, chapters, initialChapter, layout,
         kind: draft.kind,
         body: draft.body,
         anchor: draft.anchor || undefined,
+        quote: draft.quote.trim() || undefined,
         source,
       });
+      setCaptureHint(null);
       setDraft(null);
       await load();
     } catch (e) {
@@ -271,14 +313,39 @@ export default function CompanionPanel({ slug, chapters, initialChapter, layout,
             </select>
           </div>
 
-          <label className="cpn-field-label" htmlFor="cpn-anchor">Passage (optional)</label>
+          <label className="cpn-field-label" htmlFor="cpn-anchor">Card title</label>
           <input
             id="cpn-anchor"
             className="cpn-input"
             value={draft.anchor}
-            placeholder="Quote the sentence this explains"
+            placeholder="Short label, e.g. milk before meat"
             onChange={(e) => setDraft({ ...draft, anchor: e.target.value })}
           />
+
+          <label className="cpn-field-label" htmlFor="cpn-quote">Highlighted passage</label>
+          <div className="cpn-capture-row">
+            <input
+              id="cpn-quote"
+              className="cpn-input"
+              value={draft.quote}
+              placeholder="Select a sentence in the chapter, then Capture"
+              onChange={(e) => setDraft({ ...draft, quote: e.target.value })}
+            />
+            <button
+              type="button"
+              className="cpn-btn"
+              aria-label="Capture the selected passage"
+              onMouseDown={(e) => {
+                e.preventDefault();
+                captureSelection();
+              }}
+            >
+              <i className="fa-solid fa-highlighter" aria-hidden="true" /> Capture
+            </button>
+          </div>
+          {captureHint && (
+            <p className={`cpn-hint${captureHint.ok ? ' cpn-hint--ok' : ''}`}>{captureHint.msg}</p>
+          )}
 
           <label className="cpn-field-label" htmlFor="cpn-body">Note</label>
           <textarea
@@ -327,7 +394,7 @@ export default function CompanionPanel({ slug, chapters, initialChapter, layout,
             <button type="submit" className="cpn-btn cpn-btn--primary" disabled={!draft.body.trim()}>
               {draft.id ? 'Save' : 'Add'}
             </button>
-            <button type="button" className="cpn-btn" onClick={() => setDraft(null)}>
+            <button type="button" className="cpn-btn" onClick={cancelDraft}>
               Cancel
             </button>
           </div>

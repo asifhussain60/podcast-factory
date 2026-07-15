@@ -60,6 +60,11 @@ export default function CompanionCard({ note, readOnly, onEdit, onDelete }: Prop
       </header>
 
       {note.anchor && <p className="cpn-anchor">“{note.anchor}”</p>}
+      {note.quote && (
+        <p className="cpn-quote-mark" title={note.quote}>
+          <i className="fa-solid fa-highlighter" aria-hidden="true" /> {note.quote}
+        </p>
+      )}
       <p className="cpn-body">{note.body}</p>
 
       {label && (

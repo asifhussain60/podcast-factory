@@ -251,6 +251,24 @@
   font-size: 1.2rem;
   line-height: 1.45;
 }
+.cpn-quote-mark {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin: 0 0 0.45rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 5px;
+  background: color-mix(in oklab, #f5cf29 26%, transparent);
+  color: var(--c-ink-dim);
+  font-size: 0.86rem;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cpn-quote-mark i {
+  color: color-mix(in oklab, #caa014 80%, var(--c-ink-dim));
+}
 .cpn-body {
   margin: 0;
   font-size: 1.2rem;
@@ -280,6 +298,31 @@
 .cpn-composer-row--split {
   display: flex;
   gap: 0.5rem;
+}
+.cpn-capture-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+.cpn-capture-row .cpn-input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.cpn-capture-row .cpn-btn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+.cpn-hint {
+  margin: 0.3rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--c-ink-muted);
+}
+.cpn-hint--ok {
+  color: var(--c-accent);
 }
 .cpn-composer-actions {
   display: flex;

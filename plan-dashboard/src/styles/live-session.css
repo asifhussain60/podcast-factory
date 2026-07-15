@@ -1,25 +1,34 @@
 /*
- * live-session.css — the LIVE Session e-reader (/studio/<slug>/live).
+ * live-session.css — the LIVE Session reader (/studio/<slug>/live).
  *
- * A Kindle-style paginated reader: a compact top-bar + reading toolbar, a page
- * viewport that flows the book into screen-sized pages (CSS multi-column, turned by
- * live-session.ts), a Table-of-Contents drawer, and a right-hand explanation panel.
- * Chrome uses theme.css --c-* tokens (colour theme unchanged). The reading PAPER
- * (Light/Sepia/Dark) uses the same deliberate reading-paper colours as the Book
- * Composer editor — scoped to the reading surface only, the sanctioned exception for
- * reading paper. Read-only surface (studio-composer REQ-SC-010/014).
+ * A continuously-scrolling reader: a compact top-bar, a centered reading toolbar, and
+ * a two-column body where every chapter is a stacked numbered sheet (left) beside a
+ * sticky explanation panel (right). The whole view is governed by a SINGLE window
+ * scrollbar — neither the sheets nor the companion scroll internally. A sticky
+ * scroll-spy keeps the companion showing the in-view chapter's notes and highlights
+ * that chapter. Chrome uses theme.css --c-* tokens (colour theme unchanged). The
+ * reading PAPER (Light/Sepia/Dark) uses the same deliberate reading-paper colours as
+ * the Book Composer editor — scoped to the reading surface only, the sanctioned
+ * exception for reading paper. Read-only surface (studio-composer REQ-SC-010/014).
  */
 
 .lsv {
   display: flex;
   flex-direction: column;
   gap: var(--sp-3);
+  /* Cap the reader so the sheet's text lands at a comfortable reading measure
+     (~70ch) while the block stays centered with balanced left/right margins.
+     Note: the site's root font-size is 1.2rem base, so 1rem ≈ 19.2px. */
+  width: min(100%, 68rem);
+  margin-inline: auto;
 }
 
 /* ── paper themes (mirror book-composer.css; reader-surface only) ─────────── */
-.lsv[data-paper='light'] { --paper-bg: #fefdfb; --paper-ink: #1f1d18; --paper-ink-dim: #5c574d; --paper-rule: #d9d3c4; --paper-accent: var(--c-accent); }
-.lsv[data-paper='sepia'] { --paper-bg: #f4ecd8; --paper-ink: #5b4636; --paper-ink-dim: #7a6650; --paper-rule: #ddd0b4; --paper-accent: #7a4a1e; }
-.lsv[data-paper='dark']  { --paper-bg: #201e1b; --paper-ink: #d8d2c6; --paper-ink-dim: #a49d90; --paper-rule: #3d3a32; --paper-accent: #d8a25a; }
+/* --lsv-mark is the yellow highlighter for the passage the companion is explaining;
+   tuned per paper so the ink stays readable through it (reader-surface only). */
+.lsv[data-paper='light'] { --paper-bg: #fefdfb; --paper-ink: #1f1d18; --paper-ink-dim: #5c574d; --paper-rule: #d9d3c4; --paper-accent: var(--c-accent); --lsv-mark: rgba(255, 213, 41, 0.6); --lsv-mark-edge: rgba(214, 164, 20, 0.85); }
+.lsv[data-paper='sepia'] { --paper-bg: #f4ecd8; --paper-ink: #5b4636; --paper-ink-dim: #7a6650; --paper-rule: #ddd0b4; --paper-accent: #7a4a1e; --lsv-mark: rgba(226, 176, 58, 0.55); --lsv-mark-edge: rgba(160, 110, 30, 0.8); }
+.lsv[data-paper='dark']  { --paper-bg: #201e1b; --paper-ink: #d8d2c6; --paper-ink-dim: #a49d90; --paper-rule: #3d3a32; --paper-accent: #d8a25a; --lsv-mark: rgba(240, 205, 90, 0.3); --lsv-mark-edge: rgba(240, 205, 90, 0.7); }
 
 /* ── reading fonts (mirror the composer's set) ───────────────────────────── */
 .lsv[data-font='serif']    .lsv-read { --lsv-font: 'Source Serif 4', 'Iowan Old Style', Charter, Georgia, serif; }
@@ -164,86 +173,81 @@
 }
 .lsv-paper-btn:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
 
-/* ── reader grid: book pane + explanation panel ──────────────────────────── */
-.lsv-reader {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 22rem;
-  gap: var(--sp-5);
-  align-items: start;
-}
-
-/* ── book pane (flip buttons flank the viewport; page bar below) ─────────── */
-.lsv-bookpane {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  grid-template-rows: 1fr auto;
-  align-items: center;
-  gap: var(--sp-2);
-}
-
-.lsv-flip {
-  grid-row: 1;
-  display: inline-flex;
+/* ── reading controls bar (font/size/paper, centered above the page) ─────── */
+.lsv-controls {
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.6rem;
-  height: 2.6rem;
-  border: 1px solid var(--c-rule);
-  border-radius: 999px;
-  background: var(--c-bg-card);
-  color: var(--c-accent);
-  font-size: var(--fs-lg);
-  cursor: pointer;
-  box-shadow: var(--shadow-card);
-  transition: background 0.15s, transform 0.15s, opacity 0.15s, color 0.15s;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--c-rule-soft);
 }
-.lsv-flip-prev { grid-column: 1; }
-.lsv-flip-next { grid-column: 3; }
-.lsv-flip:hover:not(:disabled) { background: var(--c-accent); color: var(--c-bg-card); transform: scale(1.06); }
-.lsv-flip:disabled { opacity: 0.3; cursor: default; }
-.lsv-flip:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
 
-.lsv-viewport {
-  grid-column: 2;
-  grid-row: 1;
-  overflow: hidden;
-  padding: var(--sp-5) var(--sp-6);
+/* ── reader grid: [stacked page sheets] [sticky companion] ───────────────── */
+.lsv-reader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 25rem;
+  gap: var(--sp-4); /* small gap: sheets fill their column, companion sits close */
+  align-items: start; /* let the companion stick independently of the page height */
+}
+
+/* ── book pane: a plain wrapper — the sheets themselves are the cards ─────── */
+.lsv-bookpane { min-width: 0; }
+.lsv-viewport { min-width: 0; }
+
+/* ── the chapter flow: every chapter is its own stacked, numbered sheet ──── */
+/* Sheets FILL the reading column (no auto-centering) so the page margins stay
+   balanced left/right and the chapter uses the full width beside the companion. */
+.lsv-read {
+  max-width: 100%;
+  margin-inline: 0;
+  padding: 0;
+  font-family: var(--lsv-font, 'Source Serif 4', Georgia, serif);
+  font-size: var(--lsv-size, 20px);
+  line-height: 1.55;
+  color: var(--paper-ink, var(--c-ink));
+}
+
+/* each chapter = a paper sheet, separated by a margin, carrying its own number */
+.lsv-chapter {
+  position: relative;
+  margin-bottom: var(--sp-6);
+  padding: var(--sp-6) var(--sp-7) calc(var(--sp-6) + 1.4rem);
   background: var(--paper-bg, var(--c-bg-card));
   color: var(--paper-ink, var(--c-ink));
   border: 1px solid var(--paper-rule, var(--c-rule-soft));
   border-radius: var(--r-lg);
   box-shadow: var(--shadow-card);
-  transition: background 0.25s, color 0.25s, border-color 0.25s;
+  /* clear the sticky top-nav (52px) when a chapter is scrolled to via the TOC/keys */
+  scroll-margin-top: calc(52px + var(--sp-4));
+  transition: box-shadow 0.25s, border-color 0.25s, background 0.25s, color 0.25s;
+}
+.lsv-chapter:last-child { margin-bottom: 0; }
+
+/* the active chapter — the one whose notes the companion is showing — is marked
+   with a bold accent rail down its left edge, always visible while that chapter is
+   in view, so the link between panel and page reads at a glance */
+.lsv-chapter.is-active {
+  border-color: color-mix(in oklab, var(--paper-accent, var(--c-accent)) 45%, var(--paper-rule, var(--c-rule)));
+  box-shadow:
+    inset 5px 0 0 0 var(--paper-accent, var(--c-accent)),
+    0 0 0 1px color-mix(in oklab, var(--paper-accent, var(--c-accent)) 35%, transparent),
+    var(--shadow-hover);
 }
 
-.lsv-pagebar {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  text-align: center;
-}
-.lsv-pageind {
+/* the page number, bottom-right of each sheet */
+.lsv-page-num {
+  position: absolute;
+  right: var(--sp-7);
+  bottom: var(--sp-5);
   font-family: var(--font-ui);
-  font-size: var(--fs-sm);
-  color: var(--c-ink-muted);
-  letter-spacing: 0.02em;
+  font-size: var(--fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--paper-ink-dim, var(--c-ink-muted));
+  font-variant-numeric: tabular-nums;
 }
-
-/* ── the flowing pages (multi-column; JS sets column-width/height + transform) */
-.lsv-read {
-  max-width: none;
-  margin: 0;
-  padding: 0;
-  column-fill: auto;
-  font-family: var(--lsv-font, 'Source Serif 4', Georgia, serif);
-  font-size: var(--lsv-size, 20px);
-  line-height: 1.55;
-  color: var(--paper-ink, var(--c-ink));
-  opacity: 0; /* revealed once the first post-font pagination is measured (no flash) */
-  transition: transform 0.42s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.25s ease;
-  will-change: transform;
-}
-.lsv-read.is-ready { opacity: 1; }
-.lsv-read.is-instant { transition: none; }
 
 .lsv-read :is(p, li) { color: var(--paper-ink, var(--c-ink)); }
 .lsv-read p { margin: 0 0 0.72rem; text-align: justify; hyphens: auto; }
@@ -277,33 +281,33 @@
 .lsv-read blockquote p.tr,
 .lsv-read .tr { color: var(--paper-ink-dim, var(--c-ink-dim)); text-align: center; }
 
-/* ── note-anchor highlight (verbatim quoted passage in the text) ─────────── */
+/* ── passage highlight ───────────────────────────────────────────────────── */
+/* Every note's verbatim passage is wrapped, but only the ACTIVE one (the note the
+   companion is currently showing) is lit yellow — so exactly one passage stands out
+   and its link to the panel is unmistakable. Non-active passages are invisible. */
 .lsv-hl {
-  background: color-mix(in oklab, var(--paper-accent, var(--c-accent)) 15%, transparent);
-  border-radius: 3px;
-  padding: 0 0.08em;
+  border-radius: 2px;
+  padding: 0 0.05em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
-  transition: background 0.2s, box-shadow 0.2s;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
 }
 .lsv-hl.is-active {
-  background: color-mix(in oklab, var(--paper-accent, var(--c-accent)) 34%, transparent);
-  box-shadow: 0 0 0 2px color-mix(in oklab, var(--paper-accent, var(--c-accent)) 55%, transparent);
+  background-color: var(--lsv-mark, rgba(255, 213, 41, 0.6));
+  box-shadow: 0 0 0 1px var(--lsv-mark-edge, rgba(214, 164, 20, 0.85));
 }
 
-/* ── explanation panel ───────────────────────────────────────────────────── */
+/* ── explanation panel — sticky, follows the scroll, never scrolls internally ─ */
 .lsv-explain {
   position: sticky;
-  top: var(--sp-3);
-  align-self: start;
-  max-height: calc(100vh - 11rem);
+  top: calc(52px + var(--sp-4)); /* clear the sticky top-nav */
   display: flex;
   flex-direction: column;
   background: var(--c-bg-card);
   border: 1px solid var(--c-rule-soft);
   border-radius: var(--r-lg);
   box-shadow: var(--shadow-card);
-  overflow: hidden;
+  overflow: hidden; /* clips to the rounded corners; does NOT create an inner scrollbar */
 }
 .lsv-explain-head {
   padding: var(--sp-4) var(--sp-4) var(--sp-3);
@@ -330,7 +334,6 @@
 }
 .lsv-explain-body {
   padding: var(--sp-4);
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: var(--sp-3);
@@ -481,7 +484,7 @@
 
 .lsv-picker-panel {
   position: absolute;
-  right: 0;
+  left: 0; /* picker sits top-left, so the panel opens rightward */
   top: calc(100% + var(--sp-2));
   z-index: 40;
   width: 24rem;
@@ -572,23 +575,24 @@
   color: var(--c-ink-dim);
 }
 
-/* ── responsive: stack the panel above the reader ────────────────────────── */
+/* ── responsive: single column; companion becomes a sticky context card on top ─ */
 @media (max-width: 960px) {
   .lsv-reader { grid-template-columns: minmax(0, 1fr); }
-  .lsv-explain { position: static; max-height: 40vh; order: -1; }
-  .lsv-topbar-title { max-width: 12rem; }
-  .lsv-picker-panel {
-    /* On a wrapped mobile toolbar the trigger can sit at the left edge — anchor
-       the panel left so it cannot overflow past the viewport's left edge. */
-    left: 0;
-    right: auto;
-    width: min(24rem, 92vw);
+  /* companion moves above the sheets and sticks under the top-nav as you scroll,
+     still swapping to the in-view chapter's notes (one scrollbar, no inner scroll) */
+  .lsv-explain {
+    order: -1;
+    top: calc(52px + var(--sp-2));
+    z-index: 5;
   }
+  .lsv-chapter { padding: var(--sp-5) var(--sp-5) calc(var(--sp-5) + 1.4rem); }
+  .lsv-page-num { right: var(--sp-5); }
+  .lsv-picker-panel { width: min(24rem, 92vw); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .lsv-read,
-  .lsv-flip,
+  .lsv-chapter,
   .lsv-paper-btn,
   .lsv-note,
   .lsv-toc,

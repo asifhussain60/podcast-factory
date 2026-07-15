@@ -40,8 +40,14 @@ export interface CompanionNote {
   kind: CompanionNoteKind;
   /** The note text — the thing you'd say out loud. */
   body: string;
-  /** Optional quoted passage the note explains (free text, not a DOM selector). */
+  /** Short card title / theme for the note, e.g. "spiritual infant, milk before meat".
+   *  This is a display LABEL, not necessarily text found in the chapter. */
   anchor?: string;
+  /** The VERBATIM chapter passage this note explains — an exact substring of the
+   *  rendered chapter prose. The LIVE Session reader highlights it and uses it to
+   *  show the one relevant card as you scroll. Distinct from `anchor` (the label):
+   *  `anchor` is what the card is called, `quote` is where it lives in the text. */
+  quote?: string;
   source?: CompanionSource;
   createdAt: string;
   updatedAt: string;
@@ -69,5 +75,6 @@ export type CompanionNoteInput = {
   kind: CompanionNoteKind;
   body: string;
   anchor?: string;
+  quote?: string;
   source?: CompanionSource;
 };
