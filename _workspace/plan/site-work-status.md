@@ -6,7 +6,21 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-07-15 2:42 PM EST (Studio UX redesign Phases 0-2 shipped)
+**Last updated:** 2026-07-15 3:32 PM EST (LIVE Session is now a Kindle e-reader)
+
+**Newest — Phase 2.5: LIVE Session rebuilt as a Kindle-style e-reader.** Commits
+`757957e` + `64c0422` on `develop`. `/studio/<slug>/live` now paginates the book into
+screen-sized pages (CSS multi-column + translateX) turned one at a time (flip buttons,
+Arrow/Page keys, swipe); a ResizeObserver re-paginates on layout/font/resize and reveals
+after a stable measure (no pre-font flash). Adds a reading toolbar (font, size stepper,
+paper Light/Sepia/Dark — same reading-paper colours as the composer), a TOC drawer that
+jumps to any chapter, justified body + left-aligned accent headings, tighter spacing,
+Arabic scaled 1.4x, and note-anchor highlighting (verbatim best-effort). Gated:
+html-view-challenger PASS Cortex L1 + SC-CLEAN, site-health-sentinel PASS (fixed a
+mobile large-font heading clip + note-card keyboard a11y). Remaining: Phase 3 Preview
+(needs a one-file Paged.js download OK) and Phase 4 Edit-canvas merge.
+
+
 
 **Latest — Composer/Preview/LIVE-Session redesign, Phases 0-2 on `develop`.**
 Four commits (`b6685d5`, `bcfe7db`, `7b1c584`, `04e2bcf`) toward a 4-phase Studio UX
