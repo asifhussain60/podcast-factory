@@ -34,6 +34,18 @@ from _translation_edition import (  # noqa: E402
 from build_book_pdf import build_book  # noqa: E402
 from validate_book_ready import validate_book  # noqa: E402
 
+# Model policy for this path (2026-07-15): default to Sonnet, reserve Opus for
+# steps where translation-fidelity or one-shot structural judgment is at stake.
+#   0book-design (chapter segmentation of the whole book, one call, cascades
+#     into every chapter) and 0book-compose (the faithful translation against
+#     Arabic ground truth that book-challenger audits for fidelity/no-
+#     augmentation) stay on the implicit default (Opus) — unchanged below.
+#   0book-illustrate (diagram-classification triage) and the book-level
+#     slide-deck pair (presentational NotebookLM framing over already-
+#     translated content) are mechanical/presentational, not translation-
+#     fidelity-critical, so they run on Sonnet via TRANSLATION_EDITION_LIGHT_MODEL.
+TRANSLATION_EDITION_LIGHT_MODEL = "claude-sonnet-5"
+
 
 def _info(msg: str) -> None:
     print(msg)
@@ -134,10 +146,13 @@ def generate_translation_edition(
     author_translation_edition_compose(book_dir, log=_info, force=(force_compose or ingested or force_refine))
 
     _info("phase 0book-illustrate: monochrome SVG diagrams")
-    author_phase_book_illustrate(book_dir, log=_info, force=(force_illustrations or force_compose or ingested or force_refine))
+    author_phase_book_illustrate(
+        book_dir, log=_info, force=(force_illustrations or force_compose or ingested or force_refine),
+        model_flag=TRANSLATION_EDITION_LIGHT_MODEL,
+    )
 
     _info("phase per-chapter-slides/book: monochrome NotebookLM slide pair")
-    deck = author_book_deck_pair(book_dir)
+    deck = author_book_deck_pair(book_dir, model_flag=TRANSLATION_EDITION_LIGHT_MODEL)
     if not deck.success:
         raise AuthoringError(
             phase="per-chapter-slides",
