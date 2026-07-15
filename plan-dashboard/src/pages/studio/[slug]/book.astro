@@ -9,12 +9,15 @@
 import Base from '../../../layouts/Base.astro';
 import { loadBook } from '../../../lib/reader/book';
 import { slugToTitle } from '../../../lib/content-paths';
+import CompanionPanel from '../../../components/reader/companion/CompanionPanel';
 import '../../../styles/library.css';
 import '../../../styles/book-reader.css';
+import '../../../styles/companion-notes.css';
 
 const slug = Astro.params.slug!;
 const book = await loadBook(slug);
 const bookTitle = book?.title ?? slugToTitle(slug);
+const companionChapters = (book?.toc ?? []).map((t) => ({ key: t.id, title: t.title }));
 ---
 <Base
   title={`Reading edition — ${bookTitle}`}
@@ -60,6 +63,12 @@ const bookTitle = book?.title ?? slugToTitle(slug);
       </nav>
       <article class="bookv-body" set:html={book.html}></article>
     </div>
+    <CompanionPanel
+      client:load
+      slug={slug}
+      chapters={companionChapters}
+      layout="floating"
+    />
     </>
   ) : (
     <div class="bookv-empty">
