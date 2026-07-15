@@ -244,7 +244,15 @@ function boot(): void {
       card.className = 'lsv-note';
       card.dataset.note = key;
       const hasHl = !!pages.querySelector(`.lsv-hl[data-note="${cssAttr(key)}"]`);
-      if (hasHl) card.classList.add('has-anchor');
+      if (hasHl) {
+        // Clickable note → keyboard-operable interactive control (REQ-048/049): it
+        // performs an action (jump to the highlighted passage), so it must be
+        // focusable and Enter/Space-activatable, not mouse-only.
+        card.classList.add('has-anchor');
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-label', 'Go to the highlighted passage for this note');
+      }
 
       const head = document.createElement('div');
       head.className = 'lsv-note-head';
@@ -272,14 +280,24 @@ function boot(): void {
       card.appendChild(p);
 
       if (hasHl) {
-        card.addEventListener('mouseenter', () => setHighlightActive(key, true));
-        card.addEventListener('mouseleave', () => setHighlightActive(key, false));
-        card.addEventListener('click', () => {
+        const activate = () => {
           const hl = pages.querySelector<HTMLElement>(`.lsv-hl[data-note="${cssAttr(key)}"]`);
           if (hl?.dataset.page) {
             goTo(Number(hl.dataset.page));
             setHighlightActive(key, true);
             window.setTimeout(() => setHighlightActive(key, false), 1600);
+          }
+        };
+        // Preview the highlight on both pointer hover and keyboard focus.
+        card.addEventListener('mouseenter', () => setHighlightActive(key, true));
+        card.addEventListener('mouseleave', () => setHighlightActive(key, false));
+        card.addEventListener('focus', () => setHighlightActive(key, true));
+        card.addEventListener('blur', () => setHighlightActive(key, false));
+        card.addEventListener('click', activate);
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            activate();
           }
         });
       }
@@ -362,6 +380,7 @@ function boot(): void {
       scrim.classList.toggle('is-open', open);
       openBtn.setAttribute('aria-expanded', String(open));
       if (open) toc.querySelector<HTMLElement>('.lsv-toc-link')?.focus();
+      else openBtn.focus(); // return focus to the trigger on close (mirrors the picker)
     };
     openBtn.addEventListener('click', () => setOpen(!toc.classList.contains('is-open')));
     closeBtn?.addEventListener('click', () => setOpen(false));
