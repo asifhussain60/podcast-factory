@@ -51,8 +51,10 @@ behaviour, never Cortex conformance and never meaning.
   `book-md` / `visual-layout` writes. Companion notes and citations are surfaced
   read-only; the inspector, if shown, is the read-only projection of the composer's.
 - **REQ-SC-011 (MUST · P1) — Scroll-synced explanations.** The explanation panel
-  updates to the section currently in view (via `IntersectionObserver` on chapter/
-  section anchors), so the reader never hand-syncs the panel to the page.
+  updates to the section currently in view (scroll-synced to the chapter/section
+  anchors — an `IntersectionObserver` or an rAF-throttled scroll handler; the
+  requirement is the behaviour, not the mechanism), so the reader never hand-syncs
+  the panel to the page.
 - **REQ-SC-012 (MUST · P1) — Book picker, bucket-filterable.** A picker lists books
   grouped by content bucket (Islamic / Technical / Fiction / Guides) and filterable
   by bucket, sourced by scanning content buckets via `content-paths.ts` — never a

@@ -46,7 +46,9 @@ const sections = (book?.toc ?? []).map((t) => ({
   notes: notesFor(t.id),
 }));
 const totalNotes = sections.reduce((n, s) => n + s.notes.length, 0);
-const explainJson = JSON.stringify({ slug, sections });
+// Escape `<` so a note body containing "</script>" can't terminate the JSON
+// data island early (defence-in-depth; the client parses via .textContent).
+const explainJson = JSON.stringify({ slug, sections }).replace(/</g, '\\u003c');
 
 const bucketsPresent = groups.map((g) => g.bucket);
 ---
@@ -82,7 +84,7 @@ const bucketsPresent = groups.map((g) => g.bucket);
               <span class="lsv-picker-current">{bookTitle}</span>
               <i class="fa-solid fa-chevron-down lsv-picker-caret" aria-hidden="true"></i>
             </button>
-            <div class="lsv-picker-panel" id="lsv-picker-panel" role="dialog" aria-label="Choose a book" hidden>
+            <div class="lsv-picker-panel" id="lsv-picker-panel" aria-label="Choose a book" hidden>
               <div class="lsv-filter" role="group" aria-label="Filter by collection">
                 <button type="button" class="lsv-filter-chip is-active" data-bucket="all">All</button>
                 {bucketsPresent.map((b) => (

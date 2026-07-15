@@ -74,7 +74,7 @@
 .lsv-explain-empty {
   margin: 0;
   color: var(--c-ink-muted);
-  font-size: var(--fs-sm);
+  font-size: var(--fs-base); /* REQ-010: reading prose ≥ 1.2rem floor */
   line-height: var(--lh-base);
 }
 
@@ -116,13 +116,13 @@
   border-left: 2px solid var(--c-rule);
   color: var(--c-ink-dim);
   font-style: italic;
-  font-size: var(--fs-sm);
+  font-size: var(--fs-base); /* REQ-010: quoted-passage blockquote is reading text ≥ 1.2rem */
 }
 
 .lsv-note-body {
   margin: 0;
   color: var(--c-ink);
-  font-size: var(--fs-sm);
+  font-size: var(--fs-base); /* REQ-010: companion teaching prose ≥ 1.2rem floor */
   line-height: var(--lh-base);
 }
 
@@ -187,6 +187,9 @@
   border-radius: var(--r-lg);
   box-shadow: var(--shadow-hover);
   overflow: hidden;
+  /* The picker lives in .lib-hero-aside (text-align: right); a dropdown menu
+     reads left-aligned regardless of where its trigger sits. */
+  text-align: left;
 }
 
 .lsv-filter {
@@ -312,6 +315,10 @@
     order: -1;
   }
   .lsv-picker-panel {
+    /* Trigger sits at the left edge on mobile — anchor the panel left so it
+       cannot overflow (and clip) past the viewport's left edge. */
+    left: 0;
+    right: auto;
     width: min(24rem, 92vw);
   }
 }
