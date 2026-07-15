@@ -565,6 +565,25 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
         illustrated_path.write_text(book_md_path.read_text(encoding="utf-8"), encoding="utf-8")
         return illustrated_path
 
+    # book_augmentation=none passthrough: a diagram is model-added interpretive
+    # content (it does not exist in the source text), which is augmentation by
+    # definition — so it is forbidden for the same books that forbid textual
+    # augmentation. This is the ONLY gate on illustration; every caller
+    # (generate_translation_edition.py, phases/book_driver.py, any future
+    # book_pipeline_v2 wiring) inherits it automatically. Uses the
+    # `book_augmentation` knob directly (not the `book_pipeline_v2` flag) since
+    # the knob resolves correctly — default "none" for deliverable_mode ==
+    # translation_edition — whether or not v2 is enabled for this book.
+    from _pipeline_flags import book_augmentation, BOOK_AUGMENTATION_NONE  # noqa: PLC0415
+    if book_augmentation(book_dir) == BOOK_AUGMENTATION_NONE:
+        log(f"    0book-illustrate: {book_dir.name}: book_augmentation='none' — "
+            f"skipping diagram generation (faithful/translation edition forbids "
+            f"added visual content)")
+        diagram_dir.mkdir(parents=True, exist_ok=True)
+        manifest_path.write_text("[]\n", encoding="utf-8")
+        illustrated_path.write_text(book_md_path.read_text(encoding="utf-8"), encoding="utf-8")
+        return illustrated_path
+
     # Idempotency: skip if all outputs are present and not forcing.
     if not force and illustrated_path.exists() and manifest_path.exists():
         try:
