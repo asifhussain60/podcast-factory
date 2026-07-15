@@ -1,0 +1,55 @@
+{
+  "slug": "the-master-and-the-disciple",
+  "chapter": "6-three-layers-of-knowledge",
+  "notes": [
+    {
+      "id": "83ede33f-2e91-4d12-a80c-f2498aba37bd",
+      "kind": "analogy",
+      "body": "Knowledge has three layers, not two \u2014 outer, inner, and inner-of-the-inner. Picture an egg: the shell (visible exterior), the white (the protective layer beneath), and the yolk (the living core). Remove any one and it stops being an egg \u2014 life can't germinate. The three layers are a structural necessity, not poetic decoration.",
+      "anchor": "shell, white, yolk",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP08"
+      },
+      "createdAt": "2026-07-15T16:46:54Z",
+      "updatedAt": "2026-07-15T16:46:54Z"
+    },
+    {
+      "id": "af70229b-8420-4b16-a602-ef1dd1edd0fe",
+      "kind": "analogy",
+      "body": "Take the sentence 'the moon rose.' The name (moon), the attribute (rose), and the meaning (the actual disc in the sky) are three pillars, and none works alone: the disc with no name can't be communicated, the name with no disc is a hollow sound, the verb with no subject hangs in empty space. Religion has the same three layers \u2014 the words and acts, what they point to, and the divine reality beneath.",
+      "anchor": "the moon rose",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP08"
+      },
+      "createdAt": "2026-07-15T16:46:54Z",
+      "updatedAt": "2026-07-15T16:46:54Z"
+    },
+    {
+      "id": "6af2eb7c-f348-410a-bfd4-b2c94bc7ffab",
+      "kind": "analogy",
+      "body": "If the highest rung can't be handed over, what's the teacher for? He's a farmer: he fertilises the soil, plants the seed, waters, and pulls the weeds \u2014 he creates the perfect conditions. But he cannot force the green stalk up through the soil; germination happens invisibly inside the seed. The teacher tends; the teacher never transfers. The growing is entirely yours.",
+      "anchor": "the farmer cannot make the plant grow",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP08"
+      },
+      "createdAt": "2026-07-15T16:46:54Z",
+      "updatedAt": "2026-07-15T16:46:54Z"
+    },
+    {
+      "id": "19339987-758f-4758-af70-60bb0848e39e",
+      "kind": "question",
+      "body": "A good question to pose while reading: which rung in your own practice have you been treating as transferable \u2014 something a teacher or a book could just hand you \u2014 when the text insists it can only be earned by climbing?",
+      "anchor": "the highest rung cannot be transferred, only earned",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP08"
+      },
+      "createdAt": "2026-07-15T16:46:54Z",
+      "updatedAt": "2026-07-15T16:46:54Z"
+    }
+  ],
+  "updatedAt": "2026-07-15T16:46:54Z"
+}
