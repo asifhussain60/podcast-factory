@@ -16,7 +16,7 @@
  * Manual actions (edits, tags) are the learning-loop training signal. External CSS only.
  * Library policy frozen: @tiptap/* + @floating-ui/react + diff(jsdiff) — no new libs.
  */
-import { useState, useRef, useMemo, useCallback, useEffect } from 'react';
+import { useState, useRef, useMemo, useCallback, useEffect, type CSSProperties } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Extension } from '@tiptap/core';
@@ -28,6 +28,38 @@ import * as Toast from '@radix-ui/react-toast';
 import { stageRole } from '../../../lib/reader/stage-roles';
 import type { EnrichmentSummary } from '../../../lib/reader/enrichment-ledger';
 import TransformationDashboard from './TransformationDashboard';
+
+// ── Reading-comfort controls (font · size · paper) ───────────────────────────
+// EDITING-VIEW preferences shared with the Book Composer via the SAME
+// localStorage keys, so a choice made in either editor applies to both. View
+// only: the enrichment text and the printed book are unaffected.
+const EDITOR_FONTS = [
+  { id: 'sans', name: 'Sans' },
+  { id: 'serif', name: 'Serif' },
+  { id: 'lato', name: 'Lato' },
+  { id: 'inter', name: 'Inter' },
+  { id: 'mono', name: 'Mono' },
+  { id: 'dyslexic', name: 'Dyslexic' },
+] as const;
+const EDITOR_FONT_IDS = EDITOR_FONTS.map((f) => f.id) as readonly string[];
+const EDITOR_PAPERS = [
+  { id: 'light', name: 'Light' },
+  { id: 'sepia', name: 'Sepia' },
+  { id: 'dark', name: 'Dark' },
+] as const;
+const EDITOR_PAPER_IDS = EDITOR_PAPERS.map((p) => p.id) as readonly string[];
+const EDITOR_SIZE_MIN = 13;
+const EDITOR_SIZE_MAX = 26;
+const EDITOR_SIZE_DEFAULT = 19; // ~ the ProseMirror 1rem default
+function readEditorPref(key: string, fallback: string, allowed: readonly string[]): string {
+  try { const v = localStorage.getItem(key); return v && allowed.includes(v) ? v : fallback; } catch { return fallback; }
+}
+function readEditorSize(): number {
+  try {
+    const n = Number(localStorage.getItem('cx-editor-size'));
+    return Number.isFinite(n) && n >= EDITOR_SIZE_MIN && n <= EDITOR_SIZE_MAX ? n : EDITOR_SIZE_DEFAULT;
+  } catch { return EDITOR_SIZE_DEFAULT; }
+}
 
 // Inline reference markers: inspector inventory + inline chips for Hadith/Works.
 // Quran verse refs are handled separately as FC-1 chips, so mk-quran is skipped here.
@@ -626,6 +658,15 @@ export default function StudioPoc({ slug, chapters, glossary = [], glossaryAll =
   const [saveError, setSaveError] = useState('');
   const [approvalToastOpen, setApprovalToastOpen] = useState(false);
   const [approvalToastText, setApprovalToastText] = useState('Augmented Approved');
+
+  // Reading-comfort controls — font, text size, paper tint (view only; persisted
+  // to the shared cx-editor-* keys so the choice carries to/from the Book Composer).
+  const [editorFont, setEditorFont] = useState<string>(() => readEditorPref('cx-editor-font', 'sans', EDITOR_FONT_IDS));
+  const [editorPaper, setEditorPaper] = useState<string>(() => readEditorPref('cx-editor-paper', 'light', EDITOR_PAPER_IDS));
+  const [editorSize, setEditorSize] = useState<number>(() => readEditorSize());
+  useEffect(() => { try { localStorage.setItem('cx-editor-font', editorFont); } catch { /* best-effort */ } }, [editorFont]);
+  useEffect(() => { try { localStorage.setItem('cx-editor-paper', editorPaper); } catch { /* best-effort */ } }, [editorPaper]);
+  useEffect(() => { try { localStorage.setItem('cx-editor-size', String(editorSize)); } catch { /* best-effort */ } }, [editorSize]);
 
   // Draft autosave state: edits are persisted to a per-stage draft (debounced) so
   // they survive a refresh until the chapter is approved. 'saved' = a draft is on
@@ -2208,7 +2249,13 @@ export default function StudioPoc({ slug, chapters, glossary = [], glossaryAll =
           rail was removed (redundant nav — pipeline phases live in the breadcrumb
           and book-page tabs); the editor column widened and the reading-edition
           link moved into the editor head below. */}
-      <main className="studio-poc__editor" ref={editorContainerRef}>
+      <main
+        className="studio-poc__editor"
+        ref={editorContainerRef}
+        data-font={editorFont}
+        data-paper={editorPaper}
+        style={{ ['--prose-size']: `${editorSize}px` } as CSSProperties}
+      >
         {/* Consolidated editor header: chapter switcher · metrics · finalize. */}
         <div className="sp-editor-head">
           <div className="sp-chapsel">
@@ -2260,6 +2307,44 @@ export default function StudioPoc({ slug, chapters, glossary = [], glossaryAll =
               {finalized ? '✓ Finalized' : publishing ? 'Finalizing…' : 'Finalize chapter'}
             </button>
           )}
+          <div className="sp-reading" role="group" aria-label="Reading view">
+            <select
+              className="sp-reading-font"
+              aria-label="Editor font (view only)"
+              title="Editor font — changes this editing view only, not the book"
+              value={editorFont}
+              onChange={(e) => setEditorFont(e.target.value)}
+            >
+              {EDITOR_FONTS.map((f) => <option key={f.id} value={f.id}>{f.name}</option>)}
+            </select>
+            <div className="sp-reading-size" role="group" aria-label="Editor text size">
+              <button
+                type="button"
+                className="sp-reading-step"
+                aria-label="Decrease editor text size"
+                onClick={() => setEditorSize((s) => Math.max(EDITOR_SIZE_MIN, s - 1))}
+              >−</button>
+              <span className="sp-reading-size-val" aria-live="polite">{editorSize}</span>
+              <button
+                type="button"
+                className="sp-reading-step"
+                aria-label="Increase editor text size"
+                onClick={() => setEditorSize((s) => Math.min(EDITOR_SIZE_MAX, s + 1))}
+              >+</button>
+            </div>
+            <div className="sp-reading-paper" role="group" aria-label="Paper colour">
+              {EDITOR_PAPERS.map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  className={`sp-reading-paper-btn${editorPaper === p.id ? ' is-on' : ''}`}
+                  data-paper={p.id}
+                  aria-pressed={editorPaper === p.id}
+                  onClick={() => setEditorPaper(p.id)}
+                >{p.name}</button>
+              ))}
+            </div>
+          </div>
           <a
             className="sp-book-link"
             href={`/studio/${slug}/book`}

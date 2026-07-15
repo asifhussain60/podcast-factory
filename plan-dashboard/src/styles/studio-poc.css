@@ -566,25 +566,45 @@
   min-width: 0; /* grid item: shrink to the column instead of forcing page-wide overflow */
 }
 .studio-poc__editor .ProseMirror {
-  /* Mixed-script stack: Latin serif first (matches --font-body), then the Arabic
-     naskh fonts, then the generic LAST. The generic must trail Amiri — a generic
-     in the middle would catch Arabic glyphs (system Geeza Pro) before any later
-     Amiri could apply, which is why raw inline Arabic rendered in a different font
-     from the glossary overlays (which already force Amiri). */
-  font-family: "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif;
-  font-size: 1rem;               /* 19.2px — denser than prior 1.08rem, held at
-                                    the theme-independent reading floor (REQ-010). */
+  /* Mixed-script stack: the picker's chosen Latin face (--prose-font) is PREPENDED
+     so Latin renders it while the Arabic naskh fonts stay reachable per-glyph
+     (a Latin-only face has no Arabic glyphs, so Arabic codepoints fall through to
+     Amiri). The generic must trail Amiri — a generic in the middle would catch
+     Arabic glyphs (system Geeza Pro) before any later Amiri could apply. */
+  font-family: var(--prose-font, "Source Serif 4"), "Iowan Old Style", "Charter", Georgia, "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif;
+  font-size: var(--prose-size, 1rem);  /* 1rem default; the head's size stepper overrides */
   line-height: 1.72;
-  color: var(--c-ink);
+  color: var(--paper-ink, var(--c-ink));
+  background: var(--paper-bg, transparent);
   outline: none;
-  /* Reading view fills the editor column to maximise the line (per Asif). The
-     column's own 36px inline padding (.studio-poc__editor) is the small breathing
-     margin — no extra padding here, or the gutter doubles. A generous ch cap keeps
-     the measure sane on ultra-wide monitors; on normal screens the column is the
-     real limit. */
-  max-width: 130ch;
-  margin-inline: auto;
+  /* Reading view fills the editor column edge-to-edge and justifies both edges
+     (per Asif — matches the Book Composer editor). */
+  max-width: none;
+  margin-inline: 0;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
 }
+/* Editor-view font family (view only, shared with the Book Composer). Each sets
+   just the Latin face — the ProseMirror stack keeps the Arabic fonts after it. */
+.studio-poc__editor[data-font="sans"]     { --prose-font: var(--font-body, system-ui), "Segoe UI"; }
+.studio-poc__editor[data-font="serif"]    { --prose-font: "Source Serif 4", "Iowan Old Style", Georgia; }
+.studio-poc__editor[data-font="lato"]     { --prose-font: "Lato"; }
+.studio-poc__editor[data-font="inter"]    { --prose-font: "Inter"; }
+.studio-poc__editor[data-font="mono"]     { --prose-font: var(--font-mono, ui-monospace, monospace); }
+.studio-poc__editor[data-font="dyslexic"] { --prose-font: "OpenDyslexic", "Comic Sans MS"; }
+/* Paper tint — Kindle-style Light / Sepia / Dark for the writing surface only.
+   Light = the current flush look; sepia/dark render as an inset sheet. */
+.studio-poc__editor[data-paper="light"] { --paper-bg: transparent; --paper-ink: var(--c-ink); }
+.studio-poc__editor[data-paper="sepia"] { --paper-bg: #f4ecd8; --paper-ink: #5b4636; }
+.studio-poc__editor[data-paper="dark"]  { --paper-bg: #201e1b; --paper-ink: #d8d2c6; }
+.studio-poc__editor[data-paper="sepia"] .ProseMirror,
+.studio-poc__editor[data-paper="dark"] .ProseMirror {
+  padding: 1.1rem 1.3rem;
+  border-radius: 10px;
+}
+/* Only body prose is justified — headings stay left-aligned (never stretched). */
+.studio-poc__editor .ProseMirror :is(h1, h2, h3, h4) { text-align: left; }
 /* No full-editor focus ring — the active-PARAGRAPH ring is the focus cue (FC fix). */
 .studio-poc__editor .ProseMirror:focus,
 .studio-poc__editor .ProseMirror:focus-visible { outline: none; }
@@ -1828,6 +1848,48 @@
 /* Reset the legacy stacked-row margins now that these sit inline in the header. */
 .studio-poc__editor .sp-editor-head .sp-chapsel { margin: 0; }
 .studio-poc__editor .sp-editor-head .sp-metrics { margin: 0; }
+
+/* Reading-comfort controls (font · size · paper) — shared with the Book Composer
+   via the same localStorage keys. View-only: they never touch the saved text. */
+.sp-reading { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px 8px; }
+.sp-reading-font {
+  font: inherit; font-size: 0.78rem; height: 30px; padding: 0 8px;
+  border: 1px solid var(--c-rule-soft, #ebe6da); border-radius: 7px;
+  background: var(--c-bg-card, #fffdf8); color: var(--c-ink); cursor: pointer;
+}
+.sp-reading-font:hover { border-color: var(--c-accent); }
+.sp-reading-size {
+  display: inline-flex; align-items: center; height: 30px; overflow: hidden;
+  border: 1px solid var(--c-rule-soft, #ebe6da); border-radius: 7px;
+  background: var(--c-bg-card, #fffdf8);
+}
+.sp-reading-step { font: inherit; font-size: 0.95rem; width: 26px; height: 100%; border: 0; background: transparent; color: var(--c-ink); cursor: pointer; line-height: 1; }
+.sp-reading-step:hover { color: var(--c-accent); background: color-mix(in oklab, var(--c-accent) 8%, transparent); }
+.sp-reading-size-val {
+  min-width: 26px; padding: 0 4px; text-align: center; font-size: 0.76rem;
+  font-variant-numeric: tabular-nums; color: var(--c-ink); line-height: 30px;
+  border-inline: 1px solid var(--c-rule-soft, #ebe6da);
+}
+.sp-reading-paper { display: inline-flex; gap: 4px; }
+.sp-reading-paper-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  font: inherit; font-size: 0.72rem; height: 30px; padding: 0 9px;
+  border: 1px solid var(--c-rule-soft, #ebe6da); border-radius: 999px;
+  background: var(--c-bg-card, #fffdf8); color: var(--c-ink); cursor: pointer;
+}
+.sp-reading-paper-btn::before {
+  content: ""; width: 12px; height: 12px; border-radius: 50%;
+  border: 1px solid color-mix(in oklab, var(--c-ink) 28%, transparent);
+  background: var(--sw, #fff);
+}
+.sp-reading-paper-btn[data-paper="light"] { --sw: #fefdfb; }
+.sp-reading-paper-btn[data-paper="sepia"] { --sw: #f4ecd8; }
+.sp-reading-paper-btn[data-paper="dark"]  { --sw: #201e1b; }
+.sp-reading-paper-btn:hover { border-color: var(--c-accent); }
+.sp-reading-paper-btn.is-on { border-color: var(--c-accent); color: var(--c-accent); font-weight: 600; }
+.sp-reading-font:focus-visible,
+.sp-reading-step:focus-visible,
+.sp-reading-paper-btn:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
 /* Companion reading-edition link, relocated here from the removed left rail. */
 .studio-poc__editor .sp-book-link {
   margin-left: auto;

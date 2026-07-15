@@ -1,0 +1,35 @@
+/* editor-fonts.css — self-hosted editor-view fonts (OFL), shared by every editor
+ * surface (Book Composer + Studio Edit & Enrich). Same self-hosting pattern as
+ * the print faces in book-print.css; files live under public/fonts/*. They load
+ * lazily — only when an editor actually selects one. Screen-only: the printed
+ * book keeps its own faces. */
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/inter-latin-400-normal.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/inter-latin-700-normal.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url('/fonts/lato/lato-latin-400-normal.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url('/fonts/lato/lato-latin-700-normal.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/opendyslexic/opendyslexic-latin-400-normal.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/opendyslexic/opendyslexic-latin-700-normal.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}

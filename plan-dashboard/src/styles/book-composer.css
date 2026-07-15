@@ -4,40 +4,9 @@
  * data-driven figure width rides the --cx-w custom property set at runtime by
  * book-composer.ts. */
 
-/* Editor-view fonts, self-hosted (public/fonts/*, OFL — same pattern as the
- * print faces in book-print.css). These back the toolbar's font picker and load
- * lazily (only when the editor actually selects one). Screen-only — the printed
- * book keeps its own faces. */
-@font-face {
-  font-family: 'Inter';
-  src: url('/fonts/inter/inter-latin-400-normal.woff2') format('woff2');
-  font-weight: 400; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Inter';
-  src: url('/fonts/inter/inter-latin-700-normal.woff2') format('woff2');
-  font-weight: 700; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Lato';
-  src: url('/fonts/lato/lato-latin-400-normal.woff2') format('woff2');
-  font-weight: 400; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Lato';
-  src: url('/fonts/lato/lato-latin-700-normal.woff2') format('woff2');
-  font-weight: 700; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'OpenDyslexic';
-  src: url('/fonts/opendyslexic/opendyslexic-latin-400-normal.woff2') format('woff2');
-  font-weight: 400; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'OpenDyslexic';
-  src: url('/fonts/opendyslexic/opendyslexic-latin-700-normal.woff2') format('woff2');
-  font-weight: 700; font-style: normal; font-display: swap;
-}
+/* Editor-view @font-face declarations now live in the shared editor-fonts.css
+ * (imported by both compose.astro and the Studio [step].astro), so the same
+ * self-hosted faces back the font picker on both editor surfaces. */
 
 /* One-line help text that sits under the title inside the shared .lib-hero
    identity block. The header structure itself is the shared Studio hero. */
@@ -325,6 +294,8 @@
 }
 .cx-prose p { margin: 0 0 0.8rem; }
 .cx-prose h3 { font-size: 1.1rem; font-weight: 700; margin: 1.2rem 0 0.5rem; }
+/* Only body prose is justified — headings stay left-aligned (never stretched). */
+.cx-prose :is(h1, h2, h3, h4) { text-align: left; }
 .cx-prose blockquote {
   border-left: 2px solid var(--paper-rule, var(--c-rule, #d9d3c4));
   padding-left: 1rem;
