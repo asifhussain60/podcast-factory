@@ -4,6 +4,41 @@
  * data-driven figure width rides the --cx-w custom property set at runtime by
  * book-composer.ts. */
 
+/* Editor-view fonts, self-hosted (public/fonts/*, OFL — same pattern as the
+ * print faces in book-print.css). These back the toolbar's font picker and load
+ * lazily (only when the editor actually selects one). Screen-only — the printed
+ * book keeps its own faces. */
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/inter-latin-400-normal.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/inter-latin-700-normal.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url('/fonts/lato/lato-latin-400-normal.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url('/fonts/lato/lato-latin-700-normal.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/opendyslexic/opendyslexic-latin-400-normal.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/opendyslexic/opendyslexic-latin-700-normal.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
 /* One-line help text that sits under the title inside the shared .lib-hero
    identity block. The header structure itself is the shared Studio hero. */
 .composer-sub {
@@ -142,17 +177,61 @@
   background: color-mix(in oklab, var(--c-accent, #8b4513) 6%, var(--c-bg-card, #fffdf8));
   border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
 }
-.cx-edit-label {
+/* Toolbar groups (font/size · formatting · paper), separated by a hairline. */
+.cx-tb-group { display: inline-flex; align-items: center; gap: 0.3rem; }
+.cx-edit-toolbar .cx-tb-group + .cx-tb-group {
+  padding-left: 0.55rem;
+  border-left: 1px solid var(--c-rule-soft, #ebe6da);
+}
+
+/* Font-family selector — a native <select> (keeps the OS dropdown + a11y),
+   boxed to match the size stepper and format buttons. */
+.cx-font-select {
+  font: inherit;
+  font-size: 0.8rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  background: var(--c-bg-card, #fffdf8);
+  color: var(--c-ink, #1f1d18);
+  cursor: pointer;
+}
+.cx-font-select:hover { border-color: var(--c-accent, #8b4513); }
+
+/* Text-size stepper — [ − 17 + ], a single boxed control. */
+.cx-size {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  margin-right: auto; /* pin the label left, push formatting buttons to the right */
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--c-accent, #8b4513);
+  height: 2rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--c-bg-card, #fffdf8);
 }
+.cx-size-btn {
+  font: inherit;
+  font-size: 0.95rem;
+  width: 1.7rem;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--c-ink, #1f1d18);
+  cursor: pointer;
+  line-height: 1;
+}
+.cx-size-btn:hover { color: var(--c-accent, #8b4513); background: color-mix(in oklab, var(--c-accent, #8b4513) 8%, transparent); }
+.cx-size-val {
+  min-width: 1.7rem;
+  padding: 0 0.3rem;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--c-ink, #1f1d18);
+  border-inline: 1px solid var(--c-rule-soft, #ebe6da);
+  line-height: 2rem;
+}
+
 .cx-edit-tool {
   font: inherit;
   font-size: 0.85rem;
@@ -166,10 +245,14 @@
   cursor: pointer;
 }
 .cx-edit-tool:hover { border-color: var(--c-accent, #8b4513); color: var(--c-accent, #8b4513); }
+/* The B / I / U glyphs carry their own emphasis so the buttons read at a glance. */
+.cx-tool-b { font-weight: 700; }
+.cx-tool-i { font-style: italic; }
+.cx-tool-u { text-decoration: underline; }
 
 /* Paper picker — Kindle-style Light / Sepia / Dark for the writing surface.
    Sits at the right of the toolbar header. */
-.cx-paper { display: inline-flex; align-items: center; gap: 0.3rem; margin-left: 0.4rem; }
+.cx-paper { display: inline-flex; align-items: center; gap: 0.3rem; margin-left: auto; }
 .cx-paper-label { font-size: 0.72rem; color: var(--c-ink-muted, #87827a); }
 .cx-paper-btn {
   display: inline-flex;
@@ -215,12 +298,24 @@
 .cx-edit-host[data-paper="light"] { --paper-bg: #fefdfb; --paper-ink: #1f1d18; --paper-rule: #d9d3c4; }
 .cx-edit-host[data-paper="sepia"] { --paper-bg: #f4ecd8; --paper-ink: #5b4636; --paper-rule: #ddd0b4; }
 .cx-edit-host[data-paper="dark"]  { --paper-bg: #201e1b; --paper-ink: #d8d2c6; --paper-rule: #3d3a32; }
+
+/* Editor-view font family + size, driven by the toolbar. View-only: book.md
+   carries no font/size, so these never restyle the printed book. --prose-size is
+   set at runtime by book-composer.ts (in-pattern with --cx-w). */
+.cx-edit-host[data-font="sans"]     { --prose-font: var(--font-body, system-ui, sans-serif); }
+.cx-edit-host[data-font="serif"]    { --prose-font: Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, serif; }
+.cx-edit-host[data-font="lato"]     { --prose-font: 'Lato', system-ui, sans-serif; }
+.cx-edit-host[data-font="inter"]    { --prose-font: 'Inter', system-ui, sans-serif; }
+.cx-edit-host[data-font="mono"]     { --prose-font: var(--font-mono, ui-monospace, monospace); }
+.cx-edit-host[data-font="dyslexic"] { --prose-font: 'OpenDyslexic', 'Comic Sans MS', sans-serif; }
+
 /* The editor writing area fills the full column and justifies both edges. This
    is an on-screen editing preference only — the Read-mode preview (.cx-body) and
    the printed PDF keep the book's narrower reading measure. */
 .cx-prose {
   outline: none;
-  font-size: 1.02rem;
+  font-family: var(--prose-font, inherit);
+  font-size: var(--prose-size, 1.02rem);
   line-height: 1.6;
   color: inherit;
   max-width: none;
@@ -680,7 +775,7 @@
   cursor: pointer;
 }
 
-:is(.cx-tab, .cx-toggle, .cx-action, .cx-delete, .cx-palette-place, .cx-fig, .cx-mode-btn, .cx-edit-tool, .cx-paper-btn, .cx-ai-btn, .cx-ai-opt, .cx-ai-opt-cancel, .cx-icon-btn):focus-visible {
+:is(.cx-tab, .cx-toggle, .cx-action, .cx-delete, .cx-palette-place, .cx-fig, .cx-mode-btn, .cx-edit-tool, .cx-size-btn, .cx-font-select, .cx-paper-btn, .cx-ai-btn, .cx-ai-opt, .cx-ai-opt-cancel, .cx-icon-btn):focus-visible {
   outline: 2px solid var(--c-accent, #8b4513);
   outline-offset: 2px;
 }

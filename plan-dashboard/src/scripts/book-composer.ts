@@ -167,23 +167,107 @@ function boot(): void {
 
     const shell = document.createElement('div');
     shell.className = 'cx-edit-shell';
+
+    const host = document.createElement('div');
+    host.className = 'cx-edit-host';
+
     const toolbar = document.createElement('div');
     toolbar.className = 'cx-edit-toolbar';
     toolbar.setAttribute('role', 'toolbar');
-    toolbar.setAttribute('aria-label', 'Formatting');
-    const editLabel = document.createElement('span');
-    editLabel.className = 'cx-edit-label';
-    editLabel.innerHTML = '<i class="fa-solid fa-pen-nib" aria-hidden="true"></i> Editing';
-    toolbar.append(
-      editLabel,
-      toolbarBtn('B', 'Bold', (ed) => ed.editor.chain().focus().toggleBold().run()),
-      toolbarBtn('i', 'Italic', (ed) => ed.editor.chain().focus().toggleItalic().run()),
+    toolbar.setAttribute('aria-label', 'Editor');
+
+    // ── Font family + text size ──────────────────────────────────────────────
+    // These are EDITING-VIEW rendering preferences only: book.md carries no font
+    // or size, so they change how the chapter looks while you edit (persisted per
+    // user, like the paper theme) — they never restyle the printed book.
+    const FONTS = [
+      { id: 'sans',     name: 'Sans' },
+      { id: 'serif',    name: 'Serif' },
+      { id: 'lato',     name: 'Lato' },
+      { id: 'inter',    name: 'Inter' },
+      { id: 'mono',     name: 'Mono' },
+      { id: 'dyslexic', name: 'Dyslexic' },
+    ] as const;
+    const savedFont = (() => {
+      try { return localStorage.getItem('cx-editor-font') ?? 'sans'; } catch { return 'sans'; }
+    })();
+    host.dataset.font = FONTS.some((f) => f.id === savedFont) ? savedFont : 'sans';
+
+    const fontGroup = document.createElement('div');
+    fontGroup.className = 'cx-tb-group';
+    const fontSel = document.createElement('select');
+    fontSel.className = 'cx-font-select';
+    fontSel.setAttribute('aria-label', 'Editor font (view only)');
+    fontSel.title = 'Editor font — changes this editing view only, not the printed book';
+    for (const f of FONTS) {
+      const o = document.createElement('option');
+      o.value = f.id;
+      o.textContent = f.name;
+      if (f.id === host.dataset.font) o.selected = true;
+      fontSel.append(o);
+    }
+    fontSel.addEventListener('change', () => {
+      host.dataset.font = fontSel.value;
+      try { localStorage.setItem('cx-editor-font', fontSel.value); } catch { /* best-effort */ }
+    });
+
+    const SIZE_MIN = 13;
+    const SIZE_MAX = 24;
+    let sizePx = (() => {
+      const raw = (() => { try { return Number(localStorage.getItem('cx-editor-size')); } catch { return NaN; } })();
+      return Number.isFinite(raw) && raw >= SIZE_MIN && raw <= SIZE_MAX ? raw : 17;
+    })();
+    const sizeWrap = document.createElement('div');
+    sizeWrap.className = 'cx-size';
+    sizeWrap.setAttribute('role', 'group');
+    sizeWrap.setAttribute('aria-label', 'Editor text size (view only)');
+    const sizeDown = document.createElement('button');
+    sizeDown.type = 'button';
+    sizeDown.className = 'cx-size-btn';
+    sizeDown.textContent = '−'; // minus sign
+    sizeDown.title = 'Smaller editor text';
+    sizeDown.setAttribute('aria-label', 'Decrease editor text size');
+    const sizeVal = document.createElement('span');
+    sizeVal.className = 'cx-size-val';
+    sizeVal.setAttribute('aria-live', 'polite');
+    const sizeUp = document.createElement('button');
+    sizeUp.type = 'button';
+    sizeUp.className = 'cx-size-btn';
+    sizeUp.textContent = '+';
+    sizeUp.title = 'Larger editor text';
+    sizeUp.setAttribute('aria-label', 'Increase editor text size');
+    const applySize = () => {
+      host.style.setProperty('--prose-size', `${sizePx}px`); // runtime custom prop, in-pattern with --cx-w
+      sizeVal.textContent = String(sizePx);
+      try { localStorage.setItem('cx-editor-size', String(sizePx)); } catch { /* best-effort */ }
+    };
+    sizeDown.addEventListener('click', () => { sizePx = Math.max(SIZE_MIN, sizePx - 1); applySize(); });
+    sizeUp.addEventListener('click', () => { sizePx = Math.min(SIZE_MAX, sizePx + 1); applySize(); });
+    sizeWrap.append(sizeDown, sizeVal, sizeUp);
+    fontGroup.append(fontSel, sizeWrap);
+
+    // ── Formatting cluster: B / I / U + structure ────────────────────────────
+    // B and I persist to book.md. U (underline) is an editing-view emphasis only
+    // — the book's markdown format has no underline, so it is not saved.
+    const fmtGroup = document.createElement('div');
+    fmtGroup.className = 'cx-tb-group';
+    const bBtn = toolbarBtn('B', 'Bold', (ed) => ed.editor.chain().focus().toggleBold().run());
+    bBtn.classList.add('cx-tool-b');
+    const iBtn = toolbarBtn('I', 'Italic', (ed) => ed.editor.chain().focus().toggleItalic().run());
+    iBtn.classList.add('cx-tool-i');
+    const uBtn = toolbarBtn('U', 'Underline (editing view only — not saved to the book)', (ed) => ed.editor.chain().focus().toggleUnderline().run());
+    uBtn.classList.add('cx-tool-u');
+    fmtGroup.append(
+      bBtn,
+      iBtn,
+      uBtn,
       toolbarBtn('H', 'Heading', (ed) => ed.editor.chain().focus().toggleHeading({ level: 3 }).run()),
       toolbarBtn('❝', 'Quote', (ed) => ed.editor.chain().focus().toggleBlockquote().run()),
       toolbarBtn('•', 'Bulleted list', (ed) => ed.editor.chain().focus().toggleBulletList().run()),
     );
-    const host = document.createElement('div');
-    host.className = 'cx-edit-host';
+
+    toolbar.append(fontGroup, fmtGroup);
+    applySize(); // seed --prose-size + the readout
 
     // Paper picker — Kindle-style Light / Sepia / Dark tint for the writing area.
     // The choice is a per-user editor preference (not book content), so it lives
