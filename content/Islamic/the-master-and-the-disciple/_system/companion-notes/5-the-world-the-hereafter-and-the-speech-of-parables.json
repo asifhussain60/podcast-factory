@@ -3,18 +3,53 @@
   "chapter": "5-the-world-the-hereafter-and-the-speech-of-parables",
   "notes": [
     {
-      "id": "09d59ac8-f28a-45d1-b956-cd0254efb94c",
+      "id": "1926475a-2bf9-4f38-afe8-7aaf3d7167de",
       "kind": "analogy",
-      "body": "Think of a parable like a door, not a picture: it isn't meant to be looked at, it's meant to be walked through. The story is the handle; the meaning is the room on the other side.",
-      "anchor": "The World, the Hereafter, and the Speech of Parables",
+      "body": "The scholar diagnoses the outside and inside of religion like a doctor. Inner meaning with no outer practice is a spirit with no body \u2014 a wraith that can't walk the earth or move a stone. Outer ritual with no inner meaning is a body with no spirit \u2014 a corpse whose limbs you move through the motions, but which doesn't live. Practice without meaning is dead; meaning without practice is a ghost; the two only subsist through each other.",
+      "anchor": "outside/inside as body and spirit",
       "source": {
         "provider": "notebooklm",
-        "ref": "EP05",
-        "locator": "03:40"
+        "ref": "EP06"
       },
-      "createdAt": "2026-07-15T15:52:52Z",
-      "updatedAt": "2026-07-15T15:52:52Z"
+      "createdAt": "2026-07-15T16:58:32Z",
+      "updatedAt": "2026-07-15T16:58:32Z"
+    },
+    {
+      "id": "91f8ef02-dcf7-49d7-a8fe-2b579f085b88",
+      "kind": "analogy",
+      "body": "Salt sea water is the outer, exoteric knowledge \u2014 vast, it covers the whole earth and preserves things from rotting, but you can't drink it and nothing grows from it. Fresh spring water is the inner, esoteric knowledge \u2014 the only water that feeds the field. Water the crops with the sea and you scorch the earth; you need the sweet water the summoners carry to actually grow a living soul.",
+      "anchor": "salt sea vs fresh spring water",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP06"
+      },
+      "createdAt": "2026-07-15T16:58:32Z",
+      "updatedAt": "2026-07-15T16:58:32Z"
+    },
+    {
+      "id": "e049b6c5-19b9-47ee-b94c-1e7aac89e6c6",
+      "kind": "analogy",
+      "body": "Everything in the cosmos comes in a pair \u2014 heaven and earth, sun and moon, salt water and sweet \u2014 and because each has a peer it can point down to a rank below it. Air is the one exception: unpaired, it mixes with everything and is encompassed by nothing. Set the earth against air and it's a seal ring dropped on an endless plain; set the whole heaven against air and it's an egg on that plain. Having no peer, air can only point upward \u2014 to the One who has no like.",
+      "anchor": "air the unpaired element",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP07"
+      },
+      "createdAt": "2026-07-15T16:58:32Z",
+      "updatedAt": "2026-07-15T16:58:32Z"
+    },
+    {
+      "id": "4a42722c-6256-458e-b241-3f39ad3d71c9",
+      "kind": "explanation",
+      "body": "The boy catches an apparent contradiction: one verse forbids striking likenesses for God, another says the highest likeness belongs to Him. The scholar untangles it by distinguishing two kinds of sign. A lesser sign is forbidden because it slots God into a list alongside His creatures, like saying a river points to a guide. The highest likeness is licensed precisely because air has no equal in creation \u2014 so it can't demote Him to just another rung. It's the sign that announces the failure of signs: in the very act of pointing up, it declares it can't capture what it points to.",
+      "anchor": "why the highest likeness is allowed",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP07"
+      },
+      "createdAt": "2026-07-15T16:58:32Z",
+      "updatedAt": "2026-07-15T16:58:32Z"
     }
   ],
-  "updatedAt": "2026-07-15T15:52:52Z"
+  "updatedAt": "2026-07-15T16:58:32Z"
 }
