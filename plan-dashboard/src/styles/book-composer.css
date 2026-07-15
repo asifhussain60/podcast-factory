@@ -10,7 +10,20 @@
   color: var(--c-ink-muted, #87827a);
   font-size: 0.9rem;
   margin: 0.2rem 0 0;
-  max-width: 60ch;
+  /* Span the banner's full width — no 60ch reading cap — so the description
+     uses the empty space to the right instead of wrapping early. */
+  max-width: none;
+}
+
+/* The top identity block reads as a white header banner spanning the full page
+   width (scoped to this view — the shared Studio/Library heroes are untouched).
+   Same near-white surface as the right-hand inspector panel. */
+.composer .lib-hero {
+  background: var(--c-bg-card, #fffdf8);
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 10px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.6rem;
 }
 
 .composer-grid {
@@ -100,9 +113,46 @@
 .cx-cite-list { display: grid; gap: 0.6rem; }
 .cx-cite-item { margin: 0; }
 
-/* ── Edit mode — the chapter prose editor (TipTap) in the left column ─────── */
-.cx-edit-shell { margin: 0.4rem 0 1.6rem; }
-.cx-edit-toolbar { display: flex; gap: 0.25rem; margin: 0 0 0.6rem; }
+/* ── Edit mode — the chapter prose editor (TipTap) in the left column ───────
+   The whole shell reads as a distinct editing surface (not plain prose): a
+   framed card with an accent-tinted toolbar header, a clean paper writing area,
+   and an accent focus ring that lights up while you type. All colours reuse the
+   light-theme --c-* tokens, so it stays on-theme in both light and dark. */
+.cx-edit-shell {
+  margin: 0.4rem 0 1.6rem;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 10px;
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: 0 1px 3px color-mix(in oklab, var(--c-ink, #1f1d18) 8%, transparent);
+  overflow: clip;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+.cx-edit-shell:focus-within {
+  border-color: var(--c-accent, #8b4513);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--c-accent, #8b4513) 20%, transparent),
+              0 1px 3px color-mix(in oklab, var(--c-ink, #1f1d18) 8%, transparent);
+}
+.cx-edit-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.25rem;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 6%, var(--c-bg-card, #fffdf8));
+  border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
+}
+.cx-edit-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-right: auto; /* pin the label left, push formatting buttons to the right */
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-accent, #8b4513);
+}
 .cx-edit-tool {
   font: inherit;
   font-size: 0.85rem;
@@ -115,29 +165,86 @@
   color: var(--c-ink, #1f1d18);
   cursor: pointer;
 }
-.cx-edit-tool:hover { border-color: var(--c-accent, #8b4513); }
-.cx-edit-host {
-  border: 1px solid var(--c-rule-soft, #ebe6da);
-  border-radius: 8px;
-  padding: 1rem 1.2rem;
+.cx-edit-tool:hover { border-color: var(--c-accent, #8b4513); color: var(--c-accent, #8b4513); }
+
+/* Paper picker — Kindle-style Light / Sepia / Dark for the writing surface.
+   Sits at the right of the toolbar header. */
+.cx-paper { display: inline-flex; align-items: center; gap: 0.3rem; margin-left: 0.4rem; }
+.cx-paper-label { font-size: 0.72rem; color: var(--c-ink-muted, #87827a); }
+.cx-paper-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font: inherit;
+  font-size: 0.75rem;
+  height: 1.75rem;
+  padding: 0 0.55rem;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 999px;
   background: var(--c-bg-card, #fffdf8);
+  color: var(--c-ink, #1f1d18);
+  cursor: pointer;
 }
+.cx-paper-btn::before {
+  content: "";
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  border: 1px solid color-mix(in oklab, var(--c-ink, #1f1d18) 28%, transparent);
+  background: var(--swatch, #fff);
+}
+.cx-paper-btn[data-paper="light"] { --swatch: #fefdfb; }
+.cx-paper-btn[data-paper="sepia"] { --swatch: #f4ecd8; }
+.cx-paper-btn[data-paper="dark"]  { --swatch: #201e1b; }
+.cx-paper-btn:hover { border-color: var(--c-accent, #8b4513); }
+.cx-paper-btn[aria-pressed="true"] {
+  border-color: var(--c-accent, #8b4513);
+  color: var(--c-accent, #8b4513);
+  font-weight: 600;
+}
+
+/* The writing surface takes its colours from the selected paper preset. These
+   are deliberate reading-paper values (the feature), scoped to the editor only
+   — they never touch the site --c-* theme tokens. Default is Light. */
+.cx-edit-host {
+  padding: 1.1rem 1.3rem;
+  background: var(--paper-bg, var(--c-bg-card, #fffdf8));
+  color: var(--paper-ink, var(--c-ink, #1f1d18));
+  transition: background-color 140ms ease, color 140ms ease;
+}
+.cx-edit-host[data-paper="light"] { --paper-bg: #fefdfb; --paper-ink: #1f1d18; --paper-rule: #d9d3c4; }
+.cx-edit-host[data-paper="sepia"] { --paper-bg: #f4ecd8; --paper-ink: #5b4636; --paper-rule: #ddd0b4; }
+.cx-edit-host[data-paper="dark"]  { --paper-bg: #201e1b; --paper-ink: #d8d2c6; --paper-rule: #3d3a32; }
+/* The editor writing area fills the full column and justifies both edges. This
+   is an on-screen editing preference only — the Read-mode preview (.cx-body) and
+   the printed PDF keep the book's narrower reading measure. */
 .cx-prose {
   outline: none;
   font-size: 1.02rem;
   line-height: 1.6;
-  color: var(--c-ink, #1f1d18);
-  max-width: 60ch;
+  color: inherit;
+  max-width: none;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
 }
 .cx-prose p { margin: 0 0 0.8rem; }
 .cx-prose h3 { font-size: 1.1rem; font-weight: 700; margin: 1.2rem 0 0.5rem; }
 .cx-prose blockquote {
-  border-left: 2px solid var(--c-rule, #d9d3c4);
+  border-left: 2px solid var(--paper-rule, var(--c-rule, #d9d3c4));
   padding-left: 1rem;
   margin: 0.8rem 0;
 }
-.cx-edit-actions { display: flex; gap: 0.5rem; margin: 0.7rem 0 0; }
+.cx-edit-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.9rem 1.3rem 1.1rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+}
 .cx-edit-actions .cx-action { flex: 0 0 auto; }
+.cx-edit-shell > .cx-status { margin: 0; padding: 0 1.3rem 1rem; }
+.cx-edit-shell > .cx-status:empty { display: none; }
 
 /* ── Inline figure controls — a floating card on the selected figure ──────── */
 .cx-fig-card {
@@ -573,7 +680,7 @@
   cursor: pointer;
 }
 
-:is(.cx-tab, .cx-toggle, .cx-action, .cx-delete, .cx-palette-place, .cx-fig, .cx-mode-btn, .cx-edit-tool, .cx-ai-btn, .cx-ai-opt, .cx-ai-opt-cancel, .cx-icon-btn):focus-visible {
+:is(.cx-tab, .cx-toggle, .cx-action, .cx-delete, .cx-palette-place, .cx-fig, .cx-mode-btn, .cx-edit-tool, .cx-paper-btn, .cx-ai-btn, .cx-ai-opt, .cx-ai-opt-cancel, .cx-icon-btn):focus-visible {
   outline: 2px solid var(--c-accent, #8b4513);
   outline-offset: 2px;
 }

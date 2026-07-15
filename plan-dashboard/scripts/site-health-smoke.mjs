@@ -98,6 +98,7 @@ function buildRoutes(slug) {
     ? [
         `/library/${slug}`,
         `/studio/${slug}`,
+        `/studio/${slug}/edit`,      // the default Edit & Enrich rich-editor island (blank-island blind spot)
         `/studio/${slug}/compose`,
         `/studio/${slug}/book`,
         `/studio/${slug}/arabic-review`,

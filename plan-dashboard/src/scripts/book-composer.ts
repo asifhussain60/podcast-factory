@@ -171,7 +171,11 @@ function boot(): void {
     toolbar.className = 'cx-edit-toolbar';
     toolbar.setAttribute('role', 'toolbar');
     toolbar.setAttribute('aria-label', 'Formatting');
+    const editLabel = document.createElement('span');
+    editLabel.className = 'cx-edit-label';
+    editLabel.innerHTML = '<i class="fa-solid fa-pen-nib" aria-hidden="true"></i> Editing';
     toolbar.append(
+      editLabel,
       toolbarBtn('B', 'Bold', (ed) => ed.editor.chain().focus().toggleBold().run()),
       toolbarBtn('i', 'Italic', (ed) => ed.editor.chain().focus().toggleItalic().run()),
       toolbarBtn('H', 'Heading', (ed) => ed.editor.chain().focus().toggleHeading({ level: 3 }).run()),
@@ -180,6 +184,45 @@ function boot(): void {
     );
     const host = document.createElement('div');
     host.className = 'cx-edit-host';
+
+    // Paper picker — Kindle-style Light / Sepia / Dark tint for the writing area.
+    // The choice is a per-user editor preference (not book content), so it lives
+    // in localStorage and applies across chapters and books.
+    const PAPERS = [
+      { id: 'light', name: 'Light' },
+      { id: 'sepia', name: 'Sepia' },
+      { id: 'dark', name: 'Dark' },
+    ] as const;
+    const savedPaper = (() => {
+      try { return localStorage.getItem('cx-editor-paper') ?? 'light'; } catch { return 'light'; }
+    })();
+    host.dataset.paper = PAPERS.some((p) => p.id === savedPaper) ? savedPaper : 'light';
+    const paperGroup = document.createElement('div');
+    paperGroup.className = 'cx-paper';
+    paperGroup.setAttribute('role', 'group');
+    paperGroup.setAttribute('aria-label', 'Paper colour');
+    const paperLabel = document.createElement('span');
+    paperLabel.className = 'cx-paper-label';
+    paperLabel.textContent = 'Paper';
+    paperGroup.append(paperLabel);
+    const paperBtns: HTMLButtonElement[] = [];
+    for (const p of PAPERS) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'cx-paper-btn';
+      b.dataset.paper = p.id;
+      b.textContent = p.name;
+      b.setAttribute('aria-pressed', String(host.dataset.paper === p.id));
+      b.addEventListener('click', () => {
+        host.dataset.paper = p.id;
+        try { localStorage.setItem('cx-editor-paper', p.id); } catch { /* preference is best-effort */ }
+        paperBtns.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.paper === p.id)));
+      });
+      paperBtns.push(b);
+      paperGroup.append(b);
+    }
+    toolbar.append(paperGroup);
+
     const actions = document.createElement('div');
     actions.className = 'cx-edit-actions';
     const saveEditBtn = document.createElement('button');
