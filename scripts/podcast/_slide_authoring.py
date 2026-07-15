@@ -782,6 +782,7 @@ def author_book_deck_pair(
     *,
     retry_on_validation_fail: bool = True,
     timeout: int = SLIDE_DECK_TIMEOUT,
+    model_flag: str | None = None,
 ) -> AuthoringResult:
     """Author ONE slide-deck pair covering the whole book (slide_deck_mode: book).
 
@@ -793,6 +794,11 @@ def author_book_deck_pair(
     (with book-deck-source.txt uploaded as the source), exports ONE deck, and
     drops it at `slide-decks/book-deck.pdf` — the path `_slide_import.py`'s
     book-level branch already consumes.
+
+    model_flag overrides the default model (Opus) for the deck-authoring call —
+    this is presentational NotebookLM framing text over already-translated
+    content, not new translation, so callers may safely pass a lighter model
+    (e.g. translation-edition passes Sonnet). None preserves the prior default.
     """
     chapter_files = sorted((book_dir / "chapters").glob("ch*.txt"))
     if not chapter_files:
@@ -821,7 +827,8 @@ def author_book_deck_pair(
         )
         rc, stdout, stderr = _run_claude_p(
             prompt, timeout=timeout, book_dir=book_dir,
-            phase="11b-slide-authoring", step=f"book-pair/attempt-{attempts}")
+            phase="11b-slide-authoring", step=f"book-pair/attempt-{attempts}",
+            model_flag=model_flag)
         last_stdout, last_stderr = stdout, stderr
         if rc != 0:
             raise AuthoringError(

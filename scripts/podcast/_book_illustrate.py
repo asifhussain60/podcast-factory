@@ -282,7 +282,8 @@ def _select_classify_template(content_profile: str) -> str:
 
 
 def _classify_section(section_title: str, section_text: str,
-                       content_profile: str, *, book_dir: Path) -> list[dict]:
+                       content_profile: str, *, book_dir: Path,
+                       model_flag: str | None = None) -> list[dict]:
     """Stage-1 classification.  Returns validated concept specs (max 3) for the section."""
     template = _select_classify_template(content_profile)
     text = section_text[:6000] if len(section_text) > 6000 else section_text
@@ -294,6 +295,7 @@ def _classify_section(section_title: str, section_text: str,
         phase="0book-illustrate",
         step=section_title[:40],
         timeout=_TIMEOUT,
+        model_flag=model_flag,
     )
     if rc != 0:
         sys.stderr.write(f"  [illustrate] claude -p rc={rc}: {stderr[:200]}\n")
@@ -527,8 +529,15 @@ def _inject_figures(book_md: str, manifest: list[dict]) -> str:
     return result
 
 
-def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = False) -> Path:
-    """Main entry point for 0book-illustrate. Returns path to book/book-illustrated.md."""
+def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = False,
+                                  model_flag: str | None = None) -> Path:
+    """Main entry point for 0book-illustrate. Returns path to book/book-illustrated.md.
+
+    model_flag overrides the default model (Opus) for the diagram-classification
+    LLM call — a mechanical structure-triage task, not translation-fidelity-
+    critical, so callers may safely pass a lighter model (e.g. translation-edition
+    passes Sonnet). None preserves the prior default for all other callers.
+    """
     book_dir = Path(book_dir).resolve()
     book_md_path = book_dir / "book" / "book.md"
     illustrated_path = book_dir / "book" / "book-illustrated.md"
@@ -585,7 +594,8 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
 
         try:
             log(f"    0book-illustrate: {heading[:60]!r} — classifying structure")
-            specs = _classify_section(heading, body, content_profile, book_dir=book_dir)
+            specs = _classify_section(heading, body, content_profile, book_dir=book_dir,
+                                       model_flag=model_flag)
 
             if not specs:
                 log(f"    0book-illustrate: {heading[:60]!r} — no diagrams warranted")
