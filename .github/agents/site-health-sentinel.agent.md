@@ -53,7 +53,7 @@ and looking at real pixels. The split mirrors the book pipeline's
     contrast, broken responsive stacking, theme correctness.
   - **App / reader / studio views** (need a live fixture slug): `/library`,
     `/library/<slug>`, `/studio`, `/studio/new`, `/studio/<slug>`,
-    `/studio/<slug>/{compose,book,arabic-review,style,view}`, `/pronunciation`,
+    `/studio/<slug>/{compose,book,live,arabic-review,style,view}`, `/pronunciation`,
     `/pronunciation/<slug>`, `/pre-upload`, `/pre-upload/<slug>`, `/wisdom`. Interactive —
     hunt the states that hide bugs (below).
 - **API routes (`/api/**`) are NOT in scope** — they are endpoints, not views. The smoke
@@ -98,7 +98,13 @@ deliberately (these are where bugs hide):
     (`--eval` the toggle), the left-gutter mark icons, long-Arabic overflow.
   - **Book Composer** (`/studio/<slug>/compose`): chapter picker, a placed figure's
     wrap/float + resize handle, the Artifacts/Citations/Refinement/Output tablist, the
-    floating `.cx-fig-card`.
+    floating `.cx-fig-card`. In the merged-Edit design: text edit + figure place/resize
+    in one canvas, inspector present ONLY in Edit; in Preview mode the whole book
+    paginates into page boxes with margins and the inspector is hidden.
+  - **LIVE Session** (`/studio/<slug>/live`): the book picker (bucket filter + a
+    multi-volume series nested under its container), the reading column, and the
+    read-only explanation panel updating as the page scrolls (drive scroll via
+    `--eval`), light/dark.
   - **Library / studio grid** (`/library`, `/studio`): the multi-volume series
     "deck" card (`.studio-series-deck`, a book with N volumes — e.g. "The Subtle
     Lights", "Foundation of Esoteric Interpretation") — confirm the stacked sheets

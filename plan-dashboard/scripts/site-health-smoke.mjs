@@ -101,6 +101,7 @@ function buildRoutes(slug) {
         `/studio/${slug}/edit`,      // the default Edit & Enrich rich-editor island (blank-island blind spot)
         `/studio/${slug}/compose`,
         `/studio/${slug}/book`,
+        `/studio/${slug}/live`,       // LIVE Session reading view (own CSS + scroll-synced explanations)
         `/studio/${slug}/arabic-review`,
         `/studio/${slug}/style`,
         `/studio/${slug}/view`,

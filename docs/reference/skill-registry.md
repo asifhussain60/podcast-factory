@@ -17,6 +17,7 @@ The skill set here is a STRICT SUBSET of what existed pre-split — the journal 
 | **Clean-commit** | BRONZE (target) | Active (plugin) — overlay applies (duplicated copy) | `~/.claude/skills/clean-commit/SKILL.md` + `reference/skill-overlays/clean-commit-cortex-overlay.md` |
 | **Podcast** | OUT OF SCOPE (content-prep) | Active in staging — exempt from CORTEX per SKILL.md §9; quality judged by human listening | `skills-staging/podcast/SKILL.md` |
 | **Repo-surgeon** | BRONZE (target) | WIP in staging — consolidated to single skill.md (duplicated copy) | `skills-staging/repo-surgeon/SKILL.md` |
+| **Studio-composer** | BRONZE (target) | Active in staging — behavioural contract for the Book Composer / Preview / LIVE Session surfaces; defers styling to html-view-quality | `skills-staging/studio-composer/SKILL.md` |
 
 All skills target **CORTEX Challenger Framework v1.0**. The framework version is implicit unless a row says otherwise.
 
@@ -49,6 +50,12 @@ Detail on what each skill owns, what triggers it, and what it explicitly defers 
 | Skill | Purpose | Owns | Triggers |
 |---|---|---|---|
 | `podcast` | Convert scholarly Arabic books into NotebookLM Audio Overview podcast series | `content/<Bucket>/<slug>/` (all per-book state); publish = `status: published` flip in place via `publish_to_library.py` | `/podcast`, `/extract-chapter <ref>`, `claude --agent podcast-orchestrator` |
+
+### Site-authoring skills
+
+| Skill | Purpose | Owns | Triggers |
+|---|---|---|---|
+| `studio-composer` | Behavioural contract for the three Studio authoring surfaces (merged Edit canvas, whole-book Preview, LIVE Session) | `docs/standards/studio-composer-quality.md` (REQ-SC-*); defers styling to `html-view-quality` | "book composer", "compose view", "preview mode", "live session", "figure placement" |
 
 ### General-utility skills (duplicated independent copies from journal repo)
 
