@@ -23,9 +23,15 @@ Editor: the Companion note form (`CompanionPanel.tsx`) gained a "Capture passage
 (select prose → stored as `quote`), the `anchor` field is relabeled "Card title", and note
 cards show a yellow passage pill (`CompanionCard.tsx`). Verified in real chromium (reader
 highlight + editor capture + API persist round-trip); `astro check` 0 errors, `lint:views`
-clean. Gates: html-view-challenger + site-health-sentinel were interrupted by a session
-boundary mid-run (NOT a failure) — re-run pending. Known pre-existing debt spotted: HEAD
-stores note em-dashes escaped (`—`) while the store writes them literal — left as-is.
+clean. Gates: BOTH PASS. site-health-sentinel PASS (fixed one mobile defect — the
+"Contents" button clipped at ~360-390px; `flex-wrap:wrap` on `.lsv-topbar-left`).
+html-view-challenger PASS on DoD + theme after fixes: a keyboard MUST (the Capture button
+was mouse-only → now onClick, keyboard-accessible), 2 aria SHOULDs (hint `role=status`;
+dropped the verbose scroll-driven live-region on `#lsv-explain-body`), and tokenizing the
+highlighter into one shared `--reader-mark`/`--reader-mark-edge` pair (in book-reader.css)
+referenced by BOTH the reader highlight and the editor pill (no `--c-*` theme change). Fix
+commit follows `d97c1cf`. Known pre-existing debt: HEAD stores note em-dashes escaped
+(`—`) while the store writes them literal — left as-is.
 
 **Earlier — Phase 2.5: LIVE Session was a Kindle-style e-reader (now superseded above).**
 Commits `757957e` + `64c0422` on `develop`. `/studio/<slug>/live` now paginates the book into

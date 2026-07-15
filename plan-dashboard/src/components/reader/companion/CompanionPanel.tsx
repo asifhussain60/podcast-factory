@@ -147,8 +147,9 @@ export default function CompanionPanel({
   }
 
   // Capture the reader's current text selection as the note's verbatim passage.
-  // Runs on mouseDown (with preventDefault) so clicking the button never collapses
-  // the selection or steals focus before we can read it.
+  // Fired from the button's onClick so it works for BOTH mouse and keyboard
+  // (Enter/Space synthesize a click); a bare onMouseDown preventDefault keeps a
+  // mouse press from collapsing the selection before the click reads it.
   function captureSelection() {
     if (typeof window === 'undefined') return;
     const sel = window.getSelection();
@@ -335,16 +336,20 @@ export default function CompanionPanel({
               type="button"
               className="cpn-btn"
               aria-label="Capture the selected passage"
-              onMouseDown={(e) => {
-                e.preventDefault();
-                captureSelection();
-              }}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={captureSelection}
             >
               <i className="fa-solid fa-highlighter" aria-hidden="true" /> Capture
             </button>
           </div>
           {captureHint && (
-            <p className={`cpn-hint${captureHint.ok ? ' cpn-hint--ok' : ''}`}>{captureHint.msg}</p>
+            <p
+              className={`cpn-hint${captureHint.ok ? ' cpn-hint--ok' : ''}`}
+              role="status"
+              aria-live="polite"
+            >
+              {captureHint.msg}
+            </p>
           )}
 
           <label className="cpn-field-label" htmlFor="cpn-body">Note</label>

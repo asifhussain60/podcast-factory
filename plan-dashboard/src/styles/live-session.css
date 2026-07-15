@@ -25,8 +25,9 @@
 
 /* ── paper themes (mirror book-composer.css; reader-surface only) ─────────── */
 /* --lsv-mark is the yellow highlighter for the passage the companion is explaining;
+   light derives from the shared --reader-mark token (book-reader.css); sepia/dark are
    tuned per paper so the ink stays readable through it (reader-surface only). */
-.lsv[data-paper='light'] { --paper-bg: #fefdfb; --paper-ink: #1f1d18; --paper-ink-dim: #5c574d; --paper-rule: #d9d3c4; --paper-accent: var(--c-accent); --lsv-mark: rgba(255, 213, 41, 0.6); --lsv-mark-edge: rgba(214, 164, 20, 0.85); }
+.lsv[data-paper='light'] { --paper-bg: #fefdfb; --paper-ink: #1f1d18; --paper-ink-dim: #5c574d; --paper-rule: #d9d3c4; --paper-accent: var(--c-accent); --lsv-mark: color-mix(in srgb, var(--reader-mark) 60%, transparent); --lsv-mark-edge: color-mix(in srgb, var(--reader-mark-edge) 85%, transparent); }
 .lsv[data-paper='sepia'] { --paper-bg: #f4ecd8; --paper-ink: #5b4636; --paper-ink-dim: #7a6650; --paper-rule: #ddd0b4; --paper-accent: #7a4a1e; --lsv-mark: rgba(226, 176, 58, 0.55); --lsv-mark-edge: rgba(160, 110, 30, 0.8); }
 .lsv[data-paper='dark']  { --paper-bg: #201e1b; --paper-ink: #d8d2c6; --paper-ink-dim: #a49d90; --paper-rule: #3d3a32; --paper-accent: #d8a25a; --lsv-mark: rgba(240, 205, 90, 0.3); --lsv-mark-edge: rgba(240, 205, 90, 0.7); }
 
@@ -52,6 +53,7 @@
 .lsv-topbar-left {
   display: flex;
   align-items: center;
+  flex-wrap: wrap; /* narrow screens: Contents drops below the picker instead of clipping off-edge */
   gap: var(--sp-3);
   min-width: 0;
 }

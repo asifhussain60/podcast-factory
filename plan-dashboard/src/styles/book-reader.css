@@ -1,6 +1,14 @@
 /* book-reader.css — the Studio "Reading edition" view (companion book).
  * External stylesheet (no inline styling). Reuses the existing --c-* theme
- * tokens; introduces no new colours and changes no theme value. */
+ * tokens and changes no theme value. Defines ONE shared reader-surface marker
+ * token pair (--reader-mark / --reader-mark-edge) — the single source of truth
+ * for the passage highlighter used by the LIVE Session reader AND the Companion
+ * editor's passage pill, so the two can never drift. Not a --c-* theme colour. */
+
+:root {
+  --reader-mark: #ffd529;      /* passage-highlighter yellow */
+  --reader-mark-edge: #d6a414; /* its darker edge */
+}
 
 /* Width wrapper that keeps the shared .lib-hero header aligned with the 1140px
    reading-edition body below it. The header itself is the shared Studio hero. */

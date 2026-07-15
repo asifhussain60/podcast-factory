@@ -1,8 +1,9 @@
 /* companion-notes.css — the reader's private Companion notes panel.
- * External stylesheet (no inline styling, per the site DoD). Reuses the existing
- * --c-* theme tokens ONLY; introduces no new colours and changes no theme value.
- * Kind + source colours are driven by data-attributes so a new kind/provider needs
- * no new markup — just a token mapping here. */
+ * External stylesheet (no inline styling, per the site DoD). Uses the existing
+ * --c-* theme tokens (changes no theme value); the passage pill references the
+ * shared reader-surface marker token --reader-mark (defined in book-reader.css),
+ * so it can't drift from the reader's highlight. Kind + source colours are driven
+ * by data-attributes so a new kind/provider needs no new markup — a token mapping. */
 
 /* ── Shell ───────────────────────────────────────────────── */
 .cpn {
@@ -258,7 +259,7 @@
   margin: 0 0 0.45rem;
   padding: 0.2rem 0.4rem;
   border-radius: 5px;
-  background: color-mix(in oklab, #f5cf29 26%, transparent);
+  background: color-mix(in oklab, var(--reader-mark) 26%, transparent);
   color: var(--c-ink-dim);
   font-size: 0.86rem;
   line-height: 1.4;
@@ -267,7 +268,7 @@
   white-space: nowrap;
 }
 .cpn-quote-mark i {
-  color: color-mix(in oklab, #caa014 80%, var(--c-ink-dim));
+  color: color-mix(in oklab, var(--reader-mark-edge) 80%, var(--c-ink-dim));
 }
 .cpn-body {
   margin: 0;
