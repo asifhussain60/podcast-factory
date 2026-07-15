@@ -16,6 +16,12 @@ export default defineConfig({
     // it — surfacing as "jsxDEV is not a function" / "504 Outdated Optimize Dep".
     cacheDir: process.env.VITE_CACHE_DIR || undefined,
     plugins: [tailwindcss()],
+    // Force a SINGLE React instance across every dep. A nested dependency that
+    // resolves its own copy of react/react-dom makes hooks read from the wrong
+    // instance and return null — surfacing as "Cannot read properties of null
+    // (reading 'useContext' / 'useRef')" and a blanked island (e.g. /corpus,
+    // Edit & Enrich). dedupe collapses them to one copy so this can't happen.
+    resolve: { dedupe: ['react', 'react-dom'] },
     optimizeDeps: {
       // React 19 uses a conditional IIFE that Vite's CJS→ESM static analyser
       // can't resolve without explicit pre-bundling — forces esbuild to process
