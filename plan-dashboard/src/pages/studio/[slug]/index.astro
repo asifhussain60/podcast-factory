@@ -260,6 +260,11 @@ const firstChapterHref = firstChapterId
             <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> PDF Generator
           </a>
         )}
+        {t.id === 'media' && (
+          <a class="lib-tab-cta" href={`/studio/${slugStr}/live`}>
+            <i class="fa-solid fa-book-open-reader" aria-hidden="true"></i> LIVE Session
+          </a>
+        )}
       </Fragment>
     ))}
   </nav>

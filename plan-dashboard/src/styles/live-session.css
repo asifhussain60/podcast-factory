@@ -1,0 +1,326 @@
+/*
+ * live-session.css — the LIVE Session reading view (/studio/<slug>/live).
+ *
+ * The view's own identity (shell, book picker, explanation panel). The reading
+ * column reuses .bookv-body from book-reader.css for prose + citation/Quran styling
+ * (shared reader layer — not re-copied here). Tokens only from theme.css; no colour
+ * values are introduced. Read-only surface (studio-composer REQ-SC-010/014).
+ */
+
+/* ── shell + stage ─────────────────────────────────────────────────────── */
+.lsv-hero {
+  margin-bottom: var(--sp-4);
+}
+
+.lsv-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 22rem;
+  gap: var(--sp-6);
+  align-items: start;
+}
+
+.lsv-read {
+  margin-inline: auto;
+  font-size: 1.25rem;
+  line-height: 1.8;
+}
+
+/* ── explanation panel ─────────────────────────────────────────────────── */
+.lsv-explain {
+  position: sticky;
+  top: var(--sp-5);
+  align-self: start;
+  max-height: calc(100vh - 2 * var(--sp-5));
+  display: flex;
+  flex-direction: column;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule-soft);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.lsv-explain-head {
+  padding: var(--sp-4) var(--sp-4) var(--sp-3);
+  border-bottom: 1px solid var(--c-rule-soft);
+  background: var(--c-bg-sunken);
+}
+
+.lsv-explain-eyebrow {
+  margin: 0 0 var(--sp-1);
+  font-family: var(--font-ui);
+  font-size: var(--fs-2xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+}
+
+.lsv-explain-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-tight);
+  color: var(--c-ink);
+}
+
+.lsv-explain-body {
+  padding: var(--sp-4);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.lsv-explain-empty {
+  margin: 0;
+  color: var(--c-ink-muted);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-base);
+}
+
+/* ── a single companion note ───────────────────────────────────────────── */
+.lsv-note {
+  padding: var(--sp-3);
+  background: var(--c-bg);
+  border: 1px solid var(--c-rule-soft);
+  border-left: 3px solid var(--c-accent);
+  border-radius: var(--r-md);
+}
+
+.lsv-note-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-2);
+}
+
+.lsv-note-kind {
+  font-family: var(--font-ui);
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+}
+
+.lsv-note-source {
+  font-family: var(--font-ui);
+  font-size: var(--fs-2xs);
+  color: var(--c-ink-muted);
+}
+
+.lsv-note-anchor {
+  margin: 0 0 var(--sp-2);
+  padding-left: var(--sp-3);
+  border-left: 2px solid var(--c-rule);
+  color: var(--c-ink-dim);
+  font-style: italic;
+  font-size: var(--fs-sm);
+}
+
+.lsv-note-body {
+  margin: 0;
+  color: var(--c-ink);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-base);
+}
+
+/* ── book picker ───────────────────────────────────────────────────────── */
+.lsv-picker {
+  position: relative;
+}
+
+.lsv-picker-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  max-width: 20rem;
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--c-accent);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--c-accent) 8%, var(--c-bg-card));
+  color: var(--c-accent);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.lsv-picker-trigger:hover {
+  background: color-mix(in oklab, var(--c-accent) 16%, var(--c-bg-card));
+}
+
+.lsv-picker-trigger:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.lsv-picker-current {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lsv-picker-caret {
+  font-size: var(--fs-2xs);
+  transition: transform 0.15s;
+}
+
+.lsv-picker[data-open='true'] .lsv-picker-caret {
+  transform: rotate(180deg);
+}
+
+.lsv-picker-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + var(--sp-2));
+  z-index: 40;
+  width: 24rem;
+  max-width: min(24rem, 90vw);
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-hover);
+  overflow: hidden;
+}
+
+.lsv-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  border-bottom: 1px solid var(--c-rule-soft);
+  background: var(--c-bg-sunken);
+}
+
+.lsv-filter-chip {
+  padding: var(--sp-1) var(--sp-3);
+  border: 1px solid var(--c-rule);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--c-ink-dim);
+  font-family: var(--font-ui);
+  font-size: var(--fs-2xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.lsv-filter-chip:hover {
+  border-color: var(--c-accent);
+  color: var(--c-ink);
+}
+
+.lsv-filter-chip.is-active {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: var(--c-bg-card);
+}
+
+.lsv-filter-chip:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.lsv-picker-list {
+  padding: var(--sp-2) var(--sp-3) var(--sp-3);
+  overflow-y: auto;
+}
+
+.lsv-picker-group + .lsv-picker-group {
+  margin-top: var(--sp-3);
+}
+
+.lsv-picker-bucket {
+  margin: var(--sp-2) 0 var(--sp-1);
+  font-family: var(--font-ui);
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+.lsv-picker-books {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lsv-work-title {
+  margin: var(--sp-2) 0 var(--sp-1);
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--c-ink-dim);
+}
+
+.lsv-vols {
+  margin: 0 0 0 var(--sp-3);
+  padding: 0 0 0 var(--sp-3);
+  list-style: none;
+  border-left: 1px solid var(--c-rule-soft);
+}
+
+.lsv-book-link {
+  display: block;
+  padding: var(--sp-2);
+  border-radius: var(--r-sm);
+  color: var(--c-ink);
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  transition: background 0.12s;
+}
+
+.lsv-book-link:hover {
+  background: var(--c-bg-sunken);
+}
+
+.lsv-book-link.is-current {
+  background: color-mix(in oklab, var(--c-accent) 12%, var(--c-bg-card));
+  color: var(--c-accent);
+  font-weight: 600;
+}
+
+.lsv-book-link:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: -2px;
+}
+
+/* ── empty state ───────────────────────────────────────────────────────── */
+.lsv-empty {
+  max-width: 42rem;
+  margin: var(--sp-8) auto;
+  padding: var(--sp-6);
+  text-align: center;
+  color: var(--c-ink-dim);
+}
+
+/* ── responsive: stack the panel under the reading column ──────────────── */
+@media (max-width: 960px) {
+  .lsv-stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .lsv-explain {
+    position: static;
+    max-height: none;
+    order: -1;
+  }
+  .lsv-picker-panel {
+    width: min(24rem, 92vw);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lsv-picker-caret,
+  .lsv-picker-trigger,
+  .lsv-filter-chip,
+  .lsv-book-link {
+    transition: none;
+  }
+}
