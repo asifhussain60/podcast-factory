@@ -196,7 +196,7 @@
 }
 .cpn-empty {
   padding: 0.75rem 0;
-  color: var(--c-ink-muted);
+  color: var(--c-ink-dim);
   font-size: 0.95rem;
 }
 .cpn-error {
