@@ -6,9 +6,32 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-07-15 5:33 PM EST (LIVE Session → continuous scroll + passage-level Companion)
+**Last updated:** 2026-07-15 6:29 PM EST (Book Composer UX trio: autosave + reading-edition link + themed dialog)
 
-**Newest — LIVE Session reworked: single-scroll reader + passage-level Companion.**
+**Newest — Book Composer UX trio (autosave, reading-edition link, themed dialog).**
+Local commit on `develop` (not yet pushed). Files: `compose.astro`, `book-composer.ts`,
+`book-composer.css`, new `confirm-dialog.ts`. (1) Composer header gains an "Open reading
+edition" link → `/studio/<slug>/book`, and the misleading "Read" mode toggle is renamed
+"Layout" (it's the figure-placement + preview surface, NOT a reader — repurposing it was
+rejected as a regression). (2) The prose editor now AUTOSAVES: debounced (~1.2s) silent
+PUT to `/api/studio/book-md`, single-flight + trailing re-save, a status pill (Editing… →
+Saving… → Saved <time> → Couldn't save + Retry); the manual "Save prose"/"Cancel" buttons
+are removed. Because the page holds the original server render in memory, LEAVING an edited
+chapter (to Layout or another chapter) reloads once to re-render — and that reload now
+PRESERVES the chapter + Edit mode (fixes the old always-reset-to-chapter-1 quirk) via
+`sessionStorage` (`cx-restore-chapter` / `cx-restore-edit`). (3) New vanilla promise-based
+`confirmDialog()` (`.cx-confirm-*`, `--c-*` tokens, focus trap, Esc/backdrop cancel, focus
+restore, danger variant) replaces the native `confirm()` on the discard-edits + delete-
+artifact paths; with autosave the discard prompt only fires on a genuine save FAILURE.
+Gates: html-view-challenger PASS (full AA; added dialog `aria-describedby` per its one
+SHOULD), site-health-sentinel PASS (no defects; confirmed the scrim already dims the nav).
+Verified in chromium with the save endpoint MOCKED — book.md never mutated. Deferred
+follow-up: one native `window.alert()` on the delete-FAILURE path (`book-composer.ts`)
+still needs a themed one-button notice variant. Also open from before: the composer-ux
+plan's items are now DONE; broader Studio redesign Phase 3 (Preview/Paged.js) + Phase 4
+(Edit-canvas merge) remain.
+
+**LIVE Session reworked: single-scroll reader + passage-level Companion.**
 Local commit on `develop` (not yet pushed). Supersedes the Phase-2.5 pagination below.
 `/studio/<slug>/live` is no longer paginated — it now stacks every chapter as its own
 numbered paper "sheet" down ONE window scrollbar (no inner scrollbars): centered reading

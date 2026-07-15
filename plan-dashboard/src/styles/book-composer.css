@@ -669,6 +669,68 @@
 .cx-aiimg-actions { display: flex; gap: 0.5rem; }
 .cx-aiimg-actions .cx-action { flex: 0 0 auto; }
 .cx-palette-meta { min-width: 0; }
+
+/* Themed confirm dialog (confirm-dialog.ts) — replaces the native window.confirm(). */
+.cx-confirm-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: color-mix(in oklab, var(--c-ink, #1f1d18) 45%, transparent);
+}
+.cx-confirm-box {
+  width: min(28rem, 100%);
+  padding: 1.1rem 1.2rem;
+  background: var(--c-bg-card, #fffdf8);
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 10px;
+  box-shadow: 0 20px 50px rgba(31, 29, 24, 0.28);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cx-confirm-box { animation: cx-confirm-in 0.16s ease both; }
+}
+@keyframes cx-confirm-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+.cx-confirm-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-confirm-body {
+  margin: 0 0 1rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--c-ink-dim, #5c574d);
+}
+.cx-confirm-actions { display: flex; justify-content: flex-end; gap: 0.5rem; }
+.cx-confirm-btn {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 8px;
+  background: var(--c-bg-card, #fffdf8);
+  color: var(--c-ink, #1f1d18);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cx-confirm-btn:hover { border-color: var(--c-ink-dim, #5c574d); }
+.cx-confirm-btn:focus-visible { outline: 2px solid var(--c-accent, #8b4513); outline-offset: 1px; }
+.cx-confirm-btn--primary {
+  background: var(--c-accent, #8b4513);
+  border-color: var(--c-accent, #8b4513);
+  color: #fff;
+}
+.cx-confirm-btn--danger {
+  background: var(--c-red, #a83232);
+  border-color: var(--c-red, #a83232);
+}
 .cx-palette-meta .cx-palette-cap {
   font-size: 0.82rem;
   margin: 0;
@@ -734,6 +796,24 @@
 .cx-action:disabled { opacity: 0.5; cursor: default; }
 .cx-status { font-size: 0.8rem; margin: 0.3rem 0 0; min-height: 1.1rem; }
 .cx-status.is-error { color: var(--c-red); }
+
+/* Autosave status pill (book-composer.ts) — text + a Retry button on failure. */
+.cx-autosave { display: flex; align-items: center; gap: 0.5rem; }
+.cx-autosave-text { color: var(--c-ink-muted, #87827a); }
+.cx-status.is-error .cx-autosave-text { color: var(--c-red, #a83232); }
+.cx-autosave-retry {
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--c-red, #a83232);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--c-red, #a83232);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cx-autosave-retry:hover { background: color-mix(in oklab, var(--c-red, #a83232) 12%, transparent); }
+.cx-autosave-retry:focus-visible { outline: 2px solid var(--c-red, #a83232); outline-offset: 1px; }
 
 .cx-delete {
   font: inherit;

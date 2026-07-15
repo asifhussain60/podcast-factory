@@ -52,7 +52,7 @@ const FAMILIES = [
           </div>
           <p class="composer-sub">
             Work one chapter at a time. The chapter opens in the editor — reshape prose
-            with the AI actions in Refinement. Switch to Read to place and size its
+            with the AI actions in Refinement. Switch to Layout to place and size its
             visuals (click a figure for its controls), and set citation styles in Citations.
           </p>
         </div>
@@ -60,6 +60,10 @@ const FAMILIES = [
           <div class="lib-title-actions">
             <a class="lib-studio-link" href={`/studio/${slug}/live`}>
               <i class="fa-solid fa-book-open-reader" aria-hidden="true"></i> LIVE Session
+              <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
+            </a>
+            <a class="lib-studio-link" href={`/studio/${slug}/book`}>
+              <i class="fa-solid fa-book" aria-hidden="true"></i> Reading edition
               <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
             </a>
             <a class="lib-studio-link" href={`/studio/${slug}/edit`}>
@@ -81,8 +85,8 @@ const FAMILIES = [
                 ))}
               </select>
             </div>
-            <div class="cx-mode" role="group" aria-label="Preview mode">
-              <button type="button" class="cx-mode-btn is-active" id="cx-mode-read" aria-pressed="true">Read</button>
+            <div class="cx-mode" role="group" aria-label="Editor mode">
+              <button type="button" class="cx-mode-btn is-active" id="cx-mode-read" aria-pressed="true">Layout</button>
               <button type="button" class="cx-mode-btn" id="cx-mode-edit" aria-pressed="false">Edit</button>
             </div>
           </div>

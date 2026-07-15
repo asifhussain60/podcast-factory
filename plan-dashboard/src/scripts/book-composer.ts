@@ -9,6 +9,7 @@
  * inline HTML attribute), so the view stays lint/Cortex-clean.
  */
 import { mountChapterEditor, type ChapterEditor } from './book-md-editor';
+import { confirmDialog } from './confirm-dialog';
 
 type Align = 'left' | 'center' | 'right';
 type Flow = 'wrap' | 'standalone';
@@ -66,6 +67,15 @@ function boot(): void {
   const chapterSelect = root.querySelector<HTMLSelectElement>('#cx-chapter-select');
   const scopeEl = root.querySelector<HTMLElement>('#cx-artifacts-scope');
   let selectedChapter = data.chapters[0]?.key ?? '';
+  // After an autosave-triggered reload we restore the chapter the user was on
+  // (the manual save used to always reset to chapter 1 — this fixes that too).
+  try {
+    const restore = sessionStorage.getItem('cx-restore-chapter');
+    if (restore) {
+      sessionStorage.removeItem('cx-restore-chapter');
+      if (data.chapters.some((c) => c.key === restore)) selectedChapter = restore;
+    }
+  } catch { /* sessionStorage best-effort */ }
 
   // ── inspector tabs (Artifacts · Citations · Refinement · Output) ──────────
   const TABS = ['artifacts', 'citations', 'refine', 'output'] as const;
@@ -107,11 +117,27 @@ function boot(): void {
   }
   if (chapterSelect) {
     chapterSelect.value = selectedChapter;
-    chapterSelect.addEventListener('change', () => {
+    chapterSelect.addEventListener('change', async () => {
       const wasEditing = !!activeEditor;
-      if (wasEditing && editorDirty && !window.confirm('Discard unsaved edits to this chapter?')) {
-        chapterSelect.value = selectedChapter; // revert the picker
-        return;
+      if (wasEditing) {
+        const saved = activeSaveFlush ? await activeSaveFlush() : true;
+        if (!saved) {
+          const leave = await confirmDialog({
+            title: 'Discard unsaved edits?',
+            body: "This chapter has changes that didn't save. Switch chapters anyway and lose them?",
+            confirmLabel: 'Switch',
+            cancelLabel: 'Keep editing',
+            danger: true,
+          });
+          if (!leave) { chapterSelect.value = selectedChapter; return; } // stay on this chapter
+        } else if (contentChangedThisSession) {
+          // Prose was saved → reload so the target chapter renders from fresh book.md,
+          // landing back in Edit (the user was editing) on the new chapter.
+          selectedChapter = chapterSelect.value;
+          try { sessionStorage.setItem('cx-restore-edit', '1'); } catch { /* best-effort */ }
+          reloadPreservingChapter();
+          return;
+        }
       }
       if (activeEditor) exitEdit(); // tear down the editor bound to the old chapter
       selectedChapter = chapterSelect.value;
@@ -128,7 +154,18 @@ function boot(): void {
   const modeEdit = root.querySelector<HTMLButtonElement>('#cx-mode-edit');
   const bookTitle = root.closest('body')?.querySelector<HTMLElement>('.lib-hero-main h1')?.textContent?.trim() ?? '';
   let activeEditor: ChapterEditor | null = null;
-  let editorDirty = false;
+  let editorDirty = false; // true = edits not yet successfully autosaved
+  let contentChangedThisSession = false; // a save landed → in-memory render is stale
+  // Flush any pending autosave for the active editor; resolves true if the chapter
+  // is safely saved (or had nothing to save), false if the save failed.
+  let activeSaveFlush: (() => Promise<boolean>) | null = null;
+
+  // A prose autosave writes book.md on disk but the page still holds the ORIGINAL
+  // server render in memory; reload (preserving the chapter) to re-sync the preview.
+  function reloadPreservingChapter(): void {
+    try { sessionStorage.setItem('cx-restore-chapter', selectedChapter); } catch { /* best-effort */ }
+    window.location.reload();
+  }
 
   function currentChapterEl(): HTMLElement | null {
     return Array.from(root.querySelectorAll<HTMLElement>('.cx-chapter'))
@@ -150,6 +187,7 @@ function boot(): void {
   function exitEdit(): void {
     activeEditor?.destroy();
     activeEditor = null;
+    activeSaveFlush = null;
     editorDirty = false;
     root.querySelector('.cx-edit-shell')?.remove();
     const bodyEl = currentChapterEl()?.querySelector<HTMLElement>('.cx-body');
@@ -307,36 +345,41 @@ function boot(): void {
     }
     toolbar.append(paperGroup);
 
-    const actions = document.createElement('div');
-    actions.className = 'cx-edit-actions';
-    const saveEditBtn = document.createElement('button');
-    saveEditBtn.type = 'button';
-    saveEditBtn.className = 'cx-action';
-    saveEditBtn.textContent = 'Save prose';
-    const cancelBtn = document.createElement('button');
-    cancelBtn.type = 'button';
-    cancelBtn.className = 'cx-action is-secondary';
-    cancelBtn.textContent = 'Cancel';
+    // Autosave status pill — no manual "Save prose" button; edits persist themselves.
     const editStatus = document.createElement('p');
-    editStatus.className = 'cx-status';
+    editStatus.className = 'cx-status cx-autosave';
     editStatus.setAttribute('role', 'status');
     editStatus.setAttribute('aria-live', 'polite');
-    actions.append(saveEditBtn, cancelBtn);
-    shell.append(toolbar, host, actions, editStatus);
+    const statusText = document.createElement('span');
+    statusText.className = 'cx-autosave-text';
+    const retryBtn = document.createElement('button');
+    retryBtn.type = 'button';
+    retryBtn.className = 'cx-autosave-retry';
+    retryBtn.textContent = 'Retry';
+    retryBtn.hidden = true;
+    editStatus.append(statusText, retryBtn);
+    shell.append(toolbar, host, editStatus);
     bodyEl.insertAdjacentElement('afterend', shell);
 
     activeEditor = mountChapterEditor(host, pristine);
     editorDirty = false;
-    activeEditor.editor.on('update', () => { editorDirty = true; });
-    activeEditor.editor.on('selectionUpdate', () => updateAiEnabled());
-    updateAiEnabled();
 
-    cancelBtn.addEventListener('click', () => setMode('read'));
-    saveEditBtn.addEventListener('click', async () => {
-      if (!activeEditor) return;
-      saveEditBtn.disabled = true;
-      editStatus.textContent = 'Saving…';
-      editStatus.classList.remove('is-error');
+    // ── autosave: debounced silent PUT, single-flight with a trailing re-save ──
+    let saveTimer: number | undefined;
+    let saving = false;
+    let needsResave = false;
+    const setStatus = (msg: string, state: 'saving' | 'saved' | 'error' | 'editing') => {
+      statusText.textContent = msg;
+      editStatus.classList.toggle('is-error', state === 'error');
+      retryBtn.hidden = state !== 'error';
+    };
+    const savedTime = () => new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
+    async function doSave(): Promise<boolean> {
+      if (!activeEditor) return true;
+      if (saving) { needsResave = true; return false; } // single-flight
+      saving = true;
+      setStatus('Saving…', 'saving');
       try {
         const res = await fetch('/api/studio/book-md', {
           method: 'PUT',
@@ -345,27 +388,86 @@ function boot(): void {
         });
         const json = await res.json();
         if (!json.ok) throw new Error(json.error || 'save failed');
-        // Reload so the preview + visual anchors reflect the authoritative re-render.
-        window.location.reload();
+        saving = false;
+        editorDirty = false;
+        contentChangedThisSession = true;
+        if (needsResave) { needsResave = false; return doSave(); } // fold in edits made mid-save
+        setStatus(`Saved ${savedTime()}`, 'saved');
+        return true;
       } catch (err) {
-        editStatus.textContent = `Save failed: ${(err as Error).message}`;
-        editStatus.classList.add('is-error');
-        saveEditBtn.disabled = false;
+        saving = false;
+        setStatus(`Couldn't save — ${(err as Error).message}`, 'error');
+        return false;
       }
+    }
+    const scheduleSave = () => {
+      window.clearTimeout(saveTimer);
+      saveTimer = window.setTimeout(() => { void doSave(); }, 1200);
+    };
+    retryBtn.addEventListener('click', () => { void doSave(); });
+
+    // Flush the pending autosave now; resolves true if the chapter is safely saved.
+    activeSaveFlush = async (): Promise<boolean> => {
+      window.clearTimeout(saveTimer);
+      if (!editorDirty && !saving) return true;
+      return doSave();
+    };
+
+    activeEditor.editor.on('update', () => {
+      editorDirty = true;
+      setStatus('Editing…', 'editing');
+      scheduleSave();
     });
+    activeEditor.editor.on('selectionUpdate', () => updateAiEnabled());
+    updateAiEnabled();
   }
 
-  function setMode(mode: 'read' | 'edit'): void {
+  function setModeVisual(mode: 'read' | 'edit'): void {
     const edit = mode === 'edit';
     modeRead?.classList.toggle('is-active', !edit);
     modeRead?.setAttribute('aria-pressed', String(!edit));
     modeEdit?.classList.toggle('is-active', edit);
     modeEdit?.setAttribute('aria-pressed', String(edit));
     root.classList.toggle('is-editing', edit);
-    if (edit) enterEdit(); else exitEdit();
   }
-  modeRead?.addEventListener('click', () => setMode('read'));
-  modeEdit?.addEventListener('click', () => setMode('edit'));
+  function enterEditMode(): void {
+    if (activeEditor) return;
+    setModeVisual('edit');
+    enterEdit();
+  }
+  // Leaving edit: flush autosave; if it FAILED, confirm before losing edits; then —
+  // when prose actually changed — reload (preserving the chapter) so the Layout
+  // preview re-renders from the authoritative book.md.
+  async function leaveEditMode(): Promise<boolean> {
+    if (!activeEditor) { setModeVisual('read'); return true; }
+    const saved = activeSaveFlush ? await activeSaveFlush() : true;
+    if (!saved) {
+      const leave = await confirmDialog({
+        title: 'Discard unsaved edits?',
+        body: "The last save didn't go through. Leave anyway and lose the unsaved changes to this chapter?",
+        confirmLabel: 'Leave',
+        cancelLabel: 'Keep editing',
+        danger: true,
+      });
+      if (!leave) return false;
+    }
+    if (saved && contentChangedThisSession) { reloadPreservingChapter(); return true; }
+    setModeVisual('read');
+    exitEdit();
+    contentChangedThisSession = false;
+    return true;
+  }
+  // Programmatic entry point kept for callers that just want to (re)enter Edit.
+  function setMode(mode: 'read' | 'edit'): void {
+    if (mode === 'edit') enterEditMode();
+    else void leaveEditMode();
+  }
+  modeRead?.addEventListener('click', () => { void leaveEditMode(); });
+  modeEdit?.addEventListener('click', () => enterEditMode());
+
+  // Best-effort save if the tab is hidden/closed with edits still pending (the
+  // ~1.2s debounce keeps this window small; there is no native "unsaved" prompt).
+  window.addEventListener('pagehide', () => { if (activeSaveFlush) void activeSaveFlush(); });
 
   // ── Citations tab: predefined style (persisted) + this chapter's citations ──
   const citeForm = root.querySelector<HTMLFormElement>('.cx-cite-form');
@@ -723,7 +825,14 @@ function boot(): void {
   // ── delete an artifact (index entry + file) ───────────────────────────────
   async function deleteArtifact(v: Visual): Promise<void> {
     hideHoverPreview();
-    if (!window.confirm(`Delete “${v.caption || v.id}” permanently? This removes it from the library and disk.`)) return;
+    const ok = await confirmDialog({
+      title: 'Delete this artifact?',
+      body: `“${v.caption || v.id}” will be removed from the library and disk. This can't be undone.`,
+      confirmLabel: 'Delete',
+      cancelLabel: 'Keep',
+      danger: true,
+    });
+    if (!ok) return;
     try {
       const res = await fetch('/api/studio/visual-op', {
         method: 'POST', headers: { 'content-type': 'application/json' },
@@ -1137,6 +1246,14 @@ function boot(): void {
   renderCitations();
   renderAiActions();
   render();
+
+  // If we reloaded mid-edit (autosave re-sync), drop back into Edit on arrival.
+  try {
+    if (sessionStorage.getItem('cx-restore-edit')) {
+      sessionStorage.removeItem('cx-restore-edit');
+      enterEditMode();
+    }
+  } catch { /* sessionStorage best-effort */ }
 
   // Deselect a placed figure (and hide its inline card) on an outside click.
   document.addEventListener('click', (e) => {
