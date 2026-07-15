@@ -1,0 +1,127 @@
+[
+  {
+    "diagram_id": "1-the-first-obligation-seeking-knowledge-1",
+    "section": "1. The First Obligation: Seeking Knowledge",
+    "anchor_text": "The first stage of knowledge is silence",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Traces the four ordered stages of knowledge as a progression from silence through listening and spreading to action.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/1-the-first-obligation-seeking-knowledge-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/1-the-first-obligation-seeking-knowledge-1.svg"
+  },
+  {
+    "diagram_id": "2-purity-water-ablution-and-the-body-mad-1",
+    "section": "2. Purity: Water, Ablution, and the Body Made Ready",
+    "anchor_text": "if something is cast into water and alters it",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows the decision rule that determines whether water mixed with a substance keeps its purifying ruling or loses it.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/2-purity-water-ablution-and-the-body-mad-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/2-purity-water-ablution-and-the-body-mad-1.svg"
+  },
+  {
+    "diagram_id": "2-purity-water-ablution-and-the-body-mad-2",
+    "section": "2. Purity: Water, Ablution, and the Body Made Ready",
+    "anchor_text": "it is permissible to perform ablution with date wine",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Contrasts the three Hanafi positions on whether ablution with date wine is valid.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/2-purity-water-ablution-and-the-body-mad-2.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/2-purity-water-ablution-and-the-body-mad-2.svg"
+  },
+  {
+    "diagram_id": "3-the-pillar-of-religion-standing-in-pra-1",
+    "section": "3. The Pillar of Religion: Standing in Prayer",
+    "anchor_text": "the first thing Allah Almighty examines of the deeds",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows how prayer acts as the gate that determines whether the rest of a person's deeds are examined.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/3-the-pillar-of-religion-standing-in-pra-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/3-the-pillar-of-religion-standing-in-pra-1.svg"
+  },
+  {
+    "diagram_id": "4-supplication-and-the-many-forms-of-pra-1",
+    "section": "4. Supplication and the Many Forms of Prayer",
+    "anchor_text": "door of supplication except that He has opened",
+    "structure_type": "cosmic-pair",
+    "diagram_type": "cosmic-pair",
+    "caption": "Pairs each door the servant opens by his own act with the corresponding door Allah opens in response.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/4-supplication-and-the-many-forms-of-pra-1.svg"
+  },
+  {
+    "diagram_id": "4-supplication-and-the-many-forms-of-pra-2",
+    "section": "4. Supplication and the Many Forms of Prayer",
+    "anchor_text": "affliction descends toward the servant",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Traces how affliction and supplication move in opposite directions and meet to contend until the Resurrection.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/4-supplication-and-the-many-forms-of-pra-2.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/4-supplication-and-the-many-forms-of-pra-2.svg"
+  },
+  {
+    "diagram_id": "4-supplication-and-the-many-forms-of-pra-3",
+    "section": "4. Supplication and the Many Forms of Prayer",
+    "anchor_text": "Four are made intercessors in the heavens and the earth",
+    "structure_type": "cosmic-pair",
+    "diagram_type": "cosmic-pair",
+    "caption": "Maps each plea the servant makes to the intercessor that answers on his behalf.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/4-supplication-and-the-many-forms-of-pra-3.svg"
+  },
+  {
+    "diagram_id": "5-facing-death-the-rites-of-the-departed-1",
+    "section": "5. Facing Death: The Rites of the Departed",
+    "anchor_text": "how death may be made hard upon him and how it may be made easy",
+    "structure_type": "cosmic-pair",
+    "diagram_type": "cosmic-pair",
+    "caption": "Contrasts the believer and disbeliever at death, showing how the outward experience inverts the inward reality.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/5-facing-death-the-rites-of-the-departed-1.svg"
+  },
+  {
+    "diagram_id": "5-facing-death-the-rites-of-the-departed-2",
+    "section": "5. Facing Death: The Rites of the Departed",
+    "anchor_text": "the dying person, when death draws near, be turned toward the Qiblah",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Sequences the prescribed rites performed at the deathbed from positioning through final supplication.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/5-facing-death-the-rites-of-the-departed-2.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/5-facing-death-the-rites-of-the-departed-2.svg"
+  },
+  {
+    "diagram_id": "7-the-fast-ramadan-and-the-discipline-of-1",
+    "section": "7. The Fast: Ramadan and the Discipline of Abstention",
+    "anchor_text": "increase in it four qualities",
+    "structure_type": "mermaid-mindmap",
+    "diagram_type": "mindmap",
+    "caption": "Shows the four qualities the fasting person is urged to increase, grouped into the two that please the Lord and the two the servant cannot do without.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/7-the-fast-ramadan-and-the-discipline-of-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/7-the-fast-ramadan-and-the-discipline-of-1.svg"
+  },
+  {
+    "diagram_id": "8-the-journey-to-the-house-pilgrimage-1",
+    "section": "8. The Journey to the House: Pilgrimage",
+    "anchor_text": "Pilgrims are of three kinds",
+    "structure_type": "hierarchy-tree",
+    "diagram_type": "hierarchy-tree",
+    "caption": "Ranks the three kinds of pilgrim from greatest to least portion, each with its distinct measure of forgiveness.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/8-the-journey-to-the-house-pilgrimage-1.svg"
+  },
+  {
+    "diagram_id": "8-the-journey-to-the-house-pilgrimage-2",
+    "section": "8. The Journey to the House: Pilgrimage",
+    "anchor_text": "one hundred and seventy mercies",
+    "structure_type": "hierarchy-tree",
+    "diagram_type": "hierarchy-tree",
+    "caption": "Shows how the 170 mercies sent upon the Ka'bah are apportioned in a descending gradient by act of devotion.",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/8-the-journey-to-the-house-pilgrimage-2.svg"
+  },
+  {
+    "diagram_id": "9-the-sword-and-the-state-jihad-governan-1",
+    "section": "9. The Sword and the State: Jihad, Governance, and Justice",
+    "anchor_text": "nothing was accepted but Islam or the sword",
+    "structure_type": "mermaid-flowchart",
+    "diagram_type": "flowchart",
+    "caption": "Shows how jihad's terms branch by enemy category: polytheists face Islam or the sword, while People of the Book may submit via jizyah.",
+    "mmd_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/9-the-sword-and-the-state-jihad-governan-1.mmd",
+    "svg_path": "/Users/ahmac/Code/podcast-factory/content/Islamic/mukhtasar-ul-asar-1/book/_diagrams/9-the-sword-and-the-state-jihad-governan-1.svg"
+  }
+]

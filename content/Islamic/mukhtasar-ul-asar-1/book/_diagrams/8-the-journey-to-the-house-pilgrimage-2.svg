@@ -1,0 +1,23 @@
+<svg id="170_Mercies_Upon_the_Ka_bah" xmlns="http://www.w3.org/2000/svg" viewBox="-76 0 639 260" role="img" aria-labelledby="170_Mercies_Upon_the_Ka_bah_t 170_Mercies_Upon_the_Ka_bah_d">
+<title id="170_Mercies_Upon_the_Ka_bah_t">170 Mercies Upon the Ka'bah</title>
+<desc id="170_Mercies_Upon_the_Ka_bah_d">Hierarchy: 170 mercies → Circumambulate: 60, In devotion: 50…</desc>
+<style>#170_Mercies_Upon_the_Ka_bah{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#111111;}#170_Mercies_Upon_the_Ka_bah text{font-family:'Lato', system-ui, sans-serif;}</style>
+<defs><marker id="svgp_arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#777777"/></marker></defs>
+<text x="250.0" y="24.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#000000"><tspan x="250.0" dy="0">170 Mercies Upon the Ka'bah</tspan></text>
+<rect x="166.0" y="52.0" width="168.0" height="44.0" fill="#000000" stroke="#000000" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="74.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#ffffff"><tspan x="250.0" dy="0">170 mercies</tspan></text>
+<rect x="-101.0" y="148.0" width="168.0" height="44.0" fill="#555555" stroke="#d0d0d0" stroke-width="1.0" rx="4"/>
+<text x="-17.0" y="170.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#ffffff"><tspan x="-17.0" dy="0">Circumambulate: 60</tspan></text>
+<rect x="77.0" y="148.0" width="168.0" height="44.0" fill="#555555" stroke="#d0d0d0" stroke-width="1.0" rx="4"/>
+<text x="161.0" y="170.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#ffffff"><tspan x="161.0" dy="0">In devotion: 50</tspan></text>
+<rect x="255.0" y="148.0" width="168.0" height="44.0" fill="#555555" stroke="#d0d0d0" stroke-width="1.0" rx="4"/>
+<text x="339.0" y="170.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#ffffff"><tspan x="339.0" dy="0">Worship within: 40</tspan></text>
+<rect x="433.0" y="148.0" width="168.0" height="44.0" fill="#555555" stroke="#d0d0d0" stroke-width="1.0" rx="4"/>
+<text x="517.0" y="170.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#ffffff"><tspan x="517.0" dy="0">Behold it: 20</tspan></text>
+<line x1="250.0" y1="96.0" x2="250.0" y2="122.0" stroke="#777777" stroke-width="1.5"/>
+<line x1="-17.0" y1="122.0" x2="517.0" y2="122.0" stroke="#777777" stroke-width="1.5"/>
+<line x1="-17.0" y1="122.0" x2="-17.0" y2="142.0" stroke="#777777" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="161.0" y1="122.0" x2="161.0" y2="142.0" stroke="#777777" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="339.0" y1="122.0" x2="339.0" y2="142.0" stroke="#777777" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="517.0" y1="122.0" x2="517.0" y2="142.0" stroke="#777777" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+</svg>
