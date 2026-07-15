@@ -43,7 +43,7 @@
   --c-bg-sunken: #efeae0;
   --c-ink: #1f1d18;
   --c-ink-dim: #4d4a42;
-  --c-ink-muted: #87827a;
+  --c-ink-muted: #66625a; /* darkened from #87827a to clear WCAG AA 4.5:1 on all page/card/sunken surfaces; stays lighter than --c-ink-dim so the muted<dim<ink hierarchy holds */
   --c-rule: #d9d3c4;
   --c-rule-soft: #ebe6da;
 
