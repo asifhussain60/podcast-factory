@@ -349,6 +349,75 @@ def _trim_seam_overlap(prev_prose: str, next_prose: str) -> str:
     return "\n\n".join(next_paras[drop:]).strip()
 
 
+# Similarity-based seam de-dup — catches reworded twin renders the verbatim
+# _trim_seam_overlap cannot see (the fluency de-calque pass rewords each copy of a
+# seam double-render differently, so exact-match trimming misses them). Two rules,
+# each calibrated on real content with a wide safety margin to the nearest
+# legitimate pair (within-chapter next-legit ~0.56 ratio; boundary next-legit ~0.26
+# containment):
+_ADJ_DEDUP_RATIO = 0.62        # within a chapter: paragraph vs immediate predecessor
+_BOUNDARY_DEDUP_CONTAINMENT = 0.42  # chapter open vs previous chapter's last paragraph
+_BOUNDARY_DEDUP_MIN_RUN = 5
+_NUMBERED_CHAPTER_RE = re.compile(r"^##\s+\d+\.")
+
+
+def _adjacent_echo(cur: str, prev: str) -> bool:
+    a, b = _overlap_tokens(cur), _overlap_tokens(prev)
+    if len(a) < _SEAM_MIN_WORDS or len(b) < _SEAM_MIN_WORDS:
+        return False
+    return SequenceMatcher(None, a, b, autojunk=False).ratio() >= _ADJ_DEDUP_RATIO
+
+
+def _boundary_echo(cur: str, prev: str) -> bool:
+    a, b = _overlap_tokens(cur), _overlap_tokens(prev)
+    if len(a) < _SEAM_MIN_WORDS or len(b) < _SEAM_MIN_WORDS:
+        return False
+    matcher = SequenceMatcher(None, a, b, autojunk=False)
+    matched = sum(block.size for block in matcher.get_matching_blocks())
+    containment = matched / min(len(a), len(b))
+    if containment < _BOUNDARY_DEDUP_CONTAINMENT:
+        return False
+    return matcher.find_longest_match(0, len(a), 0, len(b)).size >= _BOUNDARY_DEDUP_MIN_RUN
+
+
+def dedupe_seam_paragraphs(text: str) -> str:
+    """Drop reworded seam double-renders that survive the verbatim trimmer.
+
+    Runs LAST, on the fully-assembled (and, in v2, de-calqued) book text, because
+    the rewording that hides these twins from exact matching happens after compose.
+    Two conservative, whole-paragraph-only rules:
+      - within a chapter, a paragraph that echoes its IMMEDIATE predecessor
+        (token ratio >= 0.62) is a model/window self-repeat — drop the second copy;
+      - a chapter's FIRST paragraph that echoes the previous chapter's LAST
+        paragraph (containment >= 0.42, with a real shared run) is a boundary
+        over-run — drop the echo so the chapter opens on its own content.
+    Never edits surviving text; comparisons are immediate-neighbour only, so a
+    distant legitimate refrain is untouched.
+    """
+    blocks = [b.strip() for b in re.split(r"\n\s*\n", text) if b.strip()]
+    out: list[str] = []
+    prev_para: str | None = None       # last kept paragraph (within-chapter adjacency)
+    prev_chapter_last: str | None = None
+    at_chapter_open = False            # first paragraph after a numbered chapter heading
+    for block in blocks:
+        if block.startswith("#"):
+            if _NUMBERED_CHAPTER_RE.match(block):
+                prev_chapter_last = prev_para
+                at_chapter_open = True
+            out.append(block)
+            prev_para = None           # adjacency does not cross a heading
+            continue
+        if at_chapter_open and prev_chapter_last and _boundary_echo(block, prev_chapter_last):
+            at_chapter_open = False
+            continue                   # drop the chapter-opening echo
+        if not at_chapter_open and prev_para is not None and _adjacent_echo(block, prev_para):
+            continue                   # drop the adjacent within-chapter echo
+        at_chapter_open = False
+        out.append(block)
+        prev_para = block
+    return "\n\n".join(out).strip() + "\n"
+
+
 def _translation_long_enough(prose: str, source_words: int) -> bool:
     if source_words < 500:
         return bool(prose.strip())
@@ -906,7 +975,8 @@ def author_translation_edition_compose(
         })
 
     book_md = book_dir / "book" / "book.md"
-    book_md.write_text(simplify_transliteration("\n".join(parts).rstrip() + "\n"), encoding="utf-8")
+    assembled = dedupe_seam_paragraphs(simplify_transliteration("\n".join(parts).rstrip() + "\n"))
+    book_md.write_text(assembled, encoding="utf-8")
     (book_dir / "_system" / "translation-edition-manifest.json").write_text(
         json.dumps({
             "schema": "podcast.translation-edition/v1",

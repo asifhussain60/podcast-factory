@@ -20,6 +20,7 @@ from _translation_edition import (  # noqa: E402
     _iter_source_windows,
     _para_is_echo,
     _trim_seam_overlap,
+    dedupe_seam_paragraphs,
 )
 from phases.book_driver import _book_branch_enabled  # noqa: E402
 
@@ -276,6 +277,63 @@ def test_preface_is_composed_and_emitted_before_chapter_one(
     assert preface_at < chapter_at, "preface must render before chapter one"
     assert "thanksgiving" in text  # the preface teaching survived into the deliverable
     assert (bd / "book" / "_chunks" / "translation" / "preface.md").exists()
+
+
+def test_dedupe_drops_reworded_within_chapter_twin() -> None:
+    # A back-to-back reworded twin (survives the verbatim trimmer) inside a chapter.
+    text = (
+        "# Book\n\n"
+        "## 8. Homecoming\n\n"
+        'They said, "But we have been taught that whoever stands in this position, one who '
+        'neither verifies the truth nor refutes falsehood, is ignorant in his conduct, for he '
+        'does not know the truth that he might follow it nor falsehood that he might avoid it."\n\n'
+        'They said, "But we have been taught that whoever stands in this position, one who '
+        'neither verifies the truth so as to follow it nor refutes falsehood so as to avoid it, '
+        'is ignorant in his conduct."\n\n'
+        'Abu Malik said, "What you have related, you have believed."\n'
+    )
+
+    out = dedupe_seam_paragraphs(text)
+
+    assert out.count("we have been taught that whoever stands in this position") == 1
+    assert "What you have related, you have believed" in out
+
+
+def test_dedupe_drops_chapter_boundary_echo() -> None:
+    # A chapter that opens by re-rendering the previous chapter's closing passage.
+    text = (
+        "# Book\n\n"
+        "## 2. A Stranger\n\n"
+        "Then his eyes brimmed over with tears, and he broke off his words and took his leave of "
+        "the people weeping, and the people wept too and longed to rise and go with him, but good "
+        "manners held them back and so they returned to their homes.\n\n"
+        "## 3. The Boy at the Door\n\n"
+        "His eyes overflowed with tears, and at that he broke off his speech and took his leave of "
+        "the people, and the people wept and longed to follow him, yet out of courtesy they held "
+        "back and turned back to their houses.\n\n"
+        "The youth kept the Master's company until the end of the journey.\n"
+    )
+
+    out = dedupe_seam_paragraphs(text)
+
+    assert "eyes overflowed with tears" not in out       # the ch3 echo is dropped
+    assert "eyes brimmed over with tears" in out         # ch2's rendering survives
+    assert "The youth kept the Master" in out            # real ch3 content survives
+    assert out.count("## 3. The Boy at the Door") == 1   # heading preserved
+
+
+def test_dedupe_keeps_legitimate_dialogue_and_openings() -> None:
+    # Distinct Q&A turns share structure but are not echoes — must be untouched.
+    text = (
+        "# Book\n\n"
+        "## 1. The Persian\n\n"
+        'The boy said: "What is the likeness of the twelve islands in the sea of knowledge?"\n\n'
+        'The scholar said: "They are the likenesses of the twelve arguments set for the seeker."\n\n'
+        "## 2. A Stranger\n\n"
+        "A wholly new discussion opens now upon the making of the world and its first cause.\n"
+    )
+
+    assert dedupe_seam_paragraphs(text) == text.strip() + "\n"
 
 
 def test_preface_skipped_when_not_included(

@@ -121,6 +121,22 @@ the trimmer boundary + preface emission/skip; full book suite 242 passed / 1
 skipped. **The narrator bridges (BK5/BK10) were added to smooth the dups — with
 the dups gone they should not reappear; the c5 re-run confirms.**
 
+**✅ RUN 3 (similarity dedup) — c5 now SHIP-WITH-CAUTION, all prose defects cleared.**
+A second fix followed run 2: `dedupe_seam_paragraphs` (similarity-based, calibrated on
+real content — within-chapter token-ratio >= 0.62; chapter-boundary containment >= 0.42,
+each with a wide margin to the nearest legit pair) runs LAST, after de-calque, and
+removes the reworded seam twins the verbatim trimmer could not see. Wired into the base
+compose AND `compose_book_v2` (post-de-calque). Re-challenge verdict: **SHIP-WITH-CAUTION,
+materially cleaner than run 2** — preface P0 cleared; ALL seam twins gone incl. the 3
+reworded survivors (ch2->3 ¶27, ch8 ¶343, ch8 ¶410-411) with ZERO content loss (the
+challenger confirmed the legit ¶410/¶411 call-and-response was NOT collapsed — the
+conservative thresholds held); doxology idafa also resolved. BK-P4 faithfulness gate
+still passes. **Only ONE P1 remains: BK-A2 crosswalk/boundary drift** — and per the
+challenger it is a plan/metadata realignment (regenerate `book-toc.json` +
+`source-crosswalk.json` from the rendered boundaries, DETERMINISTIC, no recompose), not a
+prose defect. Clear that and c5 is SHIP-READY. Runs 1->2->3: BLOCKED -> SHIP-WITH-CAUTION
+(3 twins) -> SHIP-WITH-CAUTION (only BK-A2).
+
 **⚠ NEXT — re-run c5 to validate the fix, THEN c6–c8.** Because the fix changes
 window seams (not chunk BOUNDARIES — the window split points are unchanged), a
 c5 re-run can REUSE the chunk cache; but to exercise the new sequential-tail
