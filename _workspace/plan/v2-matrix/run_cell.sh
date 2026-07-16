@@ -29,11 +29,13 @@ import re, sys
 from pathlib import Path
 p = Path(sys.argv[1]) / "_system" / "series-config.yaml"
 txt = p.read_text(encoding="utf-8")
-for k in ("book_augmentation", "book_voice"):
+for k in ("book_augmentation", "book_voice", "book_pipeline_v2"):
     txt = re.sub(rf'(?m)^{k}:.*\n?', '', txt)
-p.write_text(txt.rstrip("\n") + f"\nbook_augmentation: {sys.argv[2]}\nbook_voice: {sys.argv[3]}\n",
+# book_pipeline_v2 goes in the CONFIG too (not just the env override) so the
+# Composer / API-route render path resolves v2 without the runner's environment.
+p.write_text(txt.rstrip("\n") + f"\nbook_pipeline_v2: true\nbook_augmentation: {sys.argv[2]}\nbook_voice: {sys.argv[3]}\n",
              encoding="utf-8")
-print(f"knobs: book_augmentation={sys.argv[2]} book_voice={sys.argv[3]}")
+print(f"knobs: book_pipeline_v2=true book_augmentation={sys.argv[2]} book_voice={sys.argv[3]}")
 PYEOF
 
 if [ "$MODE" = "full" ]; then
