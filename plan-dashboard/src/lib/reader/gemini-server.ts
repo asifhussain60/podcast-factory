@@ -163,14 +163,17 @@ export interface GroundedResult {
   sources: string[];
 }
 
-export async function generateWithGrounding(prompt: string): Promise<GroundedResult> {
+export async function generateWithGrounding(
+  prompt: string,
+  opts?: { model?: GeminiModel; temperature?: number; maxOutputTokens?: number },
+): Promise<GroundedResult> {
   const key = await getGeminiKey();
-  const model = modelId('flash');
+  const model = modelId(opts?.model ?? 'flash');
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`;
   const body = {
     contents: [{ role: 'user', parts: [{ text: prompt }] }],
     tools: [{ google_search: {} }],
-    generationConfig: { temperature: 0.4, maxOutputTokens: 1200 },
+    generationConfig: { temperature: opts?.temperature ?? 0.4, maxOutputTokens: opts?.maxOutputTokens ?? 1200 },
   };
   const res = await fetch(url, {
     method: 'POST',
