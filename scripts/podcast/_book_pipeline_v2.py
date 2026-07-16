@@ -71,4 +71,17 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
 
         book_md = apply_author_companion_voice(book_dir, log=log, force=force)
 
+    # 5. Final seam de-dup over the fully-transformed book. The de-calque / re-voice
+    #    passes above reword each copy of any surviving seam double-render
+    #    differently, hiding them from the verbatim trimmer inside the base compose;
+    #    this similarity-based pass runs LAST so it sees the final wording.
+    from _translation_edition import dedupe_seam_paragraphs  # noqa: PLC0415
+
+    final_md = book_dir / "book" / "book.md"
+    if final_md.exists():
+        final_md.write_text(
+            dedupe_seam_paragraphs(final_md.read_text(encoding="utf-8")), encoding="utf-8"
+        )
+        book_md = final_md
+
     return book_md

@@ -3,6 +3,9 @@
 
 Book-specific script for Islamic/asaas-al-taveel only.
 Do NOT merge to develop -- page ranges are hardcoded for this title.
+(Flagged 2026-07-16: this file is currently present on develop despite that
+note — pre-existing, not touched by this review; Asif chose to flag rather
+than delete it, so left as-is.)
 
 Usage:
     python3 scripts/podcast/split_pdf_asaas.py --vol N

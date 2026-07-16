@@ -11,7 +11,7 @@
 import type { APIRoute } from 'astro';
 import { spawn } from 'node:child_process';
 import { join } from 'node:path';
-import { findContentDirSync, getRepoRoot } from '../../../lib/content-paths';
+import { findContentDirSync, getRepoRoot, getPythonBin } from '../../../lib/content-paths';
 import { apiOk, apiError, apiServerError } from '../../../lib/api-responses';
 
 export const prerender = false;
@@ -32,7 +32,7 @@ export const POST: APIRoute = async ({ request }) => {
   const script = join(getRepoRoot(), 'scripts', 'podcast', 'build_book_pdf.py');
   try {
     const result = await new Promise<Record<string, unknown>>((resolve, reject) => {
-      const proc = spawn('/usr/bin/python3', [script, bookDir, '--json'], { cwd: getRepoRoot() });
+      const proc = spawn(getPythonBin(), [script, bookDir, '--json'], { cwd: getRepoRoot() });
       let stdout = '';
       let stderr = '';
       proc.stdout.on('data', (d) => (stdout += d));

@@ -1,0 +1,97 @@
+# Self-Study Hybrid Islamic Educational Translation Deliverable — Approved Plan
+
+**Status:** APPROVED 2026-07-16 (render-time approach). **Scheduled:** after the PDF-route
+consolidation (Phase 5 cutover) lands. **Two decisions remain OPEN, to settle at execution
+time** (see below) — Asif approved proceeding with them unresolved.
+
+**Provenance:** approved after an adversarial review of a first draft. The draft framed this
+as a compose-time "profile"; two grounded code investigations proved that fights the
+pipeline, and the approach was flipped to render-time. The rejected assumptions are recorded
+below so we don't relapse into them.
+
+## What this deliverable is
+
+Classical Arabic Islamic texts → a "Contemporary Academic / Self-Study Hybrid" English
+**PDF**: faithful translation + inline term definitions + Quran/Hadith set apart + indented
+Contextual Notes (hashiyah replacement) + per-section Key Takeaways, in a strict Markdown
+schema, for a reader studying without a teacher. Success = a **consistent, well-written PDF**
+across a whole book.
+
+## Approved approach — render-time presentation layer, NOT a compose profile
+
+Keep the faithful composer (and the seam/dedup work from this session) UNTOUCHED. `book.md`
+stays semantic; the self-study format is built as a render-time transformation over it, plus
+ONE gated compose-adjacent layer (inline notes). This is how the pipeline already does Quran
+styling (plain `> quote` → styled block at render), minimizes regression to the route being
+consolidated, and reuses more of the pipeline.
+
+### Rejected draft assumptions (do not relapse)
+
+- ❌ "Make the structure gate mode-aware." Structure is pipeline-owned at THREE gates
+  (rejects model top heading, demotes interior `##`→`###`, and model `## X` is misread as a
+  new CHAPTER by TOC/crosswalk/seam-dedup). The model must keep emitting prose only.
+- ❌ "Register a third profile." No profile/deliverable registry exists — two knobs
+  (`book_augmentation`, `book_voice`) feed a fixed 2-stage chain.
+- ❌ "Seed a compose-time term ledger from the glossary." Glossary holds Arabic-script
+  overlay only (no English definitions, no render-time first-use gate). Terms are defined
+  idiomatically at reader/render time via the existing `/api/ai/define-term` engine.
+
+## Reuse audit (verified in code)
+
+| Capability | Status |
+|---|---|
+| Faithful base translation, Quran anchoring, honorifics | reuse as-is (consume its `book.md`) |
+| Renderer + Quran-blockquote synthesis pattern (`book-html.mjs`) | reuse + extend |
+| Reader term-definition engine (`define-term` + Gemini, same infra as the Gems tool) | reuse |
+| `_book_augment` doctrinal veto + corpus-only grounding | adapt (chapter-append → paragraph-inline) |
+| Renderer bullet-list + callout parsing | BUILD (`renderMd` has no list parser today) |
+| Render-time first-use term tracking | BUILD |
+| Per-section Key Takeaways extraction | BUILD + Decision 1 |
+| Intra-chapter sub-headings | Decision 2 |
+
+## OPEN decisions (settle at execution time)
+
+**Decision 1 — Key Takeaways vs the pipeline's anti-summary principle.** The pipeline
+actively bans summaries (anti-cliché blacklist; slide authoring is "re-presentation not
+summary"). Options: (a) labeled, source-extraction-gated Takeaways scoped ONLY to this
+deliverable; (b) surface the source's OWN enumerated points where it enumerates (already
+permitted, no invented summary — the faithful default); (c) drop Takeaways. Lean: (b)
+default, (a) only if Asif wants true study-summaries and accepts the label.
+
+**Decision 2 — where intra-chapter sub-headings come from** (model can't emit them). Options:
+(a) source-derived (`_source_headings` exists); (b) a light design pass proposing sub-titles;
+(c) chapter-level only. Lean: (a)+(b).
+
+## The steps
+
+1. **Spike** — render ONE finished chapter through the self-study layer (term inlining + one
+   Contextual Note + Quran/Hadith blocks + a Takeaways treatment per Decision 1) to a styled
+   PDF page; no compose changes. Proves the approach + tests Decisions 1/2 on real output.
+2. **Extend the renderer** — add bullet-list + Contextual-Note callout parsing to
+   `book-html.mjs::renderMd` + `book-print.css` classes (reuse `--c-*` tokens; gate through
+   the Cortex html-view-challenger). Hard prerequisite for every new block.
+3. **Render-time term definitions at first use** — batch pass inlining "term (definition)"
+   at first occurrence of each glossary-wrapped term, definitions from `define-term`, deduped
+   once per book. No compose-time ledger.
+4. **Inline Contextual Notes** — adapt `_book_augment` to paragraph-anchored inline notes,
+   reusing its doctrinal veto + corpus grounding unchanged. (Compose-adjacent; land AFTER the
+   Phase-5 cutover.)
+5. **Key Takeaways** — implement the Decision-1 option.
+6. **Sub-headings** — implement the Decision-2 option; model still emits prose only.
+7. **Schema-conformance gates** — extend `book-challenger` (term-defined-once, note
+   faithfulness, citation format) and `book-render-challenger` (new blocks render clean).
+
+## Sequencing
+
+Render-time work (Steps 1–3) is loosely coupled to the compose consolidation and could begin
+fairly independently. The compose-adjacent piece (Step 4) lands after the Phase-5 cutover so
+it's built on the single consolidated route.
+
+## DoD / risks
+
+DoD: spike consistency acceptable; `book-challenger` schema dim 0 P0 + terms-once + notes
+faithful; `book-render-challenger` RENDER-CLEAN (Cortex honored); a full book renders as a
+consistent self-study PDF. Risks: anti-summary conflict (Decision 1 — explicit scoped choice,
+never a silent relaxation); sub-heading provenance (Decision 2); renderer scope creep (keep
+minimal, pass html-view-challenger); render-time term consistency (one batch pass, not
+per-chunk).

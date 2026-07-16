@@ -1,5 +1,17 @@
 # Architecture
 
+> **Partially stale (flagged 2026-07-16).** This document's branch-naming model
+> (`book/<slug>` etc.) and `drafts/`→`published/` folder model are retired —
+> branches are now `<Bucket>/<slug>` (bucket-grouped, locked 2026-06-07) and
+> draft-vs-published is a `status` field, never a folder (locked 2026-06-04).
+> The phase-numbering diagrams below (`01`–`14`, `08a`/`08b`/`08c`) do not match
+> the current orchestrator's actual phase sequence. This document also has no
+> section on the PDF/book-generation branch (`0book-*` phases,
+> `book_pipeline_v2`) at all. For anything that conflicts, **`CLAUDE.md`,
+> `framework.md`, and `_workspace/plan/book-pipeline-cutover.md` are
+> authoritative** — treat this file as directional shape, not current fact,
+> until a full refresh lands.
+
 This document describes the **shape** of the podcast-factory system: what each layer does, how layers compose, what contracts they expose, and where the extensibility seams sit. It is the timeless companion to the dashboard at `_workspace/plan/index.html` (live state, current metrics) and the execution roadmap at `_workspace/plan/refactor/plan.md` (what to build, in what order).
 
 Read this once, then return to it whenever the question is *"where does X belong?"* The plan and the dashboard answer *"what's next?"* and *"what's the current state?"*.
@@ -227,6 +239,16 @@ SQLite ships built-in with Python on every Mac. Zero install. Single-file backup
 ---
 
 ## The Backbone — Pipeline Phases as Stations
+
+> **Diagram below is a planning artifact, not the live phase list** — flagged
+> 2026-07-16. The actual orchestrator's phase sequence (`scripts/podcast/_progress.py`
+> `PHASES` tuple) is: pre-flight → branch → scaffold → 0a → 0b → 0c → 0ci → 0d →
+> 0e → 0literary → 06a → 0f → 0g → per-chapter → per-chapter-optimize →
+> per-chapter-slides → audio-script → audio-render → finalize → audio-ingest →
+> the `0book-*` PDF/book branch (design → compose → illustrate → slide-import →
+> render) → publish → trainer → merge → done. It does not use the `01`–`14`
+> numbering or `08a`/`08b`/`08c` letter-suffix scheme shown below. Treat this
+> section as a description of intent/history, not current fact.
 
 Every book follows the same backbone. What happens at each station depends on the book's archetype (resolved at `08a-archetype-resolve`).
 
@@ -469,20 +491,23 @@ flowchart LR
 
 ## Branch + Content Lifecycle
 
+*(Updated 2026-07-16 to match the current bucket-grouped branch model and
+status-field content model — see `CLAUDE.md` for the full policy.)*
+
 ```mermaid
 flowchart LR
-    INTAKE[intake_book.py<br/>creates branch] --> BRANCH[book/&lt;slug&gt;]
+    INTAKE[intake_book.py<br/>creates branch] --> BRANCH[Bucket/&lt;slug&gt;]
     BRANCH --> ORCH[orchestrate_book.py<br/>runs backbone]
-    ORCH --> FINALIZE[Phase 13 finalize<br/>halt-and-surface]
+    ORCH --> FINALIZE[finalize phase<br/>halt-and-surface]
     FINALIZE --> REVIEW{Asif review<br/>+ NotebookLM<br/>+ postprod}
-    REVIEW -->|approve| PUB[publish_to_library.py<br/>drafts → published]
-    PUB --> MERGE[orchestrator merges<br/>book/slug → develop]
+    REVIEW -->|approve| PUB[publish_to_library.py<br/>status: draft -> published]
+    PUB --> MERGE[orchestrator merges<br/>Bucket/slug -> develop]
     MERGE --> DEV[develop]
     DEV -->|Asif explicit approval| MAIN[main]
     MERGE -.->|hook re-invokes<br/>Librarian if knowledge.db<br/>touched on both branches| KB[(knowledge.db on develop)]
 ```
 
-**Branch policy.** Every content unit gets a typed branch off `develop`: `book/<slug>`, `doc/<slug>`, `lecture/<slug>`, `article/<slug>`, etc. The prefix-map lives in `scripts/podcast/_branching.py`. After publish, the orchestrator merges the typed branch to `develop` with `--no-ff`. `develop → main` requires Asif's explicit approval.
+**Branch policy (locked 2026-06-07).** Every content unit gets a branch off `develop` named `<Bucket>/<slug>` — the bucket (`Islamic`, `Technical`, `Fiction`, `Guides`) is resolved from `content_profile` via `_paths.resolve_bucket`, the SAME resolver the content-folder layout uses, via `branch_name()` in `scripts/podcast/_branching.py`. Draft vs. published is a `status` field in `_system/orchestrator-state.json` (mirrored to `meta.yml`), never a folder — nothing is copied on publish, `publish_to_library.py` flips `status` in place. After publish, the orchestrator merges the bucket branch to `develop` with `--no-ff`. `develop → main` requires Asif's explicit approval.
 
 **Concurrent book branches + the knowledge brain.** Two books in flight on parallel branches may both write to `knowledge.db`. On the second branch's merge, a `post-merge` git hook re-invokes Librarian if both branches touched `knowledge.db`. Manual conflict resolution if the same atom was added independently on both sides.
 

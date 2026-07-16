@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Normalize Azure OCR's `((text))` double-paren artifact to markdown italics.
 
+Manual utility, not wired into orchestrate_book.py or phases/*.py — run by hand
+when needed. Flagged 2026-07-16, kept as-is (real working code, no evidence
+it's dead, just not automatic).
+
 Azure Document Intelligence emits `((text))` for what was likely italics
 or quotation marks in the source PDF. Phase 0b refinement preserves these
 inconsistently (about 75% normalized, 25% left as-is in observed KaR run).

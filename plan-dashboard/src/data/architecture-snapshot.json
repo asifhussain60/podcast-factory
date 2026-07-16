@@ -172,20 +172,6 @@
       "failure_mode": "surfaces error and halts"
     },
     {
-      "id": "podcast-auditor",
-      "name": "Podcast Auditor",
-      "role": "DEPRECATED: use repo-surgeon --scope podcast instead",
-      "icon": "robot",
-      "tone": "neutral",
-      "plain": "DEPRECATED: use repo-surgeon --scope podcast instead. Repo-level health audit for podcast-factory. Surfaces drift, regressions, gaps, and refactor opportunities across the operational surface (pipeline scripts, skill files, agent specs, \u2026",
-      "what_it_knows": "See infra/claude-agents/podcast-auditor.md",
-      "boundary_in": "",
-      "boundary_out": "",
-      "does_not": "",
-      "cost_profile": "varies",
-      "failure_mode": "surfaces error and halts"
-    },
-    {
       "id": "podcast-blueprint",
       "name": "Podcast Blueprint",
       "role": "Content-aware episode-structure planner for the /podcast skill",
@@ -305,6 +291,20 @@
       "tone": "neutral",
       "plain": "Post-production audit for NotebookLM-generated audio episodes. Consumes Turboscribe-produced transcripts of the downloaded m4a files and scores each against (a) the book's genre archetype and (b) the Dos/Don'ts protocol. Identifies drift\u2026",
       "what_it_knows": "See infra/claude-agents/postprod-review.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
+    {
+      "id": "preview-fidelity-challenger",
+      "name": "Preview Fidelity Challenger",
+      "role": "Preview\u2194PDF parity challenger for the Podcast Factory Astro Site (directory plan",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Preview\u2194PDF parity challenger for the Podcast Factory Astro Site (directory plan-dashboard/). Gates the ONE thing no other agent can see: whether the composer's on-screen paginated Preview agrees with the rendered `book.pdf`. The Preview\u2026",
+      "what_it_knows": "See infra/claude-agents/preview-fidelity-challenger.md",
       "boundary_in": "",
       "boundary_out": "",
       "does_not": "",
@@ -587,6 +587,6 @@
       ]
     }
   ],
-  "generated_at": "2026-07-15T10:52:23-04:00",
-  "source_commit": "141e867b"
+  "generated_at": "2026-07-16T08:33:52-04:00",
+  "source_commit": "a5479fff"
 }

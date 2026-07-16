@@ -1454,60 +1454,60 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-15T10:52:23-04:00",
-  "source_commit": "141e867b",
+  "generated_at": "2026-07-16T08:33:52-04:00",
+  "source_commit": "a5479fff",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "141e867b",
-      "subject": "docs(site-work): log the editor-UX parity session + react dedupe fix",
+      "sha": "a5479fff",
+      "subject": "docs(architecture): DR-013 scope clarification \u2014 0book-* content-branch re-runs exempt (Asif, 2026-07-16)",
+      "date": "2026-07-16"
+    },
+    {
+      "sha": "cbe439d3",
+      "subject": "docs(architecture): flag stale branch/phase-numbering model, add 2026-07-16 corrections",
+      "date": "2026-07-16"
+    },
+    {
+      "sha": "bca2fef5",
+      "subject": "chore(pipeline): resolve Phase 2 dead-code review \u2014 flag manual tools, delete confirmed-dead",
+      "date": "2026-07-16"
+    },
+    {
+      "sha": "dd11289e",
+      "subject": "fix(site): resolve python3 interpreter via .venv instead of hardcoded system path",
+      "date": "2026-07-16"
+    },
+    {
+      "sha": "6852f344",
+      "subject": "chore(pipeline): remove dead code \u2014 unused scripts, branch_prefix(), deprecated agent specs",
+      "date": "2026-07-16"
+    },
+    {
+      "sha": "bc2b2cac",
+      "subject": "docs(status): Composer header redesign shipped \u2014 update session-continuity doc",
+      "date": "2026-07-16"
+    },
+    {
+      "sha": "f1c29369",
+      "subject": "site(studio): Composer header redesign \u2014 compact horizontal actions, Companion Tool, shared autosave",
+      "date": "2026-07-16"
+    },
+    {
+      "sha": "7018deab",
+      "subject": "docs(status): Phase 3 Preview shipped \u2014 update session-continuity doc",
+      "date": "2026-07-16"
+    },
+    {
+      "sha": "13d34c37",
+      "subject": "site(studio): Phase 3 Preview \u2014 live page-image render, zoom, Generate PDF moved off Compose",
+      "date": "2026-07-16"
+    },
+    {
+      "sha": "6f27d6ff",
+      "subject": "site(studio): themed notice for delete-failure (last native alert removed)",
       "date": "2026-07-15"
-    },
-    {
-      "sha": "aa2f5444",
-      "subject": "fix(site): dedupe react/react-dom to end the recurring null-hook island blanks",
-      "date": "2026-07-15"
-    },
-    {
-      "sha": "36149ea0",
-      "subject": "site(studio): port reading-comfort controls to the Edit & Enrich editor + share editor fonts",
-      "date": "2026-07-15"
-    },
-    {
-      "sha": "efa86c2b",
-      "subject": "site(composer): word-processor editor toolbar + font picker (Sans/Serif/Lato/Inter/Mono/Dyslexic)",
-      "date": "2026-07-15"
-    },
-    {
-      "sha": "cdbd8a54",
-      "subject": "site(composer): editor card + Kindle paper themes + white full-width hero",
-      "date": "2026-07-15"
-    },
-    {
-      "sha": "9371a4b3",
-      "subject": "chore: ignore composer/editor .bak save-backups under content/**",
-      "date": "2026-07-14"
-    },
-    {
-      "sha": "e87294cb",
-      "subject": "fix(site): multi-volume deck sheets no longer protrude below short cards",
-      "date": "2026-07-14"
-    },
-    {
-      "sha": "1802ce9a",
-      "subject": "content(m&d): track composer citation-style state (scholarly family)",
-      "date": "2026-07-14"
-    },
-    {
-      "sha": "0c1257f8",
-      "subject": "site(health): add site-health-sentinel runtime gate + deterministic smoke sweep",
-      "date": "2026-07-14"
-    },
-    {
-      "sha": "6bf32d64",
-      "subject": "fix(site): pre-bundle ALL client-island deps to end the 504 \"Outdated Optimize Dep\" blanks",
-      "date": "2026-07-14"
     }
   ],
   "wave_execution_events": [],

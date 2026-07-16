@@ -182,17 +182,34 @@ body {
 .crosswalk-page {
   page-break-after: always;
   break-after: page;
-  padding-top: 2.4cm;
+  padding-top: 1.4cm;
+}
+/* Bind the heading to the (now atomic) table + trim its margin so eyebrow +
+   heading + all 8 rows fit on the crosswalk's single dedicated page — otherwise
+   `break-inside: avoid` on the table strands the heading alone on the page before. */
+.crosswalk-page h2 {
+  margin-bottom: 1rem;
+  break-after: avoid;
+  page-break-after: avoid;
 }
 .crosswalk-page table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.78rem;
-  line-height: 1.32;
+  line-height: 1.28;
+  /* Keep the whole crosswalk on its dedicated page — no lone row dangling onto
+     the next page. The page is already isolated (page-break-after: always), so
+     the table has a full page minus the top padding to fit into. */
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.crosswalk-page tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 .crosswalk-page th,
 .crosswalk-page td {
-  padding: 0.38rem 0.45rem;
+  padding: 0.28rem 0.45rem;
   border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
   vertical-align: top;
 }
@@ -476,10 +493,16 @@ body.book-v2 .v2-fig.page-fit-isolate-plate {
    lines, no figure-forced half-empty verso. */
 body.book-v2 p,
 body.book-v2 blockquote {
-  orphans: 2;
-  widows: 2;
+  /* 3 is the conventional print-quality floor: it pulls at least three lines
+     together at a page break, cutting the two-line chapter-tail strand that
+     otherwise lands alone on an almost-empty verso. */
+  orphans: 3;
+  widows: 3;
 }
 body.book-v2 .chapter-open {
   break-after: avoid;
   page-break-after: avoid;
+  /* A prior chapter's unresolved wrap float must not bleed onto the next
+     chapter's opening page and shove its heading/drop-cap off-axis. */
+  clear: both;
 }

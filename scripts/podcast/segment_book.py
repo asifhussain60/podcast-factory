@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """segment_book.py — WC8 holistic pipeline: segment unified book into balanced episodes.
 
+Manual toolchain, not wired into orchestrate_book.py or phases/*.py — run by hand
+via the USAGE examples below, not part of either main pipeline route
+(Podcast/NotebookLM or PDF/book). Flagged 2026-07-16, kept as-is pending a real
+need to retire it.
+
 Reads the unified-book.md produced by reconcile_book.py and uses Claude Sonnet
 (single call) to segment it into equally-sized episodes targeting ~4,500 words each —
 suitable for 25–30 min NotebookLM podcast episodes.

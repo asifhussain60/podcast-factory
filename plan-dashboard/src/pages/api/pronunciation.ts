@@ -10,7 +10,7 @@ import type { APIRoute } from 'astro';
 import { join } from 'node:path';
 import { spawn } from 'node:child_process';
 import { getProbe } from '../../lib/pronunciation';
-import { getRepoRoot, findContent } from '../../lib/content-paths';
+import { getRepoRoot, getPythonBin, findContent } from '../../lib/content-paths';
 import { apiOk, apiError, apiServerError } from '../../lib/api-responses';
 
 export const prerender = false;
@@ -39,7 +39,7 @@ interface Correction {
 function runApplier(bookDir: string, payload: object): Promise<any> {
   const script = join(getRepoRoot(), 'scripts', 'podcast', 'apply_pronunciation_corrections.py');
   return new Promise((resolve, reject) => {
-    const proc = spawn('/usr/bin/python3', [script, bookDir, '-'], {
+    const proc = spawn(getPythonBin(), [script, bookDir, '-'], {
       cwd: getRepoRoot(),
     });
     let stdout = '';
