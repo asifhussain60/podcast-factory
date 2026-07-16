@@ -26,3 +26,5 @@ translation_policy:
     - teaching_only_denoise
     - source_grounded_structure
     - black_white_visualization
+book_augmentation: none
+book_voice: faithful
