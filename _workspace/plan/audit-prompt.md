@@ -79,7 +79,7 @@ Flag any of the following:
 | **God script** | Any single script > ~300 lines doing unrelated things |
 | **Shotgun surgery** | A single logical change (e.g. adding a new bucket) requiring edits to 5+ files |
 | **Primitive obsession** | Passing raw `str` slug/path everywhere instead of a typed `ContentPath` or `BookRef` |
-| **Dead code** | Deprecated functions (`branch_prefix()`, legacy `drafts/`/`published/` path helpers) still exported and callable |
+| **Dead code** | Deprecated functions or legacy path helpers still exported and callable with no real caller (e.g. `branch_prefix()`, removed 2026-07-16, was one) |
 | **Mutable global state** | Module-level mutable dicts or lists shared across function calls |
 | **Silent swallow** | `except Exception: pass` or `except Exception: continue` without logging |
 | **Implicit ordering** | Phases that depend on sibling phase side-effects without declaring it |

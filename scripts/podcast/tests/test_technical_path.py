@@ -107,10 +107,6 @@ class TestCategoryRouting(unittest.TestCase):
         # GREEN today — regression guard
         self.assertIn("sites", _rules.ALLOWED_CATEGORIES)
 
-    def test_explainers_branch_prefix(self):
-        # GREEN today
-        self.assertEqual(_branching.branch_prefix("explainers"), "explainer")
-
     def test_explainers_branch_name(self):
         # 2026-06-07: branch is <Bucket>/<slug>, bucket-grouped. The 'explainers'
         # category maps to the Guides bucket via the legacy category fallback.
@@ -142,18 +138,6 @@ class TestCategoryRouting(unittest.TestCase):
             _branching.branch_name("books", "kitab-al-riyad"),
             "Islamic/kitab-al-riyad",
         )
-
-    def test_sites_branch_prefix_unchanged(self):
-        # GREEN today — regression guard
-        self.assertEqual(_branching.branch_prefix("sites"), "site")
-
-    def test_books_branch_prefix_unchanged(self):
-        # GREEN today — regression guard
-        self.assertEqual(_branching.branch_prefix("books"), "book")
-
-    def test_unknown_category_falls_back_to_draft(self):
-        # GREEN today
-        self.assertEqual(_branching.branch_prefix("unknown-category"), "draft")
 
     def test_branch_name_rejects_slug_with_slash(self):
         # GREEN today
