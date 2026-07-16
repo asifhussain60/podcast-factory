@@ -28,3 +28,4 @@ voice_cast:
   host_b: Lily
 book_augmentation: none
 book_voice: faithful
+book_pipeline_v2: true

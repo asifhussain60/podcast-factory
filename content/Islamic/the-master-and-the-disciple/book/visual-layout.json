@@ -3,7 +3,8 @@
   "placements": [
     {
       "visual_id": "slide-1001",
-      "anchor": "",
+      "anchor": "1. The Persian Who Was Dead and Revived",
+      "anchor_para": null,
       "caption": "The Master and the Disciple — The Cosmological Blueprint and the Path of Return",
       "page_fit": "avoid",
       "align": "center",
@@ -12,7 +13,8 @@
     },
     {
       "visual_id": "slide-1002",
-      "anchor": "Not a treatise, not a sermon",
+      "anchor": "2. A Stranger in the City",
+      "anchor_para": null,
       "caption": "The Scale of Incomparability",
       "page_fit": "avoid",
       "align": "left",
@@ -21,7 +23,8 @@
     },
     {
       "visual_id": "slide-1003",
-      "anchor": "Gratitude, in his mouth, is contagion",
+      "anchor": "3. The Boy at the Door — Limits and Conditions",
+      "anchor_para": null,
       "caption": "The Densification Ladder",
       "page_fit": "avoid",
       "align": "right",
@@ -30,7 +33,8 @@
     },
     {
       "visual_id": "slide-1004",
-      "anchor": "mistaking the shimmer at the edge of the plain",
+      "anchor": "4. How the World Was Made",
+      "anchor_para": null,
       "caption": "The Numerical Signatures of the Cosmos",
       "page_fit": "avoid",
       "align": "center",
@@ -39,7 +43,8 @@
     },
     {
       "visual_id": "slide-1005",
-      "anchor": "best of all good deeds is to bring the dead back",
+      "anchor": "1. The Persian Who Was Dead and Revived",
+      "anchor_para": 2,
       "caption": "The Architecture of the Heavenly Mirror",
       "page_fit": "avoid",
       "align": "left",
@@ -48,7 +53,8 @@
     },
     {
       "visual_id": "slide-1006",
-      "anchor": "He kept going until he reached the far edge",
+      "anchor": "1. The Persian Who Was Dead and Revived",
+      "anchor_para": 2,
       "caption": "Mutual Subsistence: The Body and Spirit of Religion",
       "page_fit": "avoid",
       "align": "right",
@@ -57,7 +63,8 @@
     },
     {
       "visual_id": "slide-1007",
-      "anchor": "He came along behind me with my permission",
+      "anchor": "2. A Stranger in the City",
+      "anchor_para": 19,
       "caption": "The Anatomy of Knowledge",
       "page_fit": "avoid",
       "align": "center",
@@ -66,7 +73,8 @@
     },
     {
       "visual_id": "slide-1008",
-      "anchor": "My conditions on you,",
+      "anchor": "1. The Persian Who Was Dead and Revived",
+      "anchor_para": 5,
       "caption": "Emptying the Cup (Kasrah)",
       "page_fit": "avoid",
       "align": "left",
@@ -75,7 +83,8 @@
     },
     {
       "visual_id": "slide-1009",
-      "anchor": "first creation is a will, then a command",
+      "anchor": "4. How the World Was Made",
+      "anchor_para": 1,
       "caption": "The Ledger of the Covenant",
       "page_fit": "avoid",
       "align": "right",
@@ -84,7 +93,8 @@
     },
     {
       "visual_id": "slide-1010",
-      "anchor": "twelve constellations are the twelve chiefs",
+      "anchor": "4. How the World Was Made",
+      "anchor_para": 8,
       "caption": "The Mechanics of the Tawaf",
       "page_fit": "avoid",
       "align": "center",
@@ -93,7 +103,8 @@
     },
     {
       "visual_id": "slide-1011",
-      "anchor": "Take the sealed egg",
+      "anchor": "2. A Stranger in the City",
+      "anchor_para": 17,
       "caption": "The Conspiracy Formula",
       "page_fit": "avoid",
       "align": "left",
@@ -102,7 +113,8 @@
     },
     {
       "visual_id": "slide-1012",
-      "anchor": "the boy, hearing how the egg holds",
+      "anchor": "4. How the World Was Made",
+      "anchor_para": null,
       "caption": "The Forty-Year Syllogism",
       "page_fit": "avoid",
       "align": "right",
@@ -111,7 +123,8 @@
     },
     {
       "visual_id": "slide-1013",
-      "anchor": "This is all my wealth, in front of you",
+      "anchor": "7. The Five Shares and the Long Road to the Shaykh",
+      "anchor_para": 7,
       "caption": "Complicity by Rank",
       "page_fit": "avoid",
       "align": "center",
@@ -120,7 +133,8 @@
     },
     {
       "visual_id": "slide-1014",
-      "anchor": "Salih has not died",
+      "anchor": "8. Homecoming, the Father, and the Debate with Abu Malik",
+      "anchor_para": 60,
       "caption": "The Unbroken Chain of Witnesses",
       "page_fit": "avoid",
       "align": "left",
@@ -129,7 +143,8 @@
     },
     {
       "visual_id": "slide-1015",
-      "anchor": "",
+      "anchor": "7. The Five Shares and the Long Road to the Shaykh",
+      "anchor_para": null,
       "caption": "The Debt of Transmission",
       "page_fit": "avoid",
       "align": "right",

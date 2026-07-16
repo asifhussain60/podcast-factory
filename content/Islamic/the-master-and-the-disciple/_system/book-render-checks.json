@@ -1,0 +1,36 @@
+{
+  "schema": "podcast.book-render-checks/v1",
+  "book_render_challenger_version": "1.0",
+  "pass": 2,
+  "knob_cell": "c5 (book_augmentation=none, book_voice=faithful)",
+  "verdict": "RENDER-CAUTION",
+  "pages": 117,
+  "deterministic": {
+    "verdict": "RENDER-CAUTION",
+    "findings": [
+      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 2, "detail": "half-empty interior page (149 vs median 1778 chars)"},
+      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 3, "detail": "half-empty interior page (345 vs median 1778 chars)"},
+      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 5, "detail": "half-empty interior page (253 vs median 1778 chars)"},
+      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 12, "detail": "half-empty interior page (346 vs median 1778 chars)"},
+      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 29, "detail": "half-empty interior page (495 vs median 1778 chars)"},
+      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 72, "detail": "half-empty interior page (136 vs median 1778 chars)"}
+    ]
+  },
+  "agent_findings": [
+    {"check": "BR-PAGE-FILL", "req": "REQ-BR-002", "severity": "P1", "pages": [2, 3], "level": "not-a-defect", "detail": "Title page and Contents — front matter is legitimately sparse; probe false positive, waived on visual judgment."},
+    {"check": "BR-PAGE-FILL", "req": "REQ-BR-002", "severity": "P1", "pages": [5], "level": "renderer", "detail": "Source Crosswalk table spills a single dangling row (ch8) onto page 5, leaving ~85% of the page empty. Known first-pass cosmetic blemish, still present. Fix: keep the 8-row table together or tighten row spacing in book-print.css."},
+    {"check": "BR-PAGE-FILL", "req": "REQ-BR-002", "severity": "P1", "pages": [12, 29], "level": "acceptable", "detail": "Chapter-final pages (end of ch2 / ch4) — short closing pages before a fresh chapter opener are normal book pagination; mild, waived."},
+    {"check": "BR-PAGE-FILL", "req": "REQ-BR-002", "severity": "P1", "pages": [72], "level": "renderer", "detail": "Chapter 7 ends with only 2 lines on an otherwise empty page (~90% blank) — a widow chapter-final page. Cosmetic; better widow control (pull-back or spread adjustment) would absorb it."},
+    {"check": "BR-FLOAT-CHAPTER-BLEED", "req": "REQ-BR-013/REQ-BR-003 adjacent", "severity": "P1", "pages": [9], "level": "renderer", "detail": "slide-1008 (ch1, anchor_para 5, wrap-left) floats forward past the end of its short chapter onto Chapter 2's opening page, sitting above-left of the CHAPTER TWO heading and displacing the heading + drop cap off center. Mechanism: book-print.css clears floats before standalone figures but the chapter-open block has no clear:both. Fixture contribution: auto-layout anchored a 40% wrap at para 5 of a very short chapter."},
+    {"check": "BR-SLIVER-COLUMN", "req": "REQ-BR-013 consequence", "severity": "P1", "pages": [8, 25], "level": "fixture", "detail": "Two 40%-width wrap figures anchored at the same paragraph render side-by-side (p8: slide-1005 left + slide-1006 right; p25: slide-1009 + slide-1012 both align:right — CSS legally stacks the second right-float to the left of the first). The text between/beside them collapses to a one-word-per-line sliver column. Renderer obeyed align/flow/width; the collision is the auto-layout's same-anchor pairing. Re-curate in the Book Composer: separate anchors or make one standalone."},
+    {"check": "BR-LEGIBILITY", "req": "REQ-BR-020", "severity": "P1", "pages": [85], "level": "fixture", "detail": "slide-1014 (The Unbroken Chain of Witnesses) is a dense raster diagram placed as a 40% wrap; internal node labels are below comfortable print readability. Better curated as flow:standalone at 60%+."}
+  ],
+  "figure_checks": {
+    "REQ-BR-010_no_page_break_span": "PASS — all 15 figures render whole on a single page (pages 6, 8, 8, 9, 9, 11, 12, 13, 24, 25, 25, 28, 51, 54, 85)",
+    "REQ-BR-011_watermark": "PASS — 0 watermark hits across 117 pages",
+    "REQ-BR-012_caption_dup": "PASS — 0 duplicate captions; raster slides correctly suppress figcaption via embedded_title de-dup",
+    "REQ-BR-013_contract": "PASS — every placement renders at its curated flow/align/width (standalone centered: 1001, 1004, 1007, 1010, 1013; wrap floats with body text beside: the rest); p25 double-right-float stacking is legal CSS, not a contract breach",
+    "REQ-BR-014_after_introduction": "PASS — all 9 snippet-resolved placements sit at/after their illustrating passage; the 6 chapter-default placements sit after their chapter's intro paragraph per the fixture contract"
+  },
+  "notes": "Second pass after the anchor fix. First-pass P0 (all 15 placements dropped) fully resolved: 15/15 figures render — 6 raster embeds confirmed via pdfimages (pages 6, 12, 13, 28, 54, 85) + 9 inline SVG replicas. No P0s remain. Verdict RENDER-CAUTION on P1 cosmetics only; gate criterion RENDER-CLEAN is NOT met."
+}
