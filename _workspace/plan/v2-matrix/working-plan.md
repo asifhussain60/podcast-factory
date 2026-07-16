@@ -188,7 +188,52 @@ already present); `az login` active; `claude` auth OK (start-session ping).
 | c2 | mukhtasar-ul-asar-2 | source_only | faithful | ON HOLD (same) | — | — | — |
 | c3 | mukhtasar-ul-asar-2 | none | author_companion | ON HOLD (same) | — | — | — |
 | c4 | mukhtasar-ul-asar-2 | source_only | author_companion | ON HOLD (same) | — | — | — |
-| c5 | the-master-and-the-disciple | none | faithful | RENDER-DONE 13:18Z (114pp A4, 15 visuals, fluency 0 reverts, 2 self-healed chunk retries) | ✅ | challengers running | challengers running |
+| c5 | the-master-and-the-disciple | none | faithful | RENDER-DONE 13:18Z; re-rendered ~13:50Z after layout-anchor fix (117pp A4, 15 visuals: 6 raster + 9 SVG, fluency 0 reverts) | ✅ | 🔴 **BLOCKED** | 🟡 **RENDER-CAUTION** (0 P0s; 6 P1s) |
+
+**c5 render pass-2 verdict (RENDER-CAUTION, not RENDER-CLEAN):** pass-1 P0 fully
+resolved — all 15 placements render (6 raster pp.6/12/13/28/54/85, 9 SVG),
+no watermark, no blank pages, no split figures, caption de-dup correct, every
+placement matches its curated flow/align/width (REQ-BR-010–014 all pass).
+Remaining P1s: **renderer-level** (fix in `book-print.css`): p5 crosswalk table
+spills one dangling row; p72 ch7 ends as 2-line widow page; p9 wrap float bleeds
+past its short chapter and displaces the CHAPTER TWO heading (chapter-open block
+lacks `clear: both`). **Fixture-level** (Book Composer re-curation, not renderer
+defects): p8+p25 two same-anchor 40% wraps stack side-by-side leaving a sliver
+text column; p85 dense raster diagram illegible at 40% wrap (wants standalone
+60%+). Report: `<M&D worktree>/.../_system/book-render-checks.json` (pass 2).
+
+**c5 book-challenger verdict (BLOCKED — but the knob behaves):** 1 P0 — the
+planned PREFACE was never rendered (teaching lost, source lines 8–13). BK-P4
+(the cutover criterion): 2 findings, BK5 P1 + BK10 P2 — BOTH are composer-added
+narrator stitching at chunk seams, not doctrinal/outside content. Everything
+the v2 knobs were designed to guarantee held: 0 doctrinal invention, 0 outside
+augmentation, 0 tradition bleed, BK-P3 clean (all 16 Quranic quotes consonantally
+canonical; book-native Arabic matches OCR ground truth; composer correctly
+re-translated 4 garbled refined-English passages against OCR Arabic).
+**Systemic root cause (fix BEFORE running c6–c8):** 5 of 6 P1s are chunk-seam
+artifacts — content duplicated across `book/_chunks/translation` boundaries
+(¶300–302 doubled w/ meaning inversion, ¶343–350, ¶409, ¶27) plus bridges added
+to smooth them, and the missing preface is a chunking/assembly gap. Per the
+systemic-fixes standing rule this is a HALT-and-fix-at-root before burning more
+cells. Also: BK-A2 P1 (ch1/2 + ch5/6 crosswalk drift), BK-A3 P2 (TOC `voice`
+field contradicts the faithful knob). Full report:
+`<M&D worktree>/content/Islamic/the-master-and-the-disciple/book/book-challenger-report.md`;
+12 findings in `_learning/findings.jsonl`.
+
+**c5 render incident (cutover-relevant):** first render silently dropped ALL 15
+placements. Root cause: the auto-layout fixture wrote candidates'
+`suggested_anchor` passage snippets into `placement.anchor`, but
+`visual-layout.mjs::applyLayout` resolves anchors against chapter `<h2>`
+headings only — unmatched keys are dropped WITH NO WARNING. Fixed in the
+helper (anchors now resolve to chapter titles + `anchor_para`, fuzzy passage
+match; 9/15 snippet-resolved, 6 chapter-default) and the runner now stamps
+`book_pipeline_v2: true` into series-config.yaml (env-only flag would miss the
+Composer/API render path). Scripts committed (`9c598d9e`).
+**Phase-5 follow-up finding:** the renderer should WARN (in the --json result)
+when a placement's anchor matches no chapter — silent drop is how this
+shipped-looking-but-empty PDF got through; also the render-challenger's pass-1
+flag_v2 diagnosis was wrong (env WAS set) — the deterministic probes were
+right, the inferred cause wasn't.
 | c6 | the-master-and-the-disciple | source_only | faithful | DEFERRED to MacBook Air (Asif: stop after c5) | — | — | — |
 | c7 | the-master-and-the-disciple | none | author_companion | DEFERRED to MacBook Air | — | — | — |
 | c8 | the-master-and-the-disciple | source_only | author_companion | DEFERRED to MacBook Air | — | — | — |

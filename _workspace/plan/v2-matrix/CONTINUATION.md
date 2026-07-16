@@ -82,10 +82,24 @@ Record each cell's two verdicts here (and push):
 
 | Cell | BK-P4 | RENDER |
 |---|---|---|
-| c5 | _fill from desktop finalize_ | _fill from desktop finalize_ |
+| c5 | 🔴 BLOCKED overall (1 P0: planned preface never rendered; BK-P4 itself: BK5 P1 + BK10 P2, both chunk-seam narrator stitching). Core faithfulness clean: 0 doctrinal invention, 0 outside augmentation, BK-P3 all-canonical Arabic. | pass 1 RENDER-BROKEN (layout anchors dropped silently — fixed, scripts `9c598d9e`); pass 2 🟡 RENDER-CAUTION: 0 P0s, 6 P1s — renderer CSS: p5 table spill, p72 widow page, p9 float bleeds into chapter heading (chapter-open needs `clear:both` in book-print.css); fixture: same-anchor wrap pairs p8/p25, dense raster at 40% p85. Details in working-plan.md + `_system/book-render-checks.json` |
 | c6 | | |
 | c7 | | |
 | c8 | | |
+
+**⚠ START HERE ON THE LAPTOP — systemic fix BEFORE c6–c8.** c5's challenger
+found a `compose_book_v2` chunking defect: content duplicates across
+`book/_chunks/translation` chunk boundaries (4 of the 6 BK-P6 findings, incl.
+one meaning inversion) and the composer papers over seams with un-sourced
+narrator bridges (both BK-P4 findings); the planned preface is dropped entirely
+at assembly (the P0). Per the systemic-fixes standing rule
+(`feedback_systemic_fixes_from_chapter_archetype`), fix the chunk
+overlap/assembly at root (`scripts/podcast/_translation_edition.py` chunking +
+assembly, and preface emission), re-run c5, get it green — THEN run c6–c8.
+Full findings: the worktree's `book/book-challenger-report.md` +
+`_learning/findings.jsonl`. Note: the chunk-cache convenience commit means a
+c5 re-run reuses chunks — if the fix changes chunk BOUNDARIES, delete
+`book/_chunks/translation/` first so the compose re-chunks.
 
 ## After all 4 M&D cells
 
