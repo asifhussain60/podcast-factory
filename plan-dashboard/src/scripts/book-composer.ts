@@ -4,13 +4,15 @@
  * Reads the server-rendered JSON data island, lets the human curate visual
  * placements WYSIWYG (place from the palette, drag between chapters to move the
  * anchor, set align / flow / width / caption / page_fit, delete), then persists
- * to book/visual-layout.json via the API. Generating the PDF itself lives on
- * /studio/<slug>/preview, not here — see book-preview.ts. All styling is
- * class-based + the --cx-w custom property (set at runtime here, never as an
- * inline HTML attribute), so the view stays lint/Cortex-clean.
+ * to book/visual-layout.json via the API — AUTOSAVED (see ./autosave), no
+ * manual Save button. Generating the PDF itself lives on /studio/<slug>/preview,
+ * not here — see book-preview.ts. All styling is class-based + the --cx-w
+ * custom property (set at runtime here, never as an inline HTML attribute), so
+ * the view stays lint/Cortex-clean.
  */
 import { mountChapterEditor, type ChapterEditor } from './book-md-editor';
 import { confirmDialog, noticeDialog } from './confirm-dialog';
+import { createAutosave, mountAutosaveStatus, type AutosaveController } from './autosave';
 
 type Align = 'left' | 'center' | 'right';
 type Flow = 'wrap' | 'standalone';
@@ -58,11 +60,14 @@ function boot(): void {
 
   let placements: Placement[] = data.placements.map(normalize);
   let selected: string | null = null;
+  // Assigned once, near the bottom of setup, once slug/placements are settled —
+  // markDirty() (place/update/remove) only ever runs after that in response to
+  // a user action, so referencing it before assignment here is safe.
+  let layoutAutosave: AutosaveController;
 
   const paletteEl = root.querySelector<HTMLElement>('#cx-palette-list')!;
   const controlsEl = root.querySelector<HTMLElement>('#cx-controls')!;
-  const saveBtn = root.querySelector<HTMLButtonElement>('#cx-save')!;
-  const statusEl = root.querySelector<HTMLElement>('#cx-status')!;
+  const layoutStatusEl = root.querySelector<HTMLElement>('#cx-layout-status')!;
   const chapterSelect = root.querySelector<HTMLSelectElement>('#cx-chapter-select');
   const scopeEl = root.querySelector<HTMLElement>('#cx-artifacts-scope');
   let selectedChapter = data.chapters[0]?.key ?? '';
@@ -148,12 +153,17 @@ function boot(): void {
     });
   }
 
-  // ── Read / Edit mode — Edit swaps the chapter body for the TipTap editor ──
+  // ── Edit mode — the chapter opens straight into the TipTap editor ─────────
+  // Layout mode (figure placement/resize) was removed from the UI 2026-07-16;
+  // its button slot is now the "Companion Tool" nav link (compose.astro). This
+  // makes Edit the sole, permanent state — modeRead stays as a (now always
+  // null) query so setModeVisual/leaveEditMode's existing optional-chained
+  // references to it stay harmless rather than requiring a wider rewrite.
+  // Figure placement has no UI home until Phase 4 (Edit-canvas merge) lands.
   const modeRead = root.querySelector<HTMLButtonElement>('#cx-mode-read');
   const modeEdit = root.querySelector<HTMLButtonElement>('#cx-mode-edit');
   const bookTitle = root.closest('body')?.querySelector<HTMLElement>('.lib-hero-main h1')?.textContent?.trim() ?? '';
   let activeEditor: ChapterEditor | null = null;
-  let editorDirty = false; // true = edits not yet successfully autosaved
   let contentChangedThisSession = false; // a save landed → in-memory render is stale
   // Flush any pending autosave for the active editor; resolves true if the chapter
   // is safely saved (or had nothing to save), false if the save failed.
@@ -187,7 +197,6 @@ function boot(): void {
     activeEditor?.destroy();
     activeEditor = null;
     activeSaveFlush = null;
-    editorDirty = false;
     root.querySelector('.cx-edit-shell')?.remove();
     const bodyEl = currentChapterEl()?.querySelector<HTMLElement>('.cx-body');
     if (bodyEl) bodyEl.hidden = false;
@@ -344,79 +353,28 @@ function boot(): void {
     }
     toolbar.append(paperGroup);
 
-    // Autosave status pill — no manual "Save prose" button; edits persist themselves.
-    const editStatus = document.createElement('p');
-    editStatus.className = 'cx-status cx-autosave';
-    editStatus.setAttribute('role', 'status');
-    editStatus.setAttribute('aria-live', 'polite');
-    const statusText = document.createElement('span');
-    statusText.className = 'cx-autosave-text';
-    const retryBtn = document.createElement('button');
-    retryBtn.type = 'button';
-    retryBtn.className = 'cx-autosave-retry';
-    retryBtn.textContent = 'Retry';
-    retryBtn.hidden = true;
-    editStatus.append(statusText, retryBtn);
-    shell.append(toolbar, host, editStatus);
+    shell.append(toolbar, host);
     bodyEl.insertAdjacentElement('afterend', shell);
 
     activeEditor = mountChapterEditor(host, pristine);
-    editorDirty = false;
 
-    // ── autosave: debounced silent PUT, single-flight with a trailing re-save ──
-    let saveTimer: number | undefined;
-    let saving = false;
-    let needsResave = false;
-    const setStatus = (msg: string, state: 'saving' | 'saved' | 'error' | 'editing') => {
-      statusText.textContent = msg;
-      editStatus.classList.toggle('is-error', state === 'error');
-      retryBtn.hidden = state !== 'error';
-    };
-    const savedTime = () => new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-
-    async function doSave(): Promise<boolean> {
-      if (!activeEditor) return true;
-      if (saving) { needsResave = true; return false; } // single-flight
-      saving = true;
-      setStatus('Saving…', 'saving');
-      try {
+    // Autosave — no manual "Save prose" button; edits persist themselves (./autosave).
+    const proseAutosave: AutosaveController = createAutosave({
+      onStateChange: mountAutosaveStatus(shell, () => { void proseAutosave.flush(); }),
+      save: async () => {
+        if (!activeEditor) return { ok: true };
         const res = await fetch('/api/studio/book-md', {
           method: 'PUT',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({ slug, chapterKey: selectedChapter, markdown: activeEditor.toMarkdown() }),
         });
         const json = await res.json();
-        if (!json.ok) throw new Error(json.error || 'save failed');
-        saving = false;
-        editorDirty = false;
-        contentChangedThisSession = true;
-        if (needsResave) { needsResave = false; return doSave(); } // fold in edits made mid-save
-        setStatus(`Saved ${savedTime()}`, 'saved');
-        return true;
-      } catch (err) {
-        saving = false;
-        setStatus(`Couldn't save — ${(err as Error).message}`, 'error');
-        return false;
-      }
-    }
-    const scheduleSave = () => {
-      window.clearTimeout(saveTimer);
-      saveTimer = window.setTimeout(() => { void doSave(); }, 1200);
-    };
-    retryBtn.addEventListener('click', () => { void doSave(); });
-
-    // Flush the pending autosave now; resolves true if the chapter is safely saved.
-    activeSaveFlush = async (): Promise<boolean> => {
-      window.clearTimeout(saveTimer);
-      if (!editorDirty && !saving) return true;
-      return doSave();
-    };
-
-    activeEditor.editor.on('update', () => {
-      editorDirty = true;
-      setStatus('Editing…', 'editing');
-      scheduleSave();
+        if (json.ok) contentChangedThisSession = true;
+        return json.ok ? { ok: true } : { ok: false, error: json.error };
+      },
     });
+    activeSaveFlush = () => proseAutosave.flush();
+    activeEditor.editor.on('update', () => proseAutosave.markDirty());
     activeEditor.editor.on('selectionUpdate', () => updateAiEnabled());
     updateAiEnabled();
   }
@@ -550,12 +508,7 @@ function boot(): void {
     return { visual_id: p.visual_id, anchor: p.anchor, anchor_para, align, flow, width_pct: width, caption: p.caption ?? '', page_fit };
   }
 
-  function markDirty(): void { saveBtn.disabled = false; setStatus(''); }
-
-  function setStatus(msg: string, isError = false): void {
-    statusEl.textContent = msg;
-    statusEl.classList.toggle('is-error', isError);
-  }
+  function markDirty(): void { layoutAutosave.markDirty(); }
 
   function place(visualId: string, anchor: string, anchorPara: number | null = null): void {
     if (placements.some((p) => p.visual_id === visualId)) return;
@@ -1204,26 +1157,20 @@ function boot(): void {
     });
   });
 
-  // ── persistence ───────────────────────────────────────────────────────────
-  saveBtn.addEventListener('click', async () => {
-    saveBtn.disabled = true;
-    setStatus('Saving…');
-    try {
+  // ── persistence — autosaved, no manual button (see ./autosave) ─────────────
+  layoutAutosave = createAutosave({
+    onStateChange: mountAutosaveStatus(layoutStatusEl),
+    save: async () => {
       const res = await fetch('/api/studio/visual-layout', {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ slug, placements }),
       });
       const json = await res.json();
-      if (!json.ok) throw new Error(json.error || 'save failed');
-      setStatus(`Saved ${json.data.count} placement(s).`);
-    } catch (err) {
-      setStatus(`Save failed: ${(err as Error).message}`, true);
-      saveBtn.disabled = false;
-    }
+      return json.ok ? { ok: true } : { ok: false, error: json.error };
+    },
   });
 
-  saveBtn.disabled = true;
   showSelectedChapter();
   renderCitations();
   renderAiActions();

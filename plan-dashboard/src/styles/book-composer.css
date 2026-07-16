@@ -22,12 +22,63 @@
 /* The top identity block reads as a white header banner spanning the full page
    width (scoped to this view — the shared Studio/Library heroes are untouched).
    Same near-white surface as the right-hand inspector panel. */
-.composer .lib-hero {
+.composer .cx-composer-header {
   background: var(--c-bg-card, #fffdf8);
   border: 1px solid var(--c-rule-soft, #ebe6da);
   border-radius: 10px;
   padding: 1.4rem 1.6rem;
   margin-bottom: 1.6rem;
+}
+
+/* Studio-surface entry points: one horizontal row pinned above the title
+ * (not a vertical stack beside it), small rectangular buttons — deliberately
+ * its own compact style, not a reuse of the site-wide pill .lib-studio-link
+ * (which other Studio pages still use unchanged). */
+.cx-composer-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+/* .lib-hero-main's shared rule (library.css) sets `flex: 1 1 24rem` for its
+ * normal home in a ROW-direction .lib-hero (main+aside side by side), where
+ * the 24rem basis sizes its WIDTH. Reused here inside a COLUMN-direction
+ * header, that same flex-basis applies to the main axis instead — HEIGHT —
+ * forcing a ~460px-tall block padded out with blank space below its actual
+ * content. Reset it back to content-sized for this column context. */
+.cx-composer-header .lib-hero-main {
+  flex: 0 1 auto;
+}
+.cx-header-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.cx-hdr-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.32rem 0.65rem;
+  border-radius: 6px;
+  border: 1px solid var(--c-accent, #8b4513);
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 8%, var(--c-bg-card, #fffdf8));
+  color: var(--c-accent, #8b4513);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.16s;
+}
+.cx-hdr-btn:hover {
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 16%, var(--c-bg-card, #fffdf8));
+  text-decoration: none;
+}
+.cx-hdr-btn:focus-visible { outline: 2px solid var(--c-accent, #8b4513); outline-offset: 2px; }
+/* Pushed to the far right of the row, separated from the other entries. */
+.cx-hdr-btn--end { margin-left: auto; }
+@media (max-width: 640px) {
+  .cx-header-actions { flex-direction: column; align-items: stretch; }
+  .cx-hdr-btn--end { margin-left: 0; }
 }
 
 .composer-grid {
@@ -78,7 +129,9 @@
   border-radius: 5px;
   color: var(--c-ink-muted, #87827a);
   cursor: pointer;
+  text-decoration: none; /* #cx-companion-tool reuses this class on an <a> */
 }
+.cx-mode-btn:hover { text-decoration: none; }
 .cx-mode-btn.is-active {
   background: var(--c-accent, #8b4513);
   color: var(--c-bg-card, #fffdf8);
@@ -802,10 +855,35 @@
 .cx-status { font-size: 0.8rem; margin: 0.3rem 0 0; min-height: 1.1rem; }
 .cx-status.is-error { color: var(--c-red); }
 
-/* Autosave status pill (book-composer.ts) — text + a Retry button on failure. */
-.cx-autosave { display: flex; align-items: center; gap: 0.5rem; }
+/* Autosave status pill (scripts/autosave.ts — shared by the prose editor AND
+ * the figure-layout autosave) — icon + text + a Retry button on failure. */
+.cx-autosave { display: flex; align-items: center; gap: 0.4rem; }
 .cx-autosave-text { color: var(--c-ink-muted, #87827a); }
 .cx-status.is-error .cx-autosave-text { color: var(--c-red, #a83232); }
+
+.cx-autosave-icon {
+  font-size: 0.85em;
+  color: var(--c-ink-muted, #87827a);
+}
+.cx-autosave-icon:empty,
+.cx-autosave-icon[hidden] { display: none; }
+.cx-autosave-icon.cx-autosave-spin { animation: cx-autosave-spin 0.8s linear infinite; }
+.fa-circle-check.cx-autosave-icon {
+  color: var(--c-green, #4a7c4a);
+  animation: cx-autosave-pop 0.28s ease;
+}
+.fa-triangle-exclamation.cx-autosave-icon { color: var(--c-red, #a83232); }
+
+@keyframes cx-autosave-spin { to { transform: rotate(360deg); } }
+@keyframes cx-autosave-pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  70% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cx-autosave-icon.cx-autosave-spin { animation: none; }
+  .fa-circle-check.cx-autosave-icon { animation: none; }
+}
 .cx-autosave-retry {
   padding: 0.1rem 0.5rem;
   border: 1px solid var(--c-red, #a83232);

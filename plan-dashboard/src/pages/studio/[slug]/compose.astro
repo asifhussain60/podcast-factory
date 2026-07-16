@@ -40,7 +40,18 @@ const FAMILIES = [
 >
   {view?.hasBook ? (
     <div class="composer" data-slug={slug}>
-      <header class="lib-hero">
+      <header class="cx-composer-header">
+        <div class="cx-header-actions" role="group" aria-label="Studio surfaces">
+          <a class="cx-hdr-btn" href={`/studio/${slug}/preview`}>
+            <i class="fa-solid fa-file-lines" aria-hidden="true"></i> Preview
+          </a>
+          <a class="cx-hdr-btn" href={`/studio/${slug}/edit`}>
+            <i class="fa-solid fa-feather-pointed" aria-hidden="true"></i> Edit &amp; Enrich
+          </a>
+          <a class="cx-hdr-btn cx-hdr-btn--end" href={`/studio/${slug}/live`}>
+            <i class="fa-solid fa-book-open-reader" aria-hidden="true"></i> LIVE Session
+          </a>
+        </div>
         <div class="lib-hero-main">
           <div class="lib-breadcrumb">
             <a href="/studio">Studio</a>
@@ -52,29 +63,8 @@ const FAMILIES = [
           </div>
           <p class="composer-sub">
             Work one chapter at a time. The chapter opens in the editor — reshape prose
-            with the AI actions in Refinement. Switch to Layout to place and size its
-            visuals (click a figure for its controls), and set citation styles in Citations.
+            with the AI actions in Refinement, and set citation styles in Citations.
           </p>
-        </div>
-        <div class="lib-hero-aside">
-          <div class="lib-title-actions">
-            <a class="lib-studio-link" href={`/studio/${slug}/preview`}>
-              <i class="fa-solid fa-file-lines" aria-hidden="true"></i> Preview
-              <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
-            </a>
-            <a class="lib-studio-link" href={`/studio/${slug}/live`}>
-              <i class="fa-solid fa-book-open-reader" aria-hidden="true"></i> LIVE Session
-              <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
-            </a>
-            <a class="lib-studio-link" href={`/studio/${slug}/book`}>
-              <i class="fa-solid fa-book" aria-hidden="true"></i> Reading edition
-              <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
-            </a>
-            <a class="lib-studio-link" href={`/studio/${slug}/edit`}>
-              <i class="fa-solid fa-feather-pointed" aria-hidden="true"></i> Edit &amp; Enrich
-              <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
-            </a>
-          </div>
         </div>
       </header>
 
@@ -89,14 +79,11 @@ const FAMILIES = [
                 ))}
               </select>
             </div>
-            <div class="cx-mode" role="group" aria-label="Editor mode">
-              <button type="button" class="cx-mode-btn is-active" id="cx-mode-read" aria-pressed="true">Layout</button>
-              <button type="button" class="cx-mode-btn" id="cx-mode-edit" aria-pressed="false">Edit</button>
+            <div class="cx-mode" role="group" aria-label="Editor">
+              <a class="cx-mode-btn" id="cx-companion-tool" href={`/studio/${slug}/book`}>Companion Tool</a>
+              <button type="button" class="cx-mode-btn is-active" id="cx-mode-edit" aria-pressed="true">Edit</button>
             </div>
-            <div class="cx-layout-save">
-              <button type="button" class="cx-action" id="cx-save">Save layout</button>
-              <p class="cx-status" id="cx-status" role="status" aria-live="polite"></p>
-            </div>
+            <div class="cx-layout-save" id="cx-layout-status"></div>
           </div>
           {view.chapters.map((ch) => (
             <div class="cx-chapter" data-anchor={ch.anchor} data-key={ch.key} hidden>
