@@ -273,6 +273,44 @@ Both books run in PARALLEL (one worktree each, 3 claude workers per compose).
 
 Cell logs: `_workspace/experiments/v2-matrix/logs/<cell>.log` (+ `.pid`).
 
+### Phase 4 — execution log (2026-07-16, session 3 — laptop `/Users/asifhussain`)
+
+**Systemic root fix landed on the maintenance branch** (the CONTINUATION's
+"START HERE" step). c5's BLOCKED verdict was driven by a `compose_book_v2`
+chunking/assembly defect; fixed at root in `scripts/podcast/_translation_edition.py`:
+
+1. **Preface emission (P0 fix).** `author_translation_edition_compose` only
+   iterated `toc["chapters"]`, so `book-toc.json`'s declared `preface` (source
+   lines 8–13, the three-thanks framing teaching) was never composed or emitted —
+   teaching lost from the deliverable. It now composes the preface from its own
+   source range and emits `## <preface title>` before chapter 1 (cached at
+   `book/_chunks/translation/preface.md`).
+2. **Sequential window continuity (BK-P6 seam-dup root).** Long (>4500w) chapters
+   were windowed and composed IN PARALLEL, each window handed the same previous-
+   *chapter* tail — so windows couldn't see one another and the model re-rendered
+   the boundary passage at every seam (BK2/3/4), then added un-sourced narrator
+   bridges to smooth them (BK5/BK10). Windows now compose SEQUENTIALLY, each given
+   the real tail of the prior window, so the existing "do not repeat this"
+   continuity note holds at the seam. Retired `TRANSLATION_EDITION_MAX_WORKERS`
+   (+ the `os` import); per-window chunk cache keeps re-entry cheap.
+3. **Deterministic seam-overlap trimmer (safety net).** `_trim_seam_overlap` drops
+   a leading paragraph of any window/chapter that verbatim-echoes the previous
+   one's tail (SequenceMatcher ratio ≥ 0.80 OR a ≥12-token verbatim run covering
+   ≥60% of the paragraph). Applied at window joins AND chapter joins (catches BK6,
+   the cross-chapter ch2→3 ¶27 over-run). Whole-paragraph drops only; conservative
+   by design so a genuinely distinct chapter opening is never trimmed.
+
+**Verification (deterministic, $0):** 7 new unit tests in
+`scripts/podcast/tests/test_translation_edition.py` (trimmer boundary cases +
+preface emission/skip integration with a stubbed compose); full book/translation
+suite **242 passed / 1 skipped**. All existing callers mock
+`author_translation_edition_compose`, so the internal rewrite is regression-safe.
+
+**NOT yet done (next action):** the LLM re-validation — re-run c5 (full compose)
+→ `book-challenger` + `book-render-challenger` → confirm BK-P1 P0 cleared and the
+BK-P6 seam cluster gone, get c5 green, THEN run c6–c8. This is the multi-hour
+`claude -p` step; needs a monitored session + heartbeat (do not one-shot it).
+
 ## Phase 5 — v2 cutover execution — **Tier 2, gated on Phase 4 passing**
 
 Flip `book_pipeline_v2` default to True; delete `generate_translation_edition.py`

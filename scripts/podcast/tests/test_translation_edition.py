@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
+
+import pytest
 
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
@@ -15,6 +18,8 @@ from _translation_edition import (  # noqa: E402
     source_title_drift_findings,
     translation_output_findings,
     _iter_source_windows,
+    _para_is_echo,
+    _trim_seam_overlap,
 )
 from phases.book_driver import _book_branch_enabled  # noqa: E402
 
@@ -141,3 +146,167 @@ def test_source_title_drift_detects_dress_title_on_hunting_source() -> None:
     )
 
     assert findings
+
+
+# --- seam-overlap trimming (chunk-seam double-render root fix) ---------------
+
+def test_trim_seam_drops_verbatim_boundary_echo() -> None:
+    # The composer double-renders the parting passage across a chunk seam.
+    prev = (
+        "So the scholar and the boy went out together and drew near to the boy's "
+        "city, and the scholar said: My son, you have learned the counsel of the "
+        "Shaykh, and there is no right guidance but in his word."
+    )
+    nxt = (
+        "So the scholar and the boy went out together and drew near to the boy's "
+        "city, and the scholar said: My son, you have learned the counsel of the "
+        "Shaykh, and there is no right guidance but in his word.\n\n"
+        "Then a new road opened before them, and they spoke of the five shares."
+    )
+
+    trimmed = _trim_seam_overlap(prev, nxt)
+
+    assert trimmed.startswith("Then a new road opened")
+    assert "you have learned the counsel" not in trimmed
+
+
+def test_trim_seam_keeps_distinct_chapter_opening() -> None:
+    # A genuinely new chapter opening must never be trimmed as an echo.
+    prev = "The chapter closes on the marketplace and the ethics of honest trade."
+    nxt = (
+        "A wholly different discussion now opens on divorce, the waiting period, "
+        "and the rites of mourning.\n\nThe teaching continues from there."
+    )
+
+    assert _trim_seam_overlap(prev, nxt) == nxt
+
+
+def test_trim_seam_drops_long_verbatim_run_in_reworded_echo() -> None:
+    # A long verbatim run (>=12 tokens) inside an otherwise-reworded opening is
+    # still a seam echo and is trimmed.
+    prev = (
+        "And then the scholar said the counsel of the shaykh is the only right "
+        "guidance for the seeker on the road."
+    )
+    nxt = (
+        "Truly, the counsel of the shaykh is the only right guidance for the "
+        "seeker on the road, he said to them again.\n\n"
+        "After this the debate turned to the foundations of justice."
+    )
+
+    trimmed = _trim_seam_overlap(prev, nxt)
+
+    assert trimmed.startswith("After this the debate")
+
+
+def test_trim_seam_keeps_short_reworded_overlap_by_design() -> None:
+    # The trimmer is deliberately conservative: a short (<12-token) reworded
+    # overlap is NOT trimmed — sequential window continuity prevents these, and
+    # trimming so aggressively would risk removing legitimately similar prose.
+    prev = "He said that lying is the worst of wares in the market of the soul."
+    nxt = (
+        "Indeed lying is the worst of wares, he repeated to them plainly.\n\n"
+        "After this the debate turned to the foundations of justice."
+    )
+
+    assert _trim_seam_overlap(prev, nxt) == nxt
+
+
+def test_para_is_echo_ignores_short_fragments() -> None:
+    assert _para_is_echo("He said.", "He said that lying is the worst of wares.") is False
+
+
+def test_trim_seam_noops_on_empty_inputs() -> None:
+    assert _trim_seam_overlap("", "Opening paragraph.") == "Opening paragraph."
+    assert _trim_seam_overlap("Prior tail.", "") == ""
+
+
+# --- preface emission (P0: planned preface silently dropped at assembly) -----
+
+def test_preface_is_composed_and_emitted_before_chapter_one(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import _translation_edition as te
+
+    # Stub the LLM compose to echo the source faithfully (deterministic).
+    monkeypatch.setattr(
+        te,
+        "_compose_one",
+        lambda title, body, previous_tail, book_dir, label, log, **kw: body.strip(),
+    )
+
+    bd = tmp_path / "the-book"
+    (bd / "book").mkdir(parents=True)
+    (bd / "_system" / "source" / "text").mkdir(parents=True)
+
+    refined = "\n".join([
+        "The opening teaching that frames the whole work as thanksgiving.",  # 1
+        "Thank the master by obeying him and the knowledge by acting on it.",  # 2
+        "",                                                                   # 3
+        "The traveller who was lost and then guided came to the city.",       # 4
+        "He learned the counsel of the guide and carried it home.",           # 5
+    ])
+    (bd / "_system" / "source" / "text" / "refined-english.md").write_text(
+        refined, encoding="utf-8"
+    )
+
+    toc = {
+        "book_title": "The Book of the Road",
+        "voice": "faithful",
+        "preface": {
+            "include": True,
+            "title": "How to Read a Conversation Made of Doors",
+            "source_line_ranges": [[1, 2]],
+        },
+        "chapters": [
+            {"bk_index": 1, "title": "The Traveller Guided", "source_line_ranges": [[4, 5]]},
+        ],
+    }
+    (bd / "book" / "book-toc.json").write_text(
+        json.dumps(toc), encoding="utf-8"
+    )
+
+    book_md = te.author_translation_edition_compose(bd, log=lambda *a, **k: None, enforce_contract=False)
+    text = book_md.read_text(encoding="utf-8")
+
+    preface_at = text.find("## How to Read a Conversation Made of Doors")
+    chapter_at = text.find("## 1. The Traveller Guided")
+    assert preface_at != -1, "preface heading missing from book.md"
+    assert chapter_at != -1, "chapter heading missing from book.md"
+    assert preface_at < chapter_at, "preface must render before chapter one"
+    assert "thanksgiving" in text  # the preface teaching survived into the deliverable
+    assert (bd / "book" / "_chunks" / "translation" / "preface.md").exists()
+
+
+def test_preface_skipped_when_not_included(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import _translation_edition as te
+
+    monkeypatch.setattr(
+        te,
+        "_compose_one",
+        lambda title, body, previous_tail, book_dir, label, log, **kw: body.strip(),
+    )
+
+    bd = tmp_path / "the-book"
+    (bd / "book").mkdir(parents=True)
+    (bd / "_system" / "source" / "text").mkdir(parents=True)
+    (bd / "_system" / "source" / "text" / "refined-english.md").write_text(
+        "The traveller who was lost and then guided came to the city.\nHe learned and returned.",
+        encoding="utf-8",
+    )
+    toc = {
+        "book_title": "The Book",
+        "preface": {"include": False, "title": "Skip Me", "source_line_ranges": [[1, 1]]},
+        "chapters": [
+            {"bk_index": 1, "title": "The Traveller Guided", "source_line_ranges": [[1, 2]]},
+        ],
+    }
+    (bd / "book" / "book-toc.json").write_text(json.dumps(toc), encoding="utf-8")
+
+    text = te.author_translation_edition_compose(
+        bd, log=lambda *a, **k: None, enforce_contract=False
+    ).read_text(encoding="utf-8")
+
+    assert "Skip Me" not in text

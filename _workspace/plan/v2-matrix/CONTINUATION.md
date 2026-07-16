@@ -87,19 +87,49 @@ Record each cell's two verdicts here (and push):
 | c7 | | |
 | c8 | | |
 
-**⚠ START HERE ON THE LAPTOP — systemic fix BEFORE c6–c8.** c5's challenger
-found a `compose_book_v2` chunking defect: content duplicates across
+**✅ SYSTEMIC FIX LANDED (2026-07-16, laptop `/Users/asifhussain`).** The c5
+challenger found a `compose_book_v2` chunking defect: content duplicates across
 `book/_chunks/translation` chunk boundaries (4 of the 6 BK-P6 findings, incl.
-one meaning inversion) and the composer papers over seams with un-sourced
-narrator bridges (both BK-P4 findings); the planned preface is dropped entirely
-at assembly (the P0). Per the systemic-fixes standing rule
-(`feedback_systemic_fixes_from_chapter_archetype`), fix the chunk
-overlap/assembly at root (`scripts/podcast/_translation_edition.py` chunking +
-assembly, and preface emission), re-run c5, get it green — THEN run c6–c8.
-Full findings: the worktree's `book/book-challenger-report.md` +
-`_learning/findings.jsonl`. Note: the chunk-cache convenience commit means a
-c5 re-run reuses chunks — if the fix changes chunk BOUNDARIES, delete
-`book/_chunks/translation/` first so the compose re-chunks.
+one meaning inversion), the composer papers over seams with un-sourced narrator
+bridges (both BK-P4 findings), and the planned preface is dropped entirely at
+assembly (the P0). Per the systemic-fixes standing rule
+(`feedback_systemic_fixes_from_chapter_archetype`), the root fix is now on the
+maintenance branch in `scripts/podcast/_translation_edition.py`:
+
+1. **Preface emission (fixes the P0).** `author_translation_edition_compose` now
+   composes `book-toc.json`'s declared `preface` (its own source range) and emits
+   it as a `## <title>` block before chapter 1. Previously the compose loop only
+   iterated `chapters`, so the planned preface was silently dropped.
+2. **Sequential window continuity (fixes the BK-P6 seam-duplication root).** Long
+   chapters were split into windows composed IN PARALLEL, every window handed the
+   same *previous-chapter* tail — so windows couldn't see each other and the model
+   re-rendered boundary passages at each seam. Windows now compose SEQUENTIALLY,
+   each handed the real tail of the window before it, so the compose prompt's
+   "do not repeat this" continuity note actually holds at the seam. (Trade-off:
+   loses intra-chapter parallelism on >4500-word chapters; the per-window chunk
+   cache still makes re-entry cheap. `TRANSLATION_EDITION_MAX_WORKERS` is retired.)
+3. **Deterministic seam-overlap trimmer (safety net).** `_trim_seam_overlap`
+   conservatively drops a leading paragraph of any window/chapter that verbatim-
+   echoes (SequenceMatcher ratio ≥ 0.80, or a ≥12-token verbatim run covering
+   ≥60% of the paragraph) the tail of the previous one — catching BK2/BK3/BK4
+   (intra-chapter) and BK6 (cross-chapter ch2→3 ¶27) residual echoes. Whole-
+   paragraph drops only; never edits surviving text; can't false-positive on a
+   genuinely distinct opening.
+
+Unit tests in `scripts/podcast/tests/test_translation_edition.py` (7 new) cover
+the trimmer boundary + preface emission/skip; full book suite 242 passed / 1
+skipped. **The narrator bridges (BK5/BK10) were added to smooth the dups — with
+the dups gone they should not reappear; the c5 re-run confirms.**
+
+**⚠ NEXT — re-run c5 to validate the fix, THEN c6–c8.** Because the fix changes
+window seams (not chunk BOUNDARIES — the window split points are unchanged), a
+c5 re-run can REUSE the chunk cache; but to exercise the new sequential-tail
+compose end-to-end, run c5 with `full` (not `resume`). If validating only the
+deterministic assembly (preface + trim) without paying for re-compose, the
+cached parts are re-assembled with the new preface/trim logic on any re-run.
+Re-run c5 → both challengers → expect BK-P1 P0 cleared (preface present) and the
+BK-P6 seam cluster gone; get it green — THEN run c6–c8. Full original findings:
+the worktree's `book/book-challenger-report.md` + `_learning/findings.jsonl`.
 
 ## After all 4 M&D cells
 
