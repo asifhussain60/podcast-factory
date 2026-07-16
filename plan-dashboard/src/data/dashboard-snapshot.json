@@ -1454,11 +1454,16 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-16T07:57:07-04:00",
-  "source_commit": "cbe439d3",
+  "generated_at": "2026-07-16T08:33:52-04:00",
+  "source_commit": "a5479fff",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "a5479fff",
+      "subject": "docs(architecture): DR-013 scope clarification \u2014 0book-* content-branch re-runs exempt (Asif, 2026-07-16)",
+      "date": "2026-07-16"
+    },
     {
       "sha": "cbe439d3",
       "subject": "docs(architecture): flag stale branch/phase-numbering model, add 2026-07-16 corrections",
@@ -1502,11 +1507,6 @@
     {
       "sha": "6f27d6ff",
       "subject": "site(studio): themed notice for delete-failure (last native alert removed)",
-      "date": "2026-07-15"
-    },
-    {
-      "sha": "18a0d90d",
-      "subject": "site(studio): Composer UX trio \u2014 autosave, reading-edition link, themed dialog",
       "date": "2026-07-15"
     }
   ],
