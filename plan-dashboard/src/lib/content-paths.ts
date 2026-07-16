@@ -24,6 +24,19 @@ export function getRepoRoot(): string {
   return process.env.PODCAST_FACTORY_ROOT ?? DEFAULT_REPO_ROOT;
 }
 
+/**
+ * Resolve the python3 interpreter that has the pipeline's dependencies
+ * installed (PyYAML, etc. — see requirements.txt). Prefers the repo's own
+ * `.venv` (the bootstrap.md-documented setup) over the bare system
+ * `/usr/bin/python3`, which on macOS is Command Line Tools' Python and does
+ * NOT have the pipeline's packages installed.
+ */
+export function getPythonBin(): string {
+  if (process.env.PODCAST_FACTORY_PYTHON) return process.env.PODCAST_FACTORY_PYTHON;
+  const venvPython = join(getRepoRoot(), '.venv', 'bin', 'python3');
+  return existsSync(venvPython) ? venvPython : '/usr/bin/python3';
+}
+
 // ── Type-first buckets (2026-06-04) ──────────────────────────────────────────
 export const BUCKETS = ['Islamic', 'Technical', 'Fiction', 'Guides'] as const;
 export type Bucket = (typeof BUCKETS)[number];

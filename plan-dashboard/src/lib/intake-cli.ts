@@ -7,13 +7,13 @@
  */
 import { join } from 'node:path';
 import { spawn } from 'node:child_process';
-import { getRepoRoot } from './content-paths';
+import { getRepoRoot, getPythonBin } from './content-paths';
 
 /** Run `scripts/podcast/<module>.py <args…>` and parse its single JSON stdout line. */
 export function runPythonJson(module: string, args: string[]): Promise<unknown> {
   const script = join(getRepoRoot(), 'scripts', 'podcast', module);
   return new Promise((resolve, reject) => {
-    const proc = spawn('/usr/bin/python3', [script, ...args], { cwd: getRepoRoot() });
+    const proc = spawn(getPythonBin(), [script, ...args], { cwd: getRepoRoot() });
     let stdout = '';
     let stderr = '';
     proc.stdout.on('data', (d) => (stdout += d));
@@ -42,7 +42,7 @@ export function runPythonJson(module: string, args: string[]): Promise<unknown> 
  */
 export function spawnDetachedPython(module: string, args: string[]): number {
   const script = join(getRepoRoot(), 'scripts', 'podcast', module);
-  const proc = spawn('/usr/bin/python3', [script, ...args], {
+  const proc = spawn(getPythonBin(), [script, ...args], {
     cwd: getRepoRoot(),
     detached: true,
     stdio: 'ignore',

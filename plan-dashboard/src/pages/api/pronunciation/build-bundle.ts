@@ -11,7 +11,7 @@ import type { APIRoute } from 'astro';
 import { join } from 'node:path';
 import { spawn } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
-import { getRepoRoot, findContent } from '../../../lib/content-paths';
+import { getRepoRoot, getPythonBin, findContent } from '../../../lib/content-paths';
 import { apiOk, apiError, apiServerError } from '../../../lib/api-responses';
 
 export const prerender = false;
@@ -19,7 +19,7 @@ export const prerender = false;
 function runBundleBuilder(bookDir: string): Promise<string> {
   const script = join(getRepoRoot(), 'scripts', 'podcast', 'probe', 'build_probe_bundle.py');
   return new Promise((resolve, reject) => {
-    const proc = spawn('/usr/bin/python3', [script, bookDir], { cwd: getRepoRoot() });
+    const proc = spawn(getPythonBin(), [script, bookDir], { cwd: getRepoRoot() });
     let stdout = '';
     let stderr = '';
     proc.stdout.on('data', (d) => (stdout += d));
