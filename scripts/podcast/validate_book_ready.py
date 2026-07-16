@@ -195,9 +195,9 @@ def gate_b3_book_arabic_coverage(book_dir: Path) -> tuple[bool, str]:
     """Hard gate for Islamic chapter Arabic, plus rendered-book coverage signal."""
     try:
         from _content_profile import is_islamic_scholarly
-        from _translation_edition import is_translation_edition
+        from _translation_edition import is_faithful_translation_deliverable
         if is_islamic_scholarly(book_dir):
-            if is_translation_edition(book_dir):
+            if is_faithful_translation_deliverable(book_dir):
                 md = _pick_book_md(book_dir)
                 rendered = md.read_text(encoding="utf-8", errors="replace") if md.exists() else ""
                 rendered_runs = len(_ARABIC_RE.findall(rendered))
@@ -254,8 +254,8 @@ def gate_b3_book_arabic_coverage(book_dir: Path) -> tuple[bool, str]:
 def gate_b4_book_prose_integrity(book_dir: Path) -> tuple[bool, str]:
     """Reject model process chatter in translation-edition render input."""
     try:
-        from _translation_edition import is_translation_edition, translation_output_findings
-        if not is_translation_edition(book_dir):
+        from _translation_edition import is_faithful_translation_deliverable, translation_output_findings
+        if not is_faithful_translation_deliverable(book_dir):
             return True, "n/a (not a translation edition)"
     except Exception as e:  # noqa: BLE001
         return False, f"translation-edition integrity check unavailable: {e}"
@@ -283,8 +283,8 @@ def gate_b4_book_prose_integrity(book_dir: Path) -> tuple[bool, str]:
 def gate_b5_book_chapter_body_coverage(book_dir: Path) -> tuple[bool, str]:
     """Reject heading-only translation-edition chapters."""
     try:
-        from _translation_edition import is_translation_edition
-        if not is_translation_edition(book_dir):
+        from _translation_edition import is_faithful_translation_deliverable
+        if not is_faithful_translation_deliverable(book_dir):
             return True, "n/a (not a translation edition)"
     except Exception as e:  # noqa: BLE001
         return False, f"translation-edition body check unavailable: {e}"
@@ -316,9 +316,9 @@ def gate_b5_book_chapter_body_coverage(book_dir: Path) -> tuple[bool, str]:
 def gate_b6_book_source_crosswalk(book_dir: Path) -> tuple[bool, str]:
     """Validate persisted source crosswalk and title/source alignment."""
     try:
-        from _translation_edition import is_translation_edition, source_title_drift_findings
+        from _translation_edition import is_faithful_translation_deliverable, source_title_drift_findings
         from _book_compose import _slice_source
-        if not is_translation_edition(book_dir):
+        if not is_faithful_translation_deliverable(book_dir):
             return True, "n/a (not a translation edition)"
     except Exception as e:  # noqa: BLE001
         return False, f"source-crosswalk check unavailable: {e}"

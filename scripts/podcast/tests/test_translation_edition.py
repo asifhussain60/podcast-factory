@@ -11,6 +11,7 @@ sys.path.insert(0, str(SCRIPT_DIR))
 
 from _translation_edition import (  # noqa: E402
     contract_findings,
+    is_faithful_translation_deliverable,
     is_translation_edition,
     monochrome_svg,
     normalize_translation_prose,
@@ -64,6 +65,25 @@ translation_policy:
 
     findings = contract_findings(bd)
     assert any("augmentation" in finding for finding in findings)
+
+
+def test_faithful_deliverable_covers_v2_faithful_and_legacy(tmp_path: Path) -> None:
+    # Legacy translation-edition mode -> faithful deliverable.
+    legacy = _book(tmp_path / "legacy", "deliverable_mode: translation_edition\n")
+    assert is_faithful_translation_deliverable(legacy)
+
+    # v2 route, faithful voice -> faithful deliverable (the gap this closes).
+    v2f = _book(tmp_path / "v2f", "book_pipeline_v2: true\nbook_voice: faithful\nbook_augmentation: none\n")
+    assert is_faithful_translation_deliverable(v2f)
+    assert not is_translation_edition(v2f)  # NOT legacy — routing predicate stays false
+
+    # v2 route, author-companion voice -> NOT a faithful translation deliverable.
+    v2c = _book(tmp_path / "v2c", "book_pipeline_v2: true\nbook_voice: author_companion\nbook_augmentation: source_only\n")
+    assert not is_faithful_translation_deliverable(v2c)
+
+    # Neither -> false.
+    plain = _book(tmp_path / "plain", "content_profile: islamic_scholarly\n")
+    assert not is_faithful_translation_deliverable(plain)
 
 
 def test_translation_edition_enables_book_branch_without_meta_flag(tmp_path: Path) -> None:

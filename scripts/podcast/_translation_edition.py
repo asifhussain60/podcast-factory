@@ -113,6 +113,33 @@ def is_translation_edition(book_dir: Path) -> bool:
     return deliverable_mode(book_dir) == TRANSLATION_EDITION_MODE
 
 
+def is_faithful_translation_deliverable(book_dir: Path) -> bool:
+    """True when the book's DELIVERABLE is a faithful translation edition.
+
+    For SHIP-GATE selection only (B3 translation branch, B4/B5/B6). Covers BOTH the
+    legacy ``deliverable_mode == translation_edition`` path AND the Book-Pipeline-v2
+    route with ``book_voice == faithful`` (the faithful base + fluency de-calque, no
+    author re-voice) — which produces the same faithful-translation artifact but is
+    selected by knobs, not by ``deliverable_mode``.
+
+    Deliberately SEPARATE from ``is_translation_edition``: that predicate governs
+    compose ROUTING (``book_driver`` / ``initial_driver``) and must keep meaning
+    "legacy translation-edition mode" so a v2 book is not misrouted onto the legacy
+    lane. This one only decides which SHIP GATES apply.
+    """
+    if is_translation_edition(book_dir):
+        return True
+    try:
+        from _pipeline_flags import (  # noqa: PLC0415
+            BOOK_VOICE_FAITHFUL,
+            book_pipeline_v2_enabled,
+            book_voice,
+        )
+        return book_pipeline_v2_enabled(book_dir) and book_voice(book_dir) == BOOK_VOICE_FAITHFUL
+    except Exception:  # noqa: BLE001
+        return False
+
+
 def translation_policy(book_dir: Path) -> dict[str, Any]:
     cfg = read_series_config(book_dir)
     policy = cfg.get("translation_policy") or {}
