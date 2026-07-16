@@ -1,0 +1,140 @@
+{
+  "schema": "book.visual-layout/v1",
+  "placements": [
+    {
+      "visual_id": "slide-1001",
+      "anchor": "",
+      "caption": "The Master and the Disciple — The Cosmological Blueprint and the Path of Return",
+      "page_fit": "avoid",
+      "align": "center",
+      "flow": "standalone",
+      "width_pct": 60
+    },
+    {
+      "visual_id": "slide-1002",
+      "anchor": "Not a treatise, not a sermon",
+      "caption": "The Scale of Incomparability",
+      "page_fit": "avoid",
+      "align": "left",
+      "flow": "wrap",
+      "width_pct": 40
+    },
+    {
+      "visual_id": "slide-1003",
+      "anchor": "Gratitude, in his mouth, is contagion",
+      "caption": "The Densification Ladder",
+      "page_fit": "avoid",
+      "align": "right",
+      "flow": "wrap",
+      "width_pct": 40
+    },
+    {
+      "visual_id": "slide-1004",
+      "anchor": "mistaking the shimmer at the edge of the plain",
+      "caption": "The Numerical Signatures of the Cosmos",
+      "page_fit": "avoid",
+      "align": "center",
+      "flow": "standalone",
+      "width_pct": 60
+    },
+    {
+      "visual_id": "slide-1005",
+      "anchor": "best of all good deeds is to bring the dead back",
+      "caption": "The Architecture of the Heavenly Mirror",
+      "page_fit": "avoid",
+      "align": "left",
+      "flow": "wrap",
+      "width_pct": 40
+    },
+    {
+      "visual_id": "slide-1006",
+      "anchor": "He kept going until he reached the far edge",
+      "caption": "Mutual Subsistence: The Body and Spirit of Religion",
+      "page_fit": "avoid",
+      "align": "right",
+      "flow": "wrap",
+      "width_pct": 40
+    },
+    {
+      "visual_id": "slide-1007",
+      "anchor": "He came along behind me with my permission",
+      "caption": "The Anatomy of Knowledge",
+      "page_fit": "avoid",
+      "align": "center",
+      "flow": "standalone",
+      "width_pct": 60
+    },
+    {
+      "visual_id": "slide-1008",
+      "anchor": "My conditions on you,",
+      "caption": "Emptying the Cup (Kasrah)",
+      "page_fit": "avoid",
+      "align": "left",
+      "flow": "wrap",
+      "width_pct": 40
+    },
+    {
+      "visual_id": "slide-1009",
+      "anchor": "first creation is a will, then a command",
+      "caption": "The Ledger of the Covenant",
+      "page_fit": "avoid",
+      "align": "right",
+      "flow": "wrap",
+      "width_pct": 40
+    },
+    {
+      "visual_id": "slide-1010",
+      "anchor": "twelve constellations are the twelve chiefs",
+      "caption": "The Mechanics of the Tawaf",
+      "page_fit": "avoid",
+      "align": "center",
+      "flow": "standalone",
+      "width_pct": 60
+    },
+    {
+      "visual_id": "slide-1011",
+      "anchor": "Take the sealed egg",
+      "caption": "The Conspiracy Formula",
+      "page_fit": "avoid",
+      "align": "left",
+      "flow": "wrap",
+      "width_pct": 40
+    },
+    {
+      "visual_id": "slide-1012",
+      "anchor": "the boy, hearing how the egg holds",
+      "caption": "The Forty-Year Syllogism",
+      "page_fit": "avoid",
+      "align": "right",
+      "flow": "wrap",
+      "width_pct": 40
+    },
+    {
+      "visual_id": "slide-1013",
+      "anchor": "This is all my wealth, in front of you",
+      "caption": "Complicity by Rank",
+      "page_fit": "avoid",
+      "align": "center",
+      "flow": "standalone",
+      "width_pct": 60
+    },
+    {
+      "visual_id": "slide-1014",
+      "anchor": "Salih has not died",
+      "caption": "The Unbroken Chain of Witnesses",
+      "page_fit": "avoid",
+      "align": "left",
+      "flow": "wrap",
+      "width_pct": 40
+    },
+    {
+      "visual_id": "slide-1015",
+      "anchor": "",
+      "caption": "The Debt of Transmission",
+      "page_fit": "avoid",
+      "align": "right",
+      "flow": "wrap",
+      "width_pct": 40
+    }
+  ]
+}
