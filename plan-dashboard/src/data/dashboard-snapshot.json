@@ -1454,11 +1454,16 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-16T07:50:48-04:00",
-  "source_commit": "bca2fef5",
+  "generated_at": "2026-07-16T07:57:07-04:00",
+  "source_commit": "cbe439d3",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "cbe439d3",
+      "subject": "docs(architecture): flag stale branch/phase-numbering model, add 2026-07-16 corrections",
+      "date": "2026-07-16"
+    },
     {
       "sha": "bca2fef5",
       "subject": "chore(pipeline): resolve Phase 2 dead-code review \u2014 flag manual tools, delete confirmed-dead",
@@ -1502,11 +1507,6 @@
     {
       "sha": "18a0d90d",
       "subject": "site(studio): Composer UX trio \u2014 autosave, reading-edition link, themed dialog",
-      "date": "2026-07-15"
-    },
-    {
-      "sha": "17410366",
-      "subject": "site(studio): gate fixes \u2014 a11y capture + shared highlighter token + mobile wrap",
       "date": "2026-07-15"
     }
   ],
