@@ -6,9 +6,52 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-07-15 6:29 PM EST (Book Composer UX trio: autosave + reading-edition link + themed dialog)
+**Last updated:** 2026-07-16 6:19 AM EST (Studio redesign Phase 3 shipped — Preview is a live page-image render, not the PDF)
 
-**Newest — Book Composer UX trio (autosave, reading-edition link, themed dialog).**
+**Newest — Phase 3 Preview: live page-image render, zoom, Generate PDF moved off Compose.**
+Commit `13d34c3` on `develop`, pushed. Shipped in a materially different shape than the
+original Phase 3 plan (`~/.claude/plans/a-no-this-is-mossy-comet.md`) after two dead ends,
+both discovered mid-build, not in planning: (1) live in-browser pagination via vendored
+Paged.js hung/crashed on this environment's Chromium on every real test — including a
+trivial two-paragraph, zero-stylesheet case with no book content involved — an unresolved
+Paged.js↔modern-Chromium gap (Chromium only gained native paged-media support, print-only,
+in v131; Paged.js's last stable release predates that); (2) an intermediate design embedding
+the canonical book.pdf in an `<iframe>` was byte-perfect but wrong for "scroll the whole book
+on the page" (a native PDF viewer owns its own internal scroll region) and only ever showed
+the last-published file, not live edits — which is what Asif actually asked for once he saw
+it ("this should NOT be the actual PDF... I want to see how the PDF will render based on the
+changes I make in Compose").
+**Landed design:** `/studio/<slug>/preview` renders LIVE from whatever is currently saved in
+`book.md`/`visual-layout.json`/`citation-style.json` — a scratch PDF via the exact same
+`render-book-pdf.mjs` engine the real PDF uses (auto-detected staleness vs. those three
+source files, regenerated only when needed), rasterized page-by-page with `pdftoppm` and
+cached under `book/_preview-cache/` (gitignored), then stacked as plain `<img>` elements in
+normal document flow so the browser's ONE scrollbar carries the whole book — no boxed/nested
+scroll region. A sticky Zoom slider (30-90% of the container, hard-capped at 90% per Asif's
+ask) controls page width client-side, persisted to `localStorage`. The HTML-assembly logic
+shared by the PDF renderer and Preview is factored out of `render-book-pdf.mjs` into
+`scripts/lib/book-html.mjs` (single source of truth — REQ-SC-022 — verified byte-for-byte
+regression-safe against the prior renderer via an A/B PDF diff on a real 117-page book before
+landing). Compose's Output tab is REMOVED; "Save layout" moved next to the Layout/Edit mode
+toggle; "Generate PDF" moved to Preview behind a themed `confirmDialog()` (never a native
+`confirm()`) — it still writes the canonical `book/book.pdf` via the unchanged
+`/api/studio/generate-book-pdf` endpoint, now the ONLY thing that touches that file. Two
+sizing bugs caught and fixed mid-session, both worth remembering: (a) a page-image `max-width`
+in `rem` silently rendered ~1.2x larger than intended — this site's `html` font-size is
+`19.2px` (REQ-010 reading floor), not the standard `16px`, so `rem` sizing on raster/layout
+widths needs a plain `px` value or an explicit note; (b) "too zoomed in" from Asif meant "too
+large/magnified," not "too small" — the opposite of my first read; when a size complaint is
+ambiguous, use a fixed reference in the user's own screenshot (here: the browser's own chrome,
+which doesn't scale with page zoom) to measure the actual direction before changing anything.
+Gates: `astro check` / `lint:views` / `npm run build` / `npm run smoke` (32/32 routes) all
+clean; `preview-fidelity-challenger` (the Phase-0 parity agent) was never installed as a
+blocking gate — parity between Preview and the PDF is now true by construction (same
+renderer), so the page-structure-diff machinery it was meant to run is moot. Not yet done:
+Phase 4 (Edit-canvas merge, Layout's figure controls folding into Edit) — unaffected by this
+work, still queued next per the parent plan's risk ordering. A `repo-surgeon --scope podcast`
+post-merge audit is due per standing convention before the next merge/push to `develop`.
+
+Book Composer UX trio (autosave, reading-edition link, themed dialog).
 Local commit on `develop` (not yet pushed). Files: `compose.astro`, `book-composer.ts`,
 `book-composer.css`, new `confirm-dialog.ts`. (1) Composer header gains an "Open reading
 edition" link → `/studio/<slug>/book`, and the misleading "Read" mode toggle is renamed
