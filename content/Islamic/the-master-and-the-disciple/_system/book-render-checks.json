@@ -1,36 +1,52 @@
 {
   "schema": "podcast.book-render-checks/v1",
   "book_render_challenger_version": "1.0",
-  "pass": 2,
+  "pass": 3,
   "knob_cell": "c5 (book_augmentation=none, book_voice=faithful)",
+  "note_source": "Re-render after recompose (preface added, chunk-seams de-duped, twins removed). PDF rendered 2026-07-16 14:50; supersedes pass-2 report from before the recompose.",
   "verdict": "RENDER-CAUTION",
   "pages": 117,
   "deterministic": {
-    "verdict": "RENDER-CAUTION",
+    "verdict": "RENDER-BROKEN (pre-adjudication)",
     "findings": [
-      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 2, "detail": "half-empty interior page (149 vs median 1778 chars)"},
-      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 3, "detail": "half-empty interior page (345 vs median 1778 chars)"},
-      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 5, "detail": "half-empty interior page (253 vs median 1778 chars)"},
-      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 12, "detail": "half-empty interior page (346 vs median 1778 chars)"},
-      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 29, "detail": "half-empty interior page (495 vs median 1778 chars)"},
-      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 72, "detail": "half-empty interior page (136 vs median 1778 chars)"}
+      {"check": "BR-BLANK-PAGE", "severity": "P0", "page": 43, "detail": "near-blank interior page (106 chars) — tripped blank threshold"},
+      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 2, "detail": "half-empty (149 vs median 1769)"},
+      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 3, "detail": "half-empty (394 vs median 1769)"},
+      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 5, "detail": "half-empty (253 vs median 1769)"},
+      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 7, "detail": "half-empty (464 vs median 1769)"},
+      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 14, "detail": "half-empty (359 vs median 1769)"},
+      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 25, "detail": "half-empty (452 vs median 1769)"},
+      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 31, "detail": "half-empty (489 vs median 1769)"},
+      {"check": "BR-PAGE-FILL", "severity": "P1", "page": 74, "detail": "half-empty (601 vs median 1769)"}
     ]
   },
   "agent_findings": [
-    {"check": "BR-PAGE-FILL", "req": "REQ-BR-002", "severity": "P1", "pages": [2, 3], "level": "not-a-defect", "detail": "Title page and Contents — front matter is legitimately sparse; probe false positive, waived on visual judgment."},
-    {"check": "BR-PAGE-FILL", "req": "REQ-BR-002", "severity": "P1", "pages": [5], "level": "renderer", "detail": "Source Crosswalk table spills a single dangling row (ch8) onto page 5, leaving ~85% of the page empty. Known first-pass cosmetic blemish, still present. Fix: keep the 8-row table together or tighten row spacing in book-print.css."},
-    {"check": "BR-PAGE-FILL", "req": "REQ-BR-002", "severity": "P1", "pages": [12, 29], "level": "acceptable", "detail": "Chapter-final pages (end of ch2 / ch4) — short closing pages before a fresh chapter opener are normal book pagination; mild, waived."},
-    {"check": "BR-PAGE-FILL", "req": "REQ-BR-002", "severity": "P1", "pages": [72], "level": "renderer", "detail": "Chapter 7 ends with only 2 lines on an otherwise empty page (~90% blank) — a widow chapter-final page. Cosmetic; better widow control (pull-back or spread adjustment) would absorb it."},
-    {"check": "BR-FLOAT-CHAPTER-BLEED", "req": "REQ-BR-013/REQ-BR-003 adjacent", "severity": "P1", "pages": [9], "level": "renderer", "detail": "slide-1008 (ch1, anchor_para 5, wrap-left) floats forward past the end of its short chapter onto Chapter 2's opening page, sitting above-left of the CHAPTER TWO heading and displacing the heading + drop cap off center. Mechanism: book-print.css clears floats before standalone figures but the chapter-open block has no clear:both. Fixture contribution: auto-layout anchored a 40% wrap at para 5 of a very short chapter."},
-    {"check": "BR-SLIVER-COLUMN", "req": "REQ-BR-013 consequence", "severity": "P1", "pages": [8, 25], "level": "fixture", "detail": "Two 40%-width wrap figures anchored at the same paragraph render side-by-side (p8: slide-1005 left + slide-1006 right; p25: slide-1009 + slide-1012 both align:right — CSS legally stacks the second right-float to the left of the first). The text between/beside them collapses to a one-word-per-line sliver column. Renderer obeyed align/flow/width; the collision is the auto-layout's same-anchor pairing. Re-curate in the Book Composer: separate anchors or make one standalone."},
-    {"check": "BR-LEGIBILITY", "req": "REQ-BR-020", "severity": "P1", "pages": [85], "level": "fixture", "detail": "slide-1014 (The Unbroken Chain of Witnesses) is a dense raster diagram placed as a 40% wrap; internal node labels are below comfortable print readability. Better curated as flow:standalone at 60%+."}
+    {"check": "BR-BLANK-PAGE", "req": "REQ-BR-001", "severity": "P1", "was_P0": true, "pages": [43], "level": "renderer", "detail": "Not a genuine blank sheet: page 43 carries the true closing 2 lines of Chapter 5 ('...a divine scholar, and one who learns.') then ~95% white, before Chapter 6 opens cleanly on p44. A chapter-tail widow, same class as the prior run's p72 widow. Content present and correct -> P0 downgraded to P1 on visual judgment. Fix: widow/orphan control on chapter-final pages in book-print.css."},
+    {"check": "BR-PAGE-FILL", "req": "REQ-BR-002", "severity": "P1", "pages": [2, 3], "level": "not-a-defect", "detail": "Title page + Contents/Preface front matter — legitimately sparse; probe false positive, waived."},
+    {"check": "BR-PAGE-FILL", "req": "REQ-BR-002", "severity": "P1", "pages": [5], "level": "renderer", "detail": "Source Crosswalk table: rows 1-7 fill page 4, the single 8th row (ch8 Homecoming) dangles alone atop page 5 leaving ~85% blank. SURVIVES from prior run. Fix: break-inside:avoid on the crosswalk table (keep 8 rows together) or tighten row spacing in book-print.css."},
+    {"check": "BR-PAGE-FILL", "req": "REQ-BR-002", "severity": "P1", "pages": [7, 14, 25, 31, 74], "level": "acceptable", "detail": "Chapter-final closing pages before a fresh chapter opener (p7->ch1 opener p8, p14->ch3 p15, p25->ch4 p26, p31->ch5 p32, p74->ch8 p75). Normal book pagination; mild, waived. p14 also carries the standalone 'Anatomy of Knowledge' figure, which renders centered and fully legible."},
+    {"check": "BR-FLOAT-CHAPTER-BLEED", "req": "REQ-BR-013", "severity": "P1", "pages": [11], "level": "renderer", "detail": "slide-1008 'Emptying the Cup' (Chapter One, wrap-left) bleeds forward onto Chapter Two's opening page and stacks in the left margin with the ch2 'Scale of Incomparability' wrap, pushing the CHAPTER TWO heading + drop cap off-center into the right column. SURVIVES from prior (was ~p9). Mechanism: chapter-open block has no clear:both, so a prior chapter's unresolved wrap float bleeds onto the next chapter's opener. Fix: clear:both on the chapter-open block in book-print.css."},
+    {"check": "BR-SLIVER-COLUMN", "req": "REQ-BR-013", "severity": "P1", "pages": [10, 27], "level": "fixture", "detail": "Two same-anchor 40% wrap figures render side-by-side, crushing body text to a one-word-per-line sliver column. p10: slide-1005 'Heavenly Mirror' (left) + slide-1006 'Mutual Subsistence' (right), both anchored ch1 para2. p27: slide-1012 'Forty-Year Syllogism' (left) + slide-1009 'Ledger of the Covenant' (right), both ch4. SURVIVES from prior (was p8/p25). Renderer obeyed align/flow/width; the collision is the auto-layout same-anchor pairing. Re-curate in the Book Composer: separate anchors or make one of each pair standalone."},
+    {"check": "BR-LEGIBILITY", "req": "REQ-BR-020", "severity": "P1", "pages": [86], "level": "fixture", "detail": "slide-1014 'The Unbroken Chain of Witnesses' — dense raster placed as a 40% wrap-left; internal diamond-node labels are microscopic / below print readability. SURVIVES from prior (was p85). Better curated as flow:standalone at >=60% width."}
   ],
   "figure_checks": {
-    "REQ-BR-010_no_page_break_span": "PASS — all 15 figures render whole on a single page (pages 6, 8, 8, 9, 9, 11, 12, 13, 24, 25, 25, 28, 51, 54, 85)",
-    "REQ-BR-011_watermark": "PASS — 0 watermark hits across 117 pages",
-    "REQ-BR-012_caption_dup": "PASS — 0 duplicate captions; raster slides correctly suppress figcaption via embedded_title de-dup",
-    "REQ-BR-013_contract": "PASS — every placement renders at its curated flow/align/width (standalone centered: 1001, 1004, 1007, 1010, 1013; wrap floats with body text beside: the rest); p25 double-right-float stacking is legal CSS, not a contract breach",
-    "REQ-BR-014_after_introduction": "PASS — all 9 snippet-resolved placements sit at/after their illustrating passage; the 6 chapter-default placements sit after their chapter's intro paragraph per the fixture contract"
+    "REQ-BR-010_no_page_break_span": "PASS — all 15 figures render whole on a single page (6 raster embeds on pp 8,14,15,30,56,86 + 9 inline SVG replicas); none span a page break.",
+    "REQ-BR-011_watermark": "PASS — 0 NotebookLM watermark hits across 117 pages.",
+    "REQ-BR-012_caption_dup": "PASS — 0 duplicate captions.",
+    "REQ-BR-013_contract": "PARTIAL — standalone figures centered and legible (Anatomy of Knowledge p14, Cosmological Blueprint p8); most wraps float correctly. Two contract-adjacent cosmetics: chapter-open float bleed (p11) and same-anchor double-wrap stacking (p10/p27).",
+    "REQ-BR-014_after_introduction": "PASS — placements sit at/after their illustrating passage / chapter intro."
   },
-  "notes": "Second pass after the anchor fix. First-pass P0 (all 15 placements dropped) fully resolved: 15/15 figures render — 6 raster embeds confirmed via pdfimages (pages 6, 12, 13, 28, 54, 85) + 9 inline SVG replicas. No P0s remain. Verdict RENDER-CAUTION on P1 cosmetics only; gate criterion RENDER-CLEAN is NOT met."
+  "css_vs_fixture_split": {
+    "renderer_css_book_print_css": [
+      "p5 crosswalk table dangling 8th row (break-inside:avoid / tighten spacing)",
+      "p11 chapter-open float bleed (clear:both on chapter-open block)",
+      "p43 chapter-tail widow (widow/orphan control on chapter-final pages)"
+    ],
+    "fixture_visual_layout_recuration": [
+      "p10 same-anchor wrap pair slide-1005 + slide-1006 (separate anchors or one standalone)",
+      "p27 same-anchor wrap pair slide-1009 + slide-1012 (separate anchors or one standalone)",
+      "p86 slide-1014 dense chain raster -> flow:standalone >=60%"
+    ]
+  },
+  "notes": "Third pass, post-recompose. No true P0 after visual adjudication: the lone deterministic P0 (BR-BLANK-PAGE p43) is a 2-line chapter-tail widow with correct content, downgraded to renderer P1. All 15 figures render whole; 0 watermarks; 0 duplicate captions. Verdict RENDER-CAUTION on 6 P1 cosmetics (3 renderer-CSS, 3 fixture) — the same six defect mechanisms as the prior desktop run, all shifted to new page numbers by the recompose. Gate criterion RENDER-CLEAN is NOT met. Non-blocking: podcast ship proceeds."
 }

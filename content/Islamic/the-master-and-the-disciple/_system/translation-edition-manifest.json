@@ -93,7 +93,7 @@
         ]
       ],
       "source_words": 6703,
-      "output_words": 7171
+      "output_words": 6837
     },
     {
       "index": 8,
@@ -106,7 +106,7 @@
         ]
       ],
       "source_words": 14043,
-      "output_words": 15125
+      "output_words": 14388
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"

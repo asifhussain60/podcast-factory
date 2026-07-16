@@ -1,129 +1,119 @@
-The scholar spoke on of the great one to whom he would bring him: "With the light of the Mount, he is the cause behind the signs, the one whose knowledge has raised him to the loftiest of ends. Through him your light is completed, through him Allah perfects your affair, and at his hand the blessings come to you."
+with the light of Sinai. He is the cause behind the signs, the one whose knowledge calls to the loftiest of ends. Through him your light is completed, through him Allah perfects your affair, and at his hand you are blessed."
 
-The boy said, "Such kindness as this, to whom does it belong, and who are you yourself?"
+The boy said: "Such kindness as this, to whom does it belong, and who are you yourself?"
 
-The scholar said, "I am his son and one of his servants in good works, seeking his pleasure and shrinking from his displeasure."
+The scholar said: "I am his son and one of his servants in good works, seeking his pleasure and shunning his displeasure."
 
-The boy said, "I think myself far from his good pleasure, yet near enough that, had I never known of him, I would have an excuse. Now that I know, is any excuse left to me?"
+The boy said: "I think I am far from his good pleasure, and yet close enough that, had I not known of him, I would have an excuse. Do I have an excuse, given what I now know?"
 
-The scholar said, "An excuse is granted only before one is brought within reach of such knowledge."
+The scholar said: "An excuse is granted only before one has been brought within reach of such knowledge."
 
-The boy said, "Shall I speak, or shall I hold back?"
+The boy said: "Shall I speak, or shall I hold back?"
 
-The scholar said, "Say what seems best to you."
+The scholar said: "Say what seems best to you."
 
-The boy said, "Then should you not, at this very moment, take me by the hand to the gate of remission until I enter, and to the house of light until I draw from it? This is part of the full measure of truthfulness that is binding upon you."
+The boy said: "Should you not, at this moment, take me by the hand to the door of his chamber until I enter, and to the house of light until I draw from it? This is part of the full measure of truthfulness that is binding upon you."
 
-The scholar said, "That is indeed your due, but only with his permission and by his decision."
+The scholar said: "This is indeed your due, but only with his permission and by his decision."
 
-Then the scholar took his leave of the boy and departed. The boy wished to furnish him with provision for the road, but the scholar was loath to accept it. He went on until he came to his elder father, and described the boy to him, and the father recognized the mark upon him and knew it for the mark of the people of goodness and the mines of virtue, and he marveled at it.
+Then the scholar took leave of the boy and departed. The boy wished to press provisions upon him, but the scholar declined to accept them. He went on until he came to his own father, and there he described the boy and made it plain that the boy was now of the company of the people of goodness and among the mines of excellence. The father marvelled at this, and said: "Make haste to me with this boy, for I hope that he will be a door of mercy that Allah has opened for the people of his age."
 
-He said, "Bring this boy to me quickly, for I hope he will be a door of mercy that Allah has opened for the people of his age."
+The scholar lingered only a little, then returned to the boy, and found him in a state of body other than the one in which he had left him.
 
-The scholar tarried only a little before returning to the boy, and he found him altered in body from the state he had known.
+The scholar said: "What is this I see in you, so unlike the state in which I left you?"
 
-The scholar said, "What is this I see, so unlike the state in which I left you?"
+The boy said: "And what is it you have found changed in me, may my father and mother be your ransom?"
 
-The boy said, "And what have you found changed in me, may my father and mother be your ransom?"
+The scholar said: "Weakness of body, and yellowness of color."
 
-The scholar said, "Weakness of body and a yellowness of color."
+The boy said: "That is from a desolation that befell me after your departure."
 
-The boy said, "That is from a desolation that came over me after you left."
+The scholar said: "What is this desolation, and what is the cause of this weakness?"
 
-The scholar said, "And what is this desolation, and what is the cause of this weakness?"
+The boy said: "Your absence made me desolate, and the dread of what might come to pass before I met you again weakened me."
 
-The boy said, "Your absence made me desolate, and dread of what might befall me before I met you again made me weak."
+The scholar said: "Allah has known what is in your heart, and so has made the trial light upon you, and has cast mercy for you into the heart of the one who has charge of you. So take up your provisions for the journey, for I carry high hope for you, and I will bring you to the door of your goal. There is no power except by Allah."
 
-The scholar said, "Allah has known what is in your heart, and so He has made the trial light upon you and has cast mercy for you into the heart of the one who has charge of you. So take up your provisions for the journey, for I will carry you to the fullness of your hope and bring you to the door of your goal. And there is no power except by Allah."
+At this the boy was so overcome with joy and awe that his soul nearly departed his body, until Allah, knowing his condition, took hold of him and returned it to him. When he revived, he said: "Praise be to Allah, who has never withdrawn His compassion from the believers." He gave great thanks to his father, and came up to kiss his palms and his feet in service. Then he rose at once, took up the traveling kit, and the two set out until they reached the greater scholar. They sought leave and were admitted; they entered, gave their greetings, and sat down by his permission. When they were settled in the assembly, the boy said to his teacher: "Teach me how to speak and how to ask for what I need."
 
-At this the boy was so overcome with joy and awe that his soul all but parted from his body, until Allah, knowing what was in him, took hold of it and returned it to him. When he revived he said, "Praise be to Allah, who has never ceased to be merciful to the believers."
+The teacher said to him: "It is not lawful for me to instruct you in anything while you are in this place, out of reverence for its master. You are in the hands of one who knows your need and knows what you intend."
 
-Then he gave abundant thanks to his father and bent to his hands to kiss them, and to his feet. He rose in haste, took up the gear of travel, and the two set out until they reached the greater scholar. They asked leave and were admitted; they entered, greeted him, and sat by his leave. When the assembly had settled around them, the boy said to his teacher, "Teach me how to speak and how to ask for my need."
+So the boy held his peace. They remained with the master for a time, until the boy's guidance was completed, he reached the utmost of his hope, and came to know what was his and what was owed of him. Then he prayed and the two withdrew. They had spoken no word in the assembly save greetings of peace and well-being; the boy had turned yellow from the intensity of his awe and could not bring himself to speak. The master, the lord of the house, gave orders that the two be honored and that whatever they required be provided, and he brought them on to his own dwelling. When he had led them in, he greeted them and showed his gladness in them.
 
-The teacher said to him, "It is not lawful for me to teach you anything while you are in this place, out of reverence for its master. You stand before one who knows your need and knows what you intend."
+He said to the scholar, for between them was brotherhood and an old companionship in learning: "Brother, is this the boy we used to hear about?"
 
-So the boy held his peace, and the two remained with the scholar a while, until his affair was completed and his guidance perfected, until he reached the utmost of his hope and knew what was for him and what was against him. Then they bade farewell and went out.
+He said: "Yes. This is the one whose remembrance grew sweet in the hearts, so that his mention rose upon the tongues of the believers."
 
-The two withdrew together, unseen. They had spoken nothing in the assembly but the words of peace and of glad greeting, and the boy had turned pale from the intensity of his awe and could not speak. The master, the lord of the house, gave orders that the two be treated with honor and that whatever they needed be provided; and he went on with them to his own house. When he had brought them in and greeted them and shown his gladness at their coming, he said to the scholar, who was his friend, and between whom there was brotherhood and an old acquaintance, "My brother, is this the boy of whom we used to hear?"
+The boy said: "Has the report of me truly reached the friends of Allah, until they recite my mention in their gatherings?"
 
-He said, "Yes. This is the one whose report has grown sweet in the hearts, so that his remembrance is upon the tongues of the believers."
+The scholar said: "Yes, my brother. So it is with you."
 
-The boy said, "Has the tidings of me truly reached the friends of Allah, so that they recount my mention in their gatherings?"
+The boy said: "Favors have encompassed me from every side, and hands of kindness have overtaken me from every road. I do not know whom to thank, nor whom to repay."
 
-The scholar said, "Yes, my brother. So you are."
+Then they all sat and conversed through their night. When morning came, they sought leave to enter upon the Shaykh. When they were admitted and had finished their greetings, the Shaykh gave them leave to sit, and they sat. Then the Shaykh began his address.
 
-The boy said, "Favors have surrounded me from every side, and bounties have come upon me from every path. I do not know whom to thank, nor whom to repay."
+He said: "Praise be to Allah, who has parted the darkness of hearts with His light and opened with His justice what was closed against the seeker, and who has made remembrance easy by His fashioning, as a gentleness to His servants and a mercy from Him to those who long for Him. He has not burdened creation with the full measure of what is His due, nor has He willed for them the denial of His blessings; rather He has charged them, out of His justice, with only what they are not too weak to bear. So the matter was set balanced between two extremes, and for this it is named justice. He has spread out His hands with generosity in kindness and bounty; He has disappointed no one who called upon Him, and turned away no one who kept silent. His blessings are overflowing and His favors are pouring, neither reserved for the one who gives thanks for them because of the abundance of His reward, nor withheld from the one who is ungrateful for them because of the greatness of His punishment. He has kept His blessings above any stinting, and made His proofs too firm to be denied; He is wider than existence in His all-encompassing, and beyond all denial in the evidence for Him. He is present without limit, known without being fully described. Glory be to Him: how gentle is He, for all His greatness, toward His creation; how merciful, for all His might, toward His servants; how just, for all His power, in His ruling; how near, for all His loftiness, to His people; and how far, for all His nearness, from every illusion. So worship Him and give thanks to Him. To Him you shall return."
 
-Then they all sat and talked through their night. When morning came they sought leave to enter upon the Shaykh. When they were admitted and had completed their greeting, the Shaykh gave them leave to sit, and they sat; and the Shaykh took up his speech.
+Then he said: "Now, beyond this: it belongs to the honor of minds that they be put to use in seeking. Among the fruits of seeking is finding what truly is, and among the marks of what truly is, is its sweetness. Every sweet, fresh spring is a drink whose surface is plain and whose depth is veiled; the one who pursues it never wearies of the thought of it, and creation never reaches the end of it. Its landmarks are a truth, and the truth of the truth is an obligation, and from this it is called a truth, because its obligation is made real. Whoever withholds from a truth its due has done wrong. Is it not the due of thought that the hearts pay their alms through good manners? And the due of good manners is the seeking of knowledge; and the due of knowledge is that it be acted upon; and the due of acting is that it be made pure through obedience to those charged with authority; and the due of obedience is that it be brought to perfection in hardship and in ease alike, in good fortune and in trial the same. None receive this save those who are patient, and none receive it save the possessor of a great share."
 
-He said: "Praise be to Allah, who has opened the sealed hearts by His light and unlocked by His justice what was closed to the seeker; who has made remembrance easy by His gentle making, as a kindness to His servants and a mercy from Him to those who long for Him. He has not charged His creation with the full reality of what is owed to Him, nor has He been content that they deny His blessings; rather He has charged them, out of His justice, with what they are not too weak to bear, so that the matter is set in balance between two extremes, and is therefore named justice. He has spread out His hands with generosity, in kindness and in bounty, disappointing none who call upon Him and denying none who keep silent. His blessings pour down and His favors are unstinting, neither reserved for the one who gives thanks, for the greatness of His reward, nor withheld from the one who is ungrateful, for the greatness of His punishment. He has kept His blessings too noble for any stinting, and made His proofs too sure to be denied. He is too encompassing to be contained, too evident in His signs to be rejected. He is found yet not bounded, known yet not described. Glory be to Him: how mighty, and how gentle to His creation; how compelling, and how merciful to His servants; how mighty in power, and how just in His ruling; how exalted, and how near to His people; how near, and how far above all imaginings. So worship Him and give thanks to Him; to Him you shall return."
+Then he turned his face toward the boy and said: "O boy, I have honored you as an estranged friend who has come to me, and I greet you as a visitor who has sought me. So what is your name?"
 
-Then he said: "As for what follows: it is part of the honor of minds that they be put to work in seeking; and among the fruits of seeking is the finding of what truly is; and among the marks of that which truly is, is its sweetness. Every sweet and flowing spring is a drink whose surface is there to be drunk and whose depth is veiled; the one who seeks it never wearies of thought, and creation never reaches the end of it. Its landmarks are a right, and the right of the Real is a duty, and from this it is called a right, for the establishing of its obligation. Whoever denies a right its due is a wrongdoer. Is it not among the rights of thought that the hearts pay their alms through good manners; and among the rights of good manners, the seeking of knowledge; and among the rights of knowledge, that it be acted upon; and among the rights of acting upon it, that it be made pure through obedience to those in authority; and among the rights of obedience, that it be perfected in hardship and in ease alike, in good fortune and in trial the same. And none is granted this save those who are patient, and none is granted it save one of a great share."
+He said: "Ubayd Allah, son of Abd Allah."
 
-Then he turned his face toward the boy and said, "O young man, you are honored as a dear friend newly come, and greeted as a guest with a purpose. What is your name?"
+The Shaykh said: "That is your description, and your news has already been brought to us."
 
-He said, "Ubayd Allah, son of Abd Allah."
+The boy said: "I am free, son of Abd Allah."
 
-The Shaykh said, "That is your description, and word of you has already come to us."
+The Shaykh said: "And who freed you from a master, that you became free?"
 
-The boy said, "I am a free man, son of Abd Allah."
+The boy said: "This world had possession of me, and I have handed it back to the One who called it into being."
 
-The Shaykh said, "And who freed you from ownership, that you became free?"
+The Shaykh said: "I understand. If one is owned and possesses nothing of his own, is it permitted that he grant you your freedom?"
 
-The boy said, "This scholar freed me," and he pointed with his hand to the scholar who had brought him.
+The boy said: "It is not permitted."
 
-The Shaykh said, "Tell me: if this man is himself owned and possesses nothing, is his freeing of you valid for you?"
+The Shaykh said: "Then what is your name?"
 
-The boy said, "It is not valid."
+At this the boy fell silent, at a loss for the answer.
 
-The Shaykh said, "Then what is your name?"
+The Shaykh said: "O boy, how can a thing be known when it has no name?"
 
-At this the boy fell silent, at a loss for an answer.
+The boy said: "Then I am one newly born to you. Name me."
 
-The Shaykh said, "O young man, how is a thing to be known that has no name?"
+The Shaykh said: "That waits upon the completion of seven days."
 
-The boy said, "Then I am newborn to you; so give me a name."
+The boy said: "And why is it deferred to the completion of seven days?"
 
-The Shaykh said, "That waits upon the completing of seven days."
+The Shaykh said: "For the dignity of the newborn."
 
-The boy said, "And why is it deferred to the completing of seven days?"
+The boy said: "And if the newborn dies before the seven days are complete?"
 
-The Shaykh said, "For the honoring of the newborn."
+The Shaykh said: "Nothing harms him. He is named after that."
 
-The boy said, "And if the newborn should die before the seven days are complete?"
+The boy said: "And this name by which you will name me, is it mine?"
 
-The Shaykh said, "Nothing harms him; he is named even after that."
+The Shaykh said: "Would you then be as an object of worship, even though you have been born?"
 
-The boy said, "And this name by which you would name me, is it mine to own?"
+The boy said: "How is this to be spoken of, then?"
 
-The Shaykh said, "Then you would be one who is worshipped, though you were but newly born?"
+The Shaykh said: "The name is yours, and you belong to the name. So it does not come forth except within your bound, and it goes with you for your appointed span."
 
-The boy said, "How, then, is it to be spoken of?"
+At this the boy rose and hurried to obey him, and out of the beauty of his manners he did not answer back. He went out, and his father went out with him, until they returned to their lodging. The owner of the house greeted them and said: "How stands our brother in the matter of his need?"
 
-The Shaykh said, "The name is master over you, and you are owned by the name. So do not press beyond your bound, and withdraw until your term is complete."
+The scholar said to him: "A promise has been given. The one who awaits it is thirsty, and the term is near."
 
-At this the boy rose in haste in the beauty of his obedience, and did not answer back, in the beauty of his manners. He went out, and his father went out with him, until they returned to their lodging. The lord of the house greeted them and said, "How fares this brother of ours in his need?"
+So they remained until the seventh day, then sought leave of the Shaykh. When he had granted it, he ordered the boy to wash and to put on his purest garments. As the boy took up this preparation, his heart sensed that his need would be granted on that very day, and that this preparation he had been commanded was a sign of a good to come after it. When he had done what was commanded, they all went out. The boy went out saying, "A day of good fortune, and a guardian of good fortune," repeating it again and again; and nothing drove him to this saying but the abundance of his joy and the intensity of his longing to know what would draw him near to the pleasure of Allah. When they came in upon the Shaykh, they found that he had taken up the implements of his work. He greeted them with peace, and they returned the greeting.
 
-The scholar said to him, "A promise has been given; the one who was promised is thirsting, and the term is near."
+Then he bade the boy draw close to him, and he drew close; and he brought him near, and he came near. And he began to speak of matters that no fancy had ever reached, that no pen had ever traced, that had never occurred to the heart of any human being; matters not to be mentioned in the assemblies of preachers, nor set forth openly in the gathered books, for the greatness of their worth, and unveiled to none but their own people. And when he had discharged what was owed and brought the boy out of the wildernesses of confusion that had led him astray, to the very end of guidance, his path was made pure and his draught made sweet, and he came to know his Lord. So he released his consecration by magnifying the sanctities of Allah, held fast to the firm rope, circled the ancient House, spent his rites in remembrance, and completed his pilgrimage by the greatest sign.
 
-So they waited until the seventh day, then sought leave of the Shaykh. When he had granted them leave, he ordered the boy to wash and to put on his cleanest garments. As the boy set about his preparation, his heart sensed that his need would be granted on that day, and that this preparation he had been ordered to make pointed to a good that would come after it. When he had done what he was ordered and the two went out together, the boy went out saying, "A day of good fortune, and a patron of good fortune." He repeated it again and again, and nothing moved him to this but the fullness of his joy and the keenness of his longing to know what would bring him nearer to the pleasure of Allah. When the two came in upon the Shaykh, they found that he had taken up the implements of his work. He greeted them with peace, and they returned his greeting.
+Then he and his father continued to come and go to the Shaykh, studying what had been given him. The boy bore patiently with the constancy of it; he never wearied of asking, for the nobility of it, and was never sated with the answering, for its sweetness. They stayed in that state for a season of time, until the Shaykh knew that the root had been watered and the branch had risen high.
 
-Then he bade the boy draw near to him, and the boy drew near; and he brought him close, and he came close. And he took up speech such as no fancy has ever encompassed, that no pen has ever traced, that has never crossed the heart of any human being; speech that has no place in the schools of the preachers and is not made plain in the compendiums of books, for the greatness of its worth, and is unveiled to none but its own people. And when he had discharged what was due and brought him out of the wildernesses of bewilderment that had led him astray, to the very end of guidance, his path was made pure and his draught made sweet, and he came to know his Lord. So he released his ihram by magnifying the sanctities of Allah, held fast to the sure rope, circled the Ancient House, spent his rites in remembrance, and completed his Hajj by the greatest sign.
+Then the boy said to the Shaykh, in thanks to Allah and to him: "Praise be to Allah, who has made you worthy of this station, so that through you He gives life to religion and death to ignorance, and has made you a place of return for the people and a sanctuary. You are the gate of the people of heaven and the ascent of the people of the earth. From the light of your might the lights have appeared, and from the pouring of your hand the rivers have flowed. May you remain so, until the one who is pleased with you contents you."
 
-Then he and his father continued to come and go to the Shaykh, studying what he had given, the boy patient in his perseverance, never wearying of the question for its nobility, never sated with the answer for its sweetness. So they remained in that state for a long while, until it was known that the root had drunk deep and the branch had risen high.
+The Shaykh said: "As for you, may Allah bless you in what He has given you, and aid you by His enabling grace to guard what has come to you, and employ you rightly in His will, and smooth your way with the light of His guidance, and open your breast with the keys of wisdom, and ennoble your affair with the path of the call, and perfect His favor upon you with the marks of an answered prayer, and bring you, in obedience to Him, to the best of your hope of His good pleasure. I bid you farewell, my son, and grant you leave to depart. Grievous to me is our parting, but three matters have driven us to it. The first is that we are setting out on a journey to another land. The second is your separation from your family for all this length of time, together with the hardship you took on in going out without your father's leave, for there is in him a heavy grief and a great anger that nothing will dispel but your return, though I have hope for your father, if you are gentle with him. And the third is the duty owed for the right of this grace that has reached you, for it is binding upon you to worship by it and to call others to it."
 
-Then he said to the Shaykh, in thanks to Allah and to him: "Praise be to Allah, who has made you worthy of this station, and revived through you a faith and put to death through you an ignorance, and made you a place of return for the people and a sanctuary. You are the gate of the people of heaven and the ascent of the people of earth. From the light of your might the lights appeared, and from the pouring of your palm the rivers ran. May you remain so, until the one who is pleased with you gives you his pleasure."
+The boy said: "Your parting is a sorrow to me, and your loss is a want in me; yet your counsel is the more rightly guiding, your obedience the more binding, your judgment the more sound. So charge me with what you see fit, and dismiss me when you will, and be kind to me by letting my father go with me to my land, that I may lean upon him, act through him, and entrust all my affairs to him."
 
-The Shaykh said: "As for you, may Allah bless you in what He has given you, and aid you by His enabling grace to guard what has come to you, and set you upright in His will, and smooth your way by the light of His guidance, and open your breast with the keys of wisdom, and ennoble your affair with the path of the call, and perfect your merit with the confirmations of answered prayer, and bring you, in obedience to Him, to the best of your hope of His good pleasure. And I now take my leave of you, my son, and give you leave to depart. Hard it is upon me to part from you, but three things have driven us to it. The first is that we are bound on a journey to another land. The second is your long separation from your family, together with the burden you took on in going out without your father's permission, for in him there is a heavy grief and a great anger that nothing will lift but your return, though I hold out hope for your father, if you are gentle with him. And the third is the duty owed for the right of this grace that has reached you, for it is binding upon you to live by it and to call others to it."
+The Shaykh said: "That I shall do. And I enjoin upon you the fear of Allah who created you, the safeguarding of the trust you have labored to bear, and the care of your father, who reared you when you were small and toiled long in your affairs, with his own person and with his wealth. Do not clothe him in the garments of scorn, do not set him upon the mounts of ruin, do not leave his name unspoken, do not turn away from his remembrance, and do not deal falsely with him in your city; for at the very outset there is a sting."
 
-The boy said: "Your parting is a sorrow to me, and your loss a lack in me; but your counsel is more rightly guiding, and your obedience more binding, and your judgment more sound. So enjoin upon me what you see fit, and dismiss me when you will, and be gracious to me by sending my father with me to my land, that I may lean upon him in my work and entrust all my affairs to him."
-
-The Shaykh said: "That I shall do. And I enjoin upon you the fear of Allah who created you, and the keeping of the trust for which you have struggled, and the safeguarding of your father, who raised you when you were small and toiled long in your affair, with his own person and with his wealth. Do not clothe him in the garments of disdain, nor set him upon the vessels of ruin; do not blot out his name, nor turn your speech away from his mention, nor deal falsely with him in your city; and in the beginning there is room enough for you."
-
-The boy said: "May Allah reward you, as a lord of grace, on behalf of every grateful one, with good; and may the Lord of bounty repay you for your shepherding, when hands are too weak to repay you. I will keep your commandment. So do not cut off my share from the blessing of your supplication."
-
-Then the two rose and clasped hands and embraced, and each bade the other farewell, unable to master his tears and unable to speak but by signs. Then they parted, and the scholar and the boy journeyed on until they drew near to the boy's city, in which his father was.
-
-The scholar said to the boy: "My son, you have learned the counsel of the Shaykh, and there is no right guidance but in his word. This is your city, and we have reached its edge; so sit with me apart from the road, for I wish to remind you of something of my own affair and to enjoin upon you what you should do."
-
-When the two had sat, the scholar said: "My son, you know the state of your father and his enmity toward the people of this matter, and this has been compounded upon him by your going out with me and your absence from him without his leave or his assurance. I mean to carry out my own father's counsel by keeping myself hidden in some part of this wilderness, while you return to your father, that his soul may be soothed and his fury toward us may subside. And I hope, if you are gentle with him, that he will be nearer to what you desire than any other. The absence has alarmed him, and the solitude has distressed him."
+The boy said: "May Allah reward you, on behalf of the Master of every grace, with the thanks of every grateful one; and may the Lord of abundant bounty repay you for your long shepherding of me, when hands are too weak to repay you. I will keep your charge. Do not cut off my share of the blessing of your supplication."
