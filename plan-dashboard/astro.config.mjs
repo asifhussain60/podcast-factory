@@ -4,46 +4,17 @@ import react from '@astrojs/react';
 import node from '@astrojs/node';
 import tailwindcss from '@tailwindcss/vite';
 
-// Default port this site binds when `--port` is not passed (mirrors server.port
-// below). Used to key the per-server dependency-optimization cache.
-const DEFAULT_PORT = 4322;
-
-// Resolve THIS server instance's port from the CLI (`astro dev --port <n>`),
-// falling back to $PORT and then DEFAULT_PORT. `astro build`/`check` have no
-// --port and land on DEFAULT_PORT, which is fine — they don't run concurrently
-// with a dev server on the same cache.
-function resolveInstancePort() {
-  const argv = process.argv;
-  const i = argv.indexOf('--port');
-  if (i >= 0 && argv[i + 1]) return argv[i + 1];
-  const eq = argv.find((a) => a.startsWith('--port='));
-  if (eq) return eq.slice('--port='.length);
-  return process.env.PORT || String(DEFAULT_PORT);
-}
-
-// Give EACH dev-server instance its OWN Vite dependency-optimization cache dir,
-// keyed by port, instead of the single shared node_modules/.vite. This is the
-// root fix for the recurring "Cannot read properties of null (reading
-// 'useContext' / 'useRef')" blanked-island failures: two Vite dev servers (the
-// site on :4322 + a Claude preview on :4323, or the site + an ephemeral smoke
-// server) sharing one node_modules/.vite race on re-optimization and rewrite
-// the optimized react/react-dom chunks out from under an already-served tab —
-// leaving a second React instance whose hook dispatcher is null. Per-port dirs
-// make that race structurally impossible while still reusing a warm cache on
-// restart of the same port. VITE_CACHE_DIR still overrides for full control.
-const CACHE_DIR = process.env.VITE_CACHE_DIR || `node_modules/.vite-port-${resolveInstancePort()}`;
-
 export default defineConfig({
   output: 'server',
   adapter: node({ mode: 'standalone' }),
   integrations: [react()],
   devToolbar: { enabled: false },
   vite: {
-    // Per-server optimize cache (see CACHE_DIR above). Two dev servers sharing
-    // the default node_modules/.vite race on re-optimization and corrupt it —
-    // surfacing as "jsxDEV is not a function" / "504 Outdated Optimize Dep" /
-    // null-hook blanked islands. Keying by port isolates them automatically.
-    cacheDir: CACHE_DIR,
+    // Allow a second dev server (e.g. the Claude preview on :4323) to use its
+    // OWN dependency-optimization cache via VITE_CACHE_DIR. Two dev servers
+    // sharing the default node_modules/.vite race on re-optimization and corrupt
+    // it — surfacing as "jsxDEV is not a function" / "504 Outdated Optimize Dep".
+    cacheDir: process.env.VITE_CACHE_DIR || undefined,
     plugins: [tailwindcss()],
     // Force a SINGLE React instance across every dep. A nested dependency that
     // resolves its own copy of react/react-dom makes hooks read from the wrong
