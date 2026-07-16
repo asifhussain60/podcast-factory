@@ -102,6 +102,7 @@ function buildRoutes(slug) {
         `/studio/${slug}/compose`,
         `/studio/${slug}/book`,
         `/studio/${slug}/live`,       // LIVE Session reading view (own CSS + scroll-synced explanations)
+        `/studio/${slug}/preview`,    // whole-book page-image preview (renders fresh from book.md on demand)
         `/studio/${slug}/arabic-review`,
         `/studio/${slug}/style`,
         `/studio/${slug}/view`,

@@ -83,6 +83,12 @@
   background: var(--c-accent, #8b4513);
   color: var(--c-bg-card, #fffdf8);
 }
+.cx-layout-save {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.cx-layout-save .cx-status { margin: 0; }
 
 .cx-panel-hint {
   color: var(--c-ink-muted, #87827a);
@@ -90,7 +96,6 @@
   line-height: 1.4;
   margin: 0 0 0.7rem;
 }
-#cx-panel-output .cx-panel-hint { margin: 0.5rem 0 0; }
 #cx-panel-artifacts .cx-panel-hint { margin: 0 0 0.6rem; }
 
 /* Citations tab — fit the reused book-styles picker + preview into the 20rem

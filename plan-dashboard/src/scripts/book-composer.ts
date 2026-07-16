@@ -4,8 +4,9 @@
  * Reads the server-rendered JSON data island, lets the human curate visual
  * placements WYSIWYG (place from the palette, drag between chapters to move the
  * anchor, set align / flow / width / caption / page_fit, delete), then persists
- * to book/visual-layout.json via the API and triggers a PDF render. All styling
- * is class-based + the --cx-w custom property (set at runtime here, never as an
+ * to book/visual-layout.json via the API. Generating the PDF itself lives on
+ * /studio/<slug>/preview, not here — see book-preview.ts. All styling is
+ * class-based + the --cx-w custom property (set at runtime here, never as an
  * inline HTML attribute), so the view stays lint/Cortex-clean.
  */
 import { mountChapterEditor, type ChapterEditor } from './book-md-editor';
@@ -57,12 +58,10 @@ function boot(): void {
 
   let placements: Placement[] = data.placements.map(normalize);
   let selected: string | null = null;
-  let dirty = false;
 
   const paletteEl = root.querySelector<HTMLElement>('#cx-palette-list')!;
   const controlsEl = root.querySelector<HTMLElement>('#cx-controls')!;
   const saveBtn = root.querySelector<HTMLButtonElement>('#cx-save')!;
-  const genBtn = root.querySelector<HTMLButtonElement>('#cx-generate')!;
   const statusEl = root.querySelector<HTMLElement>('#cx-status')!;
   const chapterSelect = root.querySelector<HTMLSelectElement>('#cx-chapter-select');
   const scopeEl = root.querySelector<HTMLElement>('#cx-artifacts-scope');
@@ -77,8 +76,8 @@ function boot(): void {
     }
   } catch { /* sessionStorage best-effort */ }
 
-  // ── inspector tabs (Artifacts · Citations · Refinement · Output) ──────────
-  const TABS = ['artifacts', 'citations', 'refine', 'output'] as const;
+  // ── inspector tabs (Artifacts · Citations · Refinement) ────────────────────
+  const TABS = ['artifacts', 'citations', 'refine'] as const;
   type TabName = typeof TABS[number];
   const tabBtn = (n: TabName) => root.querySelector<HTMLButtonElement>(`#cx-tab-${n}`);
   const tabPanel = (n: TabName) => root.querySelector<HTMLElement>(`#cx-panel-${n}`);
@@ -551,7 +550,7 @@ function boot(): void {
     return { visual_id: p.visual_id, anchor: p.anchor, anchor_para, align, flow, width_pct: width, caption: p.caption ?? '', page_fit };
   }
 
-  function markDirty(): void { dirty = true; saveBtn.disabled = false; setStatus(''); }
+  function markDirty(): void { saveBtn.disabled = false; setStatus(''); }
 
   function setStatus(msg: string, isError = false): void {
     statusEl.textContent = msg;
@@ -1217,31 +1216,10 @@ function boot(): void {
       });
       const json = await res.json();
       if (!json.ok) throw new Error(json.error || 'save failed');
-      dirty = false;
       setStatus(`Saved ${json.data.count} placement(s).`);
     } catch (err) {
       setStatus(`Save failed: ${(err as Error).message}`, true);
       saveBtn.disabled = false;
-    }
-  });
-
-  genBtn.addEventListener('click', async () => {
-    if (dirty) { setStatus('Save the layout before generating.', true); return; }
-    genBtn.disabled = true;
-    setStatus('Rendering PDF… this can take a minute.');
-    try {
-      const res = await fetch('/api/studio/generate-book-pdf', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ slug }),
-      });
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error || 'render failed');
-      setStatus(`PDF ready (${json.data.kb} KB).`);
-    } catch (err) {
-      setStatus(`Generate failed: ${(err as Error).message}`, true);
-    } finally {
-      genBtn.disabled = false;
     }
   });
 

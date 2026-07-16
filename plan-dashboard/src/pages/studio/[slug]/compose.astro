@@ -58,6 +58,10 @@ const FAMILIES = [
         </div>
         <div class="lib-hero-aside">
           <div class="lib-title-actions">
+            <a class="lib-studio-link" href={`/studio/${slug}/preview`}>
+              <i class="fa-solid fa-file-lines" aria-hidden="true"></i> Preview
+              <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
+            </a>
             <a class="lib-studio-link" href={`/studio/${slug}/live`}>
               <i class="fa-solid fa-book-open-reader" aria-hidden="true"></i> LIVE Session
               <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
@@ -89,6 +93,10 @@ const FAMILIES = [
               <button type="button" class="cx-mode-btn is-active" id="cx-mode-read" aria-pressed="true">Layout</button>
               <button type="button" class="cx-mode-btn" id="cx-mode-edit" aria-pressed="false">Edit</button>
             </div>
+            <div class="cx-layout-save">
+              <button type="button" class="cx-action" id="cx-save">Save layout</button>
+              <p class="cx-status" id="cx-status" role="status" aria-live="polite"></p>
+            </div>
           </div>
           {view.chapters.map((ch) => (
             <div class="cx-chapter" data-anchor={ch.anchor} data-key={ch.key} hidden>
@@ -103,7 +111,6 @@ const FAMILIES = [
             <button type="button" class="cx-tab is-active" id="cx-tab-artifacts" role="tab" aria-selected="true" aria-controls="cx-panel-artifacts">Artifacts</button>
             <button type="button" class="cx-tab" id="cx-tab-citations" role="tab" aria-selected="false" aria-controls="cx-panel-citations">Citations</button>
             <button type="button" class="cx-tab" id="cx-tab-refine" role="tab" aria-selected="false" aria-controls="cx-panel-refine">Refinement</button>
-            <button type="button" class="cx-tab" id="cx-tab-output" role="tab" aria-selected="false" aria-controls="cx-panel-output">Output</button>
           </div>
 
           <div class="cx-tabpanel" id="cx-panel-artifacts" role="tabpanel" aria-labelledby="cx-tab-artifacts">
@@ -177,22 +184,14 @@ const FAMILIES = [
             </div>
 
             <p class="cx-panel-hint">
-              A predefined style skins every citation type book-wide and drives Generate&nbsp;PDF.
+              A predefined style skins every citation type book-wide and carries into the
+              generated PDF.
               Distinct per-type print styling is planned but not yet wired.
             </p>
           </div>
 
           <div class="cx-tabpanel" id="cx-panel-refine" role="tabpanel" aria-labelledby="cx-tab-refine" hidden>
             <div class="cx-controls" id="cx-controls"></div>
-          </div>
-
-          <div class="cx-tabpanel" id="cx-panel-output" role="tabpanel" aria-labelledby="cx-tab-output" hidden>
-            <div class="cx-actions">
-              <button type="button" class="cx-action" id="cx-save">Save layout</button>
-              <button type="button" class="cx-action is-secondary" id="cx-generate">Generate PDF</button>
-            </div>
-            <p class="cx-status" id="cx-status" role="status" aria-live="polite"></p>
-            <p class="cx-panel-hint">Save and Generate act on the whole book.</p>
           </div>
         </aside>
       </div>
