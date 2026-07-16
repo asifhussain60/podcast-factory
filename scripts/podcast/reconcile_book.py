@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """reconcile_book.py — WC8 holistic pipeline: align all source streams into one unified book.
 
+Manual toolchain, not wired into orchestrate_book.py or phases/*.py — run by hand
+via the USAGE examples below, not part of either main pipeline route
+(Podcast/NotebookLM or PDF/book). Flagged 2026-07-16, kept as-is pending a real
+need to retire it.
+
 Reads the three denoised source streams (Arabic spine + English translation +
 Scholarly commentary) plus the existing per-chapter narrator additions, and
 produces a single unified full-book text with content attributed by source layer.

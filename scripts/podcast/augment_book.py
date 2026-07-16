@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """augment_book.py — WC8 holistic pipeline: enrich the unified book with wisdom corpus atoms.
 
+Manual toolchain, not wired into orchestrate_book.py or phases/*.py — run by hand
+via the USAGE examples below, not part of either main pipeline route
+(Podcast/NotebookLM or PDF/book). Flagged 2026-07-16, kept as-is pending a real
+need to retire it.
+
 Sits between reconcile_book.py and segment_book.py. Reads the unified-book.md produced
 by reconcile_book.py and enriches each section with relevant atoms from the wisdom
 corpus (knowledge.db), using Gemini to select and integrate them.

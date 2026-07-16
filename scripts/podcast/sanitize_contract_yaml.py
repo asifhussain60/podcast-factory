@@ -2,6 +2,10 @@
 """Sanitize Phase 0d chapter contracts that contain markdown asterisks
 which YAML mis-parses as undefined aliases.
 
+Manual utility, not wired into orchestrate_book.py or phases/*.py — run by hand
+when needed. Flagged 2026-07-16, kept as-is (real working code, no evidence
+it's dead, just not automatic).
+
 The Phase 0d LLM emits list items like:
     tone_constraints:
       - When X sides with *al-Islah*, ... *in this chapter the two...*
