@@ -6,7 +6,43 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-07-16 6:19 AM EST (Studio redesign Phase 3 shipped — Preview is a live page-image render, not the PDF)
+**Last updated:** 2026-07-16 6:55 AM EST (Composer header redesign + Layout mode retired + shared autosave module)
+
+**Newest — Composer header redesign, Layout mode retired, autosave made shared infrastructure.**
+Commit `f1c2936` on `develop`, pushed (follows `13d34c3`/`7018dea`, the Phase 3 Preview
+work below, same session). Driven by live feedback on the shipped Preview screenshots —
+Asif didn't like the large vertical pill stack in Compose's header. (1) **Header row**:
+Preview/LIVE Session/Reading edition/Edit & Enrich moved from a tall vertical stack beside
+the title to a compact horizontal row of small rectangular buttons above it, scoped to
+Compose only (new `.cx-hdr-btn`/`.cx-header-actions` classes — the shared `.lib-studio-link`
+pill other Studio pages use is untouched). This surfaced a REAL bug worth remembering:
+reusing `.lib-hero-main` (`flex: 1 1 24rem`, tuned for its normal ROW-direction layout)
+inside the new COLUMN-direction header made the 24rem flex-basis apply to HEIGHT instead of
+width, padding the block out with ~330px of blank space below its actual content — fixed
+with a scoped `flex: 0 1 auto` override. General lesson: flex-basis silently changes axis
+meaning when a shared class's container direction changes; check computed `flexBasis`, not
+just visual inspection, when a reused flex child looks oversized/undersized in a new home.
+(2) **Reading edition removed, LIVE Session pushed far right**: the top-row "Reading edition"
+button is gone (redundant with Companion Tool, below); LIVE Session moved to the row's far
+right edge (`margin-left: auto`), separated from Preview/Edit & Enrich. (3) **Layout mode
+retired** (explicit confirmation via AskUserQuestion after flagging the regression): the
+Layout/Edit toggle is gone, Edit is now the sole permanent mode, and the "Layout" button's
+old slot is a "Companion Tool" link to the reading edition instead. Figure placement/resize
+has no UI home in Compose until Phase 4 (Edit-canvas merge, still queued — unaffected
+otherwise). (4) **New `scripts/autosave.ts`**: factored the prose editor's existing
+debounced-save pattern (single-flight, trailing re-save, Editing…/Saving…/Saved/Couldn't-save
+states) into a shared, reusable module per Asif's explicit ask ("a data structure that can do
+this globally in the app") — the figure-layout save (previously a manual "Save layout"
+button, now fully autosaved) is the second consumer, and the prose editor was refactored onto
+the SAME module rather than left duplicated. Status pill gained icons — spinning loader while
+saving, a checkmark that pops in on save, warning + inline Retry on failure, respects
+`prefers-reduced-motion`. Verified live end-to-end: placing a figure autosaved with a real
+`PUT /api/studio/visual-layout` 200 and the pill reaching "Saved". One process note: while
+testing the remove-a-figure path, nearly clicked the palette's delete-artifact-from-disk
+button (not an unplace control — Layout's own remove-placement UI is gone too); caught it at
+the confirmation dialog and cancelled before anything was destroyed — worth remembering when
+testing this area again, since there is currently no non-destructive way to unplace a figure.
+Gates: `astro check` / `lint:views` / `npm run build` / `npm run smoke` (32/32) all clean.
 
 **Newest — Phase 3 Preview: live page-image render, zoom, Generate PDF moved off Compose.**
 Commit `13d34c3` on `develop`, pushed. Shipped in a materially different shape than the
