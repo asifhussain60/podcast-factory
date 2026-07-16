@@ -4,6 +4,12 @@ scratchpad-*.txt
 # Composer/editor save-backups written next to book/ artifacts (.md.bak, .json.bak)
 content/**/*.bak
 
+# Backup / editor-swap / conflict artifacts — repo-wide preventive hardening
+*.bak
+*.old
+*.orig
+*~
+
 # site-health-sentinel throwaway screenshots (created + deleted per QA run)
 plan-dashboard/.visual-qa/
 

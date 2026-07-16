@@ -26,7 +26,7 @@
 // Exit codes: 0 = clean (or warnings only), 1 = one or more FAIL findings.
 
 import { spawn } from 'node:child_process';
-import { readdirSync, existsSync, statSync } from 'node:fs';
+import { readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import { chromium } from 'playwright';
