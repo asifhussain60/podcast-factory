@@ -23,3 +23,4 @@
 {"phase": "0book-fluency", "step": "fluency-06", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-fluency", "step": "fluency-07", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-fluency", "step": "fluency-08", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-slide-import", "step": "slide-analysis/book", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

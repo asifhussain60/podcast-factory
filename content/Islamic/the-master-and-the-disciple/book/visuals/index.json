@@ -1,0 +1,155 @@
+{
+  "schema": "book.visuals-index/v1",
+  "visuals": [
+    {
+      "id": "slide-1001",
+      "type": "slide",
+      "aspect": "",
+      "caption": "The Master and the Disciple — The Cosmological Blueprint and the Path of Return",
+      "file": "slide-1001.jpg",
+      "suggested_anchor": "",
+      "cleaned": true,
+      "embedded_title": "The Master and the Disciple — The Cosmological Blueprint and the Path of Return"
+    },
+    {
+      "id": "slide-1002",
+      "type": "slide-vector",
+      "aspect": "",
+      "caption": "The Scale of Incomparability",
+      "file": "slide-1002.svg",
+      "suggested_anchor": "Not a treatise, not a sermon",
+      "cleaned": true,
+      "embedded_title": "The Scale of Incomparability"
+    },
+    {
+      "id": "slide-1003",
+      "type": "slide",
+      "aspect": "",
+      "caption": "The Densification Ladder",
+      "file": "slide-1003.jpg",
+      "suggested_anchor": "Gratitude, in his mouth, is contagion",
+      "cleaned": true,
+      "embedded_title": "The Densification Ladder"
+    },
+    {
+      "id": "slide-1004",
+      "type": "slide-vector",
+      "aspect": "",
+      "caption": "The Numerical Signatures of the Cosmos",
+      "file": "slide-1004.svg",
+      "suggested_anchor": "mistaking the shimmer at the edge of the plain",
+      "cleaned": true,
+      "embedded_title": "The Numerical Signatures of the Cosmos"
+    },
+    {
+      "id": "slide-1005",
+      "type": "slide-vector",
+      "aspect": "",
+      "caption": "The Architecture of the Heavenly Mirror",
+      "file": "slide-1005.svg",
+      "suggested_anchor": "best of all good deeds is to bring the dead back",
+      "cleaned": true,
+      "embedded_title": "The Architecture of the Heavenly Mirror"
+    },
+    {
+      "id": "slide-1006",
+      "type": "slide-vector",
+      "aspect": "",
+      "caption": "Mutual Subsistence: The Body and Spirit of Religion",
+      "file": "slide-1006.svg",
+      "suggested_anchor": "He kept going until he reached the far edge",
+      "cleaned": true,
+      "embedded_title": "Mutual Subsistence: The Body and Spirit of Religion"
+    },
+    {
+      "id": "slide-1007",
+      "type": "slide",
+      "aspect": "",
+      "caption": "The Anatomy of Knowledge",
+      "file": "slide-1007.jpg",
+      "suggested_anchor": "He came along behind me with my permission",
+      "cleaned": true,
+      "embedded_title": "The Anatomy of Knowledge"
+    },
+    {
+      "id": "slide-1008",
+      "type": "slide-vector",
+      "aspect": "",
+      "caption": "Emptying the Cup (Kasrah)",
+      "file": "slide-1008.svg",
+      "suggested_anchor": "My conditions on you,",
+      "cleaned": true,
+      "embedded_title": "Emptying the Cup (Kasrah)"
+    },
+    {
+      "id": "slide-1009",
+      "type": "slide-vector",
+      "aspect": "",
+      "caption": "The Ledger of the Covenant",
+      "file": "slide-1009.svg",
+      "suggested_anchor": "first creation is a will, then a command",
+      "cleaned": true,
+      "embedded_title": "The Ledger of the Covenant"
+    },
+    {
+      "id": "slide-1010",
+      "type": "slide",
+      "aspect": "",
+      "caption": "The Mechanics of the Tawaf",
+      "file": "slide-1010.jpg",
+      "suggested_anchor": "twelve constellations are the twelve chiefs",
+      "cleaned": true,
+      "embedded_title": "The Mechanics of the Tawaf"
+    },
+    {
+      "id": "slide-1011",
+      "type": "slide-vector",
+      "aspect": "",
+      "caption": "The Conspiracy Formula",
+      "file": "slide-1011.svg",
+      "suggested_anchor": "Take the sealed egg",
+      "cleaned": true,
+      "embedded_title": "The Conspiracy Formula"
+    },
+    {
+      "id": "slide-1012",
+      "type": "slide-vector",
+      "aspect": "",
+      "caption": "The Forty-Year Syllogism",
+      "file": "slide-1012.svg",
+      "suggested_anchor": "the boy, hearing how the egg holds",
+      "cleaned": true,
+      "embedded_title": "The Forty-Year Syllogism"
+    },
+    {
+      "id": "slide-1013",
+      "type": "slide",
+      "aspect": "",
+      "caption": "Complicity by Rank",
+      "file": "slide-1013.jpg",
+      "suggested_anchor": "This is all my wealth, in front of you",
+      "cleaned": true,
+      "embedded_title": "Complicity by Rank"
+    },
+    {
+      "id": "slide-1014",
+      "type": "slide",
+      "aspect": "",
+      "caption": "The Unbroken Chain of Witnesses",
+      "file": "slide-1014.jpg",
+      "suggested_anchor": "Salih has not died",
+      "cleaned": true,
+      "embedded_title": "The Unbroken Chain of Witnesses"
+    },
+    {
+      "id": "slide-1015",
+      "type": "slide-vector",
+      "aspect": "",
+      "caption": "The Debt of Transmission",
+      "file": "slide-1015.svg",
+      "suggested_anchor": "",
+      "cleaned": true,
+      "embedded_title": "The Debt of Transmission"
+    }
+  ]
+}
