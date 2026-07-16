@@ -26,3 +26,5 @@ slide_deck_mode: book
 voice_cast:
   host_a: Eric
   host_b: Lily
+book_augmentation: none
+book_voice: faithful
