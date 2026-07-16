@@ -12,7 +12,7 @@
 import type { APIRoute } from 'astro';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { getRepoRoot } from '../../../lib/content-paths';
+import { getRepoRoot, getPythonBin } from '../../../lib/content-paths';
 import { apiOk, apiError } from '../../../lib/api-responses';
 
 const pexec = promisify(execFile);
@@ -32,7 +32,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   try {
     const { stdout } = await pexec(
-      'python3',
+      getPythonBin(),
       ['scripts/podcast/rename_book.py', oldSlug, newSlug],
       { cwd: getRepoRoot(), timeout: 120_000 },
     );
