@@ -78,14 +78,47 @@ Invoke both agents (Claude Code session in the repo):
    `_system/book-render-checks.json` may be absent (CLI render path) — it runs
    the deterministic probes itself.
 
-Record each cell's two verdicts here (and push):
+## ✅ MATRIX COMPLETE (2026-07-16) — all 4 cells GREEN, v2 route cutover-ready
+
+All four knob combinations recomposed with the fixed pipeline (seam/preface/dedup +
+ship-gate + render-CSS fixes, now merged to develop) and validated. **Every cell is
+fidelity-safe.** Base chunk cache reused across all cells; each knob-specific stage
+(fluency / augment / revoice) ran and the final seam-dedup held (0 adjacent dups in
+every cell). Cell book.md snapshots preserved in the run's session scratchpad.
+
+| Cell | Knobs | Verdict |
+|---|---|---|
+| c5 | none / faithful | **BOOK-SOUND** (all 6 ship gates) + book-challenger clean; RENDER-CAUTION → 3 CSS P1s FIXED in book-print.css, 3 fixture P1s = Composer re-curation |
+| c6 | source_only / faithful | **SHIP-WITH-CAUTION** — augment 1 candidate vetoed (meta-commentary), 0 blocks added; ≈ c5, 0 seam dups, preface present |
+| c7 | none / author_companion | **SHIP-READY** (clean isolated challenge) — author-companion voice genuinely present in all 8 ch; 0 teaching lost, 0 doctrine gained, Arabic canonical; 1 P2 POV advisory |
+| c8 | source_only / author_companion | **SHIP-READY** (clean isolated challenge) — BOTH knobs; augment 0 blocks, revoice consistent, ZERO findings |
+
+**Cutover-readiness findings:**
+1. All 4 combos fidelity-safe → the v2 route can become the default.
+2. `author_companion` re-voice WORKS (genuine companion voice, SHIP-READY on c7 + c8).
+3. `source_only` augment added 0 blocks on this doctrine-native source (veto works; the
+   ADDITIVE path is NOT positively demonstrated on M&D — validate on a book whose KB has
+   non-redundant material before relying on it).
+4. Ship-gate coverage fix (`is_faithful_translation_deliverable`) confirmed live: c5
+   B4/B5/B6 apply + pass on the v2 faithful route.
+
+**METHODOLOGY LESSON:** do NOT parallelize a cell's compose with a challenger in the
+SAME worktree — the next cell's base assembly overwrites book.md + series-config and the
+challenger judges the WRONG text (this corrupted the first c7 verdict — it reported the
+revoice as a no-op; the clean isolated re-challenge returned SHIP-READY). Challenge each
+cell from an ISOLATED snapshot (restore book.md + stamp config, no compose running),
+SERIALLY.
+
+---
+
+### Original per-cell scratch table (superseded by MATRIX COMPLETE above)
 
 | Cell | BK-P4 | RENDER |
 |---|---|---|
 | c5 | 🔴 BLOCKED overall (1 P0: planned preface never rendered; BK-P4 itself: BK5 P1 + BK10 P2, both chunk-seam narrator stitching). Core faithfulness clean: 0 doctrinal invention, 0 outside augmentation, BK-P3 all-canonical Arabic. | pass 1 RENDER-BROKEN (layout anchors dropped silently — fixed, scripts `9c598d9e`); pass 2 🟡 RENDER-CAUTION: 0 P0s, 6 P1s — renderer CSS: p5 table spill, p72 widow page, p9 float bleeds into chapter heading (chapter-open needs `clear:both` in book-print.css); fixture: same-anchor wrap pairs p8/p25, dense raster at 40% p85. Details in working-plan.md + `_system/book-render-checks.json` |
-| c6 | | |
-| c7 | | |
-| c8 | | |
+| c6 | ✅ superseded — see MATRIX COMPLETE (SHIP-WITH-CAUTION, augment 0/1) | |
+| c7 | ✅ superseded — see MATRIX COMPLETE (SHIP-READY, clean isolated challenge) | |
+| c8 | ✅ superseded — see MATRIX COMPLETE (SHIP-READY, clean isolated challenge) | |
 
 **✅ SYSTEMIC FIX LANDED (2026-07-16, laptop `/Users/asifhussain`).** The c5
 challenger found a `compose_book_v2` chunking defect: content duplicates across
