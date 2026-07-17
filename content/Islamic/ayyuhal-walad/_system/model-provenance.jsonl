@@ -1,0 +1,4 @@
+{"phase": "0book-etymology", "step": "generate", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-etymology", "step": "verify", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-etymology", "step": "generate", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-etymology", "step": "verify", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

@@ -591,8 +591,9 @@ def _fetch_matching_etymology(
             continue
         if not body.get("root_phonetic"):
             continue  # no spoken form yet — cannot weave correctly
-        # Candidate spoken terms: the root + every derivative transliteration.
-        terms = [body.get("root_transliteration", "")]
+        # Candidate spoken terms: the primary term (the surface word the book
+        # actually uses), the root, and every derivative transliteration.
+        terms = [body.get("term", ""), body.get("root_transliteration", "")]
         terms += [d.get("term", "") for d in body.get("derivatives", [])]
         best_len = 0
         for term in terms:
