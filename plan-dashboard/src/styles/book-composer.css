@@ -469,8 +469,12 @@
 .cx-ety-inline,
 .cx-ety-companion {
   font: inherit;
-  font-size: 0.95rem;
-  line-height: 1.5;
+  font-size: 1rem;
+  /* Latin stays in the UI font; Arabic falls through to Amiri (loaded site-wide
+     via theme.css) — placed BEFORE the generic fallback so the system Arabic
+     face never wins. Matches the reading edition's Amiri Arabic. */
+  font-family: 'Lato', 'Amiri', system-ui, sans-serif;
+  line-height: 1.75;
   width: 100%;
   padding: 0.45rem 0.55rem;
   border: 1px solid var(--c-rule-soft, #ebe6da);
