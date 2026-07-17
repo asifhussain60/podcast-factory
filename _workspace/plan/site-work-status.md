@@ -6,9 +6,34 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-07-16 6:55 AM EST (Composer header redesign + Layout mode retired + shared autosave module)
+**Last updated:** 2026-07-17 2:08 PM EST (Interactive Etymology action on the Book Composer page)
 
-**Newest — Composer header redesign, Layout mode retired, autosave made shared infrastructure.**
+**Newest — interactive Etymology AI action on the Book Composer (PDF) page.**
+Commit `d203599` on `develop` (follows the `c85f458`/`03f1d1d` corpus-augmentation
+pipeline work same session). Highlight a word in the Book Composer prose editor →
+click **Etymology** in the Refinement panel → one Gemini Flash call returns TWO
+reviewed outputs shown in a `.cx-ety-card`: (1) a compact **transliterated inline
+insert** (`gratitude (shukr, from the root sha-ka-ra — also shakir, mashkur)`) that
+REPLACES the highlighted word in the reading-edition prose and autosaves to
+`book.md` → so it flows into the generated PDF; and (2) a richer **chapter-aware
+companion note** in **voweled Arabic script** (شُكْر · ش-ك-ر · شَاكِر with an example
+· مَشْكُور) filed to the Companion Panel as a new `etymology` note-kind, explaining
+each derivative with an example in the KSESSIONS/KQUR teaching voice. New
+`POST /api/ai/etymology` (two-way English↔Arabic; local KSESSIONS/KQUR root-grounded
+then Gemini Flash; inline stays Latin-only, companion is Arabic-with-diacritics —
+the two script rules are locked separately in the prompt). Files: `api/ai/etymology.ts`
+(new), `scripts/book-composer.ts`, `styles/book-composer.css`, `companion/registry.ts`.
+Gemini 2.5 Flash needs `thinkingBudget: 0` or thinking tokens starve the JSON output
+(caused a first-pass "unparseable output" — the documented fix). Gated: `astro check`
++ `lint:views` clean, `site-health-sentinel` PASS (32 routes, desktop+mobile, focus
++ Arabic contrast verified), `html-view-challenger` Level 2 conformant (fixed 2
+REQ-048 a11y MUSTs: focus-visible on the new buttons + label↔input associations).
+Compose route is light-only by design (its Light/Sepia/Dark toggle is the editor
+paper, not a page theme). Podcast/PDF batch etymology (`_etymology.py`, 12 seed atoms)
+remains the automated peer path; the interactive Studio button is the human-in-loop
+creator.
+
+**Earlier — Composer header redesign, Layout mode retired, autosave made shared infrastructure.**
 Commit `f1c2936` on `develop`, pushed (follows `13d34c3`/`7018dea`, the Phase 3 Preview
 work below, same session). Driven by live feedback on the shipped Preview screenshots —
 Asif didn't like the large vertical pill stack in Compose's header. (1) **Header row**:
