@@ -1470,60 +1470,60 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-17T07:05:11-04:00",
-  "source_commit": "298c876",
+  "generated_at": "2026-07-17T10:37:35-04:00",
+  "source_commit": "0623637",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "298c876",
-      "subject": "refactor(book-pipeline): cut over to v2 unified path, delete legacy compose routes",
+      "sha": "0623637",
+      "subject": "feat(self-study): quality gates for the study apparatus (Step 7)",
       "date": "2026-07-17"
     },
     {
-      "sha": "fe3744c",
-      "subject": "content(kitab-al-riyad): opportunistic glossary Arabic backfill (86->88)",
-      "date": "2026-07-16"
+      "sha": "217dafe",
+      "subject": "feat(self-study): intra-chapter sub-headings + inline term definitions (Steps 6, 3)",
+      "date": "2026-07-17"
     },
     {
-      "sha": "4202e2d",
-      "subject": "fix(studio): route rename-book endpoint through getPythonBin()",
-      "date": "2026-07-16"
+      "sha": "ab0b248",
+      "subject": "feat(self-study): Studio 'Self-study PDF' button on the Preview page",
+      "date": "2026-07-17"
     },
     {
-      "sha": "33ec1ec",
-      "subject": "content(kitab-al-riyad): backfill Arabic-script glossary overlay (86/409 terms)",
-      "date": "2026-07-16"
+      "sha": "369a95b",
+      "subject": "feat(self-study): --self-study PDF deliverable (content generation + render)",
+      "date": "2026-07-17"
     },
     {
-      "sha": "3add5da",
-      "subject": "docs(resume): single-session continuation brief \u2014 Gem tool + v2 matrix GREEN + open threads",
-      "date": "2026-07-16"
+      "sha": "ff7438e",
+      "subject": "feat(self-study): opt-in render layer for the self-study PDF (Steps 1-2)",
+      "date": "2026-07-17"
     },
     {
-      "sha": "4203d7a",
-      "subject": "docs(v2-matrix): matrix COMPLETE \u2014 all 4 knob cells GREEN, v2 route cutover-ready",
-      "date": "2026-07-16"
+      "sha": "27d18ba",
+      "subject": "feat(reader): Gem Companion slide-in panel for the book reader",
+      "date": "2026-07-17"
     },
     {
-      "sha": "ead8127",
-      "subject": "feat(gems): Ismaili Scholar Gem \u2014 backend generation tool for the Companion Panel",
-      "date": "2026-07-16"
+      "sha": "b4308e9",
+      "subject": "fix(book-augment): populate the grounding corpus from the real atom schema",
+      "date": "2026-07-17"
     },
     {
-      "sha": "0f81189",
-      "subject": "chore(cleanup): remove settled May-20 kitab-al-riyad re-run backup (68 files)",
-      "date": "2026-07-16"
+      "sha": "48a1600",
+      "subject": "merge: book-pipeline v2 cutover \u2014 unified path is the sole book route",
+      "date": "2026-07-17"
     },
     {
-      "sha": "5ffee7b",
-      "subject": "chore(consolidation): route fiction PDF through the canonical build_book path",
-      "date": "2026-07-16"
+      "sha": "6fcf83c",
+      "subject": "docs(book-pipeline): sweep flag/legacy-path references post-cutover",
+      "date": "2026-07-17"
     },
     {
-      "sha": "4d0d2a5",
-      "subject": "Revert \"site(dev): per-port Vite optimize cache \u2014 root-fixes the null-hook blanked-island bug\"",
-      "date": "2026-07-16"
+      "sha": "298c876",
+      "subject": "refactor(book-pipeline): cut over to v2 unified path, delete legacy compose routes",
+      "date": "2026-07-17"
     }
   ],
   "wave_execution_events": [],

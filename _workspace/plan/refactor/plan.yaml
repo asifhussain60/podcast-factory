@@ -1906,7 +1906,8 @@ waves_ghj:
         authorization: tier_one
         branch: develop
         cost_estimate_usd: 0
-        execution_status: in_progress
+        execution_status: built_test_pending
+        status_note: "Reconciled 2026-07-17: the driver scripts/podcast/run_waves_chain.py is built (461 lines, <=600 per DR-005) with authorize/status/run subcommands. Outstanding acceptance: tests/test_waves_chain.py does not yet exist. Was stale at in_progress."
 
   - id: I
     name: Intelligence Pipeline — Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g
@@ -2941,7 +2942,8 @@ waves_ghj:
           - "_quality.py and challenger_scoring.py both <= 600 lines (DR-005)"
         authorization: tier_one
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed
+        status_note: "Reconciled 2026-07-17: the 5th PEQ axis is LIVE. scripts/podcast/_quality.py carries the Interest axis in the formula (0.15 x Interest) and _rules.py defines R_INTEREST_WEIGHT + the interest rules; the TS mirror peq-scores.ts is on the 5-axis contract. Was stale at not_started."
         branch: "feature/wave-k-interest-scoring"
 
 # ===========================================================================
@@ -3331,7 +3333,8 @@ wisdom_corpus_program:
     - id: WC3
       name: Intelligence knowledge phase
       depends_on: [WC2]
-      execution_status: planned
+      execution_status: partial
+      status_note: "Reconciled 2026-07-17: the knowledge/intelligence substrate is shipped (scripts/podcast/intelligence/extractor.py + extract_terms_from_doctrine.py, the atoms schema, and podcast-librarian's 0h-knowledge-extract). Whether a single dedicated knowledge PHASE was inserted after 0e per this spec is NOT confirmed — likely partly subsumed by shipped Wave B/I. Gated under the wisdom_corpus_program keep/kill decision (see parent, AWAITING_APPROVAL)."
       authorization: tier_two
       cost_estimate_usd: medium
       key_steps:
@@ -3344,7 +3347,8 @@ wisdom_corpus_program:
     - id: WC4
       name: Wisdom Corpus UI
       depends_on: [WC1]
-      execution_status: planned
+      execution_status: partial
+      status_note: "Reconciled 2026-07-17: the D9 rename is DONE (reader nav says 'Wisdom Corpus'; the /wisdom route is live with browse/search — pages/wisdom/*, api/wisdom/{search,topic}). The CURATION half is NOT built: no keep/delete over corpus records and no dedup review/confirm queue in the UI. Was overstated as fully done in the 2026-07-17 audit; the curation UI remains, gated under the wisdom_corpus_program decision."
       authorization: tier_two
       cost_estimate_usd: low
       key_steps:
@@ -3356,7 +3360,8 @@ wisdom_corpus_program:
     - id: WC5
       name: Audio intake + translation + gates (absorbed 'Wave I')
       depends_on: [B]
-      execution_status: planned
+      execution_status: partial
+      status_note: "Reconciled 2026-07-17: substantially subsumed by shipped waves — audio intake/routing (Wave I), the noise router (Wave H), Azure STT (Wave AT), and the source/publish review gates (06a; intake_status.py, _phases.py, orchestrate_work.py). The Urdu-specific translation branch (Turboscribe -> Azure Translator + ismaili-glossary) is not confirmed as a distinct shipped path. Recommend closing as superseded once the wisdom_corpus_program keep/kill call is made."
       authorization: tier_two
       cost_estimate_usd: medium
       key_steps:
@@ -4140,11 +4145,14 @@ waves_o_ph:
     depends_on: [PH]
     note: |
       Holistic pipeline review to production standard with first-class multi-volume
-      routing. Phases 1-4 + Phase 6 foundation landed on develop; Phase 5 (asaas
-      migration + content/->library/ rename) is DEFERRED (bundled, runs at asaas's
-      next clean boundary). The Phase 6 React visual screens are the collaborative
-      remainder (per-screen with Asif — LOCKED convention); the testable server
-      foundation shipped here. Full suite 625 passed.
+      routing. Phases 1-4 + Phase 6 foundation landed on develop. Phase 5's
+      content/->library/ rename is DROPPED BY DESIGN (reconciled 2026-07-17): the
+      type-first content/<Bucket>/<slug> tree is the permanent layout per CLAUDE.md,
+      so the rename will not happen; any asaas volume migration rides its own content
+      branch. The Phase 6 React visual screens are the collaborative remainder
+      (per-screen with Asif — LOCKED convention), so execution_status stays
+      in_progress for WM6, not for stale work; the testable server foundation
+      (WM1-WM4) shipped. Full suite 625 passed (at WM landing).
     steps:
       - id: WM1
         title: "Multi-volume foundation — work.yml manifest + volume-aware _paths/_branching + TS mirror"
