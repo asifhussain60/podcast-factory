@@ -60,31 +60,59 @@ if (dataEl && genBtn) {
     slug = '';
   }
 
-  genBtn.addEventListener('click', async () => {
-    if (!slug) return;
-    const ok = await confirmDialog({
-      title: 'Generate the PDF?',
-      body: 'This writes book/book.pdf — the file delivered to readers and Google Drive — from what you see in this preview.',
-      confirmLabel: 'Generate',
-    });
-    if (!ok) return;
+  const primaryBtn: HTMLButtonElement = genBtn; // narrowed non-null for the closures below
+  const ssBtn = document.getElementById('pv-generate-ss') as HTMLButtonElement | null;
 
-    genBtn.disabled = true;
-    const prevStatus = statusEl?.textContent ?? '';
-    if (statusEl) statusEl.textContent = 'Rendering PDF… this can take a minute.';
+  // Run one of the two render endpoints behind a themed confirm, updating the
+  // shared status line. Both buttons are disabled while either is in flight.
+  async function runGenerate(
+    endpoint: string,
+    confirm: { title: string; body: string; confirmLabel: string },
+    pending: string, doneLabel: string,
+  ): Promise<void> {
+    if (!slug) return;
+    if (!(await confirmDialog(confirm))) return;
+    primaryBtn.disabled = true;
+    if (ssBtn) ssBtn.disabled = true;
+    if (statusEl) statusEl.textContent = pending;
     try {
-      const res = await fetch('/api/studio/generate-book-pdf', {
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ slug }),
       });
       const json = (await res.json()) as { ok: boolean; error?: string; data?: { kb: number } };
       if (!json.ok) throw new Error(json.error || 'render failed');
-      if (statusEl) statusEl.textContent = `PDF generated (${json.data?.kb ?? '?'} KB). ${prevStatus}`;
+      if (statusEl) statusEl.textContent = `${doneLabel} (${json.data?.kb ?? '?'} KB).`;
     } catch (err) {
       if (statusEl) statusEl.textContent = `Generate failed: ${(err as Error).message}`;
     } finally {
-      genBtn.disabled = false;
+      primaryBtn.disabled = false;
+      if (ssBtn) ssBtn.disabled = false;
     }
-  });
+  }
+
+  primaryBtn.addEventListener('click', () => runGenerate(
+    '/api/studio/generate-book-pdf',
+    {
+      title: 'Generate the PDF?',
+      body: 'This writes book/book.pdf — the file delivered to readers and Google Drive — from what you see in this preview.',
+      confirmLabel: 'Generate',
+    },
+    'Rendering PDF… this can take a minute.', 'PDF generated',
+  ));
+
+  if (ssBtn) {
+    ssBtn.addEventListener('click', () => runGenerate(
+      '/api/studio/generate-self-study-pdf',
+      {
+        title: 'Generate the self-study PDF?',
+        body: 'This generates a labeled study summary and a source-grounded contextual note for '
+          + 'every chapter (a few minutes), then writes book/book-self-study.pdf. Your reading '
+          + 'edition (book.pdf) and its Google Drive copy are left untouched.',
+        confirmLabel: 'Generate',
+      },
+      'Generating study content + rendering… this takes a few minutes.', 'Self-study PDF generated',
+    ));
+  }
 }

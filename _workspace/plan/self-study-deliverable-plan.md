@@ -35,10 +35,21 @@ foundation (Steps 1–2) shipped 2026-07-17.
   labeled Contextual-note + Study-summary asides on each chapter, reading-edition
   typography intact. Tests: `test_self_study.py` (6 cases — gate, format, materialize,
   idempotency, base-untouched, drop). Full suite 1232 passed; astro/lint/smoke green.
+- ✅ **Studio "Self-study PDF" button — DONE 2026-07-17.** The Preview page
+  (`/studio/<slug>/preview`) has a "Self-study PDF" action beside "Generate PDF":
+  a themed confirm (`confirmDialog`) → `POST /api/studio/generate-self-study-pdf`
+  (spawns `build_book_pdf.py <dir> --self-study --json`, mirrors generate-book-pdf.ts) →
+  shared status line. Both buttons disable while either runs. Verified: button renders
+  on-theme, confirm dialog shows the correct copy, zero console errors; astro check
+  0/0/0, lint:views clean, smoke 32/32. (Sync endpoint — the generation is minutes-long
+  LLM; acceptable for this single-user local tool. A background-job/polling variant is a
+  possible future hardening.)
 - ⏳ **Remaining:** Step 3 (render-time term definitions at first use, via `define-term`),
-  Step 6 (source-derived + light-AI sub-headings), Step 7 (challenger gates — extend
-  `book-challenger` for term-once/note/summary faithfulness + `book-render-challenger` for
-  the new blocks), and surfacing a "Self-study PDF" button in the Astro Studio.
+  Step 6 (source-derived + light-AI intra-chapter sub-headings — note: sub-heading
+  insertion interacts with the `^## ` chapter-split used by summary/note generation, so it
+  needs care to key blocks to numbered chapters, not inserted sub-titles), Step 7
+  (challenger gates — extend `book-challenger` for term-once/note/summary faithfulness +
+  `book-render-challenger` for the new blocks).
 
 **Original two OPEN decisions (now settled above) and full plan follow.**
 
