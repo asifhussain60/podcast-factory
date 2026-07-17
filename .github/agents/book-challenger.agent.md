@@ -108,6 +108,32 @@ For **articulated translation editions**, reinterpret the catalog this way:
 - **BK-A4 Plain transliteration** is advisory only for translation editions; Arabic script and source terms may remain because `translation_policy.preserve_arabic_terms` is true.
 - **BK-A5 Tradition fit** normally passes by absence because outside enrichment is forbidden. If any enrichment appears, flag it under BK-P4 and BK-A5.
 
+### Self-study edition (BK-SS-*, when `book/book-self-study.md` exists)
+
+The self-study edition is `book.md` PLUS render-time study apparatus (see
+`scripts/podcast/_self_study.py`): per-chapter labeled **Study summary** and
+**Contextual note** asides (HTML-comment-fenced), inline `term (definition)`
+glosses at first use, and light navigation sub-headings. When
+`book/book-self-study.md` is present, run these ADDITIONAL passes over it (the
+base `book.md` is validated exactly as above and must be byte-identical outside
+the added apparatus). First confirm the deterministic gate
+`_system/self-study-checks.json` is clean (balanced fences, labeled asides).
+
+- **BK-SS-1 Summary faithfulness (P0 on invention).** Each `study-summary` block
+  restates ONLY that chapter's own teaching. A new claim, ruling, named person,
+  citation, example, or doctrine not present in the chapter is a fabrication —
+  this is the one place a summary is permitted, so it must be scrupulously
+  chapter-bound. Meta ("in this chapter", "the author") or cross-chapter
+  reference is P1.
+- **BK-SS-2 Note source-grounding (P0 on outside doctrine).** Each Contextual
+  note is additive and grounded ONLY in the reliable source corpus (the KB
+  atoms + the book's own citations). It may add a cross-reference or clarify a
+  term; it must never contradict, restate, or alter the chapter's teaching, and
+  must pass `_doctrinal` (T1–T5). Unsourced doctrine or tradition bleed is P0.
+- **BK-SS-3 Term-gloss accuracy (P1).** Each inline `term (definition)` is a
+  correct, concise gloss of a genuine CONCEPT. A wrong/misleading gloss is P1; a
+  gloss stamped onto a proper name, place, or book title is a P2 nuisance.
+
 ---
 
 ## Content-profile gating (Wave-Fiction)

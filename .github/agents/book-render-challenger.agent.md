@@ -38,6 +38,12 @@ always about the page, never the meaning.
    with body text beside it and `flow: standalone` is centered (REQ-BR-013); it
    sits at/after its introducing passage (REQ-BR-014); it is legible and not
    shrunk (REQ-BR-020).
+2b. **Self-study asides (only when `book/book-self-study.pdf` exists).** On that
+   PDF, confirm each **Contextual note** / **Study summary** aside renders as one
+   labeled block, not split across a page break, visually distinct from the body
+   and from each other (note = solid rule, summary = double rule), with its label
+   present. A split or unlabeled aside is BR-CAUTION. (Deterministic pre-check:
+   `_system/self-study-checks.json` must be clean.)
 3. **Verdict.** `RENDER-BROKEN` on any P0, else `RENDER-CAUTION` on any P1, else
    `RENDER-CLEAN`. Stamp `book_render_challenger_version: 1.0`.
 4. **Route fixes, do not mutate the PDF.** BR findings are fixed upstream: a

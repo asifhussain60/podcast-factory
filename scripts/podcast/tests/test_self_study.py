@@ -168,3 +168,23 @@ def test_term_definition_respects_skip(monkeypatch) -> None:
     assert n == 1
     assert "Ghazali (" not in out
     assert "tawhid (divine oneness)" in out
+
+
+# ── Deterministic structural gate (Step 7) ──────────────────────────────────
+def test_check_passes_a_well_formed_self_study() -> None:
+    md = (S.format_editorial_block("A grounding note for the reader here.")
+          + "\n\n"
+          + S.format_summary_block("A faithful summary of the chapter that is long enough to pass."))
+    assert S.check_self_study_markdown(md) == []
+
+
+def test_check_flags_unbalanced_fences() -> None:
+    md = "<!-- study-summary:begin -->\n> **Study summary.** \n> body with no closing fence"
+    checks = [f["check"] for f in S.check_self_study_markdown(md)]
+    assert "SS-FENCE-BALANCE" in checks
+
+
+def test_check_flags_missing_label() -> None:
+    md = "<!-- editorial:begin -->\n> body text with no bold label line at all\n<!-- editorial:end -->"
+    checks = [f["check"] for f in S.check_self_study_markdown(md)]
+    assert "SS-ASIDE-LABEL" in checks

@@ -47,6 +47,39 @@ _SUMMARY_TIMEOUT = 900
 _META_PHRASES = ("in this chapter", "the author", "this summary", "we will", "as we saw")
 
 
+def check_self_study_markdown(text: str) -> list[dict[str, str]]:
+    """Deterministic structural gate over a materialized self-study markdown.
+
+    Returns a list of findings (empty == clean). This is the machine half of the
+    Step-7 gate — the fence/label/term-once contract the render layer relies on.
+    The SEMANTIC half (summary/note faithfulness) is the book-challenger's job.
+    """
+    findings: list[dict[str, str]] = []
+
+    def add(check: str, detail: str) -> None:
+        findings.append({"check": check, "detail": detail})
+
+    for open_, close_, name in (
+        (_BLOCK_OPEN, _BLOCK_CLOSE, "editorial"),
+        (_SUMMARY_OPEN, _SUMMARY_CLOSE, "study-summary"),
+    ):
+        n_open, n_close = text.count(open_), text.count(close_)
+        if n_open != n_close:
+            add("SS-FENCE-BALANCE", f"{name}: {n_open} begin vs {n_close} end fences")
+
+    # Every fenced aside must carry its bold label line.
+    for open_, close_, label in (
+        (_BLOCK_OPEN, _BLOCK_CLOSE, "Editorial note"),
+        (_SUMMARY_OPEN, _SUMMARY_CLOSE, SUMMARY_LABEL),
+    ):
+        for m in re.finditer(re.escape(open_) + r"(.*?)" + re.escape(close_), text, re.DOTALL):
+            if f"**{label}" not in m.group(1):
+                add("SS-ASIDE-LABEL", f"aside missing its '{label}' label")
+                break
+
+    return findings
+
+
 def format_summary_block(text: str) -> str:
     """Wrap a study summary in the canonical labeled + fenced block."""
     from _book_augment import _wrap_para
@@ -423,4 +456,16 @@ def build_self_study_markdown(
     log(f"    0book-self-study: wrote {out_md.name} "
         f"({summaries} summaries, {notes} notes, {subheads} sub-headings, "
         f"{terms} term defs, {dropped} dropped, {len(chapters)} chapters)")
+
+    # Step 7 (deterministic half) — structural gate over the materialized md.
+    # Non-blocking: a broken self-study edition never stops the podcast ship.
+    findings = check_self_study_markdown(assembled)
+    (book_dir / "_system").mkdir(exist_ok=True)
+    (book_dir / "_system" / "self-study-checks.json").write_text(
+        __import__("json").dumps(
+            {"schema": "podcast.self-study-checks/v1", "findings": findings}, indent=2) + "\n",
+        encoding="utf-8")
+    if findings:
+        log(f"    0book-self-study: {len(findings)} structural finding(s) — "
+            f"see _system/self-study-checks.json")
     return out_md

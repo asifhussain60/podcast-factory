@@ -44,12 +44,29 @@ foundation (Steps 1–2) shipped 2026-07-17.
   0/0/0, lint:views clean, smoke 32/32. (Sync endpoint — the generation is minutes-long
   LLM; acceptable for this single-user local tool. A background-job/polling variant is a
   possible future hardening.)
-- ⏳ **Remaining:** Step 3 (render-time term definitions at first use, via `define-term`),
-  Step 6 (source-derived + light-AI intra-chapter sub-headings — note: sub-heading
-  insertion interacts with the `^## ` chapter-split used by summary/note generation, so it
-  needs care to key blocks to numbered chapters, not inserted sub-titles), Step 7
-  (challenger gates — extend `book-challenger` for term-once/note/summary faithfulness +
-  `book-render-challenger` for the new blocks).
+- ✅ **Steps 3, 6, 7 — DONE 2026-07-17. The deliverable is feature-complete.**
+  - **Step 6 (sub-headings):** the generator now groups by NUMBERED chapters (+ preface),
+    folding source `##` sub-sections into their chapter body (fixes the `^## ` chapter-split
+    gotcha); the light-AI pass sub-titles only long (>=600w) chapters with none of their own,
+    inserting `## <title>` before a verbatim-anchored paragraph, skipping any missing/ambiguous
+    anchor. Source-derived sub-headings render as before.
+  - **Step 3 (term definitions):** glossary transliterations matched whole-phrase in PLAIN
+    prose only (never Arabic/blockquote/heading/list/fence lines), once per book (true first
+    use, after assembly); a batched `claude -p` pass defines CONCEPT terms in <=10 words and
+    SKIPs names/titles; `term (definition)` inlined at first prose occurrence.
+  - **Step 7 (gates):** deterministic `check_self_study_markdown` (SS-FENCE-BALANCE,
+    SS-ASIDE-LABEL) runs in the build and records `_system/self-study-checks.json`
+    (non-blocking); the SEMANTIC half is BK-SS-1/2/3 added to the `book-challenger` spec
+    (summary faithfulness P0-on-invention, note source-grounding P0-on-outside-doctrine,
+    term-gloss accuracy P1) + a self-study aside pass (step 2b) in `book-render-challenger`
+    — both mirrors.
+  All conservative + gated + $0; base `book.md` untouched. Tests: `test_self_study.py` now 16
+  cases; full suite 1242 passed.
+
+**The self-study deliverable is complete:** `build_book_pdf.py --self-study` (or the Studio
+"Self-study PDF" button) produces a professional study PDF with per-chapter labeled study
+summaries + source-grounded contextual notes, inline term definitions, light navigation
+sub-headings, and both a deterministic and a semantic quality gate.
 
 **Original two OPEN decisions (now settled above) and full plan follow.**
 
