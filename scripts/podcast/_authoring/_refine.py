@@ -126,8 +126,7 @@ def build_phase_0b_window_prompt_narrative(
     )
 
 
-# De-calque rule (Book Pipeline v2): appended to the scholarly 0b prompt ONLY when
-# book_pipeline_v2 is enabled for the book, so flag-OFF refinement is unchanged.
+# De-calque rule: appended to the scholarly 0b prompt (the scholarly variant only).
 # It fixes the stiff word-for-word-from-Arabic prose that made book2 read like a
 # gloss rather than a book — WITHOUT loosening fidelity (terms/citations/teachings
 # are still mandatory to preserve).

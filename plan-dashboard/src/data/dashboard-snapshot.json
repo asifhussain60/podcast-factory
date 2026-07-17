@@ -765,7 +765,7 @@
       "id": "BPV2-0",
       "wave": "BPV2",
       "title": "Flag scaffold + Astro write-back spike",
-      "status": "complete",
+      "status": "pending",
       "tier": "T1",
       "depends_on": [],
       "plain": "The on/off switch for the whole feature, defaulting to off, plus confirming the site can save files.",
@@ -778,7 +778,7 @@
       "id": "BPV2-1",
       "wave": "BPV2",
       "title": "Unify the two book routes into one path (two knobs)",
-      "status": "complete",
+      "status": "pending",
       "tier": "T1",
       "depends_on": [],
       "plain": "One book-making path; two dials pick the voice and whether to add source-grounded notes.",
@@ -793,7 +793,7 @@
       "id": "BPV2-2",
       "wave": "BPV2",
       "title": "Renderer honors the visual-layout contract + professional pagination",
-      "status": "complete",
+      "status": "pending",
       "tier": "T1",
       "depends_on": [],
       "plain": "The PDF places each picture where the human chose and fills pages like a real book.",
@@ -808,7 +808,7 @@
       "id": "BPV2-3",
       "wave": "BPV2",
       "title": "Decouple visuals into a candidate asset library",
-      "status": "complete",
+      "status": "pending",
       "tier": "T1",
       "depends_on": [],
       "plain": "Diagrams and cleaned slides become a palette of choices instead of being auto-stamped into the book.",
@@ -823,7 +823,7 @@
       "id": "BPV2-4",
       "wave": "BPV2",
       "title": "Astro Book Composer view",
-      "status": "complete",
+      "status": "pending",
       "tier": "T1",
       "depends_on": [],
       "plain": "The page where a person drags pictures into place, sizes them, and clicks Generate PDF.",
@@ -837,7 +837,7 @@
       "id": "BPV2-5",
       "wave": "BPV2",
       "title": "Modern-English prose (de-calque + fluency pass)",
-      "status": "complete",
+      "status": "pending",
       "tier": "T1",
       "depends_on": [],
       "plain": "Smooths stiff word-for-word-from-Arabic phrasing into fluent English without changing any teaching.",
@@ -851,7 +851,7 @@
       "id": "BPV2-6",
       "wave": "BPV2",
       "title": "Governance \u2014 print standard + book-render-challenger",
-      "status": "complete",
+      "status": "pending",
       "tier": "T1",
       "depends_on": [],
       "plain": "A quality bar for the printed pages and a checker that inspects the finished PDF.",
@@ -865,7 +865,7 @@
       "id": "BPV2-7",
       "wave": "BPV2",
       "title": "Acceptance matrix; cutover held",
-      "status": "complete",
+      "status": "pending",
       "tier": "T1",
       "depends_on": [],
       "plain": "A test suite pinning the whole contract; the risky final switch is documented and deliberately not flipped yet.",
@@ -879,7 +879,7 @@
       "id": "BPV2-8",
       "wave": "BPV2",
       "title": "repo-surgeon v2 probes + merge to develop",
-      "status": "complete",
+      "status": "pending",
       "tier": "T1",
       "depends_on": [],
       "plain": "Taught the repo auditor to verify the new architecture, then merged everything to the working branch.",
@@ -887,6 +887,22 @@
         "skills-staging/repo-surgeon/SKILL.md"
       ],
       "last_touched": "06df259"
+    },
+    {
+      "id": "BPV2-9",
+      "wave": "BPV2",
+      "title": "Cutover \u2014 v2 becomes the only route, legacy paths deleted",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "After the validation matrix passed, made the new path the default and removed the old book-making code so there is just one route.",
+      "tools": [
+        "scripts/podcast/phases/book_driver.py",
+        "scripts/podcast/_pipeline_flags.py",
+        "scripts/podcast/build_book_pdf.py",
+        "framework.md"
+      ],
+      "last_touched": "chore/book-pipeline-v2-cutover"
     },
     {
       "id": "O1",
@@ -1403,7 +1419,7 @@
     },
     {
       "id": "BPV2",
-      "name": "Book Pipeline v2 \u2014 unify book routes + decouple visuals (flag OFF)",
+      "name": "Book Pipeline v2 \u2014 unify book routes + decouple visuals (cutover complete)",
       "plain": ""
     },
     {
@@ -1454,60 +1470,60 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-16T08:33:52-04:00",
-  "source_commit": "a5479fff",
+  "generated_at": "2026-07-17T07:05:11-04:00",
+  "source_commit": "298c876",
   "generator": "regenerate-snapshots.py",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "a5479fff",
-      "subject": "docs(architecture): DR-013 scope clarification \u2014 0book-* content-branch re-runs exempt (Asif, 2026-07-16)",
+      "sha": "298c876",
+      "subject": "refactor(book-pipeline): cut over to v2 unified path, delete legacy compose routes",
+      "date": "2026-07-17"
+    },
+    {
+      "sha": "fe3744c",
+      "subject": "content(kitab-al-riyad): opportunistic glossary Arabic backfill (86->88)",
       "date": "2026-07-16"
     },
     {
-      "sha": "cbe439d3",
-      "subject": "docs(architecture): flag stale branch/phase-numbering model, add 2026-07-16 corrections",
+      "sha": "4202e2d",
+      "subject": "fix(studio): route rename-book endpoint through getPythonBin()",
       "date": "2026-07-16"
     },
     {
-      "sha": "bca2fef5",
-      "subject": "chore(pipeline): resolve Phase 2 dead-code review \u2014 flag manual tools, delete confirmed-dead",
+      "sha": "33ec1ec",
+      "subject": "content(kitab-al-riyad): backfill Arabic-script glossary overlay (86/409 terms)",
       "date": "2026-07-16"
     },
     {
-      "sha": "dd11289e",
-      "subject": "fix(site): resolve python3 interpreter via .venv instead of hardcoded system path",
+      "sha": "3add5da",
+      "subject": "docs(resume): single-session continuation brief \u2014 Gem tool + v2 matrix GREEN + open threads",
       "date": "2026-07-16"
     },
     {
-      "sha": "6852f344",
-      "subject": "chore(pipeline): remove dead code \u2014 unused scripts, branch_prefix(), deprecated agent specs",
+      "sha": "4203d7a",
+      "subject": "docs(v2-matrix): matrix COMPLETE \u2014 all 4 knob cells GREEN, v2 route cutover-ready",
       "date": "2026-07-16"
     },
     {
-      "sha": "bc2b2cac",
-      "subject": "docs(status): Composer header redesign shipped \u2014 update session-continuity doc",
+      "sha": "ead8127",
+      "subject": "feat(gems): Ismaili Scholar Gem \u2014 backend generation tool for the Companion Panel",
       "date": "2026-07-16"
     },
     {
-      "sha": "f1c29369",
-      "subject": "site(studio): Composer header redesign \u2014 compact horizontal actions, Companion Tool, shared autosave",
+      "sha": "0f81189",
+      "subject": "chore(cleanup): remove settled May-20 kitab-al-riyad re-run backup (68 files)",
       "date": "2026-07-16"
     },
     {
-      "sha": "7018deab",
-      "subject": "docs(status): Phase 3 Preview shipped \u2014 update session-continuity doc",
+      "sha": "5ffee7b",
+      "subject": "chore(consolidation): route fiction PDF through the canonical build_book path",
       "date": "2026-07-16"
     },
     {
-      "sha": "13d34c37",
-      "subject": "site(studio): Phase 3 Preview \u2014 live page-image render, zoom, Generate PDF moved off Compose",
+      "sha": "4d0d2a5",
+      "subject": "Revert \"site(dev): per-port Vite optimize cache \u2014 root-fixes the null-hook blanked-island bug\"",
       "date": "2026-07-16"
-    },
-    {
-      "sha": "6f27d6ff",
-      "subject": "site(studio): themed notice for delete-failure (last native alert removed)",
-      "date": "2026-07-15"
     }
   ],
   "wave_execution_events": [],
