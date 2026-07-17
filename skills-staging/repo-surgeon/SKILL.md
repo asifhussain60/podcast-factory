@@ -212,18 +212,18 @@ If ANY of the three returns a hit referencing this candidate, downgrade to "POSS
 | AU-X3 | Extensibility | P2 | **Convention drift** — Recent additions that don't match established naming/file-layout/invocation patterns. |
 | AU-H1 | Hygiene | P1 | **Workspace-root sprawl** — Files at any folder root not in vacuum's root-legit whitelist (vacuum.agent.md §9). Report with `delegate_to: vacuum`. |
 
-### Book Pipeline v2 conformance (AU-V*, added 2026-07-13)
+### Book Pipeline conformance (AU-V*, added 2026-07-13; cutover 2026-07-17)
 
-Verifies the unified book path landed intact behind `book_pipeline_v2` (default OFF). Source of truth for the architecture: `_workspace/plan/book-pipeline-plan.md`; cutover state: `_workspace/plan/book-pipeline-cutover.md`.
+Verifies the unified book path is intact and is the SOLE compose route (the `book_pipeline_v2` flag + the legacy dispatch were removed at cutover). Source of truth for the architecture: `_workspace/plan/book-pipeline-plan.md`; cutover state: `_workspace/plan/book-pipeline-cutover.md`.
 
 | ID | Axis | Severity | What to detect |
 |---|---|---|---|
-| AU-V1 | Accuracy | P0 | **Flag backbone present** — `scripts/podcast/_pipeline_flags.py` defines `book_pipeline_v2_enabled` + `book_augmentation` + `book_voice`, and `phases/book_driver.py` dispatches 0book-compose on the flag. Missing = the cohesion backbone is gone. |
+| AU-V1 | Accuracy | P0 | **Unified compose is the only route** — `scripts/podcast/_pipeline_flags.py` defines the `book_augmentation` + `book_voice` knobs, and `phases/book_driver.py`'s 0book-compose calls `compose_book_v2` unconditionally (no legacy `if/elif` dispatch). A resurrected legacy branch, or a re-introduced `book_pipeline_v2_enabled`/`FEATURE_FLAG_*`, is a regression. |
 | AU-V2 | Accuracy | P0 | **Contract mirrors in sync** — the `book.visual-layout/v1` schema, the `align`/`flow`/`page_fit` enums, the wrap `width_pct<=50` rule, and the center=>standalone rule agree across the three mirrors: `scripts/podcast/_visual_layout.py`, `plan-dashboard/scripts/visual-layout.mjs`, and (anchorKey) `plan-dashboard/src/lib/reader/composer.ts`. Any divergence is drift. |
 | AU-V3 | Accuracy | P0 | **Schema-string agreement** — `book.visual-layout/v1` (both mirrors) and `book.visuals-index/v1` (`_visual_candidates.py` ↔ `render-book-pdf.mjs` reader) match verbatim. |
 | AU-V4 | Extensibility | P1 | **Unified stages exist** — `_book_pipeline_v2.compose_book_v2`, `_book_augment.author_phase_book_augment` (0book-augment), `_book_voice.apply_fluency_adapt` + `apply_author_companion_voice`. A stage referenced by the knob matrix but absent is a regression. |
 | AU-V5 | Accuracy | P0 | **Governance present + aligned** — `docs/standards/book-print-quality.md` exists; the `book-render-challenger` agent spec exists in BOTH tracked mirrors (`infra/claude-agents/`, `.github/agents/`); and the `REQ-BR-*` IDs cited by `_book_render_checks.py` (BR-WATERMARK/CAPTION-DUP/BLANK-PAGE/PAGE-FILL) exist in the standard. |
-| AU-V6 | Hygiene | P1 | **Flag-OFF isolation** — every v2 module import in the legacy drivers (`book_driver.py`, `build_book_pdf.py`, `_book_illustrate.py`, `_slide_import.py`, `_refine.py`) is lazy + guarded by `book_pipeline_v2_enabled`; no top-level v2 import changes the OFF path. |
+| AU-V6 | Hygiene | P1 | **No legacy compose fallback** — the retired paths stay retired: no `generate_translation_edition.py`, no `_inject_figures` / `book-illustrated.md` assembly in `_book_illustrate.py`, no `book-slides.md` injection write in `_slide_import.py`, no `book_pipeline_v2_enabled`/`FEATURE_FLAG_*` anywhere. `_pick_book_md` returns `book.md` unconditionally. Re-appearance of any = a resurrected legacy route. |
 
 **Findings:** emit one JSONL record per finding to `_learning/findings.jsonl` with `source: "repo-surgeon/podcast"` and `finding_id` prefixed `AU`. Report written to `_workspace/audit-reports/<ISO>-podcast-probes.md`.
 

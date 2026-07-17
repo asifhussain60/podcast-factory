@@ -3,8 +3,6 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-import pytest
-
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
@@ -13,10 +11,8 @@ from _pipeline_flags import (  # noqa: E402
     BOOK_AUGMENTATION_SOURCE_ONLY,
     BOOK_VOICE_AUTHOR_COMPANION,
     BOOK_VOICE_FAITHFUL,
-    FEATURE_FLAG_ENV,
     book_augmentation,
     book_knobs,
-    book_pipeline_v2_enabled,
     book_voice,
 )
 
@@ -28,37 +24,7 @@ def _book(tmp_path: Path, config: str) -> Path:
     return bd
 
 
-@pytest.fixture(autouse=True)
-def _clear_env(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.delenv(FEATURE_FLAG_ENV, raising=False)
-
-
-# ─── Flag default is OFF ────────────────────────────────────────────────────
-def test_flag_defaults_off_when_absent(tmp_path: Path) -> None:
-    bd = _book(tmp_path, "deliverable_mode: translation_edition\n")
-    assert book_pipeline_v2_enabled(bd) is False
-
-
-def test_flag_defaults_off_when_no_config(tmp_path: Path) -> None:
-    bd = tmp_path / "no_config"
-    bd.mkdir()
-    assert book_pipeline_v2_enabled(bd) is False
-
-
-def test_flag_reads_true_from_config(tmp_path: Path) -> None:
-    bd = _book(tmp_path, "book_pipeline_v2: true\n")
-    assert book_pipeline_v2_enabled(bd) is True
-
-
-def test_flag_env_override_wins(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    bd = _book(tmp_path, "book_pipeline_v2: false\n")
-    monkeypatch.setenv(FEATURE_FLAG_ENV, "1")
-    assert book_pipeline_v2_enabled(bd) is True
-    monkeypatch.setenv(FEATURE_FLAG_ENV, "off")
-    assert book_pipeline_v2_enabled(bd) is False
-
-
-# ─── Zero-regression default knob map ───────────────────────────────────────
+# ─── Default knob map ───────────────────────────────────────────────────────
 def test_translation_edition_defaults_to_none_faithful(tmp_path: Path) -> None:
     bd = _book(tmp_path, "deliverable_mode: translation_edition\n")
     assert book_augmentation(bd) == BOOK_AUGMENTATION_NONE
@@ -102,10 +68,9 @@ def test_invalid_knob_falls_back_to_default(tmp_path: Path) -> None:
 
 
 def test_book_knobs_bundle(tmp_path: Path) -> None:
-    bd = _book(tmp_path, "book_pipeline_v2: true\ndeliverable_mode: translation_edition\n")
+    bd = _book(tmp_path, "deliverable_mode: translation_edition\n")
     knobs = book_knobs(bd)
     assert knobs == {
-        "book_pipeline_v2": True,
         "augmentation": BOOK_AUGMENTATION_NONE,
         "voice": BOOK_VOICE_FAITHFUL,
     }

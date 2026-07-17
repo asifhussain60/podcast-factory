@@ -6,9 +6,10 @@ semantic `book-challenger` (which reads `book.md`) and the on-screen
 `html-view-quality` standard (which governs the Astro site). It governs what the
 reader physically holds: pages, figures, legibility, page-fill.
 
-Active only under `book_pipeline_v2`. Enforced by the deterministic probes in
-`scripts/podcast/_book_render_checks.py` plus the visual judgment of the
-`book-render-challenger` agent. Requirements are cited by `REQ-BR-NNN`.
+Applies to every rendered book reading edition (wired into 0book-render).
+Enforced by the deterministic probes in `scripts/podcast/_book_render_checks.py`
+plus the visual judgment of the `book-render-challenger` agent. Requirements are
+cited by `REQ-BR-NNN`.
 
 ## Scope
 

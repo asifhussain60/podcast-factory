@@ -1,22 +1,17 @@
 """Book Pipeline v2 — the single unified book-compose path.
 
-Replaces the two divergent routes (faithful ``_translation_edition`` vs.
-author-companion ``_book_compose``) with ONE path whose behaviour is set by two
-orthogonal knobs (see ``_pipeline_flags``):
+The one book-compose route, whose behaviour is set by two orthogonal knobs
+(see ``_pipeline_flags``):
 
     faithful base  (always, from _system/source/text/refined-english.md)
       -> 0book-augment   [book_augmentation == source_only]  additive, gated
       -> 0book-voice     [book_voice == author_companion]    re-voice, gated
       -> book/book.md
 
-Only reached when ``book_pipeline_v2_enabled(book_dir)`` is True. With the flag
-OFF, ``phases/book_driver`` runs the untouched legacy dispatch, so today's output
-is reproduced byte-for-byte.
-
-The knob-default map (in ``_pipeline_flags``) makes flag ON + default config
-reproduce the current *routing*: ``deliverable_mode: translation_edition`` ->
-``{none, faithful}`` (base only, faithful voice); legacy companion ->
-``{source_only, author_companion}`` (base + additive enrichment + author voice).
+The knob-default map (in ``_pipeline_flags``) selects each deliverable's
+behaviour: ``deliverable_mode: translation_edition`` -> ``{none, faithful}``
+(base only, faithful voice); companion book -> ``{source_only,
+author_companion}`` (base + additive enrichment + author voice).
 """
 from __future__ import annotations
 

@@ -1,10 +1,21 @@
-# Book Pipeline v2 — cutover checklist (HELD, pending fixture validation)
+# Book Pipeline v2 — cutover checklist (EXECUTED 2026-07-17)
 
-Phases 0–6 landed the full v2 machinery behind `book_pipeline_v2` (default **OFF**).
-Phase 7's acceptance matrix is green. The remaining cutover — flip the default ON,
-delete the legacy paths — is deliberately **held** here rather than executed
-autonomously, because it depends on a validation gate that needs authorized LLM
-spend and because deleting the legacy fallback is a Tier-2 destructive step.
+> **DONE.** The knob-matrix validation went green on all 4 cells (c5 BOOK-SOUND,
+> c6 SHIP-WITH-CAUTION, c7/c8 SHIP-READY — recorded in `v2-matrix/CONTINUATION.md`),
+> and on 2026-07-17 the cutover was executed on branch `chore/book-pipeline-v2-cutover`:
+> the default was flipped ON (the `book_pipeline_v2` flag + all its scaffolding
+> removed) and the legacy paths deleted — `generate_translation_edition.py`,
+> `_book_illustrate._inject_figures` + its `book-illustrated.md` assembly, the
+> `book-slides.md` injection write in `_slide_import.py`, and the legacy `0book-compose`
+> dispatch in `book_driver.py`. `_book_compose.py` was RETAINED (recon found it is a
+> live shared-helper module for the v2 faithful base, not dead code). Full pytest suite
+> 1223 green; astro check 0/0/0; lint:views clean. The steps below are the record of
+> what was done.
+
+The original hold (below) is preserved for history. Phases 0–6 landed the full v2
+machinery behind `book_pipeline_v2` (default **OFF**); Phase 7's acceptance matrix was
+green; the cutover was held pending the validation gate + Tier-2 approval, both of which
+were satisfied before execution.
 
 ## Why held
 

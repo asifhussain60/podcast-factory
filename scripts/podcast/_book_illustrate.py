@@ -485,50 +485,6 @@ def _render_diagrams(book_dir: Path, *, log=print) -> None:
                 svgf.write_text(fixed, encoding="utf-8")
 
 
-def _inject_figures(book_md: str, manifest: list[dict]) -> str:
-    """Insert <figure class="book-diagram"> blocks after anchor paragraphs in book_md."""
-    result = book_md
-    insertions: list[tuple[int, str]] = []
-
-    for entry in manifest:
-        anchor = entry.get("anchor_text", "").strip()
-        svg_path_str = entry.get("svg_path", "")
-        caption = entry.get("caption", "")
-
-        if not anchor or not svg_path_str:
-            continue
-
-        svg_file = Path(svg_path_str)
-        if not svg_file.exists():
-            sys.stderr.write(f"  [illustrate] SVG missing: {svg_path_str}, skipping\n")
-            continue
-
-        svg_content = svg_file.read_text(encoding="utf-8").strip()
-        pos = result.find(anchor)
-        if pos == -1:
-            sys.stderr.write(f"  [illustrate] anchor not found: {repr(anchor[:60])}, skipping\n")
-            continue
-
-        # Insert after the paragraph containing the anchor (next blank line boundary)
-        end_of_para = result.find('\n\n', pos + len(anchor))
-        insert_at = (end_of_para + 2) if end_of_para != -1 else len(result)
-
-        figure_block = (
-            f'<figure class="book-diagram">\n'
-            f'{svg_content}\n'
-            f'<figcaption>{caption}</figcaption>\n'
-            f'</figure>\n\n'
-        )
-        insertions.append((insert_at, figure_block))
-
-    # Apply in reverse order so earlier insertions don't shift later offsets
-    insertions.sort(key=lambda x: x[0], reverse=True)
-    for pos, block in insertions:
-        result = result[:pos] + block + result[pos:]
-
-    return result
-
-
 def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = False,
                                   model_flag: str | None = None) -> Path:
     """Main entry point for 0book-illustrate. Returns path to book/book-illustrated.md.
@@ -548,7 +504,7 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
         raise AuthoringError(
             phase="0book-illustrate",
             message=f"book.md not found at {book_md_path} — run 0book-compose first.",
-            manual_fallback="python3 _book_compose.py <BOOK_DIR>")
+            manual_fallback="python3 scripts/podcast/orchestrate_book.py --resume <slug>")
 
     # Resolve content_profile once: used for both the fiction gate and template selection.
     from _content_profile import resolve_content_profile  # local import: avoid circularity
@@ -569,11 +525,9 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
     # content (it does not exist in the source text), which is augmentation by
     # definition — so it is forbidden for the same books that forbid textual
     # augmentation. This is the ONLY gate on illustration; every caller
-    # (generate_translation_edition.py, phases/book_driver.py, any future
-    # book_pipeline_v2 wiring) inherits it automatically. Uses the
-    # `book_augmentation` knob directly (not the `book_pipeline_v2` flag) since
-    # the knob resolves correctly — default "none" for deliverable_mode ==
-    # translation_edition — whether or not v2 is enabled for this book.
+    # (phases/book_driver.py and any direct invocation) inherits it
+    # automatically via the `book_augmentation` knob, which resolves to "none"
+    # for deliverable_mode == translation_edition.
     from _pipeline_flags import book_augmentation, BOOK_AUGMENTATION_NONE  # noqa: PLC0415
     if book_augmentation(book_dir) == BOOK_AUGMENTATION_NONE:
         log(f"    0book-illustrate: {book_dir.name}: book_augmentation='none' — "
@@ -684,30 +638,15 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
 
     _render_diagrams(book_dir, log=log)
 
-    # book_pipeline_v2: decouple visuals. The diagrams are generated exactly as
-    # before, but instead of injecting them into book-illustrated.md they are
-    # emitted as CANDIDATES to book/visuals/index.json for human curation.
-    # book.md stays diagram-free; the render input is book.md (see
-    # build_book_pdf._pick_book_md).
-    try:
-        from _pipeline_flags import book_pipeline_v2_enabled  # noqa: PLC0415
-        v2 = book_pipeline_v2_enabled(book_dir)
-    except Exception:  # noqa: BLE001
-        v2 = False
-    if v2:
-        from _visual_candidates import emit_diagram_candidates, merge_entries  # noqa: PLC0415
-        merge_entries(book_dir, emit_diagram_candidates(book_dir, manifest, log=log))
-        log(f"    0book-illustrate: v2 — {len(manifest)} diagram candidate(s) offered, "
-            f"book.md left diagram-free")
-        return book_md_path
-
-    log(f"    0book-illustrate: assembling book-illustrated.md")
-    illustrated_md = _inject_figures(book_md, manifest)
-    illustrated_path.write_text(illustrated_md, encoding="utf-8")
-    log(f"    0book-illustrate: wrote {illustrated_path.name} "
-        f"({illustrated_path.stat().st_size // 1024} KB)")
-
-    return illustrated_path
+    # Decouple visuals: the diagrams are generated exactly as before, but instead
+    # of injecting them into the book text they are emitted as CANDIDATES to
+    # book/visuals/index.json for human curation. book.md stays diagram-free; the
+    # render input is book.md (see build_book_pdf._pick_book_md).
+    from _visual_candidates import emit_diagram_candidates, merge_entries  # noqa: PLC0415
+    merge_entries(book_dir, emit_diagram_candidates(book_dir, manifest, log=log))
+    log(f"    0book-illustrate: {len(manifest)} diagram candidate(s) offered, "
+        f"book.md left diagram-free")
+    return book_md_path
 
 
 def main() -> int:

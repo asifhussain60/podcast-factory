@@ -90,24 +90,12 @@ def _book_title(book_dir: Path) -> str:
 
 
 def _pick_book_md(book_dir: Path) -> Path:
-    """Render-input priority: book-slides.md (inject_slide_deck.py) >
-    book-illustrated.md (0book-illustrate) > book.md (0book-compose).
+    """The render input is always the diagram-free book.md.
 
-    Under book_pipeline_v2 the visuals are decoupled — figures come from the
-    curated visual-layout.json, not from injected *-slides/-illustrated markdown —
-    so the render input is always the diagram-free book.md."""
-    book = book_dir / "book"
-    try:
-        from _pipeline_flags import book_pipeline_v2_enabled  # noqa: PLC0415
-        if book_pipeline_v2_enabled(book_dir):
-            return book / "book.md"
-    except Exception:  # noqa: BLE001
-        pass
-    for name in ("book-slides.md", "book-illustrated.md"):
-        candidate = book / name
-        if candidate.exists():
-            return candidate
-    return book / "book.md"
+    Visuals are decoupled — figures come from the curated visual-layout.json,
+    not from injected *-slides/-illustrated markdown — so 0book-compose's book.md
+    is what the renderer consumes."""
+    return book_dir / "book" / "book.md"
 
 
 def build_book(book_dir: Path, *, log=print, book_md: Path | None = None,
@@ -120,7 +108,7 @@ def build_book(book_dir: Path, *, log=print, book_md: Path | None = None,
         raise AuthoringError(
             phase="0book-render",
             message=f"missing {book_md} — run 0book-compose (and 0book-illustrate) first.",
-            manual_fallback="python3 _book_compose.py <BOOK_DIR>")
+            manual_fallback="python3 scripts/podcast/orchestrate_book.py --resume <slug>")
     out_pdf = book_dir / "book" / "book.pdf"
     src_label = book_md.name
 
@@ -129,19 +117,11 @@ def build_book(book_dir: Path, *, log=print, book_md: Path | None = None,
     from _book_cover import ensure_cover
     ensure_cover(book_dir, log=log)
 
-    # book_pipeline_v2: resolve the per-book flag and hand it to the renderer so
-    # it honors book/visual-layout.json + the v2 pagination CSS. Flag OFF -> "0"
-    # -> renderer output is byte-for-byte unchanged.
-    try:
-        from _pipeline_flags import book_pipeline_v2_enabled  # noqa: PLC0415
-        flag_v2 = "1" if book_pipeline_v2_enabled(book_dir) else "0"
-    except Exception:  # noqa: BLE001 — never let the flag lookup break rendering
-        flag_v2 = "0"
-
+    # The renderer honors book/visual-layout.json + the unified pagination CSS.
     log(f"    0book-render: {book_dir.name}: {src_label} -> book.pdf (Playwright)")
     proc = subprocess.run(
         ["node", str(_RENDER_SCRIPT), str(book_md.resolve()), str(out_pdf),
-         str(_THEME_CSS), flag_v2],
+         str(_THEME_CSS), "1"],
         cwd=_DASHBOARD, capture_output=True, text=True)
     if proc.returncode == 3:
         raise AuthoringError(

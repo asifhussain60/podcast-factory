@@ -17,8 +17,8 @@ Mechanics:
      slide figures, re-inject one <figure class="book-diagram book-slide"> per
      anchored slide at the paragraph containing its verbatim anchor_text —
      by default BEFORE that paragraph (the slide precedes the passage that
-     explains it). Same anchor mechanics as _book_illustrate._inject_figures,
-     hardened: a missing OR ambiguous anchor fails loudly naming the slide_id.
+     explains it). Anchor-and-insert mechanics, hardened: a missing OR
+     ambiguous anchor fails loudly naming the slide_id.
   3. Write book/book-slides.md. build_book_pdf.py prefers it over
      book-illustrated.md/book.md. book.md / book-illustrated.md never mutated.
 

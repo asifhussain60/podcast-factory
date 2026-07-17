@@ -4449,19 +4449,22 @@ waves_o_ph:
 
 waves_bpv2:
   - id: BPV2
-    name: "Book Pipeline v2 — unify book routes + decouple visuals (flag OFF)"
-    execution_status: completed_2026_07_13
+    name: "Book Pipeline v2 — unify book routes + decouple visuals (cutover complete)"
+    execution_status: cutover_complete_2026_07_17
     branch: book-pipeline-v2
-    merged_to_develop: "4165160 (--no-ff, 2026-07-13)"
+    merged_to_develop: "4165160 (--no-ff, 2026-07-13); cutover on chore/book-pipeline-v2-cutover"
     note: >
-      Two architectural moves behind the book_pipeline_v2 flag (default OFF — zero
-      behaviour change on develop until a book opts in): (1) collapse the divergent
-      translation + author-companion book routes into ONE path with two independent
-      knobs (book_augmentation, book_voice); (2) decouple visuals from content —
-      book.md stays diagram-free, candidates go to book/visuals/index.json, a human
-      curates placement in the Astro Book Composer which writes book/visual-layout.json,
-      and the renderer consumes that contract. Cutover (flip default ON + delete legacy)
-      is HELD pending fixture LLM validation — see _workspace/plan/book-pipeline-cutover.md.
+      Two architectural moves, now the SOLE book path (the book_pipeline_v2 flag was
+      removed at cutover): (1) collapse the divergent translation + author-companion
+      book routes into ONE path with two independent knobs (book_augmentation,
+      book_voice); (2) decouple visuals from content — book.md stays diagram-free,
+      candidates go to book/visuals/index.json, a human curates placement in the Astro
+      Book Composer which writes book/visual-layout.json, and the renderer consumes
+      that contract. Cutover (2026-07-17): after the knob-matrix validation went green
+      on all 4 cells, the default was flipped ON and the legacy paths deleted
+      (generate_translation_edition.py, _inject_figures, the book-slides.md injection
+      write, the legacy book_driver dispatch, and all flag scaffolding). See BPV2-9 and
+      _workspace/plan/book-pipeline-cutover.md.
     steps:
       - id: BPV2-0
         title: "Flag scaffold + Astro write-back spike"
@@ -4508,6 +4511,11 @@ waves_bpv2:
         plain: "Taught the repo auditor to verify the new architecture, then merged everything to the working branch."
         tools: [skills-staging/repo-surgeon/SKILL.md]
         last_touched: 06df259
+      - id: BPV2-9
+        title: "Cutover — v2 becomes the only route, legacy paths deleted"
+        plain: "After the validation matrix passed, made the new path the default and removed the old book-making code so there is just one route."
+        tools: [scripts/podcast/phases/book_driver.py, scripts/podcast/_pipeline_flags.py, scripts/podcast/build_book_pdf.py, framework.md]
+        last_touched: chore/book-pipeline-v2-cutover
 
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)

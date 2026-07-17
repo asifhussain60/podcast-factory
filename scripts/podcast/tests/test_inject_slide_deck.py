@@ -179,16 +179,18 @@ class ManifestValidationTests(unittest.TestCase):
 
 
 class RenderPriorityTests(unittest.TestCase):
-    def test_book_slides_md_preferred(self) -> None:
+    def test_render_input_is_always_book_md(self) -> None:
+        # Visuals are decoupled (curated via visual-layout.json), so the render
+        # input is always the diagram-free book.md — legacy *-illustrated/-slides
+        # markdown is neither produced nor consumed.
         import build_book_pdf as bbp
         d = Path(tempfile.mkdtemp())
         (d / "book").mkdir()
         (d / "book" / "book.md").write_text("# t", encoding="utf-8")
         self.assertEqual(bbp._pick_book_md(d).name, "book.md")
         (d / "book" / "book-illustrated.md").write_text("# t", encoding="utf-8")
-        self.assertEqual(bbp._pick_book_md(d).name, "book-illustrated.md")
         (d / "book" / "book-slides.md").write_text("# t", encoding="utf-8")
-        self.assertEqual(bbp._pick_book_md(d).name, "book-slides.md")
+        self.assertEqual(bbp._pick_book_md(d).name, "book.md")
 
 
 if __name__ == "__main__":
