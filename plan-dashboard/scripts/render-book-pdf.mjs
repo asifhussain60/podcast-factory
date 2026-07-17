@@ -38,10 +38,13 @@ import path from 'node:path';
 
 import { buildBookHtml, themeRoot } from './lib/book-html.mjs';
 
-const [, , MD_PATH, OUT_PATH, THEME_PATH, FLAG_V2] = process.argv;
+const [, , MD_PATH, OUT_PATH, THEME_PATH, FLAG_V2, FLAG_SELF_STUDY] = process.argv;
 // The renderer honors book/visual-layout.json and enables the unified
 // pagination CSS (scoped under body.book-v2). Callers always pass "1".
 const V2 = String(FLAG_V2 || '').trim() === '1';
+// Opt-in self-study layer (body.book-self-study): renders labeled Contextual-note
+// and Study-summary asides + bullet lists. Off unless the caller passes "1".
+const SELF_STUDY = String(FLAG_SELF_STUDY || '').trim() === '1';
 if (!MD_PATH || !OUT_PATH) {
   console.error('usage: render-book-pdf.mjs <book.md> <out.pdf> [theme.css]');
   process.exit(2);
@@ -55,7 +58,7 @@ async function main() {
   const printCss = readFileSync(printCssPath, 'utf-8');
 
   const { assetRoot, coverHtml, titlePage, tocHtml, crosswalkHtml, bodyHtml, bodyClass }
-    = buildBookHtml(MD_PATH, { v2: V2 });
+    = buildBookHtml(MD_PATH, { v2: V2, selfStudy: SELF_STUDY });
   const bodyClassAttr = bodyClass ? ` class="${bodyClass}"` : '';
 
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>

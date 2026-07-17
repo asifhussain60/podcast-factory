@@ -99,17 +99,22 @@ def _pick_book_md(book_dir: Path) -> Path:
 
 
 def build_book(book_dir: Path, *, log=print, book_md: Path | None = None,
-               surface_finder: bool = True) -> Path:
+               surface_finder: bool = True, self_study: bool = False) -> Path:
     book_dir = Path(book_dir).resolve()
     if book_md is None:
-        book_md = _pick_book_md(book_dir)
+        # The self-study deliverable renders the materialized book-self-study.md
+        # (labeled Contextual-note + Study-summary asides); the reading edition
+        # renders book.md. Either way the base book.md is never mutated.
+        book_md = (book_dir / "book" / "book-self-study.md") if self_study else _pick_book_md(book_dir)
     book_md = Path(book_md)
     if not book_md.exists():
         raise AuthoringError(
             phase="0book-render",
             message=f"missing {book_md} — run 0book-compose (and 0book-illustrate) first.",
-            manual_fallback="python3 scripts/podcast/orchestrate_book.py --resume <slug>")
-    out_pdf = book_dir / "book" / "book.pdf"
+            manual_fallback=("python3 scripts/podcast/build_book_pdf.py --self-study <BOOK_DIR>"
+                             if self_study
+                             else "python3 scripts/podcast/orchestrate_book.py --resume <slug>"))
+    out_pdf = book_dir / "book" / ("book-self-study.pdf" if self_study else "book.pdf")
     src_label = book_md.name
 
     # Cover page (2026-06-11): every reading edition gets a generated
@@ -117,11 +122,12 @@ def build_book(book_dir: Path, *, log=print, book_md: Path | None = None,
     from _book_cover import ensure_cover
     ensure_cover(book_dir, log=log)
 
-    # The renderer honors book/visual-layout.json + the unified pagination CSS.
-    log(f"    0book-render: {book_dir.name}: {src_label} -> book.pdf (Playwright)")
+    # The renderer honors book/visual-layout.json + the unified pagination CSS,
+    # plus (when self_study) the opt-in self-study aside/list layer.
+    log(f"    0book-render: {book_dir.name}: {src_label} -> {out_pdf.name} (Playwright)")
     proc = subprocess.run(
         ["node", str(_RENDER_SCRIPT), str(book_md.resolve()), str(out_pdf),
-         str(_THEME_CSS), "1"],
+         str(_THEME_CSS), "1", "1" if self_study else "0"],
         cwd=_DASHBOARD, capture_output=True, text=True)
     if proc.returncode == 3:
         raise AuthoringError(
@@ -136,9 +142,15 @@ def build_book(book_dir: Path, *, log=print, book_md: Path | None = None,
     if not out_pdf.exists():
         raise AuthoringError(
             phase="0book-render",
-            message="render reported success but book.pdf was not written.",
+            message=f"render reported success but {out_pdf.name} was not written.",
             manual_fallback=_INSTALL_HINT)
     log(f"    0book-render: wrote {out_pdf.name} ({out_pdf.stat().st_size // 1024} KB)")
+
+    # The self-study edition is a distinct, in-repo study artifact
+    # (book-self-study.pdf) — it does NOT get the edition-titled copy or the
+    # Google Drive publish, which belong to the primary reading edition.
+    if self_study:
+        return out_pdf
 
     # Write a titled copy alongside book.pdf so the PDF filename matches the book.
     # book.pdf stays in place for pipeline compatibility (export_distribution.py etc.).
@@ -182,14 +194,23 @@ def main() -> int:
     import json as _json
     argv = sys.argv[1:]
     as_json = "--json" in argv  # API/Composer mode: single JSON line, no Finder pop
+    self_study = "--self-study" in argv
+    skip_gen = "--no-generate" in argv  # render an existing book-self-study.md as-is
     args = [a for a in argv if not a.startswith("--")]
     if not args:
-        print("usage: build_book_pdf.py <BOOK_DIR> [--json]", file=sys.stderr)
+        print("usage: build_book_pdf.py <BOOK_DIR> [--json] [--self-study [--no-generate]]",
+              file=sys.stderr)
         return 2
     book_dir = Path(args[0])
+    log = (lambda *a: None) if as_json else print
     try:
-        out = build_book(book_dir, log=(lambda *a: None) if as_json else print,
-                         surface_finder=not as_json)
+        if self_study and not skip_gen:
+            # Materialize book-self-study.md (study summaries + KB-grounded notes)
+            # before rendering. $0 flat-rate claude -p; base book.md untouched.
+            from _self_study import build_self_study_markdown
+            build_self_study_markdown(book_dir, log=log)
+        out = build_book(book_dir, log=log, surface_finder=not as_json,
+                         self_study=self_study)
         if as_json:
             print(_json.dumps({"ok": True, "pdf": str(out),
                                "kb": out.stat().st_size // 1024}))

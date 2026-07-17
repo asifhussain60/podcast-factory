@@ -22,11 +22,23 @@ foundation (Steps 1–2) shipped 2026-07-17.
   text in the default reading edition. Regression guard: `book-html.test.mjs` (4 tests,
   `node --test`). Verified visually (spike page: chapter-open, drop-cap, bullet list, both
   asides distinct + on-theme). astro check 0/0/0, lint:views clean, smoke 32/32.
+- ✅ **`--self-study` invocation + Steps 4–5 — DONE 2026-07-17.** `_self_study.py`
+  materializes `book/book-self-study.md` from `book.md` (base never mutated): per chapter
+  it generates a **Study summary** (Step 5, Decision 1 — labeled, faithfulness-gated,
+  chapter-only, `NONE` when too slight) and a KB-grounded **Contextual note** (Step 4 —
+  reuses the fixed `_book_augment` enrichment: veto + doctrinal gate). Idempotent (rebuilds
+  from the clean base). `build_book_pdf.py --self-study` runs the prep then renders
+  `book-self-study.pdf` (a distinct in-repo artifact — no edition-titled copy, no Drive
+  publish); `--no-generate` renders an existing self-study md as-is. Flag threads
+  build_book_pdf.py → render-book-pdf.mjs (argv[6]) → buildBookHtml({selfStudy}).
+  Verified END-TO-END: a real 9-chapter book rendered to a 117pp self-study PDF with the
+  labeled Contextual-note + Study-summary asides on each chapter, reading-edition
+  typography intact. Tests: `test_self_study.py` (6 cases — gate, format, materialize,
+  idempotency, base-untouched, drop). Full suite 1232 passed; astro/lint/smoke green.
 - ⏳ **Remaining:** Step 3 (render-time term definitions at first use, via `define-term`),
-  Step 4 (adapt `_book_augment` to paragraph-inline notes — its corpus bug was fixed
-  2026-07-17, so the additive path now works), Step 5 (LLM study-summary generation),
-  Step 6 (source-derived + light-AI sub-headings), Step 7 (challenger gates), and the
-  render invocation (a `--self-study` CLI flag / deliverable option).
+  Step 6 (source-derived + light-AI sub-headings), Step 7 (challenger gates — extend
+  `book-challenger` for term-once/note/summary faithfulness + `book-render-challenger` for
+  the new blocks), and surfacing a "Self-study PDF" button in the Astro Studio.
 
 **Original two OPEN decisions (now settled above) and full plan follow.**
 
