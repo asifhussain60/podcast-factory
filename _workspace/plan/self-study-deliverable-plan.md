@@ -1,8 +1,34 @@
 # Self-Study Hybrid Islamic Educational Translation Deliverable — Approved Plan
 
-**Status:** APPROVED 2026-07-16 (render-time approach). **Scheduled:** after the PDF-route
-consolidation (Phase 5 cutover) lands. **Two decisions remain OPEN, to settle at execution
-time** (see below) — Asif approved proceeding with them unresolved.
+**Status:** APPROVED 2026-07-16 (render-time approach). Cutover landed 2026-07-17;
+foundation (Steps 1–2) shipped 2026-07-17.
+
+**Decisions settled 2026-07-17 (were OPEN):**
+- **Decision 1 (Key Takeaways):** option (a) — **labeled study-summaries.** A gated,
+  clearly-labeled "Study summary" block scoped to this deliverable is the explicit,
+  scoped exception to the anti-summary principle (never a silent relaxation).
+- **Decision 2 (sub-headings):** option (a)+(b) — **source-derived section markers plus a
+  light AI pass** for short navigational sub-titles where the source has none (titles are
+  navigation only, never new teaching).
+
+**Progress:**
+- ✅ **Step 2 (renderer extension) + Step 1 (spike) — DONE 2026-07-17.** The opt-in
+  self-study render mode is in `book-html.mjs` (`renderMd(md, crosswalk, {selfStudy})` +
+  `buildBookHtml({selfStudy})`, body class `book-self-study`): bullet lists → `<ul>`, the
+  0book-augment editorial fences → labeled **Contextual note** asides, and
+  `study-summary` fences → **Study summary** asides. Styling in `book-print.css`
+  (token-only). Default render is byte-for-byte unchanged (all branches gated on
+  `selfStudy`); a companion fix stops the augment comment-fences from leaking as visible
+  text in the default reading edition. Regression guard: `book-html.test.mjs` (4 tests,
+  `node --test`). Verified visually (spike page: chapter-open, drop-cap, bullet list, both
+  asides distinct + on-theme). astro check 0/0/0, lint:views clean, smoke 32/32.
+- ⏳ **Remaining:** Step 3 (render-time term definitions at first use, via `define-term`),
+  Step 4 (adapt `_book_augment` to paragraph-inline notes — its corpus bug was fixed
+  2026-07-17, so the additive path now works), Step 5 (LLM study-summary generation),
+  Step 6 (source-derived + light-AI sub-headings), Step 7 (challenger gates), and the
+  render invocation (a `--self-study` CLI flag / deliverable option).
+
+**Original two OPEN decisions (now settled above) and full plan follow.**
 
 **Provenance:** approved after an adversarial review of a first draft. The draft framed this
 as a compose-time "profile"; two grounded code investigations proved that fights the

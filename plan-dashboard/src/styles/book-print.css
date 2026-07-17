@@ -506,3 +506,54 @@ body.book-v2 .chapter-open {
      chapter's opening page and shove its heading/drop-cap off-axis. */
   clear: both;
 }
+
+/* ── Self-study layer ───────────────────────────────────────────────────────
+ * Opt-in (body.book-self-study, set by buildBookHtml when selfStudy is on). The
+ * render-time self-study format adds two labeled asides — a source-grounded
+ * Contextual note (from 0book-augment's editorial fences) and a Study summary —
+ * plus proper bullet lists. Token-only styling; the reading edition is untouched
+ * when the class is absent. */
+.book-self-study .study-note,
+.book-self-study .study-summary {
+  margin: 1.1rem 0;
+  padding: 0.7rem 0.95rem;
+  background: var(--c-bg-sunken, #f3efe7);
+  border-left: 3px solid var(--c-accent, #8b4513);
+  border-radius: 0 6px 6px 0;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.book-self-study .study-summary {
+  border-left-style: double;
+  border-left-width: 5px;
+}
+
+.book-self-study .study-aside-label {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--c-accent, #8b4513);
+}
+
+.book-self-study .study-note p,
+.book-self-study .study-summary p {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.book-self-study .study-note p:last-child,
+.book-self-study .study-summary p:last-child { margin-bottom: 0; }
+
+.book-self-study .study-list {
+  margin: 0.7rem 0 0.9rem;
+  padding-left: 1.4rem;
+}
+
+.book-self-study .study-list li {
+  margin: 0.25rem 0;
+  line-height: 1.5;
+}

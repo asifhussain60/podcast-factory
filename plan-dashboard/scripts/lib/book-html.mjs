@@ -152,14 +152,48 @@ export function renderSourceCrosswalk(items) {
 
 /** Minimal renderer matching markdown.ts behaviour for book.md (headings,
  *  paragraphs, blockquotes, and raw HTML blocks like <figure class="book-diagram">). */
-export function renderMd(md, crosswalkByIndex = new Map()) {
+export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
+  // selfStudy (opt-in): the render-time self-study layer. When false (default)
+  // every branch below is skipped, so the reading-edition render is byte-for-byte
+  // unchanged. When true it additionally parses markdown bullet lists into <ul>
+  // and turns the source-grounded editorial fences (produced by 0book-augment,
+  // <!-- editorial:begin -->…<!-- editorial:end -->) into distinctly-styled
+  // Contextual-Note / Study-summary asides instead of plain blockquotes.
+  const selfStudy = opts.selfStudy === true;
   const lines = md.replace(/\r\n/g, '\n').split('\n');
   const out = [];
   let para = [];
   let quote = [];
+  let list = [];
   let inHtmlBlock = false;
   let chapterJustOpened = false;
   let sawH2 = false;
+  // Self-study editorial-aside capture state.
+  let aside = null; // { kind: 'note' | 'summary', body: string[] }
+
+  const ASIDE_META = {
+    note: { cls: 'study-note', label: 'Contextual note' },
+    summary: { cls: 'study-summary', label: 'Study summary' },
+  };
+  const flushList = () => {
+    if (!list.length) return;
+    out.push(`<ul class="study-list">${list.map((li) => `<li>${renderInline(li)}</li>`).join('')}</ul>`);
+    list = [];
+  };
+  const flushAside = () => {
+    if (!aside) return;
+    const meta = ASIDE_META[aside.kind];
+    const paras = [];
+    let cur = [];
+    for (const l of aside.body) {
+      if (l.trim() === '') { if (cur.length) { paras.push(cur.join(' ')); cur = []; } }
+      else cur.push(l);
+    }
+    if (cur.length) paras.push(cur.join(' '));
+    const inner = paras.map((p) => `<p>${renderInline(p)}</p>`).join('') || '<p></p>';
+    out.push(`<aside class="${meta.cls}"><p class="study-aside-label">${meta.label}</p>${inner}</aside>`);
+    aside = null;
+  };
 
   const flushPara = () => {
     if (!para.length) return;
@@ -202,15 +236,41 @@ export function renderMd(md, crosswalkByIndex = new Map()) {
       if (line.trimEnd().toLowerCase() === '</figure>') inHtmlBlock = false;
       continue;
     }
+    // Self-study: capture the source-grounded editorial fences (0book-augment)
+    // and study-summary fences into distinctly-styled asides. Outside self-study
+    // these fall through untouched (comment lines are invisible; the > lines
+    // render as an ordinary blockquote — the reading edition is unchanged).
+    if (selfStudy) {
+      if (aside) {
+        if (/<!--\s*(?:editorial|study-summary):end\s*-->/.test(line)) { flushAside(); continue; }
+        const body = line.replace(/^>\s?/, '');
+        if (!/^\*\*.+\*\*\s*$/.test(body.trim())) aside.body.push(body); // drop the bold label line
+        continue;
+      }
+      const beginSummary = /<!--\s*study-summary:begin\s*-->/.test(line);
+      const beginNote = /<!--\s*editorial:begin\s*-->/.test(line);
+      if (beginSummary || beginNote) {
+        flushPara(); flushQuote(); flushList();
+        aside = { kind: beginSummary ? 'summary' : 'note', body: [] };
+        continue;
+      }
+    }
+    // The editorial/study-summary fences are machine markers, never visible text.
+    // Self-study consumes them into styled asides (above); in the default reading
+    // edition skip them so they don't render as escaped <!-- --> text — the note's
+    // own `> ` lines then render as an ordinary labeled blockquote.
+    if (/^<!--\s*(?:editorial|study-summary):(?:begin|end)\s*-->$/.test(line.trim())) {
+      continue;
+    }
     if (line.trimStart().toLowerCase().startsWith('<figure')) {
-      flushPara(); flushQuote();
+      flushPara(); flushQuote(); flushList();
       out.push(line);
       inHtmlBlock = !line.includes('</figure>');
       continue;
     }
     const h = line.match(/^(#{1,6})\s+(.+)$/);
     if (h) {
-      flushPara(); flushQuote();
+      flushPara(); flushQuote(); flushList();
       const level = h[1].length;
       const text = h[2].trim();
       if (level === 2) {
@@ -253,13 +313,20 @@ export function renderMd(md, crosswalkByIndex = new Map()) {
       }
       continue;
     }
+    // Self-study: markdown bullet lists → <ul> (default render has no list
+    // parser, so a '- ' line stays inline in a paragraph — unchanged when off).
+    if (selfStudy) {
+      const li = line.match(/^\s*[-*]\s+(.+)$/);
+      if (li) { flushPara(); flushQuote(); list.push(li[1]); continue; }
+      if (list.length) flushList();
+    }
     const q = line.match(/^>\s?(.*)$/);
-    if (q) { flushPara(); quote.push(q[1]); continue; }
+    if (q) { flushPara(); flushList(); quote.push(q[1]); continue; }
     if (quote.length) flushQuote();
-    if (line.trim() === '') { flushPara(); continue; }
+    if (line.trim() === '') { flushPara(); flushList(); continue; }
     para.push(line);
   }
-  flushPara(); flushQuote();
+  flushPara(); flushQuote(); flushList(); flushAside();
   return out.join('\n');
 }
 
@@ -280,7 +347,7 @@ export function themeRoot(css) {
  * path, the Astro page shell + Paged.js for Preview) — this function only
  * ever returns body-level HTML fragments, never a full <html> document.
  */
-export function buildBookHtml(mdPath, { v2 = false } = {}) {
+export function buildBookHtml(mdPath, { v2 = false, selfStudy = false } = {}) {
   const md = readFileSync(mdPath, 'utf-8');
   const titleMatch = md.match(/^#\s+(.+)$/m);
   const title = titleMatch ? titleMatch[1].trim() : path.basename(mdPath, '.md');
@@ -313,8 +380,9 @@ export function buildBookHtml(mdPath, { v2 = false } = {}) {
   // v2: honor the human-curated visual-layout.json contract. Figures are placed
   // ONLY from the contract (book.md stays diagram-free). Absent/partial contract
   // is tolerated — applyLayout no-ops when there are no placements or assets.
-  let bodyHtml = renderMd(body, crosswalkByIndex);
+  let bodyHtml = renderMd(body, crosswalkByIndex, { selfStudy });
   const bodyClasses = [];
+  if (selfStudy) bodyClasses.push('book-self-study');
   if (v2) {
     bodyClasses.push('book-v2');
     const { placements, warnings } = loadLayout(assetRoot);
