@@ -447,6 +447,63 @@
   padding: 0.2rem 0;
 }
 
+/* Etymology review card — two outputs (inline insert + companion note). */
+.cx-ety-card {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+  padding-top: 0.6rem;
+}
+.cx-ety-head { font-size: 0.9rem; font-weight: 700; color: var(--c-ink, #1f1d18); margin: 0; }
+.cx-ety-meta { font-size: 0.75rem; color: var(--c-ink-muted, #87827a); margin: 0; }
+.cx-ety-warn {
+  font-size: 0.75rem;
+  color: var(--c-red, #a83232);
+  background: color-mix(in oklab, var(--c-red, #a83232) 10%, transparent);
+  border-radius: 5px;
+  padding: 0.3rem 0.45rem;
+  margin: 0.1rem 0;
+}
+.cx-ety-label { font-size: 0.72rem; color: var(--c-ink-muted, #87827a); margin-top: 0.3rem; }
+.cx-ety-inline,
+.cx-ety-companion {
+  font: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  width: 100%;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 6px;
+  background: var(--c-bg, #f7f4ee);
+  color: var(--c-ink, #1f1d18);
+  box-sizing: border-box;
+}
+.cx-ety-companion { resize: vertical; }
+.cx-ety-inline:focus,
+.cx-ety-companion:focus { outline: 2px solid var(--c-accent, #8b4513); outline-offset: 1px; }
+.cx-ety-actions { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.3rem; }
+.cx-ety-accept {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--c-accent, #8b4513);
+  border-radius: 6px;
+  background: var(--c-accent, #8b4513);
+  color: var(--c-bg-card, #fffdf8);
+  cursor: pointer;
+}
+.cx-ety-accept:hover { filter: brightness(1.08); }
+.cx-ety-discard {
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--c-red, #a83232);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0.2rem 0;
+}
+
 .cx-chapter { margin: 0 0 1.8rem; }
 .cx-chapter > h2 {
   font-size: 1.3rem;
@@ -909,7 +966,7 @@
   cursor: pointer;
 }
 
-:is(.cx-tab, .cx-toggle, .cx-action, .cx-delete, .cx-palette-place, .cx-fig, .cx-mode-btn, .cx-edit-tool, .cx-size-btn, .cx-font-select, .cx-paper-btn, .cx-ai-btn, .cx-ai-opt, .cx-ai-opt-cancel, .cx-icon-btn):focus-visible {
+:is(.cx-tab, .cx-toggle, .cx-action, .cx-delete, .cx-palette-place, .cx-fig, .cx-mode-btn, .cx-edit-tool, .cx-size-btn, .cx-font-select, .cx-paper-btn, .cx-ai-btn, .cx-ai-opt, .cx-ai-opt-cancel, .cx-icon-btn, .cx-ety-accept, .cx-ety-discard):focus-visible {
   outline: 2px solid var(--c-accent, #8b4513);
   outline-offset: 2px;
 }

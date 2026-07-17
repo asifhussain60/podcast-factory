@@ -13,6 +13,7 @@
 import { mountChapterEditor, type ChapterEditor } from './book-md-editor';
 import { confirmDialog, noticeDialog } from './confirm-dialog';
 import { createAutosave, mountAutosaveStatus, type AutosaveController } from './autosave';
+import { safeChapterKey } from '../lib/reader/companion/keys';
 
 type Align = 'left' | 'center' | 'right';
 type Flow = 'wrap' | 'standalone';
@@ -887,13 +888,14 @@ function boot(): void {
   }
 
   // ── Refinement tab: AI text actions on the editor selection ────────────────
-  interface AiAction { kind: string; label: string; mode?: string; explain?: boolean; }
+  interface AiAction { kind: string; label: string; mode?: string; explain?: boolean; etymology?: boolean; }
   const AI_ACTIONS: AiAction[] = [
     { kind: 'rewrite', label: 'Rewrite', mode: 'clarify' },
     { kind: 'expand', label: 'Expand', mode: 'expand' },
     { kind: 'condense', label: 'Condense', mode: 'tighten' },
     { kind: 'simplify', label: 'Simplify', mode: 'simplify' },
     { kind: 'explain', label: 'Explain', explain: true },
+    { kind: 'etymology', label: 'Etymology', etymology: true },
   ];
   let aiStatusEl: HTMLElement | null = null;
   let aiPopupEl: HTMLElement | null = null;
@@ -948,6 +950,7 @@ function boot(): void {
     const sel = selectionText();
     if (!activeEditor || !sel) { setAiStatus('Select some text in the editor first.', true); return; }
     aiPopupEl?.remove();
+    if (a.etymology) { await runEtymology(sel); return; }
     setAiStatus(`${a.label}…`);
     try {
       let options: string[] = [];
@@ -1005,6 +1008,136 @@ function boot(): void {
     pop.appendChild(cancel);
     controlsEl.appendChild(pop);
     aiPopupEl = pop;
+  }
+
+  interface EtymologyResult {
+    inline: string; companion: string; term?: string; arabic?: string;
+    root?: string; rootPhonetic?: string; source?: string; uncertain?: boolean;
+  }
+
+  // Etymology is richer than the other refine actions: one AI call yields TWO
+  // outputs — a compact inline insert for the PDF prose and a chapter-aware
+  // teaching note for the Companion Panel. Both are shown for review; accepting
+  // replaces the highlighted word inline (autosaved into book.md → the PDF) AND
+  // files the companion note.
+  async function runEtymology(sel: { text: string; from: number; to: number }): Promise<void> {
+    if (!activeEditor) return;
+    setAiStatus('Etymology…');
+    try {
+      const doc = activeEditor.editor.state.doc;
+      const context = doc.textBetween(
+        Math.max(0, sel.from - 240), Math.min(doc.content.size, sel.to + 240), ' ',
+      ).trim();
+      const res = await fetch('/api/ai/etymology', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          word: sel.text, context,
+          chapterTitle: chapterByKey.get(selectedChapter)?.title ?? '', book: bookTitle,
+        }),
+      });
+      const j = await res.json();
+      if (!j.ok) throw new Error(j.error || 'no etymology found for this word');
+      setAiStatus('');
+      showEtymologyResult(j as EtymologyResult, sel);
+    } catch (e) {
+      setAiStatus(`Etymology failed: ${(e as Error).message}`, true);
+    }
+  }
+
+  function showEtymologyResult(r: EtymologyResult, sel: { text: string; from: number; to: number }): void {
+    aiPopupEl?.remove();
+    const pop = document.createElement('div');
+    pop.className = 'cx-ety-card';
+
+    const head = document.createElement('p');
+    head.className = 'cx-ety-head';
+    head.textContent = `Etymology — ${r.term ?? sel.text}`;
+    pop.appendChild(head);
+
+    const meta = document.createElement('p');
+    meta.className = 'cx-ety-meta';
+    meta.textContent = [r.root ? `root ${r.root}` : '', r.rootPhonetic ? `"${r.rootPhonetic}"` : '',
+      r.source ? `via ${r.source}` : ''].filter(Boolean).join(' · ');
+    pop.appendChild(meta);
+
+    if (r.uncertain) {
+      const warn = document.createElement('p');
+      warn.className = 'cx-ety-warn';
+      warn.textContent = 'The model was not certain of this root — verify before saving.';
+      pop.appendChild(warn);
+    }
+
+    const uid = `cx-ety-${Date.now()}-${Math.floor(Math.random() * 1e4)}`;
+    const inlineLabel = document.createElement('label');
+    inlineLabel.className = 'cx-ety-label';
+    inlineLabel.htmlFor = `${uid}-inline`;
+    inlineLabel.textContent = 'Inline insert (replaces the word in the PDF prose)';
+    const inlineInput = document.createElement('input');
+    inlineInput.type = 'text';
+    inlineInput.id = `${uid}-inline`;
+    inlineInput.className = 'cx-ety-inline';
+    inlineInput.value = r.inline ?? '';
+    pop.append(inlineLabel, inlineInput);
+
+    const compLabel = document.createElement('label');
+    compLabel.className = 'cx-ety-label';
+    compLabel.htmlFor = `${uid}-companion`;
+    compLabel.textContent = 'Companion note (teaching explanation for this chapter)';
+    const compInput = document.createElement('textarea');
+    compInput.id = `${uid}-companion`;
+    compInput.className = 'cx-ety-companion';
+    compInput.rows = 5;
+    compInput.value = r.companion ?? '';
+    pop.append(compLabel, compInput);
+
+    const actions = document.createElement('div');
+    actions.className = 'cx-ety-actions';
+    const accept = document.createElement('button');
+    accept.type = 'button';
+    accept.className = 'cx-ety-accept';
+    accept.textContent = 'Insert & file note';
+    accept.addEventListener('click', () => { void acceptEtymology(r, sel, inlineInput.value, compInput.value, pop); });
+    const discard = document.createElement('button');
+    discard.type = 'button';
+    discard.className = 'cx-ety-discard';
+    discard.textContent = 'Discard';
+    discard.addEventListener('click', () => { pop.remove(); aiPopupEl = null; setAiStatus(''); });
+    actions.append(accept, discard);
+    pop.appendChild(actions);
+
+    controlsEl.appendChild(pop);
+    aiPopupEl = pop;
+  }
+
+  async function acceptEtymology(
+    r: EtymologyResult, sel: { text: string; from: number; to: number },
+    inline: string, companion: string, pop: HTMLElement,
+  ): Promise<void> {
+    const inlineText = inline.trim();
+    if (activeEditor && inlineText) {
+      activeEditor.editor.chain().focus().insertContentAt({ from: sel.from, to: sel.to }, inlineText).run();
+    }
+    // File the companion note (best-effort; the inline insert already landed).
+    const body = companion.trim();
+    if (body) {
+      try {
+        await fetch('/api/studio/companion-notes', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            slug, chapter: safeChapterKey(selectedChapter),
+            note: {
+              kind: 'etymology', body,
+              anchor: `${r.term ?? sel.text} — root ${r.rootPhonetic ?? r.root ?? ''}`.trim(),
+              quote: sel.text,
+              source: { provider: 'ai', label: `Etymology (${r.source ?? 'gemini'})` },
+            },
+          }),
+        });
+      } catch { /* note failed to save; the inline edit is unaffected */ }
+    }
+    pop.remove();
+    aiPopupEl = null;
+    setAiStatus('Etymology inserted into the prose and filed to the Companion Panel.');
   }
 
   function field(label: string, control: HTMLElement): HTMLElement {

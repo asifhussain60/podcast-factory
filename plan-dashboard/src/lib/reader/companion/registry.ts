@@ -46,6 +46,12 @@ export const KIND_DEFS: KindDef[] = [
     icon: 'fa-solid fa-pen',
     blurb: 'Your own note or reminder.',
   },
+  {
+    id: 'etymology',
+    label: 'Etymology',
+    icon: 'fa-solid fa-book-bookmark',
+    blurb: "The root of a key term and how its original meaning fits the chapter.",
+  },
 ];
 
 export const DEFAULT_KIND: CompanionNoteKind = 'analogy';
