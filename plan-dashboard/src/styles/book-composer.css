@@ -329,16 +329,38 @@
 /* Editor-view font family + size, driven by the toolbar. View-only: book.md
    carries no font/size, so these never restyle the printed book. --prose-size is
    set at runtime by book-composer.ts (in-pattern with --cx-w). */
-/* Each stack keeps its chosen Latin face, then routes Arabic to Amiri (loaded
-   site-wide) BEFORE the generic fallback, so the system Arabic face never wins
-   — the inserted etymology term renders in the reading edition's Amiri in the
-   editing view too, matching the generated PDF. */
-.cx-edit-host[data-font="sans"]     { --prose-font: 'Lato', 'Amiri', system-ui, sans-serif; }
-.cx-edit-host[data-font="serif"]    { --prose-font: Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Amiri', serif; }
-.cx-edit-host[data-font="lato"]     { --prose-font: 'Lato', 'Amiri', system-ui, sans-serif; }
-.cx-edit-host[data-font="inter"]    { --prose-font: 'Inter', 'Amiri', system-ui, sans-serif; }
-.cx-edit-host[data-font="mono"]     { --prose-font: ui-monospace, 'SF Mono', 'Amiri', monospace; }
-.cx-edit-host[data-font="dyslexic"] { --prose-font: 'OpenDyslexic', 'Comic Sans MS', 'Amiri', sans-serif; }
+/* Amiri, optically enlarged. Arabic faces render ~30-35% smaller than Latin at
+   the same point size, so inline Arabic looked shrunken next to the English
+   body. size-adjust scales the glyphs up per-face, so Arabic matches the Latin
+   size WITHOUT changing the Latin text (which keeps its own font). Self-hosted
+   TTFs (already used by the print stylesheet); Chromium — the in-app browser and
+   the Playwright PDF engine — supports size-adjust. */
+@font-face {
+  font-family: 'AmiriSized';
+  src: url('/fonts/amiri/Amiri-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 135%;
+}
+@font-face {
+  font-family: 'AmiriSized';
+  src: url('/fonts/amiri/Amiri-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 135%;
+}
+
+/* Each stack keeps its chosen Latin face, then routes Arabic to the size-adjusted
+   Amiri BEFORE the generic fallback, so the system Arabic face never wins and the
+   Arabic reads at the same visual size as the English. */
+.cx-edit-host[data-font="sans"]     { --prose-font: 'Lato', 'AmiriSized', 'Amiri', system-ui, sans-serif; }
+.cx-edit-host[data-font="serif"]    { --prose-font: Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, 'AmiriSized', 'Amiri', serif; }
+.cx-edit-host[data-font="lato"]     { --prose-font: 'Lato', 'AmiriSized', 'Amiri', system-ui, sans-serif; }
+.cx-edit-host[data-font="inter"]    { --prose-font: 'Inter', 'AmiriSized', 'Amiri', system-ui, sans-serif; }
+.cx-edit-host[data-font="mono"]     { --prose-font: ui-monospace, 'SF Mono', 'AmiriSized', 'Amiri', monospace; }
+.cx-edit-host[data-font="dyslexic"] { --prose-font: 'OpenDyslexic', 'Comic Sans MS', 'AmiriSized', 'Amiri', sans-serif; }
 
 /* The editor writing area fills the full column and justifies both edges. This
    is an on-screen editing preference only — the Read-mode preview (.cx-body) and
@@ -477,7 +499,7 @@
   /* Latin stays in the UI font; Arabic falls through to Amiri (loaded site-wide
      via theme.css) — placed BEFORE the generic fallback so the system Arabic
      face never wins. Matches the reading edition's Amiri Arabic. */
-  font-family: 'Lato', 'Amiri', system-ui, sans-serif;
+  font-family: 'Lato', 'AmiriSized', 'Amiri', system-ui, sans-serif;
   line-height: 1.75;
   width: 100%;
   padding: 0.45rem 0.55rem;
