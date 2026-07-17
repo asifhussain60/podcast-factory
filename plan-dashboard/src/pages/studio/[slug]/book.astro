@@ -10,9 +10,11 @@ import Base from '../../../layouts/Base.astro';
 import { loadBook } from '../../../lib/reader/book';
 import { slugToTitle } from '../../../lib/content-paths';
 import CompanionPanel from '../../../components/reader/companion/CompanionPanel';
+import GemCompanionPanel from '../../../components/reader/companion/GemCompanionPanel';
 import '../../../styles/library.css';
 import '../../../styles/book-reader.css';
 import '../../../styles/companion-notes.css';
+import '../../../styles/gem-companion.css';
 
 const slug = Astro.params.slug!;
 const book = await loadBook(slug);
@@ -68,6 +70,12 @@ const companionChapters = (book?.toc ?? []).map((t) => ({ key: t.id, title: t.ti
       slug={slug}
       chapters={companionChapters}
       layout="floating"
+    />
+    <GemCompanionPanel
+      client:load
+      slug={slug}
+      bookTitle={bookTitle}
+      proseSelector=".bookv-body"
     />
     </>
   ) : (
