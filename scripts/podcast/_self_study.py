@@ -26,7 +26,6 @@ from pathlib import Path
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
 from _book_augment import (
     _CHAPTER_HEADING_RE,
-    _chapter_body,
     _load_kb_atoms,
     _slug,
     format_editorial_block,
@@ -119,25 +118,224 @@ def _strip_all_fences(text: str) -> str:
     return text
 
 
-def _insert_after_body(book_md: str, blocks_by_heading: dict[str, str]) -> str:
-    """Append each chapter's combined block(s) immediately after that chapter's body."""
-    sections = _CHAPTER_HEADING_RE.split(book_md)
-    if len(sections) < 3:
-        return book_md.rstrip() + "\n"
-    result = sections[0].strip()
-    for i in range(1, len(sections), 2):
-        head = sections[i].strip()
-        body = (sections[i + 1] if i + 1 < len(sections) else "").strip()
-        chunk = f"{head}\n\n{body}" if body else head
-        block = blocks_by_heading.get(head)
-        if block:
-            chunk = f"{chunk}\n\n{block.strip()}"
-        result = f"{result}\n\n{chunk}" if result else chunk
-    return result.strip() + "\n"
+# ─── Intra-chapter sub-headings (Step 6 / Decision 2) ───────────────────────
+# Source-derived sub-headings already render (renderMd turns the source's own
+# unnumbered ## markers into section headings). This is the LIGHT AI pass for
+# chapters that have NONE: conservative, navigation-only titles, skipped on any
+# anchor miss. Titles add no teaching.
+_NUMBERED_RE = re.compile(r"^##\s+\d+\.\s+")
+_SUBHEADING_MIN_WORDS = 600   # only sub-title genuinely long, unbroken chapters
+_SUBHEADING_MAX = 4
+_SUBHEADING_TIMEOUT = 900
+
+
+def _iter_chapters(text: str) -> tuple[str, list[list[str]]]:
+    """Group ``## `` sections into (preamble, [[head, body], ...]) CHAPTERS.
+
+    A chapter head is a numbered ``## N. Title`` or the FIRST heading (the
+    preface). An unnumbered, non-first heading is a source SUB-SECTION and is
+    folded back into the current chapter's body — so summaries/notes are keyed to
+    real chapters, never to a source sub-heading or an AI-inserted sub-title.
+    """
+    parts = _CHAPTER_HEADING_RE.split(text)
+    pre = parts[0]
+    chapters: list[list[str]] = []
+    seen = False
+    for i in range(1, len(parts), 2):
+        head = parts[i].strip()
+        body = (parts[i + 1] if i + 1 < len(parts) else "").strip()
+        if _NUMBERED_RE.match(head) or not seen:
+            chapters.append([head, body])
+            seen = True
+        elif chapters:
+            chapters[-1][1] = f"{chapters[-1][1]}\n\n{head}\n\n{body}".strip()
+        else:
+            pre = f"{pre}\n\n{head}\n\n{body}"
+    return pre, chapters
+
+
+def _subheading_prompt(title: str, body: str, n: int) -> str:
+    return f"""You are proposing up to {n} short NAVIGATION sub-headings for one long chapter of a
+self-study reading edition, so the reader can find their place. They are labels only — they add
+no teaching and must not paraphrase or editorialize.
+
+For each sub-heading output one line: TITLE || ANCHOR
+- TITLE: a short noun phrase, <= 6 words, no trailing punctuation.
+- ANCHOR: copy the FIRST 8-12 words of the paragraph the sub-heading should sit ABOVE, VERBATIM
+  from the chapter (so it can be located exactly). Never anchor the very first paragraph.
+Choose natural topic shifts only; fewer is better. If the chapter does not need sub-headings,
+output exactly: NONE
+
+CHAPTER "{title}"
+{body[:9000]}
+
+Output only TITLE || ANCHOR lines, or NONE."""
+
+
+def _generate_subheadings(title: str, body: str, book_dir: Path, log) -> list[tuple[str, str]]:
+    """Return [(title, anchor), ...] from the model; [] on NONE/failure."""
+    rc, out, err = _run_claude_p_with_retry(
+        _subheading_prompt(title, body, _SUBHEADING_MAX), timeout=_SUBHEADING_TIMEOUT,
+        book_dir=book_dir, phase="0book-self-study", step=f"subhead-{_slug(title)}", log=log)
+    if rc != 0 or not out or out.strip().upper().startswith("NONE"):
+        return []
+    pairs: list[tuple[str, str]] = []
+    for line in out.splitlines():
+        if "||" not in line:
+            continue
+        t, _, a = line.partition("||")
+        t, a = t.strip().lstrip("#").strip(), a.strip()
+        if t and a and len(t.split()) <= 8:
+            pairs.append((t, a))
+    return pairs[:_SUBHEADING_MAX]
+
+
+def _insert_subheadings(body: str, pairs: list[tuple[str, str]], log, title: str) -> str:
+    """Insert ``## <sub-title>`` before each paragraph whose text starts with ANCHOR.
+
+    Conservative: an anchor that is missing OR occurs more than once is skipped
+    (never guessed), mirroring the slide-import anchor discipline.
+    """
+    paras = re.split(r"\n{2,}", body)
+    norm = [" ".join(p.split()) for p in paras]
+    for sub_title, anchor in pairs:
+        key = " ".join(anchor.split()).lower()
+        hits = [i for i, p in enumerate(norm) if p.lower().startswith(key)]
+        if len(hits) != 1 or hits[0] == 0:
+            log(f"      self-study: sub-heading {sub_title!r} skipped (anchor {'ambiguous' if len(hits) > 1 else 'not found'})")
+            continue
+        idx = hits[0]
+        if paras[idx].lstrip().startswith("## "):
+            continue
+        paras[idx] = f"## {sub_title}\n\n{paras[idx]}"
+    return "\n\n".join(paras)
+
+
+def _has_internal_subheadings(body: str) -> bool:
+    return bool(re.search(r"(?m)^##\s+\S", body))
+
+
+# ─── Inline term definitions at first use (Step 3) ──────────────────────────
+# A self-study reader meets unfamiliar terms; the FIRST time a glossary term
+# appears in the prose we inline "term (short definition)". Conservative: only
+# CONCEPT terms (the model drops names/titles), only plain-prose lines (never
+# Arabic script, blockquotes, headings or fences), whole-phrase match, once per
+# book. Definitions come from claude -p (flat-rate), grounded in scholarly usage.
+_TERM_TIMEOUT = 900
+_MAX_TERMS = 60
+
+
+def _glossary_terms(book_dir: Path) -> list[str]:
+    """Transliterated glossary terms, longest-first so multi-word terms win."""
+    path = book_dir / "_system" / "glossary.yml"
+    if not path.exists():
+        return []
+    try:
+        import yaml  # noqa: PLC0415
+        data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    except Exception:  # noqa: BLE001
+        return []
+    terms = set()
+    for e in (data.get("entries") or []):
+        t = str(e.get("transliteration") or e.get("phonetic") or "").strip()
+        if 2 < len(t) <= 40:
+            terms.add(t)
+    return sorted(terms, key=lambda s: (-len(s), s.lower()))
+
+
+def _is_plain_prose_line(line: str) -> bool:
+    s = line.lstrip()
+    if not s or s.startswith(("#", ">", "<!--", "<", "-", "*", "|")):
+        return False
+    # skip lines carrying Arabic script (mushaf / inline Arabic)
+    return not re.search(r"[؀-ۿ]", line)
+
+
+def _term_defs_prompt(items: list[tuple[str, str]]) -> str:
+    listing = "\n".join(f"- {t} — context: {ctx}" for t, ctx in items)
+    return f"""For a self-study Islamic reading edition, write a VERY short gloss for each term below, to
+be printed inline the first time the term appears: term (definition).
+
+Rules:
+- Define CONCEPTS only. If a term is a proper name, a place, a book title, or otherwise not a
+  concept a student needs defined, output its definition as exactly: SKIP
+- Each definition <= 10 words, plain, grounded in standard Islamic scholarly usage, no citation,
+  no "refers to"/"is the", just the gloss. Match the sense shown by the context.
+- Output one line per term, EXACTLY: term :: definition   (or)   term :: SKIP
+
+TERMS
+{listing}
+
+Output only the `term :: ...` lines."""
+
+
+def _generate_term_defs(items: list[tuple[str, str]], book_dir: Path, log) -> dict[str, str]:
+    rc, out, err = _run_claude_p_with_retry(
+        _term_defs_prompt(items), timeout=_TERM_TIMEOUT, book_dir=book_dir,
+        phase="0book-self-study", step="term-defs", log=log)
+    if rc != 0 or not out:
+        return {}
+    defs: dict[str, str] = {}
+    for line in out.splitlines():
+        if "::" not in line:
+            continue
+        term, _, d = line.partition("::")
+        term, d = term.strip().lstrip("-").strip(), d.strip()
+        if term and d and d.upper() != "SKIP" and len(d.split()) <= 12:
+            defs[term] = d
+    return defs
+
+
+def _apply_term_definitions(text: str, book_dir: Path, log) -> tuple[str, int]:
+    """Inline `term (definition)` at each glossary term's first prose occurrence."""
+    terms = _glossary_terms(book_dir)
+    if not terms:
+        return text, 0
+    lines = text.split("\n")
+
+    # First pass: find each term's first plain-prose line + a short context.
+    first: dict[str, int] = {}
+    context: dict[str, str] = {}
+    patterns = {t: re.compile(rf"(?<![\w-])({re.escape(t)})(?![\w-])", re.IGNORECASE) for t in terms}
+    for i, line in enumerate(lines):
+        if not _is_plain_prose_line(line):
+            continue
+        for t in terms:
+            if t in first:
+                continue
+            m = patterns[t].search(line)
+            if m:
+                first[t] = i
+                context[t] = " ".join(line.split())[:160]
+    if not first:
+        return text, 0
+
+    items = [(t, context[t]) for t in list(first)[:_MAX_TERMS]]
+    defs = _generate_term_defs(items, book_dir, log)
+    if not defs:
+        return text, 0
+
+    inserted = 0
+    for t, i in first.items():
+        d = defs.get(t)
+        if not d:
+            continue
+        line = lines[i]
+        # skip if the first occurrence is already parenthesised
+        m = patterns[t].search(line)
+        if not m:
+            continue
+        after = line[m.end():m.end() + 1]
+        if after == "(":
+            continue
+        lines[i] = line[:m.end()] + f" ({d})" + line[m.end():]
+        inserted += 1
+    return "\n".join(lines), inserted
 
 
 def build_self_study_markdown(
-    book_dir: Path, *, log=print, with_notes: bool = True,
+    book_dir: Path, *, log=print, with_notes: bool = True, with_subheadings: bool = True,
+    with_term_defs: bool = True,
 ) -> Path:
     """Generate book/book-self-study.md from book/book.md. Returns its path."""
     book_dir = Path(book_dir).resolve()
@@ -150,19 +348,32 @@ def build_self_study_markdown(
 
     text = _strip_all_fences(book_md.read_text(encoding="utf-8"))
     atoms = _load_kb_atoms() if with_notes else []
-    headings = _CHAPTER_HEADING_RE.findall(text)
+    pre, chapters = _iter_chapters(text)
 
-    blocks: dict[str, str] = {}
-    summaries = notes = dropped = 0
-    for head in headings:
+    out_parts = [pre.strip()] if pre.strip() else []
+    summaries = notes = subheads = dropped = 0
+    for head, body in chapters:
         title = re.sub(r"^##\s+\d*\.?\s*", "", head).strip()
-        chapter_text = _chapter_body(text, head)
-        parts: list[str] = []
 
+        # Step 6 — sub-headings on the BODY, before blocks are appended. Only for
+        # long chapters with no source sub-headings of their own.
+        if with_subheadings and len(body.split()) >= _SUBHEADING_MIN_WORDS \
+                and not _has_internal_subheadings(body):
+            try:
+                pairs = _generate_subheadings(title, body, book_dir, log)
+            except Exception as e:  # noqa: BLE001 — never let sub-headings break the build
+                pairs = []
+                log(f"      self-study: sub-headings for {title!r} skipped ({e})")
+            if pairs:
+                new_body = _insert_subheadings(body, pairs, log, title)
+                subheads += new_body.count("\n## ") + (1 if new_body.lstrip().startswith("## ") else 0) \
+                    - body.count("\n## ") - (1 if body.lstrip().startswith("## ") else 0)
+                body = new_body
+
+        blocks: list[str] = []
         if with_notes:
             try:
-                note = _generate_enrichment(title, chapter_text, atoms, book_dir,
-                                            f"note-{_slug(title)}", log)
+                note = _generate_enrichment(title, body, atoms, book_dir, f"note-{_slug(title)}", log)
             except AuthoringError:
                 raise
             except Exception as e:  # noqa: BLE001
@@ -171,14 +382,13 @@ def build_self_study_markdown(
             if note:
                 ok, reasons = gate_editorial_block(note)
                 if ok:
-                    parts.append(format_editorial_block(note)); notes += 1
+                    blocks.append(format_editorial_block(note)); notes += 1
                 else:
                     dropped += 1
                     log(f"      self-study: dropped note for {title!r} ({'; '.join(reasons[:2])})")
 
         try:
-            summary = _generate_summary(title, chapter_text, book_dir,
-                                        f"summary-{_slug(title)}", log)
+            summary = _generate_summary(title, body, book_dir, f"summary-{_slug(title)}", log)
         except AuthoringError:
             raise
         except Exception as e:  # noqa: BLE001
@@ -187,17 +397,30 @@ def build_self_study_markdown(
         if summary:
             ok, reasons = gate_summary(summary)
             if ok:
-                parts.append(format_summary_block(summary)); summaries += 1
+                blocks.append(format_summary_block(summary)); summaries += 1
             else:
                 dropped += 1
                 log(f"      self-study: dropped summary for {title!r} ({'; '.join(reasons[:2])})")
 
-        if parts:
-            blocks[head.strip()] = "\n\n".join(parts)
+        chunk = f"{head}\n\n{body.strip()}" if body.strip() else head
+        if blocks:
+            chunk = f"{chunk}\n\n" + "\n\n".join(blocks)
+        out_parts.append(chunk)
+
+    assembled = "\n\n".join(out_parts).strip() + "\n"
+
+    # Step 3 — inline term definitions at first use (book-wide, after assembly so
+    # "first use" is truly the first across the whole book).
+    terms = 0
+    if with_term_defs:
+        try:
+            assembled, terms = _apply_term_definitions(assembled, book_dir, log)
+        except Exception as e:  # noqa: BLE001 — term defs must never break the build
+            log(f"      self-study: term definitions skipped ({e})")
 
     out_md = book_dir / "book" / "book-self-study.md"
-    out_md.write_text(_insert_after_body(text, blocks), encoding="utf-8")
+    out_md.write_text(assembled, encoding="utf-8")
     log(f"    0book-self-study: wrote {out_md.name} "
-        f"({summaries} summaries, {notes} notes, {dropped} dropped, "
-        f"{len(headings)} chapters)")
+        f"({summaries} summaries, {notes} notes, {subheads} sub-headings, "
+        f"{terms} term defs, {dropped} dropped, {len(chapters)} chapters)")
     return out_md
