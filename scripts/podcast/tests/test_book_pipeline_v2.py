@@ -89,8 +89,10 @@ def test_insert_blocks_is_idempotent() -> None:
 # ─── Augment stage with an injected generator ───────────────────────────────
 def test_augment_adds_only_gated_blocks(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     bd = _book(tmp_path, _BASE, toc={"chapters": []})
-    monkeypatch.setattr(_book_augment, "_load_kb_atoms",
-                        lambda limit=40: [{"type": "doctrine", "body": {"text_en": "a grounding atom"}}])
+    monkeypatch.setattr(_book_augment, "_load_all_kb_atoms",
+                        lambda: [{"id": "d:1", "type": "doctrine",
+                                  "body": {"text_en": "seeking beneficial knowledge from cradle "
+                                           "to grave is a lifelong obligation for every believer"}}])
 
     def fake_gen(title, chapter_text, atoms, book_dir, label, log):
         if "Knowledge" in title:
@@ -108,7 +110,9 @@ def test_augment_adds_only_gated_blocks(tmp_path: Path, monkeypatch: pytest.Monk
 
 def test_augment_drops_doctrinally_bad_block(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     bd = _book(tmp_path, _BASE, toc={"chapters": []})
-    monkeypatch.setattr(_book_augment, "_load_kb_atoms", lambda limit=40: [])
+    monkeypatch.setattr(_book_augment, "_load_all_kb_atoms",
+                        lambda: [{"id": "d:1", "type": "doctrine",
+                                  "body": {"text_en": "knowledge and patience are grounded here"}}])
     monkeypatch.setattr(
         _book_augment, "gate_editorial_block", lambda t: (False, ["doctrinal P0: T3:test"])
     )

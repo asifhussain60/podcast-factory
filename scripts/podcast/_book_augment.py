@@ -27,6 +27,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
+from _corpus_retrieval import RetrievalIndex, UsedLedger, attribute_used
 from _doctrinal import run_doctrinal_checks
 
 # ─── Editorial-block contract (the ONLY shape enrichment may take) ──────────
@@ -38,6 +39,13 @@ _MIN_BLOCK_WORDS = 12
 
 _KB_FILES = ("doctrine.jsonl", "hadith.jsonl", "quran.jsonl", "quote.jsonl")
 _AUGMENT_TIMEOUT = 900
+
+# Per-passage retrieval: each chapter draws only the atoms genuinely related to
+# ITS text, above a relevance floor, instead of the old fixed 40-atom slice that
+# was reused identically on every chapter. Below the floor a chapter simply gets
+# no note (never a forced, low-relevance injection).
+_ATOMS_PER_CHAPTER = 8
+_RELEVANCE_THRESHOLD = 0.08
 
 # Corpus-snippet bounds: KB atoms store their text under ``body.text_en`` and can
 # be full chapter chunks (thousands of chars). Trim each to a short grounding
@@ -148,6 +156,29 @@ def _load_kb_atoms(limit: int = 40) -> list[dict[str, Any]]:
     return atoms[:limit]
 
 
+def _load_all_kb_atoms() -> list[dict[str, Any]]:
+    """Load the ENTIRE knowledge-base corpus for per-passage retrieval.
+
+    Unlike ``_load_kb_atoms`` (a fixed head-of-file slice, kept only for the
+    self-study path's back-compat), this reads every atom so the retrieval index
+    can pick the ones actually relevant to each chapter.
+    """
+    root = Path(__file__).resolve().parents[2] / "content" / "knowledge-base"
+    atoms: list[dict[str, Any]] = []
+    for name in _KB_FILES:
+        path = root / name
+        if not path.exists():
+            continue
+        try:
+            for raw in path.read_text(encoding="utf-8").splitlines():
+                raw = raw.strip()
+                if raw:
+                    atoms.append(json.loads(raw))
+        except Exception:  # noqa: BLE001 — a malformed atom must not crash augment
+            continue
+    return atoms
+
+
 def _augment_prompt(title: str, chapter_text: str, atoms: list[dict[str, Any]]) -> str:
     lines: list[str] = []
     for a in atoms:
@@ -249,15 +280,31 @@ def author_phase_book_augment(
             manual_fallback="Run 0book-compose (base) before 0book-augment.",
         )
     gen = generator or _generate_enrichment
-    atoms = _load_kb_atoms()
     text = book_md.read_text(encoding="utf-8")
     headings = _CHAPTER_HEADING_RE.findall(text)
 
+    # One retrieval index over the WHOLE corpus, queried per chapter; a per-book
+    # ledger so no atom is injected into more than one chapter of THIS book (a
+    # within-book rule only — atoms are free to reappear in other books).
+    index = RetrievalIndex(_load_all_kb_atoms())
+    ledger = UsedLedger(book_dir).reset()
+
     blocks: dict[str, str] = {}
-    accepted = dropped = 0
+    per_chapter: list[dict[str, Any]] = []
+    accepted = dropped = no_relevant = 0
     for head in headings:
         title = re.sub(r"^##\s+\d*\.?\s*", "", head).strip()
         chapter_text = _chapter_body(text, head)
+        selected = index.select(
+            chapter_text, k=_ATOMS_PER_CHAPTER,
+            threshold=_RELEVANCE_THRESHOLD, exclude_ids=ledger.used(),
+        )
+        if not selected:
+            no_relevant += 1
+            per_chapter.append({"chapter": title, "selected": [],
+                                "note": "no atom above relevance floor"})
+            continue
+        atoms = [s.atom for s in selected]
         try:
             note = gen(title, chapter_text, atoms, book_dir, f"aug-{_slug(title)}", log)
         except AuthoringError:
@@ -272,22 +319,35 @@ def author_phase_book_augment(
             dropped += 1
             log(f"      augment: dropped block for {title!r} ({'; '.join(reasons[:2])})")
             continue
+        # Mark only the atoms the note actually drew on as used, so later chapters
+        # are not starved of good atoms that were merely shown but never woven in.
+        used_ids = attribute_used(note, atoms)
+        ledger.record(used_ids)
         blocks[head.strip()] = format_editorial_block(note)
         accepted += 1
+        per_chapter.append({
+            "chapter": title,
+            "selected": [{"id": s.id, "score": round(s.score, 4)} for s in selected],
+            "used": used_ids,
+        })
 
     new_text = insert_blocks(text, blocks)
     book_md.write_text(new_text, encoding="utf-8")
     (book_dir / "_system" / "book-augment-report.json").write_text(
         json.dumps({
-            "schema": "podcast.book-augment/v1",
+            "schema": "podcast.book-augment/v2",
             "accepted": accepted,
             "dropped": dropped,
             "chapters_seen": len(headings),
-        }, indent=2) + "\n",
+            "chapters_no_relevant_atom": no_relevant,
+            "atoms_per_chapter": _ATOMS_PER_CHAPTER,
+            "relevance_threshold": _RELEVANCE_THRESHOLD,
+            "per_chapter": per_chapter,
+        }, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
-    log(f"    0book-augment: {accepted} editorial blocks added, {dropped} dropped "
-        f"(across {len(headings)} chapters)")
+    log(f"    0book-augment: {accepted} editorial blocks added, {dropped} dropped, "
+        f"{no_relevant} chapters had no relevant atom (across {len(headings)} chapters)")
     return book_md
 
 
