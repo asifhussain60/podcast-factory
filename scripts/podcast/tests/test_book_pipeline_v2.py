@@ -89,7 +89,8 @@ def test_insert_blocks_is_idempotent() -> None:
 # ─── Augment stage with an injected generator ───────────────────────────────
 def test_augment_adds_only_gated_blocks(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     bd = _book(tmp_path, _BASE, toc={"chapters": []})
-    monkeypatch.setattr(_book_augment, "_load_kb_atoms", lambda limit=40: [{"text": "atom"}])
+    monkeypatch.setattr(_book_augment, "_load_kb_atoms",
+                        lambda limit=40: [{"type": "doctrine", "body": {"text_en": "a grounding atom"}}])
 
     def fake_gen(title, chapter_text, atoms, book_dir, label, log):
         if "Knowledge" in title:
@@ -117,6 +118,38 @@ def test_augment_drops_doctrinally_bad_block(tmp_path: Path, monkeypatch: pytest
     )
     out = (bd / "book" / "book.md").read_text(encoding="utf-8")
     assert "<!-- editorial:begin -->" not in out
+
+
+# ─── Grounding-corpus construction (regression: empty-corpus bug) ────────────
+# KB atoms store their text at ``body.text_en`` (doctrine/hadith/quran/quote all
+# share this shape). A prior corpus builder read only top-level
+# ``text``/``arabic``/``translation``, so the grounding corpus came out EMPTY for
+# every real book and the model always returned NONE. These guard the real schema.
+_REAL_ATOM = {
+    "type": "quran",
+    "body": {"surah": 14, "ayah": 7, "text_en": "# Heading\n\nIf you are grateful, "
+             "I will surely increase you in favor ⟪ar:لئن شكرتم⟫."},
+}
+
+
+def test_atom_text_reads_body_text_en() -> None:
+    from _book_augment import atom_text
+    t = atom_text(_REAL_ATOM)
+    assert "grateful" in t and "increase you in favor" in t
+    assert "#" not in t                      # markdown header stripped
+    assert "⟪" not in t and "ar:" not in t   # inline markup stripped
+
+
+def test_augment_prompt_corpus_nonempty_from_real_schema() -> None:
+    from _book_augment import _augment_prompt
+    prompt = _augment_prompt("A Chapter", "Body about gratitude.", [_REAL_ATOM])
+    assert "(none)" not in prompt                       # the corpus is populated
+    assert "increase you in favor" in prompt            # the atom text reached it
+
+
+def test_augment_prompt_corpus_empty_only_when_no_atoms() -> None:
+    from _book_augment import _augment_prompt
+    assert "(none)" in _augment_prompt("A Chapter", "Body.", [])
 
 
 # ─── Voice re-voice gates + revert ──────────────────────────────────────────

@@ -39,6 +39,36 @@ _MIN_BLOCK_WORDS = 12
 _KB_FILES = ("doctrine.jsonl", "hadith.jsonl", "quran.jsonl", "quote.jsonl")
 _AUGMENT_TIMEOUT = 900
 
+# Corpus-snippet bounds: KB atoms store their text under ``body.text_en`` and can
+# be full chapter chunks (thousands of chars). Trim each to a short grounding
+# snippet so MANY diverse atoms fit the corpus budget instead of one giant chunk.
+_ATOM_SNIPPET_CHARS = 280
+_ATOM_MIN_CHARS = 25
+_CORPUS_CHARS = 6000
+_MD_HEADER_RE = re.compile(r"(?m)^#+\s.*$")
+_INLINE_MARKUP_RE = re.compile(r"⟪[^⟫]*⟫")
+
+
+def atom_text(atom: dict[str, Any]) -> str:
+    """The human-readable English text of a KB atom, cleaned for grounding.
+
+    Atoms store their text at ``body.text_en`` (doctrine/hadith/quran/quote all
+    share this shape); older/foreign shapes may use a top-level field. Markdown
+    headers and inline ``⟪ar:…⟫`` markup are stripped so the corpus is clean prose.
+    """
+    body = atom.get("body") if isinstance(atom.get("body"), dict) else {}
+    text = (
+        body.get("text_en")
+        or atom.get("text")
+        or atom.get("arabic")
+        or atom.get("translation")
+        or body.get("translation")
+        or ""
+    )
+    text = _MD_HEADER_RE.sub("", text)
+    text = _INLINE_MARKUP_RE.sub("", text)
+    return " ".join(text.split())
+
 
 def format_editorial_block(text: str) -> str:
     """Wrap enrichment prose in the canonical labeled + separated block.
@@ -89,32 +119,42 @@ def gate_editorial_block(text: str) -> tuple[bool, list[str]]:
 
 
 def _load_kb_atoms(limit: int = 40) -> list[dict[str, Any]]:
-    """Load a bounded set of knowledge-base atoms as the ONLY grounding corpus."""
+    """Load a bounded, type-balanced set of knowledge-base atoms as the corpus.
+
+    A per-file quota guarantees verses, hadith, quotes AND doctrine are all
+    represented — a flat first-N read would fill the whole budget from
+    ``doctrine.jsonl`` alone (it is the first file and larger than ``limit``),
+    starving the corpus of scripture the model could cross-reference.
+    """
     root = Path(__file__).resolve().parents[2] / "content" / "knowledge-base"
+    per_file = max(1, limit // len(_KB_FILES))
     atoms: list[dict[str, Any]] = []
     for name in _KB_FILES:
         path = root / name
         if not path.exists():
             continue
+        taken = 0
         try:
             for raw in path.read_text(encoding="utf-8").splitlines():
+                if taken >= per_file or len(atoms) >= limit:
+                    break
                 raw = raw.strip()
                 if not raw:
                     continue
                 atoms.append(json.loads(raw))
-                if len(atoms) >= limit:
-                    return atoms
+                taken += 1
         except Exception:  # noqa: BLE001 — a malformed atom must not crash augment
             continue
-    return atoms
+    return atoms[:limit]
 
 
 def _augment_prompt(title: str, chapter_text: str, atoms: list[dict[str, Any]]) -> str:
-    corpus = "\n".join(
-        f"- {a.get('text') or a.get('arabic') or a.get('translation') or ''}".strip()
-        for a in atoms
-        if (a.get("text") or a.get("arabic") or a.get("translation"))
-    )[:6000]
+    lines: list[str] = []
+    for a in atoms:
+        snippet = atom_text(a)
+        if len(snippet) >= _ATOM_MIN_CHARS:
+            lines.append(f"- {snippet[:_ATOM_SNIPPET_CHARS]}")
+    corpus = "\n".join(lines)[:_CORPUS_CHARS]
     return f"""You are adding a short, source-grounded editorial note to a chapter of a faithful
 Islamic reading edition. The note is an ADDITION printed as a clearly-labeled aside — it must never
 change, restate, or contradict the chapter's teaching.
@@ -202,7 +242,6 @@ def author_phase_book_augment(
     """
     book_dir = Path(book_dir).resolve()
     book_md = book_dir / "book" / "book.md"
-    toc_path = book_dir / "book" / "book-toc.json"
     if not book_md.exists():
         raise AuthoringError(
             phase="0book-augment",
@@ -212,7 +251,6 @@ def author_phase_book_augment(
     gen = generator or _generate_enrichment
     atoms = _load_kb_atoms()
     text = book_md.read_text(encoding="utf-8")
-    toc = json.loads(toc_path.read_text(encoding="utf-8")) if toc_path.exists() else {}
     headings = _CHAPTER_HEADING_RE.findall(text)
 
     blocks: dict[str, str] = {}
