@@ -39,9 +39,8 @@ import path from 'node:path';
 import { buildBookHtml, themeRoot } from './lib/book-html.mjs';
 
 const [, , MD_PATH, OUT_PATH, THEME_PATH, FLAG_V2] = process.argv;
-// book_pipeline_v2 flag (resolved per-book by build_book_pdf.py and passed in).
-// When ON, the renderer honors book/visual-layout.json and enables the v2
-// pagination CSS (scoped under body.book-v2). When OFF, output is unchanged.
+// The renderer honors book/visual-layout.json and enables the unified
+// pagination CSS (scoped under body.book-v2). Callers always pass "1".
 const V2 = String(FLAG_V2 || '').trim() === '1';
 if (!MD_PATH || !OUT_PATH) {
   console.error('usage: render-book-pdf.mjs <book.md> <out.pdf> [theme.css]');

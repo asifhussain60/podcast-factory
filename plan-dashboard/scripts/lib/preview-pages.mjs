@@ -21,9 +21,8 @@
  * Chromium regardless of content, an unresolved library/browser gap).
  */
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, rmSync, statSync } from 'node:fs';
 import { join } from 'node:path';
-import yaml from 'js-yaml';
 
 const PAGE_RE = /^page-(\d+)\.png$/;
 const SCRIPTS_DIR = new URL('..', import.meta.url).pathname;
@@ -39,22 +38,6 @@ function cachedPageFiles(cacheDir) {
   return readdirSync(cacheDir)
     .filter((f) => PAGE_RE.test(f))
     .sort((a, b) => Number(a.match(PAGE_RE)[1]) - Number(b.match(PAGE_RE)[1]));
-}
-
-/** Mirror scripts/podcast/_pipeline_flags.py::book_pipeline_v2_enabled (config-key
- *  resolution only — its env-var override is a Python/CI testing convenience,
- *  not relevant to a live page render). */
-function readBookPipelineV2(bookDir) {
-  const cfgPath = join(bookDir, '_system', 'series-config.yaml');
-  if (!existsSync(cfgPath)) return false;
-  try {
-    const cfg = yaml.load(readFileSync(cfgPath, 'utf-8'));
-    const raw = cfg?.book_pipeline_v2;
-    if (typeof raw === 'boolean') return raw;
-    return ['1', 'true', 'yes', 'on', 'enabled'].includes(String(raw ?? '').toLowerCase());
-  } catch {
-    return false;
-  }
 }
 
 /** Latest mtime across book.md + (when present) visual-layout.json and
@@ -94,8 +77,8 @@ export function ensurePreviewPageImages(bookDir, { dpi = 90 } = {}) {
   if (stale) {
     rmSync(cacheDir, { recursive: true, force: true });
     mkdirSync(cacheDir, { recursive: true });
-    const v2 = readBookPipelineV2(bookDir) ? '1' : '0';
-    execFileSync('node', [RENDER_SCRIPT, mdPath, scratchPdf, THEME_CSS, v2], { stdio: ['ignore', 'ignore', 'pipe'] });
+    // The unified render always honors visual-layout.json + the v2 pagination CSS.
+    execFileSync('node', [RENDER_SCRIPT, mdPath, scratchPdf, THEME_CSS, '1'], { stdio: ['ignore', 'ignore', 'pipe'] });
     execFileSync('pdftoppm', ['-png', '-r', String(dpi), scratchPdf, join(cacheDir, 'page')], {
       stdio: ['ignore', 'ignore', 'pipe'],
     });

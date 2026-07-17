@@ -154,8 +154,7 @@ def build_phase_0b_window_prompt(
 ) -> str:
     """Construct the per-window refinement prompt sent to ``claude -p``.
 
-    ``de_calque`` appends the Book Pipeline v2 fluent-English rule; the caller
-    passes ``book_pipeline_v2_enabled(book_dir)`` so flag-OFF output is unchanged.
+    ``de_calque`` appends the fluent-English rule (scholarly variant only).
     """
     base = (
         f"You are driving Phase 0b (English Refinement) of the /podcast skill on book-slug "
@@ -240,16 +239,10 @@ def author_phase_0b(
     )
     log(f"  phase 0b · category={category!r}, content_profile={_profile!r}, prompt-variant={_prompt_label!r}")
 
-    # Book Pipeline v2: the scholarly refinement de-calques stiff Arabic-calqued
-    # prose (fidelity-preserving). Gated per-book so flag-OFF refinement is byte-
-    # for-byte unchanged; only the scholarly variant carries the rule.
-    try:
-        from _pipeline_flags import book_pipeline_v2_enabled  # noqa: PLC0415
-        _de_calque = book_pipeline_v2_enabled(book_dir)
-    except Exception:  # noqa: BLE001
-        _de_calque = False
-    if _de_calque:
-        log("  phase 0b · book_pipeline_v2 — de-calque (fluent modern English) rule active")
+    # The scholarly refinement de-calques stiff Arabic-calqued prose
+    # (fidelity-preserving; only the scholarly variant carries the rule).
+    _de_calque = True
+    log("  phase 0b · de-calque (fluent modern English) rule active")
 
     def _builder(body: str, idx: int, total: int, win_out: Path) -> str:
         win_in = win_out.with_suffix("").with_suffix(".in.md")

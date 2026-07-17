@@ -18,7 +18,6 @@ from _progress import update_phase  # noqa: E402
 from _authoring import AuthoringError  # noqa: E402
 from _authoring._core import AuthoringHalt  # noqa: E402
 from _authoring._book_design import author_phase_book_design  # noqa: E402
-from _book_compose import author_phase_book_compose  # noqa: E402
 from _book_illustrate import author_phase_book_illustrate  # noqa: E402
 from phases.scaffold import phase_git_commit  # noqa: E402
 
@@ -88,34 +87,20 @@ def _drive_book_branch(book_dir: Path) -> int:
 
     # 0book-compose
     #
-    # book_pipeline_v2 (flag ON) routes to the single unified compose path
-    # (faithful base -> optional source-grounded augment -> optional author
-    # re-voice), selected by the two knobs. Flag OFF keeps the exact legacy
-    # dispatch below so today's output is reproduced byte-for-byte.
-    from _pipeline_flags import book_pipeline_v2_enabled  # noqa: PLC0415
-    v2 = book_pipeline_v2_enabled(book_dir)
+    # The single unified compose path: a faithful base -> optional
+    # source-grounded augment -> optional author re-voice, selected by the two
+    # knobs (book_augmentation, book_voice). This is the only compose route.
     update_phase(book_dir, phase="0book-compose", status="running")
     try:
-        if v2:
-            from _book_pipeline_v2 import compose_book_v2  # noqa: PLC0415
-            compose_book_v2(book_dir, log=_info)
-        elif translation_edition:
-            from _translation_edition import author_translation_edition_compose  # noqa: PLC0415
-            author_translation_edition_compose(book_dir, log=_info)
-        else:
-            author_phase_book_compose(book_dir, log=_info)
+        from _book_pipeline_v2 import compose_book_v2  # noqa: PLC0415
+        compose_book_v2(book_dir, log=_info)
     except AuthoringError as e:
         update_phase(book_dir, phase="0book-compose", status="failed", error=str(e),
                      extras={"manual_fallback": e.manual_fallback})
         _err(f"0book-compose failed (non-blocking): {e}")
         return 0
     update_phase(book_dir, phase="0book-compose", status="completed")
-    if v2:
-        phase_git_commit(book_dir, f"book({slug}): 0book-compose — unified path (v2)")
-    elif translation_edition:
-        phase_git_commit(book_dir, f"book({slug}): 0book-compose — translation edition")
-    else:
-        phase_git_commit(book_dir, f"book({slug}): 0book-compose — book.md")
+    phase_git_commit(book_dir, f"book({slug}): 0book-compose — unified path")
 
     # 0book-illustrate: teaching diagrams -> book-illustrated.md (non-blocking on failure)
     update_phase(book_dir, phase="0book-illustrate", status="running")
@@ -158,15 +143,15 @@ def _drive_book_branch(book_dir: Path) -> int:
             update_phase(book_dir, phase="0book-slide-import", status="skipped",
                          extras={"reason": result["skipped"]})
         elif result.get("awaiting_layout"):
-            # book_pipeline_v2: visuals were emitted as candidates (book/visuals/
-            # index.json), not injected. HALT before render so the human curates
-            # placement in the Astro Book Composer (which writes visual-layout.json);
-            # a subsequent resume / the Composer's Generate button renders the PDF.
+            # Visuals were emitted as candidates (book/visuals/index.json), not
+            # injected. HALT before render so the human curates placement in the
+            # Astro Book Composer (which writes visual-layout.json); a subsequent
+            # resume / the Composer's Generate button renders the PDF.
             update_phase(book_dir, phase="0book-slide-import", status="completed",
                          extras={"imported": result.get("imported", {}),
                                  "exempt": result.get("exempt", []),
                                  "awaiting_layout": True})
-            phase_git_commit(book_dir, f"book({slug}): 0book-slide-import — visual candidates (v2)")
+            phase_git_commit(book_dir, f"book({slug}): 0book-slide-import — visual candidates")
             update_phase(book_dir, phase="0book-render", status="halted",
                          extras={"reason": "awaiting-layout",
                                  "manual_fallback": "Curate visuals in the Book Composer "
@@ -200,19 +185,17 @@ def _drive_book_branch(book_dir: Path) -> int:
         _err(f"0book-render failed (non-blocking): {e}")
         return 0
 
-    # book_pipeline_v2: deterministic render-quality probes over the RENDERED PDF
-    # (blank/half-empty pages, NotebookLM watermark, duplicated caption). These back
-    # the book-render-challenger agent and are recorded non-blocking. Flag OFF -> no
-    # new gate, render is unchanged.
-    if v2:
-        try:
-            from _book_render_checks import run_render_checks  # noqa: PLC0415
-            _rc = run_render_checks(book_dir, log=_info)
-            if _rc.get("findings"):
-                _info(f"0book-render: render-checks {_rc.get('verdict')} — "
-                      f"{len(_rc['findings'])} finding(s); see _system/book-render-checks.json")
-        except Exception as e:  # noqa: BLE001 — probes must never break render
-            _err(f"0book-render: render-checks skipped (non-fatal): {e}")
+    # Deterministic render-quality probes over the RENDERED PDF (blank/half-empty
+    # pages, NotebookLM watermark, duplicated caption). These back the
+    # book-render-challenger agent and are recorded non-blocking.
+    try:
+        from _book_render_checks import run_render_checks  # noqa: PLC0415
+        _rc = run_render_checks(book_dir, log=_info)
+        if _rc.get("findings"):
+            _info(f"0book-render: render-checks {_rc.get('verdict')} — "
+                  f"{len(_rc['findings'])} finding(s); see _system/book-render-checks.json")
+    except Exception as e:  # noqa: BLE001 — probes must never break render
+        _err(f"0book-render: render-checks skipped (non-fatal): {e}")
 
     # Deterministic post-render gate (B1-B3): the renderer only asserts the PDF
     # file was written — it never checks that book.md covers every TOC chapter or

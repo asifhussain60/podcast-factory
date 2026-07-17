@@ -1,9 +1,8 @@
-"""Acceptance matrix for Book Pipeline v2 (Phase 7).
+"""Acceptance matrix for the unified book pipeline.
 
-The single suite that pins the whole v2 contract: the knob matrix stage sequence,
-the visual-layout contract, watermark absence + caption de-dup, and — the load-
-bearing one — the flag-OFF legacy invariant. If any of these break, the cutover is
-not safe.
+The single suite that pins the whole contract: the knob matrix stage sequence,
+the de-calque suffix rule, the visual-layout contract, and watermark absence +
+caption de-dup.
 """
 from __future__ import annotations
 
@@ -76,18 +75,8 @@ def test_legacy_companion_default_full_pipeline(tmp_path, monkeypatch) -> None:
     assert calls == ["base", "augment", "voice"]  # {source_only, author_companion}
 
 
-# ── The flag-OFF legacy invariant (load-bearing) ─────────────────────────────
-def test_flag_off_never_reaches_v2(tmp_path) -> None:
-    from _pipeline_flags import book_pipeline_v2_enabled
-    for cfg in (
-        "deliverable_mode: translation_edition\n",
-        "series:\n  enable_book_branch: true\n",
-        "\n",
-    ):
-        assert book_pipeline_v2_enabled(_book(tmp_path / cfg[:4], cfg)) is False
-
-
-def test_flag_off_de_calque_is_pure_suffix() -> None:
+# ── The de-calque suffix rule ────────────────────────────────────────────────
+def test_de_calque_is_pure_suffix() -> None:
     from _authoring._refine import build_phase_0b_window_prompt
     off = build_phase_0b_window_prompt("s", 1, 2, Path("i"), Path("o"), de_calque=False)
     on = build_phase_0b_window_prompt("s", 1, 2, Path("i"), Path("o"), de_calque=True)

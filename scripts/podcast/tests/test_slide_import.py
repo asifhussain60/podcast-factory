@@ -93,18 +93,21 @@ class GateTests(unittest.TestCase):
 
 
 class ImportTests(unittest.TestCase):
-    def test_combined_injection_and_output(self) -> None:
+    def test_slides_emitted_as_candidates(self) -> None:
+        # Slides are decoupled: extracted + watermark-cleaned, then offered as
+        # candidates to book/visuals/index.json (not injected into book text).
         d = _book(framings=[("ch01", "alpha")], pdfs=[("ch01", "alpha")])
         with mock.patch.object(si, "extract_pages", _fake_extract), \
              mock.patch.object(si, "page_titles", lambda p: ["Cover", "Mirage"]), \
              mock.patch.object(si, "_author_manifest",
                                lambda bd, ch, slug, *a, **k: _manifest_entries(ch)):
             out = si.author_phase_slide_import(d)
-        slides_md = (d / "book" / "book-slides.md").read_text(encoding="utf-8")
-        self.assertIn('src="slide-decks/_pages/ch01/page-02.jpg"', slides_md)
-        # before-placement: figure precedes the anchor paragraph
-        self.assertLess(slides_md.find("book-slide"), slides_md.find("expecting water"))
+        # book text stays diagram-free — no book-slides.md is written.
+        self.assertFalse((d / "book" / "book-slides.md").exists())
+        self.assertTrue(out["awaiting_layout"])
         self.assertEqual(out["imported"], {"ch01": 1})
+        index = json.loads((d / "book" / "visuals" / "index.json").read_text(encoding="utf-8"))
+        self.assertTrue(index)  # at least one slide candidate registered
 
     def test_sig_cache_hit_skips_llm(self) -> None:
         d = _book(framings=[("ch01", "alpha")], pdfs=[("ch01", "alpha")])

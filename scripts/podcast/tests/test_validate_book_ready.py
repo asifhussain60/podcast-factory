@@ -171,13 +171,14 @@ def test_b2_fails_on_blank_pdf_page(tmp_path, monkeypatch):
     assert "blank page" in res["summary"].lower()
 
 
-def test_picks_render_input_priority(tmp_path):
-    # book-illustrated.md should be validated over book.md when present
+def test_picks_render_input_is_book_md(tmp_path):
+    # Visuals are decoupled — the render input (and gate target) is always book.md,
+    # even when legacy *-illustrated markdown happens to be present.
     bd = _make_book(tmp_path, chapters=2, md_sections=2)
     (bd / "book" / "book-illustrated.md").write_text(
         "# T\n## a\n## b\n" + "y" * 4096, encoding="utf-8")
     ok, note = V.gate_b1_book_md_complete(bd)
-    assert ok and "book-illustrated.md" in note
+    assert ok and "book.md" in note
 
 
 def test_pdf_page_count_extraction():

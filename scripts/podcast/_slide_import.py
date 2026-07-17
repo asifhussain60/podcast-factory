@@ -28,9 +28,11 @@ figures, autonomously:
      slides — non-blocking contract).
      Sig cache: _manifests/.<ch>-sig = sha256(deck pdf)+sha256(source md);
      hit -> the LLM call is skipped (mirrors the framing .framing-sig cache).
-  4. INJECT — ONE combined inject_slides() call across all chapters (pages
-     re-keyed uniquely; figure placed BEFORE its anchor paragraph) ->
-     book/book-slides.md, which build_book_pdf prefers at render.
+  4. EMIT CANDIDATES — the extracted, watermark-cleaned slides are offered as
+     CANDIDATES to book/visuals/index.json (raster watermark-cropped; verified
+     vector replicas preferred) for human curation in the Book Composer. They
+     are NOT injected into the book text — book.md stays diagram-free and is the
+     render input.
 
 Standalone:
   python3 scripts/podcast/_slide_import.py <BOOK_DIR> [--force]
@@ -67,8 +69,8 @@ from inject_slide_deck import (  # noqa: E402
 _PHASE = "0book-slide-import"
 _MANIFEST_TIMEOUT = 900
 # Synthetic page-key stride: chapter index N's deck page P -> N*1000 + P.
-# Keeps multi-deck page numbers collision-free in the single combined
-# inject_slides() call (decks are well under 1000 pages).
+# Keeps multi-deck page numbers collision-free across the combined slide set
+# (decks are well under 1000 pages).
 _STRIDE = 1000
 
 
@@ -283,33 +285,17 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False,
     total = sum(imported.values())
     total_svg = sum(svg_counts.values())
 
-    # book_pipeline_v2: decouple visuals. Extract + watermark-clean the slides
-    # exactly as before, but emit them as CANDIDATES to book/visuals/index.json
-    # (raster watermark-cropped; verified vector replicas preferred) instead of
-    # injecting them into book-slides.md. book.md stays diagram-free.
-    try:
-        from _pipeline_flags import book_pipeline_v2_enabled  # noqa: PLC0415
-        v2 = book_pipeline_v2_enabled(book_dir)
-    except Exception:  # noqa: BLE001
-        v2 = False
-    if v2:
-        from _visual_candidates import emit_slide_candidates, merge_entries  # noqa: PLC0415
-        merge_entries(book_dir, emit_slide_candidates(
-            book_dir, combined_entries, combined_pages, combined_svgs, log=log))
-        log(f"    {_PHASE}: v2 — {total} slide candidate(s) offered "
-            f"({len(work)} deck(s), {total_svg} as SVG), book.md left diagram-free")
-        return {"imported": imported, "exempt": exempt, "svg": svg_counts,
-                "awaiting_layout": True}
-
-    # ── single combined injection ────────────────────────────────────────────
-    out = inject_slides(source_text, combined_entries, pages=combined_pages,
-                        svg_overrides=combined_svgs)
-    out_path = book_dir / "book" / "book-slides.md"
-    out_path.write_text(out, encoding="utf-8")
-    log(f"    {_PHASE}: {source_md.name} + {total} slides "
-        f"({len(work)} deck(s), {total_svg} as SVG) -> {out_path.name}")
+    # Decouple visuals: extract + watermark-clean the slides exactly as before,
+    # then emit them as CANDIDATES to book/visuals/index.json (raster
+    # watermark-cropped; verified vector replicas preferred) rather than
+    # injecting them into the book text. book.md stays diagram-free.
+    from _visual_candidates import emit_slide_candidates, merge_entries  # noqa: PLC0415
+    merge_entries(book_dir, emit_slide_candidates(
+        book_dir, combined_entries, combined_pages, combined_svgs, log=log))
+    log(f"    {_PHASE}: {total} slide candidate(s) offered "
+        f"({len(work)} deck(s), {total_svg} as SVG), book.md left diagram-free")
     return {"imported": imported, "exempt": exempt, "svg": svg_counts,
-            "out": str(out_path.relative_to(book_dir))}
+            "awaiting_layout": True}
 
 
 def main() -> int:

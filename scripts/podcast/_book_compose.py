@@ -1,4 +1,11 @@
-"""_book_compose.py — Phase 0book-compose: whole-book revoice for the reading edition.
+"""_book_compose.py — whole-book revoice composer + shared compose helpers.
+
+NOTE: the pipeline's 0book-compose phase now routes through the unified
+``_book_pipeline_v2.compose_book_v2`` (author-companion voice knob). This module
+is retained for two reasons: (1) it is the source of the shared source-slicing /
+Arabic-page / Quran-anchor helpers that the v2 faithful base
+(``_translation_edition``), ``_book_voice`` and ``validate_book_ready`` import;
+(2) ``author_phase_book_compose`` remains a standalone whole-book composer CLI.
 
 Composes BOOK_DIR/book/book.md from book/book-toc.json: per book-chapter, an Opus
 pass that re-voices the source span into modern author-first-person prose under the
