@@ -26,10 +26,15 @@ from pathlib import Path
 from _paths import resolve_content
 
 # Canonical stage order for the WC8 bilingual pipeline (all books).
+# MIRROR: plan-dashboard/src/lib/reader/book-workspace.ts `STAGE_DEFS` (and
+# stage-roles.ts `STAGE_ROLES`) declare the same stage set — keep both sides
+# in sync in the SAME commit when the stage set changes (repo mirror
+# convention, cf. content-paths.ts ↔ _paths.py).
 # source → core: produced by intake_stage.py / agent (Azure OCR + alignment)
 # denoised:      produced by gemini_refine.py --mode denoise
 # normalized:    produced by gemini_refine.py --mode normalize
 # augmented:     produced by inline agent (knowledge + Quran refs)
+# literary:      produced by _literary.py (phase 08b-literary)
 # narrator:      produced by narrator_additions.py
 STAGE_ORDER: list[str] = [
     "source",
@@ -37,6 +42,7 @@ STAGE_ORDER: list[str] = [
     "denoised",
     "normalized",
     "augmented",
+    "literary",
     "narrator",
 ]
 
@@ -47,6 +53,7 @@ STAGE_ARTIFACTS: dict[str, str] = {
     "denoised": "denoised.md",
     "normalized": "normalized.md",
     "augmented": "augmented.md",
+    "literary": "literary.md",
     "narrator": "additions-narrator.md",
 }
 

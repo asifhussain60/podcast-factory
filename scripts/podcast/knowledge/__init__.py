@@ -7,8 +7,9 @@ The phase-0h extractor/librarian scaffolding was superseded by the DB-backed
 - `pronunciation_patterns` — pronunciation heuristics (live)
 - `term_render`            — deterministic TTS term renderer (live)
 - `categorize_atoms`, `fill_etymology_phonetics` — manual operator CLIs
-- `augmenter`              — legacy JSONL doctrine-augmenter; the live augment
-                             path is `intelligence/augmenter.py`
+
+The legacy JSONL `augmenter.py` was deleted 2026-07-18 (never wired; the live
+augment path is `intelligence/augmenter.py`).
 
 Authority:
 - Spec: `_workspace/plan/architecture.md` (Intelligence Layer section)

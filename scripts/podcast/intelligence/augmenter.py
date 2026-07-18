@@ -2,8 +2,8 @@
 
 Enriches episode text with relevant doctrine atoms from the Kashkole corpus
 stored in the knowledge-base DB.  This is the Wave B upgrade of the JSONL-based
-`knowledge/augmenter.py`.  The old JSONL augmenter remains as a fallback for
-books without DB-backed atoms.
+`knowledge/augmenter.py`, which was deleted 2026-07-18 (it was never wired as a
+runtime fallback); this module is the only augment path.
 
 Guards:
   - `series.enable_knowledge_augmenter` must be True in the book's meta.yml

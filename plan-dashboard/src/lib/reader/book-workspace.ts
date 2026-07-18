@@ -78,8 +78,9 @@ export const AYYUHAL_WALAD_CHAPTERS: ChapterDef[] = [
 ];
 
 // Canonical pipeline stage order — MIRROR of Python `_stage_gate.STAGE_ORDER`
-// (scripts/podcast/_stage_gate.py) with `literary` inserted before `narrator`.
-// Keep both sides in sync in the same commit when the stage set changes.
+// (scripts/podcast/_stage_gate.py). Reconciled 2026-07-18: `literary` now
+// exists on both sides (Python honors `_literary.py`'s _stages/<ch>/literary.md).
+// Keep both sides in sync in the SAME commit when the stage set changes.
 export const STAGE_DEFS: StageDef[] = [
   { id: "source", label: "Source", slice: "Slice 1 (intake)" },
   { id: "core", label: "Core", slice: "Slice 1 (intake)" },
