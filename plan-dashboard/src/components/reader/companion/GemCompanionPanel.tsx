@@ -117,6 +117,8 @@ export default function GemCompanionPanel({
         : { question: value, context: context || undefined, bookTitle };
 
     try {
+      // Deliberately raw fetch (not apiFetch): the 429 branch reads `retryMs`
+      // from the error body, which apiFetch discards when it throws (R1).
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "content-type": "application/json" },

@@ -12,6 +12,7 @@
  * No inline styles — classes live in studio-pipeline.css.
  */
 import { useState } from "react";
+import { apiFetch } from "../../lib/api-fetch";
 
 interface Props {
   slug: string;
@@ -68,12 +69,11 @@ export default function ContentLevelSelector({ slug, initial }: Props) {
     setValue(level);
     setStatus("saving");
     try {
-      const res = await fetch("/api/studio/book-meta", {
+      await apiFetch("/api/studio/book-meta", {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ slug, field: "content_level", value: level }),
+        body: { slug, field: "content_level", value: level },
       });
-      setStatus(res.ok ? "saved" : "error");
+      setStatus("saved");
     } catch {
       setStatus("error");
     }

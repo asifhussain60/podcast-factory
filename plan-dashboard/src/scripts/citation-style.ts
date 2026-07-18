@@ -4,10 +4,11 @@
  * The three family chips render the live preview with CSS :has() alone — no JS
  * needed for that. This module only (a) reflects the previously-saved family on
  * load and (b) persists a new choice to book/citation-style.json via the
- * citation-style endpoint, updating the save-state line. Mirrors the fetch shape
- * used by book-composer.ts (apiOk/apiError envelopes).
+ * citation-style endpoint, updating the save-state line. Uses the shared
+ * apiFetch client (which unwraps the apiOk/apiError envelopes), like
+ * book-composer.ts.
  */
-type ApiEnvelope<T> = { ok: true; data: T } | { ok: false; error: string };
+import { apiFetch } from "../lib/api-fetch";
 
 const form = document.querySelector<HTMLFormElement>(".bs-styleform");
 const saveLine = document.getElementById("bs-save");
@@ -31,12 +32,11 @@ function setStatus(text: string, state: "" | "saved" | "error"): void {
 async function loadSaved(): Promise<void> {
   if (!slug) return;
   try {
-    const res = await fetch(
-      `/api/studio/citation-style?slug=${encodeURIComponent(slug)}`,
+    const json = await apiFetch<{ family: string }>(
+      "/api/studio/citation-style",
+      { query: { slug } },
     );
-    const json = (await res.json()) as ApiEnvelope<{ family: string }>;
-    if (!json.ok) return;
-    const saved = json.data.family;
+    const saved = json.family;
     const match = radios().find((r) => r.value === saved);
     if (match && !match.checked) match.checked = true;
   } catch {
@@ -48,19 +48,13 @@ async function save(family: string): Promise<void> {
   if (!slug) return;
   setStatus("Saving…", "");
   try {
-    const res = await fetch("/api/studio/citation-style", {
+    await apiFetch("/api/studio/citation-style", {
       method: "PUT",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ slug, family }),
+      body: { slug, family },
     });
-    const json = (await res.json()) as ApiEnvelope<{ family: string }>;
-    if (json.ok) {
-      setStatus(`Saved — the book will print in the ${family} style.`, "saved");
-    } else {
-      setStatus(`Couldn't save: ${json.error}`, "error");
-    }
+    setStatus(`Saved — the book will print in the ${family} style.`, "saved");
   } catch (e) {
-    setStatus(`Couldn't save: ${String(e)}`, "error");
+    setStatus(`Couldn't save: ${(e as Error).message}`, "error");
   }
 }
 

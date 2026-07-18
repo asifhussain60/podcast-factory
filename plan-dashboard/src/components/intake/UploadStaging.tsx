@@ -11,6 +11,7 @@
  * source of truth — so the UI can't drift from what the pipeline accepts.
  */
 import { useCallback, useRef, useState } from "react";
+import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
 
 interface StagedFile {
   id: string;
@@ -68,6 +69,7 @@ export default function UploadStaging({ onChange }: Props) {
       const form = new FormData();
       if (token) form.append("token", token);
       for (const f of arr) form.append("files", f);
+      // Raw fetch (not apiFetch): multipart FormData body — apiFetch is JSON-only.
       const r = await fetch("/api/intake/upload", {
         method: "POST",
         body: form,
@@ -103,43 +105,42 @@ export default function UploadStaging({ onChange }: Props) {
 
   async function changeRole(fileId: string, role: string) {
     if (!token) return;
-    const r = await fetch("/api/intake/staging", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        token,
-        action: "set-role",
-        file_id: fileId,
-        role,
-      }),
-    });
-    const json = await r.json();
-    if (!r.ok || !json.ok) {
-      setError(json.error ?? "Could not change role");
+    let data: { validation: Validation };
+    try {
+      data = await apiFetch<{ validation: Validation }>("/api/intake/staging", {
+        method: "POST",
+        body: { token, action: "set-role", file_id: fileId, role },
+      });
+    } catch (e) {
+      // Transport failures previously escaped this handler; only surface
+      // server-reported errors, as the old !r.ok / !json.ok branch did.
+      if (!(e instanceof ApiFetchError) || e.status === 0) throw e;
+      setError(e.message || "Could not change role");
       return;
     }
     const next = files.map((f) => (f.id === fileId ? { ...f, role } : f));
     setFiles(next);
-    setValidation(json.data.validation);
-    emit(token, next, json.data.validation);
+    setValidation(data.validation);
+    emit(token, next, data.validation);
   }
 
   async function removeFile(fileId: string) {
     if (!token) return;
-    const r = await fetch("/api/intake/staging", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token, action: "remove", file_id: fileId }),
-    });
-    const json = await r.json();
-    if (!r.ok || !json.ok) {
-      setError(json.error ?? "Could not remove file");
+    let data: { validation: Validation };
+    try {
+      data = await apiFetch<{ validation: Validation }>("/api/intake/staging", {
+        method: "POST",
+        body: { token, action: "remove", file_id: fileId },
+      });
+    } catch (e) {
+      if (!(e instanceof ApiFetchError) || e.status === 0) throw e;
+      setError(e.message || "Could not remove file");
       return;
     }
     const next = files.filter((f) => f.id !== fileId);
     setFiles(next);
-    setValidation(json.data.validation);
-    emit(token, next, json.data.validation);
+    setValidation(data.validation);
+    emit(token, next, data.validation);
   }
 
   function onDrop(e: React.DragEvent) {

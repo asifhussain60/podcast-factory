@@ -11,6 +11,7 @@
  * classes live in studio-pipeline.css / library.css.
  */
 import { useState } from "react";
+import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
 
 export interface FactProp {
   key: string;
@@ -77,20 +78,25 @@ export default function EditableBookFacts({ slug, facts }: Props) {
     setRenameStatus("saving");
     setRenameErr("");
     try {
-      const res = await fetch("/api/studio/rename-book", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ oldSlug: slugFact.value, newSlug }),
-      });
-      const j = await res.json().catch(() => ({}));
-      if (res.ok && j?.data?.redirect) {
-        window.location.href = j.data.redirect;
+      const data = await apiFetch<{ redirect?: string }>(
+        "/api/studio/rename-book",
+        {
+          method: "POST",
+          body: { oldSlug: slugFact.value, newSlug },
+        },
+      );
+      if (data?.redirect) {
+        window.location.href = data.redirect;
         return;
       }
-      setRenameErr(j?.error ?? "Rename failed.");
+      setRenameErr("Rename failed.");
       setRenameStatus("error");
-    } catch {
-      setRenameErr("Rename failed — check the server.");
+    } catch (e) {
+      setRenameErr(
+        e instanceof ApiFetchError && e.status !== 0
+          ? e.message
+          : "Rename failed — check the server.",
+      );
       setRenameStatus("error");
     }
   }
@@ -135,14 +141,17 @@ export default function EditableBookFacts({ slug, facts }: Props) {
     setStatus("saving");
     try {
       for (const field of changed) {
-        const res = await fetch("/api/studio/book-meta", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ slug, field, value: draft[field] ?? "" }),
-        });
-        if (!res.ok) {
-          const msg = await res.json().catch(() => ({}));
-          setErrors((e) => ({ ...e, [field]: msg?.error ?? "Save failed" }));
+        try {
+          await apiFetch("/api/studio/book-meta", {
+            method: "POST",
+            body: { slug, field, value: draft[field] ?? "" },
+          });
+        } catch (err) {
+          // Transport failures fall through to the outer catch (as before);
+          // server-reported errors annotate the field being saved.
+          if (!(err instanceof ApiFetchError) || err.status === 0) throw err;
+          const message = err.message || "Save failed";
+          setErrors((e) => ({ ...e, [field]: message }));
           setStatus("error");
           return;
         }

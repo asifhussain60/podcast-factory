@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { apiFetch, ApiFetchError } from "../lib/api-fetch";
 
 const PAGE_SIZE = 40;
 
@@ -213,18 +214,19 @@ export default function PronunciationReview({ slug, terms }: Props) {
     const text = arabicValue.trim();
     if (!text) return;
     try {
-      const res = await fetch("/api/phonetic-generate", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ word: text }),
-      });
-      const json = await res.json();
-      if (json.ok && json.data?.phonetic) {
+      const data = await apiFetch<{ phonetic: string }>(
+        "/api/phonetic-generate",
+        {
+          method: "POST",
+          body: { word: text },
+        },
+      );
+      if (data?.phonetic) {
         setRows((prev) => ({
           ...prev,
           [term]: {
             ...prev[term],
-            phonetic: json.data.phonetic,
+            phonetic: data.phonetic,
             phoneSuggested: true,
           },
         }));
@@ -264,16 +266,17 @@ export default function PronunciationReview({ slug, terms }: Props) {
       .filter(Boolean);
 
     try {
-      const res = await fetch("/api/pronunciation", {
+      const data = await apiFetch<{
+        counts: { confirmed: number; respelled: number; unfixable: number };
+        library_size: number;
+        phonetics_md_updated: boolean;
+      }>("/api/pronunciation", {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ slug, corrections }),
+        body: { slug, corrections },
       });
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error || "save failed");
-      const c = json.data.counts;
+      const c = data.counts;
       setResult(
-        `Saved — ${c.confirmed} confirmed, ${c.respelled} respelled, ${c.unfixable} unfixable. Library now ${json.data.library_size} entries; _phonetics.md updated ${json.data.phonetics_md_updated}.`,
+        `Saved — ${c.confirmed} confirmed, ${c.respelled} respelled, ${c.unfixable} unfixable. Library now ${data.library_size} entries; _phonetics.md updated ${data.phonetics_md_updated}.`,
       );
       try {
         localStorage.removeItem(storageKey);
@@ -281,7 +284,8 @@ export default function PronunciationReview({ slug, terms }: Props) {
         /* ignore */
       }
     } catch (e) {
-      setError(String(e));
+      // String(Error) keeps the pre-migration `Error: …` display text.
+      setError(String(e instanceof ApiFetchError ? new Error(e.message) : e));
     } finally {
       setSaving(false);
     }

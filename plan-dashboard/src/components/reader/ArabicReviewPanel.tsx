@@ -12,6 +12,7 @@
  * arabic-review.css. The only inline style is a dynamic CSS variable.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
+import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
 
 type Decision = "keep" | "fix_phonetic" | "correct_arabic" | "replace_english";
 type TeachingRelevance = "teaching" | "name" | "incidental" | "referential";
@@ -129,18 +130,16 @@ export default function ArabicReviewPanel({ slug }: Props) {
   async function suggestEnglish(term: Term, key: string) {
     setSuggesting(true);
     try {
-      const res = await fetch("/api/ai/english-term", {
+      const d = await apiFetch<{ english: string }>("/api/ai/english-term", {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
+        body: {
           text: term.transliteration || term.phonetic,
           arabic: term.arabic_script || "",
           bookTitle: slug,
-        }),
+        },
       });
-      const d = await res.json();
-      if (res.ok && d?.ok && d.english && openKeyRef.current === key) {
-        setDraft((prev) => prev || (d.english as string));
+      if (d.english && openKeyRef.current === key) {
+        setDraft((prev) => prev || d.english);
       }
     } catch {
       /* leave the box empty — the curator can type it */
@@ -151,13 +150,18 @@ export default function ArabicReviewPanel({ slug }: Props) {
 
   useEffect(() => {
     let live = true;
-    fetch(`/api/studio/arabic-review?slug=${encodeURIComponent(slug)}`)
-      .then((r) => r.json())
+    apiFetch<{ slug: string; entries: Term[] }>("/api/studio/arabic-review", {
+      query: { slug },
+    })
       .then((d) => {
-        if (live) setTerms((d?.data?.entries ?? d?.entries ?? []) as Term[]);
+        if (live) setTerms(d?.entries ?? []);
       })
       .catch((e) => {
-        if (live) setError(String(e));
+        if (!live) return;
+        // Pre-migration behavior: an HTTP-level failure fell through to an
+        // empty list; only transport/parse failures surfaced as an error.
+        if (e instanceof ApiFetchError && e.status > 0) setTerms([]);
+        else setError(String(e));
       });
     return () => {
       live = false;
@@ -224,14 +228,10 @@ export default function ArabicReviewPanel({ slug }: Props) {
     const action = ACTIONS.find((a) => a.id === decision);
     if (action?.needs) body[action.needs] = value;
     try {
-      const res = await fetch("/api/studio/arabic-review", {
+      const updated = await apiFetch<Term>("/api/studio/arabic-review", {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(body),
+        body,
       });
-      if (!res.ok) throw new Error(`save ${res.status}`);
-      const d = await res.json();
-      const updated = (d?.data ?? d) as Term;
       setTerms(
         (prev) =>
           prev?.map((t) =>
@@ -246,7 +246,14 @@ export default function ArabicReviewPanel({ slug }: Props) {
       setOpenKey(null);
       setDraft("");
     } catch (e) {
-      setError(String(e));
+      // Pre-migration display text: `Error: save <status>` for HTTP failures.
+      setError(
+        String(
+          e instanceof ApiFetchError && e.status > 0
+            ? new Error(`save ${e.status}`)
+            : e,
+        ),
+      );
     } finally {
       setSavingKey(null);
     }
@@ -302,17 +309,15 @@ export default function ArabicReviewPanel({ slug }: Props) {
     if (!eng) {
       setSavingKey(termKey(term));
       try {
-        const res = await fetch("/api/ai/english-term", {
+        const d = await apiFetch<{ english: string }>("/api/ai/english-term", {
           method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
+          body: {
             text: term.transliteration || term.phonetic,
             arabic: term.arabic_script || "",
             bookTitle: slug,
-          }),
+          },
         });
-        const d = await res.json();
-        if (d?.ok && d.english) eng = d.english as string;
+        if (d.english) eng = d.english;
       } catch {
         /* save with empty english — the term simply stays as-is in the prose */
       } finally {

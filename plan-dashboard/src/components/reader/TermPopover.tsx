@@ -7,6 +7,7 @@
  */
 
 import { useEffect, useRef, useState } from "react";
+import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
 import { getTermDef, setTermDef } from "../../lib/reader/ai-cache";
 
 interface Def {
@@ -76,14 +77,10 @@ export default function TermPopover({ book }: Props) {
     const needs = CURATE_ACTIONS.find((a) => a.id === decision)?.needs;
     if (needs) body[needs] = value;
     try {
-      const res = await fetch("/api/studio/arabic-review", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      if (!res.ok) throw new Error(`save ${res.status}`);
-      const d = await res.json();
-      const updated = (d?.data ?? d) as Record<string, string>;
+      const updated = await apiFetch<Record<string, string>>(
+        "/api/studio/arabic-review",
+        { method: "POST", body },
+      );
       setCDone(decision);
       setCAction(null);
       setCDraft("");
@@ -136,19 +133,16 @@ export default function TermPopover({ book }: Props) {
 
       if (cached) return;
       try {
-        const res = await fetch("/api/ai/define-term", {
+        const data = await apiFetch<Def>("/api/ai/define-term", {
           method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
+          body: {
             phonetic,
             transliteration: tr,
             arabic: script,
             context: ctxText,
             book,
-          }),
+          },
         });
-        if (!res.ok) throw new Error(`AI ${res.status}`);
-        const data = (await res.json()) as Def;
         setTermDef(book, phonetic, data);
         setState((s) =>
           s && s.phonetic === phonetic
@@ -156,9 +150,14 @@ export default function TermPopover({ book }: Props) {
             : s,
         );
       } catch (e) {
+        // Pre-migration display text: `AI <status>` for HTTP failures.
+        const msg =
+          e instanceof ApiFetchError && e.status > 0
+            ? `AI ${e.status}`
+            : (e as Error).message;
         setState((s) =>
           s && s.phonetic === phonetic
-            ? { ...s, loading: false, error: (e as Error).message }
+            ? { ...s, loading: false, error: msg }
             : s,
         );
       }

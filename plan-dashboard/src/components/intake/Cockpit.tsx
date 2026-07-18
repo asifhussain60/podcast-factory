@@ -8,6 +8,7 @@
  * volume runs (single-writer rule) — it only reads state + sends approvals.
  */
 import { useEffect, useRef, useState } from "react";
+import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
 
 interface Status {
   found: boolean;
@@ -64,11 +65,10 @@ export default function Cockpit({ slug, pollMs = 5000 }: Props) {
 
   async function poll() {
     try {
-      const r = await fetch(
-        `/api/intake/status?slug=${encodeURIComponent(slug)}`,
-      );
-      const json = await r.json();
-      if (r.ok && json.ok) setStatus(json.data.status);
+      const data = await apiFetch<{ status: Status }>("/api/intake/status", {
+        query: { slug },
+      });
+      setStatus(data.status);
     } catch {
       /* transient — keep polling */
     }
@@ -87,23 +87,21 @@ export default function Cockpit({ slug, pollMs = 5000 }: Props) {
     setApproving(true);
     setError("");
     try {
-      const r = await fetch("/api/intake/resume", {
+      await apiFetch("/api/intake/resume", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        body: {
           slug,
           action,
           work_slug: status?.work_slug ?? undefined,
-        }),
+        },
       });
-      const json = await r.json();
-      if (!r.ok || !json.ok) {
-        setError(json.error ?? "Approval failed");
-        return;
-      }
       setTimeout(poll, 1500); // give the relaunch a moment, then refresh
     } catch (e) {
-      setError(`Network error: ${String(e)}`);
+      setError(
+        e instanceof ApiFetchError && e.status !== 0
+          ? e.message
+          : `Network error: ${String(e)}`,
+      );
     } finally {
       setApproving(false);
     }

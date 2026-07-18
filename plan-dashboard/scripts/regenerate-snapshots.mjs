@@ -240,14 +240,15 @@ async function mergeDashboard() {
 
   const planYaml = await readPlanYaml();
   let roadmap = existing.roadmap ?? [];
-  // plan.yaml uses two wave-list keys due to the pre-existing structural split:
-  //   `waves`     — waves A-E (and F, embedded in excluded_by_design)
-  //   `waves_ghj` — waves G, H, I (added 2026-05-28)
-  // Merge both arrays so the snapshot captures all planned steps.
-  const allPlanWaves = [
-    ...(planYaml?.waves ?? []),
-    ...(planYaml?.waves_ghj ?? []),
-  ];
+  // plan.yaml splits waves across several list keys (`waves`, `waves_ghj`,
+  // `waves_o_ph`, `waves_refactor`, ...). Auto-discover every `waves`/`waves_*`
+  // key — mirror of the same discovery in regenerate-snapshots.py — so a new
+  // block never requires a generator change.
+  const allPlanWaves = Object.entries(planYaml ?? {})
+    .filter(
+      ([k, v]) => (k === "waves" || k.startsWith("waves_")) && Array.isArray(v),
+    )
+    .flatMap(([, v]) => v);
   if (allPlanWaves.length > 0) {
     const ids = new Set();
     for (const wave of allPlanWaves) {

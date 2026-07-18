@@ -850,6 +850,609 @@
       ],
       "plain": "",
       "tools": []
+    },
+    {
+      "id": "O1",
+      "wave": "O",
+      "title": "BUG-SLIDE-001 — per-chapter-slides trigger fix for manually-processed books",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "O2",
+      "wave": "O",
+      "title": "_book_illustrate.py + render-mermaid.mjs book-dir mode + phases wiring",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "O3",
+      "wave": "O",
+      "title": "build_book_pdf.py — Google Drive copy feature committed",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "PH1",
+      "wave": "PH",
+      "title": "_book_illustrate.py — per-section try/except for LLM resilience",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "PH2",
+      "wave": "PH",
+      "title": "Test suite — 21 pre-existing failures cleared to 0",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "WM1",
+      "wave": "WM",
+      "title": "Multi-volume foundation — work.yml manifest + volume-aware _paths/_branching + TS mirror",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "WM2",
+      "wave": "WM",
+      "title": "Profile-driven phase routing (phase_capabilities) + intake --work/--volume",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "WM3",
+      "wave": "WM",
+      "title": "Per-volume autopilot (orchestrate_work pause-between-volumes) + F32/F35 safety rails",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "WM4",
+      "wave": "WM",
+      "title": "Code-quality de-patch (_subprocess.py) + F38 close-out (grep gate + prompt cache + doc)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "WM5",
+      "wave": "WM",
+      "title": "asaas migration + content/->library/ rename (bundled checklist)",
+      "status": "deferred",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "WM6",
+      "wave": "WM",
+      "title": "Intake foundation — smart-form options + preflight estimator + JSON endpoints",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "WM6-ui",
+      "wave": "WM",
+      "title": "Intake UI — 4 screens (upload+roles, smart form, pre-flight, launch+cockpit), per-screen with Asif",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "SD1",
+      "wave": "SD",
+      "title": "Folder skeleton registry + consumers + retroactive migration (all 4 buckets)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "SD2",
+      "wave": "SD",
+      "title": "Slide-deck generation card at finalize halt (framing-driven discovery)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "SD3",
+      "wave": "SD",
+      "title": "0book-slide-import phase — LLM anchor manifests + combined before-placement injection + halt gate",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "SD4",
+      "wave": "SD",
+      "title": "Dispatcher 0book dead-end fix (illustrate missing; stale per-chapter routing) + dashboard PHASE_ORDER",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "NM1",
+      "wave": "NM",
+      "title": "normalize_m4a.py — fingerprint matcher + swap detection + transcript pairing + ledger",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "NM2",
+      "wave": "NM",
+      "title": "Operator wiring — finalize card line + SKILL.md + framework.md docs",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AT1",
+      "wave": "AT",
+      "title": "transcribe_notebooklm.py rebuilt on Azure — batch, idempotent, dual-contract output, duration-priced ledger",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AT2",
+      "wave": "AT",
+      "title": "transcribe_episode.py repriced to duration-based STT helper (root fix of F36 char proxy)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AT3",
+      "wave": "AT",
+      "title": "Docs sweep Azure-first — SKILL.md, framework.md, postprod-review + vacuum specs, finalize card chain",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AT4",
+      "wave": "AT",
+      "title": "normalize_m4a transcript scorer rebuilt trigram+IDF — live Azure transcripts exposed token-overlap drift to the largest chapter corpus (7/20 known-correct mismatched); validated 20/20 on the-master-and-the-disciple",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AE1",
+      "wave": "AE",
+      "title": "Engine registry with capability flags + golden-fixture byte-identity for the default path",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AE2",
+      "wave": "AE",
+      "title": "Dialogue-script artifact + Claude Max authorship (framing as steering spec)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AE3",
+      "wave": "AE",
+      "title": "Pre-synthesis content gate + convergence loop (deterministic + semantic; coverage = no-teaching-lost)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AE4",
+      "wave": "AE",
+      "title": "Pronunciation compiler: glossary -> versioned PLS dictionary, pinned; Arabic-recitation scaffold (H2 OFF)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AE5",
+      "wave": "AE",
+      "title": "Production renderer: render-once/cache-forever, render ledger, exact credit metering, canonical layout",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AE6",
+      "wave": "AE",
+      "title": "Orchestrator wiring: audio-script + audio-render phases, H1 halt, engine-aware finalize card",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AE7",
+      "wave": "AE",
+      "title": "Astro studio Publish step: audio engine + rendered-credit spend (Cortex-gated, lint clean)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AE8",
+      "wave": "AE",
+      "title": "Dual-engine e2e through the post-0f driver (both paths; fixed episode-map derive fallback KeyError)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AE2a",
+      "wave": "AE2",
+      "title": "Per-episode engine resolver + episode-aware script/render phases + upload-table latch",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AE2b",
+      "wave": "AE2",
+      "title": "ElevenLabs default for new Islamic books at intake (per-profile registry, never retroactive)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AE2c",
+      "wave": "AE2",
+      "title": "Tracked fingerprint module + per-genre gold standard (both NotebookLM books) + post-render style gate (1 retake)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AE2d",
+      "wave": "AE2",
+      "title": "Authoring prompt (seven moves, Arabic+gloss, tag discipline) + challenger rubric + gate checks",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AE2e",
+      "wave": "AE2",
+      "title": "Astro voice-picker UI: engine + cast selection, monogram avatars, sample clips (lint clean, preview-verified)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AE2f",
+      "wave": "AE2",
+      "title": "Voice sample clips rendered into public/voice-samples/ (ElevenLabs spend gate)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "AE2g",
+      "wave": "AE2",
+      "title": "Deterministic Arabic recitation: KQur verse lookup + glossary terms, render-layer, engine-aware",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "TAa",
+      "wave": "TA",
+      "title": "allocate_teachings.py — dedup + spine/aug placement + no-loss/no-repeat gate (al-anwaar: 3037 -> 3003 aired + 34 variants)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "TAb",
+      "wave": "TA",
+      "title": "Pipeline wiring — orchestrate_work _ensure_allocation pre-pass + gated _volume_allocation 0d injection (zero single-book regression)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "TAc",
+      "wave": "TA",
+      "title": "Per-book episode_max_concepts (curated density) + 0d end_line clamp + cross-episode-reference guard",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "TAd",
+      "wave": "TA",
+      "title": "al-anwaar-al-lateefah vol-01 SHIP-READY end-to-end (11 episodes + slide decks, G1-G14 pass)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "BPV2-0",
+      "wave": "BPV2",
+      "title": "Flag scaffold + Astro write-back spike",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "The on/off switch for the whole feature, defaulting to off, plus confirming the site can save files.",
+      "tools": [
+        "scripts/podcast/_pipeline_flags.py"
+      ],
+      "last_touched": "deb9902"
+    },
+    {
+      "id": "BPV2-1",
+      "wave": "BPV2",
+      "title": "Unify the two book routes into one path (two knobs)",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "One book-making path; two dials pick the voice and whether to add source-grounded notes.",
+      "tools": [
+        "scripts/podcast/_book_pipeline_v2.py",
+        "scripts/podcast/_book_augment.py",
+        "scripts/podcast/_book_voice.py"
+      ],
+      "last_touched": "2b1fe88"
+    },
+    {
+      "id": "BPV2-2",
+      "wave": "BPV2",
+      "title": "Renderer honors the visual-layout contract + professional pagination",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "The PDF places each picture where the human chose and fills pages like a real book.",
+      "tools": [
+        "scripts/podcast/_visual_layout.py",
+        "plan-dashboard/scripts/visual-layout.mjs",
+        "plan-dashboard/src/styles/book-print.css"
+      ],
+      "last_touched": "301f3e1"
+    },
+    {
+      "id": "BPV2-3",
+      "wave": "BPV2",
+      "title": "Decouple visuals into a candidate asset library",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "Diagrams and cleaned slides become a palette of choices instead of being auto-stamped into the book.",
+      "tools": [
+        "scripts/podcast/_visual_candidates.py",
+        "scripts/podcast/_book_illustrate.py",
+        "scripts/podcast/_slide_import.py"
+      ],
+      "last_touched": 531578
+    },
+    {
+      "id": "BPV2-4",
+      "wave": "BPV2",
+      "title": "Astro Book Composer view",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "The page where a person drags pictures into place, sizes them, and clicks Generate PDF.",
+      "tools": [
+        "plan-dashboard/src/pages/studio/[slug]/compose.astro",
+        "plan-dashboard/src/scripts/book-composer.ts"
+      ],
+      "last_touched": "e201e4b"
+    },
+    {
+      "id": "BPV2-5",
+      "wave": "BPV2",
+      "title": "Modern-English prose (de-calque + fluency pass)",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "Smooths stiff word-for-word-from-Arabic phrasing into fluent English without changing any teaching.",
+      "tools": [
+        "scripts/podcast/_authoring/_refine.py",
+        "scripts/podcast/_book_voice.py"
+      ],
+      "last_touched": "90faeda"
+    },
+    {
+      "id": "BPV2-6",
+      "wave": "BPV2",
+      "title": "Governance — print standard + book-render-challenger",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "A quality bar for the printed pages and a checker that inspects the finished PDF.",
+      "tools": [
+        "docs/standards/book-print-quality.md",
+        "scripts/podcast/_book_render_checks.py"
+      ],
+      "last_touched": "ba7ae11"
+    },
+    {
+      "id": "BPV2-7",
+      "wave": "BPV2",
+      "title": "Acceptance matrix; cutover held",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "A test suite pinning the whole contract; the risky final switch is documented and deliberately not flipped yet.",
+      "tools": [
+        "scripts/podcast/tests/test_book_pipeline_v2_acceptance.py",
+        "_workspace/plan/book-pipeline-cutover.md"
+      ],
+      "last_touched": "3aed8e3"
+    },
+    {
+      "id": "BPV2-8",
+      "wave": "BPV2",
+      "title": "repo-surgeon v2 probes + merge to develop",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "Taught the repo auditor to verify the new architecture, then merged everything to the working branch.",
+      "tools": [
+        "skills-staging/repo-surgeon/SKILL.md"
+      ],
+      "last_touched": "06df259"
+    },
+    {
+      "id": "BPV2-9",
+      "wave": "BPV2",
+      "title": "Cutover — v2 becomes the only route, legacy paths deleted",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "After the validation matrix passed, made the new path the default and removed the old book-making code so there is just one route.",
+      "tools": [
+        "scripts/podcast/phases/book_driver.py",
+        "scripts/podcast/_pipeline_flags.py",
+        "scripts/podcast/build_book_pdf.py",
+        "framework.md"
+      ],
+      "last_touched": "chore/book-pipeline-v2-cutover"
+    },
+    {
+      "id": "R0a",
+      "wave": "R0",
+      "title": "Ruff gate (lint+format) + mechanical auto-fix baseline, pipeline surface",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R0b",
+      "wave": "R0",
+      "title": "ESLint + Prettier gates + mechanical format baseline, site surface",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R0c",
+      "wave": "R0",
+      "title": "Enforceable DR-005 line gate + lint wiring (pre-commit, CI, Makefile)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R1a",
+      "wave": "R1",
+      "title": "Studio-centric renames (poc -> studio/editor, corpus-mock -> corpus, css pairs)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R1b",
+      "wave": "R1",
+      "title": "apiFetch<T>() client + migrate non-editor /api fetches; envelope adoption in safe hold-out routes",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
     }
   ],
   "waves": [
@@ -966,11 +1569,21 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-18T13:23:31.164Z",
-  "source_commit": "936291e",
+  "generated_at": "2026-07-18T13:32:37.376Z",
+  "source_commit": "0bddb02",
   "generator": "regenerate-snapshots.mjs",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "0bddb02",
+      "subject": "refactor(site): R1 — Studio-centric renames; the file tree stops lying about what's production",
+      "date": "2026-07-18"
+    },
+    {
+      "sha": "7fd115c",
+      "subject": "feat(gates): R0 — enforceable DR-005 line gate + lint wiring in pre-commit, CI, Makefile",
+      "date": "2026-07-18"
+    },
     {
       "sha": "936291e",
       "subject": "chore(lint): R0 — ESLint + Prettier gates + mechanical format baseline, site surface",
@@ -1009,16 +1622,6 @@
     {
       "sha": "9316222",
       "subject": "docs(audit): full repo-audit report + execution log; site-work-status",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "b606936",
-      "subject": "chore: clear edge-of-repo drift (config, mirror, docs)",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "fa328d9",
-      "subject": "refactor: remove verified dead code across site and pipeline",
       "date": "2026-07-18"
     }
   ],

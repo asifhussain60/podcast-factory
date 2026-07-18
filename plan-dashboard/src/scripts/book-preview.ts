@@ -14,6 +14,7 @@
  * persisted to localStorage so the preference carries across books/visits.
  */
 import { confirmDialog } from "./confirm-dialog";
+import { apiFetch } from "../lib/api-fetch";
 
 const ZOOM_KEY = "pv-zoom-pct";
 const ZOOM_MIN = 30;
@@ -86,19 +87,12 @@ if (dataEl && genBtn) {
     if (ssBtn) ssBtn.disabled = true;
     if (statusEl) statusEl.textContent = pending;
     try {
-      const res = await fetch(endpoint, {
+      const data = await apiFetch<{ kb?: number }>(endpoint, {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ slug }),
+        body: { slug },
       });
-      const json = (await res.json()) as {
-        ok: boolean;
-        error?: string;
-        data?: { kb: number };
-      };
-      if (!json.ok) throw new Error(json.error || "render failed");
       if (statusEl)
-        statusEl.textContent = `${doneLabel} (${json.data?.kb ?? "?"} KB).`;
+        statusEl.textContent = `${doneLabel} (${data.kb ?? "?"} KB).`;
     } catch (err) {
       if (statusEl)
         statusEl.textContent = `Generate failed: ${(err as Error).message}`;

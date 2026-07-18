@@ -18,6 +18,7 @@ import {
   type AutosaveController,
 } from "./autosave";
 import { safeChapterKey } from "../lib/reader/companion/keys";
+import { apiFetch } from "../lib/api-fetch";
 
 type Align = "left" | "center" | "right";
 type Flow = "wrap" | "standalone";
@@ -491,18 +492,18 @@ function boot(): void {
       }),
       save: async () => {
         if (!activeEditor) return { ok: true };
-        const res = await fetch("/api/studio/book-md", {
+        // apiFetch throws on failure; createAutosave's own catch renders the
+        // same "Couldn't save — …" state the old envelope check produced.
+        await apiFetch("/api/studio/book-md", {
           method: "PUT",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
+          body: {
             slug,
             chapterKey: selectedChapter,
             markdown: activeEditor.toMarkdown(),
-          }),
+          },
         });
-        const json = await res.json();
-        if (json.ok) contentChangedThisSession = true;
-        return json.ok ? { ok: true } : { ok: false, error: json.error };
+        contentChangedThisSession = true;
+        return { ok: true };
       },
     });
     activeSaveFlush = () => proseAutosave.flush();
@@ -581,13 +582,12 @@ function boot(): void {
   }
   async function loadSavedFamily(): Promise<void> {
     try {
-      const res = await fetch(
-        `/api/studio/citation-style?slug=${encodeURIComponent(slug)}`,
+      const saved = await apiFetch<{ family: string }>(
+        "/api/studio/citation-style",
+        { query: { slug } },
       );
-      const json = await res.json();
-      if (!json.ok) return;
       const match = citeForm?.querySelector<HTMLInputElement>(
-        `input[name="citation-style"][value="${json.data.family}"]`,
+        `input[name="citation-style"][value="${saved.family}"]`,
       );
       if (match) match.checked = true;
     } catch {
@@ -599,17 +599,13 @@ function boot(): void {
     if (t?.name !== "citation-style" || !t.checked) return;
     setCiteStatus("Saving…", "");
     try {
-      const res = await fetch("/api/studio/citation-style", {
+      await apiFetch("/api/studio/citation-style", {
         method: "PUT",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ slug, family: t.value }),
+        body: { slug, family: t.value },
       });
-      const json = await res.json();
       setCiteStatus(
-        json.ok
-          ? `Saved — the book prints in the ${t.value} style.`
-          : `Couldn't save: ${json.error}`,
-        json.ok ? "saved" : "error",
+        `Saved — the book prints in the ${t.value} style.`,
+        "saved",
       );
     } catch (e) {
       setCiteStatus(`Couldn't save: ${(e as Error).message}`, "error");
@@ -1014,13 +1010,10 @@ function boot(): void {
     });
     if (!ok) return;
     try {
-      const res = await fetch("/api/studio/visual-op", {
+      await apiFetch("/api/studio/visual-op", {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ action: "delete", slug, id: v.id }),
+        body: { action: "delete", slug, id: v.id },
       });
-      const j = await res.json();
-      if (!j.ok) throw new Error(j.error || "delete failed");
       data.visuals = data.visuals.filter((x) => x.id !== v.id);
       visualsById.delete(v.id);
       placements = placements.filter((p) => p.visual_id !== v.id); // renderer skips missing ids too
@@ -1087,25 +1080,19 @@ function boot(): void {
         "Generating with Gemini… this can take a few seconds.";
       try {
         const anchor = chapterByKey.get(selectedChapter)?.anchor ?? "";
-        const res = await fetch("/api/studio/visual-op", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            action: "generate",
-            slug,
-            prompt,
-            fromFile,
-            anchor,
-          }),
-        });
-        const j = await res.json();
-        if (!j.ok) throw new Error(j.error || "generation failed");
+        const j = await apiFetch<{ id: string; file: string; caption: string }>(
+          "/api/studio/visual-op",
+          {
+            method: "POST",
+            body: { action: "generate", slug, prompt, fromFile, anchor },
+          },
+        );
         const nv: Visual = {
-          id: j.data.id,
+          id: j.id,
           type: "generated",
-          caption: j.data.caption,
-          file: j.data.file,
-          src: `/api/studio/visual-asset?slug=${encodeURIComponent(slug)}&file=${encodeURIComponent(j.data.file)}`,
+          caption: j.caption,
+          file: j.file,
+          src: `/api/studio/visual-asset?slug=${encodeURIComponent(slug)}&file=${encodeURIComponent(j.file)}`,
           suggested_anchor: anchor,
           chapter: selectedChapter,
           cleaned: true,
@@ -1233,19 +1220,19 @@ function boot(): void {
     try {
       let options: string[] = [];
       if (a.explain) {
-        const res = await fetch("/api/ai/explain", {
+        const j = await apiFetch<{ text: string }>("/api/ai/explain", {
           method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
+          body: {
             text: sel.text,
             chapter: activeEditor.editor.getText(),
             bookTitle,
-          }),
+          },
         });
-        const j = await res.json();
-        if (!j.ok) throw new Error(j.error || "failed");
         options = [String(j.text)];
       } else {
+        // Stays on raw fetch: /api/ai/rewrite reports errors as `{error}` JSON
+        // with a non-2xx status (no ok-envelope), and apiFetch would replace the
+        // server's message (e.g. "rate_limited") with a generic HTTP line.
         const res = await fetch("/api/ai/rewrite", {
           method: "POST",
           headers: { "content-type": "application/json" },
@@ -1344,20 +1331,17 @@ function boot(): void {
           " ",
         )
         .trim();
-      const res = await fetch("/api/ai/etymology", {
+      const j = await apiFetch<EtymologyResult>("/api/ai/etymology", {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
+        body: {
           word: sel.text,
           context,
           chapterTitle: chapterByKey.get(selectedChapter)?.title ?? "",
           book: bookTitle,
-        }),
+        },
       });
-      const j = await res.json();
-      if (!j.ok) throw new Error(j.error || "no etymology found for this word");
       setAiStatus("");
-      showEtymologyResult(j as EtymologyResult, sel);
+      showEtymologyResult(j, sel);
     } catch (e) {
       setAiStatus(`Etymology failed: ${(e as Error).message}`, true);
     }
@@ -1464,10 +1448,9 @@ function boot(): void {
     const body = companion.trim();
     if (body) {
       try {
-        await fetch("/api/studio/companion-notes", {
+        await apiFetch("/api/studio/companion-notes", {
           method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
+          body: {
             slug,
             chapter: safeChapterKey(selectedChapter),
             note: {
@@ -1481,7 +1464,7 @@ function boot(): void {
                 label: `Etymology (${r.source ?? "gemini"})`,
               },
             },
-          }),
+          },
         });
       } catch {
         /* note failed to save; the inline edit is unaffected */
@@ -1679,13 +1662,12 @@ function boot(): void {
   layoutAutosave = createAutosave({
     onStateChange: mountAutosaveStatus(layoutStatusEl),
     save: async () => {
-      const res = await fetch("/api/studio/visual-layout", {
+      // apiFetch throws on failure; createAutosave's catch shows the message.
+      await apiFetch("/api/studio/visual-layout", {
         method: "PUT",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ slug, placements }),
+        body: { slug, placements },
       });
-      const json = await res.json();
-      return json.ok ? { ok: true } : { ok: false, error: json.error };
+      return { ok: true };
     },
   });
 

@@ -6,6 +6,7 @@
  * No inline styles — class-driven via pronunciation.css (.bundle-*).
  */
 import { useState } from "react";
+import { apiFetch, ApiFetchError } from "../lib/api-fetch";
 
 type Format = "deep-dive" | "debate";
 type BundleLength = "long" | "short";
@@ -33,17 +34,18 @@ export default function BuildBundleButton({ slug }: Props) {
     setError("");
     setBundle(null);
     try {
-      const res = await fetch("/api/pronunciation/build-bundle", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ slug, format, length }),
-      });
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error || "build failed");
-      setBundle(json.data);
+      const data = await apiFetch<BundleData>(
+        "/api/pronunciation/build-bundle",
+        {
+          method: "POST",
+          body: { slug, format, length },
+        },
+      );
+      setBundle(data);
       setStatus("ready");
     } catch (e) {
-      setError(String(e));
+      // String(Error) keeps the pre-migration `Error: …` display text.
+      setError(String(e instanceof ApiFetchError ? new Error(e.message) : e));
       setStatus("error");
     }
   }

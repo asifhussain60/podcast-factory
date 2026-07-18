@@ -28,6 +28,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Command } from "cmdk";
+import { apiFetch, ApiFetchError } from "../../../lib/api-fetch";
 
 type CardKind = "list" | "pairs" | "choice";
 interface Pair {
@@ -76,10 +77,19 @@ export default function EditorialCards({ slug, chapters, cardDefs }: Props) {
     setLoading(true);
     try {
       if (scope === BOOK) {
-        const r = await fetch(
-          `/api/studio/editorial?slug=${slug}&scope=book`,
-        ).then((x) => x.json());
-        const doc = r.data ?? r;
+        // Server errors degrade to an all-unset doc (as the old un-checked
+        // json read did); transport failures still escape.
+        let doc: {
+          cards?: Record<string, CardValue | null>;
+          overriddenChapters?: string[];
+        } = {};
+        try {
+          doc = await apiFetch<typeof doc>("/api/studio/editorial", {
+            query: { slug, scope: "book" },
+          });
+        } catch (e) {
+          if (!(e instanceof ApiFetchError) || e.status === 0) throw e;
+        }
         const map: Record<string, ResolvedCard> = {};
         for (const d of cardDefs) {
           const v = doc.cards?.[d.id] ?? null;
@@ -88,10 +98,15 @@ export default function EditorialCards({ slug, chapters, cardDefs }: Props) {
         setResolved(map);
         setOverriddenChapters(doc.overriddenChapters ?? []);
       } else {
-        const r = await fetch(
-          `/api/studio/editorial?slug=${slug}&chapter=${scope}&resolve=1`,
-        ).then((x) => x.json());
-        const list: ResolvedCard[] = (r.data ?? r).resolved ?? [];
+        let doc: { resolved?: ResolvedCard[] } = {};
+        try {
+          doc = await apiFetch<typeof doc>("/api/studio/editorial", {
+            query: { slug, chapter: scope, resolve: 1 },
+          });
+        } catch (e) {
+          if (!(e instanceof ApiFetchError) || e.status === 0) throw e;
+        }
+        const list: ResolvedCard[] = doc.resolved ?? [];
         const map: Record<string, ResolvedCard> = {};
         for (const rc of list) map[rc.card] = rc;
         setResolved(map);
@@ -121,11 +136,16 @@ export default function EditorialCards({ slug, chapters, cardDefs }: Props) {
     async (card: string, value: CardValue | null) => {
       setSavingCard(card);
       try {
-        await fetch("/api/studio/editorial", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ slug, scope, card, value }),
-        });
+        try {
+          await apiFetch("/api/studio/editorial", {
+            method: "POST",
+            body: { slug, scope, card, value },
+          });
+        } catch (e) {
+          // Non-2xx was previously ignored (no res.ok check) — still reload;
+          // transport failures still escape without reloading.
+          if (!(e instanceof ApiFetchError) || e.status === 0) throw e;
+        }
         await load();
       } finally {
         setSavingCard(null);
@@ -366,10 +386,10 @@ function CorpusSearch({ onSelect }: { onSelect: (text: string) => void }) {
     timer.current = setTimeout(async () => {
       setLoading(true);
       try {
-        const r = await fetch(
-          `/api/studio/corpus-search?q=${encodeURIComponent(query)}`,
-        ).then((x) => x.json());
-        setResults(r.data?.results ?? []);
+        const data = await apiFetch<{
+          results?: { id: string; snippet: string }[];
+        }>("/api/studio/corpus-search", { query: { q: query } });
+        setResults(data.results ?? []);
       } catch {
         setResults([]);
       } finally {

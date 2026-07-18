@@ -9,6 +9,7 @@
 
 import { useState, useCallback } from "react";
 import { lookupTranslation } from "../lib/term-translations";
+import { apiFetch, ApiFetchError } from "../lib/api-fetch";
 
 // ─── shared types (mirror lib/pre-upload.ts) ─────────────────────────────
 
@@ -193,22 +194,15 @@ function PronunciationTab({
   async function handleSave() {
     setSaveState("saving");
     try {
-      const res = await fetch("/api/pre-upload", {
+      const data = await apiFetch<{ saved: number }>("/api/pre-upload", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "save-checklist", slug, terms }),
+        body: { action: "save-checklist", slug, terms },
       });
-      const data = await res.json();
-      if (data.ok) {
-        setSaveState("saved");
-        setSaveMsg(`Saved ${data.saved} terms to listen-checklist.md`);
-      } else {
-        setSaveState("error");
-        setSaveMsg(data.error ?? "Save failed");
-      }
+      setSaveState("saved");
+      setSaveMsg(`Saved ${data.saved} terms to listen-checklist.md`);
     } catch (e) {
       setSaveState("error");
-      setSaveMsg(String(e));
+      setSaveMsg(e instanceof Error ? e.message : String(e));
     }
     setTimeout(() => setSaveState("idle"), 4000);
   }
@@ -216,31 +210,27 @@ function PronunciationTab({
   async function handleApplyReplacements() {
     setReplaceState("applying");
     try {
-      const res = await fetch("/api/pre-upload", {
+      const data = await apiFetch<{
+        total_replacements: number;
+        files_changed: number;
+      }>("/api/pre-upload", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        body: {
           action: "apply-source-replacements",
           slug,
           replacements: replaceTerms.map((t) => ({
             term: t.term,
             replacement: t.fix,
           })),
-        }),
+        },
       });
-      const data = await res.json();
-      if (data.ok) {
-        setReplaceState("done");
-        setReplaceMsg(
-          `${data.total_replacements} replacement${data.total_replacements !== 1 ? "s" : ""} across ${data.files_changed} chapter file${data.files_changed !== 1 ? "s" : ""}`,
-        );
-      } else {
-        setReplaceState("error");
-        setReplaceMsg(data.error ?? "Failed");
-      }
+      setReplaceState("done");
+      setReplaceMsg(
+        `${data.total_replacements} replacement${data.total_replacements !== 1 ? "s" : ""} across ${data.files_changed} chapter file${data.files_changed !== 1 ? "s" : ""}`,
+      );
     } catch (e) {
       setReplaceState("error");
-      setReplaceMsg(String(e));
+      setReplaceMsg(e instanceof Error ? e.message : String(e));
     }
     setTimeout(() => setReplaceState("idle"), 6000);
   }
@@ -248,31 +238,27 @@ function PronunciationTab({
   async function handleApplyDeletions() {
     setDeleteState("applying");
     try {
-      const res = await fetch("/api/pre-upload", {
+      const data = await apiFetch<{
+        total_changes: number;
+        files_changed: number;
+      }>("/api/pre-upload", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        body: {
           action: "apply-deletions-to-source",
           slug,
           deletions: deleteTerms.map((t) => ({
             term: t.term,
             substitute: t.fix,
           })),
-        }),
+        },
       });
-      const data = await res.json();
-      if (data.ok) {
-        setDeleteState("done");
-        setDeleteMsg(
-          `${data.total_changes} change${data.total_changes !== 1 ? "s" : ""} across ${data.files_changed} file${data.files_changed !== 1 ? "s" : ""}`,
-        );
-      } else {
-        setDeleteState("error");
-        setDeleteMsg(data.error ?? "Failed");
-      }
+      setDeleteState("done");
+      setDeleteMsg(
+        `${data.total_changes} change${data.total_changes !== 1 ? "s" : ""} across ${data.files_changed} file${data.files_changed !== 1 ? "s" : ""}`,
+      );
     } catch (e) {
       setDeleteState("error");
-      setDeleteMsg(String(e));
+      setDeleteMsg(e instanceof Error ? e.message : String(e));
     }
     setTimeout(() => setDeleteState("idle"), 6000);
   }
@@ -412,27 +398,20 @@ function AmbiguityCard({
   async function handleSaveResolution() {
     setSaveResState("saving");
     try {
-      const res = await fetch("/api/pre-upload", {
+      await apiFetch("/api/pre-upload", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        body: {
           action: "save-clarification",
           slug,
           item_id: item.id,
           text: clarText,
-        }),
+        },
       });
-      const data = await res.json();
-      if (data.ok) {
-        setSaveResState("saved");
-        setSaveResMsg("Saved");
-      } else {
-        setSaveResState("error");
-        setSaveResMsg(data.error ?? "Save failed");
-      }
+      setSaveResState("saved");
+      setSaveResMsg("Saved");
     } catch (e) {
       setSaveResState("error");
-      setSaveResMsg(String(e));
+      setSaveResMsg(e instanceof Error ? e.message : String(e));
     }
     setTimeout(() => setSaveResState("idle"), 3500);
   }
@@ -440,30 +419,26 @@ function AmbiguityCard({
   async function handleApply(episodeId: string) {
     setApplyState((s) => ({ ...s, [episodeId]: "applying" }));
     try {
-      const res = await fetch("/api/pre-upload", {
+      await apiFetch("/api/pre-upload", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        body: {
           action: "apply-fix",
           slug,
           item_id: item.id,
           episode_id: episodeId,
           section: item.section,
           fix_text: clarText,
-        }),
+        },
       });
-      const data = await res.json();
-      if (data.ok) {
-        setApplyState((s) => ({ ...s, [episodeId]: "done" }));
-        setApplyMsg((m) => ({ ...m, [episodeId]: `Applied to ${episodeId}` }));
-        setItem((i) => ({ ...i, status: "applied" }));
-      } else {
-        setApplyState((s) => ({ ...s, [episodeId]: "error" }));
-        setApplyMsg((m) => ({ ...m, [episodeId]: data.error ?? "Failed" }));
-      }
+      setApplyState((s) => ({ ...s, [episodeId]: "done" }));
+      setApplyMsg((m) => ({ ...m, [episodeId]: `Applied to ${episodeId}` }));
+      setItem((i) => ({ ...i, status: "applied" }));
     } catch (e) {
       setApplyState((s) => ({ ...s, [episodeId]: "error" }));
-      setApplyMsg((m) => ({ ...m, [episodeId]: String(e) }));
+      setApplyMsg((m) => ({
+        ...m,
+        [episodeId]: e instanceof Error ? e.message : String(e),
+      }));
     }
   }
 
@@ -475,16 +450,22 @@ function AmbiguityCard({
   }
 
   async function handleSkip() {
-    await fetch("/api/pre-upload", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "mark-fix-status",
-        slug,
-        item_id: item.id,
-        status: "skipped",
-      }),
-    });
+    try {
+      await apiFetch("/api/pre-upload", {
+        method: "POST",
+        body: {
+          action: "mark-fix-status",
+          slug,
+          item_id: item.id,
+          status: "skipped",
+        },
+      });
+    } catch (e) {
+      // The old raw fetch never checked the response, so any HTTP/envelope
+      // error still flipped the local status — only a transport failure (which
+      // rejected the fetch) stopped it. Preserve exactly that.
+      if (e instanceof ApiFetchError && e.status === 0) throw e;
+    }
     setItem((i) => ({ ...i, status: "skipped" }));
   }
 

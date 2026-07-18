@@ -14,6 +14,7 @@
  */
 
 import type { APIRoute } from "astro";
+import { apiError, apiOk } from "../../../lib/api-responses";
 import { generate, rateLimitCheck } from "../../../lib/reader/gemini-server";
 
 export const prerender = false;
@@ -50,26 +51,13 @@ function extractJson(raw: string): { english?: string; gloss?: string } | null {
 export const POST: APIRoute = async ({ request }) => {
   const limit = rateLimitCheck();
   if (!limit.ok) {
-    return new Response(
-      JSON.stringify({
-        ok: false,
-        error: "rate_limited",
-        retryMs: limit.retryMs,
-      }),
-      {
-        status: 429,
-        headers: { "content-type": "application/json" },
-      },
-    );
+    return apiError("rate_limited", 429);
   }
 
   try {
     const { text, arabic, bookTitle } = await request.json();
     if (typeof text !== "string" || !text.trim()) {
-      return new Response(
-        JSON.stringify({ ok: false, error: "missing text" }),
-        { status: 400, headers: { "content-type": "application/json" } },
-      );
+      return apiError("missing text", 400);
     }
 
     const user = [
@@ -95,31 +83,19 @@ export const POST: APIRoute = async ({ request }) => {
 
     const parsed = extractJson(raw);
     if (!parsed || !parsed.english || !parsed.english.trim()) {
-      return new Response(
-        JSON.stringify({ ok: false, error: "no English returned" }),
-        { status: 502, headers: { "content-type": "application/json" } },
-      );
+      return apiError("no English returned", 502);
     }
 
-    return new Response(
-      JSON.stringify({
-        ok: true,
+    return apiOk(
+      {
         english: parsed.english.trim(),
         gloss: (parsed.gloss ?? "").trim(),
         source: "gemini",
-      }),
-      {
-        status: 200,
-        headers: {
-          "content-type": "application/json",
-          "cache-control": "no-store",
-        },
       },
+      200,
+      { "cache-control": "no-store" },
     );
   } catch (e) {
-    return new Response(
-      JSON.stringify({ ok: false, error: (e as Error).message }),
-      { status: 500, headers: { "content-type": "application/json" } },
-    );
+    return apiError((e as Error).message, 500);
   }
 };

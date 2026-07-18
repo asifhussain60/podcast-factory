@@ -9,6 +9,7 @@
  * hand-roll and keeping dependencies minimal is the standing preference.
  */
 import { useState } from "react";
+import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -73,26 +74,23 @@ export default function NewContentForm({ onCreated, onCleared }: Props) {
     setSubmitting(true);
     setServerError("");
     try {
-      const r = await fetch("/api/intake/create", {
+      const result = await apiFetch<CreateResult>("/api/intake/create", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        body: {
           slug,
           category,
           title: title.trim(),
           sourceHint: sourceHint.trim(),
-        }),
+        },
       });
-      const json = await r.json();
-      if (!r.ok || !json.ok) {
-        setServerError(json.error ?? `Server error ${r.status}`);
-        return;
-      }
-      const result: CreateResult = json.data;
       setCreated(result);
       onCreated?.(result);
     } catch (e) {
-      setServerError(`Network error: ${String(e)}`);
+      setServerError(
+        e instanceof ApiFetchError && e.status !== 0
+          ? e.message
+          : `Network error: ${String(e)}`,
+      );
     } finally {
       setSubmitting(false);
     }

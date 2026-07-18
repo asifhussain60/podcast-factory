@@ -8,6 +8,7 @@
  */
 
 import { useState } from "react";
+import { apiFetch, ApiFetchError } from "../lib/api-fetch";
 
 export default function PhoneticsGenerator() {
   const [word, setWord] = useState("");
@@ -22,16 +23,17 @@ export default function PhoneticsGenerator() {
     setResult("");
     setError("");
     try {
-      const res = await fetch("/api/phonetic-generate", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ word: w }),
-      });
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error ?? "request failed");
-      setResult(json.data.phonetic);
+      const data = await apiFetch<{ phonetic: string }>(
+        "/api/phonetic-generate",
+        {
+          method: "POST",
+          body: { word: w },
+        },
+      );
+      setResult(data.phonetic);
     } catch (e) {
-      setError(String(e));
+      // String(Error) keeps the pre-migration `Error: …` display text.
+      setError(String(e instanceof ApiFetchError ? new Error(e.message) : e));
     } finally {
       setLoading(false);
     }

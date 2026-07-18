@@ -9,6 +9,7 @@
  * the upload roles validate and settings are chosen.
  */
 import { useEffect, useState } from "react";
+import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
 
 interface Estimate {
   chapter_count: number;
@@ -51,10 +52,11 @@ export default function PreflightSummary({
       try {
         // Caps are NOT sent — the server applies its authoritative defaults so the
         // figures the operator approves against are the real ones (content integrity).
-        const params = new URLSearchParams({ chapters: String(chapters) });
-        const r = await fetch(`/api/intake/preflight?${params}`);
-        const json = await r.json();
-        if (alive && r.ok && json.ok) setEst(json.data.estimate);
+        const data = await apiFetch<{ estimate: Estimate }>(
+          "/api/intake/preflight",
+          { query: { chapters } },
+        );
+        if (alive) setEst(data.estimate);
       } catch {
         /* estimate is best-effort */
       }
@@ -71,24 +73,22 @@ export default function PreflightSummary({
     setLaunching(true);
     setError("");
     try {
-      const r = await fetch("/api/intake/launch", {
+      const data = await apiFetch<{ slug: string }>("/api/intake/launch", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        body: {
           title,
           settings,
           staging_token: stagingToken,
           slug,
-        }),
+        },
       });
-      const json = await r.json();
-      if (!r.ok || !json.ok) {
-        setError(json.error ?? `Launch failed (${r.status})`);
-        return;
-      }
-      onLaunched?.(json.data.slug);
+      onLaunched?.(data.slug);
     } catch (e) {
-      setError(`Network error: ${String(e)}`);
+      setError(
+        e instanceof ApiFetchError && e.status !== 0
+          ? e.message
+          : `Network error: ${String(e)}`,
+      );
     } finally {
       setLaunching(false);
     }

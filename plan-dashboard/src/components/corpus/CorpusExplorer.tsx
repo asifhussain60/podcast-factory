@@ -33,6 +33,7 @@ import {
   SAMPLE_PROSE,
   CORPUS_TOTALS,
 } from "../../data/corpus-fallback";
+import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
 import type {
   MockAtom,
   AtomType,
@@ -259,20 +260,14 @@ export default function CorpusExplorer({
     setEditSaving(true);
     setEditError("");
     try {
-      const res = await fetch("/api/corpus/atom", {
+      await apiFetch<{ ok: boolean; atom: MockAtom }>("/api/corpus/atom", {
         method: "PATCH",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
+        body: {
           id,
           text_en: editText,
           content_level: editLevel || null,
-        }),
+        },
       });
-      const json = await res.json();
-      if (!res.ok || !json.ok) {
-        setEditError(json.error ?? `Save failed (${res.status})`);
-        return;
-      }
       // Update local atom list with the saved version.
       setLocalAtoms((prev) =>
         prev.map((a) =>
@@ -287,7 +282,10 @@ export default function CorpusExplorer({
       );
       setEditingId(null);
     } catch (e) {
-      setEditError(String(e));
+      // Pre-migration display text: the route's error string for HTTP failures.
+      setEditError(
+        e instanceof ApiFetchError && e.status > 0 ? e.message : String(e),
+      );
     } finally {
       setEditSaving(false);
     }
@@ -301,27 +299,27 @@ export default function CorpusExplorer({
     setNewSaving(true);
     setNewError("");
     try {
-      const res = await fetch("/api/corpus/atom", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          type: newType,
-          text_en: newText,
-          tradition: newTradition,
-          content_level: newLevel || undefined,
-        }),
-      });
-      const json = await res.json();
-      if (!res.ok || !json.ok) {
-        setNewError(json.error ?? `Create failed (${res.status})`);
-        return;
-      }
-      setLocalAtoms((prev) => [json.atom as MockAtom, ...prev]);
+      const json = await apiFetch<{ ok: boolean; atom: MockAtom }>(
+        "/api/corpus/atom",
+        {
+          method: "POST",
+          body: {
+            type: newType,
+            text_en: newText,
+            tradition: newTradition,
+            content_level: newLevel || undefined,
+          },
+        },
+      );
+      setLocalAtoms((prev) => [json.atom, ...prev]);
       setShowNewForm(false);
       setNewText("");
       setNewLevel("");
     } catch (e) {
-      setNewError(String(e));
+      // Pre-migration display text: the route's error string for HTTP failures.
+      setNewError(
+        e instanceof ApiFetchError && e.status > 0 ? e.message : String(e),
+      );
     } finally {
       setNewSaving(false);
     }

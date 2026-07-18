@@ -14,6 +14,7 @@
  * Dependency-free, class-driven, external CSS only — matches NewContentForm.
  */
 import { useEffect, useState } from "react";
+import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
 import VoicePicker from "./VoicePicker";
 
 type Options = Record<string, string[]>;
@@ -86,14 +87,11 @@ export default function SmartForm({ proposed, onChange }: Props) {
     let alive = true;
     (async () => {
       try {
-        const r = await fetch("/api/intake/form-options");
-        const json = await r.json();
+        const data = await apiFetch<{ options: Options }>(
+          "/api/intake/form-options",
+        );
         if (!alive) return;
-        if (!r.ok || !json.ok) {
-          setError(json.error ?? "Could not load options");
-          return;
-        }
-        const opts: Options = json.data.options;
+        const opts: Options = data.options;
         setOptions(opts);
         const initial: Record<string, string> = {};
         for (const { key } of FIELD_LABELS) {
@@ -105,7 +103,12 @@ export default function SmartForm({ proposed, onChange }: Props) {
         }
         setValues(initial);
       } catch (e) {
-        if (alive) setError(`Network error: ${String(e)}`);
+        if (alive)
+          setError(
+            e instanceof ApiFetchError && e.status !== 0
+              ? e.message
+              : `Network error: ${String(e)}`,
+          );
       } finally {
         if (alive) setLoading(false);
       }
@@ -140,20 +143,21 @@ export default function SmartForm({ proposed, onChange }: Props) {
       return;
     }
     try {
-      const r = await fetch("/api/intake/form-options", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "add", field, value }),
-      });
-      const json = await r.json();
-      if (!r.ok || !json.ok) {
-        setError(json.error ?? "Could not add option");
-        return;
-      }
-      setOptions(json.data.options);
+      const data = await apiFetch<{ options: Options }>(
+        "/api/intake/form-options",
+        {
+          method: "POST",
+          body: { action: "add", field, value },
+        },
+      );
+      setOptions(data.options);
       setValue(field, value); // select the value the operator just added
     } catch (e) {
-      setError(`Network error: ${String(e)}`);
+      setError(
+        e instanceof ApiFetchError && e.status !== 0
+          ? e.message
+          : `Network error: ${String(e)}`,
+      );
     } finally {
       setAdding(null);
       setAddText("");

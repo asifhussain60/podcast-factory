@@ -23,6 +23,7 @@
  *            derivatives: {term, meaningEn}[], source: 'local+gemini'|'gemini' }
  */
 import type { APIRoute } from "astro";
+import { apiError, apiOk } from "../../../lib/api-responses";
 import { generate, rateLimitCheck } from "../../../lib/reader/gemini-server";
 import { fetchLocalTermDef } from "../../../lib/localServerClient";
 
@@ -51,29 +52,13 @@ Output ONLY the JSON object, no markdown fences.`;
 export const POST: APIRoute = async ({ request }) => {
   const limit = rateLimitCheck();
   if (!limit.ok) {
-    return new Response(
-      JSON.stringify({
-        ok: false,
-        error: "rate_limited",
-        retryMs: limit.retryMs,
-      }),
-      {
-        status: 429,
-        headers: { "content-type": "application/json" },
-      },
-    );
+    return apiError("rate_limited", 429);
   }
 
   try {
     const { word, context, chapterTitle, book } = await request.json();
     if (!word || typeof word !== "string" || !word.trim()) {
-      return new Response(
-        JSON.stringify({ ok: false, error: "missing word" }),
-        {
-          status: 400,
-          headers: { "content-type": "application/json" },
-        },
-      );
+      return apiError("missing word", 400);
     }
 
     // ── Authoritative root grounding from the local mirror, when available ──
@@ -133,45 +118,16 @@ export const POST: APIRoute = async ({ request }) => {
     try {
       parsed = JSON.parse(jsonSlice);
     } catch {
-      return new Response(
-        JSON.stringify({
-          ok: false,
-          error: "model returned unparseable output",
-        }),
-        {
-          status: 502,
-          headers: { "content-type": "application/json" },
-        },
-      );
+      return apiError("model returned unparseable output", 502);
     }
 
     if (!parsed.inline || !parsed.root) {
-      return new Response(
-        JSON.stringify({
-          ok: false,
-          error: "no etymology found for this word",
-        }),
-        {
-          status: 200,
-          headers: { "content-type": "application/json" },
-        },
-      );
+      // Deliberate 200: "not found" is a normal outcome, not a server fault.
+      return apiError("no etymology found for this word", 200);
     }
 
-    return new Response(JSON.stringify({ ok: true, source, ...parsed }), {
-      status: 200,
-      headers: {
-        "content-type": "application/json",
-        "cache-control": "no-store",
-      },
-    });
+    return apiOk({ source, ...parsed }, 200, { "cache-control": "no-store" });
   } catch (e) {
-    return new Response(
-      JSON.stringify({ ok: false, error: (e as Error).message }),
-      {
-        status: 500,
-        headers: { "content-type": "application/json" },
-      },
-    );
+    return apiError((e as Error).message, 500);
   }
 };

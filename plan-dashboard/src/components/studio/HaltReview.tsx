@@ -11,6 +11,7 @@
  * studio-pipeline.css.
  */
 import { useState } from "react";
+import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
 
 export interface HaltArtifactLink {
   label: string;
@@ -54,21 +55,21 @@ export default function HaltReview({ slug, haltId, artifacts, saved }: Props) {
     setStatus("saving");
     setError("");
     try {
-      const res = await fetch("/api/studio/halt-decision", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ slug, haltId, decision, notes }),
-      });
-      const j = await res.json().catch(() => ({}));
-      if (res.ok && j?.ok) {
-        setStatus("saved");
-        setSavedAt(j.data?.saved?.ts ?? new Date().toISOString());
-        return;
-      }
-      setError(j?.error ?? "Save failed.");
-      setStatus("error");
-    } catch {
-      setError("Save failed — check the server.");
+      const data = await apiFetch<{ saved?: SavedDecision }>(
+        "/api/studio/halt-decision",
+        {
+          method: "POST",
+          body: { slug, haltId, decision, notes },
+        },
+      );
+      setStatus("saved");
+      setSavedAt(data?.saved?.ts ?? new Date().toISOString());
+    } catch (e) {
+      setError(
+        e instanceof ApiFetchError && e.status !== 0
+          ? e.message
+          : "Save failed — check the server.",
+      );
       setStatus("error");
     }
   }

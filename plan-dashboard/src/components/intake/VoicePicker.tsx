@@ -16,6 +16,7 @@
  * styles — the accent tint is carried by a data-accent attribute the CSS targets.
  */
 import { useEffect, useRef, useState } from "react";
+import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
 
 interface VoiceEntry {
   name: string;
@@ -71,14 +72,8 @@ export default function VoicePicker({
     let alive = true;
     (async () => {
       try {
-        const r = await fetch("/api/intake/voices");
-        const json = await r.json();
+        const p = await apiFetch<Pools>("/api/intake/voices");
         if (!alive) return;
-        if (!r.ok || !json.ok) {
-          setError(json.error ?? "Could not load voices");
-          return;
-        }
-        const p: Pools = json.data;
         setPools(p);
         const a =
           p.males.find((m) => m.name === defaultHostA)?.name ??
@@ -91,7 +86,12 @@ export default function VoicePicker({
         setHostA(a);
         setHostB(b);
       } catch (e) {
-        if (alive) setError(`Network error: ${String(e)}`);
+        if (alive)
+          setError(
+            e instanceof ApiFetchError && e.status !== 0
+              ? e.message
+              : `Network error: ${String(e)}`,
+          );
       }
     })();
     return () => {
