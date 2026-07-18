@@ -36,6 +36,22 @@ install-skills:  ## Install Claude Code skills + agent wrappers from this repo i
 install-skills-dry:  ## Dry-run the skill installer (no files written).
 	@$(SCRIPTS_DIR)/install-claude-skills.sh --dry-run
 
+# ── Lint gates (R0, clean-code hardening plan) ──────────────────────────────
+
+RUFF := $(shell [ -x .venv/bin/ruff ] && echo .venv/bin/ruff || echo ruff)
+
+.PHONY: lint
+lint:  ## Ruff lint + format check + DR-005 line-count gate (pipeline surface).
+	@$(RUFF) check
+	@$(RUFF) format --check
+	@python3 infra/git-hooks/check-dr005.py
+	@echo "lint: clean"
+
+.PHONY: lint-fix
+lint-fix:  ## Auto-fix ruff findings + reformat.
+	@$(RUFF) check --fix
+	@$(RUFF) format
+
 # ── Azure infra ─────────────────────────────────────────────────────────────
 
 .PHONY: provision

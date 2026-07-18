@@ -575,7 +575,7 @@ Compact list of architectural decisions and why. Future Claude sessions and revi
 | DR-002 | **Tier-2 capstone NEVER reads chapter-scope material** | Recursion invariant. Tier-1 absorbs chapter corrections; tier-2 sees only tier-1. | 2026-05-26 |
 | DR-003 | **Per-content-type typed branch policy** | `book/`, `doc/`, `lecture/`, `article/`. Single prefix-map in `_branching.py`. | 2026-05-24 |
 | DR-004 | **Letter-suffix phase IDs (08a/08b/08c)** | Preserves numeric ordering for resume. Mirrors existing `11b-slide-decks`. | 2026-05-26 |
-| DR-005 | **Every `scripts/podcast/` file ≤ 600 lines** | Forces modularization. Enforced by pre-commit + CI. | 2026-05-26 |
+| DR-005 | **Every `scripts/podcast/` file ≤ 600 lines** | Forces modularization. Enforcement was stale until 2026-07-18 (R0): now a real line-count gate in pre-commit + CI (`infra/git-hooks/check-dr005.py`), with the 24 files over-limit at gate introduction grandfathered in `dr005-grandfather.txt` (may shrink, never grow; R3 burns the list down). | 2026-05-26 |
 | DR-006 | **architecture.md is independent of `docs/architecture/index.html`** | This doc is timeless design; the HTML is a generated dashboard. Different lifecycles. | 2026-05-26 |
 | DR-007 | **Augmenter default-disabled until G12 fires green** | A/B acceptance gate prevents shipping a flywheel that doesn't actually change outputs. | 2026-05-26 |
 | DR-008 | **Per-book scratch stays JSONL, not SQLite** | Git-diffability for human PR review. SQLite holds merged canonical state. | 2026-05-26 |
