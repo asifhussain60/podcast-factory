@@ -8,10 +8,8 @@ scripts/podcast/_authoring/_framing.py 890
 scripts/podcast/_book_illustrate.py 695
 scripts/podcast/_quran_recitation.py 676
 scripts/podcast/_rules.py 1226
-scripts/podcast/_slide_authoring.py 999
 scripts/podcast/_slide_convergence.py 714
 scripts/podcast/_svg_patterns.py 751
-scripts/podcast/_translation_edition.py 1056
 scripts/podcast/_tts_sanitize.py 607
 scripts/podcast/_validator_constants.py 608
 scripts/podcast/arabic_integrity.py 676
