@@ -9,7 +9,7 @@
  * "augmented" stage is the plain `chapters/<chapter>.txt` source.
  *
  * Body: { slug, chapter, stage, content, comments? }
- *   content  — markdown text (from StudioPoc's simple PM serializer)
+ *   content  — markdown text (from StudioEditor's simple PM serializer)
  *   comments — optional Record<string, string> (paragraph index → comment text)
  *
  * The existing artifact is preserved as <file>.bak before overwrite so the

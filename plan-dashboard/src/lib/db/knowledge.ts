@@ -14,7 +14,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 // ---------------------------------------------------------------------------
-// Canonical atom types — authoritative here; re-exported by corpus-mock-sample
+// Canonical atom types — authoritative here; re-exported by corpus-fallback
 // ---------------------------------------------------------------------------
 
 export type AtomType =

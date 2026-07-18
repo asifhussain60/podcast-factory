@@ -1,4 +1,4 @@
-/* stage-timeline.css — left-rail pipeline timeline for the Studio editor (StudioPoc).
+/* stage-timeline.css — left-rail pipeline timeline for the Studio editor (StudioEditor).
    External styles only; maps onto existing theme tokens (--c-*) and font roles
    (--font-display / --font-body / --font-ui). Adapts the proven rail idiom
    (dot + connector + active state) without overloading the pipeline-spine

@@ -10,9 +10,9 @@
 import Base from "../../../layouts/Base.astro";
 import StudioSubnav from "../../../components/studio/StudioSubnav.astro";
 import OperatorWorkbench from "../../../components/workbench/OperatorWorkbench.tsx";
-import EditorialCards from "../../../components/reader/poc/EditorialCards.tsx";
+import EditorialCards from "../../../components/studio/editor/EditorialCards.tsx";
 import ContentLevelSelector from "../../../components/studio/ContentLevelSelector.tsx";
-import StudioPoc from "../../../components/reader/poc/StudioPoc.tsx";
+import StudioEditor from "../../../components/studio/editor/StudioEditor.tsx";
 import { CARD_DEFS } from "../../../lib/reader/editorial";
 import { loadBookIndex } from "../../../lib/reader/chapters";
 import {
@@ -33,9 +33,9 @@ import {
 } from "../../../lib/content-paths";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import "../../../styles/corpus-mock.css";
+import "../../../styles/corpus.css";
 import "../../../styles/editor-fonts.css";
-import "../../../styles/studio-poc.css";
+import "../../../styles/studio-editor.css";
 import "../../../styles/stage-timeline.css";
 import "../../../styles/transformation-dashboard.css";
 import "../../../styles/workbench.css";
@@ -94,13 +94,13 @@ const progressionArchives = archivedLineages.map((ln, i) => ({
 const chParam = Astro.url.searchParams.get("ch") ?? "";
 const initialChapterId =
   chapterDefs.find((c) => c.id === chParam)?.id ?? chapterDefs[0]?.id ?? "";
-// Index of the deep-linked chapter within the workspace (StudioPoc takes an index).
+// Index of the deep-linked chapter within the workspace (StudioEditor takes an index).
 const initialChapIdx = Math.max(
   0,
   workspace.chapters.findIndex((c) => c.slug === initialChapterId),
 );
 // ?view=workbench keeps the pipeline-review OperatorWorkbench reachable; the rich
-// StudioPoc editor is the default edit surface (shows the full stage history).
+// StudioEditor editor is the default edit surface (shows the full stage history).
 const editView =
   Astro.url.searchParams.get("view") === "workbench" ? "workbench" : "editor";
 
@@ -347,7 +347,7 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
                 Arabic review →
               </a>
             </nav>
-            <StudioPoc
+            <StudioEditor
               client:only="react"
               slug={workspace.slug}
               chapters={workspace.chapters}

@@ -1,5 +1,5 @@
 /**
- * StudioPoc.tsx — WC8 Studio (spike → real build). TipTap/ProseMirror foundation.
+ * StudioEditor.tsx — WC8 Studio (spike → real build). TipTap/ProseMirror foundation.
  *
  * Feel-check feedback FC-1/FC-3/FC-4 applied (2026-05-29):
  *   FC-1  Verse refs render as a COMPACT chapter:verse chip (e.g. 99:7-8) appended
@@ -798,7 +798,7 @@ function openTagPicker(
 }
 // ────────────────────────────────────────────────────────────────────────────
 
-export default function StudioPoc({
+export default function StudioEditor({
   slug,
   chapters,
   glossary = [],
@@ -3150,13 +3150,13 @@ export default function StudioPoc({
   // not yet run) are omitted — they're not part of "the journey that led here".
   return (
     <Toast.Provider swipeDirection="right" duration={2600}>
-      <div className="studio-poc">
+      <div className="studio-editor">
         {/* Two columns: the editor and the contextual inspector. The left pipeline
           rail was removed (redundant nav — pipeline phases live in the breadcrumb
           and book-page tabs); the editor column widened and the reading-edition
           link moved into the editor head below. */}
         <main
-          className="studio-poc__editor"
+          className="studio-editor__editor"
           ref={editorContainerRef}
           data-font={editorFont}
           data-paper={editorPaper}
@@ -3420,7 +3420,7 @@ export default function StudioPoc({
         </main>
 
         <aside
-          className="studio-poc__inspector"
+          className="studio-editor__inspector"
           aria-label="Contextual inspector"
           ref={inspectorRef}
         >

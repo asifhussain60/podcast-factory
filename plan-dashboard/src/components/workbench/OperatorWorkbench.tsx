@@ -6,8 +6,8 @@ import {
   useState,
 } from "react";
 import { BookMarked, BrainCircuit, FileSearch, Sparkles } from "lucide-react";
-import CorpusExplorer from "../corpus-mock/CorpusExplorer";
-import EditorialCards from "../reader/poc/EditorialCards";
+import CorpusExplorer from "../corpus/CorpusExplorer";
+import EditorialCards from "../studio/editor/EditorialCards";
 import type { CardDef } from "../../lib/reader/editorial";
 import type { MockAtom, Tradition } from "../../lib/db/knowledge";
 import type {

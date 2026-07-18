@@ -1,5 +1,5 @@
 /**
- * corpus-mock-sample.ts — HARDCODED sample of the consolidated knowledge.db corpus,
+ * corpus-fallback.ts — HARDCODED sample of the consolidated knowledge.db corpus,
  * organised CONCEPT-FIRST (the "Concept Lens" design).
  *
  * MOCK ONLY. Atom shapes mirror what the WC1 mirror-primary importers write
@@ -14,7 +14,7 @@
 
 // Type definitions live in lib/db/knowledge.ts (the canonical DB layer).
 // Import them here for use in the sample data below, then re-export for
-// existing consumers that import from corpus-mock-sample.
+// existing consumers that import from corpus-fallback.
 import type {
   AtomType,
   Tradition,

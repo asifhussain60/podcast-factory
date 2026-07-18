@@ -1,12 +1,12 @@
 /**
  * book-md-editor.ts — the chapter prose editor for the Book Composer (v2).
  *
- * The SAME TipTap engine the Studio "podcast editor" (StudioPoc) uses — here as a
+ * The SAME TipTap engine the Studio "podcast editor" (StudioEditor) uses — here as a
  * focused, framework-free surface (`@tiptap/core` + StarterKit) bound to ONE
  * chapter of the reading edition (book.md). It mounts on the chapter body, seeds
  * from that chapter's rendered HTML, and serializes the ProseMirror doc back to
  * the book.md markdown subset (headings, paragraphs, blockquotes, lists, rules,
- * bold/italic/code/strike/links) — the same serializer conventions StudioPoc uses.
+ * bold/italic/code/strike/links) — the same serializer conventions StudioEditor uses.
  * Persistence is the caller's job (PUT /api/studio/book-md).
  */
 import { Editor } from "@tiptap/core";
@@ -20,7 +20,7 @@ export interface ChapterEditor {
 }
 
 /** Walk a block node's inline content, preserving mark syntax. Mirrors
- *  StudioPoc.serializeInline, extended with code / strike / link. */
+ *  StudioEditor.serializeInline, extended with code / strike / link. */
 function serializeInline(node: PMNode): string {
   let out = "";
   node.forEach((child) => {

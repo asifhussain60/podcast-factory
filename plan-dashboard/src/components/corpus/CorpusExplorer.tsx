@@ -32,7 +32,7 @@ import {
   SAMPLE_ATOMS,
   SAMPLE_PROSE,
   CORPUS_TOTALS,
-} from "../../data/corpus-mock-sample";
+} from "../../data/corpus-fallback";
 import type {
   MockAtom,
   AtomType,

@@ -2,15 +2,15 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import Base from "../layouts/Base.astro";
-import CorpusExplorer from "../components/corpus-mock/CorpusExplorer.tsx";
+import CorpusExplorer from "../components/corpus/CorpusExplorer.tsx";
 import {
   SCHEMA_GROUPS,
   CORPORA,
   TRADITIONS,
   CORPUS_TOTALS,
-} from "../data/corpus-mock-sample";
+} from "../data/corpus-fallback";
 import { listAtoms, dbTotals } from "../lib/db/knowledge";
-import "../styles/corpus-mock.css";
+import "../styles/corpus.css";
 
 // M-2: Load atoms directly from knowledge.db (non-Quran, first 1,000 for the explorer).
 // Fall back to the pre-generated JSON index if the DB is unreachable.

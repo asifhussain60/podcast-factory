@@ -9,7 +9,7 @@
  * @dnd-kit/sortable drag-reorder (array order = priority). Key Focus also has a cmdk corpus
  * search that appends doctrine atoms from knowledge.db via /api/studio/corpus-search.
  *
- * No Tailwind / no inline styles — classes defined in studio-poc.css (Cortex standard).
+ * No Tailwind / no inline styles — classes defined in studio-editor.css (Cortex standard).
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {

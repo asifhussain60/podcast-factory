@@ -8,7 +8,7 @@
  * No new card logic here — this is purely a composition wrapper so the
  * intake page can display book-scope editorial decisions alongside the form.
  */
-import EditorialCards from "../reader/poc/EditorialCards";
+import EditorialCards from "../studio/editor/EditorialCards";
 import type { CardDef } from "../../lib/reader/editorial";
 
 interface Props {
