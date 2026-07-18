@@ -4,7 +4,7 @@
 # (19 files were over-limit pre-R0; the ruff-format pass pushed 5 borderline files over.)
 scripts/podcast/_authoring/_artifact_convergence.py 881
 scripts/podcast/_authoring/_chapter_design.py 1365
-scripts/podcast/_authoring/_framing.py 892
+scripts/podcast/_authoring/_framing.py 890
 scripts/podcast/_azure.py 824
 scripts/podcast/_book_illustrate.py 695
 scripts/podcast/_quran_recitation.py 676

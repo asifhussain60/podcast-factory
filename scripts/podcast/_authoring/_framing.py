@@ -622,18 +622,18 @@ def _build_islamic_framing_prompt(
     )
 
 
-def _resolve_prompt_variant(category: str) -> str:
-    """Map a content category to its framing prompt variant name.
+# Category → framing-variant map. Unrecognised categories fall back to
+# 'islamic' to preserve backward compatibility with content that pre-dates
+# category stamping. A new category is one entry here (Open/Closed).
+CATEGORY_TO_VARIANT: dict[str, str] = {
+    "sites": "consumer",
+    "explainers": "technical",
+}
 
-    Returns one of: 'islamic' | 'consumer' | 'technical'
-    All unrecognised categories default to 'islamic' to preserve backward
-    compatibility with content that pre-dates category stamping.
-    """
-    if category == "sites":
-        return "consumer"
-    if category == "explainers":
-        return "technical"
-    return "islamic"
+
+def _resolve_prompt_variant(category: str) -> str:
+    """Map a content category to its framing prompt variant name."""
+    return CATEGORY_TO_VARIANT.get(category, "islamic")
 
 
 # Strategy registry: content variant -> framing prompt builder. Adding a new
@@ -665,8 +665,6 @@ def author_framing(book_dir: Path, chapter_slug: str, timeout: int = FRAMING_TIM
     #   'technical' — developer/technical content (explainers: training docs)
     _category = _read_category(book_dir)
     _prompt_variant = _resolve_prompt_variant(_category)
-    _use_consumer_prompt = _prompt_variant == "consumer"
-    _use_technical_prompt = _prompt_variant == "technical"
 
     contract = book_dir / "chapter-contracts" / f"{chapter_slug}.yml"
     if not contract.exists():
@@ -723,7 +721,7 @@ def author_framing(book_dir: Path, chapter_slug: str, timeout: int = FRAMING_TIM
         book_dir=book_dir,
     )
 
-    if _sermon_section and not (_use_consumer_prompt or _use_technical_prompt):
+    if _sermon_section and _prompt_variant == "islamic":
         prompt += (
             f"\n\nR-SERMON-VERBATIM (2026-06-10 — MANDATORY for this episode): the "
             f"chapter contains a sermon, rendered whole in the source section titled "

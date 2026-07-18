@@ -572,6 +572,7 @@ class TestFramingRouting(unittest.TestCase):
         # every value callable. A new content variant is one dict entry + one fn.
         try:
             from _authoring._framing import (
+                CATEGORY_TO_VARIANT,
                 FRAMING_PROMPT_BUILDERS,
                 _resolve_prompt_variant,
             )
@@ -580,6 +581,11 @@ class TestFramingRouting(unittest.TestCase):
         self.assertEqual(set(FRAMING_PROMPT_BUILDERS), {"islamic", "consumer", "technical"})
         for variant, fn in FRAMING_PROMPT_BUILDERS.items():
             self.assertTrue(callable(fn), f"{variant} builder is not callable")
+        # Every category→variant mapping must point at a registered builder,
+        # and unknowns must fall back to the islamic back-compat default.
+        for variant in CATEGORY_TO_VARIANT.values():
+            self.assertIn(variant, FRAMING_PROMPT_BUILDERS)
+        self.assertEqual(_resolve_prompt_variant("unknown-cat"), "islamic")
         # Every resolved variant must have a builder (no silent KeyError path).
         for cat in ("books", "sites", "explainers", "unknown-cat"):
             self.assertIn(_resolve_prompt_variant(cat), FRAMING_PROMPT_BUILDERS)
@@ -667,30 +673,31 @@ class TestFramingRouting(unittest.TestCase):
         )
 
     def test_author_framing_routes_explainers_to_technical_prompt(self):
-        # RED today — `author_framing()` must branch on `explainers` the same
-        # way it currently branches on `sites`. The key line to change is:
-        #   _use_consumer_prompt = (_category == "sites")
-        # to something like:
-        #   _prompt_variant = _resolve_prompt_variant(_category)
-        # This test checks the routing contract: when category=explainers,
-        # the Islamic scholarly prompt is NOT used.
+        # Registry refactor (2026-06-13): routing no longer lives in
+        # author_framing's body — it lives in the module-level registries
+        # (CATEGORY_TO_VARIANT + FRAMING_PROMPT_BUILDERS). Assert the routing
+        # contract there: category=explainers must resolve to the technical
+        # builder, never fall through to the Islamic scholarly prompt.
         try:
-            import inspect
-
-            from _authoring._framing import author_framing
-
-            src = inspect.getsource(author_framing)
+            from _authoring._framing import (
+                CATEGORY_TO_VARIANT,
+                FRAMING_PROMPT_BUILDERS,
+                _build_technical_framing_prompt,
+                _resolve_prompt_variant,
+            )
         except ImportError:
-            self.skipTest("Cannot import author_framing")
+            self.skipTest("Cannot import framing registries")
 
-        # After the fix, the routing should NOT be a simple `== "sites"` check.
-        # It should handle 'explainers' too.
-        # We inspect source to check that explainers is accounted for in routing.
-        routes_explainers = '"explainers"' in src or "'explainers'" in src or "explainer" in src
-        self.assertTrue(
-            routes_explainers,
-            "author_framing() source does not reference 'explainers' — "
+        self.assertEqual(
+            CATEGORY_TO_VARIANT.get("explainers"),
+            "technical",
+            "CATEGORY_TO_VARIANT does not route 'explainers' to 'technical' — "
             "it will silently use the Islamic scholarly prompt for this category",
+        )
+        self.assertIs(
+            FRAMING_PROMPT_BUILDERS[_resolve_prompt_variant("explainers")],
+            _build_technical_framing_prompt,
+            "'explainers' does not resolve to the technical framing builder",
         )
 
     def test_sites_framing_route_still_works(self):
@@ -866,15 +873,17 @@ class TestTechnicalPathRouting(unittest.TestCase):
         # never fall through silently to the Islamic scholarly default.
         #
         # This test documents the requirement: every category name must appear
-        # in the framing module's routing logic.
+        # in the framing module's routing logic. Registry refactor (2026-06-13):
+        # routing lives in the module-level CATEGORY_TO_VARIANT registry, so
+        # inspect the MODULE source, not author_framing's body.
         try:
             import inspect
 
-            from _authoring._framing import author_framing
+            from _authoring import _framing
 
-            src = inspect.getsource(author_framing)
+            src = inspect.getsource(_framing)
         except ImportError:
-            self.skipTest("Cannot import author_framing")
+            self.skipTest("Cannot import _authoring._framing")
 
         non_book_categories = [c for c in _rules.ALLOWED_CATEGORIES if c != "books"]
         missing = []
@@ -887,7 +896,7 @@ class TestTechnicalPathRouting(unittest.TestCase):
         # As other categories get technical/specialized prompts, add them here.
         if "explainers" in missing:
             self.fail(
-                "author_framing() does not reference 'explainers' in its routing logic. "
+                "_authoring._framing does not reference 'explainers' in its routing logic. "
                 "explainers content will silently use the Islamic scholarly prompt. "
                 f"All non-book categories missing from routing: {missing}"
             )
