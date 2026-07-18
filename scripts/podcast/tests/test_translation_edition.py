@@ -9,6 +9,15 @@ import pytest
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
+from _arabic_coverage import (
+    _ARABIC_COVERAGE_MIN_QUOTES,
+    arabic_coverage_hint,
+    arabic_coverage_shortfall,
+    arabic_ground_truth_block,
+    arabic_quote_count,
+    arabic_quote_spans,
+    arabic_run_spans,
+)
 from _translation_edition import (
     _iter_source_windows,
     _para_is_echo,
@@ -383,3 +392,91 @@ def test_preface_skipped_when_not_included(tmp_path: Path, monkeypatch: pytest.M
     )
 
     assert "Skip Me" not in text
+
+
+# ─── Arabic-coverage gate (deterministic script-preservation net) ──────────────
+
+# A compact stand-in for OCR ground truth: six Quranic verses fenced in the printed
+# edition's quotation delimiters (enough to clear _ARABIC_COVERAGE_MIN_QUOTES), plus
+# a short variant-reading note that must NOT count as a quotation.
+_OCR_GROUND_TRUTH = (
+    "<!-- page 22 -->\n"
+    "قال عز وجل :\n"
+    "((إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَقَلِيلٌ مَا هُمْ))\n"
+    "وقال :\n"
+    "((وَلَٰكِنَّ أَكْثَرَ النَّاسِ لَا يَعْلَمُونَ))\n"
+    "وقال تعالى :\n"
+    "«مِنْهُمُ الْمُؤْمِنُونَ وَأَكْثَرُهُمُ الْفَاسِقُونَ»\n"
+    "وقال :\n"
+    "((وَمَا أَكْثَرُ النَّاسِ وَلَوْ حَرَصْتَ بِمُؤْمِنِينَ))\n"
+    "وقال جل ذكره :\n"
+    "((فَأَعْرَضَ أَكْثَرُهُمْ فَهُمْ لَا يَسْمَعُونَ))\n"
+    "وقال :\n"
+    "((قَدْ ضَلُّوا مِنْ قَبْلُ وَأَضَلُّوا كَثِيرًا وَضَلُّوا عَنْ سَوَاءِ السَّبِيلِ))\n"
+    "(١) في نسخة (س)\n"
+)
+
+
+def test_arabic_quote_spans_extracts_verses_and_skips_apparatus() -> None:
+    spans = arabic_quote_spans(_OCR_GROUND_TRUTH)
+    assert len(spans) == 6
+    assert any("الصَّالِحَاتِ" in s for s in spans)
+    # The short "(١) في نسخة (س)" variant note is below the length floor — excluded.
+    assert not any("نسخة" in s for s in spans)
+
+
+def test_arabic_quote_count_matches_spans() -> None:
+    assert arabic_quote_count(_OCR_GROUND_TRUTH) == 6
+    assert arabic_quote_count("") == 0
+    assert arabic_quote_count("plain english, no arabic at all") == 0
+
+
+def test_arabic_run_spans_counts_output_quotations() -> None:
+    # An English chapter that preserved two of the verses in Arabic script.
+    out = (
+        'He said: "Except those who believed" (إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ).\n'
+        'And He said: "But most people do not know" (وَلَٰكِنَّ أَكْثَرَ النَّاسِ لَا يَعْلَمُونَ).\n'
+    )
+    assert len(arabic_run_spans(out)) == 2
+    # English-only output carries no Arabic runs.
+    assert arabic_run_spans("He said: Except those who believed. And He said: most people.") == []
+
+
+def test_arabic_coverage_shortfall_fires_on_catastrophic_drop() -> None:
+    # English-only output (0 Arabic runs) against a 6-quote source -> retry suffix.
+    suffix = arabic_coverage_shortfall(
+        "He said: Except those who believed, and how few they are. And most do not know.",
+        _OCR_GROUND_TRUTH,
+    )
+    assert suffix != ""
+    assert "MUST appear in its Arabic script" in suffix
+    # The suffix names the specific dropped spans as evidence.
+    assert "الصَّالِحَاتِ" in suffix
+
+
+def test_arabic_coverage_shortfall_passes_when_arabic_preserved() -> None:
+    # All six verses preserved in Arabic -> at/above floor -> no retry (empty suffix).
+    full = " ".join(f"({s})" for s in arabic_quote_spans(_OCR_GROUND_TRUTH))
+    assert arabic_coverage_shortfall(full, _OCR_GROUND_TRUTH) == ""
+
+
+def test_arabic_coverage_shortfall_skips_short_source_and_empty() -> None:
+    # No Arabic ground truth -> never fires (English / fiction path).
+    assert arabic_coverage_shortfall("anything", "") == ""
+    # A source below the min-quote cluster -> not gated even if output has no Arabic.
+    tiny = "((إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ))\n"
+    assert arabic_quote_count(tiny) < _ARABIC_COVERAGE_MIN_QUOTES
+    assert arabic_coverage_shortfall("english only", tiny) == ""
+
+
+def test_arabic_ground_truth_block_is_empty_without_source() -> None:
+    # English / fiction books have no OCR ground truth — the prompt must be unchanged.
+    assert arabic_ground_truth_block("") == ""
+    block = arabic_ground_truth_block(_OCR_GROUND_TRUTH)
+    assert "MUST be rendered in its Arabic script" in block
+
+
+def test_arabic_coverage_hint_lists_source_spans() -> None:
+    hint = arabic_coverage_hint(_OCR_GROUND_TRUTH)
+    assert hint.count("\n- ") + hint.count("- ", 0, 2) >= 1  # bullet list
+    assert "الصَّالِحَاتِ" in hint

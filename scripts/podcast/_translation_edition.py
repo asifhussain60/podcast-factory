@@ -20,6 +20,11 @@ import json
 from pathlib import Path
 from typing import Any
 
+from _arabic_coverage import (
+    arabic_coverage_shortfall,
+    arabic_ground_truth_block,
+    arabic_run_spans,
+)
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
 from _book_compose import (
     _line_pages,
@@ -121,19 +126,6 @@ _RETRY_TIMEOUT = 1350
 _LONG_CHAPTER_WORDS = 4500
 
 
-def _arabic_ground_truth_block(arabic_src: str) -> str:
-    if not arabic_src:
-        return ""
-    return f"""
-ORIGINAL-LANGUAGE SOURCE — GROUND TRUTH
-The Arabic OCR for the source pages behind this chapter is reproduced below. Use it only to preserve
-Arabic terms, Quran verses, hadith, poetry, and direct quotations that belong in the teaching. The OCR
-may contain stray marks or broken letters, so correct obvious OCR artifacts. Do not add outside material.
-
-{arabic_src}
-"""
-
-
 def _compose_prompt(
     title: str,
     body: str,
@@ -164,7 +156,7 @@ Preserve meaning:
 - Do not invent canonical Arabic from memory. If the source gives Arabic, preserve it; if the source gives only a translation, translate/polish only that.
 - Use the original-language source block only as preservation evidence, not as permission to add new side material.
 - Keep salutations compact. Do not repeatedly spell out long English honorifics. Use only these compact forms in English prose: (عليهم السلام), (ع), and (رض).
-{quran_anchor}{_arabic_ground_truth_block(arabic_src)}
+{quran_anchor}{arabic_ground_truth_block(arabic_src)}
 
 Denoise:
 - Remove or compress historical side information, bibliographic apparatus, editorial notes, damaged-manuscript notes, chain-of-publication details, translator/editor commentary, and background digressions unless they directly teach the point of the chapter.
@@ -263,6 +255,32 @@ def _compose_one(
                 "the pipeline refused to persist model commentary or generated headings."
             ),
         )
+    # Arabic-coverage safety net (see _arabic_coverage): when the output drops too
+    # much of the ground truth's quoted Arabic, retry ONCE with the specific spans
+    # named. Non-fatal and keep-best — a residual shortfall never blocks the book,
+    # and an empty suffix (no Arabic source, or coverage already adequate) skips it.
+    arabic_retry = arabic_coverage_shortfall(out, arabic_src)
+    if arabic_retry:
+        log(f"      {label}: Arabic coverage low - retrying with the dropped spans named")
+        rc3, out3, _err3 = _run_claude_p_with_retry(
+            prompt + arabic_retry,
+            timeout=_RETRY_TIMEOUT,
+            book_dir=book_dir,
+            phase="0book-compose",
+            step=f"translation-{label}-arabic-retry",
+            log=log,
+        )
+        cand = (out3 or "").strip()
+        if (
+            rc3 == 0
+            and cand
+            and not translation_output_findings(cand, expected_title=title)
+            and len(arabic_run_spans(cand)) > len(arabic_run_spans(out))
+            and _translation_long_enough(cand, source_words)
+        ):
+            out = cand
+        else:
+            log(f"      {label}: Arabic-coverage retry did not improve - keeping best attempt")
     if not _translation_long_enough(out, source_words):
         raise AuthoringError(
             phase="0book-compose",
