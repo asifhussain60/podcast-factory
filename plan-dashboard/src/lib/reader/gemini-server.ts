@@ -14,8 +14,8 @@
  * for the rolling-default models).
  */
 
-import { execFile } from 'node:child_process';
-import { promisify } from 'node:util';
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 
 const exec = promisify(execFile);
 
@@ -30,30 +30,45 @@ export async function getGeminiKey(): Promise<string> {
   }
   if (!keyPromise) {
     keyPromise = (async () => {
-      const user = process.env.USER || process.env.USERNAME || '';
+      const user = process.env.USER || process.env.USERNAME || "";
       try {
-        const { stdout } = await exec('security', ['find-generic-password', '-s', 'gemini_api_key', '-a', user, '-w']);
+        const { stdout } = await exec("security", [
+          "find-generic-password",
+          "-s",
+          "gemini_api_key",
+          "-a",
+          user,
+          "-w",
+        ]);
         const key = stdout.trim();
-        if (!key) throw new Error('empty key from keychain');
+        if (!key) throw new Error("empty key from keychain");
         cachedKey = key;
         return key;
       } catch (e) {
         keyPromise = null;
-        throw new Error(`Could not read gemini_api_key from keychain: ${(e as Error).message}`);
+        throw new Error(
+          `Could not read gemini_api_key from keychain: ${(e as Error).message}`,
+          { cause: e },
+        );
       }
     })();
   }
   return keyPromise;
 }
 
-export type GeminiModel = 'flash' | 'pro';
+export type GeminiModel = "flash" | "pro";
 
 function modelId(m: GeminiModel): string {
-  return m === 'pro' ? 'gemini-2.5-pro' : 'gemini-2.5-flash';
+  return m === "pro" ? "gemini-2.5-pro" : "gemini-2.5-flash";
 }
 
-export interface GeminiPart { text: string; }
-export interface GeminiContent { role: 'user' | 'model'; parts: GeminiPart[]; }
+export interface GeminiPart {
+  text: string;
+}
+export interface GeminiContent {
+  role: "user" | "model";
+  parts: GeminiPart[];
+}
 
 interface GenerateOptions {
   model?: GeminiModel;
@@ -72,36 +87,44 @@ interface GenerateOptions {
  */
 export async function generate(opts: GenerateOptions): Promise<string> {
   const key = await getGeminiKey();
-  const model = modelId(opts.model ?? 'flash');
+  const model = modelId(opts.model ?? "flash");
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`;
   const body = {
     contents: opts.contents,
-    ...(opts.systemInstruction ? { systemInstruction: { role: 'system', parts: [{ text: opts.systemInstruction }] } } : {}),
+    ...(opts.systemInstruction
+      ? {
+          systemInstruction: {
+            role: "system",
+            parts: [{ text: opts.systemInstruction }],
+          },
+        }
+      : {}),
     generationConfig: {
       temperature: opts.temperature ?? 0.4,
       maxOutputTokens: opts.maxOutputTokens ?? 600,
-      ...(opts.jsonMode ? { responseMimeType: 'application/json' } : {}),
+      ...(opts.jsonMode ? { responseMimeType: "application/json" } : {}),
       ...(opts.thinkingBudget !== undefined
         ? { thinkingConfig: { thinkingBudget: opts.thinkingBudget } }
         : {}),
     },
   };
   const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    method: "POST",
+    headers: { "content-type": "application/json" },
     body: JSON.stringify(body),
   });
   if (!res.ok) {
     const errText = await res.text();
     throw new Error(`Gemini ${res.status}: ${errText.slice(0, 300)}`);
   }
-  const data = await res.json() as any;
+  const data = (await res.json()) as any;
   // Filter out thinking parts (thought: true) — Gemini 2.5 Flash emits these
   // as separate parts; joining them would corrupt JSON-mode responses.
-  const text = (data?.candidates?.[0]?.content?.parts ?? [])
-    .filter((p: any) => !p.thought)
-    .map((p: any) => p.text || '')
-    .join('') ?? '';
+  const text =
+    (data?.candidates?.[0]?.content?.parts ?? [])
+      .filter((p: any) => !p.thought)
+      .map((p: any) => p.text || "")
+      .join("") ?? "";
   return text.trim();
 }
 
@@ -109,46 +132,60 @@ export async function generate(opts: GenerateOptions): Promise<string> {
  * Streaming generateContent (SSE proxy). Yields incremental text chunks
  * so the client can render tokens as they arrive.
  */
-export async function* generateStream(opts: GenerateOptions): AsyncGenerator<string> {
+export async function* generateStream(
+  opts: GenerateOptions,
+): AsyncGenerator<string> {
   const key = await getGeminiKey();
-  const model = modelId(opts.model ?? 'flash');
+  const model = modelId(opts.model ?? "flash");
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${encodeURIComponent(key)}`;
   const body = {
     contents: opts.contents,
-    ...(opts.systemInstruction ? { systemInstruction: { role: 'system', parts: [{ text: opts.systemInstruction }] } } : {}),
+    ...(opts.systemInstruction
+      ? {
+          systemInstruction: {
+            role: "system",
+            parts: [{ text: opts.systemInstruction }],
+          },
+        }
+      : {}),
     generationConfig: {
       temperature: opts.temperature ?? 0.4,
       maxOutputTokens: opts.maxOutputTokens ?? 1500,
     },
   };
   const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    method: "POST",
+    headers: { "content-type": "application/json" },
     body: JSON.stringify(body),
   });
   if (!res.ok || !res.body) {
-    const errText = await res.text().catch(() => '');
+    const errText = await res.text().catch(() => "");
     throw new Error(`Gemini stream ${res.status}: ${errText.slice(0, 300)}`);
   }
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
-  let buffer = '';
+  let buffer = "";
   while (true) {
     const { value, done } = await reader.read();
     if (done) break;
     buffer += decoder.decode(value, { stream: true });
-    const events = buffer.split('\n\n');
-    buffer = events.pop() ?? '';
+    const events = buffer.split("\n\n");
+    buffer = events.pop() ?? "";
     for (const ev of events) {
-      const dataLine = ev.split('\n').find((l) => l.startsWith('data:'));
+      const dataLine = ev.split("\n").find((l) => l.startsWith("data:"));
       if (!dataLine) continue;
       const payload = dataLine.slice(5).trim();
-      if (!payload || payload === '[DONE]') continue;
+      if (!payload || payload === "[DONE]") continue;
       try {
         const obj = JSON.parse(payload);
-        const text = obj?.candidates?.[0]?.content?.parts?.map((p: any) => p.text || '').join('') ?? '';
+        const text =
+          obj?.candidates?.[0]?.content?.parts
+            ?.map((p: any) => p.text || "")
+            .join("") ?? "";
         if (text) yield text;
-      } catch { /* skip malformed chunk */ }
+      } catch {
+        /* skip malformed chunk */
+      }
     }
   }
 }
@@ -165,30 +202,40 @@ export interface GroundedResult {
 
 export async function generateWithGrounding(
   prompt: string,
-  opts?: { model?: GeminiModel; temperature?: number; maxOutputTokens?: number },
+  opts?: {
+    model?: GeminiModel;
+    temperature?: number;
+    maxOutputTokens?: number;
+  },
 ): Promise<GroundedResult> {
   const key = await getGeminiKey();
-  const model = modelId(opts?.model ?? 'flash');
+  const model = modelId(opts?.model ?? "flash");
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`;
   const body = {
-    contents: [{ role: 'user', parts: [{ text: prompt }] }],
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
     tools: [{ google_search: {} }],
-    generationConfig: { temperature: opts?.temperature ?? 0.4, maxOutputTokens: opts?.maxOutputTokens ?? 1200 },
+    generationConfig: {
+      temperature: opts?.temperature ?? 0.4,
+      maxOutputTokens: opts?.maxOutputTokens ?? 1200,
+    },
   };
   const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    method: "POST",
+    headers: { "content-type": "application/json" },
     body: JSON.stringify(body),
   });
   if (!res.ok) {
-    const errText = await res.text().catch(() => '');
+    const errText = await res.text().catch(() => "");
     throw new Error(`Gemini grounding ${res.status}: ${errText.slice(0, 300)}`);
   }
-  const data = await res.json() as {
-    candidates?: { content: { parts: { text?: string }[] }; groundingMetadata?: { groundingChunks?: { web?: { uri: string } }[] } }[];
+  const data = (await res.json()) as {
+    candidates?: {
+      content: { parts: { text?: string }[] };
+      groundingMetadata?: { groundingChunks?: { web?: { uri: string } }[] };
+    }[];
   };
   const candidate = data.candidates?.[0];
-  const text = candidate?.content.parts.map((p) => p.text ?? '').join('') ?? '';
+  const text = candidate?.content.parts.map((p) => p.text ?? "").join("") ?? "";
   const sources = (candidate?.groundingMetadata?.groundingChunks ?? [])
     .map((c) => c.web?.uri)
     .filter(Boolean) as string[];
@@ -204,7 +251,8 @@ const rateHits: number[] = [];
 
 export function rateLimitCheck(): { ok: boolean; retryMs?: number } {
   const now = Date.now();
-  while (rateHits.length && now - rateHits[0] > RATE_WINDOW_MS) rateHits.shift();
+  while (rateHits.length && now - rateHits[0] > RATE_WINDOW_MS)
+    rateHits.shift();
   if (rateHits.length >= RATE_MAX) {
     return { ok: false, retryMs: RATE_WINDOW_MS - (now - rateHits[0]) };
   }

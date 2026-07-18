@@ -103,7 +103,7 @@
   background: var(--c-bg-sunken);
   color: var(--c-ink);
 }
-.cpn-icon-btn[aria-pressed='true'] {
+.cpn-icon-btn[aria-pressed="true"] {
   color: var(--c-accent);
   border-color: var(--c-rule);
 }
@@ -217,10 +217,18 @@
   border-radius: 8px;
 }
 /* Kind accent — add a case here when you add a kind (falls back to ink-dim). */
-.cpn-card[data-kind='analogy'] { border-left-color: var(--c-gold); }
-.cpn-card[data-kind='explanation'] { border-left-color: var(--c-accent); }
-.cpn-card[data-kind='question'] { border-left-color: var(--c-green); }
-.cpn-card[data-kind='note'] { border-left-color: var(--c-ink-dim); }
+.cpn-card[data-kind="analogy"] {
+  border-left-color: var(--c-gold);
+}
+.cpn-card[data-kind="explanation"] {
+  border-left-color: var(--c-accent);
+}
+.cpn-card[data-kind="question"] {
+  border-left-color: var(--c-green);
+}
+.cpn-card[data-kind="note"] {
+  border-left-color: var(--c-ink-dim);
+}
 
 .cpn-card-head {
   display: flex;
@@ -285,8 +293,12 @@
   color: var(--c-ink-dim);
 }
 /* Source colour — add a case when you add a provider (falls back to ink-dim). */
-.cpn-src[data-provider='notebooklm'] { color: var(--c-vendor-notebooklm); }
-.cpn-src[data-provider='manual'] { color: var(--c-accent); }
+.cpn-src[data-provider="notebooklm"] {
+  color: var(--c-vendor-notebooklm);
+}
+.cpn-src[data-provider="manual"] {
+  color: var(--c-accent);
+}
 
 /* ── Composer ────────────────────────────────────────────── */
 .cpn-composer {
@@ -344,7 +356,9 @@
 }
 
 /* Present mode — quieter chrome for screen-share reading. */
-.cpn--present .cpn-card-actions { display: none; }
+.cpn--present .cpn-card-actions {
+  display: none;
+}
 
 /* ── Responsive: bottom-sheet on narrow screens ──────────── */
 @media (max-width: 768px) {

@@ -1,14 +1,14 @@
 ---
-import Base from '../layouts/Base.astro';
-import '../styles/pipeline-paths.css';
+import Base from "../layouts/Base.astro";
+import "../styles/pipeline-paths.css";
 ---
+
 <Base
   title="Pipeline Paths by Content Category"
   active="pipeline-paths"
   description="How the 18-phase podcast pipeline branches differently based on content genre — Islamic/Scholarly, Sites/Consumer, and Explainers/Technical."
 >
   <div class="pp-page">
-
     <!-- ════════════════════════════════════════════════════════════════
          HERO (REQ-013: .page-hero + .page-hero-title gradient text)
          REQ-035: ≤200 words in first viewport, no unexplained jargon.
@@ -18,11 +18,12 @@ import '../styles/pipeline-paths.css';
         <span class="eyebrow">System reference</span>
         <h1 class="page-hero-title">Pipeline Paths by Content Category</h1>
         <p class="page-hero-lede">
-          The Podcast Factory runs every piece of content through the same 18 phases —
-          but what each phase <em>does</em> changes based on content genre.
-          This page shows exactly where the Islamic/Scholarly path, the Sites/Consumer path,
-          and the Explainers/Technical path diverge, what drives each fork (a different
-          prompt, a different rule set, or a full skip), and which forks are already built.
+          The Podcast Factory runs every piece of content through the same 18
+          phases — but what each phase <em>does</em> changes based on content genre.
+          This page shows exactly where the Islamic/Scholarly path, the Sites/Consumer
+          path, and the Explainers/Technical path diverge, what drives each fork (a
+          different prompt, a different rule set, or a full skip), and which forks
+          are already built.
         </p>
       </div>
     </header>
@@ -35,10 +36,12 @@ import '../styles/pipeline-paths.css';
     <section id="s01-branch-map" class="pp-section">
       <h2><span class="num">01</span> Branch map — all 18 phases</h2>
       <p class="pp-section-intro">
-        Each row is one pipeline phase. The <strong>Branch type</strong> column tells you
-        <em>how</em> the phase varies: a different AI prompt (🟡 PROMPT), a different rule
-        constant (🔵 RULES), a complete skip (🔴 SKIP), or no variation at all (🟢 SHARED).
-        The <strong>Status</strong> column shows whether the branching logic is already built.
+        Each row is one pipeline phase. The <strong>Branch type</strong> column tells
+        you
+        <em>how</em> the phase varies: a different AI prompt (🟡 PROMPT), a different
+        rule constant (🔵 RULES), a complete skip (🔴 SKIP), or no variation at all
+        (🟢 SHARED). The <strong>Status</strong> column shows whether the branching
+        logic is already built.
       </p>
 
       <!-- Legend (REQ-037: gloss each domain term at first use) -->
@@ -66,7 +69,12 @@ import '../styles/pipeline-paths.css';
       </div>
 
       <!-- REQ-052: role="region" + tabindex="0" on scrollable wrapper -->
-      <div class="table-container" role="region" aria-label="Pipeline branch map" tabindex="0">
+      <div
+        class="table-container"
+        role="region"
+        aria-label="Pipeline branch map"
+        tabindex="0"
+      >
         <table class="pp-table">
           <thead>
             <tr>
@@ -80,7 +88,6 @@ import '../styles/pipeline-paths.css';
             </tr>
           </thead>
           <tbody>
-
             <tr>
               <td class="col-phase">
                 <span class="col-phase-num">01</span>
@@ -90,8 +97,12 @@ import '../styles/pipeline-paths.css';
               <td class="col-category">Expects Arabic PDF</td>
               <td class="col-category">Expects scraped markdown</td>
               <td class="col-category">Expects synthesized markdown</td>
-              <td class="col-branch"><span class="bt-badge bt-partial">⚠️ PARTIAL</span></td>
-              <td class="col-status"><span class="st-note">Needs source-format check</span></td>
+              <td class="col-branch"
+                ><span class="bt-badge bt-partial">⚠️ PARTIAL</span></td
+              >
+              <td class="col-status"
+                ><span class="st-note">Needs source-format check</span></td
+              >
             </tr>
 
             <tr>
@@ -103,7 +114,9 @@ import '../styles/pipeline-paths.css';
               <td class="col-category"><code>Islamic/</code> bucket</td>
               <td class="col-category"><code>Guides/</code> bucket</td>
               <td class="col-category"><code>Technical/</code> bucket</td>
-              <td class="col-branch"><span class="bt-badge bt-shared">🟢 SHARED</span></td>
+              <td class="col-branch"
+                ><span class="bt-badge bt-shared">🟢 SHARED</span></td
+              >
               <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
@@ -116,20 +129,40 @@ import '../styles/pipeline-paths.css';
               <td class="col-category">Same</td>
               <td class="col-category">Same</td>
               <td class="col-category">Same</td>
-              <td class="col-branch"><span class="bt-badge bt-shared">🟢 SHARED</span></td>
+              <td class="col-branch"
+                ><span class="bt-badge bt-shared">🟢 SHARED</span></td
+              >
               <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
             <tr>
               <td class="col-phase">
                 <span class="col-phase-num">04</span>
-                <span class="col-phase-name">ocr-translate / source-ingest</span>
+                <span class="col-phase-name">ocr-translate / source-ingest</span
+                >
               </td>
-              <td class="col-desc">Azure OCR + Translator (PDF) or local .md ingest (pre-written)</td>
-              <td class="col-category">Run — Arabic PDF → English via <code>ingest_source.py</code></td>
-              <td class="col-category"><code>phase_0a_ingest_source_md</code> — reads <code>source/*.md</code> → <code>raw-extract.md</code></td>
-              <td class="col-category"><code>phase_0a_ingest_source_md</code> — reads <code>source/*.md</code> → <code>raw-extract.md</code></td>
-              <td class="col-branch"><span class="bt-badge bt-skip">🔴 SKIP (OCR)</span> / <span class="bt-badge bt-shared">🟢 source-ingest</span></td>
+              <td class="col-desc"
+                >Azure OCR + Translator (PDF) or local .md ingest (pre-written)</td
+              >
+              <td class="col-category"
+                >Run — Arabic PDF → English via <code>ingest_source.py</code
+                ></td
+              >
+              <td class="col-category"
+                ><code>phase_0a_ingest_source_md</code> — reads <code
+                  >source/*.md</code
+                > → <code>raw-extract.md</code></td
+              >
+              <td class="col-category"
+                ><code>phase_0a_ingest_source_md</code> — reads <code
+                  >source/*.md</code
+                > → <code>raw-extract.md</code></td
+              >
+              <td class="col-branch"
+                ><span class="bt-badge bt-skip">🔴 SKIP (OCR)</span> / <span
+                  class="bt-badge bt-shared">🟢 source-ingest</span
+                ></td
+              >
               <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
@@ -139,10 +172,18 @@ import '../styles/pipeline-paths.css';
                 <span class="col-phase-name">refine-english (0b)</span>
               </td>
               <td class="col-desc">Source text denoise / refinement</td>
-              <td class="col-category">Preserve Arabic terms + scholarly tone</td>
-              <td class="col-category">Strip legal/compliance jargon (web-consumer-denoise)</td>
-              <td class="col-category">Strip marketing language, preserve CLI syntax + code blocks</td>
-              <td class="col-branch"><span class="bt-badge bt-prompt">🟡 PROMPT</span></td>
+              <td class="col-category"
+                >Preserve Arabic terms + scholarly tone</td
+              >
+              <td class="col-category"
+                >Strip legal/compliance jargon (web-consumer-denoise)</td
+              >
+              <td class="col-category"
+                >Strip marketing language, preserve CLI syntax + code blocks</td
+              >
+              <td class="col-branch"
+                ><span class="bt-badge bt-prompt">🟡 PROMPT</span></td
+              >
               <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
@@ -152,10 +193,18 @@ import '../styles/pipeline-paths.css';
                 <span class="col-phase-name">glossary (0c)</span>
               </td>
               <td class="col-desc">Arabic glossary scaffold</td>
-              <td class="col-category">Run — scaffolds <code>glossary.yml</code></td>
-              <td class="col-category"><span class="bt-badge bt-skip">🔴 SKIP</span></td>
-              <td class="col-category"><span class="bt-badge bt-skip">🔴 SKIP</span></td>
-              <td class="col-branch"><span class="bt-badge bt-skip">🔴 SKIP</span></td>
+              <td class="col-category"
+                >Run — scaffolds <code>glossary.yml</code></td
+              >
+              <td class="col-category"
+                ><span class="bt-badge bt-skip">🔴 SKIP</span></td
+              >
+              <td class="col-category"
+                ><span class="bt-badge bt-skip">🔴 SKIP</span></td
+              >
+              <td class="col-branch"
+                ><span class="bt-badge bt-skip">🔴 SKIP</span></td
+              >
               <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
@@ -165,10 +214,14 @@ import '../styles/pipeline-paths.css';
                 <span class="col-phase-name">chapter-design (0d)</span>
               </td>
               <td class="col-desc">Episode segmentation + contracts</td>
-              <td class="col-category">Scholarly chapter structure, inline exonym resolution</td>
+              <td class="col-category"
+                >Scholarly chapter structure, inline exonym resolution</td
+              >
               <td class="col-category">Consumer topic structure</td>
               <td class="col-category">Technical episode arc, no phonetics</td>
-              <td class="col-branch"><span class="bt-badge bt-prompt">🟡 PROMPT</span></td>
+              <td class="col-branch"
+                ><span class="bt-badge bt-prompt">🟡 PROMPT</span></td
+              >
               <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
@@ -178,10 +231,16 @@ import '../styles/pipeline-paths.css';
                 <span class="col-phase-name">enrichment (0e)</span>
               </td>
               <td class="col-desc">Add citations + depth</td>
-              <td class="col-category">7-tier Islamic hierarchy (Quran → hadith → modern scholarship)</td>
-              <td class="col-category"><span class="bt-badge bt-skip">🔴 SKIP</span></td>
+              <td class="col-category"
+                >7-tier Islamic hierarchy (Quran → hadith → modern scholarship)</td
+              >
+              <td class="col-category"
+                ><span class="bt-badge bt-skip">🔴 SKIP</span></td
+              >
               <td class="col-category">Official docs accuracy verification</td>
-              <td class="col-branch"><span class="bt-badge bt-mixed">🟡 PROMPT + 🔴 SKIP</span></td>
+              <td class="col-branch"
+                ><span class="bt-badge bt-mixed">🟡 PROMPT + 🔴 SKIP</span></td
+              >
               <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
@@ -191,11 +250,19 @@ import '../styles/pipeline-paths.css';
                 <span class="col-phase-name">series-plan</span>
               </td>
               <td class="col-desc">Series-level audience + angle</td>
-              <td class="col-category">Scholarly tradition, doctrinal framing</td>
+              <td class="col-category"
+                >Scholarly tradition, doctrinal framing</td
+              >
               <td class="col-category">Consumer benefits, plain-English</td>
-              <td class="col-category">Developer onboarding, practical workflow</td>
-              <td class="col-branch"><span class="bt-badge bt-prompt">🟡 PROMPT</span></td>
-              <td class="col-status"><span class="st-missing">❌ Not category-aware</span></td>
+              <td class="col-category"
+                >Developer onboarding, practical workflow</td
+              >
+              <td class="col-branch"
+                ><span class="bt-badge bt-prompt">🟡 PROMPT</span></td
+              >
+              <td class="col-status"
+                ><span class="st-missing">❌ Not category-aware</span></td
+              >
             </tr>
 
             <tr>
@@ -207,7 +274,9 @@ import '../styles/pipeline-paths.css';
               <td class="col-category">Same</td>
               <td class="col-category">Same</td>
               <td class="col-category">Same</td>
-              <td class="col-branch"><span class="bt-badge bt-shared">🟢 SHARED</span></td>
+              <td class="col-branch"
+                ><span class="bt-badge bt-shared">🟢 SHARED</span></td
+              >
               <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
@@ -216,12 +285,23 @@ import '../styles/pipeline-paths.css';
                 <span class="col-phase-num">11a</span>
                 <span class="col-phase-name">per-chapter: Noise routing</span>
               </td>
-              <td class="col-desc">Paragraph noise filtering (rule + Sonnet)</td>
-              <td class="col-category">Protects Arabic text + spiritual/doctrinal</td>
-              <td class="col-category">Protects financial figures + product claims</td>
+              <td class="col-desc">Paragraph noise filtering (rule + Sonnet)</td
+              >
+              <td class="col-category"
+                >Protects Arabic text + spiritual/doctrinal</td
+              >
+              <td class="col-category"
+                >Protects financial figures + product claims</td
+              >
               <td class="col-category">Protects code blocks + CLI commands</td>
-              <td class="col-branch"><span class="bt-badge bt-mixed">🟡 PROMPT + 🔵 RULES</span></td>
-              <td class="col-status"><span class="st-missing">❌ Sonnet prompt hardcodes spiritual</span></td>
+              <td class="col-branch"
+                ><span class="bt-badge bt-mixed">🟡 PROMPT + 🔵 RULES</span></td
+              >
+              <td class="col-status"
+                ><span class="st-missing"
+                  >❌ Sonnet prompt hardcodes spiritual</span
+                ></td
+              >
             </tr>
 
             <tr>
@@ -230,10 +310,20 @@ import '../styles/pipeline-paths.css';
                 <span class="col-phase-name">per-chapter: Framing</span>
               </td>
               <td class="col-desc">NotebookLM customize prompt</td>
-              <td class="col-category">Scholar/seeker hosts, Arabic pronunciation, 5-beat doctrinal structure</td>
-              <td class="col-category">John/Hannah consumer hosts, financial walkthrough</td>
-              <td class="col-category">Developer-to-developer hosts, CLI workflow, official-docs accuracy</td>
-              <td class="col-branch"><span class="bt-badge bt-prompt">🟡 PROMPT</span></td>
+              <td class="col-category"
+                >Scholar/seeker hosts, Arabic pronunciation, 5-beat doctrinal
+                structure</td
+              >
+              <td class="col-category"
+                >John/Hannah consumer hosts, financial walkthrough</td
+              >
+              <td class="col-category"
+                >Developer-to-developer hosts, CLI workflow, official-docs
+                accuracy</td
+              >
+              <td class="col-branch"
+                ><span class="bt-badge bt-prompt">🟡 PROMPT</span></td
+              >
               <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
@@ -242,12 +332,24 @@ import '../styles/pipeline-paths.css';
                 <span class="col-phase-num">11c</span>
                 <span class="col-phase-name">per-chapter: Build + gates</span>
               </td>
-              <td class="col-desc"><code>build_episode_txt.py</code> validation</td>
-              <td class="col-category">R-NO-ABBREVIATION, R-HONORIFIC-ONCE, R-PHONETICS-OUT</td>
+              <td class="col-desc"
+                ><code>build_episode_txt.py</code> validation</td
+              >
+              <td class="col-category"
+                >R-NO-ABBREVIATION, R-HONORIFIC-ONCE, R-PHONETICS-OUT</td
+              >
               <td class="col-category">Financial accuracy gates</td>
-              <td class="col-category">Technical accuracy gates (no undefined acronyms)</td>
-              <td class="col-branch"><span class="bt-badge bt-rules">🔵 RULES</span></td>
-              <td class="col-status"><span class="st-missing">❌ Islamic gates fire on all categories</span></td>
+              <td class="col-category"
+                >Technical accuracy gates (no undefined acronyms)</td
+              >
+              <td class="col-branch"
+                ><span class="bt-badge bt-rules">🔵 RULES</span></td
+              >
+              <td class="col-status"
+                ><span class="st-missing"
+                  >❌ Islamic gates fire on all categories</span
+                ></td
+              >
             </tr>
 
             <tr>
@@ -256,11 +358,23 @@ import '../styles/pipeline-paths.css';
                 <span class="col-phase-name">per-chapter: Challenger</span>
               </td>
               <td class="col-desc">Semantic quality validation</td>
-              <td class="col-category">Full Islamic rule set (R-NO-ARABIC-NAMES, R-HOST-ROLE-PARITY)</td>
+              <td class="col-category"
+                >Full Islamic rule set (R-NO-ARABIC-NAMES, R-HOST-ROLE-PARITY)</td
+              >
               <td class="col-category">Consumer challenger rules</td>
-              <td class="col-category">Technical challenger rules (TECHNICAL_RULE_SET declared in <code>_rules.py</code>)</td>
-              <td class="col-branch"><span class="bt-badge bt-rules">🔵 RULES</span></td>
-              <td class="col-status"><span class="st-partial">⚠️ Rules declared; not yet wired to scorer</span></td>
+              <td class="col-category"
+                >Technical challenger rules (TECHNICAL_RULE_SET declared in <code
+                  >_rules.py</code
+                >)</td
+              >
+              <td class="col-branch"
+                ><span class="bt-badge bt-rules">🔵 RULES</span></td
+              >
+              <td class="col-status"
+                ><span class="st-partial"
+                  >⚠️ Rules declared; not yet wired to scorer</span
+                ></td
+              >
             </tr>
 
             <tr>
@@ -270,9 +384,16 @@ import '../styles/pipeline-paths.css';
               </td>
               <td class="col-desc">Optional slide deck generation</td>
               <td class="col-category">Islamic visual design</td>
-              <td class="col-category">Consumer: uses Islamic prompt (adequate for now)</td>
-              <td class="col-category">Technical: <code>_build_pair_prompt_technical</code> — CLI workflows, comparison tables, architecture flows</td>
-              <td class="col-branch"><span class="bt-badge bt-prompt">🟡 PROMPT</span></td>
+              <td class="col-category"
+                >Consumer: uses Islamic prompt (adequate for now)</td
+              >
+              <td class="col-category"
+                >Technical: <code>_build_pair_prompt_technical</code> — CLI workflows,
+                comparison tables, architecture flows</td
+              >
+              <td class="col-branch"
+                ><span class="bt-badge bt-prompt">🟡 PROMPT</span></td
+              >
               <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
@@ -285,8 +406,13 @@ import '../styles/pipeline-paths.css';
               <td class="col-category">Islamic challenger reports</td>
               <td class="col-category">Consumer reports</td>
               <td class="col-category">Technical reports</td>
-              <td class="col-branch"><span class="bt-badge bt-partial">⚠️ PARTIAL</span></td>
-              <td class="col-status"><span class="st-missing">❌ Assumes Islamic finding types</span></td>
+              <td class="col-branch"
+                ><span class="bt-badge bt-partial">⚠️ PARTIAL</span></td
+              >
+              <td class="col-status"
+                ><span class="st-missing">❌ Assumes Islamic finding types</span
+                ></td
+              >
             </tr>
 
             <tr>
@@ -298,7 +424,9 @@ import '../styles/pipeline-paths.css';
               <td class="col-category">Same</td>
               <td class="col-category">Same</td>
               <td class="col-category">Same</td>
-              <td class="col-branch"><span class="bt-badge bt-shared">🟢 SHARED</span></td>
+              <td class="col-branch"
+                ><span class="bt-badge bt-shared">🟢 SHARED</span></td
+              >
               <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
 
@@ -311,10 +439,11 @@ import '../styles/pipeline-paths.css';
               <td class="col-category">Same</td>
               <td class="col-category">Same</td>
               <td class="col-category">Same</td>
-              <td class="col-branch"><span class="bt-badge bt-shared">🟢 SHARED</span></td>
+              <td class="col-branch"
+                ><span class="bt-badge bt-shared">🟢 SHARED</span></td
+              >
               <td class="col-status"><span class="st-done">✅ Done</span></td>
             </tr>
-
           </tbody>
         </table>
       </div>
@@ -332,11 +461,14 @@ import '../styles/pipeline-paths.css';
          D-DIAGRAM: vertical top→bottom, no height clamp.
          ════════════════════════════════════════════════════════════════ -->
     <section id="s02-swimlane" class="pp-section">
-      <h2><span class="num">02</span> Visual swimlane — three paths in parallel</h2>
+      <h2>
+        <span class="num">02</span> Visual swimlane — three paths in parallel
+      </h2>
       <p class="pp-section-intro">
-        The diagram below shows all 18 phases as horizontal rows, with the three content paths
-        as vertical lanes. A block spanning all three lanes means the phase is <strong>SHARED</strong>.
-        Separate coloured blocks mean the phase branches — each lane shows what that path does.
+        The diagram below shows all 18 phases as horizontal rows, with the three
+        content paths as vertical lanes. A block spanning all three lanes means
+        the phase is <strong>SHARED</strong>. Separate coloured blocks mean the
+        phase branches — each lane shows what that path does.
       </p>
 
       <figure class="diagram-container">
@@ -346,12 +478,16 @@ import '../styles/pipeline-paths.css';
           aria-labelledby="swimlane-title swimlane-desc"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <title id="swimlane-title">Pipeline branch swimlane — 18 phases across 3 content paths</title>
+          <title id="swimlane-title">
+            Pipeline branch swimlane — 18 phases across 3 content paths
+          </title>
           <desc id="swimlane-desc">
-            A vertical swimlane showing 18 pipeline phases (rows) across three content-category
-            lanes (Islamic/Scholarly, Sites/Consumer, Explainers/Technical). Shared phases span
-            all three lanes in green. Branching phases show coloured blocks per lane: amber for
-            prompt-branching, blue for rules-branching, red for skipped, orange for partial.
+            A vertical swimlane showing 18 pipeline phases (rows) across three
+            content-category lanes (Islamic/Scholarly, Sites/Consumer,
+            Explainers/Technical). Shared phases span all three lanes in green.
+            Branching phases show coloured blocks per lane: amber for
+            prompt-branching, blue for rules-branching, red for skipped, orange
+            for partial.
           </desc>
 
           <!-- ── Colour definitions matching theme tokens ─────────────────────── -->
@@ -372,32 +508,106 @@ import '../styles/pipeline-paths.css';
           ──────────────────────────────────────────────────────────────────────── -->
 
           <!-- ── Background ─────────────────────────────────────────────────────── -->
-          <rect x="0" y="0" width="900" height="2460" fill="#f7f4ee" rx="6"/>
+          <rect x="0" y="0" width="900" height="2460" fill="#f7f4ee" rx="6"
+          ></rect>
 
           <!-- ── Column headers ─────────────────────────────────────────────────── -->
           <!-- Phase label column -->
-          <rect x="0" y="0" width="140" height="60" fill="#efeae0"/>
-          <text x="70" y="36" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#4d4a42" text-transform="uppercase" letter-spacing="0.06em">PHASE</text>
+          <rect x="0" y="0" width="140" height="60" fill="#efeae0"></rect>
+          <text
+            x="70"
+            y="36"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#4d4a42"
+            text-transform="uppercase"
+            letter-spacing="0.06em">PHASE</text
+          >
 
           <!-- Islamic/Scholarly lane header -->
-          <rect x="142" y="0" width="250" height="60" fill="#efeae0"/>
-          <text x="267" y="22" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#4a7c4a">Islamic / Scholarly</text>
-          <text x="267" y="40" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">books · letters · lectures · articles</text>
+          <rect x="142" y="0" width="250" height="60" fill="#efeae0"></rect>
+          <text
+            x="267"
+            y="22"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="12"
+            font-weight="700"
+            fill="#4a7c4a">Islamic / Scholarly</text
+          >
+          <text
+            x="267"
+            y="40"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">books · letters · lectures · articles</text
+          >
 
           <!-- Sites/Consumer lane header -->
-          <rect x="394" y="0" width="250" height="60" fill="#efeae0"/>
-          <text x="519" y="22" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#c08020">Sites / Consumer</text>
-          <text x="519" y="40" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">healthequity · product docs</text>
+          <rect x="394" y="0" width="250" height="60" fill="#efeae0"></rect>
+          <text
+            x="519"
+            y="22"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="12"
+            font-weight="700"
+            fill="#c08020">Sites / Consumer</text
+          >
+          <text
+            x="519"
+            y="40"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">healthequity · product docs</text
+          >
 
           <!-- Explainers/Technical lane header -->
-          <rect x="646" y="0" width="254" height="60" fill="#efeae0"/>
-          <text x="773" y="22" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#1a5c8a">Explainers / Technical</text>
-          <text x="773" y="40" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">developer docs · training</text>
+          <rect x="646" y="0" width="254" height="60" fill="#efeae0"></rect>
+          <text
+            x="773"
+            y="22"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="12"
+            font-weight="700"
+            fill="#1a5c8a">Explainers / Technical</text
+          >
+          <text
+            x="773"
+            y="40"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">developer docs · training</text
+          >
 
           <!-- ── Vertical lane dividers ───────────────────────────────────────── -->
-          <line x1="140" y1="0" x2="140" y2="2460" stroke="#d9d3c4" stroke-width="2"/>
-          <line x1="392" y1="0" x2="392" y2="2460" stroke="#d9d3c4" stroke-width="1"/>
-          <line x1="644" y1="0" x2="644" y2="2460" stroke="#d9d3c4" stroke-width="1"/>
+          <line
+            x1="140"
+            y1="0"
+            x2="140"
+            y2="2460"
+            stroke="#d9d3c4"
+            stroke-width="2"></line>
+          <line
+            x1="392"
+            y1="0"
+            x2="392"
+            y2="2460"
+            stroke="#d9d3c4"
+            stroke-width="1"></line>
+          <line
+            x1="644"
+            y1="0"
+            x2="644"
+            y2="2460"
+            stroke="#d9d3c4"
+            stroke-width="1"></line>
 
           <!-- ══════════════════════════════════════════════════════════════════
                PHASE ROWS — each at y = 60 + (rowIndex * 120)
@@ -423,117 +633,591 @@ import '../styles/pipeline-paths.css';
           ══════════════════════════════════════════════════════════════════ -->
 
           <!-- Row separators -->
-          <line x1="0" y1="60"   x2="900" y2="60"   stroke="#d9d3c4" stroke-width="2"/>
-          <line x1="0" y1="180"  x2="900" y2="180"  stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="300"  x2="900" y2="300"  stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="420"  x2="900" y2="420"  stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="540"  x2="900" y2="540"  stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="660"  x2="900" y2="660"  stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="780"  x2="900" y2="780"  stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="900"  x2="900" y2="900"  stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="1020" x2="900" y2="1020" stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="1140" x2="900" y2="1140" stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="1260" x2="900" y2="1260" stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="1380" x2="900" y2="1380" stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="1500" x2="900" y2="1500" stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="1620" x2="900" y2="1620" stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="1740" x2="900" y2="1740" stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="1860" x2="900" y2="1860" stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="1980" x2="900" y2="1980" stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="2100" x2="900" y2="2100" stroke="#ebe6da" stroke-width="1"/>
-          <line x1="0" y1="2220" x2="900" y2="2220" stroke="#d9d3c4" stroke-width="2"/>
+          <line
+            x1="0"
+            y1="60"
+            x2="900"
+            y2="60"
+            stroke="#d9d3c4"
+            stroke-width="2"></line>
+          <line
+            x1="0"
+            y1="180"
+            x2="900"
+            y2="180"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="300"
+            x2="900"
+            y2="300"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="420"
+            x2="900"
+            y2="420"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="540"
+            x2="900"
+            y2="540"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="660"
+            x2="900"
+            y2="660"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="780"
+            x2="900"
+            y2="780"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="900"
+            x2="900"
+            y2="900"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="1020"
+            x2="900"
+            y2="1020"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="1140"
+            x2="900"
+            y2="1140"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="1260"
+            x2="900"
+            y2="1260"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="1380"
+            x2="900"
+            y2="1380"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="1500"
+            x2="900"
+            y2="1500"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="1620"
+            x2="900"
+            y2="1620"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="1740"
+            x2="900"
+            y2="1740"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="1860"
+            x2="900"
+            y2="1860"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="1980"
+            x2="900"
+            y2="1980"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="2100"
+            x2="900"
+            y2="2100"
+            stroke="#ebe6da"
+            stroke-width="1"></line>
+          <line
+            x1="0"
+            y1="2220"
+            x2="900"
+            y2="2220"
+            stroke="#d9d3c4"
+            stroke-width="2"></line>
 
           <!-- ── Phase label column (left) ─────────────────────────────────────── -->
 
           <!-- 01 preflight -->
-          <text x="8" y="88"  font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">01</text>
-          <text x="8" y="104" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">preflight</text>
-          <text x="8" y="118" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#87827a">⚠️ PARTIAL</text>
+          <text
+            x="8"
+            y="88"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">01</text
+          >
+          <text
+            x="8"
+            y="104"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">preflight</text
+          >
+          <text
+            x="8"
+            y="118"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#87827a">⚠️ PARTIAL</text
+          >
 
           <!-- 02 branch -->
-          <text x="8" y="208" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">02</text>
-          <text x="8" y="224" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">branch</text>
-          <text x="8" y="238" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#4a7c4a">🟢 SHARED</text>
+          <text
+            x="8"
+            y="208"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">02</text
+          >
+          <text
+            x="8"
+            y="224"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">branch</text
+          >
+          <text
+            x="8"
+            y="238"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#4a7c4a">🟢 SHARED</text
+          >
 
           <!-- 03 scaffold -->
-          <text x="8" y="328" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">03</text>
-          <text x="8" y="344" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">scaffold</text>
-          <text x="8" y="358" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#4a7c4a">🟢 SHARED</text>
+          <text
+            x="8"
+            y="328"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">03</text
+          >
+          <text
+            x="8"
+            y="344"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">scaffold</text
+          >
+          <text
+            x="8"
+            y="358"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#4a7c4a">🟢 SHARED</text
+          >
 
           <!-- 04 ocr-translate -->
-          <text x="8" y="448" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">04</text>
-          <text x="8" y="464" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">ocr-translate</text>
-          <text x="8" y="478" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#a83232">🔴 SKIP</text>
+          <text
+            x="8"
+            y="448"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">04</text
+          >
+          <text
+            x="8"
+            y="464"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">ocr-translate</text
+          >
+          <text
+            x="8"
+            y="478"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#a83232">🔴 SKIP</text
+          >
 
           <!-- 05 refine-english -->
-          <text x="8" y="568" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">05</text>
-          <text x="8" y="584" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">refine (0b)</text>
-          <text x="8" y="598" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#c08020">🟡 PROMPT</text>
+          <text
+            x="8"
+            y="568"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">05</text
+          >
+          <text
+            x="8"
+            y="584"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">refine (0b)</text
+          >
+          <text
+            x="8"
+            y="598"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#c08020">🟡 PROMPT</text
+          >
 
           <!-- 06 phonetics -->
-          <text x="8" y="688" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">06</text>
-          <text x="8" y="704" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">glossary (0c)</text>
-          <text x="8" y="718" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#a83232">🔴 SKIP</text>
+          <text
+            x="8"
+            y="688"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">06</text
+          >
+          <text
+            x="8"
+            y="704"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">glossary (0c)</text
+          >
+          <text
+            x="8"
+            y="718"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#a83232">🔴 SKIP</text
+          >
 
           <!-- 07 chapter-design -->
-          <text x="8" y="808" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">07</text>
-          <text x="8" y="824" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">chapter-design</text>
-          <text x="8" y="838" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#c08020">🟡 PROMPT</text>
+          <text
+            x="8"
+            y="808"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">07</text
+          >
+          <text
+            x="8"
+            y="824"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">chapter-design</text
+          >
+          <text
+            x="8"
+            y="838"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#c08020">🟡 PROMPT</text
+          >
 
           <!-- 08 enrichment -->
-          <text x="8" y="928" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">08</text>
-          <text x="8" y="944" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">enrichment</text>
-          <text x="8" y="958" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#c08020">PROMPT+SKIP</text>
+          <text
+            x="8"
+            y="928"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">08</text
+          >
+          <text
+            x="8"
+            y="944"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">enrichment</text
+          >
+          <text
+            x="8"
+            y="958"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#c08020">PROMPT+SKIP</text
+          >
 
           <!-- 09 series-plan -->
-          <text x="8" y="1048" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">09</text>
-          <text x="8" y="1064" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">series-plan</text>
-          <text x="8" y="1078" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#c08020">🟡 PROMPT</text>
+          <text
+            x="8"
+            y="1048"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">09</text
+          >
+          <text
+            x="8"
+            y="1064"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">series-plan</text
+          >
+          <text
+            x="8"
+            y="1078"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#c08020">🟡 PROMPT</text
+          >
 
           <!-- 10 register-series -->
-          <text x="8" y="1168" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">10</text>
-          <text x="8" y="1184" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">register-series</text>
-          <text x="8" y="1198" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#4a7c4a">🟢 SHARED</text>
+          <text
+            x="8"
+            y="1168"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">10</text
+          >
+          <text
+            x="8"
+            y="1184"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">register-series</text
+          >
+          <text
+            x="8"
+            y="1198"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#4a7c4a">🟢 SHARED</text
+          >
 
           <!-- 11a noise-routing -->
-          <text x="8" y="1288" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">11a</text>
-          <text x="8" y="1304" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">noise routing</text>
-          <text x="8" y="1318" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#c08020">PROMPT+RULES</text>
+          <text
+            x="8"
+            y="1288"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">11a</text
+          >
+          <text
+            x="8"
+            y="1304"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">noise routing</text
+          >
+          <text
+            x="8"
+            y="1318"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#c08020">PROMPT+RULES</text
+          >
 
           <!-- 11b framing -->
-          <text x="8" y="1408" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">11b</text>
-          <text x="8" y="1424" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">framing</text>
-          <text x="8" y="1438" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#c08020">🟡 PROMPT</text>
+          <text
+            x="8"
+            y="1408"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">11b</text
+          >
+          <text
+            x="8"
+            y="1424"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">framing</text
+          >
+          <text
+            x="8"
+            y="1438"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#c08020">🟡 PROMPT</text
+          >
 
           <!-- 11c build+gates -->
-          <text x="8" y="1528" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">11c</text>
-          <text x="8" y="1544" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">build + gates</text>
-          <text x="8" y="1558" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#1a5c8a">🔵 RULES</text>
+          <text
+            x="8"
+            y="1528"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">11c</text
+          >
+          <text
+            x="8"
+            y="1544"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">build + gates</text
+          >
+          <text
+            x="8"
+            y="1558"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#1a5c8a">🔵 RULES</text
+          >
 
           <!-- 11d challenger -->
-          <text x="8" y="1648" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">11d</text>
-          <text x="8" y="1664" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">challenger</text>
-          <text x="8" y="1678" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#1a5c8a">🔵 RULES</text>
+          <text
+            x="8"
+            y="1648"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">11d</text
+          >
+          <text
+            x="8"
+            y="1664"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">challenger</text
+          >
+          <text
+            x="8"
+            y="1678"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#1a5c8a">🔵 RULES</text
+          >
 
           <!-- 11b slide-decks -->
-          <text x="8" y="1768" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">11b</text>
-          <text x="8" y="1784" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">slide-decks</text>
-          <text x="8" y="1798" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#c08020">🟡 PROMPT</text>
+          <text
+            x="8"
+            y="1768"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">11b</text
+          >
+          <text
+            x="8"
+            y="1784"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">slide-decks</text
+          >
+          <text
+            x="8"
+            y="1798"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#c08020">🟡 PROMPT</text
+          >
 
           <!-- 12 trainer -->
-          <text x="8" y="1888" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">12</text>
-          <text x="8" y="1904" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">trainer</text>
-          <text x="8" y="1918" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#b8860b">⚠️ PARTIAL</text>
+          <text
+            x="8"
+            y="1888"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">12</text
+          >
+          <text
+            x="8"
+            y="1904"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">trainer</text
+          >
+          <text
+            x="8"
+            y="1918"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#b8860b">⚠️ PARTIAL</text
+          >
 
           <!-- 13 merge -->
-          <text x="8" y="2008" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">13</text>
-          <text x="8" y="2024" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">merge</text>
-          <text x="8" y="2038" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#4a7c4a">🟢 SHARED</text>
+          <text
+            x="8"
+            y="2008"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">13</text
+          >
+          <text
+            x="8"
+            y="2024"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">merge</text
+          >
+          <text
+            x="8"
+            y="2038"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#4a7c4a">🟢 SHARED</text
+          >
 
           <!-- 14 done -->
-          <text x="8" y="2128" font-family="Lato, system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b4513">14</text>
-          <text x="8" y="2144" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1f1d18">done</text>
-          <text x="8" y="2158" font-family="Lato, system-ui, sans-serif" font-size="9"  fill="#4a7c4a">🟢 SHARED</text>
+          <text
+            x="8"
+            y="2128"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            font-weight="700"
+            fill="#8b4513">14</text
+          >
+          <text
+            x="8"
+            y="2144"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1f1d18">done</text
+          >
+          <text
+            x="8"
+            y="2158"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="9"
+            fill="#4a7c4a">🟢 SHARED</text
+          >
 
           <!-- ══════════════════════════════════════════════════════════════════
                PHASE BLOCKS
@@ -556,253 +1240,1440 @@ import '../styles/pipeline-paths.css';
 
           <!-- ── ROW 0: 01 preflight ⚠️ PARTIAL ──────────────────────────────── -->
           <!-- Islamic block -->
-          <rect x="144" y="68" width="244" height="104" rx="4" fill="rgba(74,124,74,0.12)" stroke="#4a7c4a" stroke-width="1"/>
-          <text x="266" y="110" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#4a7c4a">Arabic PDF</text>
-          <text x="266" y="128" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Expects Arabic source</text>
+          <rect
+            x="144"
+            y="68"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(74,124,74,0.12)"
+            stroke="#4a7c4a"
+            stroke-width="1"></rect>
+          <text
+            x="266"
+            y="110"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#4a7c4a">Arabic PDF</text
+          >
+          <text
+            x="266"
+            y="128"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Expects Arabic source</text
+          >
           <!-- Consumer block -->
-          <rect x="396" y="68" width="244" height="104" rx="4" fill="rgba(184,134,11,0.12)" stroke="#b8860b" stroke-width="1"/>
-          <text x="518" y="110" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#b8860b">Scraped markdown</text>
-          <text x="518" y="128" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">No format check yet</text>
+          <rect
+            x="396"
+            y="68"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(184,134,11,0.12)"
+            stroke="#b8860b"
+            stroke-width="1"></rect>
+          <text
+            x="518"
+            y="110"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#b8860b">Scraped markdown</text
+          >
+          <text
+            x="518"
+            y="128"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">No format check yet</text
+          >
           <!-- Technical block -->
-          <rect x="648" y="68" width="248" height="104" rx="4" fill="rgba(184,134,11,0.12)" stroke="#b8860b" stroke-width="1"/>
-          <text x="772" y="110" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#b8860b">Synth markdown</text>
-          <text x="772" y="128" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">No format check yet</text>
+          <rect
+            x="648"
+            y="68"
+            width="248"
+            height="104"
+            rx="4"
+            fill="rgba(184,134,11,0.12)"
+            stroke="#b8860b"
+            stroke-width="1"></rect>
+          <text
+            x="772"
+            y="110"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#b8860b">Synth markdown</text
+          >
+          <text
+            x="772"
+            y="128"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">No format check yet</text
+          >
 
           <!-- ── ROW 1: 02 branch 🟢 SHARED ──────────────────────────────────── -->
-          <rect x="144" y="188" width="756" height="104" rx="4" fill="rgba(74,124,74,0.12)" stroke="#4a7c4a" stroke-width="1.5"/>
-          <text x="522" y="232" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#4a7c4a">🟢 SHARED — branch_name(category, slug, profile=…)</text>
-          <text x="522" y="250" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Islamic/ · Technical/ · Fiction/ · Guides/ — bucket branch per content profile</text>
-          <text x="522" y="266" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4a7c4a">✅ Done</text>
+          <rect
+            x="144"
+            y="188"
+            width="756"
+            height="104"
+            rx="4"
+            fill="rgba(74,124,74,0.12)"
+            stroke="#4a7c4a"
+            stroke-width="1.5"></rect>
+          <text
+            x="522"
+            y="232"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="12"
+            font-weight="700"
+            fill="#4a7c4a"
+            >🟢 SHARED — branch_name(category, slug, profile=…)</text
+          >
+          <text
+            x="522"
+            y="250"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42"
+            >Islamic/ · Technical/ · Fiction/ · Guides/ — bucket branch per
+            content profile</text
+          >
+          <text
+            x="522"
+            y="266"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4a7c4a">✅ Done</text
+          >
 
           <!-- ── ROW 2: 03 scaffold 🟢 SHARED ────────────────────────────────── -->
-          <rect x="144" y="308" width="756" height="104" rx="4" fill="rgba(74,124,74,0.12)" stroke="#4a7c4a" stroke-width="1.5"/>
-          <text x="522" y="352" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#4a7c4a">🟢 SHARED — directory structure</text>
-          <text x="522" y="370" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">_system/ · chapters/ · glossary.yml path resolved at runtime</text>
-          <text x="522" y="386" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4a7c4a">✅ Done</text>
+          <rect
+            x="144"
+            y="308"
+            width="756"
+            height="104"
+            rx="4"
+            fill="rgba(74,124,74,0.12)"
+            stroke="#4a7c4a"
+            stroke-width="1.5"></rect>
+          <text
+            x="522"
+            y="352"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="12"
+            font-weight="700"
+            fill="#4a7c4a">🟢 SHARED — directory structure</text
+          >
+          <text
+            x="522"
+            y="370"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42"
+            >_system/ · chapters/ · glossary.yml path resolved at runtime</text
+          >
+          <text
+            x="522"
+            y="386"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4a7c4a">✅ Done</text
+          >
 
           <!-- ── ROW 3: 04 ocr-translate 🔴 SKIP ─────────────────────────────── -->
           <!-- Islamic block (runs) -->
-          <rect x="144" y="428" width="244" height="104" rx="4" fill="rgba(74,124,74,0.12)" stroke="#4a7c4a" stroke-width="1"/>
-          <text x="266" y="468" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#4a7c4a">Azure OCR runs</text>
-          <text x="266" y="486" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Arabic PDF → English</text>
-          <text x="266" y="502" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">full translation pass</text>
+          <rect
+            x="144"
+            y="428"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(74,124,74,0.12)"
+            stroke="#4a7c4a"
+            stroke-width="1"></rect>
+          <text
+            x="266"
+            y="468"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#4a7c4a">Azure OCR runs</text
+          >
+          <text
+            x="266"
+            y="486"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Arabic PDF → English</text
+          >
+          <text
+            x="266"
+            y="502"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">full translation pass</text
+          >
           <!-- Consumer SKIP -->
-          <rect x="396" y="428" width="244" height="104" rx="4" fill="rgba(168,50,50,0.10)" stroke="#a83232" stroke-width="1"/>
-          <text x="518" y="476" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#a83232">🔴 SKIP</text>
-          <text x="518" y="494" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">No skip guard yet</text>
+          <rect
+            x="396"
+            y="428"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(168,50,50,0.10)"
+            stroke="#a83232"
+            stroke-width="1"></rect>
+          <text
+            x="518"
+            y="476"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="12"
+            font-weight="700"
+            fill="#a83232">🔴 SKIP</text
+          >
+          <text
+            x="518"
+            y="494"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">No skip guard yet</text
+          >
           <!-- Technical SKIP -->
-          <rect x="648" y="428" width="248" height="104" rx="4" fill="rgba(168,50,50,0.10)" stroke="#a83232" stroke-width="1"/>
-          <text x="772" y="476" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#a83232">🔴 SKIP</text>
-          <text x="772" y="494" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">No skip guard yet</text>
+          <rect
+            x="648"
+            y="428"
+            width="248"
+            height="104"
+            rx="4"
+            fill="rgba(168,50,50,0.10)"
+            stroke="#a83232"
+            stroke-width="1"></rect>
+          <text
+            x="772"
+            y="476"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="12"
+            font-weight="700"
+            fill="#a83232">🔴 SKIP</text
+          >
+          <text
+            x="772"
+            y="494"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">No skip guard yet</text
+          >
 
           <!-- ── ROW 4: 05 refine-english 🟡 PROMPT ──────────────────────────── -->
           <!-- Islamic -->
-          <rect x="144" y="548" width="244" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
-          <text x="266" y="584" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">Scholarly denoise</text>
-          <text x="266" y="600" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Preserve Arabic terms</text>
-          <text x="266" y="616" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">+ scholarly tone</text>
+          <rect
+            x="144"
+            y="548"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(192,128,32,0.12)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="266"
+            y="584"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#c08020">Scholarly denoise</text
+          >
+          <text
+            x="266"
+            y="600"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Preserve Arabic terms</text
+          >
+          <text
+            x="266"
+            y="616"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">+ scholarly tone</text
+          >
           <!-- Consumer -->
-          <rect x="396" y="548" width="244" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
-          <text x="518" y="584" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">Consumer denoise</text>
-          <text x="518" y="600" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Strip legal/compliance</text>
-          <text x="518" y="616" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4a7c4a">✅ Built</text>
+          <rect
+            x="396"
+            y="548"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(192,128,32,0.12)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="518"
+            y="584"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#c08020">Consumer denoise</text
+          >
+          <text
+            x="518"
+            y="600"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Strip legal/compliance</text
+          >
+          <text
+            x="518"
+            y="616"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4a7c4a">✅ Built</text
+          >
           <!-- Technical (missing) -->
-          <rect x="648" y="548" width="248" height="104" rx="4" fill="rgba(168,50,50,0.08)" stroke="#a83232" stroke-width="1" stroke-dasharray="5,3"/>
-          <text x="772" y="592" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#a83232">Technical variant</text>
-          <text x="772" y="610" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">❌ Not yet built</text>
+          <rect
+            x="648"
+            y="548"
+            width="248"
+            height="104"
+            rx="4"
+            fill="rgba(168,50,50,0.08)"
+            stroke="#a83232"
+            stroke-width="1"
+            stroke-dasharray="5,3"></rect>
+          <text
+            x="772"
+            y="592"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#a83232">Technical variant</text
+          >
+          <text
+            x="772"
+            y="610"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">❌ Not yet built</text
+          >
 
           <!-- ── ROW 5: 06 phonetics 🔴 SKIP ─────────────────────────────────── -->
           <!-- Islamic (runs) -->
-          <rect x="144" y="668" width="244" height="104" rx="4" fill="rgba(74,124,74,0.12)" stroke="#4a7c4a" stroke-width="1"/>
-          <text x="266" y="706" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#4a7c4a">Glossary scaffold</text>
-          <text x="266" y="722" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Scaffolds glossary.yml</text>
+          <rect
+            x="144"
+            y="668"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(74,124,74,0.12)"
+            stroke="#4a7c4a"
+            stroke-width="1"></rect>
+          <text
+            x="266"
+            y="706"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#4a7c4a">Glossary scaffold</text
+          >
+          <text
+            x="266"
+            y="722"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Scaffolds glossary.yml</text
+          >
           <!-- Consumer SKIP -->
-          <rect x="396" y="668" width="244" height="104" rx="4" fill="rgba(168,50,50,0.10)" stroke="#a83232" stroke-width="1"/>
-          <text x="518" y="716" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#a83232">🔴 SKIP</text>
-          <text x="518" y="734" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">❌ No skip logic</text>
+          <rect
+            x="396"
+            y="668"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(168,50,50,0.10)"
+            stroke="#a83232"
+            stroke-width="1"></rect>
+          <text
+            x="518"
+            y="716"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="12"
+            font-weight="700"
+            fill="#a83232">🔴 SKIP</text
+          >
+          <text
+            x="518"
+            y="734"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">❌ No skip logic</text
+          >
           <!-- Technical SKIP -->
-          <rect x="648" y="668" width="248" height="104" rx="4" fill="rgba(168,50,50,0.10)" stroke="#a83232" stroke-width="1"/>
-          <text x="772" y="716" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#a83232">🔴 SKIP</text>
-          <text x="772" y="734" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">❌ No skip logic</text>
+          <rect
+            x="648"
+            y="668"
+            width="248"
+            height="104"
+            rx="4"
+            fill="rgba(168,50,50,0.10)"
+            stroke="#a83232"
+            stroke-width="1"></rect>
+          <text
+            x="772"
+            y="716"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="12"
+            font-weight="700"
+            fill="#a83232">🔴 SKIP</text
+          >
+          <text
+            x="772"
+            y="734"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">❌ No skip logic</text
+          >
 
           <!-- ── ROW 6: 07 chapter-design 🟡 PROMPT ──────────────────────────── -->
           <!-- Islamic -->
-          <rect x="144" y="788" width="244" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
-          <text x="266" y="822" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">Scholarly chapters</text>
-          <text x="266" y="838" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Inline exonym rules</text>
-          <text x="266" y="854" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Doctrinal structure</text>
+          <rect
+            x="144"
+            y="788"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(192,128,32,0.12)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="266"
+            y="822"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#c08020">Scholarly chapters</text
+          >
+          <text
+            x="266"
+            y="838"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Inline exonym rules</text
+          >
+          <text
+            x="266"
+            y="854"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Doctrinal structure</text
+          >
           <!-- Consumer -->
-          <rect x="396" y="788" width="244" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
-          <text x="518" y="822" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">Consumer topics</text>
-          <text x="518" y="838" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Consumer topic structure</text>
+          <rect
+            x="396"
+            y="788"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(192,128,32,0.12)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="518"
+            y="822"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#c08020">Consumer topics</text
+          >
+          <text
+            x="518"
+            y="838"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Consumer topic structure</text
+          >
           <!-- Technical -->
-          <rect x="648" y="788" width="248" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
-          <text x="772" y="822" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">Technical arc</text>
-          <text x="772" y="838" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">No phonetics needed</text>
-          <text x="772" y="854" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4a7c4a">✅ No glossary dependency</text>
+          <rect
+            x="648"
+            y="788"
+            width="248"
+            height="104"
+            rx="4"
+            fill="rgba(192,128,32,0.12)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="772"
+            y="822"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#c08020">Technical arc</text
+          >
+          <text
+            x="772"
+            y="838"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">No phonetics needed</text
+          >
+          <text
+            x="772"
+            y="854"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4a7c4a">✅ No glossary dependency</text
+          >
 
           <!-- ── ROW 7: 08 enrichment PROMPT+SKIP ─────────────────────────────── -->
           <!-- Islamic -->
-          <rect x="144" y="908" width="244" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
-          <text x="266" y="942" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">7-tier hierarchy</text>
-          <text x="266" y="958" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Quran → hadith →</text>
-          <text x="266" y="974" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">modern scholarship</text>
+          <rect
+            x="144"
+            y="908"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(192,128,32,0.12)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="266"
+            y="942"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#c08020">7-tier hierarchy</text
+          >
+          <text
+            x="266"
+            y="958"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Quran → hadith →</text
+          >
+          <text
+            x="266"
+            y="974"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">modern scholarship</text
+          >
           <!-- Consumer SKIP -->
-          <rect x="396" y="908" width="244" height="104" rx="4" fill="rgba(168,50,50,0.10)" stroke="#a83232" stroke-width="1"/>
-          <text x="518" y="956" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#a83232">🔴 SKIP</text>
+          <rect
+            x="396"
+            y="908"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(168,50,50,0.10)"
+            stroke="#a83232"
+            stroke-width="1"></rect>
+          <text
+            x="518"
+            y="956"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="12"
+            font-weight="700"
+            fill="#a83232">🔴 SKIP</text
+          >
           <!-- Technical -->
-          <rect x="648" y="908" width="248" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
-          <text x="772" y="942" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">Docs accuracy</text>
-          <text x="772" y="958" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Official docs verification</text>
-          <text x="772" y="974" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">❌ Hardcodes _shared/islam/</text>
+          <rect
+            x="648"
+            y="908"
+            width="248"
+            height="104"
+            rx="4"
+            fill="rgba(192,128,32,0.12)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="772"
+            y="942"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#c08020">Docs accuracy</text
+          >
+          <text
+            x="772"
+            y="958"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Official docs verification</text
+          >
+          <text
+            x="772"
+            y="974"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">❌ Hardcodes _shared/islam/</text
+          >
 
           <!-- ── ROW 8: 09 series-plan 🟡 PROMPT ─────────────────────────────── -->
           <!-- Islamic -->
-          <rect x="144" y="1028" width="244" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
-          <text x="266" y="1068" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">Doctrinal framing</text>
-          <text x="266" y="1086" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Scholarly tradition</text>
+          <rect
+            x="144"
+            y="1028"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(192,128,32,0.12)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="266"
+            y="1068"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#c08020">Doctrinal framing</text
+          >
+          <text
+            x="266"
+            y="1086"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Scholarly tradition</text
+          >
           <!-- Consumer -->
-          <rect x="396" y="1028" width="244" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
-          <text x="518" y="1068" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">Consumer benefits</text>
-          <text x="518" y="1086" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Plain-English angle</text>
+          <rect
+            x="396"
+            y="1028"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(192,128,32,0.12)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="518"
+            y="1068"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#c08020">Consumer benefits</text
+          >
+          <text
+            x="518"
+            y="1086"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Plain-English angle</text
+          >
           <!-- Technical -->
-          <rect x="648" y="1028" width="248" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
-          <text x="772" y="1068" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">Dev onboarding</text>
-          <text x="772" y="1086" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">❌ Not category-aware</text>
+          <rect
+            x="648"
+            y="1028"
+            width="248"
+            height="104"
+            rx="4"
+            fill="rgba(192,128,32,0.12)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="772"
+            y="1068"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#c08020">Dev onboarding</text
+          >
+          <text
+            x="772"
+            y="1086"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">❌ Not category-aware</text
+          >
 
           <!-- ── ROW 9: 10 register-series 🟢 SHARED ─────────────────────────── -->
-          <rect x="144" y="1148" width="756" height="104" rx="4" fill="rgba(74,124,74,0.12)" stroke="#4a7c4a" stroke-width="1.5"/>
-          <text x="522" y="1194" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#4a7c4a">🟢 SHARED — catalog registration</text>
-          <text x="522" y="1212" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4a7c4a">✅ Done</text>
+          <rect
+            x="144"
+            y="1148"
+            width="756"
+            height="104"
+            rx="4"
+            fill="rgba(74,124,74,0.12)"
+            stroke="#4a7c4a"
+            stroke-width="1.5"></rect>
+          <text
+            x="522"
+            y="1194"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="12"
+            font-weight="700"
+            fill="#4a7c4a">🟢 SHARED — catalog registration</text
+          >
+          <text
+            x="522"
+            y="1212"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4a7c4a">✅ Done</text
+          >
 
           <!-- ── ROW 10: 11a noise routing PROMPT+RULES ───────────────────────── -->
           <!-- Islamic -->
-          <rect x="144" y="1268" width="244" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
-          <text x="266" y="1304" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">Spiritual/doctrinal</text>
-          <text x="266" y="1320" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Protects Arabic text</text>
+          <rect
+            x="144"
+            y="1268"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(192,128,32,0.12)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="266"
+            y="1304"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#c08020">Spiritual/doctrinal</text
+          >
+          <text
+            x="266"
+            y="1320"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Protects Arabic text</text
+          >
           <!-- Consumer -->
-          <rect x="396" y="1268" width="244" height="104" rx="4" fill="rgba(26,92,138,0.10)" stroke="#1a5c8a" stroke-width="1"/>
-          <text x="518" y="1304" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1a5c8a">Financial figures</text>
-          <text x="518" y="1320" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Protects product claims</text>
+          <rect
+            x="396"
+            y="1268"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(26,92,138,0.10)"
+            stroke="#1a5c8a"
+            stroke-width="1"></rect>
+          <text
+            x="518"
+            y="1304"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1a5c8a">Financial figures</text
+          >
+          <text
+            x="518"
+            y="1320"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Protects product claims</text
+          >
           <!-- Technical -->
-          <rect x="648" y="1268" width="248" height="104" rx="4" fill="rgba(26,92,138,0.10)" stroke="#1a5c8a" stroke-width="1"/>
-          <text x="772" y="1304" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1a5c8a">Code blocks / CLI</text>
-          <text x="772" y="1320" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">❌ Prompt hardcodes spiritual</text>
+          <rect
+            x="648"
+            y="1268"
+            width="248"
+            height="104"
+            rx="4"
+            fill="rgba(26,92,138,0.10)"
+            stroke="#1a5c8a"
+            stroke-width="1"></rect>
+          <text
+            x="772"
+            y="1304"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1a5c8a">Code blocks / CLI</text
+          >
+          <text
+            x="772"
+            y="1320"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">❌ Prompt hardcodes spiritual</text
+          >
 
           <!-- ── ROW 11: 11b framing 🟡 PROMPT ───────────────────────────────── -->
           <!-- Islamic -->
-          <rect x="144" y="1388" width="244" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
-          <text x="266" y="1422" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">Scholar/seeker hosts</text>
-          <text x="266" y="1438" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Arabic pronunciation</text>
-          <text x="266" y="1454" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">5-beat doctrinal</text>
+          <rect
+            x="144"
+            y="1388"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(192,128,32,0.12)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="266"
+            y="1422"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#c08020">Scholar/seeker hosts</text
+          >
+          <text
+            x="266"
+            y="1438"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Arabic pronunciation</text
+          >
+          <text
+            x="266"
+            y="1454"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">5-beat doctrinal</text
+          >
           <!-- Consumer -->
-          <rect x="396" y="1388" width="244" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
-          <text x="518" y="1422" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">John/Hannah hosts</text>
-          <text x="518" y="1438" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Financial walkthrough</text>
-          <text x="518" y="1454" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4a7c4a">✅ Done</text>
+          <rect
+            x="396"
+            y="1388"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(192,128,32,0.12)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="518"
+            y="1422"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#c08020">John/Hannah hosts</text
+          >
+          <text
+            x="518"
+            y="1438"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Financial walkthrough</text
+          >
+          <text
+            x="518"
+            y="1454"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4a7c4a">✅ Done</text
+          >
           <!-- Technical (falls to Islamic) -->
-          <rect x="648" y="1388" width="248" height="104" rx="4" fill="rgba(168,50,50,0.08)" stroke="#a83232" stroke-width="1" stroke-dasharray="5,3"/>
-          <text x="772" y="1422" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#a83232">Dev-to-dev hosts</text>
-          <text x="772" y="1438" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">CLI workflow</text>
-          <text x="772" y="1454" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">⚠️ Falls to Islamic prompt</text>
+          <rect
+            x="648"
+            y="1388"
+            width="248"
+            height="104"
+            rx="4"
+            fill="rgba(168,50,50,0.08)"
+            stroke="#a83232"
+            stroke-width="1"
+            stroke-dasharray="5,3"></rect>
+          <text
+            x="772"
+            y="1422"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#a83232">Dev-to-dev hosts</text
+          >
+          <text
+            x="772"
+            y="1438"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">CLI workflow</text
+          >
+          <text
+            x="772"
+            y="1454"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">⚠️ Falls to Islamic prompt</text
+          >
 
           <!-- ── ROW 12: 11c build+gates 🔵 RULES ────────────────────────────── -->
           <!-- Islamic -->
-          <rect x="144" y="1508" width="244" height="104" rx="4" fill="rgba(26,92,138,0.10)" stroke="#1a5c8a" stroke-width="1"/>
-          <text x="266" y="1544" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1a5c8a">Islamic gates</text>
-          <text x="266" y="1560" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">R-NO-ABBREV</text>
-          <text x="266" y="1576" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">R-HONORIFIC-ONCE</text>
+          <rect
+            x="144"
+            y="1508"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(26,92,138,0.10)"
+            stroke="#1a5c8a"
+            stroke-width="1"></rect>
+          <text
+            x="266"
+            y="1544"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1a5c8a">Islamic gates</text
+          >
+          <text
+            x="266"
+            y="1560"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">R-NO-ABBREV</text
+          >
+          <text
+            x="266"
+            y="1576"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">R-HONORIFIC-ONCE</text
+          >
           <!-- Consumer -->
-          <rect x="396" y="1508" width="244" height="104" rx="4" fill="rgba(26,92,138,0.10)" stroke="#1a5c8a" stroke-width="1"/>
-          <text x="518" y="1544" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1a5c8a">Financial accuracy</text>
-          <text x="518" y="1560" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">❌ Islamic gates fire instead</text>
+          <rect
+            x="396"
+            y="1508"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(26,92,138,0.10)"
+            stroke="#1a5c8a"
+            stroke-width="1"></rect>
+          <text
+            x="518"
+            y="1544"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1a5c8a">Financial accuracy</text
+          >
+          <text
+            x="518"
+            y="1560"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">❌ Islamic gates fire instead</text
+          >
           <!-- Technical -->
-          <rect x="648" y="1508" width="248" height="104" rx="4" fill="rgba(26,92,138,0.10)" stroke="#1a5c8a" stroke-width="1"/>
-          <text x="772" y="1544" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1a5c8a">Technical accuracy</text>
-          <text x="772" y="1560" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">❌ Islamic gates fire instead</text>
+          <rect
+            x="648"
+            y="1508"
+            width="248"
+            height="104"
+            rx="4"
+            fill="rgba(26,92,138,0.10)"
+            stroke="#1a5c8a"
+            stroke-width="1"></rect>
+          <text
+            x="772"
+            y="1544"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1a5c8a">Technical accuracy</text
+          >
+          <text
+            x="772"
+            y="1560"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">❌ Islamic gates fire instead</text
+          >
 
           <!-- ── ROW 13: 11d challenger 🔵 RULES ─────────────────────────────── -->
           <!-- Islamic -->
-          <rect x="144" y="1628" width="244" height="104" rx="4" fill="rgba(26,92,138,0.10)" stroke="#1a5c8a" stroke-width="1"/>
-          <text x="266" y="1664" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1a5c8a">Islamic rule set</text>
-          <text x="266" y="1680" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">R-NO-ARABIC-NAMES</text>
-          <text x="266" y="1696" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">R-HOST-ROLE-PARITY</text>
+          <rect
+            x="144"
+            y="1628"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(26,92,138,0.10)"
+            stroke="#1a5c8a"
+            stroke-width="1"></rect>
+          <text
+            x="266"
+            y="1664"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1a5c8a">Islamic rule set</text
+          >
+          <text
+            x="266"
+            y="1680"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">R-NO-ARABIC-NAMES</text
+          >
+          <text
+            x="266"
+            y="1696"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">R-HOST-ROLE-PARITY</text
+          >
           <!-- Consumer -->
-          <rect x="396" y="1628" width="244" height="104" rx="4" fill="rgba(26,92,138,0.10)" stroke="#1a5c8a" stroke-width="1"/>
-          <text x="518" y="1664" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1a5c8a">Consumer rules</text>
-          <text x="518" y="1680" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#b8860b">⚠️ Partial</text>
+          <rect
+            x="396"
+            y="1628"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(26,92,138,0.10)"
+            stroke="#1a5c8a"
+            stroke-width="1"></rect>
+          <text
+            x="518"
+            y="1664"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#1a5c8a">Consumer rules</text
+          >
+          <text
+            x="518"
+            y="1680"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#b8860b">⚠️ Partial</text
+          >
           <!-- Technical -->
-          <rect x="648" y="1628" width="248" height="104" rx="4" fill="rgba(168,50,50,0.08)" stroke="#a83232" stroke-width="1" stroke-dasharray="5,3"/>
-          <text x="772" y="1664" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#a83232">Technical rules</text>
-          <text x="772" y="1680" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">❌ Undefined</text>
+          <rect
+            x="648"
+            y="1628"
+            width="248"
+            height="104"
+            rx="4"
+            fill="rgba(168,50,50,0.08)"
+            stroke="#a83232"
+            stroke-width="1"
+            stroke-dasharray="5,3"></rect>
+          <text
+            x="772"
+            y="1664"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#a83232">Technical rules</text
+          >
+          <text
+            x="772"
+            y="1680"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">❌ Undefined</text
+          >
 
           <!-- ── ROW 14: 11b slide-decks 🟡 PROMPT ────────────────────────────── -->
           <!-- Islamic -->
-          <rect x="144" y="1748" width="244" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
-          <text x="266" y="1784" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">Islamic visual design</text>
-          <text x="266" y="1802" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#b8860b">⚠️ Islamic-only so far</text>
+          <rect
+            x="144"
+            y="1748"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(192,128,32,0.12)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="266"
+            y="1784"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#c08020">Islamic visual design</text
+          >
+          <text
+            x="266"
+            y="1802"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#b8860b">⚠️ Islamic-only so far</text
+          >
           <!-- Consumer (not extended) -->
-          <rect x="396" y="1748" width="244" height="104" rx="4" fill="rgba(31,29,24,0.04)" stroke="#d9d3c4" stroke-width="1" stroke-dasharray="4,3"/>
-          <text x="518" y="1796" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" fill="#87827a">Not extended</text>
+          <rect
+            x="396"
+            y="1748"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(31,29,24,0.04)"
+            stroke="#d9d3c4"
+            stroke-width="1"
+            stroke-dasharray="4,3"></rect>
+          <text
+            x="518"
+            y="1796"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            fill="#87827a">Not extended</text
+          >
           <!-- Technical (not extended) -->
-          <rect x="648" y="1748" width="248" height="104" rx="4" fill="rgba(31,29,24,0.04)" stroke="#d9d3c4" stroke-width="1" stroke-dasharray="4,3"/>
-          <text x="772" y="1796" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" fill="#87827a">Not extended</text>
+          <rect
+            x="648"
+            y="1748"
+            width="248"
+            height="104"
+            rx="4"
+            fill="rgba(31,29,24,0.04)"
+            stroke="#d9d3c4"
+            stroke-width="1"
+            stroke-dasharray="4,3"></rect>
+          <text
+            x="772"
+            y="1796"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            fill="#87827a">Not extended</text
+          >
 
           <!-- ── ROW 15: 12 trainer ⚠️ PARTIAL ─────────────────────────────────── -->
           <!-- Islamic -->
-          <rect x="144" y="1868" width="244" height="104" rx="4" fill="rgba(192,128,32,0.12)" stroke="#c08020" stroke-width="1"/>
-          <text x="266" y="1908" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#c08020">Islamic findings</text>
-          <text x="266" y="1926" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4d4a42">Challenger reports</text>
+          <rect
+            x="144"
+            y="1868"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(192,128,32,0.12)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="266"
+            y="1908"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#c08020">Islamic findings</text
+          >
+          <text
+            x="266"
+            y="1926"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4d4a42">Challenger reports</text
+          >
           <!-- Consumer -->
-          <rect x="396" y="1868" width="244" height="104" rx="4" fill="rgba(184,134,11,0.12)" stroke="#b8860b" stroke-width="1"/>
-          <text x="518" y="1908" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#b8860b">Consumer findings</text>
-          <text x="518" y="1926" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">❌ Assumes Islamic types</text>
+          <rect
+            x="396"
+            y="1868"
+            width="244"
+            height="104"
+            rx="4"
+            fill="rgba(184,134,11,0.12)"
+            stroke="#b8860b"
+            stroke-width="1"></rect>
+          <text
+            x="518"
+            y="1908"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#b8860b">Consumer findings</text
+          >
+          <text
+            x="518"
+            y="1926"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">❌ Assumes Islamic types</text
+          >
           <!-- Technical -->
-          <rect x="648" y="1868" width="248" height="104" rx="4" fill="rgba(184,134,11,0.12)" stroke="#b8860b" stroke-width="1"/>
-          <text x="772" y="1908" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#b8860b">Technical findings</text>
-          <text x="772" y="1926" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">❌ Assumes Islamic types</text>
+          <rect
+            x="648"
+            y="1868"
+            width="248"
+            height="104"
+            rx="4"
+            fill="rgba(184,134,11,0.12)"
+            stroke="#b8860b"
+            stroke-width="1"></rect>
+          <text
+            x="772"
+            y="1908"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#b8860b">Technical findings</text
+          >
+          <text
+            x="772"
+            y="1926"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">❌ Assumes Islamic types</text
+          >
 
           <!-- ── ROW 16: 13 merge 🟢 SHARED ──────────────────────────────────── -->
-          <rect x="144" y="1988" width="756" height="104" rx="4" fill="rgba(74,124,74,0.12)" stroke="#4a7c4a" stroke-width="1.5"/>
-          <text x="522" y="2034" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#4a7c4a">🟢 SHARED — merge branch → develop</text>
-          <text x="522" y="2052" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4a7c4a">✅ Done</text>
+          <rect
+            x="144"
+            y="1988"
+            width="756"
+            height="104"
+            rx="4"
+            fill="rgba(74,124,74,0.12)"
+            stroke="#4a7c4a"
+            stroke-width="1.5"></rect>
+          <text
+            x="522"
+            y="2034"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="12"
+            font-weight="700"
+            fill="#4a7c4a">🟢 SHARED — merge branch → develop</text
+          >
+          <text
+            x="522"
+            y="2052"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4a7c4a">✅ Done</text
+          >
 
           <!-- ── ROW 17: 14 done 🟢 SHARED ───────────────────────────────────── -->
-          <rect x="144" y="2108" width="756" height="104" rx="4" fill="rgba(74,124,74,0.12)" stroke="#4a7c4a" stroke-width="1.5"/>
-          <text x="522" y="2154" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="12" font-weight="700" fill="#4a7c4a">🟢 SHARED — finalize</text>
-          <text x="522" y="2172" text-anchor="middle" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4a7c4a">✅ Done</text>
+          <rect
+            x="144"
+            y="2108"
+            width="756"
+            height="104"
+            rx="4"
+            fill="rgba(74,124,74,0.12)"
+            stroke="#4a7c4a"
+            stroke-width="1.5"></rect>
+          <text
+            x="522"
+            y="2154"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="12"
+            font-weight="700"
+            fill="#4a7c4a">🟢 SHARED — finalize</text
+          >
+          <text
+            x="522"
+            y="2172"
+            text-anchor="middle"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4a7c4a">✅ Done</text
+          >
 
           <!-- ══════════════════════════════════════════════════════════════════
                LEGEND (y=2224 onward)
           ══════════════════════════════════════════════════════════════════ -->
-          <text x="12" y="2254" font-family="Lato, system-ui, sans-serif" font-size="11" font-weight="700" fill="#4d4a42">Legend:</text>
+          <text
+            x="12"
+            y="2254"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="11"
+            font-weight="700"
+            fill="#4d4a42">Legend:</text
+          >
           <!-- SHARED swatch -->
-          <rect x="70" y="2238" width="16" height="16" rx="3" fill="rgba(74,124,74,0.18)" stroke="#4a7c4a" stroke-width="1"/>
-          <text x="92" y="2251" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#4a7c4a">🟢 SHARED</text>
+          <rect
+            x="70"
+            y="2238"
+            width="16"
+            height="16"
+            rx="3"
+            fill="rgba(74,124,74,0.18)"
+            stroke="#4a7c4a"
+            stroke-width="1"></rect>
+          <text
+            x="92"
+            y="2251"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#4a7c4a">🟢 SHARED</text
+          >
           <!-- PROMPT swatch -->
-          <rect x="170" y="2238" width="16" height="16" rx="3" fill="rgba(192,128,32,0.18)" stroke="#c08020" stroke-width="1"/>
-          <text x="192" y="2251" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#c08020">🟡 PROMPT branch</text>
+          <rect
+            x="170"
+            y="2238"
+            width="16"
+            height="16"
+            rx="3"
+            fill="rgba(192,128,32,0.18)"
+            stroke="#c08020"
+            stroke-width="1"></rect>
+          <text
+            x="192"
+            y="2251"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#c08020">🟡 PROMPT branch</text
+          >
           <!-- RULES swatch -->
-          <rect x="306" y="2238" width="16" height="16" rx="3" fill="rgba(26,92,138,0.16)" stroke="#1a5c8a" stroke-width="1"/>
-          <text x="328" y="2251" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#1a5c8a">🔵 RULES branch</text>
+          <rect
+            x="306"
+            y="2238"
+            width="16"
+            height="16"
+            rx="3"
+            fill="rgba(26,92,138,0.16)"
+            stroke="#1a5c8a"
+            stroke-width="1"></rect>
+          <text
+            x="328"
+            y="2251"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#1a5c8a">🔵 RULES branch</text
+          >
           <!-- SKIP swatch -->
-          <rect x="440" y="2238" width="16" height="16" rx="3" fill="rgba(168,50,50,0.14)" stroke="#a83232" stroke-width="1"/>
-          <text x="462" y="2251" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#a83232">🔴 SKIP</text>
+          <rect
+            x="440"
+            y="2238"
+            width="16"
+            height="16"
+            rx="3"
+            fill="rgba(168,50,50,0.14)"
+            stroke="#a83232"
+            stroke-width="1"></rect>
+          <text
+            x="462"
+            y="2251"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#a83232">🔴 SKIP</text
+          >
           <!-- PARTIAL swatch -->
-          <rect x="520" y="2238" width="16" height="16" rx="3" fill="rgba(184,134,11,0.14)" stroke="#b8860b" stroke-width="1"/>
-          <text x="542" y="2251" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#b8860b">⚠️ PARTIAL</text>
+          <rect
+            x="520"
+            y="2238"
+            width="16"
+            height="16"
+            rx="3"
+            fill="rgba(184,134,11,0.14)"
+            stroke="#b8860b"
+            stroke-width="1"></rect>
+          <text
+            x="542"
+            y="2251"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#b8860b">⚠️ PARTIAL</text
+          >
           <!-- Dashed = not built -->
-          <rect x="624" y="2238" width="16" height="16" rx="3" fill="rgba(168,50,50,0.06)" stroke="#a83232" stroke-width="1" stroke-dasharray="4,2"/>
-          <text x="646" y="2251" font-family="Lato, system-ui, sans-serif" font-size="10" fill="#87827a">Dashed = not yet built</text>
-
+          <rect
+            x="624"
+            y="2238"
+            width="16"
+            height="16"
+            rx="3"
+            fill="rgba(168,50,50,0.06)"
+            stroke="#a83232"
+            stroke-width="1"
+            stroke-dasharray="4,2"></rect>
+          <text
+            x="646"
+            y="2251"
+            font-family="Lato, system-ui, sans-serif"
+            font-size="10"
+            fill="#87827a">Dashed = not yet built</text
+          >
         </svg>
         <figcaption>
-          The three content-category lanes run in parallel through all 18 phases.
-          Solid-bordered blocks are built; dashed-bordered blocks are designed but not yet implemented.
-          Shared phases (solid green, full-width) have one implementation for all categories.
+          The three content-category lanes run in parallel through all 18
+          phases. Solid-bordered blocks are built; dashed-bordered blocks are
+          designed but not yet implemented. Shared phases (solid green,
+          full-width) have one implementation for all categories.
         </figcaption>
       </figure>
     </section>
-
   </div>
 </Base>

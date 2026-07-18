@@ -31,35 +31,53 @@
  * Exit 0 on success; exit 3 if the chromium binary is missing (actionable
  * message — run `npx playwright install chromium`); exit 1 on other errors.
  */
-import { chromium } from 'playwright';
-import { readFileSync, mkdirSync, existsSync } from 'node:fs';
-import { createServer } from 'node:http';
-import path from 'node:path';
+import { chromium } from "playwright";
+import { readFileSync, mkdirSync, existsSync } from "node:fs";
+import { createServer } from "node:http";
+import path from "node:path";
 
-import { buildBookHtml, themeRoot } from './lib/book-html.mjs';
+import { buildBookHtml, themeRoot } from "./lib/book-html.mjs";
 
-const [, , MD_PATH, OUT_PATH, THEME_PATH, FLAG_V2, FLAG_SELF_STUDY] = process.argv;
+const [, , MD_PATH, OUT_PATH, THEME_PATH, FLAG_V2, FLAG_SELF_STUDY] =
+  process.argv;
 // The renderer honors book/visual-layout.json and enables the unified
 // pagination CSS (scoped under body.book-v2). Callers always pass "1".
-const V2 = String(FLAG_V2 || '').trim() === '1';
+const V2 = String(FLAG_V2 || "").trim() === "1";
 // Opt-in self-study layer (body.book-self-study): renders labeled Contextual-note
 // and Study-summary asides + bullet lists. Off unless the caller passes "1".
-const SELF_STUDY = String(FLAG_SELF_STUDY || '').trim() === '1';
+const SELF_STUDY = String(FLAG_SELF_STUDY || "").trim() === "1";
 if (!MD_PATH || !OUT_PATH) {
-  console.error('usage: render-book-pdf.mjs <book.md> <out.pdf> [theme.css]');
+  console.error("usage: render-book-pdf.mjs <book.md> <out.pdf> [theme.css]");
   process.exit(2);
 }
-const themePath = THEME_PATH || path.resolve(import.meta.dirname, '..', 'src', 'styles', 'theme.css');
-const printCssPath = path.resolve(import.meta.dirname, '..', 'src', 'styles', 'book-print.css');
-const fontRoot = path.resolve(import.meta.dirname, '..', 'public', 'fonts');
+const themePath =
+  THEME_PATH ||
+  path.resolve(import.meta.dirname, "..", "src", "styles", "theme.css");
+const printCssPath = path.resolve(
+  import.meta.dirname,
+  "..",
+  "src",
+  "styles",
+  "book-print.css",
+);
+const fontRoot = path.resolve(import.meta.dirname, "..", "public", "fonts");
 
 async function main() {
-  const rootTokens = existsSync(themePath) ? themeRoot(readFileSync(themePath, 'utf-8')) : '';
-  const printCss = readFileSync(printCssPath, 'utf-8');
+  const rootTokens = existsSync(themePath)
+    ? themeRoot(readFileSync(themePath, "utf-8"))
+    : "";
+  const printCss = readFileSync(printCssPath, "utf-8");
 
-  const { assetRoot, coverHtml, titlePage, tocHtml, crosswalkHtml, bodyHtml, bodyClass }
-    = buildBookHtml(MD_PATH, { v2: V2, selfStudy: SELF_STUDY });
-  const bodyClassAttr = bodyClass ? ` class="${bodyClass}"` : '';
+  const {
+    assetRoot,
+    coverHtml,
+    titlePage,
+    tocHtml,
+    crosswalkHtml,
+    bodyHtml,
+    bodyClass,
+  } = buildBookHtml(MD_PATH, { v2: V2, selfStudy: SELF_STUDY });
+  const bodyClassAttr = bodyClass ? ` class="${bodyClass}"` : "";
 
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>
     :root {${rootTokens}}
@@ -72,27 +90,41 @@ ${printCss}
     ${bodyHtml}
   </body></html>`;
 
-  const MIME = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.woff2': 'font/woff2' };
+  const MIME = {
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".svg": "image/svg+xml",
+    ".ttf": "font/ttf",
+    ".woff2": "font/woff2",
+  };
   const server = createServer((req, res) => {
-    const reqPath = decodeURIComponent((req.url || '/').split('?')[0]);
-    if (reqPath === '/' || reqPath === '') {
-      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    const reqPath = decodeURIComponent((req.url || "/").split("?")[0]);
+    if (reqPath === "/" || reqPath === "") {
+      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
       res.end(html);
       return;
     }
     // Font route: /fonts/** → plan-dashboard/public/fonts/**
-    const root = reqPath.startsWith('/fonts/') ? path.dirname(fontRoot) : assetRoot;
-    const resolved = path.resolve(root, '.' + reqPath);
+    const root = reqPath.startsWith("/fonts/")
+      ? path.dirname(fontRoot)
+      : assetRoot;
+    const resolved = path.resolve(root, "." + reqPath);
     const type = MIME[path.extname(resolved).toLowerCase()];
     // Traversal guard: only files under the allowed root, known types only.
-    if (!resolved.startsWith(root + path.sep) || !type || !existsSync(resolved)) {
-      res.writeHead(404); res.end('not found');
+    if (
+      !resolved.startsWith(root + path.sep) ||
+      !type ||
+      !existsSync(resolved)
+    ) {
+      res.writeHead(404);
+      res.end("not found");
       return;
     }
-    res.writeHead(200, { 'Content-Type': type });
+    res.writeHead(200, { "Content-Type": type });
     res.end(readFileSync(resolved));
   });
-  await new Promise((r) => server.listen(0, '127.0.0.1', r));
+  await new Promise((r) => server.listen(0, "127.0.0.1", r));
   const { port } = server.address();
 
   let browser;
@@ -100,22 +132,28 @@ ${printCss}
     browser = await chromium.launch();
   } catch (err) {
     server.close();
-    const first = String(err.message || err).split('\n')[0];
+    const first = String(err.message || err).split("\n")[0];
     console.error(`book-pdf: chromium unavailable — ${first}`);
-    console.error('  Run `npx playwright install chromium` in plan-dashboard/, then retry.');
+    console.error(
+      "  Run `npx playwright install chromium` in plan-dashboard/, then retry.",
+    );
     process.exit(3);
   }
   try {
     const page = await browser.newPage();
-    page.on('pageerror', (e) => console.error('  [pageerror]', e.message));
-    await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: 'networkidle' });
+    page.on("pageerror", (e) => console.error("  [pageerror]", e.message));
+    await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: "networkidle" });
     // Wait for ALL @font-face fonts (self-hosted Source Serif 4 + Amiri) to finish
     // loading before paginating. Without this, font-display:swap can paginate with
     // a fallback font and swap after — making page/line breaks non-deterministic.
     await page.evaluate(() => document.fonts.ready);
     mkdirSync(path.dirname(OUT_PATH), { recursive: true });
-    await page.pdf({ path: OUT_PATH, format: 'A4', printBackground: true,
-      margin: { top: '0', right: '0', bottom: '0', left: '0' } });
+    await page.pdf({
+      path: OUT_PATH,
+      format: "A4",
+      printBackground: true,
+      margin: { top: "0", right: "0", bottom: "0", left: "0" },
+    });
     console.log(`book-pdf: wrote ${OUT_PATH}`);
   } finally {
     await browser.close();
@@ -123,4 +161,7 @@ ${printCss}
   }
 }
 
-main().catch((e) => { console.error('book-pdf: ' + (e?.stack || e)); process.exit(1); });
+main().catch((e) => {
+  console.error("book-pdf: " + (e?.stack || e));
+  process.exit(1);
+});

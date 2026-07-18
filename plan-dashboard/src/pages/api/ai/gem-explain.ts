@@ -9,48 +9,83 @@
  * Returns: { ok, body: string, etymology: string|null, source: 'gemini' }
  */
 
-import type { APIRoute } from 'astro';
-import { rateLimitCheck } from '../../../lib/reader/gemini-server';
-import { runGemConcept } from '../../../lib/reader/gems/engine';
+import type { APIRoute } from "astro";
+import { rateLimitCheck } from "../../../lib/reader/gemini-server";
+import { runGemConcept } from "../../../lib/reader/gems/engine";
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   const limit = rateLimitCheck();
   if (!limit.ok) {
-    return new Response(JSON.stringify({ ok: false, error: 'rate_limited', retryMs: limit.retryMs }), {
-      status: 429, headers: { 'content-type': 'application/json' },
-    });
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        error: "rate_limited",
+        retryMs: limit.retryMs,
+      }),
+      {
+        status: 429,
+        headers: { "content-type": "application/json" },
+      },
+    );
   }
 
   try {
     const { gem, concept, context, bookTitle, model } = await request.json();
-    if (typeof concept !== 'string' || !concept.trim()) {
-      return new Response(JSON.stringify({ ok: false, error: 'missing concept' }), { status: 400, headers: { 'content-type': 'application/json' } });
+    if (typeof concept !== "string" || !concept.trim()) {
+      return new Response(
+        JSON.stringify({ ok: false, error: "missing concept" }),
+        { status: 400, headers: { "content-type": "application/json" } },
+      );
     }
 
     let result;
     try {
-      result = await runGemConcept({ gemId: gem, concept: concept.trim(), context, bookTitle, model });
+      result = await runGemConcept({
+        gemId: gem,
+        concept: concept.trim(),
+        context,
+        bookTitle,
+        model,
+      });
     } catch (e) {
       const msg = (e as Error).message;
-      if (msg.startsWith('unknown_gem:')) {
-        return new Response(JSON.stringify({ ok: false, error: 'unknown gem' }), { status: 400, headers: { 'content-type': 'application/json' } });
+      if (msg.startsWith("unknown_gem:")) {
+        return new Response(
+          JSON.stringify({ ok: false, error: "unknown gem" }),
+          { status: 400, headers: { "content-type": "application/json" } },
+        );
       }
       throw e;
     }
 
     if (!result.body) {
-      return new Response(JSON.stringify({ ok: false, error: 'no answer returned' }), { status: 502, headers: { 'content-type': 'application/json' } });
+      return new Response(
+        JSON.stringify({ ok: false, error: "no answer returned" }),
+        { status: 502, headers: { "content-type": "application/json" } },
+      );
     }
 
-    return new Response(JSON.stringify({
-      ok: true,
-      body: result.body,
-      etymology: result.etymology,
-      source: 'gemini',
-    }), { status: 200, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
+    return new Response(
+      JSON.stringify({
+        ok: true,
+        body: result.body,
+        etymology: result.etymology,
+        source: "gemini",
+      }),
+      {
+        status: 200,
+        headers: {
+          "content-type": "application/json",
+          "cache-control": "no-store",
+        },
+      },
+    );
   } catch (e) {
-    return new Response(JSON.stringify({ ok: false, error: (e as Error).message }), { status: 500, headers: { 'content-type': 'application/json' } });
+    return new Response(
+      JSON.stringify({ ok: false, error: (e as Error).message }),
+      { status: 500, headers: { "content-type": "application/json" } },
+    );
   }
 };

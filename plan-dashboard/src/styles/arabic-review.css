@@ -10,7 +10,9 @@
    shell owns max-width + padding now), but stays in the DOM tree so the
    page-scoped descendant rules below (.arv-page .ar-script, .arv-page
    .popover-card) keep matching. */
-.arv-page { display: contents; }
+.arv-page {
+  display: contents;
+}
 
 /* ── Layout: reading column + sticky rail ──────────────────────────────── */
 .arv-layout {
@@ -20,13 +22,24 @@
   align-items: start;
 }
 @media (max-width: 900px) {
-  .arv-layout { grid-template-columns: 1fr; }
-  .arv-panel { position: static !important; }
+  .arv-layout {
+    grid-template-columns: 1fr;
+  }
+  .arv-panel {
+    position: static !important;
+  }
 }
 
-.arv-main { min-width: 0; }
-.arv-empty { color: var(--c-ink-muted); font-style: italic; }
-.arv-chapter { margin-bottom: 3rem; }
+.arv-main {
+  min-width: 0;
+}
+.arv-empty {
+  color: var(--c-ink-muted);
+  font-style: italic;
+}
+.arv-chapter {
+  margin-bottom: 3rem;
+}
 
 /* Chapter heading row: title on the left, the per-chapter jump into the
    Edit & Enrich editor on the right — the precise inverse of the editor's
@@ -53,22 +66,35 @@
   text-decoration: none;
   white-space: nowrap;
 }
-.arv-chapter-edit:hover { text-decoration: underline; }
-.arv-chapter-edit span { margin-left: 0.15rem; }
+.arv-chapter-edit:hover {
+  text-decoration: underline;
+}
+.arv-chapter-edit span {
+  margin-left: 0.15rem;
+}
 
 /* ── Reading prose + Arabic overlay ────────────────────────────────────── */
 .prose-body {
   /* Arabic naskh fonts sit before the trailing generic so raw inline Arabic in
      the prose renders in Amiri, identical to the glossary .ar-script overlays — a
      generic in the middle would otherwise catch Arabic glyphs first. */
-  font-family: "Source Serif 4", "Iowan Old Style", Charter, Georgia, "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif;
+  font-family:
+    "Source Serif 4", "Iowan Old Style", Charter, Georgia, "Amiri",
+    "Scheherazade New", "Noto Naskh Arabic", serif;
   font-size: 1.2rem;
   line-height: 1.75;
   color: var(--c-ink);
   max-width: 80ch;
 }
-.prose-body p { margin: 0 0 1.1rem; }
-.prose-body h1, .prose-body h2, .prose-body h3 { color: var(--c-ink); line-height: 1.3; }
+.prose-body p {
+  margin: 0 0 1.1rem;
+}
+.prose-body h1,
+.prose-body h2,
+.prose-body h3 {
+  color: var(--c-ink);
+  line-height: 1.3;
+}
 .prose-body blockquote {
   border-left: 3px solid var(--c-accent-soft);
   padding-left: 1rem;
@@ -84,8 +110,12 @@
   padding: 0 1px;
   transition: background 0.12s ease;
 }
-.ar-overlay:hover { background: var(--c-gold); }
-.ar-en { color: inherit; }
+.ar-overlay:hover {
+  background: var(--c-gold);
+}
+.ar-en {
+  color: inherit;
+}
 .ar-script {
   font-family: "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif;
   margin-inline-start: 0.35em;
@@ -100,7 +130,9 @@
   font-size: 1.05em;
 }
 /* The page always shows Arabic; the toggle (if ever mounted) can still hide it. */
-body[data-arabic="off"] .arv-page .ar-script { display: none; }
+body[data-arabic="off"] .arv-page .ar-script {
+  display: none;
+}
 
 /* ── Inline curation popover (TermPopover renders .popover-card here) ───── */
 .arv-page .popover-card {
@@ -126,75 +158,199 @@ body[data-arabic="off"] .arv-page .ar-script { display: none; }
   border-bottom: 1px solid var(--c-rule-soft);
 }
 .popover-close {
-  border: none; background: none; cursor: pointer;
-  color: var(--c-ink-muted); font-size: 0.9rem; line-height: 1;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--c-ink-muted);
+  font-size: 0.9rem;
+  line-height: 1;
 }
-.popover-body { padding: 0.75rem; }
-.popover-term-row { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
-.popover-term-name { font-weight: 600; color: var(--c-ink); }
-.popover-term-audio { font-size: 0.8rem; color: var(--c-ink-muted); }
+.popover-body {
+  padding: 0.75rem;
+}
+.popover-term-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.popover-term-name {
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.popover-term-audio {
+  font-size: 0.8rem;
+  color: var(--c-ink-muted);
+}
 .popover-term-script {
   font-family: "Amiri", "Noto Naskh Arabic", serif;
-  font-size: 1.3rem; color: var(--c-accent);
+  font-size: 1.3rem;
+  color: var(--c-accent);
 }
-.popover-divider { border: none; border-top: 1px solid var(--c-rule-soft); margin: 0.6rem 0; }
-.popover-definition { font-size: 0.95rem; color: var(--c-ink-dim); margin: 0 0 0.5rem; }
-.popover-loading, .popover-error { font-size: 0.85rem; color: var(--c-ink-muted); }
-.popover-error { color: var(--c-red); }
+.popover-divider {
+  border: none;
+  border-top: 1px solid var(--c-rule-soft);
+  margin: 0.6rem 0;
+}
+.popover-definition {
+  font-size: 0.95rem;
+  color: var(--c-ink-dim);
+  margin: 0 0 0.5rem;
+}
+.popover-loading,
+.popover-error {
+  font-size: 0.85rem;
+  color: var(--c-ink-muted);
+}
+.popover-error {
+  color: var(--c-red);
+}
 .popover-chip {
-  display: inline-block; font-size: 0.75rem; padding: 1px 7px; margin: 2px 3px 0 0;
-  background: var(--c-bg-sunken); color: var(--c-ink-dim); border-radius: 10px;
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 1px 7px;
+  margin: 2px 3px 0 0;
+  background: var(--c-bg-sunken);
+  color: var(--c-ink-dim);
+  border-radius: 10px;
 }
 .popover-etymology-toggle {
-  border: none; background: none; cursor: pointer; padding: 0;
-  color: var(--c-accent); font-size: 0.82rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--c-accent);
+  font-size: 0.82rem;
 }
-.popover-etymology { font-size: 0.85rem; color: var(--c-ink-dim); margin: 0.3rem 0 0; }
+.popover-etymology {
+  font-size: 0.85rem;
+  color: var(--c-ink-dim);
+  margin: 0.3rem 0 0;
+}
 
 /* Curation controls shared between the popover and the panel rows. */
-.popover-curate-label, .arv-row .arv-actions { font-size: 0.78rem; }
-.popover-curate-label { color: var(--c-ink-muted); margin-bottom: 0.35rem; }
-.popover-curate-done { color: var(--c-green); font-weight: 600; }
-.popover-curate-actions, .arv-actions { display: flex; flex-wrap: wrap; gap: 4px; }
+.popover-curate-label,
+.arv-row .arv-actions {
+  font-size: 0.78rem;
+}
+.popover-curate-label {
+  color: var(--c-ink-muted);
+  margin-bottom: 0.35rem;
+}
+.popover-curate-done {
+  color: var(--c-green);
+  font-weight: 600;
+}
+.popover-curate-actions,
+.arv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
 /* Panel rail: the four actions in a single equal-width row. */
-.arv-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
-.popover-curate-btn, .arv-act {
-  font-family: inherit; font-size: 0.76rem; cursor: pointer;
-  padding: 3px 8px; border-radius: 5px;
-  border: 1px solid var(--c-rule); background: var(--c-bg-card); color: var(--c-ink-dim);
+.arv-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
 }
-.arv-act { padding: 4px 6px; text-align: center; white-space: nowrap; }
-.popover-curate-btn:hover, .arv-act:hover { border-color: var(--c-accent); color: var(--c-accent); }
-.popover-curate-btn.is-chosen, .arv-act.is-chosen {
-  background: var(--c-accent); color: #fff; border-color: var(--c-accent);
+.popover-curate-btn,
+.arv-act {
+  font-family: inherit;
+  font-size: 0.76rem;
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg-card);
+  color: var(--c-ink-dim);
 }
-.popover-curate-btn:disabled, .arv-act:disabled { opacity: 0.5; cursor: default; }
-.popover-curate-edit, .arv-edit { display: flex; gap: 5px; margin-top: 0.5rem; }
-.popover-curate-input, .arv-input {
-  flex: 1; min-width: 0; font-family: inherit; font-size: 0.85rem;
-  padding: 4px 7px; border: 1px solid var(--c-rule); border-radius: 5px;
-  background: var(--c-bg); color: var(--c-ink);
+.arv-act {
+  padding: 4px 6px;
+  text-align: center;
+  white-space: nowrap;
 }
-.popover-curate-input[dir="rtl"], .arv-input[dir="rtl"] {
-  font-family: "Amiri", "Noto Naskh Arabic", serif; font-size: 1.05rem;
+.popover-curate-btn:hover,
+.arv-act:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
 }
-.popover-curate-save, .arv-save {
-  font-family: inherit; font-size: 0.78rem; cursor: pointer;
-  padding: 4px 10px; border-radius: 5px; border: none;
-  background: var(--c-accent); color: #fff;
+.popover-curate-btn.is-chosen,
+.arv-act.is-chosen {
+  background: var(--c-accent);
+  color: #fff;
+  border-color: var(--c-accent);
 }
-.popover-curate-save:disabled, .arv-save:disabled { opacity: 0.6; cursor: default; }
+.popover-curate-btn:disabled,
+.arv-act:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.popover-curate-edit,
+.arv-edit {
+  display: flex;
+  gap: 5px;
+  margin-top: 0.5rem;
+}
+.popover-curate-input,
+.arv-input {
+  flex: 1;
+  min-width: 0;
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 4px 7px;
+  border: 1px solid var(--c-rule);
+  border-radius: 5px;
+  background: var(--c-bg);
+  color: var(--c-ink);
+}
+.popover-curate-input[dir="rtl"],
+.arv-input[dir="rtl"] {
+  font-family: "Amiri", "Noto Naskh Arabic", serif;
+  font-size: 1.05rem;
+}
+.popover-curate-save,
+.arv-save {
+  font-family: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: none;
+  background: var(--c-accent);
+  color: #fff;
+}
+.popover-curate-save:disabled,
+.arv-save:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
 /* Panel edit box: stack the input row above an optional hint line. */
-.arv-edit { flex-direction: column; align-items: stretch; }
-.arv-edit-row { display: flex; gap: 5px; }
-.arv-edit-hint { margin: 4px 0 0; font-size: 0.7rem; line-height: 1.4; color: var(--c-ink-dim); }
+.arv-edit {
+  flex-direction: column;
+  align-items: stretch;
+}
+.arv-edit-row {
+  display: flex;
+  gap: 5px;
+}
+.arv-edit-hint {
+  margin: 4px 0 0;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: var(--c-ink-dim);
+}
 /* The "say: …" spoken-phonetic chip on each term row. */
 .arv-say {
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 0.72rem; color: var(--c-ink-dim);
-  background: var(--c-bg-sunken); padding: 1px 6px; border-radius: 5px;
+  font-size: 0.72rem;
+  color: var(--c-ink-dim);
+  background: var(--c-bg-sunken);
+  padding: 1px 6px;
+  border-radius: 5px;
 }
-.arv-row.is-muted .arv-say { color: var(--c-ink-muted); }
+.arv-row.is-muted .arv-say {
+  color: var(--c-ink-muted);
+}
 
 /* ── Rail panel ─────────────────────────────────────────────────────────── */
 .arv-panel {
@@ -208,70 +364,188 @@ body[data-arabic="off"] .arv-page .ar-script { display: none; }
   padding: 1rem;
   font-family: "Lato", system-ui, sans-serif;
 }
-.arv-loading, .arv-error { color: var(--c-ink-muted); font-size: 0.9rem; }
-.arv-error { color: var(--c-red); }
-.arv-head { margin-bottom: 0.75rem; }
-.arv-title { font-size: 1.1rem; color: var(--c-ink); margin: 0; }
-.arv-sub { font-size: 0.82rem; color: var(--c-ink-muted); margin: 0.15rem 0 0.6rem; }
-.arv-filters { display: flex; flex-wrap: wrap; gap: 5px; }
-.arv-filter {
-  font-family: inherit; font-size: 0.76rem; cursor: pointer;
-  padding: 3px 9px; border-radius: 12px;
-  border: 1px solid var(--c-rule); background: var(--c-bg); color: var(--c-ink-dim);
+.arv-loading,
+.arv-error {
+  color: var(--c-ink-muted);
+  font-size: 0.9rem;
 }
-.arv-filter.is-active { background: var(--c-accent); color: #fff; border-color: var(--c-accent); }
+.arv-error {
+  color: var(--c-red);
+}
+.arv-head {
+  margin-bottom: 0.75rem;
+}
+.arv-title {
+  font-size: 1.1rem;
+  color: var(--c-ink);
+  margin: 0;
+}
+.arv-sub {
+  font-size: 0.82rem;
+  color: var(--c-ink-muted);
+  margin: 0.15rem 0 0.6rem;
+}
+.arv-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.arv-filter {
+  font-family: inherit;
+  font-size: 0.76rem;
+  cursor: pointer;
+  padding: 3px 9px;
+  border-radius: 12px;
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg);
+  color: var(--c-ink-dim);
+}
+.arv-filter.is-active {
+  background: var(--c-accent);
+  color: #fff;
+  border-color: var(--c-accent);
+}
 
-.arv-list { list-style: none; margin: 0; padding: 0; }
+.arv-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 .arv-row {
   padding: 0.6rem 0;
   border-top: 1px solid var(--c-rule-soft);
 }
-.arv-row.is-curated { background: color-mix(in oklch, var(--c-green) 6%, transparent); }
-.arv-row.is-english { background: color-mix(in oklch, var(--c-accent) 5%, transparent); }
-.arv-term { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem 0.5rem; margin-bottom: 0.4rem; }
+.arv-row.is-curated {
+  background: color-mix(in oklch, var(--c-green) 6%, transparent);
+}
+.arv-row.is-english {
+  background: color-mix(in oklch, var(--c-accent) 5%, transparent);
+}
+.arv-term {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.5rem;
+  margin-bottom: 0.4rem;
+}
 
 /* Arabic | English segmented toggle (the one decision most terms need). */
-.arv-toggle { margin-left: auto; display: inline-flex; border: 1px solid var(--c-rule); border-radius: 999px; overflow: hidden; }
-.arv-seg {
-  font-family: inherit; font-size: 0.74rem; cursor: pointer; padding: 3px 13px;
-  border: none; background: var(--c-bg); color: var(--c-ink-dim); transition: background 0.12s ease;
+.arv-toggle {
+  margin-left: auto;
+  display: inline-flex;
+  border: 1px solid var(--c-rule);
+  border-radius: 999px;
+  overflow: hidden;
 }
-.arv-seg:hover:not(.is-on):not(:disabled) { background: var(--c-bg-sunken); }
-.arv-seg.is-on { background: var(--c-accent); color: #fff; font-weight: 600; }
-.arv-seg:disabled { opacity: 0.5; cursor: default; }
+.arv-seg {
+  font-family: inherit;
+  font-size: 0.74rem;
+  cursor: pointer;
+  padding: 3px 13px;
+  border: none;
+  background: var(--c-bg);
+  color: var(--c-ink-dim);
+  transition: background 0.12s ease;
+}
+.arv-seg:hover:not(.is-on):not(:disabled) {
+  background: var(--c-bg-sunken);
+}
+.arv-seg.is-on {
+  background: var(--c-accent);
+  color: #fff;
+  font-weight: 600;
+}
+.arv-seg:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
 .arv-auto {
-  font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.04em;
-  color: var(--c-accent); background: color-mix(in oklch, var(--c-accent) 12%, transparent);
-  padding: 1px 6px; border-radius: 5px;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-accent);
+  background: color-mix(in oklch, var(--c-accent) 12%, transparent);
+  padding: 1px 6px;
+  border-radius: 5px;
 }
 /* Meta line: spoken phonetic + English + script-edit, each a quiet chip. */
-.arv-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.arv-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
 .arv-chip {
-  display: inline-flex; align-items: center; gap: 5px; cursor: pointer;
-  font-family: inherit; font-size: 0.74rem; color: var(--c-ink-dim);
-  background: var(--c-bg-sunken); border: 1px solid transparent; border-radius: 6px; padding: 2px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.74rem;
+  color: var(--c-ink-dim);
+  background: var(--c-bg-sunken);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 2px 8px;
 }
-.arv-chip i { font-size: 0.68rem; opacity: 0.6; }
-.arv-chip:hover:not(:disabled) { border-color: var(--c-rule); color: var(--c-ink); }
-.arv-chip:disabled { opacity: 0.5; cursor: default; }
-.arv-chip--say { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
-.arv-chip--en.is-active { background: color-mix(in oklch, var(--c-accent) 14%, transparent); color: var(--c-accent); font-weight: 500; }
-.arv-phon { font-weight: 600; color: var(--c-ink); }
-.arv-script { font-family: "Amiri", "Noto Naskh Arabic", serif; color: var(--c-accent); font-size: 1.05rem; }
+.arv-chip i {
+  font-size: 0.68rem;
+  opacity: 0.6;
+}
+.arv-chip:hover:not(:disabled) {
+  border-color: var(--c-rule);
+  color: var(--c-ink);
+}
+.arv-chip:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.arv-chip--say {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+.arv-chip--en.is-active {
+  background: color-mix(in oklch, var(--c-accent) 14%, transparent);
+  color: var(--c-accent);
+  font-weight: 500;
+}
+.arv-phon {
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.arv-script {
+  font-family: "Amiri", "Noto Naskh Arabic", serif;
+  color: var(--c-accent);
+  font-size: 1.05rem;
+}
 .arv-badge {
-  font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.03em;
-  padding: 1px 6px; border-radius: 8px;
-  background: var(--c-bg-sunken); color: var(--c-ink-dim);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 1px 6px;
+  border-radius: 8px;
+  background: var(--c-bg-sunken);
+  color: var(--c-ink-dim);
 }
-.arv-badge[data-decision="replace_english"] { color: var(--c-amber); }
-.arv-badge[data-decision="correct_arabic"], .arv-badge[data-decision="fix_phonetic"] { color: var(--c-accent); }
-.arv-badge[data-decision="keep"] { color: var(--c-green); }
+.arv-badge[data-decision="replace_english"] {
+  color: var(--c-amber);
+}
+.arv-badge[data-decision="correct_arabic"],
+.arv-badge[data-decision="fix_phonetic"] {
+  color: var(--c-accent);
+}
+.arv-badge[data-decision="keep"] {
+  color: var(--c-green);
+}
 
 /* ── Teaching-relevance class (recited-in-Arabic vs referential noise) ───── */
 .arv-rel {
-  font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.04em;
-  padding: 1px 6px; border-radius: 8px;
-  background: var(--c-bg-sunken); color: var(--c-ink-muted);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 6px;
+  border-radius: 8px;
+  background: var(--c-bg-sunken);
+  color: var(--c-ink-muted);
   border: 1px solid var(--c-rule-soft);
 }
 .arv-rel[data-rel="teaching"] {
@@ -280,8 +554,13 @@ body[data-arabic="off"] .arv-page .ar-script { display: none; }
   border-color: color-mix(in oklch, var(--c-accent) 30%, transparent);
 }
 /* Referential / name / incidental recede so the teaching terms read first. */
-.arv-row.is-muted .arv-phon { color: var(--c-ink-dim); font-weight: 500; }
-.arv-row.is-muted .arv-script { color: var(--c-ink-muted); }
+.arv-row.is-muted .arv-phon {
+  color: var(--c-ink-dim);
+  font-weight: 500;
+}
+.arv-row.is-muted .arv-script {
+  color: var(--c-ink-muted);
+}
 
 /* ── Accessibility (REQ-073 focus ring · REQ-050 reduced motion) ────────── */
 .arv-act:focus-visible,
@@ -297,5 +576,7 @@ body[data-arabic="off"] .arv-page .ar-script { display: none; }
   outline-offset: 2px;
 }
 @media (prefers-reduced-motion: reduce) {
-  .ar-overlay { transition: none; }
+  .ar-overlay {
+    transition: none;
+  }
 }

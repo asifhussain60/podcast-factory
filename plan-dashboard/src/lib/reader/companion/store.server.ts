@@ -11,17 +11,23 @@
  * so these notes commit and sync across machines — while staying out of book.md and
  * the generated PDF entirely.
  */
-import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { randomUUID } from 'node:crypto';
-import { findContentDirSync, contentDir } from '../../content-paths';
-import { CHAPTER_KEY_RE } from './keys';
+import {
+  readFileSync,
+  writeFileSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+} from "node:fs";
+import { join, dirname } from "node:path";
+import { randomUUID } from "node:crypto";
+import { findContentDirSync, contentDir } from "../../content-paths";
+import { CHAPTER_KEY_RE } from "./keys";
 import type {
   CompanionChapterDoc,
   CompanionChapterSummary,
   CompanionNote,
   CompanionNoteInput,
-} from './types';
+} from "./types";
 
 /** Same resolver + fallback the editorial cockpit uses (bucket-first, legacy fallback). */
 function bookBaseDir(slug: string): string {
@@ -29,7 +35,7 @@ function bookBaseDir(slug: string): string {
 }
 
 function companionDir(slug: string): string {
-  return join(bookBaseDir(slug), '_system', 'companion-notes');
+  return join(bookBaseDir(slug), "_system", "companion-notes");
 }
 
 /** Path for a chapter file, with a hard traversal guard on the key. */
@@ -41,7 +47,7 @@ function chapterPath(slug: string, chapter: string): string {
 }
 
 function nowIso(): string {
-  return new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+  return new Date().toISOString().replace(/\.\d+Z$/, "Z");
 }
 
 function emptyDoc(slug: string, chapter: string): CompanionChapterDoc {
@@ -49,11 +55,14 @@ function emptyDoc(slug: string, chapter: string): CompanionChapterDoc {
 }
 
 /** Read all notes for one chapter (empty doc if none stored yet). */
-export function readChapter(slug: string, chapter: string): CompanionChapterDoc {
+export function readChapter(
+  slug: string,
+  chapter: string,
+): CompanionChapterDoc {
   const p = chapterPath(slug, chapter);
   if (!existsSync(p)) return emptyDoc(slug, chapter);
   try {
-    const parsed = JSON.parse(readFileSync(p, 'utf8')) as CompanionChapterDoc;
+    const parsed = JSON.parse(readFileSync(p, "utf8")) as CompanionChapterDoc;
     return {
       slug,
       chapter,
@@ -68,7 +77,7 @@ export function readChapter(slug: string, chapter: string): CompanionChapterDoc 
 function writeChapter(doc: CompanionChapterDoc): CompanionChapterDoc {
   const p = chapterPath(doc.slug, doc.chapter);
   mkdirSync(dirname(p), { recursive: true });
-  writeFileSync(p, JSON.stringify(doc, null, 2) + '\n', 'utf8');
+  writeFileSync(p, JSON.stringify(doc, null, 2) + "\n", "utf8");
   return doc;
 }
 
@@ -81,11 +90,13 @@ export function upsertNote(
   chapter: string,
   input: CompanionNoteInput,
 ): { doc: CompanionChapterDoc; note: CompanionNote } {
-  const body = (input.body ?? '').trim();
-  if (!body) throw new Error('note body is required');
+  const body = (input.body ?? "").trim();
+  if (!body) throw new Error("note body is required");
   const doc = readChapter(slug, chapter);
   const ts = nowIso();
-  const existing = input.id ? doc.notes.find((n) => n.id === input.id) : undefined;
+  const existing = input.id
+    ? doc.notes.find((n) => n.id === input.id)
+    : undefined;
 
   let note: CompanionNote;
   if (existing) {
@@ -118,7 +129,11 @@ export function upsertNote(
 }
 
 /** Remove a note by id. Returns the updated doc. */
-export function deleteNote(slug: string, chapter: string, id: string): CompanionChapterDoc {
+export function deleteNote(
+  slug: string,
+  chapter: string,
+  id: string,
+): CompanionChapterDoc {
   const doc = readChapter(slug, chapter);
   const next = doc.notes.filter((n) => n.id !== id);
   doc.notes = next;
@@ -131,12 +146,14 @@ export function listChapters(slug: string): CompanionChapterSummary[] {
   const dir = companionDir(slug);
   if (!existsSync(dir)) return [];
   return readdirSync(dir)
-    .filter((f) => f.endsWith('.json'))
+    .filter((f) => f.endsWith(".json"))
     .map((f) => {
-      const chapter = f.replace(/\.json$/, '');
-      let count = 0;
+      const chapter = f.replace(/\.json$/, "");
+      let count: number;
       try {
-        const parsed = JSON.parse(readFileSync(join(dir, f), 'utf8')) as CompanionChapterDoc;
+        const parsed = JSON.parse(
+          readFileSync(join(dir, f), "utf8"),
+        ) as CompanionChapterDoc;
         count = Array.isArray(parsed.notes) ? parsed.notes.length : 0;
       } catch {
         count = 0;

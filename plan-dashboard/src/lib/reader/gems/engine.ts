@@ -9,9 +9,13 @@
  * the grounded path, which cannot run in jsonMode (generateWithGrounding builds its
  * own request body with no responseMimeType support).
  */
-import { generate, generateWithGrounding, type GeminiModel } from '../gemini-server';
-import { gemDef, DEFAULT_GEM_ID } from './registry';
-import type { GemDef, GemResult } from './types';
+import {
+  generate,
+  generateWithGrounding,
+  type GeminiModel,
+} from "../gemini-server";
+import { gemDef, DEFAULT_GEM_ID } from "./registry";
+import type { GemDef, GemResult } from "./types";
 
 const CONTEXT_TRUNCATE_AT = 80_000;
 
@@ -32,7 +36,7 @@ function resolveGem(gemId: string | undefined): GemDef {
 function truncateContext(context: string | undefined): string | undefined {
   if (!context) return context;
   return context.length > CONTEXT_TRUNCATE_AT
-    ? context.slice(0, CONTEXT_TRUNCATE_AT) + '\n[...truncated]'
+    ? context.slice(0, CONTEXT_TRUNCATE_AT) + "\n[...truncated]"
     : context;
 }
 
@@ -43,31 +47,45 @@ function buildUserTurn(opts: {
   context?: string;
 }): string {
   return [
-    opts.bookTitle ? `Book: ${opts.bookTitle}` : '',
-    opts.context ? `Surrounding passage: "${truncateContext(opts.context)}"` : '',
+    opts.bookTitle ? `Book: ${opts.bookTitle}` : "",
+    opts.context
+      ? `Surrounding passage: "${truncateContext(opts.context)}"`
+      : "",
     `${opts.label}: ${opts.value}`,
-  ].filter(Boolean).join('\n');
+  ]
+    .filter(Boolean)
+    .join("\n");
 }
 
 /** Fence-strip + JSON.parse, then brace-extraction fallback (matches arabic-term.ts's extractJson). */
-function extractGemJson(raw: string): { body?: string; etymology?: string } | null {
+function extractGemJson(
+  raw: string,
+): { body?: string; etymology?: string } | null {
   if (!raw) return null;
-  const cleaned = raw.replace(/^```json\s*|\s*```$/g, '').trim();
+  const cleaned = raw.replace(/^```json\s*|\s*```$/g, "").trim();
   try {
     return JSON.parse(cleaned);
   } catch {
     const m = cleaned.match(/\{[\s\S]*\}/);
     if (m) {
-      try { return JSON.parse(m[0]); } catch { return null; }
+      try {
+        return JSON.parse(m[0]);
+      } catch {
+        return null;
+      }
     }
     return null;
   }
 }
 
 /** Defense-in-depth fallback: split raw text on a bare "Etymology" line. */
-function splitEtymology(text: string): { body: string; etymology: string | null } {
+function splitEtymology(text: string): {
+  body: string;
+  etymology: string | null;
+} {
   const m = text.match(/\n\s*Etymology\s*\n/i);
-  if (!m || m.index === undefined) return { body: text.trim(), etymology: null };
+  if (!m || m.index === undefined)
+    return { body: text.trim(), etymology: null };
   const etymology = text.slice(m.index + m[0].length).trim();
   return {
     body: text.slice(0, m.index).trim(),
@@ -77,11 +95,11 @@ function splitEtymology(text: string): { body: string; etymology: string | null 
 
 function toResult(raw: string, sources?: string[]): GemResult {
   const parsed = extractGemJson(raw);
-  if (parsed && typeof parsed.body === 'string') {
+  if (parsed && typeof parsed.body === "string") {
     return {
       raw,
       body: parsed.body.trim(),
-      etymology: (parsed.etymology ?? '').trim() || null,
+      etymology: (parsed.etymology ?? "").trim() || null,
       ...(sources ? { sources } : {}),
     };
   }
@@ -97,12 +115,17 @@ export async function runGemConcept(opts: {
   model?: GeminiModel;
 }): Promise<GemResult> {
   const gem = resolveGem(opts.gemId);
-  const user = buildUserTurn({ label: 'Explain this concept', value: opts.concept, bookTitle: opts.bookTitle, context: opts.context });
+  const user = buildUserTurn({
+    label: "Explain this concept",
+    value: opts.concept,
+    bookTitle: opts.bookTitle,
+    context: opts.context,
+  });
 
   const raw = await generate({
-    model: opts.model ?? 'pro',
+    model: opts.model ?? "pro",
     systemInstruction: gem.systemPrompt + JSON_ENVELOPE_ADDENDUM,
-    contents: [{ role: 'user', parts: [{ text: user }] }],
+    contents: [{ role: "user", parts: [{ text: user }] }],
     temperature: 0.3,
     maxOutputTokens: 4000,
     jsonMode: true,
@@ -120,12 +143,17 @@ export async function runGemQuestion(opts: {
   grounded?: boolean;
 }): Promise<GemResult> {
   const gem = resolveGem(opts.gemId);
-  const user = buildUserTurn({ label: 'Answer this question a reader might ask', value: opts.question, bookTitle: opts.bookTitle, context: opts.context });
+  const user = buildUserTurn({
+    label: "Answer this question a reader might ask",
+    value: opts.question,
+    bookTitle: opts.bookTitle,
+    context: opts.context,
+  });
 
   if (opts.grounded) {
     const prompt = `${gem.systemPrompt}\n\n---\n\n${user}`;
     const { text, sources } = await generateWithGrounding(prompt, {
-      model: opts.model ?? 'pro',
+      model: opts.model ?? "pro",
       temperature: 0.3,
       maxOutputTokens: 4000,
     });
@@ -133,9 +161,9 @@ export async function runGemQuestion(opts: {
   }
 
   const raw = await generate({
-    model: opts.model ?? 'pro',
+    model: opts.model ?? "pro",
     systemInstruction: gem.systemPrompt + JSON_ENVELOPE_ADDENDUM,
-    contents: [{ role: 'user', parts: [{ text: user }] }],
+    contents: [{ role: "user", parts: [{ text: user }] }],
     temperature: 0.3,
     maxOutputTokens: 4000,
     jsonMode: true,

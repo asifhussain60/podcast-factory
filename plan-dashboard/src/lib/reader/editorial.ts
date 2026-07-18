@@ -17,9 +17,15 @@
  * is tradition-agnostic and extensible: a new card or a new tradition adds a CARD_DEF entry,
  * not a new renderer. Authority: _workspace/plan/CONTINUATION-2026-05-30.md Slice 5b.
  */
-import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { findContentDirSync, contentDir } from '../content-paths';
+import {
+  readFileSync,
+  writeFileSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+} from "node:fs";
+import { join, dirname } from "node:path";
+import { findContentDirSync, contentDir } from "../content-paths";
 
 /**
  * Resolve a book's editorial dir base through the canonical resolver (bucket-first
@@ -32,15 +38,15 @@ function bookBaseDir(slug: string): string {
 }
 
 export type CardId =
-  | 'name_resolution'
-  | 'key_focus'
-  | 'tone_register'
-  | 'forbidden_terms'
-  | 'required_elements'
-  | 'audience_calibration'
-  | 'host_roles';
+  | "name_resolution"
+  | "key_focus"
+  | "tone_register"
+  | "forbidden_terms"
+  | "required_elements"
+  | "audience_calibration"
+  | "host_roles";
 
-export type CardKind = 'list' | 'pairs' | 'choice';
+export type CardKind = "list" | "pairs" | "choice";
 
 /** A from->to rename pair (name_resolution). */
 export interface Pair {
@@ -75,74 +81,96 @@ export interface CardDef {
 /** The seven canonical editorial cards. Order is the default stack order (user-reorderable later). */
 export const CARD_DEFS: CardDef[] = [
   {
-    id: 'name_resolution',
-    title: 'Name Resolution',
-    kind: 'pairs',
-    blurb: 'How names and terms render in the voiced text (source spelling → house spelling).',
-    placeholder: 'al-Ghazali → Ghazali',
+    id: "name_resolution",
+    title: "Name Resolution",
+    kind: "pairs",
+    blurb:
+      "How names and terms render in the voiced text (source spelling → house spelling).",
+    placeholder: "al-Ghazali → Ghazali",
   },
   {
-    id: 'key_focus',
-    title: 'Key Focus',
-    kind: 'list',
-    blurb: 'The central ideas this book (or chapter) must keep in the foreground, in priority order.',
-    placeholder: 'e.g. knowledge that is not acted upon is a proof against you',
+    id: "key_focus",
+    title: "Key Focus",
+    kind: "list",
+    blurb:
+      "The central ideas this book (or chapter) must keep in the foreground, in priority order.",
+    placeholder: "e.g. knowledge that is not acted upon is a proof against you",
   },
   {
-    id: 'tone_register',
-    title: 'Tone & Register',
-    kind: 'choice',
-    blurb: 'The house voice this content maps to during normalization (SN-1).',
+    id: "tone_register",
+    title: "Tone & Register",
+    kind: "choice",
+    blurb: "The house voice this content maps to during normalization (SN-1).",
     presets: [
-      { key: 'editorial_modern', label: 'Editorial-modern (Stripe/MIT Press)' },
-      { key: 'warm_teacherly', label: 'Warm & teacherly' },
-      { key: 'plain_direct', label: 'Plain & direct' },
-      { key: 'reverent_formal', label: 'Reverent & formal' },
+      { key: "editorial_modern", label: "Editorial-modern (Stripe/MIT Press)" },
+      { key: "warm_teacherly", label: "Warm & teacherly" },
+      { key: "plain_direct", label: "Plain & direct" },
+      { key: "reverent_formal", label: "Reverent & formal" },
     ],
   },
   {
-    id: 'forbidden_terms',
-    title: 'Forbidden Terms',
-    kind: 'list',
-    blurb: 'Words/phrases the voiced text must never use (e.g. lossy paraphrases of a terminus technicus — SN-7).',
+    id: "forbidden_terms",
+    title: "Forbidden Terms",
+    kind: "list",
+    blurb:
+      "Words/phrases the voiced text must never use (e.g. lossy paraphrases of a terminus technicus — SN-7).",
     placeholder: 'e.g. esoteric interpretation (use "tawil")',
   },
   {
-    id: 'required_elements',
-    title: 'Required Elements',
-    kind: 'list',
-    blurb: 'Things that MUST survive into the final text (verbatim scripture, key stories, glosses).',
-    placeholder: 'e.g. the Junayd dream; farḍ ʿayn glossed on first use',
+    id: "required_elements",
+    title: "Required Elements",
+    kind: "list",
+    blurb:
+      "Things that MUST survive into the final text (verbatim scripture, key stories, glosses).",
+    placeholder: "e.g. the Junayd dream; farḍ ʿayn glossed on first use",
   },
   {
-    id: 'audience_calibration',
-    title: 'Audience Calibration',
-    kind: 'choice',
-    blurb: 'Who the podcast addresses — sets how much insider vocabulary is assumed.',
+    id: "audience_calibration",
+    title: "Audience Calibration",
+    kind: "choice",
+    blurb:
+      "Who the podcast addresses — sets how much insider vocabulary is assumed.",
     presets: [
-      { key: 'general_intelligent', label: 'Intelligent general reader (no insider vocab)' },
-      { key: 'curious_seeker', label: 'Curious seeker (some terms, always glossed)' },
-      { key: 'student', label: 'Student of the tradition (terms assumed)' },
-      { key: 'specialist', label: 'Specialist (full technical register)' },
+      {
+        key: "general_intelligent",
+        label: "Intelligent general reader (no insider vocab)",
+      },
+      {
+        key: "curious_seeker",
+        label: "Curious seeker (some terms, always glossed)",
+      },
+      { key: "student", label: "Student of the tradition (terms assumed)" },
+      { key: "specialist", label: "Specialist (full technical register)" },
     ],
   },
   {
-    id: 'host_roles',
-    title: 'Host Roles',
-    kind: 'choice',
-    blurb: 'Host dynamic for this book. Host A = scholar/teacher (male voice). Host B = seeker/student/debater (female voice). Roles are locked book-wide (R-HOST-ROLE-PARITY). Use the notes field to declare the debater-trigger condition — the chapter/theme that elevates Host B from student to active challenger.',
+    id: "host_roles",
+    title: "Host Roles",
+    kind: "choice",
+    blurb:
+      "Host dynamic for this book. Host A = scholar/teacher (male voice). Host B = seeker/student/debater (female voice). Roles are locked book-wide (R-HOST-ROLE-PARITY). Use the notes field to declare the debater-trigger condition — the chapter/theme that elevates Host B from student to active challenger.",
     presets: [
-      { key: 'teacher_student', label: 'Teacher / Student (default — Host B receives, asks)' },
-      { key: 'teacher_questioner', label: 'Teacher / Questioner (Host B probes more actively)' },
-      { key: 'scholar_debater', label: 'Scholar / Debater (Host B takes and defends a position)' },
+      {
+        key: "teacher_student",
+        label: "Teacher / Student (default — Host B receives, asks)",
+      },
+      {
+        key: "teacher_questioner",
+        label: "Teacher / Questioner (Host B probes more actively)",
+      },
+      {
+        key: "scholar_debater",
+        label: "Scholar / Debater (Host B takes and defends a position)",
+      },
     ],
-    placeholder: 'Debater trigger: e.g. "chapters discussing free will vs determinism"',
+    placeholder:
+      'Debater trigger: e.g. "chapters discussing free will vs determinism"',
   },
 ];
 
 export const CARD_IDS: CardId[] = CARD_DEFS.map((c) => c.id);
 
-export type Scope = 'book' | string; // 'book' or a chapter slug
+export type Scope = "book" | string; // 'book' or a chapter slug
 
 export interface EditorialDoc {
   slug: string;
@@ -153,8 +181,8 @@ export interface EditorialDoc {
 }
 
 function editorialPath(slug: string, scope: Scope): string {
-  const file = scope === 'book' ? 'book.json' : `${scope}.json`;
-  return join(bookBaseDir(slug), '_system', 'editorial', file);
+  const file = scope === "book" ? "book.json" : `${scope}.json`;
+  return join(bookBaseDir(slug), "_system", "editorial", file);
 }
 
 function emptyDoc(slug: string, scope: Scope): EditorialDoc {
@@ -165,8 +193,13 @@ export function readEditorial(slug: string, scope: Scope): EditorialDoc {
   const p = editorialPath(slug, scope);
   if (!existsSync(p)) return emptyDoc(slug, scope);
   try {
-    const parsed = JSON.parse(readFileSync(p, 'utf8')) as EditorialDoc;
-    return { slug, scope, cards: parsed.cards ?? {}, updated_at: parsed.updated_at ?? null };
+    const parsed = JSON.parse(readFileSync(p, "utf8")) as EditorialDoc;
+    return {
+      slug,
+      scope,
+      cards: parsed.cards ?? {},
+      updated_at: parsed.updated_at ?? null,
+    };
   } catch {
     return emptyDoc(slug, scope);
   }
@@ -185,10 +218,10 @@ export function setEditorialCard(
   } else {
     doc.cards[card] = value;
   }
-  doc.updated_at = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+  doc.updated_at = new Date().toISOString().replace(/\.\d+Z$/, "Z");
   const p = editorialPath(slug, scope);
   mkdirSync(dirname(p), { recursive: true });
-  writeFileSync(p, JSON.stringify(doc, null, 2), 'utf8');
+  writeFileSync(p, JSON.stringify(doc, null, 2), "utf8");
   return doc;
 }
 
@@ -196,7 +229,7 @@ export interface ResolvedCard {
   card: CardId;
   value: CardValue | null;
   /** where the effective value comes from. */
-  source: 'override' | 'book' | 'unset';
+  source: "override" | "book" | "unset";
 }
 
 /**
@@ -204,24 +237,29 @@ export interface ResolvedCard {
  * else unset. `chapter === 'book'` returns the book-level values directly (source 'book'/'unset').
  */
 export function resolveEffective(slug: string, chapter: Scope): ResolvedCard[] {
-  const book = readEditorial(slug, 'book');
-  const override = chapter === 'book' ? emptyDoc(slug, 'book') : readEditorial(slug, chapter);
+  const book = readEditorial(slug, "book");
+  const override =
+    chapter === "book" ? emptyDoc(slug, "book") : readEditorial(slug, chapter);
   return CARD_IDS.map((id) => {
-    if (chapter !== 'book' && override.cards[id] !== undefined) {
-      return { card: id, value: override.cards[id]!, source: 'override' as const };
+    if (chapter !== "book" && override.cards[id] !== undefined) {
+      return {
+        card: id,
+        value: override.cards[id]!,
+        source: "override" as const,
+      };
     }
     if (book.cards[id] !== undefined) {
-      return { card: id, value: book.cards[id]!, source: 'book' as const };
+      return { card: id, value: book.cards[id]!, source: "book" as const };
     }
-    return { card: id, value: null, source: 'unset' as const };
+    return { card: id, value: null, source: "unset" as const };
   });
 }
 
 /** List chapter slugs that carry at least one override (for the cockpit's override badges). */
 export function chaptersWithOverrides(slug: string): string[] {
-  const dir = join(bookBaseDir(slug), '_system', 'editorial');
+  const dir = join(bookBaseDir(slug), "_system", "editorial");
   if (!existsSync(dir)) return [];
   return readdirSync(dir)
-    .filter((f) => f.endsWith('.json') && f !== 'book.json')
-    .map((f) => f.replace(/\.json$/, ''));
+    .filter((f) => f.endsWith(".json") && f !== "book.json")
+    .map((f) => f.replace(/\.json$/, ""));
 }

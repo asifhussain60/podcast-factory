@@ -9,187 +9,336 @@
  * writes book/visual-layout.json via /api/studio/visual-layout, then triggers a
  * render via /api/studio/generate-book-pdf.
  */
-import Base from '../../../layouts/Base.astro';
-import { loadComposer } from '../../../lib/reader/composer';
-import { slugToTitle } from '../../../lib/content-paths';
-import '../../../styles/library.css';
-import '../../../styles/book-reader.css';
-import '../../../styles/book-styles.css';
-import '../../../styles/editor-fonts.css';
-import '../../../styles/book-composer.css';
+import Base from "../../../layouts/Base.astro";
+import { loadComposer } from "../../../lib/reader/composer";
+import { slugToTitle } from "../../../lib/content-paths";
+import "../../../styles/library.css";
+import "../../../styles/book-reader.css";
+import "../../../styles/book-styles.css";
+import "../../../styles/editor-fonts.css";
+import "../../../styles/book-composer.css";
 
 const slug = Astro.params.slug!;
 const view = await loadComposer(slug);
 const bookTitle = view?.title ?? slugToTitle(slug);
 const dataJson = view
-  ? JSON.stringify({ slug, chapters: view.chapters.map((c) => ({ anchor: c.anchor, key: c.key, title: c.title, paras: c.paras, citations: c.citations })), visuals: view.visuals, placements: view.placements })
-  : '';
+  ? JSON.stringify({
+      slug,
+      chapters: view.chapters.map((c) => ({
+        anchor: c.anchor,
+        key: c.key,
+        title: c.title,
+        paras: c.paras,
+        citations: c.citations,
+      })),
+      visuals: view.visuals,
+      placements: view.placements,
+    })
+  : "";
 
 // Predefined styles (one family skins every citation type). Mirrors style.astro;
 // `scholarly` is the book-print default (the client re-selects the saved value).
 const FAMILIES = [
-  { id: 'plain',     name: 'Plain',     tagline: 'Quietest — no ornament' },
-  { id: 'scholarly', name: 'Scholarly', tagline: 'Restrained — default' },
-  { id: 'elegant',   name: 'Elegant',   tagline: 'Framed & editorial' },
+  { id: "plain", name: "Plain", tagline: "Quietest — no ornament" },
+  { id: "scholarly", name: "Scholarly", tagline: "Restrained — default" },
+  { id: "elegant", name: "Elegant", tagline: "Framed & editorial" },
 ];
 ---
+
 <Base
   title={`Book Composer — ${bookTitle}`}
   active="studio"
   description={`Studio · Book Composer · ${bookTitle}`}
 >
-  {view?.hasBook ? (
-    <div class="composer" data-slug={slug}>
-      <header class="cx-composer-header">
-        <div class="cx-header-actions" role="group" aria-label="Studio surfaces">
-          <a class="cx-hdr-btn" href={`/studio/${slug}/preview`}>
-            <i class="fa-solid fa-file-lines" aria-hidden="true"></i> Preview
-          </a>
-          <a class="cx-hdr-btn" href={`/studio/${slug}/edit`}>
-            <i class="fa-solid fa-feather-pointed" aria-hidden="true"></i> Edit &amp; Enrich
-          </a>
-          <a class="cx-hdr-btn cx-hdr-btn--end" href={`/studio/${slug}/live`}>
-            <i class="fa-solid fa-book-open-reader" aria-hidden="true"></i> LIVE Session
-          </a>
-        </div>
-        <div class="lib-hero-main">
-          <div class="lib-breadcrumb">
-            <a href="/studio">Studio</a>
-            <span class="lib-sep">›</span>
-            <span>Book Composer</span>
+  {
+    view?.hasBook ? (
+      <div class="composer" data-slug={slug}>
+        <header class="cx-composer-header">
+          <div
+            class="cx-header-actions"
+            role="group"
+            aria-label="Studio surfaces"
+          >
+            <a class="cx-hdr-btn" href={`/studio/${slug}/preview`}>
+              <i class="fa-solid fa-file-lines" aria-hidden="true" /> Preview
+            </a>
+            <a class="cx-hdr-btn" href={`/studio/${slug}/edit`}>
+              <i class="fa-solid fa-feather-pointed" aria-hidden="true" /> Edit
+              &amp; Enrich
+            </a>
+            <a class="cx-hdr-btn cx-hdr-btn--end" href={`/studio/${slug}/live`}>
+              <i class="fa-solid fa-book-open-reader" aria-hidden="true" /> LIVE
+              Session
+            </a>
           </div>
-          <div class="lib-title-row">
-            <h1>{bookTitle}</h1>
-          </div>
-          <p class="composer-sub">
-            Work one chapter at a time. The chapter opens in the editor — reshape prose
-            with the AI actions in Refinement, and set citation styles in Citations.
-          </p>
-        </div>
-      </header>
-
-      <div class="composer-grid">
-        <section class="composer-preview" aria-label="Book preview">
-          <div class="cx-chapter-bar">
-            <div class="cx-field cx-chapter-picker">
-              <label for="cx-chapter-select">Chapter</label>
-              <select id="cx-chapter-select">
-                {view.chapters.map((c) => (
-                  <option value={c.key}>{c.title}</option>
-                ))}
-              </select>
+          <div class="lib-hero-main">
+            <div class="lib-breadcrumb">
+              <a href="/studio">Studio</a>
+              <span class="lib-sep">›</span>
+              <span>Book Composer</span>
             </div>
-            <div class="cx-mode" role="group" aria-label="Editor">
-              <a class="cx-mode-btn" id="cx-companion-tool" href={`/studio/${slug}/book`}>Companion Tool</a>
-              <button type="button" class="cx-mode-btn is-active" id="cx-mode-edit" aria-pressed="true">Edit</button>
+            <div class="lib-title-row">
+              <h1>{bookTitle}</h1>
             </div>
-            <div class="cx-layout-save" id="cx-layout-status"></div>
-          </div>
-          {view.chapters.map((ch) => (
-            <div class="cx-chapter" data-anchor={ch.anchor} data-key={ch.key} hidden>
-              <h2>{ch.title}</h2>
-              <div class="cx-body" set:html={ch.html}></div>
-            </div>
-          ))}
-        </section>
-
-        <aside class="composer-panel" aria-label="Composer controls">
-          <div class="cx-tabbar" role="tablist" aria-label="Composer inspector">
-            <button type="button" class="cx-tab is-active" id="cx-tab-artifacts" role="tab" aria-selected="true" aria-controls="cx-panel-artifacts">Artifacts</button>
-            <button type="button" class="cx-tab" id="cx-tab-citations" role="tab" aria-selected="false" aria-controls="cx-panel-citations">Citations</button>
-            <button type="button" class="cx-tab" id="cx-tab-refine" role="tab" aria-selected="false" aria-controls="cx-panel-refine">Refinement</button>
-          </div>
-
-          <div class="cx-tabpanel" id="cx-panel-artifacts" role="tabpanel" aria-labelledby="cx-tab-artifacts">
-            <p class="cx-panel-hint" id="cx-artifacts-scope"></p>
-            <button type="button" class="cx-action is-secondary cx-newai" id="cx-new-ai-image">
-              <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> New AI image
-            </button>
-            <div class="cx-palette-list" id="cx-palette-list"></div>
-          </div>
-
-          <div class="cx-tabpanel" id="cx-panel-citations" role="tabpanel" aria-labelledby="cx-tab-citations" hidden>
-            <form class="bs-styleform cx-cite-form" data-slug={slug} aria-label="Citation style">
-              <fieldset class="bs-chips">
-                <legend>Predefined style</legend>
-                {FAMILIES.map((f, i) => (
-                  <label class="bs-chip" data-template={f.id}>
-                    <input type="radio" name="citation-style" value={f.id} class="bs-radio" checked={i === 1} />
-                    <span class="bs-chip-head">
-                      <span class="bs-chip-name">{f.name}</span>
-                      <span class="bs-chip-check" aria-hidden="true"><i class="fa-solid fa-circle-check"></i></span>
-                    </span>
-                    <span class="bs-chip-tag">{f.tagline}</span>
-                  </label>
-                ))}
-              </fieldset>
-
-              <div class="bs-preview cx-cite-preview" aria-label="Style preview">
-                <div class="bs-ct">
-                  <span class="bs-ct-label">Quran verse</span>
-                  <blockquote class="bs-verse">
-                    <p class="bs-ar" dir="rtl" lang="ar">إِنَّ أَفْضَلَ الْحَسَنَاتِ إِحْيَاءُ الْأَمْوَاتِ</p>
-                    <p class="bs-tr">&ldquo;The best of all good deeds is to bring the dead back to life.&rdquo;</p>
-                  </blockquote>
-                </div>
-                <div class="bs-ct">
-                  <span class="bs-ct-label">Hadith</span>
-                  <blockquote class="bs-hadith">
-                    <p class="bs-ar" dir="rtl" lang="ar">مَنْ عَمِلَ بِمَا عَلِمَ وَرَّثَهُ اللَّهُ عِلْمَ مَا لَمْ يَعْلَمْ</p>
-                    <p class="bs-tr">&ldquo;Whoever acts upon what he knows, God will bequeath to him the knowledge of what he does not know.&rdquo;</p>
-                    <p class="bs-attr">The Prophet Muhammad&nbsp;&#65018;</p>
-                  </blockquote>
-                </div>
-                <div class="bs-ct">
-                  <span class="bs-ct-label">Arabic poem</span>
-                  <div class="bs-poem">
-                    <p class="bs-ar" dir="rtl" lang="ar">وَمَنْ طَلَبَ الْعُلَا سَهِرَ اللَّيَالِي</p>
-                    <p class="bs-tr">Whoever seeks the heights stays wakeful through the nights.</p>
-                  </div>
-                </div>
-                <div class="bs-ct">
-                  <span class="bs-ct-label">Saying</span>
-                  <div class="bs-saying">
-                    <p>Thanks for knowledge is to act upon it.</p>
-                    <p class="bs-attr">A maxim of the learned</p>
-                  </div>
-                </div>
-                <div class="bs-ct">
-                  <span class="bs-ct-label">Quotation</span>
-                  <blockquote class="bs-quote">
-                    <p>The most important things a person can learn are almost never delivered as lectures.</p>
-                  </blockquote>
-                </div>
-              </div>
-
-              <p class="bs-save cx-cite-save" id="cx-cite-save" role="status" aria-live="polite"></p>
-            </form>
-
-            <div class="cx-cite-detected">
-              <h3 class="cx-cite-heading" id="cx-cite-detected-heading">Citations in this chapter</h3>
-              <div class="cx-cite-list" id="cx-citations-list" aria-labelledby="cx-cite-detected-heading"></div>
-            </div>
-
-            <p class="cx-panel-hint">
-              A predefined style skins every citation type book-wide and carries into the
-              generated PDF.
-              Distinct per-type print styling is planned but not yet wired.
+            <p class="composer-sub">
+              Work one chapter at a time. The chapter opens in the editor —
+              reshape prose with the AI actions in Refinement, and set citation
+              styles in Citations.
             </p>
           </div>
+        </header>
 
-          <div class="cx-tabpanel" id="cx-panel-refine" role="tabpanel" aria-labelledby="cx-tab-refine" hidden>
-            <div class="cx-controls" id="cx-controls"></div>
-          </div>
-        </aside>
+        <div class="composer-grid">
+          <section class="composer-preview" aria-label="Book preview">
+            <div class="cx-chapter-bar">
+              <div class="cx-field cx-chapter-picker">
+                <label for="cx-chapter-select">Chapter</label>
+                <select id="cx-chapter-select">
+                  {view.chapters.map((c) => (
+                    <option value={c.key}>{c.title}</option>
+                  ))}
+                </select>
+              </div>
+              <div class="cx-mode" role="group" aria-label="Editor">
+                <a
+                  class="cx-mode-btn"
+                  id="cx-companion-tool"
+                  href={`/studio/${slug}/book`}
+                >
+                  Companion Tool
+                </a>
+                <button
+                  type="button"
+                  class="cx-mode-btn is-active"
+                  id="cx-mode-edit"
+                  aria-pressed="true"
+                >
+                  Edit
+                </button>
+              </div>
+              <div class="cx-layout-save" id="cx-layout-status" />
+            </div>
+            {view.chapters.map((ch) => (
+              <div
+                class="cx-chapter"
+                data-anchor={ch.anchor}
+                data-key={ch.key}
+                hidden
+              >
+                <h2>{ch.title}</h2>
+                <div class="cx-body" set:html={ch.html} />
+              </div>
+            ))}
+          </section>
+
+          <aside class="composer-panel" aria-label="Composer controls">
+            <div
+              class="cx-tabbar"
+              role="tablist"
+              aria-label="Composer inspector"
+            >
+              <button
+                type="button"
+                class="cx-tab is-active"
+                id="cx-tab-artifacts"
+                role="tab"
+                aria-selected="true"
+                aria-controls="cx-panel-artifacts"
+              >
+                Artifacts
+              </button>
+              <button
+                type="button"
+                class="cx-tab"
+                id="cx-tab-citations"
+                role="tab"
+                aria-selected="false"
+                aria-controls="cx-panel-citations"
+              >
+                Citations
+              </button>
+              <button
+                type="button"
+                class="cx-tab"
+                id="cx-tab-refine"
+                role="tab"
+                aria-selected="false"
+                aria-controls="cx-panel-refine"
+              >
+                Refinement
+              </button>
+            </div>
+
+            <div
+              class="cx-tabpanel"
+              id="cx-panel-artifacts"
+              role="tabpanel"
+              aria-labelledby="cx-tab-artifacts"
+            >
+              <p class="cx-panel-hint" id="cx-artifacts-scope" />
+              <button
+                type="button"
+                class="cx-action is-secondary cx-newai"
+                id="cx-new-ai-image"
+              >
+                <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true" />{" "}
+                New AI image
+              </button>
+              <div class="cx-palette-list" id="cx-palette-list" />
+            </div>
+
+            <div
+              class="cx-tabpanel"
+              id="cx-panel-citations"
+              role="tabpanel"
+              aria-labelledby="cx-tab-citations"
+              hidden
+            >
+              <form
+                class="bs-styleform cx-cite-form"
+                data-slug={slug}
+                aria-label="Citation style"
+              >
+                <fieldset class="bs-chips">
+                  <legend>Predefined style</legend>
+                  {FAMILIES.map((f, i) => (
+                    <label class="bs-chip" data-template={f.id}>
+                      <input
+                        type="radio"
+                        name="citation-style"
+                        value={f.id}
+                        class="bs-radio"
+                        checked={i === 1}
+                      />
+                      <span class="bs-chip-head">
+                        <span class="bs-chip-name">{f.name}</span>
+                        <span class="bs-chip-check" aria-hidden="true">
+                          <i class="fa-solid fa-circle-check" />
+                        </span>
+                      </span>
+                      <span class="bs-chip-tag">{f.tagline}</span>
+                    </label>
+                  ))}
+                </fieldset>
+
+                <div
+                  class="bs-preview cx-cite-preview"
+                  aria-label="Style preview"
+                >
+                  <div class="bs-ct">
+                    <span class="bs-ct-label">Quran verse</span>
+                    <blockquote class="bs-verse">
+                      <p class="bs-ar" dir="rtl" lang="ar">
+                        إِنَّ أَفْضَلَ الْحَسَنَاتِ إِحْيَاءُ الْأَمْوَاتِ
+                      </p>
+                      <p class="bs-tr">
+                        &ldquo;The best of all good deeds is to bring the dead
+                        back to life.&rdquo;
+                      </p>
+                    </blockquote>
+                  </div>
+                  <div class="bs-ct">
+                    <span class="bs-ct-label">Hadith</span>
+                    <blockquote class="bs-hadith">
+                      <p class="bs-ar" dir="rtl" lang="ar">
+                        مَنْ عَمِلَ بِمَا عَلِمَ وَرَّثَهُ اللَّهُ عِلْمَ مَا
+                        لَمْ يَعْلَمْ
+                      </p>
+                      <p class="bs-tr">
+                        &ldquo;Whoever acts upon what he knows, God will
+                        bequeath to him the knowledge of what he does not
+                        know.&rdquo;
+                      </p>
+                      <p class="bs-attr">The Prophet Muhammad&nbsp;&#65018;</p>
+                    </blockquote>
+                  </div>
+                  <div class="bs-ct">
+                    <span class="bs-ct-label">Arabic poem</span>
+                    <div class="bs-poem">
+                      <p class="bs-ar" dir="rtl" lang="ar">
+                        وَمَنْ طَلَبَ الْعُلَا سَهِرَ اللَّيَالِي
+                      </p>
+                      <p class="bs-tr">
+                        Whoever seeks the heights stays wakeful through the
+                        nights.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="bs-ct">
+                    <span class="bs-ct-label">Saying</span>
+                    <div class="bs-saying">
+                      <p>Thanks for knowledge is to act upon it.</p>
+                      <p class="bs-attr">A maxim of the learned</p>
+                    </div>
+                  </div>
+                  <div class="bs-ct">
+                    <span class="bs-ct-label">Quotation</span>
+                    <blockquote class="bs-quote">
+                      <p>
+                        The most important things a person can learn are almost
+                        never delivered as lectures.
+                      </p>
+                    </blockquote>
+                  </div>
+                </div>
+
+                <p
+                  class="bs-save cx-cite-save"
+                  id="cx-cite-save"
+                  role="status"
+                  aria-live="polite"
+                />
+              </form>
+
+              <div class="cx-cite-detected">
+                <h3 class="cx-cite-heading" id="cx-cite-detected-heading">
+                  Citations in this chapter
+                </h3>
+                <div
+                  class="cx-cite-list"
+                  id="cx-citations-list"
+                  aria-labelledby="cx-cite-detected-heading"
+                />
+              </div>
+
+              <p class="cx-panel-hint">
+                A predefined style skins every citation type book-wide and
+                carries into the generated PDF. Distinct per-type print styling
+                is planned but not yet wired.
+              </p>
+            </div>
+
+            <div
+              class="cx-tabpanel"
+              id="cx-panel-refine"
+              role="tabpanel"
+              aria-labelledby="cx-tab-refine"
+              hidden
+            >
+              <div class="cx-controls" id="cx-controls" />
+            </div>
+          </aside>
+        </div>
+
+        <script
+          type="application/json"
+          id="composer-data"
+          is:inline
+          set:html={dataJson}
+        />
       </div>
-
-      <script type="application/json" id="composer-data" is:inline set:html={dataJson}></script>
-    </div>
-  ) : (
-    <div class="composer-empty">
-      <p>No reading edition has been composed for this book yet.</p>
-      <p><a class="bookv-back" href={`/studio/${slug}/edit`}>← Back to Edit &amp; Enrich</a></p>
-    </div>
-  )}
-  <script>import '../../../scripts/book-composer.ts';</script>
+    ) : (
+      <div class="composer-empty">
+        <p>No reading edition has been composed for this book yet.</p>
+        <p>
+          <a class="bookv-back" href={`/studio/${slug}/edit`}>
+            ← Back to Edit &amp; Enrich
+          </a>
+        </p>
+      </div>
+    )
+  }
+  <script>
+    import "../../../scripts/book-composer.ts";
+  </script>
 </Base>

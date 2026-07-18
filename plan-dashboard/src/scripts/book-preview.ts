@@ -13,25 +13,27 @@
  * .pv-pages container width, capped at 90% in CSS) consumed by .pv-page-img,
  * persisted to localStorage so the preference carries across books/visits.
  */
-import { confirmDialog } from './confirm-dialog';
+import { confirmDialog } from "./confirm-dialog";
 
-const ZOOM_KEY = 'pv-zoom-pct';
+const ZOOM_KEY = "pv-zoom-pct";
 const ZOOM_MIN = 30;
 const ZOOM_MAX = 90;
 
-const pagesEl = document.querySelector<HTMLElement>('.pv-pages');
-const zoomRange = document.getElementById('pv-zoom-range') as HTMLInputElement | null;
-const zoomValue = document.getElementById('pv-zoom-value');
+const pagesEl = document.querySelector<HTMLElement>(".pv-pages");
+const zoomRange = document.getElementById(
+  "pv-zoom-range",
+) as HTMLInputElement | null;
+const zoomValue = document.getElementById("pv-zoom-value");
 
 if (pagesEl && zoomRange) {
   const applyZoom = (pct: number): void => {
     const clamped = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, pct));
-    pagesEl.style.setProperty('--pv-zoom', `${clamped}%`);
+    pagesEl.style.setProperty("--pv-zoom", `${clamped}%`);
     if (zoomValue) zoomValue.textContent = `${clamped}%`;
     zoomRange.value = String(clamped);
   };
 
-  let saved = ZOOM_MIN;
+  let saved: number;
   try {
     saved = Number(localStorage.getItem(ZOOM_KEY)) || 50;
   } catch {
@@ -39,36 +41,44 @@ if (pagesEl && zoomRange) {
   }
   applyZoom(saved);
 
-  zoomRange.addEventListener('input', () => {
+  zoomRange.addEventListener("input", () => {
     const pct = Number(zoomRange.value);
     applyZoom(pct);
     try {
       localStorage.setItem(ZOOM_KEY, String(pct));
-    } catch { /* localStorage best-effort */ }
+    } catch {
+      /* localStorage best-effort */
+    }
   });
 }
 
-const dataEl = document.getElementById('preview-data');
-const genBtn = document.getElementById('pv-generate') as HTMLButtonElement | null;
-const statusEl = document.getElementById('pv-status');
+const dataEl = document.getElementById("preview-data");
+const genBtn = document.getElementById(
+  "pv-generate",
+) as HTMLButtonElement | null;
+const statusEl = document.getElementById("pv-status");
 
 if (dataEl && genBtn) {
-  let slug = '';
+  let slug = "";
   try {
-    slug = (JSON.parse(dataEl.textContent || '{}') as { slug?: string }).slug ?? '';
+    slug =
+      (JSON.parse(dataEl.textContent || "{}") as { slug?: string }).slug ?? "";
   } catch {
-    slug = '';
+    slug = "";
   }
 
   const primaryBtn: HTMLButtonElement = genBtn; // narrowed non-null for the closures below
-  const ssBtn = document.getElementById('pv-generate-ss') as HTMLButtonElement | null;
+  const ssBtn = document.getElementById(
+    "pv-generate-ss",
+  ) as HTMLButtonElement | null;
 
   // Run one of the two render endpoints behind a themed confirm, updating the
   // shared status line. Both buttons are disabled while either is in flight.
   async function runGenerate(
     endpoint: string,
     confirm: { title: string; body: string; confirmLabel: string },
-    pending: string, doneLabel: string,
+    pending: string,
+    doneLabel: string,
   ): Promise<void> {
     if (!slug) return;
     if (!(await confirmDialog(confirm))) return;
@@ -77,42 +87,55 @@ if (dataEl && genBtn) {
     if (statusEl) statusEl.textContent = pending;
     try {
       const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        method: "POST",
+        headers: { "content-type": "application/json" },
         body: JSON.stringify({ slug }),
       });
-      const json = (await res.json()) as { ok: boolean; error?: string; data?: { kb: number } };
-      if (!json.ok) throw new Error(json.error || 'render failed');
-      if (statusEl) statusEl.textContent = `${doneLabel} (${json.data?.kb ?? '?'} KB).`;
+      const json = (await res.json()) as {
+        ok: boolean;
+        error?: string;
+        data?: { kb: number };
+      };
+      if (!json.ok) throw new Error(json.error || "render failed");
+      if (statusEl)
+        statusEl.textContent = `${doneLabel} (${json.data?.kb ?? "?"} KB).`;
     } catch (err) {
-      if (statusEl) statusEl.textContent = `Generate failed: ${(err as Error).message}`;
+      if (statusEl)
+        statusEl.textContent = `Generate failed: ${(err as Error).message}`;
     } finally {
       primaryBtn.disabled = false;
       if (ssBtn) ssBtn.disabled = false;
     }
   }
 
-  primaryBtn.addEventListener('click', () => runGenerate(
-    '/api/studio/generate-book-pdf',
-    {
-      title: 'Generate the PDF?',
-      body: 'This writes book/book.pdf — the file delivered to readers and Google Drive — from what you see in this preview.',
-      confirmLabel: 'Generate',
-    },
-    'Rendering PDF… this can take a minute.', 'PDF generated',
-  ));
+  primaryBtn.addEventListener("click", () =>
+    runGenerate(
+      "/api/studio/generate-book-pdf",
+      {
+        title: "Generate the PDF?",
+        body: "This writes book/book.pdf — the file delivered to readers and Google Drive — from what you see in this preview.",
+        confirmLabel: "Generate",
+      },
+      "Rendering PDF… this can take a minute.",
+      "PDF generated",
+    ),
+  );
 
   if (ssBtn) {
-    ssBtn.addEventListener('click', () => runGenerate(
-      '/api/studio/generate-self-study-pdf',
-      {
-        title: 'Generate the self-study PDF?',
-        body: 'This generates a labeled study summary and a source-grounded contextual note for '
-          + 'every chapter (a few minutes), then writes book/book-self-study.pdf. Your reading '
-          + 'edition (book.pdf) and its Google Drive copy are left untouched.',
-        confirmLabel: 'Generate',
-      },
-      'Generating study content + rendering… this takes a few minutes.', 'Self-study PDF generated',
-    ));
+    ssBtn.addEventListener("click", () =>
+      runGenerate(
+        "/api/studio/generate-self-study-pdf",
+        {
+          title: "Generate the self-study PDF?",
+          body:
+            "This generates a labeled study summary and a source-grounded contextual note for " +
+            "every chapter (a few minutes), then writes book/book-self-study.pdf. Your reading " +
+            "edition (book.pdf) and its Google Drive copy are left untouched.",
+          confirmLabel: "Generate",
+        },
+        "Generating study content + rendering… this takes a few minutes.",
+        "Self-study PDF generated",
+      ),
+    );
   }
 }

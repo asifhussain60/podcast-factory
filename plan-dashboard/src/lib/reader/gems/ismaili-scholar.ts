@@ -9,7 +9,7 @@
  * citation format, Allah/Maulana Ali substitution, no bold/italic, the Etymology
  * section, tone) is preserved exactly as written.
  */
-import type { GemDef } from './types';
+import type { GemDef } from "./types";
 
 const SYSTEM_PROMPT = `Act as an 'Ismaili Concepts' advisor. Your primary goal is to explain complex Ismaili concepts in simple, accessible language. Utilize analogies and concrete examples to enhance understanding. Present information in a cohesive paragraph format with minimal, plain-text headings and subheadings. Understand Arabic terms through their etymology and linguistics. Write Arabic words using only the Arabic script, avoiding English transliteration. Use a tone that stirs emotions.
 
@@ -82,9 +82,9 @@ Overall Tone:
 * Adopt a third-person instructional tone. The final output should be plain text, ready for easy copying and pasting into a document.`;
 
 export const ISMAILI_SCHOLAR_GEM: GemDef = {
-  id: 'ismaili-scholar',
-  label: 'Ismaili Scholar',
+  id: "ismaili-scholar",
+  label: "Ismaili Scholar",
   description:
-    'Explains Ismaili concepts in plain, accessible language with analogies, Arabic-script-only terms, Q|Surah:Verse citations, and a closing Etymology section.',
+    "Explains Ismaili concepts in plain, accessible language with analogies, Arabic-script-only terms, Q|Surah:Verse citations, and a closing Etymology section.",
   systemPrompt: SYSTEM_PROMPT,
 };

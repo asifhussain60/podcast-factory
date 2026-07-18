@@ -6,82 +6,102 @@
  * reached from the "Reading edition" entry at the top of the Edit & Enrich left
  * rail. A static route, so it takes precedence over [step].astro for this path.
  */
-import Base from '../../../layouts/Base.astro';
-import { loadBook } from '../../../lib/reader/book';
-import { slugToTitle } from '../../../lib/content-paths';
-import CompanionPanel from '../../../components/reader/companion/CompanionPanel';
-import GemCompanionPanel from '../../../components/reader/companion/GemCompanionPanel';
-import '../../../styles/library.css';
-import '../../../styles/book-reader.css';
-import '../../../styles/companion-notes.css';
-import '../../../styles/gem-companion.css';
+import Base from "../../../layouts/Base.astro";
+import { loadBook } from "../../../lib/reader/book";
+import { slugToTitle } from "../../../lib/content-paths";
+import CompanionPanel from "../../../components/reader/companion/CompanionPanel";
+import GemCompanionPanel from "../../../components/reader/companion/GemCompanionPanel";
+import "../../../styles/library.css";
+import "../../../styles/book-reader.css";
+import "../../../styles/companion-notes.css";
+import "../../../styles/gem-companion.css";
 
 const slug = Astro.params.slug!;
 const book = await loadBook(slug);
 const bookTitle = book?.title ?? slugToTitle(slug);
-const companionChapters = (book?.toc ?? []).map((t) => ({ key: t.id, title: t.title }));
+const companionChapters = (book?.toc ?? []).map((t) => ({
+  key: t.id,
+  title: t.title,
+}));
 ---
+
 <Base
   title={`Reading edition — ${bookTitle}`}
   active="studio"
   description={`Studio · Reading edition · ${bookTitle}`}
 >
-  {book ? (
-    <>
-    <div class="bookv-head">
-      <header class="lib-hero">
-        <div class="lib-hero-main">
-          <div class="lib-breadcrumb">
-            <a href="/studio">Studio</a>
-            <span class="lib-sep">›</span>
-            <span>Reading edition</span>
-          </div>
-          <div class="lib-title-row">
-            <h1>{bookTitle}</h1>
-          </div>
+  {
+    book ? (
+      <>
+        <div class="bookv-head">
+          <header class="lib-hero">
+            <div class="lib-hero-main">
+              <div class="lib-breadcrumb">
+                <a href="/studio">Studio</a>
+                <span class="lib-sep">›</span>
+                <span>Reading edition</span>
+              </div>
+              <div class="lib-title-row">
+                <h1>{bookTitle}</h1>
+              </div>
+            </div>
+            <div class="lib-hero-aside">
+              <div class="lib-title-actions">
+                <a class="lib-studio-link" href={`/studio/${slug}/compose`}>
+                  <i class="fa-solid fa-images" aria-hidden="true" /> Arrange
+                  visuals
+                  <i
+                    class="fa-solid fa-arrow-right lib-studio-link-go"
+                    aria-hidden="true"
+                  />
+                </a>
+                <a class="lib-studio-link" href={`/studio/${slug}/edit`}>
+                  <i class="fa-solid fa-feather-pointed" aria-hidden="true" />{" "}
+                  Edit &amp; Enrich
+                  <i
+                    class="fa-solid fa-arrow-right lib-studio-link-go"
+                    aria-hidden="true"
+                  />
+                </a>
+              </div>
+            </div>
+          </header>
         </div>
-        <div class="lib-hero-aside">
-          <div class="lib-title-actions">
-            <a class="lib-studio-link" href={`/studio/${slug}/compose`}>
-              <i class="fa-solid fa-images" aria-hidden="true"></i> Arrange visuals
-              <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
-            </a>
-            <a class="lib-studio-link" href={`/studio/${slug}/edit`}>
-              <i class="fa-solid fa-feather-pointed" aria-hidden="true"></i> Edit &amp; Enrich
-              <i class="fa-solid fa-arrow-right lib-studio-link-go" aria-hidden="true"></i>
-            </a>
-          </div>
+        <div class="bookv">
+          <nav class="bookv-toc" aria-label="Chapters">
+            <p class="bookv-toc-eyebrow">Contents</p>
+            <ol class="bookv-toc-list">
+              {book.toc.map((t) => (
+                <li>
+                  <a href={`#${t.id}`}>{t.title}</a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+          <article class="bookv-body" set:html={book.html} />
         </div>
-      </header>
-    </div>
-    <div class="bookv">
-      <nav class="bookv-toc" aria-label="Chapters">
-        <p class="bookv-toc-eyebrow">Contents</p>
-        <ol class="bookv-toc-list">
-          {book.toc.map((t) => (
-            <li><a href={`#${t.id}`}>{t.title}</a></li>
-          ))}
-        </ol>
-      </nav>
-      <article class="bookv-body" set:html={book.html}></article>
-    </div>
-    <CompanionPanel
-      client:load
-      slug={slug}
-      chapters={companionChapters}
-      layout="floating"
-    />
-    <GemCompanionPanel
-      client:load
-      slug={slug}
-      bookTitle={bookTitle}
-      proseSelector=".bookv-body"
-    />
-    </>
-  ) : (
-    <div class="bookv-empty">
-      <p>No reading edition has been generated for this book yet.</p>
-      <p><a class="bookv-back" href={`/studio/${slug}/edit`}>← Back to Edit &amp; Enrich</a></p>
-    </div>
-  )}
+        <CompanionPanel
+          client:load
+          slug={slug}
+          chapters={companionChapters}
+          layout="floating"
+        />
+        <GemCompanionPanel
+          client:load
+          slug={slug}
+          bookTitle={bookTitle}
+          proseSelector=".bookv-body"
+        />
+      </>
+    ) : (
+      <div class="bookv-empty">
+        <p>No reading edition has been generated for this book yet.</p>
+        <p>
+          <a class="bookv-back" href={`/studio/${slug}/edit`}>
+            ← Back to Edit &amp; Enrich
+          </a>
+        </p>
+      </div>
+    )
+  }
 </Base>

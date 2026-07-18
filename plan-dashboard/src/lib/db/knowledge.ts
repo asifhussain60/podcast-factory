@@ -9,17 +9,18 @@
  * NEVER imported from a browser bundle — only from /src/pages/* and /src/pages/api/*.
  */
 
-import Database from 'better-sqlite3';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import Database from "better-sqlite3";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 // ---------------------------------------------------------------------------
 // Canonical atom types — authoritative here; re-exported by corpus-mock-sample
 // ---------------------------------------------------------------------------
 
-export type AtomType = 'quran' | 'hadith' | 'term' | 'doctrine' | 'etymology' | 'poetry';
-export type Tradition = 'universal' | 'fatimid-ismaili' | 'ismaili';
-export type CorpusId = 'quran' | 'hadith' | 'ksessions' | 'wisdom';
+export type AtomType =
+  "quran" | "hadith" | "term" | "doctrine" | "etymology" | "poetry";
+export type Tradition = "universal" | "fatimid-ismaili" | "ismaili";
+export type CorpusId = "quran" | "hadith" | "ksessions" | "wisdom";
 
 export interface MockAtom {
   id: string;
@@ -47,7 +48,10 @@ export interface Concept {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // plan-dashboard/src/lib/db  →  ../../../../  →  repo root  →  content/...
-const DB_PATH = path.resolve(__dirname, '../../../../content/knowledge-base/knowledge.db');
+const DB_PATH = path.resolve(
+  __dirname,
+  "../../../../content/knowledge-base/knowledge.db",
+);
 
 let _db: Database.Database | null = null;
 let _wdb: Database.Database | null = null;
@@ -55,15 +59,15 @@ let _wdb: Database.Database | null = null;
 function getDb(): Database.Database {
   if (_db) return _db;
   _db = new Database(DB_PATH, { readonly: true });
-  _db.pragma('journal_mode = WAL');
+  _db.pragma("journal_mode = WAL");
   return _db;
 }
 
 function getWriteDb(): Database.Database {
   if (_wdb) return _wdb;
   _wdb = new Database(DB_PATH);
-  _wdb.pragma('journal_mode = WAL');
-  _wdb.pragma('foreign_keys = ON');
+  _wdb.pragma("journal_mode = WAL");
+  _wdb.pragma("foreign_keys = ON");
   return _wdb;
 }
 
@@ -97,27 +101,41 @@ export type LiveAtom = MockAtom & { content_level?: string };
 
 function rowToAtom(row: AtomRow): LiveAtom {
   let body: Record<string, unknown> = {};
-  try { body = JSON.parse(row.body) as Record<string, unknown>; } catch { /* malformed */ }
+  try {
+    body = JSON.parse(row.body) as Record<string, unknown>;
+  } catch {
+    /* malformed */
+  }
 
-  const rawText = typeof body.text_en === 'string' ? body.text_en : '';
+  const rawText = typeof body.text_en === "string" ? body.text_en : "";
   // Strip leading markdown headings for a clean gloss.
-  const gloss = rawText.replace(/^#+\s+/, '').split('\n')[0].slice(0, 120) || row.id;
-  const binderSlug = typeof body.binder_slug === 'string' ? body.binder_slug : '';
-  const chapterSlug = typeof body.chapter_slug === 'string' ? body.chapter_slug : '';
-  const sourceRef = [binderSlug, chapterSlug].filter(Boolean).join(' · ');
-  const topicTags = Array.isArray(body.topic_tags) ? (body.topic_tags as string[]) : [];
+  const gloss =
+    rawText
+      .replace(/^#+\s+/, "")
+      .split("\n")[0]
+      .slice(0, 120) || row.id;
+  const binderSlug =
+    typeof body.binder_slug === "string" ? body.binder_slug : "";
+  const chapterSlug =
+    typeof body.chapter_slug === "string" ? body.chapter_slug : "";
+  const sourceRef = [binderSlug, chapterSlug].filter(Boolean).join(" · ");
+  const topicTags = Array.isArray(body.topic_tags)
+    ? (body.topic_tags as string[])
+    : [];
 
   return {
     id: row.id,
     type: row.type as AtomType,
-    tradition: (row.tradition || 'universal') as Tradition,
-    corpus: (['quran', 'hadith', 'ksessions', 'wisdom'].includes(binderSlug) ? binderSlug : 'wisdom') as CorpusId,
+    tradition: (row.tradition || "universal") as Tradition,
+    corpus: (["quran", "hadith", "ksessions", "wisdom"].includes(binderSlug)
+      ? binderSlug
+      : "wisdom") as CorpusId,
     gloss,
     source_ref: sourceRef,
     text_en: rawText.slice(0, 2000),
     concepts: topicTags,
-    arabic: typeof body.arabic === 'string' ? body.arabic : undefined,
-    root: typeof body.root === 'string' ? body.root : undefined,
+    arabic: typeof body.arabic === "string" ? body.arabic : undefined,
+    root: typeof body.root === "string" ? body.root : undefined,
     content_level: row.content_level ?? undefined,
   };
 }
@@ -153,31 +171,65 @@ export function listAtoms(filters: AtomFilters = {}): ListAtomsResult {
   const where: string[] = [];
   const params: unknown[] = [];
 
-  if (!includeQuran) { where.push("type != 'quran'"); }
-  if (type) { where.push('type = ?'); params.push(type); }
-  if (tradition) { where.push('tradition = ?'); params.push(tradition); }
-  if (content_level) { where.push('content_level = ?'); params.push(content_level); }
-  if (q) { where.push('body LIKE ?'); params.push(`%${q}%`); }
+  if (!includeQuran) {
+    where.push("type != 'quran'");
+  }
+  if (type) {
+    where.push("type = ?");
+    params.push(type);
+  }
+  if (tradition) {
+    where.push("tradition = ?");
+    params.push(tradition);
+  }
+  if (content_level) {
+    where.push("content_level = ?");
+    params.push(content_level);
+  }
+  if (q) {
+    where.push("body LIKE ?");
+    params.push(`%${q}%`);
+  }
 
-  const clause = where.length ? `WHERE ${where.join(' AND ')}` : '';
+  const clause = where.length ? `WHERE ${where.join(" AND ")}` : "";
 
-  const countRow = db.prepare(`SELECT count(*) as n FROM atoms ${clause}`)
+  const countRow = db
+    .prepare(`SELECT count(*) as n FROM atoms ${clause}`)
     .get(...(params as Parameters<typeof db.prepare>[0][])) as { n: number };
 
-  const rows = db.prepare(
-    `SELECT id, type, tradition, content_level, body FROM atoms ${clause} LIMIT ? OFFSET ?`,
-  ).all(...(params as Parameters<typeof db.prepare>[0][]), pageSize, page * pageSize) as AtomRow[];
+  const rows = db
+    .prepare(
+      `SELECT id, type, tradition, content_level, body FROM atoms ${clause} LIMIT ? OFFSET ?`,
+    )
+    .all(
+      ...(params as Parameters<typeof db.prepare>[0][]),
+      pageSize,
+      page * pageSize,
+    ) as AtomRow[];
 
   // Facet counts over the same filter base (excluding pagination).
-  const byTypeRows = db.prepare(
-    `SELECT type, count(*) as n FROM atoms ${clause} GROUP BY type`,
-  ).all(...(params as Parameters<typeof db.prepare>[0][])) as { type: string; n: number }[];
-  const byTradRows = db.prepare(
-    `SELECT tradition, count(*) as n FROM atoms ${clause} GROUP BY tradition`,
-  ).all(...(params as Parameters<typeof db.prepare>[0][])) as { tradition: string; n: number }[];
-  const byLvlRows = db.prepare(
-    `SELECT content_level, count(*) as n FROM atoms ${clause} AND content_level IS NOT NULL GROUP BY content_level`,
-  ).all(...(params as Parameters<typeof db.prepare>[0][])) as { content_level: string; n: number }[];
+  const byTypeRows = db
+    .prepare(`SELECT type, count(*) as n FROM atoms ${clause} GROUP BY type`)
+    .all(...(params as Parameters<typeof db.prepare>[0][])) as {
+    type: string;
+    n: number;
+  }[];
+  const byTradRows = db
+    .prepare(
+      `SELECT tradition, count(*) as n FROM atoms ${clause} GROUP BY tradition`,
+    )
+    .all(...(params as Parameters<typeof db.prepare>[0][])) as {
+    tradition: string;
+    n: number;
+  }[];
+  const byLvlRows = db
+    .prepare(
+      `SELECT content_level, count(*) as n FROM atoms ${clause} AND content_level IS NOT NULL GROUP BY content_level`,
+    )
+    .all(...(params as Parameters<typeof db.prepare>[0][])) as {
+    content_level: string;
+    n: number;
+  }[];
 
   return {
     atoms: rows.map(rowToAtom),
@@ -186,7 +238,9 @@ export function listAtoms(filters: AtomFilters = {}): ListAtomsResult {
     pageSize,
     facets: {
       byType: Object.fromEntries(byTypeRows.map((r) => [r.type, r.n])),
-      byTradition: Object.fromEntries(byTradRows.map((r) => [r.tradition, r.n])),
+      byTradition: Object.fromEntries(
+        byTradRows.map((r) => [r.tradition, r.n]),
+      ),
       byLevel: Object.fromEntries(byLvlRows.map((r) => [r.content_level, r.n])),
     },
   };
@@ -194,28 +248,44 @@ export function listAtoms(filters: AtomFilters = {}): ListAtomsResult {
 
 export function getAtom(id: string): LiveAtom | undefined {
   const db = getDb();
-  const row = db.prepare(
-    'SELECT id, type, tradition, content_level, body FROM atoms WHERE id = ?',
-  ).get(id) as AtomRow | undefined;
+  const row = db
+    .prepare(
+      "SELECT id, type, tradition, content_level, body FROM atoms WHERE id = ?",
+    )
+    .get(id) as AtomRow | undefined;
   return row ? rowToAtom(row) : undefined;
 }
 
 export function listTags(): string[] {
   const db = getDb();
-  const rows = db.prepare(`
+  const rows = db
+    .prepare(
+      `
     SELECT DISTINCT value as tag
     FROM atoms, json_each(json_extract(body, '$.topic_tags'))
     WHERE json_extract(body, '$.topic_tags') IS NOT NULL
     ORDER BY value
-  `).all() as { tag: string }[];
+  `,
+    )
+    .all() as { tag: string }[];
   return rows.map((r) => r.tag);
 }
 
-export function dbTotals(): { total: number; byType: Record<string, number>; byTradition: Record<string, number> } {
+export function dbTotals(): {
+  total: number;
+  byType: Record<string, number>;
+  byTradition: Record<string, number>;
+} {
   const db = getDb();
-  const total = (db.prepare('SELECT count(*) as n FROM atoms').get() as { n: number }).n;
-  const byTypeRows = db.prepare('SELECT type, count(*) as n FROM atoms GROUP BY type').all() as { type: string; n: number }[];
-  const byTradRows = db.prepare('SELECT tradition, count(*) as n FROM atoms GROUP BY tradition').all() as { tradition: string; n: number }[];
+  const total = (
+    db.prepare("SELECT count(*) as n FROM atoms").get() as { n: number }
+  ).n;
+  const byTypeRows = db
+    .prepare("SELECT type, count(*) as n FROM atoms GROUP BY type")
+    .all() as { type: string; n: number }[];
+  const byTradRows = db
+    .prepare("SELECT tradition, count(*) as n FROM atoms GROUP BY tradition")
+    .all() as { tradition: string; n: number }[];
   return {
     total,
     byType: Object.fromEntries(byTypeRows.map((r) => [r.type, r.n])),
@@ -229,22 +299,50 @@ export function dbTotals(): { total: number; byType: Record<string, number>; byT
 
 // Atom content_level — Kashkole 6-rung ladder; must stay stable for existing knowledge atoms.
 const ALLOWED_ATOM_LEVELS = new Set([
-  'general', 'advanced', 'taveel', 'mamsool', 'mabda_maad', 'haqaiq',
+  "general",
+  "advanced",
+  "taveel",
+  "mamsool",
+  "mabda_maad",
+  "haqaiq",
 ]);
 
 // Section depth_level — per-content-profile vocabulary for Studio section annotations.
 const ALLOWED_DEPTH_LEVELS = new Set([
   // islamic_scholarly
-  'narrative', 'sharia', 'esoteric', 'origins', 'reality',
+  "narrative",
+  "sharia",
+  "esoteric",
+  "origins",
+  "reality",
   // consumer_explainer (site)
-  'website', 'application', 'platform', 'api',
+  "website",
+  "application",
+  "platform",
+  "api",
   // technical
-  'coding', 'agentic_ai', 'architecture', 'devops', 'security', 'data_ml',
+  "coding",
+  "agentic_ai",
+  "architecture",
+  "devops",
+  "security",
+  "data_ml",
   // fiction (narrative shared with islamic_scholarly)
-  'character', 'theme', 'world', 'conflict', 'voice',
+  "character",
+  "theme",
+  "world",
+  "conflict",
+  "voice",
 ]);
-const ALLOWED_TYPES = new Set(['quran', 'hadith', 'term', 'doctrine', 'etymology', 'poetry']);
-const ALLOWED_TRADITIONS = new Set(['universal', 'fatimid-ismaili', 'ismaili']);
+const ALLOWED_TYPES = new Set([
+  "quran",
+  "hadith",
+  "term",
+  "doctrine",
+  "etymology",
+  "poetry",
+]);
+const ALLOWED_TRADITIONS = new Set(["universal", "fatimid-ismaili", "ismaili"]);
 
 export interface UpdateAtomInput {
   text_en?: string;
@@ -261,18 +359,27 @@ export interface CreateAtomInput {
 }
 
 export function updateAtom(id: string, input: UpdateAtomInput): LiveAtom {
-  if (input.content_level !== undefined && input.content_level !== null
-    && !ALLOWED_ATOM_LEVELS.has(input.content_level)) {
+  if (
+    input.content_level !== undefined &&
+    input.content_level !== null &&
+    !ALLOWED_ATOM_LEVELS.has(input.content_level)
+  ) {
     throw new Error(`Invalid content_level: ${input.content_level}`);
   }
   const db = getWriteDb();
-  const row = db.prepare(
-    'SELECT id, type, tradition, content_level, body FROM atoms WHERE id = ?',
-  ).get(id) as AtomRow | undefined;
+  const row = db
+    .prepare(
+      "SELECT id, type, tradition, content_level, body FROM atoms WHERE id = ?",
+    )
+    .get(id) as AtomRow | undefined;
   if (!row) throw new Error(`Atom not found: ${id}`);
 
   let body: Record<string, unknown> = {};
-  try { body = JSON.parse(row.body) as Record<string, unknown>; } catch { /* malformed */ }
+  try {
+    body = JSON.parse(row.body) as Record<string, unknown>;
+  } catch {
+    /* malformed */
+  }
 
   db.transaction(() => {
     if (input.text_en !== undefined) {
@@ -282,20 +389,30 @@ export function updateAtom(id: string, input: UpdateAtomInput): LiveAtom {
       body.topic_tags = input.tags;
     }
     db.prepare(
-      'UPDATE atoms SET body = ?, content_level = ?, updated_at = strftime(\'%Y-%m-%dT%H:%M:%SZ\', \'now\') WHERE id = ?',
-    ).run(JSON.stringify(body), input.content_level !== undefined ? input.content_level : row.content_level, id);
+      "UPDATE atoms SET body = ?, content_level = ?, updated_at = strftime('%Y-%m-%dT%H:%M:%SZ', 'now') WHERE id = ?",
+    ).run(
+      JSON.stringify(body),
+      input.content_level !== undefined
+        ? input.content_level
+        : row.content_level,
+      id,
+    );
   })();
 
-  const updated = db.prepare(
-    'SELECT id, type, tradition, content_level, body FROM atoms WHERE id = ?',
-  ).get(id) as AtomRow;
+  const updated = db
+    .prepare(
+      "SELECT id, type, tradition, content_level, body FROM atoms WHERE id = ?",
+    )
+    .get(id) as AtomRow;
   return rowToAtom(updated);
 }
 
 export function createAtom(input: CreateAtomInput): LiveAtom {
-  if (!ALLOWED_TYPES.has(input.type)) throw new Error(`Invalid type: ${input.type}`);
-  if (!ALLOWED_TRADITIONS.has(input.tradition)) throw new Error(`Invalid tradition: ${input.tradition}`);
-  if (!input.text_en.trim()) throw new Error('text_en must not be empty');
+  if (!ALLOWED_TYPES.has(input.type))
+    throw new Error(`Invalid type: ${input.type}`);
+  if (!ALLOWED_TRADITIONS.has(input.tradition))
+    throw new Error(`Invalid tradition: ${input.tradition}`);
+  if (!input.text_en.trim()) throw new Error("text_en must not be empty");
   if (input.content_level && !ALLOWED_ATOM_LEVELS.has(input.content_level)) {
     throw new Error(`Invalid content_level: ${input.content_level}`);
   }
@@ -305,16 +422,26 @@ export function createAtom(input: CreateAtomInput): LiveAtom {
     text_en: input.text_en,
     tradition: input.tradition,
     topic_tags: input.tags ?? [],
-    binder_slug: 'user',
-    chapter_slug: '',
+    binder_slug: "user",
+    chapter_slug: "",
   };
-  db.prepare(`
+  db.prepare(
+    `
     INSERT INTO atoms (id, type, tradition, content_level, body, confidence)
     VALUES (?, ?, ?, ?, ?, 1.0)
-  `).run(id, input.type, input.tradition, input.content_level ?? null, JSON.stringify(body));
-  const row = db.prepare(
-    'SELECT id, type, tradition, content_level, body FROM atoms WHERE id = ?',
-  ).get(id) as AtomRow;
+  `,
+  ).run(
+    id,
+    input.type,
+    input.tradition,
+    input.content_level ?? null,
+    JSON.stringify(body),
+  );
+  const row = db
+    .prepare(
+      "SELECT id, type, tradition, content_level, body FROM atoms WHERE id = ?",
+    )
+    .get(id) as AtomRow;
   return rowToAtom(row);
 }
 
@@ -327,22 +454,33 @@ export interface SectionDepth {
   section_slug: string;
   depth_level: string;
   section_tags: string[];
-  source: 'pipeline' | 'human';
+  source: "pipeline" | "human";
 }
 
-type SectionDepthRow = Omit<SectionDepth, 'section_tags'> & { section_tags: string };
+type SectionDepthRow = Omit<SectionDepth, "section_tags"> & {
+  section_tags: string;
+};
 
 function rowToSectionDepth(row: SectionDepthRow): SectionDepth {
-  let tags: string[] = [];
-  try { tags = JSON.parse(row.section_tags || '[]'); } catch { tags = []; }
+  let tags: string[];
+  try {
+    tags = JSON.parse(row.section_tags || "[]");
+  } catch {
+    tags = [];
+  }
   return { ...row, section_tags: tags };
 }
 
-export function getSectionDepths(bookSlug: string, chapterId: string): SectionDepth[] {
+export function getSectionDepths(
+  bookSlug: string,
+  chapterId: string,
+): SectionDepth[] {
   const db = getDb();
-  const rows = db.prepare(
-    'SELECT section_ordinal, section_slug, depth_level, section_tags, source FROM section_depths WHERE book_slug = ? AND chapter_id = ? ORDER BY section_ordinal',
-  ).all(bookSlug, chapterId) as SectionDepthRow[];
+  const rows = db
+    .prepare(
+      "SELECT section_ordinal, section_slug, depth_level, section_tags, source FROM section_depths WHERE book_slug = ? AND chapter_id = ? ORDER BY section_ordinal",
+    )
+    .all(bookSlug, chapterId) as SectionDepthRow[];
   return rows.map(rowToSectionDepth);
 }
 
@@ -352,13 +490,15 @@ export function upsertSectionDepth(
   ordinal: number,
   slug: string,
   depthLevel: string,
-  source: 'pipeline' | 'human' = 'human',
+  source: "pipeline" | "human" = "human",
   tags: string[] = [],
 ): SectionDepth {
-  if (!ALLOWED_DEPTH_LEVELS.has(depthLevel)) throw new Error(`Invalid depth_level: ${depthLevel}`);
+  if (!ALLOWED_DEPTH_LEVELS.has(depthLevel))
+    throw new Error(`Invalid depth_level: ${depthLevel}`);
   const tagsJson = JSON.stringify(tags);
   const db = getWriteDb();
-  db.prepare(`
+  db.prepare(
+    `
     INSERT INTO section_depths (book_slug, chapter_id, section_ordinal, section_slug, depth_level, section_tags, source)
     VALUES (?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(book_slug, chapter_id, section_ordinal)
@@ -367,18 +507,23 @@ export function upsertSectionDepth(
                   section_tags = excluded.section_tags,
                   source       = excluded.source,
                   updated_at   = strftime('%Y-%m-%dT%H:%M:%SZ', 'now')
-  `).run(bookSlug, chapterId, ordinal, slug, depthLevel, tagsJson, source);
-  return rowToSectionDepth(db.prepare(
-    'SELECT section_ordinal, section_slug, depth_level, section_tags, source FROM section_depths WHERE book_slug = ? AND chapter_id = ? AND section_ordinal = ?',
-  ).get(bookSlug, chapterId, ordinal) as SectionDepthRow);
+  `,
+  ).run(bookSlug, chapterId, ordinal, slug, depthLevel, tagsJson, source);
+  return rowToSectionDepth(
+    db
+      .prepare(
+        "SELECT section_ordinal, section_slug, depth_level, section_tags, source FROM section_depths WHERE book_slug = ? AND chapter_id = ? AND section_ordinal = ?",
+      )
+      .get(bookSlug, chapterId, ordinal) as SectionDepthRow,
+  );
 }
 
 // ---------------------------------------------------------------------------
 // Action items — deferred AI action-item queue (editor stamps, CLI drains)
 // ---------------------------------------------------------------------------
 
-export type ActionScope = 'paragraph' | 'term';
-export type ActionStatus = 'pending' | 'resolved' | 'dismissed';
+export type ActionScope = "paragraph" | "term";
+export type ActionStatus = "pending" | "resolved" | "dismissed";
 
 export interface ActionItem {
   id: number;
@@ -390,17 +535,22 @@ export interface ActionItem {
   note: string | null;
   status: ActionStatus;
   result: string | null;
-  source: 'human' | 'pipeline';
+  source: "human" | "pipeline";
 }
 
 const ACTION_ITEM_COLS =
-  'id, scope, para_ordinal, term_text, anchor_text, action_kind, note, status, result, source';
+  "id, scope, para_ordinal, term_text, anchor_text, action_kind, note, status, result, source";
 
-export function getActionItems(bookSlug: string, chapterId: string): ActionItem[] {
+export function getActionItems(
+  bookSlug: string,
+  chapterId: string,
+): ActionItem[] {
   const db = getDb();
-  return db.prepare(
-    `SELECT ${ACTION_ITEM_COLS} FROM action_items WHERE book_slug = ? AND chapter_id = ? ORDER BY para_ordinal, id`,
-  ).all(bookSlug, chapterId) as ActionItem[];
+  return db
+    .prepare(
+      `SELECT ${ACTION_ITEM_COLS} FROM action_items WHERE book_slug = ? AND chapter_id = ? ORDER BY para_ordinal, id`,
+    )
+    .all(bookSlug, chapterId) as ActionItem[];
 }
 
 /** Insert (or update note/anchor on conflict) one action item. Identity is
@@ -415,31 +565,57 @@ export function upsertActionItem(input: {
   anchorText?: string;
   actionKind: string;
   note?: string;
-  source?: 'human' | 'pipeline';
+  source?: "human" | "pipeline";
 }): ActionItem {
-  const termText = input.termText ?? '';
-  const anchorText = input.anchorText ?? '';
-  const source = input.source ?? 'human';
+  const termText = input.termText ?? "";
+  const anchorText = input.anchorText ?? "";
+  const source = input.source ?? "human";
   const db = getWriteDb();
-  db.prepare(`
+  db.prepare(
+    `
     INSERT INTO action_items (book_slug, chapter_id, scope, para_ordinal, term_text, anchor_text, action_kind, note, source)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(book_slug, chapter_id, para_ordinal, term_text, action_kind)
     DO UPDATE SET anchor_text = excluded.anchor_text,
                   note        = excluded.note,
                   updated_at  = strftime('%Y-%m-%dT%H:%M:%SZ', 'now')
-  `).run(input.bookSlug, input.chapterId, input.scope, input.paraOrdinal, termText, anchorText, input.actionKind, input.note ?? null, source);
-  return db.prepare(
-    `SELECT ${ACTION_ITEM_COLS} FROM action_items WHERE book_slug = ? AND chapter_id = ? AND para_ordinal = ? AND term_text = ? AND action_kind = ?`,
-  ).get(input.bookSlug, input.chapterId, input.paraOrdinal, termText, input.actionKind) as ActionItem;
+  `,
+  ).run(
+    input.bookSlug,
+    input.chapterId,
+    input.scope,
+    input.paraOrdinal,
+    termText,
+    anchorText,
+    input.actionKind,
+    input.note ?? null,
+    source,
+  );
+  return db
+    .prepare(
+      `SELECT ${ACTION_ITEM_COLS} FROM action_items WHERE book_slug = ? AND chapter_id = ? AND para_ordinal = ? AND term_text = ? AND action_kind = ?`,
+    )
+    .get(
+      input.bookSlug,
+      input.chapterId,
+      input.paraOrdinal,
+      termText,
+      input.actionKind,
+    ) as ActionItem;
 }
 
 /** Remove one action item by its row id (scoped to book+chapter for safety). */
-export function deleteActionItem(bookSlug: string, chapterId: string, id: number): boolean {
+export function deleteActionItem(
+  bookSlug: string,
+  chapterId: string,
+  id: number,
+): boolean {
   const db = getWriteDb();
-  const info = db.prepare(
-    'DELETE FROM action_items WHERE book_slug = ? AND chapter_id = ? AND id = ?',
-  ).run(bookSlug, chapterId, id);
+  const info = db
+    .prepare(
+      "DELETE FROM action_items WHERE book_slug = ? AND chapter_id = ? AND id = ?",
+    )
+    .run(bookSlug, chapterId, id);
   return info.changes > 0;
 }
 
@@ -458,8 +634,10 @@ export interface LookupLevel {
 
 export function getLookupLevels(): LookupLevel[] {
   const db = getDb();
-  const rows = db.prepare(
-    'SELECT level_id, level_name, code_id, ordering, is_base_rung, color_hex FROM lookup_levels ORDER BY ordering',
-  ).all() as (Omit<LookupLevel, 'is_base_rung'> & { is_base_rung: number })[];
+  const rows = db
+    .prepare(
+      "SELECT level_id, level_name, code_id, ordering, is_base_rung, color_hex FROM lookup_levels ORDER BY ordering",
+    )
+    .all() as (Omit<LookupLevel, "is_base_rung"> & { is_base_rung: number })[];
   return rows.map((r) => ({ ...r, is_base_rung: r.is_base_rung === 1 }));
 }

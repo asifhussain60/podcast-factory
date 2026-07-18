@@ -5,21 +5,26 @@
  * drift from what the pipeline accepts. Mirrors the proven build-bundle.ts spawn
  * pattern (spawn('/usr/bin/python3', …), capture stdout, parse JSON).
  */
-import { join } from 'node:path';
-import { spawn } from 'node:child_process';
-import { getRepoRoot, getPythonBin } from './content-paths';
+import { join } from "node:path";
+import { spawn } from "node:child_process";
+import { getRepoRoot, getPythonBin } from "./content-paths";
 
 /** Run `scripts/podcast/<module>.py <args…>` and parse its single JSON stdout line. */
-export function runPythonJson(module: string, args: string[]): Promise<unknown> {
-  const script = join(getRepoRoot(), 'scripts', 'podcast', module);
+export function runPythonJson(
+  module: string,
+  args: string[],
+): Promise<unknown> {
+  const script = join(getRepoRoot(), "scripts", "podcast", module);
   return new Promise((resolve, reject) => {
-    const proc = spawn(getPythonBin(), [script, ...args], { cwd: getRepoRoot() });
-    let stdout = '';
-    let stderr = '';
-    proc.stdout.on('data', (d) => (stdout += d));
-    proc.stderr.on('data', (d) => (stderr += d));
-    proc.on('error', reject);
-    proc.on('close', (code) => {
+    const proc = spawn(getPythonBin(), [script, ...args], {
+      cwd: getRepoRoot(),
+    });
+    let stdout = "";
+    let stderr = "";
+    proc.stdout.on("data", (d) => (stdout += d));
+    proc.stderr.on("data", (d) => (stderr += d));
+    proc.on("error", reject);
+    proc.on("close", (code) => {
       if (code !== 0) {
         reject(new Error(`${module} exited ${code}: ${stderr || stdout}`));
         return;
@@ -27,7 +32,9 @@ export function runPythonJson(module: string, args: string[]): Promise<unknown> 
       try {
         resolve(JSON.parse(stdout.trim()));
       } catch {
-        reject(new Error(`${module}: non-JSON output: ${stdout.slice(0, 200)}`));
+        reject(
+          new Error(`${module}: non-JSON output: ${stdout.slice(0, 200)}`),
+        );
       }
     });
   });
@@ -41,11 +48,11 @@ export function runPythonJson(module: string, args: string[]): Promise<unknown> 
  * confirm / approval endpoints, which are the Tier-2 gate.
  */
 export function spawnDetachedPython(module: string, args: string[]): number {
-  const script = join(getRepoRoot(), 'scripts', 'podcast', module);
+  const script = join(getRepoRoot(), "scripts", "podcast", module);
   const proc = spawn(getPythonBin(), [script, ...args], {
     cwd: getRepoRoot(),
     detached: true,
-    stdio: 'ignore',
+    stdio: "ignore",
   });
   proc.unref();
   return proc.pid ?? -1;

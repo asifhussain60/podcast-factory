@@ -22,9 +22,9 @@
  * Returns: { ok, inline, companion, term, arabic, root, rootPhonetic, meaningEn,
  *            derivatives: {term, meaningEn}[], source: 'local+gemini'|'gemini' }
  */
-import type { APIRoute } from 'astro';
-import { generate, rateLimitCheck } from '../../../lib/reader/gemini-server';
-import { fetchLocalTermDef } from '../../../lib/localServerClient';
+import type { APIRoute } from "astro";
+import { generate, rateLimitCheck } from "../../../lib/reader/gemini-server";
+import { fetchLocalTermDef } from "../../../lib/localServerClient";
 
 export const prerender = false;
 
@@ -51,47 +51,73 @@ Output ONLY the JSON object, no markdown fences.`;
 export const POST: APIRoute = async ({ request }) => {
   const limit = rateLimitCheck();
   if (!limit.ok) {
-    return new Response(JSON.stringify({ ok: false, error: 'rate_limited', retryMs: limit.retryMs }), {
-      status: 429, headers: { 'content-type': 'application/json' },
-    });
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        error: "rate_limited",
+        retryMs: limit.retryMs,
+      }),
+      {
+        status: 429,
+        headers: { "content-type": "application/json" },
+      },
+    );
   }
 
   try {
     const { word, context, chapterTitle, book } = await request.json();
-    if (!word || typeof word !== 'string' || !word.trim()) {
-      return new Response(JSON.stringify({ ok: false, error: 'missing word' }), {
-        status: 400, headers: { 'content-type': 'application/json' },
-      });
+    if (!word || typeof word !== "string" || !word.trim()) {
+      return new Response(
+        JSON.stringify({ ok: false, error: "missing word" }),
+        {
+          status: 400,
+          headers: { "content-type": "application/json" },
+        },
+      );
     }
 
     // ── Authoritative root grounding from the local mirror, when available ──
-    let grounding = '';
-    let source: 'local+gemini' | 'gemini' = 'gemini';
+    let grounding = "";
+    let source: "local+gemini" | "gemini" = "gemini";
     try {
       const local = await fetchLocalTermDef(word.trim());
-      if (local && local.found && (local.etymology || (local as { root?: string }).root)) {
-        const rootHint = (local as { root?: string }).root ?? '';
+      if (
+        local &&
+        local.found &&
+        (local.etymology || (local as { root?: string }).root)
+      ) {
+        const rootHint = (local as { root?: string }).root ?? "";
         grounding = [
-          rootHint ? `Confirmed root (authoritative reference): ${rootHint}` : '',
-          local.etymology ? `Reference etymology: ${local.etymology}` : '',
-          local.arabic ? `Arabic: ${local.arabic}` : '',
-        ].filter(Boolean).join('\n');
-        if (grounding) source = 'local+gemini';
+          rootHint
+            ? `Confirmed root (authoritative reference): ${rootHint}`
+            : "",
+          local.etymology ? `Reference etymology: ${local.etymology}` : "",
+          local.arabic ? `Arabic: ${local.arabic}` : "",
+        ]
+          .filter(Boolean)
+          .join("\n");
+        if (grounding) source = "local+gemini";
       }
-    } catch { /* mirror down → Gemini only */ }
+    } catch {
+      /* mirror down → Gemini only */
+    }
 
     const user = [
       `Highlighted word: ${word.trim()}`,
-      chapterTitle ? `Chapter topic: ${chapterTitle}` : '',
-      book ? `Book: ${book}` : '',
-      context ? `Surrounding passage: "${String(context).slice(0, 600)}"` : '',
-      grounding ? `\n${grounding}\nUse the confirmed root; do not contradict it.` : '',
-    ].filter(Boolean).join('\n');
+      chapterTitle ? `Chapter topic: ${chapterTitle}` : "",
+      book ? `Book: ${book}` : "",
+      context ? `Surrounding passage: "${String(context).slice(0, 600)}"` : "",
+      grounding
+        ? `\n${grounding}\nUse the confirmed root; do not contradict it.`
+        : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
 
     const text = await generate({
-      model: 'flash',
+      model: "flash",
       systemInstruction: SYSTEM,
-      contents: [{ role: 'user', parts: [{ text: user }] }],
+      contents: [{ role: "user", parts: [{ text: user }] }],
       temperature: 0.2,
       maxOutputTokens: 1400,
       jsonMode: true,
@@ -100,31 +126,52 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Tolerant extraction: strip fences, else grab the outermost JSON object.
     let parsed: Record<string, unknown> = {};
-    const cleaned = text.replace(/^```json\s*|\s*```$/g, '').trim();
-    const jsonSlice = cleaned.startsWith('{')
+    const cleaned = text.replace(/^```json\s*|\s*```$/g, "").trim();
+    const jsonSlice = cleaned.startsWith("{")
       ? cleaned
-      : cleaned.slice(cleaned.indexOf('{'), cleaned.lastIndexOf('}') + 1);
+      : cleaned.slice(cleaned.indexOf("{"), cleaned.lastIndexOf("}") + 1);
     try {
       parsed = JSON.parse(jsonSlice);
     } catch {
-      return new Response(JSON.stringify({ ok: false, error: 'model returned unparseable output' }), {
-        status: 502, headers: { 'content-type': 'application/json' },
-      });
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          error: "model returned unparseable output",
+        }),
+        {
+          status: 502,
+          headers: { "content-type": "application/json" },
+        },
+      );
     }
 
     if (!parsed.inline || !parsed.root) {
-      return new Response(JSON.stringify({ ok: false, error: 'no etymology found for this word' }), {
-        status: 200, headers: { 'content-type': 'application/json' },
-      });
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          error: "no etymology found for this word",
+        }),
+        {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        },
+      );
     }
 
     return new Response(JSON.stringify({ ok: true, source, ...parsed }), {
       status: 200,
-      headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },
+      headers: {
+        "content-type": "application/json",
+        "cache-control": "no-store",
+      },
     });
   } catch (e) {
-    return new Response(JSON.stringify({ ok: false, error: (e as Error).message }), {
-      status: 500, headers: { 'content-type': 'application/json' },
-    });
+    return new Response(
+      JSON.stringify({ ok: false, error: (e as Error).message }),
+      {
+        status: 500,
+        headers: { "content-type": "application/json" },
+      },
+    );
   }
 };

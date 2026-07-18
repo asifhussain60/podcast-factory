@@ -13,8 +13,8 @@
  * Returns: { ok, english: string, gloss: string, source: 'gemini' }
  */
 
-import type { APIRoute } from 'astro';
-import { generate, rateLimitCheck } from '../../../lib/reader/gemini-server';
+import type { APIRoute } from "astro";
+import { generate, rateLimitCheck } from "../../../lib/reader/gemini-server";
 
 export const prerender = false;
 
@@ -31,12 +31,18 @@ Return a JSON object ONLY (no markdown fences) with:
 
 function extractJson(raw: string): { english?: string; gloss?: string } | null {
   if (!raw) return null;
-  const cleaned = raw.replace(/^```json\s*|\s*```$/g, '').trim();
+  const cleaned = raw.replace(/^```json\s*|\s*```$/g, "").trim();
   try {
     return JSON.parse(cleaned);
   } catch {
     const m = cleaned.match(/\{[\s\S]*\}/);
-    if (m) { try { return JSON.parse(m[0]); } catch { return null; } }
+    if (m) {
+      try {
+        return JSON.parse(m[0]);
+      } catch {
+        return null;
+      }
+    }
     return null;
   }
 }
@@ -44,27 +50,42 @@ function extractJson(raw: string): { english?: string; gloss?: string } | null {
 export const POST: APIRoute = async ({ request }) => {
   const limit = rateLimitCheck();
   if (!limit.ok) {
-    return new Response(JSON.stringify({ ok: false, error: 'rate_limited', retryMs: limit.retryMs }), {
-      status: 429, headers: { 'content-type': 'application/json' },
-    });
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        error: "rate_limited",
+        retryMs: limit.retryMs,
+      }),
+      {
+        status: 429,
+        headers: { "content-type": "application/json" },
+      },
+    );
   }
 
   try {
     const { text, arabic, bookTitle } = await request.json();
-    if (typeof text !== 'string' || !text.trim()) {
-      return new Response(JSON.stringify({ ok: false, error: 'missing text' }), { status: 400, headers: { 'content-type': 'application/json' } });
+    if (typeof text !== "string" || !text.trim()) {
+      return new Response(
+        JSON.stringify({ ok: false, error: "missing text" }),
+        { status: 400, headers: { "content-type": "application/json" } },
+      );
     }
 
     const user = [
       `Arabic term (transliterated): "${text.trim()}"`,
-      typeof arabic === 'string' && arabic.trim() ? `Arabic script: ${arabic.trim()}` : '',
-      bookTitle ? `Book: ${bookTitle}` : '',
-    ].filter(Boolean).join('\n');
+      typeof arabic === "string" && arabic.trim()
+        ? `Arabic script: ${arabic.trim()}`
+        : "",
+      bookTitle ? `Book: ${bookTitle}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
 
     const raw = await generate({
-      model: 'flash',
+      model: "flash",
       systemInstruction: SYSTEM,
-      contents: [{ role: 'user', parts: [{ text: user }] }],
+      contents: [{ role: "user", parts: [{ text: user }] }],
       temperature: 0.2,
       maxOutputTokens: 200,
       jsonMode: true,
@@ -74,16 +95,31 @@ export const POST: APIRoute = async ({ request }) => {
 
     const parsed = extractJson(raw);
     if (!parsed || !parsed.english || !parsed.english.trim()) {
-      return new Response(JSON.stringify({ ok: false, error: 'no English returned' }), { status: 502, headers: { 'content-type': 'application/json' } });
+      return new Response(
+        JSON.stringify({ ok: false, error: "no English returned" }),
+        { status: 502, headers: { "content-type": "application/json" } },
+      );
     }
 
-    return new Response(JSON.stringify({
-      ok: true,
-      english: parsed.english.trim(),
-      gloss: (parsed.gloss ?? '').trim(),
-      source: 'gemini',
-    }), { status: 200, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
+    return new Response(
+      JSON.stringify({
+        ok: true,
+        english: parsed.english.trim(),
+        gloss: (parsed.gloss ?? "").trim(),
+        source: "gemini",
+      }),
+      {
+        status: 200,
+        headers: {
+          "content-type": "application/json",
+          "cache-control": "no-store",
+        },
+      },
+    );
   } catch (e) {
-    return new Response(JSON.stringify({ ok: false, error: (e as Error).message }), { status: 500, headers: { 'content-type': 'application/json' } });
+    return new Response(
+      JSON.stringify({ ok: false, error: (e as Error).message }),
+      { status: 500, headers: { "content-type": "application/json" } },
+    );
   }
 };

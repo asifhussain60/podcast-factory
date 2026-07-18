@@ -6,7 +6,7 @@
  * editor's passage pill, so the two can never drift. Not a --c-* theme colour. */
 
 :root {
-  --reader-mark: #ffd529;      /* passage-highlighter yellow */
+  --reader-mark: #ffd529; /* passage-highlighter yellow */
   --reader-mark-edge: #d6a414; /* its darker edge */
 }
 
@@ -48,7 +48,9 @@
   color: var(--c-accent);
   text-decoration: none;
 }
-.bookv-back:hover { text-decoration: underline; }
+.bookv-back:hover {
+  text-decoration: underline;
+}
 
 .bookv-toc-eyebrow {
   margin: 0 0 0.6rem;
@@ -64,7 +66,9 @@
   padding: 0;
   list-style: none;
 }
-.bookv-toc-list li { margin: 0 0 0.15rem; }
+.bookv-toc-list li {
+  margin: 0 0 0.15rem;
+}
 .bookv-toc-list a {
   display: block;
   padding: 0.35rem 0.5rem;
@@ -74,7 +78,9 @@
   color: var(--c-ink);
   text-decoration: none;
 }
-.bookv-toc-list a:hover { background: var(--c-bg-sunken); }
+.bookv-toc-list a:hover {
+  background: var(--c-bg-sunken);
+}
 
 /* ── Reading column ──────────────────────────────────────── */
 .bookv-body {
@@ -82,7 +88,9 @@
   /* A reading edition is a book — serif, matching the reader theme's reading
      face. (The Studio page's active --font-body is the UI sans, so we name the
      serif stack explicitly rather than inherit sans here.) */
-  font-family: "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
+  font-family:
+    "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman",
+    serif;
   font-size: 1.2rem;
   line-height: 1.75;
   color: var(--c-ink);
@@ -90,7 +98,9 @@
 
 .bookv-body :is(h2, h3) {
   scroll-margin-top: 1.5rem; /* so anchor jumps clear the top */
-  font-family: "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
+  font-family:
+    "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman",
+    serif;
   color: var(--c-ink);
   line-height: 1.25;
 }
@@ -100,8 +110,13 @@
   padding-bottom: 0.4rem;
   border-bottom: 1px solid var(--c-rule-soft);
 }
-.bookv-body h3 { margin: 1.8rem 0 0.7rem; font-size: 1.3rem; }
-.bookv-body p { margin: 0 0 1.1rem; }
+.bookv-body h3 {
+  margin: 1.8rem 0 0.7rem;
+  font-size: 1.3rem;
+}
+.bookv-body p {
+  margin: 0 0 1.1rem;
+}
 
 /* Scripture / hadith blockquotes: Arabic line over the English translation. */
 .bookv-body blockquote {
@@ -111,7 +126,9 @@
   background: var(--c-bg-card);
   border-radius: 0 8px 8px 0;
 }
-.bookv-body blockquote p { margin: 0.35rem 0; }
+.bookv-body blockquote p {
+  margin: 0.35rem 0;
+}
 .bookv-body blockquote p:first-child {
   font-size: 1.45rem;
   line-height: 1.9;
@@ -130,12 +147,14 @@
    Amiri so it reads at the English body's visual size; isolate the RTL run so it
    doesn't disturb the surrounding Latin. */
 .bookv-body .ar-inline {
-  font-family: 'AmiriSized', 'Amiri', 'DecoType Naskh', serif;
+  font-family: "AmiriSized", "Amiri", "DecoType Naskh", serif;
   direction: rtl;
   unicode-bidi: isolate;
 }
 .bookv-body blockquote.quran p.ar {
-  font-family: 'AmiriQuranSized', 'AmiriSized', 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
+  font-family:
+    "AmiriQuranSized", "AmiriSized", "Amiri Quran", "Amiri", "DecoType Naskh",
+    serif;
   font-size: 1.05rem;
   line-height: 1.9;
   color: var(--c-ink);
@@ -151,8 +170,14 @@
 
 /* ── Responsive: stack the TOC above the reading column ──── */
 @media (max-width: 860px) {
-  .bookv { grid-template-columns: 1fr; gap: 1.25rem; }
-  .bookv-toc { position: static; max-height: none; }
+  .bookv {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .bookv-toc {
+    position: static;
+    max-height: none;
+  }
 }
 
 .bookv-empty {
@@ -169,5 +194,7 @@
   outline-offset: 2px;
 }
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html {
+    scroll-behavior: auto;
+  }
 }

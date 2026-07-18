@@ -1,6 +1,6 @@
 /* ── Component root ─────────────────────────────────────────── */
 .dba-root {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 /* ── Filter bar ─────────────────────────────────────────────── */
@@ -29,20 +29,34 @@
   border-radius: 999px;
   border: 1.5px solid var(--c-rule);
   background: transparent;
-  font: 600 12px 'Lato', sans-serif;
+  font:
+    600 12px "Lato",
+    sans-serif;
   color: var(--c-ink-dim);
   cursor: pointer;
-  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    color 0.15s;
 }
-.dba-pill:hover { border-color: var(--c-ink-muted); color: var(--c-ink); }
+.dba-pill:hover {
+  border-color: var(--c-ink-muted);
+  color: var(--c-ink);
+}
 .dba-pill--active {
   border-color: var(--pill-color, var(--c-accent));
   background: color-mix(in oklab, var(--pill-color, var(--c-accent)) 8%, white);
   color: var(--pill-color, var(--c-accent));
 }
-.dba-pill--clear { border-color: var(--c-ink-muted); color: var(--c-ink-dim); }
+.dba-pill--clear {
+  border-color: var(--c-ink-muted);
+  color: var(--c-ink-dim);
+}
 .dba-pill-dot {
-  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
   background: var(--cat-color, #87827a);
 }
 
@@ -61,17 +75,21 @@
   border-radius: var(--r-lg);
   background: var(--c-bg-card);
   cursor: pointer;
-  transition: border-color 0.15s, box-shadow 0.15s, opacity 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s,
+    opacity 0.15s;
   overflow: hidden;
 }
 .dba-sql-card:hover {
   border-color: var(--cat-color, var(--c-accent));
-  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
 }
 .dba-sql-card.is-selected {
   border-color: var(--cat-color, var(--c-accent));
   border-width: 2px;
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--cat-color, var(--c-accent)) 15%, transparent);
+  box-shadow: 0 0 0 3px
+    color-mix(in oklab, var(--cat-color, var(--c-accent)) 15%, transparent);
 }
 .dba-sql-card.is-related {
   border-color: var(--cat-color, var(--c-accent));
@@ -87,8 +105,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 12px 7px;
-  background: color-mix(in oklab, var(--cat-color, var(--c-accent)) 9%, var(--c-bg-card));
-  border-bottom: 1.5px solid color-mix(in oklab, var(--cat-color, var(--c-accent)) 22%, var(--c-rule));
+  background: color-mix(
+    in oklab,
+    var(--cat-color, var(--c-accent)) 9%,
+    var(--c-bg-card)
+  );
+  border-bottom: 1.5px solid
+    color-mix(in oklab, var(--cat-color, var(--c-accent)) 22%, var(--c-rule));
 }
 .dba-sql-header-left {
   display: flex;
@@ -100,7 +123,11 @@
   opacity: 0.5;
 }
 .dba-sql-table-name {
-  font: 700 13px ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  font:
+    700 13px ui-monospace,
+    "SF Mono",
+    "Cascadia Code",
+    monospace;
   color: var(--c-ink);
   letter-spacing: -0.01em;
 }
@@ -110,7 +137,9 @@
   gap: 6px;
 }
 .dba-sql-col-count {
-  font: 600 11px 'Lato', sans-serif;
+  font:
+    600 11px "Lato",
+    sans-serif;
   color: var(--c-ink-muted);
   background: var(--c-bg-sunken);
   padding: 1px 6px;
@@ -118,14 +147,22 @@
   border: 1px solid var(--c-rule);
 }
 .dba-wave-tag {
-  font: 700 9px 'Lato', sans-serif;
+  font:
+    700 9px "Lato",
+    sans-serif;
   padding: 1px 5px;
   border-radius: 3px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
-.dba-wave-tag--2 { background: rgba(0,120,212,0.1); color: #0078d4; }
-.dba-wave-tag--3 { background: rgba(139,69,19,0.08); color: var(--c-accent); }
+.dba-wave-tag--2 {
+  background: rgba(0, 120, 212, 0.1);
+  color: #0078d4;
+}
+.dba-wave-tag--3 {
+  background: rgba(139, 69, 19, 0.08);
+  color: var(--c-accent);
+}
 
 /* Card body — the column list */
 .dba-sql-body {
@@ -136,18 +173,24 @@
   border-collapse: collapse;
 }
 .dba-sql-row {
-  border-bottom: 1px solid var(--c-rule-soft, rgba(31,29,24,0.06));
+  border-bottom: 1px solid var(--c-rule-soft, rgba(31, 29, 24, 0.06));
   transition: background 0.1s;
 }
-.dba-sql-row:last-child { border-bottom: none; }
+.dba-sql-row:last-child {
+  border-bottom: none;
+}
 .dba-sql-row:hover {
-  background: color-mix(in oklab, var(--cat-color, var(--c-accent)) 5%, transparent);
+  background: color-mix(
+    in oklab,
+    var(--cat-color, var(--c-accent)) 5%,
+    transparent
+  );
 }
 .dba-sql-row.is-pk {
-  background: rgba(184,134,11,0.05);
+  background: rgba(184, 134, 11, 0.05);
 }
 .dba-sql-row.is-pk:hover {
-  background: rgba(184,134,11,0.10);
+  background: rgba(184, 134, 11, 0.1);
 }
 .dba-sql-icon-cell {
   width: 24px;
@@ -167,7 +210,11 @@
 }
 .dba-sql-col-name {
   padding: 5px 6px 5px 4px;
-  font: 500 12px ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  font:
+    500 12px ui-monospace,
+    "SF Mono",
+    "Cascadia Code",
+    monospace;
   color: var(--c-ink);
   width: 100%;
   vertical-align: middle;
@@ -185,7 +232,10 @@
   vertical-align: middle;
 }
 .dba-sql-type {
-  font: 600 10px ui-monospace, 'SF Mono', monospace;
+  font:
+    600 10px ui-monospace,
+    "SF Mono",
+    monospace;
   color: var(--c-ink-muted);
   background: var(--c-bg-sunken);
   padding: 1px 5px;
@@ -202,15 +252,27 @@
   align-items: center;
 }
 .dba-con {
-  font: 700 9px 'Lato', sans-serif;
+  font:
+    700 9px "Lato",
+    sans-serif;
   padding: 1px 4px;
   border-radius: 3px;
   white-space: nowrap;
   letter-spacing: 0.03em;
 }
-.dba-con--pk   { background: rgba(184,134,11,0.15); color: #8b6914; }
-.dba-con--fk   { background: rgba(26,90,154,0.10);  color: #1a5a9a; }
-.dba-con--null { background: var(--c-bg); color: var(--c-ink-muted); border: 1px dashed var(--c-rule); }
+.dba-con--pk {
+  background: rgba(184, 134, 11, 0.15);
+  color: #8b6914;
+}
+.dba-con--fk {
+  background: rgba(26, 90, 154, 0.1);
+  color: #1a5a9a;
+}
+.dba-con--null {
+  background: var(--c-bg);
+  color: var(--c-ink-muted);
+  border: 1px dashed var(--c-rule);
+}
 
 /* Card footer */
 .dba-sql-footer {
@@ -222,13 +284,17 @@
   background: var(--c-bg);
 }
 .dba-sql-cat-pill {
-  font: 600 10px 'Lato', sans-serif;
+  font:
+    600 10px "Lato",
+    sans-serif;
   color: var(--cat-color, var(--c-ink-muted));
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
 .dba-sql-expand-hint {
-  font: 400 11px 'Lato', sans-serif;
+  font:
+    400 11px "Lato",
+    sans-serif;
   color: var(--c-ink-muted);
 }
 
@@ -242,8 +308,14 @@
   animation: drawer-in 0.2s ease;
 }
 @keyframes drawer-in {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .dba-drawer-header {
   display: flex;
@@ -258,7 +330,10 @@
   gap: var(--sp-2);
 }
 .dba-drawer-table-name {
-  font: 700 18px ui-monospace, 'SF Mono', monospace;
+  font:
+    700 18px ui-monospace,
+    "SF Mono",
+    monospace;
   color: var(--c-ink);
 }
 .dba-drawer-close {
@@ -272,18 +347,32 @@
   flex-shrink: 0;
   transition: background 0.1s;
 }
-.dba-drawer-close:hover { background: var(--c-bg-sunken); }
+.dba-drawer-close:hover {
+  background: var(--c-bg-sunken);
+}
 .dba-badge {
-  font: 600 11px 'Lato', sans-serif;
+  font:
+    600 11px "Lato",
+    sans-serif;
   padding: 3px 9px;
   border-radius: 999px;
   background: var(--c-bg-sunken);
   color: var(--c-ink-dim);
   border: 1px solid var(--c-rule);
 }
-.dba-badge--wave1 { color: var(--c-green); border-color: var(--c-green); background: rgba(74,124,74,0.07); }
-.dba-badge--wave2 { color: #0078d4; border-color: #0078d4; background: rgba(0,120,212,0.07); }
-.dba-badge--wave3 { color: var(--c-ink-muted); }
+.dba-badge--wave1 {
+  color: var(--c-green);
+  border-color: var(--c-green);
+  background: rgba(74, 124, 74, 0.07);
+}
+.dba-badge--wave2 {
+  color: #0078d4;
+  border-color: #0078d4;
+  background: rgba(0, 120, 212, 0.07);
+}
+.dba-badge--wave3 {
+  color: var(--c-ink-muted);
+}
 .dba-drawer-purpose {
   font-size: var(--fs-sm);
   line-height: 1.65;
@@ -301,21 +390,35 @@
   margin-bottom: var(--sp-4);
 }
 .dba-drawer-meta-label {
-  font: 700 10px 'Lato', sans-serif;
+  font:
+    700 10px "Lato",
+    sans-serif;
   color: var(--c-ink-muted);
   text-transform: uppercase;
   letter-spacing: 0.07em;
   margin-bottom: var(--sp-2);
 }
-.dba-drawer-chips { display: flex; flex-wrap: wrap; gap: var(--sp-1); }
+.dba-drawer-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+}
 .dba-chip {
-  font: 600 10.5px 'Lato', sans-serif;
+  font:
+    600 10.5px "Lato",
+    sans-serif;
   padding: 3px 8px;
   border-radius: 4px;
   border: none;
 }
-.dba-chip--write { background: rgba(139,69,19,0.09); color: #8b4513; }
-.dba-chip--read  { background: rgba(0,120,212,0.09); color: #0078d4; }
+.dba-chip--write {
+  background: rgba(139, 69, 19, 0.09);
+  color: #8b4513;
+}
+.dba-chip--read {
+  background: rgba(0, 120, 212, 0.09);
+  color: #0078d4;
+}
 .dba-chip--related {
   background: transparent;
   border: 1.5px solid var(--cat-color, var(--c-rule));
@@ -326,12 +429,22 @@
   gap: 4px;
   transition: opacity 0.15s;
 }
-.dba-chip--related:hover { opacity: 0.75; }
-.dba-chip-type { opacity: 0.6; font-weight: 400; font-size: 10px; }
-.dba-drawer-relations { margin-bottom: var(--sp-4); }
+.dba-chip--related:hover {
+  opacity: 0.75;
+}
+.dba-chip-type {
+  opacity: 0.6;
+  font-weight: 400;
+  font-size: 10px;
+}
+.dba-drawer-relations {
+  margin-bottom: var(--sp-4);
+}
 
 /* ── Full column detail table (in drawer) ───────────────────── */
-.dba-drawer-fields-wrap { overflow-x: auto; }
+.dba-drawer-fields-wrap {
+  overflow-x: auto;
+}
 .dba-field-detail-table {
   width: 100%;
   border-collapse: collapse;
@@ -342,29 +455,48 @@
   padding: 6px 10px;
   background: var(--c-bg-sunken);
   border-bottom: 2px solid var(--c-rule);
-  font: 700 10px 'Lato', sans-serif;
+  font:
+    700 10px "Lato",
+    sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--c-ink-muted);
   white-space: nowrap;
 }
 .dba-field-detail-table tbody tr {
-  border-bottom: 1px solid rgba(31,29,24,0.06);
+  border-bottom: 1px solid rgba(31, 29, 24, 0.06);
   transition: background 0.1s;
 }
-.dba-field-detail-table tbody tr:hover { background: var(--c-bg); }
-.dba-field-detail-table tbody tr.is-pk { background: rgba(184,134,11,0.04); }
-.dba-field-detail-table tbody tr.is-pk:hover { background: rgba(184,134,11,0.08); }
-.dba-fd-icon  { padding: 7px 6px 7px 10px; font-size: 12px; width: 24px; white-space: nowrap; }
-.dba-fd-name  {
+.dba-field-detail-table tbody tr:hover {
+  background: var(--c-bg);
+}
+.dba-field-detail-table tbody tr.is-pk {
+  background: rgba(184, 134, 11, 0.04);
+}
+.dba-field-detail-table tbody tr.is-pk:hover {
+  background: rgba(184, 134, 11, 0.08);
+}
+.dba-fd-icon {
+  padding: 7px 6px 7px 10px;
+  font-size: 12px;
+  width: 24px;
+  white-space: nowrap;
+}
+.dba-fd-name {
   padding: 7px 8px;
-  font: 700 12px ui-monospace, 'SF Mono', monospace;
+  font:
+    700 12px ui-monospace,
+    "SF Mono",
+    monospace;
   color: var(--c-ink);
   white-space: nowrap;
 }
-.dba-fd-type  {
+.dba-fd-type {
   padding: 7px 8px;
-  font: 600 11px ui-monospace, 'SF Mono', monospace;
+  font:
+    600 11px ui-monospace,
+    "SF Mono",
+    monospace;
   color: var(--c-ink-muted);
   white-space: nowrap;
 }
@@ -373,7 +505,10 @@
   white-space: nowrap;
 }
 .dba-con--fk {
-  font: 600 10px ui-monospace, 'SF Mono', monospace;
+  font:
+    600 10px ui-monospace,
+    "SF Mono",
+    monospace;
   padding: 1px 5px;
 }
 .dba-fd-desc {
@@ -385,13 +520,44 @@
 }
 
 /* Design notes */
-.design-notes h2 { margin-bottom: var(--sp-4); }
-.design-notes p  { font-size: var(--fs-sm); line-height: 1.6; color: var(--c-ink-dim); margin: 0; }
-.design-notes code { font-size: 11px; background: var(--c-bg); padding: 1px 4px; border-radius: 3px; }
+.design-notes h2 {
+  margin-bottom: var(--sp-4);
+}
+.design-notes p {
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: var(--c-ink-dim);
+  margin: 0;
+}
+.design-notes code {
+  font-size: 11px;
+  background: var(--c-bg);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
 
 /* Category colour classes — replace per-element inline --cat-color styles. */
-.dba-cat-core       { --cat-color: var(--c-accent);       --pill-color: var(--c-accent);       --cat-bg: color-mix(in oklab, var(--c-accent) 12%, var(--c-bg-card)); }
-.dba-cat-knowledge  { --cat-color: var(--c-gold);         --pill-color: var(--c-gold);         --cat-bg: color-mix(in oklab, var(--c-gold) 12%, var(--c-bg-card)); }
-.dba-cat-operations { --cat-color: var(--c-vendor-azure); --pill-color: var(--c-vendor-azure); --cat-bg: color-mix(in oklab, var(--c-vendor-azure) 12%, var(--c-bg-card)); }
-.dba-cat-quality    { --cat-color: var(--c-green);        --pill-color: var(--c-green);        --cat-bg: color-mix(in oklab, var(--c-green) 12%, var(--c-bg-card)); }
-.dba-badge--cat     { background: var(--cat-bg); color: var(--cat-color); }
+.dba-cat-core {
+  --cat-color: var(--c-accent);
+  --pill-color: var(--c-accent);
+  --cat-bg: color-mix(in oklab, var(--c-accent) 12%, var(--c-bg-card));
+}
+.dba-cat-knowledge {
+  --cat-color: var(--c-gold);
+  --pill-color: var(--c-gold);
+  --cat-bg: color-mix(in oklab, var(--c-gold) 12%, var(--c-bg-card));
+}
+.dba-cat-operations {
+  --cat-color: var(--c-vendor-azure);
+  --pill-color: var(--c-vendor-azure);
+  --cat-bg: color-mix(in oklab, var(--c-vendor-azure) 12%, var(--c-bg-card));
+}
+.dba-cat-quality {
+  --cat-color: var(--c-green);
+  --pill-color: var(--c-green);
+  --cat-bg: color-mix(in oklab, var(--c-green) 12%, var(--c-bg-card));
+}
+.dba-badge--cat {
+  background: var(--cat-bg);
+  color: var(--cat-color);
+}

@@ -11,32 +11,39 @@
  * stdlib and stamps body.style-<family>. Modeled on visual-layout.ts: SLUG_RE
  * validation, findContentDirSync resolution, .bak safety, apiOk/apiError envelopes.
  */
-import type { APIRoute } from 'astro';
-import { writeFileSync, readFileSync, existsSync, copyFileSync, mkdirSync } from 'node:fs';
-import { join } from 'node:path';
-import { findContentDirSync } from '../../../lib/content-paths';
-import { apiOk, apiError, apiServerError } from '../../../lib/api-responses';
+import type { APIRoute } from "astro";
+import {
+  writeFileSync,
+  readFileSync,
+  existsSync,
+  copyFileSync,
+  mkdirSync,
+} from "node:fs";
+import { join } from "node:path";
+import { findContentDirSync } from "../../../lib/content-paths";
+import { apiOk, apiError, apiServerError } from "../../../lib/api-responses";
 
 export const prerender = false;
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const SCHEMA = 'book.citation-style/v1';
-const FAMILIES = ['plain', 'scholarly', 'elegant'] as const;
-const DEFAULT_FAMILY: (typeof FAMILIES)[number] = 'scholarly';
+const SCHEMA = "book.citation-style/v1";
+const FAMILIES = ["plain", "scholarly", "elegant"] as const;
+const DEFAULT_FAMILY: (typeof FAMILIES)[number] = "scholarly";
 
 type Family = (typeof FAMILIES)[number];
 const isFamily = (v: unknown): v is Family =>
-  typeof v === 'string' && (FAMILIES as readonly string[]).includes(v);
+  typeof v === "string" && (FAMILIES as readonly string[]).includes(v);
 
 export const GET: APIRoute = async ({ url }) => {
-  const slug = String(url.searchParams.get('slug') ?? '').trim();
-  if (!SLUG_RE.test(slug)) return apiError('Invalid slug');
+  const slug = String(url.searchParams.get("slug") ?? "").trim();
+  if (!SLUG_RE.test(slug)) return apiError("Invalid slug");
   const bookDir = findContentDirSync(slug);
   if (!bookDir) return apiError(`Book not found: ${slug}`, 404);
-  const target = join(bookDir, 'book', 'citation-style.json');
-  if (!existsSync(target)) return apiOk({ slug, schema: SCHEMA, family: DEFAULT_FAMILY });
+  const target = join(bookDir, "book", "citation-style.json");
+  if (!existsSync(target))
+    return apiOk({ slug, schema: SCHEMA, family: DEFAULT_FAMILY });
   try {
-    const raw = JSON.parse(readFileSync(target, 'utf8'));
+    const raw = JSON.parse(readFileSync(target, "utf8"));
     const family = isFamily(raw?.family) ? raw.family : DEFAULT_FAMILY;
     return apiOk({ slug, schema: SCHEMA, family });
   } catch (e) {
@@ -46,27 +53,31 @@ export const GET: APIRoute = async ({ url }) => {
 
 export const PUT: APIRoute = async ({ request }) => {
   let body: Record<string, unknown>;
-  try { body = await request.json(); }
-  catch { return apiError('Invalid JSON body'); }
+  try {
+    body = await request.json();
+  } catch {
+    return apiError("Invalid JSON body");
+  }
 
-  const slug = String(body.slug ?? '').trim();
-  if (!SLUG_RE.test(slug)) return apiError('Invalid slug');
-  if (!isFamily(body.family)) return apiError(`Invalid family (expected one of: ${FAMILIES.join(', ')})`);
+  const slug = String(body.slug ?? "").trim();
+  if (!SLUG_RE.test(slug)) return apiError("Invalid slug");
+  if (!isFamily(body.family))
+    return apiError(`Invalid family (expected one of: ${FAMILIES.join(", ")})`);
 
   const bookDir = findContentDirSync(slug);
   if (!bookDir) return apiError(`Book not found: ${slug}`, 404);
 
   try {
-    const bookSubdir = join(bookDir, 'book');
+    const bookSubdir = join(bookDir, "book");
     mkdirSync(bookSubdir, { recursive: true });
-    const target = join(bookSubdir, 'citation-style.json');
+    const target = join(bookSubdir, "citation-style.json");
     const backup = `${target}.bak`;
     if (existsSync(target) && !existsSync(backup)) copyFileSync(target, backup);
 
     writeFileSync(
       target,
-      JSON.stringify({ schema: SCHEMA, family: body.family }, null, 2) + '\n',
-      'utf8',
+      JSON.stringify({ schema: SCHEMA, family: body.family }, null, 2) + "\n",
+      "utf8",
     );
     return apiOk({ slug, family: body.family });
   } catch (e) {

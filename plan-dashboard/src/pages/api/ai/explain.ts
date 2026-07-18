@@ -13,8 +13,8 @@
  * Returns: { ok, text: string, source: 'gemini' }
  */
 
-import type { APIRoute } from 'astro';
-import { generate, rateLimitCheck } from '../../../lib/reader/gemini-server';
+import type { APIRoute } from "astro";
+import { generate, rateLimitCheck } from "../../../lib/reader/gemini-server";
 
 export const prerender = false;
 
@@ -41,51 +41,91 @@ function stripArabicTransliterationPairs(value: string): string {
   const romanizedArabicTerm = String.raw`(?:al-[A-Za-zāēīōūĀĒĪŌŪṣṢḍḌṭṬẓẒḥḤʿʾ'’-]+(?:\s+al-[A-Za-zāēīōūĀĒĪŌŪṣṢḍḌṭṬẓẒḥḤʿʾ'’-]+)*|[A-Za-z'’\-]*[āēīōūṣḍṭẓḥʿʾ][A-Za-zāēīōūṣḍṭẓḥʿʾ'’\-\s]*)`;
 
   return value
-    .replace(new RegExp(String.raw`\*${roman}\*\s*\((${arabic})\)`, 'gu'), '$1')
-    .replace(new RegExp(String.raw`${romanizedArabicTerm}\s*\((${arabic})\)`, 'gu'), '$1')
-    .replace(new RegExp(String.raw`(${arabic})\s*\(\*?(?=[^)]*(?:al-|ā|ē|ī|ō|ū|ṣ|ḍ|ṭ|ẓ|ḥ|ʿ|ʾ))${roman}\*?\)`, 'gu'), '$1');
+    .replace(new RegExp(String.raw`\*${roman}\*\s*\((${arabic})\)`, "gu"), "$1")
+    .replace(
+      new RegExp(String.raw`${romanizedArabicTerm}\s*\((${arabic})\)`, "gu"),
+      "$1",
+    )
+    .replace(
+      new RegExp(
+        String.raw`(${arabic})\s*\(\*?(?=[^)]*(?:al-|ā|ē|ī|ō|ū|ṣ|ḍ|ṭ|ẓ|ḥ|ʿ|ʾ))${roman}\*?\)`,
+        "gu",
+      ),
+      "$1",
+    );
 }
 
 export const POST: APIRoute = async ({ request }) => {
   const limit = rateLimitCheck();
   if (!limit.ok) {
-    return new Response(JSON.stringify({ ok: false, error: 'rate_limited', retryMs: limit.retryMs }), {
-      status: 429, headers: { 'content-type': 'application/json' },
-    });
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        error: "rate_limited",
+        retryMs: limit.retryMs,
+      }),
+      {
+        status: 429,
+        headers: { "content-type": "application/json" },
+      },
+    );
   }
 
   try {
     const { text, chapter, bookTitle } = await request.json();
-    if (typeof text !== 'string' || !text.trim()) {
-      return new Response(JSON.stringify({ ok: false, error: 'missing text' }), { status: 400, headers: { 'content-type': 'application/json' } });
+    if (typeof text !== "string" || !text.trim()) {
+      return new Response(
+        JSON.stringify({ ok: false, error: "missing text" }),
+        { status: 400, headers: { "content-type": "application/json" } },
+      );
     }
 
-    const ctx = typeof chapter === 'string' ? chapter.trim() : '';
+    const ctx = typeof chapter === "string" ? chapter.trim() : "";
     const user = [
-      bookTitle ? `Book: ${bookTitle}` : '',
-      ctx ? `Full chapter (context):\n"""\n${ctx}\n"""` : '',
+      bookTitle ? `Book: ${bookTitle}` : "",
+      ctx ? `Full chapter (context):\n"""\n${ctx}\n"""` : "",
       `Highlighted excerpt to clarify:\n"""\n${text.trim()}\n"""`,
-    ].filter(Boolean).join('\n\n');
+    ]
+      .filter(Boolean)
+      .join("\n\n");
 
     const out = await generate({
-      model: 'flash',
+      model: "flash",
       systemInstruction: SYSTEM,
-      contents: [{ role: 'user', parts: [{ text: user }] }],
+      contents: [{ role: "user", parts: [{ text: user }] }],
       temperature: 0.4,
       maxOutputTokens: 1024,
       // Disable Flash's default thinking so the token budget goes to the answer.
       thinkingBudget: 0,
     });
 
-    const clarified = stripArabicTransliterationPairs((out ?? '').trim().replace(/^["“”]+|["“”]+$/g, '').trim());
+    const clarified = stripArabicTransliterationPairs(
+      (out ?? "")
+        .trim()
+        .replace(/^["“”]+|["“”]+$/g, "")
+        .trim(),
+    );
     if (!clarified) {
-      return new Response(JSON.stringify({ ok: false, error: 'no explanation returned' }), { status: 502, headers: { 'content-type': 'application/json' } });
+      return new Response(
+        JSON.stringify({ ok: false, error: "no explanation returned" }),
+        { status: 502, headers: { "content-type": "application/json" } },
+      );
     }
 
-    return new Response(JSON.stringify({ ok: true, text: clarified, source: 'gemini' }), {
-      status: 200, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },
-    });
+    return new Response(
+      JSON.stringify({ ok: true, text: clarified, source: "gemini" }),
+      {
+        status: 200,
+        headers: {
+          "content-type": "application/json",
+          "cache-control": "no-store",
+        },
+      },
+    );
   } catch (e) {
-    return new Response(JSON.stringify({ ok: false, error: (e as Error).message }), { status: 500, headers: { 'content-type': 'application/json' } });
+    return new Response(
+      JSON.stringify({ ok: false, error: (e as Error).message }),
+      { status: 500, headers: { "content-type": "application/json" } },
+    );
   }
 };

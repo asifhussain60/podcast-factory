@@ -12,7 +12,7 @@
  * for Phase 2 to do.
  */
 
-import { simplifyTransliteration } from '../translit';
+import { simplifyTransliteration } from "../translit";
 
 /** Arabic-script detection (matches the print renderer's ARABIC_RE). */
 const ARABIC_SCRIPT_RE = /[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/;
@@ -23,34 +23,36 @@ function escapeHtml(s: string): string {
   // pattern matching (e.g. "Abu Ya'qub" → "Abu Ya&#39;qub" which the Arabic
   // detector can't see through). Only escape what's actually unsafe.
   return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
 function renderInline(text: string): string {
   let s = escapeHtml(text);
   // inline code (must come before emphasis so backticks don't interleave)
-  s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+  s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
   // links: [text](url) — URL is escaped already because we ran escapeHtml first
   s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_m, label, url) => {
-    const safeUrl = url.replace(/"/g, '&quot;');
+    const safeUrl = url.replace(/"/g, "&quot;");
     return `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${label}</a>`;
   });
   // bold: **text**
-  s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   // italic: *text* (single asterisks, not part of bold)
-  s = s.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
+  s = s.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, "$1<em>$2</em>");
   return s;
 }
 
-type ListKind = 'ul' | 'ol' | null;
+type ListKind = "ul" | "ol" | null;
 
 export function renderMarkdown(input: string): string {
   // Fold scholarly Arabic transliteration to plain English for display
   // (Kīmiyāʾ al-Saʿāda → Kimiya al-Sa'ada). Arabic script is left untouched.
-  const lines = simplifyTransliteration(input).replace(/\r\n/g, '\n').split('\n');
+  const lines = simplifyTransliteration(input)
+    .replace(/\r\n/g, "\n")
+    .split("\n");
   const out: string[] = [];
   let paraBuffer: string[] = [];
   let quoteBuffer: string[] = [];
@@ -59,7 +61,7 @@ export function renderMarkdown(input: string): string {
 
   const flushPara = () => {
     if (paraBuffer.length === 0) return;
-    const text = paraBuffer.join(' ').trim();
+    const text = paraBuffer.join(" ").trim();
     if (text) out.push(`<p>${renderInline(text)}</p>`);
     paraBuffer = [];
   };
@@ -72,24 +74,33 @@ export function renderMarkdown(input: string): string {
     const paras: string[] = [];
     let cur: string[] = [];
     for (const l of quoteBuffer) {
-      if (l.trim() === '') { if (cur.length) { paras.push(cur.join(' ')); cur = []; } }
-      else cur.push(l);
+      if (l.trim() === "") {
+        if (cur.length) {
+          paras.push(cur.join(" "));
+          cur = [];
+        }
+      } else cur.push(l);
     }
-    if (cur.length) paras.push(cur.join(' '));
+    if (cur.length) paras.push(cur.join(" "));
     // Tag Arabic-script lines as `.ar` and their translations as `.tr` (only when
     // the block actually contains Arabic) so the reader can style verses like the
     // print renderer does — body-ink Arabic at body scale, no box. Emission stays
     // one line so the Composer's paragraph mirror (`:scope > p`) is unaffected.
     const hasArabic = paras.some((p) => ARABIC_SCRIPT_RE.test(p));
-    const inner = paras.length === 0
-      ? '<p></p>'
-      : paras.map((p) => {
-          if (!hasArabic) return `<p>${renderInline(p)}</p>`;
-          return ARABIC_SCRIPT_RE.test(p)
-            ? `<p class="ar" dir="rtl" lang="ar">${renderInline(p)}</p>`
-            : `<p class="tr">${renderInline(p)}</p>`;
-        }).join('');
-    out.push(`<blockquote${hasArabic ? ' class="quran"' : ''}>${inner}</blockquote>`);
+    const inner =
+      paras.length === 0
+        ? "<p></p>"
+        : paras
+            .map((p) => {
+              if (!hasArabic) return `<p>${renderInline(p)}</p>`;
+              return ARABIC_SCRIPT_RE.test(p)
+                ? `<p class="ar" dir="rtl" lang="ar">${renderInline(p)}</p>`
+                : `<p class="tr">${renderInline(p)}</p>`;
+            })
+            .join("");
+    out.push(
+      `<blockquote${hasArabic ? ' class="quran"' : ""}>${inner}</blockquote>`,
+    );
     quoteBuffer = [];
   };
 
@@ -106,7 +117,11 @@ export function renderMarkdown(input: string): string {
     listItems = [];
   };
 
-  const flushAll = () => { flushPara(); flushQuote(); flushList(); };
+  const flushAll = () => {
+    flushPara();
+    flushQuote();
+    flushList();
+  };
 
   for (const rawLine of lines) {
     const line = rawLine.trimEnd();
@@ -119,7 +134,7 @@ export function renderMarkdown(input: string): string {
     // horizontal rule
     if (/^(---+|\*\*\*+)$/.test(line.trim())) {
       flushAll();
-      out.push('<hr />');
+      out.push("<hr />");
       continue;
     }
 
@@ -130,7 +145,12 @@ export function renderMarkdown(input: string): string {
       const level = hMatch[1].length;
       const inner = renderInline(hMatch[2]);
       // slug for in-chapter anchoring (mini-TOC). Strip HTML, lowercase, hyphenate.
-      const plain = hMatch[2].toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').slice(0, 80);
+      const plain = hMatch[2]
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .trim()
+        .replace(/\s+/g, "-")
+        .slice(0, 80);
       out.push(`<h${level} id="${plain}">${inner}</h${level}>`);
       continue;
     }
@@ -151,7 +171,10 @@ export function renderMarkdown(input: string): string {
     if (ulMatch) {
       flushPara();
       flushQuote();
-      if (listKind !== 'ul') { flushList(); listKind = 'ul'; }
+      if (listKind !== "ul") {
+        flushList();
+        listKind = "ul";
+      }
       listItems.push(ulMatch[1]);
       continue;
     }
@@ -161,7 +184,10 @@ export function renderMarkdown(input: string): string {
     if (olMatch) {
       flushPara();
       flushQuote();
-      if (listKind !== 'ol') { flushList(); listKind = 'ol'; }
+      if (listKind !== "ol") {
+        flushList();
+        listKind = "ol";
+      }
       listItems.push(olMatch[1]);
       continue;
     } else if (listKind !== null) {
@@ -169,10 +195,15 @@ export function renderMarkdown(input: string): string {
     }
 
     // HTML comment line (used in transcripts: `<!-- page 1 -->`)
-    if (line.trim().startsWith('<!--')) {
+    if (line.trim().startsWith("<!--")) {
       flushAll();
-      const inner = line.trim().replace(/^<!--\s*/, '').replace(/\s*-->$/, '');
-      out.push(`<div class="md-comment" data-md-comment="${escapeHtml(inner)}">${escapeHtml(inner)}</div>`);
+      const inner = line
+        .trim()
+        .replace(/^<!--\s*/, "")
+        .replace(/\s*-->$/, "");
+      out.push(
+        `<div class="md-comment" data-md-comment="${escapeHtml(inner)}">${escapeHtml(inner)}</div>`,
+      );
       continue;
     }
 
@@ -180,7 +211,7 @@ export function renderMarkdown(input: string): string {
   }
   flushAll();
 
-  return out.join('\n');
+  return out.join("\n");
 }
 
 /**

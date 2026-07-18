@@ -11,11 +11,11 @@
  * page is seeded from the regression-baseline snapshots which are the most
  * authoritative record of current quality.
  */
-import Base from '../layouts/Base.astro';
-import AudienceBadge from '../components/AudienceBadge.astro';
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import '../styles/quality.css';
+import Base from "../layouts/Base.astro";
+import AudienceBadge from "../components/AudienceBadge.astro";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import "../styles/quality.css";
 
 // ─── Load baseline data ────────────────────────────────────────────────────
 
@@ -26,7 +26,7 @@ interface ChapterScore {
   structure: number;
   enrichment: number;
   total: number;
-  verdict: 'PASS' | 'WARN' | 'FAIL';
+  verdict: "PASS" | "WARN" | "FAIL";
 }
 
 interface BookBaseline {
@@ -35,42 +35,52 @@ interface BookBaseline {
 }
 
 function loadBaseline(slug: string): BookBaseline | null {
-  const base = resolve(process.cwd(), `../_workspace/tests/baselines/${slug}-peq-baseline.json`);
+  const base = resolve(
+    process.cwd(),
+    `../_workspace/tests/baselines/${slug}-peq-baseline.json`,
+  );
   try {
-    const data = JSON.parse(readFileSync(base, 'utf-8'));
+    const data = JSON.parse(readFileSync(base, "utf-8"));
     // Support both array format {book, chapters:[...]} and dict format {chSlug: {scores}}
     if (Array.isArray(data.chapters)) {
       return data as BookBaseline;
     }
     // Convert flat dict → array
     const chapters: ChapterScore[] = Object.entries(data)
-      .filter(([, v]) => v !== null && typeof v === 'object')
-      .map(([chapter, score]: [string, any]) => ({ chapter, ...score } as ChapterScore));
+      .filter(([, v]) => v !== null && typeof v === "object")
+      .map(
+        ([chapter, score]: [string, any]) =>
+          ({ chapter, ...score }) as ChapterScore,
+      );
     return { book: slug, chapters };
   } catch {
     return null;
   }
 }
 
-const CANONICAL_BOOKS = ['kitab-al-riyad', 'the-master-and-the-disciple'];
-const baselines = CANONICAL_BOOKS.map(loadBaseline).filter(Boolean) as BookBaseline[];
+const CANONICAL_BOOKS = ["kitab-al-riyad", "the-master-and-the-disciple"];
+const baselines = CANONICAL_BOOKS.map(loadBaseline).filter(
+  Boolean,
+) as BookBaseline[];
 
 // Fleet-average calculation — guard against any malformed entries
-const allChapters = baselines.flatMap(b => b.chapters).filter(
-  (c): c is ChapterScore => c != null && typeof c.total === 'number'
-);
+const allChapters = baselines
+  .flatMap((b) => b.chapters)
+  .filter((c): c is ChapterScore => c != null && typeof c.total === "number");
 const fleetAvg = allChapters.length
-  ? (allChapters.reduce((s, c) => s + c.total, 0) / allChapters.length).toFixed(1)
-  : '—';
+  ? (allChapters.reduce((s, c) => s + c.total, 0) / allChapters.length).toFixed(
+      1,
+    )
+  : "—";
 
-const passCount = allChapters.filter(c => c.verdict === 'PASS').length;
-const warnCount = allChapters.filter(c => c.verdict === 'WARN').length;
-const failCount = allChapters.filter(c => c.verdict === 'FAIL').length;
+const passCount = allChapters.filter((c) => c.verdict === "PASS").length;
+const warnCount = allChapters.filter((c) => c.verdict === "WARN").length;
+const failCount = allChapters.filter((c) => c.verdict === "FAIL").length;
 
 function verdictClass(v: string) {
-  if (v === 'PASS') return 'pq-pass';
-  if (v === 'WARN') return 'pq-warn';
-  return 'pq-fail';
+  if (v === "PASS") return "pq-pass";
+  if (v === "WARN") return "pq-warn";
+  return "pq-fail";
 }
 
 function bar(value: number, max = 100) {
@@ -78,17 +88,21 @@ function bar(value: number, max = 100) {
   return Math.round(pct / 5) * 5; // bucket to nearest 5 -> .pqw-N class (no inline style)
 }
 ---
-<Base title="Quality" active="quality" description="Per-chapter PEQ quality scores across all canonical books.">
 
+<Base
+  title="Quality"
+  active="quality"
+  description="Per-chapter PEQ quality scores across all canonical books."
+>
   <!-- ═══ Hero ══════════════════════════════════════════════════════════════ -->
   <section class="page-hero">
     <div class="page-hero-inner">
       <span class="eyebrow">Quality Scores</span>
       <h1 class="page-hero-title">Pipeline Episode Quality (PEQ)</h1>
       <p class="page-hero-lede">
-        Every chapter is scored on four axes — source faithfulness, voice clarity,
-        structural arc, and domain enrichment — with a combined PEQ total out of 100.
-        Chapters below 70 are blocked from shipping.
+        Every chapter is scored on four axes — source faithfulness, voice
+        clarity, structural arc, and domain enrichment — with a combined PEQ
+        total out of 100. Chapters below 70 are blocked from shipping.
       </p>
       <p class="home-hero-audience"><AudienceBadge tier="both" /></p>
     </div>
@@ -141,7 +155,9 @@ function bar(value: number, max = 100) {
       <div class="pq-axis-card">
         <span class="pq-axis-label">Enrichment</span>
         <span class="pq-axis-weight">20%</span>
-        <p>Arabic terms glossed; Quranic refs cited; domain vocabulary present</p>
+        <p>
+          Arabic terms glossed; Quranic refs cited; domain vocabulary present
+        </p>
       </div>
     </div>
     <p class="pq-threshold-note">
@@ -150,66 +166,82 @@ function bar(value: number, max = 100) {
       <strong class="pq-fail">&lt; 70 FAIL</strong>
     </p>
     <p class="pq-threshold-note">
-      These baselines were scored under the four-axis formula above. The live pipeline
-      now scores on a fifth axis as well — Interest (hooks, raised-and-resolved
-      challenges) — with rebalanced weights; new books will report five axes.
+      These baselines were scored under the four-axis formula above. The live
+      pipeline now scores on a fifth axis as well — Interest (hooks,
+      raised-and-resolved challenges) — with rebalanced weights; new books will
+      report five axes.
     </p>
   </section>
 
   <!-- ═══ Per-book tables ════════════════════════════════════════════════════ -->
-  {baselines.map(book => (
-    <section class="pq-book-section content-section">
-      <h2 class="pq-book-title">{book.book.replace(/-/g, ' ')}</h2>
-      <div class="pq-table-wrap" role="region" aria-label={`Quality scores — ${book.book.replace(/-/g, ' ')}`} tabindex="0">
-        <table class="pq-table">
-          <thead>
-            <tr>
-              <th>Chapter</th>
-              <th>Fidelity</th>
-              <th>Voice</th>
-              <th>Structure</th>
-              <th>Enrichment</th>
-              <th>Total</th>
-              <th>Verdict</th>
-            </tr>
-          </thead>
-          <tbody>
-            {book.chapters.map((ch: ChapterScore) => (
-              <tr class={verdictClass(ch.verdict)}>
-                <td class="pq-chapter-name">{ch.chapter.replace(/-/g, ' ')}</td>
-                <td>
-                  <div class="pq-bar-wrap">
-                    <div class={`pq-bar pqw-${bar(ch.fidelity)}`}></div>
-                    <span>{ch.fidelity.toFixed(1)}</span>
-                  </div>
-                </td>
-                <td>
-                  <div class="pq-bar-wrap">
-                    <div class={`pq-bar pqw-${bar(ch.voice)}`}></div>
-                    <span>{ch.voice.toFixed(1)}</span>
-                  </div>
-                </td>
-                <td>
-                  <div class="pq-bar-wrap">
-                    <div class={`pq-bar pqw-${bar(ch.structure)}`}></div>
-                    <span>{ch.structure.toFixed(1)}</span>
-                  </div>
-                </td>
-                <td>
-                  <div class="pq-bar-wrap">
-                    <div class={`pq-bar pqw-${bar(ch.enrichment)}`}></div>
-                    <span>{ch.enrichment.toFixed(1)}</span>
-                  </div>
-                </td>
-                <td class="pq-total"><strong>{ch.total.toFixed(1)}</strong></td>
-                <td><span class={`pq-verdict-badge ${verdictClass(ch.verdict)}`}>{ch.verdict}</span></td>
+  {
+    baselines.map((book) => (
+      <section class="pq-book-section content-section">
+        <h2 class="pq-book-title">{book.book.replace(/-/g, " ")}</h2>
+        <div
+          class="pq-table-wrap"
+          role="region"
+          aria-label={`Quality scores — ${book.book.replace(/-/g, " ")}`}
+          tabindex="0"
+        >
+          <table class="pq-table">
+            <thead>
+              <tr>
+                <th>Chapter</th>
+                <th>Fidelity</th>
+                <th>Voice</th>
+                <th>Structure</th>
+                <th>Enrichment</th>
+                <th>Total</th>
+                <th>Verdict</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
-  ))}
-
+            </thead>
+            <tbody>
+              {book.chapters.map((ch: ChapterScore) => (
+                <tr class={verdictClass(ch.verdict)}>
+                  <td class="pq-chapter-name">
+                    {ch.chapter.replace(/-/g, " ")}
+                  </td>
+                  <td>
+                    <div class="pq-bar-wrap">
+                      <div class={`pq-bar pqw-${bar(ch.fidelity)}`} />
+                      <span>{ch.fidelity.toFixed(1)}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="pq-bar-wrap">
+                      <div class={`pq-bar pqw-${bar(ch.voice)}`} />
+                      <span>{ch.voice.toFixed(1)}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="pq-bar-wrap">
+                      <div class={`pq-bar pqw-${bar(ch.structure)}`} />
+                      <span>{ch.structure.toFixed(1)}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="pq-bar-wrap">
+                      <div class={`pq-bar pqw-${bar(ch.enrichment)}`} />
+                      <span>{ch.enrichment.toFixed(1)}</span>
+                    </div>
+                  </td>
+                  <td class="pq-total">
+                    <strong>{ch.total.toFixed(1)}</strong>
+                  </td>
+                  <td>
+                    <span
+                      class={`pq-verdict-badge ${verdictClass(ch.verdict)}`}
+                    >
+                      {ch.verdict}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ))
+  }
 </Base>
-

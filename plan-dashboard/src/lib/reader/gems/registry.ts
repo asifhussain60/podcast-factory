@@ -6,8 +6,8 @@
  * gracefully for an unknown id: an unresolved Gem has no persona to fall back to,
  * so callers must treat `undefined` as an error (see engine.ts).
  */
-import type { GemDef } from './types';
-import { ISMAILI_SCHOLAR_GEM } from './ismaili-scholar';
+import type { GemDef } from "./types";
+import { ISMAILI_SCHOLAR_GEM } from "./ismaili-scholar";
 
 /** Known Gems. Extend by appending an entry. */
 export const GEM_DEFS: GemDef[] = [ISMAILI_SCHOLAR_GEM];

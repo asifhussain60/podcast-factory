@@ -9,25 +9,31 @@
  */
 type ApiEnvelope<T> = { ok: true; data: T } | { ok: false; error: string };
 
-const form = document.querySelector<HTMLFormElement>('.bs-styleform');
-const saveLine = document.getElementById('bs-save');
-const slug = form?.dataset.slug ?? '';
+const form = document.querySelector<HTMLFormElement>(".bs-styleform");
+const saveLine = document.getElementById("bs-save");
+const slug = form?.dataset.slug ?? "";
 
 function radios(): HTMLInputElement[] {
-  return form ? Array.from(form.querySelectorAll<HTMLInputElement>('input[name="citation-style"]')) : [];
+  return form
+    ? Array.from(
+        form.querySelectorAll<HTMLInputElement>('input[name="citation-style"]'),
+      )
+    : [];
 }
 
-function setStatus(text: string, state: '' | 'saved' | 'error'): void {
+function setStatus(text: string, state: "" | "saved" | "error"): void {
   if (!saveLine) return;
   saveLine.textContent = text;
-  saveLine.classList.toggle('is-saved', state === 'saved');
-  saveLine.classList.toggle('is-error', state === 'error');
+  saveLine.classList.toggle("is-saved", state === "saved");
+  saveLine.classList.toggle("is-error", state === "error");
 }
 
 async function loadSaved(): Promise<void> {
   if (!slug) return;
   try {
-    const res = await fetch(`/api/studio/citation-style?slug=${encodeURIComponent(slug)}`);
+    const res = await fetch(
+      `/api/studio/citation-style?slug=${encodeURIComponent(slug)}`,
+    );
     const json = (await res.json()) as ApiEnvelope<{ family: string }>;
     if (!json.ok) return;
     const saved = json.data.family;
@@ -40,28 +46,28 @@ async function loadSaved(): Promise<void> {
 
 async function save(family: string): Promise<void> {
   if (!slug) return;
-  setStatus('Saving…', '');
+  setStatus("Saving…", "");
   try {
-    const res = await fetch('/api/studio/citation-style', {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
+    const res = await fetch("/api/studio/citation-style", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
       body: JSON.stringify({ slug, family }),
     });
     const json = (await res.json()) as ApiEnvelope<{ family: string }>;
     if (json.ok) {
-      setStatus(`Saved — the book will print in the ${family} style.`, 'saved');
+      setStatus(`Saved — the book will print in the ${family} style.`, "saved");
     } else {
-      setStatus(`Couldn't save: ${json.error}`, 'error');
+      setStatus(`Couldn't save: ${json.error}`, "error");
     }
   } catch (e) {
-    setStatus(`Couldn't save: ${String(e)}`, 'error');
+    setStatus(`Couldn't save: ${String(e)}`, "error");
   }
 }
 
 if (form) {
-  form.addEventListener('change', (ev) => {
+  form.addEventListener("change", (ev) => {
     const target = ev.target as HTMLInputElement;
-    if (target?.name === 'citation-style' && target.checked) save(target.value);
+    if (target?.name === "citation-style" && target.checked) save(target.value);
   });
   void loadSaved();
 }

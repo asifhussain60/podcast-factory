@@ -33,19 +33,22 @@
  * byte-perfect to what the PDF renderer would produce (same renderer, same
  * fonts/figures; REQ-SC-021 true by construction).
  */
-import Base from '../../../layouts/Base.astro';
-import { findContentDirSync, slugToTitle } from '../../../lib/content-paths';
-import { ensurePreviewPageImages } from '../../../../scripts/lib/preview-pages.mjs';
-import '../../../styles/library.css';
-import '../../../styles/book-composer.css';
-import '../../../styles/preview.css';
+import Base from "../../../layouts/Base.astro";
+import { findContentDirSync, slugToTitle } from "../../../lib/content-paths";
+import { ensurePreviewPageImages } from "../../../../scripts/lib/preview-pages.mjs";
+import "../../../styles/library.css";
+import "../../../styles/book-composer.css";
+import "../../../styles/preview.css";
 
 const slug = Astro.params.slug!;
 const bookDir = findContentDirSync(slug);
-const { pageCount } = bookDir ? ensurePreviewPageImages(bookDir) : { pageCount: 0 };
+const { pageCount } = bookDir
+  ? ensurePreviewPageImages(bookDir)
+  : { pageCount: 0 };
 const bookTitle = slugToTitle(slug);
 const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
 ---
+
 <Base
   title={`Preview — ${bookTitle}`}
   active="studio"
@@ -65,9 +68,9 @@ const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
           <h1>{bookTitle} — Preview</h1>
         </div>
         <p class="pv-sub">
-          Scroll through the whole book as your current edits will print —
-          fonts and figure placement match the PDF, refreshed automatically
-          whenever you've changed something.
+          Scroll through the whole book as your current edits will print — fonts
+          and figure placement match the PDF, refreshed automatically whenever
+          you've changed something.
         </p>
       </div>
       <div class="lib-hero-aside">
@@ -76,7 +79,8 @@ const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
             <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Generate PDF
           </button>
           <button type="button" class="lib-studio-link" id="pv-generate-ss">
-            <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> Self-study PDF
+            <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> Self-study
+            PDF
           </button>
           <a class="lib-studio-link" href={`/studio/${slug}/compose`}>
             <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Composer
@@ -86,38 +90,67 @@ const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
     </header>
 
     <p class="pv-status" id="pv-status" role="status" aria-live="polite">
-      {pageCount > 0 ? `${pageCount} page${pageCount === 1 ? '' : 's'} — reflecting your saved edits` : ''}
+      {
+        pageCount > 0
+          ? `${pageCount} page${pageCount === 1 ? "" : "s"} — reflecting your saved edits`
+          : ""
+      }
     </p>
 
-    {pageCount > 0 && (
-      <div class="pv-toolbar" role="toolbar" aria-label="Preview zoom">
-        <label for="pv-zoom-range" class="pv-zoom-label">Zoom</label>
-        <input type="range" id="pv-zoom-range" min="30" max="90" step="5" value="50" />
-        <span class="pv-zoom-value" id="pv-zoom-value">50%</span>
-      </div>
-    )}
-
-    {pageCount > 0 ? (
-      <div class="pv-pages">
-        {pages.map((n) => (
-          <img
-            class="pv-page-img"
-            src={`/api/studio/book-pdf-page?slug=${slug}&page=${n}`}
-            alt={`Page ${n} of ${pageCount}`}
-            loading={n <= 2 ? 'eager' : 'lazy'}
-            width="745"
-            height="1054"
+    {
+      pageCount > 0 && (
+        <div class="pv-toolbar" role="toolbar" aria-label="Preview zoom">
+          <label for="pv-zoom-range" class="pv-zoom-label">
+            Zoom
+          </label>
+          <input
+            type="range"
+            id="pv-zoom-range"
+            min="30"
+            max="90"
+            step="5"
+            value="50"
           />
-        ))}
-      </div>
-    ) : (
-      <div class="pv-empty">
-        <p>No reading edition composed yet.</p>
-        <p><a href={`/studio/${slug}/compose`}>Go to the Composer</a> to add chapters and figures.</p>
-      </div>
-    )}
+          <span class="pv-zoom-value" id="pv-zoom-value">
+            50%
+          </span>
+        </div>
+      )
+    }
 
-    <script type="application/json" id="preview-data" is:inline set:html={JSON.stringify({ slug }).replace(/</g, '\\u003c')}></script>
-    <script>import '../../../scripts/book-preview.ts';</script>
+    {
+      pageCount > 0 ? (
+        <div class="pv-pages">
+          {pages.map((n) => (
+            <img
+              class="pv-page-img"
+              src={`/api/studio/book-pdf-page?slug=${slug}&page=${n}`}
+              alt={`Page ${n} of ${pageCount}`}
+              loading={n <= 2 ? "eager" : "lazy"}
+              width="745"
+              height="1054"
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="pv-empty">
+          <p>No reading edition composed yet.</p>
+          <p>
+            <a href={`/studio/${slug}/compose`}>Go to the Composer</a> to add
+            chapters and figures.
+          </p>
+        </div>
+      )
+    }
+
+    <script
+      type="application/json"
+      id="preview-data"
+      is:inline
+      set:html={JSON.stringify({ slug }).replace(/</g, "\\u003c")}
+    />
+    <script>
+      import "../../../scripts/book-preview.ts";
+    </script>
   </div>
 </Base>

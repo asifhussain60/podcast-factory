@@ -58,11 +58,13 @@
   flex-direction: column;
   gap: 2px;
 }
-.st-phase { position: relative; }
+.st-phase {
+  position: relative;
+}
 
 /* Continuous connector running down the gutter through every phase dot. */
 .st-phase:not(:last-child)::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 18px;
   top: 30px;
@@ -83,10 +85,18 @@
   border-radius: var(--radius-md, 8px);
   text-decoration: none;
   color: var(--c-ink);
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
-.st-phase-link:hover { background: var(--c-bg-elev); border-color: var(--c-rule-soft, var(--c-rule)); }
-.st-phase-link:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.st-phase-link:hover {
+  background: var(--c-bg-elev);
+  border-color: var(--c-rule-soft, var(--c-rule));
+}
+.st-phase-link:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
 /* Current phase: a left accent bar, not a filled box (Asif disliked the box). */
 .st-phase.is-current > .st-phase-link {
   background: transparent;
@@ -113,9 +123,19 @@
   font-weight: 800;
   line-height: 1;
 }
-.st-phase--done .st-phase-dot { background: var(--c-green, #15803d); border-color: var(--c-green, #15803d); color: #fff; }
-.st-phase--pending .st-phase-dot { background: var(--c-bg-elev); }
-.st-phase--blocked .st-phase-dot { background: var(--c-amber, #c08020); border-color: var(--c-amber, #c08020); color: #fff; }
+.st-phase--done .st-phase-dot {
+  background: var(--c-green, #15803d);
+  border-color: var(--c-green, #15803d);
+  color: #fff;
+}
+.st-phase--pending .st-phase-dot {
+  background: var(--c-bg-elev);
+}
+.st-phase--blocked .st-phase-dot {
+  background: var(--c-amber, #c08020);
+  border-color: var(--c-amber, #c08020);
+  color: #fff;
+}
 .st-phase.is-current .st-phase-dot,
 .st-phase--active .st-phase-dot {
   background: var(--c-accent);
@@ -124,7 +144,13 @@
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-accent) 16%, transparent);
 }
 
-.st-phase-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; padding-top: 2px; }
+.st-phase-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  padding-top: 2px;
+}
 .st-phase-label {
   font-family: var(--font-ui, var(--font-sans, sans-serif));
   font-size: 0.72rem;
@@ -132,10 +158,14 @@
   line-height: 1.2;
   color: var(--c-ink);
 }
-.st-phase--pending .st-phase-label { color: var(--c-ink-dim); }
+.st-phase--pending .st-phase-label {
+  color: var(--c-ink-dim);
+}
 /* No fill now → label sits on the card background, where --c-accent clears AA
    (~7:1, accent-on-card confirmed 6.98:1). */
-.st-phase.is-current .st-phase-label { color: var(--c-accent); }
+.st-phase.is-current .st-phase-label {
+  color: var(--c-accent);
+}
 .st-phase-detail {
   font-family: var(--font-ui, var(--font-sans, sans-serif));
   font-size: 0.6rem;
@@ -176,11 +206,13 @@
   display: flex;
   flex-direction: column;
 }
-.st-item { position: relative; }
+.st-item {
+  position: relative;
+}
 
 /* Connector line linking consecutive dots. */
 .st-item:not(:last-child)::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 15px;
   top: 26px;
@@ -205,10 +237,18 @@
   color: var(--c-ink-dim);
   cursor: pointer;
   font-family: inherit;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
-.st-link:hover { background: var(--c-bg-elev); border-color: var(--c-rule-soft, var(--c-rule)); }
-.st-link:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.st-link:hover {
+  background: var(--c-bg-elev);
+  border-color: var(--c-rule-soft, var(--c-rule));
+}
+.st-link:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
 
 /* Small version bullet (was a numbered circle — the numbers echoed the top
    "Step 1/2" stepper; a bullet reads as a version marker, not a step). */
@@ -222,7 +262,12 @@
   border: 2px solid var(--c-rule);
 }
 
-.st-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.st-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
 .st-label {
   font-family: var(--font-ui, var(--font-sans, sans-serif));
   font-size: 0.7rem;
@@ -257,9 +302,16 @@
 }
 /* Secondary metadata — lighter weight so the coloured % reads as a footnote,
    not an alarm (the delta is also shown in the centre metrics strip). */
-.st-delta { font-weight: 500; color: var(--c-ink-dim); }
-.st-delta.is-down { color: var(--c-green, var(--c-accent)); }
-.st-delta.is-up { color: var(--c-amber, var(--c-accent)); }
+.st-delta {
+  font-weight: 500;
+  color: var(--c-ink-dim);
+}
+.st-delta.is-down {
+  color: var(--c-green, var(--c-accent));
+}
+.st-delta.is-up {
+  color: var(--c-amber, var(--c-accent));
+}
 
 /* Active (currently-shown) version: left accent bar, not a filled box. */
 .st-item.is-active .st-link {
@@ -273,9 +325,14 @@
   border-color: var(--c-accent);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-accent) 16%, transparent);
 }
-.st-item.is-active .st-label { font-weight: 700; color: var(--c-accent); }
+.st-item.is-active .st-label {
+  font-weight: 700;
+  color: var(--c-accent);
+}
 /* The editable (Review) step's dot reads as the live one. */
-.st-item.is-editable .st-dot { border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-rule)); }
+.st-item.is-editable .st-dot {
+  border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-rule));
+}
 
 /* Lineage switch (current ⇄ archived journey) — sits in the versions module. */
 .st-lineage {
@@ -296,7 +353,10 @@
   padding: 7px 10px;
   cursor: pointer;
 }
-.st-lineage-btn:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.st-lineage-btn:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
 .st-lineage-note {
   margin: 0;
   font-family: var(--font-ui, var(--font-sans, sans-serif));
@@ -323,22 +383,37 @@
   border-radius: 3px;
   vertical-align: middle;
 }
-.st-role--mechanical { border-left-color: var(--c-kind-mechanical, var(--c-rule)); }
-.st-role--agentic    { border-left-color: var(--c-kind-agentic, var(--c-accent)); }
-.st-role--hybrid     { border-left-color: var(--c-kind-hybrid, var(--c-green)); }
-.st-role--gate       { border-left-color: var(--c-kind-gate, var(--c-amber)); }
+.st-role--mechanical {
+  border-left-color: var(--c-kind-mechanical, var(--c-rule));
+}
+.st-role--agentic {
+  border-left-color: var(--c-kind-agentic, var(--c-accent));
+}
+.st-role--hybrid {
+  border-left-color: var(--c-kind-hybrid, var(--c-green));
+}
+.st-role--gate {
+  border-left-color: var(--c-kind-gate, var(--c-amber));
+}
 
 /* Uncaptured stage — present in the pipeline but not written for this run. A
    muted, non-interactive rung so the full journey reads top-to-bottom without
    offering a click that would show empty text. */
-.st-link.is-static { cursor: default; }
-.st-item.is-uncaptured .st-label { color: var(--c-ink-dim); font-weight: 500; }
+.st-link.is-static {
+  cursor: default;
+}
+.st-item.is-uncaptured .st-label {
+  color: var(--c-ink-dim);
+  font-weight: 500;
+}
 .st-item.is-uncaptured .st-dot {
   background: transparent;
   border-style: dashed;
   border-color: var(--c-rule);
 }
-.st-item.is-uncaptured .st-meta { font-style: italic; }
+.st-item.is-uncaptured .st-meta {
+  font-style: italic;
+}
 
 /* One-line pointer to the archived journey when intermediate stages are missing. */
 .st-uncaptured-hint {

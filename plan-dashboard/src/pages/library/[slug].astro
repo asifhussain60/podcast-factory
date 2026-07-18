@@ -2,5 +2,8 @@
 // Library reader moved under Studio (IA consolidation 2026-06-15): Studio is now
 // the single books hub and hosts the per-book content reader at /studio/<slug>.
 // This redirect preserves any existing /library/<slug> links and bookmarks.
-return Astro.redirect(Astro.params.slug ? `/studio/${Astro.params.slug}` : '/studio', 301);
+return Astro.redirect(
+  Astro.params.slug ? `/studio/${Astro.params.slug}` : "/studio",
+  301,
+);
 ---

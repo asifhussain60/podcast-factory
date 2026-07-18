@@ -10,39 +10,72 @@
  * custom property (set at runtime here, never as an inline HTML attribute), so
  * the view stays lint/Cortex-clean.
  */
-import { mountChapterEditor, type ChapterEditor } from './book-md-editor';
-import { confirmDialog, noticeDialog } from './confirm-dialog';
-import { createAutosave, mountAutosaveStatus, type AutosaveController } from './autosave';
-import { safeChapterKey } from '../lib/reader/companion/keys';
+import { mountChapterEditor, type ChapterEditor } from "./book-md-editor";
+import { confirmDialog, noticeDialog } from "./confirm-dialog";
+import {
+  createAutosave,
+  mountAutosaveStatus,
+  type AutosaveController,
+} from "./autosave";
+import { safeChapterKey } from "../lib/reader/companion/keys";
 
-type Align = 'left' | 'center' | 'right';
-type Flow = 'wrap' | 'standalone';
-type PageFit = 'avoid' | 'before' | 'isolate-plate';
+type Align = "left" | "center" | "right";
+type Flow = "wrap" | "standalone";
+type PageFit = "avoid" | "before" | "isolate-plate";
 
 interface Visual {
-  id: string; type: string; caption: string; file: string; src: string;
-  suggested_anchor: string; chapter: string; cleaned: boolean; embedded_title: string;
+  id: string;
+  type: string;
+  caption: string;
+  file: string;
+  src: string;
+  suggested_anchor: string;
+  chapter: string;
+  cleaned: boolean;
+  embedded_title: string;
 }
-interface Citation { ar: string; tr: string; }
-interface Chapter { anchor: string; key: string; title: string; paras: number; citations: Citation[]; }
+interface Citation {
+  ar: string;
+  tr: string;
+}
+interface Chapter {
+  anchor: string;
+  key: string;
+  title: string;
+  paras: number;
+  citations: Citation[];
+}
 interface Placement {
-  visual_id: string; anchor: string; anchor_para: number | null; align: Align; flow: Flow;
-  width_pct: number; caption: string; page_fit: PageFit;
+  visual_id: string;
+  anchor: string;
+  anchor_para: number | null;
+  align: Align;
+  flow: Flow;
+  width_pct: number;
+  caption: string;
+  page_fit: PageFit;
 }
 interface ComposerData {
-  slug: string; chapters: Chapter[]; visuals: Visual[]; placements: Placement[];
+  slug: string;
+  chapters: Chapter[];
+  visuals: Visual[];
+  placements: Placement[];
 }
 
 const WRAP_MAX = 50;
 
 function anchorKey(s: string): string {
-  return String(s).replace(/<[^>]+>/g, '').replace(/^#{1,6}\s+/, '')
-    .replace(/^\d+\.\s*/, '').trim().toLowerCase();
+  return String(s)
+    .replace(/<[^>]+>/g, "")
+    .replace(/^#{1,6}\s+/, "")
+    .replace(/^\d+\.\s*/, "")
+    .trim()
+    .toLowerCase();
 }
 
 function boot(): void {
-  const rootMaybe = document.querySelector<HTMLElement>('.composer[data-slug]');
-  const dataEl = document.getElementById('composer-data');
+  const rootMaybe = document.querySelector<HTMLElement>(".composer[data-slug]");
+  const dataEl = document.getElementById("composer-data");
   if (!rootMaybe || !dataEl?.textContent) return;
   const root: HTMLElement = rootMaybe; // narrowed once; nested closures keep non-null
   const data = JSON.parse(dataEl.textContent) as ComposerData;
@@ -54,9 +87,10 @@ function boot(): void {
   // placed figures inline (at the exact paragraph the PDF would use) without
   // accumulating them across renders.
   const bodyByKey = new Map<string, { el: HTMLElement; html: string }>();
-  root.querySelectorAll<HTMLElement>('.cx-chapter').forEach((ch) => {
-    const body = ch.querySelector<HTMLElement>('.cx-body');
-    if (body) bodyByKey.set(ch.dataset.key ?? '', { el: body, html: body.innerHTML });
+  root.querySelectorAll<HTMLElement>(".cx-chapter").forEach((ch) => {
+    const body = ch.querySelector<HTMLElement>(".cx-body");
+    if (body)
+      bodyByKey.set(ch.dataset.key ?? "", { el: body, html: body.innerHTML });
   });
 
   let placements: Placement[] = data.placements.map(normalize);
@@ -64,36 +98,43 @@ function boot(): void {
   // Assigned once, near the bottom of setup, once slug/placements are settled —
   // markDirty() (place/update/remove) only ever runs after that in response to
   // a user action, so referencing it before assignment here is safe.
+  // eslint-disable-next-line prefer-const -- declaration/assignment split is deliberate (see above)
   let layoutAutosave: AutosaveController;
 
-  const paletteEl = root.querySelector<HTMLElement>('#cx-palette-list')!;
-  const controlsEl = root.querySelector<HTMLElement>('#cx-controls')!;
-  const layoutStatusEl = root.querySelector<HTMLElement>('#cx-layout-status')!;
-  const chapterSelect = root.querySelector<HTMLSelectElement>('#cx-chapter-select');
-  const scopeEl = root.querySelector<HTMLElement>('#cx-artifacts-scope');
-  let selectedChapter = data.chapters[0]?.key ?? '';
+  const paletteEl = root.querySelector<HTMLElement>("#cx-palette-list")!;
+  const controlsEl = root.querySelector<HTMLElement>("#cx-controls")!;
+  const layoutStatusEl = root.querySelector<HTMLElement>("#cx-layout-status")!;
+  const chapterSelect =
+    root.querySelector<HTMLSelectElement>("#cx-chapter-select");
+  const scopeEl = root.querySelector<HTMLElement>("#cx-artifacts-scope");
+  let selectedChapter = data.chapters[0]?.key ?? "";
   // After an autosave-triggered reload we restore the chapter the user was on
   // (the manual save used to always reset to chapter 1 — this fixes that too).
   try {
-    const restore = sessionStorage.getItem('cx-restore-chapter');
+    const restore = sessionStorage.getItem("cx-restore-chapter");
     if (restore) {
-      sessionStorage.removeItem('cx-restore-chapter');
-      if (data.chapters.some((c) => c.key === restore)) selectedChapter = restore;
+      sessionStorage.removeItem("cx-restore-chapter");
+      if (data.chapters.some((c) => c.key === restore))
+        selectedChapter = restore;
     }
-  } catch { /* sessionStorage best-effort */ }
+  } catch {
+    /* sessionStorage best-effort */
+  }
 
   // ── inspector tabs (Artifacts · Citations · Refinement) ────────────────────
-  const TABS = ['artifacts', 'citations', 'refine'] as const;
-  type TabName = typeof TABS[number];
-  const tabBtn = (n: TabName) => root.querySelector<HTMLButtonElement>(`#cx-tab-${n}`);
-  const tabPanel = (n: TabName) => root.querySelector<HTMLElement>(`#cx-panel-${n}`);
+  const TABS = ["artifacts", "citations", "refine"] as const;
+  type TabName = (typeof TABS)[number];
+  const tabBtn = (n: TabName) =>
+    root.querySelector<HTMLButtonElement>(`#cx-tab-${n}`);
+  const tabPanel = (n: TabName) =>
+    root.querySelector<HTMLElement>(`#cx-panel-${n}`);
   function activateTab(name: TabName, focus = false): void {
     for (const n of TABS) {
       const on = n === name;
       const btn = tabBtn(n);
-      btn?.classList.toggle('is-active', on);
-      btn?.setAttribute('aria-selected', String(on));
-      btn?.setAttribute('tabindex', on ? '0' : '-1'); // roving tabindex (ARIA tablist)
+      btn?.classList.toggle("is-active", on);
+      btn?.setAttribute("aria-selected", String(on));
+      btn?.setAttribute("tabindex", on ? "0" : "-1"); // roving tabindex (ARIA tablist)
       const panel = tabPanel(n);
       if (panel) panel.hidden = !on;
     }
@@ -101,45 +142,57 @@ function boot(): void {
   }
   TABS.forEach((n, i) => {
     const btn = tabBtn(n);
-    btn?.addEventListener('click', () => activateTab(n));
+    btn?.addEventListener("click", () => activateTab(n));
     // Arrow / Home / End cycling per the ARIA tablist keyboard pattern.
-    btn?.addEventListener('keydown', (e) => {
+    btn?.addEventListener("keydown", (e) => {
       let next = -1;
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (i + 1) % TABS.length;
-      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (i - 1 + TABS.length) % TABS.length;
-      else if (e.key === 'Home') next = 0;
-      else if (e.key === 'End') next = TABS.length - 1;
-      if (next >= 0) { e.preventDefault(); activateTab(TABS[next], true); }
+      if (e.key === "ArrowRight" || e.key === "ArrowDown")
+        next = (i + 1) % TABS.length;
+      else if (e.key === "ArrowLeft" || e.key === "ArrowUp")
+        next = (i - 1 + TABS.length) % TABS.length;
+      else if (e.key === "Home") next = 0;
+      else if (e.key === "End") next = TABS.length - 1;
+      if (next >= 0) {
+        e.preventDefault();
+        activateTab(TABS[next], true);
+      }
     });
   });
-  activateTab('artifacts'); // initialize roving tabindex on the default tab
+  activateTab("artifacts"); // initialize roving tabindex on the default tab
 
   // ── chapter scoping — one chapter visible at a time; tabs follow it ────────
   function showSelectedChapter(): void {
-    root.querySelectorAll<HTMLElement>('.cx-chapter').forEach((ch) => {
-      ch.hidden = (ch.dataset.key ?? '') !== selectedChapter;
+    root.querySelectorAll<HTMLElement>(".cx-chapter").forEach((ch) => {
+      ch.hidden = (ch.dataset.key ?? "") !== selectedChapter;
     });
   }
   if (chapterSelect) {
     chapterSelect.value = selectedChapter;
-    chapterSelect.addEventListener('change', async () => {
+    chapterSelect.addEventListener("change", async () => {
       const wasEditing = !!activeEditor;
       if (wasEditing) {
         const saved = activeSaveFlush ? await activeSaveFlush() : true;
         if (!saved) {
           const leave = await confirmDialog({
-            title: 'Discard unsaved edits?',
+            title: "Discard unsaved edits?",
             body: "This chapter has changes that didn't save. Switch chapters anyway and lose them?",
-            confirmLabel: 'Switch',
-            cancelLabel: 'Keep editing',
+            confirmLabel: "Switch",
+            cancelLabel: "Keep editing",
             danger: true,
           });
-          if (!leave) { chapterSelect.value = selectedChapter; return; } // stay on this chapter
+          if (!leave) {
+            chapterSelect.value = selectedChapter;
+            return;
+          } // stay on this chapter
         } else if (contentChangedThisSession) {
           // Prose was saved → reload so the target chapter renders from fresh book.md,
           // landing back in Edit (the user was editing) on the new chapter.
           selectedChapter = chapterSelect.value;
-          try { sessionStorage.setItem('cx-restore-edit', '1'); } catch { /* best-effort */ }
+          try {
+            sessionStorage.setItem("cx-restore-edit", "1");
+          } catch {
+            /* best-effort */
+          }
           reloadPreservingChapter();
           return;
         }
@@ -150,7 +203,7 @@ function boot(): void {
       showSelectedChapter();
       renderCitations();
       render();
-      if (wasEditing) setMode('edit'); // stay in Edit on the newly selected chapter
+      if (wasEditing) setMode("edit"); // stay in Edit on the newly selected chapter
     });
   }
 
@@ -161,9 +214,13 @@ function boot(): void {
   // null) query so setModeVisual/leaveEditMode's existing optional-chained
   // references to it stay harmless rather than requiring a wider rewrite.
   // Figure placement has no UI home until Phase 4 (Edit-canvas merge) lands.
-  const modeRead = root.querySelector<HTMLButtonElement>('#cx-mode-read');
-  const modeEdit = root.querySelector<HTMLButtonElement>('#cx-mode-edit');
-  const bookTitle = root.closest('body')?.querySelector<HTMLElement>('.lib-hero-main h1')?.textContent?.trim() ?? '';
+  const modeRead = root.querySelector<HTMLButtonElement>("#cx-mode-read");
+  const modeEdit = root.querySelector<HTMLButtonElement>("#cx-mode-edit");
+  const bookTitle =
+    root
+      .closest("body")
+      ?.querySelector<HTMLElement>(".lib-hero-main h1")
+      ?.textContent?.trim() ?? "";
   let activeEditor: ChapterEditor | null = null;
   let contentChangedThisSession = false; // a save landed → in-memory render is stale
   // Flush any pending autosave for the active editor; resolves true if the chapter
@@ -173,24 +230,37 @@ function boot(): void {
   // A prose autosave writes book.md on disk but the page still holds the ORIGINAL
   // server render in memory; reload (preserving the chapter) to re-sync the preview.
   function reloadPreservingChapter(): void {
-    try { sessionStorage.setItem('cx-restore-chapter', selectedChapter); } catch { /* best-effort */ }
+    try {
+      sessionStorage.setItem("cx-restore-chapter", selectedChapter);
+    } catch {
+      /* best-effort */
+    }
     window.location.reload();
   }
 
   function currentChapterEl(): HTMLElement | null {
-    return Array.from(root.querySelectorAll<HTMLElement>('.cx-chapter'))
-      .find((c) => (c.dataset.key ?? '') === selectedChapter) ?? null;
+    return (
+      Array.from(root.querySelectorAll<HTMLElement>(".cx-chapter")).find(
+        (c) => (c.dataset.key ?? "") === selectedChapter,
+      ) ?? null
+    );
   }
 
-  function toolbarBtn(label: string, title: string, run: (ed: ChapterEditor) => void): HTMLButtonElement {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'cx-edit-tool';
+  function toolbarBtn(
+    label: string,
+    title: string,
+    run: (ed: ChapterEditor) => void,
+  ): HTMLButtonElement {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "cx-edit-tool";
     b.textContent = label;
     b.title = title;
-    b.setAttribute('aria-label', title); // glyph text is decorative; announce the action
-    b.addEventListener('mousedown', (e) => e.preventDefault()); // keep editor selection
-    b.addEventListener('click', () => { if (activeEditor) run(activeEditor); });
+    b.setAttribute("aria-label", title); // glyph text is decorative; announce the action
+    b.addEventListener("mousedown", (e) => e.preventDefault()); // keep editor selection
+    b.addEventListener("click", () => {
+      if (activeEditor) run(activeEditor);
+    });
     return b;
   }
 
@@ -198,8 +268,8 @@ function boot(): void {
     activeEditor?.destroy();
     activeEditor = null;
     activeSaveFlush = null;
-    root.querySelector('.cx-edit-shell')?.remove();
-    const bodyEl = currentChapterEl()?.querySelector<HTMLElement>('.cx-body');
+    root.querySelector(".cx-edit-shell")?.remove();
+    const bodyEl = currentChapterEl()?.querySelector<HTMLElement>(".cx-body");
     if (bodyEl) bodyEl.hidden = false;
     if (chapterSelect) chapterSelect.disabled = false;
     updateAiEnabled(); // no editor → AI actions disabled
@@ -207,110 +277,153 @@ function boot(): void {
 
   function enterEdit(): void {
     const ch = currentChapterEl();
-    const bodyEl = ch?.querySelector<HTMLElement>('.cx-body');
+    const bodyEl = ch?.querySelector<HTMLElement>(".cx-body");
     if (!ch || !bodyEl) return;
     const pristine = bodyByKey.get(selectedChapter)?.html ?? bodyEl.innerHTML;
     bodyEl.hidden = true;
 
-    const shell = document.createElement('div');
-    shell.className = 'cx-edit-shell';
+    const shell = document.createElement("div");
+    shell.className = "cx-edit-shell";
 
-    const host = document.createElement('div');
-    host.className = 'cx-edit-host';
+    const host = document.createElement("div");
+    host.className = "cx-edit-host";
 
-    const toolbar = document.createElement('div');
-    toolbar.className = 'cx-edit-toolbar';
-    toolbar.setAttribute('role', 'toolbar');
-    toolbar.setAttribute('aria-label', 'Editor');
+    const toolbar = document.createElement("div");
+    toolbar.className = "cx-edit-toolbar";
+    toolbar.setAttribute("role", "toolbar");
+    toolbar.setAttribute("aria-label", "Editor");
 
     // ── Font family + text size ──────────────────────────────────────────────
     // These are EDITING-VIEW rendering preferences only: book.md carries no font
     // or size, so they change how the chapter looks while you edit (persisted per
     // user, like the paper theme) — they never restyle the printed book.
     const FONTS = [
-      { id: 'sans',     name: 'Sans' },
-      { id: 'serif',    name: 'Serif' },
-      { id: 'lato',     name: 'Lato' },
-      { id: 'inter',    name: 'Inter' },
-      { id: 'mono',     name: 'Mono' },
-      { id: 'dyslexic', name: 'Dyslexic' },
+      { id: "sans", name: "Sans" },
+      { id: "serif", name: "Serif" },
+      { id: "lato", name: "Lato" },
+      { id: "inter", name: "Inter" },
+      { id: "mono", name: "Mono" },
+      { id: "dyslexic", name: "Dyslexic" },
     ] as const;
     const savedFont = (() => {
-      try { return localStorage.getItem('cx-editor-font') ?? 'sans'; } catch { return 'sans'; }
+      try {
+        return localStorage.getItem("cx-editor-font") ?? "sans";
+      } catch {
+        return "sans";
+      }
     })();
-    host.dataset.font = FONTS.some((f) => f.id === savedFont) ? savedFont : 'sans';
+    host.dataset.font = FONTS.some((f) => f.id === savedFont)
+      ? savedFont
+      : "sans";
 
-    const fontGroup = document.createElement('div');
-    fontGroup.className = 'cx-tb-group';
-    const fontSel = document.createElement('select');
-    fontSel.className = 'cx-font-select';
-    fontSel.setAttribute('aria-label', 'Editor font (view only)');
-    fontSel.title = 'Editor font — changes this editing view only, not the printed book';
+    const fontGroup = document.createElement("div");
+    fontGroup.className = "cx-tb-group";
+    const fontSel = document.createElement("select");
+    fontSel.className = "cx-font-select";
+    fontSel.setAttribute("aria-label", "Editor font (view only)");
+    fontSel.title =
+      "Editor font — changes this editing view only, not the printed book";
     for (const f of FONTS) {
-      const o = document.createElement('option');
+      const o = document.createElement("option");
       o.value = f.id;
       o.textContent = f.name;
       if (f.id === host.dataset.font) o.selected = true;
       fontSel.append(o);
     }
-    fontSel.addEventListener('change', () => {
+    fontSel.addEventListener("change", () => {
       host.dataset.font = fontSel.value;
-      try { localStorage.setItem('cx-editor-font', fontSel.value); } catch { /* best-effort */ }
+      try {
+        localStorage.setItem("cx-editor-font", fontSel.value);
+      } catch {
+        /* best-effort */
+      }
     });
 
     const SIZE_MIN = 13;
     const SIZE_MAX = 24;
     let sizePx = (() => {
-      const raw = (() => { try { return Number(localStorage.getItem('cx-editor-size')); } catch { return NaN; } })();
-      return Number.isFinite(raw) && raw >= SIZE_MIN && raw <= SIZE_MAX ? raw : 17;
+      const raw = (() => {
+        try {
+          return Number(localStorage.getItem("cx-editor-size"));
+        } catch {
+          return NaN;
+        }
+      })();
+      return Number.isFinite(raw) && raw >= SIZE_MIN && raw <= SIZE_MAX
+        ? raw
+        : 17;
     })();
-    const sizeWrap = document.createElement('div');
-    sizeWrap.className = 'cx-size';
-    sizeWrap.setAttribute('role', 'group');
-    sizeWrap.setAttribute('aria-label', 'Editor text size (view only)');
-    const sizeDown = document.createElement('button');
-    sizeDown.type = 'button';
-    sizeDown.className = 'cx-size-btn';
-    sizeDown.textContent = '−'; // minus sign
-    sizeDown.title = 'Smaller editor text';
-    sizeDown.setAttribute('aria-label', 'Decrease editor text size');
-    const sizeVal = document.createElement('span');
-    sizeVal.className = 'cx-size-val';
-    sizeVal.setAttribute('aria-live', 'polite');
-    const sizeUp = document.createElement('button');
-    sizeUp.type = 'button';
-    sizeUp.className = 'cx-size-btn';
-    sizeUp.textContent = '+';
-    sizeUp.title = 'Larger editor text';
-    sizeUp.setAttribute('aria-label', 'Increase editor text size');
+    const sizeWrap = document.createElement("div");
+    sizeWrap.className = "cx-size";
+    sizeWrap.setAttribute("role", "group");
+    sizeWrap.setAttribute("aria-label", "Editor text size (view only)");
+    const sizeDown = document.createElement("button");
+    sizeDown.type = "button";
+    sizeDown.className = "cx-size-btn";
+    sizeDown.textContent = "−"; // minus sign
+    sizeDown.title = "Smaller editor text";
+    sizeDown.setAttribute("aria-label", "Decrease editor text size");
+    const sizeVal = document.createElement("span");
+    sizeVal.className = "cx-size-val";
+    sizeVal.setAttribute("aria-live", "polite");
+    const sizeUp = document.createElement("button");
+    sizeUp.type = "button";
+    sizeUp.className = "cx-size-btn";
+    sizeUp.textContent = "+";
+    sizeUp.title = "Larger editor text";
+    sizeUp.setAttribute("aria-label", "Increase editor text size");
     const applySize = () => {
-      host.style.setProperty('--prose-size', `${sizePx}px`); // runtime custom prop, in-pattern with --cx-w
+      host.style.setProperty("--prose-size", `${sizePx}px`); // runtime custom prop, in-pattern with --cx-w
       sizeVal.textContent = String(sizePx);
-      try { localStorage.setItem('cx-editor-size', String(sizePx)); } catch { /* best-effort */ }
+      try {
+        localStorage.setItem("cx-editor-size", String(sizePx));
+      } catch {
+        /* best-effort */
+      }
     };
-    sizeDown.addEventListener('click', () => { sizePx = Math.max(SIZE_MIN, sizePx - 1); applySize(); });
-    sizeUp.addEventListener('click', () => { sizePx = Math.min(SIZE_MAX, sizePx + 1); applySize(); });
+    sizeDown.addEventListener("click", () => {
+      sizePx = Math.max(SIZE_MIN, sizePx - 1);
+      applySize();
+    });
+    sizeUp.addEventListener("click", () => {
+      sizePx = Math.min(SIZE_MAX, sizePx + 1);
+      applySize();
+    });
     sizeWrap.append(sizeDown, sizeVal, sizeUp);
     fontGroup.append(fontSel, sizeWrap);
 
     // ── Formatting cluster: B / I / U + structure ────────────────────────────
     // B and I persist to book.md. U (underline) is an editing-view emphasis only
     // — the book's markdown format has no underline, so it is not saved.
-    const fmtGroup = document.createElement('div');
-    fmtGroup.className = 'cx-tb-group';
-    const bBtn = toolbarBtn('B', 'Bold', (ed) => ed.editor.chain().focus().toggleBold().run());
-    bBtn.classList.add('cx-tool-b');
-    const iBtn = toolbarBtn('I', 'Italic', (ed) => ed.editor.chain().focus().toggleItalic().run());
-    iBtn.classList.add('cx-tool-i');
-    const uBtn = toolbarBtn('U', 'Underline (editing view only — not saved to the book)', (ed) => ed.editor.chain().focus().toggleUnderline().run());
-    uBtn.classList.add('cx-tool-u');
+    const fmtGroup = document.createElement("div");
+    fmtGroup.className = "cx-tb-group";
+    const bBtn = toolbarBtn("B", "Bold", (ed) =>
+      ed.editor.chain().focus().toggleBold().run(),
+    );
+    bBtn.classList.add("cx-tool-b");
+    const iBtn = toolbarBtn("I", "Italic", (ed) =>
+      ed.editor.chain().focus().toggleItalic().run(),
+    );
+    iBtn.classList.add("cx-tool-i");
+    const uBtn = toolbarBtn(
+      "U",
+      "Underline (editing view only — not saved to the book)",
+      (ed) => ed.editor.chain().focus().toggleUnderline().run(),
+    );
+    uBtn.classList.add("cx-tool-u");
     fmtGroup.append(
       bBtn,
       iBtn,
       uBtn,
-      toolbarBtn('H', 'Heading', (ed) => ed.editor.chain().focus().toggleHeading({ level: 3 }).run()),
-      toolbarBtn('❝', 'Quote', (ed) => ed.editor.chain().focus().toggleBlockquote().run()),
-      toolbarBtn('•', 'Bulleted list', (ed) => ed.editor.chain().focus().toggleBulletList().run()),
+      toolbarBtn("H", "Heading", (ed) =>
+        ed.editor.chain().focus().toggleHeading({ level: 3 }).run(),
+      ),
+      toolbarBtn("❝", "Quote", (ed) =>
+        ed.editor.chain().focus().toggleBlockquote().run(),
+      ),
+      toolbarBtn("•", "Bulleted list", (ed) =>
+        ed.editor.chain().focus().toggleBulletList().run(),
+      ),
     );
 
     toolbar.append(fontGroup, fmtGroup);
@@ -320,34 +433,46 @@ function boot(): void {
     // The choice is a per-user editor preference (not book content), so it lives
     // in localStorage and applies across chapters and books.
     const PAPERS = [
-      { id: 'light', name: 'Light' },
-      { id: 'sepia', name: 'Sepia' },
-      { id: 'dark', name: 'Dark' },
+      { id: "light", name: "Light" },
+      { id: "sepia", name: "Sepia" },
+      { id: "dark", name: "Dark" },
     ] as const;
     const savedPaper = (() => {
-      try { return localStorage.getItem('cx-editor-paper') ?? 'light'; } catch { return 'light'; }
+      try {
+        return localStorage.getItem("cx-editor-paper") ?? "light";
+      } catch {
+        return "light";
+      }
     })();
-    host.dataset.paper = PAPERS.some((p) => p.id === savedPaper) ? savedPaper : 'light';
-    const paperGroup = document.createElement('div');
-    paperGroup.className = 'cx-paper';
-    paperGroup.setAttribute('role', 'group');
-    paperGroup.setAttribute('aria-label', 'Paper colour');
-    const paperLabel = document.createElement('span');
-    paperLabel.className = 'cx-paper-label';
-    paperLabel.textContent = 'Paper';
+    host.dataset.paper = PAPERS.some((p) => p.id === savedPaper)
+      ? savedPaper
+      : "light";
+    const paperGroup = document.createElement("div");
+    paperGroup.className = "cx-paper";
+    paperGroup.setAttribute("role", "group");
+    paperGroup.setAttribute("aria-label", "Paper colour");
+    const paperLabel = document.createElement("span");
+    paperLabel.className = "cx-paper-label";
+    paperLabel.textContent = "Paper";
     paperGroup.append(paperLabel);
     const paperBtns: HTMLButtonElement[] = [];
     for (const p of PAPERS) {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'cx-paper-btn';
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "cx-paper-btn";
       b.dataset.paper = p.id;
       b.textContent = p.name;
-      b.setAttribute('aria-pressed', String(host.dataset.paper === p.id));
-      b.addEventListener('click', () => {
+      b.setAttribute("aria-pressed", String(host.dataset.paper === p.id));
+      b.addEventListener("click", () => {
         host.dataset.paper = p.id;
-        try { localStorage.setItem('cx-editor-paper', p.id); } catch { /* preference is best-effort */ }
-        paperBtns.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.paper === p.id)));
+        try {
+          localStorage.setItem("cx-editor-paper", p.id);
+        } catch {
+          /* preference is best-effort */
+        }
+        paperBtns.forEach((x) =>
+          x.setAttribute("aria-pressed", String(x.dataset.paper === p.id)),
+        );
       });
       paperBtns.push(b);
       paperGroup.append(b);
@@ -355,19 +480,25 @@ function boot(): void {
     toolbar.append(paperGroup);
 
     shell.append(toolbar, host);
-    bodyEl.insertAdjacentElement('afterend', shell);
+    bodyEl.insertAdjacentElement("afterend", shell);
 
     activeEditor = mountChapterEditor(host, pristine);
 
     // Autosave — no manual "Save prose" button; edits persist themselves (./autosave).
     const proseAutosave: AutosaveController = createAutosave({
-      onStateChange: mountAutosaveStatus(shell, () => { void proseAutosave.flush(); }),
+      onStateChange: mountAutosaveStatus(shell, () => {
+        void proseAutosave.flush();
+      }),
       save: async () => {
         if (!activeEditor) return { ok: true };
-        const res = await fetch('/api/studio/book-md', {
-          method: 'PUT',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ slug, chapterKey: selectedChapter, markdown: activeEditor.toMarkdown() }),
+        const res = await fetch("/api/studio/book-md", {
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            slug,
+            chapterKey: selectedChapter,
+            markdown: activeEditor.toMarkdown(),
+          }),
         });
         const json = await res.json();
         if (json.ok) contentChangedThisSession = true;
@@ -375,120 +506,139 @@ function boot(): void {
       },
     });
     activeSaveFlush = () => proseAutosave.flush();
-    activeEditor.editor.on('update', () => proseAutosave.markDirty());
-    activeEditor.editor.on('selectionUpdate', () => updateAiEnabled());
+    activeEditor.editor.on("update", () => proseAutosave.markDirty());
+    activeEditor.editor.on("selectionUpdate", () => updateAiEnabled());
     updateAiEnabled();
   }
 
-  function setModeVisual(mode: 'read' | 'edit'): void {
-    const edit = mode === 'edit';
-    modeRead?.classList.toggle('is-active', !edit);
-    modeRead?.setAttribute('aria-pressed', String(!edit));
-    modeEdit?.classList.toggle('is-active', edit);
-    modeEdit?.setAttribute('aria-pressed', String(edit));
-    root.classList.toggle('is-editing', edit);
+  function setModeVisual(mode: "read" | "edit"): void {
+    const edit = mode === "edit";
+    modeRead?.classList.toggle("is-active", !edit);
+    modeRead?.setAttribute("aria-pressed", String(!edit));
+    modeEdit?.classList.toggle("is-active", edit);
+    modeEdit?.setAttribute("aria-pressed", String(edit));
+    root.classList.toggle("is-editing", edit);
   }
   function enterEditMode(): void {
     if (activeEditor) return;
-    setModeVisual('edit');
+    setModeVisual("edit");
     enterEdit();
   }
   // Leaving edit: flush autosave; if it FAILED, confirm before losing edits; then —
   // when prose actually changed — reload (preserving the chapter) so the Layout
   // preview re-renders from the authoritative book.md.
   async function leaveEditMode(): Promise<boolean> {
-    if (!activeEditor) { setModeVisual('read'); return true; }
+    if (!activeEditor) {
+      setModeVisual("read");
+      return true;
+    }
     const saved = activeSaveFlush ? await activeSaveFlush() : true;
     if (!saved) {
       const leave = await confirmDialog({
-        title: 'Discard unsaved edits?',
+        title: "Discard unsaved edits?",
         body: "The last save didn't go through. Leave anyway and lose the unsaved changes to this chapter?",
-        confirmLabel: 'Leave',
-        cancelLabel: 'Keep editing',
+        confirmLabel: "Leave",
+        cancelLabel: "Keep editing",
         danger: true,
       });
       if (!leave) return false;
     }
-    if (saved && contentChangedThisSession) { reloadPreservingChapter(); return true; }
-    setModeVisual('read');
+    if (saved && contentChangedThisSession) {
+      reloadPreservingChapter();
+      return true;
+    }
+    setModeVisual("read");
     exitEdit();
     contentChangedThisSession = false;
     return true;
   }
   // Programmatic entry point kept for callers that just want to (re)enter Edit.
-  function setMode(mode: 'read' | 'edit'): void {
-    if (mode === 'edit') enterEditMode();
+  function setMode(mode: "read" | "edit"): void {
+    if (mode === "edit") enterEditMode();
     else void leaveEditMode();
   }
-  modeRead?.addEventListener('click', () => { void leaveEditMode(); });
-  modeEdit?.addEventListener('click', () => enterEditMode());
+  modeRead?.addEventListener("click", () => {
+    void leaveEditMode();
+  });
+  modeEdit?.addEventListener("click", () => enterEditMode());
 
   // Best-effort save if the tab is hidden/closed with edits still pending (the
   // ~1.2s debounce keeps this window small; there is no native "unsaved" prompt).
-  window.addEventListener('pagehide', () => { if (activeSaveFlush) void activeSaveFlush(); });
+  window.addEventListener("pagehide", () => {
+    if (activeSaveFlush) void activeSaveFlush();
+  });
 
   // ── Citations tab: predefined style (persisted) + this chapter's citations ──
-  const citeForm = root.querySelector<HTMLFormElement>('.cx-cite-form');
-  const citeSave = root.querySelector<HTMLElement>('#cx-cite-save');
-  const citeListEl = root.querySelector<HTMLElement>('#cx-citations-list');
+  const citeForm = root.querySelector<HTMLFormElement>(".cx-cite-form");
+  const citeSave = root.querySelector<HTMLElement>("#cx-cite-save");
+  const citeListEl = root.querySelector<HTMLElement>("#cx-citations-list");
 
-  function setCiteStatus(msg: string, state: '' | 'saved' | 'error'): void {
+  function setCiteStatus(msg: string, state: "" | "saved" | "error"): void {
     if (!citeSave) return;
     citeSave.textContent = msg;
-    citeSave.classList.toggle('is-saved', state === 'saved');
-    citeSave.classList.toggle('is-error', state === 'error');
+    citeSave.classList.toggle("is-saved", state === "saved");
+    citeSave.classList.toggle("is-error", state === "error");
   }
   async function loadSavedFamily(): Promise<void> {
     try {
-      const res = await fetch(`/api/studio/citation-style?slug=${encodeURIComponent(slug)}`);
+      const res = await fetch(
+        `/api/studio/citation-style?slug=${encodeURIComponent(slug)}`,
+      );
       const json = await res.json();
       if (!json.ok) return;
       const match = citeForm?.querySelector<HTMLInputElement>(
-        `input[name="citation-style"][value="${json.data.family}"]`);
+        `input[name="citation-style"][value="${json.data.family}"]`,
+      );
       if (match) match.checked = true;
-    } catch { /* keep the pre-checked default if the fetch fails */ }
+    } catch {
+      /* keep the pre-checked default if the fetch fails */
+    }
   }
-  citeForm?.addEventListener('change', async (ev) => {
+  citeForm?.addEventListener("change", async (ev) => {
     const t = ev.target as HTMLInputElement;
-    if (t?.name !== 'citation-style' || !t.checked) return;
-    setCiteStatus('Saving…', '');
+    if (t?.name !== "citation-style" || !t.checked) return;
+    setCiteStatus("Saving…", "");
     try {
-      const res = await fetch('/api/studio/citation-style', {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
+      const res = await fetch("/api/studio/citation-style", {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
         body: JSON.stringify({ slug, family: t.value }),
       });
       const json = await res.json();
-      setCiteStatus(json.ok ? `Saved — the book prints in the ${t.value} style.`
-        : `Couldn't save: ${json.error}`, json.ok ? 'saved' : 'error');
+      setCiteStatus(
+        json.ok
+          ? `Saved — the book prints in the ${t.value} style.`
+          : `Couldn't save: ${json.error}`,
+        json.ok ? "saved" : "error",
+      );
     } catch (e) {
-      setCiteStatus(`Couldn't save: ${(e as Error).message}`, 'error');
+      setCiteStatus(`Couldn't save: ${(e as Error).message}`, "error");
     }
   });
 
   function renderCitations(): void {
     if (!citeListEl) return;
-    citeListEl.textContent = '';
+    citeListEl.textContent = "";
     const items = chapterByKey.get(selectedChapter)?.citations ?? [];
     if (!items.length) {
-      const p = document.createElement('p');
-      p.className = 'cx-empty';
-      p.textContent = 'No Quran or hadith citations detected in this chapter.';
+      const p = document.createElement("p");
+      p.className = "cx-empty";
+      p.textContent = "No Quran or hadith citations detected in this chapter.";
       citeListEl.appendChild(p);
       return;
     }
     for (const c of items) {
-      const bq = document.createElement('blockquote');
-      bq.className = 'bs-verse cx-cite-item';
-      const ar = document.createElement('p');
-      ar.className = 'bs-ar';
-      ar.setAttribute('dir', 'rtl');
-      ar.setAttribute('lang', 'ar');
+      const bq = document.createElement("blockquote");
+      bq.className = "bs-verse cx-cite-item";
+      const ar = document.createElement("p");
+      ar.className = "bs-ar";
+      ar.setAttribute("dir", "rtl");
+      ar.setAttribute("lang", "ar");
       ar.textContent = c.ar;
       bq.appendChild(ar);
       if (c.tr) {
-        const tr = document.createElement('p');
-        tr.className = 'bs-tr';
+        const tr = document.createElement("p");
+        tr.className = "bs-tr";
         tr.textContent = c.tr;
         bq.appendChild(tr);
       }
@@ -498,26 +648,59 @@ function boot(): void {
   void loadSavedFamily();
 
   function normalize(p: Placement): Placement {
-    const align = (['left', 'center', 'right'] as Align[]).includes(p.align) ? p.align : 'center';
-    let flow: Flow = p.flow === 'wrap' ? 'wrap' : 'standalone';
-    let width = Math.max(1, Math.min(100, Number(p.width_pct) || 60));
-    if (align === 'center') flow = 'standalone';
-    if (flow === 'wrap' && width > WRAP_MAX) flow = 'standalone';
-    const page_fit = (['avoid', 'before', 'isolate-plate'] as PageFit[]).includes(p.page_fit) ? p.page_fit : 'avoid';
-    let anchor_para: number | null = p.anchor_para == null ? null : Math.max(0, Math.floor(Number(p.anchor_para)));
-    if (anchor_para != null && !Number.isFinite(anchor_para)) anchor_para = null;
-    return { visual_id: p.visual_id, anchor: p.anchor, anchor_para, align, flow, width_pct: width, caption: p.caption ?? '', page_fit };
+    const align = (["left", "center", "right"] as Align[]).includes(p.align)
+      ? p.align
+      : "center";
+    let flow: Flow = p.flow === "wrap" ? "wrap" : "standalone";
+    const width = Math.max(1, Math.min(100, Number(p.width_pct) || 60));
+    if (align === "center") flow = "standalone";
+    if (flow === "wrap" && width > WRAP_MAX) flow = "standalone";
+    const page_fit = (
+      ["avoid", "before", "isolate-plate"] as PageFit[]
+    ).includes(p.page_fit)
+      ? p.page_fit
+      : "avoid";
+    let anchor_para: number | null =
+      p.anchor_para == null
+        ? null
+        : Math.max(0, Math.floor(Number(p.anchor_para)));
+    if (anchor_para != null && !Number.isFinite(anchor_para))
+      anchor_para = null;
+    return {
+      visual_id: p.visual_id,
+      anchor: p.anchor,
+      anchor_para,
+      align,
+      flow,
+      width_pct: width,
+      caption: p.caption ?? "",
+      page_fit,
+    };
   }
 
-  function markDirty(): void { layoutAutosave.markDirty(); }
+  function markDirty(): void {
+    layoutAutosave.markDirty();
+  }
 
-  function place(visualId: string, anchor: string, anchorPara: number | null = null): void {
+  function place(
+    visualId: string,
+    anchor: string,
+    anchorPara: number | null = null,
+  ): void {
     if (placements.some((p) => p.visual_id === visualId)) return;
     const v = visualsById.get(visualId);
-    placements.push(normalize({
-      visual_id: visualId, anchor, anchor_para: anchorPara, align: 'center', flow: 'standalone',
-      width_pct: 60, caption: v?.caption ?? '', page_fit: 'avoid',
-    } as Placement));
+    placements.push(
+      normalize({
+        visual_id: visualId,
+        anchor,
+        anchor_para: anchorPara,
+        align: "center",
+        flow: "standalone",
+        width_pct: 60,
+        caption: v?.caption ?? "",
+        page_fit: "avoid",
+      } as Placement),
+    );
     selected = visualId;
     markDirty();
     render();
@@ -545,7 +728,7 @@ function boot(): void {
     for (const { el, html } of bodyByKey.values()) el.innerHTML = html;
     const placedIds = new Set(placements.map((p) => p.visual_id));
 
-    const firstKey = bodyByKey.keys().next().value ?? '';
+    const firstKey = bodyByKey.keys().next().value ?? "";
     const byChapter = new Map<string, { idx: number; el: HTMLElement }[]>();
     for (const p of placements) {
       const v = visualsById.get(p.visual_id);
@@ -557,26 +740,29 @@ function boot(): void {
       if (!byChapter.has(target)) byChapter.set(target, []);
       byChapter.get(target)!.push({ idx, el: figureEl(p, v) });
     }
-    for (const [key, figs] of byChapter) insertFiguresInline(bodyByKey.get(key)!.el, figs);
+    for (const [key, figs] of byChapter)
+      insertFiguresInline(bodyByKey.get(key)!.el, figs);
 
     // palette = unplaced candidates for the selected chapter (+ book-level ones,
     // which have no resolved chapter and must stay reachable from any chapter)
-    paletteEl.textContent = '';
-    const unplaced = data.visuals.filter((v) =>
-      !placedIds.has(v.id) && (v.chapter === selectedChapter || !v.chapter));
+    paletteEl.textContent = "";
+    const unplaced = data.visuals.filter(
+      (v) =>
+        !placedIds.has(v.id) && (v.chapter === selectedChapter || !v.chapter),
+    );
     if (!unplaced.length) {
-      const p = document.createElement('p');
-      p.className = 'cx-empty';
+      const p = document.createElement("p");
+      p.className = "cx-empty";
       p.textContent = !data.visuals.length
-        ? 'No visual candidates for this book yet.'
-        : 'No unplaced candidates for this chapter.';
+        ? "No visual candidates for this book yet."
+        : "No unplaced candidates for this chapter.";
       paletteEl.appendChild(p);
     } else {
       unplaced.forEach((v) => paletteEl.appendChild(paletteItemEl(v)));
     }
     if (scopeEl) {
       const ch = chapterByKey.get(selectedChapter);
-      scopeEl.textContent = ch ? `Candidates for “${ch.title}”.` : '';
+      scopeEl.textContent = ch ? `Candidates for “${ch.title}”.` : "";
     }
   }
 
@@ -584,8 +770,13 @@ function boot(): void {
   // renderer's applyLayout: idx<=0 => chapter top; idx=N => after the Nth top-level
   // <p>; idx beyond the paragraph count => flushed at the chapter's end. Figures
   // sharing an index keep their placement order.
-  function insertFiguresInline(bodyEl: HTMLElement, figs: { idx: number; el: HTMLElement }[]): void {
-    const paras = Array.from(bodyEl.querySelectorAll<HTMLElement>(':scope > p'));
+  function insertFiguresInline(
+    bodyEl: HTMLElement,
+    figs: { idx: number; el: HTMLElement }[],
+  ): void {
+    const paras = Array.from(
+      bodyEl.querySelectorAll<HTMLElement>(":scope > p"),
+    );
     const groups = new Map<number, HTMLElement[]>();
     for (const f of figs) {
       if (!groups.has(f.idx)) groups.set(f.idx, []);
@@ -599,7 +790,10 @@ function boot(): void {
         for (const el of els) bodyEl.appendChild(el);
       } else {
         let ref: Element = paras[idx - 1];
-        for (const el of els) { ref.insertAdjacentElement('afterend', el); ref = el; }
+        for (const el of els) {
+          ref.insertAdjacentElement("afterend", el);
+          ref = el;
+        }
       }
     }
   }
@@ -607,12 +801,18 @@ function boot(): void {
   // Number of paragraphs whose vertical midpoint is above `clientY` — the
   // anchor_para "after paragraph N" (0 => chapter top). Mirrors applyLayout's
   // top-level <p> counting so a drop lands where the PDF will place the figure.
-  function paraIndexAt(bodyEl: HTMLElement, clientY: number): { idx: number; paras: HTMLElement[] } {
-    const paras = Array.from(bodyEl.querySelectorAll<HTMLElement>(':scope > p'));
+  function paraIndexAt(
+    bodyEl: HTMLElement,
+    clientY: number,
+  ): { idx: number; paras: HTMLElement[] } {
+    const paras = Array.from(
+      bodyEl.querySelectorAll<HTMLElement>(":scope > p"),
+    );
     let idx = 0;
     for (const para of paras) {
       const r = para.getBoundingClientRect();
-      if (clientY > r.top + r.height / 2) idx += 1; else break;
+      if (clientY > r.top + r.height / 2) idx += 1;
+      else break;
     }
     return { idx, paras };
   }
@@ -625,76 +825,86 @@ function boot(): void {
     e.preventDefault();
     e.stopPropagation();
     const container = fig.parentElement; // the .cx-body containing block
-    const refWidth = container ? container.clientWidth : fig.getBoundingClientRect().width;
+    const refWidth = container
+      ? container.clientWidth
+      : fig.getBoundingClientRect().width;
     const startX = e.clientX;
     const startW = fig.getBoundingClientRect().width;
-    const dir = p.align === 'right' ? -1 : 1;
-    const max = p.flow === 'wrap' ? WRAP_MAX : 100;
+    const dir = p.align === "right" ? -1 : 1;
+    const max = p.flow === "wrap" ? WRAP_MAX : 100;
     fig.draggable = false; // suspend the move-drag while resizing
-    fig.classList.add('is-resizing');
+    fig.classList.add("is-resizing");
     let pct = p.width_pct;
     const onMove = (ev: PointerEvent): void => {
       const w = startW + (ev.clientX - startX) * dir;
       pct = Math.max(10, Math.min(max, Math.round((w / refWidth) * 20) * 5));
-      fig.style.setProperty('--cx-w', `${pct}%`);
+      fig.style.setProperty("--cx-w", `${pct}%`);
     };
     const onUp = (): void => {
-      window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerup', onUp);
-      fig.classList.remove('is-resizing');
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      fig.classList.remove("is-resizing");
       fig.draggable = true;
       if (pct !== p.width_pct) update(p.visual_id, { width_pct: pct });
     };
-    window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerup', onUp);
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
   }
 
   function figureEl(p: Placement, v: Visual): HTMLElement {
-    const fig = document.createElement('figure');
+    const fig = document.createElement("figure");
     fig.className = `cx-fig flow-${p.flow} align-${p.align} page-fit-${p.page_fit}`;
-    fig.style.setProperty('--cx-w', `${p.width_pct}%`);
+    fig.style.setProperty("--cx-w", `${p.width_pct}%`);
     fig.tabIndex = 0;
-    fig.setAttribute('role', 'group');
-    fig.setAttribute('aria-label', `Figure: ${p.caption || v.id}`);
+    fig.setAttribute("role", "group");
+    fig.setAttribute("aria-label", `Figure: ${p.caption || v.id}`);
     fig.draggable = true;
-    if (p.visual_id === selected) fig.classList.add('is-selected');
+    if (p.visual_id === selected) fig.classList.add("is-selected");
 
-    const badge = document.createElement('span');
-    badge.className = 'cx-fig-badge';
+    const badge = document.createElement("span");
+    badge.className = "cx-fig-badge";
     badge.textContent = v.type;
     fig.appendChild(badge);
 
-    const img = document.createElement('img');
+    const img = document.createElement("img");
     img.src = v.src;
     img.alt = p.caption || v.id;
     fig.appendChild(img);
 
-    const dupTitle = p.caption && v.embedded_title
-      && p.caption.trim().toLowerCase() === v.embedded_title.trim().toLowerCase();
+    const dupTitle =
+      p.caption &&
+      v.embedded_title &&
+      p.caption.trim().toLowerCase() === v.embedded_title.trim().toLowerCase();
     if (p.caption && !dupTitle) {
-      const cap = document.createElement('figcaption');
+      const cap = document.createElement("figcaption");
       cap.textContent = p.caption;
       fig.appendChild(cap);
     }
 
-    const selectFigure = (): void => { selected = p.visual_id; render(); };
-    fig.addEventListener('click', (e) => {
-      if ((e.target as HTMLElement).closest('.cx-fig-card')) return; // control clicks don't reselect
+    const selectFigure = (): void => {
+      selected = p.visual_id;
+      render();
+    };
+    fig.addEventListener("click", (e) => {
+      if ((e.target as HTMLElement).closest(".cx-fig-card")) return; // control clicks don't reselect
       selectFigure();
     });
-    fig.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectFigure(); }
+    fig.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        selectFigure();
+      }
     });
-    fig.addEventListener('dragstart', (e) => {
-      e.dataTransfer?.setData('text/plain', p.visual_id);
+    fig.addEventListener("dragstart", (e) => {
+      e.dataTransfer?.setData("text/plain", p.visual_id);
     });
 
-    const handle = document.createElement('span');
-    handle.className = 'cx-fig-handle';
-    handle.setAttribute('aria-hidden', 'true');
-    handle.title = 'Drag to resize';
-    handle.addEventListener('pointerdown', (e) => startResize(e, fig, p));
-    handle.addEventListener('click', (e) => e.stopPropagation()); // don't select on a resize click
+    const handle = document.createElement("span");
+    handle.className = "cx-fig-handle";
+    handle.setAttribute("aria-hidden", "true");
+    handle.title = "Drag to resize";
+    handle.addEventListener("pointerdown", (e) => startResize(e, fig, p));
+    handle.addEventListener("click", (e) => e.stopPropagation()); // don't select on a resize click
     fig.appendChild(handle);
 
     // The selected figure carries its layout controls inline (align / flow / width /
@@ -703,58 +913,70 @@ function boot(): void {
     return fig;
   }
 
-  function iconBtn(glyph: string, title: string, onClick: (e: MouseEvent) => void): HTMLButtonElement {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'cx-icon-btn';
+  function iconBtn(
+    glyph: string,
+    title: string,
+    onClick: (e: MouseEvent) => void,
+  ): HTMLButtonElement {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "cx-icon-btn";
     b.textContent = glyph;
     b.title = title;
-    b.setAttribute('aria-label', title);
-    b.addEventListener('click', onClick);
+    b.setAttribute("aria-label", title);
+    b.addEventListener("click", onClick);
     return b;
   }
 
   function paletteItemEl(v: Visual): HTMLElement {
     // A non-interactive group wrapping ONE place-button + sibling action buttons —
     // never a role=button containing focusable children (ambiguous for AT).
-    const item = document.createElement('div');
-    item.className = 'cx-palette-item';
+    const item = document.createElement("div");
+    item.className = "cx-palette-item";
     item.draggable = true;
-    item.setAttribute('role', 'group');
-    item.setAttribute('aria-label', v.caption || v.id);
+    item.setAttribute("role", "group");
+    item.setAttribute("aria-label", v.caption || v.id);
 
-    const placeBtn = document.createElement('button');
-    placeBtn.type = 'button';
-    placeBtn.className = 'cx-palette-place';
-    placeBtn.setAttribute('aria-label', `Place ${v.caption || v.id}`);
-    const img = document.createElement('img');
-    img.src = v.src; img.alt = '';
-    const meta = document.createElement('span');
-    meta.className = 'cx-palette-meta';
-    const cap = document.createElement('p');
-    cap.className = 'cx-palette-cap';
+    const placeBtn = document.createElement("button");
+    placeBtn.type = "button";
+    placeBtn.className = "cx-palette-place";
+    placeBtn.setAttribute("aria-label", `Place ${v.caption || v.id}`);
+    const img = document.createElement("img");
+    img.src = v.src;
+    img.alt = "";
+    const meta = document.createElement("span");
+    meta.className = "cx-palette-meta";
+    const cap = document.createElement("p");
+    cap.className = "cx-palette-cap";
     cap.textContent = v.caption || v.id;
-    const type = document.createElement('p');
-    type.className = 'cx-palette-type';
+    const type = document.createElement("p");
+    type.className = "cx-palette-type";
     type.textContent = v.cleaned ? v.type : `${v.type} · uncleaned`;
     meta.append(cap, type);
     placeBtn.append(img, meta);
 
-    const actions = document.createElement('div');
-    actions.className = 'cx-palette-actions';
+    const actions = document.createElement("div");
+    actions.className = "cx-palette-actions";
     actions.append(
-      iconBtn('✨', 'Edit this image with AI', () => openAiImageBox(v.file, v.caption)),
-      iconBtn('🗑', 'Delete artifact', () => void deleteArtifact(v)),
+      iconBtn("✨", "Edit this image with AI", () =>
+        openAiImageBox(v.file, v.caption),
+      ),
+      iconBtn("🗑", "Delete artifact", () => void deleteArtifact(v)),
     );
     item.append(placeBtn, actions);
 
-    const target = v.suggested_anchor && chapterByKey.get(anchorKey(v.suggested_anchor))
-      ? v.suggested_anchor
-      : (chapterByKey.get(selectedChapter)?.anchor ?? data.chapters[0]?.anchor ?? '');
-    placeBtn.addEventListener('click', () => place(v.id, target));
-    item.addEventListener('dragstart', (e) => e.dataTransfer?.setData('text/plain', v.id));
-    item.addEventListener('mouseenter', () => showHoverPreview(v, item));
-    item.addEventListener('mouseleave', hideHoverPreview);
+    const target =
+      v.suggested_anchor && chapterByKey.get(anchorKey(v.suggested_anchor))
+        ? v.suggested_anchor
+        : (chapterByKey.get(selectedChapter)?.anchor ??
+          data.chapters[0]?.anchor ??
+          "");
+    placeBtn.addEventListener("click", () => place(v.id, target));
+    item.addEventListener("dragstart", (e) =>
+      e.dataTransfer?.setData("text/plain", v.id),
+    );
+    item.addEventListener("mouseenter", () => showHoverPreview(v, item));
+    item.addEventListener("mouseleave", hideHoverPreview);
     return item;
   }
 
@@ -762,37 +984,43 @@ function boot(): void {
   let hoverEl: HTMLElement | null = null;
   function showHoverPreview(v: Visual, anchorEl: HTMLElement): void {
     if (!hoverEl) {
-      hoverEl = document.createElement('div');
-      hoverEl.className = 'cx-hover-preview';
-      hoverEl.appendChild(document.createElement('img'));
+      hoverEl = document.createElement("div");
+      hoverEl.className = "cx-hover-preview";
+      hoverEl.appendChild(document.createElement("img"));
       document.body.appendChild(hoverEl);
     }
-    (hoverEl.querySelector('img') as HTMLImageElement).src = v.src;
+    (hoverEl.querySelector("img") as HTMLImageElement).src = v.src;
     const r = anchorEl.getBoundingClientRect();
-    hoverEl.style.setProperty('--hx', `${Math.max(8, r.left - 372)}px`);
-    hoverEl.style.setProperty('--hy', `${Math.max(8, Math.min(window.innerHeight - 360, r.top - 40))}px`);
-    hoverEl.classList.add('is-visible');
+    hoverEl.style.setProperty("--hx", `${Math.max(8, r.left - 372)}px`);
+    hoverEl.style.setProperty(
+      "--hy",
+      `${Math.max(8, Math.min(window.innerHeight - 360, r.top - 40))}px`,
+    );
+    hoverEl.classList.add("is-visible");
   }
-  function hideHoverPreview(): void { hoverEl?.classList.remove('is-visible'); }
+  function hideHoverPreview(): void {
+    hoverEl?.classList.remove("is-visible");
+  }
 
   // ── delete an artifact (index entry + file) ───────────────────────────────
   async function deleteArtifact(v: Visual): Promise<void> {
     hideHoverPreview();
     const ok = await confirmDialog({
-      title: 'Delete this artifact?',
+      title: "Delete this artifact?",
       body: `“${v.caption || v.id}” will be removed from the library and disk. This can't be undone.`,
-      confirmLabel: 'Delete',
-      cancelLabel: 'Keep',
+      confirmLabel: "Delete",
+      cancelLabel: "Keep",
       danger: true,
     });
     if (!ok) return;
     try {
-      const res = await fetch('/api/studio/visual-op', {
-        method: 'POST', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ action: 'delete', slug, id: v.id }),
+      const res = await fetch("/api/studio/visual-op", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ action: "delete", slug, id: v.id }),
       });
       const j = await res.json();
-      if (!j.ok) throw new Error(j.error || 'delete failed');
+      if (!j.ok) throw new Error(j.error || "delete failed");
       data.visuals = data.visuals.filter((x) => x.id !== v.id);
       visualsById.delete(v.id);
       placements = placements.filter((p) => p.visual_id !== v.id); // renderer skips missing ids too
@@ -800,7 +1028,7 @@ function boot(): void {
       render();
     } catch (e) {
       await noticeDialog({
-        title: 'Delete failed',
+        title: "Delete failed",
         body: (e as Error).message,
         danger: true,
       });
@@ -810,50 +1038,78 @@ function boot(): void {
   // ── generate / edit an artifact with Gemini ───────────────────────────────
   function openAiImageBox(fromFile?: string, baseCaption?: string): void {
     hideHoverPreview();
-    root.querySelector('.cx-aiimg-box')?.remove();
-    const panel = root.querySelector<HTMLElement>('#cx-panel-artifacts');
+    root.querySelector(".cx-aiimg-box")?.remove();
+    const panel = root.querySelector<HTMLElement>("#cx-panel-artifacts");
     if (!panel) return;
-    const box = document.createElement('div');
-    box.className = 'cx-aiimg-box';
-    const head = document.createElement('p');
-    head.className = 'cx-aiimg-head';
-    head.textContent = fromFile ? `Edit “${baseCaption || fromFile}” with AI` : 'Generate a new image with AI';
-    const ta = document.createElement('textarea');
-    ta.className = 'cx-aiimg-input';
+    const box = document.createElement("div");
+    box.className = "cx-aiimg-box";
+    const head = document.createElement("p");
+    head.className = "cx-aiimg-head";
+    head.textContent = fromFile
+      ? `Edit “${baseCaption || fromFile}” with AI`
+      : "Generate a new image with AI";
+    const ta = document.createElement("textarea");
+    ta.className = "cx-aiimg-input";
     ta.rows = 3;
-    ta.placeholder = fromFile ? 'Describe the change to make…' : 'Describe the image to create…';
-    const actions = document.createElement('div');
-    actions.className = 'cx-aiimg-actions';
-    const gen = document.createElement('button');
-    gen.type = 'button'; gen.className = 'cx-action'; gen.textContent = 'Generate';
-    const cancel = document.createElement('button');
-    cancel.type = 'button'; cancel.className = 'cx-action is-secondary'; cancel.textContent = 'Cancel';
-    const status = document.createElement('p');
-    status.className = 'cx-status';
-    status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite');
+    ta.placeholder = fromFile
+      ? "Describe the change to make…"
+      : "Describe the image to create…";
+    const actions = document.createElement("div");
+    actions.className = "cx-aiimg-actions";
+    const gen = document.createElement("button");
+    gen.type = "button";
+    gen.className = "cx-action";
+    gen.textContent = "Generate";
+    const cancel = document.createElement("button");
+    cancel.type = "button";
+    cancel.className = "cx-action is-secondary";
+    cancel.textContent = "Cancel";
+    const status = document.createElement("p");
+    status.className = "cx-status";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
     actions.append(gen, cancel);
     box.append(head, ta, actions, status);
-    panel.insertBefore(box, panel.querySelector('#cx-palette-list'));
+    panel.insertBefore(box, panel.querySelector("#cx-palette-list"));
     ta.focus();
 
-    cancel.addEventListener('click', () => box.remove());
-    gen.addEventListener('click', async () => {
+    cancel.addEventListener("click", () => box.remove());
+    gen.addEventListener("click", async () => {
       const prompt = ta.value.trim();
-      if (!prompt) { status.textContent = 'Type a description first.'; status.classList.add('is-error'); return; }
-      gen.disabled = true; status.classList.remove('is-error');
-      status.textContent = 'Generating with Gemini… this can take a few seconds.';
+      if (!prompt) {
+        status.textContent = "Type a description first.";
+        status.classList.add("is-error");
+        return;
+      }
+      gen.disabled = true;
+      status.classList.remove("is-error");
+      status.textContent =
+        "Generating with Gemini… this can take a few seconds.";
       try {
-        const anchor = chapterByKey.get(selectedChapter)?.anchor ?? '';
-        const res = await fetch('/api/studio/visual-op', {
-          method: 'POST', headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ action: 'generate', slug, prompt, fromFile, anchor }),
+        const anchor = chapterByKey.get(selectedChapter)?.anchor ?? "";
+        const res = await fetch("/api/studio/visual-op", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            action: "generate",
+            slug,
+            prompt,
+            fromFile,
+            anchor,
+          }),
         });
         const j = await res.json();
-        if (!j.ok) throw new Error(j.error || 'generation failed');
+        if (!j.ok) throw new Error(j.error || "generation failed");
         const nv: Visual = {
-          id: j.data.id, type: 'generated', caption: j.data.caption, file: j.data.file,
+          id: j.data.id,
+          type: "generated",
+          caption: j.data.caption,
+          file: j.data.file,
           src: `/api/studio/visual-asset?slug=${encodeURIComponent(slug)}&file=${encodeURIComponent(j.data.file)}`,
-          suggested_anchor: anchor, chapter: selectedChapter, cleaned: true, embedded_title: '',
+          suggested_anchor: anchor,
+          chapter: selectedChapter,
+          cleaned: true,
+          embedded_title: "",
         };
         data.visuals.push(nv);
         visualsById.set(nv.id, nv);
@@ -861,7 +1117,7 @@ function boot(): void {
         render();
       } catch (e) {
         status.textContent = `Failed: ${(e as Error).message}`;
-        status.classList.add('is-error');
+        status.classList.add("is-error");
         gen.disabled = false;
       }
     });
@@ -869,33 +1125,44 @@ function boot(): void {
 
   // ── inline figure controls (a floating card on the selected figure) ───────
   function buildFigCard(p: Placement): HTMLElement {
-    const card = document.createElement('div');
-    card.className = 'cx-fig-card';
-    card.addEventListener('click', (e) => e.stopPropagation());
-    card.addEventListener('pointerdown', (e) => e.stopPropagation());
+    const card = document.createElement("div");
+    card.className = "cx-fig-card";
+    card.addEventListener("click", (e) => e.stopPropagation());
+    card.addEventListener("pointerdown", (e) => e.stopPropagation());
     card.draggable = false;
     card.append(
-      alignField(p), flowField(p), widthField(p),
-      anchorField(p), positionField(p), captionField(p), pageFitField(p),
+      alignField(p),
+      flowField(p),
+      widthField(p),
+      anchorField(p),
+      positionField(p),
+      captionField(p),
+      pageFitField(p),
     );
-    const del = document.createElement('button');
-    del.type = 'button';
-    del.className = 'cx-delete';
-    del.textContent = 'Remove from book';
-    del.addEventListener('click', () => remove(p.visual_id));
+    const del = document.createElement("button");
+    del.type = "button";
+    del.className = "cx-delete";
+    del.textContent = "Remove from book";
+    del.addEventListener("click", () => remove(p.visual_id));
     card.appendChild(del);
     return card;
   }
 
   // ── Refinement tab: AI text actions on the editor selection ────────────────
-  interface AiAction { kind: string; label: string; mode?: string; explain?: boolean; etymology?: boolean; }
+  interface AiAction {
+    kind: string;
+    label: string;
+    mode?: string;
+    explain?: boolean;
+    etymology?: boolean;
+  }
   const AI_ACTIONS: AiAction[] = [
-    { kind: 'rewrite', label: 'Rewrite', mode: 'clarify' },
-    { kind: 'expand', label: 'Expand', mode: 'expand' },
-    { kind: 'condense', label: 'Condense', mode: 'tighten' },
-    { kind: 'simplify', label: 'Simplify', mode: 'simplify' },
-    { kind: 'explain', label: 'Explain', explain: true },
-    { kind: 'etymology', label: 'Etymology', etymology: true },
+    { kind: "rewrite", label: "Rewrite", mode: "clarify" },
+    { kind: "expand", label: "Expand", mode: "expand" },
+    { kind: "condense", label: "Condense", mode: "tighten" },
+    { kind: "simplify", label: "Simplify", mode: "simplify" },
+    { kind: "explain", label: "Explain", explain: true },
+    { kind: "etymology", label: "Etymology", etymology: true },
   ];
   let aiStatusEl: HTMLElement | null = null;
   let aiPopupEl: HTMLElement | null = null;
@@ -903,116 +1170,157 @@ function boot(): void {
   function setAiStatus(msg: string, isError = false): void {
     if (!aiStatusEl) return;
     aiStatusEl.textContent = msg;
-    aiStatusEl.classList.toggle('is-error', isError);
+    aiStatusEl.classList.toggle("is-error", isError);
   }
 
   function selectionText(): { text: string; from: number; to: number } | null {
     if (!activeEditor) return null;
     const { from, to } = activeEditor.editor.state.selection;
-    const text = activeEditor.editor.state.doc.textBetween(from, to, ' ').trim();
+    const text = activeEditor.editor.state.doc
+      .textBetween(from, to, " ")
+      .trim();
     return text ? { text, from, to } : null;
   }
 
   function updateAiEnabled(): void {
     const ok = !!selectionText();
-    root.querySelectorAll<HTMLButtonElement>('.cx-ai-btn').forEach((b) => { b.disabled = !ok; });
+    root.querySelectorAll<HTMLButtonElement>(".cx-ai-btn").forEach((b) => {
+      b.disabled = !ok;
+    });
   }
 
   function renderAiActions(): void {
-    controlsEl.textContent = '';
-    const hint = document.createElement('p');
-    hint.className = 'cx-hint';
-    hint.textContent = 'Select text in the chapter editor, then reshape it with AI. Each result is yours to accept or discard.';
+    controlsEl.textContent = "";
+    const hint = document.createElement("p");
+    hint.className = "cx-hint";
+    hint.textContent =
+      "Select text in the chapter editor, then reshape it with AI. Each result is yours to accept or discard.";
     controlsEl.appendChild(hint);
 
-    const row = document.createElement('div');
-    row.className = 'cx-ai-row';
+    const row = document.createElement("div");
+    row.className = "cx-ai-row";
     for (const a of AI_ACTIONS) {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'cx-ai-btn';
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "cx-ai-btn";
       b.textContent = a.label;
       b.disabled = true;
-      b.addEventListener('click', () => runAiAction(a));
+      b.addEventListener("click", () => runAiAction(a));
       row.appendChild(b);
     }
     controlsEl.appendChild(row);
 
-    aiStatusEl = document.createElement('p');
-    aiStatusEl.className = 'cx-status';
-    aiStatusEl.setAttribute('role', 'status');
-    aiStatusEl.setAttribute('aria-live', 'polite');
+    aiStatusEl = document.createElement("p");
+    aiStatusEl.className = "cx-status";
+    aiStatusEl.setAttribute("role", "status");
+    aiStatusEl.setAttribute("aria-live", "polite");
     controlsEl.appendChild(aiStatusEl);
     updateAiEnabled();
   }
 
   async function runAiAction(a: AiAction): Promise<void> {
     const sel = selectionText();
-    if (!activeEditor || !sel) { setAiStatus('Select some text in the editor first.', true); return; }
+    if (!activeEditor || !sel) {
+      setAiStatus("Select some text in the editor first.", true);
+      return;
+    }
     aiPopupEl?.remove();
-    if (a.etymology) { await runEtymology(sel); return; }
+    if (a.etymology) {
+      await runEtymology(sel);
+      return;
+    }
     setAiStatus(`${a.label}…`);
     try {
       let options: string[] = [];
       if (a.explain) {
-        const res = await fetch('/api/ai/explain', {
-          method: 'POST', headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ text: sel.text, chapter: activeEditor.editor.getText(), bookTitle }),
+        const res = await fetch("/api/ai/explain", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            text: sel.text,
+            chapter: activeEditor.editor.getText(),
+            bookTitle,
+          }),
         });
         const j = await res.json();
-        if (!j.ok) throw new Error(j.error || 'failed');
+        if (!j.ok) throw new Error(j.error || "failed");
         options = [String(j.text)];
       } else {
-        const res = await fetch('/api/ai/rewrite', {
-          method: 'POST', headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ text: sel.text, mode: a.mode, context: activeEditor.editor.getText().slice(0, 4000) }),
+        const res = await fetch("/api/ai/rewrite", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            text: sel.text,
+            mode: a.mode,
+            context: activeEditor.editor.getText().slice(0, 4000),
+          }),
         });
         const j = await res.json();
         if (j.error) throw new Error(j.error);
-        options = (Array.isArray(j.options) ? j.options : []).map((s: unknown) => String(s).trim()).filter(Boolean);
+        options = (Array.isArray(j.options) ? j.options : [])
+          .map((s: unknown) => String(s).trim())
+          .filter(Boolean);
       }
-      if (!options.length) throw new Error('no suggestions returned');
-      setAiStatus('');
+      if (!options.length) throw new Error("no suggestions returned");
+      setAiStatus("");
       showAiOptions(a.label, options, sel.from, sel.to);
     } catch (e) {
       setAiStatus(`${a.label} failed: ${(e as Error).message}`, true);
     }
   }
 
-  function showAiOptions(label: string, options: string[], from: number, to: number): void {
+  function showAiOptions(
+    label: string,
+    options: string[],
+    from: number,
+    to: number,
+  ): void {
     aiPopupEl?.remove();
-    const pop = document.createElement('div');
-    pop.className = 'cx-ai-popup';
-    const head = document.createElement('p');
-    head.className = 'cx-ai-popup-head';
+    const pop = document.createElement("div");
+    pop.className = "cx-ai-popup";
+    const head = document.createElement("p");
+    head.className = "cx-ai-popup-head";
     head.textContent = `${label} — pick one to replace your selection:`;
     pop.appendChild(head);
     options.forEach((opt) => {
-      const card = document.createElement('button');
-      card.type = 'button';
-      card.className = 'cx-ai-opt';
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "cx-ai-opt";
       card.textContent = opt;
-      card.addEventListener('click', () => {
-        activeEditor?.editor.chain().focus().insertContentAt({ from, to }, opt).run();
+      card.addEventListener("click", () => {
+        activeEditor?.editor
+          .chain()
+          .focus()
+          .insertContentAt({ from, to }, opt)
+          .run();
         pop.remove();
         aiPopupEl = null;
-        setAiStatus('Applied. Remember to Save prose.');
+        setAiStatus("Applied. Remember to Save prose.");
       });
       pop.appendChild(card);
     });
-    const cancel = document.createElement('button');
-    cancel.type = 'button';
-    cancel.className = 'cx-ai-opt-cancel';
-    cancel.textContent = 'Discard';
-    cancel.addEventListener('click', () => { pop.remove(); aiPopupEl = null; });
+    const cancel = document.createElement("button");
+    cancel.type = "button";
+    cancel.className = "cx-ai-opt-cancel";
+    cancel.textContent = "Discard";
+    cancel.addEventListener("click", () => {
+      pop.remove();
+      aiPopupEl = null;
+    });
     pop.appendChild(cancel);
     controlsEl.appendChild(pop);
     aiPopupEl = pop;
   }
 
   interface EtymologyResult {
-    inline: string; companion: string; term?: string; arabic?: string;
-    root?: string; rootPhonetic?: string; source?: string; uncertain?: boolean;
+    inline: string;
+    companion: string;
+    term?: string;
+    arabic?: string;
+    root?: string;
+    rootPhonetic?: string;
+    source?: string;
+    uncertain?: boolean;
   }
 
   // Etymology is richer than the other refine actions: one AI call yields TWO
@@ -1020,88 +1328,116 @@ function boot(): void {
   // teaching note for the Companion Panel. Both are shown for review; accepting
   // replaces the highlighted word inline (autosaved into book.md → the PDF) AND
   // files the companion note.
-  async function runEtymology(sel: { text: string; from: number; to: number }): Promise<void> {
+  async function runEtymology(sel: {
+    text: string;
+    from: number;
+    to: number;
+  }): Promise<void> {
     if (!activeEditor) return;
-    setAiStatus('Etymology…');
+    setAiStatus("Etymology…");
     try {
       const doc = activeEditor.editor.state.doc;
-      const context = doc.textBetween(
-        Math.max(0, sel.from - 240), Math.min(doc.content.size, sel.to + 240), ' ',
-      ).trim();
-      const res = await fetch('/api/ai/etymology', {
-        method: 'POST', headers: { 'content-type': 'application/json' },
+      const context = doc
+        .textBetween(
+          Math.max(0, sel.from - 240),
+          Math.min(doc.content.size, sel.to + 240),
+          " ",
+        )
+        .trim();
+      const res = await fetch("/api/ai/etymology", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          word: sel.text, context,
-          chapterTitle: chapterByKey.get(selectedChapter)?.title ?? '', book: bookTitle,
+          word: sel.text,
+          context,
+          chapterTitle: chapterByKey.get(selectedChapter)?.title ?? "",
+          book: bookTitle,
         }),
       });
       const j = await res.json();
-      if (!j.ok) throw new Error(j.error || 'no etymology found for this word');
-      setAiStatus('');
+      if (!j.ok) throw new Error(j.error || "no etymology found for this word");
+      setAiStatus("");
       showEtymologyResult(j as EtymologyResult, sel);
     } catch (e) {
       setAiStatus(`Etymology failed: ${(e as Error).message}`, true);
     }
   }
 
-  function showEtymologyResult(r: EtymologyResult, sel: { text: string; from: number; to: number }): void {
+  function showEtymologyResult(
+    r: EtymologyResult,
+    sel: { text: string; from: number; to: number },
+  ): void {
     aiPopupEl?.remove();
-    const pop = document.createElement('div');
-    pop.className = 'cx-ety-card';
+    const pop = document.createElement("div");
+    pop.className = "cx-ety-card";
 
-    const head = document.createElement('p');
-    head.className = 'cx-ety-head';
+    const head = document.createElement("p");
+    head.className = "cx-ety-head";
     head.textContent = `Etymology — ${r.term ?? sel.text}`;
     pop.appendChild(head);
 
-    const meta = document.createElement('p');
-    meta.className = 'cx-ety-meta';
-    meta.textContent = [r.root ? `root ${r.root}` : '', r.rootPhonetic ? `"${r.rootPhonetic}"` : '',
-      r.source ? `via ${r.source}` : ''].filter(Boolean).join(' · ');
+    const meta = document.createElement("p");
+    meta.className = "cx-ety-meta";
+    meta.textContent = [
+      r.root ? `root ${r.root}` : "",
+      r.rootPhonetic ? `"${r.rootPhonetic}"` : "",
+      r.source ? `via ${r.source}` : "",
+    ]
+      .filter(Boolean)
+      .join(" · ");
     pop.appendChild(meta);
 
     if (r.uncertain) {
-      const warn = document.createElement('p');
-      warn.className = 'cx-ety-warn';
-      warn.textContent = 'The model was not certain of this root — verify before saving.';
+      const warn = document.createElement("p");
+      warn.className = "cx-ety-warn";
+      warn.textContent =
+        "The model was not certain of this root — verify before saving.";
       pop.appendChild(warn);
     }
 
     const uid = `cx-ety-${Date.now()}-${Math.floor(Math.random() * 1e4)}`;
-    const inlineLabel = document.createElement('label');
-    inlineLabel.className = 'cx-ety-label';
+    const inlineLabel = document.createElement("label");
+    inlineLabel.className = "cx-ety-label";
     inlineLabel.htmlFor = `${uid}-inline`;
-    inlineLabel.textContent = 'Inline insert (replaces the word in the PDF prose)';
-    const inlineInput = document.createElement('input');
-    inlineInput.type = 'text';
+    inlineLabel.textContent =
+      "Inline insert (replaces the word in the PDF prose)";
+    const inlineInput = document.createElement("input");
+    inlineInput.type = "text";
     inlineInput.id = `${uid}-inline`;
-    inlineInput.className = 'cx-ety-inline';
-    inlineInput.value = r.inline ?? '';
+    inlineInput.className = "cx-ety-inline";
+    inlineInput.value = r.inline ?? "";
     pop.append(inlineLabel, inlineInput);
 
-    const compLabel = document.createElement('label');
-    compLabel.className = 'cx-ety-label';
+    const compLabel = document.createElement("label");
+    compLabel.className = "cx-ety-label";
     compLabel.htmlFor = `${uid}-companion`;
-    compLabel.textContent = 'Companion note (teaching explanation for this chapter)';
-    const compInput = document.createElement('textarea');
+    compLabel.textContent =
+      "Companion note (teaching explanation for this chapter)";
+    const compInput = document.createElement("textarea");
     compInput.id = `${uid}-companion`;
-    compInput.className = 'cx-ety-companion';
+    compInput.className = "cx-ety-companion";
     compInput.rows = 5;
-    compInput.value = r.companion ?? '';
+    compInput.value = r.companion ?? "";
     pop.append(compLabel, compInput);
 
-    const actions = document.createElement('div');
-    actions.className = 'cx-ety-actions';
-    const accept = document.createElement('button');
-    accept.type = 'button';
-    accept.className = 'cx-ety-accept';
-    accept.textContent = 'Insert & file note';
-    accept.addEventListener('click', () => { void acceptEtymology(r, sel, inlineInput.value, compInput.value, pop); });
-    const discard = document.createElement('button');
-    discard.type = 'button';
-    discard.className = 'cx-ety-discard';
-    discard.textContent = 'Discard';
-    discard.addEventListener('click', () => { pop.remove(); aiPopupEl = null; setAiStatus(''); });
+    const actions = document.createElement("div");
+    actions.className = "cx-ety-actions";
+    const accept = document.createElement("button");
+    accept.type = "button";
+    accept.className = "cx-ety-accept";
+    accept.textContent = "Insert & file note";
+    accept.addEventListener("click", () => {
+      void acceptEtymology(r, sel, inlineInput.value, compInput.value, pop);
+    });
+    const discard = document.createElement("button");
+    discard.type = "button";
+    discard.className = "cx-ety-discard";
+    discard.textContent = "Discard";
+    discard.addEventListener("click", () => {
+      pop.remove();
+      aiPopupEl = null;
+      setAiStatus("");
+    });
     actions.append(accept, discard);
     pop.appendChild(actions);
 
@@ -1110,153 +1446,194 @@ function boot(): void {
   }
 
   async function acceptEtymology(
-    r: EtymologyResult, sel: { text: string; from: number; to: number },
-    inline: string, companion: string, pop: HTMLElement,
+    r: EtymologyResult,
+    sel: { text: string; from: number; to: number },
+    inline: string,
+    companion: string,
+    pop: HTMLElement,
   ): Promise<void> {
     const inlineText = inline.trim();
     if (activeEditor && inlineText) {
-      activeEditor.editor.chain().focus().insertContentAt({ from: sel.from, to: sel.to }, inlineText).run();
+      activeEditor.editor
+        .chain()
+        .focus()
+        .insertContentAt({ from: sel.from, to: sel.to }, inlineText)
+        .run();
     }
     // File the companion note (best-effort; the inline insert already landed).
     const body = companion.trim();
     if (body) {
       try {
-        await fetch('/api/studio/companion-notes', {
-          method: 'POST', headers: { 'content-type': 'application/json' },
+        await fetch("/api/studio/companion-notes", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
           body: JSON.stringify({
-            slug, chapter: safeChapterKey(selectedChapter),
+            slug,
+            chapter: safeChapterKey(selectedChapter),
             note: {
-              kind: 'etymology', body,
-              anchor: `${r.term ?? sel.text} — root ${r.rootPhonetic ?? r.root ?? ''}`.trim(),
+              kind: "etymology",
+              body,
+              anchor:
+                `${r.term ?? sel.text} — root ${r.rootPhonetic ?? r.root ?? ""}`.trim(),
               quote: sel.text,
-              source: { provider: 'ai', label: `Etymology (${r.source ?? 'gemini'})` },
+              source: {
+                provider: "ai",
+                label: `Etymology (${r.source ?? "gemini"})`,
+              },
             },
           }),
         });
-      } catch { /* note failed to save; the inline edit is unaffected */ }
+      } catch {
+        /* note failed to save; the inline edit is unaffected */
+      }
     }
     pop.remove();
     aiPopupEl = null;
-    setAiStatus('Etymology inserted into the prose and filed to the Companion Panel.');
+    setAiStatus(
+      "Etymology inserted into the prose and filed to the Companion Panel.",
+    );
   }
 
   function field(label: string, control: HTMLElement): HTMLElement {
-    const wrap = document.createElement('div');
-    wrap.className = 'cx-field';
-    const l = document.createElement('label');
+    const wrap = document.createElement("div");
+    wrap.className = "cx-field";
+    const l = document.createElement("label");
     l.textContent = label;
     wrap.append(l, control);
     return wrap;
   }
 
   function alignField(p: Placement): HTMLElement {
-    const row = document.createElement('div');
-    row.className = 'cx-btn-row';
-    (['left', 'center', 'right'] as Align[]).forEach((a) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'cx-toggle';
+    const row = document.createElement("div");
+    row.className = "cx-btn-row";
+    (["left", "center", "right"] as Align[]).forEach((a) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "cx-toggle";
       b.textContent = a;
-      b.setAttribute('aria-pressed', String(p.align === a));
-      b.addEventListener('click', () => update(p.visual_id, { align: a }));
+      b.setAttribute("aria-pressed", String(p.align === a));
+      b.addEventListener("click", () => update(p.visual_id, { align: a }));
       row.appendChild(b);
     });
-    return field('Alignment', row);
+    return field("Alignment", row);
   }
 
   function flowField(p: Placement): HTMLElement {
-    const row = document.createElement('div');
-    row.className = 'cx-btn-row';
-    (['standalone', 'wrap'] as Flow[]).forEach((f) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'cx-toggle';
-      b.textContent = f === 'wrap' ? 'wrap text' : 'standalone';
-      b.setAttribute('aria-pressed', String(p.flow === f));
-      b.disabled = f === 'wrap' && p.align === 'center';
+    const row = document.createElement("div");
+    row.className = "cx-btn-row";
+    (["standalone", "wrap"] as Flow[]).forEach((f) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "cx-toggle";
+      b.textContent = f === "wrap" ? "wrap text" : "standalone";
+      b.setAttribute("aria-pressed", String(p.flow === f));
+      b.disabled = f === "wrap" && p.align === "center";
       // Choosing wrap clamps width into the contract (<=50%) so the user's intent
       // is honored rather than silently reverted to standalone.
-      b.addEventListener('click', () => update(
-        p.visual_id,
-        f === 'wrap' ? { flow: f, width_pct: Math.min(p.width_pct, WRAP_MAX) } : { flow: f },
-      ));
+      b.addEventListener("click", () =>
+        update(
+          p.visual_id,
+          f === "wrap"
+            ? { flow: f, width_pct: Math.min(p.width_pct, WRAP_MAX) }
+            : { flow: f },
+        ),
+      );
       row.appendChild(b);
     });
-    return field('Flow', row);
+    return field("Flow", row);
   }
 
   function widthField(p: Placement): HTMLElement {
-    const input = document.createElement('input');
-    input.type = 'range';
-    input.min = '10';
-    input.max = String(p.flow === 'wrap' ? WRAP_MAX : 100);
-    input.step = '5';
+    const input = document.createElement("input");
+    input.type = "range";
+    input.min = "10";
+    input.max = String(p.flow === "wrap" ? WRAP_MAX : 100);
+    input.step = "5";
     input.value = String(p.width_pct);
-    input.setAttribute('aria-label', 'Width percent');
-    input.addEventListener('input', () => update(p.visual_id, { width_pct: Number(input.value) }));
+    input.setAttribute("aria-label", "Width percent");
+    input.addEventListener("input", () =>
+      update(p.visual_id, { width_pct: Number(input.value) }),
+    );
     return field(`Width — ${p.width_pct}%`, input);
   }
 
   function anchorField(p: Placement): HTMLElement {
-    const sel = document.createElement('select');
-    sel.setAttribute('aria-label', 'Anchor chapter');
+    const sel = document.createElement("select");
+    sel.setAttribute("aria-label", "Anchor chapter");
     data.chapters.forEach((c) => {
-      const o = document.createElement('option');
+      const o = document.createElement("option");
       o.value = c.anchor;
       o.textContent = c.title;
       o.selected = anchorKey(c.anchor) === anchorKey(p.anchor);
       sel.appendChild(o);
     });
     // Moving to a different chapter resets the paragraph position to the default.
-    sel.addEventListener('change', () => update(p.visual_id, { anchor: sel.value, anchor_para: null }));
-    return field('Anchor chapter', sel);
+    sel.addEventListener("change", () =>
+      update(p.visual_id, { anchor: sel.value, anchor_para: null }),
+    );
+    return field("Anchor chapter", sel);
   }
 
   function positionField(p: Placement): HTMLElement {
     const paras = chapterByKey.get(anchorKey(p.anchor))?.paras ?? 0;
-    const sel = document.createElement('select');
+    const sel = document.createElement("select");
     const opt = (value: string, label: string, selected: boolean) => {
-      const o = document.createElement('option');
-      o.value = value; o.textContent = label; o.selected = selected;
+      const o = document.createElement("option");
+      o.value = value;
+      o.textContent = label;
+      o.selected = selected;
       sel.appendChild(o);
     };
-    sel.setAttribute('aria-label', 'Position in chapter');
-    opt('', 'After intro (default)', p.anchor_para == null);
-    opt('0', 'Chapter top', p.anchor_para === 0);
-    for (let i = 1; i <= paras; i += 1) opt(String(i), `After paragraph ${i}`, p.anchor_para === i);
-    sel.addEventListener('change', () =>
-      update(p.visual_id, { anchor_para: sel.value === '' ? null : Number(sel.value) }));
-    return field('Position in chapter', sel);
+    sel.setAttribute("aria-label", "Position in chapter");
+    opt("", "After intro (default)", p.anchor_para == null);
+    opt("0", "Chapter top", p.anchor_para === 0);
+    for (let i = 1; i <= paras; i += 1)
+      opt(String(i), `After paragraph ${i}`, p.anchor_para === i);
+    sel.addEventListener("change", () =>
+      update(p.visual_id, {
+        anchor_para: sel.value === "" ? null : Number(sel.value),
+      }),
+    );
+    return field("Position in chapter", sel);
   }
 
   function captionField(p: Placement): HTMLElement {
-    const input = document.createElement('input');
-    input.type = 'text';
+    const input = document.createElement("input");
+    input.type = "text";
     input.value = p.caption;
-    input.placeholder = 'Caption (optional)';
-    input.setAttribute('aria-label', 'Caption');
-    input.addEventListener('change', () => update(p.visual_id, { caption: input.value }));
-    return field('Caption', input);
+    input.placeholder = "Caption (optional)";
+    input.setAttribute("aria-label", "Caption");
+    input.addEventListener("change", () =>
+      update(p.visual_id, { caption: input.value }),
+    );
+    return field("Caption", input);
   }
 
   function pageFitField(p: Placement): HTMLElement {
-    const sel = document.createElement('select');
-    sel.setAttribute('aria-label', 'Page fit');
-    (['avoid', 'before', 'isolate-plate'] as PageFit[]).forEach((f) => {
-      const o = document.createElement('option');
+    const sel = document.createElement("select");
+    sel.setAttribute("aria-label", "Page fit");
+    (["avoid", "before", "isolate-plate"] as PageFit[]).forEach((f) => {
+      const o = document.createElement("option");
       o.value = f;
-      o.textContent = f === 'avoid' ? 'keep together' : f === 'before' ? 'start on new page' : 'own page';
+      o.textContent =
+        f === "avoid"
+          ? "keep together"
+          : f === "before"
+            ? "start on new page"
+            : "own page";
       o.selected = p.page_fit === f;
       sel.appendChild(o);
     });
-    sel.addEventListener('change', () => update(p.visual_id, { page_fit: sel.value as PageFit }));
-    return field('Page fit', sel);
+    sel.addEventListener("change", () =>
+      update(p.visual_id, { page_fit: sel.value as PageFit }),
+    );
+    return field("Page fit", sel);
   }
 
   // ── drag targets: drop a visual onto a specific paragraph, not just a chapter ─
   let dropMarker: HTMLElement | null = null;
   function clearDropMarker(): void {
-    dropMarker?.classList.remove('cx-drop-before', 'cx-drop-after');
+    dropMarker?.classList.remove("cx-drop-before", "cx-drop-after");
     dropMarker = null;
   }
   function showDropMarker(bodyEl: HTMLElement, clientY: number): void {
@@ -1264,28 +1641,36 @@ function boot(): void {
     clearDropMarker();
     if (idx <= 0) {
       const first = bodyEl.firstElementChild as HTMLElement | null;
-      if (first) { first.classList.add('cx-drop-before'); dropMarker = first; }
+      if (first) {
+        first.classList.add("cx-drop-before");
+        dropMarker = first;
+      }
     } else if (idx <= paras.length) {
-      paras[idx - 1].classList.add('cx-drop-after'); dropMarker = paras[idx - 1];
+      paras[idx - 1].classList.add("cx-drop-after");
+      dropMarker = paras[idx - 1];
     }
   }
-  root.querySelectorAll<HTMLElement>('.cx-chapter').forEach((ch) => {
-    const body = ch.querySelector<HTMLElement>('.cx-body');
-    ch.addEventListener('dragover', (e) => {
+  root.querySelectorAll<HTMLElement>(".cx-chapter").forEach((ch) => {
+    const body = ch.querySelector<HTMLElement>(".cx-body");
+    ch.addEventListener("dragover", (e) => {
       e.preventDefault();
-      ch.classList.add('cx-dragover');
+      ch.classList.add("cx-dragover");
       if (body) showDropMarker(body, e.clientY);
     });
-    ch.addEventListener('dragleave', () => { ch.classList.remove('cx-dragover'); clearDropMarker(); });
-    ch.addEventListener('drop', (e) => {
-      e.preventDefault();
-      ch.classList.remove('cx-dragover');
+    ch.addEventListener("dragleave", () => {
+      ch.classList.remove("cx-dragover");
       clearDropMarker();
-      const id = e.dataTransfer?.getData('text/plain');
-      const anchor = ch.dataset.anchor ?? '';
+    });
+    ch.addEventListener("drop", (e) => {
+      e.preventDefault();
+      ch.classList.remove("cx-dragover");
+      clearDropMarker();
+      const id = e.dataTransfer?.getData("text/plain");
+      const anchor = ch.dataset.anchor ?? "";
       if (!id || !anchor) return;
       const anchor_para = body ? paraIndexAt(body, e.clientY).idx : null;
-      if (placements.some((p) => p.visual_id === id)) update(id, { anchor, anchor_para });
+      if (placements.some((p) => p.visual_id === id))
+        update(id, { anchor, anchor_para });
       else place(id, anchor, anchor_para);
     });
   });
@@ -1294,9 +1679,9 @@ function boot(): void {
   layoutAutosave = createAutosave({
     onStateChange: mountAutosaveStatus(layoutStatusEl),
     save: async () => {
-      const res = await fetch('/api/studio/visual-layout', {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
+      const res = await fetch("/api/studio/visual-layout", {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
         body: JSON.stringify({ slug, placements }),
       });
       const json = await res.json();
@@ -1311,30 +1696,33 @@ function boot(): void {
 
   // If we reloaded mid-edit (autosave re-sync), drop back into Edit on arrival.
   try {
-    if (sessionStorage.getItem('cx-restore-edit')) {
-      sessionStorage.removeItem('cx-restore-edit');
+    if (sessionStorage.getItem("cx-restore-edit")) {
+      sessionStorage.removeItem("cx-restore-edit");
       enterEditMode();
     }
-  } catch { /* sessionStorage best-effort */ }
+  } catch {
+    /* sessionStorage best-effort */
+  }
 
   // Deselect a placed figure (and hide its inline card) on an outside click.
-  document.addEventListener('click', (e) => {
+  document.addEventListener("click", (e) => {
     if (!selected) return;
     const t = e.target as HTMLElement;
-    if (t.closest('.cx-fig') || t.closest('.cx-fig-card')) return;
+    if (t.closest(".cx-fig") || t.closest(".cx-fig-card")) return;
     selected = null;
     render();
   });
 
-  root.querySelector<HTMLButtonElement>('#cx-new-ai-image')
-    ?.addEventListener('click', () => openAiImageBox());
+  root
+    .querySelector<HTMLButtonElement>("#cx-new-ai-image")
+    ?.addEventListener("click", () => openAiImageBox());
 
   // The chapter opens straight in the editor, like the podcast editor.
-  setMode('edit');
+  setMode("edit");
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', boot);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", boot);
 } else {
   boot();
 }

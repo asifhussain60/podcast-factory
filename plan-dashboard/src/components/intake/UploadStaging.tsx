@@ -10,7 +10,7 @@
  * vocabulary/validation comes from the server (intake_staging.py) — the single
  * source of truth — so the UI can't drift from what the pipeline accepts.
  */
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from "react";
 
 interface StagedFile {
   id: string;
@@ -27,17 +27,21 @@ interface Validation {
 
 interface Props {
   /** Notified whenever the staged set changes, so the parent can gate "Next". */
-  onChange?: (state: { token: string | null; files: StagedFile[]; valid: boolean }) => void;
+  onChange?: (state: {
+    token: string | null;
+    files: StagedFile[];
+    valid: boolean;
+  }) => void;
 }
 
 const ROLE_OPTIONS = [
-  { value: 'primary_source', label: 'Primary source' },
-  { value: 'source_recording', label: 'Source recording' },
-  { value: 'pronunciation_reference', label: 'Pronunciation reference' },
-  { value: 'supplementary_text', label: 'Supplementary text' },
+  { value: "primary_source", label: "Primary source" },
+  { value: "source_recording", label: "Source recording" },
+  { value: "pronunciation_reference", label: "Pronunciation reference" },
+  { value: "supplementary_text", label: "Supplementary text" },
 ];
 
-const ACCEPT = '.pdf,.mp3,.m4a,.wav,.txt,.md,.docx';
+const ACCEPT = ".pdf,.mp3,.m4a,.wav,.txt,.md,.docx";
 
 export default function UploadStaging({ onChange }: Props) {
   const [token, setToken] = useState<string | null>(null);
@@ -45,7 +49,7 @@ export default function UploadStaging({ onChange }: Props) {
   const [validation, setValidation] = useState<Validation | null>(null);
   const [dragging, setDragging] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const emit = useCallback(
@@ -59,25 +63,35 @@ export default function UploadStaging({ onChange }: Props) {
     const arr = Array.from(fileList);
     if (arr.length === 0) return;
     setBusy(true);
-    setError('');
+    setError("");
     try {
       const form = new FormData();
-      if (token) form.append('token', token);
-      for (const f of arr) form.append('files', f);
-      const r = await fetch('/api/intake/upload', { method: 'POST', body: form });
+      if (token) form.append("token", token);
+      for (const f of arr) form.append("files", f);
+      const r = await fetch("/api/intake/upload", {
+        method: "POST",
+        body: form,
+      });
       const json = await r.json();
       if (!r.ok || !json.ok) {
         setError(json.error ?? `Upload failed (${r.status})`);
         return;
       }
-      const data = json.data as { token: string; staged: StagedFile[]; rejected: { filename: string; reason: string }[]; validation: Validation };
+      const data = json.data as {
+        token: string;
+        staged: StagedFile[];
+        rejected: { filename: string; reason: string }[];
+        validation: Validation;
+      };
       const nextToken = data.token;
       const nextFiles = [...files, ...data.staged];
       setToken(nextToken);
       setFiles(nextFiles);
       setValidation(data.validation);
       if (data.rejected?.length) {
-        setError(`Skipped: ${data.rejected.map((x) => `${x.filename} (${x.reason})`).join(', ')}`);
+        setError(
+          `Skipped: ${data.rejected.map((x) => `${x.filename} (${x.reason})`).join(", ")}`,
+        );
       }
       emit(nextToken, nextFiles, data.validation);
     } catch (e) {
@@ -89,13 +103,21 @@ export default function UploadStaging({ onChange }: Props) {
 
   async function changeRole(fileId: string, role: string) {
     if (!token) return;
-    const r = await fetch('/api/intake/staging', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token, action: 'set-role', file_id: fileId, role }),
+    const r = await fetch("/api/intake/staging", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        token,
+        action: "set-role",
+        file_id: fileId,
+        role,
+      }),
     });
     const json = await r.json();
-    if (!r.ok || !json.ok) { setError(json.error ?? 'Could not change role'); return; }
+    if (!r.ok || !json.ok) {
+      setError(json.error ?? "Could not change role");
+      return;
+    }
     const next = files.map((f) => (f.id === fileId ? { ...f, role } : f));
     setFiles(next);
     setValidation(json.data.validation);
@@ -104,13 +126,16 @@ export default function UploadStaging({ onChange }: Props) {
 
   async function removeFile(fileId: string) {
     if (!token) return;
-    const r = await fetch('/api/intake/staging', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token, action: 'remove', file_id: fileId }),
+    const r = await fetch("/api/intake/staging", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, action: "remove", file_id: fileId }),
     });
     const json = await r.json();
-    if (!r.ok || !json.ok) { setError(json.error ?? 'Could not remove file'); return; }
+    if (!r.ok || !json.ok) {
+      setError(json.error ?? "Could not remove file");
+      return;
+    }
     const next = files.filter((f) => f.id !== fileId);
     setFiles(next);
     setValidation(json.data.validation);
@@ -127,29 +152,42 @@ export default function UploadStaging({ onChange }: Props) {
     <div className="intake-card intake-card--grow">
       <h2 className="intake-card-title">Source files</h2>
       <p className="intake-hint">
-        Drop your source material — a PDF, an audio recording, a transcript, a pronunciation
-        glossary. Assign each a role. Files stage here; nothing is committed until you confirm.
+        Drop your source material — a PDF, an audio recording, a transcript, a
+        pronunciation glossary. Assign each a role. Files stage here; nothing is
+        committed until you confirm.
       </p>
 
       <div
-        className={`intake-drop${dragging ? ' intake-drop--active' : ''}`}
-        onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+        className={`intake-drop${dragging ? " intake-drop--active" : ""}`}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragging(true);
+        }}
         onDragLeave={() => setDragging(false)}
         onDrop={onDrop}
         onClick={() => inputRef.current?.click()}
         role="button"
         tabIndex={0}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') inputRef.current?.click(); }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") inputRef.current?.click();
+        }}
       >
-        <p className="intake-drop-primary">{busy ? 'Uploading…' : 'Drop files here'}</p>
-        <p className="intake-drop-secondary">or click to choose · PDF · audio · text</p>
+        <p className="intake-drop-primary">
+          {busy ? "Uploading…" : "Drop files here"}
+        </p>
+        <p className="intake-drop-secondary">
+          or click to choose · PDF · audio · text
+        </p>
         <input
           ref={inputRef}
           className="intake-drop-input"
           type="file"
           multiple
           accept={ACCEPT}
-          onChange={(e) => { if (e.target.files) upload(e.target.files); e.target.value = ''; }}
+          onChange={(e) => {
+            if (e.target.files) upload(e.target.files);
+            e.target.value = "";
+          }}
         />
       </div>
 
@@ -159,7 +197,9 @@ export default function UploadStaging({ onChange }: Props) {
         <ul className="intake-filelist">
           {files.map((f) => (
             <li key={f.id} className="intake-filerow">
-              <span className="intake-file-name" title={f.filename}>{f.filename}</span>
+              <span className="intake-file-name" title={f.filename}>
+                {f.filename}
+              </span>
               <select
                 className="intake-select intake-file-role"
                 value={f.role}
@@ -167,7 +207,9 @@ export default function UploadStaging({ onChange }: Props) {
                 aria-label={`Role for ${f.filename}`}
               >
                 {ROLE_OPTIONS.map((r) => (
-                  <option key={r.value} value={r.value}>{r.label}</option>
+                  <option key={r.value} value={r.value}>
+                    {r.label}
+                  </option>
                 ))}
               </select>
               <button
@@ -186,13 +228,19 @@ export default function UploadStaging({ onChange }: Props) {
       {validation && files.length > 0 && (
         <div className="intake-validation">
           {validation.errors.map((msg) => (
-            <p key={msg} className="intake-validation-error">{msg}</p>
+            <p key={msg} className="intake-validation-error">
+              {msg}
+            </p>
           ))}
           {validation.warnings.map((msg) => (
-            <p key={msg} className="intake-validation-warn">{msg}</p>
+            <p key={msg} className="intake-validation-warn">
+              {msg}
+            </p>
           ))}
           {validation.ok && validation.warnings.length === 0 && (
-            <p className="intake-validation-ok">Roles look good — exactly one primary source.</p>
+            <p className="intake-validation-ok">
+              Roles look good — exactly one primary source.
+            </p>
           )}
         </div>
       )}

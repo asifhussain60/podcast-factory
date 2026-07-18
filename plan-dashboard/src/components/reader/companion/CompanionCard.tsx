@@ -6,8 +6,11 @@
  * (edit / delete) to its parent. Colours come from data-attributes resolved in
  * companion-notes.css (zero inline styles, per the site DoD).
  */
-import { kindDef, sourceProvider } from '../../../lib/reader/companion/registry';
-import type { CompanionNote } from '../../../lib/reader/companion/types';
+import {
+  kindDef,
+  sourceProvider,
+} from "../../../lib/reader/companion/registry";
+import type { CompanionNote } from "../../../lib/reader/companion/types";
 
 interface Props {
   note: CompanionNote;
@@ -22,10 +25,15 @@ function sourceLabel(note: CompanionNote): string | null {
   if (!s) return null;
   if (s.label) return s.label;
   const p = sourceProvider(s.provider);
-  return [p.label, s.ref, s.locator].filter(Boolean).join(' · ');
+  return [p.label, s.ref, s.locator].filter(Boolean).join(" · ");
 }
 
-export default function CompanionCard({ note, readOnly, onEdit, onDelete }: Props) {
+export default function CompanionCard({
+  note,
+  readOnly,
+  onEdit,
+  onDelete,
+}: Props) {
   const kind = kindDef(note.kind);
   const src = note.source ? sourceProvider(note.source.provider) : null;
   const label = sourceLabel(note);
@@ -62,7 +70,8 @@ export default function CompanionCard({ note, readOnly, onEdit, onDelete }: Prop
       {note.anchor && <p className="cpn-anchor">“{note.anchor}”</p>}
       {note.quote && (
         <p className="cpn-quote-mark" title={note.quote}>
-          <i className="fa-solid fa-highlighter" aria-hidden="true" /> {note.quote}
+          <i className="fa-solid fa-highlighter" aria-hidden="true" />{" "}
+          {note.quote}
         </p>
       )}
       <p className="cpn-body">{note.body}</p>

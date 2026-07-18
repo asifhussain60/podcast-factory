@@ -1,4 +1,4 @@
-import type { StageKind } from '../../../lib/reader/stage-roles';
+import type { StageKind } from "../../../lib/reader/stage-roles";
 
 export interface StageBar {
   label: string;
@@ -19,8 +19,12 @@ interface Props {
  */
 export default function StageBarChart({ bars }: Props) {
   if (!bars || bars.length === 0) return null;
-  const W = 640, H = 260;
-  const PAD_L = 58, PAD_R = 16, PAD_T = 26, PAD_B = 52;
+  const W = 640,
+    H = 260;
+  const PAD_L = 58,
+    PAD_R = 16,
+    PAD_T = 26,
+    PAD_B = 52;
   const plotW = W - PAD_L - PAD_R;
   const plotH = H - PAD_T - PAD_B;
   const baseY = PAD_T + plotH;
@@ -38,8 +42,8 @@ export default function StageBarChart({ bars }: Props) {
     >
       <title id="sbc-title">Words at each captured pipeline stage</title>
       <desc id="sbc-desc">
-        A vertical bar chart of the word count at each transformation stage that was
-        captured for this chapter, from earliest to the editable review.
+        A vertical bar chart of the word count at each transformation stage that
+        was captured for this chapter, from earliest to the editable review.
       </desc>
 
       {/* Gridlines + y-axis value labels (zero baseline). */}
@@ -47,7 +51,13 @@ export default function StageBarChart({ bars }: Props) {
         const y = baseY - plotH * f;
         return (
           <g key={i}>
-            <line className="sbc-grid" x1={PAD_L} y1={y} x2={W - PAD_R} y2={y} />
+            <line
+              className="sbc-grid"
+              x1={PAD_L}
+              y1={y}
+              x2={W - PAD_R}
+              y2={y}
+            />
             <text className="sbc-axis" x={PAD_L - 6} y={y + 4} textAnchor="end">
               {Math.round(max * f).toLocaleString()}
             </text>
@@ -56,9 +66,23 @@ export default function StageBarChart({ bars }: Props) {
       })}
 
       {/* Axes + explicit zero baseline label (honest-chart convention). */}
-      <line className="sbc-axis-line" x1={PAD_L} y1={baseY} x2={W - PAD_R} y2={baseY} />
-      <line className="sbc-axis-line" x1={PAD_L} y1={PAD_T} x2={PAD_L} y2={baseY} />
-      <text className="sbc-axis" x={PAD_L - 6} y={baseY + 4} textAnchor="end">0</text>
+      <line
+        className="sbc-axis-line"
+        x1={PAD_L}
+        y1={baseY}
+        x2={W - PAD_R}
+        y2={baseY}
+      />
+      <line
+        className="sbc-axis-line"
+        x1={PAD_L}
+        y1={PAD_T}
+        x2={PAD_L}
+        y2={baseY}
+      />
+      <text className="sbc-axis" x={PAD_L - 6} y={baseY + 4} textAnchor="end">
+        0
+      </text>
 
       {/* Bars + value + stage labels. */}
       {bars.map((b, i) => {
@@ -79,7 +103,12 @@ export default function StageBarChart({ bars }: Props) {
             <text className="sbc-value" x={cx} y={y - 6} textAnchor="middle">
               {b.value.toLocaleString()}
             </text>
-            <text className="sbc-xlabel" x={cx} y={baseY + 18} textAnchor="middle">
+            <text
+              className="sbc-xlabel"
+              x={cx}
+              y={baseY + 18}
+              textAnchor="middle"
+            >
               {b.label}
             </text>
           </g>

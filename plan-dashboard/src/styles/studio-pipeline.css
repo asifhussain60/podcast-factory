@@ -14,7 +14,9 @@
 
 /* The Edit step mounts the workbench, whose chapter rail is itself sticky.
    Offset it below the sticky studio subnav so the two don't overlap. */
-.studio-step-body .wb-chapter-rail { top: 124px; }
+.studio-step-body .wb-chapter-rail {
+  top: 124px;
+}
 
 .studio-subnav-inner {
   max-width: var(--shell-max, 1400px);
@@ -37,10 +39,20 @@
   font-weight: 600;
   color: var(--c-ink-dim);
 }
-.studio-subnav-crumb a { color: var(--c-ink-dim); text-decoration: none; }
-.studio-subnav-crumb a:hover { color: var(--c-accent); text-decoration: underline; }
-.studio-subnav-crumb a:last-child { color: var(--c-ink); }
-.studio-subnav-crumb-sep { color: var(--c-ink-muted); }
+.studio-subnav-crumb a {
+  color: var(--c-ink-dim);
+  text-decoration: none;
+}
+.studio-subnav-crumb a:hover {
+  color: var(--c-accent);
+  text-decoration: underline;
+}
+.studio-subnav-crumb a:last-child {
+  color: var(--c-ink);
+}
+.studio-subnav-crumb-sep {
+  color: var(--c-ink-muted);
+}
 
 /* ── Book selector (pure <details>) ────────────────────── */
 .studio-bookpick {
@@ -60,8 +72,12 @@
   background: var(--c-bg-elev);
 }
 
-.studio-bookpick > summary::-webkit-details-marker { display: none; }
-.studio-bookpick > summary:hover { border-color: var(--c-ink-dim); }
+.studio-bookpick > summary::-webkit-details-marker {
+  display: none;
+}
+.studio-bookpick > summary:hover {
+  border-color: var(--c-ink-dim);
+}
 
 .studio-bookpick-eyebrow {
   font-size: 0.65rem;
@@ -77,7 +93,10 @@
   color: var(--c-ink);
 }
 
-.studio-bookpick > summary i { font-size: 0.7rem; color: var(--c-ink-muted); }
+.studio-bookpick > summary i {
+  font-size: 0.7rem;
+  color: var(--c-ink-muted);
+}
 
 .studio-bookpick-menu {
   position: absolute;
@@ -92,7 +111,7 @@
   background: var(--c-bg-card);
   border: 1px solid var(--c-rule);
   border-radius: 10px;
-  box-shadow: var(--shadow-hover, 0 8px 24px rgba(0,0,0,0.12));
+  box-shadow: var(--shadow-hover, 0 8px 24px rgba(0, 0, 0, 0.12));
 }
 
 .studio-bookpick-item {
@@ -103,8 +122,14 @@
   text-decoration: none;
 }
 
-.studio-bookpick-item:hover { background: var(--c-bg-elev); text-decoration: none; }
-.studio-bookpick-item.is-current { color: var(--c-accent); font-weight: 600; }
+.studio-bookpick-item:hover {
+  background: var(--c-bg-elev);
+  text-decoration: none;
+}
+.studio-bookpick-item.is-current {
+  color: var(--c-accent);
+  font-weight: 600;
+}
 
 .studio-bookpick-new {
   margin-top: 0.2rem;
@@ -126,7 +151,10 @@
   overflow-x: auto;
 }
 
-.studio-step { flex: 1 1 0; min-width: 9rem; }
+.studio-step {
+  flex: 1 1 0;
+  min-width: 9rem;
+}
 
 .studio-step-link {
   display: flex;
@@ -139,20 +167,39 @@
   height: 100%;
 }
 
-.studio-step-link:hover { background: var(--c-bg-elev); text-decoration: none; }
+.studio-step-link:hover {
+  background: var(--c-bg-elev);
+  text-decoration: none;
+}
 
 .studio-step.is-active .studio-step-link {
   border-color: var(--c-accent);
   background: color-mix(in oklab, var(--c-accent) 8%, var(--c-bg-card));
 }
 
-.studio-step-icon { flex: none; font-size: 1.05rem; }
-.studio-step.state-done    .studio-step-icon { color: var(--c-green); }
-.studio-step.state-active  .studio-step-icon { color: var(--c-accent); }
-.studio-step.state-pending .studio-step-icon { color: var(--c-ink-muted); }
-.studio-step.state-blocked .studio-step-icon { color: var(--c-red); }
+.studio-step-icon {
+  flex: none;
+  font-size: 1.05rem;
+}
+.studio-step.state-done .studio-step-icon {
+  color: var(--c-green);
+}
+.studio-step.state-active .studio-step-icon {
+  color: var(--c-accent);
+}
+.studio-step.state-pending .studio-step-icon {
+  color: var(--c-ink-muted);
+}
+.studio-step.state-blocked .studio-step-icon {
+  color: var(--c-red);
+}
 
-.studio-step-copy { display: flex; flex-direction: column; line-height: 1.2; min-width: 0; }
+.studio-step-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 0;
+}
 
 .studio-step-num {
   font-size: 0.6rem;
@@ -162,7 +209,11 @@
   color: var(--c-ink-muted);
 }
 
-.studio-step-label { font-size: 0.85rem; font-weight: 600; color: var(--c-ink); }
+.studio-step-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--c-ink);
+}
 .studio-step-detail {
   font-size: 0.7rem;
   color: var(--c-ink-muted);
@@ -171,7 +222,9 @@
   text-overflow: ellipsis;
 }
 
-.studio-step.state-pending .studio-step-label { color: var(--c-ink-dim); }
+.studio-step.state-pending .studio-step-label {
+  color: var(--c-ink-dim);
+}
 
 /* ── Step content wrappers ─────────────────────────────── */
 .studio-step-body {
@@ -202,9 +255,17 @@
   font-weight: 600;
   color: var(--c-ink-muted);
 }
-.studio-editview-toggle a { color: var(--c-ink-muted); text-decoration: none; }
-.studio-editview-toggle a:hover { color: var(--c-accent); text-decoration: underline; }
-.studio-editview-toggle .is-current { color: var(--c-ink); }
+.studio-editview-toggle a {
+  color: var(--c-ink-muted);
+  text-decoration: none;
+}
+.studio-editview-toggle a:hover {
+  color: var(--c-accent);
+  text-decoration: underline;
+}
+.studio-editview-toggle .is-current {
+  color: var(--c-ink);
+}
 
 .studio-eyebrow {
   display: inline-block;
@@ -233,8 +294,14 @@
   padding: 1.25rem 1.4rem;
 }
 
-.studio-panel h2 { margin: 0 0 0.5rem; font-size: 1.05rem; }
-.studio-panel p  { margin: 0; color: var(--c-ink-dim); }
+.studio-panel h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+.studio-panel p {
+  margin: 0;
+  color: var(--c-ink-dim);
+}
 
 .studio-gate-pill {
   display: inline-block;
@@ -244,9 +311,18 @@
   font-weight: 700;
   letter-spacing: 0.03em;
 }
-.studio-gate-pill.is-approved { background: color-mix(in oklab, var(--c-green) 16%, var(--c-bg-elev)); color: var(--c-green); }
-.studio-gate-pill.is-pending  { background: color-mix(in oklab, var(--c-accent) 14%, var(--c-bg-elev)); color: var(--c-accent); }
-.studio-gate-pill.is-blocked  { background: color-mix(in oklab, var(--c-red) 16%, var(--c-bg-elev)); color: var(--c-red); }
+.studio-gate-pill.is-approved {
+  background: color-mix(in oklab, var(--c-green) 16%, var(--c-bg-elev));
+  color: var(--c-green);
+}
+.studio-gate-pill.is-pending {
+  background: color-mix(in oklab, var(--c-accent) 14%, var(--c-bg-elev));
+  color: var(--c-accent);
+}
+.studio-gate-pill.is-blocked {
+  background: color-mix(in oklab, var(--c-red) 16%, var(--c-bg-elev));
+  color: var(--c-red);
+}
 
 /* ── Book picker landing ───────────────────────────────── */
 .studio-picker {
@@ -273,7 +349,9 @@
   border-radius: 14px;
   background: var(--c-bg-card);
   text-decoration: none;
-  transition: border-color 130ms, transform 130ms;
+  transition:
+    border-color 130ms,
+    transform 130ms;
 }
 
 .studio-picker-card:hover {
@@ -282,7 +360,11 @@
   text-decoration: none;
 }
 
-.studio-picker-card h2 { margin: 0; font-size: 1.05rem; color: var(--c-ink); }
+.studio-picker-card h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--c-ink);
+}
 .studio-picker-card .studio-picker-step {
   font-size: 0.78rem;
   color: var(--c-ink-muted);
@@ -297,9 +379,15 @@
   border-radius: 2px;
   background: var(--c-rule);
 }
-.studio-picker-card .studio-picker-seg.is-done   { background: var(--c-green); }
-.studio-picker-card .studio-picker-seg.is-active  { background: var(--c-accent); }
-.studio-picker-card .studio-picker-seg.is-blocked { background: var(--c-red); }
+.studio-picker-card .studio-picker-seg.is-done {
+  background: var(--c-green);
+}
+.studio-picker-card .studio-picker-seg.is-active {
+  background: var(--c-accent);
+}
+.studio-picker-card .studio-picker-seg.is-blocked {
+  background: var(--c-red);
+}
 
 /* ── Focus visibility (REQ-048; matches the site's --c-accent ring) ── */
 .studio-bookpick > summary:focus-visible,
@@ -311,8 +399,12 @@
 }
 
 @media (max-width: 720px) {
-  .studio-subnav-inner { gap: 0.75rem; }
-  .studio-step-detail { display: none; }
+  .studio-subnav-inner {
+    gap: 0.75rem;
+  }
+  .studio-step-detail {
+    display: none;
+  }
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -320,7 +412,9 @@
    ════════════════════════════════════════════════════════════ */
 
 /* ── Picker container — tighten gap for shelf sections ───── */
-.studio-picker { gap: 2rem; }
+.studio-picker {
+  gap: 2rem;
+}
 
 /* ── Column of shelf sections ────────────────────────────── */
 .studio-shelves {
@@ -367,7 +461,7 @@
 }
 
 .studio-shelf-name {
-  font-family: 'EB Garamond', 'Source Serif 4', Georgia, serif;
+  font-family: "EB Garamond", "Source Serif 4", Georgia, serif;
   font-size: 1.45rem;
   font-weight: 500;
   color: var(--c-ink);
@@ -410,11 +504,21 @@
    re-hueing one is a one-line change; new card elements should use
    var(--shelf-accent) and never name a colour directly.
    ════════════════════════════════════════════════════════════ */
-.studio-shelf { --shelf-accent: var(--c-accent); }            /* fallback: saddle brown */
-.studio-shelf[data-bucket="Islamic"]   { --shelf-accent: var(--c-gold); }    /* dark goldenrod */
-.studio-shelf[data-bucket="Fiction"]   { --shelf-accent: #6a1b9a; }          /* literary plum  */
-.studio-shelf[data-bucket="Technical"] { --shelf-accent: var(--c-planner); } /* slate blue     */
-.studio-shelf[data-bucket="Guides"]    { --shelf-accent: var(--c-green); }   /* forest green   */
+.studio-shelf {
+  --shelf-accent: var(--c-accent);
+} /* fallback: saddle brown */
+.studio-shelf[data-bucket="Islamic"] {
+  --shelf-accent: var(--c-gold);
+} /* dark goldenrod */
+.studio-shelf[data-bucket="Fiction"] {
+  --shelf-accent: #6a1b9a;
+} /* literary plum  */
+.studio-shelf[data-bucket="Technical"] {
+  --shelf-accent: var(--c-planner);
+} /* slate blue     */
+.studio-shelf[data-bucket="Guides"] {
+  --shelf-accent: var(--c-green);
+} /* forest green   */
 
 .studio-shelf .studio-shelf-icon-wrap {
   background: color-mix(in oklab, var(--shelf-accent) 11%, var(--c-bg-card));
@@ -422,7 +526,11 @@
   border-color: color-mix(in oklab, var(--shelf-accent) 28%, var(--c-rule));
 }
 .studio-shelf .studio-shelf-title-group {
-  border-bottom-color: color-mix(in oklab, var(--shelf-accent) 26%, var(--c-rule-soft));
+  border-bottom-color: color-mix(
+    in oklab,
+    var(--shelf-accent) 26%,
+    var(--c-rule-soft)
+  );
 }
 
 /* ── Shelf card-grid wrapper (plank strip removed 2026-06-10) ── */
@@ -441,25 +549,31 @@
 .studio-shelf-card {
   position: relative;
   overflow: hidden;
-  padding: 0;  /* card-script-wrap / card-body-wrap own their padding */
+  padding: 0; /* card-script-wrap / card-body-wrap own their padding */
   gap: 0;
-  transition: border-color 130ms, transform 130ms, box-shadow 130ms;
+  transition:
+    border-color 130ms,
+    transform 130ms,
+    box-shadow 130ms;
 }
 
 /* Coloured accent strip at card top */
 .studio-shelf-card::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0 0 auto 0;
   height: 3px;
 }
 
 /* Strip + hover ring — category accent via the design system */
-.studio-shelf .studio-shelf-card::before { background: var(--shelf-accent); }
+.studio-shelf .studio-shelf-card::before {
+  background: var(--shelf-accent);
+}
 
 .studio-shelf .studio-shelf-card:hover {
   border-color: var(--shelf-accent);
-  box-shadow: 0 4px 14px color-mix(in oklab, var(--shelf-accent) 16%, transparent);
+  box-shadow: 0 4px 14px
+    color-mix(in oklab, var(--shelf-accent) 16%, transparent);
 }
 
 /* ── Card interior layout ───────────────────────────────────────────────────
@@ -480,7 +594,7 @@
 
 /* Per-book icon inside the script panel */
 .card-script-icon {
-  font-size: 1.6rem;   /* large when no native script text follows */
+  font-size: 1.6rem; /* large when no native script text follows */
   line-height: 1;
 }
 
@@ -491,24 +605,27 @@
 }
 
 /* Icon colour in script panel — category accent */
-.studio-shelf .card-script-icon { color: var(--shelf-accent); }
+.studio-shelf .card-script-icon {
+  color: var(--shelf-accent);
+}
 
 /* Arabic script — centred, Amiri, maroon */
 .card-script-text[lang="ar"] {
   display: block;
-  font-family: 'Amiri', 'Noto Naskh Arabic', serif;
+  font-family: "Amiri", "Noto Naskh Arabic", serif;
   font-size: 1.5rem;
   font-weight: 400;
   line-height: 1.75;
   letter-spacing: 0;
-  color: #7B1414;
+  color: #7b1414;
   text-align: center;
 }
 
 /* Chinese (and other LTR scripts) — system CJK stack */
 .card-script-text[lang="zh"] {
   display: block;
-  font-family: 'PingFang SC', 'Noto Sans CJK SC', 'Hiragino Sans GB', system-ui, serif;
+  font-family:
+    "PingFang SC", "Noto Sans CJK SC", "Hiragino Sans GB", system-ui, serif;
   font-size: 1.45rem;
   font-weight: 400;
   line-height: 1.5;
@@ -519,7 +636,11 @@
 /* Script-panel tint — light category wash via the design system */
 .studio-shelf .card-script-wrap {
   background: color-mix(in oklab, var(--shelf-accent) 6%, var(--c-bg-card));
-  border-bottom-color: color-mix(in oklab, var(--shelf-accent) 20%, var(--c-rule-soft));
+  border-bottom-color: color-mix(
+    in oklab,
+    var(--shelf-accent) 20%,
+    var(--c-rule-soft)
+  );
 }
 
 /* Card body wrapper — flex column, fills remaining height */
@@ -542,7 +663,7 @@
 
 /* English translation — Cinzel: Roman-inscription serif, all-caps by design */
 .card-title-en {
-  font-family: 'Cinzel', Georgia, serif;
+  font-family: "Cinzel", Georgia, serif;
   font-size: 0.78rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -562,14 +683,19 @@
   margin: 0.25rem 0 0.1rem;
   padding: 0.22rem 0.85rem;
   border-radius: 999px;
-  font-family: 'Cinzel', Georgia, serif;
+  font-family: "Cinzel", Georgia, serif;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--shelf-accent, var(--c-accent));
-  background: color-mix(in oklab, var(--shelf-accent, var(--c-accent)) 10%, var(--c-bg-card));
-  border: 1px solid color-mix(in oklab, var(--shelf-accent, var(--c-accent)) 35%, var(--c-rule));
+  background: color-mix(
+    in oklab,
+    var(--shelf-accent, var(--c-accent)) 10%,
+    var(--c-bg-card)
+  );
+  border: 1px solid
+    color-mix(in oklab, var(--shelf-accent, var(--c-accent)) 35%, var(--c-rule));
 }
 
 .card-author {
@@ -648,7 +774,10 @@
   background: var(--c-bg-card);
   text-decoration: none;
   color: var(--c-ink-dim);
-  transition: border-color 130ms, background 130ms, color 130ms;
+  transition:
+    border-color 130ms,
+    background 130ms,
+    color 130ms;
 }
 
 .studio-new-content-link:hover {
@@ -682,15 +811,29 @@
 
 /* ── Responsive ─────────────────────────────────────────── */
 @media (max-width: 720px) {
-  .studio-shelf-grid { grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); }
-  .studio-shelf-name { font-size: 1.25rem; }
-  .studio-shelf-desc { display: none; }
+  .studio-shelf-grid {
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  }
+  .studio-shelf-name {
+    font-size: 1.25rem;
+  }
+  .studio-shelf-desc {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
-  .studio-shelf-grid { grid-template-columns: 1fr; } /* single column avoids cramped cards */
-  .studio-shelf-header { gap: 0.65rem; }
-  .studio-shelf-icon-wrap { width: 2.2rem; height: 2.2rem; font-size: 1rem; }
+  .studio-shelf-grid {
+    grid-template-columns: 1fr;
+  } /* single column avoids cramped cards */
+  .studio-shelf-header {
+    gap: 0.65rem;
+  }
+  .studio-shelf-icon-wrap {
+    width: 2.2rem;
+    height: 2.2rem;
+    font-size: 1rem;
+  }
 }
 
 /* ── Content-level selector (Wave L-7) ─────────────────────────────── */
@@ -698,7 +841,11 @@
   color: var(--c-ink-dim);
   margin-bottom: 1rem;
 }
-.cl-selector { display: flex; flex-direction: column; gap: 0.75rem; }
+.cl-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
 .cl-options {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -715,92 +862,198 @@
   border: 1px solid var(--c-rule);
   border-radius: var(--radius-lg, 0.5rem);
   cursor: pointer;
-  transition: border-color 150ms ease, background 150ms ease;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease;
 }
-.cl-option:hover { border-color: var(--c-accent); }
+.cl-option:hover {
+  border-color: var(--c-accent);
+}
 .cl-option.is-selected {
   border-color: var(--c-accent);
   background: var(--c-bg-elev);
 }
-.cl-option-icon { font-size: 1.4rem; line-height: 1; }
-.cl-option-label { font-weight: 600; color: var(--c-ink); }
-.cl-option-blurb { font-size: 0.85rem; color: var(--c-ink-muted); }
+.cl-option-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.cl-option-label {
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.cl-option-blurb {
+  font-size: 0.85rem;
+  color: var(--c-ink-muted);
+}
 .cl-option:focus-visible {
   outline: 2px solid var(--c-accent);
   outline-offset: 2px;
 }
-.cl-status { font-size: 0.85rem; color: var(--c-ink-dim); min-height: 1.2em; }
-.cl-status[data-state="saved"] { color: var(--c-green); }
-.cl-status[data-state="error"] { color: var(--c-red); }
+.cl-status {
+  font-size: 0.85rem;
+  color: var(--c-ink-dim);
+  min-height: 1.2em;
+}
+.cl-status[data-state="saved"] {
+  color: var(--c-green);
+}
+.cl-status[data-state="error"] {
+  color: var(--c-red);
+}
 
 /* ── Multi-volume series deck (collapsible "deck of cards") ──────────────── */
 /* Wrapper holds the stacked sheets behind the front; the <summary> reuses the
    standalone-book card design (.studio-picker-card .studio-shelf-card). */
-.studio-series-deck { position: relative; margin: 0 12px 16px 0; }
+.studio-series-deck {
+  position: relative;
+  margin: 0 12px 16px 0;
+}
 .studio-series-deck::before,
 .studio-series-deck::after {
-  content: ''; position: absolute; inset: 0; z-index: 0;
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   background: var(--c-bg-card);
   border: 1.5px solid color-mix(in oklab, var(--c-ink) 34%, var(--c-rule));
   border-radius: 14px;
   pointer-events: none;
 }
-.studio-series-deck::before { transform: translate(6px, 6px); }
-.studio-series-deck::after  { transform: translate(12px, 12px); }
+.studio-series-deck::before {
+  transform: translate(6px, 6px);
+}
+.studio-series-deck::after {
+  transform: translate(12px, 12px);
+}
 .studio-series-deck[open]::before,
-.studio-series-deck[open]::after { display: none; }
-.studio-series-deck[open] { grid-column: 1 / -1; }   /* fan to full width when open */
+.studio-series-deck[open]::after {
+  display: none;
+}
+.studio-series-deck[open] {
+  grid-column: 1 / -1;
+} /* fan to full width when open */
 
 /* When closed, the front summary must FILL the stretched grid cell so the
    inset:0 stacked sheets back it exactly. A short card (no author/status) in a
    tall row otherwise leaves the sheets protruding below as an empty panel. */
-.studio-series-deck:not([open]) { display: flex; flex-direction: column; }
-.studio-series-deck:not([open]) .studio-series-summary { flex: 1 0 auto; }
+.studio-series-deck:not([open]) {
+  display: flex;
+  flex-direction: column;
+}
+.studio-series-deck:not([open]) .studio-series-summary {
+  flex: 1 0 auto;
+}
 
 .studio-series-summary {
-  position: relative; z-index: 1; cursor: pointer; list-style: none;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  list-style: none;
   /* layout + border + bg inherited from .studio-picker-card .studio-shelf-card */
 }
-.studio-series-summary::-webkit-details-marker { display: none; }
-.studio-series-summary::marker { content: ''; }
-.studio-series-summary:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
-.studio-series-deck:hover .studio-series-summary { border-color: var(--shelf-accent, var(--c-accent)); transform: translateY(-1px); }
-.studio-series-count {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
-  margin-top: 0.1rem; color: var(--c-accent); font-size: 0.8rem; font-weight: 600;
+.studio-series-summary::-webkit-details-marker {
+  display: none;
 }
-.studio-series-chevron { transition: transform 160ms ease; }
-.studio-series-deck[open] .studio-series-chevron { transform: rotate(180deg); }
+.studio-series-summary::marker {
+  content: "";
+}
+.studio-series-summary:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+.studio-series-deck:hover .studio-series-summary {
+  border-color: var(--shelf-accent, var(--c-accent));
+  transform: translateY(-1px);
+}
+.studio-series-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.1rem;
+  color: var(--c-accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.studio-series-chevron {
+  transition: transform 160ms ease;
+}
+.studio-series-deck[open] .studio-series-chevron {
+  transform: rotate(180deg);
+}
 
 /* expanded volume list (below the front card when open) */
 .studio-series-volumes {
-  position: relative; z-index: 1;
-  list-style: none; margin: 0.6rem 0 0; padding: 0;
-  display: flex; flex-direction: column; gap: 0.4rem;
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
   animation: studioSeriesFan 200ms ease both;
 }
-@keyframes studioSeriesFan { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .studio-series-volumes { animation: none; } }
+@keyframes studioSeriesFan {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-series-volumes {
+    animation: none;
+  }
+}
 .studio-series-vol {
-  display: flex; align-items: center; gap: 0.85rem;
-  padding: 0.6rem 0.8rem; border-radius: 10px;
-  text-decoration: none; color: var(--c-ink);
-  border: 1px solid var(--c-rule); background: var(--c-bg-card);
-  transition: background 140ms ease, border-color 140ms ease;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--c-ink);
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg-card);
+  transition:
+    background 140ms ease,
+    border-color 140ms ease;
 }
 .studio-series-vol:hover {
   background: color-mix(in oklab, var(--c-accent) 7%, var(--c-bg-card));
   border-color: color-mix(in oklab, var(--c-accent) 34%, var(--c-rule));
 }
-.studio-series-vol:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
-.studio-series-vol-order {
-  flex: none; width: 1.7rem; height: 1.7rem;
-  display: inline-flex; align-items: center; justify-content: center;
-  border-radius: 50%; background: color-mix(in oklab, var(--c-gold) 22%, transparent);
-  color: var(--c-accent); font-weight: 700; font-size: 0.85rem;
+.studio-series-vol:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
 }
-.studio-series-vol-title { font-weight: 600; flex: 1; min-width: 0; }
-.studio-series-vol-status { color: var(--c-ink-muted); font-size: 0.85rem; white-space: nowrap; }
+.studio-series-vol-order {
+  flex: none;
+  width: 1.7rem;
+  height: 1.7rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--c-gold) 22%, transparent);
+  color: var(--c-accent);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.studio-series-vol-title {
+  font-weight: 600;
+  flex: 1;
+  min-width: 0;
+}
+.studio-series-vol-status {
+  color: var(--c-ink-muted);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
 
 /* ════════════════════════════════════════════════════════════
    Studio picker — lifecycle status filter chips
@@ -829,8 +1082,12 @@
   box-shadow:
     0 1px 2px color-mix(in oklab, var(--c-ink) 8%, transparent),
     0 2px 6px color-mix(in oklab, var(--c-ink) 6%, transparent);
-  transition: border-color 150ms ease, background 150ms ease, color 150ms ease,
-    box-shadow 150ms ease, transform 150ms ease;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease,
+    color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
 }
 
 .studio-filter-chip:hover {
@@ -874,7 +1131,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .studio-filter-chip { transition: none; }
+  .studio-filter-chip {
+    transition: none;
+  }
 }
 
 /* ── Audio Engine v2 — engine + rendered-credit spend (publish step) ─────── */
@@ -912,25 +1171,112 @@
 
 /* ── Book command-palette (replaces the book dropdown) ─────────────────── */
 .studio-bookpick-trigger {
-  display: inline-flex; align-items: center; gap: 0.55rem;
-  font: inherit; padding: 0.4rem 0.85rem; border-radius: 10px;
-  border: 1px solid var(--c-rule); background: var(--c-bg-card); color: var(--c-ink); cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font: inherit;
+  padding: 0.4rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg-card);
+  color: var(--c-ink);
+  cursor: pointer;
   transition: border-color 130ms ease;
 }
-.studio-bookpick-trigger:hover { border-color: var(--c-accent); }
-.studio-bookpick-trigger:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
-.studio-bookpick-eyebrow { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-ink-muted); }
-.studio-bookpick-current { font-weight: 700; }
-.studio-bookpick-kbd { margin-left: 0.3rem; font-size: 0.7rem; padding: 0.1rem 0.35rem; border-radius: 5px; background: color-mix(in oklab, var(--c-ink) 8%, transparent); color: var(--c-ink-muted); }
-[cmdk-overlay] { position: fixed; inset: 0; background: color-mix(in oklab, var(--c-ink) 45%, transparent); z-index: 100; }
-[cmdk-dialog] { position: fixed; top: 16vh; left: 50%; transform: translateX(-50%); width: min(36rem, 92vw); z-index: 101; }
-.book-palette { background: var(--c-bg-elev, var(--c-bg-card)); border: 1px solid var(--c-rule); border-radius: 14px; box-shadow: 0 12px 40px color-mix(in oklab, var(--c-ink) 30%, transparent); overflow: hidden; }
-.book-palette-input { width: 100%; box-sizing: border-box; font: inherit; font-size: 1rem; padding: 0.9rem 1rem; border: none; border-bottom: 1px solid var(--c-rule); background: transparent; color: var(--c-ink); outline: none; }
-.book-palette-list { max-height: 50vh; overflow-y: auto; padding: 0.4rem; }
-.book-palette-empty { padding: 1rem; color: var(--c-ink-muted); font-size: 0.9rem; }
-.book-palette-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 0.7rem; border-radius: 8px; cursor: pointer; color: var(--c-ink); }
-.book-palette-item[data-selected="true"] { background: color-mix(in oklab, var(--c-accent) 12%, transparent); }
-.book-palette-item i { color: var(--c-accent); width: 1.1rem; text-align: center; }
-.book-palette-item-title { flex: 1; min-width: 0; }
-.book-palette-tag { font-size: 0.65rem; text-transform: uppercase; color: var(--c-ink-muted); }
-.book-palette-new { border-top: 1px solid var(--c-rule); margin-top: 0.3rem; }
+.studio-bookpick-trigger:hover {
+  border-color: var(--c-accent);
+}
+.studio-bookpick-trigger:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+.studio-bookpick-eyebrow {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-ink-muted);
+}
+.studio-bookpick-current {
+  font-weight: 700;
+}
+.studio-bookpick-kbd {
+  margin-left: 0.3rem;
+  font-size: 0.7rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 5px;
+  background: color-mix(in oklab, var(--c-ink) 8%, transparent);
+  color: var(--c-ink-muted);
+}
+[cmdk-overlay] {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in oklab, var(--c-ink) 45%, transparent);
+  z-index: 100;
+}
+[cmdk-dialog] {
+  position: fixed;
+  top: 16vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(36rem, 92vw);
+  z-index: 101;
+}
+.book-palette {
+  background: var(--c-bg-elev, var(--c-bg-card));
+  border: 1px solid var(--c-rule);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px color-mix(in oklab, var(--c-ink) 30%, transparent);
+  overflow: hidden;
+}
+.book-palette-input {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 1rem;
+  padding: 0.9rem 1rem;
+  border: none;
+  border-bottom: 1px solid var(--c-rule);
+  background: transparent;
+  color: var(--c-ink);
+  outline: none;
+}
+.book-palette-list {
+  max-height: 50vh;
+  overflow-y: auto;
+  padding: 0.4rem;
+}
+.book-palette-empty {
+  padding: 1rem;
+  color: var(--c-ink-muted);
+  font-size: 0.9rem;
+}
+.book-palette-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--c-ink);
+}
+.book-palette-item[data-selected="true"] {
+  background: color-mix(in oklab, var(--c-accent) 12%, transparent);
+}
+.book-palette-item i {
+  color: var(--c-accent);
+  width: 1.1rem;
+  text-align: center;
+}
+.book-palette-item-title {
+  flex: 1;
+  min-width: 0;
+}
+.book-palette-tag {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+.book-palette-new {
+  border-top: 1px solid var(--c-rule);
+  margin-top: 0.3rem;
+}

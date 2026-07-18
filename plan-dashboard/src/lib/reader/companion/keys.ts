@@ -18,11 +18,11 @@ export const CHAPTER_KEY_RE = /^[a-z0-9][a-z0-9-]{0,119}$/;
 export function safeChapterKey(raw: string): string {
   const k = String(raw)
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
     .slice(0, 120)
-    .replace(/-+$/g, '');
-  return k || 'general';
+    .replace(/-+$/g, "");
+  return k || "general";
 }
 
 /** True when a raw key is already storage-safe (no normalization needed). */

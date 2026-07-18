@@ -11,11 +11,18 @@
  *
  * It is never part of book.md or the PDF — it is a client island the reader mounts.
  */
-import { useCallback, useEffect, useState } from 'react';
-import CompanionCard from './CompanionCard';
-import { KIND_DEFS, DEFAULT_KIND, SOURCE_PROVIDERS } from '../../../lib/reader/companion/registry';
-import { defaultStore, type CompanionStore } from '../../../lib/reader/companion/store.client';
-import type { CompanionNote } from '../../../lib/reader/companion/types';
+import { useCallback, useEffect, useState } from "react";
+import CompanionCard from "./CompanionCard";
+import {
+  KIND_DEFS,
+  DEFAULT_KIND,
+  SOURCE_PROVIDERS,
+} from "../../../lib/reader/companion/registry";
+import {
+  defaultStore,
+  type CompanionStore,
+} from "../../../lib/reader/companion/store.client";
+import type { CompanionNote } from "../../../lib/reader/companion/types";
 
 export interface ChapterRef {
   key: string;
@@ -32,10 +39,10 @@ interface Props {
   proseSelector?: string;
 }
 
-type LayoutMode = 'docked' | 'floating';
+type LayoutMode = "docked" | "floating";
 
-const LAYOUT_KEY = 'pf-companion:layout';
-const PRESENT_KEY = 'pf-companion:present';
+const LAYOUT_KEY = "pf-companion:layout";
+const PRESENT_KEY = "pf-companion:present";
 const chapterKeyFor = (slug: string) => `pf-companion:chapter:${slug}`;
 
 interface Draft {
@@ -51,16 +58,16 @@ interface Draft {
 
 const EMPTY_DRAFT: Draft = {
   kind: DEFAULT_KIND,
-  body: '',
-  anchor: '',
-  quote: '',
-  provider: 'manual',
-  ref: '',
-  locator: '',
+  body: "",
+  anchor: "",
+  quote: "",
+  provider: "manual",
+  ref: "",
+  locator: "",
 };
 
 function readPref(key: string, fallback: string): string {
-  if (typeof window === 'undefined') return fallback;
+  if (typeof window === "undefined") return fallback;
   return window.localStorage.getItem(key) ?? fallback;
 }
 
@@ -70,22 +77,23 @@ export default function CompanionPanel({
   initialChapter,
   layout,
   store,
-  proseSelector = '.bookv-body',
+  proseSelector = ".bookv-body",
 }: Props) {
   const st = store ?? defaultStore;
   const validKeys = new Set(chapters.map((c) => c.key));
-  const remembered = readPref(chapterKeyFor(slug), '');
+  const remembered = readPref(chapterKeyFor(slug), "");
   const [chapter, setChapterState] = useState(
     (remembered && validKeys.has(remembered) && remembered) ||
       initialChapter ||
       chapters[0]?.key ||
-      'general',
+      "general",
   );
 
   const setChapter = useCallback(
     (next: string) => {
       setChapterState(next);
-      if (typeof window !== 'undefined') window.localStorage.setItem(chapterKeyFor(slug), next);
+      if (typeof window !== "undefined")
+        window.localStorage.setItem(chapterKeyFor(slug), next);
     },
     [slug],
   );
@@ -93,9 +101,14 @@ export default function CompanionPanel({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [draft, setDraft] = useState<Draft | null>(null);
-  const [captureHint, setCaptureHint] = useState<{ msg: string; ok: boolean } | null>(null);
-  const [mode, setMode] = useState<LayoutMode>(layout ?? (readPref(LAYOUT_KEY, 'docked') as LayoutMode));
-  const [present, setPresent] = useState(readPref(PRESENT_KEY, '0') === '1');
+  const [captureHint, setCaptureHint] = useState<{
+    msg: string;
+    ok: boolean;
+  } | null>(null);
+  const [mode, setMode] = useState<LayoutMode>(
+    layout ?? (readPref(LAYOUT_KEY, "docked") as LayoutMode),
+  );
+  const [present, setPresent] = useState(readPref(PRESENT_KEY, "0") === "1");
   const [open, setOpen] = useState(true);
 
   const load = useCallback(async () => {
@@ -117,11 +130,13 @@ export default function CompanionPanel({
 
   function persistLayout(next: LayoutMode) {
     setMode(next);
-    if (typeof window !== 'undefined') window.localStorage.setItem(LAYOUT_KEY, next);
+    if (typeof window !== "undefined")
+      window.localStorage.setItem(LAYOUT_KEY, next);
   }
   function persistPresent(next: boolean) {
     setPresent(next);
-    if (typeof window !== 'undefined') window.localStorage.setItem(PRESENT_KEY, next ? '1' : '0');
+    if (typeof window !== "undefined")
+      window.localStorage.setItem(PRESENT_KEY, next ? "1" : "0");
   }
 
   function startNew() {
@@ -134,11 +149,11 @@ export default function CompanionPanel({
       id: note.id,
       kind: note.kind,
       body: note.body,
-      anchor: note.anchor ?? '',
-      quote: note.quote ?? '',
-      provider: note.source?.provider ?? 'manual',
-      ref: note.source?.ref ?? '',
-      locator: note.source?.locator ?? '',
+      anchor: note.anchor ?? "",
+      quote: note.quote ?? "",
+      provider: note.source?.provider ?? "manual",
+      ref: note.source?.ref ?? "",
+      locator: note.source?.locator ?? "",
     });
   }
   function cancelDraft() {
@@ -151,29 +166,42 @@ export default function CompanionPanel({
   // (Enter/Space synthesize a click); a bare onMouseDown preventDefault keeps a
   // mouse press from collapsing the selection before the click reads it.
   function captureSelection() {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
     const sel = window.getSelection();
-    const text = (sel ? sel.toString() : '').replace(/\s+/g, ' ').trim();
+    const text = (sel ? sel.toString() : "").replace(/\s+/g, " ").trim();
     if (!text) {
-      setCaptureHint({ msg: 'Select a sentence in the chapter first, then Capture.', ok: false });
+      setCaptureHint({
+        msg: "Select a sentence in the chapter first, then Capture.",
+        ok: false,
+      });
       return;
     }
     const container = document.querySelector(proseSelector);
     const anchorNode = sel?.anchorNode ?? null;
     if (container && anchorNode && !container.contains(anchorNode)) {
-      setCaptureHint({ msg: 'Select text inside the chapter, not the panel.', ok: false });
+      setCaptureHint({
+        msg: "Select text inside the chapter, not the panel.",
+        ok: false,
+      });
       return;
     }
     setDraft((d) => (d ? { ...d, quote: text } : d));
-    setCaptureHint({ msg: 'Passage captured — it will highlight in the reader.', ok: true });
+    setCaptureHint({
+      msg: "Passage captured — it will highlight in the reader.",
+      ok: true,
+    });
   }
 
   async function saveDraft() {
     if (!draft || !draft.body.trim()) return;
     const source =
-      draft.provider === 'manual' && !draft.ref && !draft.locator
-        ? { provider: 'manual' }
-        : { provider: draft.provider, ref: draft.ref || undefined, locator: draft.locator || undefined };
+      draft.provider === "manual" && !draft.ref && !draft.locator
+        ? { provider: "manual" }
+        : {
+            provider: draft.provider,
+            ref: draft.ref || undefined,
+            locator: draft.locator || undefined,
+          };
     try {
       await st.upsert(slug, chapter, {
         id: draft.id,
@@ -200,12 +228,17 @@ export default function CompanionPanel({
     }
   }
 
-  const rootClass = `cpn cpn--${mode}${present ? ' cpn--present' : ''}${open ? '' : ' cpn--collapsed'}`;
+  const rootClass = `cpn cpn--${mode}${present ? " cpn--present" : ""}${open ? "" : " cpn--collapsed"}`;
 
-  if (mode === 'floating' && !open) {
+  if (mode === "floating" && !open) {
     return (
-      <button type="button" className="cpn-launcher" onClick={() => setOpen(true)}>
-        <i className="fa-solid fa-book-open-reader" aria-hidden="true" /> Companion
+      <button
+        type="button"
+        className="cpn-launcher"
+        onClick={() => setOpen(true)}
+      >
+        <i className="fa-solid fa-book-open-reader" aria-hidden="true" />{" "}
+        Companion
       </button>
     );
   }
@@ -223,24 +256,40 @@ export default function CompanionPanel({
             type="button"
             className="cpn-icon-btn"
             aria-pressed={present}
-            aria-label={present ? 'Exit present mode' : 'Present mode (hide editing)'}
+            aria-label={
+              present ? "Exit present mode" : "Present mode (hide editing)"
+            }
             onClick={() => persistPresent(!present)}
           >
-            <i className={present ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'} aria-hidden="true" />
+            <i
+              className={present ? "fa-solid fa-eye" : "fa-solid fa-eye-slash"}
+              aria-hidden="true"
+            />
           </button>
           <button
             type="button"
             className="cpn-icon-btn"
-            aria-label={mode === 'docked' ? 'Float panel' : 'Dock panel'}
-            onClick={() => persistLayout(mode === 'docked' ? 'floating' : 'docked')}
+            aria-label={mode === "docked" ? "Float panel" : "Dock panel"}
+            onClick={() =>
+              persistLayout(mode === "docked" ? "floating" : "docked")
+            }
           >
             <i
-              className={mode === 'docked' ? 'fa-solid fa-up-right-from-square' : 'fa-solid fa-down-left-and-up-right-to-center'}
+              className={
+                mode === "docked"
+                  ? "fa-solid fa-up-right-from-square"
+                  : "fa-solid fa-down-left-and-up-right-to-center"
+              }
               aria-hidden="true"
             />
           </button>
-          {mode === 'floating' && (
-            <button type="button" className="cpn-icon-btn" aria-label="Close panel" onClick={() => setOpen(false)}>
+          {mode === "floating" && (
+            <button
+              type="button"
+              className="cpn-icon-btn"
+              aria-label="Close panel"
+              onClick={() => setOpen(false)}
+            >
               <i className="fa-solid fa-xmark" aria-hidden="true" />
             </button>
           )}
@@ -267,7 +316,11 @@ export default function CompanionPanel({
         </div>
       )}
 
-      {error && <p className="cpn-error" role="alert">{error}</p>}
+      {error && (
+        <p className="cpn-error" role="alert">
+          {error}
+        </p>
+      )}
 
       <div className="cpn-list">
         {loading && <p className="cpn-empty">Loading…</p>}
@@ -301,7 +354,9 @@ export default function CompanionPanel({
           }}
         >
           <div className="cpn-composer-row">
-            <label className="cpn-field-label" htmlFor="cpn-kind">Kind</label>
+            <label className="cpn-field-label" htmlFor="cpn-kind">
+              Kind
+            </label>
             <select
               id="cpn-kind"
               className="cpn-select"
@@ -309,12 +364,16 @@ export default function CompanionPanel({
               onChange={(e) => setDraft({ ...draft, kind: e.target.value })}
             >
               {KIND_DEFS.map((k) => (
-                <option key={k.id} value={k.id}>{k.label}</option>
+                <option key={k.id} value={k.id}>
+                  {k.label}
+                </option>
               ))}
             </select>
           </div>
 
-          <label className="cpn-field-label" htmlFor="cpn-anchor">Card title</label>
+          <label className="cpn-field-label" htmlFor="cpn-anchor">
+            Card title
+          </label>
           <input
             id="cpn-anchor"
             className="cpn-input"
@@ -323,7 +382,9 @@ export default function CompanionPanel({
             onChange={(e) => setDraft({ ...draft, anchor: e.target.value })}
           />
 
-          <label className="cpn-field-label" htmlFor="cpn-quote">Highlighted passage</label>
+          <label className="cpn-field-label" htmlFor="cpn-quote">
+            Highlighted passage
+          </label>
           <div className="cpn-capture-row">
             <input
               id="cpn-quote"
@@ -339,12 +400,13 @@ export default function CompanionPanel({
               onMouseDown={(e) => e.preventDefault()}
               onClick={captureSelection}
             >
-              <i className="fa-solid fa-highlighter" aria-hidden="true" /> Capture
+              <i className="fa-solid fa-highlighter" aria-hidden="true" />{" "}
+              Capture
             </button>
           </div>
           {captureHint && (
             <p
-              className={`cpn-hint${captureHint.ok ? ' cpn-hint--ok' : ''}`}
+              className={`cpn-hint${captureHint.ok ? " cpn-hint--ok" : ""}`}
               role="status"
               aria-live="polite"
             >
@@ -352,7 +414,9 @@ export default function CompanionPanel({
             </p>
           )}
 
-          <label className="cpn-field-label" htmlFor="cpn-body">Note</label>
+          <label className="cpn-field-label" htmlFor="cpn-body">
+            Note
+          </label>
           <textarea
             id="cpn-body"
             className="cpn-textarea"
@@ -363,7 +427,9 @@ export default function CompanionPanel({
           />
 
           <div className="cpn-composer-row">
-            <label className="cpn-field-label" htmlFor="cpn-provider">Source</label>
+            <label className="cpn-field-label" htmlFor="cpn-provider">
+              Source
+            </label>
             <select
               id="cpn-provider"
               className="cpn-select"
@@ -371,12 +437,14 @@ export default function CompanionPanel({
               onChange={(e) => setDraft({ ...draft, provider: e.target.value })}
             >
               {SOURCE_PROVIDERS.map((p) => (
-                <option key={p.id} value={p.id}>{p.label}</option>
+                <option key={p.id} value={p.id}>
+                  {p.label}
+                </option>
               ))}
             </select>
           </div>
 
-          {draft.provider !== 'manual' && (
+          {draft.provider !== "manual" && (
             <div className="cpn-composer-row cpn-composer-row--split">
               <input
                 className="cpn-input"
@@ -390,14 +458,20 @@ export default function CompanionPanel({
                 value={draft.locator}
                 placeholder="At (e.g. 04:12)"
                 aria-label="Source locator"
-                onChange={(e) => setDraft({ ...draft, locator: e.target.value })}
+                onChange={(e) =>
+                  setDraft({ ...draft, locator: e.target.value })
+                }
               />
             </div>
           )}
 
           <div className="cpn-composer-actions">
-            <button type="submit" className="cpn-btn cpn-btn--primary" disabled={!draft.body.trim()}>
-              {draft.id ? 'Save' : 'Add'}
+            <button
+              type="submit"
+              className="cpn-btn cpn-btn--primary"
+              disabled={!draft.body.trim()}
+            >
+              {draft.id ? "Save" : "Add"}
             </button>
             <button type="button" className="cpn-btn" onClick={cancelDraft}>
               Cancel
@@ -407,7 +481,8 @@ export default function CompanionPanel({
       )}
 
       <p className="cpn-foot">
-        <i className="fa-solid fa-file-circle-xmark" aria-hidden="true" /> Private to you · never in the PDF
+        <i className="fa-solid fa-file-circle-xmark" aria-hidden="true" />{" "}
+        Private to you · never in the PDF
       </p>
     </aside>
   );

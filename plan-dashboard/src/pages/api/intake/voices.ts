@@ -5,9 +5,9 @@
  * (src/lib/voice-library.ts), the same data the Python pipeline casts from.
  * Adding a voice is one YAML entry — no code change here or in the picker.
  */
-import type { APIRoute } from 'astro';
-import { loadVoicePools } from '../../../lib/voice-library';
-import { apiOk, apiServerError } from '../../../lib/api-responses';
+import type { APIRoute } from "astro";
+import { loadVoicePools } from "../../../lib/voice-library";
+import { apiOk, apiServerError } from "../../../lib/api-responses";
 
 export const prerender = false;
 

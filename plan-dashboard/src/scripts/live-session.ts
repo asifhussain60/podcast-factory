@@ -40,8 +40,8 @@ interface Chapter {
 const SIZE_MIN = 16;
 const SIZE_MAX = 30;
 const SIZE_DEFAULT = 20;
-const FONT_DEFAULT = 'serif';
-const PAPER_DEFAULT = 'light';
+const FONT_DEFAULT = "serif";
+const PAPER_DEFAULT = "light";
 const NAV_OFFSET = 52; // height of the sticky top-nav
 
 const store = {
@@ -62,7 +62,7 @@ const store = {
 };
 
 function readData(): { slug: string; sections: LiveSection[] } | null {
-  const el = document.getElementById('lsv-explain-data');
+  const el = document.getElementById("lsv-explain-data");
   if (!el?.textContent) return null;
   try {
     return JSON.parse(el.textContent);
@@ -71,15 +71,16 @@ function readData(): { slug: string; sections: LiveSection[] } | null {
   }
 }
 
-const norm = (s: string) => s.replace(/\s+/g, ' ').trim();
-const clamp = (n: number, lo: number, hi: number) => Math.min(Math.max(lo, n), hi);
+const norm = (s: string) => s.replace(/\s+/g, " ").trim();
+const clamp = (n: number, lo: number, hi: number) =>
+  Math.min(Math.max(lo, n), hi);
 const prefersReducedMotion = () =>
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function boot(): void {
-  const rootEl = document.querySelector<HTMLElement>('.lsv');
-  const vpEl = document.getElementById('lsv-viewport');
-  const pgEl = document.getElementById('lsv-read');
+  const rootEl = document.querySelector<HTMLElement>(".lsv");
+  const vpEl = document.getElementById("lsv-viewport");
+  const pgEl = document.getElementById("lsv-read");
   if (!rootEl || !vpEl || !pgEl) {
     initPicker(); // empty-state / picker-only page still gets the picker
     return;
@@ -90,11 +91,11 @@ function boot(): void {
 
   // The global snapshot footer is dashboard chrome, irrelevant on an immersive
   // reader — hide it (runtime, reversible on navigation) to reclaim reading room.
-  const foot = document.querySelector<HTMLElement>('.foot');
-  if (foot) foot.style.display = 'none';
+  const foot = document.querySelector<HTMLElement>(".foot");
+  if (foot) foot.style.display = "none";
 
-  const titleEl = document.getElementById('lsv-explain-title');
-  const bodyEl = document.getElementById('lsv-explain-body');
+  const titleEl = document.getElementById("lsv-explain-title");
+  const bodyEl = document.getElementById("lsv-explain-body");
   const anyNotes = !!data?.sections.some((s) => s.notes.length > 0);
 
   // ---- split the flat book HTML into per-chapter sheets -------------------
@@ -105,12 +106,14 @@ function boot(): void {
     let cur: HTMLElement | null = null;
     for (const node of kids) {
       const el = node as HTMLElement;
-      const isHeading = node.nodeType === 1 && /^H[12]$/.test(el.tagName) && !!el.id;
+      const isHeading =
+        node.nodeType === 1 && /^H[12]$/.test(el.tagName) && !!el.id;
       if (isHeading) {
-        cur = document.createElement('section');
-        cur.className = 'lsv-chapter';
+        cur = document.createElement("section");
+        cur.className = "lsv-chapter";
         cur.dataset.id = el.id;
-        if (secs.length === 0 && preamble.length) preamble.forEach((n) => cur!.appendChild(n));
+        if (secs.length === 0 && preamble.length)
+          preamble.forEach((n) => cur!.appendChild(n));
         secs.push(cur);
         cur.appendChild(node);
       } else if (cur) {
@@ -119,25 +122,25 @@ function boot(): void {
         preamble.push(node); // content before the first heading (rare)
       }
     }
-    pages.textContent = '';
+    pages.textContent = "";
     if (secs.length === 0) {
-      const only = document.createElement('section');
-      only.className = 'lsv-chapter';
-      only.dataset.id = '__all__';
+      const only = document.createElement("section");
+      only.className = "lsv-chapter";
+      only.dataset.id = "__all__";
       preamble.forEach((n) => only.appendChild(n));
       secs.push(only);
     }
     secs.forEach((s, i) => {
-      const num = document.createElement('span');
-      num.className = 'lsv-page-num';
-      num.setAttribute('aria-hidden', 'true');
+      const num = document.createElement("span");
+      num.className = "lsv-page-num";
+      num.setAttribute("aria-hidden", "true");
       num.textContent = String(i + 1);
       s.appendChild(num);
       pages.appendChild(s);
     });
     return secs.map((s) => ({
-      id: s.dataset.id ?? '',
-      title: s.querySelector('h1, h2, h3')?.textContent?.trim() ?? '',
+      id: s.dataset.id ?? "",
+      title: s.querySelector("h1, h2, h3")?.textContent?.trim() ?? "",
       el: s,
     }));
   }
@@ -161,7 +164,7 @@ function boot(): void {
     const walker = document.createTreeWalker(pages, NodeFilter.SHOW_TEXT);
     let node: Node | null;
     while ((node = walker.nextNode())) {
-      const text = node.textContent ?? '';
+      const text = node.textContent ?? "";
       if (norm(text).toLowerCase().indexOf(low) < 0) continue; // whole quote lives in this node
       const raw = text.toLowerCase().indexOf(probe);
       if (raw < 0) continue;
@@ -173,8 +176,8 @@ function boot(): void {
       } catch {
         return null;
       }
-      const mark = document.createElement('span');
-      mark.className = 'lsv-hl';
+      const mark = document.createElement("span");
+      mark.className = "lsv-hl";
       mark.dataset.note = key;
       try {
         range.surroundContents(mark);
@@ -207,68 +210,68 @@ function boot(): void {
   }
 
   let currentChapter = -1;
-  let currentNoteKey = '__initial__'; // sentinel so the first render always runs
+  let currentNoteKey = "__initial__"; // sentinel so the first render always runs
 
   // Mark the in-view chapter (rail + TOC), independent of which note shows.
   function setActiveChapter(idx: number): void {
     if (idx === currentChapter) return;
     currentChapter = idx;
-    chapters.forEach((c, k) => c.el.classList.toggle('is-active', k === idx));
-    const id = chapters[idx]?.id ?? '';
-    document.querySelectorAll<HTMLElement>('.lsv-toc-link').forEach((el) => {
-      el.classList.toggle('is-active', el.dataset.target === id);
+    chapters.forEach((c, k) => c.el.classList.toggle("is-active", k === idx));
+    const id = chapters[idx]?.id ?? "";
+    document.querySelectorAll<HTMLElement>(".lsv-toc-link").forEach((el) => {
+      el.classList.toggle("is-active", el.dataset.target === id);
     });
   }
 
   // Exactly ONE passage is ever lit — the one whose card is showing.
   function highlightOnly(span: HTMLElement | null): void {
-    pages.querySelectorAll<HTMLElement>('.lsv-hl.is-active').forEach((el) => {
-      if (el !== span) el.classList.remove('is-active');
+    pages.querySelectorAll<HTMLElement>(".lsv-hl.is-active").forEach((el) => {
+      if (el !== span) el.classList.remove("is-active");
     });
-    if (span) span.classList.add('is-active');
+    if (span) span.classList.add("is-active");
   }
 
   // Render the single companion card for the active note (or an empty state).
   function renderCard(entry: NoteEntry | null, chapterTitle: string): void {
     if (!bodyEl || !titleEl) return;
-    titleEl.textContent = chapterTitle || 'Explanations';
-    bodyEl.textContent = '';
+    titleEl.textContent = chapterTitle || "Explanations";
+    bodyEl.textContent = "";
     if (!entry) {
-      const p = document.createElement('p');
-      p.className = 'lsv-explain-empty';
+      const p = document.createElement("p");
+      p.className = "lsv-explain-empty";
       p.textContent = anyNotes
-        ? 'No companion note for this passage yet.'
-        : 'No companion notes have been written for this book yet.';
+        ? "No companion note for this passage yet."
+        : "No companion notes have been written for this book yet.";
       bodyEl.appendChild(p);
       return;
     }
     const note = entry.note;
-    const card = document.createElement('article');
-    card.className = 'lsv-note';
+    const card = document.createElement("article");
+    card.className = "lsv-note";
     card.dataset.note = entry.key;
 
-    const head = document.createElement('div');
-    head.className = 'lsv-note-head';
-    const kind = document.createElement('span');
-    kind.className = 'lsv-note-kind';
-    kind.textContent = note.kind || 'note';
+    const head = document.createElement("div");
+    head.className = "lsv-note-head";
+    const kind = document.createElement("span");
+    kind.className = "lsv-note-kind";
+    kind.textContent = note.kind || "note";
     head.appendChild(kind);
     if (note.source) {
-      const src = document.createElement('span');
-      src.className = 'lsv-note-source';
+      const src = document.createElement("span");
+      src.className = "lsv-note-source";
       src.textContent = note.source;
       head.appendChild(src);
     }
     card.appendChild(head);
 
     if (note.anchor) {
-      const label = document.createElement('p');
-      label.className = 'lsv-note-anchor';
+      const label = document.createElement("p");
+      label.className = "lsv-note-anchor";
       label.textContent = note.anchor;
       card.appendChild(label);
     }
-    const body = document.createElement('p');
-    body.className = 'lsv-note-body';
+    const body = document.createElement("p");
+    body.className = "lsv-note-body";
     body.textContent = note.body;
     card.appendChild(body);
     bodyEl.appendChild(card);
@@ -277,9 +280,9 @@ function boot(): void {
   // Swap the shown card + lit passage only when the active note changes.
   function setActiveNote(entry: NoteEntry | null, chapterTitle: string): void {
     highlightOnly(entry?.span ?? null);
-    const key = entry?.key ?? '';
+    const key = entry?.key ?? "";
     if (key === currentNoteKey) {
-      if (titleEl) titleEl.textContent = chapterTitle || 'Explanations';
+      if (titleEl) titleEl.textContent = chapterTitle || "Explanations";
       return;
     }
     currentNoteKey = key;
@@ -304,7 +307,9 @@ function boot(): void {
     let active: NoteEntry | null = null;
     if (withSpans.length) {
       withSpans.sort(
-        (a, b) => a.span!.getBoundingClientRect().top - b.span!.getBoundingClientRect().top,
+        (a, b) =>
+          a.span!.getBoundingClientRect().top -
+          b.span!.getBoundingClientRect().top,
       );
       active = withSpans[0];
       for (const e of withSpans) {
@@ -320,8 +325,8 @@ function boot(): void {
   function scrollToChapter(i: number): void {
     const idx = clamp(i, 0, chapters.length - 1);
     chapters[idx].el.scrollIntoView({
-      behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-      block: 'start',
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+      block: "start",
     });
   }
 
@@ -329,71 +334,80 @@ function boot(): void {
   function initToolbar(): void {
     const applyFont = (id: string) => {
       root.dataset.font = id;
-      store.set('lsv-reader-font', id);
+      store.set("lsv-reader-font", id);
     };
     const applySize = (px: number) => {
       const val = clamp(px, SIZE_MIN, SIZE_MAX);
-      root.style.setProperty('--lsv-size', `${val}px`);
-      const out = document.getElementById('lsv-size-val');
+      root.style.setProperty("--lsv-size", `${val}px`);
+      const out = document.getElementById("lsv-size-val");
       if (out) out.textContent = String(val);
-      store.set('lsv-reader-size', String(val));
+      store.set("lsv-reader-size", String(val));
       return val;
     };
     const applyPaper = (id: string) => {
       root.dataset.paper = id;
-      store.set('lsv-reader-paper', id);
-      document.querySelectorAll<HTMLElement>('.lsv-paper-btn').forEach((b) => {
-        b.setAttribute('aria-pressed', String(b.dataset.paper === id));
+      store.set("lsv-reader-paper", id);
+      document.querySelectorAll<HTMLElement>(".lsv-paper-btn").forEach((b) => {
+        b.setAttribute("aria-pressed", String(b.dataset.paper === id));
       });
     };
 
-    const font = store.get('lsv-reader-font', FONT_DEFAULT);
+    const font = store.get("lsv-reader-font", FONT_DEFAULT);
     applyFont(font);
-    const fontSel = document.getElementById('lsv-font') as HTMLSelectElement | null;
+    const fontSel = document.getElementById(
+      "lsv-font",
+    ) as HTMLSelectElement | null;
     if (fontSel) {
       fontSel.value = font;
-      fontSel.addEventListener('change', () => applyFont(fontSel.value));
+      fontSel.addEventListener("change", () => applyFont(fontSel.value));
     }
 
-    let size = Number(store.get('lsv-reader-size', String(SIZE_DEFAULT))) || SIZE_DEFAULT;
+    let size =
+      Number(store.get("lsv-reader-size", String(SIZE_DEFAULT))) ||
+      SIZE_DEFAULT;
     size = applySize(size);
-    document.getElementById('lsv-size-down')?.addEventListener('click', () => {
+    document.getElementById("lsv-size-down")?.addEventListener("click", () => {
       size = applySize(size - 1);
       updateActive();
     });
-    document.getElementById('lsv-size-up')?.addEventListener('click', () => {
+    document.getElementById("lsv-size-up")?.addEventListener("click", () => {
       size = applySize(size + 1);
       updateActive();
     });
 
-    applyPaper(store.get('lsv-reader-paper', PAPER_DEFAULT));
-    document.querySelectorAll<HTMLElement>('.lsv-paper-btn').forEach((btn) => {
-      btn.addEventListener('click', () => applyPaper(btn.dataset.paper ?? PAPER_DEFAULT));
+    applyPaper(store.get("lsv-reader-paper", PAPER_DEFAULT));
+    document.querySelectorAll<HTMLElement>(".lsv-paper-btn").forEach((btn) => {
+      btn.addEventListener("click", () =>
+        applyPaper(btn.dataset.paper ?? PAPER_DEFAULT),
+      );
     });
   }
 
   // ---- table of contents --------------------------------------------------
   function initToc(): void {
-    const toc = document.getElementById('lsv-toc');
-    const scrim = document.getElementById('lsv-toc-scrim');
-    const openBtn = document.getElementById('lsv-toc-btn');
-    const closeBtn = document.getElementById('lsv-toc-close');
+    const toc = document.getElementById("lsv-toc");
+    const scrim = document.getElementById("lsv-toc-scrim");
+    const openBtn = document.getElementById("lsv-toc-btn");
+    const closeBtn = document.getElementById("lsv-toc-close");
     if (!toc || !scrim || !openBtn) return;
     const setOpen = (open: boolean) => {
-      toc.classList.toggle('is-open', open);
-      scrim.classList.toggle('is-open', open);
-      openBtn.setAttribute('aria-expanded', String(open));
-      if (open) toc.querySelector<HTMLElement>('.lsv-toc-link')?.focus();
+      toc.classList.toggle("is-open", open);
+      scrim.classList.toggle("is-open", open);
+      openBtn.setAttribute("aria-expanded", String(open));
+      if (open) toc.querySelector<HTMLElement>(".lsv-toc-link")?.focus();
       else openBtn.focus(); // return focus to the trigger on close (mirrors the picker)
     };
-    openBtn.addEventListener('click', () => setOpen(!toc.classList.contains('is-open')));
-    closeBtn?.addEventListener('click', () => setOpen(false));
-    scrim.addEventListener('click', () => setOpen(false));
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && toc.classList.contains('is-open')) setOpen(false);
+    openBtn.addEventListener("click", () =>
+      setOpen(!toc.classList.contains("is-open")),
+    );
+    closeBtn?.addEventListener("click", () => setOpen(false));
+    scrim.addEventListener("click", () => setOpen(false));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && toc.classList.contains("is-open"))
+        setOpen(false);
     });
-    toc.querySelectorAll<HTMLElement>('.lsv-toc-link').forEach((link) => {
-      link.addEventListener('click', () => {
+    toc.querySelectorAll<HTMLElement>(".lsv-toc-link").forEach((link) => {
+      link.addEventListener("click", () => {
         const idx = chapters.findIndex((c) => c.id === link.dataset.target);
         if (idx >= 0) scrollToChapter(idx);
         setOpen(false);
@@ -403,12 +417,12 @@ function boot(): void {
 
   // ---- keyboard: Arrow keys jump chapter-to-chapter ------------------------
   function initKeyboard(): void {
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener("keydown", (e) => {
       if (isTypingTarget(e.target)) return;
-      if (e.key === 'ArrowRight') {
+      if (e.key === "ArrowRight") {
         e.preventDefault();
         scrollToChapter(currentChapter + 1);
-      } else if (e.key === 'ArrowLeft') {
+      } else if (e.key === "ArrowLeft") {
         e.preventDefault();
         scrollToChapter(currentChapter - 1);
       }
@@ -425,43 +439,44 @@ function boot(): void {
   // Update the active chapter directly on scroll. For a handful of chapters the
   // getBoundingClientRect reads are cheap, and a direct call can't latch the way an
   // rAF-throttled one can if a frame is ever dropped (hidden/throttled tab).
-  window.addEventListener('scroll', updateActive, { passive: true });
-  window.addEventListener('resize', updateActive);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => updateActive());
+  window.addEventListener("scroll", updateActive, { passive: true });
+  window.addEventListener("resize", updateActive);
+  if (document.fonts && document.fonts.ready)
+    document.fonts.ready.then(() => updateActive());
 }
 
 // ---- book picker (shared; also used on empty-state) -----------------------
 function initPicker(): void {
-  const picker = document.querySelector<HTMLElement>('.lsv-picker');
-  const trigger = document.getElementById('lsv-picker-trigger');
-  const panel = document.getElementById('lsv-picker-panel');
+  const picker = document.querySelector<HTMLElement>(".lsv-picker");
+  const trigger = document.getElementById("lsv-picker-trigger");
+  const panel = document.getElementById("lsv-picker-panel");
   if (!picker || !trigger || !panel) return;
   const setOpen = (open: boolean) => {
     picker.dataset.open = String(open);
-    trigger.setAttribute('aria-expanded', String(open));
+    trigger.setAttribute("aria-expanded", String(open));
     panel.hidden = !open;
   };
-  trigger.addEventListener('click', (e) => {
+  trigger.addEventListener("click", (e) => {
     e.stopPropagation();
-    setOpen(picker.dataset.open !== 'true');
+    setOpen(picker.dataset.open !== "true");
   });
-  document.addEventListener('click', (e) => {
+  document.addEventListener("click", (e) => {
     if (!picker.contains(e.target as Node)) setOpen(false);
   });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && picker.dataset.open === 'true') {
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && picker.dataset.open === "true") {
       setOpen(false);
       trigger.focus();
     }
   });
-  const chips = panel.querySelectorAll<HTMLElement>('.lsv-filter-chip');
-  const groups = panel.querySelectorAll<HTMLElement>('.lsv-picker-group');
+  const chips = panel.querySelectorAll<HTMLElement>(".lsv-filter-chip");
+  const groups = panel.querySelectorAll<HTMLElement>(".lsv-picker-group");
   chips.forEach((chip) => {
-    chip.addEventListener('click', () => {
-      const bucket = chip.dataset.bucket ?? 'all';
-      chips.forEach((c) => c.classList.toggle('is-active', c === chip));
+    chip.addEventListener("click", () => {
+      const bucket = chip.dataset.bucket ?? "all";
+      chips.forEach((c) => c.classList.toggle("is-active", c === chip));
       groups.forEach((g) => {
-        g.hidden = bucket !== 'all' && g.dataset.bucket !== bucket;
+        g.hidden = bucket !== "all" && g.dataset.bucket !== bucket;
       });
     });
   });
@@ -472,11 +487,16 @@ function isTypingTarget(t: EventTarget | null): boolean {
   const el = t as HTMLElement | null;
   if (!el) return false;
   const tag = el.tagName;
-  return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || el.isContentEditable;
+  return (
+    tag === "INPUT" ||
+    tag === "TEXTAREA" ||
+    tag === "SELECT" ||
+    el.isContentEditable
+  );
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', boot);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", boot);
 } else {
   boot();
 }

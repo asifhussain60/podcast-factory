@@ -10,18 +10,23 @@
  * per-type choice, so the printed book stays visually coherent. The renderer
  * maps the same three families onto book-print.css (body.style-<family>).
  */
-:root { --bs-gold: #c9a55c; --bs-arabic: #5a3a0a; }
+:root {
+  --bs-gold: #c9a55c;
+  --bs-arabic: #5a3a0a;
+}
 
 .bs-lede {
   color: var(--c-ink-muted, #6f6a61);
-  font-size: 1.2rem;          /* REQ-010 reading-text floor (page-level prose) */
+  font-size: 1.2rem; /* REQ-010 reading-text floor (page-level prose) */
   line-height: 1.6;
   max-width: 60ch;
   margin: 0;
 }
 
 /* ── Picker form ─────────────────────────────────────────────────────────── */
-.bs-styleform { margin: var(--sp-5, 20px) 0 0; }
+.bs-styleform {
+  margin: var(--sp-5, 20px) 0 0;
+}
 
 /* Family chips — accessible radios rendered as a segmented control. The radio
    itself is visually hidden but focusable; the label is the visible target. */
@@ -54,12 +59,17 @@
   padding: 0.7rem 0.9rem;
   cursor: pointer;
   background: var(--c-bg-card, #fffdf8);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
-.bs-chip:hover { border-color: var(--c-ink-dim, #9a938a); }
+.bs-chip:hover {
+  border-color: var(--c-ink-dim, #9a938a);
+}
 .bs-radio {
   position: absolute;
-  width: 1px; height: 1px;
+  width: 1px;
+  height: 1px;
   opacity: 0;
   margin: 0;
 }
@@ -88,7 +98,9 @@
   opacity: 0;
   transition: opacity 0.15s ease;
 }
-.bs-chip:has(.bs-radio:checked) .bs-chip-check { opacity: 1; }
+.bs-chip:has(.bs-radio:checked) .bs-chip-check {
+  opacity: 1;
+}
 .bs-chip-tag {
   font-size: 0.8rem;
   color: var(--c-ink-muted, #87827a);
@@ -96,16 +108,20 @@
 
 /* Per-family blurb above the preview — only the selected family's shows. */
 .bs-blurb {
-  font-size: 1.2rem;          /* REQ-010 */
+  font-size: 1.2rem; /* REQ-010 */
   line-height: 1.6;
   color: var(--c-ink-muted, #6f6a61);
   max-width: 62ch;
   margin: 0 0 var(--sp-4, 16px);
   display: none;
 }
-.bs-styleform:has(.bs-radio[value="plain"]:checked)    .bs-blurb[data-fam="plain"],
-.bs-styleform:has(.bs-radio[value="scholarly"]:checked) .bs-blurb[data-fam="scholarly"],
-.bs-styleform:has(.bs-radio[value="elegant"]:checked)  .bs-blurb[data-fam="elegant"] { display: block; }
+.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-blurb[data-fam="plain"],
+.bs-styleform:has(.bs-radio[value="scholarly"]:checked)
+  .bs-blurb[data-fam="scholarly"],
+.bs-styleform:has(.bs-radio[value="elegant"]:checked)
+  .bs-blurb[data-fam="elegant"] {
+  display: block;
+}
 
 /* ── Live preview — one sheet, all passage types ─────────────────────────── */
 .bs-preview {
@@ -132,7 +148,9 @@
 
 /* Shared primitives (base look = the "Scholarly" default). */
 .bs-ar {
-  font-family: 'AmiriQuranSized', 'AmiriSized', 'Amiri Quran', 'Amiri', 'DecoType Naskh', 'Scheherazade New', serif;
+  font-family:
+    "AmiriQuranSized", "AmiriSized", "Amiri Quran", "Amiri", "DecoType Naskh",
+    "Scheherazade New", serif;
   direction: rtl;
   text-align: center;
   font-size: 1.05rem;
@@ -154,7 +172,9 @@
   color: var(--c-ink-muted, #87827a);
   margin: 0.35rem 0 0;
 }
-.bs-attr::before { content: '— '; }
+.bs-attr::before {
+  content: "— ";
+}
 .bs-inline {
   font-size: 1.02rem;
   line-height: 1.75;
@@ -162,7 +182,7 @@
   margin: 0;
 }
 .bs-inline .ar-inline {
-  font-family: 'AmiriSized', 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
+  font-family: "AmiriSized", "Amiri Quran", "Amiri", "DecoType Naskh", serif;
   direction: rtl;
   unicode-bidi: isolate;
   color: var(--bs-arabic);
@@ -185,11 +205,22 @@
   margin: 0;
 }
 /* Poem — centered couplet, no rule. */
-.bs-poem { margin: 0; text-align: center; }
-.bs-poem .bs-ar { text-align: center; }
-.bs-poem .bs-tr { text-align: center; font-style: italic; }
+.bs-poem {
+  margin: 0;
+  text-align: center;
+}
+.bs-poem .bs-ar {
+  text-align: center;
+}
+.bs-poem .bs-tr {
+  text-align: center;
+  font-style: italic;
+}
 /* Saying — an aphorism set in italic with an attribution. */
-.bs-saying { margin: 0; text-align: center; }
+.bs-saying {
+  margin: 0;
+  text-align: center;
+}
 .bs-saying p:first-child {
   font-size: 1.05rem;
   line-height: 1.35;
@@ -209,10 +240,15 @@
   color: var(--c-ink, #2b2823);
   margin: 0;
 }
-.bs-quote p { margin: 0; }
+.bs-quote p {
+  margin: 0;
+}
 
 /* ── Family: Plain — no ornament, black ink, differentiated by set only ──── */
-.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-ar { color: var(--c-ink, #1f1d18); font-size: 1.18rem; }
+.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-ar {
+  color: var(--c-ink, #1f1d18);
+  font-size: 1.18rem;
+}
 .bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-verse,
 .bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-hadith {
   border-left: 0;
@@ -225,7 +261,9 @@
   border-radius: 0;
   color: var(--c-ink-dim, #4a463f);
 }
-.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-saying p:first-child { color: var(--c-ink-dim, #4a463f); }
+.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-saying p:first-child {
+  color: var(--c-ink-dim, #4a463f);
+}
 
 /* ── Family: Elegant — framed panels, gold, centered display ──────────────── */
 .bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-verse {
@@ -240,7 +278,7 @@
   font-size: 1.4rem;
 }
 .bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-verse .bs-ar::after {
-  content: ' \06DD';                 /* ۝ end-of-ayah marker */
+  content: " \06DD"; /* ۝ end-of-ayah marker */
   color: var(--bs-gold);
   font-size: 0.9em;
 }
@@ -252,13 +290,16 @@
   margin-top: 0.5rem;
 }
 .bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-hadith {
-  border: 1px solid color-mix(in oklab, var(--c-accent, #8b4513) 35%, transparent);
+  border: 1px solid
+    color-mix(in oklab, var(--c-accent, #8b4513) 35%, transparent);
   border-radius: 8px;
   background: none;
   padding: 1rem 1.2rem 0.85rem;
   text-align: center;
 }
-.bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-hadith .bs-ar { text-align: center; }
+.bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-hadith .bs-ar {
+  text-align: center;
+}
 .bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-hadith .bs-attr {
   text-align: center;
   font-variant: small-caps;
@@ -273,18 +314,18 @@
   padding: 0.9rem 1.2rem 0.9rem 2.4rem;
 }
 .bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-quote::before {
-  content: '\201C';                  /* “ */
+  content: "\201C"; /* “ */
   position: absolute;
   left: 0.6rem;
   top: 0.1rem;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 2.6rem;
   line-height: 1;
   color: var(--bs-gold);
 }
 .bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-poem .bs-tr::before,
 .bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-poem .bs-tr::after {
-  content: '\2766';                  /* ❦ floral heart */
+  content: "\2766"; /* ❦ floral heart */
   color: var(--bs-gold);
   padding: 0 0.5rem;
   font-size: 0.9em;
@@ -298,11 +339,15 @@
   margin: var(--sp-4, 16px) 0 0;
   min-height: 1.2rem;
 }
-.bs-save.is-saved { color: var(--c-accent, #8b4513); }
-.bs-save.is-error { color: var(--c-red, #b3261e); }
+.bs-save.is-saved {
+  color: var(--c-accent, #8b4513);
+}
+.bs-save.is-error {
+  color: var(--c-red, #b3261e);
+}
 
 .bs-foot {
-  font-size: 1.2rem;          /* REQ-010 reading-text floor (page-level prose) */
+  font-size: 1.2rem; /* REQ-010 reading-text floor (page-level prose) */
   line-height: 1.6;
   color: var(--c-ink-muted, #87827a);
   font-style: italic;
@@ -314,5 +359,7 @@
    (matches the per-stylesheet guard convention used across the site). */
 @media (prefers-reduced-motion: reduce) {
   .bs-chip,
-  .bs-chip-check { transition: none; }
+  .bs-chip-check {
+    transition: none;
+  }
 }

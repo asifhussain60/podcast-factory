@@ -20,7 +20,7 @@
  *     wire into createAutosave.
  */
 
-export type AutosaveState = 'idle' | 'editing' | 'saving' | 'saved' | 'error';
+export type AutosaveState = "idle" | "editing" | "saving" | "saved" | "error";
 
 export interface AutosaveController {
   /** Call whenever the underlying data changed — schedules a debounced save. */
@@ -48,36 +48,45 @@ export function createAutosave(opts: AutosaveOptions): AutosaveController {
   let needsResave = false;
   let dirty = false;
 
-  const savedTime = () => new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  const savedTime = () =>
+    new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
 
   async function doSave(): Promise<boolean> {
-    if (saving) { needsResave = true; return false; } // single-flight
+    if (saving) {
+      needsResave = true;
+      return false;
+    } // single-flight
     saving = true;
-    opts.onStateChange('saving', 'Saving…');
+    opts.onStateChange("saving", "Saving…");
     try {
       const result = await opts.save();
-      if (!result.ok) throw new Error(result.error || 'save failed');
+      if (!result.ok) throw new Error(result.error || "save failed");
       saving = false;
       dirty = false;
-      if (needsResave) { needsResave = false; return doSave(); } // fold in edits made mid-save
-      opts.onStateChange('saved', `Saved ${savedTime()}`);
+      if (needsResave) {
+        needsResave = false;
+        return doSave();
+      } // fold in edits made mid-save
+      opts.onStateChange("saved", `Saved ${savedTime()}`);
       return true;
     } catch (err) {
       saving = false;
-      opts.onStateChange('error', `Couldn't save — ${(err as Error).message}`);
+      opts.onStateChange("error", `Couldn't save — ${(err as Error).message}`);
       return false;
     }
   }
 
   function scheduleSave(): void {
     window.clearTimeout(saveTimer);
-    saveTimer = window.setTimeout(() => { void doSave(); }, debounceMs);
+    saveTimer = window.setTimeout(() => {
+      void doSave();
+    }, debounceMs);
   }
 
   return {
     markDirty() {
       dirty = true;
-      opts.onStateChange('editing', 'Editing…');
+      opts.onStateChange("editing", "Editing…");
       scheduleSave();
     },
     async flush() {
@@ -89,11 +98,11 @@ export function createAutosave(opts: AutosaveOptions): AutosaveController {
 }
 
 const STATE_ICON: Record<AutosaveState, string> = {
-  idle: '',
-  editing: '',
-  saving: 'fa-solid fa-circle-notch cx-autosave-spin',
-  saved: 'fa-solid fa-circle-check',
-  error: 'fa-solid fa-triangle-exclamation',
+  idle: "",
+  editing: "",
+  saving: "fa-solid fa-circle-notch cx-autosave-spin",
+  saved: "fa-solid fa-circle-check",
+  error: "fa-solid fa-triangle-exclamation",
 };
 
 /** Builds the shared autosave status pill inside `container` (appended as the
@@ -104,24 +113,24 @@ export function mountAutosaveStatus(
   container: HTMLElement,
   onRetry?: () => void,
 ): (state: AutosaveState, message: string) => void {
-  const el = document.createElement('p');
-  el.className = 'cx-status cx-autosave';
-  el.setAttribute('role', 'status');
-  el.setAttribute('aria-live', 'polite');
+  const el = document.createElement("p");
+  el.className = "cx-status cx-autosave";
+  el.setAttribute("role", "status");
+  el.setAttribute("aria-live", "polite");
 
-  const icon = document.createElement('i');
-  icon.className = 'cx-autosave-icon';
-  icon.setAttribute('aria-hidden', 'true');
+  const icon = document.createElement("i");
+  icon.className = "cx-autosave-icon";
+  icon.setAttribute("aria-hidden", "true");
 
-  const text = document.createElement('span');
-  text.className = 'cx-autosave-text';
+  const text = document.createElement("span");
+  text.className = "cx-autosave-text";
 
-  const retryBtn = document.createElement('button');
-  retryBtn.type = 'button';
-  retryBtn.className = 'cx-autosave-retry';
-  retryBtn.textContent = 'Retry';
+  const retryBtn = document.createElement("button");
+  retryBtn.type = "button";
+  retryBtn.className = "cx-autosave-retry";
+  retryBtn.textContent = "Retry";
   retryBtn.hidden = true;
-  if (onRetry) retryBtn.addEventListener('click', onRetry);
+  if (onRetry) retryBtn.addEventListener("click", onRetry);
 
   el.append(icon, text, retryBtn);
   container.append(el);
@@ -130,7 +139,7 @@ export function mountAutosaveStatus(
     text.textContent = message;
     icon.className = `cx-autosave-icon ${STATE_ICON[state]}`.trim();
     icon.hidden = !STATE_ICON[state];
-    el.classList.toggle('is-error', state === 'error');
-    retryBtn.hidden = state !== 'error';
+    el.classList.toggle("is-error", state === "error");
+    retryBtn.hidden = state !== "error";
   };
 }

@@ -61,7 +61,9 @@
   font-weight: 600;
   text-decoration: none;
   border: 1px solid var(--c-rule);
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 .about-jumplinks a:hover,
 .about-jumplinks a:focus-visible {
@@ -111,7 +113,9 @@
   padding: 1.25rem 1.25rem 1rem;
   text-decoration: none;
   color: inherit;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
   display: block;
 }
 .about-nav-card:hover,
@@ -312,7 +316,9 @@
   padding: 0 1.25rem;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.25s ease, padding 0.2s ease;
+  transition:
+    max-height 0.25s ease,
+    padding 0.2s ease;
 }
 .about-faq-a.is-open {
   max-height: 600px;

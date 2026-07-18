@@ -45,7 +45,9 @@
   justify-content: center;
 }
 @media (max-width: 800px) {
-  .intake-shell { grid-template-columns: 1fr; }
+  .intake-shell {
+    grid-template-columns: 1fr;
+  }
 }
 .intake-column {
   display: flex;
@@ -107,7 +109,10 @@
 .intake-select.error {
   border-color: var(--c-red, #b91c1c);
 }
-.intake-textarea { resize: vertical; min-height: 72px; }
+.intake-textarea {
+  resize: vertical;
+  min-height: 72px;
+}
 .intake-hint {
   font-size: 0.78rem;
   color: var(--c-ink-muted);
@@ -133,20 +138,35 @@
   border: none;
   transition: opacity 0.12s;
 }
-.intake-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.intake-btn:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
-@media (prefers-reduced-motion: reduce) { .intake-btn { transition: none; } }
+.intake-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.intake-btn:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .intake-btn {
+    transition: none;
+  }
+}
 .intake-btn--primary {
   background: var(--c-accent);
   color: #fff;
 }
-.intake-btn--primary:hover:not(:disabled) { opacity: 0.88; }
+.intake-btn--primary:hover:not(:disabled) {
+  opacity: 0.88;
+}
 .intake-btn--ghost {
   background: transparent;
   color: var(--c-ink-muted);
   border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.18));
 }
-.intake-btn--ghost:hover:not(:disabled) { border-color: var(--c-accent); color: var(--c-accent); }
+.intake-btn--ghost:hover:not(:disabled) {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
 
 /* ── Success banner ──────────────────────────────────────────────── */
 .intake-success {
@@ -207,7 +227,9 @@
   background: var(--c-bg);
   text-align: center;
   cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
 }
 .intake-drop:hover,
 .intake-drop:focus-visible {
@@ -220,7 +242,9 @@
 }
 /* Honour reduced-motion: the drop zone is the only animated intake element (REQ-050). */
 @media (prefers-reduced-motion: reduce) {
-  .intake-drop { transition: none; }
+  .intake-drop {
+    transition: none;
+  }
 }
 .intake-drop-primary {
   margin: 0 0 4px;
@@ -233,7 +257,9 @@
   font-size: 0.85rem;
   color: var(--c-ink-muted);
 }
-.intake-drop-input { display: none; }
+.intake-drop-input {
+  display: none;
+}
 
 .intake-filelist {
   list-style: none;
@@ -276,7 +302,9 @@
   cursor: pointer;
   padding: 6px 4px;
 }
-.intake-file-remove:hover { color: var(--c-red, #b91c1c); }
+.intake-file-remove:hover {
+  color: var(--c-red, #b91c1c);
+}
 /* Keyboard focus visibility for the per-file controls (REQ-048). */
 .intake-file-role:focus-visible,
 .intake-file-remove:focus-visible {
@@ -312,7 +340,10 @@
   align-items: center;
   gap: 8px;
 }
-.intake-smartrow .intake-select { flex: 1 1 auto; min-width: 0; }
+.intake-smartrow .intake-select {
+  flex: 1 1 auto;
+  min-width: 0;
+}
 .intake-smalladd {
   flex: 0 0 auto;
   font-size: 0.85rem;
@@ -323,7 +354,9 @@
   padding: 6px 10px;
   cursor: pointer;
 }
-.intake-smalladd:hover { border-color: var(--c-accent); }
+.intake-smalladd:hover {
+  border-color: var(--c-accent);
+}
 .intake-smalladd:focus-visible {
   outline: 2px solid var(--c-accent);
   outline-offset: 2px;
@@ -333,7 +366,9 @@
   gap: 8px;
   margin-top: 8px;
 }
-.intake-addrow .intake-input { flex: 1 1 auto; }
+.intake-addrow .intake-input {
+  flex: 1 1 auto;
+}
 .intake-rationale {
   margin: 6px 0 0;
   font-size: 0.8rem;
@@ -348,7 +383,9 @@
 }
 
 /* ── Screens 3 & 4 — pre-flight estimate + cockpit ─────────────────────────── */
-.intake-shell--single { grid-template-columns: 1fr; }
+.intake-shell--single {
+  grid-template-columns: 1fr;
+}
 
 .intake-estimate {
   margin: 12px 0 4px;
@@ -378,7 +415,9 @@
   color: var(--c-ink);
 }
 
-.intake-progress { margin: 12px 0 4px; }
+.intake-progress {
+  margin: 12px 0 4px;
+}
 .intake-progress-bar {
   width: 100%;
   height: 10px;
@@ -453,7 +492,9 @@
   border-radius: 10px;
   cursor: pointer;
   text-align: left;
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
 }
 .voice-engine-opt:hover {
   border-color: var(--c-accent);
@@ -479,7 +520,9 @@
   margin-top: 14px;
 }
 @media (max-width: 640px) {
-  .voice-grid { grid-template-columns: 1fr; }
+  .voice-grid {
+    grid-template-columns: 1fr;
+  }
 }
 .voice-col-title {
   margin: 0;
@@ -508,7 +551,9 @@
   background: var(--c-bg);
   border: 2px solid var(--c-rule);
   border-radius: 10px;
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
 }
 .voice-card--selected {
   border-color: var(--c-accent);
@@ -539,8 +584,12 @@
   color: var(--c-bg-card);
   background: var(--c-accent);
 }
-.voice-avatar[data-accent="american"] { background: var(--c-green); }
-.voice-avatar[data-accent="arabic_bilingual"] { background: var(--c-amber); }
+.voice-avatar[data-accent="american"] {
+  background: var(--c-green);
+}
+.voice-avatar[data-accent="arabic_bilingual"] {
+  background: var(--c-amber);
+}
 .voice-meta {
   display: flex;
   flex-direction: column;
@@ -565,10 +614,17 @@
   border: 1px solid var(--c-rule);
   border-radius: 7px;
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
 }
-.voice-sample:hover { border-color: var(--c-accent); }
-.voice-sample--playing { color: var(--c-red); border-color: var(--c-red); }
+.voice-sample:hover {
+  border-color: var(--c-accent);
+}
+.voice-sample--playing {
+  color: var(--c-red);
+  border-color: var(--c-red);
+}
 
 /* Voice-picker accessibility: visible focus ring on every new control (WCAG AA,
    REQ-048) + reduced-motion parity with the rest of this stylesheet. */

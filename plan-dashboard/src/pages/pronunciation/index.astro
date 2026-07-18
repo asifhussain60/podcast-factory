@@ -1,13 +1,18 @@
 ---
-import Base from '../../layouts/Base.astro';
-import { listProbeBooks, loadLibrary } from '../../lib/pronunciation';
-import '../../styles/pronunciation.css';
+import Base from "../../layouts/Base.astro";
+import { listProbeBooks, loadLibrary } from "../../lib/pronunciation";
+import "../../styles/pronunciation.css";
 
 const books = await listProbeBooks();
 const library = await loadLibrary();
-const libConfirmed = [...library.values()].filter((e) => e.status === 'confirmed').length;
-const libUnfixable = [...library.values()].filter((e) => e.status === 'unfixable').length;
+const libConfirmed = [...library.values()].filter(
+  (e) => e.status === "confirmed",
+).length;
+const libUnfixable = [...library.values()].filter(
+  (e) => e.status === "unfixable",
+).length;
 ---
+
 <Base
   title="Pronunciation"
   active="pronunciation"
@@ -17,10 +22,12 @@ const libUnfixable = [...library.values()].filter((e) => e.status === 'unfixable
     <span class="eyebrow">System · Pronunciation utility</span>
     <h1>Fix Arabic pronunciation once — reuse it everywhere.</h1>
     <p class="lede">
-      Each Arabic book emits a short audio <em>probe</em> of its riskiest terms before episodes are
-      generated. Review it here: tick the ones NotebookLM says correctly, correct the rest. Your
-      decisions flow into a <strong>shared library</strong> so the same word — and the same kind of
-      word — is never re-corrected on the next book.
+      Each Arabic book emits a short audio <em>probe</em> of its riskiest terms before
+      episodes are generated. Review it here: tick the ones NotebookLM says correctly,
+      correct the rest. Your decisions flow into a <strong
+        >shared library</strong
+      > so the same word — and the same kind of word — is never re-corrected on the
+      next book.
     </p>
   </header>
 
@@ -43,34 +50,49 @@ const libUnfixable = [...library.values()].filter((e) => e.status === 'unfixable
   </section>
 
   <section class="stack">
-    {books.length === 0 ? (
-      <div class="card card-tight">
-        <p class="card-sub">
-          No probes yet. Generate one with
-          <code>python3 scripts/podcast/probe/build_probe_bundle.py &lt;book-dir&gt;</code>.
-        </p>
-      </div>
-    ) : (
-      <div class="grid-3">
-        {books.map((b) => (
-          <a href={`/pronunciation/${b.slug}`} class="card card-hover stack pron-book-card">
-            <div class="pron-book-head">
-              {b.hasAudio ? (
-                <span class="pron-badge pron-badge-ready">audio ready</span>
-              ) : (
-                <span class="pron-badge pron-badge-noaudio">no audio yet</span>
-              )}
-              {b.needsRespell > 0 && <span class="pron-badge pron-badge-warn">{b.needsRespell} need respelling</span>}
-            </div>
-            <h3 class="card-title">{b.title}</h3>
-            <p class="card-sub pron-slug">{b.slug}</p>
-            <div class="pron-book-stats">
-              <span class="pron-chip">{b.termCount} terms</span>
-              <span class="pron-chip">{b.alreadyKnown} already known</span>
-            </div>
-          </a>
-        ))}
-      </div>
-    )}
+    {
+      books.length === 0 ? (
+        <div class="card card-tight">
+          <p class="card-sub">
+            No probes yet. Generate one with
+            <code>
+              python3 scripts/podcast/probe/build_probe_bundle.py
+              &lt;book-dir&gt;
+            </code>
+            .
+          </p>
+        </div>
+      ) : (
+        <div class="grid-3">
+          {books.map((b) => (
+            <a
+              href={`/pronunciation/${b.slug}`}
+              class="card card-hover stack pron-book-card"
+            >
+              <div class="pron-book-head">
+                {b.hasAudio ? (
+                  <span class="pron-badge pron-badge-ready">audio ready</span>
+                ) : (
+                  <span class="pron-badge pron-badge-noaudio">
+                    no audio yet
+                  </span>
+                )}
+                {b.needsRespell > 0 && (
+                  <span class="pron-badge pron-badge-warn">
+                    {b.needsRespell} need respelling
+                  </span>
+                )}
+              </div>
+              <h3 class="card-title">{b.title}</h3>
+              <p class="card-sub pron-slug">{b.slug}</p>
+              <div class="pron-book-stats">
+                <span class="pron-chip">{b.termCount} terms</span>
+                <span class="pron-chip">{b.alreadyKnown} already known</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      )
+    }
   </section>
 </Base>

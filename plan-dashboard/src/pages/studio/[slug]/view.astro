@@ -7,44 +7,50 @@
  * instead of the raw monospace file-serving endpoint. Path is realpath-guarded to
  * the book's own folder (no traversal). Binary/audio still stream via /api/library/file.
  */
-import Base from '../../../layouts/Base.astro';
-import { findContent } from '../../../lib/content-paths';
-import { renderSourceMarkdown } from '../../../lib/reader/source-render';
-import { readFile, realpath, stat } from 'node:fs/promises';
-import { resolve, normalize, extname, basename } from 'node:path';
-import '../../../styles/library.css';
+import Base from "../../../layouts/Base.astro";
+import { findContent } from "../../../lib/content-paths";
+import { renderSourceMarkdown } from "../../../lib/reader/source-render";
+import { readFile, realpath, stat } from "node:fs/promises";
+import { resolve, normalize, extname, basename } from "node:path";
+import "../../../styles/library.css";
 
 const slug = Astro.params.slug!;
-const relPath = Astro.url.searchParams.get('path') ?? '';
+const relPath = Astro.url.searchParams.get("path") ?? "";
 const ref = await findContent(slug);
-if (!ref) return Astro.redirect('/studio');
+if (!ref) return Astro.redirect("/studio");
 if (!relPath) return Astro.redirect(`/studio/${slug}`);
 
-let err = '';
-let raw = '';
-let target = '';
+let err = "";
+let raw = "";
+let target = "";
 try {
   target = await realpath(resolve(ref.dir, normalize(relPath)));
   const dir = await realpath(resolve(ref.dir));
-  if (!target.startsWith(dir + '/') && target !== dir) {
-    err = 'That path is outside the book folder.';
+  if (!target.startsWith(dir + "/") && target !== dir) {
+    err = "That path is outside the book folder.";
   } else {
     const s = await stat(target);
-    if (!s.isFile()) err = 'That is not a file.';
-    else if (s.size > 5 * 1024 * 1024) err = 'This file is too large to render inline.';
-    else raw = await readFile(target, 'utf-8');
+    if (!s.isFile()) err = "That is not a file.";
+    else if (s.size > 5 * 1024 * 1024)
+      err = "This file is too large to render inline.";
+    else raw = await readFile(target, "utf-8");
   }
 } catch {
-  err = 'File not found.';
+  err = "File not found.";
 }
 
-const ext = extname(target).toLowerCase().replace(/^\./, '');
-const useMarkdown = ext === 'md' || ext === 'txt';
-const rendered = !err && useMarkdown ? renderSourceMarkdown(raw) : '';
-const fileName = relPath ? basename(relPath) : '';
+const ext = extname(target).toLowerCase().replace(/^\./, "");
+const useMarkdown = ext === "md" || ext === "txt";
+const rendered = !err && useMarkdown ? renderSourceMarkdown(raw) : "";
+const fileName = relPath ? basename(relPath) : "";
 const words = raw ? raw.trim().split(/\s+/).length : 0;
 ---
-<Base title={fileName} active="studio" description={`Studio · ${slug} · ${fileName}`}>
+
+<Base
+  title={fileName}
+  active="studio"
+  description={`Studio · ${slug} · ${fileName}`}
+>
   <article class="src-view">
     <nav class="src-view-breadcrumb" aria-label="Breadcrumb">
       <a href="/studio">Studio</a>
@@ -53,13 +59,24 @@ const words = raw ? raw.trim().split(/\s+/).length : 0;
       <span class="lib-sep">›</span>
       <span>{fileName}</span>
     </nav>
-    {!err && words > 0 && <p class="src-view-meta">{words.toLocaleString()} words</p>}
-    {err ? (
-      <div class="lib-empty-panel"><i class="fa-regular fa-file" aria-hidden="true"></i><p>{err}</p></div>
-    ) : useMarkdown ? (
-      <div class="src-view-prose" set:html={rendered}></div>
-    ) : (
-      <pre class="src-view-pre">{raw}</pre>
-    )}
+    {
+      !err && words > 0 && (
+        <p class="src-view-meta">{words.toLocaleString()} words</p>
+      )
+    }
+    {
+      err ? (
+        <div class="lib-empty-panel">
+          <>
+            <i class="fa-regular fa-file" aria-hidden="true" />
+            <p>{err}</p>
+          </>
+        </div>
+      ) : useMarkdown ? (
+        <div class="src-view-prose" set:html={rendered} />
+      ) : (
+        <pre class="src-view-pre">{raw}</pre>
+      )
+    }
   </article>
 </Base>

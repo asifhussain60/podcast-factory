@@ -20,8 +20,8 @@
  * color so the reader sees what the AI did.
  */
 
-import type { APIRoute } from 'astro';
-import { generate, rateLimitCheck } from '../../../lib/reader/gemini-server';
+import type { APIRoute } from "astro";
+import { generate, rateLimitCheck } from "../../../lib/reader/gemini-server";
 
 export const prerender = false;
 
@@ -51,28 +51,45 @@ Rules:
 
 export const POST: APIRoute = async ({ request }) => {
   const limit = rateLimitCheck();
-  if (!limit.ok) return new Response(JSON.stringify({ error: 'rate_limited' }), { status: 429 });
+  if (!limit.ok)
+    return new Response(JSON.stringify({ error: "rate_limited" }), {
+      status: 429,
+    });
   try {
-    const { instruction, blocks, bookContext, chapterTitle } = await request.json();
+    const { instruction, blocks, bookContext, chapterTitle } =
+      await request.json();
     if (!instruction || !Array.isArray(blocks) || blocks.length === 0) {
-      return new Response(JSON.stringify({ error: 'missing instruction or blocks' }), { status: 400 });
+      return new Response(
+        JSON.stringify({ error: "missing instruction or blocks" }),
+        { status: 400 },
+      );
     }
 
-    const blockList = blocks.map((b: any) => `[${b.id}] (${b.tag}) ${String(b.text).replace(/\s+/g, ' ').slice(0, 800)}`).join('\n');
-    const truncated = blockList.length > 80_000 ? blockList.slice(0, 80_000) + '\n[...truncated]' : blockList;
+    const blockList = blocks
+      .map(
+        (b: any) =>
+          `[${b.id}] (${b.tag}) ${String(b.text).replace(/\s+/g, " ").slice(0, 800)}`,
+      )
+      .join("\n");
+    const truncated =
+      blockList.length > 80_000
+        ? blockList.slice(0, 80_000) + "\n[...truncated]"
+        : blockList;
     const user = [
-      bookContext ? `Book: ${bookContext}` : '',
-      chapterTitle ? `Chapter: ${chapterTitle}` : '',
-      'BLOCKS (one per line, format: [id] (tag) text):',
+      bookContext ? `Book: ${bookContext}` : "",
+      chapterTitle ? `Chapter: ${chapterTitle}` : "",
+      "BLOCKS (one per line, format: [id] (tag) text):",
       truncated,
-      '',
+      "",
       `INSTRUCTION: ${instruction}`,
-    ].filter(Boolean).join('\n');
+    ]
+      .filter(Boolean)
+      .join("\n");
 
     const raw = await generate({
-      model: 'pro',
+      model: "pro",
       systemInstruction: SYSTEM,
-      contents: [{ role: 'user', parts: [{ text: user }] }],
+      contents: [{ role: "user", parts: [{ text: user }] }],
       temperature: 0.3,
       maxOutputTokens: 4000,
       jsonMode: true,
@@ -82,15 +99,20 @@ export const POST: APIRoute = async ({ request }) => {
     try {
       parsed = JSON.parse(raw);
     } catch {
-      parsed = { edits: [], note: 'Model returned unparseable response.' };
+      parsed = { edits: [], note: "Model returned unparseable response." };
     }
     if (!Array.isArray(parsed.edits)) parsed.edits = [];
 
     return new Response(JSON.stringify(parsed), {
       status: 200,
-      headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },
+      headers: {
+        "content-type": "application/json",
+        "cache-control": "no-store",
+      },
     });
   } catch (e) {
-    return new Response(JSON.stringify({ error: (e as Error).message }), { status: 500 });
+    return new Response(JSON.stringify({ error: (e as Error).message }), {
+      status: 500,
+    });
   }
 };

@@ -27,17 +27,53 @@
 /* --lsv-mark is the yellow highlighter for the passage the companion is explaining;
    light derives from the shared --reader-mark token (book-reader.css); sepia/dark are
    tuned per paper so the ink stays readable through it (reader-surface only). */
-.lsv[data-paper='light'] { --paper-bg: #fefdfb; --paper-ink: #1f1d18; --paper-ink-dim: #5c574d; --paper-rule: #d9d3c4; --paper-accent: var(--c-accent); --lsv-mark: color-mix(in srgb, var(--reader-mark) 60%, transparent); --lsv-mark-edge: color-mix(in srgb, var(--reader-mark-edge) 85%, transparent); }
-.lsv[data-paper='sepia'] { --paper-bg: #f4ecd8; --paper-ink: #5b4636; --paper-ink-dim: #7a6650; --paper-rule: #ddd0b4; --paper-accent: #7a4a1e; --lsv-mark: rgba(226, 176, 58, 0.55); --lsv-mark-edge: rgba(160, 110, 30, 0.8); }
-.lsv[data-paper='dark']  { --paper-bg: #201e1b; --paper-ink: #d8d2c6; --paper-ink-dim: #a49d90; --paper-rule: #3d3a32; --paper-accent: #d8a25a; --lsv-mark: rgba(240, 205, 90, 0.3); --lsv-mark-edge: rgba(240, 205, 90, 0.7); }
+.lsv[data-paper="light"] {
+  --paper-bg: #fefdfb;
+  --paper-ink: #1f1d18;
+  --paper-ink-dim: #5c574d;
+  --paper-rule: #d9d3c4;
+  --paper-accent: var(--c-accent);
+  --lsv-mark: color-mix(in srgb, var(--reader-mark) 60%, transparent);
+  --lsv-mark-edge: color-mix(in srgb, var(--reader-mark-edge) 85%, transparent);
+}
+.lsv[data-paper="sepia"] {
+  --paper-bg: #f4ecd8;
+  --paper-ink: #5b4636;
+  --paper-ink-dim: #7a6650;
+  --paper-rule: #ddd0b4;
+  --paper-accent: #7a4a1e;
+  --lsv-mark: rgba(226, 176, 58, 0.55);
+  --lsv-mark-edge: rgba(160, 110, 30, 0.8);
+}
+.lsv[data-paper="dark"] {
+  --paper-bg: #201e1b;
+  --paper-ink: #d8d2c6;
+  --paper-ink-dim: #a49d90;
+  --paper-rule: #3d3a32;
+  --paper-accent: #d8a25a;
+  --lsv-mark: rgba(240, 205, 90, 0.3);
+  --lsv-mark-edge: rgba(240, 205, 90, 0.7);
+}
 
 /* ── reading fonts (mirror the composer's set) ───────────────────────────── */
-.lsv[data-font='serif']    .lsv-read { --lsv-font: 'Source Serif 4', 'Iowan Old Style', Charter, Georgia, serif; }
-.lsv[data-font='sans']     .lsv-read { --lsv-font: var(--font-body, system-ui, sans-serif); }
-.lsv[data-font='lato']     .lsv-read { --lsv-font: 'Lato', system-ui, sans-serif; }
-.lsv[data-font='inter']    .lsv-read { --lsv-font: 'Inter', system-ui, sans-serif; }
-.lsv[data-font='mono']     .lsv-read { --lsv-font: var(--font-mono, ui-monospace, monospace); }
-.lsv[data-font='dyslexic'] .lsv-read { --lsv-font: 'OpenDyslexic', 'Comic Sans MS', sans-serif; }
+.lsv[data-font="serif"] .lsv-read {
+  --lsv-font: "Source Serif 4", "Iowan Old Style", Charter, Georgia, serif;
+}
+.lsv[data-font="sans"] .lsv-read {
+  --lsv-font: var(--font-body, system-ui, sans-serif);
+}
+.lsv[data-font="lato"] .lsv-read {
+  --lsv-font: "Lato", system-ui, sans-serif;
+}
+.lsv[data-font="inter"] .lsv-read {
+  --lsv-font: "Inter", system-ui, sans-serif;
+}
+.lsv[data-font="mono"] .lsv-read {
+  --lsv-font: var(--font-mono, ui-monospace, monospace);
+}
+.lsv[data-font="dyslexic"] .lsv-read {
+  --lsv-font: "OpenDyslexic", "Comic Sans MS", sans-serif;
+}
 
 /* ── top bar ─────────────────────────────────────────────────────────────── */
 .lsv-topbar {
@@ -82,10 +118,19 @@
   font-size: var(--fs-sm);
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
 }
-.lsv-icon-btn:hover { border-color: var(--c-accent); color: var(--c-accent); }
-.lsv-icon-btn:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.lsv-icon-btn:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+.lsv-icon-btn:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
 
 /* ── reading toolbar ─────────────────────────────────────────────────────── */
 .lsv-toolbar {
@@ -114,7 +159,10 @@
   font-weight: 600;
   cursor: pointer;
 }
-.lsv-font-select:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.lsv-font-select:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
 
 .lsv-size {
   display: inline-flex;
@@ -135,10 +183,19 @@
   color: var(--c-ink-dim);
   font-size: var(--fs-2xs);
   cursor: pointer;
-  transition: background 0.12s, color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s;
 }
-.lsv-size-btn:hover { background: var(--c-accent); color: var(--c-bg-card); border-color: var(--c-accent); }
-.lsv-size-btn:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 1px; }
+.lsv-size-btn:hover {
+  background: var(--c-accent);
+  color: var(--c-bg-card);
+  border-color: var(--c-accent);
+}
+.lsv-size-btn:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 1px;
+}
 .lsv-size-val {
   min-width: 1.6rem;
   text-align: center;
@@ -165,15 +222,26 @@
   color: var(--c-ink-dim);
   font-size: var(--fs-sm);
   cursor: pointer;
-  transition: transform 0.12s, border-color 0.12s, color 0.12s, background 0.12s;
+  transition:
+    transform 0.12s,
+    border-color 0.12s,
+    color 0.12s,
+    background 0.12s;
 }
-.lsv-paper-btn:hover { border-color: var(--c-accent); color: var(--c-accent); transform: translateY(-1px); }
-.lsv-paper-btn[aria-pressed='true'] {
+.lsv-paper-btn:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+  transform: translateY(-1px);
+}
+.lsv-paper-btn[aria-pressed="true"] {
   border-color: var(--c-accent);
   color: var(--c-bg-card);
   background: var(--c-accent);
 }
-.lsv-paper-btn:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.lsv-paper-btn:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
 
 /* ── reading controls bar (font/size/paper, centered above the page) ─────── */
 .lsv-controls {
@@ -190,13 +258,19 @@
 .lsv-reader {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 25rem;
-  gap: var(--sp-4); /* small gap: sheets fill their column, companion sits close */
+  gap: var(
+    --sp-4
+  ); /* small gap: sheets fill their column, companion sits close */
   align-items: start; /* let the companion stick independently of the page height */
 }
 
 /* ── book pane: a plain wrapper — the sheets themselves are the cards ─────── */
-.lsv-bookpane { min-width: 0; }
-.lsv-viewport { min-width: 0; }
+.lsv-bookpane {
+  min-width: 0;
+}
+.lsv-viewport {
+  min-width: 0;
+}
 
 /* ── the chapter flow: every chapter is its own stacked, numbered sheet ──── */
 /* Sheets FILL the reading column (no auto-centering) so the page margins stay
@@ -205,7 +279,7 @@
   max-width: 100%;
   margin-inline: 0;
   padding: 0;
-  font-family: var(--lsv-font, 'Source Serif 4', Georgia, serif);
+  font-family: var(--lsv-font, "Source Serif 4", Georgia, serif);
   font-size: var(--lsv-size, 20px);
   line-height: 1.55;
   color: var(--paper-ink, var(--c-ink));
@@ -223,18 +297,29 @@
   box-shadow: var(--shadow-card);
   /* clear the sticky top-nav (52px) when a chapter is scrolled to via the TOC/keys */
   scroll-margin-top: calc(52px + var(--sp-4));
-  transition: box-shadow 0.25s, border-color 0.25s, background 0.25s, color 0.25s;
+  transition:
+    box-shadow 0.25s,
+    border-color 0.25s,
+    background 0.25s,
+    color 0.25s;
 }
-.lsv-chapter:last-child { margin-bottom: 0; }
+.lsv-chapter:last-child {
+  margin-bottom: 0;
+}
 
 /* the active chapter — the one whose notes the companion is showing — is marked
    with a bold accent rail down its left edge, always visible while that chapter is
    in view, so the link between panel and page reads at a glance */
 .lsv-chapter.is-active {
-  border-color: color-mix(in oklab, var(--paper-accent, var(--c-accent)) 45%, var(--paper-rule, var(--c-rule)));
+  border-color: color-mix(
+    in oklab,
+    var(--paper-accent, var(--c-accent)) 45%,
+    var(--paper-rule, var(--c-rule))
+  );
   box-shadow:
     inset 5px 0 0 0 var(--paper-accent, var(--c-accent)),
-    0 0 0 1px color-mix(in oklab, var(--paper-accent, var(--c-accent)) 35%, transparent),
+    0 0 0 1px
+      color-mix(in oklab, var(--paper-accent, var(--c-accent)) 35%, transparent),
     var(--shadow-hover);
 }
 
@@ -251,9 +336,17 @@
   font-variant-numeric: tabular-nums;
 }
 
-.lsv-read :is(p, li) { color: var(--paper-ink, var(--c-ink)); }
-.lsv-read p { margin: 0 0 0.72rem; text-align: justify; hyphens: auto; }
-.lsv-read li { text-align: justify; }
+.lsv-read :is(p, li) {
+  color: var(--paper-ink, var(--c-ink));
+}
+.lsv-read p {
+  margin: 0 0 0.72rem;
+  text-align: justify;
+  hyphens: auto;
+}
+.lsv-read li {
+  text-align: justify;
+}
 
 /* headings: left-aligned, accent colour, prominent (studio ask) */
 .lsv-read :is(h1, h2, h3) {
@@ -267,21 +360,36 @@
      narrow mobile column must break rather than clip against .lsv-viewport overflow. */
   overflow-wrap: break-word;
 }
-.lsv-read h2 { font-size: 1.5em; margin: 0 0 0.8rem; }
-.lsv-read h3 { font-size: 1.2em; margin: 1.1rem 0 0.6rem; }
+.lsv-read h2 {
+  font-size: 1.5em;
+  margin: 0 0 0.8rem;
+}
+.lsv-read h3 {
+  font-size: 1.2em;
+  margin: 1.1rem 0 0.6rem;
+}
 
 /* citation blockquotes keep their reader styling but take paper colours */
-.lsv-read blockquote { border-left-color: var(--paper-rule, var(--c-rule)); }
-.lsv-read blockquote p { text-align: center; }
+.lsv-read blockquote {
+  border-left-color: var(--paper-rule, var(--c-rule));
+}
+.lsv-read blockquote p {
+  text-align: center;
+}
 .lsv-read blockquote.quran p.ar,
 .lsv-read .ar {
   color: var(--paper-ink, var(--c-ink));
-  font-size: calc(var(--lsv-size, 20px) * 1.4); /* Arabic scaled to match Latin visually */
+  font-size: calc(
+    var(--lsv-size, 20px) * 1.4
+  ); /* Arabic scaled to match Latin visually */
   line-height: 1.9;
   text-align: center;
 }
 .lsv-read blockquote p.tr,
-.lsv-read .tr { color: var(--paper-ink-dim, var(--c-ink-dim)); text-align: center; }
+.lsv-read .tr {
+  color: var(--paper-ink-dim, var(--c-ink-dim));
+  text-align: center;
+}
 
 /* ── passage highlight ───────────────────────────────────────────────────── */
 /* Every note's verbatim passage is wrapped, but only the ACTIVE one (the note the
@@ -292,7 +400,9 @@
   padding: 0 0.05em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
-  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 .lsv-hl.is-active {
   background-color: var(--lsv-mark, rgba(255, 213, 41, 0.6));
@@ -355,12 +465,26 @@
   border-radius: var(--r-md);
   animation: lsv-note-in 0.28s ease both;
 }
-.lsv-note.has-anchor { cursor: pointer; }
-.lsv-note.has-anchor:hover { border-color: var(--c-accent); box-shadow: var(--shadow-card); }
-.lsv-note.has-anchor:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.lsv-note.has-anchor {
+  cursor: pointer;
+}
+.lsv-note.has-anchor:hover {
+  border-color: var(--c-accent);
+  box-shadow: var(--shadow-card);
+}
+.lsv-note.has-anchor:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
 @keyframes lsv-note-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 .lsv-note-head {
   display: flex;
@@ -377,7 +501,11 @@
   text-transform: uppercase;
   color: var(--c-accent);
 }
-.lsv-note-source { font-family: var(--font-ui); font-size: var(--fs-2xs); color: var(--c-ink-muted); }
+.lsv-note-source {
+  font-family: var(--font-ui);
+  font-size: var(--fs-2xs);
+  color: var(--c-ink-muted);
+}
 .lsv-note-anchor {
   margin: 0 0 var(--sp-2);
   padding-left: var(--sp-3);
@@ -386,7 +514,12 @@
   font-style: italic;
   font-size: var(--fs-base);
 }
-.lsv-note-body { margin: 0; color: var(--c-ink); font-size: var(--fs-base); line-height: var(--lh-base); }
+.lsv-note-body {
+  margin: 0;
+  color: var(--c-ink);
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+}
 
 /* ── table of contents drawer ────────────────────────────────────────────── */
 .lsv-toc-scrim {
@@ -398,7 +531,10 @@
   pointer-events: none;
   transition: opacity 0.25s;
 }
-.lsv-toc-scrim.is-open { opacity: 1; pointer-events: auto; }
+.lsv-toc-scrim.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
 
 .lsv-toc {
   position: fixed;
@@ -414,9 +550,14 @@
   box-shadow: var(--shadow-hover);
   transform: translateX(-100%);
   visibility: hidden;
-  transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), visibility 0.3s;
+  transition:
+    transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
+    visibility 0.3s;
 }
-.lsv-toc.is-open { transform: none; visibility: visible; }
+.lsv-toc.is-open {
+  transform: none;
+  visibility: visible;
+}
 .lsv-toc-head {
   display: flex;
   align-items: center;
@@ -454,14 +595,28 @@
   font-size: var(--fs-sm);
   line-height: 1.4;
   cursor: pointer;
-  transition: background 0.12s, color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s;
 }
-.lsv-toc-link:hover { background: var(--c-bg-sunken); color: var(--c-accent); }
-.lsv-toc-link.is-active { background: color-mix(in oklab, var(--c-accent) 12%, var(--c-bg-card)); color: var(--c-accent); font-weight: 600; }
-.lsv-toc-link:focus-visible { outline: 2px solid var(--c-accent); outline-offset: -2px; }
+.lsv-toc-link:hover {
+  background: var(--c-bg-sunken);
+  color: var(--c-accent);
+}
+.lsv-toc-link.is-active {
+  background: color-mix(in oklab, var(--c-accent) 12%, var(--c-bg-card));
+  color: var(--c-accent);
+  font-weight: 600;
+}
+.lsv-toc-link:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: -2px;
+}
 
 /* ── book picker (in the toolbar) ────────────────────────────────────────── */
-.lsv-picker { position: relative; }
+.lsv-picker {
+  position: relative;
+}
 .lsv-picker-trigger {
   display: inline-flex;
   align-items: center;
@@ -478,11 +633,25 @@
   cursor: pointer;
   transition: background 0.15s;
 }
-.lsv-picker-trigger:hover { background: color-mix(in oklab, var(--c-accent) 16%, var(--c-bg-card)); }
-.lsv-picker-trigger:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
-.lsv-picker-current { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.lsv-picker-caret { font-size: var(--fs-2xs); transition: transform 0.15s; }
-.lsv-picker[data-open='true'] .lsv-picker-caret { transform: rotate(180deg); }
+.lsv-picker-trigger:hover {
+  background: color-mix(in oklab, var(--c-accent) 16%, var(--c-bg-card));
+}
+.lsv-picker-trigger:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+.lsv-picker-current {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lsv-picker-caret {
+  font-size: var(--fs-2xs);
+  transition: transform 0.15s;
+}
+.lsv-picker[data-open="true"] .lsv-picker-caret {
+  transform: rotate(180deg);
+}
 
 .lsv-picker-panel {
   position: absolute;
@@ -519,13 +688,31 @@
   font-size: var(--fs-2xs);
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
 }
-.lsv-filter-chip:hover { border-color: var(--c-accent); color: var(--c-ink); }
-.lsv-filter-chip.is-active { background: var(--c-accent); border-color: var(--c-accent); color: var(--c-bg-card); }
-.lsv-filter-chip:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
-.lsv-picker-list { padding: var(--sp-2) var(--sp-3) var(--sp-3); overflow-y: auto; }
-.lsv-picker-group + .lsv-picker-group { margin-top: var(--sp-3); }
+.lsv-filter-chip:hover {
+  border-color: var(--c-accent);
+  color: var(--c-ink);
+}
+.lsv-filter-chip.is-active {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: var(--c-bg-card);
+}
+.lsv-filter-chip:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+.lsv-picker-list {
+  padding: var(--sp-2) var(--sp-3) var(--sp-3);
+  overflow-y: auto;
+}
+.lsv-picker-group + .lsv-picker-group {
+  margin-top: var(--sp-3);
+}
 .lsv-picker-bucket {
   margin: var(--sp-2) 0 var(--sp-1);
   font-family: var(--font-ui);
@@ -535,7 +722,11 @@
   text-transform: uppercase;
   color: var(--c-ink-muted);
 }
-.lsv-picker-books { margin: 0; padding: 0; list-style: none; }
+.lsv-picker-books {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 .lsv-work-title {
   margin: var(--sp-2) 0 var(--sp-1);
   font-family: var(--font-display);
@@ -543,7 +734,12 @@
   font-weight: 600;
   color: var(--c-ink-dim);
 }
-.lsv-vols { margin: 0 0 0 var(--sp-3); padding: 0 0 0 var(--sp-3); list-style: none; border-left: 1px solid var(--c-rule-soft); }
+.lsv-vols {
+  margin: 0 0 0 var(--sp-3);
+  padding: 0 0 0 var(--sp-3);
+  list-style: none;
+  border-left: 1px solid var(--c-rule-soft);
+}
 .lsv-book-link {
   display: block;
   padding: var(--sp-2);
@@ -553,9 +749,18 @@
   text-decoration: none;
   transition: background 0.12s;
 }
-.lsv-book-link:hover { background: var(--c-bg-sunken); }
-.lsv-book-link.is-current { background: color-mix(in oklab, var(--c-accent) 12%, var(--c-bg-card)); color: var(--c-accent); font-weight: 600; }
-.lsv-book-link:focus-visible { outline: 2px solid var(--c-accent); outline-offset: -2px; }
+.lsv-book-link:hover {
+  background: var(--c-bg-sunken);
+}
+.lsv-book-link.is-current {
+  background: color-mix(in oklab, var(--c-accent) 12%, var(--c-bg-card));
+  color: var(--c-accent);
+  font-weight: 600;
+}
+.lsv-book-link:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: -2px;
+}
 
 /* ── sr-only + empty state ───────────────────────────────────────────────── */
 .lsv-sr {
@@ -579,7 +784,9 @@
 
 /* ── responsive: single column; companion becomes a sticky context card on top ─ */
 @media (max-width: 960px) {
-  .lsv-reader { grid-template-columns: minmax(0, 1fr); }
+  .lsv-reader {
+    grid-template-columns: minmax(0, 1fr);
+  }
   /* companion moves above the sheets and sticks under the top-nav as you scroll,
      still swapping to the in-view chapter's notes (one scrollbar, no inner scroll) */
   .lsv-explain {
@@ -587,9 +794,15 @@
     top: calc(52px + var(--sp-2));
     z-index: 5;
   }
-  .lsv-chapter { padding: var(--sp-5) var(--sp-5) calc(var(--sp-5) + 1.4rem); }
-  .lsv-page-num { right: var(--sp-5); }
-  .lsv-picker-panel { width: min(24rem, 92vw); }
+  .lsv-chapter {
+    padding: var(--sp-5) var(--sp-5) calc(var(--sp-5) + 1.4rem);
+  }
+  .lsv-page-num {
+    right: var(--sp-5);
+  }
+  .lsv-picker-panel {
+    width: min(24rem, 92vw);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -603,5 +816,8 @@
   .lsv-picker-trigger,
   .lsv-filter-chip,
   .lsv-book-link,
-  .lsv-hl { transition: none; animation: none; }
+  .lsv-hl {
+    transition: none;
+    animation: none;
+  }
 }

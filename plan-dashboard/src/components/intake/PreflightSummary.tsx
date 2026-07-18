@@ -8,14 +8,18 @@
  * which commits the staged files and spawns the pipeline DETACHED. Disabled until
  * the upload roles validate and settings are chosen.
  */
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 interface Estimate {
   chapter_count: number;
   mean_per_chapter_cost_usd: number;
   projected_cost_usd: number;
   projected_human: string;
-  caps: { per_chapter_cost_cap_usd: number; book_cap_usd: number; book_cap_active: boolean };
+  caps: {
+    per_chapter_cost_cap_usd: number;
+    book_cap_usd: number;
+    book_cap_active: boolean;
+  };
 }
 
 interface Props {
@@ -28,11 +32,18 @@ interface Props {
   onLaunched?: (slug: string) => void;
 }
 
-export default function PreflightSummary({ slug, title, stagingToken, settings, uploadValid, onLaunched }: Props) {
+export default function PreflightSummary({
+  slug,
+  title,
+  stagingToken,
+  settings,
+  uploadValid,
+  onLaunched,
+}: Props) {
   const [chapters, setChapters] = useState(10);
   const [est, setEst] = useState<Estimate | null>(null);
   const [launching, setLaunching] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     let alive = true;
@@ -44,9 +55,13 @@ export default function PreflightSummary({ slug, title, stagingToken, settings, 
         const r = await fetch(`/api/intake/preflight?${params}`);
         const json = await r.json();
         if (alive && r.ok && json.ok) setEst(json.data.estimate);
-      } catch { /* estimate is best-effort */ }
+      } catch {
+        /* estimate is best-effort */
+      }
     })();
-    return () => { alive = false; };
+    return () => {
+      alive = false;
+    };
   }, [chapters]);
 
   const ready = !!slug && !!title && !!stagingToken && uploadValid;
@@ -54,15 +69,23 @@ export default function PreflightSummary({ slug, title, stagingToken, settings, 
   async function launch() {
     if (!ready) return;
     setLaunching(true);
-    setError('');
+    setError("");
     try {
-      const r = await fetch('/api/intake/launch', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, settings, staging_token: stagingToken, slug }),
+      const r = await fetch("/api/intake/launch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          settings,
+          staging_token: stagingToken,
+          slug,
+        }),
       });
       const json = await r.json();
-      if (!r.ok || !json.ok) { setError(json.error ?? `Launch failed (${r.status})`); return; }
+      if (!r.ok || !json.ok) {
+        setError(json.error ?? `Launch failed (${r.status})`);
+        return;
+      }
       onLaunched?.(json.data.slug);
     } catch (e) {
       setError(`Network error: ${String(e)}`);
@@ -75,12 +98,15 @@ export default function PreflightSummary({ slug, title, stagingToken, settings, 
     <div className="intake-card">
       <h2 className="intake-card-title">Pre-flight</h2>
       <p className="intake-hint">
-        A rough estimate before you commit. Actual chapter count is set during planning;
-        adjust the guess to see the range. Spend is capped per chapter, so it can't run away.
+        A rough estimate before you commit. Actual chapter count is set during
+        planning; adjust the guess to see the range. Spend is capped per
+        chapter, so it can't run away.
       </p>
 
       <div className="intake-field">
-        <label className="intake-label" htmlFor="pf-chapters">Estimated chapters</label>
+        <label className="intake-label" htmlFor="pf-chapters">
+          Estimated chapters
+        </label>
         <input
           id="pf-chapters"
           className="intake-input"
@@ -88,7 +114,9 @@ export default function PreflightSummary({ slug, title, stagingToken, settings, 
           min={1}
           max={200}
           value={chapters}
-          onChange={(e) => setChapters(Math.max(1, Number(e.target.value) || 1))}
+          onChange={(e) =>
+            setChapters(Math.max(1, Number(e.target.value) || 1))
+          }
         />
       </div>
 
@@ -108,18 +136,26 @@ export default function PreflightSummary({ slug, title, stagingToken, settings, 
           </div>
           <div className="intake-estimate-row">
             <dt>Per-book ceiling</dt>
-            <dd>{est.caps.book_cap_active ? `$${est.caps.book_cap_usd.toFixed(2)}` : 'off'}</dd>
+            <dd>
+              {est.caps.book_cap_active
+                ? `$${est.caps.book_cap_usd.toFixed(2)}`
+                : "off"}
+            </dd>
           </div>
         </dl>
       )}
 
       {!ready && (
         <p className="intake-hint">
-          Create the folder, stage a valid set of source files (one primary), and choose
-          settings to enable launch.
+          Create the folder, stage a valid set of source files (one primary),
+          and choose settings to enable launch.
         </p>
       )}
-      {error && <p className="intake-error" role="alert">{error}</p>}
+      {error && (
+        <p className="intake-error" role="alert">
+          {error}
+        </p>
+      )}
 
       <div className="intake-actions">
         <button
@@ -128,11 +164,12 @@ export default function PreflightSummary({ slug, title, stagingToken, settings, 
           disabled={!ready || launching}
           onClick={launch}
         >
-          {launching ? 'Launching…' : 'Launch pipeline'}
+          {launching ? "Launching…" : "Launch pipeline"}
         </button>
       </div>
       <p className="intake-hint">
-        Launch spawns the pipeline in the background — it keeps running if you close this tab.
+        Launch spawns the pipeline in the background — it keeps running if you
+        close this tab.
       </p>
     </div>
   );

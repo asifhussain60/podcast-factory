@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { stageRole } from '../../../lib/reader/stage-roles';
-import type { EnrichmentSummary } from '../../../lib/reader/enrichment-ledger';
-import StageBarChart, { type StageBar } from './StageBarChart';
+import { useState } from "react";
+import { stageRole } from "../../../lib/reader/stage-roles";
+import type { EnrichmentSummary } from "../../../lib/reader/enrichment-ledger";
+import StageBarChart, { type StageBar } from "./StageBarChart";
 
 interface DashStage {
   id: string;
@@ -51,36 +51,52 @@ export default function TransformationDashboard({
     }));
 
   // % noise removed — denoised measured against core (a reduction).
-  const denoised = metrics.find((m) => m.id === 'denoised' && m.comparedTo === 'core');
+  const denoised = metrics.find(
+    (m) => m.id === "denoised" && m.comparedTo === "core",
+  );
   const noisePct =
-    denoised && denoised.available && denoised.deltaPct !== null && denoised.deltaPct < 0
+    denoised &&
+    denoised.available &&
+    denoised.deltaPct !== null &&
+    denoised.deltaPct < 0
       ? Math.abs(denoised.deltaPct)
       : null;
 
   // Data augmented — words gained during enrichment (book-level ledger).
-  const wordsAdded = enrichment ? enrichment.wordsAfter - enrichment.wordsBefore : null;
+  const wordsAdded = enrichment
+    ? enrichment.wordsAfter - enrichment.wordsBefore
+    : null;
   const growthPct =
     enrichment && enrichment.wordsBefore > 0
-      ? Math.round(((enrichment.wordsAfter - enrichment.wordsBefore) / enrichment.wordsBefore) * 1000) / 10
+      ? Math.round(
+          ((enrichment.wordsAfter - enrichment.wordsBefore) /
+            enrichment.wordsBefore) *
+            1000,
+        ) / 10
       : null;
 
   // Collapsed-row teaser — whatever real signal we have.
   const teaserParts: string[] = [];
   if (growthPct !== null) teaserParts.push(`+${growthPct}% augmented`);
-  if (enrichment && enrichment.atomsUsed > 0) teaserParts.push(`${enrichment.atomsUsed} wisdom atoms`);
+  if (enrichment && enrichment.atomsUsed > 0)
+    teaserParts.push(`${enrichment.atomsUsed} wisdom atoms`);
   if (noisePct !== null) teaserParts.push(`${noisePct}% noise removed`);
-  const teaser = teaserParts.length ? teaserParts.join(' · ') : 'See how the text was reshaped';
+  const teaser = teaserParts.length
+    ? teaserParts.join(" · ")
+    : "See how the text was reshaped";
 
   return (
     <section className="txd" aria-label="Transformation dashboard">
       <button
         type="button"
-        className={`txd-toggle${open ? ' is-open' : ''}`}
+        className={`txd-toggle${open ? " is-open" : ""}`}
         aria-expanded={open}
         aria-controls="txd-panel"
         onClick={() => setOpen((v) => !v)}
       >
-        <span className="txd-toggle-caret" aria-hidden="true">{open ? '▾' : '▸'}</span>
+        <span className="txd-toggle-caret" aria-hidden="true">
+          {open ? "▾" : "▸"}
+        </span>
         <span className="txd-toggle-label">Transformation</span>
         <span className="txd-toggle-teaser">{teaser}</span>
       </button>
@@ -92,37 +108,50 @@ export default function TransformationDashboard({
               {bars.length > 0 ? (
                 <StageBarChart bars={bars} />
               ) : (
-                <p className="txd-empty">No stage word-counts captured for this chapter yet.</p>
+                <p className="txd-empty">
+                  No stage word-counts captured for this chapter yet.
+                </p>
               )}
               <figcaption>
-                Word count at each captured stage of “{chapterTitle}”, earliest to review.
+                Word count at each captured stage of “{chapterTitle}”, earliest
+                to review.
               </figcaption>
             </figure>
 
             <div className="txd-chips">
               <div className="txd-chip">
-                <span className="txd-chip-value">{noisePct !== null ? `${noisePct}%` : '—'}</span>
+                <span className="txd-chip-value">
+                  {noisePct !== null ? `${noisePct}%` : "—"}
+                </span>
                 <span className="txd-chip-label">Noise removed</span>
                 <span className="txd-chip-sub">
-                  {noisePct !== null ? 'denoised vs raw' : 'not captured this run'}
+                  {noisePct !== null
+                    ? "denoised vs raw"
+                    : "not captured this run"}
                 </span>
               </div>
               <div className="txd-chip">
                 <span className="txd-chip-value">
-                  {wordsAdded !== null ? `${wordsAdded >= 0 ? '+' : ''}${wordsAdded.toLocaleString()}` : '—'}
+                  {wordsAdded !== null
+                    ? `${wordsAdded >= 0 ? "+" : ""}${wordsAdded.toLocaleString()}`
+                    : "—"}
                 </span>
                 <span className="txd-chip-label">Words augmented</span>
                 <span className="txd-chip-sub">
-                  {growthPct !== null ? `+${growthPct}% of source` : 'no enrichment ledger'}
+                  {growthPct !== null
+                    ? `+${growthPct}% of source`
+                    : "no enrichment ledger"}
                 </span>
               </div>
               <div className="txd-chip">
-                <span className="txd-chip-value">{enrichment ? enrichment.atomsUsed.toLocaleString() : '—'}</span>
+                <span className="txd-chip-value">
+                  {enrichment ? enrichment.atomsUsed.toLocaleString() : "—"}
+                </span>
                 <span className="txd-chip-label">Wisdom integrated</span>
                 <span className="txd-chip-sub">
                   {enrichment
                     ? `${enrichment.sectionsEnriched} sections · of ${enrichment.corpusSize.toLocaleString()} in corpus`
-                    : 'no enrichment ledger'}
+                    : "no enrichment ledger"}
                 </span>
               </div>
             </div>
@@ -134,11 +163,19 @@ export default function TransformationDashboard({
               if (!role.role) return null;
               return (
                 <div className="txd-legend-row" key={s.id}>
-                  <dt className={`txd-legend-term${s.available ? '' : ' is-uncaptured'}`}>
-                    <span className={`txd-legend-dot txd-legend-dot--${role.kind}`} aria-hidden="true" />
+                  <dt
+                    className={`txd-legend-term${s.available ? "" : " is-uncaptured"}`}
+                  >
+                    <span
+                      className={`txd-legend-dot txd-legend-dot--${role.kind}`}
+                      aria-hidden="true"
+                    />
                     {s.label}
                   </dt>
-                  <dd>{role.role} <span className="txd-legend-tool">· {role.tool}</span></dd>
+                  <dd>
+                    {role.role}{" "}
+                    <span className="txd-legend-tool">· {role.tool}</span>
+                  </dd>
                 </div>
               );
             })}
@@ -146,7 +183,8 @@ export default function TransformationDashboard({
 
           {glossaryCount > 0 && (
             <p className="txd-foot">
-              {glossaryCount} Arabic term{glossaryCount === 1 ? '' : 's'} carried in the “Show Arabic” overlay.
+              {glossaryCount} Arabic term{glossaryCount === 1 ? "" : "s"}{" "}
+              carried in the “Show Arabic” overlay.
             </p>
           )}
         </div>

@@ -15,10 +15,10 @@
 
 function escapeHtml(s: string): string {
   return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
 /**
@@ -30,7 +30,7 @@ function renderInline(text: string): string {
   // placeholders. We must escape OUTSIDE markers but not damage the marker
   // contents.
   const markerRe = /⟪([a-z-]+):([^⟪⟫]*)⟫|⟪quran (\d+):(\d+)(?:-(\d+))?⟫/g;
-  let out = '';
+  let out = "";
   let last = 0;
   let m: RegExpExecArray | null;
   while ((m = markerRe.exec(text)) !== null) {
@@ -40,12 +40,14 @@ function renderInline(text: string): string {
       const surah = m[3];
       const start = m[4];
       const end = m[5];
-      const ref = end ? `Quran ${surah}:${start}–${end}` : `Quran ${surah}:${start}`;
+      const ref = end
+        ? `Quran ${surah}:${start}–${end}`
+        : `Quran ${surah}:${start}`;
       out += `<span class="quran-cite" dir="ltr">${ref}</span>`;
     } else {
       const kind = m[1]; // "ar", "ar-quote", or arbitrary "ar-*"
       const inner = m[2];
-      const cls = kind === 'ar-quote' ? 'ar-quote' : 'ar';
+      const cls = kind === "ar-quote" ? "ar-quote" : "ar";
       // Strip the trailing ZWNJ + space combos that often appear in source
       const trimmed = inner.trim();
       out += `<span class="${cls}" lang="ar" dir="rtl">${escapeHtml(trimmed)}</span>`;
@@ -55,8 +57,8 @@ function renderInline(text: string): string {
   out += escapeHtml(text.slice(last));
 
   // STEP 2: emphasis (apply to escaped text — `*` are still raw)
-  out = out.replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>');
-  out = out.replace(/(^|[^*])\*([^*\n]+?)\*(?!\*)/g, '$1<em>$2</em>');
+  out = out.replace(/\*\*([^*]+?)\*\*/g, "<strong>$1</strong>");
+  out = out.replace(/(^|[^*])\*([^*\n]+?)\*(?!\*)/g, "$1<em>$2</em>");
   return out;
 }
 
@@ -66,25 +68,26 @@ function renderInline(text: string): string {
  */
 function parseTableRow(line: string): string[] {
   let t = line.trim();
-  if (t.startsWith('|')) t = t.slice(1);
-  if (t.endsWith('|')) t = t.slice(0, -1);
-  return t.split('|').map((c) => c.trim());
+  if (t.startsWith("|")) t = t.slice(1);
+  if (t.endsWith("|")) t = t.slice(0, -1);
+  return t.split("|").map((c) => c.trim());
 }
 
 function isTableSeparator(line: string): boolean {
   const t = line.trim();
-  if (!t.startsWith('|') && !t.includes('|')) return false;
+  if (!t.startsWith("|") && !t.includes("|")) return false;
   // a separator row has only -, :, |, spaces
   return /^\|?\s*:?-{2,}:?(\s*\|\s*:?-{2,}:?)+\s*\|?$/.test(t);
 }
 
-const SECTION_COMMENT_RE = /^<!--\s*section\s+(\d+)\s*\(id=(\d+),\s*raw_sort=(\d+)\):\s*(.*?)\s*-->$/;
+const SECTION_COMMENT_RE =
+  /^<!--\s*section\s+(\d+)\s*\(id=(\d+),\s*raw_sort=(\d+)\):\s*(.*?)\s*-->$/;
 
 /**
  * The main entry point.
  */
 export function renderSourceMarkdown(input: string): string {
-  const lines = input.replace(/\r\n/g, '\n').split('\n');
+  const lines = input.replace(/\r\n/g, "\n").split("\n");
   const out: string[] = [];
   let paraBuf: string[] = [];
   let quoteBuf: string[] = [];
@@ -92,7 +95,7 @@ export function renderSourceMarkdown(input: string): string {
 
   const flushPara = () => {
     if (paraBuf.length === 0) return;
-    const text = paraBuf.join(' ').trim();
+    const text = paraBuf.join(" ").trim();
     if (text) out.push(`<p>${renderInline(text)}</p>`);
     paraBuf = [];
   };
@@ -103,29 +106,29 @@ export function renderSourceMarkdown(input: string): string {
     let para: string[] = [];
     const flushQuotePara = () => {
       if (para.length === 0) return;
-      const t = para.join(' ').trim();
+      const t = para.join(" ").trim();
       if (t) inner.push(`<p>${renderInline(t)}</p>`);
       para = [];
     };
     for (const line of quoteBuf) {
-      if (line.trim() === '') {
+      if (line.trim() === "") {
         flushQuotePara();
       } else {
         para.push(line);
       }
     }
     flushQuotePara();
-    out.push(`<blockquote>${inner.join('')}</blockquote>`);
+    out.push(`<blockquote>${inner.join("")}</blockquote>`);
     quoteBuf = [];
   };
 
   while (i < lines.length) {
     const rawLine = lines[i];
-    const line = rawLine.replace(/\t/g, '  ');
+    const line = rawLine.replace(/\t/g, "  ");
     const trimmed = line.trim();
 
     // Blank line — flush both buffers
-    if (trimmed === '') {
+    if (trimmed === "") {
       flushPara();
       flushQuote();
       i++;
@@ -145,7 +148,7 @@ export function renderSourceMarkdown(input: string): string {
           `<span>§ ${pos} · id ${id}</span>` +
           (label
             ? `  <span dir="rtl" class="se-urdu-label">— ${escapeHtml(label)}</span>`
-            : '') +
+            : "") +
           `</div>`,
       );
       i++;
@@ -153,11 +156,13 @@ export function renderSourceMarkdown(input: string): string {
     }
 
     // Other HTML comments — render small dimmed marker (rare)
-    if (trimmed.startsWith('<!--') && trimmed.endsWith('-->')) {
+    if (trimmed.startsWith("<!--") && trimmed.endsWith("-->")) {
       flushPara();
       flushQuote();
-      const inner = trimmed.replace(/^<!--\s*/, '').replace(/\s*-->$/, '');
-      out.push(`<div class="se-section-marker" dir="ltr">${escapeHtml(inner)}</div>`);
+      const inner = trimmed.replace(/^<!--\s*/, "").replace(/\s*-->$/, "");
+      out.push(
+        `<div class="se-section-marker" dir="ltr">${escapeHtml(inner)}</div>`,
+      );
       i++;
       continue;
     }
@@ -177,15 +182,15 @@ export function renderSourceMarkdown(input: string): string {
     if (/^-{3,}$/.test(trimmed) || /^\*{3,}$/.test(trimmed)) {
       flushPara();
       flushQuote();
-      out.push('<hr />');
+      out.push("<hr />");
       i++;
       continue;
     }
 
     // Blockquote line
-    if (trimmed.startsWith('>')) {
+    if (trimmed.startsWith(">")) {
       flushPara();
-      quoteBuf.push(trimmed.replace(/^>\s?/, ''));
+      quoteBuf.push(trimmed.replace(/^>\s?/, ""));
       i++;
       continue;
     } else {
@@ -194,20 +199,31 @@ export function renderSourceMarkdown(input: string): string {
     }
 
     // Table: header row + separator + body
-    if (trimmed.startsWith('|') && i + 1 < lines.length && isTableSeparator(lines[i + 1])) {
+    if (
+      trimmed.startsWith("|") &&
+      i + 1 < lines.length &&
+      isTableSeparator(lines[i + 1])
+    ) {
       flushPara();
       const header = parseTableRow(trimmed);
       i += 2; // skip header + separator
       const body: string[][] = [];
-      while (i < lines.length && lines[i].trim().startsWith('|')) {
+      while (i < lines.length && lines[i].trim().startsWith("|")) {
         body.push(parseTableRow(lines[i]));
         i++;
       }
-      const headHtml = header.map((c) => `<th>${renderInline(c)}</th>`).join('');
+      const headHtml = header
+        .map((c) => `<th>${renderInline(c)}</th>`)
+        .join("");
       const bodyHtml = body
-        .map((row) => `<tr>${row.map((c) => `<td>${renderInline(c)}</td>`).join('')}</tr>`)
-        .join('');
-      out.push(`<table><thead><tr>${headHtml}</tr></thead><tbody>${bodyHtml}</tbody></table>`);
+        .map(
+          (row) =>
+            `<tr>${row.map((c) => `<td>${renderInline(c)}</td>`).join("")}</tr>`,
+        )
+        .join("");
+      out.push(
+        `<table><thead><tr>${headHtml}</tr></thead><tbody>${bodyHtml}</tbody></table>`,
+      );
       continue;
     }
 
@@ -217,7 +233,7 @@ export function renderSourceMarkdown(input: string): string {
     //     *Arabic labels in image:* ⟪ar:…⟫
     //     *Note:* …
     // For simplicity we treat each line as its own paragraph.
-    if (trimmed.startsWith('[diagram') || trimmed.startsWith('[image')) {
+    if (trimmed.startsWith("[diagram") || trimmed.startsWith("[image")) {
       flushPara();
       out.push(`<p class="se-image-block">${renderInline(trimmed)}</p>`);
       i++;
@@ -231,5 +247,5 @@ export function renderSourceMarkdown(input: string): string {
   flushPara();
   flushQuote();
 
-  return out.join('\n');
+  return out.join("\n");
 }

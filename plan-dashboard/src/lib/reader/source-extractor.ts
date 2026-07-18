@@ -13,12 +13,12 @@
  *     _system/source/images/{NNN.png, NNN.json, vision-tasks.json}
  */
 
-import { readdir, readFile, stat } from 'node:fs/promises';
-import { join } from 'node:path';
-import yaml from 'js-yaml';
-import { getRepoRoot } from '../content-paths';
+import { readdir, readFile, stat } from "node:fs/promises";
+import { join } from "node:path";
+import yaml from "js-yaml";
+import { getRepoRoot } from "../content-paths";
 
-const EXTRACT_RELPATH = 'CONTENT/_shared/wisdom-corpus/extracted';
+const EXTRACT_RELPATH = "CONTENT/_shared/wisdom-corpus/extracted";
 
 export interface BundleManifest {
   bundle_schema_version: number;
@@ -91,9 +91,9 @@ async function isDir(p: string): Promise<boolean> {
 
 async function loadManifest(bookDir: string): Promise<BundleManifest | null> {
   try {
-    const text = await readFile(join(bookDir, 'bundle.yml'), 'utf-8');
+    const text = await readFile(join(bookDir, "bundle.yml"), "utf-8");
     const parsed = yaml.load(text) as BundleManifest;
-    if (!parsed || typeof parsed !== 'object') return null;
+    if (!parsed || typeof parsed !== "object") return null;
     return parsed;
   } catch {
     return null;
@@ -106,23 +106,29 @@ export async function discoverBundles(): Promise<SourceGroup[]> {
 
   const sourceGroups: SourceGroup[] = [];
 
-  const sourceDirs = (await readdir(root)).filter((d) => !d.startsWith('.') && !d.startsWith('_'));
+  const sourceDirs = (await readdir(root)).filter(
+    (d) => !d.startsWith(".") && !d.startsWith("_"),
+  );
   for (const source of sourceDirs.sort()) {
     const sourcePath = join(root, source);
     if (!(await isDir(sourcePath))) continue;
 
-    const shelfDirs = (await readdir(sourcePath)).filter((d) => !d.startsWith('.') && !d.startsWith('_'));
+    const shelfDirs = (await readdir(sourcePath)).filter(
+      (d) => !d.startsWith(".") && !d.startsWith("_"),
+    );
     const shelves: ShelfGroup[] = [];
 
     for (const shelfDir of shelfDirs.sort()) {
       const shelfPath = join(sourcePath, shelfDir);
       if (!(await isDir(shelfPath))) continue;
 
-      const bookDirs = (await readdir(shelfPath)).filter((d) => !d.startsWith('.') && !d.startsWith('_'));
+      const bookDirs = (await readdir(shelfPath)).filter(
+        (d) => !d.startsWith(".") && !d.startsWith("_"),
+      );
       const chapters: ChapterRecord[] = [];
 
       let shelfName = shelfDir;
-      let shelfPrefix = '';
+      let shelfPrefix = "";
 
       for (const bookDir of bookDirs.sort()) {
         const bookPath = join(shelfPath, bookDir);
@@ -141,12 +147,18 @@ export async function discoverBundles(): Promise<SourceGroup[]> {
 
         if (!shelfName || shelfName === shelfDir) {
           shelfName = manifest.shelf?.name ?? shelfDir;
-          shelfPrefix = manifest.shelf?.prefix ?? '';
+          shelfPrefix = manifest.shelf?.prefix ?? "";
         }
       }
 
       if (chapters.length === 0) continue;
-      shelves.push({ source, shelfSlug: shelfDir, shelfName, shelfPrefix, chapters });
+      shelves.push({
+        source,
+        shelfSlug: shelfDir,
+        shelfName,
+        shelfPrefix,
+        chapters,
+      });
     }
 
     if (shelves.length === 0) continue;
@@ -170,7 +182,10 @@ export async function findChapter(
 }
 
 export async function loadChapterMarkdown(c: ChapterRecord): Promise<string> {
-  return readFile(join(c.bookDir, '_system', 'source', 'text', 'raw-extract.md'), 'utf-8');
+  return readFile(
+    join(c.bookDir, "_system", "source", "text", "raw-extract.md"),
+    "utf-8",
+  );
 }
 
 export interface EnglishMarkdownResult {
@@ -184,16 +199,21 @@ export interface EnglishMarkdownResult {
  * (Phase 2 polished) over raw-extract.en.md (Phase 1 machine translation).
  * Returns null if neither file exists.
  */
-export async function loadChapterMarkdownEnglish(c: ChapterRecord): Promise<EnglishMarkdownResult | null> {
-  const textDir = join(c.bookDir, '_system', 'source', 'text');
+export async function loadChapterMarkdownEnglish(
+  c: ChapterRecord,
+): Promise<EnglishMarkdownResult | null> {
+  const textDir = join(c.bookDir, "_system", "source", "text");
   try {
-    const content = await readFile(join(textDir, 'adapted-extract.en.md'), 'utf-8');
+    const content = await readFile(
+      join(textDir, "adapted-extract.en.md"),
+      "utf-8",
+    );
     return { content, isAdapted: true };
   } catch {
     // adapted not present — fall back to raw machine translation
   }
   try {
-    const content = await readFile(join(textDir, 'raw-extract.en.md'), 'utf-8');
+    const content = await readFile(join(textDir, "raw-extract.en.md"), "utf-8");
     return { content, isAdapted: false };
   } catch {
     return null;

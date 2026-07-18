@@ -61,7 +61,11 @@
   padding: 0.32rem 0.65rem;
   border-radius: 6px;
   border: 1px solid var(--c-accent, #8b4513);
-  background: color-mix(in oklab, var(--c-accent, #8b4513) 8%, var(--c-bg-card, #fffdf8));
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 8%,
+    var(--c-bg-card, #fffdf8)
+  );
   color: var(--c-accent, #8b4513);
   font-size: 0.78rem;
   font-weight: 600;
@@ -70,15 +74,29 @@
   transition: background 0.16s;
 }
 .cx-hdr-btn:hover {
-  background: color-mix(in oklab, var(--c-accent, #8b4513) 16%, var(--c-bg-card, #fffdf8));
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 16%,
+    var(--c-bg-card, #fffdf8)
+  );
   text-decoration: none;
 }
-.cx-hdr-btn:focus-visible { outline: 2px solid var(--c-accent, #8b4513); outline-offset: 2px; }
+.cx-hdr-btn:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
 /* Pushed to the far right of the row, separated from the other entries. */
-.cx-hdr-btn--end { margin-left: auto; }
+.cx-hdr-btn--end {
+  margin-left: auto;
+}
 @media (max-width: 640px) {
-  .cx-header-actions { flex-direction: column; align-items: stretch; }
-  .cx-hdr-btn--end { margin-left: 0; }
+  .cx-header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .cx-hdr-btn--end {
+    margin-left: 0;
+  }
 }
 
 .composer-grid {
@@ -88,7 +106,9 @@
   align-items: start;
 }
 @media (max-width: 60rem) {
-  .composer-grid { grid-template-columns: 1fr; }
+  .composer-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ── Preview column ──────────────────────────────────────────────────────── */
@@ -110,7 +130,12 @@
   margin: 0 0 1.2rem;
   flex-wrap: wrap;
 }
-.cx-chapter-picker { margin: 0; min-width: 16rem; flex: 1 1 auto; max-width: 32rem; }
+.cx-chapter-picker {
+  margin: 0;
+  min-width: 16rem;
+  flex: 1 1 auto;
+  max-width: 32rem;
+}
 .cx-mode {
   display: inline-flex;
   gap: 0.15rem;
@@ -131,7 +156,9 @@
   cursor: pointer;
   text-decoration: none; /* #cx-companion-tool reuses this class on an <a> */
 }
-.cx-mode-btn:hover { text-decoration: none; }
+.cx-mode-btn:hover {
+  text-decoration: none;
+}
 .cx-mode-btn.is-active {
   background: var(--c-accent, #8b4513);
   color: var(--c-bg-card, #fffdf8);
@@ -141,7 +168,9 @@
   align-items: center;
   gap: 0.6rem;
 }
-.cx-layout-save .cx-status { margin: 0; }
+.cx-layout-save .cx-status {
+  margin: 0;
+}
 
 .cx-panel-hint {
   color: var(--c-ink-muted, #87827a);
@@ -149,18 +178,45 @@
   line-height: 1.4;
   margin: 0 0 0.7rem;
 }
-#cx-panel-artifacts .cx-panel-hint { margin: 0 0 0.6rem; }
+#cx-panel-artifacts .cx-panel-hint {
+  margin: 0 0 0.6rem;
+}
 
 /* Citations tab — fit the reused book-styles picker + preview into the 20rem
    panel; the detected list previews this chapter's verses in the toned look. */
-.cx-cite-form { margin: 0; }
-.cx-cite-form .bs-chips { gap: 0.4rem; margin: 0 0 0.8rem; }
-.cx-cite-form .bs-chip { min-width: 0; flex: 1 1 100%; padding: 0.5rem 0.7rem; border-radius: 8px; }
-.cx-cite-form .bs-chip-name { font-size: 0.9rem; }
-.cx-cite-form .bs-chip-tag { font-size: 0.72rem; }
-.cx-cite-preview { padding: 0.9rem 1rem; margin: 0; max-width: none; }
-.cx-cite-preview .bs-ct + .bs-ct { margin-top: 0.9rem; padding-top: 0.9rem; }
-.cx-cite-save { margin: 0.5rem 0 0; font-size: 0.8rem; min-height: 1.1rem; }
+.cx-cite-form {
+  margin: 0;
+}
+.cx-cite-form .bs-chips {
+  gap: 0.4rem;
+  margin: 0 0 0.8rem;
+}
+.cx-cite-form .bs-chip {
+  min-width: 0;
+  flex: 1 1 100%;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+}
+.cx-cite-form .bs-chip-name {
+  font-size: 0.9rem;
+}
+.cx-cite-form .bs-chip-tag {
+  font-size: 0.72rem;
+}
+.cx-cite-preview {
+  padding: 0.9rem 1rem;
+  margin: 0;
+  max-width: none;
+}
+.cx-cite-preview .bs-ct + .bs-ct {
+  margin-top: 0.9rem;
+  padding-top: 0.9rem;
+}
+.cx-cite-save {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  min-height: 1.1rem;
+}
 .cx-cite-detected {
   margin-top: 1rem;
   padding-top: 0.8rem;
@@ -172,8 +228,13 @@
   margin: 0 0 0.5rem;
   color: var(--c-ink, #1f1d18);
 }
-.cx-cite-list { display: grid; gap: 0.6rem; }
-.cx-cite-item { margin: 0; }
+.cx-cite-list {
+  display: grid;
+  gap: 0.6rem;
+}
+.cx-cite-item {
+  margin: 0;
+}
 
 /* ── Edit mode — the chapter prose editor (TipTap) in the left column ───────
    The whole shell reads as a distinct editing surface (not plain prose): a
@@ -185,14 +246,18 @@
   border: 1px solid var(--c-rule, #d9d3c4);
   border-radius: 10px;
   background: var(--c-bg-card, #fffdf8);
-  box-shadow: 0 1px 3px color-mix(in oklab, var(--c-ink, #1f1d18) 8%, transparent);
+  box-shadow: 0 1px 3px
+    color-mix(in oklab, var(--c-ink, #1f1d18) 8%, transparent);
   overflow: clip;
-  transition: border-color 140ms ease, box-shadow 140ms ease;
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease;
 }
 .cx-edit-shell:focus-within {
   border-color: var(--c-accent, #8b4513);
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--c-accent, #8b4513) 20%, transparent),
-              0 1px 3px color-mix(in oklab, var(--c-ink, #1f1d18) 8%, transparent);
+  box-shadow:
+    0 0 0 3px color-mix(in oklab, var(--c-accent, #8b4513) 20%, transparent),
+    0 1px 3px color-mix(in oklab, var(--c-ink, #1f1d18) 8%, transparent);
 }
 .cx-edit-toolbar {
   display: flex;
@@ -201,11 +266,19 @@
   gap: 0.4rem 0.25rem;
   margin: 0;
   padding: 0.5rem 0.75rem;
-  background: color-mix(in oklab, var(--c-accent, #8b4513) 6%, var(--c-bg-card, #fffdf8));
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 6%,
+    var(--c-bg-card, #fffdf8)
+  );
   border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
 }
 /* Toolbar groups (font/size · formatting · paper), separated by a hairline. */
-.cx-tb-group { display: inline-flex; align-items: center; gap: 0.3rem; }
+.cx-tb-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
 .cx-edit-toolbar .cx-tb-group + .cx-tb-group {
   padding-left: 0.55rem;
   border-left: 1px solid var(--c-rule-soft, #ebe6da);
@@ -224,7 +297,9 @@
   color: var(--c-ink, #1f1d18);
   cursor: pointer;
 }
-.cx-font-select:hover { border-color: var(--c-accent, #8b4513); }
+.cx-font-select:hover {
+  border-color: var(--c-accent, #8b4513);
+}
 
 /* Text-size stepper — [ − 17 + ], a single boxed control. */
 .cx-size {
@@ -247,7 +322,10 @@
   cursor: pointer;
   line-height: 1;
 }
-.cx-size-btn:hover { color: var(--c-accent, #8b4513); background: color-mix(in oklab, var(--c-accent, #8b4513) 8%, transparent); }
+.cx-size-btn:hover {
+  color: var(--c-accent, #8b4513);
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 8%, transparent);
+}
 .cx-size-val {
   min-width: 1.7rem;
   padding: 0 0.3rem;
@@ -271,16 +349,33 @@
   color: var(--c-ink, #1f1d18);
   cursor: pointer;
 }
-.cx-edit-tool:hover { border-color: var(--c-accent, #8b4513); color: var(--c-accent, #8b4513); }
+.cx-edit-tool:hover {
+  border-color: var(--c-accent, #8b4513);
+  color: var(--c-accent, #8b4513);
+}
 /* The B / I / U glyphs carry their own emphasis so the buttons read at a glance. */
-.cx-tool-b { font-weight: 700; }
-.cx-tool-i { font-style: italic; }
-.cx-tool-u { text-decoration: underline; }
+.cx-tool-b {
+  font-weight: 700;
+}
+.cx-tool-i {
+  font-style: italic;
+}
+.cx-tool-u {
+  text-decoration: underline;
+}
 
 /* Paper picker — Kindle-style Light / Sepia / Dark for the writing surface.
    Sits at the right of the toolbar header. */
-.cx-paper { display: inline-flex; align-items: center; gap: 0.3rem; margin-left: auto; }
-.cx-paper-label { font-size: 0.72rem; color: var(--c-ink-muted, #87827a); }
+.cx-paper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: auto;
+}
+.cx-paper-label {
+  font-size: 0.72rem;
+  color: var(--c-ink-muted, #87827a);
+}
 .cx-paper-btn {
   display: inline-flex;
   align-items: center;
@@ -303,10 +398,18 @@
   border: 1px solid color-mix(in oklab, var(--c-ink, #1f1d18) 28%, transparent);
   background: var(--swatch, #fff);
 }
-.cx-paper-btn[data-paper="light"] { --swatch: #fefdfb; }
-.cx-paper-btn[data-paper="sepia"] { --swatch: #f4ecd8; }
-.cx-paper-btn[data-paper="dark"]  { --swatch: #201e1b; }
-.cx-paper-btn:hover { border-color: var(--c-accent, #8b4513); }
+.cx-paper-btn[data-paper="light"] {
+  --swatch: #fefdfb;
+}
+.cx-paper-btn[data-paper="sepia"] {
+  --swatch: #f4ecd8;
+}
+.cx-paper-btn[data-paper="dark"] {
+  --swatch: #201e1b;
+}
+.cx-paper-btn:hover {
+  border-color: var(--c-accent, #8b4513);
+}
 .cx-paper-btn[aria-pressed="true"] {
   border-color: var(--c-accent, #8b4513);
   color: var(--c-accent, #8b4513);
@@ -320,11 +423,25 @@
   padding: 1.1rem 1.3rem;
   background: var(--paper-bg, var(--c-bg-card, #fffdf8));
   color: var(--paper-ink, var(--c-ink, #1f1d18));
-  transition: background-color 140ms ease, color 140ms ease;
+  transition:
+    background-color 140ms ease,
+    color 140ms ease;
 }
-.cx-edit-host[data-paper="light"] { --paper-bg: #fefdfb; --paper-ink: #1f1d18; --paper-rule: #d9d3c4; }
-.cx-edit-host[data-paper="sepia"] { --paper-bg: #f4ecd8; --paper-ink: #5b4636; --paper-rule: #ddd0b4; }
-.cx-edit-host[data-paper="dark"]  { --paper-bg: #201e1b; --paper-ink: #d8d2c6; --paper-rule: #3d3a32; }
+.cx-edit-host[data-paper="light"] {
+  --paper-bg: #fefdfb;
+  --paper-ink: #1f1d18;
+  --paper-rule: #d9d3c4;
+}
+.cx-edit-host[data-paper="sepia"] {
+  --paper-bg: #f4ecd8;
+  --paper-ink: #5b4636;
+  --paper-rule: #ddd0b4;
+}
+.cx-edit-host[data-paper="dark"] {
+  --paper-bg: #201e1b;
+  --paper-ink: #d8d2c6;
+  --paper-rule: #3d3a32;
+}
 
 /* Editor-view font family + size, driven by the toolbar. View-only: book.md
    carries no font/size, so these never restyle the printed book. --prose-size is
@@ -333,12 +450,27 @@
    Amiri (AmiriSized — declared once in theme.css) BEFORE the generic fallback, so
    the system Arabic face never wins and the Arabic reads at the same visual size
    as the English. */
-.cx-edit-host[data-font="sans"]     { --prose-font: 'Lato', 'AmiriSized', 'Amiri', system-ui, sans-serif; }
-.cx-edit-host[data-font="serif"]    { --prose-font: Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, 'AmiriSized', 'Amiri', serif; }
-.cx-edit-host[data-font="lato"]     { --prose-font: 'Lato', 'AmiriSized', 'Amiri', system-ui, sans-serif; }
-.cx-edit-host[data-font="inter"]    { --prose-font: 'Inter', 'AmiriSized', 'Amiri', system-ui, sans-serif; }
-.cx-edit-host[data-font="mono"]     { --prose-font: ui-monospace, 'SF Mono', 'AmiriSized', 'Amiri', monospace; }
-.cx-edit-host[data-font="dyslexic"] { --prose-font: 'OpenDyslexic', 'Comic Sans MS', 'AmiriSized', 'Amiri', sans-serif; }
+.cx-edit-host[data-font="sans"] {
+  --prose-font: "Lato", "AmiriSized", "Amiri", system-ui, sans-serif;
+}
+.cx-edit-host[data-font="serif"] {
+  --prose-font:
+    Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, "AmiriSized",
+    "Amiri", serif;
+}
+.cx-edit-host[data-font="lato"] {
+  --prose-font: "Lato", "AmiriSized", "Amiri", system-ui, sans-serif;
+}
+.cx-edit-host[data-font="inter"] {
+  --prose-font: "Inter", "AmiriSized", "Amiri", system-ui, sans-serif;
+}
+.cx-edit-host[data-font="mono"] {
+  --prose-font: ui-monospace, "SF Mono", "AmiriSized", "Amiri", monospace;
+}
+.cx-edit-host[data-font="dyslexic"] {
+  --prose-font:
+    "OpenDyslexic", "Comic Sans MS", "AmiriSized", "Amiri", sans-serif;
+}
 
 /* The editor writing area fills the full column and justifies both edges. This
    is an on-screen editing preference only — the Read-mode preview (.cx-body) and
@@ -354,10 +486,18 @@
   text-justify: inter-word;
   hyphens: auto;
 }
-.cx-prose p { margin: 0 0 0.8rem; }
-.cx-prose h3 { font-size: 1.1rem; font-weight: 700; margin: 1.2rem 0 0.5rem; }
+.cx-prose p {
+  margin: 0 0 0.8rem;
+}
+.cx-prose h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 1.2rem 0 0.5rem;
+}
 /* Only body prose is justified — headings stay left-aligned (never stretched). */
-.cx-prose :is(h1, h2, h3, h4) { text-align: left; }
+.cx-prose :is(h1, h2, h3, h4) {
+  text-align: left;
+}
 .cx-prose blockquote {
   border-left: 2px solid var(--paper-rule, var(--c-rule, #d9d3c4));
   padding-left: 1rem;
@@ -370,9 +510,16 @@
   padding: 0.9rem 1.3rem 1.1rem;
   border-top: 1px solid var(--c-rule-soft, #ebe6da);
 }
-.cx-edit-actions .cx-action { flex: 0 0 auto; }
-.cx-edit-shell > .cx-status { margin: 0; padding: 0 1.3rem 1rem; }
-.cx-edit-shell > .cx-status:empty { display: none; }
+.cx-edit-actions .cx-action {
+  flex: 0 0 auto;
+}
+.cx-edit-shell > .cx-status {
+  margin: 0;
+  padding: 0 1.3rem 1rem;
+}
+.cx-edit-shell > .cx-status:empty {
+  display: none;
+}
 
 /* ── Inline figure controls — a floating card on the selected figure ──────── */
 .cx-fig-card {
@@ -392,16 +539,25 @@
   cursor: default;
   text-align: left;
 }
-.cx-fig-card .cx-field { margin: 0; }
+.cx-fig-card .cx-field {
+  margin: 0;
+}
 /* Wide controls (width slider, chapter select, caption) + remove span both cols;
    align / flow / position / page-fit pair up two-per-row to keep the card small. */
 .cx-fig-card .cx-field:has(input[type="range"]),
 .cx-fig-card .cx-field:has(input[type="text"]),
 .cx-fig-card .cx-field:has(select[aria-label="Anchor chapter"]),
-.cx-fig-card .cx-delete { grid-column: 1 / -1; }
+.cx-fig-card .cx-delete {
+  grid-column: 1 / -1;
+}
 
 /* ── Refinement tab — AI text actions + accept/reject options ─────────────── */
-.cx-ai-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.2rem 0 0.6rem; }
+.cx-ai-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.2rem 0 0.6rem;
+}
 .cx-ai-btn {
   font: inherit;
   font-size: 0.8rem;
@@ -412,7 +568,10 @@
   color: var(--c-accent, #8b4513);
   cursor: pointer;
 }
-.cx-ai-btn:hover:not(:disabled) { background: var(--c-accent, #8b4513); color: var(--c-bg-card, #fffdf8); }
+.cx-ai-btn:hover:not(:disabled) {
+  background: var(--c-accent, #8b4513);
+  color: var(--c-bg-card, #fffdf8);
+}
 .cx-ai-btn:disabled {
   opacity: 0.45;
   cursor: default;
@@ -426,7 +585,11 @@
   border-top: 1px solid var(--c-rule-soft, #ebe6da);
   padding-top: 0.6rem;
 }
-.cx-ai-popup-head { font-size: 0.78rem; color: var(--c-ink-muted, #87827a); margin: 0; }
+.cx-ai-popup-head {
+  font-size: 0.78rem;
+  color: var(--c-ink-muted, #87827a);
+  margin: 0;
+}
 .cx-ai-opt {
   font: inherit;
   font-size: 1rem;
@@ -439,7 +602,9 @@
   color: var(--c-ink, #1f1d18);
   cursor: pointer;
 }
-.cx-ai-opt:hover { border-color: var(--c-accent, #8b4513); }
+.cx-ai-opt:hover {
+  border-color: var(--c-accent, #8b4513);
+}
 .cx-ai-opt-cancel {
   font: inherit;
   font-size: 0.8rem;
@@ -459,8 +624,17 @@
   border-top: 1px solid var(--c-rule-soft, #ebe6da);
   padding-top: 0.6rem;
 }
-.cx-ety-head { font-size: 0.9rem; font-weight: 700; color: var(--c-ink, #1f1d18); margin: 0; }
-.cx-ety-meta { font-size: 0.75rem; color: var(--c-ink-muted, #87827a); margin: 0; }
+.cx-ety-head {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--c-ink, #1f1d18);
+  margin: 0;
+}
+.cx-ety-meta {
+  font-size: 0.75rem;
+  color: var(--c-ink-muted, #87827a);
+  margin: 0;
+}
 .cx-ety-warn {
   font-size: 0.75rem;
   color: var(--c-red, #a83232);
@@ -469,7 +643,11 @@
   padding: 0.3rem 0.45rem;
   margin: 0.1rem 0;
 }
-.cx-ety-label { font-size: 0.72rem; color: var(--c-ink-muted, #87827a); margin-top: 0.3rem; }
+.cx-ety-label {
+  font-size: 0.72rem;
+  color: var(--c-ink-muted, #87827a);
+  margin-top: 0.3rem;
+}
 .cx-ety-inline,
 .cx-ety-companion {
   font: inherit;
@@ -477,7 +655,7 @@
   /* Latin stays in the UI font; Arabic falls through to Amiri (loaded site-wide
      via theme.css) — placed BEFORE the generic fallback so the system Arabic
      face never wins. Matches the reading edition's Amiri Arabic. */
-  font-family: 'Lato', 'AmiriSized', 'Amiri', system-ui, sans-serif;
+  font-family: "Lato", "AmiriSized", "Amiri", system-ui, sans-serif;
   line-height: 1.75;
   width: 100%;
   padding: 0.45rem 0.55rem;
@@ -487,10 +665,20 @@
   color: var(--c-ink, #1f1d18);
   box-sizing: border-box;
 }
-.cx-ety-companion { resize: vertical; }
+.cx-ety-companion {
+  resize: vertical;
+}
 .cx-ety-inline:focus,
-.cx-ety-companion:focus { outline: 2px solid var(--c-accent, #8b4513); outline-offset: 1px; }
-.cx-ety-actions { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.3rem; }
+.cx-ety-companion:focus {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 1px;
+}
+.cx-ety-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.3rem;
+}
 .cx-ety-accept {
   font: inherit;
   font-size: 0.85rem;
@@ -501,7 +689,9 @@
   color: var(--c-bg-card, #fffdf8);
   cursor: pointer;
 }
-.cx-ety-accept:hover { filter: brightness(1.08); }
+.cx-ety-accept:hover {
+  filter: brightness(1.08);
+}
 .cx-ety-discard {
   font: inherit;
   font-size: 0.8rem;
@@ -512,7 +702,9 @@
   padding: 0.2rem 0;
 }
 
-.cx-chapter { margin: 0 0 1.8rem; }
+.cx-chapter {
+  margin: 0 0 1.8rem;
+}
 .cx-chapter > h2 {
   font-size: 1.3rem;
   font-weight: 700;
@@ -532,7 +724,9 @@
   max-width: 60ch;
   display: flow-root; /* contain floated (wrap) figures within the chapter */
 }
-.cx-body :is(p, blockquote) { margin: 0 0 0.8rem; }
+.cx-body :is(p, blockquote) {
+  margin: 0 0 0.8rem;
+}
 
 /* Arabic verses in the preview mirror the printed page: no box, body-ink Arabic
    at body scale (matches book-print.css / book-reader.css blockquote.quran). */
@@ -541,7 +735,9 @@
   padding: 0.25rem 0 0.25rem 1.1rem;
 }
 .cx-body blockquote.quran p.ar {
-  font-family: 'AmiriQuranSized', 'AmiriSized', 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
+  font-family:
+    "AmiriQuranSized", "AmiriSized", "Amiri Quran", "Amiri", "DecoType Naskh",
+    serif;
   font-size: 1.05rem;
   line-height: 1.9;
   color: var(--c-ink, #1f1d18);
@@ -556,17 +752,25 @@
 }
 
 /* Drop indicator: a rule on the paragraph the figure will land above/below. */
-.cx-drop-before, .cx-drop-after { position: relative; }
-.cx-drop-before::before, .cx-drop-after::after {
-  content: '';
+.cx-drop-before,
+.cx-drop-after {
+  position: relative;
+}
+.cx-drop-before::before,
+.cx-drop-after::after {
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
   height: 2px;
   background: var(--c-accent, #8b4513);
 }
-.cx-drop-before::before { top: -0.45rem; }
-.cx-drop-after::after { bottom: -0.45rem; }
+.cx-drop-before::before {
+  top: -0.45rem;
+}
+.cx-drop-after::after {
+  bottom: -0.45rem;
+}
 
 .cx-fig {
   --cx-w: 60%;
@@ -587,12 +791,29 @@
   height: auto;
   border-radius: 6px 6px 0 0;
 }
-.cx-fig.flow-standalone { width: var(--cx-w); margin-left: auto; margin-right: auto; }
-.cx-fig.flow-standalone.align-left { margin-left: 0; }
-.cx-fig.flow-standalone.align-right { margin-right: 0; margin-left: auto; }
-.cx-fig.flow-wrap { width: var(--cx-w); }
-.cx-fig.flow-wrap.align-left { float: left; margin: 0.2rem 1rem 0.6rem 0; }
-.cx-fig.flow-wrap.align-right { float: right; margin: 0.2rem 0 0.6rem 1rem; }
+.cx-fig.flow-standalone {
+  width: var(--cx-w);
+  margin-left: auto;
+  margin-right: auto;
+}
+.cx-fig.flow-standalone.align-left {
+  margin-left: 0;
+}
+.cx-fig.flow-standalone.align-right {
+  margin-right: 0;
+  margin-left: auto;
+}
+.cx-fig.flow-wrap {
+  width: var(--cx-w);
+}
+.cx-fig.flow-wrap.align-left {
+  float: left;
+  margin: 0.2rem 1rem 0.6rem 0;
+}
+.cx-fig.flow-wrap.align-right {
+  float: right;
+  margin: 0.2rem 0 0.6rem 1rem;
+}
 .cx-fig figcaption {
   font-size: 0.78rem;
   color: var(--c-ink-muted, #87827a);
@@ -624,16 +845,26 @@
   cursor: se-resize;
   touch-action: none;
   border-radius: 0 0 6px 0;
-  background: linear-gradient(135deg, transparent 45%, var(--c-accent, #8b4513) 45%);
+  background: linear-gradient(
+    135deg,
+    transparent 45%,
+    var(--c-accent, #8b4513) 45%
+  );
   opacity: 0.55;
 }
-.cx-fig-handle:hover { opacity: 1; }
+.cx-fig-handle:hover {
+  opacity: 1;
+}
 .cx-fig.align-right .cx-fig-handle {
   right: auto;
   left: 0;
   cursor: sw-resize;
   border-radius: 0 0 0 6px;
-  background: linear-gradient(225deg, transparent 45%, var(--c-accent, #8b4513) 45%);
+  background: linear-gradient(
+    225deg,
+    transparent 45%,
+    var(--c-accent, #8b4513) 45%
+  );
 }
 .cx-fig.is-resizing {
   user-select: none;
@@ -668,7 +899,9 @@
   color: var(--c-ink-muted, #87827a);
   cursor: pointer;
 }
-.cx-tab:hover { color: var(--c-ink, #2b2823); }
+.cx-tab:hover {
+  color: var(--c-ink, #2b2823);
+}
 .cx-tab.is-active {
   color: var(--c-accent);
   border-bottom-color: var(--c-accent);
@@ -679,16 +912,25 @@
   max-height: calc(100vh - 9rem);
   overflow-y: auto;
 }
-.cx-tabpanel[hidden] { display: none; }
+.cx-tabpanel[hidden] {
+  display: none;
+}
 .cx-hint {
   color: var(--c-ink-muted, #87827a);
   font-size: 0.85rem;
   line-height: 1.45;
   margin: 0;
 }
-.cx-filter { margin-bottom: 0.8rem; }
-.cx-palette-list { display: grid; gap: 0.6rem; }
-.cx-palette-item { position: relative; }
+.cx-filter {
+  margin-bottom: 0.8rem;
+}
+.cx-palette-list {
+  display: grid;
+  gap: 0.6rem;
+}
+.cx-palette-item {
+  position: relative;
+}
 .cx-palette-place {
   display: grid;
   grid-template-columns: 3rem 1fr;
@@ -704,7 +946,9 @@
   font: inherit;
   cursor: grab;
 }
-.cx-palette-place:hover { border-color: var(--c-ink-dim, #9a938a); }
+.cx-palette-place:hover {
+  border-color: var(--c-ink-dim, #9a938a);
+}
 .cx-palette-item img {
   width: 3rem;
   height: 3rem;
@@ -723,7 +967,9 @@
   opacity: 0;
 }
 .cx-palette-item:hover .cx-palette-actions,
-.cx-palette-item:focus-within .cx-palette-actions { opacity: 1; }
+.cx-palette-item:focus-within .cx-palette-actions {
+  opacity: 1;
+}
 .cx-icon-btn {
   font-size: 0.8rem;
   line-height: 1;
@@ -736,7 +982,9 @@
   background: var(--c-bg-card, #fffdf8);
   cursor: pointer;
 }
-.cx-icon-btn:hover { border-color: var(--c-accent, #8b4513); }
+.cx-icon-btn:hover {
+  border-color: var(--c-accent, #8b4513);
+}
 
 /* Hover-to-enlarge preview (position rides runtime custom props, never inline style). */
 .cx-hover-preview {
@@ -755,7 +1003,10 @@
   opacity: 0;
   visibility: hidden;
 }
-.cx-hover-preview.is-visible { opacity: 1; visibility: visible; }
+.cx-hover-preview.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
 .cx-hover-preview img {
   display: block;
   width: 100%;
@@ -767,7 +1018,11 @@
 }
 
 /* New / edit AI-image box. */
-.cx-newai { width: 100%; margin: 0 0 0.7rem; font-size: 0.82rem; }
+.cx-newai {
+  width: 100%;
+  margin: 0 0 0.7rem;
+  font-size: 0.82rem;
+}
 .cx-aiimg-box {
   display: grid;
   gap: 0.5rem;
@@ -777,7 +1032,12 @@
   border-radius: 8px;
   background: var(--c-bg, #f7f4ee);
 }
-.cx-aiimg-head { font-size: 0.82rem; font-weight: 600; margin: 0; color: var(--c-ink, #1f1d18); }
+.cx-aiimg-head {
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--c-ink, #1f1d18);
+}
 .cx-aiimg-input {
   width: 100%;
   font: inherit;
@@ -789,9 +1049,16 @@
   color: var(--c-ink, #1f1d18);
   resize: vertical;
 }
-.cx-aiimg-actions { display: flex; gap: 0.5rem; }
-.cx-aiimg-actions .cx-action { flex: 0 0 auto; }
-.cx-palette-meta { min-width: 0; }
+.cx-aiimg-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.cx-aiimg-actions .cx-action {
+  flex: 0 0 auto;
+}
+.cx-palette-meta {
+  min-width: 0;
+}
 
 /* Themed confirm dialog (confirm-dialog.ts) — replaces the native window.confirm(). */
 .cx-confirm-scrim {
@@ -813,11 +1080,19 @@
   box-shadow: 0 20px 50px rgba(31, 29, 24, 0.28);
 }
 @media (prefers-reduced-motion: no-preference) {
-  .cx-confirm-box { animation: cx-confirm-in 0.16s ease both; }
+  .cx-confirm-box {
+    animation: cx-confirm-in 0.16s ease both;
+  }
 }
 @keyframes cx-confirm-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 .cx-confirm-title {
   margin: 0 0 0.5rem;
@@ -831,7 +1106,11 @@
   line-height: 1.5;
   color: var(--c-ink-dim, #5c574d);
 }
-.cx-confirm-actions { display: flex; justify-content: flex-end; gap: 0.5rem; }
+.cx-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
 .cx-confirm-btn {
   padding: 0.45rem 0.9rem;
   border: 1px solid var(--c-rule, #d9d3c4);
@@ -843,8 +1122,13 @@
   font-weight: 600;
   cursor: pointer;
 }
-.cx-confirm-btn:hover { border-color: var(--c-ink-dim, #5c574d); }
-.cx-confirm-btn:focus-visible { outline: 2px solid var(--c-accent, #8b4513); outline-offset: 1px; }
+.cx-confirm-btn:hover {
+  border-color: var(--c-ink-dim, #5c574d);
+}
+.cx-confirm-btn:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 1px;
+}
 .cx-confirm-btn--primary {
   background: var(--c-accent, #8b4513);
   border-color: var(--c-accent, #8b4513);
@@ -866,9 +1150,17 @@
   color: var(--c-ink-muted, #87827a);
   margin: 0.1rem 0 0;
 }
-.cx-empty { color: var(--c-ink-muted, #87827a); font-size: 0.85rem; margin: 0; }
+.cx-empty {
+  color: var(--c-ink-muted, #87827a);
+  font-size: 0.85rem;
+  margin: 0;
+}
 
-.cx-field { display: grid; gap: 0.25rem; margin: 0 0 0.7rem; }
+.cx-field {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0 0 0.7rem;
+}
 .cx-field > label {
   font-size: 0.72rem;
   font-family: var(--font-ui, system-ui, sans-serif);
@@ -885,7 +1177,11 @@
   background: var(--c-bg, #f7f4ee);
   color: var(--c-ink, #1f1d18);
 }
-.cx-btn-row { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.cx-btn-row {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
 .cx-toggle {
   font: inherit;
   font-size: 0.78rem;
@@ -901,7 +1197,10 @@
   color: var(--c-bg-card, #fffdf8);
   border-color: var(--c-accent, #8b4513);
 }
-.cx-actions { display: grid; gap: 0.5rem; }
+.cx-actions {
+  display: grid;
+  gap: 0.5rem;
+}
 .cx-action {
   font: inherit;
   font-weight: 600;
@@ -916,38 +1215,77 @@
   background: transparent;
   color: var(--c-accent, #8b4513);
 }
-.cx-action:disabled { opacity: 0.5; cursor: default; }
-.cx-status { font-size: 0.8rem; margin: 0.3rem 0 0; min-height: 1.1rem; }
-.cx-status.is-error { color: var(--c-red); }
+.cx-action:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.cx-status {
+  font-size: 0.8rem;
+  margin: 0.3rem 0 0;
+  min-height: 1.1rem;
+}
+.cx-status.is-error {
+  color: var(--c-red);
+}
 
 /* Autosave status pill (scripts/autosave.ts — shared by the prose editor AND
  * the figure-layout autosave) — icon + text + a Retry button on failure. */
-.cx-autosave { display: flex; align-items: center; gap: 0.4rem; }
-.cx-autosave-text { color: var(--c-ink-muted, #87827a); }
-.cx-status.is-error .cx-autosave-text { color: var(--c-red, #a83232); }
+.cx-autosave {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.cx-autosave-text {
+  color: var(--c-ink-muted, #87827a);
+}
+.cx-status.is-error .cx-autosave-text {
+  color: var(--c-red, #a83232);
+}
 
 .cx-autosave-icon {
   font-size: 0.85em;
   color: var(--c-ink-muted, #87827a);
 }
 .cx-autosave-icon:empty,
-.cx-autosave-icon[hidden] { display: none; }
-.cx-autosave-icon.cx-autosave-spin { animation: cx-autosave-spin 0.8s linear infinite; }
+.cx-autosave-icon[hidden] {
+  display: none;
+}
+.cx-autosave-icon.cx-autosave-spin {
+  animation: cx-autosave-spin 0.8s linear infinite;
+}
 .fa-circle-check.cx-autosave-icon {
   color: var(--c-green, #4a7c4a);
   animation: cx-autosave-pop 0.28s ease;
 }
-.fa-triangle-exclamation.cx-autosave-icon { color: var(--c-red, #a83232); }
+.fa-triangle-exclamation.cx-autosave-icon {
+  color: var(--c-red, #a83232);
+}
 
-@keyframes cx-autosave-spin { to { transform: rotate(360deg); } }
+@keyframes cx-autosave-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 @keyframes cx-autosave-pop {
-  0% { transform: scale(0.5); opacity: 0; }
-  70% { transform: scale(1.15); opacity: 1; }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .cx-autosave-icon.cx-autosave-spin { animation: none; }
-  .fa-circle-check.cx-autosave-icon { animation: none; }
+  .cx-autosave-icon.cx-autosave-spin {
+    animation: none;
+  }
+  .fa-circle-check.cx-autosave-icon {
+    animation: none;
+  }
 }
 .cx-autosave-retry {
   padding: 0.1rem 0.5rem;
@@ -960,8 +1298,13 @@
   font-weight: 600;
   cursor: pointer;
 }
-.cx-autosave-retry:hover { background: color-mix(in oklab, var(--c-red, #a83232) 12%, transparent); }
-.cx-autosave-retry:focus-visible { outline: 2px solid var(--c-red, #a83232); outline-offset: 1px; }
+.cx-autosave-retry:hover {
+  background: color-mix(in oklab, var(--c-red, #a83232) 12%, transparent);
+}
+.cx-autosave-retry:focus-visible {
+  outline: 2px solid var(--c-red, #a83232);
+  outline-offset: 1px;
+}
 
 .cx-delete {
   font: inherit;
@@ -974,7 +1317,25 @@
   cursor: pointer;
 }
 
-:is(.cx-tab, .cx-toggle, .cx-action, .cx-delete, .cx-palette-place, .cx-fig, .cx-mode-btn, .cx-edit-tool, .cx-size-btn, .cx-font-select, .cx-paper-btn, .cx-ai-btn, .cx-ai-opt, .cx-ai-opt-cancel, .cx-icon-btn, .cx-ety-accept, .cx-ety-discard):focus-visible {
+:is(
+  .cx-tab,
+  .cx-toggle,
+  .cx-action,
+  .cx-delete,
+  .cx-palette-place,
+  .cx-fig,
+  .cx-mode-btn,
+  .cx-edit-tool,
+  .cx-size-btn,
+  .cx-font-select,
+  .cx-paper-btn,
+  .cx-ai-btn,
+  .cx-ai-opt,
+  .cx-ai-opt-cancel,
+  .cx-icon-btn,
+  .cx-ety-accept,
+  .cx-ety-discard
+):focus-visible {
   outline: 2px solid var(--c-accent, #8b4513);
   outline-offset: 2px;
 }
@@ -986,5 +1347,8 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .cx-fig, .cx-palette-place { transition: outline-color 0.15s ease; }
+  .cx-fig,
+  .cx-palette-place {
+    transition: outline-color 0.15s ease;
+  }
 }

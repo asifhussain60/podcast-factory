@@ -6,21 +6,25 @@
  * pronunciation-library logic stays in ONE place (the pipeline owns the library;
  * this endpoint is a thin bridge). Mirrors the api/annotations.ts pattern.
  */
-import type { APIRoute } from 'astro';
-import { join } from 'node:path';
-import { spawn } from 'node:child_process';
-import { getProbe } from '../../lib/pronunciation';
-import { getRepoRoot, getPythonBin, findContent } from '../../lib/content-paths';
-import { apiOk, apiError, apiServerError } from '../../lib/api-responses';
+import type { APIRoute } from "astro";
+import { join } from "node:path";
+import { spawn } from "node:child_process";
+import { getProbe } from "../../lib/pronunciation";
+import {
+  getRepoRoot,
+  getPythonBin,
+  findContent,
+} from "../../lib/content-paths";
+import { apiOk, apiError, apiServerError } from "../../lib/api-responses";
 
 export const prerender = false;
 
 export const GET: APIRoute = async ({ url }) => {
-  const slug = url.searchParams.get('slug');
-  if (!slug) return apiError('Missing slug param');
+  const slug = url.searchParams.get("slug");
+  if (!slug) return apiError("Missing slug param");
   try {
     const detail = await getProbe(slug);
-    if (!detail) return apiError('No probe found for that book', 404);
+    if (!detail) return apiError("No probe found for that book", 404);
     return apiOk(detail);
   } catch (e) {
     return apiServerError(String(e));
@@ -30,24 +34,29 @@ export const GET: APIRoute = async ({ url }) => {
 interface Correction {
   term: string;
   transliteration?: string;
-  status: 'ok' | 'respell' | 'unfixable' | 'skip';
+  status: "ok" | "respell" | "unfixable" | "skip";
   phonetic?: string;
   gloss?: string;
   mangled_variants?: string[];
 }
 
 function runApplier(bookDir: string, payload: object): Promise<any> {
-  const script = join(getRepoRoot(), 'scripts', 'podcast', 'apply_pronunciation_corrections.py');
+  const script = join(
+    getRepoRoot(),
+    "scripts",
+    "podcast",
+    "apply_pronunciation_corrections.py",
+  );
   return new Promise((resolve, reject) => {
-    const proc = spawn(getPythonBin(), [script, bookDir, '-'], {
+    const proc = spawn(getPythonBin(), [script, bookDir, "-"], {
       cwd: getRepoRoot(),
     });
-    let stdout = '';
-    let stderr = '';
-    proc.stdout.on('data', (d) => (stdout += d));
-    proc.stderr.on('data', (d) => (stderr += d));
-    proc.on('error', reject);
-    proc.on('close', (code) => {
+    let stdout = "";
+    let stderr = "";
+    proc.stdout.on("data", (d) => (stdout += d));
+    proc.stderr.on("data", (d) => (stderr += d));
+    proc.on("error", reject);
+    proc.on("close", (code) => {
       if (code !== 0) {
         reject(new Error(`applier exited ${code}: ${stderr || stdout}`));
         return;
@@ -64,19 +73,23 @@ function runApplier(bookDir: string, payload: object): Promise<any> {
 }
 
 export const POST: APIRoute = async ({ request }) => {
-  let body: { slug: string; corrections: Correction[]; confirmed_date?: string };
+  let body: {
+    slug: string;
+    corrections: Correction[];
+    confirmed_date?: string;
+  };
   try {
     body = await request.json();
   } catch {
-    return apiError('Invalid JSON');
+    return apiError("Invalid JSON");
   }
   const { slug, corrections } = body;
   if (!slug || !Array.isArray(corrections)) {
-    return apiError('Missing slug or corrections[]');
+    return apiError("Missing slug or corrections[]");
   }
 
   const ref = await findContent(slug);
-  if (!ref) return apiError('content not found', 404);
+  if (!ref) return apiError("content not found", 404);
 
   const payload = {
     book_slug: slug,

@@ -20,17 +20,17 @@
  * live in-browser pagination via Paged.js hung/crashed on this environment's
  * Chromium regardless of content, an unresolved library/browser gap).
  */
-import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, readdirSync, rmSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { execFileSync } from "node:child_process";
+import { existsSync, mkdirSync, readdirSync, rmSync, statSync } from "node:fs";
+import { join } from "node:path";
 
 const PAGE_RE = /^page-(\d+)\.png$/;
-const SCRIPTS_DIR = new URL('..', import.meta.url).pathname;
-const RENDER_SCRIPT = join(SCRIPTS_DIR, 'render-book-pdf.mjs');
-const THEME_CSS = join(SCRIPTS_DIR, '..', 'src', 'styles', 'theme.css');
+const SCRIPTS_DIR = new URL("..", import.meta.url).pathname;
+const RENDER_SCRIPT = join(SCRIPTS_DIR, "render-book-pdf.mjs");
+const THEME_CSS = join(SCRIPTS_DIR, "..", "src", "styles", "theme.css");
 
 function cacheDirFor(bookDir) {
-  return join(bookDir, 'book', '_preview-cache');
+  return join(bookDir, "book", "_preview-cache");
 }
 
 function cachedPageFiles(cacheDir) {
@@ -44,9 +44,9 @@ function cachedPageFiles(cacheDir) {
  *  citation-style.json — the sources Preview must stay fresh against. */
 function sourcesMtimeMs(bookDir) {
   const candidates = [
-    join(bookDir, 'book', 'book.md'),
-    join(bookDir, 'book', 'visual-layout.json'),
-    join(bookDir, 'book', 'citation-style.json'),
+    join(bookDir, "book", "book.md"),
+    join(bookDir, "book", "visual-layout.json"),
+    join(bookDir, "book", "citation-style.json"),
   ];
   let latest = 0;
   for (const p of candidates) {
@@ -64,26 +64,38 @@ function sourcesMtimeMs(bookDir) {
  * no-op fs stat comparison when the cache is already fresh).
  */
 export function ensurePreviewPageImages(bookDir, { dpi = 90 } = {}) {
-  const mdPath = join(bookDir, 'book', 'book.md');
-  if (!existsSync(mdPath)) return { pageCount: 0, cacheDir: '', regenerated: false };
+  const mdPath = join(bookDir, "book", "book.md");
+  if (!existsSync(mdPath))
+    return { pageCount: 0, cacheDir: "", regenerated: false };
 
   const cacheDir = cacheDirFor(bookDir);
-  const scratchPdf = join(cacheDir, 'preview.pdf');
+  const scratchPdf = join(cacheDir, "preview.pdf");
   const sourceMtime = sourcesMtimeMs(bookDir);
-  const stale = !existsSync(scratchPdf)
-    || statSync(scratchPdf).mtimeMs < sourceMtime
-    || cachedPageFiles(cacheDir).length === 0;
+  const stale =
+    !existsSync(scratchPdf) ||
+    statSync(scratchPdf).mtimeMs < sourceMtime ||
+    cachedPageFiles(cacheDir).length === 0;
 
   if (stale) {
     rmSync(cacheDir, { recursive: true, force: true });
     mkdirSync(cacheDir, { recursive: true });
     // The unified render always honors visual-layout.json + the v2 pagination CSS.
-    execFileSync('node', [RENDER_SCRIPT, mdPath, scratchPdf, THEME_CSS, '1'], { stdio: ['ignore', 'ignore', 'pipe'] });
-    execFileSync('pdftoppm', ['-png', '-r', String(dpi), scratchPdf, join(cacheDir, 'page')], {
-      stdio: ['ignore', 'ignore', 'pipe'],
+    execFileSync("node", [RENDER_SCRIPT, mdPath, scratchPdf, THEME_CSS, "1"], {
+      stdio: ["ignore", "ignore", "pipe"],
     });
+    execFileSync(
+      "pdftoppm",
+      ["-png", "-r", String(dpi), scratchPdf, join(cacheDir, "page")],
+      {
+        stdio: ["ignore", "ignore", "pipe"],
+      },
+    );
   }
-  return { pageCount: cachedPageFiles(cacheDir).length, cacheDir, regenerated: stale };
+  return {
+    pageCount: cachedPageFiles(cacheDir).length,
+    cacheDir,
+    regenerated: stale,
+  };
 }
 
 /** Resolve the on-disk path for a 1-indexed page number, or null if out of range. */

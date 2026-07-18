@@ -12,15 +12,15 @@
 /* Source Serif 4 — Latin body. Variable fonts: one upright file covers all
  * weights (100-900), one italic file covers all italic weights. */
 @font-face {
-  font-family: 'Source Serif 4';
-  src: url('/fonts/source-serif/SourceSerif4-VF.ttf') format('truetype');
+  font-family: "Source Serif 4";
+  src: url("/fonts/source-serif/SourceSerif4-VF.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Source Serif 4';
-  src: url('/fonts/source-serif/SourceSerif4-Italic-VF.ttf') format('truetype');
+  font-family: "Source Serif 4";
+  src: url("/fonts/source-serif/SourceSerif4-Italic-VF.ttf") format("truetype");
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
@@ -32,22 +32,22 @@
    Latin body is Source Serif), so this never affects Latin. Matches the editor
    and reader (theme.css AmiriSized/AmiriQuranSized). */
 @font-face {
-  font-family: 'Amiri Quran';
-  src: url('/fonts/amiri/AmiriQuran.ttf') format('truetype');
+  font-family: "Amiri Quran";
+  src: url("/fonts/amiri/AmiriQuran.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   size-adjust: 135%;
 }
 @font-face {
-  font-family: 'Amiri';
-  src: url('/fonts/amiri/Amiri-Regular.ttf') format('truetype');
+  font-family: "Amiri";
+  src: url("/fonts/amiri/Amiri-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   size-adjust: 135%;
 }
 @font-face {
-  font-family: 'Amiri';
-  src: url('/fonts/amiri/Amiri-Bold.ttf') format('truetype');
+  font-family: "Amiri";
+  src: url("/fonts/amiri/Amiri-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   size-adjust: 135%;
@@ -64,12 +64,18 @@
 }
 @page:first {
   margin: 0;
-  @bottom-right { content: ""; }
+  @bottom-right {
+    content: "";
+  }
 }
 
-html { font-size: 19.2px; }
+html {
+  font-size: 19.2px;
+}
 body {
-  font-family: "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
+  font-family:
+    "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman",
+    serif;
   font-size: 1rem;
   line-height: 1.62;
   color: var(--c-ink, #1f1d18);
@@ -313,12 +319,14 @@ h3 {
   margin: 1.3rem 0 0.6rem;
   page-break-after: avoid;
 }
-p { margin: 0 0 0.8rem; }
+p {
+  margin: 0 0 0.8rem;
+}
 
 .ar-inline {
   direction: rtl;
   unicode-bidi: isolate;
-  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
+  font-family: "Amiri Quran", "Amiri", "DecoType Naskh", serif;
 }
 
 /* ── Quotation blocks ────────────────────────────────────────────────────── */
@@ -330,7 +338,9 @@ blockquote {
   background: var(--c-bg-card, #fffdf8);
   page-break-inside: avoid;
 }
-blockquote p { margin: 0.3rem 0; }
+blockquote p {
+  margin: 0.3rem 0;
+}
 
 /* Quranic / Arabic quotation blocks — woven scholarly style (IIIT/Kube convention).
    Arabic runs at body scale, left-border only, no box or gradient.
@@ -345,7 +355,7 @@ blockquote.quran {
   box-shadow: none;
 }
 blockquote.quran p.ar {
-  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
+  font-family: "Amiri Quran", "Amiri", "DecoType Naskh", serif;
   font-size: 1.05rem;
   line-height: 1.9;
   color: var(--c-ink, #1f1d18);
@@ -378,7 +388,9 @@ body.style-plain blockquote.quran {
   border-left: 0;
   padding-left: 0;
 }
-body.style-plain blockquote.quran p.ar { color: var(--c-ink, #1f1d18); }
+body.style-plain blockquote.quran p.ar {
+  color: var(--c-ink, #1f1d18);
+}
 body.style-plain blockquote:not(.quran) {
   border-left: 0;
   background: none;
@@ -394,9 +406,11 @@ body.style-elegant blockquote.quran {
   padding: 0.9rem 1.2rem;
   text-align: center;
 }
-body.style-elegant blockquote.quran p.ar { text-align: center; }
+body.style-elegant blockquote.quran p.ar {
+  text-align: center;
+}
 body.style-elegant blockquote.quran p.ar::after {
-  content: ' \06DD';                 /* ۝ end-of-ayah marker */
+  content: " \06DD"; /* ۝ end-of-ayah marker */
   color: rgba(201, 165, 92, 0.9);
   font-size: 0.9em;
 }
@@ -415,11 +429,11 @@ body.style-elegant blockquote:not(.quran) {
   padding-left: 2.2rem;
 }
 body.style-elegant blockquote:not(.quran)::before {
-  content: '\201C';                  /* “ */
+  content: "\201C"; /* “ */
   position: absolute;
   left: 0.55rem;
   top: 0.05rem;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 2.4rem;
   line-height: 1;
   color: rgba(201, 165, 92, 0.9);
@@ -479,14 +493,31 @@ body.book-v2 .v2-fig.flow-standalone {
   margin-right: auto;
   clear: both;
 }
-body.book-v2 .v2-fig.flow-standalone.align-left { margin-left: 0; margin-right: auto; }
-body.book-v2 .v2-fig.flow-standalone.align-right { margin-left: auto; margin-right: 0; }
+body.book-v2 .v2-fig.flow-standalone.align-left {
+  margin-left: 0;
+  margin-right: auto;
+}
+body.book-v2 .v2-fig.flow-standalone.align-right {
+  margin-left: auto;
+  margin-right: 0;
+}
 /* wrap: float with body text flowing beside it (width_pct<=50 enforced upstream). */
-body.book-v2 .v2-fig.flow-wrap { width: var(--fig-w); }
-body.book-v2 .v2-fig.flow-wrap.align-left { float: left; margin: 0.2rem 1.1rem 0.8rem 0; }
-body.book-v2 .v2-fig.flow-wrap.align-right { float: right; margin: 0.2rem 0 0.8rem 1.1rem; }
+body.book-v2 .v2-fig.flow-wrap {
+  width: var(--fig-w);
+}
+body.book-v2 .v2-fig.flow-wrap.align-left {
+  float: left;
+  margin: 0.2rem 1.1rem 0.8rem 0;
+}
+body.book-v2 .v2-fig.flow-wrap.align-right {
+  float: right;
+  margin: 0.2rem 0 0.8rem 1.1rem;
+}
 /* one-plate rule: page_fit drives pagination so a tall figure never splits. */
-body.book-v2 .v2-fig.page-fit-before { break-before: page; page-break-before: always; }
+body.book-v2 .v2-fig.page-fit-before {
+  break-before: page;
+  page-break-before: always;
+}
 body.book-v2 .v2-fig.page-fit-isolate-plate {
   break-before: page;
   break-after: page;
@@ -554,7 +585,9 @@ body.book-v2 .chapter-open {
 }
 
 .book-self-study .study-note p:last-child,
-.book-self-study .study-summary p:last-child { margin-bottom: 0; }
+.book-self-study .study-summary p:last-child {
+  margin-bottom: 0;
+}
 
 .book-self-study .study-list {
   margin: 0.7rem 0 0.9rem;
