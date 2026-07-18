@@ -53,13 +53,13 @@ import {
   SURAH_VERSE_RE,
   scanMarkers,
   truncate,
-  type ActionDef,
   type ClientActionItem,
   type GlossaryEntry,
   type SaveDepthFn,
 } from "./studio-editor-constants";
 import { MarkerHighlight } from "./marker-highlight";
 import { useAiActions } from "./useAiActions";
+import { useAnnotations } from "./useAnnotations";
 import { useAutosaveDraft } from "./useAutosaveDraft";
 import { useDenoiseTool } from "./useDenoiseTool";
 import { useEditorPrefs } from "./useEditorPrefs";
@@ -184,18 +184,10 @@ export default function StudioEditor({
     setEditorSize,
   } = useEditorPrefs();
 
-  // Per-paragraph comments: index → text. Stored in a ref for the PM plugin,
-  // mirrored in state so the inspector panel re-renders.
-  const commentsRef = useRef<Map<number, string>>(new Map());
-  const [, setCommentsKey] = useState(0);
-  const refreshComments = () => setCommentsKey((k) => k + 1);
-
-  // Deferred AI action-item marks for the active chapter (persisted in the
-  // knowledge DB; the CLI drain pass reads them). Held in a ref so PM widgets
-  // built outside React always see the latest, mirrored to state for re-render.
-  const actionsRef = useRef<ClientActionItem[]>([]);
-  const [, setActionsKey] = useState(0);
-  const refreshActions = () => setActionsKey((k) => k + 1);
+  // Per-paragraph comments + deferred action-item marks live in useAnnotations
+  // (R2 pass 2), called below once activeParaIdx / selection / refresh exist —
+  // and BEFORE useEditor, whose synchronous first decoration pass reads the
+  // hook's actionsRef (see the note at the call site).
 
   // Active paragraph index (inspector drives the comment textarea + tag panel).
   const [activeParaIdx, setActiveParaIdx] = useState<number | null>(null);
@@ -210,33 +202,6 @@ export default function StudioEditor({
   const [inspectorTab, setInspectorTab] = useState<
     "details" | "comment" | "ai" | "refs"
   >("details");
-
-  // Load action-item marks when the chapter changes. Clear synchronously first so
-  // the previous chapter's marks never flash on the new chapter.
-  useEffect(() => {
-    if (!slug || !chapter) return;
-    let cancelled = false;
-    actionsRef.current = [];
-    refreshActions();
-    apiFetch<{ ok?: boolean; items?: ClientActionItem[] }>(
-      "/api/studio/action-items",
-      { query: { book: slug, chapter } },
-    )
-      .then((json) => {
-        if (cancelled || !json?.ok || !Array.isArray(json.items)) return;
-        actionsRef.current = json.items as ClientActionItem[];
-        refreshActions();
-        editorRef.current?.view.dispatch(
-          editorRef.current.state.tr.setMeta("refreshTags", true),
-        );
-      })
-      .catch(() => {
-        /* offline-friendly */
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [slug, chapter]);
 
   // editorRef: stable ref to the editor instance so non-React callbacks (PM widgets)
   // can dispatch transactions without capturing a stale `editor` closure.
@@ -295,10 +260,37 @@ export default function StudioEditor({
   const showPrevDiffRef = useRef(false);
   const prevStageTextsRef = useRef<string[]>([]);
   const [showPrevDiff, setShowPrevDiff] = useState(false);
-  // Remove an action-item mark by id, called from the inline per-paragraph badge
-  // toolbar (a PM widget built outside React). Held in a ref so the widget always
-  // calls the latest closure.
-  const removeActionFnRef = useRef<(id: number) => void>(() => {});
+  // ── Annotations: per-paragraph comments + deferred AI action-item marks —
+  // extracted to useAnnotations (R2 pass 2). Called HERE, before useEditor:
+  // TipTap creates the editor view synchronously inside useEditor(), and the
+  // StudioDecos decorations body reads this hook's actionsRef on that first
+  // pass — a later call site would hit the temporal dead zone. `editor` is
+  // therefore passed as editorRef.current (null only on the very first render,
+  // when stampAction is inert anyway — activeParaIdx is still null); from the
+  // next render on it is the same live editor instance. The PM widgets reach
+  // removeAction through the returned removeActionFnRef at event time, and
+  // useStageApproval (below) consumes the returned commentsRef — hooks
+  // compose at the component level.
+  const {
+    commentsRef,
+    refreshComments,
+    persistComment,
+    actionsRef,
+    removeActionFnRef,
+    markedCount,
+    chapterActions,
+    removeAction,
+    stampAction,
+  } = useAnnotations({
+    slug,
+    chapter,
+    editor: editorRef.current,
+    editorRef,
+    activeParaIdx,
+    isReadOnlyStage,
+    selection,
+    refresh,
+  });
   // runAiFnRef (section h2 floating toolbar → AI action) lives in useAiActions
   // (R2 pass 2) — destructured below; the widget only calls it at event time.
 
@@ -1126,43 +1118,6 @@ export default function StudioEditor({
     refresh,
   });
 
-  // Persist a paragraph comment to SQLite (annotations API) on blur.
-  const persistComment = useCallback(
-    (idx: number, note: string) => {
-      apiFetch("/api/annotations", {
-        method: "PATCH",
-        body: { book: slug, chapter, paraIdx: idx, note },
-      }).catch(() => {
-        /* non-blocking; comment is also saved with the stage */
-      });
-    },
-    [slug, chapter],
-  );
-
-  // Pre-load saved paragraph comments from SQLite when the chapter changes.
-  useEffect(() => {
-    let cancelled = false;
-    apiFetch<{ notes?: Record<string, unknown> }>("/api/annotations", {
-      query: { book: slug, chapter },
-    })
-      .then((json) => {
-        if (cancelled || !json) return;
-        const notes = json.notes ?? {};
-        for (const [idx, note] of Object.entries(notes)) {
-          if (typeof note === "string" && note.trim()) {
-            commentsRef.current.set(Number(idx), note);
-          }
-        }
-        refreshComments();
-      })
-      .catch(() => {
-        /* offline-friendly; stage-saved comments still load */
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [slug, chapter]);
-
   let changedCount = 0;
   if (editor) {
     let i = 0;
@@ -1175,7 +1130,6 @@ export default function StudioEditor({
       i++;
     });
   }
-  const markedCount = actionsRef.current.length;
   // "Approved" only counts while the stage is unchanged — any fresh edit reverts
   // the footer to "Save & Approve" so the new edit can be saved.
   // "Approved" holds only while the stage is unchanged AND has no outstanding
@@ -1190,112 +1144,6 @@ export default function StudioEditor({
     changedCount === 0 &&
     draftState !== "saved" &&
     !approvalAccepted;
-  // Chapter's marks, ordered for the queue list (by paragraph, then insertion).
-  const chapterActions = [...actionsRef.current].sort(
-    (a, b) => a.para_ordinal - b.para_ordinal || a.id - b.id,
-  );
-
-  // Remove one action-item mark (optimistic; DELETE only if it was persisted).
-  const removeAction = useCallback(
-    (id: number) => {
-      actionsRef.current = actionsRef.current.filter((a) => a.id !== id);
-      editorRef.current?.view.dispatch(
-        editorRef.current.state.tr.setMeta("refreshTags", true),
-      );
-      refreshActions();
-      refresh();
-      if (id < 0) return; // optimistic-only, never hit the server
-      apiFetch("/api/studio/action-items", {
-        method: "DELETE",
-        body: { book: slug, chapter, id },
-      }).catch(() => {
-        /* non-blocking */
-      });
-    },
-    [slug, chapter],
-  );
-
-  // Stamp an action item on the active paragraph (or the selected term). Toggles:
-  // an identical existing mark is removed. Anchor text is stored so the CLI never
-  // depends on the paragraph ordinal staying stable.
-  const stampAction = useCallback(
-    (def: ActionDef, useSelection: boolean) => {
-      if (!editor || activeParaIdx === null || isReadOnlyStage) return;
-      const scope: "paragraph" | "term" = useSelection ? "term" : "paragraph";
-      const termText = useSelection ? selection.trim() : "";
-      if (scope === "term" && !termText) return;
-      let paraText = "";
-      let i = 0;
-      editor.state.doc.forEach((n) => {
-        if (i === activeParaIdx) paraText = n.textContent;
-        i++;
-      });
-      const anchorText = scope === "term" ? termText : paraText;
-      const existing = actionsRef.current.find(
-        (a) =>
-          a.para_ordinal === activeParaIdx &&
-          a.action_kind === def.kind &&
-          a.term_text === termText,
-      );
-      if (existing) {
-        removeAction(existing.id);
-        return;
-      }
-      const tempId = -Date.now();
-      actionsRef.current = [
-        ...actionsRef.current,
-        {
-          id: tempId,
-          scope,
-          para_ordinal: activeParaIdx,
-          term_text: termText,
-          anchor_text: anchorText,
-          action_kind: def.kind,
-          status: "pending",
-        },
-      ];
-      editor.view.dispatch(editor.state.tr.setMeta("refreshTags", true));
-      refreshActions();
-      refresh();
-      apiFetch<{ ok?: boolean; item?: ClientActionItem }>(
-        "/api/studio/action-items",
-        {
-          method: "POST",
-          body: {
-            book: slug,
-            chapter,
-            scope,
-            paraOrdinal: activeParaIdx,
-            termText,
-            anchorText,
-            actionKind: def.kind,
-          },
-        },
-      )
-        .then((json) => {
-          if (json?.ok && json.item) {
-            actionsRef.current = actionsRef.current.map((a) =>
-              a.id === tempId ? (json.item as ClientActionItem) : a,
-            );
-            refreshActions();
-          }
-        })
-        .catch(() => {
-          /* non-blocking; optimistic mark stays visible */
-        });
-    },
-    [
-      editor,
-      activeParaIdx,
-      isReadOnlyStage,
-      selection,
-      slug,
-      chapter,
-      removeAction,
-    ],
-  );
-
-  removeActionFnRef.current = removeAction;
 
   // ── Global find-and-replace — extracted to useReplaceTool (R2 pass 2).
   // Popup state, pair-list handlers, the preview/apply call, and
