@@ -61,6 +61,7 @@ import {
 import { MarkerHighlight } from "./marker-highlight";
 import { useAiActions } from "./useAiActions";
 import { useAutosaveDraft } from "./useAutosaveDraft";
+import { useDenoiseTool } from "./useDenoiseTool";
 import { useEditorPrefs } from "./useEditorPrefs";
 import { useReplaceTool } from "./useReplaceTool";
 import { useSectionDepth } from "./useSectionDepth";
@@ -1381,132 +1382,36 @@ export default function StudioEditor({
     refresh,
   });
 
-  // ── Noise → pattern → denoise across chapters ────────────────────────────
-  // Highlight a recurring artifact (a page header, an OCR scar, a stray marker)
-  // → "Noise" opens this popup with a PATTERN generalised from the selection
-  // (literal text, but digit-runs and whitespace loosened so one selection
-  // catches its variants). Preview shows the count + a few real samples per
-  // chapter before anything changes; Apply strips every match from the canonical
-  // chapter .txt files via /api/studio/denoise (with .bak undo) and mirrors the
-  // deletion into the live editor doc.
-  const [noiseOpen, setNoiseOpen] = useState(false);
-  const [noisePattern, setNoisePattern] = useState("");
-  const [noiseScope, setNoiseScope] = useState<"chapter" | "book">("chapter");
-  const [noisePreview, setNoisePreview] = useState<
-    { chapter: string; count: number; samples: string[] }[] | null
-  >(null);
-  const [noiseTotal, setNoiseTotal] = useState(0);
-  const [noiseBusy, setNoiseBusy] = useState(false);
-  const [noiseError, setNoiseError] = useState("");
-  const [noiseDone, setNoiseDone] = useState("");
-
-  // Rule-based generalisation: escape regex specials, then loosen runs of digits
-  // (\d+) and whitespace (\s+) so "[Page 12]" and "[Page 137]" collapse to one
-  // pattern. The user can hand-edit the result before previewing.
-  const deriveNoisePattern = useCallback((sel: string): string => {
-    const escaped = sel.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    return escaped.replace(/\d+/g, "\\d+").replace(/\s+/g, "\\s+");
-  }, []);
-
-  const openNoise = useCallback(() => {
-    setNoisePattern(deriveNoisePattern(selection));
-    setNoiseScope("chapter");
-    setNoisePreview(null);
-    setNoiseTotal(0);
-    setNoiseError("");
-    setNoiseDone("");
-    setNoiseOpen(true);
-  }, [selection, deriveNoisePattern]);
-  const closeNoise = useCallback(() => setNoiseOpen(false), []);
-
-  // Mirror the confirmed pattern deletion into the live editor doc so the current
-  // chapter updates instantly. Swept high→low so positions stay valid.
-  const denoiseInEditorDoc = useCallback(
-    (pattern: string) => {
-      if (!editor) return;
-      let re: RegExp;
-      try {
-        re = new RegExp(pattern, "g");
-      } catch {
-        return;
-      }
-      const hits: { from: number; to: number }[] = [];
-      editor.state.doc.descendants((node, pos) => {
-        if (!node.isText || !node.text) return;
-        re.lastIndex = 0;
-        let m: RegExpExecArray | null;
-        while ((m = re.exec(node.text))) {
-          if (m[0] === "") {
-            re.lastIndex += 1;
-            continue;
-          }
-          const from = pos + m.index;
-          hits.push({ from, to: from + m[0].length });
-        }
-      });
-      if (!hits.length) return;
-      hits.sort((a, b) => b.from - a.from);
-      let tr = editor.state.tr;
-      for (const h of hits) tr = tr.delete(h.from, h.to);
-      editor.view.dispatch(tr);
-    },
-    [editor],
-  );
-
-  const runDenoise = useCallback(
-    async (apply: boolean) => {
-      const pattern = noisePattern.trim();
-      if (pattern === "") {
-        setNoiseError("Enter a pattern to strip.");
-        return;
-      }
-      setNoiseBusy(true);
-      setNoiseError("");
-      setNoiseDone("");
-      try {
-        const j = await apiFetch<{
-          total?: number;
-          results?: { chapter: string; count: number; samples: string[] }[];
-        }>("/api/studio/denoise", {
-          method: "POST",
-          body: {
-            slug,
-            scope: noiseScope,
-            chapter,
-            pattern,
-            apply,
-          },
-        });
-        setNoisePreview(j.results ?? []);
-        setNoiseTotal(j.total ?? 0);
-        if (apply) {
-          if (!isReadOnlyStage) denoiseInEditorDoc(pattern);
-          const nCh = (j.results ?? []).length;
-          setNoiseDone(
-            j.total === 0
-              ? "No matches found — nothing changed."
-              : `Stripped ${j.total} match${j.total === 1 ? "" : "es"} across ${nCh} chapter${nCh === 1 ? "" : "s"}.` +
-                  (noiseScope === "book" && nCh > 1
-                    ? " Other chapters update when you open them."
-                    : ""),
-          );
-          refresh();
-        }
-      } catch (e) {
-        setNoiseError(fetchErrorText(e));
-      } finally {
-        setNoiseBusy(false);
-      }
-    },
-    [
-      slug,
-      noiseScope,
-      chapter,
-      noisePattern,
-      isReadOnlyStage,
-      denoiseInEditorDoc,
-    ],
-  );
+  // ── Noise → pattern → denoise — extracted to useDenoiseTool (R2 pass 2).
+  // Popup state, the selection→pattern generalisation, the preview/apply call,
+  // and denoiseInEditorDoc (the in-editor mirror — internal to the hook; unlike
+  // replaceInEditorDoc, nothing else consumes it). chapterLabel stays in this
+  // component (shared with the Replace popup's JSX).
+  const {
+    noiseOpen,
+    noisePattern,
+    setNoisePattern,
+    noiseScope,
+    setNoiseScope,
+    noisePreview,
+    setNoisePreview,
+    noiseTotal,
+    noiseBusy,
+    noiseError,
+    noiseDone,
+    setNoiseDone,
+    openNoise,
+    closeNoise,
+    runDenoise,
+  } = useDenoiseTool({
+    editor,
+    isReadOnlyStage,
+    slug,
+    chapter,
+    selection,
+    fetchErrorText,
+    refresh,
+  });
 
   const rawMarkers = scanMarkers(html.replace(/<[^>]+>/g, " "));
   const seen = new Map<string, { kind: string; text: string; count: number }>();
