@@ -1098,3 +1098,19 @@ Approved plan: `refactor/clean-code-hardening-plan.md` (machine ledger: `waves_r
 > The production Studio editor no longer ships from a folder named "poc", and the corpus browser no longer claims to be a mock — folders, files, components, and style classes were renamed to what they actually are, with every reference patched and proven by the type checker and the 32-route browser smoke. A single typed fetch client now handles path building, JSON, errors, and response unwrapping for the site's own API; all non-editor call sites migrated (the editor's 23 calls move in the next phase, where that component is decomposed under browser-verify).
 >
 > *Value gained:* one place to fix HTTP behavior instead of 87; names that tell the truth to every future reader and tool.
+
+## Clean-Code & Architecture Hardening — R2+R3 executed (2026-07-18, second tranche)
+
+Asif approved both remaining independent tracks (option A). Fifteen commits landed; the packaging go/no-go (R4) and the wave-engine decision (R5) now await their gates as designed.
+
+### 1. The pipeline's structural debt is substantially paid down
+
+> Both module-name collisions that would break packaging are gone (one purposeful rename, one dead module deleted outright with its phantom-fallback claims corrected). The five untested critical modules gained 72 tests — and the citation checker turned out to have an unreachable failure branch that had been misreporting every dead link; it is fixed. Three oversized modules split along genuine seams (Azure services, translation edition, slide authoring — the over-limit list burns from 24 down to 21), while two others were examined and deliberately left whole with the reasoning recorded in the file, per the plan's own split-real-mixes-only rule. A real data drift was caught and fixed: the pipeline's stage list was missing a stage the live site renders.
+>
+> *Value gained:* the packaging conversion's known blockers are cleared, the riskiest untested code has a net, and every split-or-keep judgment is written down where the next reader will look.
+
+### 2. The editor decomposition is under way with its safety pattern proven
+
+> The giant editor component's mechanical layer is fully extracted (constants, types, marker extension, the imperative pickers), its last 23 hand-rolled server calls now go through the shared client, the two markdown renderers are one (proven byte-identical over a 61-file corpus), both fat page headers moved into typed library builders, and the two monolithic stylesheets are layered. Three of the nine stateful hooks are out — each landed as its own commit with a live browser check (preference persistence, the debounced draft autosave, section depth marking). The remaining six follow the same established pattern.
+>
+> *Value gained:* the most fragile surface in the repo is shrinking one verified step at a time, with zero behavior change so far and the commit-hook lint gate already catching real mistakes mid-refactor.

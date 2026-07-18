@@ -1453,6 +1453,136 @@
       "depends_on": [],
       "plain": "",
       "tools": []
+    },
+    {
+      "id": "R2a",
+      "wave": "R2",
+      "title": "Pass 1 mechanical: constants/types/marker-extension/pickers + the 23 fetch migrations",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R2b",
+      "wave": "R2",
+      "title": "Merge markdown renderers behind one options API (byte-diff proven)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R2c",
+      "wave": "R2",
+      "title": "Thin fat astro frontmatter into typed lib builders",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R2d",
+      "wave": "R2",
+      "title": "CSS layer splits (import-shell entry points, cascade order preserved)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R2e",
+      "wave": "R2",
+      "title": "Pass 2 stateful hooks (one per commit, browser-verified)",
+      "status": "in_progress",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R3a",
+      "wave": "R3",
+      "title": "Basename collisions dissolved (both)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R3b",
+      "wave": "R3",
+      "title": "Coverage for the 5 untested critical modules (+72 tests, 1 real bug fixed)",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R3c",
+      "wave": "R3",
+      "title": "Framing strategy registry (decomposition Spec 1) completed",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R3d",
+      "wave": "R3",
+      "title": "_azure.py split: creds / transport / language / openai; grandfather entry removed",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R3e",
+      "wave": "R3",
+      "title": "Audit deferrals resolved: dead augmenter + classify_slides deleted; stage-order drift fixed",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R3f",
+      "wave": "R3",
+      "title": "Split judgments: intake_book DECLINED (test-patched globals; strategy family); chapter_design stands per Spec-2 AS-EXECUTED",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R3g",
+      "wave": "R3",
+      "title": "_translation_edition + _slide_authoring split along genuine seams",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "R3h",
+      "wave": "R3",
+      "title": "Callable-DI standardization sweep (remainder)",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
     }
   ],
   "waves": [
@@ -1569,11 +1699,41 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-18T15:02:49.886Z",
-  "source_commit": "2b00a77",
+  "generated_at": "2026-07-18T15:15:47.946Z",
+  "source_commit": "1db0ed5",
   "generator": "regenerate-snapshots.mjs",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "1db0ed5",
+      "subject": "fix(pipeline): complete the deferrals commit — the rest of 846144c's intended files",
+      "date": "2026-07-18"
+    },
+    {
+      "sha": "6fbda63",
+      "subject": "refactor(pipeline): R3 — split _translation_edition and _slide_authoring along genuine seams",
+      "date": "2026-07-18"
+    },
+    {
+      "sha": "e9450ea",
+      "subject": "refactor(site): R2 pass 2 — extract useSectionDepth hook (3/9)",
+      "date": "2026-07-18"
+    },
+    {
+      "sha": "1a4df90",
+      "subject": "docs(pipeline): R3 — intake_book.py split DECLINED with reasoned AS-EXECUTED note",
+      "date": "2026-07-18"
+    },
+    {
+      "sha": "d6259a4",
+      "subject": "refactor(site): R2 pass 2 — extract useAutosaveDraft hook (2/9)",
+      "date": "2026-07-18"
+    },
+    {
+      "sha": "846144c",
+      "subject": "refactor(pipeline): R3 — resolve the three audit deferrals (dead augmenter, classify_slides, stage-order drift)",
+      "date": "2026-07-18"
+    },
     {
       "sha": "2b00a77",
       "subject": "refactor(site): R2 pass 2 — extract useEditorPrefs hook (1/9)",
@@ -1592,36 +1752,6 @@
     {
       "sha": "de788e5",
       "subject": "refactor(site): R2 — split theme.css and studio-editor.css into layered files",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "0bd2ec4",
-      "subject": "refactor(site): R2 — extract studio landing's 199-line frontmatter to lib/reader/studio-shelves.ts",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "a4f69d9",
-      "subject": "refactor(pipeline): R3 — complete the framing strategy-registry spec (Spec 1)",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "ca3576a",
-      "subject": "refactor(site): R2 — extract studio index page's 285-line frontmatter to lib/reader/library-view.ts",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "844b17d",
-      "subject": "refactor(site): R2 — merge the two markdown renderers behind one options API",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "28a81d3",
-      "subject": "test(pipeline): R3 — coverage for the 5 untested critical modules (+72 tests)",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "9dc46a5",
-      "subject": "refactor(pipeline): R3 — resolve _convergence basename collision",
       "date": "2026-07-18"
     }
   ],

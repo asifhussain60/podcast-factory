@@ -1022,7 +1022,12 @@ waves:
             function: "check_manual_review_resolved()"
             fails_if: "any unresolved <div class='alert manual-review'...> in finalize-phase book"
           rich_diagram_classifier:
-            path: "scripts/podcast/slides/classify_slides.py"
+            resolution: >-
+              RETIRED 2026-07-18 (repo-audit R19): scripts/podcast/slides/classify_slides.py
+              deleted as dead code — never invoked by any live path; phases/p3_4.py had
+              used it only as a file-existence marker (gaming its own gate) and now
+              detects the pilot findings doc alone. Per the fallback clause below, the
+              rich-diagram coverage gate is permanently demoted to P2 advisory.
             max_lines: 200
             engine: "claude-vision (default), gemini-vision (fallback)"
             labels: ["diagram", "prose", "title", "quote"]
@@ -4604,24 +4609,92 @@ waves_refactor:
   - id: R2
     name: "Site — decompose the StudioEditor God component"
     depends_on: [R1]
-    execution_status: pending_approval
+    execution_status: in_progress_2026_07_18
     note: |
-      Highest regression risk. Mechanical extractions first (constants, DOM
-      pickers, dialogs, the 23 deferred fetches), then one stateful hook per
-      commit with a browser-verify between each. Also: merge the two markdown
-      renderers; thin fat .astro frontmatter; split theme.css/studio-editor.css.
+      Approved 2026-07-18 (Asif, option A). Pass 1 complete + all peripheral
+      items; pass 2 = one hook per commit with a browser-verify between each,
+      3 of 9 hooks landed this session — remaining six continue next session
+      with the pattern established (useEditorPrefs / useAutosaveDraft /
+      useSectionDepth are the exemplars).
+    steps:
+      - id: R2a
+        title: "Pass 1 mechanical: constants/types/marker-extension/pickers + the 23 fetch migrations"
+        status: completed
+        committed_at: 6ff4d2c
+        deliverables:
+          - "studio-editor-constants.ts, studio-editor-types.ts, marker-highlight.ts, studio-editor-pickers.ts (verbatim moves; StudioEditor 4605 -> ~3900 lines)"
+          - "21/23 editor fetches on apiFetch (2 justified raw: ai/rewrite + ai/research non-envelope errors); english-term envelope consumer fixed"
+      - id: R2b
+        title: "Merge markdown renderers behind one options API (byte-diff proven)"
+        status: completed
+        committed_at: 844b17d
+        deliverables:
+          - "source-render.ts folded into lib/reader/markdown.ts; 61-file corpus byte-diff: 0 mismatches"
+      - id: R2c
+        title: "Thin fat astro frontmatter into typed lib builders"
+        status: completed
+        committed_at: 0bd2ec4
+        deliverables:
+          - "studio/[slug]/index.astro 285 -> 42 frontmatter lines (lib/reader/library-view.ts)"
+          - "studio.astro 199 -> 17 frontmatter lines (lib/reader/studio-shelves.ts)"
+      - id: R2d
+        title: "CSS layer splits (import-shell entry points, cascade order preserved)"
+        status: completed
+        committed_at: de788e5
+      - id: R2e
+        title: "Pass 2 stateful hooks (one per commit, browser-verified)"
+        status: in_progress
+        committed_at: e9450ea
+        note: "3/9 done: useEditorPrefs (2b00a77), useAutosaveDraft (d6259a4), useSectionDepth (e9450ea). Remaining: useStageApproval, useAiActions, useTermCuration, useReplaceTool, useDenoiseTool, useAnnotations; then editor-coupled route envelope flips + StudioEditor <=600 target."
 
   - id: R3
     name: "Pipeline — clean-code hardening (no packaging)"
     depends_on: [R0]
-    execution_status: pending_approval
+    execution_status: substantially_complete_2026_07_18
     note: |
-      Burn down the DR-005 grandfather list (true god-modules first); fix
-      basename collisions (_convergence x5, augmenter x2) BEFORE packaging;
-      standardize LLM-touching functions on the _etymology Callable-DI pattern;
-      coverage for untested critical modules; resolve audit deferrals.
-      Subsumes Wave H2's deferred DR-005 sweep. Mirror-source modules
-      (_rules/_quality/_paths) keep TS mirrors in lockstep per-commit.
+      Approved 2026-07-18 (Asif, option A). All items landed except the
+      Callable-DI standardization sweep (framing registry done as its first
+      instance; remaining injection points better sequenced with R4's
+      packaging evaluation). Split judgments follow the plan's own rule -
+      genuine mixes split, cohesive strategy-families declined with recorded
+      AS-EXECUTED notes.
+    steps:
+      - id: R3a
+        title: "Basename collisions dissolved (both)"
+        status: completed
+        committed_at: 9dc46a5
+        note: "_authoring/_convergence -> _agent_invocations (9dc46a5); knowledge/augmenter deleted as dead (846144c) - packaging blockers gone."
+      - id: R3b
+        title: "Coverage for the 5 untested critical modules (+72 tests, 1 real bug fixed)"
+        status: completed
+        committed_at: 28a81d3
+        note: "citation-verify HTTPError bug: 'failed' branch was unreachable; dead links misreported as indeterminate."
+      - id: R3c
+        title: "Framing strategy registry (decomposition Spec 1) completed"
+        status: completed
+        committed_at: a4f69d9
+      - id: R3d
+        title: "_azure.py split: creds / transport / language / openai; grandfather entry removed"
+        status: completed
+        committed_at: ffa8482
+      - id: R3e
+        title: "Audit deferrals resolved: dead augmenter + classify_slides deleted; stage-order drift fixed"
+        status: completed
+        committed_at: 846144c
+        note: "REAL drift: Python STAGE_ORDER lacked the live 'literary' stage; reconciled to 7-stage runtime truth with lockstep headers."
+      - id: R3f
+        title: "Split judgments: intake_book DECLINED (test-patched globals; strategy family); chapter_design stands per Spec-2 AS-EXECUTED"
+        status: completed
+        committed_at: 1a4df90
+      - id: R3g
+        title: "_translation_edition + _slide_authoring split along genuine seams"
+        status: completed
+        committed_at: 6fbda63
+        note: "1056->576 + 999->569; light-import contract module fixes the _pipeline_flags heavy-import smell; both off the grandfather list (burns to 21)."
+      - id: R3h
+        title: "Callable-DI standardization sweep (remainder)"
+        status: pending
+        note: "Framing registry is the first instance; evaluate remaining LLM-touching injection points with R4's packaging decision."
 
   - id: R4
     name: "Pipeline — packaging conversion (go/no-go gated after R3)"
